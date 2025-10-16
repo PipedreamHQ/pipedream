@@ -5,7 +5,12 @@ export default {
   name: "Add Keyword To Contact",
   description: "Add a keyword to a contact. [See the documentation](https://www.projectbroadcast.com/apidoc/#api-Contacts-Apply_Keyword)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     contactId: {

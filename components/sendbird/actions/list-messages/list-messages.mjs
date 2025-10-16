@@ -5,7 +5,12 @@ export default {
   key: "sendbird-list-messages",
   name: "List messages",
   description: "Retrieves a list of past messages of a specific channel. [See the docs here](https://sendbird.com/docs/chat/v3/platform-api/message/messaging-basics/list-messages)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

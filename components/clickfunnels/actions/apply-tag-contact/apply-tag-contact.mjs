@@ -4,7 +4,12 @@ export default {
   key: "clickfunnels-apply-tag-contact",
   name: "Apply Tag to Contact",
   description: "Applies a tag to a contact. [See the documentation](https://developers.myclickfunnels.com/reference/createcontactsappliedtags)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     clickfunnels,

@@ -7,7 +7,12 @@ export default {
   key: "pixelbin-upload-file",
   name: "Upload File",
   description: "Upload a file to Pixelbin. [See the documentation](https://www.pixelbin.io/docs/api-docs/)",
-  version: "0.1.1",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -4,7 +4,12 @@ export default {
   key: "salespype-create-contact",
   name: "Create Contact",
   description: "Creates a new contact in Salespype. [See the documentation](https://documenter.getpostman.com/view/5101444/2s93Y3u1Eb#0a9f8441-c7fa-48dc-b02b-0117037d86ab)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     salespype,

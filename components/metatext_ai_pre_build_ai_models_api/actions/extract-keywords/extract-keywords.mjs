@@ -5,7 +5,12 @@ export default {
   name: "Extract Keywords",
   description: "Identify and extract significant keywords from the given text. [See the documentation](https://app.metatext.ai/models/keyword-extractor/inference-api).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     text: {

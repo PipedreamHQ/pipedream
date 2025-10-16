@@ -4,7 +4,12 @@ export default {
   key: "outseta-add-deal",
   name: "Add Deal",
   description: "Add a new deal record to CRM. [See the documentation](https://documenter.getpostman.com/view/3613332/outseta-rest-api-v1/7TNfr6k#115dec74-85a4-f825-ff76-f12adddb652c)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

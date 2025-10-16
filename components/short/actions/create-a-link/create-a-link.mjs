@@ -12,7 +12,12 @@ export default {
   key: "short-create-a-link",
   name: "Create Link",
   description: "Create a Short Link. [See the documentation](https://developers.short.io/reference/linkspost).",
-  version: "0.1.0",
+  version: "0.1.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     shortApp,

@@ -5,7 +5,12 @@ export default {
   key: "starshipit-create-order",
   name: "Create Order",
   description: "Create an outbound order in Starshipit. [See the documentation](https://api-docs.starshipit.com/#b90251d2-1d1c-47b1-ac07-eeeb21cade7b)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     starshipit,

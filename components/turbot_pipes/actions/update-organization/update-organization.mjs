@@ -4,7 +4,12 @@ export default {
   key: "turbot_pipes-update-organization",
   name: "Update Organization",
   description: "Updates an organization. [See the documentation](https://redocly.github.io/redoc/?url=https://pipes.turbot.com/api/latest/docs/openapi.json&nocors#tag/Orgs/operation/org_update)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

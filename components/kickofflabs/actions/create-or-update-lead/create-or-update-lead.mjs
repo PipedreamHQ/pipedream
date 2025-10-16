@@ -4,7 +4,12 @@ export default {
   name: "Create or Update Lead",
   description: "Adds a new lead or modifies an existing lead on your campaign. [See the documentation](https://dev.kickofflabs.com/create/).",
   key: "kickofflabs-create-or-update-lead",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

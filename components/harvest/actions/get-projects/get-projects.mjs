@@ -5,7 +5,12 @@ export default {
   key: "harvest-get-projects",
   name: "Get Projects",
   description: "Retrieve data for a project or projects. [See docs here](https://help.getharvest.com/api-v2/projects-api/projects/projects/#list-all-projects)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     harvest,

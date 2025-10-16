@@ -4,8 +4,13 @@ export default {
   key: "godaddy-check-domain-availability",
   name: "Check Domain Availability",
   description: "Check the availability of a domain. [See the documentation](https://developer.godaddy.com/doc/endpoint/domains#/v1/available)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     godaddy,
     domain: {

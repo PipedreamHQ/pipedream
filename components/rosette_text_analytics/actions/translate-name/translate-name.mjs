@@ -4,7 +4,12 @@ export default {
   key: "rosette_text_analytics-translate-name",
   name: "Translate Name",
   description: "Translate name using Rosette. [See the documentation](https://documentation.babelstreet.com/analytics/match-names/name-translation/translate-names)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

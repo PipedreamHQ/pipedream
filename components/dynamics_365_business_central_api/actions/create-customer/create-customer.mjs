@@ -4,7 +4,12 @@ export default {
   key: "dynamics_365_business_central_api-create-customer",
   name: "Create Customer",
   description: "Creates a new customer. [See the documentation](https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/api-reference/v2.0/api/dynamics_customer_create)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     dynamics,

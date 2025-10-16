@@ -2,7 +2,12 @@ import bybit from "../../bybit.app.mjs";
 
 export default {
   name: "ByBit Linear Position Set Auto Margin",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "bybit-linear-position-set-auto-margin",
   description: "Auto Update Margin." +
       " [reference](https://bybit-exchange.github.io/docs/futuresV2/linear/#t-setautoaddmargin)",

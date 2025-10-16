@@ -7,9 +7,10 @@ export default {
   ...common,
   key: "mysql-new-or-updated-row",
   name: "New or Updated Row",
-  description: "Emit new event when you add or modify a new row in a table. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/select.html)",
+  description:
+    "Emit new event when you add or modify a new row in a table. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/select.html)",
   type: "source",
-  version: "2.0.5",
+  version: "2.0.6",
   dedupe: "unique",
   props: {
     ...common.props,

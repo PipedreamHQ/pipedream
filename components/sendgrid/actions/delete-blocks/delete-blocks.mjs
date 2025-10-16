@@ -5,7 +5,12 @@ export default {
   key: "sendgrid-delete-blocks",
   name: "Delete Blocks",
   description: "Allows you to delete all email addresses on your blocks list. [See the docs here](https://docs.sendgrid.com/api-reference/blocks-api/delete-blocks)",
-  version: "0.0.5",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

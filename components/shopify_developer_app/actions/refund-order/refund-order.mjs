@@ -1,11 +1,16 @@
-import shopify from "../../shopify_developer_app.app.mjs";
 import { MAX_LIMIT } from "@pipedream/shopify/common/constants.mjs";
+import shopify from "../../shopify_developer_app.app.mjs";
 
 export default {
   key: "shopify_developer_app-refund-order",
   name: "Refund Order",
   description: "Refund an order. [See the documentation](https://shopify.dev/docs/api/admin-graphql/unstable/mutations/refundcreate)",
-  version: "0.0.1",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     shopify,

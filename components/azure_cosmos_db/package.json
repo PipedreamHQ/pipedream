@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/azure_cosmos_db",
+  "version": "0.0.1",
+  "description": "Pipedream Azure Cosmos DB Components",
+  "main": "azure_cosmos_db.app.mjs",
+  "keywords": [
+    "pipedream",
+    "azure_cosmos_db"
+  ],
+  "homepage": "https://pipedream.com/apps/azure_cosmos_db",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

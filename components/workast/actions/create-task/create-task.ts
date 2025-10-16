@@ -3,7 +3,12 @@ import workast from "../../app/workast.app";
 
 export default defineAction({
   name: "Create Task",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "workast-create-task",
   description: "Creates a task. [See docs here](https://developers.workast.com/#/method/createTask)",
   type: "action",

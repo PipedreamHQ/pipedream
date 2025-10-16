@@ -3,7 +3,12 @@ import { defineAction } from "@pipedream/types";
 
 export default defineAction({
   name: "Export Customers",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "waitwhile-export-customers",
   description: "Export Customers to CSV or JSON format. [See the doc here](https://developers.waitwhile.com/reference/getcustomersexport)",
   props: {

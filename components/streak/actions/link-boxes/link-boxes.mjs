@@ -6,7 +6,12 @@ export default {
   key: "streak-link-boxes",
   name: "Link Boxes",
   description: `Link boxes to a specific box. [See the docs](${docLink})`,
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     streak,

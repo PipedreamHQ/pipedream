@@ -4,7 +4,12 @@ export default {
   key: "changes_page-list-posts",
   name: "List Posts",
   description: "Retrieve a list of posts from Changes Page. [See the documentation](https://docs.changes.page/docs/api/page#get-all-posts)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     changesPage,

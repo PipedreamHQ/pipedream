@@ -4,7 +4,12 @@ export default {
   key: "agile_crm-add-tags-to-contact",
   name: "Add Tags to Contact",
   description: "Adds a tag or tags to an existing contact. [See the documentation](https://github.com/agilecrm/rest-api#17-update-tags-value-by-id)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     agileCrm,

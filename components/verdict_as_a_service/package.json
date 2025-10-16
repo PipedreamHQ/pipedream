@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/verdict_as_a_service",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Verdict as a Service Components",
   "main": "dist/app/verdict_as_a_service.app.mjs",
   "keywords": [
@@ -16,9 +16,9 @@
     "access": "public"
   },
   "dependencies": {
-    "gdata-vaas": "^2.2.7"
+    "gdata-vaas": "^7.7.3"
   },
   "devDependencies": {
-    "@pipedream/types": "^0.1.4"
+    "@pipedream/types": "^0.3.4"
   }
 }

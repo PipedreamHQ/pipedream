@@ -5,7 +5,12 @@ export default {
   key: "klipy-search-stickers",
   name: "Search Stickers",
   description: "Search and retrieve stickers from Klipy's database. [See the documentation](https://docs.klipy.com/stickers-api/stickers-search-api).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...common.props,

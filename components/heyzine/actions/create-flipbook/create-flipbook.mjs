@@ -4,7 +4,12 @@ export default {
   key: "heyzine-create-flipbook",
   name: "Create Flipbook",
   description: "Generates a new flipbook from a PDF file. [See the documentation](https://heyzine.com/developers#rest-api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     heyzine,

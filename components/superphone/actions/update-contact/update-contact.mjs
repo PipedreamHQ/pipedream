@@ -6,7 +6,12 @@ export default {
   name: "Update Contact",
   description: "Update an existing contact. [See the documentation](https://api.superphone.io/docs/mutation.doc.html)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     contactId: {

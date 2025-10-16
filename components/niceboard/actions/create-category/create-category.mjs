@@ -4,7 +4,12 @@ export default {
   key: "niceboard-create-category",
   name: "Create Category",
   description: "Creates a new job category within Niceboard.",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     niceboard,

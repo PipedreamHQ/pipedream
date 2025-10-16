@@ -4,7 +4,12 @@ export default {
   key: "smartsuite-create-record",
   name: "Create Record",
   description: "Creates a new record. [See the documentation](https://developers.smartsuite.com/docs/solution-data/records/create-record)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     smartsuite,

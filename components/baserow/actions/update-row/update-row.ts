@@ -11,7 +11,12 @@ export default defineAction({
   name: "Update Row",
   description: `Update a row [See docs here](${DOCS_LINK})`,
   key: "baserow-update-row",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

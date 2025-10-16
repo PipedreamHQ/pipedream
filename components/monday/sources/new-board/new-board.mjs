@@ -6,7 +6,7 @@ export default {
   name: "New Board Created",
   description: "Emit new event when a board is created in Monday. [See the documentation](https://developer.monday.com/api-reference/reference/webhooks#sample-payload-for-webhook-events)",
   type: "source",
-  version: "0.0.9",
+  version: "0.0.11",
   dedupe: "unique",
   props: {
     ...common.props,

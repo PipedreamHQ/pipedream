@@ -5,7 +5,12 @@ export default {
   key: "instapaper-add-url",
   name: "Add URL",
   description: "Adds a URL to an Instapaper account. [See the documentation](https://www.instapaper.com/api/simple)",
-  version: "0.1.2",
+  version: "0.1.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     instapaper,

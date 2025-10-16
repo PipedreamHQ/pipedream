@@ -8,7 +8,12 @@ export default {
   name: "Formatting - [Date/Time] Format",
   description: "Format a date string to another date string. For more examples on formatting, see the [Sugar Date Format](https://sugarjs.com/dates/#/Formatting) documentation.",
   key: "pipedream_utils-date-time-format",
-  version: "0.0.6",
+  version: "0.0.7",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...commonDateTime.props,

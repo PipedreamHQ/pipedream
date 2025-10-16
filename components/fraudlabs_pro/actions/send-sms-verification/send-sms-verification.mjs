@@ -4,7 +4,12 @@ export default {
   name: "Send SMS Verification",
   description: "Send an SMS with verification code and a custom message for authentication purpose. Please refer to the [documentation](https://www.fraudlabspro.com/developer/api/send-verification) for the explanation of the result returned. NOTE: You need to register for an API key before using this REST API. Please visit [Micro Plan](https://www.fraudlabspro.com/sign-up) to sign up for an API key if you do not have one. In addition, you will also have to make sure you have enough SMS credits to send any verification SMS.",
   key: "fraudlabs_pro-send-sms-verification",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     fraudlabsProApp,

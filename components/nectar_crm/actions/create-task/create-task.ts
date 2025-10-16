@@ -6,7 +6,12 @@ export default defineAction({
   key: "nectar_crm-create-task",
   name: "Create Task",
   description: "Created a new task. [See docs here](https://nectarcrm.docs.apiary.io/#reference/0/tarefas/criar)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     nectar_crm,

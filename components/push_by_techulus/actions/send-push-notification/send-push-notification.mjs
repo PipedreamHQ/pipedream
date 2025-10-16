@@ -4,7 +4,12 @@ export default {
   key: "push_by_techulus-send-push-notification",
   name: "Send Push Notification",
   description: "Sends a new Push notification to the user. [See the documentation](https://docs.push.techulus.com/api-documentation)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pushByTechulus,

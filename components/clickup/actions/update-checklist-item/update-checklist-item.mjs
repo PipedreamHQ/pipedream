@@ -5,7 +5,12 @@ export default {
   key: "clickup-update-checklist-item",
   name: "Update Checklist Item",
   description: "Updates item in a checklist. [See the documentation](https://clickup.com/api) in **Checklists / Edit Checklist Item** section.",
-  version: "0.0.11",
+  version: "0.0.12",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

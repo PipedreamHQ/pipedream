@@ -6,7 +6,7 @@ export default {
   key: "transloadit-new-assembly-completed",
   name: "New Assembly Completed",
   description: "Emit new event when a Transloadit assembly finishes processing. [See the documentation](https://transloadit.com/docs/api/assemblies-get/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

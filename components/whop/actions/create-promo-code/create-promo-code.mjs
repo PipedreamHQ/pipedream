@@ -8,7 +8,12 @@ export default {
   key: "whop-create-promo-code",
   name: "Create Promo Code",
   description: "Creates a new promo code with the given parameters in Whop. [See the documentation](https://dev.whop.com/api-reference/v2/promo-codes/create-a-promo-code)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     whop,

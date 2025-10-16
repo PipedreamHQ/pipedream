@@ -8,7 +8,12 @@ export default {
   key: "notion-send-file-upload",
   name: "Send File Upload",
   description: "Send a file upload. [See the documentation](https://developers.notion.com/reference/send-a-file-upload)",
-  version: "0.0.5",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     notion,

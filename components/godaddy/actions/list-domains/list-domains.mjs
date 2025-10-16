@@ -4,8 +4,13 @@ export default {
   key: "godaddy-list-domains",
   name: "List Domains",
   description: "List domains in GoDaddy. [See the documentation](https://developer.godaddy.com/doc/endpoint/domains#/v1/list)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     godaddy,
     statuses: {

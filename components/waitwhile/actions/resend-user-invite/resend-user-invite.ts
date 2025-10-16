@@ -3,7 +3,12 @@ import { defineAction } from "@pipedream/types";
 
 export default defineAction({
   name: "Resend User Invite",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "waitwhile-resend-user-invite",
   description: "Resend a user invite. [See the doc here](https://developers.waitwhile.com/reference/postinvitesinviteidresend)",
   props: {

@@ -6,7 +6,12 @@ export default {
   key: "helper_functions-download-file-to-tmp",
   name: "Download File To /tmp",
   description: "Downloads a file to [your workflow's /tmp directory](https://pipedream.com/docs/code/nodejs/working-with-files/#the-tmp-directory)",
-  version: "0.3.1",
+  version: "0.3.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     helper_functions,

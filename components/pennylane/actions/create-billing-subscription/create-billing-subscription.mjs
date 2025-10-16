@@ -12,7 +12,12 @@ export default {
   key: "pennylane-create-billing-subscription",
   name: "Create Billing Subscription",
   description: "Creates a billing subscription for a customer. [See the documentation](https://pennylane.readme.io/reference/billing_subscriptions-post-1).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pennylane,

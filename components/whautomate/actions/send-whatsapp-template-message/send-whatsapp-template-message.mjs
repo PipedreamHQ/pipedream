@@ -6,7 +6,12 @@ export default {
   key: "whautomate-send-whatsapp-template-message",
   name: "Send WhatsApp Template Message",
   description: "Send a pre-defined WhatsApp message template to a contact. [See the documentation](https://help.whautomate.com/product-guides/whautomate-rest-api/messages)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     whautomate,

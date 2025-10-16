@@ -5,7 +5,12 @@ export default {
   key: "clickup-delete-comment",
   name: "Delete Comment",
   description: "Deletes a comment. [See the documentation](https://clickup.com/api) in **Comments / Deleet Comment** section.",
-  version: "0.0.11",
+  version: "0.0.12",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   async run({ $ }) {
     const { commentId } = this;

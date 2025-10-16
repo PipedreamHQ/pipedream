@@ -6,7 +6,12 @@ export default {
   key: "clickup-create-task-from-template",
   name: "Create Task From Template",
   description: "Creates a new task from a template. [See the documentation](https://clickup.com/api) in **Task Templates / Create Task From Template** section.",
-  version: "0.0.11",
+  version: "0.0.12",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

@@ -4,7 +4,12 @@ export default {
   key: "skillzrun-upsert-user",
   name: "Upsert User",
   description: "Creates or updates a user based on the user email prop. [See the documentation](https://api.skillzrun.com/external/api/swagger/static/index.html#/users/post_external_api_users_upsert)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     skillzrun,

@@ -4,7 +4,12 @@ export default {
   key: "mural-create-mural",
   name: "Create Mural",
   description: "Create a new mural within a specified workspace. [See the documentation](https://developers.mural.co/public/reference/createmural)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     mural,

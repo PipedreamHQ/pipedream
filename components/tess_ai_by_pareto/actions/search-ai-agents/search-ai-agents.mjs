@@ -5,7 +5,12 @@ export default {
   name: "Search AI Agents",
   description:
     "Retrieve AI Agents (templates) that match the specified criteria. [See the documentation](https://tess.pareto.io/api/swagger#/default/201046139d07458d530ad3526e0b3c2f)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

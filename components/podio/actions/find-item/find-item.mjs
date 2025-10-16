@@ -4,7 +4,12 @@ import utils from "../../common/utils.mjs";
 export default {
   type: "action",
   key: "podio-find-item",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   name: "Find Item",
   description: "Filters items for the given app. [See the documentation](https://developers.podio.com/doc/items/filter-items-4496747)",
   props: {

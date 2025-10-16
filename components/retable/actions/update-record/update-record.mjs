@@ -4,7 +4,12 @@ export default {
   key: "retable-update-record",
   name: "Update Record",
   description: "Update an existing record in Retable. [See the documentation](https://docs.retable.io/retable-user-guide/retable-api/api#update-row)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     retable,

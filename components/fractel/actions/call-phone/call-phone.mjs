@@ -4,7 +4,12 @@ export default {
   key: "fractel-call-phone",
   name: "Call Phone",
   description: "Initiates a new phone call to the provided number.",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     fractel,

@@ -6,7 +6,12 @@ export default {
   key: "paradym-create-openid4vc-credential-offer",
   name: "Create OpenID4VC Credential Offer",
   description: "Create a OpenID4VC issuance offer for the selected credentials. [See the documentation](https://paradym.id/reference?full#tag/openid4vc-issuance/post/v1/projects/{projectId}/openid4vc/issuance/offer)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   methods: {
     ...common.methods,

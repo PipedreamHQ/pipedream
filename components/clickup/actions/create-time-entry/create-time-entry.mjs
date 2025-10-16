@@ -6,7 +6,12 @@ export default {
   key: "clickup-create-time-entry",
   name: "Create Time Entry",
   description: "Create a new time entry. [See the documentation](https://developer.clickup.com/reference/createatimeentry)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

@@ -6,7 +6,12 @@ export default {
   key: "omise-create-charge",
   name: "Create a New Charge",
   description: "Create a new charge for a specific customer and amount through the OPN platform. [See the documentation](https://docs.opn.ooo/charges-api#create)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     omiseApp,

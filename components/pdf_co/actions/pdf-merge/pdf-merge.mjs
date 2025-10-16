@@ -5,7 +5,12 @@ export default {
   name: "PDF Merge",
   description: "Merge PDF from two or more PDF files into a new one. [See docs here](https://apidocs.pdf.co/31-pdf-merge)",
   key: "pdf_co-pdf-merge",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

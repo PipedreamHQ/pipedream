@@ -4,7 +4,12 @@ export default {
   key: "google_palm_api-generate-text",
   name: "Generate Text",
   description: "Generate text using Google PaLM. [See the docs here](https://developers.generativeai.google/api/python/google/generativeai/generate_text)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     palm,

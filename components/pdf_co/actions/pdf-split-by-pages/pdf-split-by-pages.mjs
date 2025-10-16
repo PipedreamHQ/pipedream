@@ -4,7 +4,12 @@ export default {
   name: "PDF Split by Page Index",
   description: "Split PDF by page index. [See docs here](https://apidocs.pdf.co/30-pdf-split)",
   key: "pdf_co-pdf-split-by-pages",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

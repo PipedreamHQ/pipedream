@@ -5,7 +5,12 @@ export default {
   name: "Get Order",
   description: "Fetches a single device return order. [See the documentation](https://app.helloretriever.com/api/v1/docs/#tag/Device-Return-Orders/operation/Get%20Order%20Details)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     orderId: {

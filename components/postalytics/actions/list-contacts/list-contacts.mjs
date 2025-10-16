@@ -4,7 +4,12 @@ export default {
   key: "postalytics-list-contacts",
   name: "List Contacts",
   description: "Displays a list of contacts in Postalytics. [See the documentation](https://postalytics.docs.apiary.io/#reference/contact-api/contact-collection/get-all-contacts-on-a-list)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     postalytics,

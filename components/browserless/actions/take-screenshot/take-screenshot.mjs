@@ -5,7 +5,12 @@ export default {
   key: "browserless-take-screenshot",
   name: "Take a Screenshot",
   description: "Take a screenshot of a page. [See the documentation](https://www.browserless.io/docs/screenshot)",
-  version: "0.5.5",
+  version: "0.5.6",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     browserless,

@@ -5,7 +5,12 @@ export default {
   key: "mongodb-update-documents",
   name: "Update Documents",
   description: "Updates many documents by query filter. [See the documentation](https://www.mongodb.com/docs/drivers/node/current/usage-examples/updateMany/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

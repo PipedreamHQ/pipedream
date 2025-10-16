@@ -7,7 +7,12 @@ export default {
   key: "cloudpresenter-update-contact",
   name: "Update Contact",
   description: "Updates an existing contact within the Cloudpresenter application. [See the documentation](https://cloudpresenter.stoplight.io/docs/cloudpresenter-public-apis/tjbk1nm3qvbg2-update-contact)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     cloudpresenter,

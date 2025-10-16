@@ -4,7 +4,12 @@ export default {
   key: "postmark-verify-dkim",
   name: "Verify DKIM",
   description: "Verify DKIM keys for the specified domain. [See the documentation](https://postmarkapp.com/developer/api/domains-api#domains-verify-dkim)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     postmark,

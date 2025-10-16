@@ -7,7 +7,12 @@ export default {
   key: "utopian_labs-initiate-timing-run",
   name: "Initiate Timing Run",
   description: "Initiate a timing run of the R1-Timing agent. [See the documentation](https://docs.utopianlabs.ai/timing#initiate-a-timing-run)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     utopianLabs,

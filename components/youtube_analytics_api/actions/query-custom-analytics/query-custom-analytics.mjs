@@ -8,7 +8,12 @@ export default {
   name: "Query Custom Analytics",
   description:
     "Execute a custom analytics query using specified metrics, dimensions, filters, and date ranges. Requires query parameters to configure. [See the documentation](https://developers.google.com/youtube/analytics/reference/reports/query).",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...common.props,

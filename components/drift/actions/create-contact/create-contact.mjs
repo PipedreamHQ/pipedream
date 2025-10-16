@@ -5,7 +5,12 @@ export default {
   key: "drift-create-contact",
   name: "Create Contact",
   description: "Creates a contact in Drift. [See the documentation](https://devdocs.drift.com/docs/creating-a-contact).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     drift,

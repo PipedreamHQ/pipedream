@@ -6,7 +6,12 @@ export default {
   key: "heyy-create-contact",
   name: "Create Contact",
   description: "Creates a new contact for the business. [See the documentation](https://documenter.getpostman.com/view/27408936/2sA2r3a6DW#a1249b8d-10cf-446a-be35-eb8793ffa967).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

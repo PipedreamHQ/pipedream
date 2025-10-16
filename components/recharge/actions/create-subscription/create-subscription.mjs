@@ -4,7 +4,12 @@ export default {
   key: "recharge-create-subscription",
   name: "Create Subscription",
   description: "Creates a new subscription allowing a customer to subscribe to a product. [See the documentation](https://developer.rechargepayments.com/2021-11/subscriptions/subscriptions_create)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     recharge,

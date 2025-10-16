@@ -4,7 +4,12 @@ import unbounce from "../../unbounce.app.mjs";
 export default {
   key: "unbounce-list-page-leads",
   name: "List Page Leads",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   description: "Retrieve a list of all leads for a given page (including AMP), pop-up, or sticky-bar. [See the documentation](https://developer.unbounce.com/api_reference/#id_pages__page_id__leads)",
   type: "action",
   props: {

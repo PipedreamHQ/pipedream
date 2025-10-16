@@ -3,7 +3,12 @@ import uplisting from "../../uplisting.app.mjs";
 export default {
   key: "uplisting-create-booking",
   name: "Create Booking",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create a confirmed booking. [See the documentation](https://documenter.getpostman.com/view/1320372/SWTBfdW6#ce173dfb-5d88-4af4-a55f-43ffc238487a)",
   type: "action",
   props: {

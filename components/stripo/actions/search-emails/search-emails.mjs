@@ -4,7 +4,12 @@ export default {
   key: "stripo-search-emails",
   name: "Search Emails",
   description: "Searches existing emails by search query in Stripo. [See the documentation](https://api.stripo.email/reference/findemails)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     stripo,

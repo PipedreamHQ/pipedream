@@ -6,6 +6,7 @@ import {
 import { convert } from "html-to-text";
 import mime from "mime/types/standard.js";
 import MailComposer from "nodemailer/lib/mail-composer/index.js";
+import addressparser from "nodemailer/lib/addressparser/index.js";
 import constants from "./common/constants.mjs";
 import { JWT } from "google-auth-library";
 
@@ -273,6 +274,27 @@ export default {
         auth,
       });
     },
+    /**
+     * Parse email addresses from a string
+     * @param {string} addressString - Raw address string to parse
+     * @returns {string[]} Array of properly formatted email addresses
+     */
+    parseEmailAddresses(addressString) {
+      if (!addressString || typeof addressString !== "string") {
+        return [];
+      }
+
+      // Use nodemailer's addressparser to properly handle RFC 5322 format
+      const parsed = addressparser(addressString.trim());
+
+      // Reconstruct addresses in standard format
+      return parsed.map((addr) => {
+        if (addr.name) {
+          return `${addr.name} <${addr.address}>`;
+        }
+        return addr.address;
+      });
+    },
     async getOptionsToSendEmail($, props) {
       const {
         name: fromName,
@@ -308,8 +330,10 @@ export default {
             const to = repliedMessage.payload.headers.find(({ name }) => name.toLowerCase() === "to");
             const cc = repliedMessage.payload.headers.find(({ name }) => name.toLowerCase() === "cc");
             const bcc = repliedMessage.payload.headers.find(({ name }) => name.toLowerCase() === "bcc");
-            opts.to = from.value.split(",");
-            opts.to.push(...to.value.split(","));
+            opts.to = [
+              ...this.parseEmailAddresses(from.value),
+              ...this.parseEmailAddresses(to.value),
+            ];
 
             // Filter out the current user's email address
             const currentUserEmail = email.toLowerCase().trim();
@@ -326,10 +350,10 @@ export default {
               ...new Set(opts.to),
             ];
             if (cc) {
-              opts.cc = cc.value;
+              opts.cc = this.parseEmailAddresses(cc.value);
             }
             if (bcc) {
-              opts.bcc = bcc.value;
+              opts.bcc = this.parseEmailAddresses(bcc.value);
             }
           }
         } catch (err) {

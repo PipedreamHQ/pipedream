@@ -6,7 +6,12 @@ export default {
   key: "microsoft_dynamics_365_sales-create-custom-entity",
   name: "Create Custom Entity",
   description: "Create a custom entity. [See the documentation](https://learn.microsoft.com/en-us/power-apps/developer/data-platform/webapi/create-update-entity-definitions-using-web-api)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     microsoft,

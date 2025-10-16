@@ -5,7 +5,12 @@ export default {
   key: "postalytics-create-contact",
   name: "Create Contact",
   description: "Creates a new contact in Postalytics. [See the documentation](https://postalytics.docs.apiary.io/#reference/contact-api/contact-list-collection/add-contact)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

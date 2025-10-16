@@ -3,7 +3,12 @@ import smaily from "../../app/smaily.app";
 
 export default defineAction({
   name: "Run Automation Workflow",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "smaily-run-automation-workflow",
   description: "Send Automation Workflow. [See docs here](https://smaily.com/help/api/automations-2/autoresponder)",
   type: "action",

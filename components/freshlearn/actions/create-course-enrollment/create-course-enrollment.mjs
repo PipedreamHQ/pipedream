@@ -4,7 +4,12 @@ export default {
   key: "freshlearn-create-course-enrollment",
   name: "Create Course Enrollment",
   description: "Enrolls an existing member in a new course. [See the documentation](https://freshlearn.com/support/api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     freshlearn,

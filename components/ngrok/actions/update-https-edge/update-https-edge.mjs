@@ -4,7 +4,12 @@ export default {
   key: "ngrok-update-https-edge",
   name: "Update HTTPS Edge",
   description: "Updates an HTTPS Edge. [See the documentation](https://ngrok.com/docs/api/resources/edges-https/#update-https-edge).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

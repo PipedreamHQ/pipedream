@@ -4,7 +4,12 @@ export default {
   name: "Find Text in Clusters",
   description: "Find clusters with a similar meaning of a given text.  [See the documentation](https://docs.oneai.com/docs/find-text).",
   key: "one_ai-find-text-in-clusters",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

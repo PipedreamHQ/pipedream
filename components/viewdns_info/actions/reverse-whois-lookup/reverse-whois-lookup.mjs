@@ -4,7 +4,12 @@ export default {
   key: "viewdns_info-reverse-whois-lookup",
   name: "Reverse Whois Lookup",
   description: "Performs a reverse WHOIS search to find domains registered by the same person or organization. [See the documentation](https://viewdns.info/api/reverse-whois-lookup/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     viewdnsInfo,

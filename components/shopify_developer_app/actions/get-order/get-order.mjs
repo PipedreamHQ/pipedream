@@ -1,11 +1,16 @@
-import shopify from "../../shopify_developer_app.app.mjs";
 import { MAX_LIMIT } from "@pipedream/shopify/common/constants.mjs";
+import shopify from "../../shopify_developer_app.app.mjs";
 
 export default {
   key: "shopify_developer_app-get-order",
   name: "Get Order",
   description: "Retrieve an order by specifying the order ID. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/queries/order)",
-  version: "0.0.7",
+  version: "0.0.9",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     shopify,

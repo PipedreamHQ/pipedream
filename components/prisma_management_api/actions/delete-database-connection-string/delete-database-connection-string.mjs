@@ -2,7 +2,12 @@ import app from "../../prisma_management_api.app.mjs";
 
 export default {
   name: "Delete Database Connection String",
-  version: "1.0.0",
+  version: "1.0.1",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "prisma_management_api-delete-database-connection-string",
   description: "Deletes a specific database connection string via Prisma Management API. This action is irreversible. [See docs here](https://www.prisma.io/docs/postgres/introduction/management-api)",
   type: "action",

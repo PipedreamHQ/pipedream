@@ -2,7 +2,12 @@ import curated from "../../curated.app.mjs";
 
 export default {
   name: "Create Link",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "curated-create-link",
   description: "Creates a link. [See docs here](https://support.curated.co/help/managing-links-with-the-api#h_9993192972131638320427148)",
   type: "action",

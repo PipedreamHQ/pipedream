@@ -4,7 +4,12 @@ export default {
   key: "wit_ai-create-intent",
   name: "Create Intent",
   description: "Creates a new intent. [See the documentation](https://wit.ai/docs/http/20240304/#post__intents_link)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

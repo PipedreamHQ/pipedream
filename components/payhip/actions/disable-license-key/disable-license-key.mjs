@@ -3,7 +3,12 @@ import qs from "qs";
 
 export default {
   name: "Disable License Key",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "payhip-disable-license-key",
   description: "Disable a license key. [See the documentation](https://help.payhip.com/article/114-software-license-keys#:~:text=Enable%20or%20Disable%20a%20License%20Key)",
   type: "action",

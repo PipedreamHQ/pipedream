@@ -3,7 +3,12 @@ import utils from "../../common/utils.mjs";
 
 export default {
   key: "aero_workflow-create-company",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   name: "Create Company",
   description: "Creates a company [See the docs here](https://api.aeroworkflow.com/swagger/index.html)",

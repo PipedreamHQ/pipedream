@@ -4,7 +4,12 @@ export default {
   key: "cinc-create-lead",
   name: "Create New Lead",
   description: "This component creates a new lead in Cinc. [See the documentation](https://public.cincapi.com/v2/docs/#post-site-leads)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     cinc,

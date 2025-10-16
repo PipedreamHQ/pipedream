@@ -5,7 +5,12 @@ export default {
   key: "nextdoor-create-scheduled-report",
   name: "Create Scheduled Report",
   description: "Creates a scheduled report based on the input configuration. Upon a successful request the report will be sent out based on the schedule cadence. [See the documentation](https://developer.nextdoor.com/reference/reporting-scheduled-create).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -6,7 +6,12 @@ export default {
   name: "Resize Image",
   description:
     "Resizes an uploaded image to specified width and height. [See the documentation](https://www.filestack.com/docs/api/processing/#resize)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

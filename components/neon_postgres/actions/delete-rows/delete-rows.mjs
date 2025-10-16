@@ -4,7 +4,12 @@ export default {
   name: "Delete Row(s)",
   key: "neon_postgres-delete-rows",
   description: "Deletes a row or rows from a table. [See the documentation](https://node-postgres.com/features/queries)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     neon,

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/google_perspective",
+  "version": "0.0.1",
+  "description": "Pipedream Google Perspective Components",
+  "main": "google_perspective.app.mjs",
+  "keywords": [
+    "pipedream",
+    "google_perspective"
+  ],
+  "homepage": "https://pipedream.com/apps/google_perspective",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

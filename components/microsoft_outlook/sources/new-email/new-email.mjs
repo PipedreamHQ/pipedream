@@ -7,7 +7,7 @@ export default {
   key: "microsoft_outlook-new-email",
   name: "New Email Event (Instant)",
   description: "Emit new event when an email is received in specified folders.",
-  version: "0.1.3",
+  version: "0.1.5",
   type: "source",
   dedupe: "unique",
   methods: {

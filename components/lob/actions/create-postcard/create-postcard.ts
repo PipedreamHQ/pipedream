@@ -6,7 +6,12 @@ export default defineAction({
   key: "lob-create-postcard",
   name: "Create Postcard",
   description: "Creates a new postcard given information. [See docs here](https://docs.lob.com/#tag/Postcards/operation/postcard_create).",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     lob,

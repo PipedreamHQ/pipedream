@@ -3,7 +3,12 @@ import justcall from "../../justcall.app.mjs";
 export default {
   key: "justcall-create-contact",
   name: "Create Contact",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Add a contact to your existing JustCall Sales Dialer campaign. [See the documentation](https://justcall.io/developer-docs/#add_contacts)",
   type: "action",
   props: {

@@ -5,7 +5,12 @@ export default {
   name: "Find Contact",
   description: "Searches for contacts in your help desk portal. [See the docs here](https://desk.zoho.com/DeskAPIDocument#Search#Search_SearchContacts)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     zohoDesk,
     orgId: {

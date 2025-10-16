@@ -3,7 +3,12 @@ import motion from "../../motion.app.mjs";
 export default {
   key: "motion-update-task",
   name: "Update Task",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Update a specific task. [See the documentation](https://docs.usemotion.com/docs/motion-rest-api/a2b2ce881ce26-update-a-task)",
   type: "action",
   props: {

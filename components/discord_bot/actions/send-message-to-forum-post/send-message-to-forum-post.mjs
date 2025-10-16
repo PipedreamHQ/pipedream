@@ -5,7 +5,12 @@ export default {
   key: "discord_bot-send-message-to-forum-post",
   name: "Send Message to Forum Post",
   description: "Send a message to a Discord forum. [See the documentation](https://discord.com/developers/docs/resources/channel#create-message)",
-  version: "1.0.0",
+  version: "1.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     discord,

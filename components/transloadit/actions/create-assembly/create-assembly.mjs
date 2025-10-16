@@ -6,7 +6,12 @@ export default {
   key: "transloadit-create-assembly",
   name: "Create Assembly",
   description: "Create a new assembly to process files using a specified template and steps. [See the documentation](https://transloadit.com/docs/api/assemblies-post/)",
-  version: "0.0.1",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     transloadit,

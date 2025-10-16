@@ -4,7 +4,12 @@ export default {
   key: "sellercloud-create-product",
   name: "Create Product",
   description: "Creates a new product. [See the documentation](https://developer.sellercloud.com/dev-article/create-product/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     sellercloud,

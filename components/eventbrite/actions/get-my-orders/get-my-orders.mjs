@@ -4,7 +4,12 @@ export default {
   key: "eventbrite-get-my-orders",
   name: "Get My Orders",
   description: "Get a list of event orders placed by the authenticated user. [See the documentation](https://www.eventbrite.com/platform/docs/order-lookup)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     eventbrite,

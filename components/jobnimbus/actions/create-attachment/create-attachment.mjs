@@ -7,7 +7,12 @@ import {
 
 export default {
   key: "jobnimbus-create-attachment",
-  version: "1.0.1",
+  version: "1.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   name: "Create Attachment",
   description: "Creates an attachment. [See the documentation](https://documenter.getpostman.com/view/3919598/S11PpG4x#5f3f485b-91f9-4ed9-912c-99a07987ac6c)",

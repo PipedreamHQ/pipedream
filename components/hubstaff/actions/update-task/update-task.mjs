@@ -5,7 +5,12 @@ export default {
   key: "hubstaff-update-task",
   name: "Update Task",
   description: "Update a specific task within your Hubstaff organization. [See the documentation](https://developer.hubstaff.com/docs/hubstaff_v2#!/tasks/putV2TasksTaskId)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     hubstaff,

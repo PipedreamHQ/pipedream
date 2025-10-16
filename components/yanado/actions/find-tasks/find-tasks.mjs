@@ -4,7 +4,12 @@ export default {
   key: "yanado-find-tasks",
   name: "Find Tasks",
   description: "Find tasks in a list. [See the docs](https://api.yanado.com/docs/?javascript#tasks)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     yanado,

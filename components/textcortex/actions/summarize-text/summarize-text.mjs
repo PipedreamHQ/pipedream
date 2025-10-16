@@ -6,7 +6,12 @@ export default {
   name: "Summarize Text",
   description: "Summarize given text. The text can be provided as a string or as a file ID. [See the documentation](https://docs.textcortex.com/api/paths/texts-summarizations/post)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     fileId: {

@@ -4,7 +4,12 @@ export default {
   key: "zonka_feedback-send-sms-survey",
   name: "Send SMS Survey",
   description: "Send a survey by SMS. Please ensure you have enough SMS credits. [See docs](https://apidocs.zonkafeedback.com/?version=latest#9b6a1283-fb22-457e-8031-cf18d51d26f7)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     zonkaFeedback,

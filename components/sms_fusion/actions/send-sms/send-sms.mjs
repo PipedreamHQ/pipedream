@@ -4,7 +4,12 @@ export default {
   key: "sms_fusion-send-sms",
   name: "Send SMS",
   description: "Send an SMS using SMS Fusion. [See the documentation](https://docs.smsfusion.com.au/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     smsFusion,

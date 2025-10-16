@@ -3,7 +3,12 @@ import app from "../../podio.app.mjs";
 export default {
   type: "action",
   key: "podio-create-task",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   name: "Create Task",
   description: "Creates a task to the given workspace. [See the documentation](https://developers.podio.com/doc/tasks/create-task-22419)",
   props: {

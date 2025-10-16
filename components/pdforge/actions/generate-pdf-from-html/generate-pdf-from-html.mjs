@@ -6,7 +6,12 @@ export default {
   key: "pdforge-generate-pdf-from-html",
   name: "Generate PDF from HTML",
   description: "Generate a PDF document from HTML content. [See the documentation](https://docs.pdforge.com/html-to-pdf-conversion/synchronous-request)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

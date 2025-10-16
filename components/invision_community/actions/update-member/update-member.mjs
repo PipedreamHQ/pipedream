@@ -4,7 +4,12 @@ export default {
   key: "invision_community-update-member",
   name: "Update Member",
   description: "Updates an existing member's details. [See the documentation](https://invisioncommunity.com/developers/rest-api?endpoint=core/members/postitem)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     invisionCommunity,

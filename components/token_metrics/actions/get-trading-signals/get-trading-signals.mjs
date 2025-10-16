@@ -10,7 +10,12 @@ export default {
   key: "token_metrics-get-trading-signals",
   name: "Get Trading Signals",
   description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/v3/reference/trading-signals)`,
-  version: "0.1.0",
+  version: "0.1.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     tokenMetrics,

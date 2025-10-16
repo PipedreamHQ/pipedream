@@ -8,7 +8,7 @@ const {
 
 export default {
   key: "shopify_developer_app-get-metafields",
-  version: "0.0.10",
+  version: "0.0.11",
   name,
   description,
   type,

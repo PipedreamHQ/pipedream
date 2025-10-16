@@ -6,7 +6,12 @@ export default {
   key: "limoexpress-create-booking",
   name: "Create Limo Booking",
   description: "Creates a new limo booking with specified details. [See the documentation](https://api.limoexpress.me/api/docs/v1#/Bookings/createBooking)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     limoexpress,

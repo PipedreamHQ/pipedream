@@ -3,7 +3,12 @@ import { defineAction } from "@pipedream/types";
 
 export default defineAction({
   name: "Delete Customer Note Entry",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "waitwhile-delete-customer-note-entry",
   description: "Delete a customer note entry. [See the doc here](https://developers.waitwhile.com/reference/deletecustomerscustomeridnotesnoteid)",
   props: {

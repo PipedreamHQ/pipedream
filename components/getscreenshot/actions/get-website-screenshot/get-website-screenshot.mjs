@@ -4,7 +4,12 @@ export default {
   key: "getscreenshot-get-website-screenshot",
   name: "Get Website Screenshot",
   description: "Capture a screenshot from a live website. [See the documentation](https://docs.rasterwise.com/docs/getscreenshot/api-reference-0/)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     getscreenshot,

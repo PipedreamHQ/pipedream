@@ -4,7 +4,12 @@ export default {
   key: "ringcentral-get-message",
   name: "Get Message",
   description: "Get message from the Message Store. See the API docs [here](https://developers.ringcentral.com/api-reference/Message-Store/readMessage)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ringcentral,

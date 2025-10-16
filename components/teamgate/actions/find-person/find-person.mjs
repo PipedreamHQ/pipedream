@@ -4,7 +4,12 @@ import FIELDS from "../common/fields.mjs";
 export default {
   key: "teamgate-find-person",
   name: "Find Person",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   description: "Find a person [See the docs here](https://developers.teamgate.com/#7708cc10-52d4-4ec3-bcc5-1222f21480bb)",
   type: "action",
   props: {

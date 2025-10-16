@@ -4,7 +4,12 @@ export default {
   key: "launchdarkly-toggle-feature-flag",
   name: "Toggle Feature Flag",
   description: "Toggles the status of a feature flag, switching it from active to inactive, or vice versa. [See the documentation](https://apidocs.launchdarkly.com/tag/Feature-flags#operation/patchFeatureFlag)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -5,7 +5,12 @@ export default {
   key: "telegram_bot_api-send-video",
   name: "Send a Video",
   description: "Sends a video file to your Telegram Desktop application. [See the docs](https://core.telegram.org/bots/api#sendvideo) for more information",
-  version: "0.0.6",
+  version: "0.0.7",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     telegramBotApi,

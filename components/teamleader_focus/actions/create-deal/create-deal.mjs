@@ -5,7 +5,12 @@ export default {
   key: "teamleader_focus-create-deal",
   name: "Create Deal",
   description: "Add a new deal. [See the documentation](https://developer.teamleader.eu/#/reference/deals/deals/deals.create)",
-  version: "0.1.1",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     teamleaderFocus,

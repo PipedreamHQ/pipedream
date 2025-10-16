@@ -4,7 +4,12 @@ export default {
   key: "helpdocs-delete-article",
   name: "Delete Article",
   description: "Delete an article from your HelpDocs knowledge base. [See the documentation](https://apidocs.helpdocs.io/article/0iyvUUh7py-deleting-an-article)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     helpdocs,

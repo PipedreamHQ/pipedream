@@ -11,7 +11,12 @@ export default defineAction({
   description:
     `List a table's rows [See docs here](${DOCS_LINK})`,
   key: "baserow-list-rows",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   async run({ $ }) {
     const { tableId } = this;

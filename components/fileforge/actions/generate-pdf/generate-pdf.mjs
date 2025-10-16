@@ -7,7 +7,12 @@ export default {
   key: "fileforge-generate-pdf",
   name: "Generate PDF",
   description: "Generate a PDF from provided HTML. [See the documentation](https://docs.fileforge.com/api-reference/api-reference/pdf/generate)",
-  version: "0.1.1",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     fileforge,

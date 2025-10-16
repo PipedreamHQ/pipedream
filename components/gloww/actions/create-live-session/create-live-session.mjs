@@ -4,7 +4,12 @@ import gloww from "../../gloww.app.mjs";
 export default {
   key: "gloww-create-live-session",
   name: "Create Live Session",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create a new Live Session [See the documentation](https://gloww.com/faq/)",
   type: "action",
   props: {

@@ -5,7 +5,12 @@ export default {
   key: "zoho_books-get-item",
   name: "Get Item",
   description: "Gets the details of an existing item. [See the documentation](https://www.zoho.com/books/api/v3/items/#get-an-item)",
-  version: "0.3.0",
+  version: "0.3.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     zohoBooks,

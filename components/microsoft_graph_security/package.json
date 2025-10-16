@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/microsoft_graph_security",
+  "version": "0.0.1",
+  "description": "Pipedream Microsoft Graph Security Components",
+  "main": "microsoft_graph_security.app.mjs",
+  "keywords": [
+    "pipedream",
+    "microsoft_graph_security"
+  ],
+  "homepage": "https://pipedream.com/apps/microsoft_graph_security",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

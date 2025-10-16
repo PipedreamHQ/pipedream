@@ -5,7 +5,12 @@ export default {
   key: "ringcentral-create-contact",
   name: "Create Contact",
   description: "Creates a user personal contact. [See the documentation](https://developers.ringcentral.com/api-reference/External-Contacts/createContact)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ringcentral,

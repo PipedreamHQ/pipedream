@@ -3,7 +3,12 @@ import planviewLeankit from "../../planview_leankit.app.mjs";
 export default {
   key: "planview_leankit-block-card",
   name: "Block Card (Or Task)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Block a card or a task. [See the docs here](https://success.planview.com/Planview_AgilePlace/AgilePlace_API/01_v2/card/update)",
   type: "action",
   props: {

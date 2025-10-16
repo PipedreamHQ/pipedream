@@ -4,7 +4,12 @@ export default {
   key: "reflect-create-link",
   name: "Create Link",
   description: "Create a new link. [See the documentation](https://openpm.ai/apis/reflect#/graphs/{graphId}/links)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     reflect,

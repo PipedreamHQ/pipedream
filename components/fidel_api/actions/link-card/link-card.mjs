@@ -5,7 +5,12 @@ export default {
   key: "fidel_api-link-card",
   name: "Link Card",
   description: "Links a new card to the Fidel API for monitoring transactions. [See the documentation](https://reference.fidel.uk/reference#create-a-card)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     fidelApi,

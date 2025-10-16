@@ -6,7 +6,12 @@ export default {
   key: "beekeeper-send-message-group-chat",
   name: "Send Message to Group Chat",
   description: "Send a precomposed message to a defined group chat. [See the documentation](https://beekeeper.stoplight.io/docs/beekeeper-api/9075b32d36db4-send-a-message-to-a-group-chat)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     beekeeper,

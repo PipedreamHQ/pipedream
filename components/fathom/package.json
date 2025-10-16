@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/fathom",
+  "version": "0.0.1",
+  "description": "Pipedream  Fathom Components",
+  "main": "fathom.app.mjs",
+  "keywords": [
+    "pipedream",
+    "fathom"
+  ],
+  "homepage": "https://pipedream.com/apps/fathom",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

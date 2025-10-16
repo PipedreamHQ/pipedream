@@ -4,7 +4,12 @@ export default {
   key: "hansei-get-bot-conversations",
   name: "Get Bot Conversations",
   description: "Retrieves a list of conversations with the specified Bot in Hansei. [See the documentation](hhttps://developers.hansei.app/operation/operation-getbotconversations)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     hansei,

@@ -3,7 +3,12 @@ import planviewLeankit from "../../planview_leankit.app.mjs";
 export default {
   key: "planview_leankit-create-task-card",
   name: "Create Task Card",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create a task card. [See the docs here](https://success.planview.com/Planview_AgilePlace/AgilePlace_API/01_v2/card/create-task)",
   type: "action",
   props: {

@@ -4,7 +4,12 @@ export default {
   key: "search_api-google-images",
   name: "Google Images API",
   description: "Google Images API uses /api/v1/search?engine=google_images API endpoint to scrape real-time results. [See the documentation](https://www.searchapi.io/docs/google-images)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

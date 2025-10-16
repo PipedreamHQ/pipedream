@@ -8,7 +8,12 @@ export default {
   key: "rentman-update-item",
   name: "Update Rentman Item",
   description: "Updates the details of an existing item based on its type. [See the documentation](https://api.rentman.net)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     rentman,

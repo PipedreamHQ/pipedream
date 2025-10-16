@@ -4,7 +4,12 @@ export default {
   key: "retailed-get-usage",
   name: "Get API Usage",
   description: "Gets the API usage information for the Retailed API. [See the documentation](https://docs.retailed.io/v1/usage)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     retailed,

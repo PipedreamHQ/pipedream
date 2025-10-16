@@ -2,7 +2,12 @@ import bingx from "../../bingx.app.mjs";
 
 export default {
   name: "BingX Account Get Balance",
-  version: "0.0.5",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "bingx-account-get-balance",
   description: "Get Perpetual Swap Account Asset Information [See the documentation](https://bingx-api.github.io/docs/#/swapV2/account-api.html).",
   props: {

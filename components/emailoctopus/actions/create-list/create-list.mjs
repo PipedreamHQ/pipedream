@@ -2,7 +2,12 @@ import app from "../../emailoctopus.app.mjs";
 
 export default {
   key: "emailoctopus-create-list",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   name: "Create List",
   description: "Create a list, [See the docs here](https://emailoctopus.com/api-documentation/lists/create)",

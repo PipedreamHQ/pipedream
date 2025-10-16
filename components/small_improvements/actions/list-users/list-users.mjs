@@ -4,7 +4,12 @@ export default {
   key: "small_improvements-list-users",
   name: "List All Users",
   description: "List all users from Small Improvements. [See the documentation](https://storage.googleapis.com/si-rest-api-docs/dist/index.html)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     smallImprovements,

@@ -4,7 +4,12 @@ export default {
   key: "surveysparrow-create-survey",
   name: "Create Survey",
   description: "Creates a new survey. [See the documentation](https://developers.surveysparrow.com/rest-apis/survey#postV3Surveys)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     surveySparrow,

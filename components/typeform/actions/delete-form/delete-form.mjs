@@ -5,7 +5,12 @@ export default {
   name: "Delete Form",
   description: "Select a form to be deleted. [See the docs here](https://developer.typeform.com/create/reference/delete-form/).",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     typeform,
     formId: {

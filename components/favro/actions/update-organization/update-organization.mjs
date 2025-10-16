@@ -4,7 +4,12 @@ export default {
   key: "favro-update-organization",
   name: "Update Organization",
   description: "Updates an existing organization. [See the documentation](https://favro.com/developer/#update-an-organization)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

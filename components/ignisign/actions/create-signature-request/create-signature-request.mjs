@@ -10,7 +10,12 @@ export default {
   key: "ignisign-create-signature-request",
   name: "Create Signature Request",
   description: "Creates a document signature request through IgniSign. [See the documentation](https://ignisign.io/docs/ignisign-api/init-signature-request)",
-  version: "1.0.1",
+  version: "1.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ignisign,

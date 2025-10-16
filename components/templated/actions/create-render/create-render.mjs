@@ -4,7 +4,12 @@ export default {
   key: "templated-create-render",
   name: "Create Render",
   description: "Creates a render on a template in Templated. [See the documentation](https://app.templated.io/docs#create-render)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

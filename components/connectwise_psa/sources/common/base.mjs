@@ -25,7 +25,10 @@ export default {
       this.db.set("lastId", lastId);
     },
     getParams() {
-      return {};
+      return {
+        pageSize: 500,
+        orderBy: "id desc",
+      };
     },
     generateMeta(item) {
       return {
@@ -38,25 +41,30 @@ export default {
       const lastId = this._getLastId();
       const resourceFn = this.getResourceFn();
       const params = this.getParams();
-      const results = this.connectwise.paginate({
+      const iterator = this.connectwise.paginate({
         resourceFn,
         params,
         max,
+        lastId,
       });
-      let items = [];
-      for await (const item of results) {
-        if (item.id > lastId) {
-          items.push(item);
+
+      const items = [];
+      let firstNewId;
+
+      for await (const item of iterator) {
+        if (!firstNewId) {
+          firstNewId = item.id;
         }
+        items.push(item);
       }
-      if (!items.length) {
-        return;
+
+      if (firstNewId) {
+        this._setLastId(firstNewId);
       }
-      if (max) {
-        items = items.slice(-1 * max);
-      }
-      this._setLastId(items[items.length - 1].id);
-      items.forEach((item) => this.$emit(item, this.generateMeta(item)));
+
+      items
+        .reverse()
+        .forEach((item) => this.$emit(item, this.generateMeta(item)));
     },
     getResourceFn() {
       throw new Error("getResourceFn is not implemented");

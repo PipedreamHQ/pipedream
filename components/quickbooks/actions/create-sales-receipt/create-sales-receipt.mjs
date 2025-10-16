@@ -6,7 +6,12 @@ export default {
   key: "quickbooks-create-sales-receipt",
   name: "Create Sales Receipt",
   description: "Creates a sales receipt. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/salesreceipt#create-a-salesreceipt)",
-  version: "0.0.10",
+  version: "0.0.11",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     quickbooks,

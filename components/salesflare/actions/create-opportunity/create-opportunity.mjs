@@ -3,7 +3,12 @@ import base from "../common/opportunity-base.mjs";
 
 export default {
   key: "salesflare-create-opportunity",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   name: "Create Opprtunity",
   description: "Create opportunity. [See the docs here](https://api.salesflare.com/docs#operation/postOpportunities)",

@@ -4,7 +4,12 @@ export default {
   key: "dataforseo-get-business-listings",
   name: "Get Business Listings",
   description: "Get Business Listings. [See the documentation](https://docs.dataforseo.com/v3/business_data/business_listings/search/live/?bash)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     dataforseo,

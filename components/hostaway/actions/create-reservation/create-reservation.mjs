@@ -4,7 +4,12 @@ export default {
   key: "hostaway-create-reservation",
   name: "Create Reservation",
   description: "Creates a new reservation in Hostaway. [See the documentation](https://api.hostaway.com/documentation#create-a-reservation)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     hostaway,

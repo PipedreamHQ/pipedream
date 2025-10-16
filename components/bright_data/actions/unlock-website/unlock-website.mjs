@@ -4,7 +4,12 @@ export default {
   key: "bright_data-unlock-website",
   name: "Unlock Website",
   description: "Send an API call to a URL and get the HTML back. Enables you to bypass anti-bot measures, manages proxies, and solves CAPTCHAs automatically for easier web data collection. [See the documentation](https://docs.brightdata.com/api-reference/rest-api/unlocker/unlock-website)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     brightData,

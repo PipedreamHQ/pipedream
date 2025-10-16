@@ -3,7 +3,12 @@ import { getFileStream } from "@pipedream/platform";
 
 export default {
   name: "Upload Image",
-  version: "1.0.0",
+  version: "1.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "imgur-upload-image",
   description: "Upload an image to Imgur",
   type: "action",

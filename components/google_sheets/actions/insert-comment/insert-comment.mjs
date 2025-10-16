@@ -4,7 +4,12 @@ export default {
   key: "google_sheets-insert-comment",
   name: "Insert Comment",
   description: "Insert a comment into a spreadsheet. [See the documentation](https://developers.google.com/drive/api/v3/reference/comments/create)",
-  version: "0.1.12",
+  version: "0.1.14",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

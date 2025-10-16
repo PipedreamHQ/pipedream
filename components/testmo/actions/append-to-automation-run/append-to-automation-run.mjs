@@ -4,7 +4,12 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "testmo-append-to-automation-run",
   name: "Append to Automation Run",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Appends test artifacts, fields or links to an existing automation run. [See the documentation](https://docs.testmo.com/api/reference/automation-runs#post-automation-runs-automation_run_id-append)",
   type: "action",
   props: {
