@@ -5,6 +5,11 @@ export default {
   name: "Submit Feedback",
   description: "Add manually verified receipt data to a given receipt for feedback and training purposes. [See the documentation](https://developers.taggun.io/reference/improve-your-restuls)",
   version: "0.0.1",
+  annotations: {
+    openWorldHint: true,
+    destructiveHint: false,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,
