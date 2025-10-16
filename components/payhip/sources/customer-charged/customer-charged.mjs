@@ -17,7 +17,7 @@ export default {
     generateMeta(event) {
       return {
         id: event.id,
-        summary: `${event.customer_email} charged $${event.price}`,
+        summary: `${event.email} charged $${event.price}`,
         ts: event.date,
       };
     },
