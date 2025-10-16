@@ -152,7 +152,7 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
           page: 0,
           prevContext: {},
           data: [],
-          values: new Set(),
+          values: new Set<PropOptionValue>(),
         };
       }
       let _options: RawPropOption[] = []
@@ -173,7 +173,7 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
       // For fresh queries (page 0), start with empty set to avoid accumulating old options
       // For pagination (page > 0), use existing set to dedupe across pages
       const allValues = page === 0
-        ? new Set()
+        ? new Set<PropOptionValue>()
         : new Set(pageable.values)
       const newOptions = []
       for (const o of _options || []) {
