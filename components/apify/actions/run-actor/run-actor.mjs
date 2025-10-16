@@ -170,7 +170,9 @@ export default {
           glob: item,
         };
       case "json":
-        return JSON.parse(item);
+      case "schemaBased":
+        if (typeof item === "string") return JSON.parse(item);
+        return item;
       default:
         return item;
       }
@@ -223,7 +225,7 @@ export default {
               props[key].default = defaultValue.map((request) => request.url);
             }
 
-            if (value.editor === "json") {
+            if (value.editor === "json" || value.editor === "schemaBased") {
               props[key].default = defaultValue.map((item) => JSON.stringify(item));
             }
           }
