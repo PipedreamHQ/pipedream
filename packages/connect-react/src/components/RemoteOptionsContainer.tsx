@@ -95,6 +95,14 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
     setError,
   ] = useState<{ name: string; message: string; }>();
 
+  // Reset pagination and error when dependent fields change.
+  // This ensures the next query starts fresh from page 0, triggering a data replace instead of append
+  useEffect(() => {
+    setPage(0);
+    setCanLoadMore(true);
+    setError(undefined);
+  }, [externalUserId, component.key, prop.name, JSON.stringify(configuredPropsUpTo)]);
+
   const onLoadMore = () => {
     setPage(pageable.page)
     setContext(pageable.prevContext)
@@ -149,8 +157,10 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
         _options = options;
       }
 
+      // For fresh queries (page 0), start with empty set to avoid accumulating old options
+      // For pagination (page > 0), use existing set to dedupe across pages
+      const allValues = page === 0 ? new Set() : new Set(pageable.values)
       const newOptions = []
-      const allValues = new Set(pageable.values)
       for (const o of _options || []) {
         let value: PropOptionValue;
         if (isString(o)) {
@@ -170,10 +180,10 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
       }
       let responseData = pageable.data
       if (newOptions.length) {
-        responseData = [
-          ...pageable.data,
-          ...newOptions,
-        ] as RawPropOption[]
+        // Replace data on fresh queries (page 0), append on pagination (page > 0)
+        responseData = page === 0
+          ? newOptions as RawPropOption[]
+          : [...pageable.data, ...newOptions] as RawPropOption[]
         const newPageable = {
           page: page + 1,
           prevContext: res.context,
