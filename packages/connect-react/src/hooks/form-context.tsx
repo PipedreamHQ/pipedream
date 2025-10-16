@@ -291,12 +291,16 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     }
 
     if (Object.keys(propsToEnable).length > 0) {
-      setEnabledOptionalProps(prev => ({
+      setEnabledOptionalProps((prev) => ({
         ...prev,
         ...propsToEnable,
       }));
     }
-  }, [component.key, configurableProps, configuredProps]);
+  }, [
+    component.key,
+    configurableProps,
+    configuredProps,
+  ]);
 
   // these validations are necessary because they might override PropInput for number case for instance
   // so can't rely on that base control form validation

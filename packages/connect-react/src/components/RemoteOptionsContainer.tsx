@@ -2,7 +2,9 @@ import type {
   ConfigurePropOpts, PropOptionValue,
 } from "@pipedream/sdk";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import {
+  useEffect, useState,
+} from "react";
 import { useFormContext } from "../hooks/form-context";
 import { useFormFieldContext } from "../hooks/form-field-context";
 import { useFrontendClient } from "../hooks/frontend-client-context";
@@ -101,7 +103,12 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
     setPage(0);
     setCanLoadMore(true);
     setError(undefined);
-  }, [externalUserId, component.key, prop.name, JSON.stringify(configuredPropsUpTo)]);
+  }, [
+    externalUserId,
+    component.key,
+    prop.name,
+    JSON.stringify(configuredPropsUpTo),
+  ]);
 
   const onLoadMore = () => {
     setPage(pageable.page)
@@ -165,7 +172,9 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
 
       // For fresh queries (page 0), start with empty set to avoid accumulating old options
       // For pagination (page > 0), use existing set to dedupe across pages
-      const allValues = page === 0 ? new Set() : new Set(pageable.values)
+      const allValues = page === 0
+        ? new Set()
+        : new Set(pageable.values)
       const newOptions = []
       for (const o of _options || []) {
         let value: PropOptionValue;
@@ -189,7 +198,10 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
         // Replace data on fresh queries (page 0), append on pagination (page > 0)
         responseData = page === 0
           ? newOptions as RawPropOption[]
-          : [...pageable.data, ...newOptions] as RawPropOption[]
+          : [
+            ...pageable.data,
+            ...newOptions,
+          ] as RawPropOption[]
         const newPageable = {
           page: page + 1,
           prevContext: res.context,
@@ -213,7 +225,9 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
     if (data) {
       setPageable(data);
     }
-  }, [data]);
+  }, [
+    data,
+  ]);
 
   const showLoadMoreButton = () => {
     return !isFetching && !error && canLoadMore
