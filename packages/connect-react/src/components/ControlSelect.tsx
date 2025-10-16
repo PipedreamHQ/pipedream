@@ -3,6 +3,7 @@ import {
   useEffect,
   useMemo,
   useState,
+  useRef,
 } from "react";
 import type {
   CSSObjectWithLabel, MenuListProps,
@@ -112,30 +113,53 @@ export function ControlSelect<T extends PropOptionValue>({
     selectOptions,
   ]);
 
-  const LoadMore = ({
-    // eslint-disable-next-line react/prop-types
-    children, ...props
-  }: MenuListProps<LabelValueOption<T>, boolean>) => {
-    return (
-      <components.MenuList  {...props}>
-        {children}
-        <div className="pt-4">
-          <LoadMoreButton onChange={onLoadMore || (() => { })} />
-        </div>
-      </components.MenuList>
-    )
-  }
-
   const props = select.getProps("controlSelect", baseSelectProps)
 
-  const finalComponents = {
-    ...props.components,
-    ...componentsOverride,
-  };
+  // Use ref to store latest onLoadMore callback
+  // This allows stable component reference while calling current callback
+  const onLoadMoreRef = useRef(onLoadMore);
+  useEffect(() => {
+    onLoadMoreRef.current = onLoadMore;
+  }, [
+    onLoadMore,
+  ]);
 
-  if (showLoadMoreButton) {
-    finalComponents.MenuList = LoadMore;
-  }
+  const showLoadMoreButtonRef = useRef(showLoadMoreButton);
+  showLoadMoreButtonRef.current = showLoadMoreButton;
+
+  // Memoize custom components to prevent remounting
+  // Recompute when caller/customizer supplies new component overrides
+  const finalComponents = useMemo(() => {
+    const mergedComponents = {
+      ...(props.components ?? {}),
+      ...(componentsOverride ?? {}),
+    };
+    const ParentMenuList = mergedComponents.MenuList ?? components.MenuList;
+
+    // Always set MenuList, conditionally render button inside
+    const CustomMenuList = ({
+      // eslint-disable-next-line react/prop-types
+      children, ...menuProps
+    }: MenuListProps<LabelValueOption<T>, boolean>) => (
+      <ParentMenuList {...menuProps}>
+        {children}
+        {showLoadMoreButtonRef.current && (
+          <div className="pt-4">
+            <LoadMoreButton onChange={() => onLoadMoreRef.current?.()} />
+          </div>
+        )}
+      </ParentMenuList>
+    );
+    CustomMenuList.displayName = "CustomMenuList";
+
+    return {
+      ...mergedComponents,
+      MenuList: CustomMenuList,
+    };
+  }, [
+    props.components,
+    componentsOverride,
+  ]);
 
   const handleCreate = (inputValue: string) => {
     const newOption = sanitizeOption(inputValue as T)
@@ -215,6 +239,7 @@ export function ControlSelect<T extends PropOptionValue>({
       onChange={handleChange}
       {...props}
       {...selectProps}
+      components={finalComponents}
       {...additionalProps}
     />
   );
