@@ -28,10 +28,12 @@ export default {
     },
   },
   async run({ $ }) {
+    const offset = (this.page - 1) * this.limit;
+
     const response = await this.app.getLogs({
       $,
       limit: this.limit,
-      offset: this.offset,
+      offset,
     });
 
     $.export(
