@@ -140,7 +140,13 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
             message: errors[0],
           });
         }
-        return [];
+        // Return proper pageable structure on error to prevent crashes
+        return {
+          page: 0,
+          prevContext: {},
+          data: [],
+          values: new Set(),
+        };
       }
       let _options: RawPropOption[] = []
       if (options?.length) {
