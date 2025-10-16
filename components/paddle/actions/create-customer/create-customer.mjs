@@ -33,12 +33,16 @@ export default {
     },
   },
   async run({ $ }) {
+    const customData = typeof this.customData === "string"
+      ? JSON.parse(this.customData)
+      : this.customData;
+
     const response = await this.app.createCustomer({
       $,
       data: {
         email: this.email,
         name: this.name,
-        custom_data: this.customData,
+        custom_data: customData,
       },
     });
     $.export("$summary", "Successfully created a new customer with the ID: " + response.data.id);

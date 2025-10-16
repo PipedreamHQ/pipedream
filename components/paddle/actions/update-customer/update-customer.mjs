@@ -45,13 +45,17 @@ export default {
     },
   },
   async run({ $ }) {
+    const customData = typeof this.customData === "string"
+      ? JSON.parse(this.customData)
+      : this.customData;
+
     const response = await this.app.updateCustomer({
       $,
       customerId: this.customerId,
       data: {
         email: this.email,
         name: this.name,
-        custom_data: this.customData,
+        custom_data: customData,
         status: this.status,
       },
     });
