@@ -5,6 +5,11 @@ export default {
   name: "List Collections",
   description: "List all collections in your organization. Collections are logical groups of data sources that provide unified search capabilities. [See the documentation](https://docs.airweave.ai/api-reference/collections/list)",
   version: "0.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     airweave,
@@ -34,7 +39,7 @@ export default {
 
     const count = response.length;
     $.export("$summary", `Successfully retrieved ${count} collection(s)`);
-    
+
     return response;
   },
 };

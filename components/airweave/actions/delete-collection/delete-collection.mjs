@@ -5,6 +5,11 @@ export default {
   name: "Delete Collection",
   description: "Delete a collection and all associated data. This permanently removes the collection including all synced data and source connections. This action cannot be undone. [See the documentation](https://docs.airweave.ai/api-reference/collections/delete)",
   version: "0.0.1",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     airweave,
@@ -28,7 +33,7 @@ export default {
     const response = await this.airweave.deleteCollection(this.collectionId);
 
     $.export("$summary", `Successfully deleted collection: ${response.name} (${response.readable_id})`);
-    
+
     return response;
   },
 };
