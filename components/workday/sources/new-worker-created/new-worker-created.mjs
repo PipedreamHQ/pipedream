@@ -6,7 +6,7 @@ export default {
   key: "workday-new-worker-created",
   name: "New Worker Created",
   description: "Emit new event for each new worker created in Workday. [See the documentation](https://community.workday.com/sites/default/files/file-hosting/restapi/#common/v1/get-/workers)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
