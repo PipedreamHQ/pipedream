@@ -165,7 +165,7 @@ export default {
         ? error
         : error?.data?.error || error?.message;
 
-      if (!errorCode.includes("missing_scope")) {
+      if (!errorCode?.includes("missing_scope")) {
         return false;
       }
 

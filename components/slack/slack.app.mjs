@@ -561,7 +561,7 @@ export default {
         if ([
           "not_in_channel",
           "channel_not_found",
-        ].some((errorType) => error.includes(errorType)) && asBot) {
+        ].some((errorType) => `${error}`.includes(errorType)) && asBot) {
           const followUp = method.startsWith("chat.")
             ? "Ensure the bot is a member of the channel, or set the **Send as User** option to true to act on behalf of the authenticated user."
             : "Ensure the bot is a member of the channel.";
