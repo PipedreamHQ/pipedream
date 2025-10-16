@@ -14,9 +14,10 @@ export default {
   props: {
     ups,
     trackingNumber: {
-      type: "string",
-      label: "Tracking Number",
-      description: "The tracking number to get information for. Example: `1Z5338FF0107231059`",
+      propDefinition: [
+        ups,
+        "trackingNumber",
+      ],
     },
   },
   async run({ $ }) {

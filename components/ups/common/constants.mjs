@@ -1,3 +1,5 @@
+const VERSION = "v2409";
+
 const SERVICE_CODES = [
   {
     value: "01",
@@ -241,6 +243,7 @@ const PACKAGING_CODES = [
 ];
 
 export default {
+  VERSION,
   SERVICE_CODES,
   PACKAGING_CODES,
 };
