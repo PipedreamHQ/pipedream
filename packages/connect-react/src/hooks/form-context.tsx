@@ -169,6 +169,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   }, [
     component.key,
   ]);
+
   // XXX pass this down? (in case we make it hash or set backed, but then also provide {add,remove} instead of set)
   const optionalPropIsEnabled = (prop: ConfigurableProp) => enabledOptionalProps[prop.name];
 
@@ -275,6 +276,28 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     reloadPropIdx,
   ]);
 
+  // Auto-enable optional props that have values in configuredProps
+  // This ensures optional fields with saved values are shown when mounting with pre-configured props
+  useEffect(() => {
+    const propsToEnable: Record<string, boolean> = {};
+
+    for (const prop of configurableProps) {
+      if (prop.optional) {
+        const value = configuredProps[prop.name as keyof ConfiguredProps<T>];
+        if (value !== undefined) {
+          propsToEnable[prop.name] = true;
+        }
+      }
+    }
+
+    if (Object.keys(propsToEnable).length > 0) {
+      setEnabledOptionalProps(prev => ({
+        ...prev,
+        ...propsToEnable,
+      }));
+    }
+  }, [component.key, configurableProps, configuredProps]);
+
   // these validations are necessary because they might override PropInput for number case for instance
   // so can't rely on that base control form validation
   const propErrors = (prop: ConfigurableProp, value: unknown): string[] => {
@@ -355,12 +378,12 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   };
 
   useEffect(() => {
-    // Initialize queryDisabledIdx on load so that we don't force users
-    // to reconfigure a prop they've already configured whenever the page
-    // or component is reloaded
-    updateConfiguredPropsQueryDisabledIdx(_configuredProps)
+    // Initialize queryDisabledIdx using actual configuredProps (includes parent-passed values in controlled mode)
+    // instead of _configuredProps which starts empty. This ensures that when mounting with pre-configured
+    // values, remote options queries are not incorrectly blocked.
+    updateConfiguredPropsQueryDisabledIdx(configuredProps)
   }, [
-    _configuredProps,
+    component.key,
   ]);
 
   useEffect(() => {
@@ -386,8 +409,13 @@ export const FormContextProvider = <T extends ConfigurableProps>({
       if (skippablePropTypes.includes(prop.type)) {
         continue;
       }
-      // if prop.optional and not shown, we skip and do on un-collapse
+      // if prop.optional and not shown, we still preserve the value if it exists
+      // This prevents losing saved values for optional props that haven't been enabled yet
       if (prop.optional && !optionalPropIsEnabled(prop)) {
+        const value = configuredProps[prop.name as keyof ConfiguredProps<T>];
+        if (value !== undefined) {
+          newConfiguredProps[prop.name as keyof ConfiguredProps<T>] = value;
+        }
         continue;
       }
       const value = configuredProps[prop.name as keyof ConfiguredProps<T>];

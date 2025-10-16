@@ -2,7 +2,7 @@ import type {
   ConfigurePropOpts, PropOptionValue,
 } from "@pipedream/sdk";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormContext } from "../hooks/form-context";
 import { useFormFieldContext } from "../hooks/form-field-context";
 import { useFrontendClient } from "../hooks/frontend-client-context";
@@ -106,6 +106,7 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
 
   // TODO handle error!
   const {
+    data,
     isFetching, refetch,
   } = useQuery({
     queryKey: [
@@ -167,25 +168,36 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
         allValues.add(value)
         newOptions.push(o)
       }
-      let data = pageable.data
+      let responseData = pageable.data
       if (newOptions.length) {
-        data = [
+        responseData = [
           ...pageable.data,
           ...newOptions,
         ] as RawPropOption[]
-        setPageable({
+        const newPageable = {
           page: page + 1,
           prevContext: res.context,
-          data,
+          data: responseData,
           values: allValues,
-        })
+        }
+        setPageable(newPageable)
+        return newPageable;
       } else {
         setCanLoadMore(false)
+        return pageable;
       }
-      return data;
     },
     enabled: !!queryEnabled,
   });
+
+  // Sync pageable state with query data to handle both fresh fetches and cached returns
+  // When React Query returns cached data, the queryFn doesn't run, so we need to sync
+  // the state here to ensure options populate correctly on remount
+  useEffect(() => {
+    if (data) {
+      setPageable(data);
+    }
+  }, [data]);
 
   const showLoadMoreButton = () => {
     return !isFetching && !error && canLoadMore
