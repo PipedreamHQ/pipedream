@@ -7,7 +7,12 @@ export default {
   key: "databricks-create-sql-warehouse",
   name: "Create SQL Warehouse",
   description: "Creates a new SQL Warehouse in Databricks. [See the documentation](https://docs.databricks.com/api/workspace/warehouses/create)",
-  version: "0.0.3",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     databricks,

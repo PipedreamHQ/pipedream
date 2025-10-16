@@ -4,7 +4,12 @@ import roll from "../../roll.app.mjs";
 export default {
   key: "roll-find-create-company",
   name: "Find Or Create Company",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   description: "Find a company or create it if it doesn't exists [See the docs here](https://docs.rollhq.com/docs/roll-api#api-url)",
   type: "action",
   props: {

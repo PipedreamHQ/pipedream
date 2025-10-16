@@ -4,7 +4,12 @@ export default {
   key: "data_stores-get-all-records",
   name: "Get all records",
   description: "Get all records in your [Pipedream Data Store](https://pipedream.com/data-stores/). The memory consumption of the workflow can be affected, since this action will be exposing, to the workflow, the entire data from the selected datastore.",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

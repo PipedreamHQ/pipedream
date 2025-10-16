@@ -4,7 +4,12 @@ export default {
   key: "regal-add-contact-to-event",
   name: "Add Contact to Event",
   description: "Add a contact to an event. [See the documentation](https://developer.regal.io/reference/api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     regal,

@@ -5,7 +5,12 @@ export default {
   key: "kustomer-get-custom-object-by-id",
   name: "Get Custom Object by ID",
   description: "Gets a custom object by ID in Kustomer. [See the documentation](https://developer.kustomer.com/kustomer-api-docs/reference/getkobject)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     kustomer,

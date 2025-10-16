@@ -2,7 +2,12 @@ import nocrm_io from "../../nocrm_io.app.mjs";
 
 export default {
   name: "Create Lead",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "nocrm_io-create-lead",
   description: "Creates a new lead. [See docs here](https://www.nocrm.io/api#leads)",
   type: "action",

@@ -5,7 +5,12 @@ export default {
   key: "gmail-find-email",
   name: "Find Email",
   description: "Find an email using Google's Search Engine. [See the docs](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/list)",
-  version: "0.1.5",
+  version: "0.1.7",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     gmail,
@@ -19,6 +24,13 @@ export default {
       type: "boolean",
       label: "Return payload as plaintext",
       description: "Convert the payload response into a single text field. **This reduces the size of the payload and makes it easier for LLMs work with.**",
+      default: false,
+    },
+    metadataOnly: {
+      type: "boolean",
+      label: "Metadata Only",
+      description: "Only return metadata for the messages. This reduces the size of the payload and makes it easier for LLMs work with.",
+      optional: true,
       default: false,
     },
     labels: {
@@ -41,8 +53,8 @@ export default {
     maxResults: {
       type: "integer",
       label: "Max Results",
-      description: "Maximum number of messages to return. Defaults to `100`.",
-      default: 100,
+      description: "Maximum number of messages to return. Defaults to `20`.",
+      default: 20,
       optional: true,
     },
   },
@@ -90,15 +102,20 @@ export default {
         message.subject = subjectHeader.value;
       }
 
-      const parsedMessage = utils.validateTextPayload(message, this.withTextPayload);
-      if (parsedMessage) {
-        message = parsedMessage;
+      if (this.metadataOnly) {
+        delete message.payload;
+        delete message.snippet;
       } else {
-        if (message.payload?.body?.data && !Array.isArray(message.payload.parts)) {
-          message.payload.body.text = utils.decodeBase64Url(message.payload.body.data);
-        }
-        if (Array.isArray(message.payload?.parts)) {
-          utils.attachTextToParts(message.payload.parts);
+        const parsedMessage = utils.validateTextPayload(message, this.withTextPayload);
+        if (parsedMessage) {
+          message = parsedMessage;
+        } else {
+          if (message.payload?.body?.data && !Array.isArray(message.payload.parts)) {
+            message.payload.body.text = utils.decodeBase64Url(message.payload.body.data);
+          }
+          if (Array.isArray(message.payload?.parts)) {
+            utils.attachTextToParts(message.payload.parts);
+          }
         }
       }
     }

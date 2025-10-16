@@ -4,7 +4,12 @@ export default {
   key: "dbt-get-run-artifact",
   name: "Get Run Artifact",
   description: "Retrieve information about a run artifact. [See the documentation](https://docs.getdbt.com/dbt-cloud/api-v2#/operations/Retrieve%20Run%20Artifact)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     dbt,

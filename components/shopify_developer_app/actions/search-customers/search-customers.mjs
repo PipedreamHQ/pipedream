@@ -4,7 +4,12 @@ export default {
   key: "shopify_developer_app-search-customers",
   name: "Search for Customers",
   description: "Search for a customer or a list of customers. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/queries/customers)",
-  version: "0.0.9",
+  version: "0.0.10",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     shopify,

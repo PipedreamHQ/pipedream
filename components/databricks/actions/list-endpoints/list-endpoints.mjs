@@ -4,7 +4,12 @@ export default {
   key: "databricks-list-endpoints",
   name: "List Endpoints",
   description: "List all vector search endpoints. [See the documentation](https://docs.databricks.com/api/workspace/vectorsearchendpoints/listendpoints)",
-  version: "0.0.2",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     databricks,

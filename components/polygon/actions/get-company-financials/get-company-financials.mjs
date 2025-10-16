@@ -8,7 +8,12 @@ export default {
   key: "polygon-get-company-financials",
   name: "Get Company Financials",
   description: "Retrieves financial details for a specific company by stock ticker. [See the documentation](https://polygon.io/docs/stocks/get_vx_reference_financials).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     polygon,

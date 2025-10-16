@@ -4,7 +4,12 @@ export default {
   key: "writer-send-prompt",
   name: "Send Prompt",
   description: "Generate a chat completion based on the provided messages. [See the documentation](https://dev.writer.com/api-guides/api-reference/completion-api/chat-completion)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

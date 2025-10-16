@@ -4,7 +4,12 @@ export default {
   key: "workamajig-create-activity",
   name: "Create Activity",
   description: "Initiates the creation of a fresh activity in Workamajig. [See the documentation](https://app6.workamajig.com/platinum/?aid=common.apidocs)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     workamajig,

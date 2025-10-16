@@ -4,7 +4,12 @@ export default {
   key: "dataforseo-get-ranked-keywords",
   name: "Get Ranked Keywords",
   description: "Description for get-ranked-keywords. [See the documentation](https://docs.dataforseo.com/v3/keywords_data/google_ads/keywords_for_site/task_post/?bash)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     dataforseo,

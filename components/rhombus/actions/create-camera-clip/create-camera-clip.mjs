@@ -5,7 +5,12 @@ export default {
   key: "rhombus-create-camera-clip",
   name: "Create Camera Clip",
   description: "Create a camera clip from video footage. [See the documentation](https://apidocs.rhombus.com/reference/splicev3)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     rhombus,

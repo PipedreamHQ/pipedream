@@ -6,7 +6,7 @@ export default {
   key: "bluesky-new-timeline-posts",
   name: "New Timeline Posts",
   description: "Emit new event when posts appear in the `following` feed. [See the documentation](https://docs.bsky.app/docs/api/app-bsky-feed-get-timeline).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

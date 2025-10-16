@@ -6,7 +6,12 @@ export default {
   key: "drata-create-asset",
   name: "Create Asset",
   description: `Create an asset. [See the documentation](${docsLink}).`,
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     drata,

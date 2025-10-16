@@ -4,7 +4,12 @@ export default {
   key: "vivomeetings-get-conference-recordings",
   name: "Get Conference Recordings",
   description: "Fetches the recordings of a conference or webinar from VivoMeetings. [See the documentation](https://docs.google.com/viewerng/viewer?url=https://vivomeetings.com/wp-content/uploads/2023/01/Partner-APIs-v1.41.docx-1.pdf)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     vivomeetings,

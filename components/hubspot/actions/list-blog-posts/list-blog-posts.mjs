@@ -3,9 +3,13 @@ import hubspot from "../../hubspot.app.mjs";
 export default {
   key: "hubspot-list-blog-posts",
   name: "List Blog Posts",
-  description:
-    "Retrieves a list of blog posts. [See the documentation](https://developers.hubspot.com/docs/reference/api/cms/blogs/blog-posts)",
-  version: "0.0.7",
+  description: "Retrieves a list of blog posts. [See the documentation](https://developers.hubspot.com/docs/reference/api/cms/blogs/blog-posts)",
+  version: "0.0.9",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     hubspot,
@@ -79,7 +83,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const results = [];
+    const posts = [];
     let hasMore,
       count = 0;
 
@@ -105,7 +109,7 @@ export default {
         break;
       }
       for (const item of results) {
-        results.push(item);
+        posts.push(item);
         count++;
         if (count >= this.maxResults) {
           break;
@@ -117,10 +121,10 @@ export default {
 
     $.export(
       "$summary",
-      `Found ${results.length} page${results.length === 1
+      `Found ${posts.length} page${posts.length === 1
         ? ""
         : "s"}`,
     );
-    return results;
+    return posts;
   },
 };

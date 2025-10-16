@@ -9,7 +9,12 @@ export default {
   key: "quickbooks-create-estimate",
   name: "Create Estimate",
   description: "Creates an estimate. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/estimate#create-an-estimate)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     quickbooks,

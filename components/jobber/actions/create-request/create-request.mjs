@@ -6,7 +6,12 @@ export default {
   key: "jobber-create-request",
   name: "Create Service Request",
   description: "Creates a new service request for a client's first property within Jobber. [See the documentation](https://developer.getjobber.com/docs/)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     jobber,

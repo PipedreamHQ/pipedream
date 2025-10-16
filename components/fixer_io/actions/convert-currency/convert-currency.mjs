@@ -5,7 +5,12 @@ export default {
   key: "fixer_io-convert-currency",
   name: "Convert Currency",
   description: "Convert amount from one currency to another using real-time exchange rates. [See the documentation](https://fixer.io/documentation)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     fixerIo,

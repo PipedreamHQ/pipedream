@@ -5,7 +5,12 @@ export default {
   key: "zep-add-user",
   name: "Add User",
   description: "Adds a user in Zep. [See the documentation](https://help.getzep.com/api-reference/user/add)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     zep,

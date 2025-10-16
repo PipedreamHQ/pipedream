@@ -6,7 +6,12 @@ export default defineAction({
   name: "Create an Image",
   description: "Create a JPEG file(along with PNG) with JSON data and your template. [See the docs](https://apitemplate.io/apiv2/#tag/API-Integration/operation/create-image) for more information",
   key: "apitemplate_io-create-image",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

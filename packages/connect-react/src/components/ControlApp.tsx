@@ -77,7 +77,7 @@ export function ControlApp({ app }: ControlAppProps) {
   };
   const selectProps = select.getProps("controlAppSelect", baseSelectProps);
 
-  const oauthAppId = oauthAppConfig?.[app.name_slug];
+  const oauthAppId = oauthAppConfig?.[app.nameSlug];
   const {
     isLoading: isLoadingAccounts,
     // TODO error
@@ -86,14 +86,12 @@ export function ControlApp({ app }: ControlAppProps) {
   } = useAccounts(
     {
       external_user_id: externalUserId,
-      app: app.name_slug,
+      app: app.nameSlug,
       oauth_app_id: oauthAppId,
     },
     {
       useQueryOpts: {
         enabled: !!app,
-
-        // @ts-expect-error this seems to work (this overrides enabled so don't just set to true)
         suspense: !!app,
       },
     },
@@ -161,7 +159,7 @@ export function ControlApp({ app }: ControlAppProps) {
             isLoading={isLoadingAccounts}
             isClearable={true}
             isSearchable={true}
-            getOptionLabel={(a) => a.name}
+            getOptionLabel={(a) => a.name ?? ""}
             getOptionValue={(a) => a.id}
             onChange={(a) => {
               if (a) {

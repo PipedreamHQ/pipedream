@@ -4,7 +4,12 @@ export default {
   key: "toggl-update-project",
   name: "Update Project",
   description: "Updates an existing project in Toggl. [See the documentation](https://engineering.toggl.com/docs/api/projects#put-workspaceproject)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     toggl,

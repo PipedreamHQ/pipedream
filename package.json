@@ -46,7 +46,7 @@
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.15.0",
     "@next/eslint-plugin-next": "^14.2.5",
-    "@pipedream/eslint-plugin-pipedream": "0.2.5",
+    "@pipedream/eslint-plugin-pipedream": "0.3.0",
     "@pipedream/types": "0.1.4",
     "@tsconfig/node14": "^1.0.1",
     "@types/jest": "^27.4.1",
@@ -82,7 +82,6 @@
     "@pipedream/platform": "^1.5.1",
     "@sentry/node": "^7.7.0",
     "@types/node": "^20.17.6",
-    "crypto": "^1.0.1",
     "linkup-sdk": "^1.0.3",
     "uuid": "^8.3.2",
     "vue": "^2.6.14"

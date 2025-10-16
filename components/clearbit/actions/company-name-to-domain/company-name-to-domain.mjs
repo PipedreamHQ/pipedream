@@ -4,7 +4,12 @@ export default {
   key: "clearbit-company-name-to-domain",
   name: "Company Name to Domain",
   description: "The Company Name to Domain action lets you convert the exact name of a company to a website domain, and a logo. [See the docs here](https://dashboard.clearbit.com/docs?javascript#name-to-domain-api).",
-  version: "0.2.0",
+  version: "0.2.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

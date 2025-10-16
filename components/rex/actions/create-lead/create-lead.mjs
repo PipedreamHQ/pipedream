@@ -5,7 +5,12 @@ export default {
   key: "rex-create-lead",
   name: "Create Lead",
   description: "Creates a new lead in Rex. [See the documentation](https://api-docs.rexsoftware.com/service/leads#operation/create)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     rex,

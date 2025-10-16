@@ -105,6 +105,19 @@ export default {
       }
     }
   `,
+  listBoardItemsPage: `
+    query listBoardItemsPage ($boardId: ID!, $cursor: String) {
+      boards (ids: [$boardId]){
+        items_page (cursor: $cursor) {
+          cursor
+          items {
+            id 
+            name 
+          }
+        }
+      }
+    }
+  `,
   listColumnOptions: `
     query listColumnOptions ($boardId: ID!) {
       boards (ids: [$boardId]) {

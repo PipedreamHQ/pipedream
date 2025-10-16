@@ -4,7 +4,12 @@ export default {
   key: "speak_ai-upload-media",
   name: "Upload Media",
   description: "Upload an audio or video file for transcription and natural language processing into Speak AI. [See the documentation](https://docs.speakai.co/#c6106a66-6a3d-4b05-b4a2-4a68a4c1e95d).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

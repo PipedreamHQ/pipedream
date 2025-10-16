@@ -3,9 +3,13 @@ import hubspot from "../../hubspot.app.mjs";
 export default {
   key: "hubspot-list-campaigns",
   name: "List Campaigns",
-  description:
-    "Retrieves a list of campaigns. [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/campaigns#get-%2Fmarketing%2Fv3%2Fcampaigns%2F)",
-  version: "0.0.7",
+  description: "Retrieves a list of campaigns. [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/campaigns#get-%2Fmarketing%2Fv3%2Fcampaigns%2F)",
+  version: "0.0.9",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     hubspot,
@@ -33,7 +37,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const results = [];
+    const campaigns = [];
     let hasMore,
       count = 0;
 
@@ -52,7 +56,7 @@ export default {
         break;
       }
       for (const item of results) {
-        results.push(item);
+        campaigns.push(item);
         count++;
         if (count >= this.maxResults) {
           break;
@@ -64,10 +68,10 @@ export default {
 
     $.export(
       "$summary",
-      `Found ${results.length} campaign${results.length === 1
+      `Found ${campaigns.length} campaign${campaigns.length === 1
         ? ""
         : "s"}`,
     );
-    return results;
+    return campaigns;
   },
 };

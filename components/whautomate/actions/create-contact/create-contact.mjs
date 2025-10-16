@@ -6,7 +6,12 @@ export default {
   key: "whautomate-create-contact",
   name: "Create Contact",
   description: "Create a new contact associated with a WhatsApp number. [See the documentation](https://help.whautomate.com/product-guides/whautomate-rest-api/contacts#/v1-contacts-1)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     whautomate,

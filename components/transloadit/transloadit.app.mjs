@@ -1,4 +1,4 @@
-import Transloadit from "transloadit";
+import { Transloadit } from "transloadit";
 import { LIMIT } from "./common/constants.mjs";
 
 export default {

@@ -5,7 +5,12 @@ export default {
   key: "trello-create-label",
   name: "Create Label",
   description: "Creates a new label on the specified board. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-labels/#api-labels-post).",
-  version: "0.2.3",
+  version: "0.2.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

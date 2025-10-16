@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/perplexity",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "description": "Pipedream Perplexity Components",
   "main": "perplexity.app.mjs",
   "keywords": [
@@ -13,6 +13,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.6.5"
+    "@pipedream/platform": "^3.1.0"
   }
 }

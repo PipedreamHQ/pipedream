@@ -4,7 +4,12 @@ export default {
   key: "microsoft_outlook-reply-to-email",
   name: "Reply to Email",
   description: "Reply to an email in Microsoft Outlook. [See the documentation](https://learn.microsoft.com/en-us/graph/api/message-reply)",
-  version: "0.0.6",
+  version: "0.0.9",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     microsoftOutlook,

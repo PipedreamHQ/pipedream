@@ -4,7 +4,12 @@ export default {
   key: "gitlab-create-branch",
   name: "Create Branch",
   description: "Create a new branch in the repository. [See the documentation](https://docs.gitlab.com/ee/api/branches.html#create-repository-branch)",
-  version: "0.3.2",
+  version: "0.3.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     gitlab,

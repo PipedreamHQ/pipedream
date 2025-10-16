@@ -6,7 +6,12 @@ export default {
   key: "rhombus-create-shared-live-video-stream",
   name: "Create Shared Live Video Stream",
   description: "Create a shared live video stream and get the URL to access it. [See the documentation](https://apidocs.rhombus.com/reference/createcamerasharedlivevideostream))",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     rhombus,

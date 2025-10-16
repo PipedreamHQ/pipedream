@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/salesforce_rest_api",
-  "version": "1.9.0",
+  "version": "1.9.2",
   "description": "Pipedream Salesforce (REST API) Components",
   "main": "salesforce_rest_api.app.mjs",
   "keywords": [

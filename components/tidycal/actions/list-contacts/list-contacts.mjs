@@ -6,7 +6,12 @@ export default {
   name: "List Contacts",
   description: "Get a list of contacts. [See the documentation](https://tidycal.com/developer/docs/#tag/Contacts/operation/list-contacts)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
   },

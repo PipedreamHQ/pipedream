@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/humantic_ai",
+  "version": "0.0.1",
+  "description": "Pipedream Humantic AI Components",
+  "main": "humantic_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "humantic_ai"
+  ],
+  "homepage": "https://pipedream.com/apps/humantic_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

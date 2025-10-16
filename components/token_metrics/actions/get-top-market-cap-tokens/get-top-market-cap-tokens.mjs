@@ -9,8 +9,13 @@ const endpoint = ENDPOINTS.TOP_MARKET_CAP_TOKENS;
 export default {
   key: "token_metrics-get-top-market-cap-tokens",
   name: "Get Top Market Cap Tokens",
-  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/top-market-cap-tokens)`,
-  version: "0.0.1",
+  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/v3/reference/top-market-cap-tokens)`,
+  version: "0.1.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     tokenMetrics,
@@ -21,6 +26,12 @@ export default {
         "topK",
       ],
       description: "Specifies the number of top cryptocurrencies to retrieve, based on their market capitalization. Example: `100`",
+    },
+    expand: {
+      propDefinition: [
+        tokenMetrics,
+        "expand",
+      ],
     },
   },
   async run({ $ }) {

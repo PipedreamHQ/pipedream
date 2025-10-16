@@ -4,7 +4,12 @@ export default {
   key: "hackerone-create-invitation",
   name: "Create Invitation",
   description: "Invite a recipient to an organization using their email address. [See the documentation](https://api.hackerone.com/customer-resources/?shell#organizations-create-an-invitation)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

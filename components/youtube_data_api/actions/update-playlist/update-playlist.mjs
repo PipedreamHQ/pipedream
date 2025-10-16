@@ -7,7 +7,12 @@ export default {
   key: "youtube_data_api-update-playlist",
   name: "Update Playlist",
   description: "Modifies a playlist. For example, you could change a playlist's title, description, or privacy status. [See the documentation](https://developers.google.com/youtube/v3/docs/playlists/update) for more information",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     youtubeDataApi,

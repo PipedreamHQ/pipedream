@@ -5,7 +5,12 @@ export default {
   key: "yay_com-create-outbound-call",
   name: "Create Outbound Call",
   description: "Initiates an outbound call to a specified number. [See the documentation](https://www.yay.com/voip/api-docs/calls/outbound-call/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     yayCom,

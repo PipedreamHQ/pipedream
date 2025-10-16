@@ -5,7 +5,12 @@ export default {
   key: "moneybird-create-quote",
   name: "Create Quote",
   description: "Create a new quote. [See docs here](https://developer.moneybird.com/api/estimates/#post_estimates)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     moneybird,

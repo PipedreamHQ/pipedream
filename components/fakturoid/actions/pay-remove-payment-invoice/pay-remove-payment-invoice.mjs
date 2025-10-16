@@ -5,7 +5,12 @@ export default {
   key: "fakturoid-pay-remove-payment-invoice",
   name: "Pay or Remove Payment for Invoice",
   description: "Executes payment for an invoice or removes an already applied payment. [See the documentation](https://www.fakturoid.cz/api/v3/invoice-payments)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     fakturoid,

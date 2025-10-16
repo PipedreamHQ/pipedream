@@ -5,7 +5,12 @@ export default {
   key: "indiefunnels-update-member",
   name: "Update Member",
   description: "Updates a Member specified by ID. [See the documentation](https://websitebuilder.docs.apiary.io/#reference/members/single-member/update-member)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     indiefunnels,

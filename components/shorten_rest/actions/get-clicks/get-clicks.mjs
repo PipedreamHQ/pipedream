@@ -4,7 +4,12 @@ export default {
   key: "shorten_rest-get-clicks",
   name: "Get Clicks",
   description: "Gets the click data. [See the documentation](https://docs.shorten.rest/#tag/Click/operation/GetClicks)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

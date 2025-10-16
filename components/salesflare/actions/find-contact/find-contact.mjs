@@ -3,7 +3,12 @@ import utils from "../../common/utils.mjs";
 
 export default {
   key: "salesflare-find-contact",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   name: "Find Contact",
   description: "Finds contacts according to props configured, if no prop configured returns all contacts [See the docs here](https://api.salesflare.com/docs#operation/getContacts)",

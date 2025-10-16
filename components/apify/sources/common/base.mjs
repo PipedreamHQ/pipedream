@@ -1,4 +1,6 @@
-import { WEBHOOK_EVENT_TYPES } from "@apify/consts";
+import {
+  WEBHOOK_EVENT_TYPE_GROUPS, WEBHOOK_EVENT_TYPES,
+} from "@apify/consts";
 import apify from "../../apify.app.mjs";
 
 export default {
@@ -13,18 +15,11 @@ export default {
   hooks: {
     async activate() {
       const response = await this.apify.createHook({
-        data: {
-          requestUrl: this.http.endpoint,
-          eventTypes: [
-            WEBHOOK_EVENT_TYPES.ACTOR_RUN_SUCCEEDED,
-            WEBHOOK_EVENT_TYPES.ACTOR_RUN_FAILED,
-            WEBHOOK_EVENT_TYPES.ACTOR_RUN_TIMED_OUT,
-            WEBHOOK_EVENT_TYPES.ACTOR_RUN_ABORTED,
-          ],
-          condition: this.getCondition(),
-        },
+        requestUrl: this.http.endpoint,
+        eventTypes: WEBHOOK_EVENT_TYPE_GROUPS.ACTOR_RUN_TERMINAL,
+        condition: this.getCondition(),
       });
-      this.db.set("webhookId", response.data.id);
+      this.db.set("webhookId", response.id);
     },
     async deactivate() {
       const webhookId = this.db.get("webhookId");

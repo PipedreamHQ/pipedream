@@ -5,7 +5,12 @@ export default {
   name: "Update Order",
   description: "Partially update an existing order. [See the documentation](https://app.billbee.io//swagger/ui/index#/Orders/OrderApi_PatchOrder)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     orderId: {

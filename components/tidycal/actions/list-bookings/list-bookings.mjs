@@ -6,7 +6,12 @@ export default {
   name: "List Bookings",
   description: "Get a list of bookings. [See the documentation](https://tidycal.com/developer/docs/#tag/Bookings/operation/list-bookings)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     startsAt: {

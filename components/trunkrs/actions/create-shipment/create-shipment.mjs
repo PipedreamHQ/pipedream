@@ -4,7 +4,12 @@ export default {
   key: "trunkrs-create-shipment",
   name: "Create Shipment",
   description: "Create a new shipment. [See the documentation](https://docs.trunkrs.nl/docs/v2-api-documentation/85ba39933b755-create-shipment)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     trunkrs,

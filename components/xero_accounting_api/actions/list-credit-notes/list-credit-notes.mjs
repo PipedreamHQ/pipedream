@@ -4,7 +4,12 @@ export default {
   key: "xero_accounting_api-list-credit-notes",
   name: "List Credit Notes",
   description: "Lists information from credit notes in the given tenant id as per filter parameters.",
-  version: "0.2.0",
+  version: "0.2.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     xeroAccountingApi,

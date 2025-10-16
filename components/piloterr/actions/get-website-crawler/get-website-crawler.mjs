@@ -5,7 +5,12 @@ export default {
   key: "piloterr-get-website-crawler",
   name: "Get Website Crawler",
   description: "Obtains HTML from a given website through web scraping for high performance access and interpretation. [See the documentation](https://docs.piloterr.com/v2/api-reference/website/crawler)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     piloterr,

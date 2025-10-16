@@ -5,7 +5,12 @@ export default {
   key: "textline-send-announcement",
   name: "Send Announcement",
   description: "Send an announcement to a group of contacts. [See the documentation](https://textline.docs.apiary.io/#reference/messaging-tools/announcements/send-an-announcement).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

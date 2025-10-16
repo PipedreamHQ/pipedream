@@ -4,7 +4,12 @@ export default {
   key: "wildapricot-add-update-contact-member",
   name: "Add or Update Contact or Member",
   description: "Adds or updates a contact or member details in the user's WildApricot database. [See the documentation](https://app.swaggerhub.com/apis-docs/WildApricot/wild-apricot_public_api/7.24.0#/Contacts/CreateContact)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     wildapricot,

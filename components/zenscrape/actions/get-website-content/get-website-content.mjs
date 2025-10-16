@@ -4,7 +4,12 @@ export default {
   key: "zenscrape-get-website-content",
   name: "Get Website Content",
   description: "Retrieve the content of a website. [See the documentation](https://app.zenscrape.com/documentation)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     zenscrape,

@@ -2,7 +2,12 @@ import expofp from "../../expofp.app.mjs";
 
 export default {
   name: "Get Booth",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "expofp-get-booth",
   description: "Get details of a booth. [See the documentation](https://expofp.docs.apiary.io/#reference/0/get-booth-details/get-booth-details)",
   type: "action",

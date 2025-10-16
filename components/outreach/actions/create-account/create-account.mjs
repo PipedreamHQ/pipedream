@@ -6,7 +6,12 @@ export default {
   key: "outreach-create-account",
   name: "Create Account",
   description: "Creates an account within Outreach. [See the documentation](https://developers.outreach.io/api/reference/tag/Account/#tag/Account/paths/~1accounts/post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     outreach,

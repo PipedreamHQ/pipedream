@@ -3,7 +3,12 @@ import nationbuilder from "../../nationbuilder.app.mjs";
 export default {
   key: "nationbuilder-delete-donation",
   name: "Delete Donation",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Delete a specific donation with the provided Id. [See the documentation](https://nationbuilder.com/donations_api)",
   type: "action",
   props: {

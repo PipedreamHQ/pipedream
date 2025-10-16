@@ -12,19 +12,20 @@ export default {
       const nameField = await this.salesforce.getNameFieldForObjectType(objectType);
       this.setNameField(nameField);
 
-      // emit historical events
-      const { recentItems } = await this.salesforce.listSObjectTypeIds(objectType);
-      const ids = recentItems.map((item) => item.Id);
-      for (const id of ids.slice(-25)) {
-        const object = await this.salesforce.getSObject(objectType, id);
-        const event = {
-          body: {
-            "New": object,
-            "UserId": id,
-          },
-        };
-        const meta = this.generateWebhookMeta(event);
-        this.$emit(event.body, meta);
+      if (!this.skipFirstRun) {
+        const { recentItems } = await this.salesforce.listSObjectTypeIds(objectType);
+        const ids = recentItems.map((item) => item.Id);
+        for (const id of ids.slice(-25)) {
+          const object = await this.salesforce.getSObject(objectType, id);
+          const event = {
+            body: {
+              "New": object,
+              "UserId": id,
+            },
+          };
+          const meta = this.generateWebhookMeta(event);
+          this.$emit(event.body, meta);
+        }
       }
     },
     async activate() {
@@ -114,7 +115,6 @@ export default {
         const oldValue = body.Old[key];
         return (
           value !== undefined
-          && oldValue !== undefined
           && JSON.stringify(value) !== JSON.stringify(oldValue)
         );
       })

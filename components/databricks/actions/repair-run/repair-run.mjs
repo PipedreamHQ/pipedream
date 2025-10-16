@@ -4,7 +4,12 @@ export default {
   key: "databricks-repair-run",
   name: "Repair Run",
   description: "Re-run one or more tasks. [See the documentation](https://docs.databricks.com/api/workspace/jobs/repairrun)",
-  version: "0.0.1",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

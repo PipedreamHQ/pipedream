@@ -5,7 +5,12 @@ export default {
   key: "cloze-create-update-project",
   name: "Create Or Update Project",
   description: "Create a new project or merge updates into an existing one. [See the documentation](https://api.cloze.com/api-docs/#!/Relations_-_Projects/post_v1_projects_create).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -4,7 +4,12 @@ export default {
   key: "undetectable_ai-list-documents",
   name: "List Documents",
   description: "Retrieve the IDs of documents associated with your account. [See the documentation](https://docs.undetectable.ai/#list-documents)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

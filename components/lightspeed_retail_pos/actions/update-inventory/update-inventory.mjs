@@ -4,7 +4,12 @@ export default {
   key: "lightspeed_retail_pos-update-inventory",
   name: "Update Inventory",
   description: "Adjusts the stock level of a product in the Lightspeed inventory. [See the documentation](https://developers.lightspeedhq.com/retail/endpoints/Item/#put-update-an-item)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

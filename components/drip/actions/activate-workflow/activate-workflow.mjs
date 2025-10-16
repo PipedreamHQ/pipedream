@@ -3,7 +3,12 @@ import drip from "../../drip.app.mjs";
 export default {
   key: "drip-activate-workflow",
   name: "Activate Workflow",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Activate a workflow. [See the docs here](https://developer.drip.com/#activate-a-workflow)",
   type: "action",
   props: {

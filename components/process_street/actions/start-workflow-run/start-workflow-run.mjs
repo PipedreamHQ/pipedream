@@ -5,7 +5,12 @@ export default {
   key: "process_street-start-workflow-run",
   name: "Start Workflow Run",
   description: "Starts a workflow run. [See the docs here](https://public-api.process.st/api/v1.1/docs/index.html#operation/createWorkflowRun)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     processStreet,

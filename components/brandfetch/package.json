@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/brandfetch",
+  "version": "0.0.1",
+  "description": "Pipedream Brandfetch Components",
+  "main": "brandfetch.app.mjs",
+  "keywords": [
+    "pipedream",
+    "brandfetch"
+  ],
+  "homepage": "https://pipedream.com/apps/brandfetch",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

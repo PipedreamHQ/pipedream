@@ -4,7 +4,12 @@ export default {
   key: "offlight-create-task",
   name: "Create Task",
   description: "Initiates the creation of a new task in Offlight. [See the documentation](https://www.offlight.work/docs/zapeir-api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     offlight,

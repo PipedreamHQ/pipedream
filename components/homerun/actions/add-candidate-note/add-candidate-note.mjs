@@ -4,7 +4,12 @@ export default {
   key: "homerun-add-candidate-note",
   name: "Add Candidate Note",
   description: "Adds a note to a candidate's profile in Homerun. [See the documentation](https://developers.homerun.co/#tag/Job-Application-Notes/operation/job-applications.job-application-id.notes.post).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

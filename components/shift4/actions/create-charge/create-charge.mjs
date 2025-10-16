@@ -7,7 +7,12 @@ export default {
   key: "shift4-create-charge",
   name: "Create Charge",
   description: "Creates a new charge object. [See the documentation](https://dev.shift4.com/docs/api#charges-create-a-new-charge)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     shift4,

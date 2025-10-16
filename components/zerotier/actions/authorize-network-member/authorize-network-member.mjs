@@ -3,7 +3,12 @@ import zerotier from "../../zerotier.app.mjs";
 export default {
   key: "zerotier-authorize-network-member",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   name: "Authorize Network Member",
   description:
     "Authorize a specific member (node) in a network. [See docs here](https://docs.zerotier.com/central/v1/#operation/updateNetworkMember)",

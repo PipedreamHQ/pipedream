@@ -4,7 +4,12 @@ export default {
   key: "adyntel-google-ads-by-company",
   name: "Get Google Ads by Company",
   description: "Retrieve all Google ads for a given company domain. [See the documentation](https://docs.adyntel.com/ad-libraries/google)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     adyntel,

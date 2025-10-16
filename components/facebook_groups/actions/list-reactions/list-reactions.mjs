@@ -5,7 +5,12 @@ export default {
   key: "facebook_groups-list-reactions",
   name: "List Reactions",
   description: "Retrieves a list of reactions on a group post. [See the documentation](https://developers.facebook.com/docs/graph-api/reference/v17.0/object/reactions)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...common.props,

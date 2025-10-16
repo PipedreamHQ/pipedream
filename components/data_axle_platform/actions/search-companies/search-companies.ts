@@ -6,7 +6,12 @@ export default {
   name: "Search Companies",
   description: "Find relevant listings in the database. [See the docs here](https://platform.data-axle.com/places/docs/search_api#getting-started)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     dataAxlePlatform,
     query: {

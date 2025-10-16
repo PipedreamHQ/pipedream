@@ -4,7 +4,12 @@ import utils from "../../common/utils.mjs";
 export default {
   type: "action",
   key: "upkeep-find-vendor",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   name: "Find Vendor",
   description: "Finds vendors according to props configured, if no prop configured returns all vendors. Note: enterprise/business-plus plan access only. [See the docs](https://developers.onupkeep.com/#get-all-vendors)",
   props: {

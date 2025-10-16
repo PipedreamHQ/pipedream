@@ -5,7 +5,12 @@ export default {
   key: "sendbird-send-message",
   name: "Send message",
   description: "Sends a message to a channel. [See the docs here](https://sendbird.com/docs/chat/v3/platform-api/message/messaging-basics/send-a-message)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

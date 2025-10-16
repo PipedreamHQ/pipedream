@@ -10,7 +10,12 @@ export default defineAction({
   key: "expensify-export-report",
   name: "Export Report",
   description: "Export Expensify reports to a file (csv, xls, xlsx, txt, pdf, json, xml). [See the documentation](https://integrations.expensify.com/Integration-Server/doc/#report-exporter)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     expensify,

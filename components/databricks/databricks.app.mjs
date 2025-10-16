@@ -67,7 +67,7 @@ export default {
       description: "The name of the vector search endpoint",
       async options({ prevContext }) {
         const {
-          endpoints, next_page_token,
+          endpoints = [], next_page_token,
         } = await this.listEndpoints({
           params: {
             page_token: prevContext.page_token,
@@ -95,6 +95,26 @@ export default {
           value,
           label,
         })) || [];
+      },
+    },
+    indexName: {
+      type: "string",
+      label: "Index Name",
+      description: "The name of the vector search index",
+      async options({ endpointName }) {
+        if (!endpointName) {
+          return [];
+        }
+        const { vector_indexes = [] } = await this.listVectorSearchIndexes({
+          params: {
+            endpoint_name: endpointName,
+          },
+        });
+
+        return vector_indexes.map(({ name }) => ({
+          value: name,
+          label: name,
+        }));
       },
     },
   },
@@ -368,6 +388,99 @@ export default {
       return this._makeRequest({
         path: `/permissions/warehouses/${warehouseId}`,
         method: "PUT",
+        ...args,
+      });
+    },
+    createVectorSearchIndex(args = {}) {
+      return this._makeRequest({
+        path: "/vector-search/indexes",
+        method: "POST",
+        ...args,
+      });
+    },
+
+    getVectorSearchIndex({
+      indexName, ...args
+    }) {
+      return this._makeRequest({
+        path: `/vector-search/indexes/${indexName}`,
+        method: "GET",
+        ...args,
+      });
+    },
+
+    listVectorSearchIndexes({
+      params, ...args
+    }) {
+      return this._makeRequest({
+        path: "/vector-search/indexes",
+        method: "GET",
+        params,
+        ...args,
+      });
+    },
+
+    deleteVectorSearchIndex({
+      indexName, ...args
+    }) {
+      return this._makeRequest({
+        path: `/vector-search/indexes/${indexName}`,
+        method: "DELETE",
+        ...args,
+      });
+    },
+
+    queryVectorSearchIndex({
+      indexName, ...args
+    }) {
+      return this._makeRequest({
+        path: `/vector-search/indexes/${indexName}/query`,
+        method: "POST",
+        ...args,
+      });
+    },
+
+    syncVectorSearchIndex({
+      indexName, ...args
+    }) {
+      return this._makeRequest({
+        path: `/vector-search/indexes/${indexName}/sync`,
+        method: "POST",
+        ...args,
+      });
+    },
+
+    deleteVectorSearchData({
+      indexName, params, ...args
+    })
+    {
+      return this._makeRequest({
+        path: `/vector-search/indexes/${indexName}/delete-data`,
+        method: "DELETE",
+        params,
+        paramsSerializer: {
+          indexes: null,
+        },
+        ...args,
+      });
+    },
+
+    upsertVectorSearchIndexData({
+      indexName, ...args
+    }) {
+      return this._makeRequest({
+        path: `/vector-search/indexes/${indexName}/upsert-data`,
+        method: "POST",
+        ...args,
+      });
+    },
+
+    scanVectorSearchIndex({
+      indexName, ...args
+    }) {
+      return this._makeRequest({
+        path: `/vector-search/indexes/${indexName}/scan`,
+        method: "POST",
         ...args,
       });
     },

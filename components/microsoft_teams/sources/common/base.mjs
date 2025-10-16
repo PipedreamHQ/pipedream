@@ -13,26 +13,31 @@ export default {
     },
   },
   methods: {
-    _getLastCreated() {
-      return this.db.get("lastCreated");
+    _getLastDate() {
+      return this.db.get("lastDate");
     },
-    _setLastCreated(lastCreated) {
-      this.db.set("lastCreated", lastCreated);
+    _setLastDate(lastDate) {
+      this.db.set("lastDate", lastDate);
     },
-    isNew(resource, lastCreated) {
-      if (!resource.createdDateTime || !lastCreated) {
+    getTsField() {
+      return "createdDateTime";
+    },
+    isNew(resource, lastDate, tsField) {
+      if (!tsField || !resource[tsField] || !lastDate) {
         return true;
       }
-      return Date.parse(resource.createdDateTime) > lastCreated;
+      return Date.parse(resource[tsField]) > lastDate;
     },
-    async getNewPaginatedResources(fn, params, lastCreated) {
+    async getNewPaginatedResources(fn, params, lastDate, tsField, isSorted = false) {
       const resources = [];
       const paginator = this.paginate(fn, params);
 
       for await (const resource of paginator) {
-        const isNewResource = this.isNew(resource, lastCreated);
+        const isNewResource = this.isNew(resource, lastDate, tsField);
         if (isNewResource) {
           resources.push(resource);
+        } else if (isSorted) {
+          break;
         }
       }
       return resources;
@@ -56,18 +61,19 @@ export default {
     },
   },
   async run() {
-    let lastCreated = Date.parse(this._getLastCreated());
+    let lastDate = this._getLastDate();
+    const tsField = this.getTsField();
 
-    const resources = await this.getResources(lastCreated);
+    const resources = await this.getResources(lastDate, tsField);
     for (const resource of resources) {
-      const { createdDateTime } = resource;
-      if (!lastCreated || (createdDateTime && Date.parse(createdDateTime) > lastCreated)) {
-        lastCreated = Date.parse(createdDateTime);
+      const date = resource[tsField];
+      if (!lastDate || (date && Date.parse(date) > lastDate)) {
+        lastDate = Date.parse(date);
       }
       const meta = this.generateMeta(resource);
       this.$emit(resource, meta);
     }
 
-    this._setLastCreated(lastCreated);
+    this._setLastDate(lastDate);
   },
 };

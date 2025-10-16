@@ -5,7 +5,12 @@ export default {
   key: "dataforseo-get-historical-serp-data",
   name: "Get Historical SERP Data",
   description: "Get ranking history for keywords over time. [See the documentation](https://docs.dataforseo.com/v3/dataforseo_labs/google/historical_serps/live/?bash)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     dataforseo,

@@ -5,7 +5,12 @@ export default {
   key: "clickup-update-comment",
   name: "Update Comment",
   description: "Updates a comment. [See the documentation](https://clickup.com/api) in **Comments / Update Comment** section.",
-  version: "0.0.13",
+  version: "0.0.14",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

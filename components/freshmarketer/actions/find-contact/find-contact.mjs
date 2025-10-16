@@ -4,7 +4,12 @@ export default {
   key: "freshmarketer-find-contact",
   name: "Find Contact",
   description: "Searches for a contact by email and returns contact details if found. [See the documentation](https://developers.freshworks.com/crm/api/#search)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     freshmarketer,

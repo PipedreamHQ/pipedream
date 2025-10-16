@@ -4,7 +4,12 @@ export default {
   name: "Clock Out",
   description: "Create a new clock out time entry [See the documentation](https://docs.api.jibble.io/#7144d8bb-616d-4a59-bea2-e621791328fc).",
   key: "jibble-clock-out",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

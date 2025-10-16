@@ -6,7 +6,12 @@ export default {
   name: "Create Invoice",
   description: "Creates a new invoice in Zoho Invoice. [See the documentation](https://www.zoho.com/invoice/api/v3/invoices/#create-an-invoice).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     ...common.props,
     date: {

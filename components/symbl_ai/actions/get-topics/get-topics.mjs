@@ -4,7 +4,12 @@ export default {
   key: "symbl_ai-get-topics",
   name: "Get Topics",
   description: "Get a list of all the topics generated from the conversation. See the doc [here](https://docs.symbl.ai/docs/conversation-api/get-topics)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     symblAIApp,

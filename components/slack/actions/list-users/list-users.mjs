@@ -4,7 +4,12 @@ export default {
   key: "slack-list-users",
   name: "List Users",
   description: "Return a list of all users in a workspace. [See the documentation](https://api.slack.com/methods/users.list)",
-  version: "0.0.23",
+  version: "0.0.24",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     slack,

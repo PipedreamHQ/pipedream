@@ -5,7 +5,12 @@ export default {
   name: "Barcode Reader",
   description: "Read barcodes from images and PDF. Can read all popular barcode types from QR Code and Code 128, EAN to DataMatrix, PDF417, GS1 and many other barcodes. [See docs here](https://apidocs.pdf.co/41-barcode-reader)",
   key: "pdf_co-barcode-reader",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

@@ -4,7 +4,12 @@ export default {
   key: "nile_database-create-user",
   name: "Create User",
   description: "Create a new database user by providing an email address and password. [See the documentation](https://www.thenile.dev/docs/reference/api-reference/users/create-user)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     nile,

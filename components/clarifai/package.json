@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/clarifai",
+  "version": "0.0.1",
+  "description": "Pipedream Clarifai Components",
+  "main": "clarifai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "clarifai"
+  ],
+  "homepage": "https://pipedream.com/apps/clarifai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -4,7 +4,12 @@ export default {
   key: "plentyone-add-order-note",
   name: "Add Order Note",
   description: "Adds a note to an order in PlentyONE. [See the documentation](https://developers.plentymarkets.com/en-gb/plentymarkets-rest-api/index.html#/Comment/post_rest_comments)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     plentyone,

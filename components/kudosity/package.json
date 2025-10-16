@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/kudosity",
+  "version": "0.0.1",
+  "description": "Pipedream Kudosity Components",
+  "main": "kudosity.app.mjs",
+  "keywords": [
+    "pipedream",
+    "kudosity"
+  ],
+  "homepage": "https://pipedream.com/apps/kudosity",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

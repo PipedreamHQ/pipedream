@@ -6,7 +6,12 @@ export default {
   key: "facebook_pages-create-post",
   name: "Create Post",
   description: "Create a new post on a Facebook Page. [See the documentation](https://developers.facebook.com/docs/graph-api/reference/page/feed#publish)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

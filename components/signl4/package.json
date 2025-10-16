@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/signl4",
+  "version": "0.0.1",
+  "description": "Pipedream SIGNL4 Components",
+  "main": "signl4.app.mjs",
+  "keywords": [
+    "pipedream",
+    "signl4"
+  ],
+  "homepage": "https://pipedream.com/apps/signl4",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

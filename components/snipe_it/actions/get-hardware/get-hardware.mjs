@@ -4,7 +4,12 @@ export default {
   key: "snipe_it-get-hardware",
   name: "Get Hardware Asset",
   description: "Retrieves details of a specific hardware asset by ID. [See the documentation](https://snipe-it.readme.io/reference/hardware-by-id)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

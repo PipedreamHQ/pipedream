@@ -8,7 +8,12 @@ export default {
   description: `Verifies the given list of emails.
   In case your account does not have a sufficient Verify API balance the service will try to auto refill the balance by charging using the billing details of the account. If it fails to charge, an HTTP status code of 402 will be returned.
   [See the docs here](https://api.voilanorbert.com/2018-01-08/#verify-endpoint-post)`,
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

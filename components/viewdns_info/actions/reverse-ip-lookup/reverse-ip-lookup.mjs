@@ -4,7 +4,12 @@ export default {
   key: "viewdns_info-reverse-ip-lookup",
   name: "Reverse IP Lookup",
   description: "Performs a reverse IP lookup to find domains hosted on the same IP address. [See the documentation](https://viewdns.info/api/reverse-ip-lookup/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     viewdnsInfo,

@@ -4,7 +4,12 @@ export default {
   key: "databricks-get-job",
   name: "Get Job",
   description: "Retrieves the details for a single job. [See the documentation](https://docs.databricks.com/api/workspace/jobs/get)",
-  version: "0.0.1",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

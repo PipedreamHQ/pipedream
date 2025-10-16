@@ -4,7 +4,12 @@ export default {
   key: "hunter-get-leads-list",
   name: "Get Leads List",
   description: "Retrieves all the fields of a leads list, including its leads. [See the documentation](https://hunter.io/api-documentation/v2#get-leads-list).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

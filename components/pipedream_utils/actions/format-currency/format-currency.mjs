@@ -7,7 +7,12 @@ export default {
   name: "Formatting - [Numbers] Format Currency",
   description: "Format a number as a currency",
   key: "pipedream_utils-format-currency",
-  version: "0.0.5",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: false,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pipedream_utils,

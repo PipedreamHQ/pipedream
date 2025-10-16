@@ -4,7 +4,12 @@ export default {
   key: "vivocalendar-cancel-appointment",
   name: "Cancel Appointment",
   description: "Cancels an appointment. [See the documentation](https://app.vivocalendar.com/api-docs/index.html)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -5,7 +5,12 @@ export default {
   key: "vbout-add-contact-to-list",
   name: "Add Contact To List",
   description: "This action move a contact to a specific list. [See the docs here](https://developers.vbout.com/docs#emailmarketing_movecontact)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

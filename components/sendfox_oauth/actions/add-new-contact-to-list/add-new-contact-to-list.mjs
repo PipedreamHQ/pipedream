@@ -4,7 +4,12 @@ import { axios } from "@pipedream/platform";
 export default {
   key: "sendfox_oauth-add-new-contact-to-list",
   name: "Add new contact into a specific list",
-  version: "0.1.1",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     sendfox_oauth: {

@@ -4,7 +4,12 @@ export default {
   key: "pumble-send-message",
   name: "Send Message",
   description: "Send a message to a channel in Pumble. [See the documentation](https://pumble.com/help/integrations/add-pumble-apps/api-keys-integration/#send-messages)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pumble,

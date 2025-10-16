@@ -6,7 +6,12 @@ export default {
   name: "Create Job",
   description:
     "Creates a new job (card) in Qntrl. [See the documentation](https://core.qntrl.com/apidoc.html?type=reference&module=jobs&action=CreateJob)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     qntrl,

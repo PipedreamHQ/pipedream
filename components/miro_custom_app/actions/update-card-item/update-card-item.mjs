@@ -4,7 +4,12 @@ export default {
   key: "miro_custom_app-update-card-item",
   name: "Update Card Item",
   description: "Updates a card item on a Miro board. [See the documentation](https://developers.miro.com/reference/update-card-item).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

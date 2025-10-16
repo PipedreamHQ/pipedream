@@ -5,7 +5,12 @@ export default {
   key: "algolia-delete-records",
   name: "Delete Records",
   description: "Delete records from the given index. [See the documentation](https://www.algolia.com/doc/libraries/javascript/v5/helpers/#delete-records)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

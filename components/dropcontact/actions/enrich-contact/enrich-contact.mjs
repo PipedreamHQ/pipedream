@@ -5,7 +5,12 @@ export default {
   key: "dropcontact-enrich-contact",
   name: "Enrich Contact",
   description: "Enrich a list of contacts in Dropcontact. [See the documentation](https://developer.dropcontact.com/#post-request)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     dropcontact,

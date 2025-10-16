@@ -4,7 +4,12 @@ export default {
   key: "securitytrails-get-ips-neighbors",
   name: "Get IPs Neighbors",
   description: "Returns the neighbors in any given IP level range and essentially allows you to explore closeby IP addresses.",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

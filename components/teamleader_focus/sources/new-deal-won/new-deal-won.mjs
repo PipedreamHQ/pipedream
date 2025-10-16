@@ -4,8 +4,8 @@ export default {
   ...common,
   key: "teamleader_focus-new-deal-won",
   name: "New Deal Won (Instant)",
-  description: "Emit new event for each deal won.",
-  version: "0.0.2",
+  description: "Emit new event for each deal won. [See the documentation](https://developer.focus.teamleader.eu/docs/api/webhooks-register)",
+  version: "0.0.3",
   type: "source",
   methods: {
     ...common.methods,

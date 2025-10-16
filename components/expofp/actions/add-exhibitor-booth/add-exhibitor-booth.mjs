@@ -2,7 +2,12 @@ import expofp from "../../expofp.app.mjs";
 
 export default {
   name: "Add Exhibitor Booth",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "expofp-add-exhibitor-booth",
   description:
     "Adds an exhibitor booth. [See the documentation](https://expofp.docs.apiary.io/#reference/0/add-exhibitor-booth/add-exhibitor-booth)",

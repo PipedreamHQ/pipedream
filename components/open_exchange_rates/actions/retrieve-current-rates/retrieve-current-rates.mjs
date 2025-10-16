@@ -3,7 +3,12 @@ import app from "../../open_exchange_rates.app.mjs";
 export default {
   key: "open_exchange_rates-retrieve-current-rates",
   name: "Retrieve Current Rates",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   description: "Get the latest exchange rates available. [See the documentation](https://docs.openexchangerates.org/reference/latest-json)",
   type: "action",
   props: {

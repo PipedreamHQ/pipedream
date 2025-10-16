@@ -4,7 +4,12 @@ export default {
   key: "uptimerobot-update-monitor-status",
   name: "Update Monitor Status",
   description: "Update an existing monitor's status to pause or resume monitoring. [See the documentation](https://uptimerobot.com/api/).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

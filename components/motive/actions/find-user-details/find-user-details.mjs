@@ -6,7 +6,12 @@ export default {
   key: "motive-find-user-details",
   name: "Find User Details",
   description: "Retrieve user details based on specific criteria. [See the documentation](https://developer.gomotive.com/reference/users-lookup)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     motive,

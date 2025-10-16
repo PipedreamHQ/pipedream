@@ -4,7 +4,12 @@ export default {
   key: "add_to_calendar_pro-delete-event-group",
   name: "Delete Event Group",
   description: "Delete an event group. [See the documentation](https://docs.add-to-calendar-pro.com/api/groups#delete-a-group)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     addToCalendarPro,

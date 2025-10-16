@@ -6,7 +6,12 @@ export default {
   key: "adhook-create-update-post",
   name: "Create or Update Post",
   description: "Adds a new post or modifies an existing post in Adhook. [See the documentation](https://app.adhook.io/api-doc/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     adhook,

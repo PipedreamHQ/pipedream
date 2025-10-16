@@ -5,7 +5,12 @@ export default {
   key: "rockset-create-integration",
   name: "Create Integration",
   description: "Create a new integration with Rockset. Learn more at https://docs.rockset.com/rest/#createintegration",
-  version: "0.1.1",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     rockset: {

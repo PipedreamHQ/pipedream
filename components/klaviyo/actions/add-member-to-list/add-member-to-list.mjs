@@ -5,7 +5,12 @@ export default {
   key: "klaviyo-add-member-to-list",
   name: "Add Member To List",
   description: "Add member to a specific list. [See the documentation](https://developers.klaviyo.com/en/reference/add_profiles_to_list)",
-  version: "1.0.2",
+  version: "1.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     klaviyo,

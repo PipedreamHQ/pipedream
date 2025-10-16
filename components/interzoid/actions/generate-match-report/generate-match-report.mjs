@@ -5,7 +5,12 @@ export default {
   key: "interzoid-generate-match-report",
   name: "Generate Match Report",
   description: "Generate a Match Report using a dataset table or file (CSV/TSV/Excel). [See the documentation](https://connect.interzoid.com/data-matching-workflow)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     interzoid,

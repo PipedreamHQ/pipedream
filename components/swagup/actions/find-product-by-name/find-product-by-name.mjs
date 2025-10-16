@@ -4,7 +4,12 @@ export default {
   key: "swagup-find-product-by-name",
   name: "Find Product by Name",
   description: "Search for a product by its name. [See docs here](https://support.swagup.com/en/articles/6757044-swagup-api-how-to-get-products-and-prices-from-swagup-catalog).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     swagup,

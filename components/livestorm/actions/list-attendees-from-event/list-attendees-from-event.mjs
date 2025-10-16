@@ -7,7 +7,12 @@ export default {
   name: "List Attendees From Event",
   description: "List all the people linked to all the sessions of an event. [See the Documentation](https://developers.livestorm.co/reference/get_events-id-people)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     eventId: {

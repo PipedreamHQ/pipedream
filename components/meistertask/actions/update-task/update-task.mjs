@@ -4,7 +4,12 @@ export default {
   key: "meistertask-update-task",
   name: "Update Task",
   description: "Updaets an existing task in a project section. [See the docs](https://developers.meistertask.com/reference/put-task)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     meistertask,

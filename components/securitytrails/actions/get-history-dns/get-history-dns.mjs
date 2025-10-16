@@ -4,7 +4,12 @@ export default {
   key: "securitytrails-get-history-dns",
   name: "Get Historical DNS",
   description: "Lists out specific historical information about the given hostname parameter. [See the documentation](https://docs.securitytrails.com/reference/history-dns)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

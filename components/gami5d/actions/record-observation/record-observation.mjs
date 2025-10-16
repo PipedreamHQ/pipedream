@@ -4,7 +4,12 @@ export default {
   key: "gami5d-record-observation",
   name: "Record Observation",
   description: "Record an observation for evaluation in the gami5d platform. [See the documentation](https://app.gami5d.com/web/api/docs)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     gami5d,

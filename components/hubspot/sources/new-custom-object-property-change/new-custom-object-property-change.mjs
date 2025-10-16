@@ -7,7 +7,7 @@ export default {
   name: "New Custom Object Property Change",
   description:
     "Emit new event when a specified property is provided or updated on a custom object.",
-  version: "0.0.17",
+  version: "0.0.20",
   dedupe: "unique",
   type: "source",
   props: {
@@ -49,7 +49,7 @@ export default {
       };
     },
     isRelevant(object, updatedAfter) {
-      return !updatedAfter || this.getTs(object) > updatedAfter;
+      return this.getTs(object) > updatedAfter;
     },
     getParams(after) {
       const params = {
@@ -113,6 +113,7 @@ export default {
       const updatedObjects = await this.getPaginatedItems(
         this.hubspot.searchCRM,
         params,
+        after,
       );
 
       if (!updatedObjects.length) {

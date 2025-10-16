@@ -6,7 +6,12 @@ export default {
   key: "instagram_business-list-media",
   name: "List Media",
   description: "List media objects. [See the documentation](https://developers.facebook.com/docs/instagram-api/reference/ig-user/media#reading)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...common.props,

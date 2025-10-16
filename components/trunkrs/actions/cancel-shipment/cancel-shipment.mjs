@@ -4,7 +4,12 @@ export default {
   key: "trunkrs-cancel-shipment",
   name: "Cancel Shipment",
   description: "Cancel a shipment. [See the documentation](https://docs.trunkrs.nl/docs/v2-api-documentation/29cfeecfd2273-cancel-shipment)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     trunkrs,

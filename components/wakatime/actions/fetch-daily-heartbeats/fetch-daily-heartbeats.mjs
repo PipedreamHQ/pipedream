@@ -4,7 +4,12 @@ export default {
   key: "wakatime-fetch-daily-heartbeats",
   name: "Fetch Daily Heartbeats",
   description: "Fetch your daily coding activity from WakaTime. [See the documentation](https://wakatime.com/developers#heartbeats)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     wakatime,

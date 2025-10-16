@@ -5,7 +5,12 @@ export default {
   name: "Get Agent Execution Response",
   description:
     "Retrieves the result of a previously executed AI Agent (template). [See the documentation](https://tess.pareto.io/api/swagger#/default/370b6709c5d9e8c17a76e1abb288e7ad)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

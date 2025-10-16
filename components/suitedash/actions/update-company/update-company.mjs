@@ -5,7 +5,12 @@ export default {
   key: "suitedash-update-company",
   name: "Update Company",
   description: "Updates an existing company's details in SuiteDash. [See the documentation](https://app.suitedash.com/secure-api/swagger)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     suitedash,

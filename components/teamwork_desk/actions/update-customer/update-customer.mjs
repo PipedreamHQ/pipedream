@@ -3,7 +3,12 @@ import teamworkDesk from "../../teamwork_desk.app.mjs";
 export default {
   key: "teamwork_desk-update-customer",
   name: "Update Customer",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Update a specific customer [See the documentation](https://apidocs.teamwork.com/docs/desk/3442f2a79b0d2-update-a-customer)",
   type: "action",
   props: {

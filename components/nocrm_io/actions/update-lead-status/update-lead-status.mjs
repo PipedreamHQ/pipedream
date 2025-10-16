@@ -3,7 +3,12 @@ import constants from "../common/constants.mjs";
 
 export default {
   name: "Update Lead Status",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "nocrm_io-update-lead-status",
   description: "Updates a lead status. [See docs here](https://www.nocrm.io/api#leads)",
   type: "action",

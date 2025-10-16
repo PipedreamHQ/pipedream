@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/linearb",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream LinearB Components",
   "main": "linearb.app.mjs",
   "keywords": [
@@ -13,6 +13,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.6.0"
+    "@pipedream/platform": "^3.1.0"
   }
 }

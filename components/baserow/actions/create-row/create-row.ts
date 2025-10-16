@@ -11,7 +11,12 @@ export default defineAction({
   name: "Create Row",
   description: `Create a row [See docs here](${DOCS_LINK})`,
   key: "baserow-create-row",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

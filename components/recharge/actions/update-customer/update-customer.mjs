@@ -7,7 +7,12 @@ export default {
   key: "recharge-update-customer",
   name: "Update Customer",
   description: "Updates an existing customer's details. [See the documentation](https://developer.rechargepayments.com/2021-11/customers/customers_update)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     recharge,

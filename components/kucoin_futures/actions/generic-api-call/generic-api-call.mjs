@@ -2,7 +2,12 @@ import kucoinFutures from "../../kucoin_futures.app.mjs";
 
 export default {
   name: "Kucoin Futures Generic API Call",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "kucoin_futures-generic-api-call",
   description: "Make any API call for Kucoin Futures as per the documentation." +
         "See docs [here](https://docs.kucoin.com/futures/#general)",

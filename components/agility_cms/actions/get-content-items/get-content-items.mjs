@@ -4,7 +4,12 @@ export default {
   key: "agility_cms-get-content-items",
   name: "Get Content Items",
   description: "Retrieves all content items. [See the documentation](https://api.aglty.io/swagger/index.html#operations-Sync-get__guid___apitype___locale__sync_items)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

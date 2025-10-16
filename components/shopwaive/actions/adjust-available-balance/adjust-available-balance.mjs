@@ -4,7 +4,12 @@ export default {
   key: "shopwaive-adjust-available-balance",
   name: "Adjust Available Balance",
   description: "Adjusts the available balance of a customer. [See the documentation](https://api.shopwaive.com/reference/rest-api-documentation/customer-api#adjust-customer-balance)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     shopwaive,

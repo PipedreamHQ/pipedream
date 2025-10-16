@@ -6,7 +6,12 @@ export default {
   name: "Create Signature Request",
   description: "Creates a new signature request. [See the documentation](https://docs.signaturely.com/#:~:text=Get%20user-,Create%20signing%20request,-Bulk%20Send%20Signature)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     templateId: {

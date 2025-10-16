@@ -5,7 +5,12 @@ export default {
   name: "Create Contact",
   description: "Creates a new contact. [See the documentation](https://developer.zendesk.com/api-reference/sales-crm/resources/contacts/#create-a-contact).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     zendeskSell,
     isOrganization: {

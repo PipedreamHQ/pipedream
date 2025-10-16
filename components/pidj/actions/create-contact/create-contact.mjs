@@ -5,7 +5,12 @@ export default {
   key: "pidj-create-contact",
   name: "Create Contact",
   description: "Initiates a process to add a new contact to your Pidj account. [See the documentation](https://pidj.co/wp-content/uploads/2023/06/Pidj-API-Technical-Document-v3-1.pdf).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pidj,

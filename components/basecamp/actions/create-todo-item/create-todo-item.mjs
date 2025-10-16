@@ -6,7 +6,12 @@ export default {
   name: "Create To-do Item",
   description: "Creates a to-do item in a selected to-do list. [See the documentation](https://github.com/basecamp/bc3-api/blob/master/sections/todos.md#create-a-to-do)",
   type: "action",
-  version: "0.0.8",
+  version: "0.0.9",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     ...common.props,
     todoSetId: {

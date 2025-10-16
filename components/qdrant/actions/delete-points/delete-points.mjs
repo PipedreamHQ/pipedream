@@ -7,7 +7,12 @@ export default {
   name: "Delete Points",
   description: "Deletes one or more points by ID/filter in a Qdrant collection.",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     collectionName: {

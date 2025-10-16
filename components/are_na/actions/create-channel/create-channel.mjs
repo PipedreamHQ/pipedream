@@ -4,7 +4,12 @@ export default {
   key: "are_na-create-channel",
   name: "Create Channel",
   description: "Create a new channel in Are.na. [See the documentation](https://dev.are.na/documentation/channels#Block45041)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

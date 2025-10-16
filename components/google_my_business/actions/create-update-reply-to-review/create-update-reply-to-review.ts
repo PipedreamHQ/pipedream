@@ -8,7 +8,12 @@ export default defineAction({
   key: "google_my_business-create-update-reply-to-review",
   name: "Create or Update Reply to Review",
   description: `Create or update a reply to the specified review. [See the documentation](${DOCS_LINK})`,
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

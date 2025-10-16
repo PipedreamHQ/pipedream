@@ -5,7 +5,12 @@ export default {
   key: "kindo-chat",
   name: "Chat",
   description: "Creates a model response for the given chat conversation using Kindo's API. [See the documentation](https://app.kindo.ai/settings/api) for more information.",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

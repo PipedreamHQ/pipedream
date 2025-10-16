@@ -3,7 +3,12 @@ import microsoftOutlook from "../../microsoft_outlook_calendar.app.mjs";
 export default {
   type: "action",
   key: "microsoft_outlook_calendar-delete-calendar-event",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   name: "Delete Calendar Event",
   description: "Delete an event in the user's default calendar. [See the documentation](https://learn.microsoft.com/en-us/graph/api/event-delete?view=graph-rest-1.0&tabs=http)",
   props: {

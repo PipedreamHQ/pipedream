@@ -5,7 +5,12 @@ export default {
   name: "List Channels",
   description: "Lists all channels in a Microsoft Team. [See the docs here](https://docs.microsoft.com/en-us/graph/api/channel-list?view=graph-rest-1.0&tabs=http)",
   type: "action",
-  version: "0.0.8",
+  version: "0.0.10",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     microsoftTeams,
     teamId: {

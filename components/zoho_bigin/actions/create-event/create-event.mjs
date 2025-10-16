@@ -2,7 +2,12 @@ import app from "../../zoho_bigin.app.mjs";
 
 export default {
   name: "Create Event",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "zoho_bigin-create-event",
   description: "Creates a event. [See the documentation](https://www.bigin.com/developer/docs/apis/insert-records.html)",
   type: "action",

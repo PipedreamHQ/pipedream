@@ -4,7 +4,12 @@ export default {
   key: "sendx-remove-tag-contact",
   name: "Remove Tag from Contact",
   description: "De-associates a user-provided tag from a given contact in SendX.",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     sendx,

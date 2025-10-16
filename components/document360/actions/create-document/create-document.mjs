@@ -4,7 +4,12 @@ export default {
   key: "document360-create-document",
   name: "Create Document",
   description: "Creates a new document in Document360 from text. [See the documentation](https://apidocs.document360.com/apidocs/how-to-create-and-publish-an-article)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     document360,

@@ -9,7 +9,7 @@ export default {
   name: "New Task Created",
   description:
     "Emit new event for each new task created. [See the documentation](https://developers.hubspot.com/docs/reference/api/crm/engagements/tasks#get-%2Fcrm%2Fv3%2Fobjects%2Ftasks)",
-  version: "1.0.13",
+  version: "1.0.16",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -55,6 +55,7 @@ export default {
       const tasks = await this.getPaginatedItems(
         this.hubspot.listTasks.bind(this),
         params,
+        after,
       );
       await this.processEvents(tasks, after);
     },

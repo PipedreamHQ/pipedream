@@ -135,6 +135,10 @@ export default {
       return;
     }
 
+    this.http.respond({
+      status: 200,
+    });
+
     const spreadsheet = await this.getSpreadsheetToProcess(event);
 
     if (!spreadsheet) {

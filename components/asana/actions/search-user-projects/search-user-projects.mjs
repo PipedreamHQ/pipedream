@@ -5,7 +5,12 @@ export default {
   key: "asana-search-user-projects",
   name: "Get list of user projects",
   description: "Return list of projects given the user and workspace gid. [See the documentation](https://developers.asana.com/docs/get-multiple-projects)",
-  version: "0.5.3",
+  version: "0.5.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     asana,

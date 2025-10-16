@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/hex",
+  "version": "0.0.1",
+  "description": "Pipedream Hex Components",
+  "main": "hex.app.mjs",
+  "keywords": [
+    "pipedream",
+    "hex"
+  ],
+  "homepage": "https://pipedream.com/apps/hex",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

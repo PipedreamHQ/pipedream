@@ -5,7 +5,12 @@ export default {
   key: "vercel_token_auth-create-deployment",
   name: "Create Deployment",
   description: "Create a new deployment from a GitHub repository. [See the documentation](https://vercel.com/docs/rest-api/endpoints/deployments#create-a-new-deployment)",
-  version: "0.0.5",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     vercelTokenAuth,

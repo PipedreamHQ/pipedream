@@ -5,7 +5,12 @@ export default {
   key: "fly_io-create-machine",
   name: "Create Machine",
   description: "Create a machine within a specific app using the details provided in the request body. [See the documentation](https://docs.machines.dev/#tag/machines/post/apps/%7Bapp_name%7D/machines)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,
