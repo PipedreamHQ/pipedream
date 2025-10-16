@@ -4881,7 +4881,11 @@ importers:
 
   components/fastfield_mobile_forms: {}
 
-  components/fathom: {}
+  components/fathom:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/fatture_in_cloud: {}
 
