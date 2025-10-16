@@ -1,12 +1,13 @@
 import common from "../common/base.mjs";
 import constants from "../common/constants.mjs";
 import sampleEmit from "./test-event.mjs";
+import sharedConstants from "../../common/constants.mjs";
 
 export default {
   ...common,
   key: "slack-new-message-in-channels",
   name: "New Message In Channels (Instant)",
-  version: "1.0.25",
+  version: "1.1.0",
   description: "Emit new event when a new message is posted to one or more channels",
   type: "source",
   dedupe: "unique",
@@ -16,6 +17,12 @@ export default {
       propDefinition: [
         common.props.slack,
         "conversation",
+        () => ({
+          types: [
+            sharedConstants.CHANNEL_TYPE.PUBLIC,
+            sharedConstants.CHANNEL_TYPE.PRIVATE,
+          ],
+        }),
       ],
       type: "string[]",
       label: "Channels",

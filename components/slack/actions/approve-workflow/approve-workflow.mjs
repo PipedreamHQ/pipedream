@@ -5,7 +5,7 @@ export default {
   key: "slack-approve-workflow",
   name: "Approve Workflow",
   description: "Suspend the workflow until approved by a Slack message. [See the documentation](https://pipedream.com/docs/code/nodejs/rerun#flowsuspend)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

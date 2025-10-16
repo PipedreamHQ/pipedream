@@ -1,10 +1,11 @@
+import constants from "../../common/constants.mjs";
 import slack from "../../slack.app.mjs";
 
 export default {
   key: "slack-list-files",
   name: "List Files",
   description: "Return a list of files within a team. [See the documentation](https://api.slack.com/methods/files.list)",
-  version: "0.0.52",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -17,6 +18,19 @@ export default {
       propDefinition: [
         slack,
         "conversation",
+        () => ({
+          types: [
+            constants.CHANNEL_TYPE.PUBLIC,
+            constants.CHANNEL_TYPE.PRIVATE,
+          ],
+        }),
+      ],
+      description: "Select a public or private channel",
+    },
+    addToChannel: {
+      propDefinition: [
+        slack,
+        "addToChannel",
       ],
     },
     team_id: {
@@ -47,6 +61,12 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.addToChannel) {
+      await this.slack.maybeAddAppToChannels([
+        this.conversation,
+      ]);
+    }
+
     const allFiles = [];
     const params = {
       channel: this.conversation,

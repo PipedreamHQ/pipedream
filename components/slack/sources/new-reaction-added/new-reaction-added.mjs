@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "slack-new-reaction-added",
   name: "New Reaction Added (Instant)",
-  version: "1.1.26",
+  version: "1.2.0",
   description: "Emit new event when a member has added an emoji reaction to a message",
   type: "source",
   dedupe: "unique",
@@ -97,10 +97,14 @@ export default {
         event.itemUserInfo = itemUserResponse.user;
       }
 
-      event.message = await this.getMessage({
-        channel: event.item.channel,
-        event_ts: event.item.ts,
-      });
+      try {
+        event.message = await this.getMessage({
+          channel: event.item.channel,
+          event_ts: event.item.ts,
+        });
+      } catch (err) {
+        console.log("Error fetching message:", err);
+      }
 
       return event;
     },

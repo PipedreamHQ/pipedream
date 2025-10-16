@@ -1,10 +1,11 @@
+import constants from "../../common/constants.mjs";
 import slack from "../../slack.app.mjs";
 
 export default {
   key: "slack-get-file",
   name: "Get File",
   description: "Return information about a file. [See the documentation](https://api.slack.com/methods/files.info)",
-  version: "0.0.24",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -17,6 +18,19 @@ export default {
       propDefinition: [
         slack,
         "conversation",
+        () => ({
+          types: [
+            constants.CHANNEL_TYPE.PUBLIC,
+            constants.CHANNEL_TYPE.PRIVATE,
+          ],
+        }),
+      ],
+      description: "Select a public or private channel",
+    },
+    addToChannel: {
+      propDefinition: [
+        slack,
+        "addToChannel",
       ],
     },
     file: {
@@ -30,6 +44,12 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.addToChannel) {
+      await this.slack.maybeAddAppToChannels([
+        this.conversation,
+      ]);
+    }
+
     const response = await this.slack.getFileInfo({
       file: this.file,
     });
