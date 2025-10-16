@@ -5,7 +5,7 @@ export default {
   type: "source",
   name: "Meeting Ended",
   description: "Emits an event each time a meeting ends in your Zoom account",
-  version: "0.1.6",
+  version: "0.1.7",
   dedupe: "unique", // Dedupe based on meeting ID
   props: {
     zoomAdmin,

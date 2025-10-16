@@ -5,7 +5,7 @@ export default {
   type: "source",
   name: "User Deactivated",
   description: "Emits an event each time a user is deactivated in your Zoom account",
-  version: "0.1.6",
+  version: "0.1.7",
   dedupe: "unique", // Dedupe based on user ID
   props: {
     zoomAdmin,
