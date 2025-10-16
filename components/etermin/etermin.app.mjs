@@ -100,6 +100,8 @@ export default {
           "publickey": `${this.$auth.public_key}`,
           "salt": `${this.$auth.salt}`,
           "signature": `${this.$auth.signature}`,
+          "accept": "application/json",
+          "content-type": "application/json",
           ...headers,
         },
       });
