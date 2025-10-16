@@ -3109,6 +3109,12 @@ importers:
         specifier: ^0.0.6
         version: 0.0.6
 
+  components/cometapi:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.1.0
+
   components/cometly:
     dependencies:
       '@pipedream/platform':
