@@ -25,7 +25,7 @@ export default {
       $,
       workerId: this.workerId,
     });
-    $.export("$summary", `Successfully fetched worker ${this.workerId}`);
+    $.export("$summary", `Successfully fetched worker ${response.descriptor}`);
     return response;
   },
 };
