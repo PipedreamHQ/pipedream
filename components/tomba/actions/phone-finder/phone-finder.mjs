@@ -60,11 +60,18 @@ export default {
     return props;
   },
   async run({ $ }) {
+    const params = {};
+    if (this.searchType === "domain") {
+      params.domain = this.domain;
+    } else if (this.searchType === "email") {
+      params.email = this.email;
+    } else if (this.searchType === "linkedin") {
+      params.linkedinUrl = this.linkedinUrl;
+    }
+
     const response = await this.app.phoneFinder({
       $,
-      domain: this.domain,
-      email: this.email,
-      linkedinUrl: this.linkedinUrl,
+      params,
     });
 
     const searchValue = this.domain || this.email || this.linkedinUrl;
