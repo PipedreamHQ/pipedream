@@ -386,6 +386,15 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     component.key,
   ]);
 
+  // Update queryDisabledIdx reactively when configuredProps changes.
+  // This prevents race conditions where queryDisabledIdx updates synchronously before
+  // configuredProps completes its state update, causing duplicate API calls with stale data.
+  useEffect(() => {
+    updateConfiguredPropsQueryDisabledIdx(configuredProps);
+  }, [
+    configuredProps,
+  ]);
+
   useEffect(() => {
     updateConfigurationErrors(configuredProps)
   }, [
@@ -467,9 +476,6 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     setConfiguredProps(newConfiguredProps);
     if (prop.reloadProps) {
       setReloadPropIdx(idx);
-    }
-    if (prop.type === "app" || prop.remoteOptions) {
-      updateConfiguredPropsQueryDisabledIdx(newConfiguredProps);
     }
     const errs = propErrors(prop, value);
     const newErrors = {
