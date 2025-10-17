@@ -276,7 +276,7 @@ export default {
       channelId,
     }) {
       return this.makeRequest({
-        path: `/teams/${teamId}/channels/${channelId}/messages/delta`,
+        path: `/teams/${teamId}/channels/${channelId}/messages`,
       });
     },
     async listTeamMembers({ teamId }) {
