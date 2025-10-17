@@ -5,6 +5,11 @@ export default {
   name: "Search Collection",
   description: "Search across all data sources within a collection using semantic and keyword search. [See the documentation](https://docs.airweave.ai/api-reference/collections/search)",
   version: "0.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     airweave,
@@ -69,7 +74,7 @@ export default {
 
     const resultCount = response.results?.length || 0;
     $.export("$summary", `Successfully searched collection "${this.collectionId}" and found ${resultCount} result(s)`);
-    
+
     return response;
   },
 };

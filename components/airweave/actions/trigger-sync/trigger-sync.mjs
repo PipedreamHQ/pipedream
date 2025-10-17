@@ -5,6 +5,11 @@ export default {
   name: "Trigger Source Connection Sync",
   description: "Manually trigger a data sync for a source connection. The sync job runs asynchronously in the background and returns immediately with job details. [See the documentation](https://docs.airweave.ai/api-reference/source-connections/run)",
   version: "0.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     airweave,
@@ -31,7 +36,7 @@ export default {
     );
 
     $.export("$summary", `Successfully triggered sync job: ${response.id} (Status: ${response.status})`);
-    
+
     return response;
   },
 };

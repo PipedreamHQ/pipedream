@@ -5,6 +5,11 @@ export default {
   name: "Create Collection",
   description: "Create a new Airweave collection. Collections are logical groups of data sources that provide unified search capabilities. The newly created collection is initially empty until you add source connections to it. [See the documentation](https://docs.airweave.ai/api-reference/collections/create)",
   version: "0.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     airweave,
@@ -33,7 +38,7 @@ export default {
     });
 
     $.export("$summary", `Successfully created collection: ${response.name} (${response.readable_id})`);
-    
+
     return response;
   },
 };

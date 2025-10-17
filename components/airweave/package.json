@@ -1,7 +1,7 @@
 {
   "name": "@pipedream/airweave",
   "version": "0.1.0",
-  "description": "Pipedream Airweave Components - Make any app searchable for your agent",
+  "description": "Pipedream Airweave Components",
   "main": "airweave.app.mjs",
   "keywords": [
     "pipedream",
@@ -18,7 +18,7 @@
   },
   "homepage": "https://pipedream.com/apps/airweave",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "gitHead": "main",
-  "license": "MIT"
+  "publishConfig": {
+    "access": "public"
+  }
 }
-
