@@ -122,13 +122,13 @@ export default {
     totalAbove: {
       type: "string",
       label: "Total Above",
-      description: "Return only orders who's order total is greater than this value.",
+      description: "Return only orders whose order total is greater than this value.",
       optional: true,
     },
     totalBelow: {
       type: "string",
       label: "Total Below",
-      description: "Return only orders who's order total is less than this value.",
+      description: "Return only orders whose order total is less than this value.",
       optional: true,
     },
   },
