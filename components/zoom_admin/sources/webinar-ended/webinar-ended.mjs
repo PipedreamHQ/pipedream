@@ -57,7 +57,7 @@ export default {
         return true;
       }
 
-      if (object.id !== this.webinar) {
+      if (object.id !== String(this.webinar)) {
         console.log(`Webinar ID ${object.id} does not match filter. Skipping.`);
         return false;
       }
