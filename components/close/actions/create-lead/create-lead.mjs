@@ -57,20 +57,17 @@ export default {
     },
   },
   async run({ $ }) {
-    const data = {
-      name: this.name,
-    };
-    if (this.url) data.url = this.url;
-    if (this.statusId) data.status_id = this.statusId;
-    if (this.contacts) data.contacts = utils.parseArray(this.contacts);
-    if (this.addresses) data.addresses = utils.parseArray(this.addresses);
     const moreFields = {};
     for (let key in this.moreFields) {
       moreFields[key] = utils.parseObject(this.moreFields[key]);
     }
     const response = await this.close.createLead({
       data: {
-        ...data,
+        name: this.name,
+        url: this.url,
+        status_id: this.statusId,
+        contacts: utils.parseArray(this.contacts),
+        addresses: utils.parseArray(this.addresses),
         ...moreFields,
       },
     });
