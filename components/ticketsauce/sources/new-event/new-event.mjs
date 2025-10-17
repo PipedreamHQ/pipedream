@@ -14,7 +14,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 60,//Ticketsauce API caches response to "List of Events" for 1 hour
+        intervalSeconds: 60 * 60, //Ticketsauce API caches response to "List of Events" for 1 hour
       },
     },
     partnerId: {
@@ -46,7 +46,7 @@ export default {
     },
     async startEvent(maxResults = 0) {
       const lastCreated = this._getLastCreated();
-      
+
       const events = await this.ticketsauce.listEvents({
         partnerId: this.partnerId,
         organizationId: this.organizationId,
@@ -62,14 +62,12 @@ export default {
       }
 
       // Filter events created after lastCreated and sort by creation date
-      const newEvents = events.filter((event) => 
-        Date.parse(event.Event.created) > Date.parse(lastCreated)
-      );
+      const newEvents = events.filter((event) =>
+        Date.parse(event.Event.created) > Date.parse(lastCreated));
 
       // Sort by created date ascending (oldest first) for emission order
-      newEvents.sort((a, b) => 
-        Date.parse(a.Event.created) - Date.parse(b.Event.created)
-      );
+      newEvents.sort((a, b) =>
+        Date.parse(a.Event.created) - Date.parse(b.Event.created));
 
       // Limit results if maxResults is specified
       const eventsToEmit = maxResults && maxResults > 0
@@ -79,11 +77,10 @@ export default {
       // Update last created date if we have new events
       if (newEvents.length > 0) {
         // Find the most recent created date
-        const mostRecentEvent = events.reduce((latest, current) => 
-          Date.parse(current.Event.created) > Date.parse(latest.Event.created) 
-            ? current 
-            : latest
-        );
+        const mostRecentEvent = events.reduce((latest, current) =>
+          Date.parse(current.Event.created) > Date.parse(latest.Event.created)
+            ? current
+            : latest);
         this._setLastCreated(mostRecentEvent.Event.created);
       }
 

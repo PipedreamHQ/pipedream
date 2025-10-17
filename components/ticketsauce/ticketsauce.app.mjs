@@ -8,21 +8,23 @@ export default {
       type: "string",
       label: "Event",
       description: "Select an event",
-      async options({ partnerId, organizationId }) {
+      async options({
+        partnerId, organizationId,
+      }) {
         const events = await this.listEvents({
           partnerId,
           organizationId,
         });
-        
+
         if (!events?.length) {
           return [];
         }
-        
+
         const options = events.map((eventData) => ({
           label: `${eventData.Event.name} - ${eventData.Event.city} (${eventData.Event.start})`,
           value: eventData.Event.id,
         }));
-        
+
         return options;
       },
     },
@@ -30,11 +32,13 @@ export default {
       type: "string",
       label: "Order",
       description: "Select an order",
-      async options({ eventId, prevContext }) {
+      async options({
+        eventId, prevContext,
+      }) {
         if (!eventId) {
           return [];
         }
-        
+
         const orders = await this.listOrders({
           eventId,
           params: {
@@ -42,16 +46,21 @@ export default {
             page: prevContext?.page || 0,
           },
         });
-        
+
         if (!orders?.length) {
-          return prevContext?.page > 0 ? { options: [], context: {} } : [];
+          return prevContext?.page > 0
+            ? {
+              options: [],
+              context: {},
+            }
+            : [];
         }
-        
+
         const options = orders.map((orderData) => ({
           label: `${orderData.Order.first_name} ${orderData.Order.last_name} - ${orderData.Order.email} (${orderData.Order.total_paid})`,
           value: orderData.Order.id,
         }));
-        
+
         return {
           options,
           context: {
@@ -74,29 +83,37 @@ export default {
         ...opts,
       });
     },
-    async listEvents({ partnerId, organizationId, params } = {}) {
-      const requestParams = { ...params };
-      
+    async listEvents({
+      partnerId, organizationId, params,
+    } = {}) {
+      const requestParams = {
+        ...params,
+      };
+
       if (partnerId) {
         requestParams.partner_id = partnerId;
       }
-      
+
       if (organizationId) {
         requestParams.organization_id = organizationId;
       }
-      
+
       return this._makeRequest({
         path: "/events",
         params: requestParams,
       });
     },
-    async getEventDetails({ eventId, params } = {}) {
+    async getEventDetails({
+      eventId, params,
+    } = {}) {
       return this._makeRequest({
         path: `/event/${eventId}`,
         params,
       });
     },
-    async listOrders({ eventId, params } = {}) {
+    async listOrders({
+      eventId, params,
+    } = {}) {
       return this._makeRequest({
         path: `/orders/${eventId}`,
         params,
@@ -107,7 +124,9 @@ export default {
         path: `/order/${orderId}`,
       });
     },
-    async getTicketCheckinIds({ eventId, params } = {}) {
+    async getTicketCheckinIds({
+      eventId, params,
+    } = {}) {
       return this._makeRequest({
         path: `/tickets/checkin_ids/${eventId}`,
         params,
