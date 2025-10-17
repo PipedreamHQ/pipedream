@@ -6,6 +6,11 @@ export default {
   description: "Get a list of orders from the specified event. [See documentation](https://speca.io/ticketsauce/ticketsauce-public-api?key=204000d6bda66da78315e721920f43aa#orders)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     ticketsauce,
     partnerId: {
@@ -100,7 +105,7 @@ export default {
       default: "date",
       options: [
         "date",
-        "name"
+        "name",
       ],
     },
     sortDir: {
@@ -111,7 +116,7 @@ export default {
       default: "asc",
       options: [
         "asc",
-        "desc"
+        "desc",
       ],
     },
     totalAbove: {
@@ -137,7 +142,6 @@ export default {
       return_line_item_fees: this.returnLineItemFees,
       ordered_after: this.orderedAfter,
       ordered_before: this.orderedBefore,
-      ordered_phrase: this.orderedPhrase,
       modified_after: this.modifiedAfter,
       modified_before: this.modifiedBefore,
       sort_by: this.sortBy,

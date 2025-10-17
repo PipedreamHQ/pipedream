@@ -6,6 +6,11 @@ export default {
   description: "Get details for a specified event. [See documentation](https://speca.io/ticketsauce/ticketsauce-public-api?key=204000d6bda66da78315e721920f43aa#event-details)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     ticketsauce,
     partnerId: {
@@ -38,7 +43,7 @@ export default {
       default: "0",
       options: [
         "0",
-        "1"
+        "1",
       ],
     },
     includePerformers: {

@@ -6,6 +6,11 @@ export default {
   description: "Get a list of all events owned by the authenticated account. [See documentation](https://speca.io/ticketsauce/ticketsauce-public-api?key=204000d6bda66da78315e721920f43aa#list-of-events)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     ticketsauce,
     partnerId: {
@@ -48,7 +53,7 @@ export default {
       options: [
         "public",
         "all",
-        "unlisted"
+        "unlisted",
       ],
     },
     sortBy: {
@@ -59,7 +64,7 @@ export default {
       options: [
         "date",
         "name",
-        "city"
+        "city",
       ],
     },
     sortDir: {
@@ -69,7 +74,7 @@ export default {
       optional: true,
       options: [
         "asc",
-        "desc"
+        "desc",
       ],
     },
     includePerformers: {
@@ -84,12 +89,7 @@ export default {
       partner_id: this.partnerId,
       organization_id: this.organizationId,
       start_after: this.startAfter,
-      start_before: this.startBefore,
-      start_phrase: this.startPhrase,
-      end_after: this.endAfter,
       end_before: this.endBefore,
-      created_after: this.createdAfter,
-      created_before: this.createdBefore,
       active_only: this.activeOnly,
       privacy_type: this.privacyType,
       sort_by: this.sortBy,
@@ -97,6 +97,8 @@ export default {
       include_performers: this.includePerformers,
     };
 
-    return this.ticketsauce.listEvents({ params });
+    return this.ticketsauce.listEvents({
+      params,
+    });
   },
 };

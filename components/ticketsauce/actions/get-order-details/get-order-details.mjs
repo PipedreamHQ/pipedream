@@ -6,6 +6,11 @@ export default {
   description: "Get details for the specified order. [See documentation](https://speca.io/ticketsauce/ticketsauce-public-api?key=204000d6bda66da78315e721920f43aa#order-details)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     ticketsauce,
     partnerId: {
