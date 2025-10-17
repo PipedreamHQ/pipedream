@@ -441,7 +441,12 @@ export const FormContextProvider = <T extends ConfigurableProps>({
         if (prop.type === "integer" && typeof value !== "number") {
           // Preserve label-value format from remote options dropdowns
           // Remote options store values as {__lv: {label: "...", value: ...}}
-          if (!(value && typeof value === "object" && "__lv" in value)) {
+          // For multi-select fields, this will be an array of __lv objects
+          const isLabelValue = value && typeof value === "object" && "__lv" in value;
+          const isArrayOfLabelValues = Array.isArray(value) && value.length > 0 &&
+            value.every((item) => item && typeof item === "object" && "__lv" in item);
+
+          if (!(isLabelValue || isArrayOfLabelValues)) {
             delete newConfiguredProps[prop.name as keyof ConfiguredProps<T>];
           } else {
             newConfiguredProps[prop.name as keyof ConfiguredProps<T>] = value;
