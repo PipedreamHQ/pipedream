@@ -10906,6 +10906,9 @@ importers:
         specifier: ^1.3.0
         version: 1.6.6
 
+  components/piwik_pro:
+    specifiers: {}
+
   components/pixelbin:
     dependencies:
       '@pipedream/platform':
