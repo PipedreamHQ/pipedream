@@ -1,4 +1,5 @@
 import { AirweaveSDKClient } from "@airweave/sdk";
+import packageJson from "./package.json" assert { type: "json" };
 
 export default {
   type: "app",
@@ -94,6 +95,8 @@ export default {
       return new AirweaveSDKClient({
         apiKey: this._apiKey(),
         baseUrl: this._baseUrl(),
+        frameworkName: "pipedream",
+        frameworkVersion: packageJson.version,
       });
     },
     // Collections methods
