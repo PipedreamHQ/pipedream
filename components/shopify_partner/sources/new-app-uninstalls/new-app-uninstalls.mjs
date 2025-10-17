@@ -6,7 +6,7 @@ export default {
   key: "shopify_partner-new-app-uninstalls",
   name: "New App Uninstalls",
   type: "source",
-  version: "0.1.3",
+  version: "0.1.4",
   description: "Emit new events when new shops uninstall your app.",
   ...common,
   props: {
