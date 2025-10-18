@@ -2998,6 +2998,9 @@ importers:
 
   components/codeberg: {}
 
+  components/codefresh:
+    specifiers: {}
+
   components/codegpt: {}
 
   components/codemagic:
