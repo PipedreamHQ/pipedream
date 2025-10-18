@@ -5,6 +5,9 @@ import {
 } from "../../common/notion-meta-properties.mjs";
 import NOTION_META from "../../common/notion-meta-selection.mjs";
 import NOTION_PAGE_PROPERTIES from "../../common/notion-page-properties.mjs";
+import {
+  createPage, createNotionBuilder,
+} from "notion-helper";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
@@ -298,6 +301,60 @@ export default {
           }
         });
       return children.filter((child) => child !== undefined);
+    },
+    async buildPageFromDataSource({
+      pageContent, parentDataSourceId, parentPageId, properties = [], icon, cover,
+    }) {
+      let pageBlocks = [];
+      if (pageContent && pageContent.trim()) {
+        try {
+          pageBlocks = markdownToBlocks(pageContent);
+        } catch (error) {
+          throw new ConfigurationError(`Failed to convert Markdown content to Notion blocks: ${error.message}`);
+        }
+      }
+
+      // Build the Notion page using notion-helper
+      let pageBuilder = createNotionBuilder({
+        limitChildren: false,
+        limitNesting: false,
+        allowBlankParagraphs: true,
+      });
+      if (parentDataSourceId) {
+        pageBuilder = pageBuilder.parentDataSource(parentDataSourceId);
+      }
+      if (parentPageId) {
+        pageBuilder = pageBuilder.parentPage(parentPageId);
+      }
+
+      for (const property of properties) {
+        const propertyTypeCamelCase = property.type.replace(/_([a-z])/g, (_, c) => c.toUpperCase());
+        pageBuilder = pageBuilder[propertyTypeCamelCase](property.label, property.value);
+      }
+
+      if (icon) {
+        pageBuilder = pageBuilder.icon(icon);
+      }
+
+      if (cover) {
+        pageBuilder = pageBuilder.cover(cover);
+      }
+
+      if (pageBlocks.length > 0) {
+        pageBuilder = pageBuilder.loop(
+          (page, block) => {
+            return page.addExistingBlock(block);
+          },
+          pageBlocks,
+        );
+      }
+
+      const page = pageBuilder.build();
+      const response = await createPage({
+        client: await this.notion._getNotionClient(),
+        data: page.content,
+      });
+      return response.apiResponse;
     },
   },
 };
