@@ -5,7 +5,7 @@ export default {
   type: "source",
   name: "Webinar Ended",
   description: "Emits an event each time a webinar ends in your Zoom account",
-  version: "0.1.7",
+  version: "0.1.8",
   dedupe: "unique", // Dedupe based on webinar ID
   props: {
     zoomAdmin,
@@ -57,7 +57,7 @@ export default {
         return true;
       }
 
-      if (object.id !== this.webinar) {
+      if (object.id !== String(this.webinar)) {
         console.log(`Webinar ID ${object.id} does not match filter. Skipping.`);
         return false;
       }
