@@ -5,7 +5,7 @@ export default {
   type: "source",
   name: "New User Activated",
   description: "Emit new event each time a user is activated in your Zoom account",
-  version: "0.1.7",
+  version: "0.1.8",
   dedupe: "unique", // Dedupe based on user ID
   props: {
     zoomAdmin,
