@@ -2,7 +2,9 @@ import type {
   ConfigurePropOpts, PropOptionValue,
 } from "@pipedream/sdk";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import {
+  useEffect, useState,
+} from "react";
 import { useFormContext } from "../hooks/form-context";
 import { useFormFieldContext } from "../hooks/form-field-context";
 import { useFrontendClient } from "../hooks/frontend-client-context";
@@ -95,6 +97,19 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
     setError,
   ] = useState<{ name: string; message: string; }>();
 
+  // Reset pagination and error when dependent fields change.
+  // This ensures the next query starts fresh from page 0, triggering a data replace instead of append
+  useEffect(() => {
+    setPage(0);
+    setCanLoadMore(true);
+    setError(undefined);
+  }, [
+    externalUserId,
+    component.key,
+    prop.name,
+    JSON.stringify(configuredPropsUpTo),
+  ]);
+
   const onLoadMore = () => {
     setPage(pageable.page)
     setContext(pageable.prevContext)
@@ -106,6 +121,7 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
 
   // TODO handle error!
   const {
+    data,
     isFetching, refetch,
   } = useQuery({
     queryKey: [
@@ -131,7 +147,13 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
             message: errors[0],
           });
         }
-        return [];
+        // Return proper pageable structure on error to prevent crashes
+        return {
+          page: 0,
+          prevContext: {},
+          data: [],
+          values: new Set<PropOptionValue>(),
+        };
       }
       let _options: RawPropOption[] = []
       if (options?.length) {
@@ -148,8 +170,12 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
         _options = options;
       }
 
+      // For fresh queries (page 0), start with empty set to avoid accumulating old options
+      // For pagination (page > 0), use existing set to dedupe across pages
+      const allValues = page === 0
+        ? new Set<PropOptionValue>()
+        : new Set(pageable.values)
       const newOptions = []
-      const allValues = new Set(pageable.values)
       for (const o of _options || []) {
         let value: PropOptionValue;
         if (isString(o)) {
@@ -167,25 +193,41 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
         allValues.add(value)
         newOptions.push(o)
       }
-      let data = pageable.data
+      let responseData = pageable.data
       if (newOptions.length) {
-        data = [
-          ...pageable.data,
-          ...newOptions,
-        ] as RawPropOption[]
-        setPageable({
+        // Replace data on fresh queries (page 0), append on pagination (page > 0)
+        responseData = page === 0
+          ? newOptions as RawPropOption[]
+          : [
+            ...pageable.data,
+            ...newOptions,
+          ] as RawPropOption[]
+        const newPageable = {
           page: page + 1,
           prevContext: res.context,
-          data,
+          data: responseData,
           values: allValues,
-        })
+        }
+        setPageable(newPageable)
+        return newPageable;
       } else {
         setCanLoadMore(false)
+        return pageable;
       }
-      return data;
     },
     enabled: !!queryEnabled,
   });
+
+  // Sync pageable state with query data to handle both fresh fetches and cached returns
+  // When React Query returns cached data, the queryFn doesn't run, so we need to sync
+  // the state here to ensure options populate correctly on remount
+  useEffect(() => {
+    if (data) {
+      setPageable(data);
+    }
+  }, [
+    data,
+  ]);
 
   const showLoadMoreButton = () => {
     return !isFetching && !error && canLoadMore

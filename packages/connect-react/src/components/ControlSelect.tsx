@@ -92,7 +92,12 @@ export function ControlSelect<T extends PropOptionValue>({
       }
     } else if (rawValue && typeof rawValue === "object" && "__lv" in (rawValue as Record<string, unknown>)) {
       // Extract the actual option from __lv wrapper and sanitize to LV
-      return sanitizeOption(((rawValue as Record<string, unknown>).__lv) as T);
+      // Handle both single objects and arrays wrapped in __lv
+      const lvContent = (rawValue as Record<string, unknown>).__lv;
+      if (Array.isArray(lvContent)) {
+        return lvContent.map((item) => sanitizeOption(item as T));
+      }
+      return sanitizeOption(lvContent as T);
     } else if (!isOptionWithLabel(rawValue)) {
       const lvOptions = selectOptions?.[0] && isOptionWithLabel(selectOptions[0]);
       if (lvOptions) {
