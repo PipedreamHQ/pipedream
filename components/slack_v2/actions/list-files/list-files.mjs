@@ -2,7 +2,7 @@ import constants from "../../common/constants.mjs";
 import slack from "../../slack_v2.app.mjs";
 
 export default {
-  key: "slack-list-files",
+  key: "slack_v2-list-files",
   name: "List Files",
   description: "Return a list of files within a team. [See the documentation](https://api.slack.com/methods/files.list)",
   version: "0.1.0",

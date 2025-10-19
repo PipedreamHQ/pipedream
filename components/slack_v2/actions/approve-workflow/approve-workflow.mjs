@@ -2,7 +2,7 @@ import slack from "../../slack_v2.app.mjs";
 import constants from "../../common/constants.mjs";
 
 export default {
-  key: "slack-approve-workflow",
+  key: "slack_v2-approve-workflow",
   name: "Approve Workflow",
   description: "Suspend the workflow until approved by a Slack message. [See the documentation](https://pipedream.com/docs/code/nodejs/rerun#flowsuspend)",
   version: "0.0.6",

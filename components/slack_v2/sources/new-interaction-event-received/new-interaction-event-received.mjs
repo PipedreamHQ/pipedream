@@ -4,7 +4,7 @@ import sampleEmit from "./test-event.mjs";
 export default {
   name: "New Interaction Events (Instant)",
   version: "0.0.21",
-  key: "slack-new-interaction-event-received",
+  key: "slack_v2-new-interaction-event-received",
   description: "Emit new events on new Slack [interactivity events](https://api.slack.com/interactivity) sourced from [Block Kit interactive elements](https://api.slack.com/interactivity/components), [Slash commands](https://api.slack.com/interactivity/slash-commands), or [Shortcuts](https://api.slack.com/interactivity/shortcuts).",
   type: "source",
   props: {

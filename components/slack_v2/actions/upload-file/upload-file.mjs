@@ -5,7 +5,7 @@ import FormData from "form-data";
 import slack from "../../slack_v2.app.mjs";
 
 export default {
-  key: "slack-upload-file",
+  key: "slack_v2-upload-file",
   name: "Upload File",
   description: "Upload a file. [See the documentation](https://api.slack.com/messaging/files#uploading_files)",
   version: "0.1.3",

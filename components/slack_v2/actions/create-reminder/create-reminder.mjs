@@ -1,7 +1,7 @@
 import slack from "../../slack_v2.app.mjs";
 
 export default {
-  key: "slack-create-reminder",
+  key: "slack_v2-create-reminder",
   name: "Create Reminder",
   description: "Create a reminder. [See the documentation](https://api.slack.com/methods/reminders.add)",
   version: "0.0.26",

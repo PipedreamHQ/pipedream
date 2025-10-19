@@ -5,7 +5,7 @@ import sharedConstants from "../../common/constants.mjs";
 
 export default {
   ...common,
-  key: "slack-new-message-in-channels",
+  key: "slack_v2-new-message-in-channels",
   name: "New Message In Channels (Instant)",
   version: "1.1.0",
   description: "Emit new event when a new message is posted to one or more channels",

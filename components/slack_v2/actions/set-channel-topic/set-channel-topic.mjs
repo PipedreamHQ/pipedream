@@ -1,7 +1,7 @@
 import slack from "../../slack_v2.app.mjs";
 
 export default {
-  key: "slack-set-channel-topic",
+  key: "slack_v2-set-channel-topic",
   name: "Set Channel Topic",
   description: "Set the topic on a selected channel. [See the documentation](https://api.slack.com/methods/conversations.setTopic)",
   version: "0.0.25",

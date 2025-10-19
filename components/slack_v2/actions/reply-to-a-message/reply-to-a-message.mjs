@@ -3,7 +3,7 @@ import common from "../common/send-message.mjs";
 
 export default {
   ...common,
-  key: "slack-reply-to-a-message",
+  key: "slack_v2-reply-to-a-message",
   name: "Reply to a Message Thread",
   description: "Send a message as a threaded reply. See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
   version: "0.2.0",

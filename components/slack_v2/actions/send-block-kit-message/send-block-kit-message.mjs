@@ -4,7 +4,7 @@ import common from "../common/send-message.mjs";
 export default {
   ...common,
   ...buildBlocks,
-  key: "slack-send-block-kit-message",
+  key: "slack_v2-send-block-kit-message",
   name: "Build and Send a Block Kit Message",
   description: "Configure custom blocks and send to a channel, group, or user. [See the documentation](https://api.slack.com/tools/block-kit-builder).",
   version: "0.5.0",

@@ -1,7 +1,7 @@
 import slack from "../../slack_v2.app.mjs";
 
 export default {
-  key: "slack-delete-file",
+  key: "slack_v2-delete-file",
   name: "Delete File",
   description: "Delete a file. [See the documentation](https://api.slack.com/methods/files.delete)",
   version: "0.0.25",

@@ -5,7 +5,7 @@ import sharedConstants from "../../common/constants.mjs";
 
 export default {
   ...common,
-  key: "slack-new-user-mention",
+  key: "slack_v2-new-user-mention",
   name: "New User Mention (Instant)",
   version: "0.1.0",
   description: "Emit new event when a username or specific keyword is mentioned in a channel",

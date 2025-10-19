@@ -3,7 +3,7 @@ import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
-  key: "slack-new-user-added",
+  key: "slack_v2-new-user-added",
   name: "New User Added (Instant)",
   version: "0.0.5",
   description: "Emit new event when a new member joins a workspace.",

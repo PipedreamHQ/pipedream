@@ -3,7 +3,7 @@ import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
-  key: "slack-new-reaction-added",
+  key: "slack_v2-new-reaction-added",
   name: "New Reaction Added (Instant)",
   version: "1.2.0",
   description: "Emit new event when a member has added an emoji reaction to a message",

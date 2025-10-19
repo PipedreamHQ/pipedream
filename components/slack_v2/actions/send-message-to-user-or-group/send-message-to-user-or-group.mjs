@@ -4,7 +4,7 @@ import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   ...common,
-  key: "slack-send-message-to-user-or-group",
+  key: "slack_v2-send-message-to-user-or-group",
   name: "Send Message to User or Group",
   description: "Send a message to a user or group. [See the documentation](https://api.slack.com/methods/chat.postMessage)",
   version: "0.1.0",

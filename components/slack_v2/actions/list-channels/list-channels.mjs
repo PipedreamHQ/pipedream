@@ -1,7 +1,7 @@
 import slack from "../../slack_v2.app.mjs";
 
 export default {
-  key: "slack-list-channels",
+  key: "slack_v2-list-channels",
   name: "List Channels",
   description: "Return a list of all channels in a workspace. [See the documentation](https://api.slack.com/methods/conversations.list)",
   version: "0.0.25",

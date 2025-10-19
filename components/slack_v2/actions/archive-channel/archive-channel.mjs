@@ -2,7 +2,7 @@ import slack from "../../slack_v2.app.mjs";
 import constants from "../../common/constants.mjs";
 
 export default {
-  key: "slack-archive-channel",
+  key: "slack_v2-archive-channel",
   name: "Archive Channel",
   description: "Archive a channel. [See the documentation](https://api.slack.com/methods/conversations.archive)",
   version: "0.0.25",

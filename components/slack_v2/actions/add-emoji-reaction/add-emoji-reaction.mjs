@@ -1,7 +1,7 @@
-import slack from "../../slack_v2.app.mjs";
+import slack from "../../slack.app.mjs";
 
 export default {
-  key: "slack-add-emoji-reaction",
+  key: "slack_v2-add-emoji-reaction",
   name: "Add Emoji Reaction",
   description: "Add an emoji reaction to a message. [See the documentation](https://api.slack.com/methods/reactions.add)",
   version: "0.0.17",

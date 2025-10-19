@@ -3,7 +3,7 @@ import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
-  key: "slack-new-saved-message",
+  key: "slack_v2-new-saved-message",
   name: "New Saved Message (Instant)",
   version: "0.0.7",
   description: "Emit new event when a message is saved. Note: The endpoint is marked as deprecated, and Slack might shut this off at some point down the line.",
