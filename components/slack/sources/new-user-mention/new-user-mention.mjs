@@ -1,13 +1,12 @@
 import common from "../common/base.mjs";
 import constants from "../common/constants.mjs";
 import sampleEmit from "./test-event.mjs";
-import sharedConstants from "../../common/constants.mjs";
 
 export default {
   ...common,
   key: "slack-new-user-mention",
   name: "New User Mention (Instant)",
-  version: "0.1.0",
+  version: "0.0.8",
   description: "Emit new event when a username or specific keyword is mentioned in a channel",
   type: "source",
   dedupe: "unique",
@@ -17,12 +16,6 @@ export default {
       propDefinition: [
         common.props.slack,
         "conversation",
-        () => ({
-          types: [
-            sharedConstants.CHANNEL_TYPE.PUBLIC,
-            sharedConstants.CHANNEL_TYPE.PRIVATE,
-          ],
-        }),
       ],
       type: "string[]",
       label: "Channels",

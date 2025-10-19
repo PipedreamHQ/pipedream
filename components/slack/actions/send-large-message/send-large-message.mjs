@@ -5,7 +5,7 @@ export default {
   key: "slack-send-large-message",
   name: "Send a Large Message (3000+ characters)",
   description: "Send a large message (more than 3000 characters) to a channel, group or user. See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
-  version: "0.1.0",
+  version: "0.0.24",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -35,12 +35,6 @@ export default {
     ...common.props,
   },
   async run({ $ }) {
-    if (this.addToChannel) {
-      await this.slack.maybeAddAppToChannels([
-        this.conversation,
-      ]);
-    }
-
     if (this.include_sent_via_pipedream_flag) {
       const sentViaPipedreamText = this._makeSentViaPipedreamBlock();
       this.text += `\n\n\n${sentViaPipedreamText.elements[0].text}`;
@@ -85,10 +79,19 @@ export default {
     } else {
       response = await this.slack.postChatMessage(obj);
     }
+
     const { channel } = await this.slack.conversationsInfo({
       channel: response.channel,
     });
-    const channelName = await this.slack.getChannelDisplayName(channel);
+    let channelName = `#${channel?.name}`;
+    if (channel.is_im) {
+      const { profile } = await this.slack.getUserProfile({
+        user: channel.user,
+      });
+      channelName = `@${profile.real_name}`;
+    } else if (channel.is_mpim) {
+      channelName = `@${channel.purpose.value}`;
+    }
     $.export("$summary", `Successfully sent a message to ${channelName}`);
     return response;
   },

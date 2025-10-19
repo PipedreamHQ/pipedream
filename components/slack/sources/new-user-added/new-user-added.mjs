@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "slack-new-user-added",
   name: "New User Added (Instant)",
-  version: "0.0.5",
+  version: "0.0.4",
   description: "Emit new event when a new member joins a workspace.",
   type: "source",
   dedupe: "unique",

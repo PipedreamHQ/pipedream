@@ -4,7 +4,7 @@ export default {
   key: "slack-update-message",
   name: "Update Message",
   description: "Update a message. [See the documentation](https://api.slack.com/methods/chat.update)",
-  version: "0.2.0",
+  version: "0.1.24",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

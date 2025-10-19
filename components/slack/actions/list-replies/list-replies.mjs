@@ -1,11 +1,10 @@
-import constants from "../../common/constants.mjs";
 import slack from "../../slack.app.mjs";
 
 export default {
   key: "slack-list-replies",
   name: "List Replies",
   description: "Retrieve a thread of messages posted to a conversation. [See the documentation](https://api.slack.com/methods/conversations.replies)",
-  version: "0.0.25",
+  version: "0.0.24",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -18,14 +17,7 @@ export default {
       propDefinition: [
         slack,
         "conversation",
-        () => ({
-          types: [
-            constants.CHANNEL_TYPE.PUBLIC,
-            constants.CHANNEL_TYPE.PRIVATE,
-          ],
-        }),
       ],
-      description: "Select a public or private channel",
     },
     timestamp: {
       propDefinition: [
