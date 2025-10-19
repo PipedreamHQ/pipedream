@@ -71,11 +71,17 @@ export default {
     const response = await this.close.updateLead({
       leadId: this.lead,
       data: {
-        name: this.name,
-        url: this.url,
-        status_id: this.statusId,
-        contacts: utils.parseArray(this.contacts),
-        addresses: utils.parseArray(this.addresses),
+const response = await this.close.updateLead({
+  leadId: this.lead,
+  data: {
+    ...(this.name && { name: this.name }),
+    ...(this.url && { url: this.url }),
+    ...(this.statusId && { status_id: this.statusId }),
+    ...(this.contacts && { contacts: utils.parseArray(this.contacts) }),
+    ...(this.addresses && { addresses: utils.parseArray(this.addresses) }),
+    ...moreFields,
+  },
+});
         ...moreFields,
       },
     });
