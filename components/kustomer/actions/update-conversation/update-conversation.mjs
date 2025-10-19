@@ -110,7 +110,7 @@ export default {
           assignedUsers: parseObject(this.assignedUsers),
           assignedTeams: parseObject(this.assignedTeams),
           defaultLang: this.defaultLang,
-          queue: this.queue,
+          queue: this.queueId,
         },
       });
 
