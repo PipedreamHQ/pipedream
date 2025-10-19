@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/ups",
+  "version": "0.0.1",
+  "description": "Pipedream UPS Components",
+  "main": "ups.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ups"
+  ],
+  "homepage": "https://pipedream.com/apps/ups",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
