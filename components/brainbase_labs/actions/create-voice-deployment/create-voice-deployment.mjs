@@ -72,9 +72,9 @@ export default {
         phoneNumber: this.phoneNumber,
         flowId: this.flowId,
         enableVoiceSentiment: this.enableVoiceSentiment,
-        externalConfig: this.externalConfig,
-        extractions: this.extractions,
-        successCriteria: this.successCriteria,
+        ...(this.externalConfig && { externalConfig: this.externalConfig }),
+        ...(this.extractions && { extractions: this.extractions }),
+        ...(this.successCriteria && { successCriteria: this.successCriteria }),
       },
     });
 
