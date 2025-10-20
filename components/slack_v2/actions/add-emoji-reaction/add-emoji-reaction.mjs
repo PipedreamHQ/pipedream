@@ -1,4 +1,4 @@
-import slack from "../../slack.app.mjs";
+import slack from "../../slack_v2.app.mjs";
 
 export default {
   key: "slack_v2-add-emoji-reaction",
