@@ -7,7 +7,7 @@ export default {
   key: "dart-new-doc-updated",
   name: "New Document Updated",
   description: "Emit new event when any document is updated.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   methods: {
     ...common.methods,
