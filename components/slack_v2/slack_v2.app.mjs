@@ -650,8 +650,11 @@ export default {
       return userNames;
     },
     async realNameLookup(ids = [], usernames = [], throwRateLimitError = true, args = {}) {
+      const idSet = new Set(ids);
+      const usernameSet = new Set(usernames);
       let cursor;
       const realNames = {};
+      const targetCount = ids.length + usernames.length;
       do {
         const {
           members: users,
@@ -664,16 +667,16 @@ export default {
         });
 
         for (const user of users) {
-          if (ids.includes(user.id)) {
+          if (idSet.has(user.id)) {
             realNames[user.id] = user.profile.real_name;
           }
-          if (usernames.includes(user.name)) {
+          if (usernameSet.has(user.name)) {
             realNames[user.name] = user.profile.real_name;
           }
         }
 
         cursor = nextCursor;
-      } while (cursor && Object.keys(realNames).length < (ids.length + usernames.length));
+      } while (cursor && Object.keys(realNames).length < targetCount);
       return realNames;
     },
     async maybeAddAppToChannels(channelIds = []) {
