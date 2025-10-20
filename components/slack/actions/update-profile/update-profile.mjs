@@ -72,7 +72,6 @@ export default {
       && !this.phone
       && !this.pronouns
       && !this.title
-      && !this.email
     ) {
       throw new ConfigurationError("Please provide at least one value to update");
     }
@@ -84,7 +83,6 @@ export default {
         phone: this.phone,
         pronouns: this.pronouns,
         title: this.title,
-        email: this.email,
       },
       user: this.user,
     });
