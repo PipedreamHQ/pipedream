@@ -5,7 +5,7 @@ export default {
   type: "source",
   name: "Meeting Updated",
   description: "Emits an event each time a meeting is updated in your Zoom account",
-  version: "0.1.6",
+  version: "0.1.8",
   dedupe: "unique", // dedupe on the meeting ID + timestamp
   props: {
     zoomAdmin,

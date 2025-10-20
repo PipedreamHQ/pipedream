@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/github",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "description": "Pipedream Github Components",
   "main": "github.app.mjs",
   "keywords": [

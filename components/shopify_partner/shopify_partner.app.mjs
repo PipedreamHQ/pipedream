@@ -1,7 +1,7 @@
 import "graphql/language/index.js";
 import { GraphQLClient } from "graphql-request";
 
-export const PARTNER_API_VERSION = "2024-10";
+export const PARTNER_API_VERSION = "2025-10";
 
 export default {
   type: "app",

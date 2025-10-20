@@ -5,7 +5,7 @@ export default {
   name: "Create Or Update Subscriber",
   description: "Create subscriber if the subscriber email is not existing or update the information for the specified subscriber by email. [See the docs here](https://api.aweber.com/#tag/Subscribers/paths/~1accounts~1{accountId}~1lists~1{listId}~1subscribers/patch).",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

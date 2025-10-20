@@ -1,7 +1,7 @@
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import aweberApp from "../aweber.app.mjs";
 import constants from "../common/constants.mjs";
 import utils from "../common/utils.mjs";
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   props: {
@@ -64,7 +64,7 @@ export default {
     },
     generateMeta(resource) {
       return {
-        id: resource.id,
+        id: resource.id || resource.uuid,
         summary: this.getSummary(resource),
         ts: Date.parse(resource.subscribed_at ?? new Date()),
       };

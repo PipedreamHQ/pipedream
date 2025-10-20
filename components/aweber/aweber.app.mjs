@@ -107,6 +107,114 @@ export default {
         };
       },
     },
+    listSelfLink: {
+      type: "string",
+      label: "List Self Link",
+      description: "The list self link",
+      async options({
+        accountId, prevContext,
+      }) {
+        const { url } = prevContext;
+        if (url === null) {
+          return [];
+        }
+        const {
+          entries: lists,
+          next_collection_link: nextUrl,
+        } = await this.getLists({
+          url,
+          accountId,
+          params: {
+            [constants.PAGINATION.SIZE_PROP]: constants.PAGINATION.SIZE,
+          },
+        });
+        const options = lists.map(({
+          self_link, name,
+        }) => ({
+          label: name,
+          value: self_link,
+        }));
+        return {
+          options,
+          context: {
+            url: nextUrl || null,
+          },
+        };
+      },
+    },
+    integrations: {
+      type: "string",
+      label: "Integrations",
+      description: "The integrations",
+      async options({
+        accountId, prevContext, serviceName,
+      }) {
+        const { url } = prevContext;
+        if (url === null) {
+          return [];
+        }
+        const {
+          entries: integrations,
+          next_collection_link: nextUrl,
+        } = await this.getIntegrations({
+          url,
+          accountId,
+          params: {
+            [constants.PAGINATION.SIZE_PROP]: constants.PAGINATION.SIZE,
+          },
+        });
+
+        const options = integrations
+          .filter(({ service_name }) => service_name === serviceName).map(({
+            self_link, login,
+          }) => ({
+            label: login,
+            value: self_link,
+          }));
+        return {
+          options,
+          context: {
+            url: nextUrl || null,
+          },
+        };
+      },
+    },
+    segmentSelfLink: {
+      type: "string",
+      label: "Segment Link",
+      description: "URL to the [Segment](https://api.aweber.com/#tag/Segments) to send this broadcast to. **e.g. `https://api.aweber.com/1.0/accounts/<account_id>/lists/<list_id>/segments/<segment_id>`**. If not specified, the broadcast will be sent to the “Active Subscribers” segment.",
+      async options({
+        accountId, listId, prevContext,
+      }) {
+        const { url } = prevContext;
+        if (url === null) {
+          return [];
+        }
+        const {
+          entries: segments,
+          next_collection_link: nextUrl,
+        } = await this.getSegments({
+          url,
+          accountId,
+          listId,
+          params: {
+            [constants.PAGINATION.SIZE_PROP]: constants.PAGINATION.SIZE,
+          },
+        });
+        const options = segments.map(({
+          self_link, name,
+        }) => ({
+          label: name,
+          value: self_link,
+        }));
+        return {
+          options,
+          context: {
+            url: nextUrl || null,
+          },
+        };
+      },
+    },
     email: {
       type: "string",
       label: "Email",
@@ -159,11 +267,12 @@ export default {
         $ = this,
         url,
         path,
+        headers,
         ...otherArgs
       } = args;
 
       const config = {
-        headers: this.getHeaders(otherArgs.headers),
+        headers: this.getHeaders(headers),
         url: this.getUrl(path, url),
         ...otherArgs,
       };
@@ -192,6 +301,22 @@ export default {
         ...args,
       });
     },
+    getBroadcasts({
+      accountId, listId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/accounts/${accountId}/lists/${listId}/broadcasts`,
+        ...args,
+      });
+    },
+    getSegments({
+      accountId, listId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/accounts/${accountId}/lists/${listId}/segments`,
+        ...args,
+      });
+    },
     async getSubscribersForList({
       accountId, listId, ...args
     } = {}) {
@@ -208,12 +333,29 @@ export default {
         ...args,
       });
     },
+    getIntegrations({
+      accountId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/accounts/${accountId}/integrations`,
+        ...args,
+      });
+    },
     async addSubscriber({
       accountId, listId, ...args
     }) {
       return this.makeRequest({
         method: "post",
         path: `/accounts/${accountId}/lists/${listId}/subscribers`,
+        ...args,
+      });
+    },
+    createBroadcast({
+      accountId, listId, ...args
+    }) {
+      return this.makeRequest({
+        method: "post",
+        path: `/accounts/${accountId}/lists/${listId}/broadcasts`,
         ...args,
       });
     },
