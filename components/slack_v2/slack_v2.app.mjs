@@ -897,6 +897,8 @@ export default {
     },
     assistantSearch(args = {}) {
       args.count ||= constants.LIMIT;
+      // Uses apiCall directly since assistant.search.context is not exposed as
+      // a method on WebClient
       return this.sdk().apiCall("assistant.search.context", {
         ...args,
       });

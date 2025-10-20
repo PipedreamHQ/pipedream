@@ -6,7 +6,7 @@ export default {
   ...buildBlocks,
   key: "slack_v2-send-message-advanced",
   name: "Send Message (Advanced)",
-  description: "Customize advanced setttings and send a message to a channel, group or user. See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
+  description: "Customize advanced settings and send a message to a channel, group or user. See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
   version: "0.1.0",
   annotations: {
     destructiveHint: false,

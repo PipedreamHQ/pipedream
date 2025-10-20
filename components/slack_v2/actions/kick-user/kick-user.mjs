@@ -46,7 +46,7 @@ export default {
       $.export("$summary", `Successfully kicked user ${this.user} from channel with ID ${this.conversation}`);
       return response;
     } catch (error) {
-      if (error.includes("not_in_channel")) {
+      if (`${error}`.includes("not_in_channel")) {
         $.export("$summary", `The user ${this.user} is not in the channel`);
         return;
       }

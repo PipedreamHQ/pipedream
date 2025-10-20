@@ -80,7 +80,6 @@ export default {
       method: "POST",
       headers: {
         ...formData.getHeaders(),
-        Authorization: `Bearer ${this.slack.getToken()}`,
       },
     });
 

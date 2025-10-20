@@ -39,7 +39,7 @@ export default {
     sortDirection: {
       type: "string",
       label: "Sort Direction",
-      description: "Sort ascending (asc) or descending (desc)`",
+      description: "Sort ascending (asc) or descending (desc)",
       options: [
         "desc",
         "asc",

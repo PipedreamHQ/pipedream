@@ -14,7 +14,7 @@ With this trigger, you can build workflows that perform some work with other API
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/RZ3XQENkjeg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-What this short video to learn how to use this in a workflow, or follow the guide below.
+Watch this short video to learn how to use this in a workflow, or follow the guide below.
 
 First, if you haven’t already - send yourself a message containing one or more interactive elements. Use the ******************Sending the message with an interactive element****************** guide below to send a message containing a button.
 
@@ -24,7 +24,7 @@ If you have already sent a message containing an element, skip to **************
 
 The easiest way is to send yourself a message using the ****************************Slack - Send Message Using Block Kit**************************** action:
 
-![Selecting the Send Slack Message with Block Kit](https://res.cloudinary.com/pipedreamin/image/upload/v1668443844/docs/components/CleanShot_2022-11-10_at_10.25.522x_vxiooo.png))
+![Selecting the Send Slack Message with Block Kit](https://res.cloudinary.com/pipedreamin/image/upload/v1668443844/docs/components/CleanShot_2022-11-10_at_10.25.522x_vxiooo.png)
 
 Then select a **************Channel************** you’d like to send the message to, and use the **************[Block Kit Builder](https://app.slack.com/block-kit-builder/)************** to build a message, or just copy the example button blocks below:
 

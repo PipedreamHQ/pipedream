@@ -48,7 +48,7 @@ export default {
       users.push(...members);
       params.cursor = nextCursor;
       page++;
-    } while (params.cursor && page < this.numPages);
+    } while (params.cursor && page < (this.numPages ?? 1));
 
     $.export("$summary", `Successfully retrieved ${users.length} user${users.length === 1
       ? ""

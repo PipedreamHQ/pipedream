@@ -94,7 +94,7 @@ export default {
     if (!this.passArrayOrConfigure) {
       return props;
     }
-    if (this.passArrayOrConfigure == "array") {
+    if (this.passArrayOrConfigure === "array") {
       props.blocks = {
         type: common.props.slack.propDefinitions.blocks.type,
         label: common.props.slack.propDefinitions.blocks.label,
@@ -159,7 +159,7 @@ export default {
   },
   async run() {
     let blocks = [];
-    if (this.passArrayOrConfigure == "array") {
+    if (this.passArrayOrConfigure === "array") {
       blocks = this.blocks;
     } else {
       for (let i = 1; i <= 5; i++) {

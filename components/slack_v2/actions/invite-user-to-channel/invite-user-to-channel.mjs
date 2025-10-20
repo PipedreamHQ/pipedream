@@ -35,7 +35,7 @@ export default {
       $.export("$summary", `Successfully invited user ${this.user} to channel with ID ${this.conversation}`);
       return response;
     } catch (error) {
-      if (error.includes("already_in_channel")) {
+      if (`${error}`.includes("already_in_channel")) {
         $.export("$summary", `The user ${this.user} is already in the channel`);
         return;
       }

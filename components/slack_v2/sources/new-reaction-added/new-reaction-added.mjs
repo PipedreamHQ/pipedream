@@ -86,15 +86,21 @@ export default {
       }
 
       if (this.includeUserData) {
-        const userResponse = await this.slack.usersInfo({
-          user: event.user,
-        });
-        const itemUserResponse = await this.slack.usersInfo({
-          user: event.user,
-        });
-
-        event.userInfo = userResponse.user;
-        event.itemUserInfo = itemUserResponse.user;
+        const promises = [
+          this.slack.usersInfo({
+            user: event.user,
+          }),
+        ];
+        if (event.item_user) {
+          promises.push(this.slack.usersInfo({
+            user: event.item_user,
+          }));
+        }
+        const responses = await Promise.all(promises);
+        event.userInfo = responses[0].user;
+        if (responses[1]) {
+          event.itemUserInfo = responses[1].user;
+        }
       }
 
       try {
