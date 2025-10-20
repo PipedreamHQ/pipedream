@@ -3003,6 +3003,9 @@ importers:
 
   components/codeberg: {}
 
+  components/codefresh:
+    specifiers: {}
+
   components/codegpt: {}
 
   components/codemagic:
@@ -3113,6 +3116,9 @@ importers:
       columns-sdk:
         specifier: ^0.0.6
         version: 0.0.6
+
+  components/cometapi:
+    specifiers: {}
 
   components/cometly:
     dependencies:
