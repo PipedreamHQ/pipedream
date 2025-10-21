@@ -1,0 +1,32 @@
+---
+alwaysApply: true
+---
+We work on Pipedream components (API reference: https://pipedream.com/docs/components/contributing/api/ ). From our working folder, we focus on the 'components' folder, where we have a list of apps, and each app (e.g. 'google_sheets') may have several components. Here are some guidelines we've assembled over previous sessions:
+
+# Pipedream Component Development Guide
+
+## Best Practices
+1. **File Structure**
+   - App file (`app.mjs`) contains shared logic, auth, and propDefinitions
+   - Actions in `actions/[action-name]/[action-name].mjs`
+   - Sources in `sources/[source-name]/[source-name].mjs`
+   - Common code in `common/` directories
+
+2. **Naming Conventions**
+   - Folder names match component keys (e.g., `add-person-to-cadence`)
+   - Component keys follow pattern: `[app-name]-[component-name]`
+   - File names match folder names
+
+3. **Code Patterns**
+   - Use `@pipedream/platform`'s axios (no need to extract .data)
+      - Because `@pipedream/platform`'s axios already filters out undefined values, no need to check parameters individually before including them
+   - Use `ConfigurationError` from `@pipedream/platform` for user-facing errors
+   - Include documentation links in component descriptions
+   - Use propDefinitions in app file for reusable props with dynamic options
+
+4. **Sources (Webhooks)**
+   - Create common webhook functionality in `sources/common/webhook.mjs`
+   - Implement `activate()` and `deactivate()` hooks for webhook management
+   - Use `$.service.db` for storing webhook IDs
+   - Set `dedupe: "unique"` for webhook sources
+   - Include proper event type and summary methods

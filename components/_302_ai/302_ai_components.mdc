@@ -1,0 +1,677 @@
+---
+alwaysApply: true
+---
+Write the actions for the 302.AI app.
+
+General guidelines:
+- Avoid manual truthiness checks for optional parameters, as @pipedream/platform utilities (@pipedream/axios) automatically exclude undefined values.
+- Make sure to wrap API calls with the _makeRequest method. All actions methods need to call the _makeRequest methods. No actions method should call axios directly.
+- Don't use the "number" datatype in props, use "string" instead for "number" datatypes. 
+- Parameters that in the API documentation are boolean will be defined as type "string with options as `default: "0",options: ["0","1",],` setting the default to "0" or "1" as appropiate per the API documentation. Then in the component code parse it to boolean type variable such as in `include_performers: parseInt(this.includePerformers) === 1,`
+- In the package.json file essentially you'll only set the dependencies property, set version prop to "0.1.0", you can refer to the following example that was created for Leonardo AI components:
+```
+{
+  "name": "@pipedream/leonardo_ai",
+  "version": "0.1.0",
+  "description": "Pipedream Leonardo AI Components",
+  "main": "leonardo_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "leonardo_ai"
+  ],
+  "homepage": "https://pipedream.com/apps/leonardo_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.0",
+    "form-data": "^4.0.4"
+  }
+}
+```
+--as a reference of an example API call to 302.AI API, including authorization, you can use the one we feature at Pipedream. Remember, you'll wrap API calls inside _makeRequest and action methods need to call _makeRequest.
+```
+import { axios } from "@pipedream/platform"
+export default defineComponent({
+  props: {
+    _302_ai: {
+      type: "app",
+      app: "_302_ai",
+    }
+  },
+  async run({steps, $}) {
+    return await axios($, {
+      url: `https://api.302.ai/v1/models`,
+      headers: {
+        Authorization: `Bearer ${this._302_ai.$auth.api_key}`,
+      },
+    })
+  },
+})
+--The 302.AI API is "OpenAI compliant", so 302.AI API URL is https://api.302.ai or https://api.302.ai/v1 and are analogous to OpenAI's  https://api.openai.com and https://api.openai.com/v1 respectively
+--For each prop that is used more than one create a propDefinition for it and reuse it in component code, changing description, detaults as needed.
+--For the model prop which is likely used in several components using async options based on the List Models enpoint documented at https://doc.302.ai/147522038e0
+```
+Specific actions:
+chat-with-302-ai
+Prompt
+Send a message to the 302.AI Chat API using. Ideal for dynamic conversations, contextual assistance, and creative generation.
+chat-using-functions.
+
+-When you come up for the description for this component follow format: <component description>. [See documentation](https://doc.302.ai/147522039e0)
+
+chat-using-functions
+Prompt
+Enable your 302.AI model to invoke user-defined functions. Useful for conditional logic, workflow orchestration, and tool invocation within conversations.
+-When you come up for the description for this component follow format: <component description>. [See documentation](https://doc.302.ai/211560247e0)
+
+```
+id_or_slug
+path parameter, string required
+
+photos
+query string parameter, integer optional
+Whether or not to return the event’s photo gallery records.
+Default:
+0
+
+include_performers
+query string parameter, string optional
+Returns any associated performers/artists with the event.
+Default:
+false
+```
+-for the prop related to id_or_slug use async options so users can select an event. 
+-as referece examples for async options you can use those found in apps zendesk, guru, etsy and recently you helped me come up with async options for prop imageId in generate-motion.mjs of leonardo ai app.
+-when returning the context object, if there are no more options to return, simply return an empty object {}
+-here is the response example for "list events" endpoint for you to come up with logic on how to implement async options for the prop related to id_or_slug
+```
+[
+    {
+        "Event": {
+            "active": true,
+            "address": "1221 Saint James Street",
+            "address2": "",
+            "city": "Philadelphia",
+            "country": "United States",
+            "created": "2025-06-26 02:40:59",
+            "custom_id": null,
+            "show_start": true,
+            "show_end": false,
+            "end": "2029-03-01 23:45:00",
+            "end_utc": "2029-03-02 04:45:00",
+            "featured": false,
+            "id": "685cb33b-0dc8-462d-ae5b-00410a1e60d3",
+            "location": "Voyeur Nightclub",
+            "latitude": "39.948357",
+            "longitude": "-75.161697",
+            "map_zoom": "13",
+            "modified": "2025-09-16 22:08:06",
+            "name": "Badge Conference Event TEST",
+            "online_only": false,
+            "activity_producer_id": null,
+            "organization_id": "64ad9d19-1bd0-490f-b332-7c9f0ad1e024",
+            "partner_id": "64ac69a6-a344-4e05-bbc7-64670ad1e030",
+            "postal_code": "19107",
+            "privacy_type": "0",
+            "region": null,
+            "slug": "badge-conference-event-test",
+            "start": "2029-03-01 23:30:00",
+            "start_utc": "2029-03-02 04:30:00",
+            "state": "PA",
+            "tickets_active": true,
+            "timezone": "America/New_York",
+            "website": "",
+            "event_topic_id": "589e8222-c4f8-4794-bde7-73d40a004b01",
+            "organization_name": "Voyeur DC",
+            "scheduled_publish_datetime_utc": null,
+            "event_topic": "Business",
+            "category": "Business",
+            "event_url": "https://grindr.ticketsauce.com/e/badge-conference-event-test",
+            "tickets_url": "https://grindr.ticketsauce.com/e/badge-conference-event-test/tickets",
+            "display_times": true,
+            "order_count": 4,
+            "partner_name": "Grindr Demo"
+        },
+        "Logo": {
+            "url": "https://res.cloudinary.com/eventservice/image/upload/q_auto,f_auto/v1751769059/saas/logos/image_1751769042730_r9qr7df7d.webp",
+            "created": "2025-06-26 03:04:39"
+        },
+        "Masthead": {
+            "url": null,
+            "created": null
+        }
+    },
+    {
+        "Event": {
+            "active": true,
+            "address": "",
+            "address2": "",
+            "city": "San Jose",
+            "country": "United States",
+            "created": "2025-07-23 01:23:07",
+            "custom_id": null,
+            "show_start": true,
+            "show_end": false,
+            "end": "2026-05-03 23:00:00",
+            "end_utc": "2026-05-04 06:00:00",
+            "featured": false,
+            "id": "6880397b-3624-4dc9-8e62-00140a1e60f5",
+            "location": "San Jose",
+            "latitude": null,
+            "longitude": null,
+            "map_zoom": "13",
+            "modified": "2025-07-23 07:10:35",
+            "name": "Festival Wristband Event",
+            "online_only": false,
+            "activity_producer_id": null,
+            "organization_id": "64ad9d19-1bd0-490f-b332-7c9f0ad1e024",
+            "partner_id": "64ac69a6-a344-4e05-bbc7-64670ad1e030",
+            "postal_code": "",
+            "privacy_type": "0",
+            "region": null,
+            "slug": "festival-wristband-event",
+            "start": "2026-05-01 18:00:00",
+            "start_utc": "2026-05-02 01:00:00",
+            "state": "CA",
+            "tickets_active": true,
+            "timezone": "America/Los_Angeles",
+            "website": "",
+            "event_topic_id": "c2fc3d42-c85f-4ecf-a0df-19d0a8659353",
+            "organization_name": "Voyeur DC",
+            "scheduled_publish_datetime_utc": null,
+            "event_topic": "Festival",
+            "category": "Festival",
+            "event_url": "https://grindr.ticketsauce.com/e/festival-wristband-event",
+            "tickets_url": "https://grindr.ticketsauce.com/e/festival-wristband-event/tickets",
+            "display_times": true,
+            "order_count": 1,
+            "partner_name": "Grindr Demo"
+        },
+        "Logo": {
+            "url": "https://res.cloudinary.com/eventservice/image/upload/q_auto,f_auto/v1753233876/saas/logos/image_1753233797906_s3hyoqr1m.webp",
+            "created": "2025-07-23 01:24:38"
+        },
+        "Masthead": {
+            "url": null,
+            "created": null
+        }
+    }
+```
+
+get-orders
+Prompt
+Get a list of orders from the specified event.
+
+-When you come up for the description for this component following format: <component description>. [See documentation](https://speca.io/ticketsauce/ticketsauce-public-api?key=204000d6bda66da78315e721920f43aa#orders)
+-for the prop related to event_id (path parameter) use async options so users can select an event. 
+-as referece examples for async options you can use those found in apps zendesk, guru, etsy and recently you helped me come up with async options for prop imageId in generate-motion.mjs of leonardo ai app.
+-when returning the context object, if there are no more options to return, simply return an empty object {}
+-here is the response example for "list events" endpoint for you to come up with logic on how to implement async options for the prop related to event_id
+```
+[
+    {
+        "Event": {
+            "active": true,
+            "address": "1221 Saint James Street",
+            "address2": "",
+            "city": "Philadelphia",
+            "country": "United States",
+            "created": "2025-06-26 02:40:59",
+            "custom_id": null,
+            "show_start": true,
+            "show_end": false,
+            "end": "2029-03-01 23:45:00",
+            "end_utc": "2029-03-02 04:45:00",
+            "featured": false,
+            "id": "685cb33b-0dc8-462d-ae5b-00410a1e60d3",
+            "location": "Voyeur Nightclub",
+            "latitude": "39.948357",
+            "longitude": "-75.161697",
+            "map_zoom": "13",
+            "modified": "2025-09-16 22:08:06",
+            "name": "Badge Conference Event TEST",
+            "online_only": false,
+            "activity_producer_id": null,
+            "organization_id": "64ad9d19-1bd0-490f-b332-7c9f0ad1e024",
+            "partner_id": "64ac69a6-a344-4e05-bbc7-64670ad1e030",
+            "postal_code": "19107",
+            "privacy_type": "0",
+            "region": null,
+            "slug": "badge-conference-event-test",
+            "start": "2029-03-01 23:30:00",
+            "start_utc": "2029-03-02 04:30:00",
+            "state": "PA",
+            "tickets_active": true,
+            "timezone": "America/New_York",
+            "website": "",
+            "event_topic_id": "589e8222-c4f8-4794-bde7-73d40a004b01",
+            "organization_name": "Voyeur DC",
+            "scheduled_publish_datetime_utc": null,
+            "event_topic": "Business",
+            "category": "Business",
+            "event_url": "https://grindr.ticketsauce.com/e/badge-conference-event-test",
+            "tickets_url": "https://grindr.ticketsauce.com/e/badge-conference-event-test/tickets",
+            "display_times": true,
+            "order_count": 4,
+            "partner_name": "Grindr Demo"
+        },
+        "Logo": {
+            "url": "https://res.cloudinary.com/eventservice/image/upload/q_auto,f_auto/v1751769059/saas/logos/image_1751769042730_r9qr7df7d.webp",
+            "created": "2025-06-26 03:04:39"
+        },
+        "Masthead": {
+            "url": null,
+            "created": null
+        }
+    },
+    {
+        "Event": {
+            "active": true,
+            "address": "",
+            "address2": "",
+            "city": "San Jose",
+            "country": "United States",
+            "created": "2025-07-23 01:23:07",
+            "custom_id": null,
+            "show_start": true,
+            "show_end": false,
+            "end": "2026-05-03 23:00:00",
+            "end_utc": "2026-05-04 06:00:00",
+            "featured": false,
+            "id": "6880397b-3624-4dc9-8e62-00140a1e60f5",
+            "location": "San Jose",
+            "latitude": null,
+            "longitude": null,
+            "map_zoom": "13",
+            "modified": "2025-07-23 07:10:35",
+            "name": "Festival Wristband Event",
+            "online_only": false,
+            "activity_producer_id": null,
+            "organization_id": "64ad9d19-1bd0-490f-b332-7c9f0ad1e024",
+            "partner_id": "64ac69a6-a344-4e05-bbc7-64670ad1e030",
+            "postal_code": "",
+            "privacy_type": "0",
+            "region": null,
+            "slug": "festival-wristband-event",
+            "start": "2026-05-01 18:00:00",
+            "start_utc": "2026-05-02 01:00:00",
+            "state": "CA",
+            "tickets_active": true,
+            "timezone": "America/Los_Angeles",
+            "website": "",
+            "event_topic_id": "c2fc3d42-c85f-4ecf-a0df-19d0a8659353",
+            "organization_name": "Voyeur DC",
+            "scheduled_publish_datetime_utc": null,
+            "event_topic": "Festival",
+            "category": "Festival",
+            "event_url": "https://grindr.ticketsauce.com/e/festival-wristband-event",
+            "tickets_url": "https://grindr.ticketsauce.com/e/festival-wristband-event/tickets",
+            "display_times": true,
+            "order_count": 1,
+            "partner_name": "Grindr Demo"
+        },
+        "Logo": {
+            "url": "https://res.cloudinary.com/eventservice/image/upload/q_auto,f_auto/v1753233876/saas/logos/image_1753233797906_s3hyoqr1m.webp",
+            "created": "2025-07-23 01:24:38"
+        },
+        "Masthead": {
+            "url": null,
+            "created": null
+        }
+    }
+```
+- Here are the parameters for the related get orders API endpoint, use as a basis for props:
+per_page
+integer optional
+How many results to retrieve (per page). Max 500.
+Default:
+100
+
+page
+integer optional
+Which page to return. For example, if per_page is 20, and page is 3, the results would show 41-60.
+Default:
+1
+
+q
+string optional
+Exact email address or last name attached to an order.
+
+return_questionnaires
+boolean optional
+Whether or not to return the question responses from questionnaires (will include attendee responses as well IF tickets are returned)
+Default:
+false
+
+return_tickets
+boolean optional
+Whether or not to return the tickets for each order as well.
+Default:
+false
+
+return_line_item_fees
+boolean optional
+Whether or not to return the itemized line item fees for each order (if they exist).
+Default:
+false
+
+ordered_after
+string optional
+Only retrieve orders that were ordered AFTER the specified date/time (format: YYYY-MM-DD or YYYY-MM-DD HH:MM:SS).
+
+ordered_before
+string optional
+Only retrieve orders that were ordered BEFORE the specified date/time (format: YYYY-MM-DD or YYYY-MM-DD HH:MM:SS).
+
+ordered_phrase
+string optional
+A string representing the date to pull orders created ___. Possible values are: today, yesterday, tomorrow, this_week, this_weekend, next_week, next_weekend, this_month, next_month
+
+modified_after
+string optional
+Only retrieve orders that were modified AFTER the specified date/time (format: YYYY-MM-DD or YYYY-MM-DD HH:MM:SS).
+
+modified_before
+string optional
+Only retrieve orders that were modified BEFORE the specified date/time (format: YYYY-MM-DD or YYYY-MM-DD HH:MM:SS).
+
+sort_by
+string optional
+Which field to sort by. By default (‘date’), this will sort orders by their ordered date. Or ‘name’ to order by last name.
+Default:
+'date'
+
+sort_dir
+string optional
+Which direction you’d like to sort - either ascending (‘asc’ - the default) or descending (‘desc’).
+Default:
+'asc'
+total_above
+
+number optional
+Return only orders who’s order total is greater than this value.
+Default:
+0
+
+total_below
+string optional
+Return only orders who’s order total is lesss than this value.
+
+promo_used_only
+boolean optional
+If set to true, this will return only orders who used a promo code.
+Default:
+false
+```
+
+get-order-details
+Get details for the specified order.
+-When you come up for the description for this component following format: <component description>. [See documentation](https://speca.io/ticketsauce/ticketsauce-public-api?key=204000d6bda66da78315e721920f43aa#order-details)
+- Here are the parameters for the related get order details API endpoint, use as a basis for props:
+order_id
+path parameter, string required
+-add an additional prop related to event_id and use async options so users can select an event. 
+-as referece examples for async options you can use those found in apps zendesk, guru, etsy and recently you helped me come up with async options for prop imageId in generate-motion.mjs of leonardo ai app.
+-when returning the context object, if there are no more options to return, simply return an empty object {}
+-here is the response example for "list events" endpoint for you to come up with logic on how to implement async options for the prop related to id_or_slug
+```
+[
+    {
+        "Event": {
+            "active": true,
+            "address": "1221 Saint James Street",
+            "address2": "",
+            "city": "Philadelphia",
+            "country": "United States",
+            "created": "2025-06-26 02:40:59",
+            "custom_id": null,
+            "show_start": true,
+            "show_end": false,
+            "end": "2029-03-01 23:45:00",
+            "end_utc": "2029-03-02 04:45:00",
+            "featured": false,
+            "id": "685cb33b-0dc8-462d-ae5b-00410a1e60d3",
+            "location": "Voyeur Nightclub",
+            "latitude": "39.948357",
+            "longitude": "-75.161697",
+            "map_zoom": "13",
+            "modified": "2025-09-16 22:08:06",
+            "name": "Badge Conference Event TEST",
+            "online_only": false,
+            "activity_producer_id": null,
+            "organization_id": "64ad9d19-1bd0-490f-b332-7c9f0ad1e024",
+            "partner_id": "64ac69a6-a344-4e05-bbc7-64670ad1e030",
+            "postal_code": "19107",
+            "privacy_type": "0",
+            "region": null,
+            "slug": "badge-conference-event-test",
+            "start": "2029-03-01 23:30:00",
+            "start_utc": "2029-03-02 04:30:00",
+            "state": "PA",
+            "tickets_active": true,
+            "timezone": "America/New_York",
+            "website": "",
+            "event_topic_id": "589e8222-c4f8-4794-bde7-73d40a004b01",
+            "organization_name": "Voyeur DC",
+            "scheduled_publish_datetime_utc": null,
+            "event_topic": "Business",
+            "category": "Business",
+            "event_url": "https://grindr.ticketsauce.com/e/badge-conference-event-test",
+            "tickets_url": "https://grindr.ticketsauce.com/e/badge-conference-event-test/tickets",
+            "display_times": true,
+            "order_count": 4,
+            "partner_name": "Grindr Demo"
+        },
+        "Logo": {
+            "url": "https://res.cloudinary.com/eventservice/image/upload/q_auto,f_auto/v1751769059/saas/logos/image_1751769042730_r9qr7df7d.webp",
+            "created": "2025-06-26 03:04:39"
+        },
+        "Masthead": {
+            "url": null,
+            "created": null
+        }
+    },
+    {
+        "Event": {
+            "active": true,
+            "address": "",
+            "address2": "",
+            "city": "San Jose",
+            "country": "United States",
+            "created": "2025-07-23 01:23:07",
+            "custom_id": null,
+            "show_start": true,
+            "show_end": false,
+            "end": "2026-05-03 23:00:00",
+            "end_utc": "2026-05-04 06:00:00",
+            "featured": false,
+            "id": "6880397b-3624-4dc9-8e62-00140a1e60f5",
+            "location": "San Jose",
+            "latitude": null,
+            "longitude": null,
+            "map_zoom": "13",
+            "modified": "2025-07-23 07:10:35",
+            "name": "Festival Wristband Event",
+            "online_only": false,
+            "activity_producer_id": null,
+            "organization_id": "64ad9d19-1bd0-490f-b332-7c9f0ad1e024",
+            "partner_id": "64ac69a6-a344-4e05-bbc7-64670ad1e030",
+            "postal_code": "",
+            "privacy_type": "0",
+            "region": null,
+            "slug": "festival-wristband-event",
+            "start": "2026-05-01 18:00:00",
+            "start_utc": "2026-05-02 01:00:00",
+            "state": "CA",
+            "tickets_active": true,
+            "timezone": "America/Los_Angeles",
+            "website": "",
+            "event_topic_id": "c2fc3d42-c85f-4ecf-a0df-19d0a8659353",
+            "organization_name": "Voyeur DC",
+            "scheduled_publish_datetime_utc": null,
+            "event_topic": "Festival",
+            "category": "Festival",
+            "event_url": "https://grindr.ticketsauce.com/e/festival-wristband-event",
+            "tickets_url": "https://grindr.ticketsauce.com/e/festival-wristband-event/tickets",
+            "display_times": true,
+            "order_count": 1,
+            "partner_name": "Grindr Demo"
+        },
+        "Logo": {
+            "url": "https://res.cloudinary.com/eventservice/image/upload/q_auto,f_auto/v1753233876/saas/logos/image_1753233797906_s3hyoqr1m.webp",
+            "created": "2025-07-23 01:24:38"
+        },
+        "Masthead": {
+            "url": null,
+            "created": null
+        }
+    }
+```
+- with the user selection of event_id you will dynamically populate async options for the order_id prop. You can reference the Google Sheets app, delete rows action, where Worksheet ID prop is dynamically populated based off the Spreadsheet ID selecfed by the user.
+-here is the response example for "get orders" endpoint for you to come up with logic on how to implement async options for the prop related to order_id
+```
+[{"Order":{"id":"68803b8b-d290-4476-bed7-00120a1e6305","status":"1","last_name":"Lawrence","first_name":"Reid","dob":null,"email":"gmreid@gmail.com","phone":"(999) 888-5555","title":null,"company":null,"address":null,"address2":null,"city":"Philly","state":"PA","postal_code":null,"country":"US","opted_in":false,"opted_in_sms":false,"subtotal":"0.00","total_paid":"0.00","refund_amount":"0.00","taxes":"0.00","contributions":"0.00","service_charges":"0.00","cc_fees":"0.00","admin_charges":"0.00","custom_line_item_fees":"0.00","policy_total":"0.00","policy_refunded":"0.00","ticket_count":"4","promo_code_amount":"0.00","promo_code":null,"promo_code_id":null,"purchase_location":"online","paid_date":"2025-07-22 18:31:55","paid_date_utc":"2025-07-23 01:31:55","affiliate_code":null,"event_id":"6880397b-3624-4dc9-8e62-00140a1e60f5","modified":"2025-07-23 01:31:55","delivery_method":"email","affiliate_code_id":null,"affiliate_code_name":null,"promoter_id":null,"promoter_name":null}}]
+```
+
+get-ticket-checkin-ids
+Prompt
+Get a list of ticket check-in IDs from the specified event.
+-When you come up for the description for this component following format: <component description>. [See documentation](https://speca.io/ticketsauce/ticketsauce-public-api?key=204000d6bda66da78315e721920f43aa#ticket-checkin-ids)
+- Here are the parameters for the related API endpoint, use as a basis for props:
+```
+Path parameters
+event_id
+string required
+ID of event
+
+query string parameters
+per_page
+integer optional
+How many results to retrieve (per page). Max 5000.
+
+page
+integer optional
+Which page to return. For example, if per_page is 20, and page is 3, the results would show 41-60.
+Default:
+1
+```
+-for the prop related to id_or_slug use async options so users can select an event. 
+-as reference examples for async options you can use those found in apps zendesk, guru, etsy and recently you helped me come up with async options for prop imageId in generate-motion.mjs of leonardo ai app.
+-when returning the context object, if there are no more options to return, simply return an empty object {}
+-here is the response example for "list events" endpoint for you to come up with logic on how to implement async options for the prop related to id_or_slug
+```
+[
+    {
+        "Event": {
+            "active": true,
+            "address": "1221 Saint James Street",
+            "address2": "",
+            "city": "Philadelphia",
+            "country": "United States",
+            "created": "2025-06-26 02:40:59",
+            "custom_id": null,
+            "show_start": true,
+            "show_end": false,
+            "end": "2029-03-01 23:45:00",
+            "end_utc": "2029-03-02 04:45:00",
+            "featured": false,
+            "id": "685cb33b-0dc8-462d-ae5b-00410a1e60d3",
+            "location": "Voyeur Nightclub",
+            "latitude": "39.948357",
+            "longitude": "-75.161697",
+            "map_zoom": "13",
+            "modified": "2025-09-16 22:08:06",
+            "name": "Badge Conference Event TEST",
+            "online_only": false,
+            "activity_producer_id": null,
+            "organization_id": "64ad9d19-1bd0-490f-b332-7c9f0ad1e024",
+            "partner_id": "64ac69a6-a344-4e05-bbc7-64670ad1e030",
+            "postal_code": "19107",
+            "privacy_type": "0",
+            "region": null,
+            "slug": "badge-conference-event-test",
+            "start": "2029-03-01 23:30:00",
+            "start_utc": "2029-03-02 04:30:00",
+            "state": "PA",
+            "tickets_active": true,
+            "timezone": "America/New_York",
+            "website": "",
+            "event_topic_id": "589e8222-c4f8-4794-bde7-73d40a004b01",
+            "organization_name": "Voyeur DC",
+            "scheduled_publish_datetime_utc": null,
+            "event_topic": "Business",
+            "category": "Business",
+            "event_url": "https://grindr.ticketsauce.com/e/badge-conference-event-test",
+            "tickets_url": "https://grindr.ticketsauce.com/e/badge-conference-event-test/tickets",
+            "display_times": true,
+            "order_count": 4,
+            "partner_name": "Grindr Demo"
+        },
+        "Logo": {
+            "url": "https://res.cloudinary.com/eventservice/image/upload/q_auto,f_auto/v1751769059/saas/logos/image_1751769042730_r9qr7df7d.webp",
+            "created": "2025-06-26 03:04:39"
+        },
+        "Masthead": {
+            "url": null,
+            "created": null
+        }
+    },
+    {
+        "Event": {
+            "active": true,
+            "address": "",
+            "address2": "",
+            "city": "San Jose",
+            "country": "United States",
+            "created": "2025-07-23 01:23:07",
+            "custom_id": null,
+            "show_start": true,
+            "show_end": false,
+            "end": "2026-05-03 23:00:00",
+            "end_utc": "2026-05-04 06:00:00",
+            "featured": false,
+            "id": "6880397b-3624-4dc9-8e62-00140a1e60f5",
+            "location": "San Jose",
+            "latitude": null,
+            "longitude": null,
+            "map_zoom": "13",
+            "modified": "2025-07-23 07:10:35",
+            "name": "Festival Wristband Event",
+            "online_only": false,
+            "activity_producer_id": null,
+            "organization_id": "64ad9d19-1bd0-490f-b332-7c9f0ad1e024",
+            "partner_id": "64ac69a6-a344-4e05-bbc7-64670ad1e030",
+            "postal_code": "",
+            "privacy_type": "0",
+            "region": null,
+            "slug": "festival-wristband-event",
+            "start": "2026-05-01 18:00:00",
+            "start_utc": "2026-05-02 01:00:00",
+            "state": "CA",
+            "tickets_active": true,
+            "timezone": "America/Los_Angeles",
+            "website": "",
+            "event_topic_id": "c2fc3d42-c85f-4ecf-a0df-19d0a8659353",
+            "organization_name": "Voyeur DC",
+            "scheduled_publish_datetime_utc": null,
+            "event_topic": "Festival",
+            "category": "Festival",
+            "event_url": "https://grindr.ticketsauce.com/e/festival-wristband-event",
+            "tickets_url": "https://grindr.ticketsauce.com/e/festival-wristband-event/tickets",
+            "display_times": true,
+            "order_count": 1,
+            "partner_name": "Grindr Demo"
+        },
+        "Logo": {
+            "url": "https://res.cloudinary.com/eventservice/image/upload/q_auto,f_auto/v1753233876/saas/logos/image_1753233797906_s3hyoqr1m.webp",
+            "created": "2025-07-23 01:24:38"
+        },
+        "Masthead": {
+            "url": null,
+            "created": null
+        }
+    }
+```
+
