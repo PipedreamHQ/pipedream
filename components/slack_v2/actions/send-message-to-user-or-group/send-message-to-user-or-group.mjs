@@ -52,6 +52,14 @@ export default {
       ],
     },
     ...common.props,
+    // eslint-disable-next-line pipedream/props-label
+    as_user: {
+      ...common.props.as_user,
+      description: "Optionally pass `true` to post the message as the authenticated user, instead of as a bot. Defaults to `true`.",
+      // Default to true since bots can't message users unless the "Messages"
+      // tab is enabled, and can't message groups unless the bot is a member.
+      default: true,
+    },
     // eslint-disable-next-line pipedream/props-label, pipedream/props-description
     addToChannel: {
       type: "boolean",
