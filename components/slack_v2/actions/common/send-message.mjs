@@ -14,6 +14,8 @@ export default {
         slack,
         "addToChannel",
       ],
+      description: "If `true`, the app will be added to the specified non-DM channel(s) automatically. If `false`, you must add the app to the channel manually to post to a private channel as a bot. Defaults to `false`.",
+      default: false,
     },
     post_at: {
       propDefinition: [
