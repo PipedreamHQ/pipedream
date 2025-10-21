@@ -629,6 +629,9 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
 
+  components/airweave:
+    specifiers: {}
+
   components/aitable_ai:
     dependencies:
       '@pipedream/platform':
@@ -2995,6 +2998,9 @@ importers:
 
   components/codeberg: {}
 
+  components/codefresh:
+    specifiers: {}
+
   components/codegpt: {}
 
   components/codemagic:
@@ -3105,6 +3111,9 @@ importers:
       columns-sdk:
         specifier: ^0.0.6
         version: 0.0.6
+
+  components/cometapi:
+    specifiers: {}
 
   components/cometly:
     dependencies:
@@ -3290,6 +3299,9 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/copicake:
+    specifiers: {}
+
   components/copper:
     dependencies:
       '@pipedream/platform':
@@ -3375,6 +3387,9 @@ importers:
       '@pipedream/platform':
         specifier: ^1.6.0
         version: 1.6.6
+
+  components/cronly:
+    specifiers: {}
 
   components/crove_app:
     dependencies:
@@ -4881,7 +4896,11 @@ importers:
 
   components/fastfield_mobile_forms: {}
 
-  components/fathom: {}
+  components/fathom:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/fatture_in_cloud: {}
 
@@ -10425,8 +10444,8 @@ importers:
   components/payhip:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/paykickstart:
     dependencies:
@@ -10902,6 +10921,9 @@ importers:
       '@pipedream/platform':
         specifier: ^1.3.0
         version: 1.6.6
+
+  components/piwik_pro:
+    specifiers: {}
 
   components/pixelbin:
     dependencies:
@@ -12647,7 +12669,11 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/screenshotbase: {}
+  components/screenshotbase:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/screenshotone:
     dependencies:
@@ -13105,8 +13131,8 @@ importers:
   components/shopify_partner:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.0
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       graphql:
         specifier: ^16.8.1
         version: 16.9.0
@@ -14185,7 +14211,11 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
-  components/taggun: {}
+  components/taggun:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/taiga:
     dependencies:
@@ -14748,6 +14778,9 @@ importers:
       '@pipedream/types':
         specifier: ^0.1.4
         version: 0.1.6
+
+  components/topdesk:
+    specifiers: {}
 
   components/topmessage:
     dependencies:
@@ -31348,22 +31381,22 @@ packages:
   superagent@3.8.1:
     resolution: {integrity: sha512-VMBFLYgFuRdfeNQSMLbxGSLfmXL/xc+OO+BZp41Za/NRDBet/BNbkRJrYzCUu0u4GU0i/ml2dtT8b9qgkw9z6Q==}
     engines: {node: '>= 4.0'}
-    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
 
   superagent@4.1.0:
     resolution: {integrity: sha512-FT3QLMasz0YyCd4uIi5HNe+3t/onxMyEho7C3PSqmti3Twgy2rXT4fmkTz6wRL6bTF4uzPcfkUCa8u4JWHw8Ag==}
     engines: {node: '>= 6.0'}
-    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
 
   superagent@5.3.1:
     resolution: {integrity: sha512-wjJ/MoTid2/RuGCOFtlacyGNxN9QLMgcpYLDQlWFIhhdJ93kNscFonGvrpAHSCVjRVj++DGCglocF7Aej1KHvQ==}
     engines: {node: '>= 7.0.0'}
-    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
 
   superagent@7.1.6:
     resolution: {integrity: sha512-gZkVCQR1gy/oUXr+kxJMLDjla434KmSOKbx5iGD30Ql+AkJQ/YlPKECJy2nhqOsHLjGHzoDTXNSjhnvWhzKk7g==}
     engines: {node: '>=6.4.0 <13 || >=14'}
-    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
 
   supports-color@10.0.0:
     resolution: {integrity: sha512-HRVVSbCCMbj7/kdWF9Q+bbckjBHLtHMEoJWlkmYzzdwhYMkjkOwubLM6t7NbWKjgKamGDrWL1++KrjUO1t9oAQ==}

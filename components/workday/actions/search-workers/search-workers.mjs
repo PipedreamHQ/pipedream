@@ -4,7 +4,7 @@ export default {
   key: "workday-search-workers",
   name: "Search Workers",
   description: "Retrieve a list of workers based on a search query. [See the documentation](https://community.workday.com/sites/default/files/file-hosting/restapi/#common/v1/get-/workers)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
