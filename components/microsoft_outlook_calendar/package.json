@@ -15,6 +15,8 @@
     "access": "public"
   },
   "dependencies": {
+    "@pipedream/microsoft_outlook": "^1.7.3",
+    "@pipedream/pipedream": "^0.4.2",
     "@pipedream/platform": "^3.0.3"
   }
 }
