@@ -73,10 +73,12 @@ export default {
     async makePropDefinition(property, requiredProperties) {
       let type = "string";
       let options = this.makeLabelValueOptions(property);
+      let useQuery;
 
       if (property.referencedObjectType) {
         const objectTypeName = this.hubspot.getObjectTypeName(property.referencedObjectType);
         options = getOptionsMethod(objectTypeName);
+        useQuery = true;
       }
 
       if (property.name === "hs_timestamp") {
@@ -109,6 +111,7 @@ export default {
         optional: !requiredProperties.includes(property.name),
         options,
         reloadProps,
+        useQuery,
       };
     },
   },
