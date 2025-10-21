@@ -3061,6 +3061,9 @@ importers:
         specifier: ^7.10.6
         version: 7.14.0(@aws-sdk/client-sso-oidc@3.696.0(@aws-sdk/client-sts@3.696.0(aws-crt@1.25.0))(aws-crt@1.25.0))(aws-crt@1.25.0)
 
+  components/coinapi:
+    specifiers: {}
+
   components/coinbase:
     dependencies:
       '@pipedream/platform':
