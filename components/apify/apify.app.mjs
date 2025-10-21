@@ -166,7 +166,7 @@ export default {
       return this._client().actor(actorId)
         .call(input, options);
     },
-    getActorRun({ runId }) {
+    getRun({ runId }) {
       return this._client().run(runId)
         .get();
     },
@@ -177,10 +177,10 @@ export default {
         .start(data, params);
     },
     runTask({
-      taskId, params,
+      taskId, params, input,
     }) {
       return this._client().task(taskId)
-        .start(params);
+        .start(input, params);
     },
     getActor({ actorId }) {
       return this._client().actor(actorId)
@@ -255,10 +255,10 @@ export default {
         .getRecordPublicUrl(recordKey);
     },
     runTaskSynchronously({
-      taskId, params,
+      taskId, params, input,
     }) {
       return this._client().task(taskId)
-        .call({}, params);
+        .call(input, params);
     },
     setKeyValueStoreRecord({
       storeId, key, value, contentType,
