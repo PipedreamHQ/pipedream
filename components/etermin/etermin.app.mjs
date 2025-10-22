@@ -1,15 +1,13 @@
 import { axios } from "@pipedream/platform";
-import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "etermin",
   propDefinitions: {
     updateWhenExistsgdt: {
-      type: "string",
+      type: "boolean",
       label: "Update When Exists",
       description: "Set to 1 to check if the contact is already existing. If so the existing contact gets updated. Needs email or firstname, lastname and birthday",
-      options: constants.UPDATE_OPTIONS,
     },
     salutation: {
       type: "string",
@@ -64,7 +62,7 @@ export default {
     isPercentage: {
       type: "boolean",
       label: "Is Percentage",
-      description: "Indicates if the value of the vaucher is a percentage",
+      description: "Indicates if the value of the voucher is a percentage",
     },
     customerEmail: {
       type: "string",
@@ -88,7 +86,7 @@ export default {
     },
     async _makeRequest(opts = {}) {
       const {
-        $ = this,
+        $,
         path,
         headers,
         ...otherOpts

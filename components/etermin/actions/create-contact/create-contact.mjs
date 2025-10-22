@@ -63,14 +63,18 @@ export default {
     },
   },
   async run({ $ }) {
+    const updateWhenExistsgdt = this.updateWhenExistsgdt === true || this.updateWhenExistsgdt === "true"
+      ? 1
+      : 0;
+
     const response = await this.app.createContact({
       $,
       params: {
-        updatewhenexistsgdt: this.updateWhenExistsgdt,
+        updatewhenexistsgdt: updateWhenExistsgdt,
         salutation: this.salutation,
         title: this.title,
-        lastname: this.lastName,
-        firstname: this.firstName,
+        lastname: this.lastname,
+        firstname: this.firstname,
         company: this.company,
         birthday: this.birthday,
         email: this.email,

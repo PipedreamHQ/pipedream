@@ -62,9 +62,11 @@ export default {
       params: {
         id: this.id,
         description: this.description,
-        priceinclvat: this.priceInClvat,
-        priceoriginal: this.priceOriginal,
-        ispercentage: this.isPercentage,
+        priceinclvat: this.priceInclVat,
+        priceoriginal: this.priceInclVat, // Docs: Should be the same value as in priceinclvat, important with contingent
+        ispercentage: this.isPercentage
+          ? 1
+          : 0,
         customeremail: this.customerEmail,
         validfrom: this.validFrom,
         validuntil: this.validUntil,
