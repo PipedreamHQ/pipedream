@@ -66,7 +66,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return `https://${this.$auth.domain}/ccx/api/v1/${this.$auth.tenant_id}`;
+      return this.$auth.rest_api_endpoint;
     },
     _makeRequest({
       $ = this, path, ...opts

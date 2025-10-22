@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/crossmint",
+  "version": "0.0.1",
+  "description": "Pipedream Crossmint Components",
+  "main": "crossmint.app.mjs",
+  "keywords": [
+    "pipedream",
+    "crossmint"
+  ],
+  "homepage": "https://pipedream.com/apps/crossmint",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

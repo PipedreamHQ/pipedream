@@ -5,7 +5,7 @@ export default {
   name: "Create Ticket",
   description: "Creates a ticket in your helpdesk. [See the docs here](https://desk.zoho.com/DeskAPIDocument#Tickets#Tickets_Createaticket)",
   type: "action",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
