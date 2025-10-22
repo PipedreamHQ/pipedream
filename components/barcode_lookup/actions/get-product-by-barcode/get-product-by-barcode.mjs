@@ -4,7 +4,7 @@ export default {
   key: "barcode_lookup-get-product-by-barcode",
   name: "Get Product by Barcode",
   description: "Get a product by barcode. [See the documentation](https://www.barcodelookup.com/api-documentation)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -20,7 +20,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.searchProducts({
+    const response = await this.app.getProducts({
       $,
       params: {
         barcode: this.barcode,
