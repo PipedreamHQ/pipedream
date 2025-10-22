@@ -31,13 +31,6 @@ export default {
         ...opts,
       });
     },
-    createSubscription(opts = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/track/v1/subscription/standard/package",
-        ...opts,
-      });
-    },
     getTrackingInfo({
       trackingNumber, ...opts
     }) {
