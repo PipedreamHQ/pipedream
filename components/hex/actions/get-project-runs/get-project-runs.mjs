@@ -3,7 +3,7 @@ import hex from "../../hex.app.mjs";
 
 export default {
   key: "hex-get-project-runs",
-  name: "Run Project Runs",
+  name: "Get Project Runs",
   description: "Get the status of the API-triggered runs of a project. [See the documentation](https://learn.hex.tech/docs/api/api-reference#operation/GetProjectRuns)",
   version: "0.0.1",
   annotations: {
