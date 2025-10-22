@@ -104,7 +104,7 @@ export default {
         maxResults: this.maxResults,
         fn: this.hex.listProjects,
         params: {
-          limit: 1,
+        params: {
           includeArchived: this.includeArchived,
           includeComponents: this.includeComponents,
           includeTrashed: this.includeTrashed,
