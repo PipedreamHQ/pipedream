@@ -5,7 +5,7 @@ export default {
   name: "Create Contact",
   description: "Creates a contact in your help desk portal. [See the docs here](https://desk.zoho.com/DeskAPIDocument#Contacts#Contacts_CreateContact)",
   type: "action",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
