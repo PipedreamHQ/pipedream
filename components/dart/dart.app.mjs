@@ -126,7 +126,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://app.dartai.com/api/v0/public";
+      return "https://app.dartai.com/api/v0";
     },
     _makeRequest(opts = {}) {
       const {
@@ -144,7 +144,7 @@ export default {
     },
     listDocs(opts = {}) {
       return this._makeRequest({
-        path: "/docs/list",
+        path: "/docs",
         ...opts,
       });
     },
@@ -169,21 +169,21 @@ export default {
     createTransaction(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/transactions/create",
+        path: "/public/transactions/create",
         ...opts,
       });
     },
     createDoc(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/docs",
+        path: "/public/docs",
         ...opts,
       });
     },
     updateDoc(opts = {}) {
       return this._makeRequest({
         method: "PUT",
-        path: `/docs/${opts.data.item.id}`,
+        path: `/public/docs/${opts.data.item.id}`,
         ...opts,
       });
     },
@@ -192,7 +192,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "DELETE",
-        path: `/docs/${docId}`,
+        path: `/public/docs/${docId}`,
         ...opts,
       });
     },

@@ -4,7 +4,7 @@ export default {
   key: "dart-update-task",
   name: "Update Task",
   description: "Updates an existing task within a dartboard. [See the documentation](https://app.itsdart.com/api/v0/docs/)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
