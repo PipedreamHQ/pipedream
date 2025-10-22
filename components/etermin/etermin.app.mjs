@@ -7,7 +7,7 @@ export default {
     updateWhenExistsgdt: {
       type: "boolean",
       label: "Update When Exists",
-      description: "Set to 1 to check if the contact is already existing. If so the existing contact gets updated. Needs email or firstname, lastname and birthday",
+      description: "Set to `true` to check if the contact already exists. If found, the existing contact is updated. Requires email, or first name + last name + birthday.",
     },
     salutation: {
       type: "string",
