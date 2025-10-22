@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/configcat",
+  "version": "0.0.1",
+  "description": "Pipedream ConfigCat Components",
+  "main": "configcat.app.mjs",
+  "keywords": [
+    "pipedream",
+    "configcat"
+  ],
+  "homepage": "https://pipedream.com/apps/configcat",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
