@@ -28,9 +28,7 @@ export default {
         asana,
         "teams",
         ({ workspace }) => ({
-          workspaces: [
-            workspace,
-          ],
+          workspace,
         }),
       ],
       type: "string",

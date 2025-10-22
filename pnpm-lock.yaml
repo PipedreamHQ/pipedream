@@ -104,7 +104,7 @@ importers:
         version: 4.0.0
       ts-jest:
         specifier: ^29.1.1
-        version: 29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(jest@29.7.0(@types/node@20.17.6)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.17.6)(typescript@5.6.3)))(typescript@5.6.3)
+        version: 29.2.5(@babel/core@8.0.0-alpha.13)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@8.0.0-alpha.13))(jest@29.7.0(@types/node@20.17.6)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.17.6)(typescript@5.6.3)))(typescript@5.6.3)
       tsc-esm-fix:
         specifier: ^2.18.0
         version: 2.20.27
@@ -630,7 +630,13 @@ importers:
         version: 3.1.0
 
   components/airweave:
-    specifiers: {}
+    dependencies:
+      '@airweave/sdk':
+        specifier: ^0.1.50
+        version: 0.1.51
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.1.0
 
   components/aitable_ai:
     dependencies:
@@ -2679,8 +2685,7 @@ importers:
         specifier: ^3.0.1
         version: 3.0.1(web-streams-polyfill@3.3.3)
 
-  components/clarifai:
-    specifiers: {}
+  components/clarifai: {}
 
   components/clarify: {}
 
@@ -2864,6 +2869,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
+
+  components/cloud_66:
+    specifiers: {}
 
   components/cloud_convert:
     dependencies:
@@ -3055,6 +3063,9 @@ importers:
       cohere-ai:
         specifier: ^7.10.6
         version: 7.14.0(@aws-sdk/client-sso-oidc@3.696.0(@aws-sdk/client-sts@3.696.0(aws-crt@1.25.0))(aws-crt@1.25.0))(aws-crt@1.25.0)
+
+  components/coinapi:
+    specifiers: {}
 
   components/coinbase:
     dependencies:
@@ -3389,6 +3400,9 @@ importers:
         version: 1.6.6
 
   components/cronly:
+    specifiers: {}
+
+  components/crossmint:
     specifiers: {}
 
   components/crove_app:
@@ -6594,8 +6608,7 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/hex:
-    specifiers: {}
+  components/hex: {}
 
   components/heygen:
     dependencies:
@@ -16974,7 +16987,7 @@ importers:
         version: 3.1.7
       ts-jest:
         specifier: ^29.2.5
-        version: 29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(esbuild@0.24.2)(jest@29.7.0(@types/node@20.17.30)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.17.30)(typescript@5.7.2)))(typescript@5.7.2)
+        version: 29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(jest@29.7.0(@types/node@20.17.30)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.17.30)(typescript@5.7.2)))(typescript@5.7.2)
       tsup:
         specifier: ^8.3.6
         version: 8.3.6(@microsoft/api-extractor@7.47.12(@types/node@20.17.30))(jiti@2.4.2)(postcss@8.5.6)(tsx@4.19.4)(typescript@5.7.2)(yaml@2.8.0)
@@ -17077,6 +17090,9 @@ packages:
   '@adyen/api-library@20.0.0':
     resolution: {integrity: sha512-C+jj5XBTCNs7AFwufOkPLhuqn9bdgSDcqLB6b/Ppi9Fujwt613vWmA1hxeG76RX49vzHZIDJLq6N/v0o2SY1sA==}
     engines: {node: '>=18'}
+
+  '@airweave/sdk@0.1.51':
+    resolution: {integrity: sha512-jxBG+liX4XAz4acOH7UrZnGzJ9ltgSsh2CIadpQFT+XAnJUwsRajwnKef46LsNUgvUplrzjFkEXABX0RCAWP4g==}
 
   '@algolia/client-abtesting@5.17.1':
     resolution: {integrity: sha512-Os/xkQbDp5A5RdGYq1yS3fF69GoBJH5FIfrkVh+fXxCSe714i1Xdl9XoXhS4xG76DGKm6EFMlUqP024qjps8cg==}
@@ -31381,22 +31397,22 @@ packages:
   superagent@3.8.1:
     resolution: {integrity: sha512-VMBFLYgFuRdfeNQSMLbxGSLfmXL/xc+OO+BZp41Za/NRDBet/BNbkRJrYzCUu0u4GU0i/ml2dtT8b9qgkw9z6Q==}
     engines: {node: '>= 4.0'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   superagent@4.1.0:
     resolution: {integrity: sha512-FT3QLMasz0YyCd4uIi5HNe+3t/onxMyEho7C3PSqmti3Twgy2rXT4fmkTz6wRL6bTF4uzPcfkUCa8u4JWHw8Ag==}
     engines: {node: '>= 6.0'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   superagent@5.3.1:
     resolution: {integrity: sha512-wjJ/MoTid2/RuGCOFtlacyGNxN9QLMgcpYLDQlWFIhhdJ93kNscFonGvrpAHSCVjRVj++DGCglocF7Aej1KHvQ==}
     engines: {node: '>= 7.0.0'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   superagent@7.1.6:
     resolution: {integrity: sha512-gZkVCQR1gy/oUXr+kxJMLDjla434KmSOKbx5iGD30Ql+AkJQ/YlPKECJy2nhqOsHLjGHzoDTXNSjhnvWhzKk7g==}
     engines: {node: '>=6.4.0 <13 || >=14'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   supports-color@10.0.0:
     resolution: {integrity: sha512-HRVVSbCCMbj7/kdWF9Q+bbckjBHLtHMEoJWlkmYzzdwhYMkjkOwubLM6t7NbWKjgKamGDrWL1++KrjUO1t9oAQ==}
@@ -32954,6 +32970,15 @@ snapshots:
       '@types/node': 14.18.63
     transitivePeerDependencies:
       - supports-color
+
+  '@airweave/sdk@0.1.51':
+    dependencies:
+      form-data: 4.0.4
+      formdata-node: 6.0.3
+      node-fetch: 2.7.0
+      readable-stream: 4.5.2
+    transitivePeerDependencies:
+      - encoding
 
   '@algolia/client-abtesting@5.17.1':
     dependencies:
@@ -35798,7 +35823,7 @@ snapshots:
       '@babel/traverse': 7.25.9
       '@babel/types': 7.26.0
       convert-source-map: 2.0.0
-      debug: 4.3.7(supports-color@5.5.0)
+      debug: 4.3.7(supports-color@9.4.0)
       gensync: 1.0.0-beta.2
       json5: 2.2.3
       semver: 6.3.1
@@ -36069,20 +36094,44 @@ snapshots:
       '@babel/core': 7.26.0
       '@babel/helper-plugin-utils': 7.25.9
 
+  '@babel/plugin-syntax-async-generators@7.8.4(@babel/core@8.0.0-alpha.13)':
+    dependencies:
+      '@babel/core': 8.0.0-alpha.13
+      '@babel/helper-plugin-utils': 7.25.9
+    optional: true
+
   '@babel/plugin-syntax-bigint@7.8.3(@babel/core@7.26.0)':
     dependencies:
       '@babel/core': 7.26.0
       '@babel/helper-plugin-utils': 7.25.9
+
+  '@babel/plugin-syntax-bigint@7.8.3(@babel/core@8.0.0-alpha.13)':
+    dependencies:
+      '@babel/core': 8.0.0-alpha.13
+      '@babel/helper-plugin-utils': 7.25.9
+    optional: true
 
   '@babel/plugin-syntax-class-properties@7.12.13(@babel/core@7.26.0)':
     dependencies:
       '@babel/core': 7.26.0
       '@babel/helper-plugin-utils': 7.25.9
 
+  '@babel/plugin-syntax-class-properties@7.12.13(@babel/core@8.0.0-alpha.13)':
+    dependencies:
+      '@babel/core': 8.0.0-alpha.13
+      '@babel/helper-plugin-utils': 7.25.9
+    optional: true
+
   '@babel/plugin-syntax-class-static-block@7.14.5(@babel/core@7.26.0)':
     dependencies:
       '@babel/core': 7.26.0
       '@babel/helper-plugin-utils': 7.25.9
+
+  '@babel/plugin-syntax-class-static-block@7.14.5(@babel/core@8.0.0-alpha.13)':
+    dependencies:
+      '@babel/core': 8.0.0-alpha.13
+      '@babel/helper-plugin-utils': 7.25.9
+    optional: true
 
   '@babel/plugin-syntax-import-assertions@7.26.0(@babel/core@7.26.0)':
     dependencies:
@@ -36094,15 +36143,33 @@ snapshots:
       '@babel/core': 7.26.0
       '@babel/helper-plugin-utils': 7.25.9
 
+  '@babel/plugin-syntax-import-attributes@7.26.0(@babel/core@8.0.0-alpha.13)':
+    dependencies:
+      '@babel/core': 8.0.0-alpha.13
+      '@babel/helper-plugin-utils': 7.25.9
+    optional: true
+
   '@babel/plugin-syntax-import-meta@7.10.4(@babel/core@7.26.0)':
     dependencies:
       '@babel/core': 7.26.0
       '@babel/helper-plugin-utils': 7.25.9
 
+  '@babel/plugin-syntax-import-meta@7.10.4(@babel/core@8.0.0-alpha.13)':
+    dependencies:
+      '@babel/core': 8.0.0-alpha.13
+      '@babel/helper-plugin-utils': 7.25.9
+    optional: true
+
   '@babel/plugin-syntax-json-strings@7.8.3(@babel/core@7.26.0)':
     dependencies:
       '@babel/core': 7.26.0
       '@babel/helper-plugin-utils': 7.25.9
+
+  '@babel/plugin-syntax-json-strings@7.8.3(@babel/core@8.0.0-alpha.13)':
+    dependencies:
+      '@babel/core': 8.0.0-alpha.13
+      '@babel/helper-plugin-utils': 7.25.9
+    optional: true
 
   '@babel/plugin-syntax-jsx@7.25.9(@babel/core@7.26.0)':
     dependencies:
@@ -36114,40 +36181,88 @@ snapshots:
       '@babel/core': 7.26.0
       '@babel/helper-plugin-utils': 7.25.9
 
+  '@babel/plugin-syntax-logical-assignment-operators@7.10.4(@babel/core@8.0.0-alpha.13)':
+    dependencies:
+      '@babel/core': 8.0.0-alpha.13
+      '@babel/helper-plugin-utils': 7.25.9
+    optional: true
+
   '@babel/plugin-syntax-nullish-coalescing-operator@7.8.3(@babel/core@7.26.0)':
     dependencies:
       '@babel/core': 7.26.0
       '@babel/helper-plugin-utils': 7.25.9
+
+  '@babel/plugin-syntax-nullish-coalescing-operator@7.8.3(@babel/core@8.0.0-alpha.13)':
+    dependencies:
+      '@babel/core': 8.0.0-alpha.13
+      '@babel/helper-plugin-utils': 7.25.9
+    optional: true
 
   '@babel/plugin-syntax-numeric-separator@7.10.4(@babel/core@7.26.0)':
     dependencies:
       '@babel/core': 7.26.0
       '@babel/helper-plugin-utils': 7.25.9
 
+  '@babel/plugin-syntax-numeric-separator@7.10.4(@babel/core@8.0.0-alpha.13)':
+    dependencies:
+      '@babel/core': 8.0.0-alpha.13
+      '@babel/helper-plugin-utils': 7.25.9
+    optional: true
+
   '@babel/plugin-syntax-object-rest-spread@7.8.3(@babel/core@7.26.0)':
     dependencies:
       '@babel/core': 7.26.0
       '@babel/helper-plugin-utils': 7.25.9
+
+  '@babel/plugin-syntax-object-rest-spread@7.8.3(@babel/core@8.0.0-alpha.13)':
+    dependencies:
+      '@babel/core': 8.0.0-alpha.13
+      '@babel/helper-plugin-utils': 7.25.9
+    optional: true
 
   '@babel/plugin-syntax-optional-catch-binding@7.8.3(@babel/core@7.26.0)':
     dependencies:
       '@babel/core': 7.26.0
       '@babel/helper-plugin-utils': 7.25.9
 
+  '@babel/plugin-syntax-optional-catch-binding@7.8.3(@babel/core@8.0.0-alpha.13)':
+    dependencies:
+      '@babel/core': 8.0.0-alpha.13
+      '@babel/helper-plugin-utils': 7.25.9
+    optional: true
+
   '@babel/plugin-syntax-optional-chaining@7.8.3(@babel/core@7.26.0)':
     dependencies:
       '@babel/core': 7.26.0
       '@babel/helper-plugin-utils': 7.25.9
+
+  '@babel/plugin-syntax-optional-chaining@7.8.3(@babel/core@8.0.0-alpha.13)':
+    dependencies:
+      '@babel/core': 8.0.0-alpha.13
+      '@babel/helper-plugin-utils': 7.25.9
+    optional: true
 
   '@babel/plugin-syntax-private-property-in-object@7.14.5(@babel/core@7.26.0)':
     dependencies:
       '@babel/core': 7.26.0
       '@babel/helper-plugin-utils': 7.25.9
 
+  '@babel/plugin-syntax-private-property-in-object@7.14.5(@babel/core@8.0.0-alpha.13)':
+    dependencies:
+      '@babel/core': 8.0.0-alpha.13
+      '@babel/helper-plugin-utils': 7.25.9
+    optional: true
+
   '@babel/plugin-syntax-top-level-await@7.14.5(@babel/core@7.26.0)':
     dependencies:
       '@babel/core': 7.26.0
       '@babel/helper-plugin-utils': 7.25.9
+
+  '@babel/plugin-syntax-top-level-await@7.14.5(@babel/core@8.0.0-alpha.13)':
+    dependencies:
+      '@babel/core': 8.0.0-alpha.13
+      '@babel/helper-plugin-utils': 7.25.9
+    optional: true
 
   '@babel/plugin-syntax-typescript@7.25.9(@babel/core@7.26.0)':
     dependencies:
@@ -37211,7 +37326,7 @@ snapshots:
   '@eslint/eslintrc@3.2.0':
     dependencies:
       ajv: 6.12.6
-      debug: 4.3.7(supports-color@5.5.0)
+      debug: 4.3.7(supports-color@9.4.0)
       espree: 10.3.0
       globals: 14.0.0
       ignore: 5.3.2
@@ -39717,6 +39832,8 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
+    transitivePeerDependencies:
+      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
@@ -42277,7 +42394,7 @@ snapshots:
       '@typescript-eslint/types': 8.15.0
       '@typescript-eslint/typescript-estree': 8.15.0(typescript@5.6.3)
       '@typescript-eslint/visitor-keys': 8.15.0
-      debug: 4.3.7(supports-color@5.5.0)
+      debug: 4.3.7(supports-color@9.4.0)
       eslint: 8.57.1
     optionalDependencies:
       typescript: 5.6.3
@@ -43171,6 +43288,20 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  babel-jest@29.7.0(@babel/core@8.0.0-alpha.13):
+    dependencies:
+      '@babel/core': 8.0.0-alpha.13
+      '@jest/transform': 29.7.0
+      '@types/babel__core': 7.20.5
+      babel-plugin-istanbul: 6.1.1
+      babel-preset-jest: 29.6.3(@babel/core@8.0.0-alpha.13)
+      chalk: 4.1.2
+      graceful-fs: 4.2.11
+      slash: 3.0.0
+    transitivePeerDependencies:
+      - supports-color
+    optional: true
+
   babel-plugin-istanbul@6.1.1:
     dependencies:
       '@babel/helper-plugin-utils': 7.25.9
@@ -43237,11 +43368,38 @@ snapshots:
       '@babel/plugin-syntax-private-property-in-object': 7.14.5(@babel/core@7.26.0)
       '@babel/plugin-syntax-top-level-await': 7.14.5(@babel/core@7.26.0)
 
+  babel-preset-current-node-syntax@1.1.0(@babel/core@8.0.0-alpha.13):
+    dependencies:
+      '@babel/core': 8.0.0-alpha.13
+      '@babel/plugin-syntax-async-generators': 7.8.4(@babel/core@8.0.0-alpha.13)
+      '@babel/plugin-syntax-bigint': 7.8.3(@babel/core@8.0.0-alpha.13)
+      '@babel/plugin-syntax-class-properties': 7.12.13(@babel/core@8.0.0-alpha.13)
+      '@babel/plugin-syntax-class-static-block': 7.14.5(@babel/core@8.0.0-alpha.13)
+      '@babel/plugin-syntax-import-attributes': 7.26.0(@babel/core@8.0.0-alpha.13)
+      '@babel/plugin-syntax-import-meta': 7.10.4(@babel/core@8.0.0-alpha.13)
+      '@babel/plugin-syntax-json-strings': 7.8.3(@babel/core@8.0.0-alpha.13)
+      '@babel/plugin-syntax-logical-assignment-operators': 7.10.4(@babel/core@8.0.0-alpha.13)
+      '@babel/plugin-syntax-nullish-coalescing-operator': 7.8.3(@babel/core@8.0.0-alpha.13)
+      '@babel/plugin-syntax-numeric-separator': 7.10.4(@babel/core@8.0.0-alpha.13)
+      '@babel/plugin-syntax-object-rest-spread': 7.8.3(@babel/core@8.0.0-alpha.13)
+      '@babel/plugin-syntax-optional-catch-binding': 7.8.3(@babel/core@8.0.0-alpha.13)
+      '@babel/plugin-syntax-optional-chaining': 7.8.3(@babel/core@8.0.0-alpha.13)
+      '@babel/plugin-syntax-private-property-in-object': 7.14.5(@babel/core@8.0.0-alpha.13)
+      '@babel/plugin-syntax-top-level-await': 7.14.5(@babel/core@8.0.0-alpha.13)
+    optional: true
+
   babel-preset-jest@29.6.3(@babel/core@7.26.0):
     dependencies:
       '@babel/core': 7.26.0
       babel-plugin-jest-hoist: 29.6.3
       babel-preset-current-node-syntax: 1.1.0(@babel/core@7.26.0)
+
+  babel-preset-jest@29.6.3(@babel/core@8.0.0-alpha.13):
+    dependencies:
+      '@babel/core': 8.0.0-alpha.13
+      babel-plugin-jest-hoist: 29.6.3
+      babel-preset-current-node-syntax: 1.1.0(@babel/core@8.0.0-alpha.13)
+    optional: true
 
   backoff@2.5.0:
     dependencies:
@@ -45451,7 +45609,7 @@ snapshots:
       ajv: 6.12.6
       chalk: 4.1.2
       cross-spawn: 7.0.6
-      debug: 4.3.7(supports-color@5.5.0)
+      debug: 4.3.7(supports-color@9.4.0)
       doctrine: 3.0.0
       escape-string-regexp: 4.0.0
       eslint-scope: 7.2.2
@@ -47312,7 +47470,7 @@ snapshots:
   https-proxy-agent@5.0.1:
     dependencies:
       agent-base: 6.0.2
-      debug: 4.3.7(supports-color@5.5.0)
+      debug: 4.3.7(supports-color@9.4.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -49893,7 +50051,7 @@ snapshots:
     dependencies:
       '@tediousjs/connection-string': 0.5.0
       commander: 11.1.0
-      debug: 4.3.7(supports-color@5.5.0)
+      debug: 4.3.7(supports-color@9.4.0)
       rfdc: 1.4.1
       tarn: 3.0.2
       tedious: 16.7.1
@@ -51642,7 +51800,7 @@ snapshots:
       ajv: 8.17.1
       chalk: 5.3.0
       ci-info: 4.1.0
-      debug: 4.3.7(supports-color@5.5.0)
+      debug: 4.3.7(supports-color@9.4.0)
       deepmerge: 4.3.1
       escalade: 3.2.0
       fast-glob: 3.3.2
@@ -53778,7 +53936,7 @@ snapshots:
 
   ts-interface-checker@0.1.13: {}
 
-  ts-jest@29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(esbuild@0.24.2)(jest@29.7.0(@types/node@20.17.30)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.17.30)(typescript@5.7.2)))(typescript@5.7.2):
+  ts-jest@29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(jest@29.7.0(@types/node@20.17.30)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.17.30)(typescript@5.7.2)))(typescript@5.7.2):
     dependencies:
       bs-logger: 0.2.6
       ejs: 3.1.10
@@ -53796,9 +53954,8 @@ snapshots:
       '@jest/transform': 29.7.0
       '@jest/types': 29.6.3
       babel-jest: 29.7.0(@babel/core@7.26.0)
-      esbuild: 0.24.2
 
-  ts-jest@29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(jest@29.7.0(@types/node@20.17.6)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.17.6)(typescript@5.6.3)))(typescript@5.6.3):
+  ts-jest@29.2.5(@babel/core@8.0.0-alpha.13)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@8.0.0-alpha.13))(jest@29.7.0(@types/node@20.17.6)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.17.6)(typescript@5.6.3)))(typescript@5.6.3):
     dependencies:
       bs-logger: 0.2.6
       ejs: 3.1.10
@@ -53812,10 +53969,10 @@ snapshots:
       typescript: 5.6.3
       yargs-parser: 21.1.1
     optionalDependencies:
-      '@babel/core': 7.26.0
+      '@babel/core': 8.0.0-alpha.13
       '@jest/transform': 29.7.0
       '@jest/types': 29.6.3
-      babel-jest: 29.7.0(@babel/core@7.26.0)
+      babel-jest: 29.7.0(@babel/core@8.0.0-alpha.13)
 
   ts-node@10.9.2(@types/node@20.17.30)(typescript@5.7.2):
     dependencies:
@@ -53987,7 +54144,7 @@ snapshots:
       cac: 6.7.14
       chokidar: 4.0.3
       consola: 3.4.0
-      debug: 4.3.7(supports-color@5.5.0)
+      debug: 4.3.7(supports-color@9.4.0)
       esbuild: 0.24.2
       joycon: 3.1.1
       picocolors: 1.1.1
@@ -54015,7 +54172,7 @@ snapshots:
       cac: 6.7.14
       chokidar: 4.0.3
       consola: 3.4.0
-      debug: 4.3.7(supports-color@5.5.0)
+      debug: 4.3.7(supports-color@9.4.0)
       esbuild: 0.24.2
       joycon: 3.1.1
       picocolors: 1.1.1
@@ -54639,7 +54796,7 @@ snapshots:
       '@volar/typescript': 2.4.10
       '@vue/language-core': 2.1.6(typescript@5.9.2)
       compare-versions: 6.1.1
-      debug: 4.3.7(supports-color@5.5.0)
+      debug: 4.3.7(supports-color@9.4.0)
       kolorist: 1.8.0
       local-pkg: 0.5.1
       magic-string: 0.30.13

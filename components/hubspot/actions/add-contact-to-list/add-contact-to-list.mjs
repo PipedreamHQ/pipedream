@@ -5,7 +5,7 @@ export default {
   name: "Add Contact to List",
   description:
     "Adds a contact to a specific static list. [See the documentation](https://legacydocs.hubspot.com/docs/methods/lists/add_contact_to_list)",
-  version: "0.0.26",
+  version: "0.0.27",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
