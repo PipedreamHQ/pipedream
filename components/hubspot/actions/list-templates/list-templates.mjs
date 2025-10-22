@@ -5,7 +5,7 @@ export default {
   name: "List Templates",
   description:
     "Retrieves a list of templates. [See the documentation](https://developers.hubspot.com/docs/reference/api/cms/templates)",
-  version: "0.0.8",
+  version: "0.0.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
