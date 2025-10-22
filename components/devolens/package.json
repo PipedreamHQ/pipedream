@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/devolens",
+  "version": "0.0.1",
+  "description": "Pipedream Devolens Components",
+  "main": "devolens.app.mjs",
+  "keywords": [
+    "pipedream",
+    "devolens"
+  ],
+  "homepage": "https://pipedream.com/apps/devolens",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
