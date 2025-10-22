@@ -10311,7 +10311,11 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
 
-  components/paddle: {}
+  components/paddle:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/page_x:
     dependencies:
