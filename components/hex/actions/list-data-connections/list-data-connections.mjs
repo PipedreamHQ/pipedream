@@ -59,6 +59,6 @@ export default {
     $.export("$summary", `Successfully listed ${results.length} data connection${results.length === 1
       ? ""
       : "s"}`);
-    return response;
+    return results;
   },
 };
