@@ -49,8 +49,8 @@ export default {
       label: "Teams",
       description: "List of teams. This field uses the team GID.",
       type: "string[]",
-      async options({ workspaces }) {
-        const teams = await this.getTeams(workspaces);
+      async options({ workspace }) {
+        const teams = await this.getTeams(workspace);
         return teams?.map((team) => ({
           label: team.name,
           value: team.gid,
