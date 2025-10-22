@@ -629,7 +629,14 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
 
-  components/airweave: {}
+  components/airweave:
+    dependencies:
+      '@airweave/sdk':
+        specifier: ^0.1.50
+        version: 0.1.51
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.1.0
 
   components/aitable_ai:
     dependencies:
@@ -2863,6 +2870,9 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/cloud_66:
+    specifiers: {}
+
   components/cloud_convert:
     dependencies:
       '@pipedream/platform':
@@ -3052,6 +3062,9 @@ importers:
       cohere-ai:
         specifier: ^7.10.6
         version: 7.14.0(@aws-sdk/client-sso-oidc@3.696.0(@aws-sdk/client-sts@3.696.0(aws-crt@1.25.0))(aws-crt@1.25.0))(aws-crt@1.25.0)
+
+  components/coinapi:
+    specifiers: {}
 
   components/coinbase:
     dependencies:
@@ -3295,6 +3308,9 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/copicake:
+    specifiers: {}
+
   components/copper:
     dependencies:
       '@pipedream/platform':
@@ -3380,6 +3396,12 @@ importers:
       '@pipedream/platform':
         specifier: ^1.6.0
         version: 1.6.6
+
+  components/cronly:
+    specifiers: {}
+
+  components/crossmint:
+    specifiers: {}
 
   components/crove_app:
     dependencies:
@@ -10287,7 +10309,11 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
 
-  components/paddle: {}
+  components/paddle:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/page_x:
     dependencies:
@@ -14778,6 +14804,9 @@ importers:
         specifier: ^0.1.4
         version: 0.1.6
 
+  components/topdesk:
+    specifiers: {}
+
   components/topmessage:
     dependencies:
       '@pipedream/platform':
@@ -17073,6 +17102,9 @@ packages:
   '@adyen/api-library@20.0.0':
     resolution: {integrity: sha512-C+jj5XBTCNs7AFwufOkPLhuqn9bdgSDcqLB6b/Ppi9Fujwt613vWmA1hxeG76RX49vzHZIDJLq6N/v0o2SY1sA==}
     engines: {node: '>=18'}
+
+  '@airweave/sdk@0.1.51':
+    resolution: {integrity: sha512-jxBG+liX4XAz4acOH7UrZnGzJ9ltgSsh2CIadpQFT+XAnJUwsRajwnKef46LsNUgvUplrzjFkEXABX0RCAWP4g==}
 
   '@algolia/client-abtesting@5.17.1':
     resolution: {integrity: sha512-Os/xkQbDp5A5RdGYq1yS3fF69GoBJH5FIfrkVh+fXxCSe714i1Xdl9XoXhS4xG76DGKm6EFMlUqP024qjps8cg==}
@@ -31377,22 +31409,22 @@ packages:
   superagent@3.8.1:
     resolution: {integrity: sha512-VMBFLYgFuRdfeNQSMLbxGSLfmXL/xc+OO+BZp41Za/NRDBet/BNbkRJrYzCUu0u4GU0i/ml2dtT8b9qgkw9z6Q==}
     engines: {node: '>= 4.0'}
-    deprecated: Please upgrade to v7.0.2+ of superagent.  We have fixed numerous issues with streams, form-data, attach(), filesystem errors not bubbling up (ENOENT on attach()), and all tests are now passing.  See the releases tab for more information at <https://github.com/visionmedia/superagent/releases>.
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   superagent@4.1.0:
     resolution: {integrity: sha512-FT3QLMasz0YyCd4uIi5HNe+3t/onxMyEho7C3PSqmti3Twgy2rXT4fmkTz6wRL6bTF4uzPcfkUCa8u4JWHw8Ag==}
     engines: {node: '>= 6.0'}
-    deprecated: Please upgrade to v7.0.2+ of superagent.  We have fixed numerous issues with streams, form-data, attach(), filesystem errors not bubbling up (ENOENT on attach()), and all tests are now passing.  See the releases tab for more information at <https://github.com/visionmedia/superagent/releases>.
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   superagent@5.3.1:
     resolution: {integrity: sha512-wjJ/MoTid2/RuGCOFtlacyGNxN9QLMgcpYLDQlWFIhhdJ93kNscFonGvrpAHSCVjRVj++DGCglocF7Aej1KHvQ==}
     engines: {node: '>= 7.0.0'}
-    deprecated: Please upgrade to v7.0.2+ of superagent.  We have fixed numerous issues with streams, form-data, attach(), filesystem errors not bubbling up (ENOENT on attach()), and all tests are now passing.  See the releases tab for more information at <https://github.com/visionmedia/superagent/releases>.
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   superagent@7.1.6:
     resolution: {integrity: sha512-gZkVCQR1gy/oUXr+kxJMLDjla434KmSOKbx5iGD30Ql+AkJQ/YlPKECJy2nhqOsHLjGHzoDTXNSjhnvWhzKk7g==}
     engines: {node: '>=6.4.0 <13 || >=14'}
-    deprecated: Please downgrade to v7.1.5 if you need IE/ActiveXObject support OR upgrade to v8.0.0 as we no longer support IE and published an incorrect patch version (see https://github.com/visionmedia/superagent/issues/1731)
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   supports-color@10.0.0:
     resolution: {integrity: sha512-HRVVSbCCMbj7/kdWF9Q+bbckjBHLtHMEoJWlkmYzzdwhYMkjkOwubLM6t7NbWKjgKamGDrWL1++KrjUO1t9oAQ==}
@@ -32950,6 +32982,15 @@ snapshots:
       '@types/node': 14.18.63
     transitivePeerDependencies:
       - supports-color
+
+  '@airweave/sdk@0.1.51':
+    dependencies:
+      form-data: 4.0.4
+      formdata-node: 6.0.3
+      node-fetch: 2.7.0
+      readable-stream: 4.5.2
+    transitivePeerDependencies:
+      - encoding
 
   '@algolia/client-abtesting@5.17.1':
     dependencies:
