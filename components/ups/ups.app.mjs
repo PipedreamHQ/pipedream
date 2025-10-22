@@ -15,8 +15,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      //return "https://onlinetools.ups.com/api";
-      return "https://wwwcie.ups.com/api";
+      return "https://onlinetools.ups.com/api";
     },
     _makeRequest({
       $ = this, path, ...opts
