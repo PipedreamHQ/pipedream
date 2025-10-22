@@ -6,7 +6,7 @@ export default {
   name: "Webinar Updated",
   description:
     "Emits an event each time a webinar is updated in your Zoom account",
-  version: "0.1.7",
+  version: "0.1.8",
   dedupe: "unique", // Dedupe based on webinar ID
   props: {
     zoomAdmin,

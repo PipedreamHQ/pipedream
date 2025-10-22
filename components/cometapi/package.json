@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/cometapi",
+  "version": "0.0.1",
+  "description": "Pipedream CometAPI Components",
+  "main": "cometapi.app.mjs",
+  "keywords": [
+    "pipedream",
+    "cometapi"
+  ],
+  "homepage": "https://pipedream.com/apps/cometapi",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
