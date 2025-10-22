@@ -126,7 +126,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully created group with ID: ${response.id}`);
+    $.export("$summary", `Successfully updated data connection with ID: ${response.id}`);
     return response;
   },
 };
