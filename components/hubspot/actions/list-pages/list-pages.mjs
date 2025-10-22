@@ -5,7 +5,7 @@ export default {
   name: "List Pages",
   description:
     "Retrieves a list of site pages. [See the documentation](https://developers.hubspot.com/docs/reference/api/cms/pages)",
-  version: "0.0.9",
+  version: "0.0.10",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

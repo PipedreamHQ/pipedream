@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/copicake",
+  "version": "0.0.1",
+  "description": "Pipedream Copicake Components",
+  "main": "copicake.app.mjs",
+  "keywords": [
+    "pipedream",
+    "copicake"
+  ],
+  "homepage": "https://pipedream.com/apps/copicake",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
