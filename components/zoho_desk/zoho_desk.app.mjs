@@ -126,7 +126,61 @@ export default {
     articleId: {
       type: "string",
       label: "Article ID",
-      description: "The ID of the knowledge base article.",
+      description: "The ID of the knowledge base article",
+      async options({
+        portalId, prevContext,
+      }) {
+        const { data } = await this.listKnowledgeBaseArticles({
+          params: {
+            portalId,
+            from: prevContext?.from,
+            limit: constants.DEFAULT_LIMIT,
+          },
+        });
+        return {
+          options: data?.map(({
+            id: value, title: label,
+          }) => ({
+            value,
+            label,
+          })) || [],
+          context: {
+            from: data?.length
+              ? data[data.length - 1].id
+              : null,
+          },
+        };
+      },
+    },
+    categoryId: {
+      type: "string",
+      label: "Category ID",
+      description: "Filter by the ID(s) of the categories the articles belong to. Use comma-separated IDs to include multiple categories.",
+      optional: true,
+      async options({
+        portalId, prevContext,
+      }) {
+        const { data } = await this.listKnowledgeBaseRootCategories({
+          params: {
+            portalId,
+            from: prevContext?.from,
+            limit: constants.DEFAULT_LIMIT,
+          },
+        });
+        return {
+          options: data?.map(({
+            id: value, name: label,
+          }) => ({
+            value,
+            label,
+          })) || [],
+          context: {
+            from: data?.length
+              ? data[data.length - 1].id
+              : null,
+          },
+        };
+      },
     },
     maxResults: {
       type: "integer",

@@ -2,9 +2,9 @@ import zohoDesk from "../../zoho_desk.app.mjs";
 export default {
   key: "zoho_desk-list-articles",
   name: "List Articles",
-  description: "Lists knowledge base articles for a help center. [See the docs here](https://desk.zoho.com/portal/APIDocument.do#KnowledgeBase#KnowledgeBase_Listarticles)",
+  description: "Lists knowledge base articles for a help center. [See the documentation](https://desk.zoho.com/portal/APIDocument.do#KnowledgeBase#KnowledgeBase_Listarticles)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -28,15 +28,18 @@ export default {
       ],
     },
     categoryId: {
-      type: "string",
-      label: "Category ID",
-      description: "Filter by the ID(s) of the categories the articles belong to. Use comma-separated IDs to include multiple categories.",
-      optional: true,
+      propDefinition: [
+        zohoDesk,
+        "categoryId",
+        ({ portalId }) => ({
+          portalId,
+        }),
+      ],
     },
     sortBy: {
       type: "string",
       label: "Sort By",
-      description: "Sort articles by the specified attribute.",
+      description: "Sort articles by the specified attribute",
       optional: true,
       options: [
         "createdTime",
@@ -50,7 +53,7 @@ export default {
     tag: {
       type: "string",
       label: "Tag",
-      description: "Filter articles by a tag.",
+      description: "Filter articles by a tag",
       optional: true,
     },
     maxResults: {
