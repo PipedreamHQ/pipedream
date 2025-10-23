@@ -37,6 +37,7 @@ export default {
       type: "string",
       label: "Start Date",
       description: "Updated start date. Example: `2025-10-18T07:00:00.000Z`",
+      optional: true,
     },
     endDate: {
       type: "string",
@@ -52,12 +53,11 @@ export default {
     },
   },
   async run({ $ }) {
-    const data = {
-      startDate: this.startDate,
-    };
+    const data = {};
     if (this.comment) data.comment = this.comment;
     if (this.purpose) data.purpose = this.purpose;
     if (this.endDate) data.endDate = this.endDate;
+    if (this.startDate) data.startDate = this.startDate;
     if (this.descriptor) data.descriptor = this.descriptor;
 
     if (Object.keys(data).length === 0) {
