@@ -19,8 +19,7 @@ export default {
         "homeContactInformationChangeId",
       ],
     },
-  }
-  ,
+  },
   async run({ $ }) {
     const response = await this.workday.getHomeContactInformationChange({
       homeContactInformationChangeId: this.homeContactInformationChangeId,
