@@ -1112,6 +1112,9 @@ importers:
 
   components/ascora: {}
 
+  components/ashby:
+    specifiers: {}
+
   components/ashby_job_postings_api: {}
 
   components/asin_data_api: {}
