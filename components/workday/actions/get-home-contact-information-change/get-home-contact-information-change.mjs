@@ -26,7 +26,7 @@ export default {
       homeContactInformationChangeId: this.homeContactInformationChangeId,
       $,
     });
-    $.export("$summary", `Successfully fetched home contact information change with ID ${this.id}`);
+    $.export("$summary", `Successfully fetched home contact information change with ID ${this.homeContactInformationChangeId}`);
     return response;
   },
 };
