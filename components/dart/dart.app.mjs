@@ -63,6 +63,25 @@ export default {
         })) || [];
       },
     },
+    docId: {
+      type: "string",
+      label: "Doc ID",
+      description: "The ID of the doc",
+      async options({ page }) {
+        const { results } = await this.listDocs({
+          params: {
+            limit: constants.DEFAULT_LIMIT,
+            offset: page * constants.DEFAULT_LIMIT,
+          },
+        });
+        return results?.map(({
+          id: value, title: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
     taskName: {
       type: "string",
       label: "Task Name",
@@ -87,10 +106,27 @@ export default {
       optional: true,
       options: constants.TASK_PRIORITIES,
     },
+    title: {
+      type: "string",
+      label: "Title",
+      description: "The title, which is a short description of the doc",
+    },
+    folder: {
+      type: "string",
+      label: "Folder",
+      description: "The full title of the folder, which is a project or list of docs",
+      optional: true,
+    },
+    text: {
+      type: "string",
+      label: "Text",
+      description: "The full content of the doc, which can include markdown formatting",
+      optional: true,
+    },
   },
   methods: {
     _baseUrl() {
-      return "https://app.itsdart.com/api/v0";
+      return "https://app.dartai.com/api/v0";
     },
     _makeRequest(opts = {}) {
       const {
@@ -133,7 +169,30 @@ export default {
     createTransaction(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/transactions/create",
+        path: "/public/transactions/create",
+        ...opts,
+      });
+    },
+    createDoc(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/public/docs",
+        ...opts,
+      });
+    },
+    updateDoc(opts = {}) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/public/docs/${opts.data.item.id}`,
+        ...opts,
+      });
+    },
+    deleteDoc({
+      docId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/public/docs/${docId}`,
         ...opts,
       });
     },
