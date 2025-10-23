@@ -1,8 +1,8 @@
 import workday from "../../workday.app.mjs";
 
 export default {
-  key: "workday-get-job-posting-details",
-  name: "Get Job Posting Details",
+  key: "workday-get-job-posting",
+  name: "Get Job Posting",
   description: "Get details for a job posting by ID. [See the Documentation](https://community.workday.com/sites/default/files/file-hosting/restapi/#recruiting/v4/get-/jobPostings/-ID-)",
   version: "0.0.1",
   annotations: {
