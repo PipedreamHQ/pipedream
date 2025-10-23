@@ -2870,8 +2870,7 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/cloud_66:
-    specifiers: {}
+  components/cloud_66: {}
 
   components/cloud_convert:
     dependencies:
@@ -3400,8 +3399,7 @@ importers:
 
   components/cronly: {}
 
-  components/crossmint:
-    specifiers: {}
+  components/crossmint: {}
 
   components/crove_app:
     dependencies:
@@ -14807,7 +14805,11 @@ importers:
         specifier: ^0.1.4
         version: 0.1.6
 
-  components/topdesk: {}
+  components/topdesk:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/topmessage:
     dependencies:
