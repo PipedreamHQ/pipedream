@@ -4,8 +4,8 @@ export default {
   ...common,
   key: "sharepoint-new-list-item",
   name: "New List Item",
-  description: "Emit new event when a new list is created in Microsoft Sharepoint.",
-  version: "0.0.5",
+  description: "Emit new event when a new list item is created in Microsoft Sharepoint.",
+  version: "0.0.6",
   type: "source",
   dedupe: "unique",
   props: {
