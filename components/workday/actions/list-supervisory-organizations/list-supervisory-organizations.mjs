@@ -4,7 +4,7 @@ export default {
   key: "workday-list-supervisory-organizations",
   name: "List Supervisory Organizations",
   description: "List supervisory organizations. [See the documentation](https://community.workday.com/sites/default/files/file-hosting/restapi/#common/v1/get-/supervisoryOrganizations)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

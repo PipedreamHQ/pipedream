@@ -4,7 +4,7 @@ export default {
   key: "workday-list-worker-payslips",
   name: "List Worker Payslips",
   description: "List the payslips for a worker. [See the documentation](https://community.workday.com/sites/default/files/file-hosting/restapi/#common/v1/get-/workers/-ID-/paySlips)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
