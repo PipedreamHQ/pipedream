@@ -37,7 +37,7 @@ export default {
           driveId: c.driveId,
         }),
       ],
-      description: "The file to retrieve. You can either search for the file here, provide a custom *File ID*.",
+      description: "The file to retrieve. You can either search for the file here or provide a custom *File ID*.",
     },
   },
   async run({ $ }) {
@@ -46,7 +46,7 @@ export default {
       siteId: this.siteId,
       fileId: this.fileId,
     });
-    $.export("$summary", `Successfully retreived file with ID: ${this.fileId}`);
+    $.export("$summary", `Successfully retrieved file with ID: ${this.fileId}`);
     return response;
   },
 };

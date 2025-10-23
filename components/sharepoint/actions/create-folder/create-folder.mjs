@@ -38,7 +38,7 @@ export default {
         }),
       ],
       label: "Parent Folder ID",
-      description: "The ID of the folder which the the new folder should be created. You can either search for the folder here or provide a custom *Folder ID*.",
+      description: "The ID of the folder in which the the new folder should be created. You can either search for the folder here or provide a custom *Folder ID*.",
     },
     folderName: {
       type: "string",
@@ -53,11 +53,13 @@ export default {
     };
     const response = this.folderId
       ? await this.sharepoint.createDriveItemInFolder({
+        $,
         siteId: this.siteId,
         folderId: this.folderId,
         data,
       })
       : await this.sharepoint.createDriveItem({
+        $,
         siteId: this.siteId,
         driveId: this.driveId,
         data,
