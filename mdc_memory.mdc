@@ -1,1 +1,0 @@
-Components should use wrapper methods in the app file for API requests rather than calling the app's private makeRequest directly. Avoid manual truthiness checks for optional parameters, as @pipedream/platform utilities (@pipedream/axios) automatically exclude undefined values. For file reading, use getFileStreamAndMetadata from @pipedream/platform.
