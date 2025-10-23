@@ -5,7 +5,7 @@ export default {
   key: "linkedin_ads-new-event-registration-form-response",
   name: "New Event Registration Form Response",
   description: "Emit new event when a fresh response is received on the event registration form. User needs to configure the prop of the specific event. [See the documentation](https://learn.microsoft.com/en-us/linkedin/marketing/community-management/organizations/events?view=li-lms-2024-01&tabs=http)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   props: {
