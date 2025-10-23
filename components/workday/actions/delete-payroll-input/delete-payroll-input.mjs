@@ -6,16 +6,19 @@ export default {
   name: "Delete Payroll Input",
   description: "Delete a payroll input by ID. [See the Documentation](https://community.workday.com/sites/default/files/file-hosting/restapi/#payroll/v2/delete-/payrollInputs/-ID-)",
   version: "0.0.1",
-    annotations: {
-        destructiveHint: true,
-        openWorldHint: true,
-        readOnlyHint: false,
-    },
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     workday,
     payrollInputId: {
-      propDefinition: [workday, "payrollInputId"],
+      propDefinition: [
+        workday,
+        "payrollInputId",
+      ],
     },
   },
   async run({ $ }) {

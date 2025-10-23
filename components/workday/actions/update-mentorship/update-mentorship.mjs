@@ -16,7 +16,10 @@ export default {
   props: {
     workday,
     mentorshipId: {
-      propDefinition: [workday, "mentorshipId"],
+      propDefinition: [
+        workday,
+        "mentorshipId",
+      ],
     },
     comment: {
       type: "string",
@@ -50,7 +53,7 @@ export default {
   },
   async run({ $ }) {
     const data = {
-         startDate: this.startDate,
+      startDate: this.startDate,
     };
     if (this.comment) data.comment = this.comment;
     if (this.purpose) data.purpose = this.purpose;
