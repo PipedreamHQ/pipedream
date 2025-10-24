@@ -28,6 +28,7 @@ export default {
         fn: this._getFunction(),
         params: this._getParams(lastTs),
         maxResults,
+        delayMs: 1200, // 1.2 second delay between pages to respect rate limits
       });
 
       let responseArray = [];
