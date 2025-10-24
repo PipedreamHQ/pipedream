@@ -379,6 +379,25 @@ export default {
         }));
       },
     },
+    interviewId: {
+      type: "string",
+      label: "Interview ID",
+      description: "The ID of the interview.",
+      async options({ page }) {
+        const res = await this.listInterviews?.({
+          params: {
+            limit: 50,
+            offset: 50 * page,
+          },
+        }) || {
+          data: [],
+        };
+        return (res.data || []).map((i) => ({
+          label: i.descriptor || i.id,
+          value: i.id,
+        }));
+      },
+    },
 
     maxResults: {
       type: "integer",
