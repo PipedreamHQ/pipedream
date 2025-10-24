@@ -6,7 +6,7 @@ export default {
   key: "gmail-create-label",
   name: "Create Label",
   description: "Create a new label in the connected account. [See the documentation](https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.labels/create)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
