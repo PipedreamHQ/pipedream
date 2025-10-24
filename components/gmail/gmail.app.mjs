@@ -520,9 +520,9 @@ export default {
         threadId,
         ...options
       } = opts;
-      const mail = new MailComposer(options);
+      const mail = new MailComposer(options).compile();
       mail.keepBcc = true;
-      const message = await mail.compile().build();
+      const message = await mail.build();
       try {
         const response = await this._client().users.drafts.create({
           userId: constants.USER_ID,
