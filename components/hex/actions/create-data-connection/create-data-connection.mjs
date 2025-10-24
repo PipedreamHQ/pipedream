@@ -32,12 +32,6 @@ export default {
         "sharingWorkspaceMembers",
       ],
     },
-    groups: {
-      propDefinition: [
-        hex,
-        "groups",
-      ],
-    },
     schemaRefreshAccess: {
       propDefinition: [
         hex,

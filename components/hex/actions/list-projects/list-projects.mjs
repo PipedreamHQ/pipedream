@@ -128,8 +128,9 @@ export default {
         : "s"}`);
 
       return results;
-    } catch ({ response }) {
-      throw new ConfigurationError(response.data.reason);
+    } catch (error) {
+      const reason = error.response?.data?.reason || error.message || "An unknown error occurred";
+      throw new ConfigurationError(reason);
     }
   },
 };

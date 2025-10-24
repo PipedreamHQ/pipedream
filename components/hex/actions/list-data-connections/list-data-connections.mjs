@@ -8,7 +8,7 @@ export default {
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
-    readOnlyHint: false,
+    readOnlyHint: true,
   },
   type: "action",
   props: {
@@ -26,7 +26,7 @@ export default {
     sortDirection: {
       type: "string",
       label: "Sort Direction",
-      description: "Sort the data connections by a field.",
+      description: "The direction to sort the data connections.",
       options: [
         "ASC",
         "DESC",
