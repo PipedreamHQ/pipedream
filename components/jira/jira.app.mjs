@@ -86,17 +86,20 @@ export default {
     },
     issueIdOrKey: {
       type: "string",
-      label: "Issue id or key",
-      description: "The ID or key of the issue where the attachment will be added to.",
+      label: "Issue ID or Key",
+      description: "The ID or key of the issue where the attachment will be added",
       async options({
-        prevContext, cloudId,
+        prevContext, cloudId, tasksOnly = false,
       }) {
         let { startAt } = prevContext || {};
         const pageSize = 50;
+        const jql = tasksOnly
+          ? "project is not EMPTY AND issuetype = \"Task\" ORDER BY created DESC"
+          : "project is not EMPTY ORDER BY created DESC";
         const resp = await this.searchIssues({
           cloudId,
           params: {
-            jql: "project is not EMPTY ORDER BY created DESC",
+            jql,
             startAt,
             maxResults: pageSize,
             fields: "id,key",
@@ -118,7 +121,7 @@ export default {
     },
     accountId: {
       type: "string",
-      label: "Assignee Id",
+      label: "Assignee ID",
       description: "The account ID of the user, which uniquely identifies the user across all Atlassian products, For example, `5b10ac8d82e05b22cc7d4ef5`",
       useQuery: true,
       async options({
@@ -151,7 +154,7 @@ export default {
     properties: {
       type: "string",
       label: "Properties",
-      description: "A list of properties.",
+      description: "A list of properties",
       optional: true,
     },
     expand: {
@@ -168,7 +171,7 @@ export default {
     additionalProperties: {
       type: "object",
       label: "Additional properties",
-      description: "Extra properties of any type may be provided to this object.",
+      description: "Extra properties of any type may be provided to this object",
       optional: true,
     },
     transition: {
@@ -219,7 +222,7 @@ export default {
     fieldId: {
       type: "string",
       label: "Field ID",
-      description: "The ID of the field.",
+      description: "The ID of the field",
       useQuery: true,
       async options({
         query,
@@ -269,7 +272,7 @@ export default {
     contextId: {
       type: "string",
       label: "Context ID",
-      description: "The ID of the context.",
+      description: "The ID of the context",
       async options({
         prevContext: {
           hasMore,
@@ -309,6 +312,44 @@ export default {
             startAt: startAt + constants.DEFAULT_LIMIT,
           },
         };
+      },
+    },
+    commentId: {
+      type: "string",
+      label: "Comment ID",
+      description: "The ID of the comment",
+      async options({
+        prevContext, issueIdOrKey, cloudId,
+      }) {
+        if (!issueIdOrKey) {
+          return [];
+        }
+        let { startAt } = prevContext || {};
+        const pageSize = 50;
+        try {
+          const resp = await this.listIssueComments({
+            issueIdOrKey,
+            cloudId,
+            params: {
+              startAt,
+              maxResults: pageSize,
+            },
+          });
+          startAt = startAt > 0
+            ? startAt + pageSize
+            : pageSize;
+          return {
+            options: resp?.comments?.map((comment) => ({
+              value: comment.id,
+              label: comment.body?.content[0]?.content[0]?.text || comment.id,
+            })),
+            context: {
+              startAt,
+            },
+          };
+        } catch {
+          return [];
+        }
       },
     },
   },
