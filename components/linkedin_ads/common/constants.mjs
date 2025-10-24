@@ -1,0 +1,7 @@
+const VERSION_HEADER = "202509";
+const RESTLI_PROTOCOL_VERSION = "2.0.0";
+
+export default {
+  VERSION_HEADER,
+  RESTLI_PROTOCOL_VERSION,
+};
