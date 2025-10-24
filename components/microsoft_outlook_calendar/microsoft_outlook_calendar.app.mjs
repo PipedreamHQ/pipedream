@@ -180,5 +180,12 @@ export default {
         ...args,
       });
     },
+    async listCalendarView(args = {}) {
+      return this._makeRequest({
+        method: "GET",
+        path: "/me/calendar/calendarView",
+        ...args,
+      });
+    },
   },
 };
