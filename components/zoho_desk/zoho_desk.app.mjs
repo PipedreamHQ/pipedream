@@ -292,6 +292,65 @@ export default {
       min: 1,
       max: 50,
     },
+    accountId: {
+      type: "string",
+      label: "Account ID",
+      description: "The ID of the account",
+      optional: true,
+      async options(args) {
+        return this.getResourcesOptions({
+          ...args,
+          resourceFn: this.getAccounts,
+          resourceMapper: ({
+            id: value, accountName: label,
+          }) => ({
+            value,
+            label,
+          }),
+        });
+      },
+    },
+    productId: {
+      type: "string",
+      label: "Product ID",
+      description: "The ID of the product",
+      optional: true,
+    },
+    category: {
+      type: "string",
+      label: "Category",
+      description: "Category of the ticket",
+      optional: true,
+    },
+    subCategory: {
+      type: "string",
+      label: "Sub Category",
+      description: "Sub-category of the ticket",
+      optional: true,
+    },
+    classification: {
+      type: "string",
+      label: "Classification",
+      description: "Classification of the ticket",
+      optional: true,
+      async options() {
+        const { data: fields = [] } =
+          await this.getOrganizationFields({
+            params: {
+              module: "tickets",
+              apiNames: "classification",
+            },
+          });
+        const { allowedValues = [] } = fields[0] || {};
+        return allowedValues.map(({ value }) => value);
+      },
+    },
+    dueDate: {
+      type: "string",
+      label: "Due Date",
+      description: "Due date for the ticket in ISO 8601 format (e.g., 2024-12-31T23:59:59Z)",
+      optional: true,
+    },
   },
   methods: {
     getUrl(url, path, apiPrefix) {
