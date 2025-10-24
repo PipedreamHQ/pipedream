@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/cloud_66",
+  "version": "0.0.1",
+  "description": "Pipedream Cloud 66 Components",
+  "main": "cloud_66.app.mjs",
+  "keywords": [
+    "pipedream",
+    "cloud_66"
+  ],
+  "homepage": "https://pipedream.com/apps/cloud_66",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

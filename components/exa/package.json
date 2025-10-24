@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/exa",
+  "version": "0.0.1",
+  "description": "Pipedream Exa Components",
+  "main": "exa.app.mjs",
+  "keywords": [
+    "pipedream",
+    "exa"
+  ],
+  "homepage": "https://pipedream.com/apps/exa",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
