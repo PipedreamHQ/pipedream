@@ -2,9 +2,9 @@ import zohoDesk from "../../zoho_desk.app.mjs";
 export default {
   key: "zoho_desk-search-articles",
   name: "Search Articles",
-  description: "Searches for knowledge base articles. [See the docs here](https://desk.zoho.com/portal/APIDocument.do#KnowledgeBase_Searcharticles)",
+  description: "Searches for knowledge base articles. [See the documentation](https://desk.zoho.com/portal/APIDocument.do#KnowledgeBase_Searcharticles)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -33,10 +33,13 @@ export default {
       description: "The keywords to search for within articles.",
     },
     categoryId: {
-      type: "string",
-      label: "Category ID",
-      description: "Filter by articles belonging to the specified category.",
-      optional: true,
+      propDefinition: [
+        zohoDesk,
+        "categoryId",
+        ({ portalId }) => ({
+          portalId,
+        }),
+      ],
     },
     sortBy: {
       type: "string",
