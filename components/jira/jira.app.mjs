@@ -56,7 +56,7 @@ export default {
     issueType: {
       type: "string",
       label: "Issue Type",
-      description: "An ID identifying the type of issue, [Check the API docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/#api-rest-api-3-issue-post) to see available options",
+      description: "An ID identifying the type of issue. [Check the API docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/#api-rest-api-3-issue-post) to see available options",
       async options({
         cloudId, projectId,
       }) {
@@ -87,7 +87,7 @@ export default {
     issueIdOrKey: {
       type: "string",
       label: "Issue ID or Key",
-      description: "The ID or key of the issue where the attachment will be added",
+      description: "The ID or key of an issue",
       async options({
         prevContext, cloudId, tasksOnly = false,
       }) {
