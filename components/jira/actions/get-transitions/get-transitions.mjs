@@ -42,7 +42,7 @@ export default {
     },
     skipRemoteOnlyCondition: {
       type: "boolean",
-      label: "Skip $emote Only Condition",
+      label: "Skip Remote Only Condition",
       description: "Whether transitions with the condition *Hide From User Condition* are included in the response",
       optional: true,
     },
