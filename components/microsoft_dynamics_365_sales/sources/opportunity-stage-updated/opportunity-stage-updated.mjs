@@ -33,11 +33,11 @@ export default {
       const stages = this._getStages();
       const relevantResults = [];
       for (const result of results) {
-        if (stages[result.opportunityid] !== result.stageid) {
+        if (stages[result.opportunityid] !== result.stepname) {
           if (stages[result.opportunityid]) {
             relevantResults.push(result);
           }
-          stages[result.opportunityid] = result.stageid;
+          stages[result.opportunityid] = result.stepname;
         }
       }
       this._setStages(stages);

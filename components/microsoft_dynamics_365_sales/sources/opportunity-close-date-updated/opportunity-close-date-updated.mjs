@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "microsoft_dynamics_365_sales-opportunity-close-date-updated",
   name: "Opportunity Close Date Updated",
-  description: "Emit new event when the close date of an opportunity is updated.",
+  description: "Emit new event when the estimated close date of an opportunity is updated.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
