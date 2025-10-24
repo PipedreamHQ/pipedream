@@ -1,5 +1,4 @@
 import workday from "../../workday.app.mjs";
-import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "workday-update-mentorship",
