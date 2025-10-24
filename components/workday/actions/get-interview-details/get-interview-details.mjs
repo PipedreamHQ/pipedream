@@ -13,9 +13,10 @@ export default {
   props: {
     workday,
     interviewId: {
-      type: "string",
-      label: "Interview ID",
-      description: "The unique identifier for the interview.",
+      propDefinition: [
+        workday,
+        "interviewId",
+      ],
     },
   },
   async run({ $ }) {
