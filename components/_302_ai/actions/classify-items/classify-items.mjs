@@ -44,7 +44,7 @@ export default {
       return "Please only categorize items into the specific categories, and no others. Output a valid JSON string — an array of objects, where each object has the following properties: item, category. Do not return any English text other than the JSON, either before or after the JSON. I need to parse the response as JSON, and parsing will fail if you return any English before or after the JSON";
     },
     userMessage() {
-      return `Categorize each of the following items:\n\n${this.items.join("\n")}\n\ninto one of the following categories:\n\n${this.categories.join("\n")}\n\n${this.outputFormat()}}`;
+      return `Categorize each of the following items:\n\n${this.items.join("\n")}\n\ninto one of the following categories:\n\n${this.categories.join("\n")}\n\n${this.outputFormat()}`;
     },
     summary() {
       return `Categorized ${this.items.length} items into ${this.categories.length} categories`;
