@@ -78,10 +78,14 @@ export default {
         },
       });
 
-    $.export("$summary", `Successfully retrieved ${value.length} event${value.length === 1
+    const events = !this.includeRecurring
+      ? value.filter((event) => !event.recurrence)
+      : value;
+
+    $.export("$summary", `Successfully retrieved ${events.length} event${events.length === 1
       ? ""
       : "s"}`);
 
-    return value;
+    return events;
   },
 };
