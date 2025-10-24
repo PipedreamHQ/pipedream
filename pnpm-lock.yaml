@@ -8882,8 +8882,8 @@ importers:
   components/microsoft_dynamics_365_sales:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       pluralize:
         specifier: ^8.0.0
         version: 8.0.0
