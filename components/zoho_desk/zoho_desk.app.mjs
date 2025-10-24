@@ -189,6 +189,109 @@ export default {
       optional: true,
       default: constants.MAX_RESOURCES,
     },
+    ticketPriority: {
+      type: "string",
+      label: "Priority",
+      description: "Priority level of the ticket",
+      optional: true,
+      async options() {
+        const { data: fields = [] } =
+          await this.getOrganizationFields({
+            params: {
+              module: "tickets",
+              apiNames: "priority",
+            },
+          });
+        const { allowedValues = [] } = fields[0] || {};
+        return allowedValues.map(({ value }) => value);
+      },
+    },
+    assigneeId: {
+      type: "string",
+      label: "Assignee",
+      description: "The agent assigned to the ticket",
+      optional: true,
+      async options(args) {
+        return this.getResourcesOptions({
+          ...args,
+          resourceFn: this.getAgents,
+          resourceMapper: ({
+            id: value, name: label,
+          }) => ({
+            value,
+            label,
+          }),
+        });
+      },
+    },
+    channel: {
+      type: "string",
+      label: "Channel",
+      description: "The channel through which the ticket was created",
+      optional: true,
+      async options() {
+        const { data: fields = [] } =
+          await this.getOrganizationFields({
+            params: {
+              module: "tickets",
+              apiNames: "channel",
+            },
+          });
+        const { allowedValues = [] } = fields[0] || {};
+        return allowedValues.map(({ value }) => value);
+      },
+    },
+    ticketSortBy: {
+      type: "string",
+      label: "Sort By",
+      description: "Field to sort tickets by",
+      optional: true,
+      options: [
+        {
+          label: "Created Time (Ascending)",
+          value: "createdTime",
+        },
+        {
+          label: "Created Time (Descending)",
+          value: "-createdTime",
+        },
+        {
+          label: "Modified Time (Ascending)",
+          value: "modifiedTime",
+        },
+        {
+          label: "Modified Time (Descending)",
+          value: "-modifiedTime",
+        },
+        {
+          label: "Due Date (Ascending)",
+          value: "dueDate",
+        },
+        {
+          label: "Due Date (Descending)",
+          value: "-dueDate",
+        },
+        {
+          label: "Relevance",
+          value: "relevance",
+        },
+      ],
+    },
+    from: {
+      type: "integer",
+      label: "From",
+      description: "Starting offset for pagination. Use this to retrieve results starting from a specific position.",
+      optional: true,
+      min: 1,
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "Number of records to retrieve per request (max 50)",
+      optional: true,
+      min: 1,
+      max: 50,
+    },
   },
   methods: {
     getUrl(url, path, apiPrefix) {
@@ -327,6 +430,90 @@ export default {
         path: "/tickets/search",
         ...args,
       });
+    },
+    async *getTicketsStream({
+      params,
+      headers,
+      max = constants.MAX_RESOURCES,
+    } = {}) {
+      let from = params?.from || 1;
+      let resourcesCount = 0;
+      let nextTickets;
+
+      while (true) {
+        try {
+          ({ data: nextTickets = [] } =
+            await this.getTickets({
+              withRetries: false,
+              headers,
+              params: {
+                ...params,
+                from,
+                limit: params?.limit || constants.DEFAULT_LIMIT,
+              },
+            }));
+        } catch (error) {
+          console.log("Stream error", error);
+          return;
+        }
+
+        if (nextTickets?.length < 1) {
+          return;
+        }
+
+        from += nextTickets?.length;
+
+        for (const ticket of nextTickets) {
+          resourcesCount += 1;
+          yield ticket;
+        }
+
+        if (max && resourcesCount >= max) {
+          return;
+        }
+      }
+    },
+    async *searchTicketsStream({
+      params,
+      headers,
+      max = constants.MAX_RESOURCES,
+    } = {}) {
+      let from = params?.from || 1;
+      let resourcesCount = 0;
+      let nextTickets;
+
+      while (true) {
+        try {
+          ({ data: nextTickets = [] } =
+            await this.searchTickets({
+              withRetries: false,
+              headers,
+              params: {
+                ...params,
+                from,
+                limit: params?.limit || constants.DEFAULT_LIMIT,
+              },
+            }));
+        } catch (error) {
+          console.log("Stream error", error);
+          return;
+        }
+
+        if (nextTickets?.length < 1) {
+          return;
+        }
+
+        from += nextTickets?.length;
+
+        for (const ticket of nextTickets) {
+          resourcesCount += 1;
+          yield ticket;
+        }
+
+        if (max && resourcesCount >= max) {
+          return;
+        }
+      }
     },
     createTicketAttachment({
       ticketId, ...args
