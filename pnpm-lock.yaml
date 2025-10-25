@@ -728,6 +728,9 @@ importers:
 
   components/alibaba_cloud: {}
 
+  components/alienvault:
+    specifiers: {}
+
   components/all_images_ai:
     dependencies:
       '@pipedream/platform':
