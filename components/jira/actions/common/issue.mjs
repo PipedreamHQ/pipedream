@@ -13,7 +13,7 @@ export default {
     historyMetadata: {
       type: "object",
       label: "History Metadata",
-      description: "Additional issue history details.",
+      description: "Additional issue history details",
       optional: true,
     },
     properties: {
@@ -21,12 +21,12 @@ export default {
         app,
         "properties",
       ],
-      description: "Details of issue properties to be add or update, please provide an array of objects with keys and values.",
+      description: "Details of issue properties to be added or updated. Please provide an array of objects with keys and values.",
     },
     update: {
       type: "object",
       label: "Update",
-      description: "A Map containing the field name and a list of operations to perform on the issue screen field. Note that fields included in here cannot be included in `fields`.",
+      description: "A Map containing the field name and a list of operations to perform on the issue screen field. Note that fields included here cannot be included in `fields`.",
       optional: true,
     },
     additionalProperties: {
