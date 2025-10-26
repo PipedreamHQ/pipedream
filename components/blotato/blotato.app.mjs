@@ -70,16 +70,16 @@ export default {
       });
     },
     uploadMedia({
-      file, mediaType, ...args
+      $, url, ...args
     } = {}) {
       return this._makeRequest({
+        $,
         method: "POST",
         path: "/v2/media",
         data: {
-          file,
-          mediaType,
-          ...args,
+          url,
         },
+        ...args,
       });
     },
     listTemplates({

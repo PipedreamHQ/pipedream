@@ -27,13 +27,9 @@ export default {
   async run({ $ }) {
     const { url } = this;
 
-    const response = await this.blotato._makeRequest({
+    const response = await this.blotato.uploadMedia({
       $,
-      method: "POST",
-      path: "/v2/media",
-      data: {
-        url,
-      },
+      url,
     });
 
     $.export("$summary", `Successfully uploaded media. New URL: ${response.url}`);
