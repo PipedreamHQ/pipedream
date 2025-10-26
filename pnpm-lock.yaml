@@ -728,8 +728,7 @@ importers:
 
   components/alibaba_cloud: {}
 
-  components/alienvault:
-    specifiers: {}
+  components/alienvault: {}
 
   components/all_images_ai:
     dependencies:
@@ -1618,8 +1617,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/beyond_presence:
-    specifiers: {}
+  components/beyond_presence: {}
 
   components/bidsketch:
     dependencies:
@@ -1824,7 +1822,11 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/blotato: {}
+  components/blotato:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/blue: {}
 
