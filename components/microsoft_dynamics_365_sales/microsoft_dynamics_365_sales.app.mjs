@@ -33,6 +33,27 @@ export default {
         })) || [];
       },
     },
+    opportunityId: {
+      type: "string",
+      label: "Opportunity ID",
+      description: "Identifier of an opportunity",
+      async options({ prevContext }) {
+        const response = await this.listOpportunities({
+          url: prevContext?.url,
+        });
+        return {
+          options: response.value?.map(({
+            opportunityid: value, name: label,
+          }) => ({
+            value,
+            label,
+          })) || [],
+          context: {
+            url: response["@odata.nextLink"],
+          },
+        };
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -89,6 +110,12 @@ export default {
     listOpportunities(opts = {}) {
       return this._makeRequest({
         path: "/opportunities",
+        ...opts,
+      });
+    },
+    listActivityPointers(opts = {}) {
+      return this._makeRequest({
+        path: "/activitypointers",
         ...opts,
       });
     },
