@@ -21,6 +21,7 @@ import {
   isOptionWithLabel,
   sanitizeOption,
 } from "../utils/type-guards";
+import { isLabelValueWrapped } from "../utils/label-value";
 import { LoadMoreButton } from "./LoadMoreButton";
 
 // XXX T and ConfigurableProp should be related
@@ -91,14 +92,10 @@ export function ControlSelect<T extends PropOptionValue>({
         return rawValue.map((o) =>
           selectOptions.find((item) => item.value === o) || sanitizeOption(o as T));
       }
-    } else if (rawValue && typeof rawValue === "object" && "__lv" in (rawValue as Record<string, unknown>)) {
+    } else if (isLabelValueWrapped(rawValue)) {
       // Extract the actual option from __lv wrapper and sanitize to LV
       // Handle both single objects and arrays wrapped in __lv
       const lvContent = (rawValue as Record<string, unknown>).__lv;
-      if (!lvContent) {
-        console.warn("Invalid __lv content:", rawValue);
-        return null;
-      }
       if (Array.isArray(lvContent)) {
         return lvContent.map((item) => sanitizeOption(item as T));
       }

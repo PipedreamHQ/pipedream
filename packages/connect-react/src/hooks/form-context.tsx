@@ -36,6 +36,7 @@ import {
 } from "../types";
 import { resolveUserId } from "../utils/resolve-user-id";
 import { isConfigurablePropOfType } from "../utils/type-guards";
+import { hasLabelValueFormat } from "../utils/label-value";
 
 export type AnyFormFieldContext = Omit<FormFieldContext<ConfigurableProp>, "onChange"> & {
   onChange: (value: unknown) => void;
@@ -300,7 +301,6 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     component.key,
     configurableProps,
     configuredProps,
-    enabledOptionalProps,
   ]);
 
   // these validations are necessary because they might override PropInput for number case for instance
@@ -450,11 +450,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
           // IMPORTANT: Integer props with remote options (like IDs) can be stored in __lv format
           // to preserve the display label. We only delete the value if it's NOT in __lv format
           // AND not a number, which indicates invalid/corrupted data.
-          const isLabelValue = value && typeof value === "object" && "__lv" in value;
-          const isArrayOfLabelValues = Array.isArray(value) && value.length > 0 &&
-            value.every((item) => item && typeof item === "object" && "__lv" in item);
-
-          if (!(isLabelValue || isArrayOfLabelValues)) {
+          if (!hasLabelValueFormat(value)) {
             delete newConfiguredProps[prop.name as keyof ConfiguredProps<T>];
           } else {
             newConfiguredProps[prop.name as keyof ConfiguredProps<T>] = value;
