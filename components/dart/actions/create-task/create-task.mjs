@@ -135,7 +135,7 @@ export default {
         },
       },
     });
-    $.export("$summary", `Successfully created task wiht ID: ${response.id}`);
+    $.export("$summary", `Successfully created task with ID: ${response.id}`);
     return response;
   },
 };
