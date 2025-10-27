@@ -16,12 +16,18 @@ import CreatableSelect from "react-select/creatable";
 import type { BaseReactSelectProps } from "../hooks/customization-context";
 import { useCustomize } from "../hooks/customization-context";
 import { useFormFieldContext } from "../hooks/form-field-context";
-import { LabelValueOption } from "../types";
+import {
+  LabelValueOption,
+  RawPropOption,
+} from "../types";
 import {
   isOptionWithLabel,
   sanitizeOption,
 } from "../utils/type-guards";
-import { isLabelValueWrapped } from "../utils/label-value";
+import {
+  isArrayOfLabelValueWrapped,
+  isLabelValueWrapped,
+} from "../utils/label-value";
 import { LoadMoreButton } from "./LoadMoreButton";
 
 // XXX T and ConfigurableProp should be related
@@ -86,20 +92,26 @@ export function ControlSelect<T extends PropOptionValue>({
       return null;
     }
 
+    // Handle __lv-wrapped values (single object or array) returned from remote options
+    if (isLabelValueWrapped(rawValue)) {
+      const lvContent = (rawValue as Record<string, unknown>).__lv;
+      if (Array.isArray(lvContent)) {
+        return lvContent.map((item) => sanitizeOption(item as unknown as RawPropOption<T>));
+      }
+      return sanitizeOption(lvContent as unknown as RawPropOption<T>);
+    }
+
+    if (isArrayOfLabelValueWrapped(rawValue)) {
+      return (rawValue as Array<Record<string, unknown>>).map((item) =>
+        sanitizeOption(item as unknown as RawPropOption<T>));
+    }
+
     if (Array.isArray(rawValue)) {
       // if simple, make lv (XXX combine this with other place this happens)
       if (!isOptionWithLabel(rawValue[0])) {
         return rawValue.map((o) =>
           selectOptions.find((item) => item.value === o) || sanitizeOption(o as T));
       }
-    } else if (isLabelValueWrapped(rawValue)) {
-      // Extract the actual option from __lv wrapper and sanitize to LV
-      // Handle both single objects and arrays wrapped in __lv
-      const lvContent = (rawValue as Record<string, unknown>).__lv;
-      if (Array.isArray(lvContent)) {
-        return lvContent.map((item) => sanitizeOption(item as T));
-      }
-      return sanitizeOption(lvContent as T);
     } else if (!isOptionWithLabel(rawValue)) {
       const lvOptions = selectOptions?.[0] && isOptionWithLabel(selectOptions[0]);
       if (lvOptions) {

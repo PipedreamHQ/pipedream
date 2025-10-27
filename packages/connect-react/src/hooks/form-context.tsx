@@ -277,32 +277,6 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     reloadPropIdx,
   ]);
 
-  // Auto-enable optional props that have values in configuredProps
-  // This ensures optional fields with saved values are shown when mounting with pre-configured props
-  useEffect(() => {
-    const propsToEnable: Record<string, boolean> = {};
-
-    for (const prop of configurableProps) {
-      if (prop.optional && !enabledOptionalProps[prop.name]) {
-        const value = configuredProps[prop.name as keyof ConfiguredProps<T>];
-        if (value !== undefined) {
-          propsToEnable[prop.name] = true;
-        }
-      }
-    }
-
-    if (Object.keys(propsToEnable).length > 0) {
-      setEnabledOptionalProps((prev) => ({
-        ...prev,
-        ...propsToEnable,
-      }));
-    }
-  }, [
-    component.key,
-    configurableProps,
-    configuredProps,
-  ]);
-
   // these validations are necessary because they might override PropInput for number case for instance
   // so can't rely on that base control form validation
   const propErrors = (prop: ConfigurableProp, value: unknown): string[] => {
@@ -382,6 +356,13 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     setErrors(_errors);
   };
 
+  const preserveIntegerValue = (prop: ConfigurableProp, value: unknown) => {
+    if (prop.type !== "integer" || typeof value === "number") {
+      return value;
+    }
+    return hasLabelValueFormat(value) ? value : undefined;
+  };
+
   useEffect(() => {
     // Initialize queryDisabledIdx using actual configuredProps (includes parent-passed values in controlled mode)
     // instead of _configuredProps which starts empty. This ensures that when mounting with pre-configured
@@ -443,20 +424,14 @@ export const FormContextProvider = <T extends ConfigurableProps>({
           newConfiguredProps[prop.name as keyof ConfiguredProps<T>] = prop.default as any; // eslint-disable-line @typescript-eslint/no-explicit-any
         }
       } else {
-        if (prop.type === "integer" && typeof value !== "number") {
-          // Preserve label-value format from remote options dropdowns
-          // Remote options store values as {__lv: {label: "...", value: ...}}
-          // For multi-select fields, this will be an array of __lv objects
-          // IMPORTANT: Integer props with remote options (like IDs) can be stored in __lv format
-          // to preserve the display label. We only delete the value if it's NOT in __lv format
-          // AND not a number, which indicates invalid/corrupted data.
-          if (!hasLabelValueFormat(value)) {
-            delete newConfiguredProps[prop.name as keyof ConfiguredProps<T>];
-          } else {
-            newConfiguredProps[prop.name as keyof ConfiguredProps<T>] = value;
-          }
+        // Preserve label-value format from remote options dropdowns for integer props.
+        // Remote options store values as {__lv: {label: "...", value: ...}} (or arrays of __lv objects).
+        // For integer props we drop anything that isn't number or label-value formatted to avoid corrupt data.
+        const preservedValue = preserveIntegerValue(prop, value);
+        if (preservedValue === undefined) {
+          delete newConfiguredProps[prop.name as keyof ConfiguredProps<T>];
         } else {
-          newConfiguredProps[prop.name as keyof ConfiguredProps<T>] = value;
+          newConfiguredProps[prop.name as keyof ConfiguredProps<T>] = preservedValue as any; // eslint-disable-line @typescript-eslint/no-explicit-any
         }
       }
     }
@@ -532,6 +507,23 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     }
     setEnabledOptionalProps(newEnabledOptionalProps);
   };
+
+  // Auto-enable optional props with saved values so dependent dynamic props reload correctly
+  useEffect(() => {
+    for (const prop of configurableProps) {
+      if (!prop.optional) continue;
+      if (enabledOptionalProps[prop.name]) continue;
+      const value = configuredProps[prop.name as keyof ConfiguredProps<T>];
+      if (value === undefined) continue;
+      optionalPropSetEnabled(prop, true);
+    }
+  }, [
+    component.key,
+    configurableProps,
+    configuredProps,
+    enabledOptionalProps,
+    optionalPropSetEnabled,
+  ]);
 
   const checkPropsNeedConfiguring = () => {
     const _propsNeedConfiguring = []
