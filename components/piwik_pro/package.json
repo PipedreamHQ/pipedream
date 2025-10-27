@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/piwik_pro",
+  "version": "0.0.1",
+  "description": "Pipedream Piwik PRO Components",
+  "main": "piwik_pro.app.mjs",
+  "keywords": [
+    "pipedream",
+    "piwik_pro"
+  ],
+  "homepage": "https://pipedream.com/apps/piwik_pro",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

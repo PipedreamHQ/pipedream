@@ -2,9 +2,9 @@ import zohoDesk from "../../zoho_desk.app.mjs";
 export default {
   key: "zoho_desk-list-root-categories",
   name: "List Root Categories",
-  description: "Lists root knowledge base categories for a help center. [See the docs here](https://desk.zoho.com/portal/APIDocument.do#KnowledgeBase_Listallrootcategoriesofthehelpcenter)",
+  description: "Lists root knowledge base categories for a help center. [See the documentation](https://desk.zoho.com/portal/APIDocument.do#KnowledgeBase_Listallrootcategoriesofthehelpcenter)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -50,8 +50,10 @@ export default {
       optional: true,
     },
     departmentId: {
-      type: "string",
-      label: "Department ID",
+      propDefinition: [
+        zohoDesk,
+        "departmentId",
+      ],
       description: "Filter categories associated with the specified department.",
       optional: true,
     },

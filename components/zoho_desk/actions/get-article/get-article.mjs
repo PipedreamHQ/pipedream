@@ -3,9 +3,9 @@ import zohoDesk from "../../zoho_desk.app.mjs";
 export default {
   key: "zoho_desk-get-article",
   name: "Get Article",
-  description: "Retrieves the details of a knowledge base article. [See the docs here](https://desk.zoho.com/portal/APIDocument.do#KnowledgeBase_Getarticle)",
+  description: "Retrieves the details of a knowledge base article. [See the documentation](https://desk.zoho.com/portal/APIDocument.do#KnowledgeBase_Getarticle)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -32,6 +32,9 @@ export default {
       propDefinition: [
         zohoDesk,
         "articleId",
+        ({ portalId }) => ({
+          portalId,
+        }),
       ],
     },
   },

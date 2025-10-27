@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/shopify_partner",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Pipedream Shopify Partner Components",
   "main": "shopify_partner.app.mjs",
   "keywords": [
@@ -10,7 +10,7 @@
   ],
   "author": "Pipedream <support@pipedream> (https://pipedream.com)",
   "dependencies": {
-    "@pipedream/platform": "^1.6.0",
+    "@pipedream/platform": "^3.1.0",
     "graphql": "^16.8.1",
     "graphql-request": "^3.7.0"
   },

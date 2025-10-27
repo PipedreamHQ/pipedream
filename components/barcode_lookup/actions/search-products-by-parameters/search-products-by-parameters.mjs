@@ -4,7 +4,7 @@ export default {
   key: "barcode_lookup-search-products-by-parameters",
   name: "Search Products by Parameters",
   description: "Search for products by parameters. [See the documentation](https://www.barcodelookup.com/api-documentation)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -78,7 +78,7 @@ export default {
     try {
       const response = await this.app.paginate({
         $,
-        fn: this.app.searchProducts,
+        fn: this.app.getProducts,
         maxResults: this.maxResults,
         params: {
           mpn: this.mpn,

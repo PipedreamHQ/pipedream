@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/alienvault",
+  "version": "0.0.1",
+  "description": "Pipedream AlienVault Components",
+  "main": "alienvault.app.mjs",
+  "keywords": [
+    "pipedream",
+    "alienvault"
+  ],
+  "homepage": "https://pipedream.com/apps/alienvault",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

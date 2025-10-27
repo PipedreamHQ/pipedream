@@ -10,7 +10,7 @@ export default {
   key: "hubspot-new-or-updated-contact",
   name: "New or Updated Contact",
   description: "Emit new event for each new or updated contact in Hubspot.",
-  version: "0.0.23",
+  version: "0.0.24",
   dedupe: "unique",
   type: "source",
   props: {

@@ -23,6 +23,12 @@ export default {
       const meta = this.generateMeta(item);
       this.$emit(item, meta);
     },
+    isSortedDesc() {
+      return false;
+    },
+    isRelevant() {
+      return true;
+    },
     getResourceFn() {
       throw new Error("getResourceFn is not implemented");
     },
@@ -47,13 +53,19 @@ export default {
       args,
     });
 
+    let count = 0;
     for await (const item of items) {
       const ts = Date.parse(item[this.getTsField()]);
       if (ts > lastTs) {
-        this.emitEvent(item);
+        if (this.isRelevant(item) && (lastTs || count < 10)) {
+          this.emitEvent(item);
+          count++;
+        }
         if (ts > maxTs) {
           maxTs = ts;
         }
+      } else if (this.isSortedDesc()) {
+        break;
       }
     }
 
