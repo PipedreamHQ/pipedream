@@ -8972,6 +8972,12 @@ importers:
 
   components/microsoft_outlook_calendar:
     dependencies:
+      '@pipedream/microsoft_outlook':
+        specifier: ^1.7.3
+        version: 1.7.3
+      '@pipedream/pipedream':
+        specifier: ^0.4.2
+        version: 0.4.2
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
@@ -20542,6 +20548,9 @@ packages:
   '@pipedream/linkedin@0.1.1':
     resolution: {integrity: sha512-9pFjaohz/wnJMIRpPmDPqHeWiXUIJVWIPvQudE8TkUjaBbyieDpscy8reWMp96UK9aXz1Z2J2yiNh0msILAX9Q==}
 
+  '@pipedream/microsoft_outlook@1.7.3':
+    resolution: {integrity: sha512-lJvKB6fvnHh9h9hk/z3zWQ3UsGY4U6NcZKpqSX+uEFdslSJI1GU9vY9UmntgPpTt0IuWz8EN5o6XJGb8/twl2w==}
+
   '@pipedream/monday@0.7.0':
     resolution: {integrity: sha512-ovVtLhKMJpOTSoc7JcVLrbVrJxW4BT96eW79TiiPc+DgMSM7ouRmCk5lHL2xCAtrqDForXSrXXGjHOAzhJsytA==}
 
@@ -20550,6 +20559,9 @@ packages:
 
   '@pipedream/notion@1.0.2':
     resolution: {integrity: sha512-qVMpoUOus3E4oYtrPoHq0jciipxY4Y9bOxqaiv6uyUbxOKC5QaVvOIRgge5E++uR7Bf46NepwwTcW7wujktUrw==}
+
+  '@pipedream/pipedream@0.4.2':
+    resolution: {integrity: sha512-BQkSnuXWU8VQvBDVyLrCrs2kGP3vwgyi8t02ONbIF85ZPkuIIhC25QhIMCXL+bWe5eGb3oDQh0PVXwpEi160fQ==}
 
   '@pipedream/platform@0.10.0':
     resolution: {integrity: sha512-N3F/xVfBZQXc9wl+2/4E8U9Zma1rxpvylK6Gtw8Ofmiwjnmnvs+2SNjEpIXBPUeL+wxEkofSGOq7bkqt1hqwDg==}
@@ -39264,6 +39276,16 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
+  '@pipedream/microsoft_outlook@1.7.3':
+    dependencies:
+      '@pipedream/platform': 3.1.0
+      axios: 0.21.4
+      js-base64: 3.7.7
+      md5: 2.3.0
+      mime-types: 2.1.35
+    transitivePeerDependencies:
+      - debug
+
   '@pipedream/monday@0.7.0':
     dependencies:
       '@pipedream/platform': 3.1.0
@@ -39293,6 +39315,13 @@ snapshots:
       - debug
       - encoding
       - supports-color
+
+  '@pipedream/pipedream@0.4.2':
+    dependencies:
+      '@pipedream/platform': 1.6.6
+      uuidv4: 6.2.13
+    transitivePeerDependencies:
+      - debug
 
   '@pipedream/platform@0.10.0':
     dependencies:
