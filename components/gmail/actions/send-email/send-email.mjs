@@ -87,7 +87,7 @@ export default {
         "message",
       ],
       label: "In Reply To",
-      description: "Specify the `message-id` this email is replying to.",
+      description: "Specify the `message-id` this email is replying to",
       optional: true,
       reloadProps: true,
     },
