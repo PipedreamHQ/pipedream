@@ -5192,6 +5192,9 @@ importers:
 
   components/florm: {}
 
+  components/flotiq:
+    specifiers: {}
+
   components/flowiseai:
     dependencies:
       '@pipedream/platform':
