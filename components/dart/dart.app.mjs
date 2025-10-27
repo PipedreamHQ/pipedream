@@ -5,23 +5,14 @@ export default {
   type: "app",
   app: "dart",
   propDefinitions: {
-    dartboardId: {
+    dartboard: {
       type: "string",
-      label: "Dartboard ID",
+      label: "Dartboard",
       description: "The dartboard where the task is or will be located",
-      async options({ page }) {
-        const { results } = await this.listDartboards({
-          params: {
-            limit: constants.DEFAULT_LIMIT,
-            offset: page * constants.DEFAULT_LIMIT,
-          },
-        });
-        return results?.map(({
-          duid: value, title: label,
-        }) => ({
-          value,
-          label,
-        })) || [];
+      optional: true,
+      async options() {
+        const { dartboards } = await this.getConfig();
+        return dartboards?.map((dartboard) => dartboard) || [];
       },
     },
     assigneeIds: {
@@ -37,7 +28,7 @@ export default {
           },
         });
         return results?.map(({
-          duid: value, name: label,
+          email: value, name: label,
         }) => ({
           value,
           label,
@@ -48,6 +39,7 @@ export default {
       type: "string",
       label: "Task ID",
       description: "The ID of the task",
+      optional: true,
       async options({ page }) {
         const { results } = await this.listTasks({
           params: {
@@ -82,34 +74,77 @@ export default {
         })) || [];
       },
     },
-    taskName: {
-      type: "string",
-      label: "Task Name",
-      description: "The name of the task",
-    },
-    taskDescription: {
-      type: "string",
-      label: "Description",
-      description: "The description of the task",
+    tags: {
+      type: "string[]",
+      label: "Tags",
+      description: "The tags of the task",
       optional: true,
-    },
-    dueAt: {
-      type: "string",
-      label: "Due Date",
-      description: "The due date for the task in ISO-8601 format. Example: `2024-06-25T15:43:49.214Z`",
-      optional: true,
+      async options() {
+        const { tags } = await this.getConfig();
+        return tags?.map((tag) => tag) || [];
+      },
     },
     priority: {
       type: "string",
       label: "Priority",
       description: "The priority of the task",
       optional: true,
-      options: constants.TASK_PRIORITIES,
+      async options() {
+        const { priorities } = await this.getConfig();
+        return priorities?.map((priority) => priority) || [];
+      },
+    },
+    size: {
+      type: "string",
+      label: "Size",
+      description: "The size of the task",
+      optional: true,
+      async options() {
+        const { sizes } = await this.getConfig();
+        return sizes?.map((size) => size) || [];
+      },
+    },
+    status: {
+      type: "string",
+      label: "Status",
+      description: "The status of the task",
+      optional: true,
+      async options() {
+        const { statuses } = await this.getConfig();
+        return statuses?.map((status) => status) || [];
+      },
+    },
+    type: {
+      type: "string",
+      label: "Type",
+      description: "The title of the type of the task",
+      optional: true,
+      async options() {
+        const { types } = await this.getConfig();
+        return types.map((type) => type);
+      },
+    },
+    taskName: {
+      type: "string",
+      label: "Task Name",
+      description: "The name of the task",
+    },
+    startAt: {
+      type: "string",
+      label: "Start At",
+      description: "The start date, which is a date that the task should be started by in ISO format, like YYYY-MM-DD",
+      optional: true,
+    },
+    dueAt: {
+      type: "string",
+      label: "Due Date",
+      description: "The due date for the task in ISO format, like YYYY-MM-DD",
+      optional: true,
     },
     title: {
       type: "string",
       label: "Title",
-      description: "The title, which is a short description of the doc",
+      description: "The title, which is a short description of what needs to be done",
     },
     folder: {
       type: "string",
@@ -121,6 +156,12 @@ export default {
       type: "string",
       label: "Text",
       description: "The full content of the doc, which can include markdown formatting",
+      optional: true,
+    },
+    customProperties: {
+      type: "object",
+      label: "Custom Properties",
+      description: "The custom properties, which is an object of custom properties that are associated with the task",
       optional: true,
     },
   },
@@ -166,11 +207,29 @@ export default {
         ...opts,
       });
     },
-    createTransaction(opts = {}) {
+    createTask(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/public/transactions/create",
+        path: "/public/tasks",
         ...opts,
+      });
+    },
+    updateTask(opts = {}) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/public/tasks/${opts.data.item.id}`,
+        ...opts,
+      });
+    },
+    getConfig(opts = {}) {
+      return this._makeRequest({
+        path: "/public/config",
+        ...opts,
+      });
+    },
+    getDartboard({ dartboardId }) {
+      return this._makeRequest({
+        path: `/public/dartboards/${dartboardId}`,
       });
     },
     createDoc(opts = {}) {
