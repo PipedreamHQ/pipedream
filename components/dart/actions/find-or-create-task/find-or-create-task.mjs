@@ -116,7 +116,7 @@ export default {
     const { results } = await this.dart.listTasks({
       $,
       params: {
-        title: this.taskName,
+        title: this.title,
         dartboard: this.dartboard,
       },
     });
