@@ -93,7 +93,7 @@ export default {
         orderDateTime: this.orderDateTime,
         price: parseObject(this.priceObject),
         shippingCosts: parseObject(this.shippingCostsObject),
-        currencyFactor: parseFloat(this.currencyFactor),
+        currencyFactor: this.currencyFactor && parseFloat(this.currencyFactor),
         currency: parseObject(this.currency),
         itemRounding: parseObject(this.itemRounding),
         totalRounding: parseObject(this.totalRounding),

@@ -4,7 +4,7 @@ import shopware from "../../shopware.app.mjs";
 export default {
   key: "shopware-update-order",
   name: "Update Order",
-  description: "Partially update information about a Order resource. [See the documentation](https://shopware.stoplight.io/docs/admin-api/3cc867261ff28-partially-update-information-about-a-order-resource)",
+  description: "Partially update information about an order resource. [See the documentation](https://shopware.stoplight.io/docs/admin-api/3cc867261ff28-partially-update-information-about-a-order-resource)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -67,7 +67,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const data = await this.shopware.updateOrder({
+    const { data } = await this.shopware.updateOrder({
       $,
       orderId: this.orderId,
       params: {
@@ -80,7 +80,7 @@ export default {
           id: value,
           name: label,
         })),
-        rules: parseObject(this.ruleIds),
+        ruleIds: parseObject(this.ruleIds),
         orderNumber: this.orderNumber,
         affiliateCode: this.affiliateCode,
         campaignCode: this.campaignCode,
@@ -89,7 +89,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully retrieved order with ID: ${this.orderId}`);
+    $.export("$summary", `Successfully updated order with ID: ${this.orderId}`);
     return data;
   },
 };
