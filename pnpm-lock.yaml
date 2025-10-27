@@ -2268,6 +2268,9 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/callhippo:
+    specifiers: {}
+
   components/callhub:
     dependencies:
       '@pipedream/platform':
