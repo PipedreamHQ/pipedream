@@ -282,7 +282,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     const propsToEnable: Record<string, boolean> = {};
 
     for (const prop of configurableProps) {
-      if (prop.optional) {
+      if (prop.optional && !enabledOptionalProps[prop.name]) {
         const value = configuredProps[prop.name as keyof ConfiguredProps<T>];
         if (value !== undefined) {
           propsToEnable[prop.name] = true;
@@ -300,6 +300,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     component.key,
     configurableProps,
     configuredProps,
+    enabledOptionalProps,
   ]);
 
   // these validations are necessary because they might override PropInput for number case for instance
@@ -388,6 +389,8 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     updateConfiguredPropsQueryDisabledIdx(configuredProps)
   }, [
     component.key,
+    configurableProps,
+    enabledOptionalProps,
   ]);
 
   // Update queryDisabledIdx reactively when configuredProps changes.
@@ -397,6 +400,8 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     updateConfiguredPropsQueryDisabledIdx(configuredProps);
   }, [
     configuredProps,
+    configurableProps,
+    enabledOptionalProps,
   ]);
 
   useEffect(() => {
@@ -442,6 +447,9 @@ export const FormContextProvider = <T extends ConfigurableProps>({
           // Preserve label-value format from remote options dropdowns
           // Remote options store values as {__lv: {label: "...", value: ...}}
           // For multi-select fields, this will be an array of __lv objects
+          // IMPORTANT: Integer props with remote options (like IDs) can be stored in __lv format
+          // to preserve the display label. We only delete the value if it's NOT in __lv format
+          // AND not a number, which indicates invalid/corrupted data.
           const isLabelValue = value && typeof value === "object" && "__lv" in value;
           const isArrayOfLabelValues = Array.isArray(value) && value.length > 0 &&
             value.every((item) => item && typeof item === "object" && "__lv" in item);
@@ -461,6 +469,8 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     }
   }, [
     configurableProps,
+    enabledOptionalProps,
+    configuredProps,
   ]);
 
   // clear all props on user change

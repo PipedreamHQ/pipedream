@@ -95,6 +95,10 @@ export function ControlSelect<T extends PropOptionValue>({
       // Extract the actual option from __lv wrapper and sanitize to LV
       // Handle both single objects and arrays wrapped in __lv
       const lvContent = (rawValue as Record<string, unknown>).__lv;
+      if (!lvContent) {
+        console.warn("Invalid __lv content:", rawValue);
+        return null;
+      }
       if (Array.isArray(lvContent)) {
         return lvContent.map((item) => sanitizeOption(item as T));
       }
