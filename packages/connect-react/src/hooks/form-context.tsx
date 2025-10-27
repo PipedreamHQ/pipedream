@@ -360,7 +360,9 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     if (prop.type !== "integer" || typeof value === "number") {
       return value;
     }
-    return hasLabelValueFormat(value) ? value : undefined;
+    return hasLabelValueFormat(value)
+      ? value
+      : undefined;
   };
 
   useEffect(() => {
