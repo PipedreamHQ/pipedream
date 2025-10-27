@@ -5057,7 +5057,11 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
-  components/finerworks: {}
+  components/finerworks:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/fingertip: {}
 
