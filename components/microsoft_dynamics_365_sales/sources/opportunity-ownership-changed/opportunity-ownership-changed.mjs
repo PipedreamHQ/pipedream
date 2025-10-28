@@ -5,7 +5,7 @@ export default {
   key: "microsoft_dynamics_365_sales-opportunity-ownership-changed",
   name: "Opportunity Ownership Changed",
   description: "Emit new event when the ownership of an opportunity changes.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
