@@ -5,7 +5,7 @@ export default {
   key: "lusha-search-and-enrich-contacts",
   name: "Search and Enrich Contacts",
   description: "Search for contacts and enrich them. [See the documentation](https://docs.lusha.com/apis/openapi/contact-search-and-enrich)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

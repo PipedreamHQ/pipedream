@@ -5,7 +5,7 @@ export default {
   key: "lusha-search-and-enrich-companies",
   name: "Search and Enrich Companies",
   description: "Search for companies and enrich them. [See the documentation](https://docs.lusha.com/apis/openapi/company-search-and-enrich)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
