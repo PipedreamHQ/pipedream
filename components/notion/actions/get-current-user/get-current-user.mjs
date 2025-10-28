@@ -4,7 +4,7 @@ export default {
   key: "notion-get-current-user",
   name: "Get Current User",
   description: "Retrieve the Notion identity tied to the current OAuth token, returning the full `users.retrieve` payload for `me` (person or bot). Includes the user ID, name, avatar URL, type (`person` vs `bot`), and workspace ownership metadata—useful for confirming which workspace is connected, adapting downstream queries, or giving an LLM the context it needs about who is operating inside Notion. [See the documentation](https://developers.notion.com/reference/get-user).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
