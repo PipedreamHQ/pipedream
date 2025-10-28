@@ -71,12 +71,12 @@ export default {
     itemRounding: {
       type: "object",
       label: "Item Rounding",
-      description: "The rounding method to use for the order items",
+      description: "The rounding method to use for the order items. Example: {\"extensions\":[],\"decimals\":2,\"interval\":0.01,\"roundForNet\":true}",
     },
     totalRounding: {
       type: "object",
       label: "Total Rounding",
-      description: "The rounding method to use for the order total",
+      description: "The rounding method to use for the order total. Example: {\"extensions\":[],\"decimals\":2,\"interval\":0.01,\"roundForNet\":true}",
     },
   },
   async run({ $ }) {
