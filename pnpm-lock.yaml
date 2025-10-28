@@ -728,6 +728,8 @@ importers:
 
   components/alibaba_cloud: {}
 
+  components/alienvault: {}
+
   components/all_images_ai:
     dependencies:
       '@pipedream/platform':
@@ -1615,6 +1617,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/beyond_presence: {}
+
   components/bidsketch:
     dependencies:
       '@pipedream/platform':
@@ -1818,7 +1822,11 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/blotato: {}
+  components/blotato:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/blue: {}
 
@@ -2261,6 +2269,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
+
+  components/callhippo:
+    specifiers: {}
 
   components/callhub:
     dependencies:
@@ -4990,8 +5001,8 @@ importers:
   components/figma:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/file_store: {}
 
@@ -5182,6 +5193,9 @@ importers:
         version: 4.17.21
 
   components/florm: {}
+
+  components/flotiq:
+    specifiers: {}
 
   components/flowiseai:
     dependencies:
@@ -5437,6 +5451,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.0
         version: 3.1.0
+      async-retry:
+        specifier: ^1.3.3
+        version: 1.3.3
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -6615,7 +6632,11 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/hex: {}
+  components/hex:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/heygen:
     dependencies:
@@ -7135,7 +7156,11 @@ importers:
         specifier: ^1.2.0
         version: 1.6.6
 
-  components/inmobile: {}
+  components/inmobile:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/inoreader:
     dependencies:
@@ -8882,8 +8907,8 @@ importers:
   components/microsoft_dynamics_365_sales:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       pluralize:
         specifier: ^8.0.0
         version: 8.0.0
@@ -8957,6 +8982,12 @@ importers:
 
   components/microsoft_outlook_calendar:
     dependencies:
+      '@pipedream/microsoft_outlook':
+        specifier: ^1.7.3
+        version: 1.7.3
+      '@pipedream/pipedream':
+        specifier: ^0.4.2
+        version: 0.4.2
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
@@ -13180,7 +13211,11 @@ importers:
         specifier: 1.6.0
         version: 1.6.0
 
-  components/shopware: {}
+  components/shopware:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/short:
     dependencies:
@@ -20527,6 +20562,9 @@ packages:
   '@pipedream/linkedin@0.1.1':
     resolution: {integrity: sha512-9pFjaohz/wnJMIRpPmDPqHeWiXUIJVWIPvQudE8TkUjaBbyieDpscy8reWMp96UK9aXz1Z2J2yiNh0msILAX9Q==}
 
+  '@pipedream/microsoft_outlook@1.7.3':
+    resolution: {integrity: sha512-lJvKB6fvnHh9h9hk/z3zWQ3UsGY4U6NcZKpqSX+uEFdslSJI1GU9vY9UmntgPpTt0IuWz8EN5o6XJGb8/twl2w==}
+
   '@pipedream/monday@0.7.0':
     resolution: {integrity: sha512-ovVtLhKMJpOTSoc7JcVLrbVrJxW4BT96eW79TiiPc+DgMSM7ouRmCk5lHL2xCAtrqDForXSrXXGjHOAzhJsytA==}
 
@@ -20535,6 +20573,9 @@ packages:
 
   '@pipedream/notion@1.0.2':
     resolution: {integrity: sha512-qVMpoUOus3E4oYtrPoHq0jciipxY4Y9bOxqaiv6uyUbxOKC5QaVvOIRgge5E++uR7Bf46NepwwTcW7wujktUrw==}
+
+  '@pipedream/pipedream@0.4.2':
+    resolution: {integrity: sha512-BQkSnuXWU8VQvBDVyLrCrs2kGP3vwgyi8t02ONbIF85ZPkuIIhC25QhIMCXL+bWe5eGb3oDQh0PVXwpEi160fQ==}
 
   '@pipedream/platform@0.10.0':
     resolution: {integrity: sha512-N3F/xVfBZQXc9wl+2/4E8U9Zma1rxpvylK6Gtw8Ofmiwjnmnvs+2SNjEpIXBPUeL+wxEkofSGOq7bkqt1hqwDg==}
@@ -31429,22 +31470,22 @@ packages:
   superagent@3.8.1:
     resolution: {integrity: sha512-VMBFLYgFuRdfeNQSMLbxGSLfmXL/xc+OO+BZp41Za/NRDBet/BNbkRJrYzCUu0u4GU0i/ml2dtT8b9qgkw9z6Q==}
     engines: {node: '>= 4.0'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   superagent@4.1.0:
     resolution: {integrity: sha512-FT3QLMasz0YyCd4uIi5HNe+3t/onxMyEho7C3PSqmti3Twgy2rXT4fmkTz6wRL6bTF4uzPcfkUCa8u4JWHw8Ag==}
     engines: {node: '>= 6.0'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   superagent@5.3.1:
     resolution: {integrity: sha512-wjJ/MoTid2/RuGCOFtlacyGNxN9QLMgcpYLDQlWFIhhdJ93kNscFonGvrpAHSCVjRVj++DGCglocF7Aej1KHvQ==}
     engines: {node: '>= 7.0.0'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   superagent@7.1.6:
     resolution: {integrity: sha512-gZkVCQR1gy/oUXr+kxJMLDjla434KmSOKbx5iGD30Ql+AkJQ/YlPKECJy2nhqOsHLjGHzoDTXNSjhnvWhzKk7g==}
     engines: {node: '>=6.4.0 <13 || >=14'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   supports-color@10.0.0:
     resolution: {integrity: sha512-HRVVSbCCMbj7/kdWF9Q+bbckjBHLtHMEoJWlkmYzzdwhYMkjkOwubLM6t7NbWKjgKamGDrWL1++KrjUO1t9oAQ==}
@@ -39249,6 +39290,16 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
+  '@pipedream/microsoft_outlook@1.7.3':
+    dependencies:
+      '@pipedream/platform': 3.1.0
+      axios: 0.21.4
+      js-base64: 3.7.7
+      md5: 2.3.0
+      mime-types: 2.1.35
+    transitivePeerDependencies:
+      - debug
+
   '@pipedream/monday@0.7.0':
     dependencies:
       '@pipedream/platform': 3.1.0
@@ -39278,6 +39329,13 @@ snapshots:
       - debug
       - encoding
       - supports-color
+
+  '@pipedream/pipedream@0.4.2':
+    dependencies:
+      '@pipedream/platform': 1.6.6
+      uuidv4: 6.2.13
+    transitivePeerDependencies:
+      - debug
 
   '@pipedream/platform@0.10.0':
     dependencies:
