@@ -56,7 +56,7 @@ export default {
     customerComment: {
       type: "string",
       label: "Customer Comment",
-      description: "Comments given by comments",
+      description: "Comments given by the customer",
       optional: true,
     },
     internalComment: {
