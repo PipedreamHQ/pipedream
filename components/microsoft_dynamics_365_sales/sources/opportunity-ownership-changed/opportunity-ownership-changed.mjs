@@ -2,19 +2,19 @@ import common from "../common/common.mjs";
 
 export default {
   ...common,
-  key: "microsoft_dynamics_365_sales-opportunity-estimated-value-updated",
-  name: "Opportunity Estimated Value Updated",
-  description: "Emit new event when the estimated value of an opportunity is updated.",
-  version: "0.0.2",
+  key: "microsoft_dynamics_365_sales-opportunity-ownership-changed",
+  name: "Opportunity Ownership Changed",
+  description: "Emit new event when the ownership of an opportunity changes.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
-    _getEstimatedValues() {
-      return this.db.get("estimatedValues") || {};
+    _getOwnershipIds() {
+      return this.db.get("ownershipIds") || {};
     },
-    _setEstimatedValues(estimatedValues) {
-      this.db.set("estimatedValues", estimatedValues);
+    _setOwnershipIds(ownershipIds) {
+      this.db.set("ownershipIds", ownershipIds);
     },
     getResourceFn() {
       return this.microsoftDynamics365Sales.listOpportunities;
@@ -30,24 +30,24 @@ export default {
       return "modifiedon";
     },
     getRelevantResults(results) {
-      const estimatedValues = this._getEstimatedValues();
+      const ownershipIds = this._getOwnershipIds();
       const relevantResults = [];
       for (const result of results) {
-        if (estimatedValues[result.opportunityid] !== result.estimatedvalue) {
-          if (estimatedValues[result.opportunityid]) {
+        if (ownershipIds[result.opportunityid] !== result._ownerid_value) {
+          if (ownershipIds[result.opportunityid]) {
             relevantResults.push(result);
           }
-          estimatedValues[result.opportunityid] = result.estimatedvalue;
+          ownershipIds[result.opportunityid] = result._ownerid_value;
         }
       }
-      this._setEstimatedValues(estimatedValues);
+      this._setOwnershipIds(ownershipIds);
       return relevantResults;
     },
     generateMeta(opportunity) {
       const ts = Date.parse(opportunity.modifiedon);
       return {
         id: `${opportunity.opportunityid}${ts}`,
-        summary: `Opportunity Estimated Value Updated: ${opportunity.name}`,
+        summary: `Opportunity Ownership Changed: ${opportunity.name}`,
         ts,
       };
     },

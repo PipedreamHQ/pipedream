@@ -2,19 +2,19 @@ import common from "../common/common.mjs";
 
 export default {
   ...common,
-  key: "microsoft_dynamics_365_sales-opportunity-estimated-value-updated",
-  name: "Opportunity Estimated Value Updated",
-  description: "Emit new event when the estimated value of an opportunity is updated.",
-  version: "0.0.2",
+  key: "microsoft_dynamics_365_sales-opportunity-contact-changed",
+  name: "Opportunity Contact Changed",
+  description: "Emit new event when an opportunity's contact is changed.",
+  version: "0.0.{{ts}}",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
-    _getEstimatedValues() {
-      return this.db.get("estimatedValues") || {};
+    _getContactIds() {
+      return this.db.get("contactIds") || {};
     },
-    _setEstimatedValues(estimatedValues) {
-      this.db.set("estimatedValues", estimatedValues);
+    _setContactIds(contactIds) {
+      this.db.set("contactIds", contactIds);
     },
     getResourceFn() {
       return this.microsoftDynamics365Sales.listOpportunities;
@@ -30,24 +30,24 @@ export default {
       return "modifiedon";
     },
     getRelevantResults(results) {
-      const estimatedValues = this._getEstimatedValues();
+      const contactIds = this._getContactIds();
       const relevantResults = [];
       for (const result of results) {
-        if (estimatedValues[result.opportunityid] !== result.estimatedvalue) {
-          if (estimatedValues[result.opportunityid]) {
+        if (contactIds[result.opportunityid] !== result._parentcontactid_value) {
+          if (contactIds[result.opportunityid]) {
             relevantResults.push(result);
           }
-          estimatedValues[result.opportunityid] = result.estimatedvalue;
+          contactIds[result.opportunityid] = result._parentcontactid_value;
         }
       }
-      this._setEstimatedValues(estimatedValues);
+      this._setContactIds(contactIds);
       return relevantResults;
     },
     generateMeta(opportunity) {
       const ts = Date.parse(opportunity.modifiedon);
       return {
         id: `${opportunity.opportunityid}${ts}`,
-        summary: `Opportunity Estimated Value Updated: ${opportunity.name}`,
+        summary: `Opportunity Contact Changed: ${opportunity.name}`,
         ts,
       };
     },
