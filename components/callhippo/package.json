@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/callhippo",
+  "version": "0.0.1",
+  "description": "Pipedream CallHippo Components",
+  "main": "callhippo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "callhippo"
+  ],
+  "homepage": "https://pipedream.com/apps/callhippo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
