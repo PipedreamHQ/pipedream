@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/beyond_presence",
+  "version": "0.0.1",
+  "description": "Pipedream Beyond Presence Components",
+  "main": "beyond_presence.app.mjs",
+  "keywords": [
+    "pipedream",
+    "beyond_presence"
+  ],
+  "homepage": "https://pipedream.com/apps/beyond_presence",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

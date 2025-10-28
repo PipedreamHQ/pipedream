@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/coinapi",
+  "version": "0.0.1",
+  "description": "Pipedream CoinAPI Components",
+  "main": "coinapi.app.mjs",
+  "keywords": [
+    "pipedream",
+    "coinapi"
+  ],
+  "homepage": "https://pipedream.com/apps/coinapi",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

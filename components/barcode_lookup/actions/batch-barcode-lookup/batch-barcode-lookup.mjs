@@ -5,7 +5,7 @@ export default {
   key: "barcode_lookup-batch-barcode-lookup",
   name: "Batch Barcode Lookup",
   description: "Get multiple products by barcode. [See the documentation](https://www.barcodelookup.com/api-documentation)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -21,7 +21,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.searchProducts({
+    const response = await this.app.getProducts({
       $,
       params: {
         barcode: parseObject(this.barcodes)?.join(","),

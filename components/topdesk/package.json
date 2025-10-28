@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/topdesk",
+  "version": "0.0.1",
+  "description": "Pipedream TOPdesk Components",
+  "main": "topdesk.app.mjs",
+  "keywords": [
+    "pipedream",
+    "topdesk"
+  ],
+  "homepage": "https://pipedream.com/apps/topdesk",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

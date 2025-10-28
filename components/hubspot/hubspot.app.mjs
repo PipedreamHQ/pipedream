@@ -116,6 +116,7 @@ export default {
       type: "string",
       label: "Object ID",
       description: "Hubspot's internal ID for the contact",
+      useQuery: true,
       async options({
         objectType, ...opts
       }) {
@@ -128,6 +129,7 @@ export default {
       type: "string[]",
       label: "Object",
       description: "Watch for new events concerning the objects selected.",
+      useQuery: true,
       async options({
         objectType, ...opts
       }) {
@@ -195,12 +197,21 @@ export default {
       type: "string",
       label: "Contact Email",
       description: "Note - this needs to be a contact that already exists within HubSpot. You may need to add a Create or Update Contact step before this one. Then, use the email created in that step in this field.",
-      async options({ prevContext }) {
+      useQuery: true,
+      async options({
+        prevContext, query,
+      }) {
         const { nextAfter } = prevContext;
         const {
           results: contacts,
           paging,
-        } = await this.listObjectsInPage("contacts", nextAfter);
+        } = await this.searchCRM({
+          object: "contacts",
+          data: {
+            after: nextAfter,
+            query,
+          },
+        });
         return {
           options: contacts
             .filter(({ properties }) => properties.email)
@@ -423,9 +434,16 @@ export default {
       type: "string",
       label: "Lead ID",
       description: "The identifier of the lead",
-      async options() {
-        const { results } = await this.listObjectsInPage("lead", undefined, {
-          properties: "hs_lead_name",
+      useQuery: true,
+      async options({ query }) {
+        const { results } = await this.searchCRM({
+          object: "lead",
+          data: {
+            properties: [
+              "hs_lead_name",
+            ],
+            query,
+          },
         });
         return results?.map(({
           id: value, properties,
@@ -811,6 +829,7 @@ export default {
       const {
         prevContext,
         page,
+        query,
       } = opts;
       const { nextAfter } = prevContext;
       if (page !== 0 && !nextAfter) {
@@ -819,7 +838,13 @@ export default {
       const {
         paging,
         results,
-      } = await this.listObjectsInPage(referencedObjectType, nextAfter);
+      } = await this.searchCRM({
+        object: referencedObjectType,
+        data: {
+          query,
+          after: nextAfter,
+        },
+      });
       return {
         options: results.map((object) => ({
           label: this.getObjectLabel(object, referencedObjectType) ?? object.id,
