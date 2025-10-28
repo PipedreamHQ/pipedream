@@ -42,11 +42,11 @@
       <h1>Get record by Id</h1>
       <div class="row">
         <div>
-          <label>Object (e.g.: Account, Contact)</label>
+          <label for="getObject">Object (e.g.: Account, Contact)</label>
           <input id="getObject" placeholder="Account" />
         </div>
         <div>
-          <label>Record Id</label>
+          <label for="getId">Record Id</label>
           <input id="getId" placeholder="001XXXXXXXXXXXXXXX" />
         </div>
       </div>
@@ -59,15 +59,15 @@
       <h1>Update record by Id</h1>
       <div class="row">
         <div>
-          <label>Object</label>
+          <label for="updObject">Object</label>
           <input id="updObject" placeholder="Account" />
         </div>
         <div>
-          <label>Record Id</label>
+          <label for="updId">Record Id</label>
           <input id="updId" placeholder="001XXXXXXXXXXXXXXX" />
         </div>
       </div>
-  <label>Payload JSON</label>
+  <label for="updBody">Payload JSON</label>
       <textarea id="updBody" placeholder='{"Name":"New Name"}'></textarea>
   <button id="updBtn" onclick="updateById()">Update</button>
       <div id="updOut" class="out" aria-live="polite"></div>
@@ -78,17 +78,17 @@
       <h1>Upsert by External Id</h1>
       <div class="row">
         <div>
-          <label>Object</label>
+          <label for="upsObject">Object</label>
           <input id="upsObject" placeholder="Account" />
         </div>
         <div>
-          <label>External Id Field</label>
+          <label for="upsField">External Id Field</label>
           <input id="upsField" placeholder="External_Id__c" />
         </div>
       </div>
-  <label>External Id Value</label>
+  <label for="upsValue">External Id Value</label>
       <input id="upsValue" placeholder="ABC-123" />
-  <label>Payload JSON</label>
+  <label for="upsBody">Payload JSON</label>
       <textarea id="upsBody" placeholder='{"Name":"Acme Inc."}'></textarea>
   <button id="upsBtn" onclick="upsertByExternal()">Upsert</button>
       <div id="upsOut" class="out" aria-live="polite"></div>
@@ -97,8 +97,8 @@
     <!-- DESCRIBE / LIST CUSTOM FIELDS -->
     <div class="card">
       <h1>List custom fields (Describe)</h1>
-    <label>Object</label>
-    <input id="descObject" placeholder="Account" />
+  <label for="descObject">Object</label>
+  <input id="descObject" placeholder="Account" />
   <button id="descBtn" onclick="describeObject()">List Fields</button>
       <div id="descOut" class="out" aria-live="polite"></div>
     </div>
@@ -136,6 +136,11 @@ const API = {
   desc:  (obj)                  => `/api/sf/${encodeURIComponent(obj)}/describe`,
 };
 
+// Simple required field validator
+function required(value, name){
+  return value && value.trim() ? null : `${name} is required`;
+}
+
 function setButtonLoading(btnId, loading){
   const btn = document.getElementById(btnId);
   if(!btn) return;
@@ -162,12 +167,15 @@ async function getById(){
   const o=document.getElementById('getObject').value.trim();
   const id=document.getElementById('getId').value.trim();
   const out=document.getElementById('getOut');
+  // required fields validation
+  const err = required(o,'Object') || required(id,'Record Id');
+  if(err){ asJson(out, err, false); return; }
   setButtonLoading('getBtn', true);
   try{
     const r=await fetch(API.get(o,id));
     const parsed = await safeParseResponse(r);
     asJson(out, parsed.body, r.ok, { status: r.status, statusText: r.statusText });
-  }catch(e){ asJson(out, String(e), false); }
+  }catch(e){ console.error(e); asJson(out, 'Network or server error.', false); }
   setButtonLoading('getBtn', false);
 }
 
@@ -176,6 +184,9 @@ async function updateById(){
   const id=document.getElementById('updId').value.trim();
   const bodyText=document.getElementById('updBody').value || "{}";
   const out=document.getElementById('updOut');
+  // required fields validation
+  const reqErr = required(o,'Object') || required(id,'Record Id');
+  if(reqErr){ asJson(out, reqErr, false); return; }
   // validate JSON payload
   let body;
   try{ body = JSON.parse(bodyText); }
@@ -185,7 +196,7 @@ async function updateById(){
     const r=await fetch(API.patch(o,id), { method:'PATCH', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
     const parsed = await safeParseResponse(r);
     asJson(out, parsed.body, r.ok, { status: r.status, statusText: r.statusText });
-  }catch(e){ asJson(out, String(e), false); }
+  }catch(e){ console.error(e); asJson(out, 'Network or server error.', false); }
   setButtonLoading('updBtn', false);
 }
 
@@ -195,6 +206,9 @@ async function upsertByExternal(){
   const v=document.getElementById('upsValue').value.trim();
   const bodyText=document.getElementById('upsBody').value || "{}";
   const out=document.getElementById('upsOut');
+  // required fields validation
+  const reqErr = required(o,'Object') || required(f,'External Id Field') || required(v,'External Id Value');
+  if(reqErr){ asJson(out, reqErr, false); return; }
   // validate JSON payload
   let body;
   try{ body = JSON.parse(bodyText); }
@@ -204,13 +218,16 @@ async function upsertByExternal(){
     const r=await fetch(API.upsert(o,f,v), { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
     const parsed = await safeParseResponse(r);
     asJson(out, parsed.body, r.ok, { status: r.status, statusText: r.statusText });
-  }catch(e){ asJson(out, String(e), false); }
+  }catch(e){ console.error(e); asJson(out, 'Network or server error.', false); }
   setButtonLoading('upsBtn', false);
 }
 
 async function describeObject(){
   const o=document.getElementById('descObject').value.trim();
   const out=document.getElementById('descOut');
+  // required fields validation
+  const err = required(o,'Object');
+  if(err){ asJson(out, err, false); return; }
   setButtonLoading('descBtn', true);
   try{
     const r=await fetch(API.desc(o));
@@ -222,7 +239,7 @@ async function describeObject(){
     }else{
       asJson(out, parsed.body, r.ok, { status: r.status, statusText: r.statusText });
     }
-  }catch(e){ asJson(out, String(e), false); }
+  }catch(e){ console.error(e); asJson(out, 'Network or server error.', false); }
   setButtonLoading('descBtn', false);
 }
 </script>
