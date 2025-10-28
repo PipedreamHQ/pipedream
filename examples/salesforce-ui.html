@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Salesforce – Actions Demo (UI)</title>
+  <style>
+    :root { --bg:#0f0f0f; --card:#1a1a1a; --muted:#9ca3af; --ok:#16a34a; --err:#ef4444; }
+    body{font-family:system-ui,Arial,sans-serif;background:var(--bg);color:#fff;margin:0;padding:24px}
+    .container{max-width:960px;margin:auto;display:grid;gap:16px}
+    .card{background:var(--card);border-radius:16px;padding:16px;box-shadow:0 2px 16px rgba(0,0,0,.2)}
+    h1{margin:0 0 12px;font-size:1.4rem}
+    label{display:block;font-size:.9rem;color:var(--muted);margin:.5rem 0 .25rem}
+    input,select,textarea,button{
+      width:100%;padding:10px;border-radius:10px;border:1px solid #333;background:#0b0b0b;color:#fff
+    }
+    textarea{min-height:110px;resize:vertical}
+    button{cursor:pointer;border:none;background:#2563eb}
+    button:hover{filter:brightness(1.1)}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .out{white-space:pre-wrap;background:#0b0b0b;border-radius:10px;padding:12px;font-family:ui-monospace,Consolas,monospace}
+    .ok{border-left:4px solid var(--ok)}
+    .err{border-left:4px solid var(--err)}
+    small a{color:#60a5fa}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <h1>Salesforce – Actions Demo</h1>
+      <small>
+        This demo UI calls the project's backend endpoints to execute Salesforce API actions.
+        <a href="https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_sobject_retrieve_get">Get</a> •
+        <a href="https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/using_resources_working_with_records.htm">Update</a> •
+        <a href="https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_upsert.htm">Upsert</a> •
+        <a href="https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_sobject_describe.htm">Describe</a>
+      </small>
+    </div>
+
+    <!-- GET BY ID -->
+    <div class="card">
+      <h1>Get record by Id</h1>
+      <div class="row">
+        <div>
+          <label>Object (e.g.: Account, Contact)</label>
+          <input id="getObject" placeholder="Account" />
+        </div>
+        <div>
+          <label>Record Id</label>
+          <input id="getId" placeholder="001XXXXXXXXXXXXXXX" />
+        </div>
+      </div>
+  <button id="getBtn" onclick="getById()">Get</button>
+      <div id="getOut" class="out" aria-live="polite"></div>
+    </div>
+
+    <!-- UPDATE BY ID -->
+    <div class="card">
+      <h1>Update record by Id</h1>
+      <div class="row">
+        <div>
+          <label>Object</label>
+          <input id="updObject" placeholder="Account" />
+        </div>
+        <div>
+          <label>Record Id</label>
+          <input id="updId" placeholder="001XXXXXXXXXXXXXXX" />
+        </div>
+      </div>
+  <label>Payload JSON</label>
+      <textarea id="updBody" placeholder='{"Name":"New Name"}'></textarea>
+  <button id="updBtn" onclick="updateById()">Update</button>
+      <div id="updOut" class="out" aria-live="polite"></div>
+    </div>
+
+    <!-- UPSERT BY EXTERNAL ID -->
+    <div class="card">
+      <h1>Upsert by External Id</h1>
+      <div class="row">
+        <div>
+          <label>Object</label>
+          <input id="upsObject" placeholder="Account" />
+        </div>
+        <div>
+          <label>External Id Field</label>
+          <input id="upsField" placeholder="External_Id__c" />
+        </div>
+      </div>
+  <label>External Id Value</label>
+      <input id="upsValue" placeholder="ABC-123" />
+  <label>Payload JSON</label>
+      <textarea id="upsBody" placeholder='{"Name":"Acme Inc."}'></textarea>
+  <button id="upsBtn" onclick="upsertByExternal()">Upsert</button>
+      <div id="upsOut" class="out" aria-live="polite"></div>
+    </div>
+
+    <!-- DESCRIBE / LIST CUSTOM FIELDS -->
+    <div class="card">
+      <h1>List custom fields (Describe)</h1>
+    <label>Object</label>
+    <input id="descObject" placeholder="Account" />
+  <button id="descBtn" onclick="describeObject()">List Fields</button>
+      <div id="descOut" class="out" aria-live="polite"></div>
+    </div>
+  </div>
+
+<script>
+/*
+ Backend responsibilities (server-side):
+ - Provide the proxy endpoints used by this UI under /api/sf/*
+   - GET  /api/sf/{object}/{id}                -> retrieve a record by Id
+   - PATCH/POST /api/sf/{object}/{id}         -> update a record by Id (PATCH preferred)
+   - PUT   /api/sf/{object}/external/{field}/{value} -> upsert by external Id
+   - GET  /api/sf/{object}/describe            -> return object describe metadata
+ - Perform authentication/authorization and keep Salesforce credentials/tokens secret
+ - Handle CORS and accept requests from the UI origin
+ - Ensure support for HTTP methods used (PATCH, PUT). If some proxies disallow PATCH,
+   accept POST with X-HTTP-Method-Override or provide an alternative.
+ - Return JSON responses with appropriate Content-Type when possible; return useful
+   error messages and proper HTTP status codes on failures.
+ - Validate and sanitize data server-side before sending to Salesforce API.
+*/
+
+const asJson = (el, data, ok=true, meta) => {
+  el.className = `out ${ok ? 'ok':'err'}`;
+  let header = '';
+  if(meta && meta.status){ header = `Status: ${meta.status} ${meta.statusText}\n\n`; }
+  el.textContent = header + (typeof data === 'string' ? data : JSON.stringify(data, null, 2));
+};
+
+// Adjust these endpoints according to the backend implementation
+const API = {
+  get:   (obj,id)               => `/api/sf/${encodeURIComponent(obj)}/${encodeURIComponent(id)}`,
+  patch: (obj,id)               => `/api/sf/${encodeURIComponent(obj)}/${encodeURIComponent(id)}`,
+  upsert:(obj,field,value)      => `/api/sf/${encodeURIComponent(obj)}/external/${encodeURIComponent(field)}/${encodeURIComponent(value)}`,
+  desc:  (obj)                  => `/api/sf/${encodeURIComponent(obj)}/describe`,
+};
+
+function setButtonLoading(btnId, loading){
+  const btn = document.getElementById(btnId);
+  if(!btn) return;
+  if(loading){
+    if(!btn.dataset.orig) btn.dataset.orig = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Waiting...';
+  }else{
+    btn.disabled = false;
+    if(btn.dataset.orig) btn.textContent = btn.dataset.orig;
+  }
+}
+
+async function safeParseResponse(r){
+  const ct = r.headers.get('content-type') || '';
+  if(ct.includes('application/json')){
+    try{ return { body: await r.json(), isJson:true }; }catch(e){ return { body: `Invalid JSON response: ${e}`, isJson:false }; }
+  }
+  // fallback to text
+  try{ return { body: await r.text(), isJson:false }; }catch(e){ return { body: String(e), isJson:false }; }
+}
+
+async function getById(){
+  const o=document.getElementById('getObject').value.trim();
+  const id=document.getElementById('getId').value.trim();
+  const out=document.getElementById('getOut');
+  setButtonLoading('getBtn', true);
+  try{
+    const r=await fetch(API.get(o,id));
+    const parsed = await safeParseResponse(r);
+    asJson(out, parsed.body, r.ok, { status: r.status, statusText: r.statusText });
+  }catch(e){ asJson(out, String(e), false); }
+  setButtonLoading('getBtn', false);
+}
+
+async function updateById(){
+  const o=document.getElementById('updObject').value.trim();
+  const id=document.getElementById('updId').value.trim();
+  const bodyText=document.getElementById('updBody').value || "{}";
+  const out=document.getElementById('updOut');
+  // validate JSON payload
+  let body;
+  try{ body = JSON.parse(bodyText); }
+  catch(e){ asJson(out, `Invalid JSON payload: ${e.message || e}`, false); return; }
+  setButtonLoading('updBtn', true);
+  try{
+    const r=await fetch(API.patch(o,id), { method:'PATCH', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+    const parsed = await safeParseResponse(r);
+    asJson(out, parsed.body, r.ok, { status: r.status, statusText: r.statusText });
+  }catch(e){ asJson(out, String(e), false); }
+  setButtonLoading('updBtn', false);
+}
+
+async function upsertByExternal(){
+  const o=document.getElementById('upsObject').value.trim();
+  const f=document.getElementById('upsField').value.trim();
+  const v=document.getElementById('upsValue').value.trim();
+  const bodyText=document.getElementById('upsBody').value || "{}";
+  const out=document.getElementById('upsOut');
+  // validate JSON payload
+  let body;
+  try{ body = JSON.parse(bodyText); }
+  catch(e){ asJson(out, `Invalid JSON payload: ${e.message || e}`, false); return; }
+  setButtonLoading('upsBtn', true);
+  try{
+    const r=await fetch(API.upsert(o,f,v), { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+    const parsed = await safeParseResponse(r);
+    asJson(out, parsed.body, r.ok, { status: r.status, statusText: r.statusText });
+  }catch(e){ asJson(out, String(e), false); }
+  setButtonLoading('upsBtn', false);
+}
+
+async function describeObject(){
+  const o=document.getElementById('descObject').value.trim();
+  const out=document.getElementById('descOut');
+  setButtonLoading('descBtn', true);
+  try{
+    const r=await fetch(API.desc(o));
+    const parsed = await safeParseResponse(r);
+    if(r.ok && parsed.isJson){
+      const j = parsed.body;
+      const fields = (j.fields || []).filter(f => /__c$/.test(f.name));
+      asJson(out, { count: fields.length, fields }, true, { status: r.status, statusText: r.statusText });
+    }else{
+      asJson(out, parsed.body, r.ok, { status: r.status, statusText: r.statusText });
+    }
+  }catch(e){ asJson(out, String(e), false); }
+  setButtonLoading('descBtn', false);
+}
+</script>
+</body>
+</html>
