@@ -1,5 +1,6 @@
 import app from "@pipedream/linkedin";
 import utils from "./common/utils.mjs";
+import constants from "./common/constants.mjs";
 
 export default {
   ...app,
@@ -151,6 +152,14 @@ export default {
   },
   methods: {
     ...app.methods,
+    _getHeaders() {
+      return {
+        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+        "Content-Type": "application/json",
+        "Linkedin-Version": constants.VERSION_HEADER,
+        "X-Restli-Protocol-Version": constants.RESTLI_PROTOCOL_VERSION,
+      };
+    },
     getSponsoredAccountUrn(id) {
       return `urn:li:sponsoredAccount:${id}`;
     },

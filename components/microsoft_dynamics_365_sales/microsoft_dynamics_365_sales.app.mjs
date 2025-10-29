@@ -33,6 +33,41 @@ export default {
         })) || [];
       },
     },
+    opportunityId: {
+      type: "string",
+      label: "Opportunity ID",
+      description: "Identifier of an opportunity",
+      async options({ prevContext }) {
+        const response = await this.listOpportunities({
+          url: prevContext?.url,
+        });
+        return {
+          options: response.value?.map(({
+            opportunityid: value, name: label,
+          }) => ({
+            value,
+            label,
+          })) || [],
+          context: {
+            url: response["@odata.nextLink"],
+          },
+        };
+      },
+    },
+    accountId: {
+      type: "string",
+      label: "Account ID",
+      description: "Identifier of an account",
+      async options() {
+        const { value } = await this.listAccounts();
+        return value?.map(({
+          accountid: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -41,11 +76,12 @@ export default {
     _makeRequest({
       $ = this,
       path,
+      url,
       headers,
       ...opts
     }) {
       return axios($, {
-        url: `${this._baseUrl()}${path}`,
+        url: url || `${this._baseUrl()}${path}`,
         headers: {
           ...headers,
           "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
@@ -85,6 +121,24 @@ export default {
         ...opts,
       });
     },
+    listOpportunities(opts = {}) {
+      return this._makeRequest({
+        path: "/opportunities",
+        ...opts,
+      });
+    },
+    listActivityPointers(opts = {}) {
+      return this._makeRequest({
+        path: "/activitypointers",
+        ...opts,
+      });
+    },
+    listAccounts(opts = {}) {
+      return this._makeRequest({
+        path: "/accounts",
+        ...opts,
+      });
+    },
     getEntity({
       entityId, ...opts
     }) {
@@ -99,6 +153,28 @@ export default {
         path: "/EntityDefinitions",
         ...opts,
       });
+    },
+    async *paginate({
+      fn, args = {}, max,
+    }) {
+      let count = 0;
+      let nextLink = null;
+
+      do {
+        const response = await fn(args);
+        const items = response.value;
+        if (!items?.length) {
+          return;
+        }
+        for (const item of items) {
+          yield item;
+          if (max && ++count >= max) {
+            return;
+          }
+        }
+        nextLink = response["@odata.nextLink"];
+        args.url = nextLink;
+      } while (nextLink);
     },
   },
 };

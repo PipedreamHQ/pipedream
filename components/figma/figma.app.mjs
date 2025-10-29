@@ -12,26 +12,12 @@ export default {
     projectId: {
       type: "string",
       label: "Project Id",
-      description: "Id of the project to list files from",
-      async options({ teamId = this._getTeamId() }) {
-        const projects = await this.listTeamProjects(teamId);
-        return projects.map((item) => ({
-          label: item.name,
-          value: item.id,
-        }));
-      },
+      description: "Navigate to your project in Figma. You can find your Project ID in the URL between `/project/` and the project name. For example, if your project URL is `https://www.figma.com/files/team/1562118717370912711/project/478297666/Team-project?fuid=1562118714608714352`, enter `478297666` here.",
     },
     fileId: {
       type: "string",
       label: "File Id",
-      description: "Id of the file to perform your action.",
-      async options({ projectId }) {
-        const files = await this.listProjectFiles(projectId);
-        return files.map((item) => ({
-          label: item.name,
-          value: item.key,
-        }));
-      },
+      description: "Navigate to your file in Figma and open it. You can find your File ID in the URL after `/file/`. For example, if your file URL is `https://www.figma.com/file/ABC123xyz456/My-Design-File`, enter `ABC123xyz456` here.",
     },
     commentId: {
       type: "string",
@@ -73,20 +59,6 @@ export default {
         headers: this._getHeaders(),
       };
       return res;
-    },
-    async listTeamProjects(teamId, ctx = this) {
-      const res = await axios(ctx, this._getAxiosParams({
-        method: "GET",
-        path: `/v1/teams/${teamId}/projects`,
-      }));
-      return res?.projects || [];
-    },
-    async listProjectFiles(projectId, ctx = this) {
-      const res = await axios(ctx, this._getAxiosParams({
-        method: "GET",
-        path: `/v1/projects/${projectId}/files`,
-      }));
-      return res?.files || [];
     },
     async listFileComments(fileId, ctx = this) {
       const res = await axios(ctx, this._getAxiosParams({

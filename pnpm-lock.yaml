@@ -157,7 +157,11 @@ importers:
         specifier: ^4.0.1
         version: 4.0.1
 
-  components/_302_ai: {}
+  components/_302_ai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/_360nrs:
     dependencies:
@@ -724,6 +728,8 @@ importers:
 
   components/alibaba_cloud: {}
 
+  components/alienvault: {}
+
   components/all_images_ai:
     dependencies:
       '@pipedream/platform':
@@ -1111,6 +1117,8 @@ importers:
         version: 4.17.21
 
   components/ascora: {}
+
+  components/ashby: {}
 
   components/ashby_job_postings_api: {}
 
@@ -1609,6 +1617,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/beyond_presence: {}
+
   components/bidsketch:
     dependencies:
       '@pipedream/platform':
@@ -1812,7 +1822,11 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/blotato: {}
+  components/blotato:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/blue: {}
 
@@ -2255,6 +2269,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
+
+  components/callhippo: {}
 
   components/callhub:
     dependencies:
@@ -3398,6 +3414,9 @@ importers:
 
   components/cronly: {}
 
+  components/cronlytic:
+    specifiers: {}
+
   components/crossmint: {}
 
   components/crove_app:
@@ -3589,6 +3608,8 @@ importers:
 
   components/darwinbox: {}
 
+  components/dasha_ai: {}
+
   components/data247: {}
 
   components/data_axle_platform:
@@ -3710,6 +3731,9 @@ importers:
         version: 1.6.6
 
   components/deel: {}
+
+  components/deep_tagger:
+    specifiers: {}
 
   components/deepgram:
     dependencies:
@@ -4697,8 +4721,8 @@ importers:
   components/etermin:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.0
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/ethereum: {}
 
@@ -4769,6 +4793,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.6.6
+
+  components/exa: {}
 
   components/exact:
     dependencies:
@@ -4980,8 +5006,8 @@ importers:
   components/figma:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/file_store: {}
 
@@ -5172,6 +5198,8 @@ importers:
         version: 4.17.21
 
   components/florm: {}
+
+  components/flotiq: {}
 
   components/flowiseai:
     dependencies:
@@ -5427,6 +5455,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.0
         version: 3.1.0
+      async-retry:
+        specifier: ^1.3.3
+        version: 1.3.3
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -6291,7 +6322,11 @@ importers:
 
   components/grab_your_reviews: {}
 
-  components/grabpenny: {}
+  components/grabpenny:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/graceblocks: {}
 
@@ -6605,7 +6640,11 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/hex: {}
+  components/hex:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/heygen:
     dependencies:
@@ -7125,7 +7164,11 @@ importers:
         specifier: ^1.2.0
         version: 1.6.6
 
-  components/inmobile: {}
+  components/inmobile:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/inoreader:
     dependencies:
@@ -8128,8 +8171,8 @@ importers:
         specifier: ^0.1.1
         version: 0.1.1
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/linkish:
     dependencies:
@@ -8872,8 +8915,8 @@ importers:
   components/microsoft_dynamics_365_sales:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       pluralize:
         specifier: ^8.0.0
         version: 8.0.0
@@ -8947,6 +8990,12 @@ importers:
 
   components/microsoft_outlook_calendar:
     dependencies:
+      '@pipedream/microsoft_outlook':
+        specifier: ^1.7.3
+        version: 1.7.3
+      '@pipedream/pipedream':
+        specifier: ^0.4.2
+        version: 0.4.2
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
@@ -9693,6 +9742,9 @@ importers:
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
+      notion-helper:
+        specifier: ^1.3.27
+        version: 1.3.27
       notion-to-md:
         specifier: 3.1.8
         version: 3.1.8
@@ -13167,7 +13219,11 @@ importers:
         specifier: 1.6.0
         version: 1.6.0
 
-  components/shopware: {}
+  components/shopware:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/short:
     dependencies:
@@ -15292,7 +15348,11 @@ importers:
 
   components/uproc: {}
 
-  components/ups: {}
+  components/ups:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/upstash_redis:
     dependencies:
@@ -20514,6 +20574,9 @@ packages:
   '@pipedream/linkedin@0.1.1':
     resolution: {integrity: sha512-9pFjaohz/wnJMIRpPmDPqHeWiXUIJVWIPvQudE8TkUjaBbyieDpscy8reWMp96UK9aXz1Z2J2yiNh0msILAX9Q==}
 
+  '@pipedream/microsoft_outlook@1.7.3':
+    resolution: {integrity: sha512-lJvKB6fvnHh9h9hk/z3zWQ3UsGY4U6NcZKpqSX+uEFdslSJI1GU9vY9UmntgPpTt0IuWz8EN5o6XJGb8/twl2w==}
+
   '@pipedream/monday@0.7.0':
     resolution: {integrity: sha512-ovVtLhKMJpOTSoc7JcVLrbVrJxW4BT96eW79TiiPc+DgMSM7ouRmCk5lHL2xCAtrqDForXSrXXGjHOAzhJsytA==}
 
@@ -20522,6 +20585,9 @@ packages:
 
   '@pipedream/notion@1.0.2':
     resolution: {integrity: sha512-qVMpoUOus3E4oYtrPoHq0jciipxY4Y9bOxqaiv6uyUbxOKC5QaVvOIRgge5E++uR7Bf46NepwwTcW7wujktUrw==}
+
+  '@pipedream/pipedream@0.4.2':
+    resolution: {integrity: sha512-BQkSnuXWU8VQvBDVyLrCrs2kGP3vwgyi8t02ONbIF85ZPkuIIhC25QhIMCXL+bWe5eGb3oDQh0PVXwpEi160fQ==}
 
   '@pipedream/platform@0.10.0':
     resolution: {integrity: sha512-N3F/xVfBZQXc9wl+2/4E8U9Zma1rxpvylK6Gtw8Ofmiwjnmnvs+2SNjEpIXBPUeL+wxEkofSGOq7bkqt1hqwDg==}
@@ -28374,6 +28440,7 @@ packages:
 
   mailsplit@5.4.0:
     resolution: {integrity: sha512-wnYxX5D5qymGIPYLwnp6h8n1+6P6vz/MJn5AzGjZ8pwICWssL+CCQjWBIToOVHASmATot4ktvlLo6CyLfOXWYA==}
+    deprecated: This package has been renamed to @zone-eu/mailsplit. Please update your dependencies.
 
   make-dir@2.1.0:
     resolution: {integrity: sha512-LS9X+dc8KLxXCb8dni79fLIIUA5VyZoyjSMCwTluaXA0o27cCK0bhXkpgw+sTXVpPy/lSO57ilRixqk0vDmtRA==}
@@ -29153,6 +29220,10 @@ packages:
   normalize-url@8.0.1:
     resolution: {integrity: sha512-IO9QvjUMWxPQQhs60oOu10CRkWCiZzSUkzbXGGV9pviYl1fXYcvkzQ5jV9z8Y6un8ARoVRl4EtC6v6jNqbaJ/w==}
     engines: {node: '>=14.16'}
+
+  notion-helper@1.3.27:
+    resolution: {integrity: sha512-XA759GyxjjzPy6HTpXi1ZiJJ6Kp89ShWrLrDBME+GNEdBdx/C6dpH3vKTps9nfSoHuFMdMFXxkq5r3hbTLHQjg==}
+    engines: {node: '>=18.0.0'}
 
   notion-to-md@3.1.8:
     resolution: {integrity: sha512-DuEslJAbmUG2IRVcoeiCdsE2tI8yXOG6NiHlzxYTcKMmkAtoj2Fgq35Gf5T8s92uzpT2ueVf3aCOq7XuVLVYOA==}
@@ -39231,6 +39302,16 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
+  '@pipedream/microsoft_outlook@1.7.3':
+    dependencies:
+      '@pipedream/platform': 3.1.0
+      axios: 0.21.4
+      js-base64: 3.7.7
+      md5: 2.3.0
+      mime-types: 2.1.35
+    transitivePeerDependencies:
+      - debug
+
   '@pipedream/monday@0.7.0':
     dependencies:
       '@pipedream/platform': 3.1.0
@@ -39260,6 +39341,13 @@ snapshots:
       - debug
       - encoding
       - supports-color
+
+  '@pipedream/pipedream@0.4.2':
+    dependencies:
+      '@pipedream/platform': 1.6.6
+      uuidv4: 6.2.13
+    transitivePeerDependencies:
+      - debug
 
   '@pipedream/platform@0.10.0':
     dependencies:
@@ -50468,6 +50556,8 @@ snapshots:
   normalize-url@6.1.0: {}
 
   normalize-url@8.0.1: {}
+
+  notion-helper@1.3.27: {}
 
   notion-to-md@3.1.8:
     dependencies:
