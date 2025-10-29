@@ -8192,6 +8192,9 @@ importers:
         specifier: ^1.0.3
         version: 1.0.3
 
+  components/linkupapi:
+    specifiers: {}
+
   components/linode:
     dependencies:
       '@pipedream/platform':
