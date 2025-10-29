@@ -115,12 +115,15 @@ export default {
           label: "Template ID",
           description: "The ID of the template to use for the page. [See the documentation](https://developers.notion.com/docs/creating-pages-from-templates) for more information.",
           options: async({ prevContext }) => {
+            const params = {
+              data_source_id: this.parentDataSource,
+            };
+            if (prevContext?.nCursor) {
+              params.start_cursor = prevContext.nCursor;
+            }
             const {
               templates, next_cursor: nCursor,
-            } = await this.notion.listTemplates({
-              data_source_id: this.parentDataSource,
-              start_cursor: prevContext?.nCursor,
-            });
+            } = await this.notion.listTemplates(params);
             return {
               options: templates.map(({
                 name: label, id: value,
