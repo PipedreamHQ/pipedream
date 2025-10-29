@@ -11,10 +11,11 @@ export default {
     ...common.methods,
     getMeta(item) {
       const {
-        user_id, user_name,
+        user_id,
+        user_name,
       } = item;
 
-      const ts = new Date().getTime();
+      const ts = new Date.now();
 
       return {
         id: user_id + ts,
@@ -34,9 +35,9 @@ export default {
     const params = {
       broadcaster_id: this.db.get("authenticatedUserId"),
     };
-    // get the user_ids of the streamers followed by the authenticated user
+    // get subscribers to the authenticated user's channel
     const subscriptions = this.paginate(
-      this.twitch.getUserSubscriptions.bind(this),
+      this.twitch.getBroadcasterSubscriptions.bind(this),
       params,
     );
 

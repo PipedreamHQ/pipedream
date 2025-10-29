@@ -142,9 +142,6 @@ export default {
     async getUserFollows(params) {
       return await this._makeRequest("GET", "channels/followers", params);
     },
-    async getUserSubscriptions(params) {
-      return await this._makeRequest("GET", "subscriptions", params);
-    },
     async getFollowedChannels(params) {
       return await this._makeRequest("GET", "channels/followed", params);
     },
