@@ -1,12 +1,13 @@
 import { axios } from "@pipedream/platform";
 import get from "lodash/get.js";
+import { doubleEncode } from "../../utils.mjs";
 import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {
   name: "Delete webinar",
   description: "Delete a webinar. [See the documentation](https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinardelete)",
   key: "zoom_admin-delete-webinar",
-  version: "0.1.7",
+  version: "0.1.8",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -42,7 +43,7 @@ export default {
   async run ({ $ }) {
     const res = await axios($, this.zoomAdmin._getAxiosParams({
       method: "DELETE",
-      path: `/webinars/${get(this.webinar, "value", this.webinar)}`,
+      path: `/webinars/${doubleEncode(get(this.webinar, "value", this.webinar))}`,
       params: {
         occurrence_id: get(this.occurrence, "value", this.occurrence),
         cancel_meeting_reminder: this.cancelMeetingReminder,

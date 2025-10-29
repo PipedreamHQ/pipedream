@@ -2,13 +2,14 @@ import { axios } from "@pipedream/platform";
 import get from "lodash/get.js";
 import isObject from "lodash/isObject.js";
 import consts from "../../consts.mjs";
+import { doubleEncode } from "../../utils.mjs";
 import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {
   name: "Update Webinar Registrant Status",
   description: "Update registrant status for a webinar. [See the documentation](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingregistrantstatus)",
   key: "zoom_admin-update-webinar-registrant-status",
-  version: "0.1.7",
+  version: "0.1.8",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -62,7 +63,7 @@ export default {
 
     const res = await axios($, this.zoomAdmin._getAxiosParams({
       method: "PUT",
-      path: `/webinar/${get(this.webinar, "value", this.webinar)}/registrants/status`,
+      path: `/webinar/${doubleEncode(get(this.webinar, "value", this.webinar))}/registrants/status`,
       params: {
         occurrence_id: get(this.occurrence, "value", this.occurrence),
       },

@@ -1,12 +1,13 @@
 import { axios } from "@pipedream/platform";
 import get from "lodash/get.js";
+import { doubleEncode } from "../../utils.mjs";
 import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {
   name: "Get Webinar",
   description: "Retrieve the details of a webinar. [See the documentation](https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinar)",
   key: "zoom_admin-get-webinar",
-  version: "0.1.7",
+  version: "0.1.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -41,7 +42,7 @@ export default {
   async run ({ $ }) {
     const res = await axios($, this.zoomAdmin._getAxiosParams({
       method: "GET",
-      path: `/webinars/${get(this.webinar, "value", this.webinar)}`,
+      path: `/webinars/${doubleEncode(get(this.webinar, "value", this.webinar))}`,
       params: {
         occurrence_id: get(this.occurrence, "value", this.occurrence),
         show_previous_occurrences: this.showPreviousOccurrences,

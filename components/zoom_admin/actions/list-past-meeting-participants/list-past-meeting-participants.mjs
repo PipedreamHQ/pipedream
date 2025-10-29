@@ -1,13 +1,13 @@
-import zoomAdmin from "../../zoom_admin.app.mjs";
 import get from "lodash/get.js";
 import { paginate } from "../../common/pagination.mjs";
+import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {
   name: "List Past Meeting Participants",
   description:
     "List all participants of a past meeting. [See the documentation](https://developers.zoom.us/docs/api/meetings/#tag/meetings/GET/past_meetings/{meetingId}/participants)",
   key: "zoom_admin-list-past-meeting-participants",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

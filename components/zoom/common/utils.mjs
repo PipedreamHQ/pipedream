@@ -14,7 +14,15 @@ function summaryEnd(count, singular, plural) {
   return `${count} ${noun}`;
 }
 
+function doubleEncode(value) {
+  if (value.startsWith("/") || value.includes("//")) {
+    return encodeURIComponent(encodeURIComponent(value));
+  }
+  return value;
+}
+
 export default {
   streamIterator,
   summaryEnd,
+  doubleEncode,
 };
