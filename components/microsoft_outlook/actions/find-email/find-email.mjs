@@ -4,7 +4,7 @@ export default {
   key: "microsoft_outlook-find-email",
   name: "Find Email",
   description: "Search for an email in Microsoft Outlook. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list-messages)",
-  version: "0.0.12",
+  version: "0.0.13",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -43,23 +43,44 @@ export default {
       ],
     },
   },
+  methods: {
+    ensureQuotes(str) {
+      str = str.trim();
+      str = str.replace(/^['"]?/, "").replace(/['"]?$/, "");
+      return `"${str}"`;
+    },
+  },
   async run({ $ }) {
-    const items = this.microsoftOutlook.paginate({
-      fn: this.microsoftOutlook.listMessages,
-      args: {
+    let emails = [];
+
+    if (!this.search) {
+      const items = this.microsoftOutlook.paginate({
+        fn: this.microsoftOutlook.listMessages,
+        args: {
+          $,
+          params: {
+            "$filter": this.filter,
+            "$orderby": this.orderBy,
+          },
+        },
+        max: this.maxResults,
+      });
+
+      for await (const item of items) {
+        emails.push(item);
+      }
+    } else {
+      const { value } = await this.microsoftOutlook.listMessages({
         $,
         params: {
-          "$search": this.search,
           "$filter": this.filter,
           "$orderby": this.orderBy,
+          "$search": this.ensureQuotes(this.search),
+          "$top": this.maxResults,
         },
-      },
-      max: this.maxResults,
-    });
+      });
 
-    const emails = [];
-    for await (const item of items) {
-      emails.push(item);
+      emails = value;
     }
 
     $.export("$summary", `Successfully retrieved ${emails.length} message${emails.length != 1

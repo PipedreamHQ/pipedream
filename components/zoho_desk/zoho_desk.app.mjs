@@ -21,6 +21,29 @@ export default {
         }));
       },
     },
+    portalId: {
+      type: "string",
+      label: "Portal ID",
+      description: "Select the help center portal to target.",
+      async options({ orgId }) {
+        if (!orgId) {
+          return [];
+        }
+        const { data: helpCenters = [] } =
+          await this.listHelpCenters({
+            params: {
+              orgId,
+            },
+          });
+        return helpCenters.map(({
+          portalId: value,
+          name: label,
+        }) => ({
+          value,
+          label: label || value,
+        }));
+      },
+    },
     departmentId: {
       type: "string",
       label: "Department ID",
@@ -100,11 +123,77 @@ export default {
         return allowedValues.map(({ value }) => value);
       },
     },
+    articleId: {
+      type: "string",
+      label: "Article ID",
+      description: "The ID of the knowledge base article",
+      async options({
+        portalId, prevContext,
+      }) {
+        const { data } = await this.listKnowledgeBaseArticles({
+          params: {
+            portalId,
+            from: prevContext?.from,
+            limit: constants.DEFAULT_LIMIT,
+          },
+        });
+        return {
+          options: data?.map(({
+            id: value, title: label,
+          }) => ({
+            value,
+            label,
+          })) || [],
+          context: {
+            from: data?.length
+              ? data[data.length - 1].id
+              : null,
+          },
+        };
+      },
+    },
+    categoryId: {
+      type: "string",
+      label: "Category ID",
+      description: "Filter by the ID(s) of the categories the articles belong to. Use comma-separated IDs to include multiple categories.",
+      optional: true,
+      async options({
+        portalId, prevContext,
+      }) {
+        const { data } = await this.listKnowledgeBaseRootCategories({
+          params: {
+            portalId,
+            from: prevContext?.from,
+            limit: constants.DEFAULT_LIMIT,
+          },
+        });
+        return {
+          options: data?.map(({
+            id: value, name: label,
+          }) => ({
+            value,
+            label,
+          })) || [],
+          context: {
+            from: data?.length
+              ? data[data.length - 1].id
+              : null,
+          },
+        };
+      },
+    },
+    maxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: "Maximum number of results to return. Set to blank to return everything.",
+      optional: true,
+      default: constants.MAX_RESOURCES,
+    },
   },
   methods: {
-    getUrl(url, path, versionPath) {
+    getUrl(url, path, apiPrefix) {
       const { region } = this.$auth;
-      return url || `${constants.BASE_PREFIX_URL}${region}${versionPath}${path}`;
+      return url || `${constants.BASE_PREFIX_URL}${region}${apiPrefix}${path}`;
     },
     getHeaders(headers) {
       const { oauth_access_token: oauthAccessToken } = this.$auth;
@@ -126,12 +215,12 @@ export default {
       path,
       params,
       headers,
-      versionPath = constants.VERSION_PATH,
+      apiPrefix = constants.CORE_API_PATH,
       withRetries = true,
       ...args
     } = {}) {
       const config = {
-        url: this.getUrl(url, path, versionPath),
+        url: this.getUrl(url, path, apiPrefix),
         params: this.getParams(url, params),
         headers: this.getHeaders(headers),
         ...args,
@@ -262,6 +351,86 @@ export default {
       return this.makeRequest({
         path: `/tickets/${ticketId}/comments`,
         ...args,
+      });
+    },
+    listHelpCenters(args = {}) {
+      return this.makeRequest({
+        path: "/helpCenters",
+        apiPrefix: constants.PORTAL_API_PATH,
+        ...args,
+      });
+    },
+    listKnowledgeBaseArticles(args = {}) {
+      return this.makeRequest({
+        path: "/kbArticles",
+        apiPrefix: constants.PORTAL_API_PATH,
+        ...args,
+      });
+    },
+    async *listKnowledgeBaseArticlesStream({
+      params,
+      max,
+      ...args
+    } = {}) {
+      yield* this.getResourcesStream({
+        resourceFn: this.listKnowledgeBaseArticles,
+        resourceFnArgs: {
+          ...args,
+          params,
+        },
+        max,
+      });
+    },
+    getKnowledgeBaseArticle({
+      articleId,
+      ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/kbArticles/${articleId}`,
+        apiPrefix: constants.PORTAL_API_PATH,
+        ...args,
+      });
+    },
+    searchKnowledgeBaseArticles(args = {}) {
+      return this.makeRequest({
+        path: "/kbArticles/search",
+        apiPrefix: constants.PORTAL_API_PATH,
+        ...args,
+      });
+    },
+    async *searchKnowledgeBaseArticlesStream({
+      params,
+      max,
+      ...args
+    } = {}) {
+      yield* this.getResourcesStream({
+        resourceFn: this.searchKnowledgeBaseArticles,
+        resourceFnArgs: {
+          ...args,
+          params,
+        },
+        max,
+      });
+    },
+    listKnowledgeBaseRootCategories(args = {}) {
+      return this.makeRequest({
+        path: "/kbRootCategories",
+        apiPrefix: constants.PORTAL_API_PATH,
+        ...args,
+      });
+    },
+    async *listKnowledgeBaseRootCategoriesStream({
+      params,
+      max,
+      ...args
+    } = {}) {
+      yield* this.getResourcesStream({
+        resourceFn: this.listKnowledgeBaseRootCategories,
+        resourceFnArgs: {
+          ...args,
+          params,
+        },
+        max,
       });
     },
     sendReply({

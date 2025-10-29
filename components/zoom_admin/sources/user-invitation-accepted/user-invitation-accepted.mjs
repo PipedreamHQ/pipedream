@@ -5,7 +5,7 @@ export default {
   type: "source",
   name: "User Invitation Accepted",
   description: "Emits an event each time a user accepts an invite to your Zoom account",
-  version: "0.1.6",
+  version: "0.1.8",
   dedupe: "unique", // Dedupe based on user ID
   props: {
     zoomAdmin,

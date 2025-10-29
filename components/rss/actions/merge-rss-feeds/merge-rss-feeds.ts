@@ -5,7 +5,7 @@ export default defineAction({
   name: "Merge RSS Feeds",
   description: "Retrieve multiple RSS feeds and return a merged array of items sorted by date [See documentation](https://www.rssboard.org/rss-specification)",
   key: "rss-merge-rss-feeds",
-  version: "1.2.9",
+  version: "1.2.10",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

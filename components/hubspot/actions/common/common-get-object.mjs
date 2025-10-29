@@ -17,6 +17,7 @@ export default {
       type: "string",
       label: "Object ID",
       description: "Hubspot's internal ID for the object",
+      useQuery: true,
       async options(opts) {
         return this.hubspot.createOptions(this.getObjectType(), opts);
       },

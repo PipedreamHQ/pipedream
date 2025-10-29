@@ -9,7 +9,7 @@ export default {
   key: "notion-create-page-from-database",
   name: "Create Page from Data Source",
   description: "Create a page from a data source. [See the documentation](https://developers.notion.com/reference/post-page)",
-  version: "1.0.4",
+  version: "1.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -91,35 +91,33 @@ export default {
      * @returns the constructed page in Notion format
      */
     buildPage(parentDataSource) {
-      const meta = this.buildDataSourceMeta(parentDataSource);
       this.properties = utils.parseObject(this.properties);
       const properties = this.buildPageProperties(parentDataSource.properties);
-      const children = this.createBlocks(this.pageContent);
-      return {
-        ...meta,
-        properties,
-        children,
-      };
+
+      const propertiesArray = [];
+      for (const property of Object.values(parentDataSource.properties)) {
+        if (properties[property.id]) {
+          propertiesArray.push({
+            label: property.name,
+            type: property.type,
+            value: this[property.name] || this.properties[property.name],
+          });
+        }
+      }
+
+      return propertiesArray;
     },
   },
   async run({ $ }) {
-    const MAX_BLOCKS = 100;
     const parentPage = await this.notion.retrieveDataSource(this.parentDataSource);
-    const {
-      children, ...page
-    } = this.buildPage(parentPage);
-    const response = await this.notion.createPage({
-      ...page,
-      children: children.slice(0, MAX_BLOCKS),
-      parent: {
-        data_source_id: this.parentDataSource,
-      },
+    const properties = await this.buildPage(parentPage);
+    const response = await this.buildPageFromDataSource({
+      pageContent: this.pageContent,
+      parentDataSourceId: this.parentDataSource,
+      properties,
+      icon: this.icon,
+      cover: this.cover,
     });
-    let remainingBlocks = children.slice(MAX_BLOCKS);
-    while (remainingBlocks.length > 0) {
-      await this.notion.appendBlock(response.id, remainingBlocks.slice(0, MAX_BLOCKS));
-      remainingBlocks = remainingBlocks.slice(MAX_BLOCKS);
-    }
     $.export("$summary", "Created page successfully");
     return response;
   },
