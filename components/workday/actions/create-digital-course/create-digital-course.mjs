@@ -76,7 +76,7 @@ export default {
     const data = {
       topics: parsedTopics,
       title: this.title,
-      availabilityStatus: this.availabilityStatus,
+      availabilityStatus: utils.parseObject(this.availabilityStatus),
       lessons: parsedLessons,
       description: this.description,
     };

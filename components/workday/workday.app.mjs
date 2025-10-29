@@ -836,13 +836,6 @@ export default {
         ...opts,
       });
     },
-    async createDistributionRequest(opts = {}) {
-      return this._makeRequest({
-        path: "/distributionRequests",
-        method: "POST",
-        ...opts,
-      });
-    },
     async listContent(opts = {}) {
       return this._makeRequest({
         path: "/content",

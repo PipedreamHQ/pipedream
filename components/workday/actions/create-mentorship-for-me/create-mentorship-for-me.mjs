@@ -30,9 +30,10 @@ export default {
       description: "Purpose of the mentorship.",
     },
     mentor: {
-      type: "object",
-      label: "Mentor",
-      description: "Object with at least an `id`. Example: `{ id: \"00000000000000000000000000000000\"}`",
+      propDefinition: [
+        workday,
+        "workerId",
+      ],
     },
     comment: {
       type: "string",
@@ -43,8 +44,9 @@ export default {
     mentorType: {
       type: "object",
       label: "Mentor Type",
-      description: "Object with at least an `id`. Example: `{ id: \"00000000000000000000000000000000\"}`",
-      optional: true,
+      description: `Object containing at least an \`id\` property. Example: \`{"id": "00000000000000000000000000000000"}\`.
+   
+**Note:** These values are configured within your Workday tenant and can typically be retrieved using a **Workday Report-as-a-Service (RaaS)** or **SOAP API** integration. Please contact your Workday administrator to obtain the valid mentor type IDs available in your environment.`,
     },
     descriptor: {
       type: "string",
@@ -57,12 +59,9 @@ export default {
     if (!this.endDate || !this.endDate.trim()) throw new ConfigurationError("End Date is required and cannot be empty.");
     if (!this.startDate || !this.startDate.trim()) throw new ConfigurationError("Start Date is required and cannot be empty.");
     if (!this.purpose || !this.purpose.trim()) throw new ConfigurationError("Purpose is required and cannot be empty.");
-    if (!this.mentor || typeof this.mentor !== "object" || !this.mentor.id || !this.mentor.id.trim()) {
-      throw new ConfigurationError("Mentor is required and must be an object with a non-empty id property.");
-    }
     if (this.mentorType !== undefined) {
       if (typeof this.mentorType !== "object" || !this.mentorType.id || !this.mentorType.id.trim()) {
-        throw new ConfigurationError("If provided, mentorType must be an object with a non-empty id property.");
+        throw new ConfigurationError("mentorType must be an object with a non-empty id property.");
       }
     }
 
@@ -70,7 +69,9 @@ export default {
       endDate: this.endDate,
       startDate: this.startDate,
       purpose: this.purpose,
-      mentor: this.mentor,
+      mentor: {
+        id: this.mentor,
+      },
     };
     if (this.comment) data.comment = this.comment;
     if (this.mentorType) data.mentorType = this.mentorType;
