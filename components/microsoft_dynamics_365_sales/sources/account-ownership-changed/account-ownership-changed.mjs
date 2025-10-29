@@ -2,10 +2,10 @@ import common from "../common/common.mjs";
 
 export default {
   ...common,
-  key: "microsoft_dynamics_365_sales-opportunity-ownership-changed",
-  name: "Opportunity Ownership Changed",
-  description: "Emit new event when the ownership of an opportunity changes.",
-  version: "0.0.2",
+  key: "microsoft_dynamics_365_sales-account-ownership-changed",
+  name: "Account Ownership Changed",
+  description: "Emit new event when the ownership of an account changes.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -17,7 +17,7 @@ export default {
       this.db.set("ownershipIds", ownershipIds);
     },
     getResourceFn() {
-      return this.microsoftDynamics365Sales.listOpportunities;
+      return this.microsoftDynamics365Sales.listAccounts;
     },
     getArgs() {
       return {
@@ -33,21 +33,21 @@ export default {
       const ownershipIds = this._getOwnershipIds();
       const relevantResults = [];
       for (const result of results) {
-        if (ownershipIds[result.opportunityid] !== result._ownerid_value) {
-          if (ownershipIds[result.opportunityid]) {
+        if (ownershipIds[result.accountid] !== result._ownerid_value) {
+          if (ownershipIds[result.accountid]) {
             relevantResults.push(result);
           }
-          ownershipIds[result.opportunityid] = result._ownerid_value;
+          ownershipIds[result.accountid] = result._ownerid_value;
         }
       }
       this._setOwnershipIds(ownershipIds);
       return relevantResults;
     },
-    generateMeta(opportunity) {
-      const ts = Date.parse(opportunity.modifiedon);
+    generateMeta(account) {
+      const ts = Date.parse(account.modifiedon);
       return {
-        id: `${opportunity.opportunityid}${ts}`,
-        summary: `Opportunity Ownership Changed: ${opportunity.name}`,
+        id: `${account.accountid}${ts}`,
+        summary: `Account Ownership Changed: ${account.name}`,
         ts,
       };
     },

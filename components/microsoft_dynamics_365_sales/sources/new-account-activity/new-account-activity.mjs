@@ -2,18 +2,18 @@ import common from "../common/common.mjs";
 
 export default {
   ...common,
-  key: "microsoft_dynamics_365_sales-new-opportunity-activity",
-  name: "New Opportunity Activity",
-  description: "Emit new event when a new task or activity is created for an opportunity.",
-  version: "0.0.2",
+  key: "microsoft_dynamics_365_sales-new-account-activity",
+  name: "New Account Activity",
+  description: "Emit new event when a new task or activity is created for an account.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
     ...common.props,
-    opportunityId: {
+    accountId: {
       propDefinition: [
         common.props.microsoftDynamics365Sales,
-        "opportunityId",
+        "accountId",
       ],
     },
   },
@@ -26,7 +26,7 @@ export default {
       return {
         params: {
           "$orderby": "createdon desc",
-          "$filter": `_regardingobjectid_value eq ${this.opportunityId}`,
+          "$filter": `_regardingobjectid_value eq ${this.accountId}`,
         },
       };
     },
@@ -36,8 +36,8 @@ export default {
     generateMeta(activity) {
       const ts = Date.parse(activity.createdon);
       return {
-        id: `${activity.opportunityid}${ts}`,
-        summary: `New Opportunity Activity: ${activity.subject}`,
+        id: `${activity.accountid}${ts}`,
+        summary: `New Account Activity: ${activity.subject}`,
         ts,
       };
     },

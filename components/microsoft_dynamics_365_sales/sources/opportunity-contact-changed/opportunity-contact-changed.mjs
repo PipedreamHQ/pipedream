@@ -5,7 +5,7 @@ export default {
   key: "microsoft_dynamics_365_sales-opportunity-contact-changed",
   name: "Opportunity Contact Changed",
   description: "Emit new event when an opportunity's contact is changed.",
-  version: "0.0.{{ts}}",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
