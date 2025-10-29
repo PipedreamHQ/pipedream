@@ -3415,6 +3415,9 @@ importers:
 
   components/cronly: {}
 
+  components/cronlytic:
+    specifiers: {}
+
   components/crossmint: {}
 
   components/crove_app:
