@@ -44,6 +44,7 @@ export default {
           objType: c.sobjectType,
         }),
       ],
+      optional: true,
       reloadProps: true,
     },
   },
@@ -57,8 +58,12 @@ export default {
     } = this;
     const fields = await this.salesforce.getFieldsForObjectType(sobjectType);
 
-    const selectedFields = fields.filter(({ name }) => fieldsToUpdate.includes(name));
-    const selectedFieldProps = this.convertFieldsToProps(selectedFields);
+    // Only generate props for manually selected fields if any were selected
+    let selectedFieldProps = {};
+    if (fieldsToUpdate && fieldsToUpdate.length > 0) {
+      const selectedFields = fields.filter(({ name }) => fieldsToUpdate.includes(name));
+      selectedFieldProps = this.convertFieldsToProps(selectedFields);
+    }
 
     return {
       docsInfo: {
