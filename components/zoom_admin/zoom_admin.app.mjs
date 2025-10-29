@@ -3,8 +3,8 @@ import { axios } from "@pipedream/platform";
 import flatten from "lodash/flatten.js";
 import get from "lodash/get.js";
 import sortBy from "lodash/sortBy.js";
+import { doubleEncode } from "./common/utils.mjs";
 import consts from "./consts.mjs";
-import { doubleEncode } from "./utils.mjs";
 import zoomCountries from "./zoom_countries.mjs";
 
 export default {

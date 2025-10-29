@@ -1,3 +1,4 @@
+import { doubleEncode } from "../../common/utils.mjs";
 import app from "../../zoom.app.mjs";
 
 export default {
@@ -25,7 +26,7 @@ export default {
       meetingId, ...args
     } = {}) {
       return this.app._makeRequest({
-        path: `/past_meetings/${meetingId}/participants`,
+        path: `/past_meetings/${doubleEncode(meetingId)}/participants`,
         ...args,
       });
     },

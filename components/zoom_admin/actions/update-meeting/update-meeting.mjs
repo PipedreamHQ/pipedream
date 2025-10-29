@@ -1,7 +1,7 @@
 import { axios } from "@pipedream/platform";
 import get from "lodash/get.js";
+import { doubleEncode } from "../../common/utils.mjs";
 import consts from "../../consts.mjs";
-import { doubleEncode } from "../../utils.mjs";
 import zoomAdmin from "../../zoom_admin.app.mjs";
 import tzs from "../../zoom_tzs.mjs";
 

@@ -1,3 +1,4 @@
+import { doubleEncode } from "../../common/utils.mjs";
 import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {
@@ -26,7 +27,7 @@ export default {
       meetingId, ...opts
     }) {
       return this.zoomAdmin._makeRequest({
-        path: `/meetings/${meetingId}/transcript`,
+        path: `/meetings/${doubleEncode(meetingId)}/transcript`,
         ...opts,
       });
     },

@@ -1,6 +1,6 @@
 import { axios } from "@pipedream/platform";
 import get from "lodash/get.js";
-import { doubleEncode } from "../../utils.mjs";
+import { doubleEncode } from "../../common/utils.mjs";
 import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {
