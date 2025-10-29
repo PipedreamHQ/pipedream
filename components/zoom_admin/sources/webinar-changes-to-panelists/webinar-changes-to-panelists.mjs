@@ -1,7 +1,7 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import crypto from "crypto";
 import difference from "lodash/difference.js";
-import { sanitizedArray } from "../../utils.mjs";
+import { sanitizedArray } from "../../common/utils.mjs";
 import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {
