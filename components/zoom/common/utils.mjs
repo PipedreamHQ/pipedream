@@ -15,7 +15,7 @@ function summaryEnd(count, singular, plural) {
 }
 
 function doubleEncode(value) {
-  if (value.startsWith("/") || value.includes("//")) {
+  if ((typeof value === "string") && (value.startsWith("/") || value.includes("//"))) {
     return encodeURIComponent(encodeURIComponent(value));
   }
   return value;
