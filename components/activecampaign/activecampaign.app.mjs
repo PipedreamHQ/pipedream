@@ -77,6 +77,24 @@ export default {
         return this.listListOptions(prevContext);
       },
     },
+    segments: {
+      type: "string[]",
+      label: "Segments",
+      description:
+        "Watch the selected segments for updates. Leave blank to watch all available segments.",
+      optional: true,
+      async options({ prevContext }) {
+        return this.listSegmentOptions(prevContext);
+      },
+    },
+    segment: {
+      type: "string",
+      label: "Segment",
+      description: "Select a segment",
+      async options({ prevContext }) {
+        return this.listSegmentOptions(prevContext);
+      },
+    },
     accountName: {
       type: "string",
       label: "Account's name",
@@ -420,6 +438,18 @@ export default {
         ...args,
       });
     },
+    async listSegments(args = {}) {
+      return this.makeRequest({
+        path: "/segments",
+        ...args,
+      });
+    },
+    async listAudiences(args = {}) {
+      return this.makeRequest({
+        path: "/audiences",
+        ...args,
+      });
+    },
     async listTags(args = {}) {
       return this.makeRequest({
         path: "/tags",
@@ -459,6 +489,32 @@ export default {
           value: id,
         }),
       });
+    },
+    async listSegmentOptions(prevContext) {
+      const page = prevContext.page || 1;
+
+      const response = await this.listAudiences({
+        params: {
+          sort: "-recent",
+          page,
+        },
+      });
+
+      const {
+        data, meta,
+      } = response;
+
+      return {
+        options: data.map((segment) => ({
+          label: segment.attributes.name,
+          value: segment.id,
+        })),
+        context: {
+          page: meta.page.current_page < meta.page.last_page
+            ? page + 1
+            : null,
+        },
+      };
     },
     async listCampaignOptions(prevContext) {
       return this.paginateResources({
