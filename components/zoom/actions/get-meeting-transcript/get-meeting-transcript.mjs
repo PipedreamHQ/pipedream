@@ -1,3 +1,4 @@
+import utils from "../../common/utils.mjs";
 import zoom from "../../zoom.app.mjs";
 
 export default {
@@ -27,7 +28,7 @@ export default {
       meetingId, ...opts
     }) {
       return this.zoom._makeRequest({
-        path: `/meetings/${meetingId}/transcript`,
+        path: `/meetings/${utils.doubleEncode(meetingId)}/transcript`,
         ...opts,
       });
     },

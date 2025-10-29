@@ -1,4 +1,4 @@
-import utils, { doubleEncode } from "../../common/utils.mjs";
+import utils from "../../common/utils.mjs";
 import app from "../../zoom.app.mjs";
 
 export default {
@@ -38,7 +38,7 @@ export default {
       webinarId, ...args
     } = {}) {
       return this.app._makeRequest({
-        path: `/report/webinars/${doubleEncode(webinarId)}/participants`,
+        path: `/report/webinars/${utils.doubleEncode(webinarId)}/participants`,
         ...args,
       });
     },
