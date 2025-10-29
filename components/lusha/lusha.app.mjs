@@ -179,6 +179,7 @@ export default {
       $ = this, path, ...opts
     }) {
       return axios($, {
+        debug: true,
         url: `${this._baseUrl()}${path}`,
         headers: this._headers(),
         ...opts,
@@ -261,22 +262,23 @@ export default {
       });
     },
     async *paginate({
-      fn, params = {}, maxResults = null, ...opts
+      fn, data = {}, maxResults = null, ...opts
     }) {
       let hasMore = false;
       let count = 0;
       let page = -1;
 
       do {
-        params.pages = {
+        data.pages = {
           page: ++page,
           size: 50,
         };
-        const { data } = await fn({
-          params,
+        const response = await fn({
+          data,
           ...opts,
         });
-        for (const d of data) {
+        const results = response.data || [];
+        for (const d of results) {
           yield d;
 
           if (maxResults && ++count === maxResults) {
@@ -284,7 +286,7 @@ export default {
           }
         }
 
-        hasMore = data.length;
+        hasMore = results.length;
 
       } while (hasMore);
     },
