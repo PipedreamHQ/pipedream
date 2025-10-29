@@ -6,7 +6,7 @@ export default {
   name: "New Streams By Game",
   key: "twitch-streams-by-game",
   description: "Emit new event when a live stream starts from any stream matching the game and language specified.",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "source",
   props: {
     ...common.props,

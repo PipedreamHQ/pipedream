@@ -7,7 +7,7 @@ export default {
   description: `Returns a list of channels (users who have streamed within the past 6 months)
     that match the query via channel name or description either entirely or partially. Results
     include both live and offline channels.`,
-  version: "0.1.3",
+  version: "0.1.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
