@@ -34,7 +34,7 @@ export default {
       response = response.filter((field) => field.custom);
     }
 
-    $.export("$summary", `Sucessfully listed fields for object type ${this.sobjectType}`);
+    $.export("$summary", `Successfully listed fields for object type ${this.sobjectType}`);
     return response;
   },
 };
