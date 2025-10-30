@@ -6,7 +6,7 @@ export default {
   key: "microsoft_outlook_calendar-get-schedule",
   name: "Get Free/Busy Schedule",
   description: "Get the free/busy availability information for a collection of users, distributions lists, or resources (rooms or equipment) for a specified time period. [See the documentation](https://learn.microsoft.com/en-us/graph/api/calendar-getschedule)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -74,6 +74,9 @@ export default {
           timeZone: this.timeZone,
         },
         availabilityViewInterval: this.availabilityViewInterval,
+      },
+      headers: {
+        Prefer: `outlook.timezone="${this.timeZone}"`,
       },
     });
 
