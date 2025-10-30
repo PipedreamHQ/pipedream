@@ -4788,6 +4788,9 @@ importers:
         specifier: ^1.1.1
         version: 1.6.6
 
+  components/evervault:
+    specifiers: {}
+
   components/everwebinar:
     dependencies:
       '@pipedream/platform':
