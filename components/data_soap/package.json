@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/data_soap",
+  "version": "0.0.1",
+  "description": "Pipedream Data Soap Components",
+  "main": "data_soap.app.mjs",
+  "keywords": [
+    "pipedream",
+    "data_soap"
+  ],
+  "homepage": "https://pipedream.com/apps/data_soap",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

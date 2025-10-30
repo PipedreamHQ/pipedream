@@ -3624,6 +3624,9 @@ importers:
 
   components/data_police_uk: {}
 
+  components/data_soap:
+    specifiers: {}
+
   components/data_stores:
     dependencies:
       xss:
