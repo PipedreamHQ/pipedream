@@ -328,6 +328,14 @@ export default {
         ...args,
       });
     },
+    async getContactFieldValues({
+      contactId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/contacts/${contactId}/fieldValues`,
+        ...args,
+      });
+    },
     async createContactTag(args = {}) {
       return this.makeRequest({
         method: "POST",

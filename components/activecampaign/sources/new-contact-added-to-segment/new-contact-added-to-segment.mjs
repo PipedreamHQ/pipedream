@@ -45,6 +45,48 @@ export default {
     _setStoredContactIds(segmentId, contactIds) {
       this.db.set(this._getSegmentKey(segmentId), contactIds);
     },
+    _getFieldMappingKey() {
+      return "custom_field_mapping";
+    },
+    _getFieldMapping() {
+      return this.db.get(this._getFieldMappingKey()) || null;
+    },
+    _setFieldMapping(mapping) {
+      this.db.set(this._getFieldMappingKey(), mapping);
+    },
+    async getCustomFieldMapping() {
+      const cachedMapping = this._getFieldMapping();
+      if (cachedMapping) {
+        return cachedMapping;
+      }
+
+      const fieldMapping = {};
+      const limit = constants.DEFAULT_LIMIT;
+      let offset = 0;
+      let hasMore = true;
+
+      while (hasMore) {
+        const response = await this.activecampaign.listContactCustomFields({
+          params: {
+            limit,
+            offset,
+          },
+        });
+
+        if (response.fields && response.fields.length > 0) {
+          for (const field of response.fields) {
+            fieldMapping[field.id] = field.title;
+          }
+          offset += limit;
+          hasMore = response.fields.length === limit;
+        } else {
+          hasMore = false;
+        }
+      }
+
+      this._setFieldMapping(fieldMapping);
+      return fieldMapping;
+    },
     generateMeta(contact, segmentInfo) {
       const ts = Date.now();
       return {
@@ -132,9 +174,28 @@ export default {
     if (newContactIds.length > 0) {
       console.log(`Found ${newContactIds.length} new contacts in segment`);
 
+      const fieldMapping = await this.getCustomFieldMapping();
+
       for (const contactId of newContactIds) {
         const contact = currentContacts.find((c) => c.id === contactId);
         if (contact) {
+          try {
+            const { fieldValues } = await this.activecampaign.getContactFieldValues({
+              contactId: contact.id,
+            });
+
+            if (fieldValues && fieldValues.length > 0) {
+              for (const fieldValue of fieldValues) {
+                const fieldTitle = fieldMapping[fieldValue.field];
+                if (fieldTitle) {
+                  contact[fieldTitle] = fieldValue.value;
+                }
+              }
+            }
+          } catch (error) {
+            console.warn(`Error fetching custom fields for contact ${contact.id}:`, error);
+          }
+
           const eventData = {
             segmentId: segmentInfo.segmentId,
             segmentName: segmentInfo.name,
