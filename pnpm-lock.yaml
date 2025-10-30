@@ -9737,8 +9737,8 @@ importers:
   components/notion:
     dependencies:
       '@notionhq/client':
-        specifier: ^5.0.0
-        version: 5.0.0
+        specifier: ^5.3.0
+        version: 5.3.0
       '@pipedream/platform':
         specifier: ^3.1.0
         version: 3.1.0
@@ -20234,8 +20234,8 @@ packages:
     resolution: {integrity: sha512-4pk3dm4umhjsRI0umCnJ8lCZh0TMiaMdkY0rz6FV4OqVuTsmYFV3pk+YTR5S8792ZY2Rm4lJHlLj05HQVKDuIg==}
     engines: {node: '>=18'}
 
-  '@notionhq/client@5.0.0':
-    resolution: {integrity: sha512-eXq0bZTXN8+xwT6e3qlrH9QCUn8mQLJ9UkNgKSew2NKNV/hyKb2wmIzQAuass8a2Q6F1aMjMPi+EGLQwgbVlOA==}
+  '@notionhq/client@5.3.0':
+    resolution: {integrity: sha512-pISuJLrP6XwxnmMZ79jT2XkMHFtbQvslfs6Rqdd29ge0KAmJOuhtWZxE1WXO7h03cj/gVAL2PiAjpFuIWrWJ3w==}
     engines: {node: '>=18'}
 
   '@octokit/auth-token@2.5.0':
@@ -38859,7 +38859,7 @@ snapshots:
 
   '@notionhq/client@4.0.2': {}
 
-  '@notionhq/client@5.0.0': {}
+  '@notionhq/client@5.3.0': {}
 
   '@octokit/auth-token@2.5.0':
     dependencies:
@@ -39338,7 +39338,7 @@ snapshots:
 
   '@pipedream/notion@1.0.2':
     dependencies:
-      '@notionhq/client': 5.0.0
+      '@notionhq/client': 5.3.0
       '@pipedream/platform': 3.1.0
       '@tryfabric/martian': 1.2.4
       lodash-es: 4.17.21
