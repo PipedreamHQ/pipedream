@@ -3831,6 +3831,9 @@ importers:
         specifier: ^0.3.2
         version: 0.3.2
 
+  components/deutschlandgpt:
+    specifiers: {}
+
   components/dev_to:
     dependencies:
       '@pipedream/platform':
