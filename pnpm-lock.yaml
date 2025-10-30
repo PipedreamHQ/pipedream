@@ -3414,8 +3414,7 @@ importers:
 
   components/cronly: {}
 
-  components/cronlytic:
-    specifiers: {}
+  components/cronlytic: {}
 
   components/crossmint: {}
 
@@ -3732,8 +3731,7 @@ importers:
 
   components/deel: {}
 
-  components/deep_tagger:
-    specifiers: {}
+  components/deep_tagger: {}
 
   components/deepgram:
     dependencies:
@@ -7340,8 +7338,7 @@ importers:
         specifier: ^1.1.1
         version: 1.6.6
 
-  components/ipregistry:
-    specifiers: {}
+  components/ipregistry: {}
 
   components/ipstack:
     dependencies:
@@ -8195,8 +8192,7 @@ importers:
         specifier: ^1.0.3
         version: 1.0.3
 
-  components/linkupapi:
-    specifiers: {}
+  components/linkupapi: {}
 
   components/linode:
     dependencies:
@@ -9003,8 +8999,8 @@ importers:
         specifier: ^0.4.2
         version: 0.4.2
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/microsoft_power_bi:
     dependencies:
