@@ -27,6 +27,15 @@ export default {
     },
   },
   methods: {
+    _getInitKey(segmentId) {
+      return `segment_${segmentId}_initialized`;
+    },
+    _isInitialized(segmentId) {
+      return !!this.db.get(this._getInitKey(segmentId));
+    },
+    _setInitialized(segmentId) {
+      this.db.set(this._getInitKey(segmentId), true);
+    },
     _getSegmentKey(segmentId) {
       return `segment_${segmentId}_contacts`;
     },
@@ -56,6 +65,7 @@ export default {
             segmentid: segmentId,
             limit,
             offset,
+            forceQuery: true,
           },
         });
 
@@ -110,11 +120,12 @@ export default {
       (id) => !previousContactIds.has(id),
     );
 
-    if (previousContactIds.size === 0) {
+    if (!this._isInitialized(segmentId)) {
       console.log(`First run: storing ${currentContactIds.size} contact IDs`);
       this._setStoredContactIds(segmentId, [
         ...currentContactIds,
       ]);
+      this._setInitialized(segmentId);
       return;
     }
 

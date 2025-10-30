@@ -493,12 +493,17 @@ export default {
     async listSegmentOptions(prevContext) {
       const page = prevContext.page || 1;
 
-      const response = await this.listAudiences({
-        params: {
-          sort: "-recent",
-          page,
-        },
-      });
+      let response;
+      try {
+        response = await this.listAudiences({
+          params: {
+            sort: "-recent",
+            page,
+          },
+        });
+      } catch {
+        return [];
+      }
 
       const {
         data, meta,
