@@ -7340,6 +7340,9 @@ importers:
         specifier: ^1.1.1
         version: 1.6.6
 
+  components/ipregistry:
+    specifiers: {}
+
   components/ipstack:
     dependencies:
       '@pipedream/platform':
