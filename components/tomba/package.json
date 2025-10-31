@@ -1,15 +1,27 @@
 {
   "name": "@pipedream/tomba",
-  "version": "0.0.5",
-  "description": "Pipedream Tomba  Components",
+  "version": "0.2.0",
+  "description": "Pipedream Tomba Components - Email finder, verifier, enrichment, company search, and account management tools",
   "main": "tomba.app.mjs",
   "keywords": [
     "pipedream",
-    "tomba"
+    "tomba",
+    "email",
+    "finder",
+    "verifier",
+    "enrichment",
+    "domain",
+    "phone",
+    "linkedin",
+    "company",
+    "search"
   ],
   "homepage": "https://pipedream.com/apps/tomba",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
   }
 }
