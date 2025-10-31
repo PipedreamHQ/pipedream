@@ -490,19 +490,20 @@ export default {
         ...args,
       });
     },
-    async *getTicketsStream({
+    async *streamResources({
+      resourceFn,
       params,
       headers,
       max = constants.MAX_RESOURCES,
     } = {}) {
       let from = params?.from || 1;
       let resourcesCount = 0;
-      let nextTickets;
+      let nextResources;
 
       while (true) {
         try {
-          ({ data: nextTickets = [] } =
-            await this.getTickets({
+          ({ data: nextResources = [] } =
+            await resourceFn({
               withRetries: false,
               headers,
               params: {
@@ -516,15 +517,15 @@ export default {
           return;
         }
 
-        if (nextTickets?.length < 1) {
+        if (nextResources?.length < 1) {
           return;
         }
 
-        from += nextTickets?.length;
+        from += nextResources?.length;
 
-        for (const ticket of nextTickets) {
+        for (const resource of nextResources) {
           resourcesCount += 1;
-          yield ticket;
+          yield resource;
         }
 
         if (max && resourcesCount >= max) {
@@ -532,47 +533,29 @@ export default {
         }
       }
     },
+    async *getTicketsStream({
+      params,
+      headers,
+      max = constants.MAX_RESOURCES,
+    } = {}) {
+      yield* this.streamResources({
+        resourceFn: this.getTickets,
+        params,
+        headers,
+        max,
+      });
+    },
     async *searchTicketsStream({
       params,
       headers,
       max = constants.MAX_RESOURCES,
     } = {}) {
-      let from = params?.from || 1;
-      let resourcesCount = 0;
-      let nextTickets;
-
-      while (true) {
-        try {
-          ({ data: nextTickets = [] } =
-            await this.searchTickets({
-              withRetries: false,
-              headers,
-              params: {
-                ...params,
-                from,
-                limit: params?.limit || constants.DEFAULT_LIMIT,
-              },
-            }));
-        } catch (error) {
-          console.log("Stream error", error);
-          return;
-        }
-
-        if (nextTickets?.length < 1) {
-          return;
-        }
-
-        from += nextTickets?.length;
-
-        for (const ticket of nextTickets) {
-          resourcesCount += 1;
-          yield ticket;
-        }
-
-        if (max && resourcesCount >= max) {
-          return;
-        }
-      }
+      yield* this.streamResources({
+        resourceFn: this.searchTickets,
+        params,
+        headers,
+        max,
+      });
     },
     createTicketAttachment({
       ticketId, ...args
