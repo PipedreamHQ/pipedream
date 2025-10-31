@@ -3414,8 +3414,7 @@ importers:
 
   components/cronly: {}
 
-  components/cronlytic:
-    specifiers: {}
+  components/cronlytic: {}
 
   components/crossmint: {}
 
@@ -3624,8 +3623,7 @@ importers:
 
   components/data_police_uk: {}
 
-  components/data_soap:
-    specifiers: {}
+  components/data_soap: {}
 
   components/data_stores:
     dependencies:
@@ -3733,13 +3731,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/decodo:
-    specifiers: {}
+  components/decodo: {}
 
   components/deel: {}
 
-  components/deep_tagger:
-    specifiers: {}
+  components/deep_tagger: {}
 
   components/deepgram:
     dependencies:
@@ -3834,8 +3830,7 @@ importers:
         specifier: ^0.3.2
         version: 0.3.2
 
-  components/deutschlandgpt:
-    specifiers: {}
+  components/deutschlandgpt: {}
 
   components/dev_to:
     dependencies:
@@ -4472,8 +4467,7 @@ importers:
 
   components/ebay: {}
 
-  components/echowin:
-    specifiers: {}
+  components/echowin: {}
 
   components/echtpost_postcards:
     dependencies:
@@ -4794,8 +4788,7 @@ importers:
         specifier: ^1.1.1
         version: 1.6.6
 
-  components/evervault:
-    specifiers: {}
+  components/evervault: {}
 
   components/everwebinar:
     dependencies:
@@ -4862,8 +4855,7 @@ importers:
 
   components/extracta_ai: {}
 
-  components/extruct_ai:
-    specifiers: {}
+  components/extruct_ai: {}
 
   components/eyepop_ai: {}
 
@@ -7358,8 +7350,7 @@ importers:
         specifier: ^1.1.1
         version: 1.6.6
 
-  components/ipregistry:
-    specifiers: {}
+  components/ipregistry: {}
 
   components/ipstack:
     dependencies:
@@ -8213,8 +8204,7 @@ importers:
         specifier: ^1.0.3
         version: 1.0.3
 
-  components/linkupapi:
-    specifiers: {}
+  components/linkupapi: {}
 
   components/linode:
     dependencies:
@@ -16546,7 +16536,11 @@ importers:
         specifier: ^2.3.0
         version: 2.3.0
 
-  components/zenserp: {}
+  components/zenserp:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/zenventory:
     dependencies:
