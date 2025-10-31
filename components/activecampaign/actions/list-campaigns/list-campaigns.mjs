@@ -5,7 +5,7 @@ export default {
   name: "List Campaigns",
   description: "List Campaigns. See the docs [here](https://developers.activecampaign.com/reference#list-all-campaigns).",
   type: "action",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -7,7 +7,7 @@ export default {
   name: "New Contact Added to List (Instant)",
   key: "activecampaign-contact-added-to-list",
   description: "Emit new event each time a new contact is added to a list.",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "source",
   dedupe: "unique",
   props: {
