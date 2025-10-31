@@ -275,6 +275,9 @@ export default {
         ...params,
       });
     },
+    async listTemplates(params = {}) {
+      return this._getNotionClient().dataSources.listTemplates(params);
+    },
     async retrieveDataSource(dataSourceId) {
       return this._getNotionClient().dataSources.retrieve({
         data_source_id: dataSourceId,

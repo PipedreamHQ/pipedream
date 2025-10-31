@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/echowin",
+  "version": "0.0.1",
+  "description": "Pipedream echowin Components",
+  "main": "echowin.app.mjs",
+  "keywords": [
+    "pipedream",
+    "echowin"
+  ],
+  "homepage": "https://pipedream.com/apps/echowin",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

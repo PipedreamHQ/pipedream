@@ -4,7 +4,7 @@ export default {
   key: "activecampaign-get-all-lists",
   name: "Get All Lists",
   description: "Retrieves all lists. See the docs [here](https://developers.activecampaign.com/reference/retrieve-all-lists)",
-  version: "0.2.1",
+  version: "0.2.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

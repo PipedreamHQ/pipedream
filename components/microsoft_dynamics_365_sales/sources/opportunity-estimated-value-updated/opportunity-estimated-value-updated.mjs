@@ -5,7 +5,7 @@ export default {
   key: "microsoft_dynamics_365_sales-opportunity-estimated-value-updated",
   name: "Opportunity Estimated Value Updated",
   description: "Emit new event when the estimated value of an opportunity is updated.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

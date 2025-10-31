@@ -2270,8 +2270,7 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/callhippo:
-    specifiers: {}
+  components/callhippo: {}
 
   components/callhub:
     dependencies:
@@ -3415,6 +3414,9 @@ importers:
 
   components/cronly: {}
 
+  components/cronlytic:
+    specifiers: {}
+
   components/crossmint: {}
 
   components/crove_app:
@@ -3601,8 +3603,8 @@ importers:
   components/dart:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.0
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/darwinbox: {}
 
@@ -3621,6 +3623,9 @@ importers:
         version: 0.3.2
 
   components/data_police_uk: {}
+
+  components/data_soap:
+    specifiers: {}
 
   components/data_stores:
     dependencies:
@@ -3728,7 +3733,13 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/decodo:
+    specifiers: {}
+
   components/deel: {}
+
+  components/deep_tagger:
+    specifiers: {}
 
   components/deepgram:
     dependencies:
@@ -3822,6 +3833,9 @@ importers:
       '@pipedream/types':
         specifier: ^0.3.2
         version: 0.3.2
+
+  components/deutschlandgpt:
+    specifiers: {}
 
   components/dev_to:
     dependencies:
@@ -4348,6 +4362,9 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/dumplingai:
+    specifiers: {}
+
   components/dungeon_fighter_online: {}
 
   components/dust:
@@ -4457,6 +4474,9 @@ importers:
         version: 3.0.3
 
   components/ebay: {}
+
+  components/echowin:
+    specifiers: {}
 
   components/echtpost_postcards:
     dependencies:
@@ -4777,6 +4797,9 @@ importers:
         specifier: ^1.1.1
         version: 1.6.6
 
+  components/evervault:
+    specifiers: {}
+
   components/everwebinar:
     dependencies:
       '@pipedream/platform':
@@ -4841,6 +4864,9 @@ importers:
   components/extensiv_integration_manager: {}
 
   components/extracta_ai: {}
+
+  components/extruct_ai:
+    specifiers: {}
 
   components/eyepop_ai: {}
 
@@ -4954,6 +4980,9 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/featherless:
+    specifiers: {}
+
   components/feathery:
     dependencies:
       '@pipedream/platform':
@@ -5020,6 +5049,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.0
         version: 3.0.3
+
+  components/filescan:
+    specifiers: {}
 
   components/filestack:
     dependencies:
@@ -5194,8 +5226,7 @@ importers:
 
   components/florm: {}
 
-  components/flotiq:
-    specifiers: {}
+  components/flotiq: {}
 
   components/flowiseai:
     dependencies:
@@ -5958,6 +5989,9 @@ importers:
 
   components/google_chat_developer_app: {}
 
+  components/google_chat_service_account_key:
+    specifiers: {}
+
   components/google_classroom:
     dependencies:
       '@pipedream/platform':
@@ -6318,7 +6352,11 @@ importers:
 
   components/grab_your_reviews: {}
 
-  components/grabpenny: {}
+  components/grabpenny:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/graceblocks: {}
 
@@ -7332,6 +7370,9 @@ importers:
         specifier: ^1.1.1
         version: 1.6.6
 
+  components/ipregistry:
+    specifiers: {}
+
   components/ipstack:
     dependencies:
       '@pipedream/platform':
@@ -8183,6 +8224,9 @@ importers:
       linkup-sdk:
         specifier: ^1.0.3
         version: 1.0.3
+
+  components/linkupapi:
+    specifiers: {}
 
   components/linode:
     dependencies:
@@ -9723,8 +9767,8 @@ importers:
   components/notion:
     dependencies:
       '@notionhq/client':
-        specifier: ^5.0.0
-        version: 5.0.0
+        specifier: ^5.3.0
+        version: 5.3.0
       '@pipedream/platform':
         specifier: ^3.1.0
         version: 3.1.0
@@ -14663,7 +14707,11 @@ importers:
         specifier: ^1.2.0
         version: 1.6.6
 
-  components/ticketsauce: {}
+  components/ticketsauce:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/ticktick:
     dependencies:
@@ -14851,7 +14899,11 @@ importers:
         specifier: ^0.1.4
         version: 0.1.6
 
-  components/topdesk: {}
+  components/topdesk:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/topmessage:
     dependencies:
@@ -14932,7 +14984,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/trawlingweb: {}
+  components/trawlingweb:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/trello:
     dependencies:
@@ -16272,7 +16328,11 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
 
-  components/xola: {}
+  components/xola:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/xperiencify:
     dependencies:
@@ -20216,8 +20276,8 @@ packages:
     resolution: {integrity: sha512-4pk3dm4umhjsRI0umCnJ8lCZh0TMiaMdkY0rz6FV4OqVuTsmYFV3pk+YTR5S8792ZY2Rm4lJHlLj05HQVKDuIg==}
     engines: {node: '>=18'}
 
-  '@notionhq/client@5.0.0':
-    resolution: {integrity: sha512-eXq0bZTXN8+xwT6e3qlrH9QCUn8mQLJ9UkNgKSew2NKNV/hyKb2wmIzQAuass8a2Q6F1aMjMPi+EGLQwgbVlOA==}
+  '@notionhq/client@5.3.0':
+    resolution: {integrity: sha512-pISuJLrP6XwxnmMZ79jT2XkMHFtbQvslfs6Rqdd29ge0KAmJOuhtWZxE1WXO7h03cj/gVAL2PiAjpFuIWrWJ3w==}
     engines: {node: '>=18'}
 
   '@octokit/auth-token@2.5.0':
@@ -31470,22 +31530,22 @@ packages:
   superagent@3.8.1:
     resolution: {integrity: sha512-VMBFLYgFuRdfeNQSMLbxGSLfmXL/xc+OO+BZp41Za/NRDBet/BNbkRJrYzCUu0u4GU0i/ml2dtT8b9qgkw9z6Q==}
     engines: {node: '>= 4.0'}
-    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
 
   superagent@4.1.0:
     resolution: {integrity: sha512-FT3QLMasz0YyCd4uIi5HNe+3t/onxMyEho7C3PSqmti3Twgy2rXT4fmkTz6wRL6bTF4uzPcfkUCa8u4JWHw8Ag==}
     engines: {node: '>= 6.0'}
-    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
 
   superagent@5.3.1:
     resolution: {integrity: sha512-wjJ/MoTid2/RuGCOFtlacyGNxN9QLMgcpYLDQlWFIhhdJ93kNscFonGvrpAHSCVjRVj++DGCglocF7Aej1KHvQ==}
     engines: {node: '>= 7.0.0'}
-    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
 
   superagent@7.1.6:
     resolution: {integrity: sha512-gZkVCQR1gy/oUXr+kxJMLDjla434KmSOKbx5iGD30Ql+AkJQ/YlPKECJy2nhqOsHLjGHzoDTXNSjhnvWhzKk7g==}
     engines: {node: '>=6.4.0 <13 || >=14'}
-    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
 
   supports-color@10.0.0:
     resolution: {integrity: sha512-HRVVSbCCMbj7/kdWF9Q+bbckjBHLtHMEoJWlkmYzzdwhYMkjkOwubLM6t7NbWKjgKamGDrWL1++KrjUO1t9oAQ==}
@@ -38841,7 +38901,7 @@ snapshots:
 
   '@notionhq/client@4.0.2': {}
 
-  '@notionhq/client@5.0.0': {}
+  '@notionhq/client@5.3.0': {}
 
   '@octokit/auth-token@2.5.0':
     dependencies:
@@ -39320,7 +39380,7 @@ snapshots:
 
   '@pipedream/notion@1.0.2':
     dependencies:
-      '@notionhq/client': 5.0.0
+      '@notionhq/client': 5.3.0
       '@pipedream/platform': 3.1.0
       '@tryfabric/martian': 1.2.4
       lodash-es: 4.17.21

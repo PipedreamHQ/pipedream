@@ -5,7 +5,7 @@ export default {
   key: "microsoft_dynamics_365_sales-new-opportunity-activity",
   name: "New Opportunity Activity",
   description: "Emit new event when a new task or activity is created for an opportunity.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

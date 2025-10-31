@@ -54,6 +54,20 @@ export default {
         };
       },
     },
+    accountId: {
+      type: "string",
+      label: "Account ID",
+      description: "Identifier of an account",
+      async options() {
+        const { value } = await this.listAccounts();
+        return value?.map(({
+          accountid: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -116,6 +130,12 @@ export default {
     listActivityPointers(opts = {}) {
       return this._makeRequest({
         path: "/activitypointers",
+        ...opts,
+      });
+    },
+    listAccounts(opts = {}) {
+      return this._makeRequest({
+        path: "/accounts",
         ...opts,
       });
     },

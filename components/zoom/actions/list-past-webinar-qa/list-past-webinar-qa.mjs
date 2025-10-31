@@ -1,11 +1,12 @@
 // legacy_hash_id: a_67iQp1
 import { axios } from "@pipedream/platform";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "zoom-list-past-webinar-qa",
   name: "List Past Webinar Q&A",
   description: "The  feature for Webinars allows attendees to ask questions during the Webinar and for the panelists, co-hosts and host to answer their questions. Use this API to list Q&A of a specific Webinar.",
-  version: "0.1.5",
+  version: "0.1.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -25,7 +26,7 @@ export default {
   },
   async run({ $ }) {
     const config = {
-      url: `https://api.zoom.us/v2/past_webinars/${this.webinarID}/qa`,
+      url: `https://api.zoom.us/v2/past_webinars/${utils.doubleEncode(this.webinarID)}/qa`,
       headers: {
         Authorization: `Bearer ${this.zoom.$auth.oauth_access_token}`,
       },

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/google_chat_service_account_key",
+  "version": "0.0.1",
+  "description": "Pipedream Google Chat (Service Account Key) Components",
+  "main": "google_chat_service_account_key.app.mjs",
+  "keywords": [
+    "pipedream",
+    "google_chat_service_account_key"
+  ],
+  "homepage": "https://pipedream.com/apps/google_chat_service_account_key",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
