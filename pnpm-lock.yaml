@@ -3414,8 +3414,7 @@ importers:
 
   components/cronly: {}
 
-  components/cronlytic:
-    specifiers: {}
+  components/cronlytic: {}
 
   components/crossmint: {}
 
@@ -3732,8 +3731,7 @@ importers:
 
   components/deel: {}
 
-  components/deep_tagger:
-    specifiers: {}
+  components/deep_tagger: {}
 
   components/deepgram:
     dependencies:
@@ -4398,7 +4396,11 @@ importers:
         specifier: ^1.0.3
         version: 1.0.4
 
-  components/e_conomic: {}
+  components/e_conomic:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/e_goi:
     dependencies:
@@ -7340,8 +7342,7 @@ importers:
         specifier: ^1.1.1
         version: 1.6.6
 
-  components/ipregistry:
-    specifiers: {}
+  components/ipregistry: {}
 
   components/ipstack:
     dependencies:
@@ -8195,8 +8196,7 @@ importers:
         specifier: ^1.0.3
         version: 1.0.3
 
-  components/linkupapi:
-    specifiers: {}
+  components/linkupapi: {}
 
   components/linode:
     dependencies:
