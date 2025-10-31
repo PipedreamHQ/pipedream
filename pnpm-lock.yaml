@@ -4977,6 +4977,9 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/featherless:
+    specifiers: {}
+
   components/feathery:
     dependencies:
       '@pipedream/platform':
@@ -5043,6 +5046,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.0
         version: 3.0.3
+
+  components/filescan:
+    specifiers: {}
 
   components/filestack:
     dependencies:
