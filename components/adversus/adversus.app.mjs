@@ -27,8 +27,8 @@ export default {
      */
     _auth() {
       return {
-        username: this.$auth.username || this.$auth.api_key,
-        password: this.$auth.password || this.$auth.api_secret,
+        username: this.$auth.username,
+        password: this.$auth.password,
       };
     },
     /**
@@ -50,14 +50,10 @@ export default {
     async _makeRequest({
       $ = this, path, method = "GET", ...opts
     }) {
-      const auth = this._auth();
       return axios($, {
         method,
         url: this._baseUrl() + path,
-        auth: {
-          username: auth.username,
-          password: auth.password,
-        },
+        auth: this._auth(),
         ...opts,
       });
     },
