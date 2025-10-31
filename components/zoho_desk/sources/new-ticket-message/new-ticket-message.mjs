@@ -6,7 +6,7 @@ export default {
   name: "New Ticket Message",
   description: "Emit new event when a message ticket is created. [See the docs here](https://desk.zoho.com/DeskAPIDocument#Threads#Threads_Listallthreads)",
   type: "source",
-  version: "0.0.7",
+  version: "0.0.8",
   dedupe: "unique",
   props: {
     ...common.props,

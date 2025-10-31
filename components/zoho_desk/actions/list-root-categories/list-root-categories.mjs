@@ -4,7 +4,7 @@ export default {
   name: "List Root Categories",
   description: "Lists root knowledge base categories for a help center. [See the documentation](https://desk.zoho.com/portal/APIDocument.do#KnowledgeBase_Listallrootcategoriesofthehelpcenter)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

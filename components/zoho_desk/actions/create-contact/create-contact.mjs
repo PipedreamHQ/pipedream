@@ -5,7 +5,7 @@ export default {
   name: "Create Contact",
   description: "Creates a contact in your help desk portal. [See the docs here](https://desk.zoho.com/DeskAPIDocument#Contacts#Contacts_CreateContact)",
   type: "action",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -48,6 +48,27 @@ export default {
       description: "Mobile number of the contact",
       optional: true,
     },
+    accountId: {
+      propDefinition: [
+        zohoDesk,
+        "accountId",
+        ({ orgId }) => ({
+          orgId,
+        }),
+      ],
+    },
+    title: {
+      type: "string",
+      label: "Title",
+      description: "Job title of the contact",
+      optional: true,
+    },
+    description: {
+      type: "string",
+      label: "Description",
+      description: "Description about the contact",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const {
@@ -57,19 +78,29 @@ export default {
       email,
       phone,
       mobile,
+      accountId,
+      title,
+      description,
     } = this;
+
+    const data = {
+      lastName,
+    };
+
+    // Add optional fields
+    if (firstName) data.firstName = firstName;
+    if (email) data.email = email;
+    if (phone) data.phone = phone;
+    if (mobile) data.mobile = mobile;
+    if (accountId) data.accountId = accountId;
+    if (title) data.title = title;
+    if (description) data.description = description;
 
     const response = await this.zohoDesk.createContact({
       headers: {
         orgId,
       },
-      data: {
-        lastName,
-        firstName,
-        email,
-        phone,
-        mobile,
-      },
+      data,
     });
 
     $.export("$summary", `Successfully created a new contact with ID ${response.id}`);
