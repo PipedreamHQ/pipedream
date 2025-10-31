@@ -66,6 +66,10 @@ export default {
       ...(this.additionalFields || {}),
     };
 
+    if (!Object.keys(data).length) {
+      throw new Error("At least one field must be provided to create or update a lead. Please provide firstName, lastName, email, phone, or additionalFields.");
+    }
+
     const response = this.leadId
       ? await this.adversus.updateLead(this.leadId, { data })
       : await this.adversus.createLead({ data });
