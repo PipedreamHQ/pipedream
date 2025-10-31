@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/filescan",
+  "version": "0.0.1",
+  "description": "Pipedream Filescan Components",
+  "main": "filescan.app.mjs",
+  "keywords": [
+    "pipedream",
+    "filescan"
+  ],
+  "homepage": "https://pipedream.com/apps/filescan",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
