@@ -3624,6 +3624,9 @@ importers:
 
   components/data_police_uk: {}
 
+  components/data_soap:
+    specifiers: {}
+
   components/data_stores:
     dependencies:
       xss:
@@ -3730,6 +3733,9 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/decodo:
+    specifiers: {}
+
   components/deel: {}
 
   components/deep_tagger:
@@ -3827,6 +3833,9 @@ importers:
       '@pipedream/types':
         specifier: ^0.3.2
         version: 0.3.2
+
+  components/deutschlandgpt:
+    specifiers: {}
 
   components/dev_to:
     dependencies:
@@ -4463,6 +4472,9 @@ importers:
 
   components/ebay: {}
 
+  components/echowin:
+    specifiers: {}
+
   components/echtpost_postcards:
     dependencies:
       '@pipedream/platform':
@@ -4782,6 +4794,9 @@ importers:
         specifier: ^1.1.1
         version: 1.6.6
 
+  components/evervault:
+    specifiers: {}
+
   components/everwebinar:
     dependencies:
       '@pipedream/platform':
@@ -4846,6 +4861,9 @@ importers:
   components/extensiv_integration_manager: {}
 
   components/extracta_ai: {}
+
+  components/extruct_ai:
+    specifiers: {}
 
   components/eyepop_ai: {}
 
@@ -14869,7 +14887,11 @@ importers:
         specifier: ^0.1.4
         version: 0.1.6
 
-  components/topdesk: {}
+  components/topdesk:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/topmessage:
     dependencies:
@@ -14950,7 +14972,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/trawlingweb: {}
+  components/trawlingweb:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/trello:
     dependencies:
@@ -16290,7 +16316,11 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
 
-  components/xola: {}
+  components/xola:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/xperiencify:
     dependencies:

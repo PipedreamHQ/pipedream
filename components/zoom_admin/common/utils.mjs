@@ -1,7 +1,7 @@
+import get from "lodash/get.js";
 import isArray from "lodash/isArray.js";
 import isEmpty from "lodash/isEmpty.js";
 import isString from "lodash/isString.js";
-import get from "lodash/get.js";
 
 export const sanitizedArray = (value) => {
   if (isArray(value)) {
@@ -19,4 +19,11 @@ export const sanitizedArray = (value) => {
 
   // It is string, try to convert it in an array
   return value.replace(/["'[\]\s]+/g, "").split(",");
+};
+
+export const doubleEncode = (value) => {
+  if (typeof value === "string" && (value.startsWith("/") || value.includes("//"))) {
+    return encodeURIComponent(encodeURIComponent(value));
+  }
+  return value;
 };

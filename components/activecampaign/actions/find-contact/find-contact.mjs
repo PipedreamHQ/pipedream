@@ -4,7 +4,7 @@ export default {
   key: "activecampaign-find-contact",
   name: "Find Contact",
   description: "Finds a contact. See the docs [here](https://developers.activecampaign.com/reference/list-all-contacts).",
-  version: "0.2.1",
+  version: "0.2.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

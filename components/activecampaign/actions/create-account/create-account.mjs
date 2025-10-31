@@ -5,7 +5,7 @@ export default {
   name: "Create Account",
   description: "Create a new account. See the docs [here](https://developers.activecampaign.com/reference#create-an-account-new).",
   type: "action",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

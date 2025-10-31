@@ -4,7 +4,7 @@ export default {
   key: "activecampaign-get-contact",
   name: "Get Contact",
   description: "Retrieves an existing contact. See the docs [here](https://developers.activecampaign.com/reference/get-contact).",
-  version: "0.2.1",
+  version: "0.2.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
