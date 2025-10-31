@@ -255,18 +255,14 @@ export default {
       return "https://restapi.e-conomic.com";
     },
     _makeRequest({
-      $ = this, path, params, ...opts
+      $ = this, path, ...opts
     }) {
       return axios($, {
         url: `${this._baseUrl()}${path}`,
-        params: {
-          ...params,
-          demo: true,
-        },
-        /*  headers: {
+        headers: {
           "X-AppSecretToken": `${this.$auth.app_secret_token}`,
           "X-AgreementGrantToken": `${this.$auth.agreement_grant_token}`,
-        }, */
+        },
         ...opts,
       });
     },
