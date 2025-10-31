@@ -6,7 +6,7 @@ export default {
   key: "microsoft_outlook-new-email-in-shared-folder",
   name: "New Email in Shared Folder Event",
   description: "Emit new event when an email is received in specified shared folders.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   props: {
@@ -64,12 +64,13 @@ export default {
       if (responseArray.length) this._setLastDate(responseArray[0].createdDateTime);
 
       for (const item of responseArray.reverse()) {
+        const ts = item.createdDateTime;
         this.$emit(
           item,
           {
-            id: item.conversationId,
+            id: `${item.id || item.conversationId}-${ts}`,
             summary: `A new email with id: "${item.conversationId}" was received!`,
-            ts: item.createdDateTime,
+            ts,
           },
         );
       }
