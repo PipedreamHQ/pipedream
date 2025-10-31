@@ -4862,6 +4862,9 @@ importers:
 
   components/extracta_ai: {}
 
+  components/extruct_ai:
+    specifiers: {}
+
   components/eyepop_ai: {}
 
   components/ez_texting: {}
