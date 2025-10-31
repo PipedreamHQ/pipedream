@@ -5980,6 +5980,9 @@ importers:
 
   components/google_chat_developer_app: {}
 
+  components/google_chat_service_account_key:
+    specifiers: {}
+
   components/google_classroom:
     dependencies:
       '@pipedream/platform':

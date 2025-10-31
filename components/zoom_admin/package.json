@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zoom_admin",
-  "version": "0.13.1",
+  "version": "0.13.2",
   "description": "Pipedream Zoom_admin Components",
   "main": "zoom_admin.app.mjs",
   "keywords": [
