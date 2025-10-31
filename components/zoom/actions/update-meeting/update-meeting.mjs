@@ -1,11 +1,12 @@
 // legacy_hash_id: a_52iXNQ
 import { axios } from "@pipedream/platform";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "zoom-update-meeting",
   name: "Update Meeting",
   description: "Updates an existing Zoom meeting",
-  version: "0.1.5",
+  version: "0.1.6",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -77,7 +78,7 @@ export default {
   // API docs: https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingupdate
     const config = {
       method: "PATCH",
-      url: `https://api.zoom.us/v2/meetings/${this.meetingId}`,
+      url: `https://api.zoom.us/v2/meetings/${utils.doubleEncode(this.meetingId)}`,
       data: {
         topic: this.topic,
         type: this.type,
