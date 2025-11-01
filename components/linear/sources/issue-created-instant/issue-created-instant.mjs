@@ -9,6 +9,6 @@ export default {
   ...issueCreatedInstant,
   ...utils.getAppProps(issueCreatedInstant),
   key: "linear-issue-created-instant",
-  description: "Triggers instantly when a new issue is created in Linear. Provides complete issue details including title, description, team, assignee, state, and timestamps. Supports filtering by team and project. Uses OAuth authentication. See Linear docs for additional info [here](https://developers.linear.app/docs/graphql/webhooks).",
+  description: "Triggers instantly when a new issue is created in Linear. Provides complete issue details including title, description, team, assignee, state, and timestamps. Supports filtering by team and project. Uses OAuth authentication. See Linear docs for additional info [here](https://linear.app/developers/webhooks).",
   version: "0.3.14",
 };

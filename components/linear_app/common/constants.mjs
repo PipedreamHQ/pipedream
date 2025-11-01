@@ -21,7 +21,7 @@ const RESOURCE_TYPE = {
 
 const RESOURCE_TYPES = Object.values(RESOURCE_TYPE);
 
-// https://developers.linear.app/docs/graphql/webhooks#how-does-a-webhook-work
+// https://linear.app/developers/webhooks#how-does-a-webhook-work
 // To make sure a Webhook POST is truly created by Linear, check the request
 // that originates from one of the following IPs:
 const CLIENT_IPS = [
