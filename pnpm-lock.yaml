@@ -6499,6 +6499,9 @@ importers:
 
   components/hana: {}
 
+  components/handelsregister_ai:
+    specifiers: {}
+
   components/handwrytten: {}
 
   components/hansei:
