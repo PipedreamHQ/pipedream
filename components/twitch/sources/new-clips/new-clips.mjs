@@ -6,7 +6,7 @@ export default {
   name: "New Clips",
   key: "twitch-new-clips",
   description: "Emit new event when there is a new clip for the specified game.",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "source",
   props: {
     ...common.props,

@@ -5,7 +5,7 @@ export default {
   name: "Get Users",
   key: "twitch-get-users",
   description: "Gets the user objects for the specified Twitch login names",
-  version: "0.1.3",
+  version: "0.1.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

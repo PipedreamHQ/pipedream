@@ -5,7 +5,7 @@ export default {
   name: "New Followed Streams",
   key: "twitch-followed-streams",
   description: "Emit new event when a followed stream is live.",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "source",
   methods: {
     ...common.methods,

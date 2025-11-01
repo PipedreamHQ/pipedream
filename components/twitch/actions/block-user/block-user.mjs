@@ -5,7 +5,7 @@ export default {
   name: "Block User",
   key: "twitch-block-user",
   description: "Blocks a user; that is, adds a specified target user to your blocks list",
-  version: "0.1.3",
+  version: "0.1.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
