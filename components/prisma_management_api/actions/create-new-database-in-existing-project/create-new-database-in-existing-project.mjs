@@ -36,16 +36,14 @@ export default {
     if (!this.region) {
       throw new Error("Region is required for creating a database");
     }
-    
-    const data = {
-      region: this.region,
-    };
-    if (this.isDefault !== undefined) data.default = this.isDefault;
 
     const response = await this.app.createDatabase({
       $,
       projectId: this.projectId,
-      data,
+      data: {
+        region: this.region,
+        default: this.isDefault,
+      },
     });
 
     if (response) {
