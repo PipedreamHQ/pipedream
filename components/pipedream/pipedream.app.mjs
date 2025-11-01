@@ -61,6 +61,69 @@ export default {
       optional: true,
       options: constants.SUBSCRIPTION_EVENTS,
     },
+    appId: {
+      type: "string",
+      label: "App ID",
+      description: "The ID or name slug of the app you'd like to retrieve (e.g., `app_OkrhR1` or `slack`)",
+      useQuery: true,
+      async options({
+        query,
+        mapper = ({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        }),
+      }) {
+        const response = await this.listApps({
+          params: {
+            q: query,
+          },
+        });
+        return response.data.map(mapper);
+      },
+    },
+    query: {
+      type: "string",
+      label: "Query",
+      description: "The query string to search for components in the global registry, e.g. `Send a message to Slack on new Hubspot contacts`",
+    },
+    similarityThreshold: {
+      type: "string",
+      label: "Similarity Threshold",
+      description: "Optional minimum match score between 0 and 1, calculated via cosine distance between query and component embeddings",
+      optional: true,
+    },
+    debug: {
+      type: "boolean",
+      label: "Debug",
+      description: "Optional flag to return additional diagnostic data",
+      optional: true,
+    },
+    hasComponents: {
+      type: "boolean",
+      label: "Has Components",
+      description: "Show only apps with public triggers or actions",
+      optional: true,
+    },
+    hasActions: {
+      type: "boolean",
+      label: "Has Actions",
+      description: "Display only apps offering public actions",
+      optional: true,
+    },
+    hasTriggers: {
+      type: "boolean",
+      label: "Has Triggers",
+      description: "Display only apps offering public triggers",
+      optional: true,
+    },
+    q: {
+      type: "string",
+      label: "Query",
+      description: "Filter apps by name (e.g., `Slack`)",
+      optional: true,
+    },
   },
   methods: {
     async _makeAPIRequest({
@@ -137,6 +200,34 @@ export default {
         method: "DELETE",
         path: "/subscriptions",
         params,
+      });
+    },
+    listApps(args = {}) {
+      return this._makeAPIRequest({
+        path: "/apps",
+        ...args,
+      });
+    },
+    getApp({
+      appId, ...args
+    } = {}) {
+      return this._makeAPIRequest({
+        path: `/apps/${appId}`,
+        ...args,
+      });
+    },
+    getComponentFromRegistry({
+      key, ...args
+    } = {}) {
+      return this._makeAPIRequest({
+        path: `/components/registry/${key}`,
+        ...args,
+      });
+    },
+    searchComponents(args = {}) {
+      return this._makeAPIRequest({
+        path: "/components/search",
+        ...args,
       });
     },
   },
