@@ -4433,6 +4433,9 @@ importers:
 
   components/easy_projects: {}
 
+  components/easy_redmine:
+    specifiers: {}
+
   components/easybroker: {}
 
   components/easycsv: {}
