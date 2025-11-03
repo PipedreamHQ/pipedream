@@ -2,7 +2,7 @@ import app from "../../tomtom.app.mjs";
 
 export default {
   key: "tomtom-autocomplete-search",
-  name: "Autocomplete Ssearch",
+  name: "Autocomplete Search",
   description: "Get search terms based on the provided query. [See the documentation](https://developer.tomtom.com/search-api/documentation/autocomplete-service/autocomplete)",
   version: "0.0.1",
   annotations: {
