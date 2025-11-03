@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "onlyoffice_docspace-new-folder",
   name: "New Folder Created",
-  description: "Emit new event when a new folder is createdr. [See the documentation](https://api.onlyoffice.com/docspace/api-backend/usage-api/get-root-folders/).",
+  description: "Emit new event when a new folder is created. [See the documentation](https://api.onlyoffice.com/docspace/api-backend/usage-api/get-root-folders/).",
   version: "0.0.2",
   type: "source",
   dedupe: "unique",
