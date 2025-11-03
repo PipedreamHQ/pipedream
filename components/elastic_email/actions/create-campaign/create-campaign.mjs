@@ -5,7 +5,7 @@ export default {
   key: "elastic_email-create-campaign",
   name: "Create Campaign",
   description: "Create a campaign in an Elastic Email account. [See the documentation](https://elasticemail.com/developers/api-documentation/rest-api#operation/campaignsPost)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -45,7 +45,12 @@ export default {
       type: "string",
       label: "Reply To",
       description: "To what address should the recipients reply to (e.g. John Doe email@domain.com)",
-      optional: true,
+    },
+    status: {
+      propDefinition: [
+        app,
+        "campaignStatus",
+      ],
     },
     subject: {
       type: "string",
@@ -59,12 +64,6 @@ export default {
         "templateName",
       ],
       optional: true,
-    },
-    status: {
-      propDefinition: [
-        app,
-        "campaignStatus",
-      ],
     },
     excludeRecipientListNames: {
       propDefinition: [

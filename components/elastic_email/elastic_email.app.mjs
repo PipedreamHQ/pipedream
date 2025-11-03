@@ -52,7 +52,7 @@ export default {
       label: "Campaign",
       description: "The name of a campaign",
       async options({ page }) {
-        const { campaigns } = await this.listCampaigns({
+        const campaigns = await this.listCampaigns({
           params: {
             limit: LIMIT,
             offset: LIMIT * page,
@@ -66,7 +66,7 @@ export default {
       label: "Contact",
       description: "The email address of a contact",
       async options({ page }) {
-        const { contacts } = await this.listContacts({
+        const contacts = await this.listContacts({
           params: {
             limit: LIMIT,
             offset: LIMIT * page,
@@ -80,7 +80,7 @@ export default {
       label: "Segment Names",
       description: "The name of a segment",
       async options({ page }) {
-        const { segments } = await this.listSegments({
+        const segments = await this.listSegments({
           params: {
             limit: LIMIT,
             offset: LIMIT * page,
@@ -103,6 +103,22 @@ export default {
         "Cancelled",
         "Draft",
       ],
+    },
+    contactStatus: {
+      type: "string",
+      label: "Contact Status",
+      description: "The status of a contact",
+      options: [
+        "Transactional",
+        "Engaged",
+        "Active",
+        "Bounced",
+        "Unsubscribed",
+        "Abuse",
+        "Inactive",
+        "Stale",
+        "NotConfirmed",
+      ],
       optional: true,
     },
   },
@@ -121,6 +137,14 @@ export default {
       return axios($, {
         url: `${this._baseUrl()}${path}`,
         headers: this._headers(),
+        ...opts,
+      });
+    },
+    getCampaign({
+      campaign, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/campaigns/${campaign}`,
         ...opts,
       });
     },
