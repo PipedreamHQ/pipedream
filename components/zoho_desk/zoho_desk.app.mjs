@@ -490,7 +490,6 @@ export default {
     searchTickets(args = {}) {
       return this.makeRequest({
         path: "/tickets/search",
-        debug: true,
         ...args,
       });
     },
