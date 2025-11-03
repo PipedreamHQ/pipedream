@@ -9,7 +9,7 @@ export default {
   key: "elastic_email-send-email",
   name: "Send Email",
   description: "Sends an email to one or more recipients. [See the documentation](https://elasticemail.com/developers/api-documentation/rest-api#operation/emailsPost)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

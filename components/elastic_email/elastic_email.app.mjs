@@ -29,7 +29,7 @@ export default {
     templateName: {
       type: "string",
       label: "Template Name",
-      description: "The name of template.",
+      description: "The name of template",
       async options({ page }) {
         const data = await this.listTemplates({
           params: {
@@ -47,6 +47,64 @@ export default {
       label: "Email Addresses",
       description: "A list of email addresses  to unsubscribe",
     },
+    campaign: {
+      type: "string",
+      label: "Campaign",
+      description: "The name of a campaign",
+      async options({ page }) {
+        const { campaigns } = await this.listCampaigns({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+          },
+        });
+        return campaigns?.map(({ Name: name }) => name) || [];
+      },
+    },
+    contact: {
+      type: "string",
+      label: "Contact",
+      description: "The email address of a contact",
+      async options({ page }) {
+        const { contacts } = await this.listContacts({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+          },
+        });
+        return contacts?.map(({ Email: email }) => email) || [];
+      },
+    },
+    segmentNames: {
+      type: "string[]",
+      label: "Segment Names",
+      description: "The name of a segment",
+      async options({ page }) {
+        const { segments } = await this.listSegments({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+          },
+        });
+        return segments?.map(({ Name: name }) => name) || [];
+      },
+    },
+    campaignStatus: {
+      type: "string",
+      label: "Campaign Status",
+      description: "The status of a campaign",
+      options: [
+        "Deleted",
+        "Active",
+        "Processing",
+        "Sending",
+        "Completed",
+        "Paused",
+        "Cancelled",
+        "Draft",
+      ],
+      optional: true,
+    },
   },
   methods: {
     _baseUrl() {
@@ -61,7 +119,7 @@ export default {
       $ = this, path, ...opts
     }) {
       return axios($, {
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: this._headers(),
         ...opts,
       });
@@ -90,6 +148,18 @@ export default {
         ...opts,
       });
     },
+    listCampaigns(opts = {}) {
+      return this._makeRequest({
+        path: "/campaigns",
+        ...opts,
+      });
+    },
+    listSegments(opts = {}) {
+      return this._makeRequest({
+        path: "/segments",
+        ...opts,
+      });
+    },
     sendBulkEmails(opts = {}) {
       return this._makeRequest({
         method: "POST",
@@ -108,6 +178,45 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: "/suppressions/unsubscribes",
+        ...opts,
+      });
+    },
+    createCampaign(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/campaigns",
+        ...opts,
+      });
+    },
+    updateCampaign({
+      campaign, ...opts
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/campaigns/${campaign}`,
+        ...opts,
+      });
+    },
+    createContact(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/contacts",
+        ...opts,
+      });
+    },
+    updateContact({
+      contact, ...opts
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/contacts/${contact}`,
+        ...opts,
+      });
+    },
+    createSegment(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/segments",
         ...opts,
       });
     },
