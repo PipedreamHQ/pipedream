@@ -6,7 +6,7 @@ export default {
   name: "New Card Created On Board",
   description: "Emit new event when a card is created on a board.",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,
