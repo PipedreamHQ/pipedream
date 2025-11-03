@@ -37,6 +37,12 @@ export default {
         }),
       ],
     },
+    locationAlert: {
+      propDefinition: [
+        serphouse,
+        "locationAlert",
+      ],
+    },
     locationId: {
       propDefinition: [
         serphouse,

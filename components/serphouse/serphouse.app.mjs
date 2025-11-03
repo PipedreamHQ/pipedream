@@ -39,6 +39,11 @@ export default {
         }));
       },
     },
+    locationAlert: {
+      type: "alert",
+      alertType: "info",
+      content: "Please enter a search query in Locations to list location options.",
+    },
     locationId: {
       type: "string",
       label: "Location",

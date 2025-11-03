@@ -55,6 +55,12 @@ export default {
         "image",
       ],
     },
+    locationAlert: {
+      propDefinition: [
+        serphouse,
+        "locationAlert",
+      ],
+    },
     locationId: {
       propDefinition: [
         serphouse,
