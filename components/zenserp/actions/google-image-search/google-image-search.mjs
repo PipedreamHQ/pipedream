@@ -59,8 +59,6 @@ export default {
         search_engine: this.searchEngine,
         gl: this.country,
         lr: this.language,
-        num: this.num,
-        start: this.start,
         device: this.device,
         timeframe: this.timeframe,
       },
