@@ -23,6 +23,7 @@ export default {
       type: "string",
       label: "Search",
       description: "Search throughout the ticket with `wildcard search` strategy",
+      optional: true,
     },
     departmentId: {
       propDefinition: [
@@ -32,12 +33,14 @@ export default {
           orgId,
         }),
       ],
+      optional: true,
     },
     status: {
       propDefinition: [
         zohoDesk,
         "ticketStatus",
       ],
+      optional: true,
     },
     priority: {
       propDefinition: [

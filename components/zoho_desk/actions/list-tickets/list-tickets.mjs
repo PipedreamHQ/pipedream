@@ -33,6 +33,7 @@ export default {
         zohoDesk,
         "ticketStatus",
       ],
+      optional: true,
     },
     priority: {
       propDefinition: [
@@ -63,6 +64,7 @@ export default {
           orgId,
         }),
       ],
+      optional: true,
     },
     sortBy: {
       propDefinition: [
@@ -119,7 +121,6 @@ export default {
     if (priority) params.priority = priority;
     if (assigneeId) params.assignee = assigneeId;
     if (channel) params.channel = channel;
-    if (contactId) params.contactId = contactId;
     if (sortBy) params.sortBy = sortBy;
     if (from) params.from = from;
     if (limit) params.limit = limit;
@@ -135,7 +136,9 @@ export default {
     });
 
     for await (const ticket of stream) {
-      tickets.push(ticket);
+      if (!contactId || ticket.contactId === contactId) {
+        tickets.push(ticket);
+      }
     }
 
     $.export("$summary", `Successfully retrieved ${tickets.length} ticket(s)`);

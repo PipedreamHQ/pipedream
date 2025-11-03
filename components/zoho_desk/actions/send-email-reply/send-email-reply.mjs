@@ -78,7 +78,8 @@ export default {
         zohoDesk,
         "ticketStatus",
       ],
-      description: "Type of ticket resolution status to set after sending the email reply.",
+      description: "Type of ticket resolution status to set after sending the email reply",
+      optional: true,
     },
   },
   async run({ $ }) {

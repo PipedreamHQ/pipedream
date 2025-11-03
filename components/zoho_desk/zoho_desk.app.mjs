@@ -1,4 +1,6 @@
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 import constants from "./common/constants.mjs";
 import utils from "./common/utils.mjs";
 
@@ -393,7 +395,8 @@ export default {
           : await axios($, config);
       } catch (error) {
         console.log("Request error", error.response?.data);
-        throw error.response?.data;
+        throw new ConfigurationError(error.response?.data?.errors[0]?.errorMessage
+          || error.response?.data?.message);
       }
     },
     createWebhook(args = {}) {
@@ -487,6 +490,7 @@ export default {
     searchTickets(args = {}) {
       return this.makeRequest({
         path: "/tickets/search",
+        debug: true,
         ...args,
       });
     },
@@ -496,7 +500,7 @@ export default {
       headers,
       max = constants.MAX_RESOURCES,
     } = {}) {
-      let from = params?.from || 1;
+      let from = params?.from || 0;
       let resourcesCount = 0;
       let nextResources;
 
