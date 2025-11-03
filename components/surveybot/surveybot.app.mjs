@@ -67,12 +67,6 @@ export default {
         ...args,
       });
     },
-    getSurvey(args = {}) {
-      return this._makeRequest({
-        path: "surveys",
-        ...args,
-      });
-    },
     getSurveyResponses({
       surveyId, ...args
     }) {
