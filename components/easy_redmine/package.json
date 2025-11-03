@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/easy_redmine",
+  "version": "0.0.1",
+  "description": "Pipedream Easy Redmine Components",
+  "main": "easy_redmine.app.mjs",
+  "keywords": [
+    "pipedream",
+    "easy_redmine"
+  ],
+  "homepage": "https://pipedream.com/apps/easy_redmine",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

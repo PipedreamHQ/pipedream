@@ -8,7 +8,7 @@ export default {
   type: "source",
   name: "Changes to Webinar Panelists",
   key: "zoom_admin-webinar-changes-to-panelists",
-  version: "0.1.7",
+  version: "0.1.9",
   description: "Emit new event every time a panelist is added or removed from a webinar, or any time their details change",
   dedupe: "unique",
   props: {
