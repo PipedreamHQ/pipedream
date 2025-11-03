@@ -55,6 +55,13 @@ export default {
       ],
       optional: true,
     },
+    leadStage: {
+      propDefinition: [
+        hyros,
+        "leadStage",
+      ],
+      optional: true,
+    },
   },
   async run({ $ }) {
     const {
