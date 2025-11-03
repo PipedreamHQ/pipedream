@@ -5,7 +5,7 @@ export default {
   key: "linear_app-get-teams",
   name: "Get Teams",
   description: "Retrieves all teams in your Linear workspace. Returns array of team objects with details like ID, name, and key. Supports pagination with configurable limit. Uses API Key authentication. See Linear docs for additional info [here](https://linear.app/developers/graphql).",
-  version: "0.2.14",
+  version: "0.2.15",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

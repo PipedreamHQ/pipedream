@@ -7,7 +7,7 @@ export default {
   name: "New Comment Created (Instant)",
   description: "Triggers instantly when a new comment is added to an issue in Linear. Returns comment details including content, author, issue reference, and timestamps. Supports filtering by team. See Linear docs for additional info [here](https://linear.app/developers/webhooks).",
   type: "source",
-  version: "0.1.15",
+  version: "0.1.16",
   dedupe: "unique",
   methods: {
     ...common.methods,

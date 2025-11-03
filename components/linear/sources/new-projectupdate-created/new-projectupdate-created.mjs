@@ -11,5 +11,5 @@ export default {
   ...utils.getAppProps(newProjectUpdateCreated),
   key: "linear-new-projectupdate-created",
   description: "Triggers instantly when a project update (status report) is created in Linear. Returns update content, author, project details, and health status. Filters by team and optionally by project. Uses OAuth authentication. See Linear docs for additional info [here](https://linear.app/developers/webhooks).",
-  version: "0.0.6",
+  version: "0.0.7",
 };

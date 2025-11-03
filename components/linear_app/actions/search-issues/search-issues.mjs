@@ -7,7 +7,7 @@ export default {
   name: "Search Issues",
   description: "Searches Linear issues by team, project, assignee, labels, state, or text query. Supports pagination, ordering, and archived issues. Returns array of matching issues. Uses API Key authentication. See Linear docs for additional info [here](https://linear.app/developers/graphql).",
   type: "action",
-  version: "0.2.14",
+  version: "0.2.15",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

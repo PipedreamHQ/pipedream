@@ -10,5 +10,5 @@ export default {
   ...utils.getAppProps(issueUpdatedInstant),
   key: "linear-issue-updated-instant",
   description: "Triggers instantly when any issue is updated in Linear. Provides complete issue details with changes. Supports filtering by team and project. Includes all updates except status changes. Uses OAuth authentication. See Linear docs for additional info [here](https://linear.app/developers/webhooks).",
-  version: "0.3.14",
+  version: "0.3.15",
 };

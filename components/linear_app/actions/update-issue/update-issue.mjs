@@ -5,7 +5,7 @@ export default {
   name: "Update Issue",
   description: "Updates an existing Linear issue. Can modify title, description, assignee, state, project, team, labels, priority, and dates. Returns updated issue details. Uses API Key authentication. [See the documentation](https://linear.app/developers/graphql#creating-and-editing-issues).",
   type: "action",
-  version: "0.1.14",
+  version: "0.1.15",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

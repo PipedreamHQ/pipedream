@@ -8,7 +8,7 @@ export default {
   name: "Issue Status Updated (Instant)",
   description: "Triggers instantly when an issue's workflow state changes (e.g., Todo to In Progress). Returns issue with previous and current state info. Can filter by specific target state. See Linear docs for additional info [here](https://linear.app/developers/webhooks).",
   type: "source",
-  version: "0.1.15",
+  version: "0.1.16",
   dedupe: "unique",
   props: {
     linearApp: common.props.linearApp,
