@@ -24,7 +24,6 @@ export default {
         "overdue",
         "paid",
         "sent",
-        "totals",
         "unpaid",
       ],
     },
