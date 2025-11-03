@@ -5290,6 +5290,9 @@ importers:
 
   components/form_io: {}
 
+  components/form_taxi:
+    specifiers: {}
+
   components/formaloo:
     dependencies:
       '@pipedream/platform':
