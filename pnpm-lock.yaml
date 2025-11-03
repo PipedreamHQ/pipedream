@@ -6401,6 +6401,9 @@ importers:
 
   components/greenspark: {}
 
+  components/greip:
+    specifiers: {}
+
   components/greptile:
     dependencies:
       '@pipedream/platform':
