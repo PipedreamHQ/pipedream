@@ -5,7 +5,12 @@ export default {
   key: "printify-update-product",
   name: "Update Product",
   description: "Updates an existing product on Printify. [See the documentation](https://developers.printify.com/#update-a-product)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     printify,

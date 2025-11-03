@@ -6,7 +6,7 @@ export default {
   key: "transloadit-new-assembly-error",
   name: "New Assembly Failed",
   description: "Emit new event when a failed occurs during assembly processing. [See the documentation](https://transloadit.com/docs/api/assemblies-get/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

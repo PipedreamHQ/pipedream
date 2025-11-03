@@ -8,7 +8,8 @@ const MULTIPART_FORM_DATA_HEADERS = {
 };
 const TOKEN_PREFIX = "Zoho-oauthtoken";
 const BASE_PREFIX_URL = "https://desk.";
-const VERSION_PATH = "/api/v1";
+const CORE_API_PATH = "/api/v1";
+const PORTAL_API_PATH = "/portal/api";
 const FILE_PROP_NAMES = [
   "attachment",
   "uploaddoc",
@@ -34,7 +35,8 @@ export default {
   MULTIPART_FORM_DATA_HEADERS,
   BASE_PREFIX_URL,
   TOKEN_PREFIX,
-  VERSION_PATH,
+  CORE_API_PATH,
+  PORTAL_API_PATH,
   FILE_PROP_NAMES,
   LAST_CREATED_AT,
   LAST_UPDATED_AT,

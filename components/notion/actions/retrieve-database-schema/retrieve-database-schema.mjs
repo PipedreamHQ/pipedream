@@ -2,22 +2,27 @@ import notion from "../../notion.app.mjs";
 
 export default {
   key: "notion-retrieve-database-schema",
-  name: "Retrieve Database Schema",
-  description: "Get the property schema of a database in Notion. [See the documentation](https://developers.notion.com/reference/retrieve-a-database)",
-  version: "0.0.10",
+  name: "Retrieve Data Source Schema",
+  description: "Get the property schema of a data source in Notion. [See the documentation](https://developers.notion.com/reference/retrieve-a-data-source)",
+  version: "1.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     notion,
-    databaseId: {
+    dataSourceId: {
       propDefinition: [
         notion,
-        "databaseId",
+        "dataSourceId",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.notion.retrieveDatabase(this.databaseId);
-    $.export("$summary", "Successfully retrieved database schema");
+    const response = await this.notion.retrieveDataSource(this.dataSourceId);
+    $.export("$summary", "Successfully retrieved data source schema");
     return response;
   },
 };

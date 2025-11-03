@@ -6,9 +6,20 @@ export default {
   key: "linkedin_ads-create-report",
   name: "Create A Report",
   description: "Queries the Analytics Finder to get analytics for the specified entity i.e company, account, campaign. [See the docs here](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/ads-reporting/ads-reporting#analytics-finder)",
-  version: "0.0.5",
+  version: "0.0.7",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
+    // eslint-disable-next-line pipedream/props-label, pipedream/props-description
+    infoAlert: {
+      type: "alert",
+      alertType: "info",
+      content: "Please provide at least one facet to get analytics if needed. Eg. **Accounts**.",
+    },
     ...common.props,
     adAccountId: {
       propDefinition: [

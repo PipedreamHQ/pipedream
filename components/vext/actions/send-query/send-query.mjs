@@ -4,7 +4,12 @@ export default {
   key: "vext-send-query",
   name: "Send Query",
   description: "Send a query request to your LLM pipeline. [See the documentation](https://vext.readme.io/reference/http-request-query)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

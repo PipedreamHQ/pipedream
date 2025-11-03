@@ -4,7 +4,7 @@ export default {
   key: "trengo-ticket-reopened",
   name: "Ticket Reopened (Instant)",
   description: "Emit new event when a ticket is reopened. [See the documentation](https://developers.trengo.com/docs/webhooks)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   ...common,

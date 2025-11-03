@@ -5,7 +5,12 @@ export default {
   key: "hunter-email-finder",
   name: "Email Finder",
   description: "Find the most likely email address from a domain name, a first name and a last name. [See the documentation](https://hunter.io/api-documentation/v2#email-finder).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

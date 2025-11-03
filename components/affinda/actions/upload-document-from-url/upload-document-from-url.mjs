@@ -4,7 +4,12 @@ export default {
   key: "affinda-upload-document-from-url",
   name: "Upload Document for Parsing",
   description: "Uploads a document for parsing. [See docs here](https://docs.affinda.com/reference/createdocument)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     affinda,

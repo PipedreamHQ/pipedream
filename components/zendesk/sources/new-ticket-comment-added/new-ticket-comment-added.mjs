@@ -7,7 +7,7 @@ export default {
   key: "zendesk-new-ticket-comment-added",
   type: "source",
   description: "Emit new event when a ticket comment has been added",
-  version: "0.0.1",
+  version: "0.1.0",
   dedupe: "unique",
   props: {
     app,
@@ -59,9 +59,14 @@ export default {
     },
     convertCommentsToJson(raw) {
       return [
-        ...raw.matchAll(/#<Comment (.*?)>/g),
+        ...raw.matchAll(/#<Comment (.*?)(value: "[^"]*")(.*?)>/g),
       ].map((match) => {
-        const fields = match[1]
+        const valueField = match[0].match(/(?<=, )value: "([^"]|\\")*[^\\]",/)?.[0];
+        const baseMatch = match[0].replace(/^#<Comment /, "");
+        const baseMatchWithoutValue = valueField
+          ? baseMatch.split(valueField).join("")
+          : baseMatch;
+        const fields = baseMatchWithoutValue
           .split(",")
           .map((part) => part.trim())
           .map((pair) => {
@@ -81,7 +86,15 @@ export default {
               cleaned,
             ];
           });
-        return Object.fromEntries(fields);
+        return Object.fromEntries(valueField
+          ? [
+            ...fields,
+            [
+              "value",
+              valueField?.replace(/^value: ?/, ""),
+            ],
+          ]
+          : fields);
       });
     },
     isRelevant(payload) {
@@ -97,10 +110,16 @@ export default {
     },
     emitEvent(payload) {
       payload.ticketComments = this.convertCommentsToJson(payload.ticketComments);
-      for (const comment of payload.ticketComments) {
+      const {
+        ticketComments, ...ticketData
+      } = payload;
+      for (const comment of ticketComments) {
         const ts = Date.parse(comment.created_at);
         const id = `${payload.ticketId}-${ts}`;
-        this.$emit(comment, {
+        this.$emit({
+          ...comment,
+          ticketData,
+        }, {
           id,
           summary: comment.value,
           ts,

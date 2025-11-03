@@ -10,7 +10,12 @@ export default {
   key: "google_sheets-update-row",
   name: "Update Row",
   description: "Update a row in a spreadsheet. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/update)",
-  version: "0.1.13",
+  version: "0.1.17",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     googleSheets,
@@ -55,13 +60,15 @@ export default {
       },
       reloadProps: true,
     },
+    hasHeaders: common.props.hasHeaders,
     row: {
       propDefinition: [
         googleSheets,
         "row",
       ],
+      min: 1,
+      reloadProps: true,
     },
-    hasHeaders: common.props.hasHeaders,
   },
   async additionalProps() {
     const {
@@ -83,7 +90,7 @@ export default {
     }
 
     const props = {};
-    if (hasHeaders && row) {
+    if (hasHeaders) {
       try {
         const worksheet = await this.getWorksheetById(sheetId, worksheetId);
         const { values } = await this.googleSheets.getSpreadsheetValues(sheetId, `${worksheet?.properties?.title}!1:1`);
@@ -92,7 +99,7 @@ export default {
           throw new ConfigurationError("Could not find a header row. Please either add headers and click \"Refresh fields\" or set 'Does the first row of the sheet have headers?' to false.");
         }
 
-        const { values: rowValues } = !isNaN(row)
+        const { values: rowValues } = (!isNaN(row) && row > 0)
           ? await this.googleSheets.getSpreadsheetValues(sheetId, `${worksheet?.properties?.title}!${row}:${row}`)
           : {};
 
@@ -160,6 +167,10 @@ export default {
     } else {
       // For dynamic references or no headers, use the array input
       cells = this.googleSheets.sanitizedArray(this.myColumnData);
+    }
+
+    if (isNaN(row) || row < 1) {
+      throw new ConfigurationError("Please enter a valid row number in `Row Number`.");
     }
 
     // validate input

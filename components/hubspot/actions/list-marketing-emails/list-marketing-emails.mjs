@@ -4,44 +4,55 @@ export default {
   key: "hubspot-list-marketing-emails",
   name: "List Marketing Emails",
   description: "Retrieves a list of marketing emails. [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/emails/marketing-emails#get-%2Fmarketing%2Fv3%2Femails%2F)",
-  version: "0.0.1",
+  version: "0.0.10",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     hubspot,
     createdAt: {
       type: "string",
       label: "Created At",
-      description: "Only return Marketing Emails created at exactly the specified time. Format: YYYY-MM-DDTHH:MM:SSZ",
+      description:
+        "Only return Marketing Emails created at exactly the specified time. Format: YYYY-MM-DDTHH:MM:SSZ",
       optional: true,
     },
     createdAfter: {
       type: "string",
       label: "Created After",
-      description: "Only return Marketing Emails created after the specified time. Format: YYYY-MM-DDTHH:MM:SSZ",
+      description:
+        "Only return Marketing Emails created after the specified time. Format: YYYY-MM-DDTHH:MM:SSZ",
       optional: true,
     },
     createdBefore: {
       type: "string",
       label: "Created Before",
-      description: "Only return Marketing Emails created before the specified time. Format: YYYY-MM-DDTHH:MM:SSZ",
+      description:
+        "Only return Marketing Emails created before the specified time. Format: YYYY-MM-DDTHH:MM:SSZ",
       optional: true,
     },
     updatedAt: {
       type: "string",
       label: "Updated At",
-      description: "Only return Marketing Emails updated at exactly the specified time. Format: YYYY-MM-DDTHH:MM:SSZ",
+      description:
+        "Only return Marketing Emails updated at exactly the specified time. Format: YYYY-MM-DDTHH:MM:SSZ",
       optional: true,
     },
     updatedAfter: {
       type: "string",
       label: "Updated After",
-      description: "Only return Marketing Emails updated after the specified time. Format: YYYY-MM-DDTHH:MM:SSZ",
+      description:
+        "Only return Marketing Emails updated after the specified time. Format: YYYY-MM-DDTHH:MM:SSZ",
       optional: true,
     },
     updatedBefore: {
       type: "string",
       label: "Updated Before",
-      description: "Only return Marketing Emails updated before the specified time. Format: YYYY-MM-DDTHH:MM:SSZ",
+      description:
+        "Only return Marketing Emails updated before the specified time. Format: YYYY-MM-DDTHH:MM:SSZ",
       optional: true,
     },
     includeStats: {
@@ -78,8 +89,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const results = [];
-    let hasMore, count = 0;
+    const emails = [];
+    let hasMore,
+      count = 0;
 
     const params = {
       createdAt: this.createdAt,
@@ -104,7 +116,7 @@ export default {
         break;
       }
       for (const item of results) {
-        results.push(item);
+        emails.push(item);
         count++;
         if (count >= this.maxResults) {
           break;
@@ -114,9 +126,12 @@ export default {
       params.after = paging?.next.after;
     } while (hasMore && count < this.maxResults);
 
-    $.export("$summary", `Found ${results.length} email${results.length === 1
-      ? ""
-      : "s"}`);
-    return results;
+    $.export(
+      "$summary",
+      `Found ${emails.length} email${emails.length === 1
+        ? ""
+        : "s"}`,
+    );
+    return emails;
   },
 };

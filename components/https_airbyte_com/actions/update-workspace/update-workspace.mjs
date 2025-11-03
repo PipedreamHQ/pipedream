@@ -4,7 +4,12 @@ export default {
   key: "https_airbyte_com-update-workspace",
   name: "Update Workspace",
   description: "Updates a workspace on Airbyte. [See the documentation](https://reference.airbyte.com/reference/updateworkspace)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

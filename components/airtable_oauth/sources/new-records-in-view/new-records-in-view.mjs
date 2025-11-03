@@ -6,7 +6,7 @@ export default {
   name: "New Records in View",
   description: "Emit new event for each new record in a view",
   key: "airtable_oauth-new-records-in-view",
-  version: "0.0.12",
+  version: "0.0.13",
   type: "source",
   dedupe: "unique",
   props: {

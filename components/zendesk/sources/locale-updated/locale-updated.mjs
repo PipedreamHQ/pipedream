@@ -6,7 +6,7 @@ export default {
   name: "Locale Updated",
   type: "source",
   description: "Emit new event when a locale has been updated",
-  version: "0.0.1",
+  version: "0.0.3",
   dedupe: "unique",
   async run() {
     const lastTs = this._getLastTs();

@@ -4,7 +4,12 @@ export default {
   key: "pipefy-get-table-records",
   name: "Get Table Records",
   description: "Fetches all records in a table. [See the docs here](https://api-docs.pipefy.com/reference/queries/#table_records)",
-  version: "0.1.2",
+  version: "0.1.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     pipefy,

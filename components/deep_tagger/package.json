@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/deep_tagger",
+  "version": "0.0.1",
+  "description": "Pipedream Deep Tagger Components",
+  "main": "deep_tagger.app.mjs",
+  "keywords": [
+    "pipedream",
+    "deep_tagger"
+  ],
+  "homepage": "https://pipedream.com/apps/deep_tagger",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

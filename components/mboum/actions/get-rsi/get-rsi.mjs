@@ -4,7 +4,12 @@ export default {
   key: "mboum-get-rsi",
   name: "Get Relative Strength Index (RSI)",
   description: "Calculate Relative Strength Index technical indicator to measure momentum and identify overbought/oversold conditions. [See the documentation](https://docs.mboum.com/#stocks-options-small-stylecolor-f8f2f2background-fa256fpadding-1px-4pxborder-radius-3pxhotsmall-GETapi-v1-markets-indicators-rsi)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     mboum,

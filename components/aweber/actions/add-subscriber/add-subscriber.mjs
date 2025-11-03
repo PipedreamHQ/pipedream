@@ -6,7 +6,12 @@ export default {
   name: "Add Subscriber",
   description: "Add subscribers to the specified account and list. [See the docs here](https://api.aweber.com/#tag/Subscribers/paths/~1accounts~1{accountId}~1lists~1{listId}~1subscribers/post).",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     aweberApp,
     accountId: {

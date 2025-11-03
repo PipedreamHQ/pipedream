@@ -18,7 +18,12 @@ export default {
   key: "salesforce_rest_api-create-attachment",
   name: "Create Attachment",
   description: `Creates an Attachment on a parent object. [See the documentation](${docsLink})`,
-  version: "0.5.1",
+  version: "0.5.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props,
   async run({ $ }) {

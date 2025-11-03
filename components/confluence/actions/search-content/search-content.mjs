@@ -4,7 +4,12 @@ export default {
   key: "confluence-search-content",
   name: "Search Content",
   description: "Searches for content using the Confluence Query Language (CQL). [See the documentation](https://developer.atlassian.com/cloud/confluence/rest/v1/api-group-search#api-wiki-rest-api-search-get)",
-  version: "0.0.3",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     confluence,

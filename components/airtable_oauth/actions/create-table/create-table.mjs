@@ -4,7 +4,12 @@ export default {
   key: "airtable_oauth-create-table",
   name: "Create Table",
   description: "Create a new table. [See the documentation](https://airtable.com/developers/web/api/create-table)",
-  version: "0.0.11",
+  version: "0.0.13",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     airtable,

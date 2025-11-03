@@ -4,7 +4,12 @@ export default {
   key: "txt_werk-analyze-text",
   name: "Analyze Text",
   description: "Send a text to be analyzed by TXTWerk. [See the documentation](https://services.txtwerk.de/ws/documentation/showRequest)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

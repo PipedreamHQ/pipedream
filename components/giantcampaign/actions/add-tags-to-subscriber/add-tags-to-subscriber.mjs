@@ -4,7 +4,12 @@ export default {
   name: "Add Tags to Subscriber",
   description: "Add tags to a new subscriber [See the documentation](https://giantcampaign.com/developers/#add-tags-to-subscriber).",
   key: "giantcampaign-add-tags-to-subscriber",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

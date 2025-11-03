@@ -6,7 +6,12 @@ export default {
   key: "monkeylearn-upload-training-data",
   name: "Upload Training Data",
   description: "Uploads data to a classifier. This component can be used to upload new data to a classifier, to update the tags of texts that have already been uploaded, or both. [See the docs here](https://monkeylearn.com/api/v3/#upload-classifier-data)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

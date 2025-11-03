@@ -8,7 +8,12 @@ export default defineAction({
   key: "google_my_business-get-specific-review",
   name: "Get a Specific Review",
   description: `Return a specific review by name. [See the documentation](${DOCS_LINK})`,
-  version: "0.0.1",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

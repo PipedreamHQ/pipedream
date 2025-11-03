@@ -4,7 +4,12 @@ export default {
   key: "frontapp-list-comment-mentions",
   name: "List Comment Mentions",
   description: "List the teammates mentioned in a comment. [See the documentation](https://dev.frontapp.com/reference/list-comment-mentions)",
-  version: "0.0.2",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     frontApp,

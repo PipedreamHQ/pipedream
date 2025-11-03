@@ -2,7 +2,12 @@ import app from "../../nimble.app.mjs";
 
 export default {
   name: "Create Task",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "nimble-create-task",
   description: "Creates a task. [See the documentation](https://nimble.readthedocs.io/en/latest/activities/tasks/create/)",
   type: "action",

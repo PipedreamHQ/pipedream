@@ -5,7 +5,12 @@ export default {
   key: "rkvst-create-event",
   name: "Create Event",
   description: "Create a new event based on an asset. [See the documentation](https://docs.datatrails.ai/developers/api-reference/events-api/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     rkvst,

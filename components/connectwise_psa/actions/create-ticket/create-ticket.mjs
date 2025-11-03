@@ -4,7 +4,12 @@ export default {
   key: "connectwise_psa-create-ticket",
   name: "Create Ticket",
   description: "Creates a new ticket in Connectwise. [See the documentation](https://developer.connectwise.com/Products/ConnectWise_PSA/REST#/Tickets/postServiceTickets)",
-  version: "0.1.0",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     connectwise,

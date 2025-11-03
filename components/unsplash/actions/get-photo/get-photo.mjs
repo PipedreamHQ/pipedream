@@ -4,7 +4,12 @@ export default {
   key: "unsplash-get-photo",
   name: "Get Photo",
   description: "Get a specific photo from Unsplash. [See the documentation](https://unsplash.com/documentation#get-a-photo)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

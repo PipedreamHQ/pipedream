@@ -1,3 +1,5 @@
+/* eslint-disable no-case-declarations */
+import pick from "lodash-es/pick.js";
 import NOTION_ICONS from "../../common/notion-icons.mjs";
 import utils from "../../common/utils.mjs";
 import notion from "../../notion.app.mjs";
@@ -6,30 +8,61 @@ import base from "../common/base-page-builder.mjs";
 export default {
   ...base,
   key: "notion-create-page-from-database",
-  name: "Create Page from Database",
-  description: "Create a page from a database. [See the documentation](https://developers.notion.com/reference/post-page)",
-  version: "0.2.3",
+  name: "Create Page from Data Source",
+  description: "Create a page from a data source. [See the documentation](https://developers.notion.com/reference/post-page)",
+  version: "2.0.0",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     notion,
-    parent: {
+    parentDataSource: {
       propDefinition: [
         notion,
-        "databaseId",
+        "dataSourceId",
       ],
-      label: "Parent Database ID",
-      description: "Select a parent database or provide a database ID",
+      label: "Parent Data Source ID",
+      description: "Select a parent data source or provide a data source ID",
     },
-    Name: {
+    templateType: {
       type: "string",
-      label: "Name",
-      description: "The name of the page. Use this only if the database has a `title` property named `Name`. Otherwise, use the `Properties` prop below to set the title property.",
-      optional: true,
+      label: "Template Type",
+      description: "The type of template to use for the page. [See the documentation](https://developers.notion.com/docs/creating-pages-from-templates) for more information.",
+      options: [
+        {
+          label: "No template. Provided children and properties are immediately applied.",
+          value: "none",
+        },
+        {
+          label: "Applies the data source's default template to the newly created page. `children` cannot be specified in the create page request.",
+          value: "default",
+        },
+        {
+          label: "Indicates which exact template to apply to the newly created page. children cannot be specified in the create page request.",
+          value: "template_id",
+        },
+      ],
+      reloadProps: true,
+    },
+    propertyTypes: {
+      propDefinition: [
+        notion,
+        "propertyTypes",
+        (c) => ({
+          parentId: c.parentDataSource,
+          parentType: "data_source",
+        }),
+      ],
+      description: "Select one or more page properties. Willl override properties set in the `Properties` prop below.",
+      reloadProps: true,
     },
     properties: {
       type: "object",
       label: "Properties",
-      description: "The values of the page's properties. The schema must match the parent database's properties. [See the documentation](https://developers.notion.com/reference/property-object) for information on various property types. Example: `{ \"Tags\": [ \"tag1\" ], \"Link\": \"https://pipedream.com\" }`",
+      description: "The values of the page's properties. The schema must match the parent data source's properties. [See the documentation](https://developers.notion.com/reference/property-object) for information on various property types. Example: `{ \"Tags\": [ \"tag1\" ], \"Link\": \"https://pipedream.com\" }`",
       optional: true,
     },
     icon: {
@@ -45,11 +78,6 @@ export default {
       description: "Cover [External URL](https://developers.notion.com/reference/file-object#external-file-objects)",
       optional: true,
     },
-    alert: {
-      type: "alert",
-      alertType: "info",
-      content: "This action will create an empty page by default. To add content, use the `Page Content` prop below.",
-    },
     pageContent: {
       propDefinition: [
         notion,
@@ -57,17 +85,77 @@ export default {
       ],
     },
   },
+  async additionalProps() {
+    switch (this.templateType) {
+    case "none":
+      const { properties } = await this.notion.retrieveDataSource(this.parentDataSource);
+      const selectedProperties = pick(properties, this.propertyTypes);
+      return {
+        alert: {
+          type: "alert",
+          alertType: "info",
+          content: "This action will create an empty page by default. To add content, use the `Page Content` prop below.",
+        },
+        ...this.buildAdditionalProps({
+          properties: selectedProperties,
+        }),
+      };
+    case "default":
+      return {
+        alert: {
+          type: "alert",
+          alertType: "info",
+          content: "This action will create a page using the data source's default template. Using the `Page Content` prop below will `not` apply to the page.",
+        },
+      };
+    case "template_id":
+      return {
+        templateId: {
+          type: "string",
+          label: "Template ID",
+          description: "The ID of the template to use for the page. [See the documentation](https://developers.notion.com/docs/creating-pages-from-templates) for more information.",
+          options: async({ prevContext }) => {
+            const params = {
+              data_source_id: this.parentDataSource,
+            };
+            if (prevContext?.nCursor) {
+              params.start_cursor = prevContext.nCursor;
+            }
+            const {
+              templates, next_cursor: nCursor,
+            } = await this.notion.listTemplates(params);
+            return {
+              options: templates.map(({
+                name: label, id: value,
+              }) => ({
+                label,
+                value,
+              })),
+              context: {
+                nCursor,
+              },
+            };
+          },
+        },
+        alert: {
+          type: "alert",
+          alertType: "info",
+          content: "This action will create a page using the selected template. Using the `Page Content` prop below will `not` apply to the page.",
+        },
+      };
+    }
+  },
   methods: {
     ...base.methods,
     /**
-     * Builds a page from a parent database
-     * @param parentDatabase - the parent database
+     * Builds a page from a parent data source
+     * @param parentDataSource - the parent data source
      * @returns the constructed page in Notion format
      */
-    buildPage(parentDatabase) {
-      const meta = this.buildDatabaseMeta(parentDatabase);
+    buildPage(parentDataSource) {
+      const meta = this.buildDataSourceMeta(parentDataSource);
       this.properties = utils.parseObject(this.properties);
-      const properties = this.buildPageProperties(parentDatabase.properties);
+      const properties = this.buildPageProperties(parentDataSource.properties);
       const children = this.createBlocks(this.pageContent);
       return {
         ...meta,
@@ -78,13 +166,26 @@ export default {
   },
   async run({ $ }) {
     const MAX_BLOCKS = 100;
-    const parentPage = await this.notion.retrieveDatabase(this.parent);
+    const parentPage = await this.notion.retrieveDataSource(this.parentDataSource);
     const {
       children, ...page
     } = this.buildPage(parentPage);
+    const data = this.templateId
+      ? {
+        template: {
+          type: this.templateType,
+          template_id: this.templateId,
+        },
+      }
+      : {
+        children: children.slice(0, MAX_BLOCKS),
+      };
     const response = await this.notion.createPage({
+      ...data,
       ...page,
-      children: children.slice(0, MAX_BLOCKS),
+      parent: {
+        data_source_id: this.parentDataSource,
+      },
     });
     let remainingBlocks = children.slice(MAX_BLOCKS);
     while (remainingBlocks.length > 0) {

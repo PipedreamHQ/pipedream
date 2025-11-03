@@ -5,8 +5,14 @@ import hubspot from "../../hubspot.app.mjs";
 export default {
   key: "hubspot-get-associated-meetings",
   name: "Get Associated Meetings",
-  description: "Retrieves meetings associated with a specific object (contact, company, or deal) with optional time filtering. [See the documentation](https://developers.hubspot.com/docs/reference/api/crm/associations/association-details#get-%2Fcrm%2Fv4%2Fobjects%2F%7Bobjecttype%7D%2F%7Bobjectid%7D%2Fassociations%2F%7Btoobjecttype%7D)",
-  version: "0.0.4",
+  description:
+    "Retrieves meetings associated with a specific object (contact, company, or deal) with optional time filtering. [See the documentation](https://developers.hubspot.com/docs/reference/api/crm/associations/association-details#get-%2Fcrm%2Fv4%2Fobjects%2F%7Bobjecttype%7D%2F%7Bobjectid%7D%2Fassociations%2F%7Btoobjecttype%7D)",
+  version: "0.0.12",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     hubspot,
@@ -24,7 +30,8 @@ export default {
     objectId: {
       type: "string",
       label: "Object ID",
-      description: "The ID of the object to get associated meetings for. For contacts, you can search by email.",
+      description:
+        "The ID of the object to get associated meetings for. For contacts, you can search by email.",
       propDefinition: [
         hubspot,
         "objectIds",
@@ -61,12 +68,14 @@ export default {
       startDate: {
         type: "string",
         label: "Start Date",
-        description: "The start date to filter meetings from (ISO 8601 format). Eg. `2025-01-01T00:00:00Z`",
+        description:
+          "The start date to filter meetings from (ISO 8601 format). Eg. `2025-01-01T00:00:00Z`",
       },
       endDate: {
         type: "string",
         label: "End Date",
-        description: "The end date to filter meetings to (ISO 8601 format). Eg. `2025-01-31T23:59:59Z`",
+        description:
+          "The end date to filter meetings to (ISO 8601 format). Eg. `2025-01-31T23:59:59Z`",
       },
     };
   },
@@ -112,7 +121,13 @@ export default {
         const dayOfWeek = now.getUTCDay();
         const startOfWeek = new Date(
           Date.UTC(
-            now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - dayOfWeek, 0, 0, 0, 0,
+            now.getUTCFullYear(),
+            now.getUTCMonth(),
+            now.getUTCDate() - dayOfWeek,
+            0,
+            0,
+            0,
+            0,
           ),
         ).toISOString();
         const endOfWeek = new Date(
@@ -142,7 +157,15 @@ export default {
           Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1, 0, 0, 0, 0),
         ).toISOString();
         const endOfMonth = new Date(
-          Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 0, 23, 59, 59, 999),
+          Date.UTC(
+            now.getUTCFullYear(),
+            now.getUTCMonth() + 1,
+            0,
+            23,
+            59,
+            59,
+            999,
+          ),
         ).toISOString();
         return {
           hs_meeting_start_time: {
@@ -157,15 +180,7 @@ export default {
       }
       case "last_month": {
         const startOfLastMonth = new Date(
-          Date.UTC(
-            now.getUTCFullYear(),
-            now.getUTCMonth() - 1,
-            1,
-            0,
-            0,
-            0,
-            0,
-          ),
+          Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - 1, 1, 0, 0, 0, 0),
         ).toISOString();
         const endOfLastMonth = new Date(
           Date.UTC(
@@ -224,7 +239,11 @@ export default {
 
       const meetingIds = associations.map(({ toObjectId }) => toObjectId);
 
-      const timeFilter = this.getMeetingTimeFilter(timeframe, startDate, endDate);
+      const timeFilter = this.getMeetingTimeFilter(
+        timeframe,
+        startDate,
+        endDate,
+      );
 
       const { results } = await this.hubspot.searchMeetings({
         data: {
@@ -240,14 +259,15 @@ export default {
                   operator: "IN",
                   values: meetingIds,
                 },
-                ...Object.entries(timeFilter)
-                  .map(([
+                ...Object.entries(timeFilter).map(
+                  ([
                     propertyName,
                     filterProps,
                   ]) => ({
                     propertyName,
                     ...filterProps,
-                  })),
+                  }),
+                ),
               ],
             },
           ],
@@ -268,7 +288,10 @@ export default {
   },
   async run({ $ }) {
     let resolvedObjectId = this.objectId;
-    if (this.objectType === OBJECT_TYPE.CONTACT && this.objectId.includes("@")) {
+    if (
+      this.objectType === OBJECT_TYPE.CONTACT &&
+      this.objectId.includes("@")
+    ) {
       const { results } = await this.hubspot.searchCRM({
         object: OBJECT_TYPE.CONTACT,
         data: {

@@ -4,14 +4,20 @@ export default {
   key: "hubspot-list-campaigns",
   name: "List Campaigns",
   description: "Retrieves a list of campaigns. [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/campaigns#get-%2Fmarketing%2Fv3%2Fcampaigns%2F)",
-  version: "0.0.1",
+  version: "0.0.10",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     hubspot,
     sort: {
       type: "string",
       label: "Sort",
-      description: "The field by which to sort the results. An optional '-' before the property name can denote descending order",
+      description:
+        "The field by which to sort the results. An optional '-' before the property name can denote descending order",
       options: [
         "hs_name",
         "-hs_name",
@@ -31,8 +37,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const results = [];
-    let hasMore, count = 0;
+    const campaigns = [];
+    let hasMore,
+      count = 0;
 
     const params = {
       sort: this.sort,
@@ -49,7 +56,7 @@ export default {
         break;
       }
       for (const item of results) {
-        results.push(item);
+        campaigns.push(item);
         count++;
         if (count >= this.maxResults) {
           break;
@@ -59,9 +66,12 @@ export default {
       params.after = paging?.next.after;
     } while (hasMore && count < this.maxResults);
 
-    $.export("$summary", `Found ${results.length} campaign${results.length === 1
-      ? ""
-      : "s"}`);
-    return results;
+    $.export(
+      "$summary",
+      `Found ${campaigns.length} campaign${campaigns.length === 1
+        ? ""
+        : "s"}`,
+    );
+    return campaigns;
   },
 };

@@ -6,7 +6,12 @@ export default {
   name: "Execute AI Agent",
   description:
     "Executes an AI Agent (template) with the given input. [See the documentation](https://tess.pareto.io/api/swagger#/default/f13b3be7386ce63d99fa4bdee0cf6c95)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

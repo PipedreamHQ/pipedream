@@ -4,7 +4,12 @@ export default {
   key: "z_api-modify-chat",
   name: "Modify Chat",
   description: "Modify the specified chat. [See the documentation](https://developer.z-api.io/en/chats/delete-chat)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

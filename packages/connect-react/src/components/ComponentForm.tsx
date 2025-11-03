@@ -1,12 +1,14 @@
-import {
-  DynamicProps,
-  FormContextProvider, type FormContext,
-} from "../hooks/form-context";
 import type {
+  Component,
   ConfigurableProps,
   ConfiguredProps,
-  V1Component,
+  DynamicProps,
 } from "@pipedream/sdk";
+
+import {
+  type FormContext,
+  FormContextProvider,
+} from "../hooks/form-context";
 import { InternalComponentForm } from "./InternalComponentForm";
 
 export type ComponentFormProps<T extends ConfigurableProps, U = ConfiguredProps<T>> = {
@@ -18,16 +20,16 @@ export type ComponentFormProps<T extends ConfigurableProps, U = ConfiguredProps<
    * @deprecated Use `externalUserId` instead.
    */
   userId?: string;
-  component: V1Component<T>;
+  component: Component;
   configuredProps?: U; // XXX value?
   disableQueryDisabling?: boolean;
   // dynamicPropsId?: string // XXX need to load this initially when passed
   propNames?: string[]; // TODO PropNames<T>
   onSubmit?: (ctx: FormContext<T>) => void | Promise<void>; // if passed, we include button
   onUpdateConfiguredProps?: (v: U) => void; // XXX onChange?
-  onUpdateDynamicProps?: (dp: DynamicProps<T>) => void;
+  onUpdateDynamicProps?: (dp: DynamicProps) => void;
   hideOptionalProps?: boolean;
-  sdkResponse?: unknown | undefined;
+  sdkResponse?: U;
   enableDebugging?: boolean;
   /**
    * OAuth app ID configuration for specific apps.
@@ -36,9 +38,9 @@ export type ComponentFormProps<T extends ConfigurableProps, U = ConfiguredProps<
    */
   oauthAppConfig?: Record<string, string>;
 } & (
-  | { externalUserId: string; userId?: never }
-  | { userId: string; externalUserId?: never }
-);
+    | { externalUserId: string; userId?: never }
+    | { userId: string; externalUserId?: never }
+  );
 
 export function ComponentForm<T extends ConfigurableProps>(props: ComponentFormProps<T>) {
   return (

@@ -4,7 +4,12 @@ export default {
   key: "proabono-retrieve-customer",
   name: "Retrieve Customer",
   description: "Fetches an existing customer from the proabono system. [See the documentation](https://docs.proabono.com/api/#retrieve-a-customer)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     proabono,

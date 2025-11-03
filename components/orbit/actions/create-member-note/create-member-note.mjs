@@ -4,7 +4,12 @@ export default {
   name: "Create Member Note",
   description: "Create a new member note. [See the docs here](https://api.orbit.love/reference/post_workspace-slug-members-member-slug-notes)",
   key: "orbit-create-member-note",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -1,31 +1,45 @@
+import type { PropOptionValue } from "@pipedream/sdk";
 import {
   useEffect,
-  useMemo, useState,
+  useMemo,
+  useState,
+  useRef,
 } from "react";
-import Select, {
-  Props as ReactSelectProps, components,
+import type {
+  CSSObjectWithLabel, MenuListProps,
 } from "react-select";
-import type { CSSObjectWithLabel } from "react-select";
+import Select, {
+  components,
+  Props as ReactSelectProps,
+} from "react-select";
 import CreatableSelect from "react-select/creatable";
-import { useFormFieldContext } from "../hooks/form-field-context";
-import { useCustomize } from "../hooks/customization-context";
 import type { BaseReactSelectProps } from "../hooks/customization-context";
-import { LoadMoreButton } from "./LoadMoreButton";
+import { useCustomize } from "../hooks/customization-context";
+import { useFormFieldContext } from "../hooks/form-field-context";
+import { LabelValueOption } from "../types";
 import {
-  isOptionWithValue, OptionWithValue, sanitizeOption,
+  isOptionWithLabel,
+  sanitizeOption,
 } from "../utils/type-guards";
+import { LoadMoreButton } from "./LoadMoreButton";
 
 // XXX T and ConfigurableProp should be related
-type ControlSelectProps<T> = {
+type ControlSelectProps<T extends PropOptionValue> = {
   isCreatable?: boolean;
-  options: {label: string; value: T;}[];
-  selectProps?: ReactSelectProps;
+  options: LabelValueOption<T>[];
+  selectProps?: ReactSelectProps<LabelValueOption<T>, boolean>;
   showLoadMoreButton?: boolean;
   onLoadMore?: () => void;
+  components?: ReactSelectProps<LabelValueOption<T>, boolean>["components"];
 };
 
-export function ControlSelect<T>({
-  isCreatable, options, selectProps, showLoadMoreButton, onLoadMore,
+export function ControlSelect<T extends PropOptionValue>({
+  isCreatable,
+  options,
+  selectProps,
+  showLoadMoreButton,
+  onLoadMore,
+  components: componentsOverride,
 }: ControlSelectProps<T>) {
   const formFieldCtx = useFormFieldContext();
   const {
@@ -56,7 +70,7 @@ export function ControlSelect<T>({
     value,
   ])
 
-  const baseSelectProps: BaseReactSelectProps<never, never, never> = {
+  const baseSelectProps: BaseReactSelectProps<LabelValueOption<T>, boolean> = {
     styles: {
       container: (base): CSSObjectWithLabel => ({
         ...base,
@@ -66,89 +80,90 @@ export function ControlSelect<T>({
     },
   };
 
-  const selectValue = useMemo(() => {
-    let ret = rawValue;
-    if (ret != null) {
-      if (Array.isArray(ret)) {
-        // if simple, make lv (XXX combine this with other place this happens)
-        if (!isOptionWithValue(ret[0])) {
-          const lvs = [];
-          for (const o of ret) {
-            let obj = {
-              label: String(o),
-              value: o,
-            }
-            for (const item of selectOptions) {
-              if (item.value === o) {
-                obj = item;
-                break;
-              }
-            }
-            lvs.push(obj);
-          }
-          ret = lvs;
-        }
-      } else if (ret && typeof ret === "object" && "__lv" in ret) {
-        // Extract the actual option from __lv wrapper
-        ret = ret.__lv;
-      } else if (!isOptionWithValue(ret)) {
-        const lvOptions = selectOptions?.[0] && isOptionWithValue(selectOptions[0]);
-        if (lvOptions) {
-          for (const item of selectOptions) {
-            if (item.value === rawValue) {
-              ret = item;
-              break;
-            }
-          }
-        } else {
-          ret = {
-            label: String(rawValue),
-            value: rawValue,
+  const selectValue: LabelValueOption<T> | LabelValueOption<T>[] | null = useMemo(() => {
+    if (rawValue == null) {
+      return null;
+    }
+
+    if (Array.isArray(rawValue)) {
+      // if simple, make lv (XXX combine this with other place this happens)
+      if (!isOptionWithLabel(rawValue[0])) {
+        return rawValue.map((o) =>
+          selectOptions.find((item) => item.value === o) || sanitizeOption(o as T));
+      }
+    } else if (rawValue && typeof rawValue === "object" && "__lv" in (rawValue as Record<string, unknown>)) {
+      // Extract the actual option from __lv wrapper and sanitize to LV
+      return sanitizeOption(((rawValue as Record<string, unknown>).__lv) as T);
+    } else if (!isOptionWithLabel(rawValue)) {
+      const lvOptions = selectOptions?.[0] && isOptionWithLabel(selectOptions[0]);
+      if (lvOptions) {
+        for (const item of selectOptions) {
+          if (item.value === rawValue) {
+            return item;
           }
         }
+      } else {
+        return sanitizeOption(rawValue as T);
       }
     }
-    return ret;
+
+    return null;
   }, [
     rawValue,
     selectOptions,
   ]);
 
-  const LoadMore = ({
-    // eslint-disable-next-line react/prop-types
-    children, ...props
-  }) => {
-    return (
-      <components.MenuList  {...props}>
-        { children }
-        <div className="pt-4">
-          <LoadMoreButton onChange={onLoadMore || (() => {})}/>
-        </div>
-      </components.MenuList>
-    )
-  }
-
   const props = select.getProps("controlSelect", baseSelectProps)
 
-  if (showLoadMoreButton) {
-    props.components = {
+  // Use ref to store latest onLoadMore callback
+  // This allows stable component reference while calling current callback
+  const onLoadMoreRef = useRef(onLoadMore);
+  useEffect(() => {
+    onLoadMoreRef.current = onLoadMore;
+  }, [
+    onLoadMore,
+  ]);
+
+  const showLoadMoreButtonRef = useRef(showLoadMoreButton);
+  showLoadMoreButtonRef.current = showLoadMoreButton;
+
+  // Memoize custom components to prevent remounting
+  // Recompute when caller/customizer supplies new component overrides
+  const finalComponents = useMemo(() => {
+    const mergedComponents = {
+      ...(props.components ?? {}),
+      ...(componentsOverride ?? {}),
+    };
+    const ParentMenuList = mergedComponents.MenuList ?? components.MenuList;
+
+    // Always set MenuList, conditionally render button inside
+    const CustomMenuList = ({
       // eslint-disable-next-line react/prop-types
-      ...props.components,
-      MenuList: LoadMore,
-    }
-  }
+      children, ...menuProps
+    }: MenuListProps<LabelValueOption<T>, boolean>) => (
+      <ParentMenuList {...menuProps}>
+        {children}
+        {showLoadMoreButtonRef.current && (
+          <div className="pt-4">
+            <LoadMoreButton onChange={() => onLoadMoreRef.current?.()} />
+          </div>
+        )}
+      </ParentMenuList>
+    );
+    CustomMenuList.displayName = "CustomMenuList";
+
+    return {
+      ...mergedComponents,
+      MenuList: CustomMenuList,
+    };
+  }, [
+    props.components,
+    componentsOverride,
+  ]);
 
   const handleCreate = (inputValue: string) => {
-    const createOption = (input: unknown): OptionWithValue => {
-      if (isOptionWithValue(input)) return input
-      const strValue = String(input);
-      return {
-        label: strValue,
-        value: strValue,
-      }
-    }
-    const newOption = createOption(inputValue)
-    let newRawValue = newOption
+    const newOption = sanitizeOption(inputValue as T)
+    let newRawValue: LabelValueOption<T> | LabelValueOption<T>[] = newOption
 
     // NEVER add wrapped objects to selectOptions - only clean {label, value} objects
     const cleanSelectOptions = selectOptions.map(sanitizeOption);
@@ -157,18 +172,18 @@ export function ControlSelect<T>({
       newOption,
       ...cleanSelectOptions,
     ];
-    setSelectOptions(newSelectOptions);
+    setSelectOptions(newSelectOptions as LabelValueOption<T>[]);
 
     if (prop.type.endsWith("[]")) {
       if (Array.isArray(rawValue)) {
         newRawValue = [
-          ...rawValue.map(createOption),
+          ...rawValue.map(sanitizeOption),
           newOption,
-        ]
+        ] as LabelValueOption<T>[]
       } else {
         newRawValue = [
           newOption,
-        ]
+        ] as LabelValueOption<T>[]
       }
     }
     setRawValue(newRawValue)
@@ -219,19 +234,12 @@ export function ControlSelect<T>({
       isMulti={prop.type.endsWith("[]")}
       isClearable={true}
       required={!prop.optional}
-      getOptionLabel={(option) => {
-        return typeof option === "string"
-          ? option
-          : String(option?.label || option?.value || "");
-      }}
-      getOptionValue={(option) => {
-        return typeof option === "string"
-          ? option
-          : String(option?.value || "");
-      }}
+      getOptionLabel={(option) => sanitizeOption(option).label}
+      getOptionValue={(option) => String(sanitizeOption(option).value)}
       onChange={handleChange}
       {...props}
       {...selectProps}
+      components={finalComponents}
       {...additionalProps}
     />
   );

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/rundeck",
+  "version": "0.0.1",
+  "description": "Pipedream Rundeck Components",
+  "main": "rundeck.app.mjs",
+  "keywords": [
+    "pipedream",
+    "rundeck"
+  ],
+  "homepage": "https://pipedream.com/apps/rundeck",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

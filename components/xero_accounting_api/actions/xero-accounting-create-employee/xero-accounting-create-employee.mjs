@@ -6,7 +6,12 @@ export default {
   key: "xero_accounting_api-xero-accounting-create-employee",
   name: "Create Employee",
   description: "Creates a new employee.",
-  version: "0.3.2",
+  version: "0.3.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     xeroAccountingApi,

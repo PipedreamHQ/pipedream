@@ -4,7 +4,12 @@ export default {
   key: "webflow-list-collection-items",
   name: "List Collection Items",
   description: "List Items of a collection. [See the documentation](https://developers.webflow.com/data/reference/cms/collection-items/bulk-items/list-items)",
-  version: "2.0.0",
+  version: "2.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

@@ -1,7 +1,8 @@
-import common from "../common/common.mjs";
 import {
-  DEFAULT_LIMIT, DEFAULT_DEAL_PROPERTIES,
+  DEFAULT_DEAL_PROPERTIES,
+  DEFAULT_LIMIT,
 } from "../../common/constants.mjs";
+import common from "../common/common.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
@@ -9,7 +10,7 @@ export default {
   key: "hubspot-new-or-updated-deal",
   name: "New or Updated Deal",
   description: "Emit new event for each new or updated deal in Hubspot",
-  version: "0.0.12",
+  version: "0.0.23",
   dedupe: "unique",
   type: "source",
   props: {
@@ -67,8 +68,7 @@ export default {
     },
     generateMeta(deal) {
       const {
-        id,
-        properties,
+        id, properties,
       } = deal;
       const ts = this.getTs(deal);
       return {

@@ -4,7 +4,12 @@ export default {
   key: "nextdoor-create-ad",
   name: "Create Ad",
   description: "Creates an ad based on the input payload for an existing NAM ad group. [See the documentation](https://developer.nextdoor.com/reference/ad-create).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

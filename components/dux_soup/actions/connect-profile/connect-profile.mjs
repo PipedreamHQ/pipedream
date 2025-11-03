@@ -4,7 +4,12 @@ export default {
   key: "dux_soup-connect-profile",
   name: "Connect Profile",
   description: "Queues a connection request to actively connect with a targeted LinkedIn profile. [See the documentation](https://support.dux-soup.com/article/115-remote-control-by-example)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     duxSoup,

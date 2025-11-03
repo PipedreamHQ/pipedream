@@ -30,6 +30,12 @@ export default {
     generateMeta() {
       throw new Error("generateMeta is not implemented");
     },
+    emitEvents(items) {
+      items.reverse().forEach((item) => {
+        const meta = this.generateMeta(item);
+        this.$emit(item, meta);
+      });
+    },
   },
   async run() {
     const lastTs = this._getLastTs();
@@ -67,10 +73,7 @@ export default {
         }
       }
 
-      newItems.reverse().forEach((item) => {
-        const meta = this.generateMeta(item);
-        this.$emit(item, meta);
-      });
+      await this.emitEvents(newItems);
     };
 
     await processFolder(this.folderPath);

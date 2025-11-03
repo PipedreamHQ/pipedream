@@ -4,7 +4,12 @@ export default {
   key: "document360-create-document",
   name: "Create Document",
   description: "Creates a new document in Document360 from text. [See the documentation](https://apidocs.document360.com/apidocs/how-to-create-and-publish-an-article)",
-  version: "0.0.1",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     document360,
@@ -34,6 +39,26 @@ export default {
         "userId",
       ],
     },
+    contentType: {
+      type: "string",
+      label: "Content Type",
+      description: "The type of content of the new document.",
+      options: [
+        {
+          value: "0",
+          label: "Markdown",
+        },
+        {
+          value: "1",
+          label: "WYSIWYG(HTML)",
+        },
+        {
+          value: "2",
+          label: "Advanced WYSIWYG(HTML)",
+        },
+      ],
+      optional: true,
+    },
     content: {
       type: "string",
       label: "Document Content",
@@ -56,6 +81,7 @@ export default {
         user_id: this.userId,
         content: this.content,
         order: this.order,
+        content_type: this.contentType,
       },
     });
 

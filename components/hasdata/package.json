@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/hasdata",
+  "version": "0.0.1",
+  "description": "Pipedream HasData Components",
+  "main": "hasdata.app.mjs",
+  "keywords": [
+    "pipedream",
+    "hasdata"
+  ],
+  "homepage": "https://pipedream.com/apps/hasdata",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

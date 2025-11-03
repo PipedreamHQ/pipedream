@@ -4,7 +4,12 @@ export default {
   key: "americommerce-change-order-status",
   name: "Change Order Status",
   description: "Changes the status of an existing order. [See the documentation](https://developers.cart.com/docs/rest-api/6898d9f254dfb-update-an-order-status).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

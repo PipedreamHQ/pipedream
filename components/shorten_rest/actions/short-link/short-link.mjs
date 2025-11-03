@@ -5,7 +5,12 @@ export default {
   key: "shorten_rest-short-link",
   name: "Shorten Link",
   description: "Shortens a given long URL into an alias. If the alias name is not provided, the system generates one. If the domain input is not provided, it defaults to short.fyi. [See the documentation](https://docs.shorten.rest/#tag/Alias/operation/CreateAlias)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

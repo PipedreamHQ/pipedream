@@ -6,7 +6,12 @@ export default {
   key: "upbooks-record-outward-payment",
   name: "Record Outward Payment",
   description: "Records an outward payment in UpBooks. [See the documentation](https://www.postman.com/scrrum/workspace/upbooks-io/request/13284127-3fc82d7a-2173-4b3a-a8ec-4c812c928810)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     upbooks,

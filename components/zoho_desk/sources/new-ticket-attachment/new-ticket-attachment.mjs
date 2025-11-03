@@ -1,4 +1,6 @@
 import common from "../common/common-polling.mjs";
+import { Readable } from "stream";
+import { fileTypeFromBuffer } from "file-type";
 
 export default {
   ...common,
@@ -6,7 +8,7 @@ export default {
   name: "New Ticket Attachment",
   description: "Emit new event when a new ticket attachment is created. [See the docs here](https://desk.zoho.com/DeskAPIDocument#TicketAttachments#TicketAttachments_Listticketattachments)",
   type: "source",
-  version: "0.0.4",
+  version: "0.1.2",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -24,6 +26,18 @@ export default {
           orgId,
         }),
       ],
+    },
+    includeLink: {
+      label: "Include Link",
+      type: "boolean",
+      description: "Upload attachment to your File Stash and emit temporary download link to the file. See [the docs](https://pipedream.com/docs/connect/components/files) to learn more about working with files in Pipedream.",
+      default: false,
+      optional: true,
+    },
+    dir: {
+      type: "dir",
+      accessMode: "write",
+      optional: true,
     },
   },
   methods: {
@@ -52,6 +66,28 @@ export default {
         ts: Date.parse(resource.createdTime),
         summary: `Ticket Attachment ID ${resource.id}`,
       };
+    },
+    async stashFile(resource) {
+      const response = await this.zohoDesk.makeRequest({
+        url: resource.href,
+        responseType: "arraybuffer",
+      });
+      const buffer = Buffer.from(response);
+      const filepath = `${resource.id}/${resource.name}`;
+      const type = await fileTypeFromBuffer(buffer);
+      const file = await this.dir.open(filepath).fromReadableStream(
+        Readable.from(buffer),
+        type?.mime,
+        buffer.length,
+      );
+      return await file.withoutPutUrl().withGetUrl();
+    },
+    async processEvent(resource) {
+      if (this.includeLink) {
+        resource.file = await this.stashFile(resource);
+      }
+      const meta = this.generateMeta(resource);
+      this.$emit(resource, meta);
     },
   },
 };

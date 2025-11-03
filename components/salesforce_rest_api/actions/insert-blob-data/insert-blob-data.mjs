@@ -4,7 +4,12 @@ export default {
   key: "salesforce_rest_api-insert-blob-data",
   name: "Insert Blob Data",
   description: "Inserts blob data in Salesforce standard objects. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.228.0.api_rest.meta/api_rest/dome_sobject_insert_update_blob.htm)",
-  version: "0.2.8",
+  version: "0.2.11",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     salesforce,

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/thoughtspot",
+  "version": "0.0.1",
+  "description": "Pipedream ThoughtSpot Components",
+  "main": "thoughtspot.app.mjs",
+  "keywords": [
+    "pipedream",
+    "thoughtspot"
+  ],
+  "homepage": "https://pipedream.com/apps/thoughtspot",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -5,7 +5,12 @@ export default {
   key: "paigo-create-offering",
   name: "Create Offering",
   description: "Creates a new offering in the Paigo platform. [See the documentation](http://www.api.docs.paigo.tech/#tag/Offerings/operation/Create%20an%20offering)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     paigo,

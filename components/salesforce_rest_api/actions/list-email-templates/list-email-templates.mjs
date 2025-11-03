@@ -4,7 +4,12 @@ export default {
   key: "salesforce_rest_api-list-email-templates",
   name: "List Email Templates",
   description: "Lists all email templates. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_emailtemplate.htm)",
-  version: "0.0.1",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     salesforce,

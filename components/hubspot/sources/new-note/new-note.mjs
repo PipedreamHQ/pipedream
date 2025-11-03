@@ -1,14 +1,14 @@
-import common from "../common/common.mjs";
 import {
   DEFAULT_LIMIT, OBJECT_TYPES,
 } from "../../common/constants.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   key: "hubspot-new-note",
   name: "New Note Created",
   description: "Emit new event for each new note created. [See the documentation](https://developers.hubspot.com/docs/reference/api/crm/engagements/notes#get-%2Fcrm%2Fv3%2Fobjects%2Fnotes)",
-  version: "1.0.6",
+  version: "1.0.17",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -49,7 +49,7 @@ export default {
       };
     },
     async processResults(after, params) {
-      const notes = await this.getPaginatedItems(this.hubspot.listNotes.bind(this), params);
+      const notes = await this.getPaginatedItems(this.hubspot.listNotes.bind(this), params, after);
       await this.processEvents(notes, after);
     },
   },

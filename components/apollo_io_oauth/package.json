@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/apollo_io_oauth",
+  "version": "0.0.1",
+  "description": "Pipedream Apollo.io (OAuth) Components",
+  "main": "apollo_io_oauth.app.mjs",
+  "keywords": [
+    "pipedream",
+    "apollo_io_oauth"
+  ],
+  "homepage": "https://pipedream.com/apps/apollo_io_oauth",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

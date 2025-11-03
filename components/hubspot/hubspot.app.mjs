@@ -1,21 +1,21 @@
 import { axios } from "@pipedream/platform";
+import Bottleneck from "bottleneck";
 import {
   API_PATH,
   BASE_URL,
+  DEFAULT_COMPANY_PROPERTIES,
+  DEFAULT_CONTACT_PROPERTIES,
+  DEFAULT_DEAL_PROPERTIES,
+  DEFAULT_LIMIT,
+  DEFAULT_LINE_ITEM_PROPERTIES,
+  DEFAULT_PRODUCT_PROPERTIES,
+  DEFAULT_TICKET_PROPERTIES,
   HUBSPOT_OWNER,
   OBJECT_TYPE,
   OBJECT_TYPES,
-  DEFAULT_LIMIT,
-  DEFAULT_CONTACT_PROPERTIES,
-  DEFAULT_COMPANY_PROPERTIES,
-  DEFAULT_DEAL_PROPERTIES,
-  DEFAULT_TICKET_PROPERTIES,
-  DEFAULT_PRODUCT_PROPERTIES,
-  DEFAULT_LINE_ITEM_PROPERTIES,
 } from "./common/constants.mjs";
-import Bottleneck from "bottleneck";
 const limiter = new Bottleneck({
-  minTime: 250, // 4 requests per second
+  minTime: 500, // 2 requests per second
   maxConcurrent: 1,
 });
 const axiosRateLimiter = limiter.wrap(axios);
@@ -116,6 +116,7 @@ export default {
       type: "string",
       label: "Object ID",
       description: "Hubspot's internal ID for the contact",
+      useQuery: true,
       async options({
         objectType, ...opts
       }) {
@@ -128,6 +129,7 @@ export default {
       type: "string[]",
       label: "Object",
       description: "Watch for new events concerning the objects selected.",
+      useQuery: true,
       async options({
         objectType, ...opts
       }) {
@@ -195,12 +197,21 @@ export default {
       type: "string",
       label: "Contact Email",
       description: "Note - this needs to be a contact that already exists within HubSpot. You may need to add a Create or Update Contact step before this one. Then, use the email created in that step in this field.",
-      async options({ prevContext }) {
+      useQuery: true,
+      async options({
+        prevContext, query,
+      }) {
         const { nextAfter } = prevContext;
         const {
           results: contacts,
           paging,
-        } = await this.listObjectsInPage("contacts", nextAfter);
+        } = await this.searchCRM({
+          object: "contacts",
+          data: {
+            after: nextAfter,
+            query,
+          },
+        });
         return {
           options: contacts
             .filter(({ properties }) => properties.email)
@@ -344,6 +355,7 @@ export default {
       description: "The ID of the workflow you wish to see metadata for.",
       async options() {
         const { workflows } = await this.listWorkflows();
+
         return {
           options: workflows.map(({
             name: label, id: value,
@@ -422,9 +434,16 @@ export default {
       type: "string",
       label: "Lead ID",
       description: "The identifier of the lead",
-      async options() {
-        const { results } = await this.listObjectsInPage("lead", undefined, {
-          properties: "hs_lead_name",
+      useQuery: true,
+      async options({ query }) {
+        const { results } = await this.searchCRM({
+          object: "lead",
+          data: {
+            properties: [
+              "hs_lead_name",
+            ],
+            query,
+          },
         });
         return results?.map(({
           id: value, properties,
@@ -497,6 +516,209 @@ export default {
         });
         return results.map(({ id }) => id);
       },
+    },
+    formId: {
+      type: "string",
+      label: "Form ID",
+      description: "The ID of the form to update.",
+      async options({ prevContext }) {
+        const { nextAfter } = prevContext;
+        const {
+          results, paging,
+        } = await this.listForms({
+          data: {
+            after: nextAfter,
+          },
+        });
+
+        return {
+          options: results?.map(({
+            id: value, name: label,
+          }) => ({
+            value,
+            label,
+          })) || [],
+          context: {
+            nextAfter: paging?.next.after,
+          },
+        };
+      },
+    },
+    pageId: {
+      type: "string",
+      label: "Page ID",
+      description: "The ID of the page to clone.",
+      async options({ prevContext }) {
+        const { nextAfter } = prevContext;
+        const {
+          results, paging,
+        } = await this.listSitePages({
+          data: {
+            after: nextAfter,
+          },
+        });
+
+        return {
+          options: results?.map(({
+            id: value, name: label,
+          }) => ({
+            value,
+            label,
+          })) || [],
+          context: {
+            nextAfter: paging?.next.after,
+          },
+        };
+      },
+    },
+    landingPageId: {
+      type: "string",
+      label: "Landing Page ID",
+      description: "The ID of the landing page to clone.",
+      async options({ prevContext }) {
+        const { nextAfter } = prevContext;
+        const {
+          results, paging,
+        } = await this.listLandingPages({
+          data: {
+            after: nextAfter,
+          },
+        });
+
+        return {
+          options: results?.map(({
+            id: value, name: label,
+          }) => ({
+            value,
+            label,
+          })) || [],
+          context: {
+            nextAfter: paging?.next.after,
+          },
+        };
+      },
+    },
+    templatePath: {
+      type: "string",
+      label: "Template Path",
+      description: "The template path of the page.",
+      async options({ page }) {
+        const { objects } = await this.listTemplates({
+          params: {
+            limit: DEFAULT_LIMIT,
+            offset: page * DEFAULT_LIMIT,
+          },
+        });
+        return objects?.map(({
+          path: value, label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    pageName: {
+      type: "string",
+      label: "Page Name",
+      description: "The name of the page.",
+    },
+    landingFolderId: {
+      type: "string",
+      label: "Folder ID",
+      description: "The ID of the folder to create the landing page in.",
+      async options({ prevContext }) {
+        const { nextAfter } = prevContext;
+        const {
+          results, paging,
+        } = await this.listLandingFolders({
+          data: {
+            after: nextAfter,
+          },
+        });
+        return {
+          options: results?.map(({
+            id: value, name: label,
+          }) => ({
+            value,
+            label,
+          })) || [],
+          context: {
+            nextAfter: paging?.next.after,
+          },
+        };
+      },
+    },
+    campaignId: {
+      type: "string",
+      label: "Campaign ID",
+      description: "The ID of the campaign to create the email in.",
+      async options({ prevContext }) {
+        const { nextAfter } = prevContext;
+        const {
+          results, paging,
+        } = await this.listCampaigns({
+          data: {
+            after: nextAfter,
+          },
+        });
+        return {
+          options: results?.map(({ id }) => id) || [],
+          context: {
+            nextAfter: paging?.next.after,
+          },
+        };
+      },
+    },
+    emailId: {
+      type: "string",
+      label: "Marketing Email ID",
+      description: "The ID of the marketing email to clone.",
+      async options({ prevContext }) {
+        const { nextAfter } = prevContext;
+        const {
+          results, paging,
+        } = await this.listMarketingEmails({
+          data: {
+            after: nextAfter,
+          },
+        });
+        return {
+          options: results?.map(({
+            id: value, name: label,
+          }) => ({
+            value,
+            label,
+          })) || [],
+          context: {
+            nextAfter: paging?.next.after,
+          },
+        };
+      },
+    },
+    type: {
+      type: "string",
+      label: "Type",
+      description: "The type of workflow to create",
+      options: [
+        {
+          label: "Drip Delay",
+          value: "DRIP_DELAY",
+        },
+        {
+          label: "Static Anchor",
+          value: "STATIC_ANCHOR",
+        },
+        {
+          label: "Property Anchor",
+          value: "PROPERTY_ANCHOR",
+        },
+      ],
+    },
+    actions: {
+      type: "string[]",
+      label: "Actions",
+      description: "A list of objects representing the workflow actions. [See the documentation](https://developers.hubspot.com/docs/api-reference/automation-automation-v4-v4/guide#action-types) for more information.",
+      optional: true,
     },
   },
   methods: {
@@ -607,6 +829,7 @@ export default {
       const {
         prevContext,
         page,
+        query,
       } = opts;
       const { nextAfter } = prevContext;
       if (page !== 0 && !nextAfter) {
@@ -615,7 +838,13 @@ export default {
       const {
         paging,
         results,
-      } = await this.listObjectsInPage(referencedObjectType, nextAfter);
+      } = await this.searchCRM({
+        object: referencedObjectType,
+        data: {
+          query,
+          after: nextAfter,
+        },
+      });
       return {
         options: results.map((object) => ({
           label: this.getObjectLabel(object, referencedObjectType) ?? object.id,
@@ -694,15 +923,35 @@ export default {
         value: unit.id,
       })) || [];
     },
-    searchCRM({
+    async searchCRM({
       object, ...opts
     }) {
-      return this.makeRequest({
-        api: API_PATH.CRMV3,
-        method: "POST",
-        endpoint: `/objects/${object}/search`,
-        ...opts,
-      });
+      // Adding retry logic here since the search endpoint specifically has a per-second rate limit
+      const MAX_RETRIES = 5;
+      const BASE_RETRY_DELAY = 500;
+      let success = false;
+      let retries = 0;
+      while (!success) {
+        try {
+          const response = await this.makeRequest({
+            api: API_PATH.CRMV3,
+            method: "POST",
+            endpoint: `/objects/${object}/search`,
+            ...opts,
+          });
+          return response;
+        } catch (error) {
+          if (error.status === 429 && ++retries < MAX_RETRIES) {
+            // Retry delays basically amount to:
+            // 1000-1500 ms, 2000-2500 ms, 4000-4500 ms, 8000-8500 ms
+            const randomDelay = Math.floor(Math.random() * BASE_RETRY_DELAY);
+            const delay = BASE_RETRY_DELAY * (2 ** retries) + randomDelay;
+            await new Promise((resolve) => setTimeout(resolve, delay));
+          } else {
+            throw error;
+          }
+        }
+      }
     },
     getBlogPosts(opts = {}) {
       return this.makeRequest({
@@ -790,13 +1039,11 @@ export default {
     getLists({
       listType, ...opts
     }) {
-      const basePath = "/lists";
-      const path = listType
-        ? `${basePath}/${listType}`
-        : basePath;
       return this.makeRequest({
         api: API_PATH.CONTACTS,
-        endpoint: path,
+        endpoint: `/lists${listType
+          ? `/${listType}`
+          : ""}`,
         ...opts,
       });
     },
@@ -1012,7 +1259,7 @@ export default {
     },
     listWorkflows(opts = {}) {
       return this.makeRequest({
-        api: API_PATH.AUTOMATION,
+        api: API_PATH["AUTOMATIONV3"],
         endpoint: "/workflows",
         ...opts,
       });
@@ -1023,6 +1270,48 @@ export default {
       return this.makeRequest({
         api: API_PATH.AUTOMATION,
         endpoint: `/workflows/${workflowId}/enrollments/contacts/${contactEmail}`,
+        method: "POST",
+        ...opts,
+      });
+    },
+    getWorkflowEmails(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.AUTOMATIONV4,
+        endpoint: "/flows/email-campaigns",
+        ...opts,
+      });
+    },
+    getWorkflowDetails({
+      workflowId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.AUTOMATIONV3,
+        endpoint: `/workflows/${workflowId}`,
+        ...opts,
+      });
+    },
+    createWorkflow(opts = {}) {
+      return this.makeRequest({
+        method: "POST",
+        api: API_PATH.AUTOMATIONV3,
+        endpoint: "/workflows",
+        ...opts,
+      });
+    },
+    deleteWorkflow({
+      workflowId, ...opts
+    }) {
+      return this.makeRequest({
+        method: "DELETE",
+        api: API_PATH.AUTOMATIONV3,
+        endpoint: `/workflows/${workflowId}`,
+        ...opts,
+      });
+    },
+    getMigratedWorkflowMappings(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.AUTOMATIONV4,
+        endpoint: "/workflow-id-mappings/batch/read",
         method: "POST",
         ...opts,
       });
@@ -1068,15 +1357,58 @@ export default {
         ...opts,
       });
     },
-    batchGetObjects({
+    async getListMembershipsByJoinOrder({
+      listId, ...opts
+    }) {
+      const MAX_RETRIES = 5;
+      const BASE_RETRY_DELAY = 500;
+      let success = false;
+      let retries = 0;
+      while (!success) {
+        try {
+          const response = await this.makeRequest({
+            api: API_PATH.CRMV3,
+            endpoint: `/lists/${listId}/memberships/join-order`,
+            ...opts,
+          });
+          return response;
+        } catch (error) {
+          if (error.status === 429 && ++retries < MAX_RETRIES) {
+            const randomDelay = Math.floor(Math.random() * BASE_RETRY_DELAY);
+            const delay = BASE_RETRY_DELAY * (2 ** retries) + randomDelay;
+            await new Promise((resolve) => setTimeout(resolve, delay));
+          } else {
+            throw error;
+          }
+        }
+      }
+    },
+    async batchGetObjects({
       objectType, ...opts
     }) {
-      return this.makeRequest({
-        api: API_PATH.CRMV3,
-        endpoint: `/objects/${objectType}/batch/read`,
-        method: "POST",
-        ...opts,
-      });
+      const MAX_RETRIES = 5;
+      const BASE_RETRY_DELAY = 500;
+      let success = false;
+      let retries = 0;
+      while (!success) {
+        try {
+          const response = await this.makeRequest({
+            api: API_PATH.CRMV3,
+            endpoint: `/objects/${objectType}/batch/read`,
+            method: "POST",
+            ...opts,
+          });
+          return response;
+        } catch (error) {
+          if (error.status === 429 && ++retries < MAX_RETRIES) {
+            const randomDelay = Math.floor(Math.random() * BASE_RETRY_DELAY);
+            const delay = BASE_RETRY_DELAY * (2 ** retries) + randomDelay;
+            await new Promise((resolve) => setTimeout(resolve, delay));
+          } else {
+            throw error;
+          }
+        }
+      }
     },
     listNotes(opts = {}) {
       return this.makeRequest({
@@ -1190,6 +1522,152 @@ export default {
       return this.makeRequest({
         api: API_PATH.COMMUNICATION_PREFERENCES,
         endpoint: `/statuses/${email}`,
+        ...opts,
+      });
+    },
+    createForm(opts = {}) {
+      return this.makeRequest({
+        method: "POST",
+        api: API_PATH.MARKETINGV3,
+        endpoint: "/forms",
+        ...opts,
+      });
+    },
+    updateForm({
+      formId, ...opts
+    }) {
+      return this.makeRequest({
+        method: "PATCH",
+        api: API_PATH.MARKETINGV3,
+        endpoint: `/forms/${formId}`,
+        ...opts,
+      });
+    },
+    listForms(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.MARKETINGV3,
+        endpoint: "/forms",
+        ...opts,
+      });
+    },
+    listSitePages(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.CMS,
+        endpoint: "/pages/site-pages",
+        ...opts,
+      });
+    },
+    listLandingPages(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.CMS,
+        endpoint: "/pages/landing-pages",
+        ...opts,
+      });
+    },
+    cloneSitePage(opts = {}) {
+      return this.makeRequest({
+        method: "POST",
+        api: API_PATH.CMS,
+        endpoint: "/pages/site-pages/clone",
+        ...opts,
+      });
+    },
+    createPage(opts = {}) {
+      return this.makeRequest({
+        method: "POST",
+        api: API_PATH.CMS,
+        endpoint: "/pages/site-pages",
+        ...opts,
+      });
+    },
+    updatePage({
+      pageId, ...opts
+    }) {
+      return this.makeRequest({
+        method: "PATCH",
+        api: API_PATH.CMS,
+        endpoint: `/pages/site-pages/${pageId}`,
+        ...opts,
+      });
+    },
+    createLandingPage(opts = {}) {
+      return this.makeRequest({
+        method: "POST",
+        api: API_PATH.CMS,
+        endpoint: "/pages/landing-pages",
+        ...opts,
+      });
+    },
+    updateLandingPage({
+      pageId, ...opts
+    }) {
+      return this.makeRequest({
+        method: "PATCH",
+        api: API_PATH.CMS,
+        endpoint: `/pages/landing-pages/${pageId}`,
+        ...opts,
+      });
+    },
+    listLandingFolders(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.CMS,
+        endpoint: "/pages/landing-pages/folders",
+        ...opts,
+      });
+    },
+    createEmail(opts = {}) {
+      return this.makeRequest({
+        method: "POST",
+        api: API_PATH.MARKETINGV3,
+        endpoint: "/emails",
+        ...opts,
+      });
+    },
+    cloneEmail(opts = {}) {
+      return this.makeRequest({
+        method: "POST",
+        api: API_PATH.MARKETINGV3,
+        endpoint: "/emails/clone",
+        ...opts,
+      });
+    },
+    createContactWorkflow(opts = {}) {
+      return this.makeRequest({
+        method: "POST",
+        api: API_PATH.AUTOMATIONV4,
+        endpoint: "/flows",
+        ...opts,
+      });
+    },
+    async getContactWithAllProperties({
+      contactId, ...opts
+    }) {
+      const properties = await this.getContactProperties();
+      const allPropertyNames = properties.map((prop) => prop.name);
+
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: `/objects/contacts/${contactId}`,
+        params: {
+          properties: allPropertyNames.join(","),
+        },
+        ...opts,
+      });
+    },
+    async batchGetContactsWithAllProperties({
+      contactIds, ...opts
+    }) {
+      const properties = await this.getContactProperties();
+      const allPropertyNames = properties.map((prop) => prop.name);
+
+      return this.batchGetObjects({
+        objectType: "contacts",
+        data: {
+          inputs: contactIds.map((id) => ({
+            id,
+          })),
+          properties: allPropertyNames,
+        },
         ...opts,
       });
     },

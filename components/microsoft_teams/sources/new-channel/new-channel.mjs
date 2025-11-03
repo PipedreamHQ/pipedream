@@ -4,8 +4,8 @@ export default {
   ...base,
   key: "microsoft_teams-new-channel",
   name: "New Channel",
-  description: "Emit new event when a new channel is created within a team",
-  version: "0.0.10",
+  description: "Emit new event when a new channel is created within a team. [See the documentation](https://learn.microsoft.com/en-us/graph/api/team-list-allchannels?view=graph-rest-1.0&tabs=http)",
+  version: "0.0.13",
   type: "source",
   dedupe: "unique",
   props: {
@@ -19,13 +19,14 @@ export default {
   },
   methods: {
     ...base.methods,
-    async getResources(lastCreated) {
+    async getResources(lastCreated, tsField) {
       return this.getNewPaginatedResources(
         this.microsoftTeams.listChannels,
         {
           teamId: this.team,
         },
         lastCreated,
+        tsField,
       );
     },
     generateMeta(channel) {

@@ -1,13 +1,29 @@
 import common from "../common/common-new-email.mjs";
+import { Readable } from "stream";
 
 export default {
   ...common,
   key: "microsoft_outlook-new-attachment-received",
   name: "New Attachment Received (Instant)",
   description: "Emit new event when a new email containing one or more attachments arrives in a specified Microsoft Outlook folder.",
-  version: "0.0.3",
+  version: "0.1.3",
   type: "source",
   dedupe: "unique",
+  props: {
+    ...common.props,
+    includeLink: {
+      label: "Include Link",
+      type: "boolean",
+      description: "Upload attachment to your File Stash and emit temporary download link to the file. See [the docs](https://pipedream.com/docs/connect/components/files) to learn more about working with files in Pipedream.",
+      default: false,
+      optional: true,
+    },
+    dir: {
+      type: "dir",
+      accessMode: "write",
+      optional: true,
+    },
+  },
   methods: {
     ...common.methods,
     async getSampleEvents({ pageSize }) {
@@ -36,25 +52,31 @@ export default {
       }
       return attachments;
     },
-    async getMessageAttachments(message) {
-      const { value: attachments } = await this.microsoftOutlook.listAttachments({
-        messageId: message.id,
+    async stashAttachment(item) {
+      const messageAttachment =  await this.microsoftOutlook.getAttachment({
+        messageId: item.messageId,
+        attachmentId: item.id,
+        responseType: "arraybuffer",
       });
-      if (!attachments?.length) {
-        return [];
-      }
-      return attachments.map((attachment) => ({
-        ...attachment,
-        messageId: message.id,
-        messageSubject: message.subject,
-        messageSender: message.sender,
-        messageReceivedDateTime: message.receivedDateTime,
-        parentFolderId: message.parentFolderId,
-        contentBytes: undefined,
-      }));
+      const rawcontent = messageAttachment.toString("base64");
+      const buffer = Buffer.from(rawcontent, "base64");
+      const filepath = `${item.id}/${item.name}`;
+      // Upload the attachment to the configured directory (File Stash) so it
+      // can be accessed later.
+      const file = await this.dir.open(filepath).fromReadableStream(
+        Readable.from(buffer),
+        item.contentType,
+        buffer.length,
+      );
+      // Return file details and temporary download link:
+      // { path, get_url, s3Key, type }
+      return await file.withoutPutUrl().withGetUrl();
     },
-    emitEvent(item) {
+    async emitEvent(item) {
       if (this.isRelevant(item)) {
+        if (this.includeLink) {
+          item.file = await this.stashAttachment(item);
+        }
         this.$emit(item, this.generateMeta(item));
       }
     },
@@ -84,7 +106,9 @@ export default {
             });
             if (message.hasAttachments) {
               const attachments = await this.getMessageAttachments(message);
-              attachments.forEach((item) => this.emitEvent(item));
+              for (const item of attachments) {
+                await this.emitEvent(item);
+              }
             }
           } catch {
             console.log(`Could not fetch message with ID: ${resourceId}`);

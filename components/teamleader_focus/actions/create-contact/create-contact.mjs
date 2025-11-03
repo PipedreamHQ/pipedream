@@ -4,38 +4,80 @@ export default {
   key: "teamleader_focus-create-contact",
   name: "Create Contact",
   description: "Add a new contact. [See the documentation](https://developer.teamleader.eu/#/reference/crm/contacts/contacts.add)",
-  version: "0.0.2",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     teamleaderFocus,
     firstName: {
-      type: "string",
-      label: "First Name",
-      description: "First name of the new contact",
-      optional: true,
+      propDefinition: [
+        teamleaderFocus,
+        "firstName",
+      ],
     },
     lastName: {
-      type: "string",
-      label: "Last Name",
-      description: "Last name of the new contact",
+      propDefinition: [
+        teamleaderFocus,
+        "lastName",
+      ],
     },
     email: {
-      type: "string",
-      label: "Email",
-      description: "Email address of the new contact",
-      optional: true,
+      propDefinition: [
+        teamleaderFocus,
+        "email",
+      ],
     },
     website: {
-      type: "string",
-      label: "Website",
-      description: "Website of the new contact",
-      optional: true,
+      propDefinition: [
+        teamleaderFocus,
+        "website",
+      ],
     },
     phone: {
-      type: "string",
-      label: "Phone",
-      description: "Phone number of the new contact",
-      optional: true,
+      propDefinition: [
+        teamleaderFocus,
+        "phone",
+      ],
+    },
+    iban: {
+      propDefinition: [
+        teamleaderFocus,
+        "iban",
+      ],
+    },
+    bic: {
+      propDefinition: [
+        teamleaderFocus,
+        "bic",
+      ],
+    },
+    language: {
+      propDefinition: [
+        teamleaderFocus,
+        "language",
+      ],
+    },
+    remarks: {
+      propDefinition: [
+        teamleaderFocus,
+        "remarks",
+      ],
+    },
+    tags: {
+      propDefinition: [
+        teamleaderFocus,
+        "tags",
+      ],
+    },
+    marketingMailsConsent: {
+      propDefinition: [
+        teamleaderFocus,
+        "marketingMailsConsent",
+      ],
     },
   },
   async run({ $ }) {
@@ -43,6 +85,12 @@ export default {
       first_name: this.firstName,
       last_name: this.lastName,
       website: this.website,
+      iban: this.iban,
+      bic: this.bic,
+      language: this.language,
+      remarks: this.remarks,
+      tags: this.tags,
+      marketing_mails_consent: this.marketingMailsConsent,
     };
     if (this.email) {
       data.emails = [

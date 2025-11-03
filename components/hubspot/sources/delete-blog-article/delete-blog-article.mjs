@@ -6,7 +6,7 @@ export default {
   key: "hubspot-delete-blog-article",
   name: "Deleted Blog Posts",
   description: "Emit new event for each deleted blog post.",
-  version: "0.0.25",
+  version: "0.0.36",
   dedupe: "unique",
   type: "source",
   methods: {
@@ -16,8 +16,7 @@ export default {
     },
     generateMeta(blogpost) {
       const {
-        id,
-        name: summary,
+        id, name: summary,
       } = blogpost;
       const ts = Date.parse(blogpost.created);
       return {

@@ -5,8 +5,14 @@ export default {
   ...common,
   key: "hubspot-get-company",
   name: "Get Company",
-  description: "Gets a company. [See the documentation](https://developers.hubspot.com/docs/api/crm/companies#endpoint?spec=GET-/crm/v3/objects/companies/{companyId})",
-  version: "0.0.19",
+  description:
+    "Gets a company. [See the documentation](https://developers.hubspot.com/docs/api/crm/companies#endpoint?spec=GET-/crm/v3/objects/companies/{companyId})",
+  version: "0.0.27",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...common.props,

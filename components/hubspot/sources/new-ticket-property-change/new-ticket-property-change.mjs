@@ -1,13 +1,14 @@
-import common from "../common/common.mjs";
 import { DEFAULT_LIMIT } from "../../common/constants.mjs";
+import common from "../common/common.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
   key: "hubspot-new-ticket-property-change",
   name: "New Ticket Property Change",
-  description: "Emit new event when a specified property is provided or updated on a ticket. [See the documentation](https://developers.hubspot.com/docs/api/crm/tickets)",
-  version: "0.0.19",
+  description:
+    "Emit new event when a specified property is provided or updated on a ticket. [See the documentation](https://developers.hubspot.com/docs/api/crm/tickets)",
+  version: "0.0.30",
   dedupe: "unique",
   type: "source",
   props: {
@@ -33,8 +34,7 @@ export default {
     },
     generateMeta(ticket) {
       const {
-        id,
-        properties,
+        id, properties,
       } = ticket;
       const ts = this.getTs(ticket);
       return {
@@ -44,10 +44,10 @@ export default {
       };
     },
     isRelevant(ticket, updatedAfter) {
-      return !updatedAfter || this.getTs(ticket) > updatedAfter;
+      return this.getTs(ticket) > updatedAfter;
     },
     getParams(after) {
-      return {
+      const params = {
         object: "tickets",
         data: {
           limit: DEFAULT_LIMIT,
@@ -67,16 +67,19 @@ export default {
                   propertyName: this.property,
                   operator: "HAS_PROPERTY",
                 },
-                {
-                  propertyName: "hs_lastmodifieddate",
-                  operator: "GTE",
-                  value: after,
-                },
               ],
             },
           ],
         },
       };
+      if (after) {
+        params.data.filterGroups[0].filters.push({
+          propertyName: "hs_lastmodifieddate",
+          operator: "GTE",
+          value: after,
+        });
+      }
+      return params;
     },
     batchGetTickets(inputs) {
       return this.hubspot.batchGetObjects({
@@ -97,10 +100,16 @@ export default {
       const propertyNames = properties.map((property) => property.name);
 
       if (!propertyNames.includes(this.property)) {
-        throw new Error(`Property "${this.property}" not supported for Tickets. See Hubspot's default ticket properties documentation - https://knowledge.hubspot.com/tickets/hubspots-default-ticket-properties`);
+        throw new Error(
+          `Property "${this.property}" not supported for Tickets. See Hubspot's default ticket properties documentation - https://knowledge.hubspot.com/tickets/hubspots-default-ticket-properties`,
+        );
       }
 
-      const updatedTickets = await this.getPaginatedItems(this.hubspot.searchCRM, params);
+      const updatedTickets = await this.getPaginatedItems(
+        this.hubspot.searchCRM,
+        params,
+        after,
+      );
 
       if (!updatedTickets.length) {
         return;

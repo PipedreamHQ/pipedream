@@ -4,7 +4,12 @@ export default {
   key: "teach_n_go-create-prospect",
   name: "Create Prospect",
   description: "Creates a new prospect inside Teach 'n Go. [See the documentation](https://intercom.help/teach-n-go/en/articles/5750592-prospect-registration-api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

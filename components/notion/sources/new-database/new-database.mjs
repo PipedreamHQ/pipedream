@@ -5,48 +5,48 @@ import sampleEmit from "./test-event.mjs";
 export default {
   ...base,
   key: "notion-new-database",
-  name: "New Database Created",
-  description: "Emit new event when a database is created. [See the documentation](https://developers.notion.com/reference/database)",
-  version: "0.0.13",
+  name: "New Data Source Created",
+  description: "Emit new event when a data source is created. [See the documentation](https://developers.notion.com/reference/data-source)",
+  version: "0.1.1",
   type: "source",
   props: {
     ...base.props,
     infoLabel: {
       type: "alert",
       alertType: "info",
-      content: "Ensure Databases are shared with your Pipedream integration to receive events.",
+      content: "Ensure Data Sources are shared with your Pipedream integration to receive events.",
     },
   },
   async run() {
-    const databases = [];
+    const dataSources = [];
     const params = this.lastCreatedSortParam();
     const lastCreatedTimestamp = this.getLastCreatedTimestamp();
 
     do {
-      const response = await this.notion.listDatabases(params);
+      const response = await this.notion.listDataSources(params);
 
-      for (const database of response.results) {
-        if (!this.isResultNew(database.created_time, lastCreatedTimestamp)) {
+      for (const dataSource of response.results) {
+        if (!this.isResultNew(dataSource.created_time, lastCreatedTimestamp)) {
           params.start_cursor = null;
           break;
         }
-        databases.push(database);
+        dataSources.push(dataSource);
       }
 
       params.start_cursor = response.next_cursor;
     } while (params.start_cursor);
 
-    databases.reverse().forEach((database) => {
+    dataSources.reverse().forEach((dataSource) => {
       const meta = this.generateMeta(
-        database,
-        constants.types.DATABASE,
+        dataSource,
+        constants.types.DATA_SOURCE,
         constants.timestamps.CREATED_TIME,
-        constants.summaries.DATABASE_ADDED,
+        constants.summaries.DATA_SOURCE_ADDED,
       );
-      this.$emit(database, meta);
+      this.$emit(dataSource, meta);
     });
 
-    const lastCreatedTime = databases[databases.length - 1]?.created_time;
+    const lastCreatedTime = dataSources[dataSources.length - 1]?.created_time;
     if (lastCreatedTime) {
       this.setLastCreatedTimestamp(Date.parse(lastCreatedTime));
     }

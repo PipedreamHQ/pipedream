@@ -5,7 +5,12 @@ export default {
   key: "confluence-update-post",
   name: "Update a Post",
   description: "Updates a page or blog post on Confluence by its ID. [See the documentation](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-blog-post/#api-blogposts-id-put)",
-  version: "0.0.4",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     confluence,

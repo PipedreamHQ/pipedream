@@ -1,13 +1,19 @@
-import common from "../common/common-create.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 import { ASSOCIATION_CATEGORY } from "../../common/constants.mjs";
+import common from "../common/common-create.mjs";
 
 export default {
   ...common,
   key: "hubspot-create-task",
   name: "Create Task",
-  description: "Create a new task. [See the documentation](https://developers.hubspot.com/docs/api/crm/engagements)",
-  version: "0.0.4",
+  description:
+    "Create a new task. [See the documentation](https://developers.hubspot.com/docs/api/crm/engagements)",
+  version: "0.0.12",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,
@@ -41,7 +47,8 @@ export default {
           toObjectType: c.toObjectType,
         }),
       ],
-      description: "A unique identifier to indicate the association type between the task and the other object",
+      description:
+        "A unique identifier to indicate the association type between the task and the other object",
       optional: true,
     },
     objectProperties: {
@@ -56,7 +63,10 @@ export default {
       return "tasks";
     },
     isRelevantProperty(property) {
-      return common.methods.isRelevantProperty(property) && !property.name.includes("hs_pipeline");
+      return (
+        common.methods.isRelevantProperty(property) &&
+        !property.name.includes("hs_pipeline")
+      );
     },
     createEngagement(objectType, properties, associations, $) {
       return this.hubspot.createObject({
@@ -82,7 +92,9 @@ export default {
     } = this;
 
     if ((toObjectId && !associationType) || (!toObjectId && associationType)) {
-      throw new ConfigurationError("Both `toObjectId` and `associationType` must be entered");
+      throw new ConfigurationError(
+        "Both `toObjectId` and `associationType` must be entered",
+      );
     }
 
     const properties = objectProperties
@@ -113,7 +125,12 @@ export default {
       properties.hs_task_reminders = Date.parse(properties.hs_task_reminders);
     }
 
-    const engagement = await this.createEngagement(objectType, properties, associations, $);
+    const engagement = await this.createEngagement(
+      objectType,
+      properties,
+      associations,
+      $,
+    );
 
     const objectName = hubspot.getObjectTypeName(objectType);
     $.export("$summary", `Successfully created ${objectName}`);

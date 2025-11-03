@@ -1,11 +1,29 @@
+import { axios } from "@pipedream/platform";
+
 export default {
   type: "app",
   app: "dhl",
   propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _baseUrl() {
+      return this.$auth.api_url;
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
+      return axios($, {
+        url: `${this._baseUrl()}${path}`,
+        headers: {
+          "dhl-api-key": `${this.$auth.api_key}`,
+        },
+        ...opts,
+      });
+    },
+    getTracking(opts = {}) {
+      return this._makeRequest({
+        path: "/track/shipments",
+        ...opts,
+      });
     },
   },
 };

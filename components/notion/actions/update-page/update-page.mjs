@@ -7,7 +7,12 @@ export default {
   key: "notion-update-page",
   name: "Update Page",
   description: "Update a page's property values. To append page content, use the *Append Block* action instead. [See the documentation](https://developers.notion.com/reference/patch-page)",
-  version: "1.1.9",
+  version: "2.0.5",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     notion,
@@ -16,21 +21,21 @@ export default {
       alertType: "info",
       content: "Properties that are not set will remain unchanged.",
     },
-    parent: {
+    parentDataSource: {
       propDefinition: [
         notion,
-        "databaseId",
+        "dataSourceId",
       ],
-      label: "Parent Database ID",
-      description: "Select the database that contains the page to update. If you instead provide a database ID in a custom expression, you will also have to provide the page's ID in a custom expression",
+      label: "Parent Data Source ID",
+      description: "Select the data source that contains the page to update. If you instead provide a data source ID in a custom expression, you will also have to provide the page's ID in a custom expression",
       reloadProps: true,
     },
     pageId: {
       propDefinition: [
         notion,
-        "pageIdInDatabase",
+        "pageIdInDataSource",
         (c) => ({
-          databaseId: c.parent,
+          dataSourceId: c.parentDataSource,
         }),
       ],
     },
@@ -51,8 +56,8 @@ export default {
         notion,
         "propertyTypes",
         (c) => ({
-          parentId: c.parent,
-          parentType: "database",
+          parentId: c.parentDataSource,
+          parentType: "data_source",
         }),
       ],
       reloadProps: true,
@@ -60,7 +65,7 @@ export default {
   },
   async additionalProps() {
     try {
-      const { properties } = await this.notion.retrieveDatabase(this.parent);
+      const { properties } = await this.notion.retrieveDataSource(this.parentDataSource);
       const selectedProperties = pick(properties, this.propertyTypes);
 
       return this.buildAdditionalProps({
@@ -85,7 +90,7 @@ export default {
      * @returns the constructed page in Notion format
      */
     buildPage(page) {
-      const meta = this.buildDatabaseMeta(page);
+      const meta = this.buildDataSourceMeta(page);
       const properties = this.buildPageProperties(page.properties);
       return {
         ...meta,

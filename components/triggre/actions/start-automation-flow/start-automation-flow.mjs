@@ -4,7 +4,12 @@ export default {
   key: "triggre-start-automation-flow",
   name: "Start Automation Flow",
   description: "Starts an automation flow within your Triggre application. [See the documentation](https://docs.triggre.com/lessons/how-to-create-an-incoming-web-api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     triggre,

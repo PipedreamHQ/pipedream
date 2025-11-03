@@ -4,7 +4,12 @@ export default {
   key: "sendinblue-send-transactional-email",
   name: "Send Transactional Email",
   description: "Send transactional email. [See the docs](https://developers.sendinblue.com/reference/sendtransacemail) for more information.",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     sendinBlueApp,

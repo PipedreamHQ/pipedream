@@ -4,7 +4,12 @@ export default {
   key: "google_drive-move-file",
   name: "Move File",
   description: "Move a file from one folder to another. [See the documentation](https://developers.google.com/drive/api/v3/reference/files/update) for more information",
-  version: "0.1.11",
+  version: "0.1.14",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     googleDrive,

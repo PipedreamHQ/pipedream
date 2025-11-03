@@ -52,9 +52,10 @@ export default {
         lastResource,
       ] = resources;
 
-      resources
-        .filter(this.resourceFilter)
-        .forEach(this.processEvent);
+      const filteredResources = resources.filter(this.resourceFilter);
+      for (const resource of filteredResources) {
+        await this.processEvent(resource);
+      }
 
       if (lastResource) {
         const {

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/apimage",
+  "version": "0.0.1",
+  "description": "Pipedream APImage Components",
+  "main": "apimage.app.mjs",
+  "keywords": [
+    "pipedream",
+    "apimage"
+  ],
+  "homepage": "https://pipedream.com/apps/apimage",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

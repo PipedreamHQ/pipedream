@@ -3,7 +3,12 @@ import teamgate from "../../teamgate.app.mjs";
 export default {
   key: "teamgate-create-person",
   name: "Create Person",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create a new person. [See the docs here](https://developers.teamgate.com/#6a612101-c0cb-404c-9442-29d07c352185)",
   type: "action",
   props: {

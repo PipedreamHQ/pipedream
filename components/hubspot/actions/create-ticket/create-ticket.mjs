@@ -5,8 +5,14 @@ export default {
   ...common,
   key: "hubspot-create-ticket",
   name: "Create Ticket",
-  description: "Create a ticket in Hubspot. [See the documentation](https://developers.hubspot.com/docs/api/crm/tickets)",
-  version: "0.0.14",
+  description:
+    "Create a ticket in Hubspot. [See the documentation](https://developers.hubspot.com/docs/api/crm/tickets)",
+  version: "0.0.23",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,
@@ -37,9 +43,11 @@ export default {
       return OBJECT_TYPE.TICKET;
     },
     isDefaultProperty(property) {
-      return property.name === "subject"
-        || property.name === "hs_pipeline"
-        || property.name === "hs_pipeline_stage";
+      return (
+        property.name === "subject" ||
+        property.name === "hs_pipeline" ||
+        property.name === "hs_pipeline_stage"
+      );
     },
   },
 };

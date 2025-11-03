@@ -4,7 +4,12 @@ export default {
   key: "finalscout-get-single-task",
   name: "Get Single Task",
   description: "Get the task status for any Single Find task. [See the documentation](https://finalscout.com/public/doc/api.html#tag/Single-Find/paths/~1v1~1find~1single~1status/get)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     finalscout,

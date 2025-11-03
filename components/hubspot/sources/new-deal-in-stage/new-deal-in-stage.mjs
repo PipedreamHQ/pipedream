@@ -1,15 +1,19 @@
-import common from "../common/common.mjs";
 import {
-  DEFAULT_LIMIT, DEFAULT_DEAL_PROPERTIES, API_PATH,
+  API_PATH,
+  DEFAULT_DEAL_PROPERTIES,
+  DEFAULT_LIMIT,
 } from "../../common/constants.mjs";
+import common from "../common/common.mjs";
 import sampleEmit from "./test-event.mjs";
+
+const MAX_INITIAL_EVENTS = 25;
 
 export default {
   ...common,
   key: "hubspot-new-deal-in-stage",
   name: "New Deal In Stage",
   description: "Emit new event for each new deal in a stage.",
-  version: "0.0.31",
+  version: "0.1.2",
   dedupe: "unique",
   type: "source",
   props: {
@@ -43,8 +47,7 @@ export default {
     },
     emitEvent(deal, ts) {
       const {
-        id,
-        properties,
+        id, properties,
       } = deal;
       this.$emit(deal, {
         id: `${id}${properties.dealstage}`,
@@ -58,16 +61,26 @@ export default {
     getParams() {
       return null;
     },
-    getStageParams(stage) {
-      const filter = {
-        propertyName: "dealstage",
-        operator: "EQ",
-        value: stage,
-      };
+    getAllStagesParams(after) {
+      const filters = [
+        {
+          propertyName: "dealstage",
+          operator: "IN",
+          values: this.stages,
+        },
+      ];
+
+      // Add time filter for subsequent runs to only get recently modified deals
+      if (after) {
+        filters.push({
+          propertyName: "hs_lastmodifieddate",
+          operator: "GT",
+          value: after,
+        });
+      }
+
       const filterGroup = {
-        filters: [
-          filter,
-        ],
+        filters,
       };
       return {
         data: {
@@ -88,6 +101,7 @@ export default {
     },
     async processDeals(params, after) {
       let maxTs = after || 0;
+      let initialEventsEmitted = 0;
 
       do {
         const results = await this.hubspot.searchCRM(params);
@@ -99,24 +113,32 @@ export default {
 
         for (const deal of results.results) {
           const ts = await this.getTs(deal);
-          if (this.isRelevant(ts, after)) {
+          if (!after || this.isRelevant(ts, after)) {
             if (deal.properties.hubspot_owner_id) {
-              deal.properties.owner = await this.getOwner(deal.properties.hubspot_owner_id);
+              deal.properties.owner = await this.getOwner(
+                deal.properties.hubspot_owner_id,
+              );
             }
             this.emitEvent(deal, ts);
             if (ts > maxTs) {
               maxTs = ts;
               this._setAfter(ts);
             }
+            if (!after && ++initialEventsEmitted >= MAX_INITIAL_EVENTS) {
+              return;
+            }
           }
+        }
+
+        // first run, get only first page
+        if (!after) {
+          break;
         }
       } while (params.after);
     },
     async processResults(after) {
-      for (const stage of this.stages) {
-        const params = this.getStageParams(stage);
-        await this.processDeals(params, after);
-      }
+      const params = this.getAllStagesParams(after);
+      await this.processDeals(params, after);
     },
     getOwner(ownerId) {
       return this.hubspot.makeRequest({

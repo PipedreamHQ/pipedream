@@ -4,7 +4,12 @@ export default {
   name: "Find Email",
   description: "Provide Full name of your prospect with Domain or Website and Api will provide you an email address of the prospect in response.  [See the documentation](https://app2.getemail.io/dash/integration/api/v2/1#).",
   key: "getemails-find-email",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

@@ -1,13 +1,19 @@
 import { OBJECT_TYPE } from "../../common/constants.mjs";
+import hubspot from "../../hubspot.app.mjs";
 import common from "../common/common-update-object.mjs";
-import appProp from "../common/common-app-prop.mjs";
 
 export default {
   ...common,
   key: "hubspot-update-lead",
   name: "Update Lead",
-  description: "Update a lead in Hubspot. [See the documentation](https://developers.hubspot.com/beta-docs/guides/api/crm/objects/leads#update-leads)",
-  version: "0.0.11",
+  description:
+    "Update a lead in Hubspot. [See the documentation](https://developers.hubspot.com/beta-docs/guides/api/crm/objects/leads#update-leads)",
+  version: "0.0.20",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   methods: {
     ...common.methods,
@@ -16,10 +22,10 @@ export default {
     },
   },
   props: {
-    ...appProp.props,
+    hubspot,
     objectId: {
       propDefinition: [
-        appProp.props.hubspot,
+        hubspot,
         "leadId",
       ],
     },

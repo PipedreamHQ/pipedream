@@ -5,7 +5,12 @@ export default {
   key: "seatable-create-row",
   name: "Create Row",
   description: "Creates a new row in the specified table. [See the documentation](https://api.seatable.io/reference/add-row)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   async run({ $ }) {
     const {

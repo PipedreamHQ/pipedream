@@ -5,7 +5,12 @@ export default {
   key: "wati-add-contact",
   name: "Add Contact",
   description: "Adds a new contact on the WATI platform. [See the documentation](https://docs.wati.io/reference/post_api-v1-addcontact-whatsappnumber)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     wati,

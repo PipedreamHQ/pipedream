@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://api.firecrawl.dev/v1";
+      return "https://api.firecrawl.dev";
     },
     _headers() {
       return {
@@ -32,10 +32,10 @@ export default {
       };
     },
     _makeRequest({
-      $ = this, path, ...opts
+      $ = this, path, version = "v1", ...opts
     }) {
       return axios($, {
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}/${version}${path}`,
         headers: this._headers(),
         ...opts,
       });
@@ -44,6 +44,7 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: "/crawl",
+        version: "v2",
         ...opts,
       });
     },

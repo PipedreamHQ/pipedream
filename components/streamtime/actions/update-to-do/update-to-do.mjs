@@ -4,7 +4,12 @@ export default {
   key: "streamtime-update-to-do",
   name: "Update To-Do",
   description: "Update an existing To Do in Streamtime. [See the documentation](https://documenter.getpostman.com/view/802974/RWgtSwbn?version=latest#5fb593b9-a83c-4e01-8206-5a56f005825a).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     streamtime,

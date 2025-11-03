@@ -4,7 +4,12 @@ export default {
   key: "clickfunnels-remove-tag-contact",
   name: "Remove Tag from Contact",
   description: "Removes a specified tag from a contact. This action will take no effect if the specified tag doesn't exist on the contact. [See the documentation](https://developers.myclickfunnels.com/reference/removecontactsappliedtags)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     clickfunnels,

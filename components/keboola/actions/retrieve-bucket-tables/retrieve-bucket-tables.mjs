@@ -4,7 +4,12 @@ export default {
   key: "keboola-retrieve-bucket-tables",
   name: "List Tables In Bucket",
   description: "Lists all tables in a specified bucket. [See the documentation](https://keboola.docs.apiary.io/#reference/tables/create-or-list-tables/tables-in-bucket)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     keboola,

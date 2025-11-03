@@ -5,7 +5,12 @@ export default {
   key: "ispring_learn-enroll-users-in-courses",
   name: "Enroll Users in Courses",
   description: "Enrolls users to the specified courses on iSpring Learn.",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ispringLearn,

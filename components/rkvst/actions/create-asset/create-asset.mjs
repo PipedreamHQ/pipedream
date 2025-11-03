@@ -5,7 +5,12 @@ export default {
   key: "rkvst-create-asset",
   name: "Create Asset",
   description: "Allows for the addition of a new asset into the RKVST system. [See the documentation](https://docs.datatrails.ai/developers/api-reference/assets-api/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     rkvst,

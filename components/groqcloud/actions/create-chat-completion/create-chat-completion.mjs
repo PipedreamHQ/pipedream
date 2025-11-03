@@ -4,7 +4,12 @@ export default {
   key: "groqcloud-create-chat-completion",
   name: "Create Chat Completion",
   description: "Creates a model response for the given chat conversation. [See the documentation](https://console.groq.com/docs/api-reference#chat-create)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

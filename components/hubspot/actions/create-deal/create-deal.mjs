@@ -5,8 +5,14 @@ export default {
   ...common,
   key: "hubspot-create-deal",
   name: "Create Deal",
-  description: "Create a deal in Hubspot. [See the documentation](https://developers.hubspot.com/docs/api/crm/deals#endpoint?spec=POST-/crm/v3/objects/deals)",
-  version: "0.0.23",
+  description:
+    "Create a deal in Hubspot. [See the documentation](https://developers.hubspot.com/docs/api/crm/deals#endpoint?spec=POST-/crm/v3/objects/deals)",
+  version: "0.0.32",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,
@@ -40,9 +46,11 @@ export default {
       return OBJECT_TYPE.DEAL;
     },
     isDefaultProperty(property) {
-      return property.name === "dealname"
-        || property.name === "pipeline"
-        || property.name === "dealstage";
+      return (
+        property.name === "dealname" ||
+        property.name === "pipeline" ||
+        property.name === "dealstage"
+      );
     },
   },
 };

@@ -4,7 +4,12 @@ export default {
   key: "meistertask-get-person",
   name: "Get Person",
   description: "Retrieves information about a person. [See the docs](https://developers.meistertask.com/reference/get-person)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     meistertask,

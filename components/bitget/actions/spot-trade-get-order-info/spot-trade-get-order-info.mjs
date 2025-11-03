@@ -5,7 +5,12 @@ export default {
   key: "bitget-spot-trade-get-order-info",
   name: "Spot - Trade - Get Order Info",
   description: "Retrieve detailed information about a specific order on Bitget. You can query by orderId or clientOid. [See the documentation](https://www.bitget.com/api-doc/spot/trade/Get-Order-Info)",
-  version: "0.0.1",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

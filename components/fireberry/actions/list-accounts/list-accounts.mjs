@@ -4,7 +4,12 @@ export default {
   key: "fireberry-list-accounts",
   name: "List Accounts",
   description: "List all accounts in Fireberry. [See the documentation](https://developers.fireberry.com/reference/get-all-accounts)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

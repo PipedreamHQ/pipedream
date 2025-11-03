@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/afosto",
+  "version": "0.1.0",
+  "description": "Pipedream Afosto Components",
+  "main": "afosto.app.mjs",
+  "keywords": [
+    "pipedream",
+    "afosto"
+  ],
+  "homepage": "https://pipedream.com/apps/afosto",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.0"
+  }
+}

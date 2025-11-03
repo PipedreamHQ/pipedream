@@ -4,7 +4,12 @@ export default {
   key: "stripe-create-invoice-item",
   name: "Create Invoice Line Item",
   type: "action",
-  version: "0.1.2",
+  version: "0.1.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Add a line item to an invoice. [See the documentation](https://stripe.com/docs/api/invoiceitems/create).",
   props: {
     app,

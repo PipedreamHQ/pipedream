@@ -3,7 +3,12 @@ import rise from "../../app/rise.app";
 
 export default defineAction({
   name: "Find Invitations",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "rise-find-invitations",
   description: "Find a list of invitations. [See docs here](https://help.rise.com/en/articles/4177042-invitations-api)",
   type: "action",

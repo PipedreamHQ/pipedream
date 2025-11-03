@@ -4,7 +4,12 @@ export default {
   key: "teamup-create-event",
   name: "Create Event",
   description: "Creates a new event on a specified calendar. [See the documentation](https://apidocs.teamup.com/docs/api/3269d0159ae9f-create-an-event)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     teamup,

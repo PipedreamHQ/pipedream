@@ -1,16 +1,22 @@
 /* eslint-disable no-unused-vars */
-import common from "../common/common-create.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 import {
   ASSOCIATION_CATEGORY, OBJECT_TYPE,
 } from "../../common/constants.mjs";
+import common from "../common/common-create.mjs";
 
 export default {
   ...common,
   key: "hubspot-create-meeting",
   name: "Create Meeting",
-  description: "Creates a new meeting with optional associations to other objects. [See the documentation](https://developers.hubspot.com/docs/reference/api/crm/engagements/meetings#post-%2Fcrm%2Fv3%2Fobjects%2Fmeetings)",
-  version: "0.0.4",
+  description:
+    "Creates a new meeting with optional associations to other objects. [See the documentation](https://developers.hubspot.com/docs/reference/api/crm/engagements/meetings#post-%2Fcrm%2Fv3%2Fobjects%2Fmeetings)",
+  version: "0.0.12",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,
@@ -43,13 +49,15 @@ export default {
           toObjectType: c.toObjectType,
         }),
       ],
-      description: "A unique identifier to indicate the association type between the meeting and the other object",
+      description:
+        "A unique identifier to indicate the association type between the meeting and the other object",
       optional: true,
     },
     objectProperties: {
       type: "object",
       label: "Meeting Properties",
-      description: "Enter the meeting properties as a JSON object. Required properties: hs_meeting_title, hs_meeting_body, hs_meeting_start_time, hs_meeting_end_time. Optional: hs_meeting_status",
+      description:
+        "Enter the meeting properties as a JSON object. Required properties: hs_meeting_title, hs_meeting_body, hs_meeting_start_time, hs_meeting_end_time. Optional: hs_meeting_status",
     },
   },
   methods: {
@@ -81,7 +89,9 @@ export default {
     } = this;
 
     if ((toObjectId && !associationType) || (!toObjectId && associationType)) {
-      throw new ConfigurationError("Both `toObjectId` and `associationType` must be entered");
+      throw new ConfigurationError(
+        "Both `toObjectId` and `associationType` must be entered",
+      );
     }
 
     const properties = objectProperties
@@ -108,7 +118,10 @@ export default {
 
     const meeting = await this.createMeeting(properties, associations, $);
 
-    $.export("$summary", `Successfully created meeting "${properties.hs_meeting_title}"`);
+    $.export(
+      "$summary",
+      `Successfully created meeting "${properties.hs_meeting_title}"`,
+    );
 
     return meeting;
   },

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/openthesaurus",
+  "version": "0.0.1",
+  "description": "Pipedream OpenThesaurus Components",
+  "main": "openthesaurus.app.mjs",
+  "keywords": [
+    "pipedream",
+    "openthesaurus"
+  ],
+  "homepage": "https://pipedream.com/apps/openthesaurus",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

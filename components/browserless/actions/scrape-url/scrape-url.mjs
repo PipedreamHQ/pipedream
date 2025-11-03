@@ -4,7 +4,12 @@ export default {
   key: "browserless-scrape-url",
   name: "Scrape URL",
   description: "Scrape content from a page. [See the documentation](https://www.browserless.io/docs/scrape).",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     browserless,

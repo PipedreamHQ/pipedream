@@ -4,7 +4,12 @@ export default {
   key: "todoist-create-task",
   name: "Create Task",
   description: "Creates a task. [See the docs here](https://developer.todoist.com/rest/v2/#create-a-new-task)",
-  version: "0.0.5",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     todoist,

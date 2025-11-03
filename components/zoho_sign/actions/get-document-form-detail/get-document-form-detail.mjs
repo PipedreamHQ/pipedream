@@ -5,7 +5,12 @@ export default {
   name: "Get Document Form Detail",
   description: "Retrieves the filled field data for a particular document. [See the documentation](https://www.zoho.com/sign/api/#get-document-form-data)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     zohoSign,
     documentId: {

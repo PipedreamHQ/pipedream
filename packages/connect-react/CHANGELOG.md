@@ -2,6 +2,31 @@
 
 # Changelog
 
+## [2.1.0] - 2025-10-10
+
+### Added
+
+- Added infinite scroll (with pagination) for `SelectApp` and `SelectComponent` dropdowns
+- Increased default page size to 50 items per request for better UX
+
+### Fixed
+
+- Remote options now properly reset when parent props change (e.g., switching accounts)
+
+## [2.0.0] - 2025-10-02
+
+### Breaking Changes
+
+Use the new v2 version of the Pipedream SDK (i.e. `@pipedreamhq/pipedream-sdk`).
+This change involves migrating to the new types mostly, but also runtime changes
+involving the API calls.
+
+The runtime behavior should not be affected from a user's perspective, except
+for consumers of the `connect-react` package itself, since some components (e.g.
+`FrontendClientProvider`) expect their consumers to inject a client instance of
+the same SDK version. For this reason, this change bumps the **major** version
+of this package.
+
 ## [1.5.0] - 2025-08-18
 
 ### Fixed

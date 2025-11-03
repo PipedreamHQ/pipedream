@@ -4,7 +4,12 @@ export default {
   key: "mboum-get-options-flow",
   name: "Get Options Flow",
   description: "Get real-time options flow data showing large block trades and institutional activity. [See the documentation](https://docs.mboum.com/#stocks-options-small-stylecolor-f8f2f2background-fa256fpadding-1px-4pxborder-radius-3pxhotsmall-GETapi-v1-markets-options-options-flow)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     mboum,

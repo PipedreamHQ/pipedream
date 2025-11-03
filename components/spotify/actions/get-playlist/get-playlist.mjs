@@ -4,7 +4,12 @@ export default {
   name: "Get a Playlist",
   description: "Get a playlist owned by a Spotify user. [See the documentation](https://developer.spotify.com/documentation/web-api/reference/get-playlist).",
   key: "spotify-get-playlist",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     spotify,

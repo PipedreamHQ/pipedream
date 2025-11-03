@@ -4,7 +4,12 @@ export default {
   key: "acuity_scheduling-add-blocked-off-time",
   name: "Add Blocked Off Time",
   description: "Blocks a specific time slot on your schedule to prevent the scheduling of any appointments during this particular time range. [See the documentation](https://developers.acuityscheduling.com/reference/post-blocks)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     acuityScheduling,

@@ -4,7 +4,12 @@ export default {
   name: "Retrieve Checkout Session Line Items",
   description: "Given a checkout session ID, retrieve the line items. [See the documentation](https://stripe.com/docs/api/checkout/sessions/line_items).",
   key: "stripe-retrieve-checkout-session-line-items",
-  version: "0.1.2",
+  version: "0.1.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

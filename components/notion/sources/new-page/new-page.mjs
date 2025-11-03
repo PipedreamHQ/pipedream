@@ -6,16 +6,16 @@ import sampleEmit from "./test-event.mjs";
 export default {
   ...base,
   key: "notion-new-page",
-  name: "New Page in Database",
-  description: "Emit new event when a page is created in the selected database. [See the documentation](https://developers.notion.com/reference/page)",
-  version: "0.0.15",
+  name: "New Page in Data Source",
+  description: "Emit new event when a page is created in the selected data source. [See the documentation](https://developers.notion.com/reference/page)",
+  version: "1.0.1",
   type: "source",
   props: {
     ...base.props,
-    databaseId: {
+    dataSourceId: {
       propDefinition: [
         notion,
-        "databaseId",
+        "dataSourceId",
       ],
     },
   },
@@ -46,7 +46,7 @@ export default {
 
       // Get pages in created order descending until the first page edited after
       // lastCreatedTimestamp, then reverse list of pages and emit
-      const pagesStream = this.notion.getPages(this.databaseId, params);
+      const pagesStream = this.notion.getPages(this.dataSourceId, params);
 
       for await (const page of pagesStream) {
         if (!this.isResultNew(page.created_time, lastCreatedTimestamp)

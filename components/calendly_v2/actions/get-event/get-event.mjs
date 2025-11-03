@@ -6,7 +6,12 @@ export default {
   key: "calendly_v2-get-event",
   name: "Get Event",
   description: "Gets information about an Event associated with a URI. [See the documentation](https://developer.calendly.com/api-docs/e2f95ebd44914-get-event).",
-  version: "0.1.6",
+  version: "0.1.7",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     calendly,

@@ -5,7 +5,12 @@ export default {
   key: "teach_n_go-create-student",
   name: "Create Student",
   description: "Registers a new student in Teach 'n Go. [See the documentation](https://intercom.help/teach-n-go/en/articles/6807235-new-student-and-class-registration-api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

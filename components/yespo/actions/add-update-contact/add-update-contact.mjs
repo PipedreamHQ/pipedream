@@ -5,7 +5,12 @@ export default {
   key: "yespo-add-update-contact",
   name: "Add or Update Contact",
   description: "Adds a new contact or updates an existing one. [See the documentation](https://docs.yespo.io/reference/addcontact-1)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     yespo,

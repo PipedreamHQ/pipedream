@@ -1,11 +1,27 @@
+import common from "@pipedream/apify";
+import { ApifyClient } from "apify-client";
+
 export default {
   type: "app",
   app: "apify_oauth",
-  propDefinitions: {},
+  propDefinitions: {
+    ...common.propDefinitions,
+  },
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    ...common.methods,
+    _client() {
+      return new ApifyClient({
+        token: this.$auth.oauth_access_token,
+        requestInterceptors: [
+          (config) => ({
+            ...config,
+            headers: {
+              ...(config.headers || {}),
+              "x-apify-integration-platform": "pipedream",
+            },
+          }),
+        ],
+      });
     },
   },
 };

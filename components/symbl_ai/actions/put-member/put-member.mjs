@@ -4,7 +4,12 @@ export default {
   key: "symbl_ai-put-member",
   name: "Update Member",
   description: "Update an existing Conversation Member object. See the doc [here](https://docs.symbl.ai/docs/conversation-api/update-members/).",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     symblAIApp,

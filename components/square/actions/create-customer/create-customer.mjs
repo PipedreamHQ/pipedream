@@ -6,7 +6,12 @@ export default {
   description: `Creates a new customer for a business. Must provide at least one of the following:
     Given Name, Family Name, Company Name, Email Address, or Phone Number. [See the docs](https://developer.squareup.com/reference/square/customers-api/create-customer).`,
   type: "action",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     square,
     givenName: {

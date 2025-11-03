@@ -4,7 +4,12 @@ export default {
   key: "linkedin-get-member-profile",
   name: "Get Member Profile",
   description: "Gets another member's profile, given its person id. [See the docs here](https://docs.microsoft.com/en-us/linkedin/shared/integrations/people/profile-api#retrieve-other-members-profile)",
-  version: "0.1.8",
+  version: "0.1.11",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     linkedin,

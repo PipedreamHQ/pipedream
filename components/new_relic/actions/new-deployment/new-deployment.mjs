@@ -4,7 +4,12 @@ export default {
   name: "New Deployment",
   description: "Create a new deployment mark. [See the docs here](https://docs.newrelic.com/docs/apm/new-relic-apm/maintenance/record-monitor-deployments/)",
   key: "new_relic-new-deployment",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

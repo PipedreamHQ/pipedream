@@ -4,7 +4,12 @@ export default {
   key: "salesforce_rest_api-list-email-messages",
   name: "List Email Messages",
   description: "Lists all email messages for a case. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_get_field_values.htm)",
-  version: "0.0.1",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     salesforce,

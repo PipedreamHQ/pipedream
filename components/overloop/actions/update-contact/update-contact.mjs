@@ -5,7 +5,12 @@ export default {
   key: "overloop-update-contact",
   name: "Update Contact",
   description: "Creates a new contact. [See the docs](https://apidoc.overloop.com/#update-a-contact)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     overloop,

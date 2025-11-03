@@ -4,7 +4,12 @@ export default {
   key: "bitget-future-market-get-contracts-oi",
   name: "Future - Market - Get Contracts OI",
   description: "Retrieve open interest for contracts. [See the documentation](https://www.bitget.com/api-doc/contract/market/Get-Contracts-Oi)",
-  version: "0.0.1",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

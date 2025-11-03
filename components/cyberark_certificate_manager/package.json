@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/cyberark_certificate_manager",
+  "version": "0.0.1",
+  "description": "Pipedream CyberArk Certificate Manager Components",
+  "main": "cyberark_certificate_manager.app.mjs",
+  "keywords": [
+    "pipedream",
+    "cyberark_certificate_manager"
+  ],
+  "homepage": "https://pipedream.com/apps/cyberark_certificate_manager",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

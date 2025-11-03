@@ -5,7 +5,12 @@ export default {
   key: "devrev-create-comment",
   name: "Create Comment",
   description: "Creates a new comment on a work item in DevRev. [See the documentation](https://devrev.ai/docs/apis/beta-api-spec#/operations/timeline-entries-create)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     devrev,

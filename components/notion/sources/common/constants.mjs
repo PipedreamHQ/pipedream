@@ -1,10 +1,12 @@
 const types = {
   DATABASE: "database",
+  DATA_SOURCE: "data_source",
   PAGE: "page",
 };
 
 const summaries = {
   DATABASE_ADDED: "Database added",
+  DATA_SOURCE_ADDED: "Data source added",
   PAGE_ADDED: "Page added",
   PAGE_UPDATED: "Page updated",
 };

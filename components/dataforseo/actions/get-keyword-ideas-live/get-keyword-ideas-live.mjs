@@ -5,7 +5,12 @@ export default {
   key: "dataforseo-get-keyword-ideas-live",
   name: "Get Keyword Ideas Live",
   description: "Generate live keyword suggestions and ideas for content strategy. [See the documentation](https://docs.dataforseo.com/v3/dataforseo_labs/google/keyword_ideas/live/?bash)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     dataforseo,

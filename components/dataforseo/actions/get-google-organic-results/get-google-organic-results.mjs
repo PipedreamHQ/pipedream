@@ -5,7 +5,12 @@ export default {
   key: "dataforseo-get-google-organic-results",
   name: "Get Google Organic Results",
   description: "Retrieve Google organic search results for specified keywords. [See the documentation](https://docs.dataforseo.com/v3/serp/google/organic/live/regular/?bash)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     dataforseo,

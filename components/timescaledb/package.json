@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/timescaledb",
+  "version": "0.0.1",
+  "description": "Pipedream TimescaleDB Components",
+  "main": "timescaledb.app.mjs",
+  "keywords": [
+    "pipedream",
+    "timescaledb"
+  ],
+  "homepage": "https://pipedream.com/apps/timescaledb",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

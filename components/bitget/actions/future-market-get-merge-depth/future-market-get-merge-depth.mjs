@@ -4,7 +4,12 @@ export default {
   key: "bitget-future-market-get-merge-depth",
   name: "Future - Market - Get Merge Depth",
   description: "Retrieve order book merge depth for a contract symbol. [See the documentation](https://www.bitget.com/api-doc/contract/market/Get-Merge-Depth)",
-  version: "0.0.1",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

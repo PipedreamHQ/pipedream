@@ -4,7 +4,12 @@ export default {
   key: "stripe-create-payout",
   name: "Create a Payout",
   type: "action",
-  version: "0.1.2",
+  version: "0.1.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create a payout. [See the documentation](https://stripe.com/docs/api/payouts/create).",
   props: {
     app,

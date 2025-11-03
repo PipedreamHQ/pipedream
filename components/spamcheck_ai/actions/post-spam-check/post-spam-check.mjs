@@ -4,7 +4,12 @@ export default {
   key: "spamcheck_ai-post-spam-check",
   name: "Spam Check",
   description: "Post a new spam check for an email or IP. [See the documentation](https://app.spamcheck.ai/api_docs/index.html)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

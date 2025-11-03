@@ -4,7 +4,12 @@ export default {
   key: "leaddyno-create-lead",
   name: "Create Lead",
   description: "Creates a new lead in LeadDyno. [See the documentation](https://app.theneo.io/leaddyno/leaddyno-rest-api/leaddyno-api#POSTCreate-a-lead)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     leaddyno,

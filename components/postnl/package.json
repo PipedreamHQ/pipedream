@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/postnl",
+  "version": "0.1.0",
+  "description": "Pipedream PostNL Components",
+  "main": "postnl.app.mjs",
+  "keywords": [
+    "pipedream",
+    "postnl"
+  ],
+  "homepage": "https://pipedream.com/apps/postnl",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.0"
+  }
+}

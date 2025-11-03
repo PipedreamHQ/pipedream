@@ -1,22 +1,31 @@
 import common from "../common/common-create-object.mjs";
-import appProp from "../common/common-app-prop.mjs";
+
+const {
+  hubspot, ...otherProps
+} = common.props;
 
 export default {
   ...common,
   key: "hubspot-create-custom-object",
   name: "Create Custom Object",
-  description: "Create a new custom object in Hubspot. [See the documentation](https://developers.hubspot.com/beta-docs/guides/api/crm/objects/custom-objects#create-a-custom-object)",
-  version: "1.0.5",
+  description:
+    "Create a new custom object in Hubspot. [See the documentation](https://developers.hubspot.com/beta-docs/guides/api/crm/objects/custom-objects#create-a-custom-object)",
+  version: "1.0.14",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
-    ...appProp.props,
+    hubspot,
     customObjectType: {
       propDefinition: [
-        appProp.props.hubspot,
+        hubspot,
         "customObjectType",
       ],
     },
-    ...common.props,
+    ...otherProps,
   },
   methods: {
     ...common.methods,

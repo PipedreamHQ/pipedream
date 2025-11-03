@@ -4,44 +4,55 @@ export default {
   key: "hubspot-list-blog-posts",
   name: "List Blog Posts",
   description: "Retrieves a list of blog posts. [See the documentation](https://developers.hubspot.com/docs/reference/api/cms/blogs/blog-posts)",
-  version: "0.0.1",
+  version: "0.0.10",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     hubspot,
     createdAt: {
       type: "string",
       label: "Created At",
-      description: "Only return Blog Posts created at exactly the specified time. Format: YYYY-MM-DDTHH:MM:SSZ",
+      description:
+        "Only return Blog Posts created at exactly the specified time. Format: YYYY-MM-DDTHH:MM:SSZ",
       optional: true,
     },
     createdAfter: {
       type: "string",
       label: "Created After",
-      description: "Only return Blog Posts created after the specified time. Format: YYYY-MM-DDTHH:MM:SSZ",
+      description:
+        "Only return Blog Posts created after the specified time. Format: YYYY-MM-DDTHH:MM:SSZ",
       optional: true,
     },
     createdBefore: {
       type: "string",
       label: "Created Before",
-      description: "Only return Blog Posts created before the specified time. Format: YYYY-MM-DDTHH:MM:SSZ",
+      description:
+        "Only return Blog Posts created before the specified time. Format: YYYY-MM-DDTHH:MM:SSZ",
       optional: true,
     },
     updatedAt: {
       type: "string",
       label: "Updated At",
-      description: "Only return Blog Posts updated at exactly the specified time. Format: YYYY-MM-DDTHH:MM:SSZ",
+      description:
+        "Only return Blog Posts updated at exactly the specified time. Format: YYYY-MM-DDTHH:MM:SSZ",
       optional: true,
     },
     updatedAfter: {
       type: "string",
       label: "Updated After",
-      description: "Only return Blog Posts updated after the specified time. Format: YYYY-MM-DDTHH:MM:SSZ",
+      description:
+        "Only return Blog Posts updated after the specified time. Format: YYYY-MM-DDTHH:MM:SSZ",
       optional: true,
     },
     updatedBefore: {
       type: "string",
       label: "Updated Before",
-      description: "Only return Blog Posts updated before the specified time. Format: YYYY-MM-DDTHH:MM:SSZ",
+      description:
+        "Only return Blog Posts updated before the specified time. Format: YYYY-MM-DDTHH:MM:SSZ",
       optional: true,
     },
     archived: {
@@ -72,8 +83,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const results = [];
-    let hasMore, count = 0;
+    const posts = [];
+    let hasMore,
+      count = 0;
 
     const params = {
       createdAt: this.createdAt,
@@ -97,7 +109,7 @@ export default {
         break;
       }
       for (const item of results) {
-        results.push(item);
+        posts.push(item);
         count++;
         if (count >= this.maxResults) {
           break;
@@ -107,9 +119,12 @@ export default {
       params.after = paging?.next.after;
     } while (hasMore && count < this.maxResults);
 
-    $.export("$summary", `Found ${results.length} page${results.length === 1
-      ? ""
-      : "s"}`);
-    return results;
+    $.export(
+      "$summary",
+      `Found ${posts.length} page${posts.length === 1
+        ? ""
+        : "s"}`,
+    );
+    return posts;
   },
 };

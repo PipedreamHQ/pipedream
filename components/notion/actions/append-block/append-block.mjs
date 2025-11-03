@@ -1,13 +1,18 @@
 import notion from "../../notion.app.mjs";
 import base from "../common/base-page-builder.mjs";
+import { appendBlocks } from "notion-helper";
 
 export default {
   ...base,
   key: "notion-append-block",
   name: "Append Block to Parent",
-  description:
-    "Append new and/or existing blocks to the specified parent. [See the documentation](https://developers.notion.com/reference/patch-block-children)",
-  version: "0.3.6",
+  description: "Append new and/or existing blocks to the specified parent. [See the documentation](https://developers.notion.com/reference/patch-block-children)",
+  version: "0.4.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     notion,
@@ -76,16 +81,6 @@ export default {
 
     return {};
   },
-  methods: {
-    ...base.methods,
-    chunkArray(array, chunkSize = 100) {
-      const chunks = [];
-      for (let i = 0; i < array.length; i += chunkSize) {
-        chunks.push(array.slice(i, i + chunkSize));
-      }
-      return chunks;
-    },
-  },
   async run({ $ }) {
     const { blockTypes } = this;
     const children = [];
@@ -128,20 +123,13 @@ export default {
       return;
     }
 
-    const results = [];
-    const chunks = this.chunkArray(children);
+    const response = await appendBlocks({
+      client: await this.notion._getNotionClient(),
+      block_id: this.pageId,
+      children,
+    });
 
-    for (const chunk of chunks) {
-      const { results: payload } = await this.notion.appendBlock(
-        this.pageId,
-        chunk,
-      );
-      results.push(payload);
-    }
-
-    const totalAppended = results.reduce((sum, res) => sum + res.length, 0);
-
-    $.export("$summary", `Appended ${totalAppended} block(s) successfully`);
-    return results.flat();
+    $.export("$summary", "Appended blocks successfully");
+    return response.apiResponses;
   },
 };

@@ -4,7 +4,12 @@ export default {
   key: "vivocalendar-create-customer",
   name: "Create Customer",
   description: "Creates a new customer. [See the documentation](https://app.vivocalendar.com/api-docs/index.html)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

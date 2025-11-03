@@ -5,7 +5,12 @@ export default {
   key: "gmail-delete-email",
   name: "Delete Email",
   description: "Moves the specified message to the trash. [See the documentation](https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.messages/trash)",
-  version: "0.0.1",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     gmail,

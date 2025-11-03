@@ -6,7 +6,12 @@ export default {
   key: "linkedin_ads-create-report-by-advertiser-account",
   name: "Create Report By Advertiser Account",
   description: "Sample query using analytics finder that gets analytics for a particular account for date range starting in a given year. [See the docs here](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/ads-reporting/ads-reporting#sample-request)",
-  version: "0.0.5",
+  version: "0.0.7",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...common.props,

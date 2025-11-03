@@ -339,6 +339,7 @@ export default {
       resourceFn,
       params,
       max,
+      lastId,
     }) {
       params = {
         ...params,
@@ -350,12 +351,19 @@ export default {
           params,
         });
         for (const item of items) {
-          yield item;
-          count++;
           if (max && count >= max) {
             return;
           }
+
+          // orderby id desc
+          if (item.id <= lastId) {
+            return;
+          }
+
+          yield item;
+          count++;
         }
+
         hasMore = items.length;
         params.page++;
       } while (hasMore);

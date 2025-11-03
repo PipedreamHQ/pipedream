@@ -5,7 +5,7 @@ export default {
   key: "zendesk-ticket-added-to-view",
   name: "New Ticket Added to View (Instant)",
   description: "Emit new event when a ticket is added to the specified view",
-  version: "0.0.6",
+  version: "0.0.8",
   type: "source",
   dedupe: "unique",
   props: {

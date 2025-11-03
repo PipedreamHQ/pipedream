@@ -4,7 +4,12 @@ export default {
   key: "taleez-create-candidate",
   name: "Create Candidate",
   description: "Creates a new candidate in Taleez. [See the documentation](https://api.taleez.com/swagger-ui/index.html#/candidates/create_1)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     taleez,

@@ -6,7 +6,7 @@ export default {
   name: "New Fulfillment Event (Instant)",
   type: "source",
   description: "Emit new event for each new fulfillment event for a store.",
-  version: "0.0.11",
+  version: "0.0.12",
   dedupe: "unique",
   methods: {
     ...common.methods,

@@ -1,5 +1,6 @@
 import { axios } from "@pipedream/platform";
 import isObject from "lodash/isObject.js";
+import { doubleEncode } from "../../common/utils.mjs";
 import consts from "../../consts.mjs";
 import zoomAdmin from "../../zoom_admin.app.mjs";
 
@@ -7,7 +8,12 @@ export default {
   name: "Delete Cloud Recording",
   description: "Remove a recording from a meeting or webinar. [See the documentation](https://marketplace.zoom.us/docs/api-reference/zoom-api/cloud-recording/recordingdeleteone)",
   key: "zoom_admin-delete-cloud-recording",
-  version: "0.1.6",
+  version: "0.1.8",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     zoomAdmin,
@@ -32,7 +38,7 @@ export default {
 
     const res = await axios($, this.zoomAdmin._getAxiosParams({
       method: "DELETE",
-      path: `/meetings/${cloudRecording.value.meetingId}/recordings/${cloudRecording.value.id}`,
+      path: `/meetings/${doubleEncode(cloudRecording.value.meetingId)}/recordings/${cloudRecording.value.id}`,
       params: {
         action: this.action,
       },

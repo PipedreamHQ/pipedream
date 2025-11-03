@@ -5,7 +5,12 @@ export default {
   name: "Send SMS",
   description: "Send an SMS message. The message will be sent to the phone numbers you specify. [See the documentation](https://static.altiria.com/especificaciones/altiria_push_rest.pdf).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     destination: {

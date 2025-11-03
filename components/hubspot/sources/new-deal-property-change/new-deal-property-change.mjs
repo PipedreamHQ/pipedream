@@ -1,5 +1,5 @@
-import common from "../common/common.mjs";
 import { DEFAULT_LIMIT } from "../../common/constants.mjs";
+import common from "../common/common.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
@@ -7,7 +7,7 @@ export default {
   key: "hubspot-new-deal-property-change",
   name: "New Deal Property Change",
   description: "Emit new event when a specified property is provided or updated on a deal. [See the documentation](https://developers.hubspot.com/docs/api/crm/deals)",
-  version: "0.0.19",
+  version: "0.0.31",
   dedupe: "unique",
   type: "source",
   props: {
@@ -41,10 +41,10 @@ export default {
       };
     },
     isRelevant(deal, updatedAfter) {
-      return !updatedAfter || this.getTs(deal) > updatedAfter;
+      return this.getTs(deal) > updatedAfter;
     },
     getParams(after) {
-      return {
+      const params = {
         object: "deals",
         data: {
           limit: DEFAULT_LIMIT,
@@ -64,16 +64,19 @@ export default {
                   propertyName: this.property,
                   operator: "HAS_PROPERTY",
                 },
-                {
-                  propertyName: "hs_lastmodifieddate",
-                  operator: "GTE",
-                  value: after,
-                },
               ],
             },
           ],
         },
       };
+      if (after) {
+        params.data.filterGroups[0].filters.push({
+          propertyName: "hs_lastmodifieddate",
+          operator: "GTE",
+          value: after,
+        });
+      }
+      return params;
     },
     batchGetDeals(inputs) {
       return this.hubspot.batchGetObjects({
@@ -93,10 +96,16 @@ export default {
       const properties = await this.hubspot.getDealProperties();
       const propertyNames = properties.map((property) => property.name);
       if (!propertyNames.includes(this.property)) {
-        throw new Error(`Property "${this.property}" not supported for Deals. See Hubspot's default deal properties documentation - https://knowledge.hubspot.com/crm-deals/hubspots-default-deal-properties`);
+        throw new Error(
+          `Property "${this.property}" not supported for Deals. See Hubspot's default deal properties documentation - https://knowledge.hubspot.com/crm-deals/hubspots-default-deal-properties`,
+        );
       }
 
-      const updatedDeals = await this.getPaginatedItems(this.hubspot.searchCRM, params);
+      const updatedDeals = await this.getPaginatedItems(
+        this.hubspot.searchCRM,
+        params,
+        after,
+      );
 
       if (!updatedDeals.length) {
         return;

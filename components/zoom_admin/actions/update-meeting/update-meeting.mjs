@@ -1,5 +1,6 @@
 import { axios } from "@pipedream/platform";
 import get from "lodash/get.js";
+import { doubleEncode } from "../../common/utils.mjs";
 import consts from "../../consts.mjs";
 import zoomAdmin from "../../zoom_admin.app.mjs";
 import tzs from "../../zoom_tzs.mjs";
@@ -10,7 +11,12 @@ export default {
   name: "Update a meeting",
   description: "Update the details of a meeting. [See the documentation](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingupdate)",
   key: "zoom_admin-update-meeting",
-  version: "0.1.6",
+  version: "0.1.8",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     zoomAdmin,
@@ -79,7 +85,7 @@ export default {
     };
     const res = await axios($, this.zoomAdmin._getAxiosParams({
       method: "PATCH",
-      path: `/meetings/${get(this.meeting, "value", this.meeting)}`,
+      path: `/meetings/${doubleEncode(get(this.meeting, "value", this.meeting))}`,
       params: {
         occurrence_id: get(this.occurrence, "value", this.occurrence),
       },

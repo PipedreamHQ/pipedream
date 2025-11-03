@@ -5,7 +5,12 @@ export default {
   name: "Upload a File",
   description: "Uploads a small file to Box. [See the documentation](https://developer.box.com/reference/post-files-content/).",
   key: "box-upload-file",
-  version: "0.1.1",
+  version: "0.1.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

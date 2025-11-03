@@ -1,13 +1,19 @@
 import { axios } from "@pipedream/platform";
 import get from "lodash/get.js";
 import isArray from "lodash/isArray.js";
+import { doubleEncode } from "../../common/utils.mjs";
 import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {
   name: "Add webinar registrant",
   description: "Register a participant for a webinar. [See the documentation](https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinarregistrantcreate)",
   key: "zoom_admin-add-webinar-registrant",
-  version: "0.1.6",
+  version: "0.1.8",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     zoomAdmin,
@@ -48,7 +54,7 @@ export default {
   async run ({ $ }) {
     const res = await axios($, this.zoomAdmin._getAxiosParams({
       method: "POST",
-      path: `/webinars/${get(this.webinar, "value", this.webinar)}/registrants`,
+      path: `/webinars/${doubleEncode(get(this.webinar, "value", this.webinar))}/registrants`,
       params: {
         occurrence_ids: isArray(this.occurrence)
           ? this.occurrence.map((occurrence) => get(occurrence, "value", occurrence)).join(",")

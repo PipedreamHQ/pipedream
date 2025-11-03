@@ -4,8 +4,14 @@ import hubspot from "../../hubspot.app.mjs";
 export default {
   key: "hubspot-get-associated-emails",
   name: "Get Associated Emails",
-  description: "Retrieves emails associated with a specific object (contact, company, or deal). [See the documentation](https://developers.hubspot.com/docs/reference/api/crm/search)",
-  version: "0.0.1",
+  description:
+    "Retrieves emails associated with a specific object (contact, company, or deal). [See the documentation](https://developers.hubspot.com/docs/reference/api/crm/search)",
+  version: "0.0.9",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     hubspot,

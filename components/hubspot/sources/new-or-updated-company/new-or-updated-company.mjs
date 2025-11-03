@@ -1,7 +1,8 @@
-import common from "../common/common.mjs";
 import {
-  DEFAULT_LIMIT, DEFAULT_COMPANY_PROPERTIES,
+  DEFAULT_COMPANY_PROPERTIES,
+  DEFAULT_LIMIT,
 } from "../../common/constants.mjs";
+import common from "../common/common.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
@@ -9,7 +10,7 @@ export default {
   key: "hubspot-new-or-updated-company",
   name: "New or Updated Company",
   description: "Emit new event for each new or updated company in Hubspot.",
-  version: "0.0.12",
+  version: "0.0.23",
   dedupe: "unique",
   type: "source",
   props: {
@@ -46,8 +47,7 @@ export default {
     },
     generateMeta(company) {
       const {
-        id,
-        properties,
+        id, properties,
       } = company;
       const ts = this.getTs(company);
       return {

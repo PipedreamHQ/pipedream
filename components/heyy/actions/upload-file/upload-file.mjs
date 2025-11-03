@@ -6,7 +6,12 @@ export default {
   key: "heyy-upload-file",
   name: "Upload File",
   description: "Uploads a file. [See the documentation](https://documenter.getpostman.com/view/27408936/2sA2r3a6DW#67e41b81-318c-4ed0-be78-e92fd39f3530).",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

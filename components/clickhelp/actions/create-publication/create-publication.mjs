@@ -5,7 +5,12 @@ export default {
   key: "clickhelp-create-publication",
   name: "Create Publication",
   description: "Creates a new publication from the designated project. This action allows you to share your content with others in various formats. [See the documentation](https://clickhelp.com/software-documentation-tool/user-manual/api-publish-project.html)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     clickhelp,

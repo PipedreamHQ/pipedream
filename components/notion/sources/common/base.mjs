@@ -34,8 +34,8 @@ export default {
       } = obj;
       const ts = Date.parse(lastTime);
 
-      if (type === constants.types.DATABASE) {
-        title = this.notion.extractDatabaseTitle(obj);
+      if (type === constants.types.DATABASE || type === constants.types.DATA_SOURCE) {
+        title = this.notion.extractDataSourceTitle(obj);
       } else {
         title = this.notion.extractPageTitle(obj);
         // Create composite ID so update events for the same page have unique keys

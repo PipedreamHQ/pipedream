@@ -5,7 +5,12 @@ export default {
   key: "cloudflare_api_key-create-zone",
   name: "Create Zone",
   description: "Create Zone. [See the docs here](https://api.cloudflare.com/#zone-create-zone)",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     cloudflare,

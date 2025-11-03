@@ -5,7 +5,12 @@ export default {
   key: "jotform-get-monthly-user-usage",
   name: "Get Monthly User Usage",
   description: "Gets number of form submissions received this month. Also, get number of SSL form submissions, payment form submissions and upload space used by user [See the docs here](https://api.jotform.com/docs/#user-usage)",
-  version: "0.0.7",
+  version: "0.0.8",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...common.props,

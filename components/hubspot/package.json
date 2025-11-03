@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/hubspot",
-  "version": "1.6.0",
+  "version": "1.7.15",
   "description": "Pipedream Hubspot Components",
   "main": "hubspot.app.mjs",
   "keywords": [
@@ -10,7 +10,7 @@
   "homepage": "https://pipedream.com/apps/hubspot",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^3.0.0",
+    "@pipedream/platform": "^3.1.0",
     "bottleneck": "^2.19.5"
   },
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",

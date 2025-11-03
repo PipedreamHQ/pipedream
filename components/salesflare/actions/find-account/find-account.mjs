@@ -4,7 +4,12 @@ import utils from "../../common/utils.mjs";
 export default {
   type: "action",
   key: "salesflare-find-account",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   name: "Find Account",
   description: "Finds accounts according to props configured, if no prop configured returns all accounts, [See the docs](https://api.salesflare.com/docs#operation/getAccounts)",
   props: {

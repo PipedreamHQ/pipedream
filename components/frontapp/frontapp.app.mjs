@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import retry from "async-retry";
 import constants from "./common/constants.mjs";
 import utils from "./common/utils.mjs";
 
@@ -350,12 +351,61 @@ export default {
       $ = this, ...args
     } = {}) {
       const config = this.getConfig(args);
-      try {
-        return await axios($, config);
-      } catch (error) {
-        console.log("error", error.response?.data);
-        throw error;
-      }
+      let retryAfterDelay = null;
+
+      const retryOpts = {
+        retries: 3,
+        maxTimeout: 30000,
+        onRetry: async (err, attempt) => {
+          const status = err.response?.status;
+
+          if (status === 429) {
+            const retryAfter = err.response?.headers?.["retry-after"];
+            if (retryAfter) {
+              retryAfterDelay = parseInt(retryAfter) * 1000;
+              console.log(`Rate limit exceeded. Waiting ${retryAfter} seconds before retry (attempt ${attempt}/${retryOpts.retries})`);
+              // Wait for the Retry-After period
+              await new Promise((resolve) => setTimeout(resolve, retryAfterDelay));
+            } else {
+              console.log(`Rate limit exceeded. Using exponential backoff (attempt ${attempt}/${retryOpts.retries})`);
+            }
+          } else {
+            console.log(`Request failed with status ${status}. Retrying (attempt ${attempt}/${retryOpts.retries})`);
+          }
+        },
+      };
+
+      return retry(async (bail) => {
+        try {
+          const response = await axios($, config);
+
+          // Log rate limit info for monitoring
+          const remaining = response.headers?.["x-ratelimit-remaining"];
+          if (remaining !== undefined && parseInt(remaining) < 5) {
+            console.log(`Warning: Only ${remaining} API requests remaining before rate limit`);
+          }
+
+          return response;
+        } catch (error) {
+          const status = error.response?.status;
+
+          // Don't retry on client errors (except 429)
+          if (status && status >= 400 && status < 500 && status !== 429) {
+            console.log("error", error.response?.data);
+            bail(error);
+            return;
+          }
+
+          // Retry on 429 and 5xx errors
+          if (status === 429 || (status && status >= 500)) {
+            throw error;
+          }
+
+          // For other errors, don't retry
+          console.log("error", error.response?.data || error.message);
+          bail(error);
+        }
+      }, retryOpts);
     },
     async importMessage({
       inboxId, ...args
@@ -592,6 +642,15 @@ export default {
         ...args,
       });
     },
+    async createMessage({
+      channelId, ...args
+    }) {
+      return this.makeRequest({
+        method: "post",
+        path: `/channels/${channelId}/messages`,
+        ...args,
+      });
+    },
     async paginateOptions({
       prevContext,
       listResourcesFn,
@@ -632,13 +691,21 @@ export default {
       };
     },
     async *paginate({
-      fn, params = {}, maxResults = null, ...args
+      fn, params = {}, maxResults = null, delayMs = 1000, ...args
     }) {
       let hasMore = false;
       let count = 0;
       let pageToken = null;
+      let isFirstPage = true;
 
       do {
+        // Add delay between pagination requests to avoid rate limits
+        // Skip delay on first page to maintain backward compatibility
+        if (!isFirstPage && delayMs > 0) {
+          await new Promise((resolve) => setTimeout(resolve, delayMs));
+        }
+        isFirstPage = false;
+
         const {
           _results: data,
           _pagination: { next },

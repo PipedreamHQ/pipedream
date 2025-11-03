@@ -4,7 +4,12 @@ import { parseObject } from "../../common/utils.mjs";
 export default {
   type: "action",
   key: "teamwork-create-user",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   name: "Create User",
   description: "Create a new user in Teamwork. [See the docs here](https://apidocs.teamwork.com/docs/teamwork/v1/people/post-people-json)",
   props: {

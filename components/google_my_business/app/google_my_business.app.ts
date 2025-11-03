@@ -2,7 +2,7 @@ import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
   CreatePostParams,
-  HttpRequestParams, ListPostsParams, ListReviewsParams, PaginatedRequestParams, UpdateReplyParams, GetReviewParams, BatchGetReviewsParams,
+  HttpRequestParams, ListPostsParams, PaginatedRequestParams, UpdateReplyParams, GetReviewParams, BatchGetReviewsParams,
 } from "../common/requestParams";
 import {
   Account, LocalPost, Location, Review,
@@ -16,14 +16,31 @@ export default defineApp({
       type: "string",
       label: "Account Name",
       description: "Select an **Account** or provide a custom *Account Name*.",
-      async options() {
-        const accounts: Account[] = await this.listAccounts();
-        return accounts.map(({
+      async options({ prevContext: { pageToken } }: {
+        prevContext: { pageToken: string | null; };
+      }) {
+        if (pageToken === null) {
+          return [];
+        }
+        const response = await this.listAccounts({
+          params: {
+            pageSize: 50,
+            pageToken,
+          },
+        });
+        const accounts: Account[] = response?.accounts ?? [];
+        const options = accounts?.map?.(({
           name, accountName, type,
-        }) => ({
+        }: Account) => ({
           label: `${accountName ?? name} (${type})`,
           value: this.getCleanName(name) as string,
-        }));
+        })) ?? [];
+        return {
+          options,
+          context: {
+            pageToken: response?.nextPageToken ?? null,
+          },
+        };
       },
     },
     location: {
@@ -32,24 +49,41 @@ export default defineApp({
       description: "The location whose local posts will be listed. [See the documentation](https://developers.google.com/my-business/content/location-data#filter_results_when_you_list_locations) on how to filter locations.",
       useQuery: true,
       async options({
-        account, query,
-      }: Record<string, string>) {
+        account, query, prevContext: { pageToken },
+      }: Record<string, string> & {
+        prevContext: { pageToken: string | null; };
+      }) {
+        if (pageToken === null) {
+          return [];
+        }
         const filter = query
           ? (query.match(/[=:]/)
             ? query
             : `title="${query}"`).replace(/ /g, "+").replace(/"/g, "%22")
           : undefined;
 
-        const locations: Location[] = await this.listLocations({
+        const response = await this.listLocations({
           account,
-          filter,
+          params: {
+            pageSize: 50,
+            pageToken,
+            filter,
+            readMask: "name,title",
+          },
         });
-        return locations?.map?.(({
+        const locations: Location[] = response?.locations ?? [];
+        const options = locations?.map?.(({
           name, title,
         }: Location) => ({
           label: title,
           value: this.getCleanName(name) as string,
         })) ?? [];
+        return {
+          options,
+          context: {
+            pageToken: response?.nextPageToken ?? null,
+          },
+        };
       },
     },
     review: {
@@ -57,18 +91,34 @@ export default defineApp({
       label: "Review",
       description: "Select a **Review** or provide a custom *Review Name*.",
       async options({
-        account, location,
-      }: Record<string, string>) {
-        const reviews: Review[] = await this.listReviews({
+        account, location, prevContext: { pageToken },
+      }: Record<string, string> & {
+        prevContext: { pageToken: string | null; };
+      }) {
+        if (pageToken === null) {
+          return [];
+        }
+        const response = await this.listReviews({
           account,
           location,
+          params: {
+            pageSize: 50,
+            pageToken,
+          },
         });
-        return reviews?.map?.(({
+        const reviews: Review[] = response?.reviews ?? [];
+        const options = reviews?.map?.(({
           name, title,
-        }: Location) => ({
+        }: Review) => ({
           label: title,
           value: this.getCleanName(name) as string,
-        }));
+        })) ?? [];
+        return {
+          options,
+          context: {
+            pageToken: response?.nextPageToken ?? null,
+          },
+        };
       },
     },
   },
@@ -123,33 +173,27 @@ export default defineApp({
 
       return result;
     },
-    async listAccounts(): Promise<Account[]> {
-      const response = await this._httpRequest({
+    listAccounts(args: object = {}): Promise<unknown> {
+      return this._httpRequest({
         url: "https://mybusinessaccountmanagement.googleapis.com/v1/accounts",
+        ...args,
       });
-      return response?.accounts ?? [];
     },
-    async listLocations({
-      account, filter,
-    }: Record<string, string>): Promise<Location[]> {
-      const response = await this._httpRequest({
+    listLocations({
+      account, ...args
+    }: Record<string, string> & { args: object }): Promise<unknown> {
+      return this._httpRequest({
         url: `https://mybusinessbusinessinformation.googleapis.com/v1/accounts/${account}/locations`,
-        pageSize: 100,
-        params: {
-          filter,
-          readMask: "name,title",
-        },
+        ...args,
       });
-      return response?.locations ?? [];
     },
-    async listReviews({
-      account, location,
-    }: ListReviewsParams): Promise<Review[]> {
-      const response = await this._httpRequest({
+    listReviews({
+      account, location, ...args
+    }: Record<string, string> & { args: object }): Promise<unknown> {
+      return this._httpRequest({
         url: `https://mybusiness.googleapis.com/v4/accounts/${account}/locations/${location}/reviews`,
-        pageSize: 50,
+        ...args,
       });
-      return response?.reviews ?? [];
     },
     async listPosts({
       account, location, ...args

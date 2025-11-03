@@ -4,7 +4,12 @@ export default {
   key: "supabase-remote-procedure-call",
   name: "Remote Procedure Call",
   type: "action",
-  version: "0.1.3",
+  version: "0.1.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Call a Postgres function in a database. [See the docs here](https://supabase.com/docs/reference/javascript/rpc)",
   props: {
     supabase,

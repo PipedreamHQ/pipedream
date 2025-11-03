@@ -7,15 +7,15 @@ export default {
   type: "app",
   app: "notion",
   propDefinitions: {
-    databaseId: {
+    dataSourceId: {
       type: "string",
-      label: "Database ID",
-      description: "Select a database or provide a database ID",
+      label: "Data Source ID",
+      description: "Select a data source or provide a data source ID",
       async options({ prevContext }) {
-        const response = await this.listDatabases({
+        const response = await this.listDataSources({
           start_cursor: prevContext.nextPageParameters ?? undefined,
         });
-        const options = this._extractDatabaseTitleOptions(response.results);
+        const options = this._extractDataSourceTitleOptions(response.results);
         return this._buildPaginatedOptions(options, response.next_cursor);
       },
     },
@@ -38,16 +38,16 @@ export default {
         return this._buildPaginatedOptions(options, response.next_cursor);
       },
     },
-    pageIdInDatabase: {
+    pageIdInDataSource: {
       type: "string",
       label: "Page ID",
-      description: "Search for a page from the database or provide a page ID",
+      description: "Search for a page from the data source or provide a page ID",
       useQuery: true,
       async options({
-        query, prevContext, databaseId,
+        query, prevContext, dataSourceId,
       }) {
-        this._checkOptionsContext(databaseId, "Database ID");
-        const response = await this.queryDatabase(databaseId, {
+        this._checkOptionsContext(dataSourceId, "Data Source ID");
+        const response = await this.queryDataSource(dataSourceId, {
           query,
           start_cursor: prevContext.nextPageParameters ?? undefined,
         });
@@ -65,8 +65,8 @@ export default {
 
         const parentType = response.parent.type;
         try {
-          const { properties } = parentType === "database_id"
-            ? await this.retrieveDatabase(response.parent.database_id)
+          const { properties } = parentType === "data_source_id"
+            ? await this.retrieveDataSource(response.parent.data_source_id)
             : response;
 
           const propEntries = Object.entries(properties);
@@ -103,10 +103,10 @@ export default {
       async options({
         parentId, parentType,
       }) {
-        this._checkOptionsContext(parentId, "Database ID");
+        this._checkOptionsContext(parentId, "Data Source ID");
         try {
-          const { properties } = parentType === "database"
-            ? await this.retrieveDatabase(parentId)
+          const { properties } = parentType === "data_source"
+            ? await this.retrieveDataSource(parentId)
             : await this.retrievePage(parentId);
           return Object.keys(properties);
         } catch (error) {
@@ -195,12 +195,12 @@ export default {
     },
     filter: {
       type: "string",
-      label: "Page or Database",
-      description: "Whether to search for pages or databases",
+      label: "Page or Data Source",
+      description: "Whether to search for pages or data sources.",
       optional: true,
       options: [
         "page",
-        "database",
+        "data_source",
       ],
     },
     pageContent: {
@@ -219,10 +219,10 @@ export default {
     _getNotionClient() {
       return new notion.Client({
         auth: this.$auth.oauth_access_token,
-        notionVersion: "2022-02-22",
+        notionVersion: "2025-09-03",
       });
     },
-    _extractDatabaseTitleOptions(databases) {
+    _extractDataSourceTitleOptions(databases) {
       return databases.map((database) => {
         const title = database.title
           .map((title) => title.plain_text)
@@ -256,8 +256,8 @@ export default {
         },
       };
     },
-    extractDatabaseTitle(database) {
-      return this._extractDatabaseTitleOptions([
+    extractDataSourceTitle(database) {
+      return this._extractDataSourceTitleOptions([
         database,
       ])[0].label;
     },
@@ -266,31 +266,34 @@ export default {
         page,
       ])[0].label;
     },
-    async listDatabases(params = {}) {
+    async listDataSources(params = {}) {
       return this._getNotionClient().search({
         filter: {
           property: "object",
-          value: "database",
+          value: "data_source",
         },
         ...params,
       });
     },
-    async queryDatabase(databaseId, params = {}) {
-      return this._getNotionClient().databases.query({
-        database_id: databaseId,
-        ...params,
-      });
+    async listTemplates(params = {}) {
+      return this._getNotionClient().dataSources.listTemplates(params);
     },
-    async retrieveDatabase(databaseId) {
-      return this._getNotionClient().databases.retrieve({
-        database_id: databaseId,
+    async retrieveDataSource(dataSourceId) {
+      return this._getNotionClient().dataSources.retrieve({
+        data_source_id: dataSourceId,
       });
     },
     async createDatabase(database) {
       return this._getNotionClient().databases.create(database);
     },
-    async updateDatabase(database) {
-      return this._getNotionClient().databases.update(database);
+    async updateDataSource(database) {
+      return this._getNotionClient().dataSources.update(database);
+    },
+    async queryDataSource(dataSourceId, params = {}) {
+      return this._getNotionClient().dataSources.query({
+        data_source_id: dataSourceId,
+        ...params,
+      });
     },
     async createFileUpload(file) {
       return this._getNotionClient().fileUploads.create(file);
@@ -342,14 +345,14 @@ export default {
       });
     },
     /**
-     * This generator function scans the pages in a database yields each page
+     * This generator function scans the pages in a data source and yields each page
      * separately.
      *
-     * @param {string} databaseId - The database containing the pages to scan
+     * @param {string} dataSourceId - The data source containing the pages to scan
      * @param {object} [opts] - Options to customize the operation
      * @yield {object} The next page
      */
-    async *getPages(databaseId, opts = {}) {
+    async *getPages(dataSourceId, opts = {}) {
       let cursor;
 
       do {
@@ -357,7 +360,7 @@ export default {
           ...opts,
           start_cursor: cursor,
         };
-        const response = await this.queryDatabase(databaseId, params);
+        const response = await this.queryDataSource(dataSourceId, params);
         const {
           results: pages,
           next_cursor: nextCursor,

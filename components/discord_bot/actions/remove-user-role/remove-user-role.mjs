@@ -8,7 +8,12 @@ export default {
   name: "Remove User Role",
   description: "Remove a selected role from the specified user. [See the docs here](https://discord.com/developers/docs/resources/guild#remove-guild-member-role)",
   type: "action",
-  version: "1.0.0",
+  version: "1.0.1",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     ...common.props,
     userId: {

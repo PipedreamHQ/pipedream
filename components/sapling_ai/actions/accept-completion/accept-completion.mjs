@@ -6,7 +6,12 @@ export default {
   name: "Accept Completion",
   description: "Have Sapling adapt its system over time. Each suggested completion has a completion UUID. You can pass this information back to Sapling to indicate the completion suggestion was helpful. [See the documentation here](https://sapling.ai/docs/api/autocomplete#accept-completion-post).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     completionId: {

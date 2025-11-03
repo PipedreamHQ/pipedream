@@ -5,7 +5,12 @@ export default {
   key: "kite_suite-send-message",
   name: "Send Message",
   description: "Sends a message to a user or project group using Kite Suite. [See the documentation](https://api.kitesuite.com/swagger/#/Chat/post_api_v1_chat_message)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     kiteSuite,

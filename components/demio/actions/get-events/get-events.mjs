@@ -6,7 +6,12 @@ export default {
   name: "Get Events",
   description: "Get all events by type. [See docs here](https://publicdemioapi.docs.apiary.io/#reference/events/events-list/events-list)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     demio,
     type: {

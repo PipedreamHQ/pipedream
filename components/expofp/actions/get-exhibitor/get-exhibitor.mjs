@@ -2,7 +2,12 @@ import expofp from "../../expofp.app.mjs";
 
 export default {
   name: "Get Exhibitor",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "expofp-get-exhibitor",
   description: "Get details of an exhibitor. [See the documentation](https://expofp.docs.apiary.io/#reference/0/get-exhibitor-details/get-exhibitor-details)",
   type: "action",

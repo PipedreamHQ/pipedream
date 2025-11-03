@@ -4,7 +4,12 @@ export default {
   key: "letterdrop-add-subscriber",
   name: "Add Subscriber",
   description: "Adds a new subscriber to your Letterdrop publication. [See the documentation](https://docs.letterdrop.com/api#add-subscriber)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

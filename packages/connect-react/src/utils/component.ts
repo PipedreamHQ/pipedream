@@ -1,6 +1,15 @@
 import type {
-  App, ConfigurableProp, ConfigurablePropApp, ConfigurablePropBoolean, ConfigurablePropInteger, ConfigurablePropString, ConfigurablePropStringArray, PropValue,
+  App,
+  ConfigurableProp,
+  ConfigurablePropApp,
+  ConfigurablePropBoolean,
+  ConfigurablePropInteger,
+  ConfigurablePropString,
+  ConfigurablePropStringArray,
+  PropOptionValue as SdkPropOptionValue,
+  PropValue,
 } from "@pipedream/sdk";
+import { NestedLabelValueOption } from "../types";
 
 export type PropOptionValue<T> = {
   __lv: {
@@ -22,7 +31,7 @@ export type PropOptions<T> = {
   selectedOptions: PropOption<T>[]
 }
 
-export function valuesFromOptions<T>(value: unknown | T[] | PropOptions<T>): T[] {
+export function valuesFromOptions<T extends SdkPropOptionValue>(value: unknown | T[] | PropOptions<T>): T[] {
   if (typeof value === "object" && value && "selectedOptions" in value && Array.isArray(value.selectedOptions)) {
     const selectedOptions = value.selectedOptions as PropOption<T>[]
     const results: T[] = []
@@ -40,8 +49,8 @@ export function valuesFromOptions<T>(value: unknown | T[] | PropOptions<T>): T[]
     }
     return results
   }
-  if (value && typeof value === "object" && Array.isArray(value.__lv)) {
-    return value.__lv as T[]
+  if (value && typeof value === "object" && Array.isArray((value as NestedLabelValueOption<T>).__lv)) {
+    return (value as NestedLabelValueOption<T>).__lv as T[]
   }
   if (!Array.isArray(value))
     return []
@@ -124,8 +133,8 @@ type AppPropValueWithCustomFields<T extends AppCustomField[]> = PropValue<"app">
 }
 
 function getCustomFields(app: App): AppCustomField[] {
-  const isOauth = app.auth_type === "oauth"
-  const userDefinedCustomFields = JSON.parse(app.custom_fields_json || "[]")
+  const isOauth = app.authType === "oauth"
+  const userDefinedCustomFields = JSON.parse(app.customFieldsJson || "[]")
   if ("extracted_custom_fields_names" in app && app.extracted_custom_fields_names) {
     const extractedCustomFields = ((app as AppWithExtractedCustomFields).extracted_custom_fields_names || []).map(
       (name) => ({
@@ -152,9 +161,9 @@ export function appPropErrors(opts: ValidationOpts<ConfigurablePropApp>): string
       "app field not registered",
     ]
   }
-  if (!app.auth_type) {
+  if (!app.authType) {
     // These apps don't require authentication since they can't be configured
-    // (i.e. auth_type == "none")
+    // (i.e. authType == "none")
     return
   }
   if (!value) {
@@ -170,10 +179,10 @@ export function appPropErrors(opts: ValidationOpts<ConfigurablePropApp>): string
   const _value = value as PropValue<"app">
   if ("authProvisionId" in _value && !_value.authProvisionId) {
     const errs = []
-    if (app.auth_type === "oauth" && !(_value as OauthAppPropValue).oauth_access_token) {
+    if (app.authType === "oauth" && !(_value as OauthAppPropValue).oauth_access_token) {
       errs.push("missing oauth token")
     }
-    if (app.auth_type === "oauth" || app.auth_type === "keys") {
+    if (app.authType === "oauth" || app.authType === "keys") {
       const customFields = getCustomFields(app)
       const _valueWithCustomFields = _value as AppPropValueWithCustomFields<typeof customFields>
       for (const cf of customFields) {

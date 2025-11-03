@@ -39,7 +39,7 @@ export default {
     const ts = Date.parse(body.meta.timestamp);
 
     this.$emit(await this.parseData(body), {
-      id: `${body.data.id}-${ts}`,
+      id: `${body.data?.id || body.meta?.id}-${ts}`,
       summary: this.getSummary(body),
       ts,
     });

@@ -5,7 +5,12 @@ export default {
   name: "Update Contact",
   description: "Updates details of an existing contact. [See the docs here](https://desk.zoho.com/DeskAPIDocument#Contacts#Contacts_Updateacontact)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     zohoDesk,
     orgId: {

@@ -3,8 +3,13 @@ import jira from "../../jira.app.mjs";
 export default {
   key: "jira-get-issue",
   name: "Get Issue",
-  description: "Gets the details for an issue. [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-get)",
-  version: "0.1.13",
+  description: "Gets the details for an issue. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-get)",
+  version: "0.1.16",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     jira,
@@ -31,7 +36,7 @@ export default {
     },
     fieldsByKeys: {
       type: "boolean",
-      label: "Fields by keys",
+      label: "Fields By Keys",
       description: "Whether `fields` in fields are referenced by keys rather than IDs. This parameter is useful where fields have been added by a connect app and a field's key may differ from its ID.",
       optional: true,
     },
@@ -44,8 +49,8 @@ export default {
     },
     updateHistory: {
       type: "boolean",
-      label: "Update history",
-      description: "Whether the project in which the issue is created is added to the user's Recently viewed project list, as shown under Projects in Jira.",
+      label: "Update History",
+      description: "Whether the project in which the issue is created is added to the user's Recently viewed project list, as shown under Projects in Jira",
       optional: true,
     },
     expand: {

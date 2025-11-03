@@ -4,7 +4,12 @@ export default {
   key: "notion-list-all-users",
   name: "List All Users",
   description: "Returns all users in the workspace. [See the documentation](https://developers.notion.com/reference/get-users)",
-  version: "0.0.1",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     notion,

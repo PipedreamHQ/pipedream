@@ -8,7 +8,12 @@ import {
 export default {
   key: "helloleads-create-lead",
   name: "Create Lead",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Adds a new lead into the HelloLeads system. [See the documentation](https://github.com/PipedreamHQ/pipedream/files/13168532/HelloLeads_CRM_API_Documentation_POST_Method.pdf)",
   type: "action",
   props: {

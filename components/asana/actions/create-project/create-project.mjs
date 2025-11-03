@@ -5,7 +5,12 @@ export default {
   key: "asana-create-project",
   name: "Create Project",
   description: "Create a new project in a workspace or team. [See the documentation](https://developers.asana.com/docs/create-a-project)",
-  version: "0.10.3",
+  version: "0.10.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     asana,
@@ -23,9 +28,7 @@ export default {
         asana,
         "teams",
         ({ workspace }) => ({
-          workspaces: [
-            workspace,
-          ],
+          workspace,
         }),
       ],
       type: "string",

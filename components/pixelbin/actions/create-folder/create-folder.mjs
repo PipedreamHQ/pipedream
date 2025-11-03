@@ -4,7 +4,12 @@ export default {
   key: "pixelbin-create-folder",
   name: "Create Folder",
   description: "Creates a new folder in Pixelbin. [See the documentation](https://www.pixelbin.io/docs/api-docs/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

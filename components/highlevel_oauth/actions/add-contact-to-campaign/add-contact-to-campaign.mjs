@@ -5,7 +5,12 @@ export default {
   key: "highlevel_oauth-add-contact-to-campaign",
   name: "Add Contact to Campaign",
   description: "Adds an existing contact to a campaign. [See the documentation](https://highlevel.stoplight.io/docs/integrations/ecf9b5b45deaf-add-contact-to-campaign)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

@@ -4,7 +4,12 @@ export default {
   key: "proabono-create-subscription",
   name: "Create Subscription",
   description: "Initializes a new subscription for a customer in the ProAbono system. [See the documentation](https://docs.proabono.com/api/#create-a-subscription)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     proabono,

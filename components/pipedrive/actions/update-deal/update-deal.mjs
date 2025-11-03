@@ -5,7 +5,12 @@ export default {
   key: "pipedrive-update-deal",
   name: "Update Deal",
   description: "Updates the properties of a deal. See the Pipedrive API docs for Deals [here](https://developers.pipedrive.com/docs/api/v1/Deals#updateDeal)",
-  version: "0.1.15",
+  version: "0.1.18",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pipedriveApp,

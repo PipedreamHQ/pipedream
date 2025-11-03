@@ -3,7 +3,12 @@ import planviewLeankit from "../../planview_leankit.app.mjs";
 export default {
   key: "planview_leankit-create-card-type",
   name: "Add Card Type To Board",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create a new card type on a board. [See the docs here](https://success.planview.com/Planview_AgilePlace/AgilePlace_API/01_v2/card-type/create)",
   type: "action",
   props: {

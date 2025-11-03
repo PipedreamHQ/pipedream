@@ -7,7 +7,12 @@ export default {
   key: "lightspeed_vt-create-new-user",
   name: "Create New User",
   description: "Creates a new user in the LightSpeed VT system. [See the documentation](https://lsvtapi.stoplight.io/docs/lsvt-rest-api/26844d671bbcf-create-user)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     lightspeedVt,

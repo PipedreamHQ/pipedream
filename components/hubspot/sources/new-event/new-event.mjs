@@ -1,6 +1,6 @@
-import common from "../common/common.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 import { DEFAULT_LIMIT } from "../../common/constants.mjs";
+import common from "../common/common.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
@@ -8,7 +8,7 @@ export default {
   key: "hubspot-new-event",
   name: "New Events",
   description: "Emit new event for each new Hubspot event. Note: Only available for Marketing Hub Enterprise, Sales Hub Enterprise, Service Hub Enterprise, or CMS Hub Enterprise accounts",
-  version: "0.0.29",
+  version: "0.0.40",
   dedupe: "unique",
   type: "source",
   props: {
@@ -38,9 +38,10 @@ export default {
             objectId: this.objectIds[0],
           },
         });
-      }
-      catch {
-        throw new ConfigurationError("Error occurred. Please verify that your Hubspot account is one of: Marketing Hub Enterprise, Sales Hub Enterprise, Service Hub Enterprise, or CMS Hub Enterprise");
+      } catch {
+        throw new ConfigurationError(
+          "Error occurred. Please verify that your Hubspot account is one of: Marketing Hub Enterprise, Sales Hub Enterprise, Service Hub Enterprise, or CMS Hub Enterprise",
+        );
       }
     },
   },
@@ -51,8 +52,7 @@ export default {
     },
     generateMeta(result) {
       const {
-        id,
-        eventType,
+        id, eventType,
       } = result;
       return {
         id,

@@ -5,7 +5,12 @@ export default {
   key: "smstools-add-contact",
   name: "Add Contact to Group",
   description: "Adds a new contact to an existing contact list. [See the documentation](https://www.smstools.com/en/sms-gateway-api/add_contact)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     smstools,

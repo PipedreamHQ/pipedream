@@ -4,7 +4,12 @@ export default {
   key: "booqable-create-customer",
   name: "Create Customer",
   description: "Create a new customer in Booqable. [See the documentation](https://developers.booqable.com/#create-a-new-customer)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -9,8 +9,13 @@ const endpoint = ENDPOINTS.HOURLY_OHLCV;
 export default {
   key: "token_metrics-get-hourly-ohlcv",
   name: "Get Hourly OHLCV",
-  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/hourly-ohlcv)`,
-  version: "0.0.1",
+  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/v3/reference/hourly-ohlcv)`,
+  version: "0.1.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     tokenMetrics,
@@ -21,18 +26,24 @@ export default {
         "tokenId",
       ],
     },
+    tokenName: {
+      propDefinition: [
+        tokenMetrics,
+        "tokenName",
+      ],
+      description: "Select crypto asset names to filter results. Example: `Bitcoin`",
+    },
     symbol: {
       propDefinition: [
         tokenMetrics,
         "symbol",
       ],
     },
-    tokenName: {
+    slug: {
       propDefinition: [
         tokenMetrics,
-        "tokenName",
+        "slug",
       ],
-      description: "Select crypto asset names to filter results. Example: `Bitcoin,Ethereum`",
     },
     startDate: {
       propDefinition: [

@@ -4,7 +4,12 @@ export default {
   key: "hubspot-list-marketing-events",
   name: "List Marketing Events",
   description: "Retrieves a list of marketing events. [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/marketing-events#get-%2Fmarketing%2Fv3%2Fmarketing-events%2F)",
-  version: "0.0.1",
+  version: "0.0.10",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     hubspot,
@@ -17,11 +22,12 @@ export default {
     },
   },
   async run({ $ }) {
-    const results = [];
+    const events = [];
     const params = {
       limit: 100,
     };
-    let hasMore, count = 0;
+    let hasMore,
+      count = 0;
 
     do {
       const {
@@ -34,7 +40,7 @@ export default {
         break;
       }
       for (const item of results) {
-        results.push(item);
+        events.push(item);
         count++;
         if (count >= this.maxResults) {
           break;
@@ -44,9 +50,12 @@ export default {
       params.after = paging?.next.after;
     } while (hasMore && count < this.maxResults);
 
-    $.export("$summary", `Found ${results.length} event${results.length === 1
-      ? ""
-      : "s"}`);
-    return results;
+    $.export(
+      "$summary",
+      `Found ${events.length} event${events.length === 1
+        ? ""
+        : "s"}`,
+    );
+    return events;
   },
 };

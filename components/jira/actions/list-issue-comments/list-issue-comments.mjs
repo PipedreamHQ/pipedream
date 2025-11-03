@@ -3,8 +3,13 @@ import jira from "../../jira.app.mjs";
 export default {
   key: "jira-list-issue-comments",
   name: "List Issue Comments",
-  description: "Lists all comments for an issue, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-comments/#api-rest-api-3-issue-issueidorkey-comment-get)",
-  version: "0.1.11",
+  description: "Lists all comments for an issue. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-comments/#api-rest-api-3-issue-issueidorkey-comment-get)",
+  version: "0.1.14",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     jira,
@@ -25,7 +30,7 @@ export default {
     },
     orderBy: {
       type: "string",
-      label: "Order by",
+      label: "Order By",
       description: "[Order](https://developer.atlassian.com/cloud/jira/platform/rest/v3/intro/#ordering) the results by a field. Accepts *created* to sort comments by their created date.\nValid values: `created`, `-created`, `+created`.",
       optional: true,
       options: [

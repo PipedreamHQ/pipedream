@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/google_sheets",
-  "version": "0.8.7",
+  "version": "0.9.3",
   "description": "Pipedream Google_sheets Components",
   "main": "google_sheets.app.mjs",
   "keywords": [
@@ -11,7 +11,7 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
     "@googleapis/sheets": "^0.3.0",
-    "@pipedream/google_drive": "^1.0.4",
+    "@pipedream/google_drive": "^1.1.1",
     "@pipedream/platform": "^3.1.0",
     "lodash": "^4.17.21",
     "uuidv4": "^6.2.6",

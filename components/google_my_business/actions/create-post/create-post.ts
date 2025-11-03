@@ -12,7 +12,12 @@ export default defineAction({
   key: "google_my_business-create-post",
   name: "Create Post",
   description: `Create a new local post associated with a location. [See the documentation](${DOCS_LINK})`,
-  version: "0.0.3",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

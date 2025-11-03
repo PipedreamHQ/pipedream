@@ -4,7 +4,12 @@ export default {
   key: "stripe-cancel-payment-intent",
   name: "Cancel A Payment Intent",
   type: "action",
-  version: "0.1.2",
+  version: "0.1.4",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Cancel a PaymentIntent. [See the documentation](https://stripe.com/docs/payments/payment-intents).",
   props: {
     app,

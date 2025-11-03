@@ -4,7 +4,12 @@ export default {
   key: "data_stores-list-keys",
   name: "List keys",
   description: "List all keys in your [Pipedream Data Store](https://pipedream.com/data-stores/).",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

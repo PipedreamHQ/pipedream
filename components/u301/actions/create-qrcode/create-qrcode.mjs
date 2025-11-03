@@ -4,7 +4,12 @@ export default {
   key: "u301-create-qrcode",
   name: "Create QR Code",
   description: "Create a QR Code from the shortened URL. [See the documentation](https://docs.u301.com/api-reference/endpoint/create-a-qrcode)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -3,45 +3,57 @@ import hubspot from "../../hubspot.app.mjs";
 export default {
   key: "hubspot-list-pages",
   name: "List Pages",
-  description: "Retrieves a list of site pages. [See the documentation](https://developers.hubspot.com/docs/reference/api/cms/pages)",
-  version: "0.0.1",
+  description:
+    "Retrieves a list of site pages. [See the documentation](https://developers.hubspot.com/docs/reference/api/cms/pages)",
+  version: "0.0.10",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     hubspot,
     createdAt: {
       type: "string",
       label: "Created At",
-      description: "Only return Site Pages created at exactly the specified time. Format: YYYY-MM-DDTHH:MM:SSZ",
+      description:
+        "Only return Site Pages created at exactly the specified time. Format: YYYY-MM-DDTHH:MM:SSZ",
       optional: true,
     },
     createdAfter: {
       type: "string",
       label: "Created After",
-      description: "Only return Site Pages created after the specified time. Format: YYYY-MM-DDTHH:MM:SSZ",
+      description:
+        "Only return Site Pages created after the specified time. Format: YYYY-MM-DDTHH:MM:SSZ",
       optional: true,
     },
     createdBefore: {
       type: "string",
       label: "Created Before",
-      description: "Only return Site Pages created before the specified time. Format: YYYY-MM-DDTHH:MM:SSZ",
+      description:
+        "Only return Site Pages created before the specified time. Format: YYYY-MM-DDTHH:MM:SSZ",
       optional: true,
     },
     updatedAt: {
       type: "string",
       label: "Updated At",
-      description: "Only return Site Pages updated at exactly the specified time. Format: YYYY-MM-DDTHH:MM:SSZ",
+      description:
+        "Only return Site Pages updated at exactly the specified time. Format: YYYY-MM-DDTHH:MM:SSZ",
       optional: true,
     },
     updatedAfter: {
       type: "string",
       label: "Updated After",
-      description: "Only return Site Pages updated after the specified time. Format: YYYY-MM-DDTHH:MM:SSZ",
+      description:
+        "Only return Site Pages updated after the specified time. Format: YYYY-MM-DDTHH:MM:SSZ",
       optional: true,
     },
     updatedBefore: {
       type: "string",
       label: "Updated Before",
-      description: "Only return Site Pages updated before the specified time. Format: YYYY-MM-DDTHH:MM:SSZ",
+      description:
+        "Only return Site Pages updated before the specified time. Format: YYYY-MM-DDTHH:MM:SSZ",
       optional: true,
     },
     archived: {
@@ -72,8 +84,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const results = [];
-    let hasMore, count = 0;
+    const pages = [];
+    let hasMore,
+      count = 0;
 
     const params = {
       createdAt: this.createdAt,
@@ -97,7 +110,7 @@ export default {
         break;
       }
       for (const item of results) {
-        results.push(item);
+        pages.push(item);
         count++;
         if (count >= this.maxResults) {
           break;
@@ -107,9 +120,12 @@ export default {
       params.after = paging?.next.after;
     } while (hasMore && count < this.maxResults);
 
-    $.export("$summary", `Found ${results.length} page${results.length === 1
-      ? ""
-      : "s"}`);
-    return results;
+    $.export(
+      "$summary",
+      `Found ${pages.length} page${pages.length === 1
+        ? ""
+        : "s"}`,
+    );
+    return pages;
   },
 };

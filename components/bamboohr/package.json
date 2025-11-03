@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/bamboohr",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Pipedream bamboohr Components",
   "main": "bamboohr.app.mjs",
   "keywords": [

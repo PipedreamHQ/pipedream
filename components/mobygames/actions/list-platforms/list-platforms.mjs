@@ -4,7 +4,12 @@ export default {
   key: "mobygames-list-platforms",
   name: "List Platforms",
   description: "List all platforms available for filtering games via the MobyGames API. [See the documentation](https://www.mobygames.com/info/api/#platforms)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

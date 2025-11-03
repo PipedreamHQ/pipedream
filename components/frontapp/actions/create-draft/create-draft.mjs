@@ -5,7 +5,12 @@ export default {
   key: "frontapp-create-draft",
   name: "Create Draft",
   description: "Create a draft message which is the first message of a new conversation. [See the documentation](https://dev.frontapp.com/reference/create-draft)",
-  version: "0.0.2",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     frontApp,

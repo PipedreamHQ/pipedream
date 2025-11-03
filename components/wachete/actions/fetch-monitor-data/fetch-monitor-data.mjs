@@ -4,7 +4,12 @@ export default {
   key: "wachete-fetch-monitor-data",
   name: "Fetch Monitor Data",
   description: "Retrieves data from a monitored website or web pages. [See the documentation(https://api.wachete.com/swagger/ui/index/index.html)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     wachete,

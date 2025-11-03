@@ -4,7 +4,12 @@ export default {
   key: "microsoft_outlook-list-folders",
   name: "List Folders",
   description: "Retrieves a list of all folders in Microsoft Outlook. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list-mailfolders)",
-  version: "0.0.6",
+  version: "0.0.10",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     microsoftOutlook,

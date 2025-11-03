@@ -6,7 +6,7 @@ export default {
   key: "zoom-phone-event",
   name: "Zoom Phone Events (Instant)",
   description: "Emit new Zoom Phone event tied to your Zoom user or resources you own",
-  version: "0.1.3",
+  version: "0.1.4",
   type: "source",
   props: {
     ...common.props,

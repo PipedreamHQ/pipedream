@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/kordiam",
+  "version": "0.0.1",
+  "description": "Pipedream Kordiam Components",
+  "main": "kordiam.app.mjs",
+  "keywords": [
+    "pipedream",
+    "kordiam"
+  ],
+  "homepage": "https://pipedream.com/apps/kordiam",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -5,7 +5,12 @@ export default {
   name: "Create Verification Service",
   description: "Create a verification service for sending SMS verifications. [See the documentation](https://www.twilio.com/docs/verify/api/service#create-a-verification-service)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     twilio,
     friendlyName: {

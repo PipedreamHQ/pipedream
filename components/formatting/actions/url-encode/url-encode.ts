@@ -5,7 +5,12 @@ export default defineAction({
   name: "[Text] Encode URL",
   description: "Encode a string as a URL",
   key: "formatting-url-encode",
-  version: "0.0.5",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: false,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

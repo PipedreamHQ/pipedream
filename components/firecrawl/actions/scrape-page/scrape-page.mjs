@@ -7,7 +7,12 @@ export default {
   name: "Scrape Page",
   description:
     "Scrapes a URL and returns content from that page. [See the documentation](https://docs.firecrawl.dev/api-reference/endpoint/scrape)",
-  version: "1.0.2",
+  version: "1.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     firecrawl,

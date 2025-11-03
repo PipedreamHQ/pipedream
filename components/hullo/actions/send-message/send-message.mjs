@@ -4,7 +4,12 @@ export default {
   key: "hullo-send-message",
   name: "Send Message",
   description: "Sends a personalized message to a Hullo member. [See the documentation](https://app.hullo.me/docs/index.html#?route=post-/endpoints/messages)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     hullo,

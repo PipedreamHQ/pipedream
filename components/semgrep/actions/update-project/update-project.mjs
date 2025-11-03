@@ -4,7 +4,12 @@ export default {
   key: "semgrep-update-project",
   name: "Update Project",
   description: "Update a project on Semgrep. [See the documentation](https://semgrep.dev/api/v1/docs/#tag/project/operation/semgrep_app.saas.handlers.repository.openapi_patch_project)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     semgrep,

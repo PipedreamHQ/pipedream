@@ -5,7 +5,12 @@ export default {
   name: "Phone Number Lookup",
   description: "Lookup information about a phone number. [See the documentation](https://www.twilio.com/docs/lookup/v2-api/line-type-intelligence) for more information",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     sid: {

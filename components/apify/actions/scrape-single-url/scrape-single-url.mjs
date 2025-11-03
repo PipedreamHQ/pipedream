@@ -1,11 +1,17 @@
 import apify from "../../apify.app.mjs";
-import { ACTOR_ID } from "../../common/constants.mjs";
+import { WCC_ACTOR_ID } from "../../common/constants.mjs";
+import { ACTOR_JOB_STATUSES } from "@apify/consts";
 
 export default {
   key: "apify-scrape-single-url",
   name: "Scrape Single URL",
-  description: "Executes a scraper on a specific website and returns its content as text. This action is perfect for extracting content from a single page.",
-  version: "0.0.4",
+  description: "Executes a scraper on a specific website and returns its content as HTML. This action is perfect for extracting content from a single page. [See the documentation](https://docs.apify.com/sdk/js/docs/examples/crawl-single-url)",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     apify,
@@ -32,14 +38,22 @@ export default {
           label: "Raw HTTP client (Cheerio) - Extremely fast, but cannot handle dynamic content",
           value: "cheerio",
         },
+        {
+          label: "The crawler automatically switches between raw HTTP for static pages and Chrome browser (via Playwright) for dynamic pages, to get the maximum performance wherever possible.",
+          value: "playwright:adaptive",
+        },
       ],
+      default: "playwright:firefox",
     },
   },
   async run({ $ }) {
-    const response = await this.apify.runActor({
-      $,
-      actorId: ACTOR_ID,
-      data: {
+    const {
+      status,
+      defaultDatasetId,
+      consoleUrl,
+    } = await this.apify.runActor({
+      actorId: WCC_ACTOR_ID,
+      input: {
         crawlerType: this.crawlerType,
         maxCrawlDepth: 0,
         maxCrawlPages: 1,
@@ -51,7 +65,16 @@ export default {
         ],
       },
     });
-    $.export("$summary", `Successfully scraped content from ${this.url}`);
-    return response;
+
+    if (status !== ACTOR_JOB_STATUSES.SUCCEEDED) {
+      throw new Error(`Run has finished with status: ${status}. Inspect it here: ${consoleUrl}.`);
+    }
+
+    const { items } = await this.apify.listDatasetItems({
+      datasetId: defaultDatasetId,
+    });
+
+    $.export("$summary", "Run of Web Content Crawler finished successfully.");
+    return items[0];
   },
 };

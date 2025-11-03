@@ -1,11 +1,17 @@
-import hubspot from "../../hubspot.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import hubspot from "../../hubspot.app.mjs";
 
 export default {
   key: "hubspot-create-associations",
   name: "Create Associations",
-  description: "Create associations between objects. [See the documentation](https://developers.hubspot.com/docs/api/crm/associations#endpoint?spec=POST-/crm/v3/associations/{fromObjectType}/{toObjectType}/batch/create)",
-  version: "1.0.5",
+  description:
+    "Create associations between objects. [See the documentation](https://developers.hubspot.com/docs/api/crm/associations#endpoint?spec=POST-/crm/v3/associations/{fromObjectType}/{toObjectType}/batch/create)",
+  version: "1.0.13",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     hubspot,
@@ -41,7 +47,8 @@ export default {
         }),
       ],
       label: "To Object Type",
-      description: "Type of the objects the from object is being associated with",
+      description:
+        "Type of the objects the from object is being associated with",
     },
     associationType: {
       propDefinition: [
@@ -62,12 +69,16 @@ export default {
         }),
       ],
       label: "To Objects",
-      description: "Id's of the objects the from object is being associated with",
+      description:
+        "Id's of the objects the from object is being associated with",
     },
   },
   methods: {
     async getAssociationCategory({
-      $, fromObjectType, toObjectType, associationType,
+      $,
+      fromObjectType,
+      toObjectType,
+      associationType,
     }) {
       const { results } = await this.hubspot.getAssociationTypes({
         $,
@@ -75,17 +86,17 @@ export default {
         toObjectType,
         associationType,
       });
-      const association = results.find(({ typeId }) => typeId === this.associationType);
+      const association = results.find(
+        ({ typeId }) => typeId === this.associationType,
+      );
       return association.category;
     },
   },
   async run({ $ }) {
     const {
-      fromObjectType,
-      fromObjectId,
-      toObjectType,
-      associationType,
-    } = this;
+      fromObjectType, fromObjectId, toObjectType, associationType,
+    } =
+      this;
     let toObjectIds;
     if (Array.isArray(this.toObjectIds)) {
       toObjectIds = this.toObjectIds;
@@ -125,9 +136,12 @@ export default {
       },
     });
     const l = response.results.length;
-    $.export("$summary", `Successfully created ${l} association${l === 1
-      ? ""
-      : "s"}`);
+    $.export(
+      "$summary",
+      `Successfully created ${l} association${l === 1
+        ? ""
+        : "s"}`,
+    );
     return response;
   },
 };

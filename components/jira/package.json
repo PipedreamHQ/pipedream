@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/jira",
-  "version": "1.0.3",
+  "version": "1.1.1",
   "description": "Pipedream Jira Components",
   "main": "jira.app.mjs",
   "keywords": [

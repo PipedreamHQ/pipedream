@@ -4,7 +4,12 @@ export default {
   key: "notion-retrieve-block",
   name: "Retrieve Page Content",
   description: "Get page content as block objects or markdown. Blocks can be text, lists, media, a page, among others. [See the documentation](https://developers.notion.com/reference/retrieve-a-block)",
-  version: "0.2.4",
+  version: "0.2.8",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     notion,

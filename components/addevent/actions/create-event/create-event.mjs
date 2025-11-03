@@ -4,7 +4,12 @@ export default {
   key: "addevent-create-event",
   name: "Create Event",
   description: "Creates a new instance of an event. [See the documentation](https://docs.addevent.com/reference/create-event)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     addevent,

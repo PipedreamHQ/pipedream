@@ -5,7 +5,12 @@ export default defineAction({
   name: "Add Student to Course",
   description: "Adds a student to a course. [See docs](https://howto.xperiencify.com/article.php?article=123#1)",
   key: "xperiencify-add-student-to-course",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     xperiencify,

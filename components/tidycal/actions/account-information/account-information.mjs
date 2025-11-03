@@ -5,7 +5,12 @@ export default {
   name: "Account Information",
   description: "Get account details. [See the documentation](https://tidycal.com/developer/docs/#tag/Account/operation/get-account)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
   },

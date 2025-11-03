@@ -1,5 +1,7 @@
 import { axios } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
+import path from "path";
 
 export default {
   type: "app",
@@ -260,10 +262,54 @@ export default {
       description: "For Enterprise Zendesk accounts: optionally specify the subdomain to use. This will override the subdomain that was provided when connecting your Zendesk account to Pipedream. For example, if you Zendesk URL is https://examplehelp.zendesk.com, your subdomain is `examplehelp`",
       optional: true,
     },
+    attachments: {
+      type: "string[]",
+      label: "Attachments",
+      description: "File paths or URLs to attach to the ticket. Multiple files can be attached.",
+      optional: true,
+    },
     ticketTags: {
       type: "string[]",
       label: "Tags",
       description: "Array of tags to apply to the ticket. These will replace any existing tags on the ticket.",
+      optional: true,
+    },
+    assigneeId: {
+      type: "string",
+      label: "Assignee ID",
+      description: "The ID of the agent to assign the ticket to",
+      optional: true,
+      async options({ prevContext }) {
+        const { afterCursor } = prevContext;
+
+        const {
+          users,
+          meta,
+        } = await this.listUsers({
+          params: {
+            [constants.PAGE_SIZE_PARAM]: constants.DEFAULT_LIMIT,
+            [constants.PAGE_AFTER_PARAM]: afterCursor,
+            role: "agent",
+          },
+        });
+
+        return {
+          context: {
+            afterCursor: meta.after_cursor,
+          },
+          options: users.map(({
+            id, name,
+          }) => ({
+            label: name,
+            value: id,
+          })),
+        };
+      },
+    },
+    assigneeEmail: {
+      type: "string",
+      label: "Assignee Email",
+      description: "The email address of the agent to assign the ticket to",
       optional: true,
     },
   },
@@ -368,6 +414,94 @@ export default {
         path: "/ticket_fields",
         ...args,
       });
+    },
+    streamToBuffer(stream) {
+      return new Promise((resolve, reject) => {
+        const chunks = [];
+        stream.on("data", (chunk) => chunks.push(chunk));
+        stream.on("end", () => resolve(Buffer.concat(chunks)));
+        stream.on("error", reject);
+      });
+    },
+    /**
+     * Upload a single file (local path or http(s) URL) to Zendesk Uploads API.
+     * @param {Object} params
+     * @param {string} params.filePath - Local filesystem path or http(s) URL.
+     * @param {string} [params.filename] - Optional filename override for the upload.
+     * @param {string} [params.customSubdomain]
+     * @param {*} [params.step]
+     */
+    async uploadFile({
+      filePath, filename, customSubdomain, step,
+    }) {
+      if (!filePath || typeof filePath !== "string") {
+        throw new Error("uploadFile: 'filePath' (string) is required");
+      }
+
+      const {
+        stream, metadata,
+      } = await getFileStreamAndMetadata(filePath);
+      const fileBinary = await this.streamToBuffer(stream);
+
+      if (!filename) {
+        filename = path.basename(filePath);
+      }
+
+      return this.makeRequest({
+        step,
+        method: "post",
+        path: `/uploads?filename=${encodeURIComponent(filename)}`,
+        customSubdomain,
+        headers: {
+          "Content-Type": metadata.contentType,
+          "Content-Length": metadata.size,
+          "Accept": "application/json",
+        },
+        data: Buffer.from(fileBinary, "binary"),
+      });
+    },
+    async uploadFiles({
+      attachments, customSubdomain, step,
+    } = {}) {
+      if (!attachments || !attachments.length) {
+        return [];
+      }
+      const files = attachments
+        .map((a) => (typeof a === "string"
+          ? a.trim()
+          : a))
+        .filter(Boolean);
+
+      const settled = await Promise.allSettled(
+        files.map((attachment) =>
+          this.uploadFile({
+            filePath: attachment,
+            customSubdomain,
+            step,
+          })),
+      );
+
+      const tokens = [];
+      const errors = [];
+      settled.forEach((res, i) => {
+        const attachment = files[i];
+        if (res.status === "fulfilled") {
+          const token = res.value?.upload?.token;
+          if (!token) {
+            errors.push(`Upload API returned no token for ${attachment}`);
+          } else {
+            tokens.push(token);
+          }
+        } else {
+          const reason = res.reason?.message || String(res.reason || "Unknown error");
+          errors.push(`${attachment}: ${reason}`);
+        }
+      });
+
+      if (errors.length) {
+        throw new Error(`Failed to upload ${errors.length}/${files.length} attachment(s): ${errors.join("; ")}`);
+      }
+      return tokens;
     },
     listTicketComments({
       ticketId, ...args

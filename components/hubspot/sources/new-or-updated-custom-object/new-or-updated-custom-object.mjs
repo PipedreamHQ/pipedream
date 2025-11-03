@@ -1,5 +1,5 @@
-import common from "../common/common.mjs";
 import { DEFAULT_LIMIT } from "../../common/constants.mjs";
+import common from "../common/common.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
@@ -7,7 +7,7 @@ export default {
   key: "hubspot-new-or-updated-custom-object",
   name: "New or Updated Custom Object",
   description: "Emit new event each time a Custom Object of the specified schema is updated.",
-  version: "0.0.14",
+  version: "0.0.25",
   dedupe: "unique",
   type: "source",
   props: {

@@ -4,7 +4,12 @@ export default {
   key: "homerun-create-job-application",
   name: "Create Job Application",
   description: "Creates a new job application. [See the documentation](https://developers.homerun.co/#tag/Job-Applications/operation/job-applications.post).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

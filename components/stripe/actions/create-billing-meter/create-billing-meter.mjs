@@ -4,7 +4,12 @@ export default {
   key: "stripe-create-billing-meter",
   name: "Create Billing Meter",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Creates a billing meter. [See the documentation](https://docs.stripe.com/api/billing/meter/create).",
   props: {
     app,

@@ -3,7 +3,12 @@ import nationbuilder from "../../nationbuilder.app.mjs";
 export default {
   key: "nationbuilder-create-membership",
   name: "Create Membership",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create a new membership with the provided data. [See the documentation](https://nationbuilder.com/memberships_api)",
   type: "action",
   props: {

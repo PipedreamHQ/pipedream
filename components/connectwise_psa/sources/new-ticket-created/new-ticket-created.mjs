@@ -6,7 +6,7 @@ export default {
   key: "connectwise_psa-new-ticket-created",
   name: "New Ticket Created",
   description: "Emit new event when a new ticket is created in Connectwise.",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

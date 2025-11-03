@@ -7,7 +7,12 @@ export default {
   key: "ignisign-get-signature-proof",
   name: "Get Signature Proof",
   description: "Retrieves a proof file for a specific signature. [See the documentation](https://ignisign.io/docs/category/ignisign-api)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ignisign,

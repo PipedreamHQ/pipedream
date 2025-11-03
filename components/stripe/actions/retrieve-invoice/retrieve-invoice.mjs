@@ -4,7 +4,12 @@ export default {
   key: "stripe-retrieve-invoice",
   name: "Retrieve an Invoice",
   type: "action",
-  version: "0.1.2",
+  version: "0.1.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   description: "Retrieves the details of an existing invoice. [See the documentation](https://stripe.com/docs/api/invoices/retrieve).",
   props: {
     app,

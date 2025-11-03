@@ -6,7 +6,12 @@ export default {
   key: "firecrawl-extract-data",
   name: "Extract Data",
   description: "Extract structured data from one or multiple URLs. [See the documentation](https://docs.firecrawl.dev/api-reference/endpoint/extract)",
-  version: "0.0.2",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     firecrawl,

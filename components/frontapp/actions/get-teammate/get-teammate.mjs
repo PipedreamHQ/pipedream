@@ -4,7 +4,12 @@ export default {
   key: "frontapp-get-teammate",
   name: "Get Teammate",
   description: "Retrieve a teammate by ID. [See the documentation](https://dev.frontapp.com/reference/get-teammate)",
-  version: "0.0.2",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     frontApp,

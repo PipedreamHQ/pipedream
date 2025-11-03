@@ -4,7 +4,12 @@ export default {
   key: "geckoboard-create-dataset",
   name: "Create Dataset",
   description: "Create a new dataset. [See the documentation](https://developer.geckoboard.com/?#find-or-create-a-new-dataset)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

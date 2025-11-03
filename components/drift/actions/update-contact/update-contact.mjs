@@ -5,7 +5,12 @@ export default {
   key: "drift-update-contact",
   name: "Update Contact",
   description: "Updates a contact in Drift using ID or email. Only changed attributes will be updated. [See Drift API documentation](https://devdocs.drift.com/docs/updating-a-contact)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     drift,

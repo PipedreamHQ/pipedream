@@ -15,7 +15,7 @@ export default {
   name: "New Email Received",
   description: "Emit new event when a new email is received.",
   type: "source",
-  version: "0.3.0",
+  version: "0.3.2",
   dedupe: "unique",
   props: {
     gmail,

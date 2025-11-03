@@ -23,3 +23,26 @@ export const parseObject = (obj) => {
   }
   return obj;
 };
+
+export const cleanObject = (obj) => {
+  return Object.entries(obj)
+    .filter(([
+      _,
+      v,
+    ]) => (v != null && v != "" && _ != undefined && _ != {}))
+    .reduce((acc, [
+      k,
+      v,
+    ]) => {
+      const result = (!Array.isArray(v) && v === Object(v))
+        ? cleanObject(v)
+        : v;
+
+      if (Object.keys(result).length === 0) {
+        return acc;
+      }
+      return {
+        ...acc,
+        [k]: result,
+      };}, {});
+};

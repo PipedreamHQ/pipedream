@@ -4,7 +4,12 @@ export default {
   key: "starloop-send-invite",
   name: "Send Invite",
   description: "Creates a new recipient and sends a Starloop invite (Email | SMS | both) to your customer to leave a review. [See the documentation](https://help.starloop.com/article/46-api-documentation)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

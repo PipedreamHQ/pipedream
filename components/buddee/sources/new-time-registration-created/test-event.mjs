@@ -1,0 +1,53 @@
+export default {
+  "id": 338163,
+  "organization_id": 14799,
+  "employee_id": 138749,
+  "time_registration_type_id": null,
+  "project_id": null,
+  "leave_balance_adjustment_id": null,
+  "hours": "8.00",
+  "date": "2024-12-12",
+  "start_time": null,
+  "end_time": null,
+  "notes": null,
+  "is_overtime": false,
+  "overtime_compensation_type": null,
+  "is_processed": false,
+  "processed_at": null,
+  "created_at": "2024-12-13 13:20:06",
+  "updated_at": "2024-12-13 13:20:06",
+  "approval": {
+    "id": 592126,
+    "organization_id": 14799,
+    "employee_id": 138749,
+    "expense_id": null,
+    "leave_request_id": null,
+    "leave_scheme_id": null,
+    "time_registration_id": 338163,
+    "trip_registration_id": null,
+    "work_location_status_id": null,
+    "approver_id": null,
+    "status": "pending",
+    "comments": null,
+    "auto_approval_date": null,
+    "is_sequential": false,
+    "status_changed_at": null,
+    "created_at": "2024-12-13 13:20:06",
+    "updated_at": "2024-12-13 13:20:06",
+    "_permissions": [
+      "read",
+      "update"
+    ]
+  },
+  "_permissions": [
+    "attribute.is_processed",
+    "create",
+    "delete",
+    "import",
+    "leave_balance_adjustment.create",
+    "leave_balance_adjustment.delete",
+    "read",
+    "report",
+    "update"
+  ]
+}

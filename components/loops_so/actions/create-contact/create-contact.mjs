@@ -5,7 +5,12 @@ export default {
   key: "loops_so-create-contact",
   name: "Create Contact",
   description: "Creates a new contact. [See the Documentation](https://loops.so/docs/add-users/api-reference#add)",
-  version: "0.2.0",
+  version: "0.2.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   async run({ $ }) {
     const response = await this.loops.createContact({

@@ -4,7 +4,12 @@ export default {
   key: "diabatix_coldstream-run-simulation",
   name: "Run Simulation",
   description: "Starts a new simulation in ColdStream with specified parameters and submits the created case. [See the documentation](https://coldstream.readme.io/reference/post_cases-submit)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     coldstream,

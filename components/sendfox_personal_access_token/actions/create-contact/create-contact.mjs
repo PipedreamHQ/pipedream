@@ -5,7 +5,12 @@ export default {
   key: "sendfox_personal_access_token-create-contact",
   name: "Create contact",
   description: "Creates new contact",
-  version: "0.1.1",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     sendfox_personal_access_token: {

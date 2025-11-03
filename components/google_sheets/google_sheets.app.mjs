@@ -71,7 +71,7 @@ export default {
       },
     },
     worksheetIDs: {
-      type: "string",
+      type: "integer",
       label: "Worksheet ID",
       description: "Select a worksheet or provide a worksheet ID",
       async options({ sheetId }) {
