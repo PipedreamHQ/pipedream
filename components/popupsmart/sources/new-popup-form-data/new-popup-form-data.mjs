@@ -41,19 +41,12 @@ export default {
         },
       });
 
-      let responseArray = [];
-      for await (const lead of leads) {
-        if (Date.parse(lead.date) > lastDate) {
-          responseArray.push(lead);
-        }
-      }
+      leads = leads.filter((item) => Date.parse(item.date) > lastDate);
 
-      responseArray = responseArray.filter((item) => Date.parse(item.date) > lastDate);
-
-      if (responseArray.length) {
-        this._setLastDate(Date.parse(responseArray[0].date));
+      if (leads.length) {
+        this._setLastDate(Date.parse(leads[0].date));
       }
-      for (const item of responseArray.reverse()) {
+      for (const item of leads.reverse()) {
         this.$emit(item, {
           id: item.id,
           summary: `New form data for popup ${this.campaignId}`,
