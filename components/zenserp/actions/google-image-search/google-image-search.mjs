@@ -37,18 +37,6 @@ export default {
         "language",
       ],
     },
-    num: {
-      propDefinition: [
-        zenserp,
-        "num",
-      ],
-    },
-    start: {
-      propDefinition: [
-        zenserp,
-        "start",
-      ],
-    },
     device: {
       propDefinition: [
         zenserp,
