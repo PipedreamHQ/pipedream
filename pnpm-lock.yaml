@@ -7156,6 +7156,9 @@ importers:
         specifier: ^4.0.0
         version: 4.0.3
 
+  components/imperva_waf:
+    specifiers: {}
+
   components/implisense_api: {}
 
   components/impression:
