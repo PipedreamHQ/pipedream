@@ -20,7 +20,7 @@ export default {
       options: [
         "booked",
         "drafts",
-        "notDue",
+        "not-due",
         "overdue",
         "paid",
         "sent",
