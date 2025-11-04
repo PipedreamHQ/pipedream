@@ -1,11 +1,11 @@
 import zohoDesk from "../../zoho_desk.app.mjs";
 
 export default {
-  key: "zoho_desk-search-ticket",
-  name: "Search Ticket",
-  description: "Searches for tickets in your help desk. [See the docs here](https://desk.zoho.com/DeskAPIDocument#Search_TicketsSearchAPI)",
+  key: "zoho_desk-list-tickets",
+  name: "List Tickets",
+  description: "Lists all tickets in your help desk with optional filtering. [See the docs here](https://desk.zoho.com/DeskAPIDocument#Tickets#Tickets_Listalltickets)",
   type: "action",
-  version: "0.0.7",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -19,12 +19,6 @@ export default {
         "orgId",
       ],
     },
-    search: {
-      type: "string",
-      label: "Search",
-      description: "Search throughout the ticket with `wildcard search` strategy",
-      optional: true,
-    },
     departmentId: {
       propDefinition: [
         zohoDesk,
@@ -33,7 +27,6 @@ export default {
           orgId,
         }),
       ],
-      optional: true,
     },
     status: {
       propDefinition: [
@@ -63,6 +56,16 @@ export default {
         "channel",
       ],
     },
+    contactId: {
+      propDefinition: [
+        zohoDesk,
+        "contactId",
+        ({ orgId }) => ({
+          orgId,
+        }),
+      ],
+      optional: true,
+    },
     sortBy: {
       propDefinition: [
         zohoDesk,
@@ -87,26 +90,30 @@ export default {
         "maxResults",
       ],
     },
+    include: {
+      type: "string",
+      label: "Include",
+      description: "Additional resources to include in the response (comma-separated). For example: `contacts,products,assignee`",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const {
       orgId,
-      search,
       departmentId,
       status,
       priority,
       assigneeId,
       channel,
+      contactId,
       sortBy,
       from,
       limit,
       maxResults,
+      include,
     } = this;
 
-    const params = {
-      _all: search,
-      sortBy: sortBy || "relevance",
-    };
+    const params = {};
 
     // Add optional filter parameters
     if (departmentId) params.departmentId = departmentId;
@@ -114,11 +121,13 @@ export default {
     if (priority) params.priority = priority;
     if (assigneeId) params.assignee = assigneeId;
     if (channel) params.channel = channel;
+    if (sortBy) params.sortBy = sortBy;
     if (from) params.from = from;
     if (limit) params.limit = limit;
+    if (include) params.include = include;
 
     const tickets = [];
-    const stream = this.zohoDesk.searchTicketsStream({
+    const stream = this.zohoDesk.getTicketsStream({
       headers: {
         orgId,
       },
@@ -127,10 +136,12 @@ export default {
     });
 
     for await (const ticket of stream) {
-      tickets.push(ticket);
+      if (!contactId || ticket.contactId === contactId) {
+        tickets.push(ticket);
+      }
     }
 
-    $.export("$summary", `Successfully found ${tickets.length} ticket(s)`);
+    $.export("$summary", `Successfully retrieved ${tickets.length} ticket(s)`);
 
     return tickets;
   },
