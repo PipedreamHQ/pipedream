@@ -6,7 +6,7 @@ export default {
   app: "proxy_spider",
   propDefinitions: {
     limit: {
-      type: "string",
+      type: "integer",
       label: "Limit",
       description: "The number of proxies to retrieve, between 1 and 1000",
       optional: true,
@@ -14,27 +14,27 @@ export default {
     countryCode: {
       type: "string[]",
       label: "Country Code",
-      description: "Add this to retrieve only proxies at this location. Comma-separate multiple values to search with OR condition, i.e.: `US, MX`",
+      description: "Add this to retrieve only proxies at this location, i.e.: `US`",
       optional: true,
     },
     responseTime: {
       type: "string[]",
       label: "Response Time",
-      description: "Add this to retrieve only proxies with a specific response time. Comma-separate multiple values to search with OR condition",
+      description: "Add this to retrieve only proxies with a specific response time",
       optional: true,
       options: constants.TIME_OPTIONS,
     },
     protocols: {
       type: "string[]",
       label: "Protocols",
-      description: "Add this to retrieve only proxies with a specific protocol. Comma-separate multiple values to search with AND condition",
+      description: "Add this to retrieve only proxies with a specific protocol",
       optional: true,
       options: constants.PROTOCOLS,
     },
     type: {
       type: "string[]",
       label: "Type",
-      description: "Add this to retrieve only proxies with a type. Comma-separate multiple values to search with OR condition",
+      description: "Add this to retrieve only proxies with a type",
       optional: true,
       options: constants.TYPES,
     },
