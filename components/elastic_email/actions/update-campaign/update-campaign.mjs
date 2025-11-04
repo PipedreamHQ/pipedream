@@ -1,4 +1,6 @@
 import app from "../../elastic_email.app.mjs";
+import { isValidEmailFormat } from "../../common/utils.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "elastic_email-update-campaign",
@@ -28,7 +30,7 @@ export default {
     from: {
       type: "string",
       label: "From",
-      description: "Your e-mail with an optional name (e.g.: John Doe email@domain.com)",
+      description: "Your e-mail with an optional name (e.g.: `email@domain.com` or `John Doe <email@domain.com>`)",
       optional: true,
     },
     recipientListNames: {
@@ -51,7 +53,7 @@ export default {
     replyTo: {
       type: "string",
       label: "Reply To",
-      description: "To what address should the recipients reply to (e.g. John Doe email@domain.com)",
+      description: "To what address should the recipients reply to (e.g. `email@domain.com` or `John Doe <email@domain.com>`)",
       optional: true,
     },
     subject: {
@@ -93,6 +95,13 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.from && !isValidEmailFormat(this.from)) {
+      throw new ConfigurationError("Invalid email format for 'From'");
+    }
+    if (this.replyTo && !isValidEmailFormat(this.replyTo)) {
+      throw new ConfigurationError("Invalid email format for 'Reply To'");
+    }
+
     const campaign = await this.app.getCampaign({
       $,
       campaign: this.campaign,

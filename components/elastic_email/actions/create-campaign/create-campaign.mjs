@@ -1,5 +1,6 @@
 import app from "../../elastic_email.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import { isValidEmailFormat } from "../../common/utils.mjs";
 
 export default {
   key: "elastic_email-create-campaign",
@@ -22,7 +23,7 @@ export default {
     from: {
       type: "string",
       label: "From",
-      description: "Your e-mail with an optional name (e.g.: John Doe email@domain.com)",
+      description: "Your e-mail with an optional name (e.g.: `email@domain.com` or `John Doe <email@domain.com>`)",
     },
     recipientListNames: {
       propDefinition: [
@@ -44,7 +45,7 @@ export default {
     replyTo: {
       type: "string",
       label: "Reply To",
-      description: "To what address should the recipients reply to (e.g. John Doe email@domain.com)",
+      description: "To what address should the recipients reply to (e.g. `email@domain.com` or `John Doe <email@domain.com>`)",
     },
     status: {
       propDefinition: [
@@ -84,6 +85,13 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.from && !isValidEmailFormat(this.from)) {
+      throw new ConfigurationError("Invalid email format for 'From'");
+    }
+    if (this.replyTo && !isValidEmailFormat(this.replyTo)) {
+      throw new ConfigurationError("Invalid email format for 'Reply To'");
+    }
+
     if (!this.recipientListNames && !this.recipientSegmentNames) {
       throw new ConfigurationError("You must provide at least one list or segment to read recipients from");
     }
