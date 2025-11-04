@@ -10,6 +10,7 @@ overrides:
   form-data@^4: 4.0.4
   sha.js: 2.4.12
   protobufjs@7.2.4: 7.2.6
+  vm2: 3.10.0
 
 importers:
 
@@ -23402,6 +23403,11 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
 
+  acorn@8.15.0:
+    resolution: {integrity: sha512-NZyJarBfL7nWwIq+FDL6Zp/yHEhePMNnnJ0y3qfieCrmNvYct8uvtiV41UvlSe6apAfk0fY1FbWx+NwfmpvtTg==}
+    engines: {node: '>=0.4.0'}
+    hasBin: true
+
   addressparser@1.0.1:
     resolution: {integrity: sha512-aQX7AISOMM7HFE0iZ3+YnD07oIeJqWGVnJ+ZIKaBZAk03ftmVYVqsGas/rbXKR21n4D/hKCSHypvcyOkds/xzg==}
 
@@ -32635,10 +32641,9 @@ packages:
       terser:
         optional: true
 
-  vm2@3.9.19:
-    resolution: {integrity: sha512-J637XF0DHDMV57R6JyVsTak7nIL8gy5KH4r1HiwWLf/4GBbb5MKL5y7LpmF4A8E2nR6XmzpmMFQ7V7ppPTmUQg==}
+  vm2@3.10.0:
+    resolution: {integrity: sha512-3ggF4Bs0cw4M7Rxn19/Cv3nJi04xrgHwt4uLto+zkcZocaKwP/nKP9wPx6ggN2X0DSXxOOIc63BV1jvES19wXQ==}
     engines: {node: '>=6.0'}
-    deprecated: The library contains critical security issues and should not be used for production! The maintenance of the project has been discontinued. Consider migrating your code to isolated-vm.
     hasBin: true
 
   vscode-uri@3.0.8:
@@ -42923,6 +42928,8 @@ snapshots:
 
   acorn@8.14.0: {}
 
+  acorn@8.15.0: {}
+
   addressparser@1.0.1: {}
 
   adm-zip@0.5.16: {}
@@ -44873,7 +44880,7 @@ snapshots:
       ast-types: 0.13.4
       escodegen: 1.14.3
       esprima: 4.0.1
-      vm2: 3.9.19
+      vm2: 3.10.0
 
   degenerator@5.0.1:
     dependencies:
@@ -55006,9 +55013,9 @@ snapshots:
       '@types/node': 24.0.10
       fsevents: 2.3.3
 
-  vm2@3.9.19:
+  vm2@3.10.0:
     dependencies:
-      acorn: 8.14.0
+      acorn: 8.15.0
       acorn-walk: 8.3.4
 
   vscode-uri@3.0.8: {}
