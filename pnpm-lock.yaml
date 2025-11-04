@@ -11321,6 +11321,9 @@ importers:
 
   components/power_automate: {}
 
+  components/practiceq:
+    specifiers: {}
+
   components/practitest:
     dependencies:
       '@pipedream/platform':
