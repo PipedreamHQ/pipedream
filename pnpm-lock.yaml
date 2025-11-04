@@ -1122,7 +1122,11 @@ importers:
 
   components/ashby_job_postings_api: {}
 
-  components/asin_data_api: {}
+  components/asin_data_api:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/asknicely:
     dependencies:
@@ -5277,8 +5281,7 @@ importers:
 
   components/form_io: {}
 
-  components/form_taxi:
-    specifiers: {}
+  components/form_taxi: {}
 
   components/formaloo:
     dependencies:
@@ -6387,8 +6390,7 @@ importers:
 
   components/greenspark: {}
 
-  components/greip:
-    specifiers: {}
+  components/greip: {}
 
   components/greptile:
     dependencies:
@@ -7140,8 +7142,7 @@ importers:
         specifier: ^4.0.0
         version: 4.0.3
 
-  components/imperva_waf:
-    specifiers: {}
+  components/imperva_waf: {}
 
   components/implisense_api: {}
 
@@ -11303,8 +11304,7 @@ importers:
 
   components/power_automate: {}
 
-  components/practiceq:
-    specifiers: {}
+  components/practiceq: {}
 
   components/practitest:
     dependencies:
