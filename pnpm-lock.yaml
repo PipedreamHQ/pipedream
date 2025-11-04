@@ -11,6 +11,7 @@ overrides:
   sha.js: 2.4.12
   protobufjs@7.2.4: 7.2.6
   vm2: 3.10.0
+  xmldom: npm:@xmldom/xmldom@0.8.11
 
 importers:
 
@@ -23341,6 +23342,10 @@ packages:
     resolution: {integrity: sha512-mBvWew1kZJHfNQVVfVllMjUDwCGN9apPa0t4/z1zaUJ9MzpXjRL3w8fsfJKB8gHN/h4rik9HneKfDbh2fErN+w==}
     engines: {node: ^14.14.0 || >=16.0.0}
 
+  '@xmldom/xmldom@0.8.11':
+    resolution: {integrity: sha512-cQzWCtO6C8TQiYl1ruKNn2U6Ao4o4WBBcbL61yJl84x+j5sOWWFU9X7DpND8XZG3daDppSsigMdfAIl2upQBRw==}
+    engines: {node: '>=10.0.0'}
+
   abbrev@3.0.1:
     resolution: {integrity: sha512-AO2ac6pjRB3SJmGJo+v5/aK6Omggp6fsLrs6wN9bd35ulu4cCwaAU9+7ZhXjeqHVkaHThLuzH0nZr0YpCDhygg==}
     engines: {node: ^18.17.0 || >=20.5.0}
@@ -32959,10 +32964,6 @@ packages:
 
   xmlcreate@2.0.4:
     resolution: {integrity: sha512-nquOebG4sngPmGPICTS5EnxqhKbCmz5Ox5hsszI2T6U5qdrJizBc+0ilYSEjTSzU0yZcmvppztXe/5Al5fUwdg==}
-
-  xmldom@0.6.0:
-    resolution: {integrity: sha512-iAcin401y58LckRZ0TkI4k0VSM1Qg0KGSc3i8rU+xrxe19A/BN1zHyVSJY7uoutVlaTSzYyk/v5AmkewAP7jtg==}
-    engines: {node: '>=10.0.0'}
 
   xmlrpc@1.3.2:
     resolution: {integrity: sha512-jQf5gbrP6wvzN71fgkcPPkF4bF/Wyovd7Xdff8d6/ihxYmgETQYSuTc+Hl+tsh/jmgPLro/Aro48LMFlIyEKKQ==}
@@ -42878,6 +42879,8 @@ snapshots:
       got: 12.6.1
       merge-options: 3.0.4
       p-event: 5.0.1
+
+  '@xmldom/xmldom@0.8.11': {}
 
   abbrev@3.0.1: {}
 
@@ -54980,7 +54983,7 @@ snapshots:
       axios: 1.6.0
       date-fns: 4.1.0
       url: 0.11.4
-      xmldom: 0.6.0
+      xmldom: '@xmldom/xmldom@0.8.11'
       xpath: 0.0.34
     transitivePeerDependencies:
       - debug
@@ -55329,8 +55332,6 @@ snapshots:
   xmlbuilder@9.0.7: {}
 
   xmlcreate@2.0.4: {}
-
-  xmldom@0.6.0: {}
 
   xmlrpc@1.3.2:
     dependencies:
