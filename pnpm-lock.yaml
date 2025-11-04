@@ -15173,8 +15173,8 @@ importers:
   components/twitch:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.4.0
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       qs:
         specifier: ^6.10.5
         version: 6.13.1
