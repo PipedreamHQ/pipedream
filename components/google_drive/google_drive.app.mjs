@@ -311,7 +311,7 @@ export default {
       label: "Reply ID",
       description: "The ID of the reply to get info for.",
       async options({
-        fileId, commentId, prevContext, driveId,
+        fileId, commentId, prevContext,
       }) {
         const { pageToken } = prevContext;
         const {
@@ -319,7 +319,6 @@ export default {
         } = await this.listReplies(
           pageToken,
           {
-            driveId,
             fileId,
             commentId,
           },
