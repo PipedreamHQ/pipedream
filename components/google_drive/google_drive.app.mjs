@@ -306,6 +306,38 @@ export default {
         };
       },
     },
+    replyId: {
+      type: "string",
+      label: "Reply ID",
+      description: "The ID of the reply to get info for.",
+      async options({
+        fileId, commentId, prevContext, driveId,
+      }) {
+        const { pageToken } = prevContext;
+        const {
+          replies, nextPageToken,
+        } = await this.listReplies(
+          pageToken,
+          {
+            driveId,
+            fileId,
+            commentId,
+          },
+        );
+
+        return {
+          options: replies?.map(({
+            id, content,
+          }) => ({
+            label: content,
+            value: id,
+          })) || [],
+          context: {
+            pageToken: nextPageToken,
+          },
+        };
+      },
+    },
   },
   methods: {
     // Static methods
@@ -731,13 +763,20 @@ export default {
         ...args,
       });
     },
-    createComment(content, fileId) {
+    getComment(fileId, commentId, includeDeleted) {
+      const drive = this.drive();
+      return drive.comments.get({
+        commentId,
+        fileId,
+        includeDeleted,
+        fields: "*",
+      });
+    },
+    createComment(fileId, requestBody) {
       const drive = this.drive();
       return drive.comments.create({
         fileId,
-        requestBody: {
-          content,
-        },
+        requestBody,
         fields: "*",
       });
     },
@@ -758,12 +797,44 @@ export default {
         fields: "*",
       });
     },
-    updateComment(commentId, fileId, data) {
+    async listReplies(pageToken, opts = {}) {
+      const drive = this.drive();
+      const { data } = await drive.replies.list({
+        pageToken,
+        ...opts,
+        fields: "*",
+      });
+      return data;
+    },
+    getReply(replyId, fileId, commentId) {
+      const drive = this.drive();
+      return drive.replies.get({
+        replyId,
+        fileId,
+        commentId,
+        fields: "*",
+      });
+    },
+    updateReply(args = {}) {
+      const drive = this.drive();
+      return drive.replies.update({
+        ...args,
+        fields: "*",
+      });
+    },
+    deleteReply(args = {}) {
+      const drive = this.drive();
+      return drive.replies.delete({
+        ...args,
+        fields: "*",
+      });
+    },
+    updateComment(commentId, fileId, requestBody) {
       const drive = this.drive();
       return drive.comments.update({
         fileId,
         commentId,
-        requestBody: data,
+        requestBody,
         fields: "*",
       });
     },
