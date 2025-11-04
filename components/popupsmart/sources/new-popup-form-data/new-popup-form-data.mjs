@@ -33,13 +33,18 @@ export default {
     },
     async startEvent(maxResults = 0) {
       const lastDate = this._getLastDate();
-      let leads = this.popupsmart.paginate({
+      const results = this.popupsmart.paginate({
         maxResults,
         fn: this.popupsmart.listLeads,
         headers: {
           "x-campaign-id": this.campaignId,
         },
       });
+
+      let leads = [];
+      for await (const item of results) {
+        leads.push(item);
+      }
 
       leads = leads.filter((item) => Date.parse(item.date) > lastDate);
 
