@@ -28,7 +28,12 @@ export default {
             payload[key] = field.value;
           } else {
             const fieldId = customFields.find(({ title }) => title === field)?.id;
-            payload[key] = `{{ticket.ticket_field_${fieldId}}}`;
+            if (fieldId) {
+              payload[key] = `{{ticket.ticket_field_${fieldId}}}`;
+            } else {
+              console.warn(`Custom field not found for: ${field}`);
+              payload[key] = null;
+            }
           }
         }
         return payload;
