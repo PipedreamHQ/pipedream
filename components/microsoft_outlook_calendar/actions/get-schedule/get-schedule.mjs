@@ -65,8 +65,8 @@ export default {
       const targetWinTz = this.timeZone;
 
       // Convert to IANA time zones
-      const sourceIana = findIana(sourceWinTz)[0]?.valueOf() || "UTC";
-      const targetIana = findIana(targetWinTz)[0]?.valueOf() || "UTC";
+      const sourceIana = findIana(sourceWinTz)?.[0]?.valueOf() || "UTC";
+      const targetIana = findIana(targetWinTz)?.[0]?.valueOf() || "UTC";
 
       const startTime = DateTime.fromISO(`2025-01-01T${workingHours.startTime}`, {
         zone: sourceIana,
@@ -112,7 +112,12 @@ export default {
       },
     });
 
-    value[0].workingHours = this.convertWorkingHoursToItemTimezone(value[0]);
+    if (value?.length > 0 && value[0].workingHours) {
+      const convertedHours = this.convertWorkingHoursToItemTimezone(value[0]);
+      if (convertedHours) {
+        value[0].workingHours = convertedHours;
+      }
+    }
 
     $.export("$summary", `Successfully retrieved schedules for \`${schedules.join("`, `")}\``);
 
