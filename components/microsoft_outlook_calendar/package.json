@@ -17,6 +17,8 @@
   "dependencies": {
     "@pipedream/microsoft_outlook": "^1.7.3",
     "@pipedream/pipedream": "^0.4.2",
-    "@pipedream/platform": "^3.1.0"
+    "@pipedream/platform": "^3.1.0",
+    "luxon": "^3.7.2",
+    "windows-iana": "^5.1.0"
   }
 }

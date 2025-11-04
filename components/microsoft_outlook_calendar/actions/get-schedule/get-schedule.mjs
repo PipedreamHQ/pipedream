@@ -1,6 +1,8 @@
 import { ConfigurationError } from "@pipedream/platform";
 import microsoftOutlook from "../../microsoft_outlook_calendar.app.mjs";
 import utils from "../../common/utils.mjs";
+import { DateTime } from "luxon";
+import { findIana } from "windows-iana";
 
 export default {
   key: "microsoft_outlook_calendar-get-schedule",
@@ -53,6 +55,36 @@ export default {
         ...opts,
       });
     },
+    convertWorkingHoursToItemTimezone(response) {
+      const workingHours = response?.workingHours;
+
+      if (!workingHours) return undefined;
+
+      // Extract the Windows-style names
+      const sourceWinTz = workingHours.timeZone.name;
+      const targetWinTz = this.timeZone;
+
+      // Convert to IANA time zones
+      const sourceIana = findIana(sourceWinTz)[0]?.valueOf() || "UTC";
+      const targetIana = findIana(targetWinTz)[0]?.valueOf() || "UTC";
+
+      const startTime = DateTime.fromISO(`2025-01-01T${workingHours.startTime}`, {
+        zone: sourceIana,
+      }).setZone(targetIana);
+
+      const endTime = DateTime.fromISO(`2025-01-01T${workingHours.endTime}`, {
+        zone: sourceIana,
+      }).setZone(targetIana);
+
+      return {
+        ...workingHours,
+        startTime: startTime.toFormat("HH:mm:ss.SSSSSSS"),
+        endTime: endTime.toFormat("HH:mm:ss.SSSSSSS"),
+        timeZone: {
+          name: targetWinTz,
+        },
+      };
+    },
   },
   async run({ $ }) {
     if (this.schedules === null || this.schedules === undefined || this.schedules?.length === 0) {
@@ -79,6 +111,8 @@ export default {
         Prefer: `outlook.timezone="${this.timeZone}"`,
       },
     });
+
+    value[0].workingHours = this.convertWorkingHoursToItemTimezone(value[0]);
 
     $.export("$summary", `Successfully retrieved schedules for \`${schedules.join("`, `")}\``);
 
