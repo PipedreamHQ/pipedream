@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/podio",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Pipedream Podio Components",
   "main": "podio.app.mjs",
   "keywords": [
@@ -11,7 +11,7 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
     "@pipedream/platform": "^3.1.0",
-    "form-data": "^4.0.0"
+    "form-data": "^4.0.4"
   },
   "publishConfig": {
     "access": "public"

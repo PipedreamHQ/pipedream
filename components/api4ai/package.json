@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/api4ai",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream API4AI Components",
   "main": "api4ai.app.mjs",
   "keywords": [
@@ -28,7 +28,7 @@
   "author": "API4AI Team <hello@api4.ai> (https://api4.ai/)",
   "dependencies": {
     "@pipedream/platform": "^3.1.0",
-    "form-data": "^4.0.0"
+    "form-data": "^4.0.4"
   },
   "publishConfig": {
     "access": "public"

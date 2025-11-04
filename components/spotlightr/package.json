@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/spotlightr",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Pipedream Spotlightr Components",
   "main": "spotlightr.app.mjs",
   "keywords": [
@@ -15,7 +15,7 @@
   "dependencies": {
     "@pipedream/platform": "^3.1.0",
     "axios": "^1.11.0",
-    "form-data": "^4.0.0",
+    "form-data": "^4.0.4",
     "fs": "^0.0.1-security"
   }
 }
