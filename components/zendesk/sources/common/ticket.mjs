@@ -24,9 +24,13 @@ export default {
         const { ticket_fields: customFields } = await this.app.listTicketFields();
         for (const field of this.fields) {
           const key = this.convertToCamelCase(field?.label || field);
-          const fieldId = customFields.find(({ title }) => title === field?.value || field)?.id;
-          payload[key] = `{{ticket.ticket_field_${fieldId}}}`;
-        } console.log(payload);
+          if (field?.value) {
+            payload[key] = field.value;
+          } else {
+            const fieldId = customFields.find(({ title }) => title === field)?.id;
+            payload[key] = `{{ticket.ticket_field_${fieldId}}}`;
+          }
+        }
         return payload;
       }
       return {
