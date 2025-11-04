@@ -7450,6 +7450,9 @@ importers:
         specifier: ^4.0.4
         version: 4.0.4
 
+  components/jina_ai:
+    specifiers: {}
+
   components/jina_reader:
     dependencies:
       '@pipedream/platform':
