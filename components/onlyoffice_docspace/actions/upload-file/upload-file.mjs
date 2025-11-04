@@ -4,8 +4,8 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "onlyoffice_docspace-upload-file",
   name: "Upload File",
-  description: "Uploads a file to the specified room. [See the documentation](https://api.onlyoffice.com/docspace/method/files/post/api/2.0/files/%7bfolderid%7d/upload)",
-  version: "0.1.2",
+  description: "Uploads a file to the specified room. [See the documentation](https://api.onlyoffice.com/docspace/api-backend/usage-api/upload-file/)",
+  version: "0.1.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
