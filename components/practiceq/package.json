@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/practiceq",
+  "version": "0.0.1",
+  "description": "Pipedream PracticeQ Components",
+  "main": "practiceq.app.mjs",
+  "keywords": [
+    "pipedream",
+    "practiceq"
+  ],
+  "homepage": "https://pipedream.com/apps/practiceq",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
