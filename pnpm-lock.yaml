@@ -1140,7 +1140,11 @@ importers:
 
   components/ascora: {}
 
-  components/ashby: {}
+  components/ashby:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.1
 
   components/ashby_job_postings_api: {}
 
@@ -1231,8 +1235,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/autocalls:
-    specifiers: {}
+  components/autocalls: {}
 
   components/autodesk:
     dependencies:
@@ -9372,8 +9375,7 @@ importers:
 
   components/moonmail: {}
 
-  components/moorcheh:
-    specifiers: {}
+  components/moorcheh: {}
 
   components/moosend:
     dependencies:
@@ -9796,8 +9798,7 @@ importers:
 
   components/nmbrs: {}
 
-  components/nmkr:
-    specifiers: {}
+  components/nmkr: {}
 
   components/nocodb:
     dependencies:
@@ -9936,8 +9937,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/nvoip:
-    specifiers: {}
+  components/nvoip: {}
 
   components/nyckel:
     dependencies:
@@ -9978,8 +9978,7 @@ importers:
         specifier: ^4.0.6
         version: 4.0.6
 
-  components/octagon:
-    specifiers: {}
+  components/octagon: {}
 
   components/octave: {}
 
@@ -10381,8 +10380,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/orgo:
-    specifiers: {}
+  components/orgo: {}
 
   components/originality_ai:
     dependencies:
@@ -10572,8 +10570,7 @@ importers:
 
   components/parallel: {}
 
-  components/parallel_web_systems:
-    specifiers: {}
+  components/parallel_web_systems: {}
 
   components/parma:
     dependencies:
@@ -10753,8 +10750,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/pdf_vector:
-    specifiers: {}
+  components/pdf_vector: {}
 
   components/pdffiller:
     dependencies:
@@ -10812,8 +10808,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/peliqan:
-    specifiers: {}
+  components/peliqan: {}
 
   components/pembee: {}
 
@@ -31520,17 +31515,17 @@ packages:
   superagent@3.8.1:
     resolution: {integrity: sha512-VMBFLYgFuRdfeNQSMLbxGSLfmXL/xc+OO+BZp41Za/NRDBet/BNbkRJrYzCUu0u4GU0i/ml2dtT8b9qgkw9z6Q==}
     engines: {node: '>= 4.0'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   superagent@4.1.0:
     resolution: {integrity: sha512-FT3QLMasz0YyCd4uIi5HNe+3t/onxMyEho7C3PSqmti3Twgy2rXT4fmkTz6wRL6bTF4uzPcfkUCa8u4JWHw8Ag==}
     engines: {node: '>= 6.0'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   superagent@5.3.1:
     resolution: {integrity: sha512-wjJ/MoTid2/RuGCOFtlacyGNxN9QLMgcpYLDQlWFIhhdJ93kNscFonGvrpAHSCVjRVj++DGCglocF7Aej1KHvQ==}
     engines: {node: '>= 7.0.0'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   supports-color@10.0.0:
     resolution: {integrity: sha512-HRVVSbCCMbj7/kdWF9Q+bbckjBHLtHMEoJWlkmYzzdwhYMkjkOwubLM6t7NbWKjgKamGDrWL1++KrjUO1t9oAQ==}
@@ -39847,8 +39842,6 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
-    transitivePeerDependencies:
-      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
