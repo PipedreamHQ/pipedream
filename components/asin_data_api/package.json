@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/asin_data_api",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream ASIN Data API Components",
   "main": "asin_data_api.app.mjs",
   "keywords": [
