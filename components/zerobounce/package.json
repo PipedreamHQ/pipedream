@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zerobounce",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Pipedream ZeroBounce Components",
   "main": "zerobounce.app.mjs",
   "keywords": [
@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@pipedream/platform": "^3.1.0",
-    "form-data": "^4.0.1",
+    "form-data": "^4.0.4",
     "path": "^0.12.7"
   }
 }

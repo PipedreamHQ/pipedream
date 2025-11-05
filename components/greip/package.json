@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/greip",
+  "version": "0.0.1",
+  "description": "Pipedream Greip Components",
+  "main": "greip.app.mjs",
+  "keywords": [
+    "pipedream",
+    "greip"
+  ],
+  "homepage": "https://pipedream.com/apps/greip",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

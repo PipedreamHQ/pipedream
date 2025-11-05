@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/box",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Pipedream Box Components",
   "main": "box.app.mjs",
   "keywords": [
@@ -12,7 +12,7 @@
   "dependencies": {
     "@pipedream/platform": "^3.1.0",
     "file-type": "^21.0.0",
-    "form-data": "^4.0.0",
+    "form-data": "^4.0.4",
     "path": "^0.12.7",
     "stream": "^0.0.2",
     "util": "^0.12.5"

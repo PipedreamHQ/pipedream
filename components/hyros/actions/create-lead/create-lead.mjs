@@ -4,7 +4,7 @@ import hyros from "../../hyros.app.mjs";
 export default {
   key: "hyros-create-lead",
   name: "Create Lead",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -52,6 +52,13 @@ export default {
       propDefinition: [
         hyros,
         "phoneNumbers",
+      ],
+      optional: true,
+    },
+    stage: {
+      propDefinition: [
+        hyros,
+        "leadStage",
       ],
       optional: true,
     },
