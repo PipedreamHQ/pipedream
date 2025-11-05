@@ -11544,7 +11544,11 @@ importers:
 
   components/proxiedmail: {}
 
-  components/proxy_spider: {}
+  components/proxy_spider:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/proxycurl:
     dependencies:
