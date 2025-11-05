@@ -53,7 +53,7 @@ export default {
       issueTypeId,
     } = this;
 
-    if (isNaN(projectId) || !cloudId || !isNaN(issueTypeId)) {
+    if (isNaN(projectId) || !cloudId || isNaN(issueTypeId)) {
       existingProps.additionalProperties.optional = false;
       return {};
     }
