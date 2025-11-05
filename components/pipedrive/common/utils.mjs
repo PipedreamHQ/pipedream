@@ -63,16 +63,21 @@ export const formatCustomFields = async (resp, getResourcesFn, getFieldsFn) => {
   const customFieldNames = await getCustomFieldNames(getFieldsFn);
 
   return resp.data.items.map((person) => {
-    if (!person.item?.custom_fields?.length) {
+    if (!person.item?.custom_fields || Object.keys(person.item.custom_fields).length === 0) {
       return person;
     }
     const { custom_fields: customFields } = persons.find((p) => p.id === person.item.id);
+    if (!customFields || Object.keys(customFields).length === 0) {
+      return person;
+    }
     const formattedCustomFields = {};
     Object.entries(customFields).forEach(([
       key,
       value,
     ]) => {
-      formattedCustomFields[customFieldNames[key]] = value;
+      if (customFieldNames[key]) {
+        formattedCustomFields[customFieldNames[key]] = value;
+      }
     });
     return {
       ...person,
