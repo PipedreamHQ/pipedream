@@ -97,21 +97,24 @@ export default {
   },
   async run({ $ }) {
     try {
+      const data = {
+        externalId: this.externalId,
+        name: this.name,
+        status: this.status,
+        priority: this.priority,
+        direction: this.direction,
+        tags: parseObject(this.tags),
+        assignedUsers: parseObject(this.assignedUsers),
+        assignedTeams: parseObject(this.assignedTeams),
+        defaultLang: this.defaultLang,
+      };
+
+      if (this.queue) data.queue = this.queue;
+
       const response = await this.kustomer.updateConversation({
         $,
         conversationId: this.conversationId,
-        data: {
-          externalId: this.externalId,
-          name: this.name,
-          status: this.status,
-          priority: this.priority,
-          direction: this.direction,
-          tags: parseObject(this.tags),
-          assignedUsers: parseObject(this.assignedUsers),
-          assignedTeams: parseObject(this.assignedTeams),
-          defaultLang: this.defaultLang,
-          queue: this.queueId,
-        },
+        data,
       });
 
       $.export("$summary", `Conversation ${this.conversationId} updated successfully`);
