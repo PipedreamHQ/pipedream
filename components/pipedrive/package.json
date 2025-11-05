@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/pipedrive",
-  "version": "0.10.3",
+  "version": "0.10.4",
   "description": "Pipedream Pipedrive Components",
   "main": "pipedrive.app.mjs",
   "keywords": [

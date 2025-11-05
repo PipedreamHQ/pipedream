@@ -45,3 +45,41 @@ export const parseData = async ({
   body.previous.custom_fields = await parseCustomFields(body.previous, customFields);
   return body;
 };
+
+const getCustomFieldNames = async (fn) => {
+  const { data: personFields } = await fn();
+  const customFields = personFields.filter((field) => field.created_by_user_id);
+  const customFieldNames = {};
+  customFields.forEach((field) => {
+    customFieldNames[field.key] = field.name;
+  });
+  return customFieldNames;
+};
+
+export const formatCustomFields = async (resp, getResourcesFn, getFieldsFn) => {
+  const { data: persons } = await getResourcesFn({
+    ids: resp.data.items.map((item) => item.item.id),
+  });
+  const customFieldNames = await getCustomFieldNames(getFieldsFn);
+
+  return resp.data.items.map((person) => {
+    if (!person.item?.custom_fields?.length) {
+      return person;
+    }
+    const { custom_fields: customFields } = persons.find((p) => p.id === person.item.id);
+    const formattedCustomFields = {};
+    Object.entries(customFields).forEach(([
+      key,
+      value,
+    ]) => {
+      formattedCustomFields[customFieldNames[key]] = value;
+    });
+    return {
+      ...person,
+      item: {
+        ...person.item,
+        custom_fields: formattedCustomFields,
+      },
+    };
+  });
+};
