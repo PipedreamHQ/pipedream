@@ -16,7 +16,6 @@ export default {
     generateMeta(body) {
       const { data } = body;
       return {
-        id: data.id,
         summary: `New Purchase ${data.id}`,
         ts: Date.now(),
       };

@@ -15,11 +15,9 @@ export default {
     },
     generateMeta(body) {
       const { data } = body;
-      const ts = Date.now();
       return {
-        id: `${data.id}-${ts}`,
         summary: `Purchase Updated ${data.id}`,
-        ts,
+        ts: Date.now(),
       };
     },
   },
