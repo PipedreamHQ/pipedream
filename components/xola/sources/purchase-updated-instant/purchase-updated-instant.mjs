@@ -8,7 +8,6 @@ export default {
   description: "Emit new event when a purchase is updated.",
   version: "0.0.1",
   type: "source",
-  dedupe: "unique",
   methods: {
     ...common.methods,
     getEventName() {
