@@ -6,7 +6,7 @@ export default {
   key: "frontapp-new-conversation-created",
   name: "New Conversation Created",
   description: "Emit new event when a conversation is created. [See the documentation](https://dev.frontapp.com/reference/list-conversations)",
-  version: "0.0.3",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -23,7 +23,7 @@ export default {
     _getEmit(conversation) {
       return {
         id: conversation.id,
-        summary: `New conversation: ${conversation.subject}`,
+        summary: `New conversation: ${conversation.subject || conversation.id}`,
         ts: conversation.created_at * 1000,
       };
     },

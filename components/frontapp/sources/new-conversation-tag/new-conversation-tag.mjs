@@ -6,7 +6,7 @@ export default {
   key: "frontapp-new-conversation-tag",
   name: "New Conversation Tag",
   description: "Emit new event when a conversation is tagged with a specific tag or any tag. [See the documentation](https://dev.frontapp.com/reference/events)",
-  version: "0.0.5",
+  version: "0.0.7",
   type: "source",
   dedupe: "unique",
   props: {
@@ -24,9 +24,8 @@ export default {
     _getFunction() {
       return this.frontapp.listEvents;
     },
-    _getParams(lastTs) {
+    _getParams() {
       return {
-        "q[after]": lastTs,
         "q[types]": [
           "tag",
         ],
@@ -39,11 +38,19 @@ export default {
       if (item.type === "tag" && tagIdsArray.includes(item.target?.data?.id)) {
         return {
           id: item.id,
-          summary: `New conversation with id: "${item.id}" was tagged as '${item.target?.data?.name}'!`,
-          ts: Date.parse(item.created_at),
+          summary: `Conversation with ID: "${item.id}" was tagged as '${item.target?.data?.name}'!`,
+          ts: (Math.floor(item.emitted_at / 1000)) * 1000,
         };
       }
     },
+  },
+  hooks: {
+    async deploy() {
+      await this.startEvent(10, (item, lastTs) => item.emitted_at > lastTs);
+    },
+  },
+  async run() {
+    await this.startEvent(0, (item, lastTs) => item.emitted_at > lastTs);
   },
   sampleEmit,
 };

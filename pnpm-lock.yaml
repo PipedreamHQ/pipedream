@@ -104,7 +104,7 @@ importers:
         version: 4.0.0
       ts-jest:
         specifier: ^29.1.1
-        version: 29.2.5(@babel/core@8.0.0-alpha.13)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@8.0.0-alpha.13))(jest@29.7.0(@types/node@20.17.6)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.17.6)(typescript@5.6.3)))(typescript@5.6.3)
+        version: 29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(jest@29.7.0(@types/node@20.17.6)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.17.6)(typescript@5.6.3)))(typescript@5.6.3)
       tsc-esm-fix:
         specifier: ^2.18.0
         version: 2.20.27
@@ -157,7 +157,11 @@ importers:
         specifier: ^4.0.1
         version: 4.0.1
 
-  components/_302_ai: {}
+  components/_302_ai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/_360nrs:
     dependencies:
@@ -445,8 +449,11 @@ importers:
   components/aftership:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
+      crypto:
+        specifier: ^1.0.1
+        version: 1.0.1
 
   components/agendor:
     dependencies:
@@ -626,6 +633,15 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
 
+  components/airweave:
+    dependencies:
+      '@airweave/sdk':
+        specifier: ^0.1.50
+        version: 0.1.51
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.1.0
+
   components/aitable_ai:
     dependencies:
       '@pipedream/platform':
@@ -711,6 +727,8 @@ importers:
         version: 3.0.3
 
   components/alibaba_cloud: {}
+
+  components/alienvault: {}
 
   components/all_images_ai:
     dependencies:
@@ -1100,6 +1118,8 @@ importers:
 
   components/ascora: {}
 
+  components/ashby: {}
+
   components/ashby_job_postings_api: {}
 
   components/asin_data_api: {}
@@ -1232,8 +1252,8 @@ importers:
   components/aweber:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.2.0
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       '@pipedreamhq/platform':
         specifier: ^0.8.1
         version: 0.8.1
@@ -1366,6 +1386,8 @@ importers:
         version: 1.6.6
 
   components/azure_api_for_fhir: {}
+
+  components/azure_cosmos_db: {}
 
   components/azure_devops:
     dependencies:
@@ -1595,6 +1617,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/beyond_presence: {}
+
   components/bidsketch:
     dependencies:
       '@pipedream/platform':
@@ -1669,6 +1693,8 @@ importers:
   components/billplz: {}
 
   components/billsby: {}
+
+  components/binalyze_air: {}
 
   components/bingx:
     dependencies:
@@ -1796,7 +1822,11 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/blotato: {}
+  components/blotato:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/blue: {}
 
@@ -1930,6 +1960,8 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/brainbase_labs: {}
+
   components/brainshop: {}
 
   components/braintree: {}
@@ -2044,6 +2076,8 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/browserflow: {}
+
   components/browserhub:
     dependencies:
       '@pipedream/platform':
@@ -2134,6 +2168,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.3.0
         version: 1.6.6
+
+  components/bump_sh: {}
 
   components/bunnycdn:
     dependencies:
@@ -2233,6 +2269,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
+
+  components/callhippo:
+    specifiers: {}
 
   components/callhub:
     dependencies:
@@ -2492,6 +2531,8 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/chatbase: {}
+
   components/chatbot:
     dependencies:
       '@pipedream/platform':
@@ -2660,6 +2701,8 @@ importers:
       url-exist:
         specifier: ^3.0.1
         version: 3.0.1(web-streams-polyfill@3.3.3)
+
+  components/clarifai: {}
 
   components/clarify: {}
 
@@ -2844,6 +2887,8 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/cloud_66: {}
+
   components/cloud_convert:
     dependencies:
       '@pipedream/platform':
@@ -2977,6 +3022,8 @@ importers:
 
   components/codeberg: {}
 
+  components/codefresh: {}
+
   components/codegpt: {}
 
   components/codemagic:
@@ -3031,6 +3078,8 @@ importers:
       cohere-ai:
         specifier: ^7.10.6
         version: 7.14.0(@aws-sdk/client-sso-oidc@3.696.0(@aws-sdk/client-sts@3.696.0(aws-crt@1.25.0))(aws-crt@1.25.0))(aws-crt@1.25.0)
+
+  components/coinapi: {}
 
   components/coinbase:
     dependencies:
@@ -3088,6 +3137,8 @@ importers:
         specifier: ^0.0.6
         version: 0.0.6
 
+  components/cometapi: {}
+
   components/cometly:
     dependencies:
       '@pipedream/platform':
@@ -3144,6 +3195,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.4.0
         version: 1.6.6
+
+  components/configcat: {}
 
   components/confluence:
     dependencies:
@@ -3272,6 +3325,8 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/copicake: {}
+
   components/copper:
     dependencies:
       '@pipedream/platform':
@@ -3357,6 +3412,10 @@ importers:
       '@pipedream/platform':
         specifier: ^1.6.0
         version: 1.6.6
+
+  components/cronly: {}
+
+  components/crossmint: {}
 
   components/crove_app:
     dependencies:
@@ -3546,6 +3605,8 @@ importers:
         version: 3.0.3
 
   components/darwinbox: {}
+
+  components/dasha_ai: {}
 
   components/data247: {}
 
@@ -3778,6 +3839,8 @@ importers:
       form-data:
         specifier: ^4.0.4
         version: 4.0.4
+
+  components/devolens: {}
 
   components/devrev:
     dependencies:
@@ -4653,8 +4716,8 @@ importers:
   components/etermin:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.0
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/ethereum: {}
 
@@ -4725,6 +4788,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.6.6
+
+  components/exa: {}
 
   components/exact:
     dependencies:
@@ -4863,6 +4928,12 @@ importers:
 
   components/fastfield_mobile_forms: {}
 
+  components/fathom:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
+
   components/fatture_in_cloud: {}
 
   components/faunadb:
@@ -4930,8 +5001,8 @@ importers:
   components/figma:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/file_store: {}
 
@@ -5122,6 +5193,9 @@ importers:
         version: 4.17.21
 
   components/florm: {}
+
+  components/flotiq:
+    specifiers: {}
 
   components/flowiseai:
     dependencies:
@@ -5377,6 +5451,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.0
         version: 3.1.0
+      async-retry:
+        specifier: ^1.3.3
+        version: 1.3.3
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -5850,14 +5927,16 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/google_books: {}
+
   components/google_calendar:
     dependencies:
       '@googleapis/calendar':
         specifier: ^1.0.2
         version: 1.0.4
       '@pipedream/platform':
-        specifier: ^3.0.0
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       color-2-name:
         specifier: ^1.4.4
         version: 1.4.4
@@ -6047,6 +6126,8 @@ importers:
       google-auth-library:
         specifier: ^8.8.0
         version: 8.9.0
+
+  components/google_perspective: {}
 
   components/google_photos:
     dependencies:
@@ -6550,6 +6631,12 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
+
+  components/hex:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/heygen:
     dependencies:
@@ -7069,7 +7156,11 @@ importers:
         specifier: ^1.2.0
         version: 1.6.6
 
-  components/inmobile: {}
+  components/inmobile:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/inoreader:
     dependencies:
@@ -7961,7 +8052,11 @@ importers:
 
   components/lightpanda: {}
 
-  components/lightspeed_ecom_c_series: {}
+  components/lightspeed_ecom_c_series:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/lightspeed_retail_pos:
     dependencies:
@@ -8068,8 +8163,8 @@ importers:
         specifier: ^0.1.1
         version: 0.1.1
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/linkish:
     dependencies:
@@ -8805,13 +8900,15 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/microsoft_bookings: {}
+
   components/microsoft_dataverse: {}
 
   components/microsoft_dynamics_365_sales:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       pluralize:
         specifier: ^8.0.0
         version: 8.0.0
@@ -8844,6 +8941,8 @@ importers:
         version: 3.0.3
 
   components/microsoft_graph_api_daemon_app: {}
+
+  components/microsoft_graph_security: {}
 
   components/microsoft_onedrive:
     dependencies:
@@ -8883,6 +8982,12 @@ importers:
 
   components/microsoft_outlook_calendar:
     dependencies:
+      '@pipedream/microsoft_outlook':
+        specifier: ^1.7.3
+        version: 1.7.3
+      '@pipedream/pipedream':
+        specifier: ^0.4.2
+        version: 0.4.2
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
@@ -9250,12 +9355,11 @@ importers:
       mysql2:
         specifier: ^3.9.2
         version: 3.11.4
-      mysql2-promise:
-        specifier: ^0.1.4
-        version: 0.1.4
       uuid:
         specifier: ^8.3.2
         version: 8.3.2
+
+  components/n1n: {}
 
   components/n8n_io: {}
 
@@ -9630,6 +9734,9 @@ importers:
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
+      notion-helper:
+        specifier: ^1.3.27
+        version: 1.3.27
       notion-to-md:
         specifier: 3.1.8
         version: 3.1.8
@@ -10245,7 +10352,11 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
 
-  components/paddle: {}
+  components/paddle:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/page_x:
     dependencies:
@@ -10387,8 +10498,8 @@ importers:
   components/payhip:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/paykickstart:
     dependencies:
@@ -10567,8 +10678,8 @@ importers:
   components/perplexity:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.5
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/perry_github_test: {}
 
@@ -10864,6 +10975,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.3.0
         version: 1.6.6
+
+  components/piwik_pro: {}
 
   components/pixelbin:
     dependencies:
@@ -12609,7 +12722,11 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/screenshotbase: {}
+  components/screenshotbase:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/screenshotone:
     dependencies:
@@ -13067,8 +13184,8 @@ importers:
   components/shopify_partner:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.0
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       graphql:
         specifier: ^16.8.1
         version: 16.9.0
@@ -13341,6 +13458,21 @@ importers:
   components/slack_demo_app: {}
 
   components/slack_demo_app_1: {}
+
+  components/slack_v2:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
+      '@slack/web-api':
+        specifier: ^7.9.0
+        version: 7.9.1
+      async-retry:
+        specifier: ^1.3.3
+        version: 1.3.3
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
 
   components/slicktext:
     dependencies:
@@ -14147,7 +14279,11 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
-  components/taggun: {}
+  components/taggun:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/taiga:
     dependencies:
@@ -14711,6 +14847,8 @@ importers:
         specifier: ^0.1.4
         version: 0.1.6
 
+  components/topdesk: {}
+
   components/topmessage:
     dependencies:
       '@pipedream/platform':
@@ -15129,7 +15267,11 @@ importers:
         specifier: ^3.0.3
         version: 3.1.0
 
-  components/unleashed_software: {}
+  components/unleashed_software:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/unsplash:
     dependencies:
@@ -15189,6 +15331,12 @@ importers:
   components/upollo: {}
 
   components/uproc: {}
+
+  components/ups:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/upstash_redis:
     dependencies:
@@ -16120,6 +16268,8 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
 
+  components/xola: {}
+
   components/xperiencify:
     dependencies:
       '@pipedream/platform':
@@ -16895,7 +17045,7 @@ importers:
         version: 3.1.7
       ts-jest:
         specifier: ^29.2.5
-        version: 29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(jest@29.7.0(@types/node@20.17.30)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.17.30)(typescript@5.7.2)))(typescript@5.7.2)
+        version: 29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(esbuild@0.24.2)(jest@29.7.0(@types/node@20.17.30)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.17.30)(typescript@5.7.2)))(typescript@5.7.2)
       tsup:
         specifier: ^8.3.6
         version: 8.3.6(@microsoft/api-extractor@7.47.12(@types/node@20.17.30))(jiti@2.4.2)(postcss@8.5.6)(tsx@4.19.4)(typescript@5.7.2)(yaml@2.8.0)
@@ -16998,6 +17148,9 @@ packages:
   '@adyen/api-library@20.0.0':
     resolution: {integrity: sha512-C+jj5XBTCNs7AFwufOkPLhuqn9bdgSDcqLB6b/Ppi9Fujwt613vWmA1hxeG76RX49vzHZIDJLq6N/v0o2SY1sA==}
     engines: {node: '>=18'}
+
+  '@airweave/sdk@0.1.51':
+    resolution: {integrity: sha512-jxBG+liX4XAz4acOH7UrZnGzJ9ltgSsh2CIadpQFT+XAnJUwsRajwnKef46LsNUgvUplrzjFkEXABX0RCAWP4g==}
 
   '@algolia/client-abtesting@5.17.1':
     resolution: {integrity: sha512-Os/xkQbDp5A5RdGYq1yS3fF69GoBJH5FIfrkVh+fXxCSe714i1Xdl9XoXhS4xG76DGKm6EFMlUqP024qjps8cg==}
@@ -20405,6 +20558,9 @@ packages:
   '@pipedream/linkedin@0.1.1':
     resolution: {integrity: sha512-9pFjaohz/wnJMIRpPmDPqHeWiXUIJVWIPvQudE8TkUjaBbyieDpscy8reWMp96UK9aXz1Z2J2yiNh0msILAX9Q==}
 
+  '@pipedream/microsoft_outlook@1.7.3':
+    resolution: {integrity: sha512-lJvKB6fvnHh9h9hk/z3zWQ3UsGY4U6NcZKpqSX+uEFdslSJI1GU9vY9UmntgPpTt0IuWz8EN5o6XJGb8/twl2w==}
+
   '@pipedream/monday@0.7.0':
     resolution: {integrity: sha512-ovVtLhKMJpOTSoc7JcVLrbVrJxW4BT96eW79TiiPc+DgMSM7ouRmCk5lHL2xCAtrqDForXSrXXGjHOAzhJsytA==}
 
@@ -20413,6 +20569,9 @@ packages:
 
   '@pipedream/notion@1.0.2':
     resolution: {integrity: sha512-qVMpoUOus3E4oYtrPoHq0jciipxY4Y9bOxqaiv6uyUbxOKC5QaVvOIRgge5E++uR7Bf46NepwwTcW7wujktUrw==}
+
+  '@pipedream/pipedream@0.4.2':
+    resolution: {integrity: sha512-BQkSnuXWU8VQvBDVyLrCrs2kGP3vwgyi8t02ONbIF85ZPkuIIhC25QhIMCXL+bWe5eGb3oDQh0PVXwpEi160fQ==}
 
   '@pipedream/platform@0.10.0':
     resolution: {integrity: sha512-N3F/xVfBZQXc9wl+2/4E8U9Zma1rxpvylK6Gtw8Ofmiwjnmnvs+2SNjEpIXBPUeL+wxEkofSGOq7bkqt1hqwDg==}
@@ -23288,9 +23447,6 @@ packages:
     engines: {node: '>=8.0.0'}
     hasBin: true
 
-  ansicolors@0.2.1:
-    resolution: {integrity: sha512-tOIuy1/SK/dr94ZA0ckDohKXNeBNqZ4us6PjMVLs5h1w2GBB6uPtOknp2+VF4F/zcy9LI70W+Z+pE2Soajky1w==}
-
   ansicolors@0.3.2:
     resolution: {integrity: sha512-QXu7BPrP29VllRxH8GwB7x5iX5qWKAAMLqKQGWTeLWVlNHNOpVMJ91dsxQAIWXpjuW5wqvxu3Jd/nRjrJ+0pqg==}
 
@@ -23733,9 +23889,6 @@ packages:
   bluebird@3.7.2:
     resolution: {integrity: sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg==}
 
-  bn.js@2.0.0:
-    resolution: {integrity: sha512-NmOLApC80+n+P28y06yHgwGlOCkq/X4jRh5s590959FZXSrM+I/61h0xxuIaYsg0mD44mEAZYG/rnclWuRoz+A==}
-
   bn.js@4.12.1:
     resolution: {integrity: sha512-k8TVBiPkPJT9uHLdOKfFpqcfprwBFOAAXXozRubr7R7PfIuKvQlzcI4M0pALeqXN09vdaMbUdUj+pass+uULAg==}
 
@@ -23962,10 +24115,6 @@ packages:
 
   caniuse-lite@1.0.30001683:
     resolution: {integrity: sha512-iqmNnThZ0n70mNwvxpEC2nBJ037ZHZUoBI5Gorh1Mw6IlEAZujEoU1tXA628iZfzm7R9FvFzxbfdgml82a3k8Q==}
-
-  cardinal@0.4.4:
-    resolution: {integrity: sha512-3MxV0o9wOpQcobrcSrRpaSxlYkohCcZu0ytOjJUww/Yo/223q4Ecloo7odT+M0SI5kPgb1JhvSaF4EEuVXOLAQ==}
-    hasBin: true
 
   cardinal@2.1.1:
     resolution: {integrity: sha512-JSr5eOgoEymtYHBjNWyjrMqet9Am2miJhlfKNdqLp6zoeAh0KN5dRAcxlecj5mAJrmQomgiOBj35xHLrFjqBpw==}
@@ -25028,9 +25177,6 @@ packages:
     resolution: {integrity: sha512-IrPdXQsk2BbzvCBGBOTmmSH5SodmqZNt4ERAZDmW4CT+tL8VtvinqywuANaFu4bOMWki16nqf0e4oC0QIaDr/g==}
     engines: {node: '>=10'}
 
-  double-ended-queue@2.0.0-0:
-    resolution: {integrity: sha512-t5ouWOpItmHrm0J0+bX/cFrIjBFWnJkk5LbIJq6bbU/M4aLX2c3LrM4QYsBptwvlPe3WzdpQefQ0v1pe/A5wjg==}
-
   dropbox@10.34.0:
     resolution: {integrity: sha512-5jb5/XzU0fSnq36/hEpwT5/QIep7MgqKuxghEG44xCu7HruOAjPdOb3x0geXv5O/hd0nHpQpWO+r5MjYTpMvJg==}
     engines: {node: '>=0.10.3'}
@@ -25504,11 +25650,6 @@ packages:
   espree@9.6.1:
     resolution: {integrity: sha512-oruZaFkjorTpF32kDSI5/75ViwGeZginGGy2NoOSg3Q9bnwlnmDm4HLnkl0RE3n+njDXR037aY1+x58Z/zFdwQ==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
-
-  esprima@1.0.4:
-    resolution: {integrity: sha512-rp5dMKN8zEs9dfi9g0X1ClLmV//WRyk/R15mppFNICIFRG5P92VP7Z04p8pk++gABo9W2tY+kHyu6P1mEHgmTA==}
-    engines: {node: '>=0.4.0'}
-    hasBin: true
 
   esprima@1.2.2:
     resolution: {integrity: sha512-+JpPZam9w5DuJ3Q67SqsMGtiHKENSMRVoxvArfJZK01/BfLEObtZ6orJa/MtoGNR/rfMgp5837T41PAmTwAv/A==}
@@ -28234,9 +28375,6 @@ packages:
     resolution: {integrity: sha512-123qHRfJBmo2jXDbo/a5YOQrJoHF/GNQTLzQ5+IdK5pWpceK17yRc6ozlWd25FxvGKQbIUs91fDFkXmDHTKcyA==}
     engines: {node: 20 || >=22}
 
-  lru-cache@2.5.0:
-    resolution: {integrity: sha512-dVmQmXPBlTgFw77hm60ud//l2bCuDKkqC2on1EBoM7s9Urm9IQDrnujwZ93NFnAq0dVZ0HBXTS7PwEG+YE7+EQ==}
-
   lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
 
@@ -28286,6 +28424,7 @@ packages:
 
   mailsplit@5.4.0:
     resolution: {integrity: sha512-wnYxX5D5qymGIPYLwnp6h8n1+6P6vz/MJn5AzGjZ8pwICWssL+CCQjWBIToOVHASmATot4ktvlLo6CyLfOXWYA==}
+    deprecated: This package has been renamed to @zone-eu/mailsplit. Please update your dependencies.
 
   make-dir@2.1.0:
     resolution: {integrity: sha512-LS9X+dc8KLxXCb8dni79fLIIUA5VyZoyjSMCwTluaXA0o27cCK0bhXkpgw+sTXVpPy/lSO57ilRixqk0vDmtRA==}
@@ -28815,23 +28954,12 @@ packages:
     resolution: {integrity: sha512-at/ZndSy3xEGJ8i0ygALh8ru9qy7gWW1cmkaqBN29JmMlIvM//MEO9y1sk/avxuwnPcfhkejkLsuPxH81BrkSg==}
     engines: {node: '>=0.8.0'}
 
-  mysql2-promise@0.1.4:
-    resolution: {integrity: sha512-/h8ubU/36aIPpbfB6CENw9ZdbzIhZMZOIbstJUHVKp4J9JBRSLScrYImVx+3yZilgag732UhpQMMK5+ktdhLCw==}
-    engines: {node: '>=0.10.0'}
-
-  mysql2@0.15.8:
-    resolution: {integrity: sha512-3x5o6C20bfwJYPSoT74MOoad7/chJoq4qXHDL5VAuRBBrIyErovLoj04Dz/5EY9X2kTxWSGNiTegtxpROTd2YQ==}
-    engines: {node: '>= 0.8'}
-
   mysql2@3.11.4:
     resolution: {integrity: sha512-Z2o3tY4Z8EvSRDwknaC40MdZ3+m0sKbpnXrShQLdxPrAvcNli7jLrD2Zd2IzsRMw4eK9Yle500FDmlkIqp+krg==}
     engines: {node: '>= 8.0'}
 
   mz@2.7.0:
     resolution: {integrity: sha512-z81GNO7nnYMEhrGh9LeymoE4+Yr0Wn5McHIZMK5cfQCl+NDX08sCZgUc9/6MHni9IWuFLm1Z3HTCXu2z9fN62Q==}
-
-  named-placeholders@0.1.3:
-    resolution: {integrity: sha512-Mt79RtxZ6MYTIEemPGv/YDKpbuavcAyGHb0r37xB2mnE5jej3uBzc4+nzOeoZ4nZiii1M32URKt9IjkSTZAmTA==}
 
   named-placeholders@1.1.3:
     resolution: {integrity: sha512-eLoBxg6wE/rZkJPhU/xRX1WTpkFEwDJEN96oxFrTsqBdbT5ec295Q+CoHrL9IT0DipqKhmGcaZmwOt8OON5x1w==}
@@ -29076,6 +29204,10 @@ packages:
   normalize-url@8.0.1:
     resolution: {integrity: sha512-IO9QvjUMWxPQQhs60oOu10CRkWCiZzSUkzbXGGV9pviYl1fXYcvkzQ5jV9z8Y6un8ARoVRl4EtC6v6jNqbaJ/w==}
     engines: {node: '>=14.16'}
+
+  notion-helper@1.3.27:
+    resolution: {integrity: sha512-XA759GyxjjzPy6HTpXi1ZiJJ6Kp89ShWrLrDBME+GNEdBdx/C6dpH3vKTps9nfSoHuFMdMFXxkq5r3hbTLHQjg==}
+    engines: {node: '>=18.0.0'}
 
   notion-to-md@3.1.8:
     resolution: {integrity: sha512-DuEslJAbmUG2IRVcoeiCdsE2tI8yXOG6NiHlzxYTcKMmkAtoj2Fgq35Gf5T8s92uzpT2ueVf3aCOq7XuVLVYOA==}
@@ -30214,9 +30346,6 @@ packages:
     resolution: {integrity: sha512-9viLL4/n1BJUCT1NXVTdS1jtm80yDEgR5T4yCelII49Mbj0v1rZdKqj7zCiYdbB0CuCgdrvHcNogAKTFPBocFA==}
     engines: {node: '>=18'}
 
-  readable-stream@1.0.33:
-    resolution: {integrity: sha512-72KxhcKi8bAvHP/cyyWSP+ODS5ef0DIRs0OzrhGXw31q41f19aoELCbvd42FjhpyEDxQMRiiC5rq9rfE5PzTqg==}
-
   readable-stream@1.1.14:
     resolution: {integrity: sha512-+MeVjFf4L44XUkhM1eYbD8fyEsxcV81pqMSR5gblfcLCHfZvbrqy4/qYHE+/R5HoBUT11WV5O08Cr1n3YXkWVQ==}
 
@@ -30256,9 +30385,6 @@ packages:
 
   recurly@3.30.0:
     resolution: {integrity: sha512-SVW5pke3MLe+QkIx3Y+NJD8UfR30eBrM90Vkrv6o3FvDPZBvSNpSadTay1SzLo+SmM31rBSeqELyX4zBDTd/Nw==}
-
-  redeyed@0.4.4:
-    resolution: {integrity: sha512-pnk1vsaNLu1UAAClKsImKz9HjBvg9i8cbRqTRzJbiCjGF0fZSMqpdcA5W3juO3c4etFvTrabECkq9wjC45ZyxA==}
 
   redeyed@2.1.1:
     resolution: {integrity: sha512-FNpGGo1DycYAdnrKFxCMmKYgo/mILAqtRYbkdQD8Ep/Hk2PQ5+aEAEx+IU713RTDmuBaH0c8P5ZozurNu5ObRQ==}
@@ -31340,22 +31466,22 @@ packages:
   superagent@3.8.1:
     resolution: {integrity: sha512-VMBFLYgFuRdfeNQSMLbxGSLfmXL/xc+OO+BZp41Za/NRDBet/BNbkRJrYzCUu0u4GU0i/ml2dtT8b9qgkw9z6Q==}
     engines: {node: '>= 4.0'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   superagent@4.1.0:
     resolution: {integrity: sha512-FT3QLMasz0YyCd4uIi5HNe+3t/onxMyEho7C3PSqmti3Twgy2rXT4fmkTz6wRL6bTF4uzPcfkUCa8u4JWHw8Ag==}
     engines: {node: '>= 6.0'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   superagent@5.3.1:
     resolution: {integrity: sha512-wjJ/MoTid2/RuGCOFtlacyGNxN9QLMgcpYLDQlWFIhhdJ93kNscFonGvrpAHSCVjRVj++DGCglocF7Aej1KHvQ==}
     engines: {node: '>= 7.0.0'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   superagent@7.1.6:
     resolution: {integrity: sha512-gZkVCQR1gy/oUXr+kxJMLDjla434KmSOKbx5iGD30Ql+AkJQ/YlPKECJy2nhqOsHLjGHzoDTXNSjhnvWhzKk7g==}
     engines: {node: '>=6.4.0 <13 || >=14'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   supports-color@10.0.0:
     resolution: {integrity: sha512-HRVVSbCCMbj7/kdWF9Q+bbckjBHLtHMEoJWlkmYzzdwhYMkjkOwubLM6t7NbWKjgKamGDrWL1++KrjUO1t9oAQ==}
@@ -32913,6 +33039,15 @@ snapshots:
       '@types/node': 14.18.63
     transitivePeerDependencies:
       - supports-color
+
+  '@airweave/sdk@0.1.51':
+    dependencies:
+      form-data: 4.0.4
+      formdata-node: 6.0.3
+      node-fetch: 2.7.0
+      readable-stream: 4.5.2
+    transitivePeerDependencies:
+      - encoding
 
   '@algolia/client-abtesting@5.17.1':
     dependencies:
@@ -35757,7 +35892,7 @@ snapshots:
       '@babel/traverse': 7.25.9
       '@babel/types': 7.26.0
       convert-source-map: 2.0.0
-      debug: 4.3.7(supports-color@9.4.0)
+      debug: 4.3.7(supports-color@5.5.0)
       gensync: 1.0.0-beta.2
       json5: 2.2.3
       semver: 6.3.1
@@ -35840,7 +35975,7 @@ snapshots:
       '@babel/helper-validator-option': 8.0.0-alpha.13
       browserslist: 4.24.2
       lru-cache: 7.18.3
-      semver: 7.7.2
+      semver: 7.7.3
 
   '@babel/helper-create-class-features-plugin@7.25.9(@babel/core@7.26.0)':
     dependencies:
@@ -36028,44 +36163,20 @@ snapshots:
       '@babel/core': 7.26.0
       '@babel/helper-plugin-utils': 7.25.9
 
-  '@babel/plugin-syntax-async-generators@7.8.4(@babel/core@8.0.0-alpha.13)':
-    dependencies:
-      '@babel/core': 8.0.0-alpha.13
-      '@babel/helper-plugin-utils': 7.25.9
-    optional: true
-
   '@babel/plugin-syntax-bigint@7.8.3(@babel/core@7.26.0)':
     dependencies:
       '@babel/core': 7.26.0
       '@babel/helper-plugin-utils': 7.25.9
-
-  '@babel/plugin-syntax-bigint@7.8.3(@babel/core@8.0.0-alpha.13)':
-    dependencies:
-      '@babel/core': 8.0.0-alpha.13
-      '@babel/helper-plugin-utils': 7.25.9
-    optional: true
 
   '@babel/plugin-syntax-class-properties@7.12.13(@babel/core@7.26.0)':
     dependencies:
       '@babel/core': 7.26.0
       '@babel/helper-plugin-utils': 7.25.9
 
-  '@babel/plugin-syntax-class-properties@7.12.13(@babel/core@8.0.0-alpha.13)':
-    dependencies:
-      '@babel/core': 8.0.0-alpha.13
-      '@babel/helper-plugin-utils': 7.25.9
-    optional: true
-
   '@babel/plugin-syntax-class-static-block@7.14.5(@babel/core@7.26.0)':
     dependencies:
       '@babel/core': 7.26.0
       '@babel/helper-plugin-utils': 7.25.9
-
-  '@babel/plugin-syntax-class-static-block@7.14.5(@babel/core@8.0.0-alpha.13)':
-    dependencies:
-      '@babel/core': 8.0.0-alpha.13
-      '@babel/helper-plugin-utils': 7.25.9
-    optional: true
 
   '@babel/plugin-syntax-import-assertions@7.26.0(@babel/core@7.26.0)':
     dependencies:
@@ -36077,33 +36188,15 @@ snapshots:
       '@babel/core': 7.26.0
       '@babel/helper-plugin-utils': 7.25.9
 
-  '@babel/plugin-syntax-import-attributes@7.26.0(@babel/core@8.0.0-alpha.13)':
-    dependencies:
-      '@babel/core': 8.0.0-alpha.13
-      '@babel/helper-plugin-utils': 7.25.9
-    optional: true
-
   '@babel/plugin-syntax-import-meta@7.10.4(@babel/core@7.26.0)':
     dependencies:
       '@babel/core': 7.26.0
       '@babel/helper-plugin-utils': 7.25.9
 
-  '@babel/plugin-syntax-import-meta@7.10.4(@babel/core@8.0.0-alpha.13)':
-    dependencies:
-      '@babel/core': 8.0.0-alpha.13
-      '@babel/helper-plugin-utils': 7.25.9
-    optional: true
-
   '@babel/plugin-syntax-json-strings@7.8.3(@babel/core@7.26.0)':
     dependencies:
       '@babel/core': 7.26.0
       '@babel/helper-plugin-utils': 7.25.9
-
-  '@babel/plugin-syntax-json-strings@7.8.3(@babel/core@8.0.0-alpha.13)':
-    dependencies:
-      '@babel/core': 8.0.0-alpha.13
-      '@babel/helper-plugin-utils': 7.25.9
-    optional: true
 
   '@babel/plugin-syntax-jsx@7.25.9(@babel/core@7.26.0)':
     dependencies:
@@ -36115,88 +36208,40 @@ snapshots:
       '@babel/core': 7.26.0
       '@babel/helper-plugin-utils': 7.25.9
 
-  '@babel/plugin-syntax-logical-assignment-operators@7.10.4(@babel/core@8.0.0-alpha.13)':
-    dependencies:
-      '@babel/core': 8.0.0-alpha.13
-      '@babel/helper-plugin-utils': 7.25.9
-    optional: true
-
   '@babel/plugin-syntax-nullish-coalescing-operator@7.8.3(@babel/core@7.26.0)':
     dependencies:
       '@babel/core': 7.26.0
       '@babel/helper-plugin-utils': 7.25.9
-
-  '@babel/plugin-syntax-nullish-coalescing-operator@7.8.3(@babel/core@8.0.0-alpha.13)':
-    dependencies:
-      '@babel/core': 8.0.0-alpha.13
-      '@babel/helper-plugin-utils': 7.25.9
-    optional: true
 
   '@babel/plugin-syntax-numeric-separator@7.10.4(@babel/core@7.26.0)':
     dependencies:
       '@babel/core': 7.26.0
       '@babel/helper-plugin-utils': 7.25.9
 
-  '@babel/plugin-syntax-numeric-separator@7.10.4(@babel/core@8.0.0-alpha.13)':
-    dependencies:
-      '@babel/core': 8.0.0-alpha.13
-      '@babel/helper-plugin-utils': 7.25.9
-    optional: true
-
   '@babel/plugin-syntax-object-rest-spread@7.8.3(@babel/core@7.26.0)':
     dependencies:
       '@babel/core': 7.26.0
       '@babel/helper-plugin-utils': 7.25.9
-
-  '@babel/plugin-syntax-object-rest-spread@7.8.3(@babel/core@8.0.0-alpha.13)':
-    dependencies:
-      '@babel/core': 8.0.0-alpha.13
-      '@babel/helper-plugin-utils': 7.25.9
-    optional: true
 
   '@babel/plugin-syntax-optional-catch-binding@7.8.3(@babel/core@7.26.0)':
     dependencies:
       '@babel/core': 7.26.0
       '@babel/helper-plugin-utils': 7.25.9
 
-  '@babel/plugin-syntax-optional-catch-binding@7.8.3(@babel/core@8.0.0-alpha.13)':
-    dependencies:
-      '@babel/core': 8.0.0-alpha.13
-      '@babel/helper-plugin-utils': 7.25.9
-    optional: true
-
   '@babel/plugin-syntax-optional-chaining@7.8.3(@babel/core@7.26.0)':
     dependencies:
       '@babel/core': 7.26.0
       '@babel/helper-plugin-utils': 7.25.9
-
-  '@babel/plugin-syntax-optional-chaining@7.8.3(@babel/core@8.0.0-alpha.13)':
-    dependencies:
-      '@babel/core': 8.0.0-alpha.13
-      '@babel/helper-plugin-utils': 7.25.9
-    optional: true
 
   '@babel/plugin-syntax-private-property-in-object@7.14.5(@babel/core@7.26.0)':
     dependencies:
       '@babel/core': 7.26.0
       '@babel/helper-plugin-utils': 7.25.9
 
-  '@babel/plugin-syntax-private-property-in-object@7.14.5(@babel/core@8.0.0-alpha.13)':
-    dependencies:
-      '@babel/core': 8.0.0-alpha.13
-      '@babel/helper-plugin-utils': 7.25.9
-    optional: true
-
   '@babel/plugin-syntax-top-level-await@7.14.5(@babel/core@7.26.0)':
     dependencies:
       '@babel/core': 7.26.0
       '@babel/helper-plugin-utils': 7.25.9
-
-  '@babel/plugin-syntax-top-level-await@7.14.5(@babel/core@8.0.0-alpha.13)':
-    dependencies:
-      '@babel/core': 8.0.0-alpha.13
-      '@babel/helper-plugin-utils': 7.25.9
-    optional: true
 
   '@babel/plugin-syntax-typescript@7.25.9(@babel/core@7.26.0)':
     dependencies:
@@ -37260,7 +37305,7 @@ snapshots:
   '@eslint/eslintrc@3.2.0':
     dependencies:
       ajv: 6.12.6
-      debug: 4.3.7(supports-color@9.4.0)
+      debug: 4.3.7(supports-color@5.5.0)
       espree: 10.3.0
       globals: 14.0.0
       ignore: 5.3.2
@@ -39151,6 +39196,16 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
+  '@pipedream/microsoft_outlook@1.7.3':
+    dependencies:
+      '@pipedream/platform': 3.1.0
+      axios: 0.21.4
+      js-base64: 3.7.7
+      md5: 2.3.0
+      mime-types: 2.1.35
+    transitivePeerDependencies:
+      - debug
+
   '@pipedream/monday@0.7.0':
     dependencies:
       '@pipedream/platform': 3.1.0
@@ -39180,6 +39235,13 @@ snapshots:
       - debug
       - encoding
       - supports-color
+
+  '@pipedream/pipedream@0.4.2':
+    dependencies:
+      '@pipedream/platform': 1.6.6
+      uuidv4: 6.2.13
+    transitivePeerDependencies:
+      - debug
 
   '@pipedream/platform@0.10.0':
     dependencies:
@@ -39766,8 +39828,6 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
-    transitivePeerDependencies:
-      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
@@ -42328,7 +42388,7 @@ snapshots:
       '@typescript-eslint/types': 8.15.0
       '@typescript-eslint/typescript-estree': 8.15.0(typescript@5.6.3)
       '@typescript-eslint/visitor-keys': 8.15.0
-      debug: 4.3.7(supports-color@9.4.0)
+      debug: 4.3.7(supports-color@5.5.0)
       eslint: 8.57.1
     optionalDependencies:
       typescript: 5.6.3
@@ -42813,8 +42873,6 @@ snapshots:
     dependencies:
       entities: 2.2.0
 
-  ansicolors@0.2.1: {}
-
   ansicolors@0.3.2: {}
 
   ansis@4.1.0: {}
@@ -43224,20 +43282,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  babel-jest@29.7.0(@babel/core@8.0.0-alpha.13):
-    dependencies:
-      '@babel/core': 8.0.0-alpha.13
-      '@jest/transform': 29.7.0
-      '@types/babel__core': 7.20.5
-      babel-plugin-istanbul: 6.1.1
-      babel-preset-jest: 29.6.3(@babel/core@8.0.0-alpha.13)
-      chalk: 4.1.2
-      graceful-fs: 4.2.11
-      slash: 3.0.0
-    transitivePeerDependencies:
-      - supports-color
-    optional: true
-
   babel-plugin-istanbul@6.1.1:
     dependencies:
       '@babel/helper-plugin-utils': 7.25.9
@@ -43304,38 +43348,11 @@ snapshots:
       '@babel/plugin-syntax-private-property-in-object': 7.14.5(@babel/core@7.26.0)
       '@babel/plugin-syntax-top-level-await': 7.14.5(@babel/core@7.26.0)
 
-  babel-preset-current-node-syntax@1.1.0(@babel/core@8.0.0-alpha.13):
-    dependencies:
-      '@babel/core': 8.0.0-alpha.13
-      '@babel/plugin-syntax-async-generators': 7.8.4(@babel/core@8.0.0-alpha.13)
-      '@babel/plugin-syntax-bigint': 7.8.3(@babel/core@8.0.0-alpha.13)
-      '@babel/plugin-syntax-class-properties': 7.12.13(@babel/core@8.0.0-alpha.13)
-      '@babel/plugin-syntax-class-static-block': 7.14.5(@babel/core@8.0.0-alpha.13)
-      '@babel/plugin-syntax-import-attributes': 7.26.0(@babel/core@8.0.0-alpha.13)
-      '@babel/plugin-syntax-import-meta': 7.10.4(@babel/core@8.0.0-alpha.13)
-      '@babel/plugin-syntax-json-strings': 7.8.3(@babel/core@8.0.0-alpha.13)
-      '@babel/plugin-syntax-logical-assignment-operators': 7.10.4(@babel/core@8.0.0-alpha.13)
-      '@babel/plugin-syntax-nullish-coalescing-operator': 7.8.3(@babel/core@8.0.0-alpha.13)
-      '@babel/plugin-syntax-numeric-separator': 7.10.4(@babel/core@8.0.0-alpha.13)
-      '@babel/plugin-syntax-object-rest-spread': 7.8.3(@babel/core@8.0.0-alpha.13)
-      '@babel/plugin-syntax-optional-catch-binding': 7.8.3(@babel/core@8.0.0-alpha.13)
-      '@babel/plugin-syntax-optional-chaining': 7.8.3(@babel/core@8.0.0-alpha.13)
-      '@babel/plugin-syntax-private-property-in-object': 7.14.5(@babel/core@8.0.0-alpha.13)
-      '@babel/plugin-syntax-top-level-await': 7.14.5(@babel/core@8.0.0-alpha.13)
-    optional: true
-
   babel-preset-jest@29.6.3(@babel/core@7.26.0):
     dependencies:
       '@babel/core': 7.26.0
       babel-plugin-jest-hoist: 29.6.3
       babel-preset-current-node-syntax: 1.1.0(@babel/core@7.26.0)
-
-  babel-preset-jest@29.6.3(@babel/core@8.0.0-alpha.13):
-    dependencies:
-      '@babel/core': 8.0.0-alpha.13
-      babel-plugin-jest-hoist: 29.6.3
-      babel-preset-current-node-syntax: 1.1.0(@babel/core@8.0.0-alpha.13)
-    optional: true
 
   backoff@2.5.0:
     dependencies:
@@ -43453,8 +43470,6 @@ snapshots:
       readable-stream: 4.5.2
 
   bluebird@3.7.2: {}
-
-  bn.js@2.0.0: {}
 
   bn.js@4.12.1: {}
 
@@ -43726,11 +43741,6 @@ snapshots:
   camelcase@8.0.0: {}
 
   caniuse-lite@1.0.30001683: {}
-
-  cardinal@0.4.4:
-    dependencies:
-      ansicolors: 0.2.1
-      redeyed: 0.4.4
 
   cardinal@2.1.1:
     dependencies:
@@ -44825,8 +44835,6 @@ snapshots:
 
   dotenv@8.6.0: {}
 
-  double-ended-queue@2.0.0-0: {}
-
   dropbox@10.34.0(@types/node-fetch@2.6.12):
     dependencies:
       '@types/node-fetch': 2.6.12
@@ -45554,7 +45562,7 @@ snapshots:
       ajv: 6.12.6
       chalk: 4.1.2
       cross-spawn: 7.0.6
-      debug: 4.3.7(supports-color@9.4.0)
+      debug: 4.3.7(supports-color@5.5.0)
       doctrine: 3.0.0
       escape-string-regexp: 4.0.0
       eslint-scope: 7.2.2
@@ -45608,8 +45616,6 @@ snapshots:
       acorn: 8.14.0
       acorn-jsx: 5.3.2(acorn@8.14.0)
       eslint-visitor-keys: 3.4.3
-
-  esprima@1.0.4: {}
 
   esprima@1.2.2: {}
 
@@ -47417,7 +47423,7 @@ snapshots:
   https-proxy-agent@5.0.1:
     dependencies:
       agent-base: 6.0.2
-      debug: 4.3.7(supports-color@9.4.0)
+      debug: 4.3.7(supports-color@5.5.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -47699,7 +47705,7 @@ snapshots:
 
   is-bun-module@1.2.1:
     dependencies:
-      semver: 7.7.2
+      semver: 7.7.3
 
   is-callable@1.2.7: {}
 
@@ -48457,7 +48463,7 @@ snapshots:
       jest-util: 29.7.0
       natural-compare: 1.4.0
       pretty-format: 29.7.0
-      semver: 7.7.2
+      semver: 7.7.3
     transitivePeerDependencies:
       - supports-color
 
@@ -49220,8 +49226,6 @@ snapshots:
   lru-cache@10.4.3: {}
 
   lru-cache@11.0.2: {}
-
-  lru-cache@2.5.0: {}
 
   lru-cache@5.1.1:
     dependencies:
@@ -50000,7 +50004,7 @@ snapshots:
     dependencies:
       '@tediousjs/connection-string': 0.5.0
       commander: 11.1.0
-      debug: 4.3.7(supports-color@9.4.0)
+      debug: 4.3.7(supports-color@5.5.0)
       rfdc: 1.4.1
       tarn: 3.0.2
       tedious: 16.7.1
@@ -50031,19 +50035,6 @@ snapshots:
       rimraf: 2.4.5
     optional: true
 
-  mysql2-promise@0.1.4:
-    dependencies:
-      mysql2: 0.15.8
-      q: 1.5.1
-
-  mysql2@0.15.8:
-    dependencies:
-      bn.js: 2.0.0
-      cardinal: 0.4.4
-      double-ended-queue: 2.0.0-0
-      named-placeholders: 0.1.3
-      readable-stream: 1.0.33
-
   mysql2@3.11.4:
     dependencies:
       aws-ssl-profiles: 1.1.2
@@ -50061,10 +50052,6 @@ snapshots:
       any-promise: 1.3.0
       object-assign: 4.1.1
       thenify-all: 1.6.0
-
-  named-placeholders@0.1.3:
-    dependencies:
-      lru-cache: 2.5.0
 
   named-placeholders@1.1.3:
     dependencies:
@@ -50420,6 +50407,8 @@ snapshots:
   normalize-url@6.1.0: {}
 
   normalize-url@8.0.1: {}
+
+  notion-helper@1.3.27: {}
 
   notion-to-md@3.1.8:
     dependencies:
@@ -51766,7 +51755,7 @@ snapshots:
       ajv: 8.17.1
       chalk: 5.3.0
       ci-info: 4.1.0
-      debug: 4.3.7(supports-color@9.4.0)
+      debug: 4.3.7(supports-color@5.5.0)
       deepmerge: 4.3.1
       escalade: 3.2.0
       fast-glob: 3.3.2
@@ -51966,13 +51955,6 @@ snapshots:
       type-fest: 4.41.0
       unicorn-magic: 0.1.0
 
-  readable-stream@1.0.33:
-    dependencies:
-      core-util-is: 1.0.3
-      inherits: 2.0.4
-      isarray: 0.0.1
-      string_decoder: 0.10.31
-
   readable-stream@1.1.14:
     dependencies:
       core-util-is: 1.0.3
@@ -52029,10 +52011,6 @@ snapshots:
       tslib: 2.8.1
 
   recurly@3.30.0: {}
-
-  redeyed@0.4.4:
-    dependencies:
-      esprima: 1.0.4
 
   redeyed@2.1.1:
     dependencies:
@@ -53913,7 +53891,7 @@ snapshots:
 
   ts-interface-checker@0.1.13: {}
 
-  ts-jest@29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(jest@29.7.0(@types/node@20.17.30)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.17.30)(typescript@5.7.2)))(typescript@5.7.2):
+  ts-jest@29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(esbuild@0.24.2)(jest@29.7.0(@types/node@20.17.30)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.17.30)(typescript@5.7.2)))(typescript@5.7.2):
     dependencies:
       bs-logger: 0.2.6
       ejs: 3.1.10
@@ -53931,8 +53909,9 @@ snapshots:
       '@jest/transform': 29.7.0
       '@jest/types': 29.6.3
       babel-jest: 29.7.0(@babel/core@7.26.0)
+      esbuild: 0.24.2
 
-  ts-jest@29.2.5(@babel/core@8.0.0-alpha.13)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@8.0.0-alpha.13))(jest@29.7.0(@types/node@20.17.6)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.17.6)(typescript@5.6.3)))(typescript@5.6.3):
+  ts-jest@29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(jest@29.7.0(@types/node@20.17.6)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.17.6)(typescript@5.6.3)))(typescript@5.6.3):
     dependencies:
       bs-logger: 0.2.6
       ejs: 3.1.10
@@ -53946,10 +53925,10 @@ snapshots:
       typescript: 5.6.3
       yargs-parser: 21.1.1
     optionalDependencies:
-      '@babel/core': 8.0.0-alpha.13
+      '@babel/core': 7.26.0
       '@jest/transform': 29.7.0
       '@jest/types': 29.6.3
-      babel-jest: 29.7.0(@babel/core@8.0.0-alpha.13)
+      babel-jest: 29.7.0(@babel/core@7.26.0)
 
   ts-node@10.9.2(@types/node@20.17.30)(typescript@5.7.2):
     dependencies:
@@ -54121,7 +54100,7 @@ snapshots:
       cac: 6.7.14
       chokidar: 4.0.3
       consola: 3.4.0
-      debug: 4.3.7(supports-color@9.4.0)
+      debug: 4.3.7(supports-color@5.5.0)
       esbuild: 0.24.2
       joycon: 3.1.1
       picocolors: 1.1.1
@@ -54149,7 +54128,7 @@ snapshots:
       cac: 6.7.14
       chokidar: 4.0.3
       consola: 3.4.0
-      debug: 4.3.7(supports-color@9.4.0)
+      debug: 4.3.7(supports-color@5.5.0)
       esbuild: 0.24.2
       joycon: 3.1.1
       picocolors: 1.1.1
@@ -54773,7 +54752,7 @@ snapshots:
       '@volar/typescript': 2.4.10
       '@vue/language-core': 2.1.6(typescript@5.9.2)
       compare-versions: 6.1.1
-      debug: 4.3.7(supports-color@9.4.0)
+      debug: 4.3.7(supports-color@5.5.0)
       kolorist: 1.8.0
       local-pkg: 0.5.1
       magic-string: 0.30.13

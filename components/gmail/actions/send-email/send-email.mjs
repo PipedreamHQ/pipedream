@@ -6,7 +6,7 @@ export default {
   key: "gmail-send-email",
   name: "Send Email",
   description: "Send an email from your Google Workspace email account. [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/send)",
-  version: "0.1.16",
+  version: "0.2.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -87,7 +87,7 @@ export default {
         "message",
       ],
       label: "In Reply To",
-      description: "Specify the `message-id` this email is replying to.",
+      description: "Specify the `message-id` this email is replying to",
       optional: true,
       reloadProps: true,
     },
