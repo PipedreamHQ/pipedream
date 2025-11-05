@@ -4,22 +4,97 @@ export default {
   type: "app",
   app: "csvbox",
   propDefinitions: {
-    sheetLicenseKey: {
+    sheetId: {
       type: "string",
-      label: "Sheet License Key",
-      description: "The unique identifier for your CSVBox sheet. You can find it in **Sheets - Edit - Code Snippet - Sheet License Key**.",
-    },
-    userId: {
-      type: "string",
-      label: "User ID",
-      description: "The unique identifier for the user. You can find it in the **Dashboard - Edit - Code Snippet**.",
+      label: "Sheet",
+      description: "Select the sheet you want to receive data from",
       optional: true,
+      async options() {
+        const { data } = await this.listSheets();
+        return data.map((sheet) => ({
+          label: sheet.name,
+          value: sheet.value,
+        }));
+      },
     },
-    hasHeaders: {
-      type: "boolean",
-      label: "Has Headers",
-      description: "Whether the spreadsheet has headers.",
-      optional: true,
+  },
+
+  methods: {
+    _getAuthKeys() {
+      return this.$auth.api_key;
+    },
+    _getSecretAuthKeys() {
+      return this.$auth.secret_api_key;
+    },
+    _getUrl(path) {
+      return `${constants.BASE_URL}${path}`;
+    },
+    _getHeaders(headers) {
+      return {
+        ...headers,
+        accept: "application/json",
+        "Content-Type": "application/json",
+        "x-csvbox-api-key": this._getAuthKeys(),
+        "x-csvbox-secret-api-key": this._getSecretAuthKeys(),
+      };
+    },
+
+    async _makeRequest({ $ = this, path, headers, ...otherConfig } = {}) {
+      const config = {
+        url: this._getUrl(path),
+        headers: this._getHeaders(headers),
+        auth: this._getAuthKeys(),
+        returnFullResponse: true,
+        ...otherConfig,
+      };
+      return axios($, config);
+    },
+
+    async createHook({ data, ...args } = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/register-webhook",
+        data,
+        ...args,
+      });
+    },
+
+    async deleteHook({ data, ...args } = {}) {
+      console.log("delete hook data ", data);
+      
+      // if (!hookId) {
+      //   throw new Error("Hook ID is required");
+      // }
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/delete-webhook`,
+        data,
+        ...args,
+      });
+    },
+
+    async listSheets(args = {}) {
+      console.log("Listing sheets...", this.methods);
+      const res = await this._makeRequest({
+        method: "GET",
+        path: "/list-sheets",
+        ...args,
+      });
+      console.log("Sheets response:", res);
+      return res;
+    },
+
+    async getRows({ sheetId, ...args } = {}) {
+      const res = await this._makeRequest({
+        method: "GET",
+        path: `/sheets/${sheetId}`,
+        ...args,
+      });
+
+      const data = res?.data ?? res;
+      console.log("get sample row ", data);
+
+      return data;
     },
   },
   methods: {
