@@ -64,6 +64,12 @@ export default {
     },
   },
   async run({ $ }) {
+    const data = {};
+    if (this.name) data.name = this.name;
+    if (this.url) data.url = this.url;
+    if (this.statusId) data.status_id = this.statusId;
+    if (this.contacts) data.contacts = utils.parseArray(this.contacts);
+    if (this.addresses) data.addresses = utils.parseArray(this.addresses);
     const moreFields = {};
     for (let key in this.moreFields) {
       moreFields[key] = utils.parseObject(this.moreFields[key]);
@@ -71,17 +77,7 @@ export default {
     const response = await this.close.updateLead({
       leadId: this.lead,
       data: {
-const response = await this.close.updateLead({
-  leadId: this.lead,
-  data: {
-    ...(this.name && { name: this.name }),
-    ...(this.url && { url: this.url }),
-    ...(this.statusId && { status_id: this.statusId }),
-    ...(this.contacts && { contacts: utils.parseArray(this.contacts) }),
-    ...(this.addresses && { addresses: utils.parseArray(this.addresses) }),
-    ...moreFields,
-  },
-});
+        ...data,
         ...moreFields,
       },
     });
