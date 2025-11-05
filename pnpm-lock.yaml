@@ -9321,6 +9321,9 @@ importers:
         specifier: ^1.1.1
         version: 1.6.6
 
+  components/monta:
+    specifiers: {}
+
   components/moonclerk:
     dependencies:
       '@pipedream/platform':
