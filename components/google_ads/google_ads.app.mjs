@@ -247,5 +247,12 @@ export default {
         ...args,
       });
     },
+    async generateKeywordIdeas(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/v22/customers/{customerClientId}:generateKeywordIdeas",
+        ...opts,
+      });
+    },
   },
 };
