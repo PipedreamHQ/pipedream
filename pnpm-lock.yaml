@@ -145,6 +145,9 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/_1shop_api:
+    specifiers: {}
+
   components/_21risk:
     dependencies:
       '@pipedream/platform':
