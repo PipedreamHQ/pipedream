@@ -18,69 +18,80 @@ export default {
   },
   hooks: {
     async activate() {
+      if (!this.sheetId) {
+        throw new Error("Sheet selection is required before activation.");
+      }
+
       try {
         const { data } = await this.app.createHook({
           data: {
-            sheet_id: this.sheetId,
+            sheet_slug: this.sheetId,
             webhook_url: this.http.endpoint,
           },
         });
-        this._setHookID(data);
 
-        const rows = await this.app.getRows({
-          sheetId: this.sheetId,
+        const { webhookId, sample_response } = data;
+        const hookId = webhookId;
+        this._setHookID(hookId);
+
+        if (!Array.isArray(sample_response) || sample_response.length === 0) {
+          throw new Error("Unable to fetch sample data from selected sheet.");
+        }
+
+        const first = sample_response[0];
+        this.$emit({
+          import_id: `sample_${Date.now()}`,
+          sheet_id: this.sheetId,
+          sheet_name: first.sheet_name || "Sample Data",
+          row_number: first.row_number || 1,
+          row_data: first.row_data || first,
+          total_rows: first.total_rows || 10,
+          env_name: first.env_name || "default",
+          custom_fields: first.custom_fields || { user_id: "default123" },
+          import_description: first.import_description || "This is a sample test import",
+          original_filename: first.original_filename || "product_details.csv",
+        }, {
+          id: `sample_${Date.now()}`,
+          summary: `Sample data loaded from sheet - ${first.sheet_name} `,
+          ts: Date.now(),
         });
 
-        console.log("Fetched sample rows:", rows);
-        // Store sample row if available
-        if (rows?.length > 0) {
-          this._setSampleRow(rows[0]);
-        }
+        
+        this._setSampleRow(first);
       } catch (err) {
-        console.log("Activation Error:", err);
-        throw err;
+        console.error("Error during source activation:", err);
+        throw new Error(err?.message || "Failed to register webhook or fetch sample data.");
       }
     },
     async deactivate() {
       try {
         const hookId = this._getHookID();
-        console.log("Deactivate webhook getHookId ", hookId);
-        
-        await this.app.deleteHook({
-          data: {
-            webhook_id: hookId,
-            sheet_id: this.sheetId,
-          },
-        });
-        this.db.set("hookId", null);
-        // if (hookId) {
-        // }
+        if (hookId) {
+          await this.app.deleteHook({
+            data: {
+              webhook_id: hookId,
+              sheet_slug: this.sheetId,
+            },
+          });
+          this.db.set("hookId", null);
+          this.db.set("sampleRow", null);
+        }
       } catch (err) {
         console.error("Deactivation Error:", err);
       }
     },
     async deploy() {
-      console.log("Deploy hook called");
       const sampleRow = this._getSampleRow();
-      if(sampleRow) {
-        this.$emit({
-          import_id: 79418895,
-          sheet_id: 5,
-          sheet_name: "Products",
-          row_number: 1,
-          row_data: sampleRow,
-          total_rows: 1,
-          env_name: "default",
-          custom_fields: {
-            user_id: "default123"
-          },
-          import_description: "This is a sample test import",
-          original_filename: "product_details.csv"
-        }, {
+      if (sampleRow) {
+        this.$emit(sampleRow, {
           id: `sample_${Date.now()}`,
           summary: "Sample row event",
           ts: Date.now(),
         });
+      }
+      else {
+        console.log("No sample row data found to emit during deploy.");
+        return;
       }
     },
   },
