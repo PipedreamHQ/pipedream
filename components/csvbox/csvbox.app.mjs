@@ -60,11 +60,6 @@ export default {
     },
 
     async deleteHook({ data, ...args } = {}) {
-      console.log("delete hook data ", data);
-      
-      // if (!hookId) {
-      //   throw new Error("Hook ID is required");
-      // }
       return this._makeRequest({
         method: "DELETE",
         path: `/delete-webhook`,
@@ -74,27 +69,12 @@ export default {
     },
 
     async listSheets(args = {}) {
-      console.log("Listing sheets...", this.methods);
       const res = await this._makeRequest({
         method: "GET",
         path: "/list-sheets",
         ...args,
       });
-      console.log("Sheets response:", res);
       return res;
-    },
-
-    async getRows({ sheetId, ...args } = {}) {
-      const res = await this._makeRequest({
-        method: "GET",
-        path: `/sheets/${sheetId}`,
-        ...args,
-      });
-
-      const data = res?.data ?? res;
-      console.log("get sample row ", data);
-
-      return data;
     },
   },
   methods: {
