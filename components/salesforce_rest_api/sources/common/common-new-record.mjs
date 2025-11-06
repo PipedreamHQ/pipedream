@@ -15,14 +15,10 @@ export default {
       const { recentItems } = await this.salesforce.listSObjectTypeIds(objectType);
       const ids = recentItems.map((item) => item.Id);
       for (const id of ids.slice(-25)) {
-        const object = await this.salesforce.getSObject(objectType, id);
-        const event = {
-          body: {
-            "New": object,
-            "UserId": id,
-          },
-        };
-        this.processWebhookEvent(event);
+        const body = await this.salesforce.getSObject(objectType, id);
+        this.processWebhookEvent({
+          body,
+        });
       }
     },
     async activate() {
@@ -80,12 +76,11 @@ export default {
     },
     generateWebhookMeta(data) {
       const nameField = this.getNameField();
-      const { New: newObject } = data.body;
       const {
         CreatedDate: createdDate,
         Id: id,
         [nameField]: name,
-      } = newObject;
+      } = data.body;
       const summary = `New ${this.getObjectType()} created: ${name ?? id}`;
       const ts = Date.parse(createdDate);
       return {
