@@ -10,5 +10,5 @@ export default {
   dedupe: "unique",
   methods: {
     ...base.methods,
-  }
+  },
 };

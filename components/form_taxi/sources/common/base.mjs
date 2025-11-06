@@ -25,8 +25,8 @@ export default {
       const id = resp?.id;
       const expires_at = resp?.expires_at; // ISO-8601 erwartet
 
-      if (!id) throw new Error(`Response without id!`);
-      if (!expires_at) throw new Error(`Response without Expire-Date!`);
+      if (!id) throw new Error("Response without id!");
+      if (!expires_at) throw new Error("Response without Expire-Date!");
 
       await this.db.set("webhookId", id);
       await this.db.set("webhookExpiresAt", expires_at);
@@ -83,9 +83,7 @@ export default {
           await this.deleteWebhookById(oldId);
         }
 
-        console.log(
-          `Webhook erneuert. Neue ID: ${res?.id || "unbekannt"}, läuft bis: ${res?.expires_at || "unbekannt"}`
-        );
+        console.log(`Webhook erneuert. Neue ID: ${res?.id || "unbekannt"}, läuft bis: ${res?.expires_at || "unbekannt"}`);
       } catch (err) {
         console.error(`Automatische Erneuerung fehlgeschlagen: ${err.message}`);
       }
@@ -129,9 +127,9 @@ export default {
             },
             {
               id,
-              summary: `Sample submission`,
+              summary: "Sample submission",
               ts,
-            }
+            },
           );
         };
 
@@ -148,21 +146,21 @@ export default {
     }
   },
   hooks: {
-      async deploy() {
-        await this.fetchAndEmitSamples(); // Unmittelbar Sample-Daten laden und emittieren
-      },
-      async activate() {
-        // Webhook frisch registrieren
-        const res = await this.registerWebhook();
-        console.log("Webhook registriert:", res);
-      },
-      async deactivate() {
-        try {
-          await this.deleteWebhook();
-        } catch (err) {
-          console.warn("Fehler beim Entfernen des Webhooks:", err.message);
-        }
+    async deploy() {
+      await this.fetchAndEmitSamples(); // Unmittelbar Sample-Daten laden und emittieren
+    },
+    async activate() {
+      // Webhook frisch registrieren
+      const res = await this.registerWebhook();
+      console.log("Webhook registriert:", res);
+    },
+    async deactivate() {
+      try {
+        await this.deleteWebhook();
+      } catch (err) {
+        console.warn("Fehler beim Entfernen des Webhooks:", err.message);
       }
+    },
   },
   async run(event) {
     // Vor der Verarbeitung prüfen, ob der Hook bald abläuft und ggf. erneuern
@@ -171,15 +169,18 @@ export default {
     // Sofort ACK an Form.taxi
     await this.http.respond({
       status: 200,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ok: true }),
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        ok: true,
+      }),
     });
 
     // Event emittieren
     const id = this.eventIdFromBody(event.body || {});
     const summary = `Form Submission ID: ${id}`;
-    const ts =
-      (event.body?.created_at && Date.parse(event.body.created_at)) || Date.now();
+    const ts = (event.body?.created_at && Date.parse(event.body.created_at)) || Date.now();
 
     const payload = {
       headers: event.headers,
