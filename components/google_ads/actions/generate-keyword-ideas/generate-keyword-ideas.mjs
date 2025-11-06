@@ -6,7 +6,7 @@ import {
 const docLink = "https://developers.google.com/google-ads/api/reference/rpc/v22/KeywordPlanIdeaService/GenerateKeywordIdeas?transport=rest";
 
 export default {
-  key: "google-ads-generate-keyword-ideas",
+  key: "google_ads-generate-keyword-ideas",
   name: "Generate Keyword Ideas",
   description: `Generate keyword ideas using the Google Ads API. [See the documentation](${docLink})`,
   version: "0.0.1",
