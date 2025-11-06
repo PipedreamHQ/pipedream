@@ -15,7 +15,9 @@ export default {
           },
         });
         return (
-          data?.map(({ id: value, name: label }) => ({
+          data?.map(({
+            id: value, name: label,
+          }) => ({
             label,
             value,
           })) || []
@@ -26,7 +28,9 @@ export default {
       type: "string",
       label: "Flow ID",
       description: "The unique identifier for the flow",
-      async options({ workerId, page }) {
+      async options({
+        workerId, page,
+      }) {
         const { data } = await this.listFlows({
           workerId,
           params: {
@@ -34,7 +38,9 @@ export default {
           },
         });
         return (
-          data?.map(({ id: value, name: label }) => ({
+          data?.map(({
+            id: value, name: label,
+          }) => ({
             label,
             value,
           })) || []
@@ -45,7 +51,9 @@ export default {
       type: "string",
       label: "Deployment ID",
       description: "The unique identifier for the voice deployment",
-      async options({ workerId, page }) {
+      async options({
+        workerId, page,
+      }) {
         const { data } = await this.listVoiceDeployments({
           workerId,
           params: {
@@ -53,7 +61,9 @@ export default {
           },
         });
         return (
-          data?.map(({ id: value, name: label }) => ({
+          data?.map(({
+            id: value, name: label,
+          }) => ({
             label,
             value,
           })) || []
@@ -71,7 +81,9 @@ export default {
           },
         });
         return (
-          data?.map(({ id: value, type: label }) => ({
+          data?.map(({
+            id: value, type: label,
+          }) => ({
             label: `${label} - ${value}`,
             value,
           })) || []
@@ -82,7 +94,9 @@ export default {
       type: "string",
       label: "Phone Number ID",
       description: "The unique identifier for the phone number",
-      async options({ integrationId, page }) {
+      async options({
+        integrationId, page,
+      }) {
         const params = {
           page: page + 1,
         };
@@ -93,7 +107,9 @@ export default {
           params,
         });
         return (
-          data?.map(({ id: value, phoneNumber: label }) => ({
+          data?.map(({
+            id: value, phoneNumber: label,
+          }) => ({
             label,
             value,
           })) || []
@@ -112,7 +128,9 @@ export default {
         "Content-Type": "application/json",
       };
     },
-    _makeRequest({ $ = this, path, headers, ...args } = {}) {
+    _makeRequest({
+      $ = this, path, headers, ...args
+    } = {}) {
       return axios($, {
         ...args,
         url: this.getUrl(path),
@@ -144,7 +162,9 @@ export default {
       });
     },
     // Assets
-    deletePhoneNumber({ phoneNumberId, ...args } = {}) {
+    deletePhoneNumber({
+      phoneNumberId, ...args
+    } = {}) {
       return this.delete({
         path: `/api/team/assets/phone_numbers/${phoneNumberId}/delete`,
         ...args,
@@ -163,31 +183,41 @@ export default {
       });
     },
     // Flows
-    createFlow({ workerId, ...args } = {}) {
+    createFlow({
+      workerId, ...args
+    } = {}) {
       return this.post({
         path: `/api/workers/${workerId}/flows`,
         ...args,
       });
     },
-    deleteFlow({ workerId, flowId, ...args } = {}) {
+    deleteFlow({
+      workerId, flowId, ...args
+    } = {}) {
       return this.delete({
         path: `/api/workers/${workerId}/flows/${flowId}`,
         ...args,
       });
     },
-    getFlow({ workerId, flowId, ...args } = {}) {
+    getFlow({
+      workerId, flowId, ...args
+    } = {}) {
       return this._makeRequest({
         path: `/api/workers/${workerId}/flows/${flowId}`,
         ...args,
       });
     },
-    listFlows({ workerId, ...args } = {}) {
+    listFlows({
+      workerId, ...args
+    } = {}) {
       return this._makeRequest({
         path: `/api/workers/${workerId}/flows`,
         ...args,
       });
     },
-    updateFlow({ workerId, flowId, ...args } = {}) {
+    updateFlow({
+      workerId, flowId, ...args
+    } = {}) {
       return this.patch({
         path: `/api/workers/${workerId}/flows/${flowId}`,
         ...args,
@@ -200,13 +230,17 @@ export default {
         ...args,
       });
     },
-    deleteIntegration({ integrationId, ...args } = {}) {
+    deleteIntegration({
+      integrationId, ...args
+    } = {}) {
       return this.delete({
         path: `/api/team/integrations/twilio/${integrationId}/delete`,
         ...args,
       });
     },
-    getIntegration({ integrationId, ...args } = {}) {
+    getIntegration({
+      integrationId, ...args
+    } = {}) {
       return this._makeRequest({
         path: `/api/team/integrations/${integrationId}`,
         ...args,
@@ -226,50 +260,66 @@ export default {
       });
     },
     // Voice Deployment Logs
-    listVoiceDeploymentLogs({ workerId, ...args } = {}) {
+    listVoiceDeploymentLogs({
+      workerId, ...args
+    } = {}) {
       return this._makeRequest({
         path: `/api/workers/${workerId}/deploymentLogs/voice`,
         ...args,
       });
     },
-    getVoiceDeploymentLog({ workerId, logId, ...args } = {}) {
+    getVoiceDeploymentLog({
+      workerId, logId, ...args
+    } = {}) {
       return this._makeRequest({
         path: `/api/workers/${workerId}/deploymentLogs/voice/${logId}`,
         ...args,
       });
     },
     // Voice Deployments
-    createVoiceDeployment({ workerId, ...args } = {}) {
+    createVoiceDeployment({
+      workerId, ...args
+    } = {}) {
       return this.post({
         path: `/api/workers/${workerId}/deployments/voice`,
         ...args,
       });
     },
-    deleteVoiceDeployment({ workerId, deploymentId, ...args } = {}) {
+    deleteVoiceDeployment({
+      workerId, deploymentId, ...args
+    } = {}) {
       return this.delete({
         path: `/api/workers/${workerId}/deployments/voice/${deploymentId}`,
         ...args,
       });
     },
-    getVoiceDeployment({ workerId, deploymentId, ...args } = {}) {
+    getVoiceDeployment({
+      workerId, deploymentId, ...args
+    } = {}) {
       return this._makeRequest({
         path: `/api/workers/${workerId}/deployments/voice/${deploymentId}`,
         ...args,
       });
     },
-    listVoiceDeployments({ workerId, ...args } = {}) {
+    listVoiceDeployments({
+      workerId, ...args
+    } = {}) {
       return this._makeRequest({
         path: `/api/workers/${workerId}/deployments/voice`,
         ...args,
       });
     },
-    makeVoiceBatchCalls({ workerId, deploymentId, ...args } = {}) {
+    makeVoiceBatchCalls({
+      workerId, deploymentId, ...args
+    } = {}) {
       return this.post({
         path: `/api/workers/${workerId}/deployments/voice/${deploymentId}/make-batch-calls`,
         ...args,
       });
     },
-    updateVoiceDeployment({ workerId, deploymentId, ...args } = {}) {
+    updateVoiceDeployment({
+      workerId, deploymentId, ...args
+    } = {}) {
       return this.patch({
         path: `/api/workers/${workerId}/deployments/voice/${deploymentId}`,
         ...args,
@@ -282,13 +332,17 @@ export default {
         ...args,
       });
     },
-    deleteWorker({ workerId, ...args } = {}) {
+    deleteWorker({
+      workerId, ...args
+    } = {}) {
       return this.delete({
         path: `/api/workers/${workerId}`,
         ...args,
       });
     },
-    getWorker({ workerId, ...args } = {}) {
+    getWorker({
+      workerId, ...args
+    } = {}) {
       return this._makeRequest({
         path: `/api/workers/${workerId}`,
         ...args,
@@ -300,7 +354,9 @@ export default {
         ...args,
       });
     },
-    updateWorker({ workerId, ...args } = {}) {
+    updateWorker({
+      workerId, ...args
+    } = {}) {
       return this.patch({
         path: `/api/workers/${workerId}`,
         ...args,
