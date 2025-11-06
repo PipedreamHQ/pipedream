@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/marcom_robot",
+  "version": "0.0.1",
+  "description": "Pipedream Marcom Robot Components",
+  "main": "marcom_robot.app.mjs",
+  "keywords": [
+    "pipedream",
+    "marcom_robot"
+  ],
+  "homepage": "https://pipedream.com/apps/marcom_robot",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
