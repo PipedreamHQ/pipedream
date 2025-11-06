@@ -31,7 +31,7 @@ export default {
     dimension: {
       type: "string",
       label: "Dimension",
-      description: "The dimension to insert",
+      description: "The dimension to move",
       options: [
         {
           label: "Operates on the rows of a sheet",
