@@ -63,10 +63,12 @@ export const formatCustomFields = async (resp, getResourcesFn, getFieldsFn) => {
   const customFieldNames = await getCustomFieldNames(getFieldsFn);
 
   return resp.data.items.map((person) => {
-    if (!person.item?.custom_fields || Object.keys(person.item.custom_fields).length === 0) {
+    const { custom_fields: customFields } = persons.find((p) => p.id === person.item.id);
+
+    if (!person.item?.custom_fields || Object.keys(customFields).length === 0) {
       return person;
     }
-    const { custom_fields: customFields } = persons.find((p) => p.id === person.item.id);
+
     if (!customFields || Object.keys(customFields).length === 0) {
       return person;
     }
