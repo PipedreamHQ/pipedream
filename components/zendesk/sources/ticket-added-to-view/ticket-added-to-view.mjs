@@ -32,10 +32,6 @@ export default {
             field: "update_type",
             value: "Change",
           },
-          {
-            field: "update_type",
-            value: "Create",
-          },
         ],
       };
     },
