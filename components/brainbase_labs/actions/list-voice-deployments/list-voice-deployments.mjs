@@ -15,7 +15,10 @@ export default {
   props: {
     app,
     workerId: {
-      propDefinition: [app, "workerId"],
+      propDefinition: [
+        app,
+        "workerId",
+      ],
     },
   },
   async run({ $ }) {
@@ -26,7 +29,7 @@ export default {
 
     $.export(
       "$summary",
-      `Successfully retrieved ${response.data?.length || 0} voice deployment(s)`
+      `Successfully retrieved ${response.data?.length || 0} voice deployment(s)`,
     );
     return response;
   },

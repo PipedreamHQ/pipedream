@@ -15,7 +15,10 @@ export default {
   props: {
     app,
     integrationId: {
-      propDefinition: [app, "integrationId"],
+      propDefinition: [
+        app,
+        "integrationId",
+      ],
     },
   },
   async run({ $ }) {
@@ -26,7 +29,7 @@ export default {
 
     $.export(
       "$summary",
-      `Successfully retrieved integration with ID ${this.integrationId}`
+      `Successfully retrieved integration with ID ${this.integrationId}`,
     );
     return response;
   },

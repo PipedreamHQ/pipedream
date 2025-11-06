@@ -15,7 +15,10 @@ export default {
   props: {
     app,
     workerId: {
-      propDefinition: [app, "workerId"],
+      propDefinition: [
+        app,
+        "workerId",
+      ],
     },
     name: {
       type: "string",
@@ -33,7 +36,11 @@ export default {
       label: "Status",
       description: "Worker status",
       optional: true,
-      options: ["active", "inactive", "archived"],
+      options: [
+        "active",
+        "inactive",
+        "archived",
+      ],
     },
   },
   async run({ $ }) {

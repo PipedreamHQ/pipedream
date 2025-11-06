@@ -15,7 +15,10 @@ export default {
   props: {
     app,
     workerId: {
-      propDefinition: [app, "workerId"],
+      propDefinition: [
+        app,
+        "workerId",
+      ],
     },
     deploymentId: {
       propDefinition: [
@@ -98,7 +101,7 @@ export default {
 
     $.export(
       "$summary",
-      `Successfully updated voice deployment with ID ${this.deploymentId}`
+      `Successfully updated voice deployment with ID ${this.deploymentId}`,
     );
     return response;
   },

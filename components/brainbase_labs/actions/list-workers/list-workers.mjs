@@ -22,7 +22,7 @@ export default {
 
     $.export(
       "$summary",
-      `Successfully retrieved ${response.data?.length || 0} worker(s)`
+      `Successfully retrieved ${response.data?.length || 0} worker(s)`,
     );
     return response;
   },

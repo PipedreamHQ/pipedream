@@ -15,7 +15,10 @@ export default {
   props: {
     app,
     workerId: {
-      propDefinition: [app, "workerId"],
+      propDefinition: [
+        app,
+        "workerId",
+      ],
     },
     name: {
       type: "string",
@@ -46,7 +49,7 @@ export default {
       type: "object",
       label: "External Config",
       description:
-        'External configuration object with voice settings, language, voiceId, etc. Example: `{"voice": "alloy", "language": "en"}`',
+        "External configuration object with voice settings, language, voiceId, etc. Example: `{\"voice\": \"alloy\", \"language\": \"en\"}`",
       optional: true,
     },
     extractions: {
@@ -85,7 +88,7 @@ export default {
 
     $.export(
       "$summary",
-      `Successfully created voice deployment "${this.name}"`
+      `Successfully created voice deployment "${this.name}"`,
     );
     return response;
   },

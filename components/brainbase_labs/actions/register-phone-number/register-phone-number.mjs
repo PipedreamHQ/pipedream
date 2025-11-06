@@ -20,7 +20,10 @@ export default {
       description: "Phone number to register (e.g., +1234567890)",
     },
     integrationId: {
-      propDefinition: [app, "integrationId"],
+      propDefinition: [
+        app,
+        "integrationId",
+      ],
       description: "Twilio integration identifier",
     },
   },
@@ -35,7 +38,7 @@ export default {
 
     $.export(
       "$summary",
-      `Successfully registered phone number ${this.phoneNumber}`
+      `Successfully registered phone number ${this.phoneNumber}`,
     );
     return response;
   },

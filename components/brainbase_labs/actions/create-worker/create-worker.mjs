@@ -30,7 +30,11 @@ export default {
       label: "Status",
       description: "Worker status",
       optional: true,
-      options: ["active", "inactive", "archived"],
+      options: [
+        "active",
+        "inactive",
+        "archived",
+      ],
     },
   },
   async run({ $ }) {

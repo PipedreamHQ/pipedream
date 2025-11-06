@@ -15,7 +15,10 @@ export default {
   props: {
     app,
     integrationId: {
-      propDefinition: [app, "integrationId"],
+      propDefinition: [
+        app,
+        "integrationId",
+      ],
       optional: true,
     },
   },
@@ -32,7 +35,7 @@ export default {
 
     $.export(
       "$summary",
-      `Successfully retrieved ${response.data?.length || 0} phone number(s)`
+      `Successfully retrieved ${response.data?.length || 0} phone number(s)`,
     );
     return response;
   },

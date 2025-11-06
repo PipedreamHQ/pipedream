@@ -15,7 +15,10 @@ export default {
   props: {
     app,
     workerId: {
-      propDefinition: [app, "workerId"],
+      propDefinition: [
+        app,
+        "workerId",
+      ],
     },
     deploymentId: {
       propDefinition: [
@@ -75,7 +78,7 @@ export default {
 
     $.export(
       "$summary",
-      `Successfully retrieved ${response.data?.length || 0} log(s)`
+      `Successfully retrieved ${response.data?.length || 0} log(s)`,
     );
     return response;
   },

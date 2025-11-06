@@ -15,7 +15,10 @@ export default {
   props: {
     app,
     workerId: {
-      propDefinition: [app, "workerId"],
+      propDefinition: [
+        app,
+        "workerId",
+      ],
     },
     deploymentId: {
       propDefinition: [
@@ -30,7 +33,7 @@ export default {
       type: "object[]",
       label: "Data",
       description:
-        'Array of data objects with string key-value pairs for each call. Example: `[{"name": "John", "phone": "+1234567890"}, {"name": "Jane", "phone": "+0987654321"}]`',
+        "Array of data objects with string key-value pairs for each call. Example: `[{\"name\": \"John\", \"phone\": \"+1234567890\"}, {\"name\": \"Jane\", \"phone\": \"+0987654321\"}]`",
     },
     batchSize: {
       type: "integer",
@@ -89,7 +92,7 @@ export default {
 
     $.export(
       "$summary",
-      `Successfully initiated batch calls for ${this.data.length} recipient(s)`
+      `Successfully initiated batch calls for ${this.data.length} recipient(s)`,
     );
     return response;
   },

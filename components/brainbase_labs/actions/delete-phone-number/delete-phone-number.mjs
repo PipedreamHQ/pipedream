@@ -15,7 +15,10 @@ export default {
   props: {
     app,
     phoneNumberId: {
-      propDefinition: [app, "phoneNumberId"],
+      propDefinition: [
+        app,
+        "phoneNumberId",
+      ],
     },
   },
   async run({ $ }) {
@@ -26,7 +29,7 @@ export default {
 
     $.export(
       "$summary",
-      `Successfully deleted phone number with ID ${this.phoneNumberId}`
+      `Successfully deleted phone number with ID ${this.phoneNumberId}`,
     );
     return response;
   },
