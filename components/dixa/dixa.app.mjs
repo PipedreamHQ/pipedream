@@ -224,5 +224,56 @@ export default {
         ...opts,
       });
     },
+    listMessages({
+      conversationId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/conversations/${conversationId}/messages`,
+        ...opts,
+      });
+    },
+    listNotes({
+      conversationId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/conversations/${conversationId}/notes`,
+        ...opts,
+      });
+    },
+    createNote({
+      conversationId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/conversations/${conversationId}/notes`,
+        ...opts,
+      });
+    },
+    getConversation({
+      conversationId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/conversations/${conversationId}`,
+        ...opts,
+      });
+    },
+    claimConversation({
+      conversationId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/conversations/${conversationId}/claim`,
+        ...opts,
+      });
+    },
+    closeConversation({
+      conversationId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/conversations/${conversationId}/close`,
+        ...opts,
+      });
+    },
   },
 };
