@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/devcycle",
+  "version": "0.0.1",
+  "description": "Pipedream DevCycle Components",
+  "main": "devcycle.app.mjs",
+  "keywords": [
+    "pipedream",
+    "devcycle"
+  ],
+  "homepage": "https://pipedream.com/apps/devcycle",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
