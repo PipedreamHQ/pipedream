@@ -1,20 +1,15 @@
 {
-    "name": "@pipedream/form_taxi",
-    "version": "0.1.0",
-    "description": "Pipedream Form.taxi Components",
-    "main": "form_taxi.app.mjs",
-    "keywords": [
-        "pipedream",
-        "form_taxi"
-    ],
-    "homepage": "https://pipedream.com/apps/form-taxi",
-    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-    "dependencies": {
-        "@pipedream/platform": "^3.1.0",
-        "axios": "^1.11.0"
-    },
-    "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
-    "publishConfig": {
-        "access": "public"
-    },
+  "name": "@pipedream/form_taxi",
+  "version": "0.0.1",
+  "description": "Pipedream Form.taxi Components",
+  "main": "form_taxi.app.mjs",
+  "keywords": [
+    "pipedream",
+    "form_taxi"
+  ],
+  "homepage": "https://pipedream.com/apps/form_taxi",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
 }

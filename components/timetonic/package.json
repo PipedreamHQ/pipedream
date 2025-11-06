@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/timetonic",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream TimeTonic Components",
   "main": "timetonic.app.mjs",
   "keywords": [
@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@pipedream/platform": "^3.1.0",
-    "form-data": "^4.0.0",
+    "form-data": "^4.0.4",
     "md5": "^2.3.0"
   }
 }

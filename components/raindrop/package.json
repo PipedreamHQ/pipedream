@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/raindrop",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Pipedream Raindrop.io Components",
   "main": "raindrop.app.mjs",
   "keywords": [
@@ -18,6 +18,6 @@
   },
   "dependencies": {
     "@pipedream/platform": "^3.1.0",
-    "form-data": "^4.0.0"
+    "form-data": "^4.0.4"
   }
 }

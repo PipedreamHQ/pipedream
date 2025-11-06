@@ -5,7 +5,7 @@ export default {
   key: "elastic_email-unsubscribe-contact",
   name: "Unsubscribe Contact",
   description: "Unsubscribes a contact from future emails. [See the documentation](https://elasticemail.com/developers/api-documentation/rest-api#operation/suppressionsUnsubscribesPost)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

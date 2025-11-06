@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/giphy",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "Pipedream Giphy Components",
   "main": "giphy.app.mjs",
   "keywords": [
@@ -15,6 +15,6 @@
   },
   "dependencies": {
     "@pipedream/platform": "^0.10.0",
-    "form-data": "^4.0.0"
+    "form-data": "^4.0.4"
   }
 }

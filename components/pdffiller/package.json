@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/pdffiller",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Pipedream pdfFiller Components",
   "main": "pdffiller.app.mjs",
   "keywords": [
@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@pipedream/platform": "^3.1.0",
-    "form-data": "^4.0.0",
+    "form-data": "^4.0.4",
     "fs": "^0.0.1-security"
   }
 }
