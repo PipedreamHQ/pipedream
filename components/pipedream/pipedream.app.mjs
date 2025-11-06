@@ -61,31 +61,100 @@ export default {
       optional: true,
       options: constants.SUBSCRIPTION_EVENTS,
     },
+    appId: {
+      type: "string",
+      label: "App ID",
+      description: "The ID or name slug of the app you'd like to retrieve (e.g., `app_OkrhR1` or `slack`)",
+      useQuery: true,
+      async options({
+        query,
+        mapper = ({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        }),
+      }) {
+        const response = await this.listApps({
+          params: {
+            q: query,
+          },
+        });
+        return response.data.map(mapper);
+      },
+    },
+    query: {
+      type: "string",
+      label: "Query",
+      description: "The query string to search for components in the global registry, e.g. `Send a message to Slack on new Hubspot contacts`",
+    },
+    similarityThreshold: {
+      type: "string",
+      label: "Similarity Threshold",
+      description: "Optional minimum match score between 0 and 1, calculated via cosine distance between query and component embeddings",
+      optional: true,
+    },
+    debug: {
+      type: "boolean",
+      label: "Debug",
+      description: "Optional flag to return additional diagnostic data",
+      optional: true,
+    },
+    hasComponents: {
+      type: "boolean",
+      label: "Has Components",
+      description: "Show only apps with public triggers or actions",
+      optional: true,
+    },
+    hasActions: {
+      type: "boolean",
+      label: "Has Actions",
+      description: "Display only apps offering public actions",
+      optional: true,
+    },
+    hasTriggers: {
+      type: "boolean",
+      label: "Has Triggers",
+      description: "Display only apps offering public triggers",
+      optional: true,
+    },
+    q: {
+      type: "string",
+      label: "Query",
+      description: "Filter apps by name (e.g., `Slack`)",
+      optional: true,
+    },
   },
   methods: {
-    async _makeAPIRequest({
-      $ = this, ...opts
-    }) {
-      if (!opts.headers) opts.headers = {};
-      opts.headers["Authorization"] = `Bearer ${this.$auth.api_key}`;
-      opts.headers["Content-Type"] = "application/json";
-      opts.headers["user-agent"] = "@PipedreamHQ/pipedream v0.1";
-      const { path } = opts;
-      delete opts.path;
-      opts.url = `https://api.pipedream.com/v1${path[0] === "/"
-        ? ""
-        : "/"
-      }${path}`;
-      return axios($, opts);
+    getUrl(path) {
+      return `https://api.pipedream.com/v1${path}`;
     },
-    async getComponent(key, globalRegistry) {
-      let path = "/components/";
-      if (globalRegistry) path += "registry/";
-      path += key;
-
+    getHeaders(headers) {
+      return {
+        ...headers,
+        "Authorization": `Bearer ${this.$auth.api_key}`,
+        "Content-Type": "application/json",
+        "user-agent": "@PipedreamHQ/pipedream v0.1",
+      };
+    },
+    _makeAPIRequest({
+      $ = this, path, headers, ...opts
+    } = {}) {
+      return axios($, {
+        url: this.getUrl(path),
+        headers: this.getHeaders(headers),
+        ...opts,
+      });
+    },
+    getComponent({
+      key, globalRegistry, ...args
+    } = {}) {
+      const suffix = globalRegistry
+        ? "registry/"
+        : "";
       return this._makeAPIRequest({
-        method: "GET",
-        path,
+        path: `/components/${suffix}${key}`,
+        ...args,
       });
     },
     async subscribe(emitter_id, listener_id, event_name = null) {
@@ -137,6 +206,34 @@ export default {
         method: "DELETE",
         path: "/subscriptions",
         params,
+      });
+    },
+    listApps(args = {}) {
+      return this._makeAPIRequest({
+        path: "/apps",
+        ...args,
+      });
+    },
+    getApp({
+      appId, ...args
+    } = {}) {
+      return this._makeAPIRequest({
+        path: `/apps/${appId}`,
+        ...args,
+      });
+    },
+    getComponentFromRegistry({
+      key, ...args
+    } = {}) {
+      return this._makeAPIRequest({
+        path: `/components/registry/${key}`,
+        ...args,
+      });
+    },
+    searchComponents(args = {}) {
+      return this._makeAPIRequest({
+        path: "/components/search",
+        ...args,
       });
     },
   },
