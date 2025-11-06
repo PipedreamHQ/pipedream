@@ -8528,6 +8528,9 @@ importers:
         specifier: ^1.4.1
         version: 1.6.6
 
+  components/magnetite:
+    specifiers: {}
+
   components/mailblaze:
     dependencies:
       '@pipedream/platform':
