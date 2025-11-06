@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/gong",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Pipedream Gong Components",
   "main": "gong.app.mjs",
   "keywords": [
@@ -9,10 +9,10 @@
   ],
   "homepage": "https://pipedream.com/apps/gong",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "dependencies": {
-    "@pipedream/platform": "^3.0.3"
-  },
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.0"
   }
 }
