@@ -1,9 +1,10 @@
 import app from "../../brainbase_labs.app.mjs";
 
 export default {
-  key: "brainbase-create-voice-deployment",
+  key: "brainbase_labs-create-voice-deployment",
   name: "Create Voice Deployment",
-  description: "Create a new voice deployment. [See the documentation](https://docs.usebrainbase.com)",
+  description:
+    "Create a new voice deployment. [See the documentation](https://docs.usebrainbase.com)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -14,10 +15,7 @@ export default {
   props: {
     app,
     workerId: {
-      propDefinition: [
-        app,
-        "workerId",
-      ],
+      propDefinition: [app, "workerId"],
     },
     name: {
       type: "string",
@@ -47,7 +45,8 @@ export default {
     externalConfig: {
       type: "object",
       label: "External Config",
-      description: "External configuration object with voice settings, language, voiceId, etc. Example: `{\"voice\": \"alloy\", \"language\": \"en\"}`",
+      description:
+        'External configuration object with voice settings, language, voiceId, etc. Example: `{"voice": "alloy", "language": "en"}`',
       optional: true,
     },
     extractions: {
@@ -84,8 +83,10 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully created voice deployment "${this.name}"`);
+    $.export(
+      "$summary",
+      `Successfully created voice deployment "${this.name}"`
+    );
     return response;
   },
 };
-

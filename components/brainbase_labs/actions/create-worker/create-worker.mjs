@@ -1,9 +1,10 @@
 import app from "../../brainbase_labs.app.mjs";
 
 export default {
-  key: "brainbase-create-worker",
+  key: "brainbase_labs-create-worker",
   name: "Create Worker",
-  description: "Create a new worker for the team. [See the documentation](https://docs.usebrainbase.com)",
+  description:
+    "Create a new worker for the team. [See the documentation](https://docs.usebrainbase.com)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -29,11 +30,7 @@ export default {
       label: "Status",
       description: "Worker status",
       optional: true,
-      options: [
-        "active",
-        "inactive",
-        "archived",
-      ],
+      options: ["active", "inactive", "archived"],
     },
   },
   async run({ $ }) {
@@ -50,4 +47,3 @@ export default {
     return response;
   },
 };
-

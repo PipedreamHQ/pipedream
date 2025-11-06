@@ -1,9 +1,10 @@
 import app from "../../brainbase_labs.app.mjs";
 
 export default {
-  key: "brainbase-update-voice-deployment",
+  key: "brainbase_labs-update-voice-deployment",
   name: "Update Voice Deployment",
-  description: "Update an existing voice deployment. [See the documentation](https://docs.usebrainbase.com)",
+  description:
+    "Update an existing voice deployment. [See the documentation](https://docs.usebrainbase.com)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -14,10 +15,7 @@ export default {
   props: {
     app,
     workerId: {
-      propDefinition: [
-        app,
-        "workerId",
-      ],
+      propDefinition: [app, "workerId"],
     },
     deploymentId: {
       propDefinition: [
@@ -98,8 +96,10 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully updated voice deployment with ID ${this.deploymentId}`);
+    $.export(
+      "$summary",
+      `Successfully updated voice deployment with ID ${this.deploymentId}`
+    );
     return response;
   },
 };
-

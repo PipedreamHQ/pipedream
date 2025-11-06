@@ -1,9 +1,10 @@
 import app from "../../brainbase_labs.app.mjs";
 
 export default {
-  key: "brainbase-get-flow",
+  key: "brainbase_labs-get-flow",
   name: "Get Flow",
-  description: "Get a single flow by ID. [See the documentation](https://docs.usebrainbase.com)",
+  description:
+    "Get a single flow by ID. [See the documentation](https://docs.usebrainbase.com)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -14,10 +15,7 @@ export default {
   props: {
     app,
     workerId: {
-      propDefinition: [
-        app,
-        "workerId",
-      ],
+      propDefinition: [app, "workerId"],
     },
     flowId: {
       propDefinition: [
@@ -40,4 +38,3 @@ export default {
     return response;
   },
 };
-

@@ -1,9 +1,10 @@
 import app from "../../brainbase_labs.app.mjs";
 
 export default {
-  key: "brainbase-make-voice-batch-calls",
+  key: "brainbase_labs-make-voice-batch-calls",
   name: "Make Voice Batch Calls",
-  description: "Make batch calls for a voice deployment. [See the documentation](https://docs.usebrainbase.com)",
+  description:
+    "Make batch calls for a voice deployment. [See the documentation](https://docs.usebrainbase.com)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -14,10 +15,7 @@ export default {
   props: {
     app,
     workerId: {
-      propDefinition: [
-        app,
-        "workerId",
-      ],
+      propDefinition: [app, "workerId"],
     },
     deploymentId: {
       propDefinition: [
@@ -31,7 +29,8 @@ export default {
     data: {
       type: "object[]",
       label: "Data",
-      description: "Array of data objects with string key-value pairs for each call. Example: `[{\"name\": \"John\", \"phone\": \"+1234567890\"}, {\"name\": \"Jane\", \"phone\": \"+0987654321\"}]`",
+      description:
+        'Array of data objects with string key-value pairs for each call. Example: `[{"name": "John", "phone": "+1234567890"}, {"name": "Jane", "phone": "+0987654321"}]`',
     },
     batchSize: {
       type: "integer",
@@ -88,8 +87,10 @@ export default {
       data: requestData,
     });
 
-    $.export("$summary", `Successfully initiated batch calls for ${this.data.length} recipient(s)`);
+    $.export(
+      "$summary",
+      `Successfully initiated batch calls for ${this.data.length} recipient(s)`
+    );
     return response;
   },
 };
-

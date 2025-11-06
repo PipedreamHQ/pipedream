@@ -1,9 +1,10 @@
 import app from "../../brainbase_labs.app.mjs";
 
 export default {
-  key: "brainbase-delete-flow",
+  key: "brainbase_labs-delete-flow",
   name: "Delete Flow",
-  description: "Delete a flow. [See the documentation](https://docs.usebrainbase.com)",
+  description:
+    "Delete a flow. [See the documentation](https://docs.usebrainbase.com)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -14,10 +15,7 @@ export default {
   props: {
     app,
     workerId: {
-      propDefinition: [
-        app,
-        "workerId",
-      ],
+      propDefinition: [app, "workerId"],
     },
     flowId: {
       propDefinition: [
@@ -40,4 +38,3 @@ export default {
     return response;
   },
 };
-

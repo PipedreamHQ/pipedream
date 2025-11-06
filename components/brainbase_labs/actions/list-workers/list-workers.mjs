@@ -1,9 +1,10 @@
 import app from "../../brainbase_labs.app.mjs";
 
 export default {
-  key: "brainbase-list-workers",
+  key: "brainbase_labs-list-workers",
   name: "List Workers",
-  description: "Get all workers for the team. [See the documentation](https://docs.usebrainbase.com)",
+  description:
+    "Get all workers for the team. [See the documentation](https://docs.usebrainbase.com)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -19,8 +20,10 @@ export default {
       $,
     });
 
-    $.export("$summary", `Successfully retrieved ${response.data?.length || 0} worker(s)`);
+    $.export(
+      "$summary",
+      `Successfully retrieved ${response.data?.length || 0} worker(s)`
+    );
     return response;
   },
 };
-

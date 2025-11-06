@@ -1,9 +1,10 @@
 import app from "../../brainbase_labs.app.mjs";
 
 export default {
-  key: "brainbase-get-voice-deployment",
+  key: "brainbase_labs-get-voice-deployment",
   name: "Get Voice Deployment",
-  description: "Get a single voice deployment by ID. [See the documentation](https://docs.usebrainbase.com)",
+  description:
+    "Get a single voice deployment by ID. [See the documentation](https://docs.usebrainbase.com)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -14,10 +15,7 @@ export default {
   props: {
     app,
     workerId: {
-      propDefinition: [
-        app,
-        "workerId",
-      ],
+      propDefinition: [app, "workerId"],
     },
     deploymentId: {
       propDefinition: [
@@ -36,8 +34,10 @@ export default {
       deploymentId: this.deploymentId,
     });
 
-    $.export("$summary", `Successfully retrieved voice deployment with ID ${this.deploymentId}`);
+    $.export(
+      "$summary",
+      `Successfully retrieved voice deployment with ID ${this.deploymentId}`
+    );
     return response;
   },
 };
-

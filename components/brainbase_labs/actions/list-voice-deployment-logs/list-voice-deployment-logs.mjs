@@ -1,9 +1,10 @@
 import app from "../../brainbase_labs.app.mjs";
 
 export default {
-  key: "brainbase-list-voice-deployment-logs",
+  key: "brainbase_labs-list-voice-deployment-logs",
   name: "List Voice Deployment Logs",
-  description: "List voice deployment logs for a worker with optional filtering and pagination. [See the documentation](https://docs.usebrainbase.com)",
+  description:
+    "List voice deployment logs for a worker with optional filtering and pagination. [See the documentation](https://docs.usebrainbase.com)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -14,10 +15,7 @@ export default {
   props: {
     app,
     workerId: {
-      propDefinition: [
-        app,
-        "workerId",
-      ],
+      propDefinition: [app, "workerId"],
     },
     deploymentId: {
       propDefinition: [
@@ -52,7 +50,8 @@ export default {
     limit: {
       type: "integer",
       label: "Limit",
-      description: "Number of items per page (default: 100, minimum: 1, maximum: 100)",
+      description:
+        "Number of items per page (default: 100, minimum: 1, maximum: 100)",
       optional: true,
       min: 1,
       max: 100,
@@ -74,8 +73,10 @@ export default {
       params,
     });
 
-    $.export("$summary", `Successfully retrieved ${response.data?.length || 0} log(s)`);
+    $.export(
+      "$summary",
+      `Successfully retrieved ${response.data?.length || 0} log(s)`
+    );
     return response;
   },
 };
-

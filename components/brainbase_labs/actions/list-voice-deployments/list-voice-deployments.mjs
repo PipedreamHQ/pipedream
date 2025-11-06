@@ -1,9 +1,10 @@
 import app from "../../brainbase_labs.app.mjs";
 
 export default {
-  key: "brainbase-list-voice-deployments",
+  key: "brainbase_labs-list-voice-deployments",
   name: "List Voice Deployments",
-  description: "Get all voice deployments for a worker. [See the documentation](https://docs.usebrainbase.com)",
+  description:
+    "Get all voice deployments for a worker. [See the documentation](https://docs.usebrainbase.com)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -14,10 +15,7 @@ export default {
   props: {
     app,
     workerId: {
-      propDefinition: [
-        app,
-        "workerId",
-      ],
+      propDefinition: [app, "workerId"],
     },
   },
   async run({ $ }) {
@@ -26,8 +24,10 @@ export default {
       workerId: this.workerId,
     });
 
-    $.export("$summary", `Successfully retrieved ${response.data?.length || 0} voice deployment(s)`);
+    $.export(
+      "$summary",
+      `Successfully retrieved ${response.data?.length || 0} voice deployment(s)`
+    );
     return response;
   },
 };
-

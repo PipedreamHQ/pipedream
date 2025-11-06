@@ -1,9 +1,10 @@
 import app from "../../brainbase_labs.app.mjs";
 
 export default {
-  key: "brainbase-get-team",
+  key: "brainbase_labs-get-team",
   name: "Get Team",
-  description: "Get the team associated with the provided API key. [See the documentation](https://docs.usebrainbase.com)",
+  description:
+    "Get the team associated with the provided API key. [See the documentation](https://docs.usebrainbase.com)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -35,4 +36,3 @@ export default {
     return response;
   },
 };
-

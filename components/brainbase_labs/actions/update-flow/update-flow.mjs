@@ -1,9 +1,10 @@
 import app from "../../brainbase_labs.app.mjs";
 
 export default {
-  key: "brainbase-update-flow",
+  key: "brainbase_labs-update-flow",
   name: "Update Flow",
-  description: "Update an existing flow. [See the documentation](https://docs.usebrainbase.com)",
+  description:
+    "Update an existing flow. [See the documentation](https://docs.usebrainbase.com)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -14,10 +15,7 @@ export default {
   props: {
     app,
     workerId: {
-      propDefinition: [
-        app,
-        "workerId",
-      ],
+      propDefinition: [app, "workerId"],
     },
     flowId: {
       propDefinition: [
@@ -73,4 +71,3 @@ export default {
     return response;
   },
 };
-

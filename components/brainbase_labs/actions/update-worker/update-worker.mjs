@@ -1,9 +1,10 @@
 import app from "../../brainbase_labs.app.mjs";
 
 export default {
-  key: "brainbase-update-worker",
+  key: "brainbase_labs-update-worker",
   name: "Update Worker",
-  description: "Update an existing worker. [See the documentation](https://docs.usebrainbase.com)",
+  description:
+    "Update an existing worker. [See the documentation](https://docs.usebrainbase.com)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -14,10 +15,7 @@ export default {
   props: {
     app,
     workerId: {
-      propDefinition: [
-        app,
-        "workerId",
-      ],
+      propDefinition: [app, "workerId"],
     },
     name: {
       type: "string",
@@ -35,11 +33,7 @@ export default {
       label: "Status",
       description: "Worker status",
       optional: true,
-      options: [
-        "active",
-        "inactive",
-        "archived",
-      ],
+      options: ["active", "inactive", "archived"],
     },
   },
   async run({ $ }) {
@@ -57,4 +51,3 @@ export default {
     return response;
   },
 };
-

@@ -1,9 +1,10 @@
 import app from "../../brainbase_labs.app.mjs";
 
 export default {
-  key: "brainbase-delete-worker",
+  key: "brainbase_labs-delete-worker",
   name: "Delete Worker",
-  description: "Delete a worker. [See the documentation](https://docs.usebrainbase.com)",
+  description:
+    "Delete a worker. [See the documentation](https://docs.usebrainbase.com)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -14,10 +15,7 @@ export default {
   props: {
     app,
     workerId: {
-      propDefinition: [
-        app,
-        "workerId",
-      ],
+      propDefinition: [app, "workerId"],
     },
   },
   async run({ $ }) {
@@ -26,8 +24,10 @@ export default {
       workerId: this.workerId,
     });
 
-    $.export("$summary", `Successfully deleted worker with ID ${this.workerId}`);
+    $.export(
+      "$summary",
+      `Successfully deleted worker with ID ${this.workerId}`
+    );
     return response;
   },
 };
-

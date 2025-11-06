@@ -1,9 +1,10 @@
 import app from "../../brainbase_labs.app.mjs";
 
 export default {
-  key: "brainbase-get-integration",
+  key: "brainbase_labs-get-integration",
   name: "Get Integration",
-  description: "Get a specific integration by ID. [See the documentation](https://docs.usebrainbase.com)",
+  description:
+    "Get a specific integration by ID. [See the documentation](https://docs.usebrainbase.com)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -14,10 +15,7 @@ export default {
   props: {
     app,
     integrationId: {
-      propDefinition: [
-        app,
-        "integrationId",
-      ],
+      propDefinition: [app, "integrationId"],
     },
   },
   async run({ $ }) {
@@ -26,8 +24,10 @@ export default {
       integrationId: this.integrationId,
     });
 
-    $.export("$summary", `Successfully retrieved integration with ID ${this.integrationId}`);
+    $.export(
+      "$summary",
+      `Successfully retrieved integration with ID ${this.integrationId}`
+    );
     return response;
   },
 };
-
