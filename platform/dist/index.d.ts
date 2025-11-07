@@ -13,7 +13,7 @@ export declare const SendConfigEmail: t.PartialC<{
     subject: t.StringC;
     text: t.StringC;
 }>;
-export declare type SendConfigEmail = t.TypeOf<typeof SendConfigEmail>;
+export type SendConfigEmail = t.TypeOf<typeof SendConfigEmail>;
 export declare const SendConfigEmit_required: t.ExactC<t.TypeC<{
     raw_event: t.ObjectC;
 }>>;
@@ -25,7 +25,7 @@ export declare const SendConfigEmit: t.IntersectionC<[t.ExactC<t.TypeC<{
 }>>, t.PartialC<{
     event: t.ObjectC;
 }>]>;
-export declare type SendConfigEmit = t.TypeOf<typeof SendConfigEmit>;
+export type SendConfigEmit = t.TypeOf<typeof SendConfigEmit>;
 export declare const HTTP_METHODS: string[];
 export declare const SendConfigHTTP: t.IntersectionC<[t.ExactC<t.TypeC<{
     method: t.KeyofC<{}>;
@@ -39,18 +39,18 @@ export declare const SendConfigHTTP: t.IntersectionC<[t.ExactC<t.TypeC<{
     headers: t.ObjectC;
     params: t.ObjectC;
 }>]>;
-export declare type SendConfigHTTP = t.TypeOf<typeof SendConfigHTTP>;
+export type SendConfigHTTP = t.TypeOf<typeof SendConfigHTTP>;
 export declare const SendConfigS3: t.ExactC<t.TypeC<{
     bucket: t.StringC;
     payload: t.UnionC<[t.StringC, t.ObjectC]>;
     prefix: t.StringC;
 }>>;
-export declare type SendConfigS3 = t.TypeOf<typeof SendConfigS3>;
+export type SendConfigS3 = t.TypeOf<typeof SendConfigS3>;
 export declare const SendConfigSQL: t.ExactC<t.TypeC<{
     payload: t.UnionC<[t.StringC, t.ObjectC]>;
     table: t.StringC;
 }>>;
-export declare type SendConfigSQL = t.TypeOf<typeof SendConfigSQL>;
+export type SendConfigSQL = t.TypeOf<typeof SendConfigSQL>;
 export declare const SendConfigSnowflake: t.ExactC<t.TypeC<{
     account: t.StringC;
     database: t.StringC;
@@ -62,12 +62,12 @@ export declare const SendConfigSnowflake: t.ExactC<t.TypeC<{
     stage_name: t.StringC;
     user: t.StringC;
 }>>;
-export declare type SendConfigSnowflake = t.TypeOf<typeof SendConfigSnowflake>;
+export type SendConfigSnowflake = t.TypeOf<typeof SendConfigSnowflake>;
 export declare const SendConfigSSE: t.ExactC<t.TypeC<{
     channel: t.StringC;
     payload: t.UnionC<[t.StringC, t.ObjectC]>;
 }>>;
-export declare type SendConfigSSE = t.TypeOf<typeof SendConfigSSE>;
+export type SendConfigSSE = t.TypeOf<typeof SendConfigSSE>;
 interface SendFunctionsWrapper {
     email: (config: SendConfigEmail) => void;
     emit: (config: SendConfigEmit) => void;
