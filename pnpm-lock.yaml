@@ -14140,6 +14140,9 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
 
+  components/stock_news_api:
+    specifiers: {}
+
   components/stocknewsapi:
     specifiers: {}
 
