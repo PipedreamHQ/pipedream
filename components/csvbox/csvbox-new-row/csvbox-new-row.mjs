@@ -2,7 +2,7 @@ import app from "../csvbox.app.mjs";
 
 export default {
   key: "csvbox-new-row",
-  name: "New Import",
+  name: "Import New Row",
   description: "Emit new events when a new row is added to a CSVBox sheet",
   version: "0.0.1",
   type: "source",
@@ -56,7 +56,6 @@ export default {
           ts: Date.now(),
         });
 
-        
         this._setSampleRow(first);
       } catch (err) {
         console.error("Error during source activation:", err);
@@ -89,15 +88,31 @@ export default {
     },
   },
   methods: {
+    /**
+     * Retrieves the stored webhook ID from persistent storage
+     * @returns {string|null} The webhook ID or null if not set
+     */
     _getHookID() {
       return this.db.get("hookId");
     },
+    /**
+     * Stores the webhook ID in persistent storage
+     * @param {string|null} hookID - The webhook ID to store
+     */
     _setHookID(hookID) {
       this.db.set("hookId", hookID);
     },
+    /**
+     * Retrieves the stored sample row data from persistent storage
+     * @returns {object|null} The sample row data or null if not set
+     */
     _getSampleRow() {
       return this.db.get("sampleRow");
     },
+    /**
+     * Stores sample row data in persistent storage
+     * @param {object|null} rowData - The sample row data to store
+     */
     _setSampleRow(rowData) {
       this.db.set("sampleRow", rowData);
     },
