@@ -4,7 +4,7 @@ export default {
   key: "jira-get-user",
   name: "Get User",
   description: "Gets details of user. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-users/#api-rest-api-3-user-get)",
-  version: "0.1.14",
+  version: "0.1.15",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -10,7 +10,7 @@ export default {
   key: "google_sheets-add-single-row",
   name: "Add Single Row",
   description: "Add a single row of data to Google Sheets. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/append)",
-  version: "2.1.18",
+  version: "2.1.19",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -95,10 +95,11 @@ export default {
             optional: true,
           };
         }
-        props.allColumns = {
-          type: "string",
-          hidden: true,
-          default: JSON.stringify(values),
+        props.myColumnData = {
+          type: "string[]",
+          label: "Enter Values as Array",
+          description: "Provide a value for each cell of the row. Google Sheets accepts strings, numbers and boolean values for each cell. To set a cell to an empty value, pass an empty string. This field will overwrite the column input fields.",
+          optional: true,
         };
       } catch (err) {
         console.error("Error fetching headers:", err);
@@ -143,9 +144,9 @@ export default {
     if (this.hasHeaders
       && !isDynamicExpression(sheetId)
       && !isDynamicExpression(worksheetId)
-      && this.allColumns
+      && !this.myColumnData
     ) {
-      const rows = JSON.parse(this.allColumns);
+      const { values: rows } = await this.googleSheets.getSpreadsheetValues(sheetId, `${worksheet?.properties?.title}!1:1`);
       const [
         headers,
       ] = rows;

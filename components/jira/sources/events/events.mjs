@@ -5,7 +5,7 @@ export default {
   key: "jira-events",
   name: "New Event",
   description: "Emit new event when an event with subscribed event source triggered, [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-webhooks/#api-rest-api-3-webhook-post)",
-  version: "0.0.14",
+  version: "0.0.15",
   type: "source",
   dedupe: "unique",
   ...common,

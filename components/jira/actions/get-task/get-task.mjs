@@ -4,7 +4,7 @@ export default {
   key: "jira-get-task",
   name: "Get Task",
   description: "Gets the status of a long-running asynchronous task. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-tasks/#api-rest-api-3-task-taskid-get)",
-  version: "0.1.14",
+  version: "0.1.15",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

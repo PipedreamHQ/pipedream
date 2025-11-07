@@ -7,7 +7,7 @@ export default {
   key: "notion-update-page",
   name: "Update Page",
   description: "Update a page's property values. To append page content, use the *Append Block* action instead. [See the documentation](https://developers.notion.com/reference/patch-page)",
-  version: "2.0.4",
+  version: "2.0.5",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

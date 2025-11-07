@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zamzar",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Pipedream Zamzar Components",
   "main": "zamzar.app.mjs",
   "keywords": [
@@ -14,6 +14,6 @@
   },
   "dependencies": {
     "@pipedream/platform": "^3.1.0",
-    "form-data": "^4.0.0"
+    "form-data": "^4.0.4"
   }
 }

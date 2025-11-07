@@ -5,7 +5,7 @@ export default {
   type: "source",
   name: "User Updated",
   description: "Emits an event each time a user's settings are updated in your Zoom account",
-  version: "0.1.8",
+  version: "0.1.9",
   dedupe: "unique", // Dedupe based on user ID
   props: {
     zoomAdmin,

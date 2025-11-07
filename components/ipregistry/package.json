@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/ipregistry",
+  "version": "0.0.1",
+  "description": "Pipedream Ipregistry Components",
+  "main": "ipregistry.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ipregistry"
+  ],
+  "homepage": "https://pipedream.com/apps/ipregistry",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

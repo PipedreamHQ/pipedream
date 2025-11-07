@@ -4,8 +4,8 @@ export default {
   type: "action",
   key: "linear_app-create-issue",
   name: "Create Issue",
-  description: "Creates a new issue in Linear. Requires team ID and title. Optional: description, assignee, project, state. Returns response object with success status and issue details. Uses API Key authentication. [See the documentation](https://developers.linear.app/docs/graphql/working-with-the-graphql-api#creating-and-editing-issues).",
-  version: "0.4.14",
+  description: "Creates a new issue in Linear. Requires team ID and title. Optional: description, assignee, project, state. Returns response object with success status and issue details. Uses API Key authentication. [See the documentation](https://linear.app/developers/graphql#creating-and-editing-issues).",
+  version: "0.4.15",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
