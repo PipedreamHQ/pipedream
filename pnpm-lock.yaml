@@ -8727,6 +8727,9 @@ importers:
 
   components/mainwp: {}
 
+  components/mallabe:
+    specifiers: {}
+
   components/mamo_business:
     dependencies:
       '@pipedream/platform':
