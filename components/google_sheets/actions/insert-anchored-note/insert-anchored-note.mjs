@@ -5,7 +5,7 @@ export default {
   key: "google_sheets-insert-anchored-note",
   name: "Insert an Anchored Note",
   description: "Insert a note on a spreadsheet cell. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/batchUpdate)",
-  version: "0.1.13",
+  version: "0.1.14",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
