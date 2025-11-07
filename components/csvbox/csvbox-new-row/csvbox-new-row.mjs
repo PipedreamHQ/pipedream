@@ -38,8 +38,9 @@ export default {
         }
 
         const first = sample_response[0];
+        const sampleId = `sample_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
         this.$emit({
-          import_id: `sample_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`,
+          import_id: sampleId,
           sheet_id: this.sheetId,
           sheet_name: first.sheet_name || "Sample Data",
           row_number: first.row_number || 1,
@@ -50,7 +51,7 @@ export default {
           import_description: first.import_description || "This is a sample test import",
           original_filename: first.original_filename || "product_details.csv",
         }, {
-          id: `sample_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`,
+          id: sampleId,
           summary: `Sample data loaded from sheet - ${first.sheet_name} `,
           ts: Date.now(),
         });
@@ -81,17 +82,10 @@ export default {
     },
     async deploy() {
       const sampleRow = this._getSampleRow();
-      if (sampleRow) {
-        this.$emit(sampleRow, {
-          id: `sample_${Date.now()}`,
-          summary: "Sample row event",
-          ts: Date.now(),
-        });
-      }
-      else {
+      if (!sampleRow) {
         console.log("No sample row data found to emit during deploy.");
-        return;
       }
+      // Sample already emitted during activation; skipping duplicate emission
     },
   },
   methods: {
