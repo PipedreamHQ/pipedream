@@ -38,7 +38,7 @@ export default {
         ],
       },
     });
-    $.export("$summary", "Successfully sent the request to get details of the specified product");
+    $.export("$summary", `Successfully retrived details for product SKU ${this.productSku}`);
     return response;
   },
 };
