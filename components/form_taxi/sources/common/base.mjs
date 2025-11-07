@@ -121,7 +121,7 @@ export default {
           this.$emit(
             {
               headers: {
-                "x-sample": "true"
+                "x-sample": "true",
               },
               query: {},
               body: obj,
