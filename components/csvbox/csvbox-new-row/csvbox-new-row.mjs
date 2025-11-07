@@ -2,7 +2,7 @@ import app from "../csvbox.app.mjs";
 
 export default {
   key: "csvbox-new-row",
-  name: "New Row",
+  name: "New Import",
   description: "Emit new events when a new row is added to a CSVBox sheet",
   version: "0.0.1",
   type: "source",
