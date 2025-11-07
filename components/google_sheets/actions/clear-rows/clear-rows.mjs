@@ -7,7 +7,7 @@ export default {
   key: "google_sheets-clear-rows",
   name: "Clear Rows",
   description: "Delete the content of a row or rows in a spreadsheet. Deleted rows will appear as blank rows. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/clear)",
-  version: "0.1.15",
+  version: "0.1.16",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

@@ -1,13 +1,13 @@
-import { axios } from "@pipedream/platform";
 import sheets from "@googleapis/sheets";
 import googleDrive from "@pipedream/google_drive";
+import { axios } from "@pipedream/platform";
+import get from "lodash/get.js";
+import isArray from "lodash/isArray.js";
+import isEmpty from "lodash/isEmpty.js";
+import isString from "lodash/isString.js";
 import {
   INSERT_DATA_OPTION, VALUE_INPUT_OPTION,
 } from "./common/constants.mjs";
-import isArray from "lodash/isArray.js";
-import get from "lodash/get.js";
-import isString from "lodash/isString.js";
-import isEmpty from "lodash/isEmpty.js";
 
 export default {
   ...googleDrive,
@@ -418,6 +418,46 @@ export default {
     async copyWorksheet(request) {
       const sheets = this.sheets();
       return (await sheets.spreadsheets.sheets.copyTo(request)).data;
+    },
+    /**
+     * https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/insertDimension
+     *
+     * Inserts a dimension and returns the properties of the newly inserted dimension.
+     * @returns {object} Contains an instance of DimensionProperties.
+     * @param {string} spreadsheetId - ID of the spreadsheet in which to insert a dimension.
+     * @param {object} data - An object containing information about the dimension to insert.
+     */
+    async insertDimension(spreadsheetId, data = {}) {
+      return (await this.batchUpdate({
+        spreadsheetId,
+        requestBody: {
+          requests: [
+            {
+              insertDimension: data,
+            },
+          ],
+        },
+      })).replies[0];
+    },
+    /**
+     * https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/moveDimension
+     *
+     * Moves a dimension and returns the properties of the newly moved dimension.
+     * @returns {object} Contains an instance of DimensionProperties.
+     * @param {string} spreadsheetId - ID of the spreadsheet in which to move a dimension.
+     * @param {object} data - An object containing information about the dimension to move.
+     */
+    async moveDimension(spreadsheetId, data = {}) {
+      return (await this.batchUpdate({
+        spreadsheetId,
+        requestBody: {
+          requests: [
+            {
+              moveDimension: data,
+            },
+          ],
+        },
+      })).replies[0];
     },
     /**
      * https://developers.google.com/drive/api/v3/reference/files/copy
