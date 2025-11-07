@@ -59,7 +59,9 @@ export default {
         this._setSampleRow(first);
       } catch (err) {
         console.error("Error during source activation:", err);
-        throw new Error(err?.message || "Failed to register webhook or fetch sample data.");
+        const error = new Error(`Failed to register webhook or fetch sample data: ${err?.message}`);
+        error.cause = err;
+        throw error;
       }
     },
     async deactivate() {
@@ -76,7 +78,10 @@ export default {
           this._setSampleRow(null);
         }
       } catch (err) {
-        console.error("Deactivation Error:", err);
+        console.error("Error during deactivate webhook:", err);
+        const error = new Error(`Failed to deactivate webhook during deactivation: ${err?.message}`);
+        error.cause = err;
+        throw error;
       }
     },
     async deploy() {
