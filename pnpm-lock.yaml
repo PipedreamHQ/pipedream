@@ -16524,6 +16524,9 @@ importers:
 
   components/yext: {}
 
+  components/yext_sandbox:
+    specifiers: {}
+
   components/yoast_seo: {}
 
   components/yodiz:
