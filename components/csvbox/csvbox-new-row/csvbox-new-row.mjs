@@ -31,8 +31,7 @@ export default {
         });
 
         const { webhookId, sample_response } = data;
-        const hookId = webhookId;
-        this._setHookID(hookId);
+        this._setHookID(webhookId);
 
         if (!Array.isArray(sample_response) || sample_response.length === 0) {
           throw new Error("Unable to fetch sample data from selected sheet.");
@@ -40,7 +39,7 @@ export default {
 
         const first = sample_response[0];
         this.$emit({
-          import_id: `sample_${Date.now()}`,
+          import_id: `sample_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`,
           sheet_id: this.sheetId,
           sheet_name: first.sheet_name || "Sample Data",
           row_number: first.row_number || 1,
@@ -51,7 +50,7 @@ export default {
           import_description: first.import_description || "This is a sample test import",
           original_filename: first.original_filename || "product_details.csv",
         }, {
-          id: `sample_${Date.now()}`,
+          id: `sample_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`,
           summary: `Sample data loaded from sheet - ${first.sheet_name} `,
           ts: Date.now(),
         });
@@ -73,8 +72,8 @@ export default {
               sheet_slug: this.sheetId,
             },
           });
-          this.db.set("hookId", null);
-          this.db.set("sampleRow", null);
+          this._setHookID(null);
+          this._setSampleRow(null);
         }
       } catch (err) {
         console.error("Deactivation Error:", err);
@@ -119,7 +118,7 @@ export default {
 
     for (const row of body) {
       this.$emit(row, {
-        id: row.import_id || `${row.sheet_id}_${Date.now()}`,
+        id: row.import_id || `${row.sheet_id}_${row.row_number}_${Date.now()}`,
         summary: `New data imported to sheet ${row.sheet_name}`,
         ts: Date.now(),
       });
