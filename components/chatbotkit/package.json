@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/chatbotkit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream ChatBotKit Components",
   "main": "chatbotkit.app.mjs",
   "keywords": [
@@ -14,6 +14,6 @@
   },
   "dependencies": {
     "@pipedream/platform": "^1.5.1",
-    "axios": "^1.6.5"
+    "axios": "^1.12.0"
   }
 }

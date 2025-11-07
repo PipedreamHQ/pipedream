@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/bitbucket",
-  "version": "0.3.9",
+  "version": "0.3.10",
   "description": "Pipedream Bitbucket Components",
   "main": "bitbucket.app.mjs",
   "keywords": [
@@ -11,7 +11,7 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
     "@pipedream/platform": "^0.10.0",
-    "axios": "^0.27.2",
+    "axios": "^0.30.2",
     "package-lock-only": "^0.0.4"
   },
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",

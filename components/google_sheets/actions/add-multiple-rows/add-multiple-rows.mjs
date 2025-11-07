@@ -11,7 +11,7 @@ export default {
   key: "google_sheets-add-multiple-rows",
   name: "Add Multiple Rows",
   description: "Add multiple rows of data to a Google Sheet. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/append)",
-  version: "0.2.16",
+  version: "0.2.17",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
