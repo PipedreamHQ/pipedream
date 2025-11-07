@@ -52,7 +52,7 @@ export default {
           original_filename: first.original_filename || "product_details.csv",
         }, {
           id: sampleId,
-          summary: `Sample data loaded from sheet - ${first.sheet_name} `,
+          summary: `Sample data loaded from sheet - ${first.sheet_name}`,
           ts: Date.now(),
         });
 
