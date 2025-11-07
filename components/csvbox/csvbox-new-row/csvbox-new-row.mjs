@@ -111,16 +111,19 @@ export default {
   },
   async run(event) {
     const { body } = event;
-    if (!body) {
-      console.error("Received empty webhook body");
+
+    if (!Array.isArray(body) || body.length === 0) {
+      console.error("Received webhook payload without row data");
       return;
     }
 
-    this.$emit(body, {
-      id: body[0].import_id || `${body[0].sheet_id}_${Date.now()}`,
-      summary: `New data imported to sheet ${body[0].sheet_name}`,
-      ts: Date.now(),
-    });
+    for (const row of body) {
+      this.$emit(row, {
+        id: row.import_id || `${row.sheet_id}_${Date.now()}`,
+        summary: `New data imported to sheet ${row.sheet_name}`,
+        ts: Date.now(),
+      });
+    }
   },
   sampleEvents: [
     {
