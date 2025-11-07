@@ -1449,6 +1449,9 @@ importers:
         specifier: ^2.1.35
         version: 2.1.35
 
+  components/babelfy:
+    specifiers: {}
+
   components/backblaze: {}
 
   components/backendless:
