@@ -9029,6 +9029,9 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/microsoft_azure_monitor:
+    specifiers: {}
+
   components/microsoft_bookings: {}
 
   components/microsoft_dataverse: {}
