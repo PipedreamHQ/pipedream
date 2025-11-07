@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/ideta",
+  "version": "0.0.1",
+  "description": "Pipedream ideta Components",
+  "main": "ideta.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ideta"
+  ],
+  "homepage": "https://pipedream.com/apps/ideta",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

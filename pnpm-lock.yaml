@@ -7059,6 +7059,9 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0
 
+  components/ideta:
+    specifiers: {}
+
   components/idx_broker: {}
 
   components/if_else: {}
