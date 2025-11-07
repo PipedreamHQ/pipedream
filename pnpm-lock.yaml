@@ -3473,6 +3473,9 @@ importers:
         specifier: ^3.0.1
         version: 3.0.3
 
+  components/crypto_apis_by_alternative:
+    specifiers: {}
+
   components/cryptowatch:
     dependencies:
       '@pipedream/platform':

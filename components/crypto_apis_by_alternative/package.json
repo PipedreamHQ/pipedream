@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/crypto_apis_by_alternative",
+  "version": "0.0.1",
+  "description": "Pipedream Crypto APIs by Alternative Components",
+  "main": "crypto_apis_by_alternative.app.mjs",
+  "keywords": [
+    "pipedream",
+    "crypto_apis_by_alternative"
+  ],
+  "homepage": "https://pipedream.com/apps/crypto_apis_by_alternative",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
