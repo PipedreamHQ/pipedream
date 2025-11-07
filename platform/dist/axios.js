@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.transformConfigForOauth = void 0;
+exports.transformConfigForOauth = transformConfigForOauth;
 const axios_1 = require("axios");
 const querystring = require("querystring");
 const utils_1 = require("./utils");
@@ -75,7 +75,6 @@ function transformConfigForOauth(config) {
     config.paramsSerializer = oauth1ParamsSerializer;
     return requestData;
 }
-exports.transformConfigForOauth = transformConfigForOauth;
 async function getOauthSignature(config, signConfig) {
     const { oauthSignerUri, token, } = signConfig;
     const requestData = transformConfigForOauth(config);
@@ -107,7 +106,7 @@ async function callAxios(step, config, signConfig) {
         if (config.debug) {
             stepExport(step, config, "debug_config");
         }
-        const response = await axios_1.default(config);
+        const response = await (0, axios_1.default)(config);
         if (config.debug) {
             stepExport(step, response.data, "debug_response");
         }
@@ -124,7 +123,7 @@ async function callAxios(step, config, signConfig) {
     }
 }
 function stepExport(step, message, key) {
-    message = utils_1.cloneSafe(message);
+    message = (0, utils_1.cloneSafe)(message);
     if (step) {
         if (step.export) {
             step.export(key, message);

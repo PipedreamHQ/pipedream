@@ -5,6 +5,6 @@ export declare function transformConfigForOauth(config: AxiosRequestConfig): {
 };
 declare function callAxios(step: any, config: AxiosRequestConfig, signConfig?: any): Promise<any>;
 declare namespace callAxios {
-    var create: (config?: AxiosRequestConfig | undefined, signConfig?: any) => import("axios").AxiosInstance;
+    var create: (config?: AxiosRequestConfig, signConfig?: any) => import("axios").AxiosInstance;
 }
 export default callAxios;
