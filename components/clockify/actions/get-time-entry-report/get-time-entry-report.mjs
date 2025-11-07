@@ -105,10 +105,12 @@ export default {
             status: "ALL",
           }
           : undefined,
-        projects: this.projectIds
+        projects: this.projectId
           ? {
             contains: "CONTAINS",
-            ids: this.projectIds,
+            ids: [
+              this.projectId,
+            ],
             status: "ALL",
           }
           : undefined,
