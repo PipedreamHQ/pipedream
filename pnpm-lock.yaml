@@ -7544,6 +7544,9 @@ importers:
 
   components/join: {}
 
+  components/jooble:
+    specifiers: {}
+
   components/joomla:
     dependencies:
       '@pipedream/platform':
