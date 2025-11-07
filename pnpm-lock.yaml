@@ -4641,6 +4641,9 @@ importers:
 
   components/emailverify_io: {}
 
+  components/embedapi:
+    specifiers: {}
+
   components/emelia: {}
 
   components/encharge: {}
