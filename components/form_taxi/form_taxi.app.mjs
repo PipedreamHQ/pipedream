@@ -27,7 +27,7 @@ export default {
         method: "POST",
         path: "/api/" + this.$auth.form_code,
         data: {
-          hook_url
+          hook_url,
         },
       });
     },
@@ -36,7 +36,7 @@ export default {
         method: "DELETE",
         path: "/api/" + this.$auth.form_code,
         params: {
-          "hook_id": encodeURIComponent(id)
+          "hook_id": encodeURIComponent(id),
         },
       });
     },

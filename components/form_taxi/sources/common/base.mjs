@@ -18,7 +18,7 @@ export default {
       if (resp.status < 200 || resp.status >= 300) {
         const msg = resp?.data?.message || "Unknown error";
         throw new Error(
-          `Error (${resp.status}): ${msg}`
+          `Error (${resp.status}): ${msg}`,
         );
       }
 
@@ -91,7 +91,9 @@ export default {
     eventIdFromBody(body) {
       return (
         body?._id ||
-        `${Date.now()}-${Math.random().toString(36).slice(2)}`
+        `${Date.now()}-${Math.random()
+          .toString(36)
+          .slice(2)}`
       );
     },
     async fetchAndEmitSamples() {
@@ -118,7 +120,9 @@ export default {
           // Wir packen die Daten in das gleiche Format wie echte Events
           this.$emit(
             {
-              headers: { "x-sample": "true" },
+              headers: {
+                "x-sample": "true"
+              },
               query: {},
               body: obj,
               received_at: new Date().toISOString(),
@@ -143,7 +147,7 @@ export default {
       } catch (err) {
         console.error(`Sample-GET Exception: ${err.message}`);
       }
-    }
+    },
   },
   hooks: {
     async deploy() {
@@ -170,7 +174,7 @@ export default {
     await this.http.respond({
       status: 200,
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         ok: true,
