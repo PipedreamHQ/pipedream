@@ -5122,6 +5122,9 @@ importers:
 
   components/financial_data: {}
 
+  components/financial_modeling_prep:
+    specifiers: {}
+
   components/findymail:
     dependencies:
       '@pipedream/platform':
