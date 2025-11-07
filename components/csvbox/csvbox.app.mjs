@@ -43,7 +43,6 @@ export default {
       const config = {
         url: this._getUrl(path),
         headers: this._getHeaders(headers),
-        auth: this._getAuthKeys(),
         returnFullResponse: true,
         ...otherConfig,
       };
