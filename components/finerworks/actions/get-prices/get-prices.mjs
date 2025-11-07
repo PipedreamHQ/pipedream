@@ -29,14 +29,18 @@ export default {
   async run({ $ }) {
     const response = await this.app.getPrices({
       $,
-      data: [
-        {
-          product_qty: this.productQty,
-          product_sku: this.productSku,
-        },
-      ],
+      data: {
+        products: [
+          {
+            product_qty: this.productQty,
+            product_sku: this.productSku,
+          },
+        ],
+      },
     });
-    $.export("$summary", "Successfully sent the request");
+    $.export("$summary", `Successfully retrieved ${response.prices.length} ${response.prices.length > 1
+      ? "prices"
+      : "price"} for product SKU ${this.productSku}`);
     return response;
   },
 };

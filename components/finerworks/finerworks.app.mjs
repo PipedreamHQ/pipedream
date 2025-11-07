@@ -97,6 +97,15 @@ export default {
         headers,
         ...otherOpts
       } = opts;
+      console.log({
+        ...otherOpts,
+        url: this._baseUrl() + path,
+        headers: {
+          "web_api_key": `${this.$auth.web_api_key}`,
+          "app_key": `${this.$auth.app_key}`,
+          ...headers,
+        },
+      });
       return axios($, {
         ...otherOpts,
         url: this._baseUrl() + path,
