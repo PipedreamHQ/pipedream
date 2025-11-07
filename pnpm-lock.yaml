@@ -21,8 +21,8 @@ importers:
         specifier: ^1.10.0
         version: 1.11.1
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.1
+        version: 3.1.1
       '@sentry/node':
         specifier: ^7.7.0
         version: 7.120.0
@@ -20787,6 +20787,9 @@ packages:
   '@pipedream/platform@3.1.0':
     resolution: {integrity: sha512-ELmV3fpd9PIUm74/RPaqmA7hJaY4ryIn6PCNT1NP/gnqMrkRNOAr+DTV4xPaJgPiRm74WC5HvrkC8YdRveXzZA==}
 
+  '@pipedream/platform@3.1.1':
+    resolution: {integrity: sha512-L6Y9ARcrNmt13BF9Bq+ADpSUpoCQANMGoYXsjVEWZMNORY6P2JtNYyci2oLurNgeLWbEQJ++r9K/1MzYp9gikg==}
+
   '@pipedream/postgresql@2.2.3':
     resolution: {integrity: sha512-Co9r4UKvvimEPo9T4v+EfVn/Sqqw8+X7PtvsAF7tydq7CHpkmOT9eYAiD0Kuybg5WbuWuqDaXHHmhVtsAxgpBw==}
 
@@ -39630,6 +39633,17 @@ snapshots:
   '@pipedream/platform@3.1.0':
     dependencies:
       axios: 1.10.0
+      fp-ts: 2.16.10
+      io-ts: 2.2.22(fp-ts@2.16.10)
+      mime-types: 3.0.1
+      querystring: 0.2.1
+      uuid: 11.1.0
+    transitivePeerDependencies:
+      - debug
+
+  '@pipedream/platform@3.1.1':
+    dependencies:
+      axios: 1.13.2(debug@3.2.7)
       fp-ts: 2.16.10
       io-ts: 2.2.22(fp-ts@2.16.10)
       mime-types: 3.0.1
