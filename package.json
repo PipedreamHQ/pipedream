@@ -97,7 +97,9 @@
       "sha.js": "2.4.12",
       "protobufjs@7.2.4": "7.2.6",
       "vm2": "3.10.0",
-      "xmldom": "npm:@xmldom/xmldom@0.8.11"
+      "xmldom": "npm:@xmldom/xmldom@0.8.11",
+      "axios@0.x": "0.30.2",
+      "axios@1.x": "^1.13.2"
     }
   }
 }
