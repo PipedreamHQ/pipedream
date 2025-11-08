@@ -11574,6 +11574,9 @@ importers:
         specifier: ^0.1.4
         version: 0.1.6
 
+  components/progress_agentic_rag:
+    specifiers: {}
+
   components/project_broadcast:
     dependencies:
       '@pipedream/platform':
