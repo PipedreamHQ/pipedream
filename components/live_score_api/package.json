@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/live_score_api",
+  "version": "0.0.1",
+  "description": "Pipedream Live Score API Components",
+  "main": "live_score_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "live_score_api"
+  ],
+  "homepage": "https://pipedream.com/apps/live_score_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

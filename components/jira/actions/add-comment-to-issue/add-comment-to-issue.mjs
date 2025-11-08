@@ -1,11 +1,13 @@
 import utils from "../../common/utils.mjs";
+import common from "../common/issue.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 import jira from "../../jira.app.mjs";
 
 export default {
   key: "jira-add-comment-to-issue",
   name: "Add Comment To Issue",
-  description: "Adds a new comment to an issue, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-comments/#api-rest-api-3-issue-issueidorkey-comment-post)",
-  version: "0.1.13",
+  description: "Adds a new comment to an issue. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-comments/#api-rest-api-3-issue-issueidorkey-comment-post)",
+  version: "0.1.15",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -29,10 +31,17 @@ export default {
         }),
       ],
     },
+    comment: {
+      type: "string",
+      label: "Comment",
+      description: "The comment text",
+      optional: true,
+    },
     body: {
       type: "object",
       label: "Body",
-      description: "The comment text in [Atlassian Document Format](https://developer.atlassian.com/cloud/jira/platform/apis/document/structure/), e.g. `{\"type\":\"doc\",\"version\":1,\"content\":[{\"content\":[{\"text\":\"This is a comment\",\"type\":\"text\"}],\"type\":\"paragraph\"}]}`",
+      description: "The comment text in [Atlassian Document Format](https://developer.atlassian.com/cloud/jira/platform/apis/document/structure/), e.g. `{\"type\":\"doc\",\"version\":1,\"content\":[{\"content\":[{\"text\":\"This is a comment\",\"type\":\"text\"}],\"type\":\"paragraph\"}]}`. Will overwrite comment if both comment and body are provided",
+      optional: true,
     },
     visibility: {
       type: "object",
@@ -62,8 +71,15 @@ export default {
     },
   },
   async run({ $ }) {
+    if (!this.comment && !this.body) {
+      throw new ConfigurationError("Either comment or body is required");
+    }
     const visibility = utils.parseObject(this.visibility);
-    const body = utils.parseObject(this.body);
+
+    const body = this.body
+      ? utils.parseObject(this.body)
+      : common.methods.atlassianDocumentFormat(this.comment);
+
     const additionalProperties = utils.parseObject(this.additionalProperties);
     let properties;
     try {

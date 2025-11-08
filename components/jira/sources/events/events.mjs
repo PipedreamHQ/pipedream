@@ -4,8 +4,8 @@ import eventsTypes from "../common/eventTypes.mjs";
 export default {
   key: "jira-events",
   name: "New Event",
-  description: "Emit new event when an event with subscribed event source triggered, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-webhooks/#api-rest-api-3-webhook-post)",
-  version: "0.0.13",
+  description: "Emit new event when an event with subscribed event source triggered, [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-webhooks/#api-rest-api-3-webhook-post)",
+  version: "0.0.15",
   type: "source",
   dedupe: "unique",
   ...common,
@@ -14,7 +14,7 @@ export default {
     events: {
       type: "string[]",
       label: "Event types",
-      description: "he Jira events that trigger the webhook.",
+      description: "The Jira events that trigger the webhook",
       options: eventsTypes,
     },
   },

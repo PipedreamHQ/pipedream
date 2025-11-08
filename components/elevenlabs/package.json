@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/elevenlabs",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "Pipedream ElevenLabs Components",
   "main": "elevenlabs.app.mjs",
   "keywords": [
@@ -13,7 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.1.0",
-    "form-data": "^4.0.0"
+    "@pipedream/platform": "^3.1.1",
+    "form-data": "^4.0.4"
   }
 }

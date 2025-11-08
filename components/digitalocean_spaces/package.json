@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.231.0",
-    "@pipedream/platform": "^3.1.0",
+    "@pipedream/platform": "^3.1.1",
     "fs": "^0.0.1-security"
   }
 }

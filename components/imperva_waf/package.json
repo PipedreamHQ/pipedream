@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/imperva_waf",
+  "version": "0.0.1",
+  "description": "Pipedream Imperva WAF Components",
+  "main": "imperva_waf.app.mjs",
+  "keywords": [
+    "pipedream",
+    "imperva_waf"
+  ],
+  "homepage": "https://pipedream.com/apps/imperva_waf",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

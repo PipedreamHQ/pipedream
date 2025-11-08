@@ -7,7 +7,7 @@ export default {
   key: "notion-update-database",
   name: "Update Data Source",
   description: "Update a data source. [See the documentation](https://developers.notion.com/reference/update-a-data-source)",
-  version: "1.0.4",
+  version: "1.0.5",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

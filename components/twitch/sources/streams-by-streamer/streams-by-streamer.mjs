@@ -5,7 +5,7 @@ export default {
   name: "New Streams By Streamer",
   key: "twitch-streams-by-streamer",
   description: "Emit new event when a live stream starts from the streamers you specify.",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "source",
   props: {
     ...common.props,

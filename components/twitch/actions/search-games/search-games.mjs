@@ -7,7 +7,7 @@ export default {
   description: `Searches for games based on a specified query parameter. A game is
     returned if the query parameter is matched entirely or partially in the channel
     description or game name`,
-  version: "0.1.3",
+  version: "0.1.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

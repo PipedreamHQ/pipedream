@@ -4,7 +4,7 @@ export default {
   name: "List Call Recordings",
   description: "Get your account's call recordings. [See the documentation](https://developers.zoom.us/docs/api/rest/reference/phone/methods/#operation/getPhoneRecordings)",
   key: "zoom-list-call-recordings",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

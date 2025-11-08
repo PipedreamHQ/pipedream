@@ -1,4 +1,6 @@
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 import constants from "./common/constants.mjs";
 import utils from "./common/utils.mjs";
 
@@ -189,6 +191,168 @@ export default {
       optional: true,
       default: constants.MAX_RESOURCES,
     },
+    ticketPriority: {
+      type: "string",
+      label: "Priority",
+      description: "Priority level of the ticket",
+      optional: true,
+      async options() {
+        const { data: fields = [] } =
+          await this.getOrganizationFields({
+            params: {
+              module: "tickets",
+              apiNames: "priority",
+            },
+          });
+        const { allowedValues = [] } = fields[0] || {};
+        return allowedValues.map(({ value }) => value);
+      },
+    },
+    assigneeId: {
+      type: "string",
+      label: "Assignee",
+      description: "The agent assigned to the ticket",
+      optional: true,
+      async options(args) {
+        return this.getResourcesOptions({
+          ...args,
+          resourceFn: this.getAgents,
+          resourceMapper: ({
+            id: value, name: label,
+          }) => ({
+            value,
+            label,
+          }),
+        });
+      },
+    },
+    channel: {
+      type: "string",
+      label: "Channel",
+      description: "The channel through which the ticket was created",
+      optional: true,
+      async options() {
+        const { data: fields = [] } =
+          await this.getOrganizationFields({
+            params: {
+              module: "tickets",
+              apiNames: "channel",
+            },
+          });
+        const { allowedValues = [] } = fields[0] || {};
+        return allowedValues.map(({ value }) => value);
+      },
+    },
+    ticketSortBy: {
+      type: "string",
+      label: "Sort By",
+      description: "Field to sort tickets by",
+      optional: true,
+      options: [
+        {
+          label: "Created Time (Ascending)",
+          value: "createdTime",
+        },
+        {
+          label: "Created Time (Descending)",
+          value: "-createdTime",
+        },
+        {
+          label: "Modified Time (Ascending)",
+          value: "modifiedTime",
+        },
+        {
+          label: "Modified Time (Descending)",
+          value: "-modifiedTime",
+        },
+        {
+          label: "Due Date (Ascending)",
+          value: "dueDate",
+        },
+        {
+          label: "Due Date (Descending)",
+          value: "-dueDate",
+        },
+        {
+          label: "Relevance",
+          value: "relevance",
+        },
+      ],
+    },
+    from: {
+      type: "integer",
+      label: "From",
+      description: "Starting offset for pagination. Use this to retrieve results starting from a specific position.",
+      optional: true,
+      min: 1,
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "Number of records to retrieve per request (max 50)",
+      optional: true,
+      min: 1,
+      max: 50,
+    },
+    accountId: {
+      type: "string",
+      label: "Account ID",
+      description: "The ID of the account",
+      optional: true,
+      async options(args) {
+        return this.getResourcesOptions({
+          ...args,
+          resourceFn: this.getAccounts,
+          resourceMapper: ({
+            id: value, accountName: label,
+          }) => ({
+            value,
+            label,
+          }),
+        });
+      },
+    },
+    productId: {
+      type: "string",
+      label: "Product ID",
+      description: "The ID of the product",
+      optional: true,
+    },
+    category: {
+      type: "string",
+      label: "Category",
+      description: "Category of the ticket",
+      optional: true,
+    },
+    subCategory: {
+      type: "string",
+      label: "Sub Category",
+      description: "Sub-category of the ticket",
+      optional: true,
+    },
+    classification: {
+      type: "string",
+      label: "Classification",
+      description: "Classification of the ticket",
+      optional: true,
+      async options() {
+        const { data: fields = [] } =
+          await this.getOrganizationFields({
+            params: {
+              module: "tickets",
+              apiNames: "classification",
+            },
+          });
+        const { allowedValues = [] } = fields[0] || {};
+        return allowedValues.map(({ value }) => value);
+      },
+    },
+    dueDate: {
+      type: "string",
+      label: "Due Date",
+      description: "Due date for the ticket in ISO 8601 format (e.g., 2024-12-31T23:59:59Z)",
+      optional: true,
+    },
   },
   methods: {
     getUrl(url, path, apiPrefix) {
@@ -231,7 +395,8 @@ export default {
           : await axios($, config);
       } catch (error) {
         console.log("Request error", error.response?.data);
-        throw error.response?.data;
+        throw new ConfigurationError(error.response?.data?.errors[0]?.errorMessage
+          || error.response?.data?.message);
       }
     },
     createWebhook(args = {}) {
@@ -326,6 +491,73 @@ export default {
       return this.makeRequest({
         path: "/tickets/search",
         ...args,
+      });
+    },
+    async *streamResources({
+      resourceFn,
+      params,
+      headers,
+      max = constants.MAX_RESOURCES,
+    } = {}) {
+      let from = params?.from || 0;
+      let resourcesCount = 0;
+      let nextResources;
+
+      while (true) {
+        try {
+          ({ data: nextResources = [] } =
+            await resourceFn({
+              withRetries: false,
+              headers,
+              params: {
+                ...params,
+                from,
+                limit: params?.limit || constants.DEFAULT_LIMIT,
+              },
+            }));
+        } catch (error) {
+          console.log("Stream error", error);
+          return;
+        }
+
+        if (nextResources?.length < 1) {
+          return;
+        }
+
+        from += nextResources?.length;
+
+        for (const resource of nextResources) {
+          resourcesCount += 1;
+          yield resource;
+        }
+
+        if (max && resourcesCount >= max) {
+          return;
+        }
+      }
+    },
+    async *getTicketsStream({
+      params,
+      headers,
+      max = constants.MAX_RESOURCES,
+    } = {}) {
+      yield* this.streamResources({
+        resourceFn: this.getTickets,
+        params,
+        headers,
+        max,
+      });
+    },
+    async *searchTicketsStream({
+      params,
+      headers,
+      max = constants.MAX_RESOURCES,
+    } = {}) {
+      yield* this.streamResources({
+        resourceFn: this.searchTickets,
+        params,
+        headers,
+        max,
       });
     },
     createTicketAttachment({

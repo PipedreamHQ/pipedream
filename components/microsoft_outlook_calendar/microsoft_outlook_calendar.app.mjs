@@ -84,11 +84,12 @@ export default {
     _getUrl(path) {
       return `https://graph.microsoft.com/v1.0${path}`;
     },
-    _getHeaders() {
+    _getHeaders(headers = {}) {
       return {
         "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
         "accept": "application/json",
         "Content-Type": "application/json",
+        ...headers,
       };
     },
     async _makeRequest({

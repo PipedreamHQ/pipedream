@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/woocommerce",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Pipedream WooCommerce Components",
   "main": "woocommerce.app.mjs",
   "keywords": [
@@ -10,8 +10,8 @@
   "homepage": "https://pipedream.com/apps/woocommerce",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^0.10.0",
-    "@woocommerce/woocommerce-rest-api": "^1.0.1",
+    "@pipedream/platform": "^0.10.1",
+    "@woocommerce/woocommerce-rest-api": "^1.0.2",
     "lodash.pick": "^4.4.0",
     "lodash.pickby": "^4.6.0",
     "query-string": "^7.1.1"

@@ -7,7 +7,7 @@ export default {
   name: "New Automation Webhook",
   key: "activecampaign-new-automation-webhook",
   description: "Emit new event each time an automation sends out webhook data.",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "source",
   dedupe: "unique",
   props: {

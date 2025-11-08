@@ -5,7 +5,7 @@ export default {
   key: "notion-create-comment",
   name: "Create Comment",
   description: "Create a comment in a page or existing discussion thread. [See the documentation](https://developers.notion.com/reference/create-a-comment)",
-  version: "0.0.9",
+  version: "0.0.10",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

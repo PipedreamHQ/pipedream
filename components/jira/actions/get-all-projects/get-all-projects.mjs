@@ -3,8 +3,8 @@ import jira from "../../jira.app.mjs";
 export default {
   key: "jira-get-all-projects",
   name: "Get All Projects",
-  description: "Gets metadata on all projects, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/#api-rest-api-3-project-get)",
-  version: "0.1.14",
+  description: "Gets metadata on all projects. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/#api-rest-api-3-project-get)",
+  version: "0.1.16",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -21,7 +21,7 @@ export default {
     },
     recent: {
       type: "integer",
-      label: "Recent",
+      label: "Recent Projects",
       description: "Returns the user's most recently accessed projects. You may specify the number of results to return up to a maximum of 20. If access is anonymous, then the recently accessed projects are based on the current HTTP session.",
       optional: true,
     },
@@ -30,7 +30,7 @@ export default {
         jira,
         "properties",
       ],
-      description: "Details of issue properties to be add or update, please provide an array of objects with keys and values.",
+      description: "Details of issue properties to be added or updated. Please provide an array of objects with keys and values.",
     },
     expand: {
       propDefinition: [
