@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/mallabe",
+  "version": "0.0.1",
+  "description": "Pipedream Mallabe Components",
+  "main": "mallabe.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mallabe"
+  ],
+  "homepage": "https://pipedream.com/apps/mallabe",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

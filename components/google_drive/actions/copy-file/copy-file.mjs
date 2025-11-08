@@ -4,7 +4,7 @@ export default {
   key: "google_drive-copy-file",
   name: "Copy File",
   description: "Create a copy of the specified file. [See the documentation](https://developers.google.com/drive/api/v3/reference/files/copy) for more information",
-  version: "0.1.14",
+  version: "0.1.15",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

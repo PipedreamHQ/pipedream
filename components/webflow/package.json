@@ -10,7 +10,7 @@
   "homepage": "https://pipedream.com/apps/webflow",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^3.0.3",
+    "@pipedream/platform": "^3.1.1",
     "webflow-api": "2.4.2"
   },
   "publishConfig": {
