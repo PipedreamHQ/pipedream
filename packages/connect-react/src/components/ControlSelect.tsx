@@ -16,7 +16,10 @@ import CreatableSelect from "react-select/creatable";
 import type { BaseReactSelectProps } from "../hooks/customization-context";
 import { useCustomize } from "../hooks/customization-context";
 import { useFormFieldContext } from "../hooks/form-field-context";
-import type { LabelValueOption } from "../types";
+import type {
+  LabelValueOption,
+  RawPropOption,
+} from "../types";
 import {
   isOptionWithLabel,
   sanitizeOption,
@@ -93,13 +96,13 @@ export function ControlSelect<T extends PropOptionValue>({
     if (isLabelValueWrapped<T>(rawValue)) {
       const lvContent = rawValue.__lv;
       if (Array.isArray(lvContent)) {
-        return lvContent.map((item) => sanitizeOption(item));
+        return lvContent.map((item) => sanitizeOption<T>(item as RawPropOption<T>));
       }
-      return sanitizeOption(lvContent);
+      return sanitizeOption<T>(lvContent as RawPropOption<T>);
     }
 
     if (isArrayOfLabelValueWrapped<T>(rawValue)) {
-      return rawValue.map((item) => sanitizeOption(item));
+      return rawValue.map((item) => sanitizeOption<T>(item as RawPropOption<T>));
     }
 
     if (Array.isArray(rawValue)) {
