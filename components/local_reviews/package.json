@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/local_reviews",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Local Reviews Components",
   "main": "local_reviews.app.mjs",
   "keywords": [

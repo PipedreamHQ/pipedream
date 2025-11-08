@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/printful_oauth",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream Printful (OAuth) Components",
   "main": "printful_oauth.app.mjs",
   "keywords": [

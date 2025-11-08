@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sms_everyone",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream SMS Everyone Components",
   "main": "sms_everyone.app.mjs",
   "keywords": [

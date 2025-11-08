@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/_46elks",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream 46elks Components",
   "main": "_46elks.app.mjs",
   "keywords": [

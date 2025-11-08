@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/influxdb_cloud",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Pipedream influxdb_cloud Components",
   "main": "influxdb_cloud.app.mjs",
   "keywords": [

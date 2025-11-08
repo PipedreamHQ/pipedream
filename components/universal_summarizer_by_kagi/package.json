@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/universal_summarizer_by_kagi",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Universal Summarizer by Kagi Components",
   "main": "universal_summarizer_by_kagi.app.mjs",
   "keywords": [

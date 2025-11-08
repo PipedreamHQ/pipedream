@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ipdata_co",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream ipdata_co Components",
   "main": "ipdata_co.app.mjs",
   "keywords": [

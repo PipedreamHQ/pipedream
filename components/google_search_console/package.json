@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/google_search_console",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "Pipedream google_search_console Components",
   "main": "google_search_console.app.mjs",
   "keywords": [

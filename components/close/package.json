@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/close",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Close Components",
   "main": "close.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/kucoin_futures",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Pipedream Kucoin Futures Components",
   "main": "kucoin_futures.app.mjs",
   "keywords": [

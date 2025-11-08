@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/lessonspace",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Lessonspace Components",
   "main": "lessonspace.app.mjs",
   "keywords": [

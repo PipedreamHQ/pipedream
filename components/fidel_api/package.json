@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/fidel_api",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Fidel API Components",
   "main": "fidel_api.app.mjs",
   "keywords": [

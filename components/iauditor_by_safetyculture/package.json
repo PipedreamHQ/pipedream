@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/iauditor_by_safetyculture",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream iAuditor by SafetyCulture Components",
   "main": "iauditor_by_safetyculture.app.mjs",
   "keywords": [

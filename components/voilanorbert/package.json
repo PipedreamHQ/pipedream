@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/voilanorbert",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream VoilaNorbert Components",
   "main": "voilanorbert.app.mjs",
   "keywords": [

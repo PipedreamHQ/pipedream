@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/wordpress_org",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "Pipedream Wordpress.org Components",
   "main": "wordpress_org.app.mjs",
   "keywords": [

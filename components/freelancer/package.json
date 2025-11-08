@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/freelancer",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream freelancer Components",
   "main": "freelancer.app.mjs",
   "keywords": [

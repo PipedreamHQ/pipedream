@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/clockify",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Clockify Components",
   "main": "clockify.app.mjs",
   "keywords": [

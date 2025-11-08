@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/raisely",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Raisely Components",
   "main": "raisely.app.mjs",
   "keywords": [

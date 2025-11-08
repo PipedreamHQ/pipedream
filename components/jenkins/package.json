@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/jenkins",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Jenkins Components",
   "main": "jenkins.app.mjs",
   "keywords": [

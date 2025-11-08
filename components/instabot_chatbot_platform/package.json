@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/instabot_chatbot_platform",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream instabot_chatbot_platform Components",
   "main": "instabot_chatbot_platform.app.mjs",
   "keywords": [

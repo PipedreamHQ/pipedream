@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/webinarjam",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream webinarjam Components",
   "main": "webinarjam.app.mjs",
   "keywords": [

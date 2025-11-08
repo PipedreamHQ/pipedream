@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/yanado",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Yanado Components",
   "main": "yanado.app.mjs",
   "keywords": [

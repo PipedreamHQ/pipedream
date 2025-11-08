@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/rippling",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Rippling Components",
   "main": "rippling.app.mjs",
   "keywords": [

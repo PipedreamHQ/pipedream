@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/mailmodo",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Mailmodo Components",
   "main": "mailmodo.app.mjs",
   "keywords": [

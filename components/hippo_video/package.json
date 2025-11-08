@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/hippo_video",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Pipedream Hippo Video Components",
   "main": "hippo_video.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/piloterr",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Piloterr Components",
   "main": "piloterr.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/postgrid",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream PostGrid Print & Mail Components",
   "main": "postgrid.app.mjs",
   "keywords": [

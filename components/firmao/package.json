@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/firmao",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Firmao Components",
   "main": "firmao.app.mjs",
   "keywords": [

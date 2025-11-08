@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/lucid",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream lucid Components",
   "main": "lucid.app.mjs",
   "keywords": [

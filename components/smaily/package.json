@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/smaily",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Smaily Components",
   "main": "dist/app/smaily.app.mjs",
   "keywords": [

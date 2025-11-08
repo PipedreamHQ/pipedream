@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/kaggle",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream kaggle Components",
   "main": "kaggle.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/quickemailverification",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream QuickEmailVerification Components",
   "main": "dist/app/quickemailverification.app.mjs",
   "keywords": [

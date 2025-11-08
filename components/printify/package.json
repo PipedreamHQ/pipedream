@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/printify",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Pipedream Printify Components",
   "main": "printify.app.mjs",
   "keywords": [

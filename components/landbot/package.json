@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/landbot",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Landbot Components",
   "main": "landbot.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zoho_sign",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Zoho Sign Components",
   "main": "zoho_sign.app.mjs",
   "keywords": [

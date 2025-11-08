@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/webmerge",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream webmerge Components",
   "main": "webmerge.app.mjs",
   "keywords": [

@@ -1,11 +1,11 @@
 {
   "name": "@pipedream/proworkflow",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Proworkflow Components",
   "main": "proworkflow.app.mjs",
   "keywords": [
-		"pipedream",
-		"proworkflow"
+    "pipedream",
+    "proworkflow"
   ],
   "homepage": "https://pipedream.com/apps/proworkflow",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

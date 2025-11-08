@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/alchemy",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Alchemy Components",
   "main": "alchemy.app.mjs",
   "keywords": [

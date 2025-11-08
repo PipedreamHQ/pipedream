@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/lagrowthmachine",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream lagrowthmachine Components",
   "main": "lagrowthmachine.app.mjs",
   "keywords": [

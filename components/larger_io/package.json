@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/larger_io",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream larger_io Components",
   "main": "larger_io.app.mjs",
   "keywords": [

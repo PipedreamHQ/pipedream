@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/proxycurl",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Proxycurl Components",
   "main": "proxycurl.app.mjs",
   "keywords": [

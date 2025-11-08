@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/hugging_face",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Hugging_face Components",
   "main": "hugging_face.app.mjs",
   "keywords": [

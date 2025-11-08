@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/message_bird",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream MessageBird Components",
   "main": "message_bird.app.mjs",
   "keywords": [

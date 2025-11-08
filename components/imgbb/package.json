@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/imgbb",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Pipedream imgbb Components",
   "main": "imgbb.app.mjs",
   "keywords": [

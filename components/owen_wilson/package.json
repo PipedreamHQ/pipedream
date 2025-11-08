@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/owen_wilson",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream owen_wilson Components",
   "main": "owen_wilson.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/happyfox_chat",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream happyfox_chat Components",
   "main": "happyfox_chat.app.mjs",
   "keywords": [

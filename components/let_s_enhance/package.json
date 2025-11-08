@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/let_s_enhance",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream let_s_enhance Components",
   "main": "let_s_enhance.app.mjs",
   "keywords": [

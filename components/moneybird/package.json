@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/moneybird",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Moneybird Components",
   "main": "moneybird.app.mjs",
   "keywords": [

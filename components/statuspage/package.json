@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/statuspage",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Statuspage Components",
   "main": "statuspage.app.mjs",
   "keywords": [

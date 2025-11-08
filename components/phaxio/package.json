@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/phaxio",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Phaxio Components",
   "main": "phaxio.app.mjs",
   "keywords": [

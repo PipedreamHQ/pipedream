@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/typebot",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Pipedream Typebot Components",
   "main": "typebot.app.mjs",
   "keywords": [

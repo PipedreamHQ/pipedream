@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/parsera",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Parsera Components",
   "main": "parsera.app.mjs",
   "keywords": [

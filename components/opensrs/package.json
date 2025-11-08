@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/opensrs",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream OpenSRS Components",
   "main": "opensrs.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/gami5d",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Gami5d Components",
   "main": "gami5d.app.mjs",
   "keywords": [

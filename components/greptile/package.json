@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/greptile",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Greptile Components",
   "main": "greptile.app.mjs",
   "keywords": [

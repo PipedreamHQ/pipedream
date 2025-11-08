@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zoho_subscriptions",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Zoho Subscriptions Components",
   "main": "zoho_subscriptions.app.mjs",
   "keywords": [

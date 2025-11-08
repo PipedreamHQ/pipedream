@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sympla",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream Sympla Components",
   "main": "sympla.app.mjs",
   "keywords": [

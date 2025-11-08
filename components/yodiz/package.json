@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/yodiz",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream yodiz Components",
   "main": "yodiz.app.mjs",
   "keywords": [

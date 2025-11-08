@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zoho_bookings",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Zoho Bookings Components",
   "main": "zoho_bookings.app.mjs",
   "keywords": [

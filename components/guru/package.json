@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/guru",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Guru Components",
   "main": "guru.app.mjs",
   "keywords": [

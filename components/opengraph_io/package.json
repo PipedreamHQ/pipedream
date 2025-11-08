@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/opengraph_io",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream OpenGraph.io Components",
   "main": "opengraph_io.app.mjs",
   "keywords": [

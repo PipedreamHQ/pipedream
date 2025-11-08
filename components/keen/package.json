@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/keen",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream keen Components",
   "main": "keen.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/facebook_pages",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Facebook Pages Components",
   "main": "facebook_pages.app.mjs",
   "keywords": [

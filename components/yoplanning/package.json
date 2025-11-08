@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/yoplanning",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Pipedream YoPlanning Components",
   "main": "yoplanning.app.mjs",
   "keywords": [

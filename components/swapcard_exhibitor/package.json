@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/swapcard_exhibitor",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Swapcard Exhibitor Components",
   "main": "swapcard_exhibitor.app.mjs",
   "keywords": [
@@ -16,4 +16,3 @@
     "@pipedream/platform": "^3.1.1"
   }
 }
-

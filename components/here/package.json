@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/here",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "Pipedream Here Components",
   "main": "here.app.js",
   "keywords": [

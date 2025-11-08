@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sessions",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Sessions Components",
   "main": "sessions.app.mjs",
   "keywords": [

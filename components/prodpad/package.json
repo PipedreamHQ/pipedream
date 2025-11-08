@@ -1,11 +1,11 @@
 {
   "name": "@pipedream/prodpad",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream ProdPad Components",
   "main": "prodpad.app.mjs",
   "keywords": [
-		"pipedream",
-		"prodpad"
+    "pipedream",
+    "prodpad"
   ],
   "homepage": "https://pipedream.com/apps/prodpad",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

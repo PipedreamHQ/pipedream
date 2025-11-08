@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/uplead",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream UpLead Components",
   "main": "uplead.app.mjs",
   "keywords": [

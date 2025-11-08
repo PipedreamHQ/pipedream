@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/gpt_trainer",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream gpt-trainer Components",
   "main": "gpt_trainer.app.mjs",
   "keywords": [

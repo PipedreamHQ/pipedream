@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/howuku",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Howuku Components",
   "main": "howuku.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/facebook_marketing",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Facebook Custom Audiences Components",
   "main": "facebook_marketing.app.mjs",
   "keywords": [

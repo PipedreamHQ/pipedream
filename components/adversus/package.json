@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/adversus",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream adversus Components",
   "main": "adversus.app.mjs",
   "keywords": [

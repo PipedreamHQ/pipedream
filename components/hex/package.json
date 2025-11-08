@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/hex",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Hex Components",
   "main": "hex.app.mjs",
   "keywords": [

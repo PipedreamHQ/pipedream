@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/transistor_fm",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Pipedream Transistor.fm Components",
   "main": "transistor_fm.app.mjs",
   "keywords": [

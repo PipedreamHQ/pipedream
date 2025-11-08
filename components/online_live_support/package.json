@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/online_live_support",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream online_live_support Components",
   "main": "online_live_support.app.mjs",
   "keywords": [

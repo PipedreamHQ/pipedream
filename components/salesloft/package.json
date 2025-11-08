@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/salesloft",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Salesloft Components",
   "main": "salesloft.app.mjs",
   "keywords": [

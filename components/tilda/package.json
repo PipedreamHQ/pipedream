@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/tilda",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream tilda Components",
   "main": "tilda.app.mjs",
   "keywords": [

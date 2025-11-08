@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/vision6",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Vision6 Components",
   "main": "vision6.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/formspree",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream formspree Components",
   "main": "formspree.app.mjs",
   "keywords": [

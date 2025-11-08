@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/workamajig",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Workamajig Components",
   "main": "workamajig.app.mjs",
   "keywords": [

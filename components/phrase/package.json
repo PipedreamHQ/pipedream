@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/phrase",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Phrase Components",
   "main": "phrase.app.mjs",
   "keywords": [

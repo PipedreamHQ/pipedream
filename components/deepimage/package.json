@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/deepimage",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Pipedream DeepImage Components",
   "main": "deepimage.app.mjs",
   "keywords": [

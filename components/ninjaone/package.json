@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ninjaone",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream NinjaOne Components",
   "main": "ninjaone.app.mjs",
   "keywords": [

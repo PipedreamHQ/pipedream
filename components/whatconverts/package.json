@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/whatconverts",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream WhatConverts Components",
   "main": "whatconverts.app.mjs",
   "keywords": [

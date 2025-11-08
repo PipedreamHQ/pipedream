@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zoho_recruit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Zoho Recruit Components",
   "main": "zoho_recruit.app.mjs",
   "keywords": [

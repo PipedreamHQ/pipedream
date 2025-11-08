@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/medium",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream medium Components",
   "main": "medium.app.mjs",
   "keywords": [

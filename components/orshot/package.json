@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/orshot",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Pipedream Orshot Components",
   "main": "orshot.app.mjs",
   "keywords": [

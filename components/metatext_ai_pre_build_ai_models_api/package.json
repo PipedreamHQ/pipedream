@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/metatext_ai_pre_build_ai_models_api",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Metatext.AI Pre-build AI models API Components",
   "main": "metatext_ai_pre_build_ai_models_api.app.mjs",
   "keywords": [

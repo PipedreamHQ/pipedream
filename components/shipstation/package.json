@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/shipstation",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream ShipStation Components",
   "main": "shipstation.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/chat_api_for_whatsapp",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream chat_api_for_whatsapp Components",
   "main": "chat_api_for_whatsapp.app.mjs",
   "keywords": [

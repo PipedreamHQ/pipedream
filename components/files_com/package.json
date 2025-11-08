@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/files_com",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream files_com Components",
   "main": "files_com.app.mjs",
   "keywords": [

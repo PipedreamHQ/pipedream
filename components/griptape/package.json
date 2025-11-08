@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/griptape",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Griptape Components",
   "main": "griptape.app.mjs",
   "keywords": [

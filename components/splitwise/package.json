@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/splitwise",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream Splitwise Components",
   "main": "splitwise.app.mjs",
   "keywords": [

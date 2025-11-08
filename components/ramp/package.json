@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ramp",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Pipedream Ramp Components",
   "main": "ramp.app.mjs",
   "keywords": [

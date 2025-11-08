@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/pusher",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream pusher Components",
   "main": "pusher.app.mjs",
   "keywords": [

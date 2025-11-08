@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/dub",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Dub Components",
   "main": "dub.app.mjs",
   "keywords": [

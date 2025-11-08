@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/moonclerk",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream moonclerk Components",
   "main": "moonclerk.app.mjs",
   "keywords": [

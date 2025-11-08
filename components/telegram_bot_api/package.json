@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/telegram_bot_api",
-  "version": "0.3.12",
+  "version": "0.3.13",
   "description": "Pipedream Telegram_bot_api Components",
   "main": "telegram_bot_api.app.mjs",
   "keywords": [

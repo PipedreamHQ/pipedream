@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/estreamdesk",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream eStreamDest Components",
   "main": "estreamdesk.app.mjs",
   "keywords": [

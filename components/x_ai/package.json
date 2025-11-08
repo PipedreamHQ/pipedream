@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/x_ai",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Chat Data Components",
   "main": "x_ai.app.mjs",
   "keywords": [

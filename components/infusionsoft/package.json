@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/infusionsoft",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream InfusionSoft Components",
   "main": "dist/app/infusionsoft.app.mjs",
   "keywords": [

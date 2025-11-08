@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/piggy",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Piggy Components",
   "main": "piggy.app.mjs",
   "keywords": [

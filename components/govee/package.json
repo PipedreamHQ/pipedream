@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/govee",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Govee Components",
   "main": "govee.app.mjs",
   "keywords": [

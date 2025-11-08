@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/tally",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Pipedream Tally Components",
   "main": "tally.app.mjs",
   "keywords": [

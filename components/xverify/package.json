@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/xverify",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Xverify Components",
   "main": "xverify.app.mjs",
   "keywords": [

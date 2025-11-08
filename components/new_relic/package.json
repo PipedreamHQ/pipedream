@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/new-relic",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Pipedream New Relic Components",
   "main": "new_relic.app.mjs",
   "keywords": [

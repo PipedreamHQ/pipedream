@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/onlyoffice_docspace",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Pipedream ONLYOFFICE DocSpace Components",
   "main": "onlyoffice_docspace.app.mjs",
   "keywords": [

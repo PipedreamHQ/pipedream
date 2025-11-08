@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/polly",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream polly Components",
   "main": "polly.app.mjs",
   "keywords": [

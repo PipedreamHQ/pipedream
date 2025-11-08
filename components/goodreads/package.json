@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/goodreads",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream goodreads Components",
   "main": "goodreads.app.mjs",
   "keywords": [

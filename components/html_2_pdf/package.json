@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/html_2_pdf",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream HTML 2 PDF Components",
   "main": "html_2_pdf.app.mjs",
   "keywords": [

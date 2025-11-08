@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/tavily",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Tavily Components",
   "main": "tavily.app.mjs",
   "keywords": [

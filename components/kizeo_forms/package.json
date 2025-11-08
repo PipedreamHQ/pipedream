@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/kizeo_forms",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Kizeo Forms Components",
   "main": "kizeo_forms.app.mjs",
   "keywords": [

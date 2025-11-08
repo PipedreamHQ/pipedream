@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/yotpo_loyalty_referrals",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream yotpo_loyalty_referrals Components",
   "main": "yotpo_loyalty_referrals.app.mjs",
   "keywords": [

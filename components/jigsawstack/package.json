@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/jigsawstack",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Pipedream JigsawStack Components",
   "main": "jigsawstack.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/uptime_robot",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream uptime_robot Components",
   "main": "uptime_robot.app.mjs",
   "keywords": [

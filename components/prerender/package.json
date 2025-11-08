@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/prerender",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream prerender Components",
   "main": "prerender.app.mjs",
   "keywords": [

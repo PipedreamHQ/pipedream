@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/syncmate_by_assitro",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Pipedream SyncMate by Assitro Components",
   "main": "syncmate_by_assitro.app.mjs",
   "keywords": [

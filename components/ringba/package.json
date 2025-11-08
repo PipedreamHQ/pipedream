@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ringba",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream ringba Components",
   "main": "ringba.app.mjs",
   "keywords": [

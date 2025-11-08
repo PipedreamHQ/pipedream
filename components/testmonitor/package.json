@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/testmonitor",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Pipedream Testmonitor Components",
   "main": "testmonitor.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/pushsafer",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream pushsafer Components",
   "main": "pushsafer.app.mjs",
   "keywords": [

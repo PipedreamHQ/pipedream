@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/riddle_quiz_maker",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream riddle_quiz_maker Components",
   "main": "riddle_quiz_maker.app.mjs",
   "keywords": [

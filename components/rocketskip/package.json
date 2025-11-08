@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/rocketskip",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream RocketSkip Components",
   "main": "rocketskip.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/pixelbin",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Pipedream Pixelbin Components",
   "main": "pixelbin.app.mjs",
   "keywords": [

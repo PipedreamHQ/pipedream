@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/verifi_email",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream verifi.email Components",
   "main": "verifi_email.app.mjs",
   "keywords": [

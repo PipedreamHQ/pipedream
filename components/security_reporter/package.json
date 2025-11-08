@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/security_reporter",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Pipedream Security Reporter Components",
   "main": "security_reporter.app.mjs",
   "keywords": [

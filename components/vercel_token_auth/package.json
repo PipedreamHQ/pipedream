@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/vercel_token_auth",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Vercel (token-based auth) Components",
   "main": "vercel_token_auth.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/pocket",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Pocket Components",
   "main": "pocket.app.mjs",
   "keywords": [

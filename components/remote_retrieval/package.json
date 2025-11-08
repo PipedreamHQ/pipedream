@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/remote_retrieval",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Pipedream Remote Retrieval Components",
   "main": "remote_retrieval.app.mjs",
   "keywords": [

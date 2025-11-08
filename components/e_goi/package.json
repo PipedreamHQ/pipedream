@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/e_goi",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream e_goi Components",
   "main": "e_goi.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/formtitan",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream formtitan Components",
   "main": "formtitan.app.mjs",
   "keywords": [

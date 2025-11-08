@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/pipeliner_crm",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream pipeliner_crm Components",
   "main": "pipeliner_crm.app.mjs",
   "keywords": [

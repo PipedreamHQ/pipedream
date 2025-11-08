@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/uservoice",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Uservoice Components",
   "main": "uservoice.app.js",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/replicate",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Replicate Components",
   "main": "replicate.app.mjs",
   "keywords": [

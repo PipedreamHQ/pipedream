@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/explorium",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Explorium Components",
   "main": "explorium.app.mjs",
   "keywords": [

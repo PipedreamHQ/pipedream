@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/mailbluster",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Mailbluster Components",
   "main": "dist/app/mailbluster.app.mjs",
   "keywords": [

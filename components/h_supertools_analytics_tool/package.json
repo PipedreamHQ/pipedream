@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/h_supertools_analytics_tool",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream H-supertools Analytics Tool Components",
   "main": "h_supertools_analytics_tool.app.mjs",
   "keywords": [

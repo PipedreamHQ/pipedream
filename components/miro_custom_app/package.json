@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/miro_custom_app",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Pipedream Miro Developer App Components",
   "main": "miro_custom_app.app.mjs",
   "keywords": [

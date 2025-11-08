@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/silfer_bots",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream silfer_bots Components",
   "main": "silfer_bots.app.mjs",
   "keywords": [

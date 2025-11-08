@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/heroku",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Heroku Components",
   "main": "heroku.app.mjs",
   "keywords": [

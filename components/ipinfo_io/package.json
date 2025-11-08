@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ipinfo_io",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream IPinfo.io Components",
   "main": "ipinfo_io.app.mjs",
   "keywords": [

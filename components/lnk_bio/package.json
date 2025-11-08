@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/lnk_bio",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Lnk.Bio Components",
   "main": "lnk_bio.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/viral_loops",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Viral Loops Components",
   "main": "viral_loops.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/onesignal_rest_api",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream OneSignal (REST API) Components",
   "main": "onesignal_rest_api.app.mjs",
   "keywords": [

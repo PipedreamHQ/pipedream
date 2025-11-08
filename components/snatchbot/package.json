@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/snatchbot",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream SnatchBot Components",
   "main": "snatchbot.app.mjs",
   "keywords": [

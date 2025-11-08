@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/eden_ai",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Pipedream Eden AI Components",
   "main": "eden_ai.app.mjs",
   "keywords": [

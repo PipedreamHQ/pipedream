@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ssh_password_based_auth",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream ssh_password_based_auth Components",
   "main": "ssh_password_based_auth.app.mjs",
   "keywords": [

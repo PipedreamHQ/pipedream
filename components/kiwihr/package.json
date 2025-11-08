@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/kiwihr",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Pipedream kiwiHR Components",
   "main": "kiwihr.app.mjs",
   "keywords": [

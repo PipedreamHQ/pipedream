@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/fullstory",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Fullstory Components",
   "main": "fullstory.app.mjs",
   "keywords": [

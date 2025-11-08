@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/triggercmd",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Pipedream TRIGGERcmd Components",
   "main": "triggercmd.app.mjs",
   "keywords": [

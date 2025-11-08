@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/faros",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream faros Components",
   "main": "faros.app.mjs",
   "keywords": [

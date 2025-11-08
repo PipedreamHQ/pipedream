@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/notarize",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream notarize Components",
   "main": "notarize.app.mjs",
   "keywords": [

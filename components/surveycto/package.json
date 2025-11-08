@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/surveycto",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream SurveyCTO Components",
   "main": "surveycto.app.mjs",
   "keywords": [

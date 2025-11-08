@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/tricentis_qtest",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Tricentis qTest Components",
   "main": "tricentis_qtest.app.mjs",
   "keywords": [

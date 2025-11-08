@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zip_archive_api",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Pipedream Zip Archive API Components",
   "main": "zip_archive_api.app.mjs",
   "keywords": [

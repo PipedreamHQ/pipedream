@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/onesignal_user_auth",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream onesignal_user_auth Components",
   "main": "onesignal_user_auth.app.mjs",
   "keywords": [

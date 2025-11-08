@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/loggly_send_data",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream loggly_send_data Components",
   "main": "loggly_send_data.app.mjs",
   "keywords": [

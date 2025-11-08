@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/voodoo_sms",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream voodoo_sms Components",
   "main": "voodoo_sms.app.mjs",
   "keywords": [

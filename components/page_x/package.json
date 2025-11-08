@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/page_x",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream PAGE X Components",
   "main": "page_x.app.mjs",
   "keywords": [

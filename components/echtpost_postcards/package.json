@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/echtpost_postcards",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream EchtPost Postcards Components",
   "main": "echtpost_postcards.app.mjs",
   "keywords": [

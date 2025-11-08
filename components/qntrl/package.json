@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/qntrl",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Qntrl Components",
   "main": "qntrl.app.mjs",
   "keywords": [

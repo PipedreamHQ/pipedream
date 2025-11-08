@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/finalscout",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream FinalScout Components",
   "main": "finalscout.app.mjs",
   "keywords": [

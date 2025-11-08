@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/dadata_ru",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream dadata_ru Components",
   "main": "dadata_ru.app.mjs",
   "keywords": [

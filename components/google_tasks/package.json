@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/google_tasks",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Google Tasks Components",
   "main": "google_tasks.app.mjs",
   "keywords": [

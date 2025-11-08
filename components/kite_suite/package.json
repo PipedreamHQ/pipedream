@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/kite_suite",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Kite Suite Components",
   "main": "kite_suite.app.mjs",
   "keywords": [

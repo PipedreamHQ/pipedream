@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ecwid",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Pipedream Ecwid Components",
   "main": "ecwid.app.mjs",
   "keywords": [

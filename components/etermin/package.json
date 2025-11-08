@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/etermin",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Pipedream etermin Components",
   "main": "etermin.app.mjs",
   "keywords": [

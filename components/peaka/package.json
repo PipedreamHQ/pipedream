@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/peaka",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Peaka Components",
   "main": "peaka.app.mjs",
   "keywords": [

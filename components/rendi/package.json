@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/rendi",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Rendi Components",
   "main": "rendi.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/scrapfly",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Pipedream Scrapfly Components",
   "main": "scrapfly.app.mjs",
   "keywords": [

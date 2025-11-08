@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/recruit_crm",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Recruit CRM Components",
   "main": "recruit_crm.app.mjs",
   "keywords": [

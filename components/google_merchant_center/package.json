@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/google_merchant_center",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Google Merchant Center Components",
   "main": "google_merchant_center.app.mjs",
   "keywords": [

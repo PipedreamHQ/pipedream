@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ilovepdf",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Pipedream iLovePDF Components",
   "main": "ilovepdf.app.mjs",
   "keywords": [

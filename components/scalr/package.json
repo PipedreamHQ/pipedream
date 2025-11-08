@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/scalr",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Scalr Components",
   "main": "scalr.app.mjs",
   "keywords": [

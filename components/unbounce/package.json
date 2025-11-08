@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/unbounce",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Unbounce Components",
   "main": "unbounce.app.mjs",
   "keywords": [

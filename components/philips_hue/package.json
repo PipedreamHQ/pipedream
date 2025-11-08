@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/philips_hue",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Pipedream philips_hue Components",
   "main": "philips_hue.app.mjs",
   "keywords": [

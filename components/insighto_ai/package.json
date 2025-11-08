@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/insighto_ai",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Insighto.ai Components",
   "main": "insighto_ai.app.mjs",
   "keywords": [

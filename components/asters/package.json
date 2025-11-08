@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/asters",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Asters Components",
   "main": "asters.app.mjs",
   "keywords": [

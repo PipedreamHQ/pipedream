@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/real_id",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Real ID Components",
   "main": "real_id.app.mjs",
   "keywords": [

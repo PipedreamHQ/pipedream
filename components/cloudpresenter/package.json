@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/cloudpresenter",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Cloudpresenter Components",
   "main": "cloudpresenter.app.mjs",
   "keywords": [

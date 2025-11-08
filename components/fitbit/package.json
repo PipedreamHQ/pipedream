@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/fitbit",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream fitbit Components",
   "main": "fitbit.app.mjs",
   "keywords": [

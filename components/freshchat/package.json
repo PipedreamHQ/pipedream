@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/freshchat",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Pipedream Freshchat Components",
   "main": "freshchat.app.mjs",
   "keywords": [

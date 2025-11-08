@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/klazify",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Klazify Components",
   "main": "klazify.app.mjs",
   "keywords": [

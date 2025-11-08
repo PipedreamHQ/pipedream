@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/easydns",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream easydns Components",
   "main": "easydns.app.mjs",
   "keywords": [

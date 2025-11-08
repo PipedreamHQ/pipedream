@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/nectar_crm",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Pipedream Nectar CRM Components",
   "main": "dist/app/nectar_crm.app.mjs",
   "keywords": [

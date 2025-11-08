@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/teamup",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream TeamUp Components",
   "main": "teamup.app.mjs",
   "keywords": [

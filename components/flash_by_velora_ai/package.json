@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/flash_by_velora_ai",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Flash (by Velora AI) Components",
   "main": "flash_by_velora_ai.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/relavate",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Relavate Components",
   "main": "relavate.app.mjs",
   "keywords": [

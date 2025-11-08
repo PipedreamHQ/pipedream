@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/feathery",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream feathery Components",
   "main": "feathery.app.mjs",
   "keywords": [

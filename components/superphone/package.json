@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/superphone",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream SuperPhone Components",
   "main": "superphone.app.mjs",
   "keywords": [

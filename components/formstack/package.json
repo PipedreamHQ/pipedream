@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/formstack",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "description": "Pipedream Formstack Components",
   "main": "formstack.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/the_magic_drip",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream The Magic Drip Components",
   "main": "the_magic_drip.app.mjs",
   "keywords": [

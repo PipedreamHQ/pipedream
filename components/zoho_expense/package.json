@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zoho_expense",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Zoho_expense Components",
   "main": "zoho_expense.app.mjs",
   "keywords": [

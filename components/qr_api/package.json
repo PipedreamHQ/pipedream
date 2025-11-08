@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/qr_api",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream QR API Components",
   "main": "qr_api.app.mjs",
   "keywords": [

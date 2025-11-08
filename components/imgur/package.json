@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/imgur",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "The imgur app file for Pipedream action & trigger integrations.",
   "main": "imgur.app.mjs",
   "scripts": {

@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/google_my_business",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Pipedream Google My Business Components",
   "main": "dist/app/google_my_business.app.mjs",
   "keywords": [
     "pipedream",
     "google_my_business"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/google_my_business",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/yahoo_finance_by_apidojo",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream yahoo_finance_by_apidojo Components",
   "main": "yahoo_finance_by_apidojo.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/nethunt_crm",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream NetHunt CRM Components",
   "main": "nethunt_crm.app.mjs",
   "keywords": [

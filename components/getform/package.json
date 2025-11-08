@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/getform",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream getform Components",
   "main": "getform.app.mjs",
   "keywords": [

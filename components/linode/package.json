@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/linode",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream linode Components",
   "main": "linode.app.mjs",
   "keywords": [

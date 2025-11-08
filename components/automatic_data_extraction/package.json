@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/automatic_data_extraction",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Automatic Data Extraction Components",
   "main": "automatic_data_extraction.app.mjs",
   "keywords": [

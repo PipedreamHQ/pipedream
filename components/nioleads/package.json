@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/nioleads",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream NioLeads Components",
   "main": "nioleads.app.mjs",
   "keywords": [

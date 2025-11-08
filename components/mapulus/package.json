@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/mapulus",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Mapulus Components",
   "main": "mapulus.app.mjs",
   "keywords": [

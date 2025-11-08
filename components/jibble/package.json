@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/jibble",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Jibble Components",
   "main": "jibble.app.mjs",
   "keywords": [

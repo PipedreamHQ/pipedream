@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/survser",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Survser Components",
   "main": "survser.app.mjs",
   "keywords": [

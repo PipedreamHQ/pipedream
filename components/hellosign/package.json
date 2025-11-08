@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/hellosign",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Hellosign Components",
   "main": "hellosign.app.mjs",
   "keywords": [

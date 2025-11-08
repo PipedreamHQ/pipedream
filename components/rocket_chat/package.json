@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/rocket_chat",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Rocket Chat Components",
   "main": "rocket_chat.app.mjs",
   "keywords": [

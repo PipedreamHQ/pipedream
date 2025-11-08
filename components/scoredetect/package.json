@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/scoredetect",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Pipedream ScoreDetect Components",
   "main": "scoredetect.app.mjs",
   "keywords": [

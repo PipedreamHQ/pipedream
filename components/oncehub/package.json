@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/oncehub",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream OnceHub Components",
   "main": "oncehub.app.mjs",
   "keywords": [

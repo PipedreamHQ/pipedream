@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/modeck",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream MoDeck Components",
   "main": "modeck.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/fal_ai",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream fal.ai Components",
   "main": "fal_ai.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/loomio",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream loomio Components",
   "main": "loomio.app.mjs",
   "keywords": [

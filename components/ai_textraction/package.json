@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ai_textraction",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream AI Textraction Components",
   "main": "ai_textraction.app.mjs",
   "keywords": [

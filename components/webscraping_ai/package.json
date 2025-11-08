@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/webscraping_ai",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream WebScraping.AI Components",
   "main": "webscraping_ai.app.mjs",
   "keywords": [

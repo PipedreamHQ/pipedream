@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/richpanel",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Richpanel Components",
   "main": "richpanel.app.mjs",
   "keywords": [

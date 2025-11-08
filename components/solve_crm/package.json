@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/solve_crm",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Solve CRM Components",
   "main": "solve_crm.app.mjs",
   "keywords": [

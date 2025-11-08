@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/placekey",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream placekey Components",
   "main": "placekey.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/issue_badge",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Issue Badge Components - Manage badges, issues, and organizations",
   "main": "issue_badge.app.mjs",
   "keywords": [

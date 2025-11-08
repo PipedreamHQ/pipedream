@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/python",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream python Components",
   "main": "python.app.mjs",
   "keywords": [

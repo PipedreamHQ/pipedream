@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/talend",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Talend Components",
   "main": "talend.app.mjs",
   "keywords": [

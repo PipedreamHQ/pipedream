@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/hiveage",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream hiveage Components",
   "main": "hiveage.app.mjs",
   "keywords": [

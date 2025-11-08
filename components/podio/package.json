@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/podio",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Pipedream Podio Components",
   "main": "podio.app.mjs",
   "keywords": [

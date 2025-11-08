@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/meetingpulse",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream MeetingPulse  Components",
   "main": "meetingpulse.app.mjs",
   "keywords": [

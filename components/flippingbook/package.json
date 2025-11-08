@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/flippingbook",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Pipedream FlippingBook Components",
   "main": "flippingbook.app.mjs",
   "keywords": [

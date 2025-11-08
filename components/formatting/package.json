@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/formatting",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Pipedream Formatting Components",
   "main": "dist/app/formatting.app.mjs",
   "keywords": [

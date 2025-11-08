@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/paazl",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Paazl Components",
   "main": "paazl.app.mjs",
   "keywords": [

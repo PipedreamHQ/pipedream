@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/blazemeter",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Blazemeter Components",
   "main": "blazemeter.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/wesupply",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream WeSupply Components",
   "main": "wesupply.app.mjs",
   "keywords": [

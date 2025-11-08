@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/trawlingweb",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Trawlingweb Components",
   "main": "trawlingweb.app.mjs",
   "keywords": [

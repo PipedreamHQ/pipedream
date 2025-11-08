@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/fibery",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Fibery Components",
   "main": "fibery.app.mjs",
   "keywords": [

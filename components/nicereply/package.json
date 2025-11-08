@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/nicereply",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Nicereply Components",
   "main": "nicereply.app.mjs",
   "keywords": [

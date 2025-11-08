@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/leonardo_ai",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Leonardo AI Components",
   "main": "leonardo_ai.app.mjs",
   "keywords": [

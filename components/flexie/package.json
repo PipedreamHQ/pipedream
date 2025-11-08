@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/flexie",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream flexie Components",
   "main": "flexie.app.mjs",
   "keywords": [

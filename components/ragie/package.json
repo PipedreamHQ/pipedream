@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ragie",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Pipedream Ragie Components",
   "main": "ragie.app.mjs",
   "keywords": [

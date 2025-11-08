@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ezeep_blue",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Pipedream ezeep Blue Components",
   "main": "ezeep_blue.app.mjs",
   "keywords": [

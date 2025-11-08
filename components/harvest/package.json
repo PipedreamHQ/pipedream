@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/harvest",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Pipedream Harvest Components",
   "main": "harvest.app.mjs",
   "keywords": [

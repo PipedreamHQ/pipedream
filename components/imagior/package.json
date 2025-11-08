@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/imagior",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Imagior Components",
   "main": "imagior.app.mjs",
   "keywords": [

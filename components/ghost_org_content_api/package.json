@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ghost_org_content_api",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Pipedream Ghost_org_content_api Components",
   "main": "ghost_org_content_api.app.mjs",
   "keywords": [

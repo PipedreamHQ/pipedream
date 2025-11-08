@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/spotlightr",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Pipedream Spotlightr Components",
   "main": "spotlightr.app.mjs",
   "keywords": [

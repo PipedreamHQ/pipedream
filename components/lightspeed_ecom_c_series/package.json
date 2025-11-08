@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/lightspeed_ecom_c_series",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Lightspeed eCom (C-Series) Components",
   "main": "lightspeed_ecom_c_series.app.mjs",
   "keywords": [

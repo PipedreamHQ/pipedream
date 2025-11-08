@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/youcanbook_me",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream YouCanBook.Me Components",
   "main": "youcanbook_me.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/gloria_ai",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Gloria AI Components",
   "main": "gloria_ai.app.mjs",
   "keywords": [

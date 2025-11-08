@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/microsoft_graph_api",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream microsoft_graph_api Components",
   "main": "microsoft_graph_api.app.mjs",
   "keywords": [

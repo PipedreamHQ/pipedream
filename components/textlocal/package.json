@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/textlocal",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Textlocal Components",
   "main": "textlocal.app.mjs",
   "keywords": [

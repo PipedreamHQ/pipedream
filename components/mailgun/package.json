@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/mailgun",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Pipedream Mailgun Components",
   "main": "mailgun.app.mjs",
   "keywords": [

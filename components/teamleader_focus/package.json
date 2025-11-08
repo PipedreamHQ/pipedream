@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/teamleader_focus",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Pipedream Teamleader Focus Components",
   "main": "teamleader_focus.app.mjs",
   "keywords": [

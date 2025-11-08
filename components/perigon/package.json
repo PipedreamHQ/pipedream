@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/perigon",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream perigon Components",
   "main": "perigon.app.mjs",
   "keywords": [

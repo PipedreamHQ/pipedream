@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/retently",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Retently Components",
   "main": "retently.app.mjs",
   "keywords": [

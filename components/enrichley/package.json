@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/enrichley",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Enrichley Components",
   "main": "enrichley.app.mjs",
   "keywords": [

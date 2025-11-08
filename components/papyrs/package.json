@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/papyrs",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Papyrs Components",
   "main": "papyrs.app.mjs",
   "keywords": [

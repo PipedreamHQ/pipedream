@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/one_ai",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream One AI Components",
   "main": "one_ai.app.mjs",
   "keywords": [

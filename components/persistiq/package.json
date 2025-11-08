@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/persistiq",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Pipedream PersistIQ Components",
   "main": "dist/app/persistiq.app.mjs",
   "keywords": [

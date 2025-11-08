@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/passslot",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream PassSlot Components",
   "main": "passslot.app.mjs",
   "keywords": [

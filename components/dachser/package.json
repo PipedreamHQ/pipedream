@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/dachser",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Dachser Components",
   "main": "dachser.app.mjs",
   "keywords": [

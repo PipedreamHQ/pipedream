@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/travis_ci",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream travis_ci Components",
   "main": "travis_ci.app.mjs",
   "keywords": [

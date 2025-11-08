@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/mumble",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Mumble Components",
   "main": "mumble.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/v7_darwin",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream V7 Darwin Components",
   "main": "v7_darwin.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/pcloud",
-  "version": "0.3.8",
+  "version": "0.3.9",
   "description": "Pipedream pCloud Components",
   "main": "pcloud.app.mjs",
   "keywords": [

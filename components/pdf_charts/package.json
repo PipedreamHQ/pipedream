@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/pdf_charts",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream PDF Charts Components",
   "main": "pdf_charts.app.mjs",
   "keywords": [

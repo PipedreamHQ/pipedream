@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/gigasheet",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Gigasheet Components",
   "main": "gigasheet.app.mjs",
   "keywords": [
