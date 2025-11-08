@@ -10215,6 +10215,9 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/opencti:
+    specifiers: {}
+
   components/opengraph_io:
     dependencies:
       '@pipedream/platform':
