@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/symbl_ai",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "Pipedream Symbl_ai Components",
   "main": "symbl_ai.app.mjs",
   "keywords": [

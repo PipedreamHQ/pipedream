@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/intellexer_api",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Intellexer API  Components",
   "main": "intellexer_api.app.mjs",
   "keywords": [

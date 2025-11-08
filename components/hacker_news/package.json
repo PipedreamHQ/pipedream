@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/hacker_news",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "Pipedream Hacker_news Components",
   "main": "hacker_news.app.js",
   "keywords": [

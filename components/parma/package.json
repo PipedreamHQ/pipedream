@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/parma",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Parma Components",
   "main": "parma.app.mjs",
   "keywords": [

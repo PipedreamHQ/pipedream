@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/wistia",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream Wistia Components",
   "main": "wistia.app.mjs",
   "keywords": [

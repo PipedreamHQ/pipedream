@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/leadoku",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Leadoku Components",
   "main": "leadoku.app.mjs",
   "keywords": [

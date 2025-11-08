@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/mux",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Pipedream Mux Components",
   "main": "mux.app.mjs",
   "keywords": [

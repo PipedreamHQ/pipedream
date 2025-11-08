@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ip2whois",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "Pipedream Ip2whois Components",
   "main": "ip2whois.app.mjs",
   "keywords": [

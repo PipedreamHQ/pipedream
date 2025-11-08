@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/contact_enhance",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Contact Enhance Components",
   "main": "contact_enhance.app.mjs",
   "keywords": [

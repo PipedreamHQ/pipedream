@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/datawaves",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream datawaves Components",
   "main": "datawaves.app.mjs",
   "keywords": [

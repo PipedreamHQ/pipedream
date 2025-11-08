@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/learnworlds",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream LearnWorlds Components",
   "main": "learnworlds.app.mjs",
   "keywords": [

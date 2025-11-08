@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/storyscale",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream StoryScale Components",
   "main": "storyscale.app.mjs",
   "keywords": [

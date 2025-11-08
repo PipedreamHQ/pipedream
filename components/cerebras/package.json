@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/cerebras",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Cerebras Components",
   "main": "cerebras.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/utopian_labs",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Utopian Labs Components",
   "main": "utopian_labs.app.mjs",
   "keywords": [

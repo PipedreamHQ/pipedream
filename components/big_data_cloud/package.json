@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/big_data_cloud",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Big Data Cloud Components",
   "main": "big_data_cloud.app.mjs",
   "keywords": [

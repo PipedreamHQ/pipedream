@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/coinbase",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Coinbase Components",
   "main": "coinbase.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/_302_ai",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream 302.ai Components",
   "main": "_302_ai.app.mjs",
   "keywords": [

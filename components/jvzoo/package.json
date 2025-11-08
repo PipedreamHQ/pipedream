@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/jvzoo",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Jvzoo Components",
   "main": "jvzoo.app.mjs",
   "keywords": [

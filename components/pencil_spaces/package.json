@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/pencil_spaces",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Pencil Spaces Components",
   "main": "pencil_spaces.app.mjs",
   "keywords": [

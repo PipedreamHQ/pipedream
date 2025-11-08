@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/breezy_hr",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream breezy_hr Components",
   "main": "breezy_hr.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sourceforge",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Sourceforge Components",
   "main": "sourceforge.app.mjs",
   "keywords": [

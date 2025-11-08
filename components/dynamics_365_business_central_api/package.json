@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/dynamics_365_business_central_api",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Dynamics 365 Business Central API Components",
   "main": "dynamics_365_business_central_api.app.mjs",
   "keywords": [

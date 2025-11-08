@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zoho_docs",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream zoho_docs Components",
   "main": "zoho_docs.app.mjs",
   "keywords": [

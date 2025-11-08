@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/yelp",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream Yelp Components",
   "main": "dist/app/yelp.app.mjs",
   "keywords": [
     "pipedream",
     "yelp"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/yelp",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

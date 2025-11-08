@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/timekit",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Timekit Components",
   "main": "timekit.app.mjs",
   "keywords": [

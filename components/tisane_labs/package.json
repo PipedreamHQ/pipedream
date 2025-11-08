@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/tisane_labs",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Tisane Labs Components",
   "main": "tisane_labs.app.mjs",
   "keywords": [

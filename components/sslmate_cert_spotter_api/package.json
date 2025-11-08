@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sslmate_cert_spotter_api",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream sslmate_cert_spotter_api Components",
   "main": "sslmate_cert_spotter_api.app.mjs",
   "keywords": [

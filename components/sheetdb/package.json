@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sheetdb",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream SheetDB Components",
   "main": "sheetdb.app.mjs",
   "keywords": [

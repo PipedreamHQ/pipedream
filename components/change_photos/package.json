@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/change_photos",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream change.photos Components",
   "main": "change_photos.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/gitter",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream gitter Components",
   "main": "gitter.app.mjs",
   "keywords": [

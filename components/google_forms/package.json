@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/google_forms",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Pipedream Google Forms Components",
   "main": "google_forms.app.mjs",
   "keywords": [

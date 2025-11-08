@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/momentum_ams",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Momentum AMS Components",
   "main": "momentum_ams.app.mjs",
   "keywords": [

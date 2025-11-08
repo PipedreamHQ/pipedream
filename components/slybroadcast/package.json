@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/slybroadcast",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Slybroadcast Components",
   "main": "slybroadcast.app.mjs",
   "keywords": [

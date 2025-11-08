@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/unisender",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream Unisender Components",
   "main": "unisender.app.mjs",
   "keywords": [

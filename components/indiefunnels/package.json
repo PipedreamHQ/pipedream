@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/indiefunnels",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream INDIEFUNNELS Components",
   "main": "indiefunnels.app.mjs",
   "keywords": [

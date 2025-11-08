@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/recruitis",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Recruitis Components",
   "main": "recruitis.app.mjs",
   "keywords": [

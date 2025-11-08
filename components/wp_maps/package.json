@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/wp_maps",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream WP Maps  Components",
   "main": "wp_maps.app.mjs",
   "keywords": [

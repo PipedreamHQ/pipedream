@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/z_api",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Z-API Components",
   "main": "z_api.app.mjs",
   "keywords": [

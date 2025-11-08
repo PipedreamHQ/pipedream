@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/upstash_redis",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Upstash Redis Components",
   "main": "upstash_redis.app.mjs",
   "keywords": [

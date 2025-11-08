@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/l2s",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream L2S Components",
   "main": "l2s.app.mjs",
   "keywords": [

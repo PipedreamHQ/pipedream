@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zerys",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream zerys Components",
   "main": "zerys.app.mjs",
   "keywords": [

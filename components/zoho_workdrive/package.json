@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zoho_workdrive",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "description": "Pipedream Zoho WorkDrive Components",
   "main": "zoho_workdrive.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/wavecell",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream wavecell Components",
   "main": "wavecell.app.mjs",
   "keywords": [

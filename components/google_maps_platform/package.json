@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/google_maps_platform",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Google Maps Platform (Places API) Components",
   "main": "google_maps_platform.app.mjs",
   "keywords": [

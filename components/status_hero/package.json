@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/status_hero",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Status Hero Components",
   "main": "status_hero.app.mjs",
   "keywords": [

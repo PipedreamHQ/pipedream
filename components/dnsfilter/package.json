@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/dnsfilter",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream DNSFilter Components",
   "main": "dnsfilter.app.mjs",
   "keywords": [

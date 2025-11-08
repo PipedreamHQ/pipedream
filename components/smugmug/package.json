@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/smugmug",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Pipedream Smugmug Components",
   "main": "smugmug.app.mjs",
   "keywords": [

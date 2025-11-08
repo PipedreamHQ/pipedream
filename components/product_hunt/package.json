@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/product_hunt",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Product Hunt Components",
   "main": "product_hunt.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/autopilot",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream autopilot Components",
   "main": "autopilot.app.mjs",
   "keywords": [

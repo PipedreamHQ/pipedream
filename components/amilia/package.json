@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/amilia",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream Amilia Components",
   "main": "amilia.app.mjs",
   "keywords": [

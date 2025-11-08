@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/taxjar",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream TaxJar Components",
   "main": "taxjar.app.mjs",
   "keywords": [

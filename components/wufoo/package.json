@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/wufoo",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Wufoo Components",
   "main": "wufoo.app.mjs",
   "keywords": [

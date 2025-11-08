@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/baselinker",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Baselinker Components",
   "main": "baselinker.app.mjs",
   "keywords": [

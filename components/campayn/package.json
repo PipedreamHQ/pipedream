@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/campayn",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Campayn Components",
   "main": "campayn.app.mjs",
   "keywords": [

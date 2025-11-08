@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/clear_books",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Clear Books Components",
   "main": "clear_books.app.mjs",
   "keywords": [

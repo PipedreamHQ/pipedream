@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/a123formbuilder",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream 123FormBuilder Components",
   "main": "a123formbuilder.app.mjs",
   "keywords": [

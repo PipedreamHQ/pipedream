@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/securitytrails",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream SecurityTrails Components",
   "main": "securitytrails.app.mjs",
   "keywords": [

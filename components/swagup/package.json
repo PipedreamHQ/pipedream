@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/swagup",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream SwagUp Components",
   "main": "swagup.app.mjs",
   "keywords": [

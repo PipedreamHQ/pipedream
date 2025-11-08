@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/telnyx",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Pipedream Telnyx Components",
   "main": "telnyx.app.mjs",
   "keywords": [

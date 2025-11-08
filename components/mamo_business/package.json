@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/mamo_business",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Mamo Business Components",
   "main": "mamo_business.app.mjs",
   "keywords": [

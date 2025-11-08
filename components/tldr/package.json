@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/tldr",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream TLDR Components",
   "main": "tldr.app.mjs",
   "keywords": [

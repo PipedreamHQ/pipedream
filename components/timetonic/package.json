@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/timetonic",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Pipedream TimeTonic Components",
   "main": "timetonic.app.mjs",
   "keywords": [

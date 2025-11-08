@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/gift_up",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream gift_up Components",
   "main": "gift_up.app.mjs",
   "keywords": [

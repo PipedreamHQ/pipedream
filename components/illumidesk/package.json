@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/illumidesk",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Illumidesk Components",
   "main": "illumidesk.app.mjs",
   "keywords": [

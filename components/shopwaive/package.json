@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/shopwaive",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Shopwaive Components",
   "main": "shopwaive.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/dev_to",
-  "version": "0.3.10",
+  "version": "0.3.11",
   "description": "Pipedream Dev_to Components",
   "main": "dev_to.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/screenshot_fyi",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream screenshot.fyi Components",
   "main": "screenshot_fyi.app.mjs",
   "keywords": [

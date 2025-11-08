@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/similarweb_digitalrank_api",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Similarweb DigitalRank API Components",
   "main": "similarweb_digitalrank_api.app.mjs",
   "keywords": [

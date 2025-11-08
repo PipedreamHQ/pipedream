@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/payhere",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Payhere Components",
   "main": "payhere.app.mjs",
   "keywords": [

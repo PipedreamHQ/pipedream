@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/microsoft_365",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream microsoft_365 Components",
   "main": "microsoft_365.app.mjs",
   "keywords": [

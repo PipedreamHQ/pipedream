@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zoho_campaigns",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Pipedream Zoho Campaigns Components",
   "main": "zoho_campaigns.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/accuranker",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Pipedream accuranker Components",
   "main": "accuranker.app.mjs",
   "keywords": [

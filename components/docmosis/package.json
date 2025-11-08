@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/docmosis",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Docmosis Components",
   "main": "docmosis.app.mjs",
   "keywords": [

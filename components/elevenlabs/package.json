@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/elevenlabs",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "Pipedream ElevenLabs Components",
   "main": "elevenlabs.app.mjs",
   "keywords": [

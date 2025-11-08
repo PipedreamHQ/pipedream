@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/vybit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Vybit Components",
   "main": "vybit.app.mjs",
   "keywords": [

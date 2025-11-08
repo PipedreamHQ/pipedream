@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/waiverfile",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream WaiverFile Components",
   "main": "waiverfile.app.mjs",
   "keywords": [

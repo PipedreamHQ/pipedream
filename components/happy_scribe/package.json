@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/happy_scribe",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Pipedream Happy Scribe Components",
   "main": "happy_scribe.app.mjs",
   "keywords": [

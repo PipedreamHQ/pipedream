@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/scrape_it_cloud",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Scrape-It.Cloud Components",
   "main": "scrape_it_cloud.app.mjs",
   "keywords": [

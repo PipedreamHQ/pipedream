@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ntfy",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream ntfy Components",
   "main": "ntfy.app.mjs",
   "keywords": [

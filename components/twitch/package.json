@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/twitch",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Pipedream Twitch Components",
   "main": "twitch.app.mjs",
   "keywords": [

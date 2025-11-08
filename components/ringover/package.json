@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ringover",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Ringover Components",
   "main": "ringover.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/exact",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Pipedream Exact Components",
   "main": "exact.app.mjs",
   "keywords": [

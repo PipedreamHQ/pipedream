@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/simla_com",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Simla.com Components",
   "main": "simla_com.app.mjs",
   "keywords": [

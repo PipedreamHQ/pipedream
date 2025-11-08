@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/instagram_business",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Instagram for Business Components",
   "main": "instagram_business.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/highrise",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream highrise Components",
   "main": "highrise.app.mjs",
   "keywords": [

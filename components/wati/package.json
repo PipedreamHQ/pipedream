@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/wati",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream WATI Components",
   "main": "wati.app.mjs",
   "keywords": [

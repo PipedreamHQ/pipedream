@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/itemize",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream itemize Components",
   "main": "itemize.app.mjs",
   "keywords": [

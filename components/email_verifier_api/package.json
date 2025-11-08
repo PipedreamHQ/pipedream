@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/email_verifier_api",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Email Verifier Api Components",
   "main": "email_verifier_api.app.mjs",
   "keywords": [

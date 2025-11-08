@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/kanbanize",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Kanbanize Components",
   "main": "kanbanize.app.mjs",
   "keywords": [

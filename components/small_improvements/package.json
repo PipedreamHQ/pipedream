@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/small_improvements",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Small Improvements Components",
   "main": "small_improvements.app.mjs",
   "keywords": [

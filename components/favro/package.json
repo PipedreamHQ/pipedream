@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/favro",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Favro Components",
   "main": "favro.app.mjs",
   "keywords": [

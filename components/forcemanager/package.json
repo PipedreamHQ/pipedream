@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/forcemanager",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream ForceManager Components",
   "main": "forcemanager.app.mjs",
   "keywords": [

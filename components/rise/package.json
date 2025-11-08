@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/rise",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Pipedream Rise Components",
   "main": "dist/app/rise.app.mjs",
   "keywords": [

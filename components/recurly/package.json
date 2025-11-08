@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/recurly",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Recurly Components",
   "main": "recurly.app.mjs",
   "keywords": [

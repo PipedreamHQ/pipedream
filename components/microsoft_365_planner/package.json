@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/microsoft_365_planner",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Pipedream Microsoft 365 Planner Components",
   "main": "microsoft_365_planner.app.mjs",
   "keywords": [

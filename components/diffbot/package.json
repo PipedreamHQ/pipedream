@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/diffbot",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Pipedream Diffbot Components",
   "main": "diffbot.app.mjs",
   "keywords": [

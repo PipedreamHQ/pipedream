@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/basin",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Basin Components",
   "main": "basin.app.mjs",
   "keywords": [

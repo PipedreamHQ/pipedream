@@ -1,18 +1,18 @@
 {
-    "name": "@pipedream/repairshopr",
-    "version": "0.0.3",
-    "description": "Pipedream Repairshopr Components",
-    "main": "repairshopr.app.mjs",
-    "keywords": [
-        "pipedream",
-        "repairshopr"
-    ],
-    "homepage": "https://pipedream.com/apps/repairshopr",
-    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-    "publishConfig": {
-        "access": "public"
-    },
-    "dependencies": {
-        "@pipedream/platform": "^1.6.8"
-    }
+  "name": "@pipedream/repairshopr",
+  "version": "0.0.4",
+  "description": "Pipedream Repairshopr Components",
+  "main": "repairshopr.app.mjs",
+  "keywords": [
+    "pipedream",
+    "repairshopr"
+  ],
+  "homepage": "https://pipedream.com/apps/repairshopr",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.8"
+  }
 }

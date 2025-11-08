@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/_0codekit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream 0codekit Components",
   "main": "_0codekit.app.mjs",
   "keywords": [

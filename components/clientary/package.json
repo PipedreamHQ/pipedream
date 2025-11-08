@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/clientary",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Pipedream Clientary Components",
   "main": "dist/app/clientary.app.mjs",
   "keywords": [
     "pipedream",
     "clientary"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/clientary",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

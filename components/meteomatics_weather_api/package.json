@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/meteomatics_weather_api",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Meteomatics Weather API Components",
   "main": "meteomatics_weather_api.app.mjs",
   "keywords": [

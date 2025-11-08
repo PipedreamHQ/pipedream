@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/screenshotone",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream ScreenshotOne Components",
   "main": "screenshotone.app.mjs",
   "keywords": [

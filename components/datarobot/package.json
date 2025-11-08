@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/datarobot",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream datarobot Components",
   "main": "datarobot.app.mjs",
   "keywords": [

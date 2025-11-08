@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/teamwork_desk",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Teamwork Desk Components",
   "main": "teamwork_desk.app.mjs",
   "keywords": [

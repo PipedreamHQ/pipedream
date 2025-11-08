@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/dbt",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Pipedream dbt Cloud Components",
   "main": "dbt.app.mjs",
   "keywords": [

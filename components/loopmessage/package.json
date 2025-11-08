@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/loopmessage",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Pipedream LoopMessage Components",
   "main": "loopmessage.app.mjs",
   "keywords": [

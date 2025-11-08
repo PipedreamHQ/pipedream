@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/re_amaze",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream re_amaze Components",
   "main": "re_amaze.app.mjs",
   "keywords": [

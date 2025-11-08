@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/konfhub",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream KonfHub Components",
   "main": "konfhub.app.mjs",
   "keywords": [

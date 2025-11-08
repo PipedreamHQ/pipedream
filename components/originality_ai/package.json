@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/originality_ai",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Originality.ai Components",
   "main": "originality_ai.app.mjs",
   "keywords": [

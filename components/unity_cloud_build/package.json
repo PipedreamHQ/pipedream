@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/unity_cloud_build",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream unity_cloud_build Components",
   "main": "unity_cloud_build.app.mjs",
   "keywords": [

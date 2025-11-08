@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/baremetrics",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream baremetrics Components",
   "main": "baremetrics.app.mjs",
   "keywords": [

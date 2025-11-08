@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zixflow",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Zixflow Components",
   "main": "zixflow.app.mjs",
   "keywords": [

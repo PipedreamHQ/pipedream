@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/new_york_times",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream New York Times Components",
   "main": "new_york_times.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/buddee",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Buddee Components - HR and employee management platform integration",
   "main": "buddee.app.mjs",
   "keywords": [

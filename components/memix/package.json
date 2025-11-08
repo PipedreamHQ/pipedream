@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/memix",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Pipedream Memix Components",
   "main": "memix.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/you_need_a_budget",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Pipedream You Need A Budget Components",
   "main": "you_need_a_budget.app.mjs",
   "keywords": [

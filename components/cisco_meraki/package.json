@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/cisco_meraki",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Cisco_meraki Components",
   "main": "cisco_meraki.app.mjs",
   "keywords": [

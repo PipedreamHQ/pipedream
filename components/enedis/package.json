@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/enedis",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream Enedis Data-Connect Components",
   "main": "enedis.app.mjs",
   "keywords": [

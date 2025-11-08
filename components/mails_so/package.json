@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/mails_so",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream mails.so Components",
   "main": "mails_so.app.mjs",
   "keywords": [

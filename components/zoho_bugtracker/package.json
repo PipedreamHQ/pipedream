@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zoho_bugtracker",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Pipedream Zoho BugTracker Components",
   "main": "zoho_bugtracker.app.mjs",
   "keywords": [

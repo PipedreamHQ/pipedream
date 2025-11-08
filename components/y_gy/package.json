@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/y_gy",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream y.gy Components",
   "main": "y_gy.app.mjs",
   "keywords": [

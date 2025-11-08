@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/pushover",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pushover Components",
   "main": "pushover.app.mjs",
   "keywords": [

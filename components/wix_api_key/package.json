@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/wix_api_key",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Pipedream Wix Components",
   "main": "wix_api_key.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/teach_n_go",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Teach 'n Go Components",
   "main": "teach_n_go.app.mjs",
   "keywords": [

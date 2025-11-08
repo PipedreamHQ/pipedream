@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/merge",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Merge Components",
   "main": "merge.app.mjs",
   "keywords": [

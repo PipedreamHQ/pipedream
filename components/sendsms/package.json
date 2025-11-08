@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sendsms",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Pipedream sendSMS Components",
   "main": "sendsms.app.mjs",
   "keywords": [

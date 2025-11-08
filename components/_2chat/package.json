@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/_2chat",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream _2chat Components",
   "main": "_2chat.app.mjs",
   "keywords": [

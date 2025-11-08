@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/beanstalkapp",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream Beanstalk Components",
   "main": "beanstalkapp.app.mjs",
   "keywords": [

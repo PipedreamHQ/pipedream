@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/yay_com",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Yay.com Components",
   "main": "yay_com.app.mjs",
   "keywords": [

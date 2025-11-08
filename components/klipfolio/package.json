@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/klipfolio",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Klipfolio Components",
   "main": "klipfolio.app.mjs",
   "keywords": [

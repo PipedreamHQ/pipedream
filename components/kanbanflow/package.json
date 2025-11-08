@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/kanbanflow",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream KanbanFlow Components",
   "main": "dist/app/kanbanflow.app.mjs",
   "keywords": [

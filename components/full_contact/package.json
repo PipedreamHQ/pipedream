@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/full_contact",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Full Contact Components",
   "main": "full_contact.app.mjs",
   "keywords": [

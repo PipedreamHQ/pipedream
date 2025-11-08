@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/mergemole",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream MergeMole Components",
   "main": "mergemole.app.mjs",
   "keywords": [

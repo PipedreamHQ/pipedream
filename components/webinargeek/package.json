@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/webinargeek",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream WebinarGeek Components",
   "main": "webinargeek.app.mjs",
   "keywords": [

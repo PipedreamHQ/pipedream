@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/tidycal",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream TidyCal Components",
   "main": "tidycal.app.mjs",
   "keywords": [

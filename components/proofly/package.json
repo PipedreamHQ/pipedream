@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/proofly",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Proofly Components",
   "main": "proofly.app.mjs",
   "keywords": [

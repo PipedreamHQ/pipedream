@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sendfox_personal_access_token",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream sendfox_personal_access_token Components",
   "main": "sendfox_personal_access_token.app.mjs",
   "keywords": [

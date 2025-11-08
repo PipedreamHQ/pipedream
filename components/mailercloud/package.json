@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/mailercloud",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Mailercloud Components",
   "main": "mailercloud.app.mjs",
   "keywords": [

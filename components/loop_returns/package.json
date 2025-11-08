@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/loop_returns",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Loop Returns Components",
   "main": "loop_returns.app.mjs",
   "keywords": [

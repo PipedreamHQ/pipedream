@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/templated",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Templated Components",
   "main": "templated.app.mjs",
   "keywords": [

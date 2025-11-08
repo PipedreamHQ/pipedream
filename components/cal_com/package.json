@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/cal_com",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Pipedream Cal.com Components",
   "main": "cal_com.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/pdforge",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream pdforge Components",
   "main": "pdforge.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/segment",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "Pipedream Segment Components",
   "main": "segment.app.mjs",
   "keywords": [

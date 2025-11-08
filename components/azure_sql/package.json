@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/azure_sql",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Pipedream Microsoft Azure SQL Database Components",
   "main": "azure_sql.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/lawmatics",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Pipedream lawmatics Components",
   "main": "lawmatics.app.mjs",
   "keywords": [

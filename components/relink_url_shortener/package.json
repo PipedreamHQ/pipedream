@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/relink_url_shortener",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream relink_url_shortener Components",
   "main": "relink_url_shortener.app.mjs",
   "keywords": [

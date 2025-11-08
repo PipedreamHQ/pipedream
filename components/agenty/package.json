@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/agenty",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream agenty Components",
   "main": "agenty.app.mjs",
   "keywords": [

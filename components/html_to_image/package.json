@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/html_to_image",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream HTML to Image Components",
   "main": "html_to_image.app.mjs",
   "keywords": [

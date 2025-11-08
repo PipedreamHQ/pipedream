@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/tettra",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Tettra Components",
   "main": "tettra.app.mjs",
   "keywords": [

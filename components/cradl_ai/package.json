@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/cradl_ai",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Pipedream Cradl AI Components",
   "main": "cradl_ai.app.mjs",
   "keywords": [

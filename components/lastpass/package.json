@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/lastpass",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream LastPass Enterprise API Components",
   "main": "lastpass.app.mjs",
   "keywords": [

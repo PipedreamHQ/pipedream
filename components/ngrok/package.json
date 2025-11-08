@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ngrok",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream ngrok Components",
   "main": "ngrok.app.mjs",
   "keywords": [

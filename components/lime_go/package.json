@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/lime_go",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream lime_go Components",
   "main": "lime_go.app.mjs",
   "keywords": [

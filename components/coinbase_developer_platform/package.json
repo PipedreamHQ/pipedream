@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/coinbase_developer_platform",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Coinbase Developer Platform Components",
   "main": "coinbase_developer_platform.app.mjs",
   "keywords": [

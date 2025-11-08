@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/tinybird",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream tinybird Components",
   "main": "tinybird.app.mjs",
   "keywords": [

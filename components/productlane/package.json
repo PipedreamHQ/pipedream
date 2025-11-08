@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/productlane",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Productlane Components",
   "main": "productlane.app.mjs",
   "keywords": [

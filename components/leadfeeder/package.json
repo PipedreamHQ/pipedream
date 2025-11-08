@@ -1,11 +1,11 @@
 {
   "name": "@pipedream/leadfeeder",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Leadfeeder Components",
   "main": "leadfeeder.app.mjs",
   "keywords": [
-		"pipedream",
-		"leadfeeder"
+    "pipedream",
+    "leadfeeder"
   ],
   "homepage": "https://pipedream.com/apps/leadfeeder",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

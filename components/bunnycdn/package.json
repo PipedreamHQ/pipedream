@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/bunnycdn",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream bunnycdn Components",
   "main": "bunnycdn.app.mjs",
   "keywords": [

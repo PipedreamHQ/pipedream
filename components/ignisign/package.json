@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ignisign",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Pipedream IgniSign Components",
   "main": "ignisign.app.mjs",
   "keywords": [

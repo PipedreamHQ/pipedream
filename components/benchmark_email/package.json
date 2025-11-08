@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/benchmark_email",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream benchmark_email Components",
   "main": "benchmark_email.app.mjs",
   "keywords": [

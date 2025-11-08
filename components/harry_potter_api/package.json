@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/harry_potter_api",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream harry_potter_api Components",
   "main": "harry_potter_api.app.mjs",
   "keywords": [

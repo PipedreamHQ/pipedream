@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/clientify",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Clientify Components",
   "main": "clientify.app.mjs",
   "keywords": [

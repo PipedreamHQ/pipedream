@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/smslink_nc",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream SMSlink nc Components",
   "main": "smslink_nc.app.mjs",
   "keywords": [

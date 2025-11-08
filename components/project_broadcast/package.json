@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/project_broadcast",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Project Broadcast Components",
   "main": "project_broadcast.app.mjs",
   "keywords": [

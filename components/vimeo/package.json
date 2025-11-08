@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/vimeo",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Vimeo Components",
   "main": "vimeo.app.mjs",
   "keywords": [

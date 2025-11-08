@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/transloadit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Transloadit Components",
   "main": "transloadit.app.mjs",
   "keywords": [

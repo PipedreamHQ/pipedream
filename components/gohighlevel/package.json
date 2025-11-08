@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/gohighlevel",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream gohighlevel Components",
   "main": "gohighlevel.app.mjs",
   "keywords": [

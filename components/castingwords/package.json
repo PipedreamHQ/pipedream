@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/castingwords",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream castingwords Components",
   "main": "castingwords.app.mjs",
   "keywords": [

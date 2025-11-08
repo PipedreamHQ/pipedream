@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/modern_treasury",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream modern_treasury Components",
   "main": "modern_treasury.app.mjs",
   "keywords": [

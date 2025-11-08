@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/envoy",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Envoy Components",
   "main": "envoy.app.mjs",
   "keywords": [

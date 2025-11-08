@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zoho_books",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Pipedream Zoho Books Components",
   "main": "zoho_books.app.mjs",
   "keywords": [

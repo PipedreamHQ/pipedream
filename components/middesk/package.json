@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/middesk",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream middesk Components",
   "main": "middesk.app.mjs",
   "keywords": [

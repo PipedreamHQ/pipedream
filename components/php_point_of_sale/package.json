@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/php_point_of_sale",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream PHP Point of Sale Components",
   "main": "php_point_of_sale.app.mjs",
   "keywords": [

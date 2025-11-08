@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/open_exchange_rates",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Open Exchange Rates Components",
   "main": "open_exchange_rates.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/rapid_url_indexer",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Rapid URL Indexer Components",
   "main": "rapid_url_indexer.app.mjs",
   "keywords": [

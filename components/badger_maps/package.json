@@ -1,11 +1,11 @@
 {
   "name": "@pipedream/badger_maps",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Badger Maps Components",
   "main": "badger_maps.app.mjs",
   "keywords": [
-		"pipedream",
-		"badger_maps"
+    "pipedream",
+    "badger_maps"
   ],
   "homepage": "https://pipedream.com/apps/badger_maps",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

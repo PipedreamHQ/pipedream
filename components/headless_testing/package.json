@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/headless_testing",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream headless_testing Components",
   "main": "headless_testing.app.mjs",
   "keywords": [

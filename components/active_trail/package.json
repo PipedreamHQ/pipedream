@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/active_trail",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream active_trail Components",
   "main": "active_trail.app.mjs",
   "keywords": [

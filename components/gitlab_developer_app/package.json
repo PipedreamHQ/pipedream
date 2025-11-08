@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/gitlab_developer_app",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Pipedream GitLab (Developer App) Components",
   "main": "gitlab_developer_app.app.mjs",
   "keywords": [

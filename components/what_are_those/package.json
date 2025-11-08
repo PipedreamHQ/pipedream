@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/what_are_those",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Pipedream What Are Those Components",
   "main": "what_are_those.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/gemini_public",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream gemini_public Components",
   "main": "gemini_public.app.mjs",
   "keywords": [

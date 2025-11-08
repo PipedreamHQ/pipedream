@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/bruzu",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream bruzu Components",
   "main": "bruzu.app.mjs",
   "keywords": [

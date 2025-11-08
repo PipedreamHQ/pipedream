@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/visitor_queue",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Visitor Queue Components",
   "main": "visitor_queue.app.mjs",
   "keywords": [

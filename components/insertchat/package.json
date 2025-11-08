@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/insertchat",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream InsertChat Components",
   "main": "insertchat.app.mjs",
   "keywords": [

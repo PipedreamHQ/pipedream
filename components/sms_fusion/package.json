@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sms_fusion",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream SMS Fusion Components",
   "main": "sms_fusion.app.mjs",
   "keywords": [

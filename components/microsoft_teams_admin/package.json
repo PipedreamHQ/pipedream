@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/microsoft_teams_admin",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream microsoft_teams_admin Components",
   "main": "microsoft_teams_admin.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/plecto",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Plecto Components",
   "main": "plecto.app.mjs",
   "keywords": [

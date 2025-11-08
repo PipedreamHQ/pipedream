@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/linkly",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Linkly Components",
   "main": "linkly.app.mjs",
   "keywords": [

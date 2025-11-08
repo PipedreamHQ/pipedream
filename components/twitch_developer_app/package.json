@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/twitch_developer_app",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Twitch Developer App Components",
   "main": "dist/app/twitch_developer_app.app.mjs",
   "keywords": [

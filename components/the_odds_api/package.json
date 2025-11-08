@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/the_odds_api",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream The Odds API Components",
   "main": "the_odds_api.app.mjs",
   "keywords": [

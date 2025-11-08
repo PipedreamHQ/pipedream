@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/callhub",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream CallHub Components",
   "main": "callhub.app.mjs",
   "keywords": [

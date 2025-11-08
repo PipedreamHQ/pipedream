@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/motion",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Pipedream Motion Components",
   "main": "motion.app.mjs",
   "keywords": [

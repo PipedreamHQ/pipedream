@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ip2location_io",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream IP2Location.io Components",
   "main": "ip2location_io.app.mjs",
   "keywords": [

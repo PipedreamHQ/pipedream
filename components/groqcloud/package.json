@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/groqcloud",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Groq Cloud Components",
   "main": "groqcloud.app.mjs",
   "keywords": [

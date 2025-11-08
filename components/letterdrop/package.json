@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/letterdrop",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Letterdrop Components",
   "main": "letterdrop.app.mjs",
   "keywords": [

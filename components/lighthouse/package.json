@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/lighthouse",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Lighthouse Components",
   "main": "lighthouse.app.mjs",
   "keywords": [

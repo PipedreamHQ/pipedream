@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/pizzly",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream pizzly Components",
   "main": "pizzly.app.mjs",
   "keywords": [

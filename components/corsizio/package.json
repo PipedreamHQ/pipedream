@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/corsizio",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream corsizio Components",
   "main": "corsizio.app.mjs",
   "keywords": [

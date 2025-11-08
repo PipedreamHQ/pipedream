@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/helium",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream helium Components",
   "main": "helium.app.mjs",
   "keywords": [

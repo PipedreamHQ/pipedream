@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/marketplacer",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream marketplacer Components",
   "main": "marketplacer.app.mjs",
   "keywords": [

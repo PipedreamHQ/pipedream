@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/nile_database",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Nile Database Components",
   "main": "nile_database.app.mjs",
   "keywords": [

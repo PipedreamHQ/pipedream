@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/path_of_exile",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream path_of_exile Components",
   "main": "path_of_exile.app.mjs",
   "keywords": [

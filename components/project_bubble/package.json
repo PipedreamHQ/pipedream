@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/project_bubble",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream project_bubble Components",
   "main": "project_bubble.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/detrack",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Pipedream Detrack Components",
   "main": "dist/app/detrack.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zoom_chatbot",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream zoom_chatbot Components",
   "main": "zoom_chatbot.app.mjs",
   "keywords": [

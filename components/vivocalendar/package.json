@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/vivocalendar",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Vivocalendar Components",
   "main": "vivocalendar.app.mjs",
   "keywords": [

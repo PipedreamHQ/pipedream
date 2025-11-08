@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/connectwise_psa",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Pipedream Connectwise PSA Components",
   "main": "connectwise_psa.app.mjs",
   "keywords": [

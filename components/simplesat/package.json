@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/simplesat",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream Simplesat Components",
   "main": "simplesat.app.mjs",
   "keywords": [

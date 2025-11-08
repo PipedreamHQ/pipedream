@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/generated_photos",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Pipedream Generated_photos Components",
   "main": "generated_photos.app.mjs",
   "keywords": [

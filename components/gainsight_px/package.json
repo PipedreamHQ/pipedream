@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/gainsight_px",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Gainsight PX Components",
   "main": "gainsight_px.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/rest_countries_pe",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream REST Countries PE Components",
   "main": "rest_countries_pe.app.mjs",
   "keywords": [

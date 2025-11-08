@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/_twocaptcha",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream twocaptcha Components",
   "main": "_twocaptcha.app.mjs",
   "keywords": [
@@ -16,4 +16,3 @@
     "@pipedream/platform": "^1.6.8"
   }
 }
-

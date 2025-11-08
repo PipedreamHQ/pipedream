@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/todoist_custom_app",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream todoist_custom_app Components",
   "main": "todoist_custom_app.app.mjs",
   "keywords": [

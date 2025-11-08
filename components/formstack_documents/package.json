@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/formstack_documents",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Pipedream Formstack Documents Components",
   "main": "formstack_documents.app.mjs",
   "keywords": [

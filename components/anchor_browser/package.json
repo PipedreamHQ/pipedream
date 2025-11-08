@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/anchor_browser",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Anchor Browser Components",
   "main": "anchor_browser.app.mjs",
   "keywords": [

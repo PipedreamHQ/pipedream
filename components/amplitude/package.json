@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/amplitude",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Amplitude Components",
   "main": "amplitude.app.mjs",
   "keywords": [

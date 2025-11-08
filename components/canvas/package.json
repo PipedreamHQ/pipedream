@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/canvas",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream canvas Components",
   "main": "canvas.app.mjs",
   "keywords": [

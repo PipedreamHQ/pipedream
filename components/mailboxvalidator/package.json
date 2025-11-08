@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/mailboxvalidator",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream MailboxValidator Components",
   "main": "dist/app/mailboxvalidator.app.mjs",
   "keywords": [

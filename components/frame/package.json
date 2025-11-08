@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/frame",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Pipedream Frame.io Components",
   "main": "frame.app.mjs",
   "keywords": [

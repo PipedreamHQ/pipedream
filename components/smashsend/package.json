@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/smashsend",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream SmashSend Components",
   "main": "smashsend.app.mjs",
   "keywords": [

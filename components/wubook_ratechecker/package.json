@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/wubook_ratechecker",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream WuBook RateChecker Components",
   "main": "wubook_ratechecker.app.mjs",
   "keywords": [

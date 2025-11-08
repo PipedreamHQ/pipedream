@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/imagekit_io",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Pipedream ImageKit.io Components",
   "main": "imagekit_io.app.mjs",
   "keywords": [

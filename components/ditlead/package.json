@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ditlead",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream DitLead Components",
   "main": "ditlead.app.mjs",
   "keywords": [

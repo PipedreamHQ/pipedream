@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/node",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream node Components",
   "main": "node.app.mjs",
   "keywords": [

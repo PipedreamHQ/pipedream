@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/geoapify",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Geoapify Components",
   "main": "geoapify.app.mjs",
   "keywords": [

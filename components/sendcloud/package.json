@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sendcloud",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Pipedream Sendcloud Components",
   "main": "sendcloud.app.mjs",
   "keywords": [

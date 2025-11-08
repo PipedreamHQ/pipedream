@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/process_street",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Process Street Components",
   "main": "process_street.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/maintainx",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream MaintainX Components",
   "main": "maintainx.app.mjs",
   "keywords": [

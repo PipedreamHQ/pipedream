@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/home_assistant",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream home_assistant Components",
   "main": "home_assistant.app.mjs",
   "keywords": [

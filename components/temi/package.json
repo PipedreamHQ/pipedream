@@ -1,11 +1,11 @@
 {
   "name": "@pipedream/temi",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Temi Components",
   "main": "temi.app.mjs",
   "keywords": [
-		"pipedream",
-		"temi"
+    "pipedream",
+    "temi"
   ],
   "homepage": "https://pipedream.com/apps/temi",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

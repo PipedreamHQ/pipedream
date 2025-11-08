@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/imap",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Pipedream IMAP Components",
   "main": "imap.app.mjs",
   "keywords": [

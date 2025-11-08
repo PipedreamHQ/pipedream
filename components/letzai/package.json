@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/letzai",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream LetzAI Components",
   "main": "letzai.app.mjs",
   "keywords": [

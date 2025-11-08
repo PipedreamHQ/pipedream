@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/uipath_automation_hub",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream UiPath Automation Hub Components",
   "main": "uipath_automation_hub.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/myotp_app",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream MyOTP.App Components",
   "main": "myotp_app.app.mjs",
   "keywords": [

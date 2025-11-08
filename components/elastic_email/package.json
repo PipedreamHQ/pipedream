@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/elastic_email",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Pipedream Elastic Email Components",
   "main": "elastic_email.app.mjs",
   "keywords": [

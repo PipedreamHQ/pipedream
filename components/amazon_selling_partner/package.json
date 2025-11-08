@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/amazon_selling_partner",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Amazon Selling Partner Components",
   "main": "amazon_selling_partner.app.mjs",
   "keywords": [

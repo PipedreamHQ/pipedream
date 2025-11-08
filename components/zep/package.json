@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zep",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Pipedream Zep Components",
   "main": "zep.app.mjs",
   "keywords": [

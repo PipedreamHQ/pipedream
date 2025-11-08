@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/iterate",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Pipedream Iterate Components",
   "main": "iterate.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/signalwire",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream SignalWire Components",
   "main": "signalwire.app.mjs",
   "keywords": [

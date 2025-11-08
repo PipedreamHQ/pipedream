@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/acelle_mail",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Acelle Mail Components",
   "main": "acelle_mail.app.mjs",
   "keywords": [

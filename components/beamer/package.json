@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/beamer",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream beamer Components",
   "main": "beamer.app.mjs",
   "keywords": [

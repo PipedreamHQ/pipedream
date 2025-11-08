@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/wrike",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Wrike Components",
   "main": "wrike.app.mjs",
   "keywords": [

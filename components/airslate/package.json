@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/airslate",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Airslate Components",
   "main": "airslate.app.mjs",
   "keywords": [

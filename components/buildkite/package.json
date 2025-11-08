@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/buildkite",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream buildkite Components",
   "main": "buildkite.app.mjs",
   "keywords": [

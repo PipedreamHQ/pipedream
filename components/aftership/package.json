@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/aftership",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Pipedream AfterShip Components",
   "main": "aftership.app.mjs",
   "keywords": [

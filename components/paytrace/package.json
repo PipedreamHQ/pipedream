@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/paytrace",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Paytrace Components",
   "main": "paytrace.app.mjs",
   "keywords": [

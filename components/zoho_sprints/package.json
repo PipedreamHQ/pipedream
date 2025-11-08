@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zoho_sprints",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Zoho Sprints Components",
   "main": "zoho_sprints.app.mjs",
   "keywords": [

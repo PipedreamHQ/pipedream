@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/pdf_app_net",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream PDF-app.net Components",
   "main": "pdf_app_net.app.mjs",
   "keywords": [

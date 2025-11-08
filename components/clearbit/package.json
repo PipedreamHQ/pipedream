@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/clearbit",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Clearbit Components",
   "main": "clearbit.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/dpd2",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream DPD Components",
   "main": "dpd2.app.mjs",
   "keywords": [

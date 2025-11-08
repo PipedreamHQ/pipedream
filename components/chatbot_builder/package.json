@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/chatbot_builder",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Chatbot Builder Components",
   "main": "chatbot_builder.app.mjs",
   "keywords": [

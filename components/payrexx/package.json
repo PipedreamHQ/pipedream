@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/payrexx",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Payrexx Components",
   "main": "payrexx.app.mjs",
   "keywords": [

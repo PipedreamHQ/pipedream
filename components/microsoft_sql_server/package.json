@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/microsoft_sql_server",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Pipedream Microsoft SQL Server Components",
   "main": "microsoft_sql_server.app.mjs",
   "keywords": [

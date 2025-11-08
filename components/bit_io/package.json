@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/bit_io",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream bit_io Components",
   "main": "bit_io.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/deepgram",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Pipedream Deepgram Components",
   "main": "deepgram.app.mjs",
   "keywords": [

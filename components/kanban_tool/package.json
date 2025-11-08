@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/kanban_tool",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Kanban Tool Components",
   "main": "kanban_tool.app.mjs",
   "keywords": [

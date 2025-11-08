@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/terraform",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Terraform Components",
   "main": "terraform.app.mjs",
   "keywords": [

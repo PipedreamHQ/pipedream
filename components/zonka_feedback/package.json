@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zonka_feedback",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Pipedream Zonka Feedback Components",
   "main": "zonka_feedback.app.mjs",
   "keywords": [

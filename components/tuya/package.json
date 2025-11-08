@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/tuya",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Tuya Components",
   "main": "tuya.app.mjs",
   "keywords": [

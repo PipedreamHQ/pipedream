@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/qualaroo",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Qualaroo Components",
   "main": "qualaroo.app.mjs",
   "keywords": [

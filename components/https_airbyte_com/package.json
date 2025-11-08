@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/https_airbyte_com",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Airbyte Components",
   "main": "https_airbyte_com.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/notiff_io",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Notiff (OAuth) Components",
   "main": "notiff_io.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/planyo_online_booking",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Planyo Online Booking Components",
   "main": "planyo_online_booking.app.mjs",
   "keywords": [

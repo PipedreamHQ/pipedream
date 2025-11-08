@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/campaign_monitor",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Campaign Monitor Components",
   "main": "campaign_monitor.app.mjs",
   "keywords": [

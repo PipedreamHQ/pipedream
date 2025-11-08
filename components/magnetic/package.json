@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/magnetic",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Magnetic Components",
   "main": "magnetic.app.mjs",
   "keywords": [

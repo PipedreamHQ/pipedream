@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/mobygames",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream MobyGames Components",
   "main": "mobygames.app.mjs",
   "keywords": [

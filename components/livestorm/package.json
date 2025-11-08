@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/livestorm",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Livestorm Components",
   "main": "livestorm.app.mjs",
   "keywords": [

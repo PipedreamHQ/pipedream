@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/convertapi",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Pipedream ConvertAPI Components",
   "main": "convertapi.app.mjs",
   "keywords": [

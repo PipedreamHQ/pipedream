@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/timebuzzer",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream timeBuzzer Components",
   "main": "timebuzzer.app.mjs",
   "keywords": [

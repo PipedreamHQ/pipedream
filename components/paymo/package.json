@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/paymo",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Paymo Components",
   "main": "paymo.app.mjs",
   "keywords": [

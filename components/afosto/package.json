@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/afosto",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Afosto Components",
   "main": "afosto.app.mjs",
   "keywords": [

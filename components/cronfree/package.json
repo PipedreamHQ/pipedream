@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/cronfree",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Cronfree Components",
   "main": "cronfree.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/swaggerhub",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream SwaggerHub Components",
   "main": "swaggerhub.app.mjs",
   "keywords": [

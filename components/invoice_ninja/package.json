@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/invoice_ninja",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream invoice_ninja Components",
   "main": "invoice_ninja.app.mjs",
   "keywords": [

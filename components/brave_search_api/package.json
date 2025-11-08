@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/brave_search_api",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Brave Search API Components",
   "main": "brave_search_api.app.mjs",
   "keywords": [

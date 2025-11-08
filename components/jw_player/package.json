@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/jw_player",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream JW Player Components",
   "main": "jw_player.app.mjs",
   "keywords": [

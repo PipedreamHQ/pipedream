@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/easyly",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Easyly Components",
   "main": "easyly.app.mjs",
   "keywords": [

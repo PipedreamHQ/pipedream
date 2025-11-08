@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/paved",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Paved Components",
   "main": "paved.app.mjs",
   "keywords": [

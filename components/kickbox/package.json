@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/kickbox",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Kickbox Components",
   "main": "kickbox.app.mjs",
   "keywords": [

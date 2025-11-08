@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/datascope",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream datascope Components",
   "main": "datascope.app.mjs",
   "keywords": [

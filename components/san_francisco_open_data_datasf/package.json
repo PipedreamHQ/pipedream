@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/san_francisco_open_data_datasf",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream san_francisco_open_data_datasf Components",
   "main": "san_francisco_open_data_datasf.app.mjs",
   "keywords": [

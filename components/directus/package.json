@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/directus",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream directus Components",
   "main": "directus.app.mjs",
   "keywords": [

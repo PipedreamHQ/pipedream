@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/google_vertex_ai",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Pipedream Google Vertex AI Components",
   "main": "google_vertex_ai.app.mjs",
   "keywords": [

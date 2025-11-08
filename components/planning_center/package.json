@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/planning_center",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Planning Center Components",
   "main": "planning_center.app.mjs",
   "keywords": [

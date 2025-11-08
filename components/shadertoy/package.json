@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/shadertoy",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Shadertoy Components",
   "main": "shadertoy.app.mjs",
   "keywords": [

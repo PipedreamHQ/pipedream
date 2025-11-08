@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/rev",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Rev Components",
   "main": "rev.app.mjs",
   "keywords": [

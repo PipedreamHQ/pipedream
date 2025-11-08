@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/undetectable_ai",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Undetectable AI Components",
   "main": "undetectable_ai.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/goody",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Goody Components",
   "main": "goody.app.mjs",
   "keywords": [

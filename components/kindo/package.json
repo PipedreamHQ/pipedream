@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/kindo",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Kindo Components",
   "main": "kindo.app.mjs",
   "keywords": [

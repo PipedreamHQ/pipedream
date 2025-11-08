@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/apiflash",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream apiflash Components",
   "main": "apiflash.app.mjs",
   "keywords": [

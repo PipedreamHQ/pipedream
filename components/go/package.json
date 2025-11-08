@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/go",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream go Components",
   "main": "go.app.mjs",
   "keywords": [

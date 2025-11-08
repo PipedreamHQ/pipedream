@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/bytenite",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream ByteNite Components",
   "main": "bytenite.app.mjs",
   "keywords": [

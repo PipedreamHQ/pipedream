@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/chargify",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Chargify Components",
   "main": "chargify.app.mjs",
   "keywords": [

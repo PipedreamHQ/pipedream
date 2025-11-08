@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zoho_mail",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Pipedream Zoho Mail Components",
   "main": "zoho_mail.app.mjs",
   "keywords": [

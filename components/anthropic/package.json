@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/anthropic",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Pipedream Anthropic (Claude) Components",
   "main": "anthropic.app.mjs",
   "keywords": [

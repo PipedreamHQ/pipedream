@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/shipcloud",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Shipcloud Components",
   "main": "dist/app/shipcloud.app.mjs",
   "keywords": [

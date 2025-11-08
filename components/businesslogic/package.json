@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/businesslogic",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream BusinessLogic Components",
   "main": "businesslogic.app.mjs",
   "keywords": [

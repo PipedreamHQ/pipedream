@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zendesk_sell",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Zendesk Sell Components",
   "main": "zendesk_sell.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/crowdin",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Pipedream Crowdin Components",
   "main": "crowdin.app.mjs",
   "keywords": [

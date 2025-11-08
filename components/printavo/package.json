@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/printavo",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Printavo Components",
   "main": "printavo.app.mjs",
   "keywords": [

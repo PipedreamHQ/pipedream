@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/wit_ai",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Pipedream Wit AI Components",
   "main": "wit_ai.app.mjs",
   "keywords": [

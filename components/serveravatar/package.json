@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/serveravatar",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Pipedream Server Avatar Components",
   "main": "dist/app/serveravatar.app.mjs",
   "types": "dist/app/serveravatar.app.d.ts",

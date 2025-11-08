@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/coassemble",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream Coassemble Components",
   "main": "dist/app/coassemble.app.mjs",
   "keywords": [

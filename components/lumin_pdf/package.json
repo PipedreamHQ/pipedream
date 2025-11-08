@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/lumin_pdf",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Lumin PDF Components",
   "main": "lumin_pdf.app.mjs",
   "keywords": [

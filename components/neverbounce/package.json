@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/neverbounce",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream NeverBounce Components",
   "main": "dist/app/neverbounce.app.mjs",
   "keywords": [

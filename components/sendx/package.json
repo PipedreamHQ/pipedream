@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sendx",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream SendX Components",
   "main": "sendx.app.mjs",
   "keywords": [

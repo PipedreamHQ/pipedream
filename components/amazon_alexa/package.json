@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/amazon_alexa",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Amazon Alexa Components",
   "main": "amazon_alexa.app.mjs",
   "keywords": [

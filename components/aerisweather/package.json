@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/aerisweather",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream aerisweather Components",
   "main": "aerisweather.app.mjs",
   "keywords": [

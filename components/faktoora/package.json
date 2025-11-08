@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/faktoora",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream faktoora Components",
   "main": "faktoora.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/fomo",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Fomo Components",
   "main": "fomo.app.mjs",
   "keywords": [

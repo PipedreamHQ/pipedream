@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ibm_cloud_speech_to_text",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream ibm_cloud_speech_to_text Components",
   "main": "ibm_cloud_speech_to_text.app.mjs",
   "keywords": [

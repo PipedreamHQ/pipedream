@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zylvie",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Zylvie Components",
   "main": "zylvie.app.mjs",
   "keywords": [

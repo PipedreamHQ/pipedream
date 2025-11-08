@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/urlbox_io",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Urlbox.io Components",
   "main": "urlbox_io.app.mjs",
   "keywords": [

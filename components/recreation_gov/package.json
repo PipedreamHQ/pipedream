@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/recreation_gov",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Recreation.gov Components",
   "main": "recreation_gov.app.mjs",
   "keywords": [

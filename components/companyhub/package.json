@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/companyhub",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Pipedream companyhub Components",
   "main": "companyhub.app.mjs",
   "keywords": [

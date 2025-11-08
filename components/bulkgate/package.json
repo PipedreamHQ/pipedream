@@ -1,11 +1,11 @@
 {
   "name": "@pipedream/bulkgate",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Bulkgate Components",
   "main": "bulkgate.app.mjs",
   "keywords": [
-		"pipedream",
-		"bulkgate"
+    "pipedream",
+    "bulkgate"
   ],
   "homepage": "https://pipedream.com/apps/bulkgate",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

@@ -1,11 +1,11 @@
 {
   "name": "@pipedream/workbooks_crm",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Workbooks_crm Components",
   "main": "workbooks_crm.app.mjs",
   "keywords": [
-		"pipedream",
-		"workbooks_crm"
+    "pipedream",
+    "workbooks_crm"
   ],
   "homepage": "https://pipedream.com/apps/workbooks_crm",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

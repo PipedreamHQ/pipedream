@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/heygen",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream HeyGen Components",
   "main": "heygen.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/chatwork",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Chatwork Components",
   "main": "chatwork.app.mjs",
   "keywords": [

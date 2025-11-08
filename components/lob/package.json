@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/lob",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Lob Components",
   "main": "dist/app/lob.app.mjs",
   "keywords": [

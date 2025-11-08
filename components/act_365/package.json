@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/act_365",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream act_365 Components",
   "main": "act_365.app.mjs",
   "keywords": [

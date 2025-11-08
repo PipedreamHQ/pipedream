@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/f15five",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream 15Five Components",
   "main": "f15five.app.mjs",
   "keywords": [

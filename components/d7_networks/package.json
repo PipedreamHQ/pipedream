@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/d7_networks",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream D7 Networks Components",
   "main": "d7_networks.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/pdf_munk",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream PDF Munk Components",
   "main": "pdf_munk.app.mjs",
   "keywords": [

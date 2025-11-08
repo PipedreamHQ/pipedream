@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/everwebinar",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream everwebinar Components",
   "main": "everwebinar.app.mjs",
   "keywords": [

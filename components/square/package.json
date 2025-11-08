@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/square",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Pipedream Square Components",
   "main": "square.app.mjs",
   "keywords": [

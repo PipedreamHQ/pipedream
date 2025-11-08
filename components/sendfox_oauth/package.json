@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sendfox_oauth",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream sendfox_oauth Components",
   "main": "sendfox_oauth.app.mjs",
   "keywords": [

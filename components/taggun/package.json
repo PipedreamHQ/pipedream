@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/taggun",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Taggun Components",
   "main": "taggun.app.mjs",
   "keywords": [

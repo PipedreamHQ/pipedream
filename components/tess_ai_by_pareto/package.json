@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/tess_ai_by_pareto",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Tess AI by Pareto Components",
   "main": "tess_ai_by_pareto.app.mjs",
   "keywords": [

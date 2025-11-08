@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/rasa",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream rasa Components",
   "main": "rasa.app.mjs",
   "keywords": [

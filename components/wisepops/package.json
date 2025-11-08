@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/wisepops",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Wisepops Components",
   "main": "wisepops.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/lifx",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream lifx Components",
   "main": "lifx.app.mjs",
   "keywords": [

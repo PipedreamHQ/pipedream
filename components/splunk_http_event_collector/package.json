@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/splunk_http_event_collector",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Splunk HTTP Event Collector Components",
   "main": "splunk_http_event_collector.app.mjs",
   "keywords": [

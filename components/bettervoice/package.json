@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/bettervoice",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream bettervoice Components",
   "main": "bettervoice.app.mjs",
   "keywords": [

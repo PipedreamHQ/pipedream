@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/netlify",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "Pipedream Netlify Components",
   "main": "netlify.app.mjs",
   "keywords": [

@@ -1,11 +1,11 @@
 {
   "name": "@pipedream/hotspotsystem",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Hotspotsystem Components",
   "main": "hotspotsystem.app.mjs",
   "keywords": [
-		"pipedream",
-		"hotspotsystem"
+    "pipedream",
+    "hotspotsystem"
   ],
   "homepage": "https://pipedream.com/apps/hotspotsystem",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
