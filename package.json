@@ -98,18 +98,8 @@
       "protobufjs@7.2.4": "7.2.6",
       "vm2": "3.10.0",
       "xmldom": "npm:@xmldom/xmldom@0.8.11",
-      "@kontent-ai/core-sdk>axios": "^1.13.2",
-      "@memberstack/admin>axios": "^1.13.2",
-      "gdata-vaas>axios": "^1.13.2",
-      "@types/axios>axios": "^1.13.2",
-      "@pipedream/microsoft_outlook>axios": "0.30.2",
-      "@pipedream/platform@0.x>axios": "0.30.2",
-      "@sendgrid/client>axios": "0.30.2",
-      "@slack/web-api@5.x>axios": "0.30.2",
-      "@tuya/tuya-connector-nodejs>axios": "0.30.2",
-      "plivo>axios": "0.30.2",
-      "salesforce-webhooks>axios": "0.30.2",
-      "twilio>axios": "0.30.2"
+      "axios@0.x": "0.30.2",
+      "axios@1.x": "^1.13.2"
     }
   }
 }
