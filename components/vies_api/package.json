@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/vies_api",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream VIES API Components",
   "main": "vies_api.app.mjs",
   "keywords": [
@@ -14,6 +14,6 @@
   },
   "dependencies": {
     "@pipedream/platform": "^1.6.8",
-    "viesapi-client": "^1.2.5"
+    "viesapi-client": "^1.3.2"
   }
 }
