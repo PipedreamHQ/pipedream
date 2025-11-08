@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/supersaas",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "Pipedream Supersaas Components",
   "main": "supersaas.app.js",
   "keywords": [
