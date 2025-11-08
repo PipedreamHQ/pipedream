@@ -6697,8 +6697,8 @@ importers:
   components/here:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^1.6.8
+        version: 1.6.8
 
   components/herobot_chatbot_marketing:
     dependencies:
@@ -14283,8 +14283,8 @@ importers:
   components/supersaas:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^0.10.1
+        version: 0.10.1
 
   components/supportbee:
     dependencies:
@@ -15758,8 +15758,8 @@ importers:
   components/vimeo:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^0.10.1
+        version: 0.10.1
 
   components/vincario: {}
 
