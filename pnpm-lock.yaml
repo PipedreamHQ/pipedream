@@ -1273,9 +1273,6 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
-      '@pipedreamhq/platform':
-        specifier: ^0.8.1
-        version: 0.8.1
 
   components/awork:
     dependencies:
@@ -6700,11 +6697,8 @@ importers:
   components/here:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.8
-        version: 1.6.8
-      '@pipedreamhq/platform':
-        specifier: ^0.8.1
-        version: 0.8.1
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/herobot_chatbot_marketing:
     dependencies:
@@ -9568,8 +9562,7 @@ importers:
 
   components/neetokb: {}
 
-  components/nele_ai:
-    specifiers: {}
+  components/nele_ai: {}
 
   components/neo4j_auradb:
     dependencies:
@@ -10008,8 +10001,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/olostep:
-    specifiers: {}
+  components/olostep: {}
 
   components/ometria:
     dependencies:
@@ -10373,8 +10365,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/orq_ai:
-    specifiers: {}
+  components/orq_ai: {}
 
   components/orshot:
     dependencies:
@@ -14291,9 +14282,9 @@ importers:
 
   components/supersaas:
     dependencies:
-      '@pipedreamhq/platform':
-        specifier: ^0.8.1
-        version: 0.8.1
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/supportbee:
     dependencies:
@@ -15766,9 +15757,9 @@ importers:
 
   components/vimeo:
     dependencies:
-      '@pipedreamhq/platform':
-        specifier: ^0.8.1
-        version: 0.8.1
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/vincario: {}
 
@@ -20824,9 +20815,6 @@ packages:
 
   '@pipedream/youtube_data_api@1.0.1':
     resolution: {integrity: sha512-yEh7+PJgzuOY+L8rWjxgb6vIQf+6wL7QyfQLEQ3KTn6dnDdhTTO8+93og7W83FhgmOd1lhUG2jfrmfuSFqHKpg==}
-
-  '@pipedreamhq/platform@0.8.1':
-    resolution: {integrity: sha512-VMSEi4i5gUXfcbmmXkntTXNCu8uq02lmENh5KHW+PLUHDjX259w5BahdGdD7KWanQSJsyf2BaWXjnEMf9YVEaA==}
 
   '@pkgjs/parseargs@0.11.0':
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
@@ -39668,14 +39656,6 @@ snapshots:
     transitivePeerDependencies:
       - debug
       - encoding
-      - supports-color
-
-  '@pipedreamhq/platform@0.8.1':
-    dependencies:
-      axios: 0.19.2
-      fp-ts: 2.16.9
-      io-ts: 2.2.21(fp-ts@2.16.9)
-    transitivePeerDependencies:
       - supports-color
 
   '@pkgjs/parseargs@0.11.0':
