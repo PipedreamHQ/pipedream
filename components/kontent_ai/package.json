@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@kontent-ai/delivery-sdk": "^14.4.0",
-    "@kontent-ai/management-sdk": "^5.2.0",
+    "@kontent-ai/management-sdk": "^7.11.0",
     "@kontent-ai/webhook-helper": "^2.1.0"
   }
 }
