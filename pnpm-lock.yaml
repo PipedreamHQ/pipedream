@@ -9568,6 +9568,9 @@ importers:
 
   components/neetokb: {}
 
+  components/nele_ai:
+    specifiers: {}
+
   components/neo4j_auradb:
     dependencies:
       '@pipedream/platform':
