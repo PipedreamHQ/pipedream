@@ -10,7 +10,7 @@
   "homepage": "https://pipedream.com/apps/woocommerce",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^0.10.0",
+    "@pipedream/platform": "^0.10.1",
     "@woocommerce/woocommerce-rest-api": "^1.0.1",
     "lodash.pick": "^4.4.0",
     "lodash.pickby": "^4.6.0",
