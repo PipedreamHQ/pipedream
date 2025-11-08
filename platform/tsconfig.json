@@ -4,7 +4,8 @@
 		"module": "commonjs",
 		"outDir": "./dist",
 		"strictNullChecks": true,
-		"target": "es2018"
+		"target": "es2018",
+		"skipLibCheck": true
 	},
 	"include": [
 		"./lib/**/*"

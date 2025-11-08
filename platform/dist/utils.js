@@ -1,13 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.jsonStringifySafe = exports.cloneSafe = void 0;
+exports.cloneSafe = cloneSafe;
+exports.jsonStringifySafe = jsonStringifySafe;
 function cloneSafe(o) {
     const str = jsonStringifySafe(o);
     return str
         ? JSON.parse(str)
         : null;
 }
-exports.cloneSafe = cloneSafe;
 // this looks pretty terrible, but on axios return value,
 //
 // jsonStringifySafe ~1ms
@@ -44,4 +44,3 @@ function jsonStringifySafe(v, set) {
         }
     }
 }
-exports.jsonStringifySafe = jsonStringifySafe;

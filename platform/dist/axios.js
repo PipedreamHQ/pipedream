@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = default_1;
 const axios_1 = require("axios");
 const buildURL = require("axios/lib/helpers/buildURL");
 const querystring = require("querystring");
@@ -61,7 +62,7 @@ async function default_1(step, config, signConfig) {
         const { oauthSignerUri, token, } = signConfig;
         const requestData = {
             method: config.method || "get",
-            url: buildURL(config.url, config.params, oauth1ParamsSerializer),
+            url: buildURL(config.url, config.params, oauth1ParamsSerializer), // build url as axios will
         };
         // the OAuth specification explicitly states that only form-encoded data should be included
         let hasContentType = false;
@@ -93,7 +94,7 @@ async function default_1(step, config, signConfig) {
         if (config.debug) {
             stepExport(step, config, "debug_config");
         }
-        const { data } = await axios_1.default(config);
+        const { data } = await (0, axios_1.default)(config);
         if (config.debug) {
             stepExport(step, data, "debug_response");
         }
@@ -106,9 +107,8 @@ async function default_1(step, config, signConfig) {
         throw err;
     }
 }
-exports.default = default_1;
 function stepExport(step, message, key) {
-    message = utils_1.cloneSafe(message);
+    message = (0, utils_1.cloneSafe)(message);
     if (step) {
         if (step.export) {
             step.export(key, message);

@@ -47,7 +47,7 @@ function oauth1ParamsSerializer(p: any) {
 
 // XXX warn about mutating config object... or clone?
 export default async function (step: any, config: AxiosRequestConfig, signConfig?: any) {
-  cleanObject(config.headers);
+  cleanObject(config.headers as any);
   cleanObject(config.params);
   if (typeof config.data === "object") {
     cleanObject(config.data);
@@ -71,7 +71,7 @@ export default async function (step: any, config: AxiosRequestConfig, signConfig
     for (const k in config.headers || {}) {
       if (/content-type/i.test(k)) {
         hasContentType = true;
-        formEncodedContentType = config.headers[k] === "application/x-www-form-urlencoded";
+        formEncodedContentType = (config.headers as any)[k] === "application/x-www-form-urlencoded";
         break;
       }
     }
