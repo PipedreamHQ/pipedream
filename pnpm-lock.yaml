@@ -12,8 +12,10 @@ overrides:
   protobufjs@7.2.4: 7.2.6
   vm2: 3.10.0
   xmldom: npm:@xmldom/xmldom@0.8.11
-  axios@0.x: 0.30.2
+  axios@0.x: ^0.30.2
   axios@1.x: ^1.13.2
+  tar-fs@2.x: ^2.1.4
+  tar-fs@3.x: ^3.1.1
 
 importers:
 
@@ -1742,7 +1744,7 @@ importers:
         specifier: ^0.10.1
         version: 0.10.1
       axios:
-        specifier: 0.30.2
+        specifier: ^0.30.2
         version: 0.30.2
       package-lock-only:
         specifier: ^0.0.4
@@ -2041,7 +2043,7 @@ importers:
         specifier: ^0.1.0
         version: 0.1.0
       axios:
-        specifier: 0.30.2
+        specifier: ^0.30.2
         version: 0.30.2
       uuid:
         specifier: ^8.3.2
@@ -9082,7 +9084,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
       axios:
-        specifier: 0.30.2
+        specifier: ^0.30.2
         version: 0.30.2
       js-base64:
         specifier: ^3.7.2
@@ -10134,7 +10136,7 @@ importers:
   components/ongage:
     dependencies:
       axios:
-        specifier: 0.30.2
+        specifier: ^0.30.2
         version: 0.30.2
       node-fetch:
         specifier: ^2.6.7
@@ -12026,7 +12028,7 @@ importers:
         specifier: ^1.3.3
         version: 1.3.3
       axios:
-        specifier: 0.30.2
+        specifier: ^0.30.2
         version: 0.30.2
       lodash:
         specifier: ^4.17.21
@@ -13211,7 +13213,7 @@ importers:
   components/seventodos:
     dependencies:
       axios:
-        specifier: 0.30.2
+        specifier: ^0.30.2
         version: 0.30.2
 
   components/sftp:
@@ -14075,7 +14077,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
       axios:
-        specifier: 0.30.2
+        specifier: ^0.30.2
         version: 0.30.2
       he:
         specifier: ^1.2.0
@@ -15349,7 +15351,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
       axios:
-        specifier: 0.30.2
+        specifier: ^0.30.2
         version: 0.30.2
       lodash:
         specifier: ^4.17.21
@@ -15922,7 +15924,7 @@ importers:
         specifier: ^4.5.2
         version: 4.5.2(openapi-types@12.1.3)
       axios:
-        specifier: 0.30.2
+        specifier: ^0.30.2
         version: 0.30.2
       openapi-types:
         specifier: ^12.0.0
@@ -16539,7 +16541,7 @@ importers:
   components/yotpo:
     dependencies:
       axios:
-        specifier: 0.30.2
+        specifier: ^0.30.2
         version: 0.30.2
       lodash.get:
         specifier: ^4.4.2
@@ -23836,12 +23838,12 @@ packages:
   axios-mock-adapter@1.22.0:
     resolution: {integrity: sha512-dmI0KbkyAhntUR05YY96qg2H6gg0XMl2+qTW0xmYg6Up+BFBAJYRLROMXRdDEL06/Wqwa0TJThAYvFtSFdRCZw==}
     peerDependencies:
-      axios: 0.30.2
+      axios: ^0.30.2
 
   axios-retry@4.5.0:
     resolution: {integrity: sha512-aR99oXhpEDGo0UuAlYcn2iGRds30k366Zfa05XWScR9QaQD4JYiP3/1Qt1u7YlefUOK+cn0CcwoL1oefavQUlQ==}
     peerDependencies:
-      axios: 0.30.2
+      axios: ^0.30.2
 
   axios@0.30.2:
     resolution: {integrity: sha512-0pE4RQ4UQi1jKY6p7u6i1Tkzqmu+d+/tHS7Q7rKunWLB9WyilBTpHHpXzPNMDj5hTbK0B0PTLSz07yqMBiF6xg==}
@@ -31685,14 +31687,11 @@ packages:
     resolution: {integrity: sha512-GNzQvQTOIP6RyTfE2Qxb8ZVlNmw0n88vp1szwWRimP02mnTsx3Wtn5qRdqY9w2XduFNUgvOwhNnQsjwCp+kqaQ==}
     engines: {node: '>=6'}
 
-  tar-fs@2.1.1:
-    resolution: {integrity: sha512-V0r2Y9scmbDRLCNex/+hYzvp/zyYjvFbHPNgVTKfQvVrb6guiE/fxP+XblDNR011utopbkex2nM4dHNV6GDsng==}
+  tar-fs@2.1.4:
+    resolution: {integrity: sha512-mDAjwmZdh7LTT6pNleZ05Yt65HC3E+NiQzl672vQG38jIrehtJk/J3mNwIg+vShQPcLF/LV7CMnDW6vjj6sfYQ==}
 
-  tar-fs@3.0.10:
-    resolution: {integrity: sha512-C1SwlQGNLe/jPNqapK8epDsXME7CAJR5RL3GcE6KWx1d9OUByzoHVcbu1VPI8tevg9H8Alae0AApHHFGzrD5zA==}
-
-  tar-fs@3.0.4:
-    resolution: {integrity: sha512-5AFQU8b9qLfZCX9zp2duONhPmZv0hGYiBPJsyUdqMjzq/mqVpy/rEUSeHk1+YitmxugaptgBh5oDGU3VsAJq4w==}
+  tar-fs@3.1.1:
+    resolution: {integrity: sha512-LZA0oaPOc2fVo82Txf3gw+AkEd38szODlptMYejQUhndHMLQ9M059uXR+AfS7DNo0NpINvSqDsvyaCrBVkptWg==}
 
   tar-stream@2.2.0:
     resolution: {integrity: sha512-ujeqbceABgwMZxEJnk2HDY2DlnUZ+9oEcb1KzTVfYHio0UE6dG71n60d8D2I4qNvleWrrXpmjpt7vZeF1LnMZQ==}
@@ -39705,7 +39704,7 @@ snapshots:
       https-proxy-agent: 5.0.1
       progress: 2.0.3
       proxy-from-env: 1.1.0
-      tar-fs: 2.1.1
+      tar-fs: 2.1.4
       unbzip2-stream: 1.4.3
       yargs: 17.7.1
     optionalDependencies:
@@ -39719,10 +39718,11 @@ snapshots:
       extract-zip: 2.0.1
       progress: 2.0.3
       proxy-agent: 6.3.1
-      tar-fs: 3.0.4
+      tar-fs: 3.1.1
       unbzip2-stream: 1.4.3
       yargs: 17.7.2
     transitivePeerDependencies:
+      - bare-buffer
       - supports-color
 
   '@puppeteer/browsers@2.10.5':
@@ -39732,7 +39732,7 @@ snapshots:
       progress: 2.0.3
       proxy-agent: 6.5.0
       semver: 7.7.2
-      tar-fs: 3.0.10
+      tar-fs: 3.1.1
       yargs: 17.7.2
     transitivePeerDependencies:
       - bare-buffer
@@ -41984,7 +41984,7 @@ snapshots:
   '@sparticuz/chromium@121.0.0':
     dependencies:
       follow-redirects: 1.15.9(debug@3.2.7)
-      tar-fs: 3.0.10
+      tar-fs: 3.1.1
     transitivePeerDependencies:
       - bare-buffer
       - debug
@@ -51671,7 +51671,7 @@ snapshots:
       extract-zip: 2.0.1
       https-proxy-agent: 5.0.1
       proxy-from-env: 1.1.0
-      tar-fs: 2.1.1
+      tar-fs: 2.1.4
       unbzip2-stream: 1.4.3
       ws: 8.13.0
     optionalDependencies:
@@ -51691,6 +51691,7 @@ snapshots:
       devtools-protocol: 0.0.1232444
       ws: 8.16.0
     transitivePeerDependencies:
+      - bare-buffer
       - bufferutil
       - encoding
       - supports-color
@@ -53720,14 +53721,14 @@ snapshots:
 
   tapable@2.2.1: {}
 
-  tar-fs@2.1.1:
+  tar-fs@2.1.4:
     dependencies:
       chownr: 1.1.4
       mkdirp-classic: 0.5.3
       pump: 3.0.2
       tar-stream: 2.2.0
 
-  tar-fs@3.0.10:
+  tar-fs@3.1.1:
     dependencies:
       pump: 3.0.2
       tar-stream: 3.1.7
@@ -53736,12 +53737,6 @@ snapshots:
       bare-path: 3.0.0
     transitivePeerDependencies:
       - bare-buffer
-
-  tar-fs@3.0.4:
-    dependencies:
-      mkdirp-classic: 0.5.3
-      pump: 3.0.2
-      tar-stream: 3.1.7
 
   tar-stream@2.2.0:
     dependencies:
