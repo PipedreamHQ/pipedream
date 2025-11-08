@@ -9957,6 +9957,9 @@ importers:
         specifier: ^4.0.6
         version: 4.0.6
 
+  components/octave:
+    specifiers: {}
+
   components/octoparse: {}
 
   components/octopus_deploy: {}
