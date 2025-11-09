@@ -10,7 +10,7 @@
   "homepage": "https://pipedream.com/apps/wordpress_org",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^3.1.0",
+    "@pipedream/platform": "^3.1.1",
     "lodash.pickby": "^4.6.0",
     "wpapi": "^1.2.2"
   },
