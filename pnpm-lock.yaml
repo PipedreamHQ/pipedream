@@ -9372,6 +9372,9 @@ importers:
 
   components/moonmail: {}
 
+  components/moorcheh:
+    specifiers: {}
+
   components/moosend:
     dependencies:
       '@pipedream/platform':
