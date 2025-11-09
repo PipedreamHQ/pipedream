@@ -17,6 +17,7 @@ overrides:
   tar-fs@2.x: ^2.1.4
   tar-fs@3.x: ^3.1.1
   ws@8.x: ^8.17.1
+  parse-link-header: ^2.0.0
 
 importers:
 
@@ -29743,9 +29744,6 @@ packages:
     resolution: {integrity: sha512-ybiGyvspI+fAoRQbIPRddCcSTV9/LsJbf0e/S85VLowVGzRmokfneg2kwVW/KU5rOXrPSbF1qAKPMgNTqqROQQ==}
     engines: {node: '>=18'}
 
-  parse-link-header@1.0.1:
-    resolution: {integrity: sha512-Z0gpfHmwCIKDr5rRzjypL+p93aHVWO7e+0rFcUl9E3sC67njjs+xHFenuboSXZGlvYtmQqRzRaE3iFpTUnLmFQ==}
-
   parse-link-header@2.0.0:
     resolution: {integrity: sha512-xjU87V0VyHZybn2RrCX5TIFGxTVZE6zqqZWMPlIKiSKuWh/X5WZdt+w1Ki1nXB+8L/KtL+nZ4iq+sfI6MrhhMw==}
 
@@ -50890,10 +50888,6 @@ snapshots:
       index-to-position: 1.1.0
       type-fest: 4.41.0
 
-  parse-link-header@1.0.1:
-    dependencies:
-      xtend: 4.0.2
-
   parse-link-header@2.0.0:
     dependencies:
       xtend: 4.0.2
@@ -54818,7 +54812,7 @@ snapshots:
   wpapi@1.2.2:
     dependencies:
       li: 1.3.0
-      parse-link-header: 1.0.1
+      parse-link-header: 2.0.0
       qs: 6.14.0
       superagent: 4.1.0
     transitivePeerDependencies:
