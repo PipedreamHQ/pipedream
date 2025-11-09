@@ -9796,6 +9796,9 @@ importers:
 
   components/nmbrs: {}
 
+  components/nmkr:
+    specifiers: {}
+
   components/nocodb:
     dependencies:
       '@pipedream/platform':
