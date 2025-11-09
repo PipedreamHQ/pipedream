@@ -18,6 +18,7 @@ overrides:
   tar-fs@3.x: ^3.1.1
   ws@8.x: ^8.17.1
   parse-link-header: ^2.0.0
+  semver@5.x: ^5.7.2
 
 importers:
 
@@ -30874,10 +30875,6 @@ packages:
   semver-compare@1.0.0:
     resolution: {integrity: sha512-YM3/ITh2MJ5MtzaM429anh+x2jiLVjqILF4m4oyQB18W7Ggea7BfqdH/wGMK7dDiMghv/6WG7znWMwUDzJiXow==}
 
-  semver@5.3.0:
-    resolution: {integrity: sha512-mfmm3/H9+67MCVix1h+IXTpDwL6710LyHuk7+cWC9T1mE0qz4iHhh6r4hU2wrIT9iTsAAC2XQRvfblL028cpLw==}
-    hasBin: true
-
   semver@5.7.2:
     resolution: {integrity: sha512-cBznnQ9KjJqU67B52RMC65CMarK2600WFnbkcaiwWq3xy/5haFJlshgnpjovMVJ+Hff49d8GEn0b87C5pDQ10g==}
     hasBin: true
@@ -40378,7 +40375,7 @@ snapshots:
       request: 2.88.2
       retry: 0.12.0
       safe-buffer: 5.2.1
-      semver: 7.7.3
+      semver: 5.7.2
       slide: 1.1.6
       ssri: 8.0.1
     optionalDependencies:
@@ -52493,8 +52490,6 @@ snapshots:
 
   semver-compare@1.0.0: {}
 
-  semver@5.3.0: {}
-
   semver@5.7.2: {}
 
   semver@6.3.1: {}
@@ -54384,7 +54379,7 @@ snapshots:
 
   utf7@1.0.2:
     dependencies:
-      semver: 5.3.0
+      semver: 5.7.2
 
   utf8@2.1.2: {}
 
