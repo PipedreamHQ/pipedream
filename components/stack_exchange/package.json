@@ -10,7 +10,7 @@
   "homepage": "https://pipedream.com/apps/stack_exchange",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^1.2.0",
+    "@pipedream/platform": "^1.6.8",
     "axios": "^0.30.2",
     "he": "^1.2.0",
     "lodash": "^4.17.20"
