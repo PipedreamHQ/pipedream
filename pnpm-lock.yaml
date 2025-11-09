@@ -11028,9 +11028,6 @@ importers:
       lodash.get:
         specifier: ^4.4.2
         version: 4.4.2
-      lodash.set:
-        specifier: ^4.3.2
-        version: 4.3.2
       moment:
         specifier: ^2.30.1
         version: 2.30.1
@@ -28355,9 +28352,6 @@ packages:
 
   lodash.pickby@4.6.0:
     resolution: {integrity: sha512-AZV+GsS/6ckvPOVQPXSiFFacKvKB4kOQu6ynt9wz0F3LO4R9Ij4K1ddYsIytDpSgLz88JHd9P+oaLeej5/Sl7Q==}
-
-  lodash.set@4.3.2:
-    resolution: {integrity: sha512-4hNPN5jlm/N/HLMCO43v8BXKq9Z7QdAGc/VGrRD61w8gN9g/6jF9A4L1pbUgBLCffi0w9VsXfTOij5x8iTyFvg==}
 
   lodash.snakecase@4.1.1:
     resolution: {integrity: sha512-QZ1d4xoBHYUeuouhEq3lk3Uq7ldgyFXGBhg04+oRLnIz8o9T65Eh+8YdroUwn846zchkA9yDsDl5CVVaV2nqYw==}
@@ -49008,8 +49002,6 @@ snapshots:
   lodash.once@4.1.1: {}
 
   lodash.pickby@4.6.0: {}
-
-  lodash.set@4.3.2: {}
 
   lodash.snakecase@4.1.1: {}
 
