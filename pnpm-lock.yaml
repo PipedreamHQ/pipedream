@@ -9936,6 +9936,9 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
+  components/nvoip:
+    specifiers: {}
+
   components/nyckel:
     dependencies:
       '@pipedream/platform':
