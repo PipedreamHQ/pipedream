@@ -16260,12 +16260,6 @@ importers:
       '@woocommerce/woocommerce-rest-api':
         specifier: ^1.0.2
         version: 1.0.2
-      lodash.pick:
-        specifier: ^4.4.0
-        version: 4.4.0
-      lodash.pickby:
-        specifier: ^4.6.0
-        version: 4.6.0
       query-string:
         specifier: ^7.1.1
         version: 7.1.3
@@ -28358,10 +28352,6 @@ packages:
 
   lodash.once@4.1.1:
     resolution: {integrity: sha512-Sb487aTOCr9drQVL8pIxOzVhafOjZN9UU54hiN8PU3uAiSV7lx1yYNpbNmex2PK6dSJoNTSJUUswT651yww3Mg==}
-
-  lodash.pick@4.4.0:
-    resolution: {integrity: sha512-hXt6Ul/5yWjfklSGvLQl8vM//l3FtyHZeuelpzK6mm99pNvN9yTDruNZPEJZD1oWrqo+izBmB7oUfWgcCX7s4Q==}
-    deprecated: This package is deprecated. Use destructuring assignment syntax instead.
 
   lodash.pickby@4.6.0:
     resolution: {integrity: sha512-AZV+GsS/6ckvPOVQPXSiFFacKvKB4kOQu6ynt9wz0F3LO4R9Ij4K1ddYsIytDpSgLz88JHd9P+oaLeej5/Sl7Q==}
@@ -49016,8 +49006,6 @@ snapshots:
   lodash.merge@4.6.2: {}
 
   lodash.once@4.1.1: {}
-
-  lodash.pick@4.4.0: {}
 
   lodash.pickby@4.6.0: {}
 
