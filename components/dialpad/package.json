@@ -22,6 +22,6 @@
   },
   "dependencies": {
     "@pipedream/helpers": "^1.3.9",
-    "@pipedream/platform": "^0.10.0"
+    "@pipedream/platform": "^0.10.1"
   }
 }
