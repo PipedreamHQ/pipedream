@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/autocalls",
+  "version": "0.0.1",
+  "description": "Pipedream Autocalls Components",
+  "main": "autocalls.app.mjs",
+  "keywords": [
+    "pipedream",
+    "autocalls"
+  ],
+  "homepage": "https://pipedream.com/apps/autocalls",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
