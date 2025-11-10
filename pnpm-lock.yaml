@@ -10966,6 +10966,9 @@ importers:
 
   components/pilvio: {}
 
+  components/pinata:
+    specifiers: {}
+
   components/pinboard:
     dependencies:
       '@pipedream/platform':
