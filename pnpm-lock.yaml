@@ -11797,6 +11797,9 @@ importers:
 
   components/qualiobee: {}
 
+  components/qualys:
+    specifiers: {}
+
   components/quentn:
     dependencies:
       '@pipedream/platform':
