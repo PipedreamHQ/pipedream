@@ -11844,6 +11844,9 @@ importers:
 
   components/quickmail_io: {}
 
+  components/quintadb:
+    specifiers: {}
+
   components/quipu:
     dependencies:
       '@pipedream/platform':
