@@ -11832,6 +11832,9 @@ importers:
         specifier: ^0.7.1
         version: 0.7.1
 
+  components/quickchart:
+    specifiers: {}
+
   components/quickemailverification:
     dependencies:
       '@pipedream/platform':
