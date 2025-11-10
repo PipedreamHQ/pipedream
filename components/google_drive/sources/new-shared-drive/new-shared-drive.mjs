@@ -5,7 +5,7 @@ export default {
   key: "google_drive-new-shared-drive",
   name: "New Shared Drive",
   description: "Emits a new event any time a shared drive is created.",
-  version: "0.1.13",
+  version: "0.1.14",
   type: "source",
   dedupe: "unique",
   props: {

@@ -10,7 +10,7 @@
   "homepage": "https://pipedream.com/apps/cincopa",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^1.6.5",
+    "@pipedream/platform": "^1.6.8",
     "uuid": "^8.3.2"
   },
   "publishConfig": {

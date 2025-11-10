@@ -11,7 +11,7 @@ export default {
           : match.toUpperCase();
       }).replace(/\s+/g, "");
     },
-    getTriggerPayload() {
+    async getTriggerPayload() {
       if (this.jsonBody) {
         return JSON.parse(this.jsonBody);
       }
@@ -21,9 +21,20 @@ export default {
           createdAt: "{{ticket.created_at_with_timestamp}}",
           updatedAt: "{{ticket.updated_at_with_timestamp}}",
         };
+        const { ticket_fields: customFields } = await this.app.listTicketFields();
         for (const field of this.fields) {
-          const key = this.convertToCamelCase(field.label);
-          payload[key] = field.value;
+          const key = this.convertToCamelCase(field?.label || field);
+          if (field?.value) {
+            payload[key] = field.value;
+          } else {
+            const fieldId = customFields.find(({ title }) => title === field)?.id;
+            if (fieldId) {
+              payload[key] = `{{ticket.ticket_field_${fieldId}}}`;
+            } else {
+              console.warn(`Custom field not found for: ${field}`);
+              payload[key] = null;
+            }
+          }
         }
         return payload;
       }

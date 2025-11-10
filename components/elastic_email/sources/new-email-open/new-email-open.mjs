@@ -6,7 +6,7 @@ export default {
   key: "elastic_email-new-email-open",
   name: "New Email Open",
   description: "Emit new event when a recipient opens an email. [See the documentation](https://elasticemail.com/developers/api-documentation/rest-api#operation/eventsGet).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

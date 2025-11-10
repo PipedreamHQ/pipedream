@@ -4,7 +4,7 @@ export default {
   key: "jira-list-issue-comments",
   name: "List Issue Comments",
   description: "Lists all comments for an issue. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-comments/#api-rest-api-3-issue-issueidorkey-comment-get)",
-  version: "0.1.14",
+  version: "0.1.15",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
