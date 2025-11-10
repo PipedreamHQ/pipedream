@@ -1,6 +1,5 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import microsoftOutlook from "../../microsoft_outlook_calendar.app.mjs";
-import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "microsoft_outlook_calendar-new-upcoming-event-polling",
@@ -129,6 +128,5 @@ export default {
       }
     }
   },
-  sampleEmit,
 };
 
