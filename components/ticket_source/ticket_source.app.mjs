@@ -12,7 +12,7 @@ export default {
       async options({ page }) {
         const { data } = await this.listEvents({
           params: {
-            page: page,
+            page: page + 1,
           },
         });
         return data.map(({
@@ -33,7 +33,7 @@ export default {
         const { data } = await this.listEventDates({
           eventId,
           params: {
-            page,
+            page: page + 1,
           },
         });
 
@@ -55,7 +55,7 @@ export default {
         const { data } = await this.listBookingsForDate({
           eventDate,
           params: {
-            page,
+            page: page + 1,
           },
         });
 
