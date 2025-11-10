@@ -105,11 +105,29 @@ export const formatLeadDataFromSource = async ({
       formattedCustomFields[value] = lead[key];
     }
   }
+
+  const formattedPreviousCustomFields = {};
+  if (body.previous) {
+    for (const [
+      key,
+      value,
+    ] of Object.entries(customFieldNames)) {
+      if (body.previous.custom_fields[key]) {
+        formattedPreviousCustomFields[value] = body.previous.custom_fields[key];
+      }
+    }
+  }
   return {
     ...body,
     data: {
       ...body.data,
       custom_fields: formattedCustomFields,
     },
+    ...(body.previous?.custom_fields && {
+      previous: {
+        ...body.previous,
+        custom_fields: formattedPreviousCustomFields,
+      },
+    }),
   };
 };
