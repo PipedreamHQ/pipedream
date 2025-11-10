@@ -1,4 +1,4 @@
-import common from "../common/common.mjs";
+import googleAds from "../../google_ads.app.mjs";
 import { getAdditionalFields } from "../common/props.mjs";
 import {
   parseObject, parseStringObject,
@@ -17,8 +17,27 @@ export default {
     readOnlyHint: true,
   },
   props: {
-    ...common.props,
-    additionalFields: getAdditionalFields(docLink),
+    googleAds,
+    accountId: {
+      propDefinition: [
+        googleAds,
+        "accountId",
+      ],
+    },
+    customerClientId: {
+      propDefinition: [
+        googleAds,
+        "customerClientId",
+        ({ accountId }) => ({
+          accountId,
+        }),
+      ],
+      optional: false,
+    },
+    additionalFields: {
+      ...getAdditionalFields(docLink),
+      optional: false,
+    },
   },
   async run({ $ }) {
     const additionalFields = parseObject(parseStringObject(this.additionalFields));
