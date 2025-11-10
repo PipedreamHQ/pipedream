@@ -90,3 +90,26 @@ export const formatCustomFields = async (resp, getResourcesFn, getFieldsFn) => {
     };
   });
 };
+
+export const formatLeadDataFromSource = async ({
+  body, customFieldFn, resourceFn,
+}) => {
+  const customFieldNames = await getCustomFieldNames(customFieldFn);
+  const { data: lead } = await resourceFn(body.data.id);
+  const formattedCustomFields = {};
+  for (const [
+    key,
+    value,
+  ] of Object.entries(customFieldNames)) {
+    if (lead[key]) {
+      formattedCustomFields[value] = lead[key];
+    }
+  }
+  return {
+    ...body,
+    data: {
+      ...body.data,
+      custom_fields: formattedCustomFields,
+    },
+  };
+};
