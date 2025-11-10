@@ -12081,6 +12081,9 @@ importers:
 
   components/reduct_video: {}
 
+  components/referral_factory:
+    specifiers: {}
+
   components/referral_rocket: {}
 
   components/referralhero:
