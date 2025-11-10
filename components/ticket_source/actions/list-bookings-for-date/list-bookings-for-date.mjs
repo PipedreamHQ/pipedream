@@ -28,12 +28,19 @@ export default {
         }),
       ],
     },
+    maxResults: {
+      type: "number",
+      label: "Max Results",
+      description: "The maximum number of results to return",
+      default: 100,
+    },
   },
   async run({ $ }) {
     const response = this.ticketSource.paginate({
       $,
       fn: this.ticketSource.listBookingsForDate,
       eventDate: this.eventDate,
+      maxResults: this.maxResults,
     });
 
     let responseArray = [];
