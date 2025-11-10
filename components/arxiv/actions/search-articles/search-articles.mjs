@@ -23,7 +23,7 @@ export default {
     idList: {
       type: "string[]",
       label: "ID List",
-      description: "A list of arXiv article IDs to search for",
+      description: "A list of arXiv article IDs to search for. Example ID: `2505.08081v1`",
       optional: true,
     },
     start: {
@@ -55,7 +55,9 @@ export default {
       $,
       params: {
         search_query: this.searchQuery,
-        id_list: this.idList,
+        id_list: this.idList
+          ? this.idList.join(",")
+          : undefined,
         start: this.start,
         max_results: this.maxResults,
       },
