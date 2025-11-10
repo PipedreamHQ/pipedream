@@ -2904,8 +2904,8 @@ importers:
   components/clockify:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.8
-        version: 1.6.8
+        specifier: ^3.1.0
+        version: 3.1.1
 
   components/clockwork_recruiting:
     dependencies:

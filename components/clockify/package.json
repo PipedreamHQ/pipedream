@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/clockify",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Clockify Components",
   "main": "clockify.app.mjs",
   "keywords": [
@@ -13,6 +13,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.6.8"
+    "@pipedream/platform": "^3.1.0"
   }
 }
