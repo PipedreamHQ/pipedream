@@ -4,7 +4,7 @@ export default {
   key: "microsoft_outlook_calendar-list-events",
   name: "List Events",
   description: "Get a list of event objects in the user's mailbox. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list-events)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

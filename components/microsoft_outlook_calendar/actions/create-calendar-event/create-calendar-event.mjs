@@ -3,7 +3,7 @@ import microsoftOutlook from "../../microsoft_outlook_calendar.app.mjs";
 export default {
   type: "action",
   key: "microsoft_outlook_calendar-create-calendar-event",
-  version: "0.0.8",
+  version: "0.0.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

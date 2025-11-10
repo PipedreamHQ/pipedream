@@ -3,7 +3,7 @@ import jira from "../../jira.app.mjs";
 export default {
   key: "jira-add-watcher-to-issue",
   name: "Add Watcher To Issue",
-  version: "0.0.13",
+  version: "0.0.14",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -370,6 +370,12 @@ export default {
         })) || [];
       },
     },
+    includeAllCustomFields: {
+      type: "boolean",
+      label: "Include All Custom Fields",
+      description: "When enabled, all custom fields will be included in the results",
+      optional: true,
+    },
   },
   methods: {
     api(model, version = "v1") {
@@ -480,7 +486,7 @@ export default {
       });
     },
     searchPersons(opts = {}) {
-      const personsApi = this.api("PersonsApi");
+      const personsApi = this.api("PersonsApi", "v2");
       return personsApi.searchPersons(opts);
     },
     updateDeal({

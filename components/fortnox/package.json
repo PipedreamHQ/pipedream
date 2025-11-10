@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/fortnox",
+  "version": "0.0.1",
+  "description": "Pipedream Fortnox Components",
+  "main": "fortnox.app.mjs",
+  "keywords": [
+    "pipedream",
+    "fortnox"
+  ],
+  "homepage": "https://pipedream.com/apps/fortnox",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

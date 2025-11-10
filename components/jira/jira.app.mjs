@@ -10,7 +10,7 @@ export default {
     cloudId: {
       type: "string",
       label: "Cloud ID",
-      description: "The cloud ID.",
+      description: "The cloud ID",
       useQuery: true,
       async options() {
         const clouds = await this.getClouds();
@@ -24,7 +24,7 @@ export default {
     projectID: {
       type: "string",
       label: "Project ID",
-      description: "The project ID.",
+      description: "The project ID",
       useQuery: true,
       async options({
         prevContext, query, cloudId,
@@ -60,12 +60,16 @@ export default {
       async options({
         cloudId, projectId,
       }) {
-        const issueTypes = await this.getProjectIssueTypes({
-          cloudId,
-          params: {
-            projectId,
-          },
-        });
+        const issueTypes = isNaN(projectId)
+          ? await this.getUserIssueTypes({
+            cloudId,
+          })
+          : await this.getProjectIssueTypes({
+            cloudId,
+            params: {
+              projectId,
+            },
+          });
         return issueTypes.map(({
           name: label, id: value,
         }) => ({
@@ -594,6 +598,12 @@ export default {
     getProjectIssueTypes(args = {}) {
       return this._makeRequest({
         path: "/issuetype/project",
+        ...args,
+      });
+    },
+    getUserIssueTypes(args = {}) {
+      return this._makeRequest({
+        path: "/issuetype",
         ...args,
       });
     },

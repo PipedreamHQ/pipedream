@@ -6,7 +6,7 @@ export default {
   key: "elastic_email-new-email-click",
   name: "New Email Click",
   description: "Emit new event when a recipient clicks a link in an email. [See the documentation](https://elasticemail.com/developers/api-documentation/rest-api#operation/eventsGet).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
