@@ -8,7 +8,7 @@ export default {
   key: "fireflies-new-meeting-created",
   name: "New Meeting Created",
   description: "Emit new event when a meeting with transcripts is created",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   props: {
@@ -39,15 +39,22 @@ export default {
       return {
         id: result.id,
         summary: `New Meeting: ${result.title}`,
-        ts: Date.parse(result.date),
+        ts: result.date,
       };
+    },
+  },
+  hooks: {
+    async deploy() {
+      const lastDate = this.oneDayAgo();
+      this._setLastDate(lastDate);
     },
   },
   async run() {
     const lastDate = this._getLastDate();
     const limit = constants.DEFAULT_LIMIT;
     const variables = {
-      date: lastDate,
+      // plus 15 minutes to the last date
+      fromDate: new Date(lastDate - 15 * 60 * 1000).toISOString(),
       limit,
       skip: 0,
     };
