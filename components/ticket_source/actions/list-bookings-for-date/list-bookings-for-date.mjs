@@ -41,7 +41,7 @@ export default {
       responseArray.push(item);
     }
 
-    $.export("$summary", `Successfully retrieved ${responseArray.length} booking(s) for date with ID ${this.eventDate}`);
+    $.export("$summary", `Successfully retrieved ${responseArray.length} booking${responseArray.length === 1 ? "" : "s"} for date with ID ${this.eventDate}`);
     return responseArray;
   },
 };
