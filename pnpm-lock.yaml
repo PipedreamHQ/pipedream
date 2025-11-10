@@ -10569,6 +10569,9 @@ importers:
 
   components/parallel: {}
 
+  components/parallel_web_systems:
+    specifiers: {}
+
   components/parma:
     dependencies:
       '@pipedream/platform':
