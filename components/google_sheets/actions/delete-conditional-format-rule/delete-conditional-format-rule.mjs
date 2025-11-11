@@ -57,7 +57,8 @@ export default {
         ],
       },
     };
+    const response = await this.googleSheets.batchUpdate(request);
     $.export("$summary", "Successfully deleted conditional format rule.");
-    return await this.googleSheets.batchUpdate(request);
+    return response;
   },
 };

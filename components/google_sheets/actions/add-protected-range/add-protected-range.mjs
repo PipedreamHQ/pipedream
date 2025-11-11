@@ -104,7 +104,8 @@ export default {
         ],
       },
     };
+    const response = await this.googleSheets.batchUpdate(request);
     $.export("$summary", "Successfully added protected range.");
-    return await this.googleSheets.batchUpdate(request);
+    return response;
   },
 };

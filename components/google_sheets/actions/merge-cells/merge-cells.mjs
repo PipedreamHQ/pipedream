@@ -69,7 +69,7 @@ export default {
       requestBody: {
         requests: [
           {
-            mergeCellsRequest: {
+            mergeCells: {
               range: {
                 sheetId: this.worksheetId,
                 startRowIndex: startRow,
@@ -83,7 +83,8 @@ export default {
         ],
       },
     };
+    const response = await this.googleSheets.batchUpdate(request);
     $.export("$summary", "Successfully merged cells.");
-    return await this.googleSheets.batchUpdate(request);
+    return response;
   },
 };
