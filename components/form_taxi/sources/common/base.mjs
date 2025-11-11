@@ -166,7 +166,6 @@ export default {
     },
   },
   async run(event) {
-    // Vor der Verarbeitung prüfen, ob der Hook bald abläuft und ggf. erneuern
     await this.ensureWebhookFresh();
 
     // Sofort ACK an Form.taxi
