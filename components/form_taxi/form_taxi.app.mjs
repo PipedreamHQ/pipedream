@@ -3,7 +3,7 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "form_taxi",
-  description: "Receive submissions from Form.taxi",
+  description: "Emit new event when receive a submission from Form.taxi",
   methods: {
     _baseUrl() {
       return "https://form.taxi/int/pipedream";
