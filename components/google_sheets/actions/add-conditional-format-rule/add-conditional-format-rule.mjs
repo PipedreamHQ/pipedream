@@ -1,18 +1,5 @@
 import googleSheets from "../../google_sheets.app.mjs";
-
-function rgbToCssColor(red, green, blue) {
-  var rgbNumber = (red << 16) | (green << 8) | blue;
-  var hexString = rgbNumber.toString(16);
-  var missingZeros = 6 - hexString.length;
-  var resultBuilder = [
-    "#",
-  ];
-  for (var i = 0; i < missingZeros; i++) {
-    resultBuilder.push("0");
-  }
-  resultBuilder.push(hexString);
-  return resultBuilder.join("");
-}
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "google_sheets-add-conditional-format-rule",
@@ -56,7 +43,7 @@ export default {
         googleSheets,
         "range",
       ],
-      description: "The range of cells to protect (e.g., `A1:A10`)",
+      description: "The range of cells to format (e.g., `A1:A10`)",
     },
     conditionType: {
       type: "string",
@@ -73,13 +60,11 @@ export default {
         "TEXT_IS_URL",
         "BOOLEAN",
       ],
-      optional: true,
     },
     conditionValues: {
       type: "string[]",
       label: "Condition Values",
       description: "Values for condition (e.g., color scales or custom formulas)",
-      optional: true,
     },
     formattingType: {
       type: "string",
@@ -91,149 +76,16 @@ export default {
       ],
       default: "BOOLEAN_RULE",
     },
-    numberFormatType: {
-      type: "string",
-      label: "Number Format Type",
-      description: "The type of number format",
-      options: [
-        "NUMBER",
-        "CURRENCY",
-        "PERCENT",
-        "SCIENTIFIC",
-        "TEXT",
-        "TIME",
-        "DATE",
-        "DATE_TIME",
-      ],
-      optional: true,
-    },
     rgbColor: {
       type: "object",
       label: "RGB Color",
-      description: "The RGB color value (e.g., {red: 1.0, green: 0.5, blue: 0.2})",
-      optional: true,
-    },
-    themeColorType: {
-      type: "string",
-      label: "Theme Color Type",
-      description: "The theme color type",
-      options: [
-        "TEXT",
-        "BACKGROUND",
-        "ACCENT1",
-        "ACCENT2",
-        "ACCENT3",
-        "ACCENT4",
-        "ACCENT5",
-        "ACCENT6",
-        "LINK",
-      ],
-      optional: true,
-    },
-    borderStyle: {
-      type: "string",
-      label: "Border Style",
-      description: "The border style",
-      options: [
-        "SOLID",
-        "DASHED",
-        "DOTTED",
-        "DOUBLE",
-        "GROOVE",
-        "RIDGE",
-        "INSET",
-        "OUTSET",
-      ],
-      optional: true,
-    },
-    topPadding: {
-      type: "integer",
-      label: "Top Padding",
-      description: "The top padding in pixels",
-      optional: true,
-      default: 0,
-    },
-    rightPadding: {
-      type: "integer",
-      label: "Right Padding",
-      description: "The right padding in pixels",
-      optional: true,
-      default: 0,
-    },
-    bottomPadding: {
-      type: "integer",
-      label: "Bottom Padding",
-      description: "The bottom padding in pixels",
-      optional: true,
-      default: 0,
-    },
-    leftPadding: {
-      type: "integer",
-      label: "Left Padding",
-      description: "The left padding in pixels",
-      optional: true,
-      default: 0,
-    },
-    horizontalAlign: {
-      type: "string",
-      label: "Horizontal Align",
-      description: "The horizontal alignment",
-      options: [
-        "LEFT",
-        "CENTER",
-        "RIGHT",
-      ],
-      optional: true,
-    },
-    verticalAlign: {
-      type: "string",
-      label: "Vertical Align",
-      description: "The vertical alignment",
-      options: [
-        "TOP",
-        "MIDDLE",
-        "BOTTOM",
-      ],
-      optional: true,
-    },
-    wrapStrategy: {
-      type: "string",
-      label: "Wrap Strategy",
-      description: "The wrap strategy",
-      options: [
-        "OVERFLOW_CELL",
-        "LEGACY_WRAP",
-        "CLIP",
-        "WRAP",
-      ],
-      optional: true,
-    },
-    textDirection: {
-      type: "string",
-      label: "Text Direction",
-      description: "The text direction",
-      options: [
-        "LEFT_TO_RIGHT",
-        "RIGHT_TO_LEFT",
-      ],
+      description: "The RGB color value (e.g., {\"red\": 1.0, \"green\": 0.5, \"blue\": 0.2})",
       optional: true,
     },
     textFormat: {
       type: "object",
       label: "Text Format",
       description: "The text format options",
-      optional: true,
-    },
-    fontFamily: {
-      type: "string",
-      label: "Font Family",
-      description: "The font family",
-      optional: true,
-    },
-    fontSize: {
-      type: "integer",
-      label: "Font Size",
-      description: "The font size",
       optional: true,
     },
     bold: {
@@ -248,35 +100,13 @@ export default {
       description: "Whether the text is italic",
       optional: true,
     },
-    underline: {
-      type: "boolean",
-      label: "Underline",
-      description: "Whether the text is underlined",
-      optional: true,
-    },
     strikethrough: {
       type: "boolean",
       label: "Strikethrough",
       description: "Whether the text is strikethrough",
       optional: true,
     },
-    url: {
-      type: "string",
-      label: "URL",
-      description: "The URL for the link",
-      optional: true,
-    },
-    hyperlinkDisplayType: {
-      type: "string",
-      label: "Hyperlink Display Type",
-      description: "The hyperlink display type",
-      options: [
-        "PLAIN_TEXT",
-        "LINKED",
-      ],
-      optional: true,
-    },
-    InterpolationPointType: {
+    interpolationPointType: {
       type: "string",
       label: "Interpolation Point Type",
       description: "The interpolation point type",
@@ -304,80 +134,50 @@ export default {
     } = this.googleSheets._parseRangeString(`${this.worksheetId}!${this.range}`);
 
     const rule = {
-      range: {
-        sheetId: this.worksheetId,
-        startRowIndex: startRow,
-        endRowIndex: endRow,
-        startColumnIndex: startCol.charCodeAt(0) - 65,
-        endColumnIndex: endCol.charCodeAt(0) - 64,
-      },
+      ranges: [
+        {
+          sheetId: this.worksheetId,
+          startRowIndex: startRow,
+          endRowIndex: endRow,
+          startColumnIndex: startCol.charCodeAt(0) - 65,
+          endColumnIndex: endCol.charCodeAt(0) - 64,
+        },
+      ],
     };
 
-    const protoToCssColor = (rgbColor) => {
-      var redFrac = rgbColor.red || 0.0;
-      var greenFrac = rgbColor.green || 0.0;
-      var blueFrac = rgbColor.blue || 0.0;
-      var red = Math.floor(redFrac * 255);
-      var green = Math.floor(greenFrac * 255);
-      var blue = Math.floor(blueFrac * 255);
-
-      if (!("alpha" in rgbColor)) {
-        return rgbToCssColor(red, green, blue);
+    const parseRgbColor = (rgbColor = {}) => {
+      if (typeof rgbColor === "string") {
+        try {
+          rgbColor = JSON.parse(rgbColor);
+        } catch {
+          throw new ConfigurationError("Could not parse RGB Color. Please provide a valid JSON object.");
+        }
       }
-
-      var alphaFrac = rgbColor.alpha.value || 0.0;
-      var rgbParams = [
-        red,
-        green,
-        blue,
-      ].join(",");
-      return [
-        "rgba(",
-        rgbParams,
-        ",",
-        alphaFrac,
-        ")",
-      ]
-        .join("");
+      return rgbColor;
     };
 
     this.formattingType === "GRADIENT_RULE" ?
       rule.gradientRule = {
         minpoint: {
-          interpolationPoint: {
-            colorStyle: {
-              rgbColor: protoToCssColor(this.rgbColor),
-              themeColor: {
-                type: this.themeColorType,
-              },
-            },
-            type: this.InterpolationPointType,
-            value: "MIN",
+          colorStyle: {
+            rgbColor: parseRgbColor(this.rgbColor),
           },
+          type: this.interpolationPointType,
+          value: "MIN",
         },
         midpoint: {
-          interpolationPoint: {
-            colorStyle: {
-              rgbColor: protoToCssColor(this.rgbColor),
-              themeColor: {
-                type: this.themeColorType,
-              },
-            },
-            type: this.InterpolationPointType,
-            value: "MID",
+          colorStyle: {
+            rgbColor: parseRgbColor(this.rgbColor),
           },
+          type: this.interpolationPointType,
+          value: "MID",
         },
         maxpoint: {
-          interpolationPoint: {
-            colorStyle: {
-              rgbColor: protoToCssColor(this.rgbColor),
-              themeColor: {
-                type: this.themeColorType,
-              },
-            },
-            type: this.InterpolationPointType,
-            value: "MAX",
+          colorStyle: {
+            rgbColor: parseRgbColor(this.rgbColor),
           },
+          type: this.interpolationPointType,
+          value: "MAX",
         },
       } :
       rule.booleanRule = {
@@ -388,87 +188,17 @@ export default {
           })) || [],
         },
         format: {
-          cellFormat: {
-            numberFormat: {
-              type: this.numberFormatType,
+          backgroundColorStyle: {
+            rgbColor: parseRgbColor(this.rgbColor),
+          },
+          textFormat: {
+            ...this.textFormat,
+            foregroundColorStyle: {
+              rgbColor: parseRgbColor(this.rgbColor),
             },
-            backgroundColorStyle: {
-              rgbColor: protoToCssColor(this.rgbColor),
-              themeColor: {
-                type: this.themeColorType,
-              },
-            },
-            borders: {
-              top: {
-                style: this.borderStyle,
-                colorStyle: {
-                  rgbColor: protoToCssColor(this.rgbColor),
-                  themeColor: {
-                    type: this.themeColorType,
-                  },
-                },
-              },
-              bottom: {
-                style: this.borderStyle,
-                colorStyle: {
-                  rgbColor: protoToCssColor(this.rgbColor),
-                  themeColor: {
-                    type: this.themeColorType,
-                  },
-                },
-              },
-              left: {
-                style: this.borderStyle,
-                colorStyle: {
-                  rgbColor: protoToCssColor(this.rgbColor),
-                  themeColor: {
-                    type: this.themeColorType,
-                  },
-                },
-              },
-              right: {
-                style: this.borderStyle,
-                colorStyle: {
-                  rgbColor: protoToCssColor(this.rgbColor),
-                  themeColor: {
-                    type: this.themeColorType,
-                  },
-                },
-              },
-            },
-            padding: {
-              top: this.topPadding,
-              right: this.rightPadding,
-              bottom: this.bottomPadding,
-              left: this.leftPadding,
-            },
-            horizontalAlignment: this.horizontalAlign,
-            verticalAlignment: this.verticalAlign,
-            wrapStrategy: this.wrapStrategy,
-            textDirection: this.textDirection,
-            textFormat: {
-              ...this.textFormat,
-              foregroundColorStyle: {
-                rgbColor: this.rgbColor,
-                themeColor: {
-                  type: this.themeColorType,
-                },
-              },
-              fontFamily: this.fontFamily,
-              fontSize: this.fontSize,
-              bold: this.bold,
-              italic: this.italic,
-              underline: this.underline,
-              strikethrough: this.strikethrough,
-              link: {
-                url: this.url,
-              },
-            },
-            hyperlinkDisplayType: this.hyperlinkDisplayType,
-            textRotation: {
-              angle: 0,
-              vertical: false,
-            },
+            bold: this.bold,
+            italic: this.italic,
+            strikethrough: this.strikethrough,
           },
         },
       };
@@ -478,7 +208,7 @@ export default {
       requestBody: {
         requests: [
           {
-            addConditionalFormatRuleRequest: {
+            addConditionalFormatRule: {
               rule,
               index: this.index,
             },
@@ -486,7 +216,8 @@ export default {
         ],
       },
     };
+    const response = await this.googleSheets.batchUpdate(request);
     $.export("$summary", "Successfully added conditional format rule.");
-    return await this.googleSheets.batchUpdate(request);
+    return response;
   },
 };
