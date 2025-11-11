@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ongage",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Pipedream Ongage Components",
   "main": "ongage.app.js",
   "keywords": [
@@ -13,7 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^0.30.2",
     "node-fetch": "^2.6.7",
     "ongage": "^1.1.6"
   }

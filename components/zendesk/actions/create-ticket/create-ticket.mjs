@@ -5,7 +5,7 @@ export default {
   name: "Create Ticket",
   description: "Creates a ticket. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/tickets/tickets/#create-ticket).",
   type: "action",
-  version: "0.1.9",
+  version: "0.1.10",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

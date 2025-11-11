@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/jooble",
+  "version": "0.0.1",
+  "description": "Pipedream Jooble Components",
+  "main": "jooble.app.mjs",
+  "keywords": [
+    "pipedream",
+    "jooble"
+  ],
+  "homepage": "https://pipedream.com/apps/jooble",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

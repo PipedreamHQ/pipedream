@@ -18,7 +18,7 @@ module.exports = {
     },
     async returnReportForZIP(zipCode) {
       const baseUrl = this._apiUrl();
-      return await require("@pipedreamhq/platform").axios(this, {
+      return await require("@pipedream/platform").axios(this, {
         url: `${baseUrl}/report.json?apiKey=${this._apiKey()}&product=observation&zipcode=${zipCode}`,
       });
     },

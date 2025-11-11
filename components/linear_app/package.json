@@ -15,6 +15,6 @@
   },
   "dependencies": {
     "@linear/sdk": "^55.1.0",
-    "@pipedream/platform": "^3.1.0"
+    "@pipedream/platform": "^3.1.1"
   }
 }

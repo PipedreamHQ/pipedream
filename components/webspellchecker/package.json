@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/webspellchecker",
+  "version": "0.0.1",
+  "description": "Pipedream WebSpellChecker Components",
+  "main": "webspellchecker.app.mjs",
+  "keywords": [
+    "pipedream",
+    "webspellchecker"
+  ],
+  "homepage": "https://pipedream.com/apps/webspellchecker",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
