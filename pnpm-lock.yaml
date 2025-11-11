@@ -13587,6 +13587,9 @@ importers:
 
   components/simplekpi: {}
 
+  components/simplelocalize:
+    specifiers: {}
+
   components/simplero:
     dependencies:
       '@pipedream/platform':
