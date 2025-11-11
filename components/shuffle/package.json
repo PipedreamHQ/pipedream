@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/shuffle",
+  "version": "0.0.1",
+  "description": "Pipedream Shuffle Components",
+  "main": "shuffle.app.mjs",
+  "keywords": [
+    "pipedream",
+    "shuffle"
+  ],
+  "homepage": "https://pipedream.com/apps/shuffle",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
