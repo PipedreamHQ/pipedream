@@ -10,7 +10,7 @@
   "homepage": "https://pipedream.com/apps/plivo",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^1.2.1",
+    "@pipedream/platform": "^1.6.8",
     "plivo": "^4.36.0",
     "uuid": "^9.0.0"
   },

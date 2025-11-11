@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@memberstack/admin": "^1.2.2",
-    "@pipedream/platform": "^1.4.1",
+    "@pipedream/platform": "^1.6.8",
     "lodash.pickby": "^4.6.0"
   }
 }
