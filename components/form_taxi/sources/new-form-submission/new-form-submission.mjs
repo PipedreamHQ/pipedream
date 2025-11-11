@@ -5,7 +5,7 @@ export default {
   type: "source",
   name: "New Form Submission",
   key: "form_taxi-new-form-submission",
-  version: "0.0.1",
+  version: "0.1.0",
   description: "Emit new event when Form.taxi receives a new form submission. [About Form.taxi](https://form.taxi/en/backend)",
   dedupe: "unique",
   methods: {

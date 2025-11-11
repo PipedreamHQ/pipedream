@@ -56,15 +56,9 @@ export default {
       const webhookId = await this.db.get("webhookId");
       const expiresAt = await this.db.get("webhookExpiresAt");
 
-      // Wenn wir kein Ablaufdatum kennen, machen wir nichts (oder könnten aggressiv erneuern).
       const msLeft = this.msUntilExpiry(expiresAt);
       const windowMs = 60 * 60 * 1000; // 60 Minuten
 
-      // Erneuerungsbedingungen:
-      // - kein webhookId (unerwartet) ODER
-      // - kein expiresAt bekannt ODER
-      // - bereits abgelaufen ODER
-      // - Restlaufzeit < renewal window
       const shouldRenew =
         !webhookId ||
         !msLeft ||
@@ -74,18 +68,16 @@ export default {
       if (!shouldRenew) return;
 
       try {
-        // Neu registrieren
         const oldId = webhookId;
         const res = await this.registerWebhook();
 
-        // Alten Hook bereinigen (best effort), wenn wir eine neue ID haben
         if (oldId && res?.id && res.id !== oldId) {
           await this.deleteWebhookById(oldId);
         }
 
-        console.log(`Webhook erneuert. Neue ID: ${res?.id || "unbekannt"}, läuft bis: ${res?.expires_at || "unbekannt"}`);
+        console.log(`Webhook renewed. New ID: ${res?.id || "unkonw"}, expires at: ${res?.expires_at || "unknown"}`);
       } catch (err) {
-        console.error(`Automatische Erneuerung fehlgeschlagen: ${err.message}`);
+        console.error(`Automatic renewal failed: ${err.message}`);
       }
     },
     eventIdFromBody(body) {
@@ -101,13 +93,13 @@ export default {
         const resp = await this.form_taxi.getSampleData();
         if (resp.status < 200 || resp.status >= 300) {
           const msg = resp?.message || "Unknown error";
-          console.warn(`Sample-GET fehlgeschlagen (${resp.status}): ${msg}`);
+          console.warn(`Sample-GET failed (${resp.status}): ${msg}`);
           return;
         }
 
         const data = resp;
         if (!data) {
-          console.warn("Sample-GET: leere Antwort");
+          console.warn("Sample-GET: empty responset");
           return;
         }
 
@@ -141,7 +133,7 @@ export default {
         } else if (typeof data === "object") {
           emitOne(data);
         } else {
-          console.warn("Sample-GET: unbekanntes Format", data);
+          console.warn("Sample-GET: unknown format", data);
         }
       } catch (err) {
         console.error(`Sample-GET Exception: ${err.message}`);
@@ -154,13 +146,13 @@ export default {
     },
     async activate() {
       const res = await this.registerWebhook();
-      console.log("Webhook registriert:", res);
+      console.log("Webhook registered:", res);
     },
     async deactivate() {
       try {
         await this.deleteWebhook();
       } catch (err) {
-        console.warn("Fehler beim Entfernen des Webhooks:", err.message);
+        console.warn("Error removing the webhook:", err.message);
       }
     },
   },
