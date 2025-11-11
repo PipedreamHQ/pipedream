@@ -168,7 +168,6 @@ export default {
   async run(event) {
     await this.ensureWebhookFresh();
 
-    // Sofort ACK an Form.taxi
     await this.http.respond({
       status: 200,
       headers: {
