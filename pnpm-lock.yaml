@@ -4587,8 +4587,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/elastic_security:
-    specifiers: {}
+  components/elastic_security: {}
 
   components/elasticemail: {}
 
@@ -8795,8 +8794,8 @@ importers:
   components/mastodon:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.8
-        version: 1.6.8
+        specifier: ^3.1.1
+        version: 3.1.1
       axios:
         specifier: ^1.13.2
         version: 1.13.2(debug@3.2.7)
@@ -11434,8 +11433,7 @@ importers:
 
   components/postmaster: {}
 
-  components/postnitro:
-    specifiers: {}
+  components/postnitro: {}
 
   components/postnl:
     dependencies:
@@ -12068,8 +12066,7 @@ importers:
         specifier: ^3.24.0
         version: 3.30.0
 
-  components/redash:
-    specifiers: {}
+  components/redash: {}
 
   components/redcircle_api:
     dependencies:
@@ -14253,11 +14250,9 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/straico:
-    specifiers: {}
+  components/straico: {}
 
-  components/straker_verify:
-    specifiers: {}
+  components/straker_verify: {}
 
   components/strapi: {}
 
@@ -31575,17 +31570,17 @@ packages:
   superagent@3.8.1:
     resolution: {integrity: sha512-VMBFLYgFuRdfeNQSMLbxGSLfmXL/xc+OO+BZp41Za/NRDBet/BNbkRJrYzCUu0u4GU0i/ml2dtT8b9qgkw9z6Q==}
     engines: {node: '>= 4.0'}
-    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
 
   superagent@4.1.0:
     resolution: {integrity: sha512-FT3QLMasz0YyCd4uIi5HNe+3t/onxMyEho7C3PSqmti3Twgy2rXT4fmkTz6wRL6bTF4uzPcfkUCa8u4JWHw8Ag==}
     engines: {node: '>= 6.0'}
-    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
 
   superagent@5.3.1:
     resolution: {integrity: sha512-wjJ/MoTid2/RuGCOFtlacyGNxN9QLMgcpYLDQlWFIhhdJ93kNscFonGvrpAHSCVjRVj++DGCglocF7Aej1KHvQ==}
     engines: {node: '>= 7.0.0'}
-    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
 
   supports-color@10.0.0:
     resolution: {integrity: sha512-HRVVSbCCMbj7/kdWF9Q+bbckjBHLtHMEoJWlkmYzzdwhYMkjkOwubLM6t7NbWKjgKamGDrWL1++KrjUO1t9oAQ==}
