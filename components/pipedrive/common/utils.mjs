@@ -107,7 +107,7 @@ export const formatLeadDataFromSource = async ({
   }
 
   const formattedPreviousCustomFields = {};
-  if (body.previous) {
+  if (body?.previous?.custom_fields) {
     for (const [
       key,
       value,
