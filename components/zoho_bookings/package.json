@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zoho_bookings",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Zoho Bookings Components",
   "main": "zoho_bookings.app.mjs",
   "keywords": [
@@ -10,8 +10,8 @@
   "homepage": "https://pipedream.com/apps/zoho_bookings",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^1.5.1",
-    "form-data": "^4.0.0"
+    "@pipedream/platform": "^1.6.8",
+    "form-data": "^4.0.4"
   },
   "publishConfig": {
     "access": "public"

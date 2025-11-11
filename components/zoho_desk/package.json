@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zoho_desk",
-  "version": "0.2.3",
+  "version": "0.3.2",
   "description": "Pipedream Zoho_desk Components",
   "main": "zoho_desk.app.mjs",
   "keywords": [
@@ -10,10 +10,10 @@
   "homepage": "https://pipedream.com/apps/zoho_desk",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^3.1.0",
+    "@pipedream/platform": "^3.1.1",
     "async-retry": "^1.3.3",
     "file-type": "^21.0.0",
-    "form-data": "^4.0.0"
+    "form-data": "^4.0.4"
   },
   "publishConfig": {
     "access": "public"

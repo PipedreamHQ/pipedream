@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/heyy",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Heyy Components",
   "main": "heyy.app.mjs",
   "keywords": [
@@ -13,7 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "3.0.3",
-    "form-data": "^4.0.1"
+    "@pipedream/platform": "^3.1.1",
+    "form-data": "^4.0.4"
   }
 }

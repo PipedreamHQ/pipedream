@@ -31,7 +31,7 @@
     "@aws-sdk/s3-request-presigner": "^3.609.0",
     "@aws-sdk/signature-v4-crt": "^3.731.0",
     "@pipedream/helper_functions": "^0.3.6",
-    "@pipedream/platform": "^3.1.0",
+    "@pipedream/platform": "^3.1.1",
     "adm-zip": "^0.5.10",
     "dedent": "^1.5.1",
     "file-type": "^21.0.0",

@@ -2,6 +2,25 @@
 
 # Changelog
 
+## [2.1.1] - 2025-10-27
+
+### Fixed
+
+- Fixed optional props being removed when loading saved configurations
+- Optional props with values now automatically display as enabled
+- Improved handling of label-value format for remote options in multi-select fields
+
+## [2.1.0] - 2025-10-10
+
+### Added
+
+- Added infinite scroll (with pagination) for `SelectApp` and `SelectComponent` dropdowns
+- Increased default page size to 50 items per request for better UX
+
+### Fixed
+
+- Remote options now properly reset when parent props change (e.g., switching accounts)
+
 ## [2.0.0] - 2025-10-02
 
 ### Breaking Changes

@@ -1,0 +1,22 @@
+{
+  "name": "@pipedream/slack_v2",
+  "version": "0.0.1",
+  "description": "Pipedream Slack_v2 Components",
+  "main": "slack_v2.app.mjs",
+  "keywords": [
+    "pipedream",
+    "slack_v2",
+    "slack"
+  ],
+  "homepage": "https://pipedream.com/apps/slack_v2",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1",
+    "@slack/web-api": "^7.9.0",
+    "async-retry": "^1.3.3",
+    "lodash": "^4.17.21"
+  }
+}

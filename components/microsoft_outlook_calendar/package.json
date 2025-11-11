@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/microsoft_outlook_calendar",
-  "version": "0.3.2",
+  "version": "0.3.4",
   "description": "Pipedream Microsoft Outlook Calendar Components",
   "main": "microsoft_outlook_calendar.app.mjs",
   "keywords": [
@@ -15,6 +15,10 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.0.3"
+    "@pipedream/microsoft_outlook": "^1.7.3",
+    "@pipedream/pipedream": "^0.4.2",
+    "@pipedream/platform": "^3.1.1",
+    "luxon": "^3.7.2",
+    "windows-iana": "^5.1.0"
   }
 }

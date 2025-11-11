@@ -3,9 +3,9 @@ import zohoDesk from "../../zoho_desk.app.mjs";
 export default {
   key: "zoho_desk-list-help-centers",
   name: "List Help Centers",
-  description: "Lists the help centers configured in an organization. [See the docs here](https://desk.zoho.com/portal/APIDocument.do#HelpCenters_Listhelpcenters)",
+  description: "Lists the help centers configured in an organization. [See the documentation](https://desk.zoho.com/portal/APIDocument.do#HelpCenters_Listhelpcenters)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

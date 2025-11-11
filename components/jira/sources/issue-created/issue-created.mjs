@@ -4,7 +4,7 @@ export default {
   key: "jira-issue-created",
   name: "New Issue Created Event (Instant)",
   description: "Emit new event when an issue is created. Note that Jira supports only one webhook, if more sources are needed please use `New Event` source and select multiple events.",
-  version: "0.0.13",
+  version: "0.0.15",
   type: "source",
   dedupe: "unique",
   ...common,

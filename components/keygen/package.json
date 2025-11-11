@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/keygen",
+  "version": "0.0.1",
+  "description": "Pipedream Keygen Components",
+  "main": "keygen.app.mjs",
+  "keywords": [
+    "pipedream",
+    "keygen"
+  ],
+  "homepage": "https://pipedream.com/apps/keygen",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

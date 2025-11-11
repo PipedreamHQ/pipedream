@@ -16,7 +16,7 @@ export default {
   key: "google_drive-changes-to-specific-files",
   name: "Changes to Specific Files",
   description: "Watches for changes to specific files, emitting an event when a change is made to one of those files. To watch for changes to [shared drive](https://support.google.com/a/users/answer/9310351) files, use the **Changes to Specific Files (Shared Drive)** source instead.",
-  version: "0.3.1",
+  version: "0.3.2",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests

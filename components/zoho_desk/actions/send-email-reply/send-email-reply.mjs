@@ -5,7 +5,7 @@ export default {
   name: "Send E-Mail Reply",
   description: "Sends an email reply. [See the docs here](https://desk.zoho.com/DeskAPIDocument#Threads#Threads_SendEmailReply)",
   type: "action",
-  version: "0.0.5",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -73,16 +73,13 @@ export default {
       description: "Content of the thread",
       optional: true,
     },
-    ticketStatus: {
-      type: "string",
-      label: "Ticket Status",
-      description: "Type of ticket resolution status. The values supported are `OPEN` and `ON HOLD` and `CLOSED`.",
-      optional: true,
-      options: [
-        "OPEN",
-        "ON HOLD",
-        "CLOSED",
+    status: {
+      propDefinition: [
+        zohoDesk,
+        "ticketStatus",
       ],
+      description: "Type of ticket resolution status to set after sending the email reply",
+      optional: true,
     },
   },
   async run({ $ }) {
@@ -93,23 +90,27 @@ export default {
       to,
       content,
       contentType,
-      ticketStatus,
+      status,
     } = this;
+
+    const data = {
+      fromEmailAddress,
+      to,
+      channel: "EMAIL",
+      isForward: "true",
+    };
+
+    // Add optional fields
+    if (content) data.content = content;
+    if (contentType) data.contentType = contentType;
+    if (status) data.ticketStatus = status;
 
     const response = await this.zohoDesk.sendReply({
       ticketId,
       headers: {
         orgId,
       },
-      data: {
-        fromEmailAddress,
-        to,
-        content,
-        contentType,
-        ticketStatus,
-        channel: "EMAIL",
-        isForward: "true",
-      },
+      data,
     });
 
     $.export("$summary", `Successfully sent email reply with ID ${response.id}`);

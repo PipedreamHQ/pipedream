@@ -57,7 +57,7 @@ export default {
 
       const { trigger } = await this.createTrigger({
         customSubdomain,
-        data: this.setupTriggerData({
+        data: await this.setupTriggerData({
           webhookId,
           categoryId,
         }),
@@ -171,7 +171,7 @@ export default {
         },
       };
     },
-    setupTriggerData({
+    async setupTriggerData({
       webhookId, categoryId,
     }) {
       return {
@@ -184,7 +184,7 @@ export default {
               field: "notification_webhook",
               value: [
                 webhookId,
-                JSON.stringify(this.getTriggerPayload()),
+                JSON.stringify(await this.getTriggerPayload()),
               ],
             },
           ],

@@ -10,7 +10,7 @@
   "homepage": "https://pipedream.com/apps/microsoft_sql_server",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^3.0.0",
+    "@pipedream/platform": "^3.1.1",
     "mssql": "^10.0.1"
   },
   "publishConfig": {

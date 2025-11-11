@@ -4,7 +4,7 @@ export default {
   key: "microsoft_outlook_calendar-list-events",
   name: "List Events",
   description: "Get a list of event objects in the user's mailbox. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list-events)",
-  version: "0.0.3",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -32,21 +32,60 @@ export default {
       description: "The maximum number of results to return",
       optional: true,
     },
+    includeRecurring: {
+      type: "boolean",
+      label: "Include Recurring",
+      description: "Whether to include recurring events",
+      optional: true,
+      reloadProps: true,
+    },
+  },
+  additionalProps() {
+    if (!this.includeRecurring) {
+      return {};
+    }
+    return {
+      startDateTime: {
+        type: "string",
+        label: "Start Date Time",
+        description: "The start date and time of the time range, represented in ISO 8601 format. For example, `2019-11-08T19:00:00-08:00`",
+      },
+      endDateTime: {
+        type: "string",
+        label: "End Date Time",
+        description: "The end date and time of the time range, represented in ISO 8601 format. For example, `2019-11-08T20:00:00-08:00`",
+      },
+    };
   },
   async run({ $ }) {
-    const { value = [] } = await this.microsoftOutlook.listCalendarEvents({
-      $,
-      params: {
-        "$orderby": this.orderBy,
-        "$filter": this.filter,
-        "$top": this.maxResults,
-      },
-    });
+    const params = {
+      "$orderby": this.orderBy,
+      "$filter": this.filter,
+      "$top": this.maxResults,
+    };
 
-    $.export("$summary", `Successfully retrieved ${value.length} event${value.length === 1
+    const { value = [] } = !this.includeRecurring
+      ? await this.microsoftOutlook.listCalendarEvents({
+        $,
+        params,
+      })
+      : await this.microsoftOutlook.listCalendarView({
+        $,
+        params: {
+          ...params,
+          startDateTime: this.startDateTime,
+          endDateTime: this.endDateTime,
+        },
+      });
+
+    const events = !this.includeRecurring
+      ? value.filter((event) => !event.recurrence)
+      : value;
+
+    $.export("$summary", `Successfully retrieved ${events.length} event${events.length === 1
       ? ""
       : "s"}`);
 
-    return value;
+    return events;
   },
 };

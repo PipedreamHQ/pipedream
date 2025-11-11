@@ -1,10 +1,11 @@
+import utils from "../../common/utils.mjs";
 import app from "../../zoom.app.mjs";
 
 export default {
   key: "zoom-list-past-meeting-participants",
   name: "List Past Meeting Participants",
   description: "Retrieve information on participants from a past meeting. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/pastMeetingParticipants).",
-  version: "0.2.4",
+  version: "0.2.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -25,7 +26,7 @@ export default {
       meetingId, ...args
     } = {}) {
       return this.app._makeRequest({
-        path: `/past_meetings/${meetingId}/participants`,
+        path: `/past_meetings/${utils.doubleEncode(meetingId)}/participants`,
         ...args,
       });
     },

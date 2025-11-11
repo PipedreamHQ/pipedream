@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/deutschlandgpt",
+  "version": "0.0.1",
+  "description": "Pipedream DeutschlandGPT Components",
+  "main": "deutschlandgpt.app.mjs",
+  "keywords": [
+    "pipedream",
+    "deutschlandgpt"
+  ],
+  "homepage": "https://pipedream.com/apps/deutschlandgpt",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

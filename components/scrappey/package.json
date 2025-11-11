@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/scrappey",
+  "version": "0.0.1",
+  "description": "Pipedream Scrappey Components",
+  "main": "scrappey.app.mjs",
+  "keywords": [
+    "pipedream",
+    "scrappey"
+  ],
+  "homepage": "https://pipedream.com/apps/scrappey",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -3,6 +3,7 @@ import {
   useEffect,
   useMemo,
   useState,
+  useRef,
 } from "react";
 import type {
   CSSObjectWithLabel, MenuListProps,
@@ -15,11 +16,18 @@ import CreatableSelect from "react-select/creatable";
 import type { BaseReactSelectProps } from "../hooks/customization-context";
 import { useCustomize } from "../hooks/customization-context";
 import { useFormFieldContext } from "../hooks/form-field-context";
-import { LabelValueOption } from "../types";
+import type {
+  LabelValueOption,
+  RawPropOption,
+} from "../types";
 import {
   isOptionWithLabel,
   sanitizeOption,
 } from "../utils/type-guards";
+import {
+  isArrayOfLabelValueWrapped,
+  isLabelValueWrapped,
+} from "../utils/label-value";
 import { LoadMoreButton } from "./LoadMoreButton";
 
 // XXX T and ConfigurableProp should be related
@@ -84,15 +92,25 @@ export function ControlSelect<T extends PropOptionValue>({
       return null;
     }
 
+    // Handle __lv-wrapped values (single object or array) returned from remote options
+    if (isLabelValueWrapped<T>(rawValue)) {
+      const lvContent = rawValue.__lv;
+      if (Array.isArray(lvContent)) {
+        return lvContent.map((item) => sanitizeOption<T>(item as RawPropOption<T>));
+      }
+      return sanitizeOption<T>(lvContent as RawPropOption<T>);
+    }
+
+    if (isArrayOfLabelValueWrapped<T>(rawValue)) {
+      return rawValue.map((item) => sanitizeOption<T>(item as RawPropOption<T>));
+    }
+
     if (Array.isArray(rawValue)) {
       // if simple, make lv (XXX combine this with other place this happens)
       if (!isOptionWithLabel(rawValue[0])) {
         return rawValue.map((o) =>
           selectOptions.find((item) => item.value === o) || sanitizeOption(o as T));
       }
-    } else if (rawValue && typeof rawValue === "object" && "__lv" in (rawValue as Record<string, unknown>)) {
-      // Extract the actual option from __lv wrapper and sanitize to LV
-      return sanitizeOption(((rawValue as Record<string, unknown>).__lv) as T);
     } else if (!isOptionWithLabel(rawValue)) {
       const lvOptions = selectOptions?.[0] && isOptionWithLabel(selectOptions[0]);
       if (lvOptions) {
@@ -112,30 +130,53 @@ export function ControlSelect<T extends PropOptionValue>({
     selectOptions,
   ]);
 
-  const LoadMore = ({
-    // eslint-disable-next-line react/prop-types
-    children, ...props
-  }: MenuListProps<LabelValueOption<T>, boolean>) => {
-    return (
-      <components.MenuList  {...props}>
-        {children}
-        <div className="pt-4">
-          <LoadMoreButton onChange={onLoadMore || (() => { })} />
-        </div>
-      </components.MenuList>
-    )
-  }
-
   const props = select.getProps("controlSelect", baseSelectProps)
 
-  const finalComponents = {
-    ...props.components,
-    ...componentsOverride,
-  };
+  // Use ref to store latest onLoadMore callback
+  // This allows stable component reference while calling current callback
+  const onLoadMoreRef = useRef(onLoadMore);
+  useEffect(() => {
+    onLoadMoreRef.current = onLoadMore;
+  }, [
+    onLoadMore,
+  ]);
 
-  if (showLoadMoreButton) {
-    finalComponents.MenuList = LoadMore;
-  }
+  const showLoadMoreButtonRef = useRef(showLoadMoreButton);
+  showLoadMoreButtonRef.current = showLoadMoreButton;
+
+  // Memoize custom components to prevent remounting
+  // Recompute when caller/customizer supplies new component overrides
+  const finalComponents = useMemo(() => {
+    const mergedComponents = {
+      ...(props.components ?? {}),
+      ...(componentsOverride ?? {}),
+    };
+    const ParentMenuList = mergedComponents.MenuList ?? components.MenuList;
+
+    // Always set MenuList, conditionally render button inside
+    const CustomMenuList = ({
+      // eslint-disable-next-line react/prop-types
+      children, ...menuProps
+    }: MenuListProps<LabelValueOption<T>, boolean>) => (
+      <ParentMenuList {...menuProps}>
+        {children}
+        {showLoadMoreButtonRef.current && (
+          <div className="pt-4">
+            <LoadMoreButton onChange={() => onLoadMoreRef.current?.()} />
+          </div>
+        )}
+      </ParentMenuList>
+    );
+    CustomMenuList.displayName = "CustomMenuList";
+
+    return {
+      ...mergedComponents,
+      MenuList: CustomMenuList,
+    };
+  }, [
+    props.components,
+    componentsOverride,
+  ]);
 
   const handleCreate = (inputValue: string) => {
     const newOption = sanitizeOption(inputValue as T)
@@ -215,6 +256,7 @@ export function ControlSelect<T extends PropOptionValue>({
       onChange={handleChange}
       {...props}
       {...selectProps}
+      components={finalComponents}
       {...additionalProps}
     />
   );

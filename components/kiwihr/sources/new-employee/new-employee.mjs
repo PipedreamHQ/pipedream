@@ -6,7 +6,7 @@ export default {
   key: "kiwihr-new-employee",
   name: "New Employee",
   description: "Emit new event when a new employee is added to KiwiHR.",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "source",
   dedupe: "unique",
   methods: {

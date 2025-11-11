@@ -5,7 +5,7 @@ export default {
   name: "Remove Ticket Tags",
   description: "Remove specific tags from a ticket. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/ticket-management/tags/#remove-tags).",
   type: "action",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

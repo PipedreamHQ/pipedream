@@ -6,7 +6,7 @@ export default {
   key: "notion-create-file-upload",
   name: "Create File Upload",
   description: "Create a file upload. [See the documentation](https://developers.notion.com/reference/create-a-file-upload)",
-  version: "0.0.6",
+  version: "0.0.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
