@@ -4,7 +4,7 @@ import app from "../../trengo.app.mjs";
 export default {
   key: "trengo-list-labels",
   name: "List Labels",
-  description: "List all labels. [See the documentation](https://developers.trengo.com/reference/update-a-label)",
+  description: "List all labels. [See the documentation](https://developers.trengo.com/reference/list-all-labels)",
   version: "0.0.1",
   type: "action",
   annotations: {
