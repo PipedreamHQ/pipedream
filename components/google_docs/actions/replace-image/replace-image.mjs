@@ -4,7 +4,7 @@ export default {
   key: "google_docs-replace-image",
   name: "Replace Image",
   description: "Replace image in a existing document. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/request#ReplaceImageRequest)",
-  version: "0.0.9",
+  version: "0.0.10",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

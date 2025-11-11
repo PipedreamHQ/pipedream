@@ -6121,6 +6121,9 @@ importers:
       '@pipedream/google_drive':
         specifier: ^1.1.1
         version: 1.1.1
+      markdown-it:
+        specifier: ^14.1.0
+        version: 14.1.0
 
   components/google_drive:
     dependencies:
