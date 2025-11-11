@@ -8371,7 +8371,11 @@ importers:
         specifier: ^1.0.3
         version: 1.2.0(@types/node@22.19.1)(typescript@5.9.3)
 
-  components/linkupapi: {}
+  components/linkupapi:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/linode:
     dependencies:
