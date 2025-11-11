@@ -49,20 +49,12 @@ export default {
         "range",
       ],
       description: "The range of cells to protect (e.g., `A1:A10`). Required for add and update operations",
-      optional: true,
     },
     description: {
       type: "string",
       label: "Description",
       description: "A description of the protected range",
       optional: true,
-    },
-    warningOnly: {
-      type: "boolean",
-      label: "Warning Only",
-      description: "If true, users will see a warning when editing but can still modify. If false, editing is blocked",
-      optional: true,
-      default: false,
     },
     requestingUserCanEdit: {
       type: "boolean",
@@ -91,7 +83,7 @@ export default {
       requestBody: {
         requests: [
           {
-            addProtectedRangeRequest: {
+            addProtectedRange: {
               protectedRange: {
                 protectedRangeId: this.protectedRangeId,
                 range: {
@@ -102,7 +94,6 @@ export default {
                   endColumnIndex: endCol.charCodeAt(0) - 64,
                 },
                 description: this.description,
-                warningOnly: this.warningOnly,
                 requestingUserCanEdit: this.requestingUserCanEdit,
                 editors: {
                   users: this.protectors || [],
