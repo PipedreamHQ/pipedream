@@ -1125,7 +1125,11 @@ importers:
 
   components/arpoone: {}
 
-  components/arxiv: {}
+  components/arxiv:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/aryn: {}
 
@@ -35959,7 +35963,7 @@ snapshots:
       debug: 4.4.1(supports-color@10.0.0)
       gensync: 1.0.0-beta.2
       json5: 2.2.3
-      semver: 7.7.3
+      semver: 7.7.2
     transitivePeerDependencies:
       - supports-color
 
@@ -35969,7 +35973,7 @@ snapshots:
       eslint: 8.57.1
       eslint-scope: 7.2.2
       eslint-visitor-keys: 3.4.3
-      semver: 7.7.3
+      semver: 7.7.2
 
   '@babel/generator@7.26.2':
     dependencies:
@@ -38524,7 +38528,7 @@ snapshots:
       find-up: 7.0.0
       minimatch: 9.0.5
       read-pkg: 9.0.1
-      semver: 7.7.3
+      semver: 7.7.2
       yaml: 2.8.0
       yargs: 17.7.2
 
@@ -38576,7 +38580,7 @@ snapshots:
       resolve: 2.0.0-next.5
       rfdc: 1.4.1
       safe-json-stringify: 1.2.0
-      semver: 7.7.3
+      semver: 7.7.2
       string-width: 7.2.0
       strip-ansi: 7.1.0
       supports-color: 10.0.0
@@ -38646,7 +38650,7 @@ snapshots:
       js-image-generator: 1.0.4
       lodash.debounce: 4.0.8
       parse-gitignore: 2.0.0
-      semver: 7.7.3
+      semver: 7.7.2
       tmp-promise: 3.0.3
       uuid: 11.1.0
       write-file-atomic: 5.0.1
@@ -38670,7 +38674,7 @@ snapshots:
       p-wait-for: 5.0.2
       parse-imports: 2.2.1
       path-key: 4.0.0
-      semver: 7.7.3
+      semver: 7.7.2
       tmp-promise: 3.0.3
       urlpattern-polyfill: 8.0.2
       uuid: 11.1.0
@@ -38818,7 +38822,7 @@ snapshots:
       precinct: 12.2.0(supports-color@10.0.0)
       require-package-name: 2.0.1
       resolve: 2.0.0-next.5
-      semver: 7.7.3
+      semver: 7.7.2
       tmp-promise: 3.0.3
       toml: 3.0.0
       unixify: 1.0.0
@@ -42501,7 +42505,7 @@ snapshots:
       fast-glob: 3.3.2
       is-glob: 4.0.3
       minimatch: 9.0.5
-      semver: 7.7.3
+      semver: 7.7.1
       ts-api-utils: 1.4.0(typescript@5.6.3)
     optionalDependencies:
       typescript: 5.6.3
@@ -45488,7 +45492,7 @@ snapshots:
       globals: 15.12.0
       ignore: 5.3.2
       minimatch: 9.0.5
-      semver: 7.7.3
+      semver: 7.7.2
 
   eslint-plugin-putout@23.2.0(eslint@8.57.1)(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3)):
     dependencies:
@@ -45981,7 +45985,7 @@ snapshots:
       proxy-addr: 2.0.7
       rfdc: 1.4.1
       secure-json-parse: 2.7.0
-      semver: 7.7.3
+      semver: 7.7.2
       toad-cache: 3.7.0
 
   fastparse@1.1.2: {}
@@ -46603,7 +46607,7 @@ snapshots:
     dependencies:
       '@xhmikosr/downloader': 13.0.1
       node-fetch: 3.3.2
-      semver: 7.7.3
+      semver: 7.7.2
 
   git-repo-info@2.1.1: {}
 
@@ -48643,7 +48647,7 @@ snapshots:
       jws: 3.2.2
       lodash: 4.17.21
       ms: 2.1.3
-      semver: 7.7.3
+      semver: 7.7.2
 
   jsonwebtoken@9.0.2:
     dependencies:
@@ -48656,7 +48660,7 @@ snapshots:
       lodash.isstring: 4.0.1
       lodash.once: 4.1.1
       ms: 2.1.3
-      semver: 7.7.3
+      semver: 7.6.3
 
   jsprim@1.4.2:
     dependencies:
@@ -50302,7 +50306,7 @@ snapshots:
   normalize-package-data@7.0.1:
     dependencies:
       hosted-git-info: 8.1.0
-      semver: 7.7.3
+      semver: 7.7.2
       validate-npm-package-license: 3.0.4
 
   normalize-path@2.1.1:
@@ -51312,7 +51316,7 @@ snapshots:
       jsdoc: 4.0.4
       minimist: 1.2.8
       protobufjs: 7.2.6
-      semver: 7.7.3
+      semver: 7.7.2
       tmp: 0.2.3
       uglify-js: 3.19.3
 
@@ -52631,7 +52635,7 @@ snapshots:
     dependencies:
       color: 4.2.3
       detect-libc: 2.0.4
-      semver: 7.7.3
+      semver: 7.7.2
     optionalDependencies:
       '@img/sharp-darwin-arm64': 0.34.3
       '@img/sharp-darwin-x64': 0.34.3
@@ -52758,7 +52762,7 @@ snapshots:
 
   simple-update-notifier@2.0.0:
     dependencies:
-      semver: 7.7.3
+      semver: 7.7.2
 
   simple-xml2json@1.2.3: {}
 
@@ -53346,7 +53350,7 @@ snapshots:
       mime: 2.6.0
       qs: 6.14.0
       readable-stream: 3.6.2
-      semver: 7.7.3
+      semver: 7.7.2
     transitivePeerDependencies:
       - supports-color
 
@@ -53868,7 +53872,7 @@ snapshots:
       hookable: 5.5.3
       rolldown: 1.0.0-beta.9
       rolldown-plugin-dts: 0.13.12(rolldown@1.0.0-beta.9)(typescript@5.9.2)
-      semver: 7.7.3
+      semver: 7.7.2
       tinyexec: 1.0.1
       tinyglobby: 0.2.14
       unconfig: 7.3.2
@@ -54353,7 +54357,7 @@ snapshots:
       is-npm: 6.0.0
       latest-version: 9.0.0
       pupa: 3.1.0
-      semver: 7.7.3
+      semver: 7.7.2
       xdg-basedir: 5.1.0
 
   uqr@0.1.2: {}
