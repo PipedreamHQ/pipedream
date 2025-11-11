@@ -154,7 +154,6 @@ export default {
       await this.fetchAndEmitSamples();
     },
     async activate() {
-      // Webhook frisch registrieren
       const res = await this.registerWebhook();
       console.log("Webhook registriert:", res);
     },
