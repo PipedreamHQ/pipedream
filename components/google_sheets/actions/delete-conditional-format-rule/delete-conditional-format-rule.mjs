@@ -49,7 +49,7 @@ export default {
       requestBody: {
         requests: [
           {
-            deleteConditionalFormatRuleRequest: {
+            deleteConditionalFormatRule: {
               sheetId: this.worksheetId,
               index: this.index,
             },
