@@ -83,22 +83,22 @@ export default {
       optional: true,
     },
   },
-  async run() {
+  async run({ $ }) {
     const {
       startCol,
       endCol,
       startRow,
       endRow,
-    } = this.props.googleSheets._parseRangeString(`${this.props.worksheetId}!${this.props.range}`);
+    } = this.googleSheets._parseRangeString(`${this.worksheetId}!${this.range}`);
 
     const request = {
-      spreadsheetId: this.props.sheetId,
+      spreadsheetId: this.sheetId,
       requestBody: {
         requests: [
           {
             setDataValidation: {
               range: {
-                sheetId: this.props.worksheetId,
+                sheetId: this.worksheetId,
                 startRowIndex: startRow,
                 endRowIndex: endRow,
                 startColumnIndex: startCol.charCodeAt(0) - 65,
@@ -106,8 +106,8 @@ export default {
               },
               rule: {
                 condition: {
-                  type: this.props.validationType,
-                  values: this.props.validationValues?.map((v) => ({
+                  type: this.validationType,
+                  values: this.validationValues?.map((v) => ({
                     userEnteredValue: v,
                   })) || [],
                 },
@@ -119,6 +119,7 @@ export default {
         ],
       },
     };
-    return await this.props.googleSheets.batchUpdate(request);
+    $.export("$summary", "Successfully set data validation.");
+    return await this.googleSheets.batchUpdate(request);
   },
 };

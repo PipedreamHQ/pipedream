@@ -43,20 +43,21 @@ export default {
       description: "The zero-based index of the rule",
     },
   },
-  async run() {
+  async run({ $ }) {
     const request = {
-      spreadsheetId: this.props.sheetId,
+      spreadsheetId: this.sheetId,
       requestBody: {
         requests: [
           {
             deleteConditionalFormatRuleRequest: {
-              sheetId: this.props.worksheetId,
-              index: this.props.index,
+              sheetId: this.worksheetId,
+              index: this.index,
             },
           },
         ],
       },
     };
-    return await this.props.googleSheets.batchUpdate(request);
+    $.export("$summary", "Successfully deleted conditional format rule.");
+    return await this.googleSheets.batchUpdate(request);
   },
 };

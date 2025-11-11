@@ -56,33 +56,34 @@ export default {
       default: "MERGE_ALL",
     },
   },
-  async run() {
+  async run({ $ }) {
     const {
       startCol,
       endCol,
       startRow,
       endRow,
-    } = this.props.googleSheets._parseRangeString(`${this.props.worksheetId}!${this.props.range}`);
+    } = this.googleSheets._parseRangeString(`${this.worksheetId}!${this.range}`);
 
     const request = {
-      spreadsheetId: this.props.sheetId,
+      spreadsheetId: this.sheetId,
       requestBody: {
         requests: [
           {
             mergeCellsRequest: {
               range: {
-                sheetId: this.props.worksheetId,
+                sheetId: this.worksheetId,
                 startRowIndex: startRow,
                 endRowIndex: endRow,
                 startColumnIndex: startCol.charCodeAt(0) - 65,
                 endColumnIndex: endCol.charCodeAt(0) - 64,
               },
-              mergeType: this.props.mergeType,
+              mergeType: this.mergeType,
             },
           },
         ],
       },
     };
-    return await this.props.googleSheets.batchUpdate(request);
+    $.export("$summary", "Successfully merged cells.");
+    return await this.googleSheets.batchUpdate(request);
   },
 };

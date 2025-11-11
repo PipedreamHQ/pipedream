@@ -78,34 +78,34 @@ export default {
       optional: true,
     },
   },
-  async run() {
+  async run({ $ }) {
     const {
       startCol,
       endCol,
       startRow,
       endRow,
-    } = this.props.googleSheets._parseRangeString(`${this.props.worksheetId}!${this.props.range}`);
+    } = this.googleSheets._parseRangeString(`${this.worksheetId}!${this.range}`);
 
     const request = {
-      spreadsheetId: this.props.sheetId,
+      spreadsheetId: this.sheetId,
       requestBody: {
         requests: [
           {
             addProtectedRangeRequest: {
               protectedRange: {
-                protectedRangeId: this.props.protectedRangeId,
+                protectedRangeId: this.protectedRangeId,
                 range: {
-                  sheetId: this.props.worksheetId,
+                  sheetId: this.worksheetId,
                   startRowIndex: startRow,
                   endRowIndex: endRow,
                   startColumnIndex: startCol.charCodeAt(0) - 65,
                   endColumnIndex: endCol.charCodeAt(0) - 64,
                 },
-                description: this.props.description,
-                warningOnly: this.props.warningOnly,
-                requestingUserCanEdit: this.props.requestingUserCanEdit,
+                description: this.description,
+                warningOnly: this.warningOnly,
+                requestingUserCanEdit: this.requestingUserCanEdit,
                 editors: {
-                  users: this.props.protectors || [],
+                  users: this.protectors || [],
                 },
               },
             },
@@ -113,6 +113,7 @@ export default {
         ],
       },
     };
-    return await this.props.googleSheets.batchUpdate(request);
+    $.export("$summary", "Successfully added protected range.");
+    return await this.googleSheets.batchUpdate(request);
   },
 };

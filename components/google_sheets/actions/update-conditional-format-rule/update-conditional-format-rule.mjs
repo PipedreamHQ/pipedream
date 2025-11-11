@@ -104,7 +104,6 @@ export default {
         "TIME",
         "DATE",
         "DATE_TIME",
-        "SCIENTIFIC",
       ],
       optional: true,
     },
@@ -301,17 +300,17 @@ export default {
       description: "The new zero-based index of the rule",
     },
   },
-  async run() {
+  async run({ $ }) {
     const {
       startCol,
       endCol,
       startRow,
       endRow,
-    } = this.props.googleSheets._parseRangeString(`${this.props.worksheetId}!${this.props.range}`);
+    } = this.googleSheets._parseRangeString(`${this.worksheetId}!${this.range}`);
 
     const rule = {
       range: {
-        sheetId: this.props.worksheetId,
+        sheetId: this.worksheetId,
         startRowIndex: startRow,
         endRowIndex: endRow,
         startColumnIndex: startCol.charCodeAt(0) - 65,
@@ -346,130 +345,130 @@ export default {
         .join("");
     };
 
-    this.props.formattingType === "GRADIENT_RULE" ?
+    this.formattingType === "GRADIENT_RULE" ?
       rule.gradientRule = {
         minpoint: {
           interpolationPoint: {
             colorStyle: {
-              rgbColor: protoToCssColor(this.props.rgbColor),
+              rgbColor: protoToCssColor(this.rgbColor),
               themeColor: {
-                type: this.props.themeColorType,
+                type: this.themeColorType,
               },
             },
-            type: this.props.InterpolationPointType,
+            type: this.InterpolationPointType,
             value: "MIN",
           },
         },
         midpoint: {
           interpolationPoint: {
             colorStyle: {
-              rgbColor: protoToCssColor(this.props.rgbColor),
+              rgbColor: protoToCssColor(this.rgbColor),
               themeColor: {
-                type: this.props.themeColorType,
+                type: this.themeColorType,
               },
             },
-            type: this.props.InterpolationPointType,
+            type: this.InterpolationPointType,
             value: "MID",
           },
         },
         maxpoint: {
           interpolationPoint: {
             colorStyle: {
-              rgbColor: protoToCssColor(this.props.rgbColor),
+              rgbColor: protoToCssColor(this.rgbColor),
               themeColor: {
-                type: this.props.themeColorType,
+                type: this.themeColorType,
               },
             },
-            type: this.props.InterpolationPointType,
+            type: this.InterpolationPointType,
             value: "MAX",
           },
         },
       } :
       rule.booleanRule = {
         condition: {
-          type: this.props.conditionType,
-          values: this.props.conditionValues?.map((v) => ({
+          type: this.conditionType,
+          values: this.conditionValues?.map((v) => ({
             userEnteredValue: v,
           })) || [],
         },
         format: {
           cellFormat: {
             numberFormat: {
-              type: this.props.numberFormatType,
+              type: this.numberFormatType,
             },
             backgroundColorStyle: {
-              rgbColor: protoToCssColor(this.props.rgbColor),
+              rgbColor: protoToCssColor(this.rgbColor),
               themeColor: {
-                type: this.props.themeColorType,
+                type: this.themeColorType,
               },
             },
             borders: {
               top: {
-                style: this.props.borderStyle,
+                style: this.borderStyle,
                 colorStyle: {
-                  rgbColor: protoToCssColor(this.props.rgbColor),
+                  rgbColor: protoToCssColor(this.rgbColor),
                   themeColor: {
-                    type: this.props.themeColorType,
+                    type: this.themeColorType,
                   },
                 },
               },
               bottom: {
-                style: this.props.borderStyle,
+                style: this.borderStyle,
                 colorStyle: {
-                  rgbColor: protoToCssColor(this.props.rgbColor),
+                  rgbColor: protoToCssColor(this.rgbColor),
                   themeColor: {
-                    type: this.props.themeColorType,
+                    type: this.themeColorType,
                   },
                 },
               },
               left: {
-                style: this.props.borderStyle,
+                style: this.borderStyle,
                 colorStyle: {
-                  rgbColor: protoToCssColor(this.props.rgbColor),
+                  rgbColor: protoToCssColor(this.rgbColor),
                   themeColor: {
-                    type: this.props.themeColorType,
+                    type: this.themeColorType,
                   },
                 },
               },
               right: {
-                style: this.props.borderStyle,
+                style: this.borderStyle,
                 colorStyle: {
-                  rgbColor: protoToCssColor(this.props.rgbColor),
+                  rgbColor: protoToCssColor(this.rgbColor),
                   themeColor: {
-                    type: this.props.themeColorType,
+                    type: this.themeColorType,
                   },
                 },
               },
             },
             padding: {
-              top: this.props.topPadding,
-              right: this.props.rightPadding,
-              bottom: this.props.bottomPadding,
-              left: this.props.leftPadding,
+              top: this.topPadding,
+              right: this.rightPadding,
+              bottom: this.bottomPadding,
+              left: this.leftPadding,
             },
-            horizontalAlignment: this.props.horizontalAlign,
-            verticalAlignment: this.props.verticalAlign,
-            wrapStrategy: this.props.wrapStrategy,
-            textDirection: this.props.textDirection,
+            horizontalAlignment: this.horizontalAlign,
+            verticalAlignment: this.verticalAlign,
+            wrapStrategy: this.wrapStrategy,
+            textDirection: this.textDirection,
             textFormat: {
               ...this.textFormat,
               foregroundColorStyle: {
-                rgbColor: protoToCssColor(this.props.rgbColor),
+                rgbColor: protoToCssColor(this.rgbColor),
                 themeColor: {
-                  type: this.props.themeColorType,
+                  type: this.themeColorType,
                 },
               },
-              fontFamily: this.props.fontFamily,
-              fontSize: this.props.fontSize,
-              bold: this.props.bold,
-              italic: this.props.italic,
-              underline: this.props.underline,
-              strikethrough: this.props.strikethrough,
+              fontFamily: this.fontFamily,
+              fontSize: this.fontSize,
+              bold: this.bold,
+              italic: this.italic,
+              underline: this.underline,
+              strikethrough: this.strikethrough,
               link: {
-                url: this.props.url,
+                url: this.url,
               },
             },
-            hyperlinkDisplayType: this.props.hyperlinkDisplayType,
+            hyperlinkDisplayType: this.hyperlinkDisplayType,
             textRotation: {
               angle: 0,
               vertical: false,
@@ -479,20 +478,21 @@ export default {
       };
 
     const request = {
-      spreadsheetId: this.props.sheetId,
+      spreadsheetId: this.sheetId,
       requestBody: {
         requests: [
           {
             updateConditionalFormatRuleRequest: {
-              index: this.props.index,
-              sheetId: this.props.worksheetId,
+              index: this.index,
+              sheetId: this.worksheetId,
               rule,
-              newIndex: this.props.newIndex,
+              newIndex: this.newIndex,
             },
           },
         ],
       },
     };
-    return await this.props.googleSheets.batchUpdate(request);
+    $.export("$summary", "Successfully updated conditional format rule.");
+    return await this.googleSheets.batchUpdate(request);
   },
 };
