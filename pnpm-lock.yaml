@@ -14250,6 +14250,9 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
+  components/straico:
+    specifiers: {}
+
   components/strapi: {}
 
   components/strava:
