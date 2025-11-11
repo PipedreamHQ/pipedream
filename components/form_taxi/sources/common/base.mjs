@@ -178,7 +178,6 @@ export default {
       }),
     });
 
-    // Event emittieren
     const id = this.eventIdFromBody(event.body || {});
     const summary = `Form Submission ID: ${id}`;
     const ts = (event.body?.created_at && Date.parse(event.body.created_at)) || Date.now();
