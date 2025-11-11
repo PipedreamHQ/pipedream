@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/redash",
+  "version": "0.0.1",
+  "description": "Pipedream Redash Components",
+  "main": "redash.app.mjs",
+  "keywords": [
+    "pipedream",
+    "redash"
+  ],
+  "homepage": "https://pipedream.com/apps/redash",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

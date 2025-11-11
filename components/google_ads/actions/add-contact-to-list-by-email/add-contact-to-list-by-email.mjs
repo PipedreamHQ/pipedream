@@ -7,7 +7,7 @@ export default {
   key: "google_ads-add-contact-to-list-by-email",
   name: "Add Contact to Customer List by Email",
   description: "Adds a contact to a specific customer list in Google Ads. Lists typically update in 6 to 12 hours after operation. [See the documentation](https://developers.google.com/google-ads/api/docs/remarketing/audience-segments/customer-match/get-started)",
-  version: "0.1.5",
+  version: "0.1.6",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

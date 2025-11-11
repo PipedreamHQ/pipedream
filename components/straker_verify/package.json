@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/straker_verify",
+  "version": "0.0.1",
+  "description": "Pipedream Straker Verify Components",
+  "main": "straker_verify.app.mjs",
+  "keywords": [
+    "pipedream",
+    "straker_verify"
+  ],
+  "homepage": "https://pipedream.com/apps/straker_verify",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
