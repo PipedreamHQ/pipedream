@@ -28,7 +28,7 @@ export default {
     },
     async emitEvent(maxResults = false) {
       const lastDate = this._getLastDate();
-      const response = await this.aevent.paginate({
+      const response = this.aevent.paginate({
         fn: this.aevent.listRegistrants,
         params: {
           lastDate,
