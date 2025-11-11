@@ -104,7 +104,6 @@ export default {
         "TIME",
         "DATE",
         "DATE_TIME",
-        "SCIENTIFIC",
       ],
       optional: true,
     },
