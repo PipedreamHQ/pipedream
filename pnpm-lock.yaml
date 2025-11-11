@@ -11405,6 +11405,9 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/postiz:
+    specifiers: {}
+
   components/postman:
     dependencies:
       '@pipedream/platform':
