@@ -11623,6 +11623,9 @@ importers:
 
   components/prompthub: {}
 
+  components/promptlayer:
+    specifiers: {}
+
   components/promptmate_io: {}
 
   components/proofly:
