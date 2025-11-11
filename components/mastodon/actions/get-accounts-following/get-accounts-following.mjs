@@ -24,7 +24,7 @@ export default {
     const accounts = await this.mastodon.paginate(this.mastodon.getAccountsFollowing, {
       $,
     }, this.max);
-    $.export("$summary", `Successfully retrieved ${accounts.length} item(s) from accounts following`);
+    $.export("$summary", `Successfully retrieved ${accounts.length} account(s) that the user is following`);
     return accounts;
   },
 };
