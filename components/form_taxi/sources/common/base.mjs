@@ -117,7 +117,6 @@ export default {
             (obj?.created_at && Date.parse(obj.created_at)) ||
             Date.now();
 
-          // Wir packen die Daten in das gleiche Format wie echte Events
           this.$emit(
             {
               headers: {
