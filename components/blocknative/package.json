@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/blocknative",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Blocknative Components",
   "main": "blocknative.app.mjs",
   "keywords": [
