@@ -29,7 +29,7 @@ export default {
       ],
     },
     maxResults: {
-      type: "number",
+      type: "integer",
       label: "Max Results",
       description: "The maximum number of results to return",
       default: 100,
