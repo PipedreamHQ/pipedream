@@ -43,9 +43,6 @@ export default {
       }
 
       if (responseArray.length) {
-     if (responseArray.length) {
-       this._setLastDate(responseArray[0].registrationTime);
-     }
         this._setLastDate(responseArray[0].registrationTime);
       }
 
