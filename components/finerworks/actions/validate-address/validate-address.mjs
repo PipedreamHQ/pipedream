@@ -99,7 +99,7 @@ export default {
         },
       },
     });
-    $.export("$summary", "Successfully valid the address: " + response.status.success);
+    $.export("$summary", "Successfully validated the address: " + response.status.success);
     return response;
   },
 };
