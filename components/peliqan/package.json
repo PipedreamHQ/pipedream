@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/peliqan",
+  "version": "0.0.1",
+  "description": "Pipedream Peliqan Components",
+  "main": "peliqan.app.mjs",
+  "keywords": [
+    "pipedream",
+    "peliqan"
+  ],
+  "homepage": "https://pipedream.com/apps/peliqan",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

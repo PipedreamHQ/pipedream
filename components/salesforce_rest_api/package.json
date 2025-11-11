@@ -10,7 +10,7 @@
   "homepage": "https://pipedream.com/apps/salesforce_rest_api",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^3.1.0",
+    "@pipedream/platform": "^3.1.1",
     "fast-xml-parser": "^4.3.2",
     "handlebars": "^4.7.7",
     "lodash": "^4.17.21",

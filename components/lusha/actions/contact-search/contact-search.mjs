@@ -5,7 +5,7 @@ export default {
   key: "lusha-contact-search",
   name: "Search Contacts",
   description: "Search for contacts using various filters. [See the documentation](https://docs.lusha.com/apis/openapi/contact-search-and-enrich/searchprospectingcontacts)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -82,7 +82,7 @@ export default {
     if (this.seniority) include.seniority = parseObject(this.seniority);
     if (this.departments) include.departments = parseObject(this.departments);
     if (this.existingDataPoints) include.existingDataPoints = parseObject(this.existingDataPoints);
-    if (this.location) include.location = parseObject(this.location);
+    if (this.location) include.locations = parseObject(this.location);
 
     const response = this.lusha.paginate({
       $,

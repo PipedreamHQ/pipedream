@@ -10,7 +10,7 @@
   "homepage": "https://pipedream.com/apps/pinterest",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^1.4.0",
+    "@pipedream/platform": "^1.6.8",
     "url-exist": "^3.0.0",
     "js-base64": "^3.7.2",
     "mime-types": "^2.1.35"

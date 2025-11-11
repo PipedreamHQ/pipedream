@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/nele_ai",
+  "version": "0.0.1",
+  "description": "Pipedream nele.ai Components",
+  "main": "nele_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "nele_ai"
+  ],
+  "homepage": "https://pipedream.com/apps/nele_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

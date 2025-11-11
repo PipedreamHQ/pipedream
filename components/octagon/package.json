@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/octagon",
+  "version": "0.0.1",
+  "description": "Pipedream Octagon Components",
+  "main": "octagon.app.mjs",
+  "keywords": [
+    "pipedream",
+    "octagon"
+  ],
+  "homepage": "https://pipedream.com/apps/octagon",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

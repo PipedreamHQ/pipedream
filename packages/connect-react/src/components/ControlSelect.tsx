@@ -16,11 +16,18 @@ import CreatableSelect from "react-select/creatable";
 import type { BaseReactSelectProps } from "../hooks/customization-context";
 import { useCustomize } from "../hooks/customization-context";
 import { useFormFieldContext } from "../hooks/form-field-context";
-import { LabelValueOption } from "../types";
+import type {
+  LabelValueOption,
+  RawPropOption,
+} from "../types";
 import {
   isOptionWithLabel,
   sanitizeOption,
 } from "../utils/type-guards";
+import {
+  isArrayOfLabelValueWrapped,
+  isLabelValueWrapped,
+} from "../utils/label-value";
 import { LoadMoreButton } from "./LoadMoreButton";
 
 // XXX T and ConfigurableProp should be related
@@ -85,15 +92,25 @@ export function ControlSelect<T extends PropOptionValue>({
       return null;
     }
 
+    // Handle __lv-wrapped values (single object or array) returned from remote options
+    if (isLabelValueWrapped<T>(rawValue)) {
+      const lvContent = rawValue.__lv;
+      if (Array.isArray(lvContent)) {
+        return lvContent.map((item) => sanitizeOption<T>(item as RawPropOption<T>));
+      }
+      return sanitizeOption<T>(lvContent as RawPropOption<T>);
+    }
+
+    if (isArrayOfLabelValueWrapped<T>(rawValue)) {
+      return rawValue.map((item) => sanitizeOption<T>(item as RawPropOption<T>));
+    }
+
     if (Array.isArray(rawValue)) {
       // if simple, make lv (XXX combine this with other place this happens)
       if (!isOptionWithLabel(rawValue[0])) {
         return rawValue.map((o) =>
           selectOptions.find((item) => item.value === o) || sanitizeOption(o as T));
       }
-    } else if (rawValue && typeof rawValue === "object" && "__lv" in (rawValue as Record<string, unknown>)) {
-      // Extract the actual option from __lv wrapper and sanitize to LV
-      return sanitizeOption(((rawValue as Record<string, unknown>).__lv) as T);
     } else if (!isOptionWithLabel(rawValue)) {
       const lvOptions = selectOptions?.[0] && isOptionWithLabel(selectOptions[0]);
       if (lvOptions) {

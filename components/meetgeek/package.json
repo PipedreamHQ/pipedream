@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/meetgeek",
+  "version": "0.0.1",
+  "description": "Pipedream MeetGeek Components",
+  "main": "meetgeek.app.mjs",
+  "keywords": [
+    "pipedream",
+    "meetgeek"
+  ],
+  "homepage": "https://pipedream.com/apps/meetgeek",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

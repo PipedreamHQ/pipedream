@@ -13,7 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.4.0",
+    "@pipedream/platform": "^1.6.8",
     "lodash.get": "^4.4.2",
     "lodash.sortby": "^4.7.0",
     "nanoid": "^4.0.1"

@@ -10,7 +10,7 @@
   "homepage": "https://pipedream.com/apps/ghost_org_admin_api",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^3.0.0",
+    "@pipedream/platform": "^3.1.1",
     "jsonwebtoken": "^9.0.0"
   },
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",

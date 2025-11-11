@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/scrapeops",
+  "version": "0.0.1",
+  "description": "Pipedream ScrapeOps Components",
+  "main": "scrapeops.app.mjs",
+  "keywords": [
+    "pipedream",
+    "scrapeops"
+  ],
+  "homepage": "https://pipedream.com/apps/scrapeops",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

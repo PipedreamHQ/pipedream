@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/quintadb",
+  "version": "0.0.1",
+  "description": "Pipedream QuintaDB Components",
+  "main": "quintadb.app.mjs",
+  "keywords": [
+    "pipedream",
+    "quintadb"
+  ],
+  "homepage": "https://pipedream.com/apps/quintadb",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

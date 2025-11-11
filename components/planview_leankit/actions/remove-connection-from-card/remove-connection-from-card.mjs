@@ -4,7 +4,7 @@ import planviewLeankit from "../../planview_leankit.app.mjs";
 export default {
   key: "planview_leankit-remove-connection-from-card",
   name: "Remove Parent/Child Connection",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

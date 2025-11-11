@@ -4,7 +4,7 @@ export default {
   key: "zendesk-list-locales",
   name: "List Locales",
   description: "Retrieves all locales. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/account-configuration/locales/).",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

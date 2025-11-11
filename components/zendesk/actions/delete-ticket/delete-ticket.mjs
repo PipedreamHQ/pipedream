@@ -5,7 +5,7 @@ export default {
   name: "Delete Ticket",
   description: "Deletes a ticket. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/tickets/tickets/#delete-ticket).",
   type: "action",
-  version: "0.1.9",
+  version: "0.1.10",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

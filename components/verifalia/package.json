@@ -16,7 +16,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.4.0",
+    "@pipedream/platform": "^1.6.8",
     "verifalia": "3.2.2"
   }
 }

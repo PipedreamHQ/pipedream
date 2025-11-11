@@ -10,7 +10,7 @@
   "homepage": "https://pipedream.com/apps/superphone",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^1.5.1",
+    "@pipedream/platform": "^1.6.8",
     "graphql-request": "^7.2.0"
   },
   "publishConfig": {

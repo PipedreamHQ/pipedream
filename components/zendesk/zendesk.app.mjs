@@ -87,6 +87,7 @@ export default {
             params: {
               [constants.PAGE_SIZE_PARAM]: constants.DEFAULT_LIMIT,
               [constants.PAGE_AFTER_PARAM]: afterCursor,
+              active: true,
             },
           });
 

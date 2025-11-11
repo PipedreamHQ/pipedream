@@ -11,7 +11,7 @@
   "homepage": "https://pipedream.com/apps/kanban-tool",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^1.4.1"
+    "@pipedream/platform": "^1.6.8"
   },
   "publishConfig": {
     "access": "public"

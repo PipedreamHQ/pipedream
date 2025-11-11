@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/financial_modeling_prep",
+  "version": "0.0.1",
+  "description": "Pipedream Financial Modeling Prep Components",
+  "main": "financial_modeling_prep.app.mjs",
+  "keywords": [
+    "pipedream",
+    "financial_modeling_prep"
+  ],
+  "homepage": "https://pipedream.com/apps/financial_modeling_prep",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

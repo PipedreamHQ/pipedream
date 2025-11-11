@@ -36,6 +36,7 @@ import {
 } from "../types";
 import { resolveUserId } from "../utils/resolve-user-id";
 import { isConfigurablePropOfType } from "../utils/type-guards";
+import { hasLabelValueFormat } from "../utils/label-value";
 
 export type AnyFormFieldContext = Omit<FormFieldContext<ConfigurableProp>, "onChange"> & {
   onChange: (value: unknown) => void;
@@ -169,6 +170,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   }, [
     component.key,
   ]);
+
   // XXX pass this down? (in case we make it hash or set backed, but then also provide {add,remove} instead of set)
   const optionalPropIsEnabled = (prop: ConfigurableProp) => enabledOptionalProps[prop.name];
 
@@ -354,13 +356,35 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     setErrors(_errors);
   };
 
+  const preserveIntegerValue = (prop: ConfigurableProp, value: unknown) => {
+    if (prop.type !== "integer" || typeof value === "number") {
+      return value;
+    }
+    return hasLabelValueFormat(value)
+      ? value
+      : undefined;
+  };
+
   useEffect(() => {
-    // Initialize queryDisabledIdx on load so that we don't force users
-    // to reconfigure a prop they've already configured whenever the page
-    // or component is reloaded
-    updateConfiguredPropsQueryDisabledIdx(_configuredProps)
+    // Initialize queryDisabledIdx using actual configuredProps (includes parent-passed values in controlled mode)
+    // instead of _configuredProps which starts empty. This ensures that when mounting with pre-configured
+    // values, remote options queries are not incorrectly blocked.
+    updateConfiguredPropsQueryDisabledIdx(configuredProps)
   }, [
-    _configuredProps,
+    component.key,
+    configurableProps,
+    enabledOptionalProps,
+  ]);
+
+  // Update queryDisabledIdx reactively when configuredProps changes.
+  // This prevents race conditions where queryDisabledIdx updates synchronously before
+  // configuredProps completes its state update, causing duplicate API calls with stale data.
+  useEffect(() => {
+    updateConfiguredPropsQueryDisabledIdx(configuredProps);
+  }, [
+    configuredProps,
+    configurableProps,
+    enabledOptionalProps,
   ]);
 
   useEffect(() => {
@@ -386,8 +410,13 @@ export const FormContextProvider = <T extends ConfigurableProps>({
       if (skippablePropTypes.includes(prop.type)) {
         continue;
       }
-      // if prop.optional and not shown, we skip and do on un-collapse
+      // if prop.optional and not shown, we still preserve the value if it exists
+      // This prevents losing saved values for optional props that haven't been enabled yet
       if (prop.optional && !optionalPropIsEnabled(prop)) {
+        const value = configuredProps[prop.name as keyof ConfiguredProps<T>];
+        if (value !== undefined) {
+          newConfiguredProps[prop.name as keyof ConfiguredProps<T>] = value;
+        }
         continue;
       }
       const value = configuredProps[prop.name as keyof ConfiguredProps<T>];
@@ -397,10 +426,14 @@ export const FormContextProvider = <T extends ConfigurableProps>({
           newConfiguredProps[prop.name as keyof ConfiguredProps<T>] = prop.default as any; // eslint-disable-line @typescript-eslint/no-explicit-any
         }
       } else {
-        if (prop.type === "integer" && typeof value !== "number") {
+        // Preserve label-value format from remote options dropdowns for integer props.
+        // Remote options store values as {__lv: {label: "...", value: ...}} (or arrays of __lv objects).
+        // For integer props we drop anything that isn't number or label-value formatted to avoid corrupt data.
+        const preservedValue = preserveIntegerValue(prop, value);
+        if (preservedValue === undefined) {
           delete newConfiguredProps[prop.name as keyof ConfiguredProps<T>];
         } else {
-          newConfiguredProps[prop.name as keyof ConfiguredProps<T>] = value;
+          newConfiguredProps[prop.name as keyof ConfiguredProps<T>] = preservedValue as any; // eslint-disable-line @typescript-eslint/no-explicit-any
         }
       }
     }
@@ -409,6 +442,8 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     }
   }, [
     configurableProps,
+    enabledOptionalProps,
+    configuredProps,
   ]);
 
   // clear all props on user change
@@ -439,9 +474,6 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     setConfiguredProps(newConfiguredProps);
     if (prop.reloadProps) {
       setReloadPropIdx(idx);
-    }
-    if (prop.type === "app" || prop.remoteOptions) {
-      updateConfiguredPropsQueryDisabledIdx(newConfiguredProps);
     }
     const errs = propErrors(prop, value);
     const newErrors = {
@@ -477,6 +509,23 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     }
     setEnabledOptionalProps(newEnabledOptionalProps);
   };
+
+  // Auto-enable optional props with saved values so dependent dynamic props reload correctly
+  useEffect(() => {
+    for (const prop of configurableProps) {
+      if (!prop.optional) continue;
+      if (enabledOptionalProps[prop.name]) continue;
+      const value = configuredProps[prop.name as keyof ConfiguredProps<T>];
+      if (value === undefined) continue;
+      optionalPropSetEnabled(prop, true);
+    }
+  }, [
+    component.key,
+    configurableProps,
+    configuredProps,
+    enabledOptionalProps,
+    optionalPropSetEnabled,
+  ]);
 
   const checkPropsNeedConfiguring = () => {
     const _propsNeedConfiguring = []

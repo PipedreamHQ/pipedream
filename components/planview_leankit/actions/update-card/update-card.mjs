@@ -5,7 +5,7 @@ import { prepareData } from "../common/utils.mjs";
 export default {
   key: "planview_leankit-update-card",
   name: "Update Card (Or Task)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

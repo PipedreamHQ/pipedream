@@ -8,9 +8,9 @@ export default {
     }
   `,
   listTranscriptsByDate: `
-    query Transcripts($date: Float) { 
-      transcripts(date: $date) { 
-        id 
+    query Transcripts($fromDate: DateTime, $limit: Int, $skip: Int) {
+      transcripts(fromDate: $fromDate, limit: $limit, skip: $skip) {
+        id
         title
         transcript_url
         duration
@@ -32,7 +32,7 @@ export default {
           user_id
           name
         }
-      } 
+      }
     }
   `,
   getTranscript: `

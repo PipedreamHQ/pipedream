@@ -10,7 +10,7 @@
   "homepage": "https://pipedream.com/apps/cliniko",
   "author": "Adrian Edwards <adrian@ageuphealth.com.au> (https://ageuphealth.com.au/)",
   "dependencies": {
-    "@pipedream/platform": "^1.6.2"
+    "@pipedream/platform": "^1.6.8"
   },
   "publishConfig": {
     "access": "public"

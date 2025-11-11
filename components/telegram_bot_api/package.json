@@ -10,7 +10,7 @@
   "homepage": "https://pipedream.com/apps/telegram_bot_api",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^3.0.3",
+    "@pipedream/platform": "^3.1.1",
     "node-telegram-bot-api": "^0.54.0",
     "uuid": "^8.3.2"
   },

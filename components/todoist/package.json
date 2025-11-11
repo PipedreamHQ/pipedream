@@ -10,7 +10,7 @@
   "homepage": "https://pipedream.com/apps/todoist",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^3.1.0",
+    "@pipedream/platform": "^3.1.1",
     "json-2-csv": "^5.5.9",
     "query-string": "^7.1.3",
     "tmp-promise": "^3.0.3",

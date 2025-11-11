@@ -5,7 +5,7 @@ export default {
   name: "Update Ticket",
   description: "Updates a ticket. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/tickets/tickets/#update-ticket).",
   type: "action",
-  version: "0.2.2",
+  version: "0.2.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

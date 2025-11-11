@@ -14,7 +14,7 @@
   ],
   "dependencies": {
     "@airweave/sdk": "^0.1.50",
-    "@pipedream/platform": "^3.0.3"
+    "@pipedream/platform": "^3.1.1"
   },
   "homepage": "https://pipedream.com/apps/airweave",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

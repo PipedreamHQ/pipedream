@@ -6,12 +6,12 @@ export default {
     blockReason: {
       type: "string",
       label: "Block Reason",
-      description: "The block reason.",
+      description: "The block reason",
     },
     boardId: {
       type: "string",
-      label: "Board Id",
-      description: "The Id of the board.",
+      label: "Board ID",
+      description: "The ID of the board",
       async options({ page }) {
         const { boards } = await this.listBoards({
           params: {
@@ -29,8 +29,8 @@ export default {
     },
     cardId: {
       type: "string",
-      label: "Card Id",
-      description: "The Id of the card.",
+      label: "Card ID",
+      description: "The ID of the card",
       async options({
         page, boardId,
       }) {
@@ -51,8 +51,8 @@ export default {
     },
     cardTags: {
       type: "string[]",
-      label: "Tag ids",
-      description: "Tag ids.",
+      label: "Tag Ids",
+      description: "Tag IDs",
       async options({ cardId }) {
         const { tags } = await this.getCard({
           cardId,
@@ -63,8 +63,8 @@ export default {
     },
     childCardId: {
       type: "string[]",
-      label: "Child Card Ids",
-      description: "Collection of child card ids.",
+      label: "Child Card IDs",
+      description: "Collection of child card IDs",
       async options({
         page, cardId, boardId,
       }) {
@@ -100,8 +100,8 @@ export default {
     },
     customIconId: {
       type: "string",
-      label: "Custom Icon Id",
-      description: "The custom icon.",
+      label: "Custom Icon ID",
+      description: "The custom icon",
       async options({ cardId }) {
         const { board: { id: boardId } } = await this.getCard({
           cardId,
@@ -121,13 +121,13 @@ export default {
     },
     customId: {
       type: "string",
-      label: "Custom Id",
-      description: "The card header.",
+      label: "Custom ID",
+      description: "The card header",
     },
     customFieldId: {
       type: "string",
-      label: "Custom Field Id",
-      description: "The Id of the custom field.",
+      label: "Custom Field ID",
+      description: "The Id of the custom field",
       async options({ boardId }) {
         const { customFields } = await this.listCustomFields({
           boardId,
@@ -149,22 +149,22 @@ export default {
     description: {
       type: "string",
       label: "Description",
-      description: "The card description.",
+      description: "The card description",
     },
     deleted: {
       type: "boolean",
       label: "Deleted",
-      description: "Return the card ids for deleted cards.",
+      description: "Return the card IDs for deleted cards",
     },
     externalLink: {
       type: "object",
       label: "External Link",
-      description: "External link object with string label and string url fields.",
+      description: "External link object with string label and string url fields",
     },
     index: {
       type: "integer",
       label: "Index",
-      description: "The position of the card in the lane starting at 0 as the first position.",
+      description: "The position of the card in the lane starting at 0 as the first position",
     },
     isBlocked: {
       type: "boolean",
@@ -174,7 +174,7 @@ export default {
     laneId: {
       type: "string",
       label: "Lane Id",
-      description: "The Id of the lane.",
+      description: "The ID of the lane",
       async options({
         boardId, cardId,
       }) {
@@ -209,7 +209,7 @@ export default {
     laneType: {
       type: "string",
       label: "Lane Type",
-      description: "The type of the lane.",
+      description: "The type of the lane",
       async options({ boardId }) {
         const { laneTypes } = await this.getBoard({
           boardId,
@@ -230,8 +230,8 @@ export default {
     },
     parentCardId: {
       type: "string[]",
-      label: "Parent Card Ids",
-      description: "Collection of parent card ids.",
+      label: "Parent Card IDs",
+      description: "Collection of parent card IDs.",
       async options({
         page, cardId, boardId,
       }) {
@@ -267,8 +267,8 @@ export default {
     },
     planningIncrementIds: {
       type: "string[]",
-      label: "Planning Increment Ids",
-      description: "Collection of planning increment ids.",
+      label: "Planning Increment IDs",
+      description: "Collection of planning increment IDs.",
       async options({
         page, planningSeriesId,
       }) {
@@ -289,8 +289,8 @@ export default {
     },
     planningSeriesId: {
       type: "string",
-      label: "Planning Series Id",
-      description: "Planning series for an account.",
+      label: "Planning Series ID",
+      description: "Planning series for an account",
       async options({ page }) {
         const { series } = await this.listPlanningSeries({
           params: {
@@ -319,7 +319,7 @@ export default {
     priority: {
       type: "string",
       label: "Priority",
-      description: "The priority of the card.",
+      description: "The priority of the card",
       options: [
         "critical",
         "high",
@@ -330,12 +330,12 @@ export default {
     size: {
       type: "integer",
       label: "Size",
-      description: "The card size.",
+      description: "The card size",
     },
     search: {
       type: "string",
       label: "Search",
-      description: "Full text search on card title and external card id.",
+      description: "Full text search on card title and external card ID",
     },
     since: {
       type: "string",
@@ -355,7 +355,7 @@ export default {
     tags: {
       type: "string[]",
       label: "Tags",
-      description: "Collection of tags.",
+      description: "Collection of tags",
       async options({
         boardId, cardId,
       }) {
@@ -375,8 +375,8 @@ export default {
     },
     taskId: {
       type: "string",
-      label: "Task Id",
-      description: "The Id of the task.",
+      label: "Task ID",
+      description: "The ID of the task",
       async options({
         page, cardId,
       }) {
@@ -397,8 +397,8 @@ export default {
     },
     taskLaneId: {
       type: "string",
-      label: "Lane Id",
-      description: "The Id of the lane.",
+      label: "Lane ID",
+      description: "The Id of the lane",
       async options({
         cardId, status,
       }) {
@@ -420,12 +420,12 @@ export default {
     title: {
       type: "string",
       label: "Title",
-      description: "The card title.",
+      description: "The card title",
     },
     typeId: {
       type: "string",
-      label: "Type Id",
-      description: "The id of the type.",
+      label: "Type ID",
+      description: "The ID of the type",
       async options({
         boardId, cardId, isTask = false,
       }) {
@@ -453,8 +453,8 @@ export default {
     },
     userId: {
       type: "string",
-      label: "User Id",
-      description: "The id of the user.",
+      label: "User ID",
+      description: "The ID of the user",
       async options({
         page, cardId,
       }) {

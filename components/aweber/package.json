@@ -10,8 +10,7 @@
   "homepage": "https://pipedream.com/apps/aweber",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^3.1.0",
-    "@pipedreamhq/platform": "^0.8.1"
+    "@pipedream/platform": "^3.1.1"
   },
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
   "publishConfig": {

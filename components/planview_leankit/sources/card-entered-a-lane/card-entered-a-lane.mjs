@@ -6,7 +6,7 @@ export default {
   name: "New Card Entered a Specific Lane",
   description: "Emit new event when a card enters a specific lane.",
   type: "source",
-  version: "0.0.4",
+  version: "0.0.5",
   dedupe: "unique",
   props: {
     ...common.props,

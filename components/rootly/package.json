@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/rootly",
+  "version": "0.0.1",
+  "description": "Pipedream Rootly Components",
+  "main": "rootly.app.mjs",
+  "keywords": [
+    "pipedream",
+    "rootly"
+  ],
+  "homepage": "https://pipedream.com/apps/rootly",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

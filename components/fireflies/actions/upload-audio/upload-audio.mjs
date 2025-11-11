@@ -5,7 +5,7 @@ export default {
   key: "fireflies-upload-audio",
   name: "Upload Audio",
   description: "Creates and stores a new meeting in Fireflies, allowing it to be transcribed and shared. [See the documentation](https://docs.fireflies.ai/graphql-api/mutation/upload-audio)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

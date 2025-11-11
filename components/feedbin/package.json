@@ -10,7 +10,7 @@
   "homepage": "https://pipedream.com/apps/feedbin",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^1.2.0"
+    "@pipedream/platform": "^1.6.8"
   },
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
   "publishConfig": {

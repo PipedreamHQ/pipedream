@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/progress_agentic_rag",
+  "version": "0.0.1",
+  "description": "Pipedream Progress Agentic RAG Components",
+  "main": "progress_agentic_rag.app.mjs",
+  "keywords": [
+    "pipedream",
+    "progress_agentic_rag"
+  ],
+  "homepage": "https://pipedream.com/apps/progress_agentic_rag",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

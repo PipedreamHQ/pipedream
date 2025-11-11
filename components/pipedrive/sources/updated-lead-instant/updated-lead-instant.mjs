@@ -7,7 +7,7 @@ export default {
   key: "pipedrive-updated-lead-instant",
   name: "Lead Updated (Instant)",
   description: "Emit new event when a lead is updated.",
-  version: "0.1.5",
+  version: "0.1.6",
   type: "source",
   dedupe: "unique",
   methods: {

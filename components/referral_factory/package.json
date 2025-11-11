@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/referral_factory",
+  "version": "0.0.1",
+  "description": "Pipedream Referral Factory Components",
+  "main": "referral_factory.app.mjs",
+  "keywords": [
+    "pipedream",
+    "referral_factory"
+  ],
+  "homepage": "https://pipedream.com/apps/referral_factory",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

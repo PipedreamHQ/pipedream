@@ -10,7 +10,7 @@
   "homepage": "https://pipedream.com/apps/nordigen",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^1.6.0"
+    "@pipedream/platform": "^1.6.8"
   },
   "publishConfig": {
     "access": "public"

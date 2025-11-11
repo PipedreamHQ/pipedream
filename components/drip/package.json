@@ -10,7 +10,7 @@
   "homepage": "https://pipedream.com/apps/drip",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^1.2.1"
+    "@pipedream/platform": "^1.6.8"
   },
   "publishConfig": {
     "access": "public"

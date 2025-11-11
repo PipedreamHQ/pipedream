@@ -27,7 +27,7 @@
   "homepage": "https://pipedream.com/apps/api4ai",
   "author": "API4AI Team <hello@api4.ai> (https://api4.ai/)",
   "dependencies": {
-    "@pipedream/platform": "^3.1.0",
+    "@pipedream/platform": "^3.1.1",
     "form-data": "^4.0.4"
   },
   "publishConfig": {

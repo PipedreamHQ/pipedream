@@ -13,7 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.0.3",
+    "@pipedream/platform": "^3.1.1",
     "airtable": "^0.11.1",
     "bottleneck": "^2.19.5",
     "lodash.chunk": "^4.2.0",

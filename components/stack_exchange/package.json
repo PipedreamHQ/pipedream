@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/stack_exchange",
-  "version": "0.3.8",
+  "version": "0.3.9",
   "description": "Pipedream Stack_exchange Components",
   "main": "stack_exchange.app.js",
   "keywords": [
@@ -10,8 +10,8 @@
   "homepage": "https://pipedream.com/apps/stack_exchange",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^1.2.0",
-    "axios": "^0.21.1",
+    "@pipedream/platform": "^1.6.8",
+    "axios": "^0.30.2",
     "he": "^1.2.0",
     "lodash": "^4.17.20"
   },

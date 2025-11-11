@@ -11,7 +11,7 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
   "dependencies": {
-    "@pipedream/platform": "^1.4.1"
+    "@pipedream/platform": "^1.6.8"
   },
   "publishConfig": {
     "access": "public"

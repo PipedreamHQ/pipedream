@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/nvoip",
+  "version": "0.0.1",
+  "description": "Pipedream Nvoip Components",
+  "main": "nvoip.app.mjs",
+  "keywords": [
+    "pipedream",
+    "nvoip"
+  ],
+  "homepage": "https://pipedream.com/apps/nvoip",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

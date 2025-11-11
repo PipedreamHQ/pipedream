@@ -10,7 +10,7 @@
   "homepage": "https://pipedream.com/apps/gitlab_developer_app",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^1.6.4",
+    "@pipedream/platform": "^1.6.8",
     "lodash": "^4.17.21",
     "uuid": "^8.3.2",
     "@pipedream/gitlab": "^0.5.6"

@@ -12,7 +12,7 @@
   "dependencies": {
     "@firebase/app-compat": "^0.1.25",
     "@firebase/app-types": "^0.7.0",
-    "@pipedream/platform": "^3.0.3",
+    "@pipedream/platform": "^3.1.1",
     "firebase-admin": "^13.0.2",
     "google-auth-library": "^7.11.0"
   },

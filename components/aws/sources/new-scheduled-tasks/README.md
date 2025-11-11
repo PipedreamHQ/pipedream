@@ -315,7 +315,7 @@ to schedule a new task N seconds in the future:
 // N seconds from now
 this.ts = new Date(+new Date() + params.numSeconds * 1000).toISOString();
 
-return await require("@pipedreamhq/platform").axios(this, {
+return await require("@pipedream/platform").axios(this, {
   url: `${params.taskSchedulerURL}/schedule`,
   headers: {
     "Content-Type": "application/json",

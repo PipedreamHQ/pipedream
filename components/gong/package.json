@@ -10,7 +10,7 @@
   "homepage": "https://pipedream.com/apps/gong",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^3.0.3"
+    "@pipedream/platform": "^3.1.1"
   },
   "publishConfig": {
     "access": "public"

@@ -6,7 +6,7 @@ export default {
   key: "pipedrive-update-person",
   name: "Update Person",
   description: "Updates an existing person in Pipedrive. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Persons#updatePerson)",
-  version: "0.0.8",
+  version: "0.0.9",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

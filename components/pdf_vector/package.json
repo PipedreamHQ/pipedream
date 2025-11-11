@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/pdf_vector",
+  "version": "0.0.1",
+  "description": "Pipedream PDF Vector Components",
+  "main": "pdf_vector.app.mjs",
+  "keywords": [
+    "pipedream",
+    "pdf_vector"
+  ],
+  "homepage": "https://pipedream.com/apps/pdf_vector",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

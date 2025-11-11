@@ -16,7 +16,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.6.0",
+    "@pipedream/platform": "^1.6.8",
     "crypto-js": "^4.2.0"
   }
 }

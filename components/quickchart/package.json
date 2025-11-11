@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/quickchart",
+  "version": "0.0.1",
+  "description": "Pipedream QuickChart Components",
+  "main": "quickchart.app.mjs",
+  "keywords": [
+    "pipedream",
+    "quickchart"
+  ],
+  "homepage": "https://pipedream.com/apps/quickchart",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

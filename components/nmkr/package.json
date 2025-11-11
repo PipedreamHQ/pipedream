@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/nmkr",
+  "version": "0.0.1",
+  "description": "Pipedream NMKR Components",
+  "main": "nmkr.app.mjs",
+  "keywords": [
+    "pipedream",
+    "nmkr"
+  ],
+  "homepage": "https://pipedream.com/apps/nmkr",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

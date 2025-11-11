@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/pinata",
+  "version": "0.0.1",
+  "description": "Pipedream Pinata Components",
+  "main": "pinata.app.mjs",
+  "keywords": [
+    "pipedream",
+    "pinata"
+  ],
+  "homepage": "https://pipedream.com/apps/pinata",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

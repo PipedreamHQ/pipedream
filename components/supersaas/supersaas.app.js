@@ -15,7 +15,7 @@ module.exports = {
   },
   methods: {
     async axios(path, opts = {}) {
-      const { axios } = await require("@pipedreamhq/platform");
+      const { axios } = await require("@pipedream/platform");
 
       return await axios(this, {
         url: `${envConf.urlPrefix}${path}`,

@@ -22,7 +22,7 @@ module.exports = {
       opts.url = `${this._apiUrl()}${path[0] === "/"
         ? ""
         : "/"}${path}`;
-      return await require("@pipedreamhq/platform").axios(this, opts);
+      return await require("@pipedream/platform").axios(this, opts);
     },
     _subdomain() {
       return this.$auth.subdomain;

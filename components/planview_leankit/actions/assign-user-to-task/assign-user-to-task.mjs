@@ -3,7 +3,7 @@ import planviewLeankit from "../../planview_leankit.app.mjs";
 export default {
   key: "planview_leankit-assign-user-to-task",
   name: "Assign User To Task",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

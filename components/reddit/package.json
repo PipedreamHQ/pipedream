@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/reddit",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Pipedream Reddit Components",
   "main": "reddit.app.mjs",
   "keywords": [
@@ -13,9 +13,9 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.1.0",
+    "@pipedream/platform": "^3.1.1",
     "async-retry": "^1.3.3",
-    "axios": "^0.27.2",
+    "axios": "^0.30.2",
     "lodash": "^4.17.21",
     "qs": "^6.11.0"
   }

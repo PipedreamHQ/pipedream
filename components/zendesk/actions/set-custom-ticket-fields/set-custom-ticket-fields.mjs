@@ -7,7 +7,7 @@ export default {
   name: "Set Custom Ticket Fields",
   description: "Sets one or more custom field values on a ticket. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/tickets/tickets/#update-ticket).",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -6,7 +6,7 @@ export default {
   name: "New Card Created In A Specific Lane",
   description: "Emit new event when a card is created in a specific lane.",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,

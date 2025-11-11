@@ -82,6 +82,88 @@ export default {
         })) || [];
       },
     },
+    taskId: {
+      type: "string",
+      label: "Task",
+      description: "Identifier of a task",
+      async options({
+        workspaceId, projectId, page,
+      }) {
+        if (!workspaceId || !projectId) {
+          return [];
+        }
+        const tasks = await this.listTasks({
+          workspaceId,
+          projectId,
+          params: {
+            page: page + 1,
+          },
+        });
+        return tasks?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    tagIds: {
+      type: "string[]",
+      label: "Tags",
+      description: "Array of tag identifiers",
+      async options({
+        workspaceId, page,
+      }) {
+        const tags = await this.listTags({
+          workspaceId,
+          params: {
+            page: page + 1,
+          },
+        });
+        return tags?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    hydrated: {
+      type: "boolean",
+      label: "Hydrated",
+      description: "If set to `true`, you'll get a hydrated response with additional information",
+      optional: true,
+    },
+    strictNameSearch: {
+      type: "boolean",
+      label: "Strict Name Search",
+      description: "Flag to toggle on/off strict search mode",
+      optional: true,
+    },
+    sortOrder: {
+      type: "string",
+      label: "Sort Order",
+      description: "The order to sort the results by",
+      optional: true,
+      options: [
+        "ASCENDING",
+        "DESCENDING",
+      ],
+    },
+    page: {
+      type: "integer",
+      label: "Page",
+      description: "The page number to return. Default is `1`",
+      optional: true,
+      default: 1,
+    },
+    pageSize: {
+      type: "integer",
+      label: "Page Size",
+      description: "The number of results to return. Default is `100`",
+      optional: true,
+      default: 100,
+    },
   },
   methods: {
     _baseUrl() {
@@ -97,11 +179,12 @@ export default {
     },
     _makeRequest({
       $ = this,
+      url,
       path,
       ...args
     }) {
       return axios($, {
-        url: `${this._baseUrl()}${path}`,
+        url: url || `${this._baseUrl()}${path}`,
         headers: this._headers(),
         ...args,
       });
@@ -133,6 +216,39 @@ export default {
     }) {
       return this._makeRequest({
         path: `/workspaces/${workspaceId}/users`,
+        ...args,
+      });
+    },
+    listTasks({
+      workspaceId, projectId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/workspaces/${workspaceId}/projects/${projectId}/tasks`,
+        ...args,
+      });
+    },
+    listTimeEntries({
+      workspaceId, userId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/workspaces/${workspaceId}/user/${userId}/time-entries`,
+        ...args,
+      });
+    },
+    listTags({
+      workspaceId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/workspaces/${workspaceId}/tags`,
+        ...args,
+      });
+    },
+    getTimeEntryReport({
+      workspaceId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        url: `https://reports.api.clockify.me/v1/workspaces/${workspaceId}/reports/detailed`,
         ...args,
       });
     },

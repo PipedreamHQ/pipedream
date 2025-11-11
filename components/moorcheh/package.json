@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/moorcheh",
+  "version": "0.0.1",
+  "description": "Pipedream Moorcheh Components",
+  "main": "moorcheh.app.mjs",
+  "keywords": [
+    "pipedream",
+    "moorcheh"
+  ],
+  "homepage": "https://pipedream.com/apps/moorcheh",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
