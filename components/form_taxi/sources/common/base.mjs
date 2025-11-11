@@ -151,7 +151,7 @@ export default {
   },
   hooks: {
     async deploy() {
-      await this.fetchAndEmitSamples(); // Unmittelbar Sample-Daten laden und emittieren
+      await this.fetchAndEmitSamples();
     },
     async activate() {
       // Webhook frisch registrieren
