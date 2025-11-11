@@ -12850,6 +12850,9 @@ importers:
 
   components/scoro: {}
 
+  components/scrape_creators:
+    specifiers: {}
+
   components/scrape_it_cloud:
     dependencies:
       '@pipedream/platform':
