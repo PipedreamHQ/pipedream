@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/simplelocalize",
+  "version": "0.0.1",
+  "description": "Pipedream SimpleLocalize Components",
+  "main": "simplelocalize.app.mjs",
+  "keywords": [
+    "pipedream",
+    "simplelocalize"
+  ],
+  "homepage": "https://pipedream.com/apps/simplelocalize",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
