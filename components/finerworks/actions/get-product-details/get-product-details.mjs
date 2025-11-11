@@ -38,7 +38,7 @@ export default {
         ],
       },
     });
-    $.export("$summary", `Successfully retrived details for product SKU ${this.productSku}`);
+    $.export("$summary", `Successfully retrieved details for product SKU ${this.productSku}`);
     return response;
   },
 };
