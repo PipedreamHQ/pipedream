@@ -12914,6 +12914,9 @@ importers:
   components/scrapingdog:
     specifiers: {}
 
+  components/scrappey:
+    specifiers: {}
+
   components/scraptio:
     dependencies:
       '@pipedream/platform':
