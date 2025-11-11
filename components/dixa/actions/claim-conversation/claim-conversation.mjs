@@ -3,7 +3,7 @@ import dixa from "../../dixa.app.mjs";
 export default {
   key: "dixa-claim-conversation",
   name: "Claim Conversation",
-  description: "Claims a conversation for a given agent. To avoid taking over assigned conversations, set the force paremeter to false. [See the documentation](https://docs.dixa.io/openapi/dixa-api/v1/tag/Conversations/#tag/Conversations/operation/putConversationsConversationidClaim)",
+  description: "Claims a conversation for a given agent. To avoid taking over assigned conversations, set the force parameter to false. [See the documentation](https://docs.dixa.io/openapi/dixa-api/v1/tag/Conversations/#tag/Conversations/operation/putConversationsConversationidClaim)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
