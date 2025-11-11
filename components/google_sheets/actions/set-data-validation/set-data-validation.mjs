@@ -77,7 +77,6 @@ export default {
       type: "string[]",
       label: "Validation Values",
       description: "Values for validation (e.g., dropdown options)",
-      optional: true,
     },
   },
   async run({ $ }) {
@@ -116,7 +115,8 @@ export default {
         ],
       },
     };
+    const response = await this.googleSheets.batchUpdate(request);
     $.export("$summary", "Successfully set data validation.");
-    return await this.googleSheets.batchUpdate(request);
+    return response;
   },
 };
