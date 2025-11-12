@@ -208,5 +208,21 @@ export default {
         ...opts,
       });
     },
+    getArticle({
+      articleId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/knowledge/articles/${articleId}`,
+        ...opts,
+      });
+    },
+    getArticleTranslations({
+      articleId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/knowledge/articles/${articleId}/translations`,
+        ...opts,
+      });
+    },
   },
 };

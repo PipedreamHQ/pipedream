@@ -1,6 +1,7 @@
 import docs from "@googleapis/docs";
 import googleDrive from "@pipedream/google_drive";
 import utils from "./common/utils.mjs";
+import markdownParser from "./common/markdown-parser.mjs";
 
 export default {
   type: "app",
@@ -178,6 +179,26 @@ export default {
         };
       }
       return this.listFilesOptions(pageToken, request);
+    },
+    async insertMarkdownText(documentId, markdown) {
+      try {
+        const parseResult = markdownParser.parseMarkdown(markdown);
+        const batchRequests = markdownParser.convertToGoogleDocsRequests(parseResult);
+
+        if (batchRequests.length === 0) {
+          return null;
+        }
+
+        // Execute all requests in a single batch update
+        return this.docs().documents.batchUpdate({
+          documentId,
+          requestBody: {
+            requests: batchRequests,
+          },
+        });
+      } catch (error) {
+        throw new Error(`Failed to insert markdown text: ${error.message}`);
+      }
     },
   },
 };
