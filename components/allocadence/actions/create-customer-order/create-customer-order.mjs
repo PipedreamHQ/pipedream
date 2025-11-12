@@ -7,7 +7,7 @@ export default {
   key: "allocadence-create-customer-order",
   name: "Create Customer Order",
   description: "Creates a new customer order. [See the documentation](https://docs.allocadence.com/#tag/customer_order/paths/~1customer-orders/post)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

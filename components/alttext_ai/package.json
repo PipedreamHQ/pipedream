@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/alttext_ai",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Pipedream AltText.ai Components",
   "main": "alttext_ai.app.mjs",
   "keywords": [

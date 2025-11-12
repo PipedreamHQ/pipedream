@@ -5,7 +5,7 @@ export default {
   name: "Update Subtitle Language",
   description: "Update a subtitle language. [See the docs here](https://apidocs.amara.org/#update-a-subtitle-language)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

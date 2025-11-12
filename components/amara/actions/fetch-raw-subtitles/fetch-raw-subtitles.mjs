@@ -7,7 +7,7 @@ export default {
   name: "Fetch Raw Subtitles",
   description: "Fetch raw subtitles. [See the docs here](https://apidocs.amara.org/#fetch-raw-subtitles)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

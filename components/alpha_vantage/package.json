@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/alpha_vantage",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream alpha_vantage Components",
   "main": "alpha_vantage.app.mjs",
   "keywords": [

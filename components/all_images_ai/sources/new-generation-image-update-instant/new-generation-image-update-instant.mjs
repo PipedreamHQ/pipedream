@@ -5,7 +5,7 @@ export default {
   key: "all_images_ai-new-generation-image-update-instant",
   name: "New Generation Image Update (Instant)",
   description: "Emit new event when the generation status of an image gets updated.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

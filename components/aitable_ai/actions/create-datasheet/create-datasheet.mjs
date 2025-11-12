@@ -4,7 +4,7 @@ export default {
   key: "aitable_ai-create-datasheet",
   name: "Create Datasheet",
   description: "Create a datasheet in the specified space. [See the documentation](https://developers.aitable.ai/api/reference#tag/Datasheet/operation/create-datasheets)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

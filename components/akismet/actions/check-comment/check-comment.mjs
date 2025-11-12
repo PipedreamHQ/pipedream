@@ -4,7 +4,7 @@ export default {
   key: "akismet-check-comment",
   name: "Check Comment",
   description: "Check if a comment is spam or not. [See the documentation](https://akismet.com/developers/detailed-docs/submit-spam-missed-spam/)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

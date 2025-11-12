@@ -9,7 +9,7 @@ export default {
   name: "Generate Alt Text",
   description:
     "Generates a descriptive alt text for a given image. [See the documentation](https://alttext.ai/apidocs#tag/Images/operation/create-image)",
-  version: "0.1.2",
+  version: "0.1.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   key: "albus-ask-question",
   name: "Ask Question",
   description: "Ask a question to Albus and receive a response.",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -6,7 +6,7 @@ export default {
   name: "List Video Subtitle Languages",
   description: "Get a list of subtitle languages for a video. [See the docs here](https://apidocs.amara.org/#list-subtitle-languages-for-a-video)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

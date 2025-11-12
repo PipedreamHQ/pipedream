@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/algorithmia",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream algorithmia Components",
   "main": "algorithmia.app.mjs",
   "keywords": [

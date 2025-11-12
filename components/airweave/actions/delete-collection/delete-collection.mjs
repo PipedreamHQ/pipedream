@@ -4,7 +4,7 @@ export default {
   key: "airweave-delete-collection",
   name: "Delete Collection",
   description: "Delete a collection and all associated data. This permanently removes the collection including all synced data and source connections. This action cannot be undone. [See the documentation](https://docs.airweave.ai/api-reference/collections/delete)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

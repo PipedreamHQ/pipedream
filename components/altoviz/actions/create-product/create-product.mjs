@@ -4,7 +4,7 @@ export default {
   key: "altoviz-create-product",
   name: "Create Product",
   description: "Creates a new product in Altoviz. [See the documentation](https://developer.altoviz.com/api#tag/Products/operation/POST_Products_Post)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

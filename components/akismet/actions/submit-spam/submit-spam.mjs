@@ -4,7 +4,7 @@ export default {
   key: "akismet-submit-spam",
   name: "Submit Spam",
   description: "Submit comment that was not marked as spam but should have been. [See the documentation](https://akismet.com/developers/detailed-docs/submit-spam-missed-spam/)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   key: "airweave-list-collections",
   name: "List Collections",
   description: "List all collections in your organization. Collections are logical groups of data sources that provide unified search capabilities. [See the documentation](https://docs.airweave.ai/api-reference/collections/list)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
