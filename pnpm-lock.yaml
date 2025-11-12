@@ -2356,6 +2356,9 @@ importers:
 
   components/callrail: {}
 
+  components/camino_ai:
+    specifiers: {}
+
   components/campaign_cleaner:
     dependencies:
       '@pipedream/platform':
