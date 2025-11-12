@@ -4,7 +4,7 @@ export default {
   key: "checkvist-create-new-list",
   name: "Create New List",
   description: "Creates a new list in Checkvist. [See the documentation](https://checkvist.com/auth/api)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

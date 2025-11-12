@@ -5,7 +5,7 @@ export default {
   key: "chattermill-create-response",
   name: "Create Response",
   description: "Create response model with given attributes. [See the documentation](https://apidocs.chattermill.com/#70001058-ac53-eec1-7c44-c836fb0b2489)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

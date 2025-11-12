@@ -4,7 +4,7 @@ import chartmogul from "../../chartmogul.app.mjs";
 export default {
   key: "chartmogul-search-customers-via-email",
   name: "Search Customers Via Email",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

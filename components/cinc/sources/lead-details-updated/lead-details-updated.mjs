@@ -5,7 +5,7 @@ export default {
   key: "cinc-lead-details-updated",
   name: "Lead Details Updated",
   description: "Emit new event when a lead's information is updated in Cinc",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

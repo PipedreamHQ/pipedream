@@ -4,7 +4,7 @@ export default {
   key: "chargify-create-customer",
   name: "Create Customer",
   description: "Creates a new customer in Chargify. [See the documentation](https://developers.maxio.com/http/advanced-billing-api/api-endpoints/customers/create-customer)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "chartmogul-retrieve-asp",
   name: "Retrieve Average Sale Price ASP",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

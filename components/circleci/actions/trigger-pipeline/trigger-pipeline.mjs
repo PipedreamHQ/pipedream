@@ -4,7 +4,7 @@ export default {
   key: "circleci-trigger-pipeline",
   name: "Trigger a Pipeline",
   description: "Trigger a pipeline given a pipeline definition ID. Supports all integrations except GitLab. [See the documentation](https://circleci.com/docs/api/v2/index.html#tag/Pipeline/operation/triggerPipelineRun)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

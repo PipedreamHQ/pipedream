@@ -4,7 +4,7 @@ export default {
   key: "chatlayer-get-session-data",
   name: "Get Session Data",
   description: "Gets data for the specified session. [See the documentation](https://api.chatlayer.ai/v1/docs#operation/getConversationSessionData)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

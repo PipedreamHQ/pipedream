@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "chartmogul-retrieve-arr",
   name: "Retrieve ARR",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

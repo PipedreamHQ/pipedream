@@ -5,7 +5,7 @@ export default {
   key: "cinc-new-lead-created",
   name: "New Lead Created",
   description: "Emit new event when a new lead is added in Cinc.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

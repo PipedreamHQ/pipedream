@@ -4,7 +4,7 @@ export default {
   key: "circleci-get-job-artifacts",
   name: "Get Job Artifacts",
   description: "Retrieves a job's artifacts. [See the documentation](https://circleci.com/docs/api/v2/index.html#tag/Job/operation/getJobArtifacts).",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

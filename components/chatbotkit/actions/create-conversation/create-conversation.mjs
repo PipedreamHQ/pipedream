@@ -6,7 +6,7 @@ export default {
   key: "chatbotkit-create-conversation",
   name: "Create Conversation",
   description: "Creates a new conversation in the bot. [See the documentation](https://chatbotkit.com/docs/api/v1/spec)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

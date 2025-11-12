@@ -4,7 +4,7 @@ export default {
   key: "chargify-create-subscription",
   name: "Create Subscription",
   description: "Establishes a new subscription for a given customer in Chargify. [See the documentation](https://developers.maxio.com/http/advanced-billing-api/api-endpoints/subscriptions/create-subscription)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -6,7 +6,7 @@ export default {
   key: "cincopa-gallery-created-instant",
   name: "New Gallery Created (Instant)",
   description: "Emit new event when a new gallery is created. [See the documentation](https://www.cincopa.com/media-platform/api-documentation-v2#webhook.set)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

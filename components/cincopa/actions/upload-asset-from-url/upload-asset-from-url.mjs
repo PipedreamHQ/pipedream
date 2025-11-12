@@ -4,7 +4,7 @@ export default {
   key: "cincopa-upload-asset-from-url",
   name: "Upload Asset From URL",
   description: "Upload an asset from an input URL to a Cincopa gallery. [See the documentation](https://www.cincopa.com/media-platform/api-documentation-v2#asset_upload_from_url)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
