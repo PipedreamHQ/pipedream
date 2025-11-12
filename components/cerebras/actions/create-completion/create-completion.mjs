@@ -6,7 +6,7 @@ export default {
   name: "Create Completion",
   key: "cerebras-create-completion",
   description: "Create a completion with Cerebras AI. [See the documentation](https://inference-docs.cerebras.ai/api-reference/completions)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

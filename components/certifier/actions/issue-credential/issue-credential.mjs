@@ -2,7 +2,7 @@ import certifier from "../../certifier.app.mjs";
 
 export default {
   name: "Issue Credential",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

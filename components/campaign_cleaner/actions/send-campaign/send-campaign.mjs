@@ -4,7 +4,7 @@ import { clearObj } from "../../common/utils.mjs";
 export default {
   key: "campaign_cleaner-send-campaign",
   name: "Send Campaign",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

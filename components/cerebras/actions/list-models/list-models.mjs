@@ -4,7 +4,7 @@ export default {
   name: "List Models",
   key: "cerebras-list-models",
   description: "List all available Cerebras models. [See the documentation](https://inference-docs.cerebras.ai/api-reference/models)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

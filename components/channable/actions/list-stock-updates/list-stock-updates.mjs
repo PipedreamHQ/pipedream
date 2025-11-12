@@ -4,7 +4,7 @@ export default {
   key: "channable-list-stock-updates",
   name: "List Stock Updates",
   description: "List stock updates for a company and project. [See the documentation](https://api.channable.com/v1/docs#tag/stock_updates/operation/get_stock_updates_companies__company_id__projects__project_id__offers_get)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

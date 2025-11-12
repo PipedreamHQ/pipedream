@@ -5,7 +5,7 @@ export default {
   key: "calendly_v2-list-webhook-subscriptions",
   name: "List Webhook Subscriptions",
   description: "Get a list of Webhook Subscriptions for an Organization or User with a UUID.",
-  version: "0.1.6",
+  version: "0.1.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

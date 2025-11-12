@@ -5,7 +5,7 @@ export default {
   key: "changes_page-new-post-created",
   name: "New Post Created",
   description: "Emit new event when a new post is created. [See the documentation](https://docs.changes.page/docs/api/page#get-all-posts)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

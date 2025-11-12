@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/cats",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream CATS Components",
   "main": "cats.app.mjs",
   "keywords": [

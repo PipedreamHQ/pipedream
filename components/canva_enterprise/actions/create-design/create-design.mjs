@@ -7,7 +7,7 @@ export default {
   key: "canva_enterprise-create-design",
   name: "Create Design",
   description: "Creates a new Canva design. [See the documentation](https://www.canva.dev/docs/connect/api-reference/designs/create-design/)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

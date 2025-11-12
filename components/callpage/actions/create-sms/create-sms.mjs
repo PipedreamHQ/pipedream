@@ -5,7 +5,7 @@ export default {
   key: "callpage-create-sms",
   name: "Create SMS",
   description: "Creates a new SMS in CallPage. [See the documentation](https://callpage.github.io/documentation-rest/)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   key: "cardly-generate-preview",
   name: "Generate Preview",
   description: "Generates a preview in Cardly. [See the documentation](https://api.card.ly/v2/docs#endpoint-post-order-preview)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
