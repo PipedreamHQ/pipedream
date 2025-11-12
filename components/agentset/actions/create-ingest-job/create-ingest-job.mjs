@@ -6,7 +6,7 @@ export default {
   key: "agentset-create-ingest-job",
   name: "Create Ingest Job",
   description: "Create an ingest job for the authenticated organization. [See the documentation](https://docs.agentset.ai/api-reference/endpoint/ingest-jobs/create)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

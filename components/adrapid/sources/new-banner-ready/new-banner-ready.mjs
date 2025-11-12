@@ -6,7 +6,7 @@ export default {
   key: "adrapid-new-banner-ready",
   name: "New Banner Ready",
   description: "Emit new event when a new banner is ready.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

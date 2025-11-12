@@ -4,7 +4,7 @@ export default {
   key: "adyntel-tiktok-search",
   name: "Search TikTok Ads",
   description: "Search TikTok ads using a keyword. [See the documentation](https://docs.adyntel.com/ad-libraries/tiktok-search)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

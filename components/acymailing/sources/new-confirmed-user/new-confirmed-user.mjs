@@ -5,7 +5,7 @@ export default {
   key: "acymailing-new-confirmed-user",
   name: "New Confirmed User",
   description: "Emit new event when a user confirms their email address.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

@@ -4,7 +4,7 @@ export default {
   key: "add_to_calendar_pro-delete-landing-page-template",
   name: "Delete Landing Page Template",
   description: "Delete a landing page template. [See the documentation](https://docs.add-to-calendar-pro.com/api/landingpages#delete-a-landing-page-template)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

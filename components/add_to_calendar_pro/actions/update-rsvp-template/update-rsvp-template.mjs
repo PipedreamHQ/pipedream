@@ -5,7 +5,7 @@ export default {
   key: "add_to_calendar_pro-update-rsvp-template",
   name: "Update RSVP Template",
   description: "Update an RSVP template. [See the documentation](https://docs.add-to-calendar-pro.com/api/rsvp#update-an-rsvp-template)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

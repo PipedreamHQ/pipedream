@@ -4,7 +4,7 @@ export default {
   key: "add_to_calendar_pro-delete-rsvp-template",
   name: "Delete RSVP Template",
   description: "Delete an RSVP template. [See the documentation](https://docs.add-to-calendar-pro.com/api/rsvp#delete-an-rsvp-template)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

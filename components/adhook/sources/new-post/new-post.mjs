@@ -6,7 +6,7 @@ export default {
   key: "adhook-new-post",
   name: "New Post Created",
   description: "Emit new event when a new post is created. [See the documentation](https://app.adhook.io/api-doc/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

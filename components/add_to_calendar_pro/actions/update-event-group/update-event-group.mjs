@@ -4,7 +4,7 @@ export default {
   key: "add_to_calendar_pro-update-event-group",
   name: "Update Event Group",
   description: "Update an event group. [See the documentation](https://docs.add-to-calendar-pro.com/api/groups#update-a-group)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   key: "aftership-get-tracking",
   name: "Get Tracking",
   description: "Obtains an existing tracking system's data by ID. [See the documentation](https://www.aftership.com/docs/api/4/trackings/get-trackings)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

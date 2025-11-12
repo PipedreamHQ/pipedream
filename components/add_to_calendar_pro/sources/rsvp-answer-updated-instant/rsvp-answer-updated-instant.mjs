@@ -6,7 +6,7 @@ export default {
   key: "add_to_calendar_pro-rsvp-answer-updated-instant",
   name: "RSVP Answer Updated (Instant)",
   description: "Emit new RSVP answer when a new RSVP answer is updated in the system",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

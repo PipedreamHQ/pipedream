@@ -4,7 +4,7 @@ export default {
   key: "agentset-search-namespace",
   name: "Agentset Search Namespace",
   description: "Complete retrieval pipeline for RAG with semantic search, filtering, and reranking. [See the documentation](https://docs.agentset.ai/api-reference/endpoint/search)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
