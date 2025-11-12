@@ -1,13 +1,11 @@
 import { PathLike } from "fs";
 import { open } from "fs/promises";
 import { defineApp } from "@pipedream/types";
-import gdataVaas from "gdata-vaas";
-
-const {
+import {
   Vaas,
   VAAS_URL,
   ClientCredentialsGrantAuthenticator,
-} = gdataVaas;
+} from "gdata-vaas";
 
 export default defineApp({
   type: "app",
@@ -38,7 +36,7 @@ export default defineApp({
       return vaas;
     },
     async requestVerdictForFile(file: PathLike) {
-      const client: gdataVaas.Vaas = await this.getClient();
+      const client: Vaas = await this.getClient();
       const fileHandle = await open(file, "r");
       const buffer = await fileHandle.readFile();
 

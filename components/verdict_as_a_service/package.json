@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/verdict_as_a_service",
-  "version": "0.0.5",
+  "version": "0.0.4",
   "description": "Pipedream Verdict as a Service Components",
   "main": "dist/app/verdict_as_a_service.app.mjs",
   "keywords": [
