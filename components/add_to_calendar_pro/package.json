@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/add_to_calendar_pro",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Pipedream Add to Calendar PRO Components",
   "main": "add_to_calendar_pro.app.mjs",
   "keywords": [

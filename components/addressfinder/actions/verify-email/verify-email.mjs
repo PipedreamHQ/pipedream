@@ -4,7 +4,7 @@ export default {
   key: "addressfinder-verify-email",
   name: "Verify Email",
   description: "Validates the input email. [See the documentation](https://addressfinder.com.au/api/email/verification/)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -5,7 +5,7 @@ export default {
   key: "aftership-shipment-status-updated",
   name: "Shipment Status Updated",
   description: "Emit new event when a shipment tracking status is updated. [See the documentation](https://www.aftership.com/docs/shipping/webhook/webhook-overview)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

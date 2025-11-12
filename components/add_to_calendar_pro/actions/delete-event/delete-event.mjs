@@ -4,7 +4,7 @@ export default {
   key: "add_to_calendar_pro-delete-event",
   name: "Delete Event",
   description: "Delete an event. [See the documentation](https://docs.add-to-calendar-pro.com/api/events#delete-an-event)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

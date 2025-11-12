@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/adhook",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Adhook Components",
   "main": "adhook.app.mjs",
   "keywords": [

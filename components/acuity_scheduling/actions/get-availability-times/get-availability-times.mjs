@@ -4,7 +4,7 @@ export default {
   key: "acuity_scheduling-get-availability-times",
   name: "Get Availability Times",
   description: "Return available times for a date and appointment type. [See the documentation](https://developers.acuityscheduling.com/reference/get-availability-times)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   key: "addressfinder-verify-address-au",
   name: "Verify Australian Address",
   description: "Validates an Australian address. [See the documentation](https://addressfinder.com.au/api/au/address/verification/)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

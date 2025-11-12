@@ -4,7 +4,7 @@ export default {
   key: "adroll-replace-emails-from-crm-audience",
   name: "Replace Emails from CRM Audience",
   description: "Replace the email list from a CRM audience in AdRoll. [See docs here](https://developers.adroll.com/docs/adroll-audience-api/1/routes/segments/%7Bsegment_eid%7D/post)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

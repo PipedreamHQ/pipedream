@@ -5,7 +5,7 @@ export default {
   key: "adrapid-create-banner",
   name: "Create Banner",
   description: "Generates a new banner using provided data. This action can create different types of banners, such as animated HTML5, image, or video banners. [See the documentation](https://docs.adrapid.com/api/overview)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

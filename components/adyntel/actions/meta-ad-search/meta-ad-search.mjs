@@ -4,7 +4,7 @@ export default {
   key: "adyntel-meta-ad-search",
   name: "Meta Ad Search",
   description: "Searches the Meta ad library. [See the documentation](https://docs.adyntel.com/ad-libraries/meta-ad-search)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

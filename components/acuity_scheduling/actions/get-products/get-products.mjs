@@ -4,7 +4,7 @@ export default {
   key: "acuity_scheduling-get-products",
   name: "Get Products",
   description: "Return a list of products and packages. [See the documentation](https://developers.acuityscheduling.com/reference/get-products)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

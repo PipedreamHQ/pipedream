@@ -5,7 +5,7 @@ export default {
   key: "acuity_scheduling-book-appointment",
   name: "Book Appointment",
   description: "Book an appointment. [See the documentation](https://developers.acuityscheduling.com/reference/post-appointments)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

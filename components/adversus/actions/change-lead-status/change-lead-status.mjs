@@ -4,7 +4,7 @@ export default {
   key: "adversus-change-lead-status",
   name: "Change Lead Status",
   description: "Change the status of a lead in Adversus. [See the API documentation](https://solutions.adversus.io/api).",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
