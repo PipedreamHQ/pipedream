@@ -8,7 +8,7 @@ export default {
   key: "google_drive-create-file-from-template",
   name: "Create New File From Template",
   description: "Create a new Google Docs file from a template. Optionally include placeholders in the template document that will get replaced from this action. [See documentation](https://www.npmjs.com/package/google-docs-mustaches)",
-  version: "0.1.16",
+  version: "0.1.17",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -17,10 +17,20 @@ export default {
   type: "action",
   props: {
     googleDrive,
+    drive: {
+      propDefinition: [
+        googleDrive,
+        "watchedDrive",
+      ],
+      optional: true,
+    },
     templateId: {
       propDefinition: [
         googleDrive,
         "fileId",
+        (c) => ({
+          drive: c.drive,
+        }),
       ],
       description:
         "Select the template document you'd like to use as the template, or use a custom expression to reference a document ID from a previous step. Template documents should contain placeholders in the format `{{xyz}}`.",
@@ -69,12 +79,27 @@ export default {
       token: () => this.googleDrive.$auth.oauth_access_token,
     });
 
+    // COPY THE TEMPLATE
+
+    const drive = this.googleDrive.drive();
+    const copiedTemplate = await drive.files.copy({
+      fileId: this.templateId,
+      requestBody: {
+        name: "template-copy",
+        parents: [
+          this.folderId,
+        ],
+      },
+      supportsAllDrives: true,
+    });
+    const templateId = copiedTemplate.data.id;
+
     /* CREATE THE GOOGLE DOC */
 
     let googleDocId;
     try {
       googleDocId = await client.interpolate({
-        source: this.templateId,
+        source: templateId,
         destination: this.folderId,
         name: this.name,
         data: this.replaceValues,
@@ -108,6 +133,13 @@ export default {
     if (!this.mode.includes(MODE_GOOGLE_DOC)) {
       await this.googleDrive.deleteFile(googleDocId);
     }
+
+    // REMOVE THE COPIED TEMPLATE
+
+    await drive.files.delete({
+      fileId: templateId,
+      supportsAllDrives: true,
+    });
 
     $.export("$summary", "New file successfully created");
     return result;
