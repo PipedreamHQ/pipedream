@@ -6,7 +6,7 @@ export default {
   key: "add_to_calendar_pro-event-updated-instant",
   name: "Event Updated (Instant)",
   description: "Emit new event when a new event is updated in the system",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

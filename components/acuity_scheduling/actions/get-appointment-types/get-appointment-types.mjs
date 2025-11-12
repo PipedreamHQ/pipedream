@@ -4,7 +4,7 @@ export default {
   key: "acuity_scheduling-get-appointment-types",
   name: "Get Appointment Types",
   description: "Return a list ofappointment types. [See the documentation](https://developers.acuityscheduling.com/reference/appointment-types)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

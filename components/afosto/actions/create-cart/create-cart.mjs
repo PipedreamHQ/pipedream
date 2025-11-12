@@ -5,7 +5,7 @@ export default {
   key: "afosto-create-cart",
   name: "Create Cart",
   description: "Create a new cart. [See the documentation](https://afosto.com/docs/developers/storefront-js-client/integration/create-a-cart/)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -4,7 +4,7 @@ export default {
   key: "addresszen-freeform-verify-correct-us-address",
   name: "Verify and Correct Freeform US Address",
   description: "Verify (CASS) and correct a US address using a complete address. [See the documentation](https://docs.addresszen.com/docs/api)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   key: "adversus-add-note-activity",
   name: "Add Note or Activity",
   description: "Add a note or activity to a lead in Adversus. [See the API documentation](https://solutions.adversus.io/api).",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

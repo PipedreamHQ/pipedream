@@ -5,7 +5,7 @@ export default {
   key: "acuity_scheduling-find-appointments-by-client-info",
   name: "Find Appointments by Client Info",
   description: "Retrieves existing appointments using the client's information, allowing you to track all the appointments associated with a specific client. [See the documentation](https://developers.acuityscheduling.com/reference/get-appointments)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

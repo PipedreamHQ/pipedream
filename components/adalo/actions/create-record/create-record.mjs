@@ -4,7 +4,7 @@ export default {
   key: "adalo-create-record",
   name: "Create Record",
   description: "Create a new record. [See docs here](https://help.adalo.com/integrations/the-adalo-api/collections)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

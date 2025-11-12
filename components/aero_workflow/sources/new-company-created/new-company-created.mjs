@@ -5,7 +5,7 @@ export default {
   key: "aero_workflow-new-company-created",
   name: "New Company Created Event",
   description: "Emit new events when a new company is created. [See the docs](https://api.aeroworkflow.com/swagger/index.html)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

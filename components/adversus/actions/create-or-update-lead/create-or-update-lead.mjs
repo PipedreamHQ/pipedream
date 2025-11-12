@@ -4,7 +4,7 @@ export default {
   key: "adversus-create-or-update-lead",
   name: "Create or Update Lead",
   description: "Create a new lead or update an existing lead in Adversus. [See the API documentation](https://solutions.adversus.io/api).",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

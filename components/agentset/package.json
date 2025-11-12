@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/agentset",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Agentset Components",
   "main": "agentset.app.mjs",
   "keywords": [

@@ -5,7 +5,7 @@ export default {
   key: "afosto-add-note-to-cart",
   name: "Add Note to Cart",
   description: "Add a note to a cart. [See the documentation](https://afosto.com/docs/developers/storefront-js-client/custom-checkout/checkout-summary/)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -5,7 +5,7 @@ export default {
   key: "adhook-create-calendar-event",
   name: "Create Calendar Event",
   description: "Generates a personalized calendar event in AdHook. [See the documentation](https://app.adhook.io/api-doc/)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
