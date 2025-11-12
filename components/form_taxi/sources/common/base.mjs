@@ -11,7 +11,6 @@ export default {
   },
   methods: {
     async registerWebhook() {
-
       const targetUrl = this.http.endpoint;
       const resp = await this.form_taxi.createWebhook(targetUrl);
 
@@ -23,7 +22,7 @@ export default {
       }
 
       const id = resp?.id;
-      const expires_at = resp?.expires_at; // ISO-8601 erwartet
+      const expires_at = resp?.expires_at;
 
       if (!id) throw new Error("Response without id!");
       if (!expires_at) throw new Error("Response without Expire-Date!");
@@ -38,7 +37,7 @@ export default {
       const resp = await this.form_taxi.deleteWebhook(hookId);
       if (resp.status >= 400) {
         const msg = resp?.message || "Unknown error";
-        console.warn(`Webhook-Delete fehlgeschlagen: ${resp.status} ${msg}`);
+        console.warn(`Webhook-Delete failed: ${resp.status} ${msg}`);
       }
     },
     async deleteWebhook() {
@@ -57,7 +56,7 @@ export default {
       const expiresAt = await this.db.get("webhookExpiresAt");
 
       const msLeft = this.msUntilExpiry(expiresAt);
-      const windowMs = 60 * 60 * 1000; // 60 Minuten
+      const windowMs = 60 * 60 * 1000;
 
       const shouldRenew =
         !webhookId ||
@@ -75,7 +74,7 @@ export default {
           await this.deleteWebhookById(oldId);
         }
 
-        console.log(`Webhook renewed. New ID: ${res?.id || "unkonw"}, expires at: ${res?.expires_at || "unknown"}`);
+        console.log(`Webhook renewed. New ID: ${res?.id || "unknown"}, expires at: ${res?.expires_at || "unknown"}`);
       } catch (err) {
         console.error(`Automatic renewal failed: ${err.message}`);
       }
@@ -99,7 +98,7 @@ export default {
 
         const data = resp;
         if (!data) {
-          console.warn("Sample-GET: empty responset");
+          console.warn("Sample-GET: empty response");
           return;
         }
 
