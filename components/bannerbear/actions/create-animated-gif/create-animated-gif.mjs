@@ -6,7 +6,7 @@ export default {
   name: "Create Animated Gif",
   description: "Creates an Animated Gif. [See the docs here](https://developers.bannerbear.com/#post-v2-animated_gifs).",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -7,7 +7,7 @@ export default {
   key: "aws-s3-generate-presigned-url",
   name: "S3 - Generate Presigned URL",
   description: "Creates a presigned URL to download from a bucket. [See the documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/example_s3_Scenario_PresignedUrl_section.html)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

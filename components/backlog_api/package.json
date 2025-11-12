@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/backlog_api",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream backlog_api Components",
   "main": "backlog_api.app.mjs",
   "keywords": [

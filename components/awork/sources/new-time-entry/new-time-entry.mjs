@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Time Entry (Instant)",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "awork-new-time-entry",
   description: "Emit new event on each created time entry.",
   type: "source",

@@ -6,7 +6,7 @@ export default {
   name: "Create Collection",
   description: "Generates multiple Images based on a Template Set. [See the docs here](https://developers.bannerbear.com/#post-v2-collections).",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

@@ -5,7 +5,7 @@ export default {
   key: "barcode_lookup-batch-barcode-lookup",
   name: "Batch Barcode Lookup",
   description: "Get multiple products by barcode. [See the documentation](https://www.barcodelookup.com/api-documentation)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

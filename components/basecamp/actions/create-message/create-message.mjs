@@ -6,7 +6,7 @@ export default {
   name: "Create Message",
   description: "Creates a message in a selected message board. [See the documentation](https://github.com/basecamp/bc3-api/blob/master/sections/messages.md#create-a-message)",
   type: "action",
-  version: "0.0.9",
+  version: "0.0.10",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

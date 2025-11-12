@@ -2,7 +2,7 @@ import app from "../../axonaut.app.mjs";
 
 export default {
   name: "Update Employee",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

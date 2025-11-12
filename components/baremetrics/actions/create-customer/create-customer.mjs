@@ -4,7 +4,7 @@ export default {
   key: "baremetrics-create-customer",
   name: "Create Customer",
   description: "Create a customer. [See the documentation](https://developers.baremetrics.com/reference/create-customer)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

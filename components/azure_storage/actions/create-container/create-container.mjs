@@ -4,7 +4,7 @@ export default {
   key: "azure_storage-create-container",
   name: "Create Container",
   description: "Creates a new container under the specified account. If a container with the same name already exists, the operation fails. [See the documentation](https://learn.microsoft.com/en-us/rest/api/storageservices/create-container?tabs=microsoft-entra-id).",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

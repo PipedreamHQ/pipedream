@@ -4,7 +4,7 @@ export default {
   key: "barcode_lookup-get-product-by-barcode",
   name: "Get Product by Barcode",
   description: "Get a product by barcode. [See the documentation](https://www.barcodelookup.com/api-documentation)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

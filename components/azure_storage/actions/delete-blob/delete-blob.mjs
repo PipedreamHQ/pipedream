@@ -4,7 +4,7 @@ export default {
   key: "azure_storage-delete-blob",
   name: "Delete Blob",
   description: "Deletes a specific blob from a container in Azure Storage. [See the documentation](https://learn.microsoft.com/en-us/rest/api/storageservices/delete-blob?tabs=microsoft-entra-id).",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

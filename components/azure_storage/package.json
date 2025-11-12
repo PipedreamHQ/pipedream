@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/azure_storage",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Pipedream Azure Storage Components",
   "main": "azure_storage.app.mjs",
   "keywords": [

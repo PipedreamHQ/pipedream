@@ -6,7 +6,7 @@ export default {
   key: "basecamp-new-event-by-webhook-type",
   name: "New Webhook Event (Instant)",
   description: "Emit events of one or more selected types. [See the documentation](https://github.com/basecamp/bc3-api/blob/master/sections/webhooks.md#webhooks)",
-  version: "0.0.8",
+  version: "0.0.9",
   dedupe: "unique",
   type: "source",
   props: {
