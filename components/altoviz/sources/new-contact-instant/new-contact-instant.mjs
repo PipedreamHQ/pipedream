@@ -6,7 +6,7 @@ export default {
   key: "altoviz-new-contact-instant",
   name: "New Contact (Instant)",
   description: "Emit new event each time a contact is created, updated or deleted in Altoviz.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

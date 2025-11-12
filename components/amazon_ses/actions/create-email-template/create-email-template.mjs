@@ -5,7 +5,7 @@ export default {
   key: "amazon_ses-create-email-template",
   name: "Create Email Template",
   description: "Create a HTML or a plain text email template. [See the docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-sesv2/classes/createemailtemplatecommand.html)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

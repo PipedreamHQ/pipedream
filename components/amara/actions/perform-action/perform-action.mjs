@@ -5,7 +5,7 @@ export default {
   name: "Perform Action",
   description: "Perform an action on the subtitles. This is equivalent to opening the editor, not changing the subtitles, and clicking an actions button. [See the docs here](https://apidocs.amara.org/#perform-actions)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -6,7 +6,7 @@ export default {
   key: "alttextify-new-alttext-generated",
   name: "New Alt Text Generated",
   description: "Emit new event when new alt text is generated for an image. [See the documentation](https://apidoc.alttextify.net/#api-Image-GetImages)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

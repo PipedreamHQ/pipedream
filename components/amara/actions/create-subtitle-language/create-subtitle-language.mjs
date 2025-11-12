@@ -5,7 +5,7 @@ export default {
   name: "Create Subtitle Language",
   description: "Create a subtitle language. [See the docs here](https://apidocs.amara.org/#create-a-subtitle-language)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

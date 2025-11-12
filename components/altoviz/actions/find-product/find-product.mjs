@@ -4,7 +4,7 @@ export default {
   key: "altoviz-find-product",
   name: "Find Product",
   description: "Finds products in Altoviz using the 'productnumber' prop. [See the documentation](https://developer.altoviz.com/api#tag/Products/operation/GET_Products_Find)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

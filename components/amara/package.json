@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/amara",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Pipedream Amara Components",
   "main": "amara.app.mjs",
   "keywords": [

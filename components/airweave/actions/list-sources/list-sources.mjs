@@ -4,7 +4,7 @@ export default {
   key: "airweave-list-sources",
   name: "List Available Sources",
   description: "List all available data source connectors. These are the types of integrations Airweave can connect to (e.g., GitHub, Slack, Google Drive, PostgreSQL, etc.). [See the documentation](https://docs.airweave.ai/api-reference/sources/list)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

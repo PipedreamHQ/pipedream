@@ -6,7 +6,7 @@ export default {
   key: "altoviz-new-product-instant",
   name: "New Product (Instant)",
   description: "Emit new event when a product is created, updated or deleted in Altoviz.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

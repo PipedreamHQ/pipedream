@@ -5,7 +5,7 @@ export default {
   name: "Add New Subtitles",
   description: "Add new subtitles. [See the docs here](https://apidocs.amara.org/#add-new-subtitles)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

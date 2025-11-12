@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/all_images_ai",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream All-Images.ai Components",
   "main": "all_images_ai.app.mjs",
   "keywords": [

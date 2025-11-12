@@ -4,7 +4,7 @@ export default {
   key: "airweave-get-collection",
   name: "Get Collection",
   description: "Retrieve details of a specific collection by its readable ID. [See the documentation](https://docs.airweave.ai/api-reference/collections/get)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

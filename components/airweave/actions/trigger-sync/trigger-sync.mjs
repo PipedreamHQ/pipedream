@@ -4,7 +4,7 @@ export default {
   key: "airweave-trigger-sync",
   name: "Trigger Source Connection Sync",
   description: "Manually trigger a data sync for a source connection. The sync job runs asynchronously in the background and returns immediately with job details. [See the documentation](https://docs.airweave.ai/api-reference/source-connections/run)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

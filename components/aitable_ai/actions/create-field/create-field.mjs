@@ -4,7 +4,7 @@ export default {
   key: "aitable_ai-create-field",
   name: "Create Field",
   description: "Create a new field in the specified datasheet. [See the documentation](https://developers.aitable.ai/api/reference#tag/Field/operation/create-fields)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

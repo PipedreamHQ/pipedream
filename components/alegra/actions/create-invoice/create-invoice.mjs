@@ -9,7 +9,7 @@ export default {
   key: "alegra-create-invoice",
   name: "Create Invoice",
   description: "Creates a new invoice in Alegra. [See the documentation](https://developer.alegra.com/reference/post_invoices)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/alchemer",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream alchemer Components",
   "main": "alchemer.app.mjs",
   "keywords": [
