@@ -5,7 +5,7 @@ export default {
   key: "domain_group-create-business-listing",
   name: "Create Business Listing",
   description: "Creates a new business listing. [See the documentation](https://developer.domain.com.au/docs/latest/apis/pkg_listing_management/references/listings_upsertbusinesslisting/).",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

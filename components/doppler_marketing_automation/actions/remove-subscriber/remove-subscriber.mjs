@@ -4,7 +4,7 @@ export default {
   key: "doppler_marketing_automation-remove-subscriber",
   name: "Remove Subscriber",
   description: "Removes a subscriber from a list completely. [See the documentation](https://restapi.fromdoppler.com/docs/resources#!/Subscribers/AccountsByAccountNameListsByListIdSubscribersByEmailDelete)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/doppler_marketing_automation",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Pipedream Doppler Marketing Automation Components",
   "main": "doppler_marketing_automation.app.mjs",
   "keywords": [

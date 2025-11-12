@@ -4,7 +4,7 @@ export default {
   key: "docupost-mail-postcard",
   name: "Mail Postcard",
   description: "Dispatches a glossy, color 4x6 postcard via the US Postal Service. [See the documentation](https://help.docupost.com/help/send-postcard-api)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

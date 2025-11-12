@@ -6,7 +6,7 @@ export default {
   key: "dolibarr-new-thirdparty-created",
   name: "New Third Party Created",
   description: "Emit new event when a new third party is created",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

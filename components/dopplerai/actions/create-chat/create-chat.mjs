@@ -4,7 +4,7 @@ export default {
   key: "dopplerai-create-chat",
   name: "Create Chat",
   description: "Initializes a new chat thread. [See the documentation](https://api.dopplerai.com/docs/reference#tag/Chats/operation/create_chat_v1_chats_post)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

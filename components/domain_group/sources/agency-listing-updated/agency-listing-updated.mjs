@@ -5,7 +5,7 @@ export default {
   key: "domain_group-agency-listing-updated",
   name: "Agency Listing Updated",
   description: "Emit new event when an agency listing is updated. [See the documentation](https://developer.domain.com.au/docs/latest/apis/pkg_listing_management/references/agencies_getlistings/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

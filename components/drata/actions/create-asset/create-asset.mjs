@@ -6,7 +6,7 @@ export default {
   key: "drata-create-asset",
   name: "Create Asset",
   description: `Create an asset. [See the documentation](${docsLink}).`,
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

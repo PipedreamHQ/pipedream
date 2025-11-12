@@ -4,7 +4,7 @@ import common from "@pipedream/docusign/actions/common/common.mjs";
 export default {
   ...common,
   key: "docusign_developer-create-signature-request",
-  version: "0.1.3",
+  version: "0.1.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

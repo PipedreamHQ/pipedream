@@ -6,7 +6,7 @@ export default {
   key: "dpd2-new-purchase-created",
   name: "New Purchase Created",
   description: "Emit new event when a purchase is made. [See the documentation](https://getdpd.com/docs/api/purchases.html#list-purchases)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

@@ -5,7 +5,7 @@ export default {
   key: "drimify-new-application-data",
   name: "New Application Data Collected",
   description: "Emit new event when application data has been collected. [See the documentation](https://endpoint.drimify.com/api/docs?ui=re_doc#tag/AppDataCollection/operation/api_app_data_collections_get_collection)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

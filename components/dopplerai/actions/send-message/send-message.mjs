@@ -4,7 +4,7 @@ export default {
   key: "dopplerai-send-message",
   name: "Send Message",
   description: "Dispatches a message to the artificial intelligence. [See the documentation](https://api.dopplerai.com/docs/reference#tag/Messages/operation/send_message_v1_messages_post)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

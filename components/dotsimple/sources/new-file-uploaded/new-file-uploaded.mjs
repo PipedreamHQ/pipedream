@@ -5,7 +5,7 @@ export default {
   key: "dotsimple-new-file-uploaded",
   name: "New File Uploaded",
   description: "Emit new event when a new file is uploaded. [See the documentation](https://help.dotsimple.io/en/articles/67-media-files).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

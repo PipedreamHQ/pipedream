@@ -5,7 +5,7 @@ export default {
   key: "drip-new-tag-applied",
   name: "New Tag Applied (Instant)",
   description: "Emit new event when a tag is applied to a subscriber",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   type: "source",
   methods: {

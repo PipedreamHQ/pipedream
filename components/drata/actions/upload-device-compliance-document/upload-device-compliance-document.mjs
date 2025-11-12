@@ -7,7 +7,7 @@ export default {
   key: "drata-upload-device-compliance-document",
   name: "Upload Device Compliance Document",
   description: `Upload a device compliance document. [See the documentation](${docsLink}).`,
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

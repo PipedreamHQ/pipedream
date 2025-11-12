@@ -5,7 +5,7 @@ export default {
   key: "drift-new-conversation",
   name: "New Conversation",
   description: "Emit new when a new conversation is started in Drift. [See the documentations](https://devdocs.drift.com/docs/retrieve-a-conversation)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

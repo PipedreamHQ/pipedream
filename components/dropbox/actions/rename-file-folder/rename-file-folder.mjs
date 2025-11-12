@@ -4,7 +4,7 @@ export default {
   name: "Rename a File/Folder",
   description: "Renames a file or folder in the user's Dropbox [See the documentation](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesMoveV2__anchor)",
   key: "dropbox-rename-file-folder",
-  version: "0.0.13",
+  version: "0.0.14",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

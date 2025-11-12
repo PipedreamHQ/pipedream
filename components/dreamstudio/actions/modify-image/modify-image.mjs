@@ -9,7 +9,7 @@ export default {
   ...common,
   key: "dreamstudio-modify-image",
   name: "Modify Image",
-  version: "1.0.2",
+  version: "1.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

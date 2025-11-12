@@ -4,7 +4,7 @@ export default {
   key: "dotsimple-delete-post",
   name: "Delete Post",
   description: "Remove a post from your DotSimple site. [See the documentation](https://help.dotsimple.io/en/articles/68-posts)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

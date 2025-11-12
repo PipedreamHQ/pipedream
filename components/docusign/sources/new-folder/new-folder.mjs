@@ -4,7 +4,7 @@ import common from "./common.mjs";
 export default {
   ...common,
   key: "docusign-new-folder",
-  version: "0.0.5",
+  version: "0.0.6",
   name: "New Folder",
   description: "Emit new event when a new folder is created",
   type: "source",

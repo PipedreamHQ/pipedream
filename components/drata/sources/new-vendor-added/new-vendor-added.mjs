@@ -9,7 +9,7 @@ export default {
   name: "New Vendor Added",
   description: `Emit a new event for every new vendor. [See the documentation](${docsLink}).`,
   type: "source",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   props: {
     drata,

@@ -6,7 +6,7 @@ export default {
   key: "dropboard-new-candidate-instant",
   name: "New Candidate Profile Created (Instant)",
   description: "Emit new event when a candidate profile is created.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {

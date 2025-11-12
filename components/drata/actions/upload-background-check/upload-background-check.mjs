@@ -6,7 +6,7 @@ export default {
   key: "drata-upload-background-check",
   name: "Upload Background Check",
   description: `Upload background check for a personnel. [See the documentation](${docsLink}).`,
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
