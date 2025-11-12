@@ -468,7 +468,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/aevent: {}
+  components/aevent:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/affinda:
     dependencies:
