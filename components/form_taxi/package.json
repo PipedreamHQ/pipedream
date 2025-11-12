@@ -11,8 +11,5 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.39.1"
   }
 }
