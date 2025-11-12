@@ -6,7 +6,7 @@ export default {
   name: "Retrieve Raw Data Coverage",
   description: "Provides raw data coverage information grouped by cities. [See the docs](https://www.crimeometer.com/crime-data-api-documentation) and [here](https://documenter.getpostman.com/view/12755833/TzK2auPn#ea645970-96d9-4fbd-8c29-d070f08b1f12).",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

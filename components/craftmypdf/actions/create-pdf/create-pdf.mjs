@@ -3,7 +3,7 @@ import craftmypdf from "../../craftmypdf.app.mjs";
 export default {
   key: "craftmypdf-create-pdf",
   name: "Create PDF",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -6,7 +6,7 @@ export default {
   key: "convenia-new-dismissal",
   name: "New Dismissal",
   description: "Emit new event when an employee is dismissed.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

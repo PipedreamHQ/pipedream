@@ -4,7 +4,7 @@ export default {
   key: "control_d-create-device",
   name: "Create Device",
   description: "Create a new device. [See the documentation](https://docs.controld.com/reference/post_devices)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

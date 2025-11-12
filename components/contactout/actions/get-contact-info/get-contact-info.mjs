@@ -4,7 +4,7 @@ export default {
   key: "contactout-get-contact-info",
   name: "Get Contact Info from LinkedIn Profile",
   description: "Get contact information (email and phone) for a LinkedIn profile using a LinkedIn URL. [See the documentation](https://api.contactout.com/#from-linkedin-profile).",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

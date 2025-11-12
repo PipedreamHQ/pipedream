@@ -4,7 +4,7 @@ export default {
   key: "crove_app-update-document",
   name: "Update Document",
   description: "Update values of variables of a document.",
-  version: "1.0.3",
+  version: "1.0.4",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

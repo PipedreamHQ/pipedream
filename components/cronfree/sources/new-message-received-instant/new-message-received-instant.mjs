@@ -4,7 +4,7 @@ export default {
   key: "cronfree-new-message-received-instant",
   name: "New Message Received (Instant)",
   description: "Emit new event when a new message is received. [See the documentation](https://docs.cronfree.com/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

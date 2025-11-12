@@ -7,7 +7,7 @@ export default {
   key: "content_snare-new-field-approved-instant",
   name: "New Field Approved (Instant)",
   description: "Emit new event when a field is approved in Content Snare. [See the documentation](https://contentsnare.com/help/knowledge-base/content-snare-webhooks/#field-webhooks)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

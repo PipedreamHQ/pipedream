@@ -5,7 +5,7 @@ export default {
   key: "contentstack-update-entry",
   name: "Update Entry",
   description: "Updates an existing Contentstack entry. [See the documentation](https://www.contentstack.com/docs/developers/apis/content-management-api#update-an-entry).",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

@@ -6,7 +6,7 @@ export default {
   key: "contentstack-publish-entry-instant",
   name: "New Entry Published (Instant)",
   description: "Emit new event when an entry is published in ContentStack.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

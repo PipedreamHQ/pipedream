@@ -5,7 +5,7 @@ export default {
   key: "craftboxx-new-appointment",
   name: "New Appointment",
   description: "Emit new event when a new appointment is created in Craftboxx. [See the documentation](https://api.craftboxx.de/docs/docs.json)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

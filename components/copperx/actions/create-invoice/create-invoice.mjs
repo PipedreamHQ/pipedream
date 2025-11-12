@@ -6,7 +6,7 @@ import copperx from "../../copperx.app.mjs";
 export default {
   key: "copperx-create-invoice",
   name: "Create Invoice",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

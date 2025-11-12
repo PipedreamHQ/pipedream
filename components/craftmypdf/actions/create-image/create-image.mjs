@@ -3,7 +3,7 @@ import craftmypdf from "../../craftmypdf.app.mjs";
 export default {
   key: "craftmypdf-create-image",
   name: "Create Image",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

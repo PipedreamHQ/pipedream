@@ -3,7 +3,7 @@ import copperx from "../../copperx.app.mjs";
 export default {
   key: "copperx-create-customer",
   name: "Create Customer",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   key: "content_snare-create-client",
   name: "Create Client",
   description: "Creates a new client on Content Snare. [See the documentation](https://api.contentsnare.com/partner_api/v1/documentation#post-/partner_api/v1/clients)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
