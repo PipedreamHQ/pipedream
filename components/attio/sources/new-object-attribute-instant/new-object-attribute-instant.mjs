@@ -6,7 +6,7 @@ export default {
   key: "attio-new-object-attribute-instant",
   name: "New Object Attribute (Instant)",
   description: "Emit new event when an object attribute is created (e.g. when defining a new attribute \"Rating\" on the company object)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   methods: {

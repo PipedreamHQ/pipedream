@@ -6,7 +6,7 @@ export default {
   key: "autodesk-new-project-created",
   name: "New Project Created",
   description: "Emit new event when a new project is created in Autodesk. [See the documentation](https://aps.autodesk.com/en/docs/data/v2/reference/http/hubs-hub_id-projects-GET/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

@@ -4,7 +4,7 @@ export default {
   key: "ashby-start-offer",
   name: "Start Offer",
   description: "Starts an offer and returns an offer form instance that can be filled out and submitted. [See the documentation](https://developers.ashbyhq.com/reference/offerstart)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

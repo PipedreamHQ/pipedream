@@ -6,7 +6,7 @@ export default {
   key: "autodesk-new-folder-instant",
   name: "New Folder Created (Instant)",
   description: "Emit new event when a folder is added to a specified folder in Autodesk. [See the documentation](https://aps.autodesk.com/en/docs/webhooks/v1/reference/http/webhooks/systems-system-events-event-hooks-POST/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

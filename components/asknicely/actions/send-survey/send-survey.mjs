@@ -4,7 +4,7 @@ import { clearObj } from "../../common/utils.mjs";
 export default {
   key: "asknicely-send-survey",
   name: "Send Survey",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

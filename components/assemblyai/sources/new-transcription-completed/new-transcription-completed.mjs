@@ -5,7 +5,7 @@ export default {
   name: "New Transcription Completed",
   description: "Emit new event when a transcribed audio file from AssemblyAI is ready. [See the documentation](https://www.assemblyai.com/docs/api-reference/transcripts/list)",
   key: "assemblyai-new-transcription-completed",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "source",
   dedupe: "unique",
   props: {

@@ -5,7 +5,7 @@ export default {
   key: "asana-search-user-projects",
   name: "Get list of user projects",
   description: "Return list of projects given the user and workspace gid. [See the documentation](https://developers.asana.com/docs/get-multiple-projects)",
-  version: "0.5.4",
+  version: "0.5.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

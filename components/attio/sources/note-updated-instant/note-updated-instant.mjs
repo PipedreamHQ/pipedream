@@ -6,7 +6,7 @@ export default {
   key: "attio-note-updated-instant",
   name: "New Note Updated (Instant)",
   description: "Emit new event when the title of a note is modified. Body updates do not currently trigger webhooks.",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   methods: {

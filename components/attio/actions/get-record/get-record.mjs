@@ -4,7 +4,7 @@ export default {
   key: "attio-get-record",
   name: "Get Record",
   description: "Retrieves the record with the specified ID. [See the documentation](https://docs.attio.com/rest-api/endpoint-reference/records/get-a-record)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

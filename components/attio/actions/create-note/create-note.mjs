@@ -4,7 +4,7 @@ export default {
   key: "attio-create-note",
   name: "Create Note",
   description: "Creates a new note for a given record. The note will be linked to the specified record. [See the documentation](https://developers.attio.com/reference/post_v2-notes)",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

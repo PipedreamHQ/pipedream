@@ -5,7 +5,7 @@ export default {
   name: "List Posts Analytics",
   description: "Retrieve the list of posts' analytics of a social account. [See the documentation](https://docs.asters.ai/api/endpoints/analytics)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

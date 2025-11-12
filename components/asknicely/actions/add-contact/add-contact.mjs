@@ -3,7 +3,7 @@ import asknicely from "../../asknicely.app.mjs";
 export default {
   key: "asknicely-add-contact",
   name: "Add Contact",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

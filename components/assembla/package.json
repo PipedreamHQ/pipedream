@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/assembla",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream assembla Components",
   "main": "assembla.app.mjs",
   "keywords": [

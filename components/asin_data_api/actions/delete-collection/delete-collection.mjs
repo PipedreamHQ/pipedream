@@ -4,7 +4,7 @@ export default {
   key: "asin_data_api-delete-collection",
   name: "Delete Collection",
   description: "Delete a collection from Asin Data API. [See the documentation](https://docs.trajectdata.com/asindataapi/collections-api/collections/delete)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

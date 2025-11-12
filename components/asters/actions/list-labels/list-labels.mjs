@@ -5,7 +5,7 @@ export default {
   name: "List Labels",
   description: "Retrieve the list of all labels of a specific workspace. [See the documentation](https://docs.asters.ai/api/endpoints/labels)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

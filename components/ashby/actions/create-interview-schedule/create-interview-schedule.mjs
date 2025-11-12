@@ -5,7 +5,7 @@ export default {
   key: "ashby-create-interview-schedule",
   name: "Create Interview Schedule",
   description: "Creates a scheduled interview. [See the documentation](https://developers.ashbyhq.com/reference/interviewschedulecreate)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
