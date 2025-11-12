@@ -6,7 +6,7 @@ export default {
   key: "ambivo-new-lead-created",
   name: "New Lead Created",
   description: "Emit new event when a new lead is created in Ambivo CRM.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

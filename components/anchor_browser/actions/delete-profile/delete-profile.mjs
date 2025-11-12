@@ -4,7 +4,7 @@ export default {
   key: "anchor_browser-delete-profile",
   name: "Delete Profile",
   description: "Deletes an existing profile by its name. [See the documentation](https://docs.anchorbrowser.io/api-reference/profiles/delete-profile).",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

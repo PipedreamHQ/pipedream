@@ -4,7 +4,7 @@ export default {
   key: "are_na-update-channel",
   name: "Update Channel",
   description: "Update a Channel with the specified slug. [See the documentation](https://dev.are.na/documentation/channels#Block45048)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

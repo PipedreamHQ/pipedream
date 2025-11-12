@@ -7,7 +7,7 @@ export default {
   name: "New Account",
   description: "Emit new event for every created (client) account in the organization",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   hooks: {
     ...base.hooks,

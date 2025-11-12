@@ -4,7 +4,7 @@ export default {
   key: "amilia-get-account",
   name: "Get Account",
   description: "Get an (client) account in your organization. [See the docs here](https://www.amilia.com/ApiDocs/v3org#GetAnAccount)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

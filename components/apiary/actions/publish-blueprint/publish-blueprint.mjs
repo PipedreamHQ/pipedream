@@ -4,7 +4,7 @@ export default {
   key: "apiary-publish-blueprint",
   name: "Publish Blueprint",
   description: "Publish an API Blueprint for a particular API. [See the documentation](https://apiary.docs.apiary.io/#reference/blueprint/publish-blueprint/publish-blueprint)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   key: "apiverve-get-weather",
   name: "Get Weather",
   description: "Return the temperature, humidity, and more for a given location. [See the documentation](https://docs.apiverve.com/api/weatherforecast)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

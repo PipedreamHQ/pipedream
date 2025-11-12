@@ -6,7 +6,7 @@ export default {
   key: "appointedd-new-booking-with-customer",
   name: "New Booking with Customer",
   description: "Emit new event when a new customer books into a new booking or an existing group booking in your appointedd organisations. [See the documentation](https://developers.appointedd.com/reference/get-bookings)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

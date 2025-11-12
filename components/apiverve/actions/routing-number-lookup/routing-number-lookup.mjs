@@ -4,7 +4,7 @@ export default {
   key: "apiverve-routing-number-lookup",
   name: "Routing Number Lookup",
   description: "Lookup routing number information for USA Banks. [See the documentation](https://docs.apiverve.com/api/routinglookup)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

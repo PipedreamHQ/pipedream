@@ -4,7 +4,7 @@ export default {
   key: "apiverve-phone-number-validator",
   name: "Phone Number Validator",
   description: "Check whether a phone number is valid or not. [See the documentation](https://docs.apiverve.com/api/phonenumbervalidator)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
