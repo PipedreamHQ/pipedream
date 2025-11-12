@@ -4587,8 +4587,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/elastic_security:
-    specifiers: {}
+  components/elastic_security: {}
 
   components/elasticemail: {}
 
@@ -11434,8 +11433,7 @@ importers:
 
   components/postmaster: {}
 
-  components/postnitro:
-    specifiers: {}
+  components/postnitro: {}
 
   components/postnl:
     dependencies:
@@ -12068,8 +12066,7 @@ importers:
         specifier: ^3.24.0
         version: 3.30.0
 
-  components/redash:
-    specifiers: {}
+  components/redash: {}
 
   components/redcircle_api:
     dependencies:
@@ -14253,11 +14250,9 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/straico:
-    specifiers: {}
+  components/straico: {}
 
-  components/straker_verify:
-    specifiers: {}
+  components/straker_verify: {}
 
   components/strapi: {}
 
@@ -15507,7 +15502,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/unione: {}
+  components/unione:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/unisender:
     dependencies:
