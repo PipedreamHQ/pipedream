@@ -5,7 +5,7 @@ export default {
   key: "dataforseo-get-keyword-ideas-live",
   name: "Get Keyword Ideas Live",
   description: "Generate live keyword suggestions and ideas for content strategy. [See the documentation](https://docs.dataforseo.com/v3/dataforseo_labs/google/keyword_ideas/live/?bash)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

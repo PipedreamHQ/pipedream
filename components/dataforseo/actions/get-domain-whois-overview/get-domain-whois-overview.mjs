@@ -5,7 +5,7 @@ export default {
   key: "dataforseo-get-domain-whois-overview",
   name: "Get Domain Whois Overview",
   description: "Get domain registration data and ownership information. [See the documentation](https://docs.dataforseo.com/v3/domain_analytics/whois/overview/live/?bash)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

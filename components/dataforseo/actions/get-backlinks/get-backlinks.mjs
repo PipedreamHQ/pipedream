@@ -6,7 +6,7 @@ export default {
   name: "Get Backlinks",
   description:
     "Get a list of backlinks and relevant data for a given domain, subdomain, or webpage. [See the documentation](https://docs.dataforseo.com/v3/backlinks/backlinks/live/)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

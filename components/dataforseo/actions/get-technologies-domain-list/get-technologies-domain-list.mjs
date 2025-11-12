@@ -5,7 +5,7 @@ export default {
   key: "dataforseo-get-technologies-domain-list",
   name: "Get Technologies Domain List",
   description: "Get technologies used by a domain (CMS, analytics, frameworks, etc.). [See the documentation](https://docs.dataforseo.com/v3/domain_analytics/technologies/domain_technologies/live/?bash)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

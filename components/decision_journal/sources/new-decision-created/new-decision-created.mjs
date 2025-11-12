@@ -6,7 +6,7 @@ export default {
   key: "decision_journal-new-decision-created",
   name: "New Decision Created",
   description: "Emit new event when a new decision is created. [See the documentation](https://openpm.ai/apis/decision-journal#/decisions)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "last",
   methods: {

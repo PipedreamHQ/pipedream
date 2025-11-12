@@ -5,7 +5,7 @@ export default {
   key: "dataforseo-get-google-ads-ad-traffic-by-keyword",
   name: "Get Google Ads Ad Traffic By Keyword",
   description: "Retrieve estimates for impressions, clicks, and cost-per-click for specified keywords, aiding in assessing keyword demand. [See the documentation](https://docs.dataforseo.com/v3/keywords_data/google_ads/ad_traffic_by_keywords/live/?bash)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

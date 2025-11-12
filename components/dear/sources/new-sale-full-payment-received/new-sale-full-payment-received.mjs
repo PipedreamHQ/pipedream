@@ -7,7 +7,7 @@ export default {
   key: "dear-new-sale-full-payment-received",
   type: "source",
   description: "Emit new event when a sale full payment is received",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   methods: {
     ...base.methods,

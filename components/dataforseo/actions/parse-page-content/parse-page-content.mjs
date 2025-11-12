@@ -6,7 +6,7 @@ export default {
   name: "Parse Page Content with OnPage",
   description:
     "Parse the content on any page and return its structured content. [See the documentation](https://docs.dataforseo.com/v3/on_page/content_parsing/live/)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

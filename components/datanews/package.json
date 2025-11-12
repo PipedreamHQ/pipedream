@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/datanews",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream datanews Components",
   "main": "datanews.app.mjs",
   "keywords": [
