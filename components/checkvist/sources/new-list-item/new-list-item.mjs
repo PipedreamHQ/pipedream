@@ -6,7 +6,7 @@ export default {
   key: "checkvist-new-list-item",
   name: "New List Item Added",
   description: "Emit new event when a new list item is added in a selected list.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

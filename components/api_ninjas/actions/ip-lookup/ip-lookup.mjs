@@ -4,7 +4,7 @@ export default {
   key: "api_ninjas-ip-lookup",
   name: "IP Lookup",
   description: "Returns the location of the IP address specified. [See the documentation](https://api-ninjas.com/api/iplookup)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     openWorldHint: true,
     destructiveHint: false,

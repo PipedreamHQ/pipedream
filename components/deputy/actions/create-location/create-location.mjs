@@ -4,7 +4,7 @@ export default {
   key: "deputy-create-location",
   name: "Create Location",
   description: "Creates a new location in Deputy. [See the documentation](https://developer.deputy.com/deputy-docs/reference/addalocation)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

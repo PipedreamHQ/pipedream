@@ -6,7 +6,7 @@ export default {
   key: "cats-new-contact-instant",
   name: "New Contact Created (Instant)",
   description: "Emit new event when a contact related to a cat is created.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

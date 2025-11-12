@@ -7,7 +7,7 @@ export default {
   name: "Update Customer",
   description: "Update an existing customer's information with new provided data. [See the documentation](https://docs.customerfields.com/#26b4ad8d-2503-4ac9-bc7f-e8eeeaf89947).",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

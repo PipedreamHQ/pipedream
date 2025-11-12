@@ -2,7 +2,7 @@ import app from "../../airmeet.app.mjs";
 
 export default {
   name: "Add Authorized Attendee",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

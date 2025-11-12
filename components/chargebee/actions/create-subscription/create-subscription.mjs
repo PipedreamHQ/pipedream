@@ -5,7 +5,7 @@ export default {
   key: "chargebee-create-subscription",
   name: "Create Subscription",
   description: "Create a new subscription for an existing customer. [See the documentation](https://apidocs.chargebee.com/docs/api/subscriptions?lang=curl#create_subscription_for_items)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

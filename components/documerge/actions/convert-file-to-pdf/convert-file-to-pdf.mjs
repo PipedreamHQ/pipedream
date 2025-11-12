@@ -5,7 +5,7 @@ export default {
   key: "documerge-convert-file-to-pdf",
   name: "Convert File to PDF",
   description: "Converts a specified file into a PDF. [See the documentation](https://app.documerge.ai/api-docs/#tools-POSTapi-tools-pdf-convert)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

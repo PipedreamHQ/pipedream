@@ -5,7 +5,7 @@ export default {
   key: "botpress-list-conversations",
   name: "List Conversations",
   description: "List conversations. [See the documentation](https://botpress.com/docs/api-documentation/#list-conversations)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

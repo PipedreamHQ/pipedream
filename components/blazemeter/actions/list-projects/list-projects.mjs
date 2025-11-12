@@ -4,7 +4,7 @@ export default {
   key: "blazemeter-list-projects",
   name: "List Projects",
   description: "List projects from a specified workspace in BlazeMeter. [See the documentation](https://api.blazemeter.com/functional/#projects-list)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

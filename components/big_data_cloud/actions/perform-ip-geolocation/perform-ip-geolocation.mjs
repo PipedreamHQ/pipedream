@@ -4,7 +4,7 @@ export default {
   key: "big_data_cloud-perform-ip-geolocation",
   name: "Perform IP Geolocation",
   description: "Obtain a user's location data based on their IP address. [See the documentation](https://www.bigdatacloud.com/docs/api/ip-address-geolocation-api)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

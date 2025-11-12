@@ -5,7 +5,7 @@ export default {
   name: "Get All Products",
   description:
     "Get all your products. [See the docs here](https://developer.bigcommerce.com/api-reference/4101d472a814d-get-all-products)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

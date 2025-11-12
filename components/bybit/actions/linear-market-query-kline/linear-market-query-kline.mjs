@@ -3,7 +3,7 @@ import { TRIGGER_PRICE_TYPES } from "../../common/constants.mjs";
 
 export default {
   name: "ByBit Linear Market Query Kline",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -6,7 +6,7 @@ export default {
   key: "cincopa-asset-uploaded-instant",
   name: "New Asset Uploaded (Instant)",
   description: "Emit new event when a new asset is uploaded. [See the documentation](https://www.cincopa.com/media-platform/api-documentation-v2#webhook.set)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

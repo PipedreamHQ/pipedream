@@ -6,7 +6,7 @@ export default {
   key: "dropboard-new-client-member-instant",
   name: "New Client Member (Instant)",
   description: "Emit new event when a member is added to a recruiting client (recruiter plan only).",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

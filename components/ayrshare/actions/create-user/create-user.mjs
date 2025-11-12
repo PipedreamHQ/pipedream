@@ -4,7 +4,7 @@ export default {
   key: "ayrshare-create-user",
   name: "Create User",
   description: "Create a new User Profile under your Primary Profile. [See the documentation](https://www.ayrshare.com/docs/apis/profiles/create-profile)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

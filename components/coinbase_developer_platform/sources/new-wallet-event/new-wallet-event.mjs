@@ -7,7 +7,7 @@ export default {
   name: "New Wallet Event (Instant)",
   key: "coinbase_developer_platform-new-wallet-event",
   description: "Emit new event for each new wallet event. [See the documentation](https://docs.cdp.coinbase.com/webhooks/cdp-sdk#external-address-webhook)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

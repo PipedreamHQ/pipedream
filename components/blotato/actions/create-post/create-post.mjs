@@ -4,7 +4,7 @@ export default {
   key: "blotato-create-post",
   name: "Create Post",
   description: "Posts to a social media platform. [See documentation](https://help.blotato.com/api/api-reference/publish-post)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

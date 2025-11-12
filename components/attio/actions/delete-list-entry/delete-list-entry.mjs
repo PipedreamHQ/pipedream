@@ -4,7 +4,7 @@ export default {
   key: "attio-delete-list-entry",
   name: "Delete List Entry",
   description: "Deletes an existing entry from a specific list. [See the documentation](https://developers.attio.com/reference/delete_v2-lists-list-entries-entry-id)",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

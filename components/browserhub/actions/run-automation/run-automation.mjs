@@ -4,7 +4,7 @@ export default {
   key: "browserhub-run-automation",
   name: "Run Automation",
   description: "Triggers a pre-built automation by providing the scraper ID. [See the documentation](https://developer.browserhub.io/runs/#create-a-run)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

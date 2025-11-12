@@ -6,7 +6,7 @@ export default {
   key: "databricks-set-sql-warehouse-permissions",
   name: "Set SQL Warehouse Permissions",
   description: "Updates the permissions for a specific SQL Warehouse. [See docs](https://docs.databricks.com/api/workspace/warehouses/setpermissions)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

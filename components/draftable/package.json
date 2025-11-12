@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/draftable",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream draftable Components",
   "main": "draftable.app.mjs",
   "keywords": [

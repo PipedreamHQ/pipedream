@@ -6,7 +6,7 @@ export default {
   key: "crowdin-new-comment-issue-instant",
   name: "New Comment or Issue Added (Instant)",
   description: "Emit new event when a user adds a comment or an issue in Crowdin.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

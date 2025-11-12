@@ -4,7 +4,7 @@ export default {
   key: "baremetrics-create-subscription",
   name: "Create Subscription",
   description: "Subscribe a client to a plan. [See the documentation](https://developers.baremetrics.com/reference/create-subscription)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

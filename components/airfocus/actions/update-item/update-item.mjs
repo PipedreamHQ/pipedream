@@ -5,7 +5,7 @@ export default {
   key: "airfocus-update-item",
   name: "Update Item",
   description: "Updates an existing item in airfocus. [See the documentation](https://developer.airfocus.com/endpoints.html)",
-  version: "0.1.1",
+  version: "0.1.2",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

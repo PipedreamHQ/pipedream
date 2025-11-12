@@ -2,7 +2,7 @@ import awork from "../../awork.app.mjs";
 
 export default {
   name: "Create Client",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

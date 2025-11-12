@@ -6,7 +6,7 @@ export default {
   name: "Delete Channel",
   description: "Delete a Channel.",
   type: "action",
-  version: "1.0.1",
+  version: "1.0.2",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

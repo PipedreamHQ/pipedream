@@ -7,7 +7,7 @@ export default {
   name: "Customer Created (Instant)",
   description: "Trigger when a new customer is added to the database. [See the documentation](https://docs.customerfields.com/#0824dffa-8d67-4b90-828b-289f7fd46899).",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   methods: {
     ...common.methods,

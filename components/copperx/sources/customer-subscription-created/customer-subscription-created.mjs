@@ -6,7 +6,7 @@ export default {
   key: "copperx-customer-subscription-created",
   name: "New Customer Subscription Created (Instant)",
   description: "Emit new event when a new customer subcription is created.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   methods: {
     ...common.methods,

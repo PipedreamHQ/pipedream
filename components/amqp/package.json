@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/amqp",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "description": "Pipedream AMQP Components",
   "main": "amqp.app.mjs",
   "keywords": [

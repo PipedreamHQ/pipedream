@@ -6,7 +6,7 @@ export default {
   key: "azure_openai_service-chat",
   name: "Chat",
   description: "Create completions for chat messages with the GPT-35-Turbo and GPT-4 models. [See the documentation](https://learn.microsoft.com/en-us/azure/ai-services/openai/reference#chat-completions)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

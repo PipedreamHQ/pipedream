@@ -4,7 +4,7 @@ export default {
   key: "confection-get-uuid-details",
   name: "Get Full Details of UUID",
   type: "action",
-  version: "0.1.1",
+  version: "0.1.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

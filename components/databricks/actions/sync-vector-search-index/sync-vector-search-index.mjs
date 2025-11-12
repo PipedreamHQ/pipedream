@@ -4,7 +4,7 @@ export default {
   key: "databricks-sync-vector-search-index",
   name: "Sync Vector Search Index",
   description: "Synchronize a Delta Sync vector search index in Databricks. [See the documentation](https://docs.databricks.com/api/workspace/vectorsearchindexes/syncindex)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

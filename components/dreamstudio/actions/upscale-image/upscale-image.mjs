@@ -7,7 +7,7 @@ export default {
   ...common,
   key: "dreamstudio-upscale-image",
   name: "Upscale Image",
-  version: "1.0.2",
+  version: "1.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

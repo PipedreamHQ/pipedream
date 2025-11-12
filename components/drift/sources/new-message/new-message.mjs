@@ -6,7 +6,7 @@ export default {
   key: "drift-new-message",
   name: "New Message in Conversation",
   description: "Emit new event when a message is received in a specific Drift conversation. [See the documentations](https://devdocs.drift.com/docs/retrieve-a-conversations-messages)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
 

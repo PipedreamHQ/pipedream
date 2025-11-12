@@ -7,7 +7,7 @@ import FormData from "form-data";
 export default {
   type: "action",
   key: "akeneo-create-a-new-product-media-file",
-  version: "0.1.4",
+  version: "0.1.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

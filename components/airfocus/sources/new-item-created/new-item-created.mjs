@@ -6,7 +6,7 @@ export default {
   key: "airfocus-new-item-created",
   name: "New Item Created",
   description: "Emit new event when a fresh item is created.",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "source",
   dedupe: "unique",
   methods: {

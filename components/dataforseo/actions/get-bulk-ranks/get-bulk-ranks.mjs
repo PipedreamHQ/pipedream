@@ -5,7 +5,7 @@ export default {
   name: "Get Bulk Ranks",
   description:
     "Get rank scores of specified domains, subdomains, and pages. [See the documentation](https://docs.dataforseo.com/v3/backlinks/bulk_ranks/live/)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

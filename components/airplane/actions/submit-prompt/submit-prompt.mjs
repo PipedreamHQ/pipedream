@@ -4,7 +4,7 @@ export default {
   key: "airplane-submit-prompt",
   name: "Submit Prompt",
   description: "Submit a prompt with a set of parameter values. [See the documentation](https://docs.airplane.dev/reference/api#prompts-submit)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

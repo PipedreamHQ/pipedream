@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/dromo",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Pipedream Dromo Components",
   "main": "dromo.app.mjs",
   "keywords": [

@@ -4,7 +4,7 @@ export default {
   key: "blazemeter-create-project",
   name: "Create Project",
   description: "Creates a new project in a specific workspace. [See the documentation](https://api.blazemeter.com/functional/#create-a-project)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

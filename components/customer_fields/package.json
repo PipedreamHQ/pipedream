@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/customer_fields",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Customer Fields Components",
   "main": "customer_fields.app.mjs",
   "keywords": [

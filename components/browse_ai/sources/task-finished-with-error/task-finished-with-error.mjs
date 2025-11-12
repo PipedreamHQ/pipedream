@@ -6,7 +6,7 @@ export default {
   key: "browse_ai-task-finished-with-error",
   name: "Task Finished With Error (Instant)",
   description: "Emit new event when a task finishes with an error. [See the documentation](https://www.browse.ai/docs/api/v2#tag/webhooks/operation/createNewWebhook)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

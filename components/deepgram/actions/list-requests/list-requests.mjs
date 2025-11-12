@@ -5,7 +5,7 @@ export default {
   key: "deepgram-list-requests",
   name: "List Requests",
   description: "Generates a list of requests sent to the Deepgram API for the specified project over a given time range. [See the documentation](https://developers.deepgram.com/api-reference/usage/#get-all-requests)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

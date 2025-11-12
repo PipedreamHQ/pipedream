@@ -7,7 +7,7 @@ export default {
   key: "browserbase-new-session",
   name: "New Session Created",
   description: "Emit new event when a new session is created. [See the documentation](https://docs.browserbase.com/reference/api/list-sessions)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

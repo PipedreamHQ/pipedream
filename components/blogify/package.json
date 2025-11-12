@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/blogify",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Blogify Components",
   "main": "blogify.app.mjs",
   "keywords": [

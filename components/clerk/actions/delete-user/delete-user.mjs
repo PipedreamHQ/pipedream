@@ -3,7 +3,7 @@ import clerk from "../../clerk.app.mjs";
 export default {
   key: "clerk-delete-user",
   name: "Delete User",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

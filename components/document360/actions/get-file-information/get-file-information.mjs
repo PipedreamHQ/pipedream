@@ -4,7 +4,7 @@ export default {
   key: "document360-get-file-information",
   name: "Get File Information",
   description: "Gets file information from Document360 Drive. [See the documentation](https://apidocs.document360.com/apidocs/gets-file-information)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

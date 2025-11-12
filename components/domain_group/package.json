@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/domain_group",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Domain Group Components",
   "main": "domain_group.app.mjs",
   "keywords": [

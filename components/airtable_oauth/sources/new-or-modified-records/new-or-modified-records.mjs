@@ -6,7 +6,7 @@ export default {
   name: "New or Modified Records (Instant)",
   key: "airtable_oauth-new-or-modified-records",
   description: "Emit new event for each new or modified record in a table or view",
-  version: "1.0.4",
+  version: "1.0.5",
   type: "source",
   dedupe: "unique",
   methods: {

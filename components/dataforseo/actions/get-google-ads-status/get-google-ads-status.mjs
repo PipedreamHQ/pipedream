@@ -5,7 +5,7 @@ export default {
   key: "dataforseo-get-google-ads-status",
   name: "Get Google Ads Status",
   description: "Check the status of Google Ads data updates, indicating whether the keyword data has been refreshed for the previous month. [See the documentation](https://docs.dataforseo.com/v3/keywords_data/google_ads/status/?bash)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

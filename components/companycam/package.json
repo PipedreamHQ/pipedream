@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/companycam",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Companycam Components",
   "main": "companycam.app.mjs",
   "keywords": [

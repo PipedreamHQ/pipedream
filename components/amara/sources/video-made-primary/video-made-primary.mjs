@@ -7,7 +7,7 @@ export default {
   name: "Video Made Primary",
   description: "Emit new event when a video has been made primary. [See the docs here](https://apidocs.amara.org/#video-notifications)",
   type: "source",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   methods: {
     ...common.methods,

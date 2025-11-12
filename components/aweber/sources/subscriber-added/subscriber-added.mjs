@@ -8,7 +8,7 @@ export default {
   name: "Subscriber Added",
   description: "Emit new event when a subscriber in a list is added. [See the docs here](https://api.aweber.com/#tag/Subscribers/paths/~1accounts~1{accountId}~1lists~1{listId}~1subscribers/get)",
   type: "source",
-  version: "0.0.5",
+  version: "0.0.6",
   dedupe: "unique",
   methods: {
     ...common.methods,

@@ -6,7 +6,7 @@ export default {
   name: "Redshift - Delete Rows",
   description: "Deletes row(s) in an existing table in Redshift. [See the documentation](https://docs.aws.amazon.com/redshift/latest/APIReference/API_ExecuteStatement.html)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   key: "contactout-company-search",
   name: "Company Search",
   description: "Get company profiles matching the search criteria. [See the documentation](https://api.contactout.com/#company-search-api).",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

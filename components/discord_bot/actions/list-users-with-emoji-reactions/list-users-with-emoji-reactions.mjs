@@ -11,7 +11,7 @@ export default {
   name: "List Users that Reacted with Emoji",
   description: "Return a list of users that reacted with a specified emoji.",
   type: "action",
-  version: "1.0.1",
+  version: "1.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

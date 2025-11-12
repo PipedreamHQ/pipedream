@@ -5,7 +5,7 @@ export default {
   key: "dromo-import-needs-review",
   name: "Import Needs Review",
   description: "Emit new event when a headless import has issues and needs a review",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

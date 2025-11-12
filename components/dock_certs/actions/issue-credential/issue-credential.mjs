@@ -5,7 +5,7 @@ export default {
   key: "dock_certs-issue-credential",
   name: "Issue Credential",
   description: "Issue a new credential. [See the documentation](https://docs.api.dock.io/#credentials)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

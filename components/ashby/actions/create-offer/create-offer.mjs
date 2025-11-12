@@ -5,7 +5,7 @@ export default {
   key: "ashby-create-offer",
   name: "Create Offer",
   description: "Creates a new offer. [See the documentation](https://developers.ashbyhq.com/reference/offercreate)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

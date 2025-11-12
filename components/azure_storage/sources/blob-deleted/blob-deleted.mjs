@@ -6,7 +6,7 @@ export default {
   key: "azure_storage-blob-deleted",
   name: "Blob Deleted",
   description: "Emit new event when a blob is deleted from a specified container in Azure Storage. [See the documentation](https://learn.microsoft.com/en-us/rest/api/storageservices/list-blobs?tabs=microsoft-entra-id).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

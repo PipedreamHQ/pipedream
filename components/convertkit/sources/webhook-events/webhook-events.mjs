@@ -7,7 +7,7 @@ export default {
   name: "New Webhook Event (Instant)",
   description: "Emit new event for each selected event types. [See docs here](https://developers.convertkit.com/#create-a-webhook)",
   type: "source",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   props: {
     ...common.props,

@@ -4,7 +4,7 @@ import { parseObject } from "../../common/utils.mjs";
 export default {
   key: "clerk-create-user-invitation",
   name: "Create User Invitation",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

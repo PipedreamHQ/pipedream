@@ -6,7 +6,7 @@ export default {
   key: "bugsnag-new-error-occurrence",
   name: "New Error Occurrence",
   description: "Emit new event when an existing error receives a new occurrence.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

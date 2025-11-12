@@ -5,7 +5,7 @@ export default {
   key: "dart-find-or-create-task",
   name: "Find or Create Task",
   description: "Checks for an existing task within a dartboard using the 'task-name'. If it doesn't exist, a new task is created. [See the documentation](https://app.dartai.com/api/v0/public/docs/#/Task/createTask)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

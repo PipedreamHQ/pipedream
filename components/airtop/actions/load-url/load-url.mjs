@@ -4,7 +4,7 @@ export default {
   key: "airtop-load-url",
   name: "Load URL",
   description: "Navigate a browser window to a specific URL. [See the documentation](https://docs.airtop.ai/api-reference/airtop-api/windows/load-url)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

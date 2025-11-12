@@ -6,7 +6,7 @@ export default {
   name: "Text To Speech",
   description: "Convert text to voice audio with Astica AI [See the documentation](https://astica.ai/voice/documentation/)",
   key: "astica_ai-text-to-speech",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

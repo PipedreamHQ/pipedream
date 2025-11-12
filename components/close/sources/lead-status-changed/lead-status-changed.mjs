@@ -5,7 +5,7 @@ export default {
   key: "close-lead-status-changed",
   name: "New Lead Status Change",
   description: "Emit new event when a Lead's status is changed",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "source",
   dedupe: "unique",
   methods: {

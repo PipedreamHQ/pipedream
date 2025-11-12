@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/digitalocean_spaces",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Pipedream DigitalOcean Spaces Components",
   "main": "digitalocean_spaces.app.mjs",
   "keywords": [

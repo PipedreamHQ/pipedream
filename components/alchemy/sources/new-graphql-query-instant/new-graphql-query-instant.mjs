@@ -4,7 +4,7 @@ export default {
   key: "alchemy-new-graphql-query-instant",
   name: "New GraphQL Query (Instant)",
   description: "Emit new event when a new GraphQL query is uploaded to Alchemy's Custom Webhook service. [See the documentation](https://docs.alchemy.com/reference/create-webhook)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

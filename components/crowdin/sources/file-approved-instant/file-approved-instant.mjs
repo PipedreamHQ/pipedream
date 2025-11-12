@@ -6,7 +6,7 @@ export default {
   key: "crowdin-file-approved-instant",
   name: "New File Approved (Instant)",
   description: "Emit new event when a file is fully translated and approved.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

@@ -5,7 +5,7 @@ export default {
   key: "chatwork-new-message-received",
   name: "New Message Received",
   description: "Emit new event each time a new message is received.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

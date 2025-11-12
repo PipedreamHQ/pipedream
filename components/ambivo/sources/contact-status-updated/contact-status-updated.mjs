@@ -6,7 +6,7 @@ export default {
   key: "ambivo-contact-status-updated",
   name: "Contact Status Updated",
   description: "Emit new event when a contact's status has been updated.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

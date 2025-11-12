@@ -5,7 +5,7 @@ export default {
   key: "cloud_convert-convert-file",
   name: "Convert File",
   description: "Converts an input file to a specified output format using CloudConvert. [See the documentation](https://cloudconvert.com/api/v2/convert#convert-tasks)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

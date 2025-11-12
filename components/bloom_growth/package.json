@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/bloom_growth",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Pipedream Bloom Growth Components",
   "main": "bloom_growth.app.mjs",
   "keywords": [

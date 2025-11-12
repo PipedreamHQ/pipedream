@@ -4,7 +4,7 @@ export default {
   key: "akeneo-submit-product-for-approval",
   name: "Submit Product For Approval",
   description: "Submit a product for approval. [See the documentation](https://api.akeneo.com/api-reference.html#post_proposal)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

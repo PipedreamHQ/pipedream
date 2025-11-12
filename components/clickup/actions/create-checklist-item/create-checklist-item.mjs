@@ -5,7 +5,7 @@ export default {
   key: "clickup-create-checklist-item",
   name: "Create Checklist Item",
   description: "Creates a new item in a checklist. [See the documentation](https://clickup.com/api) in **Checklists / Create Checklist Item** section.",
-  version: "0.0.12",
+  version: "0.0.13",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

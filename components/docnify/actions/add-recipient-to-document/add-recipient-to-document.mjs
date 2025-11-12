@@ -4,7 +4,7 @@ export default {
   key: "docnify-add-recipient-to-document",
   name: "Add Recipient To Document",
   description: "Add a recipient to an existing Docnify document. [See the documentation]([See the documentation](https://app.docnify.io/api/v1/openapi))",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

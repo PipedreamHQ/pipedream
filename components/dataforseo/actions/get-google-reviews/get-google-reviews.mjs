@@ -5,7 +5,7 @@ export default {
   key: "dataforseo-get-google-reviews",
   name: "Get Google Reviews",
   description: "Get Google business reviews and ratings for local SEO and reputation management. [See the documentation](https://docs.dataforseo.com/v3/business_data/google/reviews/task_post/?bash)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

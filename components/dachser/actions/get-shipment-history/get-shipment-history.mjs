@@ -4,7 +4,7 @@ export default {
   name: "Get Shipment History",
   description: "Retrieve the full history for a shipment by tracking number and customer ID. [See the documentation](https://api-portal.dachser.com/bi.b2b.portal/api/library/shipmenthistory?5)",
   key: "dachser-get-shipment-history",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

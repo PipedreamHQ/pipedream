@@ -6,7 +6,7 @@ export default {
   key: "attio-create-task",
   name: "Create Task",
   description: "Creates a new task. [See the documentation](https://docs.attio.com/rest-api/endpoint-reference/tasks/create-a-task)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

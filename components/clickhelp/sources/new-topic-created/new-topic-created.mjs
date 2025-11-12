@@ -6,7 +6,7 @@ export default {
   key: "clickhelp-new-topic-created",
   name: "New Topic Created",
   description: "Emit new event when a topic is created. [See the documentation](https://clickhelp.com/software-documentation-tool/user-manual/api-get-all-topics-from-project.html)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

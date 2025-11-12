@@ -4,7 +4,7 @@ export default {
   key: "agiled-create-project",
   name: "Create Project",
   description: "Creates a new project in the Agiled app. [See the documentation](https://my.agiled.app/developers)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   key: "airweave-search-collection",
   name: "Search Collection",
   description: "Search across all data sources within a collection using semantic and keyword search. [See the documentation](https://docs.airweave.ai/api-reference/collections/search)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

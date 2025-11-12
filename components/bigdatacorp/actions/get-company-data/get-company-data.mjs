@@ -5,7 +5,7 @@ export default {
   key: "bigdatacorp-get-company-data",
   name: "Get Company Data",
   description: "Returns the available data for a CNPJ number according to the selected dataset. [See the documentation](https://docs.bigdatacorp.com.br/plataforma/reference/empresas_emails_extended)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

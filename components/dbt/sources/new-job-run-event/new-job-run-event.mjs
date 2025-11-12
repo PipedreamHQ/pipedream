@@ -6,7 +6,7 @@ export default {
   key: "dbt-new-job-run-event",
   name: "New Job Run Event (Instant)",
   description: "Emit new event when a job run has started, errored, or completed.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {

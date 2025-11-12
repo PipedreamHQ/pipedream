@@ -5,7 +5,7 @@ export default {
   key: "airtable_oauth-search-records",
   name: "Search Records",
   description: "Search for a record by formula or by field value. [See the documentation](https://airtable.com/developers/web/api/list-records)",
-  version: "0.0.15",
+  version: "0.0.16",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -9,7 +9,7 @@ export default {
   key: "discord_bot-send-message",
   name: "Send message",
   description: "Send message to a user or a channel. [See the docs here](https://discord.com/developers/docs/resources/user#create-dm) and [here](https://discord.com/developers/docs/resources/channel#create-message)",
-  version: "1.0.1",
+  version: "1.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

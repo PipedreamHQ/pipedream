@@ -5,7 +5,7 @@ import daffy from "../../daffy.app.mjs";
 export default {
   key: "daffy-new-donation-created",
   name: "New Donation Created",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Emit new event when a donation is created.",
   type: "source",
   dedupe: "unique",

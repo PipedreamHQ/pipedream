@@ -6,7 +6,7 @@ export default {
   key: "deputy-new-colleague-created",
   name: "New Colleague Created (Instant)",
   description: "Emit new event when a new individual is added to the workplace",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

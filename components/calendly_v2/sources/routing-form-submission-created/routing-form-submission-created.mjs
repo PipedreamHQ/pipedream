@@ -5,7 +5,7 @@ export default {
   key: "calendly_v2-routing-form-submission-created",
   name: "New Routing Form Submission Created",
   description: "Emit new event when a new routing form submission is created.",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   methods: {

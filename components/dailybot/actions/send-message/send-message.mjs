@@ -5,7 +5,7 @@ export default {
   key: "dailybot-send-message",
   name: "Send Message",
   description: "Dispatches a message to designated users or groups in DailyBot. Required are the message content and recipients' IDs, and channels or rooms are optional targets. [See the documentation](https://www.dailybot.com/docs/api-methods)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

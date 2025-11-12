@@ -8,7 +8,7 @@ export default {
   name: "Change Nickname",
   description: "Modifies the nickname of the current user in a guild.",
   type: "action",
-  version: "1.0.1",
+  version: "1.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

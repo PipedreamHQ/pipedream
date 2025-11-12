@@ -6,7 +6,7 @@ export default {
   key: "dailybot-kudos-given-instant",
   name: "New Kudos Given (Instant)",
   description: "Emit new event every time any kudos are given to someone in your DailyBot organization.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

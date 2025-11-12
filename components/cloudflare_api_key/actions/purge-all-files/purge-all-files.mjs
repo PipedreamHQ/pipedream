@@ -4,7 +4,7 @@ export default {
   key: "cloudflare_api_key-purge-all-files",
   name: "Purge All Files",
   description: "Remove ALL files from Cloudflare's cache. [See the documentation](https://developers.cloudflare.com/api/node/resources/cache/methods/purge/)",
-  version: "1.0.1",
+  version: "1.0.2",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

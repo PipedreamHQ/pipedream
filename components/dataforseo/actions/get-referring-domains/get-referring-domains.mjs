@@ -6,7 +6,7 @@ export default {
   name: "Get Referring Domains",
   description:
     "Get detailed overview of referring domains pointing to the specified target. [See the documentation](https://docs.dataforseo.com/v3/backlinks/referring_domains/live/)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

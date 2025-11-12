@@ -4,7 +4,7 @@ export default {
   key: "capturekit-scrape-content",
   name: "Scrape Content",
   description: "Extract structured data from any webpage, including metadata, links, and raw HTML. [See the documentation](https://docs.capturekit.dev/api-reference/content-api)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

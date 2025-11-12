@@ -6,7 +6,7 @@ export default {
   key: "circleci-new-job-completed-instant",
   name: "New Job Completed (Instant)",
   description: "Emit new event when a job is completed in CircleCI.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

@@ -7,7 +7,7 @@ export default {
   key: "diabatix_coldstream-project-upgraded",
   name: "New Project Upgraded",
   description: "Emit new event when a specific project has been upgraded or edited in ColdStream.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

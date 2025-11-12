@@ -5,7 +5,7 @@ export default {
   key: "deftship-get-insurance-rate",
   name: "Get Insurance Rate",
   description: "Checks pricing for Insurance based on the supplied information. Also automatically creates an insurance and returns the pricing. [See the documentation](https://developer.deftship.com/insurance/get-rates)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -7,7 +7,7 @@ export default {
   name: "New or Updated Row",
   description: "Triggers when a new row is added or an existing row is updated.",
   type: "source",
-  version: "0.0.6",
+  version: "0.0.7",
   dedupe: "unique",
   props: {
     ...common.props,

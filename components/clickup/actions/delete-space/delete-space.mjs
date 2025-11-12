@@ -5,7 +5,7 @@ export default {
   key: "clickup-delete-space",
   name: "Delete Space",
   description: "Delete a space. [See the documentation](https://clickup.com/api) in **Spaces / Delete Space** section.",
-  version: "0.0.12",
+  version: "0.0.13",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

@@ -5,7 +5,7 @@ export default {
   key: "agiled-create-invoice",
   name: "Create Invoice",
   description: "Creates a new invoice in Agiled. [See the documentation](https://my.agiled.app/developers)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

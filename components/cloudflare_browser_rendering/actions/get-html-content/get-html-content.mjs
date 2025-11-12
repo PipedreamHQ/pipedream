@@ -7,7 +7,7 @@ export default {
   key: "cloudflare_browser_rendering-get-html-content",
   name: "Get HTML Content",
   description: "Fetches rendered HTML content from provided URL or HTML. [See the documentation](https://developers.cloudflare.com/api/resources/browser_rendering/subresources/content/)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

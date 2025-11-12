@@ -4,7 +4,7 @@ export default {
   key: "are_na-delete-channel",
   name: "Delete Channel",
   description: "Delete a Channel with the specified slug. [See the documentation](https://dev.are.na/documentation/channels#Block45049)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

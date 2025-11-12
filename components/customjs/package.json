@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/customjs",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Pipedream CustomJS Components",
   "main": "customjs.app.mjs",
   "keywords": [

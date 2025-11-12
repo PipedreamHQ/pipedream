@@ -4,7 +4,7 @@ export default {
   key: "asin_data_api-create-collection",
   name: "Create Collection",
   description: "Create a collection to run requests in Asin Data API. [See the documentation](https://docs.trajectdata.com/asindataapi/collections-api/collections/create)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

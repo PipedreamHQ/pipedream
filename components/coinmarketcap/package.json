@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/coinmarketcap",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream CoinMarketCap Components",
   "main": "coinmarketcap.app.mjs",
   "keywords": [

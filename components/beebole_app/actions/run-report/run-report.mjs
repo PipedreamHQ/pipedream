@@ -4,7 +4,7 @@ export default {
   name: "Run report",
   description: "Run a report from Beebole",
   key: "beebole_app-run-report",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

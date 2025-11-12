@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/concord",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Concord Components",
   "main": "dist/app/concord.app.mjs",
   "keywords": [
     "pipedream",
     "concord"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/concord",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

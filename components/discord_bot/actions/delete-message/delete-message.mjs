@@ -8,7 +8,7 @@ export default {
   name: "Delete message",
   description: "Delete a message. [See the docs here](https://discord.com/developers/docs/resources/channel#delete-message)",
   type: "action",
-  version: "1.0.1",
+  version: "1.0.2",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

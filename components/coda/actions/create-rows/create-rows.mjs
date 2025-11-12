@@ -4,7 +4,7 @@ export default {
   key: "coda-create-rows",
   name: "Create Rows",
   description: "Insert a row in a selected table. [See docs](https://coda.io/developers/apis/v1#operation/upsertRows)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

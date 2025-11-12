@@ -13,7 +13,7 @@ export default {
     Updates an existing item's attributes, or adds a new item to the table if it does not already exist.
     [See docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-dynamodb/classes/updateitemcommand.html)
   `),
-  version: "0.2.3",
+  version: "0.2.4",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

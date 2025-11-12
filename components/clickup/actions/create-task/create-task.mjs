@@ -7,7 +7,7 @@ export default {
   key: "clickup-create-task",
   name: "Create Task",
   description: "Creates a new task. [See the documentation](https://clickup.com/api) in **Tasks / Create Task** section.",
-  version: "0.0.17",
+  version: "0.0.18",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

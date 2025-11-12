@@ -7,7 +7,7 @@ export default {
   name: "Redshift - Create Rows",
   description: "Insert rows into a table. [See the documentation](https://docs.aws.amazon.com/redshift/latest/APIReference/API_ExecuteStatement.html)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

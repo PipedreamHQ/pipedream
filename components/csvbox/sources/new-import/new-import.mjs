@@ -6,7 +6,7 @@ export default {
   key: "csvbox-new-import",
   name: "New Import",
   description: "Emit new event when CSVBox receives and processes a new import. [See documentation](https://help.csvbox.io/destinations#api-webhook)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

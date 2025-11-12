@@ -6,7 +6,7 @@ export default {
   key: "craftboxx-create-customer-and-mailing-address",
   name: "Create Customer and Mailing Address",
   description: "Creates a new customer along with their mailing address in Craftboxx. [See the documentation](https://api.craftboxx.de/docs/docs.json)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   key: "barcode_lookup-get-products",
   name: "Get Products",
   description: "Retrieve products details by barcode, MPN, ASIN, or search terms. [See the documentation](https://www.barcodelookup.com/api-documentation#endpoints)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

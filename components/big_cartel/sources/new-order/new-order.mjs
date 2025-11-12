@@ -5,7 +5,7 @@ export default {
   key: "big_cartel-new-order",
   name: "New Order Event",
   description: "Emit new events when a new order is created. [See the docs here](https://developers.bigcartel.com/api/v1#get-all-orders)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   ...common,

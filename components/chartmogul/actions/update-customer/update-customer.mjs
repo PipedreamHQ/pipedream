@@ -3,7 +3,7 @@ import chartmogul from "../../chartmogul.app.mjs";
 export default {
   key: "chartmogul-update-customer",
   name: "Update Customer",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

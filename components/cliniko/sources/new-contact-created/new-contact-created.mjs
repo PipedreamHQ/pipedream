@@ -7,7 +7,7 @@ export default {
   name: "New Contact Created",
   description: "Emit new event when a contact is created in Cliniko.",
   type: "source",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   methods: {
     ...common.methods,

@@ -4,7 +4,7 @@ export default {
   key: "codereadr-add-update-barcode-value",
   name: "Add or Update Barcode Value",
   description: "Adds or updates a barcode value in the selected database. [See the documentation](https://secure.codereadr.com/apidocs/Databases.md#upsertvalue)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   key: "chatbot-get-users",
   name: "Get Users",
   description: "Get a list of users. [See docs here](https://www.chatbot.com/docs/users/#list-users)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   key: "deepgram-summarize-usage",
   name: "Summarize Usage",
   description: "Retrieves a summary of usage statistics. [See the documentation](https://developers.deepgram.com/api-reference/usage/#summarize-usage)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

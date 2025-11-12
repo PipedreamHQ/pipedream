@@ -6,7 +6,7 @@ export default {
   key: "azure_openai_service-create-image",
   name: "Create Image",
   description: "Creates an image given a prompt, and returns a URL to the image. [See the documentation](https://learn.microsoft.com/en-us/azure/ai-services/openai/reference#image-generation)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

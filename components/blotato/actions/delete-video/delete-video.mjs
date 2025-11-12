@@ -4,7 +4,7 @@ export default {
   key: "blotato-delete-video",
   name: "Delete Video",
   description: "Delete a video, carousel, or graphic. [See documentation](https://help.blotato.com/api/api-reference/delete-video)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

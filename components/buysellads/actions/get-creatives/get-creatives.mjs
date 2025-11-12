@@ -4,7 +4,7 @@ export default {
   key: "buysellads-get-creatives",
   name: "Get Creatives",
   description: "Returns the creative stats for line items. [See the documentation](https://docs.buysellads.com/advertiser-api/endpoints#creatives)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

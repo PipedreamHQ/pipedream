@@ -4,7 +4,7 @@ export default {
   key: "documenso-send-document",
   name: "Send Document",
   description: "Send a document within Documenso for signing. [See the documentation](https://app.documenso.com/api/v1/openapi)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

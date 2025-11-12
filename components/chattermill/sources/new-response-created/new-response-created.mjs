@@ -6,7 +6,7 @@ export default {
   key: "chattermill-new-response-created",
   name: "New Response Created",
   description: "Emit new event when a new response is created. [See the documentation](https://apidocs.chattermill.com/#3dd30375-7956-b872-edbd-873eef126b2d)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

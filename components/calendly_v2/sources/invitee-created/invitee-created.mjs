@@ -5,7 +5,7 @@ export default {
   key: "calendly_v2-invitee-created",
   name: "New Invitee Created",
   description: "Emit new event when a new event is scheduled.",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "source",
   dedupe: "unique",
   props: {

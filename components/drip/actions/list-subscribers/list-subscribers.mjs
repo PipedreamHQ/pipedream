@@ -3,7 +3,7 @@ import drip from "../../drip.app.mjs";
 export default {
   key: "drip-list-subscribers",
   name: "List Subscribers",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

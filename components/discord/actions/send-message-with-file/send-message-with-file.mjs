@@ -6,7 +6,7 @@ export default {
   key: "discord-send-message-with-file",
   name: "Send Message With File",
   description: "Post a message with an attached file",
-  version: "2.0.2",
+  version: "2.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

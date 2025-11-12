@@ -4,7 +4,7 @@ export default {
   key: "apiverve-whois-lookup",
   name: "Whois Lookup",
   description: "Check the registration of a domain name. [See the documentation](https://docs.apiverve.com/api/whoislookup)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   key: "cufinder-find-company-website",
   name: "Find Company Website",
   description: "Finds a company's website using the company name. [See the documentation](https://apidoc.cufinder.io/apis/#company-website-finder-api)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

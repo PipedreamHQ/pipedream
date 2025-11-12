@@ -5,7 +5,7 @@ export default {
   key: "decision_journal-update-decision",
   name: "Update Decision",
   description: "Updates an existing decision. [See the documentation](https://openpm.ai/apis/decision-journal#/decisions/{decisionId})",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

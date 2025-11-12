@@ -4,7 +4,7 @@ export default {
   key: "bippybox-activate-box",
   name: "Activate Box",
   description: "Triggers the BippyBox to play an audio file. [See the documentation](https://bippybox.io/docs/).",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

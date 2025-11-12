@@ -8,7 +8,7 @@ export default {
   name: "Failed Monitor",
   description: `Emit a new event whenever a monitor fails. [See the documentation](${docsLink}).`,
   type: "source",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   props: {
     drata,

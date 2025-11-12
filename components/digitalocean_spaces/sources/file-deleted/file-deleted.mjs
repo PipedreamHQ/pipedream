@@ -5,7 +5,7 @@ export default {
   key: "digitalocean_spaces-file-deleted",
   name: "File Deleted",
   description: "Emit new event when a file is deleted from a DigitalOcean Spaces bucket",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "source",
   hooks: {
     async deploy() {

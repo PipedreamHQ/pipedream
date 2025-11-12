@@ -4,7 +4,7 @@ export default {
   key: "dnsfilter-assign-policy-site",
   name: "Assign Policy to Site",
   description: "Assigns a pre-existing policy to a specific site within your DNSFilter account. [See the documentation](https://app.swaggerhub.com/apis-docs/DNSFilter/dns-filter_api/1.0.15#/Networks/Networks-update)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

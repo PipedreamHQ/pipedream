@@ -5,7 +5,7 @@ export default {
   key: "clickup-update-task-custom-field",
   name: "Update Task Custom Field",
   description: "Update custom field value of a task. [See the documentation](https://clickup.com/api) in **Custom Fields / Set Custom Field Value** section.",
-  version: "0.0.12",
+  version: "0.0.13",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

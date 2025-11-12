@@ -5,7 +5,7 @@ export default {
   key: "dromo-new-data-row-imported",
   name: "New Data Row Imported",
   description: "Emits a new event when a headless import has been completed successfully.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

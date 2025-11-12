@@ -4,7 +4,7 @@ import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   name: "BingX Custom Bracket Order",
-  version: "0.1.2",
+  version: "0.1.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

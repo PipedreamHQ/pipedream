@@ -4,7 +4,7 @@ export default {
   key: "clearly_defined-get-harvests",
   name: "Get Harvests",
   description: "Get all the harvested data for a component revision. [See the documentation](https://api.clearlydefined.io/api-docs/#/harvest/get_harvest__type___provider___namespace___name___revision_).",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

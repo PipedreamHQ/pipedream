@@ -4,7 +4,7 @@ export default {
   key: "discord-reaction-added",
   name: "Reaction Added (Instant)",
   description: "Emit new event for each reaction added to a message",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   props: {
     discord,

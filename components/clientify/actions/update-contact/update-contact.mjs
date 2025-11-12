@@ -4,7 +4,7 @@ import { prepareData } from "../../common/utils.mjs";
 export default {
   key: "clientify-update-contact",
   name: "Update Contact",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

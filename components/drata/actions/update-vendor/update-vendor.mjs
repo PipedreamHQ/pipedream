@@ -6,7 +6,7 @@ export default {
   key: "drata-update-vendor",
   name: "Update Vendor",
   description: `Update a Vendor. [See the documentation](${docsLink}).`,
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

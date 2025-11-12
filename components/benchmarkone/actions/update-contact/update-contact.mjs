@@ -6,7 +6,7 @@ export default {
   key: "benchmarkone-update-contact",
   name: "Update Contact",
   description: "Updates an existing contact. [See the documentation](https://sandbox.hatchbuck.com/api/dist/#!/Contacts/put_contact)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

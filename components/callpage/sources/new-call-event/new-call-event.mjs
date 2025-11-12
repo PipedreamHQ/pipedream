@@ -6,7 +6,7 @@ export default {
   key: "callpage-new-call-event",
   name: "New Call Event",
   description: "Emit new event when there is a new call event.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

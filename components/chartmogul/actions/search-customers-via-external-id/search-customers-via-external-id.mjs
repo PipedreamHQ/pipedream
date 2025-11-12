@@ -4,7 +4,7 @@ import chartmogul from "../../chartmogul.app.mjs";
 export default {
   key: "chartmogul-search-customers-via-external-id",
   name: "Search Customers Via External Id",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

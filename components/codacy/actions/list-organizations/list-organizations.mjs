@@ -4,7 +4,7 @@ export default {
   key: "codacy-list-organizations",
   name: "List Organizations",
   description: "List organizations for the authenticated user. [See the documentation](https://api.codacy.com/api/api-docs#listorganizations)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

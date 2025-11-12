@@ -5,7 +5,7 @@ export default {
   key: "chatwork-new-task-completed",
   name: "New Task Completed",
   description: "Emit new event each time a task is completed.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

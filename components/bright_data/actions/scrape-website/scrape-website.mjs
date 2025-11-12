@@ -5,7 +5,7 @@ export default {
   key: "bright_data-scrape-website",
   name: "Scrape Website",
   description: "Scrape a website and return the HTML. [See the documentation](https://docs.brightdata.com/api-reference/web-scraper-api/synchronous-requests)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

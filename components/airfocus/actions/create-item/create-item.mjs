@@ -5,7 +5,7 @@ export default {
   key: "airfocus-create-item",
   name: "Create Item",
   description: "Creates a new item in airfocus. [See the documentation](https://developer.airfocus.com/endpoints.html)",
-  version: "0.1.1",
+  version: "0.1.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

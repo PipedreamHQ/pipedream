@@ -6,7 +6,7 @@ import common from "../common/base.mjs";
 export default {
   ...common,
   name: "New Custom Events",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   key: "bigcommerce-custom-events",
   description: "Emit new custom webhook event",

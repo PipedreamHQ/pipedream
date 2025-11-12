@@ -2,7 +2,7 @@ import clinchpad from "../../clinchpad.app.mjs";
 
 export default {
   name: "Create Lead",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

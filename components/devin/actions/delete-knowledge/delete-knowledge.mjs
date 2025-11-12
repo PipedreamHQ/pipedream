@@ -4,7 +4,7 @@ export default {
   key: "devin-delete-knowledge",
   name: "Delete Knowledge",
   description: "Delete an existing knowledge object. [See the documentation](https://docs.devin.ai/api-reference/knowledge/delete-knowledge)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

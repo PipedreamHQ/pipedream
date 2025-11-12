@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/clockwork_recruiting",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Clockwork Recruiting Components",
   "main": "clockwork_recruiting.app.mjs",
   "keywords": [

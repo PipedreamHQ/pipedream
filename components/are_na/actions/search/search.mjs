@@ -4,7 +4,7 @@ export default {
   key: "are_na-search",
   name: "Perform a Search",
   description: "Search across all of Are.na (returns channels, blocks and users that match the query)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

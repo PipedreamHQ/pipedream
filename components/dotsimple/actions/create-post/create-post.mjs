@@ -4,7 +4,7 @@ export default {
   key: "dotsimple-create-post",
   name: "Create Post",
   description: "Create a new post on your DotSimple site. [See the documentation](https://help.dotsimple.io/en/articles/68-posts).",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

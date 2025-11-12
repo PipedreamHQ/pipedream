@@ -11,7 +11,7 @@ export default {
   key: "aws-s3-upload-files",
   name: "S3 - Upload Files",
   description: "Upload files to S3. Accepts either a file URL, a local file path, or a directory path. [See the documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

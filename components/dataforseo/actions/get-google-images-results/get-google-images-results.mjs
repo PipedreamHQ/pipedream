@@ -5,7 +5,7 @@ export default {
   key: "dataforseo-get-google-images-results",
   name: "Get Google Images Results",
   description: "Retrieve Google Images search results for specified keywords. [See the documentation](https://docs.dataforseo.com/v3/serp/google/images/live/advanced/?bash)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

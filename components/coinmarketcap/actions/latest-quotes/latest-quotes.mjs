@@ -5,7 +5,7 @@ export default {
   key: "coinmarketcap-latest-quotes",
   name: "Get Latest Quotes",
   description: "Returns the latest market quote for 1 or more cryptocurrencies. Use the \"\"convert\"\" option to return market values in multiple fiat and cryptocurrency conversions in the same call. At least one \"\"id\"\" or \"\"slug\"\" or \"\"symbol\"\" is required for this request. [See the documentation](https://coinmarketcap.com/api/documentation/v1/#operation/getV1CryptocurrencyQuotesLatest)",
-  version: "0.1.3",
+  version: "0.1.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

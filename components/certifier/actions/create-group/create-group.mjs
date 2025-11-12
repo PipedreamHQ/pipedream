@@ -2,7 +2,7 @@ import certifier from "../../certifier.app.mjs";
 
 export default {
   name: "Create Group",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

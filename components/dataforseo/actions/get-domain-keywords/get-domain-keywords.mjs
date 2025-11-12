@@ -5,7 +5,7 @@ export default {
   key: "dataforseo-get-domain-keywords",
   name: "Get Domain Keywords",
   description: "Get all keywords a domain ranks for in organic search results. [See the documentation](https://docs.dataforseo.com/v3/dataforseo_labs/google/ranked_keywords/live/?bash)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -7,7 +7,7 @@ export default {
   key: "cloze-project-change-instant",
   name: "Project Change (Instant)",
   description: "Emit new event when a significant change occurs in a project. [See the documentation](https://api.cloze.com/api-docs/#!/Webhooks/post_v1_subscribe).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

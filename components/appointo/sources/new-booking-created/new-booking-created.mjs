@@ -5,7 +5,7 @@ export default {
   key: "appointo-new-booking-created",
   name: "New Booking Created",
   description: "Emit new event when a booking is created in Appointo. [See the documentation](https://api-docs.appointo.me/reference/api-reference/bookings)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

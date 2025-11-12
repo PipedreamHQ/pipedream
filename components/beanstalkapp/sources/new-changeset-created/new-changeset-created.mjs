@@ -7,7 +7,7 @@ export default {
   name: "New Changeset Created",
   description: "Emit new event when a new changeset is created. [See the docs](https://api.beanstalkapp.com/changeset.html).",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   methods: {
     ...common.methods,

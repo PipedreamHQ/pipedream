@@ -5,7 +5,7 @@ export default {
   key: "dataforseo-get-google-ads-languages",
   name: "Get Google Ads Languages",
   description: "Retrieve a list of languages supported by the Google Ads API, allowing you to specify language targeting in your requests. [See the documentation](https://docs.dataforseo.com/v3/keywords_data/google_ads/languages/?bash)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

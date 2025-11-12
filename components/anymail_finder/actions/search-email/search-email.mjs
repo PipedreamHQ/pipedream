@@ -5,7 +5,7 @@ export default {
   key: "anymail_finder-search-email",
   name: "Search Email",
   description: "Searches for emails based on company information and, optionally, a person's name.",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

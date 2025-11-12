@@ -5,7 +5,7 @@ export default {
   key: "agile_crm-new-ticket",
   name: "New Ticket",
   description: "Emit new event when a new ticket is created",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   props: {

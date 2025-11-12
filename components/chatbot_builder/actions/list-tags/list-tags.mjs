@@ -4,7 +4,7 @@ export default {
   key: "chatbot_builder-list-tags",
   name: "List Tags",
   description: "Lists all tags in Chatbot Builder. [See the documentation](https://app.chatgptbuilder.io/api/swagger/#/accounts/getpagetags)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

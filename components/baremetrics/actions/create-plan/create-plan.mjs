@@ -4,7 +4,7 @@ export default {
   key: "baremetrics-create-plan",
   name: "Create Plan",
   description: "Create a plan. [See the documentation](https://developers.baremetrics.com/reference/create-plan)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

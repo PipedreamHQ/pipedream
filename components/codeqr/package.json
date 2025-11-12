@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/codeqr",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Pipedream CodeQR Components",
   "main": "codeqr.app.mjs",
   "keywords": [

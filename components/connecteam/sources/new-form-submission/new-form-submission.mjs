@@ -6,7 +6,7 @@ export default {
   key: "connecteam-new-form-submission",
   name: "New Form Submission",
   description: "Emit new event when a new form submission is created.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

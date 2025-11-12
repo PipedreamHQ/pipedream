@@ -4,7 +4,7 @@ export default {
   key: "breathe-create-employee",
   name: "Create Employee",
   description: "Creates a new employee in Breathe. [See the documentation](https://developer.breathehr.com/examples#!/employees/POST_version_employees_json)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

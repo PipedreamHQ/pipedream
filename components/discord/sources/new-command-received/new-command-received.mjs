@@ -6,7 +6,7 @@ export default {
   key: "discord-new-command-received",
   name: "New Command Received (Instant)",
   description: "Emit new event for each command posted to one or more channels in a Discord server",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   props: {
     discord,

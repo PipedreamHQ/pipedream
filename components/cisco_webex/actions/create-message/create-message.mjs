@@ -5,7 +5,7 @@ export default {
   name: "Create Message",
   description: "Post a plain text or [rich text](https://developer.webex.com/docs/basics#formatting-messages) message, and optionally, a [file attachment](https://developer.webex.com/docs/basics#message-attachments), to a room. [See the docs here](https://developer.webex.com/docs/api/v1/messages/create-a-message)",
   type: "action",
-  version: "0.1.1",
+  version: "0.1.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

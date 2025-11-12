@@ -2,7 +2,7 @@ import app from "../../airops.app.mjs";
 
 export default {
   name: "Run Workflow",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

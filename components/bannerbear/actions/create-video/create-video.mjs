@@ -6,7 +6,7 @@ export default {
   name: "Create Video",
   description: "Creates a Video. [See the docs here](https://developers.bannerbear.com/#post-v2-videos).",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

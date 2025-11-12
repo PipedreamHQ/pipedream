@@ -4,7 +4,7 @@ export default {
   key: "chainaware_ai-fraud-check",
   name: "Comprehensive Fraud Check",
   description: "Conducts a comprehensive fraud check. [See the documentation](https://learn.chainaware.ai/api/fraud-detection-api).",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   key: "bingx-trade-cancel-order",
   name: "BingX Trade Cancel Order",
   description: "Cancel an Order [See the documentation](https://bingx-api.github.io/docs/#/swapV2/trade-api.html#Cancel%20an%20Order).",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

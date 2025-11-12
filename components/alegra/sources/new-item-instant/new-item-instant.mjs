@@ -6,7 +6,7 @@ export default {
   key: "alegra-new-item-instant",
   name: "New Item Added (Instant)",
   description: "Emit new event each time a new item is added.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

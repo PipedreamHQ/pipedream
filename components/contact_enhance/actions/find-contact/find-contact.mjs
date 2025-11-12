@@ -4,7 +4,7 @@ export default {
   key: "contact_enhance-find-contact",
   name: "Find Contact",
   description: "Locates a specific contact in the database using the email. [See the documentation](https://u.pcloud.link/publink/show?code=XZ8tzp0ZjaO5gqh55FuTmEEbwt0GOJPtqqgX)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

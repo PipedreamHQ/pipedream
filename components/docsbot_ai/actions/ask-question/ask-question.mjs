@@ -4,7 +4,7 @@ export default {
   key: "docsbot_ai-ask-question",
   name: "Ask Question",
   description: "Ask a question to a specific bot in a specific team. [See the documentation](https://docsbot.ai/documentation/developer/chat-api)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

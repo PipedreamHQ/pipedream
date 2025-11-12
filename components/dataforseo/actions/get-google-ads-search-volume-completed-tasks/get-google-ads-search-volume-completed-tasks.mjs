@@ -5,7 +5,7 @@ export default {
   key: "dataforseo-get-google-ads-search-volume-completed-tasks",
   name: "Get Google Ads Search Volume Completed Tasks",
   description: "Retrieve the results of completed 'Search Volume' tasks, which haven't been collected yet. [See the documentation](https://docs.dataforseo.com/v3/keywords_data/google_ads/search_volume/tasks_ready/?bash)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

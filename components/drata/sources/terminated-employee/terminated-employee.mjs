@@ -9,7 +9,7 @@ export default {
   name: "Employee Terminated",
   description: `Emit a new event when an employee is terminated. [See the documentation](${docsLink}).`,
   type: "source",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   props: {
     drata,

@@ -5,7 +5,7 @@ export default {
   key: "crowdin-translate-via-machine-translation",
   name: "Translate via Machine Translation",
   description: "Performs machine translation of the uploaded files. [See the documentation](https://support.crowdin.com/developer/api/v2/)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

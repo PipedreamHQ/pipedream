@@ -6,7 +6,7 @@ export default {
   key: "cats-new-candidate-instant",
   name: "New Candidate (Instant)",
   description: "Emit new event when a new candidate is created.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

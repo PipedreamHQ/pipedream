@@ -4,7 +4,7 @@ export default {
   key: "docnify-send-document",
   name: "Send Document",
   description: "Send a document within Docnify for signing. [See the documentation](https://app.docnify.io/api/v1/openapi)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

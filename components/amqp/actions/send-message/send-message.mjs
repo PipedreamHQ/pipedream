@@ -5,7 +5,7 @@ export default {
   key: "amqp-send-message",
   name: "Send a Message",
   description: "Send a new message to an [AMQP 1.0](https://www.amqp.org/sites/amqp.org/files/amqp.pdf) queue. [See the library example here](https://github.com/amqp/rhea-promise#sending-a-message-via-awaitablesender).",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

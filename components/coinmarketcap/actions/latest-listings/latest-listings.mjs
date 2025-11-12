@@ -6,7 +6,7 @@ export default {
   name: "Get Latest Listings",
   description:
     "Returns a paginated list of all active cryptocurrencies with latest market data. [See the documentation](https://coinmarketcap.com/api/documentation/v1/#operation/getV1CryptocurrencyListingsLatest)",
-  version: "0.1.3",
+  version: "0.1.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

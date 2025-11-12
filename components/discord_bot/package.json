@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/discord_bot",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Pipedream Discord_bot Components",
   "main": "discord_bot.app.mjs",
   "keywords": [

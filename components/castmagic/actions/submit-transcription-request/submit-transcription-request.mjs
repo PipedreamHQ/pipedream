@@ -5,7 +5,7 @@ export default {
   key: "castmagic-submit-transcription-request",
   name: "Submit Transcription Request",
   description: "Submits a request to transcribe from a URL. [See the documentation](https://docs.castmagic.io/endpoints/transcripts)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   key: "chat_data-create-chatbot",
   name: "Create Chatbot",
   description: "Create a chatbot with the specified properties. [See the documentation](https://www.chat-data.com/api-reference#tag/Chatbot-Operations/operation/chatbotCreate)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -5,7 +5,7 @@ export default {
   key: "calendly_v2-create-scheduling-link",
   name: "Create a Scheduling Link",
   description: "Creates a single-use scheduling link. [See the documentation](https://calendly.stoplight.io/docs/api-docs/b3A6MzQyNTM0OQ-create-single-use-scheduling-link)",
-  version: "0.0.8",
+  version: "0.0.9",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

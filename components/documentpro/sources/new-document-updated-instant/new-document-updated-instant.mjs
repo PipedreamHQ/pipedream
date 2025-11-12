@@ -5,7 +5,7 @@ export default {
   key: "documentpro-new-document-updated-instant",
   name: "New Document Updated (Instant)",
   description: "Emit new event when a file request status changes. You can only create one webhook in a parser at a time.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

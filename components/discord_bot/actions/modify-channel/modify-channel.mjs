@@ -18,7 +18,7 @@ export default {
   name: "Modify Channel",
   description: "Update a channel's settings. [See the docs here](https://discord.com/developers/docs/resources/channel#modify-channel)",
   type: "action",
-  version: "1.0.1",
+  version: "1.0.2",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

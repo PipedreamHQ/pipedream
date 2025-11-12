@@ -5,7 +5,7 @@ export default {
   key: "dataforseo-get-app-store-search",
   name: "Get App Store Search",
   description: "Search iOS App Store apps by keywords for app store optimization (ASO) analysis. [See the documentation](https://docs.dataforseo.com/v3/app_data/apple/app_searches/task_post/?bash)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

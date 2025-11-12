@@ -5,7 +5,7 @@ export default {
   name: "Retrieve Check-Ins",
   description: "Retrieves check-ins. [See the docs](https://badgerupdatedapi.docs.apiary.io/#reference/check-ins/get-check-ins-for-account/retrieve-check-ins-for-an-account).",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

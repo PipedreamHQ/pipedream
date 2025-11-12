@@ -3,7 +3,7 @@ import drip from "../../drip.app.mjs";
 export default {
   key: "drip-create-or-update-subscriber",
   name: "Create Or Update Subscriber",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

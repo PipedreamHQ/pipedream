@@ -6,7 +6,7 @@ export default {
   name: "Create Campfire Chatbot Message",
   description: "Creates a message in a Campfire for a Basecamp Chatbot. [See the documentation](https://github.com/basecamp/bc3-api/blob/master/sections/chatbots.md#create-a-line)",
   type: "action",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

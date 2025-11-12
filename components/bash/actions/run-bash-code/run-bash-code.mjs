@@ -2,7 +2,7 @@ import bash from "../../bash.app.mjs";
 
 export default {
   name: "Run Bash Code",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

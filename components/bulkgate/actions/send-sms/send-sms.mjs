@@ -5,7 +5,7 @@ export default {
   name: "Send SMS",
   description: "Sends an SMS message to a phone number. [See the docs](https://help.bulkgate.com/docs/en/http-simple-transactional-post-json.html).",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

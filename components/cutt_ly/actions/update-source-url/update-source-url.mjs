@@ -4,7 +4,7 @@ export default {
   key: "cutt_ly-update-source-url",
   name: "Update Source URL",
   description: "Changes the source URL of a previously shortened URL. Requires a Paid Subscription. [See the documentation](https://cutt.ly/cuttly-api)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

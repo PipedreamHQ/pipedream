@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Task (Instant)",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "awork-new-task",
   description: "Emit new event on each created task.",
   type: "source",

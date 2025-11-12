@@ -4,7 +4,7 @@ export default {
   key: "charthop-update-employee-details",
   name: "Update Employee Details",
   description: "Updates an existing employee's details. [See the documentation](https://api.charthop.com/swagger#/user/updateUser)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

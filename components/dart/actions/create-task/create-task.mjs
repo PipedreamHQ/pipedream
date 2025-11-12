@@ -5,7 +5,7 @@ export default {
   key: "dart-create-task",
   name: "Create Task",
   description: "Creates a new task within a dartboard. [See the documentation](https://app.dartai.com/api/v0/public/docs/#/Task/createTask)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -5,7 +5,7 @@ export default {
   key: "crove_app-document-completed",
   name: "Document Completed",
   description: "Triggers when a document is completed.",
-  version: "1.0.2",
+  version: "1.0.3",
   type: "source",
   methods: {
     ...common.methods,

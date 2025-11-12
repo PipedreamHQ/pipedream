@@ -4,7 +4,7 @@ export default {
   key: "dbt-get-environment",
   name: "Get Environment",
   description: "Retrieve information about an environment. [See the documentation](https://docs.getdbt.com/dbt-cloud/api-v3#/operations/Retrieve%20Projects%20Environment)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

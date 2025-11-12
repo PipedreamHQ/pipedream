@@ -4,7 +4,7 @@ export default {
   key: "baremetrics-update-customer",
   name: "Update Customer",
   description: "Update a customer. [See the documentation](https://developers.baremetrics.com/reference/update-customer)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

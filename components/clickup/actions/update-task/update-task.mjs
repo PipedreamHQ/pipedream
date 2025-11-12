@@ -7,7 +7,7 @@ export default {
   key: "clickup-update-task",
   name: "Update Task",
   description: "Update a task. [See the documentation](https://clickup.com/api) in **Tasks / Update Task** section.",
-  version: "0.0.14",
+  version: "0.0.15",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

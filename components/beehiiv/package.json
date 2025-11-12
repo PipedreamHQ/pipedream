@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/beehiiv",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Pipedream Beehiiv Components",
   "main": "dist/app/beehiiv.app.mjs",
   "keywords": [

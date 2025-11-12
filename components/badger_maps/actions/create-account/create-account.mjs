@@ -6,7 +6,7 @@ export default {
   name: "Create Account",
   description: "Creates an account. [See the docs](https://badgerupdatedapi.docs.apiary.io/#reference/accounts/list-and-create-accounts/create-new-account).",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

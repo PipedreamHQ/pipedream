@@ -4,7 +4,7 @@ export default {
   key: "contentgroove-new-media-processing-finished-instant",
   name: "New Media Processing Finished (Instant)",
   description: "Emit new event when a media is done processing by ContentGroove.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

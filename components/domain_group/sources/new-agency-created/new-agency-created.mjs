@@ -5,7 +5,7 @@ export default {
   key: "domain_group-new-agency-created",
   name: "New Agency Created",
   description: "Emit new event when a new agency is created. [See the documentation](https://developer.domain.com.au/docs/latest/apis/pkg_listing_management/references/me_getmyagencies/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

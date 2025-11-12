@@ -7,7 +7,7 @@ export default {
   key: "dear-new-sale-shipment-authorized",
   type: "source",
   description: "Emit new event when a sale shipment is authorized",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   methods: {
     ...base.methods,

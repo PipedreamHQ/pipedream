@@ -4,7 +4,7 @@ export default {
   key: "big_data_cloud-get-time-zone-by-location",
   name: "Get Time Zone by Location",
   description: "Retrieve time zone data for a specified location. [See the documentation](https://www.bigdatacloud.com/docs/api/timezone-by-location-api)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

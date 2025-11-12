@@ -4,7 +4,7 @@ export default {
   key: "bland_ai-get-transcript",
   name: "Get Transcript",
   description: "Retrieves the transcript of a specified call post-completion. [See the documentation](https://docs.bland.ai/api-v1/get/calls-id)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

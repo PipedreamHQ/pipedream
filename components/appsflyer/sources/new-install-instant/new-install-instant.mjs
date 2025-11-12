@@ -5,7 +5,7 @@ export default {
   key: "appsflyer-new-install-instant",
   name: "New Install (Instant)",
   description: "Emit new event when a user installs an app tracked by AppsFlyer. [See docs here](https://dev.appsflyer.com/hc/reference/push-api-v2)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

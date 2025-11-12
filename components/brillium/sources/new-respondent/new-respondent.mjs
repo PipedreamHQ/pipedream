@@ -5,7 +5,7 @@ export default {
   key: "brillium-new-respondent",
   name: "New Respondent",
   description: "Emit new event when a new respondent completes an exam, test, quiz, or survey. [See the documentation](https://support.brillium.com/en-us/knowledgebase/article/KA-01061)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {

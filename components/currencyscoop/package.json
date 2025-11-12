@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/currencyscoop",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Pipedream CurrencyScoop Components",
   "main": "dist/app/currencyscoop.app.mjs",
   "keywords": [
     "pipedream",
     "currencyscoop"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/currencyscoop",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

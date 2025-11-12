@@ -4,7 +4,7 @@ export default {
   key: "bamboohr-add-application-comment",
   name: "Add Application Comment",
   description: "Add a comment to an application. [See the documentation](https://documentation.bamboohr.com/reference/post-application-comment-1)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

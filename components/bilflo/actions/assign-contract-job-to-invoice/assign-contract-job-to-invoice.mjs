@@ -4,7 +4,7 @@ export default {
   key: "bilflo-assign-contract-job-to-invoice",
   name: "Assign Contract Job to Invoice Group",
   description: "Assigns a contract job to a specified invoice group for a client. [See the documentation](https://developer.bilflo.com/documentation#operations-tag-Clients)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

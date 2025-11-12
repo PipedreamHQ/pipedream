@@ -6,7 +6,7 @@ export default {
   key: "documerge-new-merged-document-instant",
   name: "New Merged Document (Instant)",
   description: "Emit new event when a merged document is created in documerge.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

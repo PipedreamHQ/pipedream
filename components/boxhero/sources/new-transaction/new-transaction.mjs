@@ -7,7 +7,7 @@ export default {
   key: "boxhero-new-transaction",
   name: "New Transaction",
   description: "Emit new event when a transaction occurs. [See the documentation](https://docs-en.boxhero-app.com/integrations-and-api/boxhero-api-reference#v1-txs)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

@@ -6,7 +6,7 @@ export default {
   key: "alerty-notify-devices",
   name: "Notify Devices",
   description: "Sends a notification to active devices. [See the documentation](https://alerty.dev/api/notify)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

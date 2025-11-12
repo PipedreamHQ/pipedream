@@ -4,7 +4,7 @@ export default {
   key: "autom-bing-search",
   name: "Bing Search",
   description: "Scrape the results from Bing search engine via the Autom.dev service. [See the documentation](https://docs.autom.dev/api-reference/bing/search)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

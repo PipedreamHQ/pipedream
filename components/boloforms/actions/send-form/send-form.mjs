@@ -5,7 +5,7 @@ export default {
   key: "boloforms-send-form",
   name: "Send Form",
   description: "Enables form dispatching to a specific recipient. [See the documentation](https://help.boloforms.com/en/articles/8557660-sending-for-signing)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

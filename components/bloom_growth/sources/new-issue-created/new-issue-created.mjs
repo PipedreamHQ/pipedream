@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "bloom_growth-new-issue-created",
   name: "New Issue Created",
-  version: "0.0.2",
+  version: "0.0.3",
   description: "Emit new event when a new issue is created.",
   type: "source",
   dedupe: "unique",

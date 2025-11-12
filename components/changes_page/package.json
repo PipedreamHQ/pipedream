@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/changes_page",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream changes.page Components",
   "main": "changes_page.app.mjs",
   "keywords": [

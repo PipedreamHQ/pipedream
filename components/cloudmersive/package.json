@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/cloudmersive",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Pipedream Cloudmersive Components",
   "main": "dist/app/cloudmersive.app.mjs",
   "keywords": [

@@ -4,7 +4,7 @@ export default {
   key: "campaign_monitor-unsubscribe",
   name: "Unsubscribe",
   description: "Removes a subscriber from a mailing list given their email address. [See the documentation](https://www.campaignmonitor.com/api/v3-3/subscribers/#unsubscribing-a-subscriber)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

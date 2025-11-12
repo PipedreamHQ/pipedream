@@ -4,7 +4,7 @@ export default {
   key: "ashby-create-application",
   name: "Create Application",
   description: "Considers a candidate for a job (e.g., when sourcing a candidate for a job posting). [See the documentation](https://developers.ashbyhq.com/reference/applicationcreate)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     readOnlyHint: false,

@@ -6,7 +6,7 @@ export default {
   key: "devrev-new-comment-created",
   name: "New Comment Created (Instant)",
   description: "Emit new event when a new comment is created in DevRev.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

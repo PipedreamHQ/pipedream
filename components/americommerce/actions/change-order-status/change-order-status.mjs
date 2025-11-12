@@ -4,7 +4,7 @@ export default {
   key: "americommerce-change-order-status",
   name: "Change Order Status",
   description: "Changes the status of an existing order. [See the documentation](https://developers.cart.com/docs/rest-api/6898d9f254dfb-update-an-order-status).",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

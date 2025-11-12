@@ -5,7 +5,7 @@ export default {
   key: "bugbug-new-suite-run-failed",
   name: "New Suite Run Failed",
   description: "Emit new event when any suite fails when running in BugBug",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

@@ -4,7 +4,7 @@ export default {
   key: "digitalriver-cancel-order",
   name: "Cancel Order",
   description: "Cancels an existing order in Digital River. [See the documentation](https://www.digitalriver.com/docs/digital-river-api-reference/#tag/Fulfillments/operation/createFulfillments)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

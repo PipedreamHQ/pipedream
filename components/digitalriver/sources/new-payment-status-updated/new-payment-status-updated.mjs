@@ -7,7 +7,7 @@ export default {
   key: "digitalriver-new-payment-status-updated",
   name: "New Payment Status Updated (Instant)",
   description: "Emit new event each time the payment status of an order is updated in Digital River.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

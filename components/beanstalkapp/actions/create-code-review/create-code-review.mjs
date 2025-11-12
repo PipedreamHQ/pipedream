@@ -6,7 +6,7 @@ export default {
   name: "Create Code Review",
   description: "Creates a new code review. This action is essentially the same as clicking the “Request review” button in the app. [See the docs](https://api.beanstalkapp.com/code_review.html).",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

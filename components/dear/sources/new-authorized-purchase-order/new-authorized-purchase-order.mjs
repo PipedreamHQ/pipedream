@@ -7,7 +7,7 @@ export default {
   key: "dear-new-authorized-purchase-order",
   type: "source",
   description: "Emit new event when a purchase order is created and authorized",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   methods: {
     ...base.methods,

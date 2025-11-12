@@ -5,7 +5,7 @@ import sampleEmit from "./test-event.mjs";
 export default {
   key: "asknicely-survey-response-received",
   name: "New Survey Response Received",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Emit new event when a survey is responded.",
   type: "source",
   dedupe: "unique",

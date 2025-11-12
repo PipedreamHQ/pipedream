@@ -4,7 +4,7 @@ export default {
   key: "control_d-create-profile",
   name: "Create Profile",
   description: "Create a profile. [See the documentation](https://docs.controld.com/reference/post_profiles)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   key: "clearbit-email-lookup",
   name: "Email lookup",
   description: "This endpoint retrieves a person by email address. [See the docs here](https://dashboard.clearbit.com/docs#enrichment-api-person-api-email-lookup)",
-  version: "0.4.1",
+  version: "0.4.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -5,7 +5,7 @@ export default {
   name: "Delete Product",
   description:
     "Delete a product by Id. [See the docs here](https://developer.bigcommerce.com/api-reference/76f5ebcdab695-delete-a-product)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

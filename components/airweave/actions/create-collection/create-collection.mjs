@@ -4,7 +4,7 @@ export default {
   key: "airweave-create-collection",
   name: "Create Collection",
   description: "Create a new Airweave collection. Collections are logical groups of data sources that provide unified search capabilities. The newly created collection is initially empty until you add source connections to it. [See the documentation](https://docs.airweave.ai/api-reference/collections/create)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

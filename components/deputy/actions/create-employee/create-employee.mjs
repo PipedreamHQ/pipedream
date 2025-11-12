@@ -4,7 +4,7 @@ export default {
   key: "deputy-create-employee",
   name: "Create Employee",
   description: "Adds a new employee or staff member to the organization in Deputy. [See the documentation](https://developer.deputy.com/deputy-docs/reference/addanemployee)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

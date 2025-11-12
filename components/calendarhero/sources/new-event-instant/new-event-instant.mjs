@@ -7,7 +7,7 @@ export default {
   description:
     "Emit new event when a selected type of CalendarHero event occurs. [See the documentation](https://api.calendarhero.com/documentation#/webhook/postWebhookEvent)",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     app,

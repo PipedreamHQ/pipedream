@@ -3,7 +3,7 @@ import common from "../common.mjs";
 export default {
   key: "confection-new-updated-leads",
   name: "New or Updated Leads",
-  version: "0.1.0",
+  version: "0.1.1",
   dedupe: "unique",
   type: "source",
   description:

@@ -5,7 +5,7 @@ export default {
   key: "centralstationcrm-new-deal-created",
   name: "New Deal Created",
   description: "Emit new event when a new deal is created in CentralStationCRM.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

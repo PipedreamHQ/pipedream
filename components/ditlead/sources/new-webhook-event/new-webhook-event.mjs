@@ -6,7 +6,7 @@ export default {
   key: "ditlead-new-webhook-event",
   name: "New Webhook Event",
   description: "Emit new events according to the selected event types. [See the documentation](https://ditlead.com/developer/api#tag/Webhook/paths/~1v1~1webhook/post)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

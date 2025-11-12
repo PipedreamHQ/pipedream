@@ -5,7 +5,7 @@ import { clearObj } from "../../common/utils.mjs";
 export default {
   key: "automatic_data_extraction-extract-data-from-url",
   name: "Extract Data From URL",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

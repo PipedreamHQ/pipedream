@@ -4,7 +4,7 @@ export default {
   key: "customer_io-create-or-update-customer",
   name: "Create or Update Customer",
   description: "Creates or update a customer. [See the docs here](https://customer.io/docs/api/#apitrackcustomerscustomers_update)",
-  version: "0.2.1",
+  version: "0.2.2",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

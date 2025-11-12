@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/apiary",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Pipedream apiary Components",
   "main": "apiary.app.mjs",
   "keywords": [

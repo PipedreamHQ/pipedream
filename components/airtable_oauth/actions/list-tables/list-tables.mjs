@@ -6,7 +6,7 @@ export default {
   description:
     "Get a list of tables in the selected base. [See the documentation](https://airtable.com/developers/web/api/get-base-schema)",
   type: "action",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

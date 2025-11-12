@@ -5,7 +5,7 @@ export default {
   key: "bugbug-new-cloud-test-run-failed",
   name: "New Cloud Test Run Failed",
   description: "Emit new event when any test failed when running in the BugBug Cloud.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

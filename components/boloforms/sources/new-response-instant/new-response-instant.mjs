@@ -6,7 +6,7 @@ export default {
   key: "boloforms-new-response-instant",
   name: "New Response (Instant)",
   description: "Emit new event when a filled form response is received.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

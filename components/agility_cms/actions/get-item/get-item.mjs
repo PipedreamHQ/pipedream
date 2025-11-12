@@ -4,7 +4,7 @@ export default {
   key: "agility_cms-get-item",
   name: "Get Item Details",
   description: "Get details of the specified item. [See the documentation](https://api.aglty.io/swagger/index.html#operations-Item-get__guid___apitype___locale__item__id_)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

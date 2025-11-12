@@ -7,7 +7,7 @@ export default {
   key: "cloze-company-change-instant",
   name: "Company Change (Instant)",
   description: "Emit new event when significant changes regarding a company are detected. [See the documentation](https://api.cloze.com/api-docs/#!/Webhooks/post_v1_subscribe).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

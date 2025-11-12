@@ -4,7 +4,7 @@ export default {
   key: "cloudpress-export-collection",
   name: "Export Collection",
   description: "Exports all content in a collection in Cloudpress. [See the documentation](https://docs.usecloudpress.com/api-reference/endpoint/collections/export)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

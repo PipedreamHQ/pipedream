@@ -6,7 +6,7 @@ export default {
   key: "browserhub-new-finished-automation-run",
   name: "New Finished Automation Run",
   description: "Emit new event when an automation run has finished running. [See the documentation](https://developer.browserhub.io/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

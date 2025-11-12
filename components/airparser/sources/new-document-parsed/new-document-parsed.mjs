@@ -5,7 +5,7 @@ export default {
   key: "airparser-new-document-parsed",
   name: "New Document Parsed",
   description: "Emit new event when a document is parsed. [See the documentation](https://help.airparser.com/public-api/public-api)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

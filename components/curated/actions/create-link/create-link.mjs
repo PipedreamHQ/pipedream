@@ -2,7 +2,7 @@ import curated from "../../curated.app.mjs";
 
 export default {
   name: "Create Link",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

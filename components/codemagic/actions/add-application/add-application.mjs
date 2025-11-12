@@ -4,7 +4,7 @@ export default {
   key: "codemagic-add-application",
   name: "Create Application",
   description: "Creates a new application codemagic. [See the documentation](https://docs.codemagic.io/rest-api/applications/#add-a-new-application)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

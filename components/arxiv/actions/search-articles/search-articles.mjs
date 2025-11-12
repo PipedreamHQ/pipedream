@@ -5,7 +5,7 @@ export default {
   key: "arxiv-search-articles",
   name: "Search Articles",
   description: "Search for articles on arXiv. [See the documentation](https://info.arxiv.org/help/api/user-manual.html#2-api-quickstart)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

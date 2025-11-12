@@ -5,7 +5,7 @@ export default {
   name: "List Messages",
   description: "Retrieve messages in a specific room. [See the docs here](https://developer.webex.com/docs/api/v1/messages/list-messages)",
   type: "action",
-  version: "0.1.1",
+  version: "0.1.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

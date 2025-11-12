@@ -5,7 +5,7 @@ export default {
   key: "dataforseo-get-google-ads-locations",
   name: "Get Google Ads Locations",
   description: "Retrieve a list of available locations supported by the Google Ads API, which can be used to specify geographic targeting in your requests. [See the documentation](https://docs.dataforseo.com/v3/keywords_data/google_ads/locations/?bash)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

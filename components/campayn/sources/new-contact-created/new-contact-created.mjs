@@ -5,7 +5,7 @@ export default {
   key: "campayn-new-contact-created",
   name: "New Contact Created",
   description: "Emit new events when a new contact is created. [See the docs](https://github.com/nebojsac/Campayn-API/blob/master/endpoints/contacts.md#get-contacts)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

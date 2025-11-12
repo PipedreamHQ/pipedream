@@ -4,7 +4,7 @@ export default {
   key: "document360-drive-search-files-and-folders",
   name: "Drive Search - Files and Folders",
   description: "Search for files and folders in Document360 Drive. [See the documentation](https://apidocs.document360.com/apidocs/drive-search-files-and-folders)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

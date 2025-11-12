@@ -4,7 +4,7 @@ export default {
   key: "cufinder-find-company-email",
   name: "Find Company Email",
   description: "Finds a company's email using the domain. [See the documentation](https://apidoc.cufinder.io/apis/#company-email-finder-api)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

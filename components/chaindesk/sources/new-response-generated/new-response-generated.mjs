@@ -5,7 +5,7 @@ export default {
   key: "chaindesk-new-response-generated",
   name: "New Response Generated",
   description: "Emit new event when a new message from an agent is created.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

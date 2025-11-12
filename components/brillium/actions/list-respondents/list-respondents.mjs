@@ -4,7 +4,7 @@ export default {
   key: "brillium-list-respondents",
   name: "List Respondents",
   description: "Retrieve all Respondents for a Brillium account. [See the documentation](https://support.brillium.com/en-us/knowledgebase/article/KA-01061)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

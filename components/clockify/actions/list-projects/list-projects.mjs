@@ -4,7 +4,7 @@ export default {
   key: "clockify-list-projects",
   name: "List Projects",
   description: "List all projects in a Clockify workspace. [See the documentation](https://docs.clockify.me/#tag/Project/operation/getProjects)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

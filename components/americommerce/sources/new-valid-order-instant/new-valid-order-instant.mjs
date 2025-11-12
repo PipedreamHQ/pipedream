@@ -7,7 +7,7 @@ export default {
   key: "americommerce-new-valid-order-instant",
   name: "New Valid Order (Instant)",
   description: "Emit new event when a new valid order (not declined or cancelled) is created in your Americommerce store. [See the documentation](https://developers.cart.com/docs/rest-api/ZG9jOjM1MDU4Nw-webhooks#subscribing-to-a-webhook).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

@@ -4,7 +4,7 @@ export default {
   key: "brosix-send-message",
   name: "Send Message",
   description: "Send a message with Brosix. [See the documentation](https://help.brosix.com/notifications-api/)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

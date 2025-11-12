@@ -6,7 +6,7 @@ export default {
   key: "aidbase-new-email-inbox-knowledge-item",
   name: "New Email Inbox Knowledge Item",
   description: "Emit new event when a new knowledge item is added to an email inbox.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

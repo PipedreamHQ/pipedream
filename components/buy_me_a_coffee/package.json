@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/buy_me_a_coffee",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Pipedream Buy Me a Coffee Components",
   "main": "dist/app/buy_me_a_coffee.app.mjs",
   "keywords": [

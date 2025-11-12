@@ -5,7 +5,7 @@ export default {
   key: "drip-new-campaign-subscription-added",
   name: "New Campaign Subscription Added (Instant)",
   description: "Emit new event when a subscriber subscribes to an Email Series Campaign.",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   type: "source",
   methods: {

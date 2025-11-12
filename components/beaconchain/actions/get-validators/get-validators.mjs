@@ -4,7 +4,7 @@ export default {
   key: "beaconchain-get-validators",
   name: "Get Validators",
   description: "Returns information for all validators up to 100 by index or public key. [See the documentation](https://beaconcha.in/api/v1/docs/index.html#/Validator/get_api_v1_validator__indexOrPubkey_).",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

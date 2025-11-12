@@ -6,7 +6,7 @@ export default {
   key: "agiliron-create-event",
   name: "Create Event",
   description: "Creates a new event within Agiliron. [See the documentation](https://api.agiliron.com/docs/add-event-2)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

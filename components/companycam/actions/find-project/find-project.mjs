@@ -5,7 +5,7 @@ export default {
   name: "Find Project",
   description: "Find a project by name. [See the docs](https://docs.companycam.com/reference/listprojects).",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -5,7 +5,7 @@ export default {
   key: "dotsimple-new-post-created",
   name: "New Post Created",
   description: "Emit new event when a new post is created on the platform. [See the documentation](https://help.dotsimple.io/en/articles/68-posts).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

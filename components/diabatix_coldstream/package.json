@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/diabatix_coldstream",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Diabatix ColdStream Components",
   "main": "diabatix_coldstream.app.mjs",
   "keywords": [
@@ -17,4 +17,3 @@
     "@pipedream/platform": "^1.6.8"
   }
 }
-

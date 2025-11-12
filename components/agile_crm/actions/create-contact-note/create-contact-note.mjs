@@ -4,7 +4,7 @@ export default {
   key: "agile_crm-create-contact-note",
   name: "Create Contact Note",
   description: "Adds a note to a contact. [See the documentation](https://github.com/agilecrm/rest-api#41-create-a-note-and-relate-that-to-contacts-)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -5,7 +5,7 @@ export default {
   key: "campaign_monitor-new-email-open",
   name: "New Email Open",
   description: "Emit new event when an email from a campaign is opened",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/document360",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Pipedream Document360 Components",
   "main": "document360.app.mjs",
   "keywords": [

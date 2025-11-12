@@ -6,7 +6,7 @@ export default {
   name: "New Article in Project Version",
   description:
     "Emit new event when a new article is created within a project version. [See the documentation](https://apidocs.document360.com/apidocs/project-version-articles)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {

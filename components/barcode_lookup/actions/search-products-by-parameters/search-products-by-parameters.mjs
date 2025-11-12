@@ -4,7 +4,7 @@ export default {
   key: "barcode_lookup-search-products-by-parameters",
   name: "Search Products by Parameters",
   description: "Search for products by parameters. [See the documentation](https://www.barcodelookup.com/api-documentation)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -5,7 +5,7 @@ export default {
   key: "bugbug-new-scheduled-run-failed",
   name: "New Scheduled Run Failed",
   description: "Emit new event when any scheduled cloud run fails",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

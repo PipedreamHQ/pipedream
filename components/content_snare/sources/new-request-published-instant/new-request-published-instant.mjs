@@ -7,7 +7,7 @@ export default {
   key: "content_snare-new-request-published-instant",
   name: "New Request Published (Instant)",
   description: "Emit new event when a request is published on Content Snare. [See the documentation](https://contentsnare.com/help/knowledge-base/content-snare-webhooks/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

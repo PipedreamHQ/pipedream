@@ -7,7 +7,7 @@ export default {
   key: "dear-new-authorized-sale-order",
   type: "source",
   description: "Emit new event when a sale order is created and authorized",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   methods: {
     ...base.methods,

@@ -4,7 +4,7 @@ export default {
   key: "chatfai-generate-message",
   name: "Generate Message Reply",
   description: "Generates a message reply using a ChatFAI character. [See the documentation](https://chatfai.com/developers/docs#tag/Chat/paths/~1chat/post)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

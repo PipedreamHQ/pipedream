@@ -4,7 +4,7 @@ export default {
   key: "bitget-future-market-get-symbol-next-funding-time",
   name: "Future - Market - Get Symbol Next Funding Time",
   description: "Retrieve next funding time for a contract symbol. [See the documentation](https://www.bitget.com/api-doc/contract/market/Get-Symbol-Next-Funding-Time)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

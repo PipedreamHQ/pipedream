@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/delay",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream delay Components",
   "main": "delay.app.mjs",
   "keywords": [

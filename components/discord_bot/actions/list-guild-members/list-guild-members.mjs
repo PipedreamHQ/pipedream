@@ -11,7 +11,7 @@ export default {
   name: "List Guild Members",
   description: "Return a list of guild members. [See the docs here](https://discord.com/developers/docs/resources/guild#list-guild-members)",
   type: "action",
-  version: "1.0.1",
+  version: "1.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

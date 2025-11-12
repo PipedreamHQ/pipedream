@@ -4,7 +4,7 @@ export default {
   key: "anymail_finder-search-all-emails-on-company",
   name: "Search All Emails on Company",
   description: "Searches for most popular emails based on company information. [See the documentation](https://anymailfinder.com/email-finder-api/docs#email_search_domain)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

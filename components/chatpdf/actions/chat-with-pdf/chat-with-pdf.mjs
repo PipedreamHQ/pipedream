@@ -5,7 +5,7 @@ export default {
   key: "chatpdf-chat-with-pdf",
   name: "Chat With PDF",
   description: "Sends messages to interact with a specific PDF using its source ID. Can handle single or multiple messages for complex queries. [See the documentation](https://www.chatpdf.com/docs/api/backend)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

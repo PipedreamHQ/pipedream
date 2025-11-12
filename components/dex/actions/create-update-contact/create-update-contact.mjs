@@ -5,7 +5,7 @@ export default {
   key: "dex-create-update-contact",
   name: "Create or Update Contact",
   description: "Adds a new contact or updates an existing one if the email address already exists in the Dex system. [See the documentation](https://guide.getdex.com/dex-user-api/post-contact)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

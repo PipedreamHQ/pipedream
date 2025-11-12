@@ -5,7 +5,7 @@ export default {
   key: "bigml-new-model-created",
   name: "New Model Created",
   description: "Emit new event for every created model. [See docs here.](https://bigml.com/api/models?id=listing-models)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

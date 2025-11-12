@@ -4,7 +4,7 @@ export default {
   key: "clearly_defined-create-definition",
   name: "Create Definition",
   description: "Request the creation of a resource. [See the documentation](https://api.clearlydefined.io/api-docs/#/definitions/post_definitions).",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

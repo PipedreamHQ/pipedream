@@ -4,7 +4,7 @@ export default {
   key: "codacy-delete-integration",
   name: "Delete Integration",
   description: "Delete integration for the authenticated user. [See the documentation](https://api.codacy.com/api/api-docs?http#deleteintegration)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
