@@ -7,7 +7,7 @@ export default {
   key: "_2chat-new-conversation-instant",
   name: "New Conversation (Instant)",
   description: "Emit new event when a new WhatsApp conversation is started on the user’s 2chat connected number.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

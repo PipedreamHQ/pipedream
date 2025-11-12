@@ -6,7 +6,7 @@ export default {
   key: "_twocaptcha-captcha-solved",
   name: "New Captcha Solved",
   description: "Emit new event when a captcha has been successfully solved by the 2Captcha service.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

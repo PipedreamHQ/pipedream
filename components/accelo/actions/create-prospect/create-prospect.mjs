@@ -2,7 +2,7 @@ import accelo from "../../accelo.app.mjs";
 
 export default {
   name: "Create Prospect",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

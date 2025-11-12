@@ -5,7 +5,7 @@ export default {
   key: "_360nrs-send-sms",
   name: "Send SMS",
   description: "Send an SMS message to one or more recipients. [See the documentation](https://apidocs.360nrs.com/?shell#sms)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

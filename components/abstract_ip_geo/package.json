@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/abstract_ip_geo",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream abstract_ip_geo Components",
   "main": "abstract_ip_geo.app.mjs",
   "keywords": [

@@ -5,7 +5,7 @@ export default {
   key: "_46elks-new-account-data-change",
   name: "New Account Data Change",
   description: "Emit new event when data related to your 46elks account changes, primarily used to keep an eye out for changes in account balance, name, or email. [See the documentation](https://46elks.com/docs/overview)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

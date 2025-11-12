@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/activecampaign",
-  "version": "0.4.6",
+  "version": "0.4.7",
   "description": "Pipedream Activecampaing Components",
   "main": "activecampaign.app.mjs",
   "keywords": [

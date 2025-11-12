@@ -6,7 +6,7 @@ export default {
   key: "_2chat-new-whatsapp-order-instant",
   name: "New WhatsApp Order (Instant)",
   description: "Emit new event when a WhatsApp order is received on user's 2Chat connected number.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
