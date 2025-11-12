@@ -4,7 +4,7 @@ export default {
   key: "bitport-add-item",
   name: "Add Item",
   description: "Add new torrent. [See the documentation](https://bitport.io/api/index.html?url=/v2/transfers&method=POST)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

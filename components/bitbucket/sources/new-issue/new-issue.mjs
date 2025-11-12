@@ -8,7 +8,7 @@ export default {
   name: "New Issue (Instant)",
   key: "bitbucket-new-issue",
   description: "Emit new event when a new issue receives is created in a repository. [See docs here](https://developer.atlassian.com/cloud/bitbucket/rest/api-group-repositories/#api-repositories-workspace-repo-slug-hooks-post)",
-  version: "0.0.4",
+  version: "0.0.5",
   props: {
     ...common.props,
     repositoryId: {

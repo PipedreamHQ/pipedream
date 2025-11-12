@@ -4,7 +4,7 @@ export default {
   key: "bland_ai-analyze-call",
   name: "Analyze Call",
   description: "Analyzes an input call, extracting structured data and providing insights. [See the documentation](https://docs.bland.ai/api-v1/post/calls-id-analyze)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

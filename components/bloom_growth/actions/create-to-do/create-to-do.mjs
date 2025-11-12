@@ -3,7 +3,7 @@ import bloomGrowth from "../../bloom_growth.app.mjs";
 export default {
   key: "bloom_growth-create-to-do",
   name: "Create To-Do",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

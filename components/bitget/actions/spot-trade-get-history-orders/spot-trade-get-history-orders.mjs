@@ -4,7 +4,7 @@ export default {
   key: "bitget-spot-trade-get-history-orders",
   name: "Spot - Trade - Get History Orders",
   description: "Retrieve historical order data for a user. [See the documentation](https://www.bitget.com/api-doc/spot/trade/Get-History-Orders)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

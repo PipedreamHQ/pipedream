@@ -5,7 +5,7 @@ export default {
   key: "bitly-shorten",
   name: "Shorten a Link",
   description: "Converts a long url to a Bitlink.",
-  version: "0.2.2",
+  version: "0.2.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

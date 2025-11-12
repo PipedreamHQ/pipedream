@@ -4,7 +4,7 @@ export default {
   name: "Publish a Post",
   description: "Publishes a draft post [See the docs here](https://developers.google.com/blogger/docs/3.0/reference/posts/publish).",
   key: "blogger-publish-post",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

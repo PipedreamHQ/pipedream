@@ -4,7 +4,7 @@ export default {
   key: "bitget-future-market-get-open-interest",
   name: "Future - Market - Get Open Interest",
   description: "Retrieve open interest data for a contract symbol. [See the documentation](https://www.bitget.com/api-doc/contract/market/Get-Open-Interest)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

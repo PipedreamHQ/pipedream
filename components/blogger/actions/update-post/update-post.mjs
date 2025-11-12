@@ -4,7 +4,7 @@ export default {
   name: "Update a Post",
   description: "Updates a published post. [See the docs here](https://developers.google.com/blogger/docs/3.0/reference/posts/update).",
   key: "blogger-update-post",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

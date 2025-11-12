@@ -4,7 +4,7 @@ export default {
   key: "bitget-future-market-get-all-symbols-contracts",
   name: "Future - Market - Get All Symbols Contracts",
   description: "Retrieve all contract symbols by product type. [See the documentation](https://www.bitget.com/api-doc/contract/market/Get-All-Symbols-Contracts)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

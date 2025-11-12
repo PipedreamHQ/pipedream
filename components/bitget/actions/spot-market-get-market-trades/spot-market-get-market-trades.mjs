@@ -4,7 +4,7 @@ export default {
   key: "bitget-spot-market-get-market-trades",
   name: "Spot - Market - Get Market Trades",
   description: "Retrieve market trade history for a specified symbol. [See the documentation](https://www.bitget.com/api-doc/spot/market/Get-Market-Trades)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

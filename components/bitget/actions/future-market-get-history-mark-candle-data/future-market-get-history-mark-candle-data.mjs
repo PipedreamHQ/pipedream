@@ -4,7 +4,7 @@ export default {
   key: "bitget-future-market-get-history-mark-candle-data",
   name: "Future - Market - Get History Mark Candle Data",
   description: "Retrieve historical mark price candlestick data for a contract symbol. [See the documentation](https://www.bitget.com/api-doc/contract/market/Get-History-Mark-Candle-Data)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

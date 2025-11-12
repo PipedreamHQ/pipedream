@@ -6,7 +6,7 @@ export default {
   key: "bloomerang-new-interaction",
   name: "New Interaction",
   description: "Emit new event when a new interaction is logged for a constituent.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

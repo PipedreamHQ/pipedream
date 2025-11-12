@@ -5,7 +5,7 @@ export default {
   key: "bitdefender_gravityzone-scan-endpoint",
   name: "Scan Endpoint",
   description: "Trigger a scan on a specific endpoint. [See the documentation](https://www.bitdefender.com/business/support/en/77209-128495-createscantask.html)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
