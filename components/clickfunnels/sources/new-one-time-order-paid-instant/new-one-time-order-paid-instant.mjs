@@ -6,7 +6,7 @@ export default {
   key: "clickfunnels-new-one-time-order-paid-instant",
   name: "New One-Time Order Paid (Instant)",
   description: "Emit new event when a one-time order gets paid by a customer.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

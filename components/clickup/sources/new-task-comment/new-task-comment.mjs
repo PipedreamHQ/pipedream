@@ -6,7 +6,7 @@ export default {
   key: "clickup-new-task-comment",
   name: "New Task Comment (Instant)",
   description: "Emit new event when a new task comment is posted",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   type: "source",
   props: {

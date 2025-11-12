@@ -5,7 +5,7 @@ export default {
   key: "clickup-get-list-comments",
   name: "Get List Comments",
   description: "Get a list comments. [See the documentation](https://clickup.com/api) in **Comments / Get List Comments** section.",
-  version: "0.0.12",
+  version: "0.0.13",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

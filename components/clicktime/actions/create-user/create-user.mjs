@@ -4,7 +4,7 @@ export default {
   key: "clicktime-create-user",
   name: "Create User",
   description: "Create an User on ClickTime. [See the documentation](https://developer.clicktime.com/docs/api/#/operations/Users/CreateManagedUser)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

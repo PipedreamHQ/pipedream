@@ -5,7 +5,7 @@ export default {
   key: "clearbit-find-contacts",
   name: "Find Contacts",
   description: "Find people who work at a specific company. [See the docs here](https://dashboard.clearbit.com/docs#prospector-api)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

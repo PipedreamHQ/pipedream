@@ -5,7 +5,7 @@ export default {
   key: "clickup-delete-folder",
   name: "Delete Folder",
   description: "Delete a folder. [See the documentation](https://clickup.com/api) in **Folders / Delete Folder** section.",
-  version: "0.0.12",
+  version: "0.0.13",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

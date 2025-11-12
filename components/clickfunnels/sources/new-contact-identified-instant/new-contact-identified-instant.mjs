@@ -6,7 +6,7 @@ export default {
   key: "clickfunnels-new-contact-identified-instant",
   name: "New Contact Identified (Instant)",
   description: "Emit new event when a fresh or formerly anonymous contact is identified via email address or contact number.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

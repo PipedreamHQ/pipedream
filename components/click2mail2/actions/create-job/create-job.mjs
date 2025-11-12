@@ -11,7 +11,7 @@ import {
 export default {
   key: "click2mail2-create-job",
   name: "Create Job",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

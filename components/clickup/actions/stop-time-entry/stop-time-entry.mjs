@@ -5,7 +5,7 @@ export default {
   key: "clickup-stop-time-entry",
   name: "Stop Time Entry",
   description: "Stop time entry. [See the documentation](https://clickup.com/api/clickupreference/operation/StopatimeEntry)",
-  version: "0.0.7",
+  version: "0.0.8",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

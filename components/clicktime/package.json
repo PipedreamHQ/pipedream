@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/clicktime",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream ClickTime Components",
   "main": "clicktime.app.mjs",
   "keywords": [

@@ -4,7 +4,7 @@ export default {
   key: "clicktime-create-client",
   name: "Create Client",
   description: "Create a Client on ClickTime [See the documentation](https://developer.clicktime.com/docs/api/#/Clients)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

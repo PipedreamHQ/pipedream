@@ -5,7 +5,7 @@ export default {
   key: "clickup-get-view",
   name: "Get View",
   description: "Get a view. [See the documentation](https://clickup.com/api) in **Views / Get View** section.",
-  version: "0.0.12",
+  version: "0.0.13",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

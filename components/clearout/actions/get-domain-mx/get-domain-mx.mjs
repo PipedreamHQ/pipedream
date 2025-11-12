@@ -2,7 +2,7 @@ import app from "../../clearout.app.mjs";
 
 export default {
   name: "Get Domain MX",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

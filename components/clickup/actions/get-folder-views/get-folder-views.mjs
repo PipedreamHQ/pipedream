@@ -5,7 +5,7 @@ export default {
   key: "clickup-get-folder-views",
   name: "Get Folder Views",
   description: "Get all views of a folder. [See the documentation](https://clickup.com/api) in **Views / Get Folder Views** section.",
-  version: "0.0.12",
+  version: "0.0.13",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

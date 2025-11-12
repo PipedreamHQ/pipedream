@@ -5,7 +5,7 @@ export default {
   key: "clickup-create-folder",
   name: "Create Folder",
   description: "Creates a new folder. [See the documentation](https://clickup.com/api) in **Folders / Create Folder** section.",
-  version: "0.0.12",
+  version: "0.0.13",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

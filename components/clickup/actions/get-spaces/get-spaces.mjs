@@ -4,7 +4,7 @@ export default {
   key: "clickup-get-spaces",
   name: "Get Spaces",
   description: "Get a list of spaces in a workplace. [See the documentation](https://clickup.com/api) in **Spaces / Get Spaces** section.",
-  version: "0.0.12",
+  version: "0.0.13",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

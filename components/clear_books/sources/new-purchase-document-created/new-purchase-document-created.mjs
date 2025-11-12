@@ -5,7 +5,7 @@ export default {
   key: "clear_books-new-purchase-document-created",
   name: "New Purchase Document Created",
   description: "Emit new event when a new purchase document is created.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

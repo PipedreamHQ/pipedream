@@ -7,7 +7,7 @@ export default {
   key: "clickfunnels-update-create-contact",
   name: "Update or Create Contact",
   description: "Searches for a contact by email and updates it, or creates a new one if not found. [See the documentation](https://developers.myclickfunnels.com/reference/upsertcontact)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

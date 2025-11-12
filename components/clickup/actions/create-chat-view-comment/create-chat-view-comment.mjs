@@ -5,7 +5,7 @@ export default {
   key: "clickup-create-chat-view-comment",
   name: "Create Chat View Comment",
   description: "Creates a chat view comment. [See the documentation](https://clickup.com/api) in **Comments / Create Chat View Comment** section.",
-  version: "0.0.12",
+  version: "0.0.13",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

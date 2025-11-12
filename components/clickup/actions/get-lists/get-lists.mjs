@@ -5,7 +5,7 @@ export default {
   key: "clickup-get-lists",
   name: "Get Lists",
   description: "Get a list of lists. [See the documentation](https://clickup.com/api) in **Lists / Get Lists** section.",
-  version: "0.0.12",
+  version: "0.0.13",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

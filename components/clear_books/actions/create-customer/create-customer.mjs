@@ -4,7 +4,7 @@ export default {
   key: "clear_books-create-customer",
   name: "Create Customer",
   description: "Creates a new customer in Clear Books. [See the documentation](https://u.pcloud.link/publink/show?code=XZkThJ5Z4zKewgCL6VBpfxlPeHPDdXXj0Cc7)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

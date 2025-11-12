@@ -5,7 +5,7 @@ export default {
   key: "clickup-delete-comment",
   name: "Delete Comment",
   description: "Deletes a comment. [See the documentation](https://clickup.com/api) in **Comments / Deleet Comment** section.",
-  version: "0.0.12",
+  version: "0.0.13",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
