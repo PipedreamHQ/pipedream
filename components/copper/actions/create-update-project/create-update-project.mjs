@@ -4,7 +4,7 @@ export default {
   key: "copper-create-update-project",
   name: "Create or Update Project",
   description: "Creates a new project or updates an existing one based on the project name. [See the documentation](https://developer.copper.com/projects/create-a-new-project.html)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

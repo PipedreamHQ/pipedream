@@ -6,7 +6,7 @@ export default {
   key: "craftboxx-create-article",
   name: "Create Article",
   description: "Creates a new article in Craftboxx. [See the documentation](https://api.craftboxx.de/docs/docs.json)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

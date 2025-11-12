@@ -6,7 +6,7 @@ export default {
   name: "New Subscriber Activation (Instant)",
   key: "convertkit-new-subscriber-instant",
   description: "Emit new event when a new subscriber is activated. [See docs here](https://developers.convertkit.com/#create-a-webhook)",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     ...common.props,
   },

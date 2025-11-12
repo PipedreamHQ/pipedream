@@ -4,7 +4,7 @@ export default {
   key: "crove_app-create-document",
   name: "Create Document",
   description: "Create a new document.",
-  version: "1.0.3",
+  version: "1.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

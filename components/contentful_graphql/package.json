@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/contentful_graphql",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream contentful_graphql Components",
   "main": "contentful_graphql.app.mjs",
   "keywords": [

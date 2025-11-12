@@ -6,7 +6,7 @@ export default {
   key: "copperx-invoice-paid",
   name: "New Invoice Paid (Instant)",
   description: "Emit new event when an invoice is paid.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   methods: {
     ...common.methods,

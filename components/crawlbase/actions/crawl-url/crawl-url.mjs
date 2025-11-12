@@ -5,7 +5,7 @@ export default {
   key: "crawlbase-crawl-url",
   name: "Crawl URL",
   description: "Crawl a URL. [See the documentation](https://crawlbase.com/docs/crawling-api/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

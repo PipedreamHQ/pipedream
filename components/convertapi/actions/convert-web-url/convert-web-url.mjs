@@ -13,7 +13,7 @@ export default {
   key: "convertapi-convert-web-url",
   name: "Convert Web URL to Specified Format",
   description: "Converts a website page to a specified format. [See the documentation](https://v2.convertapi.com/info/openapi)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -6,7 +6,7 @@ export default {
   key: "convenia-new-vacation-request",
   name: "New Vacation Request",
   description: "Emit new event when there is a new vacation request at the company.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

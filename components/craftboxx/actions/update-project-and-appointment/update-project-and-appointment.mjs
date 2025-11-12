@@ -5,7 +5,7 @@ export default {
   key: "craftboxx-update-project-and-appointment",
   name: "Update Project and Appointment",
   description: "Applies updates to a project and its corresponding appointment in Craftboxx. [See the documentation](https://api.craftboxx.de/docs/docs.json)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

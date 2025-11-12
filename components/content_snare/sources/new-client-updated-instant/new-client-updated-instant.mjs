@@ -7,7 +7,7 @@ export default {
   key: "content_snare-new-client-updated-instant",
   name: "New Client Updated (Instant)",
   description: "Emit new event when a client is updated in Content Snare. [See the documentation](https://contentsnare.com/help/knowledge-base/content-snare-webhooks/#client-webhooks)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

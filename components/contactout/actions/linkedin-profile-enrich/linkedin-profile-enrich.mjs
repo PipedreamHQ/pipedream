@@ -4,7 +4,7 @@ export default {
   key: "contactout-linkedin-profile-enrich",
   name: "Enrich LinkedIn Profile",
   description: "Get profile details for a LinkedIn profile using either a LinkedIn URL or email address. [See the documentation](https://api.contactout.com/#from-linkedin-url).",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

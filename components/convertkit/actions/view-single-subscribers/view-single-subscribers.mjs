@@ -4,7 +4,7 @@ export default {
   key: "convertkit-view-single-subscribers",
   name: "View a Single Subscribers",
   description: "Returns data for a single subscriber. [See docs here](https://developers.convertkit.com/#view-a-single-subscriber)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   key: "countdown_api-get-reviews",
   name: "Get Product Reviews",
   description: "Retrieves customer reviews for a specific product on eBay. [See the documentation](https://www.countdownapi.com/docs/ebay-product-data-api/parameters/reviews)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

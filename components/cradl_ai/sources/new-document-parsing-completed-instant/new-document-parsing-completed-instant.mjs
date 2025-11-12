@@ -5,7 +5,7 @@ export default {
   key: "cradl_ai-new-document-parsing-completed-instant",
   name: "New Document Parsing Completed (Instant)",
   description: "Emit new event when a document processing flow has completed.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
