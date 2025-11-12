@@ -4,7 +4,7 @@ export default {
   key: "brevo-add-or-update-contact",
   name: "Add or Update a contact",
   description: "Add or Update a contact",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

@@ -6,7 +6,7 @@ export default {
   key: "botpenguin-new-contact-created",
   name: "New Contact Created",
   description: "Emit new event when a user interacts with the bot and a new contact or lead is created.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

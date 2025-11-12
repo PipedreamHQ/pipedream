@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/bluesky_by_unshape",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Bluesky by Unshape Components",
   "main": "bluesky_by_unshape.app.mjs",
   "keywords": [

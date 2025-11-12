@@ -5,7 +5,7 @@ export default {
   key: "breathe-new-leave-request-created",
   name: "New Leave Request Created",
   description: "Emit new event when a new employee leave request is created in Breathe. [See the documentation](https://developer.breathehr.com/examples#!/employees/GET_version_employees_id_leave_requests_json)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

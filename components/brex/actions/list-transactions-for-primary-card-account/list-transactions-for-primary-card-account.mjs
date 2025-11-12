@@ -6,7 +6,7 @@ export default {
   name: "List Transactions for Primary Card Account",
   description: "Lists all settled transactions for the primary card account. [See the docs here](https://developer.brex.com/openapi/transactions_api/#operation/listPrimaryCardTransactions).",
   key: "brex-list-transactions-for-primary-card-account",
-  version: "0.1.1",
+  version: "0.1.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -5,7 +5,7 @@ export default {
   key: "botpress-new-bot-event-created",
   name: "New Bot Event Created",
   description: "Emit new event from bot is created. [See the documentation](https://botpress.com/docs/api-documentation/#list-events)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

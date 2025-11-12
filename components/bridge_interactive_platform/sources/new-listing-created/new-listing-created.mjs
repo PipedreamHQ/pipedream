@@ -8,7 +8,7 @@ export default {
   key: "bridge_interactive_platform-new-listing-created",
   name: "New Listing Created",
   description: "Emit new event when a new listing is created. [See the documentation](https://bridgedataoutput.com/docs/explorer/mls-data)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   props: {
     bridgeInteractivePlatform,

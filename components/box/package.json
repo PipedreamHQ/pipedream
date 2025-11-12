@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/box",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "Pipedream Box Components",
   "main": "box.app.mjs",
   "keywords": [

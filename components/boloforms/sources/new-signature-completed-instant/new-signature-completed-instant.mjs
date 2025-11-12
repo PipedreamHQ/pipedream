@@ -6,7 +6,7 @@ export default {
   key: "boloforms-new-signature-completed-instant",
   name: "New Signature Completed (Instant)",
   description: "Emit new event when a PDF document is fully signed. [See the documentation](https://help.boloforms.com/en/collections/8024362-webhooks)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

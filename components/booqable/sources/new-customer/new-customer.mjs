@@ -7,7 +7,7 @@ export default {
   name: "New Customer",
   description: "Emits a new event anytime there is a new customer. [See the documentation](https://developers.booqable.com/#list-all-customers)",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   methods: {
     ...common.methods,

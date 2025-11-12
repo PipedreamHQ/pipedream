@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/bridge_interactive_platform",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Bridge Interactive Platform Components",
   "main": "bridge_interactive_platform.app.mjs",
   "keywords": [

@@ -5,7 +5,7 @@ export default {
   name: "Upload File Version",
   description: "Update a file's content. [See the documentation](https://developer.box.com/reference/post-files-id-content/).",
   key: "box-upload-file-version",
-  version: "0.1.3",
+  version: "0.1.4",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

@@ -3,7 +3,7 @@ import botconversa from "../../botconversa.app.mjs";
 export default {
   key: "botconversa-add-tag",
   name: "Add Tag",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -5,7 +5,7 @@ export default {
   key: "brilliant_directories-create-user",
   name: "Create User",
   description: "Creates a new user record in the website database. [See the documentation](https://support.brilliantdirectories.com/support/solutions/articles/12000088887-api-overview-and-testing-the-api-from-admin-area)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

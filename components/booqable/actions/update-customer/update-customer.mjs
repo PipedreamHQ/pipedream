@@ -4,7 +4,7 @@ export default {
   key: "booqable-update-customer",
   name: "Update Customer",
   description: "Updates the details of an existing customer in Booqable. [See the documentation](https://developers.booqable.com/#update-customer)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

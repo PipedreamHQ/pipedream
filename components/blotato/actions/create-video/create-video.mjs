@@ -4,7 +4,7 @@ export default {
   key: "blotato-create-video",
   name: "Create Video",
   description: "Creates a new video using a template. The template takes an ID and input parameters. [See documentation](https://help.blotato.com/api/api-reference/create-video)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

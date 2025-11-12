@@ -4,7 +4,7 @@ export default {
   key: "breathe-create-leave-request",
   name: "Create Leave Request",
   description: "Creates a new leave request for an employee in Breathe. [See the documentation](https://developer.breathehr.com/examples#!/employees/POST_version_employees_id_leave_requests_json)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

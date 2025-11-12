@@ -5,7 +5,7 @@ export default {
   key: "breathe-employee-updated",
   name: "Employee Updated",
   description: "Emit new event when an existing employee is updated in Breathe. [See the documentation](https://developer.breathehr.com/examples#!/employees/GET_version_employees_json)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

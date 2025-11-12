@@ -4,7 +4,7 @@ export default {
   key: "bluesky_by_unshape-get-post",
   name: "Get Post",
   description: "Fetches a post from Bluesky using its URL. [See the documentation](https://unshape.readme.io/reference/get_bluesky-post)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

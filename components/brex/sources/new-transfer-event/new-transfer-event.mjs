@@ -8,7 +8,7 @@ export default {
   key: "brex-new-transfer-event",
   name: "New Transfer Event (Instant)",
   description: "Emit new event for new failed or processed events",
-  version: "0.1.0",
+  version: "0.1.1",
   props: {
     brexApp,
     ...common.props,

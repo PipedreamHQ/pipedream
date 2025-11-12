@@ -7,7 +7,7 @@ export default {
   name: "Order Reserved",
   description: "Emits an event when an order changes status to reserved in Booqable. [See the documentation](https://developers.booqable.com/#list-all-orders)",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   methods: {
     ...common.methods,
