@@ -5,7 +5,7 @@ export default {
   key: "airplane-execute-runbook",
   name: "Execute Runbook",
   description: "Execute a runbook and receive a session ID to track the runbook's execution. [See the documentation](https://docs.airplane.dev/reference/api#runbooks-execute)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

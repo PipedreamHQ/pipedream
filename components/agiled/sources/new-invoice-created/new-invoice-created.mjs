@@ -5,7 +5,7 @@ export default {
   key: "agiled-new-invoice-created",
   name: "New Invoice Created",
   description: "Emit new event when an invoice is created. [See the documentation](https://my.agiled.app/developers)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

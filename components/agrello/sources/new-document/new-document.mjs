@@ -6,7 +6,7 @@ export default {
   key: "agrello-new-document",
   name: "New Document Added to Folder",
   description: "Emit new event when a user adds a document to a specific folder. [See the documentation](https://api.agrello.io/public/webjars/swagger-ui/index.html)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

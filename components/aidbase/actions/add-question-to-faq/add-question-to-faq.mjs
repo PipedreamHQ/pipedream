@@ -4,7 +4,7 @@ export default {
   key: "aidbase-add-question-to-faq",
   name: "Add Question to FAQ",
   description: "Add a new question to a FAQ in Airbase. [See the documentation](https://docs.aidbase.ai/apis/knowledge-api/reference/#post-knowledgeidfaq-item)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

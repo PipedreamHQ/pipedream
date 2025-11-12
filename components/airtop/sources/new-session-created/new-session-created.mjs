@@ -5,7 +5,7 @@ export default {
   key: "airtop-new-session-created",
   name: "New Session Created",
   description: "Emit new event when a new session is created in Airtop. [See the documentation](https://docs.airtop.ai/api-reference/airtop-api/sessions/list)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

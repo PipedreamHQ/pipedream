@@ -4,7 +4,7 @@ export default {
   key: "airtop-create-window",
   name: "Create Window",
   description: "Create a new browser window in an active session. [See the documentation](https://docs.airtop.ai/api-reference/airtop-api/windows/create)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: false,

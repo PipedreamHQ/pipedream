@@ -4,7 +4,7 @@ export default {
   key: "airtop-end-session",
   name: "End Session",
   description: "End a browser session. [See the documentation](https://docs.airtop.ai/api-reference/airtop-api/sessions/terminate)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: true,

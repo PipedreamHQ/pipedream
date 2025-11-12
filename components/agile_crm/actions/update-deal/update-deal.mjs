@@ -5,7 +5,7 @@ export default {
   key: "agile_crm-update-deal",
   name: "Update Deal",
   description: "Updates an existing deal in Agile CRM. [See the documentation](https://github.com/agilecrm/rest-api#34-update-deal-partial-update)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

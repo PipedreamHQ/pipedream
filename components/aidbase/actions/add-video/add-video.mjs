@@ -4,7 +4,7 @@ export default {
   key: "aidbase-add-video",
   name: "Add Video",
   description: "Add a video as a piece of knowledge to your Aidbase account. [See the documentation](https://docs.aidbase.ai/apis/knowledge-api/reference/#post-knowledgevideo)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

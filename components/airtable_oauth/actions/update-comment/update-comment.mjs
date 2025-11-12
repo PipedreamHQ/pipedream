@@ -4,7 +4,7 @@ export default {
   key: "airtable_oauth-update-comment",
   name: "Update Comment",
   description: "Update an existing comment on a selected record. [See the documentation](https://airtable.com/developers/web/api/update-comment)",
-  version: "0.0.13",
+  version: "0.0.14",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

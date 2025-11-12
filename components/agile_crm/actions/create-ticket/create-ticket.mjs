@@ -4,7 +4,7 @@ export default {
   key: "agile_crm-create-ticket",
   name: "Create Ticket",
   description: "Create a new ticket in Agile CRM. [See the documentation](https://github.com/agilecrm/rest-api#102-create-a-ticket)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

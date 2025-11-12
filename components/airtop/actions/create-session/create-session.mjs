@@ -6,7 +6,7 @@ export default {
   key: "airtop-create-session",
   name: "Create Session",
   description: "Create a new cloud browser session. [See the documentation](https://docs.airtop.ai/api-reference/airtop-api/sessions/create)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
