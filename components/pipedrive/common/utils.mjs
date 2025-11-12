@@ -91,17 +91,17 @@ export const formatCustomFields = async (resp, getResourcesFn, getFieldsFn) => {
   });
 };
 
-export const formatLeadDataFromSource = async ({
+export const formatCustomFieldDataFromSource = async ({
   body, customFieldFn, resourceFn,
 }) => {
   const customFieldNames = await getCustomFieldNames(customFieldFn);
-  const { data: lead } = await resourceFn(body.data.id);
+  const { data } = await resourceFn(body.data.id);
   const formattedCustomFields = {};
   for (const [
     key,
     value,
   ] of Object.entries(customFieldNames)) {
-    formattedCustomFields[value] = lead[key] ?? null;
+    formattedCustomFields[value] = data[key] ?? data?.custom_fields?.[key] ?? null;
   }
 
   const formattedPreviousCustomFields = {};

@@ -1,4 +1,4 @@
-import { formatLeadDataFromSource } from "../../common/utils.mjs";
+import { formatCustomFieldDataFromSource } from "../../common/utils.mjs";
 import common from "../common/base.mjs";
 import sampleEmit from "./test-event.mjs";
 
@@ -22,7 +22,7 @@ export default {
       return `Lead successfully updated: ${body.data.id}`;
     },
     async parseData(body) {
-      return await formatLeadDataFromSource({
+      return await formatCustomFieldDataFromSource({
         body,
         customFieldFn: this.pipedrive.getDealCustomFields,
         resourceFn: this.pipedrive.getLead,

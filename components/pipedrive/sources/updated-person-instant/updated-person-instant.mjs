@@ -1,4 +1,4 @@
-import { parseData } from "../../common/utils.mjs";
+import { formatCustomFieldDataFromSource } from "../../common/utils.mjs";
 import common from "../common/base.mjs";
 import sampleEmit from "./test-event.mjs";
 
@@ -22,9 +22,10 @@ export default {
       return `Person successfully updated: ${body.data.id}`;
     },
     async parseData(body) {
-      return await parseData({
-        fn: this.pipedrive.getPersonCustomFields,
+      return await formatCustomFieldDataFromSource({
         body,
+        customFieldFn: this.pipedrive.getPersonCustomFields,
+        resourceFn: this.pipedrive.getPerson,
       });
     },
   },
