@@ -4,7 +4,7 @@ export default {
   key: "clearly_defined-get-definitions",
   name: "Get Definitions",
   description: "Gets the coordinates for all definitions that match the given pattern in the specified part of the definition. [See the documentation](https://api.clearlydefined.io/api-docs/#/definitions/get_definitions).",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   key: "clevertap-get-campaigns",
   name: "Get Campaigns",
   description: "Get a list of campaigns within a specified date range. [See the documentation](https://developer.clevertap.com/docs/get-campaigns-api)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

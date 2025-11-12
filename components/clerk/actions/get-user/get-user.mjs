@@ -3,7 +3,7 @@ import clerk from "../../clerk.app.mjs";
 export default {
   key: "clerk-get-user",
   name: "Get User",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

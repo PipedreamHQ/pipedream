@@ -4,7 +4,7 @@ export default {
   key: "clevertap-stop-campaign",
   name: "Stop Campaign",
   description: "Stop a running campaign. [See the documentation](https://developer.clevertap.com/docs/stop-campaign-api)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

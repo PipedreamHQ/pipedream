@@ -4,7 +4,7 @@ export default {
   key: "clickup-create-space",
   name: "Create Space",
   description: "Creates a new space. [See the documentation](https://clickup.com/api) in **Spaces / Create Space** section.",
-  version: "0.0.12",
+  version: "0.0.13",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

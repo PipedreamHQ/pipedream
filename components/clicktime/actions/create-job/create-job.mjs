@@ -4,7 +4,7 @@ export default {
   key: "clicktime-create-job",
   name: "Create Job",
   description: "Create a Job on Clicktime. [See the documentation](https://developer.clicktime.com/docs/api/#/operations/Jobs/CreateJob)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

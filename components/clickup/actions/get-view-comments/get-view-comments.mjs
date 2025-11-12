@@ -5,7 +5,7 @@ export default {
   key: "clickup-get-view-comments",
   name: "Get View Comments",
   description: "Get a view comments. [See the documentation](https://clickup.com/api) in **Comments / Get Chat View Comments** section.",
-  version: "0.0.12",
+  version: "0.0.13",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -6,7 +6,7 @@ export default {
   key: "clickup-create-list-comment",
   name: "Create List Comment",
   description: "Creates a list comment. [See the documentation](https://clickup.com/api) in **Comments / Create List Comment** section.",
-  version: "0.0.12",
+  version: "0.0.13",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

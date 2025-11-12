@@ -4,7 +4,7 @@ export default {
   key: "cleverreach-update-subscriber",
   name: "Update Subscriber",
   description: "Updates the information of an existing subscriber. [See the documentation](https://rest.cleverreach.com/explorer/v3/#!/groups-v3/update__put)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

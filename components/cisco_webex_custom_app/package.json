@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/cisco_webex_custom_app",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream cisco_webex_custom_app Components",
   "main": "cisco_webex_custom_app.app.mjs",
   "keywords": [

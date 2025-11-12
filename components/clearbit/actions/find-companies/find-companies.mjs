@@ -5,7 +5,7 @@ export default {
   key: "clearbit-find-companies",
   name: "Find Companies",
   description: "Find companies via specific criteria. [See the docs here](https://dashboard.clearbit.com/docs#discovery-api-attributes)",
-  version: "0.3.1",
+  version: "0.3.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

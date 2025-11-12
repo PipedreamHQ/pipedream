@@ -5,7 +5,7 @@ export default {
   key: "clickup-update-checklist",
   name: "Update Checklist",
   description: "Updates a checklist in a task. [See the documentation](https://clickup.com/api) in **Checklists / Edit Checklist** section.",
-  version: "0.0.12",
+  version: "0.0.13",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

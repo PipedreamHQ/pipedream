@@ -7,7 +7,7 @@ export default {
   key: "clickup-update-list",
   name: "Update List",
   description: "Update a list. [See the documentation](https://clickup.com/api) in **Lists / Update List** section.",
-  version: "0.0.12",
+  version: "0.0.13",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

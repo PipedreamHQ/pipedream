@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/clickhelp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream ClickHelp Components",
   "main": "clickhelp.app.mjs",
   "keywords": [

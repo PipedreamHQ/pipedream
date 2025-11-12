@@ -4,7 +4,7 @@ export default {
   key: "clickup-get-task-templates",
   name: "Get Task Templates",
   description: "Get a list of templates. [See the documentation](https://clickup.com/api) in **Task Templates / Get Task Templates** section.",
-  version: "0.0.12",
+  version: "0.0.13",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

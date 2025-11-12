@@ -2,7 +2,7 @@ import app from "../../clevertap.app.mjs";
 
 export default {
   name: "Create Or Update User",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

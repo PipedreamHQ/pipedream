@@ -5,7 +5,7 @@ export default {
   key: "clickup-update-folder",
   name: "Update Folder",
   description: "Update a folder. [See the documentation](https://clickup.com/api) in **Folders / Update Folder** section.",
-  version: "0.0.12",
+  version: "0.0.13",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

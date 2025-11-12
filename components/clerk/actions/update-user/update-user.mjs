@@ -4,7 +4,7 @@ import { parseObject } from "../../common/utils.mjs";
 export default {
   key: "clerk-update-user",
   name: "Update User",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

@@ -5,7 +5,7 @@ export default {
   key: "clickup-get-folder",
   name: "Get Folder",
   description: "Get a folder in a workplace. [See the documentation](https://clickup.com/api) in **Folders / Get Folder** section.",
-  version: "0.0.12",
+  version: "0.0.13",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

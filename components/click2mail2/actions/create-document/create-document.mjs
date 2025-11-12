@@ -6,7 +6,7 @@ import { FORMATS } from "../../common/constants.mjs";
 export default {
   key: "click2mail2-create-document",
   name: "Create Document",
-  version: "1.0.2",
+  version: "1.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

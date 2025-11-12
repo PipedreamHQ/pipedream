@@ -5,7 +5,7 @@ export default {
   name: "Create Subscriber",
   description:
     "Adds a new subscriber to a mailing list. [See the documentation](https://rest.cleverreach.com/explorer/v3/#!/groups-v3/create__post)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

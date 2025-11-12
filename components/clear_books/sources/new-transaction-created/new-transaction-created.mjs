@@ -5,7 +5,7 @@ export default {
   key: "clear_books-new-transaction-created",
   name: "New Transaction Created",
   description: "Emit new event when a new transaction is created.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
