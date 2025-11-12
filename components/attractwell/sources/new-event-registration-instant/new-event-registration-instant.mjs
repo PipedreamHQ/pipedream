@@ -7,7 +7,7 @@ export default {
   key: "attractwell-new-event-registration-instant",
   name: "New Event Registration (Instant)",
   description: "Emit new event when a new registration for an event takes place.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

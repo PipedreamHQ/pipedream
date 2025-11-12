@@ -7,7 +7,7 @@ export default {
   key: "attractwell-new-lead-from-landing-page-instant",
   name: "New Lead from Landing Page (Instant)",
   description: "Emit new event when a lead is gained from a landing page.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

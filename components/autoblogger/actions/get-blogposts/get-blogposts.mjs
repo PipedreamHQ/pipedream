@@ -4,7 +4,7 @@ export default {
   key: "autoblogger-get-blogposts",
   name: "Get Blogposts",
   description: "Retrieves blogposts using the API key. [See the documentation](https://u.pcloud.link/publink/show?code=XZdjuv0ZtabS8BN58thUiE8FGjznajoMc6Qy)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

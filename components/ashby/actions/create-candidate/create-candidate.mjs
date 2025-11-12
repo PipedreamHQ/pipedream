@@ -4,7 +4,7 @@ export default {
   key: "ashby-create-candidate",
   name: "Create Candidate",
   description: "Creates a new candidate in Ashby. [See the documentation](https://developers.ashbyhq.com/reference/candidatecreate)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

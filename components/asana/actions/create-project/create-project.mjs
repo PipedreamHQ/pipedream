@@ -5,7 +5,7 @@ export default {
   key: "asana-create-project",
   name: "Create Project",
   description: "Create a new project in a workspace or team. [See the documentation](https://developers.asana.com/docs/create-a-project)",
-  version: "0.10.5",
+  version: "0.10.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

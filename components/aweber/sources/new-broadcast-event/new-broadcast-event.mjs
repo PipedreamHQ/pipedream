@@ -7,7 +7,7 @@ export default {
   name: "New Broadcast Event",
   description: "Emit new event when a selected broadcast event is created. [See the documentation](https://api.aweber.com/#tag/Broadcasts/paths/~1accounts~1%7BaccountId%7D~1lists~1%7BlistId%7D~1broadcasts/get)",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,

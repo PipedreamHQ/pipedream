@@ -6,7 +6,7 @@ export default {
   type: "source",
   name: "New User (Instant)",
   description: "Emit new event for each user added to a workspace.",
-  version: "0.1.10",
+  version: "0.1.11",
   dedupe: "unique",
   props: {
     ...common.props,
