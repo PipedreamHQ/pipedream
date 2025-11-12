@@ -2,7 +2,7 @@ import ably from "../../ably.app.mjs";
 
 export default {
   name: "Publish Push Notification",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

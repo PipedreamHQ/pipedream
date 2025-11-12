@@ -4,7 +4,7 @@ export default {
   key: "actitime-create-customer",
   name: "Create Customer",
   description: "Creates a new customer. [See the documentation](https://online.actitime.com/pipedream/api/v1/swagger).",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

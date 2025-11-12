@@ -4,7 +4,7 @@ export default {
   key: "_46elks-send-sms",
   name: "Send SMS",
   description: "Composes and sends an SMS message to a specified phone number. [See the documentation](https://46elks.com/docs/send-sms)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   key: "activecampaign-tag-contact",
   name: "Tag Contact",
   description: "Tags a contact. See the docs [here](https://developers.activecampaign.com/reference/create-contact-tag).",
-  version: "0.3.2",
+  version: "0.3.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

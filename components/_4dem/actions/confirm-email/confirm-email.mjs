@@ -4,7 +4,7 @@ export default {
   key: "_4dem-confirm-email",
   name: "Confirm Email",
   description: "Confirm sender email address. [See the documentation](https://api.4dem.it/#/operations/senders.email.confirm)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   key: "accuranker-list-domains",
   name: "List Domains",
   description: "List domains in Accuranker. [See the documentation](https://app.accuranker.com/api/read-docs#tag/Domains/operation/List%20Domains)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

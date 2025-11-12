@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/_4dem",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream  4Dem Components",
   "main": "_4dem.app.mjs",
   "keywords": [
