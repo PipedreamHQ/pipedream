@@ -5,7 +5,7 @@ export default {
   name: "Get All Products Sort Order",
   description:
     "Get all your products. [See the docs here](https://developer.bigcommerce.com/api-reference/90ab7265480e2-get-product-sort-order)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

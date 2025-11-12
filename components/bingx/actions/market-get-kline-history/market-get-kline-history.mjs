@@ -3,7 +3,7 @@ import { KLINE_DESC_MAPPING } from "../../common.mjs";
 
 export default {
   name: "BingX Market Get History Klines",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -5,7 +5,7 @@ export default {
   key: "benchmarkone-new-webhook-automation-event-instant",
   name: "New Webhook Automation Event (Instant)",
   description: "Emit new event when a webhook automation step is triggered in BenchmarkONE.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

@@ -4,7 +4,7 @@ export default {
   key: "beaconchain-get-execution-blocks",
   name: "Get Execution Blocks",
   description: "Retrieve execution blocks by execution block number. [See the documentation](https://beaconcha.in/api/v1/docs/index.html#/Execution/get_api_v1_execution_block__blockNumber_)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

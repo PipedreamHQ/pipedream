@@ -5,7 +5,7 @@ export default {
   name: "Update Stock",
   description: "Update the stock level for a single product. [See the documentation](https://app.billbee.io//swagger/ui/index#/Products/Article_UpdateStock)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

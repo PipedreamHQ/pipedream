@@ -4,7 +4,7 @@ export default {
   key: "bigmailer-send-transactional-email",
   name: "Send Transactional Email",
   description: "Sends an email as part of a transactional campaign. [See the documentation](https://docs.bigmailer.io/reference/sendtransactionalcampaign)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -6,7 +6,7 @@ export default {
   key: "benchmarkone-create-contact",
   name: "Create Contact",
   description: "Creates a new contact in BenchmarkONE. [See the documentation](https://sandbox.hatchbuck.com/api/dist/#!/Contacts/post_contact)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

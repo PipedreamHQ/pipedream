@@ -5,7 +5,7 @@ export default {
   key: "beekeeper-create-post",
   name: "Create Post",
   description: "Create a new text or multimedia post in a defined stream. [See the documentation](https://beekeeper.stoplight.io/docs/beekeeper-api/18408b41927b9-creates-a-new-post)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

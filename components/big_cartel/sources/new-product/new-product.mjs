@@ -4,7 +4,7 @@ export default {
   key: "big_cartel-new-product",
   name: "New Product Event",
   description: "Emit new events when a new product is created. [See the docs here](https://developers.bigcartel.com/api/v1#get-all-products)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   ...common,

@@ -6,7 +6,7 @@ export default {
   name: "Create Repository",
   description: "Creates a new repository. [See the docs](https://api.beanstalkapp.com/repository.html).",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

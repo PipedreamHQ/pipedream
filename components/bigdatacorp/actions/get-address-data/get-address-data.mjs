@@ -5,7 +5,7 @@ export default {
   key: "bigdatacorp-get-address-data",
   name: "Get Address Data",
   description: "Returns the available data for a Zipcode number according to the selected dataset. [See the documentation](https://docs.bigdatacorp.com.br/plataforma/reference/enderecos_legal_amazon)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

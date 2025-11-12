@@ -5,7 +5,7 @@ export default {
   key: "bigml-new-prediction-made",
   name: "New Prediction Made",
   description: "Emit new event for every made prediction. [See docs here.](https://bigml.com/api/predictions?id=listing-predictions)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

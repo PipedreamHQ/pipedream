@@ -4,7 +4,7 @@ export default {
   key: "beaconchain-get-slots",
   name: "Get Slots",
   description: "Returns all slots for a specified epoch. [See the documentation](https://beaconcha.in/api/v1/docs/index.html#/Epoch/get_api_v1_epoch__epoch__slots)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

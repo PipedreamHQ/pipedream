@@ -4,7 +4,7 @@ export default {
   name: "List untimed employees",
   description: "Get a list of employees without any time entry for a given period of time",
   key: "beebole_app-list-untimed-employees",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

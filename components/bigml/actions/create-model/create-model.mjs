@@ -5,7 +5,7 @@ export default {
   key: "bigml-create-model",
   name: "Create Model",
   description: "Create a model based on a given source ID, dataset ID, or model ID. [See the docs.](https://bigml.com/api/models?id=creating-a-model)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   key: "beekeeper-get-profile",
   name: "Get User Profile",
   description: "Retrieve the profile details of a specific user. [See the documentation](https://beekeeper.stoplight.io/docs/beekeeper-api/05bcd13b38a67-get-profile-of-the-given-user)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

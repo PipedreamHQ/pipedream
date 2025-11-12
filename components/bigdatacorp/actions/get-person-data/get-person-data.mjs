@@ -5,7 +5,7 @@ export default {
   key: "bigdatacorp-get-person-data",
   name: "Get Person Data",
   description: "Returns the available data for a CPF number according to the selected dataset. [See the documentation](https://docs.bigdatacorp.com.br/plataforma/reference/pessoas_registration_data)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

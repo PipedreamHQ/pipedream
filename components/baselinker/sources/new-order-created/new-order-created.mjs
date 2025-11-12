@@ -7,7 +7,7 @@ export default {
   name: "New Order Created",
   description: "Emit new event when a new order is created in BaseLinker. [See the Documentation](https://api.baselinker.com/index.php?method=getOrders).",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   methods: {
     ...common.methods,
