@@ -4,7 +4,7 @@ export default {
   key: "google_docs-create-document",
   name: "Create a New Document",
   description: "Create a new document. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/create)",
-  version: "0.2.0",
+  version: "0.2.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
