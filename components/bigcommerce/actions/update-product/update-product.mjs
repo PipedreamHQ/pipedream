@@ -8,7 +8,7 @@ export default {
   name: "Update Product",
   description:
     "Update a product by Id. [See the docs here](https://developer.bigcommerce.com/api-reference/6f05c1244d972-update-a-product)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

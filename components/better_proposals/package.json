@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/better_proposals",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream better_proposals Components",
   "main": "better_proposals.app.mjs",
   "keywords": [

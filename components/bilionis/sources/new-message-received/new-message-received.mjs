@@ -6,7 +6,7 @@ export default {
   key: "bilionis-new-message-received",
   name: "New Message Received",
   description: "Emit new event when a new lead sends a message. [See the documentation](https://bilionis.com/crm/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

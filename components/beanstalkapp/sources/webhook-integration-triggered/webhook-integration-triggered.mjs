@@ -6,7 +6,7 @@ export default {
   name: "New Webhook Integration Triggered (Instant)",
   description: "Emit new event when selected flags trigger the webhook. [See the docs](https://api.beanstalkapp.com/integration.html#webhooks).",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,

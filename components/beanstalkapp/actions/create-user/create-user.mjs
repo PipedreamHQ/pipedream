@@ -5,7 +5,7 @@ export default {
   name: "Create User",
   description: "Creates a new user. [See the docs](https://api.beanstalkapp.com/user.html).",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

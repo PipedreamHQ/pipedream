@@ -6,7 +6,7 @@ export default {
   name: "Update Order Status",
   description: "It allows you to change order status. [See the Documentation](https://api.baselinker.com/index.php?method=setOrderStatus).",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

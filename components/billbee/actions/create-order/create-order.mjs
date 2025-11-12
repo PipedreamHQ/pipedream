@@ -6,7 +6,7 @@ export default {
   name: "Create Order",
   description: "Create a new order. [See the documentation](https://app.billbee.io//swagger/ui/index#/Orders/OrderApi_PostNewOrder)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

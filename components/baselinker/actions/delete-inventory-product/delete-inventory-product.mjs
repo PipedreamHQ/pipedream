@@ -6,7 +6,7 @@ export default {
   name: "Delete Inventory Product",
   description: "It allows you to remove the product from BaseLinker catalog. [See the Documentation](https://api.baselinker.com/index.php?method=deleteInventoryProduct).",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

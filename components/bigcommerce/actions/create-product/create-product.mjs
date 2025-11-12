@@ -6,7 +6,7 @@ export default {
   name: "Create Product",
   description:
     "Create a product. [See the docs here](https://developer.bigcommerce.com/api-reference/366928572e59e-create-a-product)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -7,7 +7,7 @@ export default {
   name: "Order Status Updated",
   description: "Emit new event when an order status changes in BaseLinker. [See the Documentation](https://api.baselinker.com/index.php?method=getOrderStatusList).",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   methods: {
     ...common.methods,
