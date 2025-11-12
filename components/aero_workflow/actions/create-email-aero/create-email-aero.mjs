@@ -3,7 +3,7 @@ import utils from "../../common/utils.mjs";
 
 export default {
   key: "aero_workflow-create-email-aero",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

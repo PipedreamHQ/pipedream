@@ -5,7 +5,7 @@ export default {
   key: "acymailing-new-subscribed-user",
   name: "New Subscribed User",
   description: "Emit new event when a user subscribes to a specified list.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

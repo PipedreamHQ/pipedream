@@ -6,7 +6,7 @@ export default {
   key: "addevent-new-calendar-subscriber",
   name: "New Calendar Subscriber",
   description: "Emit new event when a new subscriber is added to a calendar.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

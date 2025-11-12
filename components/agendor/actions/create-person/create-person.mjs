@@ -4,7 +4,7 @@ export default {
   name: "Create Person",
   description: "Create Person [See the documentation](https://api.agendor.com.br/docs/#operation/Create%20person).",
   key: "agendor-create-person",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

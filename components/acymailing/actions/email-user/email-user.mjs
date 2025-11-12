@@ -5,7 +5,7 @@ export default {
   key: "acymailing-email-user",
   name: "Email User",
   description: "Sends an email to a single AcyMailing user. The user must exist in the AcyMailing database. [See the documentation](https://docs.acymailing.com/v/rest-api/emails#send-an-email-to-a-user)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

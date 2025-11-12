@@ -6,7 +6,7 @@ export default {
   key: "acuity_scheduling-appointment-rescheduled-instant",
   name: "New Appointment Rescheduled (Instant)",
   description: "Emit new event when an appointment is rescheduled.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

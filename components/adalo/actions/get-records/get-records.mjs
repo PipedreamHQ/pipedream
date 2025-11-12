@@ -4,7 +4,7 @@ export default {
   key: "adalo-get-records",
   name: "Get Records",
   description: "Get all records from a collection. [See docs here](https://help.adalo.com/integrations/the-adalo-api/collections)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

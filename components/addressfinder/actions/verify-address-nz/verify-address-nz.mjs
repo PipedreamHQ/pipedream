@@ -4,7 +4,7 @@ export default {
   key: "addressfinder-verify-address-nz",
   name: "Verify New Zealand Address",
   description: "Validates a New Zealand address. [See the documentation](https://addressfinder.com.au/api/nz/address/verification/)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

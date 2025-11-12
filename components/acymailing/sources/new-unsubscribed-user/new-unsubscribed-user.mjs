@@ -5,7 +5,7 @@ export default {
   key: "acymailing-new-unsubscribed-user",
   name: "New Unsubscribed User",
   description: "Emit new event when a user unsubscribes from the specified mailing list.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

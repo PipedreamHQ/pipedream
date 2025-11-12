@@ -4,7 +4,7 @@ export default {
   key: "adversus-assign-to-campaign",
   name: "Assign Lead to Campaign",
   description: "Assign a lead to a campaign in Adversus. [See the API documentation](https://solutions.adversus.io/api).",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

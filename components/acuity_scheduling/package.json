@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/acuity_scheduling",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Pipedream Acuity Scheduling Components",
   "main": "acuity_scheduling.app.mjs",
   "keywords": [

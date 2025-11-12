@@ -6,7 +6,7 @@ export default {
   key: "aftership-update-tracking",
   name: "Update Tracking",
   description: "Updates an existing tracking. [See the documentation](https://www.aftership.com/docs/api/4/trackings/put-trackings-slug-tracking_number)",
-  version: "0.1.1",
+  version: "0.1.2",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

@@ -5,7 +5,7 @@ export default {
   key: "affinda-document-validated",
   name: "New Document Validated",
   description: "Emit new event when a document is validated in Affinda. [See docs here](https://docs.affinda.com/reference/createresthooksubscription)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
