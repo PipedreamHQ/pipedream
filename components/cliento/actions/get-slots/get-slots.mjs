@@ -4,7 +4,7 @@ export default {
   key: "cliento-get-slots",
   name: "Get Slots",
   description: "Fetch available slots for the given service, resource and dates. [See the documentation](https://developers.cliento.com/docs/rest-api#fetch-slots)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

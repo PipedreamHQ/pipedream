@@ -7,7 +7,7 @@ export default {
   key: "cloudpresenter-create-contact",
   name: "Create Contact",
   description: "Creates a new contact within the Cloudpresenter application. [See the documentation](https://cloudpresenter.stoplight.io/docs/cloudpresenter-public-apis/gnglqnrsy7k38-create-contact)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

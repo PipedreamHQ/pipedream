@@ -7,7 +7,7 @@ export default {
   key: "cloze-person-change-instant",
   name: "Person Change (Instant)",
   description: "Emit new event when significant changes happen to a person. [See the documentation](https://api.cloze.com/api-docs/#!/Webhooks/post_v1_subscribe).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

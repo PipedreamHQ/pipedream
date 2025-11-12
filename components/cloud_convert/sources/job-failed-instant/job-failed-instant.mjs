@@ -6,7 +6,7 @@ export default {
   key: "cloud_convert-job-failed-instant",
   name: "Job Failed (Instant)",
   description: "Emit new event when a CloudConvert job has failed. [See the documentation](https://cloudconvert.com/api/v2/webhooks#webhooks-events)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

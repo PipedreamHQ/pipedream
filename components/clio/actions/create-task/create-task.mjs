@@ -5,7 +5,7 @@ export default {
   key: "clio-create-task",
   name: "Create New Task",
   description: "Creates a new task in Clio. [See the documentation](https://docs.developers.clio.com/api-reference/#tag/Tasks/operation/Task#index)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

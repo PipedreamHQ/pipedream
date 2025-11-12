@@ -4,7 +4,7 @@ export default {
   key: "clio-update-matter",
   name: "Update Matter",
   description: "Updates an existing matter in Clio. [See the documentation](https://docs.developers.clio.com/api-reference/#tag/Matters/operation/Matter#update)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

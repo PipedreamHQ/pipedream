@@ -5,7 +5,7 @@ export default {
   type: "source",
   key: "clientify-contact-added",
   name: "New Contact Created",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Emit new event when a new contact is created.",
   methods: {
     ...common.methods,

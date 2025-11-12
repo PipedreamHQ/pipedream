@@ -3,7 +3,7 @@ import clientify from "../../clientify.app.mjs";
 export default {
   key: "clientify-create-contact",
   name: "Create Contact",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

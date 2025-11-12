@@ -4,7 +4,7 @@ export default {
   key: "clockify-create-project",
   name: "Create Project",
   description: "Creates a new project in Clockify. [See the documentation](https://docs.clockify.me/#tag/Project/operation/create_6)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

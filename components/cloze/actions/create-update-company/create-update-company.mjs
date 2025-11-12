@@ -5,7 +5,7 @@ export default {
   key: "cloze-create-update-company",
   name: "Create Or Update Company",
   description: "Create a new company or enhance an existing company within Cloze. Companies can be created with just a domain name or both a name and another unique identifier such as a phone number and email address. [See the documentation](https://api.cloze.com/api-docs/#!/Relations_-_Companies/post_v1_companies_create).",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

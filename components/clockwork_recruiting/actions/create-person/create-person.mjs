@@ -4,7 +4,7 @@ import { parseArray } from "../../common/utils.mjs";
 export default {
   key: "clockwork_recruiting-create-person",
   name: "Create A Person",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

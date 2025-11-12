@@ -4,7 +4,7 @@ export default {
   key: "coda-list-formulas",
   name: "List Formulas",
   description: "Lists formulas in a doc. [See docs](https://coda.io/developers/apis/v1#tag/Formulas/operation/listFormulas)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

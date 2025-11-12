@@ -4,7 +4,7 @@ export default {
   key: "cloudtables-add-single-row",
   name: "Add Single Row",
   description: "Add a single row of data into CloudTable data set",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

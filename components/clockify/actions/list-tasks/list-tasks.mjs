@@ -4,7 +4,7 @@ export default {
   key: "clockify-list-tasks",
   name: "List Tasks",
   description: "List all tasks in a Clockify project. [See the documentation](https://docs.clockify.me/#tag/Task/operation/getTasks)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

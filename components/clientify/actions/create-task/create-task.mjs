@@ -3,7 +3,7 @@ import clientify from "../../clientify.app.mjs";
 export default {
   key: "clientify-create-task",
   name: "Create Task",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

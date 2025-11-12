@@ -4,7 +4,7 @@ export default {
   key: "cloudtables-update-row",
   name: "Update Row",
   description: "Update a row in a CloudTable data set",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
