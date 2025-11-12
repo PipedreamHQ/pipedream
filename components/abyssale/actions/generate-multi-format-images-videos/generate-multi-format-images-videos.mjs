@@ -5,7 +5,7 @@ export default {
   key: "abyssale-generate-multi-format-images-videos",
   name: "Generate Multi-Format Images/Videos",
   description: "Generates multiple images and videos from a template. [See the documentation](https://api-reference.abyssale.com/#tag/Images/paths/~1async~1banner-builder~1%7BtemplateId%7D~1generate/post)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

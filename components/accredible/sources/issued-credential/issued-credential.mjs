@@ -7,7 +7,7 @@ export default {
   name: "Issued Credential",
   description: "This source triggers when a new credential is issued to a recipient. [See the documentation](https://accrediblecredentialapi.docs.apiary.io/#reference/credentials/search-credentials-v2/search-for-credentials).",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   methods: {
     ...common.methods,

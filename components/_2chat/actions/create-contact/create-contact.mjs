@@ -4,7 +4,7 @@ export default {
   key: "_2chat-create-contact",
   name: "Create Contact",
   description: "Creates a new contact in 2Chat. [See the documentation](https://developers.2chat.co/docs/API/Contacts/create-contact)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

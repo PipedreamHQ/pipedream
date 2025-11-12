@@ -4,7 +4,7 @@ export default {
   key: "_4dem-create-email",
   name: "Create Email",
   description: "Create a new email. [See the documentation](https://api.4dem.it/#/operations/contents.email.store)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

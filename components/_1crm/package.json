@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/_1crm",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream 1CRM Components",
   "main": "_1crm.app.mjs",
   "keywords": [

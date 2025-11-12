@@ -5,7 +5,7 @@ export default {
   key: "_1crm-create-contact",
   name: "Create Contact",
   description: "Creates a new contact in the 1CRM system. [See the documentation](https://demo.1crmcloud.com/api.php#endpoint_dataList_post)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

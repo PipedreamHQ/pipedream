@@ -4,7 +4,7 @@ export default {
   key: "accuranker-list-brands",
   name: "List Brands",
   description: "List brands in Accuranker. [See the documentation](https://app.accuranker.com/api/read-docs#tag/Brands/operation/List%20Brands)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

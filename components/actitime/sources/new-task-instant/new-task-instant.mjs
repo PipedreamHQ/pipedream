@@ -7,7 +7,7 @@ export default {
   key: "actitime-new-task-instant",
   name: "New Task (Instant)",
   description: "Emit new event when a new task is created. [See the documentation](https://www.actitime.com/api-documentation/rest-hooks).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

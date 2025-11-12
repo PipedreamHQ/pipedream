@@ -4,7 +4,7 @@ export default {
   key: "activecampaign-find-deal",
   name: "Find Deal",
   description: "Finds an existing deal by search field. See the docs [here](https://developers.activecampaign.com/reference/list-all-deals)",
-  version: "0.2.2",
+  version: "0.2.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

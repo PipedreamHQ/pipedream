@@ -4,7 +4,7 @@ export default {
   key: "_46elks-new-incoming-sms-instant",
   name: "New Incoming SMS (Instant)",
   description: "Emit new event instantly when an SMS is received by a specific number linked to your 46elks account. [See the documentation](https://46elks.com/docs/receive-sms)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
