@@ -6,7 +6,7 @@ export default {
   key: "cloudpress-document-export-succeeded",
   name: "Document Export Succeeded",
   description: "Emit new event when a document export succeeds in Cloudpress.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

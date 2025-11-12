@@ -5,7 +5,7 @@ export default {
   key: "clockwork_recruiting-candidate-status-change",
   name: "New Candidate Status Change (Instant)",
   description: "Emit new event when a candidate status is changed.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

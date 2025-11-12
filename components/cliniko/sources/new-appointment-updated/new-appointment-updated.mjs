@@ -7,7 +7,7 @@ export default {
   name: "New Appointment Updated",
   description: "Emit new event when an appointment is updated in Cliniko.",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   methods: {
     ...common.methods,

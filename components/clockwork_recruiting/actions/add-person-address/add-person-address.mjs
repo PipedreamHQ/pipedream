@@ -3,7 +3,7 @@ import app from "../../clockwork_recruiting.app.mjs";
 export default {
   key: "clockwork_recruiting-add-person-address",
   name: "Add Person Address",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

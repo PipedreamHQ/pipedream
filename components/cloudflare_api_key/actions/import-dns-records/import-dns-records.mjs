@@ -5,7 +5,7 @@ export default {
   key: "cloudflare_api_key-import-dns-records",
   name: "Import DNS Records",
   description: "Import a BIND config into a zone. [See the documentation](https://developers.cloudflare.com/api/resources/dns/subresources/records/methods/import/)",
-  version: "1.0.2",
+  version: "1.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

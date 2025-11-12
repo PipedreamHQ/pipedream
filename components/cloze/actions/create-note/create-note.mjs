@@ -4,7 +4,7 @@ export default {
   key: "cloze-create-note",
   name: "Create Note",
   description: "Creates a note in Cloze. [See the documentation](https://api.cloze.com/api-docs/#!/Content/post_v1_createcontent).",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

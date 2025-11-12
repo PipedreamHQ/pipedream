@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "clientify-task-completed",
   name: "New Task Completed",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Emit new event when a task is completed.",
   type: "source",
   methods: {

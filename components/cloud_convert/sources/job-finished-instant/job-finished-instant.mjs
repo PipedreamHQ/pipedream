@@ -6,7 +6,7 @@ export default {
   key: "cloud_convert-job-finished-instant",
   name: "Job Finished (Instant)",
   description: "Emit new event when a CloudConvert job has been completed. [See the documentation](https://cloudconvert.com/api/v2/webhooks#webhooks-events)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

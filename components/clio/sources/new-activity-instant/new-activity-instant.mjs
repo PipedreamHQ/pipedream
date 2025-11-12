@@ -8,7 +8,7 @@ export default {
   key: "clio-new-activity-instant",
   name: "New Activity (Instant)",
   description: "Emit new event when a new activity is created in Clio. [See the documentation](https://docs.developers.clio.com/api-reference/#tag/Webhooks/operation/Webhook#index)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {
