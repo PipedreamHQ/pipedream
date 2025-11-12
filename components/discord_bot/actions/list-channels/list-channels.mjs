@@ -6,7 +6,7 @@ export default {
   name: "List Channels",
   description: "Return a list of channels. [See the docs here](https://discord.com/developers/docs/resources/guild#get-guild-channels)",
   type: "action",
-  version: "1.0.1",
+  version: "1.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

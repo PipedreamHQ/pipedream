@@ -5,7 +5,7 @@ export default {
   key: "dock_certs-new-credential-issued",
   name: "New Credential Issued",
   description: "Emit new event when a new credential is issued. [See the documentation](https://docs.api.dock.io/?json-doc#get-credentials-metadata)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

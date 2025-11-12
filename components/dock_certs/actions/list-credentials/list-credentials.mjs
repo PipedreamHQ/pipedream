@@ -4,7 +4,7 @@ export default {
   key: "dock_certs-list-credentials",
   name: "List Credentials",
   description: "List existing credentials. [See the documentation](https://docs.api.dock.io/?json-doc#get-credentials-metadata)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -6,7 +6,7 @@ export default {
   key: "docnify-new-document-created",
   name: "New Document Created",
   description: "Emit new event when a new document is created.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

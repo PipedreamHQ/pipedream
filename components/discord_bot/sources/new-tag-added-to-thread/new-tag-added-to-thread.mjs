@@ -8,7 +8,7 @@ export default {
   name: "New Tag Added to Forum Thread",
   description: "Emit new event when a new tag is added to a thread",
   type: "source",
-  version: "1.0.0",
+  version: "1.0.1",
   dedupe: "unique",
   props: {
     ...common.props,

@@ -6,7 +6,7 @@ export default {
   key: "dnsfilter-new-policy-created",
   name: "New Policy Created",
   description: "Emit new event when a new policy is created. [See the documentation](https://app.swaggerhub.com/apis-docs/DNSFilter/dns-filter_api/1.0.15#/Policies/Policies-index)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

@@ -3,7 +3,7 @@ import common from "../../common.mjs";
 export default {
   name: "New Users (Instant)",
   key: "discourse-new-users-added",
-  version: "0.2.1",
+  version: "0.2.2",
   type: "source",
   description: "Emit new event every time a new user is created on your instance",
   ...common,

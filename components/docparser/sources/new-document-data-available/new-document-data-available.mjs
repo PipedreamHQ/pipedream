@@ -6,7 +6,7 @@ export default {
   key: "docparser-new-document-data-available",
   name: "New Document Data Available",
   description: "Emit new event every time a document is processed and parsed data is available. [See the documentation](https://docparser.com/api/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

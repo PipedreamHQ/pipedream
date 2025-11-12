@@ -6,7 +6,7 @@ export default {
   key: "docnify-new-document-completed",
   name: "New Document Completed",
   description: "Emit new event when a document is signed by all recipients.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

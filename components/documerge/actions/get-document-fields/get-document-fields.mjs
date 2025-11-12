@@ -4,7 +4,7 @@ export default {
   key: "documerge-get-document-fields",
   name: "Get Document Fields",
   description: "Extracts and returns data from fields in a given document. [See the documentation](https://app.documerge.ai/api-docs/#documents-GETapi-documents-fields--document_id-)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

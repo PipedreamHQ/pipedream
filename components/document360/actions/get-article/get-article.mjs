@@ -4,7 +4,7 @@ export default {
   key: "document360-get-article",
   name: "Get Article",
   description: "Gets an article from Document360. [See the documentation](https://apidocs.document360.com/apidocs/get-article)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

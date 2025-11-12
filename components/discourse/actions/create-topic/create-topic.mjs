@@ -2,7 +2,7 @@ import discourse from "../../discourse.app.mjs";
 
 export default {
   name: "Create Topic",
-  version: "0.1.2",
+  version: "0.1.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -8,7 +8,7 @@ export default {
   name: "Get message",
   description: "Return a specific message in a channel. [See the docs here](https://discord.com/developers/docs/resources/channel#get-channel-message)",
   type: "action",
-  version: "1.0.1",
+  version: "1.0.2",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

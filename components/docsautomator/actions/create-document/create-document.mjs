@@ -5,7 +5,7 @@ export default {
   key: "docsautomator-create-document",
   name: "Create Document",
   description: "Generate a new document from a pre-existing template. [See the documentation](https://docs.docsautomator.co/integrations-api/docsautomator-api)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

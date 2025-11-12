@@ -9,7 +9,7 @@ export default {
   name: "Create Guild Channel",
   description: "Create a new channel for the guild. [See the docs here](https://discord.com/developers/docs/resources/guild#create-guild-channel)",
   type: "action",
-  version: "1.0.1",
+  version: "1.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

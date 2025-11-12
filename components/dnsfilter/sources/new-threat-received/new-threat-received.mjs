@@ -6,7 +6,7 @@ export default {
   key: "dnsfilter-new-threat-received",
   name: "New Threat Received",
   description: "Emit new event when a user's DNS query is blocked by a policy. [See the documentation](https://app.swaggerhub.com/apis-docs/DNSFilter/dns-filter_api/1.0.15#/TrafficReports/TrafficReports-total_threats)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

@@ -5,7 +5,7 @@ export default {
   name: "New Document Status Changed",
   description: "Emit new event when document status is changed",
   key: "docsumo-document-status-changed",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   props: {
     app,

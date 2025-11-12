@@ -5,7 +5,7 @@ export default {
   key: "documerge-combine-files",
   name: "Combine Files",
   description: "Merges multiple user-specified files into a single PDF or DOCX. [See the documentation](https://app.documerge.ai/api-docs/#tools-POSTapi-tools-combine)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

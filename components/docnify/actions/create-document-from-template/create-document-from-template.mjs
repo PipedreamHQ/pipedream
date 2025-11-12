@@ -4,7 +4,7 @@ export default {
   key: "docnify-create-document-from-template",
   name: "Create Document From Template",
   description: "Create a new document in Docnify from a pre-existing template. [See the documentation](https://app.docnify.io/api/v1/openapi)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

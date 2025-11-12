@@ -7,7 +7,7 @@ export default {
   name: "Create Channel Invite",
   description: "Create a new invite for the channel. [See the docs here](https://discord.com/developers/docs/resources/channel#create-channel-invite)",
   type: "action",
-  version: "1.0.1",
+  version: "1.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
