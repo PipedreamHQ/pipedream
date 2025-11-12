@@ -19,7 +19,7 @@ export default {
           label, chainId,
         }) => ({
           value: chainId,
-          label: label,
+          label,
         }));
       },
     },
