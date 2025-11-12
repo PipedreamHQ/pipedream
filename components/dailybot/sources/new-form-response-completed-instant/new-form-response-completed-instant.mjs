@@ -6,7 +6,7 @@ export default {
   key: "dailybot-new-form-response-completed-instant",
   name: "New Form Response Completed (Instant)",
   description: "Emit new event when a response is added to a form in DailyBot by any user from your organization or an external user.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

@@ -4,7 +4,7 @@ export default {
   name: "Get Shipment Status",
   description: "Retrieve the current status for a shipment by tracking number and customer ID. [See the documentation](https://api-portal.dachser.com/bi.b2b.portal/api/library/shipmentstatus?1)",
   key: "dachser-get-shipment-status",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

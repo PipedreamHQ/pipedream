@@ -4,7 +4,7 @@ export default {
   key: "customer_io-send-event-to",
   name: "Send Event To",
   description: "Sends an event to Customer.io. [See the docs here](https://customer.io/docs/api/#operation/track)",
-  version: "0.2.1",
+  version: "0.2.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

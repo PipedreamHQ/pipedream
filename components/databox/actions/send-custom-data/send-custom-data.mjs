@@ -2,7 +2,7 @@ import databox from "../../databox.app.mjs";
 
 export default {
   name: "Send Custom Data",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   key: "dart-delete-doc",
   name: "Delete Doc",
   description: "Move an existing doc to the trash, where it can be recovered if needed. Nothing else about the doc will be changed. [See the documentation](https://app.dartai.com/api/v0/public/docs/#/Doc/deleteDoc)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

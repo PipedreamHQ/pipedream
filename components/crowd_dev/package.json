@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/crowd_dev",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream crowd_dev Components",
   "main": "crowd_dev.app.mjs",
   "keywords": [

@@ -4,7 +4,7 @@ export default {
   key: "dart-create-doc",
   name: "Create Doc",
   description: "Record a new doc that the user intends to write down. This will save the doc in Dart for later access, search, etc. By default the created doc will be in the Docs folder. More information can be included in the text. [See the documentation](https://app.dartai.com/api/v0/public/docs/#/Doc/createDoc)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

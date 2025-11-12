@@ -7,7 +7,7 @@ export default {
   key: "databricks-edit-sql-warehouse",
   name: "Edit SQL Warehouse",
   description: "Edits the configuration of an existing SQL Warehouse. [See the documentation](https://docs.databricks.com/api/workspace/warehouses/edit)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

@@ -7,7 +7,7 @@ export default {
   name: "Create Customer",
   description: "Create a new customer with detailed attributes using the provided data. [See the documentation](https://docs.customerfields.com/#8a70d5ee-da8f-4ef0-8b08-9c1882b4da04).",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

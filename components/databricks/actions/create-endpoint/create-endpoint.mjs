@@ -5,7 +5,7 @@ export default {
   key: "databricks-create-endpoint",
   name: "Create Endpoint",
   description: "Create a new vector search endpoint. [See the documentation](https://docs.databricks.com/api/workspace/vectorsearchendpoints/createendpoint)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

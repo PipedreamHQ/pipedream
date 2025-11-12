@@ -4,7 +4,7 @@ export default {
   key: "dart-update-doc",
   name: "Update Doc",
   description: "Update certain properties of an existing doc. This will save the doc in Dart for later access, search, etc. Any properties that are not specified will not be changed. [See the documentation](https://app.dartai.com/api/v0/public/docs/#/Doc/updateDoc)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

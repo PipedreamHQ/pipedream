@@ -4,7 +4,7 @@ export default {
   key: "databricks-list-runs",
   name: "List Runs",
   description: "Lists all runs available to the user. [See the documentation](https://docs.databricks.com/en/workflows/jobs/jobs-2.0-api.html#runs-list)",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

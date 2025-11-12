@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/data_axle_platform",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream Data Axle Platform Components",
   "main": "dist/app/data_axle_platform.app.mjs",
   "keywords": [

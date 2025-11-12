@@ -6,7 +6,7 @@ export default {
   key: "dailybot-new-check-in-response-completed-instant",
   name: "New Check-In Response Completed (Instant)",
   description: "Emit new event when a user from your organization completes a response to a check-in in DailyBot.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

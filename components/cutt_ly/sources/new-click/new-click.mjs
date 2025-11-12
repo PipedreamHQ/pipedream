@@ -6,7 +6,7 @@ export default {
   key: "cutt_ly-new-click",
   name: "New Click",
   description: "Emit new event each time a shortened URL receives a new click.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

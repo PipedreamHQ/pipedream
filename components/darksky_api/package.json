@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/darksky_api",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream darksky_api Components",
   "main": "darksky_api.app.mjs",
   "keywords": [

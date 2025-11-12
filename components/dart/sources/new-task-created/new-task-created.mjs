@@ -6,7 +6,7 @@ export default {
   key: "dart-new-task-created",
   name: "New Task Created",
   description: "Emit new event when a task is created.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   methods: {

@@ -7,7 +7,7 @@ export default {
   key: "crowdin-add-file",
   name: "Add File to Project",
   description: "Adds a file into the created project. [See the documentation](https://developer.crowdin.com/api/v2/#tag/source-files/operation/api.projects.files.post)",
-  version: "1.0.2",
+  version: "1.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

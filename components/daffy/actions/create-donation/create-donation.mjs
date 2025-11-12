@@ -4,7 +4,7 @@ import daffy from "../../daffy.app.mjs";
 export default {
   key: "daffy-create-donation",
   name: "Create Donation",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

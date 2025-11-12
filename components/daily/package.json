@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/daily",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream daily Components",
   "main": "daily.app.mjs",
   "keywords": [

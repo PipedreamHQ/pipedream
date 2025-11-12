@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/cyberimpact",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream cyberimpact Components",
   "main": "cyberimpact.app.mjs",
   "keywords": [

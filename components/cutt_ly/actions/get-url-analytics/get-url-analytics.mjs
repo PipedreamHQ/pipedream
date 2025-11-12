@@ -4,7 +4,7 @@ export default {
   key: "cutt_ly-get-url-analytics",
   name: "Get URL Analytics",
   description: "Retrieves statistical information about a shortened url. [See the documentation](https://cutt.ly/cuttly-api)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

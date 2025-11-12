@@ -4,7 +4,7 @@ export default {
   key: "databricks-query-vector-search-index",
   name: "Query Vector Search Index",
   description: "Query a specific vector search index in Databricks. [See the documentation](https://docs.databricks.com/api/workspace/vectorsearchindexes/queryindex)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -6,7 +6,7 @@ export default {
   key: "csvbox-submit-spreadsheet",
   name: "Submit Spreadsheet",
   description: "Submit a spreadsheet file via public URL or local file path to CSVBox for processing. [See documentation](https://help.csvbox.io/advanced-installation/rest-file-api)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
