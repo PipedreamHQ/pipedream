@@ -5,7 +5,7 @@ export default {
   key: "dataforseo-get-sentiment-analysis",
   name: "Get Sentiment Analysis",
   description: "Analyze sentiment of brand mentions and content for reputation management. [See the documentation](https://docs.dataforseo.com/v3/content_analysis/sentiment_analysis/live/?bash)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

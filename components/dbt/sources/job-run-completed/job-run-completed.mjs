@@ -6,7 +6,7 @@ export default {
   key: "dbt-job-run-completed",
   name: "Job Run Completed (Instant)",
   description: "Emit new event when a job run has completed.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

@@ -5,7 +5,7 @@ export default {
   key: "dataforseo-create-onpage-task",
   name: "Create OnPage Task",
   description: "Create an OnPage task to retrieve detailed information on how well your pages are optimized for search. [See the documentation](https://docs.dataforseo.com/v3/on_page/task_post/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

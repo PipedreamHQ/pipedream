@@ -4,7 +4,7 @@ export default {
   key: "dayschedule-create-event",
   name: "Create Event",
   description: "Add a new event to the DaySchedule. [See the documentation](https://dayschedule.com/docs/api#tag/Resources/operation/ResourceController_createResource)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

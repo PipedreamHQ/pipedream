@@ -5,7 +5,7 @@ export default {
   key: "dataforseo-get-business-listings-categories",
   name: "Get Business Listings Categories",
   description: "Get available business categories for business listings and local SEO. [See the documentation](https://docs.dataforseo.com/v3/business_data/business_listings/categories/?bash)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

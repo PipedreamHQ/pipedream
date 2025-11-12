@@ -4,7 +4,7 @@ export default {
   key: "datadog-post-metric-data",
   name: "Post Metric Data",
   description: "The metrics end-point allows you to post time-series data that can be graphed on Datadog's dashboards. [See docs](https://docs.datadoghq.com/metrics)",
-  version: "0.1.3",
+  version: "0.1.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

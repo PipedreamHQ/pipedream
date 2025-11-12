@@ -6,7 +6,7 @@ export default {
   name: "Get Domain Pages Summary",
   description:
     "Get detailed summary data on all backlinks and related metrics for each page of the specified domain or subdomain. [See the documentation](https://docs.dataforseo.com/v3/backlinks/domain_pages_summary/live/)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

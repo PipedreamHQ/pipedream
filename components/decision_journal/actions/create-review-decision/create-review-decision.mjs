@@ -5,7 +5,7 @@ export default {
   key: "decision_journal-create-review-decision",
   name: "Create Review Decision",
   description: "Creates a review for a decision in Decision Journal. [See the documentation](https://openpm.ai/apis/decision-journal#/decisions/{decisionId}/reviews)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

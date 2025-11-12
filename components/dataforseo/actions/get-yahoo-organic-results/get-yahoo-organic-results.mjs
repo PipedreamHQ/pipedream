@@ -5,7 +5,7 @@ export default {
   key: "dataforseo-get-yahoo-organic-results",
   name: "Get Yahoo Organic Results",
   description: "Retrieve Yahoo organic search results for specified keywords. [See the documentation](https://docs.dataforseo.com/v3/serp/yahoo/organic/live/regular/?bash)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

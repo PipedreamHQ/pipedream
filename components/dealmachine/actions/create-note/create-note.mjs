@@ -3,7 +3,7 @@ import dealmachine from "../../dealmachine.app.mjs";
 export default {
   key: "dealmachine-create-note",
   name: "Create Note",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

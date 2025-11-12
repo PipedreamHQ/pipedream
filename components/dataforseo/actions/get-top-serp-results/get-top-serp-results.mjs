@@ -5,7 +5,7 @@ export default {
   key: "dataforseo-get-top-serp-results",
   name: "Get Top SERP Results",
   description: "Get top-ranking pages and competitor analysis for specified keywords. [See the documentation](https://docs.dataforseo.com/v3/dataforseo_labs/google/serp_competitors/live/?bash)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

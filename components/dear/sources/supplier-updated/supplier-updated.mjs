@@ -8,7 +8,7 @@ export default {
   key: "dear-supplier-updated",
   type: "source",
   description: "Emit new event when a supplier is updated. [See the documentation](https://dearinventory.docs.apiary.io/#reference/webhooks)",
-  version: "0.0.2",
+  version: "0.0.3",
   methods: {
     ...base.methods,
     getWebhookType() {

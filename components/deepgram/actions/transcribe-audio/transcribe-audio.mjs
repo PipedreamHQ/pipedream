@@ -5,7 +5,7 @@ export default {
   key: "deepgram-transcribe-audio",
   name: "Transcribe Audio",
   description: "Transcribes the specified audio file. [See the documentation](https://developers.deepgram.com/api-reference/transcription/#transcribe-pre-recorded-audio)",
-  version: "1.0.2",
+  version: "1.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

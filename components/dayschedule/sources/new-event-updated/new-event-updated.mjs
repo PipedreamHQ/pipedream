@@ -5,7 +5,7 @@ export default {
   key: "dayschedule-new-event-updated",
   name: "New Event Updated",
   description: "Emit new event when an event is updated in the schedule.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

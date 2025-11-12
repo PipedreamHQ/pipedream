@@ -5,7 +5,7 @@ export default {
   key: "dataforseo-get-content-citations",
   name: "Get Content Citations",
   description: "Find mentions and citations of keywords or brands online for brand monitoring and content strategy. [See the documentation](https://docs.dataforseo.com/v3/content_analysis/search/live/?bash)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
