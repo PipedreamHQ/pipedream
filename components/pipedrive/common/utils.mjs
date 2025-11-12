@@ -101,9 +101,7 @@ export const formatLeadDataFromSource = async ({
     key,
     value,
   ] of Object.entries(customFieldNames)) {
-    if (lead[key]) {
-      formattedCustomFields[value] = lead[key];
-    }
+    formattedCustomFields[value] = lead[key] || null;
   }
 
   const formattedPreviousCustomFields = {};
