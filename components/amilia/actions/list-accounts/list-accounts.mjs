@@ -4,7 +4,7 @@ export default {
   key: "amilia-list-accounts",
   name: "List Accounts",
   description: "List all (client) accounts in an organization. [See the docs here](https://www.amilia.com/ApiDocs/v3org#GetAccounts)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

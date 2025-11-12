@@ -6,7 +6,7 @@ export default {
   key: "appointedd-new-customer",
   name: "New Customer",
   description: "Emit new event when a new customer is created in one of your Appointedd organisations. [See the documentation](https://developers.appointedd.com/reference/get-customers)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

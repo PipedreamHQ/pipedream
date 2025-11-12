@@ -4,7 +4,7 @@ export default {
   key: "appwrite-create-team",
   name: "Create Team",
   description: "Create a new team. [See the documentation](https://appwrite.io/docs/references/cloud/client-rest/teams#create)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

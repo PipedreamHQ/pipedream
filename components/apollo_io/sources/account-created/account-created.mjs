@@ -6,7 +6,7 @@ export default {
   name: "New Account Created",
   description: "Emit new event when an account is created. [See the documentation](https://apolloio.github.io/apollo-api-docs/?shell#search-for-accounts)",
   type: "source",
-  version: "0.0.6",
+  version: "0.0.7",
   dedupe: "unique",
   props: {
     ...common.props,

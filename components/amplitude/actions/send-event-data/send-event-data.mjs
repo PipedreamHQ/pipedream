@@ -4,7 +4,7 @@ export default {
   key: "amplitude-send-event-data",
   name: "Send Event Data",
   description: "Sends user event data to Amplitude for analytics. [See the documentation](https://www.docs.developers.amplitude.com/analytics/apis/http-v2-api/#keys-for-the-event-argument)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

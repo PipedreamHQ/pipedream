@@ -5,7 +5,7 @@ export default {
   key: "appsflyer-new-in-app-event-instant",
   name: "New In-App Event (Instant)",
   description: "Emit new event when an in-app event is recorded, such as a purchase or level completion. [See docs here](https://dev.appsflyer.com/hc/reference/push-api-v2)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

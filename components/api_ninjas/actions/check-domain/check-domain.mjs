@@ -4,7 +4,7 @@ export default {
   key: "api_ninjas-check-domain",
   name: "Check Domain",
   description: "Returns domain availability status and registration details for a given domain name. [See the documentation](https://api-ninjas.com/api/domain)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     openWorldHint: true,
     destructiveHint: false,

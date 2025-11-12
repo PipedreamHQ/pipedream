@@ -5,7 +5,7 @@ export default {
   key: "apify-get-dataset-items",
   name: "Get Dataset Items",
   description: "Returns data stored in a dataset. [See the documentation](https://docs.apify.com/api/v2/dataset-items-get)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -5,7 +5,7 @@ export default {
   key: "appdrag-update-row",
   name: "Update Row",
   description: "Updates a row in a cloud database table. [See the documentation](https://support.appdrag.com/doc/Appdrag-Cloudbackend-npm)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

@@ -7,7 +7,7 @@ export default {
   key: "americommerce-new-product-instant",
   name: "New Product Instant",
   description: "Emit new event when a product is added to your Americommerce store. [See the documentation](https://developers.cart.com/docs/rest-api/ZG9jOjM1MDU4Nw-webhooks#subscribing-to-a-webhook).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

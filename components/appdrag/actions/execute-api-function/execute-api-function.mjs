@@ -5,7 +5,7 @@ export default {
   key: "appdrag-execute-api-function",
   name: "Execute API Function",
   description: "Executes an API function from a cloud backend. [See the documentation](https://support.appdrag.com/doc/Interacting-with-my-API-Functions)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

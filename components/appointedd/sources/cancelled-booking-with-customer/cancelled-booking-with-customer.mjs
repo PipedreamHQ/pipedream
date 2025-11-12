@@ -6,7 +6,7 @@ export default {
   key: "appointedd-cancelled-booking-with-customer",
   name: "Cancelled Booking with Customer",
   description: "Emit new event when a customer cancels an existing group or single booking within your appointedd organisations. [See the documentation](https://developers.appointedd.com/reference/get-bookings)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

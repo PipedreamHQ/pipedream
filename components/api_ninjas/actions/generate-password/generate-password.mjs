@@ -4,7 +4,7 @@ export default {
   key: "api_ninjas-generate-password",
   name: "Generate Password",
   description: "Returns a random password string adhering to the specified parameters. [See the documentation](https://api-ninjas.com/api/passwordgenerator)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     openWorldHint: true,
     destructiveHint: false,

@@ -4,7 +4,7 @@ export default {
   key: "apiverve-street-address-parser",
   name: "Street Address Parser",
   description: "Parse a US street addresses and return the parsed components of the street address provided. [See the documentation](https://docs.apiverve.com/api/streetaddressparser)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

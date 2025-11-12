@@ -4,7 +4,7 @@ export default {
   key: "apiary-fetch-blueprint",
   name: "Fetch Blueprint",
   description: "Fetch an API Blueprint for a particular API. [See the documentation](https://apiary.docs.apiary.io/#reference/blueprint/fetch-blueprint/fetch-blueprint)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
