@@ -5,7 +5,7 @@ export default {
   key: "chargebee-create-customer",
   name: "Create Customer",
   description: "Create a customer in Chargebee. [See the documentation](https://apidocs.chargebee.com/docs/api/customers?lang=node-v3#create_a_customer)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

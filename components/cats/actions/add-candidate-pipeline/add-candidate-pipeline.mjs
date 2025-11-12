@@ -4,7 +4,7 @@ export default {
   key: "cats-add-candidate-pipeline",
   name: "Add Candidate to Job Pipeline",
   description: "Adds a specific candidate to a job pipeline in CATS. [See the documentation](https://docs.catsone.com/api/v3/#jobs-create-a-job)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

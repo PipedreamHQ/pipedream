@@ -3,7 +3,7 @@ import campaignCleaner from "../../campaign_cleaner.app.mjs";
 export default {
   key: "campaign_cleaner-get-campaign-status",
   name: "Get Campaign Status",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

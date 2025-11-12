@@ -4,7 +4,7 @@ export default {
   name: "Create Contact",
   description: "Create Contact [See the documentation](https://campaignhq.docs.apiary.io/#reference/0/contacts-collection/create-a-new-contact).",
   key: "campaignhq-create-contact",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

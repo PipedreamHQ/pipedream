@@ -5,7 +5,7 @@ export default {
   key: "campaign_monitor-new-subscriber",
   name: "New Subscriber Added",
   description: "Emit new event when a new subscriber is added to a specific list",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

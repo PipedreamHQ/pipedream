@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/callerapi",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream CallerAPI Components",
   "main": "callerapi.app.mjs",
   "keywords": [

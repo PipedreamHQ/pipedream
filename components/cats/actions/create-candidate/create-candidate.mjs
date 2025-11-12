@@ -5,7 +5,7 @@ export default {
   key: "cats-create-candidate",
   name: "Create Candidate",
   description: "Create a new candidate in your CATS database. [See the documentation](https://docs.catsone.com/api/v3/#candidates-create-a-candidate)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

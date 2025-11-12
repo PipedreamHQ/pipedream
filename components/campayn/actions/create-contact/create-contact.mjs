@@ -4,7 +4,7 @@ export default {
   key: "campayn-create-contact",
   name: "Create Contact",
   description: "Creates a new contact. [See the docs](https://github.com/nebojsac/Campayn-API/blob/master/endpoints/contacts.md#add-a-contact)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

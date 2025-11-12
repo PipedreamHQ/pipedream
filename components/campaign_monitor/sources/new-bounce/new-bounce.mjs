@@ -5,7 +5,7 @@ export default {
   key: "campaign_monitor-new-bounce",
   name: "New Bounce",
   description: "Emit new event when a campaign email bounces",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

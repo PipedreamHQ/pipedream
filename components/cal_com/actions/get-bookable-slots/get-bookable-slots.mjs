@@ -4,7 +4,7 @@ export default {
   key: "cal_com-get-bookable-slots",
   name: "Get Bookable Slots",
   description: "Retrieves all bookable slots between a datetime range. [See the documentation](https://cal.com/docs/api-reference/v1/slots/get-all-bookable-slots-between-a-datetime-range#get-all-bookable-slots-between-a-datetime-range)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

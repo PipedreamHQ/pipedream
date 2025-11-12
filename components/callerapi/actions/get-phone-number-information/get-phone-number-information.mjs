@@ -4,7 +4,7 @@ export default {
   key: "callerapi-get-phone-number-information",
   name: "Get Phone Number Information",
   description: "Retrieve detailed information about a specific phone number, including name, location, and carrier. [See the documentation](https://callerapi.com/documentation)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   key: "callhub-new-call-event-received",
   name: "New Call Event Received (Instant)",
   description: "Emit new event when a call event of the type specified is received. [See the docs](https://developer.callhub.io/reference/create-new-webhook)",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   type: "source",
   props: {

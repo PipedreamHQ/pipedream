@@ -4,7 +4,7 @@ export default {
   key: "chaindesk-submit-message",
   name: "Submit Message",
   description: "Allows the API to send a message input from the user.",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

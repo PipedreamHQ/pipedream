@@ -4,7 +4,7 @@ export default {
   key: "channable-update-stock-update",
   name: "Update Stock Update",
   description: "Update a stock update for a company and project. [See the documentation](https://api.channable.com/v1/docs#tag/stock_updates/operation/stock_updates_update_companies__company_id__projects__project_id__stock_updates_post)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
