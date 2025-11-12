@@ -4,7 +4,7 @@ export default {
   key: "bytenite-start-job",
   name: "Start Job",
   description: "Initiates a previously created video encoding job. [See the documentation](https://docs.bytenite.com/reference/customer_runjob)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

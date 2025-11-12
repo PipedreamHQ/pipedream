@@ -6,7 +6,7 @@ export default {
   key: "byteforms-new-submission",
   name: "New Submission",
   description: "Emit new event when a user submission to a form occurs. [See the documentation](https://forms.bytesuite.io/docs/api#endpoints)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

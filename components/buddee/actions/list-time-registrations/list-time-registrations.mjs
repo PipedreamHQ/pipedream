@@ -4,7 +4,7 @@ export default {
   name: "List Time Registrations",
   description: "Get all time tracking records, [See the documentation](https://developers.buddee.nl/#539c5261-c313-49ef-89d8-82b835b22cd4)",
   key: "buddee-list-time-registrations",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

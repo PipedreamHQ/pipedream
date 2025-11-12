@@ -6,7 +6,7 @@ export default {
   name: "New Leave Request Created",
   description: "Emit new event when a new leave request is created in the system. [See the documentation](https://developers.buddee.nl/#2c5f483b-63d4-4ecf-a9d1-7efe36563639)",
   key: "buddee-new-leave-request-created",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

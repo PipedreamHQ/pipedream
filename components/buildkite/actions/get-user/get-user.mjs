@@ -5,7 +5,7 @@ export default {
   key: "buildkite-get-user",
   name: "Get the current user",
   description: "Returns basic details about the user account that sent the request",
-  version: "0.1.2",
+  version: "0.1.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

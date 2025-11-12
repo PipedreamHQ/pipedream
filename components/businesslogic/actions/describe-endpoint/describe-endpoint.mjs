@@ -4,7 +4,7 @@ export default {
   key: "businesslogic-describe-endpoint",
   name: "Describe Endpoint",
   description: "Returns json schemas for input and output parameters of a webservice.",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

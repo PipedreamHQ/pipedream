@@ -4,7 +4,7 @@ export default {
   key: "buysellads-get-creatives-daily-stats",
   name: "Get Creatives Daily Stats",
   description: "Returns the creative stats by day for line items. [See the documentation](https://docs.buysellads.com/advertiser-api/endpoints#creatives-daily-stats)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

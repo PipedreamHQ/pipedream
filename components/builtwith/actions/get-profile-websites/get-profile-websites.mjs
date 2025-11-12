@@ -4,7 +4,7 @@ export default {
   key: "builtwith-get-profile-websites",
   name: "Get Profile Websites",
   description: "Get websites associated with a social media URL. [See the documentation](https://api.builtwith.com/social-api)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

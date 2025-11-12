@@ -4,7 +4,7 @@ export default {
   key: "buysellads-get-daily-stats",
   name: "Get Daily Stats",
   description: "Returns the daily stats for active line items. [See the documentation](https://docs.buysellads.com/advertiser-api/endpoints#daily-stats)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
