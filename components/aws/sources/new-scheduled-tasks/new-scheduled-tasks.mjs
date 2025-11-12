@@ -10,7 +10,7 @@ export default {
     to an SNS topic at a specific timestamp. The SNS topic delivers
     the message to this Pipedream source, and the source emits it as a new event.
   `),
-  version: "0.4.3",
+  version: "0.4.4",
   type: "source",
   dedupe: "unique", // Dedupe on SNS message ID
   methods: {

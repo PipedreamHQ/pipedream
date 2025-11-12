@@ -5,7 +5,7 @@ export default {
   name: "Get Account",
   description: "Gets an account. [See the docs](https://badgerupdatedapi.docs.apiary.io/#reference/accounts/retrieve-and-update-account-details/retrieve-account-details).",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

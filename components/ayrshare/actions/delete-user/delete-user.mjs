@@ -4,7 +4,7 @@ export default {
   key: "ayrshare-delete-user",
   name: "Delete User",
   description: "Delete a user profile you are the owner of. [See the documentation](https://www.ayrshare.com/docs/apis/profiles/delete-profile)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

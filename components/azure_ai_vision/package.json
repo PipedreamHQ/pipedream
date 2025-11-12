@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/azure_ai_vision",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Azure AI Vision Components",
   "main": "azure_ai_vision.app.mjs",
   "keywords": [

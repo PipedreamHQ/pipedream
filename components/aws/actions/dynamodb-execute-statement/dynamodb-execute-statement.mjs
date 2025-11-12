@@ -9,7 +9,7 @@ export default {
     This operation allows you to perform transactional reads or writes on data stored in DynamoDB, using PartiQL.
     [See docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-dynamodb/classes/executestatementcommand.html)
   `),
-  version: "0.2.3",
+  version: "0.2.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

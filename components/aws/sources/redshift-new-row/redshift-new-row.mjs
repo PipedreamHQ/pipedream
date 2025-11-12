@@ -6,7 +6,7 @@ export default {
   name: "Redshift - New Row",
   description: "Emit new event when a new row is added to a table. [See the documentation](https://docs.aws.amazon.com/redshift/latest/APIReference/API_ExecuteStatement.html)",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,

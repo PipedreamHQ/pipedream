@@ -6,7 +6,7 @@ export default {
   name: "Edit Video",
   description: "Update a video auto-transcription. [See the docs here](https://developers.bannerbear.com/#patch-v2-videos).",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

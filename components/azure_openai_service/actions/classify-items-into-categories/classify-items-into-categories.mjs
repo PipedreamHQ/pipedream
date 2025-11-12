@@ -6,7 +6,7 @@ export default {
   key: "azure_openai_service-classify-items-into-categories",
   name: "Classify Items Into Categories",
   description: "Classify items into specific categories. [See the documentation](https://learn.microsoft.com/en-us/azure/ai-services/openai/reference#chat-completions)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

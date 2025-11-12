@@ -6,7 +6,7 @@ export default {
   name: "Create a Comment",
   description: "Creates a comment in a selected recording. [See the documentation](https://github.com/basecamp/bc3-api/blob/master/sections/comments.md#create-a-comment)",
   type: "action",
-  version: "0.1.1",
+  version: "0.1.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

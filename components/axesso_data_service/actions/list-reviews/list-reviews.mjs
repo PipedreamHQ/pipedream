@@ -4,7 +4,7 @@ export default {
   key: "axesso_data_service-list-reviews",
   name: "List Reviews",
   description: "Lists reviews for an Amazon product using Axesso Data Service. [See the documentation](https://axesso.developer.azure-api.net/api-details#api=axesso-amazon-data-service&operation=reviews)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

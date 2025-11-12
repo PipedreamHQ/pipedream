@@ -7,7 +7,7 @@ export default {
   name: "New Records Returned by CloudWatch Logs Insights Query",
   // eslint-disable-next-line pipedream/source-description
   description: "Executes a CloudWatch Logs Insights query on a schedule, and emits the records as invidual events (default) or in batch",
-  version: "0.2.3",
+  version: "0.2.4",
   type: "source",
   props: {
     aws: common.props.aws,

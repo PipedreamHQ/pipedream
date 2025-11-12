@@ -6,7 +6,7 @@ export default {
   key: "azure_storage-upload-blob",
   name: "Upload Blob",
   description: "Uploads a new blob to a specified container in Azure Storage. [See the documentation](https://learn.microsoft.com/en-us/rest/api/storageservices/put-blob?tabs=microsoft-entra-id).",
-  version: "0.1.2",
+  version: "0.1.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
