@@ -236,7 +236,7 @@ export default {
     listTicketMessages({ $, ticketId, params = {} }) {
       return this._makeRequest({
         $,
-        path: `/api/tickets/${ticketId}/messages`,
+        path: `/tickets/${ticketId}/messages`,
         method: 'get',
         params,
       });
@@ -252,7 +252,7 @@ export default {
     getTicketMessage({ $, ticketId, messageId }) {
       return this._makeRequest({
         $,
-        path: `/api/tickets/${ticketId}/messages/${messageId}`,
+        path: `/tickets/${ticketId}/messages/${messageId}`,
         method: 'get',
       });
     },

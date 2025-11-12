@@ -28,6 +28,9 @@ export default defineAction({
       messageId: this.messageId,
     });
 
+    // Add summary for user feedback
+    $.export("$summary", `Successfully retrieved message ${this.messageId} from ticket ${this.ticketId}`);
+
     return response;
   },
 });

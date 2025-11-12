@@ -45,6 +45,9 @@ export default defineAction({
       params,
     });
 
+    // Add summary for user feedback
+    $.export("$summary", `Successfully retrieved ${response.data.length} message${response.data.length === 1 ? '' : 's'}`);
+
     // Return the data and pagination info
     return {
       data: response.data,
