@@ -4,7 +4,7 @@ export default {
   key: "devin-create-session",
   name: "Create Session",
   description: "Create a new session with Devin. [See the documentation](https://docs.devin.ai/api-reference/sessions/create-a-new-devin-session)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   key: "dingconnect-estimate-prices",
   name: "Estimate Prices",
   description: "Estimates prices send values using the DingConnect API. [See the documentation](https://www.dingconnect.com/api#operation/estimateprices)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

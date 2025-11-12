@@ -6,7 +6,7 @@ export default {
   key: "diffchecker-compare-pdf",
   name: "Compare PDFs",
   description: "Compares two PDFs and returns the result. [See the documentation](https://www.diffchecker.com/public-api/)",
-  version: "1.0.2",
+  version: "1.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

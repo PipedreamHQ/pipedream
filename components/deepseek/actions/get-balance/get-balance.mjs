@@ -4,7 +4,7 @@ export default {
   key: "deepseek-get-balance",
   name: "Get User Balance",
   description: "Retrieves the user's current balance. [See the documentation](https://api-docs.deepseek.com/api/get-user-balance)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

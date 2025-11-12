@@ -6,7 +6,7 @@ export default {
   key: "digitalriver-new-order-completed",
   name: "New Order Completed (Instant)",
   description: "Emit new event when a customer successfully completes an order.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

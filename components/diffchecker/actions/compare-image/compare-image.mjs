@@ -6,7 +6,7 @@ export default {
   key: "diffchecker-compare-image",
   name: "Compare Image",
   description: "Compares two images and returns the result.",
-  version: "1.0.2",
+  version: "1.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

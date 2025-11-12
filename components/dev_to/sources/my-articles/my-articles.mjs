@@ -7,7 +7,7 @@ export default {
   key: "dev_to-my-articles",
   description: "Emit new event for each new article published on your Dev.to account",
   type: "source",
-  version: "0.0.3",
+  version: "0.0.4",
   props: {
     ...common.props,
     devTo,

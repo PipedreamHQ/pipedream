@@ -4,7 +4,7 @@ export default {
   key: "dext-get-client-activity-stats",
   name: "Get Client Activity Stats",
   description: "Retrieves the rolling annual and monthly-average Activity Stats for a particular client. [See the documentation](https://help.dext.com/en/s/article/api#api-endpoints)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -6,7 +6,7 @@ export default {
   key: "diabatix_coldstream-simulation-completed",
   name: "New Simulation Completed",
   description: "Emit new event when a simulation has been successfully completed.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

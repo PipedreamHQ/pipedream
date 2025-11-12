@@ -4,7 +4,7 @@ export default {
   key: "dexatel-create-contact",
   name: "Create Contact",
   description: "Allows creation of a new contact on the user's Dexatel account.",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

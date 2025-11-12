@@ -5,7 +5,7 @@ export default {
   key: "discord-send-message",
   name: "Send Message",
   description: "Send a simple message to a Discord channel",
-  version: "1.0.3",
+  version: "1.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

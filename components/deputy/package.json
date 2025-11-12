@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/deputy",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Deputy Components",
   "main": "deputy.app.mjs",
   "keywords": [

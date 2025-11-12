@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/devrev",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream DevRev Components",
   "main": "devrev.app.mjs",
   "keywords": [

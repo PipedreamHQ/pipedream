@@ -4,7 +4,7 @@ export default {
   key: "discogs-create-marketplace-listing",
   name: "Create Marketplace Listing",
   description: "Creates a new listing in the Discogs marketplace. [See the documentation](https://www.discogs.com/developers#page:marketplace,header:marketplace-new-listing)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

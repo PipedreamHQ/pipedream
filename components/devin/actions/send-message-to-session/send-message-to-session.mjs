@@ -4,7 +4,7 @@ export default {
   key: "devin-send-message-to-session",
   name: "Send Message to Session",
   description: "Send a message to an existing Devin session. [See the documentation](https://docs.devin.ai/api-reference/sessions/send-a-message-to-an-existing-devin-session)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

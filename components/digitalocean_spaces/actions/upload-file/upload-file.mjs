@@ -11,7 +11,7 @@ export default {
   key: "digitalocean_spaces-upload-file",
   name: "Upload File",
   description: "Upload a file to DigitalOcean Spaces. Accepts either a file URL or a path to a file in the `/tmp` directory. [See the docs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html).",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

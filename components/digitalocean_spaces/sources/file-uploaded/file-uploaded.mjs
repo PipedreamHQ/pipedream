@@ -5,7 +5,7 @@ export default {
   key: "digitalocean_spaces-file-uploaded",
   name: "New File Uploaded",
   description: "Emit new event when a file is uploaded to a DigitalOcean Spaces bucket",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "source",
   methods: {
     ...base.methods,
