@@ -6,7 +6,7 @@ export default {
   key: "discogs-new-order-received",
   name: "New Order Received",
   description: "Emit new event when there is an order with status 'New Order'. [See the documentation](https://www.discogs.com/developers#page:marketplace,header:marketplace-list-orders)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

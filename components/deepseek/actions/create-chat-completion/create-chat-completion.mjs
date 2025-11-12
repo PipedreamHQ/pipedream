@@ -6,7 +6,7 @@ export default {
   key: "deepseek-create-chat-completion",
   name: "Create Chat Completion",
   description: "Creates a chat completion using the DeepSeek API. [See the documentation](https://api-docs.deepseek.com/api/create-chat-completion)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

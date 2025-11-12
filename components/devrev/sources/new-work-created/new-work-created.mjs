@@ -6,7 +6,7 @@ export default {
   key: "devrev-new-work-created",
   name: "New Work Created (Instant)",
   description: "Emit new event when a new work item is created in DevRev.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

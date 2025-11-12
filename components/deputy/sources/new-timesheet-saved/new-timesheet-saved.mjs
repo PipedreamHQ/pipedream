@@ -6,7 +6,7 @@ export default {
   key: "deputy-new-timesheet-saved",
   name: "New Timesheet Saved (Instant)",
   description: "Emit new event when a new timesheet has been saved",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

@@ -6,7 +6,7 @@ export default {
   key: "detectify-new-medium-risk-finding",
   name: "New Medium Risk Finding",
   description: "Emit new event when a moderate security finding at a medium risk level is recognized.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

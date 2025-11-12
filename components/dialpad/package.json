@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/dialpad",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Pipedream Dialpad Components",
   "main": "dist/app/dialpad.app.mjs",
   "types": "dist/app/dialpad.app.d.ts",

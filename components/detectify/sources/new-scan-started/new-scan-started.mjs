@@ -6,7 +6,7 @@ export default {
   key: "detectify-new-scan-started",
   name: "New Scan Started",
   description: "Emit new event as soon as a new security scan on the entered domain commences",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

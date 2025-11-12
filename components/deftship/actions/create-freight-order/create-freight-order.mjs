@@ -5,7 +5,7 @@ export default {
   key: "deftship-create-freight-order",
   name: "Create Freight Order",
   description: "Initializes a new parcel order within Deftship. [See the documentation](https://developer.deftship.com/freight/create-order)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

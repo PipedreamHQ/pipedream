@@ -4,7 +4,7 @@ export default {
   key: "diabatix_coldstream-fetch-simulation-results",
   name: "Fetch Simulation Results",
   description: "Retrieves the result of a specific simulation from ColdStream. [See the documentation](https://coldstream.readme.io/reference/get_cases-result-caseid)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

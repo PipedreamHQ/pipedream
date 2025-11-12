@@ -4,7 +4,7 @@ export default {
   key: "diffbot-extract-page",
   name: "Extract Page",
   description: "Automatically classify a page and extract data according to its type. [See the documentation](https://docs.diffbot.com/reference/extract-analyze)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

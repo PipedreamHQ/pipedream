@@ -8,7 +8,7 @@ export default {
   key: "digitalocean_spaces-upload-file-base64",
   name: "Upload File Base64",
   description: "Accepts a base64-encoded string and a filename, then uploads as a file to DigitalOcean Spaces. [See the docs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html).",
-  version: "1.0.1",
+  version: "1.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

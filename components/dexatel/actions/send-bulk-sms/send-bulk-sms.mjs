@@ -5,7 +5,7 @@ export default {
   key: "dexatel-send-bulk-sms",
   name: "Send Bulk SMS",
   description: "Facilitates sending of SMS messages in bulk to specified phone numbers. [See the documentation](https://dexatel.com/developers/messages-add/)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
