@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/_2markdown",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Pipedream 2markdown Components",
   "main": "_2markdown.app.mjs",
   "keywords": [

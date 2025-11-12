@@ -4,7 +4,7 @@ export default {
   key: "activecampaign-add-contact-to-automation",
   name: "Add Contact to Automation",
   description: "Adds an existing contact to an existing automation. See the docs [here](https://developers.activecampaign.com/reference/create-new-contactautomation).",
-  version: "0.2.2",
+  version: "0.2.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -2,7 +2,7 @@ import app from "../../acelle_mail.app.mjs";
 
 export default {
   name: "Subscribe Customer To Plan",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

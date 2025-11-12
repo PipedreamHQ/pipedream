@@ -4,7 +4,7 @@ export default {
   key: "activecampaign-list-all-contacts",
   name: "List All Contacts",
   description: "Retrieve all existing contacts. See the docs [here](https://developers.activecampaign.com/reference/list-all-contacts).",
-  version: "0.2.2",
+  version: "0.2.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

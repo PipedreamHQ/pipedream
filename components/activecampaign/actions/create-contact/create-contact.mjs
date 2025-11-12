@@ -6,7 +6,7 @@ export default {
   name: "Create Contact",
   description: "Create a new contact. [See the documentation](https://developers.activecampaign.com/reference#create-a-contact-new).",
   type: "action",
-  version: "0.0.7",
+  version: "0.0.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

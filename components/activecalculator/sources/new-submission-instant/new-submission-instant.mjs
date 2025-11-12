@@ -6,7 +6,7 @@ export default {
   key: "activecalculator-new-submission-instant",
   name: "New Submission (Instant)",
   description: "Emit new event when there's a new submission.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

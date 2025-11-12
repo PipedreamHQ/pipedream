@@ -6,7 +6,7 @@ export default {
   key: "_twocaptcha-balance-updated",
   name: "New 2Captcha Balance Updated",
   description: "Emit new event when the user's balance in 2Captcha API is changed.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

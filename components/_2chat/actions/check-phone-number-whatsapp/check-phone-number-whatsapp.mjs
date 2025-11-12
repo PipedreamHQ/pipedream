@@ -4,7 +4,7 @@ export default {
   key: "_2chat-check-phone-number-whatsapp",
   name: "Check Phone Number for WhatsApp",
   description: "Checks if a given phone number has a WhatsApp account. [See the documentation](https://developers.2chat.co/docs/API/WhatsApp/check-number)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

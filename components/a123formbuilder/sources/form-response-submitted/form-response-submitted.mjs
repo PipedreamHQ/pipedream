@@ -6,7 +6,7 @@ export default {
   name: "Form Response Submitted",
   description: "Emit new event for every submitted form response",
   type: "source",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   props: {
     ...base.props,
