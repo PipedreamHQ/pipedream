@@ -4,7 +4,7 @@ export default {
   key: "bitport-search",
   name: "Search",
   description: "Searches folders and files in the cloud and sorts them by name. [See the documentation](https://bitport.io/api/index.html?url=/v2/search/%3Cterm%3E)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

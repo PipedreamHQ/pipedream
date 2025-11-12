@@ -7,7 +7,7 @@ export default {
   name: "New Repository (Instant)",
   key: "bitbucket-new-repository",
   description: "Emit new event when a new repository is created in a workspace. [See docs here](https://developer.atlassian.com/cloud/bitbucket/rest/api-group-workspaces/#api-workspaces-workspace-hooks-post)",
-  version: "0.0.3",
+  version: "0.0.4",
   methods: {
     ...common.methods,
     getPath() {

@@ -6,7 +6,7 @@ export default {
   key: "bitbucket-create-issue",
   name: "Creates a new issue",
   description: "Creates a new issue. [See docs here](https://developer.atlassian.com/cloud/bitbucket/rest/api-group-issue-tracker/#api-repositories-workspace-repo-slug-issues-post)",
-  version: "0.1.4",
+  version: "0.1.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -6,7 +6,7 @@ export default {
   key: "bloomerang-new-donation",
   name: "New Donation",
   description: "Emit new event when a donation is received in Bloomerang.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

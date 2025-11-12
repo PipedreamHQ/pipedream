@@ -3,7 +3,7 @@ import bloomGrowth from "../../bloom_growth.app.mjs";
 export default {
   key: "bloom_growth-create-issue",
   name: "Create Issue",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

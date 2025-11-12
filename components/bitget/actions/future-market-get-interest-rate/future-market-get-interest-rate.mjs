@@ -4,7 +4,7 @@ export default {
   key: "bitget-future-market-get-interest-rate",
   name: "Future - Market - Get Interest Rate",
   description: "Get interest rate history for a specific coin asset. [See the documentation](https://www.bitget.com/api-doc/contract/market/Get-Interest-Rate)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

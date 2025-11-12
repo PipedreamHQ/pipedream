@@ -6,7 +6,7 @@ export default {
   key: "bitget-spot-trade-batch-place-orders",
   name: "Spot - Trade - Batch Place Orders",
   description: "Place multiple spot orders in batch. Maximum 50 orders per request. [See the documentation](https://www.bitget.com/api-doc/spot/trade/Batch-Place-Orders)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -5,7 +5,7 @@ export default {
   key: "bitget-spot-trade-cancel-order",
   name: "Spot - Trade - Cancel Order",
   description: "Cancel a spot order on Bitget. You can cancel by orderId or clientOid. [See the documentation](https://www.bitget.com/api-doc/spot/trade/Cancel-Order)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

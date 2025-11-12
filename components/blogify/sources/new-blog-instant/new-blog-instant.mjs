@@ -5,7 +5,7 @@ export default {
   key: "blogify-new-blog-instant",
   name: "New Blog (Instant)",
   description: "Emit new events when a blog is created. [See the documentation](https://blogify.ai/developer/docs)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

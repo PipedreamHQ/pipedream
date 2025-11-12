@@ -4,7 +4,7 @@ export default {
   key: "bitget-future-market-get-recent-fills",
   name: "Future - Market - Get Recent Fills",
   description: "Retrieve recent fill data for a contract symbol. [See the documentation](https://www.bitget.com/api-doc/contract/market/Get-Recent-Fills)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

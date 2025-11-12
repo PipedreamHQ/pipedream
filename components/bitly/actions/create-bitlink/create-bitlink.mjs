@@ -7,7 +7,7 @@ export default {
   name: "Create a Bitlink",
   description:
     "Converts a long url to a Bitlink and sets additional parameters.[See the docs here](https://dev.bitly.com/api-reference#createFullBitlink)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
