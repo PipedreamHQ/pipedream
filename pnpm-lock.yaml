@@ -4020,6 +4020,9 @@ importers:
         specifier: ^4.5.1
         version: 4.5.1
 
+  components/digitalocean_gradient_ai_serverless_inference:
+    specifiers: {}
+
   components/digitalocean_spaces:
     dependencies:
       '@aws-sdk/client-s3':
