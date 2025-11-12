@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/coinlore",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream coinlore Components",
   "main": "coinlore.app.mjs",
   "keywords": [

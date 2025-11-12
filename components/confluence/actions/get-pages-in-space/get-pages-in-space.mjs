@@ -4,7 +4,7 @@ export default {
   key: "confluence-get-pages-in-space",
   name: "Get Pages in Space",
   description: "Retrieve a list of pages in a space. [See the documentation](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-page/#api-spaces-id-pages-get)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

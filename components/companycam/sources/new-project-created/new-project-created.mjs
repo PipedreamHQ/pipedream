@@ -7,7 +7,7 @@ export default {
   name: "New Project Created (Instant)",
   description: "Emit new event when a new project is created. [See the docs](https://docs.companycam.com/docs/webhooks-1).",
   type: "source",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   methods: {
     ...common.methods,

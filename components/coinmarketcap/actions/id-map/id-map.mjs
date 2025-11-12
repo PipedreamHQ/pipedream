@@ -5,7 +5,7 @@ export default {
   key: "coinmarketcap-id-map",
   name: "Get ID Map (V1)",
   description: "Returns a mapping of all cryptocurrencies to unique CoinMarketCap ids. [See the documentation](https://coinmarketcap.com/api/documentation/v1/#operation/getV1CryptocurrencyMap)",
-  version: "0.1.3",
+  version: "0.1.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

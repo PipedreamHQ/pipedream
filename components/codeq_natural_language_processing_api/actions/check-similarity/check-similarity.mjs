@@ -3,7 +3,7 @@ import codeqNaturalLanguageProcessingApi from "../../codeq_natural_language_proc
 export default {
   key: "codeq_natural_language_processing_api-check-similarity",
   name: "Check Similarity",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

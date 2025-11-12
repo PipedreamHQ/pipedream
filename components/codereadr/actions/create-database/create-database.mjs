@@ -4,7 +4,7 @@ export default {
   key: "codereadr-create-database",
   name: "Create Database",
   description: "Creates a new database in CodeREADr. [See the documentation](https://secure.codereadr.com/apidocs/Databases.md#create)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

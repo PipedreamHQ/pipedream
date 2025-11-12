@@ -6,7 +6,7 @@ export default {
   name: "Send Event",
   description:
     "Sends an event to the Cometly API. [See the documentation]https://developers.cometly.com/#endpoint-advanced-method)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

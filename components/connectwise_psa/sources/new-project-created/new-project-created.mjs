@@ -6,7 +6,7 @@ export default {
   key: "connectwise_psa-new-project-created",
   name: "New Project Created",
   description: "Emit new event when a new project is created in Connectwise.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   methods: {

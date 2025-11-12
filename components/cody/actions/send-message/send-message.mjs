@@ -4,7 +4,7 @@ export default {
   key: "cody-send-message",
   name: "Send Message",
   description: "Send your message and receive the AI-generated response. [See the documentation](https://developers.meetcody.ai/operation/operation-send-message)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

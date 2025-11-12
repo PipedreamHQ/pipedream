@@ -6,7 +6,7 @@ export default {
   key: "codereadr-new-scan",
   name: "New Scan",
   description: "Emit new event when there is a new scan. [See the documentation](https://secure.codereadr.com/apidocs/Scans.md#retrieve)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
