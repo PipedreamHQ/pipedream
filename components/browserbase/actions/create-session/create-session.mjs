@@ -6,7 +6,7 @@ export default {
   key: "browserbase-create-session",
   name: "Create Session",
   description: "Creates a new browser session with specified settings. [See the documentation](https://docs.browserbase.com/reference/api/create-a-session)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

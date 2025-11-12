@@ -6,7 +6,7 @@ export default {
   key: "browse_ai-task-completed",
   name: "Task Completed (Instant)",
   description: "Emits an event when a Browse AI task is completed. [See the documentation](https://www.browse.ai/docs/api/v2#tag/webhooks/operation/createNewWebhook)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

@@ -4,7 +4,7 @@ export default {
   key: "burstyai-run-workflow",
   name: "Run Workflow",
   description: "Triggers an AI workflow on BurstyAI. [See the documentation](https://burstyai.readme.io/reference)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

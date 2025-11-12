@@ -6,7 +6,7 @@ export default {
   key: "bunnydoc-new-completed-request-instant",
   name: "New Completed Signature Request (Instant)",
   description: "Emit new event each time a signature request is completed.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

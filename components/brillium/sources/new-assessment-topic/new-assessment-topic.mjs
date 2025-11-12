@@ -5,7 +5,7 @@ export default {
   key: "brillium-new-assessment-topic",
   name: "New Assessment Topic",
   description: "Emit new event when a new topic is added to an assessment in Brillium. [See the documentation](https://support.brillium.com/en-us/knowledgebase/article/KA-01063)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {

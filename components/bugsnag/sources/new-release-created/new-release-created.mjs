@@ -6,7 +6,7 @@ export default {
   key: "bugsnag-new-release-created",
   name: "New Release Created",
   description: "Emit new event when a new release version is deployed to a selected project.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

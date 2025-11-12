@@ -2,7 +2,7 @@ import bybit from "../../bybit.app.mjs";
 
 export default {
   name: "ByBit Linear Position Switch Mode",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

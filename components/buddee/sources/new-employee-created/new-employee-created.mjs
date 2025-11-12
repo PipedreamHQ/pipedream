@@ -6,7 +6,7 @@ export default {
   name: "New Employee Created",
   description: "Emit new event when a new employee is added to the system. [See the documentation](https://developers.buddee.nl/#fd057d3c-8b40-4808-a4d2-eeffc5da82d7)",
   key: "buddee-new-employee-created",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

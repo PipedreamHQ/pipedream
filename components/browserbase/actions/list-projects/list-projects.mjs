@@ -4,7 +4,7 @@ export default {
   key: "browserbase-list-projects",
   name: "List Projects",
   description: "Lists all projects. [See the documentation](https://docs.browserbase.com/reference/api/list-projects)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

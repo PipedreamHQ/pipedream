@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/byteforms",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream ByteForms Components",
   "main": "byteforms.app.mjs",
   "keywords": [

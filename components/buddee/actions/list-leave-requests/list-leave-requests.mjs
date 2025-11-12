@@ -4,7 +4,7 @@ export default {
   name: "List Leave Requests",
   description: "Retrieves all leave requests. [See the documentation](https://developers.buddee.nl/#2c5f483b-63d4-4ecf-a9d1-7efe36563639)",
   key: "buddee-list-leave-requests",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

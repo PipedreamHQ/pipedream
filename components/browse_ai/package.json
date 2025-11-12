@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/browse_ai",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Browse AI Components",
   "main": "browse_ai.app.mjs",
   "keywords": [

@@ -4,7 +4,7 @@ export default {
   key: "browserless-scrape-url-list",
   name: "Scrape URL List",
   description: "Scrape content from a list of pages. [See the documentation](https://www.browserless.io/docs/scrape).",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   name: "Create Leave Request",
   description: "Creates a new leave request. [See the documentation](https://developers.buddee.nl/#b5a0cea5-e416-4521-8bc1-46cc4c3d95cb)",
   key: "buddee-create-leave-request",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

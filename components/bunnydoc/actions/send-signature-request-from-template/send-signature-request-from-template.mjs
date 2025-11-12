@@ -5,7 +5,7 @@ export default {
   key: "bunnydoc-send-signature-request-from-template",
   name: "Send Signature Request from Template",
   description: "Sends a signature request using a pre-designed bunnydoc template. [See the documentation](https://support.bunnydoc.com/doc/api/#create-signature-request)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

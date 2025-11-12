@@ -4,7 +4,7 @@ export default {
   key: "bytenite-create-job",
   name: "Create Video Encoding Task",
   description: "Creates a new video encoding task with ByteNite. [See the documentation](https://docs.bytenite.com/reference/customer_createjob)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -6,7 +6,7 @@ export default {
   key: "bugsnag-new-error-created",
   name: "New Error Created",
   description: "Emit new event when a new error occurs in a selected project.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
