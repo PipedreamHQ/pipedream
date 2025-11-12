@@ -4,7 +4,7 @@ export default {
   key: "aidbase-create-faq",
   name: "Create FAQ",
   description: "Create a new frequently asked questions (FAQ) list on your Aidbase account. [See the documentation](https://docs.aidbase.ai/apis/knowledge-api/reference/#post-knowledgefaq)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

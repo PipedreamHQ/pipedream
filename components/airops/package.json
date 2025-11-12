@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/airops",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream AirOps Components",
   "main": "airops.app.mjs",
   "keywords": [

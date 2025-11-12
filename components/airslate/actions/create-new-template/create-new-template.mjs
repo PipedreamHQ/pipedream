@@ -4,7 +4,7 @@ export default {
   key: "airslate-create-new-template",
   name: "Create a New Template",
   description: "Create a new reusable document package that contains fillable documents and forms in the specified organization. [See the documentation](https://docs.airslate.io/docs/airslate-api/templates-api%2Foperations%2Fcreate-a-organization-template)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

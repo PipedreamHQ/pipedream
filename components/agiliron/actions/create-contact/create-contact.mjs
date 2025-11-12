@@ -5,7 +5,7 @@ export default {
   key: "agiliron-create-contact",
   name: "Create Contact",
   description: "Generates a new contact within Agiliron. [See the documentation](https://api.agiliron.com/docs/add-contact-1)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   key: "ai_textraction-extract-data",
   name: "Extract Data",
   description: "Extract custom data from text using AI Textraction. [See the documentation](https://rapidapi.com/textractionai/api/ai-textraction)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

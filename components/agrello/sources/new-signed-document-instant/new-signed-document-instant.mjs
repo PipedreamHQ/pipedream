@@ -6,7 +6,7 @@ export default {
   key: "agrello-new-signed-document-instant",
   name: "New Signed Document (Instant)",
   description: "Emit new event when a given document is signed by all parties.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

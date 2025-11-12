@@ -4,7 +4,7 @@ export default {
   key: "agile_crm-update-company",
   name: "Update Company",
   description: "Updates an existing company in Agile CRM. [See the documentation](https://github.com/agilecrm/rest-api#22-updating-a-company)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

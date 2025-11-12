@@ -4,7 +4,7 @@ export default {
   key: "airparser-extract-data-document",
   name: "Extract Data from Document",
   description: "Extracts structured data based on a user-predefined extraction schema. [See the documentation](https://help.airparser.com/public-api/public-api)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

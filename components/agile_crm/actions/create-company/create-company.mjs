@@ -4,7 +4,7 @@ export default {
   key: "agile_crm-create-company",
   name: "Create Company",
   description: "Create a new company in Agile CRM. [See the documentation](https://github.com/agilecrm/rest-api#21-creating-a-company)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

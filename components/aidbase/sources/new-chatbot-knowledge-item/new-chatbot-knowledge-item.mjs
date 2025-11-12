@@ -6,7 +6,7 @@ export default {
   key: "aidbase-new-chatbot-knowledge-item",
   name: "New Chatbot Knowledge Item",
   description: "Emit new event when a new knowledge item is added to a chatbot.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

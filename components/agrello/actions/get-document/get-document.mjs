@@ -4,7 +4,7 @@ export default {
   key: "agrello-get-document",
   name: "Get Document",
   description: "Get a document in Agrello. [See the documentation](https://api.agrello.io/public/webjars/swagger-ui/index.html)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   key: "agility_cms-get-content-models",
   name: "Get Content Models",
   description: "Retrieve content models for the Agility instance. [See the documentation](https://api.aglty.io/swagger/index.html#operations-ContentModels-get__guid___apitype__contentmodels)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

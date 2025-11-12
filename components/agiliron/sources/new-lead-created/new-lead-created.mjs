@@ -7,7 +7,7 @@ export default {
   key: "agiliron-new-lead-created",
   name: "New Lead Created",
   description: "Emit new event when a new lead is created in Agiliron.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
