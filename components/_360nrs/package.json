@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/_360nrs",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream 360NRS Components",
   "main": "_360nrs.app.mjs",
   "keywords": [

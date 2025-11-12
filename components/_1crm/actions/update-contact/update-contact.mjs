@@ -5,7 +5,7 @@ export default {
   key: "_1crm-update-contact",
   name: "Update Contact",
   description: "Modifies an existing contact within the 1CRM system. [See the documentation](https://demo.1crmcloud.com/api.php#endpoint_dataRecord_patch)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

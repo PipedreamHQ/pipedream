@@ -4,7 +4,7 @@ export default {
   key: "accuranker-list-keywords",
   name: "List Keywords",
   description: "List keywords for a domain in Accuranker. [See the documentation](https://app.accuranker.com/api/read-docs#tag/Keywords/operation/List%20Keywords)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

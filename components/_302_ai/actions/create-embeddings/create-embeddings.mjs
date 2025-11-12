@@ -3,7 +3,7 @@ import _302_ai from "../../_302_ai.app.mjs";
 
 export default {
   name: "Create Embeddings",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

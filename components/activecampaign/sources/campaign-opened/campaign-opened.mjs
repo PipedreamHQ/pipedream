@@ -6,7 +6,7 @@ export default {
   key: "activecampaign-campaign-opened",
   description:
     "Emit new event when a contact opens a campaign (will trigger once per contact per campaign).",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "source",
   dedupe: "unique",
   methods: {

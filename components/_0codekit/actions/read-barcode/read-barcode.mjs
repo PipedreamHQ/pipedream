@@ -4,7 +4,7 @@ export default {
   key: "_0codekit-read-barcode",
   name: "Read Barcode",
   description: "Reads a QR code from an image. [See the documentation](https://documenter.getpostman.com/view/18297710/UVkntwBv#84ecd80e-af50-406b-abd7-698826773500)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -6,7 +6,7 @@ export default {
   key: "accredible-updated-credential",
   name: "Updated Credential",
   description: "Emit new event when an existing credential's details are updated or modified. [See the documentation](https://accrediblecredentialapi.docs.apiary.io/#reference/credentials/search-credentials-v2/search-for-credentials).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

@@ -6,7 +6,7 @@ export default {
   key: "_21risk-new-auditor",
   name: "New Auditor Created",
   description: "Emit new event when a new auditor is created.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Task Assigned (Instant)",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "accelo-new-task-assigned",
   description: "Emit new event on each new task assigned.",
   type: "source",

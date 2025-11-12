@@ -5,7 +5,7 @@ export default {
   key: "accuweather-get-historical-weather",
   name: "Get Historical Weather",
   description: "Retrieve historical weather data for a specific location and date range. [See the documentation](https://developer.accuweather.com/accuweather-current-conditions-api/apis)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
