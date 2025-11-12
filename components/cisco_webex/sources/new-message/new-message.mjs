@@ -7,7 +7,7 @@ export default {
   name: "New Message (Instant)",
   description: "Emit new event when a message is added. [See the docs here](https://developer.webex.com/docs/api/guides/webhooks#webex-webhooks)",
   type: "source",
-  version: "0.1.0",
+  version: "0.1.1",
   dedupe: "unique",
   methods: {
     ...common.methods,

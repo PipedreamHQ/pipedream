@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "chartmogul-retrieve-mrr-churn-reate",
   name: "Retrieve MRR Churn Rate",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

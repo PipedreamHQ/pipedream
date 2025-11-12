@@ -5,7 +5,7 @@ export default {
   key: "chargeblast-new-alert",
   name: "New Alert in Chargeblast",
   description: "Emit new event for each alert in Chargeblast. [See the documentation](https://docs.chargeblast.io/reference/getembedalerts)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

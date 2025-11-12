@@ -5,7 +5,7 @@ export default {
   key: "charthop-new-employee-created",
   name: "New Employee Created",
   description: "Emit new event when a new employee is added to the organization. [See the documentation](https://api.charthop.com/swagger#/person/findPersons)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

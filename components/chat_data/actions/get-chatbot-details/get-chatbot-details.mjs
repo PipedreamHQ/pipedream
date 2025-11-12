@@ -5,7 +5,7 @@ export default {
 
   name: "Get Chatbot Status",
   description: "Get status of the Chatbot with the specified ID. [See the documentation](https://www.chat-data.com/api-reference#tag/Chatbot-Operations/operation/GetChatbotStatus)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -5,7 +5,7 @@ export default {
   key: "chattermill-search-responses",
   name: "Search Responses",
   description: "Search for responses. [See the documentation](https://apidocs.chattermill.com/#3dd30375-7956-b872-edbd-873eef126b2d)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   key: "charthop-search-organization",
   name: "Search Organization",
   description: "Return people, job, group, and field data for a particular org that match a provided search string. [See the documentation](https://api.charthop.com/swagger#/search/searchOrgData)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

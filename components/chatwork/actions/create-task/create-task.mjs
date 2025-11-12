@@ -4,7 +4,7 @@ export default {
   key: "chatwork-create-task",
   name: "Create Task",
   description: "Create a new task in a specified room. [See the documentation](https://download.chatwork.com/ChatWork_API_Documentation.pdf)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

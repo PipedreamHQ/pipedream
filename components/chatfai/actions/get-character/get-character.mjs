@@ -4,7 +4,7 @@ export default {
   key: "chatfai-get-character",
   name: "Get Public Character by ID",
   description: "Gets a public character by ID from ChatFAI. [See the documentation](https://chatfai.com/developers/docs#tag/characters/paths/~1characters~1{id}/get)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

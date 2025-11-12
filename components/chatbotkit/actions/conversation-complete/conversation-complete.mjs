@@ -4,7 +4,7 @@ export default {
   key: "chatbotkit-conversation-complete",
   name: "Send Conversation Message",
   description: "Send and receive a conversation response. [See the documentation](https://chatbotkit.com/docs/api/v1/spec)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

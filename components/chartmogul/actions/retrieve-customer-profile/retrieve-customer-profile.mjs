@@ -3,7 +3,7 @@ import chartmogul from "../../chartmogul.app.mjs";
 export default {
   key: "chartmogul-retrieve-customer-profile",
   name: "Retrieve Customer Profile",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

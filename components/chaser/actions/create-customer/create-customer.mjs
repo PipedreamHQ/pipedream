@@ -4,7 +4,7 @@ export default {
   key: "chaser-create-customer",
   name: "Create Customer",
   description: "Creates a new customer in Chaser. [See the documentation](https://openapi.chaserhq.com/docs/static/index.html)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

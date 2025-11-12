@@ -4,7 +4,7 @@ export default {
   key: "chatbot-create-user",
   name: "Create User",
   description: "Creates new user. [See docs here](https://www.chatbot.com/docs/users/#create-user)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

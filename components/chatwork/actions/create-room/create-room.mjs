@@ -5,7 +5,7 @@ export default {
   key: "chatwork-create-room",
   name: "Create Room",
   description: "Create a new group chat. [See the documentation](https://download.chatwork.com/ChatWork_API_Documentation.pdf)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

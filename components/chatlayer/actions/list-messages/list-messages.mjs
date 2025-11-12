@@ -4,7 +4,7 @@ export default {
   key: "chatlayer-list-messages",
   name: "List Messages",
   description: "Lists the messages of the specified session. [See the documentation](https://api.chatlayer.ai/v1/docs#operation/getAllMessagesInConversation)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

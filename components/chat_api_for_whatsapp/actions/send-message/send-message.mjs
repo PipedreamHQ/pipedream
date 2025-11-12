@@ -5,7 +5,7 @@ export default {
   key: "chat_api_for_whatsapp-send-message",
   name: "Send Message",
   description: "Send a message to a new or existing chat.",
-  version: "0.1.2",
+  version: "0.1.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
