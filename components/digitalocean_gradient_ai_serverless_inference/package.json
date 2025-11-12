@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/digitalocean_gradient_ai_serverless_inference",
+  "version": "0.0.1",
+  "description": "Pipedream DigitalOcean Gradient™ AI Serverless Inference Components",
+  "main": "digitalocean_gradient_ai_serverless_inference.app.mjs",
+  "keywords": [
+    "pipedream",
+    "digitalocean_gradient_ai_serverless_inference"
+  ],
+  "homepage": "https://pipedream.com/apps/digitalocean_gradient_ai_serverless_inference",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

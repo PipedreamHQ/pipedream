@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/browseract",
+  "version": "0.0.1",
+  "description": "Pipedream BrowserAct Components",
+  "main": "browseract.app.mjs",
+  "keywords": [
+    "pipedream",
+    "browseract"
+  ],
+  "homepage": "https://pipedream.com/apps/browseract",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

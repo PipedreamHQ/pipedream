@@ -104,7 +104,31 @@
       "tar-fs@3.x": "^3.1.1",
       "ws@8.x": "^8.17.1",
       "parse-link-header": "^2.0.0",
-      "semver@5.x": "^5.7.2"
+      "semver@5.x": "^5.7.2",
+      "@img/sharp-darwin-arm64": "-",
+      "@img/sharp-darwin-x64": "-",
+      "@img/sharp-libvips-darwin-arm64": "-",
+      "@img/sharp-libvips-darwin-x64": "-",
+      "@img/sharp-libvips-linux-arm": "-",
+      "@img/sharp-libvips-linux-arm64": "-",
+      "@img/sharp-libvips-linux-ppc64": "-",
+      "@img/sharp-libvips-linux-s390x": "-",
+      "@img/sharp-libvips-linux-x64": "-",
+      "@img/sharp-libvips-linuxmusl-arm64": "-",
+      "@img/sharp-libvips-linuxmusl-x64": "-",
+      "@img/sharp-linux-arm": "-",
+      "@img/sharp-linux-arm64": "-",
+      "@img/sharp-linux-ppc64": "-",
+      "@img/sharp-linux-s390x": "-",
+      "@img/sharp-linux-x64": "-",
+      "@img/sharp-linuxmusl-arm64": "-",
+      "@img/sharp-linuxmusl-x64": "-",
+      "@img/sharp-wasm32": "-",
+      "@img/sharp-win32-ia32": "-",
+      "@img/sharp-win32-x64": "-",
+      "@img/sharp-win32-arm64": "-",
+      "@img/sharp-linux-riscv64": "-",
+      "@img/sharp-libvips-linux-riscv64": "-"
     }
   }
 }
