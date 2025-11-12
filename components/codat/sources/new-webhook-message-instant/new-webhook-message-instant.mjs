@@ -5,7 +5,7 @@ export default {
   key: "codat-new-webhook-message-instant",
   name: "New Webhook Message (Instant)",
   description: "Emit new event when a specified event type is produced by Codat. [See the documentation](https://docs.codat.io/platform-api#/operations/create-webhook-consumer)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

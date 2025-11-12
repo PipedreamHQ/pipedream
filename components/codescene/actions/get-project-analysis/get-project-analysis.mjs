@@ -4,7 +4,7 @@ export default {
   key: "codescene-get-project-analysis",
   name: "Get Project Analysis",
   description: "Returns a single project analysis. [See the documentation](https://codescene.io/docs/integrations/public-api.html#single-analysis-details)",
-  version: "0.1.0",
+  version: "0.1.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

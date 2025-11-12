@@ -5,7 +5,7 @@ export default {
   key: "companyhub-new-record-created",
   name: "New Record Created",
   description: "Emit new event when a new record is created in a specified custom table. [See the documentation](https://companyhub.com/docs/api-documentation)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

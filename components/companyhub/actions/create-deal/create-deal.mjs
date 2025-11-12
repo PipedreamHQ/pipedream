@@ -4,7 +4,7 @@ export default {
   key: "companyhub-create-deal",
   name: "Create Deal",
   description: "Creates a new deal. [See the documentation](https://companyhub.com/docs/api-documentation)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

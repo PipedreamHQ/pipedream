@@ -3,7 +3,7 @@ import coinmarketcal from "../../coinmarketcal.app.mjs";
 export default {
   key: "coinmarketcal-list-coins",
   name: "List Coins",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

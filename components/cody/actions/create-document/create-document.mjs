@@ -4,7 +4,7 @@ export default {
   key: "cody-create-document",
   name: "Create Document",
   description: "Turn text content into a document and add it directly to your knowledge base. [See the documentation]()",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

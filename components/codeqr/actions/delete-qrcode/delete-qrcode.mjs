@@ -6,7 +6,7 @@ export default {
   name: "Delete a QR Code",
   description:
     "Deletes a QR Code in CodeQR by qrcodeId or externalId. [See the documentation](https://codeqr.mintlify.app/api-reference/endpoint/delete-a-qrcode)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

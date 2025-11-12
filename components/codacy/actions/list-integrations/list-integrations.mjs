@@ -4,7 +4,7 @@ export default {
   key: "codacy-list-integrations",
   name: "List Integrations",
   description: "List integrations on Codacy. [See the documentation](https://api.codacy.com/api/api-docs?http#listuserintegrations)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

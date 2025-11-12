@@ -7,7 +7,7 @@ export default {
   name: "Photo Tagged (Instant)",
   description: "Emit new event when a photo is tagged. [See the docs](https://docs.companycam.com/docs/webhooks-1).",
   type: "source",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   methods: {
     ...common.methods,

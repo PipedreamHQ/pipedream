@@ -6,7 +6,7 @@ export default {
   name: "Get a Link Info",
   description:
     "Retrieves a short link from CodeQR by linkId, externalId, or domain/key via query string parameters. [See the documentation](https://codeqr.mintlify.app/api-reference/endpoint/retrieve-a-link)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

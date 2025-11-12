@@ -4,7 +4,7 @@ export default {
   key: "cogmento-create-task",
   name: "Create Task",
   description: "Create a new task in Cogmento CRM. [See the documentation](https://api.cogmento.com/static/swagger/index.html#/Tasks/post_tasks_)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

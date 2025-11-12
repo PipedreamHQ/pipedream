@@ -5,7 +5,7 @@ export default {
   key: "codeqr-delete-link",
   name: "Delete a Link",
   description: "Deletes a short link in CodeQR by linkId or externalId. [See the documentation](https://codeqr.mintlify.app/api-reference/endpoint/delete-a-link)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

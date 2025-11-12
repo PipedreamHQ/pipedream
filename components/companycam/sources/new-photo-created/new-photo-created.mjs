@@ -7,7 +7,7 @@ export default {
   name: "New Photo Created (Instant)",
   description: "Emit new event when a new photo is uploaded. [See the docs](https://docs.companycam.com/docs/webhooks-1).",
   type: "source",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   methods: {
     ...common.methods,

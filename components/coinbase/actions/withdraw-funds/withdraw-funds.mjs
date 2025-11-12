@@ -5,7 +5,7 @@ export default {
   key: "coinbase-withdraw-funds",
   name: "Withdraw Funds",
   description: "Withdraw funds",
-  version: "0.1.2",
+  version: "0.1.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
