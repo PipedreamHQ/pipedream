@@ -4,7 +4,7 @@ export default {
   key: "botpenguin-send-whatsapp-message",
   name: "Send WhatsApp Message",
   description: "Sends a WhatsApp message. [See the documentation](https://help.botpenguin.com/api-references/whatsapp-cloud-api/post-send-message-api)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

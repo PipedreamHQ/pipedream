@@ -6,7 +6,7 @@ export default {
   key: "boldsign-new-document-sent",
   name: "New Document Sent",
   description: "Emit new event when a document is sent to a signer.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

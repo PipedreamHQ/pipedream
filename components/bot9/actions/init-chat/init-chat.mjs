@@ -6,7 +6,7 @@ export default {
   key: "bot9-init-chat",
   name: "Initiate Chat",
   description: "Initiates a new conversation with a Bot9 chatbot. [See the documentation](https://bot9ai.apimatic.dev/v/1_0#/rest/introduction/introduction/getting-started-with-bot9/end-user-chat-api/initchat-endpoint)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

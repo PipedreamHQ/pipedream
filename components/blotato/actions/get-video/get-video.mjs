@@ -4,7 +4,7 @@ export default {
   key: "blotato-get-video",
   name: "Get Video",
   description: "Get a video, carousel, or graphic. [See documentation](https://help.blotato.com/api/api-reference/find-video)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -5,7 +5,7 @@ export default {
   key: "breathe-new-employee-created",
   name: "New Employee Created",
   description: "Emit new event when a new employee is created in Breathe. [See the documentation](https://developer.breathehr.com/examples#!/employees/GET_version_employees_json).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

@@ -5,7 +5,7 @@ export default {
   key: "botpenguin-update-contact-attributes",
   name: "Update Contact Attributes",
   description: "Updates custom attributes for a specific contact in your BotPenguin account.",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

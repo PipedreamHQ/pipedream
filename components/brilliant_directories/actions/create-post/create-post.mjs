@@ -5,7 +5,7 @@ export default {
   key: "brilliant_directories-create-post",
   name: "Create Post",
   description: "Creates a single or group post. [See the documentation](https://support.brilliantdirectories.com/support/solutions/articles/12000093239-member-posts-api-create-update-delete-and-get-member-posts)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

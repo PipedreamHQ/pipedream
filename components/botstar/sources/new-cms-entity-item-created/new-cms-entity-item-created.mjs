@@ -6,7 +6,7 @@ export default {
   key: "botstar-new-cms-entity-item-created",
   name: "New CMS Entity Item Created",
   description: "Emit new event when a new item is created in a CMS entity in BotStar. [See the documentation](https://apis.botstar.com/docs/#/CMS%20Entity%20Items/get_bots__botId__cms_entities__entityId__items)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

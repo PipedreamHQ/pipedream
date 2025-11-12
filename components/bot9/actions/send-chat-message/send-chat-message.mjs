@@ -4,7 +4,7 @@ export default {
   key: "bot9-send-chat-message",
   name: "Send Chat Message",
   description: "Send a chat message to a Bot9 chatbot. [See the documentation](https://bot9ai.apimatic.dev/v/1_0#/rest/introduction/introduction/getting-started-with-bot9/end-user-chat-api/chat-endpoint)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

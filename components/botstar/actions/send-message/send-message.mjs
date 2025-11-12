@@ -4,7 +4,7 @@ export default {
   key: "botstar-send-message",
   name: "Send Message",
   description: "Send a message to a user via BotStar. [See the docs](https://apis.botstar.com/docs/#/Messages/post_messages)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

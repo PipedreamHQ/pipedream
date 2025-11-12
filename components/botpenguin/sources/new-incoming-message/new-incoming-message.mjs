@@ -6,7 +6,7 @@ export default {
   key: "botpenguin-new-incoming-message",
   name: "New Incoming Message",
   description: "Emit new event for each new incoming message from a user.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

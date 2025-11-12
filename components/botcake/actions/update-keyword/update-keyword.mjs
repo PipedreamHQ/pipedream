@@ -4,7 +4,7 @@ export default {
   key: "botcake-update-keyword",
   name: "Update Keyword",
   description: "Update the Keyword with the specified ID. [See the documentation](https://docs.botcake.io/english/api-reference#update-keyword)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

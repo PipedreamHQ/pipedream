@@ -6,7 +6,7 @@ export default {
   key: "boldsign-new-document-completed",
   name: "New Document Completed",
   description: "Emit new event when a document is completed by all the signers.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

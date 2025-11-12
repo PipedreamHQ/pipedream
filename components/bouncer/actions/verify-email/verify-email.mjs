@@ -2,7 +2,7 @@ import app from "../../bouncer.app.mjs";
 
 export default {
   name: "Verify Email",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

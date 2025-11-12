@@ -6,7 +6,7 @@ export default {
   key: "botstar-new-bot-created",
   name: "New Bot Created",
   description: "Emit new event when a new bot is created in BotStar. [See the documentation](https://apis.botstar.com/docs/#/Bots/get_bots_)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

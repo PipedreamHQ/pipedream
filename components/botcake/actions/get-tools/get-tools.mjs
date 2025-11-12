@@ -4,7 +4,7 @@ export default {
   key: "botcake-get-tools",
   name: "Get Tools",
   description: "Get a list of tools associated with the specified page. [See the documentation](https://docs.botcake.io/english/api-reference#get-tools)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

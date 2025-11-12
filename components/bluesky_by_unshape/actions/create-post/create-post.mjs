@@ -4,7 +4,7 @@ export default {
   key: "bluesky_by_unshape-create-post",
   name: "Create Post",
   description: "Creates a new post in Bluesky. [See the documentation](https://unshape.readme.io/reference/post_bluesky-create-post)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

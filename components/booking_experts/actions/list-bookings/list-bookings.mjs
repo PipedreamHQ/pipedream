@@ -4,7 +4,7 @@ export default {
   key: "booking_experts-list-bookings",
   name: "List Bookings",
   description: "Returns a list of bookings for an administration. [See the documentation](https://developers.bookingexperts.com/reference/administration-bookings-index)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

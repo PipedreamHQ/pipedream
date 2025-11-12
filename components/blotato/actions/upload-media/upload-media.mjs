@@ -4,7 +4,7 @@ export default {
   key: "blotato-upload-media",
   name: "Upload Media",
   description: "Uploads a media file by providing a URL. The uploaded media will be processed and stored, returning a new media URL that can be used to publish a post. [See documentation](https://help.blotato.com/api/api-reference/upload-media-v2-media)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
