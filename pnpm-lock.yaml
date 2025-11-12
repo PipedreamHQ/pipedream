@@ -2768,6 +2768,9 @@ importers:
         specifier: ^3.0.1
         version: 3.0.1(web-streams-polyfill@3.3.3)
 
+  components/clappia:
+    specifiers: {}
+
   components/clarifai: {}
 
   components/clarify: {}
