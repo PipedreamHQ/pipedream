@@ -101,7 +101,7 @@ You can find the code for all pre-built sources in [the `components` directory](
 
 ## GitHub API Actions ([explore](https://pipedream.com/apps/github))
 
-[Actions](https://pipedream.com/docs/components/actions/) are pre-built code steps that you can use in a workflow to perform common operations across Pipedream's 2,000+ API integrations. For example, you can use actions to send email, add a row to a Google Sheet, [and more](https://pipedream.com/apps).
+[Actions](https://pipedream.com/docs/components/actions/) are pre-built code steps that you can use in a workflow to perform common operations across Pipedream's 3,000+ API integrations. For example, you can use actions to send email, add a row to a Google Sheet, [and more](https://pipedream.com/apps).
 
 - [Create Issue](https://pipedream.com/new?h=eyJuIjoiQ3JlYXRlIElzc3VlIHdpdGggdGhlIEdpdEh1YiBBUEkiLCJ2IjoyLCJ0IjpbXSwicyI6W3sia2V5IjoiZ2l0aHViLWNyZWF0ZS1pc3N1ZSJ9XSwiYyI6e319) - Create a new issue in a GitHub repo. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/actions/create-issue/create-issue.mjs))
 - [Search Issues and Pull Requests](https://pipedream.com/new?h=eyJuIjoiU2VhcmNoIElzc3VlcyBhbmQgUHVsbCBSZXF1ZXN0cyB3aXRoIHRoZSBHaXRIdWIgQVBJIiwidiI6MiwidCI6W10sInMiOlt7ImtleSI6ImdpdGh1Yi1zZWFyY2gtaXNzdWVzLWFuZC1wdWxsLXJlcXVlc3RzIn1dLCJjIjp7fX0) - Find issues and pull requests by state and keyword. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/actions/search-issues-and-pull-requests/search-issues-and-pull-requests.mjs))
