@@ -1,10 +1,10 @@
-const ahrefs = require("../../ahrefs.app.js");
+const ahrefs = require("../../ahrefs.app.mjs");
 
 export default {
-  name: "Get Referring Domains",
-  description: "Get the referring domains that contain backlinks to the target URL or domain. [See the documentation](https://docs.ahrefs.com/docs/api/site-explorer/operations/list-refdomains)",
-  key: "ahrefs-get-referring-domains",
-  version: "0.0.18",
+  name: "Get Backlinks One Per Domain",
+  key: "ahrefs-get-backlinks-one-per-domain",
+  description: "Get one backlink with the highest `ahrefs_rank` per referring domain for a target URL or domain (with details for the referring pages including anchor and page title). [See the documentation](https://docs.ahrefs.com/docs/api/site-explorer/operations/list-all-backlinks)",
+  version: "0.0.6",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -24,7 +24,6 @@ export default {
         ahrefs,
         "select",
       ],
-      description: "An array of columns to return. [See response schema](https://docs.ahrefs.com/docs/api/site-explorer/operations/list-refdomains) for valid column identifiers.",
     },
     mode: {
       propDefinition: [
@@ -40,16 +39,17 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.ahrefs.getReferringDomains({
+    const response = await this.ahrefs.getBacklinks({
       $,
       params: {
+        aggregation: "1_per_domain",
         target: this.target,
-        select: this.select,
+        select: this.select.join(","),
         mode: this.mode,
         limit: this.limit,
       },
     });
-    $.export("$summary", "Successfully retrieved referring domains data");
+    $.export("$summary", "Successfully retrieved backlinks data");
     return response;
   },
 };
