@@ -1,18 +1,28 @@
 const ahrefs = require("../../ahrefs.app.js");
-const axios = require("axios");
 
-module.exports = {
+export default {
   name: "Get Backlinks",
   key: "ahrefs-get-backlinks",
-  description: "Get the backlinks for a domain or URL with details for the referring pages (e.g., anchor and page title).",
-  version: "0.0.9",
+  description: "Get the backlinks for a domain or URL with details for the referring pages (e.g., anchor and page title). [See the documentation](https://docs.ahrefs.com/docs/api/site-explorer/operations/list-all-backlinks)",
+  version: "0.0.10",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     ahrefs,
     target: {
       propDefinition: [
         ahrefs,
         "target",
+      ],
+    },
+    select: {
+      propDefinition: [
+        ahrefs,
+        "select",
       ],
     },
     mode: {
@@ -28,18 +38,17 @@ module.exports = {
       ],
     },
   },
-  async run() {
-    return (await axios({
-      url: "https://apiv2.ahrefs.com",
+  async run({ $ }) {
+    const response = await this.ahrefs.getBacklinks({
+      $,
       params: {
-        token: this.ahrefs.$auth.oauth_access_token,
-        from: "backlinks",
         target: this.target,
+        select: this.select,
         mode: this.mode,
         limit: this.limit,
-        order_by: "ahrefs_rank:desc",
-        output: "json",
       },
-    })).data;
+    });
+    $.export("$summary", "Successfully retrieved backlinks data");
+    return response;
   },
 };
