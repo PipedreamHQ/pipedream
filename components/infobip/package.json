@@ -12,6 +12,10 @@
   "publishConfig": {
     "access": "public"
   },
+  "scripts": {
+    "generate-app": "node generate-app.mjs",
+    "generate-actions": "node generate-actions.mjs"
+  },
   "dependencies": {
     "@pipedream/platform": "^1.6.8"
   }
