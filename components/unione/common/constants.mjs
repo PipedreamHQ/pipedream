@@ -1,16 +1,5 @@
 export const LIMIT = 100;
 
-export const SKIP_UNSUBSCRIBE_OPTIONS = [
-  {
-    label: "Skip",
-    value: "1",
-  },
-  {
-    label: "Append",
-    value: "0",
-  },
-];
-
 export const GLOBAL_LANGUAGE_OPTIONS = [
   {
     label: "Belarusian",
@@ -74,16 +63,5 @@ export const TEMPLATE_ENGINE_OPTIONS = [
   {
     label: "None",
     value: "none",
-  },
-];
-
-export const TRACK_OPTIONS = [
-  {
-    label: "On",
-    value: "1",
-  },
-  {
-    label: "Off",
-    value: "0",
   },
 ];
