@@ -39,7 +39,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.ahrefs.getBacklinksOnePerDomain({
+    const response = await this.ahrefs.getBacklinks({
       $,
       params: {
         aggregation: "1_per_domain",
