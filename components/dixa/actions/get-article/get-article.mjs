@@ -4,7 +4,7 @@ export default {
   key: "dixa-get-article",
   name: "Get Article",
   description: "Get an article from Dixa. [See the documentation](https://docs.dixa.io/openapi/dixa-api/v1/tag/Knowledge/#tag/Knowledge/operation/getKnowledgeArticlesArticleid)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

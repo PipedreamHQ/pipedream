@@ -4,7 +4,7 @@ export default {
   key: "dixa-get-article-translations",
   name: "Get Article Translations",
   description: "Get the translations of an article from Dixa. [See the documentation](https://docs.dixa.io/openapi/dixa-api/beta/tag/Knowledge/#tag/Knowledge/operation/getKnowledgeArticlesArticleidTranslations)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

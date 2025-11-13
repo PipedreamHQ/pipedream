@@ -4,7 +4,7 @@ export default {
   key: "dixa-tag-conversation",
   name: "Add Tag to Conversation",
   description: "Adds a tag to a conversation. [See the documentation](https://docs.dixa.io/openapi/dixa-api/v1/tag/Tags/#tag/Tags/operation/putConversationsConversationidTagsTagid)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

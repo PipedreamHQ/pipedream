@@ -6,7 +6,7 @@ export default {
   key: "dixa-new-message-added-instant",
   name: "New Message Added to Conversation (Instant)",
   description: "Emit new event when a new message is added to a conversation. [See the documentation](https://docs.dixa.io/openapi/dixa-api/v1/tag/Webhooks/).",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {
