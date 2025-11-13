@@ -44,16 +44,79 @@ export default {
         })) || [];
       },
     },
-    channelId: {
+    administrationChannelId: {
       type: "string",
-      label: "Channel ID",
-      description: "The ID of a channel",
+      label: "Administration Channel ID",
+      description: "The ID of a channel in the administration",
       optional: true,
       async options({
         page, administrationId,
       }) {
-        const { data } = await this.listChannels({
+        const { data } = await this.listAdministrationChannels({
           administrationId,
+          params: {
+            "page[number]": page + 1,
+          },
+        });
+        return data?.map(({
+          id, attributes,
+        }) => ({
+          label: attributes.name,
+          value: id,
+        })) || [];
+      },
+    },
+    bookingId: {
+      type: "string",
+      label: "Booking ID",
+      description: "The ID of a booking",
+      async options({
+        page, administrationId,
+      }) {
+        const { data } = await this.listBookings({
+          administrationId,
+          params: {
+            "page[number]": page + 1,
+          },
+        });
+        return data?.map(({
+          id, attributes,
+        }) => ({
+          label: attributes.booking_nr,
+          value: id,
+        })) || [];
+      },
+    },
+    channelId: {
+      type: "string",
+      label: "Channel ID",
+      description: "The ID of a channel",
+      async options({
+        page, channelId,
+      }) {
+        const { data } = await this.listChannels({
+          channelId,
+          params: {
+            "page[number]": page + 1,
+          },
+        });
+        return data?.map(({
+          id, attributes,
+        }) => ({
+          label: attributes.name,
+          value: id,
+        })) || [];
+      },
+    },
+    rentableTypeId: {
+      type: "string",
+      label: "Rentable Type ID",
+      description: "The ID of a rentable type",
+      async options({
+        page, channelId,
+      }) {
+        const { data } = await this.listRentableTypes({
+          channelId,
           params: {
             "page[number]": page + 1,
           },
@@ -83,6 +146,32 @@ export default {
           id, attributes,
         }) => ({
           label: `${attributes.start_date} - ${attributes.end_date}`,
+          value: id,
+        })) || [];
+      },
+    },
+    guestId: {
+      type: "string",
+      label: "Guest ID",
+      description: "The ID of a guest",
+      async options({
+        page, administrationId, reservationId,
+      }) {
+        const { data } = await this.listGuests({
+          administrationId,
+          reservationId,
+          params: {
+            "page[number]": page + 1,
+          },
+        });
+        return data?.map(({
+          id, attributes: {
+            first_name, last_name, email,
+          },
+        }) => ({
+          label: `${first_name} ${last_name} ${email
+            ? `(${email})`
+            : ""}`,
           value: id,
         })) || [];
       },
@@ -196,6 +285,14 @@ export default {
         ...opts,
       });
     },
+    getBooking({
+      administrationId, bookingId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/administrations/${administrationId}/bookings/${bookingId}`,
+        ...opts,
+      });
+    },
     listBookings({
       administrationId, ...opts
     }) {
@@ -212,11 +309,47 @@ export default {
         ...opts,
       });
     },
-    listChannels({
+    listAdministrationChannels({
       administrationId, ...opts
     }) {
       return this._makeRequest({
         path: `/administrations/${administrationId}/channels`,
+        ...opts,
+      });
+    },
+    listAvailabilities(opts = {}) {
+      return this._makeRequest({
+        path: "/availabilities",
+        ...opts,
+      });
+    },
+    listChannels(opts = {}) {
+      return this._makeRequest({
+        path: "/channels",
+        ...opts,
+      });
+    },
+    listGuests({
+      administrationId, reservationId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/administrations/${administrationId}/reservations/${reservationId}/guests`,
+        ...opts,
+      });
+    },
+    listRentableTypes({
+      channelId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/channels/${channelId}/rentable_types`,
+        ...opts,
+      });
+    },
+    listRentableTypeAvailabilities({
+      channelId, rentableTypeId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/channels/${channelId}/rentable_types/${rentableTypeId}/availabilities`,
         ...opts,
       });
     },
@@ -273,6 +406,24 @@ export default {
       return this._makeRequest({
         path: `/administrations/${administrationId}/reservations/${reservationId}/guests`,
         method: "POST",
+        ...opts,
+      });
+    },
+    updateGuest({
+      administrationId, reservationId, guestId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/administrations/${administrationId}/reservations/${reservationId}/guests/${guestId}`,
+        method: "PATCH",
+        ...opts,
+      });
+    },
+    deleteGuest({
+      administrationId, reservationId, guestId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/administrations/${administrationId}/reservations/${reservationId}/guests/${guestId}`,
+        method: "DELETE",
         ...opts,
       });
     },
