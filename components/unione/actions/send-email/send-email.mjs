@@ -1,6 +1,5 @@
 import {
   GLOBAL_LANGUAGE_OPTIONS,
-  SKIP_UNSUBSCRIBE_OPTIONS,
   TEMPLATE_ENGINE_OPTIONS,
 } from "../../common/constants.mjs";
 import { parseObject } from "../../common/utils.mjs";
@@ -40,10 +39,9 @@ export default {
       optional: true,
     },
     skipUnsubscribe: {
-      type: "string",
+      type: "boolean",
       label: "Skip Unsubscribe",
       description: "Whether to skip or not appending default unsubscribe footer. You should [ask support](https://cp.unione.io/en/support?_gl=1*1afrczd*_ga*MTgyNTM0MDM4OS4xNzYyODkzNzky*_ga_37TV6WM09S*czE3NjI4OTM3OTIkbzEkZzEkdDE3NjI4OTQ1NTAkajQ5JGwwJGg4ODQyOTkzMzQ.) to approve.",
-      options: SKIP_UNSUBSCRIBE_OPTIONS,
       optional: true,
     },
     globalLanguage: {
@@ -179,7 +177,7 @@ export default {
           recipients: parseObject(this.recipients),
           template_id: this.templateId,
           tags: parseObject(this.tags),
-          skip_unsubscribe: this.skipUnsubscribe && parseInt(this.skipUnsubscribe),
+          skip_unsubscribe: +this.skipUnsubscribe,
           global_language: parseObject(this.globalLanguage),
           template_engine: parseObject(this.templateEngine),
           global_substitutions: parseObject(this.globalSubstitutions),
