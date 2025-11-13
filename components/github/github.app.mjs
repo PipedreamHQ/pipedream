@@ -15,7 +15,7 @@ export default {
   propDefinitions: {
     orgName: {
       label: "Organization",
-      description: "The name of the Github organization (not case sensitive).",
+      description: "The name of the GitHub organization (not case sensitive).",
       type: "string",
       async options() {
         const organizations = await this.getOrganizations();
