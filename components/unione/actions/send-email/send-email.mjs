@@ -177,7 +177,9 @@ export default {
           recipients: parseObject(this.recipients),
           template_id: this.templateId,
           tags: parseObject(this.tags),
-          skip_unsubscribe: +this.skipUnsubscribe,
+          skip_unsubscribe: this.skipUnsubscribe
+            ? 1
+            : 0,
           global_language: parseObject(this.globalLanguage),
           template_engine: parseObject(this.templateEngine),
           global_substitutions: parseObject(this.globalSubstitutions),
@@ -188,12 +190,24 @@ export default {
           from_name: this.fromName,
           reply_to: this.replyTo,
           reply_to_name: this.replyToName,
-          track_links: +this.trackLinks,
-          track_read: +this.trackRead,
-          bypass_global: +this.bypassGlobal,
-          bypass_unavailable: +this.bypassUnavailable,
-          bypass_unsubscribed: +this.bypassUnsubscribed,
-          bypass_complained: +this.bypassComplained,
+          track_links: this.trackLinks
+            ? 1
+            : 0,
+          track_read: this.trackRead
+            ? 1
+            : 0,
+          bypass_global: this.bypassGlobal
+            ? 1
+            : 0,
+          bypass_unavailable: this.bypassUnavailable
+            ? 1
+            : 0,
+          bypass_unsubscribed: this.bypassUnsubscribed
+            ? 1
+            : 0,
+          bypass_complained: this.bypassComplained
+            ? 1
+            : 0,
           idempotence_key: this.idempotenceKey,
           headers: this.headers && parseObject(this.headers),
           options: {
