@@ -1,4 +1,4 @@
-const ahrefs = require("../../ahrefs.app.mjs");
+import ahrefs from "../../ahrefs.app.mjs";
 
 export default {
   name: "Get Referring Domains",
