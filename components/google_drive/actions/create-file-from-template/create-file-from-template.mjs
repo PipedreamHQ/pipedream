@@ -1,5 +1,6 @@
 import Mustaches from "google-docs-mustaches";
 import googleDrive from "../../google_drive.app.mjs";
+import { parseObjectEntries } from "../../common/utils.mjs";
 
 const MODE_GOOGLE_DOC = "Google Doc";
 const MODE_PDF = "Pdf";
@@ -87,7 +88,7 @@ export default {
       requestBody: {
         name: "template-copy",
         parents: [
-          this.folderId,
+          this.folderId || "root",
         ],
       },
       supportsAllDrives: true,
@@ -102,7 +103,7 @@ export default {
         source: templateId,
         destination: this.folderId,
         name: this.name,
-        data: this.replaceValues,
+        data: parseObjectEntries(this.replaceValues),
       });
     } catch (e) {
       const {
