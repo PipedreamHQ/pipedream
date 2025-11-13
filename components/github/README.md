@@ -4,7 +4,7 @@ The GitHub API is a powerful gateway to interaction with GitHub's vast web of da
 
 # GitHub API Integration Platform
 
-### Connect GitHub to 2,200+ apps, remarkably fast.
+### Connect GitHub to 3,000+ apps, remarkably fast.
 
 ---
 
