@@ -55,7 +55,7 @@ export default {
         after_tag: this.afterTag,
       },
     });
-    $.export("$summary", `Orders found: ${response.orders.length}`);
+    $.export("$summary", `Orders found: ${response?.orders?.length}`);
     return response;
   },
 };

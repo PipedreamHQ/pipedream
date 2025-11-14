@@ -124,7 +124,7 @@ export default {
             driverSerial: serialNumber,
           }))
           : undefined,
-        useOrderObjects: this.orderIds
+        useOrderObjects: this.orderNumbers
           ? this.orderIds.map((id) => ({
             orderNo: id,
           }))
