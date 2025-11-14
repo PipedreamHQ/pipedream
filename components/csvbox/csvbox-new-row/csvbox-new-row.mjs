@@ -11,7 +11,10 @@ export default {
     db: "$.service.db",
     app,
     sheetId: {
-      propDefinition: [app, "sheetId"],
+      propDefinition: [
+        app,
+        "sheetId",
+      ],
       description: "Select the sheet to receive data from",
     },
     http: "$.interface.http",
@@ -30,7 +33,10 @@ export default {
           },
         });
 
-        const { webhookId, sample_response } = data;
+        const {
+          webhookId,
+          sample_response,
+        } = data;
         this._setHookID(webhookId);
 
         if (!Array.isArray(sample_response) || sample_response.length === 0) {
@@ -38,7 +44,8 @@ export default {
         }
 
         const first = sample_response[0];
-        const sampleId = `sample_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
+        const sampleId = `sample_${Date.now()}_${Math.random().toString(36)
+          .slice(2, 9)}`;
         this.$emit({
           import_id: sampleId,
           sheet_id: this.sheetId,
@@ -47,7 +54,9 @@ export default {
           row_data: first.row_data || first,
           total_rows: first.total_rows || 10,
           env_name: first.env_name || "default",
-          custom_fields: first.custom_fields || { user_id: "default123" },
+          custom_fields: first.custom_fields || {
+            user_id: "default123",
+          },
           import_description: first.import_description || "This is a sample test import",
           original_filename: first.original_filename || "product_details.csv",
         }, {
@@ -154,10 +163,10 @@ export default {
       total_rows: 10,
       env_name: "default",
       custom_fields: {
-        user_id: "default123"
+        user_id: "default123",
       },
       import_description: "This is a sample test import",
       original_filename: "product_details.csv",
-    }
+    },
   ],
 };
