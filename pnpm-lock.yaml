@@ -10378,7 +10378,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/optimoroute: {}
+  components/optimoroute:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/oracle_cloud_infrastructure:
     dependencies:
@@ -38991,7 +38995,6 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
-      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.9)(rollup@4.53.2)':
     dependencies:
