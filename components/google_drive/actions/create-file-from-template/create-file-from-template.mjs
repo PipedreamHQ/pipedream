@@ -40,6 +40,9 @@ export default {
       propDefinition: [
         googleDrive,
         "folderId",
+        (c) => ({
+          drive: c.drive,
+        }),
       ],
       description:
         "Select the folder of the newly created Google Doc and/or PDF, or use a custom expression to reference a folder ID from a previous step.",
@@ -76,6 +79,8 @@ export default {
       mode: this.mode,
     };
 
+    const isSharedDrive = this.drive !== "My Drive";
+
     const client = new Mustaches.default({
       token: () => this.googleDrive.$auth.oauth_access_token,
     });
@@ -88,7 +93,7 @@ export default {
       requestBody: {
         name: "template-copy",
         parents: [
-          this.folderId || "root",
+          "root",
         ],
       },
       supportsAllDrives: true,
@@ -101,7 +106,9 @@ export default {
     try {
       googleDocId = await client.interpolate({
         source: templateId,
-        destination: this.folderId,
+        destination: !isSharedDrive
+          ? this.folderId
+          : undefined,
         name: this.name,
         data: parseObjectEntries(this.replaceValues),
       });
@@ -119,14 +126,41 @@ export default {
 
     /* CREATE THE PDF */
 
+    let pdfId;
     if (this.mode.includes(MODE_PDF)) {
-      const pdfId = await client.export({
+      pdfId = await client.export({
         file: googleDocId,
         mimeType: "application/pdf",
         name: this.name,
-        destination: this.folderId,
+        destination: !isSharedDrive
+          ? this.folderId
+          : undefined,
       });
       result["pdfId"] = pdfId;
+    }
+
+    // MOVE FILE(S) TO SHARED DRIVE
+
+    if (isSharedDrive) {
+      if (this.mode.includes(MODE_GOOGLE_DOC)) {
+        const file = await this.googleDrive.getFile(googleDocId);
+        await this.googleDrive.updateFile(googleDocId, {
+          fields: "*",
+          removeParents: file.parents.join(","),
+          addParents: this.folderId || this.drive,
+          supportsAllDrives: true,
+        });
+      }
+
+      if (pdfId) {
+        const pdf = await this.googleDrive.getFile(pdfId);
+        await this.googleDrive.updateFile(pdfId, {
+          fields: "*",
+          removeParents: pdf.parents.join(","),
+          addParents: this.folderId || this.drive,
+          supportsAllDrives: true,
+        });
+      }
     }
 
     /* REMOVE THE GOOGLE DOC */
