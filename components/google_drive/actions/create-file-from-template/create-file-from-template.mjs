@@ -79,7 +79,7 @@ export default {
       mode: this.mode,
     };
 
-    const isSharedDrive = this.drive !== "My Drive";
+    const isSharedDrive = this.drive && this.drive !== "My Drive";
 
     const client = new Mustaches.default({
       token: () => this.googleDrive.$auth.oauth_access_token,
