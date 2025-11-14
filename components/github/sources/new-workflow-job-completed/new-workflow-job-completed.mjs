@@ -23,7 +23,7 @@ export default {
       body,
     } = event;
 
-    // skip initial response from Github or not completed
+    // skip initial response from GitHub or not completed
     if (body?.zen || body?.action != "completed") {
       return;
     }

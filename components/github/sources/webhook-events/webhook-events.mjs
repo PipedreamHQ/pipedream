@@ -51,7 +51,7 @@ export default {
       body,
     } = event;
 
-    // skip initial response from Github
+    // skip initial response from GitHub
     if (body?.zen) {
       console.log(body.zen);
       return;

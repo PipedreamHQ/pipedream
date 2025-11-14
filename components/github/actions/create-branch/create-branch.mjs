@@ -4,8 +4,8 @@ import github from "../../github.app.mjs";
 export default {
   key: "github-create-branch",
   name: "Create Branch",
-  description: "Create a new branch in a Github repo. [See the documentation](https://docs.github.com/en/rest/git/refs?apiVersion=2022-11-28#create-a-reference)",
-  version: "0.0.18",
+  description: "Create a new branch in a GitHub repo. [See the documentation](https://docs.github.com/en/rest/git/refs?apiVersion=2022-11-28#create-a-reference)",
+  version: "0.0.19",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
