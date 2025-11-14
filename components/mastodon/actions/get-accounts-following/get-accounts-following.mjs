@@ -44,8 +44,12 @@ export default {
         headers, data,
       } = await this.mastodon.getAccountsFollowing(args);
       accounts.push(...data);
-      args.params.max_id = this.getMaxIdFromLinkHeader(headers.link);
-      if (data.length < args.params.limit) {
+      if (headers?.link) {
+        args.params.max_id = this.getMaxIdFromLinkHeader(headers.link);
+      } else {
+        done = true;
+      }
+      if (data?.length < args.params.limit) {
         done = true;
       }
     } while (accounts.length < max && !done);
