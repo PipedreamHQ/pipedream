@@ -49,7 +49,7 @@ This step can execute any Node.js code. However, the **`run`** function, a speci
 - [Display props for entering in dynamic or static data](https://pipedream.com/docs/code/nodejs#passing-props-to-code-steps)
 - [Retrieve or update data within Data Stores](https://pipedream.com/docs/code/nodejs/using-data-stores)
 - [Download, upload and manipulate files](https://pipedream.com/docs/code/nodejs/working-with-files)
-- [Pausing, resuming and reruning Node.js code steps](https://pipedream.com/docs/code/nodejs/rerun)
+- [Pausing, resuming and rerunning Node.js code steps](https://pipedream.com/docs/code/nodejs/rerun)
 - [Browser automation with Puppeteer or Playwright](https://pipedream.com/docs/code/nodejs/browser-automation)
 
 ## Developing pre-built actions and triggers
