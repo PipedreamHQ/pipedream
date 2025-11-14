@@ -1,6 +1,6 @@
 # Overview
 
-The FracTEL API enables integration of advanced telecommunications features into applications, allowing for the management of voice and messaging functionalities. This API can be particularly powerful when used on Pipedream, where it can be combined with hundreds of other apps to create robust, automated workflows. These can range from triggering calls based on specific events to automating SMS notifications for critical alerts.
+The FracTEL API enables integration of advanced telecommunications features into applications, allowing for the management of voice and messaging functionalities. This API can be particularly powerful when used on Pipedream, where it can be combined with 3,000+ other apps to create robust, automated workflows. These can range from triggering calls based on specific events to automating SMS notifications for critical alerts.
 
 # Example Use Cases
 

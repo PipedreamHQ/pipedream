@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/esputnik",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream eSputnik Components",
   "main": "esputnik.app.mjs",
   "keywords": [

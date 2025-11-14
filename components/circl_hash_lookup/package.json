@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/circl_hash_lookup",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream CIRCL Hash Lookup Components",
   "main": "circl_hash_lookup.app.mjs",
   "keywords": [

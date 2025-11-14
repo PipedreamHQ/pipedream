@@ -1,6 +1,6 @@
 # Overview
 
-The Builderall Mailingboss API empowers you to automate your email marketing operations via Pipedream. You can create, update, and manage contacts and email lists, trigger email campaigns, and analyze campaign performance directly through API calls. Integrating these capabilities within Pipedream’s serverless platform enables you to connect Mailingboss with hundreds of other apps, streamlining your marketing workflows and data management.
+The Builderall Mailingboss API empowers you to automate your email marketing operations via Pipedream. You can create, update, and manage contacts and email lists, trigger email campaigns, and analyze campaign performance directly through API calls. Integrating these capabilities within Pipedream’s serverless platform enables you to connect Mailingboss with 3,000+ other apps, streamlining your marketing workflows and data management.
 
 # Example Use Cases
 

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/refersion",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Pipedream Refersion Components",
   "main": "refersion.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 # Overview
 
-The Etherscan API provides a lens into the Ethereum blockchain, allowing you to query for transaction details, wallet balances, smart contract events, and more. By bringing Etherscan into Pipedream's serverless integration platform, you can automate interactions with Ethereum data, create event-driven workflows, and connect blockchain insights to hundreds of other apps without a line of backend code.
+The Etherscan API provides a lens into the Ethereum blockchain, allowing you to query for transaction details, wallet balances, smart contract events, and more. By bringing Etherscan into Pipedream's serverless integration platform, you can automate interactions with Ethereum data, create event-driven workflows, and connect blockchain insights to 3,000+ other apps without a line of backend code.
 
 # Example Use Cases
 
