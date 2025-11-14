@@ -1,6 +1,6 @@
 # Overview
 
-The CodeQR API enables you to create and manage dynamic QR Codes, shorten URLs, capture leads, and track engagement through powerful analytics. By integrating CodeQR with Pipedream, you can automate the generation of QR Codes and short links across a wide range of workflows — from marketing automation to customer support — and seamlessly connect these actions to over 2,500 apps. fileciteturn3file0
+The CodeQR API enables you to create and manage dynamic QR Codes, shorten URLs, capture leads, and track engagement through powerful analytics. By integrating CodeQR with Pipedream, you can automate the generation of QR Codes and short links across a wide range of workflows — from marketing automation to customer support — and seamlessly connect these actions to over 2,500 apps.
 
 # Example Use Cases
 

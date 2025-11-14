@@ -52,7 +52,7 @@ The same `@pipedream/browsers` package can be used in [actions](https://pipedrea
 
 The steps are the same as usage in Node.js code. Open a browser, create a page, and close the browser at the end of the code step.
 
-*Please note*: At this time Source's memory are not configurable and are fixed to 256 mb. This is below the recommened 2 gbs for usage in workflows.
+*Please note*: memory limits for sources are not configurable at this time and are fixed to 256 MB. This is below the recommended 2 GBs for usage in workflows.
 
 # Troubleshooting
 

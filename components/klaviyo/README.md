@@ -36,7 +36,7 @@ Ensure you save the API key before closing the Klaviyo window, as this is the on
 
 # Troubleshooting
 
-Klavyio uses standard HTTP status codes to communicate errors over it’s API.
+Klaviyo uses standard HTTP status codes to communicate errors over it’s API.
 
 ## Status Codes
 

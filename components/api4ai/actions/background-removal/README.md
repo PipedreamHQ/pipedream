@@ -75,7 +75,7 @@ In general, the result image representations are same as those for the `Image` o
 
 ### Mask mode
 
-By default, the Background Removal returns a PNG image with the background removed. However, in some use cases, it is preferred to receive a mask of the foreground object. Technically, the mask is also a PNG image, but instead ofcontaining the original image content with the background removed, it consists of pixels ranging from black to white. White pixels correspond to the foreground area, while black pixels correspond to the background area. Grayscale pixels are transitional.
+By default, the Background Removal returns a PNG image with the background removed. However, in some use cases, it is preferred to receive a mask of the foreground object. Technically, the mask is also a PNG image, but instead of containing the original image content with the background removed, it consists of pixels ranging from black to white. White pixels correspond to the foreground area, while black pixels correspond to the background area. Grayscale pixels are transitional.
 
 ![image-vs-mask](https://storage.googleapis.com/api4ai-static/rapidapi/background-removal/image-vs-mask.png)
 

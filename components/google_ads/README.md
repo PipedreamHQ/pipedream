@@ -21,7 +21,7 @@ campaigns, such as campaign stats, keyword stats, and ad performance.
 
 ## Customizing API requests from within the Pipedream workflow builder
 
-The Pipedream components interact with Google Ads API through an interal proxy service, which protects Pipedream's developer token.
+The Pipedream components interact with Google Ads API through an internal proxy service, which protects Pipedream's developer token.
 
 The component accepts a standard Google Ads API request object with the following structure:
 

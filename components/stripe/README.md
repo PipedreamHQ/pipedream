@@ -41,7 +41,7 @@ The request is missing data, or has malformed data. Double check that your paylo
 
 The request isn't authorized to perform the action. Double check that the restricted key you created for Pipedream has access to the resource you're attempting to use.
 
-You can also edit exisiting keys within your [Stripe API key dashboard](https://dashboard.stripe.com/apikeys), which is more convienent than creating a new keys.
+You can also edit existing keys within your [Stripe API key dashboard](https://dashboard.stripe.com/apikeys), which is more convenient than creating a new key.
 
 ## 404 - Not found
 

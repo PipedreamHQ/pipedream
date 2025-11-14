@@ -69,7 +69,7 @@ You can request for this approval in the **Discord Developer Portal**.
 
 Make sure your bot has the required privileges:
 
-![Example of bot priviledges](https://res.cloudinary.com/pipedreamin/image/upload/v1671660179/au5lekhader3nzaljmao.png)
+![Example of bot privileges](https://res.cloudinary.com/pipedreamin/image/upload/v1671660179/au5lekhader3nzaljmao.png)
 
 If you have issues with this integration, please join our public Slack and ask for help.
 

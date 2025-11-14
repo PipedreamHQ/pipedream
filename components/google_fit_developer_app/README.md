@@ -10,7 +10,7 @@ In order to connect your personal or workspace Google Fit account to Pipedream, 
 1. Sign in to the [Google Cloud Console](https://cloud.google.com/)
 2. Select an existing project or create a new one
 
-  ![Select an exisiting project or create a a new one in the Google Cloud Console](https://res.cloudinary.com/pipedreamin/image/upload/v1663268100/docs/components/CleanShot_2022-09-15_at_14.54.34_vajyds.png)
+  ![Select an existing project or create a new one in the Google Cloud Console](https://res.cloudinary.com/pipedreamin/image/upload/v1663268100/docs/components/CleanShot_2022-09-15_at_14.54.34_vajyds.png)
 
 3. Select **APIs & Services**
 4. Click **Enable APIs & Services**
@@ -67,7 +67,7 @@ You will need to generate a set of OAuth credentials to connect your new Google 
 
   ![Store the Client ID and Client Secret keys](https://res.cloudinary.com/pipedreamin/image/upload/v1663270250/docs/components/CleanShot_2022-09-15_at_15.16.29_hvxnkx.png)
 
-## Connect your Google Fit app Pipedream with your Google Fit app OAuth crendentials
+## Connect your Google Fit app Pipedream with your Google Fit app OAuth credentials
 
 At this point, you should have a Google Fit App under your Google Project, and a set of OAuth keys.
 
