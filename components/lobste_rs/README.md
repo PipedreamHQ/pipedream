@@ -1,6 +1,6 @@
 # Overview
 
-The lobste.rs API provides access to a wealth of information from the lobste.rs community, a computing-focused curated link aggregation site. It offers endpoints to fetch stories, comments, and user details, which can be integrated into various workflows on Pipedream. This integration allows you to monitor new content, track topics or user activity, and even collate data for analysis. With Pipedream, you can seamlessly connect lobste.rs with hundreds of other apps to create tailored automations without managing servers or writing extensive code.
+The lobste.rs API provides access to a wealth of information from the lobste.rs community, a computing-focused curated link aggregation site. It offers endpoints to fetch stories, comments, and user details, which can be integrated into various workflows on Pipedream. This integration allows you to monitor new content, track topics or user activity, and even collate data for analysis. With Pipedream, you can seamlessly connect lobste.rs with 3,000+ other apps to create tailored automations without managing servers or writing extensive code.
 
 # Example Use Cases
 

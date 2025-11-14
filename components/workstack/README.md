@@ -1,6 +1,6 @@
 # Overview
 
-Workstack is a task and project management tool that helps teams organize their workloads efficiently. With its API, you can automate project and task creation, update timelines, and sync across multiple tools, ensuring your team stays on top of their deliverables. The Workstack API on Pipedream opens up possibilities to connect with hundreds of other apps, triggering actions in Workstack or vice versa, based on events from other tools, leading to a more integrated workflow and improved productivity.
+Workstack is a task and project management tool that helps teams organize their workloads efficiently. With its API, you can automate project and task creation, update timelines, and sync across multiple tools, ensuring your team stays on top of their deliverables. The Workstack API on Pipedream opens up possibilities to connect with 3,000+ other apps, triggering actions in Workstack or vice versa, based on events from other tools, leading to a more integrated workflow and improved productivity.
 
 # Example Use Cases
 

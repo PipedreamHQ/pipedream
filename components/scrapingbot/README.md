@@ -1,6 +1,6 @@
 # Overview
 
-ScrapingBot API on Pipedream allows you to scrape websites without getting blocked, fetching crucial information while bypassing common defenses. Whether you're extracting product details, real estate listings, or automating competitor research, this API combined with Pipedream's serverless platform offers you the tools to automate these tasks efficiently. Pipedream's ability to trigger workflows via HTTP requests, schedule them, or react to events, means you can create robust scraping operations that integrate seamlessly with hundreds of other apps.
+ScrapingBot API on Pipedream allows you to scrape websites without getting blocked, fetching crucial information while bypassing common defenses. Whether you're extracting product details, real estate listings, or automating competitor research, this API combined with Pipedream's serverless platform offers you the tools to automate these tasks efficiently. Pipedream's ability to trigger workflows via HTTP requests, schedule them, or react to events, means you can create robust scraping operations that integrate seamlessly with 3,000+ other apps.
 
 # Example Use Cases
 

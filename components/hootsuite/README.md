@@ -1,6 +1,6 @@
 # Overview
 
-The Hootsuite API offers a variety of endpoints to automate social media management tasks such as scheduling posts, managing social content, and analyzing social media performance. By leveraging Pipedream, you can create serverless workflows to interact with the Hootsuite API; you can schedule posts at optimal times, aggregate metrics for reporting, or even respond to social media activity in real-time. Pipedream's platform allows the seamless integration of the Hootsuite API with hundreds of other apps to streamline social media workflows, monitor brand presence, and engage with audiences effectively.
+The Hootsuite API offers a variety of endpoints to automate social media management tasks such as scheduling posts, managing social content, and analyzing social media performance. By leveraging Pipedream, you can create serverless workflows to interact with the Hootsuite API; you can schedule posts at optimal times, aggregate metrics for reporting, or even respond to social media activity in real-time. Pipedream's platform allows the seamless integration of the Hootsuite API with 3,000+ other apps to streamline social media workflows, monitor brand presence, and engage with audiences effectively.
 
 # Example Use Cases
 

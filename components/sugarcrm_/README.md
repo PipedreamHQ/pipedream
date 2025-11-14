@@ -1,6 +1,6 @@
 # Overview
 
-The SugarCRM API unlocks the potential to streamline customer relationship management by automating interactions and data flow between SugarCRM and other platforms. With Pipedream, you can harness this API to create serverless workflows that react to CRM events, synchronize data, or trigger actions based on predefined conditions. Pipedream's no-code platform simplifies connecting SugarCRM to hundreds of other apps, enabling non-technical users to build complex integrations with ease.
+The SugarCRM API unlocks the potential to streamline customer relationship management by automating interactions and data flow between SugarCRM and other platforms. With Pipedream, you can harness this API to create serverless workflows that react to CRM events, synchronize data, or trigger actions based on predefined conditions. Pipedream's no-code platform simplifies connecting SugarCRM to 3,000+ other apps, enabling non-technical users to build complex integrations with ease.
 
 # Example Use Cases
 

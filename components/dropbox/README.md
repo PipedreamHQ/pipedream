@@ -1,6 +1,6 @@
 # Overview
 
-The Dropbox API on Pipedream enables you to automate file and folder operations, streamlining workflows that involve storing, syncing, and sharing content. With this API, you can programmatically manage files, set up event-driven triggers based on changes within Dropbox, and leverage Pipedream's capabilities to connect with hundreds of other apps for extended automation scenarios. It's ideal for building custom file management solutions, archiving systems, or collaborative content workflows without writing extensive code.
+The Dropbox API on Pipedream enables you to automate file and folder operations, streamlining workflows that involve storing, syncing, and sharing content. With this API, you can programmatically manage files, set up event-driven triggers based on changes within Dropbox, and leverage Pipedream's capabilities to connect with 3,000+ other apps for extended automation scenarios. It's ideal for building custom file management solutions, archiving systems, or collaborative content workflows without writing extensive code.
 
 # Example Use Cases
 
