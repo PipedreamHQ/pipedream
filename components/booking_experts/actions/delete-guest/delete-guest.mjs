@@ -6,9 +6,10 @@ export default {
   description: "Delete a guest for a reservation. [See the documentation](https://developers.bookingexperts.com/reference/administration-reservation-guests-delete)",
   version: "0.0.1",
   annotations: {
-    destructiveHint: false,
+    destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
+  },
   },
   type: "action",
   props: {
