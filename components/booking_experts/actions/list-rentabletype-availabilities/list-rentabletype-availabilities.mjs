@@ -14,19 +14,10 @@ export default {
   type: "action",
   props: {
     bookingExperts,
-    administrationId: {
-      propDefinition: [
-        bookingExperts,
-        "administrationId",
-      ],
-    },
     channelId: {
       propDefinition: [
         bookingExperts,
         "channelId",
-        ({ administrationId }) => ({
-          administrationId,
-        }),
       ],
       optional: false,
     },
