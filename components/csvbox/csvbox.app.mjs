@@ -33,14 +33,16 @@ export default {
     _getHeaders(headers) {
       return {
         ...headers,
-        accept: "application/json",
+        "accept": "application/json",
         "Content-Type": "application/json",
         "x-csvbox-api-key": this._getAuthKeys(),
         "x-csvbox-secret-api-key": this._getSecretAuthKeys(),
       };
     },
 
-    async _makeRequest({ $ = this, path, headers, ...otherConfig } = {}) {
+    async _makeRequest({
+      $ = this, path, headers, ...otherConfig
+    } = {}) {
       const config = {
         url: this._getUrl(path),
         headers: this._getHeaders(headers),
@@ -50,7 +52,9 @@ export default {
       return axios($, config);
     },
 
-    async createHook({ data, ...args } = {}) {
+    async createHook({
+      data, ...args
+    } = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/register-webhook",
@@ -59,10 +63,12 @@ export default {
       });
     },
 
-    async deleteHook({ data, ...args } = {}) {
+    async deleteHook({
+      data, ...args
+    } = {}) {
       return this._makeRequest({
         method: "DELETE",
-        path: `/delete-webhook`,
+        path: "/delete-webhook",
         data,
         ...args,
       });
