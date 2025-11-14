@@ -12722,6 +12722,9 @@ importers:
 
   components/sage_accounting: {}
 
+  components/sage_crm:
+    specifiers: {}
+
   components/sage_intacct: {}
 
   components/sailpoint: {}
