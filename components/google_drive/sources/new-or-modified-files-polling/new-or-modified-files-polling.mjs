@@ -2,6 +2,7 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import googleDrive from "../../google_drive.app.mjs";
 import { getListFilesOpts } from "../../common/utils.mjs";
 import sampleEmit from "./test-event.mjs";
+import { GOOGLE_DRIVE_FOLDER_MIME_TYPE } from "../../common/constants.mjs";
 
 export default {
   key: "google_drive-new-or-modified-files-polling",
@@ -62,6 +63,13 @@ export default {
         return this.googleDrive.listFilesOptions(nextPageToken, opts);
       },
     },
+    newFilesOnly: {
+      type: "boolean",
+      label: "New Files Only",
+      description: "If enabled, only emit events for newly created files (based on `createdTime`)",
+      default: false,
+      optional: true,
+    },
   },
   hooks: {
     async deploy() {
@@ -69,6 +77,8 @@ export default {
       const driveId = this.getDriveId();
       const startPageToken = await this.googleDrive.getPageToken(driveId);
       this._setPageToken(startPageToken);
+
+      this._setLastRunTimestamp(Date.now());
 
       // Emit sample events from the last 30 days
       const daysAgo = new Date();
@@ -98,6 +108,12 @@ export default {
     _setPageToken(pageToken) {
       this.db.set("pageToken", pageToken);
     },
+    _getLastRunTimestamp() {
+      return this.db.get("lastRunTimestamp");
+    },
+    _setLastRunTimestamp(timestamp) {
+      this.db.set("lastRunTimestamp", timestamp);
+    },
     getDriveId(drive = this.drive) {
       return this.googleDrive.getDriveId(drive);
     },
@@ -109,8 +125,20 @@ export default {
     },
     shouldProcess(file) {
       // Skip folders
-      if (file.mimeType === "application/vnd.google-apps.folder") {
+      if (file.mimeType === GOOGLE_DRIVE_FOLDER_MIME_TYPE) {
         return false;
+      }
+
+      // Check if "new files only" mode is enabled
+      if (this.newFilesOnly) {
+        const lastRunTimestamp = this._getLastRunTimestamp();
+        if (lastRunTimestamp) {
+          const fileCreatedTime = Date.parse(file.createdTime);
+          // Only process files created after the last run
+          if (fileCreatedTime <= lastRunTimestamp) {
+            return false;
+          }
+        }
       }
 
       // Check if specific files are being watched
@@ -150,6 +178,9 @@ export default {
     },
   },
   async run() {
+    // Store the current run timestamp at the start
+    const currentRunTimestamp = Date.now();
+
     const pageToken = this._getPageToken();
     const driveId = this.getDriveId();
 
@@ -183,6 +214,9 @@ export default {
       // Save the next page token after successfully processing
       this._setPageToken(nextPageToken);
     }
+
+    // Update the last run timestamp after processing all changes
+    this._setLastRunTimestamp(currentRunTimestamp);
   },
   sampleEmit,
 };
