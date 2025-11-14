@@ -61,7 +61,10 @@ export default {
       channelId: this.channelId,
       rentableTypeId: this.rentableTypeId,
       params: {
-        "date_range": `${this.startDate}..${this.endDate}`,
+        ...(this.startDate && this.endDate
+          && {
+            "date_range": `${this.startDate}..${this.endDate}`,
+          }),
       },
     });
     $.export("$summary", `Found ${data.length} rentable type availabilities`);

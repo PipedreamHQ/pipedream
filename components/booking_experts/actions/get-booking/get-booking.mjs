@@ -3,7 +3,7 @@ import bookingExperts from "../../booking_experts.app.mjs";
 export default {
   key: "booking_experts-get-booking",
   name: "Get Booking",
-  description: "Returns a booking. [See the documentation](https://developers.bookingexperts.com/reference/administration-bookings-index)",
+  description: "Returns a booking. [See the documentation](https://developers.bookingexperts.com/reference/administration-bookings-show)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

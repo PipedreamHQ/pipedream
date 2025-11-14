@@ -91,11 +91,8 @@ export default {
       type: "string",
       label: "Channel ID",
       description: "The ID of a channel",
-      async options({
-        page, channelId,
-      }) {
+      async options({ page }) {
         const { data } = await this.listChannels({
-          channelId,
           params: {
             "page[number]": page + 1,
           },
@@ -169,8 +166,8 @@ export default {
             first_name, last_name, email,
           },
         }) => ({
-          label: `${first_name} ${last_name} ${email
-            ? `(${email})`
+          label: `${first_name} ${last_name}${email
+            ? ` (${email})`
             : ""}`,
           value: id,
         })) || [];

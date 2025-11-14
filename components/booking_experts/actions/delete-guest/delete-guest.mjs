@@ -10,7 +10,6 @@ export default {
     openWorldHint: true,
     readOnlyHint: false,
   },
-  },
   type: "action",
   props: {
     bookingExperts,
