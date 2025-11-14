@@ -123,7 +123,7 @@ export default {
         ...args,
       });
     },
-    shouldProcess(file) {
+    shouldProcess(file, lastRunTimestamp) {
       // Skip folders
       if (file.mimeType === GOOGLE_DRIVE_FOLDER_MIME_TYPE) {
         return false;
@@ -131,13 +131,10 @@ export default {
 
       // Check if "new files only" mode is enabled
       if (this.newFilesOnly) {
-        const lastRunTimestamp = this._getLastRunTimestamp();
-        if (lastRunTimestamp) {
-          const fileCreatedTime = Date.parse(file.createdTime);
-          // Only process files created after the last run
-          if (fileCreatedTime <= lastRunTimestamp) {
-            return false;
-          }
+        const fileCreatedTime = Date.parse(file.createdTime);
+        // Only process files created after the last run
+        if (fileCreatedTime <= lastRunTimestamp) {
+          return false;
         }
       }
 
@@ -180,6 +177,7 @@ export default {
   async run() {
     // Store the current run timestamp at the start
     const currentRunTimestamp = Date.now();
+    const lastRunTimestamp = this._getLastRunTimestamp();
 
     const pageToken = this._getPageToken();
     const driveId = this.getDriveId();
@@ -203,7 +201,7 @@ export default {
           fields: "*",
         });
 
-        if (!this.shouldProcess(fullFile)) {
+        if (!this.shouldProcess(fullFile, lastRunTimestamp)) {
           console.log(`Skipping file ${fullFile.name || fullFile.id}`);
           continue;
         }
