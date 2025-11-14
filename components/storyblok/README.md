@@ -1,6 +1,6 @@
 # Overview
 
-The Storyblok API opens a channel to manage and deliver content dynamically, allowing developers to automate content-related workflows and integrate with other services. Using the API on Pipedream, you can create, update, and retrieve content from Storyblok, and connect these actions with hundreds of other apps for seamless content operations. This can streamline content management, facilitate omnichannel publishing, and enable real-time content updates in various frontend applications.
+The Storyblok API opens a channel to manage and deliver content dynamically, allowing developers to automate content-related workflows and integrate with other services. Using the API on Pipedream, you can create, update, and retrieve content from Storyblok, and connect these actions with 3,000+ other apps for seamless content operations. This can streamline content management, facilitate omnichannel publishing, and enable real-time content updates in various frontend applications.
 
 # Example Use Cases
 

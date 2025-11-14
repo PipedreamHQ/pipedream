@@ -1,6 +1,6 @@
 # Overview
 
-Zoho Forms API allows you to automate interactions with your forms and the data you collect. Leveraging Pipedream, you can harness this API to trigger workflows upon new form submissions, manipulate form entries, and sync data with other services. Pipedream’s serverless platform simplifies integrating Zoho Forms with hundreds of other apps, empowering you to create custom, scalable workflows without hosting or managing servers.
+Zoho Forms API allows you to automate interactions with your forms and the data you collect. Leveraging Pipedream, you can harness this API to trigger workflows upon new form submissions, manipulate form entries, and sync data with other services. Pipedream’s serverless platform simplifies integrating Zoho Forms with 3,000+ other apps, empowering you to create custom, scalable workflows without hosting or managing servers.
 
 # Example Use Cases
 

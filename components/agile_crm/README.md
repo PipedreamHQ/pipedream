@@ -1,6 +1,6 @@
 # Overview
 
-The Agile CRM API interacts with Agile's sales, marketing, and service software, offering a suite of features including contact management, deals, and campaign automation. On Pipedream, you can automate interactions with Agile CRM, such as syncing contacts, updating deals, or triggering campaigns. By leveraging Pipedream's serverless platform, you can connect Agile CRM to hundreds of other apps, creating custom, automated workflows that operate in real-time, and with no server maintenance required.
+The Agile CRM API interacts with Agile's sales, marketing, and service software, offering a suite of features including contact management, deals, and campaign automation. On Pipedream, you can automate interactions with Agile CRM, such as syncing contacts, updating deals, or triggering campaigns. By leveraging Pipedream's serverless platform, you can connect Agile CRM to 3,000+ other apps, creating custom, automated workflows that operate in real-time, and with no server maintenance required.
 
 # Example Use Cases
 

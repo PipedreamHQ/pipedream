@@ -39,8 +39,12 @@ export default {
       const meta = this.generateMeta(resource);
       this.$emit(resource, meta);
     },
-    async processResources(resources) {
-      const descendingResources = Array.from(resources).reverse();
+    async processResources(resources, max) {
+      let descendingResources = Array.from(resources).reverse();
+
+      if (max) {
+        descendingResources = descendingResources.slice(0, max);
+      }
 
       const [
         lastResource,
@@ -51,6 +55,17 @@ export default {
       }
 
       descendingResources.forEach(this.processEvent);
+    },
+  },
+  hooks: {
+    async deploy() {
+      const resources = await this.app.paginate({
+        resourceFn: this.getResourceFn(),
+        resourceFnArgs: this.getResourceFnArgs(),
+        resourceName: this.getResourceName(),
+      });
+
+      this.processResources(resources, 25);
     },
   },
   async run() {

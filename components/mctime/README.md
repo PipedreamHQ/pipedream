@@ -1,6 +1,6 @@
 # Overview
 
-The McTime API provides functionality for tracking and managing time-related data. With McTime integrated into Pipedream, you can automate processes involving employee scheduling, time tracking, and payroll. Leverage Pipedream's ability to connect with hundreds of apps to link time data with project management tools, accounting software, and communication platforms, streamlining workflow efficiencies and reducing manual timekeeping errors.
+The McTime API provides functionality for tracking and managing time-related data. With McTime integrated into Pipedream, you can automate processes involving employee scheduling, time tracking, and payroll. Leverage Pipedream's ability to connect with 3,000+ apps to link time data with project management tools, accounting software, and communication platforms, streamlining workflow efficiencies and reducing manual timekeeping errors.
 
 # Example Use Cases
 

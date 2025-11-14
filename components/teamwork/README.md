@@ -1,6 +1,6 @@
 # Overview
 
-The Teamwork API taps into the power of project management, letting you streamline workflows by automating tasks like creating projects, assigning tasks, tracking time, or updating statuses. With Pipedream, you can effortlessly integrate these capabilities with hundreds of other apps to create custom automations that fit your team's needs, enhancing productivity and ensuring that your projects are always moving forward with the latest information.
+The Teamwork API taps into the power of project management, letting you streamline workflows by automating tasks like creating projects, assigning tasks, tracking time, or updating statuses. With Pipedream, you can effortlessly integrate these capabilities with 3,000+ other apps to create custom automations that fit your team's needs, enhancing productivity and ensuring that your projects are always moving forward with the latest information.
 
 # Example Use Cases
 

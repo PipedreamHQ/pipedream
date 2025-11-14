@@ -1,6 +1,6 @@
 # Overview
 
-The Finmei API offers access to a platform geared towards financial data management. With Pipedream, you can harness this API to craft serverless workflows that automate financial tasks, integrate with other services, and streamline data analysis. This includes tracking expenses, aggregating financial reports, or syncing data across different financial tools. Pipedream's no-code platform allows you to connect Finmei to hundreds of other apps, trigger actions based on various events, and manage data with built-in CRON scheduling.
+The Finmei API offers access to a platform geared towards financial data management. With Pipedream, you can harness this API to craft serverless workflows that automate financial tasks, integrate with other services, and streamline data analysis. This includes tracking expenses, aggregating financial reports, or syncing data across different financial tools. Pipedream's no-code platform allows you to connect Finmei to 3,000+ other apps, trigger actions based on various events, and manage data with built-in CRON scheduling.
 
 # Example Use Cases
 

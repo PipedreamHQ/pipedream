@@ -1,6 +1,6 @@
 # Overview
 
-Taskade is a unified workspace app designed to help teams manage tasks, write notes, and video chat within the same platform. With the Taskade API on Pipedream, you can automate workflows, synchronize tasks across various platforms, and streamline communications. This API enables you to programmatically manage tasks, projects, and their associated details, which can be integrated with hundreds of other apps available on Pipedream to create dynamic, custom workflows tailored to your team's needs.
+Taskade is a unified workspace app designed to help teams manage tasks, write notes, and video chat within the same platform. With the Taskade API on Pipedream, you can automate workflows, synchronize tasks across various platforms, and streamline communications. This API enables you to programmatically manage tasks, projects, and their associated details, which can be integrated with 3,000+ other apps available on Pipedream to create dynamic, custom workflows tailored to your team's needs.
 
 # Example Use Cases
 

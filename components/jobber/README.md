@@ -1,6 +1,6 @@
 # Overview
 
-The Jobber API allows for the automation of service business operations, such as scheduling jobs, managing clients, and invoicing. By pairing it with Pipedream, you can craft powerful serverless workflows that react to events in Jobber or integrate with other services to streamline your business processes. With Pipedream’s ability to connect to hundreds of apps, you can create custom automations without writing a lot of code, handling everything from data transformations to complex logic.
+The Jobber API allows for the automation of service business operations, such as scheduling jobs, managing clients, and invoicing. By pairing it with Pipedream, you can craft powerful serverless workflows that react to events in Jobber or integrate with other services to streamline your business processes. With Pipedream’s ability to connect to 3,000+ apps, you can create custom automations without writing a lot of code, handling everything from data transformations to complex logic.
 
 # Example Use Cases
 

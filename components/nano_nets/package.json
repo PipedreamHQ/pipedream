@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/nano_nets",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Nano Nets Components",
   "main": "nano_nets.app.mjs",
   "keywords": [

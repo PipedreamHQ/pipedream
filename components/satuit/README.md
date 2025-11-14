@@ -1,6 +1,6 @@
 # Overview
 
-The Satuit API enables seamless integration of asset management and CRM functionalities into various business processes. With it, you can automate tasks such as data synchronization, report generation, and client management. Pipedream, with its serverless execution model, allows you to connect Satuit to hundreds of other apps to create powerful workflows without managing any infrastructure. You could, for instance, trigger a workflow with a new database entry, process the data within Pipedream, and then use the Satuit API to update customer records or create tasks for follow-ups.
+The Satuit API enables seamless integration of asset management and CRM functionalities into various business processes. With it, you can automate tasks such as data synchronization, report generation, and client management. Pipedream, with its serverless execution model, allows you to connect Satuit to 3,000+ other apps to create powerful workflows without managing any infrastructure. You could, for instance, trigger a workflow with a new database entry, process the data within Pipedream, and then use the Satuit API to update customer records or create tasks for follow-ups.
 
 # Example Use Cases
 

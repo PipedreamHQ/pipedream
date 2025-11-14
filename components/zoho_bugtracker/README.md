@@ -1,6 +1,6 @@
 # Overview
 
-The Zoho BugTracker API allows you to interact programmatically with Zoho BugTracker, a tool designed for tracking and fixing bugs in your software projects. With this API, you can create, read, update, and delete information related to bugs, projects, users, and more. On Pipedream, you can harness this API to automate workflows, sync data across apps, and optimize bug management processes. Whether it's triggering actions based on bug updates or collating bug reports for analysis, Pipedream’s serverless platform simplifies integrating Zoho BugTracker with hundreds of other apps for seamless automation.
+The Zoho BugTracker API allows you to interact programmatically with Zoho BugTracker, a tool designed for tracking and fixing bugs in your software projects. With this API, you can create, read, update, and delete information related to bugs, projects, users, and more. On Pipedream, you can harness this API to automate workflows, sync data across apps, and optimize bug management processes. Whether it's triggering actions based on bug updates or collating bug reports for analysis, Pipedream’s serverless platform simplifies integrating Zoho BugTracker with 3,000+ other apps for seamless automation.
 
 # Example Use Cases
 

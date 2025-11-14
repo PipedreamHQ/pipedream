@@ -1,6 +1,6 @@
 # Overview
 
-UltraMsg API offers a suite of messaging capabilities that let you automate WhatsApp messaging. With it, you can send and receive messages, create WhatsApp chatbots, and manage media, enabling a wide range of automated interactions with users. Pipedream acts as a powerful accelerator here, letting you connect UltraMsg to hundreds of other apps to craft custom workflows.
+UltraMsg API offers a suite of messaging capabilities that let you automate WhatsApp messaging. With it, you can send and receive messages, create WhatsApp chatbots, and manage media, enabling a wide range of automated interactions with users. Pipedream acts as a powerful accelerator here, letting you connect UltraMsg to 3,000+ other apps to craft custom workflows.
 
 # Example Use Cases
 

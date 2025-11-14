@@ -1,6 +1,6 @@
 # Overview
 
-Graphy is an API designed to help businesses create customizable and collaborative dashboards and reports. Integrating Graphy with Pipedream allows for seamless automation of data visualization workflows, where you can trigger actions based on events, sync data across various apps, or even manage your dashboard's content programmatically. Pipedream's serverless platform provides you with the ability to connect Graphy to hundreds of other apps to enhance your reporting and analytics processes without writing extensive code.
+Graphy is an API designed to help businesses create customizable and collaborative dashboards and reports. Integrating Graphy with Pipedream allows for seamless automation of data visualization workflows, where you can trigger actions based on events, sync data across various apps, or even manage your dashboard's content programmatically. Pipedream's serverless platform provides you with the ability to connect Graphy to 3,000+ other apps to enhance your reporting and analytics processes without writing extensive code.
 
 # Example Use Cases
 

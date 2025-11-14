@@ -1,6 +1,6 @@
 # Overview
 
-The Polygon API grants access to a wealth of financial data, including real-time and historical stock prices, trade data, and more. Within Pipedream's serverless integration platform, you can tap into Polygon to create powerful workflows. With Pipedream, you can easily connect Polygon to hundreds of other apps, automate financial data processing, send stock alerts, or synchronize market data with databases or spreadsheets, all in real-time.
+The Polygon API grants access to a wealth of financial data, including real-time and historical stock prices, trade data, and more. Within Pipedream's serverless integration platform, you can tap into Polygon to create powerful workflows. With Pipedream, you can easily connect Polygon to 3,000+ other apps, automate financial data processing, send stock alerts, or synchronize market data with databases or spreadsheets, all in real-time.
 
 # Example Use Cases
 

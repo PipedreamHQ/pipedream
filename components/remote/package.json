@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/remote",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Remote Components",
   "main": "remote.app.mjs",
   "keywords": [

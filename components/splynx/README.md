@@ -1,6 +1,6 @@
 # Overview
 
-The Splynx API provides a gateway to manage and automate Internet Service Provider (ISP) tasks such as billing, networking, and customer management. By tapping into this API via Pipedream, you can create robust integrations and workflows that streamline operations, enhance customer service, and drive data-driven decisions. Pipedream's platform enables the connection of Splynx's features with hundreds of other apps without the need for extensive coding, facilitating task automation and data synchronization in real-time.
+The Splynx API provides a gateway to manage and automate Internet Service Provider (ISP) tasks such as billing, networking, and customer management. By tapping into this API via Pipedream, you can create robust integrations and workflows that streamline operations, enhance customer service, and drive data-driven decisions. Pipedream's platform enables the connection of Splynx's features with 3,000+ other apps without the need for extensive coding, facilitating task automation and data synchronization in real-time.
 
 # Example Use Cases
 

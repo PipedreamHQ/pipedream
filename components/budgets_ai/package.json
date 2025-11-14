@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/budgets_ai",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Budgets.ai Components",
   "main": "budgets_ai.app.mjs",
   "keywords": [

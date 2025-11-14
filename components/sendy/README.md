@@ -1,6 +1,6 @@
 # Overview
 
-The Sendy API allows you to programmatically manage email campaigns, subscribers, and lists. With Pipedream's capabilities, you can leverage Sendy API to create custom workflows that respond to events, synchronize data across platforms, and automate email marketing tasks. Pipedream provides a serverless platform where you can connect Sendy with hundreds of other apps without writing complex code, harnessing the power of Sendy's features with event-driven programming and API integration.
+The Sendy API allows you to programmatically manage email campaigns, subscribers, and lists. With Pipedream's capabilities, you can leverage Sendy API to create custom workflows that respond to events, synchronize data across platforms, and automate email marketing tasks. Pipedream provides a serverless platform where you can connect Sendy with 3,000+ other apps without writing complex code, harnessing the power of Sendy's features with event-driven programming and API integration.
 
 # Example Use Cases
 

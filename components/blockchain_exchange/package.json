@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/blockchain_exchange",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Blockchain Exchange Components",
   "main": "blockchain_exchange.app.mjs",
   "keywords": [

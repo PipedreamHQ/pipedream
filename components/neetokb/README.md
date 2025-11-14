@@ -1,6 +1,6 @@
 # Overview
 
-The neetoKB API enables integration with neetoKB, a knowledge base management service. It allows you to automate the creation, retrieval, updating, and deletion of articles, categories, and sections within your knowledge base. On Pipedream, you can leverage this API to create workflows that streamline content management, collaborate with team members, and synchronize data across multiple platforms. Pipedream's serverless platform also offers real-time processing, event-driven triggers, and connections to hundreds of other apps for extended functionality.
+The neetoKB API enables integration with neetoKB, a knowledge base management service. It allows you to automate the creation, retrieval, updating, and deletion of articles, categories, and sections within your knowledge base. On Pipedream, you can leverage this API to create workflows that streamline content management, collaborate with team members, and synchronize data across multiple platforms. Pipedream's serverless platform also offers real-time processing, event-driven triggers, and connections to 3,000+ other apps for extended functionality.
 
 # Example Use Cases
 

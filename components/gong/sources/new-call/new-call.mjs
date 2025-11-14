@@ -4,9 +4,9 @@ export default {
   ...common,
   key: "gong-new-call",
   name: "New Call",
-  description: "Triggers when a new call is added. [See the documentation](https://us-66463.app.gong.io/settings/api/documentation#get-/v2/calls)",
+  description: "Emit new event when a new call is added. [See the documentation](https://us-66463.app.gong.io/settings/api/documentation#get-/v2/calls)",
   type: "source",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   methods: {
     ...common.methods,
@@ -17,11 +17,11 @@ export default {
       return this.app.listCalls;
     },
     getResourceFnArgs() {
-      const threeMonthsAgo = new Date();
-      threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+      const oneDayAgo = new Date();
+      oneDayAgo.setDate(oneDayAgo.getDate() - 1);
       return {
         params: {
-          fromDateTime: this.getLastCreatedAt() || threeMonthsAgo.toISOString(),
+          fromDateTime: this.getLastCreatedAt() || oneDayAgo.toISOString(),
         },
       };
     },

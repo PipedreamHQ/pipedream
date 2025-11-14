@@ -1,6 +1,6 @@
 # Overview
 
-The Retriever API is designed for automating contact information retrieval, enriching your CRM data, or building lead generation tools. By integrating it with Pipedream, you can strategically extract valuable data and automate workflows for marketing, sales, or customer support. Pipedream’s serverless platform enables you to connect Retriever with hundreds of other apps, triggering actions based on new data, or updating systems in real-time.
+The Retriever API is designed for automating contact information retrieval, enriching your CRM data, or building lead generation tools. By integrating it with Pipedream, you can strategically extract valuable data and automate workflows for marketing, sales, or customer support. Pipedream’s serverless platform enables you to connect Retriever with 3,000+ other apps, triggering actions based on new data, or updating systems in real-time.
 
 # Example Use Cases
 

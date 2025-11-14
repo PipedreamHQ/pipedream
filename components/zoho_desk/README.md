@@ -1,6 +1,6 @@
 # Overview
 
-Zoho Desk API empowers you to streamline and automate customer service processes. With Pipedream, you can tap into Zoho Desk's capabilities to manage tickets, fetch customer info, and coordinate your support team's efforts. Imagine syncing support tickets to your internal systems, triggering alerts for high-priority issues, or even analyzing support trends over time. Pipedream's serverless platform lets you connect Zoho Desk to hundreds of other apps with minimal hassle, transforming how you attend to customer needs.
+Zoho Desk API empowers you to streamline and automate customer service processes. With Pipedream, you can tap into Zoho Desk's capabilities to manage tickets, fetch customer info, and coordinate your support team's efforts. Imagine syncing support tickets to your internal systems, triggering alerts for high-priority issues, or even analyzing support trends over time. Pipedream's serverless platform lets you connect Zoho Desk to 3,000+ other apps with minimal hassle, transforming how you attend to customer needs.
 
 # Example Use Cases
 

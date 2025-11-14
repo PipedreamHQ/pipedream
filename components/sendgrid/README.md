@@ -1,6 +1,6 @@
 # Overview
 
-The Twilio SendGrid API opens up a world of possibilities for email automation, enabling you to send emails efficiently and track their performance. With this API, you can programmatically create and send personalized email campaigns, manage contacts, and parse inbound emails for data extraction. When you harness the power of Pipedream, you can connect SendGrid to hundreds of other apps to automate workflows, such as triggering email notifications based on specific actions, syncing email stats with your analytics, or handling incoming emails to create tasks or tickets.
+The Twilio SendGrid API opens up a world of possibilities for email automation, enabling you to send emails efficiently and track their performance. With this API, you can programmatically create and send personalized email campaigns, manage contacts, and parse inbound emails for data extraction. When you harness the power of Pipedream, you can connect SendGrid to 3,000+ other apps to automate workflows, such as triggering email notifications based on specific actions, syncing email stats with your analytics, or handling incoming emails to create tasks or tickets.
 
 # Example Use Cases
 

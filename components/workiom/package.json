@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/workiom",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Pipedream Workiom Components",
   "main": "workiom.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 # Overview
 
-The Maestra API lets you automate the transcription, captioning, and voiceover of videos and audios, crucial for creating accessible and localized content. With Pipedream, you can build workflows that trigger on various events to streamline media processing, integrate with other services, and manage content efficiently. Pipedream's serverless platform offers a code-free way to connect the Maestra API with hundreds of other apps, enabling you to create custom automation without the heavy lifting.
+The Maestra API lets you automate the transcription, captioning, and voiceover of videos and audios, crucial for creating accessible and localized content. With Pipedream, you can build workflows that trigger on various events to streamline media processing, integrate with other services, and manage content efficiently. Pipedream's serverless platform offers a code-free way to connect the Maestra API with 3,000+ other apps, enabling you to create custom automation without the heavy lifting.
 
 # Example Use Cases
 

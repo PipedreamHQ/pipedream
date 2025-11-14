@@ -1,6 +1,6 @@
 # Overview
 
-The Remote API on Pipedream allows you to automate tasks related to global payroll, benefits, taxes, and compliance for a remote team. By integrating the Remote API with Pipedream’s serverless platform, you can create workflows that react to events within Remote, or from other sources. Automate employee onboarding, offboarding, and data sync between Remote and your HR systems. Effectively, you can connect Remote to hundreds of other apps to streamline HR processes, gather insights, and maintain up-to-date records across all your platforms.
+The Remote API on Pipedream allows you to automate tasks related to global payroll, benefits, taxes, and compliance for a remote team. By integrating the Remote API with Pipedream’s serverless platform, you can create workflows that react to events within Remote, or from other sources. Automate employee onboarding, offboarding, and data sync between Remote and your HR systems. Effectively, you can connect Remote to 3,000+ other apps to streamline HR processes, gather insights, and maintain up-to-date records across all your platforms.
 
 # Example Use Cases
 

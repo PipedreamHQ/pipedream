@@ -1,6 +1,6 @@
 # Overview
 
-The Occasion API provides a suite of tools to manage and automate event booking and scheduling. Through Pipedream, you can harness this API to create powerful automations by triggering workflows based on booking activity, syncing event data with other services, managing customer information, and more. Utilizing Pipedream's capability to connect with hundreds of apps, you can extend the functionality of the Occasion API to streamline operations, enhance customer experiences, and leverage event data in innovative ways.
+The Occasion API provides a suite of tools to manage and automate event booking and scheduling. Through Pipedream, you can harness this API to create powerful automations by triggering workflows based on booking activity, syncing event data with other services, managing customer information, and more. Utilizing Pipedream's capability to connect with 3,000+ apps, you can extend the functionality of the Occasion API to streamline operations, enhance customer experiences, and leverage event data in innovative ways.
 
 # Example Use Cases
 

@@ -1,6 +1,6 @@
 # Overview
 
-The Translate.com API on Pipedream enables you to automate translation tasks, making it simpler to handle multilingual content and communication. With this API, you can dynamically translate text between languages, detect the language of input text, or even integrate machine translation into your services or workflows. Pipedream’s serverless platform connects the Translate.com API with hundreds of other apps to streamline your processes, such as automatically translating customer support tickets, social media posts, or updating multilingual content in real-time.
+The Translate.com API on Pipedream enables you to automate translation tasks, making it simpler to handle multilingual content and communication. With this API, you can dynamically translate text between languages, detect the language of input text, or even integrate machine translation into your services or workflows. Pipedream’s serverless platform connects the Translate.com API with 3,000+ other apps to streamline your processes, such as automatically translating customer support tickets, social media posts, or updating multilingual content in real-time.
 
 # Example Use Cases
 

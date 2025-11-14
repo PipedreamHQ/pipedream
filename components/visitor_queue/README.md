@@ -1,6 +1,6 @@
 # Overview
 
-The Visitor Queue API lets you track and identify businesses that visit your website, providing valuable data for lead generation and marketing analytics. By leveraging this API on Pipedream, you can automate tasks such as scoring leads, syncing data with CRM systems, and engaging with potential customers through targeted outreach. The ability to connect with hundreds of apps on Pipedream allows for powerful, automated workflows that can enrich your sales pipeline and optimize your marketing strategies.
+The Visitor Queue API lets you track and identify businesses that visit your website, providing valuable data for lead generation and marketing analytics. By leveraging this API on Pipedream, you can automate tasks such as scoring leads, syncing data with CRM systems, and engaging with potential customers through targeted outreach. The ability to connect with 3,000+ apps on Pipedream allows for powerful, automated workflows that can enrich your sales pipeline and optimize your marketing strategies.
 
 # Example Use Cases
 

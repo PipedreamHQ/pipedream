@@ -1,6 +1,6 @@
 # Overview
 
-The Calendly API lets you craft bespoke scheduling experiences within your apps or automate repetitive tasks involving your calendar. With this API, you can read event types, set up webhooks for new events, list invitees, or create and cancel invitation links programmatically. Pipedream's serverless platform takes the heavy lifting out of integrating Calendly with hundreds of other apps, enabling you to focus on creating workflows that save time, enhance productivity, and eliminate scheduling errors.
+The Calendly API lets you craft bespoke scheduling experiences within your apps or automate repetitive tasks involving your calendar. With this API, you can read event types, set up webhooks for new events, list invitees, or create and cancel invitation links programmatically. Pipedream's serverless platform takes the heavy lifting out of integrating Calendly with 3,000+ other apps, enabling you to focus on creating workflows that save time, enhance productivity, and eliminate scheduling errors.
 
 # Example Use Cases
 

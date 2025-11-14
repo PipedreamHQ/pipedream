@@ -1,6 +1,6 @@
 # Overview
 
-The Apollo.io API on Pipedream enables you to automate sales processes by giving you programmatic access to your Apollo.io data. Through this API, you can manage leads, contacts, and opportunities, or sync data with your CRM. Pipedream's serverless platform allows you to connect Apollo.io with hundreds of other apps to automate workflows like lead enrichment, data syncing between apps, and triggering personalized communication based on prospect actions.
+The Apollo.io API on Pipedream enables you to automate sales processes by giving you programmatic access to your Apollo.io data. Through this API, you can manage leads, contacts, and opportunities, or sync data with your CRM. Pipedream's serverless platform allows you to connect Apollo.io with 3,000+ other apps to automate workflows like lead enrichment, data syncing between apps, and triggering personalized communication based on prospect actions.
 
 # Example Use Cases
 

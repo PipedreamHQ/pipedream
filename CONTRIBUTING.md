@@ -4,7 +4,7 @@ Our hope is that by providing a generous free tier, you will not only get value 
 
 ## Follow, Star & Subscribe
 
-[Follow us](https://twitter.com/pipedream) on Twitter, [star](https://github.com/PipedreamHQ/pipedream) our Github repo and [subscribe](https://www.youtube.com/pipedreamhq) to our YouTube channel.
+[Follow us](https://twitter.com/pipedream) on Twitter, [star](https://github.com/PipedreamHQ/pipedream) our GitHub repo and [subscribe](https://www.youtube.com/pipedreamhq) to our YouTube channel.
 
 ## Recommend Us!
 
@@ -28,7 +28,7 @@ Found an issue? [Report it](https://pipedream.com/community/c/bugs/9)
 
 ## Submit & Vote On Feature Requests
 
-Help us build an amazing product! Submit [feature requests](https://pipedream.com/community/c/feature-requests/7) in our community forum, or [browse existing requests](https://github.com/PipedreamHQ/pipedream/issues) on Github and vote for the features want us to add!
+Help us build an amazing product! Submit [feature requests](https://pipedream.com/community/c/feature-requests/7) in our community forum, or [browse existing requests](https://github.com/PipedreamHQ/pipedream/issues) on GitHub and vote for the features want us to add!
 
 ## Request Apps
 
@@ -52,7 +52,7 @@ Develop components without leaving your browser with the Pipedream Gitpod worksp
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/PipedreamHQ/pipedream)
 
-1. Fork the official [Pipedream Github Repository](https://github.com/PipedreamHQ/pipedream)
+1. Fork the official [Pipedream GitHub repository](https://github.com/PipedreamHQ/pipedream)
 2. Add your PD API key to your [Gitpod Variables](https://gitpod.io/variables) as `PD_API_KEY`
 3. Open a new Gitpod Workspace with your fork: `https://gitpod.io/#https://github.com/<your-github-username>/pipedream`
 4. Run `pd init app` to scaffold a new app, or make changes to an exisiting one in the `components` directory

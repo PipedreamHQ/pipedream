@@ -1,6 +1,6 @@
 # Overview
 
-The eSputnik API is a powerful tool for managing and automating your email marketing campaigns and other messaging services. Through the API, you can create targeted email sequences, manage contact lists, track email metrics, and dynamically segment your audience based on their interactions. By leveraging Pipedream's capabilities, you can connect eSputnik with hundreds of other apps to synchronize your marketing efforts, automate responses based on customer behavior, and analyze the effectiveness of your campaigns with advanced analytics.
+The eSputnik API is a powerful tool for managing and automating your email marketing campaigns and other messaging services. Through the API, you can create targeted email sequences, manage contact lists, track email metrics, and dynamically segment your audience based on their interactions. By leveraging Pipedream's capabilities, you can connect eSputnik with 3,000+ other apps to synchronize your marketing efforts, automate responses based on customer behavior, and analyze the effectiveness of your campaigns with advanced analytics.
 
 # Example Use Cases
 

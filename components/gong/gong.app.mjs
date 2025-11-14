@@ -152,9 +152,11 @@ export default {
     }) {
       let cursor;
       let resourcesCount = 0;
+      let response;
 
       while (true) {
-        const response =
+        try {
+          response =
           await resourceFn({
             ...resourceFnArgs,
             params: {
@@ -162,6 +164,13 @@ export default {
               cursor,
             },
           });
+        } catch (error) {
+          if (error.response.status === 404) {
+            console.log("No more resources");
+            return;
+          }
+          throw error;
+        }
 
         const nextResources = resourceName && response[resourceName] || response;
 

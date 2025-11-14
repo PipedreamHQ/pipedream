@@ -1,6 +1,6 @@
 # Overview
 
-The ProProfs Quiz Maker API lets you manage quizzes, questions, and results programmatically. With it, you can automate the creation of quizzes, extract quiz data, and integrate quiz results with other systems. On Pipedream, you can create workflows that trigger on a specific event, such as a new quiz completion, and connect with hundreds of other apps to streamline your processes or enhance your data analysis.
+The ProProfs Quiz Maker API lets you manage quizzes, questions, and results programmatically. With it, you can automate the creation of quizzes, extract quiz data, and integrate quiz results with other systems. On Pipedream, you can create workflows that trigger on a specific event, such as a new quiz completion, and connect with 3,000+ other apps to streamline your processes or enhance your data analysis.
 
 # Example Use Cases
 

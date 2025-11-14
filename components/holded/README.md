@@ -1,6 +1,6 @@
 # Overview
 
-The Holded API offers access to a versatile platform that combines accounting, invoicing, inventory, and project management. It's designed to streamline various business processes. With Pipedream, you can connect Holded to hundreds of other apps to automate workflows. This means you can sync invoices with your CRM, get real-time alerts for new sales, or even automate inventory updates. The API's endpoints allow you to manage contacts, products, accounting, and more, enabling your business to stay organized and efficient.
+The Holded API offers access to a versatile platform that combines accounting, invoicing, inventory, and project management. It's designed to streamline various business processes. With Pipedream, you can connect Holded to 3,000+ other apps to automate workflows. This means you can sync invoices with your CRM, get real-time alerts for new sales, or even automate inventory updates. The API's endpoints allow you to manage contacts, products, accounting, and more, enabling your business to stay organized and efficient.
 
 # Example Use Cases
 

@@ -1,6 +1,6 @@
 # Overview
 
-The Infinity API allows you to interact programmatically with Infinity, a flexible project management platform. With the Infinity API on Pipedream, you can automate project and task management, synchronize data across multiple platforms, and streamline workflows by triggering actions within Infinity or responding to events in Infinity. Pipedream's serverless platform enables you to connect Infinity to hundreds of apps with minimal effort, empowering you to build custom integrations and automations that suit your team's needs.
+The Infinity API allows you to interact programmatically with Infinity, a flexible project management platform. With the Infinity API on Pipedream, you can automate project and task management, synchronize data across multiple platforms, and streamline workflows by triggering actions within Infinity or responding to events in Infinity. Pipedream's serverless platform enables you to connect Infinity to 3,000+ apps with minimal effort, empowering you to build custom integrations and automations that suit your team's needs.
 
 # Example Use Cases
 

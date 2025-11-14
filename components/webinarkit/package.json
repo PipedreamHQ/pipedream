@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/webinarkit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream WebinarKit Components",
   "main": "webinarkit.app.mjs",
   "keywords": [

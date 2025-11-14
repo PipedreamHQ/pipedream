@@ -1,6 +1,6 @@
 # Overview
 
-Zoho Sprints is a versatile agile project management tool that enables teams to plan, track, and iterate their work in sprints. With the Zoho Sprints API, you can automate your agile workflows, sync projects across different platforms, and create custom dashboards to monitor progress. Using Pipedream, you can connect Zoho Sprints with hundreds of apps to streamline processes, trigger actions based on sprint changes, and manipulate sprint data programmatically.
+Zoho Sprints is a versatile agile project management tool that enables teams to plan, track, and iterate their work in sprints. With the Zoho Sprints API, you can automate your agile workflows, sync projects across different platforms, and create custom dashboards to monitor progress. Using Pipedream, you can connect Zoho Sprints with 3,000+ apps to streamline processes, trigger actions based on sprint changes, and manipulate sprint data programmatically.
 
 # Example Use Cases
 

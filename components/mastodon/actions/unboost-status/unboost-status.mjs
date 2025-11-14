@@ -4,7 +4,7 @@ export default {
   key: "mastodon-unboost-status",
   name: "Undo Boost of a Status",
   description: "Undo a reshare of a status. [See the docs here](https://docs.joinmastodon.org/methods/statuses/#unreblog)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

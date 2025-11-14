@@ -1,6 +1,6 @@
 # Overview
 
-The Mode API provides programmatic access to Mode's analytics platform, allowing you to automate interactions with your Mode workspace. Using Mode with Pipedream, you can create workflows that interact with reports, queries, and spaces, or even manage members and permissions. This can include tasks like triggering a report run, fetching query results, or syncing users from other systems into Mode. By leveraging Pipedream's serverless platform, you can build robust, event-driven automations that integrate Mode with hundreds of other apps without the need for dedicated infrastructure.
+The Mode API provides programmatic access to Mode's analytics platform, allowing you to automate interactions with your Mode workspace. Using Mode with Pipedream, you can create workflows that interact with reports, queries, and spaces, or even manage members and permissions. This can include tasks like triggering a report run, fetching query results, or syncing users from other systems into Mode. By leveraging Pipedream's serverless platform, you can build robust, event-driven automations that integrate Mode with 3,000+ other apps without the need for dedicated infrastructure.
 
 # Example Use Cases
 

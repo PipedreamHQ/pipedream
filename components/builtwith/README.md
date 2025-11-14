@@ -1,6 +1,6 @@
 # Overview
 
-The BuiltWith API on Pipedream lets you tap into the details of the technologies used by websites across the internet. With this API, you can find out what tools and frameworks are powering different sites, uncover technology trends, or enrich your CRM with tech stack data. When you combine this with Pipedream's ability to connect to hundreds of other apps, you can automate workflows that react to this technology intelligence in real-time.
+The BuiltWith API on Pipedream lets you tap into the details of the technologies used by websites across the internet. With this API, you can find out what tools and frameworks are powering different sites, uncover technology trends, or enrich your CRM with tech stack data. When you combine this with Pipedream's ability to connect to 3,000+ other apps, you can automate workflows that react to this technology intelligence in real-time.
 
 # Example Use Cases
 

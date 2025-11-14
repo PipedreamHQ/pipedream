@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sifter",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Sifter Components",
   "main": "sifter.app.mjs",
   "keywords": [

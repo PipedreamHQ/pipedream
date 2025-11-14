@@ -1,6 +1,6 @@
 # Overview
 
-The Content Snare API allows you to automate the process of gathering content from clients and stakeholders. With this API, you can create, update, and manage requests for content, as well as track submissions and automate follow-ups. On Pipedream, you can integrate Content Snare with hundreds of other apps to create seamless workflows that save time and reduce manual tasks. From triggering actions when new content is submitted to syncing data across multiple platforms, the possibilities are vast.
+The Content Snare API allows you to automate the process of gathering content from clients and stakeholders. With this API, you can create, update, and manage requests for content, as well as track submissions and automate follow-ups. On Pipedream, you can integrate Content Snare with 3,000+ other apps to create seamless workflows that save time and reduce manual tasks. From triggering actions when new content is submitted to syncing data across multiple platforms, the possibilities are vast.
 
 # Example Use Cases
 

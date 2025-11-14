@@ -1,6 +1,6 @@
 # Overview
 
-ClinchPad is a modern CRM tailored for small teams to manage sales pipelines with minimal fuss. The ClinchPad API integrates with Pipedream, allowing you to automate interactions with your sales pipeline. For instance, you can automatically create leads, update their status, track communications, or gather analytics for reporting purposes. Through Pipedream, you can connect ClinchPad with hundreds of other apps to streamline your sales process, maintain customer relations, and close deals faster.
+ClinchPad is a modern CRM tailored for small teams to manage sales pipelines with minimal fuss. The ClinchPad API integrates with Pipedream, allowing you to automate interactions with your sales pipeline. For instance, you can automatically create leads, update their status, track communications, or gather analytics for reporting purposes. Through Pipedream, you can connect ClinchPad with 3,000+ other apps to streamline your sales process, maintain customer relations, and close deals faster.
 
 # Example Use Cases
 
