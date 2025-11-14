@@ -5,8 +5,8 @@ export default {
   ...common,
   key: "xola-order-updated-instant",
   name: "Order Updated (Instant)",
-  description: "Emit new event when an order is updated. [See the documentation](https://developers.xola.com/reference/webhook-introduction)",
-  version: "0.0.1",
+  description: "Emit new event when an order is updated. [See the documentation](https://developers.xola.com/reference/webhook-introduction). **This source has been deprecated. Please use the 'Purchase Updated (Instant)' source instead.**",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
