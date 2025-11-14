@@ -79,19 +79,6 @@ We use this server to power the tools on [chat.pipedream.com](https://chat.piped
 
 > [!NOTE] > [Check out the docs](https://pipedream.com/docs/connect/mcp/app-discovery) to learn more about enabling app discovery with the MCP server.
 
-## Hosting your own server
-
-### Using the `Dockerfile`
-
-If you have Docker installed locally, you can build and run the container:
-
-```console
-> docker build -t pipedream-connect .
-> docker run -d --name pd-mcp -p 3010:3010 --env-file .env pipedream-connect:latest
-```
-
-This exposes a generic MCP server at [http://localhost:3010/:external_user_id/:app](http://localhost:3010/:external_user_id/:app).
-
 ## Development
 
 `cp .env.example .env` and fill in the details of your dev project.

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/smtp2go",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Pipedream SMTP2GO Components",
   "main": "dist/app/smtp2go.app.mjs",
   "keywords": [

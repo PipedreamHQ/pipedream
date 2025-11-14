@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sugarcrm_",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream SugarCRM Components",
   "main": "sugarcrm_.app.mjs",
   "keywords": [

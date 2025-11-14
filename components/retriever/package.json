@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/retriever",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Retriever Components",
   "main": "retriever.app.mjs",
   "keywords": [

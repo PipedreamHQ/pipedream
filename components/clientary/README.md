@@ -1,6 +1,6 @@
 # Overview
 
-The Clientary API allows you to automate and integrate Clientary's project management, time tracking, and invoicing functionalities within Pipedream. By leveraging this API, you can create custom workflows to streamline operations, such as syncing new invoices with accounting software, triggering notifications based on project updates, or automating time tracking entries. Pipedream acts as the glue, enabling you to connect Clientary with hundreds of other apps to create sophisticated, serverless workflows tailored to your business needs.
+The Clientary API allows you to automate and integrate Clientary's project management, time tracking, and invoicing functionalities within Pipedream. By leveraging this API, you can create custom workflows to streamline operations, such as syncing new invoices with accounting software, triggering notifications based on project updates, or automating time tracking entries. Pipedream acts as the glue, enabling you to connect Clientary with 3,000+ other apps to create sophisticated, serverless workflows tailored to your business needs.
 
 # Example Use Cases
 

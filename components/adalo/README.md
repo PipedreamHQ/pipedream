@@ -1,6 +1,6 @@
 # Overview
 
-The Adalo API allows for the creation and manipulation of database records in your Adalo apps. Automating workflows with Pipedream can enhance your Adalo app's functionality, trigger custom actions based on app events, sync data across platforms, or notify users and team members about important updates. By leveraging Pipedream's ability to connect with hundreds of other apps, you can create sophisticated, multi-step workflows that respond dynamically to your Adalo app's data and events.
+The Adalo API allows for the creation and manipulation of database records in your Adalo apps. Automating workflows with Pipedream can enhance your Adalo app's functionality, trigger custom actions based on app events, sync data across platforms, or notify users and team members about important updates. By leveraging Pipedream's ability to connect with 3,000+ other apps, you can create sophisticated, multi-step workflows that respond dynamically to your Adalo app's data and events.
 
 # Example Use Cases
 

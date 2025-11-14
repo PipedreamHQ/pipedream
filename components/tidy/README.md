@@ -1,6 +1,6 @@
 # Overview
 
-The Tidy API offers a range of functions tailored for property management, enabling users to automate tasks like booking cleanings, managing properties, and keeping track of services. Integrating the Tidy API into Pipedream workflows opens up possibilities for automating communications, scheduling, and property management tasks by connecting Tidy with hundreds of other apps. This can significantly streamline operations for property managers, cleaning services, and real estate businesses.
+The Tidy API offers a range of functions tailored for property management, enabling users to automate tasks like booking cleanings, managing properties, and keeping track of services. Integrating the Tidy API into Pipedream workflows opens up possibilities for automating communications, scheduling, and property management tasks by connecting Tidy with 3,000+ other apps. This can significantly streamline operations for property managers, cleaning services, and real estate businesses.
 
 # Example Use Cases
 

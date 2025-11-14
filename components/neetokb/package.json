@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/neetokb",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream neetoKB Components",
   "main": "neetokb.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zagomail",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Zagomail Components",
   "main": "zagomail.app.mjs",
   "keywords": [

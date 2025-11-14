@@ -8,7 +8,7 @@ export default {
   name: "New Webhook Event (Instant)",
   description: "Emit new event for each selected event type",
   type: "source",
-  version: "1.0.11",
+  version: "1.0.12",
   dedupe: "unique",
   props: {
     docsInfo: {
@@ -51,7 +51,7 @@ export default {
       body,
     } = event;
 
-    // skip initial response from Github
+    // skip initial response from GitHub
     if (body?.zen) {
       console.log(body.zen);
       return;

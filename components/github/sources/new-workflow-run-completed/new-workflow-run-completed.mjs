@@ -5,9 +5,9 @@ export default {
   ...common,
   key: "github-new-workflow-run-completed",
   name: "New Workflow Run Completed (Instant)",
-  description: "Emit new event when a Github Actions workflow run completes",
+  description: "Emit new event when a GitHub Actions workflow run completes",
   type: "source",
-  version: "0.0.4",
+  version: "0.0.5",
   dedupe: "unique",
   methods: {
     ...common.methods,
@@ -23,7 +23,7 @@ export default {
       body,
     } = event;
 
-    // skip initial response from Github or not completed
+    // skip initial response from GitHub or not completed
     if (body?.zen || body?.action != "completed") {
       return;
     }

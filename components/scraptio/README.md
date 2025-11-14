@@ -1,6 +1,6 @@
 # Overview
 
-The Scraptio API enables seamless web scraping and data extraction from HTML content. With Scraptio on Pipedream, you can automate the collection of web data, monitor changes on websites, and integrate scraped data with other services. Pipedream's no-code platform enhances Scraptio's capabilities by allowing you to create workflows that trigger on schedules or events, process data, and connect to hundreds of other apps.
+The Scraptio API enables seamless web scraping and data extraction from HTML content. With Scraptio on Pipedream, you can automate the collection of web data, monitor changes on websites, and integrate scraped data with other services. Pipedream's no-code platform enhances Scraptio's capabilities by allowing you to create workflows that trigger on schedules or events, process data, and connect to 3,000+ other apps.
 
 # Example Use Cases
 

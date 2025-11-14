@@ -1,6 +1,6 @@
 # Overview
 
-The RescueTime API provides access to detailed data about how you spend your time on digital devices, including time spent on apps and websites. With this API on Pipedream, you can create custom workflows that trigger actions based on your productivity data. For instance, you can set up alerts for excessive social media usage or automate weekly productivity reports. Pipedream's platform enables these automations by connecting RescueTime to hundreds of other apps, allowing for intricate workflows that can enhance personal productivity and time management.
+The RescueTime API provides access to detailed data about how you spend your time on digital devices, including time spent on apps and websites. With this API on Pipedream, you can create custom workflows that trigger actions based on your productivity data. For instance, you can set up alerts for excessive social media usage or automate weekly productivity reports. Pipedream's platform enables these automations by connecting RescueTime to 3,000+ other apps, allowing for intricate workflows that can enhance personal productivity and time management.
 
 # Example Use Cases
 

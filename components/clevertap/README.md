@@ -1,6 +1,6 @@
 # Overview
 
-CleverTap offers a powerful suite of tools for user engagement and analytics that can help you track user activities, segment users, and run targeted campaigns. Integrating Clevertap with Pipedream allows you to automate interactions with users, synchronize data across platforms, and create personalized marketing strategies. You can trigger workflows with real-time events, analyze user behavior, and leverage Pipedream's ability to connect to hundreds of other apps to enrich and act on your CleverTap data.
+CleverTap offers a powerful suite of tools for user engagement and analytics that can help you track user activities, segment users, and run targeted campaigns. Integrating Clevertap with Pipedream allows you to automate interactions with users, synchronize data across platforms, and create personalized marketing strategies. You can trigger workflows with real-time events, analyze user behavior, and leverage Pipedream's ability to connect to 3,000+ other apps to enrich and act on your CleverTap data.
 
 # Example Use Cases
 

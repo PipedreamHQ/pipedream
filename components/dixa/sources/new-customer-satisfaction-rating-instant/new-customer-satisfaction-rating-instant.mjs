@@ -6,7 +6,7 @@ export default {
   key: "dixa-new-customer-satisfaction-rating-instant",
   name: "New Customer Satisfaction Rating (Instant)",
   description: "Emit new event when a customer submits a satisfaction rating for a conversation. [See the documentation](https://docs.dixa.io/openapi/dixa-api/v1/tag/Webhooks/).",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

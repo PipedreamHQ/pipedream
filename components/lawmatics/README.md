@@ -1,6 +1,6 @@
 # Overview
 
-Lawmatics is a platform tailored for legal firms, providing tools for CRM, marketing automation, and intake management. Its API enables the automation of routine tasks, data syncing across various platforms, and personalized client interactions without manual intervention. With Pipedream's serverless execution model and its capability to connect to hundreds of apps, one can automate workflows like client data synchronization, case status updates, or even trigger custom marketing campaigns based on client interaction. The API’s ability to communicate with Pipedream allows for an efficient and programmable way to handle legal operational processes.
+Lawmatics is a platform tailored for legal firms, providing tools for CRM, marketing automation, and intake management. Its API enables the automation of routine tasks, data syncing across various platforms, and personalized client interactions without manual intervention. With Pipedream's serverless execution model and its capability to connect to 3,000+ apps, one can automate workflows like client data synchronization, case status updates, or even trigger custom marketing campaigns based on client interaction. The API’s ability to communicate with Pipedream allows for an efficient and programmable way to handle legal operational processes.
 
 # Example Use Cases
 

@@ -4,7 +4,7 @@ export default {
   key: "mastodon-pin-status",
   name: "Pin Status to Profile",
   description: "Feature one of your own public statuses at the top of your profile. [See the docs here](https://docs.joinmastodon.org/methods/statuses/#pin)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

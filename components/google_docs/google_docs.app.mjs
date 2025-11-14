@@ -1,6 +1,7 @@
 import docs from "@googleapis/docs";
 import googleDrive from "@pipedream/google_drive";
 import utils from "./common/utils.mjs";
+import markdownParser from "./common/markdown-parser.mjs";
 
 export default {
   type: "app",
@@ -178,6 +179,107 @@ export default {
         };
       }
       return this.listFilesOptions(pageToken, request);
+    },
+    async insertMarkdownText(documentId, markdown) {
+      try {
+        const parseResult = markdownParser.parseMarkdown(markdown);
+        const batchRequests = markdownParser.convertToGoogleDocsRequests(parseResult);
+
+        if (batchRequests.length === 0) {
+          return null;
+        }
+
+        // Execute all requests in a single batch update
+        return this.docs().documents.batchUpdate({
+          documentId,
+          requestBody: {
+            requests: batchRequests,
+          },
+        });
+      } catch (error) {
+        throw new Error(`Failed to insert markdown text: ${error.message}`);
+      }
+    },
+    async replaceTextWithMarkdown({
+      documentId,
+      textToReplace,
+      markdownReplacement,
+      matchCase = false,
+      tabIds = null,
+    }) {
+      try {
+        // Parse the markdown replacement text
+        const parseResult = markdownParser.parseMarkdown(markdownReplacement);
+        const {
+          text: replacementText,
+          formattingRequests: markdownFormatting,
+        } = parseResult;
+
+        // Build the initial replace request
+        const requests = [
+          {
+            replaceAllText: {
+              containsText: {
+                text: textToReplace,
+                matchCase: matchCase || false,
+              },
+              replaceText: replacementText,
+              tabsCriteria: tabIds
+                ? {
+                  tabIds,
+                }
+                : undefined,
+            },
+          },
+        ];
+
+        if (markdownFormatting.length === 0) {
+          // No formatting needed, just do the plain text replacement
+          return this.docs().documents.batchUpdate({
+            documentId,
+            requestBody: {
+              requests,
+            },
+          });
+        }
+
+        // For markdown with formatting, we need to find where the text will be replaced
+        // and then apply formatting to it
+        // First, do the replacement
+        await this.docs().documents.batchUpdate({
+          documentId,
+          requestBody: {
+            requests,
+          },
+        });
+
+        // Get the document AFTER replacement
+        const { data: updatedDocData } = await this.docs().documents.get({
+          documentId,
+        });
+
+        // Find all occurrences of the replacement text in the updated document
+        const formattingRequests = markdownParser.buildFormattingRequestsForReplacement(
+          markdownFormatting,
+          updatedDocData,
+          replacementText,
+        );
+
+        // Apply formatting if any matches were found
+        if (formattingRequests.length > 0) {
+          return this.docs().documents.batchUpdate({
+            documentId,
+            requestBody: {
+              requests: formattingRequests,
+            },
+          });
+        }
+
+        // Return updated document even if no formatting was applied
+        return updatedDocData;
+      } catch (error) {
+        throw new Error(`Failed to replace text with markdown: ${error.message}`);
+      }
     },
   },
 };

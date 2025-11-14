@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/acquire",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream acquire Components",
   "main": "acquire.app.mjs",
   "keywords": [

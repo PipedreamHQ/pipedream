@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/survey_monkey",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream SurveyMonkey Components",
   "main": "survey_monkey.app.mjs",
   "keywords": [

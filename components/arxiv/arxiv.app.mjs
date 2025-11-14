@@ -1,11 +1,26 @@
+import { axios } from "@pipedream/platform";
+
 export default {
   type: "app",
   app: "arxiv",
   propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _baseUrl() {
+      return "https://export.arxiv.org/api";
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
+      return axios($, {
+        url: `${this._baseUrl()}${path}`,
+        ...opts,
+      });
+    },
+    search(opts = {}) {
+      return this._makeRequest({
+        path: "/query",
+        ...opts,
+      });
     },
   },
 };

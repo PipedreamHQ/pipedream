@@ -1,6 +1,6 @@
 # Overview
 
-The Tettra API lets you automate your knowledge management tasks within the Tettra knowledge base. Using Pipedream, you can create workflows to streamline content creation, manage pages and categories, and sync with your team's tool stack. Pipedream’s serverless platform enables you to connect Tettra with hundreds of other apps to automate complex processes, share information across teams and systems, and trigger actions based on events in Tettra or other integrated services.
+The Tettra API lets you automate your knowledge management tasks within the Tettra knowledge base. Using Pipedream, you can create workflows to streamline content creation, manage pages and categories, and sync with your team's tool stack. Pipedream’s serverless platform enables you to connect Tettra with 3,000+ other apps to automate complex processes, share information across teams and systems, and trigger actions based on events in Tettra or other integrated services.
 
 # Example Use Cases
 

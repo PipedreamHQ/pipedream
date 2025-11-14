@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/liondesk",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Liondesk Components",
   "main": "liondesk.app.mjs",
   "keywords": [

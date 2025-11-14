@@ -8,7 +8,7 @@ export default {
   key: "google_ads-send-offline-conversion",
   name: "Send Offline Conversion",
   description: "Send an event to Google Ads to track offline conversions. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v21/ConversionAction)",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

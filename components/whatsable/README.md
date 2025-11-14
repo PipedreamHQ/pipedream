@@ -1,6 +1,6 @@
 # Overview
 
-The WhatsAble API enables automated interactions with WhatsApp, allowing you to send messages, create groups, and manage contacts programmatically. Integrating WhatsAble with Pipedream, you can craft serverless workflows that react to various triggers and perform actions on WhatsApp, like sending notifications or processing incoming messages. Pipedream's capability to connect with hundreds of apps opens up a multitude of automation possibilities, streamlining communication tasks and linking WhatsApp with your digital ecosystem.
+The WhatsAble API enables automated interactions with WhatsApp, allowing you to send messages, create groups, and manage contacts programmatically. Integrating WhatsAble with Pipedream, you can craft serverless workflows that react to various triggers and perform actions on WhatsApp, like sending notifications or processing incoming messages. Pipedream's capability to connect with 3,000+ apps opens up a multitude of automation possibilities, streamlining communication tasks and linking WhatsApp with your digital ecosystem.
 
 # Example Use Cases
 

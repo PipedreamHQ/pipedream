@@ -1,6 +1,6 @@
 # Overview
 
-The GiantCampaign API facilitates the automation and integration of email marketing capabilities into various applications and workflows. With this API, you can manage contact lists, design and send email campaigns, track performance metrics, and segment your audience for targeted marketing. Pipedream, with its ability to connect to hundreds of apps, provides a robust platform to create serverless workflows that leverage the capabilities of GiantCampaign. By tapping into event sources and actions, you can seamlessly integrate GiantCampaign with other services to enhance your marketing efforts and streamline processes.
+The GiantCampaign API facilitates the automation and integration of email marketing capabilities into various applications and workflows. With this API, you can manage contact lists, design and send email campaigns, track performance metrics, and segment your audience for targeted marketing. Pipedream, with its ability to connect to 3,000+ apps, provides a robust platform to create serverless workflows that leverage the capabilities of GiantCampaign. By tapping into event sources and actions, you can seamlessly integrate GiantCampaign with other services to enhance your marketing efforts and streamline processes.
 
 # Example Use Cases
 

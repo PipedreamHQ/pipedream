@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ultramsg",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "Pipedream Ultramsg Components",
   "main": "ultramsg.app.mjs",
   "keywords": [

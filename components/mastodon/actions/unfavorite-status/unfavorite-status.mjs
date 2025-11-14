@@ -4,7 +4,7 @@ export default {
   key: "mastodon-unfavorite-status",
   name: "Undo Favorite of a Status",
   description: "Remove a status from your favourites list.. [See the docs here](https://docs.joinmastodon.org/methods/statuses/#unfavourite)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

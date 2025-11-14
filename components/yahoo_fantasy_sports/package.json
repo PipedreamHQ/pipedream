@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/yahoo_fantasy_sports",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Pipedream Yahoo_fantasy_sports Components",
   "main": "yahoo_fantasy_sports.app.mjs",
   "keywords": [

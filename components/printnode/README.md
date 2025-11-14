@@ -1,6 +1,6 @@
 # Overview
 
-The PrintNode API on Pipedream allows you to integrate cloud printing capabilities into workflows. It supports automating print jobs, managing printers, and querying printer status. With Pipedream's ability to connect to hundreds of apps, you can trigger print jobs from emails, forms, databases, or custom events. The API's functions can be weaved into broader business processes to streamline document handling.
+The PrintNode API on Pipedream allows you to integrate cloud printing capabilities into workflows. It supports automating print jobs, managing printers, and querying printer status. With Pipedream's ability to connect to 3,000+ apps, you can trigger print jobs from emails, forms, databases, or custom events. The API's functions can be weaved into broader business processes to streamline document handling.
 
 # Example Use Cases
 

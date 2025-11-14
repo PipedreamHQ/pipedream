@@ -1,6 +1,6 @@
 # Overview
 
-The Dribbble API unlocks the design world of Dribbble, letting you tap into a community of graphic designers, illustrators, and artists. By integrating with the API via Pipedream, you can automate tasks like tracking user stats, exploring popular shots, and posting updates automatically. With Pipedream's no-code platform, you can connect Dribbble to hundreds of other apps to streamline your design workflow, get insights, and engage with the design community.
+The Dribbble API unlocks the design world of Dribbble, letting you tap into a community of graphic designers, illustrators, and artists. By integrating with the API via Pipedream, you can automate tasks like tracking user stats, exploring popular shots, and posting updates automatically. With Pipedream's no-code platform, you can connect Dribbble to 3,000+ other apps to streamline your design workflow, get insights, and engage with the design community.
 
 # Example Use Cases
 

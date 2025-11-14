@@ -1,6 +1,6 @@
 # Overview
 
-The Lexoffice API provides a suite of accounting tools that can automate various financial tasks for businesses using Pipedream. With this API, you can create invoices, manage contacts, track expenses, and handle accounting documents programmatically. Pipedream's serverless platform enables you to integrate Lexoffice with hundreds of other apps, allowing for streamlined workflows that can trigger actions in Lexoffice or respond to events from Lexoffice in real-time.
+The Lexoffice API provides a suite of accounting tools that can automate various financial tasks for businesses using Pipedream. With this API, you can create invoices, manage contacts, track expenses, and handle accounting documents programmatically. Pipedream's serverless platform enables you to integrate Lexoffice with 3,000+ other apps, allowing for streamlined workflows that can trigger actions in Lexoffice or respond to events from Lexoffice in real-time.
 
 # Example Use Cases
 

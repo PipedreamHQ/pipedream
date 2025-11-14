@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/livechat",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream LiveChat Components",
   "main": "livechat.app.mjs",
   "keywords": [

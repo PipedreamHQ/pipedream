@@ -1,6 +1,6 @@
 # Overview
 
-Kaleido provides an API for creating and managing blockchain networks and services. By integrating with Pipedream, you can automate various blockchain tasks such as deploying smart contracts, managing consortia, and handling tokens without managing infrastructure. Pipedream's serverless platform enables you to connect Kaleido with hundreds of other apps to create powerful and scalable workflows.
+Kaleido provides an API for creating and managing blockchain networks and services. By integrating with Pipedream, you can automate various blockchain tasks such as deploying smart contracts, managing consortia, and handling tokens without managing infrastructure. Pipedream's serverless platform enables you to connect Kaleido with 3,000+ other apps to create powerful and scalable workflows.
 
 # Example Use Cases
 

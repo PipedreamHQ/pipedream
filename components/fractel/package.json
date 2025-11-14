@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/fractel",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream FracTEL Components",
   "main": "fractel.app.mjs",
   "keywords": [

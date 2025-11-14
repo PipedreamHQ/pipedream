@@ -1,6 +1,6 @@
 # Overview
 
-Scoro is a comprehensive solution that combines project management, time tracking, and CRM functionalities. With the Scoro API, you can automate your business workflows, sync data across different systems, and enhance productivity by reducing manual tasks. The API allows you to access, manipulate, and integrate your Scoro data with other services. When used on Pipedream, you can create serverless workflows to connect Scoro with hundreds of other apps, respond to Scoro events in real-time, and automate actions based on triggers from within Scoro or other platforms.
+Scoro is a comprehensive solution that combines project management, time tracking, and CRM functionalities. With the Scoro API, you can automate your business workflows, sync data across different systems, and enhance productivity by reducing manual tasks. The API allows you to access, manipulate, and integrate your Scoro data with other services. When used on Pipedream, you can create serverless workflows to connect Scoro with 3,000+ other apps, respond to Scoro events in real-time, and automate actions based on triggers from within Scoro or other platforms.
 
 # Example Use Cases
 

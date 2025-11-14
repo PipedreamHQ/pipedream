@@ -4,7 +4,7 @@ export default {
   key: "dixa-create-conversation",
   name: "Create Conversation",
   description: "Creates a new email or contact form-based conversation. [See the documentation](https://docs.dixa.io/openapi/dixa-api/v1/tag/Conversations/#tag/Conversations/operation/postConversations).",
-  version: "0.0.2",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

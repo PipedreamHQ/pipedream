@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/aidaform",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Pipedream aidaform Components",
   "main": "aidaform.app.mjs",
   "keywords": [

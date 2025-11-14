@@ -1,6 +1,6 @@
 # Overview
 
-The Oyster API allows you to streamline your global employment processes by providing programmatic access to their HR platform. With it, you can automate tasks like managing employee details, handling payroll, and tracking time off. Pipedream, as a serverless integration platform, makes it simple to create workflows that connect the Oyster API with hundreds of other apps. This can help in automating HR operations, syncing employee data across systems, or even sending notifications when certain HR events occur.
+The Oyster API allows you to streamline your global employment processes by providing programmatic access to their HR platform. With it, you can automate tasks like managing employee details, handling payroll, and tracking time off. Pipedream, as a serverless integration platform, makes it simple to create workflows that connect the Oyster API with 3,000+ other apps. This can help in automating HR operations, syncing employee data across systems, or even sending notifications when certain HR events occur.
 
 # Example Use Cases
 

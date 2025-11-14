@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zoho_forms",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Zoho Forms Components",
   "main": "zoho_forms.app.mjs",
   "keywords": [
@@ -16,4 +16,3 @@
     "@pipedream/platform": "^1.6.8"
   }
 }
-

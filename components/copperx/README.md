@@ -1,6 +1,6 @@
 # Overview
 
-The Copperx API offers a suite of tools for cryptocurrency trading, providing users with real-time access to market data, order execution, and account management. Integrating this API into Pipedream allows for the creation of custom, serverless workflows that can automate trading strategies, alert users to market changes, and manage portfolios efficiently without manual intervention. By leveraging Pipedream's ability to connect to hundreds of apps, users can develop robust, event-driven automations that respond to market conditions or other external signals.
+The Copperx API offers a suite of tools for cryptocurrency trading, providing users with real-time access to market data, order execution, and account management. Integrating this API into Pipedream allows for the creation of custom, serverless workflows that can automate trading strategies, alert users to market changes, and manage portfolios efficiently without manual intervention. By leveraging Pipedream's ability to connect to 3,000+ apps, users can develop robust, event-driven automations that respond to market conditions or other external signals.
 
 # Example Use Cases
 

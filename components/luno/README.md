@@ -1,6 +1,6 @@
 # Overview
 
-The Luno API offers a way to automate interactions with the Luno platform, a prominent cryptocurrency exchange. Through this API, you can programmatically access real-time market data, manage trades, and handle your wallet transactions. Integrating Luno with Pipedream enables you to create custom, serverless workflows that can react to Luno events, automate trading strategies, consolidate financial reports, and more. Pipedream's no-code platform allows you to seamlessly connect Luno to hundreds of other apps and orchestrate complex workflows with minimal effort.
+The Luno API offers a way to automate interactions with the Luno platform, a prominent cryptocurrency exchange. Through this API, you can programmatically access real-time market data, manage trades, and handle your wallet transactions. Integrating Luno with Pipedream enables you to create custom, serverless workflows that can react to Luno events, automate trading strategies, consolidate financial reports, and more. Pipedream's no-code platform allows you to seamlessly connect Luno to 3,000+ other apps and orchestrate complex workflows with minimal effort.
 
 # Example Use Cases
 

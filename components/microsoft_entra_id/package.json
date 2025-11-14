@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/microsoft_entra_id",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Microsoft Entra ID Components",
   "main": "microsoft_entra_id.app.mjs",
   "keywords": [

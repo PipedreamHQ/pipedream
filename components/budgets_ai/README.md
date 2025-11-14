@@ -1,6 +1,6 @@
 # Overview
 
-The Budgets.ai API offers robust tools for managing budgets, tracking expenses, and monitoring financial goals. By leveraging this API on Pipedream, you can automate your financial data processes, sync with other financial tools, and generate real-time analytics and notifications. Pipedream's serverless platform facilitates the integration of Budgets.ai with hundreds of other apps, enabling you to create custom, automated workflows that fit your financial management needs.
+The Budgets.ai API offers robust tools for managing budgets, tracking expenses, and monitoring financial goals. By leveraging this API on Pipedream, you can automate your financial data processes, sync with other financial tools, and generate real-time analytics and notifications. Pipedream's serverless platform facilitates the integration of Budgets.ai with 3,000+ other apps, enabling you to create custom, automated workflows that fit your financial management needs.
 
 # Example Use Cases
 

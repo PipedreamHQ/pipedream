@@ -1,6 +1,6 @@
 # Overview
 
-The Microsoft Entra ID API offers a modern identity and access management solution, enabling developers to automate and integrate a broad range of user and identity-related operations. With Pipedream, you can harness this API to create workflows that manage user identities, automate provisioning and deprovisioning, secure access to applications, and more. Pipedream's serverless platform simplifies the process of connecting the Microsoft Entra ID API with hundreds of other apps to build powerful automations.
+The Microsoft Entra ID API offers a modern identity and access management solution, enabling developers to automate and integrate a broad range of user and identity-related operations. With Pipedream, you can harness this API to create workflows that manage user identities, automate provisioning and deprovisioning, secure access to applications, and more. Pipedream's serverless platform simplifies the process of connecting the Microsoft Entra ID API with 3,000+ other apps to build powerful automations.
 
 # Example Use Cases
 

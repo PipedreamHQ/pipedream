@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/feedier",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream feedier Components",
   "main": "feedier.app.mjs",
   "keywords": [

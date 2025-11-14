@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/straico",
+  "version": "0.0.1",
+  "description": "Pipedream Straico Components",
+  "main": "straico.app.mjs",
+  "keywords": [
+    "pipedream",
+    "straico"
+  ],
+  "homepage": "https://pipedream.com/apps/straico",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

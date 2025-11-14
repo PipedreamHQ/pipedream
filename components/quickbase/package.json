@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/quickbase",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Quickbase Components",
   "main": "quickbase.app.mjs",
   "keywords": [

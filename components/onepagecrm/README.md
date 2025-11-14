@@ -1,6 +1,6 @@
 # Overview
 
-The OnePageCRM API enables interaction with your OnePageCRM account, automating your contact and sales management. With it, you can create, update, and delete contacts, deals, and notes, or trigger actions based on sales activities. When combined with Pipedream's serverless platform, this API allows you to connect OnePageCRM with hundreds of other apps to streamline your sales process, enhance lead generation, and improve follow-ups.
+The OnePageCRM API enables interaction with your OnePageCRM account, automating your contact and sales management. With it, you can create, update, and delete contacts, deals, and notes, or trigger actions based on sales activities. When combined with Pipedream's serverless platform, this API allows you to connect OnePageCRM with 3,000+ other apps to streamline your sales process, enhance lead generation, and improve follow-ups.
 
 # Example Use Cases
 

@@ -1,6 +1,6 @@
 # Overview
 
-The Affinda API offers a suite of powerful tools for document analysis and extraction, enabling you to automate the processing of resumes, invoices, bank statements, and other documents. By parsing detailed information from documents, Affinda can transform unstructured data into structured, actionable insights. With Pipedream, you can integrate Affinda's capabilities into serverless workflows, connecting to hundreds of apps to automate tasks like candidate screening, financial data aggregation, or content management.
+The Affinda API offers a suite of powerful tools for document analysis and extraction, enabling you to automate the processing of resumes, invoices, bank statements, and other documents. By parsing detailed information from documents, Affinda can transform unstructured data into structured, actionable insights. With Pipedream, you can integrate Affinda's capabilities into serverless workflows, connecting to 3,000+ apps to automate tasks like candidate screening, financial data aggregation, or content management.
 
 # Example Use Cases
 

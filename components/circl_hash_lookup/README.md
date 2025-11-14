@@ -1,6 +1,6 @@
 # Overview
 
-The CIRCL Hash Lookup API offers a way to check files against known hashes to detect potential threats or verify file integrity. Within Pipedream's serverless platform, you can leverage this API to automate security checks, integrate with your existing cloud storage solutions, or enhance your incident response workflows by cross-referencing file hashes against CIRCL's extensive database. Pipedream's ability to connect to hundreds of apps allows you to create multifaceted workflows that trigger on various events, process data, and invoke the Hash Lookup API to provide real-time security analysis.
+The CIRCL Hash Lookup API offers a way to check files against known hashes to detect potential threats or verify file integrity. Within Pipedream's serverless platform, you can leverage this API to automate security checks, integrate with your existing cloud storage solutions, or enhance your incident response workflows by cross-referencing file hashes against CIRCL's extensive database. Pipedream's ability to connect to 3,000+ apps allows you to create multifaceted workflows that trigger on various events, process data, and invoke the Hash Lookup API to provide real-time security analysis.
 
 # Example Use Cases
 
