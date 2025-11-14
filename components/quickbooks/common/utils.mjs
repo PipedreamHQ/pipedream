@@ -219,3 +219,16 @@ export function buildPurchaseLineItems(numLineItems, context) {
   }
   return lineItems;
 }
+
+export function commaSeparateArray(arr) {
+  if (Array.isArray(arr) && arr.length > 0) {
+    return arr.join(",");
+  }
+  return arr;
+}
+
+export function booleanToString(bool) {
+  return bool === true || bool === "true"
+    ? "true"
+    : "false";
+}
