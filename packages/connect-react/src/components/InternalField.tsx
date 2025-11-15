@@ -5,7 +5,9 @@ import { FormFieldContext } from "../hooks/form-field-context";
 import { useFormContext } from "../hooks/form-context";
 import { Field } from "./Field";
 import { useApp } from "../hooks/use-app";
-import { useEffect, useMemo, useCallback } from "react";
+import {
+  useEffect, useCallback,
+} from "react";
 import { isConfigurablePropOfType } from "../utils/type-guards";
 
 type FieldInternalProps<T extends ConfigurableProp> = {
@@ -40,7 +42,11 @@ export function InternalField<T extends ConfigurableProp>({
   // Memoize the onChange callback to prevent recreating it on every render
   const handleChange = useCallback((value: unknown) => {
     setConfiguredProp(idx, value);
-  }, [idx, prop.name, setConfiguredProp]);
+  }, [
+    idx,
+    prop.name,
+    setConfiguredProp,
+  ]);
 
   // Create fieldCtx with current value on each render
   const fieldCtx: FormFieldContext<T> = {
@@ -60,7 +66,10 @@ export function InternalField<T extends ConfigurableProp>({
   // Don't re-register on every value change - that causes infinite loops
   useEffect(() => {
     registerField(fieldCtx);
-  }, [prop.name, registerField]); // Only re-run if field name changes
+  }, [
+    prop.name,
+    registerField,
+  ]); // Only re-run if field name changes
 
   return (
     <FormFieldContext.Provider value={fieldCtx}>

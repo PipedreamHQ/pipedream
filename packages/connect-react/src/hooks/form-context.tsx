@@ -212,11 +212,13 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     dynamicPropsId: dynamicProps?.id,
     // Only include props that have reloadProps: true (these are the ones that should trigger refetch)
     reloadTriggerProps: Object.fromEntries(
-      Object.entries(configuredProps).filter(([key]) => {
+      Object.entries(configuredProps).filter(([
+        key,
+      ]) => {
         const prop = (dynamicProps?.configurableProps || formProps.component.configurableProps || [])
           .find((p: ConfigurableProp) => p.name === key);
-        return prop && 'reloadProps' in prop && prop.reloadProps;
-      })
+        return prop && "reloadProps" in prop && prop.reloadProps;
+      }),
     ),
   }
 
@@ -446,8 +448,8 @@ export const FormContextProvider = <T extends ConfigurableProps>({
         const value = configuredProps[prop.name as keyof ConfiguredProps<T>];
         // Check if this prop came from dynamicProps (reloadProps response) using ref for stability
         const stableDynamicProps = dynamicPropsRef.current || dynamicProps;
-        const isFromDynamicProps = stableDynamicProps?.configurableProps?.some(p => p.name === prop.name) ?? false;
-        const isDynamicProp = isFromDynamicProps && !formProps.component.configurableProps?.some(p => p.name === prop.name);
+        const isFromDynamicProps = stableDynamicProps?.configurableProps?.some((p) => p.name === prop.name) ?? false;
+        const isDynamicProp = isFromDynamicProps && !formProps.component.configurableProps?.some((p) => p.name === prop.name);
 
         // ALWAYS preserve value if it exists, regardless of enabled status
         // This prevents losing user input when props aren't enabled yet
@@ -555,6 +557,35 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     setEnabledOptionalProps(newEnabledOptionalProps);
   };
 
+  useEffect(() => {
+    const propsToEnable: ConfigurableProp[] = [];
+    for (const prop of configurableProps) {
+      if (!prop.optional) {
+        continue;
+      }
+      if (optionalPropIsEnabled(prop)) {
+        continue;
+      }
+      const storedValue = configuredProps[prop.name as keyof ConfiguredProps<T>];
+      const initialValue = __configuredProps?.[prop.name as keyof ConfiguredProps<T>];
+      if (storedValue === undefined && initialValue === undefined) {
+        continue;
+      }
+      propsToEnable.push(prop);
+    }
+
+    if (!propsToEnable.length) {
+      return;
+    }
+
+    propsToEnable.forEach((prop) => optionalPropSetEnabled(prop, true));
+  }, [
+    component.key,
+    configurableProps,
+    configuredProps,
+    enabledOptionalProps,
+    __configuredProps,
+  ]);
 
   const checkPropsNeedConfiguring = () => {
     const _propsNeedConfiguring = []
