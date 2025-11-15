@@ -5520,6 +5520,9 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0
 
+  components/fraudlogix:
+    specifiers: {}
+
   components/freeagent:
     dependencies:
       '@pipedream/platform':
