@@ -231,33 +231,37 @@ export const FormContextProvider = <T extends ConfigurableProps>({
       queryKeyInput,
     ],
     queryFn: async () => {
-      const result = await client.components.reloadProps(componentReloadPropsInput);
-      const {
-        dynamicProps: sdkDynamicProps,
-        observations,
-        errors: __errors,
-      } = result as ReloadPropsResponse;
+      try {
+        const result = await client.components.reloadProps(componentReloadPropsInput);
+        const {
+          dynamicProps: sdkDynamicProps,
+          observations,
+          errors: __errors,
+        } = result as ReloadPropsResponse;
 
-      // Narrowing to generic T (ConfigurableProps) for downstream typing
-      const dynamicProps = sdkDynamicProps as DynamicProps<T>;
+        // Narrowing to generic T (ConfigurableProps) for downstream typing
+        const dynamicProps = sdkDynamicProps as DynamicProps<T>;
 
-      // Prioritize errors from observations over the errors array
-      if (observations && observations.filter((o) => o.k === "error").length > 0) {
-        handleSdkErrors(observations)
-      } else {
-        handleSdkErrors(__errors)
+        // Prioritize errors from observations over the errors array
+        if (observations && observations.filter((o) => o.k === "error").length > 0) {
+          handleSdkErrors(observations)
+        } else {
+          handleSdkErrors(__errors)
+        }
+
+        // XXX what about if null?
+        // TODO observation errors, etc.
+        // Clear reloadPropIdx BEFORE updating dynamicProps to prevent race condition
+        // where configurableProps useMemo sees updated dynamicProps with stale reloadPropIdx
+        setReloadPropIdx(undefined);
+        if (sdkDynamicProps && dynamicProps) {
+          formProps.onUpdateDynamicProps?.(sdkDynamicProps);
+          setDynamicProps(dynamicProps);
+        }
+        return []; // XXX ok to mutate above and not look at data?
+      } finally {
+        setReloadPropIdx(undefined);
       }
-
-      // XXX what about if null?
-      // TODO observation errors, etc.
-      // Clear reloadPropIdx BEFORE updating dynamicProps to prevent race condition
-      // where configurableProps useMemo sees updated dynamicProps with stale reloadPropIdx
-      setReloadPropIdx(undefined);
-      if (sdkDynamicProps && dynamicProps) {
-        formProps.onUpdateDynamicProps?.(sdkDynamicProps);
-        setDynamicProps(dynamicProps);
-      }
-      return []; // XXX ok to mutate above and not look at data?
     },
     enabled: reloadPropIdx != null, // TODO or props.dynamicPropsId && !dynamicProps
     refetchOnMount: false,
