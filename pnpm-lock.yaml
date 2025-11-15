@@ -2701,6 +2701,9 @@ importers:
 
   components/chmeetings: {}
 
+  components/chroma_cloud:
+    specifiers: {}
+
   components/chucknorris:
     dependencies:
       '@pipedream/platform':
