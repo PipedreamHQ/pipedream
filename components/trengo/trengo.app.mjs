@@ -268,16 +268,6 @@ export default {
         ...args,
       });
     },
-    async sendTicketMessage({
-      ticketId,
-      args = {},
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/tickets/${ticketId}/messages`,
-        ...args,
-      });
-    },
     async getHelpCenters(args = {}) {
       return this._makeRequest({
         path: "/help_center",
