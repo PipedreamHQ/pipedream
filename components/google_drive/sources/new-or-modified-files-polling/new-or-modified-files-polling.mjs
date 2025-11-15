@@ -8,7 +8,7 @@ export default {
   key: "google_drive-new-or-modified-files-polling",
   name: "New or Modified Files (Polling)",
   description: "Emit new event when a file in the selected Drive is created, modified or trashed. [See the documentation](https://developers.google.com/drive/api/v3/reference/changes/list)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
@@ -29,39 +29,34 @@ export default {
       optional: false,
     },
     files: {
+      propDefinition: [
+        googleDrive,
+        "fileId",
+        ({ drive }) => ({
+          drive,
+        }),
+      ],
       type: "string[]",
       label: "Files",
-      description: "The specific file(s) you want to watch for changes. Leave blank to watch all files in the Drive. Note that events will only be emitted for files directly in these folders (not in their subfolders, unless also selected here)",
+      description: "The specific file(s) to watch for changes. Leave blank to watch all files in the Drive. Note that events will only be emitted for files directly in these folders (not in their subfolders, unless also selected here)",
       optional: true,
       default: [],
-      options({ prevContext }) {
-        const { nextPageToken } = prevContext;
-        return this.googleDrive.listFilesOptions(nextPageToken, this.getListFilesOpts());
-      },
     },
     folders: {
+      propDefinition: [
+        googleDrive,
+        "folderId",
+        ({ drive }) => ({
+          drive,
+          baseOpts: {
+            q: `mimeType = '${GOOGLE_DRIVE_FOLDER_MIME_TYPE}' and trashed = false`,
+          },
+        }),
+      ],
       type: "string[]",
       label: "Folders",
       description: "The specific folder(s) to watch for changes. Leave blank to watch all folders in the Drive.",
       optional: true,
-      default: [],
-      options({ prevContext }) {
-        const { nextPageToken } = prevContext;
-        const baseOpts = {
-          q: "mimeType = 'application/vnd.google-apps.folder' and trashed = false",
-        };
-        const isMyDrive = this.googleDrive.isMyDrive(this.drive);
-        const opts = isMyDrive
-          ? baseOpts
-          : {
-            ...baseOpts,
-            corpora: "drive",
-            driveId: this.getDriveId(),
-            includeItemsFromAllDrives: true,
-            supportsAllDrives: true,
-          };
-        return this.googleDrive.listFilesOptions(nextPageToken, opts);
-      },
     },
     newFilesOnly: {
       type: "boolean",
