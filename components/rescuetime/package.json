@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/rescuetime",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream RescueTime Components",
   "main": "rescuetime.app.mjs",
   "keywords": [

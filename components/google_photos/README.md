@@ -1,6 +1,6 @@
 # Overview
 
-The Google Photos API allows you to integrate with Google's photo storage and sharing service, enabling you to create powerful automations around photo and album management. You can upload photos, create and manage albums, share photos and albums, and retrieve media items. When combined with Pipedream's ability to connect to hundreds of other apps, you can craft workflows that automate digital asset management, enhance productivity, and sync data across platforms.
+The Google Photos API allows you to integrate with Google's photo storage and sharing service, enabling you to create powerful automations around photo and album management. You can upload photos, create and manage albums, share photos and albums, and retrieve media items. When combined with Pipedream's ability to connect to 3,000+ other apps, you can craft workflows that automate digital asset management, enhance productivity, and sync data across platforms.
 
 # Example Use Cases
 

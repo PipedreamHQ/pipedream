@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/cloud_convert",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Cloud Convert Components",
   "main": "cloud_convert.app.mjs",
   "keywords": [

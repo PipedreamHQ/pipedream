@@ -416,6 +416,13 @@ export default {
         ...args,
       });
     },
+    async getAccountsFollowing(args = {}) {
+      const { id } = await this.verifyAccountCredentials();
+      return this._makeRequest({
+        path: `${API_V1}/accounts/${id}/following`,
+        ...args,
+      });
+    },
     async paginate(resourceFn, args, max = DEFAULT_PAGE_SIZE, resourceType = null) {
       const items = [];
       let done = false;

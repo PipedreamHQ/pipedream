@@ -90,3 +90,42 @@ export const formatCustomFields = async (resp, getResourcesFn, getFieldsFn) => {
     };
   });
 };
+
+export const formatCustomFieldDataFromSource = async ({
+  body, customFieldFn, resourceFn,
+}) => {
+  const customFieldNames = await getCustomFieldNames(customFieldFn);
+  const { data } = await resourceFn(body.data.id);
+  const formattedCustomFields = {};
+  for (const [
+    key,
+    value,
+  ] of Object.entries(customFieldNames)) {
+    formattedCustomFields[value] = data[key] ?? data?.custom_fields?.[key] ?? null;
+  }
+
+  const formattedPreviousCustomFields = {};
+  if (body?.previous?.custom_fields) {
+    for (const [
+      key,
+      value,
+    ] of Object.entries(customFieldNames)) {
+      if (body.previous.custom_fields[key]) {
+        formattedPreviousCustomFields[value] = body.previous.custom_fields[key];
+      }
+    }
+  }
+  return {
+    ...body,
+    data: {
+      ...body.data,
+      custom_fields: formattedCustomFields,
+    },
+    ...(body.previous?.custom_fields && {
+      previous: {
+        ...body.previous,
+        custom_fields: formattedPreviousCustomFields,
+      },
+    }),
+  };
+};

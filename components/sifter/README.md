@@ -1,6 +1,6 @@
 # Overview
 
-The Sifter API enables developers to craft workflows for tracking and managing customer interactions and support inquiries efficiently. By leveraging the Sifter API on Pipedream, users can automate issue tracking, streamline customer communication, and ensure quick resolution of support tickets. With Pipedream's ability to connect to hundreds of apps, you can create multi-step workflows that trigger actions in other tools, leading to increased productivity and a better support experience.
+The Sifter API enables developers to craft workflows for tracking and managing customer interactions and support inquiries efficiently. By leveraging the Sifter API on Pipedream, users can automate issue tracking, streamline customer communication, and ensure quick resolution of support tickets. With Pipedream's ability to connect to 3,000+ apps, you can create multi-step workflows that trigger actions in other tools, leading to increased productivity and a better support experience.
 
 # Example Use Cases
 
