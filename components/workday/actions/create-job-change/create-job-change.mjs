@@ -4,7 +4,7 @@ export default {
   key: "workday-create-job-change",
   name: "Create Job Change",
   description: "Create a job change for a worker. [See the documentation](https://community.workday.com/sites/default/files/file-hosting/restapi/#common/v1/post-/workers/-ID-/jobChanges)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
