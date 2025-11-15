@@ -1,6 +1,6 @@
 # Overview
 
-The SurveySparrow API lets you tap into a robust platform for gathering feedback and insights. With Pipedream, you can automate interactions with your surveys, manage contacts, and analyze responses in real time. You can create workflows that trigger on new survey responses, sync data to other services, or even kick off email campaigns based on survey results. The power of Pipedream's serverless platform means you can integrate SurveySparrow with hundreds of other apps, enabling limitless automation scenarios without writing extensive code.
+The SurveySparrow API lets you tap into a robust platform for gathering feedback and insights. With Pipedream, you can automate interactions with your surveys, manage contacts, and analyze responses in real time. You can create workflows that trigger on new survey responses, sync data to other services, or even kick off email campaigns based on survey results. The power of Pipedream's serverless platform means you can integrate SurveySparrow with 3,000+ other apps, enabling limitless automation scenarios without writing extensive code.
 
 # Example Use Cases
 

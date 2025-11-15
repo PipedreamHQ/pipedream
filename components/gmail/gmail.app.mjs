@@ -3,12 +3,12 @@ import {
   axios,
   ConfigurationError,
 } from "@pipedream/platform";
+import { JWT } from "google-auth-library";
 import { convert } from "html-to-text";
 import mime from "mime/types/standard.js";
-import MailComposer from "nodemailer/lib/mail-composer/index.js";
 import addressparser from "nodemailer/lib/addressparser/index.js";
+import MailComposer from "nodemailer/lib/mail-composer/index.js";
 import constants from "./common/constants.mjs";
-import { JWT } from "google-auth-library";
 
 export default {
   type: "app",
@@ -161,6 +161,33 @@ export default {
               value: body.attachmentId,
               label: filename,
             })) || [];
+        } catch {
+          return [];
+        }
+      },
+    },
+    threadId: {
+      type: "string",
+      label: "Thread ID",
+      description: "Identifier of the thread to list messages from",
+      async options({ prevContext }) {
+        try {
+          const {
+            threads, nextPageToken,
+          } = await this.listThreads({
+            pageToken: prevContext?.nextPageToken,
+          });
+          return {
+            options: threads.map(({
+              id: value, snippet: label,
+            }) => ({
+              value,
+              label,
+            })),
+            context: {
+              nextPageToken,
+            },
+          };
         } catch {
           return [];
         }
@@ -418,6 +445,20 @@ export default {
       const { data } = await this._client().users.history.list({
         userId: constants.USER_ID,
         ...opts,
+      });
+      return data;
+    },
+    async listThreads(opts = {}) {
+      const { data } = await this._client().users.threads.list({
+        userId: constants.USER_ID,
+        ...opts,
+      });
+      return data;
+    },
+    async getThread({ threadId }) {
+      const { data } = await this._client().users.threads.get({
+        userId: constants.USER_ID,
+        id: threadId,
       });
       return data;
     },

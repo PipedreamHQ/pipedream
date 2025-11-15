@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/opencti",
+  "version": "0.0.1",
+  "description": "Pipedream OpenCTI Components",
+  "main": "opencti.app.mjs",
+  "keywords": [
+    "pipedream",
+    "opencti"
+  ],
+  "homepage": "https://pipedream.com/apps/opencti",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

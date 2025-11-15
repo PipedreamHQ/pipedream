@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/woocommerce",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Pipedream WooCommerce Components",
   "main": "woocommerce.app.mjs",
   "keywords": [
@@ -12,8 +12,6 @@
   "dependencies": {
     "@pipedream/platform": "^0.10.1",
     "@woocommerce/woocommerce-rest-api": "^1.0.2",
-    "lodash.pick": "^4.4.0",
-    "lodash.pickby": "^4.6.0",
     "query-string": "^7.1.1"
   },
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",

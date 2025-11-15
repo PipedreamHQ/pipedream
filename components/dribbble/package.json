@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/dribbble",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Dribbble Components",
   "main": "dribbble.app.mjs",
   "keywords": [

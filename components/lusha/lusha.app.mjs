@@ -19,7 +19,7 @@ export default {
     locations: {
       type: "string[]",
       label: "Company Locations",
-      description: "Location filters for companies to search",
+      description: "Location country filters for companies to search. Eg. `United States`, `Canada`, `United Kingdom`, etc.",
       optional: true,
     },
     sizes: {
@@ -141,7 +141,26 @@ export default {
     location: {
       type: "string[]",
       label: "Contact Locations",
-      description: "Location filters for contacts to search (JSON strings)",
+      description: `Location filters for contacts to search. Each entry should be a JSON object with the following optional fields:
+
+**Available Fields:**
+- \`continent\` - The continent name (e.g., "North America")
+- \`country\` - The country name (e.g., "United States")
+- \`country_grouping\` - Country grouping code (e.g., "na" for North America)
+- \`state\` - The state or region name (e.g., "New York")
+- \`city\` - The city name (e.g., "New York")
+
+**Example JSON:**
+\`\`\`json
+[
+  {
+    "continent": "North America",
+    "country": "United States",
+    "state": "New York",
+    "city": "New York"
+  }
+]
+\`\`\``,
       optional: true,
     },
     requestId: {
@@ -261,22 +280,23 @@ export default {
       });
     },
     async *paginate({
-      fn, params = {}, maxResults = null, ...opts
+      fn, data = {}, maxResults = null, ...opts
     }) {
       let hasMore = false;
       let count = 0;
       let page = -1;
 
       do {
-        params.pages = {
+        data.pages = {
           page: ++page,
           size: 50,
         };
-        const { data } = await fn({
-          params,
+        const response = await fn({
+          data,
           ...opts,
         });
-        for (const d of data) {
+        const results = response.data || [];
+        for (const d of results) {
           yield d;
 
           if (maxResults && ++count === maxResults) {
@@ -284,7 +304,7 @@ export default {
           }
         }
 
-        hasMore = data.length;
+        hasMore = results.length;
 
       } while (hasMore);
     },

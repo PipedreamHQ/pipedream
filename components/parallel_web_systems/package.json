@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/parallel_web_systems",
+  "version": "0.0.1",
+  "description": "Pipedream Parallel Web Systems Components",
+  "main": "parallel_web_systems.app.mjs",
+  "keywords": [
+    "pipedream",
+    "parallel_web_systems"
+  ],
+  "homepage": "https://pipedream.com/apps/parallel_web_systems",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

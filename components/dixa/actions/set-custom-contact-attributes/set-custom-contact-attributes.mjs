@@ -4,7 +4,7 @@ export default {
   key: "dixa-set-custom-contact-attributes",
   name: "Set Custom Contact Attributes",
   description: "Updates custom attributes for a specified user. [See the documentation](https://docs.dixa.io/openapi/dixa-api/v1/tag/Custom-Attributes/#tag/Custom-Attributes/operation/patchEndusersUseridCustom-attributes)",
-  version: "0.0.2",
+  version: "0.0.4",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

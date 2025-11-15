@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/octave",
+  "version": "0.0.1",
+  "description": "Pipedream Octave Components",
+  "main": "octave.app.mjs",
+  "keywords": [
+    "pipedream",
+    "octave"
+  ],
+  "homepage": "https://pipedream.com/apps/octave",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

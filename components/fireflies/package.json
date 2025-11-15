@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/fireflies",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Pipedream Fireflies Components",
   "main": "fireflies.app.mjs",
   "keywords": [

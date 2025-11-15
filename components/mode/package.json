@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/mode",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Mode Components",
   "main": "mode.app.mjs",
   "keywords": [

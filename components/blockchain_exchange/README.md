@@ -1,6 +1,6 @@
 # Overview
 
-With the Blockchain Exchange API, you can interact with the Blockchain Exchange platform programmatically to automate trading strategies, monitor market data, and manage accounts. This robust API allows you to execute trades, retrieve real-time and historical market data, and access account information within Pipedream's serverless platform. Pipedream provides a no-code, low-code environment where you can connect the Blockchain Exchange API with hundreds of other apps to create custom, automated workflows.
+With the Blockchain Exchange API, you can interact with the Blockchain Exchange platform programmatically to automate trading strategies, monitor market data, and manage accounts. This robust API allows you to execute trades, retrieve real-time and historical market data, and access account information within Pipedream's serverless platform. Pipedream provides a no-code, low-code environment where you can connect the Blockchain Exchange API with 3,000+ other apps to create custom, automated workflows.
 
 # Example Use Cases
 

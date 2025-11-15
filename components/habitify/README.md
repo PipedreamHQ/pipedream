@@ -1,6 +1,6 @@
 # Overview
 
-The Habitify API lets you interact with your habits and data within the Habitify platform programmatically. By leveraging this API in Pipedream, you can automate custom workflows that help track habits, measure progress, and push notifications, among others. Pipedream's serverless platform makes it easy to connect Habitify with hundreds of other apps to automate complex tasks without writing extensive code.
+The Habitify API lets you interact with your habits and data within the Habitify platform programmatically. By leveraging this API in Pipedream, you can automate custom workflows that help track habits, measure progress, and push notifications, among others. Pipedream's serverless platform makes it easy to connect Habitify with 3,000+ other apps to automate complex tasks without writing extensive code.
 
 # Example Use Cases
 

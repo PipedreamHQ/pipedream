@@ -173,6 +173,41 @@ export default {
         }));
       },
     },
+    labelId: {
+      type: "integer",
+      label: "Label ID",
+      description: "Select a label or provide an ID",
+      async options({ page = 0 }) {
+        const response = await this.listLabels({
+          params: {
+            page: page + 1,
+          },
+        });
+        return response.data.map((label) => ({
+          label: label.name,
+          value: label.id,
+        }));
+      },
+    },
+    messageId: {
+      type: "integer",
+      label: "Message ID",
+      description: "Select a message or provide an ID",
+      async options({
+        ticketId, page = 0,
+      }) {
+        const response = await this.getMessages({
+          ticketId,
+          params: {
+            page: page + 1,
+          },
+        });
+        return response.data.map((message) => ({
+          label: message.message,
+          value: message.id,
+        }));
+      },
+    },
   },
   methods: {
     _getUrl(path) {
@@ -303,6 +338,37 @@ export default {
     }) {
       return this._makeRequest({
         path: `/tickets/${ticketId}/messages`,
+        ...args,
+      });
+    },
+    getMessage({
+      ticketId, messageId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/tickets/${ticketId}/messages/${messageId}`,
+        ...args,
+      });
+    },
+    getLabel({
+      labelId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/labels/${labelId}`,
+        ...args,
+      });
+    },
+    listLabels(args = {}) {
+      return this._makeRequest({
+        path: "/labels",
+        ...args,
+      });
+    },
+    attachLabel({
+      ticketId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/tickets/${ticketId}/labels`,
         ...args,
       });
     },

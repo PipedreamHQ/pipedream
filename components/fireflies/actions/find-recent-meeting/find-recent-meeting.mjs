@@ -6,7 +6,7 @@ export default {
   key: "fireflies-find-recent-meeting",
   name: "Find Recent Meeting",
   description: "Retrieves the most recent meeting for a user. [See the documentation](https://docs.fireflies.ai/graphql-api/query/user)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
