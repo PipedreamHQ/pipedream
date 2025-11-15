@@ -60,10 +60,7 @@ export function ControlInput() {
       type={inputType}
       name={prop.name}
       value={String(value ?? "")}
-      onChange={(e) => {
-        console.log('🔧 ControlInput onChange fired', { propName: prop.name, newValue: e.target.value });
-        onChange(toOnChangeValue(e.target.value));
-      }}
+      onChange={(e) => onChange(toOnChangeValue(e.target.value))}
       {...getProps("controlInput", baseStyles, formFieldContextProps)}
       min={min}
       max={max}

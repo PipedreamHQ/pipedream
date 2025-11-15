@@ -276,15 +276,6 @@ export const FormContextProvider = <T extends ConfigurableProps>({
 
   // XXX fix types of dynamicProps, props.component so this type decl not needed
   const configurableProps = useMemo(() => {
-    console.log('🔧 configurableProps useMemo: recomputing', {
-      hasDynamicProps: !!dynamicProps,
-      hasDynamicPropsRef: !!dynamicPropsRef.current,
-      dynamicPropsId: dynamicProps?.id,
-      dynamicPropsRefId: dynamicPropsRef.current?.id,
-      dynamicPropsCount: dynamicProps?.configurableProps?.length,
-      dynamicPropsRefCount: dynamicPropsRef.current?.configurableProps?.length,
-      fallbackCount: formProps.component.configurableProps?.length
-    });
     // Use ref to get stable value across renders, fall back to state if ref is empty
     const stableDynamicProps = dynamicPropsRef.current || dynamicProps;
     let props = stableDynamicProps?.configurableProps || formProps.component.configurableProps || [];
@@ -298,17 +289,12 @@ export const FormContextProvider = <T extends ConfigurableProps>({
       }
       props = _configurableProps;
     }
-    const propsBeforeSlice = props.length;
     // ONLY slice props while the reload query is actively fetching
     // Once the query completes, show all props including newly loaded dynamic props
     if (reloadPropIdx != null && dynamicPropsQueryIsFetching) {
-      console.log('🔧 configurableProps: SLICING during active query', { reloadPropIdx, propsBeforeSlice, isFetching: dynamicPropsQueryIsFetching });
       props = Array.isArray(props)
         ? props.slice(0, reloadPropIdx + 1) // eslint-disable-line react/prop-types
         : props; // XXX
-      console.log('🔧 configurableProps: SLICED props', { propsAfterSlice: props.length, removed: propsBeforeSlice - props.length });
-    } else if (reloadPropIdx != null) {
-      console.log('🔧 configurableProps: NOT slicing (query completed)', { reloadPropIdx, propsBeforeSlice, isFetching: dynamicPropsQueryIsFetching });
     }
     // Narrowing to generic T (ConfigurableProps) for downstream typing
     return props as T;
@@ -445,11 +431,6 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   ]);
 
   useEffect(() => {
-    console.log('🔧 Effect 4: START', {
-      configurablePropsCount: configurableProps.length,
-      configurablePropsNames: configurableProps.map(p => p.name),
-      configuredPropsKeys: Object.keys(configuredProps)
-    });
     const newConfiguredProps: ConfiguredProps<T> = {} as ConfiguredProps<T>;
     for (const prop of configurableProps) {
       if (prop.hidden) {
@@ -468,30 +449,19 @@ export const FormContextProvider = <T extends ConfigurableProps>({
         const isFromDynamicProps = stableDynamicProps?.configurableProps?.some(p => p.name === prop.name) ?? false;
         const isDynamicProp = isFromDynamicProps && !formProps.component.configurableProps?.some(p => p.name === prop.name);
 
-        console.log('🔧 Effect 4: optional prop not enabled', {
-          propName: prop.name,
-          hasValue: value !== undefined,
-          isDynamic: isDynamicProp,
-          isFromDynamicProps,
-          willPreserve: value !== undefined || isDynamicProp
-        });
-
         // ALWAYS preserve value if it exists, regardless of enabled status
         // This prevents losing user input when props aren't enabled yet
         if (value !== undefined) {
-          console.log('🔧 Effect 4: PRESERVING value (not enabled but has value)', { propName: prop.name, value });
           newConfiguredProps[prop.name as keyof ConfiguredProps<T>] = value;
           continue;
         }
 
         // If no value, preserve dynamic props (they'll be auto-enabled)
         if (isDynamicProp) {
-          console.log('🔧 Effect 4: PRESERVING dynamic prop slot (no value yet)', { propName: prop.name });
           // Don't add to newConfiguredProps - no value to preserve
           continue;
         }
 
-        console.log('🔧 Effect 4: SKIPPING (not preserving)', { propName: prop.name });
         continue;
       }
       const value = configuredProps[prop.name as keyof ConfiguredProps<T>];
@@ -585,35 +555,6 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     setEnabledOptionalProps(newEnabledOptionalProps);
   };
 
-  // Auto-enable optional props with saved values so dependent dynamic props reload correctly
-  // ALSO auto-enable dynamically loaded props (from reloadProps/additionalProps)
-  // DISABLED: This was causing infinite loops with Effect 4
-  useEffect(() => {
-    return; // TEMPORARILY DISABLED
-    for (const prop of configurableProps) {
-      if (!prop.optional) continue;
-      if (enabledOptionalProps[prop.name]) continue;
-
-      const value = configuredProps[prop.name as keyof ConfiguredProps<T>];
-
-      // Enable if: (1) has saved value OR (2) is NOT in the original component.configurableProps
-      // (meaning it was added dynamically via reloadProps)
-      const isOriginalProp = formProps.component.configurableProps?.some(p => p.name === prop.name);
-      const isDynamicProp = !isOriginalProp;
-
-      if (value !== undefined || isDynamicProp) {
-        console.log('🔧 Auto-enabling optional prop:', { propName: prop.name, hasValue: value !== undefined, isDynamic: isDynamicProp });
-        optionalPropSetEnabled(prop, true);
-      }
-    }
-  }, [
-    component.key,
-    configurableProps,
-    configuredProps,
-    enabledOptionalProps,
-    optionalPropSetEnabled,
-    formProps.component.configurableProps,
-  ]);
 
   const checkPropsNeedConfiguring = () => {
     const _propsNeedConfiguring = []
@@ -625,7 +566,6 @@ export const FormContextProvider = <T extends ConfigurableProps>({
         _propsNeedConfiguring.push(prop.name)
       }
     }
-    // propsNeedConfiguring.splice(0, propsNeedConfiguring.length, ..._propsNeedConfiguring)
 
     // Prevent useEffect/useState infinite loop by updating
     // propsNeedConfiguring only if there is an actual change to the list of
