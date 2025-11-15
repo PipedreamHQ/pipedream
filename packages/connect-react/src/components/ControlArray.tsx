@@ -1,5 +1,5 @@
 import {
-  useState, useEffect,
+  useState, useEffect, useRef,
 } from "react";
 import { useFormFieldContext } from "../hooks/form-field-context";
 import { useCustomize } from "../hooks/customization-context";
@@ -39,12 +39,11 @@ export function ControlArray() {
     setValues,
   ] = useState<string[]>(initializeValues);
 
-  // Update values when value changes externally
+  // Only sync on mount or when component prop changes (forces reset)
+  // Don't sync on every value change - that fights with user input
   useEffect(() => {
     setValues(initializeValues());
-  }, [
-    value,
-  ]);
+  }, [prop.name]); // Only reset if the prop itself changes (different field)
 
   const updateArray = (newValues: string[]) => {
     // Filter out empty values
