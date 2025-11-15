@@ -1,3 +1,4 @@
+import md5 from "md5";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import microsoftOutlook from "../../microsoft_outlook.app.mjs";
 import sampleEmit from "./test-event.mjs";
@@ -70,7 +71,7 @@ export default {
         this.$emit(
           item,
           {
-            id: item.id,
+            id: md5(item.id),
             summary: `A new email with subject ${item.subject} was received!`,
             ts,
           },
