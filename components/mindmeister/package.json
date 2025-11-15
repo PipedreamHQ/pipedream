@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/mindmeister",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream MindMeister Components",
   "main": "mindmeister.app.mjs",
   "keywords": [

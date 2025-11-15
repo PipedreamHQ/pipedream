@@ -1,6 +1,6 @@
 # Overview
 
-The Onethread API allows you to tap into a project management platform designed to streamline teamwork and improve project execution. By integrating the Onethread API with Pipedream, you can automate repetitive tasks, sync data with other tools, and create custom notifications and reports. This enables you to craft workflows that connect Onethread data with hundreds of other apps, leading to a more efficient project management environment.
+The Onethread API allows you to tap into a project management platform designed to streamline teamwork and improve project execution. By integrating the Onethread API with Pipedream, you can automate repetitive tasks, sync data with other tools, and create custom notifications and reports. This enables you to craft workflows that connect Onethread data with 3,000+ other apps, leading to a more efficient project management environment.
 
 # Example Use Cases
 

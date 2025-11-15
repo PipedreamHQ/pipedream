@@ -1,6 +1,6 @@
 # Overview
 
-SimpleHash API offers tools to easily verify and retrieve blockchain data, simplifying the complexities involved in interacting with various blockchain protocols. With SimpleHash on Pipedream, you can automate workflows to monitor transactions, validate wallet addresses, fetch non-fungible token (NFT) metadata, and more, all in real-time. Pipedream's serverless platform lets you connect SimpleHash with hundreds of other apps to trigger actions, process data, and create powerful automations without needing to manage infrastructure.
+SimpleHash API offers tools to easily verify and retrieve blockchain data, simplifying the complexities involved in interacting with various blockchain protocols. With SimpleHash on Pipedream, you can automate workflows to monitor transactions, validate wallet addresses, fetch non-fungible token (NFT) metadata, and more, all in real-time. Pipedream's serverless platform lets you connect SimpleHash with 3,000+ other apps to trigger actions, process data, and create powerful automations without needing to manage infrastructure.
 
 # Example Use Cases
 

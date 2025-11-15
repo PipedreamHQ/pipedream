@@ -4,7 +4,7 @@ export default {
   key: "mastodon-delete-status",
   name: "Delete Status",
   description: "Delete one of your own statuses. [See the docs here](https://docs.joinmastodon.org/methods/statuses/#delete)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

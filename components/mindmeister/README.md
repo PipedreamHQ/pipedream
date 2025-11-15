@@ -1,6 +1,6 @@
 # Overview
 
-The MindMeister API lets you integrate real-time mind mapping into your projects. By connecting MindMeister to Pipedream, you can automate mind map creation, updates, and sharing processes. It's ideal for brainstorming sessions, project planning, and knowledge management. With Pipedream's serverless platform, you can trigger workflows with HTTP requests, schedules, or app events, and connect MindMeister with hundreds of other apps to streamline your tasks.
+The MindMeister API lets you integrate real-time mind mapping into your projects. By connecting MindMeister to Pipedream, you can automate mind map creation, updates, and sharing processes. It's ideal for brainstorming sessions, project planning, and knowledge management. With Pipedream's serverless platform, you can trigger workflows with HTTP requests, schedules, or app events, and connect MindMeister with 3,000+ other apps to streamline your tasks.
 
 # Example Use Cases
 

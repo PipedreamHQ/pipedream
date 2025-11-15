@@ -1,6 +1,6 @@
 # Overview
 
-The Annature API provides functionality for electronic signatures, allowing documents to be signed digitally with ease and security. Integrating this API with Pipedream, users can automate document workflows, such as sending contracts for signature, tracking the status of documents, and storing signed agreements. By leveraging serverless workflows on Pipedream, these processes can be connected to hundreds of other apps to create efficient automation solutions.
+The Annature API provides functionality for electronic signatures, allowing documents to be signed digitally with ease and security. Integrating this API with Pipedream, users can automate document workflows, such as sending contracts for signature, tracking the status of documents, and storing signed agreements. By leveraging serverless workflows on Pipedream, these processes can be connected to 3,000+ other apps to create efficient automation solutions.
 
 # Example Use Cases
 
