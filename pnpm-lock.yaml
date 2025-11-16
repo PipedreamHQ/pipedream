@@ -5200,6 +5200,9 @@ importers:
 
   components/fingertip: {}
 
+  components/finlight_me:
+    specifiers: {}
+
   components/finmei:
     dependencies:
       '@pipedream/platform':
