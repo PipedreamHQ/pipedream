@@ -9569,6 +9569,9 @@ importers:
         specifier: ^8.3.2
         version: 8.3.2
 
+  components/mythictext:
+    specifiers: {}
+
   components/n1n: {}
 
   components/n8n_io: {}
