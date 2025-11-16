@@ -5923,6 +5923,9 @@ importers:
 
   components/glide: {}
 
+  components/global_exchange_rates:
+    specifiers: {}
+
   components/globalping: {}
 
   components/gloria_ai:
