@@ -996,6 +996,9 @@ importers:
 
   components/apex_27: {}
 
+  components/api2convert:
+    specifiers: {}
+
   components/api2pdf: {}
 
   components/api4ai:
