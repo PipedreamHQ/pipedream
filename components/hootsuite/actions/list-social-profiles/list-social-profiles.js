@@ -25,8 +25,9 @@ export default {
       });
       return response.data.data; 
     } catch (error) {
-      console.error("API call to Hootsuite failed:", error.response.data);
-      throw new Error(`Failed to retrieve social profiles. Error: ${error.response.data.errors[0].message}`);
+      console.error("API call to Hootsuite failed:", error.response?.data || error.message);
+      const errorMessage = error.response?.data?.errors?.[0]?.message || error.message || "Unknown error";
+      throw new Error(`Failed to retrieve social profiles. Error: ${errorMessage}`);
     }
   },
 };
