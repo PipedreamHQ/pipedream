@@ -18,10 +18,9 @@ export default {
     const url = "https://api.hootsuite.com/v1/socialProfiles";
     try {
       const response = await axios(this, {
-        method: "GET",
-        url: url,
+        url,
         headers: {
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
       return response.data.data; 
