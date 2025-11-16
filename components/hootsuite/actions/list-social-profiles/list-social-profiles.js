@@ -13,6 +13,12 @@ export default {
     },
   },
 
+  /**
+   * Retrieves all social profiles for the authenticated Hootsuite account
+   * @param {object} params - The parameters object
+   * @param {object} params.props - The action props containing the hootsuite app
+   * @returns {Promise<Array>} An array of social profile objects from Hootsuite
+   */
   async run({ props }) {
     const token = props.hootsuite.$auth.oauth_access_token;
     const url = "https://api.hootsuite.com/v1/socialProfiles";
