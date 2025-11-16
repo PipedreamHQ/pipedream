@@ -13998,6 +13998,9 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
+  components/socialkit:
+    specifiers: {}
+
   components/softledger: {}
 
   components/softr:
