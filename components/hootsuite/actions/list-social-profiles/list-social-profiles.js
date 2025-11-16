@@ -1,6 +1,11 @@
 import { axios } from "@pipedream/platform";
 
 export default {
+  key: "hootsuite-list-social-profiles",
+  name: "List Social Profiles",
+  description: "Retrieves a list of social profiles for the authenticated Hootsuite account. [See the documentation](https://apidocs.hootsuite.com/docs/api/index.html#operation/getSocialProfiles)",
+  version: "0.0.1",
+  type: "action",
   props: {
     hootsuite: {
       type: "app",
