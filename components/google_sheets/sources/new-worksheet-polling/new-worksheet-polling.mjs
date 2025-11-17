@@ -7,7 +7,7 @@ import sampleEmit from "./test-event.mjs";
 export default {
   ...common,
   key: "google_sheets-new-worksheet-polling",
-  name: "New Worksheet",
+  name: "New Worksheet (Polling)",
   description: "Emit new event each time a new worksheet is created in a spreadsheet.",
   version: "0.0.1",
   dedupe: "unique",
