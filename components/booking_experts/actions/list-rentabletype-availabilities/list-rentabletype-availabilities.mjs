@@ -9,11 +9,16 @@ export default {
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
-    readOnlyHint: false,
+    readOnlyHint: true,
   },
   type: "action",
   props: {
     bookingExperts,
+    info: {
+      type: "alert",
+      alertType: "warning",
+      content: "**The API will only list channels created through the Booking Experts API.**",
+    },
     channelId: {
       propDefinition: [
         bookingExperts,

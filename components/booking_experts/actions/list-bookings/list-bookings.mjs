@@ -29,10 +29,10 @@ export default {
       ],
       description: "Filter by owner",
     },
-    listAdministrationChannels: {
+    administrationChannelId: {
       propDefinition: [
         bookingExperts,
-        "listAdministrationChannels",
+        "administrationChannelId",
         (c) => ({
           administrationId: c.administrationId,
         }),

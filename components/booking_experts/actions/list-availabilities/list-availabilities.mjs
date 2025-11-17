@@ -13,6 +13,11 @@ export default {
   type: "action",
   props: {
     bookingExperts,
+    info: {
+      type: "alert",
+      alertType: "warning",
+      content: "**You must have at least one channel created through the Booking Experts API.**",
+    },
   },
   async run({ $ }) {
     const { data } = await this.bookingExperts.listAvailabilities({

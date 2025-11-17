@@ -28,6 +28,11 @@ export default {
         }),
       ],
     },
+    info: {
+      type: "alert",
+      alertType: "warning",
+      content: "**The API will only list guests created through the Booking Experts API.**",
+    },
     guestId: {
       propDefinition: [
         bookingExperts,

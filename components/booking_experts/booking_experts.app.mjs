@@ -97,6 +97,9 @@ export default {
             "page[number]": page + 1,
           },
         });
+
+        console.log("data: ", data);
+
         return data?.map(({
           id, attributes,
         }) => ({
@@ -142,7 +145,7 @@ export default {
         return data?.map(({
           id, attributes,
         }) => ({
-          label: `${attributes.start_date} - ${attributes.end_date}`,
+          label: `(${attributes.booking_nr}) ${attributes.start_date} - ${attributes.end_date}`,
           value: id,
         })) || [];
       },
