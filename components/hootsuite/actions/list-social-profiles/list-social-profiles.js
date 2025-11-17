@@ -1,4 +1,4 @@
-import { axios } from "@pipedream/platform";
+import hootsuite from "../../hootsuite.app.mjs";
 
 export default {
   key: "hootsuite-list-social-profiles",
@@ -6,30 +6,29 @@ export default {
   description: "Retrieves a list of social profiles for the authenticated Hootsuite account. [See the documentation](https://apidocs.hootsuite.com/docs/api/index.html#operation/getSocialProfiles)",
   version: "0.0.1",
   type: "action",
-  props: {
-    hootsuite: {
-      type: "app",
-      app: "hootsuite",
-    },
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
   },
-
+  props: {
+    hootsuite,
+  },
   /**
    * Retrieves all social profiles for the authenticated Hootsuite account
    * @param {object} params - The parameters object
    * @param {object} params.props - The action props containing the hootsuite app
    * @returns {Promise<Array>} An array of social profile objects from Hootsuite
    */
-  async run({ props }) {
-    const token = props.hootsuite.$auth.oauth_access_token;
-    const url = "https://api.hootsuite.com/v1/socialProfiles";
+  async run({ $ }) {
     try {
-      const response = await axios(this, {
-        url,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+      const response = await $.apps.hootsuite.listSocialProfiles({
+        $,
       });
-      return response.data.data; 
+      $.export("$summary", `Successfully retrieved ${response?.data?.length} social profile${response?.data?.length === 1
+        ? ""
+        : "s"}`);
+      return response;
     } catch (error) {
       console.error("API call to Hootsuite failed:", error.response?.data || error.message);
       const errorMessage = error.response?.data?.errors?.[0]?.message || error.message || "Unknown error";
