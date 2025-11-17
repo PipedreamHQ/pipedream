@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/mythictext",
+  "version": "0.0.1",
+  "description": "Pipedream MythicText Components",
+  "main": "mythictext.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mythictext"
+  ],
+  "homepage": "https://pipedream.com/apps/mythictext",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

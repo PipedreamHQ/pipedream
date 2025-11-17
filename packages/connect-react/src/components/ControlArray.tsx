@@ -1,5 +1,5 @@
 import {
-  useState, useEffect,
+  useState, useEffect, useRef,
 } from "react";
 import { useFormFieldContext } from "../hooks/form-field-context";
 import { useCustomize } from "../hooks/customization-context";
@@ -39,11 +39,54 @@ export function ControlArray() {
     setValues,
   ] = useState<string[]>(initializeValues);
 
-  // Update values when value changes externally
+  const valuesRef = useRef(values);
+  useEffect(() => {
+    valuesRef.current = values;
+  }, [
+    values,
+  ]);
+
+  const normalizeExternalValue = () => {
+    if (!Array.isArray(value)) {
+      return [];
+    }
+    return value
+      .map((entry) => (typeof entry === "string"
+        ? entry
+        : JSON.stringify(entry)))
+      .filter((entry) => entry.trim() !== "");
+  };
+
+  const normalizeLocalValues = (inputValues: string[]) => inputValues
+    .filter((entry) => entry.trim() !== "");
+
+  const arraysMatch = (a: string[], b: string[]) => {
+    if (a.length !== b.length) {
+      return false;
+    }
+    for (let i = 0; i < a.length; i += 1) {
+      if (a[i] !== b[i]) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  useEffect(() => {
+    const normalizedExternal = normalizeExternalValue();
+    const normalizedLocal = normalizeLocalValues(valuesRef.current);
+
+    if (!arraysMatch(normalizedLocal, normalizedExternal)) {
+      setValues(initializeValues());
+    }
+  }, [
+    value,
+  ]);
+
   useEffect(() => {
     setValues(initializeValues());
   }, [
-    value,
+    prop.name,
   ]);
 
   const updateArray = (newValues: string[]) => {

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/global_exchange_rates",
+  "version": "0.0.1",
+  "description": "Pipedream Global Exchange Rates Components",
+  "main": "global_exchange_rates.app.mjs",
+  "keywords": [
+    "pipedream",
+    "global_exchange_rates"
+  ],
+  "homepage": "https://pipedream.com/apps/global_exchange_rates",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

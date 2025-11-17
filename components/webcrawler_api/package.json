@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/webcrawler_api",
+  "version": "0.0.1",
+  "description": "Pipedream Webcrawler API Components",
+  "main": "webcrawler_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "webcrawler_api"
+  ],
+  "homepage": "https://pipedream.com/apps/webcrawler_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

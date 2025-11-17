@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/release0",
+  "version": "0.0.1",
+  "description": "Pipedream Release0 Components",
+  "main": "release0.app.mjs",
+  "keywords": [
+    "pipedream",
+    "release0"
+  ],
+  "homepage": "https://pipedream.com/apps/release0",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

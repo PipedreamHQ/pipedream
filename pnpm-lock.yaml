@@ -996,6 +996,9 @@ importers:
 
   components/apex_27: {}
 
+  components/api2convert:
+    specifiers: {}
+
   components/api2pdf: {}
 
   components/api4ai:
@@ -2701,6 +2704,9 @@ importers:
 
   components/chmeetings: {}
 
+  components/chroma_cloud:
+    specifiers: {}
+
   components/chucknorris:
     dependencies:
       '@pipedream/platform':
@@ -2948,6 +2954,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.0
         version: 3.1.1
+
+  components/clockodo:
+    specifiers: {}
 
   components/clockwork_recruiting:
     dependencies:
@@ -5191,6 +5200,9 @@ importers:
 
   components/fingertip: {}
 
+  components/finlight_me:
+    specifiers: {}
+
   components/finmei:
     dependencies:
       '@pipedream/platform':
@@ -5510,6 +5522,9 @@ importers:
       fraudlabspro-nodejs:
         specifier: ^3.0.0
         version: 3.0.0
+
+  components/fraudlogix:
+    specifiers: {}
 
   components/freeagent:
     dependencies:
@@ -5907,6 +5922,9 @@ importers:
         version: 1.6.8
 
   components/glide: {}
+
+  components/global_exchange_rates:
+    specifiers: {}
 
   components/globalping: {}
 
@@ -7916,6 +7934,9 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/kualitee:
+    specifiers: {}
+
   components/kucoin_futures:
     dependencies:
       '@pipedream/platform':
@@ -9553,6 +9574,9 @@ importers:
       uuid:
         specifier: ^8.3.2
         version: 8.3.2
+
+  components/mythictext:
+    specifiers: {}
 
   components/n1n: {}
 
@@ -11651,6 +11675,9 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
+  components/profileapi:
+    specifiers: {}
+
   components/profitwell:
     dependencies:
       '@pipedream/platform':
@@ -11813,6 +11840,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
+
+  components/qase:
+    specifiers: {}
 
   components/qdrant:
     dependencies:
@@ -12219,6 +12249,9 @@ importers:
       '@pipedream/platform':
         specifier: ^1.6.8
         version: 1.6.8
+
+  components/release0:
+    specifiers: {}
 
   components/relevance_ai:
     dependencies:
@@ -12649,6 +12682,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
+      axios:
+        specifier: ^1.13.2
+        version: 1.13.2(debug@3.2.7)
       feedparser:
         specifier: ^2.2.10
         version: 2.2.10
@@ -12665,9 +12701,6 @@ importers:
       '@pipedream/types':
         specifier: ^0.3.2
         version: 0.3.4
-      '@types/axios':
-        specifier: ^0.14.0
-        version: 0.14.4
       '@types/feedparser':
         specifier: ^2.2.5
         version: 2.2.8
@@ -12718,6 +12751,9 @@ importers:
   components/ryver: {}
 
   components/sage_accounting: {}
+
+  components/sage_crm:
+    specifiers: {}
 
   components/sage_intacct: {}
 
@@ -13561,6 +13597,9 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/signatureapi:
+    specifiers: {}
+
   components/signaturely:
     dependencies:
       '@pipedream/platform':
@@ -13967,6 +14006,9 @@ importers:
       '@pipedream/platform':
         specifier: ^1.6.8
         version: 1.6.8
+
+  components/socialkit:
+    specifiers: {}
 
   components/softledger: {}
 
@@ -14519,6 +14561,9 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/swidoc:
+    specifiers: {}
+
   components/swiftype: {}
 
   components/switch: {}
@@ -14808,6 +14853,9 @@ importers:
       moment:
         specifier: ^2.29.4
         version: 2.30.1
+
+  components/testrail:
+    specifiers: {}
 
   components/tettra:
     dependencies:
@@ -15141,6 +15189,9 @@ importers:
         specifier: ^0.1.4
         version: 0.1.4
 
+  components/toolhouse:
+    specifiers: {}
+
   components/topdesk:
     dependencies:
       '@pipedream/platform':
@@ -15164,6 +15215,9 @@ importers:
       '@pipedream/platform':
         specifier: ^1.6.8
         version: 1.6.8
+
+  components/trackabi:
+    specifiers: {}
 
   components/trackingtime:
     dependencies:
@@ -15352,6 +15406,12 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
+
+  components/turtlink:
+    specifiers: {}
+
+  components/tuskr:
+    specifiers: {}
 
   components/tutor_lms: {}
 
@@ -15645,6 +15705,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
+      uuid:
+        specifier: ^13.0.0
+        version: 13.0.0
 
   components/upstash_redis:
     dependencies:
@@ -16140,6 +16203,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
+
+  components/webcrawler_api:
+    specifiers: {}
 
   components/webflow:
     dependencies:
@@ -22576,10 +22642,6 @@ packages:
 
   '@types/argparse@1.0.38':
     resolution: {integrity: sha512-ebDJ9b0e702Yr7pWgB0jzm+CX4Srzz8RcXtLJDJB+BSccqMa36uyH/zUsSYao5+BD1ytv3k3rPYCq4mAE1hsXA==}
-
-  '@types/axios@0.14.4':
-    resolution: {integrity: sha512-9JgOaunvQdsQ/qW2OPmE5+hCeUB52lQSolecrFrthct55QekhmXEwT203s20RL+UHtCQc15y3VXpby9E7Kkh/g==}
-    deprecated: This is a stub types definition. axios provides its own type definitions, so you do not need this installed.
 
   '@types/babel__core@7.20.5':
     resolution: {integrity: sha512-qoQprZvz5wQFJwMDqeseRXWv3rqMvhgpbXFfVyWhbx9X47POIA6i/+dXefEmZKoAgOaTdaIgNSMqMIU61yRyzA==}
@@ -31533,17 +31595,17 @@ packages:
   superagent@3.8.1:
     resolution: {integrity: sha512-VMBFLYgFuRdfeNQSMLbxGSLfmXL/xc+OO+BZp41Za/NRDBet/BNbkRJrYzCUu0u4GU0i/ml2dtT8b9qgkw9z6Q==}
     engines: {node: '>= 4.0'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   superagent@4.1.0:
     resolution: {integrity: sha512-FT3QLMasz0YyCd4uIi5HNe+3t/onxMyEho7C3PSqmti3Twgy2rXT4fmkTz6wRL6bTF4uzPcfkUCa8u4JWHw8Ag==}
     engines: {node: '>= 6.0'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   superagent@5.3.1:
     resolution: {integrity: sha512-wjJ/MoTid2/RuGCOFtlacyGNxN9QLMgcpYLDQlWFIhhdJ93kNscFonGvrpAHSCVjRVj++DGCglocF7Aej1KHvQ==}
     engines: {node: '>= 7.0.0'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   supports-color@10.2.2:
     resolution: {integrity: sha512-SS+jx45GF1QjgEXQx4NJZV9ImqmO2NPz5FNsIHrsDjh2YsHnawpan7SNQ1o8NuhrbHZy9AZhIoCUiCeaW/C80g==}
@@ -40979,12 +41041,6 @@ snapshots:
 
   '@types/argparse@1.0.38': {}
 
-  '@types/axios@0.14.4':
-    dependencies:
-      axios: 0.30.2
-    transitivePeerDependencies:
-      - debug
-
   '@types/babel__core@7.20.5':
     dependencies:
       '@babel/parser': 7.28.5
@@ -45926,7 +45982,7 @@ snapshots:
     dependencies:
       basic-ftp: 5.0.5
       data-uri-to-buffer: 6.0.2
-      debug: 4.3.4
+      debug: 4.4.3(supports-color@9.4.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -50235,7 +50291,7 @@ snapshots:
     dependencies:
       '@tootallnate/quickjs-emscripten': 0.23.0
       agent-base: 7.1.4
-      debug: 4.3.4
+      debug: 4.4.3(supports-color@9.4.0)
       get-uri: 6.0.5
       http-proxy-agent: 7.0.2
       https-proxy-agent: 7.0.6
@@ -52424,7 +52480,7 @@ snapshots:
   socks-proxy-agent@8.0.5:
     dependencies:
       agent-base: 7.1.4
-      debug: 4.3.4
+      debug: 4.4.3(supports-color@9.4.0)
       socks: 2.8.7
     transitivePeerDependencies:
       - supports-color

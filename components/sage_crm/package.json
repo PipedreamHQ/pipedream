@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/sage_crm",
+  "version": "0.0.1",
+  "description": "Pipedream Sage CRM Components",
+  "main": "sage_crm.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sage_crm"
+  ],
+  "homepage": "https://pipedream.com/apps/sage_crm",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

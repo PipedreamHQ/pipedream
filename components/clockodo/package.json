@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/clockodo",
+  "version": "0.0.1",
+  "description": "Pipedream Clockodo Components",
+  "main": "clockodo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "clockodo"
+  ],
+  "homepage": "https://pipedream.com/apps/clockodo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

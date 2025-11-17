@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/woocommerce",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Pipedream WooCommerce Components",
   "main": "woocommerce.app.mjs",
   "keywords": [

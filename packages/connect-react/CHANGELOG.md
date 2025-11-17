@@ -2,6 +2,12 @@
 
 # Changelog
 
+## [2.1.2] - 2025-11-14
+
+### Fixed
+
+- Fixed issue where user input in dynamically loaded props was lost due to circular effect dependency
+
 ## [2.1.1] - 2025-10-27
 
 ### Fixed
