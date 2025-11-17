@@ -1,6 +1,6 @@
 # Overview
 
-Agiled is a business management platform designed to streamline operations like CRM, project management, finances, and more. Through its API, you can automate various aspects of business management by creating, updating, and retrieving data on leads, customers, projects, tasks, invoices, and payments. Leveraging the Agiled API on Pipedream allows you to connect and automate these operations with hundreds of other apps and services to create custom workflows, facilitating data synchronization, event-driven actions, and time-saving automations.
+Agiled is a business management platform designed to streamline operations like CRM, project management, finances, and more. Through its API, you can automate various aspects of business management by creating, updating, and retrieving data on leads, customers, projects, tasks, invoices, and payments. Leveraging the Agiled API on Pipedream allows you to connect and automate these operations with 3,000+ other apps and services to create custom workflows, facilitating data synchronization, event-driven actions, and time-saving automations.
 
 # Example Use Cases
 

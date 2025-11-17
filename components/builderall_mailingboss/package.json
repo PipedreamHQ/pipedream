@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/builderall_mailingboss",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Builderall Mailingboss Components",
   "main": "builderall_mailingboss.app.mjs",
   "keywords": [

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/qualys",
+  "version": "0.0.1",
+  "description": "Pipedream Qualys Components",
+  "main": "qualys.app.mjs",
+  "keywords": [
+    "pipedream",
+    "qualys"
+  ],
+  "homepage": "https://pipedream.com/apps/qualys",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

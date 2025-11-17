@@ -4,7 +4,7 @@ export default {
   key: "google_docs-get-tab-content",
   name: "Get Tab Content",
   description: "Get the content of a tab in a document. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/get)",
-  version: "0.0.2",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

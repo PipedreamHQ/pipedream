@@ -1,6 +1,6 @@
 # Overview
 
-The Gryd API is a resourceful tool for accessing data related to real estate, such as apartment listings, property details, and pricing information. Within Pipedream's serverless platform, you can employ Gryd API to automate workflows, sync data across various apps, and extract real-time insights from the housing market. Leveraging Pipedream's ability to connect to hundreds of apps, you can integrate Gryd data with other services, such as CRMs, messaging apps, or spreadsheets, to streamline operations, alert users, or analyze property trends.
+The Gryd API is a resourceful tool for accessing data related to real estate, such as apartment listings, property details, and pricing information. Within Pipedream's serverless platform, you can employ Gryd API to automate workflows, sync data across various apps, and extract real-time insights from the housing market. Leveraging Pipedream's ability to connect to 3,000+ apps, you can integrate Gryd data with other services, such as CRMs, messaging apps, or spreadsheets, to streamline operations, alert users, or analyze property trends.
 
 # Example Use Cases
 

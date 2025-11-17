@@ -1,6 +1,6 @@
 # Overview
 
-The Cloud Convert API offers a robust solution for file conversion, supporting a vast array of file formats. With Pipedream, you can harness this versatility to create automated workflows that trigger file conversions, process the resulting files, and integrate with other services. By combining Cloud Convert with Pipedream's connectivity to hundreds of apps, you can craft custom automation that saves time and removes the friction from multi-format file management tasks.
+The Cloud Convert API offers a robust solution for file conversion, supporting a vast array of file formats. With Pipedream, you can harness this versatility to create automated workflows that trigger file conversions, process the resulting files, and integrate with other services. By combining Cloud Convert with Pipedream's connectivity to 3,000+ apps, you can craft custom automation that saves time and removes the friction from multi-format file management tasks.
 
 # Example Use Cases
 

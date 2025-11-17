@@ -6,7 +6,7 @@ export default {
   key: "fireflies-find-meeting-by-id",
   name: "Find Meeting by ID",
   description: "Locates a specific user meeting by its unique ID. [See the documentation](https://docs.fireflies.ai/graphql-api/query/transcript)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

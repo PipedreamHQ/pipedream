@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/lobste_rs",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream lobste.rs Components",
   "main": "lobste_rs.app.mjs",
   "keywords": [

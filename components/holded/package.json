@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/holded",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Holded Components",
   "main": "holded.app.mjs",
   "keywords": [

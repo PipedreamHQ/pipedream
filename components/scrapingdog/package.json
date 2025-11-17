@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/scrapingdog",
+  "version": "0.0.1",
+  "description": "Pipedream Scrapingdog Components",
+  "main": "scrapingdog.app.mjs",
+  "keywords": [
+    "pipedream",
+    "scrapingdog"
+  ],
+  "homepage": "https://pipedream.com/apps/scrapingdog",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

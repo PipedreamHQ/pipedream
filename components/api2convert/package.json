@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/api2convert",
+  "version": "0.0.1",
+  "description": "Pipedream Api2Convert Components",
+  "main": "api2convert.app.mjs",
+  "keywords": [
+    "pipedream",
+    "api2convert"
+  ],
+  "homepage": "https://pipedream.com/apps/api2convert",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

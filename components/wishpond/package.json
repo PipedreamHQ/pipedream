@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/wishpond",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream Wishpond Components",
   "main": "wishpond.app.mjs",
   "keywords": [

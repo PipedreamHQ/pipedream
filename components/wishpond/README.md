@@ -1,6 +1,6 @@
 # Overview
 
-Wishpond's API unlocks a world where digital marketing efforts can be automated and customized at scale. With this powerful tool at your disposal on Pipedream, you can create, manage, and track marketing campaigns effortlessly. Leverage Wishpond to capture leads, nurture them through personalized emails, and analyze the performance of your marketing strategies. By integrating with Pipedream, you capitalize on the ability to connect Wishpond with hundreds of apps, triggering actions based on campaign events, syncing leads to CRMs, and automating follow-up tasks without writing a single line of code.
+Wishpond's API unlocks a world where digital marketing efforts can be automated and customized at scale. With this powerful tool at your disposal on Pipedream, you can create, manage, and track marketing campaigns effortlessly. Leverage Wishpond to capture leads, nurture them through personalized emails, and analyze the performance of your marketing strategies. By integrating with Pipedream, you capitalize on the ability to connect Wishpond with 3,000+ apps, triggering actions based on campaign events, syncing leads to CRMs, and automating follow-up tasks without writing a single line of code.
 
 # Example Use Cases
 
