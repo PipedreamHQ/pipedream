@@ -1,6 +1,6 @@
 # Overview
 
-Gitea is an open-source, self-hosted Git service, similar to GitHub. With the Gitea API, you can automate and enhance your software development practices by creating workflows that trigger actions within Gitea or across other connected services. You can manage repositories, automate issue tracking, synchronize with task management systems, and orchestrate continuous integration and deployment processes. Pipedream serves as an integration platform to connect Gitea with hundreds of other apps, allowing for complex automations that can reduce manual effort and improve efficiency.
+Gitea is an open-source, self-hosted Git service, similar to GitHub. With the Gitea API, you can automate and enhance your software development practices by creating workflows that trigger actions within Gitea or across other connected services. You can manage repositories, automate issue tracking, synchronize with task management systems, and orchestrate continuous integration and deployment processes. Pipedream serves as an integration platform to connect Gitea with 3,000+ other apps, allowing for complex automations that can reduce manual effort and improve efficiency.
 
 # Example Use Cases
 

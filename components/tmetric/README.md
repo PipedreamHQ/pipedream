@@ -1,6 +1,6 @@
 # Overview
 
-The TMetric API provides the ability to interact programmatically with TMetric's time tracking features, allowing developers to create, read, update, and delete time entries, projects, and workspaces. By leveraging the API within Pipedream, you can connect TMetric to hundreds of other apps to automate time tracking as part of larger business processes, such as invoicing, project management, and reporting workflows.
+The TMetric API provides the ability to interact programmatically with TMetric's time tracking features, allowing developers to create, read, update, and delete time entries, projects, and workspaces. By leveraging the API within Pipedream, you can connect TMetric to 3,000+ other apps to automate time tracking as part of larger business processes, such as invoicing, project management, and reporting workflows.
 
 # Example Use Cases
 

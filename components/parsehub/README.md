@@ -1,6 +1,6 @@
 # Overview
 
-The ParseHub API allows you to leverage the power of web scraping directly within Pipedream. By integrating ParseHub, you can automate the collection of data from web pages, manipulate and transform it with Pipedream’s built-in code steps or pre-built actions, and connect it to hundreds of other apps. You can extract structured data from any website, run scraping jobs, retrieve results and integrate with other services for data processing, visualization, or storage.
+The ParseHub API allows you to leverage the power of web scraping directly within Pipedream. By integrating ParseHub, you can automate the collection of data from web pages, manipulate and transform it with Pipedream’s built-in code steps or pre-built actions, and connect it to 3,000+ other apps. You can extract structured data from any website, run scraping jobs, retrieve results and integrate with other services for data processing, visualization, or storage.
 
 # Example Use Cases
 

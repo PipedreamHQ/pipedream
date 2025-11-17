@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/finlight_me",
+  "version": "0.0.1",
+  "description": "Pipedream finlight.me Components",
+  "main": "finlight_me.app.mjs",
+  "keywords": [
+    "pipedream",
+    "finlight_me"
+  ],
+  "homepage": "https://pipedream.com/apps/finlight_me",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
