@@ -1,6 +1,6 @@
 # Overview
 
-The ncScale API offers scalable solutions for handling complex data transformations, computations, and integrations. By leveraging this API on Pipedream, you can automate and streamline processes like real-time data analysis, dynamic resource allocation, and system monitoring. Pipedream's serverless platform allows you to trigger workflows with HTTP requests, emails, and over 800+ integrations, making it highly versatile for incorporating ncScale's capabilities into a variety of systems.
+The ncScale API offers scalable solutions for handling complex data transformations, computations, and integrations. By leveraging this API on Pipedream, you can automate and streamline processes like real-time data analysis, dynamic resource allocation, and system monitoring. Pipedream's serverless platform allows you to trigger workflows with HTTP requests, emails, and over 3,000+ integrations, making it highly versatile for incorporating ncScale's capabilities into a variety of systems.
 
 # Example Use Cases
 
