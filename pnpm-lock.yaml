@@ -996,8 +996,7 @@ importers:
 
   components/apex_27: {}
 
-  components/api2convert:
-    specifiers: {}
+  components/api2convert: {}
 
   components/api2pdf: {}
 
@@ -2704,8 +2703,7 @@ importers:
 
   components/chmeetings: {}
 
-  components/chroma_cloud:
-    specifiers: {}
+  components/chroma_cloud: {}
 
   components/chucknorris:
     dependencies:
@@ -2955,8 +2953,7 @@ importers:
         specifier: ^3.1.0
         version: 3.1.1
 
-  components/clockodo:
-    specifiers: {}
+  components/clockodo: {}
 
   components/clockwork_recruiting:
     dependencies:
@@ -5203,8 +5200,7 @@ importers:
 
   components/fingertip: {}
 
-  components/finlight_me:
-    specifiers: {}
+  components/finlight_me: {}
 
   components/finmei:
     dependencies:
@@ -5526,8 +5522,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0
 
-  components/fraudlogix:
-    specifiers: {}
+  components/fraudlogix: {}
 
   components/freeagent:
     dependencies:
@@ -5926,8 +5921,7 @@ importers:
 
   components/glide: {}
 
-  components/global_exchange_rates:
-    specifiers: {}
+  components/global_exchange_rates: {}
 
   components/globalping: {}
 
@@ -7937,8 +7931,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/kualitee:
-    specifiers: {}
+  components/kualitee: {}
 
   components/kucoin_futures:
     dependencies:
@@ -9582,8 +9575,7 @@ importers:
         specifier: ^8.3.2
         version: 8.3.2
 
-  components/mythictext:
-    specifiers: {}
+  components/mythictext: {}
 
   components/n1n: {}
 
@@ -11682,8 +11674,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/profileapi:
-    specifiers: {}
+  components/profileapi: {}
 
   components/profitwell:
     dependencies:
@@ -11848,8 +11839,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/qase:
-    specifiers: {}
+  components/qase: {}
 
   components/qdrant:
     dependencies:
@@ -12257,8 +12247,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/release0:
-    specifiers: {}
+  components/release0: {}
 
   components/relevance_ai:
     dependencies:
@@ -12759,8 +12748,7 @@ importers:
 
   components/sage_accounting: {}
 
-  components/sage_crm:
-    specifiers: {}
+  components/sage_crm: {}
 
   components/sage_intacct: {}
 
@@ -13604,8 +13592,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/signatureapi:
-    specifiers: {}
+  components/signatureapi: {}
 
   components/signaturely:
     dependencies:
@@ -14014,8 +14001,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/socialkit:
-    specifiers: {}
+  components/socialkit: {}
 
   components/softledger: {}
 
@@ -14568,8 +14554,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/swidoc:
-    specifiers: {}
+  components/swidoc: {}
 
   components/swiftype: {}
 
@@ -14861,8 +14846,7 @@ importers:
         specifier: ^2.29.4
         version: 2.30.1
 
-  components/testrail:
-    specifiers: {}
+  components/testrail: {}
 
   components/tettra:
     dependencies:
@@ -15196,8 +15180,7 @@ importers:
         specifier: ^0.1.4
         version: 0.1.4
 
-  components/toolhouse:
-    specifiers: {}
+  components/toolhouse: {}
 
   components/topdesk:
     dependencies:
@@ -15223,8 +15206,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/trackabi:
-    specifiers: {}
+  components/trackabi: {}
 
   components/trackingtime:
     dependencies:
@@ -15414,11 +15396,9 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/turtlink:
-    specifiers: {}
+  components/turtlink: {}
 
-  components/tuskr:
-    specifiers: {}
+  components/tuskr: {}
 
   components/tutor_lms: {}
 
@@ -16211,8 +16191,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/webcrawler_api:
-    specifiers: {}
+  components/webcrawler_api: {}
 
   components/webflow:
     dependencies:
@@ -17492,8 +17471,8 @@ importers:
         specifier: ^16.4.7
         version: 16.6.1
       glob:
-        specifier: ^11.0.0
-        version: 11.0.3
+        specifier: ^11.1.0
+        version: 11.1.0
 
   types:
     dependencies:
@@ -18819,6 +18798,7 @@ packages:
   '@datadog/native-iast-rewriter@2.3.1':
     resolution: {integrity: sha512-3pmt5G1Ai/+MPyxP7wBerIu/zH/BnAHxEu/EAMr+77IMpK5m7THPDUoWrPRCWcgFBfn0pK5DR7gRItG0wX3e0g==}
     engines: {node: '>= 10'}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
 
   '@datadog/native-iast-taint-tracking@2.1.0':
     resolution: {integrity: sha512-DjZ6itJcjLrTdKk2vP96hak2xS0ABd0NIB8poZG3OBQU5efkzu8JOQoxbIKMklG/0P2zh7EquvGP88PdVXT9aA==}
@@ -26310,8 +26290,8 @@ packages:
     resolution: {integrity: sha512-7Bv8RF0k6xjo7d4A/PxYLbUCfb6c+Vpd2/mB2yRDlew7Jb5hEXiCD9ibfO7wpk8i4sevK6DFny9h7EYbM3/sHg==}
     hasBin: true
 
-  glob@11.0.3:
-    resolution: {integrity: sha512-2Nim7dha1KVkaiF4q6Dj+ngPPMdfvLJEOpZk/jKiUAkqKebpGAWQXAq9z1xu9HKu5lWfqw/FASuccEjyznjPaA==}
+  glob@11.1.0:
+    resolution: {integrity: sha512-vuNwKSaKiqm7g0THUBu2x7ckSs3XJLXE+2ssL7/MfTGPLLcrJQ/4Uq1CjPTtO5cCIiRxqvN6Twy1qOwhL0Xjcw==}
     engines: {node: 20 || >=22}
     hasBin: true
 
@@ -31441,17 +31421,17 @@ packages:
   superagent@3.8.1:
     resolution: {integrity: sha512-VMBFLYgFuRdfeNQSMLbxGSLfmXL/xc+OO+BZp41Za/NRDBet/BNbkRJrYzCUu0u4GU0i/ml2dtT8b9qgkw9z6Q==}
     engines: {node: '>= 4.0'}
-    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
 
   superagent@4.1.0:
     resolution: {integrity: sha512-FT3QLMasz0YyCd4uIi5HNe+3t/onxMyEho7C3PSqmti3Twgy2rXT4fmkTz6wRL6bTF4uzPcfkUCa8u4JWHw8Ag==}
     engines: {node: '>= 6.0'}
-    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
 
   superagent@5.3.1:
     resolution: {integrity: sha512-wjJ/MoTid2/RuGCOFtlacyGNxN9QLMgcpYLDQlWFIhhdJ93kNscFonGvrpAHSCVjRVj++DGCglocF7Aej1KHvQ==}
     engines: {node: '>= 7.0.0'}
-    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
 
   supports-color@10.2.2:
     resolution: {integrity: sha512-SS+jx45GF1QjgEXQx4NJZV9ImqmO2NPz5FNsIHrsDjh2YsHnawpan7SNQ1o8NuhrbHZy9AZhIoCUiCeaW/C80g==}
@@ -39057,7 +39037,6 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
-      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.9)(rollup@4.53.2)':
     dependencies:
@@ -40914,7 +40893,7 @@ snapshots:
 
   '@types/glob@9.0.0':
     dependencies:
-      glob: 11.0.3
+      glob: 11.1.0
 
   '@types/graceful-fs@4.1.9':
     dependencies:
@@ -45796,7 +45775,7 @@ snapshots:
       package-json-from-dist: 1.0.1
       path-scurry: 1.11.1
 
-  glob@11.0.3:
+  glob@11.1.0:
     dependencies:
       foreground-child: 3.3.1
       jackspeak: 4.1.1
