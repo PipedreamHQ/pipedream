@@ -304,8 +304,7 @@ export default {
       });
     },
     async sendTicketMessage({
-      ticketId,
-      args = {},
+      ticketId, ...args
     }) {
       return this._makeRequest({
         method: "POST",

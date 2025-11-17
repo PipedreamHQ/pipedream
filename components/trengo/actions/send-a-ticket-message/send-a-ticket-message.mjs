@@ -50,7 +50,7 @@ export default {
     const resp = await this.app.sendTicketMessage({
       $,
       ticketId: this.ticketId,
-      args: {
+      data: {
         message: this.message,
         internal_note: this.internalNote,
         subject: this.subject,
