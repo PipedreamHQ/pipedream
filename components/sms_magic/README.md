@@ -1,6 +1,6 @@
 # Overview
 
-The SMS Magic API on Pipedream opens a world of possiblities for automating communication workflows. With it, you can send personalized text messages, schedule campaigns, and track message delivery within your applications. It's especially powerful for sales and support teams who need to engage customers on a massive scale without sacrificing the personal touch.
+The SMS Magic API on Pipedream opens a world of possibilities for automating communication workflows. With it, you can send personalized text messages, schedule campaigns, and track message delivery within your applications. It's especially powerful for sales and support teams who need to engage customers on a massive scale without sacrificing the personal touch.
 
 # Example Use Cases
 

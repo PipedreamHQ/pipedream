@@ -1,12 +1,12 @@
 # `@pipedream/browsers` package
 
-This package abstracts the exact version pinning required for `puppeteer` & `playwright` to function properly in Pipedream code steps.
+This package abstracts the exact version pinning required for [`puppeteer`](https://www.npmjs.com/package/puppeteer) & [`playwright`](https://www.npmjs.com/package/playwright) to function properly in Pipedream code steps.
 
-The `index.mjs` file reexports the specific pinned versions of `puppeeter-core` & `playwright` that are compatible with the same chromium version that is compatible with Lambda.
+The `index.mjs` file reexports the specific pinned versions of `puppeteer-core` & `playwright` that are compatible with the same Chromium version that is compatible with Lambda.
 
-The reason this package is required is because NPM package versions can't be pinned in both `playwright.app.mjs` as an in-JS pin _and_ pin over the `playwright/package.json`.
+The reason this package is required is because npm package versions can't be pinned in both `playwright.app.mjs` as an in-JS pin _and_ pin over the `playwright/package.json`.
 
-Therefore, it's not possible to offer both the pinned versions of `chromium` & `playwright` in both pre-built actions & in Node.js code steps.
+Therefore, it's not possible to offer both the pinned versions of [`@sparticuz/chromium`](https://www.npmjs.com/package/@sparticuz/chromium) & `playwright` in both pre-built actions & in Node.js code steps.
 
 ## Usage
 
@@ -62,4 +62,4 @@ export default defineComponent({
 * Compatibility Table for Chromium <> Puppeteer version support here: https://pptr.dev/chromium-support
 * Compatibility Table for Chromium <> Playwright versions can be found here: https://www.browserstack.com/docs/automate/playwright/browsers-and-os
 
-The reason why playwright is locked to an old version is because the latest Puppeeter Chromium version that works in a code step is chromium@121.
+The reason why Playwright is locked to an old version is because the latest Puppeteer Chromium version that works in a code step is chromium@121.
