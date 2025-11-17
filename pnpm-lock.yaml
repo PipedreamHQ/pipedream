@@ -3585,7 +3585,11 @@ importers:
         specifier: ^0.10.1
         version: 0.10.1
 
-  components/customgpt: {}
+  components/customgpt:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/customjs:
     dependencies:
