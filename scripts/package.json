@@ -13,6 +13,6 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.45.6",
     "dotenv": "^16.4.7",
-    "glob": "^11.0.0"
+    "glob": "^11.1.0"
   }
 }
