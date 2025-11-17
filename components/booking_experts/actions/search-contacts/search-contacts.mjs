@@ -1,5 +1,5 @@
-import bookingExperts from "../../booking_experts.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import bookingExperts from "../../booking_experts.app.mjs";
 
 export default {
   key: "booking_experts-search-contacts",
@@ -34,6 +34,7 @@ export default {
 
     try {
       const { data } = await this.bookingExperts.searchContacts({
+        $,
         params: {
           email: this.email,
           phone: this.phone,

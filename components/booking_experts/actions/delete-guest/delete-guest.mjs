@@ -48,6 +48,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.bookingExperts.deleteGuest({
+      $,
       administrationId: this.administrationId,
       reservationId: this.reservationId,
       guestId: this.guestId,

@@ -46,6 +46,7 @@ export default {
   },
   async run({ $ }) {
     const { data } = await this.bookingExperts.listInventoryObjects({
+      $,
       administrationId: this.administrationId,
       params: {
         "filter[name]": this.name,

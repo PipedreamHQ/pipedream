@@ -96,6 +96,7 @@ export default {
   },
   async run({ $ }) {
     const { data } = await this.bookingExperts.updateGuest({
+      $,
       administrationId: this.administrationId,
       reservationId: this.reservationId,
       guestId: this.guestId,

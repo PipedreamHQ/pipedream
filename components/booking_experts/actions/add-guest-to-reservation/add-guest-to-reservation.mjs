@@ -77,6 +77,7 @@ export default {
   },
   async run({ $ }) {
     const { data } = await this.bookingExperts.addGuestToReservation({
+      $,
       administrationId: this.administrationId,
       reservationId: this.reservationId,
       data: {

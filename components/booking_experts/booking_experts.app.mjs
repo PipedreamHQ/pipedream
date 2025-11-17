@@ -97,9 +97,6 @@ export default {
             "page[number]": page + 1,
           },
         });
-
-        console.log("data: ", data);
-
         return data?.map(({
           id, attributes,
         }) => ({
