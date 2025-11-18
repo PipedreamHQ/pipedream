@@ -5,6 +5,53 @@ import retry from "async-retry";
 export default {
   type: "app",
   app: "shortcut",
+  propDefinitions: {
+    workflowStateId: {
+      type: "integer",
+      label: "Workflow State ID",
+      description: "The ID of the workflow state the story will be in",
+      async options() {
+        let options = [];
+        const workflows = await this.callWithRetry("listWorkflows");
+        const isWorkflowDataAvailable = lodash.get(workflows, [
+          "data",
+          "length",
+        ]);
+        if (!isWorkflowDataAvailable) {
+          return options;
+        }
+        return workflows.data.reduce(function (options, workflow) {
+          const hasState = lodash.get(workflow, [
+            "states",
+            "length",
+          ]);
+          if (!hasState) {
+            return options;
+          }
+          const optionsToAdd = workflow.states.map((state) => ({
+            label: `${state.name} (${workflow.name})`,
+            value: state.id,
+          }));
+          return options.concat(optionsToAdd);
+        }, []);
+      },
+    },
+    labelIds: {
+      type: "integer[]",
+      label: "Label IDs",
+      description: "The IDs of the labels to filter events by",
+      optional: true,
+      async options() {
+        const { data = [] } = await this.callWithRetry("listLabels");
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+  },
   methods: {
     api() {
       return new ShortcutClient(this.$auth.api_key);
