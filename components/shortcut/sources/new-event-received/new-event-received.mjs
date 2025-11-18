@@ -80,7 +80,7 @@ export default {
       if (this.workflowStateIds && !this.workflowStateIds.includes(issue.workflow_state_id)) {
         return;
       }
-      if (this.labelIds && !this.labelIds.includes(issue.label_ids)) {
+      if (this.labelIds && issue.label_ids.some((id) => this.labelIds.includes(id))) {
         return;
       }
 
