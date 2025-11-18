@@ -33,15 +33,6 @@ export default {
       optional: true,
     },
   },
-  methods: {
-    async streamToBuffer(stream) {
-      const chunks = [];
-      for await (const chunk of stream) {
-        chunks.push(chunk);
-      }
-      return Buffer.concat(chunks);
-    },
-  },
   async run({ $ }) {
     if (this.sitemapPath && this.file) {
       $.export("$error", "You cannot use both sitemap path and file at the same time.");

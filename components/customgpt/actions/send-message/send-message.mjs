@@ -80,11 +80,11 @@ export default {
   },
   async run({ $ }) {
     const data = new FormData();
-    data.append("prompt", this.prompt);
-    data.append("custom_persona", this.customPersona);
+    if (this.prompt) data.append("prompt", this.prompt);
+    if (this.customPersona) data.append("custom_persona", this.customPersona);
     data.append("chatbot_model", this.chatbotModel);
     data.append("response_source", this.responseSource);
-    data.append("custom_content", this.customContent);
+    if (this.customContent) data.append("custom_content", this.customContent);
 
     if (this.file) {
       const {
