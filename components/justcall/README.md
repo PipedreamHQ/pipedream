@@ -1,6 +1,6 @@
 # Overview
 
-The JustCall API allows for the automation and integration of telephony services into diverse workflows, enabling users to effectively manage calls and SMS within their business processes. By leveraging Pipedream's capabilities, one can create custom event-driven automation that responds to various triggers from JustCall, such as incoming/outgoing call events or new SMS messages, and connects them with over 300+ apps available on the Pipedream platform. This enables seamless data flow and interaction between JustCall and CRM systems, helpdesk software, marketing automation tools, and more, optimizing communication strategies and improving customer engagement.
+The JustCall API allows for the automation and integration of telephony services into diverse workflows, enabling users to effectively manage calls and SMS within their business processes. By leveraging Pipedream's capabilities, one can create custom event-driven automation that responds to various triggers from JustCall, such as incoming/outgoing call events or new SMS messages, and connects them with over 3,000+ apps available on the Pipedream platform. This enables seamless data flow and interaction between JustCall and CRM systems, helpdesk software, marketing automation tools, and more, optimizing communication strategies and improving customer engagement.
 
 # Example Use Cases
 

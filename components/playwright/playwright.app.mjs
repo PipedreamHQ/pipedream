@@ -2,7 +2,7 @@ import { defineApp } from "@pipedream/types";
 // Support for Chromium <> Playwright versions
 // can be found here: https://www.browserstack.com/docs/automate/playwright/browsers-and-os
 // The reason why playwright is locked to an old version is because
-// the latest Puppeeter Chromium version that works in a code step is chromium@112
+// the latest Puppeteer Chromium version that works in a code step is chromium@112
 import { chromium as playwright } from "playwright-core";
 import chromium from "@sparticuz/chromium";
 

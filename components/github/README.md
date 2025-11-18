@@ -39,7 +39,7 @@ Click the image below to watch a brief demo on YouTube.
 
 ## Workflows
 
-Workflows are a sequence of linear [steps](https://pipedream.com/docs/workflows/steps) triggered by an event (like an HTTP request, or when a new row is added to a Google sheet). You can quickly develop complex automations using workflows and connect to any of our 500+ integrated apps.
+Workflows are a sequence of linear [steps](https://pipedream.com/docs/workflows/steps) triggered by an event (like an HTTP request, or when a new row is added to a Google sheet). You can quickly develop complex automations using workflows and connect to any of our 3,000+ integrated apps.
 
 [See our workflow quickstart](https://pipedream.com/docs/quickstart/) to get started.
 

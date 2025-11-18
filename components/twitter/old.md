@@ -9,7 +9,7 @@
 
 <p align="center">
     <a href="#example-workflows"><img width="30%" src="/images/twitter/ExampleWorkflow.png" alt="Getting Started"></a>
-    <a href="#twitter-event-sources"><img width="30%" src="/images/twitter/TwitterEventSources.png" alt="Example Worksflows"></a>
+    <a href="#twitter-event-sources"><img width="30%" src="/images/twitter/TwitterEventSources.png" alt="Example Workflows"></a>
     <a href="#sse-and-rest-apis"><img width="30%" src="/images/twitter/SSE_RESTAPI.png" alt="SSE + REST API"></a>
 </p>
 

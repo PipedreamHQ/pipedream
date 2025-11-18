@@ -1,6 +1,6 @@
 # Overview
 
-IFTTT (If This Then That) is a service that lets you create chains of conditional statements, known as applets. These applets can automate tasks across a variety of web services and APIs. By integrating IFTTT with Pipedream, you unlock the ability to handle complex logic, manage state, transform data, and interact with over 600+ supported apps in Pipedream’s ecosystem. You can trigger workflows on Pipedream with events from IFTTT and vice versa, creating a seamless automation experience.
+IFTTT (If This Then That) is a service that lets you create chains of conditional statements, known as applets. These applets can automate tasks across a variety of web services and APIs. By integrating IFTTT with Pipedream, you unlock the ability to handle complex logic, manage state, transform data, and interact with over 3,000+ supported apps in Pipedream’s ecosystem. You can trigger workflows on Pipedream with events from IFTTT and vice versa, creating a seamless automation experience.
 
 # Example Use Cases
 

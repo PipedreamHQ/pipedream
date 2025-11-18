@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/customgpt",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream CustomGPT Components",
   "main": "customgpt.app.mjs",
   "keywords": [
