@@ -31,7 +31,7 @@ export default {
         app,
         "docId",
         (c) => ({
-          driveId: c.drive,
+          driveId: app.methods.getDriveId(c.drive),
         }),
       ],
       label: "Template",
