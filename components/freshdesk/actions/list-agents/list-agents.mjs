@@ -4,7 +4,7 @@ export default {
   key: "freshdesk-list-agents",
   name: "List Agents",
   description: "List all agents in Freshdesk. [See the documentation](https://developers.freshdesk.com/api/#list_all_agents)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
