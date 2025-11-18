@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/google_docs",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream Google_docs Components",
   "main": "google_docs.app.mjs",
   "keywords": [
