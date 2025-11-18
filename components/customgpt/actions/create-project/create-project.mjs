@@ -29,7 +29,7 @@ export default {
     file: {
       type: "string",
       label: "File Path",
-      description: "/The path to the file saved to the `/tmp` directory (e.g. `tmp/example.pdf`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
+      description: "The path to the file saved to the `/tmp` directory (e.g. `tmp/example.pdf`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
       optional: true,
     },
   },
