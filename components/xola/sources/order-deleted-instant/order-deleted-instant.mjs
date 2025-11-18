@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "xola-order-deleted-instant",
   name: "Order Deleted (Instant)",
-  description: "Emit new event when an order is deleted. [See the documentation](https://developers.xola.com/reference/webhook-introduction). **This source has been deprecated. Please use the 'Purchase Canceled (Instant)' source instead.**",
+  description: "Emit new event when an order is deleted. [See the documentation](https://developers.xola.com/reference/webhook-introduction)",
   version: "0.0.2",
   type: "source",
   dedupe: "unique",
