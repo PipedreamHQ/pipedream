@@ -16,7 +16,7 @@ export default {
     orderNo: {
       type: "string",
       label: "Order Number",
-      description: "The number of the order to update",
+      description: "The number of the order to update. Note: Order must be dispatched before it can be updated.",
     },
     status: {
       type: "string",

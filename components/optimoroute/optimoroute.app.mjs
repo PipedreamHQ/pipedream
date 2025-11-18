@@ -30,7 +30,10 @@ export default {
       });
       if (!response.success) {
         console.log(response);
-        throw new ConfigurationError(`${response.code}: ${response.message}`);
+        if (response.code) {
+          throw new ConfigurationError(`${response.code}: ${response.message}`);
+        }
+        throw new ConfigurationError(JSON.stringify(response));
       }
       return response;
     },

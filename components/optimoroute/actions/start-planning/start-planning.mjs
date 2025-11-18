@@ -125,7 +125,7 @@ export default {
           }))
           : undefined,
         useOrderObjects: this.orderNumbers
-          ? this.orderIds.map((id) => ({
+          ? this.orderNumbers.map((id) => ({
             orderNo: id,
           }))
           : undefined,
