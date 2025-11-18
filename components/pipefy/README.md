@@ -1,6 +1,6 @@
 # Overview
 
-Pipefy is a platform that empowers users to streamline complex processes and workflows without the need for technical skills. With the Pipefy API, you can automate various aspects of your Pipefy environment, such as creating cards, updating fields, and managing pipelines programmatically. Use Pipedream to connect Pipefy with hundreds of other apps and orchestrate workflows that can save time, reduce errors, and enhance efficiency.
+Pipefy is a platform that empowers users to streamline complex processes and workflows without the need for technical skills. With the Pipefy API, you can automate various aspects of your Pipefy environment, such as creating cards, updating fields, and managing pipelines programmatically. Use Pipedream to connect Pipefy with 3,000+ other apps and orchestrate workflows that can save time, reduce errors, and enhance efficiency.
 
 # Example Use Cases
 

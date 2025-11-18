@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/tuskr",
+  "version": "0.0.1",
+  "description": "Pipedream Tuskr Components",
+  "main": "tuskr.app.mjs",
+  "keywords": [
+    "pipedream",
+    "tuskr"
+  ],
+  "homepage": "https://pipedream.com/apps/tuskr",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

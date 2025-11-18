@@ -1,6 +1,6 @@
 # Overview
 
-The Teachable API opens up possibilities for automating and enhancing online course interactions and management. Using Pipedream, you can weave together workflows that interact with Teachable events, users, and courses. You can automate enrollment processes, synchronize course data with external systems, and engage students with timely notifications. Pipedream's serverless platform lets you create these workflows with minimal setup, leveraging its ability to trigger actions based on Teachable events or on a schedule, and to integrate with hundreds of other apps.
+The Teachable API opens up possibilities for automating and enhancing online course interactions and management. Using Pipedream, you can weave together workflows that interact with Teachable events, users, and courses. You can automate enrollment processes, synchronize course data with external systems, and engage students with timely notifications. Pipedream's serverless platform lets you create these workflows with minimal setup, leveraging its ability to trigger actions based on Teachable events or on a schedule, and to integrate with 3,000+ other apps.
 
 # Example Use Cases
 

@@ -1,6 +1,6 @@
 # Overview
 
-The Zagomail API enables you to automate email marketing tasks, manage contacts, and streamline campaigns directly from Pipedream. With this API, you can trigger actions based on events, update subscriber lists, send targeted emails, and track campaign performance. Pipedream's serverless platform lets you connect Zagomail with hundreds of other apps to create bespoke workflows, without the need to manage infrastructure.
+The Zagomail API enables you to automate email marketing tasks, manage contacts, and streamline campaigns directly from Pipedream. With this API, you can trigger actions based on events, update subscriber lists, send targeted emails, and track campaign performance. Pipedream's serverless platform lets you connect Zagomail with 3,000+ other apps to create bespoke workflows, without the need to manage infrastructure.
 
 # Example Use Cases
 

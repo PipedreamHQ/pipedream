@@ -6,7 +6,7 @@ export default {
   key: "quickbooks-create-invoice",
   name: "Create Invoice",
   description: "Creates an invoice. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/invoice#create-an-invoice)",
-  version: "0.2.6",
+  version: "0.2.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

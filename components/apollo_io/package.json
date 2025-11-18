@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/apollo_io",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "Pipedream Apollo.io Components",
   "main": "apollo_io.app.mjs",
   "keywords": [

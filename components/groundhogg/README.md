@@ -1,6 +1,6 @@
 # Overview
 
-The GroundHogg API provides a set of endpoints to interact with your marketing automation data. On Pipedream, you can leverage these endpoints to create, update, and manage contacts, tags, funnels, and emails among other entities within GroundHogg. With Pipedream, this integration becomes part of a larger ecosystem, allowing you to connect GroundHogg with hundreds of other apps, automate workflows, and manipulate data in real-time. This can dramatically improve your marketing efforts by enabling personalized and timely interactions with your audience.
+The GroundHogg API provides a set of endpoints to interact with your marketing automation data. On Pipedream, you can leverage these endpoints to create, update, and manage contacts, tags, funnels, and emails among other entities within GroundHogg. With Pipedream, this integration becomes part of a larger ecosystem, allowing you to connect GroundHogg with 3,000+ other apps, automate workflows, and manipulate data in real-time. This can dramatically improve your marketing efforts by enabling personalized and timely interactions with your audience.
 
 # Example Use Cases
 

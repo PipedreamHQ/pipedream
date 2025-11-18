@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/storyblok",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream storyblok Components",
   "main": "storyblok.app.mjs",
   "keywords": [

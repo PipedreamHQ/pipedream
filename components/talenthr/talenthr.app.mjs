@@ -27,8 +27,8 @@ export default {
     },
     employmentStatusId: {
       type: "string",
-      label: "Employment Status Id",
-      description: "The employment status Id",
+      label: "Employment Status ID",
+      description: "The employment status ID",
       async options() {
         const { data } = await this.listEmploymentStatuses();
 
@@ -85,8 +85,8 @@ export default {
     },
     jobTitleId: {
       type: "string",
-      label: "Job Title Id",
-      description: "The Id of the job title.",
+      label: "Job Title ID",
+      description: "The ID of the job title.",
       async options() {
         const { data } = await this.listJobTitles();
 
@@ -100,8 +100,8 @@ export default {
     },
     jobLocationId: {
       type: "string",
-      label: "Job Location Id",
-      description: "The Id of the job location.",
+      label: "Job Location ID",
+      description: "The ID of the job location.",
       async options() {
         const { data } = await this.listJobLocations();
 
@@ -115,7 +115,7 @@ export default {
     },
     divisionId: {
       type: "string",
-      label: "Division Id",
+      label: "Division ID",
       description: "The division for which the application has been submitted",
       async options() {
         const { data } = await this.listDivisions();
@@ -130,7 +130,7 @@ export default {
     },
     departmentId: {
       type: "string",
-      label: "Department Id",
+      label: "Department ID",
       description: "The department for which the application has been submitted",
       async options() {
         const { data } = await this.listDepartments();
@@ -146,7 +146,7 @@ export default {
     address: {
       type: "string",
       label: "Address",
-      description: "The address where the meeting will take place. Required if **Who Id** and **When Time** is present.",
+      description: "The address where the meeting will take place. Required if **Who ID** and **When Time** is present.",
     },
     nationality: {
       type: "string",

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/profileapi",
+  "version": "0.0.1",
+  "description": "Pipedream ProfileAPI Components",
+  "main": "profileapi.app.mjs",
+  "keywords": [
+    "pipedream",
+    "profileapi"
+  ],
+  "homepage": "https://pipedream.com/apps/profileapi",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
