@@ -62,10 +62,13 @@ export default {
       return cleanedEvents;
     },
     generateMeta(event) {
+      const ts = event.start?.dateTime
+        ? Date.parse(event.start.dateTime)
+        : Date.now();
       return {
-        id: `${event.id}-${Date.now()}`,
-        summary: `Upcoming: ${event.subject || `Event ID: ${event.id}`}`,
-        ts: Date.now(),
+        id: `${event.uid}-${ts}`,
+        summary: `Upcoming: ${event.subject || "(untitled)"}`,
+        ts,
       };
     },
   },
@@ -100,7 +103,7 @@ export default {
 
     for (const event of events) {
       // Skip if already emitted
-      if (emittedEvents[event.id]) {
+      if (emittedEvents[event.uid]) {
         continue;
       }
 
@@ -121,12 +124,14 @@ export default {
 
       // Emit if time remaining is less than or equal to the alert threshold
       if (timeRemaining <= alertThresholdMs) {
-        emittedEvents[event.id] = startTime.getTime();
-        this._setEmittedEvents(emittedEvents);
+        emittedEvents[event.uid] = startTime.getTime();
 
-        this.$emit(event, this.generateMeta(event));
+        const meta = this.generateMeta(event);
+        this.$emit(event, meta);
       }
     }
+
+    this._setEmittedEvents(emittedEvents);
   },
 };
 
