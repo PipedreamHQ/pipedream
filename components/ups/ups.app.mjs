@@ -15,7 +15,9 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://onlinetools.ups.com/api";
+      // TODO: Swtich back to production base URL before publishing
+      //return "https://onlinetools.ups.com/api";
+      return "https://wwwcie.ups.com/api";
     },
     _makeRequest({
       $ = this, path, ...opts
@@ -27,6 +29,13 @@ export default {
           transactionsrc: "@PipedreamHQ/pipedream v0.1",
           transid: uuidv4(),
         },
+        ...opts,
+      });
+    },
+    createSubscription(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/track/v1/subscription/standard/package",
         ...opts,
       });
     },
