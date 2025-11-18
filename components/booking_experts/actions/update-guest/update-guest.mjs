@@ -1,10 +1,10 @@
 import bookingExperts from "../../booking_experts.app.mjs";
 
 export default {
-  key: "booking_experts-add-guest-to-reservation",
-  name: "Add Guest to Reservation",
-  description: "Add a guest to a reservation. [See the documentation](https://developers.bookingexperts.com/reference/administration-reservation-guests-create)",
-  version: "0.0.3",
+  key: "booking_experts-update-guest",
+  name: "Update Guest",
+  description: "Update a guest for a reservation. [See the documentation](https://developers.bookingexperts.com/reference/administration-reservation-guests-update)",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -23,8 +23,25 @@ export default {
       propDefinition: [
         bookingExperts,
         "reservationId",
-        (c) => ({
-          administrationId: c.administrationId,
+        ({ administrationId }) => ({
+          administrationId,
+        }),
+      ],
+    },
+    info: {
+      type: "alert",
+      alertType: "warning",
+      content: "**The API will only list guests created through the Booking Experts API.**",
+    },
+    guestId: {
+      propDefinition: [
+        bookingExperts,
+        "guestId",
+        ({
+          administrationId, reservationId,
+        }) => ({
+          administrationId,
+          reservationId,
         }),
       ],
     },
@@ -32,11 +49,13 @@ export default {
       type: "string",
       label: "First Name",
       description: "The first name of the guest",
+      optional: true,
     },
     lastName: {
       type: "string",
       label: "Last Name",
       description: "The last name of the guest",
+      optional: true,
     },
     email: {
       type: "string",
@@ -76,12 +95,14 @@ export default {
     },
   },
   async run({ $ }) {
-    const { data } = await this.bookingExperts.addGuestToReservation({
+    const { data } = await this.bookingExperts.updateGuest({
       $,
       administrationId: this.administrationId,
       reservationId: this.reservationId,
+      guestId: this.guestId,
       data: {
         data: {
+          id: this.guestId,
           type: "guest",
           attributes: {
             first_name: this.firstName,
@@ -96,7 +117,7 @@ export default {
         },
       },
     });
-    $.export("$summary", "Guest added to reservation");
+    $.export("$summary", "Guest updated");
     return data;
   },
 };
