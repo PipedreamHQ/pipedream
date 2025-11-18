@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sendoso",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Pipedream Sendoso Components",
   "main": "sendoso.app.mjs",
   "keywords": [
