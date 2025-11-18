@@ -1,8 +1,8 @@
-import form_taxi from "../../form_taxi.app.mjs";
+import formTaxi from "../../form_taxi.app.mjs";
 
 export default {
   props: {
-    form_taxi,
+    formTaxi,
     db: "$.service.db",
     http: {
       type: "$.interface.http",
@@ -12,7 +12,7 @@ export default {
   methods: {
     async registerWebhook() {
       const targetUrl = this.http.endpoint;
-      const resp = await this.form_taxi.createWebhook(targetUrl);
+      const resp = await this.formTaxi.createWebhook(targetUrl);
 
       if (resp.status < 200 || resp.status >= 300) {
         const msg = resp?.data?.message || "Unknown error";
@@ -34,7 +34,7 @@ export default {
     },
     async deleteWebhookById(hookId) {
       if (!hookId) return;
-      const resp = await this.form_taxi.deleteWebhook(hookId);
+      const resp = await this.formTaxi.deleteWebhook(hookId);
       if (resp.status >= 400) {
         const msg = resp?.message || "Unknown error";
         console.warn(`Webhook-Delete failed: ${resp.status} ${msg}`);
@@ -89,7 +89,7 @@ export default {
     },
     async fetchAndEmitSamples() {
       try {
-        const resp = await this.form_taxi.getSampleData();
+        const resp = await this.formTaxi.getSampleData();
         if (resp.status < 200 || resp.status >= 300) {
           const msg = resp?.message || "Unknown error";
           console.warn(`Sample-GET failed (${resp.status}): ${msg}`);

@@ -1,12 +1,12 @@
 import { axios } from "@pipedream/platform";
 
 export default {
+  propDefinitions: {},
   type: "app",
   app: "form_taxi",
-  description: "Emit new event when receive a submission from Form.taxi",
   methods: {
     _baseUrl() {
-      return "https://form.taxi/int/pipedream";
+      return "https://form.taxi/int/pipedream/api/";
     },
     _makeRequest({
       $ = this, path, headers, ...opts
@@ -25,7 +25,7 @@ export default {
     async createWebhook(hook_url) {
       return this._makeRequest({
         method: "POST",
-        path: "/api/" + this.$auth.form_code,
+        path: this.$auth.form_code,
         data: {
           hook_url,
         },
@@ -34,16 +34,16 @@ export default {
     async deleteWebhook(id) {
       return this._makeRequest({
         method: "DELETE",
-        path: "/api/" + this.$auth.form_code,
+        path: this.$auth.form_code,
         params: {
-          "hook_id": encodeURIComponent(id),
+          "hook_id": id,
         },
       });
     },
     async getSampleData() {
       return this._makeRequest({
         method: "GET",
-        path: "/api/" + this.$auth.form_code,
+        path: this.$auth.form_code,
       });
     },
   },
