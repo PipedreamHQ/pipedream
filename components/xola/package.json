@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/xola",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream Xola Components",
   "main": "xola.app.mjs",
   "keywords": [
