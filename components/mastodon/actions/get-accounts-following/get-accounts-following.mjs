@@ -4,7 +4,7 @@ export default {
   key: "mastodon-get-accounts-following",
   name: "Get Accounts Following",
   description: "Get the accounts that the given account is following. [See the documentation](https://docs.joinmastodon.org/methods/accounts/#following)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -19,6 +19,24 @@ export default {
         "max",
       ],
     },
+    maxId: {
+      type: "string",
+      label: "Max ID",
+      description: "The max ID from a previous response for pagination",
+      optional: true,
+    },
+    minId: {
+      type: "string",
+      label: "Min ID",
+      description: "The min ID from a previous response for pagination",
+      optional: true,
+    },
+    sinceId: {
+      type: "string",
+      label: "Since ID",
+      description: "The since ID from a previous response for pagination",
+      optional: true,
+    },
   },
   methods: {
     getMaxIdFromLinkHeader(linkHeader) {
@@ -31,10 +49,13 @@ export default {
   async run({ $ }) {
     const { max } = this;
     const accounts = [];
-    let done = false;
+    let done = false, paginationLinks;
     const args = {
       $,
       params: {
+        max_id: this.maxId,
+        min_id: this.minId,
+        since_id: this.sinceId,
         limit: 80, // max allowed by api
       },
       returnFullResponse: true,
@@ -46,6 +67,7 @@ export default {
       accounts.push(...data);
       if (headers?.link) {
         args.params.max_id = this.getMaxIdFromLinkHeader(headers.link);
+        paginationLinks = headers.link;
       } else {
         done = true;
       }
@@ -59,6 +81,9 @@ export default {
     }
 
     $.export("$summary", `Successfully retrieved ${accounts.length} account(s) that the user is following`);
-    return accounts;
+    return {
+      accounts,
+      paginationLinks,
+    };
   },
 };
