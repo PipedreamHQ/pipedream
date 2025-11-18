@@ -45,7 +45,6 @@ export default {
       type: "string",
       label: "Prompt",
       description: "Prompt to send to OpenAI",
-      optional: true,
     },
     customPersona: {
       type: "string",
