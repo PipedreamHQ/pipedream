@@ -19,6 +19,7 @@ export default {
       description: "Page number to retrieve (1-based).",
       optional: true,
       default: 1,
+      min: 1,
     },
     perPage: {
       type: "integer",
@@ -26,6 +27,7 @@ export default {
       description: "Number of integrations per page.",
       optional: true,
       default: 50,
+      min: 1,
     },
   },
   async run({ $ }) {

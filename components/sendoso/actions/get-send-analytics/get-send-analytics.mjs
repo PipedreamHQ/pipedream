@@ -18,12 +18,14 @@ export default {
         sendoso,
         "startDate",
       ],
+      optional: true,
     },
     endDate: {
       propDefinition: [
         sendoso,
         "endDate",
       ],
+      optional: true,
     },
     groupId: {
       propDefinition: [

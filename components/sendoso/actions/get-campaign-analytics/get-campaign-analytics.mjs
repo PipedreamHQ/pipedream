@@ -41,9 +41,10 @@ export default {
       campaignId,
     } = this;
 
-    const params = {};
-    if (startDate) params.start_date = startDate;
-    if (endDate) params.end_date = endDate;
+    const params = {
+      start_date: startDate,
+      end_date: endDate,
+    };
     if (campaignId) params.campaign_id = campaignId;
 
     const response = await this.sendoso.getCampaignAnalytics({
