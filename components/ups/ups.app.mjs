@@ -15,9 +15,8 @@ export default {
   },
   methods: {
     _baseUrl() {
-      // TODO: Swtich back to production base URL before publishing
-      //return "https://onlinetools.ups.com/api";
-      return "https://wwwcie.ups.com/api";
+      return "https://onlinetools.ups.com/api";
+      //return "https://wwwcie.ups.com/api"; // sandbox URL for testing
     },
     _makeRequest({
       $ = this, path, ...opts
