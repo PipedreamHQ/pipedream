@@ -41,10 +41,9 @@ export default {
       groupId,
     } = this;
 
-    const params = {
-      start_date: startDate,
-      end_date: endDate,
-    };
+    const params = {};
+    if (startDate) params.start_date = startDate;
+    if (endDate) params.end_date = endDate;
     if (groupId) params.group_id = groupId;
 
     const response = await this.sendoso.getSendAnalytics({

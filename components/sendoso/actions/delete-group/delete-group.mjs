@@ -9,7 +9,7 @@ export default {
     openWorldHint: true,
     readOnlyHint: false,
   },
-  description: "Delete a group from Sendoso. [See the documentation](https://sendoso.docs.apiary.io/#reference/group-management)",
+  description: "Delete a group from Sendoso. Note: groups must have no members before they can be deleted. [See the documentation](https://sendoso.docs.apiary.io/#reference/group-management)",
   type: "action",
   props: {
     sendoso,

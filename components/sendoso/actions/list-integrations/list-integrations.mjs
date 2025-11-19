@@ -13,10 +13,27 @@ export default {
   type: "action",
   props: {
     sendoso,
+    limit: {
+      propDefinition: [
+        sendoso,
+        "limit",
+      ],
+    },
+    offset: {
+      propDefinition: [
+        sendoso,
+        "offset",
+      ],
+    },
   },
   async run({ $ }) {
+    const params = {};
+    if (this.limit) params.limit = this.limit;
+    if (this.offset) params.offset = this.offset;
+
     const response = await this.sendoso.listIntegrations({
       $,
+      params,
     });
 
     const count = Array.isArray(response) ?

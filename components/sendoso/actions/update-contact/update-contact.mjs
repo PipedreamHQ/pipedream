@@ -68,16 +68,16 @@ export default {
     } = this;
 
     const data = {};
-    const updates = {
-      ...(firstName && { first_name: firstName }),
-      ...(lastName && { last_name: lastName }),
-      ...(email && { email }),
-      ...(phone && { mobile_no: phone }),
-      ...(company && { company_name: company }),
-      ...(title && { title }),
-    };
+    if (firstName !== undefined) data.first_name = firstName;
+    if (lastName !== undefined) data.last_name = lastName;
+    if (email !== undefined) data.email = email;
+    if (phone !== undefined) data.mobile_no = phone;
+    if (company !== undefined) data.company_name = company;
+    if (title !== undefined) data.title = title;
 
-    Object.assign(data, updates);
+    if (!Object.keys(data).length) {
+      throw new Error("At least one field must be provided to update the contact.");
+    }
 
     const response = await this.sendoso.updateContact({
       $,
