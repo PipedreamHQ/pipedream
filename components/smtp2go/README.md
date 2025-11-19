@@ -1,6 +1,6 @@
 # Overview
 
-SMTP2GO is an email delivery service that offers a robust SMTP API for sending emails. With the SMTP2GO API, you can programmatically send emails, get detailed reports on email delivery, and manage your sender reputation. It's useful for transactional emails, where reliability and deliverability are paramount, such as sending receipts, notifications, or password resets. When paired with Pipedream, SMTP2GO becomes a powerhouse, enabling you to create intricate automated workflows combining email capabilities with hundreds of other apps.
+SMTP2GO is an email delivery service that offers a robust SMTP API for sending emails. With the SMTP2GO API, you can programmatically send emails, get detailed reports on email delivery, and manage your sender reputation. It's useful for transactional emails, where reliability and deliverability are paramount, such as sending receipts, notifications, or password resets. When paired with Pipedream, SMTP2GO becomes a powerhouse, enabling you to create intricate automated workflows combining email capabilities with 3,000+ other apps.
 
 # Example Use Cases
 

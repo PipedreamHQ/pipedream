@@ -12,7 +12,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^2.0.0",
+    "@pipedream/platform": "^2.0.2",
     "mysql2": "^3.9.2",
     "uuid": "^8.3.2"
   }

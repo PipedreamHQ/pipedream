@@ -8,7 +8,7 @@ export default {
   name: "Update Deal",
   description:
     "Update a deal in Hubspot. [See the documentation](https://developers.hubspot.com/beta-docs/guides/api/crm/objects/deals#update-deals)",
-  version: "0.0.18",
+  version: "0.0.19",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

@@ -5,7 +5,7 @@ export default {
   name: "List users",
   description: "List all users. [See the documentation](https://developers.zoom.us/docs/api/users/#tag/users/GET/users)",
   key: "zoom_admin-list-users",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

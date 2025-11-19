@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/socialkit",
+  "version": "0.0.1",
+  "description": "Pipedream SocialKit Components",
+  "main": "socialkit.app.mjs",
+  "keywords": [
+    "pipedream",
+    "socialkit"
+  ],
+  "homepage": "https://pipedream.com/apps/socialkit",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

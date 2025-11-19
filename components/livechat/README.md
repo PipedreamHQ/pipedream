@@ -1,6 +1,6 @@
 # Overview
 
-LiveChat API unlocks the capability to integrate your customer service system with powerful automation and data processing. Through Pipedream, you can harness this API to create workflows that trigger actions within LiveChat, synchronize data with other services, and analyze customer interactions to improve support experiences. Pipedream's serverless platform allows you to connect LiveChat with hundreds of other apps with minimal setup, enabling your customer support to be as responsive and informed as possible.
+LiveChat API unlocks the capability to integrate your customer service system with powerful automation and data processing. Through Pipedream, you can harness this API to create workflows that trigger actions within LiveChat, synchronize data with other services, and analyze customer interactions to improve support experiences. Pipedream's serverless platform allows you to connect LiveChat with 3,000+ other apps with minimal setup, enabling your customer support to be as responsive and informed as possible.
 
 # Example Use Cases
 

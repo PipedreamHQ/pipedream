@@ -5,7 +5,7 @@ export default {
   key: "quickbooks-get-payment",
   name: "Get Payment",
   description: "Returns info about a payment. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/payment#read-a-payment)",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

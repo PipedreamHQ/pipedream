@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/clinchpad",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Clinchpad Components",
   "main": "clinchpad.app.mjs",
   "keywords": [
@@ -14,6 +14,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.2.1"
+    "@pipedream/platform": "^1.6.8"
   }
 }

@@ -1,11 +1,11 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   key: "microsoft_outlook_calendar-new-calendar-event",
   name: "New Calendar Event (Instant)",
   description: "Emit new event when a new Calendar event is created",
-  version: "0.0.7",
+  version: "0.0.9",
   type: "source",
   hooks: {
     ...common.hooks,

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/affinda",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Affinda Components",
   "main": "affinda.app.mjs",
   "keywords": [
@@ -13,6 +13,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.1.0"
+    "@pipedream/platform": "^3.1.1"
   }
 }

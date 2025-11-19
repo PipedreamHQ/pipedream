@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/signatureapi",
+  "version": "0.0.1",
+  "description": "Pipedream SignatureAPI Components",
+  "main": "signatureapi.app.mjs",
+  "keywords": [
+    "pipedream",
+    "signatureapi"
+  ],
+  "homepage": "https://pipedream.com/apps/signatureapi",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

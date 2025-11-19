@@ -1,15 +1,17 @@
 {
   "name": "@pipedream/ahrefs",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "Pipedream Ahrefs Components",
-  "main": "ahrefs.app.js",
+  "main": "ahrefs.app.mjs",
   "keywords": [
     "pipedream",
     "ahrefs"
   ],
   "homepage": "https://pipedream.com/apps/ahrefs",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "dependencies": {},
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1"
+  },
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
   "publishConfig": {
     "access": "public"

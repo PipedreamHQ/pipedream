@@ -1,12 +1,12 @@
-import common from "../common.mjs";
-import taskScheduler from "../../../pipedream/sources/new-scheduled-tasks/new-scheduled-tasks.mjs";
+import common from "../common/common.mjs";
+import taskScheduler from "@pipedream/pipedream/sources/new-scheduled-tasks/new-scheduled-tasks.mjs";
 
 export default {
   ...common,
   key: "microsoft_outlook_calendar-new-upcoming-event",
   name: "New Upcoming Calendar Event",
   description: "Emit new event when a Calendar event is upcoming, this source is using `reminderMinutesBeforeStart` property of the event to determine the time it should emit.",
-  version: "0.0.3",
+  version: "0.0.5",
   type: "source",
   props: {
     ...common.props,

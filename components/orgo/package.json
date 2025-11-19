@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/orgo",
+  "version": "0.0.1",
+  "description": "Pipedream Orgo Components",
+  "main": "orgo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "orgo"
+  ],
+  "homepage": "https://pipedream.com/apps/orgo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

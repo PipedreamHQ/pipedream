@@ -1,12 +1,13 @@
 import { axios } from "@pipedream/platform";
 import get from "lodash/get.js";
+import { doubleEncode } from "../../common/utils.mjs";
 import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {
   name: "End meeting",
   description: "End a meeting for a user. [See the documentation](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingstatus)",
   key: "zoom_admin-end-meeting",
-  version: "0.1.7",
+  version: "0.1.8",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -25,7 +26,7 @@ export default {
   async run ({ $ }) {
     const res = await axios($, this.zoomAdmin._getAxiosParams({
       method: "PUT",
-      path: `/meetings/${get(this.meeting, "value", this.meeting)}/status`,
+      path: `/meetings/${doubleEncode(get(this.meeting, "value", this.meeting))}/status`,
       data: {
         action: "end",
       },

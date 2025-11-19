@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zoho_bugtracker",
-  "version": "0.2.1",
+  "version": "0.2.3",
   "description": "Pipedream Zoho BugTracker Components",
   "main": "zoho_bugtracker.app.mjs",
   "keywords": [
@@ -13,7 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.1.0",
-    "form-data": "^4.0.0"
+    "@pipedream/platform": "^3.1.1",
+    "form-data": "^4.0.4"
   }
 }

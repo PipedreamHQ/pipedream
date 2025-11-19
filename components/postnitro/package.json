@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/postnitro",
+  "version": "0.0.1",
+  "description": "Pipedream PostNitro Components",
+  "main": "postnitro.app.mjs",
+  "keywords": [
+    "pipedream",
+    "postnitro"
+  ],
+  "homepage": "https://pipedream.com/apps/postnitro",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

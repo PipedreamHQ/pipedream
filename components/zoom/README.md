@@ -1,7 +1,7 @@
 # Overview
 The Zoom API lets you tap into a rich set of functionalities to enhance the video conferencing experience within your own app or workflow. With the Zoom API on Pipedream, you can automatically create meetings, manage users, send meeting notifications, and more, orchestrating these actions within a broader automation. This allows for seamless integration with other services, enabling both data collection and action triggers based on Zoom events.
 
-**Pipedream [workflows](/workflows/) allow you to run any Node.js code that connects to the Zoom API**. Just [create a new workflow](https://pipedream.com/new), then add prebuilt Zoom [actions](/components#actions) (create a meeting, send a chat message, etc.) or [write your own code](/code/). These workflows can be triggered by HTTP requests, timers, email, or on any app-based event (new tweets, a Github PR, Zoom events, etc). 
+**Pipedream [workflows](/workflows/) allow you to run any Node.js code that connects to the Zoom API**. Just [create a new workflow](https://pipedream.com/new), then add prebuilt Zoom [actions](/components#actions) (create a meeting, send a chat message, etc.) or [write your own code](/code/). These workflows can be triggered by HTTP requests, timers, email, or on any app-based event (new tweets, a GitHub PR, Zoom events, etc). 
 
 # Getting Started
 

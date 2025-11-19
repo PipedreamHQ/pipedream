@@ -8,7 +8,7 @@ export default {
   name: "New Ticket Attachment",
   description: "Emit new event when a new ticket attachment is created. [See the docs here](https://desk.zoho.com/DeskAPIDocument#TicketAttachments#TicketAttachments_Listticketattachments)",
   type: "source",
-  version: "0.1.1",
+  version: "0.1.3",
   dedupe: "unique",
   props: {
     ...common.props,

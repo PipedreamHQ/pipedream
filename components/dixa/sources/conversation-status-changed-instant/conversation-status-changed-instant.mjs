@@ -6,7 +6,7 @@ export default {
   key: "dixa-conversation-status-changed-instant",
   name: "New Conversation Status Changed (Instant)",
   description: "Emit new events when the status of a conversation changes (e.g., open, closed, or abandoned). [See the documentation](https://docs.dixa.io/openapi/dixa-api/v1/tag/Webhooks/).",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/yext_sandbox",
+  "version": "0.0.1",
+  "description": "Pipedream Yext Sandbox Components",
+  "main": "yext_sandbox.app.mjs",
+  "keywords": [
+    "pipedream",
+    "yext_sandbox"
+  ],
+  "homepage": "https://pipedream.com/apps/yext_sandbox",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

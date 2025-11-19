@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/kualitee",
+  "version": "0.0.1",
+  "description": "Pipedream Kualitee Components",
+  "main": "kualitee.app.mjs",
+  "keywords": [
+    "pipedream",
+    "kualitee"
+  ],
+  "homepage": "https://pipedream.com/apps/kualitee",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

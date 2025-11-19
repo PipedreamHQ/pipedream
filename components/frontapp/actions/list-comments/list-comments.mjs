@@ -4,7 +4,7 @@ export default {
   key: "frontapp-list-comments",
   name: "List Conversation Comments",
   description: "List the comments in a conversation. [See the documentation](https://dev.frontapp.com/reference/list-conversation-comments)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

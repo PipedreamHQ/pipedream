@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/mailjet",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "Pipedream Mailjet Components",
   "main": "mailjet.app.mjs",
   "keywords": [
@@ -10,8 +10,8 @@
   "homepage": "https://pipedream.com/apps/mailjet",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^1.2.0",
-    "node-mailjet": "^3.3.13"
+    "@pipedream/platform": "^1.6.8",
+    "node-mailjet": "^6.0.11"
   },
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
   "publishConfig": {

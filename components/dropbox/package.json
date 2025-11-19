@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/dropbox",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Pipedream Dropbox Components",
   "main": "dropbox.app.mjs",
   "keywords": [
@@ -10,7 +10,7 @@
   "homepage": "https://pipedream.com/apps/dropbox",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^3.1.0",
+    "@pipedream/platform": "^3.1.1",
     "@types/node-fetch": "^2.5.7",
     "dropbox": "^10.34.0",
     "got": "^13.0.0",

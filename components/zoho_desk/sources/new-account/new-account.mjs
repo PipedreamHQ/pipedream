@@ -6,7 +6,7 @@ export default {
   name: "New Account",
   description: "Emit new event when a new account is created. [See the docs here](https://desk.zoho.com/DeskAPIDocument#Accounts#Accounts_Listaccounts)",
   type: "source",
-  version: "0.0.6",
+  version: "0.0.8",
   dedupe: "unique",
   props: {
     ...common.props,

@@ -1,6 +1,6 @@
 # Overview
 
-The HelpCrunch API provides a platform for customer communication, enabling automation of messaging, data synchronization, and customer support activities. It allows you to create and update users, send messages, and manage conversations directly through API calls. Integrating HelpCrunch with Pipedream lets you connect these capabilities to hundreds of other apps, streamlining workflows that can respond dynamically to customer interactions, sync data across platforms, or trigger communications based on specific events.
+The HelpCrunch API provides a platform for customer communication, enabling automation of messaging, data synchronization, and customer support activities. It allows you to create and update users, send messages, and manage conversations directly through API calls. Integrating HelpCrunch with Pipedream lets you connect these capabilities to 3,000+ other apps, streamlining workflows that can respond dynamically to customer interactions, sync data across platforms, or trigger communications based on specific events.
 
 # Example Use Cases
 

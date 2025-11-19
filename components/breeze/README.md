@@ -1,6 +1,6 @@
 # Overview
 
-Breeze is a project management tool designed to streamline task planning, collaboration, and tracking for teams. With the Breeze API, you can automate routine project management tasks, sync data with other tools, and create custom notifications to keep your team aligned. By leveraging Pipedream's serverless platform, you can connect Breeze to hundreds of apps, set up complex workflows, and manipulate data in real-time—no server required.
+Breeze is a project management tool designed to streamline task planning, collaboration, and tracking for teams. With the Breeze API, you can automate routine project management tasks, sync data with other tools, and create custom notifications to keep your team aligned. By leveraging Pipedream's serverless platform, you can connect Breeze to 3,000+ apps, set up complex workflows, and manipulate data in real-time—no server required.
 
 # Example Use Cases
 

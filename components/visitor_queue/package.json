@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/visitor_queue",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Visitor Queue Components",
   "main": "visitor_queue.app.mjs",
   "keywords": [
@@ -13,7 +13,7 @@
   "homepage": "https://pipedream.com/apps/visitor-queue",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^1.2.0",
+    "@pipedream/platform": "^1.6.8",
     "moment": "^2.29.4"
   },
   "publishConfig": {

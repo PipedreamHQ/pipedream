@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/cloudflare_r2",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Cloudflare R2 Components",
   "main": "cloudflare_r2.app.mjs",
   "keywords": [

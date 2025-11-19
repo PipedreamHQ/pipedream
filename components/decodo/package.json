@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/decodo",
+  "version": "0.0.1",
+  "description": "Pipedream Decodo Components",
+  "main": "decodo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "decodo"
+  ],
+  "homepage": "https://pipedream.com/apps/decodo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -7,7 +7,7 @@ export default {
   key: "notion-update-block",
   name: "Update Child Block",
   description: "Updates a child block object. [See the documentation](https://developers.notion.com/reference/update-a-block)",
-  version: "0.0.6",
+  version: "0.0.8",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

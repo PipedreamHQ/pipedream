@@ -5,7 +5,7 @@ export default {
   type: "source",
   name: "Account Settings Updated",
   description: "Emits an event each time your master account or sub-account settings are updated",
-  version: "0.1.6",
+  version: "0.1.9",
   props: {
     zoomAdmin,
     zoomApphook: {

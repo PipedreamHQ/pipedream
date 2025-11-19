@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/keyzy",
+  "version": "0.0.1",
+  "description": "Pipedream KEYZY Components",
+  "main": "keyzy.app.mjs",
+  "keywords": [
+    "pipedream",
+    "keyzy"
+  ],
+  "homepage": "https://pipedream.com/apps/keyzy",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
