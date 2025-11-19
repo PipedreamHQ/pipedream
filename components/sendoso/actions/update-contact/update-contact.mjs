@@ -68,12 +68,16 @@ export default {
     } = this;
 
     const data = {};
-    if (firstName) data.first_name = firstName;
-    if (lastName) data.last_name = lastName;
-    if (email) data.email = email;
-    if (phone) data.phone = phone;
-    if (company) data.company = company;
-    if (title) data.title = title;
+    const updates = {
+      ...(firstName && { first_name: firstName }),
+      ...(lastName && { last_name: lastName }),
+      ...(email && { email }),
+      ...(phone && { mobile_no: phone }),
+      ...(company && { company_name: company }),
+      ...(title && { title }),
+    };
+
+    Object.assign(data, updates);
 
     const response = await this.sendoso.updateContact({
       $,

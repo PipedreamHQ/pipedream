@@ -5,6 +5,11 @@ export default {
   name: "Create eGift Links",
   description: "Generate eGift links. [See the documentation](https://developer.sendoso.com/rest-api/sends/create-egift-links)",
   version: "0.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     sendoso,

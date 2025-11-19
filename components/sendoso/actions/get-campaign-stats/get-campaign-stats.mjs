@@ -24,6 +24,7 @@ export default {
         sendoso,
         "startDate",
       ],
+      description: "Start date for statistics (YYYY-MM-DD format).",
       optional: true,
     },
     endDate: {
@@ -31,6 +32,7 @@ export default {
         sendoso,
         "endDate",
       ],
+      description: "End date for statistics (YYYY-MM-DD format). Must be after start date.",
       optional: true,
     },
   },

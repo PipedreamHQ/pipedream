@@ -147,7 +147,8 @@ To contribute new actions or improvements:
 
 ## Version History
 
-- **v0.0.3**: Added comprehensive API endpoint support (50+ new actions)
+- **v0.1.0**: Added comprehensive API endpoint support (50+ new actions)
+- **v0.0.3**: Maintenance release
 - **v0.0.2**: Initial release with basic send management
 - **v0.0.1**: Beta release
 

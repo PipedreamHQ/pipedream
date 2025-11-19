@@ -5,11 +5,11 @@ export default {
   name: "Resend Gift",
   version: "0.0.1",
   annotations: {
-    destructiveHint: false,
+    destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
-  description: "Resend a gift to the recipient. [See the documentation](https://sendoso.docs.apiary.io/#reference/send-management)",
+  description: "Resend a gift to the recipient. This may incur additional costs or trigger duplicate sends. [See the documentation](https://sendoso.docs.apiary.io/#reference/send-management)",
   type: "action",
   props: {
     sendoso,

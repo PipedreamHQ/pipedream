@@ -5,6 +5,11 @@ export default {
   name: "Send Bulk Email",
   description: "Send eGifts to multiple recipients. [See the documentation](https://developer.sendoso.com/rest-api/sends/send-bulk-email)",
   version: "0.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     sendoso,

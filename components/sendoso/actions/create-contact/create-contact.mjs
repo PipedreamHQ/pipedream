@@ -96,16 +96,15 @@ export default {
       first_name: firstName,
       last_name: lastName,
       email,
+      ...(phone && { mobile_no: phone }),
+      ...(company && { company_name: company }),
+      ...(title && { title }),
+      ...(address && { address }),
+      ...(city && { city }),
+      ...(state && { state }),
+      ...(zip && { zip }),
+      ...(country && { country }),
     };
-
-    if (phone) data.phone = phone;
-    if (company) data.company = company;
-    if (title) data.title = title;
-    if (address) data.address = address;
-    if (city) data.city = city;
-    if (state) data.state = state;
-    if (zip) data.zip = zip;
-    if (country) data.country = country;
 
     const response = await this.sendoso.createContact({
       $,

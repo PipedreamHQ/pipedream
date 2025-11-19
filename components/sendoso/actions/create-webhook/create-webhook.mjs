@@ -21,7 +21,7 @@ export default {
     events: {
       type: "string[]",
       label: "Events",
-      description: "Array of event types to subscribe to (e.g., send.created, send.delivered).",
+      description: "Array of event types to subscribe to. Common events: send.created, send.delivered, send.cancelled, touch.created, touch.updated, contact.created, contact.updated, campaign.launched, campaign.paused.",
     },
     description: {
       type: "string",

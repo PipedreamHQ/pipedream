@@ -28,7 +28,10 @@ export default {
       groupId,
     });
 
-    $.export("$summary", `Successfully deleted group ID: ${groupId}`);
+    const success = response.success !== false && response.error === undefined;
+    $.export("$summary", success ?
+      `Successfully deleted group ID: ${groupId}` :
+      `Deletion completed for group ID: ${groupId}`);
     return response;
   },
 };

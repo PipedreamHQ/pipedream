@@ -22,17 +22,26 @@ export default {
   async run({ $ }) {
     const { contacts } = this;
 
-    // Parse contacts if they're strings
-    const contactsArray = typeof contacts === "string" ?
-      JSON.parse(contacts) :
-      contacts;
+    // Parse contacts: handle string[], single string (JSON), or array
+    let contactsArray;
+    if (Array.isArray(contacts)) {
+      // If it's already an array, check if items are strings that need parsing
+      contactsArray = contacts.map((contact) => 
+        typeof contact === "string" ? JSON.parse(contact) : contact,
+      );
+    } else if (typeof contacts === "string") {
+      // If it's a single JSON string
+      contactsArray = JSON.parse(contacts);
+    } else {
+      contactsArray = contacts;
+    }
 
     const response = await this.sendoso.importContacts({
       $,
       contacts: contactsArray,
     });
 
-    const imported = response.imported || response.count || contactsArray.length;
+    const imported = response.imported || response.count || (Array.isArray(contactsArray) ? contactsArray.length : 0);
     $.export("$summary", `Successfully imported ${imported} contact(s)`);
     return response;
   },

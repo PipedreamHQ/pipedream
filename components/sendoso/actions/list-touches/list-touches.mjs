@@ -17,7 +17,10 @@ export default {
   },
   async run({ $ }) {
     const response = await this.sendoso.listTouches(this.groupId);
-    $.export("$summary", `Successfully retrieved ${response.length} touches`);
+    const count = Array.isArray(response) ?
+      response.length :
+      (response.data?.length || response.touches?.length || 0);
+    $.export("$summary", `Successfully retrieved ${count} touch(es)`);
     return response;
   },
 };

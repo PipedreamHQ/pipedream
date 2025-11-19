@@ -7,7 +7,7 @@ export default {
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
-    readOnlyHint: false,
+    readOnlyHint: true,
   },
   description: "Validate a shipping address. [See the documentation](https://sendoso.docs.apiary.io/#reference/address-management)",
   type: "action",
