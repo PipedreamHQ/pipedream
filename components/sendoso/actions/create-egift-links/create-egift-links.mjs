@@ -24,6 +24,7 @@ export default {
       label: "Amount",
       description: "The number of links to generate.",
       min: 1,
+      default: 1,
     },
   },
   async run({ $ }) {

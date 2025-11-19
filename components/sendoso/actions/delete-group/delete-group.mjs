@@ -28,10 +28,8 @@ export default {
       groupId,
     });
 
-    const success = response.success !== false && response.error === undefined;
-    $.export("$summary", success ?
-      `Successfully deleted group ID: ${groupId}` :
-      `Deletion completed for group ID: ${groupId}`);
+    // Trust HTTP status: if deleteGroup didn't throw, the call succeeded
+    $.export("$summary", `Successfully deleted group ID: ${groupId}`);
     return response;
   },
 };

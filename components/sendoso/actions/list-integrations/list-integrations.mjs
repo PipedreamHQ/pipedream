@@ -13,23 +13,25 @@ export default {
   type: "action",
   props: {
     sendoso,
-    limit: {
-      propDefinition: [
-        sendoso,
-        "limit",
-      ],
+    page: {
+      type: "integer",
+      label: "Page",
+      description: "Page number to retrieve (1-based).",
+      optional: true,
+      default: 1,
     },
-    offset: {
-      propDefinition: [
-        sendoso,
-        "offset",
-      ],
+    perPage: {
+      type: "integer",
+      label: "Per Page",
+      description: "Number of integrations per page.",
+      optional: true,
+      default: 50,
     },
   },
   async run({ $ }) {
     const params = {};
-    if (this.limit) params.limit = this.limit;
-    if (this.offset) params.offset = this.offset;
+    if (this.page) params.page = this.page;
+    if (this.perPage) params.per_page = this.perPage;
 
     const response = await this.sendoso.listIntegrations({
       $,

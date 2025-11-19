@@ -51,7 +51,14 @@ export default {
       params,
     });
 
-    $.export("$summary", `Successfully retrieved send analytics from ${startDate} to ${endDate}`);
+    const summaryParts = ["Successfully retrieved send analytics"];
+    if (startDate || endDate) {
+      summaryParts.push("for the specified date range");
+    }
+    if (groupId) {
+      summaryParts.push(`(group ID: ${groupId})`);
+    }
+    $.export("$summary", summaryParts.join(" "));
     return response;
   },
 };
