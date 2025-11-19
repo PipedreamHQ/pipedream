@@ -7,7 +7,7 @@ export default {
   name: "New Workflow Job Completed (Instant)",
   description: "Emit new event when a job in a workflow is completed, regardless of whether the job was successful or unsuccessful.",
   type: "source",
-  version: "0.0.5",
+  version: "0.0.6",
   dedupe: "unique",
   methods: {
     ...common.methods,

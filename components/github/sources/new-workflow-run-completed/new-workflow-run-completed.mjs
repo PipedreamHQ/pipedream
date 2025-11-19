@@ -7,7 +7,7 @@ export default {
   name: "New Workflow Run Completed (Instant)",
   description: "Emit new event when a GitHub Actions workflow run completes",
   type: "source",
-  version: "0.0.5",
+  version: "0.0.6",
   dedupe: "unique",
   methods: {
     ...common.methods,
