@@ -91,7 +91,7 @@ export default {
     lockType: {
       type: "string",
       label: "Lock Type",
-      description: "Lock type. Applicable if startWith is set to CURRENT",
+      description: "Lock type. Applicable if startsWith is set to CURRENT",
       options: [
         {
           value: "NONE",
