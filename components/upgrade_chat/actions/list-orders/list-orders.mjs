@@ -3,7 +3,7 @@ import upgradeChat from "../../upgrade_chat.app.mjs";
 export default {
   key: "upgrade_chat-list-orders",
   name: "List Orders",
-  description: "List a list of orders. [See the documentation](https://upgrade.chat/developers/documentation)",
+  description: "Retrieve a list of orders. [See the documentation](https://upgrade.chat/developers/documentation)",
   version: "0.0.1",
   type: "action",
   annotations: {

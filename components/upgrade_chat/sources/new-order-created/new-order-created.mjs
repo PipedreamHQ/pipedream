@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "upgrade_chat-new-order-created",
   name: "New Order Created",
-  description: "Emit new events when a order is created. [See the documentation](https://upgrade.chat/developers/documentation)",
+  description: "Emit new event when an order is created. [See the documentation](https://upgrade.chat/developers/documentation)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -14,7 +14,7 @@ export default {
       return this.upgradeChat.listOrders;
     },
     getSummary(order) {
-      return `Order ${order.id} created`;
+      return `Order ${order.uuid} created`;
     },
   },
 };

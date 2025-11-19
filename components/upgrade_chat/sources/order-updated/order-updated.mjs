@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "upgrade_chat-order-updated",
   name: "Order Updated",
-  description: "Emit new events when a order is updated. [See the documentation](https://upgrade.chat/developers/documentation)",
+  description: "Emit new event when an order is updated. [See the documentation](https://upgrade.chat/developers/documentation)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -14,7 +14,7 @@ export default {
       return this.upgradeChat.listOrders;
     },
     getSummary(order) {
-      return `Order ${order.id} updated`;
+      return `Order ${order.uuid} updated`;
     },
     getTsField() {
       return "updated";

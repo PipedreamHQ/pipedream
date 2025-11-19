@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "upgrade_chat-product-updated",
   name: "Product Updated",
-  description: "Emit new events when a product is updated. [See the documentation](https://upgrade.chat/developers/documentation)",
+  description: "Emit new event when a product is updated. [See the documentation](https://upgrade.chat/developers/documentation)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
