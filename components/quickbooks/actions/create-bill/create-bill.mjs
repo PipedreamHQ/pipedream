@@ -6,7 +6,7 @@ export default {
   key: "quickbooks-create-bill",
   name: "Create Bill",
   description: "Creates a bill. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/bill#create-a-bill)",
-  version: "0.1.12",
+  version: "0.1.13",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

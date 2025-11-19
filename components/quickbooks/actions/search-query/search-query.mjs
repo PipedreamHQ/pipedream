@@ -5,7 +5,7 @@ export default {
   key: "quickbooks-search-query",
   name: "Search Query",
   description: "Performs a search query against a Quickbooks entity. [See the documentation](https://developer.intuit.com/app/develophttps://developer.intuit.com/app/developer/qbo/docs/develop/explore-the-quickbooks-online-api/data-queries)",
-  version: "0.1.12",
+  version: "0.1.13",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

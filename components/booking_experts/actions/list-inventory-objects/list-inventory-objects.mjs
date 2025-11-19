@@ -4,7 +4,7 @@ export default {
   key: "booking_experts-list-inventory-objects",
   name: "List Inventory Objects",
   description: "Returns inventory objects of the administration. [See the documentation](https://developers.bookingexperts.com/reference/administration-inventoryobjects-index)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -46,6 +46,7 @@ export default {
   },
   async run({ $ }) {
     const { data } = await this.bookingExperts.listInventoryObjects({
+      $,
       administrationId: this.administrationId,
       params: {
         "filter[name]": this.name,

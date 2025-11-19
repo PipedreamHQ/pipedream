@@ -834,6 +834,18 @@ export default {
         ...opts,
       });
     },
+    getBalanceSheetReport(opts = {}) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/reports/BalanceSheet`,
+        ...opts,
+      });
+    },
+    getCashFlowReport(opts = {}) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/reports/CashFlow`,
+        ...opts,
+      });
+    },
     async *paginate({
       fn, params = {}, fieldList, query, maxResults = null, ...opts
     }) {

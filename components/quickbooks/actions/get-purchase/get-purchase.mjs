@@ -5,7 +5,7 @@ export default {
   key: "quickbooks-get-purchase",
   name: "Get Purchase",
   description: "Returns info about a purchase. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/purchase#read-a-purchase)",
-  version: "0.1.12",
+  version: "0.1.13",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

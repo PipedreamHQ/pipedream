@@ -4,7 +4,7 @@ export default {
   key: "quickbooks-get-my-company",
   name: "Get My Company",
   description: "Gets info about a company. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/companyinfo)",
-  version: "0.1.12",
+  version: "0.1.13",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

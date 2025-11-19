@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/google_sheets",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "description": "Pipedream Google_sheets Components",
   "main": "google_sheets.app.mjs",
   "keywords": [
