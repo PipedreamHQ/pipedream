@@ -116,7 +116,9 @@ export default {
         date: this.date,
         balancing: this.balancing,
         balanceBy: this.balanceBy,
-        balancingFactor: this.balancingFactor,
+        balancingFactor: this.balancingFactor
+          ? +this.balancingFactor
+          : undefined,
         startsWith: this.startsWith,
         lockType: this.lockType,
         useDrivers: this.driverSerialNumbers
