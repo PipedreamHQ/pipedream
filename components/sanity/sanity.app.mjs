@@ -22,10 +22,10 @@ export default {
         const response = await this.queryDataset({
           dataset,
           params: {
-            query: `*  | order(_id) [${DEFAULT_LIMIT * page}...${DEFAULT_LIMIT * (page + 1)}]`,
+            query: `* | order(_id) [${DEFAULT_LIMIT * page}...${DEFAULT_LIMIT * (page + 1)}]`,
           },
         });
-        return response.result.map(({ _id }) => _id);
+        return response.result?.map(({ _id }) => _id) || [];
       },
     },
   },

@@ -14,7 +14,7 @@ export default {
     on: {
       type: "string[]",
       label: "Type",
-      description: "The type of document event(s)to listen for",
+      description: "The type of document event(s) to listen for",
       options: [
         "create",
         "update",

@@ -22,7 +22,7 @@ export default {
     query: {
       type: "string",
       label: "Query",
-      description: "The GROQ query to run. Example: `*[_type == 'movie']`",
+      description: "The GROQ query to run. Example: `*[_type == 'movie']`. Note: The default query `*` returns all documents in the dataset.",
       default: "*",
     },
   },
