@@ -5,8 +5,8 @@ import asyncProps from "../common/asyncProps.mjs";
 export default {
   key: "github-create-issue",
   name: "Create Issue",
-  description: "Create a new issue in a Gihub repo. [See the documentation](https://docs.github.com/en/rest/issues/issues#create-an-issue)",
-  version: "0.3.5",
+  description: "Create a new issue in a GitHub repo. [See the documentation](https://docs.github.com/en/rest/issues/issues#create-an-issue)",
+  version: "0.3.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

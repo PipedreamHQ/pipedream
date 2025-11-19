@@ -1,6 +1,6 @@
 # Overview
 
-ConvertKit's API offers granular control over email marketing campaigns, allowing users to automate subscriber management, broadcast sending, and sequence setup. Utilize Pipedream's power to react to events, sync data across platforms, or create personalized, timely campaigns. Pipedream's serverless platform connects ConvertKit with hundreds of other apps, enabling automated workflows that save time and improve engagement.
+ConvertKit's API offers granular control over email marketing campaigns, allowing users to automate subscriber management, broadcast sending, and sequence setup. Utilize Pipedream's power to react to events, sync data across platforms, or create personalized, timely campaigns. Pipedream's serverless platform connects ConvertKit with 3,000+ other apps, enabling automated workflows that save time and improve engagement.
 
 # Example Use Cases
 

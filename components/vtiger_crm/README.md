@@ -1,6 +1,6 @@
 # Overview
 
-The Vtiger CRM API lets you tap into your customer relationship data to create, read, update, and delete records across various entities such as contacts, leads, and opportunities. In Pipedream, you can leverage this API to automate workflows, sync data across platforms, and react to events in real-time, all without the need for dedicated backend code. You can create dynamic workflows that respond to webhooks, schedule tasks, and integrate with 1000+ apps readily available on Pipedream.
+The Vtiger CRM API lets you tap into your customer relationship data to create, read, update, and delete records across various entities such as contacts, leads, and opportunities. In Pipedream, you can leverage this API to automate workflows, sync data across platforms, and react to events in real-time, all without the need for dedicated backend code. You can create dynamic workflows that respond to webhooks, schedule tasks, and integrate with 3,000+ apps readily available on Pipedream.
 
 # Example Use Cases
 

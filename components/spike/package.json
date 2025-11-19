@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/spike",
+  "version": "0.0.1",
+  "description": "Pipedream Spike Components",
+  "main": "spike.app.mjs",
+  "keywords": [
+    "pipedream",
+    "spike"
+  ],
+  "homepage": "https://pipedream.com/apps/spike",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

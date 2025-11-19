@@ -10,7 +10,7 @@
   "homepage": "https://pipedream.com/apps/clio",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^1.6.4"
+    "@pipedream/platform": "^1.6.8"
   },
   "publishConfig": {
     "access": "public"

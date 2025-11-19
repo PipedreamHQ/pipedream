@@ -1,6 +1,6 @@
 # Overview
 
-The Finage API provides real-time, historical, and market data across stocks, currencies, and cryptocurrencies. Integrating Finage with Pipedream allows you to create workflows that react to market changes, automate trading analysis, and consolidate financial data for reporting. With Pipedream, you can tap into webhooks, schedules, and over 800+ apps for extensive automation possibilities, leveraging Finage's vast financial datasets.
+The Finage API provides real-time, historical, and market data across stocks, currencies, and cryptocurrencies. Integrating Finage with Pipedream allows you to create workflows that react to market changes, automate trading analysis, and consolidate financial data for reporting. With Pipedream, you can tap into webhooks, schedules, and over 3,000+ apps for extensive automation possibilities, leveraging Finage's vast financial datasets.
 
 # Example Use Cases
 

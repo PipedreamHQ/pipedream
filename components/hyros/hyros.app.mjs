@@ -29,6 +29,11 @@ export default {
       label: "Phone Numbers",
       description: "Phone numbers of the lead that will be created. Will be used on the Ad attributing proccess. `If no email is entered, a phone number is required`.",
     },
+    leadStage: {
+      type: "string",
+      label: "Lead Stage",
+      description: "The name of a stage to be applied to the lead",
+    },
   },
   methods: {
     _apiUrl() {

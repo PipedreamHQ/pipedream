@@ -1,6 +1,6 @@
 # Overview
 
-The Social Intents API enables seamless integration of live chat, customer feedback, and email list building services into your digital platforms. You can byukd workflows that automatically trigger actions based on chat events, gather insights from customer interactions, and enhance your marketing strategies by connecting Social Intents to various other tools, like CRMs, email marketing services, and databases.
+The Social Intents API enables seamless integration of live chat, customer feedback, and email list building services into your digital platforms. You can build workflows that automatically trigger actions based on chat events, gather insights from customer interactions, and enhance your marketing strategies by connecting Social Intents to various other tools, like CRMs, email marketing services, and databases.
 
 # Example Use Cases
 

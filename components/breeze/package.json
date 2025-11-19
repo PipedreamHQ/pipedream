@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/breeze",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream breeze Components",
   "main": "breeze.app.mjs",
   "keywords": [
@@ -13,6 +13,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.0.0"
+    "@pipedream/platform": "^3.1.1"
   }
 }

@@ -2,9 +2,9 @@
 
 The GitHub API is a powerful gateway to interaction with GitHub's vast web of data and services, offering a suite of endpoints to manipulate and retrieve information on repositories, pull requests, issues, and more. Harnessing this API on Pipedream, you can orchestrate automated workflows that respond to events in real-time, manage repository data, streamline collaborative processes, and connect GitHub with other services for a more integrated development lifecycle.
 
-# Github API Integration Platform
+# GitHub API Integration Platform
 
-### Connect Github to 2,200+ apps, remarkably fast.
+### Connect GitHub to 3,000+ apps, remarkably fast.
 
 ---
 
@@ -39,7 +39,7 @@ Click the image below to watch a brief demo on YouTube.
 
 ## Workflows
 
-Workflows are a sequence of linear [steps](https://pipedream.com/docs/workflows/steps) triggered by an event (like an HTTP request, or when a new row is added to a Google sheet). You can quickly develop complex automations using workflows and connect to any of our 500+ integrated apps.
+Workflows are a sequence of linear [steps](https://pipedream.com/docs/workflows/steps) triggered by an event (like an HTTP request, or when a new row is added to a Google sheet). You can quickly develop complex automations using workflows and connect to any of our 3,000+ integrated apps.
 
 [See our workflow quickstart](https://pipedream.com/docs/quickstart/) to get started.
 
@@ -49,7 +49,7 @@ Workflows are a sequence of linear [steps](https://pipedream.com/docs/workflows/
   <br />
 </p>
 
-## Github API Event Sources ([explore](https://pipedream.com/apps/github))
+## GitHub API Event Sources ([explore](https://pipedream.com/apps/github))
 
 [Event Sources](https://pipedream.com/docs/sources/) watch for new data from services like GitHub, Slack, Airtable, RSS and [more](https://pipedream.com/apps). When a source finds a new event, it emits it, triggering any linked workflows.
 
@@ -99,26 +99,26 @@ export default {
 
 You can find the code for all pre-built sources in [the `components` directory](https://github.com/PipedreamHQ/pipedream/tree/master/components). If you find a bug or want to contribute a feature, [see our contribution guide](https://pipedream.com/docs/components/guidelines/#process).
 
-## Github API Actions ([explore](https://pipedream.com/apps/github))
+## GitHub API Actions ([explore](https://pipedream.com/apps/github))
 
-[Actions](https://pipedream.com/docs/components/actions/) are pre-built code steps that you can use in a workflow to perform common operations across Pipedream's 2,000+ API integrations. For example, you can use actions to send email, add a row to a Google Sheet, [and more](https://pipedream.com/apps).
+[Actions](https://pipedream.com/docs/components/actions/) are pre-built code steps that you can use in a workflow to perform common operations across Pipedream's 3,000+ API integrations. For example, you can use actions to send email, add a row to a Google Sheet, [and more](https://pipedream.com/apps).
 
-- [Create Issue](https://pipedream.com/new?h=eyJuIjoiQ3JlYXRlIElzc3VlIHdpdGggdGhlIEdpdEh1YiBBUEkiLCJ2IjoyLCJ0IjpbXSwicyI6W3sia2V5IjoiZ2l0aHViLWNyZWF0ZS1pc3N1ZSJ9XSwiYyI6e319) - Create a new issue in a Gihub repo. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/actions/create-issue/create-issue.mjs))
+- [Create Issue](https://pipedream.com/new?h=eyJuIjoiQ3JlYXRlIElzc3VlIHdpdGggdGhlIEdpdEh1YiBBUEkiLCJ2IjoyLCJ0IjpbXSwicyI6W3sia2V5IjoiZ2l0aHViLWNyZWF0ZS1pc3N1ZSJ9XSwiYyI6e319) - Create a new issue in a GitHub repo. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/actions/create-issue/create-issue.mjs))
 - [Search Issues and Pull Requests](https://pipedream.com/new?h=eyJuIjoiU2VhcmNoIElzc3VlcyBhbmQgUHVsbCBSZXF1ZXN0cyB3aXRoIHRoZSBHaXRIdWIgQVBJIiwidiI6MiwidCI6W10sInMiOlt7ImtleSI6ImdpdGh1Yi1zZWFyY2gtaXNzdWVzLWFuZC1wdWxsLXJlcXVlc3RzIn1dLCJjIjp7fX0) - Find issues and pull requests by state and keyword. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/actions/search-issues-and-pull-requests/search-issues-and-pull-requests.mjs))
-- [Create Branch](https://pipedream.com/new?h=eyJuIjoiQ3JlYXRlIEJyYW5jaCB3aXRoIHRoZSBHaXRIdWIgQVBJIiwidiI6MiwidCI6W10sInMiOlt7ImtleSI6ImdpdGh1Yi1jcmVhdGUtYnJhbmNoIn1dLCJjIjp7fX0) - Create a new branch in a Github repo. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/actions/create-branch/create-branch.mjs))
+- [Create Branch](https://pipedream.com/new?h=eyJuIjoiQ3JlYXRlIEJyYW5jaCB3aXRoIHRoZSBHaXRIdWIgQVBJIiwidiI6MiwidCI6W10sInMiOlt7ImtleSI6ImdpdGh1Yi1jcmVhdGUtYnJhbmNoIn1dLCJjIjp7fX0) - Create a new branch in a GitHub repo. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/actions/create-branch/create-branch.mjs))
 - [Create Gist](https://pipedream.com/new?h=eyJuIjoiQ3JlYXRlIEdpc3Qgd2l0aCB0aGUgR2l0SHViIEFQSSIsInYiOjIsInQiOltdLCJzIjpbeyJrZXkiOiJnaXRodWItY3JlYXRlLWdpc3QifV0sImMiOnt9fQ) - Allows you to add a new gist with one or more files. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/actions/create-gist/create-gist.mjs))
 - [Create Issue Comment](https://pipedream.com/new?h=eyJuIjoiQ3JlYXRlIElzc3VlIENvbW1lbnQgd2l0aCB0aGUgR2l0SHViIEFQSSIsInYiOjIsInQiOltdLCJzIjpbeyJrZXkiOiJnaXRodWItY3JlYXRlLWlzc3VlLWNvbW1lbnQifV0sImMiOnt9fQ) - Create a new comment in a issue. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/actions/create-issue-comment/create-issue-comment.mjs))
 - [Create or update file contents](https://pipedream.com/new?h=eyJuIjoiQ3JlYXRlIG9yIHVwZGF0ZSBmaWxlIGNvbnRlbnRzIHdpdGggdGhlIEdpdEh1YiBBUEkiLCJ2IjoyLCJ0IjpbXSwicyI6W3sia2V5IjoiZ2l0aHViLWNyZWF0ZS1vci11cGRhdGUtZmlsZS1jb250ZW50cyJ9XSwiYyI6e319) - Create or update a file in a repository. This will replace an existing file. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/actions/create-or-update-file-contents/create-or-update-file-contents.mjs))
 - [Create Pull Request](https://pipedream.com/new?h=eyJuIjoiQ3JlYXRlIFB1bGwgUmVxdWVzdCB3aXRoIHRoZSBHaXRIdWIgQVBJIiwidiI6MiwidCI6W10sInMiOlt7ImtleSI6ImdpdGh1Yi1jcmVhdGUtcHVsbC1yZXF1ZXN0In1dLCJjIjp7fX0) - Creates a new pull request for a specified repository. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/actions/create-pull-request/create-pull-request.mjs))
 - [Create Repository](https://pipedream.com/new?h=eyJuIjoiQ3JlYXRlIFJlcG9zaXRvcnkgd2l0aCB0aGUgR2l0SHViIEFQSSIsInYiOjIsInQiOltdLCJzIjpbeyJrZXkiOiJnaXRodWItY3JlYXRlLXJlcG9zaXRvcnkifV0sImMiOnt9fQ) - Creates a new repository for the authenticated user. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/actions/create-repository/create-repository.mjs))
-- [Get Issue Assignees](https://pipedream.com/new?h=eyJuIjoiR2V0IElzc3VlIEFzc2lnbmVlcyB3aXRoIHRoZSBHaXRIdWIgQVBJIiwidiI6MiwidCI6W10sInMiOlt7ImtleSI6ImdpdGh1Yi1nZXQtaXNzdWUtYXNzaWduZWVzIn1dLCJjIjp7fX0) - Get assignees for an issue in a Github repo. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/actions/get-issue-assignees/get-issue-assignees.mjs))
+- [Get Issue Assignees](https://pipedream.com/new?h=eyJuIjoiR2V0IElzc3VlIEFzc2lnbmVlcyB3aXRoIHRoZSBHaXRIdWIgQVBJIiwidiI6MiwidCI6W10sInMiOlt7ImtleSI6ImdpdGh1Yi1nZXQtaXNzdWUtYXNzaWduZWVzIn1dLCJjIjp7fX0) - Get assignees for an issue in a GitHub repo. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/actions/get-issue-assignees/get-issue-assignees.mjs))
 - [Get Repository](https://pipedream.com/new?h=eyJuIjoiR2V0IFJlcG9zaXRvcnkgd2l0aCB0aGUgR2l0SHViIEFQSSIsInYiOjIsInQiOltdLCJzIjpbeyJrZXkiOiJnaXRodWItZ2V0LXJlcG9zaXRvcnkifV0sImMiOnt9fQ) - Get specific repository. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/actions/get-repository/get-repository.mjs))
 - [Get Repository Content](https://pipedream.com/new?h=eyJuIjoiR2V0IFJlcG9zaXRvcnkgQ29udGVudCB3aXRoIHRoZSBHaXRIdWIgQVBJIiwidiI6MiwidCI6W10sInMiOlt7ImtleSI6ImdpdGh1Yi1nZXQtcmVwb3NpdG9yeS1jb250ZW50In1dLCJjIjp7fX0) - Get the content of a file or directory in a specific repository. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/actions/get-repository-content/get-repository-content.mjs))
 - [Get Reviewers](https://pipedream.com/new?h=eyJuIjoiR2V0IFJldmlld2VycyB3aXRoIHRoZSBHaXRIdWIgQVBJIiwidiI6MiwidCI6W10sInMiOlt7ImtleSI6ImdpdGh1Yi1nZXQtcmV2aWV3ZXJzIn1dLCJjIjp7fX0) - Get reviewers for a PR. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/actions/get-reviewers/get-reviewers.mjs))
 - [List Gists for a User](https://pipedream.com/new?h=eyJuIjoiTGlzdCBHaXN0cyBmb3IgYSBVc2VyIHdpdGggdGhlIEdpdEh1YiBBUEkiLCJ2IjoyLCJ0IjpbXSwicyI6W3sia2V5IjoiZ2l0aHViLWxpc3QtZ2lzdHMtZm9yLWEtdXNlciJ9XSwiYyI6e319) - Lists public gists for the specified user. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/actions/list-gists-for-a-user/list-gists-for-a-user.mjs))
 - [List Releases](https://pipedream.com/new?h=eyJuIjoiTGlzdCBSZWxlYXNlcyB3aXRoIHRoZSBHaXRIdWIgQVBJIiwidiI6MiwidCI6W10sInMiOlt7ImtleSI6ImdpdGh1Yi1saXN0LXJlbGVhc2VzIn1dLCJjIjp7fX0) - List releases for a repository. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/actions/list-releases/list-releases.mjs))
 - [Update Gist](https://pipedream.com/new?h=eyJuIjoiVXBkYXRlIEdpc3Qgd2l0aCB0aGUgR2l0SHViIEFQSSIsInYiOjIsInQiOltdLCJzIjpbeyJrZXkiOiJnaXRodWItdXBkYXRlLWdpc3QifV0sImMiOnt9fQ) - Allows you to update a gist's description and to update, delete, or rename gist files. Files from the previous version of the gist that aren't explicitly changed during an edit are unchanged. At least one of description or files is required. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/actions/update-gist/update-gist.mjs))
-- [Update Issue](https://pipedream.com/new?h=eyJuIjoiVXBkYXRlIElzc3VlIHdpdGggdGhlIEdpdEh1YiBBUEkiLCJ2IjoyLCJ0IjpbXSwicyI6W3sia2V5IjoiZ2l0aHViLXVwZGF0ZS1pc3N1ZSJ9XSwiYyI6e319) - Update a new issue in a Github repo. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/actions/update-issue/update-issue.mjs))
+- [Update Issue](https://pipedream.com/new?h=eyJuIjoiVXBkYXRlIElzc3VlIHdpdGggdGhlIEdpdEh1YiBBUEkiLCJ2IjoyLCJ0IjpbXSwicyI6W3sia2V5IjoiZ2l0aHViLXVwZGF0ZS1pc3N1ZSJ9XSwiYyI6e319) - Update a new issue in a GitHub repo. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/actions/update-issue/update-issue.mjs))
 
 You can [create your own actions](https://pipedream.com/docs/components/quickstart/nodejs/actions/), which you can re-use across workflows. You can also [publish actions to the entire Pipedream community](https://pipedream.com/docs/components/guidelines/), making them available for anyone to use.
 
@@ -286,12 +286,12 @@ If you'd like to report a suspected vulnerability or security issue, or have any
 
 Note: Event Source [New Card in Column](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/sources/new-card-in-column/new-card-in-column.mjs) only supports legacy (classic) projects.
 
-Please [reach out](https://pipedream.com/support/) to the Pipedream team with any technical issues or questions about the Github integration. We're happy to help!
+Please [reach out](https://pipedream.com/support/) to the Pipedream team with any technical issues or questions about the GitHub integration. We're happy to help!
 
 # Getting Started
 
-## Github Triggers: Webhooks vs. Polling
-The Github triggers in Pipedream enable you to get notified immediately via a webhook if you have `admin` rights on the repo you're watching. Otherwise you can still poll for updates at a regular interval for any other repo where you might not have `admin` rights.
+## GitHub Triggers: Webhooks vs. Polling
+The GitHub triggers in Pipedream enable you to get notified immediately via a webhook if you have `admin` rights on the repo you're watching. Otherwise you can still poll for updates at a regular interval for any other repo where you might not have `admin` rights.
 
 **Example: New or Updated Issue**
 If you are an admin on the repo, this trigger will be configured as a webhook — so any time there is a new or updated issue in the repo, an event will immediately get emitted.

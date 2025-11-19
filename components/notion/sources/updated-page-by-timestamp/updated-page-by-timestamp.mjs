@@ -8,7 +8,7 @@ export default {
   key: "notion-updated-page-by-timestamp",
   name: "New or Updated Page in Data Source (By Timestamp)",
   description: "Emit new event when a page is created or updated in the selected data source. [See the documentation](https://developers.notion.com/reference/page)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "source",
   dedupe: "unique",
   props: {

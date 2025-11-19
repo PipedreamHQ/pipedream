@@ -1,6 +1,6 @@
 # Overview
 
-The Facebook Custom Audiences API allows you to create and manage your Custom Audiences on Facebook for ad targeting. With Pipedream, you can automate workflows involving Custom Audiences, such as synchronizing email lists, updating audience membership based on customer interactions, or triggering ad campaigns in response to specific events. Pipedream's serverless platform simplifies integrating this API with hundreds of other apps, enabling complex automation without the need for a dedicated backend.
+The Facebook Custom Audiences API allows you to create and manage your Custom Audiences on Facebook for ad targeting. With Pipedream, you can automate workflows involving Custom Audiences, such as synchronizing email lists, updating audience membership based on customer interactions, or triggering ad campaigns in response to specific events. Pipedream's serverless platform simplifies integrating this API with 3,000+ other apps, enabling complex automation without the need for a dedicated backend.
 
 # Example Use Cases
 

@@ -1,6 +1,6 @@
 # Overview
 
-The Nano Nets API offers machine learning capabilities to classify images, extract data, and automate processes with custom models. Through Pipedream's serverless platform, you can trigger workflows from various events, manipulate and route data from the Nano Nets API, and connect it to hundreds of other apps to automate complex tasks. Pipedream's built-in code steps also allow you to transform data, make HTTP requests, and handle logic right inside your workflows.
+The Nano Nets API offers machine learning capabilities to classify images, extract data, and automate processes with custom models. Through Pipedream's serverless platform, you can trigger workflows from various events, manipulate and route data from the Nano Nets API, and connect it to 3,000+ other apps to automate complex tasks. Pipedream's built-in code steps also allow you to transform data, make HTTP requests, and handle logic right inside your workflows.
 
 # Example Use Cases
 

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/postiz",
+  "version": "0.0.1",
+  "description": "Pipedream Postiz Components",
+  "main": "postiz.app.mjs",
+  "keywords": [
+    "pipedream",
+    "postiz"
+  ],
+  "homepage": "https://pipedream.com/apps/postiz",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/chroma_cloud",
+  "version": "0.0.1",
+  "description": "Pipedream Chroma Cloud Components",
+  "main": "chroma_cloud.app.mjs",
+  "keywords": [
+    "pipedream",
+    "chroma_cloud"
+  ],
+  "homepage": "https://pipedream.com/apps/chroma_cloud",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

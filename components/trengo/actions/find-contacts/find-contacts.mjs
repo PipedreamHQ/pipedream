@@ -4,7 +4,7 @@ import app from "../../trengo.app.mjs";
 export default {
   type: "action",
   key: "trengo-find-contacts",
-  version: "0.0.5",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/magnetite",
+  "version": "0.0.1",
+  "description": "Pipedream Magnetite Components",
+  "main": "magnetite.app.mjs",
+  "keywords": [
+    "pipedream",
+    "magnetite"
+  ],
+  "homepage": "https://pipedream.com/apps/magnetite",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

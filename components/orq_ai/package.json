@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/orq_ai",
+  "version": "0.0.1",
+  "description": "Pipedream Orq.ai Components",
+  "main": "orq_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "orq_ai"
+  ],
+  "homepage": "https://pipedream.com/apps/orq_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

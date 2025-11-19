@@ -15,7 +15,7 @@ export default {
   propDefinitions: {
     orgName: {
       label: "Organization",
-      description: "The name of the Github organization (not case sensitive).",
+      description: "The name of the GitHub organization (not case sensitive).",
       type: "string",
       async options() {
         const organizations = await this.getOrganizations();
@@ -596,6 +596,13 @@ export default {
       repoFullname, data,
     }) {
       const response = await this._client().request(`POST /repos/${repoFullname}/pulls`, data);
+
+      return response.data;
+    },
+    async updatePullRequest({
+      repoFullname, pullNumber, data,
+    }) {
+      const response = await this._client().request(`PATCH /repos/${repoFullname}/pulls/${pullNumber}`, data);
 
       return response.data;
     },

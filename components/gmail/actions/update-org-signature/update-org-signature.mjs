@@ -8,7 +8,7 @@ export default {
   name: "Update Signature for Email in Organization",
   description: `Update the signature for a specific email address in an organization.
     A Google Cloud service account with delegated domain-wide authority is required for this action. [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.settings.sendAs/update)`,
-  version: "0.0.12",
+  version: "0.0.14",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

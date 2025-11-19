@@ -5,7 +5,7 @@ export default {
   key: "eventbrite-create-event",
   name: "Create Event",
   description: "Create a new Eventbrite event. [See the documentation](https://www.eventbrite.com/platform/api#/reference/event/create/create-an-event)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

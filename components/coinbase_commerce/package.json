@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/coinbase_commerce",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream Coinbase Commerce Components",
   "main": "coinbase_commerce.app.mjs",
   "keywords": [

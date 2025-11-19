@@ -1,5 +1,6 @@
 import { axios } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
+import utils from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -31,7 +32,7 @@ export default {
       },
     },
     meetingId: {
-      type: "integer",
+      type: "string",
       label: "Meeting ID",
       description: "The meeting ID to get details for.",
       async options({ prevContext }) {
@@ -246,7 +247,7 @@ export default {
       meetingId, ...args
     } = {}) {
       return this._makeRequest({
-        path: `/past_meetings/${meetingId}`,
+        path: `/past_meetings/${utils.doubleEncode(meetingId)}`,
         ...args,
       });
     },

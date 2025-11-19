@@ -1,6 +1,6 @@
 # Overview
 
-The Liondesk API enables you to automate and integrate your CRM tasks, streamlining your customer relationship workflows. With this API on Pipedream, you can craft workflows that trigger actions based on events, manage contacts, send messages, and much more. Pipedream's serverless platform simplifies the process, allowing you to connect Liondesk with hundreds of other apps to automate complex tasks without writing extensive code.
+The Liondesk API enables you to automate and integrate your CRM tasks, streamlining your customer relationship workflows. With this API on Pipedream, you can craft workflows that trigger actions based on events, manage contacts, send messages, and much more. Pipedream's serverless platform simplifies the process, allowing you to connect Liondesk with 3,000+ other apps to automate complex tasks without writing extensive code.
 
 # Example Use Cases
 

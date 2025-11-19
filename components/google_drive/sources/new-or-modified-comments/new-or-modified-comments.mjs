@@ -17,7 +17,7 @@ export default {
   name: "New or Modified Comments (Instant)",
   description:
     "Emit new event when a comment is created or modified in the selected file",
-  version: "1.0.10",
+  version: "1.0.11",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests

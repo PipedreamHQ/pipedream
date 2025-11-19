@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/jina_ai",
+  "version": "0.0.1",
+  "description": "Pipedream Jina AI Components",
+  "main": "jina_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "jina_ai"
+  ],
+  "homepage": "https://pipedream.com/apps/jina_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

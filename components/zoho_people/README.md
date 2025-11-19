@@ -1,6 +1,6 @@
 # Overview
 
-The Zoho People API lets you interface with Zoho People, a human resource management platform. With this API on Pipedream, you can automate HR processes, sync employee data across systems, manage leave records, and more. Use Pipedream's no-code platform to integrate Zoho People with hundreds of other apps for custom workflows that fit your business needs.
+The Zoho People API lets you interface with Zoho People, a human resource management platform. With this API on Pipedream, you can automate HR processes, sync employee data across systems, manage leave records, and more. Use Pipedream's no-code platform to integrate Zoho People with 3,000+ other apps for custom workflows that fit your business needs.
 
 # Example Use Cases
 

@@ -6,9 +6,9 @@ export default {
   ...common,
   key: "linear_app-project-updated-instant",
   name: "Project Updated (Instant)",
-  description: "Triggers instantly when a project is updated in Linear. Returns project details including name, description, status, dates, and team info. Supports filtering by specific teams. See Linear docs for additional info [here](https://developers.linear.app/docs/graphql/webhooks).",
+  description: "Triggers instantly when a project is updated in Linear. Returns project details including name, description, status, dates, and team info. Supports filtering by specific teams. See Linear docs for additional info [here](https://linear.app/developers/webhooks).",
   type: "source",
-  version: "0.0.8",
+  version: "0.0.9",
   dedupe: "unique",
   props: {
     linearApp,
