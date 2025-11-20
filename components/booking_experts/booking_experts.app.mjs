@@ -133,12 +133,17 @@ export default {
       async options({
         page, administrationId,
       }) {
-        const { data } = await this.listReservations({
-          administrationId,
-          params: {
-            "page[number]": page + 1,
-          },
-        });
+        const params = {
+          "page[number]": page + 1,
+        };
+        const { data } = administrationId
+          ? await this.listReservationsInAdministration({
+            administrationId,
+            params,
+          })
+          : await this.listReservations({
+            params,
+          });
         return data?.map(({
           id, attributes,
         }) => ({
@@ -276,6 +281,14 @@ export default {
         ...opts,
       });
     },
+    getReservation({
+      reservationId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/reservations/${reservationId}`,
+        ...opts,
+      });
+    },
     listAdministrations(opts = {}) {
       return this._makeRequest({
         path: "/administrations",
@@ -350,7 +363,13 @@ export default {
         ...opts,
       });
     },
-    listReservations({
+    listReservations(opts = {}) {
+      return this._makeRequest({
+        path: "/reservations",
+        ...opts,
+      });
+    },
+    listReservationsInAdministration({
       administrationId, ...opts
     }) {
       return this._makeRequest({
