@@ -74,9 +74,13 @@ export default {
     } = this;
 
     // Parse parameters from JSON strings to objects
-    const parsedParameters = parameters?.map((param) => {
+    const parsedParameters = parameters?.map((param, index) => {
       if (typeof param === "string") {
-        return JSON.parse(param);
+        try {
+          return JSON.parse(param);
+        } catch (error) {
+          throw new Error(`Invalid JSON in parameter at index ${index}: ${error.message}`);
+        }
       }
       return param;
     });
