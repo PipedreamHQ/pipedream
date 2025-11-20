@@ -23,7 +23,9 @@ export default {
       description:
         "The array of gift recipient users. If not provided, links can be redeemed by anyone.",
       async options({ groupId }) {
-        const data = await this.listUsers(groupId);
+        const data = await this.listUsers({
+          groupId,
+        });
 
         return data.map(({ email }) => email);
       },
@@ -224,9 +226,12 @@ export default {
         path: `groups/${groupId}/group_touches.json`,
       });
     },
-    listUsers(groupId) {
+    listUsers({
+      groupId, ...opts
+    }) {
       return this._makeRequest({
         path: `groups/${groupId}/members.json`,
+        ...opts,
       });
     },
     // Send Management Methods

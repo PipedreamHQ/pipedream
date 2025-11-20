@@ -31,13 +31,27 @@ export default {
       members,
     } = this;
 
+    // Parse members: handle string[], single string (JSON), or array
+    let membersArray;
+    if (Array.isArray(members)) {
+      // If it's already an array, check if items are strings that need parsing
+      membersArray = members.map((member) => 
+        typeof member === "string" ? JSON.parse(member) : member,
+      );
+    } else if (typeof members === "string") {
+      // If it's a single JSON string
+      membersArray = JSON.parse(members);
+    } else {
+      membersArray = members;
+    }
+
     const response = await this.sendoso.addGroupMembers({
       $,
       groupId,
-      members,
+      members: membersArray,
     });
 
-    $.export("$summary", `Successfully added ${members.length} member(s) to group ID: ${groupId}`);
+    $.export("$summary", `Successfully added ${membersArray.length} member(s) to group ID: ${groupId}`);
     return response;
   },
 };

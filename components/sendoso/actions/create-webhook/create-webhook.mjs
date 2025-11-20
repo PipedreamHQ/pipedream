@@ -37,9 +37,23 @@ export default {
       description,
     } = this;
 
+    // Parse events: handle string[], single string (JSON), or array
+    let eventsArray;
+    if (Array.isArray(events)) {
+      // If it's already an array, check if items are strings that need parsing
+      eventsArray = events.map((event) => 
+        typeof event === "string" ? JSON.parse(event) : event,
+      );
+    } else if (typeof events === "string") {
+      // If it's a single JSON string
+      eventsArray = JSON.parse(events);
+    } else {
+      eventsArray = events;
+    }
+
     const data = {
       url,
-      events,
+      events: eventsArray,
     };
     if (description) data.description = description;
 
