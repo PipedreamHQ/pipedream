@@ -1,10 +1,11 @@
 import microsoftOutlook from "../../microsoft_outlook.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "microsoft_outlook-find-shared-folder-email",
   name: "Find Shared Folder Email",
   description: "Search for an email in a shared folder in Microsoft Outlook. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list-messages)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -59,6 +60,10 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.search && (this.filter || this.orderBy)) {
+      throw new ConfigurationError("`$search` not supported when using `$filter` or `$orderby`.");
+    }
+
     const items = this.microsoftOutlook.paginate({
       fn: this.microsoftOutlook.listSharedFolderMessages,
       args: {
