@@ -5,7 +5,7 @@ export default {
   key: "amazon_selling_partner-new-inbound-shipment-to-fba-created",
   name: "New Inbound Shipment to FBA Created",
   description: "Emit new event when a new inbound shipment to FBA is created. [See the documentation](https://developer-docs.amazon.com/sp-api/reference/getshipments)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
