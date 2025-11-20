@@ -35,10 +35,10 @@ export default {
       optional: true,
     },
     comment: {
-      type: "object",
+      type: "string",
       label: "Comment",
       description:
-        "A comment object attached to the story must have the following structure: `author_id` which is the member ID of the Comment's author  (defaults to the user identified by the API token), `created_at` which defaults to the time/date the comment is created, but can be set to reflect another date, `external_id` field that can be set to another unique ID. In the case that the comment has been imported from another tool, the ID in the other tool can be indicated here, `text` is the comment text, and `updated_at` which defaults to the time/date the comment is last updated in Shortcut but can be set to reflect another time/date. See [CreateStoryCommentParams](https://shortcut.com/api/rest/v3#CreateStoryCommentParams) for more info.",
+        "A comment to attach to the story",
       optional: true,
     },
     completedAtOverride: {
@@ -216,12 +216,11 @@ export default {
       description: "A manual override for the time/date the Story was started",
       optional: true,
     },
-    storyLink: {
-      type: "object",
-      label: "Story Link",
-      description:
-        "An story link object attached to the story must have the following structure: `object_id` is the unique ID of the story defined as object, `subject_id` is the unique ID of the story defined as subject, and `verb` which indicates how the subject story acts on the object story, valid values are `blocks`, `duplicates`, or `relates to`. See [CreateStoryLinkParams](https://shortcut.com/api/rest/v3#CreateStoryLinkParams) for more info.",
-      optional: true,
+    storyIds: {
+      propDefinition: [
+        shortcut,
+        "storyIds",
+      ],
     },
     storyType: {
       type: "string",
@@ -231,11 +230,10 @@ export default {
       default: "feature",
       optional: true,
     },
-    task: {
-      type: "object",
-      label: "Task",
-      description:
-        "A task object attached to the story must have the following structure: `complete` which is a boolean, indicating whether the task is completed (defaults to `false`), `created_at` which defaults to the time/date the task is created but can be set to reflect another creation time/date, `description` as a description for the task, `external_id` a field can be set to another unique ID. In the case that the task has been imported from another tool, the ID in the other tool can be indicated here, `owner_ids` as an array of UUIDs for any members you want to add as owners on this new task, `updated_at` which defaults to the time/date the task was last updated in Shortcut but can be set to reflect another time/date. See [CreateTaskParams](https://shortcut.com/api/rest/v3#CreateTaskParams) for more info.",
+    tasks: {
+      type: "string[]",
+      label: "Tasks",
+      description: "An array of task descriptions to add to the story",
       optional: true,
     },
     updatedAt: {
@@ -245,7 +243,7 @@ export default {
       optional: true,
     },
   },
-  async run() {
+  async run({ $ }) {
     const constraints = {
       name: {
         length: {
@@ -300,7 +298,9 @@ export default {
       ...(this.comment
         ? {
           comments: [
-            utils.parseJson(this.comment),
+            {
+              text: this.comment,
+            },
           ],
         }
         : undefined
@@ -313,25 +313,27 @@ export default {
         }
         : undefined
       ),
-      ...(this.storyLink
+      ...(this.storyIds
         ? {
-          story_links: [
-            utils.parseJson(this.storyLink),
-          ],
+          story_links: this.storyIds.map((id) => ({
+            subject_id: id,
+            verb: "relates to",
+          })),
         }
         : undefined
       ),
-      ...(this.task
+      ...(this.tasks
         ? {
-          tasks: [
-            utils.parseJson(this.task),
-          ],
+          tasks: this.tasks.map((task) => ({
+            description: task,
+          })),
         }
         : undefined
       ),
     };
 
     const resp = await this.shortcut.callWithRetry("createStory", story);
+    $.export("$summary", `Successfully created story with ID: ${resp.data.id}`);
     return resp.data;
   },
 };

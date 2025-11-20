@@ -51,6 +51,30 @@ export default {
         }));
       },
     },
+    storyIds: {
+      type: "integer[]",
+      label: "Story IDs",
+      description: "The IDs of stories to link as related to the new story",
+      optional: true,
+      async options({ prevContext }) {
+        const { data = [] } = await this.callWithRetry("searchStories", {
+          query: "is:story",
+          page_size: 25,
+          next: prevContext?.next,
+        });
+        return {
+          options: data.data?.map(({
+            id: value, name: label,
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            next: data.next || undefined,
+          },
+        };
+      },
+    },
   },
   methods: {
     api() {
