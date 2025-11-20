@@ -195,8 +195,9 @@ export default {
       type: "string",
       label: "User ID",
       description: "The ID of the user to get messages for",
-      async options() {
-        const { value: users } = await this.listUsers();
+      useQuery: true,
+      async options({query}) {
+        const { value: users } = await this.listUsers({ "$search" : query });
         return users?.map(({
           id: value, displayName, mail,
         }) => ({
