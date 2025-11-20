@@ -2,7 +2,7 @@ import app from "../../tomba.app.mjs";
 
 export default {
   key: "tomba-domain-suggestions",
-  name: "Domain Suggestions",
+  name: "Suggest Domains",
   description:
     "Retrieve a list of suggested domains similar to or related to your search query. This helps discover competitors, similar companies, and related businesses for market research and prospecting. [See the documentation](https://tomba.io/api)",
   version: "0.0.1",
@@ -23,7 +23,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.domainSuggestions({
+    const response = await this.app.suggestDomains({
       $,
       query: this.query,
     });

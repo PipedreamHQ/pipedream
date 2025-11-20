@@ -2,7 +2,7 @@ import app from "../../tomba.app.mjs";
 
 export default {
   key: "tomba-author-finder",
-  name: "Author Finder",
+  name: "Find Author",
   description:
     "Generate or retrieve the most likely email address from a blog post URL. [See the documentation](https://tomba.io/api)",
   version: "0.0.1",
@@ -22,7 +22,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.authorFinder({
+    const response = await this.app.findAuthor({
       $,
       blogUrl: this.blogUrl,
     });

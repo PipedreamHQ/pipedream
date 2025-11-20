@@ -2,7 +2,7 @@ import app from "../../tomba.app.mjs";
 
 export default {
   key: "tomba-domain-status",
-  name: "Domain Status",
+  name: "Get Domain Status",
   description:
     "Find domain status if is webmail or disposable. [See the documentation](https://tomba.io/api)",
   version: "0.0.1",
@@ -22,7 +22,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.domainStatus({
+    const response = await this.app.getDomainStatus({
       $,
       domain: this.domain,
     });

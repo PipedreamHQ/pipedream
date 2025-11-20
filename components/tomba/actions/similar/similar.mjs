@@ -2,7 +2,7 @@ import app from "../../tomba.app.mjs";
 
 export default {
   key: "tomba-similar",
-  name: "Similar Domains",
+  name: "Find Similar Domains",
   description:
     "Retrieve similar domains based on a specific domain. [See the documentation](https://tomba.io/api)",
   version: "0.0.1",
@@ -22,7 +22,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.similar({
+    const response = await this.app.findSimilarDomains({
       $,
       domain: this.domain,
     });

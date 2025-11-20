@@ -2,7 +2,7 @@ import app from "../../tomba.app.mjs";
 
 export default {
   key: "tomba-email-format",
-  name: "Email Format",
+  name: "Get Email Format",
   description:
     "Retrieve the email format patterns used by a specific domain. [See the documentation](https://tomba.io/api)",
   version: "0.0.1",
@@ -22,7 +22,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.emailFormat({
+    const response = await this.app.getEmailFormat({
       $,
       domain: this.domain,
     });

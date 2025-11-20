@@ -2,7 +2,7 @@ import app from "../../tomba.app.mjs";
 
 export default {
   key: "tomba-email-finder",
-  name: "Email Finder",
+  name: "Find Email",
   description:
     "Generate or retrieve the most likely email address from a domain name, a first name and a last name. [See the documentation](https://tomba.io/api)",
   version: "0.0.1",
@@ -34,7 +34,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.emailFinder({
+    const response = await this.app.findEmail({
       $,
       domain: this.domain,
       firstName: this.firstName,

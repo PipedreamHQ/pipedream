@@ -186,13 +186,13 @@ export default {
       });
     },
     /**
-     * Find the most likely email address from a blog post URL
+     * Find author email from blog post URL
      * @param {object} opts - Configuration options
      * @param {object} opts.$ - Pipedream step context
      * @param {string} opts.blogUrl - The blog post URL to analyze
      * @returns {Promise} Author information and email address
      */
-    async authorFinder({
+    async findAuthor({
       $, blogUrl, ...opts
     }) {
       return this._makeRequest({
@@ -210,7 +210,7 @@ export default {
      * @param {number} [opts.limit=10] - Number of results to return
      * @returns {Promise} Array of email addresses with sources
      */
-    async domainSearch({
+    async searchDomain({
       $, domain, ...opts
     }) {
       return this._makeRequest({
@@ -228,7 +228,7 @@ export default {
      * @returns {Promise} Domain status information
      * @description This endpoint checks if a domain is disposable or webmail.
      */
-    async domainStatus({
+    async getDomainStatus({
       $, domain, ...opts
     }) {
       return this._makeRequest({
@@ -246,7 +246,7 @@ export default {
      * @returns {Promise} Email count information
      * @description This endpoint retrieves the number of email addresses.
      */
-    async emailCount({
+    async getEmailCount({
       $, domain, ...opts
     }) {
       return this._makeRequest({
@@ -264,7 +264,7 @@ export default {
      * @returns {Promise} Enriched email information
      * @description This endpoint enriches email data with additional information.
      */
-    async emailEnrichment({
+    async enrichEmail({
       $, email, ...opts
     }) {
       return this._makeRequest({
@@ -284,7 +284,7 @@ export default {
      * @returns {Promise} Email address information
      * @description This endpoint generates or retrieves the most likely email address.
      */
-    async emailFinder({
+    async findEmail({
       $, domain, firstName, lastName, ...opts
     }) {
       return this._makeRequest({
@@ -304,7 +304,7 @@ export default {
      * @returns {Promise} Email format information
      * @description This endpoint retrieves the email format used by a specific domain.
      */
-    async emailFormat({
+    async getEmailFormat({
       $, domain, ...opts
     }) {
       return this._makeRequest({
@@ -322,7 +322,7 @@ export default {
      * @returns {Promise} Email sources information
      * @description This endpoint retrieves the sources where a specific email address was found.
      */
-    async emailSources({
+    async getEmailSources({
       $, email, ...opts
     }) {
       return this._makeRequest({
@@ -340,7 +340,7 @@ export default {
      * @returns {Promise} Email verification information
      * @description This endpoint verifies the validity of an email address.
      */
-    async emailVerifier({
+    async verifyEmail({
       $, email, ...opts
     }) {
       return this._makeRequest({
@@ -358,7 +358,7 @@ export default {
      * @returns {Promise} LinkedIn profile information
      * @description This endpoint retrieves information from a LinkedIn profile URL.
      */
-    async linkedinFinder({
+    async findLinkedIn({
       $, linkedinUrl, ...opts
     }) {
       return this._makeRequest({
@@ -376,7 +376,7 @@ export default {
      * @returns {Promise} Location information
      * @description This endpoint retrieves location information associated with a specific domain.
      */
-    async location({
+    async getLocation({
       $, domain, ...opts
     }) {
       return this._makeRequest({
@@ -396,7 +396,7 @@ export default {
      * @returns {Promise} Phone number information
      * @description This endpoint retrieves phone number information based on provided parameters.
      */
-    async phoneFinder({
+    async findPhone({
       $, domain, email, linkedinUrl, ...opts
     }) {
       const params = {};
@@ -420,7 +420,7 @@ export default {
      * @returns {Promise} Phone validation information
      * @description This endpoint validates a phone number.
      */
-    async phoneValidator({
+    async validatePhone({
       $, phoneNumber, country, ...opts
     }) {
       return this._makeRequest({
@@ -439,7 +439,7 @@ export default {
      * @returns {Promise} Similar domain information
      * @description This endpoint retrieves domains similar to a specified domain.
      */
-    async similar({
+    async findSimilarDomains({
       $, domain, ...opts
     }) {
       return this._makeRequest({
@@ -457,7 +457,7 @@ export default {
      * @returns {Promise} Technology stack information
      * @description This endpoint retrieves technology stack information.
      */
-    async technology({
+    async getTechnology({
       $, domain, ...opts
     }) {
       return this._makeRequest({
@@ -511,7 +511,7 @@ export default {
      * @returns {Promise} Domain suggestions
      * @description This endpoint retrieves domain suggestions based on a specific query.
      */
-    async domainSuggestions({
+    async suggestDomains({
       $, query, ...opts
     }) {
       return this._makeRequest({

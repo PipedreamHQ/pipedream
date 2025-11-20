@@ -2,7 +2,7 @@ import app from "../../tomba.app.mjs";
 
 export default {
   key: "tomba-phone-validator",
-  name: "Phone Validator",
+  name: "Validate Phone",
   description:
     "Validate a phone number and retrieve its associated information. [See the documentation](https://tomba.io/api)",
   version: "0.0.1",
@@ -28,7 +28,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.phoneValidator({
+    const response = await this.app.validatePhone({
       $,
       phoneNumber: this.phoneNumber,
       country: this.country,

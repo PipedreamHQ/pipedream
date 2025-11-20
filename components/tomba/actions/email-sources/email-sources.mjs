@@ -2,7 +2,7 @@ import app from "../../tomba.app.mjs";
 
 export default {
   key: "tomba-email-sources",
-  name: "Email Sources",
+  name: "Get Email Sources",
   description:
     "Find email address source somewhere on the web. [See the documentation](https://tomba.io/api)",
   version: "0.0.1",
@@ -22,7 +22,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.emailSources({
+    const response = await this.app.getEmailSources({
       $,
       email: this.email,
     });

@@ -2,7 +2,7 @@ import app from "../../tomba.app.mjs";
 
 export default {
   key: "tomba-phone-finder",
-  name: "Phone Finder",
+  name: "Find Phone",
   description:
     "Search for phone numbers based on an email, domain, or LinkedIn URL. [See the documentation](https://tomba.io/api)",
   version: "0.0.1",
@@ -32,52 +32,32 @@ export default {
           value: "linkedin",
         },
       ],
-      reloadProps: true,
       default: "domain",
     },
-  },
-  additionalProps() {
-    const props = {};
-    if (this.searchType === "domain") {
-      props.domain = {
-        type: "string",
-        label: "Domain",
-        description: "The domain name to search (e.g., stripe.com)",
-      };
-    } else if (this.searchType === "email") {
-      props.email = {
-        type: "string",
-        label: "Email Address",
-        description: "The email address to verify or search",
-      };
-    } else if (this.searchType === "linkedin") {
-      props.linkedinUrl = {
-        type: "string",
-        label: "LinkedIn URL",
-        description: "The LinkedIn profile URL",
-      };
-    }
-    return props;
+    search: {
+      type: "string",
+      label: "Search Input",
+      description: "Enter the domain, email address, or LinkedIn URL to search",
+    },
   },
   async run({ $ }) {
     const params = {};
     if (this.searchType === "domain") {
-      params.domain = this.domain;
+      params.domain = this.search;
     } else if (this.searchType === "email") {
-      params.email = this.email;
+      params.email = this.search;
     } else if (this.searchType === "linkedin") {
-      params.linkedinUrl = this.linkedinUrl;
+      params.linkedinUrl = this.search;
     }
 
-    const response = await this.app.phoneFinder({
+    const response = await this.app.findPhone({
       $,
-      params,
+      ...params,
     });
 
-    const searchValue = this.domain || this.email || this.linkedinUrl;
     $.export(
       "$summary",
-      `Successfully searched for phone numbers using ${this.searchType}: ${searchValue}`,
+      `Successfully searched for phone numbers using ${this.searchType}: ${this.search}`,
     );
     return response;
   },

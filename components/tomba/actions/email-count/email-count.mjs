@@ -2,7 +2,7 @@ import app from "../../tomba.app.mjs";
 
 export default {
   key: "tomba-email-count",
-  name: "Email Count",
+  name: "Get Email Count",
   description:
     "Find total email addresses we have for one domain. [See the documentation](https://tomba.io/api)",
   version: "0.0.1",
@@ -22,7 +22,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.emailCount({
+    const response = await this.app.getEmailCount({
       $,
       domain: this.domain,
     });

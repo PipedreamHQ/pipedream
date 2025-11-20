@@ -2,7 +2,7 @@ import app from "../../tomba.app.mjs";
 
 export default {
   key: "tomba-email-verifier",
-  name: "Email Verifier",
+  name: "Verify Email",
   description:
     "Verify the deliverability of an email address. [See the documentation](https://tomba.io/api)",
   version: "0.0.1",
@@ -22,7 +22,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.emailVerifier({
+    const response = await this.app.verifyEmail({
       $,
       email: this.email,
     });

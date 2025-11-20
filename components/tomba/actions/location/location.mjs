@@ -2,7 +2,7 @@ import app from "../../tomba.app.mjs";
 
 export default {
   key: "tomba-location",
-  name: "Location",
+  name: "Get Location",
   description:
     "Get employees location based on the domain name. [See the documentation](https://tomba.io/api)",
   version: "0.0.1",
@@ -22,7 +22,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.location({
+    const response = await this.app.getLocation({
       $,
       domain: this.domain,
     });

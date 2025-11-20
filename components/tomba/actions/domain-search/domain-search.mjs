@@ -2,7 +2,7 @@ import app from "../../tomba.app.mjs";
 
 export default {
   key: "tomba-domain-search",
-  name: "Domain Search",
+  name: "Search Domain",
   description:
     "Get every email address found on the internet using a given domain name, with sources. [See the documentation](https://tomba.io/api)",
   version: "0.0.1",
@@ -46,7 +46,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.domainSearch({
+    const response = await this.app.searchDomain({
       $,
       domain: this.domain,
       page: this.page,
