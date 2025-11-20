@@ -4,7 +4,7 @@ export default {
   key: "jira-get-issue",
   name: "Get Issue",
   description: "Gets the details for an issue. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-get)",
-  version: "0.1.16",
+  version: "0.1.17",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

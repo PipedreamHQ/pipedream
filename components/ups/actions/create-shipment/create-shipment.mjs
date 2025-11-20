@@ -5,7 +5,7 @@ export default {
   key: "ups-create-shipment",
   name: "Create Shipment",
   description: "Create a new shipment. [See the documentation](https://developer.ups.com/tag/Shipping?loc=en_US#operation/Shipment)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

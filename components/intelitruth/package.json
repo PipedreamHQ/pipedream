@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/intelitruth",
+  "version": "0.0.1",
+  "description": "Pipedream Intelitruth Components",
+  "main": "intelitruth.app.mjs",
+  "keywords": [
+    "pipedream",
+    "intelitruth"
+  ],
+  "homepage": "https://pipedream.com/apps/intelitruth",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -4,7 +4,7 @@ export default {
   key: "github-create-issue-comment",
   name: "Create Issue Comment",
   description: "Create a new comment in a issue. [See the documentation](https://docs.github.com/en/rest/issues/comments#create-an-issue-comment)",
-  version: "0.0.23",
+  version: "0.0.24",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

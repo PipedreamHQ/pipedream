@@ -1,6 +1,6 @@
 # Overview
 
-The JeffreyAI API offers a suite of AI-driven capabilities such as natural language understanding, image recognition, and sentiment analysis. With these tools, you can automate and enhance various aspects of your applications, from analyzing customer feedback to moderating content. Integrating the JeffreyAI API with Pipedream allows you to seamlessly connect its AI features with hundreds of other apps to create powerful workflows.
+The JeffreyAI API offers a suite of AI-driven capabilities such as natural language understanding, image recognition, and sentiment analysis. With these tools, you can automate and enhance various aspects of your applications, from analyzing customer feedback to moderating content. Integrating the JeffreyAI API with Pipedream allows you to seamlessly connect its AI features with 3,000+ other apps to create powerful workflows.
 
 # Example Use Cases
 

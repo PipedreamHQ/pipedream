@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/discord_bot",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Pipedream Discord_bot Components",
   "main": "discord_bot.app.mjs",
   "keywords": [
@@ -10,8 +10,8 @@
   "homepage": "https://pipedream.com/apps/discord_bot",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^3.1.0",
-    "form-data": "^4.0.0",
+    "@pipedream/platform": "^3.1.1",
+    "form-data": "^4.0.4",
     "lodash.maxby": "^4.6.0"
   },
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",

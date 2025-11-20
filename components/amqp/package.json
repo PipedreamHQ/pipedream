@@ -10,7 +10,7 @@
   "homepage": "https://pipedream.com/apps/amqp",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^1.2.0",
+    "@pipedream/platform": "^1.6.8",
     "rhea-promise": "^2.1.0",
     "uuid": "^8.3.2"
   },

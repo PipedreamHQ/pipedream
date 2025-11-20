@@ -1,12 +1,10 @@
 import woocommerce from "../../woocommerce.app.mjs";
-import pick from "lodash.pick";
-import pickBy from "lodash.pickby";
 
 export default {
   key: "woocommerce-search-customers",
   name: "Search Customers",
   description: "Finds a customer by searching. [See the docs](https://woocommerce.github.io/woocommerce-rest-api-docs/#list-all-customers)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -41,15 +39,25 @@ export default {
     },
   },
   async run({ $ }) {
-    const { maxResults } = this;
+    const {
+      maxResults,
+      search,
+      email,
+      role,
+    } = this;
     const params = {
       page: 1,
       per_page: 10,
-      ...pickBy(pick(this, [
-        "search",
-        "email",
-        "role",
-      ])),
+      ...Object.fromEntries(
+        Object.entries({
+          search,
+          email,
+          role,
+        }).filter(([
+          ,
+          v,
+        ]) => v),
+      ),
     };
 
     const customers = [];

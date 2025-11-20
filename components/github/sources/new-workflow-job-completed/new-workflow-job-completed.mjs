@@ -7,7 +7,7 @@ export default {
   name: "New Workflow Job Completed (Instant)",
   description: "Emit new event when a job in a workflow is completed, regardless of whether the job was successful or unsuccessful.",
   type: "source",
-  version: "0.0.4",
+  version: "0.0.6",
   dedupe: "unique",
   methods: {
     ...common.methods,
@@ -23,7 +23,7 @@ export default {
       body,
     } = event;
 
-    // skip initial response from Github or not completed
+    // skip initial response from GitHub or not completed
     if (body?.zen || body?.action != "completed") {
       return;
     }

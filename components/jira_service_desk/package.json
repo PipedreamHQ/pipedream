@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/jira_service_desk",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Jira Service Desk Components",
   "main": "jira_service_desk.app.mjs",
   "keywords": [
@@ -13,6 +13,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.6.0"
+    "@pipedream/platform": "^1.6.8"
   }
 }

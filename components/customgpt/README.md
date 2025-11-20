@@ -1,6 +1,6 @@
 # Overview
 
-CustomGPT API harnesses the power of generative AI to create custom chatbots tailored to specific needs or data sets. With Pipedream's serverless platform, you can integrate CustomGPT into complex workflows, triggering custom AI responses based on events from over 800+ apps. Automate tasks like customer support, personalized content creation, or data analysis by tapping into the rich capabilities of CustomGPT and Pipedream's seamless orchestration.
+CustomGPT API harnesses the power of generative AI to create custom chatbots tailored to specific needs or data sets. With Pipedream's serverless platform, you can integrate CustomGPT into complex workflows, triggering custom AI responses based on events from over 3,000+ apps. Automate tasks like customer support, personalized content creation, or data analysis by tapping into the rich capabilities of CustomGPT and Pipedream's seamless orchestration.
 
 # Example Use Cases
 

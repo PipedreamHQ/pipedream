@@ -5,7 +5,7 @@ export default {
   key: "quickbooks-get-purchase-order",
   name: "Get Purchase Order",
   description: "Returns details about a purchase order. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/purchaseorder#read-a-purchase-order)",
-  version: "0.1.12",
+  version: "0.1.13",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/content_snare",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Content Snare Components",
   "main": "content_snare.app.mjs",
   "keywords": [
@@ -13,6 +13,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.6.0"
+    "@pipedream/platform": "^1.6.8"
   }
 }

@@ -1,6 +1,6 @@
 # Overview
 
-The 1CRM API enables robust integration of 1CRM systems with external applications, facilitating automated workflows and data synchronization. With Pipedream, you can leverage this API to connect 1CRM with hundreds of other services, automate repetitive tasks, streamline sales processes, and enhance customer relationship management. By creating workflows on Pipedream, you can trigger actions in 1CRM based on events from other apps, manipulate and analyze CRM data, and improve overall business efficiency without manual intervention.
+The 1CRM API enables robust integration of 1CRM systems with external applications, facilitating automated workflows and data synchronization. With Pipedream, you can leverage this API to connect 1CRM with 3,000+ other apps, automate repetitive tasks, streamline sales processes, and enhance customer relationship management. By creating workflows on Pipedream, you can trigger actions in 1CRM based on events from other apps, manipulate and analyze CRM data, and improve overall business efficiency without manual intervention.
 
 # Example Use Cases
 

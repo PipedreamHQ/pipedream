@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/toolhouse",
+  "version": "0.0.1",
+  "description": "Pipedream Toolhouse Components",
+  "main": "toolhouse.app.mjs",
+  "keywords": [
+    "pipedream",
+    "toolhouse"
+  ],
+  "homepage": "https://pipedream.com/apps/toolhouse",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

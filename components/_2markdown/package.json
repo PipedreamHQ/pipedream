@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/_2markdown",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Pipedream 2markdown Components",
   "main": "_2markdown.app.mjs",
   "keywords": [
@@ -13,7 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.1.0",
-    "form-data": "^4.0.1"
+    "@pipedream/platform": "^3.1.1",
+    "form-data": "^4.0.4"
   }
 }

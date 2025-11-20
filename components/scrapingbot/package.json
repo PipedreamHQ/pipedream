@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/scrapingbot",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream ScrapingBot Components",
   "main": "scrapingbot.app.mjs",
   "keywords": [
@@ -13,6 +13,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.4.1"
+    "@pipedream/platform": "^1.6.8"
   }
 }

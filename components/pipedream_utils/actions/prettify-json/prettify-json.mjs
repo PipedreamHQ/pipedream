@@ -1,12 +1,11 @@
 // legacy_hash_id: a_A6i7q8
-import set from "lodash.set";
 import pipedream_utils from "../../pipedream_utils.app.mjs";
 
 export default {
   key: "pipedream_utils-prettify-json",
   name: "Helper Functions - Pretty Print JSON",
   description: "Pretty print a JavaScript object or value",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -22,6 +21,7 @@ export default {
     },
   },
   async run() {
-    set(this, "prettifiedValue.val", JSON.stringify(this.val, null, 2));
+    this.prettifiedValue = this.prettifiedValue || {};
+    this.prettifiedValue.val = JSON.stringify(this.val, null, 2);
   },
 };

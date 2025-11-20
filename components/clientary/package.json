@@ -1,20 +1,22 @@
 {
   "name": "@pipedream/clientary",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Pipedream Clientary Components",
   "main": "dist/app/clientary.app.mjs",
   "keywords": [
     "pipedream",
     "clientary"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/clientary",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.1.0"
+    "@pipedream/platform": "^3.1.1"
   },
   "devDependencies": {
     "@pipedream/types": "^0.3.2"

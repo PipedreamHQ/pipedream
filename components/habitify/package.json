@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/habitify",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Habitify Components",
   "main": "app/habitify.app.mjs",
   "keywords": [
@@ -13,6 +13,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.5.1"
+    "@pipedream/platform": "^1.6.8"
   }
 }

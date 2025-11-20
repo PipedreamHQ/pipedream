@@ -13,7 +13,7 @@
     "@aws-sdk/client-ec2": "^3.89.0",
     "@aws-sdk/client-ses": "^3.95.0",
     "@aws-sdk/client-sesv2": "^3.87.0",
-    "@pipedream/platform": "^0.10.0",
+    "@pipedream/platform": "^0.10.1",
     "@pipedream/aws": "^1.1.0"
   },
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",

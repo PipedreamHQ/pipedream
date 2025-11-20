@@ -10,7 +10,7 @@
   "homepage": "https://pipedream.com/apps/testmonitor",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^3.1.0",
+    "@pipedream/platform": "^3.1.1",
     "fs": "^0.0.1-security",
     "moment": "^2.29.4"
   },

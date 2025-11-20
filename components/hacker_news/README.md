@@ -84,7 +84,7 @@ Components are subject to the [limits of the Pipedream platform](https://docs.pi
 
 ## Found a Bug? Have a Feature to suggest?
 
-Any bugs or feature requests for specific components can be raised in this repo as new Github issues or pull requests.
+Any bugs or feature requests for specific components can be raised in this repo as new GitHub issues or pull requests.
 
 Pipedream also operates [a roadmap](https://github.com/PipedreamHQ/roadmap) to solicit feature requests for the Pipedream platform at large (the [pipedream.com UI](https://pipedream.com), [workflows](https://docs.pipedream.com/workflows/), the CLI, etc).
 

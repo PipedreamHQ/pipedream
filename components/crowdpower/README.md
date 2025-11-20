@@ -1,6 +1,6 @@
 # Overview
 
-The CrowdPower API allows you to automate and streamline customer engagement by creating personalized campaigns and actions based on user behavior. By integrating with Pipedream, you can leverage its serverless platform to connect CrowdPower with hundreds of other apps and services, building workflows that respond to events in real-time. This can optimize how you target customers, manage campaigns, and analyze customer data without manual intervention.
+The CrowdPower API allows you to automate and streamline customer engagement by creating personalized campaigns and actions based on user behavior. By integrating with Pipedream, you can leverage its serverless platform to connect CrowdPower with 3,000+ other apps and services, building workflows that respond to events in real-time. This can optimize how you target customers, manage campaigns, and analyze customer data without manual intervention.
 
 # Example Use Cases
 

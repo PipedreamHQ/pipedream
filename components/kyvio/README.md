@@ -1,6 +1,6 @@
 # Overview
 
-The Kyvio API allows for automation and integration of Kyvio's suite of tools for building online businesses, including smart memberships, funnels, and email marketing. By leveraging the Kyvio API on Pipedream, you can create automated workflows to streamline operations such as updating member details, managing subscriptions, tracking email campaigns, and more. Pipedream's serverless platform enables you to connect Kyvio with hundreds of other apps to further enhance your business processes with event-driven actions.
+The Kyvio API allows for automation and integration of Kyvio's suite of tools for building online businesses, including smart memberships, funnels, and email marketing. By leveraging the Kyvio API on Pipedream, you can create automated workflows to streamline operations such as updating member details, managing subscriptions, tracking email campaigns, and more. Pipedream's serverless platform enables you to connect Kyvio with 3,000+ other apps to further enhance your business processes with event-driven actions.
 
 # Example Use Cases
 

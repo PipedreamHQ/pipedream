@@ -1,7 +1,7 @@
 {
   "name": "@pipedream/github",
-  "version": "1.8.1",
-  "description": "Pipedream Github Components",
+  "version": "1.9.0",
+  "description": "Pipedream GitHub Components",
   "main": "github.app.mjs",
   "keywords": [
     "pipedream",
@@ -13,7 +13,7 @@
     "@octokit/core": "^4.2.4",
     "@octokit/plugin-paginate-rest": "^2.17.0",
     "@octokit/webhooks-definitions": "^3.29.0",
-    "@pipedream/platform": "^3.0.3"
+    "@pipedream/platform": "^3.1.1"
   },
   "publishConfig": {
     "access": "public"

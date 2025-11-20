@@ -6,7 +6,7 @@ export default {
   key: "quickbooks-new-employee-updated",
   name: "New Employee Updated",
   description: "Emit new event when an employee is updated.",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "source",
   dedupe: "unique",
   methods: {

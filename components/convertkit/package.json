@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/convertkit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Convertkit Components",
   "main": "convertkit.app.mjs",
   "keywords": [
@@ -10,7 +10,7 @@
   "homepage": "https://pipedream.com/apps/convertkit",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^0.10.0"
+    "@pipedream/platform": "^0.10.1"
   },
   "publishConfig": {
     "access": "public"
