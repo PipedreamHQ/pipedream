@@ -35,6 +35,9 @@ export default {
     },
   },
   async run({ $ }) {
+    if (!this.userId && !this.email) {
+      throw new Error("You must provide either a user ID or an email.");
+    }
     if (this.userId && this.email) {
       throw new Error("You must provide either a user ID or an email, not both.");
     }

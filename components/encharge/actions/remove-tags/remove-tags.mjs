@@ -32,14 +32,20 @@ export default {
     },
   },
   async run({ $ }) {
+    const tags = parseObject(this.tags);
+    const tagsArray = Array.isArray(tags)
+      ? tags
+      : [
+        tags,
+      ];
     const response = await this.app.removeTag({
       $,
       data: {
-        tag: parseObject(this.tags).join(","),
+        tag: tagsArray.join(","),
         id: this.userId,
       },
     });
-    $.export("$summary", `Successfully removed ${this.tags.length} tag${this.tags.length > 1
+    $.export("$summary", `Successfully removed ${tagsArray.length} tag${tagsArray.length > 1
       ? "s"
       : ""} from person with ID ${this.userId}`);
     return response;

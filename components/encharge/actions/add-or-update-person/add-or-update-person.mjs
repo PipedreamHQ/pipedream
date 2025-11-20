@@ -55,7 +55,6 @@ export default {
         email: this.email,
         phone: this.phone,
         id: this.userId,
-        additionalFields: this.additionalFields,
         ...parsedAdditionalFields,
       },
     ];
@@ -67,7 +66,9 @@ export default {
 
     $.export("$summary", `Successfully ${this.userId
       ? "updated"
-      : "added"} person with email ${this.email}`);
+      : "added"} person${this.email
+      ? ` with email ${this.email}`
+      : ""}`);
     return response;
   },
 };

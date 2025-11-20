@@ -45,7 +45,9 @@ export default {
             ],
           },
         });
-        return tags && tags.split(",") || [];
+        return tags
+          ? tags.split(",")
+          : [];
       },
     },
   },

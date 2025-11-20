@@ -24,7 +24,7 @@ export default {
     },
     generateMeta({
       endUserData: [
-        id,
+        { id },
       ],
     }) {
       return {
