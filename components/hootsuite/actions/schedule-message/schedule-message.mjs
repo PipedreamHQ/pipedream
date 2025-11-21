@@ -13,7 +13,7 @@ export default {
   key: "hootsuite-schedule-message",
   name: "Schedule Message",
   description: "Schedules a message on your Hootsuite account. [See the documentation](https://apidocs.hootsuite.com/docs/api/index.html#operation/scheduleMessage)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

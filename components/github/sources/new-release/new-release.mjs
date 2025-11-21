@@ -8,7 +8,7 @@ export default {
   key: "github-new-release",
   name: "New release",
   description: "Emit new event when a new release is created",
-  version: "1.0.11",
+  version: "1.0.12",
   type: "source",
   dedupe: "unique",
   methods: {

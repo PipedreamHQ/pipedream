@@ -4,7 +4,7 @@ export default {
   key: "ups-recover-label",
   name: "Recover Label",
   description: "Recover a label. [See the documentation](https://developer.ups.com/tag/Shipping?loc=en_US#operation/LabelRecovery)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

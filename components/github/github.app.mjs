@@ -599,6 +599,13 @@ export default {
 
       return response.data;
     },
+    async updatePullRequest({
+      repoFullname, pullNumber, data,
+    }) {
+      const response = await this._client().request(`PATCH /repos/${repoFullname}/pulls/${pullNumber}`, data);
+
+      return response.data;
+    },
     async getIssue({
       repoFullname, issueNumber,
     }) {

@@ -39,9 +39,10 @@ export default {
         ...opts,
       });
     },
-    listSocialProfiles() {
+    listSocialProfiles(opts = {}) {
       return this._makeRequest({
         path: "/socialProfiles",
+        ...opts,
       });
     },
     getMediaUploadStatus({

@@ -4,7 +4,7 @@ export default {
   key: "github-get-workflow-run",
   name: "Get Workflow Run",
   description: "Gets a specific workflow run. [See the documentation](https://docs.github.com/en/rest/actions/workflow-runs?apiVersion=2022-11-28#get-a-workflow-run)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

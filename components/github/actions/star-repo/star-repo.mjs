@@ -5,7 +5,7 @@ export default {
   key: "github-star-repo",
   name: "Star Repo",
   description: "Star a repository. [See the docs](https://docs.github.com/en/rest/activity/starring?apiVersion=2022-11-28#star-a-repository-for-the-authenticated-user) for more info.",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -5,7 +5,7 @@ export default {
   key: "github-disable-workflow",
   name: "Disable Workflow",
   description: "Disables a workflow and sets the **state** of the workflow to **disabled_manually**. [See the documentation](https://docs.github.com/en/rest/actions/workflows?apiVersion=2022-11-28#disable-a-workflow)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

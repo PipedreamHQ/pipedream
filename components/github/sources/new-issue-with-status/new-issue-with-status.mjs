@@ -8,7 +8,7 @@ export default {
   key: "github-new-issue-with-status",
   name: "Project Item Status Changed",
   description: "Emit new event when a project item is tagged with a specific status. Currently supports Organization Projects only. [More information here](https://docs.github.com/en/issues/planning-and-tracking-with-projects/managing-items-in-your-project/adding-items-to-your-project)",
-  version: "0.1.9",
+  version: "0.1.10",
   type: "source",
   dedupe: "unique",
   props: {

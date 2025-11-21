@@ -8,7 +8,7 @@ export default {
   key: "github-new-fork",
   name: "New Fork",
   description: "Emit new event when a repository is forked",
-  version: "1.0.11",
+  version: "1.0.12",
   type: "source",
   dedupe: "unique",
   methods: {
