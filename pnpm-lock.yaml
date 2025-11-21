@@ -4698,6 +4698,9 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
+  components/emailchef:
+    specifiers: {}
+
   components/emaillistverify:
     dependencies:
       '@pipedream/platform':
