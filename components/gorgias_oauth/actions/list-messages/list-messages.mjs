@@ -1,9 +1,9 @@
 import gorgiasOAuth from "../../gorgias_oauth.app.mjs";
 
 export default {
-  name: "List Ticket Messages",
-  description: "List all messages for a specific ticket. [See the documentation](https://developers.gorgias.com/reference/list-ticket-messages)",
-  key: "gorgias_oauth-list-ticket-messages",
+  name: "List Messages",
+  description: "List all messages for a specific ticket. [See the documentation](https://developers.gorgias.com/reference/list-messages)",
+  key: "gorgias_oauth-list-messages",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -13,12 +13,6 @@ export default {
   },
   props: {
     gorgiasOAuth,
-    ticketId: {
-      propDefinition: [
-        gorgiasOAuth,
-        "ticketId",
-      ],
-    },
     limit: {
       type: "integer",
       label: "Limit",
@@ -43,9 +37,8 @@ export default {
       params.cursor = this.cursor;
     }
 
-    const response = await this.gorgiasOAuth.listTicketMessages({
+    const response = await this.gorgiasOAuth.listMessages({
       $,
-      ticketId: this.ticketId,
       params,
     });
 
