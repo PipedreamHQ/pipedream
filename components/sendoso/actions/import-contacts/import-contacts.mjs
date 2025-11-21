@@ -1,3 +1,4 @@
+import { parseObject } from "../../common/utils.mjs";
 import sendoso from "../../sendoso.app.mjs";
 
 export default {
@@ -20,28 +21,14 @@ export default {
     },
   },
   async run({ $ }) {
-    const { contacts } = this;
-
-    // Parse contacts: handle string[], single string (JSON), or array
-    let contactsArray;
-    if (Array.isArray(contacts)) {
-      // If it's already an array, check if items are strings that need parsing
-      contactsArray = contacts.map((contact) => 
-        typeof contact === "string" ? JSON.parse(contact) : contact,
-      );
-    } else if (typeof contacts === "string") {
-      // If it's a single JSON string
-      contactsArray = JSON.parse(contacts);
-    } else {
-      contactsArray = contacts;
-    }
+    const parsedContacts = parseObject(this.contacts);
 
     const response = await this.sendoso.importContacts({
       $,
-      contacts: contactsArray,
+      contacts: parsedContacts,
     });
 
-    const imported = response.imported || response.count || (Array.isArray(contactsArray) ? contactsArray.length : 0);
+    const imported = response.imported || response.count || parsedContacts?.length;
     $.export("$summary", `Successfully imported ${imported} contact(s)`);
     return response;
   },

@@ -1,3 +1,4 @@
+import { parseObject } from "../../common/utils.mjs";
 import sendoso from "../../sendoso.app.mjs";
 
 export default {
@@ -29,7 +30,7 @@ export default {
     const response = await this.sendoso.sendBulkEmail({
       $,
       touch_id: this.touchId,
-      emails: this.recipients,
+      emails: parseObject(this.recipients),
     });
     $.export("$summary", `Successfully initiated bulk send to ${this.recipients.length} recipients`);
     return response;

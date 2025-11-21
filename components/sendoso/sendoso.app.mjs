@@ -195,35 +195,40 @@ export default {
         data,
       });
     },
-    getSentGifts() {
+    getSentGifts(opts = {}) {
       return this._makeRequest({
         path: "sent_gifts.json",
+        ...opts,
       });
     },
-    getSendStatus({ $, trackingId }) {
+    getSendStatus({ trackingId, ...opts }) {
       return this._makeRequest({
-        $,
         path: `gifts/status/${trackingId}`,
+        ...opts,
       });
     },
-    listGroups() {
+    listGroups(opts = {}) {
       return this._makeRequest({
         path: "groups.json",
+        ...opts,
       });
     },
-    listSendGifts() {
+    listSendGifts(opts = {}) {
       return this._makeRequest({
         path: "sent_gifts.json",
+        ...opts,
       });
     },
-    listTemplates() {
+    listTemplates(opts = {}) {
       return this._makeRequest({
         path: "user_custom_templates.json",
+        ...opts,
       });
     },
-    listTouches(groupId) {
+    listTouches({ groupId, ...opts }) {
       return this._makeRequest({
         path: `groups/${groupId}/group_touches.json`,
+        ...opts,
       });
     },
     listUsers({

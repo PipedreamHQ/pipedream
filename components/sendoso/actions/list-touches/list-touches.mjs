@@ -5,6 +5,11 @@ export default {
   name: "List Touches",
   description: "List all touches (campaigns) for a specific group. [See the documentation](https://developer.sendoso.com/rest-api/campaigns/list-touches)",
   version: "0.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     sendoso,
@@ -16,7 +21,11 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.sendoso.listTouches(this.groupId);
+    const response = await this.sendoso.listTouches({
+      $,
+      groupId: this.groupId,
+    });
+    
     const count = Array.isArray(response) ?
       response.length :
       (response.data?.length || response.touches?.length || 0);

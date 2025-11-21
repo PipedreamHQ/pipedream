@@ -1,3 +1,4 @@
+import { parseObject } from "../../common/utils.mjs";
 import sendoso from "../../sendoso.app.mjs";
 
 export default {
@@ -74,7 +75,7 @@ export default {
       template,
       touch_id: touchId,
       via_from: viaFrom,
-      recipient_users: recipientUsers,
+      recipient_users: parseObject(recipientUsers),
     });
 
     $.export("$summary", `E-Gift successfully generated with tracking code: ${response.tracking_code}!`);

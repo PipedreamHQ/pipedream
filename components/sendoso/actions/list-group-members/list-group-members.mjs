@@ -5,6 +5,11 @@ export default {
   name: "List Group Members",
   description: "List all members (users) of a specific group. [See the documentation](https://developer.sendoso.com/rest-api/users/list-group-members)",
   version: "0.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     sendoso,
@@ -16,7 +21,11 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.sendoso.listUsers(this.groupId);
+    const response = await this.sendoso.listUsers({
+      $,
+      groupId: this.groupId,
+    });
+    
     const count = Array.isArray(response) ?
       response.length :
       (response.data?.length || response.users?.length || 0);

@@ -1,3 +1,4 @@
+import { parseObject } from "../../common/utils.mjs";
 import sendoso from "../../sendoso.app.mjs";
 
 export default {
@@ -50,7 +51,7 @@ export default {
     const data = {};
     if (customMessage) data.custom_message = customMessage;
     if (notes) data.notes = notes;
-    if (metadata) data.metadata = metadata;
+    if (metadata) data.metadata = parseObject(metadata);
 
     const response = await this.sendoso.updateSend({
       $,

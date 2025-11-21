@@ -16,8 +16,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.sendoso.listWebhooks({
-      $,
-      params: {},
+      $
     });
 
     const count = Array.isArray(response) ?
