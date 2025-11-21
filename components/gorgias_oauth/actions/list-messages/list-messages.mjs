@@ -2,7 +2,7 @@ import gorgiasOAuth from "../../gorgias_oauth.app.mjs";
 
 export default {
   name: "List Messages",
-  description: "List all messages for a specific ticket. [See the documentation](https://developers.gorgias.com/reference/list-messages)",
+  description: "List all messages. [See the documentation](https://developers.gorgias.com/reference/list-messages)",
   key: "gorgias_oauth-list-messages",
   version: "0.0.1",
   type: "action",

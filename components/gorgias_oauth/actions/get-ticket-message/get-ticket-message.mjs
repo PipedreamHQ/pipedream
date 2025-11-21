@@ -27,7 +27,7 @@ export default {
         const {
           data: messages,
           meta,
-        } = await this.listTicketMessages({
+        } = await this.gorgiasOAuth.listTicketMessages({
           ticketId: this.ticketId,
           params: {
             cursor: prevContext.nextCursor,
