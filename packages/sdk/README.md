@@ -1,5 +1,9 @@
-**Note:** this package is now maintained in the [pipedream-sdk-typescript](https://github.com/PipedreamHQ/pipedream-sdk-typescript) repository. Visit that to view the most up-to-date code of the SDK.
+# `@pipedream/sdk`
 
+> **Note:** This package is now maintained in the
+> [pipedream-sdk-typescript](https://github.com/PipedreamHQ/pipedream-sdk-typescript)
+> repository. Visit that to view the most up-to-date code of the SDK.
+>
 # `@pipedream/sdk`
 
 TypeScript SDK for [Pipedream](https://pipedream.com). [See the
