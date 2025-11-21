@@ -1,16 +1,30 @@
-import httpBase from "../common/http-based/sheet.mjs";
+import app from "../../google_sheets.app.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
-  ...httpBase,
   key: "google_sheets-new-comment",
   name: "New Comment (Instant)",
   description: "Emit new event each time a comment is added to a spreadsheet.",
-  version: "0.1.3",
+  version: "0.2.0",
   dedupe: "unique",
   type: "source",
+  props: {
+    app,
+    db: "$.service.db",
+    timer: {
+      type: "$.interface.timer",
+      default: {
+        intervalSeconds: 60,
+      },
+    },
+    sheetID: {
+      propDefinition: [
+        app,
+        "sheetID",
+      ],
+    },
+  },
   methods: {
-    ...httpBase.methods,
     _getLastTs() {
       return this.db.get("lastTs");
     },
@@ -24,18 +38,20 @@ export default {
         ts: Date.parse(comment.createdTime),
       };
     },
-    takeSheetSnapshot() {},
-    getSheetId() {
-      return this.sheetID.toString();
-    },
     async processSpreadsheet() {
       const comments = [];
       const lastTs = this._getLastTs();
-      const results = this.googleSheets.listComments(this.sheetID, lastTs);
-      for await (const comment of results) {
-        comments.push(comment);
+
+      try {
+        const results = this.app.listComments(this.sheetID, lastTs);
+        for await (const comment of results) {
+          comments.push(comment);
+        }
+      } catch (error) {
+        console.error("Error fetching comments:", error);
       }
       if (!comments.length) {
+        console.log("No new comments since last check");
         return;
       }
       this._setLastTs(comments[0].createdTime);
@@ -45,17 +61,8 @@ export default {
       });
     },
   },
-  async run(event) {
-    if (event.timestamp) {
-      // Component was invoked by timer
-      return this.renewSubscription();
-    }
-
-    if (!this.isEventRelevant(event)) {
-      console.log("Sync notification, exiting early");
-      return;
-    }
-
+  async run() {
+    // Component was invoked by timer
     await this.processSpreadsheet();
   },
   sampleEmit,
