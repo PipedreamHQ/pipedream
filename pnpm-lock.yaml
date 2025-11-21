@@ -7518,6 +7518,9 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
+  components/iplocate:
+    specifiers: {}
+
   components/ipregistry: {}
 
   components/ipstack:
