@@ -1,5 +1,4 @@
 import sanity from "../../sanity.app.mjs";
-import { ConfigurationError } from "@pipedream/platform";
 import { parseObject } from "../../common/utils.mjs";
 
 export default {
@@ -21,23 +20,24 @@ export default {
         "dataset",
       ],
     },
-    publishId: {
+    documentId: {
       type: "string",
-      label: "Publish ID",
-      description: "The publish ID of the document to create",
+      label: "Document ID",
+      description: "A unique identifier for the document to create",
     },
-    document: {
+    type: {
+      type: "string",
+      label: "Type",
+      description: "The type of document to create. Example: `post`",
+    },
+    additionalFields: {
       type: "object",
-      label: "Document",
-      description: "The document to create. Must include `_type` and `_id` fields. Example: `{\"_type\":\"post\",\"_id\":\"drafts.post-123\",\"title\":\"My First Post\",\"slug\":{\"current\":\"my-first-post\"},\"body\":[{\"_type\":\"block\",\"children\":[{\"_type\":\"span\",\"text\":\"Hello world!\"}]}]}`",
+      label: "Additional Fields",
+      description: "Additional fields to add to the document. Example: `{\"title\":\"My First Post\",\"slug\":{\"current\":\"my-first-post\"},\"body\":[{\"_type\":\"block\",\"children\":[{\"_type\":\"span\",\"text\":\"Hello world!\"}]}]}`",
+      optional: true,
     },
   },
   async run({ $ }) {
-    const document = parseObject(this.document);
-    if (!document._type || !document._id) {
-      throw new ConfigurationError("Document must include `_type` and `_id` fields");
-    }
-
     const response = await this.sanity.createDocument({
       $,
       dataset: this.dataset,
@@ -45,8 +45,12 @@ export default {
         actions: [
           {
             actionType: "sanity.action.document.create",
-            publishedId: this.publishId,
-            document,
+            publishedId: this.documentId,
+            document: {
+              _id: `drafts.${this.documentId}`,
+              _type: this.type,
+              ...parseObject(this.additionalFields),
+            },
           },
         ],
       },
