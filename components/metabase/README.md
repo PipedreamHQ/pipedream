@@ -7,7 +7,8 @@ The Metabase API opens a gateway to interact with Metabase programmatically, ena
 This Metabase integration provides the following actions:
 
 - **Run Query** - Execute a saved question/card and return the results
-- **Get Dashboard** - Retrieve dashboard information and its cards  
+- **Export Query with Format** - Execute a saved question/card with parameters and export results in CSV, JSON, XLSX, or API format
+- **Get Dashboard** - Retrieve dashboard information and its cards
 - **Create Dashboard** - Create a new dashboard in Metabase
 - **Get Database** - Retrieve database information and metadata
 
