@@ -3,7 +3,7 @@ import app from "../../metabase.app.mjs";
 export default {
   key: "metabase-export-query-with-format",
   name: "Export Query with Format",
-  description: "Execute a saved question/card with parameters and export results in the specified format (CSV, JSON, XLSX, or API). [See the documentation](https://www.metabase.com/docs/latest/api/card#post-apicardcard-idqueryexport-format).",
+  description: "Execute a saved question/card with parameters and export results in the specified format (CSV, JSON, XLSX, or API). [See the documentation](https://www.metabase.com/docs/latest/api#tag/apicard/post/api/card/%7Bcard-id%7D/query).",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
