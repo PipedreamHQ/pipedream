@@ -1039,8 +1039,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/apiframe:
-    specifiers: {}
+  components/apiframe: {}
 
   components/apify:
     dependencies:
@@ -3348,8 +3347,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/contentdrips:
-    specifiers: {}
+  components/contentdrips: {}
 
   components/contentful:
     dependencies:
@@ -4698,8 +4696,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/emailchef:
-    specifiers: {}
+  components/emailchef: {}
 
   components/emaillistverify:
     dependencies:
@@ -5982,8 +5979,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0
       nodemailer:
-        specifier: ^6.7.8
-        version: 6.10.1
+        specifier: ^7.0.7
+        version: 7.0.10
       stream:
         specifier: ^0.0.3
         version: 0.0.3
@@ -7521,8 +7518,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/iplocate:
-    specifiers: {}
+  components/iplocate: {}
 
   components/ipregistry: {}
 
@@ -8386,7 +8382,7 @@ importers:
     dependencies:
       linkup-sdk:
         specifier: ^1.0.3
-        version: 1.2.0(@types/node@22.19.1)(typescript@5.9.3)
+        version: 1.2.0(@types/node@24.10.1)(typescript@5.9.3)
 
   components/linkupapi:
     dependencies:
@@ -9732,7 +9728,7 @@ importers:
         version: 0.5.6
       netlify:
         specifier: ^23.0.0
-        version: 23.10.0(@azure/storage-blob@12.29.1)(@types/express@4.17.25)(@types/node@22.19.1)(picomatch@4.0.3)(rollup@4.53.2)
+        version: 23.10.0(@azure/storage-blob@12.29.1)(@types/express@4.17.25)(@types/node@24.10.1)(picomatch@4.0.3)(rollup@4.53.2)
       parse-link-header:
         specifier: ^2.0.0
         version: 2.0.0
@@ -11168,8 +11164,8 @@ importers:
         specifier: ^0.5.47
         version: 0.5.48
       nodemailer:
-        specifier: ^6.7.8
-        version: 6.10.1
+        specifier: ^7.0.7
+        version: 7.0.10
       pluralize:
         specifier: ^8.0.0
         version: 8.0.0
@@ -13576,8 +13572,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/shortpen:
-    specifiers: {}
+  components/shortpen: {}
 
   components/shortpixel:
     dependencies:
@@ -14397,7 +14392,7 @@ importers:
     dependencies:
       stripe:
         specifier: ^18.0.0
-        version: 18.5.0(@types/node@22.19.1)
+        version: 18.5.0(@types/node@24.10.1)
 
   components/stripo:
     dependencies:
@@ -17345,7 +17340,7 @@ importers:
         version: 1.3.2
       tsup:
         specifier: ^8.3.6
-        version: 8.5.0(@microsoft/api-extractor@7.55.0(@types/node@22.19.1))(jiti@2.6.1)(postcss@8.5.6)(tsx@4.20.6)(typescript@5.6.3)(yaml@2.8.1)
+        version: 8.5.0(@microsoft/api-extractor@7.55.0(@types/node@24.10.1))(jiti@2.6.1)(postcss@8.5.6)(tsx@4.20.6)(typescript@5.6.3)(yaml@2.8.1)
       typescript:
         specifier: ^5.6
         version: 5.6.3
@@ -17397,10 +17392,10 @@ importers:
         version: 18.3.26
       vite:
         specifier: ^5.4.11
-        version: 5.4.21(@types/node@22.19.1)
+        version: 5.4.21(@types/node@24.10.1)
       vite-plugin-dts:
         specifier: ^4.3.0
-        version: 4.5.4(@types/node@22.19.1)(rollup@4.53.2)(typescript@5.9.3)(vite@5.4.21(@types/node@22.19.1))
+        version: 4.5.4(@types/node@24.10.1)(rollup@4.53.2)(typescript@5.9.3)(vite@5.4.21(@types/node@24.10.1))
 
   packages/prompts:
     dependencies:
@@ -17489,7 +17484,7 @@ importers:
         version: 3.1.0
       jest:
         specifier: ^29.1.2
-        version: 29.7.0(@types/node@22.19.1)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@22.19.1)(typescript@3.9.10))
+        version: 29.7.0(@types/node@24.10.1)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@24.10.1)(typescript@3.9.10))
       type-fest:
         specifier: ^4.15.0
         version: 4.41.0
@@ -22174,6 +22169,7 @@ packages:
   '@smithy/core@3.18.1':
     resolution: {integrity: sha512-IesyYrxNbuynvVHbCfFX7eh2d+S67BbvlUBwIAOV7pg1Pg7QgHZgHExq5E+EHwkuPL7xuljEPOEFbJvmMgs37g==}
     engines: {node: '>=18.0.0'}
+    deprecated: Please upgrade your lockfile to use the latest 3.x version of @smithy/core for various fixes, see https://github.com/smithy-lang/smithy-typescript/blob/main/packages/core/CHANGELOG.md
 
   '@smithy/credential-provider-imds@4.2.5':
     resolution: {integrity: sha512-BZwotjoZWn9+36nimwm/OLIcVe+KYRwzMjfhd4QT7QxPm9WY0HiOV8t/Wlh+HVUif0SBVV7ksq8//hPaBC/okQ==}
@@ -22682,6 +22678,9 @@ packages:
 
   '@types/node@22.7.5':
     resolution: {integrity: sha512-jML7s2NAzMWc//QSJ1a3prpk78cOPchGvXJsC3C6R6PSMoooztvRVQEz89gmBTBY1SPMaqo5teB4uNHPdetShQ==}
+
+  '@types/node@24.10.1':
+    resolution: {integrity: sha512-GNWcUTRBgIRJD5zj+Tq0fKOJ5XZajIiBroOF0yvj2bSU1WvNdYS/dn9UxwsujGW4JX06dnHyjV2y9rRaybH0iQ==}
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
@@ -29019,10 +29018,6 @@ packages:
     resolution: {integrity: sha512-ckrpY/ABFLwA1DUzEc9iEQtsgQs8WcGC6m7iJ1bbnH+c7EOLnMdCfw+hUesyfuwOfAkkECYFxvoW4lJNy+Oztw==}
     engines: {node: '>=0.12'}
 
-  nodemailer@6.10.1:
-    resolution: {integrity: sha512-Z+iLaBGVaSjbIzQ4pX6XV41HrooLsQ10ZWPUehGmuantvzWoDVBnmsdUcOIDM1t+yPor5pDhVlDESgOMEGxhHA==}
-    engines: {node: '>=6.0.0'}
-
   nodemailer@7.0.10:
     resolution: {integrity: sha512-Us/Se1WtT0ylXgNFfyFSx4LElllVLJXQjWi2Xz17xWw7amDKO2MLtFnVp1WACy7GkVGs+oBlRopVNUzlrGSw1w==}
     engines: {node: '>=6.0.0'}
@@ -32118,6 +32113,9 @@ packages:
 
   undici-types@6.21.0:
     resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
+
+  undici-types@7.16.0:
+    resolution: {integrity: sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==}
 
   undici@5.29.0:
     resolution: {integrity: sha512-raqeBD6NQK4SkWhQzeYKd1KmIG6dllBOTt55Rmkt4HtI9mwdWtJljnrXjAFUBLTSN67HWrOIZ3EPF4kjUw80Bg==}
@@ -35809,11 +35807,11 @@ snapshots:
       - '@types/node'
       - typescript
 
-  '@commitlint/cli@19.8.1(@types/node@22.19.1)(typescript@5.9.3)':
+  '@commitlint/cli@19.8.1(@types/node@24.10.1)(typescript@5.9.3)':
     dependencies:
       '@commitlint/format': 19.8.1
       '@commitlint/lint': 19.8.1
-      '@commitlint/load': 19.8.1(@types/node@22.19.1)(typescript@5.9.3)
+      '@commitlint/load': 19.8.1(@types/node@24.10.1)(typescript@5.9.3)
       '@commitlint/read': 19.8.1
       '@commitlint/types': 19.8.1
       tinyexec: 1.0.2
@@ -35876,7 +35874,7 @@ snapshots:
       - '@types/node'
       - typescript
 
-  '@commitlint/load@19.8.1(@types/node@22.19.1)(typescript@5.9.3)':
+  '@commitlint/load@19.8.1(@types/node@24.10.1)(typescript@5.9.3)':
     dependencies:
       '@commitlint/config-validator': 19.8.1
       '@commitlint/execute-rule': 19.8.1
@@ -35884,7 +35882,7 @@ snapshots:
       '@commitlint/types': 19.8.1
       chalk: 5.6.2
       cosmiconfig: 9.0.0(typescript@5.9.3)
-      cosmiconfig-typescript-loader: 6.2.0(@types/node@22.19.1)(cosmiconfig@9.0.0(typescript@5.9.3))(typescript@5.9.3)
+      cosmiconfig-typescript-loader: 6.2.0(@types/node@24.10.1)(cosmiconfig@9.0.0(typescript@5.9.3))(typescript@5.9.3)
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       lodash.uniq: 4.5.0
@@ -36896,12 +36894,12 @@ snapshots:
     optionalDependencies:
       '@types/node': 17.0.45
 
-  '@inquirer/external-editor@1.0.3(@types/node@22.19.1)':
+  '@inquirer/external-editor@1.0.3(@types/node@24.10.1)':
     dependencies:
       chardet: 2.1.1
       iconv-lite: 0.7.0
     optionalDependencies:
-      '@types/node': 22.19.1
+      '@types/node': 24.10.1
 
   '@isaacs/balanced-match@4.0.1': {}
 
@@ -36976,7 +36974,7 @@ snapshots:
       - supports-color
       - ts-node
 
-  '@jest/core@29.7.0(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@22.19.1)(typescript@3.9.10))':
+  '@jest/core@29.7.0(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@24.10.1)(typescript@3.9.10))':
     dependencies:
       '@jest/console': 29.7.0
       '@jest/reporters': 29.7.0
@@ -36990,7 +36988,7 @@ snapshots:
       exit: 0.1.2
       graceful-fs: 4.2.11
       jest-changed-files: 29.7.0
-      jest-config: 29.7.0(@types/node@20.19.25)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@22.19.1)(typescript@3.9.10))
+      jest-config: 29.7.0(@types/node@20.19.25)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@24.10.1)(typescript@3.9.10))
       jest-haste-map: 29.7.0
       jest-message-util: 29.7.0
       jest-regex-util: 29.6.3
@@ -37281,11 +37279,11 @@ snapshots:
       - '@types/node'
     optional: true
 
-  '@microsoft/api-extractor-model@7.32.0(@types/node@22.19.1)':
+  '@microsoft/api-extractor-model@7.32.0(@types/node@24.10.1)':
     dependencies:
       '@microsoft/tsdoc': 0.16.0
       '@microsoft/tsdoc-config': 0.18.0
-      '@rushstack/node-core-library': 5.18.0(@types/node@22.19.1)
+      '@rushstack/node-core-library': 5.18.0(@types/node@24.10.1)
     transitivePeerDependencies:
       - '@types/node'
 
@@ -37309,15 +37307,15 @@ snapshots:
       - '@types/node'
     optional: true
 
-  '@microsoft/api-extractor@7.55.0(@types/node@22.19.1)':
+  '@microsoft/api-extractor@7.55.0(@types/node@24.10.1)':
     dependencies:
-      '@microsoft/api-extractor-model': 7.32.0(@types/node@22.19.1)
+      '@microsoft/api-extractor-model': 7.32.0(@types/node@24.10.1)
       '@microsoft/tsdoc': 0.16.0
       '@microsoft/tsdoc-config': 0.18.0
-      '@rushstack/node-core-library': 5.18.0(@types/node@22.19.1)
+      '@rushstack/node-core-library': 5.18.0(@types/node@24.10.1)
       '@rushstack/rig-package': 0.6.0
-      '@rushstack/terminal': 0.19.3(@types/node@22.19.1)
-      '@rushstack/ts-command-line': 5.1.3(@types/node@22.19.1)
+      '@rushstack/terminal': 0.19.3(@types/node@24.10.1)
+      '@rushstack/ts-command-line': 5.1.3(@types/node@24.10.1)
       diff: 8.0.2
       lodash: 4.17.21
       minimatch: 10.0.3
@@ -37412,7 +37410,7 @@ snapshots:
       yaml: 2.8.1
       yargs: 17.7.2
 
-  '@netlify/build@35.3.1(@opentelemetry/api@1.8.0)(@types/node@22.19.1)(picomatch@4.0.3)(rollup@4.53.2)':
+  '@netlify/build@35.3.1(@opentelemetry/api@1.8.0)(@types/node@24.10.1)(picomatch@4.0.3)(rollup@4.53.2)':
     dependencies:
       '@bugsnag/js': 8.6.0
       '@netlify/blobs': 10.3.3(supports-color@10.2.2)
@@ -37460,7 +37458,7 @@ snapshots:
       string-width: 7.2.0
       supports-color: 10.2.2
       terminal-link: 4.0.0
-      ts-node: 10.9.2(@types/node@22.19.1)(typescript@5.6.3)
+      ts-node: 10.9.2(@types/node@24.10.1)(typescript@5.6.3)
       typescript: 5.6.3
       uuid: 11.1.0
       yaml: 2.8.1
@@ -39920,7 +39918,7 @@ snapshots:
       '@types/node': 20.19.25
     optional: true
 
-  '@rushstack/node-core-library@5.18.0(@types/node@22.19.1)':
+  '@rushstack/node-core-library@5.18.0(@types/node@24.10.1)':
     dependencies:
       ajv: 8.13.0
       ajv-draft-04: 1.0.0(ajv@8.13.0)
@@ -39931,16 +39929,16 @@ snapshots:
       resolve: 1.22.11
       semver: 7.5.4
     optionalDependencies:
-      '@types/node': 22.19.1
+      '@types/node': 24.10.1
 
   '@rushstack/problem-matcher@0.1.1(@types/node@20.19.25)':
     optionalDependencies:
       '@types/node': 20.19.25
     optional: true
 
-  '@rushstack/problem-matcher@0.1.1(@types/node@22.19.1)':
+  '@rushstack/problem-matcher@0.1.1(@types/node@24.10.1)':
     optionalDependencies:
-      '@types/node': 22.19.1
+      '@types/node': 24.10.1
 
   '@rushstack/rig-package@0.6.0':
     dependencies:
@@ -39956,13 +39954,13 @@ snapshots:
       '@types/node': 20.19.25
     optional: true
 
-  '@rushstack/terminal@0.19.3(@types/node@22.19.1)':
+  '@rushstack/terminal@0.19.3(@types/node@24.10.1)':
     dependencies:
-      '@rushstack/node-core-library': 5.18.0(@types/node@22.19.1)
-      '@rushstack/problem-matcher': 0.1.1(@types/node@22.19.1)
+      '@rushstack/node-core-library': 5.18.0(@types/node@24.10.1)
+      '@rushstack/problem-matcher': 0.1.1(@types/node@24.10.1)
       supports-color: 8.1.1
     optionalDependencies:
-      '@types/node': 22.19.1
+      '@types/node': 24.10.1
 
   '@rushstack/ts-command-line@5.1.3(@types/node@20.19.25)':
     dependencies:
@@ -39974,9 +39972,9 @@ snapshots:
       - '@types/node'
     optional: true
 
-  '@rushstack/ts-command-line@5.1.3(@types/node@22.19.1)':
+  '@rushstack/ts-command-line@5.1.3(@types/node@24.10.1)':
     dependencies:
-      '@rushstack/terminal': 0.19.3(@types/node@22.19.1)
+      '@rushstack/terminal': 0.19.3(@types/node@24.10.1)
       '@types/argparse': 1.0.38
       argparse: 1.0.10
       string-argv: 0.3.2
@@ -41068,6 +41066,10 @@ snapshots:
   '@types/node@22.7.5':
     dependencies:
       undici-types: 6.19.8
+
+  '@types/node@24.10.1':
+    dependencies:
+      undici-types: 7.16.0
 
   '@types/normalize-package-data@2.4.4': {}
 
@@ -43298,9 +43300,9 @@ snapshots:
       jiti: 2.6.1
       typescript: 5.6.3
 
-  cosmiconfig-typescript-loader@6.2.0(@types/node@22.19.1)(cosmiconfig@9.0.0(typescript@5.9.3))(typescript@5.9.3):
+  cosmiconfig-typescript-loader@6.2.0(@types/node@24.10.1)(cosmiconfig@9.0.0(typescript@5.9.3))(typescript@5.9.3):
     dependencies:
-      '@types/node': 22.19.1
+      '@types/node': 24.10.1
       cosmiconfig: 9.0.0(typescript@5.9.3)
       jiti: 2.6.1
       typescript: 5.9.3
@@ -43400,13 +43402,13 @@ snapshots:
       - supports-color
       - ts-node
 
-  create-jest@29.7.0(@types/node@22.19.1)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@22.19.1)(typescript@3.9.10)):
+  create-jest@29.7.0(@types/node@24.10.1)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@24.10.1)(typescript@3.9.10)):
     dependencies:
       '@jest/types': 29.6.3
       chalk: 4.1.2
       exit: 0.1.2
       graceful-fs: 4.2.11
-      jest-config: 29.7.0(@types/node@22.19.1)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@22.19.1)(typescript@3.9.10))
+      jest-config: 29.7.0(@types/node@24.10.1)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@24.10.1)(typescript@3.9.10))
       jest-util: 29.7.0
       prompts: 2.4.2
     transitivePeerDependencies:
@@ -46710,12 +46712,12 @@ snapshots:
 
   inline-style-parser@0.2.6: {}
 
-  inquirer-autocomplete-prompt@1.4.0(inquirer@8.2.7(@types/node@22.19.1)):
+  inquirer-autocomplete-prompt@1.4.0(inquirer@8.2.7(@types/node@24.10.1)):
     dependencies:
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       figures: 3.2.0
-      inquirer: 8.2.7(@types/node@22.19.1)
+      inquirer: 8.2.7(@types/node@24.10.1)
       run-async: 2.4.1
       rxjs: 6.6.7
 
@@ -46739,9 +46741,9 @@ snapshots:
     transitivePeerDependencies:
       - '@types/node'
 
-  inquirer@8.2.7(@types/node@22.19.1):
+  inquirer@8.2.7(@types/node@24.10.1):
     dependencies:
-      '@inquirer/external-editor': 1.0.3(@types/node@22.19.1)
+      '@inquirer/external-editor': 1.0.3(@types/node@24.10.1)
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       cli-cursor: 3.1.0
@@ -47283,16 +47285,16 @@ snapshots:
       - supports-color
       - ts-node
 
-  jest-cli@29.7.0(@types/node@22.19.1)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@22.19.1)(typescript@3.9.10)):
+  jest-cli@29.7.0(@types/node@24.10.1)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@24.10.1)(typescript@3.9.10)):
     dependencies:
-      '@jest/core': 29.7.0(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@22.19.1)(typescript@3.9.10))
+      '@jest/core': 29.7.0(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@24.10.1)(typescript@3.9.10))
       '@jest/test-result': 29.7.0
       '@jest/types': 29.6.3
       chalk: 4.1.2
-      create-jest: 29.7.0(@types/node@22.19.1)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@22.19.1)(typescript@3.9.10))
+      create-jest: 29.7.0(@types/node@24.10.1)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@24.10.1)(typescript@3.9.10))
       exit: 0.1.2
       import-local: 3.2.0
-      jest-config: 29.7.0(@types/node@22.19.1)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@22.19.1)(typescript@3.9.10))
+      jest-config: 29.7.0(@types/node@24.10.1)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@24.10.1)(typescript@3.9.10))
       jest-util: 29.7.0
       jest-validate: 29.7.0
       yargs: 17.7.2
@@ -47333,7 +47335,7 @@ snapshots:
       - babel-plugin-macros
       - supports-color
 
-  jest-config@29.7.0(@types/node@20.19.25)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@22.19.1)(typescript@3.9.10)):
+  jest-config@29.7.0(@types/node@20.19.25)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@24.10.1)(typescript@3.9.10)):
     dependencies:
       '@babel/core': 7.28.5
       '@jest/test-sequencer': 29.7.0
@@ -47359,12 +47361,12 @@ snapshots:
       strip-json-comments: 3.1.1
     optionalDependencies:
       '@types/node': 20.19.25
-      ts-node: 10.9.2(@types/node@22.19.1)(typescript@3.9.10)
+      ts-node: 10.9.2(@types/node@24.10.1)(typescript@3.9.10)
     transitivePeerDependencies:
       - babel-plugin-macros
       - supports-color
 
-  jest-config@29.7.0(@types/node@22.19.1)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@22.19.1)(typescript@3.9.10)):
+  jest-config@29.7.0(@types/node@24.10.1)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@24.10.1)(typescript@3.9.10)):
     dependencies:
       '@babel/core': 7.28.5
       '@jest/test-sequencer': 29.7.0
@@ -47389,8 +47391,8 @@ snapshots:
       slash: 3.0.0
       strip-json-comments: 3.1.1
     optionalDependencies:
-      '@types/node': 22.19.1
-      ts-node: 10.9.2(@types/node@22.19.1)(typescript@3.9.10)
+      '@types/node': 24.10.1
+      ts-node: 10.9.2(@types/node@24.10.1)(typescript@3.9.10)
     transitivePeerDependencies:
       - babel-plugin-macros
       - supports-color
@@ -47638,12 +47640,12 @@ snapshots:
       - supports-color
       - ts-node
 
-  jest@29.7.0(@types/node@22.19.1)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@22.19.1)(typescript@3.9.10)):
+  jest@29.7.0(@types/node@24.10.1)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@24.10.1)(typescript@3.9.10)):
     dependencies:
-      '@jest/core': 29.7.0(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@22.19.1)(typescript@3.9.10))
+      '@jest/core': 29.7.0(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@24.10.1)(typescript@3.9.10))
       '@jest/types': 29.6.3
       import-local: 3.2.0
-      jest-cli: 29.7.0(@types/node@22.19.1)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@22.19.1)(typescript@3.9.10))
+      jest-cli: 29.7.0(@types/node@24.10.1)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@24.10.1)(typescript@3.9.10))
     transitivePeerDependencies:
       - '@types/node'
       - babel-plugin-macros
@@ -48065,9 +48067,9 @@ snapshots:
       - supports-color
       - typescript
 
-  linkup-sdk@1.2.0(@types/node@22.19.1)(typescript@5.9.3):
+  linkup-sdk@1.2.0(@types/node@24.10.1)(typescript@5.9.3):
     dependencies:
-      '@commitlint/cli': 19.8.1(@types/node@22.19.1)(typescript@5.9.3)
+      '@commitlint/cli': 19.8.1(@types/node@24.10.1)(typescript@5.9.3)
       '@commitlint/config-conventional': 19.8.1
       axios: 1.13.2(debug@3.2.7)
       semantic-release: 24.2.9(typescript@5.9.3)
@@ -49263,13 +49265,13 @@ snapshots:
 
   netlify-redirector@0.5.0: {}
 
-  netlify@23.10.0(@azure/storage-blob@12.29.1)(@types/express@4.17.25)(@types/node@22.19.1)(picomatch@4.0.3)(rollup@4.53.2):
+  netlify@23.10.0(@azure/storage-blob@12.29.1)(@types/express@4.17.25)(@types/node@24.10.1)(picomatch@4.0.3)(rollup@4.53.2):
     dependencies:
       '@fastify/static': 7.0.4
       '@netlify/ai': 0.3.0(@netlify/api@14.0.9)
       '@netlify/api': 14.0.9
       '@netlify/blobs': 10.1.0
-      '@netlify/build': 35.3.1(@opentelemetry/api@1.8.0)(@types/node@22.19.1)(picomatch@4.0.3)(rollup@4.53.2)
+      '@netlify/build': 35.3.1(@opentelemetry/api@1.8.0)(@types/node@24.10.1)(picomatch@4.0.3)(rollup@4.53.2)
       '@netlify/build-info': 10.0.9
       '@netlify/config': 24.0.8
       '@netlify/dev-utils': 4.3.0
@@ -49320,8 +49322,8 @@ snapshots:
       http-proxy: 1.18.1(debug@4.4.3)
       http-proxy-middleware: 2.0.9(@types/express@4.17.25)(debug@4.4.3)
       https-proxy-agent: 7.0.6
-      inquirer: 8.2.7(@types/node@22.19.1)
-      inquirer-autocomplete-prompt: 1.4.0(inquirer@8.2.7(@types/node@22.19.1))
+      inquirer: 8.2.7(@types/node@24.10.1)
+      inquirer-autocomplete-prompt: 1.4.0(inquirer@8.2.7(@types/node@24.10.1))
       ipx: 3.1.1(@azure/storage-blob@12.29.1)(@netlify/blobs@10.1.0)
       is-docker: 3.0.0
       is-stream: 4.0.1
@@ -49504,8 +49506,6 @@ snapshots:
       request-promise: 4.2.6(request@2.88.2)
     transitivePeerDependencies:
       - supports-color
-
-  nodemailer@6.10.1: {}
 
   nodemailer@7.0.10: {}
 
@@ -52631,11 +52631,11 @@ snapshots:
 
   strip-outer@2.0.0: {}
 
-  stripe@18.5.0(@types/node@22.19.1):
+  stripe@18.5.0(@types/node@24.10.1):
     dependencies:
       qs: 6.14.0
     optionalDependencies:
-      '@types/node': 22.19.1
+      '@types/node': 24.10.1
 
   strnum@1.1.2: {}
 
@@ -53242,14 +53242,14 @@ snapshots:
       yn: 3.1.1
     optional: true
 
-  ts-node@10.9.2(@types/node@22.19.1)(typescript@3.9.10):
+  ts-node@10.9.2(@types/node@24.10.1)(typescript@3.9.10):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       '@tsconfig/node10': 1.0.11
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
-      '@types/node': 22.19.1
+      '@types/node': 24.10.1
       acorn: 8.15.0
       acorn-walk: 8.3.4
       arg: 4.1.3
@@ -53261,14 +53261,14 @@ snapshots:
       yn: 3.1.1
     optional: true
 
-  ts-node@10.9.2(@types/node@22.19.1)(typescript@5.6.3):
+  ts-node@10.9.2(@types/node@24.10.1)(typescript@5.6.3):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       '@tsconfig/node10': 1.0.11
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
-      '@types/node': 22.19.1
+      '@types/node': 24.10.1
       acorn: 8.15.0
       acorn-walk: 8.3.4
       arg: 4.1.3
@@ -53397,7 +53397,7 @@ snapshots:
       - tsx
       - yaml
 
-  tsup@8.5.0(@microsoft/api-extractor@7.55.0(@types/node@22.19.1))(jiti@2.6.1)(postcss@8.5.6)(tsx@4.20.6)(typescript@5.6.3)(yaml@2.8.1):
+  tsup@8.5.0(@microsoft/api-extractor@7.55.0(@types/node@24.10.1))(jiti@2.6.1)(postcss@8.5.6)(tsx@4.20.6)(typescript@5.6.3)(yaml@2.8.1):
     dependencies:
       bundle-require: 5.1.0(esbuild@0.25.12)
       cac: 6.7.14
@@ -53417,7 +53417,7 @@ snapshots:
       tinyglobby: 0.2.15
       tree-kill: 1.2.2
     optionalDependencies:
-      '@microsoft/api-extractor': 7.55.0(@types/node@22.19.1)
+      '@microsoft/api-extractor': 7.55.0(@types/node@24.10.1)
       postcss: 8.5.6
       typescript: 5.6.3
     transitivePeerDependencies:
@@ -53657,6 +53657,8 @@ snapshots:
   undici-types@6.19.8: {}
 
   undici-types@6.21.0: {}
+
+  undici-types@7.16.0: {}
 
   undici@5.29.0:
     dependencies:
@@ -54072,9 +54074,9 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  vite-plugin-dts@4.5.4(@types/node@22.19.1)(rollup@4.53.2)(typescript@5.9.3)(vite@5.4.21(@types/node@22.19.1)):
+  vite-plugin-dts@4.5.4(@types/node@24.10.1)(rollup@4.53.2)(typescript@5.9.3)(vite@5.4.21(@types/node@24.10.1)):
     dependencies:
-      '@microsoft/api-extractor': 7.55.0(@types/node@22.19.1)
+      '@microsoft/api-extractor': 7.55.0(@types/node@24.10.1)
       '@rollup/pluginutils': 5.3.0(rollup@4.53.2)
       '@volar/typescript': 2.4.23
       '@vue/language-core': 2.2.0(typescript@5.9.3)
@@ -54085,19 +54087,19 @@ snapshots:
       magic-string: 0.30.21
       typescript: 5.9.3
     optionalDependencies:
-      vite: 5.4.21(@types/node@22.19.1)
+      vite: 5.4.21(@types/node@24.10.1)
     transitivePeerDependencies:
       - '@types/node'
       - rollup
       - supports-color
 
-  vite@5.4.21(@types/node@22.19.1):
+  vite@5.4.21(@types/node@24.10.1):
     dependencies:
       esbuild: 0.21.5
       postcss: 8.5.6
       rollup: 4.53.2
     optionalDependencies:
-      '@types/node': 22.19.1
+      '@types/node': 24.10.1
       fsevents: 2.3.3
 
   vscode-uri@3.1.0: {}
