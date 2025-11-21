@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/vitel_phone",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Vitel Phone Components",
   "main": "vitel_phone.app.mjs",
   "keywords": [
@@ -10,7 +10,7 @@
   "homepage": "https://pipedream.com/apps/vitel_phone",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^1.5.1",
+    "@pipedream/platform": "^1.6.8",
     "xml2js": "^0.6.2"
   },
   "publishConfig": {

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zoom_admin",
-  "version": "0.13.0",
+  "version": "0.13.2",
   "description": "Pipedream Zoom_admin Components",
   "main": "zoom_admin.app.mjs",
   "keywords": [
@@ -14,7 +14,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.1.0",
+    "@pipedream/platform": "^3.1.1",
     "lodash": "^4.17.21",
     "uuid": "^8.3.2"
   }

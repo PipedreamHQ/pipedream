@@ -5,7 +5,7 @@ export default {
   name: "New Campaign Starts Sending (Instant)",
   key: "activecampaign-campaign-starts-sending",
   description: "Emit new event each time a campaign starts sending.",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "source",
   dedupe: "unique",
   methods: {

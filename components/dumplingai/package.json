@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/dumplingai",
+  "version": "0.0.1",
+  "description": "Pipedream DumplingAI Components",
+  "main": "dumplingai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "dumplingai"
+  ],
+  "homepage": "https://pipedream.com/apps/dumplingai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

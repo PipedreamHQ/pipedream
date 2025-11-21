@@ -5,9 +5,9 @@ export default {
   ...common,
   key: "linear_app-issue-created-instant",
   name: "New Issue Created (Instant)",
-  description: "Triggers instantly when a new issue is created in Linear. Provides complete issue details including title, description, team, assignee, state, and timestamps. Supports filtering by team and project. See Linear docs for additional info [here](https://developers.linear.app/docs/graphql/webhooks).",
+  description: "Triggers instantly when a new issue is created in Linear. Provides complete issue details including title, description, team, assignee, state, and timestamps. Supports filtering by team and project. See Linear docs for additional info [here](https://linear.app/developers/webhooks).",
   type: "source",
-  version: "0.3.15",
+  version: "0.3.16",
   dedupe: "unique",
   methods: {
     ...common.methods,

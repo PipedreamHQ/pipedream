@@ -1,6 +1,6 @@
 # Overview
 
-The Jira Service Desk API allows you to interact programmatically with your support ticket system, enabling the creation, updating, and management of tickets, customers, and service desk configurations. With Pipedream's integration, you can automate workflows by connecting Jira Service Desk to hundreds of other apps, listen to webhooks for real-time triggers, and execute custom logic.
+The Jira Service Desk API allows you to interact programmatically with your support ticket system, enabling the creation, updating, and management of tickets, customers, and service desk configurations. With Pipedream's integration, you can automate workflows by connecting Jira Service Desk to 3,000+ other apps, listen to webhooks for real-time triggers, and execute custom logic.
 
 # Example Use Cases
 

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/qase",
+  "version": "0.0.1",
+  "description": "Pipedream Qase Components",
+  "main": "qase.app.mjs",
+  "keywords": [
+    "pipedream",
+    "qase"
+  ],
+  "homepage": "https://pipedream.com/apps/qase",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

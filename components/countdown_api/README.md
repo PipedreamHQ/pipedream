@@ -1,6 +1,6 @@
 # Overview
 
-The Countdown API provides a simple way to create and manage countdowns to specific events or deadlines. Integrating this API with Pipedream allows for the creation of dynamic serverless workflows that can react to time-sensitive triggers. Whether it's sending reminders, updating statuses, or triggering events as deadlines approach, Pipedream's ability to connect to hundreds of apps gives you the flexibility to craft custom solutions around your countdowns.
+The Countdown API provides a simple way to create and manage countdowns to specific events or deadlines. Integrating this API with Pipedream allows for the creation of dynamic serverless workflows that can react to time-sensitive triggers. Whether it's sending reminders, updating statuses, or triggering events as deadlines approach, Pipedream's ability to connect to 3,000+ apps gives you the flexibility to craft custom solutions around your countdowns.
 
 # Example Use Cases
 

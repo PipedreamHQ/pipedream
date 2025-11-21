@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/clevertap",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Pipedream CleverTap Components",
   "main": "clevertap.app.mjs",
   "keywords": [
@@ -13,6 +13,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.1.0"
+    "@pipedream/platform": "^3.1.1"
   }
 }

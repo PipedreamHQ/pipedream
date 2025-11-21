@@ -1,6 +1,6 @@
 # Overview
 
-The Snyk API provides programmatic access to Snyk's vulnerability detection capabilities, enabling you to automate security analysis and monitor for security issues in your codebases, open-source dependencies, container images, and more. On Pipedream, you can harness this API to create automated, serverless workflows that integrate Snyk's security insights with your development and operations processes. With Pipedream's ability to connect to hundreds of apps, you can seamlessly integrate Snyk's data with other services like Slack for notifications, JIRA for issue tracking, or GitHub for code management.
+The Snyk API provides programmatic access to Snyk's vulnerability detection capabilities, enabling you to automate security analysis and monitor for security issues in your codebases, open-source dependencies, container images, and more. On Pipedream, you can harness this API to create automated, serverless workflows that integrate Snyk's security insights with your development and operations processes. With Pipedream's ability to connect to 3,000+ apps, you can seamlessly integrate Snyk's data with other services like Slack for notifications, JIRA for issue tracking, or GitHub for code management.
 
 # Example Use Cases
 

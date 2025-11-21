@@ -6,7 +6,7 @@ export default {
   key: "notion-delete-block",
   name: "Delete Block",
   description: "Sets a Block object, including page blocks, to archived: true using the ID specified. [See the documentation](https://developers.notion.com/reference/delete-a-block)",
-  version: "0.0.7",
+  version: "0.0.8",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/trackvia",
+  "version": "0.0.1",
+  "description": "Pipedream TrackVia Components",
+  "main": "trackvia.app.mjs",
+  "keywords": [
+    "pipedream",
+    "trackvia"
+  ],
+  "homepage": "https://pipedream.com/apps/trackvia",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

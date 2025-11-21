@@ -5,7 +5,7 @@ export default {
   key: "github-new-star-by-user",
   name: "New Star By User",
   description: "Emit new events when the specified user stars a repository. [See the documentation](https://docs.github.com/en/rest/activity/starring?apiVersion=2022-11-28#list-repositories-starred-by-a-user)",
-  version: "0.0.10",
+  version: "0.0.11",
   type: "source",
   dedupe: "unique",
   props: {

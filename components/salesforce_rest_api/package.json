@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/salesforce_rest_api",
-  "version": "1.9.3",
+  "version": "1.10.1",
   "description": "Pipedream Salesforce (REST API) Components",
   "main": "salesforce_rest_api.app.mjs",
   "keywords": [
@@ -10,7 +10,7 @@
   "homepage": "https://pipedream.com/apps/salesforce_rest_api",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^3.1.0",
+    "@pipedream/platform": "^3.1.1",
     "fast-xml-parser": "^4.3.2",
     "handlebars": "^4.7.7",
     "lodash": "^4.17.21",

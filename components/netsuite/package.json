@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/netsuite",
+  "version": "0.0.1",
+  "description": "Pipedream NetSuite Components",
+  "main": "netsuite.app.mjs",
+  "keywords": [
+    "pipedream",
+    "netsuite"
+  ],
+  "homepage": "https://pipedream.com/apps/netsuite",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

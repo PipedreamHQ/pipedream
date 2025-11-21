@@ -6,7 +6,7 @@ export default {
   key: "google_drive-update-file",
   name: "Update File",
   description: "Update a file's metadata and/or content. [See the documentation](https://developers.google.com/drive/api/v3/reference/files/update) for more information",
-  version: "2.0.6",
+  version: "2.0.7",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

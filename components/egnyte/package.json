@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/egnyte",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Pipedream Egnyte Components",
   "main": "egnyte.app.mjs",
   "keywords": [
@@ -13,9 +13,9 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.1.0",
+    "@pipedream/platform": "^3.1.1",
     "bottleneck": "^2.19.5",
-    "form-data": "^4.0.1",
+    "form-data": "^4.0.4",
     "path": "^0.12.7"
   }
 }

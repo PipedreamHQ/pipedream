@@ -1,6 +1,6 @@
 # Overview
 
-The DocuGenerate API lets you automate document creation and management tasks within Pipedream workflows. With this API, you can create custom documents, populate them with dynamic data, and perform various actions like retrieving, updating, or deleting documents programmatically. Integrating DocuGenerate with Pipedream enables you to connect your document workflows with hundreds of other apps, simplifying processes like contract generation from CRM data, automating report distribution, or even pushing notifications based on document status changes.
+The DocuGenerate API lets you automate document creation and management tasks within Pipedream workflows. With this API, you can create custom documents, populate them with dynamic data, and perform various actions like retrieving, updating, or deleting documents programmatically. Integrating DocuGenerate with Pipedream enables you to connect your document workflows with 3,000+ other apps, simplifying processes like contract generation from CRM data, automating report distribution, or even pushing notifications based on document status changes.
 
 # Example Use Cases
 

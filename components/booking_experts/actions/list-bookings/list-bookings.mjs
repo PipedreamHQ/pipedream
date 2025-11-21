@@ -4,7 +4,7 @@ export default {
   key: "booking_experts-list-bookings",
   name: "List Bookings",
   description: "Returns a list of bookings for an administration. [See the documentation](https://developers.bookingexperts.com/reference/administration-bookings-index)",
-  version: "0.0.2",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -29,10 +29,10 @@ export default {
       ],
       description: "Filter by owner",
     },
-    channelId: {
+    administrationChannelId: {
       propDefinition: [
         bookingExperts,
-        "channelId",
+        "administrationChannelId",
         (c) => ({
           administrationId: c.administrationId,
         }),
@@ -69,7 +69,7 @@ export default {
       administrationId: this.administrationId,
       params: {
         "filter[owner]": this.ownerId,
-        "filter[channel]": this.channelId,
+        "filter[channel]": this.listAdministrationChannels,
         "filter[reservations]": this.reservationId,
         "filter[created_at]": this.createdAt,
         "filter[updated_at]": this.updatedAt,

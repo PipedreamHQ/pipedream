@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/calendly_v2",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "Pipedream Calendly V2 Components",
   "main": "calendly_v2.app.mjs",
   "keywords": [
@@ -13,7 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.0.3",
+    "@pipedream/platform": "^3.1.1",
     "url": "^0.11.0"
   }
 }

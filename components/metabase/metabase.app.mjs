@@ -140,6 +140,14 @@ export default {
         ...args,
       });
     },
+    exportCardQuery({
+      cardId, exportFormat, ...args
+    } = {}) {
+      return this.post({
+        path: `/card/${cardId}/query/${exportFormat}`,
+        ...args,
+      });
+    },
     createDashboard(args = {}) {
       return this.post({
         path: "/dashboard",

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/pipefy",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Pipefy Components",
   "main": "pipefy.app.mjs",
   "keywords": [
@@ -13,7 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.2.0",
+    "@pipedream/platform": "^1.6.8",
     "graphql-request": "^5.0.0",
     "graphql": ">=14.0.0 <15.0.0 || >=15.0.0 <16.0.0 || >=16.0.0 <17.0.0 || ^16.8.1"
   }

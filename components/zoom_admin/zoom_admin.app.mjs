@@ -3,6 +3,7 @@ import { axios } from "@pipedream/platform";
 import flatten from "lodash/flatten.js";
 import get from "lodash/get.js";
 import sortBy from "lodash/sortBy.js";
+import { doubleEncode } from "./common/utils.mjs";
 import consts from "./consts.mjs";
 import zoomCountries from "./zoom_countries.mjs";
 
@@ -264,6 +265,7 @@ export default {
     },
     async listMeetingsOccurrences(meetingId, isWebinar) {
       try {
+        meetingId = doubleEncode(meetingId);
         const path = isWebinar
           ? `/webinars/${meetingId}`
           : `/meetings/${meetingId}`;
@@ -295,7 +297,7 @@ export default {
     },
     async listWebinarPanelists(webinarID, nextPageToken) {
       const { data } = await this._makeRequest({
-        path: `/webinars/${webinarID}/panelists`,
+        path: `/webinars/${doubleEncode(webinarID)}/panelists`,
         params: {
           page_size: 100,
           next_page_token: nextPageToken,
@@ -304,6 +306,7 @@ export default {
       return data;
     },
     async listMeetingOrWebinarRegistrants(meetingId, occurrenceId, pageNumber, status, isWebinar) {
+      meetingId = doubleEncode(meetingId);
       const path = isWebinar
         ? `/webinars/${meetingId}/registrants`
         : `/meetings/${meetingId}/registrants`;
@@ -339,7 +342,7 @@ export default {
     },
     async listWebinarParticipants(webinarID, nextPageToken) {
       const { data } = await this._makeRequest({
-        path: `/past_webinars/${webinarID}/participants`,
+        path: `/past_webinars/${doubleEncode(webinarID)}/participants`,
         params: {
           page_size: 100,
           next_page_token: nextPageToken,
@@ -370,7 +373,7 @@ export default {
     },
     async listMeetingRegistrants(meetingId, params, nextPageToken) {
       const { data } = await this._makeRequest({
-        path: `/meetings/${meetingId}/registrants`,
+        path: `/meetings/${doubleEncode(meetingId)}/registrants`,
         params: {
           page_size: 100,
           next_page_token: nextPageToken,
@@ -392,7 +395,7 @@ export default {
     },
     async listWebinarRegistrants(webinarId, params, nextPageToken) {
       const { data } = await this._makeRequest({
-        path: `/webinars/${webinarId}/registrants`,
+        path: `/webinars/${doubleEncode(webinarId)}/registrants`,
         params: {
           page_size: 100,
           next_page_token: nextPageToken,
@@ -414,7 +417,7 @@ export default {
     },
     async listPastMeetingParticipants(meetingId, nextPageToken) {
       const { data } = await this._makeRequest({
-        path: `/past_meetings/${meetingId}/participants`,
+        path: `/past_meetings/${doubleEncode(meetingId)}/participants`,
         params: {
           page_size: 100,
           next_page_token: nextPageToken,
@@ -424,7 +427,7 @@ export default {
     },
     async listMeetingRecordings(meetingId, params, nextPageToken) {
       const { data } = await this._makeRequest({
-        path: `/meetings/${meetingId}/recordings`,
+        path: `/meetings/${doubleEncode(meetingId)}/recordings`,
         params: {
           page_size: 100,
           next_page_token: nextPageToken,

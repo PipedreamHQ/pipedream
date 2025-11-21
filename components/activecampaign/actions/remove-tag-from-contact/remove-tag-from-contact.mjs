@@ -4,7 +4,7 @@ export default {
   key: "activecampaign-remove-tag-from-contact",
   name: "Remove Contact Tag",
   description: "Removes a tag from a contact. See the docs [here](https://developers.activecampaign.com/reference/remove-a-contacts-tag)",
-  version: "0.5.1",
+  version: "0.5.2",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

@@ -6,7 +6,7 @@ export default {
   key: "elastic_email-new-contact-added",
   name: "New Contact Added",
   description: "Emit new event when a new contact is added to a mailing list. [See the documentation](https://elasticemail.com/developers/api-documentation/rest-api#operation/contactsGet)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

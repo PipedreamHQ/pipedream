@@ -5,7 +5,7 @@ export default {
   key: "metabase-create-dashboard",
   name: "Create Dashboard",
   description: "Create a new Dashboard. [See the documentation](https://www.metabase.com/docs/latest/api#tag/apidashboard/post/api/dashboard/).",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

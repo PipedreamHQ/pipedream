@@ -1,6 +1,6 @@
 # Overview
 
-Refersion is a powerful affiliate tracking platform that streamlines the process of managing, tracking, and growing your affiliate network. Through its API, you can automate affiliate registrations, commission tracking, and payout processes. Pipedream's serverless platform allows you to connect Refersion with hundreds of other apps to automate workflows, sync data across platforms, and respond to events in real time.
+Refersion is a powerful affiliate tracking platform that streamlines the process of managing, tracking, and growing your affiliate network. Through its API, you can automate affiliate registrations, commission tracking, and payout processes. Pipedream's serverless platform allows you to connect Refersion with 3,000+ other apps to automate workflows, sync data across platforms, and respond to events in real time.
 
 # Example Use Cases
 

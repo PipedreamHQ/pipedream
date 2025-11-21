@@ -1,6 +1,6 @@
 # Overview
 
-The monday.com API enables developers to programmatically interact with their monday.com workspace, allowing for automated workflows, data management, and integrations with other applications. Using Pipedream's serverless platform, you can leverage this API to create custom workflows that respond to board updates, manage items automatically, and connect monday.com with hundreds of other apps.
+The monday.com API enables developers to programmatically interact with their monday.com workspace, allowing for automated workflows, data management, and integrations with other applications. Using Pipedream's serverless platform, you can leverage this API to create custom workflows that respond to board updates, manage items automatically, and connect monday.com with 3,000+ other apps.
 
 You can connect your monday.com account in a few different ways:
 1. Within the workflow builder, from a trigger or action step. Search for the monday.com app, and connect your account.

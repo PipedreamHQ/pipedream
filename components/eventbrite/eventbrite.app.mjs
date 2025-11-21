@@ -51,6 +51,53 @@ export default {
       label: "Event ID",
       description: "Enter the ID of an event",
     },
+    event: {
+      type: "string",
+      label: "Event",
+      description: "Select a specific event (optional - leave blank to trigger for all events)",
+      optional: true,
+      async options({
+        organization,
+        prevContext,
+      }) {
+        if (!organization) {
+          return [];
+        }
+        const {
+          prevHasMore: hasMore = false,
+          prevContinuation: continuation,
+        } = prevContext;
+        const params = {
+          status: "live,started,ended",
+          order_by: "start_desc",
+          ...(hasMore && {
+            continuation,
+          }),
+        };
+        const {
+          events,
+          pagination,
+        } = await this.listEvents({
+          orgId: organization,
+          params,
+        });
+        const options = events.map((event) => ({
+          label: event.name.text,
+          value: event.id,
+        }));
+        const {
+          has_more_items: prevHasMore,
+          continuation: prevContinuation,
+        } = pagination || {};
+        return {
+          options,
+          context: {
+            prevHasMore,
+            prevContinuation,
+          },
+        };
+      },
+    },
     timezone: {
       type: "string",
       label: "Timezone",

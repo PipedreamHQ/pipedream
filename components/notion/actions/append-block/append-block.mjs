@@ -7,7 +7,7 @@ export default {
   key: "notion-append-block",
   name: "Append Block to Parent",
   description: "Append new and/or existing blocks to the specified parent. [See the documentation](https://developers.notion.com/reference/patch-block-children)",
-  version: "0.4.0",
+  version: "0.4.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

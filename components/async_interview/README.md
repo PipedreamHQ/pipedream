@@ -1,6 +1,6 @@
 # Overview
 
-The Async Interview API enables automation around video interview processes. With this API, you can craft workflows on Pipedream that manipulate interview data, initiate new interviews, and respond to events within the Async Interview platform. Pipedream's serverless architecture allows you to connect with hundreds of apps to streamline recruitment workflows, analyze interview data, or enhance the candidate experience with personalized interactions.
+The Async Interview API enables automation around video interview processes. With this API, you can craft workflows on Pipedream that manipulate interview data, initiate new interviews, and respond to events within the Async Interview platform. Pipedream's serverless architecture allows you to connect with 3,000+ apps to streamline recruitment workflows, analyze interview data, or enhance the candidate experience with personalized interactions.
 
 # Example Use Cases
 

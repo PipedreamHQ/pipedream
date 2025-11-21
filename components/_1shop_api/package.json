@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/_1shop_api",
+  "version": "0.0.1",
+  "description": "Pipedream 1Shot API Components",
+  "main": "_1shop_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "_1shop_api"
+  ],
+  "homepage": "https://pipedream.com/apps/_1shop_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

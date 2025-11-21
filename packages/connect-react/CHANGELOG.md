@@ -2,6 +2,20 @@
 
 # Changelog
 
+## [2.1.2] - 2025-11-14
+
+### Fixed
+
+- Fixed issue where user input in dynamically loaded props was lost due to circular effect dependency
+
+## [2.1.1] - 2025-10-27
+
+### Fixed
+
+- Fixed optional props being removed when loading saved configurations
+- Optional props with values now automatically display as enabled
+- Improved handling of label-value format for remote options in multi-select fields
+
 ## [2.1.0] - 2025-10-10
 
 ### Added

@@ -8,7 +8,7 @@ export default {
   key: "notion-new-page",
   name: "New Page in Data Source",
   description: "Emit new event when a page is created in the selected data source. [See the documentation](https://developers.notion.com/reference/page)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "source",
   props: {
     ...base.props,

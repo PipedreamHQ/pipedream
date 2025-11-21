@@ -7,7 +7,7 @@ export default {
   key: "notion-new-database",
   name: "New Data Source Created",
   description: "Emit new event when a data source is created. [See the documentation](https://developers.notion.com/reference/data-source)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "source",
   props: {
     ...base.props,

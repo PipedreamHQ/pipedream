@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/fraudlogix",
+  "version": "0.0.1",
+  "description": "Pipedream Fraudlogix Components",
+  "main": "fraudlogix.app.mjs",
+  "keywords": [
+    "pipedream",
+    "fraudlogix"
+  ],
+  "homepage": "https://pipedream.com/apps/fraudlogix",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

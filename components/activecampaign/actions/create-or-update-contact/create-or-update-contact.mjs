@@ -5,7 +5,7 @@ export default {
   key: "activecampaign-create-or-update-contact",
   name: "Create or Update Contact",
   description: "Creates a new contact or updates an existing contact. [See the documentation](https://developers.activecampaign.com/reference/sync-a-contacts-data).",
-  version: "0.2.7",
+  version: "0.2.8",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

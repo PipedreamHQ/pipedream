@@ -8,4 +8,4 @@ WakaTime offers insights into your coding activity, enabling you to track the ti
 
 - **Project Time Tracking to Google Sheets**: With Pipedream, you can create a workflow that automatically logs the time spent on different projects in WakaTime to a Google Sheets spreadsheet. This enables easy tracking of time allocation across multiple projects and simplifies generating timesheets or invoices.
 
-- **Github Commit Triggered Coding Breakdown**: Set up a Pipedream workflow where a GitHub commit triggers a detailed breakdown of your coding activity in WakaTime for the time period leading up to the commit. This allows you to correlate coding time with specific development milestones and understand your productivity patterns.
+- **GitHub Commit Triggered Coding Breakdown**: Set up a Pipedream workflow where a GitHub commit triggers a detailed breakdown of your coding activity in WakaTime for the time period leading up to the commit. This allows you to correlate coding time with specific development milestones and understand your productivity patterns.

@@ -1,6 +1,6 @@
 # Overview
 
-Insightly's API offers a suite of functions that let you tap into your customer relationship management in real-time, integrating customer data, sales, and project info across a diverse array of business applications and workflows. With Pipedream, you can automate interactions with your Insightly account, sync data effortlessly, and connect to hundreds of apps to streamline tasks, from lead management to project tracking.
+Insightly's API offers a suite of functions that let you tap into your customer relationship management in real-time, integrating customer data, sales, and project info across a diverse array of business applications and workflows. With Pipedream, you can automate interactions with your Insightly account, sync data effortlessly, and connect to 3,000+ apps to streamline tasks, from lead management to project tracking.
 
 # Example Use Cases
 

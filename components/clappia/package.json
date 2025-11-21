@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/clappia",
+  "version": "0.0.1",
+  "description": "Pipedream Clappia Components",
+  "main": "clappia.app.mjs",
+  "keywords": [
+    "pipedream",
+    "clappia"
+  ],
+  "homepage": "https://pipedream.com/apps/clappia",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

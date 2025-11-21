@@ -4,7 +4,7 @@ export default {
   key: "github-get-repository-content",
   name: "Get Repository Content",
   description: "Get the content of a file or directory in a specific repository. [See the documentation](https://docs.github.com/en/rest/repos/contents#get-repository-content)",
-  version: "0.1.5",
+  version: "0.1.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

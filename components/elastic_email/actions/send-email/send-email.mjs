@@ -2,14 +2,17 @@ import {
   BODY_CONTENT_TYPE_OPTIONS,
   ENCODING_OPTIONS,
 } from "../../common/constants.mjs";
-import { parseObject } from "../../common/utils.mjs";
+import {
+  parseObject, isValidEmailFormat,
+} from "../../common/utils.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../elastic_email.app.mjs";
 
 export default {
   key: "elastic_email-send-email",
   name: "Send Email",
   description: "Sends an email to one or more recipients. [See the documentation](https://elasticemail.com/developers/api-documentation/rest-api#operation/emailsPost)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -26,7 +29,7 @@ export default {
     from: {
       type: "string",
       label: "From",
-      description: "Your e-mail with an optional name (e.g.: email@domain.com)",
+      description: "Your e-mail with an optional name (e.g.: `email@domain.com` or `John Doe <email@domain.com>`)",
     },
     bodyContentType: {
       type: "string",
@@ -50,7 +53,7 @@ export default {
     replyTo: {
       type: "string",
       label: "Reply To",
-      description: "To what address should the recipients reply to (e.g. email@domain.com)",
+      description: "To what address should the recipients reply to (e.g. `email@domain.com` or `John Doe <email@domain.com>`)",
       optional: true,
     },
     subject: {
@@ -105,6 +108,13 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.from && !isValidEmailFormat(this.from)) {
+      throw new ConfigurationError("Invalid email format for 'From'");
+    }
+    if (this.replyTo && !isValidEmailFormat(this.replyTo)) {
+      throw new ConfigurationError("Invalid email format for 'Reply To'");
+    }
+
     const response = await this.app.sendBulkEmails({
       $,
       data: {

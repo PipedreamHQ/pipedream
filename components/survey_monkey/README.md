@@ -1,6 +1,6 @@
 # Overview
 
-The SurveyMonkey API provides dynamic access to survey creation, retrieval, and distribution functionality, along with deep insights into responses. With Pipedream’s serverless integration platform, you can automate custom workflows that trigger actions based on survey events, analyze survey data, or synchronize survey results with other data sources. Pipedream’s ability to connect with hundreds of apps opens up a vast landscape of automation possibilities, directly integrating with data visualization tools, CRMs, marketing platforms, and more.
+The SurveyMonkey API provides dynamic access to survey creation, retrieval, and distribution functionality, along with deep insights into responses. With Pipedream’s serverless integration platform, you can automate custom workflows that trigger actions based on survey events, analyze survey data, or synchronize survey results with other data sources. Pipedream’s ability to connect with 3,000+ apps opens up a vast landscape of automation possibilities, directly integrating with data visualization tools, CRMs, marketing platforms, and more.
 
 # Example Use Cases
 
