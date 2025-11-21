@@ -13576,6 +13576,9 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
+  components/shortpen:
+    specifiers: {}
+
   components/shortpixel:
     dependencies:
       '@pipedream/platform':
