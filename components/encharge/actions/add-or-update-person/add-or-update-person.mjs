@@ -53,7 +53,6 @@ export default {
         firstName: this.firstName,
         lastName: this.lastName,
         email: this.email,
-        phone: this.phone,
         id: this.userId,
         ...parsedAdditionalFields,
       },
