@@ -19,7 +19,7 @@ export default {
     to: {
       type: "string",
       label: "To",
-      description: "Initial date to get insider transactions from, i.e.: `2020-03-15`",
+      description: "End date to get insider transactions from, i.e.: `2020-03-15`",
       optional: true,
     },
     category: {
@@ -80,7 +80,7 @@ export default {
         ...args,
       });
     },
-    async getRecommentadionTrends(args = {}) {
+    async getRecommendationTrends(args = {}) {
       return this._makeRequest({
         path: "/stock/recommendation",
         ...args,

@@ -3,7 +3,7 @@ import app from "../../finnhub.app.mjs";
 export default {
   key: "finnhub-get-insider-transactions",
   name: "Get Insider Transactions",
-  description: "Get a list os insider transactions from a specified time period. [See the documentation](https://finnhub.io/docs/api/insider-transactions)",
+  description: "Get a list of insider transactions from a specified time period. [See the documentation](https://finnhub.io/docs/api/insider-transactions)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
