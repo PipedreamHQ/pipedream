@@ -8644,6 +8644,9 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
+  components/magicalapi:
+    specifiers: {}
+
   components/magileads: {}
 
   components/magnetic:
