@@ -15950,6 +15950,9 @@ importers:
 
   components/verticalresponse: {}
 
+  components/veryfi:
+    specifiers: {}
+
   components/vestaboard:
     dependencies:
       '@pipedream/platform':
