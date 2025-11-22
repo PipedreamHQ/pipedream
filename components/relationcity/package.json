@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/relationcity",
+  "version": "0.0.1",
+  "description": "Pipedream RelationCity Components",
+  "main": "relationcity.app.mjs",
+  "keywords": [
+    "pipedream",
+    "relationcity"
+  ],
+  "homepage": "https://pipedream.com/apps/relationcity",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
