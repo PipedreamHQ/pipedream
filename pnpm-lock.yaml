@@ -5669,6 +5669,9 @@ importers:
 
   components/funnelcockpit: {}
 
+  components/fynk:
+    specifiers: {}
+
   components/gagelist:
     dependencies:
       '@pipedream/platform':
