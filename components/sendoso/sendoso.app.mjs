@@ -64,35 +64,15 @@ export default {
       label: "Send ID",
       description: "The ID of the send.",
     },
-    contactId: {
-      type: "string",
-      label: "Contact ID",
-      description: "The ID of the contact.",
-    },
     campaignId: {
       type: "string",
       label: "Campaign ID",
       description: "The ID of the campaign.",
     },
-    webhookId: {
-      type: "string",
-      label: "Webhook ID",
-      description: "The ID of the webhook.",
-    },
-    templateId: {
-      type: "string",
-      label: "Template ID",
-      description: "The ID of the template.",
-    },
     userId: {
       type: "string",
       label: "User ID",
       description: "The ID of the user.",
-    },
-    reportId: {
-      type: "string",
-      label: "Report ID",
-      description: "The ID of the report.",
     },
     startDate: {
       type: "string",
@@ -103,20 +83,6 @@ export default {
       type: "string",
       label: "End Date",
       description: "End date for filtering (YYYY-MM-DD format).",
-    },
-    limit: {
-      type: "integer",
-      label: "Limit",
-      description: "Maximum number of results to return.",
-      optional: true,
-      default: 50,
-    },
-    offset: {
-      type: "integer",
-      label: "Offset",
-      description: "Number of results to skip.",
-      optional: true,
-      default: 0,
     },
     page: {
       type: "integer",
