@@ -188,7 +188,7 @@ export default {
     },
     listGroups(opts = {}) {
       return this._makeRequest({
-        path: "groups.json",
+        path: "groups",
         ...opts,
       });
     },
@@ -246,11 +246,10 @@ export default {
       });
     },
     // User Management Methods
-    getUser({
-      userId, ...opts
-    }) {
+    inviteNewUser(opts = {}) {
       return this._makeRequest({
-        path: `users/${userId}`,
+        path: "users",
+        method: "POST",
         ...opts,
       });
     },

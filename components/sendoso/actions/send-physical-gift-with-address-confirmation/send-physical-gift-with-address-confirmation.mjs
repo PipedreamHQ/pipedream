@@ -3,7 +3,7 @@ import sendoso from "../../sendoso.app.mjs";
 export default {
   key: "sendoso-send-physical-gift-with-address-confirmation",
   name: "Send A Physical Gift With Address Confirmation",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
