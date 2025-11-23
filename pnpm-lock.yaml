@@ -3590,6 +3590,9 @@ importers:
 
   components/currents_api: {}
 
+  components/cursor:
+    specifiers: {}
+
   components/customer_fields:
     dependencies:
       '@pipedream/platform':
