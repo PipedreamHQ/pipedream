@@ -3,7 +3,7 @@ import sendoso from "../../sendoso.app.mjs";
 export default {
   key: "sendoso-send-physical-gift-with-address-confirmation",
   name: "Send A Physical Gift With Address Confirmation",
-  version: "0.0.3",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -13,12 +13,6 @@ export default {
   type: "action",
   props: {
     sendoso,
-    via: {
-      propDefinition: [
-        sendoso,
-        "via",
-      ],
-    },
     groupId: {
       propDefinition: [
         sendoso,
@@ -39,6 +33,11 @@ export default {
       type: "string",
       label: "Name",
       description: "The name of the person receiving the gift.",
+    },
+    email: {
+      type: "string",
+      label: "Email",
+      description: "The email address of the recipient.",
     },
     viaFrom: {
       propDefinition: [
@@ -85,9 +84,9 @@ export default {
   },
   async run({ $ }) {
     const {
-      via,
       touchId,
       name,
+      email,
       viaFrom,
       customMessage,
       addressConfirmationVia,
@@ -100,12 +99,13 @@ export default {
       $,
       data: {
         send: {
-          via,
+          via: "single_person_or_company",
           touch_id: touchId,
           name,
+          email,
           via_from: viaFrom,
           custom_message: customMessage,
-          confirm_address: "TRUE",
+          confirm_address: true,
           address_confirmation_via: addressConfirmationVia,
           resume_with_unconfirmed_address: resumeWithUnconfirmedAddress,
           no_address: noAddress,
