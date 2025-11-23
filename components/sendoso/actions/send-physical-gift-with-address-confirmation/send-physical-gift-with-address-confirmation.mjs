@@ -98,16 +98,20 @@ export default {
 
     const response = await this.sendoso.sendGift({
       $,
-      via,
-      touch_id: touchId,
-      name,
-      via_from: viaFrom,
-      custom_message: customMessage,
-      confirm_address: "TRUE",
-      address_confirmation_via: addressConfirmationVia,
-      resume_with_unconfirmed_address: resumeWithUnconfirmedAddress,
-      no_address: noAddress,
-      expire_after_days: expireAfterDays,
+      data: {
+        send: {
+          via,
+          touch_id: touchId,
+          name,
+          via_from: viaFrom,
+          custom_message: customMessage,
+          confirm_address: "TRUE",
+          address_confirmation_via: addressConfirmationVia,
+          resume_with_unconfirmed_address: resumeWithUnconfirmedAddress,
+          no_address: noAddress,
+          expire_after_days: expireAfterDays,
+        },
+      },
     });
 
     $.export("$summary", `Gift sent successfully with Tracking Code: ${response.tracking_code}!`);

@@ -29,7 +29,6 @@ export default {
       type: "string",
       label: "Email",
       description: "The email address of the recipient.",
-      optional: true,
     },
     customMessage: {
       type: "string",
@@ -42,7 +41,6 @@ export default {
         sendoso,
         "viaFrom",
       ],
-      optional: true,
     },
   },
   async run({ $ }) {
