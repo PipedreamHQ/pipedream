@@ -9,60 +9,30 @@ export default {
     openWorldHint: true,
     readOnlyHint: true,
   },
-  description: "Retrieve a list of all sends/gifts with optional filters. [See the documentation](https://sendoso.docs.apiary.io/#reference/send-management)",
+  description: "Retrieve a list of all sends/gifts with optional filters. [See the documentation](https://developer.sendoso.com/rest-api/reference/sends/get-sends)",
   type: "action",
   props: {
     sendoso,
-    limit: {
+    page: {
       propDefinition: [
         sendoso,
-        "limit",
+        "page",
       ],
-      description: "Maximum number of sends to return.",
     },
-    offset: {
+    perPage: {
       propDefinition: [
         sendoso,
-        "offset",
+        "perPage",
       ],
-      description: "Number of sends to skip for pagination.",
-    },
-    startDate: {
-      propDefinition: [
-        sendoso,
-        "startDate",
-      ],
-      optional: true,
-      description: "Filter sends created after this date (YYYY-MM-DD).",
-    },
-    endDate: {
-      propDefinition: [
-        sendoso,
-        "endDate",
-      ],
-      optional: true,
-      description: "Filter sends created before this date (YYYY-MM-DD).",
     },
   },
   async run({ $ }) {
-    const {
-      limit,
-      offset,
-      startDate,
-      endDate,
-    } = this;
-
-    const params = {
-      limit,
-      offset,
-    };
-
-    if (startDate) params.start_date = startDate;
-    if (endDate) params.end_date = endDate;
-
     const response = await this.sendoso.listSends({
       $,
-      params,
+      params: {
+        page: this.page,
+        per_page: this.perPage,
+      },
     });
 
     const count = Array.isArray(response) ?

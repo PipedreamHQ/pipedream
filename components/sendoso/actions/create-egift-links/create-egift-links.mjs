@@ -3,7 +3,7 @@ import sendoso from "../../sendoso.app.mjs";
 export default {
   key: "sendoso-create-egift-links",
   name: "Create eGift Links",
-  description: "Generate eGift links. [See the documentation](https://developer.sendoso.com/rest-api/sends/create-egift-links)",
+  description: "Generate eGift links. [See the documentation](https://developer.sendoso.com/rest-api/reference/sends/egift/eGiftlink)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -19,21 +19,32 @@ export default {
         "touchId",
       ],
     },
-    amount: {
-      type: "integer",
-      label: "Amount",
-      description: "The number of links to generate.",
-      min: 1,
-      default: 1,
+    viaFrom: {
+      type: "string",
+      label: "Via From",
+      description: "The name of the application making the send request. Please make sure this is consistent per application.",
+    },
+    recipientUsers: {
+      type: "string[]",
+      label: "Recipient Users",
+      description: "The list of recipient emails to generate eGift links for.",
     },
   },
   async run({ $ }) {
     const response = await this.sendoso.createEgiftLinks({
       $,
-      touch_id: this.touchId,
-      amount: this.amount,
+      data: {
+        send: {
+          touch_id: this.touchId,
+          via: "generate_egift_links",
+          via_from: this.viaFrom,
+          recipient_users: this.recipientUsers.map((email) => ({
+            email,
+          })),
+        },
+      },
     });
-    $.export("$summary", `Successfully created ${this.amount} eGift links`);
+    $.export("$summary", "Successfully created eGift links");
     return response;
   },
 };

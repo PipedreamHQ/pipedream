@@ -1076,6 +1076,4 @@ Golang
 UX
 taskSchedulerURL
 taskId
-egift
-eGift
-API
+codebase

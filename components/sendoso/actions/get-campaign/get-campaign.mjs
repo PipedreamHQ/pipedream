@@ -9,7 +9,7 @@ export default {
     openWorldHint: true,
     readOnlyHint: true,
   },
-  description: "Retrieve details about a specific campaign. [See the documentation](https://sendoso.docs.apiary.io/#reference/campaign-management)",
+  description: "Retrieve details about a specific campaign. [See the documentation](https://developer.sendoso.com/rest-api/reference/campaigns/get-campaign)",
   type: "action",
   props: {
     sendoso,

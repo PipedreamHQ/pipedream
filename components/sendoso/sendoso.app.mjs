@@ -118,6 +118,20 @@ export default {
       optional: true,
       default: 0,
     },
+    page: {
+      type: "integer",
+      label: "Page",
+      description: "Page number to return.",
+      optional: true,
+      default: 1,
+    },
+    perPage: {
+      type: "integer",
+      label: "Per Page",
+      description: "Number of results to return per page.",
+      optional: true,
+      default: 50,
+    },
   },
   methods: {
     _apiUrl() {
@@ -138,30 +152,24 @@ export default {
       };
       return axios($, config);
     },
-    createEgiftLinks({
-      $, ...data
-    }) {
+    createEgiftLinks(opts = {}) {
       return this._makeRequest({
-        $,
         path: "send/generate_egift_links",
         method: "POST",
-        data,
+        ...opts,
       });
     },
-    getCurrentUser($ = this) {
+    getCurrentUser(opts = {}) {
       return this._makeRequest({
-        $,
         path: "me",
+        ...opts,
       });
     },
-    sendGift({
-      $, ...data
-    }) {
+    sendGift(opts = {}) {
       return this._makeRequest({
-        $,
-        path: "send.json",
+        path: "send",
         method: "POST",
-        data,
+        ...opts,
       });
     },
     getSentGifts(opts = {}) {
@@ -199,79 +207,51 @@ export default {
       });
     },
     // Send Management Methods
-    listSends({
-      $, params,
-    }) {
+    listSends(opts = {}) {
       return this._makeRequest({
-        $,
         path: "send",
-        params,
+        ...opts,
       });
     },
     // Touch Management Methods
     getCampaign({
-      $, campaignId,
+      campaignId, ...opts
     }) {
       return this._makeRequest({
-        $,
         path: `touches/${campaignId}`,
-      });
-    },
-    // Group Management Methods
-    getGroup({
-      $, groupId,
-    }) {
-      return this._makeRequest({
-        $,
-        path: `groups/${groupId}`,
-      });
-    },
-    addGroupMembers({
-      $, groupId, ...data
-    }) {
-      return this._makeRequest({
-        $,
-        path: `groups/${groupId}/members`,
-        method: "POST",
-        data,
+        ...opts,
       });
     },
     // Campaign Management Methods
-    listCampaigns({
-      $, params,
-    }) {
+    listCampaigns(opts = {}) {
       return this._makeRequest({
-        $,
         path: "touches",
-        params,
+        ...opts,
       });
     },
     // Catalog Management Methods
-    listCatalogItems({
-      $, params,
-    }) {
+    listCatalogItems(opts = {}) {
       return this._makeRequest({
-        $,
         path: "marketplact/products",
-        params,
+        ...opts,
       });
     },
     // eGift Management Methods
     getEgiftLink({
-      $, linkId,
+      linkId, ...opts
     }) {
       return this._makeRequest({
-        $,
         path: `egift_links/${linkId}`,
+        ...opts,
       });
     },
     // User Management Methods
     getUser({
-      $, userId,
+      userId, ...opts
     }) {
       return this._makeRequest({
-        $,
         path: `users/${userId}`,
+        ...opts,
       });
     },
   },

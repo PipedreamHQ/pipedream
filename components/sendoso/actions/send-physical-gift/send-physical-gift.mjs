@@ -1,9 +1,9 @@
 import sendoso from "../../sendoso.app.mjs";
 
 export default {
-  key: "sendoso-create-send",
-  name: "Create Send",
-  description: "Send a gift or eGift. [See the documentation](https://developer.sendoso.com/rest-api/sends/create-send)",
+  key: "sendoso-send-physical-gift",
+  name: "Send a Physical Gift",
+  description: "Send a physical gift. [See the documentation](https://developer.sendoso.com/rest-api/reference/sends/physical/physical)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -91,18 +91,22 @@ export default {
   async run({ $ }) {
     const response = await this.sendoso.sendGift({
       $,
-      touch_id: this.touchId,
-      via: this.via,
-      via_from: this.viaFrom,
-      email: this.email,
-      name: this.name,
-      address: this.address,
-      city: this.city,
-      state: this.state,
-      zip: this.zip,
-      country: this.country,
-      custom_message: this.customMessage,
-      confirm_address: this.confirmAddress,
+      data: {
+        send: {
+          touch_id: this.touchId,
+          via: this.via,
+          via_from: this.viaFrom,
+          email: this.email,
+          name: this.name,
+          address: this.address,
+          city: this.city,
+          state: this.state,
+          zip: this.zip,
+          country: this.country,
+          custom_message: this.customMessage,
+          confirm_address: this.confirmAddress,
+        },
+      },
     });
     $.export("$summary", `Successfully created send with tracking code: ${response.tracking_code || response.message || "Send created"}`);
     return response;

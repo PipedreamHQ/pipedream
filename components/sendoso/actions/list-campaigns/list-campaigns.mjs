@@ -9,34 +9,29 @@ export default {
     openWorldHint: true,
     readOnlyHint: true,
   },
-  description: "Retrieve a list of all campaigns with optional filters. [See the documentation](https://sendoso.docs.apiary.io/#reference/campaign-management)",
+  description: "Retrieve a list of all campaigns with optional filters. [See the documentation](https://developer.sendoso.com/rest-api/reference/campaigns/get-campaigns)",
   type: "action",
   props: {
     sendoso,
-    limit: {
+    page: {
       propDefinition: [
         sendoso,
-        "limit",
+        "page",
       ],
     },
-    offset: {
+    perPage: {
       propDefinition: [
         sendoso,
-        "offset",
+        "perPage",
       ],
     },
   },
   async run({ $ }) {
-    const {
-      limit,
-      offset,
-    } = this;
-
     const response = await this.sendoso.listCampaigns({
       $,
       params: {
-        limit,
-        offset,
+        page: this.page,
+        per_page: this.perPage,
       },
     });
 

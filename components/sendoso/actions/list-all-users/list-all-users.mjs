@@ -9,34 +9,29 @@ export default {
     openWorldHint: true,
     readOnlyHint: true,
   },
-  description: "Retrieve a list of all users in the account. [See the documentation](https://sendoso.docs.apiary.io/#reference/user-management)",
+  description: "Retrieve a list of all users in the account. [See the documentation](https://developer.sendoso.com/rest-api/reference/users/get-users)",
   type: "action",
   props: {
     sendoso,
-    limit: {
+    page: {
       propDefinition: [
         sendoso,
-        "limit",
+        "page",
       ],
     },
-    offset: {
+    perPage: {
       propDefinition: [
         sendoso,
-        "offset",
+        "perPage",
       ],
     },
   },
   async run({ $ }) {
-    const {
-      limit,
-      offset,
-    } = this;
-
     const response = await this.sendoso.listUsers({
       $,
       params: {
-        limit,
-        offset,
+        page: this.page,
+        per_page: this.perPage,
       },
     });
 

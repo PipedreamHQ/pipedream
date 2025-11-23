@@ -9,41 +9,28 @@ export default {
     openWorldHint: true,
     readOnlyHint: true,
   },
-  description: "Retrieve a list of catalog items available for sending. [See the documentation](https://sendoso.docs.apiary.io/#reference/catalog-management)",
+  description: "Retrieve a list of catalog items available for sending. [See the documentation](https://developer.sendoso.com/marketplace/reference/products/get-products)",
   type: "action",
   props: {
     sendoso,
-    limit: {
-      propDefinition: [
-        sendoso,
-        "limit",
-      ],
+    categoryIds: {
+      type: "string[]",
+      label: "Category IDs",
+      description: "Filter by category IDs",
+      optional: true,
     },
-    offset: {
-      propDefinition: [
-        sendoso,
-        "offset",
-      ],
-    },
-    category: {
+    after: {
       type: "string",
-      label: "Category",
-      description: "Filter by category.",
+      label: "After",
+      description: "The start for cursor for pagination. This is returned in the pagination object of the previous response.",
       optional: true,
     },
   },
   async run({ $ }) {
-    const {
-      limit,
-      offset,
-      category,
-    } = this;
-
     const params = {
-      limit,
-      offset,
+      category_ids: this.categoryIds,
+      after: this.after,
     };
-    if (category) params.category = category;
 
     const response = await this.sendoso.listCatalogItems({
       $,
