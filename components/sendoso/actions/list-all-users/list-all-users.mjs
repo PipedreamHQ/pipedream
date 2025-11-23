@@ -32,7 +32,7 @@ export default {
       offset,
     } = this;
 
-    const response = await this.sendoso.listAllUsers({
+    const response = await this.sendoso.listUsers({
       $,
       params: {
         limit,

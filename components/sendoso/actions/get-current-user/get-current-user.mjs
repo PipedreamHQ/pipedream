@@ -6,6 +6,11 @@ export default {
   description: "Get information about the current user. [See the documentation](https://developer.sendoso.com/rest-api/users/get-current-user)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     sendoso,
   },

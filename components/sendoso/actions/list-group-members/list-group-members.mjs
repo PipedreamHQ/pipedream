@@ -21,11 +21,11 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.sendoso.listUsers({
+    const response = await this.sendoso.listGroupMembers({
       $,
       groupId: this.groupId,
     });
-    
+
     const count = Array.isArray(response) ?
       response.length :
       (response.data?.length || response.users?.length || 0);

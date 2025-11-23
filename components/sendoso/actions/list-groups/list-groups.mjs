@@ -18,7 +18,7 @@ export default {
     const response = await this.sendoso.listGroups({
       $,
     });
-    
+
     $.export("$summary", `Successfully retrieved ${response.length} groups`);
     return response;
   },
