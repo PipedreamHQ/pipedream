@@ -192,6 +192,11 @@ export default {
         ...opts,
       });
     },
+    listSendGifts() {
+      return this._makeRequest({
+        path: "sent_gifts.json",
+      });
+    },
     listUsers(opts = {}) {
       return this._makeRequest({
         path: "users",
