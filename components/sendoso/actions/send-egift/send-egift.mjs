@@ -46,7 +46,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.sendoso.sendEgift({
+    const response = await this.sendoso.sendGift({
       $,
       data: {
         send: {

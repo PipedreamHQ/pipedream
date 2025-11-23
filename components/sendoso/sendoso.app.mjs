@@ -232,7 +232,7 @@ export default {
     // Catalog Management Methods
     listCatalogItems(opts = {}) {
       return this._makeRequest({
-        path: "marketplact/products",
+        path: "marketplace/products",
         ...opts,
       });
     },
