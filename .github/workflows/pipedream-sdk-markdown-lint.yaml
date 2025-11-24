@@ -19,6 +19,6 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Lint markdown files
-        uses: DavidAnson/markdownlint-cli2-action@v17
+        uses: DavidAnson/markdownlint-cli2-action@v21
         with:
           globs: 'packages/sdk/**/*.md'
