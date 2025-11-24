@@ -7,11 +7,11 @@ export default {
     groupId: {
       type: "integer",
       label: "Group",
-      description: "The ID of the Group.",
+      description: "The ID of the Group",
       async options() {
-        const data = await this.listGroups();
+        const { groups } = await this.listGroups();
 
-        return data.map(({
+        return groups.map(({
           id: value, name: label,
         }) => ({
           label,
@@ -22,11 +22,11 @@ export default {
     touchId: {
       type: "integer",
       label: "Touch ID",
-      description: "The ID of the Touch.",
+      description: "The ID of the Touch",
       async options() {
-        const data = await this.listCampaigns();
+        const { touches } = await this.listCampaigns();
 
-        return data.map(({
+        return touches.map(({
           id: value, name: label,
         }) => ({
           label,
@@ -37,7 +37,7 @@ export default {
     trackingId: {
       type: "string",
       label: "Tracking Id",
-      description: "The tracking code for the send.",
+      description: "The tracking code for the send",
       async options() {
         const data = await this.listSendGifts();
 
@@ -52,49 +52,49 @@ export default {
     via: {
       type: "string",
       label: "Via",
-      description: "Specify you want to generate gift links.",
+      description: "Specify you want to generate gift links",
     },
     viaFrom: {
       type: "string",
       label: "Via From",
-      description: "Specify the name of your Company or Application.",
+      description: "Specify the name of your Company or Application",
     },
     sendId: {
       type: "string",
       label: "Send ID",
-      description: "The ID of the send.",
+      description: "The ID of the send",
     },
     campaignId: {
       type: "string",
       label: "Campaign ID",
-      description: "The ID of the campaign.",
+      description: "The ID of the campaign",
     },
     userId: {
       type: "string",
       label: "User ID",
-      description: "The ID of the user.",
+      description: "The ID of the user",
     },
     startDate: {
       type: "string",
       label: "Start Date",
-      description: "Start date for filtering (YYYY-MM-DD format).",
+      description: "Start date for filtering (YYYY-MM-DD format)",
     },
     endDate: {
       type: "string",
       label: "End Date",
-      description: "End date for filtering (YYYY-MM-DD format).",
+      description: "End date for filtering (YYYY-MM-DD format)",
     },
     page: {
       type: "integer",
       label: "Page",
-      description: "Page number to return.",
+      description: "Page number to return",
       optional: true,
       default: 1,
     },
     perPage: {
       type: "integer",
       label: "Per Page",
-      description: "Number of results to return per page.",
+      description: "Number of results to return per page",
       optional: true,
       default: 50,
     },
@@ -200,7 +200,7 @@ export default {
         ...opts,
       });
     },
-    // Catalog Management Methods
+    // Catalog Management Methods (requires auth scope: marketplace)
     listCatalogItems(opts = {}) {
       return this._makeRequest({
         path: "marketplace/products",

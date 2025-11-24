@@ -35,10 +35,12 @@ export default {
       },
     });
 
-    const count = Array.isArray(response) ?
-      response.length :
-      (response.data?.length || 0);
-    $.export("$summary", `Successfully retrieved ${count} user(s)`);
+    const count = Array.isArray(response.users) ?
+      response.users.length :
+      (response.users?.length || 0);
+    $.export("$summary", `Successfully retrieved ${count} user${count === 1
+      ? ""
+      : "s"}`);
     return response;
   },
 };

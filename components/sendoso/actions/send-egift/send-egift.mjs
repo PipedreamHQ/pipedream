@@ -22,18 +22,18 @@ export default {
     name: {
       type: "string",
       label: "Name",
-      description: "The name of the recipient.",
+      description: "The name of the recipient",
       optional: true,
     },
     email: {
       type: "string",
       label: "Email",
-      description: "The email address of the recipient.",
+      description: "The email address of the recipient",
     },
     customMessage: {
       type: "string",
       label: "Custom Message",
-      description: "A custom message to include with the send.",
+      description: "A custom message to include with the send",
       optional: true,
     },
     viaFrom: {

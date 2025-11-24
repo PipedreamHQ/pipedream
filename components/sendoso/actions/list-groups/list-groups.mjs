@@ -35,7 +35,9 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully retrieved ${response.length} groups`);
+    $.export("$summary", `Successfully retrieved ${response?.groups?.length || 0} group${response?.groups?.length === 1
+      ? ""
+      : "s"}`);
     return response;
   },
 };

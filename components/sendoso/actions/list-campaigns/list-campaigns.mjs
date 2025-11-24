@@ -35,10 +35,12 @@ export default {
       },
     });
 
-    const count = Array.isArray(response) ?
-      response.length :
-      (response.data?.length || 0);
-    $.export("$summary", `Successfully retrieved ${count} campaign(s)`);
+    const count = Array.isArray(response?.touches) ?
+      response.touches.length :
+      (response.touches?.length || 0);
+    $.export("$summary", `Successfully retrieved ${count} campaign${count === 1
+      ? ""
+      : "s"}`);
     return response;
   },
 };

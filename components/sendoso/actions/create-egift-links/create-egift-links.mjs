@@ -27,7 +27,7 @@ export default {
     recipientUsers: {
       type: "string[]",
       label: "Recipient Users",
-      description: "The list of recipient emails to generate eGift links for.",
+      description: "The list of recipient emails to generate eGift links for",
     },
   },
   async run({ $ }) {

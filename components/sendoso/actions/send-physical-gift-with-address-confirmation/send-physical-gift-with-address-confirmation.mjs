@@ -13,43 +13,34 @@ export default {
   type: "action",
   props: {
     sendoso,
-    groupId: {
-      propDefinition: [
-        sendoso,
-        "groupId",
-      ],
-    },
     touchId: {
       propDefinition: [
         sendoso,
         "touchId",
-        (c) => ({
-          groupId: c.groupId,
-        }),
       ],
       description: "The ID of the touch to be sent on this gift",
     },
     name: {
       type: "string",
       label: "Name",
-      description: "The name of the person receiving the gift.",
+      description: "The name of the person receiving the gift",
     },
     email: {
       type: "string",
       label: "Email",
-      description: "The email address of the recipient.",
+      description: "The email address of the recipient",
     },
     viaFrom: {
       propDefinition: [
         sendoso,
         "viaFrom",
       ],
-      optional: true,
     },
     customMessage: {
       type: "string",
       label: "Custom Message",
-      description: "A freeform text message to be sent along with the gift.",
+      description: "A freeform text message to be sent along with the gift",
+      optional: true,
     },
     addressConfirmationVia: {
       type: "string",
@@ -64,14 +55,12 @@ export default {
     resumeWithUnconfirmedAddress: {
       type: "boolean",
       label: "Resume With Unconfirmed Address",
-      description: "Whether or not the gift should be sent if the user does NOT confirm their address.",
-      optional: true,
+      description: "Whether or not the gift should be sent if the user does NOT confirm their address",
     },
     noAddress: {
       type: "boolean",
       label: "No Address",
       description: "Indicates whether the recipients address is provided or not. When true, will request an address from the recipient either via link or email. Note, if selected email is a required field.",
-      optional: true,
     },
     expireAfterDays: {
       type: "integer",
@@ -79,7 +68,11 @@ export default {
       description: "Sets the number of days the AC form will be valid. Valid values are 2 - 7 inclusive.",
       min: 2,
       max: 7,
-      optional: true,
+    },
+    hideProductInfo: {
+      type: "boolean",
+      label: "Hide Product Info",
+      description: "Determines whether or not the gift name & image will appear on the address collection page",
     },
   },
   async run({ $ }) {
@@ -93,6 +86,7 @@ export default {
       resumeWithUnconfirmedAddress,
       noAddress,
       expireAfterDays,
+      hideProductInfo,
     } = this;
 
     const response = await this.sendoso.sendGift({
@@ -110,6 +104,7 @@ export default {
           resume_with_unconfirmed_address: resumeWithUnconfirmedAddress,
           no_address: noAddress,
           expire_after_days: expireAfterDays,
+          hide_product_info: hideProductInfo,
         },
       },
     });

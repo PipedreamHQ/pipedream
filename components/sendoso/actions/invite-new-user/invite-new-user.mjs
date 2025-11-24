@@ -22,22 +22,22 @@ export default {
     email: {
       type: "string",
       label: "Email",
-      description: "The email address of the user to invite.",
+      description: "The email address of the user to invite",
     },
     firstName: {
       type: "string",
       label: "First Name",
-      description: "The first name of the user to invite.",
+      description: "The first name of the user to invite",
     },
     lastName: {
       type: "string",
       label: "Last Name",
-      description: "The last name of the user to invite.",
+      description: "The last name of the user to invite",
     },
     role: {
       type: "string",
       label: "Role",
-      description: "The role of the user to invite.",
+      description: "The role of the user to invite",
       options: [
         "regular",
         "manager",
