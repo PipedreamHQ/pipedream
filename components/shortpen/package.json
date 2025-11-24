@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/shortpen",
+  "version": "0.0.1",
+  "description": "Pipedream ShortPen Components",
+  "main": "shortpen.app.mjs",
+  "keywords": [
+    "pipedream",
+    "shortpen"
+  ],
+  "homepage": "https://pipedream.com/apps/shortpen",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

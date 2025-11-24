@@ -1039,6 +1039,9 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/apiframe:
+    specifiers: {}
+
   components/apify:
     dependencies:
       '@apify/consts':
@@ -2040,6 +2043,9 @@ importers:
   components/brainshop: {}
 
   components/braintree: {}
+
+  components/brand_dev:
+    specifiers: {}
 
   components/brandblast: {}
 
@@ -3345,6 +3351,9 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
+  components/contentdrips:
+    specifiers: {}
+
   components/contentful:
     dependencies:
       '@pipedream/platform':
@@ -3577,6 +3586,9 @@ importers:
   components/current_rms: {}
 
   components/currents_api: {}
+
+  components/cursor:
+    specifiers: {}
 
   components/customer_fields:
     dependencies:
@@ -4689,6 +4701,9 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
+  components/emailchef:
+    specifiers: {}
+
   components/emaillistverify:
     dependencies:
       '@pipedream/platform':
@@ -5653,6 +5668,9 @@ importers:
   components/function: {}
 
   components/funnelcockpit: {}
+
+  components/fynk:
+    specifiers: {}
 
   components/gagelist:
     dependencies:
@@ -6718,6 +6736,9 @@ importers:
 
   components/helcim: {}
 
+  components/helicone:
+    specifiers: {}
+
   components/helium:
     dependencies:
       '@pipedream/platform':
@@ -7508,6 +7529,9 @@ importers:
       '@pipedream/platform':
         specifier: ^1.6.8
         version: 1.6.8
+
+  components/iplocate:
+    specifiers: {}
 
   components/ipregistry: {}
 
@@ -8625,6 +8649,9 @@ importers:
       '@pipedream/platform':
         specifier: ^1.6.8
         version: 1.6.8
+
+  components/magicalapi:
+    specifiers: {}
 
   components/magileads: {}
 
@@ -12254,6 +12281,9 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/relationcity:
+    specifiers: {}
+
   components/relavate:
     dependencies:
       '@pipedream/platform':
@@ -12864,7 +12894,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/sanity: {}
+  components/sanity:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/sap_s_4hana_cloud: {}
 
@@ -13542,6 +13576,9 @@ importers:
 
   components/shortcut:
     dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
       '@shortcut/client':
         specifier: ^2.2.0
         version: 2.3.1
@@ -13560,6 +13597,9 @@ importers:
       '@pipedream/platform':
         specifier: ^1.6.8
         version: 1.6.8
+
+  components/shortpen:
+    specifiers: {}
 
   components/shortpixel:
     dependencies:
@@ -14015,6 +14055,9 @@ importers:
         version: 1.6.8
 
   components/socialkit: {}
+
+  components/socket:
+    specifiers: {}
 
   components/softledger: {}
 
@@ -15397,6 +15440,9 @@ importers:
 
   components/turbohire: {}
 
+  components/turbosmtp:
+    specifiers: {}
+
   components/turbot_pipes:
     dependencies:
       '@pipedream/platform':
@@ -15827,6 +15873,9 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/validemail:
+    specifiers: {}
+
   components/vapi:
     dependencies:
       '@pipedream/platform':
@@ -15928,6 +15977,9 @@ importers:
         version: 3.1.1
 
   components/verticalresponse: {}
+
+  components/veryfi:
+    specifiers: {}
 
   components/vestaboard:
     dependencies:
@@ -39072,6 +39124,7 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
+      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.9)(rollup@4.53.2)':
     dependencies:

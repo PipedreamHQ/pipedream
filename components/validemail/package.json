@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/validemail",
+  "version": "0.0.1",
+  "description": "Pipedream ValidEmail Components",
+  "main": "validemail.app.mjs",
+  "keywords": [
+    "pipedream",
+    "validemail"
+  ],
+  "homepage": "https://pipedream.com/apps/validemail",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

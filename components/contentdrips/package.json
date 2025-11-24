@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/contentdrips",
+  "version": "0.0.1",
+  "description": "Pipedream ContentDrips Components",
+  "main": "contentdrips.app.mjs",
+  "keywords": [
+    "pipedream",
+    "contentdrips"
+  ],
+  "homepage": "https://pipedream.com/apps/contentdrips",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

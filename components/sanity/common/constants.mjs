@@ -1,0 +1,7 @@
+const API_VERSION = "v2025-02-19";
+const DEFAULT_LIMIT = 50;
+
+export {
+  API_VERSION,
+  DEFAULT_LIMIT,
+};

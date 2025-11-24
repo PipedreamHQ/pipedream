@@ -4,7 +4,7 @@ export default {
   key: "microsoft_outlook-list-labels",
   name: "List Labels",
   description: "Get all the labels/categories that have been defined for a user. [See the documentation](https://learn.microsoft.com/en-us/graph/api/outlookuser-list-mastercategories)",
-  version: "0.0.12",
+  version: "0.0.13",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/iplocate",
+  "version": "0.0.1",
+  "description": "Pipedream IPLocate Components",
+  "main": "iplocate.app.mjs",
+  "keywords": [
+    "pipedream",
+    "iplocate"
+  ],
+  "homepage": "https://pipedream.com/apps/iplocate",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

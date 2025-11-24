@@ -4,7 +4,7 @@ export default {
   key: "freshdesk-list-folder-articles",
   name: "List Folder Articles",
   description: "List folder articles in Freshdesk. [See the documentation](https://developers.freshdesk.com/api/#solution_article_attributes)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

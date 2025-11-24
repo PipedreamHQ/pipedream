@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/socket",
+  "version": "0.0.1",
+  "description": "Pipedream Socket Components",
+  "main": "socket.app.mjs",
+  "keywords": [
+    "pipedream",
+    "socket"
+  ],
+  "homepage": "https://pipedream.com/apps/socket",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
