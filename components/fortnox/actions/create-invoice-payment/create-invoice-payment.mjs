@@ -4,7 +4,7 @@ export default {
   key: "fortnox-create-invoice-payment",
   name: "Create Invoice Payment",
   description: "Creates a new invoice payment in the Fortnox API. [See the documentation](https://api.fortnox.se/apidocs#tag/fortnox_InvoicePayments/operation/create_22).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

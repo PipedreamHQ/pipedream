@@ -4,7 +4,7 @@ export default {
   key: "fortnox-update-customer",
   name: "Update Customer",
   description: "Updates an existing customer in the Fortnox API. [See the documentation](https://api.fortnox.se/apidocs#tag/fortnox_Customers/operation/update_14).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: true,

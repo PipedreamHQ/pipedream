@@ -1,11 +1,11 @@
-import fortnox from "../../fortnox.app.mjs";
 import { parseObject } from "../../common/utils.mjs";
+import fortnox from "../../fortnox.app.mjs";
 
 export default {
   key: "fortnox-create-invoice",
   name: "Create Invoice",
   description: "Creates a new invoice in the Fortnox API. [See the documentation](https://api.fortnox.se/apidocs#tag/fortnox_Invoices/operation/create_23).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
