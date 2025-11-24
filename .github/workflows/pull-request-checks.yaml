@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4.1.7
+    - uses: actions/checkout@v6
       name: Checkout
     - uses: Ana06/get-changed-files@v2.3.0
       id: changed_files
@@ -48,7 +48,7 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v6
         with:
           # See https://github.com/actions/checkout#checkout-v2
           # This will be slow. The intent is to fetch all commits
