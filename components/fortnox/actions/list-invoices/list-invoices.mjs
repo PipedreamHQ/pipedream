@@ -3,7 +3,7 @@ import app from "../../fortnox.app.mjs";
 export default {
   key: "fortnox-list-invoices",
   name: "List Invoices",
-  description: "List a list of invoices in Fortnox. [See the documentation](https://api.fortnox.se/apidocs#tag/fortnox_Invoices/operation/list_20)",
+  description: "Retrieve a list of invoices in Fortnox. [See the documentation](https://api.fortnox.se/apidocs#tag/fortnox_Invoices/operation/list_20)",
   version: "0.0.1",
   type: "action",
   annotations: {
