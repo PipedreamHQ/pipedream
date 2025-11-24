@@ -106,6 +106,10 @@ export default {
         email: this.email,
         phone: this.phone,
         organisationnumber: this.organisationnumber,
+        gln: this.gln,
+        glndelivery: this.glndelivery,
+        lastmodified: this.lastmodified,
+        sortby: this.sortby,
       },
     });
 
