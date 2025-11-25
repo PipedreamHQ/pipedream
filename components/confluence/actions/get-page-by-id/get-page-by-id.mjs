@@ -1,5 +1,4 @@
 import confluence from "../../confluence.app.mjs";
-import { BODY_FORMAT_FULL_OPTIONS } from "../../common/constants.mjs";
 import { parseObjectEntries } from "../../common/utils.mjs";
 
 export default {
@@ -22,11 +21,10 @@ export default {
       ],
     },
     bodyFormat: {
-      type: "string",
-      label: "Body Format",
-      description: "The content format types to be returned in the `body` field of the response. If available, the representation will be available under a response field of the same name under the `body` field.",
-      optional: true,
-      options: BODY_FORMAT_FULL_OPTIONS,
+      propDefinition: [
+        confluence,
+        "bodyFormat",
+      ],
     },
     getDraft: {
       type: "boolean",
