@@ -19,23 +19,23 @@ export default {
         }));
       },
     },
-  },
-  entryId: {
-    type: "integer",
-    label: "Record ID",
-    description: "The ID of the record (entry) to use.",
-    async options({ entryTypeId }) {
-      const results = await this.getAllEntryTypeEntries({
-        entryTypeId,
-      });
-      return results.map((entry) => {
-        const value = entry.EntryId || entry.Id || entry.id;
-        const label = entry.Name || value;
-        return {
-          label,
-          value,
-        };
-      });
+    entryId: {
+      type: "integer",
+      label: "Record ID",
+      description: "The ID of the record (entry) to use.",
+      async options({ entryTypeId }) {
+        const results = await this.getAllEntryTypeEntries({
+          entryTypeId,
+        });
+        return results.map((entry) => {
+          const value = entry.EntryId || entry.Id || entry.id;
+          const label = entry.Name || value;
+          return {
+            label,
+            value,
+          };
+        });
+      },
     },
   },
   methods: {
@@ -90,6 +90,41 @@ export default {
       }
       return this._makeRequest({
         url: `data/entrydata/${entryTypeId}/entries`,
+        ...args,
+      });
+    },
+    async queryEntries({
+      entryTypeId, ...args
+    }) {
+      return this._makeRequest({
+        url: `data/entrydata/rows/${entryTypeId}`,
+        ...args,
+      });
+    },
+    async createEntry({
+      entryTypeId, ...args
+    }) {
+      return this._makeRequest({
+        url: `data/entrydata/${entryTypeId}`,
+        method: "POST",
+        ...args,
+      });
+    },
+    async updateEntry({
+      entryTypeId, ...args
+    }) {
+      return this._makeRequest({
+        url: `data/entrydata/${entryTypeId}`,
+        method: "PUT",
+        ...args,
+      });
+    },
+    async deleteEntry({
+      entryTypeId, ...args
+    }) {
+      return this._makeRequest({
+        url: `data/entrydata/${entryTypeId}`,
+        method: "DELETE",
         ...args,
       });
     },

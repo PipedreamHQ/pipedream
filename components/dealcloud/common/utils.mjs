@@ -1,4 +1,15 @@
+import { ConfigurationError } from "@pipedream/platform";
 import { CURRENCY_OPTIONS } from "./constants.mjs";
+
+export function checkIdArray(value) {
+  if (typeof value === "string") {
+    return value.split(",");
+  }
+  if (Array.isArray(value)) {
+    return value;
+  }
+  throw new ConfigurationError("Invalid ID array input: " + JSON.stringify(value));
+}
 
 const FIELD_TYPES = {
   TEXT: 1,
