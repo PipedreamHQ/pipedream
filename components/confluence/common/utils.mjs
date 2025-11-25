@@ -1,6 +1,10 @@
 import { ConfigurationError } from "@pipedream/platform";
 
 function optionalParseAsJSON(value) {
+  if (typeof value !== "string") {
+    return value;
+  }
+
   try {
     return JSON.parse(value);
   } catch (e) {
