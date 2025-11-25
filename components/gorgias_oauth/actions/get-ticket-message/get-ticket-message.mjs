@@ -34,7 +34,12 @@ export default {
           },
         });
         return {
-          options: messages.map(({ id }) => id),
+          options: messages.map(({
+            id: value, subject: label,
+          }) => ({
+            label,
+            value: +value,
+          })),
           context: {
             nextCursor: meta.next_cursor,
           },
