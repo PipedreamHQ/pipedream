@@ -195,8 +195,19 @@ export default {
       type: "string",
       label: "User ID",
       description: "The ID of the user to get messages for",
-      async options() {
-        const { value: users } = await this.listUsers();
+      useQuery: true,
+      async options({ query }) {
+        const args = query
+          ? {
+            params: {
+              $search: `"${encodeURIComponent("displayName:" + query)}" OR "${encodeURIComponent("mail:" + query)}" OR "${encodeURIComponent("userPrincipalName:" + query)}"`,
+            },
+            headers: {
+              "ConsistencyLevel": "eventual",
+            },
+          }
+          : {};
+        const { value: users } = await this.listUsers(args);
         return users?.map(({
           id: value, displayName, mail,
         }) => ({
@@ -258,11 +269,12 @@ export default {
     _getUrl(path) {
       return `https://graph.microsoft.com/v1.0${path}`;
     },
-    _getHeaders() {
+    _getHeaders(headers) {
       return {
         "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
         "accept": "application/json",
         "Content-Type": "application/json",
+        ...headers,
       };
     },
     async _makeRequest({

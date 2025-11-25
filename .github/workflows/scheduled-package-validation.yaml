@@ -13,15 +13,15 @@ jobs:
     
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v6
         
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4.0.0
+        uses: pnpm/action-setup@v4.2.0
         with:
           version: 9.14.2
           
       - name: Setup Node.js
-        uses: actions/setup-node@v4.0.3
+        uses: actions/setup-node@v6
         with:
           node-version: 18
           cache: 'pnpm'
