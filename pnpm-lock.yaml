@@ -13948,7 +13948,11 @@ importers:
 
   components/sms_magic: {}
 
-  components/sms_messages: {}
+  components/sms_messages:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/sms_partner: {}
 
