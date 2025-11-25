@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/turbosmtp",
+  "version": "0.0.1",
+  "description": "Pipedream turboSMTP Components",
+  "main": "turbosmtp.app.mjs",
+  "keywords": [
+    "pipedream",
+    "turbosmtp"
+  ],
+  "homepage": "https://pipedream.com/apps/turbosmtp",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

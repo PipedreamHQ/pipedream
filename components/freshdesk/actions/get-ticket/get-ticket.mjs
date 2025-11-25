@@ -4,7 +4,7 @@ export default {
   key: "freshdesk-get-ticket",
   name: "Get Ticket Details",
   description: "Get details of a Ticket. [See the documentation](https://developers.freshdesk.com/api/#view_a_ticket)",
-  version: "0.1.7",
+  version: "0.1.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
