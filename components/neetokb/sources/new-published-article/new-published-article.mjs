@@ -3,7 +3,7 @@ import neetokb from "../../neetokb.app.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
-  key: "neetokb-new-action",
+  key: "neetokb-new-published-article",
   name: "New Published Article",
   description: "Emit new event when a new article is published. [See the documentation](https://neetokb-apis.mintlify.app/api-reference/articles/list-articles).",
   version: "0.0.1",
