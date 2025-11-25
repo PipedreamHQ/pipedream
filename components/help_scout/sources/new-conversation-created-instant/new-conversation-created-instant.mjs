@@ -6,7 +6,7 @@ export default {
   key: "help_scout-new-conversation-created-instant",
   name: "New Conversation Created (Instant)",
   description: "Emit new event when a new conversation is created.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   methods: {
