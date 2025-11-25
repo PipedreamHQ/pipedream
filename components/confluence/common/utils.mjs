@@ -8,17 +8,17 @@ function optionalParseAsJSON(value) {
   }
 }
 
-export function parseObjectEntries(value = {}) {
-  if (typeof value === "string") {
+export function parseObjectEntries(obj = {}) {
+  if (typeof obj === "string") {
     try {
-      value = JSON.parse(value);
+      obj = JSON.parse(obj);
     } catch (e) {
       throw new ConfigurationError(`Invalid JSON string provided: ${e.message}`);
     }
   }
 
   return Object.fromEntries(
-    Object.entries(value).map(([
+    Object.entries(obj || {}).map(([
       key,
       value,
     ]) => [
