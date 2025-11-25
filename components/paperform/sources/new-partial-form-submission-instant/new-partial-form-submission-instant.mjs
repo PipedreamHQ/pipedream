@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "paperform-new-partial-form-submission-instant",
   name: "New Partial Form Submission (Instant)",
-  description: "Emit new event when a form is partially submitted.",
+  description: "Emit new event when a form is partially submitted. [See the documentation](https://paperform.readme.io/reference/createformwebhook)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",

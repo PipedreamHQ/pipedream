@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "paperform-new-form-submission-instant",
   name: "New Form Submission (Instant)",
-  description: "Emit new event when a form is submitted.",
+  description: "Emit new event when a form is submitted. [See the documentation](https://paperform.readme.io/reference/createformwebhook)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
