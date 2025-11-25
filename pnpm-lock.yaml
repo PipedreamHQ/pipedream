@@ -2043,8 +2043,7 @@ importers:
 
   components/braintree: {}
 
-  components/brand_dev:
-    specifiers: {}
+  components/brand_dev: {}
 
   components/brandblast: {}
 
@@ -3588,8 +3587,7 @@ importers:
 
   components/currents_api: {}
 
-  components/cursor:
-    specifiers: {}
+  components/cursor: {}
 
   components/customer_fields:
     dependencies:
@@ -4496,7 +4494,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/dynamic_content_snippet: {}
+  components/dynamic_content_snippet:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/dynamics_365_business_central_api:
     dependencies:
@@ -5669,8 +5671,7 @@ importers:
 
   components/funnelcockpit: {}
 
-  components/fynk:
-    specifiers: {}
+  components/fynk: {}
 
   components/gagelist:
     dependencies:
@@ -6736,8 +6737,7 @@ importers:
 
   components/helcim: {}
 
-  components/helicone:
-    specifiers: {}
+  components/helicone: {}
 
   components/helium:
     dependencies:
@@ -8649,8 +8649,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/magicalapi:
-    specifiers: {}
+  components/magicalapi: {}
 
   components/magileads: {}
 
@@ -12280,8 +12279,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/relationcity:
-    specifiers: {}
+  components/relationcity: {}
 
   components/relavate:
     dependencies:
@@ -14054,8 +14052,7 @@ importers:
 
   components/socialkit: {}
 
-  components/socket:
-    specifiers: {}
+  components/socket: {}
 
   components/softledger: {}
 
@@ -15438,8 +15435,7 @@ importers:
 
   components/turbohire: {}
 
-  components/turbosmtp:
-    specifiers: {}
+  components/turbosmtp: {}
 
   components/turbot_pipes:
     dependencies:
@@ -15871,8 +15867,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/validemail:
-    specifiers: {}
+  components/validemail: {}
 
   components/vapi:
     dependencies:
@@ -15976,8 +15971,7 @@ importers:
 
   components/verticalresponse: {}
 
-  components/veryfi:
-    specifiers: {}
+  components/veryfi: {}
 
   components/vestaboard:
     dependencies:
