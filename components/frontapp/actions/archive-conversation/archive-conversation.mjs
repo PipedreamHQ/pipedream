@@ -4,7 +4,7 @@ export default {
   key: "frontapp-archive-conversation",
   name: "Archive Conversation",
   description: "Archives a conversation. [See the documentation](https://dev.frontapp.com/reference/patch_conversations-conversation-id)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

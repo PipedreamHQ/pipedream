@@ -309,6 +309,46 @@ export default {
       },
       optional: true,
     },
+    knowledgeBaseId: {
+      type: "string",
+      label: "Knowledge Base ID",
+      description: "The ID of the knowledge base",
+      async options() {
+        const { _results: bases } = await this.listKnowledgeBases();
+        return bases.map(({
+          id, type,
+        }) => ({
+          label: `${id} (${type})`,
+          value: id,
+        }));
+      },
+    },
+    articleId: {
+      type: "string",
+      label: "Article ID",
+      description: "The ID of the article to fetch",
+      async options({
+        prevContext,
+        knowledgeBaseId,
+      }) {
+        if (!knowledgeBaseId) {
+          return [];
+        }
+        return this.paginateOptions({
+          prevContext,
+          listResourcesFn: this.listKnowledgeBaseArticles,
+          mapper: ({
+            id, slug,
+          }) => ({
+            label: slug,
+            value: id,
+          }),
+          args: {
+            knowledgeBaseId,
+          },
+        });
+      },
+    },
   },
   methods: {
     getUrl(path, url) {
@@ -639,6 +679,68 @@ export default {
       return this.makeRequest({
         method: "delete",
         path: `/message_templates/${messageTemplateId}`,
+        ...args,
+      });
+    },
+    async getMessageTemplate({
+      messageTemplateId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/message_templates/${messageTemplateId}`,
+        ...args,
+      });
+    },
+    async getMessageTemplateFolder({
+      folderId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/message_template_folders/${folderId}`,
+        ...args,
+      });
+    },
+    async listKnowledgeBases(args = {}) {
+      return this.makeRequest({
+        path: "/knowledge_bases",
+        ...args,
+      });
+    },
+    async getKnowledgeBase({
+      knowledgeBaseId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/knowledge_bases/${knowledgeBaseId}`,
+        ...args,
+      });
+    },
+    async listKnowledgeBaseCategories({
+      knowledgeBaseId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/knowledge_bases/${knowledgeBaseId}/categories`,
+        ...args,
+      });
+    },
+    async listKnowledgeBaseArticles({
+      knowledgeBaseId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/knowledge_bases/${knowledgeBaseId}/articles`,
+        ...args,
+      });
+    },
+    async getKnowledgeBaseArticle({
+      articleId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/knowledge_base_articles/${articleId}`,
+        ...args,
+      });
+    },
+    async downloadArticleAttachment({
+      articleId, attachmentId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/knowledge_base_articles/${articleId}/download/${attachmentId}`,
         ...args,
       });
     },

@@ -6,7 +6,7 @@ export default {
   key: "frontapp-new-conversation-created",
   name: "New Conversation Created",
   description: "Emit new event when a conversation is created. [See the documentation](https://dev.frontapp.com/reference/list-conversations)",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "source",
   dedupe: "unique",
   methods: {

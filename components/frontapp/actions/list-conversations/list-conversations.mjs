@@ -4,7 +4,7 @@ export default {
   key: "frontapp-list-conversations",
   name: "List Conversations",
   description: "List conversations in the company. [See the documentation](https://dev.frontapp.com/reference/list-conversations)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
