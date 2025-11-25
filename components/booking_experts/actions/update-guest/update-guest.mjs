@@ -4,7 +4,7 @@ export default {
   key: "booking_experts-update-guest",
   name: "Update Guest",
   description: "Update a guest for a reservation. [See the documentation](https://developers.bookingexperts.com/reference/administration-reservation-guests-update)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
