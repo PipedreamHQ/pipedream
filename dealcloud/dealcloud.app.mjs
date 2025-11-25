@@ -18,6 +18,12 @@ export default {
       });
       return response.data;
     },
+    async listEntryTypes(args = {}) {
+      return this._makeRequest({
+        url: "/schema/entrytypes",
+        ...args,
+      });
+    },
     async getEntryTypeFields({
       entryTypeId, ...args
     }) {
