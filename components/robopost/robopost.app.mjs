@@ -42,6 +42,8 @@ export default {
       label: "Max Duration",
       description: "Maximum video duration in seconds (5-600)",
       optional: true,
+      min: 5,
+      max: 600,
     },
     configurationId: {
       type: "string",
