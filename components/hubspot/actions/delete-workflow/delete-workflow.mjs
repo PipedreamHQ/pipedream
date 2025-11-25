@@ -4,7 +4,7 @@ export default {
   key: "hubspot-delete-workflow",
   name: "Delete a Workflow",
   description: "Delete a workflow by ID. [See the documentation](https://developers.hubspot.com/docs/api-reference/legacy/create-manage-workflows-v3/delete-automation-v3-workflows-workflowId)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

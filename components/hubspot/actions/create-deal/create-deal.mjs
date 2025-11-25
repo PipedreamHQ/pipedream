@@ -7,7 +7,7 @@ export default {
   name: "Create Deal",
   description:
     "Create a deal in Hubspot. [See the documentation](https://developers.hubspot.com/docs/api/crm/deals#endpoint?spec=POST-/crm/v3/objects/deals)",
-  version: "0.0.32",
+  version: "0.0.33",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
