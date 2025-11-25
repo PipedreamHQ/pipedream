@@ -1,5 +1,6 @@
 import confluence from "../../confluence.app.mjs";
 import { parseObjectEntries } from "../../common/utils.mjs";
+import { BODY_FORMAT_FULL_OPTIONS } from "../../common/constants.mjs";
 
 export default {
   key: "confluence-get-page-by-id",
@@ -25,6 +26,7 @@ export default {
         confluence,
         "bodyFormat",
       ],
+      options: BODY_FORMAT_FULL_OPTIONS,
     },
     getDraft: {
       type: "boolean",
