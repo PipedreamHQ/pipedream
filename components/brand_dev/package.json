@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/brand_dev",
+  "version": "0.0.1",
+  "description": "Pipedream Brand.dev Components",
+  "main": "brand_dev.app.mjs",
+  "keywords": [
+    "pipedream",
+    "brand_dev"
+  ],
+  "homepage": "https://pipedream.com/apps/brand_dev",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

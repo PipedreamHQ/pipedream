@@ -3,7 +3,7 @@ import sendoso from "../../sendoso.app.mjs";
 export default {
   key: "sendoso-get-send-status",
   name: "Get Send Status",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

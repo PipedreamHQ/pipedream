@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/emailchef",
+  "version": "0.0.1",
+  "description": "Pipedream Emailchef Components",
+  "main": "emailchef.app.mjs",
+  "keywords": [
+    "pipedream",
+    "emailchef"
+  ],
+  "homepage": "https://pipedream.com/apps/emailchef",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

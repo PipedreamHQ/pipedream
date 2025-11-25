@@ -4,7 +4,7 @@ export default {
   key: "amazon_selling_partner-generate-sales-inventory-reports",
   name: "Generate Sales & Inventory Reports",
   description: "Requests reports on sales, inventory, and fulfillment performance. [See the documentation](https://developer-docs.amazon.com/sp-api/reference/getreports)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -7,43 +7,11 @@ export default {
     groupId: {
       type: "integer",
       label: "Group",
-      description: "The ID of the Group.",
+      description: "The ID of the Group",
       async options() {
-        const data = await this.listGroups();
+        const { groups } = await this.listGroups();
 
-        return data.map(({
-          id: value, name: label,
-        }) => ({
-          label,
-          value,
-        }));
-      },
-    },
-    recipientUsers: {
-      type: "string[]",
-      label: "Recipient Users",
-      description: "The array of gift recipient users. If not provided, links can be redeemed by anyone.",
-      async options({ groupId }) {
-        const data = await this.listUsers(groupId);
-
-        return data.map(({ email }) => email);
-      },
-    },
-    template: {
-      type: "integer",
-      label: "Template",
-      description: "The ID of the Template.",
-      async options() {
-        const data = await this.listTemplates();
-        let result;
-        if (typeof data === "string") {
-          result = data.replace(/(},)(?!.*\1)/gs, "}");
-          result = JSON.parse(result);
-        } else {
-          result = data;
-        }
-
-        return result.custom_template.map(({
+        return groups.map(({
           id: value, name: label,
         }) => ({
           label,
@@ -54,11 +22,11 @@ export default {
     touchId: {
       type: "integer",
       label: "Touch ID",
-      description: "The ID of the Touch.",
-      async options({ groupId }) {
-        const data = await this.listTouches(groupId);
+      description: "The ID of the Touch",
+      async options() {
+        const { touches } = await this.listCampaigns();
 
-        return data.map(({
+        return touches.map(({
           id: value, name: label,
         }) => ({
           label,
@@ -69,7 +37,7 @@ export default {
     trackingId: {
       type: "string",
       label: "Tracking Id",
-      description: "The tracking code for the send.",
+      description: "The tracking code for the send",
       async options() {
         const data = await this.listSendGifts();
 
@@ -84,12 +52,51 @@ export default {
     via: {
       type: "string",
       label: "Via",
-      description: "Specify you want to generate gift links.",
+      description: "Specify you want to generate gift links",
     },
     viaFrom: {
       type: "string",
       label: "Via From",
-      description: "Specify the name of your Company or Application.",
+      description: "Specify the name of your Company or Application",
+    },
+    sendId: {
+      type: "string",
+      label: "Send ID",
+      description: "The ID of the send",
+    },
+    campaignId: {
+      type: "string",
+      label: "Campaign ID",
+      description: "The ID of the campaign",
+    },
+    userId: {
+      type: "string",
+      label: "User ID",
+      description: "The ID of the user",
+    },
+    startDate: {
+      type: "string",
+      label: "Start Date",
+      description: "Start date for filtering (YYYY-MM-DD format)",
+    },
+    endDate: {
+      type: "string",
+      label: "End Date",
+      description: "End date for filtering (YYYY-MM-DD format)",
+    },
+    page: {
+      type: "integer",
+      label: "Page",
+      description: "Page number to return",
+      optional: true,
+      default: 1,
+    },
+    perPage: {
+      type: "integer",
+      label: "Per Page",
+      description: "Number of results to return per page",
+      optional: true,
+      default: 50,
     },
   },
   methods: {
@@ -98,7 +105,7 @@ export default {
     },
     _getHeaders() {
       return {
-        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
       };
     },
     async _makeRequest({
@@ -111,32 +118,44 @@ export default {
       };
       return axios($, config);
     },
-    sendGift({
-      $, ...data
-    }) {
+    createEgiftLinks(opts = {}) {
       return this._makeRequest({
-        $,
-        path: "send.json",
+        path: "send/generate_egift_links",
         method: "POST",
-        data,
+        ...opts,
       });
     },
-    getSentGifts() {
+    getCurrentUser(opts = {}) {
+      return this._makeRequest({
+        path: "me",
+        ...opts,
+      });
+    },
+    sendGift(opts = {}) {
+      return this._makeRequest({
+        path: "send",
+        method: "POST",
+        ...opts,
+      });
+    },
+    getSentGifts(opts = {}) {
       return this._makeRequest({
         path: "sent_gifts.json",
+        ...opts,
       });
     },
     getSendStatus({
-      $, trackingId,
+      trackingId, ...opts
     }) {
       return this._makeRequest({
-        $,
         path: `gifts/status/${trackingId}`,
+        ...opts,
       });
     },
-    listGroups() {
+    listGroups(opts = {}) {
       return this._makeRequest({
-        path: "groups.json",
+        path: "groups",
+        ...opts,
       });
     },
     listSendGifts() {
@@ -144,19 +163,65 @@ export default {
         path: "sent_gifts.json",
       });
     },
-    listTemplates() {
+    listUsers(opts = {}) {
       return this._makeRequest({
-        path: "user_custom_templates.json",
+        path: "users",
+        ...opts,
       });
     },
-    listTouches(groupId) {
+    listGroupMembers({
+      groupId, ...opts
+    }) {
       return this._makeRequest({
-        path: `groups/${groupId}/group_touches.json`,
+        path: `groups/${groupId}/members`,
+        ...opts,
       });
     },
-    listUsers(groupId) {
+    // Send Management Methods
+    listSends(opts = {}) {
       return this._makeRequest({
-        path: `groups/${groupId}/members.json`,
+        path: "send",
+        ...opts,
+      });
+    },
+    // Touch Management Methods
+    getCampaign({
+      campaignId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `touches/${campaignId}`,
+        ...opts,
+      });
+    },
+    // Campaign Management Methods
+    listCampaigns(opts = {}) {
+      return this._makeRequest({
+        path: "touches",
+        ...opts,
+      });
+    },
+    // Catalog Management Methods (requires auth scope: marketplace)
+    listCatalogItems(opts = {}) {
+      return this._makeRequest({
+        path: "marketplace/products",
+        ...opts,
+      });
+    },
+    // eGift Management Methods
+    getEgiftLink({
+      linkId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `egift_links/${linkId}`,
+        ...opts,
+      });
+    },
+    // User Management Methods
+    inviteNewUser(opts = {}) {
+      return this._makeRequest({
+        path: "users",
+        method: "POST",
+        ...opts,
       });
     },
   },
