@@ -99,7 +99,7 @@ export function convertFieldsToProps(fields) {
       };
     }
 
-    acc[field.apiName] = prop;
+    acc[`field_${field.id}`] = prop;
     return acc;
   }, {});
 }

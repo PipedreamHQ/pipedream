@@ -1,4 +1,4 @@
-import { axios } from "@pipedream/platform";
+// import { axios } from "@pipedream/platform";
 import { getMockData } from "./common/mock-data.mjs";
 
 export default {
@@ -37,6 +37,13 @@ export default {
         });
       },
     },
+    ignoreNearDups: {
+      type: "boolean",
+      label: "Ignore Near Duplicates",
+      description: "Whether to ignore near duplicates when creating a record.",
+      optional: true,
+      default: false,
+    },
   },
   methods: {
     /**
@@ -47,16 +54,18 @@ export default {
       return true;
     },
     async _makeRequest({
-      $ = this, headers, ...args
+      /*$ = this,*/ headers, ...args
     }) {
-      return axios($, {
+      const config = {
         baseURL: `${this.$auth.host_url}/api/rest/v4/`,
         headers: {
           ...headers,
           Authorization: `Bearer ${this.$auth.oauth_access_token}`,
         },
         ...args,
-      });
+      };
+      return config; // while testing, return the config instead of making the request
+      // return axios($, config);
     },
     async listEntryTypes(args = {}) {
       if (this._useMockData()) {
@@ -110,12 +119,6 @@ export default {
     async createEntry({
       entryTypeId, ...args
     }) {
-      if (this._useMockData()) {
-        return getMockData("POST:data/entrydata", {
-          entryTypeId,
-          data: args.data,
-        });
-      }
       return this._makeRequest({
         url: `data/entrydata/${entryTypeId}`,
         method: "POST",
@@ -125,12 +128,6 @@ export default {
     async updateEntry({
       entryTypeId, ...args
     }) {
-      if (this._useMockData()) {
-        return getMockData("PUT:data/entrydata", {
-          entryTypeId,
-          data: args.data,
-        });
-      }
       return this._makeRequest({
         url: `data/entrydata/${entryTypeId}`,
         method: "PUT",
@@ -140,12 +137,6 @@ export default {
     async deleteEntry({
       entryTypeId, ...args
     }) {
-      if (this._useMockData()) {
-        return getMockData("DELETE:data/entrydata", {
-          entryTypeId,
-          data: args.data,
-        });
-      }
       return this._makeRequest({
         url: `data/entrydata/${entryTypeId}`,
         method: "DELETE",
