@@ -6,7 +6,7 @@ export default {
   key: "pipedrive-new-person-instant",
   name: "New Person (Instant)",
   description: "Emit new event when a new person is created.",
-  version: "0.0.13",
+  version: "0.0.14",
   type: "source",
   dedupe: "unique",
   methods: {
