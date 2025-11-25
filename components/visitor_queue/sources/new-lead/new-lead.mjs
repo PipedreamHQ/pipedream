@@ -6,7 +6,7 @@ export default {
   key: "visitor_queue-new-lead",
   name: "New Lead",
   description: "Emit new event when a new Waiver sign is received. [See docs here](https://docs.visitorqueue.com/#4f021159-baae-e19d-bb7f-91a915e5b4ea)",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   type: "source",
   props: {
