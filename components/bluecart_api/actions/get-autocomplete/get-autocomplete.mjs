@@ -31,7 +31,7 @@ export default {
     const response = await this.app.getAutocomplete({
       $,
       params: {
-        searchTerm: this.searchTerm,
+        search_term: this.searchTerm,
         type: "autocomplete",
       },
     });

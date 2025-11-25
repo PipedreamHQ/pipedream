@@ -22,13 +22,32 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.getCategories({
-      $,
-      params: {
-        search_term: this.searchTerm,
-      },
-    });
-    $.export("$summary", "Successfully retrieved " + response.categories.length + " categories");
-    return response;
+    try {
+      const response = await this.app.getCategories({
+        $,
+        params: {
+          search_term: this.searchTerm,
+        },
+      });
+
+      $.export("$summary", "Successfully retrieved " + response.categories.length + " categories");
+      return response;
+
+    } catch (err) {
+      if (
+        err?.response?.status === 400 &&
+        err?.response?.data?.request_info?.message?.includes("No categories match")
+      ) {
+        const message = err.response.data.request_info.message;
+
+        $.export("$summary", message);
+        return {
+          success: false,
+          categories: [],
+          message,
+        };
+      }
+      throw err;
+    }
   },
 };
