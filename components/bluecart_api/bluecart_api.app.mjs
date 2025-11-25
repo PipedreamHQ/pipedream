@@ -44,7 +44,7 @@ export default {
         ...otherOpts,
         url: this._baseUrl() + path,
         params: {
-          api_key: `${this.$auth.api_key}`,
+          api_key: this.$auth.api_key,
           ...params,
         },
       });
