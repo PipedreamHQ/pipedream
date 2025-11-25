@@ -4,7 +4,7 @@ export default {
   key: "bluecart_api-get-categories",
   name: "Get Categories",
   description: "Get a list of categories related to the provided search term. [See the documentation](https://docs.trajectdata.com/bluecartapi/walmart-product-data-api/parameters/category)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

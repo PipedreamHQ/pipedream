@@ -4,7 +4,7 @@ export default {
   key: "bluecart_api-get-autocomplete",
   name: "Get Autocomplete",
   description: "Get autocomplete suggestions for the specified search term. [See the documentation](https://docs.trajectdata.com/bluecartapi/walmart-product-data-api/parameters/autocomplete)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
