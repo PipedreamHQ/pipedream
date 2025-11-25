@@ -1106,6 +1106,149 @@ export function getMockData(endpoint, params = {}) {
     return mockEntries[entryTypeId] || [];
   }
 
+  // GET data/entrydata/rows/{entryTypeId} - Query entries with filtering support
+  if (endpoint.match(/^data\/entrydata\/rows\/\d+$/)) {
+    const entryTypeId = params.entryTypeId || parseInt(endpoint.split("/")[3]);
+    let entries = mockEntries[entryTypeId] || [];
+
+    // Handle query parameter for filtering by IDs
+    if (params.params?.query) {
+      const queryStr = params.params.query;
+      // Parse query like: {entryid: {$in:[1001,1002]}}
+      const idMatch = queryStr.match(/\$in:\[([^\]]+)\]/);
+      if (idMatch) {
+        const requestedIds = idMatch[1].split(",").map((id) => parseInt(id.trim()));
+        entries = entries.filter((entry) => {
+          const entryId = entry.EntryId || entry.Id || entry.id;
+          return requestedIds.includes(entryId);
+        });
+      }
+    }
+
+    return entries;
+  }
+
+  // POST data/entrydata - Create entry
+  if (endpoint === "POST:data/entrydata") {
+    const {
+      entryTypeId, data,
+    } = params;
+
+    // Validate that data is provided
+    if (!data || typeof data !== "object") {
+      return {
+        success: false,
+        error: "Invalid data provided for entry creation",
+      };
+    }
+
+    const entries = mockEntries[entryTypeId] || [];
+    // Generate a new ID based on existing entries
+    const maxId = entries.reduce((max, entry) => {
+      const id = entry.EntryId || entry.Id || entry.id || 0;
+      return Math.max(max, id);
+    }, 0);
+    const newId = maxId + 1;
+
+    // Return a mock created entry with the new ID
+    const createdEntry = {
+      EntryId: newId,
+      Id: newId,
+      ...data,
+      CreatedDate: new Date().toISOString(),
+      ModifiedDate: new Date().toISOString(),
+    };
+
+    return {
+      success: true,
+      entry: createdEntry,
+      message: `Successfully created entry with ID ${newId}`,
+    };
+  }
+
+  // PUT data/entrydata - Update entry
+  if (endpoint === "PUT:data/entrydata") {
+    const {
+      entryTypeId, data,
+    } = params;
+
+    // Validate that data is provided
+    if (!data || typeof data !== "object") {
+      return {
+        success: false,
+        error: "Invalid data provided for entry update",
+      };
+    }
+
+    // Extract entry ID from data
+    const entryId = data?.EntryId || data?.Id || data?.id;
+
+    // Validate that an ID is provided
+    if (!entryId) {
+      return {
+        success: false,
+        error: "Entry ID is required for update operation",
+      };
+    }
+
+    // Check if entry exists in mock data
+    const entries = mockEntries[entryTypeId] || [];
+    const existingEntry = entries.find((entry) => {
+      const id = entry.EntryId || entry.Id || entry.id;
+      return id === entryId;
+    });
+
+    // Return a mock updated entry
+    const updatedEntry = {
+      EntryId: entryId,
+      Id: entryId,
+      ...data,
+      ModifiedDate: new Date().toISOString(),
+    };
+
+    return {
+      success: true,
+      entry: updatedEntry,
+      message: `Successfully updated entry with ID ${entryId}`,
+      existed: !!existingEntry,
+    };
+  }
+
+  // DELETE data/entrydata - Delete entry
+  if (endpoint === "DELETE:data/entrydata") {
+    const { data } = params;
+
+    // Handle both single ID and array of IDs
+    let entryIds;
+    if (Array.isArray(data)) {
+      entryIds = data;
+    } else if (typeof data === "object") {
+      const entryId = data?.EntryId || data?.Id || data?.id;
+      entryIds = entryId
+        ? [
+          entryId,
+        ]
+        : [];
+    } else {
+      entryIds = [
+        data,
+      ];
+    }
+
+    // Return a mock success response
+    const count = entryIds.length;
+    return {
+      success: true,
+      deletedIds: entryIds,
+      count,
+      message: `Successfully deleted ${count} entr${count === 1
+        ? "y"
+        : "ies"}: ID${count === 1
+        ? ""
+        : "s"} ${entryIds.join(", ")}`,
+    };
+  }
+
   // Default: return empty array
   return [];
 }

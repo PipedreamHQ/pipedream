@@ -96,6 +96,12 @@ export default {
     async queryEntries({
       entryTypeId, ...args
     }) {
+      if (this._useMockData()) {
+        return getMockData(`data/entrydata/rows/${entryTypeId}`, {
+          entryTypeId,
+          params: args.params,
+        });
+      }
       return this._makeRequest({
         url: `data/entrydata/rows/${entryTypeId}`,
         ...args,
@@ -104,6 +110,12 @@ export default {
     async createEntry({
       entryTypeId, ...args
     }) {
+      if (this._useMockData()) {
+        return getMockData("POST:data/entrydata", {
+          entryTypeId,
+          data: args.data,
+        });
+      }
       return this._makeRequest({
         url: `data/entrydata/${entryTypeId}`,
         method: "POST",
@@ -113,6 +125,12 @@ export default {
     async updateEntry({
       entryTypeId, ...args
     }) {
+      if (this._useMockData()) {
+        return getMockData("PUT:data/entrydata", {
+          entryTypeId,
+          data: args.data,
+        });
+      }
       return this._makeRequest({
         url: `data/entrydata/${entryTypeId}`,
         method: "PUT",
@@ -122,6 +140,12 @@ export default {
     async deleteEntry({
       entryTypeId, ...args
     }) {
+      if (this._useMockData()) {
+        return getMockData("DELETE:data/entrydata", {
+          entryTypeId,
+          data: args.data,
+        });
+      }
       return this._makeRequest({
         url: `data/entrydata/${entryTypeId}`,
         method: "DELETE",

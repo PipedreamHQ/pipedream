@@ -2,10 +2,10 @@ import { checkIdArray } from "../../common/utils.mjs";
 import app from "../../dealcloud.app.mjs";
 
 export default {
-  key: "dealcloud-delete-records",
+  key: "slack_v2-delete-records",
   name: "Delete Record(s)",
   description: "Deletes one or more records (entries) from DealCloud. [See the documentation](https://api.docs.dealcloud.com/docs/data/delete)",
-  version: "0.0.1",
+  version: "0.0.{{ts}}",
   type: "action",
   annotations: {
     destructiveHint: true,

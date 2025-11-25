@@ -2,10 +2,10 @@ import { checkIdArray } from "../../common/utils.mjs";
 import dealcloud from "../../dealcloud.app.mjs";
 
 export default {
-  key: "dealcloud-get-records",
+  key: "slack_v2-get-records",
   name: "Get Record(s)",
   description: "Retrieves one or more records (entries) from DealCloud. [See the documentation](https://api.docs.dealcloud.com/docs/data/rows/get)",
-  version: "0.0.1",
+  version: "0.0.{{ts}}",
   type: "action",
   annotations: {
     destructiveHint: false,
