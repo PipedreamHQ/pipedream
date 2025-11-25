@@ -4,7 +4,7 @@ export default {
   key: "bluecart_api-get-product",
   name: "Get product",
   description: "Get product data from Walmart. [See the documentation](https://docs.trajectdata.com/bluecartapi/walmart-product-data-api/parameters/product)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
