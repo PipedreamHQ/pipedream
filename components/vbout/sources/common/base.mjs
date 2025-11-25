@@ -1,6 +1,6 @@
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import moment from "moment";
 import vbout from "../../vbout.app.mjs";
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   props: {
@@ -46,7 +46,7 @@ export default {
     },
   },
   hooks: {
-    async activate() {
+    async deploy() {
       const datetimeField = this.getDatetimeField();
       let lastDatetime = this._getLastTime();
       const items = await this.vbout.fetchItems({

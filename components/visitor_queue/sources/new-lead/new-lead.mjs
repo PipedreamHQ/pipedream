@@ -1,6 +1,6 @@
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import moment from "moment";
 import visitor_queue from "../../visitor_queue.app.mjs";
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "visitor_queue-new-lead",
@@ -60,7 +60,7 @@ export default {
     },
   },
   hooks: {
-    async activate() {
+    async deploy() {
       const lastTime = this._getLastTime();
       const leads = await this.visitor_queue.listLeads({
         params: {
