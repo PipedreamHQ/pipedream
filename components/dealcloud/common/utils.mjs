@@ -1,27 +1,39 @@
+import { CURRENCY_OPTIONS } from "./constants.mjs";
+
+const FIELD_TYPES = {
+  TEXT: 1,
+  CHOICE: 2,
+  NUMBER: 3,
+  DATE: 4,
+  REFERENCE: 5,
+  BOOLEAN: 6,
+  USER: 7,
+  BINARY: 13,
+  ENTRY_LIST_ID: 14,
+  COUNTER: 15,
+  IMAGE: 16,
+  DATA_SOURCE: 17,
+  CURRENCY: 18,
+};
+
 /**
  * Maps DealCloud field type ID to Pipedream prop type
  * @param {number} fieldTypeId - The DealCloud field type ID
+ * @param {boolean} isArray - Whether the field is an array
  * @returns {string} The corresponding Pipedream prop type
  */
-function mapFieldTypeToPropType(fieldTypeId) {
+function mapFieldTypeToPropType(fieldTypeId, isArray) {
   switch (fieldTypeId) {
-  case 3: // Number
-    return "integer";
-  case 6: // Boolean
+  case FIELD_TYPES.NUMBER:
+    return isArray
+      ? "integer[]"
+      : "integer";
+  case FIELD_TYPES.BOOLEAN:
     return "boolean";
-  case 1: // Text
-  case 2: // Choice
-  case 4: // Date
-  case 5: // Reference
-  case 7: // User
-  case 13: // Binary
-  case 14: // EntryListId
-  case 15: // Counter
-  case 16: // Image
-  case 17: // DataSource
-  case 18: // Currency
   default:
-    return "string";
+    return isArray
+      ? "string[]"
+      : "string";
   }
 }
 
@@ -47,12 +59,36 @@ function mapFieldTypeToPropType(fieldTypeId) {
  * @returns Object to be returned in dynamic props
  */
 export function convertFieldsToProps(fields) {
+  console.log("fields: ", JSON.stringify(fields || {}));
   return fields.reduce((acc, field) => {
-    acc[field.apiName] = {
+    const { fieldType } = field;
+    const prop = {
       label: field.name,
-      type: mapFieldTypeToPropType(field.fieldType),
+      type: mapFieldTypeToPropType(fieldType, field.isMultiSelect),
       description: `Field ID: \`${field.id}\`. Field type: \`${field.fieldType}\``,
     };
+
+    if (fieldType === FIELD_TYPES.CURRENCY) {
+      prop.options = CURRENCY_OPTIONS;
+    }
+
+    if (field.entryLists?.length) {
+      prop.options = async () => {
+        const results = await this.dealcloud.getAllEntryTypeEntries({
+          entryTypeId: field.entryLists[0],
+        });
+        return results.map((entry) => {
+          const value = entry.EntryId || entry.Id || entry.id;
+          const label = entry.Name || value;
+          return {
+            label,
+            value,
+          };
+        });
+      };
+    }
+
+    acc[field.apiName] = prop;
     return acc;
   }, {});
 }
