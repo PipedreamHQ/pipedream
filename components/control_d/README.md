@@ -1,6 +1,6 @@
 # Overview
 
-The Control D API allows you to manage and monitor internet access across different devices and networks. With it, you can automate the control of browsing data, enforce internet access policies, and generate detailed reports on internet usage. When integrated with Pipedream, these capabilities can be extended to automate workflows involving data from other apps, trigger actions based on internet usage patterns, and much more, leveraging Pipedream's capability to connect with hundreds of other apps and services.
+The Control D API allows you to manage and monitor internet access across different devices and networks. With it, you can automate the control of browsing data, enforce internet access policies, and generate detailed reports on internet usage. When integrated with Pipedream, these capabilities can be extended to automate workflows involving data from other apps, trigger actions based on internet usage patterns, and much more, leveraging Pipedream's capability to connect with 3,000+ other apps and services.
 
 # Example Use Cases
 

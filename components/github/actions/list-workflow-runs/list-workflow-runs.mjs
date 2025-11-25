@@ -4,7 +4,7 @@ export default {
   key: "github-list-workflow-runs",
   name: "List Workflow Runs",
   description: "List workflowRuns for a repository [See the documentation](https://docs.github.com/en/rest/actions/workflow-runs?apiVersion=2022-11-28#list-workflow-runs-for-a-repository)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

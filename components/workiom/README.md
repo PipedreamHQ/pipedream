@@ -1,6 +1,6 @@
 # Overview
 
-Workiom is a no-code platform that helps teams build custom work management apps. The Workiom API allows for extensive customization and automation, enabling you to streamline business processes by connecting your custom apps with a multitude of other services. With the API, you can create, read, update, and delete records, manage lists, and automate tasks within your Workiom apps. By leveraging Pipedream's capabilities, you can integrate Workiom with hundreds of other apps to automate workflows, sync data across platforms, and trigger actions based on events from any connected service.
+Workiom is a no-code platform that helps teams build custom work management apps. The Workiom API allows for extensive customization and automation, enabling you to streamline business processes by connecting your custom apps with a multitude of other services. With the API, you can create, read, update, and delete records, manage lists, and automate tasks within your Workiom apps. By leveraging Pipedream's capabilities, you can integrate Workiom with 3,000+ other apps to automate workflows, sync data across platforms, and trigger actions based on events from any connected service.
 
 # Example Use Cases
 

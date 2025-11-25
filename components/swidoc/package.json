@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/swidoc",
+  "version": "0.0.1",
+  "description": "Pipedream swiDOC Components",
+  "main": "swidoc.app.mjs",
+  "keywords": [
+    "pipedream",
+    "swidoc"
+  ],
+  "homepage": "https://pipedream.com/apps/swidoc",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,6 +1,6 @@
 # Overview
 
-The Acquire API integrates customer support tools into your apps, enabling live chat, voice and video calls, co-browsing, and AI chatbots. With Pipedream, you can automate customer interaction workflows, sync support tickets with other platforms, or trigger actions based on customer behavior. Pipedream's serverless platform allows you to connect Acquire with hundreds of other apps for seamless automation, all with minimal coding.
+The Acquire API integrates customer support tools into your apps, enabling live chat, voice and video calls, co-browsing, and AI chatbots. With Pipedream, you can automate customer interaction workflows, sync support tickets with other platforms, or trigger actions based on customer behavior. Pipedream's serverless platform allows you to connect Acquire with 3,000+ other apps for seamless automation, all with minimal coding.
 
 # Example Use Cases
 

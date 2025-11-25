@@ -6,7 +6,7 @@ export default {
   key: "github-get-reviewers",
   name: "Get Reviewers",
   description: "Get reviewers for a PR ([see documentation](https://docs.github.com/en/rest/pulls/reviews#list-reviews-for-a-pull-request)) or Commit SHA ([see documentation](https://docs.github.com/en/rest/commits/commits#list-pull-requests-associated-with-a-commit)).",
-  version: "0.1.5",
+  version: "0.1.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

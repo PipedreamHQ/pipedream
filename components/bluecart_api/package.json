@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/bluecart_api",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "Pipedream BlueCart API Components",
   "main": "bluecart_api.app.mjs",
   "keywords": [
@@ -11,8 +11,5 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
-  },
-  "dependencies": {
-    "@pipedream/platform": "^3.1.1"
   }
 }

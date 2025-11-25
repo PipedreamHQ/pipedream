@@ -1,5 +1,5 @@
 # Overview
-By connecting your Google Chat account to Pipedream, you'll be able to incorporate your Google Chat data into whatever you're building with any of the 1,700+ apps that are available on Pipedream. 
+By connecting your Google Chat account to Pipedream, you'll be able to incorporate your Google Chat data into whatever you're building with any of the 3,000+ apps that are available on Pipedream. 
 
 # Getting Started
 The Google Chat (Developer App) setup is only available for Google Workspace users. See [here](https://developers.google.com/chat/troubleshoot/apps#workspace-users) for more details. If you are not a Google Workspace user, you can use Pipedream's [Google Chat](https://pipedream.com/apps/google-chat) application alternatively. 

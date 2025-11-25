@@ -4,8 +4,8 @@ export default {
   ...common,
   key: "github-new-review-request",
   name: "New Review Request",
-  description: "Emit new event for new review request notifications. [See the documentation](https://docs.github.com/en/rest/activity/notifications?apiVersion=20.2.51-28#list-notifications-for-the-authenticated-user)",
-  version: "0.2.5",
+  description: "Emit new event for new review request notifications. [See the documentation](https://docs.github.com/en/rest/activity/notifications?apiVersion=20.2.61-28#list-notifications-for-the-authenticated-user)",
+  version: "0.2.6",
   type: "source",
   dedupe: "unique",
   methods: {

@@ -5,7 +5,7 @@ export default {
   key: "google_docs-new-document-created",
   name: "New Document Created (Instant)",
   description: "Emit new event when a new document is created in Google Docs. [See the documentation](https://developers.google.com/drive/api/reference/rest/v3/changes/watch)",
-  version: "0.0.5",
+  version: "0.0.7",
   type: "source",
   dedupe: "unique",
   methods: {

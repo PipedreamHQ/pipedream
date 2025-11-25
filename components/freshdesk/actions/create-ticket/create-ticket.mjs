@@ -4,7 +4,7 @@ export default {
   key: "freshdesk-create-ticket",
   name: "Create a Ticket",
   description: "Create a ticket. [See the documentation](https://developers.freshdesk.com/api/#create_ticket)",
-  version: "0.0.9",
+  version: "0.0.10",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

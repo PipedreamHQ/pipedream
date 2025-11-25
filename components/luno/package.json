@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/luno",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Luno Components",
   "main": "luno.app.mjs",
   "keywords": [

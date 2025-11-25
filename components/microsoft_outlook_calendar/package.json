@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/microsoft_outlook_calendar",
-  "version": "0.3.4",
+  "version": "0.4.0",
   "description": "Pipedream Microsoft Outlook Calendar Components",
   "main": "microsoft_outlook_calendar.app.mjs",
   "keywords": [

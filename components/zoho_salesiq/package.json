@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zoho_salesiq",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Zoho SalesIQ Components",
   "main": "zoho_salesiq.app.mjs",
   "keywords": [

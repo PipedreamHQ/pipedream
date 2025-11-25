@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/veryfi",
+  "version": "0.0.1",
+  "description": "Pipedream Veryfi Components",
+  "main": "veryfi.app.mjs",
+  "keywords": [
+    "pipedream",
+    "veryfi"
+  ],
+  "homepage": "https://pipedream.com/apps/veryfi",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

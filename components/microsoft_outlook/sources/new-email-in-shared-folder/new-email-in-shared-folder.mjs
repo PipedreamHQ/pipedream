@@ -1,3 +1,4 @@
+import md5 from "md5";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import microsoftOutlook from "../../microsoft_outlook.app.mjs";
 import sampleEmit from "./test-event.mjs";
@@ -6,7 +7,7 @@ export default {
   key: "microsoft_outlook-new-email-in-shared-folder",
   name: "New Email in Shared Folder Event",
   description: "Emit new event when an email is received in specified shared folders.",
-  version: "0.0.4",
+  version: "0.0.7",
   type: "source",
   dedupe: "unique",
   props: {
@@ -70,7 +71,7 @@ export default {
         this.$emit(
           item,
           {
-            id: item.id,
+            id: md5(item.id),
             summary: `A new email with subject ${item.subject} was received!`,
             ts,
           },

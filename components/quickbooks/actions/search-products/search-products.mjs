@@ -5,7 +5,7 @@ export default {
   key: "quickbooks-search-products",
   name: "Search Products",
   description: "Search for products. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/item#query-an-item)",
-  version: "0.1.12",
+  version: "0.1.13",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

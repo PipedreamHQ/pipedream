@@ -3,7 +3,7 @@ import app from "../../trengo.app.mjs";
 export default {
   type: "action",
   key: "trengo-log-a-voice-call",
-  version: "0.0.5",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   key: "dixa-add-message",
   name: "Add Message to Conversation",
   description: "Adds a message to an existing conversation. [See the documentation](https://docs.dixa.io/openapi/dixa-api/v1/tag/Conversations/#tag/Conversations/operation/postConversationsConversationidMessages).",
-  version: "0.0.2",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
