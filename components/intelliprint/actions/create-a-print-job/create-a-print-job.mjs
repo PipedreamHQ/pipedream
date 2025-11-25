@@ -4,6 +4,12 @@ import {
   getFileStreamAndMetadata,
 } from "@pipedream/platform";
 import FormData from "form-data";
+import {
+  DOUBLE_SIDED_OPTIONS,
+  IDEAL_ENVELOPE_OPTIONS,
+  POSTAGE_SERVICE_OPTIONS,
+  SPLITTING_METHOD_OPTIONS,
+} from "../../common/constants.mjs";
 import { camelCaseToSnakeCase } from "../../common/utils.mjs";
 import intelliprint from "../../intelliprint.app.mjs";
 
@@ -47,11 +53,7 @@ export default {
       type: "string",
       label: "Splitting Method",
       description: "The method to use to split the Print Job into multiple Print Jobs.",
-      options: [
-        "none",
-        "split_on_phrase",
-        "split_on_page",
-      ],
+      options: SPLITTING_METHOD_OPTIONS,
       optional: true,
     },
     splitOnPhrase: {
@@ -70,11 +72,7 @@ export default {
       type: "string",
       label: "Double Sided",
       description: "Whether to print these letters double sided.",
-      options: [
-        "no",
-        "yes",
-        "mixed",
-      ],
+      options: DOUBLE_SIDED_OPTIONS,
       optional: true,
     },
     doubleSidedSpecificPages: {
@@ -93,26 +91,14 @@ export default {
       type: "string",
       label: "Postage Service",
       description: "The postage service to use for this Print Job.",
-      options: [
-        "uk_first_class",
-        "uk_second_class",
-        "uk_first_class_signed_for",
-        "uk_second_class_signed_for",
-        "uk_special_delivery",
-        "international",
-      ],
+      options: POSTAGE_SERVICE_OPTIONS,
       optional: true,
     },
     idealEnvelope: {
       type: "string",
       label: "Ideal Envelope",
       description: "The ideal envelope size for these letters.",
-      options: [
-        "c4",
-        "c5",
-        "c4_plus",
-        "a4_box",
-      ],
+      options: IDEAL_ENVELOPE_OPTIONS,
       optional: true,
     },
     mailDate: {
