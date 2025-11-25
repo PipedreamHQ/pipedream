@@ -37,6 +37,9 @@ export default {
     },
   },
   async run({ body }) {
+    if (!body.form_id) {
+      return;
+    }
     const ts = Date.parse(body.created_at || new Date());
     this.$emit(body, {
       id: body.submission_id || ts,
