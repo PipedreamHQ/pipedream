@@ -87,20 +87,8 @@ export function convertFieldsToProps(fields) {
     }
 
     if (field.entryLists?.length) {
+      // TODO: add dynamic options for entry lists
       prop.description = prop.description + ` Entry List ID: \`${field.entryLists[0]}\``;
-      // prop.options = async () => {
-      //   const results = await this.dealcloud.getAllEntryTypeEntries({
-      //     entryTypeId: field.entryLists[0],
-      //   });
-      //   return results.map((entry) => {
-      //     const value = entry.EntryId || entry.Id || entry.id;
-      //     const label = entry.Name || value;
-      //     return {
-      //       label,
-      //       value,
-      //     };
-      //   });
-      // };
     }
 
     acc[`field_${field.id}`] = prop;

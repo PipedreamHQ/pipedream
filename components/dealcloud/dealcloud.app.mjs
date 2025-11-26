@@ -83,10 +83,11 @@ export default {
     async queryEntries({
       entryTypeId, ...args
     }) {
-      return this._makeRequest({
+      const response = await this._makeRequest({
         url: `/data/entrydata/rows/${entryTypeId}`,
         ...args,
       });
+      return response?.rows || [];
     },
     async createEntry({
       entryTypeId, ...args

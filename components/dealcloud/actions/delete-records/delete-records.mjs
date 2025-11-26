@@ -41,7 +41,7 @@ export default {
       data: entryIds,
     });
 
-    const count = entryIds.length;
+    const count = response.length;
     $.export("$summary", `Successfully deleted ${count} record${count === 1
       ? ""
       : "s"}`);

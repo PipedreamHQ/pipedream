@@ -45,7 +45,7 @@ export default {
       },
     });
 
-    const count = entryIds.length;
+    const count = response.length;
     $.export("$summary", `Successfully retrieved ${count} record${count === 1
       ? ""
       : "s"}`);
