@@ -5,7 +5,7 @@ export default {
   key: "trengo-list-messages",
   name: "List Messages",
   description: "List messages from a ticket. [See the documentation](https://developers.trengo.com/reference/list-all-messages)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
