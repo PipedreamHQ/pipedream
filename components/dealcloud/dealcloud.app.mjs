@@ -1,5 +1,4 @@
-// import { axios } from "@pipedream/platform";
-import { getMockData } from "./common/mock-data.mjs";
+import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -46,13 +45,6 @@ export default {
     },
   },
   methods: {
-    /**
-     * Set this to true to use mock data instead of making real API requests
-     * Useful for testing without API access
-     */
-    _useMockData() {
-      return true;
-    },
     async _makeRequest({
       $ = this, headers, ...args
     }) {
@@ -64,13 +56,9 @@ export default {
         },
         ...args,
       };
-      $;return config; // while testing, return the config instead of making the request
-      // return axios($, config);
+      return axios($, config);
     },
     async listEntryTypes(args = {}) {
-      if (this._useMockData()) {
-        return getMockData("/schema/entrytypes");
-      }
       return this._makeRequest({
         url: "/schema/entrytypes",
         ...args,
@@ -79,11 +67,6 @@ export default {
     async getEntryTypeFields({
       entryTypeId, ...args
     }) {
-      if (this._useMockData()) {
-        return getMockData(`/schema/entrytypes/${entryTypeId}/fields`, {
-          entryTypeId,
-        });
-      }
       return this._makeRequest({
         url: `/schema/entrytypes/${entryTypeId}/fields`,
         ...args,
@@ -92,11 +75,6 @@ export default {
     async getAllEntryTypeEntries({
       entryTypeId, ...args
     }) {
-      if (this._useMockData()) {
-        return getMockData(`data/entrydata/${entryTypeId}/entries`, {
-          entryTypeId,
-        });
-      }
       return this._makeRequest({
         url: `data/entrydata/${entryTypeId}/entries`,
         ...args,
@@ -105,12 +83,6 @@ export default {
     async queryEntries({
       entryTypeId, ...args
     }) {
-      if (this._useMockData()) {
-        return getMockData(`data/entrydata/rows/${entryTypeId}`, {
-          entryTypeId,
-          params: args.params,
-        });
-      }
       return this._makeRequest({
         url: `data/entrydata/rows/${entryTypeId}`,
         ...args,
