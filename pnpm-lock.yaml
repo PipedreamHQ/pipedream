@@ -16421,6 +16421,9 @@ importers:
 
   components/wicked_reports: {}
 
+  components/wics:
+    specifiers: {}
+
   components/widgetform:
     dependencies:
       '@pipedream/platform':

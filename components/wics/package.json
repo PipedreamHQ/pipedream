@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/wics",
+  "version": "0.0.1",
+  "description": "Pipedream WICS Components",
+  "main": "wics.app.mjs",
+  "keywords": [
+    "pipedream",
+    "wics"
+  ],
+  "homepage": "https://pipedream.com/apps/wics",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
