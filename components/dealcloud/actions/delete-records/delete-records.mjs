@@ -5,7 +5,7 @@ export default {
   key: "dealcloud-delete-records",
   name: "Delete Record(s)",
   description: "Deletes one or more records (entries) from DealCloud. [See the documentation](https://api.docs.dealcloud.com/docs/data/delete)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: true,

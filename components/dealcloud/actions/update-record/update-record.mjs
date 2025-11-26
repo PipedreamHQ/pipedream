@@ -11,7 +11,7 @@ export default {
   key: "dealcloud-update-record",
   name: "Update Record",
   description: "Updates a record (entry) in DealCloud. [See the documentation](https://api.docs.dealcloud.com/docs/data/cells/postput)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

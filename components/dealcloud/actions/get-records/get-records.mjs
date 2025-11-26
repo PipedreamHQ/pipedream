@@ -5,7 +5,7 @@ export default {
   key: "dealcloud-get-records",
   name: "Get Record(s)",
   description: "Retrieves one or more records (entries) from DealCloud. [See the documentation](https://api.docs.dealcloud.com/docs/data/rows/get)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
