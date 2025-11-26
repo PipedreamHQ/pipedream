@@ -371,5 +371,11 @@ export default {
         ...args,
       });
     },
+    listQuickReplies(args = {}) {
+      return this._makeRequest({
+        path: "/quick_replies",
+        ...args,
+      });
+    },
   },
 };

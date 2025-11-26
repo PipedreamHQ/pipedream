@@ -5,7 +5,7 @@ export default {
   key: "trengo-list-labels",
   name: "List Labels",
   description: "List all labels. [See the documentation](https://developers.trengo.com/reference/list-all-labels)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
