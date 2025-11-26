@@ -16,7 +16,7 @@ export default {
           key,
           value,
         ]) => {
-          const fieldId = key.split("_")[1];
+          const fieldId = Number(key.split("_")[1]);
           return {
             entryId: this.getEntryId(),
             fieldId,

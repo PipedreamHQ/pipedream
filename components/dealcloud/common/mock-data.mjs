@@ -1101,13 +1101,13 @@ export function getMockData(endpoint, params = {}) {
   }
 
   // GET data/entrydata/{entryTypeId}/entries
-  if (endpoint.match(/^data\/entrydata\/\d+\/entries$/)) {
+  if (endpoint.match(/^\/data\/entrydata\/\d+\/entries$/)) {
     const entryTypeId = params.entryTypeId || parseInt(endpoint.split("/")[2]);
     return mockEntries[entryTypeId] || [];
   }
 
   // GET data/entrydata/rows/{entryTypeId} - Query entries with filtering support
-  if (endpoint.match(/^data\/entrydata\/rows\/\d+$/)) {
+  if (endpoint.match(/^\/data\/entrydata\/rows\/\d+$/)) {
     const entryTypeId = params.entryTypeId || parseInt(endpoint.split("/")[3]);
     let entries = mockEntries[entryTypeId] || [];
 

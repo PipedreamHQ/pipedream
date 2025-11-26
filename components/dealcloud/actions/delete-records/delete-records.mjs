@@ -34,7 +34,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const entryIds = checkIdArray(this.entryIds);
+    const entryIds = checkIdArray(this.entryIds).map(Number);
     const response = await this.app.deleteEntry({
       $,
       entryTypeId: this.entryTypeId,
