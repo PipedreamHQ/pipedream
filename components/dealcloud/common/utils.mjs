@@ -77,6 +77,7 @@ export function convertFieldsToProps(fields) {
       label: field.name,
       type: mapFieldTypeToPropType(fieldType, field.isMultiSelect),
       description: `Field ID: \`${field.id}\`. Field type: \`${field.fieldType}\``,
+      optional: !field.isRequired,
     };
 
     if (fieldType === FIELD_TYPES.CURRENCY) {
@@ -84,19 +85,20 @@ export function convertFieldsToProps(fields) {
     }
 
     if (field.entryLists?.length) {
-      prop.options = async () => {
-        const results = await this.dealcloud.getAllEntryTypeEntries({
-          entryTypeId: field.entryLists[0],
-        });
-        return results.map((entry) => {
-          const value = entry.EntryId || entry.Id || entry.id;
-          const label = entry.Name || value;
-          return {
-            label,
-            value,
-          };
-        });
-      };
+      prop.description = prop.description + ` Entry List ID: \`${field.entryLists[0]}\``;
+      // prop.options = async () => {
+      //   const results = await this.dealcloud.getAllEntryTypeEntries({
+      //     entryTypeId: field.entryLists[0],
+      //   });
+      //   return results.map((entry) => {
+      //     const value = entry.EntryId || entry.Id || entry.id;
+      //     const label = entry.Name || value;
+      //     return {
+      //       label,
+      //       value,
+      //     };
+      //   });
+      // };
     }
 
     acc[`field_${field.id}`] = prop;

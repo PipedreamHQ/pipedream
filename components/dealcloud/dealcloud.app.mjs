@@ -3,7 +3,7 @@ import { getMockData } from "./common/mock-data.mjs";
 
 export default {
   type: "app",
-  app: "dealcloud",
+  app: "slack_v2",
   propDefinitions: {
     entryTypeId: {
       type: "integer",
@@ -54,7 +54,7 @@ export default {
       return true;
     },
     async _makeRequest({
-      /*$ = this,*/ headers, ...args
+      $ = this, headers, ...args
     }) {
       const config = {
         baseURL: `${this.$auth.host_url}/api/rest/v4/`,
@@ -64,7 +64,7 @@ export default {
         },
         ...args,
       };
-      return config; // while testing, return the config instead of making the request
+      $;return config; // while testing, return the config instead of making the request
       // return axios($, config);
     },
     async listEntryTypes(args = {}) {
