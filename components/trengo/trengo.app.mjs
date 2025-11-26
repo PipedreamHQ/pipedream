@@ -370,6 +370,7 @@ export default {
         path: `/tickets/${ticketId}/labels`,
         ...args,
       });
+        },
     // Helpcenter API methods
     getHelpCenter({
       helpCenterId, ...args
