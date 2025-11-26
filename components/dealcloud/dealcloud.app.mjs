@@ -3,7 +3,7 @@ import { getMockData } from "./common/mock-data.mjs";
 
 export default {
   type: "app",
-  app: "slack_v2",
+  app: "dealcloud",
   propDefinitions: {
     entryTypeId: {
       type: "integer",

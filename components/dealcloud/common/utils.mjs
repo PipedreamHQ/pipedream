@@ -70,14 +70,15 @@ function mapFieldTypeToPropType(fieldTypeId, isArray) {
  * @returns Object to be returned in dynamic props
  */
 export function convertFieldsToProps(fields) {
-  console.log("fields: ", JSON.stringify(fields || {}));
   return fields.reduce((acc, field) => {
     const { fieldType } = field;
     const prop = {
       label: field.name,
       type: mapFieldTypeToPropType(fieldType, field.isMultiSelect),
       description: `Field ID: \`${field.id}\`. Field type: \`${field.fieldType}\``,
-      optional: !field.isRequired,
+      optional: this.isUpdate()
+        ? true
+        : !field.isRequired,
     };
 
     if (fieldType === FIELD_TYPES.CURRENCY) {

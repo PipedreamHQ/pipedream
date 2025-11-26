@@ -1,10 +1,10 @@
-import { convertFieldsToProps } from "../../common/utils.mjs";
-import dealcloud from "../../dealcloud.app.mjs";
+import commonCreateUpdate from "../common/common-create-update.mjs";
 
 export default {
-  key: "slack_v2-create-record",
+  ...commonCreateUpdate,
+  key: "dealcloud-create-record",
   name: "Create Record",
-  description: "Creates a new record (entry) in DealCloud. [See the documentation](https://api.docs.dealcloud.com/docs/data/rows/create)",
+  description: "Creates a new record (entry) in DealCloud. [See the documentation](https://api.docs.dealcloud.com/docs/data/cells/postput)",
   version: "0.0.{{ts}}",
   type: "action",
   annotations: {
@@ -12,53 +12,24 @@ export default {
     openWorldHint: true,
     readOnlyHint: false,
   },
-  props: {
-    dealcloud,
-    entryTypeId: {
-      propDefinition: [
-        dealcloud,
-        "entryTypeId",
-      ],
-      reloadProps: true,
-    },
-    ignoreNearDups: {
-      propDefinition: [
-        dealcloud,
-        "ignoreNearDups",
-      ],
-    },
-  },
-  async additionalProps() {
-    const props = {};
-    if (!this.entryTypeId) {
-      return props;
-    }
-    const fields = await this.dealcloud.getEntryTypeFields({
-      entryTypeId: this.entryTypeId,
-    });
-    return convertFieldsToProps(fields);
-  },
   async run({ $ }) {
+    /* eslint-disable no-unused-vars */
     const {
-      dealcloud, entryTypeId, ignoreNearDups, ...props
+      dealcloud,
+      entryTypeId,
+      ignoreNearDups,
+      convertFieldsToProps,
+      isUpdate,
+      getEntryId,
+      getRequestData,
+      ...props
     } = this;
+    /* eslint-enable no-unused-vars */
+
     const response = await dealcloud.createEntry({
       $,
       entryTypeId,
-      data: {
-        storeRequests: Object.entries(props).map(([
-          key,
-          value,
-        ]) => {
-          const fieldId = key.split("_")[1];
-          return {
-            entryId: -1,
-            fieldId,
-            ignoreNearDups,
-            value,
-          };
-        }),
-      },
+      data: this.getRequestData(props),
     });
 
     $.export("$summary", "Successfully created record");
