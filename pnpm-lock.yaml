@@ -3813,6 +3813,9 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/dealcloud:
+    specifiers: {}
+
   components/dealmachine:
     dependencies:
       '@pipedream/platform':
