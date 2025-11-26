@@ -16,34 +16,34 @@ export default {
     filter: {
       type: "string",
       label: "Filter",
-      description: "Filter the invoices by supplier number",
+      description: "Filter the invoices by supplier status",
       options: [
         {
           label: "Retrieves all invoices with the status `cancelled`",
           value: "cancelled",
         },
         {
-          label: "Retrieves all invoices that has been fully paid",
+          label: "Retrieves all invoices that have been fully paid",
           value: "fullpaid",
         },
         {
-          label: "Retrieves all invoices that is unpaid",
+          label: "Retrieves all invoices that are unpaid",
           value: "unpaid",
         },
         {
-          label: "Retrieves all invoices that is unpaid and overdue",
+          label: "Retrieves all invoices that are unpaid and overdue",
           value: "unpaidoverdue",
         },
         {
-          label: "Retrieves all invoices that is unbooked",
+          label: "Retrieves all invoices that are unbooked",
           value: "unbooked",
         },
         {
-          label: "Retrieves all invoices that has PaymentPending=true and is booked",
+          label: "Retrieves all invoices that have PaymentPending=true and are booked",
           value: "pendingpayment",
         },
         {
-          label: "Retrieves all invoices that has a waiting authorization pending",
+          label: "Retrieves all invoices that have a waiting authorization pending",
           value: "authorizepending",
         },
       ],

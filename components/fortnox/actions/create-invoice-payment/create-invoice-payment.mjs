@@ -25,12 +25,6 @@ export default {
       description: "The amount of the payment",
       optional: true,
     },
-    booked: {
-      type: "boolean",
-      label: "Booked",
-      description: "Whether the payment is booked",
-      optional: true,
-    },
     customerNumber: {
       propDefinition: [
         fortnox,
@@ -41,13 +35,13 @@ export default {
     dueDate: {
       type: "string",
       label: "Due Date",
-      description: "The due date of the invoice",
+      description: "The due date of the invoice. Format DD/MM/YYYY",
       optional: true,
     },
     paymentDate: {
       type: "string",
       label: "Payment Date",
-      description: "The date of the payment",
+      description: "The date of the payment. Format DD/MM/YYYY",
       optional: true,
     },
     invoiceTotal: {
@@ -78,7 +72,6 @@ export default {
           Amount: this.amount
             ? +this.amount
             : undefined,
-          Booked: this.booked,
           InvoiceCustomerNumber: this.customerNumber,
           InvoiceDueDate: this.dueDate,
           InvoiceTotal: this.invoiceTotal
