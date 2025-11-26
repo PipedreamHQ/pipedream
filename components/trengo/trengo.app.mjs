@@ -370,56 +370,6 @@ export default {
         path: `/tickets/${ticketId}/labels`,
         ...args,
       });
-        },
-    // Helpcenter API methods
-    getHelpCenter({
-      helpCenterId, ...args
-    }) {
-      return this._makeRequest({
-        path: `/help_center/${helpCenterId}`,
-        ...args,
-      });
-    },
-    getCategories({
-      helpCenterId, ...args
-    }) {
-      return this._makeRequest({
-        path: `/help_center/${helpCenterId}/categories`,
-        ...args,
-      });
-    },
-    getCategory({
-      helpCenterId, categoryId, ...args
-    }) {
-      return this._makeRequest({
-        path: `/help_center/${helpCenterId}/categories/${categoryId}`,
-        ...args,
-      });
-    },
-    getBlocks({
-      helpCenterId, ...args
-    }) {
-      return this._makeRequest({
-        path: `/help_center/${helpCenterId}/blocks`,
-        ...args,
-      });
-    },
-    getBlock({
-      helpCenterId, blockId, ...args
-    }) {
-      return this._makeRequest({
-        path: `/help_center/${helpCenterId}/blocks/${blockId}`,
-        ...args,
-      });
-    },
-    getArticle({
-      helpCenterId, articleId, ...args
-    }) {
-      return this._makeRequest({
-        path: `/help_center/${helpCenterId}/articles/${articleId}`,
-        ...args,
-      });
-    },
     },
   },
 };
