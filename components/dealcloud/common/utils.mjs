@@ -3,7 +3,8 @@ import { CURRENCY_OPTIONS } from "./constants.mjs";
 
 export function checkIdArray(value) {
   if (typeof value === "string") {
-    return value.split(",");
+    return value.split(",").map((id) => id.trim())
+      .filter(Boolean);
   }
   if (Array.isArray(value)) {
     return value;

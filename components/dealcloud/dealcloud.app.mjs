@@ -49,7 +49,7 @@ export default {
       $ = this, headers, ...args
     }) {
       const config = {
-        baseURL: `${this.$auth.host}/api/rest/v4/`,
+        baseURL: `${this.$auth.host}/api/rest/v4`,
         headers: {
           ...headers,
           Authorization: `Bearer ${this.$auth.oauth_access_token}`,
@@ -76,7 +76,7 @@ export default {
       entryTypeId, ...args
     }) {
       return this._makeRequest({
-        url: `data/entrydata/${entryTypeId}/entries`,
+        url: `/data/entrydata/${entryTypeId}/entries`,
         ...args,
       });
     },
@@ -84,7 +84,7 @@ export default {
       entryTypeId, ...args
     }) {
       return this._makeRequest({
-        url: `data/entrydata/rows/${entryTypeId}`,
+        url: `/data/entrydata/rows/${entryTypeId}`,
         ...args,
       });
     },
@@ -92,7 +92,7 @@ export default {
       entryTypeId, ...args
     }) {
       return this._makeRequest({
-        url: `data/entrydata/${entryTypeId}`,
+        url: `/data/entrydata/${entryTypeId}`,
         method: "POST",
         ...args,
       });
@@ -101,7 +101,7 @@ export default {
       entryTypeId, ...args
     }) {
       return this._makeRequest({
-        url: `data/entrydata/${entryTypeId}`,
+        url: `/data/entrydata/${entryTypeId}`,
         method: "PUT",
         ...args,
       });
@@ -110,7 +110,7 @@ export default {
       entryTypeId, ...args
     }) {
       return this._makeRequest({
-        url: `data/entrydata/${entryTypeId}`,
+        url: `/data/entrydata/${entryTypeId}`,
         method: "DELETE",
         ...args,
       });
