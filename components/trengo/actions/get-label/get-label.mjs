@@ -4,7 +4,7 @@ export default {
   key: "trengo-get-label",
   name: "Get Label",
   description: "Get a label by ID. [See the documentation](https://developers.trengo.com/reference/get-a-label)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: false,
