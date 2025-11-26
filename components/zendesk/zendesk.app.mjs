@@ -736,7 +736,6 @@ export default {
     } = {}) {
       return this.makeRequest({
         path: this.prepareLocalePath({
-          helpCenter: true,
           locale,
           path: `/articles/${articleId}`,
         }),
