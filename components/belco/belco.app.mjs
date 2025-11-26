@@ -237,6 +237,15 @@ export default {
         ...opts,
       });
     },
+    addTagsToConversation({
+      conversationId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/conversations/${conversationId}/tags`,
+        ...opts,
+      });
+    },
     async *paginate({
       fn, params = {}, maxResults = null, ...opts
     }) {
