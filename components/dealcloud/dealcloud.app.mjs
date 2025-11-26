@@ -57,7 +57,7 @@ export default {
       $ = this, headers, ...args
     }) {
       const config = {
-        baseURL: `${this.$auth.host_url}/api/rest/v4/`,
+        baseURL: `${this.$auth.host}/api/rest/v4/`,
         headers: {
           ...headers,
           Authorization: `Bearer ${this.$auth.oauth_access_token}`,
