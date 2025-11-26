@@ -37,7 +37,7 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
-      - uses: actions/setup-node@v4.0.3
+      - uses: actions/setup-node@v6
         with:
           node-version: 18
           registry-url: https://registry.npmjs.org/

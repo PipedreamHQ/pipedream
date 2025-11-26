@@ -34,7 +34,7 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v6
         with:
           node-version: '22'
 
