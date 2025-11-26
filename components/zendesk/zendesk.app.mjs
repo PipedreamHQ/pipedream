@@ -463,13 +463,11 @@ export default {
       };
     },
     makeRequest({
-      step = this, url, path, locale = "", headers, customSubdomain, ...args
+      step = this, url, path, headers, customSubdomain, ...args
     }) {
       return axios(step, {
         headers: this.getHeaders(headers),
-        url: url ?? this.getUrl(`${locale
-          ? locale
-          : ""}${path}`, customSubdomain),
+        url: url ?? this.getUrl(path, customSubdomain),
         timeout: constants.DEFAULT_TIMEOUT,
         ...args,
       });

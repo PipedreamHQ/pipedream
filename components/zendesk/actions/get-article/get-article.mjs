@@ -3,7 +3,7 @@ import zendesk from "../../zendesk.app.mjs";
 export default {
   key: "zendesk-get-article",
   name: "Get Article",
-  description: "Retrieves a article by its ID. [See the documentation](https://developer.zendesk.com/api-reference/help_center/help-center-api/articles/#show-article).",
+  description: "Retrieves an article by its ID. [See the documentation](https://developer.zendesk.com/api-reference/help_center/help-center-api/articles/#show-article).",
   type: "action",
   version: "0.0.1",
   annotations: {
