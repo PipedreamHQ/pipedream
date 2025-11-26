@@ -6,7 +6,7 @@ export default {
   key: "pipedrive-new-deal-instant",
   name: "New Deal (Instant)",
   description: "Emit new event when a new deal is created.",
-  version: "0.0.13",
+  version: "0.0.14",
   type: "source",
   dedupe: "unique",
   methods: {
