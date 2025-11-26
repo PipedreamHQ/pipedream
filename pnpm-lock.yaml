@@ -2043,8 +2043,7 @@ importers:
 
   components/braintree: {}
 
-  components/brand_dev:
-    specifiers: {}
+  components/brand_dev: {}
 
   components/brandblast: {}
 
@@ -3588,8 +3587,7 @@ importers:
 
   components/currents_api: {}
 
-  components/cursor:
-    specifiers: {}
+  components/cursor: {}
 
   components/customer_fields:
     dependencies:
@@ -3810,6 +3808,12 @@ importers:
         version: 1.6.8
 
   components/dbt:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
+
+  components/dealcloud:
     dependencies:
       '@pipedream/platform':
         specifier: ^3.1.1
@@ -4496,7 +4500,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/dynamic_content_snippet: {}
+  components/dynamic_content_snippet:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/dynamics_365_business_central_api:
     dependencies:
@@ -4722,7 +4730,11 @@ importers:
 
   components/emelia: {}
 
-  components/encharge: {}
+  components/encharge:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/encodian:
     dependencies:
@@ -5669,8 +5681,7 @@ importers:
 
   components/funnelcockpit: {}
 
-  components/fynk:
-    specifiers: {}
+  components/fynk: {}
 
   components/gagelist:
     dependencies:
@@ -6736,8 +6747,7 @@ importers:
 
   components/helcim: {}
 
-  components/helicone:
-    specifiers: {}
+  components/helicone: {}
 
   components/helium:
     dependencies:
@@ -8649,8 +8659,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/magicalapi:
-    specifiers: {}
+  components/magicalapi: {}
 
   components/magileads: {}
 
@@ -12280,8 +12289,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/relationcity:
-    specifiers: {}
+  components/relationcity: {}
 
   components/relavate:
     dependencies:
@@ -13252,8 +13260,8 @@ importers:
   components/sendoso:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.8
-        version: 1.6.8
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/sendowl:
     dependencies:
@@ -13950,7 +13958,11 @@ importers:
 
   components/sms_magic: {}
 
-  components/sms_messages: {}
+  components/sms_messages:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/sms_partner: {}
 
@@ -14054,8 +14066,7 @@ importers:
 
   components/socialkit: {}
 
-  components/socket:
-    specifiers: {}
+  components/socket: {}
 
   components/softledger: {}
 
@@ -15438,8 +15449,7 @@ importers:
 
   components/turbohire: {}
 
-  components/turbosmtp:
-    specifiers: {}
+  components/turbosmtp: {}
 
   components/turbot_pipes:
     dependencies:
@@ -15871,8 +15881,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/validemail:
-    specifiers: {}
+  components/validemail: {}
 
   components/vapi:
     dependencies:
@@ -15976,8 +15985,7 @@ importers:
 
   components/verticalresponse: {}
 
-  components/veryfi:
-    specifiers: {}
+  components/veryfi: {}
 
   components/vestaboard:
     dependencies:
@@ -31491,17 +31499,17 @@ packages:
   superagent@3.8.1:
     resolution: {integrity: sha512-VMBFLYgFuRdfeNQSMLbxGSLfmXL/xc+OO+BZp41Za/NRDBet/BNbkRJrYzCUu0u4GU0i/ml2dtT8b9qgkw9z6Q==}
     engines: {node: '>= 4.0'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   superagent@4.1.0:
     resolution: {integrity: sha512-FT3QLMasz0YyCd4uIi5HNe+3t/onxMyEho7C3PSqmti3Twgy2rXT4fmkTz6wRL6bTF4uzPcfkUCa8u4JWHw8Ag==}
     engines: {node: '>= 6.0'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   superagent@5.3.1:
     resolution: {integrity: sha512-wjJ/MoTid2/RuGCOFtlacyGNxN9QLMgcpYLDQlWFIhhdJ93kNscFonGvrpAHSCVjRVj++DGCglocF7Aej1KHvQ==}
     engines: {node: '>= 7.0.0'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   supports-color@10.2.2:
     resolution: {integrity: sha512-SS+jx45GF1QjgEXQx4NJZV9ImqmO2NPz5FNsIHrsDjh2YsHnawpan7SNQ1o8NuhrbHZy9AZhIoCUiCeaW/C80g==}
@@ -39125,7 +39133,6 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
-      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.9)(rollup@4.53.2)':
     dependencies:
