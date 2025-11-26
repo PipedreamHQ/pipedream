@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/fynk",
+  "version": "0.0.1",
+  "description": "Pipedream fynk Components",
+  "main": "fynk.app.mjs",
+  "keywords": [
+    "pipedream",
+    "fynk"
+  ],
+  "homepage": "https://pipedream.com/apps/fynk",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/kyvio",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Kyvio Components",
   "main": "kyvio.app.mjs",
   "keywords": [

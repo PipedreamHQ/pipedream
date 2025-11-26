@@ -12,7 +12,7 @@ Not sure if you need to use the Discord or the Discord Bot integration for your 
 
 Discord and Discord Bot actions and triggers _can_ both:
 
-* Listen to events on Discord channels, guilds, etc.
+* Listen to events on Discord channels, servers, etc.
 * Perform actions like sending messages, managing channels, and members
 
 However the Discord integration will perform actions with the official Pipedream Discord bot.
@@ -32,8 +32,8 @@ Using the Discord Bot integration will use a custom bot instead, with it's own n
 1. [Create a new workflow](https://pipedream.com/new).
 2. Select your trigger (HTTP, Cron, etc.).
 3. Click on the **+** button below the trigger step, and search for "Discord".
-4. Select the **Send a Message** action.
-5. Click the **Connect Account** button near the top of the step. This will prompt you to select any existing Discord accounts you've previously authenticated with Pipedream, or you can select a **New** account. Clicking **New** opens a new window asking you to allow Pipedream access to your Discord account. Choose the right guilde where you'd like to install the app, then click **Allow**.
+4. Select the **Send Message** action.
+5. Click the **Connect Account** button near the top of the step. This will prompt you to select any existing Discord accounts you've previously authenticated with Pipedream, or you can select a **New** account. Clicking **New** opens a new window asking you to allow Pipedream access to your Discord account. Choose the server where you'd like to install the app, then click **Allow**.
 6. That's it! You can now connect to the Discord API using any of the Discord actions within a Pipedream workflow.
 
 # Example Use Cases

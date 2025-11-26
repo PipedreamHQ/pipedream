@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/pipedream_utils",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Pipedream Utils Components",
   "main": "pipedream_utils.app.mjs",
   "keywords": [
@@ -20,7 +20,7 @@
     "lodash.get": "^4.4.2",
     "moment": "^2.30.1",
     "moment-timezone": "^0.5.47",
-    "nodemailer": "^6.7.8",
+    "nodemailer": "^7.0.7",
     "pluralize": "^8.0.0",
     "rss-parser": "^3.12.0",
     "showdown": "^2.1.0",

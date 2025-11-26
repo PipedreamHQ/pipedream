@@ -3,8 +3,8 @@ import bookingExperts from "../../booking_experts.app.mjs";
 export default {
   key: "booking_experts-add-guest-to-reservation",
   name: "Add Guest to Reservation",
-  description: "Add a guest to a reservation.. [See the documentation](https://developers.bookingexperts.com/reference/administration-reservation-guests-create)",
-  version: "0.0.2",
+  description: "Add a guest to a reservation. [See the documentation](https://developers.bookingexperts.com/reference/administration-reservation-guests-create)",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -77,6 +77,7 @@ export default {
   },
   async run({ $ }) {
     const { data } = await this.bookingExperts.addGuestToReservation({
+      $,
       administrationId: this.administrationId,
       reservationId: this.reservationId,
       data: {

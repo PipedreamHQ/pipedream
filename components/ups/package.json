@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ups",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream UPS Components",
   "main": "ups.app.mjs",
   "keywords": [
@@ -13,6 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.1.1"
+    "@pipedream/platform": "^3.1.1",
+    "uuid": "^13.0.0"
   }
 }

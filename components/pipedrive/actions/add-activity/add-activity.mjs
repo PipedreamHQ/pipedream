@@ -7,7 +7,7 @@ export default {
   key: "pipedrive-add-activity",
   name: "Add Activity",
   description: "Adds a new activity. Includes `more_activities_scheduled_in_context` property in response's `additional_data` which indicates whether there are more undone activities scheduled with the same deal, person or organization (depending on the supplied data). See the Pipedrive API docs for Activities [here](https://developers.pipedrive.com/docs/api/v1/#!/Activities). For info on [adding an activity in Pipedrive](https://developers.pipedrive.com/docs/api/v1/Activities#addActivity)",
-  version: "0.1.17",
+  version: "0.1.19",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

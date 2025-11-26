@@ -5,7 +5,7 @@ export default {
   key: "mastodon-new-status-favorited",
   name: "New Status Favorited",
   description: "Emit new event when the specified status is favorited. [See the docs here](https://docs.joinmastodon.org/methods/statuses/#favourited_by)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

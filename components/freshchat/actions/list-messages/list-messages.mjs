@@ -5,7 +5,7 @@ export default {
   name: "List Messages",
   description: "Lists all messages in a conversation. [See the documentation](https://developers.freshchat.com/api/#list_messages)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

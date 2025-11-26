@@ -4,7 +4,7 @@ export default {
   key: "ups-void-shipment",
   name: "Void Shipment",
   description: "Void a shipment. [See the documentation](https://developer.ups.com/tag/Shipping?loc=en_US#operation/VoidShipment)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: true,

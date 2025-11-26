@@ -5,7 +5,7 @@ export default {
   key: "pipedream_utils-prettify-json",
   name: "Helper Functions - Pretty Print JSON",
   description: "Pretty print a JavaScript object or value",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

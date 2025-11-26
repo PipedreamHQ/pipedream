@@ -1,11 +1,11 @@
-import bookingExperts from "../../booking_experts.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import bookingExperts from "../../booking_experts.app.mjs";
 
 export default {
   key: "booking_experts-search-contacts",
   name: "Search Contacts",
   description: "Search for contacts by email or phone. [See the documentation](https://developers.bookingexperts.com/reference/contact-search-first)",
-  version: "0.0.2",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -34,6 +34,7 @@ export default {
 
     try {
       const { data } = await this.bookingExperts.searchContacts({
+        $,
         params: {
           email: this.email,
           phone: this.phone,

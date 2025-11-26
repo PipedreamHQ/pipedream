@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/demio",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Pipedream Demio Components",
   "main": "demio.app.mjs",
   "keywords": [

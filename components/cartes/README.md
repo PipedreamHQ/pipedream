@@ -1,6 +1,6 @@
 # Overview
 
-Cartes API allows users to create, update, and share maps with custom markers, making it useful for location-based data visualization. With Pipedream, you can automate interactions with the Cartes API to integrate real-time mapping capabilities into your workflows. For instance, you could track assets, manage event locations, or update a map with user-generated content from various sources. Pipedream's power lies in its ability to connect the Cartes API with hundreds of other apps to create dynamic, automated workflows.
+Cartes API allows users to create, update, and share maps with custom markers, making it useful for location-based data visualization. With Pipedream, you can automate interactions with the Cartes API to integrate real-time mapping capabilities into your workflows. For instance, you could track assets, manage event locations, or update a map with user-generated content from various sources. Pipedream's power lies in its ability to connect the Cartes API with 3,000+ other apps to create dynamic, automated workflows.
 
 # Example Use Cases
 
