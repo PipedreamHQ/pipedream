@@ -8,7 +8,7 @@ export default {
   name: "New Send Status Updated",
   key: "sendoso-send-status-updated",
   description: "Emit new event when a send status is updated. [See docs here](https://sendoso.docs.apiary.io/#reference/send-management/send-tracking/fetch-the-status-of-a-send)",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,
