@@ -4,7 +4,7 @@ export default {
   key: "pipedrive-get-lead-by-id",
   name: "Get Lead by ID",
   description: "Get a lead by its ID. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Leads#getLead)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

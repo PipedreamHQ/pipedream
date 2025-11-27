@@ -183,6 +183,12 @@ export default {
         ...opts,
       });
     },
+    listConversationProperties(opts = {}) {
+      return this._makeRequest({
+        path: "/conversations/fields",
+        ...opts,
+      });
+    },
     sendMessageInChat({
       conversationId, ...opts
     }) {
