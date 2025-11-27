@@ -3,7 +3,7 @@ import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "csvbox-new-row-instant",
-  name: "Import New Row",
+  name: "New Row Imported",
   description: "Emit new events when a new row is added to a CSVBox sheet",
   version: "0.0.1",
   type: "source",
@@ -126,8 +126,8 @@ export default {
 
     for (const row of body) {
       this.$emit(row, {
-        id: row.import_id || `${row.sheet_id}_${row.row_number}_${Date.now()}`,
-        summary: `New data imported to sheet ${row.sheet_name}`,
+        id: `${row.sheet_id}_${row.row_number}_${Date.now()}`,
+        summary: `New Row Imported from sheet ${row.sheet_name}`,
         ts: Date.now(),
       });
     }
