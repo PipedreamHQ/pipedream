@@ -7,7 +7,7 @@ export default {
   name: "New Knowledge Article (Instant, of Selectable Type)",
   key: "salesforce_rest_api-new-knowledge-article-instant",
   description: "Emit new event when a knowledge article is created. [See the documentation](https://sforce.co/3yPSJZy)",
-  version: "0.0.5",
+  version: "0.0.6",
   props: {
     salesforce: common.props.salesforce,
     db: "$.service.db",
