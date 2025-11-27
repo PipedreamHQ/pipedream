@@ -49,6 +49,21 @@ export default {
         ...opts,
       });
     },
+    createHook({
+      formId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/forms/${formId}/webhooks`,
+        method: "POST",
+        ...opts,
+      });
+    },
+    deleteHook(hookId) {
+      return this._makeRequest({
+        path: `/webhooks/${hookId}`,
+        method: "DELETE",
+      });
+    },
     listSubmissions({
       formId, ...opts
     }) {
