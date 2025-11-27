@@ -24,7 +24,7 @@ export default {
         },
         {
           label: "Retrieves all invoices that have been fully paid",
-          value: "fullpaid",
+          value: "fullypaid",
         },
         {
           label: "Retrieves all invoices that are unpaid",
