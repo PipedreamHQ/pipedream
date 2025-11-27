@@ -78,7 +78,7 @@ export default {
     doubleSidedSpecificPages: {
       type: "string",
       label: "Double Sided Specific Pages",
-      description: "The array of pages to print double sided. Only used when printing.double_sided is set to `mixed`. Example: **[[1, 3], [6, 7]]**.",
+      description: "The array of pages to print double sided. Only used when **Double Sided** is set to `mixed`. Example: **[[1, 3], [6, 7]]**.",
       optional: true,
     },
     premiumQuality: {
