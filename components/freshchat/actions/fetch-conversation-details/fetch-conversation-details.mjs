@@ -4,7 +4,7 @@ export default {
   key: "freshchat-fetch-conversation-details",
   name: "Fetch Conversation Details",
   description: "Fetches details for a specific conversation. [See the documentation](https://developers.freshchat.com/api/#retrieve_a_conversation)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

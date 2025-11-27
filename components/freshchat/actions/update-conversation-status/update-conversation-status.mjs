@@ -5,7 +5,7 @@ export default {
   key: "freshchat-update-conversation-status",
   name: "Update Conversation Status",
   description: "Updates the status of a specific conversation. [See the documentation](https://developers.freshchat.com/api/#update_a_conversation)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

@@ -226,6 +226,52 @@ export default {
     },
   },
   methods: {
+    /**
+     * List all messages for a specific ticket
+     * @param {Object} params - Parameters for the request
+     * @param {number} params.ticketId - The ID of the ticket
+     * @param {Object} params.params - Optional query parameters (cursor, limit, etc.)
+     * @returns {Promise<Object>} - Returns the list of messages and pagination info
+     */
+    listTicketMessages({
+      $, ticketId, params = {},
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/tickets/${ticketId}/messages`,
+        params,
+      });
+    },
+    /**
+     * Get a specific message by ID
+     * @param {Object} params - Parameters for the request
+     * @param {number} params.ticketId - The ID of the ticket
+     * @param {number} params.messageId - The ID of the message to retrieve
+     * @returns {Promise<Object>} - Returns the message details
+     */
+    getTicketMessage({
+      $, ticketId, messageId,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/tickets/${ticketId}/messages/${messageId}`,
+      });
+    },
+    /**
+     * List all messages
+     * @param {Object} params - Parameters for the request
+     * @param {Object} params.params - Optional query parameters (cursor, limit, etc.)
+     * @returns {Promise<Object>} - Returns the list of messages and pagination info
+     */
+    listMessages({
+      $, params = {},
+    }) {
+      return this._makeRequest({
+        $,
+        path: "/messages",
+        params,
+      });
+    },
     _defaultConfig({
       path, method = "get", params = {}, data,
     }) {

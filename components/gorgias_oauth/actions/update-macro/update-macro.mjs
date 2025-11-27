@@ -6,7 +6,7 @@ export default {
   key: "gorgias_oauth-update-macro",
   name: "Update Macro",
   description: "Update a macro. [See the documentation](https://developers.gorgias.com/reference/update-macro)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
