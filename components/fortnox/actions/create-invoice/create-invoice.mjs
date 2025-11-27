@@ -105,16 +105,18 @@ export default {
       description: "The freight of the invoice",
       optional: true,
     },
-    termsOfDelivery: {
-      type: "string",
-      label: "Terms of Delivery",
-      description: "The terms of delivery of the invoice",
+    termsOfDeliveries: {
+      propDefinition: [
+        fortnox,
+        "termsOfDeliveries",
+      ],
       optional: true,
     },
     termsOfPayment: {
-      type: "string",
-      label: "Terms of Payment",
-      description: "The terms of payment of the invoice",
+      propDefinition: [
+        fortnox,
+        "termsOfPayments",
+      ],
       optional: true,
     },
   },

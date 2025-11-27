@@ -15,7 +15,7 @@ export default {
     app,
   },
   async run({ $ }) {
-    const accounts = await this.app.listAccounts({
+    const { Accounts: accounts } = await this.app.listAccounts({
       $,
     });
 

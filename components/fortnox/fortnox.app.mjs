@@ -118,6 +118,30 @@ export default {
         })) || [];
       },
     },
+    termsOfDeliveries: {
+      type: "string",
+      label: "Terms of Delivery",
+      description: "The terms of delivery of the invoice",
+      async options() {
+        const { TermsOfDeliveries: termsOfDeliveries } = await this.listTermsOfDeliveries();
+        return termsOfDeliveries?.map((term) => ({
+          label: term.Description,
+          value: term.Code,
+        })) || [];
+      },
+    },
+    termsOfPayments: {
+      type: "string",
+      label: "Terms of Payment",
+      description: "The terms of payment of the invoice",
+      async options() {
+        const { TermsOfPayments: termsOfPayments } = await this.listTermsOfPayments();
+        return termsOfPayments?.map((term) => ({
+          label: term.Description,
+          value: term.Code,
+        })) || [];
+      },
+    },
     articleDescription: {
       type: "string",
       label: "Description",
@@ -416,6 +440,18 @@ export default {
     }) {
       return this._makeRequest({
         path: `/supplierinvoices/${supplierInvoiceNumber}`,
+        ...opts,
+      });
+    },
+    listTermsOfPayments(opts = {}) {
+      return this._makeRequest({
+        path: "/termsofpayments",
+        ...opts,
+      });
+    },
+    listTermsOfDeliveries(opts = {}) {
+      return this._makeRequest({
+        path: "/termsofdeliveries",
         ...opts,
       });
     },
