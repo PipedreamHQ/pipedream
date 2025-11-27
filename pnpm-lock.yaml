@@ -7106,8 +7106,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/hybrid_analysis:
-    specifiers: {}
+  components/hybrid_analysis: {}
 
   components/hygraph: {}
 
@@ -15185,7 +15184,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/tmetric: {}
+  components/tmetric:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/todoist:
     dependencies:
@@ -16428,8 +16431,7 @@ importers:
 
   components/wicked_reports: {}
 
-  components/wics:
-    specifiers: {}
+  components/wics: {}
 
   components/widgetform:
     dependencies:
