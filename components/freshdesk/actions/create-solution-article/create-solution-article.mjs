@@ -6,7 +6,7 @@ export default {
   key: "freshdesk-create-solution-article",
   name: "Create Solution Article",
   description: "Create a solution article in Freshdesk. [See the documentation](https://developers.freshdesk.com/api/#solution_article_attributes)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

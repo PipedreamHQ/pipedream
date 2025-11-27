@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/apiframe",
+  "version": "0.0.1",
+  "description": "Pipedream Apiframe Components",
+  "main": "apiframe.app.mjs",
+  "keywords": [
+    "pipedream",
+    "apiframe"
+  ],
+  "homepage": "https://pipedream.com/apps/apiframe",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

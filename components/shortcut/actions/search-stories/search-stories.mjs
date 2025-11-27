@@ -4,7 +4,7 @@ export default {
   key: "shortcut-search-stories",
   name: "Search Stories",
   description: "Searches for stories in your Shortcut account.",
-  version: "1.0.1",
+  version: "1.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

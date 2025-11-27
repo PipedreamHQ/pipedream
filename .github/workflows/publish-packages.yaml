@@ -20,8 +20,8 @@ jobs:
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
     steps:
-      - uses: actions/checkout@v4.1.7
-      - uses: pnpm/action-setup@v4.0.0
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v4.2.0
         with:
           version: 9.14.2
       - name: Get pnpm store directory
@@ -37,7 +37,7 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
-      - uses: actions/setup-node@v4.0.3
+      - uses: actions/setup-node@v6
         with:
           node-version: 18
           registry-url: https://registry.npmjs.org/

@@ -5,7 +5,7 @@ export default {
   key: "amazon_selling_partner-new-order-created",
   name: "New Order Created",
   description: "Emit new event when a new order is created in Amazon Seller Central. [See the documentation](https://developer-docs.amazon.com/sp-api/reference/getorders)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

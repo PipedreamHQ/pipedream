@@ -4,7 +4,7 @@ export default {
   key: "metabase-get-database",
   name: "Get Database",
   description: "Retrieve database information. [See the documentation](https://www.metabase.com/docs/latest/api#tag/apidatabase/get/api/database/{id}).",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

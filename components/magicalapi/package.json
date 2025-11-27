@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/magicalapi",
+  "version": "0.0.1",
+  "description": "Pipedream MagicalAPI Components",
+  "main": "magicalapi.app.mjs",
+  "keywords": [
+    "pipedream",
+    "magicalapi"
+  ],
+  "homepage": "https://pipedream.com/apps/magicalapi",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -64,8 +64,39 @@ export default {
     },
   },
   methods: {
+    _getApiEndpoint(sellerCentralUrl) {
+      const na = "https://sellingpartnerapi-na.amazon.com";
+      const eu = "https://sellingpartnerapi-eu.amazon.com";
+      const fe = "https://sellingpartnerapi-fe.amazon.com";
+
+      const map = {
+        // North America
+        "https://sellercentral.amazon.com": na,
+        "https://sellercentral.amazon.ca": na,
+        "https://sellercentral.amazon.com.mx": na,
+        "https://sellercentral.amazon.com.br": na,
+
+        // Europe (The Big 5 often share one URL, but newer ones have specific URLs)
+        "https://sellercentral-europe.amazon.com": eu,
+        "https://sellercentral.amazon.com.be": eu,
+        "https://sellercentral.amazon.nl": eu,
+        "https://sellercentral.amazon.pl": eu,
+        "https://sellercentral.amazon.se": eu,
+        "https://sellercentral.amazon.com.tr": eu,
+
+        // India (Uses EU endpoint)
+        "https://sellercentral.amazon.in": eu,
+
+        // Far East
+        "https://sellercentral.amazon.sg": fe,
+        "https://sellercentral.amazon.com.au": fe,
+        "https://sellercentral.amazon.co.jp": fe,
+      };
+
+      return map[sellerCentralUrl];
+    },
     _baseUrl() {
-      return "https://sellingpartnerapi-na.amazon.com";
+      return this._getApiEndpoint(this.$auth.marketplace);
     },
     _makeRequest({
       $ = this, path, ...opts

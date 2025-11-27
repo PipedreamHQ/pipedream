@@ -5,7 +5,7 @@ export default {
   key: "booking_experts-new-inventory-object-created",
   name: "New Inventory Object Created",
   description: "Emit new event when a new inventory object is created. [See the documentation](https://developers.bookingexperts.com/reference/administration-inventoryobjects-index)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {

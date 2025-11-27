@@ -4,7 +4,7 @@ export default {
   key: "freshdesk-set-ticket-priority",
   name: "Set Ticket Priority",
   description: "Update the priority of a ticket in Freshdesk  [See the documentation](https://developers.freshdesk.com/api/#update_ticket).",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

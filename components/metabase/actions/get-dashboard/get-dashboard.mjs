@@ -4,7 +4,7 @@ export default {
   key: "metabase-get-dashboard",
   name: "Get Dashboard",
   description: "Retrieve dashboard information and its cards. [See the documentation](https://www.metabase.com/docs/latest/api#tag/apidashboard/get/api/dashboard/{id}).",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

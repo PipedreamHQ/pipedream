@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/helicone",
+  "version": "0.0.1",
+  "description": "Pipedream Helicone Components",
+  "main": "helicone.app.mjs",
+  "keywords": [
+    "pipedream",
+    "helicone"
+  ],
+  "homepage": "https://pipedream.com/apps/helicone",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

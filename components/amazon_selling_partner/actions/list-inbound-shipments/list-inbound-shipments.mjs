@@ -4,7 +4,7 @@ export default {
   key: "amazon_selling_partner-list-inbound-shipments",
   name: "List Inbound Shipments",
   description: "Fetches inbound shipment details to track stock movement and replenishment. [See the documentation](https://developer-docs.amazon.com/sp-api/reference/getshipments)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -7,7 +7,7 @@ export default {
   name: "New Send Created",
   key: "sendoso-new-send",
   description: "Emit new event when a new send is created. [See docs here](https://sendoso.docs.apiary.io/#reference/send-management/get-all-sent-giftsitems/get-sent-gifts)",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,

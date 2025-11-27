@@ -5,7 +5,7 @@ export default {
   key: "freshdesk-create-agent",
   name: "Create Agent",
   description: "Create an agent in Freshdesk. [See the documentation](https://developers.freshdesk.com/api/#create_agent)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

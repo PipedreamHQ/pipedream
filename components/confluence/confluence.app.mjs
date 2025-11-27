@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { BODY_FORMAT_OPTIONS } from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -192,10 +193,7 @@ export default {
       type: "string",
       label: "Body Format",
       description: "The content format types to be returned in the body field of the response. If available, the representation will be available under a response field of the same name under the body field.",
-      options: [
-        "storage",
-        "atlas_doc_format",
-      ],
+      options: BODY_FORMAT_OPTIONS,
       optional: true,
     },
     subType: {

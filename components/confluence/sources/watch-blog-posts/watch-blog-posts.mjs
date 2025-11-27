@@ -6,7 +6,7 @@ export default {
   key: "confluence-watch-blog-posts",
   name: "Watch Blog Posts",
   description: "Emit new event when a blog post is created or updated",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "source",
   dedupe: "unique",
   methods: {
