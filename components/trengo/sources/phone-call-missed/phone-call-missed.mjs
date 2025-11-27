@@ -4,7 +4,7 @@ export default {
   key: "trengo-phone-call-missed",
   name: "New Phone Call Missed Event (Instant)",
   description: "Emit new event when an phone call missed. [See the documentation](https://developers.trengo.com/docs/webhooks)",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "source",
   dedupe: "unique",
   ...common,
