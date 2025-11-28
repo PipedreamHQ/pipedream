@@ -247,6 +247,64 @@ export default {
         })) || [];
       },
     },
+    rentableSegmentId: {
+      type: "string",
+      label: "Rentable Segment ID",
+      description: "The ID of a rentable segment",
+      async options({ page }) {
+        const { data } = await this.listRentableSegments({
+          params: {
+            "page[number]": page + 1,
+          },
+        });
+        return data?.map(({
+          id, attributes,
+        }) => ({
+          label: attributes.name.en,
+          value: id,
+        })) || [];
+      },
+    },
+    amenityId: {
+      type: "string",
+      label: "Amenity ID",
+      description: "The ID of an amenity",
+      async options({ page }) {
+        const { data } = await this.listAmenities({
+          params: {
+            "page[number]": page + 1,
+          },
+        });
+        return data?.map(({
+          id, attributes,
+        }) => ({
+          label: attributes.name.en,
+          value: id,
+        })) || [];
+      },
+    },
+    discountCampaignId: {
+      type: "string",
+      label: "Discount Campaign ID",
+      description: "The ID of a discount campaign",
+      async options({
+        administrationId, page,
+      }) {
+        const { data } = await this.listDiscountCampaigns({
+          administrationId,
+          params: {
+            "page[number]": page + 1,
+          },
+        });
+
+        return data?.map(({
+          id, attributes,
+        }) => ({
+          label: attributes.name.en,
+          value: id,
+        })) || [];
+      },
+    },
     page: {
       type: "integer",
       label: "Page",
@@ -431,6 +489,26 @@ export default {
     }) {
       return this._makeRequest({
         path: `/administrations/${administrationId}/rentables`,
+        ...opts,
+      });
+    },
+    listDiscountCampaigns({
+      administrationId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/administrations/${administrationId}/discount_campaigns`,
+        ...opts,
+      });
+    },
+    listRentableSegments(opts = {}) {
+      return this._makeRequest({
+        path: "/rentable_segments",
+        ...opts,
+      });
+    },
+    listAmenities(opts = {}) {
+      return this._makeRequest({
+        path: "/amenities",
         ...opts,
       });
     },
