@@ -4,7 +4,7 @@ export default {
   key: "trengo-voice-call-recorded",
   name: "New Voice Call Recorded Event (Instant)",
   description: "Emit new event when a voice call is recorded. [See the documentation](https://developers.trengo.com/docs/webhooks)",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "source",
   dedupe: "unique",
   ...common,
