@@ -4,7 +4,7 @@ export default {
   key: "gorgias_oauth-list-macros",
   name: "List Macros",
   description: "List all macros. [See the documentation](https://developers.gorgias.com/reference/list-macros)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

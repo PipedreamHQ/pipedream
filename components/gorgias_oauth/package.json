@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/gorgias_oauth",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Pipedream Gorgias OAuth Components",
   "main": "gorgias_oauth.app.mjs",
   "keywords": [
