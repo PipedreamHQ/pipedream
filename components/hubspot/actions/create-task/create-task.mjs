@@ -8,7 +8,7 @@ export default {
   name: "Create Task",
   description:
     "Create a new task. [See the documentation](https://developers.hubspot.com/docs/api/crm/engagements)",
-  version: "0.0.12",
+  version: "0.0.13",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

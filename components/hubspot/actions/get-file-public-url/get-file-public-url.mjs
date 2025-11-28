@@ -5,7 +5,7 @@ export default {
   name: "Get File Public URL",
   description:
     "Get a publicly available URL for a file that was uploaded using a Hubspot form. [See the documentation](https://developers.hubspot.com/docs/api/files/files#endpoint?spec=GET-/files/v3/files/{fileId}/signed-url)",
-  version: "0.0.27",
+  version: "0.0.28",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
