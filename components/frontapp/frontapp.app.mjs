@@ -228,6 +228,23 @@ export default {
         });
       },
     },
+    ticketStatusId: {
+      type: "string",
+      label: "Ticket Status ID",
+      description: "ID of the ticket status to retrieve",
+      async options({ prevContext }) {
+        return this.paginateOptions({
+          prevContext,
+          listResourcesFn: this.listTicketStatuses,
+          mapper: ({
+            id, name,
+          }) => ({
+            label: name,
+            value: id,
+          }),
+        });
+      },
+    },
     mode: {
       type: "string",
       label: "Mode",
@@ -494,9 +511,23 @@ export default {
         ...args,
       });
     },
+    async getTicketStatus({
+      ticketStatusId, ...args
+    }) {
+      return this.makeRequest({
+        path: `/company/statuses/${ticketStatusId}`,
+        ...args,
+      });
+    },
     async listTeammates(args = {}) {
       return this.makeRequest({
         path: "/teammates",
+        ...args,
+      });
+    },
+    async listTicketStatuses(args = {}) {
+      return this.makeRequest({
+        path: "/company/statuses",
         ...args,
       });
     },
