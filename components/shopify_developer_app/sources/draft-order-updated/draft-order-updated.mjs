@@ -17,7 +17,7 @@ export default {
     generateMeta(resource) {
       const ts = Date.parse(resource.updated_at);
       return {
-        id: ts,
+        id: `${resource.id}-${ts}`,
         summary: `Draft order updated ${resource.id}`,
         ts,
       };
