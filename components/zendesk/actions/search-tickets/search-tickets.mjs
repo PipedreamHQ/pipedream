@@ -5,7 +5,7 @@ export default {
   name: "Search Tickets",
   description: "Searches for tickets using Zendesk's search API. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/ticket-management/search/#search-tickets).",
   type: "action",
-  version: "0.0.9",
+  version: "0.0.10",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

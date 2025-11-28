@@ -4,7 +4,7 @@ export default {
   key: "zendesk-get-user-info",
   name: "Get User Info",
   description: "Retrieves information about a specific user. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/users/users/#show-user).",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
