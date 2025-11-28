@@ -7726,6 +7726,9 @@ importers:
 
   components/junip: {}
 
+  components/just_invoice:
+    specifiers: {}
+
   components/justcall:
     dependencies:
       '@pipedream/platform':
