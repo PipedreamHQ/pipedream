@@ -7,7 +7,7 @@ export default {
   key: "apify-run-task",
   name: "Run Task",
   description: "Run a specific task and optionally wait for it's termination.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     apify,
@@ -15,6 +15,9 @@ export default {
       propDefinition: [
         apify,
         "taskId",
+        () => ({
+          desc: true,
+        }),
       ],
       description: "The ID of the task to run",
     },

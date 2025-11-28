@@ -50,10 +50,13 @@ export default {
       type: "string",
       label: "Task ID",
       description: "The ID of the task to monitor.",
-      async options({ page }) {
+      async options({
+        page, desc = false,
+      }) {
         const { items } = await this.listTasks({
           offset: LIMIT * page,
           limit: LIMIT,
+          desc,
         });
 
         return items.map((task) => ({
