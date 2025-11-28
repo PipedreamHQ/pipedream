@@ -281,6 +281,46 @@ export default {
         return threads.map(({ id }) => id);
       },
     },
+    cannedResponseFolderId: {
+      type: "integer",
+      label: "Canned Response Folder ID",
+      description: "The ID of a canned response folder",
+      async options({ page = 0 }) {
+        const folders = await this.listCannedResponseFolders({
+          params: {
+            page: page + 1,
+          },
+        });
+        return folders.map(({
+          id, name,
+        }) => ({
+          label: name || id,
+          value: id,
+        }));
+      },
+    },
+    cannedResponseId: {
+      type: "integer",
+      label: "Canned Response ID",
+      description: "The ID of a canned response",
+      async options({
+        page = 0,
+        cannedResponseFolderId,
+      }) {
+        const { canned_responses: responses } = await this.listCannedResponses({
+          cannedResponseFolderId,
+          params: {
+            page: page + 1,
+          },
+        });
+        return responses.map(({
+          id, title,
+        }) => ({
+          label: title || id,
+          value: id,
+        }));
+      },
+    },
   },
   methods: {
     setLastDateChecked(db, value) {
@@ -728,6 +768,36 @@ export default {
       return this._makeRequest({
         method: "POST",
         url: "/collaboration/messages",
+        ...args,
+      });
+    },
+    listCannedResponseFolders(args) {
+      return this._makeRequest({
+        url: "/canned_response_folders",
+        ...args,
+      });
+    },
+    listCannedResponses({
+      cannedResponseFolderId, ...args
+    }) {
+      return this._makeRequest({
+        url: `/canned_response_folders/${cannedResponseFolderId}`,
+        ...args,
+      });
+    },
+    getCannedResponse({
+      cannedResponseId, ...args
+    }) {
+      return this._makeRequest({
+        url: `/canned_responses/${cannedResponseId}`,
+        ...args,
+      });
+    },
+    getFolderCannedResponses({
+      folderId, ...args
+    }) {
+      return this._makeRequest({
+        url: `/canned_response_folders/${folderId}/responses`,
         ...args,
       });
     },
