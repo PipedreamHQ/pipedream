@@ -208,6 +208,23 @@ export default {
         }));
       },
     },
+    ticketResultId: {
+      type: "integer",
+      label: "Ticket Result ID",
+      description: "Select a ticket result or provide an ID",
+      optional: true,
+      async options({ page = 0 }) {
+        const response = await this.listTicketResults({
+          params: {
+            page: page + 1,
+          },
+        });
+        return response.data.map((ticketResult) => ({
+          label: ticketResult.name,
+          value: ticketResult.id,
+        }));
+      },
+    },
   },
   methods: {
     _getUrl(path) {
@@ -368,6 +385,21 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: `/tickets/${ticketId}/labels`,
+        ...args,
+      });
+    },
+    closeTicket({
+      ticketId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/tickets/${ticketId}/close`,
+        ...args,
+      });
+    },
+    listTicketResults(args = {}) {
+      return this._makeRequest({
+        path: "/ticket_results",
         ...args,
       });
     },

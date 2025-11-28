@@ -2043,8 +2043,7 @@ importers:
 
   components/braintree: {}
 
-  components/brand_dev:
-    specifiers: {}
+  components/brand_dev: {}
 
   components/brandblast: {}
 
@@ -3588,8 +3587,7 @@ importers:
 
   components/currents_api: {}
 
-  components/cursor:
-    specifiers: {}
+  components/cursor: {}
 
   components/customer_fields:
     dependencies:
@@ -3810,6 +3808,12 @@ importers:
         version: 1.6.8
 
   components/dbt:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
+
+  components/dealcloud:
     dependencies:
       '@pipedream/platform':
         specifier: ^3.1.1
@@ -4279,6 +4283,9 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/docuwriter_ai:
+    specifiers: {}
+
   components/dokan: {}
 
   components/dolibarr:
@@ -4496,7 +4503,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/dynamic_content_snippet: {}
+  components/dynamic_content_snippet:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/dynamics_365_business_central_api:
     dependencies:
@@ -4722,7 +4733,11 @@ importers:
 
   components/emelia: {}
 
-  components/encharge: {}
+  components/encharge:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/encodian:
     dependencies:
@@ -5669,8 +5684,7 @@ importers:
 
   components/funnelcockpit: {}
 
-  components/fynk:
-    specifiers: {}
+  components/fynk: {}
 
   components/gagelist:
     dependencies:
@@ -6736,8 +6750,7 @@ importers:
 
   components/helcim: {}
 
-  components/helicone:
-    specifiers: {}
+  components/helicone: {}
 
   components/helium:
     dependencies:
@@ -7095,6 +7108,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
+
+  components/hybrid_analysis:
+    specifiers: {}
 
   components/hygraph: {}
 
@@ -8649,8 +8665,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/magicalapi:
-    specifiers: {}
+  components/magicalapi: {}
 
   components/magileads: {}
 
@@ -11701,6 +11716,9 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
+  components/productify_ai:
+    specifiers: {}
+
   components/productive_io:
     dependencies:
       '@pipedream/platform':
@@ -12280,8 +12298,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/relationcity:
-    specifiers: {}
+  components/relationcity: {}
 
   components/relavate:
     dependencies:
@@ -12647,7 +12664,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/robopost: {}
+  components/robopost:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/rocket_chat:
     dependencies:
@@ -13175,7 +13196,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/sendblue: {}
+  components/sendblue:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/sendcloud:
     dependencies:
@@ -13252,8 +13277,8 @@ importers:
   components/sendoso:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.8
-        version: 1.6.8
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/sendowl:
     dependencies:
@@ -13784,6 +13809,9 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/slab:
+    specifiers: {}
+
   components/slack:
     dependencies:
       '@pipedream/platform':
@@ -13950,7 +13978,11 @@ importers:
 
   components/sms_magic: {}
 
-  components/sms_messages: {}
+  components/sms_messages:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/sms_partner: {}
 
@@ -14054,8 +14086,7 @@ importers:
 
   components/socialkit: {}
 
-  components/socket:
-    specifiers: {}
+  components/socket: {}
 
   components/softledger: {}
 
@@ -15438,8 +15469,7 @@ importers:
 
   components/turbohire: {}
 
-  components/turbosmtp:
-    specifiers: {}
+  components/turbosmtp: {}
 
   components/turbot_pipes:
     dependencies:
@@ -15871,8 +15901,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/validemail:
-    specifiers: {}
+  components/validemail: {}
 
   components/vapi:
     dependencies:
@@ -15886,8 +15915,8 @@ importers:
   components/vbout:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.8
-        version: 1.6.8
+        specifier: ^3.1.1
+        version: 3.1.1
       moment:
         specifier: ^2.29.4
         version: 2.30.1
@@ -15976,8 +16005,7 @@ importers:
 
   components/verticalresponse: {}
 
-  components/veryfi:
-    specifiers: {}
+  components/veryfi: {}
 
   components/vestaboard:
     dependencies:
@@ -16046,8 +16074,8 @@ importers:
   components/visitor_queue:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.8
-        version: 1.6.8
+        specifier: ^3.1.1
+        version: 3.1.1
       moment:
         specifier: ^2.29.4
         version: 2.30.1
@@ -16409,6 +16437,8 @@ importers:
 
   components/wicked_reports: {}
 
+  components/wics: {}
+
   components/widgetform:
     dependencies:
       '@pipedream/platform':
@@ -16451,8 +16481,8 @@ importers:
         specifier: ^0.10.1
         version: 0.10.1
       node-forge:
-        specifier: ^1.3.1
-        version: 1.3.1
+        specifier: ^1.3.2
+        version: 1.3.2
 
   components/wishpond: {}
 
@@ -29015,6 +29045,10 @@ packages:
     resolution: {integrity: sha512-dPEtOeMvF9VMcYV/1Wb8CPoVAXtp6MKMlcbAt4ddqmGqUJ6fQZFXkNZNkNlfevtNkGtaSoXf/vNNNSvgrdXwtA==}
     engines: {node: '>= 6.13.0'}
 
+  node-forge@1.3.2:
+    resolution: {integrity: sha512-6xKiQ+cph9KImrRh0VsjH2d8/GXA4FIMlgU4B757iI1ApvcyA9VlouP0yZJha01V+huImO+kKMU7ih+2+E14fw==}
+    engines: {node: '>= 6.13.0'}
+
   node-gyp-build@3.9.0:
     resolution: {integrity: sha512-zLcTg6P4AbcHPq465ZMFNXx7XpKKJh+7kkN699NiQWisR2uWYOWNWqRHAmbnmKiL4e9aLSlmy5U7rEMUXV59+A==}
     hasBin: true
@@ -39125,7 +39159,6 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
-      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.9)(rollup@4.53.2)':
     dependencies:
@@ -46096,11 +46129,11 @@ snapshots:
 
   google-p12-pem@3.1.4:
     dependencies:
-      node-forge: 1.3.1
+      node-forge: 1.3.2
 
   google-p12-pem@4.0.1:
     dependencies:
-      node-forge: 1.3.1
+      node-forge: 1.3.2
 
   google-protobuf@3.21.4: {}
 
@@ -48152,7 +48185,7 @@ snapshots:
       http-shutdown: 1.2.2
       jiti: 2.6.1
       mlly: 1.8.0
-      node-forge: 1.3.1
+      node-forge: 1.3.2
       pathe: 1.1.2
       std-env: 3.10.0
       ufo: 1.6.1
@@ -49491,6 +49524,8 @@ snapshots:
       formdata-polyfill: 4.0.10
 
   node-forge@1.3.1: {}
+
+  node-forge@1.3.2: {}
 
   node-gyp-build@3.9.0: {}
 

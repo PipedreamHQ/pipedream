@@ -5,7 +5,7 @@ export default {
   key: "freshchat-list-agents",
   name: "List Agents",
   description: "Lists all agents in Freshchat. [See the documentation](https://developers.freshchat.com/api/#list_all_agents)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

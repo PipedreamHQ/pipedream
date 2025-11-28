@@ -7,7 +7,7 @@ export default {
   name: "New Social Media Message",
   key: "vbout-new-social-media-message",
   description: "Emit new event for each new social media message. [See docs here](https://api.vbout.com/1/socialmedia/stats)",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   props: {
     ...common.props,

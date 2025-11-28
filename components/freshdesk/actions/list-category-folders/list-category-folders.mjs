@@ -4,7 +4,7 @@ export default {
   key: "freshdesk-list-category-folders",
   name: "List Category Folders",
   description: "List category folders in Freshdesk. [See the documentation](https://developers.freshdesk.com/api/#solution_folder_attributes)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
