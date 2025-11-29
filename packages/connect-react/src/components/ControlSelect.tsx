@@ -268,6 +268,7 @@ export function ControlSelect<T extends PropOptionValue>({
       styles={{
         // eslint-disable-next-line react/prop-types
         ...props.styles,
+        ...selectProps?.styles,
         menuPortal: (base) => ({
           ...base,
           zIndex: 99999,
