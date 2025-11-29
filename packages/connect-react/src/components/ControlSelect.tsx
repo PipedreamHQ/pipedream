@@ -266,6 +266,7 @@ export function ControlSelect<T extends PropOptionValue>({
       }
       menuPosition="fixed"
       styles={{
+        // eslint-disable-next-line react/prop-types
         ...props.styles,
         menuPortal: (base) => ({
           ...base,
