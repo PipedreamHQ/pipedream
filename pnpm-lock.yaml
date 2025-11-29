@@ -2589,8 +2589,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/chartly:
-    specifiers: {}
+  components/chartly: {}
 
   components/chartmogul:
     dependencies:
@@ -3541,8 +3540,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/cryptlex:
-    specifiers: {}
+  components/cryptlex: {}
 
   components/crypto_apis_by_alternative: {}
 
@@ -4289,8 +4287,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/docuwriter_ai:
-    specifiers: {}
+  components/docuwriter_ai: {}
 
   components/dokan: {}
 
@@ -5776,8 +5773,7 @@ importers:
         specifier: 4.0.4
         version: 4.0.4
 
-  components/genpage:
-    specifiers: {}
+  components/genpage: {}
 
   components/geoapify:
     dependencies:
@@ -7118,8 +7114,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/hybrid_analysis:
-    specifiers: {}
+  components/hybrid_analysis: {}
 
   components/hygraph: {}
 
@@ -7732,8 +7727,7 @@ importers:
 
   components/junip: {}
 
-  components/just_invoice:
-    specifiers: {}
+  components/just_invoice: {}
 
   components/justcall:
     dependencies:
@@ -11434,8 +11428,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/pod_ai:
-    specifiers: {}
+  components/pod_ai: {}
 
   components/podio:
     dependencies:
@@ -11735,8 +11728,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/productify_ai:
-    specifiers: {}
+  components/productify_ai: {}
 
   components/productive_io:
     dependencies:
@@ -11788,8 +11780,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/proovl:
-    specifiers: {}
+  components/proovl: {}
 
   components/propelauth: {}
 
@@ -13831,8 +13822,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/slab:
-    specifiers: {}
+  components/slab: {}
 
   components/slack:
     dependencies:
@@ -15934,8 +15924,7 @@ importers:
         specifier: 4.0.4
         version: 4.0.4
 
-  components/vatfix_plus:
-    specifiers: {}
+  components/vatfix_plus: {}
 
   components/vbout:
     dependencies:
@@ -17461,10 +17450,10 @@ importers:
         specifier: ^4.5.0
         version: 4.5.0
       react:
-        specifier: ^16.8.0 || ^17.0.0 || ^18.0.0
+        specifier: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
         version: 18.3.1
       react-dom:
-        specifier: ^16.8.0 || ^17.0.0 || ^18.0.0
+        specifier: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
         version: 18.3.1(react@18.3.1)
       react-markdown:
         specifier: ^9.0.1

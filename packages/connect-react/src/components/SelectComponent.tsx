@@ -98,6 +98,9 @@ export function SelectComponent({
       onMenuScrollToBottom={handleMenuScrollToBottom}
       isLoading={isLoading}
       components={customComponents}
+      menuPortalTarget={typeof document !== "undefined" ? document.body : null}
+      menuPosition="fixed"
+      styles={{ menuPortal: (base) => ({ ...base, zIndex: 99999 }) }}
     />
   );
 }

@@ -154,6 +154,8 @@ export function ControlApp({ app }: ControlAppProps) {
             value={selectValue}
             options={selectOptions}
             {...selectProps}
+            // These must come AFTER selectProps spread to avoid being overridden
+            classNamePrefix="react-select"
             required={true}
             placeholder={`Select ${app.name} account...`}
             isLoading={isLoadingAccounts}
@@ -161,6 +163,8 @@ export function ControlApp({ app }: ControlAppProps) {
             isSearchable={true}
             getOptionLabel={(a) => a.name ?? ""}
             getOptionValue={(a) => a.id}
+            menuPortalTarget={typeof document !== "undefined" ? document.body : null}
+            menuPosition="fixed"
             onChange={(a) => {
               if (a) {
                 if (a.id === "_new") {
