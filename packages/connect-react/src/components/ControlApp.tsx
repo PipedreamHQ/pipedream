@@ -146,48 +146,55 @@ export function ControlApp({ app }: ControlAppProps) {
       app,
       ...formFieldCtx,
     })}>
-      {isLoadingAccounts ?
-        `Loading ${app.name} accounts...`
-        : accounts.length ?
-          <Select
-            instanceId={id}
-            value={selectValue}
-            options={selectOptions}
-            {...selectProps}
-            // These must come AFTER selectProps spread to avoid being overridden
-            classNamePrefix="react-select"
-            required={true}
-            placeholder={`Select ${app.name} account...`}
-            isLoading={isLoadingAccounts}
-            isClearable={true}
-            isSearchable={true}
-            getOptionLabel={(a) => a.name ?? ""}
-            getOptionValue={(a) => a.id}
-            menuPortalTarget={typeof document !== "undefined" ? document.body : null}
-            menuPosition="fixed"
-            onChange={(a) => {
-              if (a) {
-                if (a.id === "_new") {
-                  // start connect account and then select it, etc.
-                  // TODO unset / put in loading state
-                  startConnectAccount();
-                } else {
-                  onChange({
-                    authProvisionId: a.id,
-                  });
-                }
-              } else {
-                onChange(undefined);
+      {isLoadingAccounts
+        ? `Loading ${app.name} accounts...`
+        : accounts.length
+          ? (
+            <Select
+              instanceId={id}
+              value={selectValue}
+              options={selectOptions}
+              {...selectProps}
+              // These must come AFTER selectProps spread to avoid being overridden
+              classNamePrefix="react-select"
+              required={true}
+              placeholder={`Select ${app.name} account...`}
+              isLoading={isLoadingAccounts}
+              isClearable={true}
+              isSearchable={true}
+              getOptionLabel={(a) => a.name ?? ""}
+              getOptionValue={(a) => a.id}
+              menuPortalTarget={
+                typeof document !== "undefined"
+                  ? document.body
+                  : null
               }
-            }}
-          />
-          :
-          <button type="button" {...getProps("connectButton", baseStylesConnectButton, {
-            app,
-            ...formFieldCtx,
-          })} onClick={() => startConnectAccount()}>
-            Connect {app.name}
-          </button>
+              menuPosition="fixed"
+              onChange={(a) => {
+                if (a) {
+                  if (a.id === "_new") {
+                    // start connect account and then select it, etc.
+                    // TODO unset / put in loading state
+                    startConnectAccount();
+                  } else {
+                    onChange({
+                      authProvisionId: a.id,
+                    });
+                  }
+                } else {
+                  onChange(undefined);
+                }
+              }}
+            />
+          )
+          : (
+            <button type="button" {...getProps("connectButton", baseStylesConnectButton, {
+              app,
+              ...formFieldCtx,
+            })} onClick={() => startConnectAccount()}>
+              Connect {app.name}
+            </button>
+          )
       }
     </div>
   );

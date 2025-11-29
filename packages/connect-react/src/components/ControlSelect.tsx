@@ -259,7 +259,11 @@ export function ControlSelect<T extends PropOptionValue>({
       {...additionalProps}
       // These must come AFTER spreads to avoid being overridden
       classNamePrefix="react-select"
-      menuPortalTarget={typeof document !== "undefined" ? document.body : null}
+      menuPortalTarget={
+        typeof document !== "undefined"
+          ? document.body
+          : null
+      }
       menuPosition="fixed"
       components={finalComponents}
     />
