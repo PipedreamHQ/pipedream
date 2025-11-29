@@ -72,19 +72,23 @@ export default {
       description: "The ID of a booking",
       async options({
         page, administrationId,
+        mapper = ({
+          id, attributes,
+        }) => ({
+          label: attributes.booking_nr,
+          value: id,
+        }),
       }) {
+        if (!administrationId) {
+          return [];
+        }
         const { data } = await this.listBookings({
           administrationId,
           params: {
             "page[number]": page + 1,
           },
         });
-        return data?.map(({
-          id, attributes,
-        }) => ({
-          label: attributes.booking_nr,
-          value: id,
-        })) || [];
+        return data?.map(mapper) || [];
       },
     },
     channelId: {
@@ -255,6 +259,35 @@ export default {
       description: "Number of items per page",
       max: 100,
       optional: true,
+    },
+    customerId: {
+      type: "string",
+      label: "Customer ID",
+      description: "The ID of a customer",
+      optional: true,
+      async options({
+        page, administrationId,
+      }) {
+        if (!administrationId) {
+          return [];
+        }
+        const { data } = await this.listCustomers({
+          administrationId,
+          params: {
+            "page[number]": page + 1,
+          },
+        });
+        return data?.map(({
+          id, attributes,
+        }) => ({
+          // if first_name and last_name are not empty, show them, otherwise show the email
+          label: [
+            attributes.first_name,
+            attributes.last_name,
+          ].filter(Boolean).join(" ") || attributes.email || id,
+          value: id,
+        })) || [];
+      },
     },
   },
   methods: {
@@ -440,6 +473,14 @@ export default {
       return this._makeRequest({
         path: `/administrations/${administrationId}/reservations/${reservationId}/guests/${guestId}`,
         method: "DELETE",
+        ...opts,
+      });
+    },
+    listCustomers({
+      administrationId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/administrations/${administrationId}/customers`,
         ...opts,
       });
     },
