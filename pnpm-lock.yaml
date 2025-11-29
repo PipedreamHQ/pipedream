@@ -15928,6 +15928,9 @@ importers:
         specifier: 4.0.4
         version: 4.0.4
 
+  components/vatfix_plus:
+    specifiers: {}
+
   components/vbout:
     dependencies:
       '@pipedream/platform':
