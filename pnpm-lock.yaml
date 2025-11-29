@@ -3538,6 +3538,9 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/cryptlex:
+    specifiers: {}
+
   components/crypto_apis_by_alternative: {}
 
   components/cryptowatch:
