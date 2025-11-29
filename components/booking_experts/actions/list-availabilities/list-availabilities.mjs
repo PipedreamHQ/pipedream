@@ -10,7 +10,7 @@ export default {
   key: "booking_experts-list-availabilities",
   name: "List Availabilities",
   description: "List availabilities of a channel you have access to. [See the documentation](https://developers.bookingexperts.com/reference/availabilities-index)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -46,10 +46,16 @@ export default {
       description: "Specify a list of channel IDs to be used for searching availability. By default, all accessible channels associated to your app will be used. Overriding this may be useful when you have access to multiple channels of the same administration.",
       optional: true,
     },
+    includeSemanticSegmentCounts: {
+      type: "boolean",
+      label: "Include Semantic Segment Counts",
+      description: "When `true`, the amount of results per semantic segment will be added to the metadata",
+      optional: true,
+    },
     includeAmenityCounts: {
       type: "boolean",
       label: "Include Amenity Counts",
-      description: "When true, the amount of results per amenity will be added to the metadata",
+      description: "When `true`, the amount of results per amenity will be added to the metadata",
       optional: true,
     },
     referrer: {
@@ -475,7 +481,9 @@ export default {
         "filter[includes_date]": this.includesDate,
         "filter[arrangement]": this.arrangement,
         "filter[los]": this.los,
-        "filter[wday]": parseInt(this.wday),
+        "filter[wday]": this.wday
+          ? parseInt(this.wday)
+          : undefined,
         "filter[administration_ids]": parseObject(this.administrationIds)?.join(","),
         "filter[rentable_type_ids]": parseObject(this.rentableTypeIds)?.join(","),
         "filter[-rentable_type_ids]": parseObject(this.excludeRentableTypeIds)?.join(","),

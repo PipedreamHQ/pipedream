@@ -7,7 +7,7 @@ export default {
   key: "booking_experts-list-rentabletype-availabilities",
   name: "List RentableType Availabilities",
   description: "List availabilities of a RentableType you have access to. [See the documentation](https://developers.bookingexperts.com/reference/channel-rentabletype-availabilities-index)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -62,7 +62,7 @@ export default {
       description: "Includes list. A list of resources to include. [See the documentation](https://developers.bookingexperts.com/reference/channel-rentabletype-availabilities-index)",
       optional: true,
     },
-    multibookSsafetyMargin: {
+    multibookSafetyMargin: {
       type: "integer",
       label: "Multi-book Safety Margin",
       description: "Specifies a custom multibook safety margin (must be a positive number). A common problem that occurs when dealing with accommodations instead of hotelrooms is that a single accommodation must be available for all consecutive days for a given start date and LOS. The safety margin helps to prevent overbookings by transforming the available stock. When specified, the safety margin is subtracted from the actual stock. It is only applied to RentableType availabilities with capacity of 3 or more, as this issue cannot occur otherwise.",
@@ -84,7 +84,7 @@ export default {
           }),
         "fields[rentable_type_availability]": parseObject(this.fields)?.join(","),
         "include": parseObject(this.include)?.join(","),
-        "multibook_safety_margin": this.multibookSsafetyMargin,
+        "multibook_safety_margin": this.multibookSafetyMargin,
       },
     });
     $.export("$summary", `Found ${data.length} rentable type availabilities`);
