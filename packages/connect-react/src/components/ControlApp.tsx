@@ -170,6 +170,13 @@ export function ControlApp({ app }: ControlAppProps) {
                   : null
               }
               menuPosition="fixed"
+              styles={{
+                ...selectProps.styles,
+                menuPortal: (base) => ({
+                  ...base,
+                  zIndex: 99999,
+                }),
+              }}
               onChange={(a) => {
                 if (a) {
                   if (a.id === "_new") {

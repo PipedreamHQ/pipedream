@@ -265,6 +265,13 @@ export function ControlSelect<T extends PropOptionValue>({
           : null
       }
       menuPosition="fixed"
+      styles={{
+        ...props.styles,
+        menuPortal: (base) => ({
+          ...base,
+          zIndex: 99999,
+        }),
+      }}
       components={finalComponents}
     />
   );

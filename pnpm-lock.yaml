@@ -17459,7 +17459,7 @@ importers:
         specifier: ^9.0.1
         version: 9.1.0(@types/react@18.3.26)(react@18.3.1)
       react-select:
-        specifier: ^5.8.2
+        specifier: ^5.9.0
         version: 5.10.2(@types/react@18.3.26)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
     devDependencies:
       '@emotion/react':
