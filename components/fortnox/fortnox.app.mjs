@@ -106,6 +106,42 @@ export default {
         })) || [];
       },
     },
+    supplierInvoiceNumber: {
+      type: "string",
+      label: "Supplier Invoice Number",
+      description: "The number of the supplier invoice",
+      async options() {
+        const { SupplierInvoices: supplierInvoices } = await this.listSupplierInvoices();
+        return supplierInvoices?.map((invoice) => ({
+          label: `${invoice.InvoiceNumber} - ${invoice.Total}`,
+          value: invoice.GivenNumber,
+        })) || [];
+      },
+    },
+    termsOfDeliveries: {
+      type: "string",
+      label: "Terms of Delivery",
+      description: "The terms of delivery of the invoice",
+      async options() {
+        const { TermsOfDeliveries: termsOfDeliveries } = await this.listTermsOfDeliveries();
+        return termsOfDeliveries?.map((term) => ({
+          label: term.Description,
+          value: term.Code,
+        })) || [];
+      },
+    },
+    termsOfPayments: {
+      type: "string",
+      label: "Terms of Payment",
+      description: "The terms of payment of the invoice",
+      async options() {
+        const { TermsOfPayments: termsOfPayments } = await this.listTermsOfPayments();
+        return termsOfPayments?.map((term) => ({
+          label: term.Description,
+          value: term.Code,
+        })) || [];
+      },
+    },
     articleDescription: {
       type: "string",
       label: "Description",
@@ -274,7 +310,9 @@ export default {
       return axios($, {
         url: `${this._baseUrl()}${path}`,
         headers: {
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+          "Content-Type": "application/json",
+          "Accept": "application/json",
         },
         ...opts,
       });
@@ -376,6 +414,44 @@ export default {
       return this._makeRequest({
         method: "PUT",
         path: `/customers/${customerNumber}`,
+        ...opts,
+      });
+    },
+    listAccounts(opts = {}) {
+      return this._makeRequest({
+        path: "/accounts",
+        ...opts,
+      });
+    },
+    listFinancialYears(opts = {}) {
+      return this._makeRequest({
+        path: "/financialyears",
+        ...opts,
+      });
+    },
+    listSupplierInvoices(opts = {}) {
+      return this._makeRequest({
+        path: "/supplierinvoices",
+        ...opts,
+      });
+    },
+    getSupplierInvoice({
+      supplierInvoiceNumber, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/supplierinvoices/${supplierInvoiceNumber}`,
+        ...opts,
+      });
+    },
+    listTermsOfPayments(opts = {}) {
+      return this._makeRequest({
+        path: "/termsofpayments",
+        ...opts,
+      });
+    },
+    listTermsOfDeliveries(opts = {}) {
+      return this._makeRequest({
+        path: "/termsofdeliveries",
         ...opts,
       });
     },

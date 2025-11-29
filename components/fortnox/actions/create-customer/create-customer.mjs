@@ -4,7 +4,7 @@ export default {
   key: "fortnox-create-customer",
   name: "Create Customer",
   description: "Creates a new customer in the Fortnox API. [See the documentation](https://api.fortnox.se/apidocs#tag/fortnox_Customers/operation/create_16).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
