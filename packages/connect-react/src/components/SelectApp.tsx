@@ -172,6 +172,18 @@ export function SelectApp({
       }}
       onMenuScrollToBottom={handleMenuScrollToBottom}
       isLoading={isLoading}
+      menuPortalTarget={
+        typeof document !== "undefined"
+          ? document.body
+          : null
+      }
+      menuPosition="fixed"
+      styles={{
+        menuPortal: (base) => ({
+          ...base,
+          zIndex: 99999,
+        }),
+      }}
     />
   );
 }

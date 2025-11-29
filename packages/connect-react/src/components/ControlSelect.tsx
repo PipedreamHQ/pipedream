@@ -256,8 +256,25 @@ export function ControlSelect<T extends PropOptionValue>({
       onChange={handleChange}
       {...props}
       {...selectProps}
-      components={finalComponents}
       {...additionalProps}
+      // These must come AFTER spreads to avoid being overridden
+      classNamePrefix="react-select"
+      menuPortalTarget={
+        typeof document !== "undefined"
+          ? document.body
+          : null
+      }
+      menuPosition="fixed"
+      styles={{
+        // eslint-disable-next-line react/prop-types
+        ...props.styles,
+        ...selectProps?.styles,
+        menuPortal: (base) => ({
+          ...base,
+          zIndex: 99999,
+        }),
+      }}
+      components={finalComponents}
     />
   );
 }
