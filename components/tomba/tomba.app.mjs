@@ -511,7 +511,7 @@ export default {
      * @returns {Promise} Domain suggestions
      * @description This endpoint retrieves domain suggestions based on a specific query.
      */
-    async suggestDomains({
+    async getDomainSuggestions({
       $, query, ...opts
     }) {
       return this._makeRequest({

@@ -4,7 +4,7 @@ export default {
   key: "tomba-get-usage",
   name: "Get Usage",
   description:
-    "Retrieve API usage statistics and quota information for your account. [See the documentation](https://tomba.io/api)",
+    "Retrieve API usage statistics and quota information for your account. [See the documentation](https://docs.tomba.io/api/account#retrieve-api-usage)",
   version: "0.0.1",
   type: "action",
   annotations: {

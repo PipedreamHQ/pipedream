@@ -4,7 +4,7 @@ export default {
   key: "tomba-get-account",
   name: "Get Account",
   description:
-    "Returns information about the current account including usage statistics and plan details. [See the documentation](https://tomba.io/api)",
+    "Returns information about the current account including usage statistics and plan details. [See the documentation](https://docs.tomba.io/api/account#get-account)",
   version: "0.0.1",
   type: "action",
   annotations: {

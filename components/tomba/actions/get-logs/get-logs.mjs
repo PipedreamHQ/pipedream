@@ -4,7 +4,7 @@ export default {
   key: "tomba-get-logs",
   name: "Get Logs",
   description:
-    "Retrieve API request logs for your account with pagination support. [See the documentation](https://tomba.io/api)",
+    "Retrieve API request logs for your account with pagination support. [See the documentation](https://docs.tomba.io/api/account#retrieve-api-logs)",
   version: "0.0.1",
   type: "action",
   annotations: {
