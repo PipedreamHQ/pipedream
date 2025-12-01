@@ -4,7 +4,7 @@ export default {
   key: "zendesk-list-macros",
   name: "List Macros",
   description: "Retrieves all macros. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/business-rules/macros/#list-macros).",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

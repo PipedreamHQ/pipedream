@@ -235,6 +235,44 @@ const SORT_BY_OPTIONS = [
   "updated_at",
 ];
 
+const ACCESS_OPTIONS = [
+  "personal",
+  "agents",
+  "shared",
+  "account",
+];
+
+const INCLUDE_OPTIONS = [
+  {
+    label: "The app installation that requires each macro, if present",
+    value: "app_installation",
+  },
+  {
+    label: "The macro categories",
+    value: "categories",
+  },
+  {
+    label: "The permissions for each macro",
+    value: "permissions",
+  },
+  {
+    label: "The number of times each macro has been used in the past hour",
+    value: "usage_1h",
+  },
+  {
+    label: "The number of times each macro has been used in the past day",
+    value: "usage_24h",
+  },
+  {
+    label: "The number of times each macro has been used in the past week",
+    value: "usage_7d",
+  },
+  {
+    label: "The number of times each macro has been used in the past thirty days",
+    value: "usage_30d",
+  },
+];
+
 export default {
   SUBDOMAIN_PLACEHOLDER,
   BASE_URL,
@@ -256,4 +294,6 @@ export default {
   TICKET_STATUS_OPTIONS,
   TICKET_FIELD_OPTIONS,
   SORT_BY_OPTIONS,
+  ACCESS_OPTIONS,
+  INCLUDE_OPTIONS,
 };
