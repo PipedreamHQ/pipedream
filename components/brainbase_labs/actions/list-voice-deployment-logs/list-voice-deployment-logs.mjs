@@ -3,8 +3,7 @@ import app from "../../brainbase_labs.app.mjs";
 export default {
   key: "brainbase_labs-list-voice-deployment-logs",
   name: "List Voice Deployment Logs",
-  description:
-    "List voice deployment logs for a worker with optional filtering and pagination. [See the documentation](https://docs.usebrainbase.com/api-reference/voice-deployment-logs/list-voice-deployment-logs-for-a-worker-with-optional-filtering-and-pagination)",
+  description: "List voice deployment logs for a worker with optional filtering and pagination. [See the documentation](https://docs.usebrainbase.com/api-reference/voice-deployment-logs/list-voice-deployment-logs-for-a-worker-with-optional-filtering-and-pagination)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -53,8 +52,7 @@ export default {
     limit: {
       type: "integer",
       label: "Limit",
-      description:
-        "Number of items per page (default: 100, minimum: 1, maximum: 100)",
+      description: "Number of items per page (default: 100, minimum: 1, maximum: 100)",
       optional: true,
       min: 1,
       max: 100,
@@ -78,7 +76,7 @@ export default {
 
     $.export(
       "$summary",
-      `Successfully retrieved ${response.data?.length || 0} log(s)`,
+      `Successfully retrieved ${response?.length || 0} log(s)`,
     );
     return response;
   },

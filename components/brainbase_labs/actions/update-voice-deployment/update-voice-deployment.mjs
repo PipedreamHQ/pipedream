@@ -1,10 +1,10 @@
 import app from "../../brainbase_labs.app.mjs";
+import { parseObject } from "../../common/utils.mjs";
 
 export default {
   key: "brainbase_labs-update-voice-deployment",
   name: "Update Voice Deployment",
-  description:
-    "Update an existing voice deployment. [See the documentation](https://docs.usebrainbase.com/api-reference/voice-deployments/update-a-voice-deployment)",
+  description: "Update an existing voice deployment. [See the documentation](https://docs.usebrainbase.com/api-reference/voice-deployments/update-a-voice-deployment)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -91,9 +91,9 @@ export default {
         name: this.name,
         phoneNumber: this.phoneNumber,
         flowId: this.flowId,
-        externalConfig: this.externalConfig,
+        externalConfig: parseObject(this.externalConfig),
         enableVoiceSentiment: this.enableVoiceSentiment,
-        extractions: this.extractions,
+        extractions: parseObject(this.extractions),
         customWebhooks: this.customWebhooks,
         successCriteria: this.successCriteria,
       },

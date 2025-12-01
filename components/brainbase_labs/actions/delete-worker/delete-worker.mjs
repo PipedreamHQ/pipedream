@@ -3,8 +3,7 @@ import app from "../../brainbase_labs.app.mjs";
 export default {
   key: "brainbase_labs-delete-worker",
   name: "Delete Worker",
-  description:
-    "Delete a worker. [See the documentation](https://docs.usebrainbase.com/api-reference/workers/delete-a-worker)",
+  description: "Delete a worker. [See the documentation](https://docs.usebrainbase.com/api-reference/workers/delete-a-worker)",
   version: "0.0.1",
   type: "action",
   annotations: {

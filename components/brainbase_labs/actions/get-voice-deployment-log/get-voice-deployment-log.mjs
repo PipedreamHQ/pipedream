@@ -3,9 +3,8 @@ import app from "../../brainbase_labs.app.mjs";
 export default {
   key: "brainbase_labs-get-voice-deployment-log",
   name: "Get Voice Deployment Log",
-  description:
-    "Retrieve a single voice deployment log record. [See the documentation](https://docs.usebrainbase.com/api-reference/voice-deployment-logs/retrieve-a-single-voice-deployment-log-record)",
-  version: "0.0.1",
+  description: "Retrieve a single voice deployment log record. [See the documentation](https://docs.usebrainbase.com/api-reference/voice-deployment-logs/retrieve-a-single-voice-deployment-log-record)",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -21,9 +20,13 @@ export default {
       ],
     },
     logId: {
-      type: "string",
-      label: "Log ID",
-      description: "The unique identifier for the log entry",
+      propDefinition: [
+        app,
+        "voiceDeploymentLogId",
+        (c) => ({
+          workerId: c.workerId,
+        }),
+      ],
     },
   },
   async run({ $ }) {

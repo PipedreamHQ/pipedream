@@ -3,8 +3,7 @@ import app from "../../brainbase_labs.app.mjs";
 export default {
   key: "brainbase_labs-get-integration",
   name: "Get Integration",
-  description:
-    "Get a specific integration by ID. [See the documentation](https://docs.usebrainbase.com/api-reference/integrations/get-a-specific-integration-by-id)",
+  description: "Get a specific integration by ID. [See the documentation](https://docs.usebrainbase.com/api-reference/integrations/get-a-specific-integration-by-id)",
   version: "0.0.1",
   type: "action",
   annotations: {

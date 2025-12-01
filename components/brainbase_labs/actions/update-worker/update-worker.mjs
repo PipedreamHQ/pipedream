@@ -3,8 +3,7 @@ import app from "../../brainbase_labs.app.mjs";
 export default {
   key: "brainbase_labs-update-worker",
   name: "Update Worker",
-  description:
-    "Update an existing worker. [See the documentation](https://docs.usebrainbase.com/api-reference/workers/update-a-worker)",
+  description: "Update an existing worker. [See the documentation](https://docs.usebrainbase.com/api-reference/workers/update-a-worker)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -24,6 +23,7 @@ export default {
       type: "string",
       label: "Name",
       description: "The name of the worker",
+      optional: true,
     },
     description: {
       type: "string",
@@ -54,7 +54,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully updated worker "${this.name}"`);
+    $.export("$summary", `Successfully updated worker with ID: "${this.workerId}"`);
     return response;
   },
 };

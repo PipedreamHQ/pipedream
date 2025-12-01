@@ -3,8 +3,7 @@ import app from "../../brainbase_labs.app.mjs";
 export default {
   key: "brainbase_labs-create-twilio-integration",
   name: "Create Twilio Integration",
-  description:
-    "Create a new Twilio integration for the authenticated team. [See the documentation](https://docs.usebrainbase.com/api-reference/integrations/create-a-new-twilio-integration-for-the-authenticated-team)",
+  description: "Create a new Twilio integration for the authenticated team. [See the documentation](https://docs.usebrainbase.com/api-reference/integrations/create-a-new-twilio-integration-for-the-authenticated-team)",
   version: "0.0.1",
   type: "action",
   annotations: {

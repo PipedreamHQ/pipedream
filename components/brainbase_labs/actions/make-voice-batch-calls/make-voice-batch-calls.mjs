@@ -1,10 +1,10 @@
 import app from "../../brainbase_labs.app.mjs";
+import { parseObject } from "../../common/utils.mjs";
 
 export default {
   key: "brainbase_labs-make-voice-batch-calls",
   name: "Make Voice Batch Calls",
-  description:
-    "Make batch calls for a voice deployment. [See the documentation](https://docs.usebrainbase.com/api-reference/voice-deployments/make-batch-calls-for-a-voice-deployment)",
+  description: "Make batch calls for a voice deployment. [See the documentation](https://docs.usebrainbase.com/api-reference/voice-deployments/make-batch-calls-for-a-voice-deployment)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -30,27 +30,29 @@ export default {
       ],
     },
     data: {
-      type: "object[]",
+      type: "object",
       label: "Data",
-      description:
-        "Array of data objects with string key-value pairs for each call. Example: `[{\"name\": \"John\", \"phone\": \"+1234567890\"}, {\"name\": \"Jane\", \"phone\": \"+0987654321\"}]`",
+      description: "Array of data objects with string key-value pairs for each call. Example: `[{\"name\": \"John\", \"phone\": \"+1234567890\"}, {\"name\": \"Jane\", \"phone\": \"+0987654321\"}]`",
     },
     batchSize: {
       type: "integer",
       label: "Batch Size",
       description: "Number of calls to process in each batch",
       min: 1,
+      optional: true,
     },
     batchIntervalMinutes: {
       type: "integer",
       label: "Batch Interval (Minutes)",
       description: "Time interval between batches in minutes",
       min: 1,
+      optional: true,
     },
     wsUrl: {
       type: "string",
       label: "WebSocket URL",
       description: "WebSocket URL for real-time updates",
+      optional: true,
     },
     condition: {
       type: "string",
@@ -73,7 +75,7 @@ export default {
   },
   async run({ $ }) {
     const requestData = {
-      data: this.data,
+      data: parseObject(this.data),
       batch_size: this.batchSize,
       batch_interval_minutes: this.batchIntervalMinutes,
       wsUrl: this.wsUrl,

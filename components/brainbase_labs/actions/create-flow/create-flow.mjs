@@ -3,8 +3,7 @@ import app from "../../brainbase_labs.app.mjs";
 export default {
   key: "brainbase_labs-create-flow",
   name: "Create Flow",
-  description:
-    "Create a new flow for a worker. [See the documentation](https://docs.usebrainbase.com/api-reference/flows/create-a-new-flow)",
+  description: "Create a new flow for a worker. [See the documentation](https://docs.usebrainbase.com/api-reference/flows/create-a-new-flow)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -34,7 +33,6 @@ export default {
       type: "string",
       label: "Label",
       description: "Optional label for the flow",
-      optional: true,
     },
     variables: {
       type: "string",
@@ -46,7 +44,6 @@ export default {
       type: "boolean",
       label: "Validate",
       description: "Whether to validate the flow",
-      optional: true,
     },
   },
   async run({ $ }) {

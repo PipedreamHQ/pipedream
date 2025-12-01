@@ -3,8 +3,7 @@ import app from "../../brainbase_labs.app.mjs";
 export default {
   key: "brainbase_labs-list-flows",
   name: "List Flows",
-  description:
-    "Get all flows for a worker. [See the documentation](https://docs.usebrainbase.com/api-reference/flows/get-all-flows-for-a-worker)",
+  description: "Get all flows for a worker. [See the documentation](https://docs.usebrainbase.com/api-reference/flows/get-all-flows-for-a-worker)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -29,7 +28,7 @@ export default {
 
     $.export(
       "$summary",
-      `Successfully retrieved ${response.data?.length || 0} flow(s)`,
+      `Successfully retrieved ${response?.length || 0} flow(s)`,
     );
     return response;
   },

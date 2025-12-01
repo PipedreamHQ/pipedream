@@ -3,8 +3,7 @@ import app from "../../brainbase_labs.app.mjs";
 export default {
   key: "brainbase_labs-create-worker",
   name: "Create Worker",
-  description:
-    "Create a new worker for the team. [See the documentation](https://docs.usebrainbase.com/api-reference/workers/create-a-new-worker)",
+  description: "Create a new worker for the team. [See the documentation](https://docs.usebrainbase.com/api-reference/workers/create-a-new-worker)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -23,13 +22,11 @@ export default {
       type: "string",
       label: "Description",
       description: "Worker description",
-      optional: true,
     },
     status: {
       type: "string",
       label: "Status",
       description: "Worker status",
-      optional: true,
       options: [
         "active",
         "inactive",

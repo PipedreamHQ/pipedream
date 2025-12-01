@@ -1,10 +1,10 @@
 import app from "../../brainbase_labs.app.mjs";
+import { parseObject } from "../../common/utils.mjs";
 
 export default {
   key: "brainbase_labs-create-voice-deployment",
   name: "Create Voice Deployment",
-  description:
-    "Create a new voice deployment. [See the documentation](https://docs.usebrainbase.com/api-reference/voice-deployments/create-a-new-voice-deployment)",
+  description: "Create a new voice deployment. [See the documentation](https://docs.usebrainbase.com/api-reference/voice-deployments/create-a-new-voice-deployment)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -55,8 +55,7 @@ export default {
     extractions: {
       type: "object",
       label: "Extractions",
-      description: "Custom data extraction configurations (optional)",
-      optional: true,
+      description: "Custom data extraction configurations",
     },
     successCriteria: {
       type: "string[]",
@@ -75,13 +74,13 @@ export default {
         flowId: this.flowId,
         enableVoiceSentiment: this.enableVoiceSentiment,
         ...(this.externalConfig && {
-          externalConfig: this.externalConfig,
+          externalConfig: parseObject(this.externalConfig),
         }),
         ...(this.extractions && {
-          extractions: this.extractions,
+          extractions: parseObject(this.extractions),
         }),
         ...(this.successCriteria && {
-          successCriteria: this.successCriteria,
+          successCriteria: parseObject(this.successCriteria),
         }),
       },
     });

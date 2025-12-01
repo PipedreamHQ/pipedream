@@ -8,12 +8,8 @@ export default {
       type: "string",
       label: "Worker ID",
       description: "The unique identifier for the worker",
-      async options({ page }) {
-        const { data } = await this.listWorkers({
-          params: {
-            page: page + 1,
-          },
-        });
+      async options() {
+        const data = await this.listWorkers();
         return (
           data?.map(({
             id: value, name: label,
@@ -28,14 +24,9 @@ export default {
       type: "string",
       label: "Flow ID",
       description: "The unique identifier for the flow",
-      async options({
-        workerId, page,
-      }) {
-        const { data } = await this.listFlows({
+      async options({ workerId }) {
+        const data = await this.listFlows({
           workerId,
-          params: {
-            page: page + 1,
-          },
         });
         return (
           data?.map(({
@@ -51,14 +42,9 @@ export default {
       type: "string",
       label: "Deployment ID",
       description: "The unique identifier for the voice deployment",
-      async options({
-        workerId, page,
-      }) {
-        const { data } = await this.listVoiceDeployments({
+      async options({ workerId }) {
+        const data = await this.listVoiceDeployments({
           workerId,
-          params: {
-            page: page + 1,
-          },
         });
         return (
           data?.map(({
@@ -74,12 +60,8 @@ export default {
       type: "string",
       label: "Integration ID",
       description: "The unique identifier for the integration",
-      async options({ page }) {
-        const { data } = await this.listIntegrations({
-          params: {
-            page: page + 1,
-          },
-        });
+      async options() {
+        const data = await this.listIntegrations();
         return (
           data?.map(({
             id: value, type: label,
@@ -94,12 +76,8 @@ export default {
       type: "string",
       label: "Phone Number ID",
       description: "The unique identifier for the phone number",
-      async options({
-        integrationId, page,
-      }) {
-        const params = {
-          page: page + 1,
-        };
+      async options({ integrationId }) {
+        const params = {};
         if (integrationId) {
           params.integrationId = integrationId;
         }
@@ -114,6 +92,17 @@ export default {
             value,
           })) || []
         );
+      },
+    },
+    voiceDeploymentLogId: {
+      type: "string",
+      label: "Voice Deployment Log ID",
+      description: "The unique identifier for the voice deployment log entry",
+      async options({ workerId }) {
+        const { data } = await this.listVoiceDeploymentLogs({
+          workerId,
+        });
+        return data?.map(({ id }) => id) || [];
       },
     },
   },
