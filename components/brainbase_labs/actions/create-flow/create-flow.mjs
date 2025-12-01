@@ -4,7 +4,7 @@ export default {
   key: "brainbase_labs-create-flow",
   name: "Create Flow",
   description:
-    "Create a new flow for a worker. [See the documentation](https://docs.usebrainbase.com)",
+    "Create a new flow for a worker. [See the documentation](https://docs.usebrainbase.com/api-reference/flows/create-a-new-flow)",
   version: "0.0.1",
   type: "action",
   annotations: {

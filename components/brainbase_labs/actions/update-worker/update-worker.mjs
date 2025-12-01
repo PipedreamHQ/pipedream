@@ -4,7 +4,7 @@ export default {
   key: "brainbase_labs-update-worker",
   name: "Update Worker",
   description:
-    "Update an existing worker. [See the documentation](https://docs.usebrainbase.com)",
+    "Update an existing worker. [See the documentation](https://docs.usebrainbase.com/api-reference/workers/update-a-worker)",
   version: "0.0.1",
   type: "action",
   annotations: {

@@ -4,7 +4,7 @@ export default {
   key: "brainbase_labs-make-voice-batch-calls",
   name: "Make Voice Batch Calls",
   description:
-    "Make batch calls for a voice deployment. [See the documentation](https://docs.usebrainbase.com)",
+    "Make batch calls for a voice deployment. [See the documentation](https://docs.usebrainbase.com/api-reference/voice-deployments/make-batch-calls-for-a-voice-deployment)",
   version: "0.0.1",
   type: "action",
   annotations: {

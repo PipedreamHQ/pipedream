@@ -4,7 +4,7 @@ export default {
   key: "brainbase_labs-update-voice-deployment",
   name: "Update Voice Deployment",
   description:
-    "Update an existing voice deployment. [See the documentation](https://docs.usebrainbase.com)",
+    "Update an existing voice deployment. [See the documentation](https://docs.usebrainbase.com/api-reference/voice-deployments/update-a-voice-deployment)",
   version: "0.0.1",
   type: "action",
   annotations: {

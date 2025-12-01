@@ -4,7 +4,7 @@ export default {
   key: "brainbase_labs-update-flow",
   name: "Update Flow",
   description:
-    "Update an existing flow. [See the documentation](https://docs.usebrainbase.com)",
+    "Update an existing flow. [See the documentation](https://docs.usebrainbase.com/api-reference/flows/update-a-flow)",
   version: "0.0.1",
   type: "action",
   annotations: {

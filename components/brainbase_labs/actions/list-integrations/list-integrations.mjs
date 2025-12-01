@@ -4,12 +4,12 @@ export default {
   key: "brainbase_labs-list-integrations",
   name: "List Integrations",
   description:
-    "Get all integrations for the authenticated team. [See the documentation](https://docs.usebrainbase.com)",
+    "Get all integrations for the authenticated team. [See the documentation](https://docs.usebrainbase.com/api-reference/integrations/get-all-integrations-for-the-authenticated-team)",
   version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
-    openWorldHint: false,
+    openWorldHint: true,
     readOnlyHint: true,
   },
   props: {

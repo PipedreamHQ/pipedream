@@ -4,7 +4,7 @@ export default {
   key: "brainbase_labs-register-phone-number",
   name: "Register Phone Number",
   description:
-    "Register a phone number for the team via Twilio integration. [See the documentation](https://docs.usebrainbase.com)",
+    "Register a phone number for the team via Twilio integration. [See the documentation](https://docs.usebrainbase.com/api-reference/assets/register-a-phone-number-for-the-team-via-twilio-integration)",
   version: "0.0.1",
   type: "action",
   annotations: {

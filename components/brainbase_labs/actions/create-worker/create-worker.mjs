@@ -4,7 +4,7 @@ export default {
   key: "brainbase_labs-create-worker",
   name: "Create Worker",
   description:
-    "Create a new worker for the team. [See the documentation](https://docs.usebrainbase.com)",
+    "Create a new worker for the team. [See the documentation](https://docs.usebrainbase.com/api-reference/workers/create-a-new-worker)",
   version: "0.0.1",
   type: "action",
   annotations: {

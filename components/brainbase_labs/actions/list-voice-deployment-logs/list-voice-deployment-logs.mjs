@@ -4,12 +4,12 @@ export default {
   key: "brainbase_labs-list-voice-deployment-logs",
   name: "List Voice Deployment Logs",
   description:
-    "List voice deployment logs for a worker with optional filtering and pagination. [See the documentation](https://docs.usebrainbase.com)",
+    "List voice deployment logs for a worker with optional filtering and pagination. [See the documentation](https://docs.usebrainbase.com/api-reference/voice-deployment-logs/list-voice-deployment-logs-for-a-worker-with-optional-filtering-and-pagination)",
   version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
-    openWorldHint: false,
+    openWorldHint: true,
     readOnlyHint: true,
   },
   props: {

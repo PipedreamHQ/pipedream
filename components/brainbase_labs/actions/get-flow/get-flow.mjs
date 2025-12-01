@@ -4,12 +4,12 @@ export default {
   key: "brainbase_labs-get-flow",
   name: "Get Flow",
   description:
-    "Get a single flow by ID. [See the documentation](https://docs.usebrainbase.com)",
+    "Get a single flow by ID. [See the documentation](https://docs.usebrainbase.com/api-reference/flows/get-a-single-flow)",
   version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
-    openWorldHint: false,
+    openWorldHint: true,
     readOnlyHint: true,
   },
   props: {

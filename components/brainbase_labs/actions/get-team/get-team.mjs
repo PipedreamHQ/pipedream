@@ -4,12 +4,12 @@ export default {
   key: "brainbase_labs-get-team",
   name: "Get Team",
   description:
-    "Get the team associated with the provided API key. [See the documentation](https://docs.usebrainbase.com)",
+    "Get the team associated with the provided API key. [See the documentation](https://docs.usebrainbase.com/api-reference/team/get-the-team-associated-with-the-provided-api-key)",
   version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
-    openWorldHint: false,
+    openWorldHint: true,
     readOnlyHint: true,
   },
   props: {

@@ -4,12 +4,12 @@ export default {
   key: "brainbase_labs-get-voice-deployment-log",
   name: "Get Voice Deployment Log",
   description:
-    "Retrieve a single voice deployment log record. [See the documentation](https://docs.usebrainbase.com)",
+    "Retrieve a single voice deployment log record. [See the documentation](https://docs.usebrainbase.com/api-reference/voice-deployment-logs/retrieve-a-single-voice-deployment-log-record)",
   version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
-    openWorldHint: false,
+    openWorldHint: true,
     readOnlyHint: true,
   },
   props: {

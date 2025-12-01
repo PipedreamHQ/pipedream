@@ -4,7 +4,7 @@ export default {
   key: "brainbase_labs-delete-flow",
   name: "Delete Flow",
   description:
-    "Delete a flow. [See the documentation](https://docs.usebrainbase.com)",
+    "Delete a flow. [See the documentation](https://docs.usebrainbase.com/api-reference/flows/delete-a-flow)",
   version: "0.0.1",
   type: "action",
   annotations: {
