@@ -31,7 +31,12 @@ export default {
         object_type: "Ticket",
       },
     });
+    const reservedFields = [
+      "call_status",
+      "ai_intent",
+    ];
     for (const field of customFields) {
+      if (reservedFields.includes(field.managed_type)) continue;
       const inputType = field?.definition?.input_settings?.input_type;
       const dataType = field?.definition?.data_type;
       props[field.id] = {
