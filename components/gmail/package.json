@@ -20,7 +20,7 @@
     "google-auth-library": "^8.7.0",
     "html-to-text": "^9.0.5",
     "mime": "^3.0.0",
-    "nodemailer": "^7.0.7",
+    "nodemailer": "^7.0.11",
     "stream": "^0.0.3",
     "uuid": "^10.0.0"
   }

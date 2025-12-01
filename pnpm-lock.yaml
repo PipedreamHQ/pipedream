@@ -6007,8 +6007,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0
       nodemailer:
-        specifier: ^7.0.7
-        version: 7.0.10
+        specifier: ^7.0.11
+        version: 7.0.11
       stream:
         specifier: ^0.0.3
         version: 0.0.3
@@ -11204,8 +11204,8 @@ importers:
         specifier: ^0.5.47
         version: 0.5.48
       nodemailer:
-        specifier: ^7.0.7
-        version: 7.0.10
+        specifier: ^7.0.11
+        version: 7.0.11
       pluralize:
         specifier: ^8.0.0
         version: 8.0.0
@@ -15323,8 +15323,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/transcript_downloader:
-    specifiers: {}
+  components/transcript_downloader: {}
 
   components/transform:
     dependencies:
@@ -28812,6 +28811,7 @@ packages:
 
   moize@6.1.6:
     resolution: {integrity: sha512-vSKdIUO61iCmTqhdoIDrqyrtp87nWZUmBPniNjO0fX49wEYmyDO4lvlnFXiGcaH1JLE/s/9HbiK4LSHsbiUY6Q==}
+    deprecated: This library has been deprecated in favor of micro-memoize, which as-of version 5 incorporates most of the functionality that this library offers at nearly half the size and better speed.
 
   moment-timezone@0.5.48:
     resolution: {integrity: sha512-f22b8LV1gbTO2ms2j2z13MuPogNoh5UzxL3nzNAYKGraILnbGc9NEE6dyiiiLv46DGRb8A4kg8UKWLjPthxBHw==}
@@ -29108,6 +29108,10 @@ packages:
 
   nodemailer@7.0.10:
     resolution: {integrity: sha512-Us/Se1WtT0ylXgNFfyFSx4LElllVLJXQjWi2Xz17xWw7amDKO2MLtFnVp1WACy7GkVGs+oBlRopVNUzlrGSw1w==}
+    engines: {node: '>=6.0.0'}
+
+  nodemailer@7.0.11:
+    resolution: {integrity: sha512-gnXhNRE0FNhD7wPSCGhdNh46Hs6nm+uTyg+Kq0cZukNQiYdnCsoQjodNP9BQVG9XrcK/v6/MgpAPBUFyzh9pvw==}
     engines: {node: '>=6.0.0'}
 
   nodemon@3.1.11:
@@ -49598,6 +49602,8 @@ snapshots:
       - supports-color
 
   nodemailer@7.0.10: {}
+
+  nodemailer@7.0.11: {}
 
   nodemon@3.1.11:
     dependencies:
