@@ -9,12 +9,12 @@ export default {
       label: "Template ID",
       description: "The ID of the template to use",
       async options({ page }) {
-        const { data } = await this.listTemplates({
+        const { templates } = await this.listTemplates({
           params: {
             pageNo: page,
           },
         });
-        return data.map(({ id }) => id);
+        return templates?.map(({ id }) => id) || [];
       },
     },
   },
