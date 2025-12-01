@@ -2589,8 +2589,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/chartly:
-    specifiers: {}
+  components/chartly: {}
 
   components/chartmogul:
     dependencies:
@@ -3541,8 +3540,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/cryptlex:
-    specifiers: {}
+  components/cryptlex: {}
 
   components/crypto_apis_by_alternative: {}
 
@@ -4289,8 +4287,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/docuwriter_ai:
-    specifiers: {}
+  components/docuwriter_ai: {}
 
   components/dokan: {}
 
@@ -5776,8 +5773,7 @@ importers:
         specifier: 4.0.4
         version: 4.0.4
 
-  components/genpage:
-    specifiers: {}
+  components/genpage: {}
 
   components/geoapify:
     dependencies:
@@ -6235,8 +6231,8 @@ importers:
         specifier: ^3.3.0
         version: 3.4.0
       '@pipedream/google_drive':
-        specifier: ^1.3.1
-        version: 1.3.1
+        specifier: ^1.4.1
+        version: 1.4.1
       markdown-it:
         specifier: ^14.1.0
         version: 14.1.0
@@ -7118,8 +7114,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/hybrid_analysis:
-    specifiers: {}
+  components/hybrid_analysis: {}
 
   components/hygraph: {}
 
@@ -7732,8 +7727,7 @@ importers:
 
   components/junip: {}
 
-  components/just_invoice:
-    specifiers: {}
+  components/just_invoice: {}
 
   components/justcall:
     dependencies:
@@ -11434,8 +11428,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/pod_ai:
-    specifiers: {}
+  components/pod_ai: {}
 
   components/podio:
     dependencies:
@@ -11735,8 +11728,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/productify_ai:
-    specifiers: {}
+  components/productify_ai: {}
 
   components/productive_io:
     dependencies:
@@ -11788,8 +11780,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/proovl:
-    specifiers: {}
+  components/proovl: {}
 
   components/propelauth: {}
 
@@ -13831,8 +13822,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/slab:
-    specifiers: {}
+  components/slab: {}
 
   components/slack:
     dependencies:
@@ -15333,8 +15323,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/transcript_downloader:
-    specifiers: {}
+  components/transcript_downloader: {}
 
   components/transform:
     dependencies:
@@ -15937,8 +15926,7 @@ importers:
         specifier: 4.0.4
         version: 4.0.4
 
-  components/vatfix_plus:
-    specifiers: {}
+  components/vatfix_plus: {}
 
   components/vbout:
     dependencies:
@@ -20696,8 +20684,8 @@ packages:
   '@pipedream/google_drive@1.2.0':
     resolution: {integrity: sha512-SOv35Ye7YZ+qVscpo/T9dPqUGS3P0HZxUdNjJYXYj28cZX6l/tVcGa9LdUcpJaN6N8y6mTSwkF1fdGroBxjp6A==}
 
-  '@pipedream/google_drive@1.3.1':
-    resolution: {integrity: sha512-+6qq3lb4rfB8S48dSmgOPa/qJTtI80d8QFnoTiMOAtLsPGNtZjVB0ZJakKUqEWsdhm1GU9AW/YpbjBs93bXBNA==}
+  '@pipedream/google_drive@1.4.1':
+    resolution: {integrity: sha512-ttvG6nMu/+hrODkhXusB7qvhVgLYpSKY52Y+dTUmElXfRnEmUz+7KRmYTfOo+UJK+MQHJEi9aEwK5NppiGOs1w==}
 
   '@pipedream/helper_functions@0.3.13':
     resolution: {integrity: sha512-67zXT5rMccSYEeQCEKjO0g/U2Wnc3q1ErRWt0sivqJEF/KYqAb3tWmznDYGACbC8L6ML0WWSWRy7nEGt5Vyuaw==}
@@ -38420,7 +38408,7 @@ snapshots:
       - encoding
       - supports-color
 
-  '@pipedream/google_drive@1.3.1':
+  '@pipedream/google_drive@1.4.1':
     dependencies:
       '@googleapis/drive': 2.4.0
       '@pipedream/platform': 3.1.1
