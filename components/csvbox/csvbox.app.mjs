@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -8,7 +9,7 @@ export default {
       type: "string",
       label: "Sheet",
       description: "Select the sheet you want to receive data from",
-      optional: true,
+      optional: false,
       async options() {
         const { data } = await this.listSheets();
         return data.map((sheet) => ({
@@ -18,7 +19,6 @@ export default {
       },
     },
   },
-
   methods: {
     _getAuthKeys() {
       return this.$auth.api_key;
@@ -80,36 +80,6 @@ export default {
         ...args,
       });
       return res;
-    },
-  },
-  methods: {
-    getUrl(path) {
-      return `https://api.csvbox.io/1.1${path}`;
-    },
-    getHeaders(headers) {
-      return {
-        "Content-Type": "application/json",
-        "x-csvbox-api-key": `${this.$auth.api_key}`,
-        "x-csvbox-secret-api-key": `${this.$auth.secret_api_key}`,
-        ...headers,
-      };
-    },
-    _makeRequest({
-      $ = this, path, headers, ...args
-    } = {}) {
-      return axios($, {
-        debug: true,
-        url: this.getUrl(path),
-        headers: this.getHeaders(headers),
-        ...args,
-      });
-    },
-    submitFile(args = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/file",
-        ...args,
-      });
     },
   },
 };
