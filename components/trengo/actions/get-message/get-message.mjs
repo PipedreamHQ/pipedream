@@ -4,7 +4,7 @@ export default {
   key: "trengo-get-message",
   name: "Get Message",
   description: "Get a message by ID. [See the documentation](https://developers.trengo.com/reference/fetch-a-message)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: false,
