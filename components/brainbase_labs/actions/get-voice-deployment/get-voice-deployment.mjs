@@ -4,7 +4,7 @@ export default {
   key: "brainbase_labs-get-voice-deployment",
   name: "Get Voice Deployment",
   description:
-    "Get a single voice deployment by ID. [See the documentation](https://docs.usebrainbase.com)",
+    "Get a single voice deployment by ID. [See the documentation](https://docs.usebrainbase.com/api-reference/voice-deployments/get-a-single-voice-deployment)",
   version: "0.0.1",
   type: "action",
   annotations: {

@@ -4,7 +4,7 @@ export default {
   key: "brainbase_labs-get-worker",
   name: "Get Worker",
   description:
-    "Get a single worker by ID. [See the documentation](https://docs.usebrainbase.com)",
+    "Get a single worker by ID. [See the documentation](https://docs.usebrainbase.com/api-reference/workers/get-a-single-worker)",
   version: "0.0.1",
   type: "action",
   annotations: {

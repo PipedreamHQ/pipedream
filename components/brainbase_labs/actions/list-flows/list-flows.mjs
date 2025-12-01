@@ -4,7 +4,7 @@ export default {
   key: "brainbase_labs-list-flows",
   name: "List Flows",
   description:
-    "Get all flows for a worker. [See the documentation](https://docs.usebrainbase.com)",
+    "Get all flows for a worker. [See the documentation](https://docs.usebrainbase.com/api-reference/flows/get-all-flows-for-a-worker)",
   version: "0.0.1",
   type: "action",
   annotations: {

@@ -22,10 +22,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {};
-    if (this.includeIntegrations !== undefined) {
-      params.includeIntegrations = this.includeIntegrations;
-    }
+    const params = {
+      includeIntegrations: this.includeIntegrations,
+    };
 
     const response = await this.app.getTeam({
       $,

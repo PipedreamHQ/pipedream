@@ -4,7 +4,7 @@ export default {
   key: "brainbase_labs-list-voice-deployments",
   name: "List Voice Deployments",
   description:
-    "Get all voice deployments for a worker. [See the documentation](https://docs.usebrainbase.com)",
+    "Get all voice deployments for a worker. [See the documentation](https://docs.usebrainbase.com/api-reference/voice-deployments/get-all-voice-deployments-for-a-worker)",
   version: "0.0.1",
   type: "action",
   annotations: {

@@ -4,7 +4,7 @@ export default {
   key: "brainbase_labs-create-voice-deployment",
   name: "Create Voice Deployment",
   description:
-    "Create a new voice deployment. [See the documentation](https://docs.usebrainbase.com)",
+    "Create a new voice deployment. [See the documentation](https://docs.usebrainbase.com/api-reference/voice-deployments/create-a-new-voice-deployment)",
   version: "0.0.1",
   type: "action",
   annotations: {
