@@ -4,7 +4,7 @@ export default {
   key: "trengo-attach-label",
   name: "Attach Label",
   description: "Attach a label to a ticket. [See the documentation](https://developers.trengo.com/reference/apply-a-label)",
-  version: "0.0.2",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: false,

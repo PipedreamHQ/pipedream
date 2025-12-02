@@ -6,7 +6,7 @@ export default {
   key: "freshchat-new-conversation-started",
   name: "New Conversation Started",
   description: "Emit new event when a new conversation is started for a user. [See the documentation](https://developers.freshchat.com/api/#retrieve_all_conversation_for_a_user)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

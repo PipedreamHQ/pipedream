@@ -4,7 +4,7 @@ export default {
   key: "pipedrive-search-notes",
   name: "Search Notes",
   description: "Search for notes in Pipedrive. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Notes#getNotes)",
-  version: "0.0.8",
+  version: "0.0.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

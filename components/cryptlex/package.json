@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/cryptlex",
+  "version": "0.0.1",
+  "description": "Pipedream Cryptlex Components",
+  "main": "cryptlex.app.mjs",
+  "keywords": [
+    "pipedream",
+    "cryptlex"
+  ],
+  "homepage": "https://pipedream.com/apps/cryptlex",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

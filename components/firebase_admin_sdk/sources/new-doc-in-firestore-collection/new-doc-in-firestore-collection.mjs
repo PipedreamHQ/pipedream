@@ -5,7 +5,7 @@ export default {
   key: "firebase_admin_sdk-new-doc-in-firestore-collection",
   name: "New Document in Firestore Collection",
   description: "Emit new event when a structured query returns new documents",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "source",
   dedupe: "unique",
   props: {

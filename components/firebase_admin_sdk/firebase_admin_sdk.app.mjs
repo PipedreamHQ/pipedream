@@ -103,7 +103,7 @@ export default {
     },
     _getHeaders(token) {
       const defaultHeader = {
-        "Content-Type": "applicaton/json",
+        "Content-Type": "application/json",
       };
       const headers = token
         ? {

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/pod_ai",
+  "version": "0.0.1",
+  "description": "Pipedream Pod AI Components",
+  "main": "pod_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "pod_ai"
+  ],
+  "homepage": "https://pipedream.com/apps/pod_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

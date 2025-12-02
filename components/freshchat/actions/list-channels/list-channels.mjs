@@ -4,7 +4,7 @@ export default {
   key: "freshchat-list-channels",
   name: "List Channels",
   description: "Lists all channels in Freshchat. [See the documentation](https://developers.freshchat.com/api/#channels-(topics))",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/dealcloud",
+  "version": "0.1.0",
+  "description": "Pipedream DealCloud Components",
+  "main": "dealcloud.app.mjs",
+  "keywords": [
+    "pipedream",
+    "dealcloud"
+  ],
+  "homepage": "https://pipedream.com/apps/dealcloud",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1"
+  }
+}

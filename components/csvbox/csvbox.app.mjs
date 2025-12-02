@@ -1,55 +1,85 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "csvbox",
   propDefinitions: {
-    sheetLicenseKey: {
+    sheetId: {
       type: "string",
-      label: "Sheet License Key",
-      description: "The unique identifier for your CSVBox sheet. You can find it in **Sheets - Edit - Code Snippet - Sheet License Key**.",
-    },
-    userId: {
-      type: "string",
-      label: "User ID",
-      description: "The unique identifier for the user. You can find it in the **Dashboard - Edit - Code Snippet**.",
-      optional: true,
-    },
-    hasHeaders: {
-      type: "boolean",
-      label: "Has Headers",
-      description: "Whether the spreadsheet has headers.",
-      optional: true,
+      label: "Sheet",
+      description: "Select the sheet you want to receive data from",
+      optional: false,
+      async options() {
+        const { data } = await this.listSheets();
+        return data.map((sheet) => ({
+          label: sheet.name,
+          value: sheet.value,
+        }));
+      },
     },
   },
   methods: {
-    getUrl(path) {
-      return `https://api.csvbox.io/1.1${path}`;
+    _getAuthKeys() {
+      return this.$auth.api_key;
     },
-    getHeaders(headers) {
+    _getSecretAuthKeys() {
+      return this.$auth.secret_api_key;
+    },
+    _getUrl(path) {
+      return `${constants.BASE_URL}${path}`;
+    },
+    _getHeaders(headers) {
       return {
-        "Content-Type": "application/json",
-        "x-csvbox-api-key": `${this.$auth.api_key}`,
-        "x-csvbox-secret-api-key": `${this.$auth.secret_api_key}`,
         ...headers,
+        "accept": "application/json",
+        "Content-Type": "application/json",
+        "x-csvbox-api-key": this._getAuthKeys(),
+        "x-csvbox-secret-api-key": this._getSecretAuthKeys(),
       };
     },
-    _makeRequest({
-      $ = this, path, headers, ...args
+
+    async _makeRequest({
+      $ = this, path, headers, ...otherConfig
     } = {}) {
-      return axios($, {
-        debug: true,
-        url: this.getUrl(path),
-        headers: this.getHeaders(headers),
+      const config = {
+        url: this._getUrl(path),
+        headers: this._getHeaders(headers),
+        returnFullResponse: true,
+        ...otherConfig,
+      };
+      return axios($, config);
+    },
+
+    async createHook({
+      data, ...args
+    } = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/register-webhook",
+        data,
         ...args,
       });
     },
-    submitFile(args = {}) {
+
+    async deleteHook({
+      data, ...args
+    } = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/file",
+        method: "DELETE",
+        path: "/delete-webhook",
+        data,
         ...args,
       });
+    },
+
+    async listSheets(args = {}) {
+      const res = await this._makeRequest({
+        method: "GET",
+        path: "/list-sheets",
+        ...args,
+      });
+      return res;
     },
   },
 };
