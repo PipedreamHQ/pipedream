@@ -1,4 +1,5 @@
 import slab from "../../slab.app.mjs";
+import { LIST_POSTS_QUERY } from "../../common/queries.mjs";
 
 export default {
   key: "slab-list-posts",
@@ -39,53 +40,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const query = `
-      query ListPosts($query: String!, $first: Int, $after: String, $last: Int, $before: String) {
-        search(query: $query, types: [POST], first: $first, after: $after, last: $last, before: $before) {
-          edges {
-            node {
-              ... on PostSearchResult {
-                title
-                highlight
-                content
-                post {
-                  id
-                  title
-                  linkAccess
-                  archivedAt
-                  publishedAt
-                  insertedAt
-                  updatedAt
-                  version
-                  content
-                  banner {
-                    original
-                    thumb
-                    preset
-                  }
-                  owner {
-                    id
-                    name
-                    email
-                  }
-                  topics {
-                    id
-                    name
-                  }
-                }
-              }
-            }
-            cursor
-          }
-          pageInfo {
-            hasNextPage
-            hasPreviousPage
-            startCursor
-            endCursor
-          }
-        }
-      }
-    `;
+    const query = LIST_POSTS_QUERY;
     const variables = {
       query: "",
       ...(this.first && {
