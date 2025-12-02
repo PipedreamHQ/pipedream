@@ -4,8 +4,7 @@ export default {
   key: "hubspot-add-comment",
   name: "Add Comment",
   description: "Adds a comment to a thread. [See the documentation](https://developers.hubspot.com/docs/api-reference/conversations-conversations-inbox-&-messages-v3/public-message/post-conversations-v3-conversations-threads-threadId-messages)",
-  //version: "0.0.1",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
