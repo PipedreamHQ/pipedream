@@ -4,7 +4,7 @@ export default {
   key: "freshdesk-create-thread",
   name: "Create a Thread",
   description: "Create a thread to a ticket. [See the documentation](https://developers.freshdesk.com/api/#create_a_thread).",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

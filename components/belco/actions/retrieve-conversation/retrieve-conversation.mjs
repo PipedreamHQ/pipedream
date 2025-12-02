@@ -4,7 +4,7 @@ export default {
   key: "belco-retrieve-conversation",
   name: "Retrieve Conversation",
   description: "Retrieve a conversation specified by ID. [See the documentation](https://developers.belco.io/reference/get_conversations-conversationid)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

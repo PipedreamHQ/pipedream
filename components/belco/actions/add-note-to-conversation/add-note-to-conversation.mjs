@@ -4,7 +4,7 @@ export default {
   key: "belco-add-note-to-conversation",
   name: "Add Note to Conversation",
   description: "Add a note to a conversation specified by ID. [See the documentation](https://developers.belco.io/reference/put_conversations-conversationid-addnote)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

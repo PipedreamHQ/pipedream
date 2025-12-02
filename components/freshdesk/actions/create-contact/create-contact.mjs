@@ -5,7 +5,7 @@ export default {
   key: "freshdesk-create-contact",
   name: "Create a Contact",
   description: "Create a contact. [See the documentation](https://developers.freshdesk.com/api/#create_contact)",
-  version: "0.0.9",
+  version: "0.0.10",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

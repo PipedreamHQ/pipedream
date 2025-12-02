@@ -9,7 +9,7 @@ export default {
   key: "google_drive-create-file-from-template",
   name: "Create New File From Template",
   description: "Create a new Google Docs file from a template. Optionally include placeholders in the template document that will get replaced from this action. [See documentation](https://www.npmjs.com/package/google-docs-mustaches)",
-  version: "0.1.17",
+  version: "0.1.18",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -23,6 +23,7 @@ export default {
         googleDrive,
         "watchedDrive",
       ],
+      label: "Drive Containing Template",
       optional: true,
     },
     templateId: {
@@ -36,12 +37,20 @@ export default {
       description:
         "Select the template document you'd like to use as the template, or use a custom expression to reference a document ID from a previous step. Template documents should contain placeholders in the format `{{xyz}}`.",
     },
+    destinationDrive: {
+      propDefinition: [
+        googleDrive,
+        "watchedDrive",
+      ],
+      label: "Destination Drive",
+      optional: true,
+    },
     folderId: {
       propDefinition: [
         googleDrive,
         "folderId",
         (c) => ({
-          drive: c.drive,
+          drive: c.destinationDrive,
         }),
       ],
       description:
@@ -79,7 +88,7 @@ export default {
       mode: this.mode,
     };
 
-    const isSharedDrive = this.drive && this.drive !== "My Drive";
+    const isSharedDrive = this.destinationDrive && this.destinationDrive !== "My Drive";
 
     const client = new Mustaches.default({
       token: () => this.googleDrive.$auth.oauth_access_token,
@@ -147,7 +156,7 @@ export default {
         await this.googleDrive.updateFile(googleDocId, {
           fields: "*",
           removeParents: file.parents.join(","),
-          addParents: this.folderId || this.drive,
+          addParents: this.folderId || this.destinationDrive,
           supportsAllDrives: true,
         });
       }
@@ -157,7 +166,7 @@ export default {
         await this.googleDrive.updateFile(pdfId, {
           fields: "*",
           removeParents: pdf.parents.join(","),
-          addParents: this.folderId || this.drive,
+          addParents: this.folderId || this.destinationDrive,
           supportsAllDrives: true,
         });
       }
