@@ -4,7 +4,7 @@ export default {
   key: "hubspot-list-channels",
   name: "List Channels",
   description: "Retrieves a list of channels. [See the documentation](https://developers.hubspot.com/docs/api-reference/conversations-conversations-inbox-&-messages-v3/public-channel/get-conversations-v3-conversations-channels)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
