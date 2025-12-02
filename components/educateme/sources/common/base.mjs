@@ -23,7 +23,7 @@ export default {
   },
   async run() {
     const resources = await this.getResources();
-    for (const resource of resources) {
+    for (const resource of resources || []) {
       const meta = this.generateMeta(resource);
       this.$emit(resource, meta);
     }
