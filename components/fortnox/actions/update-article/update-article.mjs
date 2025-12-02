@@ -4,7 +4,7 @@ export default {
   key: "fortnox-update-article",
   name: "Update Article",
   description: "Updates an existing article in the Fortnox API. [See the documentation](https://api.fortnox.se/apidocs#tag/fortnox_Articles/operation/1_update_2).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: true,
