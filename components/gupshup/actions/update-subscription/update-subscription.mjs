@@ -13,6 +13,11 @@ export default {
   },
   props: {
     gupshup,
+    info: {
+      type: "alert",
+      alertType: "info",
+      content: "Note: This action requires a paid Gupshup account.",
+    },
     subscriptionId: {
       type: "string",
       label: "Subscription ID",

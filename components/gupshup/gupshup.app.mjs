@@ -26,11 +26,12 @@ export default {
       return this.$auth.appname;
     },
     _makeRequest({
-      $ = this, path, ...opts
+      $ = this, path, headers, ...opts
     }) {
       return axios($, {
         url: `${this._baseUrl()}${path}`,
         headers: {
+          ...headers,
           "apikey": `${this.$auth.apikey}`,
         },
         ...opts,
@@ -45,7 +46,10 @@ export default {
     sendTemplateMessage(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/wa/app/v1/template/msg",
+        path: "/wa/api/v1/template/msg",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
         ...opts,
       });
     },
@@ -55,6 +59,9 @@ export default {
       return this._makeRequest({
         method: "PUT",
         path: `/wa/app/${this._appName()}/subscription/${subscriptionId}`,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
         ...opts,
       });
     },
