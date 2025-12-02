@@ -787,13 +787,16 @@ export default {
       type: "string",
       label: "Channel Account ID",
       description: "The ID of a channel account",
-      async options({ prevContext }) {
+      async options({
+        prevContext, channelId,
+      }) {
         const { nextAfter } = prevContext;
         const {
           results, paging,
         } = await this.listChannelAccounts({
-          data: {
+          params: {
             after: nextAfter,
+            channelId: channelId,
           },
         });
         return {
