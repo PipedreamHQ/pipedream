@@ -11149,6 +11149,9 @@ importers:
 
   components/pingrabbit: {}
 
+  components/pinpoint:
+    specifiers: {}
+
   components/pinterest:
     dependencies:
       '@pipedream/platform':
