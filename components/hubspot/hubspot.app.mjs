@@ -763,15 +763,23 @@ export default {
       type: "string",
       label: "Thread ID",
       description: "The ID of a thread",
-      async options({ prevContext }) {
+      async options({
+        prevContext, inboxId, channelId,
+      }) {
         const { nextAfter } = prevContext;
-        const {
+        let {
           results, paging,
         } = await this.listThreads({
           data: {
             after: nextAfter,
           },
         });
+        if (inboxId) {
+          results = results.filter((thread) => thread.inboxId === inboxId);
+        }
+        if (channelId) {
+          results = results.filter((thread) => thread.originalChannelId === channelId);
+        }
         return {
           options: results?.map(({ id }) => ({
             value: id,
@@ -788,7 +796,7 @@ export default {
       label: "Channel Account ID",
       description: "The ID of a channel account",
       async options({
-        prevContext, channelId,
+        prevContext, channelId, inboxId,
       }) {
         const { nextAfter } = prevContext;
         const {
@@ -797,6 +805,7 @@ export default {
           params: {
             after: nextAfter,
             channelId: channelId,
+            inboxId: inboxId,
           },
         });
         return {
@@ -805,6 +814,32 @@ export default {
           }) => ({
             value: id,
             label: name,
+          })) || [],
+          context: {
+            nextAfter: paging?.next.after,
+          },
+        };
+      },
+    },
+    senderActorId: {
+      type: "string",
+      label: "Sender Actor ID",
+      description: "The ID of the sender actor",
+      async options({ prevContext }) {
+        const { nextAfter } = prevContext;
+        const {
+          results, paging,
+        } = await this.getOwners({
+          params: {
+            after: nextAfter,
+          },
+        });
+        return {
+          options: results?.map(({
+            userId: value, email: label,
+          }) => ({
+            value,
+            label,
           })) || [],
           context: {
             nextAfter: paging?.next.after,

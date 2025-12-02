@@ -4,8 +4,7 @@ export default {
   key: "hubspot-send-message",
   name: "Send Message",
   description: "Sends a message to a thread. [See the documentation](https://developers.hubspot.com/docs/api-reference/conversations-conversations-inbox-&-messages-v3/public-message/post-conversations-v3-conversations-threads-threadId-messages)",
-  //version: "0.0.1",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -14,26 +13,17 @@ export default {
   },
   props: {
     hubspot,
-    threadId: {
+    inboxId: {
       propDefinition: [
         hubspot,
-        "threadId",
+        "inboxId",
       ],
     },
     senderActorId: {
-      type: "string",
-      label: "Sender Actor ID",
-      description: "The ID of the sender actor",
-    },
-    text: {
-      type: "string",
-      label: "Text",
-      description: "The text content of the message",
-    },
-    recipientEmails: {
-      type: "string[]",
-      label: "Recipient Emails",
-      description: "The email addresses of the recipients",
+      propDefinition: [
+        hubspot,
+        "senderActorId",
+      ],
     },
     channelId: {
       propDefinition: [
@@ -41,14 +31,45 @@ export default {
         "channelId",
       ],
     },
+    threadId: {
+      propDefinition: [
+        hubspot,
+        "threadId",
+        (c) => ({
+          inboxId: c.inboxId,
+          channelId: c.channelId,
+        }),
+      ],
+    },
     channelAccountId: {
       propDefinition: [
         hubspot,
         "channelAccountId",
         (c) => ({
+          inboxId: c.inboxId,
           channelId: c.channelId,
         }),
       ],
+    },
+    recipientType: {
+      type: "string",
+      label: "Recipient Type",
+      description: "The type of identifier. HS_EMAIL_ADDRESS for email addresses; HS_PHONE_NUMBER for a phone number; CHANNEL_SPECIFIC_OPAQUE_ID for channels that use their own proprietary identifiers, like Facebook Messenger or LiveChat. Use the \"List Messages\" action to locate a CHANNEL_SPECIFIC_OPAQUE_ID.",
+      options: [
+        "HS_EMAIL_ADDRESS",
+        "HS_PHONE_NUMBER",
+        "CHANNEL_SPECIFIC_OPAQUE_ID",
+      ],
+    },
+    recipientValue: {
+      type: "string",
+      label: "Recipient Value",
+      description: "The value of the recipient identifier. For HS_EMAIL_ADDRESS, this is the email address. For HS_PHONE_NUMBER, this is the phone number. For CHANNEL_SPECIFIC_OPAQUE_ID, this is the proprietary identifier.",
+    },
+    text: {
+      type: "string",
+      label: "Text",
+      description: "The text content of the message",
     },
     fileId: {
       propDefinition: [
@@ -73,13 +94,16 @@ export default {
         text: this.text,
         recipients: [
           {
-            deliveryIdentifiers: this.recipientEmails.map((email) => ({
-              type: "HS_EMAIL_ADDRESS",
-              value: email,
-            })),
+            recipientField: "TO",
+            deliveryIdentifiers: [
+              {
+                type: this.recipientType,
+                value: this.recipientValue,
+              },
+            ],
           },
         ],
-        senderActorId: this.senderActorId,
+        senderActorId: `A-${this.senderActorId}`,
         channelId: this.channelId,
         channelAccountId: this.channelAccountId,
         subject: this.subject,

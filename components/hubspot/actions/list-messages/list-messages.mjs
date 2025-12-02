@@ -13,10 +13,28 @@ export default {
   },
   props: {
     hubspot,
+    inboxId: {
+      propDefinition: [
+        hubspot,
+        "inboxId",
+      ],
+      optional: true,
+    },
+    channelId: {
+      propDefinition: [
+        hubspot,
+        "channelId",
+      ],
+      optional: true,
+    },
     threadId: {
       propDefinition: [
         hubspot,
         "threadId",
+        (c) => ({
+          inboxId: c.inboxId,
+          channelId: c.channelId,
+        }),
       ],
     },
     archived: {
