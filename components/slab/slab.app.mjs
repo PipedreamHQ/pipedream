@@ -55,9 +55,7 @@ export default {
       }
       return response.data || response;
     },
-    async listPostsForOptions({
-      cursor,
-    }) {
+    async listPostsForOptions({ cursor }) {
       const query = `
         query ListPosts($after: String, $first: Int) {
           search(query: "", types: [POST], after: $after, first: $first) {
@@ -80,7 +78,9 @@ export default {
       `;
       const variables = {
         first: 20,
-        ...(cursor && { after: cursor }),
+        ...(cursor && {
+          after: cursor,
+        }),
       };
       const response = await this._makeRequest({
         data: {
@@ -100,7 +100,9 @@ export default {
       return {
         options,
         context: {
-          cursor: pageInfo.hasNextPage ? pageInfo.endCursor : undefined,
+          cursor: pageInfo.hasNextPage
+            ? pageInfo.endCursor
+            : undefined,
         },
       };
     },

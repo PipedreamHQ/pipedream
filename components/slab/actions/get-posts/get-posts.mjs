@@ -6,6 +6,11 @@ export default {
   description: "Get posts by ID. See [documentation](https://studio.apollographql.com/public/Slab/variant/current/home), [schema link](https://studio.apollographql.com/public/Slab/variant/current/explorer?searchQuery=RootQueryType.posts)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     slab,
     postIds: {

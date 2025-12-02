@@ -5,6 +5,11 @@ export default {
   name: "List Posts",
   description: "List posts in the organization. See [documentation](https://studio.apollographql.com/public/Slab/variant/current/home), [schema link](https://studio.apollographql.com/public/Slab/variant/current/explorer?searchQuery=RootQueryType.search)",
   version: "0.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     slab,
@@ -83,10 +88,18 @@ export default {
     `;
     const variables = {
       query: "",
-      ...(this.first && { first: parseInt(this.first) }),
-      ...(this.after && { after: this.after }),
-      ...(this.last && { last: parseInt(this.last) }),
-      ...(this.before && { before: this.before }),
+      ...(this.first && {
+        first: parseInt(this.first),
+      }),
+      ...(this.after && {
+        after: this.after,
+      }),
+      ...(this.last && {
+        last: parseInt(this.last),
+      }),
+      ...(this.before && {
+        before: this.before,
+      }),
     };
     const response = await this.slab._makeRequest({
       $,
