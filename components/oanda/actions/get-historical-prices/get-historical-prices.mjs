@@ -6,7 +6,7 @@ export default {
   key: "oanda-get-historical-prices",
   name: "Get Historical Prices",
   description: "Retrieve historical price data for a specified currency pair or instrument within a given time range. [See the documentation](https://developer.oanda.com/rest-live-v20/pricing-ep/)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
