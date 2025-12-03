@@ -21,8 +21,8 @@ export default {
     _setLastTs(lastTs) {
       this.db.set("lastTs", lastTs);
     },
-    getResourceFn() {
-      throw new ConfigurationError("getResourceFn is not implemented");
+    getResources() {
+      throw new ConfigurationError("getResources is not implemented");
     },
     generateMeta() {
       throw new ConfigurationError("generateMeta is not implemented");

@@ -47,9 +47,13 @@ export default {
       return participants;
     },
     generateMeta(participant) {
+      const name = [
+        participant.firstName,
+        participant.lastName,
+      ].filter(Boolean).join(" ") || participant.email || participant.id;
       return {
         id: participant.id,
-        summary: `New Participant Added: ${participant.firstName} ${participant.lastName}`,
+        summary: `New Participant Added: ${name}`,
         ts: participant.createdAt,
       };
     },

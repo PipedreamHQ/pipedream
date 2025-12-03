@@ -7,7 +7,7 @@ export default {
     campaignId: {
       type: "string",
       label: "Campaign ID",
-      description: "The ID of the campaign to list",
+      description: "The ID of a campaign",
       async options() {
         const { campaigns } = await this.listCampaigns();
         return campaigns?.map((campaign) => ({
