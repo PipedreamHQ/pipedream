@@ -5,7 +5,7 @@ export default {
   key: "firebase_admin_sdk-update-document",
   name: "Update Document",
   description: "Updates a Document. [See the documentation](https://googleapis.dev/nodejs/firestore/latest/DocumentReference.html#update)",
-  version: "0.0.8",
+  version: "0.0.9",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
