@@ -3,8 +3,9 @@ import bookingExperts from "../../booking_experts.app.mjs";
 export default {
   key: "booking_experts-update-guest",
   name: "Update Guest",
-  description: "Update a guest for a reservation. [See the documentation](https://developers.bookingexperts.com/reference/administration-reservation-guests-update)",
-  version: "0.0.3",
+  description:
+    "Update a guest for a reservation. [See the documentation](https://developers.bookingexperts.com/reference/administration-reservation-guests-update)",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -31,7 +32,8 @@ export default {
     info: {
       type: "alert",
       alertType: "warning",
-      content: "**The API will only list guests created through the Booking Experts API.**",
+      content:
+        "**The API will only list guests created through the Booking Experts API.**",
     },
     guestId: {
       propDefinition: [
@@ -93,6 +95,23 @@ export default {
       description: "The country code of the guest",
       optional: true,
     },
+    gender: {
+      type: "string",
+      label: "Gender",
+      description: "The gender of the guest",
+      optional: true,
+      options: [
+        "male",
+        "female",
+        "other",
+      ],
+    },
+    dateOfBirth: {
+      type: "string",
+      label: "Date of Birth",
+      description: "The date of birth of the guest in YYYY-MM-DD format",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const { data } = await this.bookingExperts.updateGuest({
@@ -113,6 +132,8 @@ export default {
             city: this.city,
             postal_code: this.postalCode,
             country_code: this.countryCode,
+            gender: this.gender,
+            date_of_birth: this.dateOfBirth,
           },
         },
       },

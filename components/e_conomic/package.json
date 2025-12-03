@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/e_conomic",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream E-conomic Components",
   "main": "e_conomic.app.mjs",
   "keywords": [
