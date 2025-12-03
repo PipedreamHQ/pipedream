@@ -49,6 +49,7 @@
     "@pipedream/eslint-plugin-pipedream": "0.3.0",
     "@pipedream/types": "0.1.4",
     "@tsconfig/node14": "^1.0.1",
+    "@types/glob": "^8.1.0",
     "@types/jest": "^27.4.1",
     "@typescript-eslint/eslint-plugin": "^8",
     "@typescript-eslint/parser": "^8",
