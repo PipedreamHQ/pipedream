@@ -5,7 +5,7 @@ export default {
   name: "Enroll Contact Into Workflow",
   description:
     "Add a contact to a workflow. Note: The Workflows API currently only supports contact-based workflows and is only available for Marketing Hub Enterprise accounts. [See the documentation](https://legacydocs.hubspot.com/docs/methods/workflows/add_contact)",
-  version: "0.0.27",
+  version: "0.0.28",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
