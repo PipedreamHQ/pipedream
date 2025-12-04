@@ -7,7 +7,7 @@ export default {
   key: "spotify-new-track-by-artist",
   name: "New Track by Artist",
   description: "Emit new event for each new Spotify track related with an artist. [see docs here](https://developer.spotify.com/documentation/web-api/reference/#/operations/get-multiple-albums)",
-  version: "0.1.2",
+  version: "0.1.3",
   props: {
     ...common.props,
     db: "$.service.db",

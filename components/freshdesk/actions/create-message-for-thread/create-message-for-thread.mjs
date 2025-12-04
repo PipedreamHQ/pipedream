@@ -5,7 +5,7 @@ export default {
   key: "freshdesk-create-message-for-thread",
   name: "Create Message For Thread",
   description: "Create message for a thread. [See the documentation](https://developers.freshdesk.com/api/#create_message_for_thread).",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

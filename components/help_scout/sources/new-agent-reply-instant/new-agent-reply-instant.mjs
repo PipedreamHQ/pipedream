@@ -5,7 +5,7 @@ export default {
   key: "help_scout-new-agent-reply-instant",
   name: "New Agent Reply (Instant)",
   description: "Emit new event when an agent replies to a conversation.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

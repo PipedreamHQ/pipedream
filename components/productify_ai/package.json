@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/productify_ai",
+  "version": "0.0.1",
+  "description": "Pipedream Productify.ai Components",
+  "main": "productify_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "productify_ai"
+  ],
+  "homepage": "https://pipedream.com/apps/productify_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

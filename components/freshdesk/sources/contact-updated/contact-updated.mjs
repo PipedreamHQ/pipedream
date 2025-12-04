@@ -5,7 +5,7 @@ export default {
   key: "freshdesk-contact-updated",
   name: "Contact Updated",
   description: "Emit new event when a contact is updated. [See the documentation](https://developers.freshdesk.com/api/#filter_contacts)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

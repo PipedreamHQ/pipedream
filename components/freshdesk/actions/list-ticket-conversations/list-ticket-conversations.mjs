@@ -4,7 +4,7 @@ export default {
   key: "freshdesk-list-ticket-conversations",
   name: "List Conversations of a Ticket",
   description: "List all conversations for a ticket. [See the documentation](https://developers.freshdesk.com/api/#list_all_ticket_notes)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

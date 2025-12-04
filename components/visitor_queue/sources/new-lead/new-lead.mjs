@@ -1,12 +1,12 @@
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import moment from "moment";
 import visitor_queue from "../../visitor_queue.app.mjs";
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "visitor_queue-new-lead",
   name: "New Lead",
   description: "Emit new event when a new Waiver sign is received. [See docs here](https://docs.visitorqueue.com/#4f021159-baae-e19d-bb7f-91a915e5b4ea)",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   type: "source",
   props: {
@@ -60,7 +60,7 @@ export default {
     },
   },
   hooks: {
-    async activate() {
+    async deploy() {
       const lastTime = this._getLastTime();
       const leads = await this.visitor_queue.listLeads({
         params: {

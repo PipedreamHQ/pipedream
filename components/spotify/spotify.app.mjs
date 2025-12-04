@@ -386,6 +386,10 @@ export default {
       const { data } = await this._makeRequest("GET", "/recommendations", params);
       return data;
     },
+    async search(params) {
+      const { data } = await this._makeRequest("GET", "/search", params);
+      return data;
+    },
     async fetchChunksOfAlbumsIds({
       artistId,
       market,

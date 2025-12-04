@@ -4,7 +4,7 @@ export default {
   key: "belco-list-all-conversations",
   name: "List All Conversations",
   description: "Get a list of conversations from Belco. [See the documentation](https://developers.belco.io/reference/get_conversations)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

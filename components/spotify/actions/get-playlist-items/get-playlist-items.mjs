@@ -6,7 +6,7 @@ export default {
   name: "Get a Playlist's Items",
   description: "Get full details of the items of a playlist owned by a Spotify user. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#/operations/get-playlists-tracks).",
   key: "spotify-get-playlist-items",
-  version: "0.1.3",
+  version: "0.1.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

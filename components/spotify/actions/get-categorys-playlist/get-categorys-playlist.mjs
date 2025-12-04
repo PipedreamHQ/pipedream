@@ -6,7 +6,7 @@ export default {
   name: "Get a Category's Playlists",
   description: "Get a list of Spotify playlists tagged with a particular category. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#/operations/get-a-categories-playlists).",
   key: "spotify-get-categorys-playlist",
-  version: "0.1.3",
+  version: "0.1.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
