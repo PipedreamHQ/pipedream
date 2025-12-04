@@ -1,0 +1,173 @@
+[]
+
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>AlphaMovie</title>
+<style>
+body { font-family: Arial; background: #111; color: #fff; }
+header, footer { text-align: center; padding: 20px; background: #222; }
+.movie { border: 1px solid #333; margin: 10px; padding: 10px; display: inline-block; width: 200px; vertical-align: top; }
+img { width: 100%; height: 300px; object-fit: cover; }
+nav { margin-top: 20px; }
+nav a { color: #fff; margin: 0 15px; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<header>
+<h1>AlphaMovie</h1>
+</header>
+
+<div id="movies-container"></div>
+
+<nav>
+<a href="#">الرئيسية</a>
+<a href="#">بحث</a>
+<a href="#">الأقسام</a>
+</nav>
+
+<footer>
+<p>&copy; 2025 AlphaMovie</p>
+</footer>
+
+<script>
+async function loadMovies() {
+  const res = await fetch('movies.json');
+  const movies = await res.json();
+  const container = document.getElementById('movies-container');
+  container.innerHTML = '';
+  movies.forEach(m => {
+    const div = document.createElement('div');
+    div.className = 'movie';
+    div.innerHTML = `
+      <img src="${m.image}" alt="${m.title}">
+      <h3>${m.title} (${m.year})</h3>
+      <p>القسم: ${m.category}</p>
+      <p>النوع: ${m.type}${m.type === 'series' ? ' - ' + m.seasons + ' مواسم' : ''}</p>
+      <p>${m.description}</p>
+      <a href="${m.link}" target="_blank">شاهد الآن</a>
+    `;
+    container.appendChild(div);
+  });
+}
+loadMovies();
+</script>
+
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>Admin AlphaMovie</title>
+<style>
+body { font-family: Arial; background: #111; color: #fff; text-align:center; }
+input, select { padding:5px; margin:5px; width:200px; }
+button { padding:10px 20px; margin-top:10px; }
+table { width: 90%; margin: 20px auto; border-collapse: collapse; }
+td, th { border: 1px solid #444; padding: 5px; }
+img { width: 100px; }
+</style>
+</head>
+<body>
+
+<h2>صفحة الأدمن - AlphaMovie</h2>
+<p>أدخل الكود السري:</p>
+<input type="password" id="secret" placeholder="أدخل الكود">
+<button onclick="checkSecret()">دخول</button>
+
+<div id="admin-area" style="display:none;">
+<h3>إضافة فيلم/مسلسل</h3>
+<form id="movieForm">
+<input type="text" id="title" placeholder="العنوان" required><br>
+<input type="text" id="year" placeholder="السنة" required><br>
+<input type="text" id="category" placeholder="القسم" required><br>
+<select id="type">
+  <option value="movie">فيلم</option>
+  <option value="series">مسلسل</option>
+</select><br>
+<input type="text" id="seasons" placeholder="عدد المواسم (للمسلسلات فقط)"><br>
+<input type="text" id="link" placeholder="رابط المشاهدة" required><br>
+<input type="text" id="image" placeholder="رابط الصورة" required><br>
+<button type="submit">إضافة</button>
+</form>
+
+<h3>الأفلام والمسلسلات الحالية</h3>
+<table id="moviesTable">
+<tr><th>العنوان</th><th>النوع</th><th>الحذف</th></tr>
+</table>
+</div>
+
+<script>
+const SECRET_CODE = "AlphaSecret2025";
+function checkSecret() {
+  const val = document.getElementById('secret').value;
+  if(val === SECRET_CODE){
+    document.getElementById('admin-area').style.display='block';
+  } else {
+    alert("كود خاطئ");
+  }
+}
+
+async function loadMovies(){
+  const res = await fetch('movies.json');
+  const movies = await res.json();
+  const table = document.getElementById('moviesTable');
+  table.innerHTML = '<tr><th>العنوان</th><th>النوع</th><th>الحذف</th></tr>';
+  movies.forEach((m,i)=>{
+    const row = table.insertRow();
+    row.insertCell(0).innerText = m.title;
+    row.insertCell(1).innerText = m.type;
+    const del = row.insertCell(2);
+    const btn = document.createElement('button');
+    btn.innerText = 'حذف';
+    btn.onclick = ()=>{ deleteMovie(i) };
+    del.appendChild(btn);
+  });
+}
+
+async function addMovie(e){
+  e.preventDefault();
+  const title = document.getElementById('title').value;
+  const year = document.getElementById('year').value;
+  const category = document.getElementById('category').value;
+  const type = document.getElementById('type').value;
+  const seasons = document.getElementById('seasons').value;
+  const link = document.getElementById('link').value;
+  const image = document.getElementById('image').value;
+
+  const res = await fetch('movies.json');
+  const movies = await res.json();
+  movies.push({title,year,category,type,seasons,link,image});
+  const blob = new Blob([JSON.stringify(movies,null,2)],{type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'movies.json';
+  a.click();
+  loadMovies();
+  document.getElementById('movieForm').reset();
+}
+
+function deleteMovie(i){
+  fetch('movies.json')
+  .then(res=>res.json())
+  .then(movies=>{
+    movies.splice(i,1);
+    const blob = new Blob([JSON.stringify(movies,null,2)],{type:'application/json'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'movies.json';
+    a.click();
+    loadMovies();
+  });
+}
+
+document.getElementById('movieForm').addEventListener('submit', addMovie);
+loadMovies();
+</script>
+
+</body>
+</html>
