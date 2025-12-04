@@ -6,11 +6,11 @@ import type {
   MenuListProps, OptionProps, SingleValueProps,
 } from "react-select";
 import { useApps } from "../hooks/use-apps";
-import { defaultTheme } from "../theme";
 import {
   useCustomize,
   type BaseReactSelectProps,
 } from "../hooks/customization-context";
+import { createBaseSelectStyles } from "../utils/select-styles";
 import type {
   App,
   AppsListRequest,
@@ -95,64 +95,36 @@ export function SelectApp({
     loadMore,
   ]);
 
+  // Resolve theme color with fallback - uses theme value if defined, otherwise fallback
   const resolveColor = (
-    key: keyof typeof defaultTheme.colors,
+    key: keyof typeof theme.colors,
     fallback: string,
-  ) => {
+  ): string => {
     const current = theme.colors[key];
-    const baseline = defaultTheme.colors[key];
-    return current && current !== baseline
-      ? current
-      : fallback;
+    return current !== undefined ? current : fallback;
   };
 
   const surface = resolveColor("neutral0", "#18181b");
   const border = resolveColor("neutral20", "rgba(255,255,255,0.16)");
   const text = resolveColor("neutral80", "#a1a1aa");
   const textStrong = resolveColor("neutral90", "#e4e4e7");
-  // Option state backgrounds - theme-aware with dark mode fallbacks
-  const hoverBg = theme.colors.optionHover ?? "#27272a";
-  const selectedBg = theme.colors.optionSelected ?? "rgba(59,130,246,0.2)";
-  const selectedHoverBg = theme.colors.optionSelectedHover ?? "rgba(59,130,246,0.35)";
+  const hoverBg = resolveColor("optionHover", "#27272a");
+  const selectedBg = resolveColor("optionSelected", "rgba(59,130,246,0.2)");
+  const selectedHoverBg = resolveColor("optionSelectedHover", "rgba(59,130,246,0.35)");
 
   const baseSelectProps: BaseReactSelectProps<App> = {
-    styles: {
-      control: (base) => ({
-        ...base,
-        backgroundColor: surface,
-        borderColor: border,
-        color: text,
-        boxShadow: theme.boxShadow.input,
-      }),
-      menu: (base) => ({
-        ...base,
-        backgroundColor: surface,
-        boxShadow: theme.boxShadow.dropdown,
-      }),
-      singleValue: (base) => ({
-        ...base,
-        color: text,
-      }),
-      input: (base) => ({
-        ...base,
-        color: text,
-      }),
-      option: (base, state) => {
-        let bg = surface;
-        if (state.isSelected && state.isFocused) {
-          bg = selectedHoverBg;
-        } else if (state.isSelected) {
-          bg = selectedBg;
-        } else if (state.isFocused) {
-          bg = hoverBg;
-        }
-        return {
-          ...base,
-          backgroundColor: bg,
-          color: textStrong,
-        };
+    styles: createBaseSelectStyles<App>({
+      colors: {
+        surface,
+        border,
+        text,
+        textStrong,
+        hoverBg,
+        selectedBg,
+        selectedHoverBg,
       },
-    },
+      boxShadow: theme.boxShadow,
+    }),
   };
 
   const selectProps = select.getProps("selectApp", baseSelectProps);
