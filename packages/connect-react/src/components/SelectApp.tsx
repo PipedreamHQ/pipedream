@@ -110,12 +110,10 @@ export function SelectApp({
   const border = resolveColor("neutral20", "rgba(255,255,255,0.16)");
   const text = resolveColor("neutral80", "#a1a1aa");
   const textStrong = resolveColor("neutral90", "#e4e4e7");
-  // Hover state - visible gray
-  const hoverBg = "#27272a";
-  // Selected state - subtle blue
-  const selectedBg = "rgba(59,130,246,0.2)";
-  // Selected + hover - brighter blue
-  const selectedHoverBg = "rgba(59,130,246,0.35)";
+  // Option state backgrounds - theme-aware with dark mode fallbacks
+  const hoverBg = theme.colors.optionHover ?? "#27272a";
+  const selectedBg = theme.colors.optionSelected ?? "rgba(59,130,246,0.2)";
+  const selectedHoverBg = theme.colors.optionSelectedHover ?? "rgba(59,130,246,0.35)";
 
   const baseSelectProps: BaseReactSelectProps<App> = {
     styles: {

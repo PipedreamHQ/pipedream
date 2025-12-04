@@ -60,12 +60,14 @@ export function ControlApp({ app }: ControlAppProps) {
       : fallback;
   };
 
-  const surface = resolveColor("neutral0", "var(--pd-surface, #0f1011)");
-  const border = resolveColor("neutral20", "var(--pd-border, rgba(255,255,255,0.16))");
-  const text = resolveColor("neutral80", "var(--pd-text, #e5e7eb)");
-  const textStrong = resolveColor("neutral90", "var(--pd-text-strong, #f9fafb)");
-  const primary25 = resolveColor("primary25", "var(--pd-primary-25, rgba(59,130,246,0.18))");
-  const surfaceStrong = resolveColor("neutral10", "var(--pd-surface-strong, rgba(255,255,255,0.06))");
+  const surface = resolveColor("neutral0", "#18181b");
+  const border = resolveColor("neutral20", "rgba(255,255,255,0.16)");
+  const text = resolveColor("neutral80", "#a1a1aa");
+  const textStrong = resolveColor("neutral90", "#e4e4e7");
+  // Option state backgrounds - theme-aware with dark mode fallbacks
+  const hoverBg = theme.colors.optionHover ?? "#27272a";
+  const selectedBg = theme.colors.optionSelected ?? "rgba(59,130,246,0.2)";
+  const selectedHoverBg = theme.colors.optionSelectedHover ?? "rgba(59,130,246,0.35)";
 
   const baseStyles: CSSProperties = {
     color: theme.colors.neutral60,
@@ -107,16 +109,21 @@ export function ControlApp({ app }: ControlAppProps) {
         ...base,
         color: text,
       }),
-      option: (base, state) => ({
-        ...base,
-        backgroundColor: state.isSelected
-          ? primary25
-          : state.isFocused
-            ? surfaceStrong
-            : base.backgroundColor
-              ?? surface,
-        color: textStrong,
-      }),
+      option: (base, state) => {
+        let bg = surface;
+        if (state.isSelected && state.isFocused) {
+          bg = selectedHoverBg;
+        } else if (state.isSelected) {
+          bg = selectedBg;
+        } else if (state.isFocused) {
+          bg = hoverBg;
+        }
+        return {
+          ...base,
+          backgroundColor: bg,
+          color: textStrong,
+        };
+      },
     },
   };
   const selectProps = select.getProps("controlAppSelect", baseSelectProps);
