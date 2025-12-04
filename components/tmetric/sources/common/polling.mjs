@@ -8,7 +8,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       label: "Polling schedule",
-      description: "How often to poll the Zenler API",
+      description: "How often to poll the TMetric API",
       default: {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
