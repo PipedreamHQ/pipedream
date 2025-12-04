@@ -5,7 +5,7 @@ export default {
   key: "timebuzzer-list-activities",
   name: "List Activities",
   description: "Retrieves a list of all activities in Timebuzzer. [See the documentation](https://my.timebuzzer.com/doc/#api-Activities-GetFilteredActivities)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -21,7 +21,7 @@ export default {
       ],
       type: "integer[]",
       label: "User IDs",
-      description: "Filter by User Ids",
+      description: "Filter by User IDs",
       optional: true,
     },
     startDate: {
@@ -29,7 +29,7 @@ export default {
         timebuzzer,
         "startDate",
       ],
-      description: "Returns Activities which starts after this date in UTC. e.g. `2016-12-10T09:00:00.000Z`",
+      description: "Returns Activities which start after this date in UTC. e.g. `2016-12-10T09:00:00.000Z`",
       optional: true,
     },
     endDate: {
@@ -37,7 +37,7 @@ export default {
         timebuzzer,
         "endDate",
       ],
-      description: "Returns Activities which ends before this date in UTC. e.g. `2016-12-10T09:00:00.000Z`",
+      description: "Returns Activities which end before this date in UTC. e.g. `2016-12-10T09:00:00.000Z`",
       optional: true,
     },
     note: {
@@ -47,9 +47,9 @@ export default {
       ],
       optional: true,
     },
-    runnintActivities: {
+    runningActivities: {
       type: "boolean",
-      label: "Runnint Activities",
+      label: "Running Activities",
       description: "If `true`, activities without an end date will be found",
       optional: true,
     },
