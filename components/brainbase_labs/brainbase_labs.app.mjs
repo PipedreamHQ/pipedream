@@ -81,7 +81,7 @@ export default {
         if (integrationId) {
           params.integrationId = integrationId;
         }
-        const { data } = await this.getPhoneNumbers({
+        const data = await this.getPhoneNumbers({
           params,
         });
         return (

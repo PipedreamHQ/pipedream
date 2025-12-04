@@ -52,10 +52,30 @@ export default {
         "External configuration object with voice settings, language, voiceId, etc. Example: `{\"voice\": \"alloy\", \"language\": \"en\"}`",
       optional: true,
     },
-    extractions: {
-      type: "object",
-      label: "Extractions",
-      description: "Custom data extraction configurations",
+    extractionsKey: {
+      type: "string",
+      label: "Extractions Key",
+      description: "The key of the extractions to use for the deployment",
+    },
+    extractionsType: {
+      type: "string",
+      label: "Extractions Type",
+      description: "The type of the extractions to use for the deployment",
+      options: [
+        "string",
+        "number",
+        "boolean",
+      ],
+    },
+    extractionsDescription: {
+      type: "string",
+      label: "Extractions Description",
+      description: "The description of the extractions to use for the deployment",
+    },
+    extractionsRequired: {
+      type: "boolean",
+      label: "Extractions Required",
+      description: "Whether the extractions are required for the deployment",
     },
     successCriteria: {
       type: "string[]",
@@ -76,9 +96,13 @@ export default {
         ...(this.externalConfig && {
           externalConfig: parseObject(this.externalConfig),
         }),
-        ...(this.extractions && {
-          extractions: parseObject(this.extractions),
-        }),
+        extractions: {
+          [this.extractionsKey]: {
+            type: this.extractionsType,
+            description: this.extractionsDescription,
+            required: this.extractionsRequired,
+          },
+        },
         ...(this.successCriteria && {
           successCriteria: parseObject(this.successCriteria),
         }),
