@@ -6,6 +6,11 @@ import type {
   MenuListProps, OptionProps, SingleValueProps,
 } from "react-select";
 import { useApps } from "../hooks/use-apps";
+import { defaultTheme } from "../theme";
+import {
+  useCustomize,
+  type BaseReactSelectProps,
+} from "../hooks/customization-context";
 import type {
   App,
   AppsListRequest,
@@ -62,6 +67,7 @@ export function SelectApp({
     SingleValue,
     MenuList,
   } = components;
+  const { select, theme } = useCustomize();
   const isLoadingMoreRef = useRef(isLoadingMore);
   isLoadingMoreRef.current = isLoadingMore;
 
@@ -87,6 +93,70 @@ export function SelectApp({
     loadMore,
   ]);
 
+  const resolveColor = (
+    key: keyof typeof defaultTheme.colors,
+    fallback: string,
+  ) => {
+    const current = theme.colors[key];
+    const baseline = defaultTheme.colors[key];
+    return current && current !== baseline
+      ? current
+      : fallback;
+  };
+
+  const surface = resolveColor("neutral0", "#18181b");
+  const border = resolveColor("neutral20", "rgba(255,255,255,0.16)");
+  const text = resolveColor("neutral80", "#a1a1aa");
+  const textStrong = resolveColor("neutral90", "#e4e4e7");
+  // Hover state - visible gray
+  const hoverBg = "#27272a";
+  // Selected state - subtle blue
+  const selectedBg = "rgba(59,130,246,0.2)";
+  // Selected + hover - brighter blue
+  const selectedHoverBg = "rgba(59,130,246,0.35)";
+
+  const baseSelectProps: BaseReactSelectProps<App> = {
+    styles: {
+      control: (base) => ({
+        ...base,
+        backgroundColor: surface,
+        borderColor: border,
+        color: text,
+        boxShadow: theme.boxShadow.input,
+      }),
+      menu: (base) => ({
+        ...base,
+        backgroundColor: surface,
+        boxShadow: theme.boxShadow.dropdown,
+      }),
+      singleValue: (base) => ({
+        ...base,
+        color: text,
+      }),
+      input: (base) => ({
+        ...base,
+        color: text,
+      }),
+      option: (base, state) => {
+        let bg = surface;
+        if (state.isSelected && state.isFocused) {
+          bg = selectedHoverBg;
+        } else if (state.isSelected) {
+          bg = selectedBg;
+        } else if (state.isFocused) {
+          bg = hoverBg;
+        }
+        return {
+          ...base,
+          backgroundColor: bg,
+          color: textStrong,
+        };
+      },
+    },
+  };
+
+  const selectProps = select.getProps("selectApp", baseSelectProps);
+
   // Memoize custom components to prevent remounting
   const customComponents = useMemo(() => ({
     Option: (optionProps: OptionProps<App>) => (
@@ -100,6 +170,9 @@ export function SelectApp({
             style={{
               height: 24,
               width: 24,
+              backgroundColor: "#fff",
+              borderRadius: 6,
+              padding: 2,
             }}
             alt={optionProps.data.name}
           />
@@ -121,6 +194,9 @@ export function SelectApp({
             style={{
               height: 24,
               width: 24,
+              backgroundColor: "#fff",
+              borderRadius: 6,
+              padding: 2,
             }}
             alt={singleValueProps.data.name}
           />
@@ -157,8 +233,12 @@ export function SelectApp({
     <Select
       instanceId={instanceId}
       className="react-select-container text-sm"
+      {...selectProps}
       classNamePrefix="react-select"
-      components={customComponents}
+      components={{
+        ...selectProps.components,
+        ...customComponents,
+      }}
       options={apps || []}
       getOptionLabel={(o: App) => o.name || o.nameSlug}
       getOptionValue={(o: App) => o.nameSlug}
@@ -179,6 +259,7 @@ export function SelectApp({
       }
       menuPosition="fixed"
       styles={{
+        ...(selectProps.styles ?? {}),
         menuPortal: (base) => ({
           ...base,
           zIndex: 99999,

@@ -54,6 +54,8 @@ export const defaultComponents = {
 export type ReactSelectComponents = {
   controlAppSelect: typeof ControlApp;
   controlSelect: typeof ControlSelect;
+  selectApp: never;
+  selectComponent: never;
 };
 
 export type CustomComponents<Option, IsMulti extends boolean, Group extends GroupBase<Option>> = {

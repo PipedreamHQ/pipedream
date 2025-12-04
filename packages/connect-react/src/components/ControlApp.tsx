@@ -5,6 +5,7 @@ import { useFormFieldContext } from "../hooks/form-field-context";
 import { useFormContext } from "../hooks/form-context";
 import { useCustomize } from "../hooks/customization-context";
 import type { BaseReactSelectProps } from "../hooks/customization-context";
+import { defaultTheme } from "../theme";
 import { useMemo } from "react";
 import type { CSSProperties } from "react";
 import type { OptionProps } from "react-select";
@@ -48,6 +49,23 @@ export function ControlApp({ app }: ControlAppProps) {
   const {
     getProps, select, theme,
   } = useCustomize();
+  const resolveColor = (
+    key: keyof typeof defaultTheme.colors,
+    fallback: string,
+  ) => {
+    const current = theme.colors[key];
+    const baseline = defaultTheme.colors[key];
+    return current && current !== baseline
+      ? current
+      : fallback;
+  };
+
+  const surface = resolveColor("neutral0", "var(--pd-surface, #0f1011)");
+  const border = resolveColor("neutral20", "var(--pd-border, rgba(255,255,255,0.16))");
+  const text = resolveColor("neutral80", "var(--pd-text, #e5e7eb)");
+  const textStrong = resolveColor("neutral90", "var(--pd-text-strong, #f9fafb)");
+  const primary25 = resolveColor("primary25", "var(--pd-primary-25, rgba(59,130,246,0.18))");
+  const surfaceStrong = resolveColor("neutral10", "var(--pd-surface-strong, rgba(255,255,255,0.06))");
 
   const baseStyles: CSSProperties = {
     color: theme.colors.neutral60,
@@ -71,7 +89,33 @@ export function ControlApp({ app }: ControlAppProps) {
       control: (base) => ({
         ...base,
         gridArea: "control",
+        backgroundColor: surface,
+        borderColor: border,
+        color: text,
         boxShadow: theme.boxShadow.input,
+      }),
+      menu: (base) => ({
+        ...base,
+        backgroundColor: surface,
+        boxShadow: theme.boxShadow.dropdown,
+      }),
+      singleValue: (base) => ({
+        ...base,
+        color: text,
+      }),
+      input: (base) => ({
+        ...base,
+        color: text,
+      }),
+      option: (base, state) => ({
+        ...base,
+        backgroundColor: state.isSelected
+          ? primary25
+          : state.isFocused
+            ? surfaceStrong
+            : base.backgroundColor
+              ?? surface,
+        color: textStrong,
       }),
     },
   };
