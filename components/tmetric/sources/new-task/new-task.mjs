@@ -18,7 +18,7 @@ export default {
       return {
         id: resource.id,
         ts: Date.parse(resource.created),
-        summary: `New task created with id: ${resource.id}`,
+        summary: `New task created with ID: ${resource.id}`,
       };
     },
   },
