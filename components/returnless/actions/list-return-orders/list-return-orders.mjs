@@ -4,7 +4,7 @@ export default {
   key: "returnless-list-return-orders",
   name: "List Return Orders",
   description: "Retrieve a list of return orders. [See the documentation](https://docs.returnless.com/docs/api-rest-reference/0640e3c064cdc-list-all-return-orders)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

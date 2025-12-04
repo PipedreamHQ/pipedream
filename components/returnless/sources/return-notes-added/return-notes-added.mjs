@@ -5,7 +5,7 @@ export default {
   key: "returnless-return-notes-added",
   name: "Return Notes Added (Instant)",
   description: "Emit new event when a return note is added. [See the documentation](https://docs.returnless.com/docs/api-rest-reference/fd4ad9c27648b-creates-a-webhook-subscriptions)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
