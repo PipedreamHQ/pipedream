@@ -159,6 +159,81 @@ export default {
       default: 100,
       optional: true,
     },
+    shipmentId: {
+      type: "string",
+      label: "Shipment ID",
+      description: "The ID of the shipment",
+      async options({ prevContext }) {
+        const {
+          data, meta,
+        } = await this.listShipments({
+          params: {
+            cursor: prevContext?.cursor,
+          },
+        });
+        return {
+          options: data.map(({
+            id: value, tracking_code: code,
+          }) => ({
+            value,
+            label: code || value,
+          })) || [],
+          context: {
+            cursor: meta.next_cursor,
+          },
+        };
+      },
+    },
+    returnAddressId: {
+      type: "string",
+      label: "Return Address ID",
+      description: "The ID of the return address",
+      async options({ prevContext }) {
+        const {
+          data, meta,
+        } = await this.listReturnAddresses({
+          params: {
+            cursor: prevContext?.cursor,
+          },
+        });
+        return {
+          options: data.map(({
+            id: value, name: label,
+          }) => ({
+            value,
+            label: label || value,
+          })) || [],
+          context: {
+            cursor: meta.next_cursor,
+          },
+        };
+      },
+    },
+    customerId: {
+      type: "string",
+      label: "Customer ID",
+      description: "The ID of the customer",
+      async options({ prevContext }) {
+        const {
+          data, meta,
+        } = await this.listCustomers({
+          params: {
+            cursor: prevContext?.cursor,
+          },
+        });
+        return {
+          options: data.map(({
+            id: value, email: label,
+          }) => ({
+            value,
+            label: label || value,
+          })) || [],
+          context: {
+            cursor: meta.next_cursor,
+          },
+        };
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -249,6 +324,97 @@ export default {
     listReturnReasons(opts = {}) {
       return this._makeRequest({
         path: "/return-reasons",
+        ...opts,
+      });
+    },
+    getReturnOrder({
+      returnOrderId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/return-orders/${returnOrderId}`,
+        ...opts,
+      });
+    },
+    listReturnOrderShipments({
+      returnOrderId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/return-orders/${returnOrderId}/shipments`,
+        ...opts,
+      });
+    },
+    getReturnStatus({
+      returnStatusId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/return-statuses/${returnStatusId}`,
+        ...opts,
+      });
+    },
+    listShipments(opts = {}) {
+      return this._makeRequest({
+        path: "/shipments",
+        ...opts,
+      });
+    },
+    getShipment({
+      shipmentId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/shipments/${shipmentId}`,
+        ...opts,
+      });
+    },
+    listShipmentStatuses({
+      shipmentId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/shipments/${shipmentId}/statuses`,
+        ...opts,
+      });
+    },
+    listReturnAddresses(opts = {}) {
+      return this._makeRequest({
+        path: "/return-addresses",
+        ...opts,
+      });
+    },
+    getReturnAddress({
+      returnAddressId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/return-addresses/${returnAddressId}`,
+        ...opts,
+      });
+    },
+    updateReturnAddress({
+      returnAddressId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/return-addresses/${returnAddressId}`,
+        method: "PATCH",
+        ...opts,
+      });
+    },
+    listCustomers(opts = {}) {
+      return this._makeRequest({
+        path: "/customers",
+        ...opts,
+      });
+    },
+    getCustomer({
+      customerId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/customers/${customerId}`,
+        ...opts,
+      });
+    },
+    listCustomerReturnOrders({
+      customerId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/customers/${customerId}/return-orders`,
         ...opts,
       });
     },
