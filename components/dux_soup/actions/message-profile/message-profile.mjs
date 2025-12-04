@@ -4,7 +4,7 @@ export default {
   key: "dux_soup-message-profile",
   name: "Message Profile",
   description: "Queues a direct message that will be sent to the targeted profile. [See the documentation](https://support.dux-soup.com/article/115-remote-control-by-example)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -32,7 +32,7 @@ export default {
       requestBody: {
         command: "message",
         params: {
-          profile: this.targetProfileURL,
+          profile: this.targetProfileUrl,
           messagetext: this.message,
         },
       },
