@@ -27,7 +27,9 @@ export type SelectStyleConfig = {
 export function resolveSelectColors(colors: Partial<Colors>): SelectColorConfig & { appIconBg: string } {
   const resolve = <K extends keyof Colors>(key: K, fallback: string): string => {
     const current = colors[key];
-    return current !== undefined ? current : fallback;
+    return current !== undefined
+      ? current
+      : fallback;
   };
 
   return {
