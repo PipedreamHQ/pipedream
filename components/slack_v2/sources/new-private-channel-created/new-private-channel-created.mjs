@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "slack_v2-new-private-channel-created",
   name: "New Private Channel Created",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   description: "Emit new event when a new private channel is created. [See the documentation](https://api.slack.com/methods/conversations.list)",
   type: "source",
   dedupe: "unique",
