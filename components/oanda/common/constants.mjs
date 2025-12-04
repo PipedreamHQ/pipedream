@@ -178,7 +178,7 @@ const WEEKLY_ALIGNMENT_DAYS = [
   "Monday",
   "Tuesday",
   "Wednesday",
-  "Thrusday",
+  "Thursday",
   "Friday",
   "Saturday",
   "Sunday",

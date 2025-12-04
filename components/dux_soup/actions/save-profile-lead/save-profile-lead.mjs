@@ -4,7 +4,7 @@ export default {
   key: "dux_soup-save-profile-lead",
   name: "Save Profile as Lead",
   description: "Queues a profile save action to store the targeted profile as a lead. [See the documentation](https://support.dux-soup.com/article/115-remote-control-by-example)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -26,7 +26,7 @@ export default {
       requestBody: {
         command: "saveaslead",
         params: {
-          profile: this.targetProfileURL,
+          profile: this.targetProfileUrl,
         },
       },
     });

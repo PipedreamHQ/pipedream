@@ -405,6 +405,10 @@ export default {
       });
       return data;
     },
+    async search(params) {
+      const { data } = await this._makeRequest("GET", "/search", params);
+      return data;
+    },
     async fetchChunksOfAlbumsIds({
       $,
       artistId,

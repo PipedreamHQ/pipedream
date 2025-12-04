@@ -67,6 +67,44 @@ export default {
       default: 100,
       optional: true,
     },
+    insightId: {
+      type: "string",
+      label: "Insight ID",
+      description: "Identifier of an insight",
+      async options({
+        projectId, page,
+      }) {
+        const limit = constants.DEFAULT_LIMIT;
+        const { results } = await this.listInsights({
+          projectId,
+          params: {
+            limit,
+            offset: page * limit,
+          },
+        });
+        return results?.map(({
+          id: value, name, derived_name,
+        }) => ({
+          value,
+          label: name || derived_name || `Insight ${value}`,
+        })) || [];
+      },
+    },
+    query: {
+      type: "object",
+      label: "Query",
+      description: `Query object defining the insight. Must be a valid PostHog query object with format: \`{"kind": "InsightVizNode", "source": {...}}\`.
+
+**Common query types:**
+- **TrendsQuery**: Time-series trend analysis. Example: \`{"kind": "InsightVizNode", "source": {"kind": "TrendsQuery", "series": [{"kind": "EventsNode", "event": "pageview", "name": "pageview", "math": "total"}], "trendsFilter": {}}}\`
+- **FunnelsQuery**: Conversion funnel analysis. Example: \`{"kind": "InsightVizNode", "source": {"kind": "FunnelsQuery", "series": [{"kind": "EventsNode", "event": "signup_started"}, {"kind": "EventsNode", "event": "signup_completed"}], "funnelsFilter": {}}}\`
+- **RetentionQuery**: User retention analysis
+- **PathsQuery**: User path exploration
+- **LifecycleQuery**: User lifecycle tracking
+
+See [PostHog Query API documentation](https://posthog.com/docs/api/queries) for complete query specifications.`,
+      optional: true,
+    },
   },
   methods: {
     _baseUrl(publicUrl = false) {
@@ -135,6 +173,40 @@ export default {
     }) {
       return this._makeRequest({
         path: `/api/projects/${projectId}/surveys`,
+        ...opts,
+      });
+    },
+    listInsights({
+      projectId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/api/projects/${projectId}/insights`,
+        ...opts,
+      });
+    },
+    getInsight({
+      projectId, insightId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/api/projects/${projectId}/insights/${insightId}`,
+        ...opts,
+      });
+    },
+    createInsight({
+      projectId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/api/projects/${projectId}/insights`,
+        ...opts,
+      });
+    },
+    updateInsight({
+      projectId, insightId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "PATCH",
+        path: `/api/projects/${projectId}/insights/${insightId}`,
         ...opts,
       });
     },
