@@ -67,7 +67,9 @@ export function SelectApp({
     SingleValue,
     MenuList,
   } = components;
-  const { select, theme } = useCustomize();
+  const {
+    select, theme,
+  } = useCustomize();
   const isLoadingMoreRef = useRef(isLoadingMore);
   isLoadingMoreRef.current = isLoadingMore;
 

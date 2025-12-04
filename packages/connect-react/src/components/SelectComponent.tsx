@@ -43,7 +43,9 @@ export function SelectComponent({
   });
 
   const { MenuList } = components;
-  const { select, theme } = useCustomize();
+  const {
+    select, theme,
+  } = useCustomize();
   const resolveColor = (
     key: keyof typeof defaultTheme.colors,
     fallback: string,
