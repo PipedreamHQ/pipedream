@@ -4,7 +4,7 @@ export default {
   key: "returnless-list-sales-orders",
   name: "List Sales Orders",
   description: "Retrieve a list of sales orders sorted by creation date, with the most recent sales orders appearing first. [See the documentation](https://docs.returnless.com/docs/api-rest-reference/ce6a0e3d66378-list-all-sales-orders)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
