@@ -37,7 +37,6 @@ export default {
       accountId: this.accountId,
     });
 
-
     resources.map(async (resource) => await this.processEvent(resource));
   },
 };
