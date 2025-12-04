@@ -10,7 +10,10 @@ import {
   useCustomize,
   type BaseReactSelectProps,
 } from "../hooks/customization-context";
-import { createBaseSelectStyles } from "../utils/select-styles";
+import {
+  createBaseSelectStyles,
+  resolveSelectColors,
+} from "../utils/select-styles";
 import type {
   App,
   AppsListRequest,
@@ -95,25 +98,16 @@ export function SelectApp({
     loadMore,
   ]);
 
-  // Resolve theme color with fallback - uses theme value if defined, otherwise fallback
-  const resolveColor = (
-    key: keyof typeof theme.colors,
-    fallback: string,
-  ): string => {
-    const current = theme.colors[key];
-    return current !== undefined
-      ? current
-      : fallback;
-  };
-
-  const surface = resolveColor("neutral0", "#18181b");
-  const border = resolveColor("neutral20", "rgba(255,255,255,0.16)");
-  const text = resolveColor("neutral80", "#a1a1aa");
-  const textStrong = resolveColor("neutral90", "#e4e4e7");
-  const hoverBg = resolveColor("optionHover", "#27272a");
-  const selectedBg = resolveColor("optionSelected", "rgba(59,130,246,0.2)");
-  const selectedHoverBg = resolveColor("optionSelectedHover", "rgba(59,130,246,0.35)");
-  const appIconBg = resolveColor("appIconBackground", "#fff");
+  const {
+    surface,
+    border,
+    text,
+    textStrong,
+    hoverBg,
+    selectedBg,
+    selectedHoverBg,
+    appIconBg,
+  } = resolveSelectColors(theme.colors);
 
   const baseSelectProps: BaseReactSelectProps<App> = {
     styles: createBaseSelectStyles<App>({

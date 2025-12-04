@@ -1,7 +1,9 @@
 import type {
   CSSObjectWithLabel, GroupBase, StylesConfig,
 } from "react-select";
-import type { Shadows } from "../theme";
+import type {
+  Colors, Shadows,
+} from "../theme";
 
 export type SelectColorConfig = {
   surface: string;
@@ -17,6 +19,28 @@ export type SelectStyleConfig = {
   colors: SelectColorConfig;
   boxShadow: Shadows;
 };
+
+/**
+ * Resolves theme colors with fallbacks for dark mode styling.
+ * Returns the theme value if defined, otherwise the fallback.
+ */
+export function resolveSelectColors(colors: Partial<Colors>): SelectColorConfig & { appIconBg: string } {
+  const resolve = <K extends keyof Colors>(key: K, fallback: string): string => {
+    const current = colors[key];
+    return current !== undefined ? current : fallback;
+  };
+
+  return {
+    surface: resolve("neutral0", "#18181b"),
+    border: resolve("neutral20", "rgba(255,255,255,0.16)"),
+    text: resolve("neutral80", "#a1a1aa"),
+    textStrong: resolve("neutral90", "#e4e4e7"),
+    hoverBg: resolve("optionHover", "#27272a"),
+    selectedBg: resolve("optionSelected", "rgba(59,130,246,0.2)"),
+    selectedHoverBg: resolve("optionSelectedHover", "rgba(59,130,246,0.35)"),
+    appIconBg: resolve("appIconBackground", "#fff"),
+  };
+}
 
 /**
  * Creates base styles for react-select components with dark mode support.

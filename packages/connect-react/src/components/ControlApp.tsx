@@ -7,7 +7,10 @@ import {
   useCustomize,
   type BaseReactSelectProps,
 } from "../hooks/customization-context";
-import { createBaseSelectStyles } from "../utils/select-styles";
+import {
+  createBaseSelectStyles,
+  resolveSelectColors,
+} from "../utils/select-styles";
 import { useMemo } from "react";
 import type { CSSProperties } from "react";
 import type { OptionProps } from "react-select";
@@ -52,24 +55,15 @@ export function ControlApp({ app }: ControlAppProps) {
     getProps, select, theme,
   } = useCustomize();
 
-  // Resolve theme color with fallback - uses theme value if defined, otherwise fallback
-  const resolveColor = (
-    key: keyof typeof theme.colors,
-    fallback: string,
-  ): string => {
-    const current = theme.colors[key];
-    return current !== undefined
-      ? current
-      : fallback;
-  };
-
-  const surface = resolveColor("neutral0", "#18181b");
-  const border = resolveColor("neutral20", "rgba(255,255,255,0.16)");
-  const text = resolveColor("neutral80", "#a1a1aa");
-  const textStrong = resolveColor("neutral90", "#e4e4e7");
-  const hoverBg = resolveColor("optionHover", "#27272a");
-  const selectedBg = resolveColor("optionSelected", "rgba(59,130,246,0.2)");
-  const selectedHoverBg = resolveColor("optionSelectedHover", "rgba(59,130,246,0.35)");
+  const {
+    surface,
+    border,
+    text,
+    textStrong,
+    hoverBg,
+    selectedBg,
+    selectedHoverBg,
+  } = resolveSelectColors(theme.colors);
 
   const baseStyles: CSSProperties = {
     color: theme.colors.neutral60,
@@ -85,7 +79,7 @@ export function ControlApp({ app }: ControlAppProps) {
     gridArea: "control",
   };
 
-  const baseStyles2 = createBaseSelectStyles<SelectValue>({
+  const selectStyles = createBaseSelectStyles<SelectValue>({
     colors: {
       surface,
       border,
@@ -103,9 +97,9 @@ export function ControlApp({ app }: ControlAppProps) {
       Option: BaseOption,
     },
     styles: {
-      ...baseStyles2,
+      ...selectStyles,
       control: (base, state) => ({
-        ...(baseStyles2.control?.(base, state) ?? base),
+        ...(selectStyles.control?.(base, state) ?? base),
         gridArea: "control",
       }),
     },

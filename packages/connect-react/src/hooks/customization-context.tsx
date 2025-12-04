@@ -54,8 +54,6 @@ export const defaultComponents = {
 export type ReactSelectComponents = {
   controlAppSelect: typeof ControlApp;
   controlSelect: typeof ControlSelect;
-  // SelectApp and SelectComponent use react-select but don't have specific component types
-  // They just use the customization system for styles/classNames
   selectApp: typeof ControlApp;
   selectComponent: typeof ControlSelect;
 };
