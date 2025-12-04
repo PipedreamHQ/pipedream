@@ -62,7 +62,7 @@ export default {
         church: this.church,
       },
     });
-    $.export("$summary", "Successfully created new contribution with ID: " + response.id);
+    $.export("$summary", "Successfully created new person with ID: " + response.id);
     return response;
   },
 };
