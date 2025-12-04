@@ -3,9 +3,11 @@ import { useFrontendClient } from "../hooks/frontend-client-context";
 import { useAccounts } from "../hooks/use-accounts";
 import { useFormFieldContext } from "../hooks/form-field-context";
 import { useFormContext } from "../hooks/form-context";
-import { useCustomize } from "../hooks/customization-context";
-import type { BaseReactSelectProps } from "../hooks/customization-context";
-import { defaultTheme } from "../theme";
+import {
+  useCustomize,
+  type BaseReactSelectProps,
+} from "../hooks/customization-context";
+import { createBaseSelectStyles } from "../utils/select-styles";
 import { useMemo } from "react";
 import type { CSSProperties } from "react";
 import type { OptionProps } from "react-select";
@@ -49,13 +51,14 @@ export function ControlApp({ app }: ControlAppProps) {
   const {
     getProps, select, theme,
   } = useCustomize();
+
+  // Resolve theme color with fallback - uses theme value if defined, otherwise fallback
   const resolveColor = (
-    key: keyof typeof defaultTheme.colors,
+    key: keyof typeof theme.colors,
     fallback: string,
-  ) => {
+  ): string => {
     const current = theme.colors[key];
-    const baseline = defaultTheme.colors[key];
-    return current && current !== baseline
+    return current !== undefined
       ? current
       : fallback;
   };
@@ -64,10 +67,9 @@ export function ControlApp({ app }: ControlAppProps) {
   const border = resolveColor("neutral20", "rgba(255,255,255,0.16)");
   const text = resolveColor("neutral80", "#a1a1aa");
   const textStrong = resolveColor("neutral90", "#e4e4e7");
-  // Option state backgrounds - theme-aware with dark mode fallbacks
-  const hoverBg = theme.colors.optionHover ?? "#27272a";
-  const selectedBg = theme.colors.optionSelected ?? "rgba(59,130,246,0.2)";
-  const selectedHoverBg = theme.colors.optionSelectedHover ?? "rgba(59,130,246,0.35)";
+  const hoverBg = resolveColor("optionHover", "#27272a");
+  const selectedBg = resolveColor("optionSelected", "rgba(59,130,246,0.2)");
+  const selectedHoverBg = resolveColor("optionSelectedHover", "rgba(59,130,246,0.35)");
 
   const baseStyles: CSSProperties = {
     color: theme.colors.neutral60,
@@ -83,47 +85,29 @@ export function ControlApp({ app }: ControlAppProps) {
     gridArea: "control",
   };
 
+  const baseStyles2 = createBaseSelectStyles<SelectValue>({
+    colors: {
+      surface,
+      border,
+      text,
+      textStrong,
+      hoverBg,
+      selectedBg,
+      selectedHoverBg,
+    },
+    boxShadow: theme.boxShadow,
+  });
+
   const baseSelectProps: BaseReactSelectProps<SelectValue> = {
     components: {
       Option: BaseOption,
     },
     styles: {
-      control: (base) => ({
-        ...base,
+      ...baseStyles2,
+      control: (base, state) => ({
+        ...(baseStyles2.control?.(base, state) ?? base),
         gridArea: "control",
-        backgroundColor: surface,
-        borderColor: border,
-        color: text,
-        boxShadow: theme.boxShadow.input,
       }),
-      menu: (base) => ({
-        ...base,
-        backgroundColor: surface,
-        boxShadow: theme.boxShadow.dropdown,
-      }),
-      singleValue: (base) => ({
-        ...base,
-        color: text,
-      }),
-      input: (base) => ({
-        ...base,
-        color: text,
-      }),
-      option: (base, state) => {
-        let bg = surface;
-        if (state.isSelected && state.isFocused) {
-          bg = selectedHoverBg;
-        } else if (state.isSelected) {
-          bg = selectedBg;
-        } else if (state.isFocused) {
-          bg = hoverBg;
-        }
-        return {
-          ...base,
-          backgroundColor: bg,
-          color: textStrong,
-        };
-      },
     },
   };
   const selectProps = select.getProps("controlAppSelect", baseSelectProps);

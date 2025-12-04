@@ -53,7 +53,9 @@ export function SelectComponent({
     fallback: string,
   ): string => {
     const current = theme.colors[key];
-    return current !== undefined ? current : fallback;
+    return current !== undefined
+      ? current
+      : fallback;
   };
 
   const surface = resolveColor("neutral0", "#18181b");

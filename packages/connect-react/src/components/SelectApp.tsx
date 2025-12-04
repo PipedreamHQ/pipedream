@@ -101,7 +101,9 @@ export function SelectApp({
     fallback: string,
   ): string => {
     const current = theme.colors[key];
-    return current !== undefined ? current : fallback;
+    return current !== undefined
+      ? current
+      : fallback;
   };
 
   const surface = resolveColor("neutral0", "#18181b");
@@ -111,6 +113,7 @@ export function SelectApp({
   const hoverBg = resolveColor("optionHover", "#27272a");
   const selectedBg = resolveColor("optionSelected", "rgba(59,130,246,0.2)");
   const selectedHoverBg = resolveColor("optionSelectedHover", "rgba(59,130,246,0.35)");
+  const appIconBg = resolveColor("appIconBackground", "#fff");
 
   const baseSelectProps: BaseReactSelectProps<App> = {
     styles: createBaseSelectStyles<App>({
@@ -142,7 +145,7 @@ export function SelectApp({
             style={{
               height: 24,
               width: 24,
-              backgroundColor: "#fff",
+              backgroundColor: appIconBg,
               borderRadius: 6,
               padding: 2,
             }}
@@ -166,7 +169,7 @@ export function SelectApp({
             style={{
               height: 24,
               width: 24,
-              backgroundColor: "#fff",
+              backgroundColor: appIconBg,
               borderRadius: 6,
               padding: 2,
             }}
@@ -200,6 +203,7 @@ export function SelectApp({
     Option,
     SingleValue,
     MenuList,
+    appIconBg,
   ]);
   return (
     <Select

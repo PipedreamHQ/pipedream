@@ -67,6 +67,9 @@ export type Colors = {
   optionSelected?: string;
   // select.option:selected:hover:backgroundColor
   optionSelectedHover?: string;
+
+  // App icon background color (for visibility in dark mode)
+  appIconBackground?: string;
 };
 
 export type Shadows = {

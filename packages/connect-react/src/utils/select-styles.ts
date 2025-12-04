@@ -1,4 +1,6 @@
-import type { CSSObjectWithLabel, GroupBase, StylesConfig } from "react-select";
+import type {
+  CSSObjectWithLabel, GroupBase, StylesConfig,
+} from "react-select";
 import type { Shadows } from "../theme";
 
 export type SelectColorConfig = {
