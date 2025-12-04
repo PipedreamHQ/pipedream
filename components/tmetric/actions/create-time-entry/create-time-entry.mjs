@@ -55,14 +55,20 @@ export default {
       $,
       accountId: this.accountId,
       data: {
-        startTime: this.startTime ?? "",
-        endTime: this.endTime ?? "",
+        startTime: this.startTime,
+        endTime: this.endTime,
         note: this.note,
         isBillable: this.isBillable,
         isInvoiced: this.isInvoiced,
       },
     });
-    $.export("$summary", "Successfully created time entry with ID: " + response[0].id);
+
+    const timeEntry = Array.isArray(response)
+      ? response[0]
+      : response;
+
+    $.export("$summary", `Successfully created time entry with ID: ${timeEntry.id}`);
+
     return response;
   },
 };

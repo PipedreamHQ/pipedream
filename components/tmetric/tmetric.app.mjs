@@ -38,13 +38,13 @@ export default {
     startTime: {
       type: "string",
       label: "Start Time",
-      description: "Start timestamp in ISO format, e.g. `2025-11-26T14:16:00`; leave null to start the timer at the current moment",
+      description: "Start timestamp in ISO format, e.g. `2025-11-26T14:16:00`; leave blank to start the timer at the current moment",
       optional: true,
     },
     endTime: {
       type: "string",
       label: "End Time",
-      description: "End timestamp in ISO format, e.g. `2025-11-26T15:16:00`; leave null to keep the timer running indefinitely",
+      description: "End timestamp in ISO format, e.g. `2025-11-26T15:16:00`; leave blank to keep the timer running indefinitely",
       optional: true,
     },
     note: {
@@ -125,6 +125,14 @@ export default {
     async getUser(args = {}) {
       return this._makeRequest({
         path: "/user",
+        ...args,
+      });
+    },
+    async getTasks({
+      accountId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/accounts/${accountId}/tasks`,
         ...args,
       });
     },

@@ -32,12 +32,12 @@ export default {
   async run({ $ }) {
     const response = await this.app.deleteTimeEntry({
       $,
-      data: {
-        accountId: this.accountId,
-        timeEntryId: this.timeEntryId,
-      },
+      accountId: this.accountId,
+      timeEntryId: this.timeEntryId,
     });
+
     $.export("$summary", "Successfully deleted time entry with ID: " + this.timeEntryId);
+
     return response;
   },
 };
