@@ -86,7 +86,6 @@ export default {
         },
       });
     },
-
     async createTimeEntry({
       accountId, ...args
     }) {
