@@ -1,5 +1,3 @@
-import { axios } from "@pipedream/platform";
-import get from "lodash/get.js";
 import spotify from "../../spotify.app.mjs";
 
 export default {
@@ -51,18 +49,18 @@ export default {
       offset,
     } = this;
 
-    const res = await axios($, this.spotify._getAxiosParams({
-      method: "GET",
-      path: `/browse/categories/${get(categoryId, "value", categoryId)}/playlists`,
+    const res = await this.spotify._makeRequest({
+      $,
+      url: `/browse/categories/${categoryId.value ?? categoryId}/playlists`,
       params: {
         limit,
         offset,
         country: market,
       },
-    }));
+    });
 
-    $.export("$summary", `Successfully fetched playlists for the "${get(categoryId, "label", categoryId)}" category`);
+    $.export("$summary", `Successfully fetched playlists for the "${categoryId.label ?? categoryId}" category`);
 
-    return get(res, "playlists.items", []);
+    return res.playlists?.items ?? [];
   },
 };

@@ -1,4 +1,3 @@
-import { axios } from "@pipedream/platform";
 import spotify from "../../spotify.app.mjs";
 import { ITEM_TYPES } from "../../consts.mjs";
 
@@ -28,20 +27,17 @@ export default {
     const { market } = this;
 
     try {
-      const res = await axios(
+      const res = await this.spotify._makeRequest({
         $,
-        this.spotify._getAxiosParams({
-          method: "GET",
-          path: "/me/player/currently-playing",
-          params: {
-            market,
-            additional_types: [
-              ITEM_TYPES.TRACK,
-              ITEM_TYPES.EPISODE,
-            ].join(","),
-          },
-        }),
-      );
+        url: "/me/player/currently-playing",
+        params: {
+          market,
+          additional_types: [
+            ITEM_TYPES.TRACK,
+            ITEM_TYPES.EPISODE,
+          ].join(","),
+        },
+      });
 
       const itemType = res?.currently_playing_type || "track";
       const itemName = res?.item?.name || "Nothing";

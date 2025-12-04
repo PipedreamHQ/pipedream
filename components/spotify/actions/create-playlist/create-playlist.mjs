@@ -1,4 +1,3 @@
-import { axios } from "@pipedream/platform";
 import spotify from "../../spotify.app.mjs";
 
 export default {
@@ -53,11 +52,12 @@ export default {
       collaborative: isCollaborative,
     };
 
-    const resp = await axios($, this.spotify._getAxiosParams({
+    const resp = await this.spotify._makeRequest({
+      $,
       method: "POST",
-      path: `/users/${this.spotify.$auth.oauth_uid}/playlists`,
+      url: `/users/${this.spotify.$auth.oauth_uid}/playlists`,
       data,
-    }));
+    });
 
     $.export("$summary", `Successfully created a new playlist, "${data.name}"`);
 

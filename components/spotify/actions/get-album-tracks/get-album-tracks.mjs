@@ -1,4 +1,3 @@
-import { axios } from "@pipedream/platform";
 import spotify from "../../spotify.app.mjs";
 import { ITEM_TYPES } from "../../consts.mjs";
 const DEFAULT_LIMIT = 20;
@@ -50,10 +49,11 @@ export default {
     let total = 0;
 
     do {
-      const { items } = await axios($, this.spotify._getAxiosParams({
-        path: `/albums/${this.albumId}/tracks`,
+      const { items } = await this.spotify._makeRequest({
+        $,
+        url: `/albums/${this.albumId}/tracks`,
         params,
-      }));
+      });
       tracks.push(...items);
       total = items.length;
       params.offset += params.limit;

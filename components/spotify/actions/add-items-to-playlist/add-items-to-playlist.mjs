@@ -1,5 +1,3 @@
-import { axios } from "@pipedream/platform";
-import get from "lodash/get.js";
 import spotify from "../../spotify.app.mjs";
 
 export default {
@@ -46,14 +44,15 @@ export default {
       uris: this.spotify.sanitizedArray(uris),
     };
 
-    const resp = await axios($, this.spotify._getAxiosParams({
+    const resp = await this.spotify._makeRequest({
+      $,
       method: "POST",
-      path: `/playlists/${get(playlistId, "value", playlistId)}/tracks`,
+      url: `/playlists/${playlistId.value ?? playlistId}/tracks`,
       data,
-    }));
+    });
 
     // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `Successfully added ${data.uris.length} ${data.uris.length == 1 ? "item" : "items"} to "${get(playlistId, "label", playlistId)}"`);
+    $.export("$summary", `Successfully added ${data.uris.length} ${data.uris.length == 1 ? "item" : "items"} to "${playlistId.label ?? playlistId}"`);
 
     return resp;
   },

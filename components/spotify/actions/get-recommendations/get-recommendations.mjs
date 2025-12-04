@@ -70,7 +70,10 @@ export default {
       limit,
     };
 
-    const response = await this.spotify.getRecommendations(params, $);
+    const response = await this.spotify.getRecommendations({
+      $,
+      ...params,
+    });
 
     if (response.tracks.length === 0) {
       $.export("$summary", "No recommendations found");

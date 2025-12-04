@@ -1,8 +1,6 @@
 import { axios } from "@pipedream/platform";
-import get from "lodash/get.js";
 import isArray from "lodash/isArray.js";
 import isEmpty from "lodash/isEmpty.js";
-import isNil from "lodash/isNil.js";
 import isString from "lodash/isString.js";
 import { promisify } from "util";
 import {
@@ -35,7 +33,7 @@ export default {
         const items = await this.getPlaylistItems({
           limit,
           offset: limit * page,
-          playlistId: get(playlistId, "value", playlistId),
+          playlistId: playlistId.value ?? playlistId,
         });
 
         return {
@@ -208,7 +206,7 @@ export default {
   methods: {
     sanitizedArray(value) {
       if (isArray(value)) {
-        return value.map((item) => get(item, "value", item));
+        return value.map((item) => item.value ?? item);
       }
 
       // If is string, try to convert it in an array
@@ -223,37 +221,10 @@ export default {
 
       throw new Error(`${value} is not an array or an array-like`);
     },
-    _getAxiosParams(opts) {
-      return {
-        ...opts,
-        url: this._getBaseUrl() + opts.path + this._getQuery(opts.params),
-        headers: this._getHeaders(),
-      };
-    },
-    _getBaseUrl() {
-      return "https://api.spotify.com/v1";
-    },
     _getHeaders() {
       return {
         Authorization: `Bearer ${this.$auth.oauth_access_token}`,
       };
-    },
-    _getQuery(params) {
-      if (!params) {
-        return "";
-      }
-
-      let query = "?";
-      const keys = Object.keys(params);
-      for (let i = 0; i < keys.length; i++) {
-        // Explicity looking for nil values to avoid false negative for Boolean(false)
-        if (!isNil(params[keys[i]])) {
-          query += `${keys[i]}=${params[keys[i]]}&`;
-        }
-      }
-
-      // It removes the last string char, it can be ? or &
-      return query.substr(0, query.length - 1);
     },
     async _paginate(resourceFn, params = {}) {
       let data = [];
@@ -288,20 +259,25 @@ export default {
       const artists = track.artists.map((artist) => artist.name).join(", ");
       return `${track.name} [${artists}]`;
     },
-    async _makeRequest(method, endpoint, params) {
+    async _makeRequest({
+      $ = this,
+      headers,
+      ...args
+    } = {}) {
       const config = {
-        method,
-        url: `${await this._getBaseUrl()}${endpoint}`,
-        headers: await this._getHeaders(),
-        params,
+        baseURL: this._getBaseUrl(),
+        headers: {
+          ...headers,
+          ...this._getHeaders(),
+        },
+        ...args,
       };
-      return await this.retry(config);
+      return await this.retry($, config);
     },
     // Retry axios request if not successful
-    async retry(config, retries = 3) {
-      let response;
+    async retry($, config, retries = 3) {
       try {
-        return await axios(this, {
+        return await axios($, {
           ...config,
           returnFullResponse: true,
         });
@@ -311,11 +287,11 @@ export default {
         }
         // if rate limit is exceeded, Retry-After will contain the # of seconds
         // to wait before retrying
-        const delay = (response && response.status == 429)
-          ? (response.headers["Retry-After"] * 1000)
+        const delay = (err && err.status == 429)
+          ? (err.headers["Retry-After"] * 1000)
           : 500;
         await pause(delay);
-        return this.retry(config, retries - 1);
+        return this.retry($, config, retries - 1);
       }
     },
     async getItems(types, q, limit, offset) {
@@ -340,9 +316,13 @@ export default {
         offset,
       };
 
-      const res = await this._makeRequest("GET", "/search", params);
+      const res = await this._makeRequest({
+        method: "GET",
+        url: "/search",
+        params,
+      });
       return types.reduce((accumulator, type) => (
-        accumulator.concat(get(res, `data.${ITEM_TYPES_RESULT_NAME[type]}.items`, []))
+        accumulator.concat(res.data?.[ITEM_TYPES_RESULT_NAME[type]]?.items ?? [])
       ), []);
     },
     getItemOptionLabel(item) {
@@ -356,37 +336,77 @@ export default {
       }
     },
     async getPlaylist({
-      playlistId, params,
+      $, playlistId, ...args
     }) {
-      const res = await this._makeRequest("GET", `/playlists/${playlistId}`, params);
-      return get(res, "data", {});
+      const res = await this._makeRequest({
+        $,
+        url: `/playlists/${playlistId}`,
+        ...args,
+      });
+      return res.data ?? {};
     },
-    async getPlaylists(params) {
-      const res = await this._makeRequest("GET", "/me/playlists", params);
-      return get(res, "data.items", null);
+    async getPlaylists({
+      $, ...args
+    }) {
+      const res = await this._makeRequest({
+        $,
+        url: "/me/playlists",
+        ...args,
+      });
+      return res.data?.items ?? null;
     },
-    async getCategories(params) {
-      const res = await this._makeRequest("GET", "/browse/categories", params);
-      return get(res, "data.categories.items", []);
+    async getCategories({
+      $, ...args
+    }) {
+      const res = await this._makeRequest({
+        $,
+        url: "/browse/categories",
+        ...args,
+      });
+      return res.data?.categories?.items ?? [];
     },
-    async getUserTracks(params) {
-      const res = await this._makeRequest("GET", "/me/tracks", params);
-      return get(res, "data.items", []);
+    async getUserTracks({
+      $, ...args
+    }) {
+      const res = await this._makeRequest({
+        $,
+        url: "/me/tracks",
+        ...args,
+      });
+      return res.data?.items ?? [];
     },
-    async getPlaylistItems(params) {
-      const { playlistId } = params;
-      const res = await this._makeRequest("GET", `/playlists/${playlistId}/tracks`, params);
-      return get(res, "data.items", []);
+    async getPlaylistItems({
+      $, playlistId, ...args
+    }) {
+      const res = await this._makeRequest({
+        $,
+        url: `/playlists/${playlistId}/tracks`,
+        ...args,
+      });
+      return res.data?.items ?? [];
     },
-    async getGenres() {
-      const { data } = await this._makeRequest("GET", "/recommendations/available-genre-seeds");
+    async getGenres({
+      $, ...args
+    } = {}) {
+      const { data } = await this._makeRequest({
+        $,
+        url: "/recommendations/available-genre-seeds",
+        ...args,
+      });
       return data.genres;
     },
-    async getRecommendations(params) {
-      const { data } = await this._makeRequest("GET", "/recommendations", params);
+    async getRecommendations({
+      $, ...args
+    }) {
+      const { data } = await this._makeRequest({
+        $,
+        url: "/recommendations",
+        ...args,
+      });
       return data;
     },
     async fetchChunksOfAlbumsIds({
+      $,
       artistId,
       market,
     }) {
@@ -395,16 +415,16 @@ export default {
       let page = 0;
       let next = undefined;
       do {
-        const { data } = await this._makeRequest(
-          "GET",
-          `/artists/${get(artistId, "value", artistId)}/albums`,
-          {
+        const { data } = await this._makeRequest({
+          $,
+          url: `/artists/${artistId.value ?? artistId}/albums`,
+          params: {
             market,
             limit,
             offset: limit * page,
             include_groups: "album,single",
           },
-        );
+        });
         albums.push([
           ...data.items.map((album) => album.id),
         ]);
@@ -414,19 +434,20 @@ export default {
       return albums;
     },
     async getAllTracksByChunksOfAlbumIds({
+      $,
       chunksOfAlbumIds,
       market,
     }) {
       const tracks = [];
       for (const albumIds of chunksOfAlbumIds) {
-        const { data } = await this._makeRequest(
-          "GET",
-          "/albums",
-          {
+        const { data } = await this._makeRequest({
+          $,
+          url: "/albums",
+          params: {
             market,
             ids: albumIds.join(","),
           },
-        );
+        });
         tracks.push([
           ...data.albums.map((album) => album.tracks.items).flat(),
         ]);

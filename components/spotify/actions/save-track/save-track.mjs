@@ -1,10 +1,9 @@
-import { axios } from "@pipedream/platform";
 import isEmpty from "lodash/isEmpty.js";
 import spotify from "../../spotify.app.mjs";
 
 export default {
   name: "Save Tracks for User",
-  description: "Save one or more tracks to the current user’s \"Your Music\" library. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#/operations/save-tracks-user).",
+  description: "Save one or more tracks to the current user's \"Your Music\" library. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#/operations/save-tracks-user).",
   key: "spotify-save-track",
   version: "0.1.3",
   annotations: {
@@ -27,13 +26,14 @@ export default {
   },
   async run({ $ }) {
     const ids = this.spotify.sanitizedArray(this.trackIds);
-    const res = await axios($, this.spotify._getAxiosParams({
+    const res = await this.spotify._makeRequest({
+      $,
       method: "PUT",
-      path: "/me/tracks",
+      url: "/me/tracks",
       data: {
         ids,
       },
-    }));
+    });
 
     // eslint-disable-next-line multiline-ternary
     $.export("$summary", `Successfully saved ${ids.length} ${ids.length == 1 ? "track" : "tracks"} to "Liked Songs"`);
