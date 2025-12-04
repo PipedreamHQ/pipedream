@@ -6789,8 +6789,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/help_scout_api_keys:
-    specifiers: {}
+  components/help_scout_api_keys: {}
 
   components/helpcrunch:
     dependencies:
@@ -11163,8 +11162,7 @@ importers:
 
   components/pingrabbit: {}
 
-  components/pinpoint:
-    specifiers: {}
+  components/pinpoint: {}
 
   components/pinterest:
     dependencies:
@@ -13841,7 +13839,7 @@ importers:
   components/slack:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
+        specifier: ^3.1.0
         version: 3.1.1
       '@slack/web-api':
         specifier: ^7.9.0
