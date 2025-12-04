@@ -1,4 +1,4 @@
-import slack from "../../slack.app.mjs";
+import slack from "../../slack_v2.app.mjs";
 import {
   DEFAULT_POLLING_SOURCE_TIMER_INTERVAL, ConfigurationError,
 } from "@pipedream/platform";

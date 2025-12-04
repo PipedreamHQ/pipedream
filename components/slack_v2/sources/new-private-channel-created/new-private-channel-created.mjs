@@ -2,9 +2,9 @@ import common from "../common/base-polling.mjs";
 
 export default {
   ...common,
-  key: "slack-new-private-channel-created",
+  key: "slack_v2-new-private-channel-created",
   name: "New Private Channel Created",
-  version: "0.0.1",
+  version: "0.0.{{ts}}",
   description: "Emit new event when a new private channel is created. [See the documentation](https://api.slack.com/methods/conversations.list)",
   type: "source",
   dedupe: "unique",
