@@ -113,7 +113,7 @@ importers:
         specifier: ^28
         version: 28.14.0(@typescript-eslint/eslint-plugin@8.46.4(@typescript-eslint/parser@8.46.4(eslint@8.57.1)(typescript@5.6.3))(eslint@8.57.1)(typescript@5.6.3))(eslint@8.57.1)(jest@29.7.0(@types/node@20.19.25)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.25)(typescript@5.6.3)))(typescript@5.6.3)
       eslint-plugin-jsonc:
-        specifier: ^1.6.0
+        specifier: ^1.7.0
         version: 1.7.0(eslint@8.57.1)
       eslint-plugin-putout:
         specifier: ^23
@@ -2044,7 +2044,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/brainbase_labs: {}
+  components/brainbase_labs:
+    dependencies:
+      '@pipedream/platform':
+        specifier: 3.0.3
+        version: 3.0.3
 
   components/brainshop: {}
 
