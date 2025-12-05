@@ -4,7 +4,7 @@ export default {
   key: "booking_experts-get-booking",
   name: "Get Booking",
   description: "Returns a booking. [See the documentation](https://developers.bookingexperts.com/reference/administration-bookings-show)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
