@@ -9,11 +9,13 @@ export default {
       type: "string",
       label: "Key-Value Store Id",
       description: "The Id of the key-value store.",
-      async options({ page }) {
+      async options({
+        page, unnamed = true,
+      }) {
         const { items } = await this.listKeyValueStores({
           offset: LIMIT * page,
           limit: LIMIT,
-          unnamed: true,
+          unnamed,
         });
 
         return items.map(({

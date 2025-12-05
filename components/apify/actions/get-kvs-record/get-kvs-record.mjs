@@ -13,6 +13,9 @@ export default {
       propDefinition: [
         apify,
         "keyValueStoreId",
+        () => ({
+          unnamed: false,
+        }),
       ],
     },
     key: {
