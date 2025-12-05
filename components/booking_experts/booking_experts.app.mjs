@@ -484,19 +484,23 @@ export default {
         ...opts,
       });
     },
-    listAmenities(opt = {}){
+    listAmenities(opts = {}) {
       return this._makeRequest({
         path: "/amenities",
         ...opts,
       });
     },
-    getAmenity({ id, ...opts }) {
+    getAmenity({
+      amenityId, ...opts
+    }) {
       return this._makeRequest({
-        path: `/amenities/${id}`,
+        path: `/amenities/${amenityId}`,
         ...opts,
       });
     },
-    listRentableTypesForAdmin({ administrationId, ...opts }) {
+    listRentableTypesForAdmin({
+      administrationId, ...opts
+    }) {
       return this._makeRequest({
         path: `/administrations/${administrationId}/rentable_types`,
         ...opts,

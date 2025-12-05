@@ -1,0 +1,35 @@
+import bookingExperts from "../../booking_experts.app.mjs";
+
+export default {
+  key: "booking_experts-get-amenity",
+  name: "Get Amenity",
+  description: "Retrieve a single amenity by ID.",
+  version: "0.0.1",
+  type: "action",
+
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
+
+  props: {
+    bookingExperts,
+
+    amenityId: {
+      type: "string",
+      label: "Amenity ID",
+      description: "The ID of the amenity to retrieve.",
+    },
+  },
+
+  async run({ $ }) {
+    const { data } = await this.bookingExperts.getAmenity({
+      $,
+      amenityId: this.amenityId,
+    });
+
+    $.export("$summary", `Successfully retrieved amenity ${this.amenityId}`);
+    return data;
+  },
+};
