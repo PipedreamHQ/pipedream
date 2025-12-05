@@ -3,8 +3,7 @@ import bookingExperts from "../../booking_experts.app.mjs";
 export default {
   key: "booking_experts-list-rentable-types",
   name: "List Rentable Types",
-  description: "List all rentable types for a given administration.",
-
+  description: "List all rentable types for a given administration. [See the documentation](https://developers.bookingexperts.com/reference/administration-rentabletypes-index)",
   version: "0.0.1",
   type: "action",
 
@@ -39,10 +38,7 @@ export default {
       params: this.query,
     });
 
-    $.export(
-      "$summary",
-      `Fetched ${data?.length ?? 0} rentable types for Administration #${this.administrationId}`
-    );
+    $.export("$summary", `Successfully retrieved ${data?.length ?? 0} rentable types for Administration ${this.administrationId}`);
 
     return data;
   },
