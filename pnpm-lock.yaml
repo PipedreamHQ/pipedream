@@ -15220,7 +15220,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/tmetric: {}
+  components/tmetric:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/todoist:
     dependencies:
