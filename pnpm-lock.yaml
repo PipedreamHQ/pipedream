@@ -2714,7 +2714,11 @@ importers:
 
   components/chimp_rewriter: {}
 
-  components/chmeetings: {}
+  components/chmeetings:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/chroma_cloud: {}
 
@@ -11163,8 +11167,7 @@ importers:
 
   components/pingrabbit: {}
 
-  components/pinpoint:
-    specifiers: {}
+  components/pinpoint: {}
 
   components/pinterest:
     dependencies:
