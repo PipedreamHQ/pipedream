@@ -4,7 +4,7 @@ export default {
   key: "booking_experts-create-agenda-period",
   name: "Create Agenda Period",
   description: "Creates a new agenda period. [See the documentation](https://developers.bookingexperts.com/reference/administration-maintenance-agenda-periods-create)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

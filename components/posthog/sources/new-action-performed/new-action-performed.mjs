@@ -5,7 +5,7 @@ export default {
   key: "posthog-new-action-performed",
   name: "New Action Performed",
   description: "Emit new event when an action is performed in a project. [See the documentation](https://posthog.com/docs/api/query#post-api-projects-project_id-query)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   props: {

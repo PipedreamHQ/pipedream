@@ -3,8 +3,14 @@ import { useFrontendClient } from "../hooks/frontend-client-context";
 import { useAccounts } from "../hooks/use-accounts";
 import { useFormFieldContext } from "../hooks/form-field-context";
 import { useFormContext } from "../hooks/form-context";
-import { useCustomize } from "../hooks/customization-context";
-import type { BaseReactSelectProps } from "../hooks/customization-context";
+import {
+  useCustomize,
+  type BaseReactSelectProps,
+} from "../hooks/customization-context";
+import {
+  createBaseSelectStyles,
+  resolveSelectColors,
+} from "../utils/select-styles";
 import { useMemo } from "react";
 import type { CSSProperties } from "react";
 import type { OptionProps } from "react-select";
@@ -49,6 +55,16 @@ export function ControlApp({ app }: ControlAppProps) {
     getProps, select, theme,
   } = useCustomize();
 
+  const {
+    surface,
+    border,
+    text,
+    textStrong,
+    hoverBg,
+    selectedBg,
+    selectedHoverBg,
+  } = resolveSelectColors(theme.colors);
+
   const baseStyles: CSSProperties = {
     color: theme.colors.neutral60,
     gridArea: "control",
@@ -63,15 +79,28 @@ export function ControlApp({ app }: ControlAppProps) {
     gridArea: "control",
   };
 
+  const selectStyles = createBaseSelectStyles<SelectValue>({
+    colors: {
+      surface,
+      border,
+      text,
+      textStrong,
+      hoverBg,
+      selectedBg,
+      selectedHoverBg,
+    },
+    boxShadow: theme.boxShadow,
+  });
+
   const baseSelectProps: BaseReactSelectProps<SelectValue> = {
     components: {
       Option: BaseOption,
     },
     styles: {
-      control: (base) => ({
-        ...base,
+      ...selectStyles,
+      control: (base, state) => ({
+        ...(selectStyles.control?.(base, state) ?? base),
         gridArea: "control",
-        boxShadow: theme.boxShadow.input,
       }),
     },
   };

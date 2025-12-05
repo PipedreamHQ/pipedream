@@ -1,11 +1,69 @@
+import { axios } from "@pipedream/platform";
+
 export default {
   type: "app",
   app: "gupshup",
-  propDefinitions: {},
+  propDefinitions: {
+    templateId: {
+      type: "string",
+      label: "Template ID",
+      description: "The ID of the template to use",
+      async options({ page }) {
+        const { templates } = await this.listTemplates({
+          params: {
+            pageNo: page,
+          },
+        });
+        return templates?.map(({ id }) => id) || [];
+      },
+    },
+  },
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _baseUrl() {
+      return "https://api.gupshup.io";
+    },
+    _appName() {
+      return this.$auth.appname;
+    },
+    _makeRequest({
+      $ = this, path, headers, ...opts
+    }) {
+      return axios($, {
+        url: `${this._baseUrl()}${path}`,
+        headers: {
+          ...headers,
+          "apikey": `${this.$auth.apikey}`,
+        },
+        ...opts,
+      });
+    },
+    listTemplates(opts = {}) {
+      return this._makeRequest({
+        path: `/wa/app/${this._appName()}/template`,
+        ...opts,
+      });
+    },
+    sendTemplateMessage(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/wa/api/v1/template/msg",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        ...opts,
+      });
+    },
+    updateSubscription({
+      subscriptionId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/wa/app/${this._appName()}/subscription/${subscriptionId}`,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        ...opts,
+      });
     },
   },
 };

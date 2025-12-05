@@ -5,7 +5,7 @@ export default {
   key: "booking_experts-booking-updated",
   name: "Booking Updated",
   description: "Emit new event for each booking updated. [See the documentation](https://developers.bookingexperts.com/reference/administration-bookings-index)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   props: {

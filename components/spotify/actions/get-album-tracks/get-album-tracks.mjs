@@ -1,13 +1,13 @@
 import { axios } from "@pipedream/platform";
 import spotify from "../../spotify.app.mjs";
-import { ITEM_TYPES } from "../../consts.mjs";
+import { ITEM_TYPES } from "../../common/constants.mjs";
 const DEFAULT_LIMIT = 20;
 
 export default {
   name: "Get Album Tracks",
   description: "Get all tracks in an album. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/get-an-albums-tracks)",
   key: "spotify-get-album-tracks",
-  version: "0.0.3",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

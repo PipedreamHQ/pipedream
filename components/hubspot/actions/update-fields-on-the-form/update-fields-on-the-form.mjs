@@ -10,7 +10,7 @@ export default {
   name: "Update Fields on the Form",
   description:
     "Update some of the form definition components. [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/forms#patch-%2Fmarketing%2Fv3%2Fforms%2F%7Bformid%7D)",
-  version: "0.0.8",
+  version: "0.0.9",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

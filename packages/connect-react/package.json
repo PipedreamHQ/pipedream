@@ -6,6 +6,7 @@
     "dist"
   ],
   "type": "module",
+  "main": "./dist/connect-react.umd.js",
   "browser": "./dist/connect-react.umd.js",
   "module": "./dist/connect-react.es.js",
   "types": "./dist/connect-react.umd.d.ts",
