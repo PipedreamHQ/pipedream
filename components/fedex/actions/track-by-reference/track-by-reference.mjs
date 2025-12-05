@@ -74,7 +74,7 @@ export default {
         includeDetailedScans: this.includeDetailedScans,
       },
     });
-    $.export("$summary", `Tracking information for ${this.trackingNumber} retrieved successfully`);
+    $.export("$summary", `Tracking information for ${this.value} retrieved successfully`);
     return response;
   },
 };
