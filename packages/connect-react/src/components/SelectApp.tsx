@@ -6,6 +6,14 @@ import type {
   MenuListProps, OptionProps, SingleValueProps,
 } from "react-select";
 import { useApps } from "../hooks/use-apps";
+import {
+  useCustomize,
+  type BaseReactSelectProps,
+} from "../hooks/customization-context";
+import {
+  createBaseSelectStyles,
+  resolveSelectColors,
+} from "../utils/select-styles";
 import type {
   App,
   AppsListRequest,
@@ -62,6 +70,9 @@ export function SelectApp({
     SingleValue,
     MenuList,
   } = components;
+  const {
+    select, theme,
+  } = useCustomize();
   const isLoadingMoreRef = useRef(isLoadingMore);
   isLoadingMoreRef.current = isLoadingMore;
 
@@ -87,6 +98,34 @@ export function SelectApp({
     loadMore,
   ]);
 
+  const {
+    surface,
+    border,
+    text,
+    textStrong,
+    hoverBg,
+    selectedBg,
+    selectedHoverBg,
+    appIconBg,
+  } = resolveSelectColors(theme.colors);
+
+  const baseSelectProps: BaseReactSelectProps<App> = {
+    styles: createBaseSelectStyles<App>({
+      colors: {
+        surface,
+        border,
+        text,
+        textStrong,
+        hoverBg,
+        selectedBg,
+        selectedHoverBg,
+      },
+      boxShadow: theme.boxShadow,
+    }),
+  };
+
+  const selectProps = select.getProps("selectApp", baseSelectProps);
+
   // Memoize custom components to prevent remounting
   const customComponents = useMemo(() => ({
     Option: (optionProps: OptionProps<App>) => (
@@ -100,6 +139,9 @@ export function SelectApp({
             style={{
               height: 24,
               width: 24,
+              backgroundColor: appIconBg,
+              borderRadius: 6,
+              padding: 2,
             }}
             alt={optionProps.data.name}
           />
@@ -121,6 +163,9 @@ export function SelectApp({
             style={{
               height: 24,
               width: 24,
+              backgroundColor: appIconBg,
+              borderRadius: 6,
+              padding: 2,
             }}
             alt={singleValueProps.data.name}
           />
@@ -152,13 +197,18 @@ export function SelectApp({
     Option,
     SingleValue,
     MenuList,
+    appIconBg,
   ]);
   return (
     <Select
       instanceId={instanceId}
       className="react-select-container text-sm"
+      {...selectProps}
       classNamePrefix="react-select"
-      components={customComponents}
+      components={{
+        ...selectProps.components,
+        ...customComponents,
+      }}
       options={apps || []}
       getOptionLabel={(o: App) => o.name || o.nameSlug}
       getOptionValue={(o: App) => o.nameSlug}
@@ -179,6 +229,7 @@ export function SelectApp({
       }
       menuPosition="fixed"
       styles={{
+        ...(selectProps.styles ?? {}),
         menuPortal: (base) => ({
           ...base,
           zIndex: 99999,

@@ -11,6 +11,14 @@ import {
 import Select, { components } from "react-select";
 import type { MenuListProps } from "react-select";
 import { useComponents } from "../hooks/use-components";
+import {
+  useCustomize,
+  type BaseReactSelectProps,
+} from "../hooks/customization-context";
+import {
+  createBaseSelectStyles,
+  resolveSelectColors,
+} from "../utils/select-styles";
 
 type SelectComponentProps = {
   app?: Partial<App> & { nameSlug: string; };
@@ -38,6 +46,20 @@ export function SelectComponent({
   });
 
   const { MenuList } = components;
+  const {
+    select, theme,
+  } = useCustomize();
+
+  const {
+    surface,
+    border,
+    text,
+    textStrong,
+    hoverBg,
+    selectedBg,
+    selectedHoverBg,
+  } = resolveSelectColors(theme.colors);
+
   const isLoadingMoreRef = useRef(isLoadingMore);
   isLoadingMoreRef.current = isLoadingMore;
 
@@ -59,6 +81,23 @@ export function SelectComponent({
     isLoadingMore,
     loadMore,
   ]);
+
+  const baseSelectProps: BaseReactSelectProps<Component> = {
+    styles: createBaseSelectStyles<Component>({
+      colors: {
+        surface,
+        border,
+        text,
+        textStrong,
+        hoverBg,
+        selectedBg,
+        selectedHoverBg,
+      },
+      boxShadow: theme.boxShadow,
+    }),
+  };
+
+  const selectProps = select.getProps("selectComponent", baseSelectProps);
 
   // Memoize custom components to prevent remounting
   const customComponents = useMemo(() => ({
@@ -89,6 +128,7 @@ export function SelectComponent({
     <Select
       instanceId={instanceId}
       className="react-select-container text-sm"
+      {...selectProps}
       classNamePrefix="react-select"
       options={componentsList}
       getOptionLabel={(o) => o.name || o.key}
@@ -97,7 +137,10 @@ export function SelectComponent({
       onChange={(o) => onChange?.((o as Component) || undefined)}
       onMenuScrollToBottom={handleMenuScrollToBottom}
       isLoading={isLoading}
-      components={customComponents}
+      components={{
+        ...selectProps.components,
+        ...customComponents,
+      }}
       menuPortalTarget={
         typeof document !== "undefined"
           ? document.body
@@ -105,6 +148,7 @@ export function SelectComponent({
       }
       menuPosition="fixed"
       styles={{
+        ...(selectProps.styles ?? {}),
         menuPortal: (base) => ({
           ...base,
           zIndex: 99999,
