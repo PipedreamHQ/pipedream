@@ -1,11 +1,10 @@
-import { defineAction } from "@pipedream/types";
-import verdict from "../../app/verdict_as_a_service.app";
+import verdict from "../../verdict_as_a_service.app.mjs";
 
-export default defineAction({
+export default {
   name: "Request Verdict For A File",
   description: "Scans a file for malware and other threats. [See the docs here](https://github.com/GDATASoftwareAG/vaas/tree/main/typescript#request-a-verdict)",
   key: "verdict_as_a_service-request-verdict-for-file",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -28,4 +27,4 @@ export default defineAction({
 
     return verdict;
   },
-});
+};

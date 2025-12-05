@@ -1,13 +1,7 @@
-import { PathLike } from "fs";
 import { open } from "fs/promises";
-import { defineApp } from "@pipedream/types";
-import {
-  Vaas,
-  VAAS_URL,
-  ClientCredentialsGrantAuthenticator,
-} from "gdata-vaas";
+import gdataVaas from "gdata-vaas";
 
-export default defineApp({
+export default {
   type: "app",
   app: "verdict_as_a_service",
   propDefinitions: {
@@ -23,20 +17,20 @@ export default defineApp({
         client_id: clientId,
         client_secret: secret,
         token_url: tokenUrl,
-        vaas_url: url = VAAS_URL,
+        vaas_url: url = gdataVaas.VAAS_URL,
       } = this.$auth;
-      const authenticator = new ClientCredentialsGrantAuthenticator(
+      const authenticator = new gdataVaas.ClientCredentialsGrantAuthenticator(
         clientId,
         secret,
         tokenUrl,
       );
       const token = await authenticator.getToken();
-      const vaas = new Vaas();
+      const vaas = new gdataVaas.Vaas();
       await vaas.connect(token, url);
       return vaas;
     },
-    async requestVerdictForFile(file: PathLike) {
-      const client: Vaas = await this.getClient();
+    async requestVerdictForFile(file) {
+      const client = await this.getClient();
       const fileHandle = await open(file, "r");
       const buffer = await fileHandle.readFile();
 
@@ -48,4 +42,4 @@ export default defineApp({
       }
     },
   },
-});
+};
