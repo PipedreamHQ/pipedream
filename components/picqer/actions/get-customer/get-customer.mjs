@@ -4,7 +4,7 @@ export default {
   key: "picqer-get-customer",
   name: "Get Customer",
   description: "Get a customer in Picqer. [See the documentation](https://picqer.com/en/api/customers#get-single-customer)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

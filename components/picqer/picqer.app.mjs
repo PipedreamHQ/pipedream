@@ -12,10 +12,13 @@ export default {
       type: "string",
       label: "Order ID",
       description: "The order id for searching orders.",
-      async options({ page }) {
+      async options({
+        page, params,
+      }) {
         const data = await this.searchOrders({
           params: {
             offset: page * LIMIT,
+            ...params,
           },
         });
 
@@ -297,6 +300,42 @@ export default {
       label: "Visible In Fulfillment",
       description: "Only for Picqer Fulfilment: Whether the comment is visible for the fulfilment customer the resource belongs to.",
     },
+    tagId: {
+      type: "string",
+      label: "Tag ID",
+      description: "The tag to associate with the order",
+      async options({ page }) {
+        const data = await this.listTags({
+          params: {
+            offset: page * LIMIT,
+          },
+        });
+        return data.map(({
+          idtag: value, title: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    productId: {
+      type: "string",
+      label: "Product ID",
+      description: "The product to add to the order",
+      async options({ page }) {
+        const data = await this.listProducts({
+          params: {
+            offset: page * LIMIT,
+          },
+        });
+        return data.map(({
+          idproduct: value, productcode, name,
+        }) => ({
+          label: `${productcode} - ${name}`,
+          value,
+        }));
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -448,6 +487,88 @@ export default {
       return this._makeRequest({
         method: "DELETE",
         path: `/hooks/${hookId}`,
+      });
+    },
+    processOrder({
+      orderId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/orders/${orderId}/process`,
+        ...opts,
+      });
+    },
+    pauseOrder({
+      orderId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/orders/${orderId}/pause`,
+        ...opts,
+      });
+    },
+    changeOrderToConcept({
+      orderId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/orders/${orderId}/change-to-concept`,
+        ...opts,
+      });
+    },
+    cancelOrder({
+      orderId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/orders/${orderId}`,
+        ...opts,
+      });
+    },
+    getOrderTags({
+      orderId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/orders/${orderId}/tags`,
+        ...opts,
+      });
+    },
+    addOrderTags({
+      orderId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/orders/${orderId}/tags`,
+        ...opts,
+      });
+    },
+    addProductToOrder({
+      orderId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/orders/${orderId}/products`,
+        ...opts,
+      });
+    },
+    getOrderComments({
+      orderId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/orders/${orderId}/comments`,
+        ...opts,
+      });
+    },
+    listTags(opts = {}) {
+      return this._makeRequest({
+        path: "/tags",
+        ...opts,
+      });
+    },
+    listProducts(opts = {}) {
+      return this._makeRequest({
+        path: "/products",
+        ...opts,
       });
     },
   },

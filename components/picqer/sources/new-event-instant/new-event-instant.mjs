@@ -7,7 +7,7 @@ export default {
   key: "picqer-new-event-instant",
   name: "New Event Instant",
   description: "Emit new event when Picqer sends a webhook matched with selected event. [See the documentation](https://picqer.com/en/api/webhooks)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

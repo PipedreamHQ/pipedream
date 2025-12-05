@@ -4,7 +4,7 @@ export default {
   key: "picqer-get-order",
   name: "Get Picqer Order",
   description: "Get an order in Picqer. [See the documentation](https://picqer.com/en/api/orders#get-single-order)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
