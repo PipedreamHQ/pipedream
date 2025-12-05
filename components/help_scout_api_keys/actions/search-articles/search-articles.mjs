@@ -71,6 +71,6 @@ export default {
     $.export("$summary", `Found ${response.articles.items.length} article${response.articles.items.length === 1
       ? ""
       : "s"}.`);
-    return response.articles;
+    return response;
   },
 };
