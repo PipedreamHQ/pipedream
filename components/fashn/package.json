@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/fashn",
+  "version": "0.0.1",
+  "description": "Pipedream FASHN Components",
+  "main": "fashn.app.mjs",
+  "keywords": [
+    "pipedream",
+    "fashn"
+  ],
+  "homepage": "https://pipedream.com/apps/fashn",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
