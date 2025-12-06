@@ -562,5 +562,27 @@ export default {
         ...opts,
       });
     },
+    listAmenities(opts = {}) {
+      return this._makeRequest({
+        path: "/amenities",
+        ...opts,
+      });
+    },
+    getAmenity({
+      amenityId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/amenities/${amenityId}`,
+        ...opts,
+      });
+    },
+    listRentableTypesForAdmin({
+      administrationId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/administrations/${administrationId}/rentable_types`,
+        ...opts,
+      });
+    }
   },
 };
