@@ -57,28 +57,27 @@ export function ControlSelect<T extends PropOptionValue>({
     select, theme,
   } = useCustomize();
 
-  const {
-    surface,
-    border,
-    text,
-    textStrong,
-    hoverBg,
-    selectedBg,
-    selectedHoverBg,
-  } = resolveSelectColors(theme.colors);
+  // Memoize color resolution to avoid recalculating on every render
+  const resolvedColors = useMemo(() => resolveSelectColors(theme.colors), [
+    theme.colors,
+  ]);
 
-  const selectStyles = createBaseSelectStyles<LabelValueOption<T>, boolean>({
+  // Memoize base select styles - only recalculate when colors or boxShadow change
+  const baseSelectStyles = useMemo(() => createBaseSelectStyles<LabelValueOption<T>, boolean>({
     colors: {
-      surface,
-      border,
-      text,
-      textStrong,
-      hoverBg,
-      selectedBg,
-      selectedHoverBg,
+      surface: resolvedColors.surface,
+      border: resolvedColors.border,
+      text: resolvedColors.text,
+      textStrong: resolvedColors.textStrong,
+      hoverBg: resolvedColors.hoverBg,
+      selectedBg: resolvedColors.selectedBg,
+      selectedHoverBg: resolvedColors.selectedHoverBg,
     },
     boxShadow: theme.boxShadow,
-  });
+  }), [
+    resolvedColors,
+    theme.boxShadow,
+  ]);
 
   const [
     selectOptions,
@@ -101,10 +100,6 @@ export function ControlSelect<T extends PropOptionValue>({
   }, [
     value,
   ])
-
-  // Note: We intentionally don't pass styles to getProps to avoid merging with
-  // user style overrides that may conflict with our dark mode base styles.
-  // Styles are applied directly in the render instead.
 
   const selectValue: LabelValueOption<T> | LabelValueOption<T>[] | null = useMemo(() => {
     if (rawValue == null) {
@@ -149,9 +144,15 @@ export function ControlSelect<T extends PropOptionValue>({
     selectOptions,
   ]);
 
-  // Get only theme from customization context
-  // We don't use getProps styles/components since we apply selectStyles directly
-  const { theme: selectTheme } = select.getProps("controlSelect")
+  // Get customization props from context
+  // We pass our dark mode base styles as the base, so user customizations merge on top
+  const customizationProps = select.getProps<
+    "controlSelect",
+    LabelValueOption<T>,
+    boolean
+  >("controlSelect", {
+    styles: baseSelectStyles,
+  })
 
   // Use ref to store latest onLoadMore callback
   // This allows stable component reference while calling current callback
@@ -166,9 +167,13 @@ export function ControlSelect<T extends PropOptionValue>({
   showLoadMoreButtonRef.current = showLoadMoreButton;
 
   // Memoize custom components to prevent remounting
-  // Recompute when caller/customizer supplies new component overrides
+  // Merge: customization context components -> caller overrides -> our MenuList wrapper
   const finalComponents = useMemo(() => {
-    const ParentMenuList = componentsOverride?.MenuList ?? components.MenuList;
+    const mergedComponents = {
+      ...(customizationProps.components ?? {}),
+      ...(componentsOverride ?? {}),
+    };
+    const ParentMenuList = mergedComponents.MenuList ?? components.MenuList;
 
     // Always set MenuList, conditionally render button inside
     const CustomMenuList = ({
@@ -187,11 +192,12 @@ export function ControlSelect<T extends PropOptionValue>({
     CustomMenuList.displayName = "CustomMenuList";
 
     return {
-      ...(componentsOverride ?? {}),
+      ...mergedComponents,
       MenuList: CustomMenuList,
     };
   }, [
     componentsOverride,
+    customizationProps.components,
   ]);
 
   const handleCreate = (inputValue: string) => {
@@ -273,8 +279,9 @@ export function ControlSelect<T extends PropOptionValue>({
       {...selectProps}
       {...additionalProps}
       // Apply customization context values
-      theme={selectTheme}
-      classNamePrefix="react-select"
+      classNamePrefix={customizationProps.classNamePrefix || "react-select"}
+      classNames={customizationProps.classNames}
+      theme={customizationProps.theme}
       menuPortalTarget={
         typeof document !== "undefined"
           ? document.body
@@ -282,7 +289,7 @@ export function ControlSelect<T extends PropOptionValue>({
       }
       menuPosition="fixed"
       styles={{
-        ...selectStyles,
+        ...customizationProps.styles,
         ...selectProps?.styles,
         container: (base) => ({
           ...base,
