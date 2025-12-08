@@ -4,7 +4,7 @@ export default {
   key: "woocommerce-get-customer",
   name: "Get Customer",
   description: "Retrieve a specific customer. [See the docs](https://woocommerce.github.io/woocommerce-rest-api-docs/?javascript#retrieve-a-customer)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

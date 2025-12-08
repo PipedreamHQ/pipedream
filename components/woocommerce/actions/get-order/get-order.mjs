@@ -4,7 +4,7 @@ export default {
   key: "woocommerce-get-order",
   name: "Get Order",
   description: "Retrieve a specific order. [See the docs](https://woocommerce.github.io/woocommerce-rest-api-docs/?javascript#retrieve-an-order)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
