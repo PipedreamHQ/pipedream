@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/help_scout_api_keys",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Help Scout (API Keys) Components",
   "main": "help_scout_api_keys.app.mjs",
   "keywords": [
@@ -11,5 +11,8 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1"
   }
 }
