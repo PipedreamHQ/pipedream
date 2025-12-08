@@ -10,7 +10,9 @@ import {
   POSTAGE_SERVICE_OPTIONS,
   SPLITTING_METHOD_OPTIONS,
 } from "../../common/constants.mjs";
-import { camelCaseToSnakeCase } from "../../common/utils.mjs";
+import {
+  camelCaseToSnakeCase, parseObject,
+} from "../../common/utils.mjs";
 import intelliprint from "../../intelliprint.app.mjs";
 
 export default {
@@ -125,16 +127,22 @@ export default {
       description: "Whether to mark letters of this Print Job as confidential.",
       optional: true,
     },
-    removeLetters: {
+    removeLettersWithPhrase: {
       type: "string",
-      label: "Remove Letters",
+      label: "Remove Letters With Phrase",
       description: "Remove letter objects that have this phrase in their content.",
+      optional: true,
+    },
+    removeLettersSeries: {
+      type: "string",
+      label: "Remove Letters Series",
+      description: "An array of letters' indexes that have been removed.",
       optional: true,
     },
     nudgeX: {
       type: "integer",
-      label: "Nudge X",
-      description: "What amount in mm to move the first page of each letter horizontally. A positive number moves the page right, a negative number moves the page left.",
+      label: "Remove Letters Series",
+      description: "An array of letters' indexes that have been removed.",
       optional: true,
     },
     nudgeY: {
@@ -168,6 +176,21 @@ export default {
         intelliprint,
         filePath,
         syncDir,
+        splittingMethod,
+        splitOnPhrase,
+        splitOnPage,
+        doubleSided,
+        doubleSidedSpecificPages,
+        premiumQuality,
+        postageService,
+        idealEnvelope,
+        mailDate,
+        firstPageBackground,
+        otherPagesBackground,
+        nudgeX,
+        nudgeY,
+        removeLettersWithPhrase,
+        removeLettersSeries,
         ...data
       } = this;
 
@@ -181,6 +204,33 @@ export default {
         knownLength: metadata.size,
         filename: metadata.name,
       });
+      formData.append("printing", JSON.stringify({
+        double_sided: doubleSided,
+        double_sided_specific_pages: doubleSidedSpecificPages,
+        premium_quality: premiumQuality,
+      }));
+      formData.append("splitting", JSON.stringify({
+        method: splittingMethod,
+        phrase: splitOnPhrase,
+        pages: splitOnPage,
+      }));
+      formData.append("postage", JSON.stringify({
+        service: postageService,
+        ideal_envelope: idealEnvelope,
+        mail_date: mailDate,
+      }));
+      formData.append("backgrounds", JSON.stringify({
+        first_page: firstPageBackground,
+        other_pages: otherPagesBackground,
+      }));
+      formData.append("nudge", JSON.stringify({
+        x: nudgeX,
+        y: nudgeY,
+      }));
+      formData.append("remove_letters", JSON.stringify({
+        with_phrase: removeLettersWithPhrase,
+        series: parseObject(removeLettersSeries),
+      }));
       for (const [
         key,
         value,
