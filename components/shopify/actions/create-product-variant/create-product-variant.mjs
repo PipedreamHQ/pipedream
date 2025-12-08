@@ -9,7 +9,7 @@ export default {
   key: "shopify-create-product-variant",
   name: "Create Product Variant",
   description: "Create a new product variant. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/productVariantsBulkCreate)",
-  version: "0.0.15",
+  version: "0.0.16",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

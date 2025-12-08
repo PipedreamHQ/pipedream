@@ -7,7 +7,7 @@ export default {
   key: "shopify-create-smart-collection",
   name: "Create Smart Collection",
   description: "Creates a smart collection. You can fill in any number of rules by selecting more than one option in each prop.[See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/collectionCreate)",
-  version: "0.0.14",
+  version: "0.0.15",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
