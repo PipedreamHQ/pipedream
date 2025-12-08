@@ -6,7 +6,7 @@ export default {
   key: "xero_accounting_api-make-an-api-call",
   name: "Make API Call",
   description: "Makes an aribitrary call to Xero Accounting API.",
-  version: "0.1.3",
+  version: "0.1.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

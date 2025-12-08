@@ -4,7 +4,7 @@ export default {
   key: "xero_accounting_api-get-invoice-online-url",
   name: "Get Sales Invoice Online URL",
   description: "Retrieves the online sales invoice URL.",
-  version: "0.1.3",
+  version: "0.1.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

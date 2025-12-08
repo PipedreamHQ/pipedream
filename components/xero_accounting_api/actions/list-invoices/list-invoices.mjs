@@ -4,7 +4,7 @@ export default {
   key: "xero_accounting_api-list-invoices",
   name: "List Invoices",
   description: "Lists information from invoices in the given tenant id as per filter parameters.",
-  version: "0.3.1",
+  version: "0.3.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

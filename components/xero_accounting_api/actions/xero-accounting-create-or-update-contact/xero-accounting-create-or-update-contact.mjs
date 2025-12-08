@@ -5,7 +5,7 @@ export default {
   key: "xero_accounting_api-xero-accounting-create-or-update-contact",
   name: "Create or Update Contact",
   description: "Creates a new contact or updates if the contact exists.",
-  version: "0.1.3",
+  version: "0.1.4",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
