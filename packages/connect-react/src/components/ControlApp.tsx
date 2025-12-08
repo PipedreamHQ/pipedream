@@ -55,15 +55,27 @@ export function ControlApp({ app }: ControlAppProps) {
     getProps, select, theme,
   } = useCustomize();
 
-  const {
-    surface,
-    border,
-    text,
-    textStrong,
-    hoverBg,
-    selectedBg,
-    selectedHoverBg,
-  } = resolveSelectColors(theme.colors);
+  // Memoize color resolution to avoid recalculating on every render
+  const resolvedColors = useMemo(() => resolveSelectColors(theme.colors), [
+    theme.colors,
+  ]);
+
+  // Memoize base select styles - only recalculate when colors or boxShadow change
+  const baseSelectStyles = useMemo(() => createBaseSelectStyles<SelectValue>({
+    colors: {
+      surface: resolvedColors.surface,
+      border: resolvedColors.border,
+      text: resolvedColors.text,
+      textStrong: resolvedColors.textStrong,
+      hoverBg: resolvedColors.hoverBg,
+      selectedBg: resolvedColors.selectedBg,
+      selectedHoverBg: resolvedColors.selectedHoverBg,
+    },
+    boxShadow: theme.boxShadow,
+  }), [
+    resolvedColors,
+    theme.boxShadow,
+  ]);
 
   const baseStyles: CSSProperties = {
     color: theme.colors.neutral60,
@@ -79,27 +91,14 @@ export function ControlApp({ app }: ControlAppProps) {
     gridArea: "control",
   };
 
-  const selectStyles = createBaseSelectStyles<SelectValue>({
-    colors: {
-      surface,
-      border,
-      text,
-      textStrong,
-      hoverBg,
-      selectedBg,
-      selectedHoverBg,
-    },
-    boxShadow: theme.boxShadow,
-  });
-
   const baseSelectProps: BaseReactSelectProps<SelectValue> = {
     components: {
       Option: BaseOption,
     },
     styles: {
-      ...selectStyles,
+      ...baseSelectStyles,
       control: (base, state) => ({
-        ...(selectStyles.control?.(base, state) ?? base),
+        ...(baseSelectStyles.control?.(base, state) ?? base),
         gridArea: "control",
       }),
     },

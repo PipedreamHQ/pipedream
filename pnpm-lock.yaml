@@ -5107,6 +5107,9 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/fashn:
+    specifiers: {}
+
   components/fastfield_mobile_forms: {}
 
   components/fathom:
@@ -6609,7 +6612,11 @@ importers:
 
   components/groundhogg: {}
 
-  components/growsurf: {}
+  components/growsurf:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/gryd:
     dependencies:
@@ -7698,6 +7705,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
+
+  components/jobsoid_careers_portal:
+    specifiers: {}
 
   components/joggai:
     dependencies:
@@ -13854,7 +13864,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/slab: {}
+  components/slab:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.1
 
   components/slack:
     dependencies:
