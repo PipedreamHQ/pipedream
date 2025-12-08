@@ -291,7 +291,7 @@ export function ControlSelect<T extends PropOptionValue>({
       menuPosition="fixed"
       styles={{
         ...customizationProps.styles,
-        ...selectProps?.styles,
+        ...(selectProps?.styles ?? {}),
         container: (base) => ({
           ...base,
           gridArea: "control",
