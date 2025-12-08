@@ -53,7 +53,7 @@ export default {
     dueDate: {
       type: "string",
       label: "Due Date",
-      description: "The due date of the invoice",
+      description: "The due date of the invoice. **Format: YYYY-MM-DD**",
       optional: true,
     },
     invoiceRows: {

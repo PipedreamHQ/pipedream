@@ -32,12 +32,6 @@ export default {
       ],
       optional: true,
     },
-    dueDate: {
-      type: "string",
-      label: "Due Date",
-      description: "The due date of the invoice. Format DD/MM/YYYY",
-      optional: true,
-    },
     paymentDate: {
       type: "string",
       label: "Payment Date",
@@ -73,7 +67,6 @@ export default {
             ? +this.amount
             : undefined,
           InvoiceCustomerNumber: this.customerNumber,
-          InvoiceDueDate: this.dueDate,
           InvoiceTotal: this.invoiceTotal
             ? +this.invoiceTotal
             : undefined,
