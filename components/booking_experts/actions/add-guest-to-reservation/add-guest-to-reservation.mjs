@@ -3,8 +3,9 @@ import bookingExperts from "../../booking_experts.app.mjs";
 export default {
   key: "booking_experts-add-guest-to-reservation",
   name: "Add Guest to Reservation",
-  description: "Add a guest to a reservation. [See the documentation](https://developers.bookingexperts.com/reference/administration-reservation-guests-create)",
-  version: "0.0.5",
+  description:
+    "Add a guest to a reservation. [See the documentation](https://developers.bookingexperts.com/reference/administration-reservation-guests-create)",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -74,6 +75,23 @@ export default {
       description: "The country code of the guest",
       optional: true,
     },
+    gender: {
+      type: "string",
+      label: "Gender",
+      description: "The gender of the guest",
+      optional: true,
+      options: [
+        "male",
+        "female",
+        "other",
+      ],
+    },
+    dateOfBirth: {
+      type: "string",
+      label: "Date of Birth",
+      description: "The date of birth of the guest in YYYY-MM-DD format",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const { data } = await this.bookingExperts.addGuestToReservation({
@@ -92,6 +110,8 @@ export default {
             city: this.city,
             postal_code: this.postalCode,
             country_code: this.countryCode,
+            gender: this.gender,
+            date_of_birth: this.dateOfBirth,
           },
         },
       },

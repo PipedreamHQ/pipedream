@@ -3,8 +3,14 @@ import { useFrontendClient } from "../hooks/frontend-client-context";
 import { useAccounts } from "../hooks/use-accounts";
 import { useFormFieldContext } from "../hooks/form-field-context";
 import { useFormContext } from "../hooks/form-context";
-import { useCustomize } from "../hooks/customization-context";
-import type { BaseReactSelectProps } from "../hooks/customization-context";
+import {
+  useCustomize,
+  type BaseReactSelectProps,
+} from "../hooks/customization-context";
+import {
+  createBaseSelectStyles,
+  resolveSelectColors,
+} from "../utils/select-styles";
 import { useMemo } from "react";
 import type { CSSProperties } from "react";
 import type { OptionProps } from "react-select";
@@ -49,6 +55,28 @@ export function ControlApp({ app }: ControlAppProps) {
     getProps, select, theme,
   } = useCustomize();
 
+  // Memoize color resolution to avoid recalculating on every render
+  const resolvedColors = useMemo(() => resolveSelectColors(theme.colors), [
+    theme.colors,
+  ]);
+
+  // Memoize base select styles - only recalculate when colors or boxShadow change
+  const baseSelectStyles = useMemo(() => createBaseSelectStyles<SelectValue>({
+    colors: {
+      surface: resolvedColors.surface,
+      border: resolvedColors.border,
+      text: resolvedColors.text,
+      textStrong: resolvedColors.textStrong,
+      hoverBg: resolvedColors.hoverBg,
+      selectedBg: resolvedColors.selectedBg,
+      selectedHoverBg: resolvedColors.selectedHoverBg,
+    },
+    boxShadow: theme.boxShadow,
+  }), [
+    resolvedColors,
+    theme.boxShadow,
+  ]);
+
   const baseStyles: CSSProperties = {
     color: theme.colors.neutral60,
     gridArea: "control",
@@ -68,10 +96,10 @@ export function ControlApp({ app }: ControlAppProps) {
       Option: BaseOption,
     },
     styles: {
-      control: (base) => ({
-        ...base,
+      ...baseSelectStyles,
+      control: (base, state) => ({
+        ...(baseSelectStyles.control?.(base, state) ?? base),
         gridArea: "control",
-        boxShadow: theme.boxShadow.input,
       }),
     },
   };

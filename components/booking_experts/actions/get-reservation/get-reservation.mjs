@@ -4,7 +4,7 @@ export default {
   name: "Get Reservation",
   description: "Fetches a reservation by ID from Booking Experts. [See the documentation](https://developers.bookingexperts.com/reference/reservations-show)",
   key: "booking_experts-get-reservation",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

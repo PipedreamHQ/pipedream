@@ -59,6 +59,17 @@ export type Colors = {
   // select.singleValue:color
   neutral80: string;
   neutral90: string;
+
+  // Option state backgrounds (dark mode friendly)
+  // select.option:hover:backgroundColor
+  optionHover?: string;
+  // select.option:selected:backgroundColor
+  optionSelected?: string;
+  // select.option:selected:hover:backgroundColor
+  optionSelectedHover?: string;
+
+  // App icon background color (for visibility in dark mode)
+  appIconBackground?: string;
 };
 
 export type Shadows = {

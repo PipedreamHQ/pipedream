@@ -59,7 +59,7 @@ export default {
     ticketId: {
       type: "integer",
       label: "Ticket ID",
-      description: "The ID of a ticket to watch for new messages",
+      description: "The ID of a ticket",
       async options({ prevContext }) {
         const {
           data: tickets,
@@ -196,7 +196,7 @@ export default {
     tagId: {
       type: "string",
       label: "Tag ID",
-      description: "The tag id.",
+      description: "The ID of a tag",
       optional: true,
       async options({ prevContext: { cursor } }) {
         if (cursor === null) {
@@ -521,6 +521,55 @@ export default {
         $,
         path: `/macros/${id}`,
         method: "DELETE",
+      });
+    },
+    listTicketTags({
+      ticketId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/tickets/${ticketId}/tags`,
+        ...opts,
+      });
+    },
+    addTicketTags({
+      ticketId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/tickets/${ticketId}/tags`,
+        ...opts,
+      });
+    },
+    setTicketTags({
+      ticketId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/tickets/${ticketId}/tags`,
+        ...opts,
+      });
+    },
+    listTicketFieldValues({
+      ticketId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/tickets/${ticketId}/custom-fields`,
+        ...opts,
+      });
+    },
+    listCustomFields(opts = {}) {
+      return this._makeRequest({
+        path: "/custom-fields",
+        ...opts,
+      });
+    },
+    updateTicketFieldValues({
+      ticketId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/tickets/${ticketId}/custom-fields`,
+        ...opts,
       });
     },
   },
