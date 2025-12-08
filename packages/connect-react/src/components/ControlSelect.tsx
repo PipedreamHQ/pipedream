@@ -5,15 +5,12 @@ import {
   useState,
   useRef,
 } from "react";
-import type {
-  CSSObjectWithLabel, MenuListProps,
-} from "react-select";
+import type { MenuListProps } from "react-select";
 import Select, {
   components,
   Props as ReactSelectProps,
 } from "react-select";
 import CreatableSelect from "react-select/creatable";
-import type { BaseReactSelectProps } from "../hooks/customization-context";
 import { useCustomize } from "../hooks/customization-context";
 import { useFormFieldContext } from "../hooks/form-field-context";
 import type {
@@ -152,7 +149,9 @@ export function ControlSelect<T extends PropOptionValue>({
     selectOptions,
   ]);
 
-  const props = select.getProps("controlSelect")
+  // Get only theme from customization context
+  // We don't use getProps styles/components since we apply selectStyles directly
+  const { theme: selectTheme } = select.getProps("controlSelect")
 
   // Use ref to store latest onLoadMore callback
   // This allows stable component reference while calling current callback
@@ -169,11 +168,7 @@ export function ControlSelect<T extends PropOptionValue>({
   // Memoize custom components to prevent remounting
   // Recompute when caller/customizer supplies new component overrides
   const finalComponents = useMemo(() => {
-    const mergedComponents = {
-      ...(props.components ?? {}),
-      ...(componentsOverride ?? {}),
-    };
-    const ParentMenuList = mergedComponents.MenuList ?? components.MenuList;
+    const ParentMenuList = componentsOverride?.MenuList ?? components.MenuList;
 
     // Always set MenuList, conditionally render button inside
     const CustomMenuList = ({
@@ -192,11 +187,10 @@ export function ControlSelect<T extends PropOptionValue>({
     CustomMenuList.displayName = "CustomMenuList";
 
     return {
-      ...mergedComponents,
+      ...(componentsOverride ?? {}),
       MenuList: CustomMenuList,
     };
   }, [
-    props.components,
     componentsOverride,
   ]);
 
@@ -276,10 +270,10 @@ export function ControlSelect<T extends PropOptionValue>({
       getOptionLabel={(option) => sanitizeOption(option).label}
       getOptionValue={(option) => String(sanitizeOption(option).value)}
       onChange={handleChange}
-      {...props}
       {...selectProps}
       {...additionalProps}
-      // These must come AFTER spreads to avoid being overridden
+      // Apply customization context values
+      theme={selectTheme}
       classNamePrefix="react-select"
       menuPortalTarget={
         typeof document !== "undefined"

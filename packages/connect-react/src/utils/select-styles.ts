@@ -115,13 +115,15 @@ export function createBaseSelectStyles<
       }
       return {
         ...base,
-        backgroundColor: bg,
-        color: textStrong,
-        fontSize: "0.875rem",
+        "backgroundColor": bg,
+        "color": textStrong,
+        "fontSize": "0.875rem",
         // Override the :active state to use our colors instead of default blue
         ":active": {
           ...base[":active"],
-          backgroundColor: state.isDisabled ? undefined : selectedHoverBg,
+          backgroundColor: state.isDisabled
+            ? undefined
+            : selectedHoverBg,
         },
       };
     },
