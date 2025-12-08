@@ -23,6 +23,9 @@ export default {
       propDefinition: [
         fynk,
         "partyUuid",
+        (c) => ({
+          documentUuid: c.documentUuid,
+        }),
       ],
     },
     reference: {
@@ -67,12 +70,13 @@ export default {
       scope,
     } = this;
 
-    const data = {};
-    if (reference !== undefined) data.reference = reference;
-    if (entityType !== undefined) data.entity_type = entityType;
-    if (entityName !== undefined) data.entity_name = entityName;
-    if (address !== undefined) data.address = address;
-    if (scope !== undefined) data.scope = scope;
+    const data = {
+      reference,
+      entity_type: entityType,
+      entity_name: entityName,
+      address,
+      scope,
+    };
 
     const response = await this.fynk.updateDocumentParty({
       $,

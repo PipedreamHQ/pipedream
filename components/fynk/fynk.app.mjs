@@ -242,20 +242,6 @@ export default {
         ...args,
       });
     },
-    async createDocumentPdfUploadUrl(args = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/file-uploads/document-pdf",
-        ...args,
-      });
-    },
-    async createDocumentFromPdf(args = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/documents/create-from-pdf",
-        ...args,
-      });
-    },
     async updateDocumentMetadataValue({
       documentUuid, metadataValueUuid, ...args
     } = {}) {
@@ -291,31 +277,6 @@ export default {
         path: `/documents/${documentUuid}/stage-transitions/signing`,
         ...args,
       });
-    },
-    async uploadFileToPresignedUrl({
-      $ = this, url, headers = {}, data, ...args
-    } = {}) {
-      // For presigned URLs, we don't add default headers (especially Authorization)
-      // as the presigned URL already contains authentication in query parameters
-      const config = {
-        method: "PUT",
-        url,
-        headers,
-        transformRequest: [
-          (data, headers) => {
-          // strip out unwanted headers
-            delete headers["Accept"];
-            delete headers["User-Agent"];
-            delete headers["Accept-Encoding"];
-            return data;
-          },
-        ],
-        ...(data && {
-          data,
-        }),
-        ...args,
-      };
-      return axios($, config);
     },
   },
 };

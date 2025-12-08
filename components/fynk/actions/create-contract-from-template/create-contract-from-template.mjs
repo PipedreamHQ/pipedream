@@ -41,12 +41,8 @@ export default {
 
     const data = {
       template_uuid: templateUuid,
-      ...(name && {
-        name,
-      }),
-      ...(ownerEmails && ownerEmails.length > 0 && {
-        owner_emails: ownerEmails,
-      }),
+      name,
+      owner_emails: ownerEmails,
     };
 
     const response = await this.fynk.createDocumentFromTemplate({

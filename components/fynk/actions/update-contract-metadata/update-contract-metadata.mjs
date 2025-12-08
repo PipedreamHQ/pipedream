@@ -23,6 +23,9 @@ export default {
       propDefinition: [
         fynk,
         "metadataValueUuid",
+        (c) => ({
+          documentUuid: c.documentUuid,
+        }),
       ],
     },
     value: {

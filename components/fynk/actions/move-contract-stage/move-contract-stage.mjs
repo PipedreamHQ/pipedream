@@ -74,17 +74,16 @@ export default {
         documentUuid,
       });
     } else if (targetStage === "signing") {
-      const data = {};
-      if (signatureType !== undefined) data.signature_type = signatureType;
-      if (sequentialSigning !== undefined) data.sequential_signing = sequentialSigning;
-      if (message !== undefined) data.message = message;
+      const data = {
+        signature_type: signatureType,
+        sequential_signing: sequentialSigning,
+        message,
+      };
 
       response = await this.fynk.moveDocumentToSigning({
         $,
         documentUuid,
-        data: Object.keys(data).length > 0
-          ? data
-          : undefined,
+        data,
       });
     } else {
       throw new Error(`Invalid target stage: ${targetStage}`);
