@@ -365,24 +365,6 @@ export default {
         })) || [];
       },
     },
-    amenityId: {
-      type: "string",
-      label: "Amenity ID",
-      description: "The ID of the amenity to retrieve",
-      async options({ page }) {
-        const { data } = await this.listAmenities({
-          params: {
-            "page[number]": page + 1,
-          },
-        });
-        return data?.map(({
-          id, attributes,
-        }) => ({
-          label: attributes.name.en || attributes.semantic_amenity_type || id,
-          value: id,
-        })) || [];
-      },
-    },
     amenityGroupId: {
       type: "string",
       label: "Amenity Group ID",
@@ -613,12 +595,6 @@ export default {
     }) {
       return this._makeRequest({
         path: `/administrations/${administrationId}/customers`,
-        ...opts,
-      });
-    },
-    listAmenities(opts = {}) {
-      return this._makeRequest({
-        path: "/amenities",
         ...opts,
       });
     },
