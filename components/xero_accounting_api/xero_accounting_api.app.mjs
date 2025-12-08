@@ -388,5 +388,11 @@ export default {
         ...opts,
       });
     },
+    listQuotes(opts = {}) {
+      return this._makeRequest({
+        path: "/Quotes",
+        ...opts,
+      });
+    },
   },
 };
