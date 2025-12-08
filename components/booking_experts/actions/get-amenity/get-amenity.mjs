@@ -13,14 +13,13 @@ export default {
   type: "action",
   props: {
     bookingExperts,
-
     amenityId: {
-      type: "string",
-      label: "Amenity ID",
-      description: "The ID of the amenity to retrieve.",
+      propDefinition: [
+        bookingExperts,
+        "amenityId",
+      ],
     },
   },
-
   async run({ $ }) {
     const { data } = await this.bookingExperts.getAmenity({
       $,
