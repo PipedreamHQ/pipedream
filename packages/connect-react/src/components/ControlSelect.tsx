@@ -28,6 +28,10 @@ import {
   isArrayOfLabelValueWrapped,
   isLabelValueWrapped,
 } from "../utils/label-value";
+import {
+  createBaseSelectStyles,
+  resolveSelectColors,
+} from "../utils/select-styles";
 import { LoadMoreButton } from "./LoadMoreButton";
 
 // XXX T and ConfigurableProp should be related
@@ -55,6 +59,30 @@ export function ControlSelect<T extends PropOptionValue>({
   const {
     select, theme,
   } = useCustomize();
+
+  const {
+    surface,
+    border,
+    text,
+    textStrong,
+    hoverBg,
+    selectedBg,
+    selectedHoverBg,
+  } = resolveSelectColors(theme.colors);
+
+  const selectStyles = createBaseSelectStyles<LabelValueOption<T>, boolean>({
+    colors: {
+      surface,
+      border,
+      text,
+      textStrong,
+      hoverBg,
+      selectedBg,
+      selectedHoverBg,
+    },
+    boxShadow: theme.boxShadow,
+  });
+
   const [
     selectOptions,
     setSelectOptions,
@@ -77,15 +105,9 @@ export function ControlSelect<T extends PropOptionValue>({
     value,
   ])
 
-  const baseSelectProps: BaseReactSelectProps<LabelValueOption<T>, boolean> = {
-    styles: {
-      container: (base): CSSObjectWithLabel => ({
-        ...base,
-        gridArea: "control",
-        boxShadow: theme.boxShadow.input,
-      }),
-    },
-  };
+  // Note: We intentionally don't pass styles to getProps to avoid merging with
+  // user style overrides that may conflict with our dark mode base styles.
+  // Styles are applied directly in the render instead.
 
   const selectValue: LabelValueOption<T> | LabelValueOption<T>[] | null = useMemo(() => {
     if (rawValue == null) {
@@ -130,7 +152,7 @@ export function ControlSelect<T extends PropOptionValue>({
     selectOptions,
   ]);
 
-  const props = select.getProps("controlSelect", baseSelectProps)
+  const props = select.getProps("controlSelect")
 
   // Use ref to store latest onLoadMore callback
   // This allows stable component reference while calling current callback
@@ -266,9 +288,12 @@ export function ControlSelect<T extends PropOptionValue>({
       }
       menuPosition="fixed"
       styles={{
-        // eslint-disable-next-line react/prop-types
-        ...props.styles,
+        ...selectStyles,
         ...selectProps?.styles,
+        container: (base) => ({
+          ...base,
+          gridArea: "control",
+        }),
         menuPortal: (base) => ({
           ...base,
           zIndex: 99999,
