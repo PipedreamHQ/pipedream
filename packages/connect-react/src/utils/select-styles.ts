@@ -21,26 +21,34 @@ export type SelectStyleConfig = {
 };
 
 /**
- * Resolves theme colors with fallbacks for dark mode styling.
- * Returns the theme value if defined, otherwise the fallback.
+ * Resolves theme colors for select components.
+ * Uses theme colors directly - no dark/light mode fallbacks needed
+ * since the theme itself defines the appropriate colors.
  */
 export function resolveSelectColors(colors: Partial<Colors>): SelectColorConfig & { appIconBg: string } {
-  const resolve = <K extends keyof Colors>(key: K, fallback: string): string => {
-    const current = colors[key];
-    return current !== undefined
-      ? current
-      : fallback;
-  };
+  // Use theme colors directly - these are already correct for the current mode
+  const surface = colors.neutral0 ?? "#ffffff";
+  const border = colors.neutral20 ?? "hsl(0, 0%, 80%)";
+  const text = colors.neutral60 ?? "hsl(0, 0%, 40%)";
+  const textStrong = colors.neutral80 ?? "hsl(0, 0%, 20%)";
+
+  // For hover/selected, use custom colors if provided, otherwise use theme colors
+  // neutral20 works for hover in both light (darker than surface) and dark (lighter than surface) modes
+  const hoverBg = colors.optionHover ?? colors.neutral20 ?? "hsl(0, 0%, 80%)";
+  // For selected state, use neutral30 (slightly more contrast than hover) for better visibility
+  const selectedBg = colors.optionSelected ?? colors.neutral30 ?? "hsl(0, 0%, 70%)";
+  const selectedHoverBg = colors.optionSelectedHover ?? colors.neutral40 ?? "hsl(0, 0%, 60%)";
+  const appIconBg = colors.appIconBackground ?? colors.neutral0 ?? "#ffffff";
 
   return {
-    surface: resolve("neutral0", "#18181b"),
-    border: resolve("neutral20", "rgba(255,255,255,0.16)"),
-    text: resolve("neutral80", "#a1a1aa"),
-    textStrong: resolve("neutral90", "#e4e4e7"),
-    hoverBg: resolve("optionHover", "#27272a"),
-    selectedBg: resolve("optionSelected", "rgba(59,130,246,0.2)"),
-    selectedHoverBg: resolve("optionSelectedHover", "rgba(59,130,246,0.35)"),
-    appIconBg: resolve("appIconBackground", "#fff"),
+    surface,
+    border,
+    text,
+    textStrong,
+    hoverBg,
+    selectedBg,
+    selectedHoverBg,
+    appIconBg,
   };
 }
 
@@ -79,17 +87,23 @@ export function createBaseSelectStyles<
       backgroundColor: surface,
       boxShadow: boxShadow.dropdown,
     }),
+    menuList: (base: CSSObjectWithLabel) => ({
+      ...base,
+      backgroundColor: surface,
+    }),
     singleValue: (base: CSSObjectWithLabel) => ({
       ...base,
       color: text,
+      fontSize: "0.875rem",
     }),
     input: (base: CSSObjectWithLabel) => ({
       ...base,
       color: text,
+      fontSize: "0.875rem",
     }),
     option: (
       base: CSSObjectWithLabel,
-      state: { isSelected: boolean; isFocused: boolean },
+      state: { isSelected: boolean; isFocused: boolean; isDisabled: boolean },
     ) => {
       let bg = surface;
       if (state.isSelected && state.isFocused) {
@@ -101,8 +115,16 @@ export function createBaseSelectStyles<
       }
       return {
         ...base,
-        backgroundColor: bg,
-        color: textStrong,
+        "backgroundColor": bg,
+        "color": textStrong,
+        "fontSize": "0.875rem",
+        // Override the :active state to use our colors instead of default blue
+        ":active": {
+          ...base[":active"],
+          backgroundColor: state.isDisabled
+            ? undefined
+            : selectedHoverBg,
+        },
       };
     },
   };
