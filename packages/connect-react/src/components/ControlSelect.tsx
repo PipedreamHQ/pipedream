@@ -276,12 +276,13 @@ export function ControlSelect<T extends PropOptionValue>({
       getOptionLabel={(option) => sanitizeOption(option).label}
       getOptionValue={(option) => String(sanitizeOption(option).value)}
       onChange={handleChange}
-      {...selectProps}
-      {...additionalProps}
-      // Apply customization context values
+      // Apply customization context values as defaults
       classNamePrefix={customizationProps.classNamePrefix || "react-select"}
       classNames={customizationProps.classNames}
       theme={customizationProps.theme}
+      // Spread selectProps after defaults so callers can override theme/classNames/classNamePrefix
+      {...selectProps}
+      {...additionalProps}
       menuPortalTarget={
         typeof document !== "undefined"
           ? document.body
