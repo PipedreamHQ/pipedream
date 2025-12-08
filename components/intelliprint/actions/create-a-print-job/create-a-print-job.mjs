@@ -141,8 +141,8 @@ export default {
     },
     nudgeX: {
       type: "integer",
-      label: "Remove Letters Series",
-      description: "An array of letters' indexes that have been removed.",
+      label: "Nudge X",
+      description: "What amount in mm to move the first page of each letter horizontally. A positive number moves the page right, a negative number moves the page left.",
       optional: true,
     },
     nudgeY: {
@@ -185,8 +185,8 @@ export default {
         postageService,
         idealEnvelope,
         mailDate,
-        firstPageBackground,
-        otherPagesBackground,
+        backgroundFirstPage,
+        backgroundOtherPages,
         nudgeX,
         nudgeY,
         removeLettersWithPhrase,
@@ -220,8 +220,8 @@ export default {
         mail_date: mailDate,
       }));
       formData.append("backgrounds", JSON.stringify({
-        first_page: firstPageBackground,
-        other_pages: otherPagesBackground,
+        first_page: backgroundFirstPage,
+        other_pages: backgroundOtherPages,
       }));
       formData.append("nudge", JSON.stringify({
         x: nudgeX,
