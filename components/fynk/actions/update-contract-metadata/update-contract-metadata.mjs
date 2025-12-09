@@ -55,7 +55,7 @@ export default {
           ? parseFloat(rawValue)
           : Number(rawValue);
         if (isNaN(num)) {
-          throw new Error(`Invalid number: ${rawValue}`);
+          throw new ConfigurationError(`Invalid number: ${rawValue}`);
         }
         return num;
       }
@@ -64,7 +64,7 @@ export default {
         const currencyStr = String(rawValue).trim();
         const parts = currencyStr.split(";");
         if (parts.length !== 2) {
-          throw new Error(`Invalid currency format. Expected "CURRENCY;AMOUNT", got: ${rawValue}`);
+          throw new ConfigurationError(`Invalid currency format. Expected "CURRENCY;AMOUNT", got: ${rawValue}`);
         }
         const [
           currency,
@@ -72,10 +72,10 @@ export default {
         ] = parts;
         const numAmount = parseFloat(amount);
         if (isNaN(numAmount)) {
-          throw new Error(`Invalid currency amount: ${amount}`);
+          throw new ConfigurationError(`Invalid currency amount: ${amount}`);
         }
         if (metadata.settings?.currencies && !metadata.settings.currencies.includes(currency)) {
-          throw new Error(`Invalid currency code. Allowed: ${metadata.settings.currencies.join(", ")}, got: ${currency}`);
+          throw new ConfigurationError(`Invalid currency code. Allowed: ${metadata.settings.currencies.join(", ")}, got: ${currency}`);
         }
         return `${currency};${numAmount}`;
       }
@@ -84,7 +84,7 @@ export default {
         const currencyDurationStr = String(rawValue).trim();
         const parts = currencyDurationStr.split(";");
         if (parts.length !== 3) {
-          throw new Error(`Invalid currency_duration format. Expected "CURRENCY;AMOUNT;PERIOD", got: ${rawValue}`);
+          throw new ConfigurationError(`Invalid currency_duration format. Expected "CURRENCY;AMOUNT;PERIOD", got: ${rawValue}`);
         }
         const [
           currency,
@@ -93,13 +93,13 @@ export default {
         ] = parts;
         const numAmount = parseFloat(amount);
         if (isNaN(numAmount)) {
-          throw new Error(`Invalid currency amount: ${amount}`);
+          throw new ConfigurationError(`Invalid currency amount: ${amount}`);
         }
         if (period !== "monthly" && period !== "yearly") {
-          throw new Error(`Invalid period. Must be "monthly" or "yearly", got: ${period}`);
+          throw new ConfigurationError(`Invalid period. Must be "monthly" or "yearly", got: ${period}`);
         }
         if (metadata.settings?.currencies && !metadata.settings.currencies.includes(currency)) {
-          throw new Error(`Invalid currency code. Allowed: ${metadata.settings.currencies.join(", ")}, got: ${currency}`);
+          throw new ConfigurationError(`Invalid currency code. Allowed: ${metadata.settings.currencies.join(", ")}, got: ${currency}`);
         }
         return `${currency};${numAmount};${period}`;
       }
@@ -107,7 +107,7 @@ export default {
       case "select": {
         const selectStr = String(rawValue).trim();
         if (metadata.select_values && !metadata.select_values.includes(selectStr)) {
-          throw new Error(`Invalid select value. Allowed: ${metadata.select_values.join(", ")}, got: ${selectStr}`);
+          throw new ConfigurationError(`Invalid select value. Allowed: ${metadata.select_values.join(", ")}, got: ${selectStr}`);
         }
         return selectStr;
       }
@@ -116,11 +116,11 @@ export default {
         const dateStr = String(rawValue).trim();
         const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
         if (!dateRegex.test(dateStr)) {
-          throw new Error(`Invalid date format. Expected "YYYY-MM-DD", got: ${rawValue}`);
+          throw new ConfigurationError(`Invalid date format. Expected "YYYY-MM-DD", got: ${rawValue}`);
         }
         const date = new Date(dateStr);
         if (isNaN(date.getTime())) {
-          throw new Error(`Invalid date: ${rawValue}`);
+          throw new ConfigurationError(`Invalid date: ${rawValue}`);
         }
         return dateStr;
       }
@@ -137,14 +137,14 @@ export default {
         if (str === "false" || str === "0" || str === "no") {
           return false;
         }
-        throw new Error(`Invalid boolean value. Expected true/false, got: ${rawValue}`);
+        throw new ConfigurationError(`Invalid boolean value. Expected true/false, got: ${rawValue}`);
       }
 
       case "duration": {
         const durationStr = String(rawValue).trim();
         const durationRegex = /^P(\d+D)?(\d+W)?(T(\d+H)?(\d+M)?(\d+S)?)?$/;
         if (!durationRegex.test(durationStr)) {
-          throw new Error(`Invalid duration format. Expected ISO 8601 duration (e.g., "P6D", "P2W", "PT12H"), got: ${rawValue}`);
+          throw new ConfigurationError(`Invalid duration format. Expected ISO 8601 duration (e.g., "P6D", "P2W", "PT12H"), got: ${rawValue}`);
         }
         return durationStr;
       }
@@ -152,7 +152,7 @@ export default {
       case "text": {
         const textStr = String(rawValue);
         if (textStr.length > 4096) {
-          throw new Error("Text exceeds maximum length of 4096 characters");
+          throw new ConfigurationError("Text exceeds maximum length of 4096 characters");
         }
         return textStr;
       }
@@ -160,7 +160,7 @@ export default {
       case "textarea": {
         const textareaStr = String(rawValue);
         if (textareaStr.length > 4096) {
-          throw new Error("Textarea exceeds maximum length of 4096 characters");
+          throw new ConfigurationError("Textarea exceeds maximum length of 4096 characters");
         }
         return textareaStr;
       }
@@ -169,7 +169,7 @@ export default {
         const timestampStr = String(rawValue).trim();
         const timestamp = new Date(timestampStr);
         if (isNaN(timestamp.getTime())) {
-          throw new Error(`Invalid timestamp format. Expected ISO 8601 format (e.g., "2025-06-02T14:30:00+00:00"), got: ${rawValue}`);
+          throw new ConfigurationError(`Invalid timestamp format. Expected ISO 8601 format (e.g., "2025-06-02T14:30:00+00:00"), got: ${rawValue}`);
         }
         return timestampStr;
       }
@@ -186,7 +186,7 @@ export default {
         if (str === "false" || str === "0" || str === "no") {
           return false;
         }
-        throw new Error(`Invalid clause value. Expected true/false, got: ${rawValue}`);
+        throw new ConfigurationError(`Invalid clause value. Expected true/false, got: ${rawValue}`);
       }
 
       case "id":
@@ -217,11 +217,11 @@ export default {
     );
 
     if (!metadataValue) {
-      throw new Error(`Metadata value with UUID ${metadataValueUuid} not found`);
+      throw new ConfigurationError(`Metadata value with UUID ${metadataValueUuid} not found`);
     }
 
     if (!metadataValue.metadata) {
-      throw new Error(`Metadata definition not found for metadata value ${metadataValueUuid}`);
+      throw new ConfigurationError(`Metadata definition not found for metadata value ${metadataValueUuid}`);
     }
 
     // Step 2: Format the value according to its value_type
