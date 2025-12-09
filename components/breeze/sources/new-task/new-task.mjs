@@ -33,10 +33,11 @@ export default {
   },
   methods: {
     generateMeta(task) {
+      const ts = Date.parse(task.created_at || "") || Date.now();
       return {
         id: task.id,
         summary: `New task created: ${task.name || task.id}`,
-        ts: Date.parse(task.created_at || new Date()),
+        ts,
       };
     },
   },
@@ -49,8 +50,12 @@ export default {
 
     // Sort by created_at to process in order
     const sortedTasks = tasks.sort((a, b) => {
-      const dateA = Date.parse(a.created_at || 0);
-      const dateB = Date.parse(b.created_at || 0);
+      const dateA = a.created_at
+        ? Date.parse(a.created_at)
+        : 0;
+      const dateB = b.created_at
+        ? Date.parse(b.created_at)
+        : 0;
       return dateA - dateB;
     });
 
@@ -58,37 +63,24 @@ export default {
       ? parseInt(lastTaskId)
       : null;
     let newLastTaskId = lastTaskIdInt;
-    let foundLastTask = !lastTaskIdInt;
     const MAX_INITIAL_EVENTS = 8;
-    let initialEventsEmitted = 0;
-    let shouldStopEmitting = false;
 
-    for (const task of sortedTasks) {
+    // Track highest ID and filter to tasks newer than the stored ID
+    let newTasks = sortedTasks.filter((task) => {
       const taskIdInt = parseInt(task.id);
-
-      // Always track the highest task ID we've seen
       if (!newLastTaskId || taskIdInt > newLastTaskId) {
         newLastTaskId = taskIdInt;
       }
+      return !lastTaskIdInt || taskIdInt > lastTaskIdInt;
+    });
 
-      if (!lastTaskIdInt) {
-        // First run - emit up to MAX_INITIAL_EVENTS tasks
-        if (!shouldStopEmitting) {
-          this.$emit(task, this.generateMeta(task));
-          initialEventsEmitted++;
-          if (initialEventsEmitted >= MAX_INITIAL_EVENTS) {
-            shouldStopEmitting = true;
-          }
-        }
-        // Continue iterating to track highest task ID even after cap
-      } else if (taskIdInt === lastTaskIdInt) {
-        // Found the last task we processed, mark that we should start emitting new ones
-        foundLastTask = true;
-      } else if (foundLastTask) {
-        // We've passed the last task, emit all new tasks
-        this.$emit(task, this.generateMeta(task));
-      }
-      // If still looking for last task, we just track the highest ID (already done above)
+    // On first run, cap the initial backfill to the most recent tasks
+    if (!lastTaskIdInt && newTasks.length > MAX_INITIAL_EVENTS) {
+      newTasks = newTasks.slice(-MAX_INITIAL_EVENTS);
+    }
+
+    for (const task of newTasks) {
+      this.$emit(task, this.generateMeta(task));
     }
 
     if (newLastTaskId) {

@@ -4,6 +4,19 @@ export default {
   type: "app",
   app: "breeze",
   propDefinitions: {
+    workspaceId: {
+      type: "string",
+      label: "Workspace ID",
+      description: "The workspace to associate the project with",
+      optional: true,
+      async options() {
+        const workspaces = await this.getWorkspaces();
+        return workspaces.map((workspace) => ({
+          label: workspace.name || workspace.id,
+          value: workspace.id,
+        }));
+      },
+    },
     projectId: {
       type: "string",
       label: "Project ID",

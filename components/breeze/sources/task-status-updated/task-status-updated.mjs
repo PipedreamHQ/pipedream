@@ -43,7 +43,7 @@ export default {
   methods: {
     generateMeta(task) {
       return {
-        id: `${task.id}-${task.status_id || "null"}-${Date.now()}`,
+        id: `${task.id}-${task.status_id}`,
         summary: `Task "${task.name || task.id}" status updated to ${task.status_name || "No Status"}`,
         ts: Date.now(),
       };

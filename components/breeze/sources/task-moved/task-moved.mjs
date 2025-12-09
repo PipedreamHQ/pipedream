@@ -43,7 +43,7 @@ export default {
   methods: {
     generateMeta(task) {
       return {
-        id: `${task.id}-${task.stage_id}-${Date.now()}`,
+        id: `${task.id}-${task.stage_id}`,
         summary: `Task "${task.name || task.id}" moved to stage ${task.stage?.name || task.stage_id}`,
         ts: Date.now(),
       };
