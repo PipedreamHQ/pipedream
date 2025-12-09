@@ -3,7 +3,7 @@ import fynk from "../../fynk.app.mjs";
 export default {
   key: "fynk-update-contract-party",
   name: "Update Contract Party",
-  description: "Update the details of a party associated with a contract in Fynk. See [documentation](https://app.fynk.com/v1/docs#/operations/v1.documents.parties.update).",
+  description: "Update the details of a party associated with a contract in Fynk. [See the documentation](https://app.fynk.com/v1/docs#/operations/v1.documents.parties.update).",
   version: "0.0.1",
   annotations: {
     destructiveHint: true,
