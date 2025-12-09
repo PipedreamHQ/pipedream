@@ -28,7 +28,7 @@ export default {
     signatureType: {
       type: "string",
       label: "Signature Type",
-      description: "The signature type to use when moving to signing stage. Only used when target_stage is 'signing'",
+      description: "The signature type to use when moving to signing stage. Only used when `Target Stage` is set to `signing`",
       optional: true,
       options: [
         {
