@@ -1,4 +1,5 @@
 import fynk from "../../fynk.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "fynk-move-contract-stage",
