@@ -3,7 +3,7 @@ import fynk from "../../fynk.app.mjs";
 export default {
   key: "fynk-create-contract-from-template",
   name: "Create Contract from Template",
-  description: "Create a new contract in Fynk based on an existing template. See [documentation](https://app.fynk.com/v1/docs#/operations/v1.documents.create-from-template).",
+  description: "Create a new contract in Fynk based on an existing template. [See the documentation](https://app.fynk.com/v1/docs#/operations/v1.documents.create-from-template).",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
