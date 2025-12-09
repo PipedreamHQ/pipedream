@@ -45,7 +45,7 @@ export default {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const emailStr = String(rawValue).trim();
         if (!emailRegex.test(emailStr)) {
-          throw new Error(`Invalid email format: ${rawValue}`);
+          throw new ConfigurationError(`Invalid email format: ${rawValue}`);
         }
         return emailStr;
       }
