@@ -48,13 +48,13 @@ export default {
     sequentialSigning: {
       type: "boolean",
       label: "Sequential Signing",
-      description: "If true, signatures will be requested in the order defined by the signatories' signing_order. Only used when target_stage is 'signing'",
+      description: "If `true`, signatures will be requested in the order defined by the signatories' `signing_order`. Only used when `Target Stage` is set to `signing`",
       optional: true,
     },
     message: {
       type: "string",
       label: "Message",
-      description: "Message to include in the email sent to the document's signatories. This is included in addition to the default email text provided by fynk. Only used when target_stage is 'signing'",
+      description: "Message to include in the email sent to the document's signatories. This is included in addition to the default email text provided by fynk. Only used when `Target Stage` is set to `signing`",
       optional: true,
     },
   },
