@@ -98,30 +98,30 @@ export function SelectApp({
     loadMore,
   ]);
 
-  const {
-    surface,
-    border,
-    text,
-    textStrong,
-    hoverBg,
-    selectedBg,
-    selectedHoverBg,
-    appIconBg,
-  } = resolveSelectColors(theme.colors);
+  // Memoize color resolution to avoid recalculating on every render
+  const resolvedColors = useMemo(() => resolveSelectColors(theme.colors), [
+    theme.colors,
+  ]);
+
+  // Memoize base select styles - only recalculate when colors or boxShadow change
+  const baseSelectStyles = useMemo(() => createBaseSelectStyles<App>({
+    colors: {
+      surface: resolvedColors.surface,
+      border: resolvedColors.border,
+      text: resolvedColors.text,
+      textStrong: resolvedColors.textStrong,
+      hoverBg: resolvedColors.hoverBg,
+      selectedBg: resolvedColors.selectedBg,
+      selectedHoverBg: resolvedColors.selectedHoverBg,
+    },
+    boxShadow: theme.boxShadow,
+  }), [
+    resolvedColors,
+    theme.boxShadow,
+  ]);
 
   const baseSelectProps: BaseReactSelectProps<App> = {
-    styles: createBaseSelectStyles<App>({
-      colors: {
-        surface,
-        border,
-        text,
-        textStrong,
-        hoverBg,
-        selectedBg,
-        selectedHoverBg,
-      },
-      boxShadow: theme.boxShadow,
-    }),
+    styles: baseSelectStyles,
   };
 
   const selectProps = select.getProps("selectApp", baseSelectProps);
@@ -139,7 +139,7 @@ export function SelectApp({
             style={{
               height: 24,
               width: 24,
-              backgroundColor: appIconBg,
+              backgroundColor: resolvedColors.appIconBg,
               borderRadius: 6,
               padding: 2,
             }}
@@ -163,7 +163,7 @@ export function SelectApp({
             style={{
               height: 24,
               width: 24,
-              backgroundColor: appIconBg,
+              backgroundColor: resolvedColors.appIconBg,
               borderRadius: 6,
               padding: 2,
             }}
@@ -197,7 +197,7 @@ export function SelectApp({
     Option,
     SingleValue,
     MenuList,
-    appIconBg,
+    resolvedColors.appIconBg,
   ]);
   return (
     <Select

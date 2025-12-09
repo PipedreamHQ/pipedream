@@ -318,6 +318,24 @@ export default {
       max: 100,
       optional: true,
     },
+    sort: {
+      type: "string",
+      label: "Sort",
+      description: "Specify a comma separated list of attributes to sort on. Prefix attribute with a - to sort in descending order",
+      optional: true,
+    },
+    fields: {
+      type: "string",
+      label: "Fields",
+      description: "Specify a comma separated list of attributes to return",
+      optional: true,
+    },
+    include: {
+      type: "string",
+      label: "Include",
+      description: "Specify a comma separated list of resources to include",
+      optional: true,
+    },
     customerId: {
       type: "string",
       label: "Customer ID",
@@ -343,6 +361,24 @@ export default {
             attributes.first_name,
             attributes.last_name,
           ].filter(Boolean).join(" ") || attributes.email || id,
+          value: id,
+        })) || [];
+      },
+    },
+    amenityGroupId: {
+      type: "string",
+      label: "Amenity Group ID",
+      description: "Filter by amenity group",
+      async options({ page }) {
+        const { data } = await this.listAmenityGroups({
+          params: {
+            "page[number]": page + 1,
+          },
+        });
+        return data?.map(({
+          id, attributes,
+        }) => ({
+          label: attributes.name.en || id,
           value: id,
         })) || [];
       },
@@ -559,6 +595,28 @@ export default {
     }) {
       return this._makeRequest({
         path: `/administrations/${administrationId}/customers`,
+        ...opts,
+      });
+    },
+    getAmenity({
+      amenityId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/amenities/${amenityId}`,
+        ...opts,
+      });
+    },
+    listRentableTypesForAdmin({
+      administrationId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/administrations/${administrationId}/rentable_types`,
+        ...opts,
+      });
+    },
+    listAmenityGroups(opts = {}) {
+      return this._makeRequest({
+        path: "/amenity_groups",
         ...opts,
       });
     },
