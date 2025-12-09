@@ -55,8 +55,7 @@ export default {
       const items = zohoBugtracker.paginate({
         fn: zohoBugtracker.listBugs,
         params: {
-          sort_column: "created_time",
-          sort_order: "descending",
+          sort_by: "created_time",
         },
         portalId,
         projectId,

@@ -1,12 +1,11 @@
-import FormData from "form-data";
 import { clearObj } from "../../common/utils.mjs";
-import { getFileStreamAndMetadata } from "@pipedream/platform";
 import zohoBugtracker from "../../zoho_bugtracker.app.mjs";
 
 export default {
   key: "zoho_bugtracker-update-bug",
   name: "Update Bug",
-  version: "0.1.2",
+  //version: "0.1.2",
+  version: "0.1.{{ts}}",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -43,11 +42,12 @@ export default {
         }),
       ],
     },
-    title: {
+    name: {
       propDefinition: [
         zohoBugtracker,
-        "title",
+        "name",
       ],
+      optional: true,
     },
     description: {
       propDefinition: [
@@ -60,11 +60,18 @@ export default {
       propDefinition: [
         zohoBugtracker,
         "assignee",
-        ({
-          portalId, projectId,
-        }) => ({
+        ({ portalId }) => ({
           portalId,
-          projectId,
+        }),
+      ],
+      optional: true,
+    },
+    bugFollowers: {
+      propDefinition: [
+        zohoBugtracker,
+        "bugFollowers",
+        ({ portalId }) => ({
+          portalId,
         }),
       ],
       optional: true,
@@ -177,20 +184,7 @@ export default {
           projectId,
         }),
       ],
-      label: "Affected Milestone Id",
-      optional: true,
-    },
-    uploaddoc: {
-      propDefinition: [
-        zohoBugtracker,
-        "uploaddoc",
-      ],
-      optional: true,
-    },
-    syncDir: {
-      type: "dir",
-      accessMode: "read",
-      sync: true,
+      label: "Affected Milestone ID",
       optional: true,
     },
   },
@@ -200,6 +194,7 @@ export default {
       portalId,
       projectId,
       bugId,
+      assignee,
       milestoneId,
       dueDate,
       affectedMileId,
@@ -209,56 +204,61 @@ export default {
       severityId,
       reproducibleId,
       statusId,
-      uploaddoc,
       ...data
     } = this;
 
-    const formData = new FormData();
     const preData = clearObj({
       ...data,
-      classification_id: classificationId,
-      milestone_id: milestoneId,
+      classification: classificationId
+        ? {
+          id: classificationId,
+        }
+        : undefined,
+      release_milestone: milestoneId
+        ? {
+          id: milestoneId,
+        }
+        : undefined,
       due_date: dueDate,
-      module_id: moduleId,
-      severity_id: severityId,
-      reproducible_id: reproducibleId,
-      status_id: statusId,
-      affectedMile_id: affectedMileId,
-      bug_followers: bugFollowers,
+      module: moduleId
+        ? {
+          id: moduleId,
+        }
+        : undefined,
+      severity: severityId
+        ? {
+          id: severityId,
+        }
+        : undefined,
+      is_it_reproducible: reproducibleId
+        ? {
+          id: reproducibleId,
+        }
+        : undefined,
+      status: statusId
+        ? {
+          id: statusId,
+        }
+        : undefined,
+      affected_milestone: affectedMileId
+        ? {
+          id: affectedMileId,
+        }
+        : undefined,
+      followers: bugFollowers,
+      assignee: assignee
+        ? {
+          zpuid: assignee,
+        }
+        : undefined,
     });
-
-    for (const [
-      key,
-      value,
-    ] of Object.entries(preData)) {
-      formData.append(key, value);
-    }
-
-    if (uploaddoc) {
-      const {
-        stream, metadata,
-      } = await getFileStreamAndMetadata(uploaddoc);
-      const filename = metadata.name;
-      formData.append("uploaddoc", stream, {
-        filename,
-        contentType: metadata.contentType,
-        knownLength: metadata.size,
-        header: [
-          `Content-Disposition: form-data; name="uploaddoc"; filename="${filename}"`,
-          `Content-Type: ${metadata.contentType}`,
-        ],
-      });
-    }
 
     const response = await zohoBugtracker.updateBug({
       $,
       portalId,
       projectId,
       bugId,
-      data: formData,
-      headers: {
-        "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
-      },
+      data: preData,
     });
 
     $.export("$summary", `Successfully updated bug with Id: ${bugId}!`);

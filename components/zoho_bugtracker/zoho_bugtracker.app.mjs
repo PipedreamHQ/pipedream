@@ -1,5 +1,5 @@
 import { axios } from "@pipedream/platform";
-import { range } from "./common/constants.mjs";
+import { limit } from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -8,48 +8,48 @@ export default {
     assignee: {
       type: "string",
       label: "Assignee",
-      description: "Assignee for the bug.",
+      description: "Assignee for the bug",
       async options({
-        page, portalId, projectId,
+        page, portalId,
       }) {
         const { users } = await this.listUsers({
           portalId,
-          projectId,
           params: {
-            index: page * range + 1,
+            page: page + 1,
+            per_page: limit,
           },
         });
 
         return users
           ? users.map(({
-            id: value, name, email,
+            id: value, full_name, email,
           }) => ({
-            label: `${name} ${email}`,
+            label: `${full_name} ${email}`,
             value,
           }))
           : [];
       },
     },
     bugFollowers: {
-      type: "string",
+      type: "string[]",
       label: "Bug Followers",
-      description: "Follower ID of the user.",
+      description: "Follower IDs of the users",
       async options({
-        page, portalId, projectId,
+        page, portalId,
       }) {
         const { users } = await this.listUsers({
           portalId,
-          projectId,
           params: {
-            index: page * range + 1,
+            page: page + 1,
+            per_page: limit,
           },
         });
 
         return users
           ? users.map(({
-            id: value, name, email,
+            id: value, full_name, email,
           }) => ({
-            label: `${name} ${email}`,
+            label: `${full_name} ${email}`,
             value,
           }))
           : [];
@@ -57,16 +57,17 @@ export default {
     },
     bugId: {
       type: "string",
-      label: "Bug Id",
-      description: "The Id of the bug.",
+      label: "Bug ID",
+      description: "The ID of the bug",
       async options({
         page, portalId, projectId,
       }) {
-        const { bugs } = await this.listBugs({
+        const bugs = await this.listBugs({
           portalId,
           projectId,
           params: {
-            index: page * range + 1,
+            page: page + 1,
+            per_page: limit,
           },
         });
 
@@ -82,8 +83,8 @@ export default {
     },
     classificationId: {
       type: "string",
-      label: "Classification Id",
-      description: "Classification ID of the project.",
+      label: "Classification ID",
+      description: "Classification ID of the project",
       async options({
         portalId, projectId,
       }) {
@@ -105,12 +106,12 @@ export default {
     description: {
       type: "string",
       label: "Description",
-      description: "Description of the bug.",
+      description: "Description of the bug",
     },
     flag: {
       type: "string",
       label: "Flag",
-      description: "Flag of the bug.",
+      description: "Flag of the bug",
       options: [
         "Internal",
         "External",
@@ -118,8 +119,8 @@ export default {
     },
     milestoneId: {
       type: "string",
-      label: "Milestone Id",
-      description: "Milestone ID of the project.",
+      label: "Milestone ID",
+      description: "Milestone ID of the project",
       async options({
         page, portalId, projectId,
       }) {
@@ -127,7 +128,8 @@ export default {
           portalId,
           projectId,
           params: {
-            index: page * range + 1,
+            page: page + 1,
+            per_page: limit,
           },
         });
 
@@ -143,8 +145,8 @@ export default {
     },
     moduleId: {
       type: "string",
-      label: "Module Id",
-      description: "Module ID of the project.",
+      label: "Module ID",
+      description: "Module ID of the project",
       async options({
         portalId, projectId,
       }) {
@@ -165,13 +167,13 @@ export default {
     },
     portalId: {
       type: "string",
-      label: "Portal Id",
+      label: "Portal ID",
       description: "Select a portal or provide a portal ID",
       async options() {
-        const { portals } = await this.listPortals();
+        const portals = await this.listPortals();
 
         return portals?.map(({
-          id_string: value, name: label,
+          id: value, portal_name: label,
         }) => ({
           label,
           value: value,
@@ -180,21 +182,22 @@ export default {
     },
     projectId: {
       type: "string",
-      label: "Project Id",
+      label: "Project ID",
       description: "Select a project or provide a project ID",
       async options({
         page, portalId,
       }) {
-        const { projects } = await this.listProjects({
+        const projects = await this.listProjects({
           portalId,
           params: {
-            index: page * range + 1,
+            page: page + 1,
+            per_page: limit,
           },
         });
 
         return projects
           ? projects.map(({
-            id_string: value, name: label,
+            id: value, name: label,
           }) => ({
             label,
             value,
@@ -204,8 +207,8 @@ export default {
     },
     severityId: {
       type: "string",
-      label: "Severity Id",
-      description: "Severity ID of the project.",
+      label: "Severity ID",
+      description: "Severity ID of the project",
       async options({
         portalId, projectId,
       }) {
@@ -226,8 +229,8 @@ export default {
     },
     statusId: {
       type: "string",
-      label: "Status Id",
-      description: "Status ID of the project.",
+      label: "Status ID",
+      description: "Status ID of the project",
       async options({
         portalId, projectId,
       }) {
@@ -248,8 +251,8 @@ export default {
     },
     reproducibleId: {
       type: "string",
-      label: "Reproducible Id",
-      description: "Reproducible ID of the project.",
+      label: "Reproducible ID",
+      description: "Reproducible ID of the project",
       async options({
         portalId, projectId,
       }) {
@@ -268,9 +271,9 @@ export default {
         }));
       },
     },
-    title: {
+    name: {
       type: "string",
-      label: "Title",
+      label: "Name",
       description: "Name of the bug",
     },
     uploaddoc: {
@@ -281,7 +284,7 @@ export default {
   },
   methods: {
     _apiUrl() {
-      return `https://bugtracker.${this.$auth.base_api_uri}/restapi`;
+      return `https://bugtracker.${this.$auth.base_api_uri}/api/v3`;
     },
     _getHeaders(headers) {
       return {
@@ -293,7 +296,7 @@ export default {
       $ = this, path, headers, ...opts
     }) {
       const config = {
-        url: `${this._apiUrl()}/${path}`,
+        url: `${this._apiUrl()}${path}`,
         headers: this._getHeaders(headers),
         ...opts,
       };
@@ -304,10 +307,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `portal/${portalId}/projects/${projectId}/bugs/`,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+        path: `/portal/${portalId}/projects/${projectId}/bugs`,
         ...args,
       });
     },
@@ -315,7 +315,7 @@ export default {
       portalId, projectId, bugId, ...args
     }) {
       return this._makeRequest({
-        path: `portal/${portalId}/projects/${projectId}/bugs/${bugId}/`,
+        path: `/portal/${portalId}/projects/${projectId}/bugs/${bugId}`,
         ...args,
       });
     },
@@ -323,7 +323,7 @@ export default {
       portalId, projectId, ...args
     }) {
       return this._makeRequest({
-        path: `portal/${portalId}/projects/${projectId}/bugs/defaultfields/`,
+        path: `/portal/${portalId}/projects/${projectId}/bugs/defaultfields`,
         ...args,
       });
     },
@@ -331,7 +331,7 @@ export default {
       portalId, projectId, ...args
     }) {
       return this._makeRequest({
-        path: `portal/${portalId}/projects/${projectId}/bugs/`,
+        path: `/portal/${portalId}/projects/${projectId}/bugs`,
         ...args,
       });
     },
@@ -339,13 +339,13 @@ export default {
       portalId, projectId, ...args
     }) {
       return this._makeRequest({
-        path: `portal/${portalId}/projects/${projectId}/milestones/`,
+        path: `/portal/${portalId}/projects/${projectId}/milestones`,
         ...args,
       });
     },
     listPortals(args = {}) {
       return this._makeRequest({
-        path: "portals/",
+        path: "/portals",
         ...args,
       });
     },
@@ -353,15 +353,15 @@ export default {
       portalId, ...args
     }) {
       return this._makeRequest({
-        path: `portal/${portalId}/projects/`,
+        path: `/portal/${portalId}/projects`,
         ...args,
       });
     },
     listUsers({
-      portalId, projectId, ...args
+      portalId, ...args
     }) {
       return this._makeRequest({
-        path: `portal/${portalId}/projects/${projectId}/users/`,
+        path: `portal/${portalId}/users`,
         ...args,
       });
     },
@@ -370,10 +370,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `portal/${portalId}/projects/${projectId}/bugs/${bugId}/`,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+        path: `portal/${portalId}/projects/${projectId}/bugs/${bugId}`,
         ...args,
       });
     },
@@ -383,11 +380,12 @@ export default {
       let lastPage = false;
       let count = 0;
       let page = 0;
+      params.per_page = limit;
 
       do {
-        params.index = (page * range) + 1;
+        params.page = (page * limit) + 1;
         page++;
-        const { bugs: data } = await fn({
+        const data = await fn({
           params,
           ...args,
         });
