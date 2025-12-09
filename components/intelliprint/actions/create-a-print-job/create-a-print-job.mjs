@@ -134,7 +134,7 @@ export default {
       optional: true,
     },
     removeLettersSeries: {
-      type: "string",
+      type: "string[]",
       label: "Remove Letters Series",
       description: "An array of letters' indexes that have been removed.",
       optional: true,
@@ -152,7 +152,7 @@ export default {
       optional: true,
     },
     confirmationEmail: {
-      type: "string",
+      type: "boolean",
       label: "Confirmation Email",
       description: "Whether a confirmation email should be sent to the user or account's email address when this letter is confirmed.",
       optional: true,
@@ -191,6 +191,7 @@ export default {
         nudgeY,
         removeLettersWithPhrase,
         removeLettersSeries,
+        confirmationEmail,
         ...data
       } = this;
 
@@ -219,7 +220,7 @@ export default {
         ideal_envelope: idealEnvelope,
         mail_date: mailDate,
       }));
-      formData.append("backgrounds", JSON.stringify({
+      formData.append("background", JSON.stringify({
         first_page: backgroundFirstPage,
         other_pages: backgroundOtherPages,
       }));
@@ -231,6 +232,7 @@ export default {
         with_phrase: removeLettersWithPhrase,
         series: parseObject(removeLettersSeries),
       }));
+      formData.append("confirmation_email", `${confirmationEmail}`);
       for (const [
         key,
         value,
