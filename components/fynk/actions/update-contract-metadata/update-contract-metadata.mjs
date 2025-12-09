@@ -3,7 +3,7 @@ import fynk from "../../fynk.app.mjs";
 export default {
   key: "fynk-update-contract-metadata",
   name: "Update Contract Metadata",
-  description: "Update metadata values or dynamic fields associated with a contract in Fynk. See [documentation](https://app.fynk.com/v1/docs#/operations/v1.documents.metadata-values.update).",
+  description: "Update metadata values or dynamic fields associated with a contract in Fynk. [See the documentation](https://app.fynk.com/v1/docs#/operations/v1.documents.metadata-values.update).",
   version: "0.0.1",
   annotations: {
     destructiveHint: true,
