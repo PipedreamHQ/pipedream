@@ -87,7 +87,7 @@ export default {
         data,
       });
     } else {
-      throw new Error(`Invalid target stage: ${targetStage}`);
+      throw new ConfigurationError(`Invalid target stage: ${targetStage}`);
     }
 
     $.export("$summary", `Successfully moved contract ${documentUuid} to ${targetStage} stage`);
