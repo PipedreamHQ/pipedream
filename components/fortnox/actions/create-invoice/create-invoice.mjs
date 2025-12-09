@@ -105,20 +105,6 @@ export default {
       description: "The freight of the invoice",
       optional: true,
     },
-    termsOfDeliveries: {
-      propDefinition: [
-        fortnox,
-        "termsOfDeliveries",
-      ],
-      optional: true,
-    },
-    termsOfPayment: {
-      propDefinition: [
-        fortnox,
-        "termsOfPayments",
-      ],
-      optional: true,
-    },
   },
   async run({ $ }) {
     const response = await this.fortnox.createInvoice({
@@ -145,12 +131,10 @@ export default {
           Freight: this.freight
             ? +this.freight
             : undefined,
-          TermsOfDelivery: this.termsOfDelivery,
-          TermsOfPayment: this.termsOfPayment,
         },
       },
     });
-    $.export("$summary", `Successfully created invoice with ID \`${response.Invoice.InvoiceNumber}\``);
+    $.export("$summary", `Successfully created invoice with ID \`${response.Invoice.DocumentNumber}\``);
     return response;
   },
 };
