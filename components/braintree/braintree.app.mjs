@@ -16,8 +16,8 @@ export default {
           "Content-Type": "application/json",
         },
         auth: {
-          username: `${this.$auth.public_key}`,
-          password: `${this.$auth.private_key}`,
+          username: this.$auth.public_key,
+          password: this.$auth.private_key,
         },
         ...opts,
       });

@@ -1,5 +1,5 @@
 const searchCustomers = `
-  query Search($input: CustomerSearchInput!,) {
+  query Search($input: CustomerSearchInput!) {
     search {
       customers(input: $input) {
         edges {

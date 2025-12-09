@@ -13,7 +13,7 @@ export default {
     ...base.methods,
     async getResults(lastCreatedAt) {
       const { braintree } = this;
-      const { data: { search: { customers: { edges } } } } = await braintree.makeGraphQLRequest({
+      const response = await braintree.makeGraphQLRequest({
         data: {
           query: queries.searchCustomers,
           variables: {
@@ -25,6 +25,7 @@ export default {
           },
         },
       });
+      const edges = response?.data?.search?.customers?.edges ?? [];
       return edges.map((edge) => edge.node);
     },
     getSummary(result) {
