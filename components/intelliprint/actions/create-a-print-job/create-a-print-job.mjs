@@ -78,7 +78,7 @@ export default {
       optional: true,
     },
     doubleSidedSpecificPages: {
-      type: "string",
+      type: "string[]",
       label: "Double Sided Specific Pages",
       description: "The array of pages to print double sided. Only used when **Double Sided** is set to `mixed`. Example: **[[1, 3], [6, 7]]**.",
       optional: true,
@@ -171,6 +171,7 @@ export default {
     },
   },
   async run({ $ }) {
+
     try {
       const {
         intelliprint,
@@ -205,34 +206,22 @@ export default {
         knownLength: metadata.size,
         filename: metadata.name,
       });
-      formData.append("printing", JSON.stringify({
-        double_sided: doubleSided,
-        double_sided_specific_pages: doubleSidedSpecificPages,
-        premium_quality: premiumQuality,
-      }));
-      formData.append("splitting", JSON.stringify({
-        method: splittingMethod,
-        phrase: splitOnPhrase,
-        pages: splitOnPage,
-      }));
-      formData.append("postage", JSON.stringify({
-        service: postageService,
-        ideal_envelope: idealEnvelope,
-        mail_date: mailDate,
-      }));
-      formData.append("background", JSON.stringify({
-        first_page: backgroundFirstPage,
-        other_pages: backgroundOtherPages,
-      }));
-      formData.append("nudge", JSON.stringify({
-        x: nudgeX,
-        y: nudgeY,
-      }));
-      formData.append("remove_letters", JSON.stringify({
-        with_phrase: removeLettersWithPhrase,
-        series: parseObject(removeLettersSeries),
-      }));
-      formData.append("confirmation_email", `${confirmationEmail}`);
+      if (doubleSided) formData.append("printing.double_sided", doubleSided);
+      if (doubleSidedSpecificPages) formData.append("printing.double_sided_specific_pages", parseObject(doubleSidedSpecificPages));
+      if (premiumQuality) formData.append("printing.premium_quality", premiumQuality);
+      if (splittingMethod) formData.append("splitting.method", splittingMethod);
+      if (splitOnPhrase) formData.append("splitting.phrase", splitOnPhrase);
+      if (splitOnPage) formData.append("splitting.pages", splitOnPage);
+      if (postageService) formData.append("postage.service", postageService);
+      if (idealEnvelope) formData.append("postage.ideal_envelope", idealEnvelope);
+      if (mailDate) formData.append("postage.mail_date", mailDate);
+      if (backgroundFirstPage) formData.append("background.first_page", backgroundFirstPage);
+      if (backgroundOtherPages) formData.append("background.other_pages", backgroundOtherPages);
+      if (nudgeX) formData.append("nudge.x", nudgeX);
+      if (nudgeY) formData.append("nudge.y", nudgeY);
+      if (removeLettersWithPhrase) formData.append("remove_letters.with_phrase", removeLettersWithPhrase);
+      if (removeLettersSeries) formData.append("remove_letters.series", parseObject(removeLettersSeries));
+      if (confirmationEmail) formData.append("confirmation_email", `${confirmationEmail}`);
       for (const [
         key,
         value,
