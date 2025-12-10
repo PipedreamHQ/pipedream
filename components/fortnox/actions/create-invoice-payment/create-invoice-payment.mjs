@@ -25,29 +25,10 @@ export default {
       description: "The amount of the payment",
       optional: true,
     },
-    customerNumber: {
-      propDefinition: [
-        fortnox,
-        "customerNumber",
-      ],
-      optional: true,
-    },
     paymentDate: {
       type: "string",
       label: "Payment Date",
       description: "The date of the payment. Format DD/MM/YYYY",
-      optional: true,
-    },
-    invoiceTotal: {
-      type: "string",
-      label: "Invoice Total",
-      description: "The total of the invoice",
-      optional: true,
-    },
-    modeOfPayment: {
-      type: "string",
-      label: "Mode of Payment",
-      description: "The mode of payment",
       optional: true,
     },
     voucherNumber: {
@@ -66,11 +47,6 @@ export default {
           Amount: this.amount
             ? +this.amount
             : undefined,
-          InvoiceCustomerNumber: this.customerNumber,
-          InvoiceTotal: this.invoiceTotal
-            ? +this.invoiceTotal
-            : undefined,
-          ModeOfPayment: this.modeOfPayment,
           PaymentDate: this.paymentDate,
           VoucherNumber: this.voucherNumber,
         },
