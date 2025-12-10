@@ -1,14 +1,16 @@
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 
 export default {
   type: "app",
   app: "braintree",
   propDefinitions: {},
   methods: {
-    makeGraphQLRequest({
+    async makeGraphQLRequest({
       $ = this, ...opts
     }) {
-      return axios($, {
+      const response = await axios($, {
         method: "post",
         url: `https://${this.$auth.environment}.braintree-api.com/graphql`,
         headers: {
@@ -21,6 +23,10 @@ export default {
         },
         ...opts,
       });
+      if (response.errors) {
+        throw new ConfigurationError(response.errors[0].message);
+      }
+      return response;
     },
   },
 };

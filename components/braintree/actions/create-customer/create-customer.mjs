@@ -77,7 +77,7 @@ export default {
         },
       },
     });
-    $.export("$summary", `Customer successfully created with id ${response.data.createCustomer.customer.id}`);
+    $.export("$summary", `Customer successfully created with ID ${response.data.createCustomer.customer.id}`);
     return response;
   },
 };
