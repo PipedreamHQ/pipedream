@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "remote-new-custom-field-value-updated-instant",
   name: "New Custom Field Value Updated (Instant)",
-  description: "Emit new event when a custom field is updated. [See the documentation](https://developer.remote.com/reference/customfieldupdated)",
+  description: "Emit new event when a custom field is updated. [See the documentation](https://developer.remote.com/reference/custom_fieldvalue_updated)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",

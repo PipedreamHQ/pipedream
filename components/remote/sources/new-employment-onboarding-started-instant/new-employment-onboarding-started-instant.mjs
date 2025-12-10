@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "remote-new-employment-onboarding-started-instant",
   name: "New Employment Onboarding Started (Instant)",
-  description: "Emit new event when a employment onboarding is started. [See the documentation](https://developer.remote.com/reference/employmentonboardingstarted)",
+  description: "Emit new event when an employment onboarding is started. [See the documentation](https://developer.remote.com/reference/employmentonboardingstarted)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",

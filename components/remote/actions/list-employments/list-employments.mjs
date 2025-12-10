@@ -8,7 +8,7 @@ export default {
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
-    readOnlyHint: false,
+    readOnlyHint: true,
   },
   type: "action",
   props: {
@@ -51,6 +51,7 @@ export default {
   async run({ $ }) {
     const response = this.remote.paginate({
       $,
+      dataKey: "employments",
       fn: this.remote.listEmployments,
       params: {
         email: this.email,

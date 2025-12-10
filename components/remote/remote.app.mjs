@@ -104,7 +104,7 @@ export default {
       });
     },
     async *paginate({
-      fn, params = {}, maxResults = null, ...args
+      fn, params = {}, dataKey = "data", maxResults = null, ...args
     }) {
       let hasMore = false;
       let count = 0;
@@ -114,7 +114,7 @@ export default {
         params.page = ++page;
         const {
           data: {
-            employments,
+            [dataKey]: data,
             current_page,
             total_pages,
           },
@@ -123,7 +123,7 @@ export default {
           ...args,
         });
 
-        for (const d of employments) {
+        for (const d of data) {
           yield d;
 
           if (maxResults && ++count === maxResults) {
