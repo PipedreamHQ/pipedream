@@ -6,6 +6,7 @@ import { promisify } from "util";
 import {
   ITEM_TYPES,
   ITEM_TYPES_RESULT_NAME,
+  PAGE_SIZE,
 } from "./common/constants.mjs";
 import Countries from "./country-codes.mjs";
 
@@ -29,10 +30,9 @@ export default {
       async options({
         page, playlistId,
       }) {
-        const limit = 20;
         const items = await this.getPlaylistItems({
-          limit,
-          offset: limit * page,
+          limit: PAGE_SIZE,
+          offset: PAGE_SIZE * page,
           playlistId: playlistId.value ?? playlistId,
         });
 
@@ -50,10 +50,9 @@ export default {
       description: "Search saved user tracks in \"Liked Songs\" or enter a custom expression to reference specific [Spotify ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the track. For example: `4iV5W9uYEdYUVa79Axb7Rh`. Maximum: 50 IDs.",
       withLabel: true,
       async options({ page }) {
-        const limit = 20;
         const items = await this.getUserTracks({
-          limit,
-          offset: limit * page,
+          limit: PAGE_SIZE,
+          offset: PAGE_SIZE * page,
         });
 
         return {
@@ -74,12 +73,11 @@ export default {
         query,
         page,
       }) {
-        const limit = 20;
         const artists = await this.getItems(
           ITEM_TYPES.ARTIST,
           query,
-          limit,
-          limit * page,
+          PAGE_SIZE,
+          PAGE_SIZE * page,
         );
         return {
           options: artists.map((artist) => ({
@@ -94,10 +92,9 @@ export default {
       label: "Playlist ID",
       description: "Select an existing playlist or pass a custom expression to reference a specific [`playlist_id`](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) (for example, `3cEYpjA9oz9GiPac4AsH4n`).",
       async options({ page }) {
-        const limit = 20;
         const playlists = await this.getPlaylists({
-          limit,
-          offset: limit * page,
+          limit: PAGE_SIZE,
+          offset: PAGE_SIZE * page,
         });
         return {
           options: playlists.map((playlist) => ({
@@ -113,10 +110,9 @@ export default {
       description: "Type to search for a category or enter a custom expression to reference a specific [category ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) (for example, `party`).",
       withLabel: true,
       async options({ page }) {
-        const limit = 20;
         const categories = await this.getCategories({
-          limit,
-          offset: limit * page,
+          limit: PAGE_SIZE,
+          offset: PAGE_SIZE * page,
         });
         return {
           options: categories.map((category) => ({
@@ -136,12 +132,11 @@ export default {
         query,
         page,
       }) {
-        const limit = 20;
         const tracks = await this.getItems(
           ITEM_TYPES.TRACK,
           query,
-          limit,
-          limit * page,
+          PAGE_SIZE,
+          PAGE_SIZE * page,
         );
         return {
           options: tracks.map((track) => ({
@@ -161,15 +156,14 @@ export default {
         query,
         page,
       }) {
-        const limit = 20;
         const items = await this.getItems(
           [
             ITEM_TYPES.TRACK,
             ITEM_TYPES.EPISODE,
           ],
           query,
-          limit,
-          limit * page,
+          PAGE_SIZE,
+          PAGE_SIZE * page,
         );
         return {
           options: items.map((item) => ({
@@ -228,7 +222,7 @@ export default {
     },
     async _paginate(resourceFn, params = {}) {
       let data = [];
-      params.limit = 20;
+      params.limit = PAGE_SIZE;
       params.offset = 0;
 
       do {
@@ -415,7 +409,6 @@ export default {
       market,
     }) {
       const albums = [];
-      const limit = 20;
       let page = 0;
       let next = undefined;
       do {
@@ -424,8 +417,8 @@ export default {
           url: `/artists/${artistId.value ?? artistId}/albums`,
           params: {
             market,
-            limit,
-            offset: limit * page,
+            limit: PAGE_SIZE,
+            offset: PAGE_SIZE * page,
             include_groups: "album,single",
           },
         });

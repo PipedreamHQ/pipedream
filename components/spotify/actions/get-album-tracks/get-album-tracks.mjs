@@ -1,6 +1,8 @@
 import spotify from "../../spotify.app.mjs";
-import { ITEM_TYPES } from "../../common/constants.mjs";
-const DEFAULT_LIMIT = 20;
+import {
+  ITEM_TYPES,
+  PAGE_SIZE,
+} from "../../common/constants.mjs";
 
 export default {
   name: "Get Album Tracks",
@@ -24,12 +26,11 @@ export default {
         query,
         page,
       }) {
-        const limit = DEFAULT_LIMIT;
         const albums = await this.spotify.getItems(
           ITEM_TYPES.ALBUM,
           query,
-          limit,
-          limit * page,
+          PAGE_SIZE,
+          PAGE_SIZE * page,
         );
         return {
           options: albums.map((album) => ({
@@ -42,7 +43,7 @@ export default {
   },
   async run({ $ }) {
     const params = {
-      limit: DEFAULT_LIMIT,
+      limit: PAGE_SIZE,
       offset: 0,
     };
     const tracks = [];

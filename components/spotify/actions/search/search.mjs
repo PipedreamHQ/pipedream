@@ -1,7 +1,9 @@
 import { ConfigurationError } from "@pipedream/platform";
 import spotify from "../../spotify.app.mjs";
 import {
-  ITEM_TYPES_LIST, ITEM_TYPES,
+  ITEM_TYPES_LIST,
+  ITEM_TYPES,
+  PAGE_SIZE,
 } from "../../common/constants.mjs";
 
 export default {
@@ -44,7 +46,7 @@ export default {
         "limit",
       ],
       description: "The maximum number of results to return per type.",
-      default: 20,
+      default: PAGE_SIZE,
       max: 50,
     },
     offset: {
