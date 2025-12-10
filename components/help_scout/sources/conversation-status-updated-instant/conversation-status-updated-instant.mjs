@@ -6,7 +6,7 @@ export default {
   key: "help_scout-conversation-status-updated-instant",
   name: "Conversation Status Updated (Instant)",
   description: "Emit new event when a conversation has its status updated. [See the documentation](https://developer.helpscout.com/webhooks/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

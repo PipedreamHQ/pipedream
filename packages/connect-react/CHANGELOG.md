@@ -2,6 +2,28 @@
 
 # Changelog
 
+## [2.3.0] - 2025-12-07
+
+### Added
+
+- Dark mode support for select components with new theme color tokens (`optionHover`, `optionSelected`, `optionSelectedHover`, `appIconBackground`)
+- App icon backgrounds in `SelectApp` for better visibility in dark mode
+
+## [2.2.0] - 2025-11-29
+
+### Added
+
+- Added React 19 support to peer dependencies
+
+### Fixed
+
+- Fixed dropdown menus being clipped or hidden behind other elements when rendered inside containers with overflow constraints (e.g., workflow builders, modals)
+- All select components now portal their menus to the document body with proper z-index handling
+
+### Changed
+
+- Upgraded `react-select` from 5.8.2 to 5.9.0 for React 19 compatibility
+
 ## [2.1.2] - 2025-11-14
 
 ### Fixed

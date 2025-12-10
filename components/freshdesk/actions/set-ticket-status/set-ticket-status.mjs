@@ -4,7 +4,7 @@ export default {
   key: "freshdesk-set-ticket-status",
   name: "Set Ticket Status",
   description: "Update the status of a ticket in Freshdesk  [See the documentation](https://developers.freshdesk.com/api/#update_ticket).",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

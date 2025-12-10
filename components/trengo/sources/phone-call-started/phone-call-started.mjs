@@ -4,7 +4,7 @@ export default {
   key: "trengo-phone-call-started",
   name: "New Phone Call Started Event (Instant)",
   description: "Emit new event when a phone call starts. [See the documentation](https://developers.trengo.com/docs/webhooks)",
-  version: "0.0.6",
+  version: "0.0.8",
   type: "source",
   dedupe: "unique",
   ...common,

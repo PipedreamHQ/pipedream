@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/transcript_downloader",
+  "version": "0.0.1",
+  "description": "Pipedream Transcript Downloader Components",
+  "main": "transcript_downloader.app.mjs",
+  "keywords": [
+    "pipedream",
+    "transcript_downloader"
+  ],
+  "homepage": "https://pipedream.com/apps/transcript_downloader",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

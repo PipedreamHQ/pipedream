@@ -5,7 +5,7 @@ export default {
   key: "gorgias_oauth-update-ticket",
   name: "Update Ticket",
   description: "Updates a predefined ticket in the Gorgias system. [See the documentation](https://developers.gorgias.com/reference/update-ticket)",
-  version: "0.0.5",
+  version: "0.0.7",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

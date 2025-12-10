@@ -1,0 +1,42 @@
+import app from "../../brainbase_labs.app.mjs";
+
+export default {
+  key: "brainbase_labs-get-voice-deployment-log",
+  name: "Get Voice Deployment Log",
+  description: "Retrieve a single voice deployment log record. [See the documentation](https://docs.usebrainbase.com/api-reference/voice-deployment-logs/retrieve-a-single-voice-deployment-log-record)",
+  version: "0.0.2",
+  type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
+  props: {
+    app,
+    workerId: {
+      propDefinition: [
+        app,
+        "workerId",
+      ],
+    },
+    logId: {
+      propDefinition: [
+        app,
+        "voiceDeploymentLogId",
+        (c) => ({
+          workerId: c.workerId,
+        }),
+      ],
+    },
+  },
+  async run({ $ }) {
+    const response = await this.app.getVoiceDeploymentLog({
+      $,
+      workerId: this.workerId,
+      logId: this.logId,
+    });
+
+    $.export("$summary", `Successfully retrieved log with ID ${this.logId}`);
+    return response;
+  },
+};

@@ -5,7 +5,7 @@ export default {
   key: "frontapp-import-message",
   name: "Import Message",
   description: "Appends a new message into an inbox. [See the documentation](https://dev.frontapp.com/reference/import-inbox-message).",
-  version: "0.1.11",
+  version: "0.1.12",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

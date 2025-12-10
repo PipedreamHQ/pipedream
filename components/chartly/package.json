@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/chartly",
+  "version": "0.0.1",
+  "description": "Pipedream ChartLy Components",
+  "main": "chartly.app.mjs",
+  "keywords": [
+    "pipedream",
+    "chartly"
+  ],
+  "homepage": "https://pipedream.com/apps/chartly",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

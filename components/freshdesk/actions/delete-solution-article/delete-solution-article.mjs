@@ -4,7 +4,7 @@ export default {
   key: "freshdesk-delete-solution-article",
   name: "Delete Solution Article",
   description: "Delete a solution article in Freshdesk. [See the documentation](https://developers.freshdesk.com/api/#solution_article_attributes)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

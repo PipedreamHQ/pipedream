@@ -1,11 +1,11 @@
-import paperform from "../../paperform.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import paperform from "../../paperform.app.mjs";
 
 export default {
   key: "paperform-new-submission",
   name: "New Submission",
   description: "Emit new event when a new submission is made on the specified form in Paperform. [See the documentation](https://paperform.readme.io/reference/listformsubmissions)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

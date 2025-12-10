@@ -1,13 +1,13 @@
-import app from "../../zendesk.app.mjs";
-import { parseObject } from "../../common/utils.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import { parseObject } from "../../common/utils.mjs";
+import app from "../../zendesk.app.mjs";
 
 export default {
   key: "zendesk-set-custom-ticket-fields",
   name: "Set Custom Ticket Fields",
   description: "Sets one or more custom field values on a ticket. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/tickets/tickets/#update-ticket).",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -5,7 +5,7 @@ export default {
   key: "freshdesk-update-ticket",
   name: "Update a Ticket",
   description: "Update status, priority, subject, description, agent, group, etc.  [See the documentation](https://developers.freshdesk.com/api/#update_ticket).",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

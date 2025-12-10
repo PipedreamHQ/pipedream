@@ -8,7 +8,7 @@ import { promisify } from "util";
 import {
   ITEM_TYPES,
   ITEM_TYPES_RESULT_NAME,
-} from "./consts.mjs";
+} from "./common/constants.mjs";
 import Countries from "./country-codes.mjs";
 
 const pause = promisify((delay, fn) => setTimeout(fn, delay));
@@ -384,6 +384,10 @@ export default {
     },
     async getRecommendations(params) {
       const { data } = await this._makeRequest("GET", "/recommendations", params);
+      return data;
+    },
+    async search(params) {
+      const { data } = await this._makeRequest("GET", "/search", params);
       return data;
     },
     async fetchChunksOfAlbumsIds({

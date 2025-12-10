@@ -4,7 +4,7 @@ export default {
   key: "picqer-add-order-comment",
   name: "Add Comment To Order",
   description: "Add a comment to an order in Picqer. [See the documentation](https://picqer.com/en/api/comments#adding-comments-to-an-order)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

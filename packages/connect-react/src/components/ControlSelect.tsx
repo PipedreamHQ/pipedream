@@ -5,15 +5,12 @@ import {
   useState,
   useRef,
 } from "react";
-import type {
-  CSSObjectWithLabel, MenuListProps,
-} from "react-select";
+import type { MenuListProps } from "react-select";
 import Select, {
   components,
   Props as ReactSelectProps,
 } from "react-select";
 import CreatableSelect from "react-select/creatable";
-import type { BaseReactSelectProps } from "../hooks/customization-context";
 import { useCustomize } from "../hooks/customization-context";
 import { useFormFieldContext } from "../hooks/form-field-context";
 import type {
@@ -28,6 +25,10 @@ import {
   isArrayOfLabelValueWrapped,
   isLabelValueWrapped,
 } from "../utils/label-value";
+import {
+  createBaseSelectStyles,
+  resolveSelectColors,
+} from "../utils/select-styles";
 import { LoadMoreButton } from "./LoadMoreButton";
 
 // XXX T and ConfigurableProp should be related
@@ -55,6 +56,29 @@ export function ControlSelect<T extends PropOptionValue>({
   const {
     select, theme,
   } = useCustomize();
+
+  // Memoize color resolution to avoid recalculating on every render
+  const resolvedColors = useMemo(() => resolveSelectColors(theme.colors), [
+    theme.colors,
+  ]);
+
+  // Memoize base select styles - only recalculate when colors or boxShadow change
+  const baseSelectStyles = useMemo(() => createBaseSelectStyles<LabelValueOption<T>, boolean>({
+    colors: {
+      surface: resolvedColors.surface,
+      border: resolvedColors.border,
+      text: resolvedColors.text,
+      textStrong: resolvedColors.textStrong,
+      hoverBg: resolvedColors.hoverBg,
+      selectedBg: resolvedColors.selectedBg,
+      selectedHoverBg: resolvedColors.selectedHoverBg,
+    },
+    boxShadow: theme.boxShadow,
+  }), [
+    resolvedColors,
+    theme.boxShadow,
+  ]);
+
   const [
     selectOptions,
     setSelectOptions,
@@ -76,16 +100,6 @@ export function ControlSelect<T extends PropOptionValue>({
   }, [
     value,
   ])
-
-  const baseSelectProps: BaseReactSelectProps<LabelValueOption<T>, boolean> = {
-    styles: {
-      container: (base): CSSObjectWithLabel => ({
-        ...base,
-        gridArea: "control",
-        boxShadow: theme.boxShadow.input,
-      }),
-    },
-  };
 
   const selectValue: LabelValueOption<T> | LabelValueOption<T>[] | null = useMemo(() => {
     if (rawValue == null) {
@@ -130,7 +144,15 @@ export function ControlSelect<T extends PropOptionValue>({
     selectOptions,
   ]);
 
-  const props = select.getProps("controlSelect", baseSelectProps)
+  // Get customization props from context
+  // We pass our dark mode base styles as the base, so user customizations merge on top
+  const customizationProps = select.getProps<
+    "controlSelect",
+    LabelValueOption<T>,
+    boolean
+  >("controlSelect", {
+    styles: baseSelectStyles,
+  })
 
   // Use ref to store latest onLoadMore callback
   // This allows stable component reference while calling current callback
@@ -145,10 +167,10 @@ export function ControlSelect<T extends PropOptionValue>({
   showLoadMoreButtonRef.current = showLoadMoreButton;
 
   // Memoize custom components to prevent remounting
-  // Recompute when caller/customizer supplies new component overrides
+  // Merge: customization context components -> caller overrides -> our MenuList wrapper
   const finalComponents = useMemo(() => {
     const mergedComponents = {
-      ...(props.components ?? {}),
+      ...(customizationProps.components ?? {}),
       ...(componentsOverride ?? {}),
     };
     const ParentMenuList = mergedComponents.MenuList ?? components.MenuList;
@@ -174,8 +196,8 @@ export function ControlSelect<T extends PropOptionValue>({
       MenuList: CustomMenuList,
     };
   }, [
-    props.components,
     componentsOverride,
+    customizationProps.components,
   ]);
 
   const handleCreate = (inputValue: string) => {
@@ -254,10 +276,32 @@ export function ControlSelect<T extends PropOptionValue>({
       getOptionLabel={(option) => sanitizeOption(option).label}
       getOptionValue={(option) => String(sanitizeOption(option).value)}
       onChange={handleChange}
-      {...props}
+      // Apply customization context values as defaults
+      classNamePrefix={customizationProps.classNamePrefix || "react-select"}
+      classNames={customizationProps.classNames}
+      theme={customizationProps.theme}
+      // Spread selectProps after defaults so callers can override theme/classNames/classNamePrefix
       {...selectProps}
-      components={finalComponents}
       {...additionalProps}
+      menuPortalTarget={
+        typeof document !== "undefined"
+          ? document.body
+          : null
+      }
+      menuPosition="fixed"
+      styles={{
+        ...customizationProps.styles,
+        ...(selectProps?.styles ?? {}),
+        container: (base) => ({
+          ...base,
+          gridArea: "control",
+        }),
+        menuPortal: (base) => ({
+          ...base,
+          zIndex: 99999,
+        }),
+      }}
+      components={finalComponents}
     />
   );
 }

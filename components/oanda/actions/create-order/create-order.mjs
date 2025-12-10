@@ -5,7 +5,7 @@ export default {
   key: "oanda-create-order",
   name: "Create Order",
   description: "Create a new trading order. [See the documentation](https://developer.oanda.com/rest-live-v20/order-ep/)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

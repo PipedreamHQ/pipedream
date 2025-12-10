@@ -4,7 +4,7 @@ export default {
   key: "gorgias_oauth-get-ticket",
   name: "Get Ticket",
   description: "Get a ticket. [See the documentation](https://developers.gorgias.com/reference/get-ticket)",
-  version: "0.0.2",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

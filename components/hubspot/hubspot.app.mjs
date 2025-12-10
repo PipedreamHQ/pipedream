@@ -378,6 +378,18 @@ export default {
         }));
       },
     },
+    fileId: {
+      type: "string",
+      label: "File ID",
+      description: "The ID of a file uploaded to HubSpot",
+      async options() {
+        const { results: files } = await this.searchFiles();
+        return files.map((file) => ({
+          label: file.name,
+          value: file.id,
+        }));
+      },
+    },
     associationType: {
       type: "integer",
       label: "Association Type",
@@ -685,6 +697,146 @@ export default {
         return {
           options: results?.map(({
             id: value, name: label,
+          }) => ({
+            value,
+            label,
+          })) || [],
+          context: {
+            nextAfter: paging?.next.after,
+          },
+        };
+      },
+    },
+    inboxId: {
+      type: "string",
+      label: "Inbox ID",
+      description: "The ID of an inbox",
+      async options({ prevContext }) {
+        const { nextAfter } = prevContext;
+        const {
+          results, paging,
+        } = await this.listInboxes({
+          data: {
+            after: nextAfter,
+          },
+        });
+        return {
+          options: results?.map(({
+            id: value, name: label,
+          }) => ({
+            value,
+            label,
+          })) || [],
+          context: {
+            nextAfter: paging?.next.after,
+          },
+        };
+      },
+    },
+    channelId: {
+      type: "string",
+      label: "Channel ID",
+      description: "The ID of a channel",
+      async options({ prevContext }) {
+        const { nextAfter } = prevContext;
+        const {
+          results, paging,
+        } = await this.listChannels({
+          data: {
+            after: nextAfter,
+          },
+        });
+        return {
+          options: results?.map(({
+            id: value, name: label,
+          }) => ({
+            value,
+            label,
+          })) || [],
+          context: {
+            nextAfter: paging?.next.after,
+          },
+        };
+      },
+    },
+    threadId: {
+      type: "string",
+      label: "Thread ID",
+      description: "The ID of a thread",
+      async options({
+        prevContext, inboxId, channelId,
+      }) {
+        const { nextAfter } = prevContext;
+        let {
+          results, paging,
+        } = await this.listThreads({
+          data: {
+            after: nextAfter,
+          },
+        });
+        if (inboxId) {
+          results = results.filter((thread) => thread.inboxId === inboxId);
+        }
+        if (channelId) {
+          results = results.filter((thread) => thread.originalChannelId === channelId);
+        }
+        return {
+          options: results?.map(({ id }) => ({
+            value: id,
+            label: `Thread ${id}`,
+          })) || [],
+          context: {
+            nextAfter: paging?.next.after,
+          },
+        };
+      },
+    },
+    channelAccountId: {
+      type: "string",
+      label: "Channel Account ID",
+      description: "The ID of a channel account",
+      async options({
+        prevContext, channelId, inboxId,
+      }) {
+        const { nextAfter } = prevContext;
+        const {
+          results, paging,
+        } = await this.listChannelAccounts({
+          params: {
+            after: nextAfter,
+            channelId: channelId,
+            inboxId: inboxId,
+          },
+        });
+        return {
+          options: results?.map(({
+            id, name,
+          }) => ({
+            value: id,
+            label: name,
+          })) || [],
+          context: {
+            nextAfter: paging?.next.after,
+          },
+        };
+      },
+    },
+    senderActorId: {
+      type: "string",
+      label: "Sender Actor ID",
+      description: "The ID of the sender actor",
+      async options({ prevContext }) {
+        const { nextAfter } = prevContext;
+        const {
+          results, paging,
+        } = await this.getOwners({
+          params: {
+            after: nextAfter,
+          },
+        });
+        return {
+          options: results?.map(({
+            userId: value, email: label,
           }) => ({
             value,
             label,
@@ -1668,6 +1820,71 @@ export default {
           })),
           properties: allPropertyNames,
         },
+        ...opts,
+      });
+    },
+    getInbox({
+      inboxId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CONVERSATIONS,
+        endpoint: `/conversations/inboxes/${inboxId}`,
+        ...opts,
+      });
+    },
+    getChannel({
+      channelId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CONVERSATIONS,
+        endpoint: `/conversations/channels/${channelId}`,
+        ...opts,
+      });
+    },
+    listInboxes(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.CONVERSATIONS,
+        endpoint: "/conversations/inboxes",
+        ...opts,
+      });
+    },
+    listChannels(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.CONVERSATIONS,
+        endpoint: "/conversations/channels",
+        ...opts,
+      });
+    },
+    listThreads(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.CONVERSATIONS,
+        endpoint: "/conversations/threads",
+        ...opts,
+      });
+    },
+    listMessages({
+      threadId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CONVERSATIONS,
+        endpoint: `/conversations/threads/${threadId}/messages`,
+        ...opts,
+      });
+    },
+    listChannelAccounts(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.CONVERSATIONS,
+        endpoint: "/conversations/channel-accounts",
+        ...opts,
+      });
+    },
+    createMessage({
+      threadId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CONVERSATIONS,
+        endpoint: `/conversations/threads/${threadId}/messages`,
+        method: "POST",
         ...opts,
       });
     },

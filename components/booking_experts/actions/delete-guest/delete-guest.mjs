@@ -4,7 +4,7 @@ export default {
   key: "booking_experts-delete-guest",
   name: "Delete Guest",
   description: "Delete a guest for a reservation. [See the documentation](https://developers.bookingexperts.com/reference/administration-reservation-guests-delete)",
-  version: "0.0.2",
+  version: "0.0.5",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

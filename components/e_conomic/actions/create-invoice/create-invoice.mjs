@@ -4,7 +4,7 @@ export default {
   key: "e_conomic-create-invoice",
   name: "Create Invoice",
   description: "Creates a new draft invoice. [See the documentation](https://restdocs.e-conomic.com/#post-invoices-drafts)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -42,7 +42,7 @@ export default {
         "paymentTermNumber",
       ],
     },
-    recipientNmae: {
+    recipientName: {
       type: "string",
       label: "Recipient Name",
       description: "The name of the recipient of the invoice",
