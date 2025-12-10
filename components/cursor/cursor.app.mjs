@@ -10,13 +10,13 @@ export default {
       description: "The model to use for the request. If not provided, we'll pick the most appropriate model.",
       async options() {
         const { models } = await this.listModels();
-        return models.map((model) => model);
+        return models;
       },
     },
     agentId: {
       type: "string",
       label: "Agent ID",
-      description: "The ID an agent",
+      description: "The ID of an agent",
       async options({
         prevContext, status,
       }) {
@@ -27,15 +27,16 @@ export default {
             cursor: prevContext?.cursor,
           },
         });
-        let options = agents?.map(({
+        let options = [];
+        if (status) {
+          options = agents?.filter(({ status }) => status === status);
+        }
+        options = options?.map(({
           id: value, name: label,
         }) => ({
           label,
           value,
         })) || [];
-        if (status) {
-          options = options.filter(({ value }) => value.status === status);
-        }
         return {
           options,
           context: {

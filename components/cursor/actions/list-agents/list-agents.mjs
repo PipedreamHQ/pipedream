@@ -35,7 +35,7 @@ export default {
         cursor: this.paginationCursor,
       },
     });
-    $.export("$summary", `Successfully retrieved ${response.agents.length} agent${response.agents.length === 1
+    $.export("$summary", `Successfully retrieved ${response.agents?.length || 0} agent${response.agents?.length === 1
       ? ""
       : "s"}`);
     return response;

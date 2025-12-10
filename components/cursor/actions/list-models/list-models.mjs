@@ -18,7 +18,7 @@ export default {
     const response = await this.cursor.listModels({
       $,
     });
-    $.export("$summary", `Successfully retrieved ${response.models.length} model${response.models.length === 1
+    $.export("$summary", `Successfully retrieved ${response.models?.length || 0} model${response.models?.length === 1
       ? ""
       : "s"}`);
     return response;
