@@ -1,7 +1,4 @@
 import { axios } from "@pipedream/platform";
-import isArray from "lodash/isArray.js";
-import isEmpty from "lodash/isEmpty.js";
-import isString from "lodash/isString.js";
 import { promisify } from "util";
 import {
   ITEM_TYPES,
@@ -199,14 +196,14 @@ export default {
   },
   methods: {
     sanitizedArray(value) {
-      if (isArray(value)) {
+      if (Array.isArray(value)) {
         return value.map((item) => item.value ?? item);
       }
 
       // If is string, try to convert it in an array
-      if (isString(value)) {
+      if (typeof value === "string") {
         // Return an empty array if string is empty
-        if (isEmpty(value)) {
+        if (value === "" || value.length === 0) {
           return [];
         }
 

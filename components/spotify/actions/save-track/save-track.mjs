@@ -1,4 +1,3 @@
-import isEmpty from "lodash/isEmpty.js";
 import spotify from "../../spotify.app.mjs";
 
 export default {
@@ -38,7 +37,7 @@ export default {
     // eslint-disable-next-line multiline-ternary
     $.export("$summary", `Successfully saved ${ids.length} ${ids.length == 1 ? "track" : "tracks"} to "Liked Songs"`);
 
-    return isEmpty(res)
+    return !res || Object.keys(res).length === 0
       ? ids
       : res;
   },
