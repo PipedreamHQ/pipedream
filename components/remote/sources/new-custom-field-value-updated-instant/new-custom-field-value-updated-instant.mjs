@@ -21,7 +21,7 @@ export default {
       ts,
     }) {
       return {
-        id: body.custom_field_id,
+        id: `${body.custom_field_id}-${ts}`,
         summary: `Custom field with ID ${body.custom_field_id} has been updated`,
         ts,
       };

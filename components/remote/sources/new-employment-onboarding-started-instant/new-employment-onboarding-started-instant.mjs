@@ -21,7 +21,7 @@ export default {
       ts,
     }) {
       return {
-        id: body.employment_id,
+        id: `${body.employment_id}-${ts}`,
         summary: `Onboarding for employment with ID ${body.employment_id} has been started`,
         ts,
       };
