@@ -15859,6 +15859,9 @@ importers:
         specifier: ^13.0.0
         version: 13.0.0
 
+  components/upsales:
+    specifiers: {}
+
   components/upstash_redis:
     dependencies:
       '@pipedream/platform':
