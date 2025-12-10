@@ -5710,7 +5710,11 @@ importers:
 
   components/funnelcockpit: {}
 
-  components/fynk: {}
+  components/fynk:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.1
 
   components/gagelist:
     dependencies:
