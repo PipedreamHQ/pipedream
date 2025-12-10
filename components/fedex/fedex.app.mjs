@@ -178,6 +178,28 @@ export default {
       label: "Weights",
       description: "An array of weight values for each of the requested pieces of the shipment",
     },
+    trackingNumber: {
+      type: "string",
+      label: "Tracking Number",
+      description: "The tracking number to track",
+    },
+    includeDetailedScans: {
+      type: "boolean",
+      label: "Include Detailed Scans",
+      description: "Indicates whether to include detailed scan information in the response",
+      default: false,
+      optional: true,
+    },
+    shipDateBegin: {
+      type: "string",
+      label: "Ship Date Begin",
+      description: "The beginning of the ship date range to track. Format: YYYY-MM-DD",
+    },
+    shipDateEnd: {
+      type: "string",
+      label: "Ship Date End",
+      description: "The end of the ship date range to track. Format: YYYY-MM-DD",
+    },
   },
   methods: {
     _baseUrl() {
@@ -204,6 +226,34 @@ export default {
     validateShipment(opts = {}) {
       return this._makeRequest({
         path: "/ship/v1/shipments/packages/validate",
+        method: "POST",
+        ...opts,
+      });
+    },
+    trackByTrackingNumber(opts = {}) {
+      return this._makeRequest({
+        path: "/track/v1/trackingnumbers",
+        method: "POST",
+        ...opts,
+      });
+    },
+    trackByReference(opts = {}) {
+      return this._makeRequest({
+        path: "/track/v1/referencenumbers",
+        method: "POST",
+        ...opts,
+      });
+    },
+    trackByTrackingControlNumber(opts = {}) {
+      return this._makeRequest({
+        path: "/track/v1/tcn",
+        method: "POST",
+        ...opts,
+      });
+    },
+    trackMultiplePieceShipment(opts = {}) {
+      return this._makeRequest({
+        path: "/track/v1/associatedshipments",
         method: "POST",
         ...opts,
       });

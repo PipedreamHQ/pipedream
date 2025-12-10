@@ -2,13 +2,13 @@ import { ConfigurationError } from "@pipedream/platform";
 import spotify from "../../spotify.app.mjs";
 import {
   ITEM_TYPES_LIST, ITEM_TYPES,
-} from "../../consts.mjs";
+} from "../../common/constants.mjs";
 
 export default {
   key: "spotify-search",
   name: "Search",
   description: "Search for items on Spotify (tracks, albums, artists, playlists, shows, or episodes). [See the docs here](https://developer.spotify.com/documentation/web-api/reference/search)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

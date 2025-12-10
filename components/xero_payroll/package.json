@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/xero_payroll",
+  "version": "0.0.1",
+  "description": "Pipedream Xero Payroll (non-US) Components",
+  "main": "xero_payroll.app.mjs",
+  "keywords": [
+    "pipedream",
+    "xero_payroll"
+  ],
+  "homepage": "https://pipedream.com/apps/xero_payroll",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

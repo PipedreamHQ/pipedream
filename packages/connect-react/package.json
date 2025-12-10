@@ -1,11 +1,12 @@
 {
   "name": "@pipedream/connect-react",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "Pipedream Connect library for React",
   "files": [
     "dist"
   ],
   "type": "module",
+  "main": "./dist/connect-react.umd.js",
   "browser": "./dist/connect-react.umd.js",
   "module": "./dist/connect-react.es.js",
   "types": "./dist/connect-react.umd.d.ts",
