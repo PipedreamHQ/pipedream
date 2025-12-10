@@ -75,6 +75,7 @@ export default {
     }
 
     const res = await this.spotify.search({
+      $,
       q: this.query,
       type: this.type.join(","),
       market: this.market,

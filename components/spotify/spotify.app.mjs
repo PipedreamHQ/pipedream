@@ -399,8 +399,15 @@ export default {
       });
       return data;
     },
-    async search(params) {
-      const { data } = await this._makeRequest("GET", "/search", params);
+    async search({
+      $, ...params
+    }) {
+      const { data } = await this._makeRequest({
+        $,
+        method: "GET",
+        url: "/search",
+        params,
+      });
       return data;
     },
     async fetchChunksOfAlbumsIds({
