@@ -4,7 +4,7 @@ export default {
   key: "breeze-create-project",
   name: "Create Project",
   description: "Establishes a new project in breeze. [See documentation](https://www.breeze.pm/api#:~:text=Create%20a%20project)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -15,7 +15,7 @@ export default {
     breeze,
     workspaceId: {
       propDefinition: [
-        "breeze",
+        breeze,
         "workspaceId",
       ],
     },
