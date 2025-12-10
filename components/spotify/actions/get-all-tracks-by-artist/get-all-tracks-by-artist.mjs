@@ -4,7 +4,7 @@ export default {
   name: "Get All Tracks by Artist",
   description: "Get Spotify tracks information related with an artist's. [see docs here](https://developer.spotify.com/documentation/web-api/reference/#/operations/get-multiple-albums).",
   key: "spotify-get-all-tracks-by-artist",
-  version: "0.1.4",
+  version: "0.1.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

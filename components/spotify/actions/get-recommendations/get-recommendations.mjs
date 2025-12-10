@@ -5,7 +5,7 @@ export default {
   name: "Get Recommendations",
   description: "Create a list of recommendations based on the available information for a given seed entity and matched against similar artists and tracks. If there is sufficient information about the provided seeds, a list of tracks will be returned together with pool size details. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#/operations/get-recommendations).",
   key: "spotify-get-recommendations",
-  version: "0.1.4",
+  version: "0.1.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

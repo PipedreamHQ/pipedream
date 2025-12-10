@@ -250,6 +250,9 @@ export default {
       const artists = track.artists.map((artist) => artist.name).join(", ");
       return `${track.name} [${artists}]`;
     },
+    _getBaseUrl() {
+      return "https://api.spotify.com/v1";
+    },
     async _makeRequest({
       $ = this,
       headers,

@@ -4,7 +4,7 @@ export default {
   name: "Get an Artist's Top Tracks",
   description: "Get Spotify catalog information about an artist's top tracks by country. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#/operations/get-an-artists-top-tracks).",
   key: "spotify-get-artist-top-tracks",
-  version: "0.1.4",
+  version: "0.1.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
