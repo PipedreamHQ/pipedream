@@ -77,6 +77,7 @@ export default {
         previousStatuses[habitId] !== data.status
         && (!this.statuses || this.statuses.includes(data.status))
       ) {
+        data.habit_id = habitId;
         this.$emit(data, this.generateMeta(data));
       }
     }

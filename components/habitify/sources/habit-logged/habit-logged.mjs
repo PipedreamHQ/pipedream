@@ -56,6 +56,7 @@ export default {
       }
     }
     this._setLastTs(maxTs);
+    logs.sort((a, b) => Date.parse(a.created_date) - Date.parse(b.created_date));
     logs.forEach((log) => {
       this.$emit(log, this.generateMeta(log));
     });
