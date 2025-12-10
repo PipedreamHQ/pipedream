@@ -27,11 +27,11 @@ export default {
             cursor: prevContext?.cursor,
           },
         });
-        let options = [];
+        let filteredAgents = agents || [];
         if (status) {
-          options = agents?.filter(({ status }) => status === status);
+          filteredAgents = filteredAgents?.filter(({ status }) => status === status);
         }
-        options = options?.map(({
+        const options = filteredAgents?.map(({
           id: value, name: label,
         }) => ({
           label,
