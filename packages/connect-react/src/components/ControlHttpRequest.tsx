@@ -73,11 +73,18 @@ const normalizeKeyValuePairs = (items?: RequestKeyValue[]): KeyValuePair[] => {
 
 const serializeKeyValuePairs = (pairs: KeyValuePair[]) => pairs
   .filter((pair) => pair.key.trim() !== "")
-  .map((pair) => ({
-    name: pair.key,
-    value: pair.value,
-    ...(pair.disabled !== undefined ? { disabled: pair.disabled } : {}),
-  }));
+  .map((pair) => {
+    const serialized: { name: string; value: string; disabled?: boolean } = {
+      name: pair.key,
+      value: pair.value,
+    };
+
+    if (pair.disabled !== undefined) {
+      serialized.disabled = pair.disabled;
+    }
+
+    return serialized;
+  });
 
 const BODY_CONTENT_TYPES = [
   {
