@@ -25,7 +25,7 @@ export default {
 
     const ids = this.spotify.sanitizedArray(savedUserTracksId);
 
-    const resp = await this.spotify._makeRequest({
+    const { data } = await this.spotify._makeRequest({
       $,
       method: "DELETE",
       url: "/me/tracks",
@@ -37,6 +37,6 @@ export default {
     // eslint-disable-next-line multiline-ternary
     $.export("$summary", `Successfully removed ${ids.length} ${ids.length == 1 ? "item" : "items"} from "Liked Songs"`);
 
-    return resp;
+    return data;
   },
 };

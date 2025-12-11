@@ -49,7 +49,7 @@ export default {
       offset,
     } = this;
 
-    const res = await this.spotify._makeRequest({
+    const { data } = await this.spotify._makeRequest({
       $,
       url: `/browse/categories/${categoryId.value ?? categoryId}/playlists`,
       params: {
@@ -61,6 +61,6 @@ export default {
 
     $.export("$summary", `Successfully fetched playlists for the "${categoryId.label ?? categoryId}" category`);
 
-    return res.playlists?.items ?? [];
+    return data?.playlists?.items ?? [];
   },
 };

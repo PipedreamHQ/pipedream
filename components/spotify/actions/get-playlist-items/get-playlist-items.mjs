@@ -51,19 +51,17 @@ export default {
   async run({ $ }) {
     const {
       playlistId,
-      market,
       fields,
       limit,
       offset,
       additionalTypes,
     } = this;
 
-    const res = await this.spotify._makeRequest({
+    const { data } = await this.spotify._makeRequest({
       $,
       url: `/playlists/${playlistId.value ?? playlistId}/tracks`,
       params: {
         fields,
-        market,
         limit,
         offset,
         additional_types: additionalTypes && additionalTypes.join(",").toLowerCase(),
@@ -72,6 +70,6 @@ export default {
 
     $.export("$summary", `Successfully fetched details for "${playlistId.label ?? playlistId}"`);
 
-    return res.items ?? [];
+    return data?.items ?? [];
   },
 };

@@ -33,7 +33,7 @@ export default {
       market,
     } = this;
 
-    const res = await this.spotify._makeRequest({
+    const { data } = await this.spotify._makeRequest({
       $,
       url: `/tracks/${trackId.value ?? trackId}`,
       params: {
@@ -41,8 +41,8 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully fetched info for the track, "${res.name}"`);
+    $.export("$summary", `Successfully fetched info for the track, "${data?.name}"`);
 
-    return res;
+    return data ?? {};
   },
 };

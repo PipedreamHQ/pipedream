@@ -269,23 +269,24 @@ export default {
       return await this.retry($, config);
     },
     // Retry axios request if not successful
-    async retry($, config, retries = 3) {
+    async retry($, config, retries = 0) {
       try {
         return await axios($, {
           ...config,
           returnFullResponse: true,
         });
       } catch (err) {
-        if (retries <= 1) {
-          throw new Error(err);
+        if (err?.status !== 429 || retries <= 3) {
+          $?.export?.("response", err);
+          throw new Error("Error response");
         }
         // if rate limit is exceeded, Retry-After will contain the # of seconds
         // to wait before retrying
-        const delay = (err && err.status == 429)
-          ? (err.headers["Retry-After"] * 1000)
-          : 500;
+        const delay = err?.headers?.["Retry-After"]
+          ? err.headers["Retry-After"] * 1000
+          : (retries * 3000);
         await pause(delay);
-        return this.retry($, config, retries - 1);
+        return this.retry($, config, retries + 1);
       }
     },
     async getItems(types, q, limit, offset) {
@@ -329,71 +330,53 @@ export default {
         return item.name;
       }
     },
-    async getPlaylist({
-      $, playlistId, ...args
-    }) {
-      const res = await this._makeRequest({
-        $,
+    async getPlaylist(playlistId, args) {
+      const { data } = await this._makeRequest({
         url: `/playlists/${playlistId}`,
         ...args,
       });
-      return res.data ?? {};
+      return data;
     },
-    async getPlaylists({
-      $, ...args
-    }) {
-      const res = await this._makeRequest({
-        $,
+    async getPlaylists(args) {
+      const { data } = await this._makeRequest({
         url: "/me/playlists",
         ...args,
       });
-      return res.data?.items ?? null;
+      return data?.items ?? [];
     },
-    async getCategories({
-      $, ...args
-    }) {
-      const res = await this._makeRequest({
-        $,
+    async getCategories(args) {
+      const { data } = await this._makeRequest({
         url: "/browse/categories",
         ...args,
       });
-      return res.data?.categories?.items ?? [];
+      return data?.categories?.items ?? [];
     },
-    async getUserTracks({
-      $, ...args
-    }) {
-      const res = await this._makeRequest({
-        $,
+    async getUserTracks(args) {
+      const { data } = await this._makeRequest({
         url: "/me/tracks",
         ...args,
       });
-      return res.data?.items ?? [];
+      return data?.items ?? [];
     },
     async getPlaylistItems({
       $, playlistId, ...args
     }) {
-      const res = await this._makeRequest({
+      const { data } = await this._makeRequest({
         $,
         url: `/playlists/${playlistId}/tracks`,
         ...args,
       });
-      return res.data?.items ?? [];
+      return data?.items ?? [];
     },
-    async getGenres({
-      $, ...args
-    } = {}) {
+    async getGenres(args) {
       const { data } = await this._makeRequest({
-        $,
         url: "/recommendations/available-genre-seeds",
         ...args,
       });
-      return data.genres;
+      return data?.genres;
     },
-    async getRecommendations({
-      $, ...args
-    }) {
+    async getRecommendations(args) {
       const { data } = await this._makeRequest({
-        $,
         url: "/recommendations",
         ...args,
       });
