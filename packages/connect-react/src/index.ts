@@ -6,6 +6,7 @@ export { Control } from "./components/Control";
 export { ControlAny } from "./components/ControlAny";
 export { ControlApp } from "./components/ControlApp";
 export { ControlBoolean } from "./components/ControlBoolean";
+export { ControlHttpRequest } from "./components/ControlHttpRequest";
 export { ControlInput } from "./components/ControlInput";
 export { ControlSelect } from "./components/ControlSelect";
 export { ControlSql } from "./components/ControlSql";
