@@ -141,7 +141,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully created purchase bill with ID: ${response.PurchaseBillID}`);
+    $.export("$summary", `Successfully created purchase bill with ID: ${response.Invoices[0].InvoiceID}`);
     return response;
   },
 };
