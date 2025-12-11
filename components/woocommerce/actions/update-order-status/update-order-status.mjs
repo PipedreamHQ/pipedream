@@ -4,7 +4,7 @@ export default {
   key: "woocommerce-update-order-status",
   name: "Update Order Status",
   description: "Update the status of a specific order. [See the docs](https://woocommerce.github.io/woocommerce-rest-api-docs/?javascript#update-an-order)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

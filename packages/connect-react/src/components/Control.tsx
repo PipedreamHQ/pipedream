@@ -9,6 +9,7 @@ import { ControlApp } from "./ControlApp";
 import { ControlArray } from "./ControlArray";
 import { ControlBoolean } from "./ControlBoolean";
 import { ControlInput } from "./ControlInput";
+import { ControlHttpRequest } from "./ControlHttpRequest";
 import { ControlObject } from "./ControlObject";
 import { ControlSelect } from "./ControlSelect";
 import { ControlSql } from "./ControlSql";
@@ -81,6 +82,8 @@ export function Control<T extends ConfigurableProps, U extends ConfigurableProp>
     return <ControlObject />;
   case "sql":
     return <ControlSql />;
+  case "http_request":
+    return <ControlHttpRequest />;
   default:
     // TODO "not supported prop type should bubble up"
     throw new Error("Unsupported property type: " + prop.type);

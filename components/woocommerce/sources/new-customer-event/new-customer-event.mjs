@@ -5,7 +5,7 @@ export default {
   key: "woocommerce-new-customer-event",
   name: "New Customer Event (Instant)",
   description: "Emit new event each time the specified customer event(s) occur",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   methods: {

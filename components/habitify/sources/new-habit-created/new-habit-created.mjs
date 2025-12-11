@@ -1,23 +1,14 @@
-import habitify from "../../app/habitify.app.mjs";
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import common from "../common/base-polling.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   name: "New Habit Created",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "habitify-new-habit-created",
-  description: "Emit new event on each created habit.",
+  description: "Emit new event on each created habit. [See the documentation](https://docs.habitify.me/core-resources/habits#list-habits)",
   type: "source",
   dedupe: "unique",
-  props: {
-    habitify,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      static: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
-    },
-  },
   methods: {
     emitEvent(data) {
       this.$emit(data, {
@@ -32,4 +23,5 @@ export default {
 
     habits.reverse().forEach(this.emitEvent);
   },
+  sampleEmit,
 };
