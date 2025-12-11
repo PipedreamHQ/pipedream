@@ -50,13 +50,13 @@ export default {
     let total = 0;
 
     do {
-      const { items } = await this.spotify._makeRequest({
+      const { data } = await this.spotify._makeRequest({
         $,
         url: `/albums/${this.albumId}/tracks`,
         params,
       });
-      tracks.push(...items);
-      total = items.length;
+      tracks.push(...data.items);
+      total = data.items.length;
       params.offset += params.limit;
     } while (total === params.limit);
 

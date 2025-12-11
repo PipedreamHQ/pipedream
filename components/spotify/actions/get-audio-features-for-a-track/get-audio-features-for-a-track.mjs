@@ -22,13 +22,13 @@ export default {
   },
   async run({ $ }) {
     const { trackId } = this;
-    const resp = await this.spotify._makeRequest({
+    const { data } = await this.spotify._makeRequest({
       $,
       url: `/audio-features/${trackId.value ?? trackId}`,
     });
 
     $.export("$summary", `Successfully fetched audio info for the track, "${trackId.label ?? trackId}"`);
 
-    return resp;
+    return data;
   },
 };

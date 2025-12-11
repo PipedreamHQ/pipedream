@@ -278,8 +278,9 @@ export default {
       } catch (err) {
         if (err?.status !== 429 || retries <= 3) {
           $?.export?.("response", err);
-          throw new Error("Error response");
+          throw new Error("Error response exported in the \"response\" object");
         }
+
         // if rate limit is exceeded, Retry-After will contain the # of seconds
         // to wait before retrying
         const delay = err?.headers?.["Retry-After"]
@@ -330,7 +331,9 @@ export default {
         return item.name;
       }
     },
-    async getPlaylist(playlistId, args) {
+    async getPlaylist({
+      playlistId, ...args
+    }) {
       const { data } = await this._makeRequest({
         url: `/playlists/${playlistId}`,
         ...args,

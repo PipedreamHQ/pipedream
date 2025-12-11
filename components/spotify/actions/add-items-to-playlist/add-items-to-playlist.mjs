@@ -44,7 +44,7 @@ export default {
       uris: this.spotify.sanitizedArray(uris),
     };
 
-    const resp = await this.spotify._makeRequest({
+    const { data: resp } = await this.spotify._makeRequest({
       $,
       method: "POST",
       url: `/playlists/${playlistId.value ?? playlistId}/tracks`,

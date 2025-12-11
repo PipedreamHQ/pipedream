@@ -52,7 +52,7 @@ export default {
       collaborative: isCollaborative,
     };
 
-    const resp = await this.spotify._makeRequest({
+    const { data: resp } = await this.spotify._makeRequest({
       $,
       method: "POST",
       url: `/users/${this.spotify.$auth.oauth_uid}/playlists`,

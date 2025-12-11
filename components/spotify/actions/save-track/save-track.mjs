@@ -25,7 +25,7 @@ export default {
   },
   async run({ $ }) {
     const ids = this.spotify.sanitizedArray(this.trackIds);
-    const res = await this.spotify._makeRequest({
+    const { data: res } = await this.spotify._makeRequest({
       $,
       method: "PUT",
       url: "/me/tracks",

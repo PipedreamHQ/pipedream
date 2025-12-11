@@ -27,7 +27,7 @@ export default {
     const { market } = this;
 
     try {
-      const res = await this.spotify._makeRequest({
+      const { data: res } = await this.spotify._makeRequest({
         $,
         url: "/me/player/currently-playing",
         params: {

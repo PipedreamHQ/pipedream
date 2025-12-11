@@ -51,7 +51,7 @@ export default {
       snapshot_id: snapshotId,
     };
 
-    const resp = await this.spotify._makeRequest({
+    const { data: resp } = await this.spotify._makeRequest({
       $,
       method: "DELETE",
       url: `/playlists/${playlistId.value ?? playlistId}/tracks`,
