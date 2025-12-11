@@ -22,7 +22,7 @@ export default {
     }) {
       return {
         id: `${body.employment_request_id}-${ts}`,
-        summary: `Contract amendment for employment with ID ${body.employment_request_id} has been done`,
+        summary: `Contract amendment for employment with ID ${body.employment_request_id} is done`,
         ts,
       };
     },

@@ -26,7 +26,7 @@ export default {
       employmentId: this.employmentId,
     });
 
-    $.export("$summary", `Successfully showed time off balance for employment with ID: ${this.employmentId}`);
+    $.export("$summary", `Successfully retrieved time off balance for employment with ID: ${this.employmentId}`);
     return response;
   },
 };

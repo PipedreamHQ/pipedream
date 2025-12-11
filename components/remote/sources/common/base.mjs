@@ -1,4 +1,5 @@
 import remote from "../../remote.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   props: {
@@ -14,7 +15,7 @@ export default {
       return this.db.get("webhookId");
     },
     generateMeta() {
-      throw new Error("generateMeta is not implemented");
+      throw new ConfigurationError("generateMeta is not implemented");
     },
   },
   hooks: {

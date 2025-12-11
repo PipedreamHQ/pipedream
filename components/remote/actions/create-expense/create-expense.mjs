@@ -67,7 +67,7 @@ export default {
     taxAmount: {
       type: "integer",
       label: "Tax Amount",
-      description: "The tax amount of the expense.",
+      description: "The tax amount of the expense",
       optional: true,
     },
     timezone: {
@@ -79,7 +79,7 @@ export default {
     title: {
       type: "string",
       label: "Title",
-      description: "The title of the expense.",
+      description: "The title of the expense",
     },
     syncDir: {
       type: "dir",
