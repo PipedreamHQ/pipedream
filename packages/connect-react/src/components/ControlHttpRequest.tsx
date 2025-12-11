@@ -18,6 +18,7 @@ const HTTP_METHODS = [
 type KeyValuePair = {
   key: string;
   value: string;
+  disabled?: boolean;
 };
 
 type HttpRequestState = {
@@ -28,6 +29,8 @@ type HttpRequestState = {
   body: string;
   bodyContentType: string;
 };
+
+type RequestKeyValue = { name?: string; value?: string; disabled?: boolean };
 
 // This matches the schema expected by the Pipedream component runtime
 // See: lambda-v2/packages/component-runtime/src/prepareProps/httpRequest.js
@@ -50,6 +53,31 @@ type HttpRequestValue = {
     token?: string;
   };
 };
+
+const normalizeKeyValuePairs = (items?: RequestKeyValue[]): KeyValuePair[] => {
+  const normalized = (items ?? []).map((item) => ({
+    key: item.name ?? "",
+    value: item.value ?? "",
+    disabled: item.disabled,
+  }));
+
+  return normalized.length > 0
+    ? normalized
+    : [
+      {
+        key: "",
+        value: "",
+      },
+    ];
+};
+
+const serializeKeyValuePairs = (pairs: KeyValuePair[]) => pairs
+  .filter((pair) => pair.key.trim() !== "")
+  .map((pair) => ({
+    name: pair.key,
+    value: pair.value,
+    ...(pair.disabled !== undefined ? { disabled: pair.disabled } : {}),
+  }));
 
 const BODY_CONTENT_TYPES = [
   {
@@ -85,8 +113,8 @@ export function ControlHttpRequest() {
       return prop.default as {
         url?: string;
         method?: string;
-        headers?: Array<{ name: string; value: string }>;
-        params?: Array<{ name: string; value: string }>;
+        headers?: RequestKeyValue[];
+        params?: RequestKeyValue[];
         body?: { raw?: string; contentType?: string };
       };
     }
@@ -98,21 +126,7 @@ export function ControlHttpRequest() {
     const currentValue = value as HttpRequestValue | undefined;
     const defaultConfig = getDefaultConfig();
 
-    const headers = currentValue?.headers ?? defaultConfig?.headers ?? [];
-
-    if (headers.length === 0) {
-      return [
-        {
-          key: "",
-          value: "",
-        },
-      ];
-    }
-
-    return headers.map((h) => ({
-      key: h.name ?? "",
-      value: h.value ?? "",
-    }));
+    return normalizeKeyValuePairs(currentValue?.headers ?? defaultConfig?.headers);
   };
 
   // Initialize params from value or defaults
@@ -120,21 +134,7 @@ export function ControlHttpRequest() {
     const currentValue = value as HttpRequestValue | undefined;
     const defaultConfig = getDefaultConfig();
 
-    const params = currentValue?.params ?? defaultConfig?.params ?? [];
-
-    if (params.length === 0) {
-      return [
-        {
-          key: "",
-          value: "",
-        },
-      ];
-    }
-
-    return params.map((p) => ({
-      key: p.name ?? "",
-      value: p.value ?? "",
-    }));
+    return normalizeKeyValuePairs(currentValue?.params ?? defaultConfig?.params);
   };
 
   // Initialize body from value or defaults
@@ -178,31 +178,9 @@ export function ControlHttpRequest() {
     const currentValue = value as HttpRequestValue | undefined;
     const defaultConfig = getDefaultConfig();
 
-    const newHeaders = currentValue?.headers ?? defaultConfig?.headers ?? [];
-    const headers: KeyValuePair[] = newHeaders.length > 0
-      ? newHeaders.map((h) => ({
-        key: h.name ?? "",
-        value: h.value ?? "",
-      }))
-      : [
-        {
-          key: "",
-          value: "",
-        },
-      ];
+    const headers = normalizeKeyValuePairs(currentValue?.headers ?? defaultConfig?.headers);
 
-    const newParams = currentValue?.params ?? defaultConfig?.params ?? [];
-    const params: KeyValuePair[] = newParams.length > 0
-      ? newParams.map((p) => ({
-        key: p.name ?? "",
-        value: p.value ?? "",
-      }))
-      : [
-        {
-          key: "",
-          value: "",
-        },
-      ];
+    const params = normalizeKeyValuePairs(currentValue?.params ?? defaultConfig?.params);
 
     setState({
       url: currentValue?.url ?? defaultConfig?.url ?? "",
@@ -221,20 +199,10 @@ export function ControlHttpRequest() {
   // See: lambda-v2/packages/component-runtime/src/prepareProps/httpRequest.js
   const serializeToOutput = (currentState: HttpRequestState): HttpRequestValue => {
     // Filter out empty headers but keep the array structure
-    const validHeaders = currentState.headers
-      .filter((h) => h.key.trim() !== "")
-      .map((h) => ({
-        name: h.key,
-        value: h.value,
-      }));
+    const validHeaders = serializeKeyValuePairs(currentState.headers);
 
     // Filter out empty params but keep the array structure
-    const validParams = currentState.params
-      .filter((p) => p.key.trim() !== "")
-      .map((p) => ({
-        name: p.key,
-        value: p.value,
-      }));
+    const validParams = serializeKeyValuePairs(currentState.params);
 
     // Build body object - contentType is always required
     const body: HttpRequestValue["body"] = {
