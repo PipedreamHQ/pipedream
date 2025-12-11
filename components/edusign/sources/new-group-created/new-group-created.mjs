@@ -27,14 +27,14 @@ export default {
         for (const group of result) {
           if (Date.parse(group.DATE_CREATED) > Date.parse(lastCreated)) {
             groups.push(group);
-            if (Date.parse(group.DATE_CREATED > Date.parse(maxCreated))) {
+            if (Date.parse(group.DATE_CREATED) > Date.parse(maxCreated)) {
               maxCreated = group.DATE_CREATED;
             }
           }
-          total = result?.length;
-          params.page++;
         }
-      } while (total?.length);
+        total = result?.length;
+        params.page++;
+      } while (total);
 
       this._setLastCreated(maxCreated);
 
