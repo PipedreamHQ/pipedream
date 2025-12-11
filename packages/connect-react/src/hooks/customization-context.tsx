@@ -1,6 +1,4 @@
-import type {
-  ConfigurableProp,
-} from "@pipedream/sdk";
+import type { ConfigurableProp } from "@pipedream/sdk";
 import type {
   ComponentProps, CSSProperties, JSXElementConstructor,
 } from "react";

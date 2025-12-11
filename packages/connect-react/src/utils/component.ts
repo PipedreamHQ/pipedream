@@ -1,6 +1,5 @@
 import type {
   App,
-  ConfigurableProp,
   ConfigurablePropApp,
   ConfigurablePropBoolean,
   ConfigurablePropInteger,
