@@ -28,7 +28,7 @@ export default {
     paymentDate: {
       type: "string",
       label: "Payment Date",
-      description: "The date of the payment. Format DD/MM/YYYY",
+      description: "The date of the payment. **Format YYYY-MM-DD**",
       optional: true,
     },
     voucherNumber: {
