@@ -629,17 +629,16 @@ const GET_DRAFT_ORDER = `
       id
       name
       email
-      note
       note2
       createdAt
       updatedAt
       completedAt
       invoiceSentAt
       status
-      totalPrice
-      subtotalPrice
-      totalShippingPrice
-      totalTax
+      totalPriceSet
+      subtotalPriceSet
+      totalShippingPriceSet
+      totalTaxSet
       currencyCode
       taxExempt
       taxesIncluded
@@ -650,7 +649,7 @@ const GET_DRAFT_ORDER = `
         city
         company
         country
-        countryCode
+        countryCodeV2
         firstName
         lastName
         phone
@@ -667,7 +666,7 @@ const GET_DRAFT_ORDER = `
         city
         company
         country
-        countryCode
+        countryCodeV2
         firstName
         lastName
         phone
@@ -680,7 +679,7 @@ const GET_DRAFT_ORDER = `
       }
       customer {
         id
-        email
+        defaultEmailAddress
         firstName
         lastName
         phone
@@ -904,10 +903,8 @@ const GET_CUSTOMER = `
   query ($id: ID!) {
     customer(id: $id) {
       id
-      email
       firstName
       lastName
-      phone
       createdAt
       updatedAt
       state
@@ -921,7 +918,7 @@ const GET_CUSTOMER = `
         city
         company
         country
-        countryCode
+        countryCodeV2
         firstName
         lastName
         phone
@@ -935,7 +932,7 @@ const GET_CUSTOMER = `
         city
         company
         country
-        countryCode
+        countryCodeV2
         firstName
         lastName
         phone
@@ -943,7 +940,6 @@ const GET_CUSTOMER = `
         provinceCode
         zip
       }
-      ordersCount
     }
   }
 `;
@@ -970,7 +966,7 @@ const LIST_CUSTOMERS = `
           city
           company
           country
-          countryCode
+          countryCodeV2
           firstName
           lastName
           phone
@@ -984,7 +980,7 @@ const LIST_CUSTOMERS = `
           city
           company
           country
-          countryCode
+          countryCodeV2
           firstName
           lastName
           phone
@@ -1024,7 +1020,7 @@ const LIST_ASSIGNED_FULFILLMENT_ORDERS = `
           address2
           city
           company
-          countryCode
+          countryCodeV2
           firstName
           lastName
           phone
@@ -1075,7 +1071,7 @@ const GET_FULFILLMENT_ORDER = `
         city
         company
         country
-        countryCode
+        countryCodeV2
         firstName
         lastName
         phone
@@ -1123,7 +1119,7 @@ const LIST_FULFILLMENT_ORDERS = `
           address2
           city
           company
-          countryCode
+          countryCodeV2
           firstName
           lastName
           phone
