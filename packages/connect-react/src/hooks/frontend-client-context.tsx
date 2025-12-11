@@ -1,5 +1,5 @@
 import {
-  createContext, useContext, type ReactNode, type FC,
+  createContext, useContext, useState, type ReactNode, type FC,
 } from "react";
 import {
   QueryClient, QueryClientProvider,
@@ -26,14 +26,18 @@ export const FrontendClientProvider: FC<FrontendClientProviderProps> = ({
   children,
   client,
 }: FrontendClientProviderProps) => {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        staleTime: 1000 * 60 * 60,
-        refetchOnWindowFocus: false,
-      },
-    },
-  });
+  // Use useState to ensure QueryClient is only created once per component instance
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            staleTime: 1000 * 60 * 60,
+            refetchOnWindowFocus: false,
+          },
+        },
+      }),
+  );
 
   return (
     <QueryClientProvider client={queryClient}>
