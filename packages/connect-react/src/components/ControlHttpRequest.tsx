@@ -348,7 +348,7 @@ export function ControlHttpRequest() {
     width: "85px",
     borderTopRightRadius: 0,
     borderBottomRightRadius: 0,
-    borderRight: "none",
+    borderRightWidth: 0,
   };
 
   const urlInputStyles = {
