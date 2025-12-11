@@ -3,6 +3,7 @@ import type { Theme } from "../theme";
 
 export const getInputStyles = (theme: Theme): CSSProperties => ({
   color: theme.colors.neutral60,
+  backgroundColor: theme.colors.neutral20,
   border: "1px solid",
   borderColor: theme.colors.neutral20,
   padding: 6,
@@ -13,6 +14,7 @@ export const getInputStyles = (theme: Theme): CSSProperties => ({
 
 export const getButtonStyles = (theme: Theme): CSSProperties => ({
   color: theme.colors.neutral60,
+  backgroundColor: "transparent",
   display: "inline-flex",
   alignItems: "center",
   padding: `${theme.spacing.baseUnit}px ${theme.spacing.baseUnit * 1.5}px ${
@@ -25,7 +27,6 @@ export const getButtonStyles = (theme: Theme): CSSProperties => ({
   fontWeight: 450,
   gap: theme.spacing.baseUnit * 2,
   textWrap: "nowrap",
-  backgroundColor: "white",
 });
 
 export const getRemoveButtonStyles = (theme: Theme): CSSProperties => ({

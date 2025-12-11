@@ -52,10 +52,22 @@ type HttpRequestValue = {
 };
 
 const BODY_CONTENT_TYPES = [
-  { value: "application/json", label: "JSON" },
-  { value: "application/x-www-form-urlencoded", label: "Form URL Encoded" },
-  { value: "text/plain", label: "Text" },
-  { value: "none", label: "None" },
+  {
+    value: "application/json",
+    label: "JSON",
+  },
+  {
+    value: "application/x-www-form-urlencoded",
+    label: "Form URL Encoded",
+  },
+  {
+    value: "text/plain",
+    label: "Text",
+  },
+  {
+    value: "none",
+    label: "None",
+  },
 ] as const;
 
 export function ControlHttpRequest() {
@@ -98,8 +110,8 @@ export function ControlHttpRequest() {
     }
 
     return headers.map((h) => ({
-      key: h.name,
-      value: h.value,
+      key: h.name ?? "",
+      value: h.value ?? "",
     }));
   };
 
@@ -120,8 +132,8 @@ export function ControlHttpRequest() {
     }
 
     return params.map((p) => ({
-      key: p.name,
-      value: p.value,
+      key: p.name ?? "",
+      value: p.value ?? "",
     }));
   };
 
@@ -169,8 +181,8 @@ export function ControlHttpRequest() {
     const newHeaders = currentValue?.headers ?? defaultConfig?.headers ?? [];
     const headers: KeyValuePair[] = newHeaders.length > 0
       ? newHeaders.map((h) => ({
-        key: h.name,
-        value: h.value,
+        key: h.name ?? "",
+        value: h.value ?? "",
       }))
       : [
         {
@@ -182,8 +194,8 @@ export function ControlHttpRequest() {
     const newParams = currentValue?.params ?? defaultConfig?.params ?? [];
     const params: KeyValuePair[] = newParams.length > 0
       ? newParams.map((p) => ({
-        key: p.name,
-        value: p.value,
+        key: p.name ?? "",
+        value: p.value ?? "",
       }))
       : [
         {
@@ -354,6 +366,23 @@ export function ControlHttpRequest() {
     cursor: "pointer" as const,
   };
 
+  const methodSelectStyles = {
+    ...inputStyles,
+    cursor: "pointer" as const,
+    flex: "none",
+    width: "85px",
+    borderTopRightRadius: 0,
+    borderBottomRightRadius: 0,
+    borderRight: "none",
+  };
+
+  const urlInputStyles = {
+    ...inputStyles,
+    borderTopLeftRadius: 0,
+    borderBottomLeftRadius: 0,
+    flex: 1,
+  };
+
   const textareaStyles = {
     ...inputStyles,
     resize: "vertical" as const,
@@ -361,33 +390,35 @@ export function ControlHttpRequest() {
     fontFamily: "monospace",
   };
 
+  const urlRowStyles = {
+    display: "flex" as const,
+    alignItems: "stretch" as const,
+  };
+
   return (
     <div {...getProps("controlHttpRequest", containerStyles, formFieldContextProps)}>
-      {/* URL Section */}
+      {/* URL + Method Section */}
       <div style={sectionStyles}>
         <label style={labelStyles}>URL</label>
-        <input
-          type="text"
-          value={state.url}
-          onChange={(e) => handleUrlChange(e.target.value)}
-          placeholder="https://api.example.com/endpoint"
-          style={inputStyles}
-          required={!prop.optional}
-        />
-      </div>
-
-      {/* Method Section */}
-      <div style={sectionStyles}>
-        <label style={labelStyles}>Method</label>
-        <select
-          value={state.method}
-          onChange={(e) => handleMethodChange(e.target.value)}
-          style={selectStyles}
-        >
-          {HTTP_METHODS.map((method) => (
-            <option key={method} value={method}>{method}</option>
-          ))}
-        </select>
+        <div style={urlRowStyles}>
+          <select
+            value={state.method}
+            onChange={(e) => handleMethodChange(e.target.value)}
+            style={methodSelectStyles}
+          >
+            {HTTP_METHODS.map((method) => (
+              <option key={method} value={method}>{method}</option>
+            ))}
+          </select>
+          <input
+            type="text"
+            value={state.url}
+            onChange={(e) => handleUrlChange(e.target.value)}
+            placeholder="https://api.example.com/endpoint"
+            style={urlInputStyles}
+            required={!prop.optional}
+          />
+        </div>
       </div>
 
       {/* Headers Section */}
@@ -451,7 +482,9 @@ export function ControlHttpRequest() {
           <textarea
             value={state.body}
             onChange={(e) => handleBodyChange(e.target.value)}
-            placeholder={state.bodyContentType === "application/json" ? '{"key": "value"}' : "Request body"}
+            placeholder={state.bodyContentType === "application/json"
+              ? "{\"key\": \"value\"}"
+              : "Request body"}
             style={textareaStyles}
             rows={4}
           />
