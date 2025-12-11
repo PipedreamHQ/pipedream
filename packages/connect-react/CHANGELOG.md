@@ -2,6 +2,13 @@
 
 # Changelog
 
+## [2.4.0] - 2025-12-10
+
+### Added
+
+- Added support for `http_request` prop type with `ControlHttpRequest` component
+- HTTP request builder UI with URL, method, headers, and body configuration
+
 ## [2.3.0] - 2025-12-07
 
 ### Added
