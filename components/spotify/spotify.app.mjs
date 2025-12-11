@@ -203,7 +203,7 @@ export default {
       // If is string, try to convert it in an array
       if (typeof value === "string") {
         // Return an empty array if string is empty
-        if (value === "" || value.length === 0) {
+        if (value === "") {
           return [];
         }
 
