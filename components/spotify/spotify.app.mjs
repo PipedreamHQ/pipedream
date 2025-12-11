@@ -281,11 +281,7 @@ export default {
           throw new Error("Error response exported in the \"response\" object");
         }
 
-        // if rate limit is exceeded, Retry-After will contain the # of seconds
-        // to wait before retrying
-        const delay = err?.headers?.["Retry-After"]
-          ? err.headers["Retry-After"] * 1000
-          : (retries * 3000);
+        const delay = retries * 5000;
         await pause(delay);
         return this.retry($, config, retries + 1);
       }
