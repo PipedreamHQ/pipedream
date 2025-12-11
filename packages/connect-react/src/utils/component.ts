@@ -57,7 +57,9 @@ export function valuesFromOptions<T extends SdkPropOptionValue>(value: unknown |
   return value as T[]
 }
 
-export type ValidationOpts<T extends ConfigurableProp> = {
+// Use a more permissive constraint that works with base prop types
+// (e.g., ConfigurablePropInteger) which don't have the 'type' discriminator
+export type ValidationOpts<T> = {
   prop: T
   value: unknown
   app?: App

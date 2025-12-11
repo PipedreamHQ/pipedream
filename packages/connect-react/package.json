@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/connect-react",
-  "version": "2.4.1",
+  "version": "2.5.0",
   "description": "Pipedream Connect library for React",
   "files": [
     "dist"
@@ -31,7 +31,7 @@
   "author": "Pipedream Engineering",
   "license": "MIT",
   "dependencies": {
-    "@pipedream/sdk": "^2.0.13",
+    "@pipedream/sdk": "^2.3.4",
     "@tanstack/react-query": "^5.59.16",
     "lodash.isequal": "^4.5.0",
     "react-markdown": "^9.0.1",
