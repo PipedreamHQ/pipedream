@@ -16610,8 +16610,8 @@ importers:
   components/woocommerce:
     dependencies:
       '@pipedream/platform':
-        specifier: ^0.10.1
-        version: 0.10.1
+        specifier: ^3.1.1
+        version: 3.1.1
       '@woocommerce/woocommerce-rest-api':
         specifier: ^1.0.2
         version: 1.0.2
