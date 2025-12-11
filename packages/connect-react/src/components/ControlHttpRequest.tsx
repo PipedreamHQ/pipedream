@@ -358,7 +358,7 @@ export function ControlHttpRequest() {
   const labelStyles = {
     fontSize: "0.75rem",
     fontWeight: 500,
-    color: theme.colors.neutral50,
+    color: theme.colors.neutral70,
   };
 
   const selectStyles = {
