@@ -78,9 +78,9 @@ export default {
       optional: true,
     },
     doubleSidedSpecificPages: {
-      type: "string[]",
+      type: "string",
       label: "Double Sided Specific Pages",
-      description: "The array of pages to print double sided. Only used when **Double Sided** is set to `mixed`. Example: **[[1, 3], [6, 7]]**.",
+      description: "The array of pages to print double sided. Only used when **Double Sided** is set to `mixed`. Example: **1-3,6-7**.",
       optional: true,
     },
     premiumQuality: {
@@ -207,7 +207,7 @@ export default {
         filename: metadata.name,
       });
       if (doubleSided) formData.append("printing.double_sided", doubleSided);
-      if (doubleSidedSpecificPages) formData.append("printing.double_sided_specific_pages", parseObject(doubleSidedSpecificPages));
+      if (doubleSidedSpecificPages) formData.append("printing.double_sided_specific_pages", doubleSidedSpecificPages);
       if (premiumQuality) formData.append("printing.premium_quality", premiumQuality);
       if (splittingMethod) formData.append("splitting.method", splittingMethod);
       if (splitOnPhrase) formData.append("splitting.phrase", splitOnPhrase);
@@ -220,7 +220,7 @@ export default {
       if (nudgeX) formData.append("nudge.x", nudgeX);
       if (nudgeY) formData.append("nudge.y", nudgeY);
       if (removeLettersWithPhrase) formData.append("remove_letters.with_phrase", removeLettersWithPhrase);
-      if (removeLettersSeries) formData.append("remove_letters.series", parseObject(removeLettersSeries));
+      if (removeLettersSeries) formData.append("remove_letters.series", JSON.stringify(parseObject(removeLettersSeries)));
       if (confirmationEmail) formData.append("confirmation_email", `${confirmationEmail}`);
       for (const [
         key,
@@ -238,6 +238,8 @@ export default {
       $.export("$summary", `Successfully created print job with ID: ${response.id}`);
       return response;
     } catch (error) {
+      console.log("error: ", error);
+
       throw new ConfigurationError(`Error creating print job: ${error.response.data.error.message}`);
     }
   },
