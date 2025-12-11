@@ -6671,8 +6671,8 @@ importers:
   components/habitify:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.8
-        version: 1.6.8
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/hacker_news:
     dependencies:
@@ -15861,8 +15861,7 @@ importers:
         specifier: ^13.0.0
         version: 13.0.0
 
-  components/upsales:
-    specifiers: {}
+  components/upsales: {}
 
   components/upstash_redis:
     dependencies:
