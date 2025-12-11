@@ -50,15 +50,27 @@ export function SelectComponent({
     select, theme,
   } = useCustomize();
 
-  const {
-    surface,
-    border,
-    text,
-    textStrong,
-    hoverBg,
-    selectedBg,
-    selectedHoverBg,
-  } = resolveSelectColors(theme.colors);
+  // Memoize color resolution to avoid recalculating on every render
+  const resolvedColors = useMemo(() => resolveSelectColors(theme.colors), [
+    theme.colors,
+  ]);
+
+  // Memoize base select styles - only recalculate when colors or boxShadow change
+  const baseSelectStyles = useMemo(() => createBaseSelectStyles<Component>({
+    colors: {
+      surface: resolvedColors.surface,
+      border: resolvedColors.border,
+      text: resolvedColors.text,
+      textStrong: resolvedColors.textStrong,
+      hoverBg: resolvedColors.hoverBg,
+      selectedBg: resolvedColors.selectedBg,
+      selectedHoverBg: resolvedColors.selectedHoverBg,
+    },
+    boxShadow: theme.boxShadow,
+  }), [
+    resolvedColors,
+    theme.boxShadow,
+  ]);
 
   const isLoadingMoreRef = useRef(isLoadingMore);
   isLoadingMoreRef.current = isLoadingMore;
@@ -83,18 +95,7 @@ export function SelectComponent({
   ]);
 
   const baseSelectProps: BaseReactSelectProps<Component> = {
-    styles: createBaseSelectStyles<Component>({
-      colors: {
-        surface,
-        border,
-        text,
-        textStrong,
-        hoverBg,
-        selectedBg,
-        selectedHoverBg,
-      },
-      boxShadow: theme.boxShadow,
-    }),
+    styles: baseSelectStyles,
   };
 
   const selectProps = select.getProps("selectComponent", baseSelectProps);

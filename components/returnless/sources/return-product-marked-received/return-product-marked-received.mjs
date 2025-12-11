@@ -5,7 +5,7 @@ export default {
   key: "returnless-return-product-marked-received",
   name: "Return Product Marked Received (Instant)",
   description: "Emit new event when a return product is marked as received. [See the documentation](https://docs.returnless.com/docs/api-rest-reference/fd4ad9c27648b-creates-a-webhook-subscriptions)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

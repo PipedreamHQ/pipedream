@@ -2,12 +2,19 @@
 
 # Changelog
 
-## [2.3.0] - 2025-12-10
+## [2.4.0] - 2025-12-10
 
 ### Added
 
 - Added support for `http_request` prop type with `ControlHttpRequest` component
 - HTTP request builder UI with URL, method, headers, and body configuration
+
+## [2.3.0] - 2025-12-07
+
+### Added
+
+- Dark mode support for select components with new theme color tokens (`optionHover`, `optionSelected`, `optionSelectedHover`, `appIconBackground`)
+- App icon backgrounds in `SelectApp` for better visibility in dark mode
 
 ## [2.2.0] - 2025-11-29
 
