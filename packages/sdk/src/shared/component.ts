@@ -148,6 +148,20 @@ export type ConfigurablePropSql = BaseConfigurableProp & {
   };
 } & Defaultable<string>;
 
+export type ConfigurablePropHttpRequest = BaseConfigurableProp & {
+  type: "http_request";
+  default?: {
+    url?: string;
+    method?: string;
+    headers?: Array<{ name: string; value: string }>;
+    body?: {
+      type?: "fields" | "raw";
+      contentType?: string;
+      raw?: string;
+    };
+  };
+};
+
 export type ConfigurablePropAirtableBaseId = BaseConfigurableProp & {
   type: "$.airtable.baseId";
   appProp: string;
@@ -192,6 +206,7 @@ export type ConfigurableProp =
   | ConfigurablePropDiscordChannel
   | ConfigurablePropDiscordChannelArray
   | ConfigurablePropHttp
+  | ConfigurablePropHttpRequest
   | ConfigurablePropInteger
   | ConfigurablePropIntegerArray
   | ConfigurablePropObject
@@ -220,6 +235,13 @@ export type PropValue<T extends ConfigurableProp["type"]> = T extends "alert"
   ? string[] // XXX support arrays differently?
   : T extends "sql"
   ? { app: string; query: string; params: unknown[]; }
+  : T extends "http_request"
+  ? {
+      url?: string;
+      method?: string;
+      headers?: Array<{ name: string; value: string }>;
+      body?: { type?: string; contentType?: string; raw?: string };
+    }
   : never;
 
 export type ConfiguredProps<T extends ConfigurableProps> = {
