@@ -395,16 +395,19 @@ export function ControlHttpRequest() {
     alignItems: "stretch" as const,
   };
 
+  const fieldId = `http-request-${prop.name}`;
+
   return (
     <div {...getProps("controlHttpRequest", containerStyles, formFieldContextProps)}>
       {/* URL + Method Section */}
       <div style={sectionStyles}>
-        <label style={labelStyles}>URL</label>
+        <span style={labelStyles}>URL</span>
         <div style={urlRowStyles}>
           <select
             value={state.method}
             onChange={(e) => handleMethodChange(e.target.value)}
             style={methodSelectStyles}
+            aria-label="HTTP method"
           >
             {HTTP_METHODS.map((method) => (
               <option key={method} value={method}>{method}</option>
@@ -417,13 +420,14 @@ export function ControlHttpRequest() {
             placeholder="https://api.example.com/endpoint"
             style={urlInputStyles}
             required={!prop.optional}
+            aria-label="URL"
           />
         </div>
       </div>
 
       {/* Headers Section */}
       <div style={sectionStyles}>
-        <label style={labelStyles}>Headers</label>
+        <span style={labelStyles}>Headers</span>
         {state.headers.map((header, index) => (
           <div key={index} style={itemStyles}>
             <input
@@ -432,6 +436,7 @@ export function ControlHttpRequest() {
               onChange={(e) => handleHeaderChange(index, "key", e.target.value)}
               placeholder="Header name"
               style={inputStyles}
+              aria-label={`Header ${index + 1} name`}
             />
             <input
               type="text"
@@ -439,13 +444,14 @@ export function ControlHttpRequest() {
               onChange={(e) => handleHeaderChange(index, "value", e.target.value)}
               placeholder="Header value"
               style={inputStyles}
+              aria-label={`Header ${index + 1} value`}
             />
             {state.headers.length > 1 && (
               <button
                 type="button"
                 onClick={() => removeHeader(index)}
                 style={removeButtonStyles}
-                aria-label="Remove header"
+                aria-label={`Remove header ${index + 1}`}
               >
                 x
               </button>
@@ -468,8 +474,9 @@ export function ControlHttpRequest() {
 
       {/* Body Section */}
       <div style={sectionStyles}>
-        <label style={labelStyles}>Body</label>
+        <label htmlFor={`${fieldId}-body-type`} style={labelStyles}>Body</label>
         <select
+          id={`${fieldId}-body-type`}
           value={state.bodyContentType}
           onChange={(e) => handleBodyContentTypeChange(e.target.value)}
           style={selectStyles}
@@ -487,6 +494,7 @@ export function ControlHttpRequest() {
               : "Request body"}
             style={textareaStyles}
             rows={4}
+            aria-label="Request body"
           />
         )}
       </div>

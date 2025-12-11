@@ -148,18 +148,31 @@ export type ConfigurablePropSql = BaseConfigurableProp & {
   };
 } & Defaultable<string>;
 
+// Matches the schema expected by the component runtime
+// See: lambda-v2/packages/component-runtime/src/prepareProps/httpRequest.js
+export type HttpRequestValue = {
+  url?: string;
+  method?: string;
+  headers?: Array<{ name: string; value: string; disabled?: boolean }>;
+  params?: Array<{ name: string; value: string; disabled?: boolean }>;
+  body?: {
+    contentType?: string;
+    type?: "raw" | "fields";
+    mode?: "raw" | "fields";
+    raw?: string;
+    fields?: Array<{ name: string; value: string }>;
+  };
+  auth?: {
+    type?: "none" | "basic" | "bearer";
+    username?: string;
+    password?: string;
+    token?: string;
+  };
+};
+
 export type ConfigurablePropHttpRequest = BaseConfigurableProp & {
   type: "http_request";
-  default?: {
-    url?: string;
-    method?: string;
-    headers?: Array<{ name: string; value: string }>;
-    body?: {
-      type?: "fields" | "raw";
-      contentType?: string;
-      raw?: string;
-    };
-  };
+  default?: HttpRequestValue;
 };
 
 export type ConfigurablePropAirtableBaseId = BaseConfigurableProp & {
@@ -236,12 +249,7 @@ export type PropValue<T extends ConfigurableProp["type"]> = T extends "alert"
   : T extends "sql"
   ? { app: string; query: string; params: unknown[]; }
   : T extends "http_request"
-  ? {
-      url?: string;
-      method?: string;
-      headers?: Array<{ name: string; value: string }>;
-      body?: { type?: string; contentType?: string; raw?: string };
-    }
+  ? HttpRequestValue
   : never;
 
 export type ConfiguredProps<T extends ConfigurableProps> = {
