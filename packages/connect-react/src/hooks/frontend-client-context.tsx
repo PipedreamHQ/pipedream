@@ -27,7 +27,9 @@ export const FrontendClientProvider: FC<FrontendClientProviderProps> = ({
   client,
 }: FrontendClientProviderProps) => {
   // Use useState to ensure QueryClient is only created once per component instance
-  const [queryClient] = useState(
+  const [
+    queryClient,
+  ] = useState(
     () =>
       new QueryClient({
         defaultOptions: {
