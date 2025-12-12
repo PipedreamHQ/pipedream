@@ -4,7 +4,7 @@ export default {
   key: "shopify-update-article",
   name: "Update Article",
   description: "Update a blog article. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/articleUpdate)",
-  version: "0.0.8",
+  version: "0.0.9",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
