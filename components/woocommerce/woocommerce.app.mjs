@@ -10,6 +10,15 @@ export default {
       type: "integer",
       label: "Order ID",
       description: "ID of the Order",
+      async options({ page }) {
+        const orders = await this.listOrders({
+          page: page + 1,
+        });
+        return orders.map((order) => ({
+          label: `Order #${order.number || order.id} - ${order.status}`,
+          value: order.id,
+        }));
+      },
     },
     orderStatus: {
       type: "string",
@@ -151,6 +160,68 @@ export default {
       },
       optional: true,
     },
+    productId: {
+      type: "integer",
+      label: "Product ID",
+      description: "ID of the Product",
+      async options({ page }) {
+        const products = await this.listProducts({
+          page: page + 1,
+        });
+        return products.map((product) => ({
+          label: product.name,
+          value: product.id,
+        }));
+      },
+    },
+    orderNoteId: {
+      type: "integer",
+      label: "Note ID",
+      description: "ID of the Order Note",
+      async options({
+        page, orderId,
+      }) {
+        if (!orderId) {
+          return [];
+        }
+        const notes = await this.listOrderNotes({
+          orderId,
+          params: {
+            page: page + 1,
+          },
+        });
+        return notes.map((note) => {
+          const preview = note.note.length > 50
+            ? `${note.note.substring(0, 50)}...`
+            : note.note;
+          return {
+            label: `Note #${note.id} - ${preview}`,
+            value: note.id,
+          };
+        });
+      },
+    },
+    noteType: {
+      type: "string",
+      label: "Note Type",
+      description: "Limit result to customers or internal notes",
+      options: [
+        {
+          label: "Any",
+          value: "any",
+        },
+        {
+          label: "Customer",
+          value: "customer",
+        },
+        {
+          label: "Internal",
+          value: "internal",
+        },
+      ],
+      optional: true,
+      default: "any",
+    },
   },
   methods: {
     async getClient() {
@@ -229,6 +300,34 @@ export default {
     },
     async updateProduct(productId, data) {
       return this.putResource(`products/${productId}`, data);
+    },
+    async getProduct(id) {
+      return this.listResources(`products/${id}`);
+    },
+    async deleteOrder(orderId, params = null) {
+      const q = querystring.stringify(params);
+      return this.deleteResource(`orders/${orderId}?${q}`);
+    },
+    async getOrderNote({
+      orderId, noteId,
+    }) {
+      return this.listResources(`orders/${orderId}/notes/${noteId}`);
+    },
+    async listOrderNotes({
+      orderId, params = null,
+    }) {
+      const q = querystring.stringify(params);
+      return this.listResources(`orders/${orderId}/notes?${q}`);
+    },
+    async createOrderNote({
+      orderId, data,
+    }) {
+      return this.postResource(`orders/${orderId}/notes`, data);
+    },
+    async createRefund({
+      orderId, data,
+    }) {
+      return this.postResource(`orders/${orderId}/refunds`, data);
     },
   },
 };

@@ -4,7 +4,7 @@ export default {
   key: "woocommerce-create-customer",
   name: "Create Customer",
   description: "Creates a new customer. [See the docs](https://woocommerce.github.io/woocommerce-rest-api-docs/?javascript#create-a-customer)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

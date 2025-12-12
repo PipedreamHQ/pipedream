@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/factorial_api_keys",
+  "version": "0.0.1",
+  "description": "Pipedream Factorial (API Keys) Components",
+  "main": "factorial_api_keys.app.mjs",
+  "keywords": [
+    "pipedream",
+    "factorial_api_keys"
+  ],
+  "homepage": "https://pipedream.com/apps/factorial_api_keys",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

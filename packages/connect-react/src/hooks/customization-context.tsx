@@ -31,6 +31,7 @@ import { ControlAny } from "../components/ControlAny";
 import { ControlApp } from "../components/ControlApp";
 import { ControlArray } from "../components/ControlArray";
 import { ControlBoolean } from "../components/ControlBoolean";
+import { ControlHttpRequest } from "../components/ControlHttpRequest";
 import { ControlInput } from "../components/ControlInput";
 import { ControlObject } from "../components/ControlObject";
 import { ControlSelect } from "../components/ControlSelect";
@@ -79,6 +80,7 @@ export type CustomizableProps = {
   controlApp: ComponentProps<typeof ControlApp> & FormFieldContext<ConfigurablePropApp>;
   controlArray: ComponentProps<typeof ControlArray> & FormFieldContext<ConfigurableProp>;
   controlBoolean: ComponentProps<typeof ControlBoolean> & FormFieldContext<ConfigurablePropBoolean>;
+  controlHttpRequest: ComponentProps<typeof ControlHttpRequest> & FormFieldContext<ConfigurableProp>;
   controlInput: ComponentProps<typeof ControlInput> & FormFieldContext<ConfigurableProp>;
   controlObject: ComponentProps<typeof ControlObject> & FormFieldContext<ConfigurableProp>;
   controlSql: ComponentProps<typeof ControlSql> & FormFieldContext<ConfigurableProp>;

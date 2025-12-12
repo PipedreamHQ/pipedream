@@ -467,6 +467,685 @@ const GET_METAOBJECT = `
   }
 `;
 
+const LIST_ORDERS = `
+  query ($first: Int, $after: String, $reverse: Boolean, $query: String){
+    orders(first: $first, after: $after, reverse: $reverse, query: $query) {
+      nodes {
+        id
+        name
+        createdAt
+        updatedAt
+        processedAt
+        currencyCode
+        displayFinancialStatus
+        displayFulfillmentStatus
+        closed
+        confirmed
+        test
+        note
+        tags
+        totalPriceSet {
+          shopMoney {
+            amount
+            currencyCode
+          }
+          presentmentMoney {
+            amount
+            currencyCode
+          }
+        }
+        subtotalPriceSet {
+          shopMoney {
+            amount
+            currencyCode
+          }
+          presentmentMoney {
+            amount
+            currencyCode
+          }
+        }
+        totalTaxSet {
+          shopMoney {
+            amount
+            currencyCode
+          }
+          presentmentMoney {
+            amount
+            currencyCode
+          }
+        }
+        totalShippingPriceSet {
+          shopMoney {
+            amount
+            currencyCode
+          }
+          presentmentMoney {
+            amount
+            currencyCode
+          }
+        }
+        customer {
+          id
+          displayName
+          firstName
+          lastName
+          email
+          phone
+          defaultAddress {
+            id
+            address1
+            address2
+            city
+            province
+            zip
+            country
+            company
+          }
+        }
+        shippingAddress {
+          address1
+          address2
+          city
+          province
+          zip
+          country
+          company
+          firstName
+          lastName
+        }
+        lineItems(first: 50) {
+          edges {
+            node {
+              id
+              title
+              quantity
+              variantTitle
+              vendor
+              fulfillmentStatus
+              originalUnitPriceSet {
+                shopMoney {
+                  amount
+                  currencyCode
+                }
+                presentmentMoney {
+                  amount
+                  currencyCode
+                }
+              }
+              variant {
+                id
+                title
+                sku
+                price
+                image {
+                  url
+                  altText
+                }
+              }
+              product {
+                id
+                title
+                handle
+                vendor
+                productType
+                images(first: 1) {
+                  edges {
+                    node {
+                      url
+                      altText
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        fulfillments {
+          id
+          status
+          displayStatus
+        }
+        metafields (first: $first) {
+          nodes {
+            id
+            key
+            namespace
+            value
+            type
+          }
+        }
+      }
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
+    }
+  }
+`;
+
+const GET_DRAFT_ORDER = `
+  query ($id: ID!) {
+    draftOrder(id: $id) {
+      id
+      name
+      email
+      note2
+      createdAt
+      updatedAt
+      completedAt
+      invoiceSentAt
+      status
+      totalPriceSet
+      subtotalPriceSet
+      totalShippingPriceSet
+      totalTaxSet
+      currencyCode
+      taxExempt
+      taxesIncluded
+      invoiceUrl
+      billingAddress {
+        address1
+        address2
+        city
+        company
+        country
+        countryCodeV2
+        firstName
+        lastName
+        phone
+        province
+        provinceCode
+        zip
+        name
+        latitude
+        longitude
+      }
+      shippingAddress {
+        address1
+        address2
+        city
+        company
+        country
+        countryCodeV2
+        firstName
+        lastName
+        phone
+        province
+        provinceCode
+        zip
+        name
+        latitude
+        longitude
+      }
+      customer {
+        id
+        defaultEmailAddress
+        firstName
+        lastName
+        phone
+        state
+        tags
+      }
+      lineItems(first: 250) {
+        nodes {
+          id
+          name
+          quantity
+          sku
+          vendor
+          title
+          requiresShipping
+          taxable
+          weight {
+            unit
+            value
+          }
+          product {
+            id
+            title
+          }
+          variant {
+            id
+            title
+          }
+        }
+      }
+      appliedDiscount {
+        title
+        value
+        valueType
+      }
+      order {
+        id
+        name
+      }
+      shippingLine {
+        id
+        title
+        code
+        source
+        custom
+        carrierIdentifier
+        deliveryCategory
+        discountedPriceSet {
+          presentmentMoney {
+            amount
+            currencyCode
+          }
+          shopMoney {
+            amount
+            currencyCode
+          }
+        }
+      }
+      taxLines {
+        title
+        rate
+        ratePercentage
+        priceSet {
+          presentmentMoney {
+            amount
+            currencyCode
+          }
+          shopMoney {
+            amount
+            currencyCode
+          }
+        }
+      }
+      tags
+    }
+  }
+`;
+
+const LIST_DRAFT_ORDERS = `
+  query ($first: Int, $after: String, $reverse: Boolean, $sortKey: DraftOrderSortKeys, $query: String) {
+    draftOrders(first: $first, after: $after, reverse: $reverse, sortKey: $sortKey, query: $query) {
+      nodes {
+        id
+        name
+        email
+        note2
+        createdAt
+        updatedAt
+        completedAt
+        invoiceSentAt
+        status
+        totalPrice
+        subtotalPrice
+        totalShippingPrice
+        totalTax
+        currencyCode
+        taxExempt
+        taxesIncluded
+        invoiceUrl
+        billingAddress {
+          address1
+          address2
+          city
+          company
+          country
+          countryCode
+          firstName
+          lastName
+          phone
+          province
+          provinceCode
+          zip
+          name
+          latitude
+          longitude
+        }
+        shippingAddress {
+          address1
+          address2
+          city
+          company
+          country
+          countryCode
+          firstName
+          lastName
+          phone
+          province
+          provinceCode
+          zip
+          name
+          latitude
+          longitude
+        }
+        customer {
+          id
+          email
+          firstName
+          lastName
+          phone
+          state
+          tags
+        }
+        lineItems(first: 250) {
+          nodes {
+            id
+            name
+            quantity
+            sku
+            vendor
+            title
+            requiresShipping
+            taxable
+            weight {
+              unit
+              value
+            }
+            product {
+              id
+              title
+            }
+            variant {
+              id
+              title
+            }
+          }
+        }
+        appliedDiscount {
+          title
+          value
+          valueType
+        }
+        order {
+          id
+          name
+        }
+        shippingLine {
+          id
+          title
+          code
+          source
+          custom
+          carrierIdentifier
+          deliveryCategory
+          discountedPriceSet {
+            presentmentMoney {
+              amount
+              currencyCode
+            }
+            shopMoney {
+              amount
+              currencyCode
+            }
+          }
+        }
+        taxLines {
+          title
+          rate
+          ratePercentage
+          priceSet {
+            presentmentMoney {
+              amount
+              currencyCode
+            }
+            shopMoney {
+              amount
+              currencyCode
+            }
+          }
+        }
+        tags
+      }
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
+    }
+  }
+`;
+
+const GET_CUSTOMER = `
+  query ($id: ID!) {
+    customer(id: $id) {
+      id
+      firstName
+      lastName
+      createdAt
+      updatedAt
+      state
+      note
+      verifiedEmail
+      taxExempt
+      tags
+      addresses {
+        address1
+        address2
+        city
+        company
+        country
+        countryCodeV2
+        firstName
+        lastName
+        phone
+        province
+        provinceCode
+        zip
+      }
+      defaultAddress {
+        address1
+        address2
+        city
+        company
+        country
+        countryCodeV2
+        firstName
+        lastName
+        phone
+        province
+        provinceCode
+        zip
+      }
+    }
+  }
+`;
+
+const LIST_CUSTOMERS = `
+  query ($first: Int, $after: String, $reverse: Boolean, $sortKey: CustomerSortKeys, $query: String) {
+    customers(first: $first, after: $after, reverse: $reverse, sortKey: $sortKey, query: $query) {
+      nodes {
+        id
+        email
+        firstName
+        lastName
+        phone
+        createdAt
+        updatedAt
+        state
+        note
+        verifiedEmail
+        taxExempt
+        tags
+        addresses {
+          address1
+          address2
+          city
+          company
+          country
+          countryCodeV2
+          firstName
+          lastName
+          phone
+          province
+          provinceCode
+          zip
+        }
+        defaultAddress {
+          address1
+          address2
+          city
+          company
+          country
+          countryCodeV2
+          firstName
+          lastName
+          phone
+          province
+          provinceCode
+          zip
+        }
+      }
+      pageInfo {
+        endCursor
+      }
+    }
+  }
+`;
+
+const LIST_ASSIGNED_FULFILLMENT_ORDERS = `
+  query ($first: Int, $after: String, $reverse: Boolean, $sortKey: FulfillmentOrderSortKeys) {
+    assignedFulfillmentOrders(first: $first, after: $after, reverse: $reverse, sortKey: $sortKey) {
+      nodes {
+        id
+        status
+        createdAt
+         updatedAt
+        requestStatus
+        order {
+          id
+          name
+        }
+        assignedLocation {
+          location {
+            id
+            name
+          }
+        }
+        destination {
+          address1
+          address2
+          city
+          company
+          countryCodeV2
+          firstName
+          lastName
+          phone
+          province
+          zip
+        }
+        lineItems(first: $first) {
+          nodes {
+            id
+            remainingQuantity
+            totalQuantity
+            lineItem {
+              id
+              name
+              sku
+            }
+          }
+        }
+      }
+      pageInfo {
+        endCursor
+      }
+    }
+  }
+`;
+
+const GET_FULFILLMENT_ORDER = `
+  query ($id: ID!, $first: Int) {
+    fulfillmentOrder(id: $id) {
+      id
+      status
+      createdAt
+      updatedAt
+      requestStatus
+      order {
+        id
+        name
+      }
+      assignedLocation {
+        location {
+          id
+          name
+        }
+      }
+      destination {
+        address1
+        address2
+        city
+        company
+        country
+        countryCodeV2
+        firstName
+        lastName
+        phone
+        province
+        provinceCode
+        zip
+      }
+      lineItems(first: $first) {
+        nodes {
+          id
+          remainingQuantity
+          totalQuantity
+          lineItem {
+            id
+            name
+            sku
+          }
+        }
+      }
+    }
+  }
+`;
+
+const LIST_FULFILLMENT_ORDERS = `
+  query ($first: Int, $after: String, $reverse: Boolean, $sortKey: FulfillmentOrderSortKeys, $query: String) {
+    fulfillmentOrders(first: $first, after: $after, reverse: $reverse, sortKey: $sortKey, query: $query) {
+      nodes {
+        id
+        status
+        createdAt
+        updatedAt
+        requestStatus
+        order {
+          id
+          name
+        }
+        assignedLocation {
+          location {
+            id
+            name
+          }
+        }
+        destination {
+          address1
+          address2
+          city
+          company
+          countryCodeV2
+          firstName
+          lastName
+          phone
+          province
+          zip
+        }
+        lineItems(first: $first) {
+          nodes {
+            id
+            remainingQuantity
+            totalQuantity
+            lineItem {
+              id
+              name
+              sku
+            }
+          }
+        }
+      }
+      pageInfo {
+        endCursor
+      }
+    }
+  }
+`;
+
 export default {
   LIST_ABANDONED_CHECKOUTS,
   LIST_BLOG_ARTICLES,
@@ -485,4 +1164,12 @@ export default {
   GET_PAGE,
   GET_ARTICLE,
   GET_METAOBJECT,
+  LIST_ORDERS,
+  GET_DRAFT_ORDER,
+  LIST_DRAFT_ORDERS,
+  GET_CUSTOMER,
+  LIST_CUSTOMERS,
+  LIST_ASSIGNED_FULFILLMENT_ORDERS,
+  GET_FULFILLMENT_ORDER,
+  LIST_FULFILLMENT_ORDERS,
 };

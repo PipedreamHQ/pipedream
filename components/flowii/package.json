@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/flowii",
+  "version": "0.0.1",
+  "description": "Pipedream FLOWii Components",
+  "main": "flowii.app.mjs",
+  "keywords": [
+    "pipedream",
+    "flowii"
+  ],
+  "homepage": "https://pipedream.com/apps/flowii",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

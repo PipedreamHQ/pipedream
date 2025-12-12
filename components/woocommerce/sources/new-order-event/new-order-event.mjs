@@ -6,7 +6,7 @@ export default {
   key: "woocommerce-new-order-event",
   name: "New Order Event (Instant)",
   description: "Emit new event each time the specified order event(s) occur",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   methods: {
