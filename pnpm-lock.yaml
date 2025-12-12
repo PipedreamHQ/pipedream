@@ -10136,6 +10136,9 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
+  components/nuvemshop:
+    specifiers: {}
+
   components/nvoip: {}
 
   components/nyckel:
