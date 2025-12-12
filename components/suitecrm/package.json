@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/suitecrm",
+  "version": "0.0.1",
+  "description": "Pipedream SuiteCRM Components",
+  "main": "suitecrm.app.mjs",
+  "keywords": [
+    "pipedream",
+    "suitecrm"
+  ],
+  "homepage": "https://pipedream.com/apps/suitecrm",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

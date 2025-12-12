@@ -1,11 +1,11 @@
-import fortnox from "../../fortnox.app.mjs";
 import { parseObject } from "../../common/utils.mjs";
+import fortnox from "../../fortnox.app.mjs";
 
 export default {
   key: "fortnox-create-invoice",
   name: "Create Invoice",
   description: "Creates a new invoice in the Fortnox API. [See the documentation](https://api.fortnox.se/apidocs#tag/fortnox_Invoices/operation/create_23).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -53,7 +53,7 @@ export default {
     dueDate: {
       type: "string",
       label: "Due Date",
-      description: "The due date of the invoice",
+      description: "The due date of the invoice. **Format: YYYY-MM-DD**",
       optional: true,
     },
     invoiceRows: {
@@ -105,18 +105,6 @@ export default {
       description: "The freight of the invoice",
       optional: true,
     },
-    termsOfDelivery: {
-      type: "string",
-      label: "Terms of Delivery",
-      description: "The terms of delivery of the invoice",
-      optional: true,
-    },
-    termsOfPayment: {
-      type: "string",
-      label: "Terms of Payment",
-      description: "The terms of payment of the invoice",
-      optional: true,
-    },
   },
   async run({ $ }) {
     const response = await this.fortnox.createInvoice({
@@ -143,12 +131,10 @@ export default {
           Freight: this.freight
             ? +this.freight
             : undefined,
-          TermsOfDelivery: this.termsOfDelivery,
-          TermsOfPayment: this.termsOfPayment,
         },
       },
     });
-    $.export("$summary", `Successfully created invoice with ID \`${response.Invoice.InvoiceNumber}\``);
+    $.export("$summary", `Successfully created invoice with ID \`${response.Invoice.DocumentNumber}\``);
     return response;
   },
 };

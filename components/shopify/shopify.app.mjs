@@ -244,6 +244,66 @@ export default {
       description: "An array of objects, each one representing a metafield. If adding a new metafield, the object should contain `key`, `value`, `type`, and `namespace`. Example: `{{ [{ \"key\": \"new\", \"value\": \"newvalue\", \"type\": \"single_line_text_field\", \"namespace\": \"global\" }] }}`. To update an existing metafield, use the `id` and `value`. Example: `{{ [{ \"id\": \"28408051400984\", \"value\": \"updatedvalue\" }] }}`",
       optional: true,
     },
+    orderId: {
+      type: "string",
+      label: "Order ID",
+      description: "The identifier of an order",
+      async options({ prevContext }) {
+        return this.getPropOptions({
+          resourceFn: this.listOrders,
+          resourceKeys: [
+            "orders",
+          ],
+          labelKey: "name",
+          prevContext,
+        });
+      },
+    },
+    draftOrderId: {
+      type: "string",
+      label: "Draft Order ID",
+      description: "The identifier of a draft order",
+      async options({ prevContext }) {
+        return this.getPropOptions({
+          resourceFn: this.listDraftOrders,
+          resourceKeys: [
+            "draftOrders",
+          ],
+          labelKey: "name",
+          prevContext,
+        });
+      },
+    },
+    customerId: {
+      type: "string",
+      label: "Customer ID",
+      description: "The identifier of a customer",
+      async options({ prevContext }) {
+        return this.getPropOptions({
+          resourceFn: this.listCustomers,
+          resourceKeys: [
+            "customers",
+          ],
+          labelKey: "email",
+          prevContext,
+        });
+      },
+    },
+    fulfillmentOrderId: {
+      type: "string",
+      label: "Fulfillment Order ID",
+      description: "The identifier of a fulfillment order",
+      async options({ prevContext }) {
+        return this.getPropOptions({
+          resourceFn: this.listAssignedFulfillmentOrders,
+          resourceKeys: [
+            "assignedFulfillmentOrders",
+          ],
+          labelKey: "id",
+          prevContext,
+        });
+      },
+    },
   },
   methods: {
     getShopId() {
@@ -456,6 +516,33 @@ export default {
     },
     deleteMetafield(variables) {
       return this._makeGraphQlRequest(mutations.DELETE_METAFIELD, variables);
+    },
+    listOrders(variables) {
+      return this._makeGraphQlRequest(queries.LIST_ORDERS, variables);
+    },
+    getDraftOrder(variables) {
+      return this._makeGraphQlRequest(queries.GET_DRAFT_ORDER, variables);
+    },
+    listDraftOrders(variables) {
+      return this._makeGraphQlRequest(queries.LIST_DRAFT_ORDERS, variables);
+    },
+    updateOrder(variables) {
+      return this._makeGraphQlRequest(mutations.UPDATE_ORDER, variables);
+    },
+    getCustomer(variables) {
+      return this._makeGraphQlRequest(queries.GET_CUSTOMER, variables);
+    },
+    listCustomers(variables) {
+      return this._makeGraphQlRequest(queries.LIST_CUSTOMERS, variables);
+    },
+    listAssignedFulfillmentOrders(variables) {
+      return this._makeGraphQlRequest(queries.LIST_ASSIGNED_FULFILLMENT_ORDERS, variables);
+    },
+    getFulfillmentOrder(variables) {
+      return this._makeGraphQlRequest(queries.GET_FULFILLMENT_ORDER, variables);
+    },
+    listFulfillmentOrders(variables) {
+      return this._makeGraphQlRequest(queries.LIST_FULFILLMENT_ORDERS, variables);
     },
     async *paginate({
       resourceFn, resourceKeys = [], variables = {}, max,

@@ -2052,7 +2052,11 @@ importers:
 
   components/brainshop: {}
 
-  components/braintree: {}
+  components/braintree:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/brand_dev: {}
 
@@ -5404,6 +5408,9 @@ importers:
 
   components/flotiq: {}
 
+  components/flowii:
+    specifiers: {}
+
   components/flowiseai:
     dependencies:
       '@pipedream/platform':
@@ -6694,6 +6701,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
+
+  components/hailey_hr:
+    specifiers: {}
 
   components/halo_service_solutions: {}
 
@@ -10129,6 +10139,9 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
+  components/nuvemshop:
+    specifiers: {}
+
   components/nvoip: {}
 
   components/nyckel:
@@ -12390,7 +12403,11 @@ importers:
 
   components/remarkety: {}
 
-  components/remote: {}
+  components/remote:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/remote_retrieval:
     dependencies:
@@ -13802,6 +13819,9 @@ importers:
 
   components/simplebackups: {}
 
+  components/simpleem:
+    specifiers: {}
+
   components/simplehash: {}
 
   components/simplekpi: {}
@@ -14533,6 +14553,9 @@ importers:
   components/successeve: {}
 
   components/sugarcrm_: {}
+
+  components/suitecrm:
+    specifiers: {}
 
   components/suitedash:
     dependencies:
