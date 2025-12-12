@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import { parseObject } from "../../common/utils.mjs";
 import glide from "../../glide.app.mjs";
 
@@ -28,6 +29,9 @@ export default {
   },
   async run({ $ }) {
     let rowsData = parseObject(this.rows);
+    if (!Array.isArray(rowsData)) {
+      throw new ConfigurationError("Rows data must be an array");
+    }
     const response = await this.glide.addRows({
       $,
       tableId: this.tableId,

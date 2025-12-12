@@ -6,7 +6,7 @@ export default {
   description: "Delete an existing row from a table. [See the documentation](https://apidocs.glideapps.com/api-reference/v2/tables/delete-table-row)",
   version: "0.0.1",
   annotations: {
-    destructiveHint: false,
+    destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },

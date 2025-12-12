@@ -34,18 +34,19 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {};
-    if (this.limit) {
-      params.limit = this.limit;
-    }
-    if (this.continuation) {
-      params.continuation = this.continuation;
-    }
-
     const response = await this.glide.getRows({
       $,
       tableId: this.tableId,
-      params,
+      params: {
+        ...(this.limit
+          && {
+            limit: this.limit,
+          }),
+        ...(this.continuation
+          && {
+            continuation: this.continuation,
+          }),
+      },
     });
 
     const rowCount = response.data?.length || 0;
