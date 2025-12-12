@@ -4,7 +4,7 @@ export default {
   key: "infobip-send-whatsapp-text-message",
   name: "Send WhatsApp Text Message",
   description: "Sends a WhatsApp text message to a specified number. [See the documentation](https://www.infobip.com/docs/api#channels/whatsapp/send-whatsapp-text-message)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -131,7 +131,7 @@ export default {
     sendSms(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/sms/2/text/advanced",
+        path: "/sms/3/messages",
         ...opts,
       });
     },
