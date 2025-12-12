@@ -77,18 +77,20 @@ export default {
           {
             sender,
             destinations: [
-              { to: phoneNumber }
+              {
+                to: phoneNumber,
+              },
             ],
             content: {
-              text
+              text,
             },
             ...rest,
-          }
-        ]
+          },
+        ],
       },
     });
 
     $.export("$summary", response.messages[0].status.description);
     return response;
-  }
+  },
 };
