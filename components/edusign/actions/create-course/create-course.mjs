@@ -26,7 +26,7 @@ export default {
     end: {
       type: "string",
       label: "End",
-      description: "End date of the course (ISO 8601 datetime)",
+      description: "End date of the course (ISO 8601 datetime, e.g. `2025-11-29T15:00:00Z`)",
     },
     professorId: {
       propDefinition: [
