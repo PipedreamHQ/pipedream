@@ -21,7 +21,7 @@ export default {
     start: {
       type: "string",
       label: "Start",
-      description: "Start date of the course (ISO 8601 datetime)",
+      description: "Start date of the course (ISO 8601 datetime, e.g. `2023-02-15T09:00:00Z`)",
     },
     end: {
       type: "string",
