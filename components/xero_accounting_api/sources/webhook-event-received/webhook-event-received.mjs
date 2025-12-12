@@ -5,7 +5,7 @@ export default {
   key: "xero_accounting_api-webhook-event-received",
   name: "Webhook Event Received (Instant)",
   description: "Emit new event for each incoming webhook notification. To create a Xero Webhook, please follow [the instructions here](https://developer.xero.com/documentation/guides/webhooks/creating-webhooks/).",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   props: {
     xeroAccountingApi,

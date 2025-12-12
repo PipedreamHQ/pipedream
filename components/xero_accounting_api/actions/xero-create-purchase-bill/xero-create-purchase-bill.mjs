@@ -6,7 +6,7 @@ export default {
   key: "xero_accounting_api-xero-create-purchase-bill",
   name: "Create Purchase Bill",
   description: "Creates a new purchase bill.",
-  version: "0.1.3",
+  version: "0.1.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -22,9 +22,14 @@ export default {
       ],
     },
     contactId: {
-      label: "Contact ID",
-      type: "string",
-      description: "Id of the contact associated to the invoice.",
+      propDefinition: [
+        xeroAccountingApi,
+        "contactId",
+        (c) => ({
+          tenantId: c.tenantId,
+        }),
+      ],
+      description: "ID of the contact associated to the invoice.",
       optional: true,
     },
     contactName: {
@@ -141,7 +146,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully created purchase bill with ID: ${response.PurchaseBillID}`);
+    $.export("$summary", `Successfully created purchase bill with ID: ${response.Invoices[0].InvoiceID}`);
     return response;
   },
 };

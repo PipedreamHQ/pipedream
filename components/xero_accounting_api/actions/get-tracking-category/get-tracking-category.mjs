@@ -4,7 +4,7 @@ export default {
   key: "xero_accounting_api-get-tracking-category",
   name: "Get tracking category",
   description: "Get information from a tracking category by ID [See the documentation](https://developer.xero.com/documentation/api/accounting/trackingcategories#get-trackingcategories).",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

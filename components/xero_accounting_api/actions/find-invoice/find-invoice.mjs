@@ -8,7 +8,7 @@ export default {
   key: "xero_accounting_api-find-invoice",
   name: "Find Invoice",
   description: "Finds an invoice by number or reference.[See the docs here](https://developer.xero.com/documentation/api/accounting/invoices/#get-invoices)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -26,7 +26,7 @@ export default {
     },
     trackingCategoryId: {
       type: "string",
-      label: "Tracking category ID",
+      label: "Tracking Category ID",
       description: "Unique identification of the tracking category",
       async options({ tenantId }) {
         const { TrackingCategories: trackingCategories } = await this.getTrackingCategories({
@@ -44,7 +44,7 @@ export default {
     },
     trackingOptionId: {
       type: "string",
-      label: "Tracking option ID",
+      label: "Tracking Option ID",
       description: "Unique identification of the tracking option",
       async options({
         tenantId, trackingCategoryId,
@@ -72,9 +72,30 @@ export default {
         });
       },
     },
+    contactId: {
+      type: "string",
+      label: "Contact ID",
+      description: "Unique identification of the contact",
+      async options({
+        tenantId, page,
+      }) {
+        const { Contacts: contacts } = await this.getContact({
+          tenantId,
+          params: {
+            page: page + 1,
+          },
+        });
+        return contacts?.map(({
+          ContactID: value, Name: label,
+        }) => ({
+          label,
+          value,
+        })) || [];
+      },
+    },
     lineItems: {
       type: "string[]",
-      label: "Line items",
+      label: "Line Items",
       description: "The LineItems collection can contain any number of individual LineItem sub-elements. At least one is required to create a complete Invoice. [Refer to Tax Type](https://developer.xero.com/documentation/api/accounting/types#report-tax-types), [Refer to Line Items](https://developer.xero.com/documentation/api/accounting/invoices#creating-updating-and-deleting-line-items-when-updating-invoices)\n\n**Example:** `[{\"Description\":\"Football\", \"Quantity\":\"20\", \"UnitAmount\":\"50000\", \"TaxType\":\"OUTPUT\" }]`",
     },
   },
@@ -385,6 +406,12 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: `/Contacts/${contactId}`,
+        ...opts,
+      });
+    },
+    listQuotes(opts = {}) {
+      return this._makeRequest({
+        path: "/Quotes",
         ...opts,
       });
     },

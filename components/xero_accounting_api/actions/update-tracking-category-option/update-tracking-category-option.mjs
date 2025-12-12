@@ -5,7 +5,7 @@ export default {
   key: "xero_accounting_api-update-tracking-category-option",
   name: "Update tracking category option",
   description: "Update a tracking category by ID [See the documentation](https://developer.xero.com/documentation/api/accounting/trackingcategories#post-trackingcategories).",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
