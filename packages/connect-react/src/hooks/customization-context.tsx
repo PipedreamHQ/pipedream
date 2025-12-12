@@ -1,8 +1,4 @@
-import type {
-  ConfigurableProp,
-  ConfigurablePropApp,
-  ConfigurablePropBoolean,
-} from "@pipedream/sdk";
+import type { ConfigurableProp } from "@pipedream/sdk";
 import type {
   ComponentProps, CSSProperties, JSXElementConstructor,
 } from "react";
@@ -75,11 +71,11 @@ export type CustomizationOpts<P extends ComponentProps<JSXElementConstructor<any
 
 export type CustomizableProps = {
   componentForm: ComponentProps<typeof ComponentForm>;
-  connectButton: ComponentProps<typeof ControlApp> & FormFieldContext<ConfigurablePropApp>;
+  connectButton: ComponentProps<typeof ControlApp> & FormFieldContext<ConfigurableProp.App>;
   controlAny: ComponentProps<typeof ControlAny> & FormFieldContext<ConfigurableProp>;
-  controlApp: ComponentProps<typeof ControlApp> & FormFieldContext<ConfigurablePropApp>;
+  controlApp: ComponentProps<typeof ControlApp> & FormFieldContext<ConfigurableProp.App>;
   controlArray: ComponentProps<typeof ControlArray> & FormFieldContext<ConfigurableProp>;
-  controlBoolean: ComponentProps<typeof ControlBoolean> & FormFieldContext<ConfigurablePropBoolean>;
+  controlBoolean: ComponentProps<typeof ControlBoolean> & FormFieldContext<ConfigurableProp.Boolean>;
   controlHttpRequest: ComponentProps<typeof ControlHttpRequest> & FormFieldContext<ConfigurableProp>;
   controlInput: ComponentProps<typeof ControlInput> & FormFieldContext<ConfigurableProp>;
   controlObject: ComponentProps<typeof ControlObject> & FormFieldContext<ConfigurableProp>;
