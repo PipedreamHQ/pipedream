@@ -175,6 +175,8 @@ export default {
     try {
       const {
         intelliprint,
+        confirmed,
+        testmode,
         filePath,
         syncDir,
         splittingMethod,
@@ -190,6 +192,7 @@ export default {
         backgroundOtherPages,
         nudgeX,
         nudgeY,
+        confidential,
         removeLettersWithPhrase,
         removeLettersSeries,
         confirmationEmail,
@@ -206,19 +209,23 @@ export default {
         knownLength: metadata.size,
         filename: metadata.name,
       });
+
+      if (confirmed) formData.append("confirmed", `${confirmed}`);
+      if (testmode) formData.append("testmode", `${testmode}`);
       if (doubleSided) formData.append("printing.double_sided", doubleSided);
       if (doubleSidedSpecificPages) formData.append("printing.double_sided_specific_pages", doubleSidedSpecificPages);
-      if (premiumQuality) formData.append("printing.premium_quality", premiumQuality);
+      if (premiumQuality) formData.append("printing.premium_quality", `${premiumQuality}`);
       if (splittingMethod) formData.append("splitting.method", splittingMethod);
       if (splitOnPhrase) formData.append("splitting.phrase", splitOnPhrase);
       if (splitOnPage) formData.append("splitting.pages", splitOnPage);
       if (postageService) formData.append("postage.service", postageService);
       if (idealEnvelope) formData.append("postage.ideal_envelope", idealEnvelope);
-      if (mailDate) formData.append("postage.mail_date", mailDate);
+      if (mailDate) formData.append("postage.mail_date", Date.parse(mailDate) / 1000);
       if (backgroundFirstPage) formData.append("background.first_page", backgroundFirstPage);
       if (backgroundOtherPages) formData.append("background.other_pages", backgroundOtherPages);
       if (nudgeX) formData.append("nudge.x", nudgeX);
       if (nudgeY) formData.append("nudge.y", nudgeY);
+      if (confidential) formData.append("confidential", `${confidential}`);
       if (removeLettersWithPhrase) formData.append("remove_letters.with_phrase", removeLettersWithPhrase);
       if (removeLettersSeries) formData.append("remove_letters.series", JSON.stringify(parseObject(removeLettersSeries)));
       if (confirmationEmail) formData.append("confirmation_email", `${confirmationEmail}`);
