@@ -97,6 +97,110 @@ export default {
         });
       },
     },
+    threadId: {
+      type: "string",
+      label: "Thread ID",
+      description: "The ID of the thread",
+      async options({
+        ticketId, orgId, prevContext,
+      }) {
+        if (!ticketId) {
+          return [];
+        }
+        const { from = 1 } = prevContext || {};
+        if (from === null) {
+          return [];
+        }
+        const { data: threads = [] } =
+          await this.getTicketThreads({
+            ticketId,
+            headers: {
+              orgId,
+            },
+            params: {
+              from,
+              limit: constants.DEFAULT_LIMIT,
+            },
+          });
+        const currentLen = threads?.length;
+        const options = threads?.map(({
+          id: value, summary: label,
+        }) => ({
+          value,
+          label: label || value,
+        }));
+        return {
+          options: options || [],
+          context: {
+            from: currentLen
+              ? currentLen + from
+              : null,
+          },
+        };
+      },
+    },
+    attachmentId: {
+      type: "string",
+      label: "Attachment ID",
+      description: "The ID of the attachment",
+      async options({
+        ticketId, threadId, orgId, prevContext,
+      }) {
+        if (!ticketId) {
+          return [];
+        }
+        const { from = 1 } = prevContext || {};
+        if (from === null) {
+          return [];
+        }
+        let attachments = [];
+        if (threadId) {
+          // List thread attachments
+          const { data = [] } =
+            await this.getThreadAttachments({
+              ticketId,
+              threadId,
+              headers: {
+                orgId,
+              },
+              params: {
+                from,
+                limit: constants.DEFAULT_LIMIT,
+              },
+            });
+          attachments = data || [];
+        } else {
+          // List ticket attachments
+          const { data = [] } =
+            await this.getTicketAttachments({
+              ticketId,
+              headers: {
+                orgId,
+              },
+              params: {
+                from,
+                limit: constants.DEFAULT_LIMIT,
+              },
+            });
+          attachments = data || [];
+        }
+        const currentLen = attachments?.length;
+        const options = attachments?.map(({
+          id: value, fileName: label,
+        }) => ({
+          value,
+          label: label || value,
+        }));
+        return {
+          options: options || [],
+          context: {
+            from: currentLen
+              ? currentLen + from
+              : null,
+          },
+        };
+      },
+    },
     supportEmailAddress: {
       type: "string",
       label: "Support Email Address",
@@ -679,6 +783,38 @@ export default {
     } = {}) {
       return this.makeRequest({
         path: `/tickets/${ticketId}/threads`,
+        ...args,
+      });
+    },
+    getThreadDetails({
+      ticketId, threadId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/tickets/${ticketId}/threads/${threadId}`,
+        ...args,
+      });
+    },
+    getThreadAttachments({
+      ticketId, threadId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/tickets/${ticketId}/threads/${threadId}/attachments`,
+        ...args,
+      });
+    },
+    downloadTicketAttachment({
+      ticketId, attachmentId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/tickets/${ticketId}/attachments/${attachmentId}`,
+        ...args,
+      });
+    },
+    downloadThreadAttachment({
+      ticketId, threadId, attachmentId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/tickets/${ticketId}/threads/${threadId}/attachments/${attachmentId}`,
         ...args,
       });
     },
