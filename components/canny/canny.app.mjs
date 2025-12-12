@@ -59,27 +59,19 @@ export default {
       type: "string",
       label: "Company ID",
       description: "The ID of a company",
-      async options({ prevContext }) {
-        const {
-          companies, cursor,
-        } = await this.listCompanies({
+      async options({ page }) {
+        const { companies } = await this.listCompanies({
           data: {
             limit: DEFAULT_PAGE_SIZE,
-            cursor: prevContext?.cursor,
+            skip: page * DEFAULT_PAGE_SIZE,
           },
         });
-        const options = companies?.map(({
+        return companies?.map(({
           id: value, name: label,
         }) => ({
           label,
           value,
         })) || [];
-        return {
-          options,
-          context: {
-            cursor,
-          },
-        };
       },
     },
     tagId: {
@@ -234,6 +226,30 @@ export default {
         path: "/posts/change_status",
         ...opts,
       });
+    },
+    async *paginate({
+      fn, data, resourceKey, max,
+    }) {
+      data = {
+        ...data,
+        limit: 100,
+        skip: 0,
+      };
+      let hasMore, count = 0;
+      do {
+        const result = await fn({
+          data,
+        });
+        const items = result[resourceKey];
+        for (const item of items) {
+          yield item;
+          if (max && ++count >= max) {
+            return;
+          }
+        }
+        hasMore = result.hasMore;
+        data.skip += data.limit;
+      } while (hasMore);
     },
   },
 };
