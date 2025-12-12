@@ -22,9 +22,14 @@ export default {
       ],
     },
     contactId: {
-      label: "Contact ID",
-      type: "string",
-      description: "Id of the contact associated to the invoice.",
+      propDefinition: [
+        xeroAccountingApi,
+        "contactId",
+        (c) => ({
+          tenantId: c.tenantId,
+        }),
+      ],
+      description: "ID of the contact associated to the invoice.",
       optional: true,
     },
     contactName: {

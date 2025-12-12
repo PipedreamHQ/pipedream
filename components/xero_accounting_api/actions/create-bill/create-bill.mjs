@@ -1,5 +1,4 @@
 import {
-  deleteKeys,
   formatLineItems,
   isValidDate,
   removeNullEntries,
@@ -28,7 +27,7 @@ export default {
     invoiceNumber: {
       type: "string",
       optional: true,
-      label: "Invoice number",
+      label: "Invoice Number",
       description: "Unique alpha numeric code identifying invoice",
     },
     reference: {
@@ -37,19 +36,14 @@ export default {
       label: "Reference",
       description: "ACCREC only - additional reference number",
     },
-    contact: {
-      type: "object",
-      label: "Contact information",
-      description: `Provide an object. Enter the column name for the key and the corresponding column value. 
-      [See object documentation](https://developer.xero.com/documentation/api/accounting/contacts/#post-contacts). 
-        Example:
-        \`{
-            "ContactID":"Existing contact ID. *Note: If contactID is populated, other key-value pairs would be ignored",
-            "Name":"MyCorp Inc",
-            "FirstName":"Sir",
-            "LastName":"Bush",
-            "EmailAddress": "jonny@mailinator.com"
-        }\``,
+    contactId: {
+      propDefinition: [
+        xeroAccountingApi,
+        "contactId",
+        (c) => ({
+          tenantId: c.tenantId,
+        }),
+      ],
     },
     lineItems: {
       propDefinition: [
@@ -60,19 +54,19 @@ export default {
     date: {
       type: "string",
       optional: true,
-      label: "Invoice date",
+      label: "Invoice Date",
       description: "Date invoice was issued - YYYY-MM-DD",
     },
     dueDate: {
       type: "string",
       optional: true,
-      label: "Invoice due date",
+      label: "Invoice Due Date",
       description: "Date invoice is due - YYYY-MM-DD",
     },
     currencyCode: {
       type: "string",
       optional: true,
-      label: "The invoice currency",
+      label: "The Invoice Currency",
       description:
         "The currency that invoice has been raised in. Refer to [object documentation](https://www.xe.com/iso4217.php)",
     },
@@ -83,14 +77,9 @@ export default {
       tenantId: this.tenantId,
       data: removeNullEntries({
         Type: "ACCPAY",
-        Contact: this.contact?.ContactID
-          ? deleteKeys(this.contact, [
-            "Name",
-            "FirstName",
-            "LastName",
-            "EmailAddress",
-          ])
-          : this.contact,
+        Contact: {
+          ContactID: this.contactId,
+        },
         LineItems: formatLineItems(this.lineItems),
         Date: isValidDate(this.date, "Date") && this.date,
         DueDate: isValidDate(this.dueDate, "DueDate") && this.dueDate,

@@ -22,9 +22,14 @@ export default {
       ],
     },
     contactId: {
-      label: "Contact ID",
-      type: "string",
-      description: "Id of the contact associated to the credit note.",
+      propDefinition: [
+        xeroAccountingApi,
+        "contactId",
+        (c) => ({
+          tenantId: c.tenantId,
+        }),
+      ],
+      description: "ID of the contact associated to the credit note",
       optional: true,
     },
     contactName: {
@@ -69,7 +74,7 @@ export default {
       ],
     },
     lineAmountTypes: {
-      label: "Line amount types",
+      label: "Line Amount Types",
       type: "string",
       description: "See [Invoice Line Amount Types](https://developer.xero.com/documentation/api/Types#LineAmountTypes)",
       optional: true,
@@ -80,19 +85,19 @@ export default {
       ],
     },
     lineItems: {
-      label: "Line items",
+      label: "Line Items",
       type: "object",
       description: "See [Invoice Line Items](https://developer.xero.com/documentation/api/Invoices#LineItems)",
       optional: true,
     },
     currencyCode: {
-      label: "Currency code",
+      label: "Currency Code",
       type: "string",
       description: "Currency used for the Credit Note",
       optional: true,
     },
     creditNoteNumber: {
-      label: "Credit note number",
+      label: "Credit Note Number",
       type: "string",
       description: "[ACCRECCREDIT](https://developer.xero.com/documentation/api/types#CreditNoteTypes) - Unique alpha numeric code identifying credit note ( *when missing will auto-generate from your Organisation Invoice Settings*)\n[ACCPAYCREDIT](https://developer.xero.com/documentation/api/types#CreditNoteTypes) - non-unique alpha numeric code identifying credit note. This value will also display as Reference in the UI.",
       optional: true,
@@ -104,19 +109,19 @@ export default {
       optional: true,
     },
     sentToContact: {
-      label: "Sent to contact",
+      label: "Sent to Contact",
       type: "boolean",
       description: "Boolean to indicate if a credit note has been sent to a contact via the Xero app (currently read only)",
       optional: true,
     },
     currencyRate: {
-      label: "Currency rate",
+      label: "Currency Rate",
       type: "string",
       description: "The currency rate for a multicurrency invoice. If no rate is specified, the [XE.com day rate](http://help.xero.com/#CurrencySettings$Rates) is used",
       optional: true,
     },
     brandingThemeId: {
-      label: "Branding theme ID",
+      label: "Branding Theme ID",
       type: "string",
       description: "See [BrandingThemes](https://developer.xero.com/documentation/api/branding-themes)",
       optional: true,
