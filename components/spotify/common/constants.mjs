@@ -42,3 +42,5 @@ export const ITEM_TYPES_RESULT_NAME = {
   [ITEM_TYPES.SHOW]: "shows",
   [ITEM_TYPES.EPISODE]: "episodes",
 };
+
+export const PAGE_SIZE = 50;

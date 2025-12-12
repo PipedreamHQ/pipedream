@@ -7,7 +7,7 @@ export default {
   key: "spotify-new-track-in-playlist",
   name: "New Track in Playlist",
   description: "Emit new event for each new Spotify track added to a playlist",
-  version: "0.1.3",
+  version: "0.1.4",
   props: {
     ...common.props,
     db: "$.service.db",

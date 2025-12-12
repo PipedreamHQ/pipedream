@@ -1,12 +1,10 @@
-import { axios } from "@pipedream/platform";
-import get from "lodash/get.js";
 import spotify from "../../spotify.app.mjs";
 
 export default {
   name: "Add Items to a Playlist",
   description: "Add one or more items to a user’s playlist. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#/operations/add-tracks-to-playlist).",
   key: "spotify-add-items-to-playlist",
-  version: "0.1.4",
+  version: "0.1.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -46,14 +44,15 @@ export default {
       uris: this.spotify.sanitizedArray(uris),
     };
 
-    const resp = await axios($, this.spotify._getAxiosParams({
+    const { data: resp } = await this.spotify._makeRequest({
+      $,
       method: "POST",
-      path: `/playlists/${get(playlistId, "value", playlistId)}/tracks`,
+      url: `/playlists/${playlistId.value ?? playlistId}/tracks`,
       data,
-    }));
+    });
 
     // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `Successfully added ${data.uris.length} ${data.uris.length == 1 ? "item" : "items"} to "${get(playlistId, "label", playlistId)}"`);
+    $.export("$summary", `Successfully added ${data.uris.length} ${data.uris.length == 1 ? "item" : "items"} to "${playlistId.label ?? playlistId}"`);
 
     return resp;
   },
