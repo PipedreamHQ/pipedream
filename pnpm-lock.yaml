@@ -14535,6 +14535,9 @@ importers:
 
   components/sugarcrm_: {}
 
+  components/suitecrm:
+    specifiers: {}
+
   components/suitedash:
     dependencies:
       '@pipedream/platform':
