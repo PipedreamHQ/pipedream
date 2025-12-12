@@ -5405,6 +5405,9 @@ importers:
 
   components/flotiq: {}
 
+  components/flowii:
+    specifiers: {}
+
   components/flowiseai:
     dependencies:
       '@pipedream/platform':
