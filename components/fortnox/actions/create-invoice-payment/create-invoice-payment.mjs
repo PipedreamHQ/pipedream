@@ -4,7 +4,7 @@ export default {
   key: "fortnox-create-invoice-payment",
   name: "Create Invoice Payment",
   description: "Creates a new invoice payment in the Fortnox API. [See the documentation](https://api.fortnox.se/apidocs#tag/fortnox_InvoicePayments/operation/create_22).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -25,41 +25,10 @@ export default {
       description: "The amount of the payment",
       optional: true,
     },
-    booked: {
-      type: "boolean",
-      label: "Booked",
-      description: "Whether the payment is booked",
-      optional: true,
-    },
-    customerNumber: {
-      propDefinition: [
-        fortnox,
-        "customerNumber",
-      ],
-      optional: true,
-    },
-    dueDate: {
-      type: "string",
-      label: "Due Date",
-      description: "The due date of the invoice",
-      optional: true,
-    },
     paymentDate: {
       type: "string",
       label: "Payment Date",
-      description: "The date of the payment",
-      optional: true,
-    },
-    invoiceTotal: {
-      type: "string",
-      label: "Invoice Total",
-      description: "The total of the invoice",
-      optional: true,
-    },
-    modeOfPayment: {
-      type: "string",
-      label: "Mode of Payment",
-      description: "The mode of payment",
+      description: "The date of the payment. **Format YYYY-MM-DD**",
       optional: true,
     },
     voucherNumber: {
@@ -78,13 +47,6 @@ export default {
           Amount: this.amount
             ? +this.amount
             : undefined,
-          Booked: this.booked,
-          InvoiceCustomerNumber: this.customerNumber,
-          InvoiceDueDate: this.dueDate,
-          InvoiceTotal: this.invoiceTotal
-            ? +this.invoiceTotal
-            : undefined,
-          ModeOfPayment: this.modeOfPayment,
           PaymentDate: this.paymentDate,
           VoucherNumber: this.voucherNumber,
         },
