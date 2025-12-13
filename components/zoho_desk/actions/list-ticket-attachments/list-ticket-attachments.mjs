@@ -1,9 +1,9 @@
 import zohoDesk from "../../zoho_desk.app.mjs";
 
 export default {
-  key: "zoho_desk-list-thread-attachments",
-  name: "List Thread Attachments",
-  description: "List attachments for a specific thread belonging to a ticket.",
+  key: "zoho_desk-list-ticket-attachments",
+  name: "List Ticket Attachments",
+  description: "List attachments for a specific ticket. [See the documentation](https://desk.zoho.com/DeskAPIDocument#TicketAttachments_Listticketattachments)",
   type: "action",
   version: "0.0.1",
   annotations: {
@@ -28,52 +28,19 @@ export default {
         }),
       ],
     },
-    threadId: {
-      propDefinition: [
-        zohoDesk,
-        "threadId",
-        ({
-          orgId, ticketId,
-        }) => ({
-          orgId,
-          ticketId,
-        }),
-      ],
-    },
-    from: {
-      propDefinition: [
-        zohoDesk,
-        "from",
-      ],
-    },
-    limit: {
-      propDefinition: [
-        zohoDesk,
-        "limit",
-      ],
-    },
   },
   async run({ $ }) {
     const {
       orgId,
       ticketId,
-      threadId,
-      from,
-      limit,
     } = this;
 
-    const params = {};
-    if (from) params.from = from;
-    if (limit) params.limit = limit;
-
-    const response = await this.zohoDesk.getThreadAttachments({
+    const response = await this.zohoDesk.getTicketAttachments({
       $,
       ticketId,
-      threadId,
       headers: {
         orgId,
       },
-      params,
     });
 
     const attachments = response.data || [];
@@ -82,3 +49,4 @@ export default {
     return attachments;
   },
 };
+

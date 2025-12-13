@@ -778,6 +778,14 @@ export default {
         ...args,
       });
     },
+    getTicketDetails({
+      ticketId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/tickets/${ticketId}`,
+        ...args,
+      });
+    },
     getTicketThreads({
       ticketId, ...args
     } = {}) {
@@ -791,30 +799,6 @@ export default {
     } = {}) {
       return this.makeRequest({
         path: `/tickets/${ticketId}/threads/${threadId}`,
-        ...args,
-      });
-    },
-    getThreadAttachments({
-      ticketId, threadId, ...args
-    } = {}) {
-      return this.makeRequest({
-        path: `/tickets/${ticketId}/threads/${threadId}/attachments`,
-        ...args,
-      });
-    },
-    downloadTicketAttachment({
-      ticketId, attachmentId, ...args
-    } = {}) {
-      return this.makeRequest({
-        path: `/tickets/${ticketId}/attachments/${attachmentId}`,
-        ...args,
-      });
-    },
-    downloadThreadAttachment({
-      ticketId, threadId, attachmentId, ...args
-    } = {}) {
-      return this.makeRequest({
-        path: `/tickets/${ticketId}/threads/${threadId}/attachments/${attachmentId}`,
         ...args,
       });
     },
