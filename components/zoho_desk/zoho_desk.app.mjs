@@ -139,68 +139,6 @@ export default {
         };
       },
     },
-    attachmentId: {
-      type: "string",
-      label: "Attachment ID",
-      description: "The ID of the attachment",
-      async options({
-        ticketId, threadId, orgId, prevContext,
-      }) {
-        if (!ticketId) {
-          return [];
-        }
-        const { from = 1 } = prevContext || {};
-        if (from === null) {
-          return [];
-        }
-        let attachments = [];
-        if (threadId) {
-          // List thread attachments
-          const { data = [] } =
-            await this.getThreadAttachments({
-              ticketId,
-              threadId,
-              headers: {
-                orgId,
-              },
-              params: {
-                from,
-                limit: constants.DEFAULT_LIMIT,
-              },
-            });
-          attachments = data || [];
-        } else {
-          // List ticket attachments
-          const { data = [] } =
-            await this.getTicketAttachments({
-              ticketId,
-              headers: {
-                orgId,
-              },
-              params: {
-                from,
-                limit: constants.DEFAULT_LIMIT,
-              },
-            });
-          attachments = data || [];
-        }
-        const currentLen = attachments?.length;
-        const options = attachments?.map(({
-          id: value, fileName: label,
-        }) => ({
-          value,
-          label: label || value,
-        }));
-        return {
-          options: options || [],
-          context: {
-            from: currentLen
-              ? currentLen + from
-              : null,
-          },
-        };
-      },
-    },
     supportEmailAddress: {
       type: "string",
       label: "Support Email Address",
