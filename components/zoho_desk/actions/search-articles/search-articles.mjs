@@ -4,7 +4,7 @@ export default {
   name: "Search Articles",
   description: "Searches for knowledge base articles. [See the documentation](https://desk.zoho.com/portal/APIDocument.do#KnowledgeBase_Searcharticles)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

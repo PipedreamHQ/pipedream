@@ -97,6 +97,48 @@ export default {
         });
       },
     },
+    threadId: {
+      type: "string",
+      label: "Thread ID",
+      description: "The ID of the thread",
+      async options({
+        ticketId, orgId, prevContext,
+      }) {
+        if (!ticketId) {
+          return [];
+        }
+        const { from = 1 } = prevContext || {};
+        if (from === null) {
+          return [];
+        }
+        const { data: threads = [] } =
+          await this.getTicketThreads({
+            ticketId,
+            headers: {
+              orgId,
+            },
+            params: {
+              from,
+              limit: constants.DEFAULT_LIMIT,
+            },
+          });
+        const currentLen = threads?.length;
+        const options = threads?.map(({
+          id: value, summary: label,
+        }) => ({
+          value,
+          label: label || value,
+        }));
+        return {
+          options: options || [],
+          context: {
+            from: currentLen
+              ? currentLen + from
+              : null,
+          },
+        };
+      },
+    },
     supportEmailAddress: {
       type: "string",
       label: "Support Email Address",
@@ -674,11 +716,27 @@ export default {
         ...args,
       });
     },
+    getTicketDetails({
+      ticketId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/tickets/${ticketId}`,
+        ...args,
+      });
+    },
     getTicketThreads({
       ticketId, ...args
     } = {}) {
       return this.makeRequest({
         path: `/tickets/${ticketId}/threads`,
+        ...args,
+      });
+    },
+    getThreadDetails({
+      ticketId, threadId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/tickets/${ticketId}/threads/${threadId}`,
         ...args,
       });
     },
