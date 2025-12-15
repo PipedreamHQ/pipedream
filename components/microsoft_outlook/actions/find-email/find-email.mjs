@@ -5,7 +5,7 @@ export default {
   key: "microsoft_outlook-find-email",
   name: "Find Email",
   description: "Search for an email in Microsoft Outlook. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list-messages)",
-  version: "0.0.15",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -42,6 +42,12 @@ export default {
         microsoftOutlook,
         "maxResults",
       ],
+    },
+    useAdvancedQuery: {
+      type: "boolean",
+      label: "Use Advanced Query",
+      description: "If `true`, enables advanced queries by setting the `ConsistencyLevel` header to `eventual`. [See the documentation](https://learn.microsoft.com/en-us/graph/aad-advanced-queries?tabs=http) for more information.",
+      optional: true,
     },
   },
   methods: {
@@ -81,6 +87,11 @@ export default {
           "$search": this.ensureQuotes(this.search),
           "$top": this.maxResults,
         },
+        ...(this.useAdvancedQuery && {
+          headers: {
+            "ConsistencyLevel": "eventual",
+          },
+        }),
       });
 
       emails = value;
