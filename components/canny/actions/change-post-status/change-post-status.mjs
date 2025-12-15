@@ -1,4 +1,5 @@
 import canny from "../../canny.app.mjs";
+import { POST_STATUSES } from "../../common/constants.mjs";
 
 export default {
   key: "canny-change-post-status",
@@ -46,14 +47,7 @@ export default {
       type: "string",
       label: "Status",
       description: "The new status of the post",
-      options: [
-        "open",
-        "under review",
-        "planned",
-        "in progress",
-        "complete",
-        "closed",
-      ],
+      options: POST_STATUSES,
     },
   },
   async run({ $ }) {
