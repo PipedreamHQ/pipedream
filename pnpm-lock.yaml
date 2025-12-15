@@ -3660,7 +3660,11 @@ importers:
 
   components/cyfe: {}
 
-  components/d2l_brightspace: {}
+  components/d2l_brightspace:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/d7_darwin: {}
 
@@ -5412,8 +5416,7 @@ importers:
 
   components/flotiq: {}
 
-  components/flowii:
-    specifiers: {}
+  components/flowii: {}
 
   components/flowiseai:
     dependencies:
@@ -6710,8 +6713,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/hailey_hr:
-    specifiers: {}
+  components/hailey_hr: {}
 
   components/halo_service_solutions: {}
 
@@ -10147,8 +10149,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/nuvemshop:
-    specifiers: {}
+  components/nuvemshop: {}
 
   components/nvoip: {}
 
@@ -14562,8 +14563,7 @@ importers:
 
   components/sugarcrm_: {}
 
-  components/suitecrm:
-    specifiers: {}
+  components/suitecrm: {}
 
   components/suitedash:
     dependencies:
