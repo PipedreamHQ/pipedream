@@ -4,7 +4,7 @@ export default {
   key: "google_directory-get-user",
   name: "Get User",
   description: "Retrieves information about a user. [See the documentation](https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/get)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
