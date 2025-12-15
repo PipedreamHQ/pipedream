@@ -245,8 +245,6 @@ export default {
       $.export("$summary", `Successfully created print job with ID: ${response.id}`);
       return response;
     } catch (error) {
-      console.log("error: ", error);
-
       throw new ConfigurationError(`Error creating print job: ${error.response.data.error.message}`);
     }
   },
