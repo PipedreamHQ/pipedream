@@ -4,7 +4,7 @@ export default {
   key: "infobip-send-viber-text-message",
   name: "Send Viber Text Message",
   description: "Send a text message to multiple recipients via Viber. [See the documentation](https://www.infobip.com/docs/api/channels/viber/viber-business-messages/send-viber-messages)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
