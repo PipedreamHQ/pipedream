@@ -4,7 +4,7 @@ export default {
   key: "shopify-update-page",
   name: "Update Page",
   description: "Update an existing page. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/pageUpdate)",
-  version: "0.0.8",
+  version: "0.0.9",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

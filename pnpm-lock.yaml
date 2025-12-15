@@ -2052,7 +2052,11 @@ importers:
 
   components/brainshop: {}
 
-  components/braintree: {}
+  components/braintree:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/brand_dev: {}
 
@@ -10137,6 +10141,9 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
+  components/nuvemshop:
+    specifiers: {}
+
   components/nvoip: {}
 
   components/nyckel:
@@ -12398,7 +12405,11 @@ importers:
 
   components/remarkety: {}
 
-  components/remote: {}
+  components/remote:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/remote_retrieval:
     dependencies:
@@ -13809,6 +13820,9 @@ importers:
   components/simple_analytics: {}
 
   components/simplebackups: {}
+
+  components/simpleem:
+    specifiers: {}
 
   components/simplehash: {}
 

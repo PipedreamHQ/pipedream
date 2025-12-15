@@ -4,7 +4,7 @@ export default {
   key: "fortnox-send-invoice",
   name: "Send Invoice",
   description: "Sends an invoice in the Fortnox API. [See the documentation](https://api.fortnox.se/apidocs#tag/fortnox_Invoices/operation/eInvoice).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

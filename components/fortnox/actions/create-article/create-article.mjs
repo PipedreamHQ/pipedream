@@ -4,7 +4,7 @@ export default {
   key: "fortnox-create-article",
   name: "Create Article",
   description: "Creates a new article in the Fortnox API. [See the documentation](https://api.fortnox.se/apidocs#tag/fortnox_Articles/operation/1_create_3).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

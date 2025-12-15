@@ -415,6 +415,24 @@ const DELETE_METAFIELD = `
   }
 `;
 
+const UPDATE_ORDER = `
+  mutation orderUpdate($input: OrderInput!) {
+    orderUpdate(input: $input) {
+      order {
+        id
+        name
+        email
+        tags
+        note
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
 export default {
   CREATE_WEBHOOK,
   DELETE_WEBHOOK,
@@ -439,4 +457,5 @@ export default {
   DELETE_BLOG,
   DELETE_PAGE,
   DELETE_METAFIELD,
+  UPDATE_ORDER,
 };
