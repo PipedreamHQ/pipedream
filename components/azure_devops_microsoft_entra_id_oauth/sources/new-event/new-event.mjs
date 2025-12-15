@@ -17,6 +17,12 @@ export default {
         "eventType",
       ],
     },
+    projectId: {
+      propDefinition: [
+        azureDevops,
+        "projectId",
+      ],
+    },
   },
   hooks: {
     async activate() {
@@ -28,6 +34,9 @@ export default {
         consumerActionId: "httpRequest",
         consumerInputs: {
           url: this.http.endpoint,
+        },
+        publisherInputs: {
+          projectId: this.projectId,
         },
         eventType: this.eventType,
       };

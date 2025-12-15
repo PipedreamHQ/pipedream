@@ -10,7 +10,21 @@ export default {
       description: "Event type to receive events for",
       async options() {
         const types = await this.listEventTypes();
-        return types?.map((type) => type.id);
+        return types.filter(({ id }) => id !== "tfvc.checkin" && id !== "build.complete").map(({ id }) => id);
+      },
+    },
+    projectId: {
+      type: "string",
+      label: "Project ID",
+      description: "Project ID to receive events for",
+      async options() {
+        const projects = await this.listProjects();
+        return projects?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
       },
     },
   },
@@ -37,6 +51,13 @@ export default {
     async listEventTypes(opts = {}) {
       const { value } = await this._makeRequest({
         path: "/hooks/publishers/tfs/eventtypes",
+        ...opts,
+      });
+      return value;
+    },
+    async listProjects(opts = {}) {
+      const { value } = await this._makeRequest({
+        path: "/projects",
         ...opts,
       });
       return value;
