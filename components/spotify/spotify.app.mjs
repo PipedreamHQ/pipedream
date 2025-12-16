@@ -426,17 +426,22 @@ export default {
     }) {
       const tracks = [];
       for (const albumIds of chunksOfAlbumIds) {
-        const { data } = await this._makeRequest({
-          $,
-          url: "/albums",
-          params: {
-            market,
-            ids: albumIds.join(","),
-          },
-        });
-        tracks.push([
-          ...data.albums.map((album) => album.tracks.items).flat(),
-        ]);
+        // Spotify /albums endpoint accepts max 20 IDs per request
+        const maxAlbumsPerRequest = 20;
+        for (let i = 0; i < albumIds.length; i += maxAlbumsPerRequest) {
+          const albumIdsChunk = albumIds.slice(i, i + maxAlbumsPerRequest);
+          const { data } = await this._makeRequest({
+            $,
+            url: "/albums",
+            params: {
+              market,
+              ids: albumIdsChunk.join(","),
+            },
+          });
+          tracks.push([
+            ...data.albums.map((album) => album.tracks.items).flat(),
+          ]);
+        }
       }
       return tracks.flat();
     },
