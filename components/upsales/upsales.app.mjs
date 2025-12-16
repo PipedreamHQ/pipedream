@@ -16,6 +16,30 @@ export default {
         }));
       },
     },
+    stageId: {
+      type: "string",
+      label: "Stage ID",
+      description: "Select a stage or provide a stage ID",
+      async options() {
+        const data = await this.listStages();
+        return data.map((stage) => ({
+          label: `${stage.name} (${stage.probability}%)`,
+          value: stage.id,
+        }));
+      },
+    },
+    stageName: {
+      type: "string",
+      label: "Name",
+      description: "The name of the stage",
+    },
+    stageProbability: {
+      type: "integer",
+      label: "Probability",
+      description: "The probability percentage (0-100) associated with this stage",
+      min: 0,
+      max: 100,
+    },
   },
   methods: {
     _baseUrl() {
@@ -59,6 +83,36 @@ export default {
       return this._makeRequest({
         method: "PUT",
         url: `/master/users/${userId}`,
+        ...args,
+      });
+    },
+    async listStages(args = {}) {
+      return this._makeRequest({
+        url: "/orderstages",
+        ...args,
+      });
+    },
+    async getStage({
+      stageId, ...args
+    }) {
+      return this._makeRequest({
+        url: `/orderstages/${stageId}`,
+        ...args,
+      });
+    },
+    async createStage(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        url: "/orderstages",
+        ...args,
+      });
+    },
+    async updateStage({
+      stageId, ...args
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        url: `/orderstages/${stageId}`,
         ...args,
       });
     },
