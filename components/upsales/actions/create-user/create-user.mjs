@@ -4,7 +4,7 @@ import app from "../../upsales.app.mjs";
 export default {
   key: "upsales-create-user",
   name: "Create User",
-  description: "Creates a new user in Upsales. [See the documentation](https://apidocs.upsales.com/v2/users/post-users)",
+  description: "Creates a new user in Upsales. [See the documentation](https://api.upsales.com/#5d393f90-23a3-47fd-a52c-d40a8ae71a83)",
   version: "0.0.1",
   type: "action",
   annotations: {
