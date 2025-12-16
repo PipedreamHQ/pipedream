@@ -1,6 +1,6 @@
 export default {
   type: "app",
-  app: "proovl",
+  app: "eaccounting",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data

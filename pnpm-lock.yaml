@@ -1467,7 +1467,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/azure_devops_microsoft_entra_id_oauth: {}
+  components/azure_devops_microsoft_entra_id_oauth:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/azure_openai_service:
     dependencies:
@@ -4567,6 +4571,9 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/eaccounting:
+    specifiers: {}
+
   components/eagle_doc: {}
 
   components/easy_peasy_ai:
@@ -7519,7 +7526,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/intelliprint: {}
+  components/intelliprint:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/intercom:
     dependencies:

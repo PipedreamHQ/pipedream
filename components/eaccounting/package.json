@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/eaccounting",
+  "version": "0.0.1",
+  "description": "Pipedream Visma eAccounting Components",
+  "main": "eaccounting.app.mjs",
+  "keywords": [
+    "pipedream",
+    "eaccounting"
+  ],
+  "homepage": "https://pipedream.com/apps/eaccounting",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
