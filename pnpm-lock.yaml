@@ -113,7 +113,7 @@ importers:
         specifier: ^28
         version: 28.14.0(@typescript-eslint/eslint-plugin@8.46.4(@typescript-eslint/parser@8.46.4(eslint@8.57.1)(typescript@5.6.3))(eslint@8.57.1)(typescript@5.6.3))(eslint@8.57.1)(jest@29.7.0(@types/node@20.19.25)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.25)(typescript@5.6.3)))(typescript@5.6.3)
       eslint-plugin-jsonc:
-        specifier: ^1.6.0
+        specifier: ^1.7.0
         version: 1.7.0(eslint@8.57.1)
       eslint-plugin-putout:
         specifier: ^23
@@ -1467,7 +1467,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/azure_devops_microsoft_entra_id_oauth: {}
+  components/azure_devops_microsoft_entra_id_oauth:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/azure_openai_service:
     dependencies:
@@ -1910,7 +1914,11 @@ importers:
 
   components/blue: {}
 
-  components/bluecart_api: {}
+  components/bluecart_api:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/bluesky:
     dependencies:
@@ -2040,11 +2048,19 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/brainbase_labs: {}
+  components/brainbase_labs:
+    dependencies:
+      '@pipedream/platform':
+        specifier: 3.0.3
+        version: 3.0.3
 
   components/brainshop: {}
 
-  components/braintree: {}
+  components/braintree:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/brand_dev: {}
 
@@ -2714,7 +2730,11 @@ importers:
 
   components/chimp_rewriter: {}
 
-  components/chmeetings: {}
+  components/chmeetings:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/chroma_cloud: {}
 
@@ -3591,7 +3611,14 @@ importers:
 
   components/currents_api: {}
 
-  components/cursor: {}
+  components/cursor:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
+      image-size:
+        specifier: ^2.0.2
+        version: 2.0.2
 
   components/customer_fields:
     dependencies:
@@ -4544,6 +4571,9 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/eaccounting:
+    specifiers: {}
+
   components/eagle_doc: {}
 
   components/easy_peasy_ai:
@@ -4634,9 +4664,17 @@ importers:
         specifier: 4.0.4
         version: 4.0.4
 
-  components/educateme: {}
+  components/educateme:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
-  components/edusign: {}
+  components/edusign:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/efinder: {}
 
@@ -5054,6 +5092,8 @@ importers:
 
   components/faceup: {}
 
+  components/factorial_api_keys: {}
+
   components/facturadirecta: {}
 
   components/faire: {}
@@ -5090,6 +5130,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
+
+  components/fashn: {}
 
   components/fastfield_mobile_forms: {}
 
@@ -5248,7 +5290,11 @@ importers:
 
   components/finmo: {}
 
-  components/finnhub: {}
+  components/finnhub:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/firebase_admin_sdk:
     dependencies:
@@ -5372,6 +5418,8 @@ importers:
   components/florm: {}
 
   components/flotiq: {}
+
+  components/flowii: {}
 
   components/flowiseai:
     dependencies:
@@ -5687,7 +5735,11 @@ importers:
 
   components/funnelcockpit: {}
 
-  components/fynk: {}
+  components/fynk:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.1
 
   components/gagelist:
     dependencies:
@@ -5965,7 +6017,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/glide: {}
+  components/glide:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/global_exchange_rates: {}
 
@@ -6589,7 +6645,11 @@ importers:
 
   components/groundhogg: {}
 
-  components/growsurf: {}
+  components/growsurf:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/gryd:
     dependencies:
@@ -6641,8 +6701,8 @@ importers:
   components/habitify:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.8
-        version: 1.6.8
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/hacker_news:
     dependencies:
@@ -6655,6 +6715,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
+
+  components/hailey_hr: {}
 
   components/halo_service_solutions: {}
 
@@ -6780,6 +6842,12 @@ importers:
         version: 1.6.8
 
   components/help_scout:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
+
+  components/help_scout_api_keys:
     dependencies:
       '@pipedream/platform':
         specifier: ^3.1.1
@@ -7458,7 +7526,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/intelliprint: {}
+  components/intelliprint:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/intercom:
     dependencies:
@@ -7672,6 +7744,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
+
+  components/jobsoid_careers_portal: {}
 
   components/joggai:
     dependencies:
@@ -10082,6 +10156,8 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
+  components/nuvemshop: {}
+
   components/nvoip: {}
 
   components/nyckel:
@@ -12343,7 +12419,11 @@ importers:
 
   components/remarkety: {}
 
-  components/remote: {}
+  components/remote:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/remote_retrieval:
     dependencies:
@@ -13755,6 +13835,8 @@ importers:
 
   components/simplebackups: {}
 
+  components/simpleem: {}
+
   components/simplehash: {}
 
   components/simplekpi: {}
@@ -13828,7 +13910,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/slab: {}
+  components/slab:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.1
 
   components/slack:
     dependencies:
@@ -14483,6 +14569,8 @@ importers:
 
   components/sugarcrm_: {}
 
+  components/suitecrm: {}
+
   components/suitedash:
     dependencies:
       '@pipedream/platform':
@@ -14611,7 +14699,11 @@ importers:
         specifier: ^4.6.0
         version: 4.6.0
 
-  components/survicate: {}
+  components/survicate:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/survser:
     dependencies:
@@ -15212,7 +15304,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/tmetric: {}
+  components/tmetric:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/todoist:
     dependencies:
@@ -15263,7 +15359,11 @@ importers:
         specifier: ^0.3.2
         version: 0.3.4
 
-  components/tomba: {}
+  components/tomba:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.1.1
 
   components/tomtom:
     dependencies:
@@ -15806,6 +15906,8 @@ importers:
       uuid:
         specifier: ^13.0.0
         version: 13.0.0
+
+  components/upsales: {}
 
   components/upstash_redis:
     dependencies:
@@ -16557,8 +16659,8 @@ importers:
   components/woocommerce:
     dependencies:
       '@pipedream/platform':
-        specifier: ^0.10.1
-        version: 0.10.1
+        specifier: ^3.1.1
+        version: 3.1.1
       '@woocommerce/woocommerce-rest-api':
         specifier: ^1.0.2
         version: 1.0.2
@@ -16746,6 +16848,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
+
+  components/xero_payroll: {}
 
   components/xola:
     dependencies:

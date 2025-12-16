@@ -5,7 +5,7 @@ export default {
   name: "List Tickets",
   description: "Lists all tickets in your help desk with optional filtering. [See the docs here](https://desk.zoho.com/DeskAPIDocument#Tickets#Tickets_Listalltickets)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

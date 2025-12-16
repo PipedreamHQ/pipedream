@@ -5,7 +5,7 @@ export default {
   key: "oanda-list-trades",
   name: "List Trades",
   description: "Retrieve a list of trades for an account. [See the documentation](https://developer.oanda.com/rest-live-v20/trade-ep/)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

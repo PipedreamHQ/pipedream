@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/hailey_hr",
+  "version": "0.0.1",
+  "description": "Pipedream Hailey HR Components",
+  "main": "hailey_hr.app.mjs",
+  "keywords": [
+    "pipedream",
+    "hailey_hr"
+  ],
+  "homepage": "https://pipedream.com/apps/hailey_hr",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

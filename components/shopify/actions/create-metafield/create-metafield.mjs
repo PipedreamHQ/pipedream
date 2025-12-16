@@ -5,7 +5,7 @@ export default {
   key: "shopify-create-metafield",
   name: "Create Metafield",
   description: "Creates a metafield belonging to a resource. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/metafieldDefinitionCreate)",
-  version: "0.0.12",
+  version: "0.0.13",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

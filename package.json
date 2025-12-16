@@ -57,7 +57,7 @@
     "eslint-config-next": "^15",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jest": "^28",
-    "eslint-plugin-jsonc": "^1.6.0",
+    "eslint-plugin-jsonc": "^1.7.0",
     "eslint-plugin-putout": "^23",
     "globals": "^15.12.0",
     "graphql": "14 - 16",

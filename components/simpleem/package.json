@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/simpleem",
+  "version": "0.0.1",
+  "description": "Pipedream Simpleem Components",
+  "main": "simpleem.app.mjs",
+  "keywords": [
+    "pipedream",
+    "simpleem"
+  ],
+  "homepage": "https://pipedream.com/apps/simpleem",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -2,6 +2,28 @@
 
 # Changelog
 
+## [2.4.1] - 2025-12-11
+
+### Fixed
+
+- Fixed HTTP request component input backgrounds using incorrect theme color (`neutral20` instead of `neutral0`)
+- Fixed CSS border shorthand/non-shorthand conflict causing React 19 warnings
+- Fixed `QueryClient` being recreated on every render in `FrontendClientProvider`
+
+## [2.4.0] - 2025-12-10
+
+### Added
+
+- Added support for `http_request` prop type with `ControlHttpRequest` component
+- HTTP request builder UI with URL, method, headers, and body configuration
+
+## [2.3.0] - 2025-12-07
+
+### Added
+
+- Dark mode support for select components with new theme color tokens (`optionHover`, `optionSelected`, `optionSelectedHover`, `appIconBackground`)
+- App icon backgrounds in `SelectApp` for better visibility in dark mode
+
 ## [2.2.0] - 2025-11-29
 
 ### Added
