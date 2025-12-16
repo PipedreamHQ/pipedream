@@ -62,6 +62,9 @@ export default {
     getResourceKey() {
       return "comments";
     },
+    isRelevant(comment) {
+      return comment.value || comment.imageURLs.length > 0;
+    },
     generateMeta(comment) {
       return {
         id: comment.id,

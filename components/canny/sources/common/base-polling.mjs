@@ -27,6 +27,9 @@ export default {
     getTsField() {
       return "created";
     },
+    isRelevant() {
+      return true;
+    },
     async processEvents(max) {
       const lastTs = this._getLastTs();
       const fn = this.getResourceFn();
@@ -44,7 +47,9 @@ export default {
       for await (const item of results) {
         const ts = Date.parse(item[this.getTsField()]);
         if (ts >= lastTs) {
-          items.push(item);
+          if (this.isRelevant(item)) {
+            items.push(item);
+          }
         } else {
           break;
         }
