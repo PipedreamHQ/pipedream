@@ -75,6 +75,66 @@ export default {
       description: "Array of custom field/value pairs in JSON format. Each entry should be a string like `{ \"value\": \"2210\", \"fieldId\": 3 }`",
       optional: true,
     },
+    contactId: {
+      type: "string",
+      label: "Contact ID",
+      description: "Select a contact or provide a contact ID",
+      async options() {
+        const data = await this.listContacts();
+        return data.map((contact) => ({
+          label: `${contact.name || `${contact.firstName} ${contact.lastName}`} (${contact.email || "No email"})`,
+          value: contact.id,
+        }));
+      },
+    },
+    contactFirstName: {
+      type: "string",
+      label: "First Name",
+      description: "The first name of the contact",
+      optional: true,
+    },
+    contactLastName: {
+      type: "string",
+      label: "Last Name",
+      description: "The last name of the contact",
+      optional: true,
+    },
+    contactPhone: {
+      type: "string",
+      label: "Phone",
+      description: "The phone number of the contact",
+      optional: true,
+    },
+    contactCellPhone: {
+      type: "string",
+      label: "Cell Phone",
+      description: "The cell phone number of the contact",
+      optional: true,
+    },
+    contactEmail: {
+      type: "string",
+      label: "Email",
+      description: "The email address of the contact",
+      optional: true,
+    },
+    contactTitle: {
+      type: "string",
+      label: "Title",
+      description: "The job title of the contact",
+      optional: true,
+    },
+    contactActive: {
+      type: "boolean",
+      label: "Active",
+      description: "Whether the contact is active",
+      optional: true,
+    },
+    contactClientId: {
+      type: "integer",
+      label: "Client ID",
+      description: "The client ID to associate with this contact",
+      optional: true,
+    },
   },
   methods: {
     _baseUrl() {
@@ -178,6 +238,36 @@ export default {
       return this._makeRequest({
         method: "PUT",
         url: `/accounts/${companyId}`,
+        ...args,
+      });
+    },
+    async listContacts(args = {}) {
+      return this._makeRequest({
+        url: "/contacts",
+        ...args,
+      });
+    },
+    async getContact({
+      contactId, ...args
+    }) {
+      return this._makeRequest({
+        url: `/contacts/${contactId}`,
+        ...args,
+      });
+    },
+    async createContact(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        url: "/contacts",
+        ...args,
+      });
+    },
+    async updateContact({
+      contactId, ...args
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        url: `/contacts/${contactId}`,
         ...args,
       });
     },
