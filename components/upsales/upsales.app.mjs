@@ -40,6 +40,41 @@ export default {
       min: 0,
       max: 100,
     },
+    companyId: {
+      type: "string",
+      label: "Company ID",
+      description: "Select a company or provide a company ID",
+      async options() {
+        const data = await this.listCompanies();
+        return data.map((company) => ({
+          label: company.name,
+          value: company.id,
+        }));
+      },
+    },
+    companyName: {
+      type: "string",
+      label: "Name",
+      description: "The name of the company",
+    },
+    companyPhone: {
+      type: "string",
+      label: "Phone",
+      description: "The phone number of the company",
+      optional: true,
+    },
+    companyWebpage: {
+      type: "string",
+      label: "Webpage",
+      description: "The webpage URL of the company",
+      optional: true,
+    },
+    companyCustom: {
+      type: "string[]",
+      label: "Custom Fields",
+      description: "Array of custom field/value pairs in JSON format. Each entry should be a string like `{ \"value\": \"2210\", \"fieldId\": 3 }`",
+      optional: true,
+    },
   },
   methods: {
     _baseUrl() {
@@ -113,6 +148,36 @@ export default {
       return this._makeRequest({
         method: "PUT",
         url: `/orderstages/${stageId}`,
+        ...args,
+      });
+    },
+    async listCompanies(args = {}) {
+      return this._makeRequest({
+        url: "/accounts",
+        ...args,
+      });
+    },
+    async getCompany({
+      companyId, ...args
+    }) {
+      return this._makeRequest({
+        url: `/accounts/${companyId}`,
+        ...args,
+      });
+    },
+    async createCompany(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        url: "/accounts",
+        ...args,
+      });
+    },
+    async updateCompany({
+      companyId, ...args
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        url: `/accounts/${companyId}`,
         ...args,
       });
     },
