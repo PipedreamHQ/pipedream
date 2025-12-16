@@ -1467,7 +1467,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/azure_devops_microsoft_entra_id_oauth: {}
+  components/azure_devops_microsoft_entra_id_oauth:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/azure_openai_service:
     dependencies:
@@ -5415,8 +5419,7 @@ importers:
 
   components/flotiq: {}
 
-  components/flowii:
-    specifiers: {}
+  components/flowii: {}
 
   components/flowiseai:
     dependencies:
@@ -6713,8 +6716,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/hailey_hr:
-    specifiers: {}
+  components/hailey_hr: {}
 
   components/halo_service_solutions: {}
 
@@ -10154,8 +10156,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/nuvemshop:
-    specifiers: {}
+  components/nuvemshop: {}
 
   components/nvoip: {}
 
@@ -13834,8 +13835,7 @@ importers:
 
   components/simplebackups: {}
 
-  components/simpleem:
-    specifiers: {}
+  components/simpleem: {}
 
   components/simplehash: {}
 
@@ -14569,8 +14569,7 @@ importers:
 
   components/sugarcrm_: {}
 
-  components/suitecrm:
-    specifiers: {}
+  components/suitecrm: {}
 
   components/suitedash:
     dependencies:
