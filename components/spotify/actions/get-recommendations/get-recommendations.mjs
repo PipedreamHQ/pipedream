@@ -70,9 +70,9 @@ export default {
       limit,
     };
 
-    const { data } = await this.spotify.getRecommendations({
+    const data = await this.spotify.getRecommendations({
       $,
-      ...params,
+      params,
     });
 
     if (data?.tracks?.length === 0) {
