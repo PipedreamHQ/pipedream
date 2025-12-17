@@ -3,7 +3,7 @@ import { parseObject } from "../../common/utils.mjs";
 import lusha from "../../lusha.app.mjs";
 
 export default {
-  key: "lusha-get-contact-recomendations",
+  key: "lusha-get-contact-recommendations",
   name: "Get Contact Recommendations",
   description: "Fetch recommended contacts by supplying the contact's IDs, enabling Lusha to return similar profiles aligned by job title, seniority, and company context. Use requestId to get more results from a previous search. [See the documentation](https://docs.lusha.com/apis/openapi/contact-recommendations/getcontactrecommendations)",
   version: "0.0.1",
@@ -51,7 +51,7 @@ export default {
           requestId: this.requestId,
         },
       });
-      $.export("$summary", `Successfully retrieved contact ${response.count} recommendations`);
+      $.export("$summary", `Successfully retrieved ${response.count} contact recommendations`);
 
       return response;
     } catch ({ response }) {

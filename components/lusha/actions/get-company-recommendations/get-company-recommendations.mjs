@@ -3,7 +3,7 @@ import { parseObject } from "../../common/utils.mjs";
 import lusha from "../../lusha.app.mjs";
 
 export default {
-  key: "lusha-get-company-recomendations",
+  key: "lusha-get-company-recommendations",
   name: "Get Company Recommendations",
   description: "Get company recommendations based on other companies. Use requestId to get more results from a previous search. [See the documentation](https://docs.lusha.com/apis/openapi/company-recommendations/getcompanyrecommendations)",
   version: "0.0.1",
@@ -51,7 +51,7 @@ export default {
           requestId: this.requestId,
         },
       });
-      $.export("$summary", `Successfully retrieved company ${response.count} recommendations`);
+      $.export("$summary", `Successfully retrieved ${response.count} company recommendations`);
 
       return response;
     } catch ({ response }) {
