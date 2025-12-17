@@ -21,7 +21,7 @@ export default {
       return {
         id: body.guestId,
         summary: `New guest created with ID: ${body.guestId}`,
-        ts: Math.floor(body.timestamp),
+        ts: Math.floor(body.timestamp * 1000),
       };
     },
   },

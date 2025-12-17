@@ -21,7 +21,7 @@ export default {
       return {
         id: body.reservationID,
         summary: `New reservation created with ID: ${body.reservationID}`,
-        ts: Math.floor(body.timestamp),
+        ts: Math.floor(body.timestamp * 1000),
       };
     },
   },

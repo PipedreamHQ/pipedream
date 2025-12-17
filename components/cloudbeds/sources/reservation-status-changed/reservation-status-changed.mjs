@@ -36,13 +36,13 @@ export default {
       return "status_changed";
     },
     isRelevant(body) {
-      return this.statuses.includes(body.status);
+      return !this.statuses?.length || this.statuses.includes(body.status);
     },
     generateMeta(body) {
       return {
-        id: body.timestamp,
+        id: `${body.reservationID}-${body.timestamp}`,
         summary: `Reservation status changed to ${body.status}`,
-        ts: Math.floor(body.timestamp),
+        ts: Math.floor(body.timestamp * 1000),
       };
     },
   },
