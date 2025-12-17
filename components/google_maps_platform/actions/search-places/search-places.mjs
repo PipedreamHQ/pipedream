@@ -3,14 +3,16 @@ import {
   PRICE_LEVEL_OPTIONS,
   RANK_PREFERENCE_OPTIONS,
 } from "../../common/constants.mjs";
-import { parseObject } from "../../common/utils.mjs";
+import {
+  parseObject, simplifyPlace,
+} from "../../common/utils.mjs";
 import app from "../../google_maps_platform.app.mjs";
 
 export default {
   key: "google_maps_platform-search-places",
   name: "Search Places",
   description: "Searches for places based on location, radius, and optional filters like keywords, place type, or name. [See the documentation](https://developers.google.com/maps/documentation/places/web-service/text-search)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -99,6 +101,12 @@ export default {
       description: "Used with the `Included Type` parameter. When set to `true`, only places that match the specified types specified by includeType are returned. When `false`, the default, the response can contain places that don't match the specified types.",
       optional: true,
     },
+    simplified: {
+      propDefinition: [
+        app,
+        "simplified",
+      ],
+    },
   },
   async run({ $ }) {
     const response = await this.app.searchPlaces({
@@ -119,6 +127,12 @@ export default {
         strictTypeFiltering: this.strictTypeFiltering,
       },
     });
+
+    if (this.simplified) {
+      response.places = response.places.map((place) => {
+        return simplifyPlace(place);
+      });
+    }
 
     const placeCount = response.places?.length || 0;
     $.export("$summary", `Found ${placeCount} place(s)`);

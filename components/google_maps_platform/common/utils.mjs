@@ -1,3 +1,5 @@
+import { SIMPLIFIED_PLACE_FIELDS } from "./constants.mjs";
+
 export const parseObject = (obj) => {
   if (!obj) return undefined;
 
@@ -21,4 +23,12 @@ export const parseObject = (obj) => {
     }
   }
   return obj;
+};
+
+export const simplifyPlace = (place) => {
+  const simplifiedPlace = {};
+  Object.keys(SIMPLIFIED_PLACE_FIELDS).forEach((key) => {
+    simplifiedPlace[SIMPLIFIED_PLACE_FIELDS[key]] = place[key];
+  });
+  return simplifiedPlace;
 };
