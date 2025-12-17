@@ -4,7 +4,12 @@ export default {
   key: "emaillistverify-verify-email",
   name: "Verify Email",
   description: "Verify an email. [See the documentation](https://emaillistverify.com/docs/#tag/Email-Validation-API/operation/verifyEmail)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

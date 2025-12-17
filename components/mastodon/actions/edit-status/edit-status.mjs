@@ -4,7 +4,12 @@ export default {
   key: "mastodon-edit-status",
   name: "Edit Status",
   description: "Edit a given status to change its text or sensitivity. [See the docs here](https://docs.joinmastodon.org/methods/statuses/#edit)",
-  version: "0.0.1",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     mastodon,

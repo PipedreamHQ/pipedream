@@ -4,7 +4,12 @@ export default {
   key: "y_gy-get-links",
   name: "Get Links",
   description: "Get a list of the links created by the authenticated account [See the documentation](https://app.y.gy/docs/api-docs/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

@@ -5,7 +5,12 @@ export default {
   key: "xero_accounting_api-create-history-note",
   name: "Create History Note",
   description: "Creates a new note adding it to a document.",
-  version: "0.1.2",
+  version: "0.1.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     xeroAccountingApi,

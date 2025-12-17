@@ -1,10 +1,16 @@
+import { doubleEncode } from "../../common/utils.mjs";
 import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {
   key: "zoom_admin-get-meeting-transcript",
   name: "Get Meeting Transcript",
   description: "Get the transcript of a meeting. [See the documentation](https://developers.zoom.us/docs/api/meetings/#tag/cloud-recording/get/meetings/{meetingId}/transcript)",
-  version: "0.0.1",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     zoomAdmin,
@@ -21,7 +27,7 @@ export default {
       meetingId, ...opts
     }) {
       return this.zoomAdmin._makeRequest({
-        path: `/meetings/${meetingId}/transcript`,
+        path: `/meetings/${doubleEncode(meetingId)}/transcript`,
         ...opts,
       });
     },

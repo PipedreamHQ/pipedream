@@ -4,7 +4,12 @@ export default {
   key: "zendesk-list-ticket-comments",
   name: "List Ticket Comments",
   description: "Retrieves all comments for a specific ticket. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/tickets/ticket_comments/#list-comments).",
-  version: "0.0.3",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     zendesk,

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/loginradius",
+  "version": "0.0.1",
+  "description": "Pipedream LoginRadius Components",
+  "main": "loginradius.app.mjs",
+  "keywords": [
+    "pipedream",
+    "loginradius"
+  ],
+  "homepage": "https://pipedream.com/apps/loginradius",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

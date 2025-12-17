@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zoom",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Pipedream Zoom Components",
   "main": "zoom.app.mjs",
   "keywords": [
@@ -14,6 +14,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.1.0"
+    "@pipedream/platform": "^3.1.1"
   }
 }

@@ -1,12 +1,12 @@
-import vbout from "../../vbout.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import vbout from "../../vbout.app.mjs";
 
 export default {
   type: "source",
   name: "New Contact Property Change",
   key: "vbout-new-contact-property-change",
   description: "Emit new event for each new property changed in a specific contact. [See docs here](https://developers.vbout.com/docs#emailmarketing_getcontact)",
-  version: "0.0.3",
+  version: "0.0.4",
   props: {
     vbout,
     db: "$.service.db",

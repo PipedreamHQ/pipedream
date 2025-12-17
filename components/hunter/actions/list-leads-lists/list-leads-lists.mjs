@@ -4,7 +4,12 @@ export default {
   key: "hunter-list-leads-lists",
   name: "List Leads Lists",
   description: "List all your leads lists. The leads lists are returned in sorted order, with the most recent leads lists appearing first. [See the documentation](https://hunter.io/api-documentation/v2#list-leads-lists).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

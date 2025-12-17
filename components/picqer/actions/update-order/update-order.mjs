@@ -4,7 +4,12 @@ export default {
   key: "picqer-update-order",
   name: "Update Picqer Order",
   description: "Update an order in Picqer. [See the documentation](https://picqer.com/en/api/orders#update)",
-  version: "0.0.1",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     picqer,

@@ -4,7 +4,12 @@ export default {
   key: "notion-retrieve-database-content",
   name: "Retrieve Data Source Content",
   description: "Get all content of a data source. [See the documentation](https://developers.notion.com/reference/query-a-data-source)",
-  version: "1.0.0",
+  version: "1.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     notion,

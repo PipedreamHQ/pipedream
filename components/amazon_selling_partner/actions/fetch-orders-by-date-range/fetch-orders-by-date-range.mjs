@@ -4,7 +4,12 @@ export default {
   key: "amazon_selling_partner-fetch-orders-by-date-range",
   name: "Fetch Orders by Date Range",
   description: "Retrieves a list of orders based on a specified date range, buyer email, or order ID. [See the documentation](https://developer-docs.amazon.com/sp-api/reference/getorders)",
-  version: "0.0.1",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     amazonSellingPartner,

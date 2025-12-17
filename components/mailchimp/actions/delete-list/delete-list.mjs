@@ -4,7 +4,12 @@ export default {
   key: "mailchimp-delete-list",
   name: "Delete List",
   description: "Deletes an existing list. [See docs here](https://mailchimp.com/developer/marketing/api/lists)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     mailchimp,

@@ -4,7 +4,12 @@ export default {
   key: "slite-update-doc",
   name: "Update Document",
   description: "Modifies a Slite document. [See the documentation](https://developers.slite.com/reference/updatenote)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

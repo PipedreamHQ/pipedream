@@ -7,7 +7,12 @@ export default {
   key: "shopify-search-product-variant",
   name: "Search for Product Variant",
   description: "Search for product variants or create one if not found. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/queries/productVariants)",
-  version: "0.0.13",
+  version: "0.0.15",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     shopify,

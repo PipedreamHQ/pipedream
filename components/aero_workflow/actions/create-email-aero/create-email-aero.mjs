@@ -3,7 +3,12 @@ import utils from "../../common/utils.mjs";
 
 export default {
   key: "aero_workflow-create-email-aero",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   name: "Create Email Aero",
   description: "Creates an email aero [See the docs here](https://api.aeroworkflow.com/swagger/index.html)",

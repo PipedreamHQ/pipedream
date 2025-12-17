@@ -4,7 +4,12 @@ import app from "../../trengo.app.mjs";
 export default {
   type: "action",
   key: "trengo-send-a-whatsapp-message-template",
-  version: "0.0.4",
+  version: "0.0.9",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   name: "Send A WhatsApp Message Template",
   description: "Sends a WhatsApp message template, [See the documentation](https://developers.trengo.com/reference/start-a-conversation)",
   props: {

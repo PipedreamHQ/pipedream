@@ -4,7 +4,12 @@ export default {
   key: "woocommerce-create-product",
   name: "Create Product",
   description: "Creates a new product. [See the docs](https://woocommerce.github.io/woocommerce-rest-api-docs/#create-a-product)",
-  version: "0.0.2",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     woocommerce,

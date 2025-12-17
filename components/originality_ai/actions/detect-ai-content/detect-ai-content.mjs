@@ -4,7 +4,12 @@ export default {
   key: "originality_ai-detect-ai-content",
   name: "Detect AI Content",
   description: "Scans a string for AI content. [See the documentation](https://docs.originality.ai/api-v1-0-reference/scan/ai-scan)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

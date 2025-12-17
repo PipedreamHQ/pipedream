@@ -5,7 +5,12 @@ export default {
   name: "Get Channel Teams",
   key: "twitch-get-channel-teams",
   description: "Gets a list of teams to which a specified channel belongs",
-  version: "0.1.2",
+  version: "0.1.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...common.props,

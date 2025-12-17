@@ -4,7 +4,12 @@ export default {
   key: "amazon_selling_partner-get-order-details",
   name: "Get Order Details",
   description: "Fetches detailed information about a specific order using its order ID. [See the documentation](https://developer-docs.amazon.com/sp-api/reference/getorder)",
-  version: "0.0.1",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     amazonSellingPartner,

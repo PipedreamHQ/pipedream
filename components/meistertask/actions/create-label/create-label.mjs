@@ -4,7 +4,12 @@ export default {
   key: "meistertask-create-label",
   name: "Create Label",
   description: "Create a new label in a project. [See the docs](https://developers.meistertask.com/reference/post-label)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     meistertask,

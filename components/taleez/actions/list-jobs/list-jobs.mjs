@@ -4,7 +4,12 @@ export default {
   key: "taleez-list-jobs",
   name: "List Jobs",
   description: "Retrieves a list of jobs in your company. [See the documentation](https://api.taleez.com/swagger-ui/index.html#/jobs/list_3)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     taleez,

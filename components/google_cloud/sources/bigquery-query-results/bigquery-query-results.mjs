@@ -8,7 +8,7 @@ export default {
   // eslint-disable-next-line pipedream/source-name
   name: "BigQuery - Query Results",
   description: "Emit new events with the results of an arbitrary query",
-  version: "0.1.5",
+  version: "0.1.8",
   dedupe: "unique",
   type: "source",
   props: {
@@ -21,11 +21,7 @@ export default {
     dedupeKey: {
       type: "string",
       label: "De-duplication Key",
-      description: `
-        The name of a column in the table to use for deduplication. See [the
-        docs](https://github.com/PipedreamHQ/pipedream/tree/master/components/google_cloud/sources/bigquery-query-results#technical-details)
-        for more info.
-      `,
+      description: "The name of a column in the table to use for deduplication. See [the docs](https://github.com/PipedreamHQ/pipedream/tree/master/components/google_cloud/sources/bigquery-query-results#technical-details) for more info.",
       optional: true,
     },
   },
@@ -47,10 +43,11 @@ export default {
     },
     generateMetaForCollection(rows, ts) {
       const hash = crypto.createHash("sha1");
-      rows
-        .map((i) => i[this.dedupeKey] || uuidv4())
-        .map((i) => i.toString())
-        .forEach((i) => hash.update(i));
+      // Process rows incrementally to avoid memory accumulation
+      for (const row of rows) {
+        const key = row[this.dedupeKey] || uuidv4();
+        hash.update(key.toString());
+      }
       const id = hash.digest("base64");
       const summary = `New event (ID: ${id})`;
       return {

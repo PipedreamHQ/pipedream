@@ -1,13 +1,18 @@
 import { axios } from "@pipedream/platform";
 import spotify from "../../spotify.app.mjs";
-import { ITEM_TYPES } from "../../consts.mjs";
+import { ITEM_TYPES } from "../../common/constants.mjs";
 
 export default {
   name: "Get currently playing track",
   description:
     "Get the object currently being played on the user's Spotify account. [See the documentation](https://developer.spotify.com/documentation/web-api/reference/get-the-users-currently-playing-track)",
   key: "spotify-get-currently-playing-track",
-  version: "0.0.2",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     spotify,

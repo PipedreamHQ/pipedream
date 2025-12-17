@@ -2,7 +2,12 @@ import app from "../../zoho_bigin.app.mjs";
 
 export default {
   name: "Update Contact",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "zoho_bigin-update-contact",
   description: "Updates a contact. [See the documentation](https://www.bigin.com/developer/docs/apis/update-records.html)",
   type: "action",

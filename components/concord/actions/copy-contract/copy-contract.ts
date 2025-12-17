@@ -8,7 +8,12 @@ export default defineAction({
   description:
     "Create a Contract from another Contract [See the documentation](https://api.doc.concordnow.com/#tag/Agreement/operation/AgreementCreate)",
   key: "concord-copy-contract",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

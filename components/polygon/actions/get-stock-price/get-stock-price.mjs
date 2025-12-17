@@ -4,7 +4,12 @@ export default {
   key: "polygon-get-stock-price",
   name: "Get Stock Price",
   description: "Get the open, close and afterhours prices of a stock symbol on a certain date. [See the documentation](https://polygon.io/docs/stocks/get_v1_open-close__stocksticker___date)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     polygon,

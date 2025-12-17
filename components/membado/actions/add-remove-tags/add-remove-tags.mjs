@@ -2,7 +2,12 @@ import membado from "../../membado.app.mjs";
 
 export default {
   name: "Add or Remove Tags from User",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "membado-add-remove-tags",
   description:
     "Assign tags to or remove them from a user. [See the documentation](https://membado.zendesk.com/hc/de/articles/18155937106204-API-Documentation)",

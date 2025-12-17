@@ -8,7 +8,12 @@ export default {
   name: "Retrieve a Bitlink",
   description:
     "Finds an existing Bitlink in your account. Optionally, creates one if none are found.  [See the docs here](https://dev.bitly.com/api-reference#expandBitlink)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     bitly,

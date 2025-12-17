@@ -5,7 +5,12 @@ export default {
   name: "List Templates",
   description:
     "Retrieve a list of available library templates from Orshot. [See templates](https://orshot.com/templates)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     orshot,

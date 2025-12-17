@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/browserflow",
+  "version": "0.0.1",
+  "description": "Pipedream Browserflow Components",
+  "main": "browserflow.app.mjs",
+  "keywords": [
+    "pipedream",
+    "browserflow"
+  ],
+  "homepage": "https://pipedream.com/apps/browserflow",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

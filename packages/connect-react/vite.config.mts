@@ -13,6 +13,7 @@ export default defineConfig({
     rollupOptions: {
       external: [
         "@emotion/react",
+        "@tanstack/react-query",
         "react",
         "react-dom",
         "react/jsx-runtime",
@@ -23,6 +24,7 @@ export default defineConfig({
           "react-dom": "ReactDOM",
           "react/jsx-runtime": "react/jsx-runtime",
           "@emotion/react": "@emotion/react",
+          "@tanstack/react-query": "reactQuery",
         },
       },
     },

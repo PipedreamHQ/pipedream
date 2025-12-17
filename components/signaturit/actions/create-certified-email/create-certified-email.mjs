@@ -8,7 +8,12 @@ export default {
   key: "signaturit-create-certified-email",
   name: "Create Certified Email",
   description: "Initiates the creation of a certified email. [See the documentation](https://docs.signaturit.com/api/latest#emails_create_email)",
-  version: "0.1.1",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     signaturit,

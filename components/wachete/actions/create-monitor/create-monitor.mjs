@@ -4,7 +4,12 @@ export default {
   key: "wachete-create-monitor",
   name: "Create Monitor",
   description: "Creates a new monitor for a specific website or web page. [See the documentation(https://api.wachete.com/swagger/ui/index/index.html)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     wachete,

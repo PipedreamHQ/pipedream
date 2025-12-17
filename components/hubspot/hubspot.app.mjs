@@ -116,6 +116,7 @@ export default {
       type: "string",
       label: "Object ID",
       description: "Hubspot's internal ID for the contact",
+      useQuery: true,
       async options({
         objectType, ...opts
       }) {
@@ -128,6 +129,7 @@ export default {
       type: "string[]",
       label: "Object",
       description: "Watch for new events concerning the objects selected.",
+      useQuery: true,
       async options({
         objectType, ...opts
       }) {
@@ -195,12 +197,21 @@ export default {
       type: "string",
       label: "Contact Email",
       description: "Note - this needs to be a contact that already exists within HubSpot. You may need to add a Create or Update Contact step before this one. Then, use the email created in that step in this field.",
-      async options({ prevContext }) {
+      useQuery: true,
+      async options({
+        prevContext, query,
+      }) {
         const { nextAfter } = prevContext;
         const {
           results: contacts,
           paging,
-        } = await this.listObjectsInPage("contacts", nextAfter);
+        } = await this.searchCRM({
+          object: "contacts",
+          data: {
+            after: nextAfter,
+            query,
+          },
+        });
         return {
           options: contacts
             .filter(({ properties }) => properties.email)
@@ -367,6 +378,18 @@ export default {
         }));
       },
     },
+    fileId: {
+      type: "string",
+      label: "File ID",
+      description: "The ID of a file uploaded to HubSpot",
+      async options() {
+        const { results: files } = await this.searchFiles();
+        return files.map((file) => ({
+          label: file.name,
+          value: file.id,
+        }));
+      },
+    },
     associationType: {
       type: "integer",
       label: "Association Type",
@@ -423,9 +446,16 @@ export default {
       type: "string",
       label: "Lead ID",
       description: "The identifier of the lead",
-      async options() {
-        const { results } = await this.listObjectsInPage("lead", undefined, {
-          properties: "hs_lead_name",
+      useQuery: true,
+      async options({ query }) {
+        const { results } = await this.searchCRM({
+          object: "lead",
+          data: {
+            properties: [
+              "hs_lead_name",
+            ],
+            query,
+          },
         });
         return results?.map(({
           id: value, properties,
@@ -677,6 +707,146 @@ export default {
         };
       },
     },
+    inboxId: {
+      type: "string",
+      label: "Inbox ID",
+      description: "The ID of an inbox",
+      async options({ prevContext }) {
+        const { nextAfter } = prevContext;
+        const {
+          results, paging,
+        } = await this.listInboxes({
+          data: {
+            after: nextAfter,
+          },
+        });
+        return {
+          options: results?.map(({
+            id: value, name: label,
+          }) => ({
+            value,
+            label,
+          })) || [],
+          context: {
+            nextAfter: paging?.next.after,
+          },
+        };
+      },
+    },
+    channelId: {
+      type: "string",
+      label: "Channel ID",
+      description: "The ID of a channel",
+      async options({ prevContext }) {
+        const { nextAfter } = prevContext;
+        const {
+          results, paging,
+        } = await this.listChannels({
+          data: {
+            after: nextAfter,
+          },
+        });
+        return {
+          options: results?.map(({
+            id: value, name: label,
+          }) => ({
+            value,
+            label,
+          })) || [],
+          context: {
+            nextAfter: paging?.next.after,
+          },
+        };
+      },
+    },
+    threadId: {
+      type: "string",
+      label: "Thread ID",
+      description: "The ID of a thread",
+      async options({
+        prevContext, inboxId, channelId,
+      }) {
+        const { nextAfter } = prevContext;
+        let {
+          results, paging,
+        } = await this.listThreads({
+          data: {
+            after: nextAfter,
+          },
+        });
+        if (inboxId) {
+          results = results.filter((thread) => thread.inboxId === inboxId);
+        }
+        if (channelId) {
+          results = results.filter((thread) => thread.originalChannelId === channelId);
+        }
+        return {
+          options: results?.map(({ id }) => ({
+            value: id,
+            label: `Thread ${id}`,
+          })) || [],
+          context: {
+            nextAfter: paging?.next.after,
+          },
+        };
+      },
+    },
+    channelAccountId: {
+      type: "string",
+      label: "Channel Account ID",
+      description: "The ID of a channel account",
+      async options({
+        prevContext, channelId, inboxId,
+      }) {
+        const { nextAfter } = prevContext;
+        const {
+          results, paging,
+        } = await this.listChannelAccounts({
+          params: {
+            after: nextAfter,
+            channelId: channelId,
+            inboxId: inboxId,
+          },
+        });
+        return {
+          options: results?.map(({
+            id, name,
+          }) => ({
+            value: id,
+            label: name,
+          })) || [],
+          context: {
+            nextAfter: paging?.next.after,
+          },
+        };
+      },
+    },
+    senderActorId: {
+      type: "string",
+      label: "Sender Actor ID",
+      description: "The ID of the sender actor",
+      async options({ prevContext }) {
+        const { nextAfter } = prevContext;
+        const {
+          results, paging,
+        } = await this.getOwners({
+          params: {
+            after: nextAfter,
+          },
+        });
+        return {
+          options: results?.map(({
+            userId: value, email: label,
+          }) => ({
+            value,
+            label,
+          })) || [],
+          context: {
+            nextAfter: paging?.next.after,
+          },
+        };
+      },
+    },
     type: {
       type: "string",
       label: "Type",
@@ -811,6 +981,7 @@ export default {
       const {
         prevContext,
         page,
+        query,
       } = opts;
       const { nextAfter } = prevContext;
       if (page !== 0 && !nextAfter) {
@@ -819,7 +990,13 @@ export default {
       const {
         paging,
         results,
-      } = await this.listObjectsInPage(referencedObjectType, nextAfter);
+      } = await this.searchCRM({
+        object: referencedObjectType,
+        data: {
+          query,
+          after: nextAfter,
+        },
+      });
       return {
         options: results.map((object) => ({
           label: this.getObjectLabel(object, referencedObjectType) ?? object.id,
@@ -1611,6 +1788,103 @@ export default {
         method: "POST",
         api: API_PATH.AUTOMATIONV4,
         endpoint: "/flows",
+        ...opts,
+      });
+    },
+    async getContactWithAllProperties({
+      contactId, ...opts
+    }) {
+      const properties = await this.getContactProperties();
+      const allPropertyNames = properties.map((prop) => prop.name);
+
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: `/objects/contacts/${contactId}`,
+        params: {
+          properties: allPropertyNames.join(","),
+        },
+        ...opts,
+      });
+    },
+    async batchGetContactsWithAllProperties({
+      contactIds, ...opts
+    }) {
+      const properties = await this.getContactProperties();
+      const allPropertyNames = properties.map((prop) => prop.name);
+
+      return this.batchGetObjects({
+        objectType: "contacts",
+        data: {
+          inputs: contactIds.map((id) => ({
+            id,
+          })),
+          properties: allPropertyNames,
+        },
+        ...opts,
+      });
+    },
+    getInbox({
+      inboxId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CONVERSATIONS,
+        endpoint: `/conversations/inboxes/${inboxId}`,
+        ...opts,
+      });
+    },
+    getChannel({
+      channelId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CONVERSATIONS,
+        endpoint: `/conversations/channels/${channelId}`,
+        ...opts,
+      });
+    },
+    listInboxes(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.CONVERSATIONS,
+        endpoint: "/conversations/inboxes",
+        ...opts,
+      });
+    },
+    listChannels(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.CONVERSATIONS,
+        endpoint: "/conversations/channels",
+        ...opts,
+      });
+    },
+    listThreads(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.CONVERSATIONS,
+        endpoint: "/conversations/threads",
+        ...opts,
+      });
+    },
+    listMessages({
+      threadId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CONVERSATIONS,
+        endpoint: `/conversations/threads/${threadId}/messages`,
+        ...opts,
+      });
+    },
+    listChannelAccounts(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.CONVERSATIONS,
+        endpoint: "/conversations/channel-accounts",
+        ...opts,
+      });
+    },
+    createMessage({
+      threadId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CONVERSATIONS,
+        endpoint: `/conversations/threads/${threadId}/messages`,
+        method: "POST",
         ...opts,
       });
     },

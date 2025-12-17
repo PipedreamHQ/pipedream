@@ -276,7 +276,7 @@ export default {
       channelId,
     }) {
       return this.makeRequest({
-        path: `/teams/${teamId}/channels/${channelId}/messages/delta`,
+        path: `/teams/${teamId}/channels/${channelId}/messages`,
       });
     },
     async listTeamMembers({ teamId }) {
@@ -286,7 +286,7 @@ export default {
     },
     async listChatMessages({ chatId }) {
       return this.makeRequest({
-        path: `/chats/${chatId}/messages`,
+        path: `/chats/${chatId}/messages?$orderby=createdDateTime%20desc`,
       });
     },
     async listShifts({ teamId }) {

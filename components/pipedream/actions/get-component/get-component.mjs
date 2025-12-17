@@ -4,7 +4,12 @@ export default {
   key: "pipedream-get-component",
   name: "Get Component",
   description: "Get info for a published component. [See docs](https://pipedream.com/docs/api/rest/#get-a-component)",
-  version: "0.1.0",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     pipedream,
@@ -23,13 +28,24 @@ export default {
     },
   },
   async run({ $ }) {
-    const { data } = await this.pipedream.getComponent(this.componentKey, this.globalRegistry);
+    const {
+      pipedream,
+      componentKey,
+      globalRegistry,
+    } = this;
 
-    if (data) {
-      $.export("$summary", `Succesfully fetched ${this.componentKey}`);
-      return data;
+    const response = await pipedream.getComponent({
+      $,
+      key: componentKey,
+      globalRegistry,
+    });
+
+    if (response.data) {
+      $.export("$summary", `Successfully fetched component with key \`${componentKey}\``);
+      return response;
     }
 
-    console.log(`${this.componentKey} was not found`);
+    $.export("$summary", `Component \`${componentKey}\` was not found`);
+    return response;
   },
 };

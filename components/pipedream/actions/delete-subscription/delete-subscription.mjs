@@ -4,7 +4,12 @@ export default {
   key: "pipedream-delete-subscription",
   name: "Delete a Subscription",
   description: "Delete a Subscription. [See Doc](https://pipedream.com/docs/api/rest/#delete-a-subscription)",
-  version: "0.1.0",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pipedream,

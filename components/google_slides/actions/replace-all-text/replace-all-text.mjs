@@ -4,7 +4,12 @@ export default {
   key: "google_slides-replace-all-text",
   name: "Replace All Text",
   description: "Replace all text in a presentation. [See the documentation](https://developers.google.com/workspace/slides/api/reference/rest/v1/presentations/request#ReplaceAllTextRequest)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     googleSlides,

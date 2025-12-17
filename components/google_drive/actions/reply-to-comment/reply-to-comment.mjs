@@ -4,7 +4,12 @@ export default {
   key: "google_drive-reply-to-comment",
   name: "Reply to Comment",
   description: "Add a reply to an existing comment. [See the documentation](https://developers.google.com/workspace/drive/api/reference/rest/v3/replies/create)",
-  version: "0.0.2",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     googleDrive,

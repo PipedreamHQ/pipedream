@@ -8,7 +8,7 @@ export default {
   name: "New Contact Property Change",
   description:
     "Emit new event when a specified property is provided or updated on a contact. [See the documentation](https://developers.hubspot.com/docs/api/crm/contacts)",
-  version: "0.0.30",
+  version: "0.0.33",
   dedupe: "unique",
   type: "source",
   props: {
@@ -37,6 +37,14 @@ export default {
         "When enabled, only fires when a contact property is actually modified. When disabled, may also trigger for newly created contacts even if the property wasn't changed.",
       optional: true,
       default: true,
+    },
+    fetchAllProperties: {
+      type: "boolean",
+      label: "Fetch all contact properties",
+      description:
+        "When enabled, fetches all available contact properties instead of just the watched property. This provides complete contact data but may increase API usage.",
+      optional: true,
+      default: false,
     },
   },
   methods: {
@@ -111,7 +119,38 @@ export default {
       }
       return params;
     },
-    batchGetContacts(inputs) {
+    async batchGetContacts(inputs) {
+      if (this.fetchAllProperties) {
+        const { results } = await this.hubspot.batchGetContactsWithAllProperties({
+          contactIds: inputs.map((input) => input.id),
+        });
+
+        const { results: contactsWithHistory } = await this.hubspot.batchGetObjects({
+          objectType: "contacts",
+          data: {
+            properties: [
+              this.property,
+            ],
+            propertiesWithHistory: [
+              this.property,
+            ],
+            inputs,
+          },
+        });
+
+        const mergedResults = results.map((contact) => {
+          const contactWithHistory = contactsWithHistory.find((c) => c.id === contact.id);
+          return {
+            ...contact,
+            propertiesWithHistory: contactWithHistory?.propertiesWithHistory || {},
+          };
+        });
+
+        return {
+          results: mergedResults,
+        };
+      }
+
       return this.hubspot.batchGetObjects({
         objectType: "contacts",
         data: {

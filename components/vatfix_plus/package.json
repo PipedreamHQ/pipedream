@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/vatfix_plus",
+  "version": "0.0.1",
+  "description": "Pipedream VATFix Plus Components",
+  "main": "vatfix_plus.app.mjs",
+  "keywords": [
+    "pipedream",
+    "vatfix_plus"
+  ],
+  "homepage": "https://pipedream.com/apps/vatfix_plus",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

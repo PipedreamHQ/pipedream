@@ -5,7 +5,12 @@ export default {
   key: "notion-search",
   name: "Find Pages or Data Sources",
   description: "Searches for a page or data source. [See the documentation](https://developers.notion.com/reference/post-search)",
-  version: "0.1.0",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...common.props,

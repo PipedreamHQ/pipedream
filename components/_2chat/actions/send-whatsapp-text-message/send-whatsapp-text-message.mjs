@@ -4,7 +4,12 @@ export default {
   key: "_2chat-send-whatsapp-text-message",
   name: "Send Whatsapp Text Message",
   description: "Sends a text message to a designated whatsapp-enabled phone number. [See the documentation](https://developers.2chat.co/docs/API/WhatsApp/send-message)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     twoChat,

@@ -5,7 +5,12 @@ export default {
   key: "dust-talk-assistant",
   name: "Talk to Assistant",
   description: "Send a message to an assistant on Dust and receive an answer. [See the documentation](https://docs.dust.tt/reference/post_api-v1-w-wid-assistant-conversations-cid-messages)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     dust,

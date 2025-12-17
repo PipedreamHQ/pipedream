@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/hybrid_analysis",
+  "version": "0.0.1",
+  "description": "Pipedream Hybrid Analysis Components",
+  "main": "hybrid_analysis.app.mjs",
+  "keywords": [
+    "pipedream",
+    "hybrid_analysis"
+  ],
+  "homepage": "https://pipedream.com/apps/hybrid_analysis",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

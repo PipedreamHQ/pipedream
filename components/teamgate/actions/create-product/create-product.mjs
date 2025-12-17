@@ -3,7 +3,12 @@ import teamgate from "../../teamgate.app.mjs";
 export default {
   key: "teamgate-create-product",
   name: "Create Product",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create a new product. [See the docs here](https://developers.teamgate.com/#873140c7-0c14-4461-a9c9-88c8e6c39adc)",
   type: "action",
   props: {

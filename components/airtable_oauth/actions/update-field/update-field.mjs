@@ -5,7 +5,12 @@ export default {
   key: "airtable_oauth-update-field",
   name: "Update Field",
   description: "Update an existing field in a table. [See the documentation](https://airtable.com/developers/web/api/update-field)",
-  version: "0.0.12",
+  version: "0.0.13",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

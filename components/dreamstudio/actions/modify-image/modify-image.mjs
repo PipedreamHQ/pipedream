@@ -9,7 +9,12 @@ export default {
   ...common,
   key: "dreamstudio-modify-image",
   name: "Modify Image",
-  version: "1.0.1",
+  version: "1.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   description: "Modify an image based on a text prompt. [See the documentation](https://platform.stability.ai/docs/api-reference#tag/v1generation/operation/imageToImage)",
   type: "action",
   props: {

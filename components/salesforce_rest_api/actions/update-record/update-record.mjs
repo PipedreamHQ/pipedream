@@ -8,7 +8,12 @@ export default {
   key: "salesforce_rest_api-update-record",
   name: "Update Record",
   description: "Update fields of a record. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_update_fields.htm)",
-  version: "0.3.3",
+  version: "0.3.5",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     salesforce,
@@ -18,7 +23,7 @@ export default {
         "objectType",
       ],
       description: "The type of object to update a record of.",
-
+      reloadProps: true,
     },
     recordId: {
       propDefinition: [
@@ -39,6 +44,7 @@ export default {
           objType: c.sobjectType,
         }),
       ],
+      optional: true,
       reloadProps: true,
     },
   },
@@ -52,8 +58,12 @@ export default {
     } = this;
     const fields = await this.salesforce.getFieldsForObjectType(sobjectType);
 
-    const selectedFields = fields.filter(({ name }) => fieldsToUpdate.includes(name));
-    const selectedFieldProps = this.convertFieldsToProps(selectedFields);
+    // Only generate props for manually selected fields if any were selected
+    let selectedFieldProps = {};
+    if (fieldsToUpdate && fieldsToUpdate.length > 0) {
+      const selectedFields = fields.filter(({ name }) => fieldsToUpdate.includes(name));
+      selectedFieldProps = this.convertFieldsToProps(selectedFields);
+    }
 
     return {
       docsInfo: {

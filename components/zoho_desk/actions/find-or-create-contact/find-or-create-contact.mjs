@@ -5,7 +5,12 @@ export default {
   name: "Find or Create Contact",
   description: "Finds or create a contact. [See the docs here](https://desk.zoho.com/DeskAPIDocument#Contacts#Contacts_CreateContact)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.8",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     zohoDesk,
     orgId: {

@@ -5,7 +5,12 @@ export default {
   name: "Alcohol Label Recognition",
   description: "Accurately identifies alcohol labels using advanced intelligent technologies. Powered by API4AI.",
   key: "api4ai-alcohol-label-recognition",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

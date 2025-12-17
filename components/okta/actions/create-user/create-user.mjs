@@ -5,7 +5,12 @@ export default {
   key: "okta-create-user",
   name: "Create User",
   description: "Creates a new user in the Okta system. [See the documentation](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/User/#tag/User/operation/createUser)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     okta,

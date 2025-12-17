@@ -4,7 +4,12 @@ import constants from "../common/constants";
 
 export default defineAction({
   name: "Create Invitation",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "rise-create-invitation",
   description: "Creates a invitation. [See docs here](https://help.rise.com/en/articles/4177042-invitations-api)",
   type: "action",

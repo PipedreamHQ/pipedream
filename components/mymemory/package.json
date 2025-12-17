@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/mymemory",
+  "version": "0.0.1",
+  "description": "Pipedream MyMemory Components",
+  "main": "mymemory.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mymemory"
+  ],
+  "homepage": "https://pipedream.com/apps/mymemory",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -4,7 +4,12 @@ export default {
   key: "frontapp-get-message",
   name: "Get Message",
   description: "Retrieve a message by its ID. [See the documentation](https://dev.frontapp.com/reference/get-message)",
-  version: "0.0.2",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     frontApp,

@@ -5,7 +5,12 @@ export default {
   key: "keycloak-create-user",
   name: "Create User",
   description: "Create a new user in Keycloak. The username must be unique. [See the documentation](https://www.keycloak.org/docs-api/latest/rest-api/index.html#_users)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

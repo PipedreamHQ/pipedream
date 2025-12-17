@@ -19,6 +19,6 @@
     "@pipedream/types": "^0.1.4"
   },
   "dependencies": {
-    "@pipedream/platform": "^0.10.0"
+    "@pipedream/platform": "^0.10.1"
   }
 }

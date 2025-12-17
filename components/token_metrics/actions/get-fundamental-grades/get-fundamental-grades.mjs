@@ -10,7 +10,12 @@ export default {
   key: "token_metrics-get-fundamental-grades",
   name: "Get Fundamental Grades",
   description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/v3/reference/fundamental-grade)`,
-  version: "0.1.0",
+  version: "0.1.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     tokenMetrics,

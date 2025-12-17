@@ -5,7 +5,12 @@ export default {
   name: "Create a Playlist",
   description: "Create a playlist for a Spotify user. The playlist will be empty until you add tracks. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#/operations/create-playlist).",
   key: "spotify-create-playlist",
-  version: "0.1.2",
+  version: "0.1.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     spotify,

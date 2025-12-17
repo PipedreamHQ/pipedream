@@ -7,7 +7,12 @@ export default {
   name: "Get Accounts",
   description: "Get a paginated collection of accounts. [See the docs here](https://api.aweber.com/#tag/Accounts/paths/~1accounts/get).",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     aweberApp,
     start: {

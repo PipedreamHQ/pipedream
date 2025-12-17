@@ -4,7 +4,12 @@ export default {
   key: "livekit-create-room",
   name: "Create Room",
   description: "Create a new room in LiveKit. [See the documentation](https://docs.livekit.io/home/server/managing-rooms/#create-a-room).",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

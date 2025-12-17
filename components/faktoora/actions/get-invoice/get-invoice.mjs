@@ -6,7 +6,12 @@ export default {
   key: "faktoora-get-invoice",
   name: "Download Invoice",
   description: "Download an invoice using the unique invoice number to '/tmp' folder. [See the documentation](https://api.faktoora.com/api/v1/api-docs/static/index.html)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     faktoora,

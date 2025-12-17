@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/slack_bot",
-  "version": "0.5.6",
+  "version": "0.5.7",
   "description": "Pipedream Slack_bot Components",
   "main": "slack_bot.app.mjs",
   "keywords": [
@@ -14,7 +14,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.0.0",
+    "@pipedream/platform": "^3.1.1",
     "@slack/web-api": "^5.15.0",
     "@pipedream/slack": "^0.10.2"
   }

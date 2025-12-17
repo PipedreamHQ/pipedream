@@ -4,7 +4,12 @@ export default {
   key: "upbooks-create-expense-category",
   name: "Create Expense Category",
   description: "Creates a new expense category in UpBooks. [See the documentation](https://www.postman.com/scrrum/workspace/upbooks-io/request/13284127-a07ae2fc-f712-42aa-bcf5-6ce63c7a0929)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     upbooks,

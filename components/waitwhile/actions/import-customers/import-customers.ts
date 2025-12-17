@@ -3,7 +3,12 @@ import { defineAction } from "@pipedream/types";
 
 export default defineAction({
   name: "Import Customers",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "waitwhile-import-customers",
   description: "Import customers. [See the doc here](https://developers.waitwhile.com/reference/postcustomersimport)",
   props: {

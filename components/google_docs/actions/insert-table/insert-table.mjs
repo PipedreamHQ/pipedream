@@ -4,7 +4,12 @@ export default {
   key: "google_docs-insert-table",
   name: "Insert Table",
   description: "Insert a table into a document. [See the documentation](https://developers.google.com/workspace/docs/api/reference/rest/v1/documents/request#inserttablerequest)",
-  version: "0.0.1",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     googleDocs,

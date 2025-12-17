@@ -8,6 +8,6 @@ export default {
   ...updateIssue,
   ...utils.getAppProps(updateIssue),
   key: "linear-update-issue",
-  description: "Updates an existing Linear issue. Can modify title, description, assignee, state, project, team, labels, priority, and dates. Returns updated issue details. Uses OAuth authentication. See Linear docs for additional info [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api#creating-and-editing-issues).",
-  version: "0.1.11",
+  description: "Updates an existing Linear issue. Can modify title, description, assignee, state, project, team, labels, priority, and dates. Returns updated issue details. Uses OAuth authentication. See Linear docs for additional info [here](https://linear.app/developers/graphql#creating-and-editing-issues).",
+  version: "0.1.13",
 };

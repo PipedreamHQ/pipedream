@@ -6,7 +6,12 @@ export default {
   name: "Retrieve Stats",
   description: "Provides incidents statistics. [See the docs](https://www.crimeometer.com/crime-data-api-documentation) and [here](https://documenter.getpostman.com/view/12755833/TzK2auPn#f00742da-8325-4234-bb26-32b4ade34bd3).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     lat: {

@@ -4,7 +4,12 @@ export default {
   key: "notion-retrieve-page",
   name: "Retrieve Page Metadata",
   description: "Get details of a page. [See the documentation](https://developers.notion.com/reference/retrieve-a-page)",
-  version: "0.0.12",
+  version: "0.0.14",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     notion,

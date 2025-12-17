@@ -2,7 +2,12 @@ import ably from "../../ably.app.mjs";
 
 export default {
   name: "Publish Message",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "ably-publish-message",
   description: "Publish a message in a channel. [See docs here](https://ably.com/docs/realtime/messages#message-publish)",
   type: "action",

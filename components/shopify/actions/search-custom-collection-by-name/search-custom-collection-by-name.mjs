@@ -5,7 +5,12 @@ export default {
   key: "shopify-search-custom-collection-by-name",
   name: "Search Custom Collection by Name",
   description: "Search for a custom collection by name/title. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/queries/collections)",
-  version: "0.0.6",
+  version: "0.0.8",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     shopify,

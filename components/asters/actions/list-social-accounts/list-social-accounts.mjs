@@ -5,7 +5,12 @@ export default {
   name: "List Social Accounts",
   description: "Retrieve the list of all social accounts of a specific workspace. [See the documentation](https://docs.asters.ai/api/endpoints/social-accounts)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     asters,
     workspaceId: {

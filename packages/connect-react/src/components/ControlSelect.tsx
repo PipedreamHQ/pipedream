@@ -1,28 +1,38 @@
+import type { PropOptionValue } from "@pipedream/sdk";
 import {
   useEffect,
   useMemo,
   useState,
+  useRef,
 } from "react";
-import type {
-  CSSObjectWithLabel, MenuListProps,
-} from "react-select";
+import type { MenuListProps } from "react-select";
 import Select, {
   components,
   Props as ReactSelectProps,
 } from "react-select";
 import CreatableSelect from "react-select/creatable";
-import type { BaseReactSelectProps } from "../hooks/customization-context";
 import { useCustomize } from "../hooks/customization-context";
 import { useFormFieldContext } from "../hooks/form-field-context";
-import { LabelValueOption } from "../types";
+import type {
+  LabelValueOption,
+  RawPropOption,
+} from "../types";
 import {
   isOptionWithLabel,
   sanitizeOption,
 } from "../utils/type-guards";
+import {
+  isArrayOfLabelValueWrapped,
+  isLabelValueWrapped,
+} from "../utils/label-value";
+import {
+  createBaseSelectStyles,
+  resolveSelectColors,
+} from "../utils/select-styles";
 import { LoadMoreButton } from "./LoadMoreButton";
 
 // XXX T and ConfigurableProp should be related
-type ControlSelectProps<T> = {
+type ControlSelectProps<T extends PropOptionValue> = {
   isCreatable?: boolean;
   options: LabelValueOption<T>[];
   selectProps?: ReactSelectProps<LabelValueOption<T>, boolean>;
@@ -31,7 +41,7 @@ type ControlSelectProps<T> = {
   components?: ReactSelectProps<LabelValueOption<T>, boolean>["components"];
 };
 
-export function ControlSelect<T>({
+export function ControlSelect<T extends PropOptionValue>({
   isCreatable,
   options,
   selectProps,
@@ -46,6 +56,29 @@ export function ControlSelect<T>({
   const {
     select, theme,
   } = useCustomize();
+
+  // Memoize color resolution to avoid recalculating on every render
+  const resolvedColors = useMemo(() => resolveSelectColors(theme.colors), [
+    theme.colors,
+  ]);
+
+  // Memoize base select styles - only recalculate when colors or boxShadow change
+  const baseSelectStyles = useMemo(() => createBaseSelectStyles<LabelValueOption<T>, boolean>({
+    colors: {
+      surface: resolvedColors.surface,
+      border: resolvedColors.border,
+      text: resolvedColors.text,
+      textStrong: resolvedColors.textStrong,
+      hoverBg: resolvedColors.hoverBg,
+      selectedBg: resolvedColors.selectedBg,
+      selectedHoverBg: resolvedColors.selectedHoverBg,
+    },
+    boxShadow: theme.boxShadow,
+  }), [
+    resolvedColors,
+    theme.boxShadow,
+  ]);
+
   const [
     selectOptions,
     setSelectOptions,
@@ -68,81 +101,104 @@ export function ControlSelect<T>({
     value,
   ])
 
-  const baseSelectProps: BaseReactSelectProps<LabelValueOption<T>, boolean> = {
-    styles: {
-      container: (base): CSSObjectWithLabel => ({
-        ...base,
-        gridArea: "control",
-        boxShadow: theme.boxShadow.input,
-      }),
-    },
-  };
-
   const selectValue: LabelValueOption<T> | LabelValueOption<T>[] | null = useMemo(() => {
     if (rawValue == null) {
       return null;
     }
 
-    let ret = rawValue;
-    if (Array.isArray(ret)) {
-      // if simple, make lv (XXX combine this with other place this happens)
-      if (!isOptionWithLabel(ret[0])) {
-        return ret.map((o) =>
-          selectOptions.find((item) => item.value === o) || {
-            label: String(o),
-            value: o,
-          });
+    // Handle __lv-wrapped values (single object or array) returned from remote options
+    if (isLabelValueWrapped<T>(rawValue)) {
+      const lvContent = rawValue.__lv;
+      if (Array.isArray(lvContent)) {
+        return lvContent.map((item) => sanitizeOption<T>(item as RawPropOption<T>));
       }
-    } else if (ret && typeof ret === "object" && "__lv" in ret) {
-      // Extract the actual option from __lv wrapper
-      ret = ret.__lv;
-    } else if (!isOptionWithLabel(ret)) {
+      return sanitizeOption<T>(lvContent as RawPropOption<T>);
+    }
+
+    if (isArrayOfLabelValueWrapped<T>(rawValue)) {
+      return rawValue.map((item) => sanitizeOption<T>(item as RawPropOption<T>));
+    }
+
+    if (Array.isArray(rawValue)) {
+      // if simple, make lv (XXX combine this with other place this happens)
+      if (!isOptionWithLabel(rawValue[0])) {
+        return rawValue.map((o) =>
+          selectOptions.find((item) => item.value === o) || sanitizeOption(o as T));
+      }
+    } else if (!isOptionWithLabel(rawValue)) {
       const lvOptions = selectOptions?.[0] && isOptionWithLabel(selectOptions[0]);
       if (lvOptions) {
         for (const item of selectOptions) {
           if (item.value === rawValue) {
-            ret = item;
-            break;
+            return item;
           }
         }
       } else {
-        ret = {
-          label: String(rawValue),
-          value: rawValue,
-        }
+        return sanitizeOption(rawValue as T);
       }
     }
 
-    return ret;
+    return null;
   }, [
     rawValue,
     selectOptions,
   ]);
 
-  const LoadMore = ({
-    // eslint-disable-next-line react/prop-types
-    children, ...props
-  }: MenuListProps<LabelValueOption<T>, boolean>) => {
-    return (
-      <components.MenuList  {...props}>
+  // Get customization props from context
+  // We pass our dark mode base styles as the base, so user customizations merge on top
+  const customizationProps = select.getProps<
+    "controlSelect",
+    LabelValueOption<T>,
+    boolean
+  >("controlSelect", {
+    styles: baseSelectStyles,
+  })
+
+  // Use ref to store latest onLoadMore callback
+  // This allows stable component reference while calling current callback
+  const onLoadMoreRef = useRef(onLoadMore);
+  useEffect(() => {
+    onLoadMoreRef.current = onLoadMore;
+  }, [
+    onLoadMore,
+  ]);
+
+  const showLoadMoreButtonRef = useRef(showLoadMoreButton);
+  showLoadMoreButtonRef.current = showLoadMoreButton;
+
+  // Memoize custom components to prevent remounting
+  // Merge: customization context components -> caller overrides -> our MenuList wrapper
+  const finalComponents = useMemo(() => {
+    const mergedComponents = {
+      ...(customizationProps.components ?? {}),
+      ...(componentsOverride ?? {}),
+    };
+    const ParentMenuList = mergedComponents.MenuList ?? components.MenuList;
+
+    // Always set MenuList, conditionally render button inside
+    const CustomMenuList = ({
+      // eslint-disable-next-line react/prop-types
+      children, ...menuProps
+    }: MenuListProps<LabelValueOption<T>, boolean>) => (
+      <ParentMenuList {...menuProps}>
         {children}
-        <div className="pt-4">
-          <LoadMoreButton onChange={onLoadMore || (() => { })} />
-        </div>
-      </components.MenuList>
-    )
-  }
+        {showLoadMoreButtonRef.current && (
+          <div className="pt-4">
+            <LoadMoreButton onChange={() => onLoadMoreRef.current?.()} />
+          </div>
+        )}
+      </ParentMenuList>
+    );
+    CustomMenuList.displayName = "CustomMenuList";
 
-  const props = select.getProps("controlSelect", baseSelectProps)
-
-  const finalComponents = {
-    ...props.components,
-    ...componentsOverride,
-  };
-
-  if (showLoadMoreButton) {
-    finalComponents.MenuList = LoadMore;
-  }
+    return {
+      ...mergedComponents,
+      MenuList: CustomMenuList,
+    };
+  }, [
+    componentsOverride,
+    customizationProps.components,
+  ]);
 
   const handleCreate = (inputValue: string) => {
     const newOption = sanitizeOption(inputValue as T)
@@ -220,9 +276,32 @@ export function ControlSelect<T>({
       getOptionLabel={(option) => sanitizeOption(option).label}
       getOptionValue={(option) => String(sanitizeOption(option).value)}
       onChange={handleChange}
-      {...props}
+      // Apply customization context values as defaults
+      classNamePrefix={customizationProps.classNamePrefix || "react-select"}
+      classNames={customizationProps.classNames}
+      theme={customizationProps.theme}
+      // Spread selectProps after defaults so callers can override theme/classNames/classNamePrefix
       {...selectProps}
       {...additionalProps}
+      menuPortalTarget={
+        typeof document !== "undefined"
+          ? document.body
+          : null
+      }
+      menuPosition="fixed"
+      styles={{
+        ...customizationProps.styles,
+        ...(selectProps?.styles ?? {}),
+        container: (base) => ({
+          ...base,
+          gridArea: "control",
+        }),
+        menuPortal: (base) => ({
+          ...base,
+          zIndex: 99999,
+        }),
+      }}
+      components={finalComponents}
     />
   );
 }

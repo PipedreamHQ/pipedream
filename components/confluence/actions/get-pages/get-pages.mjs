@@ -4,7 +4,12 @@ export default {
   key: "confluence-get-pages",
   name: "Get Pages",
   description: "Retrieve a list of pages. [See the documentation](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-page/#api-pages-get)",
-  version: "0.0.1",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     confluence,
@@ -59,13 +64,13 @@ export default {
       $,
       cloudId,
       params: {
-        sort: this.sort,
-        status: this.status,
-        title: this.pageTitle,
-        bodyFormat: this.bodyFormat,
-        subType: this.subType,
-        cursor: this.cursor,
-        limit: this.limit,
+        "sort": this.sort,
+        "status": this.status,
+        "title": this.pageTitle,
+        "body-format": this.bodyFormat,
+        "subtype": this.subType,
+        "cursor": this.cursor,
+        "limit": this.limit,
       },
     });
     $.export("$summary", `Successfully retrieved ${response.results.length} page${response.results.length === 1

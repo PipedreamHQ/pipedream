@@ -5,7 +5,12 @@ export default {
   name: "Get Channel Followers",
   key: "twitch-get-channel-followers",
   description: "Retrieves a list of users who follow the authenticated user. [See the documentation](https://dev.twitch.tv/docs/api/reference/#get-channel-followers)",
-  version: "0.0.1",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   async run() {
     // get the userID of the authenticated user

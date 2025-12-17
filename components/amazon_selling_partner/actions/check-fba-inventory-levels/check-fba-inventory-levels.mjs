@@ -4,7 +4,12 @@ export default {
   key: "amazon_selling_partner-check-fba-inventory-levels",
   name: "Check FBA Inventory Levels",
   description: "Retrieves inventory summaries from Amazon fulfillment centers to monitor stock availability. [See the documentation](https://developer-docs.amazon.com/sp-api/reference/getinventorysummaries)",
-  version: "0.0.1",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     amazonSellingPartner,

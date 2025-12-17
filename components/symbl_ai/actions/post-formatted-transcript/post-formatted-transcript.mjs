@@ -4,7 +4,12 @@ export default {
   key: "symbl_ai-post-formatted-transcript",
   name: "Create Formatted Transcript",
   description: "Create formatted transcript from the Conversation. See the doc [here](https://docs.symbl.ai/docs/conversation-api/transcript/).",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     symblAIApp,

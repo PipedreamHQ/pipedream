@@ -4,7 +4,12 @@ export default {
   key: "notion-retrieve-database-schema",
   name: "Retrieve Data Source Schema",
   description: "Get the property schema of a data source in Notion. [See the documentation](https://developers.notion.com/reference/retrieve-a-data-source)",
-  version: "1.0.0",
+  version: "1.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     notion,

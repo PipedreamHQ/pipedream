@@ -5,7 +5,12 @@ export default {
   key: "xero_accounting_api-xero-accounting-create-or-update-contact",
   name: "Create or Update Contact",
   description: "Creates a new contact or updates if the contact exists.",
-  version: "0.1.2",
+  version: "0.1.4",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     xeroAccountingApi,
@@ -22,9 +27,13 @@ export default {
       optional: true,
     },
     contactId: {
-      label: "Contact ID",
-      type: "string",
-      description: "Xero identifier.",
+      propDefinition: [
+        xeroAccountingApi,
+        "contactId",
+        (c) => ({
+          tenantId: c.tenantId,
+        }),
+      ],
       optional: true,
     },
     contactNumber: {
@@ -53,7 +62,7 @@ export default {
     firstName: {
       label: "First Name",
       type: "string",
-      description: "First name of contact person (max length = 255).",
+      description: "First name of contact person (max length = 255)",
       optional: true,
     },
     lastName: {
@@ -71,13 +80,13 @@ export default {
     skypeUserName: {
       label: "Skype User Name",
       type: "string",
-      description: "Skype user name of contact.",
+      description: "Skype user name of contact",
       optional: true,
     },
     contactPersons: {
       label: "Contact Persons",
       type: "any",
-      description: "See [contact persons](https://developer.xero.com/documentation/api/contacts#contact-persons).",
+      description: "See [contact persons](https://developer.xero.com/documentation/api/contacts#contact-persons)",
       optional: true,
     },
     bankAccountDetails: {
@@ -113,7 +122,7 @@ export default {
     phones: {
       label: "Phones",
       type: "any",
-      description: "Store certain phone types for a contact - see phone types.",
+      description: "Store certain phone types for a contact - see phone types",
       optional: true,
     },
     isSupplier: {
@@ -137,7 +146,7 @@ export default {
     xeroNetworkKey: {
       label: "Xero Network Key",
       type: "string",
-      description: "Store XeroNetworkKey for contacts.",
+      description: "Store XeroNetworkKey for contacts",
       optional: true,
     },
     salesDefaultAccountCode: {

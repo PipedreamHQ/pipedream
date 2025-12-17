@@ -4,7 +4,12 @@ import { prepareDuplicateCardData } from "../common/utils.mjs";
 export default {
   key: "planview_leankit-duplicate-task",
   name: "Duplicate Task",
-  version: "0.0.1",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Duplicate a task. [See the docs here](https://success.planview.com/Planview_AgilePlace/AgilePlace_API/01_v2/card/create)",
   type: "action",
   props: {

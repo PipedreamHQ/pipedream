@@ -4,7 +4,12 @@ export default {
   key: "letterdrop-draft-post",
   name: "Draft Blog Post",
   description: "Drafts a new blog post in your workspace with the required title and content, and optional images and tags. [See the documentation](https://docs.letterdrop.com/api#draft-post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

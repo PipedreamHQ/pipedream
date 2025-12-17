@@ -6,7 +6,12 @@ export default {
   key: "pipedream_utils-retrieve-new-rss-stories",
   name: "Helper Functions - Retrieve New RSS Stories",
   description: "Gets new stories from a specified RSS feed that have not already been processed.",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     pipedream_utils,

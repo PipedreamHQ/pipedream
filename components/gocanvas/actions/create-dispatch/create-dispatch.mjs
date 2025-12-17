@@ -4,7 +4,12 @@ export default {
   key: "gocanvas-create-dispatch",
   name: "Create Dispatch",
   description: "Creates a dispatch item in GoCanvas. [See the documentation](https://help.gocanvas.com/hc/en-us/article_attachments/26468076609559)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     gocanvas,

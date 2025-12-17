@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/google_cloud",
-  "version": "0.6.0",
+  "version": "0.6.3",
   "description": "Pipedream Google_cloud Components",
   "main": "google_cloud.app.mjs",
   "keywords": [
@@ -20,8 +20,7 @@
     "@google-cloud/logging": "^10.0.3",
     "@google-cloud/pubsub": "^3.0.1",
     "@google-cloud/storage": "^6.0.1",
-    "@pipedream/platform": "^0.10.0",
-    "crypto": "^1.0.1",
+    "@pipedream/platform": "^3.1.1",
     "lodash-es": "^4.17.21",
     "uuid": "^8.3.2"
   }

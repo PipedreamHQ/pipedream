@@ -1,6 +1,6 @@
 # Overview
 
-The [Feedier API](https://feedier.com) lets you harness the power of customer feedback by automating the collection and analysis process. With this API, you can create, retrieve, update, and delete feedback, along with managing carriers and rewards. It enables you to streamline the feedback loop, integrate with your CRM, and trigger actions based on customer responses. Pipedream's serverless platform opens up a world of possibilities for integrating Feedier with hundreds of other apps to automate workflows, analyze data, and respond in real-time to customer insights.
+The [Feedier API](https://feedier.com) lets you harness the power of customer feedback by automating the collection and analysis process. With this API, you can create, retrieve, update, and delete feedback, along with managing carriers and rewards. It enables you to streamline the feedback loop, integrate with your CRM, and trigger actions based on customer responses. Pipedream's serverless platform opens up a world of possibilities for integrating Feedier with 3,000+ other apps to automate workflows, analyze data, and respond in real-time to customer insights.
 
 # Example Use Cases
 

@@ -4,7 +4,12 @@ export default {
   key: "mastodon-view-public-timeline",
   name: "View Public Timeline",
   description: "View public statuses. [See the docs here](https://docs.joinmastodon.org/methods/timelines/#public)",
-  version: "0.0.1",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     mastodon,

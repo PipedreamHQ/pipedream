@@ -5,7 +5,12 @@ export default {
   key: "whautomate-assign-tags-contact",
   name: "Assign Tags to Contact",
   description: "Assign one or more tags to an existing contact. [See the documentation](https://help.whautomate.com/product-guides/whautomate-rest-api/contacts#/v1-contacts-contactid-1)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     whautomate,

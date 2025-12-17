@@ -4,7 +4,12 @@ export default {
   key: "google_docs-create-document",
   name: "Create a New Document",
   description: "Create a new document. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/create)",
-  version: "0.1.7",
+  version: "0.2.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     googleDocs,
@@ -18,6 +23,12 @@ export default {
         googleDocs,
         "text",
       ],
+      optional: true,
+    },
+    useMarkdown: {
+      type: "boolean",
+      label: "Use Markdown Format",
+      description: "Enable markdown formatting support. When enabled, the text will be parsed as markdown and converted to Google Docs formatting (headings, bold, italic, lists, etc.)",
       optional: true,
     },
     folderId: {
@@ -34,14 +45,20 @@ export default {
 
     // Insert text
     if (this.text) {
-      await this.googleDocs.insertText(documentId, {
-        text: this.text,
-      });
+      if (this.useMarkdown) {
+        // Use markdown formatting
+        await this.googleDocs.insertMarkdownText(documentId, this.text);
+      } else {
+        // Use plain text
+        await this.googleDocs.insertText(documentId, {
+          text: this.text,
+        });
+      }
     }
 
     // Move file
     if (this.folderId) {
-    // Get file to get parents to remove
+      // Get file to get parents to remove
       const file = await this.googleDocs.getFile(documentId);
 
       // Move file, removing old parents, adding new parent folder

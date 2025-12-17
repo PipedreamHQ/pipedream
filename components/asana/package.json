@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/asana",
-  "version": "0.8.0",
+  "version": "0.8.2",
   "description": "Pipedream Asana Components",
   "main": "asana.app.mjs",
   "keywords": [
@@ -10,7 +10,7 @@
   "homepage": "https://pipedream.com/apps/asana",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^3.0.3",
+    "@pipedream/platform": "^3.1.1",
     "lodash": "^4.17.21"
   },
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",

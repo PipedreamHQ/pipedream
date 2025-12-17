@@ -7,7 +7,12 @@ export default {
   name: "Get Meeting",
   description:
     "Retrieves a specific meeting by its ID. [See the documentation](https://developers.hubspot.com/docs/reference/api/crm/engagements/meetings#get-%2Fcrm%2Fv3%2Fobjects%2Fmeetings%2F%7Bmeetingid%7D)",
-  version: "0.0.10",
+  version: "0.0.13",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...common.props,

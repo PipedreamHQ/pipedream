@@ -4,7 +4,12 @@ export default {
   name: "List User's Call Logs",
   description: "Gets a user's Zoom phone call logs. [See the documentation](https://developers.zoom.us/docs/zoom-phone/apis/#operation/phoneUserCallLogs)",
   key: "zoom-list-user-call-logs",
-  version: "0.0.3",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     zoom,

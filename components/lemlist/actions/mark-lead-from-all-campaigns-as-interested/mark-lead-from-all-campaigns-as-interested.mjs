@@ -4,7 +4,12 @@ export default {
   key: "lemlist-mark-lead-from-all-campaigns-as-interested",
   name: "Mark Lead From All Campaigns As Interested",
   description: "This action marks a specific lead as interested using its email in all campaigns. [See the docs here](https://developer.lemlist.com/#mark-as-interested-a-specific-lead-by-email)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     lemlist,

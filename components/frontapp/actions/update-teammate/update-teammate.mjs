@@ -4,7 +4,12 @@ export default {
   key: "frontapp-update-teammate",
   name: "Update Teammate",
   description: "Update a teammate. [See the documentation](https://dev.frontapp.com/reference/update-teammate).",
-  version: "0.0.2",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     frontApp,

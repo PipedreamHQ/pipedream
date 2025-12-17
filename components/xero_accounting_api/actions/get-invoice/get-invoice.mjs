@@ -4,7 +4,12 @@ export default {
   key: "xero_accounting_api-get-invoice",
   name: "Get Invoice",
   description: "Gets details of an invoice.",
-  version: "0.1.2",
+  version: "0.1.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     xeroAccountingApi,

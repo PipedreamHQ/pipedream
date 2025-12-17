@@ -5,7 +5,12 @@ export default {
   key: "smstools-add-contact-opt-out",
   name: "Add Contact to Opt-Out List",
   description: "Adds a selected contact to the opt-out list, stopping further communications. [See the documentation](https://www.smstools.com/en/sms-gateway-api/add_optout)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     smstools,

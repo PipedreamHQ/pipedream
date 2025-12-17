@@ -4,7 +4,12 @@ export default {
   key: "encodian-validate-email",
   name: "Validate Email",
   description: "Validate the syntax of an email address. [See the documentation](https://api.apps-encodian.com/index.html)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

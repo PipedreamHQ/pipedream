@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zendesk",
-  "version": "0.9.0",
+  "version": "0.11.0",
   "description": "Pipedream Zendesk Components",
   "main": "zendesk.app.mjs",
   "keywords": [
@@ -14,8 +14,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.1.0",
-    "crypto": "^1.0.1",
+    "@pipedream/platform": "^3.1.1",
     "path": "^0.12.7"
   }
 }

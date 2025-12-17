@@ -9,7 +9,12 @@ export default {
   key: "quickbooks-update-estimate",
   name: "Update Estimate",
   description: "Updates an estimate. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/estimate#update-an-estimate)",
-  version: "0.0.3",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     quickbooks,

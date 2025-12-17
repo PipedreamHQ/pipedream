@@ -21,7 +21,7 @@ const RESOURCE_TYPE = {
 
 const RESOURCE_TYPES = Object.values(RESOURCE_TYPE);
 
-// https://developers.linear.app/docs/graphql/webhooks#how-does-a-webhook-work
+// https://linear.app/developers/webhooks#how-does-a-webhook-work
 // To make sure a Webhook POST is truly created by Linear, check the request
 // that originates from one of the following IPs:
 const CLIENT_IPS = [
@@ -45,6 +45,29 @@ const ORDER_BY_OPTIONS = [
   },
 ];
 
+const PRIORITY_OPTIONS = [
+  {
+    value: 0,
+    label: "No priority",
+  },
+  {
+    value: 1,
+    label: "Urgent",
+  },
+  {
+    value: 2,
+    label: "High",
+  },
+  {
+    value: 3,
+    label: "Normal",
+  },
+  {
+    value: 4,
+    label: "Low",
+  },
+];
+
 export default {
   WEBHOOK_ID,
   LINEAR_DELIVERY_HEADER,
@@ -57,4 +80,5 @@ export default {
   CLIENT_IPS,
   ORDER_BY_OPTIONS,
   FIELD,
+  PRIORITY_OPTIONS,
 };

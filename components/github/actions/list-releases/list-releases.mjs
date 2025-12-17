@@ -4,7 +4,12 @@ export default {
   key: "github-list-releases",
   name: "List Releases",
   description: "List releases for a repository [See the documentation](https://docs.github.com/en/rest/releases/releases?apiVersion=2022-11-28#list-releases)",
-  version: "0.0.10",
+  version: "0.0.12",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     github,

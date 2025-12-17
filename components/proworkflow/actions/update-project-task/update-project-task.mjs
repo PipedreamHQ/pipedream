@@ -5,7 +5,12 @@ export default {
   name: "Update Project Task",
   description: "Updates a project task. [See the docs](https://api.proworkflow.net/?documentation#gettingstartedputsingle).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     taskId: {

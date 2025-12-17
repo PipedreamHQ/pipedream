@@ -4,7 +4,12 @@ export default {
   key: "gmail-add-label-to-email",
   name: "Add Label to Email",
   description: "Add label(s) to an email message. [See the docs](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/modify)",
-  version: "0.0.12",
+  version: "0.0.15",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     gmail,

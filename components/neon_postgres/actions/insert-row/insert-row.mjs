@@ -5,7 +5,12 @@ export default {
   name: "Insert Row",
   key: "neon_postgres-insert-row",
   description: "Adds a new row. [See the documentation](https://node-postgres.com/features/queries)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     neon,

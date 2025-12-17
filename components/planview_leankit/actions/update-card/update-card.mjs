@@ -5,7 +5,12 @@ import { prepareData } from "../common/utils.mjs";
 export default {
   key: "planview_leankit-update-card",
   name: "Update Card (Or Task)",
-  version: "0.0.1",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Update a card or task's fields. [See the docs here](https://success.planview.com/Planview_AgilePlace/AgilePlace_API/01_v2/card/update)",
   type: "action",
   props: {

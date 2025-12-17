@@ -5,7 +5,12 @@ export default {
   key: "linkedin-create-text-post-organization",
   name: "Create a Simple Post (Organization)",
   description: "Create post on LinkedIn using text, URL or article. [See the documentation](https://learn.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/posts-api?view=li-lms-2022-11&tabs=http#create-organic-posts) for more information",
-  version: "0.0.9",
+  version: "0.0.11",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     linkedin,

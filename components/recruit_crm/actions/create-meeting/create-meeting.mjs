@@ -5,7 +5,12 @@ export default {
   name: "Create Meeting",
   description: "Creates a new meeting. [See the documentation](https://docs.recruitcrm.io/docs/rcrm-api-reference/ca9713d31352a-creates-a-new-meeting)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     title: {

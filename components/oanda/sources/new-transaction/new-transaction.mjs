@@ -7,7 +7,7 @@ export default {
   key: "oanda-new-transaction",
   name: "New Transaction",
   description: "Emit new event whenever a trade is executed in the user's account. [See the documentation](https://developer.oanda.com/rest-live-v20/transaction-ep/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

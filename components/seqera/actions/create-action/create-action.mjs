@@ -6,7 +6,12 @@ export default {
   key: "seqera-create-action",
   name: "Create Pipeline Action",
   description: "Creates a new pipeline action in Seqera. [See the documentation](https://docs.seqera.io/platform/23.3.0/api/overview)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

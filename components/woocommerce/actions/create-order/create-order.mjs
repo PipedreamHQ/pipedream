@@ -4,7 +4,12 @@ export default {
   key: "woocommerce-create-order",
   name: "Create Order",
   description: "Creates a new order. [See the docs](https://woocommerce.github.io/woocommerce-rest-api-docs/?javascript#create-an-order)",
-  version: "0.0.2",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     woocommerce,

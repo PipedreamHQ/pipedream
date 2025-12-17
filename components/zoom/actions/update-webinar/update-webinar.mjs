@@ -1,11 +1,17 @@
 // legacy_hash_id: a_Q3irlY
 import { axios } from "@pipedream/platform";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "zoom-update-webinar",
   name: "Update Webinar",
   description: "Update a webinar's topic, start time, or other settings",
-  version: "0.1.4",
+  version: "0.1.6",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     zoom: {
@@ -72,7 +78,7 @@ export default {
   // API docs: https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingupdate
     const config = {
       method: "PATCH",
-      url: `https://api.zoom.us/v2/webinars/${this.webinarID}`,
+      url: `https://api.zoom.us/v2/webinars/${utils.doubleEncode(this.webinarID)}`,
       data: {
         topic: this.topic,
         type: this.type,

@@ -6,7 +6,12 @@ export default {
   key: "iauditor_by_safetyculture-update-user",
   name: "Update User",
   description: "Update an existing user in iAuditor by SafetyCulture. [See the documentation](https://developer.safetyculture.com/reference/thepubservice_updateuser)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     safetyculture,

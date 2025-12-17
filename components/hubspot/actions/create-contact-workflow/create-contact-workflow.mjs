@@ -6,7 +6,12 @@ export default {
   name: "Create Contact Workflow",
   description:
     "Create a contact workflow in Hubspot. [See the documentation](https://developers.hubspot.com/docs/reference/api/automation/create-manage-workflows#post-%2Fautomation%2Fv4%2Fflows)",
-  version: "0.0.7",
+  version: "0.0.10",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     hubspot,

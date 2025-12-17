@@ -1,11 +1,18 @@
 import utils from "../../common/utils.mjs";
+import common from "../common/issue.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 import jira from "../../jira.app.mjs";
 
 export default {
   key: "jira-update-comment",
   name: "Update Comment",
-  description: "Updates a comment, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-comments/#api-rest-api-3-issue-issueidorkey-comment-id-put)",
-  version: "0.1.12",
+  description: "Updates a comment. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-comments/#api-rest-api-3-issue-issueidorkey-comment-id-put)",
+  version: "0.1.15",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     jira,
@@ -25,14 +32,26 @@ export default {
       ],
     },
     commentId: {
-      type: "string",
-      label: "Comment ID",
-      description: "The ID of the comment.",
+      propDefinition: [
+        jira,
+        "commentId",
+        (c) => ({
+          cloudId: c.cloudId,
+          issueIdOrKey: c.issueIdOrKey,
+        }),
+      ],
     },
     body: {
       type: "object",
       label: "Body",
-      description: "The comment text in [Atlassian Document Format](https://developer.atlassian.com/cloud/jira/platform/apis/document/structure/), e.g. `{\"type\":\"doc\",\"version\":1,\"content\":[{\"content\":[{\"text\":\"This is a comment\",\"type\":\"text\"}],\"type\":\"paragraph\"}]}`",
+      description: "The comment text in [Atlassian Document Format](https://developer.atlassian.com/cloud/jira/platform/apis/document/structure/), e.g. `{\"type\":\"doc\",\"version\":1,\"content\":[{\"content\":[{\"text\":\"This is a comment\",\"type\":\"text\"}],\"type\":\"paragraph\"}]}`. Will overwrite comment if both comment and body are provided",
+      optional: true,
+    },
+    comment: {
+      type: "string",
+      label: "Comment",
+      description: "The comment text",
+      optional: true,
     },
     visibility: {
       type: "object",
@@ -45,7 +64,7 @@ export default {
         jira,
         "properties",
       ],
-      description: "Details of issue properties to be add or update, please provide an array of objects with keys and values.",
+      description: "Details of issue properties to be added or updated. Please provide an array of objects with keys and values.",
     },
     additionalProperties: {
       propDefinition: [
@@ -55,8 +74,8 @@ export default {
     },
     notifyUsers: {
       type: "boolean",
-      label: "Notify users",
-      description: "Whether users are notified when a comment is updated.",
+      label: "Notify Users",
+      description: "Whether users are notified when a comment is updated",
       optional: true,
     },
     expand: {
@@ -68,7 +87,16 @@ export default {
     },
   },
   async run({ $ }) {
-    const body = utils.parseObject(this.body);
+    if (!this.comment && !this.body) {
+      throw new ConfigurationError("Either comment or body is required");
+    }
+
+    const body = this.body
+      ? utils.parseObject(this.body)
+      : this.comment
+        ? common.methods.atlassianDocumentFormat(this.comment)
+        : undefined;
+
     const visibility = utils.parseObject(this.visibility);
     const additionalProperties = utils.parseObject(this.additionalProperties);
     let properties;

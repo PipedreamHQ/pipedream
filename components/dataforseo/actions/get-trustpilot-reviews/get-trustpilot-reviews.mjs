@@ -5,7 +5,12 @@ export default {
   key: "dataforseo-get-trustpilot-reviews",
   name: "Get Trustpilot Reviews",
   description: "Get Trustpilot business reviews and ratings for reputation management. [See the documentation](https://docs.dataforseo.com/v3/business_data/trustpilot/reviews/task_post/?bash)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     dataforseo,

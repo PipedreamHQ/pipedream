@@ -5,7 +5,12 @@ export default {
   key: "ssh-execute-command",
   name: "Execute a Command",
   description: "Executes a command on a remote device. [See SSH lib docs here](https://www.npmjs.com/package/node-ssh)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     ssh,
     command: {

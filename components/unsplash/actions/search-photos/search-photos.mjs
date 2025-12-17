@@ -5,7 +5,12 @@ export default {
   key: "unsplash-search-photos",
   name: "Search Photos",
   description: "Get a single page of photo results for a query. [See the documentation](https://unsplash.com/documentation#search-photos)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

@@ -5,7 +5,12 @@ export default {
   name: "Unsubscribe",
   description: "Unsubscribes a contact. [See the docs](https://rest.smoove.io/#!/Contacts/Contacts_Unsubscribe).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     email: {

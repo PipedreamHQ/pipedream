@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/jobber",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Pipedream Jobber Components",
   "main": "jobber.app.mjs",
   "keywords": [
@@ -13,7 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.0.3",
+    "@pipedream/platform": "^3.1.1",
     "moment-timezone": "^0.5.45"
   }
 }

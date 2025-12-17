@@ -4,7 +4,12 @@ export default {
   key: "shopify-delete-page",
   name: "Delete Page",
   description: "Delete an existing page. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/pageDelete)",
-  version: "0.0.7",
+  version: "0.0.9",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     shopify,

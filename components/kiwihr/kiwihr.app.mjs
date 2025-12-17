@@ -194,11 +194,11 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return `${this.$auth.api_url}/api/graphql`;
+      return `https://${this.$auth.subdomain}.kiwihr.com/api/graphql`;
     },
     _headers() {
       return {
-        "X-Api-Key": `${this.$auth.api_key}`,
+        "x-api-key": `${this.$auth.api_key}`,
       };
     },
     getClient() {

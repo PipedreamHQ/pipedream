@@ -4,7 +4,12 @@ export default {
   name: "Find Row With Custom Query",
   key: "neon_postgres-find-row-custom-query",
   description: "Finds a row in a table via a custom query. [See the documentation](https://node-postgres.com/features/queries)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     neon,

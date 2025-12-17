@@ -4,7 +4,12 @@ export default {
   key: "mastodon-view-single-status",
   name: "View Single Status",
   description: "Obtain information about a status. [See the docs here](https://docs.joinmastodon.org/methods/statuses/#get)",
-  version: "0.0.1",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     mastodon,

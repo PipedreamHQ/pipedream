@@ -4,7 +4,12 @@ export default {
   key: "trello-complete-checklist-item",
   name: "Complete a Checklist Item",
   description: "Completes an existing checklist item in a card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-checkitem-idcheckitem-put).",
-  version: "0.2.3",
+  version: "0.2.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

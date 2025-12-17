@@ -5,7 +5,12 @@ export default {
   name: "Update Contact",
   description: "Updates details of an existing contact. [See the docs here](https://desk.zoho.com/DeskAPIDocument#Contacts#Contacts_Updateacontact)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.8",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     zohoDesk,
     orgId: {
@@ -27,6 +32,7 @@ export default {
       type: "string",
       label: "Last Name",
       description: "Last name of the contact",
+      optional: true,
     },
     firstName: {
       type: "string",
@@ -52,6 +58,27 @@ export default {
       description: "Mobile number of the contact",
       optional: true,
     },
+    accountId: {
+      propDefinition: [
+        zohoDesk,
+        "accountId",
+        ({ orgId }) => ({
+          orgId,
+        }),
+      ],
+    },
+    title: {
+      type: "string",
+      label: "Title",
+      description: "Job title of the contact",
+      optional: true,
+    },
+    description: {
+      type: "string",
+      label: "Description",
+      description: "Description about the contact",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const {
@@ -62,20 +89,29 @@ export default {
       email,
       phone,
       mobile,
+      accountId,
+      title,
+      description,
     } = this;
+
+    const data = {};
+
+    // Add optional fields
+    if (lastName) data.lastName = lastName;
+    if (firstName) data.firstName = firstName;
+    if (email) data.email = email;
+    if (phone) data.phone = phone;
+    if (mobile) data.mobile = mobile;
+    if (accountId) data.accountId = accountId;
+    if (title) data.title = title;
+    if (description) data.description = description;
 
     const response = await this.zohoDesk.updateContact({
       contactId,
       headers: {
         orgId,
       },
-      data: {
-        lastName,
-        firstName,
-        email,
-        phone,
-        mobile,
-      },
+      data,
     });
 
     $.export("$summary", `Successfully updated contact with ID ${response.id}`);

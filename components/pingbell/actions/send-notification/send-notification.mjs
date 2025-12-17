@@ -2,7 +2,12 @@ import app from "../../pingbell.app.mjs";
 
 export default {
   name: "Send Notification",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "pingbell-send-notification",
   description: "Sends a notification to a Pingbell. [See the documentation](https://pingbell.io/docs/pingbell-api/post-notifications/)",
   type: "action",

@@ -4,7 +4,7 @@ export default {
   key: "trengo-new-outbound-message",
   name: "New Outbound Message Event (Instant)",
   description: "Emit new event when an outbound message sent. [See the documentation](https://developers.trengo.com/docs/webhooks)",
-  version: "0.0.4",
+  version: "0.0.8",
   type: "source",
   dedupe: "unique",
   ...common,

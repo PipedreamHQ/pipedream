@@ -4,7 +4,12 @@ export default {
   key: "gorgias_oauth-delete-macro",
   name: "Delete Macro",
   description: "Delete a macro. [See the documentation](https://developers.gorgias.com/reference/delete-macro)",
-  version: "0.0.1",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     gorgias_oauth,

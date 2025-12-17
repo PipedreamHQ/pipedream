@@ -7,7 +7,7 @@ export default {
   key: "zendesk-new-ticket-comment-added",
   type: "source",
   description: "Emit new event when a ticket comment has been added",
-  version: "0.1.0",
+  version: "0.1.2",
   dedupe: "unique",
   props: {
     app,
@@ -50,8 +50,8 @@ export default {
         ],
       };
     },
-    getTriggerPayload() {
-      const payload = common.methods.getTriggerPayload.call(this);
+    async getTriggerPayload() {
+      const payload = await common.methods.getTriggerPayload.call(this);
       return {
         ...payload,
         ticketComments: "{{ticket.comments}}",

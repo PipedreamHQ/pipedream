@@ -7,7 +7,12 @@ export default {
   key: "gong-get-extensive-data",
   name: "Get Extensive Data",
   description: "Lists detailed call data. [See the documentation](https://gong.app.gong.io/settings/api/documentation#post-/v2/calls/extensive)",
-  version: "0.0.3",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

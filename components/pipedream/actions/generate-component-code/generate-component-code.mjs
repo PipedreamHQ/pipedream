@@ -5,7 +5,12 @@ export default {
   key: "pipedream-generate-component-code",
   name: "Generate Component Code",
   description: "Generate component code using AI.",
-  version: "0.0.1",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pipedream,

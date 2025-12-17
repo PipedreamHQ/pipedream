@@ -4,7 +4,12 @@ export default {
   key: "zest-send-gift",
   name: "Send Gift",
   description: "Creates a gift within a specified campaign in Zest. [See the documentation](https://gifts.zest.co/admin/integrations/documentation#operation/create)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

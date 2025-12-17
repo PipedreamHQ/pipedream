@@ -8,7 +8,12 @@ export default {
   key: "utopian_labs-initiate-copywriting-run",
   name: "Initiate Copywriting Run",
   description: "Initiate a copywriting run of the R1-Copywriting agent. [See the documentation](https://docs.utopianlabs.ai/copywriting#initiate-a-copywriting-run)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     utopianLabs,

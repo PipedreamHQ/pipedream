@@ -10,8 +10,7 @@
   "homepage": "https://pipedream.com/apps/cisco_webex",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^1.4.0",
-    "crypto": "^1.0.1",
+    "@pipedream/platform": "^1.6.8",
     "uuid": "^8.3.2"
   },
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",

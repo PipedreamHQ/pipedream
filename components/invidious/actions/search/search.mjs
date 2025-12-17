@@ -5,7 +5,12 @@ export default {
   key: "invidious-search",
   name: "Search Videos",
   description: "Search for videos on Invidious. [See the documentation](https://docs.invidious.io/api/#get-apiv1search)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

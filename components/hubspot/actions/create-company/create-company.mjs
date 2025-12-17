@@ -7,7 +7,12 @@ export default {
   name: "Create Company",
   description:
     "Create a company in Hubspot. [See the documentation](https://developers.hubspot.com/docs/api/crm/companies#endpoint?spec=POST-/crm/v3/objects/companies)",
-  version: "0.0.29",
+  version: "0.0.33",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   methods: {
     ...common.methods,

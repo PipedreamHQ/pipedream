@@ -4,7 +4,12 @@ export default {
   key: "help_scout-get-conversation-details",
   name: "Get Conversation Details",
   description: "Retrieves the details of a specific conversation. [See the documentation](https://developer.helpscout.com/mailbox-api/endpoints/conversations/get/)",
-  version: "0.0.1",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     helpScout,

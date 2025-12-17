@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/xero_accounting_api",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Pipedream Xero Components",
   "main": "xero_accounting_api.app.mjs",
   "keywords": [
@@ -10,7 +10,7 @@
   "homepage": "https://pipedream.com/apps/xero_accounting_api",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^3.1.0"
+    "@pipedream/platform": "^3.1.1"
   },
   "publishConfig": {
     "access": "public"

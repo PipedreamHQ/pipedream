@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/google_drive",
-  "version": "1.1.0",
+  "version": "1.4.1",
   "description": "Pipedream Google_drive Components",
   "main": "google_drive.app.mjs",
   "keywords": [
@@ -11,7 +11,7 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
     "@googleapis/drive": "^2.3.0",
-    "@pipedream/platform": "^3.1.0",
+    "@pipedream/platform": "^3.1.1",
     "cron-parser": "^4.9.0",
     "google-docs-mustaches": "^1.2.2",
     "got": "13.0.0",

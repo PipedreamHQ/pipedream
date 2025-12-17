@@ -4,7 +4,12 @@ export default {
   key: "microsoft_outlook-remove-label-from-email",
   name: "Remove Label from Email",
   description: "Removes a label/category from an email in Microsoft Outlook. [See the documentation](https://learn.microsoft.com/en-us/graph/api/message-update)",
-  version: "0.0.10",
+  version: "0.0.14",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     microsoftOutlook,

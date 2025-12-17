@@ -4,7 +4,12 @@ export default {
   key: "infobip-send-sms",
   name: "Send SMS",
   description: "Sends an SMS message to a specified number. [See the documentation](https://www.infobip.com/docs/api)",
-  version: "0.0.1",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     infobip,
@@ -60,19 +65,26 @@ export default {
     const {
       infobip,
       phoneNumber,
-      ...data
+      sender,
+      text,
+      ...rest
     } = this;
+
     const response = await infobip.sendSms({
       $,
       data: {
         messages: [
           {
+            sender,
             destinations: [
               {
                 to: phoneNumber,
               },
             ],
-            data,
+            content: {
+              text,
+            },
+            ...rest,
           },
         ],
       },

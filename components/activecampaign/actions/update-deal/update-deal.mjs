@@ -5,7 +5,12 @@ export default {
   key: "activecampaign-update-deal",
   name: "Update Deal",
   description: "Updates an existing deal. See the docs [here](https://developers.activecampaign.com/reference/update-a-deal-new).",
-  version: "0.2.0",
+  version: "0.2.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     activecampaign,

@@ -1,21 +1,26 @@
-import {
-  createContext, useContext, type ReactNode,
-} from "react";
+import type {
+  ConfigurableProp,
+  ConfigurablePropApp,
+  ConfigurablePropBoolean,
+} from "@pipedream/sdk";
 import type {
   ComponentProps, CSSProperties, JSXElementConstructor,
 } from "react";
 import {
-  components as ReactSelectComponents, mergeStyles as mergeReactSelectStyles,
-} from "react-select";
+  createContext, useContext, type ReactNode,
+} from "react";
 import type {
-  ClassNamesConfig as ReactSelectClassNamesConfig,
   GroupBase,
-  Props as ReactSelectCustomizationProps,
+  ClassNamesConfig as ReactSelectClassNamesConfig,
   SelectComponentsConfig as ReactSelectComponentsConfig,
+  Props as ReactSelectCustomizationProps,
   StylesConfig as ReactSelectStylesConfig,
   Theme as ReactSelectTheme,
 } from "react-select";
-import type { ConfigurableProp } from "@pipedream/sdk";
+import {
+  mergeStyles as mergeReactSelectStyles,
+  components as ReactSelectComponents,
+} from "react-select";
 import {
   defaultTheme, getReactSelectTheme, mergeTheme, unstyledTheme, type CustomThemeConfig, type Theme,
 } from "../theme";
@@ -26,6 +31,7 @@ import { ControlAny } from "../components/ControlAny";
 import { ControlApp } from "../components/ControlApp";
 import { ControlArray } from "../components/ControlArray";
 import { ControlBoolean } from "../components/ControlBoolean";
+import { ControlHttpRequest } from "../components/ControlHttpRequest";
 import { ControlInput } from "../components/ControlInput";
 import { ControlObject } from "../components/ControlObject";
 import { ControlSelect } from "../components/ControlSelect";
@@ -35,8 +41,8 @@ import { Description } from "../components/Description";
 import { Errors } from "../components/Errors";
 import { Field } from "../components/Field";
 import { Label } from "../components/Label";
-import { OptionalFieldButton } from "../components/OptionalFieldButton";
 import { LoadMoreButton } from "../components/LoadMoreButton";
+import { OptionalFieldButton } from "../components/OptionalFieldButton";
 
 export const defaultComponents = {
   Description,
@@ -49,6 +55,8 @@ export const defaultComponents = {
 export type ReactSelectComponents = {
   controlAppSelect: typeof ControlApp;
   controlSelect: typeof ControlSelect;
+  selectApp: typeof ControlApp;
+  selectComponent: typeof ControlSelect;
 };
 
 export type CustomComponents<Option, IsMulti extends boolean, Group extends GroupBase<Option>> = {
@@ -67,11 +75,12 @@ export type CustomizationOpts<P extends ComponentProps<JSXElementConstructor<any
 
 export type CustomizableProps = {
   componentForm: ComponentProps<typeof ComponentForm>;
-  connectButton: ComponentProps<typeof ControlApp> & FormFieldContext<ConfigurableProp>;
+  connectButton: ComponentProps<typeof ControlApp> & FormFieldContext<ConfigurablePropApp>;
   controlAny: ComponentProps<typeof ControlAny> & FormFieldContext<ConfigurableProp>;
-  controlApp: ComponentProps<typeof ControlApp> & FormFieldContext<ConfigurableProp>;
+  controlApp: ComponentProps<typeof ControlApp> & FormFieldContext<ConfigurablePropApp>;
   controlArray: ComponentProps<typeof ControlArray> & FormFieldContext<ConfigurableProp>;
-  controlBoolean: ComponentProps<typeof ControlBoolean> & FormFieldContext<ConfigurableProp>;
+  controlBoolean: ComponentProps<typeof ControlBoolean> & FormFieldContext<ConfigurablePropBoolean>;
+  controlHttpRequest: ComponentProps<typeof ControlHttpRequest> & FormFieldContext<ConfigurableProp>;
   controlInput: ComponentProps<typeof ControlInput> & FormFieldContext<ConfigurableProp>;
   controlObject: ComponentProps<typeof ControlObject> & FormFieldContext<ConfigurableProp>;
   controlSql: ComponentProps<typeof ControlSql> & FormFieldContext<ConfigurableProp>;
@@ -219,7 +228,8 @@ function createSelectCustomization(): Customization["select"] {
     IsMulti extends boolean = false,
     Group extends GroupBase<Option> = GroupBase<Option>
   >(name: Key, baseStyles?: ReactSelectStylesConfig<Option, IsMulti, Group>): ReactSelectStylesConfig<Option, IsMulti, Group> {
-    return mergeReactSelectStyles(context.styles?.[name] as unknown as ReactSelectStylesConfig<Option, IsMulti, Group> ?? {}, baseStyles ?? {});
+    const override = context.styles?.[name] as ReactSelectStylesConfig<Option, IsMulti, Group> | undefined;
+    return mergeReactSelectStyles(override ?? {}, baseStyles ?? {});
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -299,7 +309,7 @@ export function useCustomize(): Customization {
     if (customStyles) {
       return {
         ...baseStyles,
-        ...customStyles,
+        ...customStyles as CSSProperties,
       } as CSSProperties;
     }
     return baseStyles;

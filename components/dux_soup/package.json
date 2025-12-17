@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/dux_soup",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Dux Soup Components",
   "main": "dux_soup.app.mjs",
   "keywords": [
@@ -13,7 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.6.0",
+    "@pipedream/platform": "^1.6.8",
     "jssha": "^3.3.1"
   }
 }

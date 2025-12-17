@@ -5,7 +5,12 @@ export default {
   key: "smartsheet-new-sheet-from-template",
   name: "New Sheet From Template",
   description: "Creates a new sheet from a template. [See docs here](https://smartsheet.redoc.ly/tag/sheets#operation/create-sheet-in-sheets-folder)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     smartsheet,

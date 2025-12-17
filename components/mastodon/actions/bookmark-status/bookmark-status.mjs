@@ -4,7 +4,12 @@ export default {
   key: "mastodon-bookmark-status",
   name: "Bookmark Status",
   description: "Privately bookmark a status. [See the docs here](https://docs.joinmastodon.org/methods/statuses/#bookmark)",
-  version: "0.0.1",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     mastodon,

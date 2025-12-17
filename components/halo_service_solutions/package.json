@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/halo_service_solutions",
+  "version": "0.0.1",
+  "description": "Pipedream Halo Service Solutions Components",
+  "main": "halo_service_solutions.app.mjs",
+  "keywords": [
+    "pipedream",
+    "halo_service_solutions"
+  ],
+  "homepage": "https://pipedream.com/apps/halo_service_solutions",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

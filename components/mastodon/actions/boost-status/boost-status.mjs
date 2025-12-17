@@ -4,7 +4,12 @@ export default {
   key: "mastodon-boost-status",
   name: "Boost Status",
   description: "Reshare a status on your own profile. [See the docs here](https://docs.joinmastodon.org/methods/statuses/#boost)",
-  version: "0.0.1",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     mastodon,

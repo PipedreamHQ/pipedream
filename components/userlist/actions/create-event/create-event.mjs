@@ -5,7 +5,12 @@ export default {
   key: "userlist-create-event",
   name: "Create Event",
   description: "Generates a new event in Userlist. [See the documentation](https://userlist.com/docs/getting-started/integration-guide/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     userlist,

@@ -2,7 +2,12 @@ import delay from "../../delay.app.mjs";
 
 export default {
   name: "Delay Workflow",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "delay-workflow-delay",
   type: "action",
   description: "Delay the execution of your workflow for a specific amount of time (does not count against your compute time).",

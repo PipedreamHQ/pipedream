@@ -5,7 +5,12 @@ export default {
   key: "twist-get-user-by-email",
   name: "Get Workspace User By Email",
   description: "Gets a workspace user by email.",
-  version: "0.1.1",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     twist: {

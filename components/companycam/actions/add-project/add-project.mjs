@@ -6,7 +6,12 @@ export default {
   name: "Add Project",
   description: "Add a new project. [See the docs](https://docs.companycam.com/reference/createproject).",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     projectName: {

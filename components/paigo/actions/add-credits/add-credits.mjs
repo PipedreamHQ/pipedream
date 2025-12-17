@@ -4,7 +4,12 @@ export default {
   key: "paigo-add-credits",
   name: "Add Credits",
   description: "Increments the credit balance of a specific customer. [See the documentation](http://www.api.docs.paigo.tech/#tag/Customers/operation/Create%20a%20wallet%20transaction)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     paigo,

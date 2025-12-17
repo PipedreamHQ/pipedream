@@ -6,7 +6,12 @@ export default {
   key: "data_stores-list-records",
   name: "List Records",
   description: "List all records in your [Pipedream Data Store](https://pipedream.com/data-stores/).",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

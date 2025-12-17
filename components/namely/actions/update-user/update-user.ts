@@ -1,10 +1,17 @@
-import { defineAction } from "@pipedream/types";
+import {
+  defineAction, JSONValue,
+} from "@pipedream/types";
 import dayjs from "dayjs";
 import namely from "../../app/namely.app";
 
 export default defineAction({
   key: "namely-update-user",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   name: "Update User",
   description: "Updates a user. [See docs here](https://developers.namely.com/docs/namely-api/2bfe77e091d74-update-a-profile)",
   type: "action",
@@ -68,7 +75,7 @@ export default defineAction({
 
   },
   async run({ $ }) {
-    const body: any = {
+    const body: Record<string, JSONValue> = {
       first_name: this.firstName,
       last_name: this.lastName,
       user_status: this.userStatus,

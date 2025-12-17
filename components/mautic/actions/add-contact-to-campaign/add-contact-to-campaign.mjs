@@ -4,7 +4,12 @@ export default {
   key: "mautic-add-contact-to-campaign",
   name: "Add Contact to a Campaign",
   description: "Adds a contact to a specific campaign. [See docs](https://developer.mautic.org/#add-contact-to-a-campaign)",
-  version: "0.2.0",
+  version: "0.2.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     mautic,

@@ -4,7 +4,12 @@ export default {
   key: "confluence-create-page",
   name: "Create Page",
   description: "Creates a new page in the space. [See the documentation](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-page/#api-pages-post)",
-  version: "0.0.3",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     confluence,

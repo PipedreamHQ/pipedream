@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/formatting",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Pipedream Formatting Components",
   "main": "dist/app/formatting.app.mjs",
   "keywords": [
@@ -16,7 +16,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.1.0",
+    "@pipedream/platform": "^3.1.1",
     "html-to-text": "^8.2.1",
     "linkedom": "^0.14.26",
     "pluralize": "^8.0.0",

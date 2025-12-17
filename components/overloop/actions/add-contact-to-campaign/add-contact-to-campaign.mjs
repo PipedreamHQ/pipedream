@@ -4,7 +4,12 @@ export default {
   key: "overloop-add-contact-to-campaign",
   name: "Add Contact to Campaign",
   description: "Adds a contact to a campaign. [See the docs](https://apidoc.overloop.com/#enrollments)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     overloop,

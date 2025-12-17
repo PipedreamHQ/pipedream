@@ -7,7 +7,12 @@ export default {
   name: "Create Landing Page",
   description:
     "Create a landing page in Hubspot. [See the documentation](https://developers.hubspot.com/docs/reference/api/cms/pages#post-%2Fcms%2Fv3%2Fpages%2Flanding-pages)",
-  version: "0.0.7",
+  version: "0.0.10",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     hubspot,

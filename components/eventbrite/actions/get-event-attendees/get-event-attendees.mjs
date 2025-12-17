@@ -4,7 +4,12 @@ export default {
   key: "eventbrite-get-event-attendees",
   name: "Get Event Attendees",
   description: "Get event attendees for a specified event. [See the documentation](https://www.eventbrite.com/platform/api#/reference/attendee/list/list-attendees-by-event)",
-  version: "0.0.3",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     eventbrite,

@@ -4,7 +4,12 @@ export default {
   key: "onesignal_rest_api-create-notification",
   name: "Create Notification",
   description: "Create a notification. [See docs here](https://documentation.onesignal.com/reference/create-notification)",
-  version: "0.1.1652718586",
+  version: "0.1.1652718587",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     onesignalRestApi,

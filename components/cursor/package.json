@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/cursor",
+  "version": "0.1.0",
+  "description": "Pipedream Cursor Components",
+  "main": "cursor.app.mjs",
+  "keywords": [
+    "pipedream",
+    "cursor"
+  ],
+  "homepage": "https://pipedream.com/apps/cursor",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1",
+    "image-size": "^2.0.2"
+  }
+}

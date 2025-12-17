@@ -10,7 +10,12 @@ export default defineAction({
   name: "[Date/Time] Format",
   description: "Format a date string to another date string. For more examples on formatting, see the [Sugar Date Format](https://sugarjs.com/dates/#/Formatting) documentation.",
   key: "formatting-date-time-format",
-  version: "0.0.6",
+  version: "0.0.7",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...commonDateTime.props,
@@ -37,7 +42,9 @@ export default defineAction({
       $.export("$summary", "Successfully formatted date/time");
       return output;
     } catch (err) {
-      throw new ConfigurationError("**Parse error** - check your input and if the selected format is correct.");
+      throw new ConfigurationError(`**Parse error** - check your input and if the selected format is correct.
+        
+${err.message}`);
     }
   },
 });

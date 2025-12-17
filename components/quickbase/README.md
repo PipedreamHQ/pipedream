@@ -1,6 +1,6 @@
 # Overview
 
-Quickbase is a low-code platform for building operational applications and automations that can manage data, workflows, and reporting. Using Pipedream's serverless platform, you can tap into the robust Quickbase API to weave complex workflows that respond to events, synchronize data across multiple systems, and streamline business processes. With Pipedream, you can trigger on events in Quickbase, or from hundreds of other apps, and write Node.js code to integrate with the Quickbase API directly, enabling a broad range of automation possibilities.
+Quickbase is a low-code platform for building operational applications and automations that can manage data, workflows, and reporting. Using Pipedream's serverless platform, you can tap into the robust Quickbase API to weave complex workflows that respond to events, synchronize data across multiple systems, and streamline business processes. With Pipedream, you can trigger on events in Quickbase, or from 3,000+ other apps, and write Node.js code to integrate with the Quickbase API directly, enabling a broad range of automation possibilities.
 
 # Example Use Cases
 

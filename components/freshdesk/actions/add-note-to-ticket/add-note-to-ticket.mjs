@@ -5,7 +5,12 @@ export default {
   key: "freshdesk-add-note-to-ticket",
   name: "Add Note to Ticket",
   description: "Add a note or conversation to an existing ticket. [See the documentation](https://developers.freshdesk.com/api/#add_note_to_a_ticket).",
-  version: "0.0.2",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     freshdesk,

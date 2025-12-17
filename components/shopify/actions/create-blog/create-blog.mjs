@@ -4,7 +4,12 @@ export default {
   key: "shopify-create-blog",
   name: "Create Blog",
   description: "Create a new blog. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/blogCreate)",
-  version: "0.0.7",
+  version: "0.0.9",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     shopify,

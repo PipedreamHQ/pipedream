@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/just_invoice",
+  "version": "0.0.1",
+  "description": "Pipedream Just Invoice Components",
+  "main": "just_invoice.app.mjs",
+  "keywords": [
+    "pipedream",
+    "just_invoice"
+  ],
+  "homepage": "https://pipedream.com/apps/just_invoice",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -4,7 +4,12 @@ export default {
   key: "pipedream-create-subscription",
   name: "Create a Subscription",
   description: "Create a Subscription. [See Doc](https://pipedream.com/docs/api/rest/#subscriptions)",
-  version: "0.1.0",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pipedream,

@@ -5,7 +5,12 @@ export default {
   key: "teamioo-create-task",
   name: "Create Task",
   description: "Creates a new task in Teamioo. [See the documentation](https://demo.teamioo.com/teamiooapi)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     teamioo,

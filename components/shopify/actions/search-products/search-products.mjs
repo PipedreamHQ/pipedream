@@ -6,7 +6,12 @@ export default {
   key: "shopify-search-products",
   name: "Search for Products",
   description: "Search for products. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/queries/products)",
-  version: "0.0.13",
+  version: "0.0.15",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     shopify,

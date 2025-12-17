@@ -20,7 +20,7 @@ export default {
           id, first_name: firstName, last_name: lastName,
         }) => ({
           value: id,
-          label: `${firstName} ${lastName}`,
+          label: (`${firstName || ""} ${lastName || ""}`).trim(),
         })) || [];
       },
     },
@@ -99,6 +99,112 @@ export default {
         return data?.map(({ id }) => id) || [];
       },
     },
+    company: {
+      type: "string",
+      label: "Company",
+      description: "Identifier of a company",
+      async options({ page }) {
+        const { data } = await this.listCompanies({
+          data: {
+            page: {
+              number: page + 1,
+            },
+          },
+        });
+        return data?.map(({
+          id, name,
+        }) => ({
+          value: id,
+          label: name,
+        })) || [];
+      },
+    },
+    businessType: {
+      type: "string",
+      label: "Business Type",
+      description: "Business type of the company",
+      optional: true,
+      async options({ page }) {
+        const { data } = await this.listBusinessTypes({
+          data: {
+            page: {
+              number: page + 1,
+            },
+          },
+        });
+        return data?.map(({
+          id, name,
+        }) => ({
+          value: id,
+          label: name,
+        })) || [];
+      },
+    },
+    firstName: {
+      type: "string",
+      label: "First Name",
+      description: "First name of the contact",
+      optional: true,
+    },
+    lastName: {
+      type: "string",
+      label: "Last Name",
+      description: "Last name of the contact",
+    },
+    email: {
+      type: "string",
+      label: "Email",
+      description: "Email address of the contact",
+      optional: true,
+    },
+    website: {
+      type: "string",
+      label: "Website",
+      description: "Website of the contact",
+      optional: true,
+    },
+    phone: {
+      type: "string",
+      label: "Phone",
+      description: "Phone number of the contact",
+      optional: true,
+    },
+    iban: {
+      type: "string",
+      label: "IBAN",
+      description: "IBAN of the contact",
+      optional: true,
+    },
+    bic: {
+      type: "string",
+      label: "BIC",
+      description: "BIC of the contact",
+      optional: true,
+    },
+    language: {
+      type: "string",
+      label: "Language",
+      description: "Language of the contact. Example: `en`",
+      optional: true,
+    },
+    remarks: {
+      type: "string",
+      label: "Remarks",
+      description: "Remarks about the contact",
+      optional: true,
+    },
+    tags: {
+      type: "string[]",
+      label: "Tags",
+      description: "Tags of the contact",
+      optional: true,
+    },
+    marketingMailsConsent: {
+      type: "boolean",
+      label: "Marketing Mails Consent",
+      description: "Whether the contact has consented to receive marketing emails",
+      optional: true,
+    },
   },
   methods: {
     _baseUrl() {
@@ -146,6 +252,18 @@ export default {
         ...args,
       });
     },
+    getContact(args = {}) {
+      return this._makeRequest({
+        path: "/contacts.info",
+        ...args,
+      });
+    },
+    getCompany(args = {}) {
+      return this._makeRequest({
+        path: "/companies.info",
+        ...args,
+      });
+    },
     listContacts(args = {}) {
       return this._makeRequest({
         path: "/contacts.list",
@@ -182,6 +300,18 @@ export default {
         ...args,
       });
     },
+    listCompanies(args = {}) {
+      return this._makeRequest({
+        path: "/companies.list",
+        ...args,
+      });
+    },
+    listBusinessTypes(args = {}) {
+      return this._makeRequest({
+        path: "/businessTypes.list",
+        ...args,
+      });
+    },
     createContact(args = {}) {
       return this._makeRequest({
         path: "/contacts.add",
@@ -203,6 +333,18 @@ export default {
     listDealSources(args = {}) {
       return this._makeRequest({
         path: "/dealSources.list",
+        ...args,
+      });
+    },
+    updateContact(args = {}) {
+      return this._makeRequest({
+        path: "/contacts.update",
+        ...args,
+      });
+    },
+    updateCompany(args = {}) {
+      return this._makeRequest({
+        path: "/companies.update",
         ...args,
       });
     },

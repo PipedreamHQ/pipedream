@@ -4,7 +4,12 @@ export default {
   key: "confluence-delete-post",
   name: "Delete Post",
   description: "Removes a blog post from Confluence by its ID. Use with caution, the action is irreversible. [See the documentation](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-blog-post/#api-blogposts-id-delete)",
-  version: "0.0.5",
+  version: "0.0.7",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     confluence,

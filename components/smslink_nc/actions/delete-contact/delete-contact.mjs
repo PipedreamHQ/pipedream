@@ -4,7 +4,12 @@ export default {
   key: "smslink_nc-delete-contact",
   name: "Delete Contact",
   description: "Deletes a contact. [See the documentation](https://api.smslink.nc/api/documentation)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

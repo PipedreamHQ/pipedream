@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/security_reporter",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Pipedream Security Reporter Components",
   "main": "security_reporter.app.mjs",
   "keywords": [
@@ -13,7 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.1.0",
-    "form-data": "^4.0.0"
+    "@pipedream/platform": "^3.1.1",
+    "form-data": "^4.0.4"
   }
 }

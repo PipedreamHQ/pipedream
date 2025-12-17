@@ -4,7 +4,12 @@ export default {
   key: "the_magic_drip-add-lead-to-campaign",
   name: "Add Lead to Campaign",
   description: "Add a lead to a campaign. [See the documentation](https://docs.themagicdrip.com/api-reference/endpoint/post-v1campaignleads)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

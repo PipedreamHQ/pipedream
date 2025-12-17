@@ -3,8 +3,13 @@ import linearApp from "../../linear_app.app.mjs";
 export default {
   key: "linear_app-get-issue",
   name: "Get Issue",
-  description: "Retrieves a Linear issue by its ID. Returns complete issue details including title, description, state, assignee, team, project, labels, and timestamps. Uses API Key authentication. See Linear docs for additional info [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api).",
-  version: "0.1.12",
+  description: "Retrieves a Linear issue by its ID. Returns complete issue details including title, description, state, assignee, team, project, labels, and timestamps. Uses API Key authentication. See Linear docs for additional info [here](https://linear.app/developers/graphql).",
+  version: "0.1.15",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     linearApp,

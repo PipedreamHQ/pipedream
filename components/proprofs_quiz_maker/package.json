@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/proprofs_quiz_maker",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream ProProfs Quiz Maker Components",
   "main": "proprofs_quiz_maker.app.mjs",
   "keywords": [

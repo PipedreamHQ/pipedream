@@ -4,7 +4,12 @@ export default {
   key: "fedex-validate-shipment",
   name: "Validate Shipment",
   description: "Validate a shipment. [See the documentation](https://developer.fedex.com/api/en-us/catalog/ship/docs.html#operation/ShipmentPackageValidate)",
-  version: "0.0.1",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     fedex,

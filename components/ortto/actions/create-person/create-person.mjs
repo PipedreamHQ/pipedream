@@ -5,7 +5,12 @@ export default {
   key: "ortto-create-person",
   name: "Create or Update a Person",
   description: "Create or update a preexisting person in the Ortto account. [See the documentation](https://help.ortto.com/a-250-api-reference)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ortto,

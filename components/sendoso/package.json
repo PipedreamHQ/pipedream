@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sendoso",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Pipedream Sendoso Components",
   "main": "sendoso.app.mjs",
   "keywords": [
@@ -13,6 +13,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.2.1"
+    "@pipedream/platform": "^3.1.1"
   }
 }

@@ -3,7 +3,12 @@ import microsoftOutlook from "../../microsoft_outlook_calendar.app.mjs";
 export default {
   type: "action",
   key: "microsoft_outlook_calendar-update-calendar-event",
-  version: "0.0.1",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   name: "Update Calendar Event",
   description: "Update an event in the user's default calendar. [See the documentation](https://learn.microsoft.com/en-us/graph/api/event-update?view=graph-rest-1.0&tabs=http)",
   props: {

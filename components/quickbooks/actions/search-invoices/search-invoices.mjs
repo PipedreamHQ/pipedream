@@ -5,7 +5,12 @@ export default {
   key: "quickbooks-search-invoices",
   name: "Search Invoices",
   description: "Searches for invoices. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/invoice#query-an-invoice)",
-  version: "0.0.5",
+  version: "0.0.7",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     quickbooks,

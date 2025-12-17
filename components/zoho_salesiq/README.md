@@ -1,6 +1,6 @@
 # Overview
 
-The Zoho SalesIQ API offers a wealth of possibilities for engaging with customers and streamlining sales processes. By leveraging this API in Pipedream, you can craft automated workflows to react to events, manage visitors, and integrate customer interaction data with other services. This could range from triggering actions based on visitor activities to syncing chat transcripts with CRM tools. Pipedream's ability to connect with hundreds of apps allows for creative and powerful automations that can save time and provide valuable insights.
+The Zoho SalesIQ API offers a wealth of possibilities for engaging with customers and streamlining sales processes. By leveraging this API in Pipedream, you can craft automated workflows to react to events, manage visitors, and integrate customer interaction data with other services. This could range from triggering actions based on visitor activities to syncing chat transcripts with CRM tools. Pipedream's ability to connect with 3,000+ apps allows for creative and powerful automations that can save time and provide valuable insights.
 
 # Example Use Cases
 

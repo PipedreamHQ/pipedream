@@ -4,7 +4,12 @@ export default {
   key: "xero_accounting_api-list-invoices",
   name: "List Invoices",
   description: "Lists information from invoices in the given tenant id as per filter parameters.",
-  version: "0.3.0",
+  version: "0.3.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     xeroAccountingApi,
@@ -33,9 +38,16 @@ export default {
       optional: true,
     },
     contactIds: {
+      propDefinition: [
+        xeroAccountingApi,
+        "contactId",
+        (c) => ({
+          tenantId: c.tenantId,
+        }),
+      ],
+      type: "string[]",
       label: "Contact IDs",
-      type: "string",
-      description: "Filter by a comma-separated list of ContactIDs. See [details](https://developer.xero.com/documentation/api/invoices#optimised-queryparameters).",
+      description: "Filter by an array of ContactIDs. See [details](https://developer.xero.com/documentation/api/invoices#optimised-queryparameters).",
       optional: true,
     },
     statuses: {
@@ -78,7 +90,9 @@ export default {
         params: {
           IDs: this.ids,
           InvoiceNumbers: this.invoiceNumbers,
-          ContactIDs: this.contactIds,
+          ContactIDs: this.contactIds
+            ? this.contactIds.join(",")
+            : undefined,
           Statuses: this.statuses,
           Where: this.where,
           createdByMyApp: this.createdByMyApp,

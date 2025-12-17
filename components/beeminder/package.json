@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/beeminder",
+  "version": "0.0.1",
+  "description": "Pipedream Beeminder Components",
+  "main": "beeminder.app.mjs",
+  "keywords": [
+    "pipedream",
+    "beeminder"
+  ],
+  "homepage": "https://pipedream.com/apps/beeminder",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

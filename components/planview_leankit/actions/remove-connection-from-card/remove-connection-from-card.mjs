@@ -4,7 +4,12 @@ import planviewLeankit from "../../planview_leankit.app.mjs";
 export default {
   key: "planview_leankit-remove-connection-from-card",
   name: "Remove Parent/Child Connection",
-  version: "0.0.1",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Remove parent or child connection from a card. [See the docs here](https://success.planview.com/Planview_AgilePlace/AgilePlace_API/01_v2/connections/delete-many)",
   type: "action",
   props: {

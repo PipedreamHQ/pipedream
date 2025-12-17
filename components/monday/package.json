@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/monday",
-  "version": "0.8.1",
+  "version": "0.9.1",
   "description": "Pipedream Monday Components",
   "main": "monday.app.mjs",
   "keywords": [
@@ -14,8 +14,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.1.0",
-    "form-data": "^4.0.0",
+    "@pipedream/platform": "^3.1.1",
+    "form-data": "^4.0.4",
     "lodash.flatmap": "^4.5.0",
     "lodash.map": "^4.6.0",
     "lodash.uniqby": "^4.7.0",

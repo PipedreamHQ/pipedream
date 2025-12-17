@@ -9,7 +9,12 @@ export default {
   key: "talenthr-create-employee",
   name: "Create Employee",
   description: "Hires a new employee and registers them in the system. [See the documentation](https://apidocs.talenthr.io/#2950f0ba-b27b-4d4b-855f-4b79b667767c)",
-  version: "0.0.1",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     talenthr,
@@ -117,7 +122,7 @@ export default {
     },
     whoId: {
       type: "integer",
-      label: "Who Id",
+      label: "Who ID",
       description: "The employee who will meet the newly hired employee. Required if **When Time** and address is present.",
       optional: true,
     },
@@ -131,7 +136,7 @@ export default {
     whenTime: {
       type: "string",
       label: "When Time",
-      description: "The date time that the meeting will take place. Required if **Who Id** and address is present. The hire date must be formatted as 'YYYY-MM-DD HH:II'.",
+      description: "The date time that the meeting will take place. Required if **Who ID** and address is present. The hire date must be formatted as 'YYYY-MM-DD HH:II'.",
       optional: true,
     },
     instructions: {

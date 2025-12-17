@@ -3,7 +3,12 @@ import teamworkDesk from "../../teamwork_desk.app.mjs";
 export default {
   key: "teamwork_desk-create-customer",
   name: "Create Customer",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create a new customer [See the documentation](https://apidocs.teamwork.com/docs/desk/fe69a0fb1007a-create-a-new-customer)",
   type: "action",
   props: {

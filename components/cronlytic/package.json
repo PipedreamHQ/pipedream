@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/cronlytic",
+  "version": "0.0.1",
+  "description": "Pipedream Cronlytic Components",
+  "main": "cronlytic.app.mjs",
+  "keywords": [
+    "pipedream",
+    "cronlytic"
+  ],
+  "homepage": "https://pipedream.com/apps/cronlytic",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

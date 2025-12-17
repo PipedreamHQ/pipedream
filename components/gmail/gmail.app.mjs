@@ -3,11 +3,12 @@ import {
   axios,
   ConfigurationError,
 } from "@pipedream/platform";
+import { JWT } from "google-auth-library";
 import { convert } from "html-to-text";
 import mime from "mime/types/standard.js";
+import addressparser from "nodemailer/lib/addressparser/index.js";
 import MailComposer from "nodemailer/lib/mail-composer/index.js";
 import constants from "./common/constants.mjs";
-import { JWT } from "google-auth-library";
 
 export default {
   type: "app",
@@ -165,6 +166,33 @@ export default {
         }
       },
     },
+    threadId: {
+      type: "string",
+      label: "Thread ID",
+      description: "Identifier of the thread to list messages from",
+      async options({ prevContext }) {
+        try {
+          const {
+            threads, nextPageToken,
+          } = await this.listThreads({
+            pageToken: prevContext?.nextPageToken,
+          });
+          return {
+            options: threads.map(({
+              id: value, snippet: label,
+            }) => ({
+              value,
+              label,
+            })),
+            context: {
+              nextPageToken,
+            },
+          };
+        } catch {
+          return [];
+        }
+      },
+    },
     q: {
       type: "string",
       label: "Search Query",
@@ -273,6 +301,27 @@ export default {
         auth,
       });
     },
+    /**
+     * Parse email addresses from a string
+     * @param {string} addressString - Raw address string to parse
+     * @returns {string[]} Array of properly formatted email addresses
+     */
+    parseEmailAddresses(addressString) {
+      if (!addressString || typeof addressString !== "string") {
+        return [];
+      }
+
+      // Use nodemailer's addressparser to properly handle RFC 5322 format
+      const parsed = addressparser(addressString.trim());
+
+      // Reconstruct addresses in standard format
+      return parsed.map((addr) => {
+        if (addr.name) {
+          return `${addr.name} <${addr.address}>`;
+        }
+        return addr.address;
+      });
+    },
     async getOptionsToSendEmail($, props) {
       const {
         name: fromName,
@@ -308,8 +357,10 @@ export default {
             const to = repliedMessage.payload.headers.find(({ name }) => name.toLowerCase() === "to");
             const cc = repliedMessage.payload.headers.find(({ name }) => name.toLowerCase() === "cc");
             const bcc = repliedMessage.payload.headers.find(({ name }) => name.toLowerCase() === "bcc");
-            opts.to = from.value.split(",");
-            opts.to.push(...to.value.split(","));
+            opts.to = [
+              ...this.parseEmailAddresses(from.value),
+              ...this.parseEmailAddresses(to.value),
+            ];
 
             // Filter out the current user's email address
             const currentUserEmail = email.toLowerCase().trim();
@@ -326,10 +377,10 @@ export default {
               ...new Set(opts.to),
             ];
             if (cc) {
-              opts.cc = cc.value;
+              opts.cc = this.parseEmailAddresses(cc.value);
             }
             if (bcc) {
-              opts.bcc = bcc.value;
+              opts.bcc = this.parseEmailAddresses(bcc.value);
             }
           }
         } catch (err) {
@@ -394,6 +445,20 @@ export default {
       const { data } = await this._client().users.history.list({
         userId: constants.USER_ID,
         ...opts,
+      });
+      return data;
+    },
+    async listThreads(opts = {}) {
+      const { data } = await this._client().users.threads.list({
+        userId: constants.USER_ID,
+        ...opts,
+      });
+      return data;
+    },
+    async getThread({ threadId }) {
+      const { data } = await this._client().users.threads.get({
+        userId: constants.USER_ID,
+        id: threadId,
       });
       return data;
     },
@@ -496,9 +561,9 @@ export default {
         threadId,
         ...options
       } = opts;
-      const mail = new MailComposer(options);
+      const mail = new MailComposer(options).compile();
       mail.keepBcc = true;
-      const message = await mail.compile().build();
+      const message = await mail.build();
       try {
         const response = await this._client().users.drafts.create({
           userId: constants.USER_ID,

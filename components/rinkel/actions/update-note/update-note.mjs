@@ -4,7 +4,12 @@ export default {
   key: "rinkel-update-note",
   name: "Update Note",
   description: "Update a note on a call. [See the documentation](https://developers.rinkel.com/docs/api/update-a-note-in-a-call-detail-record)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     rinkel,

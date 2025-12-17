@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/brainbase_labs",
+  "version": "0.1.0",
+  "description": "Pipedream Brainbase Labs Components",
+  "main": "brainbase_labs.app.mjs",
+  "keywords": [
+    "pipedream",
+    "brainbase_labs"
+  ],
+  "homepage": "https://pipedream.com/apps/brainbase_labs",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "3.0.3"
+  }
+}

@@ -4,7 +4,12 @@ export default {
   key: "findymail-find-email",
   name: "Find Email",
   description: "Finds an email address using a given full name and a website domain. [See the documentation](https://app.findymail.com/docs/#finder-POSTapi-search-name)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     findymail,

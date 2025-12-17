@@ -7,7 +7,7 @@ export default {
   name: "Deleted Article (Instant)",
   description: "Emit new event when an article is deleted from the recycle bin",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.5",
   dedupe: "unique",
   methods: {
     ...common.methods,

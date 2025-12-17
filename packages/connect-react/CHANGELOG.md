@@ -2,6 +2,82 @@
 
 # Changelog
 
+## [2.4.1] - 2025-12-11
+
+### Fixed
+
+- Fixed HTTP request component input backgrounds using incorrect theme color (`neutral20` instead of `neutral0`)
+- Fixed CSS border shorthand/non-shorthand conflict causing React 19 warnings
+- Fixed `QueryClient` being recreated on every render in `FrontendClientProvider`
+
+## [2.4.0] - 2025-12-10
+
+### Added
+
+- Added support for `http_request` prop type with `ControlHttpRequest` component
+- HTTP request builder UI with URL, method, headers, and body configuration
+
+## [2.3.0] - 2025-12-07
+
+### Added
+
+- Dark mode support for select components with new theme color tokens (`optionHover`, `optionSelected`, `optionSelectedHover`, `appIconBackground`)
+- App icon backgrounds in `SelectApp` for better visibility in dark mode
+
+## [2.2.0] - 2025-11-29
+
+### Added
+
+- Added React 19 support to peer dependencies
+
+### Fixed
+
+- Fixed dropdown menus being clipped or hidden behind other elements when rendered inside containers with overflow constraints (e.g., workflow builders, modals)
+- All select components now portal their menus to the document body with proper z-index handling
+
+### Changed
+
+- Upgraded `react-select` from 5.8.2 to 5.9.0 for React 19 compatibility
+
+## [2.1.2] - 2025-11-14
+
+### Fixed
+
+- Fixed issue where user input in dynamically loaded props was lost due to circular effect dependency
+
+## [2.1.1] - 2025-10-27
+
+### Fixed
+
+- Fixed optional props being removed when loading saved configurations
+- Optional props with values now automatically display as enabled
+- Improved handling of label-value format for remote options in multi-select fields
+
+## [2.1.0] - 2025-10-10
+
+### Added
+
+- Added infinite scroll (with pagination) for `SelectApp` and `SelectComponent` dropdowns
+- Increased default page size to 50 items per request for better UX
+
+### Fixed
+
+- Remote options now properly reset when parent props change (e.g., switching accounts)
+
+## [2.0.0] - 2025-10-02
+
+### Breaking Changes
+
+Use the new v2 version of the Pipedream SDK (i.e. `@pipedreamhq/pipedream-sdk`).
+This change involves migrating to the new types mostly, but also runtime changes
+involving the API calls.
+
+The runtime behavior should not be affected from a user's perspective, except
+for consumers of the `connect-react` package itself, since some components (e.g.
+`FrontendClientProvider`) expect their consumers to inject a client instance of
+the same SDK version. For this reason, this change bumps the **major** version
+of this package.
+
 ## [1.5.0] - 2025-08-18
 
 ### Fixed

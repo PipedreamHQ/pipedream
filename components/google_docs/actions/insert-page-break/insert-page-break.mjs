@@ -4,7 +4,12 @@ export default {
   key: "google_docs-insert-page-break",
   name: "Insert Page Break",
   description: "Insert a page break into a document. [See the documentation](https://developers.google.com/workspace/docs/api/reference/rest/v1/documents/request#insertpagebreakrequest)",
-  version: "0.0.1",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     googleDocs,

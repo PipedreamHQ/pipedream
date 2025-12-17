@@ -5,7 +5,12 @@ export default {
   key: "firebase_admin_sdk-list-documents",
   name: "List Documents",
   description: "Lists documents in a collection. [See the docs here](https://googleapis.dev/nodejs/firestore/latest/CollectionReference.html#listDocuments)",
-  version: "0.0.7",
+  version: "0.0.9",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...common.props,

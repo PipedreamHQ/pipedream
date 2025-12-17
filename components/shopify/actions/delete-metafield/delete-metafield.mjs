@@ -5,7 +5,12 @@ export default {
   key: "shopify-delete-metafield",
   name: "Delete Metafield",
   description: "Deletes a metafield belonging to a resource. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/metafieldsDelete)",
-  version: "0.0.9",
+  version: "0.0.11",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   async additionalProps() {
     const props = await this.getOwnerIdProp(this.ownerResource);

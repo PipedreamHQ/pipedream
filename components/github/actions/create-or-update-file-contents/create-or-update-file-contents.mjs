@@ -4,7 +4,12 @@ export default {
   key: "github-create-or-update-file-contents",
   name: "Create or Update File Contents",
   description: "Create or update a file in a repository. [See the documentation](https://docs.github.com/en/rest/repos/contents#create-or-update-file-contents)",
-  version: "0.1.4",
+  version: "0.1.6",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     github,

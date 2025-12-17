@@ -3,8 +3,13 @@ import app from "../../onlyoffice_docspace.app.mjs";
 export default {
   key: "onlyoffice_docspace-create-room",
   name: "Create Room",
-  description: "Creates a new room. [See the documentation](https://api.onlyoffice.com/docspace/method/files/post/api/2.0/files/rooms)",
-  version: "0.0.1",
+  description: "Creates a new room. [See the documentation](https://api.onlyoffice.com/docspace/api-backend/usage-api/create-room/)",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

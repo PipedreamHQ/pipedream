@@ -5,7 +5,12 @@ export default {
   key: "freshdesk-update-ticket-field",
   name: "Update Ticket Field",
   description: "Update a ticket field in Freshdesk. [See the documentation](https://developers.freshdesk.com/api/#update_ticket_field)",
-  version: "0.0.1",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     freshdesk,

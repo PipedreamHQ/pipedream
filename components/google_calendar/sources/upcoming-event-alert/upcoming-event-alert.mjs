@@ -1,20 +1,23 @@
-import taskScheduler from "../../../pipedream/sources/new-scheduled-tasks/new-scheduled-tasks.mjs";
 import googleCalendar from "../../google_calendar.app.mjs";
+import taskScheduler from "../common/taskScheduler.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "google_calendar-upcoming-event-alert",
   name: "New Upcoming Event Alert",
-  description: `Emit new event based on a time interval before an upcoming event in the calendar. This source uses Pipedream's Task Scheduler.
-    [See the documentation](https://pipedream.com/docs/examples/waiting-to-execute-next-step-of-workflow/#step-1-create-a-task-scheduler-event-source) 
-    for more information and instructions for connecting your Pipedream account.`,
-  version: "0.0.10",
+  description: "Emit new event based on a time interval before an upcoming event in the calendar.",
+  version: "0.1.0",
   type: "source",
   props: {
-    pipedream: taskScheduler.props.pipedream,
     googleCalendar,
     db: "$.service.db",
     http: "$.interface.http",
+    pipedreamApiKey: {
+      type: "string",
+      label: "Pipedream API Key",
+      description: "[Click here to find your Pipedream API key](https://pipedream.com/settings/user)",
+      secret: true,
+    },
     calendarId: {
       propDefinition: [
         googleCalendar,
@@ -55,11 +58,11 @@ export default {
         return;
       }
       for (const id of ids) {
-        if (await this.deleteEvent({
+        if (await this.deleteScheduledEvent({
           body: {
             id,
           },
-        })) {
+        }, this.pipedreamApiKey)) {
           console.log("Cancelled scheduled event");
         }
       }
@@ -112,7 +115,7 @@ export default {
   async run(event) {
     // self subscribe only on the first time
     if (!this._hasDeployed()) {
-      await this.selfSubscribe();
+      await this.selfSubscribe(this.pipedreamApiKey);
     }
 
     const scheduledEventIds = this._getScheduledEventIds() || [];
@@ -121,7 +124,9 @@ export default {
     if (event.$channel === this.selfChannel()) {
       const remainingScheduledEventIds = scheduledEventIds.filter((id) => id !== event["$id"]);
       this._setScheduledEventIds(remainingScheduledEventIds);
-      this.emitEvent(event, `Upcoming ${event.summary} event`);
+      this.emitEvent(event, `Upcoming ${event.summary
+        ? event.summary + " "
+        : ""}event`);
       return;
     }
 

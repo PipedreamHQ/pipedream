@@ -3,7 +3,12 @@ import nationbuilder from "../../nationbuilder.app.mjs";
 export default {
   key: "nationbuilder-add-tags",
   name: "Add Tags",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Add tags to a specific person. [See the documentation](https://nationbuilder.com/people_api)",
   type: "action",
   props: {

@@ -5,7 +5,12 @@ export default {
   key: "samsara-create-contact",
   name: "Create Contact",
   description: "Adds a new contact to the organization. [See the documentation](https://developers.samsara.com/reference/createcontact)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     samsara,

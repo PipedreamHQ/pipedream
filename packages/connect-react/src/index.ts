@@ -6,6 +6,7 @@ export { Control } from "./components/Control";
 export { ControlAny } from "./components/ControlAny";
 export { ControlApp } from "./components/ControlApp";
 export { ControlBoolean } from "./components/ControlBoolean";
+export { ControlHttpRequest } from "./components/ControlHttpRequest";
 export { ControlInput } from "./components/ControlInput";
 export { ControlSelect } from "./components/ControlSelect";
 export { ControlSql } from "./components/ControlSql";
@@ -16,7 +17,10 @@ export { Errors } from "./components/Errors";
 export { Field } from "./components/Field";
 export { InternalComponentForm } from "./components/InternalComponentForm";
 export { InternalField } from "./components/InternalField";
-export { Label } from "./components/Label";
+export {
+  Label,
+  type LabelProps,
+} from "./components/Label";
 export { OptionalFieldButton } from "./components/OptionalFieldButton";
 export { RemoteOptionsContainer } from "./components/RemoteOptionsContainer";
 export { SelectApp } from "./components/SelectApp";

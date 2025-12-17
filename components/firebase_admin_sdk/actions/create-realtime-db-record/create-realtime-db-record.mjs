@@ -5,7 +5,12 @@ export default {
   key: "firebase_admin_sdk-create-realtime-db-record",
   name: "Create Firebase Realtime Database Record",
   description: "Creates or replaces a child object within your Firebase Realtime Database. [See the docs here](https://firebase.google.com/docs/reference/js/database#update)",
-  version: "0.0.7",
+  version: "0.0.9",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

@@ -1,6 +1,6 @@
 # Overview
 
-The Tapform API furnishes a way to automate and integrate form data handling in Pipedream's serverless environment. With it, you can manipulate form submissions, manage user data, and connect forms to other services for complex workflows. This opens endless possibilities to streamline data collection processes, react in real-time to user submissions, and connect form data to more than 500+ apps available on Pipedream.
+The Tapform API furnishes a way to automate and integrate form data handling in Pipedream's serverless environment. With it, you can manipulate form submissions, manage user data, and connect forms to other services for complex workflows. This opens endless possibilities to streamline data collection processes, react in real-time to user submissions, and connect form data to more than 3,000+ apps available on Pipedream.
 
 # Example Use Cases
 

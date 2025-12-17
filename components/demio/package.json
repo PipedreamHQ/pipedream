@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/demio",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Pipedream Demio Components",
   "main": "demio.app.mjs",
   "keywords": [
@@ -13,7 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.2.0",
+    "@pipedream/platform": "^1.6.8",
     "dayjs": "^1.11.2"
   }
 }

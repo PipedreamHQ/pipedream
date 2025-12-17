@@ -18,6 +18,6 @@ You'll only need to connect your account once in Pipedream. You can connect this
 
 ### 3. Build your first workflow
 
-Visit [https://pipedream.com/new](https://pipedream.com/new) to build your first workflow. Pipedream workflows let you connect Snowflake with 1,000+ other apps. You can trigger workflows on Snowflake queries, sending results to Slack, Google Sheets, or any app that exposes an API. Or you can accept data from another app, transform it with Python, Node.js, Go or Bash code, and insert it into Snowflake.
+Visit [https://pipedream.com/new](https://pipedream.com/new) to build your first workflow. Pipedream workflows let you connect Snowflake with 3,000+ other apps. You can trigger workflows on Snowflake queries, sending results to Slack, Google Sheets, or any app that exposes an API. Or you can accept data from another app, transform it with Python, Node.js, Go or Bash code, and insert it into Snowflake.
 
 Learn more at [Pipedream University](https://pipedream.com/university).

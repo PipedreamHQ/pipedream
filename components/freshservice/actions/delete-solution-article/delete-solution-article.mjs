@@ -4,7 +4,12 @@ export default {
   key: "freshservice-delete-solution-article",
   name: "Delete Solution Article",
   description: "Delete a solution article. [See the documentation](https://api.freshservice.com/#delete_solution_article)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     freshservice,

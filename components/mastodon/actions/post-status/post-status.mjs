@@ -5,7 +5,12 @@ export default {
   key: "mastodon-post-status",
   name: "Post Status",
   description: "Publish a status with the given parameters. [See the documentation](https://docs.joinmastodon.org/methods/statuses/#create)",
-  version: "0.0.3",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     mastodon,

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/kiwihr",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "description": "Pipedream kiwiHR Components",
   "main": "kiwihr.app.mjs",
   "keywords": [
@@ -13,7 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.1.0",
+    "@pipedream/platform": "^3.1.1",
     "graphql-request": "^6.0.0"
   }
 }

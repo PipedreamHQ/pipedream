@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/picqer",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream Picqer Components",
   "main": "picqer.app.mjs",
   "keywords": [
@@ -13,7 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.1.0",
+    "@pipedream/platform": "^3.1.1",
     "crypto-js": "^4.2.0"
   }
 }

@@ -4,7 +4,12 @@ import utils from "../../common/utils.mjs";
 export default {
   type: "action",
   key: "google_dialogflow-create-update-agent",
-  version: "1.0.0",
+  version: "1.0.1",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   name: "Create or Update Agent",
   description: "Creates new agent, updates if already created [See REST docs](https://cloud.google.com/dialogflow/es/docs/reference/rest/v2/projects/setAgent) and [client API](https://googleapis.dev/nodejs/dialogflow/latest/google.cloud.dialogflow.v2.Agents.html#setAgent2)",
   props: {

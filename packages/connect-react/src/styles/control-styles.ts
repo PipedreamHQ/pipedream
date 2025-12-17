@@ -2,8 +2,10 @@ import type { CSSProperties } from "react";
 import type { Theme } from "../theme";
 
 export const getInputStyles = (theme: Theme): CSSProperties => ({
-  color: theme.colors.neutral60,
-  border: "1px solid",
+  color: theme.colors.neutral80,
+  backgroundColor: theme.colors.neutral0,
+  borderWidth: 1,
+  borderStyle: "solid",
   borderColor: theme.colors.neutral20,
   padding: 6,
   borderRadius: theme.borderRadius,
@@ -12,20 +14,22 @@ export const getInputStyles = (theme: Theme): CSSProperties => ({
 });
 
 export const getButtonStyles = (theme: Theme): CSSProperties => ({
-  color: theme.colors.neutral60,
+  color: theme.colors.neutral80,
+  backgroundColor: "transparent",
   display: "inline-flex",
   alignItems: "center",
   padding: `${theme.spacing.baseUnit}px ${theme.spacing.baseUnit * 1.5}px ${
     theme.spacing.baseUnit
   }px ${theme.spacing.baseUnit * 2.5}px`,
-  border: `1px solid ${theme.colors.neutral30}`,
+  borderWidth: 1,
+  borderStyle: "solid",
+  borderColor: theme.colors.neutral30,
   borderRadius: theme.borderRadius,
   cursor: "pointer",
   fontSize: "0.8125rem",
   fontWeight: 450,
   gap: theme.spacing.baseUnit * 2,
   textWrap: "nowrap",
-  backgroundColor: "white",
 });
 
 export const getRemoveButtonStyles = (theme: Theme): CSSProperties => ({

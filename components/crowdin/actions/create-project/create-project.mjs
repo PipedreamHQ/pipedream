@@ -11,7 +11,12 @@ export default {
   key: "crowdin-create-project",
   name: "Create Project",
   description: "Creates a new project within Crowdin. [See the documentation](https://support.crowdin.com/developer/api/v2/#/projects-api/create-project)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     crowdin,

@@ -1,6 +1,6 @@
 # Overview
 
-The WebinarKit API provides programmable hooks into WebinarKit's suite, enabling automation of webinar management tasks like creating webinars, registering participants, and sending out reminders. With Pipedream, you can craft workflows that react to various triggers, such as new registrant sign-ups or attendee data, and connect these events to hundreds of other apps. This integration can vastly improve the efficiency of your webinar operations by automating repetitive tasks, collecting data, and nurturing leads with minimal manual intervention.
+The WebinarKit API provides programmable hooks into WebinarKit's suite, enabling automation of webinar management tasks like creating webinars, registering participants, and sending out reminders. With Pipedream, you can craft workflows that react to various triggers, such as new registrant sign-ups or attendee data, and connect these events to 3,000+ other apps. This integration can vastly improve the efficiency of your webinar operations by automating repetitive tasks, collecting data, and nurturing leads with minimal manual intervention.
 
 # Example Use Cases
 

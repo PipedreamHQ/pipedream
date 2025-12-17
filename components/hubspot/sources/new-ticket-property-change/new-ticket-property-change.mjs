@@ -8,7 +8,7 @@ export default {
   name: "New Ticket Property Change",
   description:
     "Emit new event when a specified property is provided or updated on a ticket. [See the documentation](https://developers.hubspot.com/docs/api/crm/tickets)",
-  version: "0.0.28",
+  version: "0.0.31",
   dedupe: "unique",
   type: "source",
   props: {

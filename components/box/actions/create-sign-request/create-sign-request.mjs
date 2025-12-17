@@ -6,7 +6,12 @@ export default {
   name: "Create Box Sign Request",
   description: "Creates a signature request. This involves preparing a document for signing and sending the signature request to signers. [See the documentation](https://developer.box.com/reference/post-sign-requests/).",
   key: "box-create-sign-request",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

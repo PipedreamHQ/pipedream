@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/microsoft_azure_monitor",
+  "version": "0.0.1",
+  "description": "Pipedream Microsoft Azure Monitor Components",
+  "main": "microsoft_azure_monitor.app.mjs",
+  "keywords": [
+    "pipedream",
+    "microsoft_azure_monitor"
+  ],
+  "homepage": "https://pipedream.com/apps/microsoft_azure_monitor",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

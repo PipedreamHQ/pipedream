@@ -4,7 +4,12 @@ import hyros from "../../hyros.app.mjs";
 export default {
   key: "hyros-create-call",
   name: "Create Call",
-  version: "0.0.1",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create a new call. [See the documentation](https://hyros.docs.apiary.io/#reference/0/calls/create)",
   type: "action",
   props: {

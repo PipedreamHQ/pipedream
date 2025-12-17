@@ -4,7 +4,12 @@ export default {
   key: "woodpecker_co-create-update-prospect",
   name: "Create Or Update Prospect",
   description: "This action creates/updates a prospect. [See the docs here](https://woodpecker.co/help/api-managing-prospects/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     woodpecker,

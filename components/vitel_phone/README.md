@@ -1,6 +1,6 @@
 # Overview
 
-The Vitel Phone API allows you to integrate a suite of telephony services into your applications, enabling you to automate calls, manage voicemails, send text messages, and track communications. Leveraging Pipedream's serverless platform, you can create workflows that react to events from Vitel Phone and connect them with hundreds of other apps to streamline processes, alert teams, log activities, or even analyze call data for insights.
+The Vitel Phone API allows you to integrate a suite of telephony services into your applications, enabling you to automate calls, manage voicemails, send text messages, and track communications. Leveraging Pipedream's serverless platform, you can create workflows that react to events from Vitel Phone and connect them with 3,000+ other apps to streamline processes, alert teams, log activities, or even analyze call data for insights.
 
 # Example Use Cases
 

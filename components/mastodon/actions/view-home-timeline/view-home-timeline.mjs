@@ -4,7 +4,12 @@ export default {
   key: "mastodon-view-home-timeline",
   name: "View Home Timeline",
   description: "View statuses from followed users. [See the docs here](https://docs.joinmastodon.org/methods/timelines/#home)",
-  version: "0.0.1",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     mastodon,

@@ -1,6 +1,6 @@
 # Overview
 
-The Coinbase Commerce API enables developers to seamlessly integrate cryptocurrency payments into their websites or applications. With this API, you can automate the process of creating charges, managing invoices, and tracking payments in various cryptocurrencies. Using Pipedream's serverless platform, you can connect Coinbase Commerce to hundreds of other apps to streamline payment processing, trigger actions based on payment status, and track financial data across your business tools.
+The Coinbase Commerce API enables developers to seamlessly integrate cryptocurrency payments into their websites or applications. With this API, you can automate the process of creating charges, managing invoices, and tracking payments in various cryptocurrencies. Using Pipedream's serverless platform, you can connect Coinbase Commerce to 3,000+ other apps to streamline payment processing, trigger actions based on payment status, and track financial data across your business tools.
 
 # Example Use Cases
 

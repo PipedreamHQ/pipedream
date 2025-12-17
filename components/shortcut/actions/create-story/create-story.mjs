@@ -8,88 +8,69 @@ export default {
   key: "shortcut-create-story",
   name: "Create Story",
   description: "Creates a new story in your Shortcut account. See [Create Story](https://shortcut.com/api/rest/v3#Create-Story) in Shortcut Rest API, V3 reference for endpoint documentation.",
-  version: "1.0.0",
+  version: "1.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     shortcut,
     workflowStateId: {
-      type: "integer",
-      label: "Workflow State Id",
-      description: "The ID of the workflow state the story will be in.",
-      async options() {
-        let options = [];
-        const workflows = await this.shortcut.callWithRetry("listWorkflows");
-        const isWorkflowDataAvailable = lodash.get(workflows, [
-          "data",
-          "length",
-        ]);
-        if (!isWorkflowDataAvailable) {
-          return options;
-        }
-        return workflows.data.reduce(function (options, workflow) {
-          const hasState = lodash.get(workflow, [
-            "states",
-            "length",
-          ]);
-          if (!hasState) {
-            return options;
-          }
-          const optionsToAdd = workflow.states.map((state) => ({
-            label: `${state.name} (${workflow.name})`,
-            value: state.id,
-          }));
-          return options.concat(optionsToAdd);
-        }, []);
-      },
+      propDefinition: [
+        shortcut,
+        "workflowStateId",
+      ],
     },
     name: {
       type: "string",
       label: "Name",
-      description: "The name of the story.",
+      description: "The name of the story",
     },
     archived: {
       type: "boolean",
       label: "Archived",
-      description: "Controls the story's archived state.",
+      description: "Controls the story's archived state",
       optional: true,
     },
     comment: {
-      type: "object",
+      type: "string",
       label: "Comment",
       description:
-        "A comment object attached to the story must have the following structure: `author_id` which is the member ID of the Comment's author  (defaults to the user identified by the API token), `created_at` which defaults to the time/date the comment is created, but can be set to reflect another date, `external_id` field that can be set to another unique ID. In the case that the comment has been imported from another tool, the ID in the other tool can be indicated here, `text` is the comment text, and `updated_at` which defaults to the time/date the comment is last updated in Shortcut but can be set to reflect another time/date. See [CreateStoryCommentParams](https://shortcut.com/api/rest/v3#CreateStoryCommentParams) for more info.",
+        "A comment to attach to the story",
       optional: true,
     },
     completedAtOverride: {
       type: "string",
       label: "Completed at Override Date",
       description:
-        "A manual override for the time/date the Story was completed.",
+        "A manual override for the time/date the Story was completed",
       optional: true,
     },
     createdAt: {
       type: "string",
       label: "Created at Date",
-      description: "The time/date the Story was created.",
+      description: "The time/date the Story was created",
       optional: true,
     },
     dueDate: {
       type: "string",
       label: "Due Date",
-      description: "The due date of the story.",
+      description: "The due date of the story",
       optional: true,
     },
     description: {
       type: "string",
       label: "Description",
-      description: "The description of the story.",
+      description: "The description of the story",
       default: "",
       optional: true,
     },
     epicId: {
       type: "integer",
       label: "Epic ID",
-      description: "The unique identifier of the epic the story belongs to.",
+      description: "The unique identifier of the epic the story belongs to",
       async options() {
         let options = [];
         const epics = await this.shortcut.callWithRetry("listEpics");
@@ -112,12 +93,12 @@ export default {
       type: "integer",
       label: "Estimate",
       description:
-        "The numeric point estimate of the story. Can also be null, which means unestimated.",
+        "The numeric point estimate of the story. Can also be null, which means unestimated",
       optional: true,
     },
     externalId: {
       type: "string",
-      label: "External Id",
+      label: "External ID",
       description:
         "This field can be set to another unique ID. In the case that the Story has been imported from another tool, the ID in the other tool can be indicated here.",
       optional: true,
@@ -125,13 +106,13 @@ export default {
     externalLinks: {
       type: "string[]",
       label: "External Links",
-      description: "A string array of External Links associated with this story.",
+      description: "A string array of External Links associated with this story",
       optional: true,
     },
     fileIds: {
       type: "integer[]",
-      label: "File Ids",
-      description: "An array of IDs of files attached to the story.",
+      label: "File IDs",
+      description: "An array of IDs of files attached to the story",
       async options() {
         let options = [];
         const files = await this.shortcut.callWithRetry("listFiles");
@@ -152,8 +133,8 @@ export default {
     },
     followerIds: {
       type: "string[]",
-      label: "Follower Ids",
-      description: "A string array of UUIDs of the followers of this story.",
+      label: "Follower IDs",
+      description: "A string array of UUIDs of the followers of this story",
       async options() {
         return await this.shortcut.listMembersAsOptions();
       },
@@ -161,8 +142,8 @@ export default {
     },
     iterationId: {
       type: "integer",
-      label: "Iteration Id",
-      description: "The ID of the iteration the story belongs to.",
+      label: "Iteration ID",
+      description: "The ID of the iteration the story belongs to",
       async options() {
         let options = [];
         const iterations = await this.shortcut.callWithRetry("listIterations");
@@ -190,7 +171,7 @@ export default {
     },
     linkedFileIds: {
       type: "integer[]",
-      label: "Linked File Ids",
+      label: "Linked File IDs",
       description:
         "An array of IDs of linked files attached to the story.",
       async options() {
@@ -213,8 +194,8 @@ export default {
     },
     ownerIds: {
       type: "string[]",
-      label: "Owner Ids",
-      description: "A string array of UUIDs of the owners of this story.",
+      label: "Owner IDs",
+      description: "A string array of UUIDs of the owners of this story",
       async options() {
         return await this.shortcut.listMembersAsOptions();
       },
@@ -223,7 +204,7 @@ export default {
     requestedById: {
       type: "string",
       label: "Requested by ID",
-      description: "The ID of the member that requested the story.",
+      description: "The ID of the member that requested the story",
       async options() {
         return await this.shortcut.listMembersAsOptions();
       },
@@ -232,39 +213,37 @@ export default {
     startedAtOverride: {
       type: "string",
       label: "Started at Override Date",
-      description: "A manual override for the time/date the Story was started.",
+      description: "A manual override for the time/date the Story was started",
       optional: true,
     },
-    storyLink: {
-      type: "object",
-      label: "Story Link",
-      description:
-        "An story link object attached to the story must have the following structure: `object_id` is the unique ID of the story defined as object, `subject_id` is the unique ID of the story defined as subject, and `verb` which indicates how the subject story acts on the object story, valid values are `blocks`, `duplicates`, or `relates to`. See [CreateStoryLinkParams](https://shortcut.com/api/rest/v3#CreateStoryLinkParams) for more info.",
-      optional: true,
+    storyIds: {
+      propDefinition: [
+        shortcut,
+        "storyIds",
+      ],
     },
     storyType: {
       type: "string",
       label: "Story Type",
-      description: "The type of story (feature, bug, chore).",
+      description: "The type of story (feature, bug, chore)",
       options: constants.STORY_TYPES,
       default: "feature",
       optional: true,
     },
-    task: {
-      type: "object",
-      label: "Task",
-      description:
-        "A task object attached to the story must have the following structure: `complete` which is a boolean, indicating whether the task is completed (defaults to `false`), `created_at` which defaults to the time/date the task is created but can be set to reflect another creation time/date, `description` as a description for the task, `external_id` a field can be set to another unique ID. In the case that the task has been imported from another tool, the ID in the other tool can be indicated here, `owner_ids` as an array of UUIDs for any members you want to add as owners on this new task, `updated_at` which defaults to the time/date the task was last updated in Shortcut but can be set to reflect another time/date. See [CreateTaskParams](https://shortcut.com/api/rest/v3#CreateTaskParams) for more info.",
+    tasks: {
+      type: "string[]",
+      label: "Tasks",
+      description: "An array of task descriptions to add to the story",
       optional: true,
     },
     updatedAt: {
       type: "string",
       label: "Updated at Date",
-      description: "The time/date the story was updated.",
+      description: "The time/date the story was updated",
       optional: true,
     },
   },
-  async run() {
+  async run({ $ }) {
     const constraints = {
       name: {
         length: {
@@ -319,7 +298,9 @@ export default {
       ...(this.comment
         ? {
           comments: [
-            utils.parseJson(this.comment),
+            {
+              text: this.comment,
+            },
           ],
         }
         : undefined
@@ -332,25 +313,27 @@ export default {
         }
         : undefined
       ),
-      ...(this.storyLink
+      ...(this.storyIds
         ? {
-          story_links: [
-            utils.parseJson(this.storyLink),
-          ],
+          story_links: this.storyIds.map((id) => ({
+            subject_id: id,
+            verb: "relates to",
+          })),
         }
         : undefined
       ),
-      ...(this.task
+      ...(this.tasks
         ? {
-          tasks: [
-            utils.parseJson(this.task),
-          ],
+          tasks: this.tasks.map((task) => ({
+            description: task,
+          })),
         }
         : undefined
       ),
     };
 
     const resp = await this.shortcut.callWithRetry("createStory", story);
+    $.export("$summary", `Successfully created story with ID: ${resp.data.id}`);
     return resp.data;
   },
 };

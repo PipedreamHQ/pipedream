@@ -4,7 +4,12 @@ export default {
   key: "rumi_ai-get-future-sessions",
   name: "Get Future Sessions",
   description: "Retrieve upcoming/future sessions. [See the documentation](https://rumiai.notion.site/Rumi-Public-API-Authentication-02055b7286874bd7b355862f1abe48d9)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

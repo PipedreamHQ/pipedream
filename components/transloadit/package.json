@@ -13,7 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.0.3",
-    "transloadit": "^3.0.2"
+    "@pipedream/platform": "^3.1.1",
+    "transloadit": "^4.0.0"
   }
 }

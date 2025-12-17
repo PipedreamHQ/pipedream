@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/slab",
+  "version": "0.1.0",
+  "description": "Pipedream Slab Components",
+  "main": "slab.app.mjs",
+  "keywords": [
+    "pipedream",
+    "slab"
+  ],
+  "homepage": "https://pipedream.com/apps/slab",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.0"
+  }
+}

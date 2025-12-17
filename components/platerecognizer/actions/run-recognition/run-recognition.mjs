@@ -5,7 +5,12 @@ export default {
   key: "platerecognizer-run-recognition",
   name: "Run Recognition",
   description: "Triggers a recognition process using the Plate Recognizer SDK.",
-  version: "0.1.1",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     platerecognizer,

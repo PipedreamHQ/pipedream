@@ -4,7 +4,12 @@ export default {
   key: "mastodon-unmute-conversation",
   name: "Unmute a Conversation",
   description: "Start receiving notifications again for the thread that this status is part of. [See the docs here](https://docs.joinmastodon.org/methods/statuses/#unmute)",
-  version: "0.0.1",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     mastodon,

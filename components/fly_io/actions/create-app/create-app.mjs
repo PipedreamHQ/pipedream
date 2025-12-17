@@ -4,7 +4,12 @@ export default {
   key: "fly_io-create-app",
   name: "Create App",
   description: "Create an app with the specified details in the request body. [See the documentation](https://docs.machines.dev/#tag/apps/post/apps)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

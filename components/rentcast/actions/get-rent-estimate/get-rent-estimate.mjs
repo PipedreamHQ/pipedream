@@ -4,7 +4,12 @@ export default {
   key: "rentcast-get-rent-estimate",
   name: "Get Rent Estimate",
   description: "Get a property rent estimate and comparable properties. [See the documentation](https://developers.rentcast.io/reference/rent-estimate-long-term)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     rentcast,

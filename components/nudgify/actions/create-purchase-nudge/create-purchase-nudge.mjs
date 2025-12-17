@@ -5,7 +5,12 @@ export default {
   key: "nudgify-create-purchase-nudge",
   name: "Create Purchase Nudge",
   description: "Creates a purchase nudge. [See docs here](https://www.nudgify.com/docs/knowledge-base/api-purchase-nudges/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

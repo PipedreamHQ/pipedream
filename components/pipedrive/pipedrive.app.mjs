@@ -294,6 +294,24 @@ export default {
         }));
       },
     },
+    filterId: {
+      type: "integer",
+      label: "Lead Filter ID",
+      description: "The ID of a filter to apply to leads",
+      optional: true,
+      async options({ filterType = "leads" }) {
+        const { data: filters } = await this.getFilters({
+          type: filterType,
+        });
+
+        return filters?.map(({
+          id, name,
+        }) => ({
+          label: name,
+          value: id,
+        }));
+      },
+    },
     emails: {
       type: "string[]",
       label: "Emails",
@@ -370,6 +388,12 @@ export default {
         })) || [];
       },
     },
+    includeAllCustomFields: {
+      type: "boolean",
+      label: "Include All Custom Fields",
+      description: "When enabled, all custom fields will be included in the results",
+      optional: true,
+    },
   },
   methods: {
     api(model, version = "v1") {
@@ -418,6 +442,10 @@ export default {
     getLeadLabels(opts) {
       const leadLabelsApi = this.api("LeadLabelsApi");
       return leadLabelsApi.getLeadLabels(opts);
+    },
+    getFilters(opts = {}) {
+      const filtersApi = this.api("FiltersApi");
+      return filtersApi.getFilters(opts);
     },
     getNotes(opts = {}) {
       const notesApi = this.api("NotesApi");
@@ -480,7 +508,7 @@ export default {
       });
     },
     searchPersons(opts = {}) {
-      const personsApi = this.api("PersonsApi");
+      const personsApi = this.api("PersonsApi", "v2");
       return personsApi.searchPersons(opts);
     },
     updateDeal({

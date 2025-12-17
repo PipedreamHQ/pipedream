@@ -1,31 +1,13 @@
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import common from "../common/base-polling.mjs";
 import { formatJsonDate } from "../../common/util.mjs";
-import xeroAccountingApi from "../../xero_accounting_api.app.mjs";
 
 export default {
+  ...common,
   key: "xero_accounting_api-new-updated-contact",
-  name: "New or updated contact",
+  name: "New or Updated Contact",
   description: "Emit new notifications when you create a new or update existing contact",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
-  props: {
-    xeroAccountingApi,
-    tenantId: {
-      propDefinition: [
-        xeroAccountingApi,
-        "tenantId",
-      ],
-    },
-    timer: {
-      label: "Polling interval",
-      description: "Pipedream will poll Xero accounting API on this schedule",
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
-    },
-    db: "$.service.db",
-  },
   dedupe: "unique",
   async run() {
     let lastDateChecked = this.xeroAccountingApi.getLastDateChecked(this.db);
@@ -37,7 +19,10 @@ export default {
     const contacts = (
       await this.xeroAccountingApi.getContact({
         tenantId: this.tenantId,
-        modifiedSince: lastDateChecked,
+        modifiedSince: lastDateChecked.slice(0, 10),
+        headers: {
+          Accept: "application/json",
+        },
       })
     )?.Contacts;
     contacts && contacts.reverse().forEach((contact) => {
@@ -47,6 +32,7 @@ export default {
         {
           id: `${contact.ContactID}D${formattedDate || ""}`,
           summary: contact.Name,
+          ts: Date.parse(contact.DateString),
         });
     });
   },

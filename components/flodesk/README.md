@@ -1,6 +1,6 @@
 # Overview
 
-The Flodesk API on Pipedream allows you to streamline email marketing efforts by enabling automation of subscriber management and email campaign triggers. With this integration, you can create workflows to sync subscriber data, send personalized emails based on customer actions, and analyze campaign performance, all in a serverless environment. Pipedream's ability to connect with hundreds of apps opens the door to craft custom automation sequences that fit your specific marketing needs.
+The Flodesk API on Pipedream allows you to streamline email marketing efforts by enabling automation of subscriber management and email campaign triggers. With this integration, you can create workflows to sync subscriber data, send personalized emails based on customer actions, and analyze campaign performance, all in a serverless environment. Pipedream's ability to connect with 3,000+ apps opens the door to craft custom automation sequences that fit your specific marketing needs.
 
 # Example Use Cases
 

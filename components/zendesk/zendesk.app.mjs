@@ -1,7 +1,8 @@
-import { axios } from "@pipedream/platform";
-import constants from "./common/constants.mjs";
-import { getFileStreamAndMetadata } from "@pipedream/platform";
+import {
+  axios, getFileStreamAndMetadata,
+} from "@pipedream/platform";
 import path from "path";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -87,6 +88,7 @@ export default {
             params: {
               [constants.PAGE_SIZE_PARAM]: constants.DEFAULT_LIMIT,
               [constants.PAGE_AFTER_PARAM]: afterCursor,
+              active: true,
             },
           });
 
@@ -191,6 +193,134 @@ export default {
         }));
         fields.push(...constants.TICKET_FIELD_OPTIONS);
         return fields;
+      },
+    },
+    locale: {
+      type: "string",
+      label: "Locale",
+      description: "The locale of the article",
+      async options() {
+        const { locales } = await this.listLocales();
+        return locales.map((locale) => locale.locale);
+      },
+    },
+    articleCategoryId: {
+      type: "string",
+      label: "Article Category ID",
+      description: "The ID of the article category",
+      async options({
+        locale, prevContext,
+      }) {
+        const { afterCursor } = prevContext;
+        const {
+          categories, meta,
+        } = await this.listArticleCategories({
+          locale,
+          params: {
+            [constants.PAGE_SIZE_PARAM]: constants.DEFAULT_LIMIT,
+            [constants.PAGE_AFTER_PARAM]: afterCursor,
+          },
+        });
+        return {
+          context: {
+            afterCursor: meta.after_cursor,
+          },
+          options: categories.map(({
+            id: value, name: label,
+          }) => ({
+            value,
+            label,
+          })),
+        };
+      },
+    },
+    sectionId: {
+      type: "string",
+      label: "Section ID",
+      description: "The ID of the section",
+      async options({
+        locale, categoryId, prevContext,
+      }) {
+        const { afterCursor } = prevContext;
+        const {
+          sections, meta,
+        } = await this.listSections({
+          locale,
+          categoryId,
+          params: {
+            [constants.PAGE_SIZE_PARAM]: constants.DEFAULT_LIMIT,
+            [constants.PAGE_AFTER_PARAM]: afterCursor,
+          },
+        });
+        return {
+          context: {
+            afterCursor: meta.after_cursor,
+          },
+          options: sections.map(({
+            id: value, name: label,
+          }) => ({
+            value,
+            label,
+          })),
+        };
+      },
+    },
+    articleId: {
+      type: "string",
+      label: "Article ID",
+      description: "The ID of the article. You can use the List Articles action to get the ID of the article.",
+      async options({
+        locale, prevContext,
+      }) {
+        const { afterCursor } = prevContext;
+        const {
+          articles, meta,
+        } = await this.listArticles({
+          locale,
+          params: {
+            [constants.PAGE_SIZE_PARAM]: constants.DEFAULT_LIMIT,
+            [constants.PAGE_AFTER_PARAM]: afterCursor,
+          },
+        });
+        return {
+          context: {
+            afterCursor: meta.after_cursor,
+          },
+          options: articles.map(({
+            id: value, name: label,
+          }) => ({
+            value,
+            label,
+          })),
+        };
+      },
+    },
+    macroId: {
+      type: "string",
+      label: "Macro ID",
+      description: "The ID of the macro",
+      async options({ prevContext }) {
+        const { afterCursor } = prevContext;
+        const {
+          macros, meta,
+        } = await this.listMacros({
+          params: {
+            [constants.PAGE_SIZE_PARAM]: constants.DEFAULT_LIMIT,
+            [constants.PAGE_AFTER_PARAM]: afterCursor,
+          },
+        });
+
+        return {
+          context: {
+            afterCursor: meta.after_cursor,
+          },
+          options: macros.map(({
+            id: value, title: label,
+          }) => ({
+            value,
+            label,
+          })),
+        };
       },
     },
     ticketCommentBody: {
@@ -335,13 +465,12 @@ export default {
     makeRequest({
       step = this, url, path, headers, customSubdomain, ...args
     }) {
-      const config = {
+      return axios(step, {
         headers: this.getHeaders(headers),
         url: url ?? this.getUrl(path, customSubdomain),
         timeout: constants.DEFAULT_TIMEOUT,
         ...args,
-      };
-      return axios(step, config);
+      });
     },
     getTicketInfo({
       ticketId, ...args
@@ -529,6 +658,12 @@ export default {
         ...args,
       });
     },
+    listActiveMacros(args = {}) {
+      return this.makeRequest({
+        path: "/macros/active",
+        ...args,
+      });
+    },
     listMacroCategories(args = {}) {
       return this.makeRequest({
         path: "/macros/categories",
@@ -538,6 +673,78 @@ export default {
     listGroups(args = {}) {
       return this.makeRequest({
         path: "/groups",
+        ...args,
+      });
+    },
+    prepareLocalePath({
+      locale = null, path,
+    }) {
+      return `/help_center${locale
+        ? `/${locale}`
+        : ""}${path}`;
+    },
+    listArticleCategories({
+      locale, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: this.prepareLocalePath({
+          locale,
+          path: "/categories",
+        }),
+        ...args,
+      });
+    },
+    listSections({
+      locale, categoryId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: this.prepareLocalePath({
+          locale,
+          path: `/${categoryId
+            ? `/categories/${categoryId}`
+            : ""}/sections`,
+        }),
+        ...args,
+      });
+    },
+    listArticles({
+      locale, categoryId, sectionId, userId, ...args
+    } = {}) {
+      let path = "";
+      if (categoryId) {
+        path = `/categories/${categoryId}`;
+      }
+      if (sectionId) {
+        path = `/sections/${sectionId}`;
+      }
+      if (userId) {
+        path = `/users/${userId}`;
+      }
+
+      return this.makeRequest({
+        path: this.prepareLocalePath({
+          locale,
+          path: `${path}/articles`,
+        }),
+        ...args,
+      });
+    },
+    getArticle({
+      articleId, locale, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: this.prepareLocalePath({
+          locale,
+          path: `/articles/${articleId}`,
+        }),
+        ...args,
+      });
+    },
+    getMacro({
+      macroId, ...args
+    }) {
+      return this.makeRequest({
+        path: `/macros/${macroId}`,
         ...args,
       });
     },

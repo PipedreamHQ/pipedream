@@ -1,12 +1,19 @@
 import { ConfigurationError } from "@pipedream/platform";
 import microsoftOutlook from "../../microsoft_outlook_calendar.app.mjs";
 import utils from "../../common/utils.mjs";
+import { DateTime } from "luxon";
+import { findIana } from "windows-iana";
 
 export default {
   key: "microsoft_outlook_calendar-get-schedule",
   name: "Get Free/Busy Schedule",
   description: "Get the free/busy availability information for a collection of users, distributions lists, or resources (rooms or equipment) for a specified time period. [See the documentation](https://learn.microsoft.com/en-us/graph/api/calendar-getschedule)",
-  version: "0.0.3",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     microsoftOutlook,
@@ -48,6 +55,36 @@ export default {
         ...opts,
       });
     },
+    convertWorkingHoursToItemTimezone(response) {
+      const workingHours = response?.workingHours;
+
+      if (!workingHours) return undefined;
+
+      // Extract the Windows-style names
+      const sourceWinTz = workingHours.timeZone.name;
+      const targetWinTz = this.timeZone;
+
+      // Convert to IANA time zones
+      const sourceIana = findIana(sourceWinTz)?.[0]?.valueOf() || "UTC";
+      const targetIana = findIana(targetWinTz)?.[0]?.valueOf() || "UTC";
+
+      const startTime = DateTime.fromISO(`2025-01-01T${workingHours.startTime}`, {
+        zone: sourceIana,
+      }).setZone(targetIana);
+
+      const endTime = DateTime.fromISO(`2025-01-01T${workingHours.endTime}`, {
+        zone: sourceIana,
+      }).setZone(targetIana);
+
+      return {
+        ...workingHours,
+        startTime: startTime.toFormat("HH:mm:ss.SSSSSSS"),
+        endTime: endTime.toFormat("HH:mm:ss.SSSSSSS"),
+        timeZone: {
+          name: targetWinTz,
+        },
+      };
+    },
   },
   async run({ $ }) {
     if (this.schedules === null || this.schedules === undefined || this.schedules?.length === 0) {
@@ -70,7 +107,17 @@ export default {
         },
         availabilityViewInterval: this.availabilityViewInterval,
       },
+      headers: {
+        Prefer: `outlook.timezone="${this.timeZone}"`,
+      },
     });
+
+    if (value?.length > 0 && value[0].workingHours) {
+      const convertedHours = this.convertWorkingHoursToItemTimezone(value[0]);
+      if (convertedHours) {
+        value[0].workingHours = convertedHours;
+      }
+    }
 
     $.export("$summary", `Successfully retrieved schedules for \`${schedules.join("`, `")}\``);
 

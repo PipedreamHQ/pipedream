@@ -4,7 +4,12 @@ export default {
   key: "shopify-add-tags",
   name: "Add Tags",
   description: "Add tags. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/tagsAdd)",
-  version: "0.0.13",
+  version: "0.0.15",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     shopify,

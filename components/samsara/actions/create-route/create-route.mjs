@@ -6,7 +6,12 @@ export default {
   key: "samsara-create-route",
   name: "Create Route",
   description: "Generates a new route to an existing address. As a prerequisite, the user must create an address using the 'create-address' action if the location is not already available in the address book. The user must provide the necessary props such as destination address.",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     samsara,

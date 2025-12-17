@@ -4,7 +4,12 @@ export default {
   key: "launchdarkly-get-feature-flag",
   name: "Get Feature Flag",
   description: "Get a feature flag by key. [See the documentation](https://launchdarkly.com/docs/api/feature-flags/get-feature-flag).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

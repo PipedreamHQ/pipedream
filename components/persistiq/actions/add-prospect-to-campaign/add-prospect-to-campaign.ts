@@ -3,7 +3,12 @@ import app from "../../app/persistiq.app";
 
 export default defineAction({
   key: "persistiq-add-prospect-to-campaign",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   name: "Add Prospect To Campaign",
   description: "Adds prospect to a campaign. [See docs here](https://apidocs.persistiq.com/#add-lead-to-a-campaign)",
   type: "action",

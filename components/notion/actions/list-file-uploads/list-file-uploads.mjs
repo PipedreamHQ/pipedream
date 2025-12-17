@@ -6,7 +6,12 @@ export default {
   key: "notion-list-file-uploads",
   name: "List File Uploads",
   description: "Use this action to list file uploads. [See the documentation](https://developers.notion.com/reference/list-file-uploads)",
-  version: "0.0.5",
+  version: "0.0.8",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     notion,

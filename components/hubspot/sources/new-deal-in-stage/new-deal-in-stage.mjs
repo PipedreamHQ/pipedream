@@ -6,12 +6,14 @@ import {
 import common from "../common/common.mjs";
 import sampleEmit from "./test-event.mjs";
 
+const MAX_INITIAL_EVENTS = 25;
+
 export default {
   ...common,
   key: "hubspot-new-deal-in-stage",
   name: "New Deal In Stage",
   description: "Emit new event for each new deal in a stage.",
-  version: "0.0.41",
+  version: "0.1.3",
   dedupe: "unique",
   type: "source",
   props: {
@@ -59,16 +61,26 @@ export default {
     getParams() {
       return null;
     },
-    getStageParams(stage) {
-      const filter = {
-        propertyName: "dealstage",
-        operator: "EQ",
-        value: stage,
-      };
+    getAllStagesParams(after) {
+      const filters = [
+        {
+          propertyName: "dealstage",
+          operator: "IN",
+          values: this.stages,
+        },
+      ];
+
+      // Add time filter for subsequent runs to only get recently modified deals
+      if (after) {
+        filters.push({
+          propertyName: "hs_lastmodifieddate",
+          operator: "GT",
+          value: after,
+        });
+      }
+
       const filterGroup = {
-        filters: [
-          filter,
-        ],
+        filters,
       };
       return {
         data: {
@@ -89,6 +101,7 @@ export default {
     },
     async processDeals(params, after) {
       let maxTs = after || 0;
+      let initialEventsEmitted = 0;
 
       do {
         const results = await this.hubspot.searchCRM(params);
@@ -111,20 +124,21 @@ export default {
               maxTs = ts;
               this._setAfter(ts);
             }
+            if (!after && ++initialEventsEmitted >= MAX_INITIAL_EVENTS) {
+              return;
+            }
           }
         }
 
         // first run, get only first page
         if (!after) {
-          return;
+          break;
         }
       } while (params.after);
     },
     async processResults(after) {
-      for (const stage of this.stages) {
-        const params = this.getStageParams(stage);
-        await this.processDeals(params, after);
-      }
+      const params = this.getAllStagesParams(after);
+      await this.processDeals(params, after);
     },
     getOwner(ownerId) {
       return this.hubspot.makeRequest({

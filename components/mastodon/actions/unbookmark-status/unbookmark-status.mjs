@@ -4,7 +4,12 @@ export default {
   key: "mastodon-unbookmark-status",
   name: "Undo Bookmark of a Status",
   description: "Remove a status from your private bookmarks. [See the docs here](https://docs.joinmastodon.org/methods/statuses/#unbookmark)",
-  version: "0.0.1",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     mastodon,

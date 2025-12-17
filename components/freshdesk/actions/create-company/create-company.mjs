@@ -4,7 +4,12 @@ export default {
   key: "freshdesk-create-company",
   name: "Create a Company",
   description: "Create a company. [See the documentation](https://developers.freshdesk.com/api/#create_company)",
-  version: "0.0.7",
+  version: "0.0.10",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     freshdesk,

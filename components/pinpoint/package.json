@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/pinpoint",
+  "version": "0.0.1",
+  "description": "Pipedream Pinpoint Components",
+  "main": "pinpoint.app.mjs",
+  "keywords": [
+    "pipedream",
+    "pinpoint"
+  ],
+  "homepage": "https://pipedream.com/apps/pinpoint",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

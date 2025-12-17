@@ -6,7 +6,7 @@ export default {
   key: "zendesk-ticket-closed",
   type: "source",
   description: "Emit new event when a ticket has changed to closed status",
-  version: "0.2.8",
+  version: "0.2.10",
   dedupe: "unique",
   methods: {
     ...common.methods,

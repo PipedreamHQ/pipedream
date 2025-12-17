@@ -5,7 +5,12 @@ export default {
   key: "hubspot-retrieve-migrated-workflow-mappings",
   name: "Retrieve Migrated Workflow Mappings",
   description: "Retrieve the IDs of v3 workflows that have been migrated to the v4 API. [See the documentation](https://developers.hubspot.com/docs/api-reference/automation-automation-v4-v4/workflow-id-mappings/post-automation-v4-workflow-id-mappings-batch-read)",
-  version: "0.0.2",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     hubspot,

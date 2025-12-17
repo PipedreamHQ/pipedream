@@ -6,7 +6,12 @@ export default {
   key: "white_swan-create-pre-fill-info",
   name: "Create Pre-fill Info",
   description: "Imports client data for pre-filling applications to enrich the user experience. [See the documentation](https://docs.whiteswan.io/partner-knowledge-base/api-documentation/action-calls/create-pre-fill-information)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     whiteSwan,

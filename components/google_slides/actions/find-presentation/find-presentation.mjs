@@ -4,7 +4,12 @@ export default {
   key: "google_slides-find-presentation",
   name: "Find a Presentation",
   description: "Find a presentation on Google Drive. [See the docs here](https://developers.google.com/slides/api/samples/presentation#list_existing_presentation_files)",
-  version: "0.0.5",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

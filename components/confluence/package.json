@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/confluence",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Pipedream Confluence Components",
   "main": "confluence.app.mjs",
   "keywords": [
@@ -13,6 +13,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.1.0"
+    "@pipedream/platform": "^3.1.1"
   }
 }

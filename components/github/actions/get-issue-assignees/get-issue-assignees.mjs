@@ -3,8 +3,13 @@ import github from "../../github.app.mjs";
 export default {
   key: "github-get-issue-assignees",
   name: "Get Issue Assignees",
-  description: "Get assignees for an issue in a Gihub repo. [See the documentation](https://docs.github.com/en/rest/issues/issues#get-an-issue)",
-  version: "0.0.22",
+  description: "Get assignees for an issue in a GitHub repo. [See the documentation](https://docs.github.com/en/rest/issues/issues#get-an-issue)",
+  version: "0.0.25",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     github,

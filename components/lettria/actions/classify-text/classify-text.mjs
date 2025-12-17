@@ -4,7 +4,12 @@ export default {
   name: "Classify Text",
   description: "Classify one text. [See the documentation](https://doc.lettria.com/api-reference/classification/2.0/get-started/first-request).",
   key: "lettria-classify-text",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

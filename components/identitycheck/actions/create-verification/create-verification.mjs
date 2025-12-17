@@ -4,7 +4,12 @@ export default {
   key: "identitycheck-create-verification",
   name: "Create Verification",
   description: "Create a identity check. [See the documentation](https://stackgo.notion.site/How-to-Generate-an-IdentityCheck-API-Key-38a12805b43249a480a96b346c491740)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

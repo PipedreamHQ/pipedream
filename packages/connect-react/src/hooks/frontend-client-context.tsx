@@ -1,12 +1,12 @@
 import {
-  createContext, useContext, type ReactNode, type FC,
+  createContext, useContext, useState, type ReactNode, type FC,
 } from "react";
 import {
   QueryClient, QueryClientProvider,
 } from "@tanstack/react-query";
-import type { BrowserClient } from "@pipedream/sdk/browser";
+import type { PipedreamClient } from "@pipedream/sdk/browser";
 
-const FrontendClientContext = createContext<BrowserClient | undefined>(
+const FrontendClientContext = createContext<PipedreamClient | undefined>(
   undefined,
 );
 
@@ -20,20 +20,26 @@ export const useFrontendClient = () => {
   return context;
 };
 
-type FrontendClientProviderProps = { children: ReactNode; client: BrowserClient; };
+type FrontendClientProviderProps = { children: ReactNode; client: PipedreamClient; };
 
 export const FrontendClientProvider: FC<FrontendClientProviderProps> = ({
   children,
   client,
 }: FrontendClientProviderProps) => {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        staleTime: 1000 * 60 * 60,
-        refetchOnWindowFocus: false,
-      },
-    },
-  });
+  // Use useState to ensure QueryClient is only created once per component instance
+  const [
+    queryClient,
+  ] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            staleTime: 1000 * 60 * 60,
+            refetchOnWindowFocus: false,
+          },
+        },
+      }),
+  );
 
   return (
     <QueryClientProvider client={queryClient}>

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/blotato",
+  "version": "0.1.0",
+  "description": "Pipedream Blotato Components",
+  "main": "blotato.app.mjs",
+  "keywords": [
+    "pipedream",
+    "blotato"
+  ],
+  "homepage": "https://pipedream.com/apps/blotato",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1"
+  }
+}

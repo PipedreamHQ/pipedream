@@ -5,7 +5,12 @@ export default {
   key: "zenkit-update-entry",
   name: "Update Entry",
   description: "Update an entry/item in a list on Zenkit. [See the docs](https://base.zenkit.com/docs/api/entries/put-api-v1-lists-listid-entries-listentryid)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

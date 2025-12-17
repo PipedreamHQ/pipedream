@@ -5,7 +5,12 @@ export default {
   name: "Unblock User",
   key: "twitch-unblock-user",
   description: "Unblocks a user; that is, deletes a specified target user to your blocks list",
-  version: "0.1.2",
+  version: "0.1.4",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

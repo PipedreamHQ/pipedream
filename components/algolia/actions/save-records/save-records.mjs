@@ -5,7 +5,12 @@ export default {
   key: "algolia-save-records",
   name: "Save Records",
   description: "Adds records to an index. [See the documentation](https://www.algolia.com/doc/libraries/javascript/v5/helpers/#save-records).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

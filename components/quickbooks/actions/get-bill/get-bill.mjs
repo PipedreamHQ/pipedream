@@ -5,7 +5,12 @@ export default {
   key: "quickbooks-get-bill",
   name: "Get Bill",
   description: "Returns info about a bill. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/bill#read-a-bill)",
-  version: "0.1.11",
+  version: "0.1.13",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     quickbooks,

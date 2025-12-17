@@ -1,5 +1,5 @@
-import constants from "./common/constants.mjs";
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -252,6 +252,75 @@ export default {
       description: "Array of tags to apply to the ticket. Each tag must be 32 characters or less.",
       optional: true,
     },
+    fromEmail: {
+      type: "string",
+      label: "From Email",
+      description: "The email address from which the reply is sent. By default the global support email will be used.",
+      withLabel: true,
+      async options() {
+        const response = await this.listEmailConfigs();
+        return response.map(({
+          id, to_email: email,
+        }) => ({
+          label: email,
+          value: id,
+        }));
+      },
+    },
+    threadId: {
+      type: "string",
+      label: "Thread ID",
+      description: "ID of the thread to create the message for.",
+      async options({ ticketId }) {
+        const { threads } = await this.listThreads({
+          params: {
+            parent_id: ticketId,
+            parent_type: "ticket",
+          },
+        });
+        return threads.map(({ id }) => id);
+      },
+    },
+    cannedResponseFolderId: {
+      type: "integer",
+      label: "Canned Response Folder ID",
+      description: "The ID of a canned response folder",
+      async options({ page = 0 }) {
+        const folders = await this.listCannedResponseFolders({
+          params: {
+            page: page + 1,
+          },
+        });
+        return folders.map(({
+          id, name,
+        }) => ({
+          label: name || id,
+          value: id,
+        }));
+      },
+    },
+    cannedResponseId: {
+      type: "integer",
+      label: "Canned Response ID",
+      description: "The ID of a canned response",
+      async options({
+        page = 0,
+        cannedResponseFolderId,
+      }) {
+        const { canned_responses: responses } = await this.listCannedResponses({
+          cannedResponseFolderId,
+          params: {
+            page: page + 1,
+          },
+        });
+        return responses.map(({
+          id, title,
+        }) => ({
+          label: title || id,
+          value: id,
+        }));
+      },
+    },
   },
   methods: {
     setLastDateChecked(db, value) {
@@ -263,10 +332,11 @@ export default {
     base64Encode(data) {
       return Buffer.from(data).toString("base64");
     },
-    _getHeaders() {
+    _getHeaders(headers = {}) {
       return {
         "Authorization": "Basic " + this.base64Encode(this.$auth.api_key + ":X"),
         "Content-Type": "application/json;charset=utf-8",
+        ...headers,
       };
     },
     _getDomain() {
@@ -275,15 +345,12 @@ export default {
         ? domain
         : `${domain}.freshdesk.com`;
     },
-    async _makeRequest({
+    _makeRequest({
       $ = this, headers, ...args
     }) {
       return axios($, {
         baseURL: `https://${this._getDomain()}/api/v2`,
-        headers: {
-          ...this._getHeaders(),
-          ...headers,
-        },
+        headers: this._getHeaders(headers),
         ...args,
       });
     },
@@ -327,20 +394,20 @@ export default {
         params.page += 1;
       } while (true);
     },
-    async createCompany(args) {
+    createCompany(args) {
       return this._makeRequest({
         url: "/companies",
         method: "post",
         ...args,
       });
     },
-    async getCompanies(args) {
+    getCompanies(args) {
       return this._makeRequest({
         url: "/companies",
         ...args,
       });
     },
-    async getContact({
+    getContact({
       contactId, ...args
     }) {
       return this._makeRequest({
@@ -348,20 +415,20 @@ export default {
         ...args,
       });
     },
-    async getContacts(args) {
+    getContacts(args) {
       return this._makeRequest({
         url: "/contacts",
         ...args,
       });
     },
-    async createContact(args) {
+    createContact(args) {
       return this._makeRequest({
         url: "/contacts",
         method: "post",
         ...args,
       });
     },
-    async updateContact({
+    updateContact({
       contactId, ...args
     }) {
       return this._makeRequest({
@@ -370,14 +437,14 @@ export default {
         ...args,
       });
     },
-    async createTicket(args) {
+    createTicket(args) {
       return this._makeRequest({
         url: "/tickets",
         method: "post",
         ...args,
       });
     },
-    async getTicket({
+    getTicket({
       ticketId, ...args
     }) {
       return this._makeRequest({
@@ -385,32 +452,32 @@ export default {
         ...args,
       });
     },
-    async searchTickets(args) {
+    searchTickets(args) {
       return this._makeRequest({
         url: "/search/tickets",
         ...args,
       });
     },
-    async searchContacts(args) {
+    searchContacts(args) {
       return this._makeRequest({
         url: "/search/contacts",
         ...args,
       });
     },
-    async listTicketFields(args) {
+    listTicketFields(args) {
       return this._makeRequest({
         url: "/ticket_fields",
         ...args,
       });
     },
-    async createTicketField(args) {
+    createTicketField(args) {
       return this._makeRequest({
         url: "/admin/ticket_fields",
         method: "post",
         ...args,
       });
     },
-    async updateTicketField({
+    updateTicketField({
       ticketFieldId, ...args
     }) {
       return this._makeRequest({
@@ -419,20 +486,20 @@ export default {
         ...args,
       });
     },
-    async listAgents(args) {
+    listAgents(args) {
       return this._makeRequest({
         url: "/agents",
         ...args,
       });
     },
-    async createAgent(args) {
+    createAgent(args) {
       return this._makeRequest({
         url: "/agents",
         method: "post",
         ...args,
       });
     },
-    async updateAgent({
+    updateAgent({
       agentId, ...args
     }) {
       return this._makeRequest({
@@ -441,25 +508,25 @@ export default {
         ...args,
       });
     },
-    async listSkills(args) {
+    listSkills(args) {
       return this._makeRequest({
         url: "/admin/skills",
         ...args,
       });
     },
-    async listRoles(args) {
+    listRoles(args) {
       return this._makeRequest({
         url: "/roles",
         ...args,
       });
     },
-    async listSolutionCategories(args) {
+    listSolutionCategories(args) {
       return this._makeRequest({
         url: "/solutions/categories",
         ...args,
       });
     },
-    async listCategoryFolders({
+    listCategoryFolders({
       categoryId, ...args
     }) {
       return this._makeRequest({
@@ -467,7 +534,7 @@ export default {
         ...args,
       });
     },
-    async listFolderArticles({
+    listFolderArticles({
       folderId, ...args
     }) {
       return this._makeRequest({
@@ -475,7 +542,7 @@ export default {
         ...args,
       });
     },
-    async getArticle({
+    getArticle({
       articleId, ...args
     }) {
       return this._makeRequest({
@@ -483,7 +550,7 @@ export default {
         ...args,
       });
     },
-    async createArticle({
+    createArticle({
       folderId, ...args
     }) {
       return this._makeRequest({
@@ -492,7 +559,7 @@ export default {
         ...args,
       });
     },
-    async updateArticle({
+    updateArticle({
       articleId, ...args
     }) {
       return this._makeRequest({
@@ -501,7 +568,7 @@ export default {
         ...args,
       });
     },
-    async deleteArticle({
+    deleteArticle({
       articleId, ...args
     }) {
       return this._makeRequest({
@@ -510,7 +577,7 @@ export default {
         ...args,
       });
     },
-    async listTickets(args) {
+    listTickets(args) {
       return this._makeRequest({
         url: "/tickets",
         ...args,
@@ -552,7 +619,7 @@ export default {
      * @param {...*} args - Additional arguments passed to _makeRequest
      * @returns {Promise<Object>} The API response containing the created note
      */
-    async addNoteToTicket({
+    addNoteToTicket({
       ticketId, data, ...args
     }) {
       return this._makeRequest({
@@ -569,7 +636,7 @@ export default {
      * @param {string[]} args.tags - Array of tags to set
      * @returns {Promise<object>} API response
      */
-    async setTicketTags({
+    setTicketTags({
       ticketId, tags, ...args
     }) {
       return this._makeRequest({
@@ -668,6 +735,71 @@ export default {
         results.push(result);
       }
       return results;
+    },
+    createReply({
+      ticketId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        url: `/tickets/${ticketId}/reply`,
+        ...args,
+      });
+    },
+    listEmailConfigs(args) {
+      return this._makeRequest({
+        url: "/email_configs",
+        ...args,
+      });
+    },
+    createThread(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        url: "/collaboration/threads",
+        ...args,
+      });
+    },
+    listThreads(args) {
+      return this._makeRequest({
+        url: "/collaboration/threads",
+        ...args,
+      });
+    },
+    createMessageForThread(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        url: "/collaboration/messages",
+        ...args,
+      });
+    },
+    listCannedResponseFolders(args) {
+      return this._makeRequest({
+        url: "/canned_response_folders",
+        ...args,
+      });
+    },
+    listCannedResponses({
+      cannedResponseFolderId, ...args
+    }) {
+      return this._makeRequest({
+        url: `/canned_response_folders/${cannedResponseFolderId}`,
+        ...args,
+      });
+    },
+    getCannedResponse({
+      cannedResponseId, ...args
+    }) {
+      return this._makeRequest({
+        url: `/canned_responses/${cannedResponseId}`,
+        ...args,
+      });
+    },
+    getFolderCannedResponses({
+      folderId, ...args
+    }) {
+      return this._makeRequest({
+        url: `/canned_response_folders/${folderId}/responses`,
+        ...args,
+      });
     },
   },
 };

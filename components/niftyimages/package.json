@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/niftyimages",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Pipedream NiftyImages Components",
   "main": "dist/app/niftyimages.app.mjs",
   "keywords": [
@@ -16,7 +16,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.1.0"
+    "@pipedream/platform": "^3.1.1"
   },
   "devDependencies": {
     "@pipedream/types": "^0.3.2"

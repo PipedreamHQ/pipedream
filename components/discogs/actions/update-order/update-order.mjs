@@ -4,7 +4,12 @@ export default {
   key: "discogs-update-order",
   name: "Update Order Status",
   description: "Updates the status of an existing order on Discogs. [See the documentation](https://www.discogs.com/developers#page:marketplace,header:marketplace-edit-an-order)",
-  version: "0.0.{{ts}}",
+  version: "0.1.0",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     discogs,

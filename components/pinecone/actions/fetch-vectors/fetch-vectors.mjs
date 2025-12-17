@@ -6,7 +6,12 @@ export default {
   name: "Fetch Vectors",
   description: "Looks up and returns vectors by ID, from a single namespace.. [See the documentation](https://docs.pinecone.io/reference/api/data-plane/fetch).",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     indexName: {

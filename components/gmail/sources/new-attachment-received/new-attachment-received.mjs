@@ -8,7 +8,7 @@ export default {
   key: "gmail-new-attachment-received",
   name: "New Attachment Received",
   description: "Emit new event for each attachment in a message received. This source is capped at 100 max new messages per run.",
-  version: "0.2.1",
+  version: "0.2.3",
   type: "source",
   dedupe: "unique",
   props: {

@@ -4,7 +4,12 @@ export default {
   key: "freshsales-list-all-deals",
   name: "List All Deals",
   description: "Fetch all deals from your Freshsales account. [See the documentation](https://developer.freshsales.io/api/#list_all_deals)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     freshsales,

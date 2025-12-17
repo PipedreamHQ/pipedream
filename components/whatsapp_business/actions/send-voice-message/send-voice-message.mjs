@@ -6,7 +6,12 @@ export default {
   key: "whatsapp_business-send-voice-message",
   name: "Send Voice Message",
   description: "Sends a voice message. [See the documentation](https://developers.facebook.com/docs/whatsapp/cloud-api/messages/audio-messages)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     whatsapp,

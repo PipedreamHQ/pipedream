@@ -6,7 +6,12 @@ export default {
   key: "pipedream_utils-convert-html-to-slack-mrkdwn",
   name: "Helper Functions - Convert HTML to Slack mrkdwn format",
   description: "Converts an HTML string to the Slack mrkdwn format using",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: false,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     pipedream_utils,

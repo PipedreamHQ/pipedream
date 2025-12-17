@@ -3,7 +3,12 @@ import app from "../../open_exchange_rates.app.mjs";
 export default {
   key: "open_exchange_rates-convert-currency",
   name: "Convert Currency",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   description: "Convert any money value from one currency to another. [See the documentation](https://docs.openexchangerates.org/reference/convert)",
   type: "action",
   props: {

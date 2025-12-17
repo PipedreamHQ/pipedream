@@ -5,7 +5,12 @@ export default {
   key: "listmonk-create-campaign",
   name: "Create Campaign",
   description: "Creates a new campaign in Listmonk. [See the documentation](https://listmonk.app/docs/apis/campaigns/#post-apicampaigns)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     listmonk,

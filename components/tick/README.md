@@ -1,6 +1,6 @@
 # Overview
 
-Tick is a time tracking and project management tool designed to help teams keep track of time spent on various tasks and projects. With the Tick API, you can automate project time entries, generate reports, and sync time data with other tools. Specifically, when you plug the Tick API into Pipedream, you leverage serverless workflows to connect Tick with hundreds of other apps. You can automate time tracking, streamline project updates, and trigger actions based on time entry events.
+Tick is a time tracking and project management tool designed to help teams keep track of time spent on various tasks and projects. With the Tick API, you can automate project time entries, generate reports, and sync time data with other tools. Specifically, when you plug the Tick API into Pipedream, you leverage serverless workflows to connect Tick with 3,000+ other apps. You can automate time tracking, streamline project updates, and trigger actions based on time entry events.
 
 # Example Use Cases
 

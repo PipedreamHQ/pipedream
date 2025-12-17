@@ -4,7 +4,12 @@ export default {
   key: "wise-create-recipient-account",
   name: "Create Recipient Account",
   description: "Get a specific recipient account. [See docs here](https://api-docs.wise.com/api-reference/balance#get)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     wise,

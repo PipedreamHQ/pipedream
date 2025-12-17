@@ -4,7 +4,12 @@ export default {
   key: "brevo-send-transactional-email",
   name: "Send Transactional Email",
   description: "Send transactional email. [See the docs](https://developers.brevo.com/reference/sendtransacemail) for more information.",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     brevo,

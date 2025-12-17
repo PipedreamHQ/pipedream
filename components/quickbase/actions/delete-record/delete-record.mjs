@@ -5,7 +5,12 @@ export default {
   key: "quickbase-delete-record",
   name: "Delete Record",
   description: "Deletes a record in a Quick Base table. [See the documentation](https://developer.quickbase.com/operation/deleteRecords)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

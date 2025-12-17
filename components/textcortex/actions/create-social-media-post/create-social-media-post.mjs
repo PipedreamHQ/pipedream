@@ -6,7 +6,12 @@ export default {
   name: "Create Social Media Post",
   description: "Create a social media post. [See the documentation](https://docs.textcortex.com/api/paths/texts-social-media-posts/post)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     context: {

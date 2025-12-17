@@ -1,6 +1,6 @@
 # Overview
 
-Demio, a webinar platform, offers an API that lets you automate various aspects of your webinar experience. With the Demio API on Pipedream, you can seamlessly integrate webinar registration, attendance tracking, and follow-up actions into your business workflows. Pipedream's serverless platform facilitates the creation of complex automations that can trigger actions based on events in Demio, connecting it with hundreds of other apps for a cohesive ecosystem.
+Demio, a webinar platform, offers an API that lets you automate various aspects of your webinar experience. With the Demio API on Pipedream, you can seamlessly integrate webinar registration, attendance tracking, and follow-up actions into your business workflows. Pipedream's serverless platform facilitates the creation of complex automations that can trigger actions based on events in Demio, connecting it with 3,000+ other apps for a cohesive ecosystem.
 
 # Example Use Cases
 

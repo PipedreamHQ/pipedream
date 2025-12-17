@@ -3,7 +3,12 @@ import zohoBugtracker from "../../zoho_bugtracker.app.mjs";
 export default {
   key: "zoho_bugtracker-get-bug-details",
   name: "Get Bug Details",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   description: "Get details from a specific bug. [See the documentation](https://www.zoho.com/projects/help/rest-api/bugtracker-bugs-api.html#alink2)",
   type: "action",
   props: {

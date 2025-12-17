@@ -6,7 +6,12 @@ export default {
   key: "xero_accounting_api-create-tracking-category",
   name: "Create tracking category",
   description: "Create a new tracking category [See the documentation](https://developer.xero.com/documentation/api/accounting/trackingcategories#put-trackingcategories).",
-  version: "0.0.1",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     xeroAccountingApi,

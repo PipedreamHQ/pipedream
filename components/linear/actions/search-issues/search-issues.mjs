@@ -9,6 +9,6 @@ export default {
   ...searchIssues,
   ...utils.getAppProps(searchIssues),
   key: "linear-search-issues",
-  description: "Searches Linear issues by team, project, assignee, labels, state, or text query. Supports pagination, ordering, and archived issues. Returns array of matching issues. Uses OAuth authentication. See Linear docs for additional info [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api).",
-  version: "0.2.11",
+  description: "Searches Linear issues by team, project, assignee, labels, state, or text query. Supports pagination, ordering, and archived issues. Returns array of matching issues. Uses OAuth authentication. See Linear docs for additional info [here](https://linear.app/developers/graphql).",
+  version: "0.2.13",
 };

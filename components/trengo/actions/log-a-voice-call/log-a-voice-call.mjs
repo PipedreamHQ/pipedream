@@ -3,7 +3,12 @@ import app from "../../trengo.app.mjs";
 export default {
   type: "action",
   key: "trengo-log-a-voice-call",
-  version: "0.0.4",
+  version: "0.0.9",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   name: "Log A Voice Call",
   description: "Logs a phone call from external VOIP applications, [See the documentation](https://developers.trengo.com/reference/log-a-phone-call)",
   props: {

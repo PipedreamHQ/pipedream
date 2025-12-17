@@ -6,7 +6,12 @@ export default {
   key: "xero_accounting_api-xero-create-sales-invoice",
   name: "Create Sales Invoice",
   description: "Creates a new sales invoice. [See the documentation](https://developer.xero.com/documentation/api/invoices#post)",
-  version: "0.3.3",
+  version: "0.3.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     xero,
@@ -17,23 +22,14 @@ export default {
       ],
     },
     contactId: {
-      type: "string",
-      label: "Contact",
-      description: "Id of the contact associated to the invoice.",
-      async options() {
-        if (!this.tenantId) {
-          return [];
-        }
-        const { Contacts: contacts } = await this.xero.getContact({
-          tenantId: this.tenantId,
-        });
-        return contacts?.map(({
-          ContactID: value, Name: label,
-        }) => ({
-          value,
-          label,
-        })) || [];
-      },
+      propDefinition: [
+        xero,
+        "contactId",
+        (c) => ({
+          tenantId: c.tenantId,
+        }),
+      ],
+      description: "ID of the contact associated to the invoice.",
       optional: true,
     },
     contactName: {
