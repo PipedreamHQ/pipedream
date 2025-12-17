@@ -135,6 +135,30 @@ export default {
       description: "The client ID to associate with this contact",
       optional: true,
     },
+    activityId: {
+      type: "string",
+      label: "Activity ID",
+      description: "Select an activity or provide an activity ID",
+      async options() {
+        const data = await this.listActivities();
+        return data.map((activity) => ({
+          label: `${activity.description || activity.type || "Activity"} (ID: ${activity.id})`,
+          value: activity.id,
+        }));
+      },
+    },
+    npsId: {
+      type: "string",
+      label: "NPS ID",
+      description: "Select an NPS record or provide an NPS ID",
+      async options() {
+        const data = await this.listNps();
+        return data.map((nps) => ({
+          label: `NPS ${nps.id} - Score: ${nps.score || "N/A"}`,
+          value: nps.id,
+        }));
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -268,6 +292,46 @@ export default {
       return this._makeRequest({
         method: "PUT",
         url: `/contacts/${contactId}`,
+        ...args,
+      });
+    },
+    async listActivities(args = {}) {
+      return this._makeRequest({
+        url: "/activities",
+        ...args,
+      });
+    },
+    async getActivity({
+      activityId, ...args
+    }) {
+      return this._makeRequest({
+        url: `/activities/${activityId}`,
+        ...args,
+      });
+    },
+    async listAppointments(args = {}) {
+      return this._makeRequest({
+        url: "/appointsments",
+        ...args,
+      });
+    },
+    async listPhoneCalls(args = {}) {
+      return this._makeRequest({
+        url: "/phoneCall",
+        ...args,
+      });
+    },
+    async listNps(args = {}) {
+      return this._makeRequest({
+        url: "/nps",
+        ...args,
+      });
+    },
+    async getNps({
+      npsId, ...args
+    }) {
+      return this._makeRequest({
+        url: `/nps/${npsId}`,
         ...args,
       });
     },
