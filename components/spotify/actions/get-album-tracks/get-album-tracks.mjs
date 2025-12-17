@@ -1,13 +1,14 @@
-import { axios } from "@pipedream/platform";
 import spotify from "../../spotify.app.mjs";
-import { ITEM_TYPES } from "../../common/constants.mjs";
-const DEFAULT_LIMIT = 20;
+import {
+  ITEM_TYPES,
+  PAGE_SIZE,
+} from "../../common/constants.mjs";
 
 export default {
   name: "Get Album Tracks",
   description: "Get all tracks in an album. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/get-an-albums-tracks)",
   key: "spotify-get-album-tracks",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -25,12 +26,11 @@ export default {
         query,
         page,
       }) {
-        const limit = DEFAULT_LIMIT;
         const albums = await this.spotify.getItems(
           ITEM_TYPES.ALBUM,
           query,
-          limit,
-          limit * page,
+          PAGE_SIZE,
+          PAGE_SIZE * page,
         );
         return {
           options: albums.map((album) => ({
@@ -43,19 +43,20 @@ export default {
   },
   async run({ $ }) {
     const params = {
-      limit: DEFAULT_LIMIT,
+      limit: PAGE_SIZE,
       offset: 0,
     };
     const tracks = [];
     let total = 0;
 
     do {
-      const { items } = await axios($, this.spotify._getAxiosParams({
-        path: `/albums/${this.albumId}/tracks`,
+      const { data } = await this.spotify._makeRequest({
+        $,
+        url: `/albums/${this.albumId}/tracks`,
         params,
-      }));
-      tracks.push(...items);
-      total = items.length;
+      });
+      tracks.push(...data.items);
+      total = data.items.length;
       params.offset += params.limit;
     } while (total === params.limit);
 
