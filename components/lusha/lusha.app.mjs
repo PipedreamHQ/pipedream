@@ -197,7 +197,7 @@ export default {
     companySignals: {
       type: "string[]",
       label: "Company Signals",
-      description: "Types of company to retrieve",
+      description: "Types of company signals to retrieve",
       options: COMPANY_SIGNALS_OPTIONS,
     },
     startDate: {
