@@ -128,10 +128,8 @@ export default {
       },
     });
 
-    if (this.simplified) {
-      response.places = response.places.map((place) => {
-        return simplifyPlace(place);
-      });
+    if (this.simplified && response.places) {
+      response.places = response.places.map((place) => simplifyPlace(place));
     }
 
     const placeCount = response.places?.length || 0;

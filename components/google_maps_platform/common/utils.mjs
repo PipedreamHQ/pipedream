@@ -28,7 +28,9 @@ export const parseObject = (obj) => {
 export const simplifyPlace = (place) => {
   const simplifiedPlace = {};
   Object.keys(SIMPLIFIED_PLACE_FIELDS).forEach((key) => {
-    simplifiedPlace[SIMPLIFIED_PLACE_FIELDS[key]] = place[key];
+    if (place[key]) {
+      simplifiedPlace[SIMPLIFIED_PLACE_FIELDS[key]] = place[key];
+    }
   });
   return simplifiedPlace;
 };
