@@ -7,7 +7,7 @@ export default {
   key: "apify-run-actor",
   name: "Run Actor",
   description: "Performs an execution of a selected Actor in Apify. [See the documentation](https://docs.apify.com/api/v2#/reference/actors/run-collection/run-actor)",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   props: {
     apify,
@@ -304,9 +304,13 @@ export default {
     }
 
     // Prepare input
-    const rawInput = this.properties
-      ? parseObject(this.properties)
-      : data;
+    // Use data (dynamic props from schema) if it has any keys,
+    // otherwise fall back to this.properties (fallback object prop)
+    const rawInput = Object.keys(data).length > 0
+      ? data
+      : (this.properties
+        ? parseObject(this.properties)
+        : {});
     const input = await this.prepareData(rawInput);
 
     // Build params safely

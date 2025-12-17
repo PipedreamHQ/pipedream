@@ -28,8 +28,8 @@ export default {
     },
     actorId: {
       type: "string",
-      label: "Actor ID",
-      description: "Actor ID or a tilde-separated owner's username and Actor name",
+      label: "Actor",
+      description: "Select the Actor, enter the Actor ID, or use a tilde-separated combination of the owner's username and the Actor name.",
       async options({
         page, actorSource,
       }) {

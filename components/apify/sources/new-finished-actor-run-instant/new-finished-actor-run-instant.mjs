@@ -7,7 +7,7 @@ export default {
   key: "apify-new-finished-actor-run-instant",
   name: "New Finished Actor Run (Instant)",
   description: "Emit new event when a selected Actor is run and finishes.",
-  version: "0.0.6",
+  version: "0.0.8",
   type: "source",
   dedupe: "unique",
   props: {

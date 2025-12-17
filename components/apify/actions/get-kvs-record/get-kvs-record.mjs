@@ -5,7 +5,7 @@ export default {
   key: "apify-get-kvs-record",
   name: "Get Key-Value Store Record",
   description: "Gets a record from a key-value store.",
-  version: "0.0.3",
+  version: "0.0.5",
   type: "action",
   props: {
     apify,
