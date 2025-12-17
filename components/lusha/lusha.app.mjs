@@ -1,4 +1,8 @@
 import { axios } from "@pipedream/platform";
+import {
+  COMPANY_SIGNALS_OPTIONS,
+  SIGNALS_OPTIONS,
+} from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -184,6 +188,24 @@ export default {
       description: "The maximum number of results to return. **This feature is used to avoid timeouts due to very long returns.**",
       default: 50,
     },
+    signals: {
+      type: "string[]",
+      label: "Signals",
+      description: "Types of signals to retrieve",
+      options: SIGNALS_OPTIONS,
+    },
+    companySignals: {
+      type: "string[]",
+      label: "Company Signals",
+      description: "Types of company to retrieve",
+      options: COMPANY_SIGNALS_OPTIONS,
+    },
+    startDate: {
+      type: "string",
+      label: "Start Date",
+      description: "Start date for signal retrieval **Format: YYYY-MM-DD**",
+      optional: true,
+    },
   },
   methods: {
     _baseUrl() {
@@ -203,10 +225,22 @@ export default {
         ...opts,
       });
     },
+    searchSingleContact(opts = {}) {
+      return this._makeRequest({
+        path: "/v2/person",
+        ...opts,
+      });
+    },
     searchContacts(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/prospecting/contact/search",
+        ...opts,
+      });
+    },
+    searchSingleCompany(opts = {}) {
+      return this._makeRequest({
+        path: "/v2/company",
         ...opts,
       });
     },
@@ -276,6 +310,49 @@ export default {
     listNaicsCodes(opts = {}) {
       return this._makeRequest({
         path: "/prospecting/filters/companies/naics",
+        ...opts,
+      });
+    },
+    getContactSignalsById(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/api/signals/contacts",
+        ...opts,
+      });
+    },
+    searchContactSignals(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/api/signals/contacts/search",
+        ...opts,
+      });
+    },
+    searchCompanySignals(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/api/signals/companies/search",
+        ...opts,
+      });
+    },
+    getContactRecommendations(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/api/recommendations/contacts",
+        ...opts,
+      });
+    },
+    getCompanyRecommendations(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/api/recommendations/companies",
+        ...opts,
+      });
+    },
+    getSignalOptions({
+      objectType, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/api/signals/filters/${objectType}`,
         ...opts,
       });
     },
