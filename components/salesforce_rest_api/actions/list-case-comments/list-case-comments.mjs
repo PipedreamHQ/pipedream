@@ -4,7 +4,7 @@ export default {
   key: "salesforce_rest_api-list-case-comments",
   name: "List Case Comments",
   description: "Lists all comments for a case. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_get_field_values.htm)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

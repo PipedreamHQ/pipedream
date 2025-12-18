@@ -5,7 +5,7 @@ export default {
   name: "Post a Message to Chatter Feed",
   description:
     "Post a feed item in Chatter. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/quickreference_post_feed_item.htm)",
-  version: "0.1.3",
+  version: "0.1.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

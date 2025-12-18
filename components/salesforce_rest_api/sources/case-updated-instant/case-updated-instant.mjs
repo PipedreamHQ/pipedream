@@ -7,7 +7,7 @@ export default {
   name: "Case Updated (Instant, of Selectable Type)",
   key: "salesforce_rest_api-case-updated-instant",
   description: "Emit new event when a case is updated. [See the documentation](https://sforce.co/3yPSJZy)",
-  version: "0.0.5",
+  version: "0.0.6",
   props: {
     salesforce: common.props.salesforce,
     db: "$.service.db",
