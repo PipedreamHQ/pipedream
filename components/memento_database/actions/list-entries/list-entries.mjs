@@ -26,7 +26,7 @@ export default {
       default: "all",
     },
     startRevision: {
-      type: "string",
+      type: "integer",
       label: "Start Revision",
       description: "Only entries updated/created at or after this revision are returned",
       optional: true,
