@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zoho_desk",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Pipedream Zoho_desk Components",
   "main": "zoho_desk.app.mjs",
   "keywords": [

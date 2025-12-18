@@ -5,7 +5,7 @@ export default {
   key: "xero_accounting_api-create-item",
   name: "Create Item",
   description: "Creates a new item.",
-  version: "0.1.3",
+  version: "0.1.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

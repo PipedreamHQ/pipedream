@@ -5,7 +5,7 @@ export default {
   key: "xero_accounting_api-delete-tracking-category-option",
   name: "Delete tracking category option",
   description: "Delete a tracking category option by ID [See the documentation](https://developer.xero.com/documentation/api/accounting/trackingcategories#delete-trackingcategories).",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

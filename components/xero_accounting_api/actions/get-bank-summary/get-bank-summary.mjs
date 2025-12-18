@@ -5,7 +5,7 @@ export default {
   key: "xero_accounting_api-get-bank-summary",
   name: "Get Bank Summary",
   description: "Gets the balances and cash movements for each bank account.",
-  version: "0.1.3",
+  version: "0.1.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

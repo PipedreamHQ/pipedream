@@ -1467,7 +1467,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/azure_devops_microsoft_entra_id_oauth: {}
+  components/azure_devops_microsoft_entra_id_oauth:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/azure_openai_service:
     dependencies:
@@ -2163,6 +2167,9 @@ importers:
       '@pipedream/platform':
         specifier: ^1.6.8
         version: 1.6.8
+
+  components/browser_use:
+    specifiers: {}
 
   components/browseract: {}
 
@@ -4571,6 +4578,9 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/eaccounting:
+    specifiers: {}
+
   components/eagle_doc: {}
 
   components/easy_peasy_ai:
@@ -4667,7 +4677,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/edusign: {}
+  components/edusign:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/efinder: {}
 
@@ -6010,7 +6024,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/glide: {}
+  components/glide:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/global_exchange_rates: {}
 
@@ -6268,7 +6286,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/google_directory: {}
+  components/google_directory:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/google_docs:
     dependencies:
@@ -7515,7 +7537,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/intelliprint: {}
+  components/intelliprint:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/intercom:
     dependencies:
@@ -9219,7 +9245,14 @@ importers:
 
   components/microsoft_azure_monitor: {}
 
-  components/microsoft_bookings: {}
+  components/microsoft_bookings:
+    dependencies:
+      '@microsoft/microsoft-graph-client':
+        specifier: ^3.0.2
+        version: 3.0.7
+      isomorphic-fetch:
+        specifier: ^3.0.0
+        version: 3.0.0
 
   components/microsoft_dataverse: {}
 
@@ -10141,8 +10174,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/nuvemshop:
-    specifiers: {}
+  components/nuvemshop: {}
 
   components/nvoip: {}
 
@@ -11042,6 +11074,9 @@ importers:
       '@pipedream/platform':
         specifier: ^1.6.8
         version: 1.6.8
+
+  components/peoplehr:
+    specifiers: {}
 
   components/perigon:
     dependencies:
@@ -13821,8 +13856,7 @@ importers:
 
   components/simplebackups: {}
 
-  components/simpleem:
-    specifiers: {}
+  components/simpleem: {}
 
   components/simplehash: {}
 
@@ -14324,9 +14358,6 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
-      lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
 
   components/spotlightr:
     dependencies:

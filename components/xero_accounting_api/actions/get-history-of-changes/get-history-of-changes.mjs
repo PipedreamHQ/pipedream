@@ -5,7 +5,7 @@ export default {
   key: "xero_accounting_api-get-history-of-changes",
   name: "Get History of Changes",
   description: "Gets the history of changes to a single existing document.",
-  version: "0.1.3",
+  version: "0.1.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

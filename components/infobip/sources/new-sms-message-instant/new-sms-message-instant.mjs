@@ -6,7 +6,7 @@ export default {
   key: "infobip-new-sms-message-instant",
   name: "New SMS Message (Instant)",
   description: "Emit new event when a new SMS message is received.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

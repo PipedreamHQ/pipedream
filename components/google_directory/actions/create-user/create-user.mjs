@@ -4,7 +4,7 @@ export default {
   key: "google_directory-create-user",
   name: "Create User",
   description: "Creates a new user. [See the documentation](https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/insert)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

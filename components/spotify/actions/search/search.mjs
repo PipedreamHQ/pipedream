@@ -1,14 +1,16 @@
 import { ConfigurationError } from "@pipedream/platform";
 import spotify from "../../spotify.app.mjs";
 import {
-  ITEM_TYPES_LIST, ITEM_TYPES,
+  ITEM_TYPES_LIST,
+  ITEM_TYPES,
+  PAGE_SIZE,
 } from "../../common/constants.mjs";
 
 export default {
   key: "spotify-search",
   name: "Search",
   description: "Search for items on Spotify (tracks, albums, artists, playlists, shows, or episodes). [See the docs here](https://developer.spotify.com/documentation/web-api/reference/search)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -44,7 +46,7 @@ export default {
         "limit",
       ],
       description: "The maximum number of results to return per type.",
-      default: 20,
+      default: PAGE_SIZE,
       max: 50,
     },
     offset: {
@@ -73,6 +75,7 @@ export default {
     }
 
     const res = await this.spotify.search({
+      $,
       q: this.query,
       type: this.type.join(","),
       market: this.market,
