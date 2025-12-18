@@ -1,4 +1,4 @@
-import aircall from "../../aircall.app.mjs";
+import app from "../../aircall.app.mjs";
 
 export default {
     name: "Retrieve Transcription",
@@ -12,16 +12,16 @@ export default {
     },
     type: "action",
     props: {
-        aircall,
+        app,
         call: {
             propDefinition: [
-                aircall,
+                app,
                 "call",
             ],
         },
     },
     async run({ $ }) {
-        const { transcription } = await this.aircall.retrieveTranscription(this.call, $);
+        const { transcription } = await this.app.retrieveTranscription(this.call, $);
 
         $.export("$summary", `Successfully retrieved transcription with ID ${transcription.id}`);
 
