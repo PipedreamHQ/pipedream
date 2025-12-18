@@ -3,6 +3,14 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "google_maps_platform",
+  propDefinitions: {
+    simplified: {
+      type: "boolean",
+      label: "Simplified Response",
+      description: "If `true`, the response will contain a reduced set of fields",
+      optional: true,
+    },
+  },
   methods: {
     _baseUrl() {
       return "https://places.googleapis.com/v1/places";
