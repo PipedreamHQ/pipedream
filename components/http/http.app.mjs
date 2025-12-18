@@ -28,7 +28,6 @@ export default {
           .split(".")
           .reduce((obj, key) => obj?.[key], context) ?? "";
       });
-    }
     },
   },
 };
