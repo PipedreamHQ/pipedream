@@ -53,7 +53,7 @@ export default {
           startDate: this.startDate,
         },
       });
-      $.export("$summary", "Successfully retrieved contact signals");
+      $.export("$summary", `Successfully retrieved ${Object.keys(response.contacts).length} contact signals`);
 
       return response;
     } catch ({ response }) {

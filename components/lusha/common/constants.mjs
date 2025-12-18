@@ -31,3 +31,14 @@ export const COMPANY_SIGNALS_OPTIONS = [
     value: "newsEvent",
   },
 ];
+
+export const FILTER_BY_OPTIONS = [
+  {
+    label: "Only return contacts with phone numbers",
+    value: "phoneNumbers",
+  },
+  {
+    label: "Only return contacts with email addresses",
+    value: "emailAddresses",
+  },
+];

@@ -51,7 +51,7 @@ export default {
           startDate: this.startDate,
         },
       });
-      $.export("$summary", "Successfully searched for contact signals");
+      $.export("$summary", `Successfully searched for ${Object.keys(response.contacts).length} contact signals`);
 
       return response;
     } catch ({ response }) {

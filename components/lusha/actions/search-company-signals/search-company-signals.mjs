@@ -59,7 +59,7 @@ export default {
           startDate: this.startDate,
         },
       });
-      $.export("$summary", "Successfully searched for company signals");
+      $.export("$summary", `Successfully searched for ${Object.keys(response.companies).length} company signals`);
 
       return response;
     } catch ({ response }) {

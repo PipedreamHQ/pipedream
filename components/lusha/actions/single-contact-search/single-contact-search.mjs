@@ -1,4 +1,5 @@
 import { ConfigurationError } from "@pipedream/platform";
+import { FILTER_BY_OPTIONS } from "../../common/constants.mjs";
 import lusha from "../../lusha.app.mjs";
 
 export default {
@@ -61,16 +62,7 @@ export default {
       label: "Filter By",
       description: "Filters results based on specific contact details. By default, results will include contacts with at least one contact detail",
       optional: true,
-      options: [
-        {
-          label: "Only return contacts with phone numbers",
-          value: "phoneNumbers",
-        },
-        {
-          label: "Only return contacts with email addresses",
-          value: "emailAddresses",
-        },
-      ],
+      options: FILTER_BY_OPTIONS,
     },
     revealEmails: {
       type: "boolean",

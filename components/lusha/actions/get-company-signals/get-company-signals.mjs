@@ -51,7 +51,7 @@ export default {
           startDate: this.startDate,
         },
       });
-      $.export("$summary", "Successfully retrieved company signals");
+      $.export("$summary", `Successfully retrieved ${Object.keys(response.companies).length} company signals`);
 
       return response;
     } catch ({ response }) {
