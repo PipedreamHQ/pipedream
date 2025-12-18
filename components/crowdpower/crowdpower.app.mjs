@@ -37,7 +37,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://beacon.crowdpower.io/";
+      return "https://beacon.crowdpower.io";
     },
     async _makeRequest(opts = {}) {
       const {
