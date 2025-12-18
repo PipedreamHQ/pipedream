@@ -10,7 +10,7 @@ export default {
     summary: {
       type: "string",
       label: "Summary",
-      description: "An optional summary. This will be emitted as the `summary` metadata for the event. Example: `New item with ID: ${body.id}`",
+      description: "An optional summary. This will be emitted as the `summary` metadata for the event. Use dot notation to reference nested values. Example: `New item with ID: ${body.id}` or `User: ${body.user.name}`",
       optional: true,
     },
   },
