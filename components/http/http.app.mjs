@@ -16,12 +16,19 @@ export default {
   },
   methods: {
     interpolateSummary(summary, context) {
+      if (typeof summary !== "string") {
+        return "";
+      }
+      if (!context || typeof context !== "object") {
+        return summary;
+      }
       return summary.replace(/\$\{([^}]+)\}/g, (_, path) => {
         return path
           .trim()
           .split(".")
           .reduce((obj, key) => obj?.[key], context) ?? "";
       });
+    }
     },
   },
 };
