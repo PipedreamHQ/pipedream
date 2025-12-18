@@ -5,7 +5,7 @@ export default {
   name: "Get My Info",
   description:
     "Retrieve your account details. [See the docs here](https://api.surveymonkey.net/v3/docs?javascript#api-endpoints-get-users-me)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
