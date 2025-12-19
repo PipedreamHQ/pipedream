@@ -15,7 +15,7 @@ import { ControlSelect } from "./ControlSelect";
 import { ControlSql } from "./ControlSql";
 import { RemoteOptionsContainer } from "./RemoteOptionsContainer";
 import { sanitizeOption } from "../utils/type-guards";
-import { LabelValueOption } from "../types";
+import type { RawPropOption } from "../types";
 
 export type ControlProps<T extends ConfigurableProps, U extends ConfigurableProp> = {
   field: FormFieldContext<U>;
@@ -40,8 +40,9 @@ export function Control<T extends ConfigurableProps, U extends ConfigurableProp>
   }
 
   if ("options" in prop && Array.isArray(prop.options) && prop.options.length > 0) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const options: LabelValueOption<any>[] = (prop.options as any[]).map(sanitizeOption);
+    // Cast needed: SDK's prop.options union includes TimerInterval which doesn't match RawPropOption,
+    // but sanitizeOption handles arbitrary objects safely (see type-guards.ts:118-158)
+    const options = (prop.options as RawPropOption[]).map(sanitizeOption);
     return <ControlSelect options={options} components={{
       IndicatorSeparator: () => null,
     }} />;
