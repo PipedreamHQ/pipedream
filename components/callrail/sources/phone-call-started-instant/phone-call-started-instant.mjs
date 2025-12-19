@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "callrail-phone-call-started-instant",
   name: "Phone Call Started (Instant)",
-  description: "Emit new event when an  inbound phone call is received by CallRail. It contains the full data about the call.",
+  description: "Emit new event when an inbound phone call is received by CallRail. It contains the full data about the call.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
