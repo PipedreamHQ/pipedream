@@ -25,7 +25,7 @@ export default {
     companyId: {
       type: "string",
       label: "Company ID",
-      description: "The ID of the company you wish to use.",
+      description: "The ID of the company you wish to use",
       async options({
         accountId, page,
       }) {
