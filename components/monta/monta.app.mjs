@@ -14,7 +14,7 @@ export default {
             page,
           },
         });
-        return orders.map(({ Id: id }) => ({
+        return orders.map(({ WebshopOrderId: id }) => ({
           label: `Order ID: ${id}`,
           value: id,
         }));
@@ -55,7 +55,7 @@ export default {
       orderId, ...opts
     }) {
       return this._makeRequest({
-        path: `/orders/${orderId}`,
+        path: `/order/${orderId}`,
         ...opts,
       });
     },
@@ -63,7 +63,7 @@ export default {
       returnId, ...opts
     }) {
       return this._makeRequest({
-        path: `/returns/${returnId}`,
+        path: `/return/${returnId}`,
         ...opts,
       });
     },

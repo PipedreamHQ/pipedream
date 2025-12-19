@@ -5,7 +5,7 @@ export default {
   key: "apify-run-task-synchronously",
   name: "Run Task Synchronously",
   description: "Run a specific task and return its dataset items. [See the documentation](https://docs.apify.com/api/v2/actor-task-run-sync-get-dataset-items-get)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

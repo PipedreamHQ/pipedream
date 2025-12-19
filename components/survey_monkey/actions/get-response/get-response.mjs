@@ -6,8 +6,8 @@ export default {
   key: "survey_monkey-get-response",
   name: "Get Response Details",
   description:
-    "Get details for a Response. [See the docs here](https://api.surveymonkey.net/v3/docs?javascript#api-endpoints-get-collectors-collector_id-responses-response_id-)",
-  version: "0.0.2",
+    "Get details for a Response. [See the docs here](https://api.surveymonkey.com/v3/docs#api-endpoints-get-surveys-survey_id-responses-response_id-details)",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
