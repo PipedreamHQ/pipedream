@@ -54,6 +54,8 @@ export type RawPropOption<
   | NestedLabelValueOption<T>
   | { lv: LabelValueOption<T> | LabelValueOption<T>[] }
   | LabelValueOption<T>
+  | null
+  | undefined
 
 export type ConfigureComponentContext = Record<string, unknown>
 

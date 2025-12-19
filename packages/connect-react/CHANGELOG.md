@@ -2,6 +2,17 @@
 
 # Changelog
 
+## [2.5.0] - 2025-12-19
+
+### Added
+
+- Support for new app filtering options in `SelectApp` and `useApps`: `hasActions`, `hasTriggers`, `hasComponents`
+- Added `componentsOptions` prop to `SelectComponent` for passing additional options (e.g., `registry`) to the components list API
+
+### Changed
+
+- Updated `@pipedream/sdk` dependency to `^2.3.5`
+
 ## [2.4.1] - 2025-12-11
 
 ### Fixed
