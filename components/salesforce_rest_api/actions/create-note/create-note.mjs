@@ -17,7 +17,7 @@ export default {
   key: "salesforce_rest_api-create-note",
   name: "Create Note",
   description: `Creates a note. [See the documentation](${docsLink})`,
-  version: "0.3.4",
+  version: "0.3.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

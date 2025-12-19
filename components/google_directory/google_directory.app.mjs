@@ -132,6 +132,15 @@ export default {
         ...args,
       });
     },
+    addMemberToGroup({
+      groupId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/groups/${groupId}/members`,
+        method: "POST",
+        ...args,
+      });
+    },
     createUser(args = {}) {
       return this._makeRequest({
         path: "/users",

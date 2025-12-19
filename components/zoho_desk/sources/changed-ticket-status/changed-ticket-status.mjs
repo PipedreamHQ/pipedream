@@ -6,7 +6,7 @@ export default {
   name: "New Ticket Status Change",
   description: "Emit new event when a status ticket is changed. [See the docs here](https://desk.zoho.com/DeskAPIDocument#Tickets#Tickets_Listalltickets)",
   type: "source",
-  version: "0.0.8",
+  version: "0.0.9",
   dedupe: "unique",
   props: {
     ...common.props,

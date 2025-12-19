@@ -7,13 +7,15 @@ export default {
   propDefinitions: {
     keyValueStoreId: {
       type: "string",
-      label: "Key-Value Store Id",
-      description: "The Id of the key-value store.",
-      async options({ page }) {
+      label: "Key-Value Store ID",
+      description: "The ID of the key-value store",
+      async options({
+        page, unnamed = true,
+      }) {
         const { items } = await this.listKeyValueStores({
           offset: LIMIT * page,
           limit: LIMIT,
-          unnamed: true,
+          unnamed,
         });
 
         return items.map(({
@@ -26,34 +28,29 @@ export default {
     },
     actorId: {
       type: "string",
-      label: "Actor ID",
-      description: "Actor ID or a tilde-separated owner's username and Actor name",
+      label: "Actor",
+      description: "Select the Actor, enter the Actor ID, or use a tilde-separated combination of the owner's username and the Actor name.",
       async options({
         page, actorSource,
       }) {
         actorSource ??= "recently-used";
-        const listFn = actorSource === "store"
-          ? this.listActors
-          : this.listUserActors;
-        const { items } = await listFn({
-          offset: LIMIT * page,
-          limit: LIMIT,
+        return await this.getActorOptions({
+          page,
+          actorSource,
         });
-
-        return items.map((actor) => ({
-          label: this.formatActorOrTaskLabel(actor),
-          value: actor.id,
-        }));
       },
     },
     taskId: {
       type: "string",
       label: "Task ID",
-      description: "The ID of the task to monitor.",
-      async options({ page }) {
+      description: "The ID of the task to monitor",
+      async options({
+        page, desc = false,
+      }) {
         const { items } = await this.listTasks({
           offset: LIMIT * page,
           limit: LIMIT,
+          desc,
         });
 
         return items.map((task) => ({
@@ -149,6 +146,26 @@ export default {
         ],
       });
     },
+    async getActorOptions({
+      page = 0, actorSource = "recently-used",
+    }) {
+      const listFn = actorSource === "store"
+        ? this.listActors
+        : this.listUserActors;
+
+      const { items } = await listFn({
+        offset: LIMIT * page,
+        limit: LIMIT,
+      });
+
+      return items.map((actor) => ({
+        label: this.formatActorOrTaskLabel(actor),
+        value: actor.id,
+      }));
+    },
+    getAuthToken() {
+      return this.$auth.api_token;
+    },
     createHook(opts = {}) {
       return this._client().webhooks()
         .create(opts);
@@ -163,7 +180,7 @@ export default {
       return this._client().actor(actorId)
         .call(input, options);
     },
-    getActorRun({ runId }) {
+    getRun({ runId }) {
       return this._client().run(runId)
         .get();
     },
@@ -174,10 +191,10 @@ export default {
         .start(data, params);
     },
     runTask({
-      taskId, params,
+      taskId, params, input,
     }) {
       return this._client().task(taskId)
-        .start(params);
+        .start(input, params);
     },
     getActor({ actorId }) {
       return this._client().actor(actorId)
@@ -214,7 +231,6 @@ export default {
     listUserActors(opts = {}) {
       return this._client().actors()
         .list({
-          my: true,
           sortBy: "stats.lastRunStartedAt",
           desc: true,
           ...opts,
@@ -243,11 +259,19 @@ export default {
       return this._client().dataset(datasetId)
         .listItems(params);
     },
+    getKVSRecord(kvsId, recordKey) {
+      return this._client().keyValueStore(kvsId)
+        .getRecord(recordKey);
+    },
+    getKVSRecordUrl(kvsId, recordKey) {
+      return this._client().keyValueStore(kvsId)
+        .getRecordPublicUrl(recordKey);
+    },
     runTaskSynchronously({
-      taskId, params,
+      taskId, params, input,
     }) {
       return this._client().task(taskId)
-        .call({}, params);
+        .call(input, params);
     },
     setKeyValueStoreRecord({
       storeId, key, value, contentType,

@@ -168,7 +168,7 @@ Alternatively, you can provide a custom *Survey ID*.`,
     }) {
       return this._makeRequest({
         method: "GET",
-        path: `/surveys/${surveyId}/responses/${responseId}`,
+        path: `/surveys/${surveyId}/responses/${responseId}/details`,
         ...args,
       });
     },

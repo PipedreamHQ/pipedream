@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/browser_use",
+  "version": "0.0.1",
+  "description": "Pipedream Browser Use Components",
+  "main": "browser_use.app.mjs",
+  "keywords": [
+    "pipedream",
+    "browser_use"
+  ],
+  "homepage": "https://pipedream.com/apps/browser_use",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

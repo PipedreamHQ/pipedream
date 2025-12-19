@@ -4,7 +4,7 @@ export default {
   key: "google_directory-list-users",
   name: "List Users",
   description: "Retrieves a list of directory users. [See the documentation](https://developers.google.com/admin-sdk/directory/reference/rest/v1/users/list)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

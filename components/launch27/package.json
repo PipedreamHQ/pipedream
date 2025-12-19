@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/launch27",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Pipedream launch27 Components",
   "main": "launch27.app.mjs",
   "keywords": [

@@ -4,7 +4,7 @@ export default {
   key: "xero_accounting_api-get-contact",
   name: "Get Contact",
   description: "Gets details of a contact.",
-  version: "0.1.3",
+  version: "0.1.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -20,7 +20,13 @@ export default {
       ],
     },
     contactIdentifier: {
-      type: "string",
+      propDefinition: [
+        xeroAccountingApi,
+        "contactId",
+        (c) => ({
+          tenantId: c.tenantId,
+        }),
+      ],
       description: "Xero identifier of the contact to get. Possible values: \n* **ContactID** - The Xero identifier for a contact e.g. 297c2dc5-cc47-4afd-8ec8-74990b8761e9\n* **ContactNumber** -  A custom identifier specified from another system e.g. a CRM system has a contact number of CUST100",
       label: "Contact Identifier",
     },

@@ -16,7 +16,7 @@ export default {
   key: "salesforce_rest_api-update-contact",
   name: "Update Contact",
   description: `Updates a contact. [See the documentation](${docsLink})`,
-  version: "0.3.4",
+  version: "0.3.5",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
