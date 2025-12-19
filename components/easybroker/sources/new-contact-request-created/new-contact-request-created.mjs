@@ -50,10 +50,6 @@ export default {
         this._setLastCreated(maxCreated);
       }
 
-      if (max && contactRequests.length >= max) {
-        contactRequests = contactRequests.slice(0, max);
-      }
-
       for (const contactRequest of contactRequests) {
         this.$emit(contactRequest, this.generateMeta(contactRequest));
       }
