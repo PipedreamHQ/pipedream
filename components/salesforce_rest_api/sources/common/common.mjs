@@ -100,7 +100,6 @@ export default {
     getObjectTypeDescription(objectType) {
       const { salesforce } = this;
       return salesforce._makeRequest({
-        debug: true,
         url: salesforce._sObjectTypeDescriptionApiUrl(objectType),
       });
     },
@@ -121,7 +120,6 @@ export default {
       limit = 100, offset = 0, ...args
     } = {}) {
       return this.query({
-        debug: true,
         query: `
           SELECT ${columns.join(", ")}
             FROM ${objectType}

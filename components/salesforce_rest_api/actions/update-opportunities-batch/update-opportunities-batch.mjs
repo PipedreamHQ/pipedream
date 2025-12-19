@@ -5,7 +5,7 @@ export default {
   key: "salesforce_rest_api-update-opportunities-batch",
   name: "Update Opportunities (Batch)",
   description: "Update multiple Opportunities in Salesforce using Bulk API 2.0. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_asynch.meta/api_asynch/datafiles_understanding_bulk2_ingest.htm)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

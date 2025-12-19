@@ -5,7 +5,7 @@ export default {
   key: "salesforce_rest_api-convert-soap-xml-to-json",
   name: "Convert SOAP XML Object to JSON",
   description: "Converts a SOAP XML Object received from Salesforce to JSON",
-  version: "0.0.9",
+  version: "0.0.10",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

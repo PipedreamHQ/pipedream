@@ -8,7 +8,7 @@ export default {
   key: "salesforce_rest_api-create-case",
   name: "Create Case",
   description: `Creates a Case, which represents a customer issue or problem. [See the documentation](${docsLink})`,
-  version: "0.3.4",
+  version: "0.3.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
