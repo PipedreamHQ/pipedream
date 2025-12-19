@@ -159,6 +159,18 @@ export default {
         }));
       },
     },
+    orderId: {
+      type: "string",
+      label: "Order ID",
+      description: "Select an order or provide an order ID",
+      async options() {
+        const data = await this.listOrders();
+        return data.map((order) => ({
+          label: `${order.description || `Order ${order.id}`} - ${order.value || "N/A"}`,
+          value: order.id,
+        }));
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -332,6 +344,36 @@ export default {
     }) {
       return this._makeRequest({
         url: `/nps/${npsId}`,
+        ...args,
+      });
+    },
+    async listOrders(args = {}) {
+      return this._makeRequest({
+        url: "/orders",
+        ...args,
+      });
+    },
+    async getOrder({
+      orderId, ...args
+    }) {
+      return this._makeRequest({
+        url: `/orders/${orderId}`,
+        ...args,
+      });
+    },
+    async createOrder(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        url: "/orders",
+        ...args,
+      });
+    },
+    async updateOrder({
+      orderId, ...args
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        url: `/orders/${orderId}`,
         ...args,
       });
     },
