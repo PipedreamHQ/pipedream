@@ -11,7 +11,7 @@ const props = adjustPropDefinitions(others.props, app);
 export default {
   ...others,
   key: "apify_oauth-scrape-single-url",
-  version: "0.0.2",
+  version: "0.0.3",
   name,
   description,
   type,

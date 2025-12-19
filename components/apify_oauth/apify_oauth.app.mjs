@@ -9,9 +9,12 @@ export default {
   },
   methods: {
     ...common.methods,
+    getAuthToken() {
+      return this.$auth.oauth_access_token;
+    },
     _client() {
       return new ApifyClient({
-        token: this.$auth.oauth_access_token,
+        token: this.getAuthToken(),
         requestInterceptors: [
           (config) => ({
             ...config,

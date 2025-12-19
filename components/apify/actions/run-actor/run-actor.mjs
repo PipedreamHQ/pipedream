@@ -7,7 +7,7 @@ export default {
   key: "apify-run-actor",
   name: "Run Actor",
   description: "Performs an execution of a selected Actor in Apify. [See the documentation](https://docs.apify.com/api/v2#/reference/actors/run-collection/run-actor)",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -137,14 +137,18 @@ export default {
       const newData = {};
       const { properties } = await this.getSchema(this.actorId, this.buildTag);
 
+      // Iterate over properties from the schema because newData might contain additional fields
       for (const [
         key,
         value,
-      ] of Object.entries(data)) {
-        const editor = properties[key]?.editor || "hidden";
-        newData[key] = Array.isArray(value)
-          ? value.map((item) => this.setValue(editor, item))
-          : value;
+      ] of Object.entries(properties)) {
+        const propValue = data[key];
+        if (propValue === undefined) continue;
+
+        const editor = value.editor || "hidden";
+        newData[key] = Array.isArray(propValue)
+          ? propValue.map((item) => this.setValue(editor, item))
+          : this.setValue(editor, propValue);
       }
       return newData;
     },
@@ -170,6 +174,10 @@ export default {
         return {
           glob: item,
         };
+      case "json":
+      case "schemaBased":
+        if (typeof item === "string") return JSON.parse(item);
+        return item;
       default:
         return item;
       }
@@ -204,22 +212,26 @@ export default {
           if (value.unit) {
             props[key].description += ` Unit: ${value.unit}.`;
           }
-        } else if (props[key].type === "boolean") {
-          // Default all boolean properties to false
-          props[key].default = false;
         }
 
         const options = this.prepareOptions(value);
-        if (options) props[key].options = options;
+        if (options) props[key].options = options.filter((option) => option.value !== "" && option.label !== "");
 
-        const defaultValue = value.prefill ?? value.default;
+        // We're using prefill here as a suggestion for the user. Using default value would be
+        // redundant as the default value is inserted by the Apify platform.
+        // More info: https://docs.apify.com/platform/actors/development/actor-definition/input-schema/specification/v1#prefill-vs-default-vs-required
+        const defaultValue = value.prefill;
 
         if (defaultValue !== undefined) {
-          if (props[key].type !== "object") {
-            props[key].default = defaultValue;
+          props[key].default = defaultValue;
 
-            if (props[key].type === "string[]" && value.editor === "requestListSources") {
+          if (props[key].type === "string[]") {
+            if (value.editor === "requestListSources") {
               props[key].default = defaultValue.map((request) => request.url);
+            }
+
+            if (value.editor === "json" || value.editor === "schemaBased") {
+              props[key].default = defaultValue.map((item) => JSON.stringify(item));
             }
           }
 
@@ -297,9 +309,13 @@ export default {
     }
 
     // Prepare input
-    const rawInput = this.properties
-      ? parseObject(this.properties)
-      : data;
+    // Use data (dynamic props from schema) if it has any keys,
+    // otherwise fall back to this.properties (fallback object prop)
+    const rawInput = Object.keys(data).length > 0
+      ? data
+      : (this.properties
+        ? parseObject(this.properties)
+        : {});
     const input = await this.prepareData(rawInput);
 
     // Build params safely

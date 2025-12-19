@@ -6,12 +6,17 @@ export default {
   key: "google_calendar-upcoming-event-alert",
   name: "New Upcoming Event Alert",
   description: "Emit new event based on a time interval before an upcoming event in the calendar.",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "source",
   props: {
     googleCalendar,
     db: "$.service.db",
     http: "$.interface.http",
+    pollingInfo: {
+      type: "alert",
+      alertType: "info",
+      content: "This source requires a Pipedream API key to provide instant events. Alternatively, you can use the `upcoming-event-alert-polling` source instead, which operates on a timer and does not require a Pipedream API key.",
+    },
     pipedreamApiKey: {
       type: "string",
       label: "Pipedream API Key",

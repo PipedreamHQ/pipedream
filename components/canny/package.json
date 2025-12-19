@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/canny",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Pipedream canny Components",
   "main": "canny.app.mjs",
   "keywords": [

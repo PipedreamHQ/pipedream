@@ -1,4 +1,3 @@
-import { axios } from "@pipedream/platform";
 import spotify from "../../spotify.app.mjs";
 import { ITEM_TYPES } from "../../common/constants.mjs";
 
@@ -7,7 +6,7 @@ export default {
   description:
     "Get the object currently being played on the user's Spotify account. [See the documentation](https://developer.spotify.com/documentation/web-api/reference/get-the-users-currently-playing-track)",
   key: "spotify-get-currently-playing-track",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -28,20 +27,17 @@ export default {
     const { market } = this;
 
     try {
-      const res = await axios(
+      const { data: res } = await this.spotify._makeRequest({
         $,
-        this.spotify._getAxiosParams({
-          method: "GET",
-          path: "/me/player/currently-playing",
-          params: {
-            market,
-            additional_types: [
-              ITEM_TYPES.TRACK,
-              ITEM_TYPES.EPISODE,
-            ].join(","),
-          },
-        }),
-      );
+        url: "/me/player/currently-playing",
+        params: {
+          market,
+          additional_types: [
+            ITEM_TYPES.TRACK,
+            ITEM_TYPES.EPISODE,
+          ].join(","),
+        },
+      });
 
       const itemType = res?.currently_playing_type || "track";
       const itemName = res?.item?.name || "Nothing";
