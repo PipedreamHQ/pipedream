@@ -49,7 +49,7 @@ export default {
     });
 
     const { body } = event;
-    if (!body) {
+    if (!body || !body.response) {
       return;
     }
 
