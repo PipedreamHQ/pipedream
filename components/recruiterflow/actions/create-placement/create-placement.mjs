@@ -1,5 +1,6 @@
 import app from "../../recruiterflow.app.mjs";
 import utils from "../../common/utils.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "recruiterflow-create-placement",
@@ -54,7 +55,6 @@ export default {
       type: "string",
       label: "Billing Date",
       description: "The billing date (`YYYY-MM-DD` format, e.g., `2021-01-12`)",
-      optional: true,
     },
     salaryAmount: {
       type: "integer",
@@ -119,8 +119,9 @@ export default {
     payRateFrequency: {
       type: "string",
       label: "Pay Rate Frequency",
-      description: "The frequency of the pay rate (e.g., `Hourly`, `Daily`, `Weekly`, `Monthly`, `Yearly`)",
+      description: "The frequency of the pay rate",
       optional: true,
+      options: constants.RATE_FREQUENCIES,
     },
     billRateAmount: {
       type: "integer",
@@ -137,8 +138,9 @@ export default {
     billRateFrequency: {
       type: "string",
       label: "Bill Rate Frequency",
-      description: "The frequency of the bill rate (e.g., `Hourly`, `Daily`, `Weekly`, `Monthly`, `Yearly`)",
+      description: "The frequency of the bill rate",
       optional: true,
+      options: constants.RATE_FREQUENCIES,
     },
     isFullTime: {
       type: "boolean",
