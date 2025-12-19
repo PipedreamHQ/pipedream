@@ -20,11 +20,20 @@ export default {
   },
   methods: {
     ...common.methods,
-    getConfigs(endpoint) {
+    getConfigs(config = {}, endpoint) {
       return {
+        ...config,
         post_call_webhook: [
+          ...(config.post_call_webhook || []),
           endpoint,
         ],
+      };
+    },
+    removeConfig(config = {}, url) {
+      return {
+        ...config,
+        post_call_webhook: (config.post_call_webhook || [])
+          .filter((endpoint) => endpoint !== url),
       };
     },
     getSummary(details) {

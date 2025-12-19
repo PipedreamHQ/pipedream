@@ -11,11 +11,20 @@ export default {
   dedupe: "unique",
   methods: {
     ...common.methods,
-    getConfigs(endpoint) {
+    getConfigs(config = {}, endpoint) {
       return {
+        ...config,
         sms_received_webhook: [
+          ...(config.sms_received_webhook || []),
           endpoint,
         ],
+      };
+    },
+    removeConfig(config = {}, url) {
+      return {
+        ...config,
+        sms_received_webhook: (config.sms_received_webhook || [])
+          .filter((endpoint) => endpoint !== url),
       };
     },
     getSummary(details) {

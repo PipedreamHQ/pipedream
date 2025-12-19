@@ -5,6 +5,21 @@ export default {
     callrail,
     db: "$.service.db",
     http: "$.interface.http",
+    accountId: {
+      propDefinition: [
+        callrail,
+        "accountId",
+      ],
+    },
+    companyId: {
+      propDefinition: [
+        callrail,
+        "companyId",
+        ({ accountId }) => ({
+          accountId,
+        }),
+      ],
+    },
   },
   methods: {
     _setWebhookId(id) {
@@ -13,40 +28,55 @@ export default {
     _getWebhookId() {
       return this.db.get("webhookId");
     },
-    _setAccountId(id) {
-      this.db.set("accountId", id);
-    },
-    _getAccountId() {
-      return this.db.get("accountId");
+    async getWebhook() {
+      const response = this.callrail.paginate({
+        fn: this.callrail.listIntegrations,
+        accountId: this.accountId,
+        params: {
+          company_id: this.companyId,
+        },
+        dataField: "integrations",
+      });
+
+      const integrations = [];
+      for await (const item of response) {
+        if (item.type === "Webhooks") {
+          integrations.push(item);
+        }
+      }
+
+      return integrations[0];
     },
   },
   hooks: {
     async activate() {
-      let accountId = await this._getAccountId();
-      if (!accountId) {
-        const {
-          accounts: [
-            { id },
-          ],
-        } = await this.callrail.getAccounts();
-        accountId = id;
-        this._setAccountId(accountId);
-      }
-      const response = await this.callrail.createHook({
-        accountId,
+      const webhook = await this.getWebhook();
+
+      let hookFn = webhook
+        ? this.callrail.updateHook
+        : this.callrail.createHook;
+
+      const hookResponse = await hookFn({
+        accountId: this.accountId,
+        integrationId: webhook?.id,
         data: {
           type: "Webhooks",
-          config: this.getConfigs(this.http.endpoint),
+          state: "active",
+          config: this.getConfigs(webhook?.config, this.http.endpoint),
+          company_id: this.companyId,
         },
       });
-      this._setWebhookId(response.id);
+      this._setWebhookId(hookResponse.id);
     },
     async deactivate() {
-      const accountId = await this._getAccountId();
-      const webhookId = this._getWebhookId();
-      await this.callrail.deleteHook({
-        accountId,
-        webhookId,
+      const webhook = await this.getWebhook();
+
+      await this.callrail.updateHook({
+        accountId: this.accountId,
+        integrationId: webhook.id,
+        data: {
+          config: this.removeConfig(webhook.config, this.http.endpoint),
+        },
       });
     },
   },
