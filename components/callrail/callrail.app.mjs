@@ -7,7 +7,7 @@ export default {
     accountId: {
       type: "string",
       label: "Account ID",
-      description: "The ID of the account you wish to use.",
+      description: "The ID of the account you wish to use",
       async options({ page }) {
         const { accounts } = await this.listAccounts({
           params: {
