@@ -1059,8 +1059,8 @@ importers:
   components/apify_oauth:
     dependencies:
       '@pipedream/apify':
-        specifier: ^0.3.1
-        version: 0.3.1
+        specifier: ^0.4.0
+        version: 0.4.0
       apify-client:
         specifier: ^2.17.0
         version: 2.19.0
@@ -20945,8 +20945,8 @@ packages:
   '@pinojs/redact@0.4.0':
     resolution: {integrity: sha512-k2ENnmBugE/rzQfEcdWHcCY+/FM3VLzH9cYEsbdsoqrvzAKRhUZeRNhAZvB8OitQJ1TBed3yqWtdjzS6wJKBwg==}
 
-  '@pipedream/apify@0.3.1':
-    resolution: {integrity: sha512-9PQ8Vypl5EttSEQ9NEEDYzEHmDIdhv0A2kwXSU+3efYC9BnXr1QFuFQiQDT9bJelA6ue5K7jp+zX8s15l93mow==}
+  '@pipedream/apify@0.4.0':
+    resolution: {integrity: sha512-eImB63aWX9D9OJ07yRwHlErmWR7a64+c5xq2JFdYTUCA3t8mIpoK3Nb9jCesI9TtHCJB6r+HRrmeHDGqO/pkbQ==}
 
   '@pipedream/aws@1.1.1':
     resolution: {integrity: sha512-BsvH3csJmS6Kd18frdlu435yy7C/wF2CIE3JKc5ysenE2zKbMFrbzGwyKjbcHJJUHLIyduvNdtvSVqOSraMecA==}
@@ -38647,7 +38647,7 @@ snapshots:
 
   '@pinojs/redact@0.4.0': {}
 
-  '@pipedream/apify@0.3.1':
+  '@pipedream/apify@0.4.0':
     dependencies:
       '@apify/consts': 2.47.0
       '@pipedream/platform': 3.1.1

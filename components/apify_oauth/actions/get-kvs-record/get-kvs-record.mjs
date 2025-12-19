@@ -1,5 +1,5 @@
 import app from "../../apify_oauth.app.mjs";
-import common from "@pipedream/apify/actions/run-actor/run-actor.mjs";
+import common from "@pipedream/apify/actions/get-kvs-record/get-kvs-record.mjs";
 
 import { adjustPropDefinitions } from "../../common/utils.mjs";
 
@@ -10,8 +10,8 @@ const props = adjustPropDefinitions(others.props, app);
 
 export default {
   ...others,
-  key: "apify_oauth-run-actor",
-  version: "0.0.3",
+  key: "apify_oauth-get-kvs-record",
+  version: "0.0.1",
   name,
   description,
   type,
