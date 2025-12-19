@@ -23,6 +23,7 @@ export default {
       type: "string",
       label: "API Key",
       description: "The API key of the workflow you want to trigger. You can find it in the webhook settings of the workflow.",
+      secret: true,
     },
     data: {
       type: "object",
@@ -42,7 +43,7 @@ export default {
       ...data,
     });
 
-    $.export("$summary", "Successfully triggered workflow");
+    $.export("$summary", `Successfully triggered workflow with ID \`${this.workflowId}\``);
     return response;
   },
 };

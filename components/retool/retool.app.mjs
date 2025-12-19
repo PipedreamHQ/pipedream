@@ -41,6 +41,7 @@ export default {
       workflowId, apiKey, ...args
     }) {
       return this._makeRequest({
+        method: "POST",
         path: `/workflows/${workflowId}/startTrigger`,
         headers: {
           "Content-Type": "application/json",

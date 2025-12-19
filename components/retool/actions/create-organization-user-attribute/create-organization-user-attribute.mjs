@@ -3,7 +3,7 @@ import app from "../../retool.app.mjs";
 export default {
   key: "retool-create-organization-user-attribute",
   name: "Create Organization User Attribute",
-  description: "Create a new user attribute for the organization. [See the documentation](https://docs.retool.com/reference/api/v2#tag/User-Attributes/paths/~1user_attributes/post).",
+  description: "Create a new user attribute for the organization. [See the documentation](https://docs.retool.com/api/create-a-new-user-attribute-for-the-organization).",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -41,7 +41,6 @@ export default {
       optional: true,
     },
   },
-  methods: {},
   async run({ $ }) {
     const {
       app,
@@ -53,7 +52,7 @@ export default {
       data,
     });
 
-    $.export("$summary", `Successfully created organization user attribute with ID \`${response.data.id}\``);
+    $.export("$summary", `Successfully created organization user attribute with name \`${response.data.id}\``);
     return response;
   },
 };

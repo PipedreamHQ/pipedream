@@ -3,7 +3,7 @@ import app from "../../retool.app.mjs";
 export default {
   key: "retool-create-user",
   name: "Create User",
-  description: "Creates a new user. [See the documentation](https://docs.retool.com/reference/api/v2#tag/Users/paths/~1users/post).",
+  description: "Creates a new user. [See the documentation](https://docs.retool.com/api/create-user).",
   version: "0.0.1",
   type: "action",
   annotations: {
