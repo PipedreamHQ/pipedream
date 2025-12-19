@@ -15,7 +15,7 @@ export default {
       let maxCreated = lastCreated;
       let page = 1;
       let contactRequests = [];
-      let hasMore = true;
+      let done = false, hasMore = true;
 
       do {
         const {
@@ -33,13 +33,18 @@ export default {
             if (!maxCreated || Date.parse(contactRequest.happened_at) > Date.parse(maxCreated)) {
               maxCreated = contactRequest.happened_at;
             }
+            if (max && contactRequests.length >= max) {
+              done = true;
+              break;
+            }
           } else {
+            done = true;
             break;
           }
         }
         hasMore = pagination.next_page !== null;
         page++;
-      } while (hasMore);
+      } while (hasMore && !done);
 
       if (maxCreated) {
         this._setLastCreated(maxCreated);
