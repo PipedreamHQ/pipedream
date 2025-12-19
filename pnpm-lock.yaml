@@ -5408,8 +5408,7 @@ importers:
 
   components/flotiq: {}
 
-  components/flowii:
-    specifiers: {}
+  components/flowii: {}
 
   components/flowiseai:
     dependencies:
@@ -6702,8 +6701,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/hailey_hr:
-    specifiers: {}
+  components/hailey_hr: {}
 
   components/halo_service_solutions: {}
 
@@ -10139,8 +10137,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/nuvemshop:
-    specifiers: {}
+  components/nuvemshop: {}
 
   components/nvoip: {}
 
@@ -13819,8 +13816,7 @@ importers:
 
   components/simplebackups: {}
 
-  components/simpleem:
-    specifiers: {}
+  components/simpleem: {}
 
   components/simplehash: {}
 
@@ -14554,8 +14550,7 @@ importers:
 
   components/sugarcrm_: {}
 
-  components/suitecrm:
-    specifiers: {}
+  components/suitecrm: {}
 
   components/suitedash:
     dependencies:
@@ -17539,8 +17534,8 @@ importers:
   packages/connect-react:
     dependencies:
       '@pipedream/sdk':
-        specifier: ^2.3.4
-        version: 2.3.4
+        specifier: ^2.3.5
+        version: 2.3.5
       '@tanstack/react-query':
         specifier: ^5.59.16
         version: 5.90.9(react@18.3.1)
@@ -21000,8 +20995,8 @@ packages:
     resolution: {integrity: sha512-nJG6+CsM4QhTD4lgU1tq3ejDieVJmp29DS6COLixdsDHbF8BfSNOxpkHqXKxii91DTm2aZ+WCjbtT5BHTSGcvQ==}
     engines: {node: '>=18.0.0'}
 
-  '@pipedream/sdk@2.3.4':
-    resolution: {integrity: sha512-Y9IKWPYsnJJGpOLFQcso1hWPP4xGGVCJhuNtxtOKYKAAqIu5YC5Gqln8XOaOGFa57KFiuyn7Nkuoa2ABn0hDGg==}
+  '@pipedream/sdk@2.3.5':
+    resolution: {integrity: sha512-Nsmpp/5woVGHIhOSzy43m4Sj5y2DkdTQkqdJD2YU6sJhHBXMD9Up+7K5OoVUXltpRkqTx5gQIE3kujs2HOGONQ==}
     engines: {node: '>=18.0.0'}
 
   '@pipedream/sftp@0.5.1':
@@ -38922,7 +38917,7 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@pipedream/sdk@2.3.4': {}
+  '@pipedream/sdk@2.3.5': {}
 
   '@pipedream/sftp@0.5.1':
     dependencies:
