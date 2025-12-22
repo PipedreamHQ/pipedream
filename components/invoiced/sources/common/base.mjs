@@ -42,7 +42,7 @@ export default {
 
       let responseArray = [];
       for await (const item of response) {
-        if (item === lastDate) break;
+        if (item[dateField] <= lastDate) break;
         responseArray.push(item);
       }
 

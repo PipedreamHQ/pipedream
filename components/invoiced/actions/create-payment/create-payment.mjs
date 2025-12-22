@@ -58,7 +58,7 @@ export default {
     source: {
       type: "string",
       label: "Source",
-      description: "Source of the payment, defualts to **keyed**",
+      description: "Source of the payment, defaults to **keyed**",
       optional: true,
     },
     notes: {

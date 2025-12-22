@@ -99,7 +99,7 @@ export default {
       description: "Customer language [Two-letter ISO code](https://en.wikipedia.org/wiki/ISO_639-1)",
       optional: true,
     },
-    curreny: {
+    currency: {
       type: "string",
       label: "Currency",
       description: "Customer currency [3-letter ISO code](https://en.wikipedia.org/wiki/ISO_4217)",
@@ -182,7 +182,7 @@ export default {
       description: "[Avalara-specific entity use code](https://help.avalara.com/Avalara_AvaTax_Update/Exemption_Reason_Matrix_for_US_and_Canada)",
       optional: true,
     },
-    avalaraExempltionNumber: {
+    avalaraExemptionNumber: {
       type: "string",
       label: "Avalara Exemption Number",
       description: "Tax-exempt number to pass to [Avalara](https://docs.invoiced.com/integrations/avalara)",

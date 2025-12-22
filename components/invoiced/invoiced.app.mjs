@@ -129,7 +129,8 @@ export default {
   },
   methods: {
     _getBaseUrl() {
-      return "https://api.invoiced.com";
+      return "https://api.sandbox.invoiced.com";
+      // return "https://api.invoiced.com";
     },
     _getAuth() {
       return {
