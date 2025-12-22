@@ -36,7 +36,6 @@ export default {
       type: "string",
       label: "Email",
       description: "The email address of the contact making the request",
-      optional: true,
     },
     phone: {
       type: "string",
@@ -48,7 +47,6 @@ export default {
       type: "string",
       label: "Message",
       description: "The message from the contact making the request. Example: `I'm interested in the property.`",
-      optional: true,
     },
   },
   async run({ $ }) {
