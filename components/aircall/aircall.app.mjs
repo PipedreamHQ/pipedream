@@ -149,5 +149,11 @@ export default {
         },
       });
     },
+    async retrieveTranscription(id, $) {
+      return this._makeRequest({
+        path: `calls/${id}/transcription`,
+        $,
+      });
+    },
   },
 };
