@@ -4,7 +4,7 @@ export default {
   key: "trengo-get-block",
   name: "Get Block",
   description: "Get a specific block. [See the documentation](https://developers.trengo.com/reference/get-a-block)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

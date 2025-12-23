@@ -4,7 +4,7 @@ export default {
   key: "trengo-get-article",
   name: "Get Article",
   description: "Get a specific article. [See the documentation](https://developers.trengo.com/reference/get-an-article)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
