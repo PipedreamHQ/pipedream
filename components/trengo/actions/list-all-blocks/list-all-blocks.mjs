@@ -5,7 +5,7 @@ export default {
   key: "trengo-list-all-blocks",
   name: "List All Blocks",
   description: "List all blocks in a help center. [See the documentation](https://developers.trengo.com/reference/list-all-blocks)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
