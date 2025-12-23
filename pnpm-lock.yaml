@@ -7741,6 +7741,9 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
+  components/jlcpcb:
+    specifiers: {}
+
   components/jobber:
     dependencies:
       '@pipedream/platform':
