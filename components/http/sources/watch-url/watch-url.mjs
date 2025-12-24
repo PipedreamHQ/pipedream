@@ -6,7 +6,7 @@ export default {
   key: "http-watch-url",
   name: "New event when the content of the URL changes.",
   description: "Emit new event when the content of the URL changes.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/http",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "Pipedream Http Components",
   "main": "http.app.mjs",
   "keywords": [
@@ -14,7 +14,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.6.8",
+    "@pipedream/platform": "^3.1.1",
     "object-hash": "^3.0.0"
   }
 }
