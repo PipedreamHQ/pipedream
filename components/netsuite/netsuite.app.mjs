@@ -174,7 +174,6 @@ export default {
       $ = this, path, headers, ...opts
     }) {
       return axios($, {
-        debug: true,
         url: this.getUrl(path),
         headers: this._headers(headers),
         ...opts,
