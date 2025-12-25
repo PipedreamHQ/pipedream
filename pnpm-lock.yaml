@@ -4716,6 +4716,9 @@ importers:
 
   components/elasticemail: {}
 
+  components/element:
+    specifiers: {}
+
   components/elevenlabs:
     dependencies:
       '@pipedream/platform':
