@@ -7,7 +7,7 @@ export default {
   key: "jira-update-comment",
   name: "Update Comment",
   description: "Updates a comment. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-comments/#api-rest-api-3-issue-issueidorkey-comment-id-put)",
-  version: "0.1.15",
+  version: "0.1.16",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

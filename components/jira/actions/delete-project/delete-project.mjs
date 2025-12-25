@@ -4,7 +4,7 @@ export default {
   key: "jira-delete-project",
   name: "Delete Project",
   description: "Deletes a project. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-projects/#api-rest-api-3-project-projectidorkey-delete)",
-  version: "0.1.15",
+  version: "0.1.16",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
