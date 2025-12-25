@@ -1643,6 +1643,9 @@ importers:
 
   components/beeminder: {}
 
+  components/beeper:
+    specifiers: {}
+
   components/belco:
     dependencies:
       '@pipedream/platform':
