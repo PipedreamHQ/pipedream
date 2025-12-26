@@ -6,7 +6,7 @@ export default {
   key: "aws-new-sqs-event",
   name: "New SQS Messages",
   description: "Emit new events when new messages are available in an AWS SQS Queue. [See the documentation](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_ReceiveMessage.html)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {

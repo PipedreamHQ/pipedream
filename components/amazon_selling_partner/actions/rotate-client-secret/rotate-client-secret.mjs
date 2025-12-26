@@ -4,7 +4,7 @@ export default {
   key: "amazon_selling_partner-rotate-client-secret",
   name: "Rotate Client Secret",
   description: "Rotates the application client secret using the Application Management API. The new secret will be sent to your pre-registered Amazon SQS queue. **IMPORTANT:** The old credential expires after 7 days. [See the documentation](https://developer-docs.amazon.com/sp-api/docs/application-management-api#rotateapplicationclientsecret)",
-  version: "0.0.6",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
