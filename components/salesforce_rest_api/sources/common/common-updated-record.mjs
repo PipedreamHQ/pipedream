@@ -170,7 +170,10 @@ export default {
         latestEvent,
       ] = events;
 
-      const latestDateCovered = new Date(latestEvent?.LastModifiedDate || endTimestamp);
+      let latestDateCovered = new Date(latestEvent?.LastModifiedDate || endTimestamp);
+      if (isNaN(latestDateCovered.getMilliseconds())) {
+        latestDateCovered = new Date();
+      }
       latestDateCovered.setSeconds(0);
       setLatestDateCovered(latestDateCovered.toISOString());
 
