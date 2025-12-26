@@ -3346,8 +3346,8 @@ importers:
   components/constant_contact:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.8
-        version: 1.6.8
+        specifier: ^3.1.1
+        version: 3.1.1
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -7745,8 +7745,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/jlcpcb:
-    specifiers: {}
+  components/jlcpcb: {}
 
   components/jobber:
     dependencies:
