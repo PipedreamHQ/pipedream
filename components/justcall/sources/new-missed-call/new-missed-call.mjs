@@ -5,24 +5,20 @@ export default {
   key: "justcall-new-missed-call",
   name: "New Missed Call (Instant)",
   description: "Emit new event when a call is missed.",
-  version: "0.0.1",
+  version: "0.1.0",
   dedupe: "unique",
   type: "source",
   methods: {
     ...common.methods,
-    getTopicId() {
-      return 1;
+    getWebhookType() {
+      return "call.missed";
     },
     generateMeta(data) {
-      if (data.call_status != "no-answer") return false;
-
-      const {
-        callid, datetime,
-      } = data;
+      const { request_id: id } = data;
       return {
-        id: callid,
-        summary: `New missed call with id: ${callid}!`,
-        ts: Date.parse(datetime),
+        id,
+        summary: `New missed call with id: ${id}!`,
+        ts: Date.now(),
       };
     },
   },
