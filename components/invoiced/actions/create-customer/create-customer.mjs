@@ -252,6 +252,7 @@ export default {
   },
   async run({ $ }) {
     const {
+      invoiced,
       creditLimit,
       taxes,
       disabledPaymentMethods,
@@ -262,7 +263,7 @@ export default {
     if (taxes) data.taxes = parseObject(taxes);
     if (disabledPaymentMethods) data.disabled_payment_methods = parseObject(disabledPaymentMethods);
 
-    const response = await this.invoiced.createCustomer({
+    const response = await invoiced.createCustomer({
       $,
       data: objectCamelToSnakeCase(data),
     });
