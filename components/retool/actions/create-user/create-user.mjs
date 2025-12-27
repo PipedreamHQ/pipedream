@@ -1,3 +1,4 @@
+import { USER_TYPE_OPTIONS } from "../../common/constants.mjs";
 import app from "../../retool.app.mjs";
 
 export default {
@@ -46,11 +47,7 @@ export default {
       label: "User Type",
       description: "The type of the user.",
       optional: true,
-      options: [
-        "default",
-        "mobile",
-        "embed",
-      ],
+      options: USER_TYPE_OPTIONS,
     },
   },
   async run({ $ }) {

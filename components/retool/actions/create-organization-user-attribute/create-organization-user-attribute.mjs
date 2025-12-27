@@ -1,3 +1,4 @@
+import { DATA_TYPE_OPTIONS } from "../../common/constants.mjs";
 import app from "../../retool.app.mjs";
 
 export default {
@@ -28,11 +29,7 @@ export default {
       type: "string",
       label: "Data Type",
       description: "The data type of the attribute",
-      options: [
-        "string",
-        "json",
-        "number",
-      ],
+      options: DATA_TYPE_OPTIONS,
     },
     defaultValue: {
       type: "string",
@@ -52,7 +49,7 @@ export default {
       data,
     });
 
-    $.export("$summary", `Successfully created organization user attribute with name \`${response.data.id}\``);
+    $.export("$summary", `Successfully created organization user attribute with ID: \`${response.data.id}\``);
     return response;
   },
 };
