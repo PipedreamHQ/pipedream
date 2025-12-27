@@ -22,7 +22,7 @@ export default {
     emailCampaignActivities: {
       type: "string[]",
       label: "Email Campaign Activities",
-      description: "Array of objects that describe the email campaign activities for the email campaign. **Example: [{ \"format_type\": 5, \"from_name\": \"Name Test\", \"subject\": \"Test Email\", \"from_name\": \"Test Sender\", \"from_email\": \"test@example.com\", \"reply_to_email\": \"test@example.com\", \"subject\": \"Test Email\", \"html_content\": \"<html><body>Hello, world!</body></html>\" }]** [See the documentation](https://developer.constantcontact.com/api_reference/index.html#tag/Email-Campaigns/operation/createEmailCampaignUsingPOST) for more information",
+      description: "Array of objects that describe the email campaign activities for the email campaign. **Example: [{ \"format_type\": 5, \"from_name\": \"Name Test\", \"subject\": \"Test Email\", \"from_email\": \"test@example.com\", \"reply_to_email\": \"test@example.com\", \"html_content\": \"<html><body>Hello, world!</body></html>\" }]** [See the documentation](https://developer.constantcontact.com/api_reference/index.html#tag/Email-Campaigns/operation/createEmailCampaignUsingPOST) for more information",
     },
   },
   async run({ $ }) {

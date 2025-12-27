@@ -147,7 +147,7 @@ export default {
       list_memberships: parseObject(this.listMemberships),
       custom_fields: parseObject(this.customFields),
       anniversary: this.anniversary,
-      street_addresses: {
+      street_address: {
         kind: this.addressType,
         street: this.addressStreet,
         city: this.addressCity,

@@ -1,3 +1,4 @@
+import { ADDRESS_TYPE_OPTIONS } from "../../common/constants.mjs";
 import { prepareData } from "../../common/utils.mjs";
 import constantContact from "../../constant_contact.app.mjs";
 
@@ -159,11 +160,7 @@ export default {
         type: "string",
         label: `Address Kind ${i + 1}`,
         description: `The kind of the address ${i + 1}.`,
-        options: [
-          "home",
-          "work",
-          "other",
-        ],
+        options: ADDRESS_TYPE_OPTIONS,
       };
       props[`streetAddressStreet_${i}`] = {
         type: "string",
