@@ -129,7 +129,7 @@ export default {
   },
   methods: {
     _getBaseUrl() {
-      return "https://api.invoiced.com";
+      return `${this.$auth.environment}`;
     },
     _getAuth() {
       return {
