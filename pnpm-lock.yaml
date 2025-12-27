@@ -11792,6 +11792,9 @@ importers:
 
   components/prismic: {}
 
+  components/privatebin:
+    specifiers: {}
+
   components/pro_ledger:
     dependencies:
       '@pipedream/platform':
