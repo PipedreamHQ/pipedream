@@ -651,6 +651,14 @@ export default {
         ...opts,
       });
     },
+    listProgressTrail({
+      incidentId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/tas/api/incidents/id/${incidentId}/progresstrail`,
+        ...opts,
+      });
+    },
     async *paginate({
       fn,
       fnArgs = {},
@@ -665,7 +673,7 @@ export default {
           ...fnArgs,
           params: {
             ...fnArgs.params,
-            start: start + (fnArgs.params?.page_size || 100),
+            start,
             page_size: (fnArgs.params?.page_size || 100),
           },
         });
