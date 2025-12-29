@@ -4,7 +4,7 @@ export default {
   key: "topdesk-update-incident",
   name: "Update Incident",
   description: "Updates an existing incident. [See the documentation](https://developers.topdesk.com/explorer/?page=incident#/incident/patchIncident)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
