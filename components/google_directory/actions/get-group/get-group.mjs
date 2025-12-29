@@ -4,7 +4,7 @@ export default {
   key: "google_directory-get-group",
   name: "Get Group",
   description: "Retrieves information about a group. [See the documentation](https://developers.google.com/admin-sdk/directory/reference/rest/v1/groups/get)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

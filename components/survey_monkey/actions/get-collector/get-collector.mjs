@@ -7,7 +7,7 @@ export default {
   name: "Get Collector Details",
   description:
     "Get details for a Collector. [See the docs here](https://api.surveymonkey.net/v3/docs?javascript#api-endpoints-get-collectors-id-)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

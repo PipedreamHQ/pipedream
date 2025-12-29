@@ -6,7 +6,7 @@ export default {
   name: "Send PUT Request",
   description: "Send an HTTP PUT request to any URL. Optionally configure query string parameters, headers and basic auth.",
   type: "action",
-  version: "1.1.2",
+  version: "1.1.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

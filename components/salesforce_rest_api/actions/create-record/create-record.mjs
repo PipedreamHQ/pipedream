@@ -8,7 +8,7 @@ export default {
   key: "salesforce_rest_api-create-record",
   name: "Create Record",
   description: "Create a record of a given object. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_sobject_create.htm)",
-  version: "0.3.4",
+  version: "0.3.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

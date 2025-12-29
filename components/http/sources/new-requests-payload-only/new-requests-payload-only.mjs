@@ -7,7 +7,7 @@ export default {
   name: "New Requests (Payload Only)",
   // eslint-disable-next-line
   description: "Get a URL and emit the HTTP body as an event on every request",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "source",
   props: {
     // eslint-disable-next-line
@@ -16,6 +16,12 @@ export default {
       customResponse: true,
     },
     http,
+    summary: {
+      propDefinition: [
+        http,
+        "summary",
+      ],
+    },
   },
   async run(event) {
     const { body } = event;
@@ -24,8 +30,16 @@ export default {
       body,
     });
     // Emit the HTTP payload
-    this.$emit({
-      body,
-    });
+    if (this.summary) {
+      this.$emit({
+        body,
+      }, {
+        summary: this.http.interpolateSummary(this.summary, event),
+      });
+    } else {
+      this.$emit({
+        body,
+      });
+    }
   },
 };

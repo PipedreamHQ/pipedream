@@ -199,7 +199,6 @@ export default {
     async getNameFieldForObjectType(objectType) {
       const url = this._sObjectTypeDescriptionApiUrl(objectType);
       const data = await this._makeRequest({
-        debug: true,
         url,
       });
       const nameField = data.fields.find((f) => f.nameField);

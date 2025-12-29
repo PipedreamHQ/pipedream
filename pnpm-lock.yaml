@@ -1059,8 +1059,8 @@ importers:
   components/apify_oauth:
     dependencies:
       '@pipedream/apify':
-        specifier: ^0.3.1
-        version: 0.3.1
+        specifier: ^0.4.0
+        version: 0.4.0
       apify-client:
         specifier: ^2.17.0
         version: 2.19.0
@@ -1467,7 +1467,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/azure_devops_microsoft_entra_id_oauth: {}
+  components/azure_devops_microsoft_entra_id_oauth:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/azure_openai_service:
     dependencies:
@@ -1638,6 +1642,9 @@ importers:
         version: 3.1.1
 
   components/beeminder: {}
+
+  components/beeper:
+    specifiers: {}
 
   components/belco:
     dependencies:
@@ -2164,6 +2171,8 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
+  components/browser_use: {}
+
   components/browseract: {}
 
   components/browserbase:
@@ -2386,7 +2395,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/callrail: {}
+  components/callrail:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/camino_ai: {}
 
@@ -3001,10 +3014,14 @@ importers:
   components/cloud_convert:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.8
-        version: 1.6.8
+        specifier: ^3.1.1
+        version: 3.1.1
 
-  components/cloudbeds: {}
+  components/cloudbeds:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/cloudbees:
     dependencies:
@@ -4567,8 +4584,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/eaccounting:
-    specifiers: {}
+  components/eaccounting: {}
 
   components/eagle_doc: {}
 
@@ -4584,7 +4600,11 @@ importers:
 
   components/easy_redmine: {}
 
-  components/easybroker: {}
+  components/easybroker:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/easycsv: {}
 
@@ -4703,6 +4723,9 @@ importers:
 
   components/elasticemail: {}
 
+  components/element:
+    specifiers: {}
+
   components/elevenlabs:
     dependencies:
       '@pipedream/platform':
@@ -4737,6 +4760,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
+
+  components/email_on_acid: {}
 
   components/email_verifier_api:
     dependencies:
@@ -4929,6 +4954,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
+
+  components/event_tickets:
+    specifiers: {}
 
   components/eventbrite:
     dependencies:
@@ -5415,8 +5443,7 @@ importers:
 
   components/flotiq: {}
 
-  components/flowii:
-    specifiers: {}
+  components/flowii: {}
 
   components/flowiseai:
     dependencies:
@@ -6276,7 +6303,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/google_directory: {}
+  components/google_directory:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/google_docs:
     dependencies:
@@ -6680,6 +6711,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/gusto: {}
+
   components/h_supertools_analytics_tool:
     dependencies:
       '@pipedream/platform':
@@ -6713,8 +6746,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/hailey_hr:
-    specifiers: {}
+  components/hailey_hr: {}
 
   components/halo_service_solutions: {}
 
@@ -7107,8 +7139,8 @@ importers:
   components/http:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.8
-        version: 1.6.8
+        specifier: ^3.1.1
+        version: 3.1.1
       object-hash:
         specifier: ^3.0.0
         version: 3.0.0
@@ -7726,6 +7758,9 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
+  components/jlcpcb:
+    specifiers: {}
+
   components/jobber:
     dependencies:
       '@pipedream/platform':
@@ -8003,7 +8038,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/knocommerce: {}
+  components/knocommerce:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/knorish:
     dependencies:
@@ -9129,7 +9168,11 @@ importers:
 
   components/membervault: {}
 
-  components/memento_database: {}
+  components/memento_database:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/memix:
     dependencies:
@@ -9232,7 +9275,14 @@ importers:
 
   components/microsoft_azure_monitor: {}
 
-  components/microsoft_bookings: {}
+  components/microsoft_bookings:
+    dependencies:
+      '@microsoft/microsoft-graph-client':
+        specifier: ^3.0.2
+        version: 3.0.7
+      isomorphic-fetch:
+        specifier: ^3.0.0
+        version: 3.0.0
 
   components/microsoft_dataverse: {}
 
@@ -9575,7 +9625,7 @@ importers:
   components/monta:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.0
+        specifier: ^3.1.1
         version: 3.1.1
 
   components/moonclerk:
@@ -10154,8 +10204,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/nuvemshop:
-    specifiers: {}
+  components/nuvemshop: {}
 
   components/nvoip: {}
 
@@ -10523,7 +10572,11 @@ importers:
         specifier: ^0.10.1
         version: 0.10.1
 
-  components/opinion_stage: {}
+  components/opinion_stage:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/opnform:
     dependencies:
@@ -11055,6 +11108,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.6.8
         version: 1.6.8
+
+  components/peoplehr: {}
 
   components/perigon:
     dependencies:
@@ -11741,6 +11796,9 @@ importers:
 
   components/prismic: {}
 
+  components/privatebin:
+    specifiers: {}
+
   components/pro_ledger:
     dependencies:
       '@pipedream/platform':
@@ -12268,7 +12326,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/recruiterflow: {}
+  components/recruiterflow:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/recruitis:
     dependencies:
@@ -12569,7 +12631,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/retool: {}
+  components/retool:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/retriever:
     dependencies:
@@ -13834,8 +13900,7 @@ importers:
 
   components/simplebackups: {}
 
-  components/simpleem:
-    specifiers: {}
+  components/simpleem: {}
 
   components/simplehash: {}
 
@@ -14337,9 +14402,6 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
-      lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
 
   components/spotlightr:
     dependencies:
@@ -14569,8 +14631,7 @@ importers:
 
   components/sugarcrm_: {}
 
-  components/suitecrm:
-    specifiers: {}
+  components/suitecrm: {}
 
   components/suitedash:
     dependencies:
@@ -14662,8 +14723,8 @@ importers:
   components/survey_monkey:
     dependencies:
       '@pipedream/platform':
-        specifier: ^0.10.1
-        version: 0.10.1
+        specifier: 3.1.1
+        version: 3.1.1
       uuid:
         specifier: ^8.3.2
         version: 8.3.2
@@ -15100,6 +15161,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
+
+  components/the_events_calendar:
+    specifiers: {}
 
   components/the_magic_drip:
     dependencies:
@@ -16562,7 +16626,11 @@ importers:
 
   components/wicked_reports: {}
 
-  components/wics: {}
+  components/wics:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/widgetform:
     dependencies:
@@ -17554,8 +17622,8 @@ importers:
   packages/connect-react:
     dependencies:
       '@pipedream/sdk':
-        specifier: ^2.0.13
-        version: 2.2.0
+        specifier: ^2.3.5
+        version: 2.3.5
       '@tanstack/react-query':
         specifier: ^5.59.16
         version: 5.90.9(react@18.3.1)
@@ -20924,8 +20992,8 @@ packages:
   '@pinojs/redact@0.4.0':
     resolution: {integrity: sha512-k2ENnmBugE/rzQfEcdWHcCY+/FM3VLzH9cYEsbdsoqrvzAKRhUZeRNhAZvB8OitQJ1TBed3yqWtdjzS6wJKBwg==}
 
-  '@pipedream/apify@0.3.1':
-    resolution: {integrity: sha512-9PQ8Vypl5EttSEQ9NEEDYzEHmDIdhv0A2kwXSU+3efYC9BnXr1QFuFQiQDT9bJelA6ue5K7jp+zX8s15l93mow==}
+  '@pipedream/apify@0.4.0':
+    resolution: {integrity: sha512-eImB63aWX9D9OJ07yRwHlErmWR7a64+c5xq2JFdYTUCA3t8mIpoK3Nb9jCesI9TtHCJB6r+HRrmeHDGqO/pkbQ==}
 
   '@pipedream/aws@1.1.1':
     resolution: {integrity: sha512-BsvH3csJmS6Kd18frdlu435yy7C/wF2CIE3JKc5ysenE2zKbMFrbzGwyKjbcHJJUHLIyduvNdtvSVqOSraMecA==}
@@ -21015,8 +21083,8 @@ packages:
     resolution: {integrity: sha512-nJG6+CsM4QhTD4lgU1tq3ejDieVJmp29DS6COLixdsDHbF8BfSNOxpkHqXKxii91DTm2aZ+WCjbtT5BHTSGcvQ==}
     engines: {node: '>=18.0.0'}
 
-  '@pipedream/sdk@2.2.0':
-    resolution: {integrity: sha512-zDg9VtzVtwMoMPXKHZjRjjSmKh1e3fy2WK7kMoyqhQ36lgPWkJCJLLuLVt5iIFy2EfCkUB3UkIZcDcmHsEbD7Q==}
+  '@pipedream/sdk@2.3.5':
+    resolution: {integrity: sha512-Nsmpp/5woVGHIhOSzy43m4Sj5y2DkdTQkqdJD2YU6sJhHBXMD9Up+7K5OoVUXltpRkqTx5gQIE3kujs2HOGONQ==}
     engines: {node: '>=18.0.0'}
 
   '@pipedream/sftp@0.5.1':
@@ -38655,7 +38723,7 @@ snapshots:
 
   '@pinojs/redact@0.4.0': {}
 
-  '@pipedream/apify@0.3.1':
+  '@pipedream/apify@0.4.0':
     dependencies:
       '@apify/consts': 2.47.0
       '@pipedream/platform': 3.1.1
@@ -38937,7 +39005,7 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@pipedream/sdk@2.2.0': {}
+  '@pipedream/sdk@2.3.5': {}
 
   '@pipedream/sftp@0.5.1':
     dependencies:

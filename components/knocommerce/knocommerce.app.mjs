@@ -1,11 +1,39 @@
+import { axios } from "@pipedream/platform";
+
 export default {
   type: "app",
   app: "knocommerce",
   propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _baseUrl() {
+      return "https://app-api.knocommerce.com/api/rest";
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
+      return axios($, {
+        url: `${this._baseUrl()}${path}`,
+        headers: {
+          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+        },
+        ...opts,
+      });
+    },
+    createWebhook(opts = {}) {
+      return this._makeRequest({
+        path: "/webhooks",
+        method: "post",
+        ...opts,
+      });
+    },
+    deleteWebhook({
+      hookId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/webhooks/${hookId}`,
+        method: "delete",
+        ...opts,
+      });
     },
   },
 };
