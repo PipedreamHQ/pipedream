@@ -1,3 +1,4 @@
+import { parseObject } from "../../common/utils.mjs";
 import invoiced from "../../invoiced.app.mjs";
 
 export default {
@@ -88,7 +89,7 @@ export default {
         ach_sender_id: this.achSenderId,
         source: this.source,
         notes: this.notes,
-        applied_to: this.appliedTo,
+        applied_to: parseObject(this.appliedTo),
       },
     });
 
