@@ -149,12 +149,13 @@ export default {
     contentType: {
       type: "string",
       label: "Content Type",
-      description: "Text message or HTML message",
+      description: "Text message, HTML message, or Markdown message (will be converted to HTML)",
       optional: true,
       default: "text",
       options: [
         "text",
         "html",
+        "markdown",
       ],
     },
   },

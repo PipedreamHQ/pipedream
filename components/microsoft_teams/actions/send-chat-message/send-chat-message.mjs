@@ -1,3 +1,5 @@
+import showdown from "showdown";
+import { parseHTML } from "linkedom";
 import microsoftTeams from "../../microsoft_teams.app.mjs";
 
 export default {
@@ -39,13 +41,23 @@ export default {
       contentType,
     } = this;
 
+    let content = message;
+    let type = contentType;
+
+    if (contentType === "markdown") {
+      const converter = new showdown.Converter();
+      const dom = parseHTML("");
+      content = converter.makeHtml(message, dom.window.document);
+      type = "html";
+    }
+
     const response =
       await this.microsoftTeams.sendChatMessage({
         chatId,
         content: {
           body: {
-            content: message,
-            contentType,
+            content,
+            contentType: type,
           },
         },
       });
