@@ -14,7 +14,7 @@ export default {
 
         return data?.me?.memberships?.map((membership) => ({
           label: membership.project.name,
-          value: membership.project.id,
+          value: parseInt(membership.project.id),
         }));
       },
     },
@@ -29,7 +29,7 @@ export default {
 
         return data?.project?.labels?.map((label) => ({
           label: label.name,
-          value: label.id,
+          value: parseInt(label.id),
         }));
       },
     },
