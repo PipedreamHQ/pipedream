@@ -110,14 +110,6 @@ export default {
         },
       });
     },
-    listComments(variables) {
-      return this._makeRequest({
-        data: {
-          query: queries.listComments,
-          variables,
-        },
-      });
-    },
     listActivities(variables) {
       return this._makeRequest({
         data: {
