@@ -4,7 +4,7 @@ export default {
   key: "topdesk-get-incident",
   name: "Get Incident",
   description: "Returns an incident by ID. [See the documentation](https://developers.topdesk.com/explorer/?page=incident#/incident/getIncidentById)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
