@@ -7,6 +7,7 @@ export default {
   description: "Emit new event when a new flow is created in Flowla. [See the documentation](https://api.flowla.com/docs#/default/ApiV1Controller_flows)",
   version: "0.0.1",
   type: "source",
+  dedupe: "unique",
   methods: {
     ...common.methods,
     getResourceFn() {
