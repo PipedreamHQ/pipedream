@@ -126,5 +126,12 @@ export default {
         ...opts,
       });
     },
+    createProduct(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/Product/CreateProduct",
+        ...opts,
+      });
+    },
   },
 };

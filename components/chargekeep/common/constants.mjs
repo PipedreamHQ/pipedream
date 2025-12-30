@@ -25,7 +25,16 @@ const UNIT_OPTIONS = [
   "Custom",
 ];
 
+const PRODUCT_TYPES = [
+  "General",
+  "Subscription",
+  "Digital",
+  "Event",
+  "Donation",
+];
+
 export default {
   INVOICE_STATUS_OPTIONS,
   UNIT_OPTIONS,
+  PRODUCT_TYPES,
 };
