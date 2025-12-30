@@ -14,7 +14,7 @@ export default {
 
         return data?.me?.memberships?.map((membership) => ({
           label: membership.project.name,
-          value: parseInt(membership.project.id),
+          value: membership.project.id,
         }));
       },
     },
@@ -29,7 +29,7 @@ export default {
 
         return data?.project?.labels?.map((label) => ({
           label: label.name,
-          value: parseInt(label.id),
+          value: label.id,
         }));
       },
     },
@@ -83,16 +83,7 @@ export default {
     listProjects() {
       return this._makeRequest({
         data: {
-          query: `{
-            me {
-              memberships {
-                project {
-                  id
-                  name
-                }
-              }
-            }
-          }`,
+          query: queries.listProjects,
         },
       });
     },

@@ -1,3 +1,14 @@
+const listProjects = `{
+  me {
+    memberships {
+      project {
+        id
+        name
+      }
+    }
+  }
+}`;
+
 const listLabels = `
   query listLabels($projectId: ID!) {
     project(project_id: $projectId) {
@@ -167,6 +178,7 @@ const createPost = `
 `;
 
 export default {
+  listProjects,
   listLabels,
   listLocales,
   listPosts,

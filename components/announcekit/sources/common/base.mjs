@@ -25,9 +25,6 @@ export default {
     _setLastItemId(itemId) {
       this.db.set("lastItemId", itemId);
     },
-    generateMeta() {
-      throw new Error("generateMeta is not implemented");
-    },
     getVariables(variables) {
       return variables;
     },
@@ -47,7 +44,7 @@ export default {
         }),
         maxResults,
         itemsField: this.getItemsField(),
-      });;
+      });
 
       let items = [];
       for await (const item of response) {
