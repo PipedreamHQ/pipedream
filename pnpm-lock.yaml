@@ -975,7 +975,11 @@ importers:
 
   components/annature: {}
 
-  components/announcekit: {}
+  components/announcekit:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/anonyflow:
     dependencies:
@@ -1643,8 +1647,7 @@ importers:
 
   components/beeminder: {}
 
-  components/beeper:
-    specifiers: {}
+  components/beeper: {}
 
   components/belco:
     dependencies:
@@ -4723,8 +4726,7 @@ importers:
 
   components/elasticemail: {}
 
-  components/element:
-    specifiers: {}
+  components/element: {}
 
   components/elevenlabs:
     dependencies:
@@ -4955,8 +4957,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/event_tickets:
-    specifiers: {}
+  components/event_tickets: {}
 
   components/eventbrite:
     dependencies:
@@ -7758,8 +7759,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/jlcpcb:
-    specifiers: {}
+  components/jlcpcb: {}
 
   components/jobber:
     dependencies:
@@ -11796,8 +11796,7 @@ importers:
 
   components/prismic: {}
 
-  components/privatebin:
-    specifiers: {}
+  components/privatebin: {}
 
   components/pro_ledger:
     dependencies:
@@ -15162,8 +15161,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/the_events_calendar:
-    specifiers: {}
+  components/the_events_calendar: {}
 
   components/the_magic_drip:
     dependencies:
