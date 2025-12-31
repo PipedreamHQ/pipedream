@@ -5,7 +5,7 @@ export default {
   key: "topdesk-new-incident-created",
   name: "New Incident Created",
   description: "Emit new event when a new incident is created. [See the documentation](https://developers.topdesk.com/explorer/?page=incident#/incident/get_incidents)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

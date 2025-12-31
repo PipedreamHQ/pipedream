@@ -5,7 +5,7 @@ export default {
   key: "topdesk-new-incident-group-assigned",
   name: "New Incident Group Assigned",
   description: "Emit new event when an incident is assigned to a new group. [See the documentation](https://developers.topdesk.com/explorer/?page=incident#/incident/get_incidents_id__id_)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

@@ -5,7 +5,7 @@ export default {
   key: "topdesk-new-incident-reply",
   name: "New Incident Reply",
   description: "Emit new event when a new incident reply is created. [See the documentation](https://developers.topdesk.com/explorer/?page=incident#/progress%20trail%20%2F%20actions%20%2F%20requests/get_incidents_id__id__progresstrail)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {
@@ -20,7 +20,7 @@ export default {
   methods: {
     ...common.methods,
     getResourceFn() {
-      return this.topdesk.listProgressTrail;
+      return this.topdesk.getIncidentProgressTrailById;
     },
     getArgs() {
       return {

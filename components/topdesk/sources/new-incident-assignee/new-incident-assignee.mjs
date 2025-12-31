@@ -5,7 +5,7 @@ export default {
   key: "topdesk-new-incident-assignee",
   name: "New Incident Assignee",
   description: "Emit new event when an incident is assigned to a new user. [See the documentation](https://developers.topdesk.com/explorer/?page=incident#/incident/get_incidents_id__id_)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

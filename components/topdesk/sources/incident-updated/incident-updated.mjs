@@ -5,7 +5,7 @@ export default {
   key: "topdesk-incident-updated",
   name: "Incident Updated",
   description: "Emit new event when an incident is updated. [See the documentation](https://developers.topdesk.com/explorer/?page=incident#/incident/get_incidents)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

@@ -4,7 +4,7 @@ export default {
   key: "topdesk-get-knowledge-item-statuses",
   name: "Get Knowledge Item Statuses",
   description: "Returns the list of possible Knowledge Item statuses. [See the documentation](https://developers.topdesk.com/explorer/?page=knowledge-base#/Searchlists/getStatuses)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     app,
