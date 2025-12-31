@@ -1936,6 +1936,9 @@ importers:
 
   components/bluesnap: {}
 
+  components/bokun:
+    specifiers: {}
+
   components/boldsign:
     dependencies:
       '@pipedream/platform':
