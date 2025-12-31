@@ -4,7 +4,7 @@ import zohoBugtracker from "../../zoho_bugtracker.app.mjs";
 export default {
   key: "zoho_bugtracker-create-bug",
   name: "Create Bug",
-  version: "0.1.2",
+  version: "0.2.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -59,7 +59,7 @@ export default {
       ],
       optional: true,
     },
-    classificationId: {
+    /* classificationId: {
       propDefinition: [
         zohoBugtracker,
         "classificationId",
@@ -71,7 +71,7 @@ export default {
         }),
       ],
       optional: true,
-    },
+    }, */
     milestoneId: {
       propDefinition: [
         zohoBugtracker,
@@ -88,10 +88,10 @@ export default {
     dueDate: {
       type: "string",
       label: "Due Date",
-      description: "Due date of the bug. **Format MM-DD-YYYY**",
+      description: "Due date of the bug. Example: `2025-12-12T02:12:00.000Z`",
       optional: true,
     },
-    moduleId: {
+    /*  moduleId: {
       propDefinition: [
         zohoBugtracker,
         "moduleId",
@@ -129,7 +129,7 @@ export default {
         }),
       ],
       optional: true,
-    },
+    }, */
     affectedMileId: {
       propDefinition: [
         zohoBugtracker,
@@ -208,7 +208,11 @@ export default {
           id: affectedMileId,
         }
         : undefined,
-      followers: bugFollowers,
+      followers: bugFollowers
+        ? bugFollowers.map((follower) => ({
+          zpuid: follower,
+        }))
+        : undefined,
       assignee: assignee
         ? {
           zpuid: assignee,
@@ -223,7 +227,7 @@ export default {
       data: preData,
     });
 
-    $.export("$summary", `A new bug with Id: ${response.bugs[0].id} was successfully created!`);
+    $.export("$summary", `A new bug with ID: ${response.id} was successfully created!`);
     return response;
   },
 };

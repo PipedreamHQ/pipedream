@@ -3,8 +3,7 @@ import zohoBugtracker from "../../zoho_bugtracker.app.mjs";
 export default {
   key: "zoho_bugtracker-get-bug-details",
   name: "Get Bug Details",
-  //version: "0.0.3",
-  version: "0.0.{{ts}}",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -57,7 +56,7 @@ export default {
       bugId,
     });
 
-    $.export("$summary", `The bug with Id: ${bugId} was successfully fetched!`);
+    $.export("$summary", `The bug with ID: ${bugId} was successfully fetched!`);
     return response;
   },
 };

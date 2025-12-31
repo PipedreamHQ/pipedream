@@ -4,14 +4,13 @@ import zohoBugtracker from "../../zoho_bugtracker.app.mjs";
 export default {
   key: "zoho_bugtracker-update-bug",
   name: "Update Bug",
-  //version: "0.1.2",
-  version: "0.1.{{ts}}",
+  version: "0.2.0",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
-  description: "Update a specific bug [See the documentation](https://www.zoho.com/projects/help/rest-api/bugtracker-bugs-api.html#alink4)",
+  description: "Update a specific bug [See the documentation](https://projects.zoho.com/api-docs#issues#update-an-issue)",
   type: "action",
   props: {
     zohoBugtracker,
@@ -66,16 +65,6 @@ export default {
       ],
       optional: true,
     },
-    bugFollowers: {
-      propDefinition: [
-        zohoBugtracker,
-        "bugFollowers",
-        ({ portalId }) => ({
-          portalId,
-        }),
-      ],
-      optional: true,
-    },
     flag: {
       propDefinition: [
         zohoBugtracker,
@@ -83,7 +72,7 @@ export default {
       ],
       optional: true,
     },
-    classificationId: {
+    /*classificationId: {
       propDefinition: [
         zohoBugtracker,
         "classificationId",
@@ -95,7 +84,7 @@ export default {
         }),
       ],
       optional: true,
-    },
+    },*/
     milestoneId: {
       propDefinition: [
         zohoBugtracker,
@@ -112,18 +101,17 @@ export default {
     dueDate: {
       type: "string",
       label: "Due Date",
-      description: "Due date of the bug. **Format MM-DD-YYYY**",
+      description: "Due date of the bug. Example: `2025-12-12T02:12:00.000Z`",
       optional: true,
     },
-    moduleId: {
+    /*moduleId: {
       propDefinition: [
         zohoBugtracker,
         "moduleId",
         ({
-          portalId, projectId,
+          portalId
         }) => ({
           portalId,
-          projectId,
         }),
       ],
       optional: true,
@@ -166,7 +154,7 @@ export default {
         }),
       ],
       optional: true,
-    },
+    }, */
     resolution: {
       type: "string",
       label: "Resolution",
@@ -198,7 +186,6 @@ export default {
       milestoneId,
       dueDate,
       affectedMileId,
-      bugFollowers,
       classificationId,
       moduleId,
       severityId,
@@ -245,7 +232,6 @@ export default {
           id: affectedMileId,
         }
         : undefined,
-      followers: bugFollowers,
       assignee: assignee
         ? {
           zpuid: assignee,
@@ -261,7 +247,7 @@ export default {
       data: preData,
     });
 
-    $.export("$summary", `Successfully updated bug with Id: ${bugId}!`);
+    $.export("$summary", `Successfully updated bug with ID: ${bugId}!`);
     return response;
   },
 };

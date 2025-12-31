@@ -4,7 +4,7 @@ import zohoBugtracker from "../../zoho_bugtracker.app.mjs";
 export default {
   key: "zoho_bugtracker-new-bug-reported",
   name: "New Bug Reported",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Emit new event when a new bug is reported.",
   type: "source",
   dedupe: "unique",
@@ -55,31 +55,31 @@ export default {
       const items = zohoBugtracker.paginate({
         fn: zohoBugtracker.listBugs,
         params: {
-          sort_by: "created_time",
+          sort_by: "DESC(created_time)",
         },
+        resourceKey: "issues",
         portalId,
         projectId,
         maxResults,
       });
 
       for await (const item of items) {
-        if (item.created_time_long === lastDate) {
+        if (Date.parse(item.created_time) <= lastDate) {
           break;
         }
         responseArray.push(item);
       }
-
       if (responseArray[0]) {
-        this._setLastDate(responseArray[0].created_time_long);
+        this._setLastDate(Date.parse(responseArray[0].created_time));
       }
 
       for (const responseItem of responseArray.reverse()) {
         this.$emit(
           responseItem,
           {
-            id: responseItem.id_string,
-            summary: `A new bug with id: "${responseItem.id_string}" was reported!`,
-            ts: responseItem.created_time_long,
+            id: responseItem.id,
+            summary: `New Bug with ID: "${responseItem.id}"`,
+            ts: Date.parse(responseItem.created_time),
           },
         );
       }
@@ -87,7 +87,7 @@ export default {
   },
   hooks: {
     async deploy() {
-      await this.startEvent(25);
+      await this.startEvent(10);
     },
   },
   async run() {
