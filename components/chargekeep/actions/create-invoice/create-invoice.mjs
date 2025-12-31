@@ -41,6 +41,9 @@ export default {
       propDefinition: [
         chargekeep,
         "productCodes",
+        (c) => ({
+          currencyId: c.currencyId,
+        }),
       ],
       reloadProps: true,
     },

@@ -11,12 +11,16 @@ export default {
   methods: {
     ...common.methods,
     async getResults() {
-      return this.chargekeep.listContacts({
+      let { result } = await this.chargekeep.listContacts({
         params: {
           TopCount: 99999,
           IncludeProspective: true,
         },
       });
+      result = result.filter(({ typeId }) => typeId === "P");
+      return {
+        result,
+      };
     },
     generateMeta(contact) {
       return {

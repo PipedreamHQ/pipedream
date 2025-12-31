@@ -56,8 +56,13 @@ export default {
       type: "string[]",
       label: "Product Codes",
       description: "The codes of the products to add to the invoice",
-      async options() {
-        const { result } = await this.listProducts();
+      async options({ currencyId }) {
+        let { result } = await this.listProducts({
+          params: {
+            currencyId,
+          },
+        });
+        result = result.filter(({ type }) => type !== "Subscription");
         return result.map(({
           code: value, name,
         }) => ({

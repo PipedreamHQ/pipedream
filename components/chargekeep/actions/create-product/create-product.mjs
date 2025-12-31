@@ -46,14 +46,12 @@ export default {
       type: "string",
       label: "Price",
       description: "Product price",
-      optional: true,
     },
     unit: {
       type: "string",
       label: "Unit",
       description: "Product unit",
       options: constants.UNIT_OPTIONS,
-      optional: true,
     },
     barcode: {
       type: "string",
