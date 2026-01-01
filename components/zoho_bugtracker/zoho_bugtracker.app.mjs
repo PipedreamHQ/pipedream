@@ -183,10 +183,10 @@ export default {
       };
     },
     async _makeRequest({
-      $ = this, path, headers, ...opts
+      $ = this, path, url, headers, ...opts
     }) {
       const config = {
-        url: `${this._apiUrl()}${path}`,
+        url: url ?? `${this._apiUrl()}${path}`,
         headers: this._getHeaders(headers),
         ...opts,
       };
@@ -253,6 +253,24 @@ export default {
       return this._makeRequest({
         method: "PATCH",
         path: `/portal/${portalId}/projects/${projectId}/issues/${bugId}`,
+        ...args,
+      });
+    },
+    uploadGlobalAttachment({
+      portalId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        url: `https://projectsapi.${this.$auth.base_api_uri}/api/v3/portal/${portalId}/attachments`,
+        ...args,
+      });
+    },
+    addAttachmentToIssue({
+      portalId, projectId, bugId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        url: `https://projectsapi.${this.$auth.base_api_uri}/api/v3/portal/${portalId}/projects/${projectId}/issues/${bugId}/attachments`,
         ...args,
       });
     },

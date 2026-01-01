@@ -10,7 +10,7 @@ export default {
     openWorldHint: true,
     readOnlyHint: false,
   },
-  description: "Create a new bug [See the documentation](https://www.zoho.com/projects/help/rest-api/bugtracker-bugs-api.html#alink3)",
+  description: "Create a new bug [See the documentation](https://projects.zoho.com/api-docs#issues#create-an-issue)",
   type: "action",
   props: {
     zohoBugtracker,
