@@ -72,19 +72,6 @@ export default {
       ],
       optional: true,
     },
-    /*classificationId: {
-      propDefinition: [
-        zohoBugtracker,
-        "classificationId",
-        ({
-          portalId, projectId,
-        }) => ({
-          portalId,
-          projectId,
-        }),
-      ],
-      optional: true,
-    },*/
     milestoneId: {
       propDefinition: [
         zohoBugtracker,
@@ -104,57 +91,6 @@ export default {
       description: "Due date of the bug. Example: `2025-12-12T02:12:00.000Z`",
       optional: true,
     },
-    /*moduleId: {
-      propDefinition: [
-        zohoBugtracker,
-        "moduleId",
-        ({
-          portalId
-        }) => ({
-          portalId,
-        }),
-      ],
-      optional: true,
-    },
-    severityId: {
-      propDefinition: [
-        zohoBugtracker,
-        "severityId",
-        ({
-          portalId, projectId,
-        }) => ({
-          portalId,
-          projectId,
-        }),
-      ],
-      optional: true,
-    },
-    reproducibleId: {
-      propDefinition: [
-        zohoBugtracker,
-        "reproducibleId",
-        ({
-          portalId, projectId,
-        }) => ({
-          portalId,
-          projectId,
-        }),
-      ],
-      optional: true,
-    },
-    statusId: {
-      propDefinition: [
-        zohoBugtracker,
-        "statusId",
-        ({
-          portalId, projectId,
-        }) => ({
-          portalId,
-          projectId,
-        }),
-      ],
-      optional: true,
-    }, */
     resolution: {
       type: "string",
       label: "Resolution",
@@ -186,47 +122,17 @@ export default {
       milestoneId,
       dueDate,
       affectedMileId,
-      classificationId,
-      moduleId,
-      severityId,
-      reproducibleId,
-      statusId,
       ...data
     } = this;
 
     const preData = clearObj({
       ...data,
-      classification: classificationId
-        ? {
-          id: classificationId,
-        }
-        : undefined,
       release_milestone: milestoneId
         ? {
           id: milestoneId,
         }
         : undefined,
       due_date: dueDate,
-      module: moduleId
-        ? {
-          id: moduleId,
-        }
-        : undefined,
-      severity: severityId
-        ? {
-          id: severityId,
-        }
-        : undefined,
-      is_it_reproducible: reproducibleId
-        ? {
-          id: reproducibleId,
-        }
-        : undefined,
-      status: statusId
-        ? {
-          id: statusId,
-        }
-        : undefined,
       affected_milestone: affectedMileId
         ? {
           id: affectedMileId,
