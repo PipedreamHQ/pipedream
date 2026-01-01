@@ -11178,6 +11178,9 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
+  components/phemex:
+    specifiers: {}
+
   components/philips_hue:
     dependencies:
       '@pipedream/platform':
