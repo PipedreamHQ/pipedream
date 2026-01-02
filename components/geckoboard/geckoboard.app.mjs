@@ -47,7 +47,7 @@ export default {
         ...otherOpts,
         url: this._baseUrl() + path,
         headers: {
-          Authorization: `Basic ${token}`,
+          "Authorization": `Basic ${token}`,
           "Content-Type": "application/json",
           ...headers,
         },
