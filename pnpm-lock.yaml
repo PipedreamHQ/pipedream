@@ -10044,6 +10044,9 @@ importers:
         specifier: ^8.13.0
         version: 8.16.3
 
+  components/niledesk:
+    specifiers: {}
+
   components/nimble:
     dependencies:
       '@pipedream/platform':
