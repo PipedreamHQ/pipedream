@@ -2158,8 +2158,8 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
       qs:
-        specifier: ^6.11.2
-        version: 6.14.0
+        specifier: ^6.14.1
+        version: 6.14.1
 
   components/brillium:
     dependencies:
@@ -2665,8 +2665,8 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
       qs:
-        specifier: ^6.12.0
-        version: 6.14.0
+        specifier: ^6.14.1
+        version: 6.14.1
 
   components/chatbotic: {}
 
@@ -3099,8 +3099,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
       qs:
-        specifier: ^6.11.0
-        version: 6.14.0
+        specifier: ^6.14.1
+        version: 6.14.1
 
   components/cloudtalk: {}
 
@@ -5053,8 +5053,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
       qs:
-        specifier: ^6.11.0
-        version: 6.14.0
+        specifier: ^6.14.1
+        version: 6.14.1
     devDependencies:
       '@pipedream/types':
         specifier: ^0.3.2
@@ -8462,8 +8462,8 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
       qs:
-        specifier: ^6.11.1
-        version: 6.14.0
+        specifier: ^6.14.1
+        version: 6.14.1
 
   components/line_messaging_api:
     dependencies:
@@ -8968,8 +8968,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
       qs:
-        specifier: ^6.11.0
-        version: 6.14.0
+        specifier: ^6.14.1
+        version: 6.14.1
 
   components/maintainx:
     dependencies:
@@ -10751,8 +10751,8 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
       qs:
-        specifier: ^6.11.1
-        version: 6.14.0
+        specifier: ^6.14.1
+        version: 6.14.1
 
   components/overledger:
     dependencies:
@@ -11280,8 +11280,8 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
       qs:
-        specifier: ^6.11.1
-        version: 6.14.0
+        specifier: ^6.14.1
+        version: 6.14.1
 
   components/pingback:
     dependencies:
@@ -12390,8 +12390,8 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       qs:
-        specifier: ^6.11.0
-        version: 6.14.0
+        specifier: ^6.14.1
+        version: 6.14.1
 
   components/redis_cloud_rest_api: {}
 
@@ -15750,8 +15750,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
       qs:
-        specifier: ^6.10.5
-        version: 6.14.0
+        specifier: ^6.14.1
+        version: 6.14.1
       uuid:
         specifier: ^8.3.2
         version: 8.3.2
@@ -15977,8 +15977,8 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
       qs:
-        specifier: ^6.11.0
-        version: 6.14.0
+        specifier: ^6.14.1
+        version: 6.14.1
 
   components/upollo: {}
 
@@ -16043,8 +16043,8 @@ importers:
         specifier: ^4.2.0
         version: 4.2.0
       qs:
-        specifier: ^6.11.2
-        version: 6.14.0
+        specifier: ^6.14.1
+        version: 6.14.1
 
   components/urltopdf: {}
 
@@ -16901,8 +16901,8 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
       qs:
-        specifier: ^6.11.2
-        version: 6.14.0
+        specifier: ^6.14.1
+        version: 6.14.1
 
   components/x_ai:
     dependencies:
@@ -30608,8 +30608,8 @@ packages:
     resolution: {integrity: sha512-+38qI9SOr8tfZ4QmJNplMUxqjbe7LKvvZgWdExBOmd+egZTtjLB67Gu0HRX3u/XOq7UU2Nx6nsjvS16Z9uwfpg==}
     engines: {node: '>=0.6'}
 
-  qs@6.14.0:
-    resolution: {integrity: sha512-YWWTjgABSKcvs/nWBi9PycY/JiPJqOD4JA6o9Sej2AtvSGarXxKC3OQSk4pAarbdQlKAh5D4FCQkJNkW+GAn3w==}
+  qs@6.14.1:
+    resolution: {integrity: sha512-4EK3+xJl8Ts67nLYNwqw/dsFVnCf+qR7RgXSK9jEEm9unao3njwMDdmsdvoKBKHzxd7tCYz5e5M+SnMjdtXGQQ==}
     engines: {node: '>=0.6'}
 
   qs@6.5.3:
@@ -41362,7 +41362,7 @@ snapshots:
   '@tuya/tuya-connector-nodejs@2.1.2':
     dependencies:
       axios: 0.30.2
-      qs: 6.14.0
+      qs: 6.14.1
     transitivePeerDependencies:
       - debug
 
@@ -41414,7 +41414,7 @@ snapshots:
 
   '@types/conventional-commits-parser@5.0.2':
     dependencies:
-      '@types/node': 25.0.3
+      '@types/node': 20.19.25
 
   '@types/debug@4.1.12':
     dependencies:
@@ -41432,7 +41432,7 @@ snapshots:
 
   '@types/express-serve-static-core@4.19.7':
     dependencies:
-      '@types/node': 22.19.1
+      '@types/node': 20.19.25
       '@types/qs': 6.14.0
       '@types/range-parser': 1.2.7
       '@types/send': 1.2.1
@@ -41627,12 +41627,12 @@ snapshots:
 
   '@types/readable-stream@4.0.22':
     dependencies:
-      '@types/node': 25.0.3
+      '@types/node': 20.19.25
 
   '@types/request@2.48.13':
     dependencies:
       '@types/caseless': 0.12.5
-      '@types/node': 22.19.1
+      '@types/node': 20.19.25
       '@types/tough-cookie': 4.0.5
       form-data: 2.5.4
 
@@ -41656,11 +41656,11 @@ snapshots:
   '@types/send@0.17.6':
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 22.19.1
+      '@types/node': 20.19.25
 
   '@types/send@1.2.1':
     dependencies:
-      '@types/node': 22.19.1
+      '@types/node': 20.19.25
 
   '@types/serve-static@1.15.10':
     dependencies:
@@ -43042,7 +43042,7 @@ snapshots:
       http-errors: 2.0.0
       iconv-lite: 0.6.3
       on-finished: 2.4.1
-      qs: 6.14.0
+      qs: 6.14.1
       raw-body: 3.0.1
       type-is: 2.0.1
     transitivePeerDependencies:
@@ -43546,7 +43546,7 @@ snapshots:
       formdata-node: 6.0.3
       js-base64: 3.7.7
       node-fetch: 2.7.0
-      qs: 6.14.0
+      qs: 6.14.1
       readable-stream: 4.7.0
       url-join: 4.0.1
     transitivePeerDependencies:
@@ -45566,7 +45566,7 @@ snapshots:
       once: 1.4.0
       parseurl: 1.3.3
       proxy-addr: 2.0.7
-      qs: 6.14.0
+      qs: 6.14.1
       range-parser: 1.2.1
       router: 2.2.0
       send: 1.2.0
@@ -46625,7 +46625,7 @@ snapshots:
       extend: 3.0.2
       gaxios: 4.3.3
       google-auth-library: 7.14.1
-      qs: 6.14.0
+      qs: 6.14.1
       url-template: 2.0.8
       uuid: 8.3.2
     transitivePeerDependencies:
@@ -46637,7 +46637,7 @@ snapshots:
       extend: 3.0.2
       gaxios: 5.1.3
       google-auth-library: 8.9.0
-      qs: 6.14.0
+      qs: 6.14.1
       url-template: 2.0.8
       uuid: 9.0.1
     transitivePeerDependencies:
@@ -46649,7 +46649,7 @@ snapshots:
       extend: 3.0.2
       gaxios: 6.7.1
       google-auth-library: 9.15.1
-      qs: 6.14.0
+      qs: 6.14.1
       url-template: 2.0.8
       uuid: 9.0.1
     transitivePeerDependencies:
@@ -46661,7 +46661,7 @@ snapshots:
       extend: 3.0.2
       gaxios: 7.1.3
       google-auth-library: 10.5.0
-      qs: 6.14.0
+      qs: 6.14.1
       url-template: 2.0.8
     transitivePeerDependencies:
       - supports-color
@@ -48950,7 +48950,7 @@ snapshots:
     dependencies:
       gaxios: 6.7.1
       isomorphic-unfetch: 4.0.2
-      qs: 6.14.0
+      qs: 6.14.1
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -50409,7 +50409,7 @@ snapshots:
     dependencies:
       lodash: 4.17.21
       node-fetch: 2.7.0
-      qs: 6.14.0
+      qs: 6.14.1
 
   open@10.2.0:
     dependencies:
@@ -50912,7 +50912,7 @@ snapshots:
   pipedrive@24.2.0:
     dependencies:
       axios: 1.13.2(debug@3.2.7)
-      qs: 6.14.0
+      qs: 6.14.1
     transitivePeerDependencies:
       - debug
 
@@ -51528,7 +51528,7 @@ snapshots:
     dependencies:
       side-channel: 1.1.0
 
-  qs@6.14.0:
+  qs@6.14.1:
     dependencies:
       side-channel: 1.1.0
 
@@ -52648,7 +52648,7 @@ snapshots:
     dependencies:
       got: 11.8.6
       lodash: 4.17.21
-      qs: 6.14.0
+      qs: 6.14.1
       stopcock: 1.1.0
 
   short-unique-id@5.3.2: {}
@@ -53191,7 +53191,7 @@ snapshots:
 
   stripe@18.5.0(@types/node@25.0.3):
     dependencies:
-      qs: 6.14.0
+      qs: 6.14.1
     optionalDependencies:
       '@types/node': 25.0.3
 
@@ -53318,7 +53318,7 @@ snapshots:
       formidable: 1.2.6
       methods: 1.1.2
       mime: 1.6.0
-      qs: 6.14.0
+      qs: 6.14.1
       readable-stream: 2.3.8
     transitivePeerDependencies:
       - supports-color
@@ -53332,7 +53332,7 @@ snapshots:
       formidable: 1.2.6
       methods: 1.1.2
       mime: 2.6.0
-      qs: 6.14.0
+      qs: 6.14.1
       readable-stream: 3.6.2
     transitivePeerDependencies:
       - supports-color
@@ -53347,7 +53347,7 @@ snapshots:
       formidable: 1.2.6
       methods: 1.1.2
       mime: 2.6.0
-      qs: 6.14.0
+      qs: 6.14.1
       readable-stream: 3.6.2
       semver: 7.7.3
     transitivePeerDependencies:
@@ -54027,7 +54027,7 @@ snapshots:
       dayjs: 1.11.19
       https-proxy-agent: 5.0.1
       jsonwebtoken: 9.0.2
-      qs: 6.14.0
+      qs: 6.14.1
       scmp: 2.1.0
       xmlbuilder: 13.0.2
     transitivePeerDependencies:
@@ -54434,7 +54434,7 @@ snapshots:
   url@0.11.4:
     dependencies:
       punycode: 1.4.1
-      qs: 6.14.0
+      qs: 6.14.1
 
   urlpattern-polyfill@10.0.0: {}
 
@@ -54872,7 +54872,7 @@ snapshots:
     dependencies:
       li: 1.3.0
       parse-link-header: 2.0.0
-      qs: 6.14.0
+      qs: 6.14.1
       superagent: 4.1.0
     transitivePeerDependencies:
       - supports-color
