@@ -10828,6 +10828,9 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
+  components/palatine_speech:
+    specifiers: {}
+
   components/pandadoc:
     dependencies:
       '@pipedream/platform':

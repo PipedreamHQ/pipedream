@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/palatine_speech",
+  "version": "0.0.1",
+  "description": "Pipedream Palatine Speech Components",
+  "main": "palatine_speech.app.mjs",
+  "keywords": [
+    "pipedream",
+    "palatine_speech"
+  ],
+  "homepage": "https://pipedream.com/apps/palatine_speech",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
