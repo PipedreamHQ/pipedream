@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/simplero",
-  "version": "0.6.1",
+  "version": "0.1.0",
   "description": "Pipedream simplero Components",
   "main": "simplero.app.mjs",
   "keywords": [
