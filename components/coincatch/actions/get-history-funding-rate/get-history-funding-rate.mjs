@@ -3,7 +3,7 @@ import coincatch from "../../coincatch.app.mjs";
 export default {
   key: "coincatch-get-history-funding-rate",
   name: "Get History Funding Rate",
-  description: "Get history funding rate. [See the documentation](hhttps://coincatch.github.io/github.io/en/mix/#get-history-funding-rate)",
+  description: "Get history funding rate. [See the documentation](https://coincatch.github.io/github.io/en/mix/#get-history-funding-rate)",
   version: "0.0.1",
   type: "action",
   annotations: {

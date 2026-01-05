@@ -27,7 +27,7 @@ export default {
         productType: this.productType,
       },
     });
-    $.export("$summary", `Successfully retrieved ${response.data.length} symbols`);
+    $.export("$summary", `Successfully retrieved ${response?.data?.length} symbols`);
     return response;
   },
 };
