@@ -978,7 +978,11 @@ importers:
 
   components/annature: {}
 
-  components/announcekit: {}
+  components/announcekit:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/anonyflow:
     dependencies:
