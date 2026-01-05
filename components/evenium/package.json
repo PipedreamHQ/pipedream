@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/evenium",
-  "version": "0.6.0",
+  "version": "0.1.0",
   "description": "Pipedream evenium Components",
   "main": "evenium.app.mjs",
   "keywords": [
