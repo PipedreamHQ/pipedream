@@ -15,7 +15,10 @@ export default {
   props: {
     app,
     call: {
-      propDefinition: [app, "call"],
+      propDefinition: [
+          app, 
+          "call"
+      ],
     },
   },
   async run({ $ }) {
