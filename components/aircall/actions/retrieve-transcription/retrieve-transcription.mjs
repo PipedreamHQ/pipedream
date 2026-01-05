@@ -22,10 +22,10 @@ export default {
     },
   },
   async run({ $ }) {
-    const { transcription } = await this.app.retrieveTranscription(
-      this.call,
-      $
-    );
+    const { transcription } = await this.app.retrieveTranscription({
+      $,
+      callId: this.call
+    });
 
     $.export(
       "$summary",
