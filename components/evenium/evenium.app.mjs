@@ -25,8 +25,8 @@ export default {
     },
   },
   methods: {
-    _baseUrl(versionPath = "1") {
-      return `https://evenium.com/api/${versionPath}`;
+    _baseUrl() {
+      return "https://evenium.com/api/1";
     },
     _getHeaders(headers = {}) {
       return {
@@ -37,10 +37,10 @@ export default {
       };
     },
     _makeRequest({
-      $ = this, path, headers, versionPath, ...otherConfig
+      $ = this, path, headers, ...otherConfig
     } = {}) {
       return axios($, {
-        url: `${this._baseUrl(versionPath)}${path}`,
+        url: `${this._baseUrl()}${path}`,
         headers: this._getHeaders(headers),
         ...otherConfig,
       });
