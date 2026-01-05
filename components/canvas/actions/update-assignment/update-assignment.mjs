@@ -1,5 +1,6 @@
 import canvas from "../../canvas.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "canvas-update-assignment",
@@ -64,18 +65,7 @@ export default {
       type: "string",
       label: "Submission Type",
       description: "The type of submission for the assignment",
-      options: [
-        "online_quiz",
-        "none",
-        "on_paper",
-        "discussion_topic",
-        "external_tool",
-        "online_upload",
-        "online_text_entry",
-        "online_url",
-        "media_recording",
-        "student_annotation",
-      ],
+      options: constants.SUBMISSION_TYPES,
       optional: true,
     },
     notifyOfUpdate: {
@@ -94,14 +84,7 @@ export default {
       type: "string",
       label: "Grading Type",
       description: "The strategy used for grading the assignment. The assignment defaults to “points” if this field is omitted.",
-      options: [
-        "pass_fail",
-        "percent",
-        "letter_grade",
-        "gpa_scale",
-        "points",
-        "not_graded",
-      ],
+      options: constants.GRADING_TYPES,
       optional: true,
     },
     dueAt: {
