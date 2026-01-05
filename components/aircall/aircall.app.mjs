@@ -149,10 +149,11 @@ export default {
         },
       });
     },
-    async retrieveTranscription(id, $) {
+    async retrieveTranscription({$, callId, ...args}) {
       return this._makeRequest({
-        path: `calls/${id}/transcription`,
+        path: `calls/${callId}/transcription`,
         $,
+        ...args
       });
     },
   },
