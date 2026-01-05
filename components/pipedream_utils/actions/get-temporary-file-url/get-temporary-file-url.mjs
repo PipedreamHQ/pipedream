@@ -17,27 +17,22 @@ export default {
     path: {
       type: "string",
       label: "Path",
-      description: "The path (including filename) where the file is stored",
+      description: "The path (including filename) where the file is stored. If not provided, a random filename will be generated.",
       optional: true,
     },
-    method: {
-      type: "string[]",
-      label: "URL Type",
-      description: "The type of presigned URL to generate",
-      options: [
-        {
-          label: "Download File (GET)",
-          value: "GET",
-        },
-        {
-          label: "Upload File (PUT)",
-          value: "PUT",
-        },
-      ],
-      default: [
-        "GET",
-        "PUT",
-      ],
+    getUploadUrl: {
+      type: "boolean",
+      label: "Get Upload URL",
+      description: "Defaults to `true`. Pass `false` to skip generating an upload URL.",
+      default: true,
+      optional: true,
+    },
+    getDownloadUrl: {
+      type: "boolean",
+      label: "Get Download URL",
+      description: "Defaults to `true`. Pass `false` to skip generating a download URL.",
+      default: true,
+      optional: true,
     },
     dir: {
       type: "dir",
@@ -49,16 +44,16 @@ export default {
     const file = await this.dir.open(filePath);
 
     const urls = {};
-    if (this.method.includes("GET")) {
+    if (this.getDownloadUrl) {
       urls.get_url = await file.toUrl();
     }
-    if (this.method.includes("PUT")) {
+    if (this.getUploadUrl) {
       // Note: _put_url is an internal method and subject to change.
       urls.put_url = await file._put_url();
     }
 
     if (!Object.keys(urls).length) {
-      $.export("$summary", "No URL types selected. No URLs were generated.");
+      $.export("$summary", "No URLs were requested");
     } else {
       $.export("$summary", `Successfully generated temporary file ${[
         urls.get_url && "download",
