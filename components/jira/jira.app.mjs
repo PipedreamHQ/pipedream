@@ -636,6 +636,45 @@ export default {
         ...args,
       });
     },
+    countIssuesUsingJQL({
+      cloudId, ...args
+    } = {}) {
+      return this._makeRequest({
+        cloudId,
+        method: "POST",
+        path: "/search/approximate-count",
+        ...args,
+      });
+    },
+    checkIssuesAgainstJQL({
+      cloudId, ...args
+    } = {}) {
+      return this._makeRequest({
+        cloudId,
+        method: "POST",
+        path: "/jql/match",
+        ...args,
+      });
+    },
+    postSearchIssues({
+      cloudId, ...args
+    } = {}) {
+      return this._makeRequest({
+        cloudId,
+        method: "POST",
+        path: "/search/jql",
+        ...args,
+      });
+    },
+    getIssuePickerSuggestions({
+      cloudId, ...args
+    } = {}) {
+      return this._makeRequest({
+        cloudId,
+        path: "/issue/picker",
+        ...args,
+      });
+    },
     async *getResourcesStream({
       cloudId,
       resourceFn,

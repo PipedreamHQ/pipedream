@@ -4,7 +4,7 @@ import app from "../../trengo.app.mjs";
 export default {
   type: "action",
   key: "trengo-send-a-team-chat-message",
-  version: "0.0.9",
+  version: "0.0.10",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

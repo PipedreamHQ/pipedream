@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/constant_contact",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Pipedream Constant Contact Components",
   "main": "constant_contact.app.mjs",
   "keywords": [
@@ -13,7 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.6.8",
+    "@pipedream/platform": "^3.1.1",
     "lodash": "^4.17.21"
   }
 }

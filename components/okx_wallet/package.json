@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/okx_wallet",
+  "version": "0.0.1",
+  "description": "Pipedream OKX Wallet Components",
+  "main": "okx_wallet.app.mjs",
+  "keywords": [
+    "pipedream",
+    "okx_wallet"
+  ],
+  "homepage": "https://pipedream.com/apps/okx_wallet",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

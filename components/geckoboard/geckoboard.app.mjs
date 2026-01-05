@@ -35,16 +35,21 @@ export default {
       const {
         $ = this,
         path,
-        auth,
+        headers = {},
         ...otherOpts
       } = opts;
+
+      const token = Buffer
+        .from(`${this.$auth.api_key}:`)
+        .toString("base64");
+
       return axios($, {
         ...otherOpts,
         url: this._baseUrl() + path,
-        auth: {
-          username: `${this.$auth.api_key}`,
-          password: "",
-          ...auth,
+        headers: {
+          "Authorization": `Basic ${token}`,
+          "Content-Type": "application/json",
+          ...headers,
         },
       });
     },

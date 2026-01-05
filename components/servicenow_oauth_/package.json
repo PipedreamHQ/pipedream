@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/servicenow_oauth_",
+  "version": "0.0.1",
+  "description": "Pipedream ServiceNow Oauth Components",
+  "main": "servicenow_oauth_.app.mjs",
+  "keywords": [
+    "pipedream",
+    "servicenow_oauth_"
+  ],
+  "homepage": "https://pipedream.com/apps/servicenow_oauth_",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/phemex",
+  "version": "0.0.1",
+  "description": "Pipedream Phemex Components",
+  "main": "phemex.app.mjs",
+  "keywords": [
+    "pipedream",
+    "phemex"
+  ],
+  "homepage": "https://pipedream.com/apps/phemex",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
