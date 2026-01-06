@@ -124,7 +124,7 @@ export default {
     const fileStream = Readable.from(buffer);
     await pipeline(fileStream, fs.createWriteStream(filePath));
 
-    // Use getFileStreamAndMetadata to read the file and get metadata
+    // Use getFileStreamAndMetadata for reading the file and getting metadata
     const { metadata } = await getFileStreamAndMetadata(filePath);
 
     $.export("$summary", `Successfully downloaded attachment "${attachment.name}"`);
