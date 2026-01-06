@@ -214,8 +214,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/_3commas:
-    specifiers: {}
+  components/_3commas: {}
 
   components/_46elks:
     dependencies:
@@ -1835,8 +1834,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/bitmex:
-    specifiers: {}
+  components/bitmex: {}
 
   components/bitport:
     dependencies:
@@ -1946,8 +1944,7 @@ importers:
 
   components/bluesnap: {}
 
-  components/bokun:
-    specifiers: {}
+  components/bokun: {}
 
   components/boldsign:
     dependencies:
@@ -3240,8 +3237,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/coincatch:
-    specifiers: {}
+  components/coincatch: {}
 
   components/coingecko: {}
 
@@ -4793,8 +4789,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/emailchaser:
-    specifiers: {}
+  components/emailchaser: {}
 
   components/emailchef: {}
 
@@ -6780,7 +6775,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/hana: {}
+  components/hana:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/handelsregister_ai: {}
 
@@ -10058,8 +10057,7 @@ importers:
         specifier: ^8.13.0
         version: 8.16.3
 
-  components/niledesk:
-    specifiers: {}
+  components/niledesk: {}
 
   components/nimble:
     dependencies:
@@ -10315,8 +10313,7 @@ importers:
         specifier: ^2.0.2
         version: 2.0.2
 
-  components/okx_wallet:
-    specifiers: {}
+  components/okx_wallet: {}
 
   components/ollama:
     dependencies:
@@ -10839,8 +10836,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/palatine_speech:
-    specifiers: {}
+  components/palatine_speech: {}
 
   components/pandadoc:
     dependencies:
@@ -11198,8 +11194,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/phemex:
-    specifiers: {}
+  components/phemex: {}
 
   components/philips_hue:
     dependencies:
@@ -15261,8 +15256,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/thunder_compute:
-    specifiers: {}
+  components/thunder_compute: {}
 
   components/tick:
     dependencies:
@@ -16851,8 +16845,7 @@ importers:
         specifier: ^0.6.2
         version: 0.6.2
 
-  components/workflowy:
-    specifiers: {}
+  components/workflowy: {}
 
   components/workiom: {}
 
