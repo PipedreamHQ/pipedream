@@ -96,7 +96,8 @@ export default {
           params,
           ...opts,
         });
-        for (const d of data) {
+
+        for (const d of data || []) {
           yield d;
 
           if (maxResults && ++count === maxResults) {
