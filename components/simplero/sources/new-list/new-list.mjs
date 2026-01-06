@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "simplero-new-list",
   name: "New List",
-  description: "Emit new event when a new list is created. [See the documentation](https://github.com/Simplero/Simplero-API)",
+  description: "Emit new event when a new list is created. [See the documentation](https://github.com/Simplero/Simplero-API?tab=readme-ov-file#get-lists)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",

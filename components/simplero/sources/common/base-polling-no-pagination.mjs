@@ -1,30 +1,9 @@
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
-import simplero from "../../simplero.app.mjs";
+import base from "./base-polling.mjs";
 
 export default {
-  props: {
-    simplero,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
-    },
-  },
+  ...base,
   methods: {
-    _getLastId() {
-      return this.db.get("lastId") || 0;
-    },
-    _setLastId(lastId) {
-      this.db.set("lastId", lastId);
-    },
-    getFunction() {
-      throw new Error("getFunction is not implemented");
-    },
-    getSummary() {
-      throw new Error("getSummary is not implemented");
-    },
+    ...base.methods,
     async processEvents(maxResults = false) {
       const lastId = this._getLastId();
       const fn = this.getFunction();
@@ -48,14 +27,6 @@ export default {
         });
       }
     },
-  },
-  hooks: {
-    async deploy() {
-      await this.processEvents(25);
-    },
-  },
-  async run() {
-    await this.processEvents();
   },
 };
 

@@ -19,9 +19,6 @@ export default {
         invoice_number_from: lastId,
       };
     },
-    getIdField() {
-      return "invoice_number";
-    },
     getSummary(item) {
       return `New Invoice: ${item.invoice_number}`;
     },

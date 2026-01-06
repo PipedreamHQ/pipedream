@@ -14,7 +14,7 @@ export default {
   },
   methods: {
     _getLastId() {
-      return this.db.get("lastId");
+      return this.db.get("lastId") || 0;
     },
     _setLastId(lastId) {
       this.db.set("lastId", lastId);
@@ -30,8 +30,6 @@ export default {
     },
     async processEvents(maxResults = false) {
       const lastId = this._getLastId();
-      const idField = this.getIdField();
-
       const response = this.simplero.paginate({
         fn: this.getFunction(),
         maxResults,
@@ -50,12 +48,12 @@ export default {
         if (maxResults && (responseArray.length > maxResults)) {
           responseArray.length = maxResults;
         }
-        this._setLastId(responseArray[0][idField]);
+        this._setLastId(responseArray[0].invoice_number);
       }
 
       for (const item of responseArray.reverse()) {
         this.$emit(item, {
-          id: item[idField],
+          id: item.invoice_number,
           summary: this.getSummary(item),
           ts: Date.parse(item.created_at),
         });
