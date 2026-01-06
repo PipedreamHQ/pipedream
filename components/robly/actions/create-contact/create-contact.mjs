@@ -83,6 +83,7 @@ export default {
   },
   async run({ $ }) {
     const params = {
+      ...(parseObject(this.fieldTags) || {}),
       email: this.email,
       autogenerate_fields: this.autogenerateFields,
       double_opt_in: this.doubleOptIn,
@@ -92,7 +93,6 @@ export default {
       sub_lists: parseObject(this.subLists),
       return_contact: true,
       include_fields: true,
-      ...(parseObject(this.fieldTags) || {}),
     };
 
     const response = await this.robly.createContact({
