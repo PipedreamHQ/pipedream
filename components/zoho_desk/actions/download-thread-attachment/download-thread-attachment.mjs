@@ -67,6 +67,11 @@ export default {
       description: "The filename to save the attachment as in the /tmp directory",
       optional: true,
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
+    },
   },
   async run({ $ }) {
     const {
