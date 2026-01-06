@@ -38,7 +38,7 @@ export default {
     $.export("$summary", response.success
       ? `Request succeeded with code ${response.code}`
       : `Request failed with code ${response.code}`);
-      
+
     return response;
   },
 };
