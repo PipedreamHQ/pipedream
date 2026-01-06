@@ -9,8 +9,8 @@ export default {
   ...common,
   key: "google_sheets-add-single-row",
   name: "Add Single Row",
-  description: "Add a single row of data to Google Sheets. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/append)",
-  version: "2.1.20",
+  description: "Add a single row of data to Google Sheets. Optionally insert the row at a specific index (e.g., row 2 to insert after headers, shifting existing data down). [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/append)",
+  version: "2.2.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -59,6 +59,13 @@ export default {
       reloadProps: true,
     },
     hasHeaders: common.props.hasHeaders,
+    rowIndex: {
+      type: "integer",
+      label: "Row Index",
+      description: "The row number where the new row should be inserted (e.g., `2` to insert after the header row, shifting existing data down). If not specified, the row will be appended to the end of the sheet. **Note:** Row numbers start at 1. If your sheet has headers, use `2` or higher to avoid overwriting them.",
+      optional: true,
+      min: 1,
+    },
   },
   async additionalProps() {
     const {
@@ -132,7 +139,14 @@ export default {
     const {
       sheetId,
       worksheetId,
+      rowIndex,
+      hasHeaders,
     } = this;
+
+    // Validate rowIndex with respect to headers
+    if (rowIndex && hasHeaders && rowIndex === 1) {
+      throw new ConfigurationError("Cannot insert at row 1 when the sheet has headers. Please use row 2 or higher to avoid overwriting your header row.");
+    }
 
     const { name: sheetName } = await this.googleSheets.getFile(sheetId, {
       fields: "name",
@@ -141,7 +155,7 @@ export default {
     const worksheet = await this.getWorksheetById(sheetId, worksheetId);
 
     let cells;
-    if (this.hasHeaders
+    if (hasHeaders
       && !isDynamicExpression(sheetId)
       && !isDynamicExpression(worksheetId)
       && !this.myColumnData
@@ -174,15 +188,45 @@ export default {
       convertedIndexes,
     } = this.googleSheets.arrayValuesToString(cells);
 
-    const data = await this.googleSheets.addRowsToSheet({
-      spreadsheetId: sheetId,
-      range: worksheet?.properties?.title,
-      rows: [
-        sanitizedCells,
-      ],
-    });
+    let data;
+    let updatedRange;
 
-    let summary = `Added 1 row to [${sheetName || sheetId} (${data.updatedRange})](https://docs.google.com/spreadsheets/d/${sheetId}).`;
+    if (rowIndex) {
+      // Insert a blank row at the specified position
+      await this.googleSheets.insertDimension(sheetId, {
+        range: {
+          sheetId: worksheetId,
+          dimension: "ROWS",
+          startIndex: rowIndex - 1, // API uses 0-based indexing
+          endIndex: rowIndex, // endIndex is exclusive, so this inserts 1 row
+        },
+        inheritFromBefore: false,
+      });
+
+      // Update the newly inserted row with data
+      data = await this.googleSheets.updateRow(
+        sheetId,
+        worksheet?.properties?.title,
+        rowIndex,
+        sanitizedCells,
+      );
+      updatedRange = `${worksheet?.properties?.title}!${rowIndex}:${rowIndex}`;
+    } else {
+      // Use the existing append behavior
+      data = await this.googleSheets.addRowsToSheet({
+        spreadsheetId: sheetId,
+        range: worksheet?.properties?.title,
+        rows: [
+          sanitizedCells,
+        ],
+      });
+      updatedRange = data.updatedRange;
+    }
+
+    let summary = rowIndex
+      ? `Inserted 1 row at position ${rowIndex} in [${sheetName || sheetId} (${updatedRange})](https://docs.google.com/spreadsheets/d/${sheetId}).`
+      : `Added 1 row to [${sheetName || sheetId} (${updatedRange})](https://docs.google.com/spreadsheets/d/${sheetId}).`;
+
     if (convertedIndexes.length > 0) {
       summary += " We detected something other than a string/number/boolean in at least one of the fields and automatically converted it to a string.";
     }
