@@ -52,18 +52,6 @@ export default {
       description: "When true, sends the autoresponder email on the sub_lists that the new member has been subscribed to",
       optional: true,
     },
-    includeFields: {
-      type: "boolean",
-      label: "Include Fields",
-      description: "When true, includes fields on the member object that is returned. If `return_contact` is not set or is false, this parameter will be ignored",
-      optional: true,
-    },
-    returnContact: {
-      type: "boolean",
-      label: "Return Contact",
-      description: "When true, returns the member object as part of the response",
-      optional: true,
-    },
     subLists: {
       propDefinition: [
         robly,
