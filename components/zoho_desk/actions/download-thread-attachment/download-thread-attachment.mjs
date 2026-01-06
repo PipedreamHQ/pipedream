@@ -13,7 +13,7 @@ export default {
   name: "Download Thread Attachment",
   description: "Download a specific attachment belonging to a thread of a ticket. [See the documentation](https://desk.zoho.com/DeskAPIDocument#TicketAttachments_Listticketattachments)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
