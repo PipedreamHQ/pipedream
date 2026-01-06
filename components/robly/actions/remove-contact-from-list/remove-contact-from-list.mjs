@@ -4,11 +4,11 @@ import robly from "../../robly.app.mjs";
 export default {
   key: "robly-remove-contact-from-list",
   name: "Remove Contact From List",
-  description: "Remove a contact from one or more sub-lists. [See the documentation](https://docs.robly.com/docs/api-v1/8a9e116c7ab26-unsubscribe-contact)",
+  description: "Remove a contact from a sub-list. [See the documentation](https://docs.robly.com/docs/api-v1/8a9e116c7ab26-unsubscribe-contact)",
   type: "action",
   version: "0.0.1",
   annotations: {
-    destructiveHint: false,
+    destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },

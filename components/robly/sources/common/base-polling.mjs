@@ -24,8 +24,11 @@ export default {
     getParams() {
       return {};
     },
+    getSummary() {
+      throw new Error("getSummary is not implemented");
+    },
     async emitEvent(maxResults = false) {
-      const lastId = this._getLastId();;
+      const lastId = this._getLastId();
 
       const response = await this.robly.paginate({
         fn: this.robly.getContacts,

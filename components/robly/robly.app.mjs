@@ -131,7 +131,7 @@ export default {
           }
         }
 
-        hasMore = data.length;
+        hasMore = data.length === LIMIT;
 
       } while (hasMore);
     },

@@ -84,13 +84,11 @@ export default {
   async run({ $ }) {
     const params = {
       email: this.email,
-      autogenerateFields: this.autogenerateFields,
-      doubleOptIn: this.doubleOptIn,
-      includeAutomations: this.includeAutomations,
-      includeAutoresponder: this.includeAutoresponder,
-      includeFields: this.includeFields,
-      returnContact: this.returnContact,
-      welcomeEmail: this.welcomeEmail,
+      autogenerate_fields: this.autogenerateFields,
+      double_opt_in: this.doubleOptIn,
+      include_automations: this.includeAutomations,
+      include_autoresponder: this.includeAutoresponder,
+      welcome_email: this.welcomeEmail,
       sub_lists: parseObject(this.subLists),
       return_contact: true,
       include_fields: true,
