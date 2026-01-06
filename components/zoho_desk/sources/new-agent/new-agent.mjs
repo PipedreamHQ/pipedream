@@ -6,7 +6,7 @@ export default {
   name: "New Agent",
   description: "Emit new event when a new agent is created. [See the docs here](https://desk.zoho.com/DeskAPIDocument#Agents#Agents_Listagents)",
   type: "source",
-  version: "0.0.9",
+  version: "0.0.10",
   dedupe: "unique",
   props: {
     ...common.props,

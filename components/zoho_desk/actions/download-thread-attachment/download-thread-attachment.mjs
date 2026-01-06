@@ -3,9 +3,8 @@ import { Readable } from "stream";
 import fs from "fs";
 import { promisify } from "util";
 import stream from "stream";
-import {
-  ConfigurationError, getFileStreamAndMetadata,
-} from "@pipedream/platform";
+import { fileTypeFromBuffer } from "file-type";
+import { ConfigurationError } from "@pipedream/platform";
 
 const pipeline = promisify(stream.pipeline);
 
@@ -68,11 +67,6 @@ export default {
       description: "The filename to save the attachment as in the /tmp directory",
       optional: true,
     },
-    syncDir: {
-      type: "dir",
-      accessMode: "write",
-      sync: true,
-    },
   },
   async run({ $ }) {
     const {
@@ -120,12 +114,20 @@ export default {
     const fileName = filename || attachmentName;
     const filePath = `/tmp/${fileName}`;
 
+    // Detect file type from buffer
+    const fileType = await fileTypeFromBuffer(buffer);
+
     // Write file using stream pipeline (avoids fs.writeFileSync)
     const fileStream = Readable.from(buffer);
     await pipeline(fileStream, fs.createWriteStream(filePath));
 
-    // Use getFileStreamAndMetadata for reading the file and getting metadata
-    const { metadata } = await getFileStreamAndMetadata(filePath);
+    // Build metadata from attachment object and detected file type
+    const metadata = {
+      name: attachment.name,
+      size: parseInt(attachment.size, 10),
+      contentType: fileType?.mime,
+      ext: fileType?.ext,
+    };
 
     $.export("$summary", `Successfully downloaded attachment "${attachment.name}"`);
 

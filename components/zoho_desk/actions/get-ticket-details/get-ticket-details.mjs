@@ -5,7 +5,7 @@ export default {
   name: "Get Ticket Details",
   description: "Retrieve details for a specified ticket. [See the documentation](https://desk.zoho.com/DeskAPIDocument#Tickets_Getaticket)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
