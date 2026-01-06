@@ -1,18 +1,16 @@
-import FormData from "form-data";
 import { clearObj } from "../../common/utils.mjs";
-import { getFileStreamAndMetadata } from "@pipedream/platform";
 import zohoBugtracker from "../../zoho_bugtracker.app.mjs";
 
 export default {
   key: "zoho_bugtracker-update-bug",
   name: "Update Bug",
-  version: "0.1.2",
+  version: "0.2.0",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
-  description: "Update a specific bug [See the documentation](https://www.zoho.com/projects/help/rest-api/bugtracker-bugs-api.html#alink4)",
+  description: "Update a specific bug [See the documentation](https://projects.zoho.com/api-docs#issues#update-an-issue)",
   type: "action",
   props: {
     zohoBugtracker,
@@ -43,11 +41,12 @@ export default {
         }),
       ],
     },
-    title: {
+    name: {
       propDefinition: [
         zohoBugtracker,
-        "title",
+        "name",
       ],
+      optional: true,
     },
     description: {
       propDefinition: [
@@ -60,11 +59,8 @@ export default {
       propDefinition: [
         zohoBugtracker,
         "assignee",
-        ({
-          portalId, projectId,
-        }) => ({
+        ({ portalId }) => ({
           portalId,
-          projectId,
         }),
       ],
       optional: true,
@@ -73,19 +69,6 @@ export default {
       propDefinition: [
         zohoBugtracker,
         "flag",
-      ],
-      optional: true,
-    },
-    classificationId: {
-      propDefinition: [
-        zohoBugtracker,
-        "classificationId",
-        ({
-          portalId, projectId,
-        }) => ({
-          portalId,
-          projectId,
-        }),
       ],
       optional: true,
     },
@@ -105,59 +88,7 @@ export default {
     dueDate: {
       type: "string",
       label: "Due Date",
-      description: "Due date of the bug. **Format MM-DD-YYYY**",
-      optional: true,
-    },
-    moduleId: {
-      propDefinition: [
-        zohoBugtracker,
-        "moduleId",
-        ({
-          portalId, projectId,
-        }) => ({
-          portalId,
-          projectId,
-        }),
-      ],
-      optional: true,
-    },
-    severityId: {
-      propDefinition: [
-        zohoBugtracker,
-        "severityId",
-        ({
-          portalId, projectId,
-        }) => ({
-          portalId,
-          projectId,
-        }),
-      ],
-      optional: true,
-    },
-    reproducibleId: {
-      propDefinition: [
-        zohoBugtracker,
-        "reproducibleId",
-        ({
-          portalId, projectId,
-        }) => ({
-          portalId,
-          projectId,
-        }),
-      ],
-      optional: true,
-    },
-    statusId: {
-      propDefinition: [
-        zohoBugtracker,
-        "statusId",
-        ({
-          portalId, projectId,
-        }) => ({
-          portalId,
-          projectId,
-        }),
-      ],
+      description: "Due date of the bug. Example: `2025-12-12T02:12:00.000Z`",
       optional: true,
     },
     resolution: {
@@ -177,20 +108,7 @@ export default {
           projectId,
         }),
       ],
-      label: "Affected Milestone Id",
-      optional: true,
-    },
-    uploaddoc: {
-      propDefinition: [
-        zohoBugtracker,
-        "uploaddoc",
-      ],
-      optional: true,
-    },
-    syncDir: {
-      type: "dir",
-      accessMode: "read",
-      sync: true,
+      label: "Affected Milestone ID",
       optional: true,
     },
   },
@@ -200,68 +118,42 @@ export default {
       portalId,
       projectId,
       bugId,
+      assignee,
       milestoneId,
       dueDate,
       affectedMileId,
-      bugFollowers,
-      classificationId,
-      moduleId,
-      severityId,
-      reproducibleId,
-      statusId,
-      uploaddoc,
       ...data
     } = this;
 
-    const formData = new FormData();
     const preData = clearObj({
       ...data,
-      classification_id: classificationId,
-      milestone_id: milestoneId,
+      release_milestone: milestoneId
+        ? {
+          id: milestoneId,
+        }
+        : undefined,
       due_date: dueDate,
-      module_id: moduleId,
-      severity_id: severityId,
-      reproducible_id: reproducibleId,
-      status_id: statusId,
-      affectedMile_id: affectedMileId,
-      bug_followers: bugFollowers,
+      affected_milestone: affectedMileId
+        ? {
+          id: affectedMileId,
+        }
+        : undefined,
+      assignee: assignee
+        ? {
+          zpuid: assignee,
+        }
+        : undefined,
     });
-
-    for (const [
-      key,
-      value,
-    ] of Object.entries(preData)) {
-      formData.append(key, value);
-    }
-
-    if (uploaddoc) {
-      const {
-        stream, metadata,
-      } = await getFileStreamAndMetadata(uploaddoc);
-      const filename = metadata.name;
-      formData.append("uploaddoc", stream, {
-        filename,
-        contentType: metadata.contentType,
-        knownLength: metadata.size,
-        header: [
-          `Content-Disposition: form-data; name="uploaddoc"; filename="${filename}"`,
-          `Content-Type: ${metadata.contentType}`,
-        ],
-      });
-    }
 
     const response = await zohoBugtracker.updateBug({
       $,
       portalId,
       projectId,
       bugId,
-      data: formData,
-      headers: {
-        "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
-      },
+      data: preData,
     });
 
-    $.export("$summary", `Successfully updated bug with Id: ${bugId}!`);
+    $.export("$summary", `Successfully updated bug with ID: ${bugId}!`);
     return response;
   },
 };

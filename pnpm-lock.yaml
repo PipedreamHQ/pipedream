@@ -977,7 +977,11 @@ importers:
 
   components/annature: {}
 
-  components/announcekit: {}
+  components/announcekit:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/anonyflow:
     dependencies:
@@ -2609,7 +2613,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/chargekeep: {}
+  components/chargekeep:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/chargeover:
     dependencies:
@@ -4787,6 +4795,9 @@ importers:
       '@pipedream/platform':
         specifier: ^1.6.8
         version: 1.6.8
+
+  components/emailchaser:
+    specifiers: {}
 
   components/emailchef: {}
 
@@ -16837,6 +16848,9 @@ importers:
       xml2js:
         specifier: ^0.6.2
         version: 0.6.2
+
+  components/workflowy:
+    specifiers: {}
 
   components/workiom: {}
 
