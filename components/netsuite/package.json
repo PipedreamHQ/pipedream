@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/netsuite",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream NetSuite Components",
   "main": "netsuite.app.mjs",
   "keywords": [

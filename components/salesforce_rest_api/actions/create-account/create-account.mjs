@@ -8,7 +8,7 @@ export default {
   key: "salesforce_rest_api-create-account",
   name: "Create Account",
   description: `Creates a Salesforce account. [See the documentation](${docsLink})`,
-  version: "0.3.4",
+  version: "0.3.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

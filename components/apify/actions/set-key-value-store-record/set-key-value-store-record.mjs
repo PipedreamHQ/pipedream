@@ -3,9 +3,8 @@ import apify from "../../apify.app.mjs";
 export default {
   key: "apify-set-key-value-store-record",
   name: "Set Key-Value Store Record",
-  description:
-        "Create or update a record in an Apify Key-Value Store. Supports strings, numbers, booleans, null, arrays, and objects. Automatically infers content type (JSON vs. plain text).",
-  version: "0.2.2",
+  description: "Create or update a record in an Apify Key-Value Store. Supports strings, numbers, booleans, null, arrays, and objects. Automatically infers content type (JSON vs. plain text).",
+  version: "0.2.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -18,6 +17,9 @@ export default {
       propDefinition: [
         apify,
         "keyValueStoreId",
+        () => ({
+          unnamed: false,
+        }),
       ],
       optional: false,
     },
@@ -40,10 +42,10 @@ export default {
       // Returns { data, contentType, mode }
       if (
         input === null ||
-                typeof input === "number" ||
-                typeof input === "boolean" ||
-                Array.isArray(input) ||
-                (typeof input === "object")
+          typeof input === "number" ||
+          typeof input === "boolean" ||
+          Array.isArray(input) ||
+          (typeof input === "object")
       ) {
         return {
           data: input,

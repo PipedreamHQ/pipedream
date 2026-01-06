@@ -1,1 +1,1 @@
-export const range = 100;
+export const limit = 100;

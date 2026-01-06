@@ -16,7 +16,7 @@ export default {
   key: "salesforce_rest_api-update-opportunity",
   name: "Update Opportunity",
   description: `Updates an opportunity. [See the documentation](${docsLink})`,
-  version: "0.3.4",
+  version: "0.3.5",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

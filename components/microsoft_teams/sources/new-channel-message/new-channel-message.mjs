@@ -5,7 +5,7 @@ export default {
   key: "microsoft_teams-new-channel-message",
   name: "New Channel Message",
   description: "Emit new event when a new message is posted in a channel. [See the documentation](https://learn.microsoft.com/en-us/graph/api/channel-list-messages?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.13",
+  version: "0.0.14",
   type: "source",
   dedupe: "unique",
   props: {

@@ -4,7 +4,7 @@ export default {
   key: "topdesk-get-incidents",
   name: "Get Incidents",
   description: "Returns a list of incidents. [See the documentation](https://developers.topdesk.com/explorer/?page=incident#/incident/getIncidents)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     app,

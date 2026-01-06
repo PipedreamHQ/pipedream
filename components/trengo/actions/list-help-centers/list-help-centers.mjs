@@ -4,7 +4,7 @@ import app from "../../trengo.app.mjs";
 export default {
   type: "action",
   key: "trengo-list-help-centers",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -7,7 +7,7 @@ export default {
   name: "New Updated Record (Instant, of Selectable Type)",
   key: "salesforce_rest_api-record-updated-instant",
   description: "Emit new event when a record of the selected type is updated. [See the documentation](https://sforce.co/3yPSJZy)",
-  version: "0.2.5",
+  version: "0.2.7",
   props: {
     ...common.props,
     fields: {

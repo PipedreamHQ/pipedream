@@ -59,21 +59,38 @@ export default {
     getResources() {
       throw new Error("getResources is not implemented");
     },
+    async processEvents(max) {
+      let lastDate = this._getLastDate();
+      const tsField = this.getTsField();
+
+      const resources = await this.getResources(lastDate, tsField);
+      let items = [];
+      for (const resource of resources) {
+        const date = resource[tsField];
+        if (!lastDate || (date && Date.parse(date) > lastDate)) {
+          lastDate = Date.parse(date);
+        }
+        items.push(resource);
+      }
+
+      this._setLastDate(lastDate);
+
+      if (max) {
+        items = items.slice(0, max);
+      }
+
+      items.forEach((item) => {
+        const meta = this.generateMeta(item);
+        this.$emit(item, meta);
+      });
+    },
+  },
+  hooks: {
+    async deploy() {
+      await this.processEvents(10);
+    },
   },
   async run() {
-    let lastDate = this._getLastDate();
-    const tsField = this.getTsField();
-
-    const resources = await this.getResources(lastDate, tsField);
-    for (const resource of resources) {
-      const date = resource[tsField];
-      if (!lastDate || (date && Date.parse(date) > lastDate)) {
-        lastDate = Date.parse(date);
-      }
-      const meta = this.generateMeta(resource);
-      this.$emit(resource, meta);
-    }
-
-    this._setLastDate(lastDate);
+    await this.processEvents();
   },
 };

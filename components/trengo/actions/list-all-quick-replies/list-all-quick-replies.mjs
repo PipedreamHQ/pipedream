@@ -5,7 +5,7 @@ export default {
   key: "trengo-list-all-quick-replies",
   name: "List All Quick Replies",
   description: "List all quick replies. [See the documentation](https://developers.trengo.com/reference/list-all-quick-replies)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -29,7 +29,7 @@ jobs:
         id: pnpm-cache
         run: |
           echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
-      - uses: actions/cache@v4
+      - uses: actions/cache@v5
         if: github.ref != 'refs/heads/master' # Cache is used only for dry runs
         name: Setup pnpm cache
         with:

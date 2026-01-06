@@ -40,7 +40,7 @@ jobs:
         continue-on-error: true
         
       - name: Upload Validation Report
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: package-validation-report-${{ github.run_number }}
           path: |

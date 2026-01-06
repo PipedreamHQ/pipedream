@@ -4,7 +4,7 @@ import constantContact from "../../constant_contact.app.mjs";
 export default {
   key: "constant_contact-update-contact",
   name: "Update Contact",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

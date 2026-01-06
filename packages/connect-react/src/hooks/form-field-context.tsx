@@ -3,12 +3,11 @@ import {
 } from "react";
 import type {
   ConfigurableProp,
-  ConfigurablePropApp,
   PropValue,
 } from "@pipedream/sdk";
 import type { App } from "@pipedream/sdk";
 
-export type FormFieldContextExtra<T extends ConfigurableProp> = T extends ConfigurablePropApp ? {
+export type FormFieldContextExtra<T extends ConfigurableProp> = T extends ConfigurableProp.App ? {
   app?: App;
 } : object;
 

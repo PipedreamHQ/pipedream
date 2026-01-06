@@ -6,7 +6,7 @@ export default {
   name: "New Contact Added",
   description: "Emit new event when a new contact is created.",
   type: "source",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   props: {
     constantContact,

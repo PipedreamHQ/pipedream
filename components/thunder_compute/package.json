@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/thunder_compute",
+  "version": "0.0.1",
+  "description": "Pipedream Thunder Compute Components",
+  "main": "thunder_compute.app.mjs",
+  "keywords": [
+    "pipedream",
+    "thunder_compute"
+  ],
+  "homepage": "https://pipedream.com/apps/thunder_compute",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
