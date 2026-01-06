@@ -1,5 +1,8 @@
 import { z } from "zod"
-import { ConfigurableProp, V1Component } from "@pipedream/sdk"
+import {
+  ConfigurableProp,
+  V1Component,
+} from "@pipedream/sdk"
 import { ToolConfigState } from "./types"
 import { wrapTool } from "./wrapper"
 import { ToolConfigStateMachine } from "./toolConfigStateMachine"
@@ -8,7 +11,7 @@ import { componentAppName } from "../utils"
 import { getAuthProvision } from "../authProvisions"
 import { pd } from "../../pd-client"
 
-export const ASYNC_OPTIONS_TOOL_NAME = "ASYNC_OPTIONS"
+export const ASYNC_OPTIONS_TOOL_NAME = "OPTS"
 
 type AsyncOptionsToolDef = {
   machine: ToolConfigStateMachine
@@ -84,6 +87,6 @@ export const asyncOptionsTool = ({
         }
       },
     },
-    machine
+    machine,
   )
 }

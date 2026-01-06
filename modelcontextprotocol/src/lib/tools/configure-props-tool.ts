@@ -4,11 +4,12 @@ import { ToolConfigState } from "./types"
 import { wrapTool } from "./wrapper"
 import { ToolConfigStateMachine } from "./toolConfigStateMachine"
 
-export const CONFIGURE_PROPS_TOOL_NAME = "CONFIGURE_PROPS"
+export const CONFIGURE_PROPS_TOOL_NAME = "CFG"
 
 type ConfigurePropsToolDef = {
   machine: ToolConfigStateMachine
   component: V1Component
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   schema: Record<string, any>
 }
 
@@ -37,7 +38,7 @@ export const configurePropsToolTool = ({
         }
 
         const nextPropNames = (await machine.getNextPropsToShow()).map(
-          (prop) => prop.name
+          (prop) => prop.name,
         )
 
         // Now update shownProps with the properties that were just configured
@@ -77,6 +78,6 @@ export const configurePropsToolTool = ({
         }
       },
     },
-    machine
+    machine,
   )
 }

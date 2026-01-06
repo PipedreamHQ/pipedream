@@ -214,8 +214,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/_3commas:
-    specifiers: {}
+  components/_3commas: {}
 
   components/_46elks:
     dependencies:
@@ -884,12 +883,6 @@ importers:
 
   components/amazon_redshift: {}
 
-  components/amazon_selling_partner:
-    dependencies:
-      '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
-
   components/amazon_ses:
     dependencies:
       '@aws-sdk/client-ec2':
@@ -907,6 +900,12 @@ importers:
       '@pipedream/platform':
         specifier: ^0.10.1
         version: 0.10.1
+
+  components/amazon_sp:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/ambee: {}
 
@@ -1835,8 +1834,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/bitmex:
-    specifiers: {}
+  components/bitmex: {}
 
   components/bitport:
     dependencies:
@@ -1946,8 +1944,7 @@ importers:
 
   components/bluesnap: {}
 
-  components/bokun:
-    specifiers: {}
+  components/bokun: {}
 
   components/boldsign:
     dependencies:
@@ -3240,8 +3237,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/coincatch:
-    specifiers: {}
+  components/coincatch: {}
 
   components/coingecko: {}
 
@@ -10055,8 +10051,7 @@ importers:
         specifier: ^8.13.0
         version: 8.16.3
 
-  components/niledesk:
-    specifiers: {}
+  components/niledesk: {}
 
   components/nimble:
     dependencies:
@@ -10312,8 +10307,7 @@ importers:
         specifier: ^2.0.2
         version: 2.0.2
 
-  components/okx_wallet:
-    specifiers: {}
+  components/okx_wallet: {}
 
   components/ollama:
     dependencies:
@@ -10836,8 +10830,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/palatine_speech:
-    specifiers: {}
+  components/palatine_speech: {}
 
   components/pandadoc:
     dependencies:
@@ -11195,8 +11188,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/phemex:
-    specifiers: {}
+  components/phemex: {}
 
   components/philips_hue:
     dependencies:
@@ -15258,8 +15250,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/thunder_compute:
-    specifiers: {}
+  components/thunder_compute: {}
 
   components/tick:
     dependencies:
@@ -16848,8 +16839,7 @@ importers:
         specifier: ^0.6.2
         version: 0.6.2
 
-  components/workflowy:
-    specifiers: {}
+  components/workflowy: {}
 
   components/workiom: {}
 
@@ -31926,17 +31916,17 @@ packages:
   superagent@3.8.1:
     resolution: {integrity: sha512-VMBFLYgFuRdfeNQSMLbxGSLfmXL/xc+OO+BZp41Za/NRDBet/BNbkRJrYzCUu0u4GU0i/ml2dtT8b9qgkw9z6Q==}
     engines: {node: '>= 4.0'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   superagent@4.1.0:
     resolution: {integrity: sha512-FT3QLMasz0YyCd4uIi5HNe+3t/onxMyEho7C3PSqmti3Twgy2rXT4fmkTz6wRL6bTF4uzPcfkUCa8u4JWHw8Ag==}
     engines: {node: '>= 6.0'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   superagent@5.3.1:
     resolution: {integrity: sha512-wjJ/MoTid2/RuGCOFtlacyGNxN9QLMgcpYLDQlWFIhhdJ93kNscFonGvrpAHSCVjRVj++DGCglocF7Aej1KHvQ==}
     engines: {node: '>= 7.0.0'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   supports-color@10.2.2:
     resolution: {integrity: sha512-SS+jx45GF1QjgEXQx4NJZV9ImqmO2NPz5FNsIHrsDjh2YsHnawpan7SNQ1o8NuhrbHZy9AZhIoCUiCeaW/C80g==}
@@ -39627,6 +39617,7 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
+      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.9)(rollup@4.53.2)':
     dependencies:

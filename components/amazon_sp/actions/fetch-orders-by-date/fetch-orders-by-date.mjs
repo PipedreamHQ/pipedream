@@ -1,10 +1,10 @@
-import amazonSellingPartner from "../../amazon_selling_partner.app.mjs";
+import amazonSellingPartner from "../../amazon_sp.app.mjs";
 
 export default {
-  key: "amazon_selling_partner-fetch-orders-by-date-range",
+  key: "amazon_sp-fetch-orders-by-date",
   name: "Fetch Orders by Date Range",
   description: "Retrieves a list of orders based on a specified date range, buyer email, or order ID. [See the documentation](https://developer-docs.amazon.com/sp-api/reference/getorders)",
-  version: "0.0.3",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

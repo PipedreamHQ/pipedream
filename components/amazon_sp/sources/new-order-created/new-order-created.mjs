@@ -2,10 +2,10 @@ import common from "../common/base.mjs";
 
 export default {
   ...common,
-  key: "amazon_selling_partner-new-order-created",
+  key: "amazon_sp-new-order-created",
   name: "New Order Created",
   description: "Emit new event when a new order is created in Amazon Seller Central. [See the documentation](https://developer-docs.amazon.com/sp-api/reference/getorders)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   methods: {

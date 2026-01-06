@@ -1,10 +1,10 @@
-import amazonSellingPartner from "../../amazon_selling_partner.app.mjs";
+import amazonSellingPartner from "../../amazon_sp.app.mjs";
 
 export default {
-  key: "amazon_selling_partner-check-fba-inventory-levels",
+  key: "amazon_sp-check-fba-inventory",
   name: "Check FBA Inventory Levels",
   description: "Retrieves inventory summaries from Amazon fulfillment centers to monitor stock availability. [See the documentation](https://developer-docs.amazon.com/sp-api/reference/getinventorysummaries)",
-  version: "0.0.3",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -1,10 +1,10 @@
-import amazonSellingPartner from "../../amazon_selling_partner.app.mjs";
+import amazonSellingPartner from "../../amazon_sp.app.mjs";
 
 export default {
-  key: "amazon_selling_partner-optimize-product-pricing",
+  key: "amazon_sp-optimize-pricing",
   name: "Optimize Product Pricing",
   description: "Retrieves pricing data to adjust product prices dynamically based on market trends. [See the documentation](https://developer-docs.amazon.com/sp-api/reference/getcompetitivepricing)",
-  version: "0.0.3",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

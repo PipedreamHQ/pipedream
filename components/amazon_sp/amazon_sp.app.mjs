@@ -2,7 +2,7 @@ import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
-  app: "amazon_selling_partner",
+  app: "amazon_sp",
   propDefinitions: {
     marketplaceId: {
       type: "string",

@@ -1,10 +1,10 @@
-import amazonSellingPartner from "../../amazon_selling_partner.app.mjs";
+import amazonSellingPartner from "../../amazon_sp.app.mjs";
 
 export default {
-  key: "amazon_selling_partner-list-inbound-shipments",
+  key: "amazon_sp-list-inbound-shipments",
   name: "List Inbound Shipments",
   description: "Fetches inbound shipment details to track stock movement and replenishment. [See the documentation](https://developer-docs.amazon.com/sp-api/reference/getshipments)",
-  version: "0.0.3",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

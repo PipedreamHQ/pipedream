@@ -4,7 +4,7 @@ import { ToolConfigState } from "./types"
 import { wrapTool } from "./wrapper"
 import { ToolConfigStateMachine } from "./toolConfigStateMachine"
 
-export const ABORT_CONFIGURATION_TOOL_NAME = "ABORT_CONFIGURATION"
+export const ABORT_CONFIGURATION_TOOL_NAME = "ABORT"
 
 type AbortConfigurationToolDef = {
   machine: ToolConfigStateMachine
@@ -43,6 +43,6 @@ export const abortConfigurationTool = ({
         }
       },
     },
-    machine
+    machine,
   )
 }

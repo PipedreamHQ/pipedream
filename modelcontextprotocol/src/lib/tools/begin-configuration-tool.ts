@@ -4,7 +4,7 @@ import { ToolConfigState } from "./types"
 import { wrapTool } from "./wrapper"
 import { ToolConfigStateMachine } from "./toolConfigStateMachine"
 
-export const BEGIN_CONFIGURATION_TOOL_NAME = "BEGIN_CONFIGURATION"
+export const BEGIN_CONFIGURATION_TOOL_NAME = "BEGIN"
 
 type BeginConfigurationToolDef = {
   machine: ToolConfigStateMachine
@@ -37,7 +37,7 @@ export const beginConfigurationTool = ({
             {
               type: "text",
               text: `
-You are now in configuration mode. Please use CONFIGURE_${component.key.toUpperCase()}_PROPS to configure the tool.
+You are now in configuration mode. Please use CFG_${component.key.toUpperCase()}_PROPS to configure the tool.
 Unless you need to ask the user for more information, you should keep configuring the tool. Once you are done configuring it,
 you will be given a new tool to run the action with configured properties.
 Again, unless you need to ask the user for more information, just run the tool.
@@ -48,6 +48,6 @@ Again, unless you need to ask the user for more information, just run the tool.
         }
       },
     },
-    machine
+    machine,
   )
 }

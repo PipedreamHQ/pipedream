@@ -1,4 +1,4 @@
-import amazonSellingPartner from "../../amazon_selling_partner.app.mjs";
+import amazonSellingPartner from "../../amazon_sp.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
