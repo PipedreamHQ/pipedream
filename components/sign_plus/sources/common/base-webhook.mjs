@@ -16,7 +16,6 @@ export default {
         data: {
           event: this.getEvent(),
           target: this.http.endpoint,
-          name: this.name,
         },
       });
       this._setWebhookId(id);
