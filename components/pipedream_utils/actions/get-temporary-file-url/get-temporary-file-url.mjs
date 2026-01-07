@@ -50,6 +50,8 @@ export default {
 
     const urls = {};
     if (this.getDownloadUrl) {
+      // Generate a download URL even if the file doesn't exist yet, allowing
+      // for pre-signed URLs to be shared ahead of time.
       urls.get_url = await file.toUrl();
     }
     if (this.getUploadUrl) {
