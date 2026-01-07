@@ -16,7 +16,7 @@ export default {
     },
     generateMeta(body) {
       return {
-        id: body.user_id,
+        id: `${body.user_id}-${body.person.events.last}`,
         summary: `User ${body.person.id} exited smart group: ${body.group.name}`,
         ts: body.person.events.last,
       };
