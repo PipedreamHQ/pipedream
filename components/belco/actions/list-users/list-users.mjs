@@ -14,13 +14,13 @@ export default {
   props: {
     belco,
   },
-  async runL({ $ }) {
+  async run({ $ }) {
     const response = await this.belco.listUsers({
       $,
     });
     $.export("$summary", `Successfully retrieved ${response?.length} user${response?.length === 1
       ? ""
       : "s"}`);
-    return response.users;
+    return response;
   },
 };
