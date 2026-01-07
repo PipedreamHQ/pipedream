@@ -1836,9 +1836,6 @@ importers:
 
   components/bitmex:
     dependencies:
-      '@pipedream/platform':
-        specifier: ^3.1.0
-        version: 3.1.1
       axios:
         specifier: ^1.13.2
         version: 1.13.2(debug@3.2.7)
@@ -4796,8 +4793,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/emailchaser:
-    specifiers: {}
+  components/emailchaser: {}
 
   components/emailchef: {}
 
@@ -16849,8 +16845,7 @@ importers:
         specifier: ^0.6.2
         version: 0.6.2
 
-  components/workflowy:
-    specifiers: {}
+  components/workflowy: {}
 
   components/workiom: {}
 
