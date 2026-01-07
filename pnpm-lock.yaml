@@ -8020,6 +8020,9 @@ importers:
         specifier: ^18.0.0
         version: 18.0.0
 
+  components/klaviyo_oauth:
+    specifiers: {}
+
   components/klaxoon:
     dependencies:
       '@pipedream/platform':
