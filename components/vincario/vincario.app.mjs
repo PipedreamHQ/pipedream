@@ -17,7 +17,7 @@ export default {
     },
     _controlSum(id, vin) {
       return crypto.createHash("sha1")
-        .update(`${vin}|${id}|${this.$auth.api_key}|${this.$auth.secret_key}`)
+        .update(`${vin.toUpperCase()}|${id}|${this.$auth.api_key}|${this.$auth.secret_key}`)
         .digest("hex")
         .substring(0, 10);
     },
