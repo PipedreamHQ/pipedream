@@ -22,13 +22,13 @@ export default {
     strategy: {
       type: "string",
       label: "Strategy",
-      description: "Order strategy. e.g. 'OneWay', 'Long', 'Short'.",
+      description: "Order strategy. e.g. 'OneWay', 'Long', 'Short'",
       optional: true,
     },
     side: {
       type: "string",
       label: "Side",
-      description: "Order side. Valid options: Buy, Sell. Defaults to 'Buy' unless `orderQty` is negative.",
+      description: "Order side. Valid options: Buy, Sell. Defaults to 'Buy' unless `orderQty` is negative",
       optional: true,
       options: [
         "Buy",
@@ -38,13 +38,13 @@ export default {
     orderQty: {
       type: "integer",
       label: "Order Quantity",
-      description: "Order quantity in units of the instrument (i.e. contracts, for spot it is base currency in minor currency for spot (e.g. XBt quantity for XBT)).",
+      description: "Order quantity in units of the instrument (i.e. contracts, for spot it is base currency in minor currency for spot (e.g. XBt quantity for XBT))",
       optional: true,
     },
     price: {
       type: "string",
       label: "Price",
-      description: "Optional limit price for 'Limit', 'StopLimit', and 'LimitIfTouched' orders.",
+      description: "Optional limit price for 'Limit', 'StopLimit', and 'LimitIfTouched' orders",
       optional: true,
     },
     displayQty: {
@@ -80,7 +80,7 @@ export default {
     pegPriceType: {
       type: "string",
       label: "Peg Price Type",
-      description: "Optional peg price type. Valid options: MarketPeg, PrimaryPeg, TrailingStopPeg.",
+      description: "Optional peg price type. Valid options: MarketPeg, PrimaryPeg, TrailingStopPeg",
       optional: true,
       options: [
         "MarketPeg",
@@ -135,7 +135,7 @@ export default {
     text: {
       type: "string",
       label: "Text",
-      description: "Optional order annotation. e.g. 'Take profit'.",
+      description: "Optional order annotation. e.g. 'Take profit'",
       optional: true,
     },
   },
