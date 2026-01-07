@@ -2,7 +2,7 @@ export default {
   "hook": {
     "id": "6697ccb204bd194fa74c22b4",
     "event": "envelope_completed",
-   "target": "https://webhook.site/47acfde3-bd83-4fbc-9ff1-ea0dc030e118"
+    "target": "https://webhook.site/47acfde3-bd83-4fbc-9ff1-ea0dc030e118"
   },
   "data": {
     "id": "6697ccb204bd194fa74c22b4",

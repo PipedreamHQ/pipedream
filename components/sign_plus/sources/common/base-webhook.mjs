@@ -52,6 +52,6 @@ export default {
       return;
     }
 
-    this.$emit(event, this.generateMeta(event));
+    this.$emit(body, this.generateMeta(body));
   },
 };
