@@ -5,7 +5,7 @@ export default {
   key: "aircall-new-note-added",
   name: "New Note Added",
   description: "Emit new event when a new note is added to a call",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   methods: {
