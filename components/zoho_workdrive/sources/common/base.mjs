@@ -44,11 +44,10 @@ export default {
       if (Number.isInteger(lastDate)) {
         return lastDate;
       }
-      try {
-        return Date.parse(lastDate);
-      } catch {
-        return 0;
-      }
+      const parsed = Date.parse(lastDate);
+      return isNaN(parsed)
+        ? 0
+        : parsed;
     },
   },
   async run() {
