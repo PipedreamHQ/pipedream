@@ -18,7 +18,7 @@ export default {
     path: {
       type: "string",
       label: "Path",
-      description: "The path (including filename) where the file is stored. If not provided, a random filename will be generated.",
+      description: "The path (including filename) in File Stash where the file will be uploaded to or downloaded from. If not provided, a random filename will be generated.",
       optional: true,
     },
     getUploadUrl: {
