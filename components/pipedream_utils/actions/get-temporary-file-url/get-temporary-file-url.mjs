@@ -1,5 +1,6 @@
 import pipedream_utils from "../../pipedream_utils.app.mjs";
 import { nanoid } from "nanoid";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "pipedream_utils-get-temporary-file-url",
@@ -40,6 +41,10 @@ export default {
     },
   },
   async run({ $ }) {
+    if (!this.dir) {
+      throw new ConfigurationError("Unable to access File Stash directory. Currently, File Stash is only available in actions run via Pipedream Connect. For storing and accessing files from workflows, see [File Stores](https://pipedream.com/docs/workflows/data-management/file-stores).");
+    }
+
     const filePath = this.path || nanoid();
     const file = await this.dir.open(filePath);
 
