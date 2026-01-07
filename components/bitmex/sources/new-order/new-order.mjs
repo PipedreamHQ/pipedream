@@ -1,7 +1,7 @@
-import bitmex from "../../bitmex.app.mjs";
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import common from "../common/common-polling.mjs";
 
 export default {
+  ...common,
   key: "bitmex-new-order",
   name: "New Order",
   description: "Emit new event when a new order is placed on your BitMEX account. [See the documentation](https://www.bitmex.com/api/explorer/#!/Order/Order_getOrders)",
@@ -9,28 +9,16 @@ export default {
   type: "source",
   dedupe: "unique",
   props: {
-    bitmex,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
-    },
+    ...common.props,
     symbol: {
       propDefinition: [
-        bitmex,
+        common.props.bitmex,
         "symbol",
       ],
     },
   },
   methods: {
-    _getLastTimestamp() {
-      return this.db.get("lastTimestamp");
-    },
-    _setLastTimestamp(timestamp) {
-      this.db.set("lastTimestamp", timestamp);
-    },
+    ...common.methods,
     _getEmittedOrderIds() {
       return new Set(this.db.get("emittedOrderIds") || []);
     },

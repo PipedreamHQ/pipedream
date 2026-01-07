@@ -1,7 +1,7 @@
-import bitmex from "../../bitmex.app.mjs";
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import common from "../common/common-polling.mjs";
 
 export default {
+  ...common,
   key: "bitmex-new-executed-trade",
   name: "New Executed Trade",
   description: "Emit new event when a balance‑affecting execution (trade fill, settlement, realized PnL) occurs in your BitMEX account. [See the documentation](https://www.bitmex.com/api/explorer/#!/Execution/Execution_getTradeHistory)",
@@ -9,14 +9,7 @@ export default {
   type: "source",
   dedupe: "unique",
   props: {
-    bitmex,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
-    },
+    ...common.props,
     targetAccountId: {
       type: "integer",
       label: "Target Account ID",
@@ -24,19 +17,14 @@ export default {
     },
     symbol: {
       propDefinition: [
-        bitmex,
+        common.props.bitmex,
         "symbol",
       ],
       optional: true,
     },
   },
   methods: {
-    _getLastTimestamp() {
-      return this.db.get("lastTimestamp");
-    },
-    _setLastTimestamp(timestamp) {
-      this.db.set("lastTimestamp", timestamp);
-    },
+    ...common.methods,
     _getEmittedTradeIds() {
       return new Set(this.db.get("emittedTradeIds") || []);
     },
