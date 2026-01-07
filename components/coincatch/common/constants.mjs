@@ -93,10 +93,10 @@ const GRANULARITIES = [
 ];
 
 const MARKET_DEPTH_LIMITS = [
-  5,
-  15,
-  50,
-  100,
+  "5",
+  "15",
+  "50",
+  "100",
 ];
 
 export default {

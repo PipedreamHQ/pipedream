@@ -30,12 +30,12 @@ export default {
       ],
     },
     limit: {
-      type: "integer",
+      type: "string",
       label: "Limit",
       description: "The maximum number of depth data to return. Default: `100`",
       optional: true,
       options: constants.MARKET_DEPTH_LIMITS,
-      default: 100,
+      default: "100",
     },
   },
   async run({ $ }) {
@@ -43,7 +43,9 @@ export default {
       $,
       params: {
         symbol: this.symbol,
-        limit: this.limit,
+        limit: this.limit
+          ? parseInt(this.limit)
+          : undefined,
       },
     });
     $.export("$summary", `Successfully retrieved depth data for \`${this.symbol}\``);
