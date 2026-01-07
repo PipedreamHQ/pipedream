@@ -23,9 +23,10 @@ export default {
       description: "AccountId fetching the trade history, must be a paired account with main user",
     },
     symbol: {
-      type: "string",
-      label: "Symbol",
-      description: "Instrument symbol. Send a bare series (e.g. XBT) to get data for the nearest expiring contract in that series. You can also send a timeframe, e.g. `XBT:quarterly`. Timeframes are `nearest`, `daily`, `weekly`, `monthly`, `quarterly`, `biquarterly`, and `perpetual`. Symbols are case-insensitive.",
+      propDefinition: [
+        bitmex,
+        "symbol",
+      ],
       optional: true,
     },
   },

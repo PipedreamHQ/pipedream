@@ -4,7 +4,7 @@ export default {
   key: "bitmex-get-user-wallet",
   name: "Get User Wallet",
   description: "Retrieve your current wallet information from BitMEX. [See the documentation](https://www.bitmex.com/api/explorer/#!/User/User_getWallet)",
-  version: "0.0.2",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: false,
