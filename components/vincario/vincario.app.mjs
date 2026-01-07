@@ -13,7 +13,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return `https://api.vindecoder.eu/3.2/${this.$auth.api_key}`;
+      return `https://api.vincario.com/3.2/${this.$auth.api_key}`;
     },
     _controlSum(id, vin) {
       return crypto.createHash("sha1")
