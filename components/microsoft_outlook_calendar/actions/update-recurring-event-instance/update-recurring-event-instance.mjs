@@ -168,6 +168,10 @@ export default {
       }));
     }
 
+    if (!Object.keys(data).length) {
+      throw new Error("At least one field must be provided to update the event instance");
+    }
+
     const response = await this.microsoftOutlook.updateCalendarEvent({
       $,
       eventId: this.instanceId,
