@@ -1,9 +1,10 @@
+import { ConfigurationError } from "@pipedream/platform";
 import servicenow from "../../servicenow.app.mjs";
 
 export default {
-  key: "servicenow-get-table-records",
+  key: "servicenow_oauth_-get-table-records",
   name: "Get Table Records",
-  description: "Retrieves multiple records for the specified table.",
+  description: "Retrieves multiple records for the specified table. [See the documentation](https://www.servicenow.com/docs/bundle/zurich-api-reference/page/integrate/inbound-rest/concept/c_TableAPI.html#title_table-GET)",
   version: "1.0.0",
   annotations: {
     destructiveHint: false,
@@ -19,79 +20,116 @@ export default {
         "table",
       ],
     },
-    sysparmQuery: {
+    filterInfo: {
+      type: "alert",
+      alertType: "info",
+      content: "You must provide either a `Query` or at least one `Filter` prop. ",
+    },
+    query: {
+      label: "Query",
       type: "string",
+      description: "An [encoded query string](https://www.servicenow.com/docs/bundle/zurich-platform-user-interface/page/use/using-lists/concept/c_EncodedQueryStrings.html) to filter records by (e.g., `active=true^priority=1`). This overrides any other filters set.",
       optional: true,
     },
-    sysparmDisplayValue: {
+    filterCreatedAtDate: {
       type: "string",
-      description: "Return field display values (true), actual values (false), or both (all) (default: false).",
+      label: "Filter by Date Created",
+      description: "Return records created only after the given date, in the format `YYYY-MM-DD HH:MM:SS` (e.g. `2026-01-01 00:00:00`).",
       optional: true,
-      options: [
-        "true",
-        "false",
-        "all",
+    },
+    filterUpdatedAtDate: {
+      type: "string",
+      label: "Filter by Date Updated",
+      description: "Return records updated only after the given date, in the format `YYYY-MM-DD HH:MM:SS` (e.g. `2026-01-01 00:00:00`).",
+      optional: true,
+    },
+    filterActive: {
+      type: "boolean",
+      label: "Filter by Active",
+      description: "If set to `true`, only return records that are active. If set to `false`, only return records that are inactive. May not be available for all tables.",
+      optional: true,
+    },
+    responseDataFormat: {
+      propDefinition: [
+        servicenow,
+        "responseDataFormat",
       ],
     },
-    sysparmExcludeReferenceLink: {
-      type: "boolean",
-      description: "True to exclude Table API links for reference fields (default: false).",
+    excludeReferenceLinks: {
+      propDefinition: [
+        servicenow,
+        "excludeReferenceLinks",
+      ],
+    },
+    responseFields: {
+      propDefinition: [
+        servicenow,
+        "responseFields",
+      ],
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "The maximum number of results to return",
+      min: 1,
+      default: 10000,
       optional: true,
     },
-    sysparmSuppressPaginationHeader: {
-      type: "boolean",
-      description: "True to supress pagination header (default: false).",
-      optional: true,
+    responseView: {
+      propDefinition: [
+        servicenow,
+        "responseView",
+      ],
     },
-    sysparmFields: {
-      type: "string",
-      description: "A comma-separated list of fields to return in the response.",
-      optional: true,
-    },
-    sysparmLimit: {
-      type: "string",
-      description: "The maximum number of results returned per page (default: 10,000).",
-      optional: true,
-    },
-    sysparmView: {
-      type: "string",
-      description: "Render the response according to the specified UI view (overridden by sysparm_fields).",
-      optional: true,
-    },
-    sysparmQueryCategory: {
-      type: "string",
-      description: "Name of the query category (read replica category) to use for queries.",
-      optional: true,
-    },
-    sysparmQueryNoDomain: {
-      type: "boolean",
-      description: "True to access data across domains if authorized (default: false).",
-      optional: true,
-    },
-    sysparmNoCount: {
-      type: "boolean",
-      description: "Do not execute a select count(*) on table (default: false).",
-      optional: true,
+    queryNoDomain: {
+      propDefinition: [
+        servicenow,
+        "queryNoDomain",
+      ],
     },
   },
   async run({ $ }) {
-  // See the API docs: https://docs.servicenow.com/bundle/paris-application-development/page/integrate/inbound-rest/concept/c_TableAPI.html#table-GET-id                    */
+    let query = this.query;
 
-    return await this.servicenow.getTableRecords({
+    // If no query is provided, build one from the filters
+    if (!query) {
+      const filters = [];
+
+      if (this.filterCreatedAtDate) {
+        filters.push(`sys_created_on>=${this.filterCreatedAtDate}`);
+      }
+
+      if (this.filterUpdatedAtDate) {
+        filters.push(`sys_updated_on>=${this.filterUpdatedAtDate}`);
+      }
+
+      if (this.filterActive !== undefined) {
+        filters.push(`active=${this.filterActive}`);
+      }
+
+      if (!filters.length) {
+        throw new ConfigurationError("You must provide either a `Query` or at least one `Filter` prop.");
+      }
+
+      query = filters.join("^");
+    }
+
+    const response = await this.servicenow.getTableRecords({
       $,
       table: this.table,
       params: {
-        sysparm_query: this.sysparmQuery,
-        sysparm_display_value: this.sysparmDisplayValue,
-        sysparm_exclude_reference_link: this.sysparmExcludeReferenceLink,
-        sysparm_suppress_pagination_header: this.sysparmSuppressPaginationHeader,
-        sysparm_fields: this.sysparmFields,
-        sysparm_limit: this.sysparmLimit,
-        sysparm_view: this.sysparmView,
-        sysparm_query_category: this.sysparmQueryCategory,
-        sysparm_query_no_domain: this.sysparmQueryNoDomain,
-        sysparm_no_count: this.sysparmNoCount,
+        sysparm_query: query,
+        sysparm_display_value: this.responseDataFormat,
+        sysparm_exclude_reference_link: this.excludeReferenceLinks,
+        sysparm_fields: this.responseFields?.join?.() || this.responseFields,
+        sysparm_limit: this.limit,
+        sysparm_view: this.responseView,
+        sysparm_query_no_domain: this.queryNoDomain,
       },
     });
+
+    $.export("$summary", `Successfully retrieved ${response?.length || 0} record(s) from table "${this.table}"`);
+
+    return response;
   },
 };

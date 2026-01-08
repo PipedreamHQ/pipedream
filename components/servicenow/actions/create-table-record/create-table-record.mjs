@@ -1,7 +1,7 @@
 import servicenow from "../../servicenow.app.mjs";
 
 export default {
-  key: "servicenow-create-table-record",
+  key: "servicenow_oauth_-create-table-record",
   name: "Create Table Record",
   description: "Inserts one record in the specified table. [See the documentation](https://www.servicenow.com/docs/bundle/zurich-api-reference/page/integrate/inbound-rest/concept/c_TableAPI.html#title_table-POST)",
   version: "1.0.0",
@@ -56,7 +56,7 @@ export default {
       description: "The fields to return in the response. By default, all fields are returned",
       optional: true,
     },
-    allowInputDisplayValue: {
+    inputDisplayValue: {
       label: "Input Display Value",
       type: "boolean",
       description: "If true, the input values are treated as display values (and they are manipulated so they can be stored properly in the database).",
@@ -82,8 +82,8 @@ export default {
       params: {
         sysparm_display_value: this.responseDataFormat,
         sysparm_exclude_reference_link: this.excludeReferenceLinks,
-        sysparm_fields: this.responseFields,
-        sysparm_input_display_value: this.allowInputDisplayValue,
+        sysparm_fields: this.responseFields?.join?.() || this.responseFields,
+        sysparm_input_display_value: this.inputDisplayValue,
         sysparm_view: this.responseView,
       },
     });

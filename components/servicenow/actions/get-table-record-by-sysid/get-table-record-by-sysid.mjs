@@ -1,9 +1,9 @@
 import servicenow from "../../servicenow.app.mjs";
 
 export default {
-  key: "servicenow-get-table-record-by-sysid",
-  name: "Get Table Record By SysId",
-  description: "Retrieves the record identified by the specified sys_id from the specified table.",
+  key: "servicenow_oauth_-get-table-record-by-recordId",
+  name: "Get Table Record by ID",
+  description: "Retrieves a single record from a table by its ID (allows searching). [See the documentation](https://www.servicenow.com/docs/bundle/zurich-api-reference/page/integrate/inbound-rest/concept/c_TableAPI.html#title_table-GET-id)",
   version: "1.0.0",
   annotations: {
     destructiveHint: false,
@@ -19,55 +19,59 @@ export default {
         "table",
       ],
     },
-    sysId: {
-      type: "string",
-      description: "Unique identifier of the record to retrieve.",
-    },
-    sysparmDisplayValue: {
-      type: "string",
-      description: "Return field display values (true), actual values (false), or both (all) (default: false).",
-      optional: true,
-      options: [
-        "true",
-        "false",
-        "all",
+    recordId: {
+      propDefinition: [
+        servicenow,
+        "recordId",
       ],
     },
-    sysparmExcludeReferenceLink: {
-      type: "boolean",
-      description: "True to exclude Table API links for reference fields (default: false).",
-      optional: true,
+    responseDataFormat: {
+      propDefinition: [
+        servicenow,
+        "responseDataFormat",
+      ],
     },
-    sysparmFields: {
-      type: "string",
-      description: "A comma-separated list of fields to return in the response.",
-      optional: true,
+    excludeReferenceLinks: {
+      propDefinition: [
+        servicenow,
+        "excludeReferenceLinks",
+      ],
     },
-    sysparmView: {
-      type: "string",
-      description: "Render the response according to the specified UI view (overridden by sysparm_fields).",
-      optional: true,
+    responseFields: {
+      propDefinition: [
+        servicenow,
+        "responseFields",
+      ],
     },
-    sysparmQueryNoDomain: {
-      type: "boolean",
-      description: "True to access data across domains if authorized (default: false).",
-      optional: true,
+    responseView: {
+      propDefinition: [
+        servicenow,
+        "responseView",
+      ],
+    },
+    queryNoDomain: {
+      propDefinition: [
+        servicenow,
+        "queryNoDomain",
+      ],
     },
   },
   async run({ $ }) {
-  // See the API docs: https://docs.servicenow.com/bundle/paris-application-development/page/integrate/inbound-rest/concept/c_TableAPI.html#table-GET-id                      */
-
-    return await this.servicenow.getTableRecordBySysId({
+    const response = await this.servicenow.getTableRecordByrecordId({
       $,
       table: this.table,
-      sysId: this.sysId,
+      recordId: this.recordId,
       params: {
-        sysparm_display_value: this.sysparmDisplayValue,
-        sysparm_exclude_reference_link: this.sysparmExcludeReferenceLink,
-        sysparm_fields: this.sysparmFields,
-        sysparm_view: this.sysparmView,
-        sysparm_query_no_domain: this.sysparmQueryNoDomain,
+        sysparm_display_value: this.responseDataFormat,
+        sysparm_exclude_reference_link: this.excludeReferenceLinks,
+        sysparm_fields: this.responseFields?.join?.() || this.responseFields,
+        sysparm_view: this.responseView,
+        sysparm_query_no_domain: this.queryNoDomain,
       },
     });
+
+    $.export("$summary", `Successfully retrieved record ${this.recordId} from table "${this.table}"`);
+
+    return response;
   },
 };

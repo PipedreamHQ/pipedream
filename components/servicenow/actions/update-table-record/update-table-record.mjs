@@ -1,9 +1,9 @@
 import servicenow from "../../servicenow.app.mjs";
 
 export default {
-  key: "servicenow-update-table-record",
+  key: "servicenow_oauth_-update-table-record",
   name: "Update Table Record",
-  description: "Updates the specified record with the name-value pairs included in the request body.",
+  description: "Updates the specified record with the name-value pairs included in the request body. [See the documentation](https://www.servicenow.com/docs/bundle/zurich-api-reference/page/integrate/inbound-rest/concept/c_TableAPI.html#title_table-PATCH)",
   version: "1.0.0",
   annotations: {
     destructiveHint: true,
@@ -19,66 +19,65 @@ export default {
         "table",
       ],
     },
-    sysId: {
-      type: "string",
-      description: "Unique identifier of the record to update.",
+    recordId: {
+      propDefinition: [
+        servicenow,
+        "recordId",
+      ],
     },
     updateFields: {
+      label: "Update Fields",
       type: "object",
-      description: "An object with name-value pairs with the fields to update in the specified record.\n**Note:** All fields within a record may not be available for update. For example, fields that have a prefix of \"sys_\" are typically system parameters that are automatically generated and cannot be updated.",
+      description: "The fields to update in the record, as key-value pairs (e.g. `{ \"name\": \"Jane Doe\", \"status\": \"active\" }`). **Note:** System fields (prefixed with `sys_`) are typically auto-generated and cannot be updated.",
     },
-    sysparmDisplayValue: {
-      type: "string",
-      description: "Return field display values (true), actual values (false), or both (all) (default: false).",
-      optional: true,
-      options: [
-        "true",
-        "false",
-        "all",
+    responseDataFormat: {
+      propDefinition: [
+        servicenow,
+        "responseDataFormat",
       ],
     },
-    sysparmFields: {
-      type: "string",
-      description: "A comma-separated list of fields to return in the response.",
-      optional: true,
-    },
-    sysparmInputDisplayValue: {
-      type: "boolean",
-      description: "Flag that indicates whether to set field values using the display value or the actual value.\n* `true`: Treats input values as display values and they are manipulated so they can be stored properly in the database.\n* `false`: Treats input values as actual values and stored them in the database without manipulation.",
-      optional: true,
-    },
-    sysparmView: {
-      type: "string",
-      description: "Render the response according to the specified UI view (overridden by sysparm_fields).",
-      optional: true,
-      options: [
-        "desktop",
-        "mobile",
-        "both",
+    responseFields: {
+      propDefinition: [
+        servicenow,
+        "responseFields",
       ],
     },
-    sysparmQueryNoDomain: {
-      type: "boolean",
-      description: "True to access data across domains if authorized (default: false).",
-      optional: true,
+    inputDisplayValue: {
+      propDefinition: [
+        servicenow,
+        "inputDisplayValue",
+      ],
+    },
+    responseView: {
+      propDefinition: [
+        servicenow,
+        "responseView",
+      ],
+    },
+    queryNoDomain: {
+      propDefinition: [
+        servicenow,
+        "queryNoDomain",
+      ],
     },
   },
   async run({ $ }) {
-  /* See the API docs: https://docs.servicenow.com/bundle/paris-application-development/page/integrate/inbound-rest/concept/c_TableAPI.html#c_TableAPI
-    Section Table - PATCH /now/table/{tableName}/{sys_id}                      */
-
-    return await this.servicenow.updateTableRecord({
+    const response = await this.servicenow.updateTableRecord({
       $,
       table: this.table,
-      sysId: this.sysId,
+      recordId: this.recordId,
       data: this.updateFields,
       params: {
-        sysparm_display_value: this.sysparmDisplayValue,
-        sysparm_fields: this.sysparmFields,
-        sysparm_input_display_value: this.sysparmInputDisplayValue,
-        sysparm_view: this.sysparmView,
-        sysparm_query_no_domain: this.sysparmQueryNoDomain,
+        sysparm_display_value: this.responseDataFormat,
+        sysparm_fields: this.responseFields?.join?.() || this.responseFields,
+        sysparm_input_display_value: this.inputDisplayValue,
+        sysparm_view: this.responseView,
+        sysparm_query_no_domain: this.queryNoDomain,
       },
     });
+
+    $.export("$summary", `Successfully updated record ${this.recordId} in table "${this.table}"`);
+
+    return response;
   },
 };

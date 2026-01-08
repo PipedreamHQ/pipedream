@@ -2,7 +2,7 @@ import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
-  app: "servicenow",
+  app: "servicenow_oauth_",
   propDefinitions: {
     table: {
       type: "string",
@@ -27,6 +27,66 @@ export default {
           value: name,
         }));
       },
+    },
+    recordId: {
+      type: "string",
+      label: "Record ID",
+      description: "The ID (`sys_id`) of the record",
+    },
+    responseDataFormat: {
+      label: "Response Data Format",
+      type: "string",
+      description: "The format to return response fields in",
+      optional: true,
+      options: [
+        {
+          value: "true",
+          label: "Returns the display values for all fields",
+        },
+        {
+          value: "false",
+          label: "Returns the actual values from the database",
+        },
+        {
+          value: "all",
+          label: "Returns both actual and display values",
+        },
+      ],
+    },
+    excludeReferenceLinks: {
+      type: "boolean",
+      label: "Exclude Reference Links",
+      description: "If true, the response excludes Table API links for reference fields",
+      optional: true,
+    },
+    responseFields: {
+      type: "string[]",
+      label: "Response Fields",
+      description: "The fields to return in the response. By default, all fields are returned",
+      optional: true,
+    },
+    inputDisplayValue: {
+      label: "Input Display Value",
+      type: "boolean",
+      description: "If true, the input values are treated as display values (and are manipulated so they can be stored properly in the database)",
+      optional: true,
+    },
+    responseView: {
+      label: "Response View",
+      type: "string",
+      description: "Render the response according to the specified UI view (overridden by `Response Fields`)",
+      optional: true,
+      options: [
+        "desktop",
+        "mobile",
+        "both",
+      ],
+    },
+    queryNoDomain: {
+      type: "boolean",
+      label: "Query Across Domains",
+      description: "If true, allows access to data across domains (if authorized)",
+      optional: true,
     },
   },
   methods: {
@@ -55,19 +115,19 @@ export default {
       });
     },
     async updateTableRecord({
-      table, sysId, ...args
+      table, recordId, ...args
     }) {
       return this._makeRequest({
         method: "patch",
-        url: `/table/${table}/${sysId}`,
+        url: `/table/${table}/${recordId}`,
         ...args,
       });
     },
-    async getTableRecordBySysId({
-      table, sysId, ...args
+    async getTableRecordByrecordId({
+      table, recordId, ...args
     }) {
       return this._makeRequest({
-        url: `/table/${table}/${sysId}`,
+        url: `/table/${table}/${recordId}`,
         ...args,
       });
     },
