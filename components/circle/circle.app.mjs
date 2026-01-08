@@ -161,7 +161,8 @@ export default {
         params.page = ++page;
         const data = await fn({
           params,
-        });
+        }) || [];
+
         for (const d of data) {
           yield d;
 
