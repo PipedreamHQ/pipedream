@@ -3,6 +3,8 @@ import {
   SQSClient,
   ListQueuesCommand,
   SendMessageCommand,
+  ReceiveMessageCommand,
+  DeleteMessageCommand,
 } from "@aws-sdk/client-sqs";
 
 export default {
@@ -41,6 +43,12 @@ export default {
     },
     async sqsSendMessage(params) {
       return this._clientSqs().send(new SendMessageCommand(params));
+    },
+    async sqsReceiveMessage(params) {
+      return this._clientSqs().send(new ReceiveMessageCommand(params));
+    },
+    async sqsDeleteMessage(params) {
+      return this._clientSqs().send(new DeleteMessageCommand(params));
     },
   },
 };
