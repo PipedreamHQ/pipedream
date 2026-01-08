@@ -116,10 +116,16 @@ export default {
   },
   async run({ $ }) {
     const data = {
-      subject: this.subject,
-      isOnlineMeeting: this.isOnlineMeeting,
       ...this.expand,
     };
+
+    if (this.subject) {
+      data.subject = this.subject;
+    }
+
+    if (this.isOnlineMeeting !== undefined) {
+      data.isOnlineMeeting = this.isOnlineMeeting;
+    }
 
     if (this.location) {
       data.location = {
