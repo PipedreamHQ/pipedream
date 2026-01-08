@@ -2336,8 +2336,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/buzzsprout:
-    specifiers: {}
+  components/buzzsprout: {}
 
   components/bybit:
     dependencies:
@@ -8050,7 +8049,14 @@ importers:
         specifier: ^18.0.0
         version: 18.0.0
 
-  components/klaviyo_oauth: {}
+  components/klaviyo_oauth:
+    dependencies:
+      '@pipedream/klaviyo':
+        specifier: ^0.1.3
+        version: 0.1.3
+      klaviyo-api:
+        specifier: ^18.0.0
+        version: 18.0.0
 
   components/klaxoon:
     dependencies:
@@ -21103,6 +21109,9 @@ packages:
 
   '@pipedream/helpers@1.3.12':
     resolution: {integrity: sha512-k305RiFddUBtKY11V9G2aqYD8ICgarHV+A0Isxh0j3il4asnht0q4+t6ykPOb+hl5uo9UV8WY+9eAWlj6VFt6Q==}
+
+  '@pipedream/klaviyo@0.1.3':
+    resolution: {integrity: sha512-pGdFzu2t84LsiPDA1T1xa4KSSLRlMTxEJdpJz85thIqmzebm2HaIJBWq5wgLaCpJux6QFgNad6hrNBlBUwuwqQ==}
 
   '@pipedream/launchdarkly@0.1.1':
     resolution: {integrity: sha512-RqW4cJ0CfCnCy/lCutIJNSlX3IXV3jxoyqxDgAeHx8Q8BUEjEl7T0+1vMLyNXhU+V4Kj38KVURnSKqCE59UVvg==}
@@ -38896,6 +38905,14 @@ snapshots:
     dependencies:
       '@pipedream/types': 0.0.5
       lodash-es: 4.17.21
+
+  '@pipedream/klaviyo@0.1.3':
+    dependencies:
+      '@babel/core': 7.28.5
+      klaviyo-api: 18.0.0
+    transitivePeerDependencies:
+      - debug
+      - supports-color
 
   '@pipedream/launchdarkly@0.1.1':
     dependencies:
