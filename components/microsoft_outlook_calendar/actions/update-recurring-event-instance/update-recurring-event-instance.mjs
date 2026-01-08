@@ -115,6 +115,10 @@ export default {
     },
   },
   async run({ $ }) {
+    if (new Date(this.startDateTime) >= new Date(this.endDateTime)) {
+      throw new Error("Start Date Time must be before End Date Time");
+    }
+
     const data = {
       ...this.expand,
     };
