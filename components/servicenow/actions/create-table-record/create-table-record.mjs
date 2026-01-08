@@ -3,7 +3,7 @@ import servicenow from "../../servicenow.app.mjs";
 export default {
   key: "servicenow-create-table-record",
   name: "Create Table Record",
-  description: "Inserts one record in the specified table.",
+  description: "Inserts one record in the specified table. [See the documentation](https://www.servicenow.com/docs/bundle/zurich-api-reference/page/integrate/inbound-rest/concept/c_TableAPI.html#title_table-POST)",
   version: "1.0.0",
   annotations: {
     destructiveHint: false,
@@ -19,38 +19,53 @@ export default {
         "table",
       ],
     },
-    tableRecord: {
+    recordData: {
+      label: "Record Data",
       type: "object",
-      description: "The table record object. Use name-value pairs for each field of the record.",
+      description: "The data to create the record with, as key-value pairs (e.g. `{ \"name\": \"John Doe\", \"email\": \"john.doe@example.com\" }`)",
     },
-    sysparmDisplayValue: {
+    responseDataFormat: {
+      label: "Response Data Format",
       type: "string",
-      description: "Return field display values (true), actual values (false), or both (all) (default: false).",
+      description: "The format to return response fields in",
       optional: true,
       options: [
-        "true",
-        "false",
-        "all",
+        {
+          value: "true",
+          label: "Returns the display values for all fields",
+        },
+        {
+          value: "false",
+          label: "Returns the actual values from the database",
+        },
+        {
+          value: "all",
+          label: "Returns both actual and display values",
+        },
       ],
     },
-    sysparmExcludeReferenceLink: {
+    excludeReferenceLinks: {
       type: "boolean",
-      description: "Flag that indicates whether to exclude Table API links for reference fields.\n* `true`: Exclude Table API links for reference fields.\n* `false`: Include Table API links for reference fields.",
+      label: "Exclude Reference Links",
+      description: "If true, the response excludes Table API links for reference fields",
       optional: true,
     },
-    sysparmFields: {
-      type: "string",
-      description: "A comma-separated list of fields to return in the response.",
+    responseFields: {
+      type: "string[]",
+      label: "Response Fields",
+      description: "The fields to return in the response. By default, all fields are returned",
       optional: true,
     },
-    sysparmInputDisplayValue: {
+    allowInputDisplayValue: {
+      label: "Input Display Value",
       type: "boolean",
-      description: "Flag that indicates whether to set field values using the display value or the actual value.\n* `true`: Treats input values as display values and they are manipulated so they can be stored properly in the database.\n* `false`: Treats input values as actual values and stored them in the database without manipulation.",
+      description: "If true, the input values are treated as display values (and they are manipulated so they can be stored properly in the database).",
       optional: true,
     },
-    sysparmView: {
+    responseView: {
+      label: "Response View",
       type: "string",
-      description: "Render the response according to the specified UI view (overridden by sysparm_fields).",
+      description: "Render the response according to the specified UI view (overridden by `Response Fields`).",
       optional: true,
       options: [
         "desktop",
@@ -60,19 +75,21 @@ export default {
     },
   },
   async run({ $ }) {
-  // See the API docs: https://docs.servicenow.com/bundle/paris-application-development/page/integrate/inbound-rest/concept/c_TableAPI.html#table-POST
-
-    return await this.servicenow.createTableRecord({
+    const response = await this.servicenow.createTableRecord({
       $,
       table: this.table,
-      data: this.tableRecord,
+      data: this.recordData,
       params: {
-        sysparm_display_value: this.sysparmDisplayValue,
-        sysparm_exclude_reference_link: this.sysparmExcludeReferenceLink,
-        sysparm_fields: this.sysparmFields,
-        sysparm_input_display_value: this.sysparmInputDisplayValue,
-        sysparm_view: this.sysparmView,
+        sysparm_display_value: this.responseDataFormat,
+        sysparm_exclude_reference_link: this.excludeReferenceLinks,
+        sysparm_fields: this.responseFields,
+        sysparm_input_display_value: this.allowInputDisplayValue,
+        sysparm_view: this.responseView,
       },
     });
+
+    $.export("$summary", `Successfully created record in table "${this.table}"`);
+
+    return response;
   },
 };

@@ -13,7 +13,7 @@ export default {
         if (!(query?.length > 1)) {
           return [];
         }
-        const { data } = await this.getTable({
+        const data = await this.getTableRecords({
           table: "sys_db_object",
           params: {
             sysparm_query: `nameLIKE${query}^ORlabelLIKE${query}`,
@@ -30,12 +30,12 @@ export default {
     },
   },
   methods: {
-    _makeRequest({
+    async _makeRequest({
       $ = this,
       headers,
       ...args
     }) {
-      return axios($, {
+      const response = await axios($, {
         baseURL: `https://${this.$auth.instance_name}.service-now.com/api/now`,
         headers: {
           ...headers,
@@ -43,32 +43,23 @@ export default {
         },
         ...args,
       });
-    },
-    async getTable({
-      table, ...args
-    }) {
-      return this._makeRequest({
-        url: `/table/${table}`,
-        ...args,
-      });
+      return response.result;
     },
     async createTableRecord({
-      table, data, ...args
+      table, ...args
     }) {
       return this._makeRequest({
         method: "post",
         url: `/table/${table}`,
-        data,
         ...args,
       });
     },
     async updateTableRecord({
-      table, sysId, data, ...args
+      table, sysId, ...args
     }) {
       return this._makeRequest({
         method: "patch",
         url: `/table/${table}/${sysId}`,
-        data,
         ...args,
       });
     },
