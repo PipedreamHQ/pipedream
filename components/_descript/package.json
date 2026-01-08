@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/_descript",
+  "version": "0.0.1",
+  "description": "Pipedream Descript Components",
+  "main": "_descript.app.mjs",
+  "keywords": [
+    "pipedream",
+    "_descript"
+  ],
+  "homepage": "https://pipedream.com/apps/_descript",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
