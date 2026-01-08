@@ -7,7 +7,7 @@ export default {
   name: "Add Ticket Attachment",
   description: "Attaches a file to a ticket. [See the docs here](https://desk.zoho.com/DeskAPIDocument#TicketAttachments#TicketAttachments_CreateTicketattachment)",
   type: "action",
-  version: "0.1.7",
+  version: "0.1.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

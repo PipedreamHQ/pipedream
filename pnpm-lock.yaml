@@ -236,6 +236,9 @@ importers:
 
   components/__1msg: {}
 
+  components/_descript:
+    specifiers: {}
+
   components/_twocaptcha:
     dependencies:
       '@pipedream/platform':
@@ -977,7 +980,11 @@ importers:
 
   components/annature: {}
 
-  components/announcekit: {}
+  components/announcekit:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/anonyflow:
     dependencies:
@@ -2602,7 +2609,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/chargekeep: {}
+  components/chargekeep:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/chargeover:
     dependencies:
@@ -4784,6 +4795,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.6.8
         version: 1.6.8
+
+  components/emailchaser: {}
 
   components/emailchef: {}
 
@@ -8013,6 +8026,9 @@ importers:
       klaviyo-api:
         specifier: ^18.0.0
         version: 18.0.0
+
+  components/klaviyo_oauth:
+    specifiers: {}
 
   components/klaxoon:
     dependencies:
@@ -16259,7 +16275,11 @@ importers:
         specifier: ^0.10.1
         version: 0.10.1
 
-  components/vincario: {}
+  components/vincario:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/viral_loops:
     dependencies:
@@ -16835,6 +16855,8 @@ importers:
         specifier: ^0.6.2
         version: 0.6.2
 
+  components/workflowy: {}
+
   components/workiom: {}
 
   components/workiz:
@@ -17354,6 +17376,12 @@ importers:
       form-data:
         specifier: 4.0.4
         version: 4.0.4
+      stream:
+        specifier: '*'
+        version: 0.0.3
+      util:
+        specifier: '*'
+        version: 0.12.5
 
   components/zoho_docs:
     dependencies:

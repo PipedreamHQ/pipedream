@@ -31,8 +31,7 @@ export default {
         return contacts.map((contact) => {
           const value = contact.id;
           const label =
-            `${contact.first_name || ""} ${contact.last_name || ""} ${
-              contact.emails[0]?.value || ""
+            `${contact.first_name || ""} ${contact.last_name || ""} ${contact.emails[0]?.value || ""
             }`.trim() || value;
           return {
             label,
@@ -147,6 +146,15 @@ export default {
           email,
           order: "desc",
         },
+      });
+    },
+    async retrieveTranscription({
+      $, callId, ...args
+    }) {
+      return this._makeRequest({
+        path: `calls/${callId}/transcription`,
+        $,
+        ...args,
       });
     },
   },
