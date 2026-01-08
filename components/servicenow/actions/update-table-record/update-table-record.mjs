@@ -30,6 +30,12 @@ export default {
       type: "object",
       description: "The fields to update in the record, as key-value pairs (e.g. `{ \"name\": \"Jane Doe\", \"status\": \"active\" }`). **Note:** System fields (prefixed with `sys_`) are typically auto-generated and cannot be updated.",
     },
+    replaceRecord: {
+      type: "boolean",
+      label: "Replace Record",
+      description: "If true, replaces the entire record with the provided fields (uses PUT instead of PATCH). Any fields not provided will be cleared.",
+      optional: true,
+    },
     responseDataFormat: {
       propDefinition: [
         servicenow,
@@ -66,6 +72,7 @@ export default {
       $,
       table: this.table,
       recordId: this.recordId,
+      replace: this.replaceRecord,
       data: this.updateFields,
       params: {
         sysparm_display_value: this.responseDataFormat,
@@ -76,7 +83,10 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully updated record ${this.recordId} in table "${this.table}"`);
+    const action = this.replaceRecord
+      ? "replaced"
+      : "updated";
+    $.export("$summary", `Successfully ${action} record ${this.recordId} in table "${this.table}"`);
 
     return response;
   },

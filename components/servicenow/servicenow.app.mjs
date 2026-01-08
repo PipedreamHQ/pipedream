@@ -31,7 +31,7 @@ export default {
     recordId: {
       type: "string",
       label: "Record ID",
-      description: "The ID (`sys_id`) of the record",
+      description: "The ID (`sys_id` field) of the record",
     },
     responseDataFormat: {
       label: "Response Data Format",
@@ -115,15 +115,26 @@ export default {
       });
     },
     async updateTableRecord({
-      table, recordId, ...args
+      table, recordId, replace, ...args
     }) {
       return this._makeRequest({
-        method: "patch",
+        method: replace
+          ? "put"
+          : "patch",
         url: `/table/${table}/${recordId}`,
         ...args,
       });
     },
-    async getTableRecordByrecordId({
+    async deleteTableRecord({
+      table, recordId, ...args
+    }) {
+      return this._makeRequest({
+        method: "delete",
+        url: `/table/${table}/${recordId}`,
+        ...args,
+      });
+    },
+    async getTableRecordById({
       table, recordId, ...args
     }) {
       return this._makeRequest({

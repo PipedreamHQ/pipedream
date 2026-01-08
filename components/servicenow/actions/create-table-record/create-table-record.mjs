@@ -25,52 +25,33 @@ export default {
       description: "The data to create the record with, as key-value pairs (e.g. `{ \"name\": \"John Doe\", \"email\": \"john.doe@example.com\" }`)",
     },
     responseDataFormat: {
-      label: "Response Data Format",
-      type: "string",
-      description: "The format to return response fields in",
-      optional: true,
-      options: [
-        {
-          value: "true",
-          label: "Returns the display values for all fields",
-        },
-        {
-          value: "false",
-          label: "Returns the actual values from the database",
-        },
-        {
-          value: "all",
-          label: "Returns both actual and display values",
-        },
+      propDefinition: [
+        servicenow,
+        "responseDataFormat",
       ],
     },
     excludeReferenceLinks: {
-      type: "boolean",
-      label: "Exclude Reference Links",
-      description: "If true, the response excludes Table API links for reference fields",
-      optional: true,
+      propDefinition: [
+        servicenow,
+        "excludeReferenceLinks",
+      ],
     },
     responseFields: {
-      type: "string[]",
-      label: "Response Fields",
-      description: "The fields to return in the response. By default, all fields are returned",
-      optional: true,
+      propDefinition: [
+        servicenow,
+        "responseFields",
+      ],
     },
     inputDisplayValue: {
-      label: "Input Display Value",
-      type: "boolean",
-      description: "If true, the input values are treated as display values (and they are manipulated so they can be stored properly in the database).",
-      optional: true,
+      propDefinition: [
+        servicenow,
+        "inputDisplayValue",
+      ],
     },
     responseView: {
-      label: "Response View",
-      type: "string",
-      description: "Render the response according to the specified UI view (overridden by `Response Fields`).",
-      optional: true,
-      options: [
-        "desktop",
-        "mobile",
-        "both",
+      propDefinition: [
+        servicenow,
+        "responseView",
       ],
     },
   },

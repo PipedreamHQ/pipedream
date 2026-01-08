@@ -1,9 +1,9 @@
 import servicenow from "../../servicenow.app.mjs";
 
 export default {
-  key: "servicenow_oauth_-get-table-record-by-recordId",
+  key: "servicenow_oauth_-get-table-record-by-id",
   name: "Get Table Record by ID",
-  description: "Retrieves a single record from a table by its ID (allows searching). [See the documentation](https://www.servicenow.com/docs/bundle/zurich-api-reference/page/integrate/inbound-rest/concept/c_TableAPI.html#title_table-GET-id)",
+  description: "Retrieves a single record from a table by its ID. [See the documentation](https://www.servicenow.com/docs/bundle/zurich-api-reference/page/integrate/inbound-rest/concept/c_TableAPI.html#title_table-GET-id)",
   version: "1.0.0",
   annotations: {
     destructiveHint: false,
@@ -57,7 +57,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.servicenow.getTableRecordByrecordId({
+    const response = await this.servicenow.getTableRecordById({
       $,
       table: this.table,
       recordId: this.recordId,
