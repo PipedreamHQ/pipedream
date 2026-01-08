@@ -236,8 +236,7 @@ importers:
 
   components/__1msg: {}
 
-  components/_descript:
-    specifiers: {}
+  components/_descript: {}
 
   components/_twocaptcha:
     dependencies:
@@ -3316,8 +3315,8 @@ importers:
   components/companycam:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.8
-        version: 1.6.8
+        specifier: ^3.1.1
+        version: 3.1.1
       uuid:
         specifier: ^9.0.0
         version: 9.0.1
@@ -8027,8 +8026,7 @@ importers:
         specifier: ^18.0.0
         version: 18.0.0
 
-  components/klaviyo_oauth:
-    specifiers: {}
+  components/klaviyo_oauth: {}
 
   components/klaxoon:
     dependencies:
