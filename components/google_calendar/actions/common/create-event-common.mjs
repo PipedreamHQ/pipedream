@@ -83,16 +83,35 @@ export default {
       return timeZone;
     },
     formatAttendees(selectedAttendees, currentAttendees) {
-      if (selectedAttendees?.length) {
-        return selectedAttendees.map((email) => ({
+      // Normalize selectedAttendees: handle string or array
+      let emails = [];
+      if (typeof selectedAttendees === "string") {
+        emails = selectedAttendees.split(",").map((e) => e.trim())
+          .filter(Boolean);
+      } else if (Array.isArray(selectedAttendees)) {
+        emails = selectedAttendees.map((e) => e.trim()).filter(Boolean);
+      }
+
+      if (emails.length) {
+        return emails.map((email) => ({
           email,
         }));
       }
-      if (currentAttendees?.length) {
+
+      // Fall back to currentAttendees if no selectedAttendees
+      if (typeof currentAttendees === "string") {
+        emails = currentAttendees.split(",").map((e) => e.trim())
+          .filter(Boolean);
+        return emails.map((email) => ({
+          email,
+        }));
+      }
+      if (Array.isArray(currentAttendees) && currentAttendees.length) {
         return currentAttendees.map((attendee) => ({
           email: attendee.email,
         }));
       }
+
       return [];
     },
     checkDateOrDateTimeInput(date, type) {

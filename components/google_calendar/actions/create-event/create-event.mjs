@@ -102,8 +102,8 @@ export default {
   },
   async additionalProps() {
     const props = {};
-    if (this.repeatFrequency) {
-      const frequency = constants.REPEAT_FREQUENCIES[this.repeatFrequency];
+    const frequency = constants.REPEAT_FREQUENCIES[this.repeatFrequency];
+    if (frequency) {
       props.repeatInterval = {
         type: "integer",
         label: "Repeat Interval",
@@ -146,20 +146,20 @@ export default {
         location: this.location,
         description: this.description,
         start: {
-          date: this.eventStartDate?.length <= 10
-            ? this.eventStartDate
+          date: this.eventStartDate?.trim().length <= 10
+            ? this.eventStartDate.trim()
             : undefined,
-          dateTime: this.eventStartDate?.length > 10
-            ? this.eventStartDate
+          dateTime: this.eventStartDate?.trim().length > 10
+            ? this.eventStartDate.trim()
             : undefined,
           timeZone,
         },
         end: {
-          date: this.eventEndDate?.length <= 10
-            ? this.eventEndDate
+          date: this.eventEndDate?.trim().length <= 10
+            ? this.eventEndDate.trim()
             : undefined,
-          dateTime: this.eventEndDate?.length > 10
-            ? this.eventEndDate
+          dateTime: this.eventEndDate?.trim().length > 10
+            ? this.eventEndDate.trim()
             : undefined,
           timeZone,
         },
