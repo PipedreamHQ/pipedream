@@ -178,7 +178,7 @@ export default {
       data,
     });
 
-    $.export("$summary", `Successfully updated recurring event instance with ID ${response.id}`);
+    $.export("$summary", `Successfully updated recurring event instance with ID ${response?.id ?? this.instanceId}`);
 
     return response;
   },
