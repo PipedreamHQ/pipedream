@@ -73,7 +73,7 @@ export default {
         microsoftOutlook,
         "start",
       ],
-      description: "New start date-time for this instance (yyyy-MM-ddThh:mm:ss)",
+      description: "New start date-time for this instance (yyyy-MM-ddThh:mm:ss). Requires **Time Zone** to be set.",
       optional: true,
     },
     end: {
@@ -81,7 +81,7 @@ export default {
         microsoftOutlook,
         "end",
       ],
-      description: "New end date-time for this instance (yyyy-MM-ddThh:mm:ss)",
+      description: "New end date-time for this instance (yyyy-MM-ddThh:mm:ss). Requires **Time Zone** to be set.",
       optional: true,
     },
     attendees: {
@@ -140,6 +140,9 @@ export default {
       };
     }
 
+    if ((this.start || this.end) && !this.timeZone) {
+      throw new Error("Time Zone is required when updating start or end times");
+    }
     if (this.start && this.timeZone) {
       data.start = {
         dateTime: this.start,
