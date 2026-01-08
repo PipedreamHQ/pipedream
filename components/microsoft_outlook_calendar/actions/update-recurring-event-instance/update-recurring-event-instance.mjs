@@ -127,9 +127,9 @@ export default {
       };
     }
 
-    if (this.contentType && this.content) {
+    if (this.content) {
       data.body = {
-        contentType: this.contentType ?? "HTML",
+        contentType: this.contentType ?? "text",
         content: this.content,
       };
     }
