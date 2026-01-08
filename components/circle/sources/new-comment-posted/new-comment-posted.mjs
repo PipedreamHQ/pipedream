@@ -36,7 +36,7 @@ export default {
           space_id: this.spaceId,
           post_id: this.postId,
         },
-      });
+      }) || [];
 
       if (maxResults && response.length > maxResults) response.length = maxResults;
 
