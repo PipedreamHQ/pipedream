@@ -8027,6 +8027,9 @@ importers:
         specifier: ^18.0.0
         version: 18.0.0
 
+  components/klaviyo_oauth:
+    specifiers: {}
+
   components/klaxoon:
     dependencies:
       '@pipedream/platform':
@@ -17369,6 +17372,12 @@ importers:
       form-data:
         specifier: 4.0.4
         version: 4.0.4
+      stream:
+        specifier: '*'
+        version: 0.0.3
+      util:
+        specifier: '*'
+        version: 0.12.5
 
   components/zoho_docs:
     dependencies:

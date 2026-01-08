@@ -4,7 +4,7 @@ export default {
   name: "List Articles",
   description: "Lists knowledge base articles for a help center. [See the documentation](https://desk.zoho.com/portal/APIDocument.do#KnowledgeBase#KnowledgeBase_Listarticles)",
   type: "action",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
