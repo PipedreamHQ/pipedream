@@ -1,0 +1,23 @@
+i= int(input("Number pls: "))
+j=str(i)
+if j != j[::-1]:
+    while i>0:
+        x=i
+        y=str(x)
+        if y == y[::-1]:
+            print("The next Palindrome is: ",x)
+            break
+        elif y!=y[::-1]:
+            i=i+1
+            continue
+elif j == j[::-1]:
+    i+=1
+    while i>0:
+        x=i
+        y=str(x)
+        if y == y[::-1]:
+            print("The next Palindrome is: ",x)
+            break
+        elif y!=y[::-1]:
+            i=i+1
+            continue
