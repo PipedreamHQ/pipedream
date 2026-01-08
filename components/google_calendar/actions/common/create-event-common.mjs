@@ -83,30 +83,17 @@ export default {
       return timeZone;
     },
     formatAttendees(selectedAttendees, currentAttendees) {
-      /**
-      * Format for the attendees
-      *
-      * [
-      *   { "email": "lpage@example.com",},
-      *   { "email": "sbrin@example.com",},
-      * ]
-      */
-      let attendees = [];
-      if (typeof selectedAttendees === "string") {
-        selectedAttendees = selectedAttendees.includes("[") && selectedAttendees.includes("]")
-          ? JSON.parse(selectedAttendees)
-          : selectedAttendees.replaceAll(" ", "").split(",");
-      }
-      if (selectedAttendees && Array.isArray(selectedAttendees)) {
-        attendees = selectedAttendees.map((email) => ({
+      if (selectedAttendees?.length) {
+        return selectedAttendees.map((email) => ({
           email,
         }));
-      } else if (currentAttendees && Array.isArray(currentAttendees)) {
+      }
+      if (currentAttendees?.length) {
         return currentAttendees.map((attendee) => ({
           email: attendee.email,
         }));
       }
-      return attendees;
+      return [];
     },
     checkDateOrDateTimeInput(date, type) {
       if (type === "date") {

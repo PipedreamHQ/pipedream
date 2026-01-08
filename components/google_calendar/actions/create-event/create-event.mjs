@@ -26,17 +26,16 @@ export default {
       label: "Event Title",
       type: "string",
       description: "Enter a title for the event, (e.g., `My event`)",
-      optional: true,
     },
     eventStartDate: {
       label: "Event Start Date",
       type: "string",
-      description: "For all-day events, enter the Event day in the format `yyyy-mm-dd`. For events with time, format according to [RFC3339](https://www.rfc-editor.org/rfc/rfc3339.html#section-1): `yyyy-mm-ddThh:mm:ss+01:00`. A time zone offset is required unless a time zone is explicitly specified in timeZone.",
+      description: "For all-day events, enter the date in the format `yyyy-mm-dd` (e.g., `2025-01-15`). For events with time, format according to [RFC3339](https://www.rfc-editor.org/rfc/rfc3339.html#section-1): `yyyy-mm-ddThh:mm:ss+01:00` (e.g., `2025-01-15T10:00:00-05:00`). A time zone offset is required unless a time zone is explicitly specified in timeZone.",
     },
     eventEndDate: {
       label: "Event End Date",
       type: "string",
-      description: "For all-day events, enter the Event day in the format `yyyy-mm-dd`. For events with time, format according to [RFC3339](https://www.rfc-editor.org/rfc/rfc3339.html#section-1): `yyyy-mm-ddThh:mm:ss+01:00`. A time zone offset is required unless a time zone is explicitly specified in timeZone.",
+      description: "For all-day events, enter the date in the format `yyyy-mm-dd` (e.g., `2025-01-15`). For events with time, format according to [RFC3339](https://www.rfc-editor.org/rfc/rfc3339.html#section-1): `yyyy-mm-ddThh:mm:ss+01:00` (e.g., `2025-01-15T11:00:00-05:00`). A time zone offset is required unless a time zone is explicitly specified in timeZone.",
     },
     location: {
       label: "Event Location",
@@ -52,8 +51,8 @@ export default {
     },
     attendees: {
       label: "Attendees",
-      type: "string",
-      description: "Enter either an array or a comma separated list of email addresses of attendees",
+      type: "string[]",
+      description: "An array of email addresses (e.g., `[\"alice@example.com\", \"bob@example.com\"]`)",
       optional: true,
     },
     colorId: {
@@ -114,7 +113,7 @@ export default {
       props.repeatUntil = {
         type: "string",
         label: "Repeat Until",
-        description: "The event will repeat only until this date, if set",
+        description: "The event will repeat only until this date (format: `yyyy-mm-dd`, e.g., `2025-12-31`)",
         optional: true,
       };
       props.repeatTimes = {
