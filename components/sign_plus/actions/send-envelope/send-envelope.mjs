@@ -19,11 +19,20 @@ export default {
         "envelopeId",
       ],
     },
+    sandbox: {
+      type: "boolean",
+      label: "Sandbox",
+      description: "Whether to use sandbox mode",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const response = await this.sign_plus.sendEnvelope({
       $,
       envelopeId: this.envelopeId,
+      data: {
+        sandbox: this.sandbox,
+      },
     });
     $.export("$summary", `Successfully sent envelope with ID: ${this.envelopeId}`);
     return response;
