@@ -5,7 +5,7 @@ export default {
   key: "microsoft_outlook_calendar-update-recurring-event-instance",
   version: "0.0.1",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
