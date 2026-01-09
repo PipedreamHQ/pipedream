@@ -1,0 +1,18 @@
+n = int(input("Number of Complex numbers: "))
+x = []
+for a in range(0, n):
+    x.append(input())
+print(x)
+realsum = 0
+imaginarysum = 0
+imaglist = []
+for i in x:
+    y = i.split("+")
+    #print(y) ---------------------------to check the value
+    realsum += int(y[0])
+    #print(int(y[1].strip("i"))) --------to check the value
+    imaglist.append(y[1].strip("i"))
+#print(imaglist) ------------------------to check the values
+for j in imaglist:
+    imaginarysum += int(j)
+print(str(realsum), "+", str(imaginarysum)+"i")
