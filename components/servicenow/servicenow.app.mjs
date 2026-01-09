@@ -150,5 +150,13 @@ export default {
         ...args,
       });
     },
+    async getRecordCountsByField({
+      table, ...args
+    }) {
+      return this._makeRequest({
+        url: `/stats/${table}`,
+        ...args,
+      });
+    },
   },
 };

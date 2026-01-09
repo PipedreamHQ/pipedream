@@ -4,7 +4,7 @@ export default {
   key: "servicenow_oauth_-delete-table-record",
   name: "Delete Table Record",
   description: "Deletes the specified record from a table. [See the documentation](https://www.servicenow.com/docs/bundle/zurich-api-reference/page/integrate/inbound-rest/concept/c_TableAPI.html#title_table-DELETE)",
-  version: "1.0.0",
+  version: "0.0.1",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
