@@ -29,7 +29,6 @@ export default {
           meetingId,
         }),
       ],
-      description: "If you select a value for this param, only that instance will be deleted. Otherwise, the entire meeting series will be deleted.",
     },
     scheduleForReminder: {
       type: "boolean",
