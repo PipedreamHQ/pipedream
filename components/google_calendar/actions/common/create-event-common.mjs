@@ -86,10 +86,15 @@ export default {
       // Normalize selectedAttendees: handle string or array
       let emails = [];
       if (typeof selectedAttendees === "string") {
-        emails = selectedAttendees.split(",").map((e) => e.trim())
+        emails = selectedAttendees.split(",")
+          .filter((e) => typeof e === "string")
+          .map((e) => e.trim())
           .filter(Boolean);
       } else if (Array.isArray(selectedAttendees)) {
-        emails = selectedAttendees.map((e) => e.trim()).filter(Boolean);
+        emails = selectedAttendees
+          .filter((e) => typeof e === "string")
+          .map((e) => e.trim())
+          .filter(Boolean);
       }
 
       if (emails.length) {
@@ -100,16 +105,20 @@ export default {
 
       // Fall back to currentAttendees if no selectedAttendees
       if (typeof currentAttendees === "string") {
-        emails = currentAttendees.split(",").map((e) => e.trim())
+        emails = currentAttendees.split(",")
+          .filter((e) => typeof e === "string")
+          .map((e) => e.trim())
           .filter(Boolean);
         return emails.map((email) => ({
           email,
         }));
       }
       if (Array.isArray(currentAttendees) && currentAttendees.length) {
-        return currentAttendees.map((attendee) => ({
-          email: attendee.email,
-        }));
+        return currentAttendees
+          .filter((a) => a && typeof a.email === "string")
+          .map((attendee) => ({
+            email: attendee.email.trim(),
+          }));
       }
 
       return [];

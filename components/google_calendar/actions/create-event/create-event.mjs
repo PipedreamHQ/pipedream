@@ -138,6 +138,9 @@ export default {
       repeatUntil: this.repeatUntil,
     });
 
+    const trimmedStart = this.eventStartDate?.trim();
+    const trimmedEnd = this.eventEndDate?.trim();
+
     const data = {
       calendarId: this.calendarId,
       sendUpdates: this.sendUpdates,
@@ -146,20 +149,20 @@ export default {
         location: this.location,
         description: this.description,
         start: {
-          date: this.eventStartDate?.trim().length <= 10
-            ? this.eventStartDate.trim()
+          date: trimmedStart?.length <= 10
+            ? trimmedStart
             : undefined,
-          dateTime: this.eventStartDate?.trim().length > 10
-            ? this.eventStartDate.trim()
+          dateTime: trimmedStart?.length > 10
+            ? trimmedStart
             : undefined,
           timeZone,
         },
         end: {
-          date: this.eventEndDate?.trim().length <= 10
-            ? this.eventEndDate.trim()
+          date: trimmedEnd?.length <= 10
+            ? trimmedEnd
             : undefined,
-          dateTime: this.eventEndDate?.trim().length > 10
-            ? this.eventEndDate.trim()
+          dateTime: trimmedEnd?.length > 10
+            ? trimmedEnd
             : undefined,
           timeZone,
         },
