@@ -236,6 +236,8 @@ importers:
 
   components/__1msg: {}
 
+  components/_descript: {}
+
   components/_twocaptcha:
     dependencies:
       '@pipedream/platform':
@@ -2327,6 +2329,9 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/buzzsprout:
+    specifiers: {}
+
   components/bybit:
     dependencies:
       '@pipedream/platform':
@@ -3237,7 +3242,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/coincatch: {}
+  components/coincatch:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/coingecko: {}
 
@@ -3309,8 +3318,8 @@ importers:
   components/companycam:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.8
-        version: 1.6.8
+        specifier: ^3.1.1
+        version: 3.1.1
       uuid:
         specifier: ^9.0.0
         version: 9.0.1
@@ -8023,6 +8032,8 @@ importers:
       klaviyo-api:
         specifier: ^18.0.0
         version: 18.0.0
+
+  components/klaviyo_oauth: {}
 
   components/klaxoon:
     dependencies:
@@ -16269,7 +16280,11 @@ importers:
         specifier: ^0.10.1
         version: 0.10.1
 
-  components/vincario: {}
+  components/vincario:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/viral_loops:
     dependencies:
@@ -17366,6 +17381,12 @@ importers:
       form-data:
         specifier: 4.0.4
         version: 4.0.4
+      stream:
+        specifier: '*'
+        version: 0.0.3
+      util:
+        specifier: '*'
+        version: 0.12.5
 
   components/zoho_docs:
     dependencies:

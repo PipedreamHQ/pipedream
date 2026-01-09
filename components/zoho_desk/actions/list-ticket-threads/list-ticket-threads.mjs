@@ -5,7 +5,7 @@ export default {
   name: "List Ticket Threads",
   description: "Get a list of threads for a specified ticket. [See the documentation](https://desk.zoho.com/DeskAPIDocument#Threads#Threads_Listallthreads)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   key: "belco-send-message",
   name: "Send Message",
   description: "Send a message to a conversation specified by ID. [See the documentation](https://developers.belco.io/reference/post_conversations-sendmessage)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

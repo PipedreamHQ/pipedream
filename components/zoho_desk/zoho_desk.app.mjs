@@ -139,6 +139,34 @@ export default {
         };
       },
     },
+    attachmentId: {
+      type: "string",
+      label: "Attachment ID",
+      description: "The ID of the attachment",
+      async options({
+        ticketId, threadId, orgId,
+      }) {
+        if (!ticketId || !threadId) {
+          return [];
+        }
+        const response = await this.getThreadDetails({
+          ticketId,
+          threadId,
+          headers: {
+            orgId,
+          },
+        });
+        // Handle response structure - getThreadDetails returns { data: {...} }
+        const thread = response?.data || response;
+        const attachments = thread?.attachments || [];
+        return attachments.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label: label || value,
+        }));
+      },
+    },
     supportEmailAddress: {
       type: "string",
       label: "Support Email Address",
@@ -737,6 +765,15 @@ export default {
     } = {}) {
       return this.makeRequest({
         path: `/tickets/${ticketId}/threads/${threadId}`,
+        ...args,
+      });
+    },
+    downloadThreadAttachment({
+      ticketId, threadId, attachmentId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/tickets/${ticketId}/threads/${threadId}/attachments/${attachmentId}/content`,
+        responseType: "arraybuffer",
         ...args,
       });
     },
