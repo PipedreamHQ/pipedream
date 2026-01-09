@@ -5,7 +5,7 @@ export default {
   key: "auth0-management-api-new-event-stream-event",
   name: "New Event Stream Event (Instant)",
   description: "Emit new event when a new webhook event is received from an Auth0 event stream. [See the documentation](https://auth0.com/docs/api/management/v2/event-streams/post-event-streams)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
@@ -30,30 +30,27 @@ export default {
   hooks: {
     async activate() {
       const response = await this.auth0.createEventStream({
-        data: [
-          {
-            name: this.name,
-            subscriptions: [
-              {
-                event_type: this.eventType,
-              },
-            ],
-            destination: {
-              type: "webhook",
-              configuration: {
-                webhook_endpoint: this.http.endpoint,
-                webhook_authorization: [
-                  {
-                    method: "bearer",
-                  },
-                ],
+        data: {
+          name: this.name,
+          subscriptions: [
+            {
+              event_type: this.eventType,
+            },
+          ],
+          destination: {
+            type: "webhook",
+            configuration: {
+              webhook_endpoint: this.http.endpoint,
+              webhook_authorization: {
+                method: "bearer",
+                token: "token",
               },
             },
-            status: "enabled",
           },
-        ],
+          status: "enabled",
+        },
       });
-      this._setWebhookId(response[0].id);
+      this._setWebhookId(response.id);
     },
     async deactivate() {
       const id = this._getWebhookId();
