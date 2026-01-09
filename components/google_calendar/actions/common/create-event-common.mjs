@@ -82,20 +82,22 @@ export default {
       });
       return timeZone;
     },
-    formatAttendees(selectedAttendees, currentAttendees) {
-      // Normalize selectedAttendees: handle string or array
-      let emails = [];
-      if (typeof selectedAttendees === "string") {
-        emails = selectedAttendees.split(",")
-          .filter((e) => typeof e === "string")
+    parseEmails(input) {
+      if (typeof input === "string") {
+        return input.split(",")
           .map((e) => e.trim())
           .filter(Boolean);
-      } else if (Array.isArray(selectedAttendees)) {
-        emails = selectedAttendees
+      }
+      if (Array.isArray(input)) {
+        return input
           .filter((e) => typeof e === "string")
           .map((e) => e.trim())
           .filter(Boolean);
       }
+      return [];
+    },
+    formatAttendees(selectedAttendees, currentAttendees) {
+      const emails = this.parseEmails(selectedAttendees);
 
       if (emails.length) {
         return emails.map((email) => ({
@@ -104,15 +106,14 @@ export default {
       }
 
       // Fall back to currentAttendees if no selectedAttendees
-      if (typeof currentAttendees === "string") {
-        emails = currentAttendees.split(",")
-          .filter((e) => typeof e === "string")
-          .map((e) => e.trim())
-          .filter(Boolean);
-        return emails.map((email) => ({
+      const fallbackEmails = this.parseEmails(currentAttendees);
+      if (fallbackEmails.length) {
+        return fallbackEmails.map((email) => ({
           email,
         }));
       }
+
+      // Handle currentAttendees as array of attendee objects
       if (Array.isArray(currentAttendees) && currentAttendees.length) {
         return currentAttendees
           .filter((a) => a && typeof a.email === "string")
