@@ -1,16 +1,12 @@
+import { axios } from "@pipedream/platform";
 import wordpress from "../../wordpress_org.app.mjs";
 import utils from "../../common/utils.mjs";
 
 export default {
   key: "wordpress_org-create-post",
   name: "Create Post",
-  description: "Creates a post. [See the documentation](https://developer.wordpress.org/rest-api/reference/posts/#create-a-post)",
-  version: "0.0.5",
-  annotations: {
-    destructiveHint: false,
-    openWorldHint: true,
-    readOnlyHint: false,
-  },
+  description: "Create a new WordPress post using the REST API directly. [See the documentation](https://developer.wordpress.org/rest-api/reference/posts/#create-a-post)",
+  version: "0.0.6",
   type: "action",
   props: {
     wordpress,
@@ -26,10 +22,29 @@ export default {
         "content",
       ],
     },
-    status: {
+    excerpt: {
       propDefinition: [
         wordpress,
-        "status",
+        "excerpt",
+      ],
+    },
+    status: {
+      type: "string",
+      label: "Post Status",
+      description: "Status of the post",
+      optional: true,
+      default: "publish",
+      options: [
+        "publish",
+        "draft",
+        "pending",
+        "private",
+      ],
+    },
+    commentStatus: {
+      propDefinition: [
+        wordpress,
+        "commentStatus",
       ],
     },
     author: {
@@ -44,16 +59,16 @@ export default {
         "categories",
       ],
     },
-    excerpt: {
-      propDefinition: [
-        wordpress,
-        "excerpt",
-      ],
+    tags: {
+      type: "string[]",
+      label: "Tags",
+      description: "Array of tag IDs to assign to the post",
+      optional: true,
     },
-    commentStatus: {
+    featuredMedia: {
       propDefinition: [
         wordpress,
-        "commentStatus",
+        "media",
       ],
     },
     meta: {
@@ -62,30 +77,52 @@ export default {
         "meta",
       ],
     },
-    media: {
-      propDefinition: [
-        wordpress,
-        "media",
-      ],
-    },
   },
   async run({ $ }) {
-    const params = {
+    // Prepare post data
+    const postData = {
       title: this.title,
       content: this.content,
       status: this.status,
-      author: this.author,
-      categories: this.categories,
-      excerpt: this.excerpt,
-      comment_status: this.commentStatus,
-      meta: utils.parseObj(this.meta),
-      featured_media: this.media,
     };
 
-    const resp = await this.wordpress.createPost(params);
+    // Add optional fields if provided
+    if (this.excerpt) {
+      postData.excerpt = this.excerpt;
+    }
 
-    $.export("$summary", "Successfully created new post.");
+    if (this.author) {
+      postData.author = this.author;
+    }
 
-    return resp;
+    if (this.commentStatus) {
+      postData.comment_status = this.commentStatus;
+    }
+
+    if (this.categories && this.categories.length > 0) {
+      postData.categories = Array.isArray(this.categories)
+        ? this.categories.map((cat) => parseInt(cat))
+        : this.categories;
+    }
+
+    if (this.tags && this.tags.length > 0) {
+      postData.tags = Array.isArray(this.tags)
+        ? this.tags.map((tag) => parseInt(tag))
+        : this.tags;
+    }
+
+    if (this.featuredMedia) {
+      postData.featured_media = parseInt(this.featuredMedia);
+    }
+
+    if (this.meta) {
+      postData.meta = utils.parseObj(this.meta);
+    }
+
+    const response = await this.wordpress.createPost(postData);
+
+    $.export("$summary", `Successfully created post: "${response.title.rendered}"`);
+
+    return response;
   },
 };

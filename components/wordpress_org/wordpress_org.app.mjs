@@ -177,13 +177,10 @@ export default {
         username,
         application_password: applicationPassword,
       } = this.$auth;
-      let site;
-      try {
-        site = await WPAPI.discover(`https://${url}`);
-      } catch {
-        site = await WPAPI.discover(`http://${url}`);
-      }
-      return site.auth({
+      const wp = new WPAPI({
+        endpoint: `https://${url}/wp-json`,
+      });
+      return wp.auth({
         username,
         password: applicationPassword,
       });
