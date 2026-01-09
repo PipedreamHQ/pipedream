@@ -17,6 +17,45 @@ export default {
         }));
       },
     },
+    recurringEventId: {
+      label: "Recurring Event ID",
+      description: "The ID of the recurring event series",
+      type: "string",
+      async options() {
+        const { value: events } = await this.listCalendarEvents();
+
+        return events
+          .filter((event) => event.recurrence)
+          .map((event) => ({
+            label: event.subject,
+            value: event.id,
+          }));
+      },
+    },
+    instanceId: {
+      label: "Instance ID",
+      description: "The ID of the specific occurrence of the recurring event",
+      type: "string",
+      async options({
+        recurringEventId, startDateTime, endDateTime,
+      }) {
+        if (!recurringEventId || !startDateTime || !endDateTime) {
+          return [];
+        }
+        const { value: instances } = await this.listEventInstances({
+          eventId: recurringEventId,
+          params: {
+            startDateTime,
+            endDateTime,
+          },
+        });
+
+        return instances.map((instance) => ({
+          label: `${instance.subject} - ${instance.start?.dateTime}`,
+          value: instance.id,
+        }));
+      },
+    },
     contentType: {
       label: "Content Type",
       description: "Content type (default `text`)",
@@ -185,6 +224,15 @@ export default {
       return this._makeRequest({
         method: "GET",
         path: "/me/calendar/calendarView",
+        ...args,
+      });
+    },
+    async listEventInstances({
+      eventId, ...args
+    }) {
+      return this._makeRequest({
+        method: "GET",
+        path: `/me/events/${eventId}/instances`,
         ...args,
       });
     },
