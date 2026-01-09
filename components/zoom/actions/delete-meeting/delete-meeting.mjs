@@ -3,7 +3,7 @@ import zoom from "../../zoom.app.mjs";
 export default {
   key: "zoom-delete-meeting",
   name: "Delete Meeting",
-  description: "Delete a meeting. [See the docs here](https://developers.zoom.us/docs/api/meetings/#tag/meetings/delete/meetings/{meetingId})",
+  description: "Delete a meeting. [See the documentation](https://developers.zoom.us/docs/api/meetings/#tag/meetings/delete/meetings/{meetingId})",
   version: "0.0.1",
   type: "action",
   annotations: {
