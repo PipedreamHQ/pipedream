@@ -118,7 +118,8 @@ export default {
           .filter((a) => a && typeof a.email === "string")
           .map((attendee) => ({
             email: attendee.email.trim(),
-          }));
+          }))
+          .filter((a) => a.email);
       }
 
       return [];
