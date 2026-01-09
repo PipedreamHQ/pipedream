@@ -4,7 +4,7 @@ export default {
   key: "brevo-add-or-update-contact",
   name: "Add or Update a contact",
   description: "Add or Update a contact",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -28,6 +28,12 @@ export default {
       label: "Email",
       description: "To either be inserted or updated",
     },
+    listIds: {
+      propDefinition: [
+        brevo,
+        "listIds",
+      ],
+    },
   },
   async additionalProps() {
     const attributesList = await this.brevo.getContactAttributes(this);
@@ -42,22 +48,13 @@ export default {
         };
         return acc;
       }, {});
-    const dynamicProps = {
-      ...attributesFields,
-      listIds: {
-        type: "string[]",
-        label: "Lists",
-        description: "Array with ids of each list to be either inserted or updated,\n\n**On update the contact will be removed from previous lists**",
-        options: async ({ prevContext }) => {
-          return this.brevo.getListsPaginated(prevContext);
-        },
-      },
-    };
-    return dynamicProps;
+    return attributesFields;
   },
   async run({ $ }) {
     let identifier = this.providedIdentifier || this.email;
-    const listIds = Object.keys(this.listIds).map((key) => parseInt(this.listIds[key], 10));
+    const listIds = this.listIds
+      ? Object.keys(this.listIds).map((key) => parseInt(this.listIds[key], 10))
+      : undefined;
     let contact = null;
     if (identifier) {
       try {
@@ -82,7 +79,9 @@ export default {
     if (contact) {
       try {
         identifier = contact.id;
-        const unlinkListIds = contact.listIds.filter((el) => !listIds.includes(el));
+        const unlinkListIds = listIds
+          ? contact.listIds.filter((el) => !listIds.includes(el))
+          : contact.listIds;
         await this.brevo.updateContact(
           $,
           identifier,
