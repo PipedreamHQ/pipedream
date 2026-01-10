@@ -177,8 +177,19 @@ export default {
         username,
         application_password: applicationPassword,
       } = this.$auth;
+
+      // Normalize URL: preserve existing protocol or default to https://
+      let normalizedUrl = url;
+      if (url.startsWith("http://") || url.startsWith("https://")) {
+        // URL already has protocol, use as-is
+        normalizedUrl = url.replace(/\/$/, ""); // Remove trailing slash if present
+      } else {
+        // No protocol provided, default to https://
+        normalizedUrl = `https://${url}`;
+      }
+
       const wp = new WPAPI({
-        endpoint: `https://${url}/wp-json`,
+        endpoint: `${normalizedUrl}/wp-json`,
       });
       return wp.auth({
         username,
