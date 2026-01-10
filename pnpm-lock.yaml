@@ -3706,6 +3706,9 @@ importers:
 
   components/d2l_brightspace: {}
 
+  components/d4sign:
+    specifiers: {}
+
   components/d7_darwin: {}
 
   components/d7_networks:
