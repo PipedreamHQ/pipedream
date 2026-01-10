@@ -58,10 +58,10 @@ export default {
       ],
     },
     tags: {
-      type: "string[]",
-      label: "Tags",
-      description: "Array of tag IDs to assign to the post",
-      optional: true,
+      propDefinition: [
+        wordpress,
+        "tags",
+      ],
     },
     featuredMedia: {
       propDefinition: [
@@ -90,7 +90,10 @@ export default {
     }
 
     if (this.author) {
-      postData.author = this.author;
+      const parsedAuthor = parseInt(this.author, 10);
+      if (!Number.isNaN(parsedAuthor)) {
+        postData.author = parsedAuthor;
+      }
     }
 
     if (this.commentStatus) {
@@ -128,7 +131,7 @@ export default {
 
     const response = await this.wordpress.createPost(postData);
 
-    $.export("$summary", `Successfully created post: "${response.title.rendered}"`);
+    $.export("$summary", `Successfully created post: "${response?.title?.rendered || response?.id || "New Post"}"`);
 
     return response;
   },

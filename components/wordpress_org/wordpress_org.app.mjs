@@ -126,6 +126,19 @@ export default {
         }));
       },
     },
+    tags: {
+      type: "string[]",
+      label: "Tags",
+      description: "Tags assigned to the post",
+      optional: true,
+      async options({ page }) {
+        const tags = await this.listTags(page + 1);
+        return tags.map((tag) => ({
+          label: tag?.name,
+          value: tag?.id,
+        }));
+      },
+    },
     post: {
       type: "string",
       label: "Post",
@@ -209,6 +222,11 @@ export default {
     async listCategories(page) {
       const wp = await this.getClient();
       return wp.categories().perPage(PER_PAGE)
+        .page(page);
+    },
+    async listTags(page) {
+      const wp = await this.getClient();
+      return wp.tags().perPage(PER_PAGE)
         .page(page);
     },
     async listPosts(page) {
