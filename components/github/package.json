@@ -11,7 +11,7 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
     "@octokit/core": "^4.2.4",
-    "@octokit/plugin-paginate-rest": "^2.17.0",
+    "@octokit/plugin-paginate-rest": "^9.2.2",
     "@octokit/webhooks-definitions": "^3.29.0",
     "@pipedream/platform": "^3.1.1"
   },
