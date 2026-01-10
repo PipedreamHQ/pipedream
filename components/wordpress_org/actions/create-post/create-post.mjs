@@ -1,4 +1,3 @@
-import { axios } from "@pipedream/platform";
 import wordpress from "../../wordpress_org.app.mjs";
 import utils from "../../common/utils.mjs";
 
@@ -34,17 +33,11 @@ export default {
       ],
     },
     status: {
-      type: "string",
-      label: "Post Status",
-      description: "Status of the post",
-      optional: true,
-      default: "publish",
-      options: [
-        "publish",
-        "draft",
-        "pending",
-        "private",
+      propDefinition: [
+        wordpress,
+        "status",
       ],
+      default: "publish",
     },
     commentStatus: {
       propDefinition: [
@@ -105,19 +98,28 @@ export default {
     }
 
     if (this.categories && this.categories.length > 0) {
-      postData.categories = Array.isArray(this.categories)
-        ? this.categories.map((cat) => parseInt(cat))
-        : this.categories;
+      const parsedCategories = this.categories
+        .map((cat) => parseInt(cat, 10))
+        .filter((val) => !Number.isNaN(val));
+      if (parsedCategories.length > 0) {
+        postData.categories = parsedCategories;
+      }
     }
 
     if (this.tags && this.tags.length > 0) {
-      postData.tags = Array.isArray(this.tags)
-        ? this.tags.map((tag) => parseInt(tag))
-        : this.tags;
+      const parsedTags = this.tags
+        .map((tag) => parseInt(tag, 10))
+        .filter((val) => !Number.isNaN(val));
+      if (parsedTags.length > 0) {
+        postData.tags = parsedTags;
+      }
     }
 
     if (this.featuredMedia) {
-      postData.featured_media = parseInt(this.featuredMedia);
+      const parsedMedia = parseInt(this.featuredMedia, 10);
+      if (!Number.isNaN(parsedMedia)) {
+        postData.featured_media = parsedMedia;
+      }
     }
 
     if (this.meta) {
