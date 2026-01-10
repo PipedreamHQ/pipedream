@@ -28,6 +28,7 @@ export default {
     },
     token: {
       type: "string",
+      secret: true,
       label: "Token",
       description: "An authentication token to use for the webhook authentication",
     },
