@@ -4,8 +4,8 @@ import utils from "../../common/utils.mjs";
 export default {
   key: "wordpress_org-create-post",
   name: "Create Post",
-  description: "Creates a post. [See the documentation](https://developer.wordpress.org/rest-api/reference/posts/#create-a-post)",
-  version: "0.0.5",
+  description: "Create a new WordPress post using the REST API directly. [See the documentation](https://developer.wordpress.org/rest-api/reference/posts/#create-a-post)",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -26,10 +26,23 @@ export default {
         "content",
       ],
     },
+    excerpt: {
+      propDefinition: [
+        wordpress,
+        "excerpt",
+      ],
+    },
     status: {
       propDefinition: [
         wordpress,
         "status",
+      ],
+      default: "publish",
+    },
+    commentStatus: {
+      propDefinition: [
+        wordpress,
+        "commentStatus",
       ],
     },
     author: {
@@ -44,16 +57,16 @@ export default {
         "categories",
       ],
     },
-    excerpt: {
+    tags: {
       propDefinition: [
         wordpress,
-        "excerpt",
+        "tags",
       ],
     },
-    commentStatus: {
+    featuredMedia: {
       propDefinition: [
         wordpress,
-        "commentStatus",
+        "media",
       ],
     },
     meta: {
@@ -62,30 +75,64 @@ export default {
         "meta",
       ],
     },
-    media: {
-      propDefinition: [
-        wordpress,
-        "media",
-      ],
-    },
   },
   async run({ $ }) {
-    const params = {
+    // Prepare post data
+    const postData = {
       title: this.title,
       content: this.content,
       status: this.status,
-      author: this.author,
-      categories: this.categories,
-      excerpt: this.excerpt,
-      comment_status: this.commentStatus,
-      meta: utils.parseObj(this.meta),
-      featured_media: this.media,
     };
 
-    const resp = await this.wordpress.createPost(params);
+    // Add optional fields if provided
+    if (this.excerpt) {
+      postData.excerpt = this.excerpt;
+    }
 
-    $.export("$summary", "Successfully created new post.");
+    if (this.author) {
+      const parsedAuthor = parseInt(this.author, 10);
+      if (!Number.isNaN(parsedAuthor)) {
+        postData.author = parsedAuthor;
+      }
+    }
 
-    return resp;
+    if (this.commentStatus) {
+      postData.comment_status = this.commentStatus;
+    }
+
+    if (this.categories && this.categories.length > 0) {
+      const parsedCategories = this.categories
+        .map((cat) => parseInt(cat, 10))
+        .filter((val) => !Number.isNaN(val));
+      if (parsedCategories.length > 0) {
+        postData.categories = parsedCategories;
+      }
+    }
+
+    if (this.tags && this.tags.length > 0) {
+      const parsedTags = this.tags
+        .map((tag) => parseInt(tag, 10))
+        .filter((val) => !Number.isNaN(val));
+      if (parsedTags.length > 0) {
+        postData.tags = parsedTags;
+      }
+    }
+
+    if (this.featuredMedia) {
+      const parsedMedia = parseInt(this.featuredMedia, 10);
+      if (!Number.isNaN(parsedMedia)) {
+        postData.featured_media = parsedMedia;
+      }
+    }
+
+    if (this.meta) {
+      postData.meta = utils.parseObj(this.meta);
+    }
+
+    const response = await this.wordpress.createPost(postData);
+
+    $.export("$summary", `Successfully created post: "${response?.title?.rendered || response?.id || "New Post"}"`);
+
+    return response;
   },
 };
