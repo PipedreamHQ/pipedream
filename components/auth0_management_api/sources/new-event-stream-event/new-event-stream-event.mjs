@@ -26,6 +26,11 @@ export default {
       description: "The event type to subscribe to",
       options: events,
     },
+    token: {
+      type: "string",
+      label: "Token",
+      description: "An authentication token to use for the webhook authentication",
+    },
   },
   hooks: {
     async activate() {
@@ -43,7 +48,7 @@ export default {
               webhook_endpoint: this.http.endpoint,
               webhook_authorization: {
                 method: "bearer",
-                token: "token",
+                token: this.token,
               },
             },
           },
@@ -77,7 +82,18 @@ export default {
     },
   },
   async run(event) {
-    const { body } = event;
+    const {
+      body, headers,
+    } = event;
+
+    if (!body) {
+      return;
+    }
+
+    const { authorization } = headers;
+    if (authorization !== `Bearer ${this.token}`) {
+      return;
+    }
 
     this.http.respond({
       status: 200,
