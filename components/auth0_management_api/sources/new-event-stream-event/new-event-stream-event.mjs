@@ -2,7 +2,7 @@ import auth0 from "../../auth0_management_api.app.mjs";
 import events from "../common/events.mjs";
 
 export default {
-  key: "auth0-management-api-new-event-stream-event",
+  key: "auth0_management_api-new-event-stream-event",
   name: "New Event Stream Event (Instant)",
   description: "Emit new event when a new webhook event is received from an Auth0 event stream. [See the documentation](https://auth0.com/docs/api/management/v2/event-streams/post-event-streams)",
   version: "0.0.1",
