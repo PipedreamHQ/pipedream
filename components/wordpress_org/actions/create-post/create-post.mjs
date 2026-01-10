@@ -7,6 +7,11 @@ export default {
   name: "Create Post",
   description: "Create a new WordPress post using the REST API directly. [See the documentation](https://developer.wordpress.org/rest-api/reference/posts/#create-a-post)",
   version: "0.0.6",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     wordpress,
