@@ -1836,7 +1836,14 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/bitmex: {}
+  components/bitmex:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
+      axios:
+        specifier: ^1.13.2
+        version: 1.13.2(debug@3.2.7)
 
   components/bitport:
     dependencies:
