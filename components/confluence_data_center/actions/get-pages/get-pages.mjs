@@ -37,9 +37,9 @@ export default {
     const response = await this.confluenceDataCenter.listContent({
       $,
       params: {
-        "space-key": this.spaceKey,
-        "limit": this.limit,
-        "start": this.start,
+        spaceKey: this.spaceKey,
+        limit: this.limit,
+        start: this.start,
       },
     });
     $.export("$summary", `Successfully retrieved ${response.results.length} page${response.results.length === 1

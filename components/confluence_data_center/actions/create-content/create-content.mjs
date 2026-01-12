@@ -70,12 +70,14 @@ export default {
           }
           : undefined,
         position: this.position,
-        body: {
-          storage: {
-            value: this.body,
-            representation: "storage",
-          },
-        },
+        body: this.body
+          ? {
+            storage: {
+              value: this.body,
+              representation: "storage",
+            },
+          }
+          : undefined,
         metadata: this.metadata
           ? parseObjectEntries(this.metadata)
           : undefined,

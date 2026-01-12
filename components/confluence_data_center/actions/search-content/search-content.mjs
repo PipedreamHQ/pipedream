@@ -16,7 +16,7 @@ export default {
     cql: {
       type: "string",
       label: "CQL",
-      description: "The CQL query to be used for the search. See [Advanced Searching using CQL](https://developer.atlassian.com/cloud/confluence/advanced-searching-using-cql/) for instructions on how to build a CQL query.",
+      description: "The CQL query to be used for the search. See [Advanced Searching using CQL](https://developer.atlassian.com/server/confluence/advanced-searching-using-cql/) for instructions on how to build a CQL query.",
     },
     limit: {
       propDefinition: [
