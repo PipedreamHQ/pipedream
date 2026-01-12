@@ -67,7 +67,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully created subscriber with ID: ${response.data.id}`);
+    $.export("$summary", `Successfully created subscriber with ID: ${response.data?.id}`);
 
     return response;
   },

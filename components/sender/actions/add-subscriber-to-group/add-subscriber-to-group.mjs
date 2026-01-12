@@ -61,16 +61,16 @@ export default {
 
     let summary = "";
     if (added?.length > 0) {
-      summary += `Successfully added ${added?.length || 0} subscriber(s) to group.\n`;
+      summary += `Successfully added ${added?.length} subscriber(s) to group.\n`;
     }
     if (alreadyAdded?.length > 0) {
-      summary += `${alreadyAdded?.length || 0} subscriber(s) were already added to the group.\n`;
+      summary += `${alreadyAdded?.length} subscriber(s) were already added to the group.\n`;
     }
     if (nonExisting?.length > 0) {
-      summary += `${nonExisting?.length || 0} subscriber(s) were not found\n`;
+      summary += `${nonExisting?.length} subscriber(s) were not found\n`;
     }
     if (invalidEmails?.length > 0) {
-      summary += `${invalidEmails?.length || 0} subscriber(s) had invalid emails`;
+      summary += `${invalidEmails?.length} subscriber(s) had invalid emails`;
     }
 
     $.export("$summary", summary);

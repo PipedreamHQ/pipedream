@@ -55,16 +55,16 @@ export default {
     } = response;
     let summary = "";
     if (removed?.length > 0) {
-      summary += `Successfully removed ${removed?.length || 0} subscriber(s) from group.\n`;
+      summary += `Successfully removed ${removed?.length} subscriber(s) from group.\n`;
     }
     if (alreadyRemoved?.length > 0) {
-      summary += `${alreadyRemoved?.length || 0} subscriber(s) were already removed from the group.\n`;
+      summary += `${alreadyRemoved?.length} subscriber(s) were already removed from the group.\n`;
     }
     if (nonExisting?.length > 0) {
-      summary += `${nonExisting?.length || 0} subscriber(s) were not found\n`;
+      summary += `${nonExisting?.length} subscriber(s) were not found\n`;
     }
     if (invalidEmails?.length > 0) {
-      summary += `${invalidEmails?.length || 0} subscriber(s) had invalid emails`;
+      summary += `${invalidEmails?.length} subscriber(s) had invalid emails`;
     }
 
     $.export("$summary", summary);

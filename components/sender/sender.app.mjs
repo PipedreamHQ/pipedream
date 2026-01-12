@@ -65,7 +65,7 @@ export default {
     triggerAutomation: {
       type: "boolean",
       label: "Trigger Automation",
-      description: "This property by default its true. You ca send it as false if you want not to activate an automation",
+      description: "This property is true by default. You can send it as false if you do not want to activate an automation",
     },
   },
   methods: {
