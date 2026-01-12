@@ -6,7 +6,7 @@ export default {
   key: "google_calendar-upcoming-event-alert",
   name: "New Upcoming Event Alert",
   description: "Emit new event based on a time interval before an upcoming event in the calendar.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "source",
   props: {
     googleCalendar,
