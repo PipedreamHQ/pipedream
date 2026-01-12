@@ -169,6 +169,42 @@ export default {
       description: "The maximum number of results to return",
       optional: true,
     },
+    virtualTerminalCode: {
+      type: "string",
+      label: "Virtual Terminal Code",
+      description: "Code of the Virtual Terminal",
+      async options({ page }) {
+        const { data } = await this.listVirtualTerminals({
+          params: {
+            page: page + 1,
+          },
+        });
+        return data?.map(({
+          code, name,
+        }) => ({
+          label: `${name} (${code})`,
+          value: code,
+        })) || [];
+      },
+    },
+    splitCode: {
+      type: "string",
+      label: "Split Code",
+      description: "The split code to use",
+      async options({ page }) {
+        const { data } = await this.listSplits({
+          params: {
+            page: page + 1,
+          },
+        });
+        return data?.map(({
+          split_code, name,
+        }) => ({
+          label: `${name} (${split_code})`,
+          value: split_code,
+        })) || [];
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -243,6 +279,87 @@ export default {
     exportTransactions(args = {}) {
       return this._makeRequest({
         path: "/transaction/export",
+        ...args,
+      });
+    },
+    listSplits(args = {}) {
+      return this._makeRequest({
+        path: "/split",
+        ...args,
+      });
+    },
+    createVirtualTerminal(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/virtual_terminal",
+        ...args,
+      });
+    },
+    listVirtualTerminals(args = {}) {
+      return this._makeRequest({
+        path: "/virtual_terminal",
+        ...args,
+      });
+    },
+    fetchVirtualTerminal({
+      code, ...args
+    }) {
+      return this._makeRequest({
+        path: `/virtual_terminal/${code}`,
+        ...args,
+      });
+    },
+    updateVirtualTerminal({
+      code, ...args
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/virtual_terminal/${code}`,
+        ...args,
+      });
+    },
+    deactivateVirtualTerminal({
+      code, ...args
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/virtual_terminal/${code}/deactivate`,
+        ...args,
+      });
+    },
+    assignDestinationToVirtualTerminal({
+      code, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/virtual_terminal/${code}/destination/assign`,
+        ...args,
+      });
+    },
+    unassignDestinationFromVirtualTerminal({
+      code, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/virtual_terminal/${code}/destination/unassign`,
+        ...args,
+      });
+    },
+    addSplitCodeToVirtualTerminal({
+      code, ...args
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/virtual_terminal/${code}/split_code`,
+        ...args,
+      });
+    },
+    removeSplitCodeFromVirtualTerminal({
+      code, ...args
+    }) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/virtual_terminal/${code}/split_code`,
         ...args,
       });
     },
