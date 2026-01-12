@@ -4,7 +4,7 @@ export default {
   key: "slack_v2-list-channels",
   name: "List Channels",
   description: "Return a list of all channels in a workspace. [See the documentation](https://api.slack.com/methods/conversations.list)",
-  version: "0.0.25",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -13,6 +13,27 @@ export default {
   type: "action",
   props: {
     slack,
+    channelTypes: {
+      type: "string",
+      label: "Channel Types",
+      description: "The types of channels to list. Select `public` for public channels only, `private` for private channels only, or `all` for both public and private channels.",
+      options: [
+        {
+          label: "Public Channels",
+          value: "public_channel",
+        },
+        {
+          label: "Private Channels",
+          value: "private_channel",
+        },
+        {
+          label: "All (Public + Private)",
+          value: "public_channel,private_channel",
+        },
+      ],
+      default: "public_channel",
+      optional: true,
+    },
     pageSize: {
       propDefinition: [
         slack,
@@ -30,6 +51,7 @@ export default {
     const allChannels = [];
     const params = {
       limit: this.pageSize,
+      types: this.channelTypes,
     };
     let page = 0;
 
