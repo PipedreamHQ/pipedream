@@ -40,11 +40,11 @@ export default {
     replyTo: {
       type: "string[]",
       label: "Reply To",
-      description: "An array of objects containing the BCC recipients of the campaign. Example: `[{\"name\": \"name\", \"email\": \"name@email.com\" }]`",
+      description: "An array of objects containing the Reply To recipients of the campaign. Example: `[{\"name\": \"name\", \"email\": \"name@email.com\" }]`",
       optional: true,
     },
     variables: {
-      type: "string[]",
+      type: "object",
       label: "Variables",
       description: "An object containing the variables for the campaign. Example: `{\"name\": { \"type\": \"your_type\", \"value\": \"your_value\"} }`",
       optional: true,

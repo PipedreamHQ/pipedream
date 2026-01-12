@@ -44,6 +44,7 @@ export default {
     },
   },
   async run({ $ }) {
+    const parsedRecipients = parseObject(this.recipients);
     const response = await this.app.sendSMS({
       $,
       data: {
@@ -51,10 +52,10 @@ export default {
         short_url: +this.shortUrl,
         short_url_expiry: this.shortUrlExpiry,
         realTimeResponse: this.realTimeResponse,
-        recipients: parseObject(this.recipients),
+        recipients: parsedRecipients,
       },
     });
-    $.export("$summary", `Successfully sent SMS to ${this.recipients.length} recipient(s)`);
+    $.export("$summary", `Successfully sent SMS to ${parsedRecipients.length} recipient(s)`);
     return response;
   },
 };

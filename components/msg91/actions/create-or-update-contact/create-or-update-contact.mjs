@@ -28,7 +28,7 @@ export default {
     input: {
       type: "string",
       label: "Contact Data",
-      description: "An object containing contact details. Example: `{ \"name\": \"Name\", \"email\": \"email adddress\", \"contact_id\": \"if exists update or create\", \"new_field\": \"field_type created based on value \", \"date_field\": \"YYYY-MM-DD HH:MM:SS format\", \"details\": { \"qualification\": \"graduate\", \"age\": 30, \"address\": \"random address\" }`",
+      description: "An object containing contact details. Example: `{ \"name\": \"Name\", \"email\": \"email address\", \"contact_id\": \"if exists update or create\", \"new_field\": \"field_type created based on value \", \"date_field\": \"YYYY-MM-DD HH:MM:SS format\", \"details\": { \"qualification\": \"graduate\", \"age\": 30, \"address\": \"random address\" } }`",
     },
   },
   async run({ $ }) {

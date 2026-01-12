@@ -10,7 +10,7 @@ export default {
     _getHeaders() {
       return {
         "Content-Type": "application/json",
-        "authkey": `${this.$auth.authkey}`,
+        "authkey": this.$auth.authkey,
       };
     },
     _makeRequest({
