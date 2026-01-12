@@ -6,6 +6,11 @@ export default {
   description: "List Virtual Terminals on your integration. [See the documentation](https://paystack.com/docs/api/virtual-terminal/#list)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     paystack,
     maxResults: {

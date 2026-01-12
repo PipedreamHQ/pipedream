@@ -6,6 +6,11 @@ export default {
   description: "Remove Split Code from Virtual Terminal. [See the documentation](https://paystack.com/docs/api/virtual-terminal/#remove-split)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     paystack,
     code: {

@@ -6,6 +6,11 @@ export default {
   description: "Add a destination (WhatsApp number) to a Virtual Terminal on your integration. [See the documentation](https://paystack.com/docs/api/virtual-terminal/#assign-destination)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     paystack,
     code: {

@@ -6,6 +6,11 @@ export default {
   description: "Create a Virtual Terminal on your integration. [See the documentation](https://paystack.com/docs/api/virtual-terminal/#create)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     paystack,
     name: {

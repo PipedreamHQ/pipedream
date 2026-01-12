@@ -6,6 +6,11 @@ export default {
   description: "Unassign a destination (WhatsApp Number) from a Virtual Terminal on your integration. [See the documentation](https://paystack.com/docs/api/virtual-terminal/#unassign-destination)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     paystack,
     code: {
