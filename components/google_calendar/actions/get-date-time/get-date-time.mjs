@@ -34,7 +34,9 @@ export default {
     const diff = (tzDate - tzDateUTC) / 60000;
     const hours = Math.floor(Math.abs(diff) / 60);
     const mins = Math.abs(diff) % 60;
-    const offsetSign = diff >= 0 ? "+" : "-";
+    const offsetSign = diff >= 0
+      ? "+"
+      : "-";
     const timezoneOffset = `${offsetSign}${String(hours).padStart(2, "0")}:${String(mins).padStart(2, "0")}`;
 
     const result = {
