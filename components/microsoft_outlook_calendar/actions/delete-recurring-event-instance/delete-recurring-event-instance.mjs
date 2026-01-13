@@ -1,4 +1,5 @@
 import microsoftOutlook from "../../microsoft_outlook_calendar.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   type: "action",
@@ -43,7 +44,7 @@ export default {
   },
   async run({ $ }) {
     if (new Date(this.startDateTime) >= new Date(this.endDateTime)) {
-      throw new Error("Start Date Time must be before End Date Time");
+      throw new ConfigurationError("`Start Date Time` must be before `End Date Time`");
     }
 
     const response = await this.microsoftOutlook.deleteCalendarEvent({
