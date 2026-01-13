@@ -40,8 +40,8 @@ export default {
     }
 
     $.export("$summary", `Successfully fetched ${messages.length} message${messages.length === 1
-      ? "s"
-      : ""}`);
+      ? ""
+      : "s"}`);
     return messages;
   },
 };
