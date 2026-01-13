@@ -131,6 +131,31 @@ export default {
       },
       useQuery: true,
     },
+    messageId: {
+      type: "string",
+      label: "Message ID",
+      description: "The ID of the message to retrieve",
+      async options({
+        prevContext, chatId,
+      }) {
+        const response = prevContext?.nextLink
+          ? await this.makeRequest({
+            path: prevContext.nextLink,
+          })
+          : await this.listChatMessages({
+            chatId,
+          });
+        return {
+          options: response.value.map((message) => ({
+            label: message.body.content,
+            value: message.id,
+          })),
+          context: {
+            nextLink: response["@odata.nextLink"],
+          },
+        };
+      },
+    },
     channelDisplayName: {
       type: "string",
       label: "Display Name",
@@ -292,6 +317,20 @@ export default {
     async listShifts({ teamId }) {
       return this.makeRequest({
         path: `/teams/${teamId}/schedule/shifts`,
+      });
+    },
+    async getChatMessage({
+      chatId, messageId,
+    }) {
+      return this.makeRequest({
+        path: `/chats/${chatId}/messages/${messageId}`,
+      });
+    },
+    async searchQuery({ content }) {
+      return this.makeRequest({
+        method: "post",
+        path: "/search/query",
+        content,
       });
     },
   },
