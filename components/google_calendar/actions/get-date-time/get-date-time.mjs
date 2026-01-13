@@ -49,7 +49,7 @@ export default {
       rfc3339: `${date}T${time}${timezoneOffset}`,
     };
 
-    $.export("$summary", `Retrieved current date time: ${date} ${time} (${timezone} ${timezoneOffset})`);
+    $.export("$summary", `Retrieved current date time: ${date} ${time} (${timezone || ""} ${timezoneOffset})`);
     return result;
   },
 };
