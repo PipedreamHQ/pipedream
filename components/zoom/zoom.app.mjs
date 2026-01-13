@@ -55,6 +55,22 @@ export default {
       },
       optional: true,
     },
+    occurrenceId: {
+      type: "string",
+      label: "Occurrence ID",
+      description: "If you select a value for this param, only that instance will be deleted. Otherwise, the entire meeting series will be deleted.",
+      optional: true,
+      async options({ meetingId }) {
+        if (!meetingId) {
+          return [];
+        }
+        const occurrences = await this.listMeetingsOccurrences(meetingId);
+        return occurrences.map((occurrence) => ({
+          label: `${occurrence.start_time} (${occurrence.status})`,
+          value: occurrence.occurrence_id,
+        }));
+      },
+    },
     userId: {
       type: "string",
       label: "User Id",
@@ -294,6 +310,26 @@ export default {
     listCallRecordings(args = {}) {
       return this._makeRequest({
         path: "/phone/recordings",
+        ...args,
+      });
+    },
+    async listMeetingsOccurrences(meetingId) {
+      try {
+        meetingId = utils.doubleEncode(meetingId);
+        const { occurrences } = await this._makeRequest({
+          path: `/meetings/${meetingId}`,
+        });
+        return occurrences || [];
+      } catch {
+        return [];
+      }
+    },
+    deleteMeeting({
+      meetingId, ...args
+    }) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/meetings/${utils.doubleEncode(meetingId)}`,
         ...args,
       });
     },

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/confluence_data_center",
+  "version": "0.1.0",
+  "description": "Pipedream Confluence Data Center Components",
+  "main": "confluence_data_center.app.mjs",
+  "keywords": [
+    "pipedream",
+    "confluence_data_center"
+  ],
+  "homepage": "https://pipedream.com/apps/confluence_data_center",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1"
+  }
+}

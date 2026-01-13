@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/buzzsprout",
+  "version": "0.0.1",
+  "description": "Pipedream Buzzsprout Components",
+  "main": "buzzsprout.app.mjs",
+  "keywords": [
+    "pipedream",
+    "buzzsprout"
+  ],
+  "homepage": "https://pipedream.com/apps/buzzsprout",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
