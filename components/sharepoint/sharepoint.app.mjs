@@ -157,17 +157,25 @@ export default {
       async options({
         query, siteId, driveId,
       }) {
+        // Handle both raw values and __lv wrapped values
+        const resolvedSiteId = siteId?.__lv?.value || siteId;
+        const resolvedDriveId = driveId?.__lv?.value || driveId;
+
+        if (!resolvedSiteId || !resolvedDriveId) {
+          return [];
+        }
+
         const response = query
           ? await this.searchDriveItems({
-            siteId,
+            siteId: resolvedSiteId,
             query,
             params: {
               select: "folder,name,id",
             },
           })
           : await this.listDriveItems({
-            siteId,
-            driveId,
+            siteId: resolvedSiteId,
+            driveId: resolvedDriveId,
           });
         const values = response.value.filter(({ folder }) => folder);
         return values
@@ -258,6 +266,45 @@ export default {
       description: "Set to `true` to return only files in the response. Defaults to `false`",
       optional: true,
     },
+    fileOrFolderId: {
+      type: "string",
+      label: "File or Folder",
+      description: "Select a file or folder to browse",
+      async options({
+        siteId, driveId, folderId,
+      }) {
+        // Handle both raw values and __lv wrapped values
+        const resolvedSiteId = siteId?.__lv?.value || siteId;
+        const resolvedDriveId = driveId?.__lv?.value || driveId;
+        const resolvedFolderId = folderId?.__lv?.value || folderId;
+
+        if (!resolvedSiteId || !resolvedDriveId) {
+          return [];
+        }
+        const response = resolvedFolderId
+          ? await this.listDriveItemsInFolder({
+            driveId: resolvedDriveId,
+            folderId: resolvedFolderId,
+          })
+          : await this.listDriveItems({
+            siteId: resolvedSiteId,
+            driveId: resolvedDriveId,
+          });
+        return response.value?.map(({
+          id, name, folder, size,
+        }) => ({
+          value: JSON.stringify({
+            id,
+            name,
+            isFolder: !!folder,
+            size,
+          }),
+          label: folder
+            ? `📁 ${name}`
+            : `📄 ${name}`,
+        })) || [];
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -334,10 +381,10 @@ export default {
       });
     },
     listDriveItemsInFolder({
-      siteId, folderId, ...args
+      driveId, folderId, ...args
     }) {
       return this._makeRequest({
-        path: `/sites/${siteId}/drive/items/${folderId}/children`,
+        path: `/drives/${driveId}/items/${folderId}/children`,
         ...args,
       });
     },

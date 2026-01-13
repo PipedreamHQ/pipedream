@@ -33,70 +33,32 @@ export default {
       reloadProps: true,
     },
     folderId: {
-      type: "string",
+      propDefinition: [
+        sharepoint,
+        "folderId",
+        (c) => ({
+          siteId: c.siteId?.__lv?.value || c.siteId,
+          driveId: c.driveId?.__lv?.value || c.driveId,
+        }),
+      ],
       label: "Folder",
       description: "The folder to browse. Leave empty to browse the root of the drive.",
       optional: true,
-      async options({
-        siteId, driveId,
-      }) {
-        const resolvedSiteId = siteId?.__lv?.value || siteId;
-        const resolvedDriveId = driveId?.__lv?.value || driveId;
-        if (!resolvedSiteId || !resolvedDriveId) {
-          return [];
-        }
-        const response = await this.sharepoint.listDriveItems({
-          siteId: resolvedSiteId,
-          driveId: resolvedDriveId,
-        });
-        return response.value
-          ?.filter(({ folder }) => folder)
-          .map(({
-            id, name,
-          }) => ({
-            value: id,
-            label: name,
-          })) || [];
-      },
       withLabel: true,
       reloadProps: true,
     },
     fileOrFolderId: {
-      type: "string",
+      propDefinition: [
+        sharepoint,
+        "fileOrFolderId",
+        (c) => ({
+          siteId: c.siteId?.__lv?.value || c.siteId,
+          driveId: c.driveId?.__lv?.value || c.driveId,
+          folderId: c.folderId?.__lv?.value || c.folderId,
+        }),
+      ],
       label: "File or Folder",
       description: "Select a file to complete your selection, or select a folder and click 'Refresh Fields' to browse into it",
-      async options({
-        siteId, driveId, folderId,
-      }) {
-        const resolvedSiteId = siteId?.__lv?.value || siteId;
-        const resolvedDriveId = driveId?.__lv?.value || driveId;
-        const resolvedFolderId = folderId?.__lv?.value || folderId;
-        if (!resolvedSiteId || !resolvedDriveId) {
-          return [];
-        }
-        const response = resolvedFolderId
-          ? await this.sharepoint.listDriveItemsInFolder({
-            siteId: resolvedSiteId,
-            folderId: resolvedFolderId,
-          })
-          : await this.sharepoint.listDriveItems({
-            siteId: resolvedSiteId,
-            driveId: resolvedDriveId,
-          });
-        return response.value?.map(({
-          id, name, folder, size,
-        }) => ({
-          value: JSON.stringify({
-            id,
-            name,
-            isFolder: !!folder,
-            size,
-          }),
-          label: folder
-            ? `📁 ${name}`
-            : `📄 ${name}`,
-        })) || [];
-      },
       withLabel: true,
     },
   },

@@ -14,6 +14,7 @@ export interface FilePickerItem {
   label: string;
   value: string;
   isFolder?: boolean;
+  size?: number;
   raw?: unknown;
 }
 
@@ -46,15 +47,23 @@ export interface ConfigureFilePickerProps {
   confirmText?: string;
   /** Cancel button text */
   cancelText?: string;
+  /** Allow selecting folders (default: true) */
+  selectFolders?: boolean;
+  /** Allow selecting files (default: true) */
+  selectFiles?: boolean;
+  /** Allow selecting multiple items (default: false) */
+  multiSelect?: boolean;
 }
 
 /**
  * Mapping of prop names to their hierarchical order
+ * Note: We skip folderId and use fileOrFolderId for browsing,
+ * which shows both files and folders. folderId is set when navigating into folders.
  */
 const PROP_HIERARCHY = [
   "siteId",
   "driveId",
-  "folderId",
+  // Skip "folderId" - we use fileOrFolderId which shows both files and folders
   "fileOrFolderId",
 ];
 
@@ -71,6 +80,9 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
   initialConfiguredProps,
   confirmText = "Select",
   cancelText = "Cancel",
+  selectFolders = true,
+  selectFiles = true,
+  multiSelect = false,
 }) => {
   const client = useFrontendClient();
   const { theme } = useCustomize();
@@ -95,16 +107,9 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
   // Current prop being browsed
   const [currentProp, setCurrentProp] = useState<string>("siteId");
 
-  // Track if we should skip folderId (when it returns no options)
-  const [skipFolderId, setSkipFolderId] = useState(false);
-
   // Determine which prop to fetch options for based on configured props
   useEffect(() => {
     for (const prop of PROP_HIERARCHY) {
-      // Skip folderId if it returned no options (drive root has no subfolders)
-      if (prop === "folderId" && skipFolderId) {
-        continue;
-      }
       const value = configuredProps[prop];
       if (!value) {
         setCurrentProp(prop);
@@ -113,7 +118,7 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
     }
     // All props configured, stay on last one
     setCurrentProp("fileOrFolderId");
-  }, [configuredProps, skipFolderId]);
+  }, [configuredProps]);
 
   // Fetch options for current prop
   const {
@@ -165,25 +170,30 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
     // Use sanitizeOption to handle various option formats
     const sanitized = sanitizeOption(opt);
     const label = sanitized.label;
-    const value = typeof sanitized.value === "string" ? sanitized.value : JSON.stringify(sanitized.value);
+    const rawValue = typeof sanitized.value === "string" ? sanitized.value : JSON.stringify(sanitized.value);
 
     if (idx < 3) {
       console.log("[ConfigureFilePicker] Parsing option", idx, ":", {
         raw: opt,
         sanitized,
         label,
-        value,
+        rawValue,
       });
     }
 
-    // Try to detect if it's a folder
+    // Try to parse JSON value (fileOrFolderId returns JSON with {id, name, isFolder, size})
     let isFolder = false;
-    let parsedValue = value;
+    let id = rawValue;
+    let name = label.replace(/^📁\s*/, "").replace(/^📄\s*/, "");
+    let size: number | undefined;
+
     try {
-      const parsed = JSON.parse(value);
-      if (parsed.isFolder !== undefined) {
-        isFolder = parsed.isFolder;
-        parsedValue = value;
+      const parsed = JSON.parse(rawValue);
+      if (parsed && typeof parsed === "object") {
+        id = parsed.id || rawValue;
+        name = parsed.name || name;
+        isFolder = !!parsed.isFolder;
+        size = parsed.size;
       }
     } catch {
       // Not JSON, check label for folder indicators
@@ -191,33 +201,49 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
     }
 
     return {
-      id: value,
-      label: label.replace(/^📁\s*/, "").replace(/^📄\s*/, ""),
-      value: parsedValue,
+      id,
+      label: name,
+      value: rawValue, // Keep original for configuredProps
       isFolder,
+      size,
       raw: opt,
     };
   });
 
   console.log("[ConfigureFilePicker] Parsed items count:", items.length, "for prop:", currentProp);
 
-  // Auto-skip folderId when it returns no options (go straight to fileOrFolderId)
-  useEffect(() => {
-    if (currentProp === "folderId" && optionsData && !isLoading) {
-      const hasOptions = (optionsData.options?.length || 0) > 0;
-      if (!hasOptions && !optionsData.errors?.length) {
-        console.log("[ConfigureFilePicker] folderId has no options, skipping to fileOrFolderId");
-        setSkipFolderId(true);
-      }
-    }
-  }, [currentProp, optionsData, isLoading]);
-
-  // Handle item click (navigate into folder or select file)
+  // Handle item click (navigate into folder or select file/folder)
   const handleItemClick = useCallback((item: FilePickerItem) => {
     console.log("[ConfigureFilePicker] Item clicked:", item, "currentProp:", currentProp);
 
-    if (item.isFolder || currentProp !== "fileOrFolderId") {
-      // Navigate into this item
+    // At fileOrFolderId level, clicking a folder navigates into it
+    if (currentProp === "fileOrFolderId" && item.isFolder) {
+      // Navigate into this folder
+      const newPath: NavigationLevel = {
+        propName: "folder", // Mark as folder navigation, not prop selection
+        label: item.label,
+        value: item.id, // Use the parsed ID
+      };
+
+      setNavigationPath((prev) => [...prev, newPath]);
+
+      // Update folderId to navigate into the folder, clear fileOrFolderId to re-fetch
+      setConfiguredProps((prev) => {
+        const updated = {
+          ...prev,
+          folderId: item.id, // Use parsed ID directly
+          // Don't set fileOrFolderId - let it re-fetch with new folderId
+        };
+        // Remove fileOrFolderId to trigger re-fetch
+        delete (updated as Record<string, unknown>).fileOrFolderId;
+        console.log("[ConfigureFilePicker] Navigating into folder, configuredProps:", updated);
+        return updated;
+      });
+      return;
+    }
+
+    // For non-fileOrFolderId props (siteId, driveId, folderId), navigate to next level
+    if (currentProp !== "fileOrFolderId") {
       const newPath: NavigationLevel = {
         propName: currentProp,
         label: item.label,
@@ -226,8 +252,7 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
 
       setNavigationPath((prev) => [...prev, newPath]);
 
-      // Update configured props - use raw value, not __lv wrapper
-      // The /configure API expects raw values for prop dependencies
+      // Update configured props - use raw value for the prop
       setConfiguredProps((prev) => {
         const updated = {
           ...prev,
@@ -236,35 +261,41 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
         console.log("[ConfigureFilePicker] Updated configuredProps:", updated);
         return updated;
       });
+      return;
+    }
 
-      // If it's a folder selection on fileOrFolderId, navigate into it
-      if (currentProp === "fileOrFolderId" && item.isFolder) {
-        try {
-          const parsed = JSON.parse(item.value);
-          setConfiguredProps((prev) => ({
-            ...prev,
-            folderId: parsed.id,
-            fileOrFolderId: undefined,
-          }));
-        } catch {
-          // Keep as is
+    // At fileOrFolderId level, clicking a file selects it
+    // (folders are handled above)
+    if (multiSelect) {
+      // Toggle selection in multi-select mode
+      setSelectedItems((prev) => {
+        const exists = prev.some((i) => i.id === item.id);
+        if (exists) {
+          return prev.filter((i) => i.id !== item.id);
         }
-      }
+        return [...prev, item];
+      });
     } else {
-      // Select this file
       setSelectedItems([item]);
     }
-  }, [currentProp]);
+  }, [currentProp, multiSelect]);
 
   // Handle selection change (checkbox)
   const handleSelectionChange = useCallback((item: FilePickerItem, selected: boolean) => {
     setSelectedItems((prev) => {
       if (selected) {
-        return [item]; // Single selection for now
+        if (multiSelect) {
+          // Add to selection if not already selected
+          if (prev.some((i) => i.id === item.id)) {
+            return prev;
+          }
+          return [...prev, item];
+        }
+        return [item]; // Single selection
       }
       return prev.filter((i) => i.id !== item.id);
     });
-  }, []);
+  }, [multiSelect]);
 
   // Navigate to a specific level in the path
   const navigateTo = useCallback((index: number) => {
@@ -275,7 +306,6 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
         sharepoint: { authProvisionId: accountId },
       });
       setSelectedItems([]);
-      setSkipFolderId(false); // Reset skip state when going to root
       return;
     }
 
@@ -288,16 +318,12 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
       sharepoint: { authProvisionId: accountId },
     };
     for (const level of newPath) {
-      newConfiguredProps[level.propName] = level.value;
+      // Use propName for regular props, or folderId for folder navigation
+      const propKey = level.propName === "folder" ? "folderId" : level.propName;
+      newConfiguredProps[propKey] = level.value;
     }
     setConfiguredProps(newConfiguredProps);
     setSelectedItems([]);
-
-    // Reset skipFolderId if navigating above driveId level
-    const driveIdIndex = newPath.findIndex((l) => l.propName === "driveId");
-    if (driveIdIndex === -1 || index < driveIdIndex) {
-      setSkipFolderId(false);
-    }
   }, [navigationPath, accountId]);
 
   // Confirm selection
@@ -467,7 +493,6 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
   const currentPropLabel = {
     siteId: "Sites",
     driveId: "Drives",
-    folderId: "Folders",
     fileOrFolderId: "Files & Folders",
   }[currentProp] || currentProp;
 
@@ -522,7 +547,12 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
         <ul style={listStyles}>
           {items.map((item) => {
             const selected = isSelected(item);
-            const showCheckbox = currentProp === "fileOrFolderId" && !item.isFolder;
+            // Show checkbox at fileOrFolderId level for:
+            // - Files (if selectFiles is true)
+            // - Folders (if selectFolders is true)
+            const canSelect = currentProp === "fileOrFolderId" && (
+              (item.isFolder && selectFolders) || (!item.isFolder && selectFiles)
+            );
 
             return (
               <li
@@ -543,7 +573,7 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
                     : "";
                 }}
               >
-                {showCheckbox && (
+                {canSelect && (
                   <input
                     type="checkbox"
                     style={checkboxStyles}
