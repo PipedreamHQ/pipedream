@@ -25,12 +25,5 @@ export default {
         ...opts,
       });
     },
-    createImportUrl(opts = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/edit_in_descript/schema",
-        ...opts,
-      });
-    },
   },
 };
