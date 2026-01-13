@@ -8,7 +8,7 @@ import {
 export default {
   key: "zoho_workdrive-upload-file",
   name: "Upload File",
-  version: "0.0.9",
+  version: "0.0.10",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   key: "belco-add-tags-to-conversation",
   name: "Add Tags to Conversation",
   description: "Add tags to a conversation. [See the documentation](https://developers.belco.io/reference/add-tags-to-a-conversation)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
