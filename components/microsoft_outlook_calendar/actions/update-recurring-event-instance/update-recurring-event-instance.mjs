@@ -110,7 +110,7 @@ export default {
         microsoftOutlook,
         "expand",
       ],
-      description: "Additional event details, [See object definition](https://docs.microsoft.com/en-us/graph/api/resources/event)",
+      description: "Additional event details. [See object definition](https://docs.microsoft.com/en-us/graph/api/resources/event)",
       optional: true,
     },
   },
