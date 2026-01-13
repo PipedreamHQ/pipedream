@@ -4,7 +4,7 @@ export default {
   key: "belco-create-conversation",
   name: "Create Conversation",
   description: "Create a conversation from Belco. [See the documentation](https://developers.belco.io/reference/post_conversations)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -9,7 +9,7 @@ export default {
   ...common,
   key: "zoho_workdrive-new-file-in-folder",
   name: "New File In Folder",
-  version: "0.2.1",
+  version: "0.2.2",
   description: "Emit new event when a new file is created in a specific folder.",
   type: "source",
   dedupe: "unique",
@@ -34,7 +34,6 @@ export default {
       ],
       label: "Folder ID",
       description: "Select the unique ID of the folder. Select a folder to view its subfolders.",
-      optional: true,
       reloadProps: true,
     },
     includeLink: {
@@ -69,16 +68,21 @@ export default {
       return await file.withoutPutUrl().withGetUrl();
     },
     async startEvent(maxResults = 0) {
-      const num = findMaxFolderId(this);
-      const folderId = num > 0
-        ? this[`folderId${num}`]
-        : this.folderId;
+      let folderId;
+      if (this.manuallyEnterFolderId) {
+        folderId = this.typedFolderId;
+      } else {
+        const num = findMaxFolderId(this);
+        folderId = num > 0
+          ? this[`folderId${num}`]
+          : this.folderId;
+      }
 
       if (!folderId) {
         throw new ConfigurationError("Please select a Folder ID or type in a Folder ID.");
       }
 
-      const lastDate = this._getLastDate();
+      const lastDate = this._getValidatedLastDate();
       let maxDate = lastDate;
       const items = this.app.paginate({
         fn: this.app.listFiles,
