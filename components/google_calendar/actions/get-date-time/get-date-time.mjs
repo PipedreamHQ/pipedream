@@ -1,3 +1,5 @@
+import googleCalendar from "../../google_calendar.app.mjs";
+
 export default {
   key: "google_calendar-get-date-time",
   name: "Get Date Time",
@@ -9,7 +11,9 @@ export default {
     openWorldHint: true,
     readOnlyHint: true,
   },
-
+  props: {
+    googleCalendar,
+  },
   async run({ $ }) {
     const now = new Date();
 
