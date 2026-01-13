@@ -1,4 +1,5 @@
 import microsoftOutlook from "../../microsoft_outlook_calendar.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   type: "action",
@@ -116,7 +117,7 @@ export default {
   },
   async run({ $ }) {
     if (new Date(this.startDateTime) >= new Date(this.endDateTime)) {
-      throw new Error("Start Date Time must be before End Date Time");
+      throw new ConfigurationError("`Start Date Time` must be before `End Date Time`");
     }
 
     const data = {
@@ -145,7 +146,7 @@ export default {
     }
 
     if ((this.start || this.end) && !this.timeZone) {
-      throw new Error("Time Zone is required when updating start or end times");
+      throw new ConfigurationError("Time Zone is required when updating start or end times");
     }
     if (this.start && this.timeZone) {
       data.start = {
@@ -169,7 +170,7 @@ export default {
     }
 
     if (!Object.keys(data).length) {
-      throw new Error("At least one field must be provided to update the event instance");
+      throw new ConfigurationError("At least one field must be provided to update the event instance");
     }
 
     const response = await this.microsoftOutlook.updateCalendarEvent({
