@@ -1,0 +1,26 @@
+import sendIt from "../../send_it.app.mjs";
+
+export default {
+  key: "send_it-trigger-scheduled-post",
+  name: "Trigger Scheduled Post Now",
+  description: "Immediately publish a scheduled post. [See the documentation](https://sendit.infiniteappsai.com/docs/api)",
+  version: "1.0.0",
+  type: "action",
+  props: {
+    sendIt,
+    scheduleId: {
+      propDefinition: [
+        sendIt,
+        "scheduleId",
+      ],
+    },
+  },
+  async run({ $ }) {
+    const response = await this.sendIt.triggerScheduledPost({
+      $,
+      scheduleId: this.scheduleId,
+    });
+    $.export("$summary", `Successfully triggered scheduled post ${this.scheduleId}`);
+    return response;
+  },
+};
