@@ -1,4 +1,6 @@
-import { axios, ConfigurationError } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -111,6 +113,9 @@ export default {
       return this._makeRequest({
         method: "post",
         url: `/table/${table}`,
+        headers: {
+          "Content-Type": "application/json",
+        },
         ...args,
       });
     },
@@ -122,6 +127,9 @@ export default {
           ? "put"
           : "patch",
         url: `/table/${table}/${recordId}`,
+        headers: {
+          "Content-Type": "application/json",
+        },
         ...args,
       });
     },
