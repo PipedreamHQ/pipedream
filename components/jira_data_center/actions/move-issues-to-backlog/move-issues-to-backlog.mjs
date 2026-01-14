@@ -40,7 +40,7 @@ export default {
         issues: this.issueIds,
       },
     });
-    $.export("$summary", `Successfully moved ${this.issueIds.length} issues to backlog for board with ID \`${this.boardId}\``);
+    $.export("$summary", `Successfully moved ${this.issueIds?.length || 0} issues to backlog for board with ID \`${this.boardId}\``);
     return response;
   },
 };

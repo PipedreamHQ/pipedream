@@ -107,9 +107,10 @@ export default {
       label: "Worklog IDs",
       description: "The IDs of the worklogs to get",
       async options() {
+        const thirtyDaysAgo = Date.now() - (30 * 24 * 60 * 60 * 1000);
         const { values } = await this.getUpdatedWorkLogs({
           params: {
-            since: 0,
+            since: thirtyDaysAgo,
           },
         });
         return values.map(({ worklogId }) => worklogId);
@@ -122,6 +123,9 @@ export default {
       async options({
         boardId, page,
       }) {
+        if (!boardId) {
+          return [];
+        }
         const { values } = await this.listEpics({
           boardId,
           params: {

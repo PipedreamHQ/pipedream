@@ -61,7 +61,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully got ${response.values.length} board${response.values.length === 1
+    $.export("$summary", `Successfully got ${response.values?.length || 0} board${response.values?.length === 1
       ? ""
       : "s"}`);
 

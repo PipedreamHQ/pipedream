@@ -49,7 +49,7 @@ export default {
         startAt: this.startAt,
       },
     });
-    $.export("$summary", `Successfully got ${response.issues.length} issues for board with ID \`${this.boardId}\``);
+    $.export("$summary", `Successfully got ${response.issues?.length || 0} issues for board with ID \`${this.boardId}\``);
     return response;
   },
 };

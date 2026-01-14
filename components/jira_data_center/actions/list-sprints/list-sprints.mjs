@@ -19,11 +19,27 @@ export default {
         "boardId",
       ],
     },
+    maxResults: {
+      propDefinition: [
+        jiraDataCenter,
+        "maxResults",
+      ],
+    },
+    startAt: {
+      propDefinition: [
+        jiraDataCenter,
+        "startAt",
+      ],
+    },
   },
   async run({ $ }) {
     const response = await this.jiraDataCenter.listSprints({
       $,
       boardId: this.boardId,
+      params: {
+        maxResults: this.maxResults,
+        startAt: this.startAt,
+      },
     });
     $.export("$summary", `Successfully fetched ${response.values?.length || 0} sprints for board with ID \`${this.boardId}\``);
     return response;

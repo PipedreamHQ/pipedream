@@ -19,11 +19,35 @@ export default {
         "boardId",
       ],
     },
+    jql: {
+      propDefinition: [
+        jiraDataCenter,
+        "jql",
+      ],
+      optional: true,
+    },
+    maxResults: {
+      propDefinition: [
+        jiraDataCenter,
+        "maxResults",
+      ],
+    },
+    startAt: {
+      propDefinition: [
+        jiraDataCenter,
+        "startAt",
+      ],
+    },
   },
   async run({ $ }) {
     const response = await this.jiraDataCenter.listIssuesWithoutEpic({
       $,
       boardId: this.boardId,
+      params: {
+        jql: this.jql,
+        maxResults: this.maxResults,
+        startAt: this.startAt,
+      },
     });
     $.export("$summary", `Successfully retrieved ${response.issues?.length || 0} issues`);
     return response;
