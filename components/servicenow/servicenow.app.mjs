@@ -1,4 +1,4 @@
-import { axios } from "@pipedream/platform";
+import { axios, ConfigurationError } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -11,7 +11,7 @@ export default {
       useQuery: true,
       async options({ query }) {
         if (!(query?.length > 1)) {
-          return [];
+          throw new ConfigurationError("Please input a search term");
         }
         const data = await this.getTableRecords({
           table: "sys_db_object",
