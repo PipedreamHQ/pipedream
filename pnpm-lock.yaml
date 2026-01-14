@@ -236,7 +236,11 @@ importers:
 
   components/__1msg: {}
 
-  components/_descript: {}
+  components/_descript:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/_twocaptcha:
     dependencies:
