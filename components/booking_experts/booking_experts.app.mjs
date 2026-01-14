@@ -416,6 +416,14 @@ export default {
         ...opts,
       });
     },
+    getGuest({
+      administrationId, reservationId, guestId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/administrations/${administrationId}/reservations/${reservationId}/guests/${guestId}`,
+        ...opts,
+      });
+    },
     listAdministrations(opts = {}) {
       return this._makeRequest({
         path: "/administrations",

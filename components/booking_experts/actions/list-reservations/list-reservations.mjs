@@ -4,7 +4,7 @@ export default {
   name: "List Reservations",
   description: "Lists all reservations for the current organization from Booking Experts. [See the documentation](https://developers.bookingexperts.com/reference/reservations-index)",
   key: "booking_experts-list-reservations",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   annotations: {
     destructiveHint: false,
