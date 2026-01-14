@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import { parseObject } from "../../common/utils.mjs";
 import app from "../../msg91.app.mjs";
 
@@ -40,6 +41,8 @@ export default {
         input: parseObject(this.input),
       },
     });
+
+    if (response.hasError) throw new ConfigurationError(`Error creating/updating contact: ${response.errors}`);
 
     $.export("$summary", `Successfully created/updated contact with ID: ${response.data.contact.id} in phonebook: ${this.phonebook}`);
     return response;
