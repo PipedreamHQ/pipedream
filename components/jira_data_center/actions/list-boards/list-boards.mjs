@@ -43,11 +43,10 @@ export default {
       ],
     },
     startAt: {
-      type: "integer",
-      label: "Start At",
-      description: "The index of the first result to return",
-      default: 0,
-      optional: true,
+      propDefinition: [
+        jiraDataCenter,
+        "startAt",
+      ],
     },
   },
   async run({ $ }) {
