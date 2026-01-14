@@ -168,7 +168,7 @@ export default {
      * Sets rowCount to the larger of previous rows or current rows
      */
     getRowCount(newValues, oldValues) {
-      return Math.max(newValues.length, oldValues.length);
+      return Math.max(newValues.length, oldValues?.length || 0);
     },
     /**
      * Sets colCount to the larger of previous columns or current columns
