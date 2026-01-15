@@ -7,7 +7,7 @@ export default {
   key: "google_calendar-create-event",
   name: "Create Event",
   description: "Create an event in a Google Calendar. [See the documentation](https://developers.google.com/calendar/api/v3/reference/events/insert)",
-  version: "0.2.7",
+  version: "0.2.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
