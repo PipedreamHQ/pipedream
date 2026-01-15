@@ -4,7 +4,7 @@ export default {
   key: "send_it-validate-content",
   name: "Validate Content",
   description: "Check if content meets platform requirements before publishing. [See the documentation](https://sendit.infiniteappsai.com/docs/api)",
-  version: "1.0.0",
+  version: "0.0.1",
   type: "action",
   props: {
     sendIt,

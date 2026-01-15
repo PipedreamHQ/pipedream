@@ -4,7 +4,7 @@ export default {
   key: "send_it-schedule-post",
   name: "Schedule Post",
   description: "Schedule content to be published at a future time. [See the documentation](https://sendit.infiniteappsai.com/docs/api)",
-  version: "1.0.0",
+  version: "0.0.1",
   type: "action",
   props: {
     sendIt,

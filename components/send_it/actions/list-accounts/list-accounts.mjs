@@ -4,7 +4,7 @@ export default {
   key: "send_it-list-accounts",
   name: "List Connected Accounts",
   description: "Get a list of connected social media accounts. [See the documentation](https://sendit.infiniteappsai.com/docs/api)",
-  version: "1.0.0",
+  version: "0.0.1",
   type: "action",
   props: {
     sendIt,

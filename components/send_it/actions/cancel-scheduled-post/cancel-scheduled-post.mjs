@@ -4,7 +4,7 @@ export default {
   key: "send_it-cancel-scheduled-post",
   name: "Cancel Scheduled Post",
   description: "Cancel a scheduled post before it is published. [See the documentation](https://sendit.infiniteappsai.com/docs/api)",
-  version: "1.0.0",
+  version: "0.0.1",
   type: "action",
   props: {
     sendIt,

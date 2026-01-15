@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -8,13 +9,7 @@ export default {
       type: "string[]",
       label: "Platforms",
       description: "Select platforms to publish to",
-      options: [
-        { label: "LinkedIn", value: "linkedin" },
-        { label: "Instagram", value: "instagram" },
-        { label: "Threads", value: "threads" },
-        { label: "TikTok", value: "tiktok" },
-        { label: "X (Twitter)", value: "x" },
-      ],
+      options: constants.PLATFORMS,
     },
     text: {
       type: "string",
@@ -37,11 +32,7 @@ export default {
       type: "string",
       label: "Media Type",
       description: "Specify the media type",
-      options: [
-        { label: "Auto-detect", value: "auto" },
-        { label: "Image", value: "image" },
-        { label: "Video", value: "video" },
-      ],
+      options: constants.MEDIA_TYPES,
       default: "auto",
       optional: true,
     },
@@ -59,14 +50,7 @@ export default {
       type: "string",
       label: "Platform Filter",
       description: "Filter by platform",
-      options: [
-        { label: "All Platforms", value: "" },
-        { label: "LinkedIn", value: "linkedin" },
-        { label: "Instagram", value: "instagram" },
-        { label: "Threads", value: "threads" },
-        { label: "TikTok", value: "tiktok" },
-        { label: "X (Twitter)", value: "x" },
-      ],
+      options: constants.PLATFORM_FILTER_OPTIONS,
       optional: true,
     },
   },

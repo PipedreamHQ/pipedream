@@ -4,7 +4,7 @@ export default {
   key: "send_it-list-scheduled-posts",
   name: "List Scheduled Posts",
   description: "Get a list of pending scheduled posts. [See the documentation](https://sendit.infiniteappsai.com/docs/api)",
-  version: "1.0.0",
+  version: "0.0.1",
   type: "action",
   props: {
     sendIt,

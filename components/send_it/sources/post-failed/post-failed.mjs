@@ -4,7 +4,7 @@ export default {
   key: "send_it-post-failed",
   name: "Post Failed",
   description: "Emit new event when a post fails to publish. [See the documentation](https://sendit.infiniteappsai.com/docs/api)",
-  version: "1.0.0",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {

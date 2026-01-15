@@ -4,7 +4,7 @@ export default {
   key: "send_it-post-published",
   name: "New Post Published",
   description: "Emit new event when a post is successfully published. [See the documentation](https://sendit.infiniteappsai.com/docs/api)",
-  version: "1.0.0",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
