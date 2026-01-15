@@ -1,5 +1,5 @@
 export default {
-  "action": "booking_change",
+  "action": "booking_new_status_booked",
   "booking": {
     "type": "Booking",
     "id": 123456,

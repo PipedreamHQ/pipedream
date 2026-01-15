@@ -15,10 +15,11 @@ export default {
       return "booking_new_status_booked";
     },
     generateMeta(body) {
+      const ts = Date.now();
       return {
-        id: body.booking.id,
-        summary: `Booking changed: ${body.booking.id}`,
-        ts: Date.now(),
+        id: `${body.booking.id}-${ts}`,
+        summary: `Booking booked: ${body.booking.id}`,
+        ts,
       };
     },
   },
