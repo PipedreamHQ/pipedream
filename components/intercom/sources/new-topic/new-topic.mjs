@@ -6,7 +6,7 @@ export default {
   key: "intercom-new-topic",
   name: "New Topic (Instant)",
   description: "Emit new event for each new topic that you subscribed in your webhook. [See more here](https://developers.intercom.com/building-apps/docs/setting-up-webhooks).",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   props: {
