@@ -13,10 +13,19 @@ export default {
   type: "action",
   props: {
     app,
+    projectId: {
+      propDefinition: [
+        app,
+        "projectId",
+      ],
+    },
     userId: {
       propDefinition: [
         app,
         "userId",
+        (c) => ({
+          projectId: c.projectId,
+        }),
       ],
       description: "ID of the customer that will be created or updated",
     },

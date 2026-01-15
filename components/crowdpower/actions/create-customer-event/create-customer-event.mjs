@@ -13,18 +13,26 @@ export default {
   type: "action",
   props: {
     app,
+    projectId: {
+      propDefinition: [
+        app,
+        "projectId",
+      ],
+    },
     userId: {
       propDefinition: [
         app,
         "userId",
+        (c) => ({
+          projectId: c.projectId,
+        }),
       ],
     },
-    customAttributes: {
+    properties: {
       propDefinition: [
         app,
-        "customAttributes",
+        "properties",
       ],
-      description: "Custom attributes of the event",
     },
     action: {
       propDefinition: [
@@ -38,8 +46,8 @@ export default {
       $,
       data: {
         user_id: this.userId,
-        custom_attributes: this.customAttributes,
         action: this.action,
+        properties: this.properties,
       },
     });
     $.export("$summary", response.success
