@@ -53,14 +53,15 @@ export default {
         if (maxResults && (responseArray.length > maxResults)) {
           responseArray.length = maxResults;
         }
-        this._setLastDate(Date.parse(responseArray[0].started_at));
+        this._setLastDate(Date.parse(responseArray[0].started_at || new Date()));
       }
 
       for (const item of responseArray.reverse()) {
+        const ts = Date.parse(item.started_at || new Date());
         this.$emit(item, {
-          id: item.build_id,
+          id: `${item.build_id}-${ts}`,
           summary: `New automate build created: ${item.build_id}`,
-          ts: Date.parse(item.started_at),
+          ts,
         });
       }
     },
