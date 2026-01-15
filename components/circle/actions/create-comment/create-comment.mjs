@@ -4,7 +4,7 @@ export default {
   key: "circle-create-comment",
   name: "Create Comment",
   description: "Creates a comment on a post in Circle. [See the documentation](https://api.circle.so/#4cb2eea1-6832-4ffc-8614-078b88dee4e2)",
-  version: "0.0.2",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -3,7 +3,17 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "brevo",
-  propDefinitions: {},
+  propDefinitions: {
+    listIds: {
+      type: "string[]",
+      label: "List IDs",
+      description: "Array with the IDs of one or more lists to be either inserted or updated,\n\n**On update the contact will be removed from previous lists**",
+      optional: true,
+      async options({ prevContext }) {
+        return this.getListsPaginated(prevContext);
+      },
+    },
+  },
   methods: {
     _getBaseUrl() {
       return "https://api.brevo.com/v3";

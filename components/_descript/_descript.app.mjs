@@ -1,11 +1,29 @@
+import { axios } from "@pipedream/platform";
+
 export default {
   type: "app",
   app: "_descript",
   propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _baseUrl() {
+      return "https://descriptapi.com/v1";
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
+      return axios($, {
+        url: `${this._baseUrl()}${path}`,
+        headers: {
+          Authorization: `Bearer ${this.$auth.api_token}`,
+        },
+        ...opts,
+      });
+    },
+    getPublishedProjectMetadata(opts = {}) {
+      return this._makeRequest({
+        path: `/published_projects/${this.$auth.published_project_slug}`,
+        ...opts,
+      });
     },
   },
 };

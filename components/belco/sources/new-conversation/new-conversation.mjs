@@ -5,7 +5,7 @@ export default {
   key: "belco-new-conversation",
   name: "New Conversation",
   description: "Emit new conversation event when a new conversation is created. [See the documentation](https://developers.belco.io/reference/get_conversations)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {
