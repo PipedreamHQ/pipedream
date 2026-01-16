@@ -36,8 +36,8 @@ export default {
     },
   },
   methods: {
-    _baseUrl(base = "https://api-automation.browserstack.com/ext/v1") {
-      return base;
+    _baseUrl(baseUrl = "https://api-automation.browserstack.com/ext/v1") {
+      return baseUrl;
     },
     _getAuth() {
       return {
@@ -53,10 +53,10 @@ export default {
       };
     },
     _makeRequest({
-      $ = this, path, headers, ...opts
+      $ = this, path, baseUrl, headers, ...opts
     } = {}) {
       return axios($, {
-        url: `${this._baseUrl()}${path}`,
+        url: `${this._baseUrl(baseUrl)}${path}`,
         headers: this._getHeaders(headers),
         auth: this._getAuth(),
         ...opts,
@@ -64,7 +64,7 @@ export default {
     },
     listBrowsers(opts = {}) {
       return this._makeRequest({
-        baseUrl: "https://www.browserstack.com",
+        baseUrl: "https://api.browserstack.com",
         path: "/screenshots/browsers.json",
         ...opts,
       });
