@@ -31,9 +31,6 @@ export default {
       const response = await this.fluxguard.createHook({
         url: this.http.endpoint,
       });
-
-      console.log("response: ", response);
-
       this._setWebhookId(response?.id);
     },
     async deactivate() {
