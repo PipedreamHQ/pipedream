@@ -5,7 +5,7 @@ export default {
   key: "intercom-new-ticket",
   name: "New Tickets",
   description: "Emit new event when a new ticket is created in Intercom.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
