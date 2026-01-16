@@ -14046,6 +14046,9 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
+  components/skwirrel:
+    specifiers: {}
+
   components/skyciv: {}
 
   components/skyvern:
