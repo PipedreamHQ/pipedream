@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/pipedream_utils",
-  "version": "0.0.10",
+  "version": "0.1.0",
   "description": "Pipedream Utils Components",
   "main": "pipedream_utils.app.mjs",
   "keywords": [
