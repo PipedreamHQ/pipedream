@@ -9855,6 +9855,9 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
+  components/navan:
+    specifiers: {}
+
   components/navigatr:
     dependencies:
       '@pipedream/platform':
