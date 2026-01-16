@@ -27,6 +27,7 @@ export { SelectApp } from "./components/SelectApp";
 export { SelectComponent } from "./components/SelectComponent";
 export { FilePicker, FilePickerModal, type FilePickerProps, type FilePickerModalProps, type FileItem, type ProxyRequestFn, type ProxyRequestOptions } from "./components/FilePicker";
 export { ConfigureFilePicker, type ConfigureFilePickerProps, type FilePickerItem } from "./components/ConfigureFilePicker";
+export { FilePickerIframe, type FilePickerIframeProps } from "./components/FilePickerIframe";
 export * from "./hooks/use-file-picker";
 export * from "./adapters/file-picker";
 export * from "./theme";
