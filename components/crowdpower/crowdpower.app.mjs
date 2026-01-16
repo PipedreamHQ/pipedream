@@ -13,6 +13,7 @@ export default {
       type: "string",
       label: "User ID",
       description: "ID of the user",
+      useQuery: true,
       async options({
         projectId, page, query,
       }) {
