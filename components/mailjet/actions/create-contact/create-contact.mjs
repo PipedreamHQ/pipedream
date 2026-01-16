@@ -5,7 +5,7 @@ export default {
   name: "Create Contact",
   description: "Add a new unique contact to your global contact list and select its exclusion status. [See the docs here](https://dev.mailjet.com/email/reference/contacts/contact/#v3_post_contact)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
