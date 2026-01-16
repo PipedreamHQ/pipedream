@@ -5,7 +5,7 @@ export default {
   key: "intercom-new-admin-reply",
   name: "New Reply From Admin",
   description: "Emit new event each time an admin replies to a conversation.",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -33,7 +33,9 @@ export default {
       if (conversation.statistics.last_admin_reply_at > lastAdminReplyAt)
         lastAdminReplyAt = conversation.statistics.last_admin_reply_at;
       const conversationData = (
-        await this.intercom.getConversation(conversation.id)
+        await this.intercom.getConversation({
+          conversationId: conversation.id,
+        })
       );
       const totalCount = conversationData.conversation_parts.total_count;
       const conversationBody =

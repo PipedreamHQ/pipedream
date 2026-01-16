@@ -5,7 +5,7 @@ export default {
   key: "intercom-tag-added-to-lead",
   name: "Tag Added To Lead",
   description: "Emit new event each time a new tag is added to a lead.",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "source",
   dedupe: "unique",
   methods: {
