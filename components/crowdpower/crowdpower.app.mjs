@@ -13,9 +13,15 @@ export default {
       type: "string",
       label: "User ID",
       description: "ID of the user",
-      async options({ projectId }) {
+      async options({
+        projectId, page, query,
+      }) {
         const response = await this.getCustomers({
           projectId,
+          params: {
+            q: query,
+            page: page + 1,
+          },
         });
         const users = response.data;
         return users.map(({
@@ -59,7 +65,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://beacon.crowdpower.io/";
+      return "https://beacon.crowdpower.io";
     },
     async _makeRequest(opts = {}) {
       const {

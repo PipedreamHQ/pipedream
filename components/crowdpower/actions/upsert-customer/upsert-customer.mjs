@@ -1,4 +1,5 @@
 import app from "../../crowdpower.app.mjs";
+import { parseObject } from "../../common/utils.mjs";
 
 export default {
   key: "crowdpower-upsert-customer",
@@ -46,6 +47,7 @@ export default {
         app,
         "customAttributes",
       ],
+      optional: true,
     },
   },
   async run({ $ }) {
@@ -55,7 +57,7 @@ export default {
         user_id: this.userId,
         email: this.email,
         name: this.name,
-        custom_attributes: this.customAttributes,
+        custom_attributes: this.customAttributes && parseObject(this.customAttributes),
       },
     });
     $.export("$summary", response.success

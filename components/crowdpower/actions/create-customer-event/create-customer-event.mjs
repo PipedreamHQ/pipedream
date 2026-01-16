@@ -1,4 +1,5 @@
 import app from "../../crowdpower.app.mjs";
+import { parseObject } from "../../common/utils.mjs";
 
 export default {
   key: "crowdpower-create-customer-event",
@@ -47,7 +48,7 @@ export default {
       data: {
         user_id: this.userId,
         action: this.action,
-        properties: this.properties,
+        properties: this.properties && parseObject(this.properties),
       },
     });
     $.export("$summary", response.success
