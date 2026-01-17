@@ -1,11 +1,9 @@
 #!/usr/bin/env node
 /**
- * Build script for all Pipedream TypeScript components.
- * Finds all components with .ts files and builds them with esbuild.
+ * Build script for TypeScript Pipedream components, using esbuild.
  *
- * Output format: Outputs absolute paths to each built .mjs file (one per line).
- * This format is required by GitHub Actions workflows that parse the output
- * to find files to publish.
+ * Output: Absolute paths to each built .mjs file (one per line).
+ * GitHub Actions workflows parse this publish the right files.
  *
  * Usage:
  *   node scripts/build-components.mjs
@@ -18,55 +16,37 @@ import { fileURLToPath } from 'url'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const rootDir = join(__dirname, '..')
 const componentsDir = join(rootDir, 'components')
+const COMPONENT_TS_DIRS = ['app', 'actions', 'sources', 'common']
 
-// Find all component directories that have TypeScript files
-function findTypeScriptComponents() {
-  const components = []
-  for (const entry of readdirSync(componentsDir, { withFileTypes: true })) {
-    if (entry.isDirectory()) {
-      const componentPath = join(componentsDir, entry.name)
-      // Check if component has any .ts files in app/, actions/, sources/, or common/
-      const hasTsFiles = ['app', 'actions', 'sources', 'common'].some(subdir => {
-        const dir = join(componentPath, subdir)
-        return existsSync(dir) && hasTsFilesInDir(dir)
-      })
-      if (hasTsFiles) {
-        components.push(componentPath)
-      }
-    }
-  }
-  return components
-}
-
-// Check if directory contains any .ts files (recursive)
-function hasTsFilesInDir(dir) {
+// Recursively find all .ts files in a directory
+function findTsFilesRecursive(dir, files = []) {
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
-    if (entry.isDirectory()) {
-      if (hasTsFilesInDir(join(dir, entry.name))) return true
-    } else if (entry.name.endsWith('.ts')) {
-      return true
-    }
-  }
-  return false
-}
-
-// Simple recursive glob for .ts files in specific subdirectories
-function findTsFiles(baseDir, subdirs = ['app', 'actions', 'sources', 'common']) {
-  const files = []
-  for (const subdir of subdirs) {
-    const dir = join(baseDir, subdir)
-    if (!existsSync(dir)) continue
-    findTsFilesRecursive(dir, files)
+    const path = join(dir, entry.name)
+    if (entry.isDirectory()) findTsFilesRecursive(path, files)
+    else if (entry.name.endsWith('.ts') && !entry.name.endsWith('.d.ts')) files.push(path)
   }
   return files
 }
 
-function findTsFilesRecursive(dir, files) {
-  for (const entry of readdirSync(dir, { withFileTypes: true })) {
-    const path = join(dir, entry.name)
-    if (entry.isDirectory()) findTsFilesRecursive(path, files)
-    else if (entry.name.endsWith('.ts')) files.push(path)
+// Find .ts files in component's standard subdirectories
+function findTsFiles(baseDir) {
+  const files = []
+  for (const subdir of COMPONENT_TS_DIRS) {
+    const dir = join(baseDir, subdir)
+    if (existsSync(dir)) findTsFilesRecursive(dir, files)
   }
+  return files
+}
+
+// Find all component directories that have TypeScript files
+function findTypeScriptComponents() {
+  return readdirSync(componentsDir, { withFileTypes: true })
+    .filter(e => e.isDirectory())
+    .map(e => join(componentsDir, e.name))
+    .filter(path => COMPONENT_TS_DIRS.some(subdir => {
+      const dir = join(path, subdir)
+      return existsSync(dir) && findTsFilesRecursive(dir).length > 0
+    }))
 }
 
 // Convert source .ts path to output .mjs path
@@ -77,14 +57,11 @@ function sourceToOutputPath(sourcePath, componentDir) {
   return join(componentDir, 'dist', mjsRelPath)
 }
 
-// Find all TypeScript components
-const tsComponents = findTypeScriptComponents()
-
-// Collect all output file paths
+// Collect mjs output file paths
 const outputFiles = []
 
 // Build each component
-let totalFiles = 0
+const tsComponents = findTypeScriptComponents()
 for (const componentDir of tsComponents) {
   const entryPoints = findTsFiles(componentDir)
 
@@ -92,12 +69,9 @@ for (const componentDir of tsComponents) {
     continue
   }
 
+  // Clean dist dir and build
   const distDir = join(componentDir, 'dist')
-
-  // Clean dist directory
   rmSync(distDir, { recursive: true, force: true })
-
-  // Build with esbuild
   await esbuild.build({
     entryPoints,
     outdir: distDir,
@@ -106,19 +80,17 @@ for (const componentDir of tsComponents) {
     target: 'node20',
     bundle: true,
     outExtension: { '.js': '.mjs' },
+    // don't bundle any node_modules since EE will handle it for us
     packages: 'external',
   })
 
-  // Collect output file paths
   for (const sourcePath of entryPoints) {
     outputFiles.push(sourceToOutputPath(sourcePath, componentDir))
   }
-
-  totalFiles += entryPoints.length
 }
 
 // Output all built file paths (one per line, absolute paths)
-// This is the format expected by GitHub Actions workflows
+// so GitHub Actions workflows can `pd publish` those components
 for (const outputFile of outputFiles) {
   console.log(outputFile)
 }
