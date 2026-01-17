@@ -20,61 +20,53 @@ export const ConfigureFilePickerModal: FC<ConfigureFilePickerModalProps> = ({
   const { theme } = useCustomize();
   const modalRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const previouslyFocusedRef = useRef<HTMLElement | null>(null);
 
-  // Handle Escape key to close modal
+  // Combined keyboard handler for Escape and Tab (focus trap)
   useEffect(() => {
     if (!isOpen) return;
 
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        onCancel?.();
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [
-    isOpen,
-    onCancel,
-  ]);
-
-  // Focus trap and initial focus
-  useEffect(() => {
-    if (!isOpen || !modalRef.current) return;
-
     // Store previously focused element to restore on close
-    const previouslyFocused = document.activeElement as HTMLElement;
+    previouslyFocusedRef.current = document.activeElement as HTMLElement;
 
     // Set initial focus to close button
     closeButtonRef.current?.focus();
 
-    const handleTabKey = (e: KeyboardEvent) => {
-      if (e.key !== "Tab" || !modalRef.current) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Handle Escape to close modal
+      if (e.key === "Escape") {
+        onCancel?.();
+        return;
+      }
 
-      const focusableElements = modalRef.current.querySelectorAll<HTMLElement>(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
-      );
-      const firstElement = focusableElements[0];
-      const lastElement = focusableElements[focusableElements.length - 1];
+      // Handle Tab for focus trap
+      if (e.key === "Tab" && modalRef.current) {
+        const focusableElements = modalRef.current.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+        );
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
 
-      if (e.shiftKey && document.activeElement === firstElement) {
-        e.preventDefault();
-        lastElement?.focus();
-      } else if (!e.shiftKey && document.activeElement === lastElement) {
-        e.preventDefault();
-        firstElement?.focus();
+        if (e.shiftKey && document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement?.focus();
+        } else if (!e.shiftKey && document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement?.focus();
+        }
       }
     };
 
-    document.addEventListener("keydown", handleTabKey);
+    document.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      document.removeEventListener("keydown", handleTabKey);
+      document.removeEventListener("keydown", handleKeyDown);
       // Restore focus when modal closes
-      previouslyFocused?.focus?.();
+      previouslyFocusedRef.current?.focus?.();
     };
   }, [
     isOpen,
+    onCancel,
   ]);
 
   const handleOverlayClick = useCallback((e: React.MouseEvent) => {

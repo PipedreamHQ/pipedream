@@ -1,10 +1,11 @@
 import {
-  useState, useCallback, useEffect, type FC, type CSSProperties,
+  useState, useCallback, useEffect, useRef, type FC, type CSSProperties, type ReactNode,
 } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useFrontendClient } from "../../hooks/frontend-client-context";
 import { useCustomize } from "../../hooks/customization-context";
 import { sanitizeOption } from "../../utils/type-guards";
+import type { Theme } from "../../theme";
 
 /**
  * Represents an item (file or folder) in the file picker
@@ -21,11 +22,198 @@ export interface FilePickerItem {
 /**
  * Represents a navigation level in the picker hierarchy
  */
-interface NavigationLevel {
+export interface NavigationLevel {
   propName: string;
   label: string;
   value: unknown;
 }
+
+/**
+ * Icon configuration for the file picker
+ */
+export interface FilePickerIcons {
+  /** Icon for folders (string emoji or ReactNode) */
+  folder?: ReactNode;
+  /** Icon for files (string emoji or ReactNode) */
+  file?: ReactNode;
+}
+
+/**
+ * Default icons used when none are specified
+ */
+const DEFAULT_ICONS: FilePickerIcons = {
+  folder: "📁",
+  file: "📄",
+};
+
+// ============================================================================
+// Styles - defined outside component for performance
+// ============================================================================
+
+const createStyles = (theme: Theme, selectedItemsCount: number) => ({
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    backgroundColor: theme.colors.neutral0,
+    borderRadius: "8px",
+    overflow: "hidden",
+    border: `1px solid ${theme.colors.neutral20}`,
+    height: "100%",
+    minHeight: "300px",
+  } as CSSProperties,
+
+  header: {
+    padding: "12px 16px",
+    borderBottom: `1px solid ${theme.colors.neutral10}`,
+    display: "flex",
+    alignItems: "center",
+    gap: "8px",
+    flexWrap: "wrap",
+  } as CSSProperties,
+
+  breadcrumb: {
+    display: "flex",
+    alignItems: "center",
+    gap: "4px",
+    fontSize: "13px",
+  } as CSSProperties,
+
+  breadcrumbItem: {
+    color: theme.colors.primary,
+    cursor: "pointer",
+    padding: "2px 4px",
+    borderRadius: "4px",
+  } as CSSProperties,
+
+  breadcrumbSeparator: {
+    color: theme.colors.neutral40,
+  } as CSSProperties,
+
+  list: {
+    flex: 1,
+    overflowY: "auto",
+    listStyle: "none",
+    margin: 0,
+    padding: 0,
+  } as CSSProperties,
+
+  item: {
+    display: "flex",
+    alignItems: "center",
+    padding: "10px 16px",
+    cursor: "pointer",
+    borderBottom: `1px solid ${theme.colors.neutral10}`,
+    transition: "background-color 0.1s",
+  } as CSSProperties,
+
+  itemIcon: {
+    marginRight: "10px",
+    fontSize: "16px",
+    display: "flex",
+    alignItems: "center",
+  } as CSSProperties,
+
+  itemName: {
+    flex: 1,
+    fontSize: "14px",
+    color: theme.colors.neutral80,
+  } as CSSProperties,
+
+  checkbox: {
+    marginRight: "10px",
+    width: "16px",
+    height: "16px",
+    cursor: "pointer",
+    accentColor: theme.colors.primary,
+  } as CSSProperties,
+
+  chevron: {
+    color: theme.colors.neutral30,
+    marginLeft: "8px",
+  } as CSSProperties,
+
+  footer: {
+    padding: "12px 16px",
+    borderTop: `1px solid ${theme.colors.neutral10}`,
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  } as CSSProperties,
+
+  selectionCount: {
+    fontSize: "13px",
+    color: theme.colors.neutral60,
+  } as CSSProperties,
+
+  buttonGroup: {
+    display: "flex",
+    gap: "8px",
+  } as CSSProperties,
+
+  buttonBase: {
+    padding: "8px 16px",
+    fontSize: "14px",
+    borderRadius: "6px",
+    cursor: "pointer",
+    border: "none",
+    transition: "background-color 0.15s, opacity 0.15s",
+  } as CSSProperties,
+
+  cancelButton: {
+    padding: "8px 16px",
+    fontSize: "14px",
+    borderRadius: "6px",
+    cursor: "pointer",
+    border: "none",
+    transition: "background-color 0.15s, opacity 0.15s",
+    backgroundColor: theme.colors.neutral10,
+    color: theme.colors.neutral80,
+  } as CSSProperties,
+
+  confirmButton: {
+    padding: "8px 16px",
+    fontSize: "14px",
+    borderRadius: "6px",
+    cursor: "pointer",
+    border: "none",
+    transition: "background-color 0.15s, opacity 0.15s",
+    backgroundColor: theme.colors.primary,
+    color: "#fff",
+    opacity: selectedItemsCount === 0 ? 0.5 : 1,
+  } as CSSProperties,
+
+  loading: {
+    flex: 1,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    color: theme.colors.neutral40,
+    fontSize: "14px",
+  } as CSSProperties,
+
+  error: {
+    flex: 1,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    color: theme.colors.danger || "#dc2626",
+    fontSize: "14px",
+    padding: "20px",
+    textAlign: "center",
+  } as CSSProperties,
+
+  empty: {
+    flex: 1,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    color: theme.colors.neutral40,
+    fontSize: "14px",
+  } as CSSProperties,
+});
+
+/** Minimum time to show loading state to prevent flicker (ms) */
+const LOADING_DEBOUNCE_MS = 150;
 
 /**
  * App-specific configuration for the file picker
@@ -100,6 +288,10 @@ export interface ConfigureFilePickerProps {
   appConfig?: FilePickerAppConfig;
   /** Enable debug logging (default: false) */
   debug?: boolean;
+  /** Whether to show file/folder icons (default: true) */
+  showIcons?: boolean;
+  /** Custom icons for files and folders. Can be strings (emoji) or ReactNodes. */
+  icons?: FilePickerIcons;
 }
 
 /**
@@ -121,9 +313,17 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
   multiSelect = false,
   appConfig: customAppConfig,
   debug = false,
+  showIcons = true,
+  icons: customIcons,
 }) => {
   const client = useFrontendClient();
   const { theme } = useCustomize();
+
+  // Merge custom icons with defaults
+  const icons = {
+    ...DEFAULT_ICONS,
+    ...customIcons,
+  };
 
   // Get app configuration (custom or built-in)
   const appConfig = customAppConfig || FILE_PICKER_APPS[app];
@@ -197,6 +397,13 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
     setCurrentProp,
   ] = useState<string>(propHierarchy[0] || "");
 
+  // Debounced loading state to prevent flicker on fast responses
+  const [
+    showLoading,
+    setShowLoading,
+  ] = useState(false);
+  const loadingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   // Determine which prop to fetch options for based on configured props
   useEffect(() => {
     for (const prop of propHierarchy) {
@@ -251,6 +458,31 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
     },
     enabled: !!accountId && !!currentProp,
   });
+
+  // Debounce loading state to prevent flicker
+  useEffect(() => {
+    if (isLoading) {
+      // Start a timer to show loading after debounce period
+      loadingTimerRef.current = setTimeout(() => {
+        setShowLoading(true);
+      }, LOADING_DEBOUNCE_MS);
+    } else {
+      // Clear timer and hide loading immediately when done
+      if (loadingTimerRef.current) {
+        clearTimeout(loadingTimerRef.current);
+        loadingTimerRef.current = null;
+      }
+      setShowLoading(false);
+    }
+
+    return () => {
+      if (loadingTimerRef.current) {
+        clearTimeout(loadingTimerRef.current);
+      }
+    };
+  }, [
+    isLoading,
+  ]);
 
   // Parse options into FilePickerItem format
   const items: FilePickerItem[] = (optionsData?.options || []).map((opt) => {
@@ -446,168 +678,20 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
     onSelect,
   ]);
 
-  // Styles
-  const containerStyles: CSSProperties = {
-    display: "flex",
-    flexDirection: "column",
-    backgroundColor: theme.colors.neutral0,
-    borderRadius: "8px",
-    overflow: "hidden",
-    border: `1px solid ${theme.colors.neutral20}`,
-    height: "100%",
-    minHeight: "300px",
-  };
-
-  const headerStyles: CSSProperties = {
-    padding: "12px 16px",
-    borderBottom: `1px solid ${theme.colors.neutral10}`,
-    display: "flex",
-    alignItems: "center",
-    gap: "8px",
-    flexWrap: "wrap",
-  };
-
-  const breadcrumbStyles: CSSProperties = {
-    display: "flex",
-    alignItems: "center",
-    gap: "4px",
-    fontSize: "13px",
-  };
-
-  const breadcrumbItemStyles: CSSProperties = {
-    color: theme.colors.primary,
-    cursor: "pointer",
-    padding: "2px 4px",
-    borderRadius: "4px",
-  };
-
-  const breadcrumbSeparatorStyles: CSSProperties = {
-    color: theme.colors.neutral40,
-  };
-
-  const listStyles: CSSProperties = {
-    flex: 1,
-    overflowY: "auto",
-    listStyle: "none",
-    margin: 0,
-    padding: 0,
-  };
-
-  const itemStyles: CSSProperties = {
-    display: "flex",
-    alignItems: "center",
-    padding: "10px 16px",
-    cursor: "pointer",
-    borderBottom: `1px solid ${theme.colors.neutral10}`,
-    transition: "background-color 0.1s",
-  };
-
-  const itemIconStyles: CSSProperties = {
-    marginRight: "10px",
-    fontSize: "16px",
-  };
-
-  const itemNameStyles: CSSProperties = {
-    flex: 1,
-    fontSize: "14px",
-    color: theme.colors.neutral80,
-  };
-
-  const checkboxStyles: CSSProperties = {
-    marginRight: "10px",
-    width: "16px",
-    height: "16px",
-    cursor: "pointer",
-    accentColor: theme.colors.primary,
-  };
-
-  const chevronStyles: CSSProperties = {
-    color: theme.colors.neutral30,
-    marginLeft: "8px",
-  };
-
-  const footerStyles: CSSProperties = {
-    padding: "12px 16px",
-    borderTop: `1px solid ${theme.colors.neutral10}`,
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-  };
-
-  const selectionCountStyles: CSSProperties = {
-    fontSize: "13px",
-    color: theme.colors.neutral60,
-  };
-
-  const buttonGroupStyles: CSSProperties = {
-    display: "flex",
-    gap: "8px",
-  };
-
-  const buttonBaseStyles: CSSProperties = {
-    padding: "8px 16px",
-    fontSize: "14px",
-    borderRadius: "6px",
-    cursor: "pointer",
-    border: "none",
-    transition: "background-color 0.15s, opacity 0.15s",
-  };
-
-  const cancelButtonStyles: CSSProperties = {
-    ...buttonBaseStyles,
-    backgroundColor: theme.colors.neutral10,
-    color: theme.colors.neutral80,
-  };
-
-  const confirmButtonStyles: CSSProperties = {
-    ...buttonBaseStyles,
-    backgroundColor: theme.colors.primary,
-    color: "#fff",
-    opacity: selectedItems.length === 0
-      ? 0.5
-      : 1,
-  };
-
-  const loadingStyles: CSSProperties = {
-    flex: 1,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    color: theme.colors.neutral40,
-    fontSize: "14px",
-  };
-
-  const errorStyles: CSSProperties = {
-    flex: 1,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    color: theme.colors.danger || "#dc2626",
-    fontSize: "14px",
-    padding: "20px",
-    textAlign: "center",
-  };
-
-  const emptyStyles: CSSProperties = {
-    flex: 1,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    color: theme.colors.neutral40,
-    fontSize: "14px",
-  };
+  // Generate styles with current theme and selection count
+  const styles = createStyles(theme, selectedItems.length);
 
   const isSelected = (item: FilePickerItem) => selectedItems.some((i) => i.id === item.id);
 
   return (
-    <div style={containerStyles}>
+    <div style={styles.container}>
       {/* Header with breadcrumbs */}
-      <div style={headerStyles}>
-        <div style={breadcrumbStyles}>
+      <div style={styles.header}>
+        <div style={styles.breadcrumb}>
           <span
             role="button"
             tabIndex={0}
-            style={breadcrumbItemStyles}
+            style={styles.breadcrumbItem}
             onClick={() => navigateTo(-1)}
             onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === " ") {
@@ -629,11 +713,11 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
               display: "flex",
               alignItems: "center",
             }}>
-              <span style={breadcrumbSeparatorStyles}>/</span>
+              <span style={styles.breadcrumbSeparator}>/</span>
               <span
                 role="button"
                 tabIndex={0}
-                style={breadcrumbItemStyles}
+                style={styles.breadcrumbItem}
                 onClick={() => navigateTo(index)}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ") {
@@ -656,13 +740,13 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
       </div>
 
       {/* Content */}
-      {isLoading
+      {showLoading
         ? (
-          <div style={loadingStyles}>Loading...</div>
+          <div style={styles.loading}>Loading...</div>
         )
         : error
           ? (
-            <div style={errorStyles}>
+            <div style={styles.error}>
               Failed to load items: {error instanceof Error
                 ? error.message
                 : "Unknown error"}
@@ -670,10 +754,10 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
           )
           : items.length === 0
             ? (
-              <div style={emptyStyles}>No items found</div>
+              <div style={styles.empty}>No items found</div>
             )
             : (
-        <ul style={listStyles}>
+        <ul style={styles.list}>
           {items.map((item) => {
             const selected = isSelected(item);
             // Show checkbox at file/folder level for selectable items
@@ -687,7 +771,7 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
                 role="button"
                 tabIndex={0}
                 style={{
-                  ...itemStyles,
+                  ...styles.item,
                   backgroundColor: selected
                     ? theme.colors.primary25
                     : undefined,
@@ -713,7 +797,7 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
                 {canSelect && (
                   <input
                     type="checkbox"
-                    style={checkboxStyles}
+                    style={styles.checkbox}
                     checked={selected}
                     onChange={(e) => {
                       e.stopPropagation();
@@ -722,14 +806,14 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
                     onClick={(e) => e.stopPropagation()}
                   />
                 )}
-                <span style={itemIconStyles}>
-                  {item.isFolder
-                    ? "📁"
-                    : "📄"}
-                </span>
-                <span style={itemNameStyles}>{item.label}</span>
+                {showIcons && (
+                  <span style={styles.itemIcon}>
+                    {item.isFolder ? icons.folder : icons.file}
+                  </span>
+                )}
+                <span style={styles.itemName}>{item.label}</span>
                 {(item.isFolder || currentProp !== fileOrFolderProp) && (
-                  <span style={chevronStyles}>›</span>
+                  <span style={styles.chevron}>›</span>
                 )}
               </li>
             );
@@ -738,23 +822,23 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
       )}
 
       {/* Footer */}
-      <div style={footerStyles}>
-        <div style={selectionCountStyles}>
+      <div style={styles.footer}>
+        <div style={styles.selectionCount}>
           {selectedItems.length > 0
             ? `${selectedItems.length} item${selectedItems.length > 1
               ? "s"
               : ""} selected`
             : "No items selected"}
         </div>
-        <div style={buttonGroupStyles}>
+        <div style={styles.buttonGroup}>
           {onCancel && (
-            <button type="button" style={cancelButtonStyles} onClick={onCancel}>
+            <button type="button" style={styles.cancelButton} onClick={onCancel}>
               {cancelText}
             </button>
           )}
           <button
             type="button"
-            style={confirmButtonStyles}
+            style={styles.confirmButton}
             onClick={handleConfirm}
             disabled={selectedItems.length === 0}
           >

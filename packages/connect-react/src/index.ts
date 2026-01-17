@@ -25,7 +25,7 @@ export { OptionalFieldButton } from "./components/OptionalFieldButton";
 export { RemoteOptionsContainer } from "./components/RemoteOptionsContainer";
 export { SelectApp } from "./components/SelectApp";
 export { SelectComponent } from "./components/SelectComponent";
-export { ConfigureFilePicker, type ConfigureFilePickerProps, type FilePickerItem } from "./components/ConfigureFilePicker";
+export { ConfigureFilePicker, type ConfigureFilePickerProps, type FilePickerItem, type NavigationLevel, type FilePickerIcons, type FilePickerAppConfig, FILE_PICKER_APPS } from "./components/ConfigureFilePicker";
 export { ConfigureFilePickerModal, type ConfigureFilePickerModalProps } from "./components/ConfigureFilePicker/ConfigureFilePickerModal";
 export * from "./theme";
 export * from "./hooks/customization-context";
