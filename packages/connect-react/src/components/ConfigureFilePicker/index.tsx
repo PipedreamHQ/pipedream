@@ -327,29 +327,21 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
     ...customIcons,
   };
 
-  // Get app configuration (custom or built-in)
+  // Get app configuration (custom or built-in) with safe defaults
   const appConfig = customAppConfig || FILE_PICKER_APPS[app];
+  const hasValidConfig = !!appConfig;
 
-  // Handle missing app configuration gracefully
-  if (!appConfig) {
+  // Log missing config error (but don't early return to preserve hook order)
+  if (!hasValidConfig) {
     console.error(`[ConfigureFilePicker] No configuration found for app "${app}". Provide appConfig prop or use a supported app.`);
-    return (
-      <div style={{
-        padding: "16px",
-        color: "#dc2626",
-        backgroundColor: "#fef2f2",
-        borderRadius: "8px",
-        fontSize: "14px",
-      }}>
-        Configuration error: No configuration found for app &quot;{app}&quot;.
-        Please provide an appConfig prop or use a supported app.
-      </div>
-    );
   }
 
+  // Extract config values with safe defaults to ensure hooks run unconditionally
   const {
-    propHierarchy, fileOrFolderProp, folderProp,
-  } = appConfig;
+    propHierarchy = [],
+    fileOrFolderProp = "",
+    folderProp = "",
+  } = appConfig || {};
 
   // Debug logger (memoized to maintain stable reference)
   const log = useCallback(
@@ -584,6 +576,16 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
     }
 
     // At file/folder level, clicking a file toggles selection
+    // Skip selection if file selection is disabled and item is a file
+    if (!item.isFolder && !selectFiles) {
+      return;
+    }
+
+    // Skip selection if folder selection is disabled and item is a folder
+    if (item.isFolder && !selectFolders) {
+      return;
+    }
+
     if (multiSelect) {
       setSelectedItems((prev) => {
         const exists = prev.some((i) => i.id === item.id);
@@ -604,6 +606,8 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
     multiSelect,
     fileOrFolderProp,
     folderProp,
+    selectFiles,
+    selectFolders,
     log,
   ]);
 
@@ -684,6 +688,22 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
   const styles = createStyles(theme, selectedItems.length);
 
   const isSelected = (item: FilePickerItem) => selectedItems.some((i) => i.id === item.id);
+
+  // Show error UI if app configuration is missing
+  if (!hasValidConfig) {
+    return (
+      <div style={{
+        padding: "16px",
+        color: "#dc2626",
+        backgroundColor: "#fef2f2",
+        borderRadius: "8px",
+        fontSize: "14px",
+      }}>
+        Configuration error: No configuration found for app &quot;{app}&quot;.
+        Please provide an appConfig prop or use a supported app.
+      </div>
+    );
+  }
 
   return (
     <div style={styles.container}>
