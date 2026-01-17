@@ -82,7 +82,7 @@ jobs:
       - name: Check For Compiled TypeScript Files
         run: |
           IFS=$'\n'
-          # Remove initial tsc output
+          # Remove pnpm header lines
           output_files=$(cat files.txt | sed 1,3d)
           declare -a ERRORS
           declare -a SKIPPED
@@ -173,7 +173,7 @@ jobs:
         run: |
           IFS=$'\n'
           mapfile -d ',' -t added_modified_renamed_files < <(printf '%s,%s' '${{ steps.files.outputs.added_modified }}' '${{ steps.files.outputs.renamed }}')
-          # Remove initial tsc output
+          # Remove pnpm header lines
           output_files=$(cat files.txt | sed 1,3d)
           echo "The following files will be published on merge:"
           for added_modified_file in "${added_modified_renamed_files[@]}";

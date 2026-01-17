@@ -29,7 +29,7 @@
   },
   "scripts": {
     "prepare": "husky install",
-    "build": "npx tsc --build | node scripts/tsPostBuild.mjs",
+    "build": "node scripts/build-components.mjs",
     "test": "jest --passWithNoTests components",
     "test-all": "npm test && npm run platform-test && npm run types-test",
     "platform-dist": "cd platform && git add dist && (git diff-index --quiet HEAD || git commit -m 'update platform/dist')",
@@ -69,7 +69,6 @@
     "putout": ">=36",
     "renamer": "^4.0.0",
     "ts-jest": "^29.1.1",
-    "tsc-esm-fix": "^2.18.0",
     "tsc-watch": "^5.0.3",
     "typescript": ">=5.5.0 <5.7.0",
     "typescript-eslint": "^8.15.0"

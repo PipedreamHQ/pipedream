@@ -169,7 +169,7 @@ jobs:
         run: |
           IFS=$'\n'
           echo "The following files will be published on merge:"
-          # Remove initial tsc output
+          # Remove pnpm header lines
           output_files=$(cat files.txt | sed 1,3d)
           for f in $output_files
           do
