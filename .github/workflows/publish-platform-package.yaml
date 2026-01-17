@@ -21,8 +21,8 @@ jobs:
           node-version: 18
           registry-url: https://registry.npmjs.org/
           cache: 'pnpm'
-      - name: pnpm install
-        run: pnpm install -r --no-frozen-lockfile
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
       - name: Compile TypeScript
         run: pnpm run build
       # See https://pnpm.io/using-changesets

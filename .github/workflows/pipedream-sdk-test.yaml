@@ -39,7 +39,7 @@ jobs:
           node-version: '22'
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
         working-directory: packages/sdk
 
       - name: Run tests

@@ -70,7 +70,7 @@ jobs:
           registry-url: https://registry.npmjs.org/
           cache: 'pnpm'
       - name: Install Dependencies
-        run: pnpm install -r
+        run: pnpm install --frozen-lockfile
       - name: Compile TypeScript
         id: compile
         run: pnpm run build > files.txt
@@ -159,7 +159,7 @@ jobs:
           registry-url: https://registry.npmjs.org/
           cache: 'pnpm'
       - name: Install Dependencies
-        run: pnpm install -r
+        run: pnpm install --frozen-lockfile
       - name: Compile TypeScript
         id: compile
         run: pnpm run build > files.txt

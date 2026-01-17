@@ -27,7 +27,7 @@ jobs:
           cache: 'pnpm'
           
       - name: Install dependencies
-        run: pnpm install -r --no-frozen-lockfile
+        run: pnpm install --frozen-lockfile
         
       - name: Compile TypeScript
         run: pnpm run build

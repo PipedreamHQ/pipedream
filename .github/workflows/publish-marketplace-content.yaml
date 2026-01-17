@@ -27,7 +27,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
       - name: Install dependencies
-        run: pnpm install -r --no-frozen-lockfile
+        run: pnpm install --frozen-lockfile
       - name: Setup Node Env
         uses: actions/setup-node@v6
         with:

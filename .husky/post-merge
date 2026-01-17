@@ -1,4 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-npx pnpm install -r --ignore-scripts
+pnpm install --ignore-scripts
