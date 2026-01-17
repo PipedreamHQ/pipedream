@@ -62,18 +62,23 @@ for (const componentDir of tsComponents) {
   // Clean dist dir and build
   const distDir = join(componentDir, 'dist')
   rmSync(distDir, { recursive: true, force: true })
-  await esbuild.build({
-    entryPoints,
-    outdir: distDir,
-    format: 'esm',
-    platform: 'node',
-    target: 'node20',
-    // bundles single file components, with imported app file + shared code
-    bundle: true,
-    outExtension: { '.js': '.mjs' },
-    // don't bundle any node_modules since EE will handle it for us
-    packages: 'external',
-  })
+  try {
+    await esbuild.build({
+      entryPoints,
+      outdir: distDir,
+      format: 'esm',
+      platform: 'node',
+      target: 'node20',
+      // bundles single file components, with imported app file + shared code
+      bundle: true,
+      outExtension: { '.js': '.mjs' },
+      // don't bundle any node_modules since EE will handle it for us
+      packages: 'external',
+    })
+  } catch (err) {
+    const componentName = relative(componentsDir, componentDir)
+    throw new Error(`Failed to build component "${componentName}": ${err.message}`)
+  }
 
   for (const sourcePath of entryPoints) {
     outputFiles.push(sourceToOutputPath(sourcePath, componentDir))
