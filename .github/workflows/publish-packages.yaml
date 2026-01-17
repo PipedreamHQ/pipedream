@@ -20,28 +20,21 @@ jobs:
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
     steps:
-      - uses: actions/checkout@v6
-      - uses: pnpm/action-setup@v4.2.0
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4.2.0
         with:
           version: 9.14.2
-      - name: Get pnpm store directory
-        if: github.ref != 'refs/heads/master' # Cache is used only for dry runs
-        id: pnpm-cache
-        run: |
-          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
-      - uses: actions/cache@v5
-        if: github.ref != 'refs/heads/master' # Cache is used only for dry runs
-        name: Setup pnpm cache
-        with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-      - uses: actions/setup-node@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
         with:
           node-version: 18
           registry-url: https://registry.npmjs.org/
           cache: 'pnpm'
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Compile TypeScript
