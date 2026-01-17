@@ -446,10 +446,14 @@ export default {
       });
     },
     getDriveItem({
-      siteId, fileId, ...args
+      siteId, driveId, fileId, ...args
     }) {
+      // Use driveId if provided, otherwise fall back to site's default drive
+      const path = driveId
+        ? `/drives/${driveId}/items/${fileId}`
+        : `/sites/${siteId}/drive/items/${fileId}`;
       return this._makeRequest({
-        path: `/sites/${siteId}/drive/items/${fileId}`,
+        path,
         ...args,
       });
     },

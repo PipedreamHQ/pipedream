@@ -1,18 +1,17 @@
 import { type FC, type CSSProperties } from "react";
 import { useCustomize } from "../../hooks/customization-context";
-import type { FilePickerProps } from "./types";
-import { FilePicker } from "./index";
+import { ConfigureFilePicker, type ConfigureFilePickerProps } from "./index";
 
-export interface FilePickerModalProps extends FilePickerProps {
+export interface ConfigureFilePickerModalProps extends ConfigureFilePickerProps {
   isOpen: boolean;
   title?: string;
 }
 
-export const FilePickerModal: FC<FilePickerModalProps> = ({
+export const ConfigureFilePickerModal: FC<ConfigureFilePickerModalProps> = ({
   isOpen,
   title = "Select Files",
   onCancel,
-  ...filePickerProps
+  ...configureFilePickerProps
 }) => {
   const { theme } = useCustomize();
 
@@ -111,7 +110,7 @@ export const FilePickerModal: FC<FilePickerModalProps> = ({
           </button>
         </div>
         <div style={contentStyles}>
-          <FilePicker {...filePickerProps} onCancel={onCancel} />
+          <ConfigureFilePicker {...configureFilePickerProps} onCancel={onCancel} />
         </div>
       </div>
     </div>

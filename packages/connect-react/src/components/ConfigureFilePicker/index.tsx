@@ -33,7 +33,7 @@ interface NavigationLevel {
 export interface FilePickerAppConfig {
   /** App slug (e.g., "sharepoint", "google_drive", "dropbox") */
   app: string;
-  /** Prop hierarchy to navigate through (e.g., ["siteId", "driveId", "fileOrFolderId"]) */
+  /** Prop hierarchy to navigate through (e.g., ["siteId", "driveId", "fileOrFolderIds"]) */
   propHierarchy: string[];
   /** Prop labels for display (e.g., { siteId: "Sites", driveId: "Drives" }) */
   propLabels: Record<string, string>;
@@ -49,13 +49,13 @@ export interface FilePickerAppConfig {
 export const FILE_PICKER_APPS: Record<string, FilePickerAppConfig> = {
   sharepoint: {
     app: "sharepoint",
-    propHierarchy: ["siteId", "driveId", "fileOrFolderId"],
+    propHierarchy: ["siteId", "driveId", "fileOrFolderIds"],
     propLabels: {
       siteId: "Sites",
       driveId: "Drives",
-      fileOrFolderId: "Files & Folders",
+      fileOrFolderIds: "Files & Folders",
     },
-    fileOrFolderProp: "fileOrFolderId",
+    fileOrFolderProp: "fileOrFolderIds",
     folderProp: "folderId",
   },
   // Future apps can be added here:
@@ -203,7 +203,7 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
     const label = sanitized.label;
     const rawValue = typeof sanitized.value === "string" ? sanitized.value : JSON.stringify(sanitized.value);
 
-    // Try to parse JSON value (fileOrFolderId returns JSON with {id, name, isFolder, size})
+    // Try to parse JSON value (fileOrFolderIds returns JSON with {id, name, isFolder, size})
     let isFolder = false;
     let id = rawValue;
     let name = label.replace(/^📁\s*/, "").replace(/^📄\s*/, "");
@@ -357,7 +357,8 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
     borderRadius: "8px",
     overflow: "hidden",
     border: `1px solid ${theme.colors.neutral20}`,
-    height: "400px",
+    height: "100%",
+    minHeight: "300px",
   };
 
   const headerStyles: CSSProperties = {
@@ -497,24 +498,12 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
     fontSize: "14px",
   };
 
-  const labelStyles: CSSProperties = {
-    fontSize: "11px",
-    color: theme.colors.neutral50,
-    marginBottom: "4px",
-    textTransform: "uppercase",
-    letterSpacing: "0.5px",
-  };
-
   const isSelected = (item: FilePickerItem) => selectedItems.some((i) => i.id === item.id);
-
-  // Show current prop being fetched in header
-  const currentPropLabel = propLabels[currentProp] || currentProp;
 
   return (
     <div style={containerStyles}>
       {/* Header with breadcrumbs */}
       <div style={headerStyles}>
-        <div style={labelStyles}>Browsing: {currentPropLabel}</div>
         <div style={breadcrumbStyles}>
           <span
             style={breadcrumbItemStyles}
