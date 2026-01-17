@@ -18,7 +18,8 @@ const rootDir = join(__dirname, '..')
 const componentsDir = join(rootDir, 'components')
 const COMPONENT_TS_DIRS = ['app', 'actions', 'sources', 'common']
 
-// Find .ts files in a directory using native recursive readdir (Node 18.17+)
+// Find .ts files in a directory using native recursive readdir
+// Requires Node 20.12.0+ for Dirent.parentPath property
 function findTsFilesInDir(dir) {
   if (!existsSync(dir)) return []
   return readdirSync(dir, { recursive: true, withFileTypes: true })

@@ -21,7 +21,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
 
       - name: Install dependencies
@@ -121,7 +121,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
 
       - name: Install dependencies
@@ -154,7 +154,7 @@ jobs:
           IFS=$'\n'
           echo "The following files will be published on merge:"
           # Remove pnpm header lines
-          output_files=$(cat files.txt | sed 1,3d)
+          output_files=$(grep -E '\.mjs$' files.txt || true)
           for f in $output_files
           do
             echo "$f"

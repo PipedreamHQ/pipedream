@@ -58,7 +58,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
 
       - name: Install dependencies
@@ -75,7 +75,7 @@ jobs:
         run: |
           IFS=$'\n'
           # Remove pnpm header lines
-          output_files=$(cat files.txt | sed 1,3d)
+          output_files=$(grep -E '\.mjs$' files.txt || true)
           declare -a ERRORS
           declare -a SKIPPED
           mapfile -d ',' -t added_modified_renamed_files < <(printf '%s,%s' '${{ steps.files.outputs.added_modified }}' '${{ steps.files.outputs.renamed }}')
@@ -139,7 +139,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
 
       - name: Install dependencies
@@ -158,7 +158,7 @@ jobs:
           IFS=$'\n'
           mapfile -d ',' -t added_modified_renamed_files < <(printf '%s,%s' '${{ steps.files.outputs.added_modified }}' '${{ steps.files.outputs.renamed }}')
           # Remove pnpm header lines
-          output_files=$(cat files.txt | sed 1,3d)
+          output_files=$(grep -E '\.mjs$' files.txt || true)
           echo "The following files will be published on merge:"
           for added_modified_file in "${added_modified_renamed_files[@]}";
           do
