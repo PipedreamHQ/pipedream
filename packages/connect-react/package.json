@@ -21,7 +21,7 @@
     "build": "vite build",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
-    "prepare": "pnpm run build",
+    "prepublishOnly": "pnpm run build",
     "watch": "NODE_ENV=development vite build --watch --mode development"
   },
   "publishConfig": {
