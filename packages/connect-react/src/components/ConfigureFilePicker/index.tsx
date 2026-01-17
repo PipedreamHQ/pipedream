@@ -179,7 +179,9 @@ const createStyles = (theme: Theme, selectedItemsCount: number) => ({
     transition: "background-color 0.15s, opacity 0.15s",
     backgroundColor: theme.colors.primary,
     color: "#fff",
-    opacity: selectedItemsCount === 0 ? 0.5 : 1,
+    opacity: selectedItemsCount === 0
+      ? 0.5
+      : 1,
   } as CSSProperties,
 
   loading: {
@@ -757,69 +759,71 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
               <div style={styles.empty}>No items found</div>
             )
             : (
-        <ul style={styles.list}>
-          {items.map((item) => {
-            const selected = isSelected(item);
-            // Show checkbox at file/folder level for selectable items
-            const canSelect = currentProp === fileOrFolderProp && (
-              (item.isFolder && selectFolders) || (!item.isFolder && selectFiles)
-            );
+              <ul style={styles.list}>
+                {items.map((item) => {
+                  const selected = isSelected(item);
+                  // Show checkbox at file/folder level for selectable items
+                  const canSelect = currentProp === fileOrFolderProp && (
+                    (item.isFolder && selectFolders) || (!item.isFolder && selectFiles)
+                  );
 
-            return (
-              <li
-                key={item.id}
-                role="button"
-                tabIndex={0}
-                style={{
-                  ...styles.item,
-                  backgroundColor: selected
-                    ? theme.colors.primary25
-                    : undefined,
-                }}
-                onClick={() => handleItemClick(item)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    handleItemClick(item);
-                  }
-                }}
-                onMouseEnter={(e) => {
-                  if (!selected) {
-                    (e.currentTarget as HTMLElement).style.backgroundColor = theme.colors.neutral5 || "";
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.backgroundColor = selected
-                    ? theme.colors.primary25 || ""
-                    : "";
-                }}
-              >
-                {canSelect && (
-                  <input
-                    type="checkbox"
-                    style={styles.checkbox}
-                    checked={selected}
-                    onChange={(e) => {
-                      e.stopPropagation();
-                      handleSelectionChange(item, e.target.checked);
-                    }}
-                    onClick={(e) => e.stopPropagation()}
-                  />
-                )}
-                {showIcons && (
-                  <span style={styles.itemIcon}>
-                    {item.isFolder ? icons.folder : icons.file}
-                  </span>
-                )}
-                <span style={styles.itemName}>{item.label}</span>
-                {(item.isFolder || currentProp !== fileOrFolderProp) && (
-                  <span style={styles.chevron}>›</span>
-                )}
-              </li>
-            );
-          })}
-        </ul>
-      )}
+                  return (
+                    <li
+                      key={item.id}
+                      role="button"
+                      tabIndex={0}
+                      style={{
+                        ...styles.item,
+                        backgroundColor: selected
+                          ? theme.colors.primary25
+                          : undefined,
+                      }}
+                      onClick={() => handleItemClick(item)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          handleItemClick(item);
+                        }
+                      }}
+                      onMouseEnter={(e) => {
+                        if (!selected) {
+                          (e.currentTarget as HTMLElement).style.backgroundColor = theme.colors.neutral5 || "";
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        (e.currentTarget as HTMLElement).style.backgroundColor = selected
+                          ? theme.colors.primary25 || ""
+                          : "";
+                      }}
+                    >
+                      {canSelect && (
+                        <input
+                          type="checkbox"
+                          style={styles.checkbox}
+                          checked={selected}
+                          onChange={(e) => {
+                            e.stopPropagation();
+                            handleSelectionChange(item, e.target.checked);
+                          }}
+                          onClick={(e) => e.stopPropagation()}
+                        />
+                      )}
+                      {showIcons && (
+                        <span style={styles.itemIcon}>
+                          {item.isFolder
+                            ? icons.folder
+                            : icons.file}
+                        </span>
+                      )}
+                      <span style={styles.itemName}>{item.label}</span>
+                      {(item.isFolder || currentProp !== fileOrFolderProp) && (
+                        <span style={styles.chevron}>›</span>
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
 
       {/* Footer */}
       <div style={styles.footer}>

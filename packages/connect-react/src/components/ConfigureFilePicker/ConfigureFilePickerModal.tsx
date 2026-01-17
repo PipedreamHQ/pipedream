@@ -42,7 +42,7 @@ export const ConfigureFilePickerModal: FC<ConfigureFilePickerModalProps> = ({
       // Handle Tab for focus trap
       if (e.key === "Tab" && modalRef.current) {
         const focusableElements = modalRef.current.querySelectorAll<HTMLElement>(
-          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+          "button, [href], input, select, textarea, [tabindex]:not([tabindex=\"-1\"])",
         );
         const firstElement = focusableElements[0];
         const lastElement = focusableElements[focusableElements.length - 1];
