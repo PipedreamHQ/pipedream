@@ -9,6 +9,7 @@ on:
   pull_request:
     branches:
       - master
+  workflow_dispatch:  # Allows manual triggering from Actions tab
 
 jobs:
   spellcheck:
