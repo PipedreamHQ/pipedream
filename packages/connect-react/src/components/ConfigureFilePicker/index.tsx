@@ -127,18 +127,38 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
 
   // Get app configuration (custom or built-in)
   const appConfig = customAppConfig || FILE_PICKER_APPS[app];
+
+  // Handle missing app configuration gracefully
   if (!appConfig) {
-    throw new Error(`No configuration found for app "${app}". Provide appConfig prop or use a supported app.`);
+    console.error(`[ConfigureFilePicker] No configuration found for app "${app}". Provide appConfig prop or use a supported app.`);
+    return (
+      <div style={{
+        padding: "16px",
+        color: "#dc2626",
+        backgroundColor: "#fef2f2",
+        borderRadius: "8px",
+        fontSize: "14px",
+      }}>
+        Configuration error: No configuration found for app &quot;{app}&quot;.
+        Please provide an appConfig prop or use a supported app.
+      </div>
+    );
   }
 
   const {
     propHierarchy, fileOrFolderProp, folderProp,
   } = appConfig;
 
-  // Debug logger
-  const log = debug
-    ? console.log.bind(console, "[ConfigureFilePicker]")
-    : () => {};
+  // Debug logger (memoized to maintain stable reference)
+  const log = useCallback(
+    debug
+      // eslint-disable-next-line no-console
+      ? (...args: unknown[]) => console.log("[ConfigureFilePicker]", ...args)
+      : () => {},
+    [
+      debug,
+    ],
+  );
 
   // Current configured props state
   const [
@@ -240,14 +260,16 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
       ? sanitized.value
       : JSON.stringify(sanitized.value);
 
-    // Try to parse JSON value (fileOrFolderIds returns JSON with {id, name, isFolder, size})
+    // Try to parse JSON value once (fileOrFolderIds returns JSON with {id, name, isFolder, size})
     let isFolder = false;
     let id = rawValue;
     let name = label.replace(/^📁\s*/, "").replace(/^📄\s*/, "");
     let size: number | undefined;
+    let parsedValue: unknown = rawValue;
 
     try {
       const parsed = JSON.parse(rawValue);
+      parsedValue = parsed;
       if (parsed && typeof parsed === "object") {
         id = parsed.id || rawValue;
         name = parsed.name || name;
@@ -257,14 +279,6 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
     } catch {
       // Not JSON, check label for folder indicators
       isFolder = label.startsWith("📁");
-    }
-
-    // Parse the value if it's JSON, otherwise keep as-is
-    let parsedValue: unknown = rawValue;
-    try {
-      parsedValue = JSON.parse(rawValue);
-    } catch {
-      // Keep as string
     }
 
     return {
@@ -591,8 +605,16 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
       <div style={headerStyles}>
         <div style={breadcrumbStyles}>
           <span
+            role="button"
+            tabIndex={0}
             style={breadcrumbItemStyles}
             onClick={() => navigateTo(-1)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                navigateTo(-1);
+              }
+            }}
             onMouseEnter={(e) => {
               (e.target as HTMLElement).style.backgroundColor = theme.colors.neutral10 || "";
             }}
@@ -609,8 +631,16 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
             }}>
               <span style={breadcrumbSeparatorStyles}>/</span>
               <span
+                role="button"
+                tabIndex={0}
                 style={breadcrumbItemStyles}
                 onClick={() => navigateTo(index)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    navigateTo(index);
+                  }
+                }}
                 onMouseEnter={(e) => {
                   (e.target as HTMLElement).style.backgroundColor = theme.colors.neutral10 || "";
                 }}
@@ -654,6 +684,8 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
             return (
               <li
                 key={item.id}
+                role="button"
+                tabIndex={0}
                 style={{
                   ...itemStyles,
                   backgroundColor: selected
@@ -661,6 +693,12 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
                     : undefined,
                 }}
                 onClick={() => handleItemClick(item)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    handleItemClick(item);
+                  }
+                }}
                 onMouseEnter={(e) => {
                   if (!selected) {
                     (e.currentTarget as HTMLElement).style.backgroundColor = theme.colors.neutral5 || "";
@@ -710,11 +748,12 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
         </div>
         <div style={buttonGroupStyles}>
           {onCancel && (
-            <button style={cancelButtonStyles} onClick={onCancel}>
+            <button type="button" style={cancelButtonStyles} onClick={onCancel}>
               {cancelText}
             </button>
           )}
           <button
+            type="button"
             style={confirmButtonStyles}
             onClick={handleConfirm}
             disabled={selectedItems.length === 0}

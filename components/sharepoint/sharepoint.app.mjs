@@ -158,8 +158,8 @@ export default {
         query, siteId, driveId,
       }) {
         // Handle both raw values and __lv wrapped values
-        const resolvedSiteId = siteId?.__lv?.value || siteId;
-        const resolvedDriveId = driveId?.__lv?.value || driveId;
+        const resolvedSiteId = this.resolveWrappedValue(siteId);
+        const resolvedDriveId = this.resolveWrappedValue(driveId);
 
         if (!resolvedSiteId || !resolvedDriveId) {
           return [];
@@ -274,9 +274,9 @@ export default {
         siteId, driveId, folderId,
       }) {
         // Handle both raw values and __lv wrapped values
-        const resolvedSiteId = siteId?.__lv?.value || siteId;
-        const resolvedDriveId = driveId?.__lv?.value || driveId;
-        const resolvedFolderId = folderId?.__lv?.value || folderId;
+        const resolvedSiteId = this.resolveWrappedValue(siteId);
+        const resolvedDriveId = this.resolveWrappedValue(driveId);
+        const resolvedFolderId = this.resolveWrappedValue(folderId);
 
         if (!resolvedSiteId || !resolvedDriveId) {
           return [];
@@ -307,6 +307,9 @@ export default {
     },
   },
   methods: {
+    resolveWrappedValue(value) {
+      return value?.__lv?.value || value;
+    },
     _baseUrl() {
       return "https://graph.microsoft.com/v1.0";
     },

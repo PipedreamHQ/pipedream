@@ -121,8 +121,8 @@ export default {
       };
     }
 
-    // Fetch metadata for all selected files in parallel
-    const fileResults = await Promise.all(
+    // Fetch metadata for all selected files in parallel, handling individual failures
+    const settledResults = await Promise.allSettled(
       files.map(async (selected) => {
         const file = await this.sharepoint.getDriveItem({
           $,
@@ -145,18 +145,51 @@ export default {
       }),
     );
 
+    // Separate successful and failed results
+    const fileResults = [];
+    const errors = [];
+
+    settledResults.forEach((result, index) => {
+      if (result.status === "fulfilled") {
+        fileResults.push(result.value);
+      } else {
+        const selected = files[index];
+        const errorMessage = result.reason?.message || String(result.reason);
+        console.error(`Failed to fetch file ${selected.id} (${selected.name}): ${errorMessage}`);
+        errors.push({
+          fileId: selected.id,
+          fileName: selected.name,
+          error: errorMessage,
+        });
+      }
+    });
+
+    // If all files failed, throw an error
+    if (fileResults.length === 0 && errors.length > 0) {
+      throw new Error(`Failed to fetch all selected files: ${errors.map((e) => e.fileName).join(", ")}`);
+    }
+
     // If single file, return it directly for backwards compatibility
-    if (fileResults.length === 1 && folders.length === 0) {
+    if (fileResults.length === 1 && folders.length === 0 && errors.length === 0) {
       $.export("$summary", `Selected file: ${fileResults[0].name}`);
       return fileResults[0];
     }
 
     // Multiple files: return as array
     const fileNames = fileResults.map((f) => f.name).join(", ");
-    $.export("$summary", `Selected ${fileResults.length} file(s): ${fileNames}`);
+    const summaryParts = [
+      `Selected ${fileResults.length} file(s): ${fileNames}`,
+    ];
+    if (errors.length > 0) {
+      summaryParts.push(`Failed to fetch ${errors.length} file(s): ${errors.map((e) => e.fileName).join(", ")}`);
+    }
+    $.export("$summary", summaryParts.join(". "));
 
     return {
       files: fileResults,
+      ...(errors.length > 0 && {
+        errors,
+      }),
       ...(folders.length > 0 && {
         folders: folders.map((f) => ({
           id: f.id,
