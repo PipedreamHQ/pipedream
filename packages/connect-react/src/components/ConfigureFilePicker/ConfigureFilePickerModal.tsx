@@ -1,6 +1,10 @@
-import { type FC, type CSSProperties } from "react";
+import React, {
+  type FC, type CSSProperties,
+} from "react";
 import { useCustomize } from "../../hooks/customization-context";
-import { ConfigureFilePicker, type ConfigureFilePickerProps } from "./index";
+import {
+  ConfigureFilePicker, type ConfigureFilePickerProps,
+} from "./index";
 
 export interface ConfigureFilePickerModalProps extends ConfigureFilePickerProps {
   isOpen: boolean;
