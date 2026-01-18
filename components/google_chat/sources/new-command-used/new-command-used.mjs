@@ -5,7 +5,7 @@ export default {
   key: "google_chat-new-command-used",
   name: "New Command Used",
   description: "Emit new event when a new command is used in a space. [See the documentation](https://developers.google.com/workspace/chat/api/reference/rest/v1/spaces.messages/list)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {
