@@ -69,7 +69,6 @@
     "putout": ">=36",
     "renamer": "^4.0.0",
     "ts-jest": "^29.1.1",
-    "tsc-watch": "^5.0.3",
     "typescript": ">=5.5.0 <5.7.0",
     "typescript-eslint": "^8.15.0"
   },
