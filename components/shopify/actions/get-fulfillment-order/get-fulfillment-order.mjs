@@ -5,7 +5,7 @@ export default {
   key: "shopify-get-fulfillment-order",
   name: "Get Fulfillment Order",
   description: "Retrieve a single fulfillment order by ID. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/queries/fulfillmentorder)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

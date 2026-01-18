@@ -6,7 +6,7 @@ export default {
   key: "shopify-update-product",
   name: "Update Product",
   description: "Update an existing product. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/productUpdate)",
-  version: "0.1.7",
+  version: "0.1.8",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
