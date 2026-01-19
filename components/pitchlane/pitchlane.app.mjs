@@ -1,11 +1,23 @@
+import { axios } from "@pipedream/platform";
+
 export default {
   type: "app",
   app: "pitchlane",
   propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _baseUrl() {
+      return "https://app.pitchlane.com/api/public/v1";
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
+      return axios($, {
+        url: `${this._baseUrl()}${path}`,
+        headers: {
+          "X-API-Key": this.$auth.api_key,
+        },
+        ...opts,
+      });
     },
   },
 };
