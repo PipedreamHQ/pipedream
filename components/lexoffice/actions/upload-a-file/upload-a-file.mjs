@@ -21,10 +21,10 @@ export default {
       description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.pdf`). Accepts only pdf, jpg, png and xml files.",
     },
     voucherId: {
-      type: "string",
-      label: "Voucher ID",
-      description: "The ID of the associated voucher",
-      optional: true,
+      propDefinition: [
+        lexoffice,
+        "voucherId",
+      ],
     },
     syncDir: {
       type: "dir",
