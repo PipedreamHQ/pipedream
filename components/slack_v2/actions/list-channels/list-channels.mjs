@@ -4,7 +4,7 @@ export default {
   key: "slack_v2-list-channels",
   name: "List Channels",
   description: "Return a list of all channels in a workspace. [See the documentation](https://api.slack.com/methods/conversations.list)",
-  version: "0.1.0",
+  version: "0.1.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -49,9 +49,12 @@ export default {
   },
   async run({ $ }) {
     const allChannels = [];
+    const types = Array.isArray(this.channelTypes)
+      ? this.channelTypes.join(",")
+      : this.channelTypes;
     const params = {
       limit: this.pageSize,
-      types: this.channelTypes,
+      types,
     };
     let page = 0;
 
