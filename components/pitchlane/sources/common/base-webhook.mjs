@@ -1,5 +1,5 @@
 import pitchlane from "../../pitchlane.app.mjs";
-const { ConfigurationError } = "@pipedream/platform";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   props: {

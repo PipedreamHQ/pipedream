@@ -10,6 +10,7 @@ export default {
   type: "source",
   dedupe: "unique",
   methods: {
+    ...common.methods,
     getEventType() {
       return "VIDEO_CREATED";
     },
