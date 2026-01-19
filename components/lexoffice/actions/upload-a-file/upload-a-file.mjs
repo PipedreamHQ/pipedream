@@ -18,7 +18,7 @@ export default {
     filePathOrUrl: {
       type: "string",
       label: "File Path or URL",
-      description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.pdf`).",
+      description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.pdf`). Accepts only pdf, jpg, png and xml files.",
     },
     voucherId: {
       type: "string",
