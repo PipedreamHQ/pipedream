@@ -17,8 +17,8 @@ export default {
     generateMeta(body) {
       const ts = Date.now();
       return {
-        id: `${body.booking.id}-${ts}`,
-        summary: `Booking booked: ${body.booking.id}`,
+        id: `${body[0].booking.id}-${ts}`,
+        summary: `Booking booked: ${body[0].booking.id}`,
         ts,
       };
     },

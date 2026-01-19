@@ -16,8 +16,8 @@ export default {
     },
     generateMeta(body) {
       return {
-        id: body.booking.id,
-        summary: `Booking changed: ${body.booking.id}`,
+        id: body[0].booking.id,
+        summary: `Booking changed: ${body[0].booking.id}`,
         ts: Date.now(),
       };
     },

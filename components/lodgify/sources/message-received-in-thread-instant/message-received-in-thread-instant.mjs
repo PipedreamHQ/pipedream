@@ -16,9 +16,9 @@ export default {
     },
     generateMeta(body) {
       return {
-        id: body.message_id,
-        summary: `Message received in thread: ${body.message_id}`,
-        ts: Date.parse(body.creation_time),
+        id: body[0].message_id,
+        summary: `Message received in thread: ${body[0].message_id}`,
+        ts: Date.parse(body[0].creation_time),
       };
     },
   },
