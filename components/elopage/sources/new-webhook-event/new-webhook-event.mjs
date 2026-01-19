@@ -4,7 +4,7 @@ import sampleEmit from "./test-event.mjs";
 export default {
   key: "elopage-new-webhook-event",
   name: "New Webhook Event (Instant)",
-  description: "Emit new event when a new webhook event is created. See the documentation by importing \"https://api.myablefy.com/api/swagger_doc/\" into the [Swagger editor](https://editor-next.swagger.io/)",
+  description: "Emit new event when a new webhook event occurs. See the documentation by importing \"https://api.myablefy.com/api/swagger_doc/\" into the [Swagger editor](https://editor-next.swagger.io/)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
