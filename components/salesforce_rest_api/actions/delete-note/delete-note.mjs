@@ -36,11 +36,16 @@ export default {
             nameField: "Title",
           }) ?? [];
         } catch (error) {
-          const errorMessage = JSON.parse(error.message);
-          if (errorMessage.length && errorMessage[0].message) {
+          let errorMessage;
+          try {
+            errorMessage = JSON.parse(error.message);
+          } catch {
+            throw new ConfigurationError(`${error.message || error}`);
+          }
+          if (errorMessage?.length && errorMessage[0]?.message) {
             throw new ConfigurationError(`${errorMessage[0].message}`);
           }
-          throw new ConfigurationError(`${error}`);
+          throw new ConfigurationError(error.message || String(error));
         }
       },
     },
