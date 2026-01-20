@@ -96,6 +96,31 @@ export default {
         };
       },
     },
+    meetingUserId: {
+      type: "string",
+      label: "User ID",
+      description: "The ID of the user to list meetings for",
+      async options({ prevContext }) {
+        const { nextPageToken } = prevContext;
+        const response = await this.listAllUsers({
+          params: {
+            next_page_token: nextPageToken,
+          },
+        });
+        const options = response.users.map(({
+          id: value, display_name, email,
+        }) => ({
+          label: `${display_name} - ${email}`,
+          value,
+        }));
+        return {
+          options,
+          context: {
+            nextPageToken: response.next_page_token,
+          },
+        };
+      },
+    },
     includeAudioRecordings: {
       type: "boolean",
       label: "Include Audio Recordings",
@@ -296,6 +321,12 @@ export default {
     listUsers(opts = {}) {
       return this._makeRequest({
         path: "/phone/users",
+        ...opts,
+      });
+    },
+    listAllUsers(opts = {}) {
+      return this._makeRequest({
+        path: "/users",
         ...opts,
       });
     },
