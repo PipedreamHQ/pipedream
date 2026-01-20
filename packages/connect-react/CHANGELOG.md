@@ -2,6 +2,16 @@
 
 # Changelog
 
+## [2.6.0] - 2026-01-20
+
+### Added
+
+- **Experimental**: `ConfigureFilePicker` and `ConfigureFilePickerModal` components for building custom file picker UIs
+  - Uses Pipedream's `configureProp` API to fetch hierarchical options (sites, drives, folders, files)
+  - Built-in support for SharePoint with extensible app configuration
+  - Features: folder navigation, multi-select, theming support, customizable icons
+  - Note: This is an experimental API and may change in future releases
+
 ## [2.5.0] - 2025-12-19
 
 ### Added
