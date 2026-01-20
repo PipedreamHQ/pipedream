@@ -105,6 +105,8 @@ export default {
         url: `${this._baseUrl()}${path}`,
         headers: {
           "x-amz-access-token": this.$auth.oauth_access_token,
+          "Content-Type": "application/json",
+          "Accept": "application/json",
         },
         ...opts,
       });
@@ -194,6 +196,13 @@ export default {
         results.push(item);
       }
       return results;
+    },
+    async rotateClientSecret(opts = {}) {
+      return this._makeRequest({
+        path: "/applications/2023-11-30/clientSecret",
+        method: "POST",
+        ...opts,
+      });
     },
   },
 };
