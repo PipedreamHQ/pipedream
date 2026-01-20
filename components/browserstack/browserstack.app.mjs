@@ -96,6 +96,7 @@ export default {
     }) {
       let count = 0;
       let nextPage;
+      let hasNext = false;
 
       do {
         params.next_page = nextPage;
@@ -113,9 +114,10 @@ export default {
           }
         }
 
+        hasNext = pagination.has_next;
         nextPage = pagination.next_page;
 
-      } while (nextPage);
+      } while (hasNext);
     },
   },
 };
