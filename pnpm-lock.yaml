@@ -3055,7 +3055,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/cloudcart: {}
+  components/cloudcart:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/cloudentity: {}
 
@@ -3606,7 +3610,11 @@ importers:
         specifier: ^0.0.1-security
         version: 0.0.1-security
 
-  components/crowdpower: {}
+  components/crowdpower:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/crunchbase:
     dependencies:
@@ -3984,6 +3992,9 @@ importers:
       delighted:
         specifier: ^2.1.0
         version: 2.1.0
+
+  components/delivery_march:
+    specifiers: {}
 
   components/demandbase: {}
 
@@ -4786,7 +4797,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/elopage: {}
+  components/elopage:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/elorus:
     dependencies:
@@ -5507,7 +5522,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/fluxguard: {}
+  components/fluxguard:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/fly_io:
     dependencies:
@@ -8426,7 +8445,11 @@ importers:
 
   components/levity: {}
 
-  components/lexoffice: {}
+  components/lexoffice:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/libraria:
     dependencies:
@@ -8724,7 +8747,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/lodgify: {}
+  components/lodgify:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/loggly_send_data:
     dependencies:
@@ -32132,10 +32159,12 @@ packages:
   tar@6.2.1:
     resolution: {integrity: sha512-DZ4yORTwrbTj/7MZYq2w+/ZFdI6OZ/f9SFHR+71gIVUZhOQPHzVCLpvRnPgyaMpfWxxk/4ONva3GQSyNIKRv6A==}
     engines: {node: '>=10'}
+    deprecated: Old versions of tar are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exhorbitant rates) by contacting i@izs.me
 
   tar@7.5.2:
     resolution: {integrity: sha512-7NyxrTE4Anh8km8iEy7o0QYPs+0JKBTj5ZaqHg6B39erLg0qYXN3BijtShwbsNSvQ+LN75+KV+C4QR/f6Gwnpg==}
     engines: {node: '>=18'}
+    deprecated: Old versions of tar are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exhorbitant rates) by contacting i@izs.me
 
   tarn@3.0.2:
     resolution: {integrity: sha512-51LAVKUSZSVfI05vjPESNc5vwqqZpbXCsU+/+wxlOrUjk2SnFTt97v9ZgQrD4YmxYW1Px6w2KjaDitCfkvgxMQ==}

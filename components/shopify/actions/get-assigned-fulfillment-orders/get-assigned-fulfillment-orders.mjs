@@ -4,7 +4,7 @@ export default {
   key: "shopify-get-assigned-fulfillment-orders",
   name: "Get Assigned Fulfillment Orders",
   description: "Retrieve a list of fulfillment orders assigned to a merchant location. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/queries/assignedfulfillmentorders)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
