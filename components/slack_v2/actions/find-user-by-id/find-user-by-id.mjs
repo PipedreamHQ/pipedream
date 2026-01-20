@@ -29,18 +29,19 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.slack.usersInfo({
-      user: this.user,
-      include_locale: this.includeLocale,
-    });
-
-    if (!response.ok) {
-      const errorMessage = response.error || "unknown error";
-      $.export("$summary", `Failed to find user ${this.user}: ${errorMessage}`);
-      throw new Error(`Failed to find user: ${errorMessage}`);
+    let response;
+    try {
+      response = await this.slack.usersInfo({
+        user: this.user,
+        include_locale: this.includeLocale,
+      });
+    } catch (err) {
+      $.export("$summary", `Failed to find user ${this.user}: ${err.message || err}`);
+      throw err;
     }
 
-    const displayName = response.user.profile?.real_name
+    const displayName = response.user.profile?.display_name
+      || response.user.profile?.real_name
       || response.user.name
       || this.user;
     $.export("$summary", `Successfully found user ${displayName}`);
