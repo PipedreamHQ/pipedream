@@ -11433,6 +11433,9 @@ importers:
       moment-timezone:
         specifier: ^0.5.47
         version: 0.5.48
+      nanoid:
+        specifier: ^5.1.6
+        version: 5.1.6
       nodemailer:
         specifier: ^7.0.11
         version: 7.0.11
