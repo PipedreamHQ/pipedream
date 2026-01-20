@@ -3616,7 +3616,11 @@ importers:
         specifier: ^0.0.1-security
         version: 0.0.1-security
 
-  components/crowdpower: {}
+  components/crowdpower:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/crunchbase:
     dependencies:
@@ -3994,6 +3998,9 @@ importers:
       delighted:
         specifier: ^2.1.0
         version: 2.1.0
+
+  components/delivery_march:
+    specifiers: {}
 
   components/demandbase: {}
 
@@ -5517,7 +5524,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/fluxguard: {}
+  components/fluxguard:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/fly_io:
     dependencies:
@@ -9859,8 +9870,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/navan:
-    specifiers: {}
+  components/navan: {}
 
   components/navigatr:
     dependencies:
@@ -14054,8 +14064,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/skwirrel:
-    specifiers: {}
+  components/skwirrel: {}
 
   components/skyciv: {}
 
