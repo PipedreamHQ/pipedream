@@ -1,7 +1,7 @@
 import servicenow from "../../servicenow.app.mjs";
 
 export default {
-  key: "servicenow_oauth_-get-table-record-by-id",
+  key: "servicenow-get-table-record-by-id",
   name: "Get Table Record by ID",
   description: "Retrieves a single record from a table by its ID. [See the documentation](https://www.servicenow.com/docs/bundle/zurich-api-reference/page/integrate/inbound-rest/concept/c_TableAPI.html#title_table-GET-id)",
   version: "1.0.0",

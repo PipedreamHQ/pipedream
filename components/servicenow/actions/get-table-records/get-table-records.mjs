@@ -2,7 +2,7 @@ import { ConfigurationError } from "@pipedream/platform";
 import servicenow from "../../servicenow.app.mjs";
 
 export default {
-  key: "servicenow_oauth_-get-table-records",
+  key: "servicenow-get-table-records",
   name: "Get Table Records",
   description: "Retrieves multiple records for the specified table. [See the documentation](https://www.servicenow.com/docs/bundle/zurich-api-reference/page/integrate/inbound-rest/concept/c_TableAPI.html#title_table-GET)",
   version: "1.0.0",

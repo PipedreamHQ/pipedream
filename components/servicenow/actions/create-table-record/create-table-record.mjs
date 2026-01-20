@@ -2,7 +2,7 @@ import servicenow from "../../servicenow.app.mjs";
 import { parseObject } from "../../common/utils.mjs";
 
 export default {
-  key: "servicenow_oauth_-create-table-record",
+  key: "servicenow-create-table-record",
   name: "Create Table Record",
   description: "Inserts one record in the specified table. [See the documentation](https://www.servicenow.com/docs/bundle/zurich-api-reference/page/integrate/inbound-rest/concept/c_TableAPI.html#title_table-POST)",
   version: "1.0.0",

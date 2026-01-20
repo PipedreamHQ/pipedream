@@ -2,7 +2,7 @@ import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
-  app: "servicenow_oauth_",
+  app: "servicenow",
   propDefinitions: {
     table: {
       type: "string",
