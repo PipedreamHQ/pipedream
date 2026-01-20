@@ -99,7 +99,7 @@ export default {
     meetingUserId: {
       type: "string",
       label: "User ID",
-      description: "The ID of the user to list meetings for",
+      description: "The user ID or email addressof the user to list meetings for",
       async options({ prevContext }) {
         const { nextPageToken } = prevContext;
         const response = await this.listAllUsers({
