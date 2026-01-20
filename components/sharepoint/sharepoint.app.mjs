@@ -165,17 +165,25 @@ export default {
       async options({
         query, siteId, driveId,
       }) {
+        // Handle both raw values and __lv wrapped values
+        const resolvedSiteId = this.resolveWrappedValue(siteId);
+        const resolvedDriveId = this.resolveWrappedValue(driveId);
+
+        if (!resolvedSiteId || !resolvedDriveId) {
+          return [];
+        }
+
         const response = query
           ? await this.searchDriveItems({
-            siteId,
+            siteId: resolvedSiteId,
             query,
             params: {
               select: "folder,name,id",
             },
           })
           : await this.listDriveItems({
-            siteId,
-            driveId,
+            siteId: resolvedSiteId,
+            driveId: resolvedDriveId,
           });
         const values = response.value.filter(({ folder }) => folder);
         return values
@@ -279,8 +287,50 @@ export default {
       optional: true,
       default: 100,
     },
+    fileOrFolderId: {
+      type: "string",
+      label: "File or Folder",
+      description: "Select a file or folder to browse",
+      async options({
+        siteId, driveId, folderId,
+      }) {
+        // Handle both raw values and __lv wrapped values
+        const resolvedSiteId = this.resolveWrappedValue(siteId);
+        const resolvedDriveId = this.resolveWrappedValue(driveId);
+        const resolvedFolderId = this.resolveWrappedValue(folderId);
+
+        if (!resolvedSiteId || !resolvedDriveId) {
+          return [];
+        }
+        const response = resolvedFolderId
+          ? await this.listDriveItemsInFolder({
+            driveId: resolvedDriveId,
+            folderId: resolvedFolderId,
+          })
+          : await this.listDriveItems({
+            siteId: resolvedSiteId,
+            driveId: resolvedDriveId,
+          });
+        return response.value?.map(({
+          id, name, folder, size,
+        }) => ({
+          value: JSON.stringify({
+            id,
+            name,
+            isFolder: !!folder,
+            size,
+          }),
+          label: folder
+            ? `📁 ${name}`
+            : `📄 ${name}`,
+        })) || [];
+      },
+    },
   },
   methods: {
+    resolveWrappedValue(value) {
+      return value?.__lv?.value || value;
+    },
     _baseUrl() {
       return "https://graph.microsoft.com/v1.0";
     },
@@ -369,10 +419,10 @@ export default {
       });
     },
     listDriveItemsInFolder({
-      siteId, folderId, ...args
+      driveId, folderId, ...args
     }) {
       return this._makeRequest({
-        path: `/sites/${siteId}/drive/items/${folderId}/children`,
+        path: `/drives/${driveId}/items/${folderId}/children`,
         ...args,
       });
     },
@@ -434,10 +484,14 @@ export default {
       });
     },
     getDriveItem({
-      siteId, fileId, ...args
+      siteId, driveId, fileId, ...args
     }) {
+      // Use driveId if provided, otherwise fall back to site's default drive
+      const path = driveId
+        ? `/drives/${driveId}/items/${fileId}`
+        : `/sites/${siteId}/drive/items/${fileId}`;
       return this._makeRequest({
-        path: `/sites/${siteId}/drive/items/${fileId}`,
+        path,
         ...args,
       });
     },

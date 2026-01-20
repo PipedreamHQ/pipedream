@@ -66,7 +66,7 @@ export default {
     const response = this.folderId
       ? await this.sharepoint.listDriveItemsInFolder({
         $,
-        siteId: this.siteId,
+        driveId: this.driveId,
         folderId: this.folderId,
         params,
       })

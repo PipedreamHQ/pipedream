@@ -23,11 +23,11 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
           
       - name: Install dependencies
-        run: pnpm install -r --no-frozen-lockfile
+        run: pnpm install --frozen-lockfile
         
       - name: Compile TypeScript
         run: pnpm run build

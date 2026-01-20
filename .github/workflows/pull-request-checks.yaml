@@ -9,6 +9,7 @@ on:
   pull_request:
     branches:
       - master
+  workflow_dispatch:  # Allows manual triggering from Actions tab
 
 jobs:
   spellcheck:
@@ -50,37 +51,26 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v6
         with:
-          # See https://github.com/actions/checkout#checkout-v2
-          # This will be slow. The intent is to fetch all commits
-          # since the merge-base (the commit where we branched off)
-          # so we can check the git diff against all changed files.
-          # By default, the checkout action only returns the last commit,
-          # There's no native way to do this in the checkout action, so
-          # we have to fetch the entire history. See
-          # https://github.com/actions/checkout/issues/266#issuecomment-638346893
-          fetch-depth: 0
-      - uses: pnpm/action-setup@v4.2.0
+          # Fetch enough history to find merge-base with master
+          # 300 commits handles most long-running feature branches
+          fetch-depth: 300
+
+      - name: Fetch base branch for diff
+        run: git fetch origin master --depth=1
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4.2.0
         with:
           version: 9.14.2
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        run: |
-          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
-      - uses: actions/cache@v5
-        name: Setup pnpm cache
-        with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-      - name: Install dependencies
-        run: pnpm install -r
-      - name: Setup Node Env
+
+      - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: 18
-          registry-url: https://registry.npmjs.org/
+          node-version: 20
           cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
       # ESLint only on changed files
       - name: Get Changed Files (space-separated)
         id: changed_files_space
