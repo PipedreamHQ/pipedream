@@ -4,7 +4,7 @@ export default {
   key: "shopify-get-customer",
   name: "Get Customer",
   description: "Retrieve a single customer by ID. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/queries/customer)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
