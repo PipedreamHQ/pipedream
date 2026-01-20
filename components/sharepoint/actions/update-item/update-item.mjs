@@ -5,7 +5,7 @@ export default {
   key: "sharepoint-update-item",
   name: "Update Item",
   description: "Updates an existing item in Microsoft Sharepoint. [See the documentation](https://learn.microsoft.com/en-us/graph/api/listitem-update?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.7",
+  version: "0.0.8",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
