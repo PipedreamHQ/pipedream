@@ -34,12 +34,16 @@ export default {
       include_locale: this.includeLocale,
     });
 
-    if (response.ok) {
-      const displayName = response.user.profile?.real_name
-        || response.user.name
-        || this.user;
-      $.export("$summary", `Successfully found user ${displayName}`);
+    if (!response.ok) {
+      const errorMessage = response.error || "unknown error";
+      $.export("$summary", `Failed to find user ${this.user}: ${errorMessage}`);
+      throw new Error(`Failed to find user: ${errorMessage}`);
     }
+
+    const displayName = response.user.profile?.real_name
+      || response.user.name
+      || this.user;
+    $.export("$summary", `Successfully found user ${displayName}`);
 
     return response;
   },
