@@ -223,6 +223,8 @@ const LOADING_DEBOUNCE_MS = 150;
 export interface FilePickerAppConfig {
   /** App slug (e.g., "sharepoint", "google_drive", "dropbox") */
   app: string;
+  /** The camelCase prop name used in the component (e.g., "sharepoint") */
+  appPropName: string;
   /** Prop hierarchy to navigate through (e.g., ["siteId", "driveId", "fileOrFolderIds"]) */
   propHierarchy: string[];
   /** Prop labels for display (e.g., { siteId: "Sites", driveId: "Drives" }) */
@@ -239,6 +241,7 @@ export interface FilePickerAppConfig {
 export const FILE_PICKER_APPS: Record<string, FilePickerAppConfig> = {
   sharepoint: {
     app: "sharepoint",
+    appPropName: "sharepoint",
     propHierarchy: [
       "siteId",
       "driveId",
@@ -341,6 +344,7 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
     propHierarchy = [],
     fileOrFolderProp = "",
     folderProp = "",
+    appPropName = app,
   } = appConfig || {};
 
   // Debug logger (memoized to maintain stable reference)
@@ -360,7 +364,7 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
     setConfiguredProps,
   ] = useState<Record<string, unknown>>(() => {
     const initial: Record<string, unknown> = {
-      [app]: {
+      [appPropName]: {
         authProvisionId: accountId,
       },
     };
@@ -641,7 +645,7 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
       // Go to root
       setNavigationPath([]);
       setConfiguredProps({
-        [app]: {
+        [appPropName]: {
           authProvisionId: accountId,
         },
       });
@@ -655,7 +659,7 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
 
     // Rebuild configured props up to this level
     const newConfiguredProps: Record<string, unknown> = {
-      [app]: {
+      [appPropName]: {
         authProvisionId: accountId,
       },
     };
@@ -671,7 +675,7 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
   }, [
     navigationPath,
     accountId,
-    app,
+    appPropName,
     folderProp,
   ]);
 
