@@ -237,7 +237,10 @@ importers:
   components/__1msg: {}
 
   components/_descript:
-    specifiers: {}
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/_twocaptcha:
     dependencies:
@@ -1837,7 +1840,14 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/bitmex: {}
+  components/bitmex:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
+      axios:
+        specifier: ^1.13.2
+        version: 1.13.2(debug@3.2.7)
 
   components/bitport:
     dependencies:
@@ -2329,6 +2339,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
+
+  components/buzzsprout: {}
 
   components/bybit:
     dependencies:
@@ -2822,7 +2834,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/civicrm: {}
+  components/civicrm:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/claid_ai:
     dependencies:
@@ -3045,7 +3061,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/cloudcart: {}
+  components/cloudcart:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/cloudentity: {}
 
@@ -3316,8 +3336,8 @@ importers:
   components/companycam:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.8
-        version: 1.6.8
+        specifier: ^3.1.1
+        version: 3.1.1
       uuid:
         specifier: ^9.0.0
         version: 9.0.1
@@ -3347,6 +3367,12 @@ importers:
   components/configcat: {}
 
   components/confluence:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
+
+  components/confluence_data_center:
     dependencies:
       '@pipedream/platform':
         specifier: ^3.1.1
@@ -3590,7 +3616,11 @@ importers:
         specifier: ^0.0.1-security
         version: 0.0.1-security
 
-  components/crowdpower: {}
+  components/crowdpower:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/crunchbase:
     dependencies:
@@ -3700,6 +3730,8 @@ importers:
   components/cyfe: {}
 
   components/d2l_brightspace: {}
+
+  components/d4sign: {}
 
   components/d7_darwin: {}
 
@@ -3966,6 +3998,9 @@ importers:
       delighted:
         specifier: ^2.1.0
         version: 2.1.0
+
+  components/delivery_march:
+    specifiers: {}
 
   components/demandbase: {}
 
@@ -4768,7 +4803,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/elopage: {}
+  components/elopage:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/elorus:
     dependencies:
@@ -5489,7 +5528,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/fluxguard: {}
+  components/fluxguard:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/fly_io:
     dependencies:
@@ -6782,7 +6825,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/hana: {}
+  components/hana:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/handelsregister_ai: {}
 
@@ -8027,8 +8074,7 @@ importers:
         specifier: ^18.0.0
         version: 18.0.0
 
-  components/klaviyo_oauth:
-    specifiers: {}
+  components/klaviyo_oauth: {}
 
   components/klaxoon:
     dependencies:
@@ -8405,7 +8451,11 @@ importers:
 
   components/levity: {}
 
-  components/lexoffice: {}
+  components/lexoffice:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/libraria:
     dependencies:
@@ -8703,7 +8753,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/lodgify: {}
+  components/lodgify:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/loggly_send_data:
     dependencies:
@@ -9828,6 +9882,8 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
+  components/navan: {}
+
   components/navigatr:
     dependencies:
       '@pipedream/platform':
@@ -9927,7 +9983,11 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0
 
-  components/netsuite: {}
+  components/netsuite:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/neuronwriter:
     dependencies:
@@ -10842,7 +10902,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/palatine_speech: {}
+  components/palatine_speech:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/pandadoc:
     dependencies:
@@ -13407,7 +13471,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/sender: {}
+  components/sender:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/sendfox_oauth:
     dependencies:
@@ -13859,7 +13927,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/sign_plus: {}
+  components/sign_plus:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/signable: {}
 
@@ -14003,6 +14075,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.6.8
         version: 1.6.8
+
+  components/skwirrel: {}
 
   components/skyciv: {}
 
@@ -32035,10 +32109,12 @@ packages:
   tar@6.2.1:
     resolution: {integrity: sha512-DZ4yORTwrbTj/7MZYq2w+/ZFdI6OZ/f9SFHR+71gIVUZhOQPHzVCLpvRnPgyaMpfWxxk/4ONva3GQSyNIKRv6A==}
     engines: {node: '>=10'}
+    deprecated: Old versions of tar are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exhorbitant rates) by contacting i@izs.me
 
   tar@7.5.2:
     resolution: {integrity: sha512-7NyxrTE4Anh8km8iEy7o0QYPs+0JKBTj5ZaqHg6B39erLg0qYXN3BijtShwbsNSvQ+LN75+KV+C4QR/f6Gwnpg==}
     engines: {node: '>=18'}
+    deprecated: Old versions of tar are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exhorbitant rates) by contacting i@izs.me
 
   tarn@3.0.2:
     resolution: {integrity: sha512-51LAVKUSZSVfI05vjPESNc5vwqqZpbXCsU+/+wxlOrUjk2SnFTt97v9ZgQrD4YmxYW1Px6w2KjaDitCfkvgxMQ==}

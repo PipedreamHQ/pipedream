@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/navan",
+  "version": "0.0.1",
+  "description": "Pipedream Navan Components",
+  "main": "navan.app.mjs",
+  "keywords": [
+    "pipedream",
+    "navan"
+  ],
+  "homepage": "https://pipedream.com/apps/navan",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

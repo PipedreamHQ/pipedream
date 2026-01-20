@@ -8,7 +8,7 @@ export default {
   type: "source",
   name: "New Created or Updated Event (Instant)",
   description: "Emit new event when a Google Calendar events is created or updated (does not emit cancelled events)",
-  version: "0.1.16",
+  version: "0.1.17",
   dedupe: "unique",
   props: {
     googleCalendar,

@@ -1,0 +1,16 @@
+export default {
+  "id":"dJKq5K",
+  "title":"Group title",
+  "recipient_count":4,
+  "active_subscribers":4,
+  "unsubscribed_count":0,
+  "bounced_count":0,
+  "phone_count":3,
+  "active_phone_count":3,
+  "account_id":"bYWoN9",
+  "user_id":"e1QY5m",
+  "created":"2026-01-09 09:59:53",
+  "modified":"2026-01-09 12:30:02",
+  "is_recalculating_subscribers":false,
+  "is_favourite":false,
+  "used_in_integration":false}

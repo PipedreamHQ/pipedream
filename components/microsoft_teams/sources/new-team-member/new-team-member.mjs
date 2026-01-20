@@ -5,7 +5,7 @@ export default {
   key: "microsoft_teams-new-team-member",
   name: "New Team Member",
   description: "Emit new event when a new member is added to a team. [See the documentation](https://learn.microsoft.com/en-us/graph/api/team-list-members?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.14",
+  version: "0.0.15",
   type: "source",
   dedupe: "unique",
   props: {

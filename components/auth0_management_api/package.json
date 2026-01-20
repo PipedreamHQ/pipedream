@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/auth0_management_api",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Pipedream auth0_management_api Components",
   "main": "auth0_management_api.app.mjs",
   "keywords": [

@@ -4,7 +4,7 @@ export default {
   key: "circle-create-post",
   name: "Create Post",
   description: "Create a new post in a selected space within your Circle community. [See the documentation](https://api.circle.so/#ffc804e8-02a8-48dc-a5c8-dc278f909fa4)",
-  version: "0.0.2",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
