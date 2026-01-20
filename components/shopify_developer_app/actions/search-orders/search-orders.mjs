@@ -5,7 +5,7 @@ export default {
   key: "shopify_developer_app-search-orders",
   name: "Search for Orders",
   description: "Search for an order or a list of orders. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/queries/orders)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -27,6 +27,12 @@ export default {
       optional: true,
       options: constants.ORDER_SORT_KEY,
     },
+    reverse: {
+      type: "boolean",
+      label: "Sort Descending",
+      description: "Sort the results in descending order. Defaults to ascending",
+      optional: true,
+    },
     max: {
       type: "integer",
       label: "Max Records",
@@ -43,6 +49,7 @@ export default {
       variables: {
         query: this.query,
         sortKey: this.sortKey,
+        reverse: this.reverse,
       },
       max: this.max,
     });
