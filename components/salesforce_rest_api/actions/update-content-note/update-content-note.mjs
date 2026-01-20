@@ -71,8 +71,7 @@ export default {
     });
 
     $.export("$summary", `Successfully updated content note (ID: ${contentNoteId})`);
-    return {
-      success: true,
-    };
+
+    return salesforce.getSObject("ContentNote", contentNoteId);
   },
 };

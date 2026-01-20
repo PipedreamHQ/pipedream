@@ -72,8 +72,7 @@ export default {
     });
 
     $.export("$summary", `Successfully updated note (ID: ${noteId})`);
-    return {
-      success: true,
-    };
+
+    return salesforce.getSObject("Note", noteId);
   },
 };
