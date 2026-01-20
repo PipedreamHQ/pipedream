@@ -8,12 +8,20 @@ export default {
       type: "string",
       label: "Site",
       description: "Identifier of a site",
-      async options({ prevContext }) {
+      useQuery: true,
+      async options({
+        prevContext, query,
+      }) {
         const args = prevContext?.nextLink
           ? {
             url: prevContext.nextLink,
           }
           : {};
+        if (query) {
+          args.params = {
+            search: query,
+          };
+        }
         const response = await this.listAllSites(args);
         const options = response.value?.map(({
           id: value, displayName: label,
@@ -258,6 +266,19 @@ export default {
       description: "Set to `true` to return only files in the response. Defaults to `false`",
       optional: true,
     },
+    select: {
+      type: "string",
+      label: "Select",
+      description: "A comma-separated list of properties to return in the response",
+      optional: true,
+    },
+    maxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: "The maximum number of results to return",
+      optional: true,
+      default: 100,
+    },
   },
   methods: {
     _baseUrl() {
@@ -281,15 +302,29 @@ export default {
         ...args,
       });
     },
+    getSite({
+      siteId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/sites/${siteId}`,
+        ...args,
+      });
+    },
     listSites(args = {}) {
       return this._makeRequest({
         path: "/me/followedSites",
         ...args,
       });
     },
-    listAllSites(args = {}) {
+    listAllSites({
+      params = {}, ...args
+    } = {}) {
+      if (!params.search) {
+        params.search = "*";
+      }
       return this._makeRequest({
-        path: "/sites?search=*",
+        path: "/sites",
+        params,
         ...args,
       });
     },
@@ -446,6 +481,13 @@ export default {
       return this._makeRequest({
         path: `/sites/${siteId}/lists/${listId}/items/${itemId}/fields`,
         method: "PATCH",
+        ...args,
+      });
+    },
+    searchQuery(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/search/query",
         ...args,
       });
     },
