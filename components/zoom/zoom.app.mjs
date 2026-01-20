@@ -99,7 +99,7 @@ export default {
     meetingUserId: {
       type: "string",
       label: "User ID",
-      description: "The user ID or email addressof the user to list meetings for",
+      description: "The user ID or email address of the user to list meetings for",
       async options({ prevContext }) {
         const { nextPageToken } = prevContext;
         const response = await this.listAllUsers({
@@ -295,6 +295,14 @@ export default {
     listMeetings(args = {}) {
       return this._makeRequest({
         path: "/users/me/meetings",
+        ...args,
+      });
+    },
+    listUserMeetings({
+      userId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/users/${userId}/meetings`,
         ...args,
       });
     },

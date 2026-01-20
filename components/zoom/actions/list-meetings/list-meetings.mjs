@@ -73,7 +73,7 @@ export default {
   methods: {
     isRelevant(meeting) {
       if (this.titleSearch) {
-        if (!meeting.topic.toLowerCase().includes(this.titleSearch.toLowerCase())) {
+        if (!meeting.topic?.toLowerCase().includes(this.titleSearch.toLowerCase())) {
           return false;
         }
       }
@@ -91,7 +91,7 @@ export default {
     let count = 0;
 
     const results = this.zoom.getResourcesStream({
-      resourceFn: this.zoom.listMeetings,
+      resourceFn: this.zoom.listUserMeetings,
       resourceFnArgs: {
         $,
         userId: this.userId,
