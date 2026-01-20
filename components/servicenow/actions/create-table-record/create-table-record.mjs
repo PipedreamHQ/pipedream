@@ -1,4 +1,5 @@
 import servicenow from "../../servicenow.app.mjs";
+import { parseObject } from "../../common/utils.mjs";
 
 export default {
   key: "servicenow_oauth_-create-table-record",
@@ -59,7 +60,7 @@ export default {
     const response = await this.servicenow.createTableRecord({
       $,
       table: this.table,
-      data: this.recordData,
+      data: parseObject(this.recordData),
       params: {
         sysparm_display_value: this.responseDataFormat,
         sysparm_exclude_reference_link: this.excludeReferenceLinks,

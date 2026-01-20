@@ -1,4 +1,5 @@
 import servicenow from "../../servicenow.app.mjs";
+import { parseObject } from "../../common/utils.mjs";
 
 export default {
   key: "servicenow_oauth_-update-table-record",
@@ -73,7 +74,7 @@ export default {
       table: this.table,
       recordId: this.recordId,
       replace: this.replaceRecord,
-      data: this.updateFields,
+      data: parseObject(this.updateFields),
       params: {
         sysparm_display_value: this.responseDataFormat,
         sysparm_fields: this.responseFields?.join?.() || this.responseFields,
