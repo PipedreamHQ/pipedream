@@ -1,6 +1,8 @@
 import {
-  GlobalApiKeySettings, Lists,
+  GlobalApiKeySettings,
+  Lists,
   Profiles,
+  Events,
 } from "klaviyo-api";
 
 export default {
@@ -88,6 +90,14 @@ export default {
     listProfiles(opts = {}) {
       this.sdk();
       return Profiles.getProfiles(opts);
+    },
+    createOrUpdateProfile(data) {
+      this.sdk();
+      return Profiles.createProfile(data);
+    },
+    createEvent(data) {
+      this.sdk();
+      return Events.createEvent(data);
     },
     getCursorFromNextLink(url) {
       if (!url) {
