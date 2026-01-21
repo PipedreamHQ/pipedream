@@ -21,9 +21,12 @@ export default {
     },
   },
   async run({ $ }) {
-    const worklogIds = typeof this.worklogIds === "string"
+    const worklogIds = (typeof this.worklogIds === "string"
       ? this.worklogIds.split(",")
-      : this.worklogIds;
+      : this.worklogIds
+    )
+      .map((id) => id.trim())
+      .filter(Boolean);
     const response = await this.jiraDataCenter.listWorklogsById({
       $,
       data: {
