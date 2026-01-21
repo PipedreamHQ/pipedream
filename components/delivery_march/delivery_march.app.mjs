@@ -11,7 +11,8 @@ export default {
       optional: true,
       async options() {
         const sixMonthsAgo = new Date(new Date().setMonth(new Date().getMonth() - 6))
-          .toLocaleDateString();
+          .toISOString()
+          .slice(0, 10);
         const { shipments } = await this.getShipments({
           data: {
             dateFrom: sixMonthsAgo,
@@ -32,7 +33,8 @@ export default {
       optional: true,
       async options() {
         const sixMonthsAgo = new Date(new Date().setMonth(new Date().getMonth() - 6))
-          .toLocaleDateString();
+          .toISOString()
+          .slice(0, 10);
         const { shipments } = await this.getShipments({
           data: {
             dateFrom: sixMonthsAgo,
