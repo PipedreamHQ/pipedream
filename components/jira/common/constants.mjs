@@ -6,6 +6,7 @@ const TYPE = {
   user: "string",
   issuelink: "string",
   issuetype: "string",
+  option: "string",
 };
 
 const FIELD_KEY = {
