@@ -4,7 +4,7 @@ export default {
   key: "sharepoint-create-list",
   name: "Create List",
   description: "Create a new list in Microsoft Sharepoint. [See the documentation](https://learn.microsoft.com/en-us/graph/api/list-create?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.8",
+  version: "0.0.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
