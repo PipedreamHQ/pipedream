@@ -5,7 +5,7 @@ export default {
   key: "servicenow-get-record-counts-by-field",
   name: "Get Record Counts by Field",
   description: "Retrieves the count of records grouped by a specified field from a ServiceNow table. [See the documentation](https://www.servicenow.com/docs/bundle/zurich-api-reference/page/integrate/inbound-rest/concept/c_AggregateAPI.html#title_aggregate-GET-stats)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
