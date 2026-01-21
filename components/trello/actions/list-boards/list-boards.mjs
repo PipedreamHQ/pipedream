@@ -49,7 +49,7 @@ export default {
         "starred",
       ],
       default: [
-        "all"
+        "all",
       ],
     },
   },
@@ -59,14 +59,14 @@ export default {
       boardId: this.memberId,
       params: {
         filter: this.filter
-          ? typeof this.filter === "string" 
-            ? this.filter 
+          ? typeof this.filter === "string"
+            ? this.filter
             : this.filter.join(",")
-          : undefined
+          : undefined,
       },
     });
-    $.export("$summary", `Successfully retrieved ${boards?.length || 0} board${boards?.length === 1 
-      ? "" 
+    $.export("$summary", `Successfully retrieved ${boards?.length || 0} board${boards?.length === 1
+      ? ""
       : "s"}`);
     return boards;
   },
