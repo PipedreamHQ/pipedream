@@ -26,8 +26,8 @@ export default {
         const members = await this.trello.searchMembers({
           params: {
             query,
-          }
-        })
+          },
+        });
         return members?.map((member) => ({
           label: member.fullName,
           value: member.id,

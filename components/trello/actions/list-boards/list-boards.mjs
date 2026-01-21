@@ -26,8 +26,8 @@ export default {
         const members = await this.trello.searchMembers({
           params: {
             query,
-          }
-        })
+          },
+        });
         return members?.map((member) => ({
           label: member.fullName,
           value: member.id,
@@ -41,14 +41,16 @@ export default {
       optional: true,
       options: [
         "all",
-        "closed", 
+        "closed",
         "members",
         "open",
         "organization",
         "public",
         "starred",
       ],
-      default: ["all"],
+      default: [
+        "all"
+      ],
     },
   },
   async run({ $ }) {
@@ -56,12 +58,16 @@ export default {
       $,
       boardId: this.memberId,
       params: {
-        filter: this.filter 
-          ? typeof this.filter === "string" ? this.filter : this.filter.join(",")
-          : undefined,
+        filter: this.filter
+          ? typeof this.filter === "string" 
+            ? this.filter 
+            : this.filter.join(",")
+          : undefined
       },
     });
-    $.export("$summary", `Successfully retrieved ${boards?.length || 0} board${boards?.length === 1 ? "" : "s"}`);
+    $.export("$summary", `Successfully retrieved ${boards?.length || 0} board${boards?.length === 1 
+      ? "" 
+      : "s"}`);
     return boards;
   },
 };
