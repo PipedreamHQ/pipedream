@@ -14,25 +14,11 @@ export default {
   props: {
     trello,
     memberId: {
-      type: "string",
-      label: "Member ID",
+      propDefinition: [
+        trello,
+        "searchMemberId",
+      ],
       description: "The ID of the member to retrieve. Leave blank to use the authenticated user. Type in the search field to get members to select from.",
-      optional: true,
-      useQuery: true,
-      async options({ query }) {
-        if (!query) {
-          return [];
-        }
-        const members = await this.trello.searchMembers({
-          params: {
-            query,
-          },
-        });
-        return members?.map((member) => ({
-          label: member.fullName,
-          value: member.id,
-        })) || [];
-      },
     },
   },
   async run({ $ }) {
