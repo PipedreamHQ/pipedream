@@ -21,10 +21,13 @@ export default {
     },
   },
   async run({ $ }) {
+    const worklogIds = typeof this.worklogIds === "string"
+      ? this.worklogIds.split(",")
+      : this.worklogIds;
     const response = await this.jiraDataCenter.listWorklogsById({
       $,
       data: {
-        ids: this.worklogIds,
+        ids: worklogIds,
       },
     });
     $.export("$summary", `Successfully retrieved ${response?.length || 0} worklogs`);

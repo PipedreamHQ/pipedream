@@ -107,10 +107,9 @@ export default {
       label: "Worklog IDs",
       description: "The IDs of the worklogs to get",
       async options() {
-        const thirtyDaysAgo = Date.now() - (30 * 24 * 60 * 60 * 1000);
         const { values } = await this.getUpdatedWorkLogs({
           params: {
-            since: thirtyDaysAgo,
+            since: 0,
           },
         });
         return values.map(({ worklogId }) => worklogId);
