@@ -4,7 +4,7 @@ export default {
   key: "canvas-list-assignments",
   name: "List Assignments",
   description: "Retrieve a list of assignments for a course. [See the documentation](https://mitt.uib.no/doc/api/all_resources.html#method.assignments_api.user_index)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
