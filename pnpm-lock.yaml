@@ -3993,7 +3993,11 @@ importers:
         specifier: ^2.1.0
         version: 2.1.0
 
-  components/delivery_march: {}
+  components/delivery_march:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/demandbase: {}
 
