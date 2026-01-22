@@ -3993,8 +3993,7 @@ importers:
         specifier: ^2.1.0
         version: 2.1.0
 
-  components/delivery_march:
-    specifiers: {}
+  components/delivery_march: {}
 
   components/demandbase: {}
 
@@ -6902,7 +6901,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/heartbeat: {}
+  components/heartbeat:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/heedjy:
     dependencies:
