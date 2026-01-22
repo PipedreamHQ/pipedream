@@ -68,7 +68,25 @@ const METAFIELD_TYPES = {
   "list.weight": "string[]",
 };
 
+const ORDER_SORT_KEY = [
+  "CREATED_AT",
+  "CURRENT_TOTAL_PRICE",
+  "CUSTOMER_NAME",
+  "DESTINATION",
+  "FINANCIAL_STATUS",
+  "FULFILLMENT_STATUS",
+  "ID",
+  "ORDER_NUMBER",
+  "PO_NUMBER",
+  "PROCESSED_AT",
+  "RELEVANCE",
+  "TOTAL_ITEMS_QUANTITY",
+  "TOTAL_PRICE",
+  "UPDATED_AT",
+];
+
 export default {
   RESOURCE_TYPES,
   METAFIELD_TYPES,
+  ORDER_SORT_KEY,
 };
