@@ -17,23 +17,6 @@ export default {
         }));
       },
     },
-    projectId: {
-      type: "string",
-      label: "Project ID",
-      description: "The ID of the project",
-      async options({ page }) {
-        const { projects } = await this.listProjects({
-          params: {
-            p: page + 1,
-          },
-        });
-
-        return projects.map((project) => ({
-          label: project.name,
-          value: project.id,
-        }));
-      },
-    },
   },
   methods: {
     _baseUrl(baseUrl = "https://api-automation.browserstack.com/ext/v1") {
@@ -76,48 +59,6 @@ export default {
         path: "/screenshots",
         ...opts,
       });
-    },
-    listProjects(opts = {}) {
-      return this._makeRequest({
-        path: "/projects",
-        ...opts,
-      });
-    },
-    listBuilds({
-      projectId, ...opts
-    }) {
-      return this._makeRequest({
-        path: `/projects/${projectId}/builds`,
-        ...opts,
-      });
-    },
-    async *paginate({
-      fn, params = {}, maxResults = null, ...opts
-    }) {
-      let count = 0;
-      let nextPage;
-      let hasNext = false;
-
-      do {
-        params.next_page = nextPage;
-        const {
-          builds, pagination,
-        } = await fn({
-          params,
-          ...opts,
-        });
-        for (const d of builds) {
-          yield d;
-
-          if (maxResults && ++count === maxResults) {
-            return count;
-          }
-        }
-
-        hasNext = pagination.has_next;
-        nextPage = pagination.next_page;
-
-      } while (hasNext);
     },
   },
 };
