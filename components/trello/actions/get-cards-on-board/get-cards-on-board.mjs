@@ -4,7 +4,7 @@ export default {
   key: "trello-get-cards-on-board",
   name: "Get Cards On A Board",
   description: "Get all of the open Cards on a Board. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-boards/#api-boards-id-cards-get).",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
