@@ -4,7 +4,7 @@ export default {
   key: "zoom-get-webinar-details",
   name: "Get Webinar Details",
   description: "Gets details of a scheduled webinar. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/webinar).",
-  version: "0.3.6",
+  version: "0.3.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
