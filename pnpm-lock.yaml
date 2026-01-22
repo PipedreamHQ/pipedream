@@ -11104,7 +11104,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/pdf_api_io: {}
+  components/pdf_api_io:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/pdf_app_net:
     dependencies:
