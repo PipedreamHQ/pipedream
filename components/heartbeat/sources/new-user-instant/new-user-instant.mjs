@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "heartbeat-new-user-instant",
   name: "New User (Instant)",
-  description: "Emit new event a new user is created. [See the documentation](https://heartbeat.readme.io/reference/createwebhook)",
+  description: "Emit new event when a new user is created. [See the documentation](https://heartbeat.readme.io/reference/createwebhook)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",

@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "heartbeat-new-event-instant",
   name: "New Event (Instant)",
-  description: "Emit new event a new event is created. [See the documentation](https://heartbeat.readme.io/reference/createwebhook)",
+  description: "Emit new event when a new event is created. [See the documentation](https://heartbeat.readme.io/reference/createwebhook)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",

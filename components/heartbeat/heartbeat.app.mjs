@@ -71,7 +71,6 @@ export default {
     },
     getUser(userID) {
       return this._makeRequest({
-        method: "GET",
         path: `/users/${userID}`,
       });
     },
@@ -82,7 +81,6 @@ export default {
     },
     getEvent(eventID) {
       return this._makeRequest({
-        method: "GET",
         path: `/events/${eventID}`,
       });
     },

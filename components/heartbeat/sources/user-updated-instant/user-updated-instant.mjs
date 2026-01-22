@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "heartbeat-user-updated-instant",
   name: "User Updated (Instant)",
-  description: "Emit new event a user is updated. [See the documentation](https://heartbeat.readme.io/reference/createwebhook)",
+  description: "Emit new event when a user is updated. [See the documentation](https://heartbeat.readme.io/reference/createwebhook)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
