@@ -4,7 +4,7 @@ export default {
   key: "shopify-get-articles",
   name: "Get Articles",
   description: "Retrieve a list of all articles from a blog. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/queries/articles)",
-  version: "0.0.9",
+  version: "0.0.10",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

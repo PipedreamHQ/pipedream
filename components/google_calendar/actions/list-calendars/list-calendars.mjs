@@ -4,7 +4,7 @@ export default {
   key: "google_calendar-list-calendars",
   name: "List Calendars",
   description: "Retrieve a list of calendars from Google Calendar. [See the documentation](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Resource$Calendarlist.html#list)",
-  version: "0.1.9",
+  version: "0.1.10",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

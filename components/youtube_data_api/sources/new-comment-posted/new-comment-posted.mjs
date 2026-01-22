@@ -7,7 +7,7 @@ export default {
   key: "youtube_data_api-new-comment-posted",
   name: "New Comment Posted",
   description: "Emit new event for each new comment or reply posted to a Youtube video.",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   props: {
     youtubeDataApi,

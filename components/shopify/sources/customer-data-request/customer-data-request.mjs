@@ -2,7 +2,7 @@ import shopify from "../../shopify.app.mjs";
 
 export default {
   name: "New Customer Data Request",
-  version: "0.0.15",
+  version: "0.0.16",
   key: "shopify-customer-data-request",
   description: "Emit new customer data requests for data via a GDPR request.",
   type: "source",

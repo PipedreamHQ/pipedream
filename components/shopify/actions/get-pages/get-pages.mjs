@@ -4,7 +4,7 @@ export default {
   key: "shopify-get-pages",
   name: "Get Pages",
   description: "Retrieve a list of all pages. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/queries/pages)",
-  version: "0.0.9",
+  version: "0.0.10",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
