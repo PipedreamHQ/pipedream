@@ -6,7 +6,7 @@ export default {
   key: "google_calendar-list-events",
   name: "List Events",
   description: "Retrieve a list of event from the Google Calendar. [See the documentation](https://developers.google.com/calendar/api/v3/reference/events/list)",
-  version: "0.0.11",
+  version: "0.0.12",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -146,6 +146,12 @@ export default {
     } while (args.pageToken && (!this.maxResults || events.length < this.maxResults));
     if (events.length > this.maxResults) {
       events.length = this.maxResults;
+    }
+
+    for (const event of events) {
+      if (!event.summary) {
+        event.summary = `Event ID: ${event.id}`;
+      }
     }
 
     $.export("$summary", `Successfully retrieved ${events.length} event${events.length === 1
