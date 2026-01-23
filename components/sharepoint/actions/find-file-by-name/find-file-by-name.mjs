@@ -1,3 +1,4 @@
+import constants from "../../common/constants.mjs";
 import utils from "../../common/utils.mjs";
 import sharepoint from "../../sharepoint.app.mjs";
 
@@ -29,20 +30,7 @@ export default {
       type: "string",
       label: "Return Content Type",
       description: "The content type to return",
-      options: [
-        {
-          label: "Only Files",
-          value: "files",
-        },
-        {
-          label: "Only Folders",
-          value: "folders",
-        },
-        {
-          label: "Both Files and Folders",
-          value: "all",
-        },
-      ],
+      options: constants.RETURN_CONTENT_TYPE_OPTIONS,
       default: "all",
     },
     select: {
@@ -81,7 +69,9 @@ export default {
       };
     });
 
-    $.export("$summary", `Found ${value.length} matching file${value.length === 1
+    $.export("$summary", `Found ${value.length} matching ${this.returnContentType === "files"
+      ? "file"
+      : "folder"}${value.length === 1
       ? ""
       : "s"}`);
     return value;
