@@ -64,7 +64,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return `https://app.beehelp.fr/api/${this.$auth.organizationUuid}`;
+      return `https://app.beehelp.fr/api/${this.$auth.organization_uuid}`;
     },
     _makeRequest({
       $ = this, path, ...opts
@@ -72,7 +72,7 @@ export default {
       return axios($, {
         url: `${this._baseUrl()}${path}`,
         headers: {
-          "x-api-key": "", // TODO: Add API key from $auth
+          "x-api-key": this.$auth.api_key,
         },
         ...opts,
       });
