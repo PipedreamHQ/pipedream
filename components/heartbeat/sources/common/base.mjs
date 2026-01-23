@@ -34,7 +34,7 @@ export default {
   async run({ body }) {
     const fn = this.getFunction();
     const eventBody = await fn(body.id);
-    const ts = this.getDate(eventBody);
+    const ts = Date.parse(this.getDate(eventBody));
 
     this.$emit(eventBody, {
       id: `${body.id}-${ts}`,

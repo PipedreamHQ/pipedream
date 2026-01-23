@@ -25,7 +25,7 @@ export default {
       ],
       type: "string",
       label: "To",
-      description: "The user id of the receiver",
+      description: "The user ID of the receiver",
     },
     from: {
       propDefinition: [

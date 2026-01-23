@@ -21,7 +21,7 @@ export default {
       return this.heartbeat.getUser;
     },
     getDate() {
-      return Date.now();
+      return new Date();
     },
   },
   sampleEmit,
