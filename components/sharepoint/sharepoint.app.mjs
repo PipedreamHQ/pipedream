@@ -331,6 +331,51 @@ export default {
         ...args,
       });
     },
+    _makeSharePointRestRequest({
+      $ = this,
+      siteWebUrl,
+      path,
+      headers,
+      ...args
+    }) {
+      // SharePoint REST API uses the site's webUrl as base
+      // e.g., https://tenant.sharepoint.com/sites/MySite/_api/web/sitegroups
+      const baseUrl = siteWebUrl.replace(/\/$/, ""); // Remove trailing slash if present
+      return axios($, {
+        url: `${baseUrl}/_api${path}`,
+        headers: this._headers({
+          Accept: "application/json;odata=verbose",
+          ...headers,
+        }),
+        ...args,
+      });
+    },
+    getSite({
+      siteId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/sites/${siteId}`,
+        ...args,
+      });
+    },
+    listSharePointSiteGroups({
+      siteWebUrl, ...args
+    }) {
+      return this._makeSharePointRestRequest({
+        siteWebUrl,
+        path: "/web/sitegroups",
+        ...args,
+      });
+    },
+    getSharePointSiteGroupMembers({
+      siteWebUrl, groupId, ...args
+    }) {
+      return this._makeSharePointRestRequest({
+        siteWebUrl,
+        path: `/web/sitegroups/getbyid(${groupId})/users`,
+        ...args,
+      });
+    },
     listSites(args = {}) {
       return this._makeRequest({
         path: "/me/followedSites",
@@ -460,6 +505,14 @@ export default {
         ...args,
       });
     },
+    listDriveItemPermissions({
+      driveId, itemId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/drives/${driveId}/items/${itemId}/permissions`,
+        ...args,
+      });
+    },
     searchDriveItems({
       siteId, query, ...args
     }) {
@@ -500,6 +553,26 @@ export default {
       return this._makeRequest({
         path: `/sites/${siteId}/lists/${listId}/items/${itemId}/fields`,
         method: "PATCH",
+        ...args,
+      });
+    },
+    listGroups(args = {}) {
+      return this._makeRequest({
+        path: "/groups",
+        ...args,
+      });
+    },
+    listUsers(args = {}) {
+      return this._makeRequest({
+        path: "/users",
+        ...args,
+      });
+    },
+    listGroupMembers({
+      groupId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/groups/${groupId}/members`,
         ...args,
       });
     },
