@@ -6,7 +6,7 @@ export default {
   key: "trello-new-label-added-to-card",
   name: "New Label Added To Card (Instant)",
   description: "Emit new event for each label added to a card.",
-  version: "0.1.3",
+  version: "0.1.4",
   type: "source",
   props: {
     ...common.props,
