@@ -9,7 +9,7 @@ export default {
   name: "Create Webinar",
   description: "Create a webinar for an user. [See the documentation](https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinarcreate)",
   key: "zoom_admin-create-webinar",
-  version: "0.1.8",
+  version: "0.1.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
