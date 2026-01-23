@@ -1,10 +1,10 @@
 import canvas from "../../canvas.app.mjs";
 
 export default {
-  key: "canvas-list-assignments",
-  name: "List Assignments",
-  description: "Retrieve a list of assignments for a course. [See the documentation](https://mitt.uib.no/doc/api/all_resources.html#method.assignments_api.user_index)",
-  version: "0.0.2",
+  key: "canvas-search-course-content",
+  name: "Search Course Content",
+  description: "Search for content in a course. [See the documentation](https://mitt.uib.no/doc/api/all_resources.html#method.smart_search.search)",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -37,16 +37,23 @@ export default {
         }),
       ],
     },
+    query: {
+      type: "string",
+      label: "Query",
+      description: "The query to search for",
+    },
   },
   async run({ $ }) {
-    const assignments = await this.canvas.listAssignments({
+    const results = await this.canvas.searchCourseContent({
       $,
-      userId: this.userId,
       courseId: this.courseId,
+      params: {
+        q: this.query,
+      },
     });
-    $.export("$summary", `${assignments.length} assignment${assignments.length > 1
+    $.export("$summary", `${results.length} result${results.length > 1
       ? "s"
-      : ""} were successfully retrieved.`);
-    return assignments;
+      : ""} were found.`);
+    return results;
   },
 };
