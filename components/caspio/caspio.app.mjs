@@ -15,8 +15,13 @@ export default {
     },
   },
   methods: {
+    _domain() {
+      return this.$auth.domain.endsWith("/")
+        ? this.$auth.domain.slice(0, -1)
+        : this.$auth.domain;
+    },
     _baseUrl() {
-      return `${this.$auth.domain}/integrations/rest/v3`;
+      return `${this._domain()}/integrations/rest/v3`;
     },
     _makeRequest({
       $ = this, path, ...opts
