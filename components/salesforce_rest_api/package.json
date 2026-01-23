@@ -13,7 +13,7 @@
     "@pipedream/platform": "^3.1.1",
     "fast-xml-parser": "^4.3.2",
     "handlebars": "^4.7.7",
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "lodash-es": "^4.17.23",
     "salesforce-webhooks": "^1.1.11",
     "uuid": "^9.0.1"
