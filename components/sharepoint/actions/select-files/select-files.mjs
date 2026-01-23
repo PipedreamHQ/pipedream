@@ -4,7 +4,7 @@ export default {
   key: "sharepoint-select-files",
   name: "Select Files",
   description: "A file picker action that allows browsing and selecting one or more files from SharePoint. Returns the selected files' metadata including pre-authenticated download URLs. [See the documentation](https://learn.microsoft.com/en-us/graph/api/driveitem-get)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
