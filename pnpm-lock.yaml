@@ -11520,7 +11520,11 @@ importers:
 
   components/pirate_weather: {}
 
-  components/pitchlane: {}
+  components/pitchlane:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/pivotal_tracker:
     dependencies:
