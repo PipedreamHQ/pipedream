@@ -192,9 +192,9 @@ export default {
     } = this;
 
     // If registrants array is provided, use it. Otherwise, use the single registrant fields.
-    const registrants = this.registrants
-      ? constants.parseArray(this.registrants)
-      : [
+    let registrants = constants.parseArray(this.registrants);
+    if (!registrants?.length) {
+      registrants = [
         {
           email,
           first_name: firstName,
@@ -217,6 +217,7 @@ export default {
             : JSON.parse(customQuestions),
         },
       ];
+    }
 
     if (registrants.length > 10) {
       throw new ConfigurationError("You can only add up to 10 registrants at once.");
@@ -225,22 +226,27 @@ export default {
     // Add each registrant to the meeting
     const responses = [];
     for (const registrant of registrants) {
-      const registration = await this.addMeetingRegistrant({
-        step,
-        meetingId,
-        params: {
-          occurrence_ids: occurrenceIds,
-        },
-        data: registrant,
-      });
-      responses.push(registration);
+      try {
+        const registration = await this.addMeetingRegistrant({
+          step,
+          meetingId,
+          params: {
+            occurrence_ids: occurrenceIds,
+          },
+          data: registrant,
+        });
+        responses.push(registration);
+      } catch (error) {
+        console.log(responses);
+        throw new ConfigurationError(`Added ${responses.length} registrants before encountering an error: ${error.message}`);
+      }
     }
 
     if (this.registrants) {
       step.export("$summary", `Successfully added ${registrants.length} registrants to meeting with ID \`${meetingId}\``);
       return responses;
     } else {
-      step.export("$summary", `Successfully added registrant to meeting with ID \`${registrants[0].id}\``);
+      step.export("$summary", `Successfully added registrant to meeting with ID \`${meetingId}\``);
       return responses[0];
     }
   },

@@ -29,7 +29,7 @@ function parseArray(value) {
   }
   if (typeof value === "string") {
     try {
-      return JSON.parse(value);
+      value = JSON.parse(value);
     } catch {
       throw new ConfigurationError(`Could not parse as array: ${value}`);
     }
