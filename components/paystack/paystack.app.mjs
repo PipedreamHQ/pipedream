@@ -219,11 +219,13 @@ export default {
       type: "string",
       label: "Account Number",
       description: "Customer's bank account number",
+      secret: true,
     },
     bvn: {
       type: "string",
       label: "BVN",
       description: "Customer's Bank Verification Number",
+      secret: true,
     },
     from: {
       type: "string",
