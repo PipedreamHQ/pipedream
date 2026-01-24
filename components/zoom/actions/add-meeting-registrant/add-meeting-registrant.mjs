@@ -237,12 +237,11 @@ export default {
         });
         responses.push(registration);
       } catch (error) {
-        console.log(responses);
         throw new ConfigurationError(`Added ${responses.length} registrants before encountering an error: ${error.message}`);
       }
     }
 
-    if (this.registrants) {
+    if (registrants.length > 1) {
       step.export("$summary", `Successfully added ${registrants.length} registrants to meeting with ID \`${meetingId}\``);
       return responses;
     } else {
