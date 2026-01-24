@@ -13,10 +13,22 @@ export default {
   },
   props: {
     paystack,
+    customerCode: {
+      propDefinition: [
+        paystack,
+        "customerCode",
+      ],
+      description: "Select a customer to view their authorizations",
+    },
     authorizationCode: {
-      type: "string",
-      label: "Authorization Code",
-      description: "Authorization code to be deactivated",
+      propDefinition: [
+        paystack,
+        "authorization_code",
+        ({ customerCode }) => ({
+          customer: customerCode,
+        }),
+      ],
+      description: "Select the authorization to deactivate",
     },
   },
   async run({ $ }) {

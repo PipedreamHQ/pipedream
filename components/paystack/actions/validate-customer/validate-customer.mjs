@@ -80,7 +80,6 @@ export default {
         middle_name: this.middleName,
         last_name: this.lastName,
         type: this.type,
-        value: this.value,
         country: this.country,
         bvn: this.bvn,
         bank_code: this.bankCode,
