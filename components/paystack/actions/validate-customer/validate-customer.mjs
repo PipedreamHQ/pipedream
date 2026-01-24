@@ -70,12 +70,6 @@ export default {
       description: "Customer's middle name",
       optional: true,
     },
-    value: {
-      type: "string",
-      label: "Identification Value",
-      description: "Customer's identification number",
-      optional: true,
-    },
   },
   async run({ $ }) {
     const response = await this.paystack.validateCustomer({
