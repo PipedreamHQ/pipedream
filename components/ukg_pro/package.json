@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/ukg_pro",
+  "version": "0.0.1",
+  "description": "Pipedream UKG Pro Components",
+  "main": "ukg_pro.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ukg_pro"
+  ],
+  "homepage": "https://pipedream.com/apps/ukg_pro",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

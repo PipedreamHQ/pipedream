@@ -15981,6 +15981,9 @@ importers:
 
   components/uk_gov_vehecle_enquiry_api: {}
 
+  components/ukg_pro:
+    specifiers: {}
+
   components/ultramsg:
     dependencies:
       '@pipedream/platform':
