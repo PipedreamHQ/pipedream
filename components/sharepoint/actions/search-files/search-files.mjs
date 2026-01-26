@@ -64,7 +64,9 @@ export default {
               queryString: this.queryString,
               queryTemplate: this.queryTemplate,
             },
-            fields: this.select,
+            fields: this.select
+              ? this.select.split(",").map((f) => f.trim())
+              : undefined,
             size: this.size,
             sortProperties: [
               {
