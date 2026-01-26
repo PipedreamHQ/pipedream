@@ -4,7 +4,7 @@ export default {
   key: "_descript-get-published-project-metadata",
   name: "Get Published Project Metadata",
   description: "Get the metadata for a published project. [See the documentation](https://docs.descriptapi.com/#tag/Export-from-Descript/operation/getPublishedProjectMetadata)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

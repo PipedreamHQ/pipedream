@@ -1,7 +1,7 @@
 {
   "name": "@pipedream/servicenow",
-  "version": "0.7.0",
-  "description": "Pipedream servicenow Components",
+  "version": "0.8.1",
+  "description": "Pipedream ServiceNow Components",
   "main": "servicenow.app.mjs",
   "keywords": [
     "pipedream",

@@ -4,7 +4,7 @@ export default {
   key: "google_chat-get-member",
   name: "Get Member",
   description: "Returns details about a membership. [See the documentation](https://developers.google.com/chat/api/reference/rest/v1/spaces.members/get)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
