@@ -8,7 +8,7 @@ export default {
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
-    readOnlyHint: false,
+    readOnlyHint: true,
   },
   type: "action",
   props: {
@@ -25,7 +25,7 @@ export default {
       $,
       learnerUuid: this.learnerUuid,
     });
-    $.export("$summary", `Successfully updated learner with UUID ${response.uuid}`);
+    $.export("$summary", `Successfully retrieved learner with UUID ${response.uuid}`);
     return response;
   },
 };
