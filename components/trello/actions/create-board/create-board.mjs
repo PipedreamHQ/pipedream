@@ -5,7 +5,7 @@ export default {
   key: "trello-create-board",
   name: "Create a Board",
   description: "Create a new Trello board or copy from an existing one. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-boards/#api-boards-post).",
-  version: "0.2.4",
+  version: "0.2.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

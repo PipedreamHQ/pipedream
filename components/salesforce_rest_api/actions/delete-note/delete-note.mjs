@@ -3,9 +3,9 @@ import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "salesforce_rest_api-delete-note",
-  name: "Delete Note",
-  description: "Delete a note from a Salesforce record. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_sobject_retrieve_delete.htm)",
-  version: "0.0.1",
+  name: "Delete Note Or Content Note",
+  description: "Delete a note or content note from a Salesforce record. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_sobject_retrieve_delete.htm)",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: true,
@@ -27,8 +27,8 @@ export default {
     },
     recordId: {
       type: "string",
-      label: "Note ID",
-      description: "The ID of the note to delete",
+      label: "Note ID Or Content Note ID",
+      description: "The ID of the note or content note to delete",
       async options() {
         try {
           return await this.salesforce.listRecordOptions({

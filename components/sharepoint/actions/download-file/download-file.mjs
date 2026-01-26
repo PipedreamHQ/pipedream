@@ -5,7 +5,7 @@ export default {
   key: "sharepoint-download-file",
   name: "Download File",
   description: "Download a Microsoft Sharepoint file to the /tmp directory. [See the documentation](https://learn.microsoft.com/en-us/graph/api/driveitem-get-content?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.7",
+  version: "0.0.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -60,7 +60,10 @@ export default {
 
     const rawcontent = response.toString("base64");
     const buffer = Buffer.from(rawcontent, "base64");
-    const downloadedFilepath = `/tmp/${this.filename}`;
+    // Since the filepath is not returned as one of the standard keys (filePath
+    // or path), save the file to STASH_DIR, if defined, so it is synced at the
+    // end of execution.
+    const downloadedFilepath = `${process.env.STASH_DIR || "/tmp"}/${this.filename}`;
     fs.writeFileSync(downloadedFilepath, buffer);
 
     return {
