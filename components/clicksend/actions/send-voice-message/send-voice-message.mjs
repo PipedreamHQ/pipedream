@@ -62,7 +62,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully sent Voice Message with ID \`${response.data.messages[0].message_id}\``);
+    $.export("$summary", `Successfully sent Voice Message with ID \`${response.data.messages[0].message_id}\` and status \`${response.data.messages[0].status}\``);
     return response;
   },
 };
