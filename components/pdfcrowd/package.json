@@ -5,11 +5,17 @@
   "main": "pdfcrowd.app.mjs",
   "keywords": [
     "pipedream",
-    "pdfcrowd"
+    "pdfcrowd",
+    "pdf",
+    "html-to-pdf",
+    "document-conversion"
   ],
   "homepage": "https://pipedream.com/apps/pdfcrowd",
-  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "author": "PDFCrowd <support@pdfcrowd.com> (https://pdfcrowd.com)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
   }
 }
