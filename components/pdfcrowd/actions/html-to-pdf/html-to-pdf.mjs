@@ -6,7 +6,7 @@ export default {
   key: "pdfcrowd-html-to-pdf",
   name: "Convert HTML to PDF",
   description: "Convert URL or HTML to PDF. [See docs](https://pdfcrowd.com/api/)",
-  version: "0.0.{{steps.trigger.context.ts}}",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -225,13 +225,13 @@ export default {
       exclude_header_on_pages: {
         type: "string",
         label: "Exclude Header On Pages",
-        description: "",
+        description: "The page header content is not printed on the specified pages. To...",
         optional: true,
       },
       exclude_footer_on_pages: {
         type: "string",
         label: "Exclude Footer On Pages",
-        description: "",
+        description: "The page footer content is not printed on the specified pages. To...",
         optional: true,
       },
       header_footer_scale_factor: {
@@ -714,298 +714,123 @@ export default {
       conversionOpts.text = inputHtml;
     }
 
+    // Basic conversion options
+    const basicOptions = [
+      "page_size",
+      "page_width",
+      "page_height",
+      "orientation",
+      "margin_top",
+      "margin_right",
+      "margin_bottom",
+      "margin_left",
+      "content_viewport_width",
+      "custom_css",
+      "custom_javascript",
+      "element_to_convert",
+    ];
+
+    // Expert conversion options
+    const expertOptions = [
+      "no_margins",
+      "print_page_range",
+      "content_viewport_height",
+      "content_fit_mode",
+      "remove_blank_pages",
+      "header_url",
+      "header_html",
+      "header_height",
+      "zip_header_filename",
+      "footer_url",
+      "footer_html",
+      "footer_height",
+      "zip_footer_filename",
+      "no_header_footer_horizontal_margins",
+      "exclude_header_on_pages",
+      "exclude_footer_on_pages",
+      "header_footer_scale_factor",
+      "page_numbering_offset",
+      "page_watermark_url",
+      "multipage_watermark_url",
+      "page_background_url",
+      "multipage_background_url",
+      "page_background_color",
+      "use_print_media",
+      "no_background",
+      "disable_javascript",
+      "disable_image_loading",
+      "disable_remote_fonts",
+      "load_iframes",
+      "block_ads",
+      "default_encoding",
+      "locale",
+      "http_auth_user_name",
+      "http_auth_password",
+      "cookies",
+      "verify_ssl_certificates",
+      "fail_on_main_url_error",
+      "fail_on_any_url_error",
+      "css_page_rule_mode",
+      "on_load_javascript",
+      "custom_http_header",
+      "javascript_delay",
+      "element_to_convert_mode",
+      "wait_for_element",
+      "auto_detect_element_to_convert",
+      "readability_enhancements",
+      "scale_factor",
+      "jpeg_quality",
+      "convert_images_to_jpeg",
+      "image_dpi",
+      "enable_pdf_forms",
+      "linearize",
+      "encrypt",
+      "user_password",
+      "owner_password",
+      "no_print",
+      "no_modify",
+      "no_copy",
+      "title",
+      "subject",
+      "author",
+      "keywords",
+      "extract_meta_tags",
+      "page_layout",
+      "page_mode",
+      "initial_zoom_type",
+      "initial_page",
+      "initial_zoom",
+      "hide_toolbar",
+      "hide_menubar",
+      "hide_window_ui",
+      "fit_window",
+      "center_window",
+      "display_title",
+      "right_to_left",
+      "debug_log",
+      "tag",
+      "http_proxy",
+      "https_proxy",
+      "layout_dpi",
+      "main_document_css_annotation",
+      "header_footer_css_annotation",
+      "conversion_config",
+      "converter_version",
+    ];
+
     // Add basic options
-    if (isSet(this.page_size)) {
-      conversionOpts.page_size = this.page_size;
-    }
-    if (isSet(this.page_width)) {
-      conversionOpts.page_width = this.page_width;
-    }
-    if (isSet(this.page_height)) {
-      conversionOpts.page_height = this.page_height;
-    }
-    if (isSet(this.orientation)) {
-      conversionOpts.orientation = this.orientation;
-    }
-    if (isSet(this.margin_top)) {
-      conversionOpts.margin_top = this.margin_top;
-    }
-    if (isSet(this.margin_right)) {
-      conversionOpts.margin_right = this.margin_right;
-    }
-    if (isSet(this.margin_bottom)) {
-      conversionOpts.margin_bottom = this.margin_bottom;
-    }
-    if (isSet(this.margin_left)) {
-      conversionOpts.margin_left = this.margin_left;
-    }
-    if (isSet(this.content_viewport_width)) {
-      conversionOpts.content_viewport_width = this.content_viewport_width;
-    }
-    if (isSet(this.custom_css)) {
-      conversionOpts.custom_css = this.custom_css;
-    }
-    if (isSet(this.custom_javascript)) {
-      conversionOpts.custom_javascript = this.custom_javascript;
-    }
-    if (isSet(this.element_to_convert)) {
-      conversionOpts.element_to_convert = this.element_to_convert;
+    for (const opt of basicOptions) {
+      if (isSet(this[opt])) {
+        conversionOpts[opt] = this[opt];
+      }
     }
 
     // Add expert options if enabled
     if (this.showExpertOptions) {
-      if (isSet(this.no_margins)) {
-        conversionOpts.no_margins = this.no_margins;
-      }
-      if (isSet(this.print_page_range)) {
-        conversionOpts.print_page_range = this.print_page_range;
-      }
-      if (isSet(this.content_viewport_height)) {
-        conversionOpts.content_viewport_height = this.content_viewport_height;
-      }
-      if (isSet(this.content_fit_mode)) {
-        conversionOpts.content_fit_mode = this.content_fit_mode;
-      }
-      if (isSet(this.remove_blank_pages)) {
-        conversionOpts.remove_blank_pages = this.remove_blank_pages;
-      }
-      if (isSet(this.header_url)) {
-        conversionOpts.header_url = this.header_url;
-      }
-      if (isSet(this.header_html)) {
-        conversionOpts.header_html = this.header_html;
-      }
-      if (isSet(this.header_height)) {
-        conversionOpts.header_height = this.header_height;
-      }
-      if (isSet(this.zip_header_filename)) {
-        conversionOpts.zip_header_filename = this.zip_header_filename;
-      }
-      if (isSet(this.footer_url)) {
-        conversionOpts.footer_url = this.footer_url;
-      }
-      if (isSet(this.footer_html)) {
-        conversionOpts.footer_html = this.footer_html;
-      }
-      if (isSet(this.footer_height)) {
-        conversionOpts.footer_height = this.footer_height;
-      }
-      if (isSet(this.zip_footer_filename)) {
-        conversionOpts.zip_footer_filename = this.zip_footer_filename;
-      }
-      if (isSet(this.no_header_footer_horizontal_margins)) {
-        conversionOpts["no_header_footer_horizontal_margins"] =
-          this.no_header_footer_horizontal_margins;
-      }
-      if (isSet(this.exclude_header_on_pages)) {
-        conversionOpts.exclude_header_on_pages = this.exclude_header_on_pages;
-      }
-      if (isSet(this.exclude_footer_on_pages)) {
-        conversionOpts.exclude_footer_on_pages = this.exclude_footer_on_pages;
-      }
-      if (isSet(this.header_footer_scale_factor)) {
-        conversionOpts.header_footer_scale_factor = this.header_footer_scale_factor;
-      }
-      if (isSet(this.page_numbering_offset)) {
-        conversionOpts.page_numbering_offset = this.page_numbering_offset;
-      }
-      if (isSet(this.page_watermark_url)) {
-        conversionOpts.page_watermark_url = this.page_watermark_url;
-      }
-      if (isSet(this.multipage_watermark_url)) {
-        conversionOpts.multipage_watermark_url = this.multipage_watermark_url;
-      }
-      if (isSet(this.page_background_url)) {
-        conversionOpts.page_background_url = this.page_background_url;
-      }
-      if (isSet(this.multipage_background_url)) {
-        conversionOpts.multipage_background_url = this.multipage_background_url;
-      }
-      if (isSet(this.page_background_color)) {
-        conversionOpts.page_background_color = this.page_background_color;
-      }
-      if (isSet(this.use_print_media)) {
-        conversionOpts.use_print_media = this.use_print_media;
-      }
-      if (isSet(this.no_background)) {
-        conversionOpts.no_background = this.no_background;
-      }
-      if (isSet(this.disable_javascript)) {
-        conversionOpts.disable_javascript = this.disable_javascript;
-      }
-      if (isSet(this.disable_image_loading)) {
-        conversionOpts.disable_image_loading = this.disable_image_loading;
-      }
-      if (isSet(this.disable_remote_fonts)) {
-        conversionOpts.disable_remote_fonts = this.disable_remote_fonts;
-      }
-      if (isSet(this.load_iframes)) {
-        conversionOpts.load_iframes = this.load_iframes;
-      }
-      if (isSet(this.block_ads)) {
-        conversionOpts.block_ads = this.block_ads;
-      }
-      if (isSet(this.default_encoding)) {
-        conversionOpts.default_encoding = this.default_encoding;
-      }
-      if (isSet(this.locale)) {
-        conversionOpts.locale = this.locale;
-      }
-      if (isSet(this.http_auth_user_name)) {
-        conversionOpts.http_auth_user_name = this.http_auth_user_name;
-      }
-      if (isSet(this.http_auth_password)) {
-        conversionOpts.http_auth_password = this.http_auth_password;
-      }
-      if (isSet(this.cookies)) {
-        conversionOpts.cookies = this.cookies;
-      }
-      if (isSet(this.verify_ssl_certificates)) {
-        conversionOpts.verify_ssl_certificates = this.verify_ssl_certificates;
-      }
-      if (isSet(this.fail_on_main_url_error)) {
-        conversionOpts.fail_on_main_url_error = this.fail_on_main_url_error;
-      }
-      if (isSet(this.fail_on_any_url_error)) {
-        conversionOpts.fail_on_any_url_error = this.fail_on_any_url_error;
-      }
-      if (isSet(this.css_page_rule_mode)) {
-        conversionOpts.css_page_rule_mode = this.css_page_rule_mode;
-      }
-      if (isSet(this.on_load_javascript)) {
-        conversionOpts.on_load_javascript = this.on_load_javascript;
-      }
-      if (isSet(this.custom_http_header)) {
-        conversionOpts.custom_http_header = this.custom_http_header;
-      }
-      if (isSet(this.javascript_delay)) {
-        conversionOpts.javascript_delay = this.javascript_delay;
-      }
-      if (isSet(this.element_to_convert_mode)) {
-        conversionOpts.element_to_convert_mode = this.element_to_convert_mode;
-      }
-      if (isSet(this.wait_for_element)) {
-        conversionOpts.wait_for_element = this.wait_for_element;
-      }
-      if (isSet(this.auto_detect_element_to_convert)) {
-        conversionOpts.auto_detect_element_to_convert = this.auto_detect_element_to_convert;
-      }
-      if (isSet(this.readability_enhancements)) {
-        conversionOpts.readability_enhancements = this.readability_enhancements;
-      }
-      if (isSet(this.scale_factor)) {
-        conversionOpts.scale_factor = this.scale_factor;
-      }
-      if (isSet(this.jpeg_quality)) {
-        conversionOpts.jpeg_quality = this.jpeg_quality;
-      }
-      if (isSet(this.convert_images_to_jpeg)) {
-        conversionOpts.convert_images_to_jpeg = this.convert_images_to_jpeg;
-      }
-      if (isSet(this.image_dpi)) {
-        conversionOpts.image_dpi = this.image_dpi;
-      }
-      if (isSet(this.enable_pdf_forms)) {
-        conversionOpts.enable_pdf_forms = this.enable_pdf_forms;
-      }
-      if (isSet(this.linearize)) {
-        conversionOpts.linearize = this.linearize;
-      }
-      if (isSet(this.encrypt)) {
-        conversionOpts.encrypt = this.encrypt;
-      }
-      if (isSet(this.user_password)) {
-        conversionOpts.user_password = this.user_password;
-      }
-      if (isSet(this.owner_password)) {
-        conversionOpts.owner_password = this.owner_password;
-      }
-      if (isSet(this.no_print)) {
-        conversionOpts.no_print = this.no_print;
-      }
-      if (isSet(this.no_modify)) {
-        conversionOpts.no_modify = this.no_modify;
-      }
-      if (isSet(this.no_copy)) {
-        conversionOpts.no_copy = this.no_copy;
-      }
-      if (isSet(this.title)) {
-        conversionOpts.title = this.title;
-      }
-      if (isSet(this.subject)) {
-        conversionOpts.subject = this.subject;
-      }
-      if (isSet(this.author)) {
-        conversionOpts.author = this.author;
-      }
-      if (isSet(this.keywords)) {
-        conversionOpts.keywords = this.keywords;
-      }
-      if (isSet(this.extract_meta_tags)) {
-        conversionOpts.extract_meta_tags = this.extract_meta_tags;
-      }
-      if (isSet(this.page_layout)) {
-        conversionOpts.page_layout = this.page_layout;
-      }
-      if (isSet(this.page_mode)) {
-        conversionOpts.page_mode = this.page_mode;
-      }
-      if (isSet(this.initial_zoom_type)) {
-        conversionOpts.initial_zoom_type = this.initial_zoom_type;
-      }
-      if (isSet(this.initial_page)) {
-        conversionOpts.initial_page = this.initial_page;
-      }
-      if (isSet(this.initial_zoom)) {
-        conversionOpts.initial_zoom = this.initial_zoom;
-      }
-      if (isSet(this.hide_toolbar)) {
-        conversionOpts.hide_toolbar = this.hide_toolbar;
-      }
-      if (isSet(this.hide_menubar)) {
-        conversionOpts.hide_menubar = this.hide_menubar;
-      }
-      if (isSet(this.hide_window_ui)) {
-        conversionOpts.hide_window_ui = this.hide_window_ui;
-      }
-      if (isSet(this.fit_window)) {
-        conversionOpts.fit_window = this.fit_window;
-      }
-      if (isSet(this.center_window)) {
-        conversionOpts.center_window = this.center_window;
-      }
-      if (isSet(this.display_title)) {
-        conversionOpts.display_title = this.display_title;
-      }
-      if (isSet(this.right_to_left)) {
-        conversionOpts.right_to_left = this.right_to_left;
-      }
-      if (isSet(this.debug_log)) {
-        conversionOpts.debug_log = this.debug_log;
-      }
-      if (isSet(this.tag)) {
-        conversionOpts.tag = this.tag;
-      }
-      if (isSet(this.http_proxy)) {
-        conversionOpts.http_proxy = this.http_proxy;
-      }
-      if (isSet(this.https_proxy)) {
-        conversionOpts.https_proxy = this.https_proxy;
-      }
-      if (isSet(this.layout_dpi)) {
-        conversionOpts.layout_dpi = this.layout_dpi;
-      }
-      if (isSet(this.main_document_css_annotation)) {
-        conversionOpts.main_document_css_annotation = this.main_document_css_annotation;
-      }
-      if (isSet(this.header_footer_css_annotation)) {
-        conversionOpts.header_footer_css_annotation = this.header_footer_css_annotation;
-      }
-      if (isSet(this.conversion_config)) {
-        conversionOpts.conversion_config = this.conversion_config;
-      }
-      if (isSet(this.converter_version)) {
-        conversionOpts.converter_version = this.converter_version;
+      for (const opt of expertOptions) {
+        if (isSet(this[opt])) {
+          conversionOpts[opt] = this[opt];
+        }
       }
     }
 
