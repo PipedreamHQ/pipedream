@@ -8,7 +8,7 @@ export default {
   type: "action",
   annotations: {
     destructiveHint: true,
-    openWorldHint: false,
+    openWorldHint: true,
     readOnlyHint: false,
   },
   props: {
