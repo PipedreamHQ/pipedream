@@ -345,6 +345,7 @@ export default {
         type: "string",
         label: "HTTP Auth Password",
         description: "Set the HTTP authentication password. Required to access protected web...",
+        secret: true,
         optional: true,
       },
       cookies: {
@@ -487,12 +488,14 @@ export default {
         type: "string",
         label: "User Password",
         description: "Protect the PDF with a user password to restrict who can open and view...",
+        secret: true,
         optional: true,
       },
       owner_password: {
         type: "string",
         label: "Owner Password",
         description: "Protect the PDF with an owner password for administrative control. This...",
+        secret: true,
         optional: true,
       },
       no_print: {
@@ -699,6 +702,9 @@ export default {
     if (!inputUrl && !inputHtml) {
       throw new Error("Please provide a URL or HTML Content to convert");
     }
+    if (inputUrl && inputHtml) {
+      throw new Error("Please provide either a URL or HTML Content, not both");
+    }
 
     // Helper to check if value is set
     const isSet = (v) => v !== undefined && v !== null && v !== "";
@@ -836,8 +842,8 @@ export default {
 
     const result = await this.pdfcrowd.convert(conversionOpts);
 
-    // Save PDF to tmp directory
-    const filename = this.outputFilename || "document.pdf";
+    // Save PDF to tmp directory (sanitize filename to prevent path traversal)
+    const filename = path.basename(this.outputFilename || "document.pdf");
     const tmpPath = path.join("/tmp", filename);
     fs.writeFileSync(tmpPath, Buffer.from(result.data));
 
