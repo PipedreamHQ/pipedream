@@ -1,4 +1,5 @@
 import paystack from "../../paystack.app.mjs";
+import { parseObject } from "../../common/utils.mjs";
 
 export default {
   key: "paystack-update-customer",
@@ -56,7 +57,7 @@ export default {
         first_name: this.firstName,
         last_name: this.lastName,
         phone: this.phone,
-        metadata: this.metadata,
+        metadata: parseObject(this.metadata),
       },
     });
 
