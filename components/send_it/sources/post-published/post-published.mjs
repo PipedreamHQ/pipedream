@@ -21,29 +21,52 @@ export default {
         url: this.http.endpoint,
         events: ["post.published"],
       });
+
+      if (!response?.webhook?.id) {
+        throw new Error("Failed to create webhook: invalid response from SendIt API");
+      }
+
       this.db.set("webhookId", response.webhook.id);
       this.db.set("webhookSecret", response.webhook.secret);
     },
     async deactivate() {
       const webhookId = this.db.get("webhookId");
       if (webhookId) {
-        await this.sendIt.deleteWebhook({ webhookId });
+        await this.sendIt.deleteWebhook({
+          webhookId,
+        });
       }
     },
   },
   async run(event) {
+    const { body, headers } = event;
+    const signature = headers["x-sendit-signature"];
+    const webhookSecret = this.db.get("webhookSecret");
+
+    // Verify signature before processing
+    if (!this.sendIt.verifySignature(JSON.stringify(body), signature, webhookSecret)) {
+      this.http.respond({
+        status: 401,
+        body: "Invalid signature",
+      });
+      return;
+    }
+
     this.http.respond({
       status: 200,
       body: "OK",
     });
 
-    const { body } = event;
-
     if (body && body.event === "post.published") {
+      const deliveryId = body.deliveryId || `${body.timestamp}-${Date.now()}`;
+      const platform = body.data?.platform || "unknown platform";
+
       this.$emit(body, {
-        id: body.deliveryId,
-        summary: `Post published to ${body.data?.platform}`,
-        ts: body.timestamp ? Date.parse(body.timestamp) : Date.now(),
+        id: deliveryId,
+        summary: `Post published to ${platform}`,
+        ts: body.timestamp
+          ? Date.parse(body.timestamp)
+          : Date.now(),
       });
     }
   },

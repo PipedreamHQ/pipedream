@@ -1,4 +1,4 @@
-const PLATFORMS = [
+export const PLATFORMS = [
   {
     label: "LinkedIn",
     value: "linkedin",
@@ -21,7 +21,7 @@ const PLATFORMS = [
   },
 ];
 
-const MEDIA_TYPES = [
+export const MEDIA_TYPES = [
   {
     label: "Auto-detect",
     value: "auto",
@@ -36,7 +36,7 @@ const MEDIA_TYPES = [
   },
 ];
 
-const PLATFORM_FILTER_OPTIONS = [
+export const PLATFORM_FILTER_OPTIONS = [
   {
     label: "All Platforms",
     value: "",
@@ -44,8 +44,6 @@ const PLATFORM_FILTER_OPTIONS = [
   ...PLATFORMS,
 ];
 
-export default {
-  PLATFORMS,
-  MEDIA_TYPES,
-  PLATFORM_FILTER_OPTIONS,
-};
+export const SIGNATURE_TOLERANCE_SECONDS = 300;
+
+export const DEFAULT_TIMEOUT_MS = 30000;

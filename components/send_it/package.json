@@ -1,26 +1,19 @@
 {
   "name": "@pipedream/send_it",
-  "version": "0.1.0",
-  "description": "Pipedream SendIt Components - AI-native social media publishing",
+  "version": "0.0.1",
+  "description": "Pipedream SendIt Components",
   "main": "send_it.app.mjs",
   "keywords": [
     "pipedream",
     "send_it",
-    "sendit",
-    "social media",
-    "linkedin",
-    "instagram",
-    "threads",
-    "tiktok",
-    "twitter",
-    "x"
+    "social media"
   ],
   "homepage": "https://pipedream.com/apps/send_it",
-  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "author": "Pipedream <support@pipedream.com>",
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.0.0"
+    "@pipedream/platform": "^3.0.3"
   }
 }

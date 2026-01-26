@@ -26,6 +26,18 @@ export default {
         "mediaUrl",
       ],
     },
+    mediaUrls: {
+      propDefinition: [
+        sendIt,
+        "mediaUrls",
+      ],
+    },
+    mediaType: {
+      propDefinition: [
+        sendIt,
+        "mediaType",
+      ],
+    },
     scheduledTime: {
       propDefinition: [
         sendIt,
@@ -39,6 +51,8 @@ export default {
       platforms: this.platforms,
       text: this.text,
       mediaUrl: this.mediaUrl,
+      mediaUrls: this.mediaUrls,
+      mediaType: this.mediaType,
       scheduledTime: this.scheduledTime,
     });
     $.export("$summary", `Successfully scheduled post for ${this.scheduledTime}`);
