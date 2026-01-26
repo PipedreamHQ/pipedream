@@ -2504,7 +2504,11 @@ importers:
 
   components/cascade_strategy: {}
 
-  components/caspio: {}
+  components/caspio:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/castingwords:
     dependencies:
