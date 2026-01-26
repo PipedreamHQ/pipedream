@@ -14051,7 +14051,14 @@ importers:
 
   components/simpletexting: {}
 
-  components/simplybook_me: {}
+  components/simplybook_me:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
+      md5:
+        specifier: ^2.3.0
+        version: 2.3.0
 
   components/simvoly:
     dependencies:
