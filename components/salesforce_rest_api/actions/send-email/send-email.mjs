@@ -56,7 +56,6 @@ export default {
       type: "string",
       label: "Sender Type",
       description: "Email address used as the email's **From** and **Reply-To** addresses. In scheduled flows, the only valid value is `OrgWideEmailAddress`.",
-      optional: true,
       options: [
         {
           label: "CurrentUser - Email address of the user running the flow (default)",
