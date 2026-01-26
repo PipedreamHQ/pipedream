@@ -140,8 +140,9 @@ export default {
      * Convert URL or HTML to PDF.
      * @param {Object} opts - Conversion options
      * @param {Object} [opts.$] - Pipedream context for axios
-     * @param {string} [opts.url] - URL to convert
-     * @param {string} [opts.text] - HTML content to convert
+     * @param {string} [opts.url] - URL to convert (mutually exclusive with text/htmlString)
+     * @param {string} [opts.text] - HTML content to convert (mutually exclusive with url)
+     * @param {string} [opts.htmlString] - Alias for text (mutually exclusive with url)
      * @returns {Promise<{data: Buffer, headers: ConversionHeaders}>}
      * @typedef {Object} ConversionHeaders
      * @property {string} jobId - Unique job identifier (may be empty)
@@ -150,24 +151,36 @@ export default {
      * @property {number} consumedCredits - Credits used (0 if unavailable)
      * @property {number} remainingCredits - Credits remaining (0 if unavailable)
      * @property {string} debugLogUrl - Debug log URL (empty if not enabled)
+     * @throws {Error} If none or more than one input source is provided
      */
     async convert(opts = {}) {
       const {
         $,
         url,
         text,
+        htmlString,
         ...params
       } = opts;
+
+      // Validate exactly one input source is provided
+      const htmlContent = text || htmlString;
+      const hasUrl = Boolean(url);
+      const hasHtml = Boolean(htmlContent);
+
+      if (!hasUrl && !hasHtml) {
+        throw new Error("Please provide either a URL or HTML Content to convert");
+      }
+      if (hasUrl && hasHtml) {
+        throw new Error("Please provide either a URL or HTML Content, not both");
+      }
 
       // Build form data
       const formData = new URLSearchParams();
 
-      if (url) {
+      if (hasUrl) {
         formData.append("url", url);
-      } else if (text) {
-        formData.append("text", text);
       } else {
-        throw new Error("Please provide a URL or HTML Content to convert");
+        formData.append("text", htmlContent);
       }
 
       // Add all other options
@@ -180,6 +193,8 @@ export default {
         }
       }
 
+      // Using direct REST API instead of pdfcrowd npm package for tight integration
+      // with Pipedream's axios wrapper, auth handling, and error formatting
       const response = await axios($ || this, {
         method: "POST",
         url: `${this._baseUrl()}/`,
