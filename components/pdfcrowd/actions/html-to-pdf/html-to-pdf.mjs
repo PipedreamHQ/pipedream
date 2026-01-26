@@ -843,7 +843,10 @@ export default {
     const result = await this.pdfcrowd.convert(conversionOpts);
 
     // Save PDF to tmp directory (sanitize filename to prevent path traversal)
-    const filename = path.basename(this.outputFilename || "document.pdf");
+    let filename = path.basename(this.outputFilename || "document.pdf").trim();
+    if (!filename || filename === "." || filename === "..") {
+      filename = "document.pdf";
+    }
     const tmpPath = path.join("/tmp", filename);
     fs.writeFileSync(tmpPath, Buffer.from(result.data));
 
