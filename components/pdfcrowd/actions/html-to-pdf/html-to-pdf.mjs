@@ -855,12 +855,12 @@ export default {
     return {
       filePath: tmpPath,
       filename,
-      jobId: result.headers.jobId,
-      pageCount: result.headers.pageCount,
-      outputSize: result.headers.outputSize,
-      consumedCredits: result.headers.consumedCredits,
-      remainingCredits: result.headers.remainingCredits,
-      debugLogUrl: result.headers.debugLogUrl,
+      jobId: result.headers?.jobId ?? "",
+      pageCount: result.headers?.pageCount ?? 0,
+      outputSize: result.headers?.outputSize ?? 0,
+      consumedCredits: result.headers?.consumedCredits ?? 0,
+      remainingCredits: result.headers?.remainingCredits ?? 0,
+      debugLogUrl: result.headers?.debugLogUrl ?? "",
     };
   },
 };

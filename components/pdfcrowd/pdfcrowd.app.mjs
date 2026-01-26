@@ -136,6 +136,21 @@ export default {
         password: this.$auth.api_key,
       };
     },
+    /**
+     * Convert URL or HTML to PDF.
+     * @param {Object} opts - Conversion options
+     * @param {Object} [opts.$] - Pipedream context for axios
+     * @param {string} [opts.url] - URL to convert
+     * @param {string} [opts.text] - HTML content to convert
+     * @returns {Promise<{data: Buffer, headers: ConversionHeaders}>}
+     * @typedef {Object} ConversionHeaders
+     * @property {string} jobId - Unique job identifier (may be empty)
+     * @property {number} pageCount - Number of pages in output (0 if unavailable)
+     * @property {number} outputSize - Output file size in bytes (0 if unavailable)
+     * @property {number} consumedCredits - Credits used (0 if unavailable)
+     * @property {number} remainingCredits - Credits remaining (0 if unavailable)
+     * @property {string} debugLogUrl - Debug log URL (empty if not enabled)
+     */
     async convert(opts = {}) {
       const {
         $,
@@ -181,7 +196,7 @@ export default {
       return {
         data: response.data,
         headers: {
-          jobId: response.headers["x-pdfcrowd-job-id"],
+          jobId: response.headers["x-pdfcrowd-job-id"] || "",
           pageCount: parseInt(response.headers["x-pdfcrowd-pages"] || "0", 10),
           outputSize: parseInt(response.headers["x-pdfcrowd-output-size"] || "0", 10),
           consumedCredits: parseInt(response.headers["x-pdfcrowd-consumed-credits"] || "0", 10),
