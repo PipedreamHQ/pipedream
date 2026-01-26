@@ -1,11 +1,14 @@
 import sharepoint from "../../sharepoint.app.mjs";
 import fs from "fs";
+import path from "path";
+import { ConfigurationError } from "@pipedream/platform";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "sharepoint-download-file",
   name: "Download File",
   description: "Download a Microsoft Sharepoint file to the /tmp directory. [See the documentation](https://learn.microsoft.com/en-us/graph/api/driveitem-get-content?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.8",
+  version: "0.0.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -44,17 +47,74 @@ export default {
       label: "Filename",
       description: "The filename to save the downloaded file as in the `/tmp` directory",
     },
+    convertToFormat: {
+      type: "string",
+      label: "Convert To Format",
+      description: "The format to convert the file to. See the [Format Options](https://learn.microsoft.com/en-us/graph/api/driveitem-get-content-format?view=graph-rest-1.0&tabs=http#format-options) for supported source formats",
+      options: [
+        "pdf",
+        "html",
+      ],
+      optional: true,
+    },
     syncDir: {
       type: "dir",
       accessMode: "write",
       sync: true,
     },
   },
+  methods: {
+    async getOriginalFileData($) {
+      const { name: originalFilename } = await this.sharepoint.getDriveItem({
+        $,
+        siteId: this.siteId,
+        fileId: this.fileId,
+      });
+      const originalExtension = path.extname(originalFilename).slice(1) || undefined;
+      return {
+        originalFilename,
+        originalExtension,
+      };
+    },
+    formatNewFilename(originalExtension) {
+      return path.extname(this.filename)
+        ? this.filename
+        : this.convertToFormat
+          ? `${this.filename}.${this.convertToFormat}`
+          : originalExtension
+            ? `${this.filename}.${originalExtension}`
+            : this.filename;
+    },
+    validateConversionFormat(originalExtension) {
+      const supportedFormats = this.convertToFormat === "pdf"
+        ? constants.PDF_CONVERTIBLE_FORMATS
+        : this.convertToFormat === "html"
+          ? constants.HTML_CONVERTIBLE_FORMATS
+          : [];
+      if (!supportedFormats.includes(originalExtension)) {
+        throw new ConfigurationError(`The file extension "${originalExtension}" is not supported for conversion to "${this.convertToFormat}". Supported formats are: ${supportedFormats.join(", ")}`);
+      }
+    },
+  },
   async run({ $ }) {
+    const {
+      originalFilename, originalExtension,
+    } = await this.getOriginalFileData($);
+
+    // ensure filename has an extension
+    const filename = this.formatNewFilename(originalExtension);
+
+    if (this.convertToFormat) {
+      this.validateConversionFormat(originalExtension);
+    }
+
     const response = await this.sharepoint.getFile({
       $,
       driveId: this.driveId,
       fileId: this.fileId,
+      params: {
+        format: this.convertToFormat,
+      },
       responseType: "arraybuffer",
     });
 
@@ -63,12 +123,21 @@ export default {
     // Since the filepath is not returned as one of the standard keys (filePath
     // or path), save the file to STASH_DIR, if defined, so it is synced at the
     // end of execution.
-    const downloadedFilepath = `${process.env.STASH_DIR || "/tmp"}/${this.filename}`;
+    const downloadedFilepath = `${process.env.STASH_DIR || "/tmp"}/${filename}`;
     fs.writeFileSync(downloadedFilepath, buffer);
 
-    return {
-      filename: this.filename,
+    const data = {
+      filename,
+      fileSize: `${buffer.length} bytes`,
+      extension: this.convertToFormat || originalExtension,
       downloadedFilepath,
     };
+
+    if (this.convertToFormat) {
+      data.originalFilename = originalFilename;
+      data.originalExtension = originalExtension;
+    }
+
+    return data;
   },
 };

@@ -24,7 +24,55 @@ const SHARING_LINK_SCOPE_OPTIONS = [
   },
 ];
 
+const PDF_CONVERTIBLE_FORMATS = [
+  "doc",
+  "docx",
+  "dot",
+  "dotx",
+  "dotm",
+  "dsn",
+  "dwg",
+  "eml",
+  "epub",
+  "fluidframework",
+  "form",
+  "htm",
+  "html",
+  "loop",
+  "loot",
+  "markdown",
+  "md",
+  "msg",
+  "note",
+  "odp",
+  "ods",
+  "odt",
+  "page",
+  "pps",
+  "ppsx",
+  "ppt",
+  "pptx",
+  "pulse",
+  "rtf",
+  "task",
+  "tif",
+  "tiff",
+  "wbtx",
+  "whiteboard",
+  "xls",
+  "xlsm",
+  "xlsx",
+];
+
+const HTML_CONVERTIBLE_FORMATS = [
+  "loop",
+  "fluid",
+  "wbtx",
+];
+
 export default {
   SHARING_LINK_TYPE_OPTIONS,
   SHARING_LINK_SCOPE_OPTIONS,
+  PDF_CONVERTIBLE_FORMATS,
+  HTML_CONVERTIBLE_FORMATS,
 };
