@@ -6909,7 +6909,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/heartbeat: {}
+  components/heartbeat:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/heedjy:
     dependencies:
@@ -9591,6 +9595,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
+
+  components/mixpanel_service_account:
+    specifiers: {}
 
   components/miyn: {}
 
@@ -14044,7 +14051,14 @@ importers:
 
   components/simpletexting: {}
 
-  components/simplybook_me: {}
+  components/simplybook_me:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
+      md5:
+        specifier: ^2.3.0
+        version: 2.3.0
 
   components/simvoly:
     dependencies:
@@ -15973,6 +15987,9 @@ importers:
         version: 3.1.1
 
   components/uk_gov_vehecle_enquiry_api: {}
+
+  components/ukg_pro:
+    specifiers: {}
 
   components/ultramsg:
     dependencies:
