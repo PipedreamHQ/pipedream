@@ -70,20 +70,27 @@ export default {
         siteId: this.siteId,
         fileId: this.fileId,
       });
-      const originalExtension = path.extname(originalFilename).slice(1) || undefined;
+      const originalExtension = path.extname(originalFilename).slice(1)
+        .toLowerCase() || undefined;
       return {
         originalFilename,
         originalExtension,
       };
     },
     formatNewFilename(originalExtension) {
-      return path.extname(this.filename)
-        ? this.filename
-        : this.convertToFormat
-          ? `${this.filename}.${this.convertToFormat}`
-          : originalExtension
-            ? `${this.filename}.${originalExtension}`
-            : this.filename;
+      const parsed = path.parse(this.filename);
+      if (this.convertToFormat) {
+        const base = parsed.ext
+          ? parsed.name
+          : this.filename;
+        return `${base}.${this.convertToFormat.toLowerCase()}`;
+      }
+      if (parsed.ext) {
+        return this.filename;
+      }
+      return originalExtension
+        ? `${this.filename}.${originalExtension}`
+        : this.filename;
     },
     validateConversionFormat(originalExtension) {
       const supportedFormats = this.convertToFormat === "pdf"
