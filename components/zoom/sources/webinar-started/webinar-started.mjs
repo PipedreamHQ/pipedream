@@ -6,7 +6,7 @@ export default {
   key: "zoom-webinar-started",
   name: "Webinar Started (Instant)",
   description: "Emit new event each time a webinar starts where you're the host",
-  version: "0.1.6",
+  version: "0.1.7",
   type: "source",
   dedupe: "unique",
   props: {
