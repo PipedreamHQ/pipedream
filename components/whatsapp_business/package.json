@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/whatsapp_business",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "Pipedream WhatsApp Business Components",
   "main": "whatsapp_business.app.mjs",
   "keywords": [

@@ -13,7 +13,7 @@
     "@googleapis/sheets": "^0.3.0",
     "@pipedream/google_drive": "^1.1.1",
     "@pipedream/platform": "^3.1.1",
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "uuidv4": "^6.2.6",
     "zlib": "^1.0.5"
   },

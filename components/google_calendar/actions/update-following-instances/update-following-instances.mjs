@@ -6,7 +6,7 @@ export default {
   key: "google_calendar-update-following-instances",
   name: "Update Following Event Instances",
   description: "Update all instances of a recurring event following a specific instance. This creates a new recurring event starting from the selected instance. [See the documentation](https://developers.google.com/calendar/api/guides/recurringevents#modifying_all_following_instances)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: true,

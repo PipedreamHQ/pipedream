@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@pipedream/platform": "^1.6.8",
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "timezones-list": "^3.0.2"
   }
 }

@@ -5,7 +5,7 @@ export default {
   key: "google_calendar-update-event-instance",
   name: "Update Event Instance",
   description: "Update a specific instance of a recurring event. Changes apply only to the selected instance. [See the documentation](https://developers.google.com/calendar/api/v3/reference/events/update)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: true,

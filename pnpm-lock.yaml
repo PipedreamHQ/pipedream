@@ -936,8 +936,8 @@ importers:
         specifier: ^1.3.3
         version: 1.3.3
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
+        specifier: ^4.17.23
+        version: 4.17.23
 
   components/amplenote:
     dependencies:
@@ -1184,8 +1184,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
+        specifier: ^4.17.23
+        version: 4.17.23
 
   components/ascora: {}
 
@@ -2504,7 +2504,11 @@ importers:
 
   components/cascade_strategy: {}
 
-  components/caspio: {}
+  components/caspio:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/castingwords:
     dependencies:
@@ -2948,8 +2952,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
+        specifier: ^4.17.23
+        version: 4.17.23
 
   components/cliengo:
     dependencies:
@@ -3394,8 +3398,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
+        specifier: ^4.17.23
+        version: 4.17.23
 
   components/consulta_unica: {}
 
@@ -4099,8 +4103,8 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
+        specifier: ^4.17.23
+        version: 4.17.23
 
   components/dialmycalls: {}
 
@@ -4457,8 +4461,8 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
+        specifier: ^4.17.23
+        version: 4.17.23
 
   components/drchrono: {}
 
@@ -4541,8 +4545,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
+        specifier: ^4.17.23
+        version: 4.17.23
       stream:
         specifier: ^0.0.3
         version: 0.0.3
@@ -5026,8 +5030,8 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
+        specifier: ^4.17.23
+        version: 4.17.23
       timezones-list:
         specifier: ^3.0.2
         version: 3.1.0
@@ -5238,8 +5242,8 @@ importers:
         specifier: ^4.5.4
         version: 4.8.2
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
+        specifier: ^4.17.23
+        version: 4.17.23
 
   components/favro:
     dependencies:
@@ -5498,8 +5502,8 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
+        specifier: ^4.17.23
+        version: 4.17.23
 
   components/florm: {}
 
@@ -6062,8 +6066,8 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
+        specifier: ^4.17.23
+        version: 4.17.23
       uuid:
         specifier: ^8.3.2
         version: 8.3.2
@@ -6077,8 +6081,8 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
+        specifier: ^4.17.23
+        version: 4.17.23
       uuid:
         specifier: ^8.3.2
         version: 8.3.2
@@ -6409,8 +6413,8 @@ importers:
         specifier: 13.0.0
         version: 13.0.0
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
+        specifier: ^4.17.23
+        version: 4.17.23
       mime-db:
         specifier: ^1.51.0
         version: 1.54.0
@@ -6535,8 +6539,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
+        specifier: ^4.17.23
+        version: 4.17.23
       uuidv4:
         specifier: ^6.2.6
         version: 6.2.13
@@ -7226,8 +7230,8 @@ importers:
   components/https_airbyte_com:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.8
-        version: 1.6.8
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/httpsms: {}
 
@@ -7914,8 +7918,8 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
+        specifier: ^4.17.23
+        version: 4.17.23
 
   components/junip: {}
 
@@ -8993,8 +8997,8 @@ importers:
         specifier: 4.0.4
         version: 4.0.4
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
+        specifier: ^4.17.23
+        version: 4.17.23
       lodash.get:
         specifier: ^4.4.2
         version: 4.4.2
@@ -11103,8 +11107,8 @@ importers:
         specifier: ^1.3.1
         version: 1.3.3
       lodash:
-        specifier: ^4.17.20
-        version: 4.17.21
+        specifier: ^4.17.23
+        version: 4.17.23
       pcloud-sdk-js:
         specifier: ^2.0.0
         version: 2.0.0
@@ -11142,6 +11146,9 @@ importers:
         version: 3.1.1
 
   components/pdf_vector: {}
+
+  components/pdfcrowd:
+    specifiers: {}
 
   components/pdffiller:
     dependencies:
@@ -11936,8 +11943,8 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
+        specifier: ^4.17.23
+        version: 4.17.23
 
   components/processplan: {}
 
@@ -12486,8 +12493,8 @@ importers:
         specifier: ^0.30.2
         version: 0.30.2
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
+        specifier: ^4.17.23
+        version: 4.17.23
       qs:
         specifier: ^6.14.1
         version: 6.14.1
@@ -12908,8 +12915,8 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
+        specifier: ^4.17.23
+        version: 4.17.23
 
   components/ritekit:
     dependencies:
@@ -13128,8 +13135,8 @@ importers:
         specifier: ^4.7.7
         version: 4.7.8
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
+        specifier: ^4.17.23
+        version: 4.17.23
       lodash-es:
         specifier: ^4.17.23
         version: 4.17.23
@@ -13527,8 +13534,8 @@ importers:
         specifier: ^0.0.1-security
         version: 0.0.1-security
       lodash:
-        specifier: ^4.17.20
-        version: 4.17.21
+        specifier: ^4.17.23
+        version: 4.17.23
       mime:
         specifier: ^4.0.6
         version: 4.1.0
@@ -13878,8 +13885,8 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
+        specifier: ^4.17.23
+        version: 4.17.23
 
   components/short_menu:
     dependencies:
@@ -13899,8 +13906,8 @@ importers:
         specifier: ^1.3.1
         version: 1.3.3
       lodash:
-        specifier: ^4.17.20
-        version: 4.17.21
+        specifier: ^4.17.23
+        version: 4.17.23
       validate.js:
         specifier: ^0.13.1
         version: 0.13.1
@@ -14051,7 +14058,14 @@ importers:
 
   components/simpletexting: {}
 
-  components/simplybook_me: {}
+  components/simplybook_me:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
+      md5:
+        specifier: ^2.3.0
+        version: 2.3.0
 
   components/simvoly:
     dependencies:
@@ -14124,8 +14138,8 @@ importers:
         specifier: ^1.3.3
         version: 1.3.3
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
+        specifier: ^4.17.23
+        version: 4.17.23
 
   components/slack_bot:
     dependencies:
@@ -14155,8 +14169,8 @@ importers:
         specifier: ^1.3.3
         version: 1.3.3
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
+        specifier: ^4.17.23
+        version: 4.17.23
 
   components/slicktext:
     dependencies:
@@ -14616,8 +14630,8 @@ importers:
         specifier: ^1.2.0
         version: 1.2.0
       lodash:
-        specifier: ^4.17.20
-        version: 4.17.21
+        specifier: ^4.17.23
+        version: 4.17.23
 
   components/stack_overflow_for_teams: {}
 
@@ -15931,8 +15945,8 @@ importers:
         specifier: ^0.30.2
         version: 0.30.2
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
+        specifier: ^4.17.23
+        version: 4.17.23
       luxon:
         specifier: ^3.0.4
         version: 3.7.2
@@ -16996,8 +17010,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
+        specifier: ^4.17.23
+        version: 4.17.23
 
   components/writer:
     dependencies:
@@ -17634,8 +17648,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
+        specifier: ^4.17.23
+        version: 4.17.23
       uuid:
         specifier: ^8.3.2
         version: 8.3.2
@@ -17668,7 +17682,7 @@ importers:
     dependencies:
       lodash-es:
         specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.17.21
       sugar:
         specifier: ^2.0.6
         version: 2.0.6
@@ -19288,14 +19302,8 @@ packages:
   '@emnapi/core@1.7.1':
     resolution: {integrity: sha512-o1uhUASyo921r2XtHYOHy7gdkGLge8ghBEQHMWmyJFoXlpU58kIrhhN3w26lpQb6dspetweapMn2CSNwQ8I4wg==}
 
-  '@emnapi/core@1.8.1':
-    resolution: {integrity: sha512-AvT9QFpxK0Zd8J0jopedNm+w/2fIzvtPKPjqyw9jwvBaReTTqPBk9Hixaz7KbjimP+QNz605/XnjFcDAL2pqBg==}
-
   '@emnapi/runtime@1.7.1':
     resolution: {integrity: sha512-PVtJr5CmLwYAU9PZDMITZoR5iAOShYREoR45EyyLrbntV50mdePTgUn4AmOw90Ifcj+x2kRjdzr1HP3RrNiHGA==}
-
-  '@emnapi/runtime@1.8.1':
-    resolution: {integrity: sha512-mehfKSMWjjNol8659Z8KxEMrdSJDDot5SXMq00dM8BN4o+CLNXQ0xH2V7EchNHV4RmbZLmmPdEaXZc5H2FXmDg==}
 
   '@emnapi/wasi-threads@1.1.0':
     resolution: {integrity: sha512-WI0DdZ8xFSbgMjR1sFsKABJ/C5OnRrjT06JXbZKexJGrDuPTzZdDYfFlsgcCXCyf+suG5QU2e/y1Wo2V/OapLQ==}
@@ -28705,6 +28713,9 @@ packages:
   lodash-core@4.17.11:
     resolution: {integrity: sha512-8ilprNE67U1REh0wQHL0z37qXdsxuFXjvxehg79Mh/MQgNJ+C1muXtysSKpt9sCxXZUSiwifEC82Vtzf2GSSKQ==}
 
+  lodash-es@4.17.21:
+    resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
+
   lodash-es@4.17.23:
     resolution: {integrity: sha512-kVI48u3PZr38HdYz98UmfPnXl2DXrpdctLrFLCd3kOx1xUkOmpFPx7gCWWM5MPkL/fD8zb+Ph0QzjGFs4+hHWg==}
 
@@ -28841,6 +28852,9 @@ packages:
 
   lodash@4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
+
+  lodash@4.17.23:
+    resolution: {integrity: sha512-LgVTMpQtIopCi79SJeDiP0TfWi5CNEc/L/aRdTh3yIvmZXTnheWpKjSZhnvMl8iXbC1tFg9gdHHDMLoV7CnG+w==}
 
   log-process-errors@11.0.1:
     resolution: {integrity: sha512-HXYU83z3kH0VHfJgGyv9ZP9z7uNEayssgvpeQwSzh60mvpNqUBCPyXLSzCDSMxfGvAUUa0Kw06wJjVR46Ohd3A==}
@@ -32097,17 +32111,17 @@ packages:
   superagent@3.8.1:
     resolution: {integrity: sha512-VMBFLYgFuRdfeNQSMLbxGSLfmXL/xc+OO+BZp41Za/NRDBet/BNbkRJrYzCUu0u4GU0i/ml2dtT8b9qgkw9z6Q==}
     engines: {node: '>= 4.0'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   superagent@4.1.0:
     resolution: {integrity: sha512-FT3QLMasz0YyCd4uIi5HNe+3t/onxMyEho7C3PSqmti3Twgy2rXT4fmkTz6wRL6bTF4uzPcfkUCa8u4JWHw8Ag==}
     engines: {node: '>= 6.0'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   superagent@5.3.1:
     resolution: {integrity: sha512-wjJ/MoTid2/RuGCOFtlacyGNxN9QLMgcpYLDQlWFIhhdJ93kNscFonGvrpAHSCVjRVj++DGCglocF7Aej1KHvQ==}
     engines: {node: '>= 7.0.0'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   supports-color@10.2.2:
     resolution: {integrity: sha512-SS+jx45GF1QjgEXQx4NJZV9ImqmO2NPz5FNsIHrsDjh2YsHnawpan7SNQ1o8NuhrbHZy9AZhIoCUiCeaW/C80g==}
@@ -32200,10 +32214,6 @@ packages:
     resolution: {integrity: sha512-7NyxrTE4Anh8km8iEy7o0QYPs+0JKBTj5ZaqHg6B39erLg0qYXN3BijtShwbsNSvQ+LN75+KV+C4QR/f6Gwnpg==}
     engines: {node: '>=18'}
     deprecated: Old versions of tar are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exhorbitant rates) by contacting i@izs.me
-
-  tar@7.5.6:
-    resolution: {integrity: sha512-xqUeu2JAIJpXyvskvU3uvQW8PAmHrtXp2KDuMJwQqW8Sqq0CaZBAQ+dKS3RBXVhU4wC5NjAdKrmh84241gO9cA==}
-    engines: {node: '>=18'}
 
   tarn@3.0.2:
     resolution: {integrity: sha512-51LAVKUSZSVfI05vjPESNc5vwqqZpbXCsU+/+wxlOrUjk2SnFTt97v9ZgQrD4YmxYW1Px6w2KjaDitCfkvgxMQ==}
@@ -36679,18 +36689,7 @@ snapshots:
       tslib: 2.8.1
     optional: true
 
-  '@emnapi/core@1.8.1':
-    dependencies:
-      '@emnapi/wasi-threads': 1.1.0
-      tslib: 2.8.1
-    optional: true
-
   '@emnapi/runtime@1.7.1':
-    dependencies:
-      tslib: 2.8.1
-    optional: true
-
-  '@emnapi/runtime@1.8.1':
     dependencies:
       tslib: 2.8.1
     optional: true
@@ -37882,7 +37881,7 @@ snapshots:
 
   '@jsdoc/salty@0.2.9':
     dependencies:
-      lodash: 4.17.21
+      lodash: 4.17.23
 
   '@keyv/bigmap@1.2.0(keyv@5.5.4)':
     dependencies:
@@ -37969,7 +37968,7 @@ snapshots:
       node-fetch: 2.7.0
       nopt: 8.1.0
       semver: 7.7.3
-      tar: 7.5.6
+      tar: 7.5.2
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -37982,7 +37981,7 @@ snapshots:
       node-fetch: 2.7.0
       nopt: 8.1.0
       semver: 7.7.3
-      tar: 7.5.6
+      tar: 7.5.2
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -38021,7 +38020,7 @@ snapshots:
       '@rushstack/terminal': 0.19.3(@types/node@20.19.25)
       '@rushstack/ts-command-line': 5.1.3(@types/node@20.19.25)
       diff: 8.0.2
-      lodash: 4.17.21
+      lodash: 4.17.23
       minimatch: 10.0.3
       resolve: 1.22.11
       semver: 7.5.4
@@ -38041,7 +38040,7 @@ snapshots:
       '@rushstack/terminal': 0.19.3(@types/node@25.0.10)
       '@rushstack/ts-command-line': 5.1.3(@types/node@25.0.10)
       diff: 8.0.2
-      lodash: 4.17.21
+      lodash: 4.17.23
       minimatch: 10.0.3
       resolve: 1.22.11
       semver: 7.5.4
@@ -38098,8 +38097,8 @@ snapshots:
 
   '@napi-rs/wasm-runtime@1.1.1':
     dependencies:
-      '@emnapi/core': 1.8.1
-      '@emnapi/runtime': 1.8.1
+      '@emnapi/core': 1.7.1
+      '@emnapi/runtime': 1.7.1
       '@tybys/wasm-util': 0.10.1
     optional: true
 
@@ -39035,7 +39034,7 @@ snapshots:
   '@pipedream/gitlab@0.5.6':
     dependencies:
       '@pipedream/platform': 1.6.8
-      lodash: 4.17.21
+      lodash: 4.17.23
       uuid: 8.3.2
     transitivePeerDependencies:
       - debug
@@ -39047,7 +39046,7 @@ snapshots:
       cron-parser: 4.9.0
       google-docs-mustaches: 1.2.2
       got: 13.0.0
-      lodash: 4.17.21
+      lodash: 4.17.23
       mime-db: 1.54.0
       uuid: 8.3.2
     transitivePeerDependencies:
@@ -39062,7 +39061,7 @@ snapshots:
       cron-parser: 4.9.0
       google-docs-mustaches: 1.2.2
       got: 13.0.0
-      lodash: 4.17.21
+      lodash: 4.17.23
       mime-db: 1.54.0
       uuid: 8.3.2
     transitivePeerDependencies:
@@ -39265,7 +39264,7 @@ snapshots:
       '@pipedream/platform': 3.1.1
       '@slack/web-api': 7.12.0
       async-retry: 1.3.3
-      lodash: 4.17.21
+      lodash: 4.17.23
     transitivePeerDependencies:
       - debug
 
@@ -41670,7 +41669,7 @@ snapshots:
 
   '@types/conventional-commits-parser@5.0.2':
     dependencies:
-      '@types/node': 25.0.10
+      '@types/node': 20.19.25
 
   '@types/debug@4.1.12':
     dependencies:
@@ -41688,7 +41687,7 @@ snapshots:
 
   '@types/express-serve-static-core@4.19.7':
     dependencies:
-      '@types/node': 22.19.1
+      '@types/node': 20.19.25
       '@types/qs': 6.14.0
       '@types/range-parser': 1.2.7
       '@types/send': 1.2.1
@@ -41883,12 +41882,12 @@ snapshots:
 
   '@types/readable-stream@4.0.22':
     dependencies:
-      '@types/node': 25.0.10
+      '@types/node': 20.19.25
 
   '@types/request@2.48.13':
     dependencies:
       '@types/caseless': 0.12.5
-      '@types/node': 22.19.1
+      '@types/node': 20.19.25
       '@types/tough-cookie': 4.0.5
       form-data: 2.5.4
 
@@ -41912,11 +41911,11 @@ snapshots:
   '@types/send@0.17.6':
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 22.19.1
+      '@types/node': 20.19.25
 
   '@types/send@1.2.1':
     dependencies:
-      '@types/node': 22.19.1
+      '@types/node': 20.19.25
 
   '@types/serve-static@1.15.10':
     dependencies:
@@ -42738,7 +42737,7 @@ snapshots:
       graceful-fs: 4.2.11
       is-stream: 2.0.1
       lazystream: 1.0.1
-      lodash: 4.17.21
+      lodash: 4.17.23
       normalize-path: 3.0.0
       readable-stream: 4.7.0
 
@@ -43563,7 +43562,7 @@ snapshots:
 
   catharsis@0.9.0:
     dependencies:
-      lodash: 4.17.21
+      lodash: 4.17.23
 
   ccount@1.1.0: {}
 
@@ -43782,7 +43781,7 @@ snapshots:
 
   cloudinary@2.8.0:
     dependencies:
-      lodash: 4.17.21
+      lodash: 4.17.23
       q: 1.5.1
 
   co@4.6.0: {}
@@ -43910,7 +43909,7 @@ snapshots:
 
   comment-patterns@0.12.2:
     dependencies:
-      lodash: 4.17.21
+      lodash: 4.17.23
 
   commist@1.1.0:
     dependencies:
@@ -47519,7 +47518,7 @@ snapshots:
       cli-cursor: 3.1.0
       cli-width: 3.0.0
       figures: 3.2.0
-      lodash: 4.17.21
+      lodash: 4.17.23
       mute-stream: 0.0.8
       ora: 5.4.1
       run-async: 2.4.1
@@ -47539,7 +47538,7 @@ snapshots:
       cli-cursor: 3.1.0
       cli-width: 3.0.0
       figures: 3.2.0
-      lodash: 4.17.21
+      lodash: 4.17.23
       mute-stream: 0.0.8
       ora: 5.4.1
       run-async: 2.4.1
@@ -48546,13 +48545,13 @@ snapshots:
 
   json-schema-compare@0.2.2:
     dependencies:
-      lodash: 4.17.21
+      lodash: 4.17.23
 
   json-schema-merge-allof@0.8.1:
     dependencies:
       compute-lcm: 1.1.2
       json-schema-compare: 0.2.2
-      lodash: 4.17.21
+      lodash: 4.17.23
 
   json-schema-ref-resolver@1.0.1:
     dependencies:
@@ -48619,7 +48618,7 @@ snapshots:
   jsonwebtoken@9.0.0:
     dependencies:
       jws: 3.2.2
-      lodash: 4.17.21
+      lodash: 4.17.23
       ms: 2.1.3
       semver: 7.7.3
 
@@ -48983,6 +48982,8 @@ snapshots:
 
   lodash-core@4.17.11: {}
 
+  lodash-es@4.17.21: {}
+
   lodash-es@4.17.23: {}
 
   lodash._baseiteratee@4.7.0:
@@ -49082,6 +49083,8 @@ snapshots:
   lodash.upperfirst@4.3.1: {}
 
   lodash@4.17.21: {}
+
+  lodash@4.17.23: {}
 
   log-process-errors@11.0.1:
     dependencies:
@@ -49953,7 +49956,7 @@ snapshots:
     dependencies:
       comment-patterns: 0.12.2
       line-counter: 1.1.0
-      lodash: 4.17.21
+      lodash: 4.17.23
       quotemeta: 0.0.0
 
   multiparty@4.2.3:
@@ -50338,7 +50341,7 @@ snapshots:
   normalize-package-data@6.0.2:
     dependencies:
       hosted-git-info: 7.0.2
-      semver: 7.7.2
+      semver: 7.7.3
       validate-npm-package-license: 3.0.4
 
   normalize-package-data@7.0.1:
@@ -50635,7 +50638,7 @@ snapshots:
 
   ongage@1.1.7(node-fetch@2.7.0):
     dependencies:
-      lodash: 4.17.21
+      lodash: 4.17.23
       node-fetch: 2.7.0
       qs: 6.14.1
 
@@ -50684,7 +50687,7 @@ snapshots:
 
   opengraph-io@2.0.0:
     dependencies:
-      lodash: 4.17.21
+      lodash: 4.17.23
       request: 2.88.2
       request-promise: 4.2.6(request@2.88.2)
 
@@ -51195,7 +51198,7 @@ snapshots:
       https-proxy-agent: 5.0.1
       joi: 17.13.3
       jsonwebtoken: 9.0.2
-      lodash: 4.17.21
+      lodash: 4.17.23
       querystring: 0.2.1
       request: 2.88.2
       uri-parser: 1.0.1
@@ -52279,7 +52282,7 @@ snapshots:
 
   request-promise-core@1.1.4(request@2.88.2):
     dependencies:
-      lodash: 4.17.21
+      lodash: 4.17.23
       request: 2.88.2
 
   request-promise@4.2.6(request@2.88.2):
@@ -52333,7 +52336,7 @@ snapshots:
 
   requizzle@0.2.4:
     dependencies:
-      lodash: 4.17.21
+      lodash: 4.17.23
 
   resolve-alpn@1.2.1: {}
 
@@ -52887,7 +52890,7 @@ snapshots:
   shopify-api-node@3.15.0:
     dependencies:
       got: 11.8.6
-      lodash: 4.17.21
+      lodash: 4.17.23
       qs: 6.14.1
       stopcock: 1.1.0
 
@@ -53712,14 +53715,6 @@ snapshots:
       yallist: 4.0.0
 
   tar@7.5.2:
-    dependencies:
-      '@isaacs/fs-minipass': 4.0.1
-      chownr: 3.0.0
-      minipass: 7.1.2
-      minizlib: 3.1.0
-      yallist: 5.0.0
-
-  tar@7.5.6:
     dependencies:
       '@isaacs/fs-minipass': 4.0.1
       chownr: 3.0.0
@@ -55006,7 +55001,7 @@ snapshots:
 
   wide-align@1.1.5:
     dependencies:
-      string-width: 1.0.2
+      string-width: 4.2.3
     optional: true
 
   widest-line@3.1.0:
