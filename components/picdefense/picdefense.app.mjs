@@ -23,23 +23,51 @@ export default {
       } = opts;
       return axios($, {
         ...otherOpts,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
           ...headers,
           "X-API-TOKEN": `${this.$auth.user_id}:${this.$auth.api_key}`,
         },
       });
     },
-    async checkImageRisk(args = {}) {
+    checkImageRisk(args = {}) {
       return this._makeRequest({
         method: "post",
         path: "/checkImageRisk",
         ...args,
       });
     },
-    async checkCredits(args = {}) {
+    checkCredits(args = {}) {
       return this._makeRequest({
         path: "/credits",
+        ...args,
+      });
+    },
+    findBacklinks(args = {}) {
+      return this._makeRequest({
+        method: "post",
+        path: "/backlinks",
+        ...args,
+      });
+    },
+    checkLogos(args = {}) {
+      return this._makeRequest({
+        method: "post",
+        path: "/logo",
+        ...args,
+      });
+    },
+    checkLandmark(args = {}) {
+      return this._makeRequest({
+        method: "post",
+        path: "/landmark",
+        ...args,
+      });
+    },
+    safeSearch(args = {}) {
+      return this._makeRequest({
+        method: "post",
+        path: "/safesearch",
         ...args,
       });
     },

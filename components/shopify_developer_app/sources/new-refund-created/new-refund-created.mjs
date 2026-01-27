@@ -5,7 +5,7 @@ export default {
   key: "shopify_developer_app-new-refund-created",
   name: "New Refund Created (Instant)",
   description: "Emit new event when a new refund is created.",
-  version: "0.0.11",
+  version: "0.0.12",
   type: "source",
   dedupe: "unique",
   methods: {

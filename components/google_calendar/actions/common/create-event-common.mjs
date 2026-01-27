@@ -74,10 +74,13 @@ export default {
   methods: {
     async getTimeZone(selectedTimeZone) {
       /**
-      * Based on the IINA Time Zone DB
+      * Based on the IANA Time Zone DB
       * http://www.iana.org/time-zones
       */
-      const { value: timeZone } = selectedTimeZone ?? await this.googleCalendar.getSettings({
+      if (typeof selectedTimeZone === "string") {
+        return selectedTimeZone;
+      }
+      const { value: timeZone } = await this.googleCalendar.getSettings({
         setting: "timezone",
       });
       return timeZone;

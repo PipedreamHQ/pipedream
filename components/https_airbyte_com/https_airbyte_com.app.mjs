@@ -6,7 +6,7 @@ export default {
   propDefinitions: {
     name: {
       type: "string",
-      label: "Workspace name",
+      label: "Workspace Name",
       description: "Name of the workspace",
     },
     workspaceId: {
@@ -33,7 +33,7 @@ export default {
     },
     includeDeleted: {
       type: "boolean",
-      label: "Include deleted",
+      label: "Include Deleted",
       description: "Include deleted workspaces in the list",
       optional: true,
     },
@@ -51,10 +51,10 @@ export default {
       } = opts;
       return axios($, {
         ...otherOpts,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
           ...headers,
-          "Authorization": `Bearer ${this.$auth.api_key}`,
+          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
         },
       });
     },

@@ -6,7 +6,7 @@ export default {
   key: "canvas-update-assignment",
   name: "Update Assignment",
   description: "Update an assignment. [See the documentation](https://mitt.uib.no/doc/api/all_resources.html#method.assignments_api.update)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: true,

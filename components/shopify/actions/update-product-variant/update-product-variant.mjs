@@ -9,7 +9,7 @@ export default {
   key: "shopify-update-product-variant",
   name: "Update Product Variant",
   description: "Update an existing product variant. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/productVariantsBulkUpdate)",
-  version: "0.0.18",
+  version: "0.0.19",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

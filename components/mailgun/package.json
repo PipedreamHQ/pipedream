@@ -16,7 +16,7 @@
     "@pipedream/helper_functions": "^0.3.7",
     "@pipedream/platform": "^1.6.8",
     "form-data": "^4.0.4",
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "lodash.get": "^4.4.2",
     "mailgun.js": "^3.5.2"
   }

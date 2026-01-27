@@ -1,10 +1,11 @@
+import utils from "../../common/utils.mjs";
 import googleCalendar from "../../google_calendar.app.mjs";
 
 export default {
   key: "google_calendar-query-free-busy-calendars",
   name: "Retrieve Free/Busy Calendar Details",
   description: "Retrieve free/busy calendar details from Google Calendar. [See the documentation](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Resource$Freebusy.html#query)",
-  version: "0.1.10",
+  version: "0.2.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -18,8 +19,12 @@ export default {
         googleCalendar,
         "calendarId",
       ],
+      type: "string[]",
+      default: [
+        "primary",
+      ],
       optional: false,
-      description: "Select a calendar to retrieve free/busy details",
+      description: "Select calendars to retrieve free/busy details",
     },
     timeMin: {
       propDefinition: [
@@ -49,11 +54,9 @@ export default {
         timeMin: this.timeMin,
         timeMax: this.timeMax,
         timeZone: this.timeZone,
-        items: [
-          {
-            id: this.calendarId,
-          },
-        ],
+        items: utils.parseObject(this.calendarId)?.map((id) => ({
+          id,
+        })),
       },
     });
 
