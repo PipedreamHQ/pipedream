@@ -11147,6 +11147,9 @@ importers:
 
   components/pdf_vector: {}
 
+  components/pdfcrowd:
+    specifiers: {}
+
   components/pdffiller:
     dependencies:
       '@pipedream/platform':
