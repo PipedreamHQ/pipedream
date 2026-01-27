@@ -100,10 +100,7 @@ export default {
         baseURL: `https://${this.$auth.instance_name}.service-now.com/api/now`,
         headers: {
           ...headers,
-          auth: {
-            username: `${this.$auth.username}`,
-            password: `${this.$auth.password}`,
-          },
+          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
         },
         ...args,
       });
