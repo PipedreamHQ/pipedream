@@ -21,7 +21,7 @@ export default {
     message: {
       type: "string",
       label: "Message",
-      description: "The message to send`",
+      description: "The message to send",
     },
     sender: {
       type: "string",
