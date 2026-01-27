@@ -4,7 +4,7 @@ export default {
   key: "raindrop-delete-bookmark",
   name: "Delete Bookmark",
   description: "Delete a bookmark. [See the docs here](https://developer.raindrop.io/v1/raindrops/single#remove-raindrop)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

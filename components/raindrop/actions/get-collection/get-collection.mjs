@@ -4,7 +4,7 @@ export default {
   key: "raindrop-get-collection",
   name: "Get Collection",
   description: "Get collection. [See the docs here](https://developer.raindrop.io/v1/collections/methods#get-collection)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
