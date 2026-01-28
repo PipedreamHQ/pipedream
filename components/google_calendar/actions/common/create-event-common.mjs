@@ -74,39 +74,59 @@ export default {
   methods: {
     async getTimeZone(selectedTimeZone) {
       /**
-      * Based on the IINA Time Zone DB
+      * Based on the IANA Time Zone DB
       * http://www.iana.org/time-zones
       */
-      const { value: timeZone } = selectedTimeZone ?? await this.googleCalendar.getSettings({
+      if (typeof selectedTimeZone === "string") {
+        return selectedTimeZone;
+      }
+      const { value: timeZone } = await this.googleCalendar.getSettings({
         setting: "timezone",
       });
       return timeZone;
     },
-    formatAttendees(selectedAttendees, currentAttendees) {
-      /**
-      * Format for the attendees
-      *
-      * [
-      *   { "email": "lpage@example.com",},
-      *   { "email": "sbrin@example.com",},
-      * ]
-      */
-      let attendees = [];
-      if (typeof selectedAttendees === "string") {
-        selectedAttendees = selectedAttendees.includes("[") && selectedAttendees.includes("]")
-          ? JSON.parse(selectedAttendees)
-          : selectedAttendees.replaceAll(" ", "").split(",");
+    parseEmails(input) {
+      if (typeof input === "string") {
+        return input.split(",")
+          .map((e) => e.trim())
+          .filter(Boolean);
       }
-      if (selectedAttendees && Array.isArray(selectedAttendees)) {
-        attendees = selectedAttendees.map((email) => ({
+      if (Array.isArray(input)) {
+        return input
+          .filter((e) => typeof e === "string")
+          .map((e) => e.trim())
+          .filter(Boolean);
+      }
+      return [];
+    },
+    formatAttendees(selectedAttendees, currentAttendees) {
+      const emails = this.parseEmails(selectedAttendees);
+
+      if (emails.length) {
+        return emails.map((email) => ({
           email,
         }));
-      } else if (currentAttendees && Array.isArray(currentAttendees)) {
-        return currentAttendees.map((attendee) => ({
-          email: attendee.email,
+      }
+
+      // Fall back to currentAttendees if no selectedAttendees
+      const fallbackEmails = this.parseEmails(currentAttendees);
+      if (fallbackEmails.length) {
+        return fallbackEmails.map((email) => ({
+          email,
         }));
       }
-      return attendees;
+
+      // Handle currentAttendees as array of attendee objects
+      if (Array.isArray(currentAttendees) && currentAttendees.length) {
+        return currentAttendees
+          .filter((a) => a && typeof a.email === "string")
+          .map((attendee) => ({
+            email: attendee.email.trim(),
+          }))
+          .filter((a) => a.email);
+      }
+
+      return [];
     },
     checkDateOrDateTimeInput(date, type) {
       if (type === "date") {

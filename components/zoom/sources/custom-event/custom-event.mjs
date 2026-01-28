@@ -6,7 +6,7 @@ export default {
   key: "zoom-custom-event",
   name: "Custom Events (Instant)",
   description: "Emit new events tied to your Zoom user or resources you own",
-  version: "0.1.5",
+  version: "0.1.7",
   type: "source",
   dedupe: "unique",
   props: {

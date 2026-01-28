@@ -6,7 +6,7 @@ export default {
   key: "trello-get-board",
   name: "Get Board",
   description: "Request a single board. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-boards/#api-boards-id-get).",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

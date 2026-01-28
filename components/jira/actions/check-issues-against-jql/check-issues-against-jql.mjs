@@ -4,7 +4,7 @@ export default {
   key: "jira-check-issues-against-jql",
   name: "Check Issues Against JQL",
   description: "Checks whether one or more issues would be returned by one or more JQL queries. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-search/#api-rest-api-3-jql-match-post)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     readOnlyHint: true,

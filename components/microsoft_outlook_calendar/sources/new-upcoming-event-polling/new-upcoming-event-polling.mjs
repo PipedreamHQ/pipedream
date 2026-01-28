@@ -5,7 +5,7 @@ export default {
   key: "microsoft_outlook_calendar-new-upcoming-event-polling",
   name: "New Upcoming Calendar Event (Polling)",
   description: "Emit new event based on a time interval before an upcoming calendar event. [See the documentation](https://docs.microsoft.com/en-us/graph/api/user-list-events)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

@@ -1,24 +1,28 @@
-*.md.orig.*
-*.md.toc.*
-gh-md-toc
+# general
+node_modules
 .DS_Store
 .vscode
 .idea
-node_modules
 .eslintcache
 eslint/_logs
+./package-lock.json
 
+# docs
+*.md.orig.*
+*.md.toc.*
+gh-md-toc
 .vercel
-
-docs/.vuepress/dist
 *.swp
 *.d.ts
 
-./package-lock.json
+# components
+components/*/dist/
 components/**/package-lock.json
+
+# packages
 /packages/evals/
 /packages/sdk/examples/.next/
 
-**/.claude/settings.local.json
-
+# agentic coding
 .cursor
+**/.claude/settings.local.json

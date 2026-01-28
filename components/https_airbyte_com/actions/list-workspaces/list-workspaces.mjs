@@ -4,7 +4,7 @@ export default {
   key: "https_airbyte_com-list-workspaces",
   name: "List Workspaces",
   description: "Lists workspaces on Airbyte. [See the documentation](https://reference.airbyte.com/reference/listworkspaces)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -39,7 +39,9 @@ export default {
       params.offset += limit;
     } while (total === limit);
 
-    $.export("$summary", "Successfully retrieved the list of workspaces");
+    $.export("$summary", `Successfully retrieved ${workspaces.length} workspace${workspaces.length === 1
+      ? ""
+      : "s"}`);
 
     return workspaces;
   },

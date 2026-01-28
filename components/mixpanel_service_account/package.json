@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/mixpanel_service_account",
+  "version": "0.0.1",
+  "description": "Pipedream Mixpanel (Service Account) Components",
+  "main": "mixpanel_service_account.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mixpanel_service_account"
+  ],
+  "homepage": "https://pipedream.com/apps/mixpanel_service_account",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
