@@ -4,7 +4,7 @@ export default {
   key: "sharepoint-select-files",
   name: "Select Files",
   description: "A file picker action that allows browsing and selecting one or more files from SharePoint. Returns the selected files' metadata including pre-authenticated download URLs. [See the documentation](https://learn.microsoft.com/en-us/graph/api/driveitem-get)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -19,42 +19,39 @@ export default {
         "siteId",
       ],
       withLabel: true,
-      reloadProps: true,
     },
     driveId: {
       propDefinition: [
         sharepoint,
         "driveId",
         (c) => ({
-          siteId: c.siteId?.__lv?.value || c.siteId,
+          siteId: c.siteId?.value || c.siteId,
         }),
       ],
       withLabel: true,
-      reloadProps: true,
     },
     folderId: {
       propDefinition: [
         sharepoint,
         "folderId",
         (c) => ({
-          siteId: c.siteId?.__lv?.value || c.siteId,
-          driveId: c.driveId?.__lv?.value || c.driveId,
+          siteId: c.siteId?.value || c.siteId,
+          driveId: c.driveId?.value || c.driveId,
         }),
       ],
       label: "Folder",
       description: "The folder to browse. Leave empty to browse the root of the drive.",
       optional: true,
       withLabel: true,
-      reloadProps: true,
     },
     fileOrFolderIds: {
       propDefinition: [
         sharepoint,
         "fileOrFolderId",
         (c) => ({
-          siteId: c.siteId?.__lv?.value || c.siteId,
-          driveId: c.driveId?.__lv?.value || c.driveId,
-          folderId: c.folderId?.__lv?.value || c.folderId,
+          siteId: c.siteId?.value || c.siteId,
+          driveId: c.driveId?.value || c.driveId,
+          folderId: c.folderId?.value || c.folderId,
         }),
       ],
       type: "string[]",
@@ -66,8 +63,8 @@ export default {
   methods: {
     resolveValue(prop) {
       if (!prop) return null;
-      if (typeof prop === "object" && prop.__lv) {
-        return prop.__lv.value;
+      if (typeof prop === "object" && prop?.value) {
+        return prop.value;
       }
       return prop;
     },
