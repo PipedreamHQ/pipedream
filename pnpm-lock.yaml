@@ -961,8 +961,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/amplitude_experiment_management:
-    specifiers: {}
+  components/amplitude_experiment_management: {}
 
   components/amqp:
     dependencies:
@@ -12249,7 +12248,11 @@ importers:
 
   components/questdb: {}
 
-  components/questionpro: {}
+  components/questionpro:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/quickbase:
     dependencies:
