@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosHeaders } from "axios";
 import { AxiosRequestConfig } from "./index";
 import * as querystring from "querystring";
 import { cloneSafe } from "./utils";
@@ -164,7 +164,7 @@ function create(config?: AxiosRequestConfig, signConfig?: any) {
   axiosInstance.interceptors.request.use(async (config) => {
     if (signConfig) {
       const oauthSignature = await getOauthSignature(config, signConfig);
-      if (!config.headers) config.headers = {};
+      if (!config.headers) config.headers = {} as AxiosHeaders;
       config.headers.Authorization = oauthSignature;
     }
 
