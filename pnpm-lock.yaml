@@ -957,6 +957,9 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
+  components/amplitude_experiment_management:
+    specifiers: {}
+
   components/amqp:
     dependencies:
       '@pipedream/platform':
