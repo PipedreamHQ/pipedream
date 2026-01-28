@@ -15,7 +15,7 @@
     "cron-parser": "^4.9.0",
     "google-docs-mustaches": "^1.2.2",
     "got": "13.0.0",
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "mime-db": "^1.51.0",
     "uuid": "^8.3.2"
   },

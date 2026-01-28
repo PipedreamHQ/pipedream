@@ -5,7 +5,7 @@ export default {
   key: "shopify-create-product",
   name: "Create Product",
   description: "Create a new product. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/productCreate)",
-  version: "0.0.15",
+  version: "0.0.16",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

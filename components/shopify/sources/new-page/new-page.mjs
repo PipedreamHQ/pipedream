@@ -7,7 +7,7 @@ export default {
   name: "New Page",
   type: "source",
   description: "Emit new event for each new page published.",
-  version: "0.0.20",
+  version: "0.0.21",
   dedupe: "unique",
   methods: {
     ...common.methods,

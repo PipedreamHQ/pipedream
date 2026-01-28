@@ -5,7 +5,7 @@ export default {
   key: "shopify-create-custom-collection",
   name: "Create Custom Collection",
   description: "Create a new custom collection. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/collectionCreate)",
-  version: "0.0.9",
+  version: "0.0.10",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

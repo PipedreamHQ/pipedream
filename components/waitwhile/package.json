@@ -16,9 +16,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "scripts": {
-    "build": "tsc"
-  },
   "dependencies": {
     "@pipedream/platform": "^1.6.8",
     "api": "^4.5.2",
