@@ -4,7 +4,7 @@ export default {
   key: "jira-get-issue-picker-suggestions",
   name: "Get Issue Picker Suggestions",
   description: "Returns lists of issues matching a query string. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-search/#api-rest-api-3-issue-picker-get)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     readOnlyHint: true,
