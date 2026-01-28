@@ -105,7 +105,9 @@ function getDataUrlStreamAndMetadata(dataUrl: string): { stream: Readable; metad
     : Buffer.from(decodeURIComponent(parsed.data), "utf-8");
 
   const ext = mime.extension(parsed.mediaType);
-  const name = ext ? `file.${ext}` : "file";
+  const name = ext
+    ? `file.${ext}`
+    : "file";
 
   const metadata: FileMetadata = {
     size: buffer.length,
