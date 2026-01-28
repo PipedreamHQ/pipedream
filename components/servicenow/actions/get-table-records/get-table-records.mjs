@@ -5,7 +5,7 @@ export default {
   key: "servicenow-get-table-records",
   name: "Get Table Records",
   description: "Retrieves multiple records for the specified table. [See the documentation](https://www.servicenow.com/docs/bundle/zurich-api-reference/page/integrate/inbound-rest/concept/c_TableAPI.html#title_table-GET)",
-  version: "1.0.0",
+  version: "1.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
