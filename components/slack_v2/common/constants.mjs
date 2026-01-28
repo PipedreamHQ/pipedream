@@ -23,9 +23,29 @@ const CHANNEL_TYPE_OPTIONS = [
   },
 ];
 
+const CHANNEL_TYPES_OPTIONS = [
+  {
+    label: "Public Channels",
+    value: CHANNEL_TYPE.PUBLIC,
+  },
+  {
+    label: "Private Channels",
+    value: CHANNEL_TYPE.PRIVATE,
+  },
+  {
+    label: "Direct Messages",
+    value: CHANNEL_TYPE.IM,
+  },
+  {
+    label: "Group Messages",
+    value: CHANNEL_TYPE.MPIM,
+  },
+];
+
 export default {
   MAX_RESOURCES,
   LIMIT,
   CHANNEL_TYPE,
   CHANNEL_TYPE_OPTIONS,
+  CHANNEL_TYPES_OPTIONS,
 };
