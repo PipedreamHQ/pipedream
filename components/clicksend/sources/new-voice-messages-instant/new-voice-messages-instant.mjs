@@ -4,10 +4,10 @@ import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
-  key: "clicksend-watch-voice-messages-instant",
-  name: "Watch Voice Messages (Instant)",
+  key: "clicksend-new-voice-messages-instant",
+  name: "New Voice Messages (Instant)",
   description: "Emit new event when a new voice message is received or sent. [See the documentation](https://developers.clicksend.com/docs/rest/v3/#view-voice-receipts)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   hooks: {

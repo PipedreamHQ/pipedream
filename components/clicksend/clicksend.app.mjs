@@ -79,7 +79,7 @@ export default {
     body: {
       type: "string",
       label: "Message",
-      description: "The SMS or MMS message to send.",
+      description: "The SMS, MMS or Voice message to send.",
     },
     to: {
       type: "string",
@@ -160,6 +160,13 @@ export default {
     delete(args = {}) {
       return this._makeRequest({
         method: "DELETE",
+        ...args,
+      });
+    },
+    sendVoiceMessage(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/voice/send",
         ...args,
       });
     },
