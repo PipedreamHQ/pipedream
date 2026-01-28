@@ -4,7 +4,7 @@ export default {
   key: "zoom-add-webinar-registrant",
   name: "Add Webinar Registrant",
   description: "Registers a participant for a webinar. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinarregistrantcreate).",
-  version: "0.3.7",
+  version: "0.3.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
