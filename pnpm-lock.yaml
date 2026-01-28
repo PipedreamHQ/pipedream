@@ -961,8 +961,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/amplitude_experiment_management:
-    specifiers: {}
+  components/amplitude_experiment_management: {}
 
   components/amqp:
     dependencies:
@@ -5836,7 +5835,11 @@ importers:
         specifier: ^4.1.1
         version: 4.2.0
 
-  components/function: {}
+  components/function:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/funnelcockpit: {}
 
