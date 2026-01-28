@@ -4,7 +4,7 @@ export default {
   key: "paystack-remove-split-code-from-virtual-terminal",
   name: "Remove Split Code from Virtual Terminal",
   description: "Remove Split Code from Virtual Terminal. [See the documentation](https://paystack.com/docs/api/virtual-terminal/#remove-split)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -4,7 +4,7 @@ export default {
   key: "paystack-assign-destination-to-virtual-terminal",
   name: "Assign Destination to Virtual Terminal",
   description: "Add a destination (WhatsApp number) to a Virtual Terminal on your integration. [See the documentation](https://paystack.com/docs/api/virtual-terminal/#assign-destination)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

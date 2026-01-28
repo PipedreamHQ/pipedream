@@ -4,7 +4,7 @@ export default {
   key: "paystack-create-virtual-terminal",
   name: "Create Virtual Terminal",
   description: "Create a Virtual Terminal on your integration. [See the documentation](https://paystack.com/docs/api/virtual-terminal/#create)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
