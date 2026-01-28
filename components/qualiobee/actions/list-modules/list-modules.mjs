@@ -31,12 +31,6 @@ export default {
       description: "Filter by description",
       optional: true,
     },
-    duration: {
-      type: "string",
-      label: "Duration",
-      description: "Filter by duration",
-      optional: true,
-    },
     moduleUuid: {
       propDefinition: [
         qualiobee,
@@ -64,7 +58,6 @@ export default {
         withDeleted: this.withDeleted,
         name: this.name,
         description: this.description,
-        duration: this.duration,
         uuid: this.moduleUuid,
         page: this.page,
         limit: this.limit,
