@@ -1,49 +1,57 @@
-import { ConfigurationError } from "@pipedream/platform";
 import { parseObject } from "../../common/utils.mjs";
-import pipedrive from "../../pipedrive.app.mjs";
+import pipedriveApp from "../../pipedrive.app.mjs";
 
 export default {
-  key: "pipedrive-add-lead",
-  name: "Add Lead",
-  description: "Create a new lead in Pipedrive. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Leads#addLead)",
-  version: "0.0.14",
+  key: "pipedrive-update-lead",
+  name: "Update Lead",
+  description: "Updates a lead in Pipedrive. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Leads#updateLead)",
+  version: "0.0.1",
   annotations: {
-    destructiveHint: false,
+    destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
   props: {
-    pipedrive,
+    pipedriveApp,
+    leadId: {
+      propDefinition: [
+        pipedriveApp,
+        "leadId",
+      ],
+      optional: false,
+    },
     title: {
       type: "string",
       label: "Title",
-      description: "The name of the lead",
+      description: "Title of the lead",
+      optional: true,
     },
     personId: {
       propDefinition: [
-        pipedrive,
+        pipedriveApp,
         "personId",
       ],
-      description: "The ID of a person which this lead will be linked to. If the person does not exist yet, it needs to be created first. This property is required unless organization_id is specified.",
+      description: "The ID of the person this lead will be linked to. If the person does not exist yet, it needs to be created first.",
     },
     organizationId: {
       propDefinition: [
-        pipedrive,
+        pipedriveApp,
         "organizationId",
       ],
-      description: "The ID of an organization which this lead will be linked to. If the organization does not exist yet, it needs to be created first. This property is required unless person_id is specified.",
+      description: "ID of the organization this lead will belong to",
     },
     ownerId: {
+      label: "Owner ID",
+      description: "ID of the user who will be marked as the owner of this lead",
       propDefinition: [
-        pipedrive,
+        pipedriveApp,
         "userId",
       ],
-      description: "The ID of the user which will be the owner of the created lead. If not provided, the user making the request will be used.",
     },
-    leadLabelIds: {
+    labelIds: {
       propDefinition: [
-        pipedrive,
+        pipedriveApp,
         "leadLabelIds",
       ],
     },
@@ -89,38 +97,28 @@ export default {
       description: "A flag indicating whether the lead was seen by someone in the Pipedrive UI",
       optional: true,
     },
-    note: {
-      type: "string",
-      label: "Note",
-      description: "A note to add to the lead",
+    isArchived: {
+      type: "boolean",
+      label: "Is Archived",
+      description: "A flag indicating whether the lead is archived or not",
       optional: true,
     },
   },
   async run({ $ }) {
-    if (!this.organizationId && !this.personId) {
-      throw new ConfigurationError("Either organizationId or personId is required");
-    }
-
-    const response = await this.pipedrive.addLead({
+    const response = await this.pipedriveApp.updateLead({
+      leadId: this.leadId,
       title: this.title,
       person_id: this.personId,
       organization_id: this.organizationId,
       owner_id: this.ownerId,
-      label_ids: this.leadLabelIds,
+      label_ids: this.labelIds,
       value: parseObject(this.value),
       expected_close_date: this.expectedCloseDate,
       visible_to: this.visibleTo,
       was_seen: this.wasSeen,
+      is_archived: this.isArchived,
     });
-
-    if (this.note) {
-      await this.pipedrive.addNote({
-        content: this.note,
-        lead_id: response.data?.id,
-      });
-    }
-
-    $.export("$summary", `Successfully created lead: ${response.data?.title || response.data?.id}`);
+    $.export("$summary", `Successfully updated lead: ${response.data?.title || response.data?.id}`);
     return response;
   },
 };
