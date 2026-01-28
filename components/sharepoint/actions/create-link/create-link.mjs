@@ -1,5 +1,5 @@
-import sharepoint from "../../sharepoint.app.mjs";
 import constants from "../../common/constants.mjs";
+import sharepoint from "../../sharepoint.app.mjs";
 
 export default {
   key: "sharepoint-create-link",

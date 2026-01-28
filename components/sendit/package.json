@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/sendit",
+  "version": "0.0.1",
+  "description": "Pipedream SendIt Components",
+  "main": "sendit.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sendit"
+  ],
+  "homepage": "https://pipedream.com/apps/sendit",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

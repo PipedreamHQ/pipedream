@@ -7,7 +7,7 @@ export default {
   key: "whatsapp_business-send-text-using-template",
   name: "Send Text Using Template",
   description: `Send a text message using a pre-defined template. Variables can be sent only as text. [See the docs.](${docLink})`,
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -35,6 +35,24 @@ export default {
       ],
       withLabel: true,
       reloadProps: true,
+    },
+    headerVars: {
+      type: "string[]",
+      label: "Header Variables",
+      description: "Array of header variables for programmatic/AI-agent use. Takes precedence over individual header props if provided.",
+      optional: true,
+    },
+    bodyVars: {
+      type: "string[]",
+      label: "Body Variables",
+      description: "Array of body variables for programmatic/AI-agent use. Takes precedence over individual body props if provided.",
+      optional: true,
+    },
+    buttonVars: {
+      type: "string[]",
+      label: "Button Variables",
+      description: "Array of button variables for programmatic/AI-agent use. Takes precedence over individual button props if provided.",
+      optional: true,
     },
   },
   async additionalProps() {
@@ -82,17 +100,42 @@ export default {
   },
   async run({ $ }) {
     const components = [];
-    const [
-      templateName,
-      language,
-    ] = this.messageTemplate.label.split(" - ");
+    let templateName, language;
 
-    const headerParameters = Object.keys(this)
-      .filter((key) => key === "header_{{1}}")
-      .map((key) => ({
+    // Handle both UI (object with label) and programmatic (string) invocation
+    if (this.messageTemplate?.label) {
+      const label = this.messageTemplate.label;
+      const lastDashIndex = label.lastIndexOf(" - ");
+      if (lastDashIndex === -1) {
+        throw new Error(`Invalid template label format: "${label}". Expected format: "name - language"`);
+      }
+      templateName = label.substring(0, lastDashIndex);
+      language = label.substring(lastDashIndex + 3);
+    } else {
+      // Programmatic invocation - fetch template details
+      const templateId = this.messageTemplate?.value ?? this.messageTemplate;
+      const template = await this.whatsapp.getMessageTemplate({
+        templateId,
+      });
+      templateName = template.name;
+      language = template.language;
+    }
+
+    // Header parameters - use headerVars array if provided, otherwise fall back to individual props
+    let headerParameters;
+    if (this.headerVars?.length) {
+      headerParameters = this.headerVars.map((text) => ({
         type: "text",
-        text: this[key],
+        text,
       }));
+    } else {
+      headerParameters = Object.keys(this)
+        .filter((key) => key === "header_{{1}}")
+        .map((key) => ({
+          type: "text",
+          text: this[key],
+        }));
+    }
 
     if (headerParameters.length) {
       components.push({
@@ -101,12 +144,21 @@ export default {
       });
     }
 
-    const buttonParameters = Object.keys(this)
-      .filter((key) => key.includes("button_"))
-      .map((key) => ({
+    // Button parameters - use buttonVars array if provided, otherwise fall back to individual props
+    let buttonParameters;
+    if (this.buttonVars?.length) {
+      buttonParameters = this.buttonVars.map((text) => ({
         type: "text",
-        text: this[key],
+        text,
       }));
+    } else {
+      buttonParameters = Object.keys(this)
+        .filter((key) => key === "button_{{1}}")
+        .map((key) => ({
+          type: "text",
+          text: this[key],
+        }));
+    }
 
     if (buttonParameters.length) {
       components.push({
@@ -117,17 +169,28 @@ export default {
       });
     }
 
-    const bodyParameters = Object.keys(this)
-      .filter((key) => key.match(regex) && key !== "header_{{1}}" && key !== "button_{{1}}")
-      .map((key) => ({
+    // Body parameters - use bodyVars array if provided, otherwise fall back to individual props
+    let bodyParameters;
+    if (this.bodyVars?.length) {
+      bodyParameters = this.bodyVars.map((text) => ({
         type: "text",
-        text: this[key],
+        text,
       }));
+    } else {
+      bodyParameters = Object.keys(this)
+        .filter((key) => key.match(regex) && key !== "header_{{1}}" && key !== "button_{{1}}")
+        .map((key) => ({
+          type: "text",
+          text: this[key],
+        }));
+    }
 
-    components.push({
-      type: "body",
-      parameters: bodyParameters,
-    });
+    if (bodyParameters.length) {
+      components.push({
+        type: "body",
+        parameters: bodyParameters,
+      });
+    }
 
     const response = await this.whatsapp.sendMessageUsingTemplate({
       $,

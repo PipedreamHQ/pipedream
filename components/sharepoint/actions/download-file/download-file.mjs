@@ -60,7 +60,10 @@ export default {
 
     const rawcontent = response.toString("base64");
     const buffer = Buffer.from(rawcontent, "base64");
-    const downloadedFilepath = `/tmp/${this.filename}`;
+    // Since the filepath is not returned as one of the standard keys (filePath
+    // or path), save the file to STASH_DIR, if defined, so it is synced at the
+    // end of execution.
+    const downloadedFilepath = `${process.env.STASH_DIR || "/tmp"}/${this.filename}`;
     fs.writeFileSync(downloadedFilepath, buffer);
 
     return {

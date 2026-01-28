@@ -236,5 +236,19 @@ export default {
         ...args,
       });
     },
+    async listContacts(args = {}) {
+      return this._makeRequest({
+        method: "GET",
+        path: "/me/contacts",
+        ...args,
+      });
+    },
+    async listPeople(args = {}) {
+      return this._makeRequest({
+        method: "GET",
+        path: "/me/people",
+        ...args,
+      });
+    },
   },
 };

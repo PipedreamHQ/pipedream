@@ -6,7 +6,7 @@ export default {
   key: "zoom-recording-completed",
   name: "Recording Completed (Instant)",
   description: "Emit new event each time a new recording completes for a meeting or webinar where you're the host",
-  version: "0.1.5",
+  version: "0.1.7",
   type: "source",
   dedupe: "unique",
   props: {

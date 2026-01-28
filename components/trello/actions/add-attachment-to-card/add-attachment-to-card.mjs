@@ -6,7 +6,7 @@ export default {
   key: "trello-add-attachment-to-card",
   name: "Add Attachment To Card",
   description: "Adds a file attachment on a card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-attachments-post)",
-  version: "1.0.4",
+  version: "1.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

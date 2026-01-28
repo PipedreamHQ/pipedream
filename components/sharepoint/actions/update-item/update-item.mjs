@@ -1,5 +1,5 @@
-import sharepoint from "../../sharepoint.app.mjs";
 import utils from "../../common/utils.mjs";
+import sharepoint from "../../sharepoint.app.mjs";
 
 export default {
   key: "sharepoint-update-item",

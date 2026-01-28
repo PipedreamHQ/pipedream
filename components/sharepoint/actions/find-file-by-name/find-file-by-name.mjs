@@ -1,10 +1,12 @@
+import constants from "../../common/constants.mjs";
+import utils from "../../common/utils.mjs";
 import sharepoint from "../../sharepoint.app.mjs";
 
 export default {
   key: "sharepoint-find-file-by-name",
   name: "Find File by Name",
   description: "Search for a file or folder by name. [See the documentation](https://learn.microsoft.com/en-us/onedrive/developer/rest-api/api/driveitem_search)",
-  version: "0.0.3",
+  version: "0.1.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -24,29 +26,54 @@ export default {
       label: "File Name",
       description: "The name of the file or folder to search for",
     },
-    excludeFolders: {
-      propDefinition: [
-        sharepoint,
-        "excludeFolders",
-      ],
+    returnContentType: {
+      type: "string",
+      label: "Return Content Type",
+      description: "The content type to return",
+      options: constants.RETURN_CONTENT_TYPE_OPTIONS,
+      default: "all",
+    },
+    select: {
+      type: "string[]",
+      label: "Select",
+      description: "Use Select to choose only the properties your app needs, as this can lead to performance improvements. E.g. `[\"name\", \"id\", \"createdDateTime\"]`",
+      optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.sharepoint.searchDriveItems({
+    const params = {};
+
+    if (this.select) {
+      params.select = utils.parseObject(this.select)?.join();
+    }
+
+    let { value } = await this.sharepoint.searchDriveItems({
       $,
       siteId: this.siteId,
       query: this.name,
+      params,
     });
-    let values = response.value.filter(
-      ({ name }) => name.toLowerCase().includes(this.name.toLowerCase()),
-    );
-    if (this.excludeFolders) {
-      values = values.filter(({ folder }) => !folder);
+
+    if (this.returnContentType === "files") {
+      value = value.filter(({ file }) => file);
+    } else if (this.returnContentType === "folders") {
+      value = value.filter(({ folder }) => folder);
     }
 
-    $.export("$summary", `Found ${values.length} matching file${values.length === 1
+    value = value.map((item) => {
+      return {
+        contentType: item.folder
+          ? "folder"
+          : "file",
+        ...item,
+      };
+    });
+
+    $.export("$summary", `Found ${value.length} matching ${this.returnContentType === "files"
+      ? "file"
+      : "folder"}${value.length === 1
       ? ""
       : "s"}`);
-    return values;
+    return value;
   },
 };
