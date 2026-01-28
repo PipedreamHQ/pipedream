@@ -8,7 +8,7 @@ export default {
   key: "google_sheets-new-updates-polling",
   name: "New Updates",
   description: "Emit new event each time a row or cell is updated in a spreadsheet.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   type: "source",
   props: {
@@ -66,9 +66,6 @@ export default {
     ...common.methods,
     getMonitoringRange() {
       return this.monitoringRange;
-    },
-    getRowCount(newValues, oldValues) {
-      return Math.max(newValues.length, oldValues?.length || 0);
     },
     getColCount(newValues, oldValues, i) {
       let colCount = 0;
