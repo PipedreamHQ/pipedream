@@ -957,8 +957,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/amplitude_experiment_management:
-    specifiers: {}
+  components/amplitude_experiment_management: {}
 
   components/amqp:
     dependencies:
@@ -11161,8 +11160,7 @@ importers:
 
   components/pdf_vector: {}
 
-  components/pdfcrowd:
-    specifiers: {}
+  components/pdfcrowd: {}
 
   components/pdffiller:
     dependencies:
@@ -12246,7 +12244,11 @@ importers:
 
   components/questdb: {}
 
-  components/questionpro: {}
+  components/questionpro:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/quickbase:
     dependencies:
@@ -32237,6 +32239,7 @@ packages:
   tar@7.5.6:
     resolution: {integrity: sha512-xqUeu2JAIJpXyvskvU3uvQW8PAmHrtXp2KDuMJwQqW8Sqq0CaZBAQ+dKS3RBXVhU4wC5NjAdKrmh84241gO9cA==}
     engines: {node: '>=18'}
+    deprecated: Old versions of tar are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exhorbitant rates) by contacting i@izs.me
 
   tarn@3.0.2:
     resolution: {integrity: sha512-51LAVKUSZSVfI05vjPESNc5vwqqZpbXCsU+/+wxlOrUjk2SnFTt97v9ZgQrD4YmxYW1Px6w2KjaDitCfkvgxMQ==}
