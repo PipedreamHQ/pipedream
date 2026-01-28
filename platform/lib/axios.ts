@@ -164,7 +164,7 @@ function create(config?: AxiosRequestConfig, signConfig?: any) {
   axiosInstance.interceptors.request.use(async (config) => {
     if (signConfig) {
       const oauthSignature = await getOauthSignature(config, signConfig);
-      if (!config.headers) config.headers = {} as AxiosHeaders;
+      if (!config.headers) config.headers = new AxiosHeaders();
       config.headers.Authorization = oauthSignature;
     }
 
