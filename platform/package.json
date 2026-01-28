@@ -6,6 +6,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
+    "prebuild": "rm -rf dist",
     "build": "tsc",
     "test": "npm run build && jest"
   },
