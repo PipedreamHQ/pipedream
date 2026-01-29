@@ -12239,7 +12239,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/qualiobee: {}
+  components/qualiobee:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/qualys: {}
 
