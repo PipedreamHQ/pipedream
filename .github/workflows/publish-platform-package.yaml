@@ -23,8 +23,8 @@ jobs:
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-      - name: Compile TypeScript
-        run: pnpm run build
+      - name: Build platform package
+        run: pnpm --filter @pipedream/platform run build
       # See https://pnpm.io/using-changesets
       - name: Setup npmrc for pnpm publish
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
