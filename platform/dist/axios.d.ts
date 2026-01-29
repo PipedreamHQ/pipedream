@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from "./index";
 export declare function transformConfigForOauth(config: AxiosRequestConfig): {
-    method: string;
+    method: (string & {}) | import("axios").Method;
     url: string;
 };
 declare function callAxios(step: any, config: AxiosRequestConfig, signConfig?: any): Promise<any>;

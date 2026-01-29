@@ -1,1 +1,1 @@
-export declare type ExecuteQueryArgs = object | string;
+export type ExecuteQueryArgs = object | string;

@@ -13,7 +13,10 @@ const mime = require("mime-types");
  * @returns a Readable stream of the file content
  */
 async function getFileStream(pathOrUrl) {
-    if (isUrl(pathOrUrl)) {
+    if (isDataUrl(pathOrUrl)) {
+        return getDataUrlStream(pathOrUrl);
+    }
+    else if (isUrl(pathOrUrl)) {
         const response = await fetch(pathOrUrl);
         if (!response.ok || !response.body) {
             throw new Error(`Failed to fetch ${pathOrUrl}: ${response.status} ${response.statusText}`);
@@ -22,7 +25,7 @@ async function getFileStream(pathOrUrl) {
     }
     else {
         await safeStat(pathOrUrl);
-        return fs_1.createReadStream(pathOrUrl);
+        return (0, fs_1.createReadStream)(pathOrUrl);
     }
 }
 exports.getFileStream = getFileStream;
@@ -31,7 +34,10 @@ exports.getFileStream = getFileStream;
  * @returns a Readable stream of the file content and its metadata
  */
 async function getFileStreamAndMetadata(pathOrUrl) {
-    if (isUrl(pathOrUrl)) {
+    if (isDataUrl(pathOrUrl)) {
+        return getDataUrlStreamAndMetadata(pathOrUrl);
+    }
+    else if (isUrl(pathOrUrl)) {
         return await getRemoteFileStreamAndMetadata(pathOrUrl);
     }
     else {
@@ -48,6 +54,46 @@ function isUrl(pathOrUrl) {
         return false;
     }
 }
+function isDataUrl(pathOrUrl) {
+    return pathOrUrl.startsWith("data:");
+}
+function parseDataUrl(dataUrl) {
+    // Format: data:[<mediatype>][;base64],<data>
+    const match = dataUrl.match(/^data:([^;,]*)?(?:;(base64))?,(.*)$/);
+    if (!match) {
+        throw new Error("Invalid data URL format");
+    }
+    const [, mediaType = "text/plain;charset=US-ASCII", base64Flag, data,] = match;
+    return {
+        mediaType,
+        isBase64: base64Flag === "base64",
+        data,
+    };
+}
+function getDataUrlStream(dataUrl) {
+    const parsed = parseDataUrl(dataUrl);
+    const buffer = parsed.isBase64
+        ? Buffer.from(parsed.data, "base64")
+        : Buffer.from(decodeURIComponent(parsed.data), "utf-8");
+    return stream_1.Readable.from(buffer);
+}
+function getDataUrlStreamAndMetadata(dataUrl) {
+    const parsed = parseDataUrl(dataUrl);
+    const buffer = parsed.isBase64
+        ? Buffer.from(parsed.data, "base64")
+        : Buffer.from(decodeURIComponent(parsed.data), "utf-8");
+    const ext = mime.extension(parsed.mediaType);
+    const name = ext ? `file.${ext}` : "file";
+    const metadata = {
+        size: buffer.length,
+        contentType: parsed.mediaType || undefined,
+        name,
+    };
+    return {
+        stream: stream_1.Readable.from(buffer),
+        metadata,
+    };
+}
 async function safeStat(path) {
     try {
         return await fs_1.promises.stat(path);
@@ -62,10 +108,10 @@ async function getLocalFileStreamAndMetadata(filePath) {
     const metadata = {
         size: stats.size,
         lastModified: stats.mtime,
-        name: path_1.basename(filePath),
+        name: (0, path_1.basename)(filePath),
         contentType,
     };
-    const stream = fs_1.createReadStream(filePath);
+    const stream = (0, fs_1.createReadStream)(filePath);
     return {
         stream,
         metadata,
@@ -83,7 +129,7 @@ async function getRemoteFileStreamAndMetadata(url) {
         : undefined;
     const etag = headers.get("etag") || undefined;
     const urlObj = new URL(url);
-    const name = path_1.basename(urlObj.pathname);
+    const name = (0, path_1.basename)(urlObj.pathname);
     const contentType = headers.get("content-type") || mime.lookup(urlObj.pathname) || undefined;
     const baseMetadata = {
         contentType,
@@ -108,19 +154,19 @@ async function getRemoteFileStreamAndMetadata(url) {
 }
 async function downloadToTemporaryFile(response, baseMetadata) {
     // Generate unique temporary file path
-    const tempFileName = `file-stream-${uuid_1.v4()}`;
-    const tempFilePath = path_1.join(os_1.tmpdir(), tempFileName);
+    const tempFileName = `file-stream-${(0, uuid_1.v4)()}`;
+    const tempFilePath = (0, path_1.join)((0, os_1.tmpdir)(), tempFileName);
     // Download to temporary file
-    const fileStream = fs_1.createWriteStream(tempFilePath);
+    const fileStream = (0, fs_1.createWriteStream)(tempFilePath);
     const webStream = stream_1.Readable.fromWeb(response.body);
     try {
-        await promises_1.pipeline(webStream, fileStream);
+        await (0, promises_1.pipeline)(webStream, fileStream);
         const stats = await fs_1.promises.stat(tempFilePath);
         const metadata = {
             ...baseMetadata,
             size: stats.size,
         };
-        const stream = fs_1.createReadStream(tempFilePath);
+        const stream = (0, fs_1.createReadStream)(tempFilePath);
         const cleanup = async () => {
             try {
                 await fs_1.promises.unlink(tempFilePath);

@@ -17933,8 +17933,8 @@ importers:
         specifier: ^4.15.0
         version: 4.41.0
       typescript:
-        specifier: ^3.5.3
-        version: 3.9.10
+        specifier: ^4.9.5
+        version: 4.9.5
 
   scripts:
     dependencies:

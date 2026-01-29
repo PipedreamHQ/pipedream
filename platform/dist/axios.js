@@ -107,7 +107,7 @@ async function callAxios(step, config, signConfig) {
         if (config.debug) {
             stepExport(step, config, "debug_config");
         }
-        const response = await axios_1.default(config);
+        const response = await (0, axios_1.default)(config);
         if (config.debug) {
             stepExport(step, response.data, "debug_response");
         }
@@ -124,7 +124,7 @@ async function callAxios(step, config, signConfig) {
     }
 }
 function stepExport(step, message, key) {
-    message = utils_1.cloneSafe(message);
+    message = (0, utils_1.cloneSafe)(message);
     if (step) {
         if (step.export) {
             step.export(key, message);
