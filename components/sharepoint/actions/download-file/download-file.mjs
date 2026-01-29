@@ -67,6 +67,7 @@ export default {
     async getOriginalFileData($) {
       const { name: originalFilename } = await this.sharepoint.getDriveItem({
         $,
+        driveId: this.driveId,
         siteId: this.siteId,
         fileId: this.fileId,
       });
