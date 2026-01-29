@@ -8,7 +8,7 @@ export default {
   key: "sharepoint-download-file",
   name: "Download File",
   description: "Download a Microsoft Sharepoint file to the /tmp directory. [See the documentation](https://learn.microsoft.com/en-us/graph/api/driveitem-get-content?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.9",
+  version: "0.0.10",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -115,15 +115,24 @@ export default {
       this.validateConversionFormat(originalExtension);
     }
 
-    const response = await this.sharepoint.getFile({
+    let response;
+    let args = {
       $,
       driveId: this.driveId,
       fileId: this.fileId,
       params: {
         format: this.convertToFormat,
       },
-      responseType: "arraybuffer",
-    });
+    };
+    try {
+      response = await this.sharepoint.getFile({
+        ...args,
+        responseType: "arraybuffer",
+      });
+    } catch {
+      // throw error without buffer encoding
+      await this.sharepoint.getFile(args);
+    }
 
     const rawcontent = response.toString("base64");
     const buffer = Buffer.from(rawcontent, "base64");
