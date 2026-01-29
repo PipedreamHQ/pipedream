@@ -33,22 +33,22 @@ export default {
         "outputFilename",
       ],
     },
-    page_size: {
+    pageSize: {
       propDefinition: [
         pdfcrowd,
-        "page_size",
+        "pageSize",
       ],
     },
-    page_width: {
+    pageWidth: {
       propDefinition: [
         pdfcrowd,
-        "page_width",
+        "pageWidth",
       ],
     },
-    page_height: {
+    pageHeight: {
       propDefinition: [
         pdfcrowd,
-        "page_height",
+        "pageHeight",
       ],
     },
     orientation: {
@@ -57,52 +57,52 @@ export default {
         "orientation",
       ],
     },
-    margin_top: {
+    marginTop: {
       propDefinition: [
         pdfcrowd,
-        "margin_top",
+        "marginTop",
       ],
     },
-    margin_right: {
+    marginRight: {
       propDefinition: [
         pdfcrowd,
-        "margin_right",
+        "marginRight",
       ],
     },
-    margin_bottom: {
+    marginBottom: {
       propDefinition: [
         pdfcrowd,
-        "margin_bottom",
+        "marginBottom",
       ],
     },
-    margin_left: {
+    marginLeft: {
       propDefinition: [
         pdfcrowd,
-        "margin_left",
+        "marginLeft",
       ],
     },
-    content_viewport_width: {
+    contentViewportWidth: {
       propDefinition: [
         pdfcrowd,
-        "content_viewport_width",
+        "contentViewportWidth",
       ],
     },
-    custom_css: {
+    customCss: {
       propDefinition: [
         pdfcrowd,
-        "custom_css",
+        "customCss",
       ],
     },
-    custom_javascript: {
+    customJavascript: {
       propDefinition: [
         pdfcrowd,
-        "custom_javascript",
+        "customJavascript",
       ],
     },
-    element_to_convert: {
+    elementToConvert: {
       propDefinition: [
         pdfcrowd,
-        "element_to_convert",
+        "elementToConvert",
       ],
     },
     // Expert mode options
@@ -114,25 +114,30 @@ export default {
       optional: true,
       reloadProps: true,
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
+    },
   },
   additionalProps() {
     if (!this.showExpertOptions) {
       return {};
     }
     return {
-      no_margins: {
+      noMargins: {
         type: "boolean",
         label: "No Margins",
         description: "Disable all page margins to use the entire page area. Use this for...",
         optional: true,
       },
-      print_page_range: {
+      printPageRange: {
         type: "string",
         label: "Print Page Range",
         description: "Set the page range to print when you only need specific pages from the...",
         optional: true,
       },
-      content_viewport_height: {
+      contentViewportHeight: {
         type: "string",
         label: "Content Viewport Height",
         description: "Set the viewport height for formatting the HTML content when generating...",
@@ -142,7 +147,7 @@ export default {
         ],
         optional: true,
       },
-      content_fit_mode: {
+      contentFitMode: {
         type: "string",
         label: "Content Fit Mode",
         description: "Specify the mode for fitting the HTML content to the print area by...",
@@ -157,7 +162,7 @@ export default {
         ],
         optional: true,
       },
-      remove_blank_pages: {
+      removeBlankPages: {
         type: "string",
         label: "Remove Blank Pages",
         description: "Specify which blank pages to exclude from the output document to create...",
@@ -168,145 +173,145 @@ export default {
         ],
         optional: true,
       },
-      header_url: {
+      headerUrl: {
         type: "string",
         label: "Header URL",
         description: "Load an HTML code from the specified URL and use it as the page header.",
         optional: true,
       },
-      header_html: {
+      headerHtml: {
         type: "string",
         label: "Header HTML",
         description: "Set the HTML header content with custom styling and dynamic page...",
         optional: true,
       },
-      header_height: {
+      headerHeight: {
         type: "string",
         label: "Header Height",
         description: "Set the header height to allocate space for header content and prevent...",
         optional: true,
       },
-      zip_header_filename: {
+      zipHeaderFilename: {
         type: "string",
         label: "Zip Header Filename",
         description: "Set the file name of the header HTML document stored in the input...",
         optional: true,
       },
-      footer_url: {
+      footerUrl: {
         type: "string",
         label: "Footer URL",
         description: "Load an HTML code from the specified URL and use it as the page footer.",
         optional: true,
       },
-      footer_html: {
+      footerHtml: {
         type: "string",
         label: "Footer HTML",
         description: "Set the HTML footer content with custom styling and dynamic page...",
         optional: true,
       },
-      footer_height: {
+      footerHeight: {
         type: "string",
         label: "Footer Height",
         description: "Set the footer height to allocate space for footer content and prevent...",
         optional: true,
       },
-      zip_footer_filename: {
+      zipFooterFilename: {
         type: "string",
         label: "Zip Footer Filename",
         description: "Set the file name of the footer HTML document stored in the input...",
         optional: true,
       },
-      no_header_footer_horizontal_margins: {
+      noHeaderFooterHorizontalMargins: {
         type: "boolean",
         label: "No Header Footer Horizontal Margins",
         description: "Disable horizontal page margins for header and footer. The...",
         optional: true,
       },
-      exclude_header_on_pages: {
+      excludeHeaderOnPages: {
         type: "string",
         label: "Exclude Header On Pages",
         description: "The page header content is not printed on the specified pages. To...",
         optional: true,
       },
-      exclude_footer_on_pages: {
+      excludeFooterOnPages: {
         type: "string",
         label: "Exclude Footer On Pages",
         description: "The page footer content is not printed on the specified pages. To...",
         optional: true,
       },
-      header_footer_scale_factor: {
+      headerFooterScaleFactor: {
         type: "integer",
         label: "Header Footer Scale Factor",
         description: "Set the scaling factor (zoom) for the header and footer.",
         optional: true,
       },
-      page_numbering_offset: {
+      pageNumberingOffset: {
         type: "integer",
         label: "Page Numbering Offset",
         description: "Set the numbering offset for page numbers in header/footer HTML to...",
         optional: true,
       },
-      page_watermark_url: {
+      pageWatermarkUrl: {
         type: "string",
         label: "Page Watermark URL",
         description: "Load a file from the specified URL and apply the file as a watermark to...",
         optional: true,
       },
-      multipage_watermark_url: {
+      multipageWatermarkUrl: {
         type: "string",
         label: "Multipage Watermark URL",
         description: "Load a file from the specified URL and apply each page of the file as a...",
         optional: true,
       },
-      page_background_url: {
+      pageBackgroundUrl: {
         type: "string",
         label: "Page Background URL",
         description: "Load a file from the specified URL and apply the file as a background...",
         optional: true,
       },
-      multipage_background_url: {
+      multipageBackgroundUrl: {
         type: "string",
         label: "Multipage Background URL",
         description: "Load a file from the specified URL and apply each page of the file as a...",
         optional: true,
       },
-      page_background_color: {
+      pageBackgroundColor: {
         type: "string",
         label: "Page Background Color",
         description: "Set a solid background color for all pages, filling the entire page...",
         optional: true,
       },
-      use_print_media: {
+      usePrintMedia: {
         type: "boolean",
         label: "Use Print Media",
         description: "Use the print version of the page if available via `@media` print CSS...",
         optional: true,
       },
-      no_background: {
+      noBackground: {
         type: "boolean",
         label: "No Background",
         description: "Do not print the background graphics to create printer-friendly PDFs....",
         optional: true,
       },
-      disable_javascript: {
+      disableJavascript: {
         type: "boolean",
         label: "Disable JavaScript",
         description: "Do not execute JavaScript during conversion. Use this to improve...",
         optional: true,
       },
-      disable_image_loading: {
+      disableImageLoading: {
         type: "boolean",
         label: "Disable Image Loading",
         description: "Do not load images during conversion to create text-only PDFs. Use this...",
         optional: true,
       },
-      disable_remote_fonts: {
+      disableRemoteFonts: {
         type: "boolean",
         label: "Disable Remote Fonts",
         description: "Disable loading fonts from remote sources. Use this to speed up...",
         optional: true,
       },
-      load_iframes: {
+      loadIframes: {
         type: "string",
         label: "Load Iframes",
         description: "Specifies how iframes are handled during conversion. Use `\"all\"` to...",
@@ -317,13 +322,13 @@ export default {
         ],
         optional: true,
       },
-      block_ads: {
+      blockAds: {
         type: "boolean",
         label: "Block Ads",
         description: "Automatically block common advertising networks and tracking scripts...",
         optional: true,
       },
-      default_encoding: {
+      defaultEncoding: {
         type: "string",
         label: "Default Encoding",
         description: "Specify the character encoding when the HTML lacks proper charset...",
@@ -335,13 +340,13 @@ export default {
         description: "Set the locale for the conversion to control regional formatting of...",
         optional: true,
       },
-      http_auth_user_name: {
+      httpAuthUserName: {
         type: "string",
         label: "HTTP Auth User Name",
         description: "Set the HTTP authentication user name. Required to access protected web...",
         optional: true,
       },
-      http_auth_password: {
+      httpAuthPassword: {
         type: "string",
         label: "HTTP Auth Password",
         description: "Set the HTTP authentication password. Required to access protected web...",
@@ -354,25 +359,25 @@ export default {
         description: "Set HTTP cookies to be included in all requests made by the converter...",
         optional: true,
       },
-      verify_ssl_certificates: {
+      verifySslCertificates: {
         type: "boolean",
         label: "Verify SSL Certificates",
         description: "Enforce SSL certificate validation for secure connections, preventing...",
         optional: true,
       },
-      fail_on_main_url_error: {
+      failOnMainUrlError: {
         type: "boolean",
         label: "Fail On Main URL Error",
         description: "Abort the conversion if the HTTP status code of the main URL is greater...",
         optional: true,
       },
-      fail_on_any_url_error: {
+      failOnAnyUrlError: {
         type: "boolean",
         label: "Fail On Any URL Error",
         description: "Abort the conversion if any sub-request (images, stylesheets, scripts)...",
         optional: true,
       },
-      css_page_rule_mode: {
+      cssPageRuleMode: {
         type: "string",
         label: "CSS Page Rule Mode",
         description: "Specifies behavior in the presence of CSS `@page` rules to control...",
@@ -383,25 +388,25 @@ export default {
         ],
         optional: true,
       },
-      on_load_javascript: {
+      onLoadJavascript: {
         type: "string",
         label: "On Load JavaScript",
         description: "Run a custom JavaScript right after the document is loaded. The script...",
         optional: true,
       },
-      custom_http_header: {
+      customHttpHeader: {
         type: "string",
         label: "Custom HTTP Header",
         description: "Set a custom HTTP header to be included in all requests made by the...",
         optional: true,
       },
-      javascript_delay: {
+      javascriptDelay: {
         type: "integer",
         label: "JavaScript Delay",
         description: "Wait the specified number of milliseconds to finish all JavaScript...",
         optional: true,
       },
-      element_to_convert_mode: {
+      elementToConvertMode: {
         type: "string",
         label: "Element To Convert Mode",
         description: "Control how CSS styles are applied when converting only part of a page....",
@@ -412,19 +417,19 @@ export default {
         ],
         optional: true,
       },
-      wait_for_element: {
+      waitForElement: {
         type: "string",
         label: "Wait For Element",
         description: "Wait for the specified element in a source document. Use this when...",
         optional: true,
       },
-      auto_detect_element_to_convert: {
+      autoDetectElementToConvert: {
         type: "boolean",
         label: "Auto Detect Element To Convert",
         description: "The main HTML element for conversion is detected automatically. Use...",
         optional: true,
       },
-      readability_enhancements: {
+      readabilityEnhancements: {
         type: "string",
         label: "Readability Enhancements",
         description: "Automatically enhance the input HTML to improve readability by removing...",
@@ -437,19 +442,19 @@ export default {
         ],
         optional: true,
       },
-      scale_factor: {
+      scaleFactor: {
         type: "integer",
         label: "Scale Factor",
         description: "Set the scaling factor (zoom) for the main page area to fit content...",
         optional: true,
       },
-      jpeg_quality: {
+      jpegQuality: {
         type: "integer",
         label: "JPEG Quality",
         description: "Set the quality of embedded JPEG images to balance file size and visual...",
         optional: true,
       },
-      convert_images_to_jpeg: {
+      convertImagesToJpeg: {
         type: "string",
         label: "Convert Images To JPEG",
         description: "Specify which image types will be converted to JPEG to reduce PDF file...",
@@ -460,13 +465,13 @@ export default {
         ],
         optional: true,
       },
-      image_dpi: {
+      imageDpi: {
         type: "integer",
         label: "Image DPI",
         description: "Set the DPI of images in PDF to control resolution and file size. Use...",
         optional: true,
       },
-      enable_pdf_forms: {
+      enablePDFForms: {
         type: "boolean",
         label: "Enable PDF Forms",
         description: "Convert HTML forms to fillable PDF forms that users can complete in PDF...",
@@ -484,33 +489,33 @@ export default {
         description: "Encrypt the PDF to prevent search engines from indexing the contents...",
         optional: true,
       },
-      user_password: {
+      userPassword: {
         type: "string",
         label: "User Password",
         description: "Protect the PDF with a user password to restrict who can open and view...",
         secret: true,
         optional: true,
       },
-      owner_password: {
+      ownerPassword: {
         type: "string",
         label: "Owner Password",
         description: "Protect the PDF with an owner password for administrative control. This...",
         secret: true,
         optional: true,
       },
-      no_print: {
+      noPrint: {
         type: "boolean",
         label: "No Print",
         description: "Disallow printing of the output PDF to protect sensitive content. Use...",
         optional: true,
       },
-      no_modify: {
+      noModify: {
         type: "boolean",
         label: "No Modify",
         description: "Disallow modification of the output PDF to maintain document integrity....",
         optional: true,
       },
-      no_copy: {
+      noCopy: {
         type: "boolean",
         label: "No Copy",
         description: "Disallow text and graphics extraction from the output PDF to protect...",
@@ -546,7 +551,7 @@ export default {
         description: "Extract meta tags (author, keywords and description) from the input...",
         optional: true,
       },
-      page_layout: {
+      pageLayout: {
         type: "string",
         label: "Page Layout",
         description: "Control how pages appear when the PDF opens in viewers that respect...",
@@ -558,7 +563,7 @@ export default {
         ],
         optional: true,
       },
-      page_mode: {
+      pageMode: {
         type: "string",
         label: "Page Mode",
         description: "Control the initial display mode when the PDF opens. `\"full-screen\"`...",
@@ -569,7 +574,7 @@ export default {
         ],
         optional: true,
       },
-      initial_zoom_type: {
+      initialZoomType: {
         type: "string",
         label: "Initial Zoom Type",
         description: "Control how the PDF is initially zoomed when opened.",
@@ -580,61 +585,61 @@ export default {
         ],
         optional: true,
       },
-      initial_page: {
+      initialPage: {
         type: "integer",
         label: "Initial Page",
         description: "Display the specified page when the document is opened.",
         optional: true,
       },
-      initial_zoom: {
+      initialZoom: {
         type: "integer",
         label: "Initial Zoom",
         description: "Specify the initial page zoom in percents when the document is opened.",
         optional: true,
       },
-      hide_toolbar: {
+      hideToolbar: {
         type: "boolean",
         label: "Hide Toolbar",
         description: "Hide the viewer's toolbar when the PDF is opened to provide a cleaner,...",
         optional: true,
       },
-      hide_menubar: {
+      hideMenubar: {
         type: "boolean",
         label: "Hide Menubar",
         description: "Hide the viewer's menu bar when the PDF is opened for a cleaner...",
         optional: true,
       },
-      hide_window_ui: {
+      hideWindowUi: {
         type: "boolean",
         label: "Hide Window UI",
         description: "Hide user interface elements like scroll bars and navigation controls...",
         optional: true,
       },
-      fit_window: {
+      fitWindow: {
         type: "boolean",
         label: "Fit Window",
         description: "Resize the PDF viewer window to fit the size of the first displayed...",
         optional: true,
       },
-      center_window: {
+      centerWindow: {
         type: "boolean",
         label: "Center Window",
         description: "Position the PDF viewer window in the center of the screen when opened....",
         optional: true,
       },
-      display_title: {
+      displayTitle: {
         type: "boolean",
         label: "Display Title",
         description: "Display the title of the HTML document in the PDF viewer's title bar...",
         optional: true,
       },
-      right_to_left: {
+      rightToLeft: {
         type: "boolean",
         label: "Right To Left",
         description: "Set the predominant reading order for text to right-to-left. This...",
         optional: true,
       },
-      debug_log: {
+      debugLog: {
         type: "boolean",
         label: "Debug Log",
         description: "Turn on debug logging to troubleshoot conversion issues. Details about...",
@@ -646,43 +651,43 @@ export default {
         description: "Tag the conversion with a custom value for tracking and analytics. Use...",
         optional: true,
       },
-      http_proxy: {
+      httpProxy: {
         type: "string",
         label: "HTTP Proxy",
         description: "A proxy server used by the conversion process for accessing the source...",
         optional: true,
       },
-      https_proxy: {
+      httpsProxy: {
         type: "string",
         label: "HTTPS Proxy",
         description: "A proxy server used by the conversion process for accessing the source...",
         optional: true,
       },
-      layout_dpi: {
+      layoutDpi: {
         type: "integer",
         label: "Layout DPI",
         description: "Set the internal DPI resolution used for positioning of PDF contents....",
         optional: true,
       },
-      main_document_css_annotation: {
+      mainDocumentCssAnnotation: {
         type: "boolean",
         label: "Main Document CSS Annotation",
         description: "Add special CSS classes to the main document's body element. This...",
         optional: true,
       },
-      header_footer_css_annotation: {
+      headerFooterCssAnnotation: {
         type: "boolean",
         label: "Header Footer CSS Annotation",
         description: "Add special CSS classes to the header/footer's body element. This...",
         optional: true,
       },
-      conversion_config: {
+      conversionConfig: {
         type: "string",
         label: "Conversion Config",
         description: "Configure conversion via JSON. The configuration defines various page...",
         optional: true,
       },
-      converter_version: {
+      converterVersion: {
         type: "string",
         label: "Converter Version",
         description: "Set the converter version. Different versions may produce different...",
@@ -709,6 +714,9 @@ export default {
     // Helper to check if value is set
     const isSet = (v) => v !== undefined && v !== null && v !== "";
 
+    // Helper to convert snake_case to camelCase
+    const snakeToCamel = (str) => str.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase());
+
     // Build conversion options
     const conversionOpts = {
       $,
@@ -720,7 +728,7 @@ export default {
       conversionOpts.text = inputHtml;
     }
 
-    // Basic conversion options
+    // Basic conversion options (snake_case for API)
     const basicOptions = [
       "page_size",
       "page_width",
@@ -736,7 +744,7 @@ export default {
       "element_to_convert",
     ];
 
-    // Expert conversion options
+    // Expert conversion options (snake_case for API)
     const expertOptions = [
       "no_margins",
       "print_page_range",
@@ -824,18 +832,20 @@ export default {
       "converter_version",
     ];
 
-    // Add basic options
-    for (const opt of basicOptions) {
-      if (isSet(this[opt])) {
-        conversionOpts[opt] = this[opt];
+    // Add basic options (map from camelCase props to snake_case API params)
+    for (const apiParam of basicOptions) {
+      const propName = snakeToCamel(apiParam);
+      if (isSet(this[propName])) {
+        conversionOpts[apiParam] = this[propName];
       }
     }
 
-    // Add expert options if enabled
+    // Add expert options if enabled (map from camelCase props to snake_case API params)
     if (this.showExpertOptions) {
-      for (const opt of expertOptions) {
-        if (isSet(this[opt])) {
-          conversionOpts[opt] = this[opt];
+      for (const apiParam of expertOptions) {
+        const propName = snakeToCamel(apiParam);
+        if (isSet(this[propName])) {
+          conversionOpts[apiParam] = this[propName];
         }
       }
     }

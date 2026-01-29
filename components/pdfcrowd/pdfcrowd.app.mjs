@@ -23,7 +23,7 @@ export default {
       default: "document.pdf",
       optional: true,
     },
-    page_size: {
+    pageSize: {
       type: "string",
       label: "Page Size",
       description: "Set the output page size using standard formats (A4, Letter, A3, etc.)....",
@@ -40,14 +40,14 @@ export default {
       default: "A4",
       optional: true,
     },
-    page_width: {
+    pageWidth: {
       type: "string",
       label: "Page Width",
       description: "Set custom page dimensions when standard sizes don't fit your needs....",
       default: "8.27in",
       optional: true,
     },
-    page_height: {
+    pageHeight: {
       type: "string",
       label: "Page Height",
       description: "Set custom page height for specific formats like receipts, banners, or...",
@@ -65,35 +65,35 @@ export default {
       default: "portrait",
       optional: true,
     },
-    margin_top: {
+    marginTop: {
       type: "string",
       label: "Margin Top",
       description: "Control white space at the top of the page. Increase for header space,...",
       default: "0.4in",
       optional: true,
     },
-    margin_right: {
+    marginRight: {
       type: "string",
       label: "Margin Right",
       description: "Control white space on the right edge of the page. Increase for...",
       default: "0.4in",
       optional: true,
     },
-    margin_bottom: {
+    marginBottom: {
       type: "string",
       label: "Margin Bottom",
       description: "Control white space at the bottom of the page. Increase for footer...",
       default: "0.4in",
       optional: true,
     },
-    margin_left: {
+    marginLeft: {
       type: "string",
       label: "Margin Left",
       description: "Control white space on the left edge of the page. Increase for...",
       default: "0.4in",
       optional: true,
     },
-    content_viewport_width: {
+    contentViewportWidth: {
       type: "string",
       label: "Content Viewport Width",
       description: "Set the viewport width for formatting the HTML content when generating...",
@@ -107,19 +107,19 @@ export default {
       default: "medium",
       optional: true,
     },
-    custom_css: {
+    customCss: {
       type: "string",
       label: "Custom CSS",
       description: "Apply custom CSS to the input HTML document to modify the visual...",
       optional: true,
     },
-    custom_javascript: {
+    customJavascript: {
       type: "string",
       label: "Custom JavaScript",
       description: "Run a custom JavaScript after the document is loaded and ready to...",
       optional: true,
     },
-    element_to_convert: {
+    elementToConvert: {
       type: "string",
       label: "Element To Convert",
       description: "Convert only the specified element from the main document and its...",
