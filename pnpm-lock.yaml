@@ -9490,9 +9490,6 @@ importers:
       puppeteer-core:
         specifier: ^24.36.1
         version: 24.36.1
-      stream:
-        specifier: ^0.0.3
-        version: 0.0.3
 
   components/microsoft_outlook_calendar:
     dependencies:
