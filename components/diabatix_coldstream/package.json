@@ -13,7 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "@pipedream/platform": "^1.6.8"
   }
 }

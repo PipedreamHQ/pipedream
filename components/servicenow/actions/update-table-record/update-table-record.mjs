@@ -5,7 +5,7 @@ export default {
   key: "servicenow-update-table-record",
   name: "Update Table Record",
   description: "Updates the specified record with the name-value pairs included in the request body. [See the documentation](https://www.servicenow.com/docs/bundle/zurich-api-reference/page/integrate/inbound-rest/concept/c_TableAPI.html#title_table-PATCH)",
-  version: "1.0.1",
+  version: "1.0.2",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

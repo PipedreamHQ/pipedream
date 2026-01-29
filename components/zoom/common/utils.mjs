@@ -1,3 +1,5 @@
+import { ConfigurationError } from "@pipedream/platform";
+
 async function streamIterator(stream) {
   const resources = [];
   for await (const resource of stream) {
@@ -21,8 +23,27 @@ function doubleEncode(value) {
   return value;
 }
 
+function parseArray(value) {
+  if (!value) {
+    return undefined;
+  }
+  if (typeof value === "string") {
+    try {
+      value = JSON.parse(value);
+    } catch {
+      throw new ConfigurationError(`Could not parse as array: ${value}`);
+    }
+  }
+  if (Array.isArray(value)) {
+    return value;
+  } else {
+    throw new ConfigurationError(`Expected a string or array, got ${typeof value}`);
+  }
+}
+
 export default {
   streamIterator,
   summaryEnd,
   doubleEncode,
+  parseArray,
 };

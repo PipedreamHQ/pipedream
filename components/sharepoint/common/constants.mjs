@@ -69,10 +69,25 @@ const HTML_CONVERTIBLE_FORMATS = [
   "fluid",
   "wbtx",
 ];
+const RETURN_CONTENT_TYPE_OPTIONS = [
+  {
+    label: "Only Files",
+    value: "files",
+  },
+  {
+    label: "Only Folders",
+    value: "folders",
+  },
+  {
+    label: "Both Files and Folders",
+    value: "all",
+  },
+];
 
 export default {
   SHARING_LINK_TYPE_OPTIONS,
   SHARING_LINK_SCOPE_OPTIONS,
   PDF_CONVERTIBLE_FORMATS,
   HTML_CONVERTIBLE_FORMATS,
+  RETURN_CONTENT_TYPE_OPTIONS,
 };

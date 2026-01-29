@@ -4,7 +4,7 @@ export default {
   key: "jira-search-issues-with-jql-post",
   name: "Search Issues with JQL (POST)",
   description: "Searches for issues using JQL with enhanced search capabilities. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-search/#api-rest-api-3-search-jql-post)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     readOnlyHint: true,
