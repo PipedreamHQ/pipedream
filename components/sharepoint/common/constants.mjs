@@ -24,7 +24,23 @@ const SHARING_LINK_SCOPE_OPTIONS = [
   },
 ];
 
+const RETURN_CONTENT_TYPE_OPTIONS = [
+  {
+    label: "Only Files",
+    value: "files",
+  },
+  {
+    label: "Only Folders",
+    value: "folders",
+  },
+  {
+    label: "Both Files and Folders",
+    value: "all",
+  },
+];
+
 export default {
   SHARING_LINK_TYPE_OPTIONS,
   SHARING_LINK_SCOPE_OPTIONS,
+  RETURN_CONTENT_TYPE_OPTIONS,
 };

@@ -1,25 +1,25 @@
 import { JsonPrimitive } from "type-fest";
 import { ExecuteQueryArgs } from "./sql";
-export declare type ColumnSchema = {
+export type ColumnSchema = {
     columnDefault: JsonPrimitive;
     dataType: string;
     isNullable: boolean;
     tableSchema?: string;
 };
-export declare type TableMetadata = {
+export type TableMetadata = {
     rowCount?: number;
 };
-export declare type TableSchema = {
+export type TableSchema = {
     [columnName: string]: ColumnSchema;
 };
-export declare type TableInfo = {
+export type TableInfo = {
     metadata: TableMetadata;
     schema: TableSchema;
 };
-export declare type DbInfo = {
+export type DbInfo = {
     [tableName: string]: TableInfo;
 };
-export declare type SqlProp = {
+export type SqlProp = {
     query: string;
     params?: string[];
 };
