@@ -57,7 +57,7 @@ export default {
   },
   methods: {
     async imageToPdf(imageBuffer) {
-      return new Promise((resolve) => {
+      return new Promise((resolve, reject) => {
         const doc = new PDFDocument({
           autoFirstPage: false,
         });
@@ -66,6 +66,8 @@ export default {
 
         stream.on("data", (c) => chunks.push(c));
         stream.on("end", () => resolve(Buffer.concat(chunks)));
+        stream.on("error", reject);
+        doc.on("error", reject);
 
         doc.pipe(stream);
         doc.addPage();
@@ -85,18 +87,17 @@ export default {
         args: chromium.args,
         headless: chromium.headless,
       });
-      const page = await browser.newPage();
-
-      await page.setContent(htmlBuffer.toString("utf8"), {
-        waitUntil: "domcontentloaded",
-      });
-
-      const pdf = await page.pdf({
-        format: "A4",
-      });
-      await browser.close();
-
-      return pdf;
+      try {
+        const page = await browser.newPage();
+        await page.setContent(htmlBuffer.toString("utf8"), {
+          waitUntil: "domcontentloaded",
+        });
+        return await page.pdf({
+          format: "A4",
+        });
+      } finally {
+        await browser.close();
+      }
     },
   },
   async run({ $ }) {
@@ -108,11 +109,13 @@ export default {
     });
 
     let filename = this.filename || this.attachmentId.label;
-    const name = path.parse(filename).name;
 
     if (!filename) {
       throw new ConfigurationError("Please enter a filename to save the downloaded file as in the `/tmp` directory.");
     }
+
+    const name = path.parse(filename).name;
+
     if (this.convertToPdf) {
       filename = `${name}.pdf`;
     }
@@ -120,26 +123,31 @@ export default {
     const filePath = path.join("/tmp", filename);
     let buffer = Buffer.from(attachment.data, "base64");
 
-    // get original mime type
-    const { payload: { parts } } = await this.gmail.getMessage({
-      $,
-      id: this.messageId,
-    });
-    const attachmentInfo = parts.find(({ filename }) => filename.startsWith(name));
-    const mimeType = attachmentInfo.mimeType;
+    if (this.convertToPdf) {
+      // get original mime type
+      const { payload: { parts } } = await this.gmail.getMessage({
+        $,
+        id: this.messageId,
+      });
+      const attachmentInfo = parts.find(({ filename }) => filename.startsWith(name));
+      const mimeType = attachmentInfo.mimeType;
 
-    if (this.convertToPdf && mimeType !== "application/pdf") {
-      if (mimeType?.startsWith("image/")) {
-        buffer = await this.imageToPdf(buffer);
-      } else if (mimeType === "text/html") {
-        buffer = await this.htmlToPdf(buffer);
-      } else if (mimeType === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
-        const { value: html } = await mammoth.convertToHtml({
-          buffer,
-        });
-        buffer = await this.htmlToPdf(html);
-      } else {
-        throw new ConfigurationError(`Cannot convert file type: ${mimeType} to PDF`);
+      if (mimeType !== "application/pdf") {
+        if (mimeType?.startsWith("image/")) {
+          buffer = await this.imageToPdf(buffer);
+        } else if (mimeType === "text/html") {
+          buffer = await this.htmlToPdf(buffer);
+        } else if (mimeType === "text/plain") {
+          const textBuffer = Buffer.from(`<pre>${buffer.toString("utf8")}</pre>`, "utf8");
+          buffer = await this.htmlToPdf(textBuffer);
+        } else if (mimeType === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+          const { value: html } = await mammoth.convertToHtml({
+            buffer,
+          });
+          buffer = await this.htmlToPdf(html);
+        } else {
+          throw new ConfigurationError(`Cannot convert file type: ${mimeType} to PDF`);
+        }
       }
     }
 

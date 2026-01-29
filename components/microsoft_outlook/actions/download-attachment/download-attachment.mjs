@@ -65,12 +65,14 @@ export default {
       });
     },
     async imageToPdf(imageBuffer) {
-      return new Promise((resolve) => {
+      return new Promise((resolve, reject) => {
         const doc = new PDFDocument({
           autoFirstPage: false,
         });
         const stream = new PassThrough();
         const chunks = [];
+        stream.on("error", reject);
+        doc.on("error", reject);
 
         stream.on("data", (c) => chunks.push(c));
         stream.on("end", () => resolve(Buffer.concat(chunks)));
@@ -93,18 +95,17 @@ export default {
         args: chromium.args,
         headless: chromium.headless,
       });
-      const page = await browser.newPage();
-
-      await page.setContent(htmlBuffer.toString("utf8"), {
-        waitUntil: "domcontentloaded",
-      });
-
-      const pdf = await page.pdf({
-        format: "A4",
-      });
-      await browser.close();
-
-      return pdf;
+      try {
+        const page = await browser.newPage();
+        await page.setContent(htmlBuffer.toString("utf8"), {
+          waitUntil: "domcontentloaded",
+        });
+        return await page.pdf({
+          format: "A4",
+        });
+      } finally {
+        await browser.close();
+      }
     },
   },
   async run({ $ }) {
@@ -124,23 +125,28 @@ export default {
     const rawcontent = response.toString("base64");
     let buffer = Buffer.from(rawcontent, "base64");
 
-    const { contentType: mimeType } = await this.getAttachmentInfo({
-      $,
-      messageId: this.messageId,
-      attachmentId: this.attachmentId,
-    });
-    if (this.convertToPdf && mimeType !== "application/pdf") {
-      if (mimeType?.startsWith("image/")) {
-        buffer = await this.imageToPdf(buffer);
-      } else if (mimeType === "text/html") {
-        buffer = await this.htmlToPdf(buffer);
-      } else if (mimeType === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
-        const { value: html } = await mammoth.convertToHtml({
-          buffer,
-        });
-        buffer = await this.htmlToPdf(html);
-      } else {
-        throw new ConfigurationError(`Cannot convert file type: ${mimeType} to PDF`);
+    if (this.convertToPdf) {
+      const { contentType: mimeType } = await this.getAttachmentInfo({
+        $,
+        messageId: this.messageId,
+        attachmentId: this.attachmentId,
+      });
+      if (mimeType !== "application/pdf") {
+        if (mimeType?.startsWith("image/")) {
+          buffer = await this.imageToPdf(buffer);
+        } else if (mimeType === "text/html") {
+          buffer = await this.htmlToPdf(buffer);
+        } else if (mimeType === "text/plain") {
+          const textBuffer = Buffer.from(`<pre>${buffer.toString("utf8")}</pre>`, "utf8");
+          buffer = await this.htmlToPdf(textBuffer);
+        } else if (mimeType === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+          const { value: html } = await mammoth.convertToHtml({
+            buffer,
+          });
+          buffer = await this.htmlToPdf(html);
+        } else {
+          throw new ConfigurationError(`Cannot convert file type: ${mimeType} to PDF`);
+        }
       }
     }
 
