@@ -53,20 +53,14 @@ export default {
     const response = await this.app.createClient({
       $,
       data: {
-        ...(this.firstName && {
-          fname: this.firstName,
-        }),
+        fname: this.firstName,
+        email: this.email,
+        phone_number: this.phoneNumber,
         ...(this.lastName && {
           lname: this.lastName,
         }),
         ...(this.company && {
           company: this.company,
-        }),
-        ...(this.email && {
-          email: this.email,
-        }),
-        ...(this.phoneNumber && {
-          phone_number: this.phoneNumber,
         }),
         ...(this.password && {
           password: this.password,
