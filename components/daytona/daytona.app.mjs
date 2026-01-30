@@ -1,6 +1,6 @@
 export default {
   type: "app",
-  app: "sendit",
+  app: "daytona",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
