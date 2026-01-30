@@ -74,6 +74,7 @@ export default {
       description: "Array of column names",
       async options({
         prevContext, siteId, listId,
+        mapper = ({ name }) => name,
       }) {
         if (!siteId || !listId) {
           return [];
@@ -86,7 +87,7 @@ export default {
           args.url = prevContext.nextLink;
         }
         const response = await this.listColumns(args);
-        const options = response.value?.map(({ name }) => name ) || [];
+        const options = response.value?.map(mapper) || [];
         return {
           options,
           context: {
@@ -102,7 +103,7 @@ export default {
       async options({
         prevContext, siteId, listId,
       }) {
-        if (!siteId) {
+        if (!siteId || !listId) {
           return [];
         }
         const args = {
@@ -203,17 +204,24 @@ export default {
       async options({
         query, siteId, driveId, excludeFolders = true,
       }) {
+        const resolvedSiteId = this.resolveWrappedValue(siteId);
+        const resolvedDriveId = this.resolveWrappedValue(driveId);
+
+        if (!resolvedSiteId || !resolvedDriveId) {
+          return [];
+        }
+
         const response = query
           ? await this.searchDriveItems({
-            siteId,
+            siteId: resolvedSiteId,
             query,
             params: {
               select: "folder,name,id",
             },
           })
           : await this.listDriveItems({
-            siteId,
-            driveId,
+            siteId: resolvedSiteId,
+            driveId: resolvedDriveId,
           });
         const values = excludeFolders
           ? response.value.filter(({ folder }) => !folder)
@@ -331,12 +339,15 @@ export default {
     resolveWrappedValue(value) {
       return value?.__lv?.value || value;
     },
+    _getAccessToken() {
+      return this.$auth.oauth_access_token;
+    },
     _baseUrl() {
       return "https://graph.microsoft.com/v1.0";
     },
     _headers(headers) {
       return {
-        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+        Authorization: `Bearer ${this._getAccessToken()}`,
         ...headers,
       };
     },
@@ -402,6 +413,14 @@ export default {
         ...args,
       });
     },
+    getListItem({
+      siteId, listId, itemId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/sites/${siteId}/lists/${listId}/items/${itemId}`,
+        ...args,
+      });
+    },
     listSiteDrives({
       siteId, ...args
     }) {
@@ -414,7 +433,7 @@ export default {
       siteId, driveId, ...args
     }) {
       return this._makeRequest({
-        path: `/sites/${siteId}/drives/${driveId}/items/root/children`,
+        path: `/sites/${siteId}/drives/${driveId}/root/children`,
         ...args,
       });
     },
@@ -430,7 +449,7 @@ export default {
       siteId, driveId, ...args
     }) {
       return this._makeRequest({
-        path: `/sites/${siteId}/drives/${driveId}/items/root/children`,
+        path: `/sites/${siteId}/drives/${driveId}/root/children`,
         method: "POST",
         ...args,
       });
@@ -478,7 +497,7 @@ export default {
           : `/sites/${siteId}/drives/${driveId}/root:/${encodeURI(name)}:/content`,
         method: "PUT",
         headers: {
-          "Content-Type": "application/octet-stream",
+          "Authorization": `Bearer ${this._getAccessToken()}`,
         },
         ...args,
       });
@@ -499,7 +518,9 @@ export default {
       siteId, query, ...args
     }) {
       return this._makeRequest({
-        path: `/sites/${siteId}/drive/root/search(q='${query}')`,
+        path: `/sites/${siteId}/drive/root/search(q='${encodeURIComponent(
+          query,
+        )}')`,
         ...args,
       });
     },
