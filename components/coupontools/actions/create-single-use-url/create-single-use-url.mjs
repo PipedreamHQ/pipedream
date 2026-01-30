@@ -64,7 +64,7 @@ export default {
     expiryDate: {
       type: "string",
       label: "Expiry Date",
-      description: "The expiry date of the single-use URL Format: yyyy-MM-dd:HH:mm:ss",
+      description: "The expiry date of the single-use URL Format: yyyy-MM-dd HH:mm:ss",
       optional: true,
     },
   },

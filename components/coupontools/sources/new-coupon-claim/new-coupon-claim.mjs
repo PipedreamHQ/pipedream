@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "coupontools-new-coupon-claim",
   name: "New Coupon Claim",
-  description: "Emit new event whenever a coupon has a new claim. [See the documentation](https://docs.coupontools.com/api/coupon#list-sessionss)",
+  description: "Emit new event whenever a coupon has a new claim. [See the documentation](https://docs.coupontools.com/api/coupon#list-sessions)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
