@@ -4,7 +4,7 @@ export default {
   key: "sharepoint-search-sites",
   name: "Search Sites",
   description: "Search for sites in Microsoft Sharepoint. [See the documentation](https://learn.microsoft.com/en-us/graph/api/site-search?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
