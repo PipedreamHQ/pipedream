@@ -23,7 +23,13 @@ export default {
     authorizationId: {
       type: "integer",
       label: "Authorization ID",
-      description: "The authorization ID gotten from the initiation response",
+      description: "Select a mandate authorization or use the Fetch Mandate Authorizations action to get the authorization ID",
+      async options() {
+        const { data } = await this.paystack.fetchMandateAuthorizations({
+          customerId: this.customerId,
+        });
+        return data?.map(({ authorization_id: id }) => id) || [];
+      },
     },
   },
   async run({ $ }) {

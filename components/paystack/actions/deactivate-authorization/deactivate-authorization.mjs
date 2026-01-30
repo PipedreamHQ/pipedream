@@ -28,7 +28,7 @@ export default {
           customer: customerCode,
         }),
       ],
-      description: "Select the authorization to deactivate",
+      description: "Select the authorization to deactivate or use the Fetch Transactions or Fetch Customer action to get the authorization code. This is created whenever a customer makes a payment on your integration.",
     },
   },
   async run({ $ }) {
