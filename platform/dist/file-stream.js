@@ -57,16 +57,36 @@ function isDataUrl(pathOrUrl) {
     return pathOrUrl.startsWith("data:");
 }
 function parseDataUrl(dataUrl) {
-    // Format: data:[<mediatype>][;base64],<data>
-    const match = dataUrl.match(/^data:([^;,]*)?(?:;(base64))?,(.*)$/);
+    // Format: data:[<mediatype>][;parameter=value]*[;base64],<data>
+    // Examples:
+    //   data:image/png;base64,iVBORw0K...
+    //   data:image/png;name=file.png;base64,iVBORw0K...
+    //   data:text/plain,Hello%20World
+    const match = dataUrl.match(/^data:([^;,]*)?(?:;([^,]*))?,([\s\S]*)$/);
     if (!match) {
         throw new Error("Invalid data URL format");
     }
-    const [, mediaType = "text/plain;charset=US-ASCII", base64Flag, data,] = match;
+    const [, mediaType = "text/plain;charset=US-ASCII", params = "", data,] = match;
+    // Parse parameters (e.g., "name=file.png;base64" or just "base64")
+    const paramParts = params.split(";").filter(Boolean);
+    let isBase64 = false;
+    let name;
+    for (const param of paramParts) {
+        if (param.toLowerCase() === "base64") {
+            isBase64 = true;
+        }
+        else if (param.toLowerCase().startsWith("name=")) {
+            name = decodeURIComponent(param.slice(5));
+        }
+        else if (param.toLowerCase().startsWith("filename=")) {
+            name = decodeURIComponent(param.slice(9));
+        }
+    }
     return {
         mediaType,
-        isBase64: base64Flag === "base64",
+        isBase64,
         data,
+        name,
     };
 }
 function getDataUrlStream(dataUrl) {
@@ -81,10 +101,14 @@ function getDataUrlStreamAndMetadata(dataUrl) {
     const buffer = parsed.isBase64
         ? Buffer.from(parsed.data, "base64")
         : Buffer.from(decodeURIComponent(parsed.data), "utf-8");
-    const ext = mime.extension(parsed.mediaType);
-    const name = ext
-        ? `file.${ext}`
-        : "file";
+    // Use name from data URL if available, otherwise generate from media type
+    let name = parsed.name;
+    if (!name) {
+        const ext = mime.extension(parsed.mediaType);
+        name = ext
+            ? `file.${ext}`
+            : "file";
+    }
     const metadata = {
         size: buffer.length,
         contentType: parsed.mediaType || undefined,
