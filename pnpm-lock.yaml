@@ -3731,7 +3731,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/cyfe: {}
+  components/cyfe:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/d2l_brightspace: {}
 
