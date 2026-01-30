@@ -6,7 +6,7 @@ export default {
   key: "zoom-webinar-ended",
   name: "Webinar Ended (Instant)",
   description: "Emit new event each time a webinar ends where you're the host",
-  version: "0.1.5",
+  version: "0.1.7",
   type: "source",
   dedupe: "unique",
   props: {

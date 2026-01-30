@@ -5,7 +5,7 @@ export default {
   key: "sharepoint-new-file-created",
   name: "New File Created",
   description: "Emit new event when a new file is created in Microsoft Sharepoint.",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {

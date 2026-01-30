@@ -6,7 +6,7 @@ export default {
   key: "google_calendar-upcoming-event-alert-polling",
   name: "New Upcoming Event Alert (Polling)",
   description: "Emit new event based on a time interval before an upcoming event in the calendar. [See the documentation](https://developers.google.com/calendar/api/v3/reference/events/list)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {

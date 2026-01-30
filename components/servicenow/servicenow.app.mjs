@@ -1,160 +1,168 @@
 import { axios } from "@pipedream/platform";
-import constants from "./common/constants.mjs";
-
-const {
-  DEFAULT_SEVERITY_OPTIONS,
-  INCIDENT_SEVERITY_OPTIONS,
-} = constants;
 
 export default {
   type: "app",
   app: "servicenow",
   propDefinitions: {
-    name: {
+    table: {
       type: "string",
-      label: "Name",
-      description: "A short description of the ticket issue.",
+      label: "Table",
+      description: "Search for a table or provide a table name (not label)",
+      useQuery: true,
+      async options({ query }) {
+        if (!(query?.length > 1)) {
+          console.log("Please input a search term");
+          return [];
+        }
+        const data = await this.getTableRecords({
+          table: "sys_db_object",
+          params: {
+            sysparm_query: `nameLIKE${query}^ORlabelLIKE${query}`,
+            sysparm_fields: "name,label",
+          },
+        });
+        return data.map(({
+          label, name,
+        }) => ({
+          label,
+          value: name,
+        }));
+      },
+    },
+    recordId: {
+      type: "string",
+      label: "Record ID",
+      description: "The ID (`sys_id` field) of the record",
+    },
+    responseDataFormat: {
+      label: "Response Data Format",
+      type: "string",
+      description: "The format to return response fields in",
+      optional: true,
+      options: [
+        {
+          value: "true",
+          label: "Returns the display values for all fields",
+        },
+        {
+          value: "false",
+          label: "Returns the actual values from the database",
+        },
+        {
+          value: "all",
+          label: "Returns both actual and display values",
+        },
+      ],
+    },
+    excludeReferenceLinks: {
+      type: "boolean",
+      label: "Exclude Reference Links",
+      description: "If true, the response excludes Table API links for reference fields",
       optional: true,
     },
-    description: {
-      type: "string",
-      label: "Description",
-      description: "A detailed description of the issue.",
-    },
-    caseSeverity: {
-      type: "string",
-      label: "Severity",
-      description: "The priority/severity of the case.",
-      options: DEFAULT_SEVERITY_OPTIONS,
-    },
-    incidentSeverity: {
-      type: "string",
-      label: "Severity",
-      description: "The priority/severity of the incident.",
-      options: INCIDENT_SEVERITY_OPTIONS,
-    },
-    status: {
-      type: "string",
-      label: "Status",
-      description: "The current status of the ticket.",
-      optional: true,
-      default: "New",
-    },
-    channelName: {
-      type: "string",
-      label: "Channel Name",
-      description: "The channel (`contact_type`) that the ticket was created through.",
+    responseFields: {
+      type: "string[]",
+      label: "Response Fields",
+      description: "The fields to return in the response. By default, all fields are returned",
       optional: true,
     },
-    contactMethod: {
-      type: "string",
-      label: "Contact Method",
-      description: "Name of the contact method (`contact_type`) that the ticket was created through.",
+    inputDisplayValue: {
+      label: "Input Display Value",
+      type: "boolean",
+      description: "If true, the input values are treated as display values (and are manipulated so they can be stored properly in the database)",
       optional: true,
     },
-    accountId: {
+    responseView: {
+      label: "Response View",
       type: "string",
-      label: "Account ID",
-      description: "`Sys_id` of the account related to the case.",
+      description: "Render the response according to the specified UI view (overridden by `Response Fields`)",
       optional: true,
+      options: [
+        "desktop",
+        "mobile",
+        "both",
+      ],
     },
-    contactId: {
-      type: "string",
-      label: "Contact ID",
-      description: "`Sys_id` of the contact related to the case.",
-      optional: true,
-    },
-    companyId: {
-      type: "string",
-      label: "Company ID",
-      description: "`Sys_id` of the company related to the incident.",
-      optional: true,
-    },
-    userId: {
-      type: "string",
-      label: "User ID",
-      description: "`Sys_id` of the user related to the incident.",
-      optional: true,
-    },
-    workNote: {
-      type: "string",
-      label: "Work Note",
-      description: "Internal work note for the ticket.",
-      optional: true,
-    },
-    comment: {
-      type: "string",
-      label: "Comment",
-      description: "Additional comment for the ticket.",
+    queryNoDomain: {
+      type: "boolean",
+      label: "Query Across Domains",
+      description: "If true, allows access to data across domains (if authorized)",
       optional: true,
     },
   },
   methods: {
-    baseUrl() {
-      const { instance_name: instanceName } = this.$auth;
-      return `https://${instanceName}.service-now.com`;
+    async _makeRequest({
+      $ = this,
+      headers,
+      ...args
+    }) {
+      const response = await axios($, {
+        baseURL: `https://${this.$auth.instance_name}.service-now.com/api/now`,
+        headers: {
+          ...headers,
+          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+        },
+        ...args,
+      });
+      return response.result;
     },
-    authHeaders() {
-      const { oauth_access_token: oauthAccessToken } = this.$auth;
-      return {
-        "Authorization": `Bearer ${oauthAccessToken}`,
-        "Accept": "application/json",
-        "Content-Type": "application/json",
-      };
-    },
-    buildChannel(name) {
-      if (!name) {
-        return;
-      }
-      return {
-        name,
-      };
-    },
-    buildNotes({
-      workNote,
-      comment,
-    } = {}) {
-      const notes = [];
-      if (workNote) {
-        notes.push({
-          "text": workNote,
-          "@type": "work_notes",
-        });
-      }
-      if (comment) {
-        notes.push({
-          "text": comment,
-          "@type": "comments",
-        });
-      }
-      return notes.length
-        ? notes
-        : undefined;
-    },
-    buildRelatedParties(partyTypeToId = {}) {
-      const entries = Object.entries(partyTypeToId)
-        .filter(([
-          , id,
-        ]) => id);
-      if (!entries.length) {
-        return;
-      }
-      return entries.map(([
-        type,
-        id,
-      ]) => ({
-        id,
-        "@referredType": type,
-      }));
-    },
-    async createTroubleTicket({
-      $ = this, data,
-    } = {}) {
-      return axios($, {
+    async createTableRecord({
+      table, ...args
+    }) {
+      return this._makeRequest({
         method: "post",
-        url: `${this.baseUrl()}/api/sn_ind_tsm_sdwan/ticket/troubleTicket`,
-        headers: this.authHeaders(),
-        data,
+        url: `/table/${table}`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        ...args,
+      });
+    },
+    async updateTableRecord({
+      table, recordId, replace, ...args
+    }) {
+      return this._makeRequest({
+        method: replace
+          ? "put"
+          : "patch",
+        url: `/table/${table}/${recordId}`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        ...args,
+      });
+    },
+    async deleteTableRecord({
+      table, recordId, ...args
+    }) {
+      return this._makeRequest({
+        method: "delete",
+        url: `/table/${table}/${recordId}`,
+        ...args,
+      });
+    },
+    async getTableRecordById({
+      table, recordId, ...args
+    }) {
+      return this._makeRequest({
+        url: `/table/${table}/${recordId}`,
+        ...args,
+      });
+    },
+    async getTableRecords({
+      table, ...args
+    }) {
+      return this._makeRequest({
+        url: `/table/${table}`,
+        ...args,
+      });
+    },
+    async getRecordCountsByField({
+      table, ...args
+    }) {
+      return this._makeRequest({
+        url: `/stats/${table}`,
+        ...args,
       });
     },
   },

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/muna",
+  "version": "0.0.1",
+  "description": "Pipedream Muna Components",
+  "main": "muna.app.mjs",
+  "keywords": [
+    "pipedream",
+    "muna"
+  ],
+  "homepage": "https://pipedream.com/apps/muna",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

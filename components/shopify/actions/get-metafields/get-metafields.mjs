@@ -5,7 +5,7 @@ export default {
   key: "shopify-get-metafields",
   name: "Get Metafields",
   description: "Retrieves a list of metafields that belong to a resource. [See the documentation](https://shopify.dev/docs/api/admin-graphql/unstable/queries/metafields)",
-  version: "0.0.14",
+  version: "0.0.15",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -8,12 +8,20 @@ export default {
       type: "string",
       label: "Site",
       description: "Identifier of a site",
-      async options({ prevContext }) {
+      useQuery: true,
+      async options({
+        prevContext, query,
+      }) {
         const args = prevContext?.nextLink
           ? {
             url: prevContext.nextLink,
           }
           : {};
+        if (query) {
+          args.params = {
+            search: query,
+          };
+        }
         const response = await this.listAllSites(args);
         const options = response.value?.map(({
           id: value, displayName: label,
@@ -157,17 +165,25 @@ export default {
       async options({
         query, siteId, driveId,
       }) {
+        // Handle both raw values and __lv wrapped values
+        const resolvedSiteId = this.resolveWrappedValue(siteId);
+        const resolvedDriveId = this.resolveWrappedValue(driveId);
+
+        if (!resolvedSiteId || !resolvedDriveId) {
+          return [];
+        }
+
         const response = query
           ? await this.searchDriveItems({
-            siteId,
+            siteId: resolvedSiteId,
             query,
             params: {
               select: "folder,name,id",
             },
           })
           : await this.listDriveItems({
-            siteId,
-            driveId,
+            siteId: resolvedSiteId,
+            driveId: resolvedDriveId,
           });
         const values = response.value.filter(({ folder }) => folder);
         return values
@@ -258,8 +274,63 @@ export default {
       description: "Set to `true` to return only files in the response. Defaults to `false`",
       optional: true,
     },
+    select: {
+      type: "string",
+      label: "Select",
+      description: "A comma-separated list of properties to return in the response",
+      optional: true,
+    },
+    maxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: "The maximum number of results to return",
+      optional: true,
+      default: 100,
+    },
+    fileOrFolderId: {
+      type: "string",
+      label: "File or Folder",
+      description: "Select a file or folder to browse",
+      async options({
+        siteId, driveId, folderId,
+      }) {
+        // Handle both raw values and __lv wrapped values
+        const resolvedSiteId = this.resolveWrappedValue(siteId);
+        const resolvedDriveId = this.resolveWrappedValue(driveId);
+        const resolvedFolderId = this.resolveWrappedValue(folderId);
+
+        if (!resolvedSiteId || !resolvedDriveId) {
+          return [];
+        }
+        const response = resolvedFolderId
+          ? await this.listDriveItemsInFolder({
+            driveId: resolvedDriveId,
+            folderId: resolvedFolderId,
+          })
+          : await this.listDriveItems({
+            siteId: resolvedSiteId,
+            driveId: resolvedDriveId,
+          });
+        return response.value?.map(({
+          id, name, folder, size,
+        }) => ({
+          value: JSON.stringify({
+            id,
+            name,
+            isFolder: !!folder,
+            size,
+          }),
+          label: folder
+            ? `📁 ${name}`
+            : `📄 ${name}`,
+        })) || [];
+      },
+    },
   },
   methods: {
+    resolveWrappedValue(value) {
+      return value?.__lv?.value || value;
+    },
     _baseUrl() {
       return "https://graph.microsoft.com/v1.0";
     },
@@ -281,15 +352,29 @@ export default {
         ...args,
       });
     },
+    getSite({
+      siteId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/sites/${siteId}`,
+        ...args,
+      });
+    },
     listSites(args = {}) {
       return this._makeRequest({
         path: "/me/followedSites",
         ...args,
       });
     },
-    listAllSites(args = {}) {
+    listAllSites({
+      params = {}, ...args
+    } = {}) {
+      if (!params.search) {
+        params.search = "*";
+      }
       return this._makeRequest({
-        path: "/sites?search=*",
+        path: "/sites",
+        params,
         ...args,
       });
     },
@@ -334,10 +419,10 @@ export default {
       });
     },
     listDriveItemsInFolder({
-      siteId, folderId, ...args
+      driveId, folderId, ...args
     }) {
       return this._makeRequest({
-        path: `/sites/${siteId}/drive/items/${folderId}/children`,
+        path: `/drives/${driveId}/items/${folderId}/children`,
         ...args,
       });
     },
@@ -399,10 +484,14 @@ export default {
       });
     },
     getDriveItem({
-      siteId, fileId, ...args
+      siteId, driveId, fileId, ...args
     }) {
+      // Use driveId if provided, otherwise fall back to site's default drive
+      const path = driveId
+        ? `/drives/${driveId}/items/${fileId}`
+        : `/sites/${siteId}/drive/items/${fileId}`;
       return this._makeRequest({
-        path: `/sites/${siteId}/drive/items/${fileId}`,
+        path,
         ...args,
       });
     },
@@ -446,6 +535,13 @@ export default {
       return this._makeRequest({
         path: `/sites/${siteId}/lists/${listId}/items/${itemId}/fields`,
         method: "PATCH",
+        ...args,
+      });
+    },
+    searchQuery(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/search/query",
         ...args,
       });
     },

@@ -5,7 +5,7 @@ export default {
   key: "google_calendar-list-event-instances",
   name: "List Event Instances",
   description: "Retrieve instances of a recurring event. [See the documentation](https://developers.google.com/calendar/api/v3/reference/events/instances)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

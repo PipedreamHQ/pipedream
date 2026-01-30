@@ -388,6 +388,36 @@ export default {
         })) || [];
       },
     },
+    personLabelIds: {
+      type: "integer[]",
+      label: "Person Label IDs",
+      description: "The IDs of the person labels to associate with the person",
+      async options() {
+        const { data } = await this.getPersonCustomFields();
+        const labelField = data.find(({ key }) => key === "label");
+        return labelField?.options?.map(({
+          id: value, label,
+        }) => ({
+          label,
+          value,
+        })) || [];
+      },
+    },
+    organizationLabelIds: {
+      type: "integer[]",
+      label: "Organization Label IDs",
+      description: "The IDs of the organization labels to associate with the organization",
+      async options() {
+        const { data } = await this.getOrganizationCustomFields();
+        const labelField = data.find(({ field_code: fieldCode }) => fieldCode === "label_ids");
+        return labelField?.options?.map(({
+          id: value, label,
+        }) => ({
+          label,
+          value,
+        })) || [];
+      },
+    },
     includeAllCustomFields: {
       type: "boolean",
       label: "Include All Custom Fields",
@@ -459,6 +489,10 @@ export default {
       const personCustomFieldsApi = this.api("PersonFieldsApi");
       return personCustomFieldsApi.getPersonFields(opts);
     },
+    getOrganizationCustomFields(opts) {
+      const organizationCustomFieldsApi = this.api("OrganizationFieldsApi", "v2");
+      return organizationCustomFieldsApi.getOrganizationFields(opts);
+    },
     addActivity(opts = {}) {
       const activityApi = this.api("ActivitiesApi", "v2");
       return activityApi.addActivity({
@@ -527,6 +561,36 @@ export default {
       return personsApi.updatePerson({
         id: personId,
         UpdatePersonRequest: opts,
+      });
+    },
+    updateLead({
+      leadId, ...opts
+    }) {
+      const leadsApi = this.api("LeadsApi");
+      return leadsApi.updateLead({
+        id: leadId,
+        UpdateLeadRequest: opts,
+      });
+    },
+    updateOrganization({
+      organizationId, ...opts
+    }) {
+      const organizationsApi = this.api("OrganizationsApi", "v2");
+      return organizationsApi.updateOrganization({
+        id: organizationId,
+        UpdateOrganizationRequest: opts,
+      });
+    },
+    getDeal(dealId) {
+      const dealsApi = this.api("DealsApi", "v2");
+      return dealsApi.getDeal({
+        id: dealId,
+      });
+    },
+    getOrganization(organizationId) {
+      const organizationsApi = this.api("OrganizationsApi", "v2");
+      return organizationsApi.getOrganization({
+        id: organizationId,
       });
     },
     deleteNote(noteId) {

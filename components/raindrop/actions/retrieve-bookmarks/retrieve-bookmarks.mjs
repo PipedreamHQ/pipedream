@@ -5,7 +5,7 @@ export default {
   key: "raindrop-retrieve-bookmarks",
   name: "Retrieve Bookmarks from Collection",
   description: "Retrieves all bookmarks from the specified collection. [See docs](https://developer.raindrop.io/v1/raindrops/multiple)",
-  version: "0.2.3",
+  version: "0.2.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

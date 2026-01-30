@@ -12,28 +12,20 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
-      - uses: pnpm/action-setup@v4.2.0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4.2.0
         with:
-          version: 9.14.2
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        run: |
-          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
-      - uses: actions/cache@v5
-        name: Setup pnpm cache
-        with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-      - name: Install dependencies
-        run: pnpm install -r --no-frozen-lockfile
-      - name: Setup Node Env
+          version: 10.28.2
+
+      - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: 18
-          registry-url: https://registry.npmjs.org/
+          node-version: 20
           cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
       - name: Get Changed Files
         id: files
         uses: Ana06/get-changed-files@v2.3.0
