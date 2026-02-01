@@ -15,8 +15,19 @@ export default {
       if (!this.skipFirstRun) {
         const { recentItems } = await this.salesforce.listSObjectTypeIds(objectType);
         const ids = recentItems.map((item) => item.Id);
+        const { fields } = this;
+        const fieldValuesToStore = {};
+
         for (const id of ids.slice(-25)) {
           const object = await this.salesforce.getSObject(objectType, id);
+
+          if (fields?.length) {
+            fieldValuesToStore[id] = {};
+            for (const field of fields) {
+              fieldValuesToStore[id][field] = object[field];
+            }
+          }
+
           const event = {
             body: {
               "New": object,
@@ -25,6 +36,10 @@ export default {
           };
           const meta = this.generateWebhookMeta(event);
           this.$emit(event.body, meta);
+        }
+
+        if (fields?.length && Object.keys(fieldValuesToStore).length > 0) {
+          this._setPreviousFieldValues(fieldValuesToStore);
         }
       }
     },
@@ -65,6 +80,12 @@ export default {
   },
   methods: {
     ...common.methods,
+    _getPreviousFieldValues() {
+      return this.db.get("previousFieldValues") || {};
+    },
+    _setPreviousFieldValues(values) {
+      this.db.set("previousFieldValues", values);
+    },
     generateWebhookMeta(data) {
       const nameField = this.getNameField();
       const { New: newObject } = data.body;
@@ -177,7 +198,49 @@ export default {
       latestDateCovered.setSeconds(0);
       setLatestDateCovered(latestDateCovered.toISOString());
 
-      Array.from(events)
+      const { fields } = this;
+
+      if (!fields?.length) {
+        Array.from(events)
+          .reverse()
+          .forEach((item) => {
+            const meta = generateTimerMeta(item, fieldName);
+            emit(item, meta);
+          });
+        return;
+      }
+
+      const previousFieldValues = this._getPreviousFieldValues();
+      const newFieldValues = {};
+
+      const filteredEvents = events.filter((item) => {
+        const recordId = item.Id;
+        const prevValues = previousFieldValues[recordId];
+
+        newFieldValues[recordId] = {};
+        for (const field of fields) {
+          newFieldValues[recordId][field] = item[field];
+        }
+
+        if (!prevValues) {
+          return false;
+        }
+
+        const hasChange = fields.some((field) => {
+          const currentValue = item[field];
+          const previousValue = prevValues[field];
+          return JSON.stringify(currentValue) !== JSON.stringify(previousValue);
+        });
+
+        return hasChange;
+      });
+
+      this._setPreviousFieldValues({
+        ...previousFieldValues,
+        ...newFieldValues,
+      });
+
+      Array.from(filteredEvents)
         .reverse()
         .forEach((item) => {
           const meta = generateTimerMeta(item, fieldName);
