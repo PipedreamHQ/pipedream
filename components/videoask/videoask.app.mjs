@@ -26,6 +26,9 @@ export default {
       async options({
         page, organizationId,
       }) {
+        if (!organizationId) {
+          return [];
+        }
         const limit = constants.DEFAULT_LIMIT;
         const { results } = await this.listForms({
           organizationId,

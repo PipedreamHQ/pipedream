@@ -32,7 +32,7 @@ export default {
   },
   hooks: {
     async activate() {
-      const response = await this.videoask.createWebhook({
+      await this.videoask.createWebhook({
         formId: this.formId,
         tag: this.tag,
         data: {
@@ -40,7 +40,6 @@ export default {
           event_types: this.getEventTypes(),
         },
       });
-      console.log(response);
     },
     async deactivate() {
       await this.videoask.deleteWebhook({
