@@ -2,16 +2,16 @@ import supabase from "../../supabase.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
-  key: "supabase-select-row",
-  name: "Select Row",
+  key: "supabase-count-rows",
+  name: "Count Rows",
   type: "action",
-  version: "0.1.5",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
-    readOnlyHint: false,
+    readOnlyHint: true,
   },
-  description: "Selects row(s) in a database. [See the docs here](https://supabase.com/docs/reference/javascript/select)",
+  description: "Counts rows in a database table, with optional filtering conditions. [See the docs here](https://supabase.com/docs/reference/javascript/select#querying-with-count-option)",
   props: {
     supabase,
     table: {
@@ -19,12 +19,14 @@ export default {
         supabase,
         "table",
       ],
+      description: "Name of the table to count rows from",
     },
     column: {
       propDefinition: [
         supabase,
         "column",
       ],
+      description: "Column name to filter by (optional)",
       optional: true,
     },
     filter: {
@@ -32,6 +34,7 @@ export default {
         supabase,
         "filter",
       ],
+      description: "Filter type for the query (optional)",
       optional: true,
     },
     value: {
@@ -39,27 +42,8 @@ export default {
         supabase,
         "value",
       ],
+      description: "Value to filter by (optional)",
       optional: true,
-    },
-    orderBy: {
-      propDefinition: [
-        supabase,
-        "column",
-      ],
-      label: "Order By",
-      description: "Column name to order by",
-    },
-    sortOrder: {
-      propDefinition: [
-        supabase,
-        "sortOrder",
-      ],
-    },
-    max: {
-      type: "integer",
-      label: "Max",
-      description: "Maximum number of rows to return",
-      default: 20,
     },
   },
   async run({ $ }) {
@@ -68,25 +52,20 @@ export default {
       column,
       filter,
       value,
-      orderBy,
-      sortOrder,
-      max,
     } = this;
 
     if ((column || filter || value) && !(column && filter && value)) {
       throw new ConfigurationError("If `column`, `filter`, or `value` is used, all three must be entered");
     }
 
-    const response = await this.supabase.selectRow({
+    const response = await this.supabase.countRows({
       table,
       column,
       filter,
       value,
-      orderBy,
-      sortOrder,
-      max,
     });
-    $.export("$summary", `Successfully retrieved ${response.data?.length || 0} row(s) from table ${table}`);
+
+    $.export("$summary", `Successfully counted ${response.count} row(s) in table ${table}`);
     return response;
   },
 };
