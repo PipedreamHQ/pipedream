@@ -1,32 +1,18 @@
 import paystack from "../../paystack.app.mjs";
 
 export default {
-  key: "paystack-list-transactions",
-  name: "List Transactions",
-  description: "List transactions carried out on your integration. [See the documentation](https://paystack.com/docs/api/transaction/#list)",
-  version: "0.0.7",
+  key: "paystack-list-customers",
+  name: "List Customers",
+  description: "List customers on your integration. [See the documentation](https://paystack.com/docs/api/customer/#list)",
+  version: "0.0.1",
+  type: "action",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
-  type: "action",
   props: {
     paystack,
-    status: {
-      propDefinition: [
-        paystack,
-        "status",
-      ],
-      optional: true,
-    },
-    customerID: {
-      propDefinition: [
-        paystack,
-        "customerID",
-      ],
-      optional: true,
-    },
     from: {
       propDefinition: [
         paystack,
@@ -46,31 +32,30 @@ export default {
         paystack,
         "maxResults",
       ],
+      default: 50,
     },
   },
   async run({ $ }) {
     const params = {
-      status: this.status,
-      customer: this.customerID,
       from: this.from,
       to: this.to,
     };
     const results = this.paystack.paginate({
-      resourceFn: this.paystack.listTransactions,
+      resourceFn: this.paystack.listCustomers,
       args: {
         $,
         params,
       },
       max: this.maxResults,
     });
-    const transactions = [];
+    const customers = [];
     for await (const item of results) {
-      transactions.push(item);
+      customers.push(item);
     }
 
-    $.export("$summary", `Successfully retrieved ${transactions.length} transaction${transactions.length === 1
+    $.export("$summary", `Successfully retrieved ${customers.length} customer${customers.length === 1
       ? ""
       : "s"}`);
-    return transactions;
+    return customers;
   },
 };
