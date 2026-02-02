@@ -16432,7 +16432,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/videoask: {}
+  components/videoask:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.2
+        version: 3.2.2
 
   components/vies_api:
     dependencies:
@@ -16535,8 +16539,7 @@ importers:
 
   components/voice: {}
 
-  components/voice_ai:
-    specifiers: {}
+  components/voice_ai: {}
 
   components/voice_monkey:
     dependencies:
@@ -21329,6 +21332,9 @@ packages:
 
   '@pipedream/platform@3.2.1':
     resolution: {integrity: sha512-MC0IiH+lbe3W2ItDsEXw+L0FsxaWS6FDjmgERuoaRAKYk7KMtzJzy6Z88reZ6Ws2/dt+yEV8cGEmk8nDq60cnw==}
+
+  '@pipedream/platform@3.2.2':
+    resolution: {integrity: sha512-D4i7l0lNofw70soZM4taEw4XIsTT1pgi44WaoB1WkdH1VUR6Q/FVqFYUaA+5XeuErapFpGyd+mWOCvRQusN7Vw==}
 
   '@pipedream/postgresql@2.2.4':
     resolution: {integrity: sha512-ANR8xURO+5tDp/85oP/SrAwUjk+G6Xz5LOU40hsR2OAYGN6wU0cNAMRSq4durl3MVcb2+oxJwB9uNAdYQgga/g==}
@@ -39346,6 +39352,17 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
+  '@pipedream/platform@3.2.2':
+    dependencies:
+      axios: 1.13.2(debug@3.2.7)
+      fp-ts: 2.16.11
+      io-ts: 2.2.22(fp-ts@2.16.11)
+      mime-types: 3.0.1
+      querystring: 0.2.1
+      uuid: 11.1.0
+    transitivePeerDependencies:
+      - debug
+
   '@pipedream/postgresql@2.2.4':
     dependencies:
       '@pipedream/platform': 2.0.2
@@ -39439,7 +39456,7 @@ snapshots:
   '@pipedream/youtube_data_api@1.0.1':
     dependencies:
       '@googleapis/youtube': 6.0.0
-      '@pipedream/platform': 3.2.1
+      '@pipedream/platform': 3.2.2
       got: 14.6.4
       util: 0.12.5
     transitivePeerDependencies:
