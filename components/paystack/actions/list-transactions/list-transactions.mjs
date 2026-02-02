@@ -4,7 +4,7 @@ export default {
   key: "paystack-list-transactions",
   name: "List Transactions",
   description: "List transactions carried out on your integration. [See the documentation](https://paystack.com/docs/api/transaction/#list)",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
