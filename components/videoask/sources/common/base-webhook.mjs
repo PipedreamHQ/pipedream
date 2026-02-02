@@ -33,6 +33,7 @@ export default {
   hooks: {
     async activate() {
       await this.videoask.createWebhook({
+        organizationId: this.organizationId,
         formId: this.formId,
         tag: this.tag,
         data: {
@@ -43,6 +44,7 @@ export default {
     },
     async deactivate() {
       await this.videoask.deleteWebhook({
+        organizationId: this.organizationId,
         formId: this.formId,
         tag: this.tag,
       });
