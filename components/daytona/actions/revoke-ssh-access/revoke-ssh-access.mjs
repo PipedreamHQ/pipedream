@@ -23,6 +23,7 @@ export default {
       type: "string",
       label: "Token",
       description: "The token to revoke",
+      secret: true,
     },
   },
   async run({ $ }) {

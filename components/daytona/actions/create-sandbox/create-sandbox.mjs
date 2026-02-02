@@ -66,7 +66,7 @@ export default {
     language: {
       type: "string",
       label: "Language",
-      description: "Programming language for direct code execution. Defaults to “python” if not specified.'",
+      description: "Programming language for direct code execution. Defaults to “python” if not specified.",
       optional: true,
       options: [
         "python",
