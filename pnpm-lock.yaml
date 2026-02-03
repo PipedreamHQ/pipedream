@@ -2407,7 +2407,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/callingly: {}
+  components/callingly:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.2.1
 
   components/calllerapi: {}
 
@@ -17043,7 +17047,11 @@ importers:
 
   components/workflowy: {}
 
-  components/workiom: {}
+  components/workiom:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/workiz:
     dependencies:
@@ -39286,7 +39294,7 @@ snapshots:
 
   '@pipedream/canva@0.2.3':
     dependencies:
-      '@pipedream/platform': 3.1.1
+      '@pipedream/platform': 3.2.1
     transitivePeerDependencies:
       - debug
 
