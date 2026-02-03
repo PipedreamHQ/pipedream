@@ -113,7 +113,7 @@ export default [
   },
   {
     value: "pt",
-    label: "Portugese",
+    label: "Portuguese",
   },
   {
     value: "ro",

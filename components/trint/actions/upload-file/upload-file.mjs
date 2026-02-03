@@ -84,7 +84,7 @@ export default {
       params: {
         "filename": metadata.name,
         "language": this.language,
-        "detect-speader-change": this.detectSpeakerChange,
+        "detect-speaker-change": this.detectSpeakerChange,
         "custom-dictionary": this.customDictionary,
         "workspace-id": this.workspaceId,
         "folder-id": this.folderId,
