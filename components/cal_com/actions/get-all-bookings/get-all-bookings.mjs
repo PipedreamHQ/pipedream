@@ -140,10 +140,12 @@ export default {
         $,
       });
 
-      const bookings = response?.data || response || [];
+      const bookings = response?.data?.data ?? [];
       allBookings.push(...bookings);
 
-      if (bookings.length < take) break;
+      const hasNextPage = response?.data?.pagination?.hasNextPage;
+      if (!hasNextPage || bookings.length < take) break;
+
       skip += take;
     }
 
