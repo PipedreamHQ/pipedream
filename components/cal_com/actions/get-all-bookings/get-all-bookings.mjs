@@ -107,7 +107,7 @@ export default {
   async run({ $ }) {
     const params = {};
 
-    if (this.status?.length) params.status = this.status;
+    if (this.status?.length) params.status = this.status.join(",");
     if (this.afterStart) params.afterStart = this.afterStart;
     if (this.beforeEnd) params.beforeEnd = this.beforeEnd;
     if (this.afterCreatedAt) params.afterCreatedAt = this.afterCreatedAt;
