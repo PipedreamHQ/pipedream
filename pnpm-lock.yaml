@@ -126,7 +126,7 @@ importers:
         version: 16.12.0
       graphql-request:
         specifier: ^3.7.0
-        version: 3.7.0(graphql@16.12.0)
+        version: 3.7.0(encoding@0.1.13)(graphql@16.12.0)
       husky:
         specifier: ^7.0.4
         version: 7.0.4
@@ -672,7 +672,7 @@ importers:
         version: 3.1.1
       airtable:
         specifier: ^0.11.1
-        version: 0.11.6
+        version: 0.11.6(encoding@0.1.13)
       bottleneck:
         specifier: ^2.19.5
         version: 2.19.5
@@ -696,7 +696,7 @@ importers:
     dependencies:
       '@airweave/sdk':
         specifier: ^0.1.50
-        version: 0.1.51
+        version: 0.1.51(encoding@0.1.13)
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
@@ -2218,7 +2218,7 @@ importers:
         version: 3.1.1
       puppeteer-core:
         specifier: ^19.7.5
-        version: 19.11.1(typescript@5.9.3)
+        version: 19.11.1(encoding@0.1.13)(typescript@5.9.3)
 
   components/browserstack:
     dependencies:
@@ -3086,7 +3086,7 @@ importers:
         version: 3.1.1
       cloudflare:
         specifier: ^4.4.1
-        version: 4.5.0
+        version: 4.5.0(encoding@0.1.13)
 
   components/cloudflare_browser_rendering:
     dependencies:
@@ -3247,7 +3247,7 @@ importers:
     dependencies:
       cohere-ai:
         specifier: ^7.10.6
-        version: 7.19.0(aws-crt@1.27.5)
+        version: 7.19.0(aws-crt@1.27.5)(encoding@0.1.13)
 
   components/coinapi: {}
 
@@ -4557,13 +4557,13 @@ importers:
         version: 2.6.13
       dropbox:
         specifier: ^10.34.0
-        version: 10.34.0(@types/node-fetch@2.6.13)
+        version: 10.34.0(@types/node-fetch@2.6.13)(encoding@0.1.13)
       got:
         specifier: ^13.0.0
         version: 13.0.0
       isomorphic-fetch:
         specifier: ^3.0.0
-        version: 3.0.0
+        version: 3.0.0(encoding@0.1.13)
       lodash:
         specifier: ^4.17.23
         version: 4.17.23
@@ -5260,7 +5260,7 @@ importers:
         version: 1.6.8
       faunadb:
         specifier: ^4.5.4
-        version: 4.8.2
+        version: 4.8.2(encoding@0.1.13)
       lodash:
         specifier: ^4.17.23
         version: 4.17.23
@@ -5419,10 +5419,10 @@ importers:
         version: 3.1.1
       firebase-admin:
         specifier: ^13.0.2
-        version: 13.6.0
+        version: 13.6.0(encoding@0.1.13)
       google-auth-library:
         specifier: ^7.11.0
-        version: 7.14.1
+        version: 7.14.1(encoding@0.1.13)
 
   components/fireberry:
     dependencies:
@@ -5849,11 +5849,7 @@ importers:
         specifier: ^4.1.1
         version: 4.2.0
 
-  components/function:
-    dependencies:
-      '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+  components/function: {}
 
   components/funnelcockpit: {}
 
@@ -6073,10 +6069,10 @@ importers:
     dependencies:
       '@octokit/core':
         specifier: ^4.2.4
-        version: 4.2.4
+        version: 4.2.4(encoding@0.1.13)
       '@octokit/plugin-paginate-rest':
         specifier: ^2.17.0
-        version: 2.21.3(@octokit/core@4.2.4)
+        version: 2.21.3(@octokit/core@4.2.4(encoding@0.1.13))
       '@octokit/webhooks-definitions':
         specifier: ^3.29.0
         version: 3.67.3
@@ -6165,10 +6161,10 @@ importers:
     dependencies:
       '@google-cloud/local-auth':
         specifier: ^2.1.0
-        version: 2.1.1
+        version: 2.1.1(encoding@0.1.13)
       '@google-cloud/pubsub':
         specifier: ^4.7.0
-        version: 4.11.0
+        version: 4.11.0(encoding@0.1.13)
       '@googleapis/gmail':
         specifier: ^13.0.1
         version: 13.0.1
@@ -6180,7 +6176,7 @@ importers:
         version: 143.0.4
       google-auth-library:
         specifier: ^8.7.0
-        version: 8.9.0
+        version: 8.9.0(encoding@0.1.13)
       html-to-text:
         specifier: ^9.0.5
         version: 9.0.5
@@ -6302,7 +6298,7 @@ importers:
     dependencies:
       '@googleapis/analyticsreporting':
         specifier: ^1.0.0
-        version: 1.0.7
+        version: 1.0.7(encoding@0.1.13)
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
@@ -6319,7 +6315,7 @@ importers:
     dependencies:
       '@googleapis/calendar':
         specifier: ^1.0.2
-        version: 1.0.4
+        version: 1.0.4(encoding@0.1.13)
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
@@ -6353,28 +6349,28 @@ importers:
         version: 1.6.8
       googleapis:
         specifier: ^131.0.0
-        version: 131.0.0
+        version: 131.0.0(encoding@0.1.13)
 
   components/google_cloud:
     dependencies:
       '@google-cloud/bigquery':
         specifier: ^6.0.0
-        version: 6.2.1
+        version: 6.2.1(encoding@0.1.13)
       '@google-cloud/bigquery-data-transfer':
         specifier: ^4.0.1
-        version: 4.4.0
+        version: 4.4.0(encoding@0.1.13)
       '@google-cloud/compute':
         specifier: ^4.1.0
-        version: 4.12.0
+        version: 4.12.0(encoding@0.1.13)
       '@google-cloud/logging':
         specifier: ^10.0.3
-        version: 10.5.0
+        version: 10.5.0(encoding@0.1.13)
       '@google-cloud/pubsub':
         specifier: ^3.0.1
-        version: 3.7.5
+        version: 3.7.5(encoding@0.1.13)
       '@google-cloud/storage':
         specifier: ^6.0.1
-        version: 6.12.0
+        version: 6.12.0(encoding@0.1.13)
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
@@ -6402,13 +6398,13 @@ importers:
         version: 1.6.8
       googleapis:
         specifier: ^96.0.0
-        version: 96.0.0
+        version: 96.0.0(encoding@0.1.13)
 
   components/google_dialogflow:
     dependencies:
       '@google-cloud/dialogflow':
         specifier: ^5.1.0
-        version: 5.9.0
+        version: 5.9.0(encoding@0.1.13)
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
@@ -6423,10 +6419,10 @@ importers:
     dependencies:
       '@googleapis/docs':
         specifier: ^3.3.0
-        version: 3.4.0
+        version: 3.4.0(encoding@0.1.13)
       '@pipedream/google_drive':
         specifier: ^1.4.1
-        version: 1.4.1
+        version: 1.4.1(encoding@0.1.13)
       markdown-it:
         specifier: ^14.1.0
         version: 14.1.0
@@ -6435,7 +6431,7 @@ importers:
     dependencies:
       '@googleapis/drive':
         specifier: ^2.3.0
-        version: 2.4.0
+        version: 2.4.0(encoding@0.1.13)
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
@@ -6444,7 +6440,7 @@ importers:
         version: 4.9.0
       google-docs-mustaches:
         specifier: ^1.2.2
-        version: 1.2.2
+        version: 1.2.2(encoding@0.1.13)
       got:
         specifier: 13.0.0
         version: 13.0.0
@@ -6489,7 +6485,7 @@ importers:
     dependencies:
       '@googleapis/calendar':
         specifier: ^9.7.0
-        version: 9.8.0
+        version: 9.8.0(encoding@0.1.13)
       moment-timezone:
         specifier: ^0.5.45
         version: 0.5.48
@@ -6517,10 +6513,10 @@ importers:
     dependencies:
       '@google-ai/generativelanguage':
         specifier: ^0.2.0
-        version: 0.2.1
+        version: 0.2.1(encoding@0.1.13)
       google-auth-library:
         specifier: ^8.8.0
-        version: 8.9.0
+        version: 8.9.0(encoding@0.1.13)
 
   components/google_perspective: {}
 
@@ -6567,10 +6563,10 @@ importers:
     dependencies:
       '@googleapis/sheets':
         specifier: ^0.3.0
-        version: 0.3.0
+        version: 0.3.0(encoding@0.1.13)
       '@pipedream/google_drive':
         specifier: ^1.1.1
-        version: 1.2.0
+        version: 1.2.0(encoding@0.1.13)
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
@@ -6588,13 +6584,13 @@ importers:
     dependencies:
       '@googleapis/drive':
         specifier: ^2.3.0
-        version: 2.4.0
+        version: 2.4.0(encoding@0.1.13)
       '@googleapis/slides':
         specifier: ^0.7.1
-        version: 0.7.1
+        version: 0.7.1(encoding@0.1.13)
       '@pipedream/google_drive':
         specifier: ^1.0.3
-        version: 1.2.0
+        version: 1.2.0(encoding@0.1.13)
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
@@ -6627,13 +6623,13 @@ importers:
     dependencies:
       '@googleapis/admin':
         specifier: ^6.0.2
-        version: 6.0.2
+        version: 6.0.2(encoding@0.1.13)
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
       googleapis:
         specifier: ^108.0.0
-        version: 108.0.1
+        version: 108.0.1(encoding@0.1.13)
       uuidv4:
         specifier: ^6.2.13
         version: 6.2.13
@@ -8108,7 +8104,7 @@ importers:
         version: 3.1.1
       graphql-request:
         specifier: ^6.0.0
-        version: 6.1.0(graphql@16.12.0)
+        version: 6.1.0(encoding@0.1.13)(graphql@16.12.0)
 
   components/kizeo_forms:
     dependencies:
@@ -8596,10 +8592,10 @@ importers:
     dependencies:
       '@linear/sdk':
         specifier: ^55.1.0
-        version: 55.2.1
+        version: 55.2.1(encoding@0.1.13)
       '@pipedream/linear_app':
         specifier: ^0.8.0
-        version: 0.8.1
+        version: 0.8.1(encoding@0.1.13)
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
@@ -8608,7 +8604,7 @@ importers:
     dependencies:
       '@linear/sdk':
         specifier: ^55.1.0
-        version: 55.2.1
+        version: 55.2.1(encoding@0.1.13)
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
@@ -9019,7 +9015,7 @@ importers:
     dependencies:
       mailersend:
         specifier: ^2.0.5
-        version: 2.6.0
+        version: 2.6.0(encoding@0.1.13)
 
   components/mailgenius:
     dependencies:
@@ -9419,7 +9415,7 @@ importers:
         version: 3.0.7
       isomorphic-fetch:
         specifier: ^3.0.0
-        version: 3.0.0
+        version: 3.0.0(encoding@0.1.13)
 
   components/microsoft_dataverse: {}
 
@@ -9476,7 +9472,7 @@ importers:
         version: 2.19.5
       isomorphic-fetch:
         specifier: ^3.0.0
-        version: 3.0.0
+        version: 3.0.0(encoding@0.1.13)
       lodash.get:
         specifier: ^4.4.2
         version: 4.4.2
@@ -9554,7 +9550,7 @@ importers:
         version: 3.1.1
       isomorphic-fetch:
         specifier: ^3.0.0
-        version: 3.0.0
+        version: 3.0.0(encoding@0.1.13)
 
   components/microsoft_teams_admin:
     dependencies:
@@ -9743,16 +9739,16 @@ importers:
         version: 4.7.0
       monday-sdk-js:
         specifier: ^0.1.3
-        version: 0.1.6
+        version: 0.1.6(encoding@0.1.13)
 
   components/monday_oauth:
     dependencies:
       '@pipedream/monday':
         specifier: ^0.7.0
-        version: 0.7.0
+        version: 0.7.0(encoding@0.1.13)
       monday-sdk-js:
         specifier: ^0.5.5
-        version: 0.5.6
+        version: 0.5.6(encoding@0.1.13)
 
   components/moneybird:
     dependencies:
@@ -9860,7 +9856,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/muna: {}
+  components/muna:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.2
+        version: 3.2.2
 
   components/mural:
     dependencies:
@@ -10057,7 +10057,7 @@ importers:
         version: 0.5.6
       netlify:
         specifier: ^23.0.0
-        version: 23.11.0(@azure/storage-blob@12.29.1)(@types/express@4.17.25)(@types/node@20.19.25)(picomatch@4.0.3)(rollup@4.53.2)
+        version: 23.11.0(@azure/storage-blob@12.29.1)(@types/express@4.17.25)(@types/node@20.19.25)(encoding@0.1.13)(picomatch@4.0.3)(rollup@4.53.2)
       parse-link-header:
         specifier: ^2.0.0
         version: 2.0.0
@@ -10309,7 +10309,7 @@ importers:
         version: 3.1.1
       '@tryfabric/martian':
         specifier: ^1.2.4
-        version: 1.2.4
+        version: 1.2.4(encoding@0.1.13)
       lodash-es:
         specifier: ^4.17.23
         version: 4.17.23
@@ -10318,7 +10318,7 @@ importers:
         version: 1.3.29
       notion-to-md:
         specifier: 3.1.8
-        version: 3.1.8
+        version: 3.1.8(encoding@0.1.13)
 
   components/notion_api_key:
     dependencies:
@@ -10327,7 +10327,7 @@ importers:
         version: 4.0.2
       '@pipedream/notion':
         specifier: ^1.0.2
-        version: 1.0.6
+        version: 1.0.6(encoding@0.1.13)
 
   components/nozbe_teams: {}
 
@@ -10499,7 +10499,7 @@ importers:
         version: 3.1.1
       graphql-request:
         specifier: ^6.0.0
-        version: 6.1.0(graphql@16.12.0)
+        version: 6.1.0(encoding@0.1.13)(graphql@16.12.0)
       uuid:
         specifier: ^9.0.1
         version: 9.0.1
@@ -10597,10 +10597,10 @@ importers:
         version: 0.30.2
       node-fetch:
         specifier: ^2.6.7
-        version: 2.7.0
+        version: 2.7.0(encoding@0.1.13)
       ongage:
         specifier: ^1.1.6
-        version: 1.1.7(node-fetch@2.7.0)
+        version: 1.1.7(node-fetch@2.7.0(encoding@0.1.13))
 
   components/online_live_support:
     dependencies:
@@ -10663,7 +10663,7 @@ importers:
         version: 12.6.1
       openai:
         specifier: ^4.77.0
-        version: 4.104.0(ws@8.18.3)(zod@3.25.76)
+        version: 4.104.0(encoding@0.1.13)(ws@8.18.3)(zod@3.25.76)
     devDependencies:
       '@pipedream/types':
         specifier: ^0.3.2
@@ -10777,25 +10777,25 @@ importers:
         version: 1.8.15
       oci-common:
         specifier: ^2.106.2
-        version: 2.121.1
+        version: 2.121.1(encoding@0.1.13)
       oci-core:
         specifier: ^2.106.2
-        version: 2.121.1
+        version: 2.121.1(encoding@0.1.13)
       oci-datacatalog:
         specifier: ^2.106.2
-        version: 2.121.1
+        version: 2.121.1(encoding@0.1.13)
       oci-events:
         specifier: ^2.106.2
-        version: 2.121.1
+        version: 2.121.1(encoding@0.1.13)
       oci-identity:
         specifier: ^2.106.2
-        version: 2.121.1
+        version: 2.121.1(encoding@0.1.13)
       oci-objectstorage:
         specifier: ^2.106.2
-        version: 2.121.1
+        version: 2.121.1(encoding@0.1.13)
       oci-ons:
         specifier: ^2.106.2
-        version: 2.121.1
+        version: 2.121.1(encoding@0.1.13)
 
   components/orbisx: {}
 
@@ -11581,7 +11581,7 @@ importers:
         version: 16.12.0
       graphql-request:
         specifier: ^5.0.0
-        version: 5.2.0(graphql@16.12.0)
+        version: 5.2.0(encoding@0.1.13)(graphql@16.12.0)
 
   components/pipeline:
     dependencies:
@@ -12051,7 +12051,7 @@ importers:
         version: 16.12.0
       graphql-request:
         specifier: ^5.1.0
-        version: 5.2.0(graphql@16.12.0)
+        version: 5.2.0(encoding@0.1.13)(graphql@16.12.0)
 
   components/productboard:
     dependencies:
@@ -12183,7 +12183,7 @@ importers:
         version: 121.0.0
       puppeteer-core:
         specifier: 21.11.0
-        version: 21.11.0
+        version: 21.11.0(encoding@0.1.13)
 
   components/push_by_techulus:
     dependencies:
@@ -13072,7 +13072,7 @@ importers:
         version: 16.12.0
       graphql-request:
         specifier: ^5.1.0
-        version: 5.2.0(graphql@16.12.0)
+        version: 5.2.0(encoding@0.1.13)(graphql@16.12.0)
       moment:
         specifier: ^2.29.4
         version: 2.30.1
@@ -13392,7 +13392,7 @@ importers:
         version: 3.1.1
       '@scrapeless-ai/sdk':
         specifier: 1.6.0
-        version: 1.6.0(typescript@5.9.3)
+        version: 1.6.0(encoding@0.1.13)(typescript@5.9.3)
 
   components/scrapeninja:
     dependencies:
@@ -13931,7 +13931,7 @@ importers:
         version: 16.12.0
       graphql-request:
         specifier: ^3.7.0
-        version: 3.7.0(graphql@16.12.0)
+        version: 3.7.0(encoding@0.1.13)(graphql@16.12.0)
 
   components/shopmonkey:
     dependencies:
@@ -14338,7 +14338,7 @@ importers:
     dependencies:
       '@smiirl/smiirl-library-js':
         specifier: ^1.0.5
-        version: 1.0.5
+        version: 1.0.5(encoding@0.1.13)
 
   components/smoove:
     dependencies:
@@ -14455,7 +14455,7 @@ importers:
         version: 3.1.1
       '@pipedream/snowflake-sdk':
         specifier: ^1.0.8
-        version: 1.0.8(asn1.js@5.4.1)
+        version: 1.0.8(asn1.js@5.4.1)(encoding@0.1.13)
       asn1.js:
         specifier: ^5.0.0
         version: 5.4.1
@@ -16390,7 +16390,7 @@ importers:
         version: 1.6.8
       verifalia:
         specifier: 3.2.2
-        version: 3.2.2
+        version: 3.2.2(encoding@0.1.13)
 
   components/veriff: {}
 
@@ -16543,8 +16543,7 @@ importers:
 
   components/voice: {}
 
-  components/voice_ai:
-    specifiers: {}
+  components/voice_ai: {}
 
   components/voice_monkey:
     dependencies:
@@ -16619,7 +16618,7 @@ importers:
         version: 1.6.8
       api:
         specifier: ^4.5.2
-        version: 4.5.2(@types/node@17.0.45)(openapi-types@12.1.3)
+        version: 4.5.2(@types/node@17.0.45)(encoding@0.1.13)(openapi-types@12.1.3)
       axios:
         specifier: ^0.30.2
         version: 0.30.2
@@ -16717,7 +16716,7 @@ importers:
         version: 3.1.1
       webflow-api:
         specifier: 2.4.2
-        version: 2.4.2
+        version: 2.4.2(encoding@0.1.13)
 
   components/webinarfuel: {}
 
@@ -17269,7 +17268,7 @@ importers:
         version: 1.6.8
       ynab:
         specifier: ^1.28.0
-        version: 1.55.0
+        version: 1.55.0(encoding@0.1.13)
 
   components/youcanbook_me:
     dependencies:
@@ -17295,7 +17294,7 @@ importers:
     dependencies:
       '@googleapis/youtube':
         specifier: ^6.0.0
-        version: 6.0.0
+        version: 6.0.0(encoding@0.1.13)
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
@@ -17310,10 +17309,10 @@ importers:
     dependencies:
       '@googleapis/youtube':
         specifier: ^6.0.0
-        version: 6.0.0
+        version: 6.0.0(encoding@0.1.13)
       '@pipedream/youtube_data_api':
         specifier: ^1.0.1
-        version: 1.0.1
+        version: 1.0.1(encoding@0.1.13)
       got:
         specifier: ^12.5.1
         version: 12.6.1
@@ -17806,7 +17805,7 @@ importers:
         version: 4.21.2
       openai:
         specifier: ^4.87.3
-        version: 4.104.0(ws@8.18.3)(zod@3.25.76)
+        version: 4.104.0(encoding@0.1.13)(ws@8.18.3)(zod@3.25.76)
       tsx:
         specifier: ^4.19.3
         version: 4.20.6
@@ -17834,7 +17833,7 @@ importers:
         version: link:../sdk
       openai:
         specifier: ^4.77.0
-        version: 4.104.0(ws@8.18.3)(zod@3.25.76)
+        version: 4.104.0(encoding@0.1.13)(ws@8.18.3)(zod@3.25.76)
       zod:
         specifier: ^3.24.4
         version: 3.25.76
@@ -17862,7 +17861,7 @@ importers:
         version: 1.41.2
       puppeteer-core:
         specifier: 21.11.0
-        version: 21.11.0
+        version: 21.11.0(encoding@0.1.13)
 
   packages/connect-react:
     dependencies:
@@ -17960,7 +17959,7 @@ importers:
     dependencies:
       snowflake-sdk:
         specifier: 1.9.0
-        version: 1.9.0(asn1.js@5.4.1)
+        version: 1.9.0(asn1.js@5.4.1)(encoding@0.1.13)
 
   platform:
     dependencies:
@@ -17985,7 +17984,7 @@ importers:
     devDependencies:
       '@octokit/core':
         specifier: ^3.6.0
-        version: 3.6.0
+        version: 3.6.0(encoding@0.1.13)
       husky:
         specifier: ^3.0.0
         version: 3.1.0
@@ -19360,16 +19359,16 @@ packages:
   '@datadog/sketches-js@2.1.1':
     resolution: {integrity: sha512-d5RjycE+MObE/hU+8OM5Zp4VjTwiPLRa8299fj7muOmR16fb942z8byoMbCErnGh0lBevvgkGrLclQDvINbIyg==}
 
-  '@definitelytyped/header-parser@0.2.21':
-    resolution: {integrity: sha512-NcPS+fL0mhTp8n9amRJ7UKwPDolbAuYKOiW7PKJSxp5oIhwkuszw2eKJbWtlxB37TN1dC1thMgu955O/FjWJ8A==}
+  '@definitelytyped/header-parser@0.2.22':
+    resolution: {integrity: sha512-zmsZ6cXHpGkPB99WUUKnc237I49RIvHHBW4FzBvBzLNxKPcpqZx505IqqlAYN11ve9wjhYSbPPCI5y+B1nLOfQ==}
     engines: {node: '>=20.17.0'}
 
   '@definitelytyped/typescript-versions@0.1.10':
     resolution: {integrity: sha512-4aBop464n0PUxrlzj1FpAfiNa5P5ENycB0K/Ho22Ay8xAGEGXUpLkaWtFsn2R+Jfn4ldd7lJqfqw0z29sAingQ==}
     engines: {node: '>=20.17.0'}
 
-  '@definitelytyped/utils@0.1.9':
-    resolution: {integrity: sha512-I5nOEPWD4hkZuy4LXi0tJnH+N+NeXRWwIdgOWdA4TmC/WnVKVy1YO1L8nLc8k/Enw195un2Rulnp2LOHfJriDw==}
+  '@definitelytyped/utils@0.1.10':
+    resolution: {integrity: sha512-XCd8g2hhZmwytP+sO6AUYILcdfr8Wjwx8laqRpdxdhvg7a4T+eDNM7EuD/O9THFhWc39j/aH54rSSb93WI0gxQ==}
     engines: {node: '>=20.17.0'}
 
   '@dependents/detective-less@5.0.1':
@@ -20389,6 +20388,10 @@ packages:
     resolution: {integrity: sha512-ZT55BDLV0yv0RBm2czMiZ+SqCGO7AvmOM3G/w2xhVPH+te0aKgFjmBvGlL1dH+ql2tgGO3MVrbb3jCKyvpgnxA==}
     engines: {node: 20 || >=22}
 
+  '@isaacs/brace-expansion@5.0.1':
+    resolution: {integrity: sha512-WMz71T1JS624nWj2n2fnYAuPovhv7EUhk69R6i9dsVyzxt5eM3bjwvgk9L+APE1TRscGysAVMANkB0jh0LQZrQ==}
+    engines: {node: 20 || >=22}
+
   '@isaacs/cliui@8.0.2':
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
     engines: {node: '>=12'}
@@ -20875,6 +20878,30 @@ packages:
     resolution: {integrity: sha512-SJsprS26S0Wi9CoTQp4vC8/nPpAIo1gMB4H7aJ2E/k0fWnNGIEAg984KwtzK6h9ZGaPcEaryVRSz1VVClJcVUw==}
     engines: {node: '>=18'}
 
+  '@npmcli/agent@4.0.0':
+    resolution: {integrity: sha512-kAQTcEN9E8ERLVg5AsGwLNoFb+oEG6engbqAU2P43gD4JEIkNGMHdVQ096FsOAAYpZPB0RSt0zgInKIAS1l5QA==}
+    engines: {node: ^20.17.0 || >=22.9.0}
+
+  '@npmcli/fs@5.0.0':
+    resolution: {integrity: sha512-7OsC1gNORBEawOa5+j2pXN9vsicaIOH5cPXxoR6fJOmH6/EXpJB2CajXOu1fPRFun2m1lktEFX11+P89hqO/og==}
+    engines: {node: ^20.17.0 || >=22.9.0}
+
+  '@npmcli/git@7.0.1':
+    resolution: {integrity: sha512-+XTFxK2jJF/EJJ5SoAzXk3qwIDfvFc5/g+bD274LZ7uY7LE8sTfG6Z8rOanPl2ZEvZWqNvmEdtXC25cE54VcoA==}
+    engines: {node: ^20.17.0 || >=22.9.0}
+
+  '@npmcli/package-json@7.0.4':
+    resolution: {integrity: sha512-0wInJG3j/K40OJt/33ax47WfWMzZTm6OQxB9cDhTt5huCP2a9g2GnlsxmfN+PulItNPIpPrZ+kfwwUil7eHcZQ==}
+    engines: {node: ^20.17.0 || >=22.9.0}
+
+  '@npmcli/promise-spawn@9.0.1':
+    resolution: {integrity: sha512-OLUaoqBuyxeTqUvjA3FZFiXUfYC1alp3Sa99gW3EUDz3tZ3CbXDdcZ7qWKBzicrJleIgucoWamWH1saAmH/l2Q==}
+    engines: {node: ^20.17.0 || >=22.9.0}
+
+  '@npmcli/redact@4.0.0':
+    resolution: {integrity: sha512-gOBg5YHMfZy+TfHArfVogwgfBeQnKbbGo3pSUyK/gSI0AVu+pEiDVcKlQb0D8Mg1LNRZILZ6XG8I5dJ4KuAd9Q==}
+    engines: {node: ^20.17.0 || >=22.9.0}
+
   '@octokit/auth-token@2.5.0':
     resolution: {integrity: sha512-r5FVUJCOLl19AxiuZD2VRZ/ORjp/4IN98Of6YJoJOkY75CIBuYfmiNHGrDwXr+aLGG55igl9QrxX3hbiXlLb+g==}
 
@@ -21341,6 +21368,9 @@ packages:
 
   '@pipedream/platform@3.2.1':
     resolution: {integrity: sha512-MC0IiH+lbe3W2ItDsEXw+L0FsxaWS6FDjmgERuoaRAKYk7KMtzJzy6Z88reZ6Ws2/dt+yEV8cGEmk8nDq60cnw==}
+
+  '@pipedream/platform@3.2.2':
+    resolution: {integrity: sha512-D4i7l0lNofw70soZM4taEw4XIsTT1pgi44WaoB1WkdH1VUR6Q/FVqFYUaA+5XeuErapFpGyd+mWOCvRQusN7Vw==}
 
   '@pipedream/postgresql@2.2.4':
     resolution: {integrity: sha512-ANR8xURO+5tDp/85oP/SrAwUjk+G6Xz5LOU40hsR2OAYGN6wU0cNAMRSq4durl3MVcb2+oxJwB9uNAdYQgga/g==}
@@ -22421,9 +22451,6 @@ packages:
     resolution: {integrity: sha512-oQG/FejNpItrxRHoyctYvT3rwGZOnK4jr3JdppO/c78ktDvkWiPXPHNsrDf33K9sZdRb6PR7gi4noIapu5q4HA==}
     engines: {node: '>=18.0.0', pnpm: '>=8'}
 
-  '@qiwi/npm-registry-client@8.9.1':
-    resolution: {integrity: sha512-rZF+mG+NfijR0SHphhTLHRr4aM4gtfdwoAMY6we2VGQam8vkN1cxGG1Lg/Llrj8Dd0Mu6VjdFQRyMMRZxtZR2A==}
-
   '@quansync/fs@0.1.5':
     resolution: {integrity: sha512-lNS9hL2aS2NZgNW7BBj+6EBl4rOf8l+tQ0eRY6JWCI8jI2kc53gSoqbjojU0OnAWhzoXiOjFyGsHcDGePB3lhA==}
 
@@ -22878,6 +22905,30 @@ packages:
   '@sideway/pinpoint@2.0.0':
     resolution: {integrity: sha512-RNiOoTPkptFtSVzQevY/yWtZwf/RxyVnPy/OcA9HBM3MlGDnBEYL5B41H0MTn0Uec8Hi+2qUtTfG2WWZBmMejQ==}
 
+  '@sigstore/bundle@4.0.0':
+    resolution: {integrity: sha512-NwCl5Y0V6Di0NexvkTqdoVfmjTaQwoLM236r89KEojGmq/jMls8S+zb7yOwAPdXvbwfKDlP+lmXgAL4vKSQT+A==}
+    engines: {node: ^20.17.0 || >=22.9.0}
+
+  '@sigstore/core@3.1.0':
+    resolution: {integrity: sha512-o5cw1QYhNQ9IroioJxpzexmPjfCe7gzafd2RY3qnMpxr4ZEja+Jad/U8sgFpaue6bOaF+z7RVkyKVV44FN+N8A==}
+    engines: {node: ^20.17.0 || >=22.9.0}
+
+  '@sigstore/protobuf-specs@0.5.0':
+    resolution: {integrity: sha512-MM8XIwUjN2bwvCg1QvrMtbBmpcSHrkhFSCu1D11NyPvDQ25HEc4oG5/OcQfd/Tlf/OxmKWERDj0zGE23jQaMwA==}
+    engines: {node: ^18.17.0 || >=20.5.0}
+
+  '@sigstore/sign@4.1.0':
+    resolution: {integrity: sha512-Vx1RmLxLGnSUqx/o5/VsCjkuN5L7y+vxEEwawvc7u+6WtX2W4GNa7b9HEjmcRWohw/d6BpATXmvOwc78m+Swdg==}
+    engines: {node: ^20.17.0 || >=22.9.0}
+
+  '@sigstore/tuf@4.0.1':
+    resolution: {integrity: sha512-OPZBg8y5Vc9yZjmWCHrlWPMBqW5yd8+wFNl+thMdtcWz3vjVSoJQutF8YkrzI0SLGnkuFof4HSsWUhXrf219Lw==}
+    engines: {node: ^20.17.0 || >=22.9.0}
+
+  '@sigstore/verify@3.1.0':
+    resolution: {integrity: sha512-mNe0Iigql08YupSOGv197YdHpPPr+EzDZmfCgMc7RPNaZTw5aLN01nBl6CHJOh3BGtnMIj83EeN4butBchc8Ag==}
+    engines: {node: ^20.17.0 || >=22.9.0}
+
   '@sinclair/typebox@0.27.8':
     resolution: {integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==}
 
@@ -23296,6 +23347,14 @@ packages:
 
   '@tsconfig/node16@1.0.4':
     resolution: {integrity: sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==}
+
+  '@tufjs/canonical-json@2.0.0':
+    resolution: {integrity: sha512-yVtV8zsdo8qFHe+/3kw81dSLyF7D576A5cCFCi4X7B39tWT7SekaEFUnvnWJHz+9qO7qJTah1JbrDjWKqFtdWA==}
+    engines: {node: ^16.14.0 || >=18.0.0}
+
+  '@tufjs/models@4.1.0':
+    resolution: {integrity: sha512-Y8cK9aggNRsqJVaKUlEYs4s7CvQ1b1ta2DVPyAimb0I2qhzjNk+A+mxvll/klL0RlfuIUei8BF7YWiua4kQqww==}
+    engines: {node: ^20.17.0 || >=22.9.0}
 
   '@tuya/tuya-connector-nodejs@2.1.2':
     resolution: {integrity: sha512-8tM7QlOF1QQrT3iQgcHp4JDNRUdOyi06h8F5ZL7antQZYP67TRQ2/puisoo2uhdXo+n+GT0B605pWaDqr9nPrA==}
@@ -24127,9 +24186,6 @@ packages:
   apify-client@2.19.0:
     resolution: {integrity: sha512-cDYwbygx/OplyF9MXTeb70nKwZHQQIp5OodsPeikWrh8sHmfeKWUu9jUUzeiWpHIPcwroYrP7KxA6UDSBGY3kQ==}
 
-  aproba@1.2.0:
-    resolution: {integrity: sha512-Y9J6ZjXtoYh8RnXVCMOU/ttDmk1aBjunq9vO0ta5x85WDQiQfUF9sIPBITdbiiIVcBo03Hi3jMxigBtsddlXRw==}
-
   archiver-utils@5.0.2:
     resolution: {integrity: sha512-wuLJMmIBQYCsGZgYLTy5FIB2pF6Lfb6cXMSF8Qywwk3t20zWnAi7zLcQFdKQmIB8wyZpY5ER38x08GbwtR2cLA==}
     engines: {node: '>= 14'}
@@ -24137,10 +24193,6 @@ packages:
   archiver@7.0.1:
     resolution: {integrity: sha512-ZcbTaIqJOfCc03QwD468Unz/5Ir8ATtvAHsK+FdXbDIbGfihqh9mrvdcYunQzqn4HrvWWaFyaxJhGZagaJJpPQ==}
     engines: {node: '>= 14'}
-
-  are-we-there-yet@1.1.7:
-    resolution: {integrity: sha512-nxwy40TuMiUGqMyRHgCSWZ9FM4VAoRP4xUYSTv5ImRog+h9yISPbVH7H8fASCIzYn9wlEv4zvFL7uKDMCFQm3g==}
-    deprecated: This package is no longer supported.
 
   arg@4.1.3:
     resolution: {integrity: sha512-58S9QDqG0Xx27YwPSt9fJxivjYl432YCwfDMfZ+71RAqUrZef7LrKQZ3LHLOwCS4FLNBplP533Zx895SeOCHvA==}
@@ -24656,9 +24708,6 @@ packages:
     resolution: {integrity: sha512-wxXCdllwGhI2kCC0MnvTGYTMvnVZTvqgypkiTI8Pa5tcz2i6VqsqwYGgqwXji+4RgCzms6EajE4IxiUH6HH8nQ==}
     engines: {node: '>=0.10.0'}
 
-  builtins@1.0.3:
-    resolution: {integrity: sha512-uYBjakWipfaO/bXI7E8rq6kpwHRZK5cNYrUv2OzZSI/FvmdMyXJ2tG9dKcjEC5YHmHpUAwsargWIZNWdxb/bnQ==}
-
   bun@1.3.2:
     resolution: {integrity: sha512-x75mPJiEfhO1j4Tfc65+PtW6ZyrAB6yTZInydnjDZXF9u9PRAnr6OK3v0Q9dpDl0dxRHkXlYvJ8tteJxc8t4Sw==}
     cpu: [arm64, x64]
@@ -24695,6 +24744,10 @@ packages:
   cac@6.7.14:
     resolution: {integrity: sha512-b6Ilus+c3RrdDk+JhLKUAQfzzgLEPy6wcXqS7f/xe1EETvsDP6GORG7SFuOs6cID5YkqchW/LXZbX5bc8j7ZcQ==}
     engines: {node: '>=8'}
+
+  cacache@20.0.3:
+    resolution: {integrity: sha512-3pUp4e8hv07k1QlijZu6Kn7c9+ZpWWk4j3F8N3xPuCExULobqJydKYOTj1FTq58srkJsXvO7LbGAH4C0ZU3WGw==}
+    engines: {node: ^20.17.0 || >=22.9.0}
 
   cacheable-lookup@5.0.4:
     resolution: {integrity: sha512-2/kNscPhpcxrOigMZzbiWF7dz8ilhb/nIHU3EyZiXWXpeq/au8qJ8VhdftMkty3n7Gj6HIGalQG8oiBNB3AJgA==}
@@ -25003,10 +25056,6 @@ packages:
     resolution: {integrity: sha512-QVb0dM5HvG+uaxitm8wONl7jltx8dqhfU33DcqtOZcLSVIKSDDLDi7+0LbAKiyI8hD9u42m2YxXSkMGWThaecQ==}
     engines: {iojs: '>= 1.0.0', node: '>= 0.12.0'}
 
-  code-point-at@1.1.0:
-    resolution: {integrity: sha512-RpAVKQA5T63xEj6/giIbUEtZwJ4UFIc3ZtvEkiaUERylqe8xb5IvqcgOurZLahv93CLKfxcw5YI+DZcUBRyLXA==}
-    engines: {node: '>=0.10.0'}
-
   cohere-ai@7.19.0:
     resolution: {integrity: sha512-TV8tYFUBB38GvcFHmS165+OAYmpMm8cqDk44LianFNxJMjUWbJf91hEs69PIDl8ghvI4r098GjolUlsiO1uR1A==}
 
@@ -25179,9 +25228,6 @@ packages:
   consola@3.4.2:
     resolution: {integrity: sha512-5IKcdX0nnYavi6G7TtOhwkYzyjfJlatbjMjuLSfE2kYT5pMDOilZ4OvMhi637CcDICTmz3wARPoyhqyX1Y+XvA==}
     engines: {node: ^14.18.0 || >=16.10.0}
-
-  console-control-strings@1.1.0:
-    resolution: {integrity: sha512-ty/fTekppD2fIwRvnZAVdeOiGd1c7YXEixbgJTNzqcxJWKQnjJ/V1bNEEE6hygpM3WjwHFUVK6HTjWSzV4a8sQ==}
 
   content-disposition@0.5.4:
     resolution: {integrity: sha512-FveZTNuGw04cxlAiWbzi6zTAL/lhehaWbTtgluJh4/E95DqMwTmha3KZN1aAWA8cFIhHzMZUvLevkw5Rqk+tSQ==}
@@ -25655,9 +25701,6 @@ packages:
     resolution: {integrity: sha512-ZySD7Nf91aLB0RxL4KGrKHBXl7Eds1DAmEdcoVawXnLD7SDhpNgtuII2aAkg7a7QS41jxPSZ17p4VdGnMHk3MQ==}
     engines: {node: '>=0.4.0'}
 
-  delegates@1.0.0:
-    resolution: {integrity: sha512-bd2L678uiWATM6m5Z1VzNCErI3jiGzt6HGY8OVICs40JQq/HALfbyNJmp0UDakEY4pMMaN0Ly5om/B1VI/+xfQ==}
-
   delighted@2.1.0:
     resolution: {integrity: sha512-GC981FrvWm4ElRf0QHDUNDn1NvvyVy0bmfdygPtUmknUJDeFqgmf8+MJlX40KQBgg1NgkYdWQQlW8PuIqRR0qw==}
 
@@ -25989,6 +26032,9 @@ packages:
   encoding-japanese@2.2.0:
     resolution: {integrity: sha512-EuJWwlHPZ1LbADuKTClvHtwbaFn4rOD+dRAbWysqEOXRc2Uui0hJInNJrsdH0c+OhJA4nrCBdSkW4DD5YxAo6A==}
     engines: {node: '>=8.10.0'}
+
+  encoding@0.1.13:
+    resolution: {integrity: sha512-ETBauow1T35Y/WZMkio9jiM0Z5xjHHmJ4XmjZOq1l/dXz3lr2sRn87nJy20RupqSh1F2m3HHPSp8ShIPQJrJ3A==}
 
   end-of-stream@1.4.5:
     resolution: {integrity: sha512-ooEGc6HP26xXq/N+GCGOT0JKCLDGrq2bQUZrQ7gyrJiZANJ/8YDTxTpQBXGMn+WbIQXNVpyWymm7KYVICQnyOg==}
@@ -26945,6 +26991,10 @@ packages:
     resolution: {integrity: sha512-yhlQgA6mnOJUKOsRUFsgJdQCvkKhcz8tlZG5HBQfReYZy46OwLcY+Zia0mtdHsOo9y/hP+CxMN0TU9QxoOtG4g==}
     engines: {node: '>=6 <7 || >=8'}
 
+  fs-minipass@3.0.3:
+    resolution: {integrity: sha512-XUBA9XClHbnJWSfBzjkm6RvPsyg3sryZt06BEQoXcF7EK/xpGaQYJgQKDJSUH5SGZ76Y7pFx1QBnXz09rU5Fbw==}
+    engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
+
   fs-readdir-recursive@1.1.0:
     resolution: {integrity: sha512-GNanXlVr2pf02+sPN40XN8HG+ePaNcvM0q5mZBd668Obwb0yD5GiUbZOFgwn8kGMY6I3mdyDJzieUy3PTYyTRA==}
 
@@ -26983,10 +27033,6 @@ packages:
   fuzzy@0.1.3:
     resolution: {integrity: sha512-/gZffu4ykarLrCiP3Ygsa86UAo1E5vEVlvTrpkKywXSbP9Xhln3oSp9QSV57gEq3JFFpGJ4GZ+5zdEp3FcUh4w==}
     engines: {node: '>= 0.6.0'}
-
-  gauge@2.7.4:
-    resolution: {integrity: sha512-14x4kjc6lkD3ltw589k0NrPD6cCNTD6CWoVUNpB85+DrtONoZn+Rug6xZU5RvSC4+TZPxA5AnBibQYAvZn41Hg==}
-    deprecated: This package is no longer supported.
 
   gaxios@4.3.3:
     resolution: {integrity: sha512-gSaYYIO1Y3wUtdfHmjDUZ8LWaxJQpiavzbF5Kq53akSzvmVg0RfyOcFDbO1KJ/KCGRFz2qG+lS81F0nkr7cRJA==}
@@ -27145,29 +27191,36 @@ packages:
   glob@10.3.10:
     resolution: {integrity: sha512-fa46+tv1Ak0UPK1TOy/pZrIybNNt4HCv7SDzwyfiOZkvZLEbjsZkJBPtDHVshZjbecAoAGSC20MjLDG/qr679g==}
     engines: {node: '>=16 || 14 >=14.17'}
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
     hasBin: true
 
   glob@10.4.5:
     resolution: {integrity: sha512-7Bv8RF0k6xjo7d4A/PxYLbUCfb6c+Vpd2/mB2yRDlew7Jb5hEXiCD9ibfO7wpk8i4sevK6DFny9h7EYbM3/sHg==}
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
     hasBin: true
 
   glob@11.1.0:
     resolution: {integrity: sha512-vuNwKSaKiqm7g0THUBu2x7ckSs3XJLXE+2ssL7/MfTGPLLcrJQ/4Uq1CjPTtO5cCIiRxqvN6Twy1qOwhL0Xjcw==}
     engines: {node: 20 || >=22}
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
     hasBin: true
+
+  glob@13.0.1:
+    resolution: {integrity: sha512-B7U/vJpE3DkJ5WXTgTpTRN63uV42DseiXXKMwG14LQBXmsdeIoHAPbU/MEo6II0k5ED74uc2ZGTC6MwHFQhF6w==}
+    engines: {node: 20 || >=22}
 
   glob@6.0.4:
     resolution: {integrity: sha512-MKZeRNyYZAVVVG1oZeLaWie1uweH40m9AZwIwxyPbTSX4hHrVYSzLg0Ro5Z5R7XKkIX+Cc6oD1rqeDJnwsB8/A==}
-    deprecated: Glob versions prior to v9 are no longer supported
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
-    deprecated: Glob versions prior to v9 are no longer supported
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   glob@8.1.0:
     resolution: {integrity: sha512-r8hpEjiQEYlF2QU0df3dS+nxxSIreXQS1qRhMJM0Q5NDdR386C7jb7Hwwod8Fgiuex+k0GFjgft18yvxm5XoCQ==}
     engines: {node: '>=12'}
-    deprecated: Glob versions prior to v9 are no longer supported
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   global-directory@4.0.1:
     resolution: {integrity: sha512-wHTUcDUoZ1H5/0iVqEudYW4/kAlN5cZ3j/bXn0Dpbizl9iaUVeWSHqiOjsgk6OW2bkLclbBjzewBz6weQ1zA2Q==}
@@ -27442,9 +27495,6 @@ packages:
     resolution: {integrity: sha512-NqADB8VjPFLM2V0VvHUewwwsw0ZWBaIdgo+ieHtK3hasLz4qeCRjYcqfB6AQrBggRKppKF8L52/VqdVsO47Dlw==}
     engines: {node: '>= 0.4'}
 
-  has-unicode@2.0.1:
-    resolution: {integrity: sha512-8Rf9Y83NBReMnx0gFzA8JImQACstCYWUplepDa9xprwwtmgEZUF0h/i5xSA625zB/I37EtrswSST6OXxwaaIJQ==}
-
   hash-base@3.1.2:
     resolution: {integrity: sha512-Bb33KbowVTIj5s7Ked1OsqHUeCpz//tPwR+E2zJgJKo9Z5XolZ9b6bdUgjmYlwnWhoOQKoTd1TYToZGn5mAYOg==}
     engines: {node: '>= 0.8'}
@@ -27503,10 +27553,6 @@ packages:
   hosted-git-info@2.8.9:
     resolution: {integrity: sha512-mxIDAb9Lsm6DoOJ7xH+5+X4y1LU/4Hi50L9C5sIswK3JzULS4bwk1FvjdBgvYR4bzT4tuUQiC15FE2f5HbLvYw==}
 
-  hosted-git-info@4.1.0:
-    resolution: {integrity: sha512-kyCuEOWjJqZuDbRHzL8V93NzQhwIB71oFWSyzVo+KPZI+pnQPPxucdkrOZvkLRnrf5URsQM+IJ09Dw29cRALIA==}
-    engines: {node: '>=10'}
-
   hosted-git-info@7.0.2:
     resolution: {integrity: sha512-puUZAUKT5m8Zzvs72XWy3HtvVbTWljRE66cP60bxJzAqf2DgICo7lYTY2IHUmLnNpjYvw5bvmoHvPc0QO2a62w==}
     engines: {node: ^16.14.0 || >=18.0.0}
@@ -27514,6 +27560,10 @@ packages:
   hosted-git-info@8.1.0:
     resolution: {integrity: sha512-Rw/B2DNQaPBICNXEm8balFz9a6WpZrkCGpcWFpy7nCj+NyhSdqXipmfvtmWt9xGfp0wZnBxB+iVpLmQMYt47Tw==}
     engines: {node: ^18.17.0 || >=20.5.0}
+
+  hosted-git-info@9.0.2:
+    resolution: {integrity: sha512-M422h7o/BR3rmCQ8UHi7cyyMqKltdP9Uo+J2fXK+RSAY+wTcKOIRyhTuKv4qn+DJf3g+PL890AzId5KZpX+CBg==}
+    engines: {node: ^20.17.0 || >=22.9.0}
 
   hot-shots@11.2.0:
     resolution: {integrity: sha512-cGiFSgTZtVODx0yMW67gPICgref3XuxkTMrXP0h5cSd1HHG3OG7L2C6+aW70MAtlUNl+9+DOq/xXyJUVKDyeUg==}
@@ -27771,6 +27821,10 @@ packages:
     resolution: {integrity: sha512-QQnnxNyfvmHFIsj7gkPcYymR8Jdw/o7mp5ZFihxn6h8Ci6fh3Dx4E1gPjpQEpIuPo9XVNY/ZUwh4BPMjGyL01g==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
 
+  ini@6.0.0:
+    resolution: {integrity: sha512-IBTdIkzZNOpqm7q3dRqJvMaldXjDHWkEDfrwGEQTs5eaQMWV+djAhR+wahyNNMAa+qpbDUhBMVt4ZKNwpPm7xQ==}
+    engines: {node: ^20.17.0 || >=22.9.0}
+
   inline-style-parser@0.2.6:
     resolution: {integrity: sha512-gtGXVaBdl5mAes3rPcMedEBm12ibjt1kDMFfheul1wUAOVEJW60voNdMVzVkfLN06O7ZaD/rxhfKgtlgtTbMjg==}
 
@@ -27928,10 +27982,6 @@ packages:
   is-finalizationregistry@1.1.1:
     resolution: {integrity: sha512-1pC6N8qWJbWoPtEjgcL2xyhQOP491EQjeUo3qTKcmV8YSDDJrOepfG8pcC7h/QgnQHYSv0mJ3Z/ZWxmatVrysg==}
     engines: {node: '>= 0.4'}
-
-  is-fullwidth-code-point@1.0.0:
-    resolution: {integrity: sha512-1pqUqRjkhPJ9miNq9SwMfdvi6lBJcd6eFxvfaivQhaH3SgisfiuudvFntdKOmxuee/77l+FPjKrQjWvmPjWrRw==}
-    engines: {node: '>=0.10.0'}
 
   is-fullwidth-code-point@3.0.0:
     resolution: {integrity: sha512-zymm5+u+sCsSWyD9qNaejV3DFvhCKclKdizYaJUuHA83RLjb7nSuGnddCHGv0hk+KY7BMAlsWeK4Ueg6EV6XQg==}
@@ -28519,6 +28569,10 @@ packages:
   json-parse-even-better-errors@2.3.1:
     resolution: {integrity: sha512-xyFwyhro/JEof6Ghe2iz2NcXoj2sloNsWr/XsERDK/oiPCfaNhl5ONfp+jQdAZRQQ0IJWNzH9zIZF7li91kh2w==}
 
+  json-parse-even-better-errors@5.0.0:
+    resolution: {integrity: sha512-ZF1nxZ28VhQouRWhUcVlUIN3qwSgPuswK05s/HIaoetAoE/9tngVmCHjSxmSQPav1nd+lPtTL0YZ/2AFdR/iYQ==}
+    engines: {node: ^20.17.0 || >=22.9.0}
+
   json-schema-compare@0.2.2:
     resolution: {integrity: sha512-c4WYmDKyJXhs7WWvAWm3uIYnfyWFoIp+JEoX34rctVvEkMYCPGhXtvmFFXiffBbxfZsvQ0RNnV5H7GvDF5HCqQ==}
 
@@ -28769,6 +28823,10 @@ packages:
 
   libmime@5.3.7:
     resolution: {integrity: sha512-FlDb3Wtha8P01kTL3P9M+ZDNDWPKPmKHWaU/cG/lg5pfuAwdflVpZE+wm9m7pKmC5ww6s+zTxBKS1p6yl3KpSw==}
+
+  libnpmpublish@11.1.3:
+    resolution: {integrity: sha512-NVPTth/71cfbdYHqypcO9Lt5WFGTzFEcx81lWd7GDJIgZ95ERdYHGUfCtFejHCyqodKsQkNEx2JCkMpreDty/A==}
+    engines: {node: ^20.17.0 || >=22.9.0}
 
   libqp@2.1.1:
     resolution: {integrity: sha512-0Wd+GPz1O134cP62YU2GTOPNA7Qgl09XwCqM5zpBv87ERCXdfDtyKXvV7c9U22yWJh44QZqBocFnXN11K96qow==}
@@ -29145,6 +29203,10 @@ packages:
   make-error@1.3.6:
     resolution: {integrity: sha512-s8UhlNe7vPKomQhC1qFelMokr/Sc3AgNbso3n74mVPA5LTZwkB9NlXf4XPamLxJE8h0gh73rM94xvwRT2CVInw==}
 
+  make-fetch-happen@15.0.3:
+    resolution: {integrity: sha512-iyyEpDty1mwW3dGlYXAJqC/azFn5PPvgKVwXayOGBSmKLxhKZ9fg4qIan2ePpp1vJIwfFiO34LAPZgq9SZW9Aw==}
+    engines: {node: ^20.17.0 || >=22.9.0}
+
   makeerror@1.0.12:
     resolution: {integrity: sha512-JmqCvUhmt43madlpFzG4BQzG2Z3m6tvQDNKdClZnO3VbIudJYmxsT0FNJMeiB2+JTSlTQTSbU8QdesVmwJcmLg==}
 
@@ -29505,6 +29567,10 @@ packages:
     resolution: {integrity: sha512-enIvLvRAFZYXJzkCYG5RKmPfrFArdLv+R+lbQ53BmIMLIry74bjKzX6iHAm8WYamJkhSSEabrWN5D97XnKObjQ==}
     engines: {node: 20 || >=22}
 
+  minimatch@10.1.2:
+    resolution: {integrity: sha512-fu656aJ0n2kcXwsnwnv9g24tkU5uSmOlTjd6WyyaKm2Z+h1qmY6bAjrcaIxF/BslFqbZ8UBtbJi7KgQOZD2PTw==}
+    engines: {node: 20 || >=22}
+
   minimatch@3.1.2:
     resolution: {integrity: sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==}
 
@@ -29518,6 +29584,26 @@ packages:
 
   minimist@1.2.8:
     resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==}
+
+  minipass-collect@2.0.1:
+    resolution: {integrity: sha512-D7V8PO9oaz7PWGLbCACuI1qEOsq7UKfLotx/C0Aet43fCUB/wfQ7DYeq2oR/svFJGYDHPr38SHATeaj/ZoKHKw==}
+    engines: {node: '>=16 || 14 >=14.17'}
+
+  minipass-fetch@5.0.1:
+    resolution: {integrity: sha512-yHK8pb0iCGat0lDrs/D6RZmCdaBT64tULXjdxjSMAqoDi18Q3qKEUTHypHQZQd9+FYpIS+lkvpq6C/R6SbUeRw==}
+    engines: {node: ^20.17.0 || >=22.9.0}
+
+  minipass-flush@1.0.5:
+    resolution: {integrity: sha512-JmQSYYpPUqX5Jyn1mXaRwOda1uQ8HP5KAT/oDSLCzt1BYRhQU0/hDtsB1ufZfEEzMZ9aAVmsBw8+FWsIXlClWw==}
+    engines: {node: '>= 8'}
+
+  minipass-pipeline@1.2.4:
+    resolution: {integrity: sha512-xuIq7cIOt09RPRJ19gdi4b+RiNvDFYe5JH+ggNvBqGqpQXcru3PcRmOZuHBKWK1Txf9+cQ+HMVN4d6z46LZP7A==}
+    engines: {node: '>=8'}
+
+  minipass-sized@2.0.0:
+    resolution: {integrity: sha512-zSsHhto5BcUVM2m1LurnXY6M//cGhVaegT71OfOXoprxT6o780GZd792ea6FfrQkuU4usHZIUczAQMRUE2plzA==}
+    engines: {node: '>=8'}
 
   minipass@3.3.6:
     resolution: {integrity: sha512-DxiNidxSEK+tHG6zOIklvNOwm3hvCrbUrdtzY74U6HKTJxvIDfOUL5W5P2Ghd3DTkhhKPYGqeNUIh5qcM4YBfw==}
@@ -29885,10 +29971,6 @@ packages:
   normalize-package-data@2.5.0:
     resolution: {integrity: sha512-/5CMN3T0R4XTj4DcGaexo+roZSdSFW/0AOOTROrjxzCG1wrWXEsGbRKevjlIL+ZDE4sZlJr5ED4YW0yqmkK+eA==}
 
-  normalize-package-data@3.0.3:
-    resolution: {integrity: sha512-p2W1sgqij3zMMyRC067Dg16bfzVH+w7hyegmpIvZ4JNjqtGOVAIvLmjBx3yP7YTe9vKJgkoNOPjwQGogDoMXFA==}
-    engines: {node: '>=10'}
-
   normalize-package-data@6.0.2:
     resolution: {integrity: sha512-V6gygoYb/5EmNI+MEGrWkC+e6+Rr7mTmfHrxDbLzxQogBkgzo76rkok0Am6thgSF7Mv2nLOajAJj5vDJZEFn7g==}
     engines: {node: ^16.14.0 || >=18.0.0}
@@ -29921,9 +30003,25 @@ packages:
     resolution: {integrity: sha512-DuEslJAbmUG2IRVcoeiCdsE2tI8yXOG6NiHlzxYTcKMmkAtoj2Fgq35Gf5T8s92uzpT2ueVf3aCOq7XuVLVYOA==}
     engines: {node: '>=12'}
 
-  npm-package-arg@8.1.5:
-    resolution: {integrity: sha512-LhgZrg0n0VgvzVdSm1oiZworPbTxYHUJCgtsJW8mGvlDpxTM1vSJc3m5QZeUkhAHIzbz3VCHd/R4osi1L1Tg/Q==}
-    engines: {node: '>=10'}
+  npm-install-checks@8.0.0:
+    resolution: {integrity: sha512-ScAUdMpyzkbpxoNekQ3tNRdFI8SJ86wgKZSQZdUxT+bj0wVFpsEMWnkXP0twVe1gJyNF5apBWDJhhIbgrIViRA==}
+    engines: {node: ^20.17.0 || >=22.9.0}
+
+  npm-normalize-package-bin@5.0.0:
+    resolution: {integrity: sha512-CJi3OS4JLsNMmr2u07OJlhcrPxCeOeP/4xq67aWNai6TNWWbTrlNDgl8NcFKVlcBKp18GPj+EzbNIgrBfZhsag==}
+    engines: {node: ^20.17.0 || >=22.9.0}
+
+  npm-package-arg@13.0.2:
+    resolution: {integrity: sha512-IciCE3SY3uE84Ld8WZU23gAPPV9rIYod4F+rc+vJ7h7cwAJt9Vk6TVsK60ry7Uj3SRS3bqRRIGuTp9YVlk6WNA==}
+    engines: {node: ^20.17.0 || >=22.9.0}
+
+  npm-pick-manifest@11.0.3:
+    resolution: {integrity: sha512-buzyCfeoGY/PxKqmBqn1IUJrZnUi1VVJTdSSRPGI60tJdUhUoSQFhs0zycJokDdOznQentgrpf8LayEHyyYlqQ==}
+    engines: {node: ^20.17.0 || >=22.9.0}
+
+  npm-registry-fetch@19.1.1:
+    resolution: {integrity: sha512-TakBap6OM1w0H73VZVDf44iFXsOS3h+L4wVMXmbWOQroZgFhMch0juN6XSzBNlD965yIKvWg2dfu7NSiaYLxtw==}
+    engines: {node: ^20.17.0 || >=22.9.0}
 
   npm-run-path@2.0.2:
     resolution: {integrity: sha512-lJxZYlT4DW/bRUtFh1MQIWqmLwQfAxnqWG4HhEdjMlkrJYnJn0Jrr2u3mgxqaWsdiBc76TYkTG/mhrnYTuzfHw==}
@@ -30015,19 +30113,11 @@ packages:
       - which
       - write-file-atomic
 
-  npmlog@4.1.2:
-    resolution: {integrity: sha512-2uUqazuKlTaSI/dC8AzicUck7+IrEaOnN/e0jd3Xtt1KcGpwx30v50mL7oPyr/h9bL3E4aZccVwpwP+5W9Vjkg==}
-    deprecated: This package is no longer supported.
-
   nth-check@2.1.1:
     resolution: {integrity: sha512-lqjrjmaOoAnWfMmBPL+XNnynZh2+swxiX3WUE0s4yEHI6m+AwrK2UZOimIRl3X/4QctVqS8AiZjFqyOGrMXb/w==}
 
   number-allocator@1.0.14:
     resolution: {integrity: sha512-OrL44UTVAvkKdOdRQZIJpLkAdjXGTRda052sN4sO77bKEzYYqWKMBjQvrJFzqygI99gL6Z4u2xctPW1tB8ErvA==}
-
-  number-is-nan@1.0.1:
-    resolution: {integrity: sha512-4jbtZXNAsfZbAHiiqjLPBiCl16dES1zI4Hpzzxw61Tk+loF+sBDBKx1ICKKKwIqQ7M0mFn1TmkN7euSncWgHiQ==}
-    engines: {node: '>=0.10.0'}
 
   oas-kit-common@1.0.8:
     resolution: {integrity: sha512-pJTS2+T0oGIwgjGpw7sIRU8RQMcUoKCDWFLdBqKB2BNmGpbBMH2sdqAaOXUg8OzonZHU0L7vfJu1mJFEiYDWOQ==}
@@ -30837,6 +30927,10 @@ packages:
     resolution: {integrity: sha512-GA3TdL8szPK4AQ2YnOe/b+Y1jUFwmmGMMK/qbY7VcE3Z7FU8JstbKiKRzO6CIiAKPhTO8m01NoQ0V5f3jc4OGg==}
     engines: {node: '>=0.8'}
     hasBin: true
+
+  proc-log@6.1.0:
+    resolution: {integrity: sha512-iG+GYldRf2BQ0UDUAd6JQ/RwzaQy6mXmsk/IzlYyal4A4SNFw54MeH4/tLkF4I5WoWG9SQwuqWzS99jaFQHBuQ==}
+    engines: {node: ^20.17.0 || >=22.9.0}
 
   process-nextick-args@2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}
@@ -31824,6 +31918,10 @@ packages:
     resolution: {integrity: sha512-iuh+gPf28RkltuJC7W5MRi6XAjTDCAPC/prJUpQoG4vIP3MJZ+GTydVnodXA7pwvTKb2cA0m9OFZW/cdWy/I/w==}
     engines: {node: '>=6'}
 
+  sigstore@4.1.0:
+    resolution: {integrity: sha512-/fUgUhYghuLzVT/gaJoeVehLCgZiUxPCPMcyVNY0lIf/cTCz58K/WTI7PefDarXxp9nUKpEwg1yyz3eSBMTtgA==}
+    engines: {node: ^20.17.0 || >=22.9.0}
+
   simple-lru-cache@0.0.2:
     resolution: {integrity: sha512-uEv/AFO0ADI7d99OHDmh1QfYzQk/izT1vCmu/riQfh7qjBVUUgRT87E5s5h7CxWCA/+YoZerykpEthzVrW3LIw==}
 
@@ -31874,9 +31972,6 @@ packages:
   slice-ansi@7.1.2:
     resolution: {integrity: sha512-iOBWFgUX7caIZiuutICxVgX1SdxwAVFFKwt1EvMYYec/NWO5meOJ6K5uQxhrYBdQJne4KxiqZc+KptFOWFSI9w==}
     engines: {node: '>=18'}
-
-  slide@1.1.6:
-    resolution: {integrity: sha512-NwrtjCg+lZoqhFU8fOwl4ay2ei8PaqCBOUV3/ektPY9trO1yQ1oXEfmHAhKArUVUr/hOHvy5f6AdP17dCM0zMw==}
 
   slugify@1.6.6:
     resolution: {integrity: sha512-h+z7HKHYXj6wJU+AnS/+IH8Uh9fdcX1Lrhg1/VMdf9PwoBQXFcXiAdsy2tSK0P6gKwJLXp02r90ahUCqHk9rrw==}
@@ -32000,9 +32095,9 @@ packages:
     engines: {node: '>=0.10.0'}
     hasBin: true
 
-  ssri@8.0.1:
-    resolution: {integrity: sha512-97qShzy1AiyxvPNIkLWoGua7xoQzzPjQ0HAH4B0rWKo7SZ6USuPcrUiAFrws0UH8RrbWmgq3LMTObhPIHbbBeQ==}
-    engines: {node: '>= 8'}
+  ssri@13.0.0:
+    resolution: {integrity: sha512-yizwGBpbCn4YomB2lzhZqrHLJoqFGXihNbib3ozhqF/cIp5ue+xSmOQrjNasEE62hFxsCcg/V/z23t4n8jMEng==}
+    engines: {node: ^20.17.0 || >=22.9.0}
 
   stable-hash@0.0.5:
     resolution: {integrity: sha512-+L3ccpzibovGXFK+Ap/f8LOS0ahMrHTf3xu7mMLSpEGU0EO9ucaysSylKo9eRDFNhWve/y275iPmIZ4z39a9iA==}
@@ -32112,10 +32207,6 @@ packages:
 
   string-to-stream@3.0.1:
     resolution: {integrity: sha512-Hl092MV3USJuUCC6mfl9sPzGloA3K5VwdIeJjYIkXY/8K+mUvaeEabWJgArp+xXrsWxCajeT2pc4axbVhIZJyg==}
-
-  string-width@1.0.2:
-    resolution: {integrity: sha512-0XsVpQLnVCXHJfyEs8tC0zpTVIr5PKKsQtkT29IwupnPTjtPmQ3xT/4yCREF9hYkV/3M3kzcUTSAZT6a6h81tw==}
-    engines: {node: '>=0.10.0'}
 
   string-width@4.2.3:
     resolution: {integrity: sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==}
@@ -32402,7 +32493,6 @@ packages:
   tar@7.5.7:
     resolution: {integrity: sha512-fov56fJiRuThVFXD6o6/Q354S7pnWMJIVlDBYijsTNx6jKSE4pvrDTs6lUnmGvNyfJwFQQwWy3owKz1ucIhveQ==}
     engines: {node: '>=18'}
-    deprecated: Old versions of tar are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exhorbitant rates) by contacting i@izs.me
 
   tarn@3.0.2:
     resolution: {integrity: sha512-51LAVKUSZSVfI05vjPESNc5vwqqZpbXCsU+/+wxlOrUjk2SnFTt97v9ZgQrD4YmxYW1Px6w2KjaDitCfkvgxMQ==}
@@ -32735,6 +32825,10 @@ packages:
     engines: {node: '>=18.0.0'}
     hasBin: true
 
+  tuf-js@4.1.0:
+    resolution: {integrity: sha512-50QV99kCKH5P/Vs4E2Gzp7BopNV+KzTXqWeaxrfu5IQJBOULRsTIS9seSsOVT8ZnGXzCyx55nYWAi4qJzpZKEQ==}
+    engines: {node: ^20.17.0 || >=22.9.0}
+
   tunnel-agent@0.6.0:
     resolution: {integrity: sha512-McnNiV1l8RYeY8tBgEpuodCC1mLUdbSN+CYBL7kJsJNInOP8UjDDEwdk6Mw60vdLLrr5NHKZhMAOSrR2NZuQ+w==}
 
@@ -33013,6 +33107,14 @@ packages:
   unified@9.2.2:
     resolution: {integrity: sha512-Sg7j110mtefBD+qunSLO1lqOEKdrwBFBrR6Qd8f4uwkhWNlbkaqwHse6e7QvD3AP/MNoJdEDLaf8OxYyoWgorQ==}
 
+  unique-filename@5.0.0:
+    resolution: {integrity: sha512-2RaJTAvAb4owyjllTfXzFClJ7WsGxlykkPvCr9pA//LD9goVq+m4PPAeBgNodGZ7nSrntT/auWpJ6Y5IFXcfjg==}
+    engines: {node: ^20.17.0 || >=22.9.0}
+
+  unique-slug@6.0.0:
+    resolution: {integrity: sha512-4Lup7Ezn8W3d52/xBhZBVdx323ckxa7DEvd9kPQHppTkLoJXw6ltrBCyj5pnrxj0qKDxYMJ56CoxNuFCscdTiw==}
+    engines: {node: ^20.17.0 || >=22.9.0}
+
   unique-string@3.0.0:
     resolution: {integrity: sha512-VGXBUVwxKMBUznyffQweQABPRRW1vHZAbadFZud4pLFAqRGvv/96vafgjWFqzourzr8YonlQiPgH0YCJfawoGQ==}
     engines: {node: '>=12'}
@@ -33283,12 +33385,13 @@ packages:
   validate-npm-package-license@3.0.4:
     resolution: {integrity: sha512-DpKm2Ui/xN7/HQKCtpZxoRWBhZ9Z0kqtygG8XCgNQ8ZlDnxuQmWhj566j8fN4Cu3/JmbhsDo7fcAJq4s9h27Ew==}
 
-  validate-npm-package-name@3.0.0:
-    resolution: {integrity: sha512-M6w37eVCMMouJ9V/sdPGnC5H4uDr73/+xdq0FBLO3TFFX1+7wiUY6Es328NN+y43tmY+doUdN9g9J21vqB7iLw==}
-
   validate-npm-package-name@5.0.1:
     resolution: {integrity: sha512-OljLrQ9SQdOUqTaQxqL5dEfZWrXExyyWsozYlAWFawPVNuD83igl7uJD2RTkNMbniIYgt8l81eCJGIdQF7avLQ==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
+
+  validate-npm-package-name@7.0.2:
+    resolution: {integrity: sha512-hVDIBwsRruT73PbK7uP5ebUt+ezEtCmzZz3F59BSr2F6OVFnJ/6h8liuvdLrQ88Xmnk6/+xGGuq+pG9WwTuy3A==}
+    engines: {node: ^20.17.0 || >=22.9.0}
 
   validate.io-array@1.0.6:
     resolution: {integrity: sha512-DeOy7CnPEziggrOO5CZhVKJw6S3Yi7e9e65R1Nl/RTN1vTQKnzjfvks0/8kQ40FP/dsjRAOd4hxmJ7uLa6vxkg==}
@@ -33494,9 +33597,6 @@ packages:
     resolution: {integrity: sha512-f+gEpIKMR9faW/JgAgPK1D7mekkFoqbmiwvNzuhsHetni20QSgzg9Vhn0g2JSJkkfehQnqdUAx7/e15qS1lPxg==}
     engines: {node: ^20.17.0 || >=22.9.0}
     hasBin: true
-
-  wide-align@1.1.5:
-    resolution: {integrity: sha512-eDMORYaPNZ4sQIuuYPDHdQvf4gyCF9rEEV/yPxGfwPkRodwEgiMUUXTx/dex+Me0wxx53S+NgUHaP7y3MGlDmg==}
 
   widest-line@3.1.0:
     resolution: {integrity: sha512-NsmoXalsWVDMGupxZ5R08ka9flZjjiLvHVAWYOKtiKM8ujtZWr9cRffak+uSE48+Ob8ObalXpwyeUiyDD6QFgg==}
@@ -33835,11 +33935,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@airweave/sdk@0.1.51':
+  '@airweave/sdk@0.1.51(encoding@0.1.13)':
     dependencies:
       form-data: 4.0.4
       formdata-node: 6.0.3
-      node-fetch: 2.7.0
+      node-fetch: 2.7.0(encoding@0.1.13)
       readable-stream: 4.7.0
     transitivePeerDependencies:
       - encoding
@@ -36820,30 +36920,33 @@ snapshots:
 
   '@datadog/sketches-js@2.1.1': {}
 
-  '@definitelytyped/header-parser@0.2.21':
+  '@definitelytyped/header-parser@0.2.22':
     dependencies:
       '@definitelytyped/typescript-versions': 0.1.10
-      '@definitelytyped/utils': 0.1.9
+      '@definitelytyped/utils': 0.1.10
       semver: 7.7.3
     transitivePeerDependencies:
       - bare-abort-controller
       - react-native-b4a
+      - supports-color
 
   '@definitelytyped/typescript-versions@0.1.10': {}
 
-  '@definitelytyped/utils@0.1.9':
+  '@definitelytyped/utils@0.1.10':
     dependencies:
-      '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 25.1.0
       cachedir: 2.4.0
       charm: 1.0.2
+      libnpmpublish: 11.1.3
       minimatch: 10.1.1
+      npm-registry-fetch: 19.1.1
       tar: 7.5.7
       tar-stream: 3.1.7
       which: 6.0.0
     transitivePeerDependencies:
       - bare-abort-controller
       - react-native-b4a
+      - supports-color
 
   '@dependents/detective-less@5.0.1':
     dependencies:
@@ -37430,23 +37533,23 @@ snapshots:
 
   '@floating-ui/utils@0.2.10': {}
 
-  '@google-ai/generativelanguage@0.2.1':
+  '@google-ai/generativelanguage@0.2.1(encoding@0.1.13)':
     dependencies:
-      google-gax: 3.6.1
+      google-gax: 3.6.1(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
       - supports-color
 
-  '@google-cloud/bigquery-data-transfer@4.4.0':
+  '@google-cloud/bigquery-data-transfer@4.4.0(encoding@0.1.13)':
     dependencies:
-      google-gax: 4.6.1
+      google-gax: 4.6.1(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
       - supports-color
 
-  '@google-cloud/bigquery@6.2.1':
+  '@google-cloud/bigquery@6.2.1(encoding@0.1.13)':
     dependencies:
-      '@google-cloud/common': 4.0.3
+      '@google-cloud/common': 4.0.3(encoding@0.1.13)
       '@google-cloud/paginator': 4.0.1
       '@google-cloud/precise-date': 3.0.1
       '@google-cloud/promisify': 3.0.1
@@ -37461,7 +37564,7 @@ snapshots:
       - encoding
       - supports-color
 
-  '@google-cloud/common@4.0.3':
+  '@google-cloud/common@4.0.3(encoding@0.1.13)':
     dependencies:
       '@google-cloud/projectify': 3.0.0
       '@google-cloud/promisify': 3.0.1
@@ -37469,52 +37572,52 @@ snapshots:
       duplexify: 4.1.3
       ent: 2.2.2
       extend: 3.0.2
-      google-auth-library: 8.9.0
+      google-auth-library: 8.9.0(encoding@0.1.13)
       retry-request: 5.0.2
-      teeny-request: 8.0.3
+      teeny-request: 8.0.3(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
       - supports-color
 
-  '@google-cloud/compute@4.12.0':
+  '@google-cloud/compute@4.12.0(encoding@0.1.13)':
     dependencies:
-      google-gax: 4.6.1
+      google-gax: 4.6.1(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
       - supports-color
 
-  '@google-cloud/dialogflow@5.9.0':
+  '@google-cloud/dialogflow@5.9.0(encoding@0.1.13)':
     dependencies:
-      google-gax: 3.6.1
+      google-gax: 3.6.1(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
       - supports-color
 
-  '@google-cloud/firestore@7.11.6':
+  '@google-cloud/firestore@7.11.6(encoding@0.1.13)':
     dependencies:
       '@opentelemetry/api': 1.9.0
       fast-deep-equal: 3.1.3
       functional-red-black-tree: 1.0.1
-      google-gax: 4.6.1
+      google-gax: 4.6.1(encoding@0.1.13)
       protobufjs: 7.5.4
     transitivePeerDependencies:
       - encoding
       - supports-color
     optional: true
 
-  '@google-cloud/local-auth@2.1.1':
+  '@google-cloud/local-auth@2.1.1(encoding@0.1.13)':
     dependencies:
       arrify: 2.0.1
-      google-auth-library: 8.9.0
+      google-auth-library: 8.9.0(encoding@0.1.13)
       open: 7.4.2
       server-destroy: 1.0.1
     transitivePeerDependencies:
       - encoding
       - supports-color
 
-  '@google-cloud/logging@10.5.0':
+  '@google-cloud/logging@10.5.0(encoding@0.1.13)':
     dependencies:
-      '@google-cloud/common': 4.0.3
+      '@google-cloud/common': 4.0.3(encoding@0.1.13)
       '@google-cloud/paginator': 4.0.1
       '@google-cloud/projectify': 3.0.0
       '@google-cloud/promisify': 3.0.1
@@ -37522,9 +37625,9 @@ snapshots:
       dot-prop: 6.0.1
       eventid: 2.0.1
       extend: 3.0.2
-      gcp-metadata: 4.3.1
-      google-auth-library: 8.9.0
-      google-gax: 3.6.1
+      gcp-metadata: 4.3.1(encoding@0.1.13)
+      google-auth-library: 8.9.0(encoding@0.1.13)
+      google-gax: 3.6.1(encoding@0.1.13)
       on-finished: 2.4.1
       pumpify: 2.0.1
       stream-events: 1.0.5
@@ -37562,7 +37665,7 @@ snapshots:
 
   '@google-cloud/promisify@4.0.0': {}
 
-  '@google-cloud/pubsub@3.7.5':
+  '@google-cloud/pubsub@3.7.5(encoding@0.1.13)':
     dependencies:
       '@google-cloud/paginator': 4.0.1
       '@google-cloud/precise-date': 3.0.1
@@ -37574,8 +37677,8 @@ snapshots:
       '@types/long': 4.0.2
       arrify: 2.0.1
       extend: 3.0.2
-      google-auth-library: 8.9.0
-      google-gax: 3.6.1
+      google-auth-library: 8.9.0(encoding@0.1.13)
+      google-gax: 3.6.1(encoding@0.1.13)
       heap-js: 2.7.1
       is-stream-ended: 0.1.4
       lodash.snakecase: 4.1.1
@@ -37584,7 +37687,7 @@ snapshots:
       - encoding
       - supports-color
 
-  '@google-cloud/pubsub@4.11.0':
+  '@google-cloud/pubsub@4.11.0(encoding@0.1.13)':
     dependencies:
       '@google-cloud/paginator': 5.0.2
       '@google-cloud/precise-date': 4.0.0
@@ -37594,8 +37697,8 @@ snapshots:
       '@opentelemetry/semantic-conventions': 1.30.0
       arrify: 2.0.1
       extend: 3.0.2
-      google-auth-library: 9.15.1
-      google-gax: 4.6.1
+      google-auth-library: 9.15.1(encoding@0.1.13)
+      google-gax: 4.6.1(encoding@0.1.13)
       heap-js: 2.7.1
       is-stream-ended: 0.1.4
       lodash.snakecase: 4.1.1
@@ -37604,7 +37707,7 @@ snapshots:
       - encoding
       - supports-color
 
-  '@google-cloud/storage@6.12.0':
+  '@google-cloud/storage@6.12.0(encoding@0.1.13)':
     dependencies:
       '@google-cloud/paginator': 3.0.7
       '@google-cloud/projectify': 3.0.0
@@ -37616,19 +37719,19 @@ snapshots:
       ent: 2.2.2
       extend: 3.0.2
       fast-xml-parser: 4.5.3
-      gaxios: 5.1.3
-      google-auth-library: 8.9.0
+      gaxios: 5.1.3(encoding@0.1.13)
+      google-auth-library: 8.9.0(encoding@0.1.13)
       mime: 3.0.0
       mime-types: 2.1.35
       p-limit: 3.1.0
       retry-request: 5.0.2
-      teeny-request: 8.0.3
+      teeny-request: 8.0.3(encoding@0.1.13)
       uuid: 8.3.2
     transitivePeerDependencies:
       - encoding
       - supports-color
 
-  '@google-cloud/storage@7.17.3':
+  '@google-cloud/storage@7.17.3(encoding@0.1.13)':
     dependencies:
       '@google-cloud/paginator': 5.0.2
       '@google-cloud/projectify': 4.0.0
@@ -37637,57 +37740,57 @@ snapshots:
       async-retry: 1.3.3
       duplexify: 4.1.3
       fast-xml-parser: 4.5.3
-      gaxios: 6.7.1
-      google-auth-library: 9.15.1
+      gaxios: 6.7.1(encoding@0.1.13)
+      google-auth-library: 9.15.1(encoding@0.1.13)
       html-entities: 2.6.0
       mime: 3.0.0
       p-limit: 3.1.0
-      retry-request: 7.0.2
-      teeny-request: 9.0.0
+      retry-request: 7.0.2(encoding@0.1.13)
+      teeny-request: 9.0.0(encoding@0.1.13)
       uuid: 8.3.2
     transitivePeerDependencies:
       - encoding
       - supports-color
     optional: true
 
-  '@googleapis/admin@6.0.2':
+  '@googleapis/admin@6.0.2(encoding@0.1.13)':
     dependencies:
-      googleapis-common: 5.1.0
+      googleapis-common: 5.1.0(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
       - supports-color
 
-  '@googleapis/analyticsreporting@1.0.7':
+  '@googleapis/analyticsreporting@1.0.7(encoding@0.1.13)':
     dependencies:
-      googleapis-common: 7.2.0
+      googleapis-common: 7.2.0(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
       - supports-color
 
-  '@googleapis/calendar@1.0.4':
+  '@googleapis/calendar@1.0.4(encoding@0.1.13)':
     dependencies:
-      googleapis-common: 5.1.0
+      googleapis-common: 5.1.0(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
       - supports-color
 
-  '@googleapis/calendar@9.8.0':
+  '@googleapis/calendar@9.8.0(encoding@0.1.13)':
     dependencies:
-      googleapis-common: 7.2.0
+      googleapis-common: 7.2.0(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
       - supports-color
 
-  '@googleapis/docs@3.4.0':
+  '@googleapis/docs@3.4.0(encoding@0.1.13)':
     dependencies:
-      googleapis-common: 7.2.0
+      googleapis-common: 7.2.0(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
       - supports-color
 
-  '@googleapis/drive@2.4.0':
+  '@googleapis/drive@2.4.0(encoding@0.1.13)':
     dependencies:
-      googleapis-common: 5.1.0
+      googleapis-common: 5.1.0(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -37698,23 +37801,23 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@googleapis/sheets@0.3.0':
+  '@googleapis/sheets@0.3.0(encoding@0.1.13)':
     dependencies:
-      googleapis-common: 5.1.0
+      googleapis-common: 5.1.0(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
       - supports-color
 
-  '@googleapis/slides@0.7.1':
+  '@googleapis/slides@0.7.1(encoding@0.1.13)':
     dependencies:
-      googleapis-common: 5.1.0
+      googleapis-common: 5.1.0(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
       - supports-color
 
-  '@googleapis/youtube@6.0.0':
+  '@googleapis/youtube@6.0.0(encoding@0.1.13)':
     dependencies:
-      googleapis-common: 5.1.0
+      googleapis-common: 5.1.0(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -37810,6 +37913,10 @@ snapshots:
   '@isaacs/balanced-match@4.0.1': {}
 
   '@isaacs/brace-expansion@5.0.0':
+    dependencies:
+      '@isaacs/balanced-match': 4.0.1
+
+  '@isaacs/brace-expansion@5.0.1':
     dependencies:
       '@isaacs/balanced-match': 4.0.1
 
@@ -38081,11 +38188,11 @@ snapshots:
       - debug
       - supports-color
 
-  '@linear/sdk@55.2.1':
+  '@linear/sdk@55.2.1(encoding@0.1.13)':
     dependencies:
       '@graphql-typed-document-node/core': 3.2.0(graphql@15.10.1)
       graphql: 15.10.1
-      isomorphic-unfetch: 3.1.0
+      isomorphic-unfetch: 3.1.0(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
 
@@ -38109,12 +38216,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@mapbox/node-pre-gyp@2.0.0':
+  '@mapbox/node-pre-gyp@2.0.0(encoding@0.1.13)':
     dependencies:
       consola: 3.4.2
       detect-libc: 2.1.2
       https-proxy-agent: 7.0.6
-      node-fetch: 2.7.0
+      node-fetch: 2.7.0(encoding@0.1.13)
       nopt: 8.1.0
       semver: 7.7.3
       tar: 7.5.7
@@ -38122,12 +38229,12 @@ snapshots:
       - encoding
       - supports-color
 
-  '@mapbox/node-pre-gyp@2.0.0(supports-color@10.2.2)':
+  '@mapbox/node-pre-gyp@2.0.0(encoding@0.1.13)(supports-color@10.2.2)':
     dependencies:
       consola: 3.4.2
       detect-libc: 2.1.2
       https-proxy-agent: 7.0.6(supports-color@10.2.2)
-      node-fetch: 2.7.0
+      node-fetch: 2.7.0(encoding@0.1.13)
       nopt: 8.1.0
       semver: 7.7.3
       tar: 7.5.7
@@ -38289,19 +38396,19 @@ snapshots:
       yaml: 2.8.1
       yargs: 17.7.2
 
-  '@netlify/build@35.3.1(@opentelemetry/api@1.8.0)(@types/node@20.19.25)(picomatch@4.0.3)(rollup@4.53.2)':
+  '@netlify/build@35.3.1(@opentelemetry/api@1.8.0)(@types/node@20.19.25)(encoding@0.1.13)(picomatch@4.0.3)(rollup@4.53.2)':
     dependencies:
       '@bugsnag/js': 8.6.0
       '@netlify/blobs': 10.3.3(supports-color@10.2.2)
       '@netlify/cache-utils': 6.0.4
       '@netlify/config': 24.0.8
       '@netlify/edge-bundler': 14.8.6
-      '@netlify/functions-utils': 6.2.13(rollup@4.53.2)(supports-color@10.2.2)
+      '@netlify/functions-utils': 6.2.13(encoding@0.1.13)(rollup@4.53.2)(supports-color@10.2.2)
       '@netlify/git-utils': 6.0.2
       '@netlify/opentelemetry-utils': 2.0.1(@opentelemetry/api@1.8.0)
       '@netlify/plugins-list': 6.80.0
       '@netlify/run-utils': 6.0.2
-      '@netlify/zip-it-and-ship-it': 14.1.13(rollup@4.53.2)(supports-color@10.2.2)
+      '@netlify/zip-it-and-ship-it': 14.1.13(encoding@0.1.13)(rollup@4.53.2)(supports-color@10.2.2)
       '@opentelemetry/api': 1.8.0
       '@sindresorhus/slugify': 2.2.1
       ansi-escapes: 7.1.1
@@ -38456,9 +38563,9 @@ snapshots:
     dependencies:
       '@netlify/types': 2.1.0
 
-  '@netlify/functions-utils@6.2.13(rollup@4.53.2)(supports-color@10.2.2)':
+  '@netlify/functions-utils@6.2.13(encoding@0.1.13)(rollup@4.53.2)(supports-color@10.2.2)':
     dependencies:
-      '@netlify/zip-it-and-ship-it': 14.1.13(rollup@4.53.2)(supports-color@10.2.2)
+      '@netlify/zip-it-and-ship-it': 14.1.13(encoding@0.1.13)(rollup@4.53.2)(supports-color@10.2.2)
       cpy: 11.1.0
       path-exists: 5.0.0
     transitivePeerDependencies:
@@ -38574,13 +38681,13 @@ snapshots:
 
   '@netlify/types@2.1.0': {}
 
-  '@netlify/zip-it-and-ship-it@14.1.13(rollup@4.53.2)':
+  '@netlify/zip-it-and-ship-it@14.1.13(encoding@0.1.13)(rollup@4.53.2)':
     dependencies:
       '@babel/parser': 7.28.5
       '@babel/types': 7.28.5
       '@netlify/binary-info': 1.0.0
       '@netlify/serverless-functions-api': 2.7.1
-      '@vercel/nft': 0.29.4(rollup@4.53.2)
+      '@vercel/nft': 0.29.4(encoding@0.1.13)(rollup@4.53.2)
       archiver: 7.0.1
       common-path-prefix: 3.0.0
       copy-file: 11.1.0
@@ -38615,13 +38722,13 @@ snapshots:
       - rollup
       - supports-color
 
-  '@netlify/zip-it-and-ship-it@14.1.13(rollup@4.53.2)(supports-color@10.2.2)':
+  '@netlify/zip-it-and-ship-it@14.1.13(encoding@0.1.13)(rollup@4.53.2)(supports-color@10.2.2)':
     dependencies:
       '@babel/parser': 7.28.5
       '@babel/types': 7.28.5
       '@netlify/binary-info': 1.0.0
       '@netlify/serverless-functions-api': 2.7.1
-      '@vercel/nft': 0.29.4(rollup@4.53.2)(supports-color@10.2.2)
+      '@vercel/nft': 0.29.4(encoding@0.1.13)(rollup@4.53.2)(supports-color@10.2.2)
       archiver: 7.0.1
       common-path-prefix: 3.0.0
       copy-file: 11.1.0
@@ -38699,16 +38806,57 @@ snapshots:
 
   '@nolyfill/is-core-module@1.0.39': {}
 
-  '@notionhq/client@1.0.4':
+  '@notionhq/client@1.0.4(encoding@0.1.13)':
     dependencies:
       '@types/node-fetch': 2.6.13
-      node-fetch: 2.7.0
+      node-fetch: 2.7.0(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
 
   '@notionhq/client@4.0.2': {}
 
   '@notionhq/client@5.4.0': {}
+
+  '@npmcli/agent@4.0.0':
+    dependencies:
+      agent-base: 7.1.4
+      http-proxy-agent: 7.0.2
+      https-proxy-agent: 7.0.6
+      lru-cache: 11.2.2
+      socks-proxy-agent: 8.0.5
+    transitivePeerDependencies:
+      - supports-color
+
+  '@npmcli/fs@5.0.0':
+    dependencies:
+      semver: 7.7.3
+
+  '@npmcli/git@7.0.1':
+    dependencies:
+      '@npmcli/promise-spawn': 9.0.1
+      ini: 6.0.0
+      lru-cache: 11.2.2
+      npm-pick-manifest: 11.0.3
+      proc-log: 6.1.0
+      promise-retry: 2.0.1
+      semver: 7.7.3
+      which: 6.0.0
+
+  '@npmcli/package-json@7.0.4':
+    dependencies:
+      '@npmcli/git': 7.0.1
+      glob: 13.0.1
+      hosted-git-info: 9.0.2
+      json-parse-even-better-errors: 5.0.0
+      proc-log: 6.1.0
+      semver: 7.7.3
+      validate-npm-package-license: 3.0.4
+
+  '@npmcli/promise-spawn@9.0.1':
+    dependencies:
+      which: 6.0.0
+
+  '@npmcli/redact@4.0.0': {}
 
   '@octokit/auth-token@2.5.0':
     dependencies:
@@ -38718,11 +38866,11 @@ snapshots:
 
   '@octokit/auth-token@6.0.0': {}
 
-  '@octokit/core@3.6.0':
+  '@octokit/core@3.6.0(encoding@0.1.13)':
     dependencies:
       '@octokit/auth-token': 2.5.0
-      '@octokit/graphql': 4.8.0
-      '@octokit/request': 5.6.3
+      '@octokit/graphql': 4.8.0(encoding@0.1.13)
+      '@octokit/request': 5.6.3(encoding@0.1.13)
       '@octokit/request-error': 2.1.0
       '@octokit/types': 6.41.0
       before-after-hook: 2.2.3
@@ -38730,11 +38878,11 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  '@octokit/core@4.2.4':
+  '@octokit/core@4.2.4(encoding@0.1.13)':
     dependencies:
       '@octokit/auth-token': 3.0.4
-      '@octokit/graphql': 5.0.6
-      '@octokit/request': 6.2.8
+      '@octokit/graphql': 5.0.6(encoding@0.1.13)
+      '@octokit/request': 6.2.8(encoding@0.1.13)
       '@octokit/request-error': 3.0.3
       '@octokit/types': 9.3.2
       before-after-hook: 2.2.3
@@ -38769,17 +38917,17 @@ snapshots:
       is-plain-object: 5.0.0
       universal-user-agent: 6.0.1
 
-  '@octokit/graphql@4.8.0':
+  '@octokit/graphql@4.8.0(encoding@0.1.13)':
     dependencies:
-      '@octokit/request': 5.6.3
+      '@octokit/request': 5.6.3(encoding@0.1.13)
       '@octokit/types': 6.41.0
       universal-user-agent: 6.0.1
     transitivePeerDependencies:
       - encoding
 
-  '@octokit/graphql@5.0.6':
+  '@octokit/graphql@5.0.6(encoding@0.1.13)':
     dependencies:
-      '@octokit/request': 6.2.8
+      '@octokit/request': 6.2.8(encoding@0.1.13)
       '@octokit/types': 9.3.2
       universal-user-agent: 6.0.1
     transitivePeerDependencies:
@@ -38804,9 +38952,9 @@ snapshots:
       '@octokit/core': 7.0.6
       '@octokit/types': 15.0.2
 
-  '@octokit/plugin-paginate-rest@2.21.3(@octokit/core@4.2.4)':
+  '@octokit/plugin-paginate-rest@2.21.3(@octokit/core@4.2.4(encoding@0.1.13))':
     dependencies:
-      '@octokit/core': 4.2.4
+      '@octokit/core': 4.2.4(encoding@0.1.13)
       '@octokit/types': 6.41.0
 
   '@octokit/plugin-request-log@6.0.0(@octokit/core@7.0.6)':
@@ -38855,24 +39003,24 @@ snapshots:
       fast-content-type-parse: 3.0.0
       universal-user-agent: 7.0.3
 
-  '@octokit/request@5.6.3':
+  '@octokit/request@5.6.3(encoding@0.1.13)':
     dependencies:
       '@octokit/endpoint': 6.0.12
       '@octokit/request-error': 2.1.0
       '@octokit/types': 6.41.0
       is-plain-object: 5.0.0
-      node-fetch: 2.7.0
+      node-fetch: 2.7.0(encoding@0.1.13)
       universal-user-agent: 6.0.1
     transitivePeerDependencies:
       - encoding
 
-  '@octokit/request@6.2.8':
+  '@octokit/request@6.2.8(encoding@0.1.13)':
     dependencies:
       '@octokit/endpoint': 7.0.6
       '@octokit/request-error': 3.0.3
       '@octokit/types': 9.3.2
       is-plain-object: 5.0.0
-      node-fetch: 2.7.0
+      node-fetch: 2.7.0(encoding@0.1.13)
       universal-user-agent: 6.0.1
     transitivePeerDependencies:
       - encoding
@@ -39188,12 +39336,12 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@pipedream/google_drive@1.2.0':
+  '@pipedream/google_drive@1.2.0(encoding@0.1.13)':
     dependencies:
-      '@googleapis/drive': 2.4.0
+      '@googleapis/drive': 2.4.0(encoding@0.1.13)
       '@pipedream/platform': 3.2.1
       cron-parser: 4.9.0
-      google-docs-mustaches: 1.2.2
+      google-docs-mustaches: 1.2.2(encoding@0.1.13)
       got: 13.0.0
       lodash: 4.17.23
       mime-db: 1.54.0
@@ -39203,12 +39351,12 @@ snapshots:
       - encoding
       - supports-color
 
-  '@pipedream/google_drive@1.4.1':
+  '@pipedream/google_drive@1.4.1(encoding@0.1.13)':
     dependencies:
-      '@googleapis/drive': 2.4.0
+      '@googleapis/drive': 2.4.0(encoding@0.1.13)
       '@pipedream/platform': 3.2.1
       cron-parser: 4.9.0
-      google-docs-mustaches: 1.2.2
+      google-docs-mustaches: 1.2.2(encoding@0.1.13)
       got: 13.0.0
       lodash: 4.17.23
       mime-db: 1.54.0
@@ -39238,9 +39386,9 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@pipedream/linear_app@0.8.1':
+  '@pipedream/linear_app@0.8.1(encoding@0.1.13)':
     dependencies:
-      '@linear/sdk': 55.2.1
+      '@linear/sdk': 55.2.1(encoding@0.1.13)
       '@pipedream/platform': 3.2.1
     transitivePeerDependencies:
       - debug
@@ -39264,32 +39412,32 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@pipedream/monday@0.7.0':
+  '@pipedream/monday@0.7.0(encoding@0.1.13)':
     dependencies:
       '@pipedream/platform': 3.2.1
       form-data: 4.0.4
       lodash.flatmap: 4.5.0
       lodash.map: 4.6.0
       lodash.uniqby: 4.7.0
-      monday-sdk-js: 0.1.6
+      monday-sdk-js: 0.1.6(encoding@0.1.13)
     transitivePeerDependencies:
       - debug
       - encoding
 
   '@pipedream/notiff_io@0.1.0':
     dependencies:
-      '@pipedream/platform': 3.2.1
+      '@pipedream/platform': 3.2.2
     transitivePeerDependencies:
       - debug
 
-  '@pipedream/notion@1.0.6':
+  '@pipedream/notion@1.0.6(encoding@0.1.13)':
     dependencies:
       '@notionhq/client': 5.4.0
-      '@pipedream/platform': 3.2.1
-      '@tryfabric/martian': 1.2.4
+      '@pipedream/platform': 3.2.2
+      '@tryfabric/martian': 1.2.4(encoding@0.1.13)
       lodash-es: 4.17.23
       notion-helper: 1.3.29
-      notion-to-md: 3.1.8
+      notion-to-md: 3.1.8(encoding@0.1.13)
     transitivePeerDependencies:
       - debug
       - encoding
@@ -39359,6 +39507,17 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
+  '@pipedream/platform@3.2.2':
+    dependencies:
+      axios: 1.13.2(debug@3.2.7)
+      fp-ts: 2.16.11
+      io-ts: 2.2.22(fp-ts@2.16.11)
+      mime-types: 3.0.1
+      querystring: 0.2.1
+      uuid: 11.1.0
+    transitivePeerDependencies:
+      - debug
+
   '@pipedream/postgresql@2.2.4':
     dependencies:
       '@pipedream/platform': 2.0.2
@@ -39370,20 +39529,20 @@ snapshots:
 
   '@pipedream/procore@0.1.0':
     dependencies:
-      '@pipedream/platform': 3.2.1
+      '@pipedream/platform': 3.2.2
       uuid: 11.1.0
     transitivePeerDependencies:
       - debug
 
   '@pipedream/quickbooks@0.8.0':
     dependencies:
-      '@pipedream/platform': 3.2.1
+      '@pipedream/platform': 3.2.2
     transitivePeerDependencies:
       - debug
 
   '@pipedream/ramp@0.1.2':
     dependencies:
-      '@pipedream/platform': 3.2.1
+      '@pipedream/platform': 3.2.2
       uuid: 10.0.0
     transitivePeerDependencies:
       - debug
@@ -39402,14 +39561,14 @@ snapshots:
 
   '@pipedream/sftp@0.5.1':
     dependencies:
-      '@pipedream/platform': 3.2.1
+      '@pipedream/platform': 3.2.2
       ssh2-sftp-client: 11.0.0
     transitivePeerDependencies:
       - debug
 
   '@pipedream/shopify@0.7.2':
     dependencies:
-      '@pipedream/platform': 3.2.1
+      '@pipedream/platform': 3.2.2
       async-retry: 1.3.3
       bottleneck: 2.19.5
       form-data: 4.0.4
@@ -39421,16 +39580,16 @@ snapshots:
 
   '@pipedream/slack@0.10.3':
     dependencies:
-      '@pipedream/platform': 3.2.1
+      '@pipedream/platform': 3.2.2
       '@slack/web-api': 7.12.0
       async-retry: 1.3.3
       lodash: 4.17.23
     transitivePeerDependencies:
       - debug
 
-  '@pipedream/snowflake-sdk@1.0.8(asn1.js@5.4.1)':
+  '@pipedream/snowflake-sdk@1.0.8(asn1.js@5.4.1)(encoding@0.1.13)':
     dependencies:
-      snowflake-sdk: 1.9.0(asn1.js@5.4.1)
+      snowflake-sdk: 1.9.0(asn1.js@5.4.1)(encoding@0.1.13)
     transitivePeerDependencies:
       - asn1.js
       - aws-crt
@@ -39449,10 +39608,10 @@ snapshots:
     dependencies:
       typescript: 5.6.3
 
-  '@pipedream/youtube_data_api@1.0.1':
+  '@pipedream/youtube_data_api@1.0.1(encoding@0.1.13)':
     dependencies:
-      '@googleapis/youtube': 6.0.0
-      '@pipedream/platform': 3.2.1
+      '@googleapis/youtube': 6.0.0(encoding@0.1.13)
+      '@pipedream/platform': 3.2.2
       got: 14.6.4
       util: 0.12.5
     transitivePeerDependencies:
@@ -40612,22 +40771,6 @@ snapshots:
 
   '@qdrant/openapi-typescript-fetch@1.2.6': {}
 
-  '@qiwi/npm-registry-client@8.9.1':
-    dependencies:
-      concat-stream: 2.0.0
-      graceful-fs: 4.2.11
-      normalize-package-data: 3.0.3
-      npm-package-arg: 8.1.5
-      once: 1.4.0
-      request: 2.88.2
-      retry: 0.12.0
-      safe-buffer: 5.2.1
-      semver: 5.7.2
-      slide: 1.1.6
-      ssri: 8.0.1
-    optionalDependencies:
-      npmlog: 4.1.2
-
   '@quansync/fs@0.1.5':
     dependencies:
       quansync: 0.2.11
@@ -40651,14 +40794,14 @@ snapshots:
       call-me-maybe: 1.0.2
       js-yaml: 4.1.1
 
-  '@readme/oas-extensions@14.4.0(oas@18.4.4(@types/node@17.0.45))':
+  '@readme/oas-extensions@14.4.0(oas@18.4.4(@types/node@17.0.45)(encoding@0.1.13))':
     dependencies:
-      oas: 18.4.4(@types/node@17.0.45)
+      oas: 18.4.4(@types/node@17.0.45)(encoding@0.1.13)
 
-  '@readme/oas-to-har@16.1.0(@types/node@17.0.45)':
+  '@readme/oas-to-har@16.1.0(@types/node@17.0.45)(encoding@0.1.13)':
     dependencies:
-      '@readme/oas-extensions': 14.4.0(oas@18.4.4(@types/node@17.0.45))
-      oas: 18.4.4(@types/node@17.0.45)
+      '@readme/oas-extensions': 14.4.0(oas@18.4.4(@types/node@17.0.45)(encoding@0.1.13))
+      oas: 18.4.4(@types/node@17.0.45)(encoding@0.1.13)
       parse-data-url: 4.0.1
       remove-undefined-objects: 1.1.0
     transitivePeerDependencies:
@@ -40918,11 +41061,11 @@ snapshots:
     transitivePeerDependencies:
       - '@types/node'
 
-  '@scrapeless-ai/sdk@1.6.0(typescript@5.9.3)':
+  '@scrapeless-ai/sdk@1.6.0(encoding@0.1.13)(typescript@5.9.3)':
     dependencies:
       dotenv: 16.6.1
       form-data: 4.0.4
-      node-fetch: 2.7.0
+      node-fetch: 2.7.0(encoding@0.1.13)
       playwright-core: 1.56.1
       puppeteer-core: 24.36.1
       stack-trace: 1.0.0-pre2
@@ -41109,6 +41252,38 @@ snapshots:
 
   '@sideway/pinpoint@2.0.0': {}
 
+  '@sigstore/bundle@4.0.0':
+    dependencies:
+      '@sigstore/protobuf-specs': 0.5.0
+
+  '@sigstore/core@3.1.0': {}
+
+  '@sigstore/protobuf-specs@0.5.0': {}
+
+  '@sigstore/sign@4.1.0':
+    dependencies:
+      '@sigstore/bundle': 4.0.0
+      '@sigstore/core': 3.1.0
+      '@sigstore/protobuf-specs': 0.5.0
+      make-fetch-happen: 15.0.3
+      proc-log: 6.1.0
+      promise-retry: 2.0.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@sigstore/tuf@4.0.1':
+    dependencies:
+      '@sigstore/protobuf-specs': 0.5.0
+      tuf-js: 4.1.0
+    transitivePeerDependencies:
+      - supports-color
+
+  '@sigstore/verify@3.1.0':
+    dependencies:
+      '@sigstore/bundle': 4.0.0
+      '@sigstore/core': 3.1.0
+      '@sigstore/protobuf-specs': 0.5.0
+
   '@sinclair/typebox@0.27.8': {}
 
   '@sindresorhus/is@4.6.0': {}
@@ -41182,9 +41357,9 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@smiirl/smiirl-library-js@1.0.5':
+  '@smiirl/smiirl-library-js@1.0.5(encoding@0.1.13)':
     dependencies:
-      node-fetch: 2.7.0
+      node-fetch: 2.7.0(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
 
@@ -41700,9 +41875,9 @@ snapshots:
 
   '@tootallnate/quickjs-emscripten@0.23.0': {}
 
-  '@tryfabric/martian@1.2.4':
+  '@tryfabric/martian@1.2.4(encoding@0.1.13)':
     dependencies:
-      '@notionhq/client': 1.0.4
+      '@notionhq/client': 1.0.4(encoding@0.1.13)
       remark-gfm: 1.0.0
       remark-math: 4.0.0
       remark-parse: 9.0.0
@@ -41718,6 +41893,13 @@ snapshots:
   '@tsconfig/node14@1.0.3': {}
 
   '@tsconfig/node16@1.0.4': {}
+
+  '@tufjs/canonical-json@2.0.0': {}
+
+  '@tufjs/models@4.1.0':
+    dependencies:
+      '@tufjs/canonical-json': 2.0.0
+      minimatch: 10.1.1
 
   '@tuya/tuya-connector-nodejs@2.1.2':
     dependencies:
@@ -42349,9 +42531,9 @@ snapshots:
   '@unrs/resolver-binding-win32-x64-msvc@1.11.1':
     optional: true
 
-  '@vercel/nft@0.29.4(rollup@4.53.2)':
+  '@vercel/nft@0.29.4(encoding@0.1.13)(rollup@4.53.2)':
     dependencies:
-      '@mapbox/node-pre-gyp': 2.0.0
+      '@mapbox/node-pre-gyp': 2.0.0(encoding@0.1.13)
       '@rollup/pluginutils': 5.3.0(rollup@4.53.2)
       acorn: 8.15.0
       acorn-import-attributes: 1.9.5(acorn@8.15.0)
@@ -42368,9 +42550,9 @@ snapshots:
       - rollup
       - supports-color
 
-  '@vercel/nft@0.29.4(rollup@4.53.2)(supports-color@10.2.2)':
+  '@vercel/nft@0.29.4(encoding@0.1.13)(rollup@4.53.2)(supports-color@10.2.2)':
     dependencies:
-      '@mapbox/node-pre-gyp': 2.0.0(supports-color@10.2.2)
+      '@mapbox/node-pre-gyp': 2.0.0(encoding@0.1.13)(supports-color@10.2.2)
       '@rollup/pluginutils': 5.3.0(rollup@4.53.2)
       acorn: 8.15.0
       acorn-import-attributes: 1.9.5(acorn@8.15.0)
@@ -42662,13 +42844,13 @@ snapshots:
       clean-stack: 5.3.0
       indent-string: 5.0.0
 
-  airtable@0.11.6:
+  airtable@0.11.6(encoding@0.1.13):
     dependencies:
       '@types/node': 14.18.63
       abort-controller: 3.0.0
       abortcontroller-polyfill: 1.7.8
       lodash: 4.17.21
-      node-fetch: 2.7.0
+      node-fetch: 2.7.0(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
 
@@ -42800,9 +42982,9 @@ snapshots:
       normalize-path: 3.0.0
       picomatch: 2.3.1
 
-  api@4.5.2(@types/node@17.0.45)(openapi-types@12.1.3):
+  api@4.5.2(@types/node@17.0.45)(encoding@0.1.13)(openapi-types@12.1.3):
     dependencies:
-      '@readme/oas-to-har': 16.1.0(@types/node@17.0.45)
+      '@readme/oas-to-har': 16.1.0(@types/node@17.0.45)(encoding@0.1.13)
       '@readme/openapi-parser': 2.7.0(openapi-types@12.1.3)
       datauri: 4.1.0
       fetch-har: 5.0.5
@@ -42812,8 +42994,8 @@ snapshots:
       js-yaml: 4.1.1
       make-dir: 3.1.0
       mimer: 2.0.2
-      node-fetch: 2.7.0
-      oas: 18.4.4(@types/node@17.0.45)
+      node-fetch: 2.7.0(encoding@0.1.13)
+      oas: 18.4.4(@types/node@17.0.45)(encoding@0.1.13)
     transitivePeerDependencies:
       - '@types/node'
       - encoding
@@ -42834,9 +43016,6 @@ snapshots:
       type-fest: 4.41.0
     transitivePeerDependencies:
       - debug
-
-  aproba@1.2.0:
-    optional: true
 
   archiver-utils@5.0.2:
     dependencies:
@@ -42860,12 +43039,6 @@ snapshots:
     transitivePeerDependencies:
       - bare-abort-controller
       - react-native-b4a
-
-  are-we-there-yet@1.1.7:
-    dependencies:
-      delegates: 1.0.0
-      readable-stream: 2.3.8
-    optional: true
 
   arg@4.1.3: {}
 
@@ -43525,8 +43698,6 @@ snapshots:
 
   builtin-modules@1.1.1: {}
 
-  builtins@1.0.3: {}
-
   bun@1.3.2:
     optionalDependencies:
       '@oven/bun-darwin-aarch64': 1.3.2
@@ -43564,6 +43735,20 @@ snapshots:
   bytes@3.1.2: {}
 
   cac@6.7.14: {}
+
+  cacache@20.0.3:
+    dependencies:
+      '@npmcli/fs': 5.0.0
+      fs-minipass: 3.0.3
+      glob: 13.0.1
+      lru-cache: 11.2.2
+      minipass: 7.1.2
+      minipass-collect: 2.0.1
+      minipass-flush: 1.0.5
+      minipass-pipeline: 1.2.4
+      p-map: 7.0.4
+      ssri: 13.0.0
+      unique-filename: 5.0.0
 
   cacheable-lookup@5.0.4: {}
 
@@ -43882,7 +44067,7 @@ snapshots:
 
   clone@2.1.2: {}
 
-  cloudflare@4.5.0:
+  cloudflare@4.5.0(encoding@0.1.13):
     dependencies:
       '@types/node': 18.19.130
       '@types/node-fetch': 2.6.13
@@ -43890,7 +44075,7 @@ snapshots:
       agentkeepalive: 4.6.0
       form-data-encoder: 1.7.2
       formdata-node: 4.4.1
-      node-fetch: 2.7.0
+      node-fetch: 2.7.0(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
 
@@ -43901,10 +44086,7 @@ snapshots:
 
   co@4.6.0: {}
 
-  code-point-at@1.1.0:
-    optional: true
-
-  cohere-ai@7.19.0(aws-crt@1.27.5):
+  cohere-ai@7.19.0(aws-crt@1.27.5)(encoding@0.1.13):
     dependencies:
       '@aws-sdk/client-sagemaker': 3.931.0(aws-crt@1.27.5)
       '@aws-sdk/credential-providers': 3.931.0(aws-crt@1.27.5)
@@ -43915,7 +44097,7 @@ snapshots:
       form-data-encoder: 4.1.0
       formdata-node: 6.0.3
       js-base64: 3.7.7
-      node-fetch: 2.7.0
+      node-fetch: 2.7.0(encoding@0.1.13)
       qs: 6.14.1
       readable-stream: 4.7.0
       url-join: 4.0.1
@@ -44099,9 +44281,6 @@ snapshots:
       xdg-basedir: 5.1.0
 
   consola@3.4.2: {}
-
-  console-control-strings@1.1.0:
-    optional: true
 
   content-disposition@0.5.4:
     dependencies:
@@ -44287,21 +44466,21 @@ snapshots:
     dependencies:
       luxon: 3.7.2
 
-  cross-fetch@3.1.5:
+  cross-fetch@3.1.5(encoding@0.1.13):
     dependencies:
-      node-fetch: 2.6.7
+      node-fetch: 2.6.7(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
 
-  cross-fetch@3.2.0:
+  cross-fetch@3.2.0(encoding@0.1.13):
     dependencies:
-      node-fetch: 2.7.0
+      node-fetch: 2.7.0(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
 
-  cross-fetch@4.0.0:
+  cross-fetch@4.0.0(encoding@0.1.13):
     dependencies:
-      node-fetch: 2.7.0
+      node-fetch: 2.7.0(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
 
@@ -44589,9 +44768,6 @@ snapshots:
 
   delayed-stream@1.0.0: {}
 
-  delegates@1.0.0:
-    optional: true
-
   delighted@2.1.0: {}
 
   denque@2.1.0: {}
@@ -44801,10 +44977,10 @@ snapshots:
 
   dotenv@8.6.0: {}
 
-  dropbox@10.34.0(@types/node-fetch@2.6.13):
+  dropbox@10.34.0(@types/node-fetch@2.6.13)(encoding@0.1.13):
     dependencies:
       '@types/node-fetch': 2.6.13
-      node-fetch: 2.7.0
+      node-fetch: 2.7.0(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
 
@@ -44815,7 +44991,7 @@ snapshots:
 
   dts-critic@3.3.11(typescript@5.6.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.21
+      '@definitelytyped/header-parser': 0.2.22
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -44825,14 +45001,15 @@ snapshots:
     transitivePeerDependencies:
       - bare-abort-controller
       - react-native-b4a
+      - supports-color
 
   dts-resolver@2.1.3: {}
 
   dtslint@4.2.1(typescript@5.6.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.21
+      '@definitelytyped/header-parser': 0.2.22
       '@definitelytyped/typescript-versions': 0.1.10
-      '@definitelytyped/utils': 0.1.9
+      '@definitelytyped/utils': 0.1.10
       dts-critic: 3.3.11(typescript@5.6.3)
       fs-extra: 6.0.1
       json-stable-stringify: 1.3.0
@@ -44844,6 +45021,7 @@ snapshots:
     transitivePeerDependencies:
       - bare-abort-controller
       - react-native-b4a
+      - supports-color
 
   duck@0.1.12:
     dependencies:
@@ -44938,6 +45116,11 @@ snapshots:
   encodeurl@2.0.0: {}
 
   encoding-japanese@2.2.0: {}
+
+  encoding@0.1.13:
+    dependencies:
+      iconv-lite: 0.6.3
+    optional: true
 
   end-of-stream@1.4.5:
     dependencies:
@@ -46016,13 +46199,13 @@ snapshots:
     dependencies:
       format: 0.2.2
 
-  faunadb@4.8.2:
+  faunadb@4.8.2(encoding@0.1.13):
     dependencies:
       base64-js: 1.5.1
       boxen: 5.1.2
       btoa-lite: 1.0.0
       chalk: 4.1.2
-      cross-fetch: 3.2.0
+      cross-fetch: 3.2.0(encoding@0.1.13)
       dotenv: 8.6.0
       fn-annotate: 1.2.0
       node-abort-controller: 3.1.1
@@ -46074,9 +46257,9 @@ snapshots:
     dependencies:
       parse-data-url: 4.0.1
 
-  fetch-ponyfill@7.1.0:
+  fetch-ponyfill@7.1.0(encoding@0.1.13):
     dependencies:
-      node-fetch: 2.6.13
+      node-fetch: 2.6.13(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
 
@@ -46241,7 +46424,7 @@ snapshots:
       semver-regex: 4.0.5
       super-regex: 1.1.0
 
-  firebase-admin@13.6.0:
+  firebase-admin@13.6.0(encoding@0.1.13):
     dependencies:
       '@fastify/busboy': 3.2.0
       '@firebase/database-compat': 2.1.0
@@ -46249,14 +46432,14 @@ snapshots:
       '@types/node': 22.19.1
       farmhash-modern: 1.1.0
       fast-deep-equal: 3.1.3
-      google-auth-library: 9.15.1
+      google-auth-library: 9.15.1(encoding@0.1.13)
       jsonwebtoken: 9.0.2
       jwks-rsa: 3.2.0
       node-forge: 1.3.1
       uuid: 11.1.0
     optionalDependencies:
-      '@google-cloud/firestore': 7.11.6
-      '@google-cloud/storage': 7.17.3
+      '@google-cloud/firestore': 7.11.6(encoding@0.1.13)
+      '@google-cloud/storage': 7.17.3(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -46417,6 +46600,10 @@ snapshots:
       jsonfile: 4.0.0
       universalify: 0.1.2
 
+  fs-minipass@3.0.3:
+    dependencies:
+      minipass: 7.1.2
+
   fs-readdir-recursive@1.1.0: {}
 
   fs.realpath@1.0.0: {}
@@ -46448,45 +46635,33 @@ snapshots:
 
   fuzzy@0.1.3: {}
 
-  gauge@2.7.4:
-    dependencies:
-      aproba: 1.2.0
-      console-control-strings: 1.1.0
-      has-unicode: 2.0.1
-      object-assign: 4.1.1
-      signal-exit: 3.0.7
-      string-width: 1.0.2
-      strip-ansi: 3.0.1
-      wide-align: 1.1.5
-    optional: true
-
-  gaxios@4.3.3:
+  gaxios@4.3.3(encoding@0.1.13):
     dependencies:
       abort-controller: 3.0.0
       extend: 3.0.2
       https-proxy-agent: 5.0.1
       is-stream: 2.0.1
-      node-fetch: 2.7.0
+      node-fetch: 2.7.0(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
       - supports-color
 
-  gaxios@5.1.3:
+  gaxios@5.1.3(encoding@0.1.13):
     dependencies:
       extend: 3.0.2
       https-proxy-agent: 5.0.1
       is-stream: 2.0.1
-      node-fetch: 2.7.0
+      node-fetch: 2.7.0(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
       - supports-color
 
-  gaxios@6.7.1:
+  gaxios@6.7.1(encoding@0.1.13):
     dependencies:
       extend: 3.0.2
       https-proxy-agent: 7.0.6
       is-stream: 2.0.1
-      node-fetch: 2.7.0
+      node-fetch: 2.7.0(encoding@0.1.13)
       uuid: 9.0.1
     transitivePeerDependencies:
       - encoding
@@ -46501,25 +46676,25 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  gcp-metadata@4.3.1:
+  gcp-metadata@4.3.1(encoding@0.1.13):
     dependencies:
-      gaxios: 4.3.3
+      gaxios: 4.3.3(encoding@0.1.13)
       json-bigint: 1.0.0
     transitivePeerDependencies:
       - encoding
       - supports-color
 
-  gcp-metadata@5.3.0:
+  gcp-metadata@5.3.0(encoding@0.1.13):
     dependencies:
-      gaxios: 5.1.3
+      gaxios: 5.1.3(encoding@0.1.13)
       json-bigint: 1.0.0
     transitivePeerDependencies:
       - encoding
       - supports-color
 
-  gcp-metadata@6.1.1:
+  gcp-metadata@6.1.1(encoding@0.1.13):
     dependencies:
-      gaxios: 6.7.1
+      gaxios: 6.7.1(encoding@0.1.13)
       google-logging-utils: 0.0.2
       json-bigint: 1.0.0
     transitivePeerDependencies:
@@ -46702,6 +46877,12 @@ snapshots:
       package-json-from-dist: 1.0.1
       path-scurry: 2.0.1
 
+  glob@13.0.1:
+    dependencies:
+      minimatch: 10.1.2
+      minipass: 7.1.2
+      path-scurry: 2.0.1
+
   glob@6.0.4:
     dependencies:
       inflight: 1.0.6
@@ -46819,56 +47000,56 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  google-auth-library@7.14.1:
+  google-auth-library@7.14.1(encoding@0.1.13):
     dependencies:
       arrify: 2.0.1
       base64-js: 1.5.1
       ecdsa-sig-formatter: 1.0.11
       fast-text-encoding: 1.0.6
-      gaxios: 4.3.3
-      gcp-metadata: 4.3.1
-      gtoken: 5.3.2
+      gaxios: 4.3.3(encoding@0.1.13)
+      gcp-metadata: 4.3.1(encoding@0.1.13)
+      gtoken: 5.3.2(encoding@0.1.13)
       jws: 4.0.0
       lru-cache: 6.0.0
     transitivePeerDependencies:
       - encoding
       - supports-color
 
-  google-auth-library@8.9.0:
+  google-auth-library@8.9.0(encoding@0.1.13):
     dependencies:
       arrify: 2.0.1
       base64-js: 1.5.1
       ecdsa-sig-formatter: 1.0.11
       fast-text-encoding: 1.0.6
-      gaxios: 5.1.3
-      gcp-metadata: 5.3.0
-      gtoken: 6.1.2
+      gaxios: 5.1.3(encoding@0.1.13)
+      gcp-metadata: 5.3.0(encoding@0.1.13)
+      gtoken: 6.1.2(encoding@0.1.13)
       jws: 4.0.0
       lru-cache: 6.0.0
     transitivePeerDependencies:
       - encoding
       - supports-color
 
-  google-auth-library@9.15.1:
+  google-auth-library@9.15.1(encoding@0.1.13):
     dependencies:
       base64-js: 1.5.1
       ecdsa-sig-formatter: 1.0.11
-      gaxios: 6.7.1
-      gcp-metadata: 6.1.1
-      gtoken: 7.1.0
+      gaxios: 6.7.1(encoding@0.1.13)
+      gcp-metadata: 6.1.1(encoding@0.1.13)
+      gtoken: 7.1.0(encoding@0.1.13)
       jws: 4.0.0
     transitivePeerDependencies:
       - encoding
       - supports-color
 
-  google-docs-mustaches@1.2.2:
+  google-docs-mustaches@1.2.2(encoding@0.1.13):
     dependencies:
-      cross-fetch: 3.2.0
+      cross-fetch: 3.2.0(encoding@0.1.13)
       fetch-blob: 1.0.6
     transitivePeerDependencies:
       - encoding
 
-  google-gax@3.6.1:
+  google-gax@3.6.1(encoding@0.1.13):
     dependencies:
       '@grpc/grpc-js': 1.8.22
       '@grpc/proto-loader': 0.7.15
@@ -46877,9 +47058,9 @@ snapshots:
       abort-controller: 3.0.0
       duplexify: 4.1.3
       fast-text-encoding: 1.0.6
-      google-auth-library: 8.9.0
+      google-auth-library: 8.9.0(encoding@0.1.13)
       is-stream-ended: 0.1.4
-      node-fetch: 2.7.0
+      node-fetch: 2.7.0(encoding@0.1.13)
       object-hash: 3.0.0
       proto3-json-serializer: 1.1.1
       protobufjs: 7.2.6
@@ -46889,19 +47070,19 @@ snapshots:
       - encoding
       - supports-color
 
-  google-gax@4.6.1:
+  google-gax@4.6.1(encoding@0.1.13):
     dependencies:
       '@grpc/grpc-js': 1.14.1
       '@grpc/proto-loader': 0.7.15
       '@types/long': 4.0.2
       abort-controller: 3.0.0
       duplexify: 4.1.3
-      google-auth-library: 9.15.1
-      node-fetch: 2.7.0
+      google-auth-library: 9.15.1(encoding@0.1.13)
+      node-fetch: 2.7.0(encoding@0.1.13)
       object-hash: 3.0.0
       proto3-json-serializer: 2.0.2
       protobufjs: 7.5.4
-      retry-request: 7.0.2
+      retry-request: 7.0.2(encoding@0.1.13)
       uuid: 9.0.1
     transitivePeerDependencies:
       - encoding
@@ -46921,11 +47102,11 @@ snapshots:
 
   google-protobuf@3.21.4: {}
 
-  googleapis-common@5.1.0:
+  googleapis-common@5.1.0(encoding@0.1.13):
     dependencies:
       extend: 3.0.2
-      gaxios: 4.3.3
-      google-auth-library: 7.14.1
+      gaxios: 4.3.3(encoding@0.1.13)
+      google-auth-library: 7.14.1(encoding@0.1.13)
       qs: 6.14.1
       url-template: 2.0.8
       uuid: 8.3.2
@@ -46933,11 +47114,11 @@ snapshots:
       - encoding
       - supports-color
 
-  googleapis-common@6.0.4:
+  googleapis-common@6.0.4(encoding@0.1.13):
     dependencies:
       extend: 3.0.2
-      gaxios: 5.1.3
-      google-auth-library: 8.9.0
+      gaxios: 5.1.3(encoding@0.1.13)
+      google-auth-library: 8.9.0(encoding@0.1.13)
       qs: 6.14.1
       url-template: 2.0.8
       uuid: 9.0.1
@@ -46945,11 +47126,11 @@ snapshots:
       - encoding
       - supports-color
 
-  googleapis-common@7.2.0:
+  googleapis-common@7.2.0(encoding@0.1.13):
     dependencies:
       extend: 3.0.2
-      gaxios: 6.7.1
-      google-auth-library: 9.15.1
+      gaxios: 6.7.1(encoding@0.1.13)
+      google-auth-library: 9.15.1(encoding@0.1.13)
       qs: 6.14.1
       url-template: 2.0.8
       uuid: 9.0.1
@@ -46967,26 +47148,26 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  googleapis@108.0.1:
+  googleapis@108.0.1(encoding@0.1.13):
     dependencies:
-      google-auth-library: 8.9.0
-      googleapis-common: 6.0.4
+      google-auth-library: 8.9.0(encoding@0.1.13)
+      googleapis-common: 6.0.4(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
       - supports-color
 
-  googleapis@131.0.0:
+  googleapis@131.0.0(encoding@0.1.13):
     dependencies:
-      google-auth-library: 9.15.1
-      googleapis-common: 7.2.0
+      google-auth-library: 9.15.1(encoding@0.1.13)
+      googleapis-common: 7.2.0(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
       - supports-color
 
-  googleapis@96.0.0:
+  googleapis@96.0.0(encoding@0.1.13):
     dependencies:
-      google-auth-library: 7.14.1
-      googleapis-common: 5.1.0
+      google-auth-library: 7.14.1(encoding@0.1.13)
+      googleapis-common: 5.1.0(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -47070,29 +47251,29 @@ snapshots:
 
   graphemer@1.4.0: {}
 
-  graphql-request@3.7.0(graphql@16.12.0):
+  graphql-request@3.7.0(encoding@0.1.13)(graphql@16.12.0):
     dependencies:
-      cross-fetch: 3.2.0
+      cross-fetch: 3.2.0(encoding@0.1.13)
       extract-files: 9.0.0
       form-data: 3.0.4
       graphql: 16.12.0
     transitivePeerDependencies:
       - encoding
 
-  graphql-request@5.2.0(graphql@16.12.0):
+  graphql-request@5.2.0(encoding@0.1.13)(graphql@16.12.0):
     dependencies:
       '@graphql-typed-document-node/core': 3.2.0(graphql@16.12.0)
-      cross-fetch: 3.2.0
+      cross-fetch: 3.2.0(encoding@0.1.13)
       extract-files: 9.0.0
       form-data: 3.0.4
       graphql: 16.12.0
     transitivePeerDependencies:
       - encoding
 
-  graphql-request@6.1.0(graphql@16.12.0):
+  graphql-request@6.1.0(encoding@0.1.13)(graphql@16.12.0):
     dependencies:
       '@graphql-typed-document-node/core': 3.2.0(graphql@16.12.0)
-      cross-fetch: 3.2.0
+      cross-fetch: 3.2.0(encoding@0.1.13)
       graphql: 16.12.0
     transitivePeerDependencies:
       - encoding
@@ -47106,27 +47287,27 @@ snapshots:
 
   graphql@16.12.0: {}
 
-  gtoken@5.3.2:
+  gtoken@5.3.2(encoding@0.1.13):
     dependencies:
-      gaxios: 4.3.3
+      gaxios: 4.3.3(encoding@0.1.13)
       google-p12-pem: 3.1.4
       jws: 4.0.0
     transitivePeerDependencies:
       - encoding
       - supports-color
 
-  gtoken@6.1.2:
+  gtoken@6.1.2(encoding@0.1.13):
     dependencies:
-      gaxios: 5.1.3
+      gaxios: 5.1.3(encoding@0.1.13)
       google-p12-pem: 4.0.1
       jws: 4.0.0
     transitivePeerDependencies:
       - encoding
       - supports-color
 
-  gtoken@7.1.0:
+  gtoken@7.1.0(encoding@0.1.13):
     dependencies:
-      gaxios: 6.7.1
+      gaxios: 6.7.1(encoding@0.1.13)
       jws: 4.0.0
     transitivePeerDependencies:
       - encoding
@@ -47200,9 +47381,6 @@ snapshots:
   has-tostringtag@1.0.2:
     dependencies:
       has-symbols: 1.1.0
-
-  has-unicode@2.0.1:
-    optional: true
 
   hash-base@3.1.2:
     dependencies:
@@ -47281,10 +47459,6 @@ snapshots:
 
   hosted-git-info@2.8.9: {}
 
-  hosted-git-info@4.1.0:
-    dependencies:
-      lru-cache: 6.0.0
-
   hosted-git-info@7.0.2:
     dependencies:
       lru-cache: 10.4.3
@@ -47292,6 +47466,10 @@ snapshots:
   hosted-git-info@8.1.0:
     dependencies:
       lru-cache: 10.4.3
+
+  hosted-git-info@9.0.2:
+    dependencies:
+      lru-cache: 11.2.2
 
   hot-shots@11.2.0:
     optionalDependencies:
@@ -47569,6 +47747,8 @@ snapshots:
 
   ini@4.1.1: {}
 
+  ini@6.0.0: {}
+
   inline-style-parser@0.2.6: {}
 
   inquirer-autocomplete-prompt@1.4.0(inquirer@8.2.7(@types/node@20.19.25)):
@@ -47787,11 +47967,6 @@ snapshots:
     dependencies:
       call-bound: 1.0.4
 
-  is-fullwidth-code-point@1.0.0:
-    dependencies:
-      number-is-nan: 1.0.1
-    optional: true
-
   is-fullwidth-code-point@3.0.0: {}
 
   is-fullwidth-code-point@4.0.0: {}
@@ -47977,16 +48152,16 @@ snapshots:
 
   isobject@3.0.1: {}
 
-  isomorphic-fetch@3.0.0:
+  isomorphic-fetch@3.0.0(encoding@0.1.13):
     dependencies:
-      node-fetch: 2.7.0
+      node-fetch: 2.7.0(encoding@0.1.13)
       whatwg-fetch: 3.6.20
     transitivePeerDependencies:
       - encoding
 
-  isomorphic-unfetch@3.1.0:
+  isomorphic-unfetch@3.1.0(encoding@0.1.13):
     dependencies:
-      node-fetch: 2.7.0
+      node-fetch: 2.7.0(encoding@0.1.13)
       unfetch: 4.2.0
     transitivePeerDependencies:
       - encoding
@@ -48522,6 +48697,8 @@ snapshots:
 
   json-parse-even-better-errors@2.3.1: {}
 
+  json-parse-even-better-errors@5.0.0: {}
+
   json-schema-compare@0.2.2:
     dependencies:
       lodash: 4.17.23
@@ -48793,6 +48970,19 @@ snapshots:
       iconv-lite: 0.6.3
       libbase64: 1.3.0
       libqp: 2.1.1
+
+  libnpmpublish@11.1.3:
+    dependencies:
+      '@npmcli/package-json': 7.0.4
+      ci-info: 4.3.1
+      npm-package-arg: 13.0.2
+      npm-registry-fetch: 19.1.1
+      proc-log: 6.1.0
+      semver: 7.7.3
+      sigstore: 4.1.0
+      ssri: 13.0.0
+    transitivePeerDependencies:
+      - supports-color
 
   libqp@2.1.1: {}
 
@@ -49168,9 +49358,9 @@ snapshots:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  mailersend@2.6.0:
+  mailersend@2.6.0(encoding@0.1.13):
     dependencies:
-      gaxios: 6.7.1
+      gaxios: 6.7.1(encoding@0.1.13)
       isomorphic-unfetch: 4.0.2
       qs: 6.14.1
     transitivePeerDependencies:
@@ -49230,6 +49420,22 @@ snapshots:
       semver: 7.7.3
 
   make-error@1.3.6: {}
+
+  make-fetch-happen@15.0.3:
+    dependencies:
+      '@npmcli/agent': 4.0.0
+      cacache: 20.0.3
+      http-cache-semantics: 4.2.0
+      minipass: 7.1.2
+      minipass-fetch: 5.0.1
+      minipass-flush: 1.0.5
+      minipass-pipeline: 1.2.4
+      negotiator: 1.0.0
+      proc-log: 6.1.0
+      promise-retry: 2.0.1
+      ssri: 13.0.0
+    transitivePeerDependencies:
+      - supports-color
 
   makeerror@1.0.12:
     dependencies:
@@ -49773,6 +49979,10 @@ snapshots:
     dependencies:
       '@isaacs/brace-expansion': 5.0.0
 
+  minimatch@10.1.2:
+    dependencies:
+      '@isaacs/brace-expansion': 5.0.1
+
   minimatch@3.1.2:
     dependencies:
       brace-expansion: 1.1.12
@@ -49786,6 +49996,30 @@ snapshots:
       brace-expansion: 2.0.2
 
   minimist@1.2.8: {}
+
+  minipass-collect@2.0.1:
+    dependencies:
+      minipass: 7.1.2
+
+  minipass-fetch@5.0.1:
+    dependencies:
+      minipass: 7.1.2
+      minipass-sized: 2.0.0
+      minizlib: 3.1.0
+    optionalDependencies:
+      encoding: 0.1.13
+
+  minipass-flush@1.0.5:
+    dependencies:
+      minipass: 3.3.6
+
+  minipass-pipeline@1.2.4:
+    dependencies:
+      minipass: 3.3.6
+
+  minipass-sized@2.0.0:
+    dependencies:
+      minipass: 7.1.2
 
   minipass@3.3.6:
     dependencies:
@@ -49842,16 +50076,16 @@ snapshots:
 
   moment@2.30.1: {}
 
-  monday-sdk-js@0.1.6:
+  monday-sdk-js@0.1.6(encoding@0.1.13):
     dependencies:
       '@types/source-map': 0.5.7
-      node-fetch: 2.7.0
+      node-fetch: 2.7.0(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
 
-  monday-sdk-js@0.5.6:
+  monday-sdk-js@0.5.6(encoding@0.1.13):
     dependencies:
-      node-fetch: 2.7.0
+      node-fetch: 2.7.0(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
 
@@ -50049,13 +50283,13 @@ snapshots:
 
   netlify-redirector@0.5.0: {}
 
-  netlify@23.11.0(@azure/storage-blob@12.29.1)(@types/express@4.17.25)(@types/node@20.19.25)(picomatch@4.0.3)(rollup@4.53.2):
+  netlify@23.11.0(@azure/storage-blob@12.29.1)(@types/express@4.17.25)(@types/node@20.19.25)(encoding@0.1.13)(picomatch@4.0.3)(rollup@4.53.2):
     dependencies:
       '@fastify/static': 7.0.4
       '@netlify/ai': 0.3.0(@netlify/api@14.0.9)
       '@netlify/api': 14.0.9
       '@netlify/blobs': 10.1.0
-      '@netlify/build': 35.3.1(@opentelemetry/api@1.8.0)(@types/node@20.19.25)(picomatch@4.0.3)(rollup@4.53.2)
+      '@netlify/build': 35.3.1(@opentelemetry/api@1.8.0)(@types/node@20.19.25)(encoding@0.1.13)(picomatch@4.0.3)(rollup@4.53.2)
       '@netlify/build-info': 10.0.9
       '@netlify/config': 24.0.8
       '@netlify/dev-utils': 4.3.0
@@ -50065,7 +50299,7 @@ snapshots:
       '@netlify/headers-parser': 9.0.2
       '@netlify/local-functions-proxy': 2.0.3
       '@netlify/redirect-parser': 15.0.3
-      '@netlify/zip-it-and-ship-it': 14.1.13(rollup@4.53.2)
+      '@netlify/zip-it-and-ship-it': 14.1.13(encoding@0.1.13)(rollup@4.53.2)
       '@octokit/rest': 22.0.0
       '@opentelemetry/api': 1.8.0
       '@pnpm/tabtab': 0.5.4
@@ -50209,17 +50443,23 @@ snapshots:
 
   node-fetch-native@1.6.7: {}
 
-  node-fetch@2.6.13:
+  node-fetch@2.6.13(encoding@0.1.13):
     dependencies:
       whatwg-url: 5.0.0
+    optionalDependencies:
+      encoding: 0.1.13
 
-  node-fetch@2.6.7:
+  node-fetch@2.6.7(encoding@0.1.13):
     dependencies:
       whatwg-url: 5.0.0
+    optionalDependencies:
+      encoding: 0.1.13
 
-  node-fetch@2.7.0:
+  node-fetch@2.7.0(encoding@0.1.13):
     dependencies:
       whatwg-url: 5.0.0
+    optionalDependencies:
+      encoding: 0.1.13
 
   node-fetch@3.0.0-beta.9:
     dependencies:
@@ -50324,13 +50564,6 @@ snapshots:
       semver: 5.7.2
       validate-npm-package-license: 3.0.4
 
-  normalize-package-data@3.0.3:
-    dependencies:
-      hosted-git-info: 4.1.0
-      is-core-module: 2.16.1
-      semver: 7.7.3
-      validate-npm-package-license: 3.0.4
-
   normalize-package-data@6.0.2:
     dependencies:
       hosted-git-info: 7.0.2
@@ -50355,18 +50588,45 @@ snapshots:
 
   notion-helper@1.3.29: {}
 
-  notion-to-md@3.1.8:
+  notion-to-md@3.1.8(encoding@0.1.13):
     dependencies:
       markdown-table: 2.0.0
-      node-fetch: 2.7.0
+      node-fetch: 2.7.0(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
 
-  npm-package-arg@8.1.5:
+  npm-install-checks@8.0.0:
     dependencies:
-      hosted-git-info: 4.1.0
       semver: 7.7.3
-      validate-npm-package-name: 3.0.0
+
+  npm-normalize-package-bin@5.0.0: {}
+
+  npm-package-arg@13.0.2:
+    dependencies:
+      hosted-git-info: 9.0.2
+      proc-log: 6.1.0
+      semver: 7.7.3
+      validate-npm-package-name: 7.0.2
+
+  npm-pick-manifest@11.0.3:
+    dependencies:
+      npm-install-checks: 8.0.0
+      npm-normalize-package-bin: 5.0.0
+      npm-package-arg: 13.0.2
+      semver: 7.7.3
+
+  npm-registry-fetch@19.1.1:
+    dependencies:
+      '@npmcli/redact': 4.0.0
+      jsonparse: 1.3.1
+      make-fetch-happen: 15.0.3
+      minipass: 7.1.2
+      minipass-fetch: 5.0.1
+      minizlib: 3.1.0
+      npm-package-arg: 13.0.2
+      proc-log: 6.1.0
+    transitivePeerDependencies:
+      - supports-color
 
   npm-run-path@2.0.2:
     dependencies:
@@ -50387,14 +50647,6 @@ snapshots:
 
   npm@10.9.4: {}
 
-  npmlog@4.1.2:
-    dependencies:
-      are-we-there-yet: 1.1.7
-      console-control-strings: 1.1.0
-      gauge: 2.7.4
-      set-blocking: 2.0.0
-    optional: true
-
   nth-check@2.1.1:
     dependencies:
       boolbase: 1.0.0
@@ -50406,9 +50658,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  number-is-nan@1.0.1:
-    optional: true
-
   oas-kit-common@1.0.8:
     dependencies:
       fast-safe-stringify: 2.1.1
@@ -50419,13 +50668,13 @@ snapshots:
       should: 13.2.3
       yaml: 1.10.2
 
-  oas-normalize@7.1.1:
+  oas-normalize@7.1.1(encoding@0.1.13):
     dependencies:
       '@readme/openapi-parser': 2.7.0(openapi-types@12.1.3)
       js-yaml: 4.1.1
-      node-fetch: 2.7.0
+      node-fetch: 2.7.0(encoding@0.1.13)
       openapi-types: 12.1.3
-      swagger2openapi: 7.0.8
+      swagger2openapi: 7.0.8(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
 
@@ -50450,7 +50699,7 @@ snapshots:
       should: 13.2.3
       yaml: 1.10.2
 
-  oas@18.4.4(@types/node@17.0.45):
+  oas@18.4.4(@types/node@17.0.45)(encoding@0.1.13):
     dependencies:
       '@readme/json-schema-ref-parser': 1.2.0
       '@types/json-schema': 7.0.15
@@ -50464,7 +50713,7 @@ snapshots:
       jsonpointer: 5.0.1
       memoizee: 0.4.17
       minimist: 1.2.8
-      oas-normalize: 7.1.1
+      oas-normalize: 7.1.1(encoding@0.1.13)
       openapi-types: 12.1.3
       path-to-regexp: 6.3.0
       swagger-inline: 6.1.1
@@ -50526,7 +50775,7 @@ snapshots:
 
   obliterator@1.6.1: {}
 
-  oci-common@2.121.1:
+  oci-common@2.121.1(encoding@0.1.13):
     dependencies:
       '@types/isomorphic-fetch': 0.0.35
       '@types/jsonwebtoken': 9.0.0
@@ -50535,7 +50784,7 @@ snapshots:
       '@types/sshpk': 1.10.3
       es6-promise: 4.2.6
       http-signature: 1.3.1
-      isomorphic-fetch: 3.0.0
+      isomorphic-fetch: 3.0.0(encoding@0.1.13)
       jsonwebtoken: 9.0.0
       jssha: 2.4.1
       opossum: 5.0.1
@@ -50544,52 +50793,52 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  oci-core@2.121.1:
+  oci-core@2.121.1(encoding@0.1.13):
     dependencies:
-      oci-common: 2.121.1
-      oci-workrequests: 2.121.1
+      oci-common: 2.121.1(encoding@0.1.13)
+      oci-workrequests: 2.121.1(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
 
-  oci-datacatalog@2.121.1:
+  oci-datacatalog@2.121.1(encoding@0.1.13):
     dependencies:
-      oci-common: 2.121.1
-      oci-workrequests: 2.121.1
+      oci-common: 2.121.1(encoding@0.1.13)
+      oci-workrequests: 2.121.1(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
 
-  oci-events@2.121.1:
+  oci-events@2.121.1(encoding@0.1.13):
     dependencies:
-      oci-common: 2.121.1
-      oci-workrequests: 2.121.1
+      oci-common: 2.121.1(encoding@0.1.13)
+      oci-workrequests: 2.121.1(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
 
-  oci-identity@2.121.1:
+  oci-identity@2.121.1(encoding@0.1.13):
     dependencies:
-      oci-common: 2.121.1
-      oci-workrequests: 2.121.1
+      oci-common: 2.121.1(encoding@0.1.13)
+      oci-workrequests: 2.121.1(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
 
-  oci-objectstorage@2.121.1:
+  oci-objectstorage@2.121.1(encoding@0.1.13):
     dependencies:
       await-semaphore: 0.1.3
-      oci-common: 2.121.1
-      oci-workrequests: 2.121.1
+      oci-common: 2.121.1(encoding@0.1.13)
+      oci-workrequests: 2.121.1(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
 
-  oci-ons@2.121.1:
+  oci-ons@2.121.1(encoding@0.1.13):
     dependencies:
-      oci-common: 2.121.1
-      oci-workrequests: 2.121.1
+      oci-common: 2.121.1(encoding@0.1.13)
+      oci-workrequests: 2.121.1(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
 
-  oci-workrequests@2.121.1:
+  oci-workrequests@2.121.1(encoding@0.1.13):
     dependencies:
-      oci-common: 2.121.1
+      oci-common: 2.121.1(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
 
@@ -50629,10 +50878,10 @@ snapshots:
     dependencies:
       mimic-function: 5.0.1
 
-  ongage@1.1.7(node-fetch@2.7.0):
+  ongage@1.1.7(node-fetch@2.7.0(encoding@0.1.13)):
     dependencies:
       lodash: 4.17.23
-      node-fetch: 2.7.0
+      node-fetch: 2.7.0(encoding@0.1.13)
       qs: 6.14.1
 
   open@10.2.0:
@@ -50653,7 +50902,7 @@ snapshots:
       is-docker: 2.2.1
       is-wsl: 2.2.0
 
-  openai@4.104.0(ws@8.18.3)(zod@3.25.76):
+  openai@4.104.0(encoding@0.1.13)(ws@8.18.3)(zod@3.25.76):
     dependencies:
       '@types/node': 18.19.130
       '@types/node-fetch': 2.6.13
@@ -50661,7 +50910,7 @@ snapshots:
       agentkeepalive: 4.6.0
       form-data-encoder: 1.7.2
       formdata-node: 4.4.1
-      node-fetch: 2.7.0
+      node-fetch: 2.7.0(encoding@0.1.13)
     optionalDependencies:
       ws: 8.18.3
       zod: 3.25.76
@@ -51343,6 +51592,8 @@ snapshots:
 
   printj@1.3.1: {}
 
+  proc-log@6.1.0: {}
+
   process-nextick-args@2.0.1: {}
 
   process-warning@3.0.0: {}
@@ -51513,11 +51764,11 @@ snapshots:
     dependencies:
       escape-goat: 4.0.0
 
-  puppeteer-core@19.11.1(typescript@5.9.3):
+  puppeteer-core@19.11.1(encoding@0.1.13)(typescript@5.9.3):
     dependencies:
       '@puppeteer/browsers': 0.5.0(typescript@5.9.3)
       chromium-bidi: 0.4.7(devtools-protocol@0.0.1107588)
-      cross-fetch: 3.1.5
+      cross-fetch: 3.1.5(encoding@0.1.13)
       debug: 4.3.4
       devtools-protocol: 0.0.1107588
       extract-zip: 2.0.1
@@ -51534,11 +51785,11 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  puppeteer-core@21.11.0:
+  puppeteer-core@21.11.0(encoding@0.1.13):
     dependencies:
       '@puppeteer/browsers': 1.9.1
       chromium-bidi: 0.5.8(devtools-protocol@0.0.1232444)
-      cross-fetch: 4.0.0
+      cross-fetch: 4.0.0(encoding@0.1.13)
       debug: 4.3.4
       devtools-protocol: 0.0.1232444
       ws: 8.18.3
@@ -52410,11 +52661,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  retry-request@7.0.2:
+  retry-request@7.0.2(encoding@0.1.13):
     dependencies:
       '@types/request': 2.48.13
       extend: 3.0.2
-      teeny-request: 9.0.0
+      teeny-request: 9.0.0(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -52942,6 +53193,17 @@ snapshots:
       figures: 2.0.0
       pkg-conf: 2.1.0
 
+  sigstore@4.1.0:
+    dependencies:
+      '@sigstore/bundle': 4.0.0
+      '@sigstore/core': 3.1.0
+      '@sigstore/protobuf-specs': 0.5.0
+      '@sigstore/sign': 4.1.0
+      '@sigstore/tuf': 4.0.1
+      '@sigstore/verify': 3.1.0
+    transitivePeerDependencies:
+      - supports-color
+
   simple-lru-cache@0.0.2: {}
 
   simple-update-notifier@2.0.0:
@@ -52991,17 +53253,15 @@ snapshots:
       ansi-styles: 6.2.3
       is-fullwidth-code-point: 5.1.0
 
-  slide@1.1.6: {}
-
   slugify@1.6.6: {}
 
   smart-buffer@4.2.0: {}
 
-  snowflake-sdk@1.9.0(asn1.js@5.4.1):
+  snowflake-sdk@1.9.0(asn1.js@5.4.1)(encoding@0.1.13):
     dependencies:
       '@aws-sdk/client-s3': 3.931.0(aws-crt@1.27.5)
       '@azure/storage-blob': 12.29.1
-      '@google-cloud/storage': 6.12.0
+      '@google-cloud/storage': 6.12.0(encoding@0.1.13)
       '@techteamer/ocsp': 1.0.0
       agent-base: 6.0.2
       asn1.js-rfc2560: 5.0.1(asn1.js@5.4.1)
@@ -53165,9 +53425,9 @@ snapshots:
       safer-buffer: 2.1.2
       tweetnacl: 0.14.5
 
-  ssri@8.0.1:
+  ssri@13.0.0:
     dependencies:
-      minipass: 3.3.6
+      minipass: 7.1.2
 
   stable-hash@0.0.5: {}
 
@@ -53272,13 +53532,6 @@ snapshots:
   string-to-stream@3.0.1:
     dependencies:
       readable-stream: 3.6.2
-
-  string-width@1.0.2:
-    dependencies:
-      code-point-at: 1.1.0
-      is-fullwidth-code-point: 1.0.0
-      strip-ansi: 3.0.1
-    optional: true
 
   string-width@4.2.3:
     dependencies:
@@ -53607,10 +53860,10 @@ snapshots:
       multilang-extract-comments: 0.4.0
       promise.any: 2.0.6
 
-  swagger2openapi@7.0.8:
+  swagger2openapi@7.0.8(encoding@0.1.13):
     dependencies:
       call-me-maybe: 1.0.2
-      node-fetch: 2.7.0
+      node-fetch: 2.7.0(encoding@0.1.13)
       node-fetch-h2: 2.3.0
       node-readfiles: 0.2.0
       oas-kit-common: 1.0.8
@@ -53717,22 +53970,22 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  teeny-request@8.0.3:
+  teeny-request@8.0.3(encoding@0.1.13):
     dependencies:
       http-proxy-agent: 5.0.0
       https-proxy-agent: 5.0.1
-      node-fetch: 2.7.0
+      node-fetch: 2.7.0(encoding@0.1.13)
       stream-events: 1.0.5
       uuid: 9.0.1
     transitivePeerDependencies:
       - encoding
       - supports-color
 
-  teeny-request@9.0.0:
+  teeny-request@9.0.0(encoding@0.1.13):
     dependencies:
       http-proxy-agent: 5.0.0
       https-proxy-agent: 5.0.1
-      node-fetch: 2.7.0
+      node-fetch: 2.7.0(encoding@0.1.13)
       stream-events: 1.0.5
       uuid: 9.0.1
     transitivePeerDependencies:
@@ -54109,6 +54362,14 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
+  tuf-js@4.1.0:
+    dependencies:
+      '@tufjs/models': 4.1.0
+      debug: 4.4.3(supports-color@9.4.0)
+      make-fetch-happen: 15.0.3
+    transitivePeerDependencies:
+      - supports-color
+
   tunnel-agent@0.6.0:
     dependencies:
       safe-buffer: 5.2.1
@@ -54401,6 +54662,14 @@ snapshots:
       trough: 1.0.5
       vfile: 4.2.1
 
+  unique-filename@5.0.0:
+    dependencies:
+      unique-slug: 6.0.0
+
+  unique-slug@6.0.0:
+    dependencies:
+      imurmurhash: 0.1.4
+
   unique-string@3.0.0:
     dependencies:
       crypto-random-string: 4.0.0
@@ -54642,11 +54911,9 @@ snapshots:
       spdx-correct: 3.2.0
       spdx-expression-parse: 3.0.1
 
-  validate-npm-package-name@3.0.0:
-    dependencies:
-      builtins: 1.0.3
-
   validate-npm-package-name@5.0.1: {}
+
+  validate-npm-package-name@7.0.2: {}
 
   validate.io-array@1.0.6: {}
 
@@ -54673,11 +54940,11 @@ snapshots:
 
   vary@1.1.2: {}
 
-  verifalia@3.2.2:
+  verifalia@3.2.2(encoding@0.1.13):
     dependencies:
       abort-controller: 3.0.0
       form-data: 3.0.4
-      node-fetch: 2.7.0
+      node-fetch: 2.7.0(encoding@0.1.13)
       tslib: 2.8.1
     transitivePeerDependencies:
       - encoding
@@ -54809,12 +55076,12 @@ snapshots:
 
   webdriver-bidi-protocol@0.4.0: {}
 
-  webflow-api@2.4.2:
+  webflow-api@2.4.2(encoding@0.1.13):
     dependencies:
       form-data: 4.0.4
       formdata-node: 6.0.3
       js-base64: 3.7.2
-      node-fetch: 2.7.0
+      node-fetch: 2.7.0(encoding@0.1.13)
       qs: 6.11.2
       readable-stream: 4.7.0
       url-join: 4.0.1
@@ -54907,11 +55174,6 @@ snapshots:
   which@6.0.0:
     dependencies:
       isexe: 3.1.1
-
-  wide-align@1.1.5:
-    dependencies:
-      string-width: 4.2.3
-    optional: true
 
   widest-line@3.1.0:
     dependencies:
@@ -55171,9 +55433,9 @@ snapshots:
 
   yn@3.1.1: {}
 
-  ynab@1.55.0:
+  ynab@1.55.0(encoding@0.1.13):
     dependencies:
-      fetch-ponyfill: 7.1.0
+      fetch-ponyfill: 7.1.0(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
 
