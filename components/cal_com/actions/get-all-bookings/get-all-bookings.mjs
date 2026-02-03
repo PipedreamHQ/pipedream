@@ -3,12 +3,16 @@ import calCom from "../../cal_com.app.mjs";
 export default {
   key: "cal_com-get-all-bookings",
   name: "Get All Bookings (v2)",
-  description: "Retrieve all bookings from Cal.com using API v2",
+  description: "Retrieve all bookings from Cal.com using API v2. [See the documentation](https://cal.com/docs/api-reference/v2/bookings/get-all-bookings)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     calCom,
-
     status: {
       type: "string[]",
       label: "Status",
@@ -22,21 +26,18 @@ export default {
         "unconfirmed",
       ],
     },
-
     afterStart: {
       type: "string",
       label: "After Start",
       description: "Return bookings that start after this time (ISO 8601)",
       optional: true,
     },
-
     beforeEnd: {
       type: "string",
       label: "Before End",
       description: "Return bookings that end before this time (ISO 8601)",
       optional: true,
     },
-
     afterCreatedAt: {
       type: "string",
       label: "After Created At",
@@ -50,60 +51,82 @@ export default {
       description: "Return bookings created before this time (ISO 8601)",
       optional: true,
     },
-
     attendeeEmail: {
       type: "string",
       label: "Attendee Email",
       description: "Filter bookings by attendee email",
       optional: true,
     },
-
     attendeeName: {
       type: "string",
       label: "Attendee Name",
       description: "Filter bookings by attendee name",
       optional: true,
     },
-
     bookingUid: {
       type: "string",
       label: "Booking UID",
       description: "Filter bookings by booking UID",
       optional: true,
+      async options() {
+        const { bookings = [] } = await this.calCom.listBookings();
+        return bookings.map((booking) => ({
+          label: booking.title,
+          value: booking.uid,
+        }));
+      },
     },
-
     eventTypeId: {
-      type: "integer",
-      label: "Event Type ID",
+      propDefinition: [
+        calCom,
+        "eventTypeId",
+      ],
       description: "Filter bookings by event type ID",
       optional: true,
     },
-
     sortStart: {
       type: "string",
       label: "Sort by Start Time",
       description: "Sort bookings by start time",
       optional: true,
-      options: ["asc", "desc"],
+      options: [
+        "asc",
+        "desc",
+      ],
     },
-
     sortEnd: {
       type: "string",
       label: "Sort by End Time",
       description: "Sort bookings by end time",
       optional: true,
-      options: ["asc", "desc"],
+      options: [
+        "asc",
+        "desc",
+      ],
     },
-
     sortCreated: {
       type: "string",
       label: "Sort by Created Time",
       description: "Sort bookings by creation time",
       optional: true,
-      options: ["asc", "desc"],
+      options: [
+        "asc",
+        "desc",
+      ],
     },
   },
-
+  methods: {
+    getAllBookingsV2(opts = {}) {
+      return this.calCom._makeRequest({
+        url: `https://${this.calCom.$auth.domain}/v2/bookings`,
+        headers: {
+          "cal-api-version": "2024-08-13",
+          "Authorization": `Bearer ${this.calCom.$auth.api_key}`,
+        },
+        ...opts,
+      });
+    },
+  },
   async run({ $ }) {
     const params = {};
 
@@ -125,22 +148,16 @@ export default {
     const take = 100;
 
     while (true) {
-      const response = await this.calCom._makeRequest({
-        method: "GET",
-        url: `https://${this.calCom.$auth.domain}/v2/bookings`,
+      const response = await this.getAllBookingsV2({
+        $,
         params: {
           ...params,
           take,
           skip,
         },
-        headers: {
-          "cal-api-version": "2024-08-13",
-          Authorization: `Bearer ${this.calCom.$auth.api_key}`,
-        },
-        $,
       });
 
-      const bookings = response?.data?.data ?? [];
+      const bookings = response?.data ?? [];
       allBookings.push(...bookings);
 
       const hasNextPage = response?.data?.pagination?.hasNextPage;
