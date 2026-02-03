@@ -1,7 +1,7 @@
-import app from "../../function.app.mjs";
+import app from "../../muna.app.mjs";
 
 export default {
-  key: "function-create-prediction",
+  key: "muna-create-prediction",
   name: "Create A Prediction",
   description: "Creates a new prediction using Muna AI. [See the documentation](https://docs.muna.ai/reference/predictions/create)",
   version: "0.0.1",
