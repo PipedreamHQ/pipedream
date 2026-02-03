@@ -42,10 +42,9 @@ export default {
     let page = 0;
 
     do {
-      const {
-        messages: messagesPage,
-        response_metadata: { next_cursor: nextCursor },
-      } = await this.slack.conversationsHistory(params);
+      const response = await this.slack.conversationsHistory(params);
+      const messagesPage = response.messages || [];
+      const nextCursor = response.response_metadata?.next_cursor;
       messages.push(...messagesPage);
       params.cursor = nextCursor;
       page++;
