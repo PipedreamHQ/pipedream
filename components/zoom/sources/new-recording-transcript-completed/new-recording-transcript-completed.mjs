@@ -6,7 +6,7 @@ export default {
   key: "zoom-new-recording-transcript-completed",
   name: "New Recording Transcript Completed (Instant)",
   description: "Emit new event each time a recording transcript is completed",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   props: {

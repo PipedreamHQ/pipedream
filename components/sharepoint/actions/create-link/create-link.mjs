@@ -1,11 +1,11 @@
-import sharepoint from "../../sharepoint.app.mjs";
 import constants from "../../common/constants.mjs";
+import sharepoint from "../../sharepoint.app.mjs";
 
 export default {
   key: "sharepoint-create-link",
   name: "Create Link",
   description: "Create a sharing link for a DriveItem. [See the documentation](https://docs.microsoft.com/en-us/graph/api/driveitem-createlink?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.2",
+  version: "0.0.6",
   type: "action",
   annotations: {
     destructiveHint: false,
