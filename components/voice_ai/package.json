@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/voice_ai",
+  "version": "0.0.1",
+  "description": "Pipedream Voice AI Components",
+  "main": "voice_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "voice_ai"
+  ],
+  "homepage": "https://pipedream.com/apps/voice_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
