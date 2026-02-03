@@ -82,59 +82,73 @@ export default {
     sortStart: {
       type: "string",
       label: "Sort by Start Time",
+      description: "Sort bookings by start time",
       optional: true,
-      options: [
-        "asc",
-        "desc",
-      ],
+      options: ["asc", "desc"],
     },
 
     sortEnd: {
       type: "string",
       label: "Sort by End Time",
+      description: "Sort bookings by end time",
       optional: true,
-      options: [
-        "asc",
-        "desc",
-      ],
+      options: ["asc", "desc"],
     },
 
     sortCreated: {
       type: "string",
       label: "Sort by Created Time",
+      description: "Sort bookings by creation time",
       optional: true,
-      options: [
-        "asc",
-        "desc",
-      ],
+      options: ["asc", "desc"],
     },
   },
 
   async run({ $ }) {
-  const params = {};
+    const params = {};
 
-  if (this.status?.length) params.status = this.status;
-  if (this.afterStart) params.afterStart = this.afterStart;
-  if (this.beforeEnd) params.beforeEnd = this.beforeEnd;
-  if (this.afterCreatedAt) params.afterCreatedAt = this.afterCreatedAt;
-  if (this.beforeCreatedAt) params.beforeCreatedAt = this.beforeCreatedAt;
-  if (this.attendeeEmail) params.attendeeEmail = this.attendeeEmail;
-  if (this.attendeeName) params.attendeeName = this.attendeeName;
-  if (this.bookingUid) params.bookingUid = this.bookingUid;
-  if (this.eventTypeId) params.eventTypeId = this.eventTypeId;
-  if (this.sortStart) params.sortStart = this.sortStart;
-  if (this.sortEnd) params.sortEnd = this.sortEnd;
-  if (this.sortCreated) params.sortCreated = this.sortCreated;
+    if (this.status?.length) params.status = this.status;
+    if (this.afterStart) params.afterStart = this.afterStart;
+    if (this.beforeEnd) params.beforeEnd = this.beforeEnd;
+    if (this.afterCreatedAt) params.afterCreatedAt = this.afterCreatedAt;
+    if (this.beforeCreatedAt) params.beforeCreatedAt = this.beforeCreatedAt;
+    if (this.attendeeEmail) params.attendeeEmail = this.attendeeEmail;
+    if (this.attendeeName) params.attendeeName = this.attendeeName;
+    if (this.bookingUid) params.bookingUid = this.bookingUid;
+    if (this.eventTypeId) params.eventTypeId = this.eventTypeId;
+    if (this.sortStart) params.sortStart = this.sortStart;
+    if (this.sortEnd) params.sortEnd = this.sortEnd;
+    if (this.sortCreated) params.sortCreated = this.sortCreated;
 
-  return await this.calCom._makeRequest({
-    method: "GET",
-    url: `https://${this.calCom.$auth.domain}/v2/bookings`,
-    params,
-    headers: {
-      "cal-api-version": "2024-08-13",
-      Authorization: `Bearer ${this.calCom.$auth.api_key}`,
-    },
-    $,
-  });
-},
+    const allBookings = [];
+    let skip = 0;
+    const take = 100;
+
+    while (true) {
+      const response = await this.calCom._makeRequest({
+        method: "GET",
+        url: `https://${this.calCom.$auth.domain}/v2/bookings`,
+        params: {
+          ...params,
+          take,
+          skip,
+        },
+        headers: {
+          "cal-api-version": "2024-08-13",
+          Authorization: `Bearer ${this.calCom.$auth.api_key}`,
+        },
+        $,
+      });
+
+      const bookings = response?.data || response || [];
+      allBookings.push(...bookings);
+
+      if (bookings.length < take) break;
+      skip += take;
+    }
+
+    $.export("$summary", `Retrieved ${allBookings.length} bookings`);
+
+    return allBookings;
+  },
 };
