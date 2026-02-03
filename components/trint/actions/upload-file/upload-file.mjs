@@ -56,6 +56,12 @@ export default {
       description: "Use the Vocab Builder during the transcription of the file. If the parameter is not specified it default to `true`.",
       optional: true,
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   methods: {
     streamToBuffer(stream) {
