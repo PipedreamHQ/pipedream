@@ -30,7 +30,7 @@ export default {
     detectSpeakerChange: {
       type: "boolean",
       label: "Detect Speaker Change",
-      description: "Automatically split paragraphs based on change of speaker. If the parameter is not specified it default to `true`.",
+      description: "Automatically split paragraphs based on change of speaker. If the parameter is not specified it defaults to `true`.",
       optional: true,
     },
     workspaceId: {
@@ -53,7 +53,7 @@ export default {
     customDictionary: {
       type: "boolean",
       label: "Custom Dictionary",
-      description: "Use the Vocab Builder during the transcription of the file. If the parameter is not specified it default to `true`.",
+      description: "Use the Vocab Builder during the transcription of the file. If the parameter is not specified it defaults to `true`.",
       optional: true,
     },
     syncDir: {
