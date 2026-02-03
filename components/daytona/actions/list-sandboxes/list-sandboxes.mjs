@@ -36,7 +36,7 @@ export default {
   async run({ $ }) {
     const labels = parseObject(this.labels);
     const response = await this.daytona.listSandboxes(labels, this.page, this.limit);
-    $.export("$summary", `Successfully retrieved ${response.total} sandbox${response.total === 1
+    $.export("$summary", `Successfully retrieved ${response.items?.length} sandbox${response.items?.length === 1
       ? ""
       : "es"}`);
     return response;

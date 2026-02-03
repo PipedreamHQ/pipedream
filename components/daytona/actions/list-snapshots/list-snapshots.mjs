@@ -28,7 +28,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.daytona.listSnapshots(this.page, this.limit);
-    $.export("$summary", `Successfully retrieved ${response.total} snapshot${response.total === 1
+    $.export("$summary", `Successfully retrieved ${response.items?.length} snapshot${response.items?.length === 1
       ? ""
       : "s"}`);
     return response;
