@@ -1403,7 +1403,7 @@ importers:
         version: 3.931.0(aws-crt@1.27.5)
       '@aws-sdk/lib-storage':
         specifier: ^3.734.0
-        version: 3.931.0(@aws-sdk/client-s3@3.931.0(aws-crt@1.27.5))
+        version: 3.931.0(@aws-sdk/client-s3@3.931.0)
       '@aws-sdk/s3-request-presigner':
         specifier: ^3.609.0
         version: 3.931.0
@@ -3925,7 +3925,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/daytona: {}
+  components/daytona:
+    dependencies:
+      '@daytonaio/sdk':
+        specifier: ^0.138.0
+        version: 0.138.0(ws@8.18.3)
 
   components/dbt:
     dependencies:
@@ -19363,6 +19367,15 @@ packages:
   '@datadog/sketches-js@2.1.1':
     resolution: {integrity: sha512-d5RjycE+MObE/hU+8OM5Zp4VjTwiPLRa8299fj7muOmR16fb942z8byoMbCErnGh0lBevvgkGrLclQDvINbIyg==}
 
+  '@daytonaio/api-client@0.138.0':
+    resolution: {integrity: sha512-mKO3Aqk2aCnOw4ej+UxvKE+Z1ixmo9OKTAFElkvRb6UOwb5zioudqTyqEfijkA2tXUXO8yPGhQDPaICLgpPopA==}
+
+  '@daytonaio/sdk@0.138.0':
+    resolution: {integrity: sha512-cnbsflZYJ1NA4pQ2uX2lLN4w4ZQsO/xqdGDnpmwSu/LIW5F+O5gA8z4mfuWdIRcFFT4UhIpTzMuh3zRwxH7dIw==}
+
+  '@daytonaio/toolbox-api-client@0.138.0':
+    resolution: {integrity: sha512-unM9e7MOQiyDXdY8hCW1uTctYbxpo/TGZ6L71ZXyS/j2Cnz9/ud4VWBLcQP2VzlC+lrBP2YMrhT90zSSvcNfmA==}
+
   '@definitelytyped/header-parser@0.2.22':
     resolution: {integrity: sha512-zmsZ6cXHpGkPB99WUUKnc237I49RIvHHBW4FzBvBzLNxKPcpqZx505IqqlAYN11ve9wjhYSbPPCI5y+B1nLOfQ==}
     engines: {node: '>=20.17.0'}
@@ -24733,6 +24746,10 @@ packages:
     engines: {'0': node >=0.10.0}
     hasBin: true
 
+  busboy@1.6.0:
+    resolution: {integrity: sha512-8SFQbg/0hQ9xy3UNTB0YEnsNBbWfhf7RtnzpL7TkBiTBRfrQ9Fxcnz7VJsleJpyp6rVLvXiuORqjlHi5q+PYuA==}
+    engines: {node: '>=10.16.0'}
+
   byline@5.0.0:
     resolution: {integrity: sha512-s6webAy+R4SR8XVuJWt2V2rGvhnrhxN+9S15GNuTK3wKPOXFF6RNc+8ug2XhH+2s4f+uudG4kUVYmYOQWL2g0Q==}
     engines: {node: '>=0.10.0'}
@@ -28251,6 +28268,11 @@ packages:
 
   isomorphic-ws@4.0.1:
     resolution: {integrity: sha512-BhBvN2MBpWTaSHdWRb/bwdZJ1WaehQ2L1KngkCkfLUGF0mAWAT1sQUQacEmQ0jXkFw/czDXPNQSL5u2/Krsz1w==}
+    peerDependencies:
+      ws: ^8.17.1
+
+  isomorphic-ws@5.0.0:
+    resolution: {integrity: sha512-muId7Zzn9ywDsyXgTIafTry2sV3nySZeUDe6YedVd1Hvuuep5AsIlqK+XefWpYTyJG5e503F2xIuT2lcU6rCSw==}
     peerDependencies:
       ws: ^8.17.1
 
@@ -32190,6 +32212,10 @@ packages:
     resolution: {integrity: sha512-KFxaM7XT+irxvdqSP1LGLgNWbYN7ay5owZ3r/8t77p+EtSUAfUgtl7be3xtqtOmGUl9K9YPO2ca8133RlTjvKw==}
     engines: {node: '>=8.0'}
 
+  streamsearch@1.1.0:
+    resolution: {integrity: sha512-Mcc5wHehp9aXz1ax6bZUyY5afg9u2rv5cqQI3mRrYkGC8rW2hM02jWuwjtL++LS5qinSyhj2QfLyNsuc+VsExg==}
+    engines: {node: '>=10.0.0'}
+
   streamx@2.23.0:
     resolution: {integrity: sha512-kn+e44esVfn2Fa/O0CPFcex27fjIL6MkVae0Mm6q+E6f0hWv578YCERbv+4m02cjxvDsPKLnmxral/rR6lBMAg==}
 
@@ -35214,7 +35240,7 @@ snapshots:
       mnemonist: 0.38.3
       tslib: 2.8.1
 
-  '@aws-sdk/lib-storage@3.931.0(@aws-sdk/client-s3@3.931.0(aws-crt@1.27.5))':
+  '@aws-sdk/lib-storage@3.931.0(@aws-sdk/client-s3@3.931.0)':
     dependencies:
       '@aws-sdk/client-s3': 3.931.0(aws-crt@1.27.5)
       '@smithy/abort-controller': 4.2.5
@@ -36923,6 +36949,40 @@ snapshots:
       source-map: 0.7.6
 
   '@datadog/sketches-js@2.1.1': {}
+
+  '@daytonaio/api-client@0.138.0':
+    dependencies:
+      axios: 1.13.2(debug@3.2.7)
+    transitivePeerDependencies:
+      - debug
+
+  '@daytonaio/sdk@0.138.0(ws@8.18.3)':
+    dependencies:
+      '@aws-sdk/client-s3': 3.931.0(aws-crt@1.27.5)
+      '@aws-sdk/lib-storage': 3.931.0(@aws-sdk/client-s3@3.931.0)
+      '@daytonaio/api-client': 0.138.0
+      '@daytonaio/toolbox-api-client': 0.138.0
+      '@iarna/toml': 2.2.5
+      axios: 1.13.2(debug@3.2.7)
+      busboy: 1.6.0
+      dotenv: 17.2.3
+      expand-tilde: 2.0.2
+      fast-glob: 3.3.3
+      form-data: 4.0.4
+      isomorphic-ws: 5.0.0(ws@8.18.3)
+      pathe: 2.0.3
+      shell-quote: 1.8.3
+      tar: 7.5.7
+    transitivePeerDependencies:
+      - aws-crt
+      - debug
+      - ws
+
+  '@daytonaio/toolbox-api-client@0.138.0':
+    dependencies:
+      axios: 1.13.2(debug@3.2.7)
+    transitivePeerDependencies:
+      - debug
 
   '@definitelytyped/header-parser@0.2.22':
     dependencies:
@@ -39284,7 +39344,7 @@ snapshots:
       '@aws-sdk/client-sqs': 3.931.0(aws-crt@1.27.5)
       '@aws-sdk/client-ssm': 3.931.0(aws-crt@1.27.5)
       '@aws-sdk/client-sts': 3.931.0(aws-crt@1.27.5)
-      '@aws-sdk/lib-storage': 3.931.0(@aws-sdk/client-s3@3.931.0(aws-crt@1.27.5))
+      '@aws-sdk/lib-storage': 3.931.0(@aws-sdk/client-s3@3.931.0)
       '@aws-sdk/s3-request-presigner': 3.931.0
       '@aws-sdk/signature-v4-crt': 3.931.0
       '@pipedream/helper_functions': 0.3.13
@@ -43732,6 +43792,10 @@ snapshots:
       mv: 2.1.1
       safe-json-stringify: 1.2.0
 
+  busboy@1.6.0:
+    dependencies:
+      streamsearch: 1.1.0
+
   byline@5.0.0: {}
 
   byte-counter@0.1.0: {}
@@ -48176,6 +48240,10 @@ snapshots:
       unfetch: 5.0.0
 
   isomorphic-ws@4.0.1(ws@8.18.3):
+    dependencies:
+      ws: 8.18.3
+
+  isomorphic-ws@5.0.0(ws@8.18.3):
     dependencies:
       ws: 8.18.3
 
@@ -53512,6 +53580,8 @@ snapshots:
       fs-extra: 8.1.0
     transitivePeerDependencies:
       - supports-color
+
+  streamsearch@1.1.0: {}
 
   streamx@2.23.0:
     dependencies:
