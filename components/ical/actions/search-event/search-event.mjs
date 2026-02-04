@@ -4,7 +4,7 @@ import ical2json from "ical2json";
 export default {
   name: "Search Event",
   version: "0.0.1",
-  key: "ical_search-event",
+  key: "ical-search-event",
   description: "Search an event from a calendar. [See the documentation](https://icalendar.org/)",
   type: "action",
   annotations: {

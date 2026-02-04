@@ -4,7 +4,7 @@ import ical2json from "ical2json";
 export default {
   name: "List Events",
   version: "0.0.1",
-  key: "ical_list-events",
+  key: "ical-list-events",
   description: "List events from a calendar. [See the documentation](https://icalendar.org/)",
   type: "action",
   annotations: {
