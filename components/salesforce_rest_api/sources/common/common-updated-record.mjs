@@ -88,40 +88,47 @@ export default {
 
       const historyObjectName = this.getHistoryObjectName(objectType);
       const parentIdField = this.getHistoryParentIdField(objectType);
-
-      const recordIdList = recordIds.map((id) => `'${id}'`).join(", ");
       const fieldList = fields.map((f) => `'${f}'`).join(", ");
 
-      const query = `
-        SELECT ${parentIdField}, Field, OldValue, NewValue, CreatedDate
-        FROM ${historyObjectName}
-        WHERE ${parentIdField} IN (${recordIdList})
-          AND Field IN (${fieldList})
-          AND CreatedDate >= ${startTimestamp}
-        ORDER BY CreatedDate DESC
-      `;
+      const BATCH_SIZE = 200;
+      const recordsWithChanges = new Set();
+      let totalHistoryRecords = 0;
 
-      try {
-        const { records } = await this.query({
-          query,
-        });
+      for (let i = 0; i < recordIds.length; i += BATCH_SIZE) {
+        const batch = recordIds.slice(i, i + BATCH_SIZE);
+        const recordIdList = batch.map((id) => `'${id}'`).join(", ");
 
-        const recordsWithChanges = new Set();
-        for (const record of records) {
-          recordsWithChanges.add(record[parentIdField]);
+        const query = `
+          SELECT ${parentIdField}, Field, OldValue, NewValue, CreatedDate
+          FROM ${historyObjectName}
+          WHERE ${parentIdField} IN (${recordIdList})
+            AND Field IN (${fieldList})
+            AND CreatedDate >= ${startTimestamp}
+          ORDER BY CreatedDate DESC
+        `;
+
+        try {
+          const { records } = await this.query({
+            query,
+          });
+
+          totalHistoryRecords += records.length;
+          for (const record of records) {
+            recordsWithChanges.add(record[parentIdField]);
+          }
+        } catch (err) {
+          console.log(`Field history query failed for ${historyObjectName}: ${err.message}`);
+          console.log("This usually means field history tracking is not enabled for this object or the selected fields.");
+          console.log("To enable field history tracking in Salesforce:");
+          console.log("1. Go to Setup → Object Manager → [Your Object] → Fields & Relationships");
+          console.log("2. Click 'Set History Tracking' and select the fields you want to track");
+          console.log("Falling back to emitting all updated records without field filtering.");
+          return null;
         }
-
-        console.log(`Field history query found ${records.length} change(s) for ${recordsWithChanges.size} record(s)`);
-        return recordsWithChanges;
-      } catch (err) {
-        console.log(`Field history query failed for ${historyObjectName}: ${err.message}`);
-        console.log("This usually means field history tracking is not enabled for this object or the selected fields.");
-        console.log("To enable field history tracking in Salesforce:");
-        console.log("1. Go to Setup → Object Manager → [Your Object] → Fields & Relationships");
-        console.log("2. Click 'Set History Tracking' and select the fields you want to track");
-        console.log("Falling back to emitting all updated records without field filtering.");
-        return null;
       }
+
+      console.log(`Field history query found ${totalHistoryRecords} change(s) for ${recordsWithChanges.size} record(s)`);
+      return recordsWithChanges;
     },
     generateWebhookMeta(data) {
       const nameField = this.getNameField();
