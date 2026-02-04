@@ -153,6 +153,80 @@ export default {
           });
       },
     },
+    customerCode: {
+      type: "string",
+      label: "Customer Code",
+      description: "The customer's code (e.g., CUS_xxxxx)",
+      async options({ page }) {
+        const { data } = await this.listCustomers({
+          params: {
+            page: page + 1,
+          },
+        });
+        return data?.map(({
+          customer_code, email,
+        }) => ({
+          label: `${email} (${customer_code})`,
+          value: customer_code,
+        })) || [];
+      },
+    },
+    riskAction: {
+      type: "string",
+      label: "Risk Action",
+      description: "The risk action to apply to the customer",
+      options: [
+        {
+          label: "Allow",
+          value: "allow",
+        },
+        {
+          label: "Deny (Blacklist)",
+          value: "deny",
+        },
+        {
+          label: "Default",
+          value: "default",
+        },
+      ],
+    },
+    firstName: {
+      type: "string",
+      label: "First Name",
+      description: "Customer's first name",
+    },
+    lastName: {
+      type: "string",
+      label: "Last Name",
+      description: "Customer's last name",
+    },
+    phone: {
+      type: "string",
+      label: "Phone",
+      description: "Customer's phone number",
+    },
+    country: {
+      type: "string",
+      label: "Country",
+      description: "Two-letter country code (e.g., NG for Nigeria)",
+    },
+    bankCode: {
+      type: "string",
+      label: "Bank Code",
+      description: "Bank code from the List Banks endpoint",
+    },
+    accountNumber: {
+      type: "string",
+      label: "Account Number",
+      description: "Customer's bank account number",
+      secret: true,
+    },
+    bvn: {
+      type: "string",
+      label: "BVN",
+      description: "Customer's Bank Verification Number",
+      secret: true,
+    },
     from: {
       type: "string",
       label: "From",
@@ -266,7 +340,72 @@ export default {
     }) {
       return this._makeRequest({
         path: `/customer/${customer}`,
-        args,
+        ...args,
+      });
+    },
+    createCustomer(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/customer",
+        ...args,
+      });
+    },
+    updateCustomer({
+      code, ...args
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/customer/${code}`,
+        ...args,
+      });
+    },
+    setCustomerRiskAction(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/customer/set_risk_action",
+        ...args,
+      });
+    },
+    validateCustomer({
+      code, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/customer/${code}/identification`,
+        ...args,
+      });
+    },
+    deactivateAuthorization(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/customer/authorization/deactivate",
+        ...args,
+      });
+    },
+    initializeDirectDebit({
+      customerId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/customer/${customerId}/initialize-direct-debit`,
+        ...args,
+      });
+    },
+    directDebitActivationCharge({
+      customerId, ...args
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/customer/${customerId}/directdebit-activation-charge`,
+        ...args,
+      });
+    },
+    fetchMandateAuthorizations({
+      customerId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/customer/${customerId}/directdebit-mandate-authorizations`,
+        ...args,
       });
     },
     chargeAuthorization(args = {}) {
