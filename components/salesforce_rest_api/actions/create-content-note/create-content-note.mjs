@@ -2,6 +2,7 @@
 import common, { getProps } from "../common/base-create-update.mjs";
 import contentNote from "../../common/sobjects/content-note.mjs";
 import contentDocumentLink from "../../common/sobjects/content-document-link.mjs";
+import { NOTE_INFO_PROP } from "../../common/props-info.mjs";
 
 const docsLink = "https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_contentnote.htm";
 
@@ -27,7 +28,7 @@ export default {
   key: "salesforce_rest_api-create-content-note",
   name: "Create Content Note",
   description: `Creates a content note. [See the documentation](${docsLink}) and [Set Up Notes](https://help.salesforce.com/s/articleView?id=sales.notes_admin_setup.htm&type=5).`,
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -35,6 +36,7 @@ export default {
   },
   type: "action",
   props: {
+    noteInfo: NOTE_INFO_PROP,
     ...contentNoteProps,
     ...contentDocumentLinkProps,
   },
@@ -50,6 +52,7 @@ export default {
     },
   },
   async run({ $ }) {
+    /* eslint-disable no-unused-vars */
     const {
       salesforce,
       escapeHtml4,
@@ -60,6 +63,7 @@ export default {
       ShareType,
       Visibility,
     } = this;
+    /* eslint-enable no-unused-vars */
 
     const contentNoteResponse = await salesforce.createRecord("ContentNote", {
       $,
