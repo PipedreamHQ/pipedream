@@ -52,7 +52,6 @@ export default {
     },
   },
   async run({ $ }) {
-    /* eslint-disable no-unused-vars */
     const {
       salesforce,
       escapeHtml4,
@@ -63,7 +62,6 @@ export default {
       ShareType,
       Visibility,
     } = this;
-    /* eslint-enable no-unused-vars */
 
     const contentNoteResponse = await salesforce.createRecord("ContentNote", {
       $,
