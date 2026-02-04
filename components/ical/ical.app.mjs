@@ -1,11 +1,23 @@
+import { axios } from "@pipedream/platform";
+
 export default {
   type: "app",
   app: "ical",
   propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    async _makeRequest({
+      $ = this, path, ...args
+    }) {
+      return axios($, {
+        url: `${this.$auth.url}${path}`,
+        ...args,
+      });
+    },
+    async getEvents(args = {}) {
+      return this._makeRequest({
+        path: "/",
+        ...args,
+      });
     },
   },
 };
