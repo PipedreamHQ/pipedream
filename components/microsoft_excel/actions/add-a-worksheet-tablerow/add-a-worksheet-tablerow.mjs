@@ -4,7 +4,7 @@ import microsoftExcel from "../../microsoft_excel.app.mjs";
 export default {
   key: "microsoft_excel-add-a-worksheet-tablerow",
   name: "Add a Worksheet Tablerow",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

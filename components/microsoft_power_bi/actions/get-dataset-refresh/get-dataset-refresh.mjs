@@ -5,7 +5,7 @@ export default {
   key: "microsoft_power_bi-get-dataset-refresh",
   name: "Get Dataset Refresh",
   description: "Triggers a refresh operation for a specified Power BI dataset. [See the documentation](https://learn.microsoft.com/en-us/rest/api/power-bi/datasets/get-refresh-history)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
