@@ -1,7 +1,7 @@
 import sendIt from "../../send_it.app.mjs";
 
 export default {
-  key: "send_it-post-scheduled",
+  key: "sendit-post-scheduled",
   name: "New Post Scheduled",
   description: "Emit new event when a post is scheduled. [See the documentation](https://sendit.infiniteappsai.com/docs/api)",
   version: "0.0.1",
