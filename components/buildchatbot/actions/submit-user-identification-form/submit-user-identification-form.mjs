@@ -57,7 +57,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully submitted user identification form with ID ${response.data.identication_id}`);
+    $.export("$summary", `Successfully submitted user identification form with ID ${response.data.identification_id}`);
     return response;
   },
 };
