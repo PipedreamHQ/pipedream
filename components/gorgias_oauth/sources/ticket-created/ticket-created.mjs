@@ -7,7 +7,7 @@ export default {
   key: "gorgias_oauth-ticket-created",
   name: "New Ticket",
   description: "Emit new event when a ticket is created. [See the documentation](https://developers.gorgias.com/reference/the-event-object)",
-  version: "0.1.10",
+  version: "0.1.11",
   type: "source",
   props: {
     ...base.props,
@@ -57,14 +57,16 @@ export default {
     },
     async processHistoricalEvent(event) {
       const ticket = await this.retrieveTicket(event.object_id);
+      const enrichedTicket = await this.enrichTicketWithCustomFields(ticket);
       return {
-        ticket,
+        ticket: enrichedTicket,
       };
     },
     async processEvent(event) {
       const { ticket } = event;
       if (this.isRelevant(ticket)) {
-        this.emitEvent(ticket);
+        const enrichedTicket = await this.enrichTicketWithCustomFields(ticket);
+        this.emitEvent(enrichedTicket);
       }
     },
   },
