@@ -36,15 +36,17 @@ export default {
       ],
     },
     userId: {
-      type: "integer",
-      label: "User ID",
-      description: "Required if assignment type is user",
+      propDefinition: [
+        app,
+        "toUserId",
+      ],
       optional: true,
     },
     teamId: {
-      type: "integer",
-      label: "Team ID",
-      description: "Required if assignment type is team",
+      propDefinition: [
+        app,
+        "teamId",
+      ],
       optional: true,
     },
     note: {
