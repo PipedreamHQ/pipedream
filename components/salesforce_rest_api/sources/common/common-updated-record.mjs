@@ -86,9 +86,14 @@ export default {
         return new Set();
       }
 
+      const validFields = fields.filter((f) => /^[a-zA-Z_]\w*$/.test(f));
+      if (!validFields.length) {
+        return new Set();
+      }
+
       const historyObjectName = this.getHistoryObjectName(objectType);
       const parentIdField = this.getHistoryParentIdField(objectType);
-      const fieldList = fields.map((f) => `'${f}'`).join(", ");
+      const fieldList = validFields.map((f) => `'${f}'`).join(", ");
 
       const BATCH_SIZE = 200;
       const recordsWithChanges = new Set();
