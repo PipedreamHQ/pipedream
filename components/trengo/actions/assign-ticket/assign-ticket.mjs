@@ -66,10 +66,10 @@ export default {
 
     const data = {
       type: this.type,
-      ...(this.userId && {
+      ...(this.type === "user" && {
         user_id: this.userId,
       }),
-      ...(this.teamId && {
+      ...(this.type === "team" && {
         team_id: this.teamId,
       }),
       ...(this.note && {
