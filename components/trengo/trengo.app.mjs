@@ -50,7 +50,8 @@ export default {
     contactIdentifier: {
       type: "string",
       label: "Identifier",
-      description: "The contact identifier (email or phone, depending on the channel)",
+      description:
+        "The contact identifier (email or phone, depending on the channel)",
     },
     contactName: {
       type: "string",
@@ -125,7 +126,8 @@ export default {
     body: {
       type: "string",
       label: "Body",
-      description: "HTML message body. Required if `Attachment IDs` is not set. URLs will be automatically converted to A-tags.",
+      description:
+        "HTML message body. Required if `Attachment IDs` is not set. URLs will be automatically converted to A-tags.",
       optional: true,
     },
     attachmentIds: {
@@ -148,13 +150,15 @@ export default {
     emailSubject: {
       type: "string",
       label: "Email Subject",
-      description: "The subject of the message. Only used when the message is an email.",
+      description:
+        "The subject of the message. Only used when the message is an email.",
       optional: true,
     },
     term: {
       type: "string",
       label: "Search Term",
-      description: "Search term to find a contact. If not given, all contacts will be returned.",
+      description:
+        "Search term to find a contact. If not given, all contacts will be returned.",
       optional: true,
     },
     helpCenterId: {
@@ -450,6 +454,15 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: `/tickets/${ticketId}/labels`,
+        ...args,
+      });
+    },
+    assignTicket({
+      ticketId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/tickets/${ticketId}/assign`,
         ...args,
       });
     },
