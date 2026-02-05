@@ -20,7 +20,7 @@ export default {
       ],
       description: "The ID of the chatbot to send the message to",
     },
-    businnessName: {
+    businessName: {
       type: "string",
       label: "Business Name",
       description: "The business name to submit the form for",
@@ -50,7 +50,7 @@ export default {
       $,
       chatbotId: this.chatbotId,
       data: {
-        businness_name: this.businnessName,
+        business_name: this.businessName,
         contact_name: this.contactName,
         email_address: this.emailAddress,
         phone_no: this.phoneNumber,

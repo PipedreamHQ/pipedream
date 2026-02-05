@@ -11,9 +11,6 @@ export default {
   dedupe: "unique",
   methods: {
     ...common.methods,
-    getFieldId() {
-      return "id";
-    },
     getFunction() {
       return this.buildchatbot.listQuestionAndAnswers;
     },

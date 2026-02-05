@@ -37,7 +37,7 @@ export default {
 
       let responseArray = [];
       for (const item of response) {
-        if (Date.parse(item.created_at) <= Date.parse(lastDate)) break;
+        if (Date.parse(item.created_at) <= lastDate) break;
         responseArray.push(item);
       }
 
