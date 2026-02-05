@@ -1,4 +1,4 @@
-import sendIt from "../../send_it.app.mjs";
+import sendIt from "../../sendit.app.mjs";
 
 export default {
   key: "sendit-post-scheduled",
