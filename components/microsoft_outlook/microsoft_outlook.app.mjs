@@ -1,5 +1,5 @@
 import {
-  axios, getFileStreamAndMetadata,
+  axios, getFileStreamAndMetadata, ConfigurationError,
 } from "@pipedream/platform";
 const DEFAULT_LIMIT = 50;
 
@@ -294,7 +294,7 @@ export default {
         if (error?.response?.status === 403) {
           throw new Error("Insufficient permissions. Please verify that your Microsoft account has the necessary permissions to perform this operation.");
         }
-        throw error;
+        throw new ConfigurationError(error.message);
       }
     },
     async createHook({ ...args } = {}) {
