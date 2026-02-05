@@ -4663,8 +4663,8 @@ importers:
   components/e2b:
     dependencies:
       '@e2b/code-interpreter':
-        specifier: ^1.0.3
-        version: 1.5.1
+        specifier: 1.0.3
+        version: 1.0.3
 
   components/e_conomic:
     dependencies:
@@ -19407,8 +19407,8 @@ packages:
   '@dual-bundle/import-meta-resolve@4.2.1':
     resolution: {integrity: sha512-id+7YRUgoUX6CgV0DtuhirQWodeeA7Lf4i2x71JS/vtA5pRb/hIGWlw+G6MeXvsM+MXrz0VAydTGElX1rAfgPg==}
 
-  '@e2b/code-interpreter@1.5.1':
-    resolution: {integrity: sha512-mkyKjAW2KN5Yt0R1I+1lbH3lo+W/g/1+C2lnwlitXk5wqi/g94SEO41XKdmDf5WWpKG3mnxWDR5d6S/lyjmMEw==}
+  '@e2b/code-interpreter@1.0.3':
+    resolution: {integrity: sha512-/dfMagUEytQtwqkab+0glMPCpPvOwhGaUZvOscT/YvxJxaYPswwjIWb3TXa9DeV25XYw//72syT2wo6rGnnCKw==}
     engines: {node: '>=18'}
 
   '@emnapi/core@1.7.1':
@@ -32527,11 +32527,6 @@ packages:
   tar-stream@3.1.7:
     resolution: {integrity: sha512-qJj60CXt7IU1Ffyc3NJMjh6EkuCFej46zUqJ4J7pqYlThyd9bO0XBTmcOIhSzZJVWfsLks0+nle/j538YAW9RQ==}
 
-  tar@7.5.2:
-    resolution: {integrity: sha512-7NyxrTE4Anh8km8iEy7o0QYPs+0JKBTj5ZaqHg6B39erLg0qYXN3BijtShwbsNSvQ+LN75+KV+C4QR/f6Gwnpg==}
-    engines: {node: '>=18'}
-    deprecated: Old versions of tar are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exhorbitant rates) by contacting i@izs.me
-
   tar@7.5.7:
     resolution: {integrity: sha512-fov56fJiRuThVFXD6o6/Q354S7pnWMJIVlDBYijsTNx6jKSE4pvrDTs6lUnmGvNyfJwFQQwWy3owKz1ucIhveQ==}
     engines: {node: '>=18'}
@@ -37060,7 +37055,7 @@ snapshots:
 
   '@dual-bundle/import-meta-resolve@4.2.1': {}
 
-  '@e2b/code-interpreter@1.5.1':
+  '@e2b/code-interpreter@1.0.3':
     dependencies:
       e2b: 1.13.2
 
@@ -38551,7 +38546,7 @@ snapshots:
       '@netlify/zip-it-and-ship-it': 14.1.13(encoding@0.1.13)(rollup@4.53.2)(supports-color@10.2.2)
       '@opentelemetry/api': 1.8.0
       '@sindresorhus/slugify': 2.2.1
-      ansi-escapes: 7.1.1
+      ansi-escapes: 7.2.0
       ansis: 4.2.0
       clean-stack: 5.3.0
       execa: 8.0.1
@@ -38569,7 +38564,7 @@ snapshots:
       p-event: 6.0.1
       p-filter: 4.1.0
       p-locate: 6.0.0
-      p-map: 7.0.3
+      p-map: 7.0.4
       p-reduce: 3.0.0
       package-directory: 8.1.0
       path-exists: 5.0.0
@@ -38692,7 +38687,7 @@ snapshots:
       parse-imports: 2.2.1
       path-key: 4.0.0
       semver: 7.7.3
-      tar: 7.5.2
+      tar: 7.5.7
       tmp-promise: 3.0.3
       urlpattern-polyfill: 8.0.2
       uuid: 11.1.0
@@ -38823,7 +38818,7 @@ snapshots:
 
   '@netlify/zip-it-and-ship-it@14.1.13(encoding@0.1.13)(rollup@4.53.2)':
     dependencies:
-      '@babel/parser': 7.28.5
+      '@babel/parser': 7.28.6
       '@babel/types': 7.28.5
       '@netlify/binary-info': 1.0.0
       '@netlify/serverless-functions-api': 2.7.1
@@ -38843,7 +38838,7 @@ snapshots:
       merge-options: 3.0.4
       minimatch: 9.0.5
       normalize-path: 3.0.0
-      p-map: 7.0.3
+      p-map: 7.0.4
       path-exists: 5.0.0
       precinct: 12.2.0
       require-package-name: 2.0.1
@@ -38864,7 +38859,7 @@ snapshots:
 
   '@netlify/zip-it-and-ship-it@14.1.13(encoding@0.1.13)(rollup@4.53.2)(supports-color@10.2.2)':
     dependencies:
-      '@babel/parser': 7.28.5
+      '@babel/parser': 7.28.6
       '@babel/types': 7.28.5
       '@netlify/binary-info': 1.0.0
       '@netlify/serverless-functions-api': 2.7.1
@@ -38884,7 +38879,7 @@ snapshots:
       merge-options: 3.0.4
       minimatch: 9.0.5
       normalize-path: 3.0.0
-      p-map: 7.0.3
+      p-map: 7.0.4
       path-exists: 5.0.0
       precinct: 12.2.0(supports-color@10.2.2)
       require-package-name: 2.0.1
@@ -42814,7 +42809,7 @@ snapshots:
 
   '@vue/compiler-sfc@3.5.24':
     dependencies:
-      '@babel/parser': 7.28.5
+      '@babel/parser': 7.28.6
       '@vue/compiler-core': 3.5.24
       '@vue/compiler-dom': 3.5.24
       '@vue/compiler-ssr': 3.5.24
@@ -44649,7 +44644,7 @@ snapshots:
       junk: 4.0.1
       micromatch: 4.0.8
       p-filter: 4.1.0
-      p-map: 7.0.3
+      p-map: 7.0.4
 
   crc-32@1.2.2: {}
 
@@ -49666,7 +49661,7 @@ snapshots:
 
   log-update@6.1.0:
     dependencies:
-      ansi-escapes: 7.1.1
+      ansi-escapes: 7.2.0
       cli-cursor: 5.0.0
       slice-ansi: 7.1.2
       strip-ansi: 7.1.2
@@ -50890,7 +50885,7 @@ snapshots:
 
   node-source-walk@7.0.1:
     dependencies:
-      '@babel/parser': 7.28.5
+      '@babel/parser': 7.28.6
 
   node-ssh@12.0.5:
     dependencies:
@@ -51411,7 +51406,7 @@ snapshots:
 
   p-filter@4.1.0:
     dependencies:
-      p-map: 7.0.3
+      p-map: 7.0.4
 
   p-finally@1.0.0: {}
 
@@ -54361,14 +54356,6 @@ snapshots:
       - bare-abort-controller
       - react-native-b4a
 
-  tar@7.5.2:
-    dependencies:
-      '@isaacs/fs-minipass': 4.0.1
-      chownr: 3.0.0
-      minipass: 7.1.2
-      minizlib: 3.1.0
-      yallist: 5.0.0
-
   tar@7.5.7:
     dependencies:
       '@isaacs/fs-minipass': 4.0.1
@@ -54430,7 +54417,7 @@ snapshots:
 
   terminal-link@4.0.0:
     dependencies:
-      ansi-escapes: 7.1.1
+      ansi-escapes: 7.2.0
       supports-hyperlinks: 3.2.0
 
   test-exclude@6.0.0:
