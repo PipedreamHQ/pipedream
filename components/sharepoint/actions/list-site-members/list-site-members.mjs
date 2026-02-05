@@ -4,7 +4,7 @@ export default {
   key: "sharepoint-list-site-members",
   name: "List Site Members",
   description: "List all members of a SharePoint site. For team sites connected to Microsoft 365 Groups, returns group members (Owners and Members). For sites without an M365 Group, returns site-level permissions. [See the documentation](https://learn.microsoft.com/en-us/graph/api/group-list-members)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -216,6 +216,23 @@ export default {
       console.log("Could not fetch drive permissions:", e.message);
     }
 
+    // Helper to decode base64 permission IDs (SharePoint encodes group names in base64)
+    const tryDecodeBase64 = (str) => {
+      try {
+        // Check if it looks like base64 (alphanumeric, +, /, =)
+        if (/^[A-Za-z0-9+/]+=*$/.test(str) && str.length > 10) {
+          const decoded = Buffer.from(str, "base64").toString("utf-8");
+          // Check if decoded string is printable text (not binary garbage)
+          if (/^[\x20-\x7E\s]+$/.test(decoded)) {
+            return decoded;
+          }
+        }
+      } catch {
+        // Not valid base64
+      }
+      return null;
+    };
+
     // Format drive permissions into users
     const usersFromPermissions = [];
     const groupsFromPermissions = [];
@@ -237,18 +254,14 @@ export default {
           role,
           permissionId: permission.id,
         });
-      }
-
-      if (permission.grantedToV2?.group) {
+      } else if (permission.grantedToV2?.group) {
         groupsFromPermissions.push({
           id: permission.grantedToV2.group.id,
           displayName: permission.grantedToV2.group.displayName,
           role,
           permissionId: permission.id,
         });
-      }
-
-      if (permission.grantedToV2?.siteUser) {
+      } else if (permission.grantedToV2?.siteUser) {
         const siteUser = permission.grantedToV2.siteUser;
         // Check if this siteUser is actually a group/role claim (format: c:0t.c|tenant|{guid})
         const claimMatch = siteUser.loginName?.match(/c:0t\.c\|tenant\|([a-f0-9-]+)/i);
@@ -271,6 +284,22 @@ export default {
             permissionId: permission.id,
           });
         }
+      } else if (permission.id) {
+        // No recognized grantedToV2 data (user, group, or siteUser)
+        // This might be a SharePoint-native permission group where the ID is base64-encoded
+        const decodedName = tryDecodeBase64(permission.id);
+        if (decodedName) {
+          // Check if we already have this group
+          if (!groupsFromPermissions.find((g) => g.displayName === decodedName)) {
+            groupsFromPermissions.push({
+              id: permission.id,
+              displayName: decodedName,
+              role,
+              permissionId: permission.id,
+              isSharePointNativeGroup: true,
+            });
+          }
+        }
       }
     }
 
@@ -287,11 +316,81 @@ export default {
       }
     }
 
+    // Fetch SharePoint site groups for fallback expansion
+    // This is needed because native SharePoint groups can't be expanded via Graph API
+    // Microsoft Graph does NOT support listing SharePoint site group members - must use SharePoint REST API
+    // See: https://learn.microsoft.com/en-us/answers/questions/5578364/retrieve-sharepoint-site-group-members-via-api
+    let sharePointSiteGroups = null;
+    let sharePointGroupsError = null;
+    try {
+      const spGroupsResponse = await this.sharepoint.listSharePointSiteGroups({
+        $,
+        siteWebUrl: site.webUrl,
+      });
+      sharePointSiteGroups = spGroupsResponse.d?.results || [];
+    } catch (e) {
+      sharePointGroupsError = e.message;
+      console.log("Could not fetch SharePoint site groups:", e.message);
+    }
+
+    // Helper to expand a SharePoint-native group using the REST API
+    const expandSharePointGroup = async (group) => {
+      if (!sharePointSiteGroups) return false;
+
+      const spGroup = sharePointSiteGroups.find(
+        (g) => g.Title === group.displayName
+          || g.LoginName === group.displayName,
+      );
+
+      if (!spGroup) return false;
+
+      try {
+        const spMembersResponse = await this.sharepoint.getSharePointSiteGroupMembers({
+          $,
+          siteWebUrl: site.webUrl,
+          groupId: spGroup.Id,
+        });
+        const spMembers = spMembersResponse.d?.results || [];
+
+        // Format SharePoint users - they have different structure than Graph users
+        for (const spUser of spMembers) {
+          if (!usersFromPermissions.find((u) => u.email === spUser.Email || u.loginName === spUser.LoginName)) {
+            usersFromPermissions.push({
+              id: spUser.Id?.toString(),
+              displayName: spUser.Title,
+              email: spUser.Email,
+              loginName: spUser.LoginName,
+              role: group.role,
+              viaGroup: group.displayName,
+              viaGroupType: "sharePointGroup",
+            });
+          }
+        }
+        group.type = "sharePointGroup";
+        group.sharePointGroupId = spGroup.Id;
+        group.memberCount = spMembers.length;
+        return true;
+      } catch (spError) {
+        console.log(`Could not expand SharePoint group ${group.displayName}:`, spError.message);
+        return false;
+      }
+    };
+
     // Expand groups to get individual members
     for (const group of groupsFromPermissions) {
       let members = [];
 
-      // Try as M365/Security Group first
+      // If this is a known SharePoint-native group, skip Graph API and go straight to REST API
+      if (group.isSharePointNativeGroup) {
+        const expanded = await expandSharePointGroup(group);
+        if (!expanded) {
+          group.type = "unknown";
+          group.expandError = "Could not resolve members from SharePoint REST API";
+        }
+        continue;
+      }
+
+      // Try as M365/Security Group first (Graph API)
       try {
         const groupMembersResponse = await this.sharepoint.listGroupMembers({
           $,
@@ -301,7 +400,7 @@ export default {
           },
         });
         members = groupMembersResponse.value || [];
-        group.type = "group";
+        group.type = "entraIdGroup";
       } catch (groupError) {
         // If not a group, try as Azure AD Directory Role
         try {
@@ -327,13 +426,20 @@ export default {
             members = directRoleMembersResponse.value || [];
             group.type = "directoryRole";
           } catch (directRoleError) {
-            console.log(`Could not expand ${group.displayName} as group or directory role:`, directRoleError.message);
+            // Graph API failed - try SharePoint REST API as fallback
+            const expanded = await expandSharePointGroup(group);
+            if (expanded) {
+              continue; // Skip the generic member processing below
+            }
+
+            console.log(`Could not expand ${group.displayName} via any method`);
             group.type = "unknown";
-            group.expandError = "Could not resolve members - may be a SharePoint-specific group or role";
+            group.expandError = "Could not resolve members";
           }
         }
       }
 
+      // Process Graph API members (Entra ID groups and directory roles)
       for (const member of members) {
         if (member["@odata.type"] === "#microsoft.graph.user") {
           // Check if user already exists
@@ -351,6 +457,82 @@ export default {
       }
     }
 
+    // IMPORTANT: Also expand ALL SharePoint site groups directly
+    // The Graph API permissions may not include all SharePoint-native groups,
+    // so we proactively fetch and expand all site groups to ensure complete coverage
+    if (sharePointSiteGroups && sharePointSiteGroups.length > 0) {
+      for (const spGroup of sharePointSiteGroups) {
+        // Skip system groups that typically don't contain regular users
+        if (spGroup.Title === "Everyone" || spGroup.Title === "Everyone except external users") {
+          continue;
+        }
+
+        // Check if we already processed this group
+        const alreadyProcessed = groupsFromPermissions.find(
+          (g) => g.displayName === spGroup.Title
+            || g.sharePointGroupId === spGroup.Id,
+        );
+
+        if (alreadyProcessed) {
+          continue;
+        }
+
+        // Determine role based on group name patterns
+        let role = "reader";
+        const titleLower = spGroup.Title.toLowerCase();
+        if (titleLower.includes("owner")) {
+          role = "owner";
+        } else if (titleLower.includes("member") || titleLower.includes("contributor")) {
+          role = "editor";
+        }
+
+        // Expand this SharePoint group
+        try {
+          const spMembersResponse = await this.sharepoint.getSharePointSiteGroupMembers({
+            $,
+            siteWebUrl: site.webUrl,
+            groupId: spGroup.Id,
+          });
+          const spMembers = spMembersResponse.d?.results || [];
+
+          // Add to groups list for reporting
+          groupsFromPermissions.push({
+            id: spGroup.Id?.toString(),
+            displayName: spGroup.Title,
+            role,
+            sharePointGroupId: spGroup.Id,
+            type: "sharePointGroup",
+            memberCount: spMembers.length,
+          });
+
+          // Add members
+          for (const spUser of spMembers) {
+            if (!usersFromPermissions.find((u) => u.email === spUser.Email || u.loginName === spUser.LoginName)) {
+              usersFromPermissions.push({
+                id: spUser.Id?.toString(),
+                displayName: spUser.Title,
+                email: spUser.Email,
+                loginName: spUser.LoginName,
+                role,
+                viaGroup: spGroup.Title,
+                viaGroupType: "sharePointGroup",
+              });
+            }
+          }
+        } catch (spError) {
+          console.log(`Could not expand SharePoint group ${spGroup.Title}:`, spError.message);
+          groupsFromPermissions.push({
+            id: spGroup.Id?.toString(),
+            displayName: spGroup.Title,
+            role,
+            sharePointGroupId: spGroup.Id,
+            type: "sharePointGroup",
+            expandError: spError.message,
+          });
+        }
+      }
+    }
+
     $.export("$summary", `Found ${usersFromPermissions.length} user(s) with access to "${site.displayName}" (Communication Site)`);
 
     return {
@@ -363,9 +545,21 @@ export default {
       summary: {
         totalUsers: usersFromPermissions.length,
         permissionGroups: groupsFromPermissions.length,
+        sharePointSiteGroupsFound: sharePointSiteGroups?.length || 0,
       },
       users: usersFromPermissions,
       groups: groupsFromPermissions,
+      ...(sharePointGroupsError && {
+        sharePointGroupsError,
+      }),
+      ...(sharePointSiteGroups && {
+        _debug: {
+          sharePointSiteGroups: sharePointSiteGroups.map((g) => ({
+            Id: g.Id,
+            Title: g.Title,
+          })),
+        },
+      }),
     };
   },
 };
