@@ -5,7 +5,7 @@ export default {
   key: "microsoft_365_planner-new-task-created",
   name: "New Task Created",
   description: "Emit new event when a new Task is created in Microsoft 365 Planner",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {

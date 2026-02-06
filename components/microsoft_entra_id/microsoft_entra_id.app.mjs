@@ -1,4 +1,6 @@
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -71,17 +73,21 @@ export default {
         ConsistencyLevel: "eventual",
       };
     },
-    _makeRequest({
+    async _makeRequest({
       $ = this,
       path,
       url,
       ...args
     }) {
-      return axios($, {
-        url: url || `${this._baseUrl()}${path}`,
-        headers: this._headers(),
-        ...args,
-      });
+      try {
+        return await axios($, {
+          url: url || `${this._baseUrl()}${path}`,
+          headers: this._headers(),
+          ...args,
+        });
+      } catch (error) {
+        throw new ConfigurationError(error.message);
+      }
     },
     listGroups(args = {}) {
       return this._makeRequest({

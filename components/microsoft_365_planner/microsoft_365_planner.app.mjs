@@ -1,4 +1,6 @@
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -201,14 +203,18 @@ export default {
         Authorization: `Bearer ${this.$auth.oauth_access_token}`,
       };
     },
-    _makeRequest({
+    async _makeRequest({
       $ = this, path, url, headers, ...args
     }) {
-      return axios($, {
-        url: url || `${this._baseUrl()}${path}`,
-        headers: this._headers(headers),
-        ...args,
-      });
+      try {
+        return await axios($, {
+          url: url || `${this._baseUrl()}${path}`,
+          headers: this._headers(headers),
+          ...args,
+        });
+      } catch (error) {
+        throw new ConfigurationError(error.message);
+      }
     },
     listGroups(args = {}) {
       return this._makeRequest({

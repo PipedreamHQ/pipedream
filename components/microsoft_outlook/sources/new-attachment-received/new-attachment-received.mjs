@@ -6,7 +6,7 @@ export default {
   key: "microsoft_outlook-new-attachment-received",
   name: "New Attachment Received (Instant)",
   description: "Emit new event when a new email containing one or more attachments arrives in a specified Microsoft Outlook folder.",
-  version: "0.1.5",
+  version: "0.1.7",
   type: "source",
   dedupe: "unique",
   props: {
@@ -56,10 +56,8 @@ export default {
       const messageAttachment =  await this.microsoftOutlook.getAttachment({
         messageId: item.messageId,
         attachmentId: item.id,
-        responseType: "arraybuffer",
       });
-      const rawcontent = messageAttachment.toString("base64");
-      const buffer = Buffer.from(rawcontent, "base64");
+      const buffer = await this.microsoftOutlook.streamToBuffer(messageAttachment);
       const filepath = `${item.id}/${item.name}`;
       // Upload the attachment to the configured directory (File Stash) so it
       // can be accessed later.

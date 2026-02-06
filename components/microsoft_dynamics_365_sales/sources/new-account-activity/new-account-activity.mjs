@@ -5,7 +5,7 @@ export default {
   key: "microsoft_dynamics_365_sales-new-account-activity",
   name: "New Account Activity",
   description: "Emit new event when a new task or activity is created for an account.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
