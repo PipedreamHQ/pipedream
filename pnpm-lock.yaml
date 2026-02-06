@@ -9414,9 +9414,15 @@ importers:
 
   components/microsoft_365_planner:
     dependencies:
+      '@microsoft/microsoft-graph-client':
+        specifier: ^3.0.7
+        version: 3.0.7
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
+      isomorphic-fetch:
+        specifier: ^3.0.0
+        version: 3.0.0(encoding@0.1.13)
 
   components/microsoft_advertising: {}
 
