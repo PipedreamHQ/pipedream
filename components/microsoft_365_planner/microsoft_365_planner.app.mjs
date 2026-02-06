@@ -200,7 +200,7 @@ export default {
         },
       });
     },
-    listGroups({ params = {} }) {
+    listGroups({ params = {} } = {}) {
       return this.client().api("/groups")
         .get(params);
     },
@@ -246,7 +246,7 @@ export default {
       return this.client().api(`/planner/tasks/${taskId}`)
         .get(params);
     },
-    listUserTasks({ params = {} }) {
+    listUserTasks({ params = {} } = {}) {
       return this.client().api("/me/planner/tasks")
         .get(params);
     },
