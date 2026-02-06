@@ -4,7 +4,7 @@ export default {
   key: "microsoft_365_people-create-contact",
   name: "Create Contact",
   description: "Create a new contact in Microsoft 365 People. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-post-contacts?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
