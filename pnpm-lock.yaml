@@ -2272,7 +2272,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/buildchatbot: {}
+  components/buildchatbot:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.2
+        version: 3.2.2
 
   components/builder_io: {}
 
@@ -39444,7 +39448,7 @@ snapshots:
 
   '@pipedream/canva@0.2.3':
     dependencies:
-      '@pipedream/platform': 3.2.1
+      '@pipedream/platform': 3.2.2
     transitivePeerDependencies:
       - debug
 
@@ -39457,7 +39461,7 @@ snapshots:
 
   '@pipedream/docusign@0.2.2':
     dependencies:
-      '@pipedream/platform': 3.2.1
+      '@pipedream/platform': 3.2.2
     transitivePeerDependencies:
       - debug
 
