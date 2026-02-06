@@ -15848,7 +15848,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/trint: {}
+  components/trint:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.2
+        version: 3.2.2
 
   components/tripadvisor_content_api:
     dependencies:
@@ -50360,7 +50364,7 @@ snapshots:
 
   minimatch@10.0.3:
     dependencies:
-      '@isaacs/brace-expansion': 5.0.0
+      '@isaacs/brace-expansion': 5.0.1
 
   minimatch@10.1.1:
     dependencies:
