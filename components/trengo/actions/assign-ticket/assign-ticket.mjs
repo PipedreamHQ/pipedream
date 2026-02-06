@@ -40,6 +40,8 @@ export default {
         app,
         "toUserId",
       ],
+      label: "User ID",
+      description: "ID of the user to assign the ticket to",
       optional: true,
     },
     teamId: {

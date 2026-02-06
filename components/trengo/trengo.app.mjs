@@ -96,8 +96,8 @@ export default {
           },
         });
         return response.data.map((ticket) => ({
-          label: `#${ticket.ticket_id} - ${ticket.subject || "No subject"}`,
-          value: ticket.ticket_id,
+          label: `#${ticket.id} - ${ticket.subject || "No subject"}`,
+          value: ticket.id,
         }));
       },
     },
