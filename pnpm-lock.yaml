@@ -9405,6 +9405,9 @@ importers:
       '@pipedream/platform':
         specifier: ^1.6.8
         version: 1.6.8
+      isomorphic-fetch:
+        specifier: ^3.0.0
+        version: 3.0.0(encoding@0.1.13)
       lodash.pickby:
         specifier: ^4.6.0
         version: 4.6.0
@@ -40286,6 +40289,7 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
+      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.60)(rollup@4.53.2)':
     dependencies:
