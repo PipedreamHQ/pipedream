@@ -1,5 +1,6 @@
 import { Client } from "@microsoft/microsoft-graph-client";
 import "isomorphic-fetch";
+const DEFAULT_LIMIT = 50;
 
 export default {
   type: "app",
@@ -257,24 +258,30 @@ export default {
         .get(params);
     },
     async *paginate({
-      fn, args,
+      fn, args = {}, max,
     }) {
-      let nextLink;
+      const limit = DEFAULT_LIMIT;
+      args = {
+        ...args,
+        params: {
+          ...args?.params,
+          $top: limit,
+          $skip: 0,
+        },
+      };
+      let hasMore, count = 0;
       do {
-        if (nextLink) {
-          args = {
-            ...args,
-            url: nextLink,
-          };
-        }
         const response = await fn(args);
-
-        for (const value of response.value) {
-          yield value;
+        const { value } = response;
+        for (const item of value) {
+          yield item;
+          if (max && ++count >= max) {
+            return;
+          }
         }
-
-        nextLink = response["@odata.nextLink"];
-      } while (nextLink);
+        hasMore = response?.["@odata.nextLink"];
+        args.params["$skip"] += limit;
+      } while (hasMore);
     },
   },
 };
