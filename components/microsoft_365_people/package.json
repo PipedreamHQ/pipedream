@@ -15,6 +15,7 @@
   "dependencies": {
     "@microsoft/microsoft-graph-client": "^3.0.7",
     "@pipedream/platform": "^1.6.8",
+    "isomorphic-fetch": "^3.0.0",
     "lodash.pickby": "^4.6.0"
   }
 }
