@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/microsoft_excel",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Pipedream Microsoft Excel Components",
   "main": "microsoft_excel.app.mjs",
   "keywords": [

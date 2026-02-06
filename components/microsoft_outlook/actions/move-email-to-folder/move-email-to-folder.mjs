@@ -4,7 +4,7 @@ export default {
   key: "microsoft_outlook-move-email-to-folder",
   name: "Move Email to Folder",
   description: "Moves an email to the specified folder in Microsoft Outlook. [See the documentation](https://learn.microsoft.com/en-us/graph/api/message-move)",
-  version: "0.0.12",
+  version: "0.0.13",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

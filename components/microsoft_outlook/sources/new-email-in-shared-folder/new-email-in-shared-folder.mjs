@@ -7,7 +7,7 @@ export default {
   key: "microsoft_outlook-new-email-in-shared-folder",
   name: "New Email in Shared Folder Event",
   description: "Emit new event when an email is received in specified shared folders.",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "source",
   dedupe: "unique",
   props: {

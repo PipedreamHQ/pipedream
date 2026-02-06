@@ -5,7 +5,7 @@ export default {
   key: "microsoft_365_people-new-contact-created",
   name: "New Contact Created",
   description: "Emit new event when a new contact is created in a folder.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
