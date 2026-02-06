@@ -5,7 +5,7 @@ export default {
   key: "microsoft_365_planner-new-task-assigned-to-user",
   name: "New Task Assigned to User",
   description: "Emit new event when a Task is assigned to the authenticated user in Microsoft 365 Planner. [See the documentation](https://learn.microsoft.com/en-us/graph/api/planneruser-list-tasks?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

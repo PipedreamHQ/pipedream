@@ -5,7 +5,7 @@ export default {
   key: "microsoft_dynamics_365_sales-account-status-changed",
   name: "Account Status Changed",
   description: "Emit new event when an account is activated or deactivated.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
