@@ -6,7 +6,7 @@ export default {
   key: "microsoft_outlook-new-attachment-received",
   name: "New Attachment Received (Instant)",
   description: "Emit new event when a new email containing one or more attachments arrives in a specified Microsoft Outlook folder.",
-  version: "0.1.6",
+  version: "0.1.7",
   type: "source",
   dedupe: "unique",
   props: {

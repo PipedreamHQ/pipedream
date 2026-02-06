@@ -4,7 +4,7 @@ export default {
   key: "microsoft_outlook-approve-workflow",
   name: "Approve Workflow",
   description: "Suspend the workflow until approved by email. [See the documentation](https://pipedream.com/docs/code/nodejs/rerun#flowsuspend)",
-  version: "0.0.13",
+  version: "0.0.14",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
