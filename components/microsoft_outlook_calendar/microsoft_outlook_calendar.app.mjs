@@ -173,7 +173,7 @@ export default {
         .query(pickBy(params))
         .get();
     },
-    async listCalendarViews({ params = {} } = {}) {
+    async listCalendarView({ params = {} } = {}) {
       return await this.client().api("/me/calendar/calendarView")
         .query(pickBy(params))
         .get();
