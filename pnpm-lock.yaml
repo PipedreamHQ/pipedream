@@ -9495,6 +9495,9 @@ importers:
 
   components/microsoft_outlook:
     dependencies:
+      '@microsoft/microsoft-graph-client':
+        specifier: ^3.0.7
+        version: 3.0.7
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
@@ -19400,16 +19403,16 @@ packages:
   '@daytonaio/toolbox-api-client@0.138.0':
     resolution: {integrity: sha512-unM9e7MOQiyDXdY8hCW1uTctYbxpo/TGZ6L71ZXyS/j2Cnz9/ud4VWBLcQP2VzlC+lrBP2YMrhT90zSSvcNfmA==}
 
-  '@definitelytyped/header-parser@0.2.22':
-    resolution: {integrity: sha512-zmsZ6cXHpGkPB99WUUKnc237I49RIvHHBW4FzBvBzLNxKPcpqZx505IqqlAYN11ve9wjhYSbPPCI5y+B1nLOfQ==}
+  '@definitelytyped/header-parser@0.2.23':
+    resolution: {integrity: sha512-dNp5+yh8NIr3vUCINzqouWne/5gI+o/VjnK/sTzZqlBmtevy/NfY/dx9NOFJpoaX1Z7q7NbHmNRablAiw0l4zQ==}
     engines: {node: '>=20.17.0'}
 
   '@definitelytyped/typescript-versions@0.1.10':
     resolution: {integrity: sha512-4aBop464n0PUxrlzj1FpAfiNa5P5ENycB0K/Ho22Ay8xAGEGXUpLkaWtFsn2R+Jfn4ldd7lJqfqw0z29sAingQ==}
     engines: {node: '>=20.17.0'}
 
-  '@definitelytyped/utils@0.1.10':
-    resolution: {integrity: sha512-XCd8g2hhZmwytP+sO6AUYILcdfr8Wjwx8laqRpdxdhvg7a4T+eDNM7EuD/O9THFhWc39j/aH54rSSb93WI0gxQ==}
+  '@definitelytyped/utils@0.1.11':
+    resolution: {integrity: sha512-PWq2GtAyA3qQpdBC1qxXbbqdoLVWhxwzoBPWLVwSvI30ftMO9T6gvc3yEtbKiplZzp0gUBZVP0EcSzwjnvIZ4w==}
     engines: {node: '>=20.17.0'}
 
   '@dependents/detective-less@5.0.1':
@@ -37032,10 +37035,10 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@definitelytyped/header-parser@0.2.22':
+  '@definitelytyped/header-parser@0.2.23':
     dependencies:
       '@definitelytyped/typescript-versions': 0.1.10
-      '@definitelytyped/utils': 0.1.10
+      '@definitelytyped/utils': 0.1.11
       semver: 7.7.3
     transitivePeerDependencies:
       - bare-abort-controller
@@ -37044,7 +37047,7 @@ snapshots:
 
   '@definitelytyped/typescript-versions@0.1.10': {}
 
-  '@definitelytyped/utils@0.1.10':
+  '@definitelytyped/utils@0.1.11':
     dependencies:
       '@types/node': 25.1.0
       cachedir: 2.4.0
@@ -45243,7 +45246,7 @@ snapshots:
 
   dts-critic@3.3.11(typescript@5.6.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.22
+      '@definitelytyped/header-parser': 0.2.23
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -45257,7 +45260,7 @@ snapshots:
 
   dts-critic@3.3.11(typescript@5.9.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.22
+      '@definitelytyped/header-parser': 0.2.23
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -45273,9 +45276,9 @@ snapshots:
 
   dtslint@4.2.1(typescript@5.6.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.22
+      '@definitelytyped/header-parser': 0.2.23
       '@definitelytyped/typescript-versions': 0.1.10
-      '@definitelytyped/utils': 0.1.10
+      '@definitelytyped/utils': 0.1.11
       dts-critic: 3.3.11(typescript@5.6.3)
       fs-extra: 6.0.1
       json-stable-stringify: 1.3.0
@@ -45291,9 +45294,9 @@ snapshots:
 
   dtslint@4.2.1(typescript@5.9.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.22
+      '@definitelytyped/header-parser': 0.2.23
       '@definitelytyped/typescript-versions': 0.1.10
-      '@definitelytyped/utils': 0.1.10
+      '@definitelytyped/utils': 0.1.11
       dts-critic: 3.3.11(typescript@5.9.3)
       fs-extra: 6.0.1
       json-stable-stringify: 1.3.0

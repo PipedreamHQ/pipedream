@@ -13,7 +13,7 @@ export default {
   key: "microsoft_outlook-download-attachment",
   name: "Download Attachment",
   description: "Downloads an attachment to the /tmp directory. [See the documentation](https://learn.microsoft.com/en-us/graph/api/attachment-get?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.11",
+  version: "0.0.12",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -56,14 +56,6 @@ export default {
     },
   },
   methods: {
-    getAttachmentInfo({
-      messageId, attachmentId, ...args
-    }) {
-      return this.microsoftOutlook._makeRequest({
-        path: `/me/messages/${messageId}/attachments/${attachmentId}`,
-        ...args,
-      });
-    },
     async imageToPdf(imageBuffer) {
       return new Promise((resolve, reject) => {
         const doc = new PDFDocument({
@@ -113,7 +105,6 @@ export default {
       $,
       messageId: this.messageId,
       attachmentId: this.attachmentId,
-      responseType: "arraybuffer",
     });
 
     let filename = this.filename;
@@ -122,11 +113,10 @@ export default {
       filename = `${name}.pdf`;
     }
 
-    const rawcontent = response.toString("base64");
-    let buffer = Buffer.from(rawcontent, "base64");
+    let buffer = await this.microsoftOutlook.streamToBuffer(response);
 
     if (this.convertToPdf) {
-      const { contentType: mimeType } = await this.getAttachmentInfo({
+      const { contentType: mimeType } = await this.microsoftOutlook.getAttachmentInfo({
         $,
         messageId: this.messageId,
         attachmentId: this.attachmentId,
