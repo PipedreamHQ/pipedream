@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/microsoft_365_people",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream Microsoft 365 People Components",
   "main": "microsoft_365_people.app.mjs",
   "keywords": [
@@ -13,6 +13,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@microsoft/microsoft-graph-client": "^3.0.7",
     "@pipedream/platform": "^1.6.8",
     "lodash.pickby": "^4.6.0"
   }
