@@ -2272,7 +2272,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/buildchatbot: {}
+  components/buildchatbot:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.2
+        version: 3.2.2
 
   components/builder_io: {}
 
@@ -15129,7 +15133,11 @@ importers:
 
   components/talentlms: {}
 
-  components/talkspirit: {}
+  components/talkspirit:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.2.1
 
   components/tally:
     dependencies:
@@ -15847,7 +15855,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/trint: {}
+  components/trint:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.2
+        version: 3.2.2
 
   components/tripadvisor_content_api:
     dependencies:
@@ -39447,7 +39459,7 @@ snapshots:
 
   '@pipedream/canva@0.2.3':
     dependencies:
-      '@pipedream/platform': 3.2.1
+      '@pipedream/platform': 3.2.2
     transitivePeerDependencies:
       - debug
 
@@ -39460,7 +39472,7 @@ snapshots:
 
   '@pipedream/docusign@0.2.2':
     dependencies:
-      '@pipedream/platform': 3.2.1
+      '@pipedream/platform': 3.2.2
     transitivePeerDependencies:
       - debug
 
@@ -50359,7 +50371,7 @@ snapshots:
 
   minimatch@10.0.3:
     dependencies:
-      '@isaacs/brace-expansion': 5.0.0
+      '@isaacs/brace-expansion': 5.0.1
 
   minimatch@10.1.1:
     dependencies:

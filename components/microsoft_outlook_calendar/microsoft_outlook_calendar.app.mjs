@@ -1,4 +1,6 @@
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -137,12 +139,16 @@ export default {
       headers,
       ...otherConfig
     } = {}) {
-      const config = {
-        url: this._getUrl(path),
-        headers: this._getHeaders(headers),
-        ...otherConfig,
-      };
-      return axios($ ?? this, config);
+      try {
+        const config = {
+          url: this._getUrl(path),
+          headers: this._getHeaders(headers),
+          ...otherConfig,
+        };
+        return await axios($ ?? this, config);
+      } catch (error) {
+        throw new ConfigurationError(error.message);
+      }
     },
     async createHook(args = {}) {
       const response = await this._makeRequest({
