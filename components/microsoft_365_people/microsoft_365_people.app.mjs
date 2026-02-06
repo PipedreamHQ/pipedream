@@ -1,6 +1,5 @@
-import {
-  axios, ConfigurationError,
-} from "@pipedream/platform";
+import { Client } from "@microsoft/microsoft-graph-client";
+import "isomorphic-fetch";
 
 export default {
   type: "app",
@@ -99,123 +98,72 @@ export default {
     },
   },
   methods: {
-    _baseUrl() {
-      return "https://graph.microsoft.com/v1.0";
-    },
-    _headers() {
-      return {
-        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-      };
-    },
-    async _makeRequest({
-      $ = this,
-      path,
-      ...args
-    }) {
-      try {
-        return await axios($, {
-          url: `${this._baseUrl()}${path}`,
-          headers: this._headers(),
-          ...args,
-        });
-      } catch (error) {
-        throw new ConfigurationError(error.message);
-      }
-    },
-    async createHook(args = {}) {
-      const response = await this._makeRequest({
-        method: "POST",
-        path: "/subscriptions",
-        ...args,
+    client() {
+      return Client.init({
+        authProvider: (done) => {
+          done(null, this.$auth.oauth_access_token);
+        },
       });
-      return response;
+    },
+    async createHook({ data = {} } = {}) {
+      return await this.client().api("/subscriptions")
+        .post(data);
     },
     async renewHook({
-      hookId, ...args
+      hookId, data = {},
     }) {
-      return await this._makeRequest({
-        method: "PATCH",
-        path: `/subscriptions/${hookId}`,
-        ...args,
-      });
+      return await this.client().api(`/subscriptions/${hookId}`)
+        .patch(data);
     },
-    async deleteHook({
-      hookId, ...args
+    async deleteHook({ hookId }) {
+      return await this.client().api(`/subscriptions/${hookId}`)
+        .delete();
+    },
+    async getContact({
+      contactId, params = {},
     }) {
-      return await this._makeRequest({
-        method: "DELETE",
-        path: `/subscriptions/${hookId}`,
-        ...args,
-      });
+      return await this.client().api(`/me/contacts/${contactId}`)
+        .get(params);
     },
-    getContact({
-      contactId, ...args
+    async listContacts(params = {}) {
+      return await this.client().api("/me/contacts")
+        .get(params);
+    },
+    async listFolders(params = {}) {
+      return await this.client().api("/me/contactFolders")
+        .get(params);
+    },
+    async listContactsInFolder({
+      folderId, params = {},
     }) {
-      return this._makeRequest({
-        path: `/me/contacts/${contactId}`,
-        ...args,
-      });
+      return await this.client().api(`/me/contactfolders/${folderId}/contacts`)
+        .get(params);
     },
-    listContacts(args = {}) {
-      return this._makeRequest({
-        path: "/me/contacts",
-        ...args,
-      });
+    async createContact({ data = {} } = {}) {
+      return await this.client().api("/me/contacts")
+        .post(data);
     },
-    listFolders(args = {}) {
-      return this._makeRequest({
-        path: "/me/contactFolders",
-        ...args,
-      });
-    },
-    listContactsInFolder({
-      folderId, ...args
+    async createContactInFolder({
+      folderId, data = {},
     }) {
-      return this._makeRequest({
-        path: `/me/contactfolders/${folderId}/contacts`,
-        ...args,
-      });
+      return await this.client().api(`/me/contactFolders/${folderId}/contacts`)
+        .post(data);
     },
-    createContact(args = {}) {
-      return this._makeRequest({
-        path: "/me/contacts",
-        method: "POST",
-        ...args,
-      });
+    async createFolder({ data = {} } = {}) {
+      return await this.client().api("/me/contactFolders")
+        .post(data);
     },
-    createContactInFolder({
-      folderId, ...args
+    async updateContact({
+      contactId, data = {},
     }) {
-      return this._makeRequest({
-        path: `/me/contactFolders/${folderId}/contacts`,
-        method: "POST",
-        ...args,
-      });
+      return await this.client().api(`/me/contacts/${contactId}`)
+        .patch(data);
     },
-    createFolder(args = {}) {
-      return this._makeRequest({
-        path: "/me/contactFolders",
-        method: "POST",
-        ...args,
-      });
-    },
-    updateContact({
-      contactId, ...args
+    async updateContactInFolder({
+      folderId, contactId, data = {},
     }) {
-      return this._makeRequest({
-        path: `/me/contacts/${contactId}`,
-        method: "PATCH",
-        ...args,
-      });
-    },
-    updateContactInFolder({
-      folderId, contactId, ...args
-    }) {
-      return this._makeRequest({
-        path: `/me/contactFolders/${folderId}/contacts/${contactId}`,
-        method: "PATCH",
-        ...args,
-      });
+      return await this.client().api(`/me/contactFolders/${folderId}/contacts/${contactId}`)
+        .patch(data);
     },
   },
 };
