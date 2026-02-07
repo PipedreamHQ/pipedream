@@ -101,6 +101,7 @@ export default {
         headers: {
           ...this._getHeaders(),
           "cal-api-version": "2024-08-13",
+          "Authorization": `Bearer ${this._apiKey()}`,
           ...headers,
         },
         params: {

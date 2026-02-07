@@ -130,12 +130,15 @@ export default {
       $.export("$summary", "Successfully created booking");
       return response;
     } catch (error) {
-      const errorJson = error?.response?.data;
-      const message =
-        errorJson?.message ||
-        errorJson?.data?.message ||
-        "Unknown error occurred while creating booking";
-
+      let message = "Unknown error occurred while creating booking";
+      if (typeof error === "string") {
+        try {
+          const errorJson = JSON.parse(error.slice(error.indexOf("{")));
+          message = errorJson?.data?.message || message;
+        } catch (error) {
+          void error;
+        }
+      }
       throw new ConfigurationError(`Error: ${message}`);
     }
   },
