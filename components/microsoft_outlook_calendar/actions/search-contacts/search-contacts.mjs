@@ -4,7 +4,7 @@ export default {
   key: "microsoft_outlook_calendar-search-contacts",
   name: "Search Contacts",
   description: "Search for contacts by name from your saved contacts list and retrieve their email addresses. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list-contacts)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
