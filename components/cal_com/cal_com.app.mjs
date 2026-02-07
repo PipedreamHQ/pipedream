@@ -53,6 +53,9 @@ export default {
     _baseUrl() {
       return `https://${this.$auth.domain}/v1/`;
     },
+    _v2BaseUrl() {
+      return `https://${this.$auth.domain}/v2/`;
+    },
     _apiKey() {
       return this.$auth.api_key;
     },
@@ -76,6 +79,32 @@ export default {
         params: {
           ...params,
           apiKey: this._apiKey(),
+        },
+        ...otherArgs,
+      };
+      return this._withRetries(() => {
+        return axios($, config);
+      });
+    },
+    async _makeV2Request(args = {}) {
+      const {
+        method = "GET",
+        path,
+        params = {},
+        headers = {},
+        $ = this,
+        ...otherArgs
+      } = args;
+      const config = {
+        method,
+        url: `${this._v2BaseUrl()}${path}`,
+        headers: {
+          ...this._getHeaders(),
+          "cal-api-version": "2024-08-13",
+          ...headers,
+        },
+        params: {
+          ...params,
         },
         ...otherArgs,
       };
@@ -142,6 +171,16 @@ export default {
         method: "POST",
         path: "bookings",
         ...args,
+      });
+    },
+    async createBookingV2({
+      data, $,
+    }) {
+      return this._makeV2Request({
+        method: "POST",
+        path: "bookings",
+        data,
+        $,
       });
     },
     async deleteBooking(bookingId, $) {
