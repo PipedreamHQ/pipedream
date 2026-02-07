@@ -9,7 +9,7 @@ export default {
   name: "Update Contact",
   description: "Update a contact in Aircall. [See the documentation](https://developer.aircall.io/api-references/#update-a-contact)",
   key: "aircall-update-contact",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -35,7 +35,6 @@ export default {
     const data = this.getCommonData();
     const response = await this.aircall.updateContact({
       $,
-      contactId: this.contactId,
       data,
     });
 
