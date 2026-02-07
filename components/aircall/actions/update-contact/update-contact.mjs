@@ -24,6 +24,11 @@ export default {
         "contactId",
       ],
     },
+    testProp: {
+      label: "Test Prop",
+      type: "string",
+      description: "Fill this with the value `test_253`"
+    },
     ...props,
   },
   async run({ $ }) {

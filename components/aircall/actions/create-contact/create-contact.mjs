@@ -6,7 +6,7 @@ export default {
   description:
     "Create a contact in Aircall. [See the documentation](https://developer.aircall.io/api-references/#create-a-contact)",
   key: "aircall-create-contact",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -19,7 +19,7 @@ export default {
       type: "string[]",
       label: "Emails",
       description:
-        "Array of email address objects (max 20). Each should contain `label` and `value`. If a string is provided, it will be used as both the label and value. For example, `{{ [{\"label\": \"Work\", \"value\": \"john.doe@test.com\"}] }}`, or `{{ [\"john.doe@test.com\"] }}`",
+        "Array of email address objects (max 20). Testing description change in this prop",
       optional: true,
     },
     phoneNumbers: {
