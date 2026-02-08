@@ -45313,9 +45313,9 @@ snapshots:
 
   dtslint@4.2.1(typescript@5.9.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.22
+      '@definitelytyped/header-parser': 0.2.23
       '@definitelytyped/typescript-versions': 0.1.10
-      '@definitelytyped/utils': 0.1.10
+      '@definitelytyped/utils': 0.1.11
       dts-critic: 3.3.11(typescript@5.9.3)
       fs-extra: 6.0.1
       json-stable-stringify: 1.3.0
