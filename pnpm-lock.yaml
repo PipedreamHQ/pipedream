@@ -2272,7 +2272,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/buildchatbot: {}
+  components/buildchatbot:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.2
+        version: 3.2.2
 
   components/builder_io: {}
 
@@ -4441,7 +4445,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/donedone: {}
+  components/donedone:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.2
+        version: 3.2.2
 
   components/donorbox: {}
 
@@ -4659,8 +4667,8 @@ importers:
   components/e2b:
     dependencies:
       '@e2b/code-interpreter':
-        specifier: ^1.0.3
-        version: 1.5.1
+        specifier: 1.0.3
+        version: 1.0.3
 
   components/e_conomic:
     dependencies:
@@ -9391,9 +9399,15 @@ importers:
 
   components/microsoft_365_people:
     dependencies:
+      '@microsoft/microsoft-graph-client':
+        specifier: ^3.0.7
+        version: 3.0.7
       '@pipedream/platform':
         specifier: ^1.6.8
         version: 1.6.8
+      isomorphic-fetch:
+        specifier: ^3.0.0
+        version: 3.0.0(encoding@0.1.13)
       lodash.pickby:
         specifier: ^4.6.0
         version: 4.6.0
@@ -9487,6 +9501,9 @@ importers:
 
   components/microsoft_outlook:
     dependencies:
+      '@microsoft/microsoft-graph-client':
+        specifier: ^3.0.7
+        version: 3.0.7
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
@@ -9517,6 +9534,9 @@ importers:
 
   components/microsoft_outlook_calendar:
     dependencies:
+      '@microsoft/microsoft-graph-client':
+        specifier: ^3.0.7
+        version: 3.0.7
       '@pipedream/microsoft_outlook':
         specifier: ^1.7.3
         version: 1.7.5
@@ -9526,6 +9546,12 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
+      isomorphic-fetch:
+        specifier: ^3.0.0
+        version: 3.0.0(encoding@0.1.13)
+      lodash.pickby:
+        specifier: ^4.6.0
+        version: 4.6.0
       luxon:
         specifier: ^3.7.2
         version: 3.7.2
@@ -15126,7 +15152,11 @@ importers:
 
   components/talentlms: {}
 
-  components/talkspirit: {}
+  components/talkspirit:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.2.1
 
   components/tally:
     dependencies:
@@ -15258,7 +15288,11 @@ importers:
         specifier: ^8.3.2
         version: 8.3.2
 
-  components/telesign: {}
+  components/telesign:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.1
+        version: 3.2.1
 
   components/telnyx:
     dependencies:
@@ -15840,7 +15874,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/trint: {}
+  components/trint:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.2
+        version: 3.2.2
 
   components/tripadvisor_content_api:
     dependencies:
@@ -16452,7 +16490,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/videoask: {}
+  components/videoask:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.2
+        version: 3.2.2
 
   components/vies_api:
     dependencies:
@@ -19380,16 +19422,16 @@ packages:
   '@daytonaio/toolbox-api-client@0.138.0':
     resolution: {integrity: sha512-unM9e7MOQiyDXdY8hCW1uTctYbxpo/TGZ6L71ZXyS/j2Cnz9/ud4VWBLcQP2VzlC+lrBP2YMrhT90zSSvcNfmA==}
 
-  '@definitelytyped/header-parser@0.2.22':
-    resolution: {integrity: sha512-zmsZ6cXHpGkPB99WUUKnc237I49RIvHHBW4FzBvBzLNxKPcpqZx505IqqlAYN11ve9wjhYSbPPCI5y+B1nLOfQ==}
+  '@definitelytyped/header-parser@0.2.23':
+    resolution: {integrity: sha512-dNp5+yh8NIr3vUCINzqouWne/5gI+o/VjnK/sTzZqlBmtevy/NfY/dx9NOFJpoaX1Z7q7NbHmNRablAiw0l4zQ==}
     engines: {node: '>=20.17.0'}
 
   '@definitelytyped/typescript-versions@0.1.10':
     resolution: {integrity: sha512-4aBop464n0PUxrlzj1FpAfiNa5P5ENycB0K/Ho22Ay8xAGEGXUpLkaWtFsn2R+Jfn4ldd7lJqfqw0z29sAingQ==}
     engines: {node: '>=20.17.0'}
 
-  '@definitelytyped/utils@0.1.10':
-    resolution: {integrity: sha512-XCd8g2hhZmwytP+sO6AUYILcdfr8Wjwx8laqRpdxdhvg7a4T+eDNM7EuD/O9THFhWc39j/aH54rSSb93WI0gxQ==}
+  '@definitelytyped/utils@0.1.11':
+    resolution: {integrity: sha512-PWq2GtAyA3qQpdBC1qxXbbqdoLVWhxwzoBPWLVwSvI30ftMO9T6gvc3yEtbKiplZzp0gUBZVP0EcSzwjnvIZ4w==}
     engines: {node: '>=20.17.0'}
 
   '@dependents/detective-less@5.0.1':
@@ -19399,8 +19441,8 @@ packages:
   '@dual-bundle/import-meta-resolve@4.2.1':
     resolution: {integrity: sha512-id+7YRUgoUX6CgV0DtuhirQWodeeA7Lf4i2x71JS/vtA5pRb/hIGWlw+G6MeXvsM+MXrz0VAydTGElX1rAfgPg==}
 
-  '@e2b/code-interpreter@1.5.1':
-    resolution: {integrity: sha512-mkyKjAW2KN5Yt0R1I+1lbH3lo+W/g/1+C2lnwlitXk5wqi/g94SEO41XKdmDf5WWpKG3mnxWDR5d6S/lyjmMEw==}
+  '@e2b/code-interpreter@1.0.3':
+    resolution: {integrity: sha512-/dfMagUEytQtwqkab+0glMPCpPvOwhGaUZvOscT/YvxJxaYPswwjIWb3TXa9DeV25XYw//72syT2wo6rGnnCKw==}
     engines: {node: '>=18'}
 
   '@emnapi/core@1.7.1':
@@ -32519,11 +32561,6 @@ packages:
   tar-stream@3.1.7:
     resolution: {integrity: sha512-qJj60CXt7IU1Ffyc3NJMjh6EkuCFej46zUqJ4J7pqYlThyd9bO0XBTmcOIhSzZJVWfsLks0+nle/j538YAW9RQ==}
 
-  tar@7.5.2:
-    resolution: {integrity: sha512-7NyxrTE4Anh8km8iEy7o0QYPs+0JKBTj5ZaqHg6B39erLg0qYXN3BijtShwbsNSvQ+LN75+KV+C4QR/f6Gwnpg==}
-    engines: {node: '>=18'}
-    deprecated: Old versions of tar are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exhorbitant rates) by contacting i@izs.me
-
   tar@7.5.7:
     resolution: {integrity: sha512-fov56fJiRuThVFXD6o6/Q354S7pnWMJIVlDBYijsTNx6jKSE4pvrDTs6lUnmGvNyfJwFQQwWy3owKz1ucIhveQ==}
     engines: {node: '>=18'}
@@ -37017,10 +37054,10 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@definitelytyped/header-parser@0.2.22':
+  '@definitelytyped/header-parser@0.2.23':
     dependencies:
       '@definitelytyped/typescript-versions': 0.1.10
-      '@definitelytyped/utils': 0.1.10
+      '@definitelytyped/utils': 0.1.11
       semver: 7.7.3
     transitivePeerDependencies:
       - bare-abort-controller
@@ -37029,7 +37066,7 @@ snapshots:
 
   '@definitelytyped/typescript-versions@0.1.10': {}
 
-  '@definitelytyped/utils@0.1.10':
+  '@definitelytyped/utils@0.1.11':
     dependencies:
       '@types/node': 25.1.0
       cachedir: 2.4.0
@@ -37052,7 +37089,7 @@ snapshots:
 
   '@dual-bundle/import-meta-resolve@4.2.1': {}
 
-  '@e2b/code-interpreter@1.5.1':
+  '@e2b/code-interpreter@1.0.3':
     dependencies:
       e2b: 1.13.2
 
@@ -38543,7 +38580,7 @@ snapshots:
       '@netlify/zip-it-and-ship-it': 14.1.13(encoding@0.1.13)(rollup@4.53.2)(supports-color@10.2.2)
       '@opentelemetry/api': 1.8.0
       '@sindresorhus/slugify': 2.2.1
-      ansi-escapes: 7.1.1
+      ansi-escapes: 7.2.0
       ansis: 4.2.0
       clean-stack: 5.3.0
       execa: 8.0.1
@@ -38561,7 +38598,7 @@ snapshots:
       p-event: 6.0.1
       p-filter: 4.1.0
       p-locate: 6.0.0
-      p-map: 7.0.3
+      p-map: 7.0.4
       p-reduce: 3.0.0
       package-directory: 8.1.0
       path-exists: 5.0.0
@@ -38684,7 +38721,7 @@ snapshots:
       parse-imports: 2.2.1
       path-key: 4.0.0
       semver: 7.7.3
-      tar: 7.5.2
+      tar: 7.5.7
       tmp-promise: 3.0.3
       urlpattern-polyfill: 8.0.2
       uuid: 11.1.0
@@ -38815,7 +38852,7 @@ snapshots:
 
   '@netlify/zip-it-and-ship-it@14.1.13(encoding@0.1.13)(rollup@4.53.2)':
     dependencies:
-      '@babel/parser': 7.28.5
+      '@babel/parser': 7.28.6
       '@babel/types': 7.28.5
       '@netlify/binary-info': 1.0.0
       '@netlify/serverless-functions-api': 2.7.1
@@ -38835,7 +38872,7 @@ snapshots:
       merge-options: 3.0.4
       minimatch: 9.0.5
       normalize-path: 3.0.0
-      p-map: 7.0.3
+      p-map: 7.0.4
       path-exists: 5.0.0
       precinct: 12.2.0
       require-package-name: 2.0.1
@@ -38856,7 +38893,7 @@ snapshots:
 
   '@netlify/zip-it-and-ship-it@14.1.13(encoding@0.1.13)(rollup@4.53.2)(supports-color@10.2.2)':
     dependencies:
-      '@babel/parser': 7.28.5
+      '@babel/parser': 7.28.6
       '@babel/types': 7.28.5
       '@netlify/binary-info': 1.0.0
       '@netlify/serverless-functions-api': 2.7.1
@@ -38876,7 +38913,7 @@ snapshots:
       merge-options: 3.0.4
       minimatch: 9.0.5
       normalize-path: 3.0.0
-      p-map: 7.0.3
+      p-map: 7.0.4
       path-exists: 5.0.0
       precinct: 12.2.0(supports-color@10.2.2)
       require-package-name: 2.0.1
@@ -39441,7 +39478,7 @@ snapshots:
 
   '@pipedream/canva@0.2.3':
     dependencies:
-      '@pipedream/platform': 3.2.1
+      '@pipedream/platform': 3.2.2
     transitivePeerDependencies:
       - debug
 
@@ -39454,7 +39491,7 @@ snapshots:
 
   '@pipedream/docusign@0.2.2':
     dependencies:
-      '@pipedream/platform': 3.2.1
+      '@pipedream/platform': 3.2.2
     transitivePeerDependencies:
       - debug
 
@@ -39471,7 +39508,7 @@ snapshots:
   '@pipedream/google_drive@1.2.0(encoding@0.1.13)':
     dependencies:
       '@googleapis/drive': 2.4.0(encoding@0.1.13)
-      '@pipedream/platform': 3.2.1
+      '@pipedream/platform': 3.2.2
       cron-parser: 4.9.0
       google-docs-mustaches: 1.2.2(encoding@0.1.13)
       got: 13.0.0
@@ -39486,7 +39523,7 @@ snapshots:
   '@pipedream/google_drive@1.4.1(encoding@0.1.13)':
     dependencies:
       '@googleapis/drive': 2.4.0(encoding@0.1.13)
-      '@pipedream/platform': 3.2.1
+      '@pipedream/platform': 3.2.2
       cron-parser: 4.9.0
       google-docs-mustaches: 1.2.2(encoding@0.1.13)
       got: 13.0.0
@@ -39521,7 +39558,7 @@ snapshots:
   '@pipedream/linear_app@0.8.1(encoding@0.1.13)':
     dependencies:
       '@linear/sdk': 55.2.1(encoding@0.1.13)
-      '@pipedream/platform': 3.2.1
+      '@pipedream/platform': 3.2.2
     transitivePeerDependencies:
       - debug
       - encoding
@@ -39536,7 +39573,7 @@ snapshots:
 
   '@pipedream/microsoft_outlook@1.7.5':
     dependencies:
-      '@pipedream/platform': 3.2.1
+      '@pipedream/platform': 3.2.2
       axios: 0.30.2
       js-base64: 3.7.8
       md5: 2.3.0
@@ -39546,7 +39583,7 @@ snapshots:
 
   '@pipedream/monday@0.7.0(encoding@0.1.13)':
     dependencies:
-      '@pipedream/platform': 3.2.1
+      '@pipedream/platform': 3.2.2
       form-data: 4.0.4
       lodash.flatmap: 4.5.0
       lodash.map: 4.6.0
@@ -42806,7 +42843,7 @@ snapshots:
 
   '@vue/compiler-sfc@3.5.24':
     dependencies:
-      '@babel/parser': 7.28.5
+      '@babel/parser': 7.28.6
       '@vue/compiler-core': 3.5.24
       '@vue/compiler-dom': 3.5.24
       '@vue/compiler-ssr': 3.5.24
@@ -44641,7 +44678,7 @@ snapshots:
       junk: 4.0.1
       micromatch: 4.0.8
       p-filter: 4.1.0
-      p-map: 7.0.3
+      p-map: 7.0.4
 
   crc-32@1.2.2: {}
 
@@ -45228,7 +45265,7 @@ snapshots:
 
   dts-critic@3.3.11(typescript@5.6.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.22
+      '@definitelytyped/header-parser': 0.2.23
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -45242,7 +45279,7 @@ snapshots:
 
   dts-critic@3.3.11(typescript@5.9.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.22
+      '@definitelytyped/header-parser': 0.2.23
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -45258,9 +45295,9 @@ snapshots:
 
   dtslint@4.2.1(typescript@5.6.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.22
+      '@definitelytyped/header-parser': 0.2.23
       '@definitelytyped/typescript-versions': 0.1.10
-      '@definitelytyped/utils': 0.1.10
+      '@definitelytyped/utils': 0.1.11
       dts-critic: 3.3.11(typescript@5.6.3)
       fs-extra: 6.0.1
       json-stable-stringify: 1.3.0
@@ -49658,7 +49695,7 @@ snapshots:
 
   log-update@6.1.0:
     dependencies:
-      ansi-escapes: 7.1.1
+      ansi-escapes: 7.2.0
       cli-cursor: 5.0.0
       slice-ansi: 7.1.2
       strip-ansi: 7.1.2
@@ -50353,7 +50390,7 @@ snapshots:
 
   minimatch@10.0.3:
     dependencies:
-      '@isaacs/brace-expansion': 5.0.0
+      '@isaacs/brace-expansion': 5.0.1
 
   minimatch@10.1.1:
     dependencies:
@@ -50882,7 +50919,7 @@ snapshots:
 
   node-source-walk@7.0.1:
     dependencies:
-      '@babel/parser': 7.28.5
+      '@babel/parser': 7.28.6
 
   node-ssh@12.0.5:
     dependencies:
@@ -51403,7 +51440,7 @@ snapshots:
 
   p-filter@4.1.0:
     dependencies:
-      p-map: 7.0.3
+      p-map: 7.0.4
 
   p-finally@1.0.0: {}
 
@@ -54353,14 +54390,6 @@ snapshots:
       - bare-abort-controller
       - react-native-b4a
 
-  tar@7.5.2:
-    dependencies:
-      '@isaacs/fs-minipass': 4.0.1
-      chownr: 3.0.0
-      minipass: 7.1.2
-      minizlib: 3.1.0
-      yallist: 5.0.0
-
   tar@7.5.7:
     dependencies:
       '@isaacs/fs-minipass': 4.0.1
@@ -54422,7 +54451,7 @@ snapshots:
 
   terminal-link@4.0.0:
     dependencies:
-      ansi-escapes: 7.1.1
+      ansi-escapes: 7.2.0
       supports-hyperlinks: 3.2.0
 
   test-exclude@6.0.0:

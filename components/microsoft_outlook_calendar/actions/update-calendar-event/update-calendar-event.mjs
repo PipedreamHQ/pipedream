@@ -3,7 +3,7 @@ import microsoftOutlook from "../../microsoft_outlook_calendar.app.mjs";
 export default {
   type: "action",
   key: "microsoft_outlook_calendar-update-calendar-event",
-  version: "0.0.5",
+  version: "0.0.7",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

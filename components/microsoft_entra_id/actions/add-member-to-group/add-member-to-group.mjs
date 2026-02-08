@@ -4,7 +4,7 @@ export default {
   key: "microsoft_entra_id-add-member-to-group",
   name: "Add Member To Group",
   description: "Adds a member to a group Microsoft Entra ID. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-update?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

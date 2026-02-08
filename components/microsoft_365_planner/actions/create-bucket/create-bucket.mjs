@@ -4,7 +4,7 @@ export default {
   key: "microsoft_365_planner-create-bucket",
   name: "Create Bucket",
   description: "Create a new bucket in Microsoft 365 Planner. [See the documentation](https://learn.microsoft.com/en-us/graph/api/planner-post-buckets)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

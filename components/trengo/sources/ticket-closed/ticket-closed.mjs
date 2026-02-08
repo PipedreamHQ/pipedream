@@ -4,7 +4,7 @@ export default {
   key: "trengo-ticket-closed",
   name: "Ticket Closed (Instant)",
   description: "Emit new event when a ticket is closed. [See the documentation](https://developers.trengo.com/docs/webhooks)",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "source",
   dedupe: "unique",
   ...common,

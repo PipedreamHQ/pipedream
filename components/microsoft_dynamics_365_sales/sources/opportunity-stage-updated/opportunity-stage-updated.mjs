@@ -5,7 +5,7 @@ export default {
   key: "microsoft_dynamics_365_sales-opportunity-stage-updated",
   name: "Opportunity Stage Updated",
   description: "Emit new event when the stage of an opportunity is updated.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   methods: {
