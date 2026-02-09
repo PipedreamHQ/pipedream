@@ -18,7 +18,7 @@ export default {
       return this.float.listProjects;
     },
     getSummary(item) {
-      return `New Project Created: ${item.project_id}`;
+      return `New Project Created: ${item.name} (${item.project_id})`;
     },
   },
   sampleEmit,

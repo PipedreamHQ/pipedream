@@ -180,13 +180,21 @@ export default {
         budget_total: this.budgetTotal,
         budget_priority: this.budgetPriority && parseInt(this.budgetPriority),
         default_hourly_rate: this.defaultHourlyRate && parseFloat(this.defaultHourlyRate),
-        non_billable: !(+this.nonBillable),
+        non_billable: this.nonBillable != null
+          ? !(+this.nonBillable)
+          : undefined,
         status: this.status && parseInt(this.status),
         stage_id: this.stageId,
-        locked_task_list: this.lockedTaskList && +this.lockedTaskList,
-        active: this.active && +this.active,
+        locked_task_list: this.lockedTaskList != null
+          ? +this.lockedTaskList
+          : undefined,
+        active: this.active != null
+          ? +this.active
+          : undefined,
         project_manager_id: this.projectManagerId,
-        all_pms_schedule: this.allPmsSchedule && +this.allPmsSchedule,
+        all_pms_schedule: this.allPmsSchedule != null
+          ? +this.allPmsSchedule
+          : undefined,
         start_date: this.startDate,
         end_date: this.endDate,
         expenses: parseObject(this.expenses),

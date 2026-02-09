@@ -45,7 +45,9 @@ export default {
         this.$emit(item, {
           id: item[fieldId],
           summary: this.getSummary(item),
-          ts: Date.parse(item.created || new Date()),
+          ts: item.created
+            ? Date.parse(item.created)
+            : Date.now(),
         });
       }
     },

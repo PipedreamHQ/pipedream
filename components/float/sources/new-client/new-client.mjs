@@ -18,7 +18,7 @@ export default {
       return this.float.listClients;
     },
     getSummary(item) {
-      return `New Client Created: ${item.client_id}`;
+      return `New Client Created: ${item.name} (${item.client_id})`;
     },
   },
   sampleEmit,

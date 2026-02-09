@@ -267,7 +267,7 @@ export default {
 
       do {
         params.page = ++page;
-        params.per_page = LIMIT;
+        params["per-page"] = LIMIT;
         const data = await fn({
           params,
           ...opts,
@@ -280,7 +280,7 @@ export default {
           }
         }
 
-        hasMore = data.length;
+        hasMore = data.length === LIMIT;
 
       } while (hasMore);
     },
