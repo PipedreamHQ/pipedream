@@ -1,5 +1,23 @@
 import microsoftOutlook from "../../microsoft_outlook_calendar.app.mjs";
 
+const DAYS_OF_WEEK_TYPES = [
+  "weekly",
+  "relativeMonthly",
+  "relativeYearly",
+];
+const ABSOLUTE_TYPES = [
+  "absoluteMonthly",
+  "absoluteYearly",
+];
+const YEARLY_TYPES = [
+  "absoluteYearly",
+  "relativeYearly",
+];
+const RELATIVE_TYPES = [
+  "relativeMonthly",
+  "relativeYearly",
+];
+
 export default {
   type: "action",
   key: "microsoft_outlook_calendar-create-calendar-event",
@@ -199,10 +217,7 @@ export default {
           );
         }
       }
-      if ([
-        "absoluteYearly",
-        "relativeYearly",
-      ].includes(patternType)) {
+      if (YEARLY_TYPES.includes(patternType)) {
         if (this.recurrenceMonth == null || this.recurrenceMonth < 1 || this.recurrenceMonth > 12) {
           throw new Error(
             `Recurrence Month (1-12) is required when pattern type is ${patternType}.`,
@@ -230,32 +245,19 @@ export default {
         type: patternType,
         interval: this.recurrenceInterval,
       };
-      if ([
-        "weekly",
-        "relativeMonthly",
-        "relativeYearly",
-      ].includes(patternType)) {
+      if (DAYS_OF_WEEK_TYPES.includes(patternType)) {
         pattern.daysOfWeek = this.recurrenceDaysOfWeek;
       }
       if (patternType === "weekly") {
         pattern.firstDayOfWeek = this.recurrenceFirstDayOfWeek ?? "sunday";
       }
-      if ([
-        "absoluteMonthly",
-        "absoluteYearly",
-      ].includes(patternType)) {
+      if (ABSOLUTE_TYPES.includes(patternType)) {
         pattern.dayOfMonth = this.recurrenceDayOfMonth;
       }
-      if ([
-        "absoluteYearly",
-        "relativeYearly",
-      ].includes(patternType)) {
+      if (YEARLY_TYPES.includes(patternType)) {
         pattern.month = this.recurrenceMonth;
       }
-      if ([
-        "relativeMonthly",
-        "relativeYearly",
-      ].includes(patternType) && this.recurrenceIndex) {
+      if (RELATIVE_TYPES.includes(patternType) && this.recurrenceIndex) {
         pattern.index = this.recurrenceIndex;
       }
 
@@ -263,6 +265,7 @@ export default {
       const range = {
         type: rangeType,
         startDate: startDateStr,
+        recurrenceTimeZone: this.timeZone,
       };
       if (rangeType === "endDate") {
         range.endDate = this.recurrenceEndDate;

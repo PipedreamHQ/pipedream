@@ -2,6 +2,37 @@ import { Client } from "@microsoft/microsoft-graph-client";
 import "isomorphic-fetch";
 import pickBy from "lodash.pickby";
 
+const DAY_OF_WEEK_OPTIONS = [
+  {
+    label: "Sunday",
+    value: "sunday",
+  },
+  {
+    label: "Monday",
+    value: "monday",
+  },
+  {
+    label: "Tuesday",
+    value: "tuesday",
+  },
+  {
+    label: "Wednesday",
+    value: "wednesday",
+  },
+  {
+    label: "Thursday",
+    value: "thursday",
+  },
+  {
+    label: "Friday",
+    value: "friday",
+  },
+  {
+    label: "Saturday",
+    value: "saturday",
+  },
+];
+
 export default {
   type: "app",
   app: "microsoft_outlook_calendar",
@@ -164,36 +195,7 @@ export default {
       description: "Days of the week the event repeats (required for weekly, relativeMonthly, relativeYearly). E.g. monday, tuesday",
       type: "string[]",
       optional: true,
-      options: [
-        {
-          label: "Sunday",
-          value: "sunday",
-        },
-        {
-          label: "Monday",
-          value: "monday",
-        },
-        {
-          label: "Tuesday",
-          value: "tuesday",
-        },
-        {
-          label: "Wednesday",
-          value: "wednesday",
-        },
-        {
-          label: "Thursday",
-          value: "thursday",
-        },
-        {
-          label: "Friday",
-          value: "friday",
-        },
-        {
-          label: "Saturday",
-          value: "saturday",
-        },
-      ],
+      options: DAY_OF_WEEK_OPTIONS,
     },
     recurrenceDayOfMonth: {
       label: "Recurrence Day of Month",
@@ -216,36 +218,7 @@ export default {
       description: "First day of the week for weekly recurrence. Required for weekly pattern. [See recurrence pattern](https://learn.microsoft.com/en-us/graph/api/resources/recurrencepattern)",
       type: "string",
       optional: true,
-      options: [
-        {
-          label: "Sunday",
-          value: "sunday",
-        },
-        {
-          label: "Monday",
-          value: "monday",
-        },
-        {
-          label: "Tuesday",
-          value: "tuesday",
-        },
-        {
-          label: "Wednesday",
-          value: "wednesday",
-        },
-        {
-          label: "Thursday",
-          value: "thursday",
-        },
-        {
-          label: "Friday",
-          value: "friday",
-        },
-        {
-          label: "Saturday",
-          value: "saturday",
-        },
-      ],
+      options: DAY_OF_WEEK_OPTIONS,
       default: "sunday",
     },
     recurrenceIndex: {
