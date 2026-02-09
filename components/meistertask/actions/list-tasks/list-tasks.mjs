@@ -52,14 +52,16 @@ export default {
       labels: this.labels,
     };
 
-    const { data } = await this.meistertask.listTasks({
+    const response = await this.meistertask.listTasks({
       $,
       params,
     });
 
+    const data = response?.data ?? [];
+
     $.export(
       "$summary",
-      `Successfully retrieved ${data?.length ?? 0} tasks`,
+      `Successfully retrieved ${data.length} tasks`,
     );
 
     return data;
