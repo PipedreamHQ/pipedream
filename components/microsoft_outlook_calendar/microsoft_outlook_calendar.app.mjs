@@ -211,6 +211,72 @@ export default {
       min: 1,
       max: 12,
     },
+    recurrenceFirstDayOfWeek: {
+      label: "Recurrence First Day of Week",
+      description: "First day of the week for weekly recurrence. Required for weekly pattern. [See recurrence pattern](https://learn.microsoft.com/en-us/graph/api/resources/recurrencepattern)",
+      type: "string",
+      optional: true,
+      options: [
+        {
+          label: "Sunday",
+          value: "sunday",
+        },
+        {
+          label: "Monday",
+          value: "monday",
+        },
+        {
+          label: "Tuesday",
+          value: "tuesday",
+        },
+        {
+          label: "Wednesday",
+          value: "wednesday",
+        },
+        {
+          label: "Thursday",
+          value: "thursday",
+        },
+        {
+          label: "Friday",
+          value: "friday",
+        },
+        {
+          label: "Saturday",
+          value: "saturday",
+        },
+      ],
+      default: "sunday",
+    },
+    recurrenceIndex: {
+      label: "Recurrence Week Index",
+      description: "Which instance in the month/year (e.g. second Tuesday). Optional for relativeMonthly and relativeYearly; defaults to first.",
+      type: "string",
+      optional: true,
+      options: [
+        {
+          label: "First",
+          value: "first",
+        },
+        {
+          label: "Second",
+          value: "second",
+        },
+        {
+          label: "Third",
+          value: "third",
+        },
+        {
+          label: "Fourth",
+          value: "fourth",
+        },
+        {
+          label: "Last",
+          value: "last",
+        },
+      ],
+      default: "first",
+    },
     recurrenceRangeType: {
       label: "Recurrence Range Type",
       description: "How the recurrence ends. [See recurrence range docs](https://learn.microsoft.com/en-us/graph/api/resources/recurrencerange)",
