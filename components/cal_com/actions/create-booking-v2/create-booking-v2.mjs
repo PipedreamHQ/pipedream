@@ -4,7 +4,7 @@ import calCom from "../../cal_com.app.mjs";
 export default {
   key: "cal_com-create-booking-v2",
   name: "Create Booking (V2)",
-  description: "Create a booking using Cal.com API v2 (Option 1).",
+  description: "Create a booking using Cal.com API v2 (Option 1). [See the documentation](https://cal.com/docs/api-reference/v2/bookings/create-a-booking)",
   version: "0.0.1",
 
   annotations: {
@@ -127,7 +127,7 @@ export default {
         $,
       });
 
-      $.export("$summary", "Successfully created booking");
+      $.export("$summary", `Successfully created booking with ID: ${response.data.id}`);
       return response;
     } catch (error) {
       let message = "Unknown error occurred while creating booking";
