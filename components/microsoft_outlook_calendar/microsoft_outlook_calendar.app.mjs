@@ -118,6 +118,130 @@ export default {
       type: "object",
       optional: true,
     },
+    recurrencePatternType: {
+      label: "Recurrence Pattern Type",
+      description: "How often the event repeats. Required when creating a recurring event. [See recurrence pattern docs](https://learn.microsoft.com/en-us/graph/api/resources/recurrencepattern)",
+      type: "string",
+      optional: true,
+      options: [
+        {
+          label: "Daily",
+          value: "daily",
+        },
+        {
+          label: "Weekly",
+          value: "weekly",
+        },
+        {
+          label: "Absolute Monthly (e.g. 15th of each month)",
+          value: "absoluteMonthly",
+        },
+        {
+          label: "Relative Monthly (e.g. 2nd Tuesday)",
+          value: "relativeMonthly",
+        },
+        {
+          label: "Absolute Yearly (e.g. March 15 every year)",
+          value: "absoluteYearly",
+        },
+        {
+          label: "Relative Yearly (e.g. 2nd Thursday of November)",
+          value: "relativeYearly",
+        },
+      ],
+    },
+    recurrenceInterval: {
+      label: "Recurrence Interval",
+      description: "Number of units between occurrences (e.g. every 2 weeks = 2). Required when recurrence pattern type is set.",
+      type: "integer",
+      optional: true,
+      min: 1,
+    },
+    recurrenceDaysOfWeek: {
+      label: "Recurrence Days of Week",
+      description: "Days of the week the event repeats (required for weekly, relativeMonthly, relativeYearly). E.g. monday, tuesday",
+      type: "string[]",
+      optional: true,
+      options: [
+        {
+          label: "Sunday",
+          value: "sunday",
+        },
+        {
+          label: "Monday",
+          value: "monday",
+        },
+        {
+          label: "Tuesday",
+          value: "tuesday",
+        },
+        {
+          label: "Wednesday",
+          value: "wednesday",
+        },
+        {
+          label: "Thursday",
+          value: "thursday",
+        },
+        {
+          label: "Friday",
+          value: "friday",
+        },
+        {
+          label: "Saturday",
+          value: "saturday",
+        },
+      ],
+    },
+    recurrenceDayOfMonth: {
+      label: "Recurrence Day of Month",
+      description: "Day of the month (1-31). Required for absoluteMonthly and absoluteYearly.",
+      type: "integer",
+      optional: true,
+      min: 1,
+      max: 31,
+    },
+    recurrenceMonth: {
+      label: "Recurrence Month",
+      description: "Month (1-12). Required for absoluteYearly and relativeYearly.",
+      type: "integer",
+      optional: true,
+      min: 1,
+      max: 12,
+    },
+    recurrenceRangeType: {
+      label: "Recurrence Range Type",
+      description: "How the recurrence ends. [See recurrence range docs](https://learn.microsoft.com/en-us/graph/api/resources/recurrencerange)",
+      type: "string",
+      optional: true,
+      options: [
+        {
+          label: "No end date",
+          value: "noEnd",
+        },
+        {
+          label: "End by date",
+          value: "endDate",
+        },
+        {
+          label: "End after N occurrences",
+          value: "numbered",
+        },
+      ],
+    },
+    recurrenceEndDate: {
+      label: "Recurrence End Date",
+      description: "End date for recurrence (yyyy-MM-dd). Required when recurrence range type is endDate.",
+      type: "string",
+      optional: true,
+    },
+    recurrenceNumberOfOccurrences: {
+      label: "Recurrence Number of Occurrences",
+      description: "Number of occurrences. Required when recurrence range type is numbered.",
+      type: "integer",
+      optional: true,
+      min: 1,
+    },
   },
   methods: {
     _getUrl(path) {
