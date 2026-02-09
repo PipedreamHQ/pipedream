@@ -128,7 +128,7 @@ async function callAxios(step: PipedreamStep | undefined, config: AxiosRequestCo
     config.headers.Authorization = oauthSignature;
   }
 
-  try {
+  /*try {
     if (config.debug) {
       stepExport(step, config, "debug_config");
     }
@@ -147,7 +147,19 @@ async function callAxios(step: PipedreamStep | undefined, config: AxiosRequestCo
       stepExport(step, axiosErr.response, "debug");
     }
     throw err;
+  }*/
+
+  if (config.debug) {
+    stepExport(step, config, "debug_config");
   }
+  const response = await axios(config);
+  if (config.debug) {
+    stepExport(step, response.data, "debug_response");
+  }
+
+  return config.returnFullResponse
+    ? response
+    : response.data;
 }
 
 function stepExport(step: PipedreamStep | undefined, message: unknown, key: string) {
@@ -164,7 +176,7 @@ function stepExport(step: PipedreamStep | undefined, message: unknown, key: stri
   console.log(`export: ${key} - ${JSON.stringify(message, null, 2)}`);
 }
 
-function convertAxiosError(err: AxiosError) {
+/*function convertAxiosError(err: AxiosError) {
   if (err.response) {
     delete err.response.request;
     err.name = `${err.name} - ${err.message}`;
@@ -177,7 +189,7 @@ function convertAxiosError(err: AxiosError) {
     }
   }
   return err;
-}
+}*/
 
 function create(config?: AxiosRequestConfig, signConfig?: OAuth1SignConfig) {
   const axiosInstance = axios.create(config);
@@ -214,10 +226,10 @@ function create(config?: AxiosRequestConfig, signConfig?: OAuth1SignConfig) {
       ? response
       : response.data;
   }, (error: AxiosError) => {
-    if (error.response) {
+    /*if (error.response) {
       convertAxiosError(error);
       stepExport(undefined, error.response, "debug");
-    }
+    }*/
 
     throw error;
   });
