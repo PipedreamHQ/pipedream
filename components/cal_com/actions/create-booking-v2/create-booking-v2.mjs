@@ -6,37 +6,30 @@ export default {
   name: "Create Booking (V2)",
   description: "Create a booking using Cal.com API v2 (Option 1). [See the documentation](https://cal.com/docs/api-reference/v2/bookings/create-a-booking)",
   version: "0.0.1",
-
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
-
   type: "action",
-
   props: {
     calCom,
-
     eventTypeId: {
       propDefinition: [
         calCom,
         "eventTypeId",
       ],
     },
-
     attendeeName: {
       type: "string",
       label: "Attendee Name",
       description: "Name of the attendee booking the event",
     },
-
     attendeeEmail: {
       type: "string",
       label: "Attendee Email",
       description: "Email address of the attendee booking the event",
     },
-
     attendeeTimeZone: {
       propDefinition: [
         calCom,
@@ -44,7 +37,6 @@ export default {
       ],
       description: "Time zone of the attendee",
     },
-
     attendeeLanguage: {
       propDefinition: [
         calCom,
@@ -53,14 +45,12 @@ export default {
       description: "Preferred language of the attendee",
       optional: true,
     },
-
     start: {
       type: "string",
       label: "Start Time (UTC)",
       description:
         "Start time in ISO 8601 UTC format. Example: 2024-08-13T09:00:00Z",
     },
-
     locationType: {
       type: "string",
       label: "Location Type",
@@ -76,7 +66,6 @@ export default {
         },
       ],
     },
-
     integration: {
       type: "string",
       label: "Integration",
@@ -91,14 +80,12 @@ export default {
       ],
     },
   },
-
   async run({ $ }) {
     if (this.locationType === "integration" && !this.integration) {
       throw new ConfigurationError(
         "Integration is required when location type is 'integration'",
       );
     }
-
     const location =
       this.locationType === "integration"
         ? {
@@ -108,7 +95,6 @@ export default {
         : {
           type: "organizersDefaultApp",
         };
-
     const data = {
       eventTypeId: this.eventTypeId,
       start: this.start,
@@ -120,7 +106,6 @@ export default {
       },
       location,
     };
-
     try {
       const response = await this.calCom.createBookingV2({
         data,
