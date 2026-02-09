@@ -73,7 +73,7 @@ export default {
     linkParams: {
       type: "object",
       label: "Link Params",
-      description: "	Object containing any marketing parameters (v1, v2, v3, v4, v5) or UTM parameters (utm_source, utm_medium, utm_campaign, utm_term, utm_content) and their values",
+      description: "Object containing any marketing parameters (v1, v2, v3, v4, v5) or UTM parameters (utm_source, utm_medium, utm_campaign, utm_term, utm_content) and their values",
       optional: true,
     },
     customFields: {

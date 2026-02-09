@@ -17,7 +17,7 @@ export default {
         const { upcoming_times: times } = await this.getRegistrationInformation({
           shortId,
         });
-        return times;
+        return times ?? [];
       },
     },
   },

@@ -10,15 +10,7 @@ export const parseObject = (obj) => {
   }
 
   if (Array.isArray(obj)) {
-    return obj.map((item) => {
-      if (typeof item === "string") {
-        try {
-          return JSON.parse(item);
-        } catch (e) {
-          return item;
-        }
-      }
-    });
+    return obj.map((item) => parseObject(item));
   }
 
   if (typeof obj === "object") {
