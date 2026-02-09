@@ -30,7 +30,6 @@ export default {
     }) {
       return axios($, {
         url: `${this._baseUrl()}${path}`,
-        debug: true,
         ...opts,
       });
     },
