@@ -111,8 +111,13 @@ export default {
         data,
         $,
       });
-
-      $.export("$summary", `Successfully created booking with ID: ${response.data.id}`);
+      const bookingId = response?.data?.id;
+      $.export(
+        "$summary",
+        bookingId
+          ? `Successfully created booking with ID: ${bookingId}`
+          : "Successfully created booking",
+      );
       return response;
     } catch (error) {
       let message = "Unknown error occurred while creating booking";
