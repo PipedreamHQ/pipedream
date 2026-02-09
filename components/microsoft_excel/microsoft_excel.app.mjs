@@ -1,4 +1,6 @@
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 const DEFAULT_LIMIT = 50;
 
 export default {
@@ -103,16 +105,20 @@ export default {
         "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
       };
     },
-    _makeRequest({
+    async _makeRequest({
       $ = this, path, ...opts
     }) {
-      const config = {
-        url: `${this._apiUrl()}/${path}`,
-        headers: this._getHeaders(),
-        ...opts,
-      };
+      try {
+        const config = {
+          url: `${this._apiUrl()}/${path}`,
+          headers: this._getHeaders(),
+          ...opts,
+        };
 
-      return axios($, config);
+        return await axios($, config);
+      } catch (error) {
+        throw new ConfigurationError(error.message);
+      }
     },
     addTableRow({
       sheetId, tableId, tableName, ...args
