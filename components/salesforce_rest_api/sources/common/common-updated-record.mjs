@@ -98,10 +98,14 @@ export default {
       const BATCH_SIZE = 200;
       const recordsWithChanges = new Set();
       let totalHistoryRecords = 0;
+      let successfulBatches = 0;
+      let failedBatches = 0;
+      const totalBatches = Math.ceil(recordIds.length / BATCH_SIZE);
 
       for (let i = 0; i < recordIds.length; i += BATCH_SIZE) {
         const batch = recordIds.slice(i, i + BATCH_SIZE);
         const recordIdList = batch.map((id) => `'${id}'`).join(", ");
+        const batchNumber = Math.floor(i / BATCH_SIZE) + 1;
 
         const query = `
           SELECT ${parentIdField}, Field, OldValue, NewValue, CreatedDate
@@ -121,15 +125,26 @@ export default {
           for (const record of records) {
             recordsWithChanges.add(record[parentIdField]);
           }
+          successfulBatches++;
         } catch (err) {
-          console.log(`Field history query failed for ${historyObjectName}: ${err.message}`);
-          console.log("This usually means field history tracking is not enabled for this object or the selected fields.");
-          console.log("To enable field history tracking in Salesforce:");
-          console.log("1. Go to Setup → Object Manager → [Your Object] → Fields & Relationships");
-          console.log("2. Click 'Set History Tracking' and select the fields you want to track");
-          console.log("Falling back to emitting all updated records without field filtering.");
-          return null;
+          failedBatches++;
+          console.log(`Field history query batch ${batchNumber}/${totalBatches} failed for ${historyObjectName}: ${err.message}`);
         }
+      }
+
+      // If all batches failed, fall back to emitting all records
+      if (successfulBatches === 0) {
+        console.log("All field history query batches failed.");
+        console.log("This usually means field history tracking is not enabled for this object or the selected fields.");
+        console.log("To enable field history tracking in Salesforce:");
+        console.log("1. Go to Setup → Object Manager → [Your Object] → Fields & Relationships");
+        console.log("2. Click 'Set History Tracking' and select the fields you want to track");
+        console.log("Falling back to emitting all updated records without field filtering.");
+        return null;
+      }
+
+      if (failedBatches > 0) {
+        console.log(`Warning: ${failedBatches}/${totalBatches} batches failed, results may be incomplete`);
       }
 
       console.log(`Field history query found ${totalHistoryRecords} change(s) for ${recordsWithChanges.size} record(s)`);
