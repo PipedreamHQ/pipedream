@@ -84,7 +84,7 @@ export default {
     filters: {
       type: "object",
       label: "Filters",
-      description: "Additional query params to filter amenities. Example: `filter[name]=Wifi`. See the documentation for available filters.",
+      description: "Additional query params to filter amenities. Example: `filter[name]=Wifi`. If a key overlaps with an explicit filter prop, the value provided here will override it.",
       optional: true,
     },
   },
@@ -101,7 +101,7 @@ export default {
       "filter[semantic_amenity_type]": this.semanticAmenityType,
       "filter[amenity_group]": this.amenityGroup,
       "filter[amenity_options]": this.amenityOptions,
-      ...parseObject(this.filters),
+      ...(parseObject(this.filters) || {}),
     };
 
     const { data } = await this.bookingExperts.listAmenities({
