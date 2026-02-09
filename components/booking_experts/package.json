@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/booking_experts",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Pipedream Booking Experts Components",
   "main": "booking_experts.app.mjs",
   "keywords": [
