@@ -121,14 +121,18 @@ export default {
       return response;
     } catch (error) {
       let message = "Unknown error occurred while creating booking";
+
       if (typeof error === "string") {
         try {
           const errorJson = JSON.parse(error.slice(error.indexOf("{")));
           message = errorJson?.data?.message || message;
-        } catch (error) {
-          void error;
+        } catch (_parseErr) {
+          // Ignore JSON parse errors and fall back to default message
         }
+      } else if (error instanceof Error) {
+        message = error.message || message;
       }
+
       throw new ConfigurationError(`Error: ${message}`);
     }
   },
