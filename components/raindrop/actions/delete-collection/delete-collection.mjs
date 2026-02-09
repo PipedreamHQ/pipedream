@@ -4,7 +4,7 @@ export default {
   key: "raindrop-delete-collection",
   name: "Delete Collection",
   description: "Delete a collection. [See the docs here](https://developer.raindrop.io/v1/collections/methods#remove-collection)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

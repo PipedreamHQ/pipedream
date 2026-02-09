@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/gmail",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Pipedream Gmail Components",
   "main": "gmail.app.mjs",
   "keywords": [
@@ -17,10 +17,14 @@
     "@google-cloud/pubsub": "^4.7.0",
     "@googleapis/gmail": "^13.0.1",
     "@pipedream/platform": "^3.1.1",
+    "@sparticuz/chromium": "^143.0.4",
     "google-auth-library": "^8.7.0",
     "html-to-text": "^9.0.5",
+    "mammoth": "^1.11.0",
     "mime": "^3.0.0",
     "nodemailer": "^7.0.11",
+    "pdfkit": "^0.17.2",
+    "puppeteer-core": "^24.36.1",
     "stream": "^0.0.3",
     "uuid": "^10.0.0"
   }

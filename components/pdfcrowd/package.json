@@ -1,0 +1,21 @@
+{
+  "name": "@pipedream/pdfcrowd",
+  "version": "0.1.0",
+  "description": "Pipedream PDFCrowd Components",
+  "main": "pdfcrowd.app.mjs",
+  "keywords": [
+    "pipedream",
+    "pdfcrowd",
+    "pdf",
+    "html-to-pdf",
+    "document-conversion"
+  ],
+  "homepage": "https://pipedream.com/apps/pdfcrowd",
+  "author": "PDFCrowd <support@pdfcrowd.com> (https://pdfcrowd.com)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1"
+  }
+}

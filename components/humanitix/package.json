@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/humanitix",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Pipedream Humanitix Components",
   "main": "humanitix.app.mjs",
   "keywords": [

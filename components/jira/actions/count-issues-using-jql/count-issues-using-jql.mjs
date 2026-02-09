@@ -4,7 +4,7 @@ export default {
   key: "jira-count-issues-using-jql",
   name: "Count Issues Using JQL",
   description: "Provide an estimated count of the issues that match the JQL. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-search/#api-rest-api-3-search-approximate-count-post)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     readOnlyHint: true,

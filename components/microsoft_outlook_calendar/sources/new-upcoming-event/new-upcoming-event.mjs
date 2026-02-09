@@ -6,7 +6,7 @@ export default {
   key: "microsoft_outlook_calendar-new-upcoming-event",
   name: "New Upcoming Calendar Event",
   description: "Emit new event when a Calendar event is upcoming, this source is using `reminderMinutesBeforeStart` property of the event to determine the time it should emit.",
-  version: "0.0.6",
+  version: "0.0.8",
   type: "source",
   props: {
     ...common.props,

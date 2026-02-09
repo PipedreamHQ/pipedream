@@ -12,7 +12,7 @@
   "dependencies": {
     "@pipedream/platform": "^1.6.8",
     "faunadb": "^4.5.4",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.23"
   },
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
   "publishConfig": {

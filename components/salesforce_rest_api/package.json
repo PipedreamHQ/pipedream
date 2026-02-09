@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/salesforce_rest_api",
-  "version": "1.11.1",
+  "version": "1.11.3",
   "description": "Pipedream Salesforce (REST API) Components",
   "main": "salesforce_rest_api.app.mjs",
   "keywords": [
@@ -11,9 +11,9 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
     "@pipedream/platform": "^3.1.1",
-    "fast-xml-parser": "^4.3.2",
+    "fast-xml-parser": "^5.3.4",
     "handlebars": "^4.7.7",
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "lodash-es": "^4.17.23",
     "salesforce-webhooks": "^1.1.11",
     "uuid": "^9.0.1"

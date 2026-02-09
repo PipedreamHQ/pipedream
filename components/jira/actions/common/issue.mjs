@@ -131,7 +131,7 @@ export default {
       return Object.values(fields)
         .filter(predicate)
         .reduce(async (props, {
-          schema, name: label, key, autoCompleteUrl, required,
+          schema, name: label, key, autoCompleteUrl, required, allowedValues,
         }) => {
           const reduction = await props;
 
@@ -151,6 +151,21 @@ export default {
             description: "Set your field value",
             optional: !required,
           };
+
+          // Handle dropdown fields (option type) with allowedValues
+          if (schemaType === "option" && allowedValues && Array.isArray(allowedValues)) {
+            return Promise.resolve({
+              ...reduction,
+              [newKey]: {
+                ...value,
+                type: "string",
+                options: allowedValues.map((option) => ({
+                  label: option.value || option.name,
+                  value: option.id,
+                })),
+              },
+            });
+          }
 
           // Requests by URL
           if (schemaTypes.includes(schemaType)) {
@@ -211,6 +226,10 @@ export default {
         constants.FIELD_KEY.LABELS,
       ];
 
+      const fieldTypesNeedingId = [
+        "select",
+      ];
+
       return Object.entries(fields)
         .reduce((props, [
           key,
@@ -225,6 +244,16 @@ export default {
           key = fieldId
             ? `${fieldName}_${fieldId}`
             : fieldName;
+
+          // Handle select/dropdown fields - always include with { id: value } format
+          if (fieldTypesNeedingId.includes(fieldType)) {
+            return {
+              ...props,
+              [key]: {
+                id: value,
+              },
+            };
+          }
 
           return {
             ...props,

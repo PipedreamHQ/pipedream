@@ -5,7 +5,7 @@ export default {
   key: "microsoft_dynamics_365_sales-opportunity-reopened",
   name: "Opportunity Reopened",
   description: "Emit new event when an opportunity is reopened.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {
