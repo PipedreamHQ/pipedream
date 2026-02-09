@@ -6,7 +6,7 @@ export default {
   key: "pdfcrowd-html-to-pdf",
   name: "Convert HTML to PDF",
   description: "Convert URL or HTML to PDF. [See docs](https://pdfcrowd.com/api/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -471,7 +471,7 @@ export default {
         description: "Set the DPI of images in PDF to control resolution and file size. Use...",
         optional: true,
       },
-      enablePDFForms: {
+      enablePdfForms: {
         type: "boolean",
         label: "Enable PDF Forms",
         description: "Convert HTML forms to fillable PDF forms that users can complete in PDF...",
@@ -545,7 +545,7 @@ export default {
         description: "Associate keywords with the document to improve searchability in...",
         optional: true,
       },
-      extract_meta_tags: {
+      extractMetaTags: {
         type: "boolean",
         label: "Extract Meta Tags",
         description: "Extract meta tags (author, keywords and description) from the input...",
@@ -714,9 +714,6 @@ export default {
     // Helper to check if value is set
     const isSet = (v) => v !== undefined && v !== null && v !== "";
 
-    // Helper to convert snake_case to camelCase
-    const snakeToCamel = (str) => str.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase());
-
     // Build conversion options
     const conversionOpts = {
       $,
@@ -728,124 +725,122 @@ export default {
       conversionOpts.text = inputHtml;
     }
 
-    // Basic conversion options (snake_case for API)
+    // Basic conversion options (camelCase prop names)
     const basicOptions = [
-      "page_size",
-      "page_width",
-      "page_height",
+      "pageSize",
+      "pageWidth",
+      "pageHeight",
       "orientation",
-      "margin_top",
-      "margin_right",
-      "margin_bottom",
-      "margin_left",
-      "content_viewport_width",
-      "custom_css",
-      "custom_javascript",
-      "element_to_convert",
+      "marginTop",
+      "marginRight",
+      "marginBottom",
+      "marginLeft",
+      "contentViewportWidth",
+      "customCss",
+      "customJavascript",
+      "elementToConvert",
     ];
 
-    // Expert conversion options (snake_case for API)
+    // Expert conversion options (camelCase prop names)
     const expertOptions = [
-      "no_margins",
-      "print_page_range",
-      "content_viewport_height",
-      "content_fit_mode",
-      "remove_blank_pages",
-      "header_url",
-      "header_html",
-      "header_height",
-      "zip_header_filename",
-      "footer_url",
-      "footer_html",
-      "footer_height",
-      "zip_footer_filename",
-      "no_header_footer_horizontal_margins",
-      "exclude_header_on_pages",
-      "exclude_footer_on_pages",
-      "header_footer_scale_factor",
-      "page_numbering_offset",
-      "page_watermark_url",
-      "multipage_watermark_url",
-      "page_background_url",
-      "multipage_background_url",
-      "page_background_color",
-      "use_print_media",
-      "no_background",
-      "disable_javascript",
-      "disable_image_loading",
-      "disable_remote_fonts",
-      "load_iframes",
-      "block_ads",
-      "default_encoding",
+      "noMargins",
+      "printPageRange",
+      "contentViewportHeight",
+      "contentFitMode",
+      "removeBlankPages",
+      "headerUrl",
+      "headerHtml",
+      "headerHeight",
+      "zipHeaderFilename",
+      "footerUrl",
+      "footerHtml",
+      "footerHeight",
+      "zipFooterFilename",
+      "noHeaderFooterHorizontalMargins",
+      "excludeHeaderOnPages",
+      "excludeFooterOnPages",
+      "headerFooterScaleFactor",
+      "pageNumberingOffset",
+      "pageWatermarkUrl",
+      "multipageWatermarkUrl",
+      "pageBackgroundUrl",
+      "multipageBackgroundUrl",
+      "pageBackgroundColor",
+      "usePrintMedia",
+      "noBackground",
+      "disableJavascript",
+      "disableImageLoading",
+      "disableRemoteFonts",
+      "loadIframes",
+      "blockAds",
+      "defaultEncoding",
       "locale",
-      "http_auth_user_name",
-      "http_auth_password",
+      "httpAuthUserName",
+      "httpAuthPassword",
       "cookies",
-      "verify_ssl_certificates",
-      "fail_on_main_url_error",
-      "fail_on_any_url_error",
-      "css_page_rule_mode",
-      "on_load_javascript",
-      "custom_http_header",
-      "javascript_delay",
-      "element_to_convert_mode",
-      "wait_for_element",
-      "auto_detect_element_to_convert",
-      "readability_enhancements",
-      "scale_factor",
-      "jpeg_quality",
-      "convert_images_to_jpeg",
-      "image_dpi",
-      "enable_pdf_forms",
+      "verifySslCertificates",
+      "failOnMainUrlError",
+      "failOnAnyUrlError",
+      "cssPageRuleMode",
+      "onLoadJavascript",
+      "customHttpHeader",
+      "javascriptDelay",
+      "elementToConvertMode",
+      "waitForElement",
+      "autoDetectElementToConvert",
+      "readabilityEnhancements",
+      "scaleFactor",
+      "jpegQuality",
+      "convertImagesToJpeg",
+      "imageDpi",
+      "enablePdfForms",
       "linearize",
       "encrypt",
-      "user_password",
-      "owner_password",
-      "no_print",
-      "no_modify",
-      "no_copy",
+      "userPassword",
+      "ownerPassword",
+      "noPrint",
+      "noModify",
+      "noCopy",
       "title",
       "subject",
       "author",
       "keywords",
-      "extract_meta_tags",
-      "page_layout",
-      "page_mode",
-      "initial_zoom_type",
-      "initial_page",
-      "initial_zoom",
-      "hide_toolbar",
-      "hide_menubar",
-      "hide_window_ui",
-      "fit_window",
-      "center_window",
-      "display_title",
-      "right_to_left",
-      "debug_log",
+      "extractMetaTags",
+      "pageLayout",
+      "pageMode",
+      "initialZoomType",
+      "initialPage",
+      "initialZoom",
+      "hideToolbar",
+      "hideMenubar",
+      "hideWindowUi",
+      "fitWindow",
+      "centerWindow",
+      "displayTitle",
+      "rightToLeft",
+      "debugLog",
       "tag",
-      "http_proxy",
-      "https_proxy",
-      "layout_dpi",
-      "main_document_css_annotation",
-      "header_footer_css_annotation",
-      "conversion_config",
-      "converter_version",
+      "httpProxy",
+      "httpsProxy",
+      "layoutDpi",
+      "mainDocumentCssAnnotation",
+      "headerFooterCssAnnotation",
+      "conversionConfig",
+      "converterVersion",
     ];
 
-    // Add basic options (map from camelCase props to snake_case API params)
-    for (const apiParam of basicOptions) {
-      const propName = snakeToCamel(apiParam);
-      if (isSet(this[propName])) {
-        conversionOpts[apiParam] = this[propName];
+    // Add basic options
+    for (const opt of basicOptions) {
+      if (isSet(this[opt])) {
+        conversionOpts[opt] = this[opt];
       }
     }
 
-    // Add expert options if enabled (map from camelCase props to snake_case API params)
+    // Add expert options if enabled
     if (this.showExpertOptions) {
-      for (const apiParam of expertOptions) {
-        const propName = snakeToCamel(apiParam);
-        if (isSet(this[propName])) {
-          conversionOpts[apiParam] = this[propName];
+      for (const opt of expertOptions) {
+        if (isSet(this[opt])) {
+          conversionOpts[opt] = this[opt];
         }
       }
     }
@@ -857,14 +852,37 @@ export default {
     if (!filename || filename === "." || filename === "..") {
       filename = "document.pdf";
     }
+    const pdfBuffer = Buffer.from(result.data);
     const tmpPath = path.join("/tmp", filename);
-    fs.writeFileSync(tmpPath, Buffer.from(result.data));
+
+    // Try to save to /tmp for same-step usage, but don't fail if it errors
+    let savedFilePath = null;
+    try {
+      await fs.promises.writeFile(tmpPath, pdfBuffer);
+      savedFilePath = tmpPath;
+    } catch (err) {
+      // File write failed (disk space, permissions, etc.) - fileData is still available
+      console.error(`Could not save to ${tmpPath}: ${err.message}. Use fileData instead.`, err);
+    }
 
     $.export("$summary", `Successfully converted to PDF: ${filename}`);
 
+    // Pipedream has a 6MB payload limit. Base64 adds ~33% overhead,
+    // so skip fileData for files > 4MB to avoid hitting the limit.
+    const MAX_BASE64_SIZE = 4 * 1024 * 1024; // 4MB
+    const includeFileData = pdfBuffer.length <= MAX_BASE64_SIZE;
+
+    // Return both filePath (for same-step usage) and fileData (base64 for cross-step usage)
+    // Note: In Pipedream, files in /tmp may not persist between workflow steps.
+    // Use fileData with Buffer.from(fileData, "base64") in subsequent steps.
     return {
-      filePath: tmpPath,
+      filePath: savedFilePath,
       filename,
+      fileData: includeFileData
+        ? pdfBuffer.toString("base64")
+        : null,
+      fileDataSkipped: !includeFileData,
+      fileSize: pdfBuffer.length,
       jobId: result.headers?.jobId ?? "",
       pageCount: result.headers?.pageCount ?? 0,
       outputSize: result.headers?.outputSize ?? 0,
