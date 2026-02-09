@@ -9470,9 +9470,15 @@ importers:
 
   components/microsoft_entra_id:
     dependencies:
+      '@microsoft/microsoft-graph-client':
+        specifier: ^3.0.7
+        version: 3.0.7
       '@pipedream/platform':
-        specifier: ^1.6.8
-        version: 1.6.8
+        specifier: ^3.1.1
+        version: 3.2.2
+      isomorphic-fetch:
+        specifier: ^3.0.0
+        version: 3.0.0(encoding@0.1.13)
       lodash.pickby:
         specifier: ^4.6.0
         version: 4.6.0
@@ -42264,7 +42270,7 @@ snapshots:
 
   '@types/http-proxy@1.17.17':
     dependencies:
-      '@types/node': 20.19.33
+      '@types/node': 20.19.25
 
   '@types/is-stream@1.1.0':
     dependencies:
@@ -42479,7 +42485,7 @@ snapshots:
 
   '@types/whatwg-url@8.2.2':
     dependencies:
-      '@types/node': 25.2.3
+      '@types/node': 20.19.25
       '@types/webidl-conversions': 7.0.3
 
   '@types/ws@8.18.1':
