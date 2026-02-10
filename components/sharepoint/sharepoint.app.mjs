@@ -291,13 +291,15 @@ export default {
             driveId: resolvedDriveId,
           });
         return response.value?.map(({
-          id, name, folder, size,
+          id, name, folder, size, lastModifiedDateTime,
         }) => ({
           value: JSON.stringify({
             id,
             name,
             isFolder: !!folder,
             size,
+            childCount: folder?.childCount,
+            lastModifiedDateTime,
           }),
           label: folder
             ? `📁 ${name}`

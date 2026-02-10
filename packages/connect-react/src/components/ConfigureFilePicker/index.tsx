@@ -16,6 +16,8 @@ export interface FilePickerItem {
   value: unknown;
   isFolder?: boolean;
   size?: number;
+  childCount?: number;
+  lastModifiedDateTime?: string;
   raw?: unknown;
 }
 
@@ -39,11 +41,57 @@ export interface FilePickerIcons {
 }
 
 /**
+ * Simple SVG icon components
+ */
+const FolderIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" fill="#93c5fd" stroke="#3b82f6" />
+  </svg>
+);
+
+const FileIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" fill="#f3f4f6" stroke="#9ca3af" />
+    <polyline points="14 2 14 8 20 8" fill="#e5e7eb" stroke="#9ca3af" />
+  </svg>
+);
+
+/**
+ * Format file size to human readable string
+ */
+const formatFileSize = (bytes?: number): string => {
+  if (bytes === undefined || bytes === null) return "";
+  if (bytes === 0) return "0 B";
+  const k = 1024;
+  const sizes = [
+    "B",
+    "KB",
+    "MB",
+    "GB",
+  ];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(1))} ${sizes[i]}`;
+};
+
+/**
+ * Format date to absolute format (e.g., "January 21, 2026")
+ */
+const formatDate = (isoDate?: string): string => {
+  if (!isoDate) return "";
+  const date = new Date(isoDate);
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+};
+
+/**
  * Default icons used when none are specified
  */
 const DEFAULT_ICONS: FilePickerIcons = {
-  folder: "📁",
-  file: "📄",
+  folder: <FolderIcon />,
+  file: <FileIcon />,
 };
 
 // ============================================================================
@@ -383,11 +431,37 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
     setNavigationPath,
   ] = useState<NavigationLevel[]>([]);
 
-  // Currently selected items
+  // Currently selected items - initialize from initialConfiguredProps if available
   const [
     selectedItems,
     setSelectedItems,
-  ] = useState<FilePickerItem[]>([]);
+  ] = useState<FilePickerItem[]>(() => {
+    if (!initialConfiguredProps || !fileOrFolderProp) return [];
+
+    const fileOrFolderIds = initialConfiguredProps[fileOrFolderProp];
+    if (!Array.isArray(fileOrFolderIds)) return [];
+
+    // Parse the JSON strings back into FilePickerItem format
+    const items: FilePickerItem[] = [];
+    for (const item of fileOrFolderIds) {
+      try {
+        const parsed = typeof item === "string" ? JSON.parse(item) : item;
+        if (parsed && typeof parsed === "object") {
+          const { id, name, isFolder, size } = parsed as Record<string, unknown>;
+          items.push({
+            id: String(id || ""),
+            label: String(name || ""),
+            value: parsed,
+            isFolder: Boolean(isFolder),
+            size: typeof size === "number" ? size : undefined,
+          });
+        }
+      } catch {
+        // Failed to parse, skip this item
+      }
+    }
+    return items;
+  });
 
   // Current prop being browsed
   const [
@@ -401,6 +475,12 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
     setShowLoading,
   ] = useState(false);
   const loadingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Search query for filtering items
+  const [
+    searchQuery,
+    setSearchQuery,
+  ] = useState("");
 
   // Determine which prop to fetch options for based on configured props
   useEffect(() => {
@@ -418,6 +498,26 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
     propHierarchy,
     fileOrFolderProp,
   ]);
+
+  // Debug: fetch and log component definition on mount
+  useEffect(() => {
+    if (debug && componentKey) {
+      client.components.retrieve(componentKey).then((component) => {
+        console.log("[ConfigureFilePicker] Component definition:", component);
+        // Find the fileOrFolderId prop definition
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const props = (component as any).configurable_props || (component as any).configurableProps;
+        const fileOrFolderIdProp = props?.find(
+          (p: { name: string }) => p.name === "fileOrFolderId"
+        );
+        if (fileOrFolderIdProp) {
+          console.log("[ConfigureFilePicker] fileOrFolderId prop definition:", fileOrFolderIdProp);
+        }
+      }).catch((err) => {
+        console.error("[ConfigureFilePicker] Failed to retrieve component:", err);
+      });
+    }
+  }, [debug, componentKey, client]);
 
   // Fetch options for current prop
   const {
@@ -483,18 +583,20 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
   ]);
 
   // Parse options into FilePickerItem format
-  const items: FilePickerItem[] = (optionsData?.options || []).map((opt) => {
+  const allItems: FilePickerItem[] = (optionsData?.options || []).map((opt) => {
     const sanitized = sanitizeOption(opt);
     const label = sanitized.label;
     const rawValue = typeof sanitized.value === "string"
       ? sanitized.value
       : JSON.stringify(sanitized.value);
 
-    // Try to parse JSON value once (fileOrFolderIds returns JSON with {id, name, isFolder, size})
+    // Try to parse JSON value once (fileOrFolderIds returns JSON with {id, name, isFolder, size, childCount, lastModifiedDateTime})
     let isFolder = false;
     let id = rawValue;
     let name = label.replace(/^📁\s*/, "").replace(/^📄\s*/, "");
     let size: number | undefined;
+    let childCount: number | undefined;
+    let lastModifiedDateTime: string | undefined;
     let parsedValue: unknown = rawValue;
 
     try {
@@ -505,6 +607,8 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
         name = parsed.name || name;
         isFolder = !!parsed.isFolder;
         size = parsed.size;
+        childCount = parsed.childCount;
+        lastModifiedDateTime = parsed.lastModifiedDateTime;
       }
     } catch {
       // Not JSON, check label for folder indicators
@@ -517,11 +621,30 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
       value: parsedValue,
       isFolder,
       size,
+      childCount,
+      lastModifiedDateTime,
       raw: opt,
     };
   });
 
-  log("Parsed items:", items.length, "for prop:", currentProp);
+  // Filter items based on search query
+  const items = searchQuery
+    ? allItems.filter((item) =>
+      item.label.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    : allItems;
+
+  log("Parsed items:", allItems.length, "filtered:", items.length, "for prop:", currentProp);
+
+  // Debug: log first item's raw data and parsed values
+  if (allItems.length > 0) {
+    console.log("[ConfigureFilePicker] First item raw:", allItems[0].raw);
+    console.log("[ConfigureFilePicker] First item parsed:", {
+      size: allItems[0].size,
+      childCount: allItems[0].childCount,
+      lastModifiedDateTime: allItems[0].lastModifiedDateTime,
+    });
+  }
 
   // Handle item click (navigate into folder or select file/folder)
   const handleItemClick = useCallback((item: FilePickerItem) => {
@@ -529,6 +652,8 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
 
     // At file/folder level, clicking a folder navigates into it
     if (currentProp === fileOrFolderProp && item.isFolder) {
+      setSearchQuery(""); // Clear search when navigating into folder
+
       const newPath: NavigationLevel = {
         propName: "folder",
         label: item.label,
@@ -641,6 +766,7 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
 
   // Navigate to a specific level in the path
   const navigateTo = useCallback((index: number) => {
+    setSearchQuery(""); // Clear search when navigating
     if (index < 0) {
       // Go to root
       setNavigationPath([]);
@@ -649,7 +775,7 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
           authProvisionId: accountId,
         },
       });
-      setSelectedItems([]);
+      // Don't clear selectedItems - preserve selections across navigation
       return;
     }
 
@@ -671,7 +797,7 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
       newConfiguredProps[propKey] = level.value;
     }
     setConfiguredProps(newConfiguredProps);
-    setSelectedItems([]);
+    // Don't clear selectedItems - preserve selections across navigation
   }, [
     navigationPath,
     accountId,
@@ -686,6 +812,43 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
     selectedItems,
     configuredProps,
     onSelect,
+  ]);
+
+  // Get selectable items on current page (respects selectFiles/selectFolders settings)
+  const selectableItems = currentProp === fileOrFolderProp
+    ? items.filter((item) =>
+      (item.isFolder && selectFolders) || (!item.isFolder && selectFiles)
+    )
+    : [];
+
+  // Check if all selectable items on current page are selected
+  const allSelectableSelected = selectableItems.length > 0 &&
+    selectableItems.every((item) => selectedItems.some((s) => s.id === item.id));
+
+  // Check if some (but not all) selectable items are selected
+  const someSelectableSelected = selectableItems.some((item) =>
+    selectedItems.some((s) => s.id === item.id)
+  ) && !allSelectableSelected;
+
+  // Handle select all / deselect all for current page
+  const handleSelectAll = useCallback((selectAll: boolean) => {
+    if (selectAll) {
+      // Add all selectable items from current page that aren't already selected
+      setSelectedItems((prev) => {
+        const existingIds = new Set(prev.map((i) => i.id));
+        const newItems = selectableItems.filter((item) => !existingIds.has(item.id));
+        return [
+          ...prev,
+          ...newItems,
+        ];
+      });
+    } else {
+      // Remove all items from current page from selection
+      const currentPageIds = new Set(selectableItems.map((i) => i.id));
+      setSelectedItems((prev) => prev.filter((item) => !currentPageIds.has(item.id)));
+    }
+  }, [
+    selectableItems,
   ]);
 
   // Generate styles with current theme and selection count
@@ -765,6 +928,54 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
         </div>
       </div>
 
+      {/* Search toolbar - only show at file/folder level */}
+      {currentProp === fileOrFolderProp && !showLoading && !error && allItems.length > 0 && (
+        <div style={{
+          padding: "10px 16px",
+          borderBottom: `1px solid ${theme.colors.neutral10}`,
+        }}>
+          {/* Search input with clear button on left */}
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            {searchQuery && (
+              <button
+                type="button"
+                onClick={() => setSearchQuery("")}
+                style={{
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  color: theme.colors.neutral40,
+                  fontSize: "16px",
+                  padding: "2px",
+                  lineHeight: 1,
+                  display: "flex",
+                  alignItems: "center",
+                }}
+                aria-label="Clear search"
+              >
+                ×
+              </button>
+            )}
+            <input
+              type="text"
+              placeholder="Search files..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              style={{
+                flex: 1,
+                padding: "6px 10px",
+                fontSize: "13px",
+                border: `1px solid ${theme.colors.neutral20}`,
+                borderRadius: "4px",
+                backgroundColor: theme.colors.neutral0,
+                color: theme.colors.neutral80,
+                outline: "none",
+              }}
+            />
+          </div>
+        </div>
+      )}
+
       {/* Content */}
       {showLoading
         ? (
@@ -783,8 +994,50 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
               <div style={styles.empty}>No items found</div>
             )
             : (
-              <ul style={styles.list}>
-                {items.map((item) => {
+              <>
+                {/* Column headers */}
+                {currentProp === fileOrFolderProp && (
+                  <div style={{
+                    display: "flex",
+                    alignItems: "center",
+                    padding: "10px 16px",
+                    borderBottom: `1px solid ${theme.colors.neutral10}`,
+                    fontSize: "13px",
+                    fontWeight: 500,
+                    color: theme.colors.neutral50,
+                  }}>
+                    {/* Select all checkbox */}
+                    {multiSelect && (selectFiles || selectFolders) && selectableItems.length > 0 && (
+                      <input
+                        type="checkbox"
+                        checked={allSelectableSelected}
+                        ref={(el) => {
+                          if (el) el.indeterminate = someSelectableSelected;
+                        }}
+                        onChange={(e) => handleSelectAll(e.target.checked)}
+                        style={{
+                          width: "16px",
+                          height: "16px",
+                          marginRight: "10px",
+                          cursor: "pointer",
+                          accentColor: theme.colors.primary,
+                        }}
+                      />
+                    )}
+                    {/* Spacer for checkbox when not multiSelect */}
+                    {!multiSelect && (selectFiles || selectFolders) && (
+                      <div style={{ width: "16px", height: "16px", marginRight: "10px", flexShrink: 0 }} />
+                    )}
+                    {/* Spacer for icon */}
+                    {showIcons && (
+                      <div style={{ width: "20px", height: "20px", marginRight: "8px", flexShrink: 0 }} />
+                    )}
+                    <span style={{ flex: 1 }}>Name</span>
+                    <span style={{ width: "150px", textAlign: "left" }}>Last Modified</span>
+                  </div>
+                )}
+                <ul style={styles.list}>
+                  {items.map((item) => {
                   const selected = isSelected(item);
                   // Show checkbox at file/folder level for selectable items
                   const canSelect = currentProp === fileOrFolderProp && (
@@ -820,17 +1073,21 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
                           : "";
                       }}
                     >
-                      {canSelect && (
-                        <input
-                          type="checkbox"
-                          style={styles.checkbox}
-                          checked={selected}
-                          onChange={(e) => {
-                            e.stopPropagation();
-                            handleSelectionChange(item, e.target.checked);
-                          }}
-                          onClick={(e) => e.stopPropagation()}
-                        />
+                      {currentProp === fileOrFolderProp && (selectFiles || selectFolders) && (
+                        canSelect ? (
+                          <input
+                            type="checkbox"
+                            style={styles.checkbox}
+                            checked={selected}
+                            onChange={(e) => {
+                              e.stopPropagation();
+                              handleSelectionChange(item, e.target.checked);
+                            }}
+                            onClick={(e) => e.stopPropagation()}
+                          />
+                        ) : (
+                          <div style={{ width: "16px", height: "16px", marginRight: "10px", flexShrink: 0 }} />
+                        )
                       )}
                       {showIcons && (
                         <span style={styles.itemIcon}>
@@ -839,24 +1096,84 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
                             : icons.file}
                         </span>
                       )}
-                      <span style={styles.itemName}>{item.label}</span>
-                      {(item.isFolder || currentProp !== fileOrFolderProp) && (
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <span style={styles.itemName}>{item.label}</span>
+                        {/* Metadata row */}
+                        {currentProp === fileOrFolderProp && (
+                          <div style={{
+                            fontSize: "11px",
+                            color: theme.colors.neutral40,
+                            marginTop: "2px",
+                            display: "flex",
+                            gap: "8px",
+                          }}>
+                            {item.isFolder && item.childCount !== undefined && (
+                              <span>{item.childCount} item{item.childCount !== 1 ? "s" : ""}</span>
+                            )}
+                            {!item.isFolder && item.size !== undefined && (
+                              <span>{formatFileSize(item.size)}</span>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                      {/* Last modified column + chevron area */}
+                      {currentProp === fileOrFolderProp && (
+                        <div style={{
+                          width: "150px",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          flexShrink: 0,
+                        }}>
+                          <span style={{
+                            fontSize: "12px",
+                            color: theme.colors.neutral40,
+                            whiteSpace: "nowrap",
+                          }}>
+                            {item.lastModifiedDateTime ? formatDate(item.lastModifiedDateTime) : ""}
+                          </span>
+                          {item.isFolder && (
+                            <span style={styles.chevron}>›</span>
+                          )}
+                        </div>
+                      )}
+                      {currentProp !== fileOrFolderProp && (
                         <span style={styles.chevron}>›</span>
                       )}
                     </li>
                   );
-                })}
-              </ul>
+                  })}
+                </ul>
+              </>
             )}
 
       {/* Footer */}
       <div style={styles.footer}>
-        <div style={styles.selectionCount}>
-          {selectedItems.length > 0
-            ? `${selectedItems.length} item${selectedItems.length > 1
-              ? "s"
-              : ""} selected`
-            : "No items selected"}
+        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <span style={styles.selectionCount}>
+            {selectedItems.length > 0
+              ? `${selectedItems.length} item${selectedItems.length > 1
+                ? "s"
+                : ""} selected`
+              : "No items selected"}
+          </span>
+          {selectedItems.length > 0 && (
+            <button
+              type="button"
+              onClick={() => setSelectedItems([])}
+              style={{
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                color: theme.colors.primary,
+                fontSize: "13px",
+                padding: "2px 4px",
+                textDecoration: "underline",
+              }}
+            >
+              Clear
+            </button>
+          )}
         </div>
         <div style={styles.buttonGroup}>
           {onCancel && (
