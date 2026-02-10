@@ -6003,7 +6003,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/getprospect: {}
+  components/getprospect:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.4
+        version: 3.2.4
 
   components/getresponse:
     dependencies:
@@ -39517,7 +39521,7 @@ snapshots:
   '@pipedream/google_drive@1.2.0(encoding@0.1.13)':
     dependencies:
       '@googleapis/drive': 2.4.0(encoding@0.1.13)
-      '@pipedream/platform': 3.2.2
+      '@pipedream/platform': 3.2.4
       cron-parser: 4.9.0
       google-docs-mustaches: 1.2.2(encoding@0.1.13)
       got: 13.0.0
@@ -39532,7 +39536,7 @@ snapshots:
   '@pipedream/google_drive@1.4.1(encoding@0.1.13)':
     dependencies:
       '@googleapis/drive': 2.4.0(encoding@0.1.13)
-      '@pipedream/platform': 3.2.2
+      '@pipedream/platform': 3.2.4
       cron-parser: 4.9.0
       google-docs-mustaches: 1.2.2(encoding@0.1.13)
       got: 13.0.0
@@ -39567,7 +39571,7 @@ snapshots:
   '@pipedream/linear_app@0.8.1(encoding@0.1.13)':
     dependencies:
       '@linear/sdk': 55.2.1(encoding@0.1.13)
-      '@pipedream/platform': 3.2.2
+      '@pipedream/platform': 3.2.4
     transitivePeerDependencies:
       - debug
       - encoding
@@ -39582,7 +39586,7 @@ snapshots:
 
   '@pipedream/microsoft_outlook@1.7.5':
     dependencies:
-      '@pipedream/platform': 3.2.2
+      '@pipedream/platform': 3.2.4
       axios: 0.30.2
       js-base64: 3.7.8
       md5: 2.3.0
@@ -39592,7 +39596,7 @@ snapshots:
 
   '@pipedream/monday@0.7.0(encoding@0.1.13)':
     dependencies:
-      '@pipedream/platform': 3.2.2
+      '@pipedream/platform': 3.2.4
       form-data: 4.0.4
       lodash.flatmap: 4.5.0
       lodash.map: 4.6.0
@@ -39604,14 +39608,14 @@ snapshots:
 
   '@pipedream/notiff_io@0.1.0':
     dependencies:
-      '@pipedream/platform': 3.2.2
+      '@pipedream/platform': 3.2.4
     transitivePeerDependencies:
       - debug
 
   '@pipedream/notion@1.0.6(encoding@0.1.13)':
     dependencies:
       '@notionhq/client': 5.4.0
-      '@pipedream/platform': 3.2.2
+      '@pipedream/platform': 3.2.4
       '@tryfabric/martian': 1.2.4(encoding@0.1.13)
       lodash-es: 4.17.23
       notion-helper: 1.3.29
@@ -39718,20 +39722,20 @@ snapshots:
 
   '@pipedream/procore@0.1.0':
     dependencies:
-      '@pipedream/platform': 3.2.2
+      '@pipedream/platform': 3.2.4
       uuid: 11.1.0
     transitivePeerDependencies:
       - debug
 
   '@pipedream/quickbooks@0.8.0':
     dependencies:
-      '@pipedream/platform': 3.2.2
+      '@pipedream/platform': 3.2.4
     transitivePeerDependencies:
       - debug
 
   '@pipedream/ramp@0.1.2':
     dependencies:
-      '@pipedream/platform': 3.2.2
+      '@pipedream/platform': 3.2.4
       uuid: 10.0.0
     transitivePeerDependencies:
       - debug
@@ -39750,14 +39754,14 @@ snapshots:
 
   '@pipedream/sftp@0.5.1':
     dependencies:
-      '@pipedream/platform': 3.2.2
+      '@pipedream/platform': 3.2.4
       ssh2-sftp-client: 11.0.0
     transitivePeerDependencies:
       - debug
 
   '@pipedream/shopify@0.7.2':
     dependencies:
-      '@pipedream/platform': 3.2.2
+      '@pipedream/platform': 3.2.4
       async-retry: 1.3.3
       bottleneck: 2.19.5
       form-data: 4.0.4
@@ -39769,7 +39773,7 @@ snapshots:
 
   '@pipedream/slack@0.10.3':
     dependencies:
-      '@pipedream/platform': 3.2.2
+      '@pipedream/platform': 3.2.4
       '@slack/web-api': 7.12.0
       async-retry: 1.3.3
       lodash: 4.17.23
