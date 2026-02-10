@@ -13,11 +13,17 @@ export default {
   type: "action",
   props: {
     meistertask,
+    projectId: "$._.meistertask.propDefinitions.projectId",
   },
   async run({ $ }) {
-    const response = await this.meistertask.listSections({
-      $,
-    });
+    const response = await (this.projectId
+      ? this.meistertask.listProjectSections({
+        projectId: this.projectId,
+        $,
+      })
+      : this.meistertask.listSections({
+        $,
+      }));
 
     const data = response?.data ?? [];
 
