@@ -3,8 +3,8 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-delete-comment",
   name: "Delete Comment",
-  description: "Deletes a comment. [See the docs here](https://developer.todoist.com/rest/v2/#delete-a-comment)",
-  version: "0.0.4",
+  description: "Deletes a comment. [See the documentation](https://developer.todoist.com/api/v1#tag/Comments/operation/delete_comment_api_v1_comments__comment_id__delete)",
+  version: "0.0.5",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

@@ -3,8 +3,8 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-list-project-comments",
   name: "List Project Comments",
-  description: "Returns a list of comments for a project. [See the docs here](https://developer.todoist.com/rest/v2/#get-all-comments)",
-  version: "0.0.4",
+  description: "Returns a list of comments for a project. [See the documentation](https://developer.todoist.com/api/v1#tag/Comments/operation/get_comments_api_v1_comments_get)",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

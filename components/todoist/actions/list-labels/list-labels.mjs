@@ -3,8 +3,8 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-list-labels",
   name: "List Labels",
-  description: "Returns a list of all labels. [See the docs here](https://developer.todoist.com/rest/v2/#get-all-personal-labels)",
-  version: "0.0.4",
+  description: "Returns a list of all labels. [See the documentation](https://developer.todoist.com/api/v1#tag/Labels/operation/get_labels_api_v1_labels_get)",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

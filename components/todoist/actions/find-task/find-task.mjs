@@ -3,8 +3,8 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-find-task",
   name: "Find Task",
-  description: "Finds a task by name. [See Docs](https://developer.todoist.com/rest/v2/#get-active-tasks) Optionally, create one if none are found. [See Docs](https://developer.todoist.com/rest/v2/#create-a-new-task)",
-  version: "0.0.4",
+  description: "Finds a task by name. [See the documentation](https://developer.todoist.com/api/v1#tag/Tasks/operation/get_tasks_api_v1_tasks_get) Optionally, create one if none are found. [See the documentation](https://developer.todoist.com/api/v1#tag/Tasks/operation/create_task_api_v1_tasks_post)",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

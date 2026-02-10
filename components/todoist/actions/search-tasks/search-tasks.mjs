@@ -3,8 +3,8 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-search-tasks",
   name: "Search Tasks",
-  description: "Search tasks by name, label, project and/or section. [See Docs](https://developer.todoist.com/rest/v2/#get-active-tasks)",
-  version: "0.0.3",
+  description: "Search tasks by name, label, project and/or section. [See the documentation](https://developer.todoist.com/api/v1#tag/Tasks/operation/get_tasks_api_v1_tasks_get)",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
