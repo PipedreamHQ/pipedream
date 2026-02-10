@@ -3,7 +3,7 @@ import meistertask from "../../meistertask.app.mjs";
 export default {
   key: "meistertask-list-sections",
   name: "List Sections",
-  description: "List all sections in MeisterTask. [See the docs](https://developers.meistertask.com/reference/get-sections)",
+  description: "List sections in MeisterTask, optionally scoped to a specific project. [See the docs](https://developers.meistertask.com/reference/get-sections)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -31,7 +31,7 @@ export default {
         $,
       }));
 
-    const data = response?.data ?? [];
+    const data = response ?? [];
 
     $.export(
       "$summary",
