@@ -50,9 +50,9 @@ export default {
       $,
       params,
     });
-    $.export("$summary", `Successfully retrieved ${resp.length} task${resp.length === 1
+    $.export("$summary", `Successfully retrieved ${resp?.results?.length} task${resp?.results?.length === 1
       ? ""
       : "s"}`);
-    return resp;
+    return resp?.results;
   },
 };

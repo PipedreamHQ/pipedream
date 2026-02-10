@@ -51,7 +51,7 @@ export default {
       project,
       section,
     } = this;
-    const tasks = await this.todoist.getActiveTasks({
+    const resp = await this.todoist.getActiveTasks({
       $,
       params: {
         label,
@@ -60,9 +60,9 @@ export default {
       },
     });
     let result = name
-      ? tasks.filter((task) => task.content.includes(name))
-      : tasks;
-    let summary = `${result.length} task${result.length == 1
+      ? resp?.results?.filter((task) => task?.content?.includes(name))
+      : resp?.results;
+    let summary = `${result?.length} task${result?.length == 1
       ? ""
       : "s"} found`;
     $.export("$summary", summary);

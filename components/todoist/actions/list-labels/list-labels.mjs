@@ -18,9 +18,9 @@ export default {
     const resp = await this.todoist.getLabels({
       $,
     });
-    $.export("$summary", `Successfully retrieved ${resp.length} label${resp.length === 1
+    $.export("$summary", `Successfully retrieved ${resp?.results?.length} label${resp?.results?.length === 1
       ? ""
       : "s"}`);
-    return resp;
+    return resp?.results;
   },
 };

@@ -31,20 +31,20 @@ export default {
   async run ({ $ }) {
     const { project } = this;
 
-    const tasks = await this.todoist.getActiveTasks({
+    const resp = await this.todoist.getActiveTasks({
       $,
       params: {
         project_id: project,
       },
     });
-    const csv = converter.json2csv(tasks);
+    const csv = converter.json2csv(resp?.results);
 
     const { path } = await file({
       postfix: ".csv",
     });
     await fs.promises.appendFile(path, Buffer.from(csv));
 
-    $.export("$summary", `Successfully exported ${tasks.length} task${tasks.length === 1
+    $.export("$summary", `Successfully exported ${resp?.results?.length} task${resp?.results?.length === 1
       ? ""
       : "s"} to "${path}"`);
     return path;

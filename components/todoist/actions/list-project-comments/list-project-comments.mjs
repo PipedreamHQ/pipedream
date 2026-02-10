@@ -29,9 +29,9 @@ export default {
       $,
       params,
     });
-    $.export("$summary", `Successfully retrieved ${resp.length} comment${resp.length === 1
+    $.export("$summary", `Successfully retrieved ${resp?.results?.length} comment${resp?.results?.length === 1
       ? ""
       : "s"}`);
-    return resp;
+    return resp?.results;
   },
 };

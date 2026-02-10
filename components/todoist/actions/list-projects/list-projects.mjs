@@ -19,9 +19,9 @@ export default {
       $,
     });
     $.export("$summary", "Successfully retrieved projects");
-    $.export("$summary", `Successfully retrieved ${resp.length} project${resp.length === 1
+    $.export("$summary", `Successfully retrieved ${resp?.results?.length} project${resp?.results?.length === 1
       ? ""
       : "s"}`);
-    return resp;
+    return resp?.results;
   },
 };

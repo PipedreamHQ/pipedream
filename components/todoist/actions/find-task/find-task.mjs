@@ -39,13 +39,13 @@ export default {
       content,
       createIfNotFound,
     } = this;
-    const tasks = await this.todoist.getActiveTasks({
+    const resp = await this.todoist.getActiveTasks({
       $,
       params: {
         project_id: project,
       },
     });
-    let result = tasks.find((task) => task.content == content);
+    let result = resp?.results?.find((task) => task?.content == content);
     let summary = result
       ? "Task found"
       : "Task not found";
