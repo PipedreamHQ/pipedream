@@ -10,7 +10,7 @@ export default {
   ...common,
   key: "highlevel_oauth-create-contact",
   name: "Create Contact",
-  description: "Creates a new contact on HighLevel. [See the documentation](https://highlevel.stoplight.io/docs/integrations/4c8362223c17b-create-contact)",
+  description: "Creates a new contact on HighLevel. [See the documentation](https://marketplace.gohighlevel.com/docs/ghl/contacts/create-contact)",
   version: "0.0.3",
   annotations: {
     destructiveHint: true,
