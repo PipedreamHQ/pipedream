@@ -26,17 +26,19 @@ export default {
         "locationId",
       ],
     },
+    ...props,
     name: {
-      ...props.name,
+      type: "string",
+      label: "Name",
+      description: "The name of the business, e.g. `Microsoft`",
       optional: false,
     },
-    ...props,
   },
   async run({ $ }) {
     const {
-      app: appRef, ...data
+      app, ...data
     } = this.getData();
-    const response = await appRef.createBusiness({
+    const response = await app.createBusiness({
       $,
       data,
     });

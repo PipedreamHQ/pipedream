@@ -30,11 +30,11 @@ export default {
   },
   async run({ $ }) {
     const {
-      app: appRef,
+      app,
       businessId,
       ...data
     } = this.getData(false);
-    const response = await appRef.updateBusiness({
+    const response = await app.updateBusiness({
       $,
       businessId,
       data,
