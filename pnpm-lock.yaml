@@ -5685,9 +5685,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.2.2
         version: 3.2.4
-      fs:
-        specifier: ^0.0.1-security
-        version: 0.0.1-security
+      qs:
+        specifier: ^6.14.1
+        version: 6.14.1
 
   components/formspree:
     dependencies:
