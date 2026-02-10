@@ -14,6 +14,6 @@
   },
   "dependencies": {
     "@pipedream/platform": "^3.2.2",
-    "fs": "^0.0.1-security"
+    "qs": "^6.14.1"
   }
 }
