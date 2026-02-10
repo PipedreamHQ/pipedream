@@ -1,5 +1,5 @@
 import { axios } from "@pipedream/platform";
-const LIMIT = 500;
+const LIMIT = 100;
 
 export default {
   type: "app",
@@ -88,7 +88,7 @@ export default {
       });
     },
     async *paginate({
-      fn, params = {}, maxResults,
+      fn, params, data, max,
     }) {
       params = {
         ...params,
@@ -97,12 +97,16 @@ export default {
       };
       let total = 0, count = 0;
       do {
-        const { data } = await fn({
+        const { data: items } = await fn({
           params,
+          data,
         });
-        for (const d of data) {
-          yield d;
-          if (maxResults && ++count === maxResults) {
+        if (!items?.length) {
+          return;
+        }
+        for (const item of items) {
+          yield item;
+          if (max && ++count >= max) {
             return;
           }
         }
