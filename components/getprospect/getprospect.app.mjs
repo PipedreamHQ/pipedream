@@ -110,7 +110,7 @@ export default {
             return;
           }
         }
-        total = data?.total;
+        total = items?.length;
         params.pageNumber++;
       } while (total === params.pageSize);
     },
