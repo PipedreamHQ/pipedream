@@ -11,7 +11,6 @@ export default {
   dedupe: "unique",
   props: {
     formsite,
-    db: "$.service.db",
     http: {
       type: "$.interface.http",
       customResponse: true,
