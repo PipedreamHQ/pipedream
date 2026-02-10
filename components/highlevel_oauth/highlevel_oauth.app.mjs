@@ -49,6 +49,24 @@ export default {
         })) || [];
       },
     },
+    businessId: {
+      type: "string",
+      label: "Business ID",
+      description: "Select a business or provide a custom business ID",
+      async options() {
+        const { businesses } = await this.listBusinesses({
+          params: {
+            locationId: this.getLocationId(),
+          },
+        });
+        return businesses?.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        })) || [];
+      },
+    },
   },
   methods: {
     getLocationId() {
@@ -119,6 +137,45 @@ export default {
       return this._makeRequest({
         method: "POST",
         url: `/contacts/${contactId}/campaigns/${campaignId}`,
+        ...args,
+      });
+    },
+    createBusiness(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        url: "/businesses/",
+        ...args,
+      });
+    },
+    getBusiness({
+      businessId, ...args
+    }) {
+      return this._makeRequest({
+        url: `/businesses/${businessId}`,
+        ...args,
+      });
+    },
+    listBusinesses(args = {}) {
+      return this._makeRequest({
+        url: "/businesses/",
+        ...args,
+      });
+    },
+    updateBusiness({
+      businessId, ...args
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        url: `/businesses/${businessId}`,
+        ...args,
+      });
+    },
+    deleteBusiness({
+      businessId, ...args
+    }) {
+      return this._makeRequest({
+        method: "DELETE",
+        url: `/businesses/${businessId}`,
         ...args,
       });
     },
