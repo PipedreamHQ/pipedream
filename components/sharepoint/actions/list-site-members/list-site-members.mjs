@@ -1,4 +1,5 @@
 import sharepoint from "../../sharepoint.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "sharepoint-list-site-members",
@@ -216,23 +217,6 @@ export default {
       console.log("Could not fetch drive permissions:", e.message);
     }
 
-    // Helper to decode base64 permission IDs (SharePoint encodes group names in base64)
-    const tryDecodeBase64 = (str) => {
-      try {
-        // Check if it looks like base64 (alphanumeric, +, /, =)
-        if (/^[A-Za-z0-9+/]+=*$/.test(str) && str.length > 10) {
-          const decoded = Buffer.from(str, "base64").toString("utf-8");
-          // Check if decoded string is printable text (not binary garbage)
-          if (/^[\x20-\x7E\s]+$/.test(decoded)) {
-            return decoded;
-          }
-        }
-      } catch {
-        // Not valid base64
-      }
-      return null;
-    };
-
     // Format drive permissions into users
     const usersFromPermissions = [];
     const groupsFromPermissions = [];
@@ -287,7 +271,7 @@ export default {
       } else if (permission.id) {
         // No recognized grantedToV2 data (user, group, or siteUser)
         // This might be a SharePoint-native permission group where the ID is base64-encoded
-        const decodedName = tryDecodeBase64(permission.id);
+        const decodedName = utils.tryDecodeBase64(permission.id);
         if (decodedName) {
           // Check if we already have this group
           if (!groupsFromPermissions.find((g) => g.displayName === decodedName)) {
@@ -318,7 +302,8 @@ export default {
 
     // Fetch SharePoint site groups for fallback expansion
     // This is needed because native SharePoint groups can't be expanded via Graph API
-    // Microsoft Graph does NOT support listing SharePoint site group members - must use SharePoint REST API
+    // Microsoft Graph does NOT support listing SharePoint site group members
+    // Must use SharePoint REST API instead
     // See: https://learn.microsoft.com/en-us/answers/questions/5578364/retrieve-sharepoint-site-group-members-via-api
     let sharePointSiteGroups = null;
     let sharePointGroupsError = null;
@@ -354,7 +339,10 @@ export default {
 
         // Format SharePoint users - they have different structure than Graph users
         for (const spUser of spMembers) {
-          if (!usersFromPermissions.find((u) => u.email === spUser.Email || u.loginName === spUser.LoginName)) {
+          const alreadyExists = usersFromPermissions.find(
+            (u) => u.email === spUser.Email || u.loginName === spUser.LoginName,
+          );
+          if (!alreadyExists) {
             usersFromPermissions.push({
               id: spUser.Id?.toString(),
               displayName: spUser.Title,
@@ -507,7 +495,10 @@ export default {
 
           // Add members
           for (const spUser of spMembers) {
-            if (!usersFromPermissions.find((u) => u.email === spUser.Email || u.loginName === spUser.LoginName)) {
+            const alreadyExists = usersFromPermissions.find(
+              (u) => u.email === spUser.Email || u.loginName === spUser.LoginName,
+            );
+            if (!alreadyExists) {
               usersFromPermissions.push({
                 id: spUser.Id?.toString(),
                 displayName: spUser.Title,

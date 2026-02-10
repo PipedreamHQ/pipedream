@@ -1,4 +1,5 @@
 import sharepoint from "../../sharepoint.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "sharepoint-select-files",
@@ -63,45 +64,16 @@ export default {
       withLabel: true,
     },
   },
-  methods: {
-    resolveValue(prop) {
-      if (!prop) return null;
-      if (typeof prop === "object" && prop.__lv) {
-        return prop.__lv.value;
-      }
-      return prop;
-    },
-    parseFileOrFolder(value) {
-      if (!value) return null;
-      const resolved = this.resolveValue(value);
-      try {
-        return JSON.parse(resolved);
-      } catch {
-        return {
-          id: resolved,
-          isFolder: false,
-        };
-      }
-    },
-    parseFileOrFolderList(values) {
-      if (!values) return [];
-      const list = Array.isArray(values)
-        ? values
-        : [
-          values,
-        ];
-      return list.map((v) => this.parseFileOrFolder(v)).filter(Boolean);
-    },
-  },
+  methods: {},
   async run({ $ }) {
-    const selections = this.parseFileOrFolderList(this.fileOrFolderIds);
+    const selections = utils.parseFileOrFolderList(this.fileOrFolderIds);
 
     if (selections.length === 0) {
       throw new Error("Please select at least one file or folder");
     }
 
-    const siteId = this.resolveValue(this.siteId);
-    const driveId = this.resolveValue(this.driveId);
+    const siteId = utils.resolveValue(this.siteId);
+    const driveId = utils.resolveValue(this.driveId);
 
     // Separate files and folders
     const folders = selections.filter((s) => s.isFolder);

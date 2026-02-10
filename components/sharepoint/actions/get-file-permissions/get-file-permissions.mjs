@@ -1,4 +1,5 @@
 import sharepoint from "../../sharepoint.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "sharepoint-get-file-permissions",
@@ -62,35 +63,6 @@ export default {
     },
   },
   methods: {
-    resolveValue(prop) {
-      if (!prop) return null;
-      if (typeof prop === "object" && prop.__lv) {
-        return prop.__lv.value;
-      }
-      return prop;
-    },
-    parseFileOrFolder(value) {
-      if (!value) return null;
-      const resolved = this.resolveValue(value);
-      try {
-        return JSON.parse(resolved);
-      } catch {
-        // If it's just an ID string, wrap it
-        return {
-          id: resolved,
-          isFolder: false,
-        };
-      }
-    },
-    parseFileOrFolderList(values) {
-      if (!values) return [];
-      const list = Array.isArray(values)
-        ? values
-        : [
-          values,
-        ];
-      return list.map((v) => this.parseFileOrFolder(v)).filter(Boolean);
-    },
     formatPermission(permission) {
       const formatted = {
         id: permission.id,
@@ -148,37 +120,16 @@ export default {
 
       return formatted;
     },
-    // Decode base64 permission IDs (SharePoint encodes group names in base64)
-    tryDecodeBase64(str) {
-      try {
-        if (/^[A-Za-z0-9+/]+=*$/.test(str) && str.length > 10) {
-          const decoded = Buffer.from(str, "base64").toString("utf-8");
-          if (/^[\x20-\x7E\s]+$/.test(decoded)) {
-            return decoded;
-          }
-        }
-      } catch {
-        // Not valid base64
-      }
-      return null;
-    },
-    // Determine access level from roles array
-    getAccessLevel(roles) {
-      if (roles.includes("owner")) return "owner";
-      if (roles.includes("write")) return "write";
-      if (roles.includes("read")) return "read";
-      return "read"; // Default to read if unknown
-    },
   },
   async run({ $ }) {
-    const selections = this.parseFileOrFolderList(this.fileOrFolderIds);
+    const selections = utils.parseFileOrFolderList(this.fileOrFolderIds);
 
     if (selections.length === 0) {
       throw new Error("Please select at least one file or folder");
     }
 
-    const driveId = this.resolveValue(this.driveId);
-    const siteId = this.resolveValue(this.siteId);
+    const driveId = utils.resolveValue(this.driveId);
+    const siteId = utils.resolveValue(this.siteId);
     const includeFileMetadata = this.includeFileMetadata;
     const expandGroupsToUsers = this.expandGroupsToUsers;
 
@@ -216,7 +167,9 @@ export default {
         expansionDebug.sharePointSiteGroupsFound = sharePointSiteGroups.length;
         expansionDebug.sharePointSiteGroupNames = sharePointSiteGroups.map((g) => g.Title);
       } catch (e) {
-        siteGroupsError = e instanceof Error ? e.message : String(e);
+        siteGroupsError = e instanceof Error
+          ? e.message
+          : String(e);
         expansionDebug.expansionErrors.push(`Site/groups fetch error: ${siteGroupsError}`);
         console.log("Could not fetch site info for group expansion:", siteGroupsError);
       }
@@ -313,7 +266,7 @@ export default {
       for (const item of results) {
         for (const permission of item.permissions) {
           const roles = permission.roles || [];
-          const accessLevel = this.getAccessLevel(roles);
+          const accessLevel = utils.getAccessLevel(roles);
 
           // Check for Entra ID group
           if (permission.group?.id) {
@@ -346,7 +299,7 @@ export default {
 
           // Check for SharePoint-native groups (base64-encoded IDs)
           if (permission.id && !permission.user && !permission.group && !permission.link) {
-            const decodedName = this.tryDecodeBase64(permission.id);
+            const decodedName = utils.tryDecodeBase64(permission.id);
             if (decodedName) {
               const key = `sp:${decodedName}`;
               if (!groupsToExpand.has(key)) {
@@ -472,7 +425,9 @@ export default {
               }
             }
           } catch (e) {
-            const errMsg = e instanceof Error ? e.message : String(e);
+            const errMsg = e instanceof Error
+              ? e.message
+              : String(e);
             expansionDebug.expansionErrors.push(`Error expanding SP group "${group.displayName}": ${errMsg}`);
             console.log(`Could not expand SharePoint group ${group.displayName}:`, errMsg);
           }
@@ -489,7 +444,7 @@ export default {
                 id: permission.user.id,
                 displayName: permission.user.displayName,
                 email: permission.user.email,
-                accessLevel: this.getAccessLevel(permission.roles || []),
+                accessLevel: utils.getAccessLevel(permission.roles || []),
                 viaGroup: null,
                 groupType: "direct",
               });
