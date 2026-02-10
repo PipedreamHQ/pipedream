@@ -141,7 +141,7 @@ function getOauthSignature(config, signConfig) {
 // XXX warn about mutating config object... or clone?
 function callAxios(step, config, signConfig) {
     return __awaiter(this, void 0, void 0, function () {
-        var oauthSignature, response;
+        var oauthSignature, response, err_1, axiosErr;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -163,26 +163,7 @@ function callAxios(step, config, signConfig) {
                     config.headers.Authorization = oauthSignature;
                     _a.label = 2;
                 case 2:
-                    /*try {
-                      if (config.debug) {
-                        stepExport(step, config, "debug_config");
-                      }
-                      const response = await axios(config);
-                      if (config.debug) {
-                        stepExport(step, response.data, "debug_response");
-                      }
-                  
-                      return config.returnFullResponse
-                        ? response
-                        : response.data;
-                    } catch (err) {
-                      const axiosErr = err as AxiosError;
-                      if (axiosErr.response) {
-                        convertAxiosError(axiosErr);
-                        stepExport(step, axiosErr.response, "debug");
-                      }
-                      throw err;
-                    }*/
+                    _a.trys.push([2, 4, , 5]);
                     if (config.debug) {
                         stepExport(step, config, "debug_config");
                     }
@@ -195,6 +176,15 @@ function callAxios(step, config, signConfig) {
                     return [2 /*return*/, config.returnFullResponse
                             ? response
                             : response.data];
+                case 4:
+                    err_1 = _a.sent();
+                    axiosErr = err_1;
+                    if (axiosErr.response && (step === null || step === void 0 ? void 0 : step.context)) {
+                        convertAxiosError(axiosErr);
+                        stepExport(step, axiosErr.response, "debug");
+                    }
+                    throw err_1;
+                case 5: return [2 /*return*/];
             }
         });
     });
@@ -210,20 +200,20 @@ function stepExport(step, message, key) {
     }
     console.log("export: ".concat(key, " - ").concat(JSON.stringify(message, null, 2)));
 }
-/*function convertAxiosError(err: AxiosError) {
-  if (err.response) {
-    delete err.response.request;
-    err.name = `${err.name} - ${err.message}`;
-    try {
-      err.message = JSON.stringify(err.response.data);
+function convertAxiosError(err) {
+    if (err.response) {
+        delete err.response.request;
+        err.name = "".concat(err.name, " - ").concat(err.message);
+        try {
+            err.message = JSON.stringify(err.response.data);
+        }
+        catch (error) {
+            console.error("Error trying to convert `err.response.data` to string");
+            console.log(error);
+        }
     }
-    catch (error) {
-      console.error("Error trying to convert `err.response.data` to string");
-      console.log(error);
-    }
-  }
-  return err;
-}*/
+    return err;
+}
 function create(config, signConfig) {
     var _this = this;
     var axiosInstance = axios_1.default.create(config);
@@ -263,10 +253,10 @@ function create(config, signConfig) {
             ? response
             : response.data;
     }, function (error) {
-        /*if (error.response) {
-          convertAxiosError(error);
-          stepExport(undefined, error.response, "debug");
-        }*/
+        if (error.response) {
+            convertAxiosError(error);
+            stepExport(undefined, error.response, "debug");
+        }
         throw error;
     });
     return axiosInstance;
