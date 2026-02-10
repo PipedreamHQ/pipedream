@@ -13,7 +13,13 @@ export default {
   type: "action",
   props: {
     meistertask,
-    projectId: "$._.meistertask.propDefinitions.projectId",
+    projectId: {
+      propDefinition: [
+        meistertask,
+        "projectId",
+      ],
+      optional: true,
+    },
   },
   async run({ $ }) {
     const response = await (this.projectId
