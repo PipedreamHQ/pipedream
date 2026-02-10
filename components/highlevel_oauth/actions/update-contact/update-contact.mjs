@@ -10,7 +10,7 @@ export default {
   ...common,
   key: "highlevel_oauth-update-contact",
   name: "Update Contact",
-  description: "Updates a selected contact on HighLevel. [See the documentation](https://highlevel.stoplight.io/docs/integrations/9ce5a739d4fb9-update-contact)",
+  description: "Updates a selected contact on HighLevel. [See the documentation](https://marketplace.gohighlevel.com/docs/ghl/contacts/update-contact)",
   version: "0.0.3",
   annotations: {
     destructiveHint: true,

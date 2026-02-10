@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "highlevel_oauth-new-form-submission",
   name: "New Form Submission",
-  description: "Emit new event when a new form submission is created. [See the documentation](https://highlevel.stoplight.io/docs/integrations/a6114bd7685d1-get-forms-submissions)",
+  description: "Emit new event when a new form submission is created. [See the documentation](https://marketplace.gohighlevel.com/docs/ghl/forms/get-forms-submissions)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
