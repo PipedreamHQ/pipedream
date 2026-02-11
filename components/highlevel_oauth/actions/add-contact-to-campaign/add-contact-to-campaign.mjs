@@ -5,7 +5,7 @@ export default {
   key: "highlevel_oauth-add-contact-to-campaign",
   name: "Add Contact to Campaign",
   description: "Adds an existing contact to a campaign. [See the documentation](https://marketplace.gohighlevel.com/docs/ghl/contacts/add-contact-to-campaign)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
