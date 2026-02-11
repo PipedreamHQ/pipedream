@@ -67,13 +67,6 @@ export default {
         ...opts,
       });
     },
-    listLeads(opts = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/public/v1/insights/contacts",
-        ...opts,
-      });
-    },
     verifyEmail(opts = {}) {
       return this._makeRequest({
         path: "/public/v1/email/verify",
