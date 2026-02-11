@@ -56,7 +56,9 @@ export default {
         project_id: this.projectId,
         phase_id: this.phaseId,
         task_name: this.taskName,
-        billable: this.billable && +this.billable,
+        billable: this.billable != null
+          ? +this.billable
+          : undefined,
         budget: this.budget && parseFloat(this.budget),
       }),
     });
