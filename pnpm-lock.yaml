@@ -9418,9 +9418,15 @@ importers:
 
   components/microsoft_365_planner:
     dependencies:
+      '@microsoft/microsoft-graph-client':
+        specifier: ^3.0.7
+        version: 3.0.7
       '@pipedream/platform':
-        specifier: ^3.1.1
+        specifier: ^3.2.2
         version: 3.2.2
+      isomorphic-fetch:
+        specifier: ^3.0.0
+        version: 3.0.0(encoding@0.1.13)
 
   components/microsoft_advertising: {}
 
@@ -14800,7 +14806,11 @@ importers:
 
   components/stealthgpt: {}
 
-  components/stealthseminar: {}
+  components/stealthseminar:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.4
+        version: 3.2.4
 
   components/stiply:
     dependencies:
@@ -21325,6 +21335,9 @@ packages:
 
   '@pipedream/platform@3.2.2':
     resolution: {integrity: sha512-D4i7l0lNofw70soZM4taEw4XIsTT1pgi44WaoB1WkdH1VUR6Q/FVqFYUaA+5XeuErapFpGyd+mWOCvRQusN7Vw==}
+
+  '@pipedream/platform@3.2.4':
+    resolution: {integrity: sha512-lX6MBwjD12MCkztCwsL10EfpxaevdtpW5BSY1xpFyfGffa1i3AG7gI2HowFrx3gZ3dfUHT2Ilx8nEdTOseyR4A==}
 
   '@pipedream/postgresql@2.2.4':
     resolution: {integrity: sha512-ANR8xURO+5tDp/85oP/SrAwUjk+G6Xz5LOU40hsR2OAYGN6wU0cNAMRSq4durl3MVcb2+oxJwB9uNAdYQgga/g==}
@@ -39468,6 +39481,39 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
+  '@pipedream/platform@3.2.4':
+    dependencies:
+      axios: 1.13.2(debug@3.2.7)
+      fp-ts: 2.16.11
+      io-ts: 2.2.22(fp-ts@2.16.11)
+      mime-types: 3.0.1
+      querystring: 0.2.1
+      uuid: 11.1.0
+    transitivePeerDependencies:
+      - debug
+
+  '@pipedream/platform@3.2.4':
+    dependencies:
+      axios: 1.13.2(debug@3.2.7)
+      fp-ts: 2.16.11
+      io-ts: 2.2.22(fp-ts@2.16.11)
+      mime-types: 3.0.1
+      querystring: 0.2.1
+      uuid: 11.1.0
+    transitivePeerDependencies:
+      - debug
+
+  '@pipedream/platform@3.2.4':
+    dependencies:
+      axios: 1.13.2(debug@3.2.7)
+      fp-ts: 2.16.11
+      io-ts: 2.2.22(fp-ts@2.16.11)
+      mime-types: 3.0.1
+      querystring: 0.2.1
+      uuid: 11.1.0
+    transitivePeerDependencies:
+      - debug
+
   '@pipedream/postgresql@2.2.4':
     dependencies:
       '@pipedream/platform': 2.0.2
@@ -39561,8 +39607,8 @@ snapshots:
   '@pipedream/youtube_data_api@1.0.2(encoding@0.1.13)':
     dependencies:
       '@googleapis/youtube': 6.0.0(encoding@0.1.13)
-      '@pipedream/platform': 3.2.2
-      got: 14.6.6
+      '@pipedream/platform': 3.2.4
+      got: 14.6.4
       util: 0.12.5
     transitivePeerDependencies:
       - debug
@@ -40060,6 +40106,7 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
+      - supports-color
 
   '@putout/operator-parens@4.0.0(rolldown@1.0.0-beta.9)(rollup@4.57.1)':
     dependencies:

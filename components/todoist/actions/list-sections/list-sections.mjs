@@ -3,8 +3,8 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-list-sections",
   name: "List Sections",
-  description: "Returns a list of all sections. [See the docs here](https://developer.todoist.com/rest/v2/#get-all-sections)",
-  version: "0.0.4",
+  description: "Returns a list of all sections. [See the documentation](https://developer.todoist.com/api/v1#tag/Sections/operation/get_sections_api_v1_sections_get)",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -28,9 +28,9 @@ export default {
       $,
       params,
     });
-    $.export("$summary", `Successfully retrieved ${resp.length} section${resp.length === 1
+    $.export("$summary", `Successfully retrieved ${resp?.results?.length} section${resp?.results?.length === 1
       ? ""
       : "s"}`);
-    return resp;
+    return resp?.results;
   },
 };

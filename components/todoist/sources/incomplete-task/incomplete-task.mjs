@@ -4,8 +4,8 @@ export default {
   ...common,
   key: "todoist-incomplete-task",
   name: "New Incomplete Task",
-  description: "Emit new event for each new incomplete task. [See the docs here](https://developer.todoist.com/sync/v8/#read-resources)",
-  version: "0.1.0",
+  description: "Emit new event for each new incomplete task. [See the documentation](https://developer.todoist.com/api/v1#tag/Sync/Overview/Read-resources)",
+  version: "0.1.1",
   type: "source",
   dedupe: "unique",
   props: {

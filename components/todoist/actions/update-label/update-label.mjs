@@ -3,8 +3,8 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-update-label",
   name: "Update Label",
-  description: "Updates a label. [See the docs here](https://developer.todoist.com/rest/v2/#update-a-personal-label)",
-  version: "0.0.4",
+  description: "Updates a label. [See the documentation](https://developer.todoist.com/api/v1#tag/Labels/operation/update_label_api_v1_labels__label_id__post)",
+  version: "0.0.5",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -59,7 +59,7 @@ export default {
       name,
       order,
       color,
-      favorite,
+      is_favorite: favorite,
     };
     // No interesting data is returned from Todoist
     await this.todoist.updateLabel({
