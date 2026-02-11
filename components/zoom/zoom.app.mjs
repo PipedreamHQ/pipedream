@@ -372,6 +372,20 @@ export default {
         ...args,
       });
     },
+    getMeetingSummary({
+      meetingId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/meetings/${utils.doubleEncode(meetingId)}/meeting_summary`,
+        ...args,
+      });
+    },
+    getMeetingSummaries(args = {}) {
+      return this._makeRequest({
+        path: "/meetings/meeting_summaries",
+        ...args,
+      });
+    },
     async *getResourcesStream({
       resourceFn,
       resourceFnArgs,
