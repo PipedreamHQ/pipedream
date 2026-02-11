@@ -14,12 +14,15 @@ export const parseObject = (obj) => {
   }
 
   if (typeof obj === "object") {
-    return Object.entries(obj).map(([
-      key,
-      value,
-    ]) => ({
-      [key]: parseObject(value),
-    }));
+    return Object.fromEntries(
+      Object.entries(obj).map(([
+        key,
+        value,
+      ]) => [
+        key,
+        parseObject(value),
+      ]),
+    );
   }
 
   return obj;

@@ -15,7 +15,7 @@ export default {
         }) => ({
           value,
           label,
-        }));
+        })) || [];
       },
     },
     subscriberId: {
@@ -57,7 +57,7 @@ export default {
         }) => ({
           value,
           label,
-        }));
+        })) || [];
       },
     },
     email: {
