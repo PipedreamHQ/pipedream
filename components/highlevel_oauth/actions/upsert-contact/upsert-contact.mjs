@@ -11,7 +11,7 @@ export default {
   key: "highlevel_oauth-upsert-contact",
   name: "Upsert Contact",
   description: "Creates or updates a contact on HighLevel. [See the documentation](https://marketplace.gohighlevel.com/docs/ghl/contacts/upsert-contact)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
