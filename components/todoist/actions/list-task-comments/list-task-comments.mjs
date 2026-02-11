@@ -3,8 +3,8 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-list-task-comments",
   name: "List Task Comments",
-  description: "Returns a list of comments for a task. [See the docs here](https://developer.todoist.com/rest/v2/#get-all-comments)",
-  version: "0.0.4",
+  description: "Returns a list of comments for a task. [See the documentation](https://developer.todoist.com/api/v1#tag/Comments/operation/get_comments_api_v1_comments_get)",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -37,9 +37,9 @@ export default {
       $,
       params,
     });
-    $.export("$summary", `Successfully retrieved ${resp.length} comment${resp.length === 1
+    $.export("$summary", `Successfully retrieved ${resp?.results?.length} comment${resp?.results?.length === 1
       ? ""
       : "s"}`);
-    return resp;
+    return resp?.results;
   },
 };
