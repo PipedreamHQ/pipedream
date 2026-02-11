@@ -18,7 +18,6 @@ export default {
     const resp = await this.todoist.getProjects({
       $,
     });
-    $.export("$summary", "Successfully retrieved projects");
     $.export("$summary", `Successfully retrieved ${resp?.results?.length} project${resp?.results?.length === 1
       ? ""
       : "s"}`);
