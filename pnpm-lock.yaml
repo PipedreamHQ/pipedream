@@ -147,7 +147,7 @@ importers:
         version: 4.0.0
       ts-jest:
         specifier: ^29.1.1
-        version: 29.4.5(@babel/core@8.0.0-beta.3)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@8.0.0-beta.3))(jest-util@29.7.0)(jest@29.7.0(@types/node@20.19.25)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.25)(typescript@5.6.3)))(typescript@5.6.3)
+        version: 29.4.5(@babel/core@8.0.0-beta.3)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@8.0.0-beta.3))(esbuild@0.27.0)(jest-util@29.7.0)(jest@29.7.0(@types/node@20.19.25)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.25)(typescript@5.6.3)))(typescript@5.6.3)
       typescript:
         specifier: '>=5.5.0 <5.7.0'
         version: 5.6.3
@@ -3664,8 +3664,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/cube_cloud:
-    specifiers: {}
+  components/cube_cloud: {}
 
   components/cufinder:
     dependencies:
@@ -16191,7 +16190,14 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/unstructured: {}
+  components/unstructured:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.5
+        version: 3.2.5
+      form-data:
+        specifier: 4.0.4
+        version: 4.0.4
 
   components/unthread:
     dependencies:
@@ -18010,7 +18016,7 @@ importers:
         version: 3.1.11
       ts-jest:
         specifier: ^29.2.5
-        version: 29.4.5(@babel/core@8.0.0-beta.3)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@8.0.0-beta.3))(jest-util@29.7.0)(jest@29.7.0(@types/node@20.19.25)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.25)(typescript@5.6.3)))(typescript@5.6.3)
+        version: 29.4.5(@babel/core@8.0.0-beta.3)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@8.0.0-beta.3))(esbuild@0.27.0)(jest-util@29.7.0)(jest@29.7.0(@types/node@20.19.25)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.25)(typescript@5.6.3)))(typescript@5.6.3)
       tsup:
         specifier: ^8.3.6
         version: 8.5.1(@microsoft/api-extractor@7.55.0(@types/node@20.19.25))(jiti@2.6.1)(postcss@8.5.6)(tsx@4.20.6)(typescript@5.6.3)(yaml@2.8.1)
@@ -21446,6 +21452,9 @@ packages:
 
   '@pipedream/platform@3.2.4':
     resolution: {integrity: sha512-lX6MBwjD12MCkztCwsL10EfpxaevdtpW5BSY1xpFyfGffa1i3AG7gI2HowFrx3gZ3dfUHT2Ilx8nEdTOseyR4A==}
+
+  '@pipedream/platform@3.2.5':
+    resolution: {integrity: sha512-fygR/JSYYKPvLbyUc4NjA5Uy4fggDQvoa0XQmLhsO682okO85lMYOWKHB5GhQsm/cl7wB/u6i2XmjC+OINqTgw==}
 
   '@pipedream/postgresql@2.2.4':
     resolution: {integrity: sha512-ANR8xURO+5tDp/85oP/SrAwUjk+G6Xz5LOU40hsR2OAYGN6wU0cNAMRSq4durl3MVcb2+oxJwB9uNAdYQgga/g==}
@@ -39710,6 +39719,17 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
+  '@pipedream/platform@3.2.5':
+    dependencies:
+      axios: 1.13.2(debug@3.2.7)
+      fp-ts: 2.16.11
+      io-ts: 2.2.22(fp-ts@2.16.11)
+      mime-types: 3.0.1
+      querystring: 0.2.1
+      uuid: 11.1.0
+    transitivePeerDependencies:
+      - debug
+
   '@pipedream/postgresql@2.2.4':
     dependencies:
       '@pipedream/platform': 2.0.2
@@ -39803,7 +39823,7 @@ snapshots:
   '@pipedream/youtube_data_api@1.0.1(encoding@0.1.13)':
     dependencies:
       '@googleapis/youtube': 6.0.0(encoding@0.1.13)
-      '@pipedream/platform': 3.2.4
+      '@pipedream/platform': 3.2.5
       got: 14.6.4
       util: 0.12.5
     transitivePeerDependencies:
@@ -54669,7 +54689,7 @@ snapshots:
 
   ts-interface-checker@0.1.13: {}
 
-  ts-jest@29.4.5(@babel/core@8.0.0-beta.3)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@8.0.0-beta.3))(jest-util@29.7.0)(jest@29.7.0(@types/node@20.19.25)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.25)(typescript@5.6.3)))(typescript@5.6.3):
+  ts-jest@29.4.5(@babel/core@8.0.0-beta.3)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@8.0.0-beta.3))(esbuild@0.27.0)(jest-util@29.7.0)(jest@29.7.0(@types/node@20.19.25)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.25)(typescript@5.6.3)))(typescript@5.6.3):
     dependencies:
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
@@ -54687,6 +54707,7 @@ snapshots:
       '@jest/transform': 29.7.0
       '@jest/types': 29.6.3
       babel-jest: 29.7.0(@babel/core@8.0.0-beta.3)
+      esbuild: 0.27.0
       jest-util: 29.7.0
 
   ts-node@10.9.2(@types/node@20.19.25)(typescript@5.6.3):
