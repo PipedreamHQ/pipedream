@@ -2241,8 +2241,8 @@ importers:
   components/bubble:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.2
+        version: 3.2.2
 
   components/buddee:
     dependencies:
@@ -39437,7 +39437,7 @@ snapshots:
   '@pipedream/apify@0.4.0':
     dependencies:
       '@apify/consts': 2.47.0
-      '@pipedream/platform': 3.2.1
+      '@pipedream/platform': 3.2.2
       apify-client: 2.19.0
     transitivePeerDependencies:
       - debug
@@ -39465,7 +39465,7 @@ snapshots:
       '@aws-sdk/s3-request-presigner': 3.931.0
       '@aws-sdk/signature-v4-crt': 3.931.0
       '@pipedream/helper_functions': 0.3.13
-      '@pipedream/platform': 3.2.1
+      '@pipedream/platform': 3.2.2
       adm-zip: 0.5.16
       dedent: 1.7.0(babel-plugin-macros@3.1.0)
       file-type: 21.1.0
@@ -40332,7 +40332,6 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
-      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.60)(rollup@4.53.2)':
     dependencies:
@@ -54875,7 +54874,7 @@ snapshots:
   tuf-js@4.1.0:
     dependencies:
       '@tufjs/models': 4.1.0
-      debug: 4.4.3(supports-color@9.4.0)
+      debug: 4.4.3(supports-color@5.5.0)
       make-fetch-happen: 15.0.3
     transitivePeerDependencies:
       - supports-color
