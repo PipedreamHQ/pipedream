@@ -1,6 +1,6 @@
 export default {
   type: "app",
-  app: "cube_cloud",
+  app: "apideck",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
