@@ -20510,6 +20510,10 @@ packages:
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
     engines: {node: '>=12'}
 
+  '@isaacs/cliui@9.0.0':
+    resolution: {integrity: sha512-AokJm4tuBHillT+FpMtxQ60n8ObyXBatq7jD2/JA9dxbDDokKQm8KMht5ibGzLVU9IJDIKK4TPKgMHEYMn3lMg==}
+    engines: {node: '>=18'}
+
   '@isaacs/fs-minipass@4.0.1':
     resolution: {integrity: sha512-wgm9Ehl2jpeqP3zw/7mo3kRHFp5MEDhqAdwy1fTGkHAwnkGOVsgpvQhL8B5n1qlb01jV3n/bI0ZfZp5lWA1k4w==}
     engines: {node: '>=18.0.0'}
@@ -23653,9 +23657,6 @@ packages:
   '@types/node@20.19.25':
     resolution: {integrity: sha512-ZsJzA5thDQMSQO788d7IocwwQbI8B5OPzmqNvpf3NY/+MHDAS759Wo0gd2WQeXYt5AAAQjzcrTVC6SKCuYgoCQ==}
 
-  '@types/node@20.19.33':
-    resolution: {integrity: sha512-Rs1bVAIdBs5gbTIKza/tgpMuG1k3U/UMJLWecIMxNdJFDMzcM5LOiLVRYh3PilWEYDIeUDv7bpiHPLPsbydGcw==}
-
   '@types/node@22.19.1':
     resolution: {integrity: sha512-LCCV0HdSZZZb34qifBsyWlUmok6W7ouER+oQIGBScS8EsZsQbrtFTUrDX4hOl+CS6p7cnNC4td+qrSVGSCTUfQ==}
 
@@ -24593,6 +24594,10 @@ packages:
   balanced-match@2.0.0:
     resolution: {integrity: sha512-1ugUSr8BHXRnK23KfuYS+gVMC3LB8QGH9W1iGtDPsNWoQbgtXSExkBu2aDR4epiGWZOjZsj6lDl/N/AqqTC3UA==}
 
+  balanced-match@4.0.2:
+    resolution: {integrity: sha512-x0K50QvKQ97fdEz2kPehIerj+YTeptKF9hyYkKf6egnwmMWAkADiO0QCzSp0R5xN8FTZgYaBfSaue46Ej62nMg==}
+    engines: {node: 20 || >=22}
+
   bare-events@2.8.2:
     resolution: {integrity: sha512-riJjyv1/mHLIPX4RwiK+oW9/4c3TEUeORHKefKAKnZ5kyslbN+HXowtbaVEqt4IMUB7OXlfixcs6gsFeo/jhiQ==}
     peerDependencies:
@@ -24757,6 +24762,10 @@ packages:
 
   brace-expansion@2.0.2:
     resolution: {integrity: sha512-Jt0vHyM+jmUBqojB7E1NIYadt0vI0Qxjxd2TErW94wDz+E2LAm5vKMXXwg6ZZBTHPuUlDgQHKXvjGBdfcF1ZDQ==}
+
+  brace-expansion@5.0.2:
+    resolution: {integrity: sha512-Pdk8c9poy+YhOgVWw1JNN22/HcivgKWwpxKq04M/jTmHyCZn12WPJebZxdjSa5TmBqISrUSgNYU3eRORljfCCw==}
+    engines: {node: 20 || >=22}
 
   braces@3.0.3:
     resolution: {integrity: sha512-yQbXgO/OSZVD2IsiLlro+7Hf6Q18EJrKSEsdoMzKePKXct3gvD8oLcOQdIzGupr5Fj+EDe8gO/lxc1BzfMpxvA==}
@@ -27341,8 +27350,8 @@ packages:
     deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
     hasBin: true
 
-  glob@13.0.2:
-    resolution: {integrity: sha512-035InabNu/c1lW0tzPhAgapKctblppqsKKG9ZaNzbr+gXwWMjXoiyGSyB9sArzrjG7jY+zntRq5ZSUYemrnWVQ==}
+  glob@13.0.3:
+    resolution: {integrity: sha512-/g3B0mC+4x724v1TgtBlBtt2hPi/EWptsIAmXUx9Z2rvBYleQcsrmaOzd5LyL50jf/Soi83ZDJmw2+XqvH/EeA==}
     engines: {node: 20 || >=22}
 
   glob@6.0.4:
@@ -28458,6 +28467,10 @@ packages:
 
   jackspeak@4.1.1:
     resolution: {integrity: sha512-zptv57P3GpL+O0I7VdMJNBZCu+BPHVQUk55Ft8/QCJjTVxrnJHuVuX/0Bl2A6/+2oyR/ZMEuFKwmzqqZ/U5nPQ==}
+    engines: {node: 20 || >=22}
+
+  jackspeak@4.2.3:
+    resolution: {integrity: sha512-ykkVRwrYvFm1nb2AJfKKYPr0emF6IiXDYUaFx4Zn9ZuIH7MrzEZ3sD5RlqGXNRpHtvUHJyOnCEFxOlNDtGo7wg==}
     engines: {node: 20 || >=22}
 
   java-properties@1.0.2:
@@ -29716,8 +29729,8 @@ packages:
     resolution: {integrity: sha512-enIvLvRAFZYXJzkCYG5RKmPfrFArdLv+R+lbQ53BmIMLIry74bjKzX6iHAm8WYamJkhSSEabrWN5D97XnKObjQ==}
     engines: {node: 20 || >=22}
 
-  minimatch@10.1.2:
-    resolution: {integrity: sha512-fu656aJ0n2kcXwsnwnv9g24tkU5uSmOlTjd6WyyaKm2Z+h1qmY6bAjrcaIxF/BslFqbZ8UBtbJi7KgQOZD2PTw==}
+  minimatch@10.2.0:
+    resolution: {integrity: sha512-ugkC31VaVg9cF0DFVoADH12k6061zNZkZON+aX8AWsR9GhPcErkcMBceb6znR8wLERM2AkkOxy2nWRLpT9Jq5w==}
     engines: {node: 20 || >=22}
 
   minimatch@3.1.2:
@@ -37154,7 +37167,7 @@ snapshots:
       cachedir: 2.4.0
       charm: 1.0.2
       libnpmpublish: 11.1.3
-      minimatch: 10.1.2
+      minimatch: 10.2.0
       npm-registry-fetch: 19.1.1
       tar: 7.5.7
       tar-stream: 3.1.7
@@ -38054,7 +38067,7 @@ snapshots:
   '@grpc/grpc-js@1.8.22':
     dependencies:
       '@grpc/proto-loader': 0.7.15
-      '@types/node': 20.19.33
+      '@types/node': 25.2.3
 
   '@grpc/proto-loader@0.7.15':
     dependencies:
@@ -38141,6 +38154,8 @@ snapshots:
       wrap-ansi: 8.1.0
       wrap-ansi-cjs: wrap-ansi@7.0.0
 
+  '@isaacs/cliui@9.0.0': {}
+
   '@isaacs/fs-minipass@4.0.1':
     dependencies:
       minipass: 7.1.2
@@ -38158,7 +38173,7 @@ snapshots:
   '@jest/console@29.7.0':
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 20.19.33
+      '@types/node': 20.19.25
       chalk: 4.1.2
       jest-message-util: 29.7.0
       jest-util: 29.7.0
@@ -38238,7 +38253,7 @@ snapshots:
     dependencies:
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 20.19.33
+      '@types/node': 20.19.25
       jest-mock: 29.7.0
 
   '@jest/expect-utils@29.7.0':
@@ -38256,7 +38271,7 @@ snapshots:
     dependencies:
       '@jest/types': 29.6.3
       '@sinonjs/fake-timers': 10.3.0
-      '@types/node': 20.19.33
+      '@types/node': 20.19.25
       jest-message-util: 29.7.0
       jest-mock: 29.7.0
       jest-util: 29.7.0
@@ -38278,7 +38293,7 @@ snapshots:
       '@jest/transform': 29.7.0
       '@jest/types': 29.6.3
       '@jridgewell/trace-mapping': 0.3.31
-      '@types/node': 20.19.33
+      '@types/node': 20.19.25
       chalk: 4.1.2
       collect-v8-coverage: 1.0.3
       exit: 0.1.2
@@ -39092,7 +39107,7 @@ snapshots:
   '@npmcli/package-json@7.0.4':
     dependencies:
       '@npmcli/git': 7.0.1
-      glob: 13.0.2
+      glob: 13.0.3
       hosted-git-info: 9.0.2
       json-parse-even-better-errors: 5.0.0
       proc-log: 6.1.0
@@ -41476,7 +41491,24 @@ snapshots:
       read-pkg: 9.0.1
       registry-auth-token: 5.1.0
       semantic-release: 24.2.9(typescript@5.6.3)
-      semver: 7.7.4
+      semver: 7.7.3
+      tempy: 3.1.0
+
+  '@semantic-release/npm@12.0.2(semantic-release@24.2.9(typescript@5.9.3))':
+    dependencies:
+      '@semantic-release/error': 4.0.0
+      aggregate-error: 5.0.0
+      execa: 9.6.0
+      fs-extra: 11.3.2
+      lodash-es: 4.17.23
+      nerf-dart: 1.0.0
+      normalize-url: 8.1.0
+      npm: 10.9.4
+      rc: 1.2.8
+      read-pkg: 9.0.1
+      registry-auth-token: 5.1.0
+      semantic-release: 24.2.9(typescript@5.9.3)
+      semver: 7.7.3
       tempy: 3.1.0
 
   '@semantic-release/npm@12.0.2(semantic-release@24.2.9(typescript@5.9.3))':
@@ -42238,7 +42270,7 @@ snapshots:
   '@tufjs/models@4.1.0':
     dependencies:
       '@tufjs/canonical-json': 2.0.0
-      minimatch: 10.1.2
+      minimatch: 10.2.0
 
   '@tuya/tuya-connector-nodejs@2.1.2':
     dependencies:
@@ -42284,18 +42316,18 @@ snapshots:
     dependencies:
       '@types/http-cache-semantics': 4.0.4
       '@types/keyv': 3.1.4
-      '@types/node': 20.19.33
+      '@types/node': 25.2.3
       '@types/responselike': 1.0.3
 
   '@types/caseless@0.12.5': {}
 
   '@types/connect@3.4.38':
     dependencies:
-      '@types/node': 20.19.33
+      '@types/node': 20.19.25
 
   '@types/conventional-commits-parser@5.0.2':
     dependencies:
-      '@types/node': 20.19.33
+      '@types/node': 25.2.3
 
   '@types/debug@4.1.12':
     dependencies:
@@ -42313,7 +42345,7 @@ snapshots:
 
   '@types/express-serve-static-core@4.19.7':
     dependencies:
-      '@types/node': 20.19.33
+      '@types/node': 22.19.1
       '@types/qs': 6.14.0
       '@types/range-parser': 1.2.7
       '@types/send': 1.2.1
@@ -42352,7 +42384,7 @@ snapshots:
 
   '@types/graceful-fs@4.1.9':
     dependencies:
-      '@types/node': 20.19.33
+      '@types/node': 20.19.25
 
   '@types/hast@3.0.4':
     dependencies:
@@ -42364,7 +42396,7 @@ snapshots:
 
   '@types/http-proxy@1.17.17':
     dependencies:
-      '@types/node': 20.19.33
+      '@types/node': 25.2.3
 
   '@types/is-stream@1.1.0':
     dependencies:
@@ -42405,13 +42437,13 @@ snapshots:
   '@types/jsonwebtoken@9.0.10':
     dependencies:
       '@types/ms': 2.1.0
-      '@types/node': 20.19.33
+      '@types/node': 22.19.1
 
   '@types/jssha@2.0.0': {}
 
   '@types/keyv@3.1.4':
     dependencies:
-      '@types/node': 20.19.33
+      '@types/node': 25.2.3
 
   '@types/linkify-it@5.0.0': {}
 
@@ -42465,10 +42497,6 @@ snapshots:
     dependencies:
       undici-types: 6.21.0
 
-  '@types/node@20.19.33':
-    dependencies:
-      undici-types: 6.21.0
-
   '@types/node@22.19.1':
     dependencies:
       undici-types: 6.21.0
@@ -42512,18 +42540,18 @@ snapshots:
 
   '@types/readable-stream@4.0.22':
     dependencies:
-      '@types/node': 20.19.33
+      '@types/node': 25.2.3
 
   '@types/request@2.48.13':
     dependencies:
       '@types/caseless': 0.12.5
-      '@types/node': 20.19.33
+      '@types/node': 22.19.1
       '@types/tough-cookie': 4.0.5
       form-data: 2.5.4
 
   '@types/responselike@1.0.3':
     dependencies:
-      '@types/node': 20.19.33
+      '@types/node': 25.2.3
 
   '@types/retry@0.12.0': {}
 
@@ -42532,7 +42560,7 @@ snapshots:
   '@types/rimraf@3.0.2':
     dependencies:
       '@types/glob': 8.1.0
-      '@types/node': 20.19.33
+      '@types/node': 25.2.3
 
   '@types/sax@1.2.7':
     dependencies:
@@ -42541,11 +42569,11 @@ snapshots:
   '@types/send@0.17.6':
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 20.19.33
+      '@types/node': 22.19.1
 
   '@types/send@1.2.1':
     dependencies:
-      '@types/node': 20.19.33
+      '@types/node': 22.19.1
 
   '@types/serve-static@1.15.10':
     dependencies:
@@ -42579,7 +42607,7 @@ snapshots:
 
   '@types/whatwg-url@8.2.2':
     dependencies:
-      '@types/node': 20.19.33
+      '@types/node': 25.2.3
       '@types/webidl-conversions': 7.0.3
 
   '@types/ws@8.18.1':
@@ -43772,6 +43800,10 @@ snapshots:
 
   balanced-match@2.0.0: {}
 
+  balanced-match@4.0.2:
+    dependencies:
+      jackspeak: 4.2.3
+
   bare-events@2.8.2: {}
 
   bare-fs@4.5.1:
@@ -43967,6 +43999,10 @@ snapshots:
     dependencies:
       balanced-match: 1.0.2
 
+  brace-expansion@5.0.2:
+    dependencies:
+      balanced-match: 4.0.2
+
   braces@3.0.3:
     dependencies:
       fill-range: 7.1.1
@@ -44087,7 +44123,7 @@ snapshots:
     dependencies:
       '@npmcli/fs': 5.0.0
       fs-minipass: 3.0.3
-      glob: 13.0.2
+      glob: 13.0.3
       lru-cache: 11.2.6
       minipass: 7.1.2
       minipass-collect: 2.0.1
@@ -44658,7 +44694,7 @@ snapshots:
       conventional-commits-filter: 5.0.0
       handlebars: 4.7.8
       meow: 13.2.0
-      semver: 7.7.4
+      semver: 7.7.3
 
   conventional-commits-filter@5.0.0: {}
 
@@ -47298,9 +47334,9 @@ snapshots:
       package-json-from-dist: 1.0.1
       path-scurry: 2.0.1
 
-  glob@13.0.2:
+  glob@13.0.3:
     dependencies:
-      minimatch: 10.1.2
+      minimatch: 10.2.0
       minipass: 7.1.2
       path-scurry: 2.0.1
 
@@ -48695,6 +48731,10 @@ snapshots:
     dependencies:
       '@isaacs/cliui': 8.0.2
 
+  jackspeak@4.2.3:
+    dependencies:
+      '@isaacs/cliui': 9.0.0
+
   java-properties@1.0.2: {}
 
   jessy@4.1.0: {}
@@ -48711,7 +48751,7 @@ snapshots:
       '@jest/expect': 29.7.0
       '@jest/test-result': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 20.19.33
+      '@types/node': 20.19.25
       chalk: 4.1.2
       co: 4.6.0
       dedent: 1.7.0(babel-plugin-macros@3.1.0)
@@ -48893,7 +48933,7 @@ snapshots:
       '@jest/environment': 29.7.0
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 20.19.33
+      '@types/node': 20.19.25
       jest-mock: 29.7.0
       jest-util: 29.7.0
 
@@ -48905,7 +48945,7 @@ snapshots:
     dependencies:
       '@jest/types': 29.6.3
       '@types/graceful-fs': 4.1.9
-      '@types/node': 20.19.33
+      '@types/node': 20.19.25
       anymatch: 3.1.3
       fb-watchman: 2.0.2
       graceful-fs: 4.2.11
@@ -48951,7 +48991,7 @@ snapshots:
   jest-mock@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 20.19.33
+      '@types/node': 20.19.25
       jest-util: 29.7.0
 
   jest-pnp-resolver@1.2.3(jest-resolve@29.7.0):
@@ -48986,7 +49026,7 @@ snapshots:
       '@jest/test-result': 29.7.0
       '@jest/transform': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 20.19.33
+      '@types/node': 20.19.25
       chalk: 4.1.2
       emittery: 0.13.1
       graceful-fs: 4.2.11
@@ -49014,7 +49054,7 @@ snapshots:
       '@jest/test-result': 29.7.0
       '@jest/transform': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 20.19.33
+      '@types/node': 20.19.25
       chalk: 4.1.2
       cjs-module-lexer: 1.4.3
       collect-v8-coverage: 1.0.3
@@ -49060,7 +49100,7 @@ snapshots:
   jest-util@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 20.19.33
+      '@types/node': 20.19.25
       chalk: 4.1.2
       ci-info: 3.9.0
       graceful-fs: 4.2.11
@@ -49079,7 +49119,7 @@ snapshots:
     dependencies:
       '@jest/test-result': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 20.19.33
+      '@types/node': 20.19.25
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       emittery: 0.13.1
@@ -49088,7 +49128,7 @@ snapshots:
 
   jest-worker@29.7.0:
     dependencies:
-      '@types/node': 20.19.33
+      '@types/node': 20.19.25
       jest-util: 29.7.0
       merge-stream: 2.0.0
       supports-color: 8.1.1
@@ -50517,9 +50557,9 @@ snapshots:
     dependencies:
       '@isaacs/brace-expansion': 5.0.1
 
-  minimatch@10.1.2:
+  minimatch@10.2.0:
     dependencies:
-      '@isaacs/brace-expansion': 5.0.1
+      brace-expansion: 5.0.2
 
   minimatch@3.1.2:
     dependencies:
@@ -52212,7 +52252,7 @@ snapshots:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 20.19.33
+      '@types/node': 25.2.3
       long: 5.3.2
 
   protobufjs@7.5.4:
@@ -52238,7 +52278,7 @@ snapshots:
   proxy-agent@6.3.1:
     dependencies:
       agent-base: 7.1.4
-      debug: 4.4.3(supports-color@9.4.0)
+      debug: 4.3.4
       http-proxy-agent: 7.0.2
       https-proxy-agent: 7.0.6
       lru-cache: 7.18.3
@@ -53543,7 +53583,7 @@ snapshots:
 
   semver-diff@5.0.0:
     dependencies:
-      semver: 7.7.4
+      semver: 7.7.3
 
   semver-regex@4.0.5: {}
 
@@ -53783,7 +53823,7 @@ snapshots:
 
   simple-update-notifier@2.0.0:
     dependencies:
-      semver: 7.7.4
+      semver: 7.7.3
 
   simple-xml2json@1.2.3: {}
 
