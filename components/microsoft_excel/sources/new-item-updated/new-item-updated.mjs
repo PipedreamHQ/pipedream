@@ -7,7 +7,7 @@ export default {
   key: "microsoft_excel-new-item-updated",
   name: "New Spreadsheet Updated (Instant)",
   description: "Emit new event when an Excel spreadsheet is updated.",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "source",
   methods: {
     ...common.methods,

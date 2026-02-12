@@ -9492,9 +9492,15 @@ importers:
 
   components/microsoft_excel:
     dependencies:
+      '@microsoft/microsoft-graph-client':
+        specifier: ^3.0.7
+        version: 3.0.7
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
+      isomorphic-fetch:
+        specifier: ^3.0.0
+        version: 3.0.0(encoding@0.1.13)
       json-2-csv:
         specifier: ^5.5.9
         version: 5.5.10
@@ -40396,7 +40402,6 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
-      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.60)(rollup@4.53.2)':
     dependencies:
