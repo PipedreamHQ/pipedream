@@ -5,8 +5,8 @@ export default {
   ...common,
   key: "highlevel_oauth-new-contact-created",
   name: "New Contact Created",
-  description: "Emit new event when a new contact is created. [See the documentation](https://highlevel.stoplight.io/docs/integrations/ab55933a57f6f-get-contacts)",
-  version: "0.0.1",
+  description: "Emit new event when a new contact is created. [See the documentation](https://marketplace.gohighlevel.com/docs/ghl/contacts/get-contacts)",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
