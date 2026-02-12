@@ -7,12 +7,12 @@ export default {
     idp: {
       type: "string",
       label: "IDP",
-      description: "The identity provider can anything that represents the provider uniquely for your merchant. Examples: `CRM`, `internal-system`, `facebook`, `X` or whatever you prefer.",
+      description: "The identity provider can be anything that represents the provider uniquely for your merchant. Examples: `CRM`, `internal-system`, `facebook`, `X` or whatever you prefer.",
     },
     identity: {
       type: "string",
       label: "Identity",
-      description: "The identity field specifies a unique identifier for the user withing the context of the specified provider. Values are also arbitrary, they could represent a user ID within an external platform or anything that can uniquely identify a user within it.",
+      description: "The identity field specifies a unique identifier for the user within the context of the specified provider. Values are also arbitrary, they could represent a user ID within an external platform or anything that can uniquely identify a user within it.",
     },
   },
   methods: {
@@ -63,7 +63,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/idps/${idp}/${encodeURIComponent(identity)}/user`,
+        path: `/idps/${encodeURIComponent(idp)}/${encodeURIComponent(identity)}/user`,
         ...opts,
       });
     },
