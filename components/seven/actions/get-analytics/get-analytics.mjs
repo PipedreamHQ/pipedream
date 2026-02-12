@@ -52,6 +52,7 @@ export default {
     if (this.start) params.start = this.start;
     if (this.end) params.end = this.end;
     if (this.label) params.label = this.label;
+    if (this.subaccounts) params.subaccounts = this.subaccounts;
     if (this.groupBy) params.group_by = this.groupBy;
 
     const response = await this.app.getAnalytics({

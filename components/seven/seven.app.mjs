@@ -106,13 +106,6 @@ export default {
         ...opts,
       });
     },
-    sendVoiceCall(opts = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/voice",
-        ...opts,
-      });
-    },
     createHook(opts = {}) {
       return this._makeRequest({
         method: "POST",
