@@ -81,6 +81,14 @@ export default {
         ...opts,
       });
     },
+    listOrderShipments({
+      orderReference, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/order/${orderReference}/shipment`,
+        ...opts,
+      });
+    },
     updateOrder({
       orderReference, ...opts
     }) {

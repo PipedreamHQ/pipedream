@@ -3,8 +3,8 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-create-filter",
   name: "Create Filter",
-  description: "Creates a filter. [See the docs here](https://developer.todoist.com/sync/v9/#add-a-filter)",
-  version: "0.0.4",
+  description: "Creates a filter. [See the documentation](https://developer.todoist.com/api/v1#tag/Sync/Filters/Add-a-filter)",
+  version: "0.0.5",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -57,9 +57,7 @@ export default {
       query,
       color,
       item_order: order,
-      is_favorite: favorite
-        ? 1
-        : 0,
+      is_favorite: favorite,
     };
     const resp = await this.todoist.createFilter({
       $,

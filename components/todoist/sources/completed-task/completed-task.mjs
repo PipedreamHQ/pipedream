@@ -4,8 +4,8 @@ export default {
   ...common,
   key: "todoist-completed-task",
   name: "New Completed Task",
-  description: "Emit new event for each completed task. [See the docs here](https://developer.todoist.com/sync/v8/#read-resources)",
-  version: "1.0.0",
+  description: "Emit new event for each completed task. [See the documentation](https://developer.todoist.com/api/v1#tag/Sync/Overview/Read-resources)",
+  version: "1.0.1",
   type: "source",
   dedupe: "unique",
   methods: {
