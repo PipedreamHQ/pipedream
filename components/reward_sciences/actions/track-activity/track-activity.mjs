@@ -5,7 +5,7 @@ export default {
   key: "reward_sciences-track-activity",
   name: "Track Activity",
   description: "Records an activity for a participant in Reward Sciences. [See the documentation](https://developers.rewardsciences.com/api/docs)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -15,14 +15,16 @@ export default {
   props: {
     rewardSciences,
     idp: {
-      type: "string",
-      label: "IDP",
-      description: "The identity provider can anything that represents the provider uniquely for your merchant. Examples: `email`, `CRM`, `internal-system`, `facebook`, `X` or whatever you prefer.",
+      propDefinition: [
+        rewardSciences,
+        "idp",
+      ],
     },
     identity: {
-      type: "string",
-      label: "Identity",
-      description: "The identity field specifies a unique identifier for the user withing the context of the specified provider. Values are also arbitrary, they could represent a unique email address, a user ID within an external platform or anything that can uniquely identify a user within it.",
+      propDefinition: [
+        rewardSciences,
+        "identity",
+      ],
     },
     activityType: {
       type: "string",
