@@ -41,7 +41,7 @@ export default {
     strategy: {
       type: "string",
       label: "Strategy",
-      description: "The strategy to use for partitioning PDF/image`",
+      description: "The strategy to use for partitioning PDF/image",
       options: [
         "fast",
         "hi_res",
