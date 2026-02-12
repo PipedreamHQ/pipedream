@@ -5688,7 +5688,14 @@ importers:
 
   components/forms_on_fire: {}
 
-  components/formsite: {}
+  components/formsite:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.2
+        version: 3.2.4
+      qs:
+        specifier: ^6.14.1
+        version: 6.14.1
 
   components/formspree:
     dependencies:
