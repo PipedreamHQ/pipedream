@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import microsoftOutlook from "../../microsoft_outlook_calendar.app.mjs";
 
 export default {
@@ -58,7 +59,12 @@ export default {
       "$top": this.maxResults,
     };
 
-    const { value = [] } = !this.includeRecurring
+    const { includeRecurring } = this;
+    if (includeRecurring && (!this.startDateTime || !this.endDateTime)) {
+      throw new ConfigurationError("`Start Date Time` and `End Date Time` are required when `Include Recurring` is true");
+    }
+
+    const { value = [] } = !includeRecurring
       ? await this.microsoftOutlook.listCalendarEvents({
         $,
         params,
@@ -72,7 +78,7 @@ export default {
         },
       });
 
-    const events = !this.includeRecurring
+    const events = !includeRecurring
       ? value.filter((event) => !event.recurrence)
       : value;
 
