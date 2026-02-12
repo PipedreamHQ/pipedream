@@ -14587,7 +14587,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/sparkpost: {}
+  components/sparkpost:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.2
+        version: 3.2.2
 
   components/speak_ai:
     dependencies:
@@ -40379,6 +40383,7 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
+      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.60)(rollup@4.53.2)':
     dependencies:
