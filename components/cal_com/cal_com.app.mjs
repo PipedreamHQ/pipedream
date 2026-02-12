@@ -109,9 +109,16 @@ export default {
         },
         ...otherArgs,
       };
-      return this._withRetries(() => {
-        return axios($, config);
-      });
+      try {
+        return await this._withRetries(() => axios($, config));
+      } catch (error) {
+        const apiMessage =
+          error?.response?.data?.error?.message ||
+          error?.response?.data?.message ||
+          error?.message ||
+          "Unknown Cal.com API error";
+        throw new ConfigurationError(apiMessage);
+      }
     },
     _isRetriableStatusCode(statusCode) {
       return [
@@ -138,7 +145,7 @@ export default {
               ${JSON.stringify(err.response)}
             `);
           }
-          throw new ConfigurationError("Could not get data");
+          throw err;
         }
       }, retryOpts);
     },
