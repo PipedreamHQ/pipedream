@@ -337,6 +337,36 @@ export default {
         };
       },
     },
+    permissionId: {
+      type: "string",
+      label: "Permission ID",
+      description: "The ID of the permission.",
+      async options({
+        fileId, prevContext,
+      }) {
+        const { pageToken } = prevContext;
+        const {
+          permissions, nextPageToken,
+        } = await this.listPermissions(
+          pageToken,
+          fileId,
+        );
+
+        return {
+          options: permissions
+            ?.filter(({ role }) => role !== "owner")
+            .map(({
+              id, role, type,
+            }) => ({
+              label: `${type} - ${role}`,
+              value: id,
+            })) || [],
+          context: {
+            pageToken: nextPageToken,
+          },
+        };
+      },
+    },
   },
   methods: {
     // Static methods
@@ -1456,6 +1486,36 @@ export default {
             domain,
             emailAddress,
           }),
+        })
+      ).data;
+    },
+    /**
+     * Delete a permission for a file
+     *
+     * @param {string} fileId - the ID value of the file for which to delete a
+     * permission
+     * @param {string} permissionId - the ID value of the permission to delete
+     * @returns the deleted permission
+     */
+    async deletePermission(opts = {}) {
+      const drive = this.drive();
+      return (
+        await drive.permissions.delete(opts)
+      ).data;
+    },
+    /**
+     * List permissions for a file
+     *
+     * @param {string} fileId - the ID value of the file for which to list permissions
+     * permission
+     * @returns the list of permissions
+     */
+    async listPermissions(pageToken, fileId) {
+      const drive = this.drive();
+      return (
+        await drive.permissions.list({
+          pageToken,
+          fileId,
         })
       ).data;
     },
