@@ -1,4 +1,3 @@
-/// <reference types="node" />
 import { Readable } from "stream";
 export interface FileMetadata {
     size: number;

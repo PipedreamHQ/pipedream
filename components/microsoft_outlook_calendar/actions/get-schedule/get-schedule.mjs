@@ -8,7 +8,7 @@ export default {
   key: "microsoft_outlook_calendar-get-schedule",
   name: "Get Free/Busy Schedule",
   description: "Get the free/busy availability information for a collection of users, distributions lists, or resources (rooms or equipment) for a specified time period. [See the documentation](https://learn.microsoft.com/en-us/graph/api/calendar-getschedule)",
-  version: "0.0.7",
+  version: "0.0.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -48,13 +48,6 @@ export default {
     },
   },
   methods: {
-    getSchedule(opts = {}) {
-      return this.microsoftOutlook._makeRequest({
-        method: "POST",
-        path: "/me/calendar/getSchedule",
-        ...opts,
-      });
-    },
     convertWorkingHoursToItemTimezone(response) {
       const workingHours = response?.workingHours;
 
@@ -93,8 +86,8 @@ export default {
 
     const schedules = utils.parseArray(this.schedules);
 
-    const { value } = await this.getSchedule({
-      $,
+    const { value } = await this.microsoftOutlook.getSchedule({
+      timeZone: this.timeZone,
       data: {
         schedules,
         startTime: {
@@ -106,9 +99,6 @@ export default {
           timeZone: this.timeZone,
         },
         availabilityViewInterval: this.availabilityViewInterval,
-      },
-      headers: {
-        Prefer: `outlook.timezone="${this.timeZone}"`,
       },
     });
 

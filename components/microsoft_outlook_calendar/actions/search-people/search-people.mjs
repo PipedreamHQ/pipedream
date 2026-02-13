@@ -4,7 +4,7 @@ export default {
   key: "microsoft_outlook_calendar-search-people",
   name: "Search People",
   description: "Retrieve a collection of person objects ordered by their relevance to the user, based on communication and collaboration patterns and business relationships. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list-people)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

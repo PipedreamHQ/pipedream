@@ -5,7 +5,7 @@ export default {
   key: "sharepoint-retrieve-file-metadata",
   name: "Retrieve File Metadata",
   description: "Browse and select files from SharePoint to retrieve their metadata (name, size, dates, etc.) without download URLs. Useful for file inspection and organization workflows. [See the documentation](https://learn.microsoft.com/en-us/graph/api/driveitem-get)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -20,42 +20,39 @@ export default {
         "siteId",
       ],
       withLabel: true,
-      reloadProps: true,
     },
     driveId: {
       propDefinition: [
         sharepoint,
         "driveId",
         (c) => ({
-          siteId: c.siteId?.__lv?.value || c.siteId,
+          siteId: c.siteId?.value || c.siteId,
         }),
       ],
       withLabel: true,
-      reloadProps: true,
     },
     folderId: {
       propDefinition: [
         sharepoint,
         "folderId",
         (c) => ({
-          siteId: c.siteId?.__lv?.value || c.siteId,
-          driveId: c.driveId?.__lv?.value || c.driveId,
+          siteId: c.siteId?.value || c.siteId,
+          driveId: c.driveId?.value || c.driveId,
         }),
       ],
       label: "Folder",
       description: "The folder to browse. Leave empty to browse the root of the drive.",
       optional: true,
       withLabel: true,
-      reloadProps: true,
     },
     fileOrFolderIds: {
       propDefinition: [
         sharepoint,
         "fileOrFolderId",
         (c) => ({
-          siteId: c.siteId?.__lv?.value || c.siteId,
-          driveId: c.driveId?.__lv?.value || c.driveId,
-          folderId: c.folderId?.__lv?.value || c.folderId,
+          siteId: c.siteId?.value || c.siteId,
+          driveId: c.driveId?.value || c.driveId,
+          folderId: c.folderId?.value || c.folderId,
         }),
       ],
       type: "string[]",

@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.$sendConfigRuntimeTypeChecker = exports.$send = exports.$end = exports.END_NEEDLE = exports.$event = exports.sendTypeMap = exports.SendConfigSSE = exports.SendConfigSnowflake = exports.SendConfigSQL = exports.SendConfigS3 = exports.SendConfigHTTP = exports.HTTP_METHODS = exports.SendConfigEmit = exports.SendConfigEmit_optional = exports.SendConfigEmit_required = exports.SendConfigEmail = exports.transformConfigForOauth = exports.axios = void 0;
+exports.$sendConfigRuntimeTypeChecker = exports.$send = exports.END_NEEDLE = exports.$event = exports.sendTypeMap = exports.SendConfigSSE = exports.SendConfigSnowflake = exports.SendConfigSQL = exports.SendConfigS3 = exports.SendConfigHTTP = exports.HTTP_METHODS = exports.SendConfigEmit = exports.SendConfigEmit_optional = exports.SendConfigEmit_required = exports.SendConfigEmail = exports.PD_OFFICIAL_GMAIL_OAUTH_CLIENT_ID = exports.DEFAULT_POLLING_SOURCE_TIMER_INTERVAL = exports.sqlProxy = exports.sqlProp = exports.ConfigurationError = exports.getFileStream = exports.getFileStreamAndMetadata = exports.jsonStringifySafe = exports.cloneSafe = exports.transformConfigForOauth = exports.axios = void 0;
+exports.$end = $end;
 const t = require("io-ts");
 const axios_1 = require("./axios");
 exports.axios = axios_1.default;
@@ -122,7 +123,6 @@ function $end(message) {
     };
     throw err;
 }
-exports.$end = $end;
 exports.$sendConfigRuntimeTypeChecker = (function () {
     const ret = {};
     for (const [sendName, sendConfigType,] of Object.entries(exports.sendTypeMap)) {

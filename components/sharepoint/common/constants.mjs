@@ -42,9 +42,75 @@ const SHARING_LINK_SCOPE_OPTIONS = [
   },
 ];
 
+const PDF_CONVERTIBLE_FORMATS = [
+  "doc",
+  "docx",
+  "dot",
+  "dotx",
+  "dotm",
+  "dsn",
+  "dwg",
+  "eml",
+  "epub",
+  "fluidframework",
+  "form",
+  "htm",
+  "html",
+  "loop",
+  "loot",
+  "markdown",
+  "md",
+  "msg",
+  "note",
+  "odp",
+  "ods",
+  "odt",
+  "page",
+  "pps",
+  "ppsx",
+  "ppt",
+  "pptx",
+  "pulse",
+  "rtf",
+  "task",
+  "tif",
+  "tiff",
+  "wbtx",
+  "whiteboard",
+  "xls",
+  "xlsm",
+  "xlsx",
+];
+
+const HTML_CONVERTIBLE_FORMATS = [
+  "loop",
+  "fluid",
+  "wbtx",
+];
+const RETURN_CONTENT_TYPE_OPTIONS = [
+  {
+    label: "Only Files",
+    value: "files",
+  },
+  {
+    label: "Only Folders",
+    value: "folders",
+  },
+  {
+    label: "Both Files and Folders",
+    value: "all",
+  },
+];
+
 export {
   WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS,
   WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS,
+};
+
+export default {
   SHARING_LINK_TYPE_OPTIONS,
   SHARING_LINK_SCOPE_OPTIONS,
+  PDF_CONVERTIBLE_FORMATS,
+  HTML_CONVERTIBLE_FORMATS,
+  RETURN_CONTENT_TYPE_OPTIONS,
 };

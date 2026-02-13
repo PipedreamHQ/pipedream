@@ -7,7 +7,7 @@ export default {
   key: "microsoft_excel-new-item-created",
   name: "New Spreadsheet Created (Instant)",
   description: "Emit new event when a new Excel spreadsheet is created.",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "source",
   hooks: {
     ...common.hooks,

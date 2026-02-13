@@ -5,7 +5,7 @@ export default {
   key: "jira-create-custom-field-options-context",
   name: "Create Custom Field Options (Context)",
   description: "Create a context for custom field options. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-custom-field-options/#api-rest-api-3-field-fieldid-context-contextid-option-post).",
-  version: "0.0.8",
+  version: "0.0.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

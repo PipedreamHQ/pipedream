@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/microsoft_entra_id",
-  "version": "0.1.2",
+  "version": "0.2.1",
   "description": "Pipedream Microsoft Entra ID Components",
   "main": "microsoft_entra_id.app.mjs",
   "keywords": [
@@ -13,7 +13,9 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.6.8",
+    "@microsoft/microsoft-graph-client": "^3.0.7",
+    "@pipedream/platform": "^3.1.1",
+    "isomorphic-fetch": "^3.0.0",
     "lodash.pickby": "^4.6.0"
   }
 }

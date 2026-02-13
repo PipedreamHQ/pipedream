@@ -4,7 +4,7 @@ export default {
   key: "microsoft_outlook-reply-to-email",
   name: "Reply to Email",
   description: "Reply to an email in Microsoft Outlook. [See the documentation](https://learn.microsoft.com/en-us/graph/api/message-reply)",
-  version: "0.0.11",
+  version: "0.0.14",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
