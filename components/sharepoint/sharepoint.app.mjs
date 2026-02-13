@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS } from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -219,6 +220,41 @@ export default {
           }));
       },
     },
+    fileIds: {
+      type: "string[]",
+      label: "Files",
+      description: "Select files or enter custom file IDs.",
+      async options({
+        siteId, driveId, folderId,
+      }) {
+        const resolvedSiteId = this.resolveWrappedValue(siteId);
+        const resolvedDriveId = this.resolveWrappedValue(driveId);
+        const resolvedFolderId = this.resolveWrappedValue(folderId);
+
+        if (!resolvedSiteId || !resolvedDriveId) {
+          return [];
+        }
+
+        const response = resolvedFolderId
+          ? await this.listDriveItemsInFolder({
+            driveId: resolvedDriveId,
+            folderId: resolvedFolderId,
+          })
+          : await this.listDriveItems({
+            siteId: resolvedSiteId,
+            driveId: resolvedDriveId,
+          });
+
+        return response.value
+          ?.filter(({ folder }) => !folder)
+          .map(({
+            id, name,
+          }) => ({
+            label: name,
+            value: id,
+          })) || [];
+      },
+    },
     excelFileId: {
       type: "string",
       label: "Spreadsheet",
@@ -312,6 +348,18 @@ export default {
     resolveWrappedValue(value) {
       return value?.__lv?.value || value;
     },
+    /**
+     * Resolves an array of potentially wrapped labeled values.
+     * Handles both `{ __lv: [{ label, value }, ...] }` and plain arrays.
+     */
+    resolveWrappedArrayValues(arr) {
+      if (!arr) return [];
+      // Handle __lv wrapped array
+      const unwrapped = arr?.__lv || arr;
+      if (!Array.isArray(unwrapped)) return [];
+      // Extract value from each item if it's a labeled value object
+      return unwrapped.map((item) => item?.value ?? item);
+    },
     _baseUrl() {
       return "https://graph.microsoft.com/v1.0";
     },
@@ -324,11 +372,12 @@ export default {
     _makeRequest({
       $ = this,
       path,
+      url,
       headers,
       ...args
     }) {
       return axios($, {
-        url: `${this._baseUrl()}${path}`,
+        url: url || `${this._baseUrl()}${path}`,
         headers: this._headers(headers),
         ...args,
       });
@@ -578,6 +627,25 @@ export default {
         ...args,
       });
     },
+    /**
+     * Get delta changes for a drive.
+     * https://learn.microsoft.com/en-us/graph/api/driveitem-delta
+     */
+    getDriveDelta({
+      driveId, deltaLink, ...args
+    }) {
+      // If we have a deltaLink/nextLink, use it as full URL; otherwise build path
+      if (deltaLink) {
+        return this._makeRequest({
+          url: deltaLink,
+          ...args,
+        });
+      }
+      return this._makeRequest({
+        path: `/drives/${driveId}/root/delta`,
+        ...args,
+      });
+    },
     async *paginate({
       fn, args,
     }) {
@@ -597,6 +665,63 @@ export default {
 
         nextLink = response["@odata.nextLink"];
       } while (nextLink);
+    },
+    /**
+     * Creates a Microsoft Graph subscription for change notifications.
+     * https://learn.microsoft.com/en-us/graph/api/subscription-post-subscriptions
+     */
+    createSubscription({
+      resource, notificationUrl, changeType = "updated", clientState, ...args
+    }) {
+      const expirationDateTime = new Date(
+        Date.now() + WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS,
+      ).toISOString();
+
+      return this._makeRequest({
+        method: "POST",
+        path: "/subscriptions",
+        data: {
+          changeType,
+          notificationUrl,
+          resource,
+          expirationDateTime,
+          clientState,
+        },
+        ...args,
+      });
+    },
+    /**
+     * Updates a subscription's expiration time (renewal).
+     * https://learn.microsoft.com/en-us/graph/api/subscription-update
+     */
+    updateSubscription({
+      subscriptionId, ...args
+    }) {
+      const expirationDateTime = new Date(
+        Date.now() + WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS,
+      ).toISOString();
+
+      return this._makeRequest({
+        method: "PATCH",
+        path: `/subscriptions/${subscriptionId}`,
+        data: {
+          expirationDateTime,
+        },
+        ...args,
+      });
+    },
+    /**
+     * Deletes a subscription.
+     * https://learn.microsoft.com/en-us/graph/api/subscription-delete
+     */
+    deleteSubscription({
+      subscriptionId, ...args
+    }) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/subscriptions/${subscriptionId}`,
+        ...args,
+      });
     },
   },
 };
