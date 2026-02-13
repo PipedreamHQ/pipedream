@@ -10194,7 +10194,11 @@ importers:
 
   components/newslit: {}
 
-  components/newsman: {}
+  components/newsman:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.5
+        version: 3.2.5
 
   components/nextcloud:
     dependencies:
