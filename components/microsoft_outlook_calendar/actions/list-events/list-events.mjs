@@ -1,10 +1,11 @@
+import { ConfigurationError } from "@pipedream/platform";
 import microsoftOutlook from "../../microsoft_outlook_calendar.app.mjs";
 
 export default {
   key: "microsoft_outlook_calendar-list-events",
   name: "List Events",
   description: "Get a list of event objects in the user's mailbox. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list-events)",
-  version: "0.0.8",
+  version: "0.0.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -37,25 +38,19 @@ export default {
       label: "Include Recurring",
       description: "Whether to include recurring events",
       optional: true,
-      reloadProps: true,
     },
-  },
-  additionalProps() {
-    if (!this.includeRecurring) {
-      return {};
-    }
-    return {
-      startDateTime: {
-        type: "string",
-        label: "Start Date Time",
-        description: "The start date and time of the time range, represented in ISO 8601 format. For example, `2019-11-08T19:00:00-08:00`",
-      },
-      endDateTime: {
-        type: "string",
-        label: "End Date Time",
-        description: "The end date and time of the time range, represented in ISO 8601 format. For example, `2019-11-08T20:00:00-08:00`",
-      },
-    };
+    startDateTime: {
+      type: "string",
+      label: "Start Date Time",
+      description: "If `Include Recurring` is true, this is the start date and time of the time range, represented in ISO 8601 format. For example, `2019-11-08T19:00:00-08:00`.",
+      optional: true,
+    },
+    endDateTime: {
+      type: "string",
+      label: "End Date Time",
+      description: "If `Include Recurring` is true, this is the end date and time of the time range, represented in ISO 8601 format. For example, `2019-11-08T20:00:00-08:00`.",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const params = {
@@ -64,7 +59,12 @@ export default {
       "$top": this.maxResults,
     };
 
-    const { value = [] } = !this.includeRecurring
+    const { includeRecurring } = this;
+    if (includeRecurring && (!this.startDateTime || !this.endDateTime)) {
+      throw new ConfigurationError("`Start Date Time` and `End Date Time` are required when `Include Recurring` is true");
+    }
+
+    const { value = [] } = !includeRecurring
       ? await this.microsoftOutlook.listCalendarEvents({
         $,
         params,
@@ -78,7 +78,7 @@ export default {
         },
       });
 
-    const events = !this.includeRecurring
+    const events = !includeRecurring
       ? value.filter((event) => !event.recurrence)
       : value;
 
