@@ -1,4 +1,4 @@
-import { v4 as uuid } from "uuid";
+import { randomUUID } from "crypto";
 import sharepoint from "../../sharepoint.app.mjs";
 import { WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS } from "../../common/constants.mjs";
 
@@ -75,7 +75,7 @@ export default {
   hooks: {
     async activate() {
       // Generate a unique client state for validating incoming webhooks
-      const clientState = uuid();
+      const clientState = randomUUID();
 
       // Resolve wrapped prop values
       const driveId = this.sharepoint.resolveWrappedValue(this.driveId);
