@@ -5,7 +5,7 @@ export default {
   key: "microsoft_outlook_calendar-list-events",
   name: "List Events",
   description: "Get a list of event objects in the user's mailbox. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list-events)",
-  version: "0.0.9",
+  version: "0.0.10",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -36,19 +36,19 @@ export default {
     includeRecurring: {
       type: "boolean",
       label: "Include Recurring",
-      description: "Whether to include recurring events",
+      description: "Must set to true to include recurring events in results. When true, you must also provide `Start Date Time` and `End Date Time`. Set to false to return only non-recurring events.",
       optional: true,
     },
     startDateTime: {
       type: "string",
       label: "Start Date Time",
-      description: "If `Include Recurring` is true, this is the start date and time of the time range, represented in ISO 8601 format. For example, `2019-11-08T19:00:00-08:00`.",
+      description: "Required when `Include Recurring` is true. The start date and time of the time range in ISO 8601 format (e.g. `2019-11-08T19:00:00-08:00`).",
       optional: true,
     },
     endDateTime: {
       type: "string",
       label: "End Date Time",
-      description: "If `Include Recurring` is true, this is the end date and time of the time range, represented in ISO 8601 format. For example, `2019-11-08T20:00:00-08:00`.",
+      description: "Required when `Include Recurring` is true. The end date and time of the time range in ISO 8601 format (e.g. `2019-11-08T20:00:00-08:00`).",
       optional: true,
     },
   },
