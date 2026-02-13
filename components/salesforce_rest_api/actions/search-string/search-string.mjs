@@ -67,7 +67,7 @@ export default {
         },
       };
     });
-    $.export("$summary", `Sucessfully found ${resultsFound} result${resultsFound === 1
+    $.export("$summary", `Successfully found ${resultsFound} result${resultsFound === 1
       ? ""
       : "s"}`);
     return response;
