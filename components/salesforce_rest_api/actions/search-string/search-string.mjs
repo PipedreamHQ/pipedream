@@ -3,9 +3,8 @@ import salesforce from "../../salesforce_rest_api.app.mjs";
 export default {
   key: "salesforce_rest_api-search-string",
   name: "Search Object Records",
-  description:
-    "Searches for records in an object using a parameterized search. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_search_parameterized_get.htm)",
-  version: "0.0.6",
+  description: "Searches for records in an object using a parameterized search. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_search_parameterized_get.htm)",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -24,18 +23,21 @@ export default {
         salesforce,
         "objectType",
       ],
-      description: "The type of object to search for records.",
+      description: "The type of object to search for records",
     },
     searchTerm: {
       type: "string",
       label: "Search Term",
-      description: "The term to search for.",
+      description: "The term to search for",
     },
     fields: {
-      type: "string[]",
-      label: "Fields",
-      description:
-        "List of the Salesforce object's fields to get values from, such as `Id` or `Name`.",
+      propDefinition: [
+        salesforce,
+        "fieldsToObtain",
+        (c) => ({
+          objType: c.sobjectType,
+        }),
+      ],
     },
   },
   async run({ $ }) {
@@ -54,7 +56,20 @@ export default {
       },
     });
     const resultsFound = response.searchRecords.length;
-    $.export("$summary", `Sucessfully found ${resultsFound} results`);
+    response.searchRecords = response.searchRecords.map((record) => {
+      const url = record?.attributes?.url;
+      if (!url) return record;
+      return {
+        ...record,
+        attributes: {
+          ...record.attributes,
+          url: `${this.salesforce._baseApiUrl()}${url}`,
+        },
+      };
+    });
+    $.export("$summary", `Sucessfully found ${resultsFound} result${resultsFound === 1
+      ? ""
+      : "s"}`);
     return response;
   },
 };
