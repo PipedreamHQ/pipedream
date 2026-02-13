@@ -1,37 +1,12 @@
 import { Client } from "@microsoft/microsoft-graph-client";
 import "isomorphic-fetch";
 import pickBy from "lodash.pickby";
-
-const DAY_OF_WEEK_OPTIONS = [
-  {
-    label: "Sunday",
-    value: "sunday",
-  },
-  {
-    label: "Monday",
-    value: "monday",
-  },
-  {
-    label: "Tuesday",
-    value: "tuesday",
-  },
-  {
-    label: "Wednesday",
-    value: "wednesday",
-  },
-  {
-    label: "Thursday",
-    value: "thursday",
-  },
-  {
-    label: "Friday",
-    value: "friday",
-  },
-  {
-    label: "Saturday",
-    value: "saturday",
-  },
-];
+import {
+  DAY_OF_WEEK_OPTIONS,
+  RECURRENCE_PATTERN_TYPE_OPTIONS,
+  RECURRENCE_INDEX_OPTIONS,
+  RECURRENCE_RANGE_TYPE_OPTIONS,
+} from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -156,32 +131,7 @@ export default {
       description: "How often the event repeats. Required when creating a recurring event. [See recurrence pattern docs](https://learn.microsoft.com/en-us/graph/api/resources/recurrencepattern)",
       type: "string",
       optional: true,
-      options: [
-        {
-          label: "Daily",
-          value: "daily",
-        },
-        {
-          label: "Weekly",
-          value: "weekly",
-        },
-        {
-          label: "Absolute Monthly (e.g. 15th of each month)",
-          value: "absoluteMonthly",
-        },
-        {
-          label: "Relative Monthly (e.g. 2nd Tuesday)",
-          value: "relativeMonthly",
-        },
-        {
-          label: "Absolute Yearly (e.g. March 15 every year)",
-          value: "absoluteYearly",
-        },
-        {
-          label: "Relative Yearly (e.g. 2nd Thursday of November)",
-          value: "relativeYearly",
-        },
-      ],
+      options: RECURRENCE_PATTERN_TYPE_OPTIONS,
     },
     recurrenceInterval: {
       label: "Recurrence Interval",
@@ -226,28 +176,7 @@ export default {
       description: "Which instance in the month/year (e.g. second Tuesday). Optional for relativeMonthly and relativeYearly; defaults to first.",
       type: "string",
       optional: true,
-      options: [
-        {
-          label: "First",
-          value: "first",
-        },
-        {
-          label: "Second",
-          value: "second",
-        },
-        {
-          label: "Third",
-          value: "third",
-        },
-        {
-          label: "Fourth",
-          value: "fourth",
-        },
-        {
-          label: "Last",
-          value: "last",
-        },
-      ],
+      options: RECURRENCE_INDEX_OPTIONS,
       default: "first",
     },
     recurrenceRangeType: {
@@ -255,20 +184,7 @@ export default {
       description: "How the recurrence ends. [See recurrence range docs](https://learn.microsoft.com/en-us/graph/api/resources/recurrencerange)",
       type: "string",
       optional: true,
-      options: [
-        {
-          label: "No end date",
-          value: "noEnd",
-        },
-        {
-          label: "End by date",
-          value: "endDate",
-        },
-        {
-          label: "End after N occurrences",
-          value: "numbered",
-        },
-      ],
+      options: RECURRENCE_RANGE_TYPE_OPTIONS,
     },
     recurrenceEndDate: {
       label: "Recurrence End Date",

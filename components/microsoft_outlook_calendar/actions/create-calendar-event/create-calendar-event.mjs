@@ -1,22 +1,10 @@
 import microsoftOutlook from "../../microsoft_outlook_calendar.app.mjs";
-
-const DAYS_OF_WEEK_TYPES = [
-  "weekly",
-  "relativeMonthly",
-  "relativeYearly",
-];
-const ABSOLUTE_TYPES = [
-  "absoluteMonthly",
-  "absoluteYearly",
-];
-const YEARLY_TYPES = [
-  "absoluteYearly",
-  "relativeYearly",
-];
-const RELATIVE_TYPES = [
-  "relativeMonthly",
-  "relativeYearly",
-];
+import {
+  DAYS_OF_WEEK_TYPES,
+  ABSOLUTE_TYPES,
+  YEARLY_TYPES,
+  RELATIVE_TYPES,
+} from "../../common/constants.mjs";
 
 export default {
   type: "action",
