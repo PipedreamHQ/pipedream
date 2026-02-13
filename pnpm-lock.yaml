@@ -10171,7 +10171,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/new_sloth: {}
+  components/new_sloth:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.5
+        version: 3.2.5
 
   components/new_york_times:
     dependencies:
@@ -39709,14 +39713,14 @@ snapshots:
 
   '@pipedream/notiff_io@0.1.0':
     dependencies:
-      '@pipedream/platform': 3.2.4
+      '@pipedream/platform': 3.2.5
     transitivePeerDependencies:
       - debug
 
   '@pipedream/notion@1.0.6(encoding@0.1.13)':
     dependencies:
       '@notionhq/client': 5.4.0
-      '@pipedream/platform': 3.2.4
+      '@pipedream/platform': 3.2.5
       '@tryfabric/martian': 1.2.4(encoding@0.1.13)
       lodash-es: 4.17.23
       notion-helper: 1.3.29
@@ -39834,20 +39838,20 @@ snapshots:
 
   '@pipedream/procore@0.1.0':
     dependencies:
-      '@pipedream/platform': 3.2.4
+      '@pipedream/platform': 3.2.5
       uuid: 11.1.0
     transitivePeerDependencies:
       - debug
 
   '@pipedream/quickbooks@0.8.0':
     dependencies:
-      '@pipedream/platform': 3.2.4
+      '@pipedream/platform': 3.2.5
     transitivePeerDependencies:
       - debug
 
   '@pipedream/ramp@0.1.2':
     dependencies:
-      '@pipedream/platform': 3.2.4
+      '@pipedream/platform': 3.2.5
       uuid: 10.0.0
     transitivePeerDependencies:
       - debug
