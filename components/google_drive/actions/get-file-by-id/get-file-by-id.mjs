@@ -5,7 +5,7 @@ export default {
   key: "google_drive-get-file-by-id",
   name: "Get File By ID",
   description: "Get info on a specific file. [See the documentation](https://developers.google.com/drive/api/reference/rest/v3/files/get) for more information",
-  version: "0.0.12",
+  version: "0.0.13",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
