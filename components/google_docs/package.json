@@ -15,6 +15,6 @@
   "dependencies": {
     "@googleapis/docs": "^3.3.0",
     "@pipedream/google_drive": "^1.4.1",
-    "markdown-it": "^14.1.0"
+    "markdown-it": "^14.1.1"
   }
 }
