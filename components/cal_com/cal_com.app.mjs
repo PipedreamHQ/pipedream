@@ -138,12 +138,9 @@ export default {
 
           return data;
         } catch (err) {
-          const { status = 500 } = err;
+          const status = err?.response?.status ?? 500;
           if (!this._isRetriableStatusCode(status)) {
-            bail(`
-              Unexpected error (status code: ${status}):
-              ${JSON.stringify(err.response)}
-            `);
+            bail(err);
           }
           throw err;
         }
