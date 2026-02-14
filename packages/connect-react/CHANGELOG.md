@@ -2,6 +2,21 @@
 
 # Changelog
 
+## [2.7.0] - 2026-02-11
+
+### Added
+
+- **ConfigureFilePicker**: Enhanced file picker capabilities
+  - Search functionality to filter files and folders by name
+  - Select/deselect all buttons for batch operations
+  - Additional metadata display: file size, last modified date, child count
+  - Improved default icons for folders and files with SVGs
+  - Better date and file size formatting utilities
+
+### Changed
+
+- ConfigureFilePicker now initializes selected items from `initialConfiguredProps` when available
+
 ## [2.6.0] - 2026-01-20
 
 ### Added

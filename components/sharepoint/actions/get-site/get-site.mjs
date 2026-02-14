@@ -4,7 +4,7 @@ export default {
   key: "sharepoint-get-site",
   name: "Get Site",
   description: "Get a site in Microsoft Sharepoint. [See the documentation](https://learn.microsoft.com/en-us/graph/api/site-get?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
