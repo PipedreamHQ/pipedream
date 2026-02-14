@@ -3901,6 +3901,9 @@ importers:
 
   components/datagma: {}
 
+  components/dataiku:
+    specifiers: {}
+
   components/datanews:
     dependencies:
       '@pipedream/platform':
