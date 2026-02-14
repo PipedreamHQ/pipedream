@@ -1,6 +1,12 @@
 import { Client } from "@microsoft/microsoft-graph-client";
 import "isomorphic-fetch";
 import pickBy from "lodash.pickby";
+import {
+  DAY_OF_WEEK_OPTIONS,
+  RECURRENCE_PATTERN_TYPE_OPTIONS,
+  RECURRENCE_INDEX_OPTIONS,
+  RECURRENCE_RANGE_TYPE_OPTIONS,
+} from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -119,6 +125,79 @@ export default {
       description: "Additional properties",
       type: "object",
       optional: true,
+    },
+    recurrencePatternType: {
+      label: "Recurrence Pattern Type",
+      description: "How often the event repeats. Required when creating a recurring event. [See recurrence pattern docs](https://learn.microsoft.com/en-us/graph/api/resources/recurrencepattern)",
+      type: "string",
+      optional: true,
+      options: RECURRENCE_PATTERN_TYPE_OPTIONS,
+    },
+    recurrenceInterval: {
+      label: "Recurrence Interval",
+      description: "Number of units between occurrences (e.g. every 2 weeks = 2). Required when recurrence pattern type is set.",
+      type: "integer",
+      optional: true,
+      min: 1,
+    },
+    recurrenceDaysOfWeek: {
+      label: "Recurrence Days of Week",
+      description: "Days of the week the event repeats (required for weekly, relativeMonthly, relativeYearly). E.g. monday, tuesday",
+      type: "string[]",
+      optional: true,
+      options: DAY_OF_WEEK_OPTIONS,
+    },
+    recurrenceDayOfMonth: {
+      label: "Recurrence Day of Month",
+      description: "Day of the month (1-31). Required for absoluteMonthly and absoluteYearly.",
+      type: "integer",
+      optional: true,
+      min: 1,
+      max: 31,
+    },
+    recurrenceMonth: {
+      label: "Recurrence Month",
+      description: "Month (1-12). Required for absoluteYearly and relativeYearly.",
+      type: "integer",
+      optional: true,
+      min: 1,
+      max: 12,
+    },
+    recurrenceFirstDayOfWeek: {
+      label: "Recurrence First Day of Week",
+      description: "First day of the week for weekly recurrence. Required for weekly pattern. [See recurrence pattern](https://learn.microsoft.com/en-us/graph/api/resources/recurrencepattern)",
+      type: "string",
+      optional: true,
+      options: DAY_OF_WEEK_OPTIONS,
+      default: "sunday",
+    },
+    recurrenceIndex: {
+      label: "Recurrence Week Index",
+      description: "Which instance in the month/year (e.g. second Tuesday). Optional for relativeMonthly and relativeYearly; defaults to first.",
+      type: "string",
+      optional: true,
+      options: RECURRENCE_INDEX_OPTIONS,
+      default: "first",
+    },
+    recurrenceRangeType: {
+      label: "Recurrence Range Type",
+      description: "How the recurrence ends. [See recurrence range docs](https://learn.microsoft.com/en-us/graph/api/resources/recurrencerange)",
+      type: "string",
+      optional: true,
+      options: RECURRENCE_RANGE_TYPE_OPTIONS,
+    },
+    recurrenceEndDate: {
+      label: "Recurrence End Date",
+      description: "End date for recurrence (yyyy-MM-dd). Required when recurrence range type is endDate.",
+      type: "string",
+      optional: true,
+    },
+    recurrenceNumberOfOccurrences: {
+      label: "Recurrence Number of Occurrences",
+      description: "Number of occurrences. Required when recurrence range type is numbered.",
+      type: "integer",
+      optional: true,
+      min: 1,
     },
   },
   methods: {
