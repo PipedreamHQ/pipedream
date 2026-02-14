@@ -6470,8 +6470,8 @@ importers:
         specifier: ^2.3.0
         version: 2.4.0(encoding@0.1.13)
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.2.5
       cron-parser:
         specifier: ^4.9.0
         version: 4.9.0
@@ -39635,7 +39635,7 @@ snapshots:
   '@pipedream/google_drive@1.2.0(encoding@0.1.13)':
     dependencies:
       '@googleapis/drive': 2.4.0(encoding@0.1.13)
-      '@pipedream/platform': 3.2.4
+      '@pipedream/platform': 3.2.5
       cron-parser: 4.9.0
       google-docs-mustaches: 1.2.2(encoding@0.1.13)
       got: 13.0.0
@@ -39685,7 +39685,7 @@ snapshots:
   '@pipedream/linear_app@0.8.1(encoding@0.1.13)':
     dependencies:
       '@linear/sdk': 55.2.1(encoding@0.1.13)
-      '@pipedream/platform': 3.2.4
+      '@pipedream/platform': 3.2.5
     transitivePeerDependencies:
       - debug
       - encoding
@@ -39700,7 +39700,7 @@ snapshots:
 
   '@pipedream/microsoft_outlook@1.7.5':
     dependencies:
-      '@pipedream/platform': 3.2.4
+      '@pipedream/platform': 3.2.5
       axios: 0.30.2
       js-base64: 3.7.8
       md5: 2.3.0
@@ -39710,7 +39710,7 @@ snapshots:
 
   '@pipedream/monday@0.7.0(encoding@0.1.13)':
     dependencies:
-      '@pipedream/platform': 3.2.4
+      '@pipedream/platform': 3.2.5
       form-data: 4.0.4
       lodash.flatmap: 4.5.0
       lodash.map: 4.6.0

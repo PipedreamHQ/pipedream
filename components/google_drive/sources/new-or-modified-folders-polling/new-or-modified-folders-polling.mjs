@@ -8,7 +8,7 @@ export default {
   key: "google_drive-new-or-modified-folders-polling",
   name: "New or Modified Folders (Polling)",
   description: "Emit new event when a folder is created or modified in the selected Drive",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

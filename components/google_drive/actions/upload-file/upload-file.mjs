@@ -13,7 +13,7 @@ export default {
   key: "google_drive-upload-file",
   name: "Upload File",
   description: "Upload a file to Google Drive. [See the documentation](https://developers.google.com/drive/api/v3/manage-uploads) for more information",
-  version: "2.0.8",
+  version: "2.0.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

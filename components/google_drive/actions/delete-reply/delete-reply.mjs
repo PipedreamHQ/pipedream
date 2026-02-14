@@ -4,7 +4,7 @@ export default {
   key: "google_drive-delete-reply",
   name: "Delete Reply",
   description: "Delete a reply on a specific comment. [See the documentation](https://developers.google.com/workspace/drive/api/reference/rest/v3/replies/delete) for more information",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

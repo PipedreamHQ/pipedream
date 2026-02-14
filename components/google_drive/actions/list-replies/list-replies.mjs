@@ -4,7 +4,7 @@ export default {
   key: "google_drive-list-replies",
   name: "List Replies",
   description: "List replies to a specific comment. [See the documentation](https://developers.google.com/workspace/drive/api/reference/rest/v3/replies/list) for more information",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

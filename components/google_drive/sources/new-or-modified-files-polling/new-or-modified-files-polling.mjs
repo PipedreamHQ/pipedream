@@ -8,7 +8,7 @@ export default {
   key: "google_drive-new-or-modified-files-polling",
   name: "New or Modified Files (Polling)",
   description: "Emit new event when a file in the selected Drive is created, modified or trashed. [See the documentation](https://developers.google.com/drive/api/v3/reference/changes/list)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {
