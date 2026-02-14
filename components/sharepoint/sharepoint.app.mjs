@@ -1,4 +1,7 @@
 import { axios } from "@pipedream/platform";
+import { Client } from "@microsoft/microsoft-graph-client";
+import retry from "async-retry";
+import "isomorphic-fetch";
 import { WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS } from "./common/constants.mjs";
 
 export default {
@@ -374,12 +377,40 @@ export default {
     },
   },
   methods: {
+    /**
+     * Resolves a potentially wrapped labeled value to its actual value.
+     * Pipedream props with withLabel: true wrap values in a special format.
+     *
+     * @param {*} value - The value to resolve (may be wrapped or plain)
+     * @returns {*} The unwrapped value, or the original value if not wrapped
+     * @example
+     * // Wrapped labeled value
+     * resolveWrappedValue({ __lv: { label: "My Site", value: "abc123" } }) // "abc123"
+     *
+     * // Plain value (not wrapped)
+     * resolveWrappedValue("abc123") // "abc123"
+     */
     resolveWrappedValue(value) {
       return value?.__lv?.value || value;
     },
     /**
      * Resolves an array of potentially wrapped labeled values.
-     * Handles both `{ __lv: [{ label, value }, ...] }` and plain arrays.
+     * Handles both Pipedream's labeled value array format and plain arrays.
+     *
+     * @param {Array|Object} arr
+     *   Array to resolve (may be wrapped or plain)
+     * @returns {Array} Array of unwrapped values
+     * @example
+     * // Wrapped array of labeled values
+     * resolveWrappedArrayValues({
+     *   __lv: [
+     *     { label: "File 1", value: "id1" },
+     *     { label: "File 2", value: "id2" }
+     *   ]
+     * }) // ["id1", "id2"]
+     *
+     * // Plain array
+     * resolveWrappedArrayValues(["id1", "id2"]) // ["id1", "id2"]
      */
     resolveWrappedArrayValues(arr) {
       if (!arr) return [];
@@ -391,6 +422,74 @@ export default {
     },
     _getAccessToken() {
       return this.$auth.oauth_access_token;
+    },
+    /**
+     * Creates a Microsoft Graph SDK client.
+     * This provides better consistency with other Microsoft components
+     * and includes built-in pagination and type safety.
+     */
+    client() {
+      return Client.initWithMiddleware({
+        authProvider: {
+          getAccessToken: () => Promise.resolve(this._getAccessToken()),
+        },
+      });
+    },
+    /**
+     * Makes a request to Microsoft Graph API with automatic retry logic.
+     * Retries on transient errors (5xx, 429) but not on auth/client
+     * errors (4xx).
+     *
+     * @param {Object} options - Request options
+     * @param {string} options.path - API path (e.g., "/sites/{siteId}")
+     * @param {string} [options.method="GET"] - HTTP method
+     * @param {*} [options.content] - Request body for POST/PATCH
+     * @param {number} [options.retries=3] - Number of retry attempts
+     * @returns {Promise<*>} API response
+     */
+    async graphRequest({
+      path, method = "GET", content, retries = 3,
+    }) {
+      return retry(
+        async (bail) => {
+          try {
+            const api = this.client().api(path);
+
+            switch (method.toUpperCase()) {
+            case "GET":
+              return await api.get();
+            case "POST":
+              return await api.post(content);
+            case "PATCH":
+              return await api.patch(content);
+            case "DELETE":
+              return await api.delete();
+            default:
+              throw new Error(`Unsupported HTTP method: ${method}`);
+            }
+          } catch (error) {
+            // Don't retry on auth errors or client errors (4xx except 429)
+            const status = error.statusCode || error.response?.status;
+            if ([
+              401,
+              403,
+              404,
+            ].includes(status)) {
+              bail(error); // Throw immediately, don't retry
+              return;
+            }
+            throw error; // Retry on other errors
+          }
+        },
+        {
+          retries,
+          minTimeout: 1000,
+          maxTimeout: 10000,
+          onRetry: (error, attempt) => {
+            console.log(`Retry attempt ${attempt} after error: ${error.message}`);
+          },
+        },
+      );
     },
     _baseUrl() {
       return "https://graph.microsoft.com/v1.0";
@@ -414,6 +513,23 @@ export default {
         ...args,
       });
     },
+    /**
+     * Makes a request to SharePoint REST API (not Microsoft Graph).
+     * Use this for SharePoint-specific features not available in Graph API,
+     * such as native SharePoint site groups.
+     *
+     * @param {Object} options - Request options
+     * @param {string} options.siteWebUrl - Full site URL (e.g., "https://tenant.sharepoint.com/sites/MySite")
+     * @param {string} options.path - REST API path (e.g., "/web/sitegroups")
+     * @param {Object} [options.headers] - Additional headers
+     * @returns {Promise<Object>} API response
+     * @example
+     * // Get SharePoint site groups
+     * await this._makeSharePointRestRequest({
+     *   siteWebUrl: "https://contoso.sharepoint.com/sites/TeamSite",
+     *   path: "/web/sitegroups"
+     * })
+     */
     _makeSharePointRestRequest({
       $ = this,
       siteWebUrl,
@@ -441,6 +557,19 @@ export default {
         ...args,
       });
     },
+    /**
+     * Lists SharePoint-native site groups using the SharePoint REST API.
+     * These are different from Microsoft 365 Groups and can only be accessed via REST API.
+     *
+     * @param {Object} options - Request options
+     * @param {string} options.siteWebUrl - Full site URL
+     * @returns {Promise<Object>} Response with groups in d.results array
+     * @example
+     * const groups = await this.listSharePointSiteGroups({
+     *   siteWebUrl: "https://contoso.sharepoint.com/sites/TeamSite"
+     * });
+     * // Returns: { d: { results: [{ Id: 5, Title: "Team Site Members" }, ...] } }
+     */
     listSharePointSiteGroups({
       siteWebUrl, ...args
     }) {
@@ -450,6 +579,21 @@ export default {
         ...args,
       });
     },
+    /**
+     * Gets members of a SharePoint-native site group using the SharePoint REST API.
+     * Returns user details including email, display name, and login name.
+     *
+     * @param {Object} options - Request options
+     * @param {string} options.siteWebUrl - Full site URL
+     * @param {number} options.groupId - SharePoint group ID
+     * @returns {Promise<Object>} Response with users in d.results array
+     * @example
+     * const members = await this.getSharePointSiteGroupMembers({
+     *   siteWebUrl: "https://contoso.sharepoint.com/sites/TeamSite",
+     *   groupId: 5
+     * });
+     * // Returns: { d: { results: [{ Email: "user@contoso.com", Title: "John Doe" }, ...] } }
+     */
     getSharePointSiteGroupMembers({
       siteWebUrl, groupId, ...args
     }) {
@@ -676,8 +820,25 @@ export default {
       });
     },
     /**
-     * Get delta changes for a drive.
-     * https://learn.microsoft.com/en-us/graph/api/driveitem-delta
+     * Get delta changes for a drive using Microsoft Graph delta query.
+     * Enables tracking changes to files and folders over time.
+     *
+     * @param {Object} options - Request options
+     * @param {string} options.driveId - Drive ID to track
+     * @param {string} [options.deltaLink]
+     *   Delta link from previous response (for pagination/continuation)
+     * @returns {Promise<Object>} Response with changed items and
+     *   @odata.deltaLink or @odata.nextLink
+     * @see https://learn.microsoft.com/en-us/graph/api/driveitem-delta
+     * @example
+     * // First call - get initial state
+     * const initial = await this.getDriveDelta({ driveId: "b!..." });
+     * const deltaLink = initial["@odata.deltaLink"];
+     *
+     * // Later - get changes since last call
+     * const changes = await this.getDriveDelta({
+     *   driveId: "b!...", deltaLink
+     * });
      */
     getDriveDelta({
       driveId, deltaLink, ...args
@@ -722,8 +883,28 @@ export default {
       } while (nextLink);
     },
     /**
-     * Creates a Microsoft Graph subscription for change notifications.
-     * https://learn.microsoft.com/en-us/graph/api/subscription-post-subscriptions
+     * Creates a Microsoft Graph subscription for change notifications
+     * (webhooks). Subscriptions expire after a set time and must be
+     * renewed periodically.
+     *
+     * @param {Object} options - Subscription options
+     * @param {string} options.resource
+     *   Resource to monitor (e.g., "drives/{driveId}/root")
+     * @param {string} options.notificationUrl - Webhook endpoint URL
+     * @param {string} [options.changeType="updated"]
+     *   Type of change to monitor (updated, created, deleted)
+     * @param {string} options.clientState
+     *   Secret string for webhook validation
+     * @returns {Promise<Object>}
+     *   Created subscription with id and expirationDateTime
+     * @see https://learn.microsoft.com/en-us/graph/api/subscription-post-subscriptions
+     * @example
+     * const subscription = await this.createSubscription({
+     *   resource: "drives/b!abc123.../root",
+     *   notificationUrl: "https://webhook.site/unique-id",
+     *   changeType: "updated",
+     *   clientState: "secret-validation-token"
+     * });
      */
     createSubscription({
       resource, notificationUrl, changeType = "updated", clientState, ...args
@@ -747,7 +928,16 @@ export default {
     },
     /**
      * Updates a subscription's expiration time (renewal).
-     * https://learn.microsoft.com/en-us/graph/api/subscription-update
+     * Subscriptions must be renewed before they expire to maintain continuous monitoring.
+     *
+     * @param {Object} options - Update options
+     * @param {string} options.subscriptionId - ID of subscription to renew
+     * @returns {Promise<Object>} Updated subscription with new expirationDateTime
+     * @see https://learn.microsoft.com/en-us/graph/api/subscription-update
+     * @example
+     * await this.updateSubscription({
+     *   subscriptionId: "abc123-def456"
+     * });
      */
     updateSubscription({
       subscriptionId, ...args
@@ -766,8 +956,17 @@ export default {
       });
     },
     /**
-     * Deletes a subscription.
-     * https://learn.microsoft.com/en-us/graph/api/subscription-delete
+     * Deletes a subscription. Call this when deactivating a webhook source
+     * to stop receiving notifications and clean up resources.
+     *
+     * @param {Object} options - Delete options
+     * @param {string} options.subscriptionId - ID of subscription to delete
+     * @returns {Promise<void>}
+     * @see https://learn.microsoft.com/en-us/graph/api/subscription-delete
+     * @example
+     * await this.deleteSubscription({
+     *   subscriptionId: "abc123-def456"
+     * });
      */
     deleteSubscription({
       subscriptionId, ...args

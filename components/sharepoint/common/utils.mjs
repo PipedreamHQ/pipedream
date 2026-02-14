@@ -9,16 +9,15 @@ export default {
   },
 
   /**
-   * Resolves the actual value from a prop that may be wrapped in __lv format
-   * @param {*} prop - The prop value (may be raw value or { __lv: { value: ... } })
-   * @returns {*} The resolved value
+   * Internal helper to unwrap a potentially labeled value.
+   * Note: For most use cases, prefer using sharepoint.resolveWrappedValue() from the app.
+   * This is only for utility functions that don't have access to the app instance.
+   * @private
+   * @param {*} value - The value to unwrap
+   * @returns {*} The unwrapped value
    */
-  resolveValue(prop) {
-    if (!prop) return null;
-    if (typeof prop === "object" && prop.__lv) {
-      return prop.__lv.value;
-    }
-    return prop;
+  _unwrapValue(value) {
+    return value?.__lv?.value || value;
   },
 
   /**
@@ -28,7 +27,7 @@ export default {
    */
   parseFileOrFolder(value) {
     if (!value) return null;
-    const resolved = this.resolveValue(value);
+    const resolved = this._unwrapValue(value);
     try {
       return JSON.parse(resolved);
     } catch {

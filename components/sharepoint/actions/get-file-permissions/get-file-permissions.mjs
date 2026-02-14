@@ -4,7 +4,27 @@ import utils from "../../common/utils.mjs";
 export default {
   key: "sharepoint-get-file-permissions",
   name: "Get File Permissions",
-  description: "Retrieve sharing permissions for one or more files or folders from SharePoint. Returns who has access and their permission levels. Optionally expands permission groups to show individual users with email addresses. [See the documentation](https://learn.microsoft.com/en-us/graph/api/driveitem-list-permissions)",
+  description: "Retrieve sharing permissions for one or more files or folders from SharePoint. " +
+    "Returns who has access and their permission levels. " +
+    "Optionally expands permission groups to show individual users with email addresses.\n\n" +
+    "**Example Use Cases:**\n" +
+    "- Audit file access for security compliance\n" +
+    "- Identify who can view/edit sensitive documents\n" +
+    "- Generate access reports for management\n" +
+    "- Detect oversharing or misconfigured permissions\n\n" +
+    "**Output Example:**\n" +
+    "```json\n" +
+    "{\n" +
+    "  \"itemName\": \"Q4-Report.pdf\",\n" +
+    "  \"permissions\": [\n" +
+    "    {\"user\": {\"email\": \"john@company.com\"}, \"roles\": [\"write\"]},\n" +
+    "    {\"group\": {\"displayName\": \"Sales Team\"}, \"roles\": [\"read\"]}\n" +
+    "  ]\n" +
+    "}\n" +
+    "```\n\n" +
+    "**Privacy Note:** When \"Expand Groups to Users\" is enabled, this action will reveal individual user emails " +
+    "from permission groups. Use this feature responsibly and ensure compliance with your organization's privacy policies.\n\n" +
+    "[See the documentation](https://learn.microsoft.com/en-us/graph/api/driveitem-list-permissions)",
   version: "0.0.2",
   type: "action",
   annotations: {
@@ -27,7 +47,7 @@ export default {
         sharepoint,
         "driveId",
         (c) => ({
-          siteId: c.siteId?.__lv?.value || c.siteId,
+          siteId: c.siteId,
         }),
       ],
       withLabel: true,
@@ -38,8 +58,8 @@ export default {
         sharepoint,
         "fileOrFolderId",
         (c) => ({
-          siteId: c.siteId?.__lv?.value || c.siteId,
-          driveId: c.driveId?.__lv?.value || c.driveId,
+          siteId: c.siteId,
+          driveId: c.driveId,
         }),
       ],
       type: "string[]",
@@ -50,14 +70,25 @@ export default {
     includeFileMetadata: {
       type: "boolean",
       label: "Include File Metadata",
-      description: "When enabled, also fetches file metadata including temporary download URLs (valid for ~1 hour). Useful when you need both permissions and download URLs in one call.",
+      description: "When enabled, also fetches file metadata including temporary download URLs (valid for ~1 hour). " +
+        "Useful when you need both permissions and download URLs in one call.\n\n" +
+        "**Note:** Including metadata adds extra API calls and may slow down large operations. " +
+        "Only enable if you need file details along with permissions.",
       optional: true,
       default: false,
     },
     expandGroupsToUsers: {
       type: "boolean",
       label: "Expand Groups to Users",
-      description: "When enabled, expands permission groups to show individual users with their email addresses. This is useful when you need to know exactly which end users have access to the files. Uses SharePoint REST API to expand SharePoint-native groups.",
+      description: "When enabled, expands permission groups to show individual users with their email addresses. " +
+        "This is useful when you need to know exactly which end users have access to the files.\n\n" +
+        "**How it works:**\n" +
+        "- Expands both Entra ID (Azure AD) groups and SharePoint-native groups\n" +
+        "- Returns individual user emails and display names\n" +
+        "- Shows which group each user gained access through\n\n" +
+        "**Performance:** Large groups may take longer to expand. For files with many permission groups, " +
+        "consider using this option selectively.\n\n" +
+        "**Privacy:** This reveals individual user information. Ensure compliance with privacy policies.",
       optional: true,
       default: false,
     },
@@ -128,8 +159,8 @@ export default {
       throw new Error("Please select at least one file or folder");
     }
 
-    const driveId = utils.resolveValue(this.driveId);
-    const siteId = utils.resolveValue(this.siteId);
+    const driveId = this.sharepoint.resolveWrappedValue(this.driveId);
+    const siteId = this.sharepoint.resolveWrappedValue(this.siteId);
     const includeFileMetadata = this.includeFileMetadata;
     const expandGroupsToUsers = this.expandGroupsToUsers;
 

@@ -4,7 +4,29 @@ import utils from "../../common/utils.mjs";
 export default {
   key: "sharepoint-list-site-members",
   name: "List Site Members",
-  description: "List all members of a SharePoint site. For team sites connected to Microsoft 365 Groups, returns group members (Owners and Members). For sites without an M365 Group, returns site-level permissions. [See the documentation](https://learn.microsoft.com/en-us/graph/api/group-list-members)",
+  description: "List all members of a SharePoint site with their roles and access levels. " +
+    "Automatically detects the site type and returns the appropriate member list.\n\n" +
+    "**How it works:**\n" +
+    "- **Team Sites (M365 Group-connected)**: Returns all group owners and members\n" +
+    "- **Communication Sites**: Returns users from SharePoint permission groups and document library access\n\n" +
+    "**Example Use Cases:**\n" +
+    "- Generate site access reports for compliance\n" +
+    "- Audit who has access to sensitive sites\n" +
+    "- Create team directories and contact lists\n" +
+    "- Detect overprivileged access or stale accounts\n\n" +
+    "**Output Example:**\n" +
+    "```json\n" +
+    "{\n" +
+    "  \"users\": [\n" +
+    "    {\"email\": \"john@company.com\", \"role\": \"owner\"},\n" +
+    "    {\"email\": \"jane@company.com\", \"role\": \"member\"}\n" +
+    "  ],\n" +
+    "  \"summary\": {\"totalUsers\": 2, \"owners\": 1, \"members\": 1}\n" +
+    "}\n" +
+    "```\n\n" +
+    "**Note:** This action expands permission groups to show individual user emails. " +
+    "Ensure compliance with your organization's privacy policies.\n\n" +
+    "[See the documentation](https://learn.microsoft.com/en-us/graph/api/group-list-members)",
   version: "0.0.2",
   type: "action",
   annotations: {

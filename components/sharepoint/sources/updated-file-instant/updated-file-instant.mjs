@@ -7,7 +7,18 @@ export default {
   name: "New File Updated (Instant)",
   description:
     "Emit an event when specific files are updated in a SharePoint document library. " +
-    "Uses Microsoft Graph webhooks for near real-time notifications.",
+    "Uses Microsoft Graph webhooks for near real-time notifications.\n\n" +
+    "**How it works:**\n" +
+    "1. Select specific files to monitor\n" +
+    "2. Receive instant notifications when those files are modified\n" +
+    "3. Get file metadata and download URLs with each event\n\n" +
+    "**Example Use Cases:**\n" +
+    "- Trigger workflows when documents are updated\n" +
+    "- Sync file changes to other systems\n" +
+    "- Notify teams when important files are modified\n" +
+    "- Create audit trails of document updates\n\n" +
+    "**Note:** This source monitors only the files you select. It will NOT emit events for other files in the drive. " +
+    "The subscription automatically renews every 27 days to maintain continuous monitoring.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -54,7 +65,8 @@ export default {
           driveId: c.driveId,
         }),
       ],
-      description: "Select a folder to list files from, or leave empty for root.",
+      description: "Optional: Select a folder to browse files from. Leave empty to browse from the drive root. " +
+        "This helps you navigate to the files you want to monitor.",
     },
     fileIds: {
       propDefinition: [
@@ -68,8 +80,10 @@ export default {
       ],
       label: "Files to Monitor",
       description:
-        "Select files to monitor. " +
-        "You'll receive an event whenever any of these files are updated.",
+        "Select one or more files to monitor for updates. " +
+        "You'll receive a real-time event whenever any of these files are modified.\n\n" +
+        "**Important:** Only the selected files will trigger events. Changes to other files in the drive will be ignored. " +
+        "This ensures you only receive notifications for the documents you care about.",
     },
   },
   hooks: {
@@ -164,7 +178,10 @@ export default {
       const subscription = this._getSubscription();
       if (!subscription?.id) {
         console.log("No subscription to renew");
-        return;
+        return {
+          success: true,
+          skipped: true,
+        };
       }
 
       try {
@@ -178,15 +195,41 @@ export default {
         });
 
         console.log(
-          `Renewed subscription ${subscription.id}, new expiry: ${updated.expirationDateTime}`,
+          `Renewed subscription ${subscription.id}, expires: ${updated.expirationDateTime}`,
         );
-      } catch (err) {
-        console.log(`Error renewing subscription: ${err.message}`);
-        // If renewal fails, try to create a new subscription
-        if (err.response?.status === 404) {
-          console.log("Subscription not found, creating new one...");
-          await this.hooks.activate.call(this);
+        return {
+          success: true,
+        };
+      } catch (error) {
+        const status = error.response?.status;
+
+        // Subscription not found - needs recreation
+        if (status === 404) {
+          console.log("Subscription not found, will recreate...");
+          return {
+            success: false,
+            shouldRecreate: true,
+          };
         }
+
+        // Auth errors - don't retry
+        if ([
+          401,
+          403,
+        ].includes(status)) {
+          console.error(`Auth error renewing subscription: ${error.message}`);
+          return {
+            success: false,
+            shouldRecreate: false,
+          };
+        }
+
+        // Other errors - log but don't recreate (will retry on next timer tick)
+        console.error(`Error renewing subscription: ${error.message}`);
+        return {
+          success: false,
+          shouldRecreate: false,
+        };
       }
     },
     generateMeta(file) {
@@ -215,34 +258,49 @@ export default {
 
     // Handle timer event - renew subscription
     if (event.timestamp) {
-      await this.renewSubscription();
+      const result = await this.renewSubscription();
+
+      if (!result.success && result.shouldRecreate) {
+        console.log("Recreating subscription...");
+        await this.hooks.activate.call(this);
+      }
       return;
     }
 
     // Handle webhook notification
-    // Respond immediately to acknowledge receipt
-    this.http.respond({
-      status: 202,
-      body: "",
-    });
-
     const { body } = event;
 
     if (!body?.value?.length) {
       console.log("No notifications in webhook payload");
+      this.http.respond({
+        status: 202,
+        body: "",
+      });
       return;
     }
 
-    // Validate clientState
+    // Validate clientState BEFORE acknowledging receipt
     const subscription = this._getSubscription();
+    const clientState = subscription?.clientState;
+
     for (const notification of body.value) {
-      if (notification.clientState !== subscription?.clientState) {
-        console.log(
-          `ClientState mismatch: expected ${subscription?.clientState}, got ${notification.clientState}`,
+      if (notification.clientState !== clientState) {
+        console.error(
+          `Invalid clientState. Expected: ${clientState}, Got: ${notification.clientState}`,
         );
+        this.http.respond({
+          status: 401,
+          body: "Invalid client state",
+        });
         return;
       }
     }
+
+    // Only acknowledge receipt after validation succeeds
+    this.http.respond({
+      status: 202,
+      body: "",
+    });
 
     // Use delta API to find what actually changed
     const driveId = this.sharepoint.resolveWrappedValue(this.driveId);
