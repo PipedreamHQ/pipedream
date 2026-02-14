@@ -78,6 +78,7 @@ export default {
    * @returns {"owner" | "write" | "read"}
    */
   getAccessLevel(roles) {
+    if (!Array.isArray(roles)) return "read";
     if (roles.includes("owner")) return "owner";
     if (roles.includes("write")) return "write";
     if (roles.includes("read")) return "read";

@@ -5,13 +5,13 @@
 
 /**
  * Maximum subscription lifetime for driveItem resources is 42,300 minutes (~29.4 days).
- * We use 30 days in milliseconds for simplicity.
+ * We use 29 days in milliseconds to stay safely within the limit.
  */
-const WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS = 30 * 24 * 60 * 60 * 1000;
+const WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS = 29 * 24 * 60 * 60 * 1000;
 
 /**
  * Renewal interval at 95% of max lifetime to ensure renewal before expiration.
- * 30 days * 0.95 = 28.5 days = 2,462,400 seconds
+ * 29 days * 0.95 = 27.55 days = 2,380,320 seconds
  */
 const WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS =
   (WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS * 0.95) / 1000;

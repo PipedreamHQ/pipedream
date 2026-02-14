@@ -279,24 +279,30 @@ export default {
       return;
     }
 
-    // Validate clientState BEFORE acknowledging receipt
+    // Filter to only valid notifications for this subscription
     const subscription = this._getSubscription();
     const clientState = subscription?.clientState;
 
-    for (const notification of body.value) {
+    const validNotifications = body.value.filter((notification) => {
       if (notification.clientState !== clientState) {
-        console.error(
-          `Invalid clientState. Expected: ${clientState}, Got: ${notification.clientState}`,
+        console.warn(
+          `Ignoring notification with unexpected clientState: ${notification.clientState}`,
         );
-        this.http.respond({
-          status: 401,
-          body: "Invalid client state",
-        });
-        return;
+        return false;
       }
+      return true;
+    });
+
+    if (validNotifications.length === 0) {
+      console.log("No valid notifications after clientState filtering");
+      this.http.respond({
+        status: 202,
+        body: "",
+      });
+      return;
     }
 
-    // Only acknowledge receipt after validation succeeds
+    // Acknowledge receipt after validation
     this.http.respond({
       status: 202,
       body: "",
@@ -342,10 +348,24 @@ export default {
 
     // Emit events for each changed file
     for (const file of changedFiles) {
+      // Delta response may not include downloadUrl - fetch fresh if needed
+      let downloadUrl = file["@microsoft.graph.downloadUrl"];
+      if (!downloadUrl) {
+        try {
+          const freshFile = await this.sharepoint.getDriveItem({
+            driveId,
+            fileId: file.id,
+          });
+          downloadUrl = freshFile["@microsoft.graph.downloadUrl"];
+        } catch (err) {
+          console.log(`Could not fetch download URL for ${file.name}: ${err.message}`);
+        }
+      }
+
       this.$emit(
         {
           file,
-          downloadUrl: file["@microsoft.graph.downloadUrl"],
+          downloadUrl,
         },
         this.generateMeta(file),
       );

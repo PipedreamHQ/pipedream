@@ -45,12 +45,14 @@ export interface FilePickerIcons {
  */
 const FolderIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <title>Folder</title>
     <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" fill="#93c5fd" stroke="#3b82f6" />
   </svg>
 );
 
 const FileIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <title>File</title>
     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" fill="#f3f4f6" stroke="#9ca3af" />
     <polyline points="14 2 14 8 20 8" fill="#e5e7eb" stroke="#9ca3af" />
   </svg>
@@ -68,8 +70,13 @@ const formatFileSize = (bytes?: number): string => {
     "KB",
     "MB",
     "GB",
+    "TB",
+    "PB",
   ];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  const i = Math.min(
+    Math.floor(Math.log(bytes) / Math.log(k)),
+    sizes.length - 1,
+  );
   return `${parseFloat((bytes / Math.pow(k, i)).toFixed(1))} ${sizes[i]}`;
 };
 
@@ -450,15 +457,21 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
           : item;
         if (parsed && typeof parsed === "object") {
           const {
-            id, name, isFolder, size,
+            id, name, isFolder, size, childCount, lastModifiedDateTime,
           } = parsed as Record<string, unknown>;
           items.push({
-            id: String(id || ""),
-            label: String(name || ""),
+            id: String(id ?? ""),
+            label: String(name ?? ""),
             value: parsed,
             isFolder: Boolean(isFolder),
             size: typeof size === "number"
               ? size
+              : undefined,
+            childCount: typeof childCount === "number"
+              ? childCount
+              : undefined,
+            lastModifiedDateTime: typeof lastModifiedDateTime === "string"
+              ? lastModifiedDateTime
               : undefined,
           });
         }
@@ -648,9 +661,9 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
   log("Parsed items:", allItems.length, "filtered:", items.length, "for prop:", currentProp);
 
   // Debug: log first item's raw data and parsed values
-  if (allItems.length > 0) {
-    console.log("[ConfigureFilePicker] First item raw:", allItems[0].raw);
-    console.log("[ConfigureFilePicker] First item parsed:", {
+  if (debug && allItems.length > 0) {
+    log("First item raw:", allItems[0].raw);
+    log("First item parsed:", {
       size: allItems[0].size,
       childCount: allItems[0].childCount,
       lastModifiedDateTime: allItems[0].lastModifiedDateTime,
@@ -1073,115 +1086,119 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
                     );
 
                     return (
-                      <li
-                        key={item.id}
-                        role="button"
-                        tabIndex={0}
-                        style={{
-                          ...styles.item,
-                          backgroundColor: selected
-                            ? theme.colors.primary25
-                            : undefined,
-                        }}
-                        onClick={() => handleItemClick(item)}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter" || e.key === " ") {
-                            e.preventDefault();
-                            handleItemClick(item);
-                          }
-                        }}
-                        onMouseEnter={(e) => {
-                          if (!selected) {
-                            (e.currentTarget as HTMLElement).style.backgroundColor = theme.colors.neutral5 || "";
-                          }
-                        }}
-                        onMouseLeave={(e) => {
-                          (e.currentTarget as HTMLElement).style.backgroundColor = selected
-                            ? theme.colors.primary25 || ""
-                            : "";
-                        }}
-                      >
-                        {currentProp === fileOrFolderProp && (selectFiles || selectFolders) && (
-                          canSelect
-                            ? (
-                              <input
-                                type="checkbox"
-                                style={styles.checkbox}
-                                checked={selected}
-                                onChange={(e) => {
-                                  e.stopPropagation();
-                                  handleSelectionChange(item, e.target.checked);
-                                }}
-                                onClick={(e) => e.stopPropagation()}
-                              />
-                            )
-                            : (
+                      <li key={item.id}>
+                        <button
+                          type="button"
+                          style={{
+                            ...styles.item,
+                            backgroundColor: selected
+                              ? theme.colors.primary25
+                              : undefined,
+                            width: "100%",
+                            textAlign: "left",
+                            border: "none",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => handleItemClick(item)}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                              e.preventDefault();
+                              handleItemClick(item);
+                            }
+                          }}
+                          onMouseEnter={(e) => {
+                            if (!selected) {
+                              (e.currentTarget as HTMLElement).style.backgroundColor = theme.colors.neutral5 || "";
+                            }
+                          }}
+                          onMouseLeave={(e) => {
+                            (e.currentTarget as HTMLElement).style.backgroundColor = selected
+                              ? theme.colors.primary25 || ""
+                              : "";
+                          }}
+                        >
+                          {currentProp === fileOrFolderProp && (selectFiles || selectFolders) && (
+                            canSelect
+                              ? (
+                                <input
+                                  type="checkbox"
+                                  style={styles.checkbox}
+                                  checked={selected}
+                                  onChange={(e) => {
+                                    e.stopPropagation();
+                                    handleSelectionChange(item, e.target.checked);
+                                  }}
+                                  onClick={(e) => e.stopPropagation()}
+                                />
+                              )
+                              : (
+                                <div style={{
+                                  width: "16px",
+                                  height: "16px",
+                                  marginRight: "10px",
+                                  flexShrink: 0,
+                                }} />
+                              )
+                          )}
+                          {showIcons && (
+                            <span style={styles.itemIcon}>
+                              {item.isFolder
+                                ? icons.folder
+                                : icons.file}
+                            </span>
+                          )}
+                          <div style={{
+                            flex: 1,
+                            minWidth: 0,
+                          }}>
+                            <span style={styles.itemName}>{item.label}</span>
+                            {/* Metadata row */}
+                            {currentProp === fileOrFolderProp && (
                               <div style={{
-                                width: "16px",
-                                height: "16px",
-                                marginRight: "10px",
-                                flexShrink: 0,
-                              }} />
-                            )
-                        )}
-                        {showIcons && (
-                          <span style={styles.itemIcon}>
-                            {item.isFolder
-                              ? icons.folder
-                              : icons.file}
-                          </span>
-                        )}
-                        <div style={{
-                          flex: 1,
-                          minWidth: 0,
-                        }}>
-                          <span style={styles.itemName}>{item.label}</span>
-                          {/* Metadata row */}
+                                fontSize: "11px",
+                                color: theme.colors.neutral40,
+                                marginTop: "2px",
+                                display: "flex",
+                                gap: "8px",
+                              }}>
+                                {item.isFolder && item.childCount !== undefined && (
+                                  <span>{item.childCount} item{item.childCount !== 1
+                                    ? "s"
+                                    : ""}</span>
+                                )}
+                                {!item.isFolder && item.size !== undefined && (
+                                  <span>{formatFileSize(item.size)}</span>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                          {/* Last modified column + chevron area */}
                           {currentProp === fileOrFolderProp && (
                             <div style={{
-                              fontSize: "11px",
-                              color: theme.colors.neutral40,
-                              marginTop: "2px",
+                              width: "150px",
                               display: "flex",
-                              gap: "8px",
+                              alignItems: "center",
+                              justifyContent: "space-between",
+                              flexShrink: 0,
                             }}>
-                              {item.isFolder && item.childCount !== undefined && (
-                                <span>{item.childCount} item{item.childCount !== 1
-                                  ? "s"
-                                  : ""}</span>
-                              )}
-                              {!item.isFolder && item.size !== undefined && (
-                                <span>{formatFileSize(item.size)}</span>
+                              <span style={{
+                                fontSize: "12px",
+                                color: theme.colors.neutral40,
+                                whiteSpace: "nowrap",
+                              }}>
+                                {item.lastModifiedDateTime
+                                  ? formatDate(item.lastModifiedDateTime)
+                                  : ""}
+                              </span>
+                              {item.isFolder && (
+                                <span style={styles.chevron}>›</span>
                               )}
                             </div>
                           )}
-                        </div>
-                        {/* Last modified column + chevron area */}
-                        {currentProp === fileOrFolderProp && (
-                          <div style={{
-                            width: "150px",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                            flexShrink: 0,
-                          }}>
-                            <span style={{
-                              fontSize: "12px",
-                              color: theme.colors.neutral40,
-                              whiteSpace: "nowrap",
-                            }}>
-                              {item.lastModifiedDateTime
-                                ? formatDate(item.lastModifiedDateTime)
-                                : ""}
-                            </span>
-                            {item.isFolder && (
-                              <span style={styles.chevron}>›</span>
-                            )}
-                          </div>
-                        )}
-                        {currentProp !== fileOrFolderProp && (
-                          <span style={styles.chevron}>›</span>
-                        )}
+                          {currentProp !== fileOrFolderProp && (
+                            <span style={styles.chevron}>›</span>
+                          )}
+                        </button>
                       </li>
                     );
                   })}

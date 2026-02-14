@@ -213,7 +213,9 @@ export default {
     // Build filter string
     const filters = [];
     if (this.searchQuery) {
-      filters.push(`startswith(displayName,'${this.searchQuery}')`);
+      // Escape single quotes for OData (replace ' with '')
+      const sanitizedQuery = this.searchQuery.replace(/'/g, "''");
+      filters.push(`startswith(displayName,'${sanitizedQuery}')`);
     }
     if (!this.includeGuests) {
       filters.push("userType eq 'Member'");

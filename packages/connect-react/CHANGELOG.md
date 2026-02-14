@@ -10,7 +10,7 @@
   - Search functionality to filter files and folders by name
   - Select/deselect all buttons for batch operations
   - Additional metadata display: file size, last modified date, child count
-  - Improved default icons for folders and files with SVG graphics
+  - Improved default icons for folders and files with SVGs
   - Better date and file size formatting utilities
 
 ### Changed

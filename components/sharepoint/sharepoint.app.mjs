@@ -377,6 +377,7 @@ export default {
     },
   },
   methods: {
+    _graphClient: null,
     /**
      * Resolves a potentially wrapped labeled value to its actual value.
      * Pipedream props with withLabel: true wrap values in a special format.
@@ -424,16 +425,19 @@ export default {
       return this.$auth.oauth_access_token;
     },
     /**
-     * Creates a Microsoft Graph SDK client.
+     * Creates a Microsoft Graph SDK client with caching.
      * This provides better consistency with other Microsoft components
      * and includes built-in pagination and type safety.
      */
     client() {
-      return Client.initWithMiddleware({
-        authProvider: {
-          getAccessToken: () => Promise.resolve(this._getAccessToken()),
-        },
-      });
+      if (!this._graphClient) {
+        this._graphClient = Client.initWithMiddleware({
+          authProvider: {
+            getAccessToken: () => Promise.resolve(this._getAccessToken()),
+          },
+        });
+      }
+      return this._graphClient;
     },
     /**
      * Makes a request to Microsoft Graph API with automatic retry logic.
@@ -471,6 +475,7 @@ export default {
             // Don't retry on auth errors or client errors (4xx except 429)
             const status = error.statusCode || error.response?.status;
             if ([
+              400,
               401,
               403,
               404,

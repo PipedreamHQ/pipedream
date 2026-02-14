@@ -202,12 +202,12 @@ export const filePickerMethods = {
           },
         };
 
+        // Remove the Graph API property name from spread
+        delete result["@microsoft.graph.downloadUrl"];
+
         // Conditionally include downloadUrl based on options
         if (includeDownloadUrl) {
           result.downloadUrl = file["@microsoft.graph.downloadUrl"];
-        } else {
-          // Explicitly remove downloadUrl if not needed
-          delete file["@microsoft.graph.downloadUrl"];
         }
 
         return result;
