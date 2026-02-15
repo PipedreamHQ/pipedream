@@ -56,7 +56,7 @@ export default {
 
     let result = emojis;
 
-    if (this.includeCategories && categories.length) {
+    if (this.includeCategories) {
       result = {
         emojis,
         categories,
