@@ -785,7 +785,9 @@ export default {
       });
 
       const emojis = Object.keys(resp.emoji);
-      for (const category of resp.categories) {
+      const categories = resp.categories || [];
+
+      for (const category of categories) {
         emojis.push(...category.emoji_names);
       }
       return emojis;
