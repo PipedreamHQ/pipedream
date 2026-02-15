@@ -18,7 +18,7 @@ export default {
       type: "boolean",
       label: "Include Emoji Image URLs",
       description:
-        "If true, returns emoji name + image URL. If false, returns only emoji names.",
+        "If true, returns emoji name and its value (image URL or alias reference). If false, returns only emoji names.",
       optional: true,
       default: false,
     },
@@ -38,11 +38,12 @@ export default {
     });
 
     const emojiMap = response.emoji || {};
+    const categories = response.categories || [];
 
-    let result;
+    let emojis;
 
     if (this.includeEmojiImage) {
-      result = Object.entries(emojiMap).map(([
+      emojis = Object.entries(emojiMap).map(([
         name,
         value,
       ]) => ({
@@ -50,13 +51,22 @@ export default {
         value,
       }));
     } else {
-      result = Object.keys(emojiMap);
+      emojis = Object.keys(emojiMap);
+    }
+
+    let result = emojis;
+
+    if (this.includeCategories && categories.length) {
+      result = {
+        emojis,
+        categories,
+      };
     }
 
     $.export(
       "$summary",
-      `Successfully retrieved ${result.length} emoji${
-        result.length === 1
+      `Successfully retrieved ${emojis.length} emoji${
+        emojis.length === 1
           ? ""
           : "s"
       }`,
