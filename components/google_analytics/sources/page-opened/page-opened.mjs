@@ -55,9 +55,9 @@ export default {
     },
     async processEvent() {
       const startDate = this._getStartDate();
-      
+
       const propertyId = this.property.replace("properties/", "");
-      
+
       const report = await this.analytics.queryReportsGA4({
         property: propertyId,
         data: {
@@ -76,9 +76,9 @@ export default {
       });
 
       const previousPageViews = this._getPageViews();
-      
-      const pageViews = report?.rows?.[0]?.metricValues?.[0]?.value 
-        || report?.totals?.[0]?.metricValues?.[0]?.value 
+
+      const pageViews = report?.rows?.[0]?.metricValues?.[0]?.value
+        || report?.totals?.[0]?.metricValues?.[0]?.value
         || "0";
 
       if (!previousPageViews || parseInt(pageViews) > parseInt(previousPageViews)) {
