@@ -32,8 +32,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.slack.makeRequest({
-      method: "emoji.list",
+    const response = await this.slack.listEmojis({
       include_categories: this.includeCategories,
     });
 
@@ -63,10 +62,12 @@ export default {
       };
     }
 
+    const emojiCount = Object.keys(emojiMap).length;
+
     $.export(
       "$summary",
-      `Successfully retrieved ${emojis.length} emoji${
-        emojis.length === 1
+      `Successfully retrieved ${emojiCount} emoji${
+        emojiCount === 1
           ? ""
           : "s"
       }`,

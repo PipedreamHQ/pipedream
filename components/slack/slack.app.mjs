@@ -695,6 +695,19 @@ export default {
       });
     },
     /**
+     * Lists custom emoji for the workspace.
+     * Bot Scopes: `emoji:read`
+     * @param {Object} args
+     * @param {boolean} [args.include_categories]
+     * @returns Promise
+     */
+    listEmojis(args = {}) {
+      return this.makeRequest({
+        method: "emoji.list",
+        ...args,
+      });
+    },
+    /**
      * Retrieve information about a conversation.
      * Bot Scopes: `channels:read` `groups:read` `im:read` `mpim:read`
      * @param {ConversationsInfoArguments} args Arguments object
