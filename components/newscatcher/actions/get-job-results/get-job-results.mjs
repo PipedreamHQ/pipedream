@@ -36,6 +36,10 @@ export default {
     const response = await this.newscatcher.getJobResults({
       $,
       jobId: this.jobId,
+      params: {
+        page: this.page,
+        page_size: this.pageSize,
+      },
     });
     $.export("$summary", `Successfully retrieved results for job ${this.jobId}`);
     return response;
