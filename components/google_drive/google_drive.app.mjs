@@ -1500,7 +1500,10 @@ export default {
     async deletePermission(opts = {}) {
       const drive = this.drive();
       return (
-        await drive.permissions.delete(opts)
+        await drive.permissions.delete({
+          supportsAllDrives: true,
+          ...opts,
+        })
       ).data;
     },
     /**

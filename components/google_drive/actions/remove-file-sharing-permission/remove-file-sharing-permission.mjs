@@ -8,7 +8,7 @@ export default {
     "Remove a [sharing permission](https://support.google.com/drive/answer/7166529) from the sharing preferences of a file or folder. [See the documentation](https://developers.google.com/workspace/drive/api/reference/rest/v3/permissions/delete)",
   version: "0.0.1",
   annotations: {
-    destructiveHint: false,
+    destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
