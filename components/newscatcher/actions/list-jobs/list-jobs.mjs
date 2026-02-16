@@ -31,7 +31,7 @@ export default {
       $,
       params: {
         page: this.page,
-        pageSize: this.pageSize,
+        page_size: this.pageSize,
       },
     });
     $.export("$summary", `Successfully retrieved ${response.jobs?.length || 0} job${response.jobs?.length === 1
