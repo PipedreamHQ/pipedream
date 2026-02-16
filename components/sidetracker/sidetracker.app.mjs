@@ -85,7 +85,7 @@ export default {
         page: 1,
         page_size: 100,
       };
-      let hasMore, count = 0;;
+      let hasMore, count = 0;
       do {
         const {
           results, next,
