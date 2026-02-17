@@ -3,7 +3,7 @@ import ascora from "../../ascora.app.mjs";
 export default {
   key: "ascora-search-customers",
   name: "Search Customers",
-  description: "Search for customers. [See the documentation](https://www.dropbox.com/scl/fi/75586ygs35arfb7d3cvxi/API-Endpoints-1.2.pdf)",
+  description: "Search for customers. [See the documentation](https://www.ascora.com.au/Assets/Guides/AscoraApiGuide.pdf)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
