@@ -47,7 +47,6 @@ export default {
     if (!body) {
       return;
     }
-    console.log(body);
     const meta = this.generateMeta(body);
     this.$emit(body, meta);
   },
