@@ -48,7 +48,7 @@ export default {
     const webhookSecret = this.db.get("webhookSecret");
 
     // Verify signature before processing
-    if (!this.sendIt.verifySignature(JSON.stringify(body), signature, webhookSecret)) {
+    if (!this.sendIt.verifySignature(body, signature, webhookSecret)) {
       this.http.respond({
         status: 401,
         body: "Invalid signature",

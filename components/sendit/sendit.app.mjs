@@ -15,7 +15,7 @@ export default {
     platforms: {
       type: "string[]",
       label: "Platforms",
-      description: "Select platforms to publish to",
+      description: "Select the platforms",
       options: PLATFORMS,
     },
     text: {
