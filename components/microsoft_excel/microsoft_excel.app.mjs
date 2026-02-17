@@ -1,4 +1,5 @@
-import { axios } from "@pipedream/platform";
+import { Client } from "@microsoft/microsoft-graph-client";
+import "isomorphic-fetch";
 const DEFAULT_LIMIT = 50;
 
 export default {
@@ -91,163 +92,112 @@ export default {
     values: {
       type: "string",
       label: "Values",
-      description: "A 2-dimensional array of unformatted values of the table row. [See the documentation to get the data format](https://learn.microsoft.com/en-us/graph/api/tablerowcollection-add?view=graph-rest-1.0&tabs=http).",
+      description: "A 2-dimensional array of unformatted values of the table row. E.g. `[[1, 2, 3], [4, 5, 6]]` according to the table schema. [See the documentation to get the data format](https://learn.microsoft.com/en-us/graph/api/tablerowcollection-add?view=graph-rest-1.0&tabs=http).",
     },
   },
   methods: {
-    _apiUrl() {
-      return "https://graph.microsoft.com/v1.0";
-    },
-    _getHeaders() {
-      return {
-        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-      };
-    },
-    _makeRequest({
-      $ = this, path, ...opts
-    }) {
-      const config = {
-        url: `${this._apiUrl()}/${path}`,
-        headers: this._getHeaders(),
-        ...opts,
-      };
-
-      return axios($, config);
+    client() {
+      return Client.init({
+        authProvider: (done) => {
+          done(null, this.$auth.oauth_access_token);
+        },
+      });
     },
     addTableRow({
-      sheetId, tableId, tableName, ...args
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: `me/drive/items/${sheetId}/workbook/tables/${tableId || tableName}/rows/add`,
-        ...args,
-      });
+      sheetId, tableId, tableName, data = {},
+    } = {}) {
+      return this.client().api(`/me/drive/items/${sheetId}/workbook/tables/${tableId || tableName}/rows/add`)
+        .post(data);
     },
-    createHook(args = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "subscriptions",
-        ...args,
-      });
+    createHook({ data = {} } = {}) {
+      return this.client().api("/subscriptions")
+        .post(data);
     },
     deleteHook(hookId) {
-      return this._makeRequest({
-        method: "DELETE",
-        path: `subscriptions/${hookId}`,
-      });
+      return this.client().api(`/subscriptions/${hookId}`)
+        .delete();
     },
     listItems({
-      folderId, ...args
-    }) {
-      return this._makeRequest({
-        path: (folderId === "root")
-          ? "me/drive/root/children"
-          : `/me/drive/items/${folderId}/children`,
-        ...args,
-      });
+      folderId, params = {},
+    } = {}) {
+      return this.client().api((folderId === "root")
+        ? "/me/drive/root/children"
+        : `/me/drive/items/${folderId}/children`)
+        .get(params);
     },
     listTableRows({
-      sheetId, tableId, ...args
-    }) {
-      return this._makeRequest({
-        path: `me/drive/items/${sheetId}/workbook/tables/${tableId}/rows`,
-        ...args,
-      });
+      sheetId, tableId,
+    } = {}) {
+      return this.client().api(`/me/drive/items/${sheetId}/workbook/tables/${tableId}/rows`)
+        .get();
     },
     // List tables endpoint is not supported for personal accounts
     listTables({
-      sheetId, ...args
-    }) {
-      return this._makeRequest({
-        path: `me/drive/items/${sheetId}/workbook/tables`,
-        ...args,
-      });
+      sheetId, params = {},
+    } = {}) {
+      return this.client().api(`/me/drive/items/${sheetId}/workbook/tables`)
+        .get(params);
     },
     listWorksheets({
-      sheetId, ...args
-    }) {
-      return this._makeRequest({
-        path: `/me/drive/items/${sheetId}/workbook/worksheets`,
-        ...args,
-      });
+      sheetId, params = {},
+    } = {}) {
+      return this.client().api(`/me/drive/items/${sheetId}/workbook/worksheets`)
+        .get(params);
     },
     updateTableRow({
-      sheetId, tableId, rowId, ...args
-    }) {
-      return this._makeRequest({
-        method: "PATCH",
-        path: `me/drive/items/${sheetId}/workbook/tables/${tableId}/rows/ItemAt(index=${rowId})`,
-        ...args,
-      });
+      sheetId, tableId, rowId, data = {},
+    } = {}) {
+      return this.client().api(`/me/drive/items/${sheetId}/workbook/tables/${tableId}/rows/ItemAt(index=${rowId})`)
+        .patch(data);
     },
     updateSubscription({
-      hookId, ...args
-    }) {
-      return this._makeRequest({
-        method: "PATCH",
-        path: `subscriptions/${hookId}`,
-        ...args,
-      });
+      hookId, data = {},
+    } = {}) {
+      return this.client().api(`/subscriptions/${hookId}`)
+        .patch(data);
     },
-    batch(args = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "$batch",
-        ...args,
-      });
+    batch({ data = {} } = {}) {
+      return this.client().api("/$batch")
+        .post(data);
     },
     getDriveItem({
-      itemId, ...args
-    }) {
-      return this._makeRequest({
-        path: `me/drive/items/${itemId}`,
-        ...args,
-      });
+      itemId, params = {},
+    } = {}) {
+      return this.client().api(`/me/drive/items/${itemId}`)
+        .get(params);
     },
     getDelta({
-      path, token, ...args
-    }) {
-      return this._makeRequest({
-        path: `${path}/delta?token=${token}`,
-        ...args,
-      });
+      path, token, params = {},
+    } = {}) {
+      return this.client().api(`${path}/delta?token=${token}`)
+        .get(params);
     },
     getRange({
-      sheetId, worksheet, range, ...args
-    }) {
-      return this._makeRequest({
-        path: `me/drive/items/${sheetId}/workbook/worksheets/${worksheet}/range(address='${range}')`,
-        ...args,
-      });
+      sheetId, worksheet, range, params = {},
+    } = {}) {
+      return this.client().api(`/me/drive/items/${sheetId}/workbook/worksheets/${worksheet}/range(address='${range}')`)
+        .get(params);
     },
     getUsedRange({
-      sheetId, worksheet, ...args
-    }) {
-      return this._makeRequest({
-        path: `me/drive/items/${sheetId}/workbook/worksheets/${worksheet}/range/usedRange`,
-        ...args,
-      });
+      sheetId, worksheet, params = {},
+    } = {}) {
+      return this.client().api(`/me/drive/items/${sheetId}/workbook/worksheets/${worksheet}/usedRange`)
+        .get(params);
     },
     insertRange({
-      sheetId, worksheet, range, ...args
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: `me/drive/items/${sheetId}/workbook/worksheets/${worksheet}/range(address='${range}')/insert`,
-        ...args,
-      });
+      sheetId, worksheet, range, data = {},
+    } = {}) {
+      return this.client().api(`/me/drive/items/${sheetId}/workbook/worksheets/${worksheet}/range(address='${range}')/insert`)
+        .post(data);
     },
     updateRange({
-      sheetId, worksheet, range, ...args
-    }) {
-      return this._makeRequest({
-        method: "PATCH",
-        path: `me/drive/items/${sheetId}/workbook/worksheets/${worksheet}/range(address='${range}')`,
-        ...args,
-      });
+      sheetId, worksheet, range, data = {},
+    } = {}) {
+      return this.client().api(`/me/drive/items/${sheetId}/workbook/worksheets/${worksheet}/range(address='${range}')`)
+        .patch(data);
     },
     async listFolderOptions({
-      folderId = null, prefix = "", batchLimit = 20, ...args
+      folderId = null, prefix = "", batchLimit = 20,
     } = {}) {
       const options = [];
       const stack = [
@@ -281,9 +231,7 @@ export default {
 
           const { responses: batchResponses } =
             await this.batch({
-              ...args,
               data: {
-                ...args?.data,
                 requests: currentBatch,
               },
             });
