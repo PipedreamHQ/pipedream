@@ -5080,7 +5080,11 @@ importers:
         specifier: ^3.0.2
         version: 3.1.0
 
-  components/eventee: {}
+  components/eventee:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.5
+        version: 3.2.5
 
   components/eventzilla:
     dependencies:
