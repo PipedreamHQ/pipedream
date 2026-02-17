@@ -4,7 +4,7 @@ import { parseObject } from "../../common/utils.mjs";
 export default {
   key: "microsoft_excel-update-worksheet-tablerow",
   name: "Update Worksheet Tablerow",
-  version: "0.0.7",
+  version: "0.0.8",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

@@ -53,6 +53,9 @@ export default {
     _baseUrl() {
       return `https://${this.$auth.domain}/v1/`;
     },
+    _v2BaseUrl() {
+      return `https://${this.$auth.domain}/v2/`;
+    },
     _apiKey() {
       return this.$auth.api_key;
     },
@@ -83,6 +86,40 @@ export default {
         return axios($, config);
       });
     },
+    async _makeV2Request(args = {}) {
+      const {
+        method = "GET",
+        path,
+        params = {},
+        headers = {},
+        $ = this,
+        ...otherArgs
+      } = args;
+      const config = {
+        method,
+        url: `${this._v2BaseUrl()}${path}`,
+        headers: {
+          ...this._getHeaders(),
+          "cal-api-version": "2024-08-13",
+          "Authorization": `Bearer ${this._apiKey()}`,
+          ...headers,
+        },
+        params: {
+          ...params,
+        },
+        ...otherArgs,
+      };
+      try {
+        return await this._withRetries(() => axios($, config));
+      } catch (error) {
+        const apiMessage =
+          error?.response?.data?.error?.message ||
+          error?.response?.data?.message ||
+          error?.message ||
+          "Unknown Cal.com API error";
+        throw new ConfigurationError(apiMessage);
+      }
+    },
     _isRetriableStatusCode(statusCode) {
       return [
         408,
@@ -101,14 +138,11 @@ export default {
 
           return data;
         } catch (err) {
-          const { status = 500 } = err;
+          const status = err?.response?.status ?? 500;
           if (!this._isRetriableStatusCode(status)) {
-            bail(`
-              Unexpected error (status code: ${status}):
-              ${JSON.stringify(err.response)}
-            `);
+            bail(err);
           }
-          throw new ConfigurationError("Could not get data");
+          throw err;
         }
       }, retryOpts);
     },
@@ -142,6 +176,16 @@ export default {
         method: "POST",
         path: "bookings",
         ...args,
+      });
+    },
+    async createBookingV2({
+      data, $,
+    }) {
+      return this._makeV2Request({
+        method: "POST",
+        path: "bookings",
+        data,
+        $,
       });
     },
     async deleteBooking(bookingId, $) {

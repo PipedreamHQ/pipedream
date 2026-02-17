@@ -1,6 +1,7 @@
 import { getFileStreamAndMetadata } from "@pipedream/platform";
 import { Client } from "@microsoft/microsoft-graph-client";
 import "isomorphic-fetch";
+import pickBy from "lodash.pickby";
 const DEFAULT_LIMIT = 50;
 
 export default {
@@ -413,7 +414,8 @@ export default {
         params["$filter"] = `emailAddresses/any(a:a/address eq '${filterAddress}')`;
       }
       return await this.client().api("/me/contacts")
-        .get(params);
+        .query(pickBy(params))
+        .get();
     },
     async updateContact({
       contactId, data = {},
@@ -425,31 +427,37 @@ export default {
       messageId, params = {},
     } = {}) {
       return await this.client().api(`/me/messages/${messageId}`)
-        .get(params);
+        .query(pickBy(params))
+        .get();
     },
     async listMessages({ params = {} } = {}) {
       return await this.client().api("/me/messages")
-        .get(params);
+        .query(pickBy(params))
+        .get();
     },
     async listSharedFolderMessages({
       userId, sharedFolderId, params = {},
     } = {}) {
       return await this.client().api(`/users/${userId}/mailFolders/${sharedFolderId}/messages`)
-        .get(params);
+        .query(pickBy(params))
+        .get();
     },
     async getContact({
       contactId, params = {},
     } = {}) {
       return await this.client().api(`/me/contacts/${contactId}`)
-        .get(params);
+        .query(pickBy(params))
+        .get();
     },
     async listLabels({ params = {} } = {}) {
       return await this.client().api("/me/outlook/masterCategories")
-        .get(params);
+        .query(pickBy(params))
+        .get();
     },
     async listFolders({ params = {} } = {}) {
       return await this.client().api("/me/mailFolders")
-        .get(params);
+        .query(pickBy(params))
+        .get();
     },
     async moveMessage({
       messageId, data = {},
@@ -468,23 +476,27 @@ export default {
     } = {}) {
       return await this.client().api(`/me/messages/${messageId}/attachments/${attachmentId}/$value`)
         .responseType("stream")
-        .get(params);
+        .query(pickBy(params))
+        .get();
     },
     async getAttachmentInfo({
       messageId, attachmentId, params = {},
     } = {}) {
       return await this.client().api(`/me/messages/${messageId}/attachments/${attachmentId}`)
-        .get(params);
+        .query(pickBy(params))
+        .get();
     },
     async listAttachments({
       messageId, params = {},
     } = {}) {
       return await this.client().api(`/me/messages/${messageId}/attachments`)
-        .get(params);
+        .query(pickBy(params))
+        .get();
     },
     async listUsers({ params = {} } = {}) {
       return await this.client().api("/users")
-        .get(params);
+        .query(pickBy(params))
+        .get();
     },
     async listSharedFolders({
       userId, parentFolderId, params = {},
@@ -492,7 +504,8 @@ export default {
       const { value } = await this.client().api(`/users/${userId}/mailFolders${parentFolderId
         ? `/${parentFolderId}/childFolders`
         : ""}`)
-        .get(params);
+        .query(pickBy(params))
+        .get();
 
       const foldersArray = [];
       for (const folder of value) {
