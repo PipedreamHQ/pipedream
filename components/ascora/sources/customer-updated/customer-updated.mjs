@@ -16,7 +16,7 @@ export default {
     generateMeta(customer) {
       return {
         id: customer.customerId,
-        summary: `New customer created with ID: ${customer.customerId}`,
+        summary: `Customer updated with ID: ${customer.customerId}`,
         ts: Date.now(),
       };
     },

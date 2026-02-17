@@ -42,6 +42,9 @@ export default {
     getEventType() {
       throw new ConfigurationError("getEventType() must be implemented");
     },
+    generateMeta() {
+      throw new ConfigurationError("generateMeta() must be implemented");
+    },
   },
   async run({ body }) {
     if (!body) {
