@@ -10201,7 +10201,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/newscatcher: {}
+  components/newscatcher:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.5
+        version: 3.2.5
 
   components/newsletter: {}
 
