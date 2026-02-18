@@ -39,7 +39,7 @@ export default {
       }
 
       if (responseArray.length) {
-        this._setLastDate(Date.parse(responseArray[0].editTime));
+        this._setLastDate(responseArray[0].editTime);
       }
 
       for (const item of responseArray.reverse()) {

@@ -137,7 +137,7 @@ export default {
       responseArray.push(item);
     }
 
-    $.export("$summary", `Successfully retrieved ${responseArray.length} result${responseArray.length > 1
+    $.export("$summary", `Successfully retrieved ${responseArray.length} result${responseArray.length !== 1
       ? "s"
       : ""}`);
     return response;
