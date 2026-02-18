@@ -4,7 +4,7 @@ export default {
   key: "salesforce_rest_api-search-string",
   name: "Search Object Records",
   description: "Searches for records in an object using a parameterized search. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_search_parameterized_get.htm)",
-  version: "0.0.7",
+  version: "0.0.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -40,6 +40,13 @@ export default {
       ],
     },
   },
+  methods: {
+    // constructs a url that users can copy into a browser to view the record in Salesforce
+    createBrowserUrl(baseUrl, url) {
+      return `${baseUrl.replace(".my.salesforce.com", ".lightning.force.com")}/lightning/r/${url.match(/sobjects\/([^/]+)\/([^/]+)/).slice(1)
+        .join("/")}/view`;
+    },
+  },
   async run({ $ }) {
     const {
       sobjectType,
@@ -56,6 +63,7 @@ export default {
       },
     });
     const resultsFound = response.searchRecords.length;
+    const baseUrl = this.salesforce._baseApiUrl();
     response.searchRecords = response.searchRecords.map((record) => {
       const url = record?.attributes?.url;
       if (!url) return record;
@@ -63,7 +71,8 @@ export default {
         ...record,
         attributes: {
           ...record.attributes,
-          url: `${this.salesforce._baseApiUrl()}${url}`,
+          url: `${baseUrl}${url}`, // api url
+          browserUrl: this.createBrowserUrl(baseUrl, url),
         },
       };
     });
