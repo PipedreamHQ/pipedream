@@ -17103,7 +17103,11 @@ importers:
 
   components/wolfram_alpha_api: {}
 
-  components/wonderchat: {}
+  components/wonderchat:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.5
+        version: 3.2.5
 
   components/woocommerce:
     dependencies:
