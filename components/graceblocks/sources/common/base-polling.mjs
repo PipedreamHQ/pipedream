@@ -46,7 +46,7 @@ export default {
 
       this._setLastTs(Date.parse(items[0][this.getTsField()]));
 
-      items.forEach((item) => {
+      items.reverse().forEach((item) => {
         const meta = this.generateMeta(item);
         this.$emit(item, meta);
       });

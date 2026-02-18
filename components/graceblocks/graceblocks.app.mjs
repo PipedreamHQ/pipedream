@@ -119,6 +119,9 @@ export default {
         } = await resourceFn({
           params,
         });
+        if (!records?.length) {
+          return;
+        }
         for (const record of records) {
           yield record;
           count++;

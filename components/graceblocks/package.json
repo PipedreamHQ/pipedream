@@ -13,6 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.2.5"
+    "@pipedream/platform": "^3.2.5",
+    "md5": "^2.3.0"
   }
 }
