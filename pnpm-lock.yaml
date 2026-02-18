@@ -16716,7 +16716,7 @@ importers:
   components/voluum:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
+        specifier: ^3.2.5
         version: 3.2.5
 
   components/voluum_session_auth: {}
