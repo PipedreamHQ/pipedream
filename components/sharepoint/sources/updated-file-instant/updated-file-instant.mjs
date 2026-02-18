@@ -52,7 +52,7 @@ export default {
         sharepoint,
         "driveId",
         (c) => ({
-          siteId: c.siteId,
+          siteId: c.siteId?.value || c.siteId,
         }),
       ],
     },
