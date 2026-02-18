@@ -41,7 +41,7 @@ export default {
         }),
       ],
       hidden: true,
-      description: "The file to share. You must specify either a file or a folder.",
+      description: "The file to remove the sharing permission from. You must specify either a file or a folder.",
     },
     folderId: {
       propDefinition: [
@@ -52,7 +52,7 @@ export default {
         }),
       ],
       hidden: true,
-      description: "The folder to share. You must specify either a file or a folder.",
+      description: "The folder to remove the sharing permission from. You must specify either a file or a folder.",
     },
     permissionId: {
       propDefinition: [

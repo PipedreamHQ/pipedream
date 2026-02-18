@@ -1517,6 +1517,7 @@ export default {
       const drive = this.drive();
       return (
         await drive.permissions.list({
+          supportsAllDrives: true,
           pageToken,
           fileId,
         })
