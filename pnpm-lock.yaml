@@ -6762,7 +6762,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/graceblocks: {}
+  components/graceblocks:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.5
+        version: 3.2.5
 
   components/grade_us: {}
 
