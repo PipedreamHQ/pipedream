@@ -14122,7 +14122,11 @@ importers:
 
   components/shutterstock: {}
 
-  components/sidetracker: {}
+  components/sidetracker:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.5
+        version: 3.2.5
 
   components/sierra_interactive: {}
 
