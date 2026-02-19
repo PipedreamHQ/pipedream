@@ -1,7 +1,7 @@
 import slack from "../../slack_v2.app.mjs";
 
 export default {
-  key: "get-channel",
+  key: "slack_v2-get-channel",
   name: "Get Channel Details",
   description: "Retrieve details for a Slack channel by selecting it or providing an ID. [See the documentation](https://api.slack.com/methods/conversations.info)",
   version: "0.0.1",
@@ -26,7 +26,7 @@ export default {
     channel_id: {
       type: "string",
       label: "Channel ID",
-      description: "Provide a channel ID manually if not selecting above",
+      description: "Provide a channel ID manually. If a channel is also selected above, the selected channel takes precedence.",
       optional: true,
     },
   },
@@ -43,10 +43,6 @@ export default {
       include_locale: true,
       include_num_members: true,
     });
-
-    if (!response.ok) {
-      throw new Error(response.error);
-    }
 
     const channel = response.channel;
 
