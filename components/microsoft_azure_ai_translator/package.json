@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/microsoft_azure_ai_translator",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Microsoft Azure AI Translator Components",
   "main": "microsoft_azure_ai_translator.app.mjs",
   "keywords": [

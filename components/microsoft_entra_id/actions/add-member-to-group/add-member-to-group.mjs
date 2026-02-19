@@ -4,7 +4,7 @@ export default {
   key: "microsoft_entra_id-add-member-to-group",
   name: "Add Member To Group",
   description: "Adds a member to a group Microsoft Entra ID. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-update?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.2",
+  version: "0.0.5",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -32,7 +32,6 @@ export default {
       data: {
         "@odata.id": `https://graph.microsoft.com/v1.0/users/${this.userId}`,
       },
-      $,
     });
 
     $.export("$summary", `Successfully added member ${this.userId} to group ${this.groupId}.`);

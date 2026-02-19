@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/e2b",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream E2B Components",
   "main": "e2b.app.mjs",
   "keywords": [
@@ -13,6 +13,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@e2b/code-interpreter": "^1.0.3"
+    "@e2b/code-interpreter": "1.0.3"
   }
 }

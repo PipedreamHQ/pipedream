@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/dataiku",
+  "version": "0.0.1",
+  "description": "Pipedream Dataiku Components",
+  "main": "dataiku.app.mjs",
+  "keywords": [
+    "pipedream",
+    "dataiku"
+  ],
+  "homepage": "https://pipedream.com/apps/dataiku",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

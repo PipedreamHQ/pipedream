@@ -6,7 +6,7 @@ export default {
   key: "google_calendar-update-following-instances",
   name: "Update Following Event Instances",
   description: "Update all instances of a recurring event following a specific instance. This creates a new recurring event starting from the selected instance. [See the documentation](https://developers.google.com/calendar/api/guides/recurringevents#modifying_all_following_instances)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: true,
@@ -191,69 +191,116 @@ export default {
     const instanceStartDate = targetInstance.start.dateTime || targetInstance.start.date;
     const untilDate = this.calculateUntilDate(instanceStartDate);
 
-    // Step 3: Trim the original recurring event
-    const trimmedRecurrence = this.modifyRecurrenceRule(
-      originalEvent.recurrence,
-      untilDate,
-    );
-
-    await this.googleCalendar.updateEvent({
+    // Step 3: Delete the target instance while it is still a valid part of the
+    // series. This must happen before trimming the RRULE — once UNTIL excludes the
+    // instance, Google Calendar rejects the delete with a 400 Bad Request.
+    // Explicit deletion prevents the instance from appearing as an orphaned
+    // duplicate after the series is split.
+    await this.googleCalendar.deleteEvent({
       calendarId: this.calendarId,
-      eventId: this.recurringEventId,
+      eventId: this.instanceId,
       sendUpdates: this.sendUpdates,
-      requestBody: {
-        ...originalEvent,
-        recurrence: trimmedRecurrence,
-      },
     });
 
-    // Step 4: Create new recurring event with changes
-    const timeZone = await this.getTimeZone(this.timeZone || targetInstance.start.timeZone);
-    const attendees = this.formatAttendees(this.attendees, originalEvent.attendees);
+    // Steps 4 & 5 are wrapped in a try/catch: the delete above is irreversible,
+    // so if either subsequent call fails we attempt to restore the deleted instance
+    // (by patching its status back to "confirmed") before re-throwing. If the
+    // restore itself fails we emit a distinct partial-failure summary so the caller
+    // knows the instance is gone and manual intervention is required.
+    let step4TrimApplied = false;
+    try {
+      // Step 4: Trim the original recurring event
+      const trimmedRecurrence = this.modifyRecurrenceRule(
+        originalEvent.recurrence,
+        untilDate,
+      );
 
-    // Determine recurrence for new event
-    let newRecurrence;
-    if (this.repeatFrequency) {
-      newRecurrence = this.formatRecurrence({
-        repeatFrequency: this.repeatFrequency,
-        repeatInterval: this.repeatInterval,
-        repeatTimes: this.repeatTimes,
-        repeatUntil: this.repeatUntil,
+      await this.googleCalendar.updateEvent({
+        calendarId: this.calendarId,
+        eventId: this.recurringEventId,
+        sendUpdates: this.sendUpdates,
+        requestBody: {
+          ...originalEvent,
+          recurrence: trimmedRecurrence,
+        },
       });
-    } else {
-      // Use original recurrence rules
-      newRecurrence = originalEvent.recurrence;
+      step4TrimApplied = true;
+
+      // Step 5: Create new recurring event with changes
+      const timeZone = await this.getTimeZone(this.timeZone || targetInstance.start.timeZone);
+      const attendees = this.formatAttendees(this.attendees, originalEvent.attendees);
+
+      // Determine recurrence for new event
+      let newRecurrence;
+      if (this.repeatFrequency) {
+        newRecurrence = this.formatRecurrence({
+          repeatFrequency: this.repeatFrequency,
+          repeatInterval: this.repeatInterval,
+          repeatTimes: this.repeatTimes,
+          repeatUntil: this.repeatUntil,
+        });
+      } else {
+        // Inherit original recurrence rules, but strip any COUNT so the tail
+        // series does not reapply the original total-count from the beginning.
+        newRecurrence = originalEvent.recurrence?.map((rule) => {
+          if (!rule.startsWith("RRULE:")) {
+            return rule;
+          }
+          return rule.replace(/;COUNT=[^;]+/g, "");
+        });
+      }
+
+      const newEvent = await this.googleCalendar.createEvent({
+        calendarId: this.calendarId,
+        sendUpdates: this.sendUpdates,
+        resource: {
+          summary: this.summary || originalEvent.summary,
+          location: this.location || originalEvent.location,
+          description: this.description || originalEvent.description,
+          start: this.getDateParam({
+            date: this.eventStartDate || instanceStartDate,
+            timeZone: timeZone || targetInstance.start.timeZone,
+          }),
+          end: this.getDateParam({
+            date: this.eventEndDate || targetInstance.end.dateTime || targetInstance.end.date,
+            timeZone: timeZone || targetInstance.end.timeZone,
+          }),
+          recurrence: newRecurrence,
+          attendees,
+          colorId: this.colorId || originalEvent.colorId,
+        },
+      });
+
+      $.export("$summary", `Successfully split recurring event. Original trimmed, new event created with ID: \`${newEvent.id}\``);
+
+      return {
+        originalEvent: {
+          id: this.recurringEventId,
+          trimmedRecurrence,
+        },
+        newEvent,
+      };
+    } catch (splitError) {
+      // Attempt to restore the deleted instance by patching its status back to
+      // "confirmed". The instance ID is still valid as a cancelled exception.
+      try {
+        await this.googleCalendar.updateEvent({
+          calendarId: this.calendarId,
+          eventId: this.instanceId,
+          sendUpdates: this.sendUpdates,
+          requestBody: {
+            ...targetInstance,
+            status: "confirmed",
+          },
+        });
+        if (step4TrimApplied) {
+          $.export("$summary", `Partial failure: the original instance (${this.instanceId}) was restored but the series RRULE was already trimmed and the new event was not created. The series may require manual repair.`);
+        }
+      } catch (_restoreError) {
+        $.export("$summary", `Partial failure: the original instance (${this.instanceId}) was deleted but the split could not be completed and automatic restoration failed. Manual intervention required.`);
+        throw splitError;
+      }
+      throw splitError;
     }
-
-    const newEvent = await this.googleCalendar.createEvent({
-      calendarId: this.calendarId,
-      sendUpdates: this.sendUpdates,
-      resource: {
-        summary: this.summary || originalEvent.summary,
-        location: this.location || originalEvent.location,
-        description: this.description || originalEvent.description,
-        start: this.getDateParam({
-          date: this.eventStartDate || instanceStartDate,
-          timeZone: timeZone || targetInstance.start.timeZone,
-        }),
-        end: this.getDateParam({
-          date: this.eventEndDate || targetInstance.end.dateTime || targetInstance.end.date,
-          timeZone: timeZone || targetInstance.end.timeZone,
-        }),
-        recurrence: newRecurrence,
-        attendees,
-        colorId: this.colorId || originalEvent.colorId,
-      },
-    });
-
-    $.export("$summary", `Successfully split recurring event. Original trimmed, new event created with ID: \`${newEvent.id}\``);
-
-    return {
-      originalEvent: {
-        id: this.recurringEventId,
-        trimmedRecurrence,
-      },
-      newEvent,
-    };
   },
 };

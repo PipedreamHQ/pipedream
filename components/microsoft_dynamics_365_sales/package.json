@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/microsoft_dynamics_365_sales",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Pipedream Microsoft Dynamics 365 Sales Components",
   "main": "microsoft_dynamics_365_sales.app.mjs",
   "keywords": [

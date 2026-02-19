@@ -4,7 +4,7 @@ export default {
   key: "wics-get-order-by-additional-reference",
   name: "Get Order by Additional Reference",
   description: "Get an order by its additional reference. [See the documentation](https://docs.wics.nl/test-environment.html#orders-list-orders)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
