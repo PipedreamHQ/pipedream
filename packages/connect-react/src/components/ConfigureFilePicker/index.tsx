@@ -389,11 +389,6 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
   const appConfig = customAppConfig || FILE_PICKER_APPS[app];
   const hasValidConfig = !!appConfig;
 
-  // Log missing config error (but don't early return to preserve hook order)
-  if (!hasValidConfig) {
-    console.error(`[ConfigureFilePicker] No configuration found for app "${app}". Provide appConfig prop or use a supported app.`);
-  }
-
   // Extract config values with safe defaults to ensure hooks run unconditionally
   const {
     propHierarchy = [],
@@ -404,13 +399,8 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
 
   // Debug logger (memoized to maintain stable reference)
   const log = useCallback(
-    debug
-      // eslint-disable-next-line no-console
-      ? (...args: unknown[]) => console.log("[ConfigureFilePicker]", ...args)
-      : () => {},
-    [
-      debug,
-    ],
+    () => {},
+    [],
   );
 
   // Current configured props state
@@ -518,31 +508,6 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
     fileOrFolderProp,
   ]);
 
-  // Debug: fetch and log component definition on mount
-  useEffect(() => {
-    if (debug && componentKey) {
-      client.components.retrieve(componentKey).then((component) => {
-        console.log("[ConfigureFilePicker] Component definition:", component);
-        // Find the fileOrFolderId prop definition
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const props = (component as any).configurable_props || (component as any).configurableProps;
-        // eslint-disable-next-line react/prop-types
-        const fileOrFolderIdProp = props?.find(
-          (p: { name: string }) => p.name === "fileOrFolderId",
-        );
-        if (fileOrFolderIdProp) {
-          console.log("[ConfigureFilePicker] fileOrFolderId prop definition:", fileOrFolderIdProp);
-        }
-      })
-        .catch((err) => {
-          console.error("[ConfigureFilePicker] Failed to retrieve component:", err);
-        });
-    }
-  }, [
-    debug,
-    componentKey,
-    client,
-  ]);
 
   // Fetch options for current prop
   const {
@@ -572,10 +537,6 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
         optionsCount: response.options?.length || 0,
         errors: response.errors,
       });
-
-      if (response.errors?.length) {
-        console.error("[ConfigureFilePicker] API errors:", response.errors);
-      }
 
       return response;
     },
