@@ -11,7 +11,7 @@ export default {
   key: "google_drive-new-files-instant",
   name: "New Files (Instant)",
   description: "Emit new event when a new file is added in your linked Google Drive",
-  version: "0.2.2",
+  version: "0.2.3",
   type: "source",
   dedupe: "unique",
   props: {
@@ -54,6 +54,13 @@ export default {
       default: false,
       optional: true,
     },
+    includeSubfolders: {
+      type: "boolean",
+      label: "Enable Subfolders",
+      description: "Whether to watch for new files in subfolders of the parent folder",
+      default: false,
+      optional: true,
+    },
     dir: {
       type: "dir",
       accessMode: "write",
@@ -91,12 +98,31 @@ export default {
     _setLastFileCreatedTime(lastFileCreatedTime) {
       this.db.set("lastFileCreatedTime", lastFileCreatedTime);
     },
-    shouldProcess(file) {
+    async hasAncestor(file, targetFolderIds) {
+      let currentId = file.id;
+
+      while (true) {
+        const data = await this.googleDrive.getFile(currentId, {
+          fields: "parents",
+        });
+
+        if (!data.parents?.length) return false;
+
+        const parentId = data.parents[0];
+        if (targetFolderIds.includes(parentId)) return true;
+
+        currentId = parentId;
+      }
+    },
+    async shouldProcess(file) {
       const watchedFolders = new Set(this.folders);
-      return (
-        watchedFolders.size == 0 ||
-        (file.parents && file.parents.some((p) => watchedFolders.has(p)))
-      );
+      if (watchedFolders.size == 0 || !file.parents) {
+        return true;
+      }
+      if (this.includeSubfolders) {
+        return await this.hasAncestor(file, Array.from(watchedFolders));
+      }
+      return file.parents.some((p) => watchedFolders.has(p));
     },
     getUpdateTypes() {
       return [
@@ -106,7 +132,7 @@ export default {
     },
     async emitFiles(files) {
       for (const file of files) {
-        if (!this.shouldProcess(file)) {
+        if (!(await this.shouldProcess(file))) {
           continue;
         }
         if (this.includeLink) {
