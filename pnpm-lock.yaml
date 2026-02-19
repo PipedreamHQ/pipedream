@@ -13281,7 +13281,11 @@ importers:
 
   components/ryver: {}
 
-  components/sage_accounting: {}
+  components/sage_accounting:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/sage_crm: {}
 
