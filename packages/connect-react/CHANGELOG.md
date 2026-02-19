@@ -2,6 +2,11 @@
 
 # Changelog
 
+## [2.7.1] - 2026-02-19
+
+### Added
+- Added a Refresh button to the file picker UI component
+
 ## [2.7.0] - 2026-02-11
 
 ### Added
