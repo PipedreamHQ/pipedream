@@ -508,7 +508,6 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
     fileOrFolderProp,
   ]);
 
-
   // Fetch options for current prop
   const {
     data: optionsData,
