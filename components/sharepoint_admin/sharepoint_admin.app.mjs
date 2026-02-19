@@ -1,5 +1,7 @@
+import sharepoint from "../sharepoint/sharepoint.app.mjs";
+
 export default {
-  type: "app",
+  ...sharepoint,
   app: "sharepoint_admin",
   propDefinitions: {},
   methods: {

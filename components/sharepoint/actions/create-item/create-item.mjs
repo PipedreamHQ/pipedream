@@ -4,7 +4,7 @@ export default {
   key: "sharepoint-create-item",
   name: "Create Item",
   description: "Create a new item in Microsoft Sharepoint. [See the documentation](https://learn.microsoft.com/en-us/graph/api/listitem-create?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.10",
+  version: "0.0.11",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
