@@ -8,7 +8,7 @@ export default {
   type: "action",
   annotations: {
     destructiveHint: false,
-    openWorldHint: true,
+    openWorldHint: false,
     readOnlyHint: true,
   },
 
@@ -20,7 +20,6 @@ export default {
         slack,
         "conversation",
       ],
-      type: "string",
       optional: true,
     },
 
@@ -51,7 +50,7 @@ export default {
 
     const channel = response.channel;
 
-    $.export("$summary", `Fetched details for channel "${channel.name}"`);
+    $.export("$summary", `Fetched details for channel "${channel.name || channel.id}"`);
 
     return channel;
   },
