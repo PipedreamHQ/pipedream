@@ -140,6 +140,7 @@ export default {
         if (!siteId) {
           return [];
         }
+        siteId = this.resolveWrappedValue(siteId);
         const args = {
           siteId,
         };
@@ -392,7 +393,7 @@ export default {
      * resolveWrappedValue("abc123") // "abc123"
      */
     resolveWrappedValue(value) {
-      return value?.__lv?.value || value;
+      return value?.value || value;
     },
     /**
      * Resolves an array of potentially wrapped labeled values.

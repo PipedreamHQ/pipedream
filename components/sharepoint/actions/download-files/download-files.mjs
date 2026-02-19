@@ -5,15 +5,8 @@ import { filePickerMethods } from "../../common/file-picker-base.mjs";
 export default {
   key: "sharepoint-download-files",
   name: "Download Files",
-  description: "Browse and select files from SharePoint and get their metadata along with pre-authenticated download URLs (valid ~1 hour). " +
-    "Use this when you need to download or access file content.\n\n" +
-    "**Example Use Cases:**\n" +
-    "- Download files to analyze content in other steps\n" +
-    "- Pass download URLs to other services (email, cloud storage, etc.)\n" +
-    "- Archive files to external storage\n" +
-    "- Process file content through AI/ML services\n\n" +
-    "[See the documentation](https://learn.microsoft.com/en-us/graph/api/driveitem-get)",
-  version: "0.0.3",
+  description: "Browse and select files from SharePoint and get their metadata along with pre-authenticated download URLs (valid ~1 hour). [See the documentation](https://learn.microsoft.com/en-us/graph/api/driveitem-get)",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -28,7 +21,6 @@ export default {
         "siteId",
       ],
       withLabel: true,
-      reloadProps: true,
     },
     driveId: {
       propDefinition: [
@@ -39,7 +31,6 @@ export default {
         }),
       ],
       withLabel: true,
-      reloadProps: true,
     },
     folderId: {
       propDefinition: [
@@ -53,7 +44,6 @@ export default {
       description: "The folder to browse. Leave empty to browse the root of the drive.",
       optional: true,
       withLabel: true,
-      reloadProps: true,
     },
     fileIds: {
       propDefinition: [

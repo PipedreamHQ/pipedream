@@ -12,7 +12,6 @@ export const filePickerProps = {
       "siteId",
     ],
     withLabel: true,
-    reloadProps: true,
   },
   driveId: {
     propDefinition: [
@@ -23,7 +22,6 @@ export const filePickerProps = {
       }),
     ],
     withLabel: true,
-    reloadProps: true,
   },
   folderId: {
     propDefinition: [
@@ -38,7 +36,6 @@ export const filePickerProps = {
     description: "The folder to browse. Leave empty to browse the root of the drive.",
     optional: true,
     withLabel: true,
-    reloadProps: true,
   },
   fileOrFolderIds: {
     propDefinition: [

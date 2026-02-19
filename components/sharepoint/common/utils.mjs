@@ -17,7 +17,7 @@ export default {
    * @returns {*} The unwrapped value
    */
   _unwrapValue(value) {
-    return value?.__lv?.value || value;
+    return value?.value || value;
   },
 
   /**

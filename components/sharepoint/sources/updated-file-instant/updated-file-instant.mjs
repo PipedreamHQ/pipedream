@@ -5,20 +5,7 @@ import { WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS } from "../../common/constants.mjs
 export default {
   key: "sharepoint-updated-file-instant",
   name: "New File Updated (Instant)",
-  description:
-    "Emit an event when specific files are updated in a SharePoint document library. " +
-    "Uses Microsoft Graph webhooks for near real-time notifications.\n\n" +
-    "**How it works:**\n" +
-    "1. Select specific files to monitor\n" +
-    "2. Receive instant notifications when those files are modified\n" +
-    "3. Get file metadata and download URLs with each event\n\n" +
-    "**Example Use Cases:**\n" +
-    "- Trigger workflows when documents are updated\n" +
-    "- Sync file changes to other systems\n" +
-    "- Notify teams when important files are modified\n" +
-    "- Create audit trails of document updates\n\n" +
-    "**Note:** This source monitors only the files you select. It will NOT emit events for other files in the drive. " +
-    "The subscription automatically renews every 27 days to maintain continuous monitoring.",
+  description: "Emit new event when specific files are updated in a SharePoint document library",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -52,7 +39,7 @@ export default {
         sharepoint,
         "driveId",
         (c) => ({
-          siteId: c.siteId?.value || c.siteId,
+          siteId: c.siteId,
         }),
       ],
     },
