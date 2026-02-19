@@ -66,6 +66,16 @@ const RefreshIcon = () => (
 );
 
 /**
+ * Spin animation keyframes for loading states
+ */
+const spinKeyframes = `
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+`;
+
+/**
  * Format file size to human readable string
  */
 const formatFileSize = (bytes?: number): string => {
@@ -422,8 +432,14 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
 
   // Debug logger (memoized to maintain stable reference)
   const log = useCallback(
-    (..._args: unknown[]) => {},
-    [],
+    (...args: unknown[]) => {
+      if (debug) {
+        console.log("[ConfigureFilePicker]", ...args);
+      }
+    },
+    [
+      debug,
+    ],
   );
 
   // Current configured props state
@@ -880,428 +896,432 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
   }
 
   return (
-    <div style={styles.container}>
-      {/* Header with breadcrumbs */}
-      <div style={styles.header}>
-        <div style={styles.breadcrumb}>
-          <span
-            role="button"
-            tabIndex={0}
-            style={styles.breadcrumbItem}
-            onClick={() => navigateTo(-1)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                navigateTo(-1);
-              }
-            }}
-            onMouseEnter={(e) => {
-              (e.target as HTMLElement).style.backgroundColor = theme.colors.neutral10 || "";
-            }}
-            onMouseLeave={(e) => {
-              (e.target as HTMLElement).style.backgroundColor = "";
-            }}
-          >
+    <>
+      {/* Inject keyframes once at component level */}
+      <style>{spinKeyframes}</style>
+      <div style={styles.container}>
+        {/* Header with breadcrumbs */}
+        <div style={styles.header}>
+          <div style={styles.breadcrumb}>
+            <span
+              role="button"
+              tabIndex={0}
+              style={styles.breadcrumbItem}
+              onClick={() => navigateTo(-1)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  navigateTo(-1);
+                }
+              }}
+              onMouseEnter={(e) => {
+                (e.target as HTMLElement).style.backgroundColor = theme.colors.neutral10 || "";
+              }}
+              onMouseLeave={(e) => {
+                (e.target as HTMLElement).style.backgroundColor = "";
+              }}
+            >
             Home
-          </span>
-          {navigationPath.map((level, index) => (
-            <span key={`${level.propName}-${index}`} style={{
+            </span>
+            {navigationPath.map((level, index) => (
+              <span key={`${level.propName}-${index}`} style={{
+                display: "flex",
+                alignItems: "center",
+              }}>
+                <span style={styles.breadcrumbSeparator}>/</span>
+                <span
+                  role="button"
+                  tabIndex={0}
+                  style={styles.breadcrumbItem}
+                  onClick={() => navigateTo(index)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      navigateTo(index);
+                    }
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.target as HTMLElement).style.backgroundColor = theme.colors.neutral10 || "";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.target as HTMLElement).style.backgroundColor = "";
+                  }}
+                >
+                  {level.label}
+                </span>
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Search toolbar - only show at file/folder level */}
+        {currentProp === fileOrFolderProp && !showLoading && !error && allItems.length > 0 && (
+          <div style={{
+            padding: "10px 16px",
+            borderBottom: `1px solid ${theme.colors.neutral10}`,
+          }}>
+            {/* Search input with clear button on left */}
+            <div style={{
               display: "flex",
               alignItems: "center",
+              gap: "8px",
             }}>
-              <span style={styles.breadcrumbSeparator}>/</span>
-              <span
-                role="button"
-                tabIndex={0}
-                style={styles.breadcrumbItem}
-                onClick={() => navigateTo(index)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    navigateTo(index);
-                  }
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery("")}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    color: theme.colors.neutral40,
+                    fontSize: "16px",
+                    padding: "2px",
+                    lineHeight: 1,
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                  aria-label="Clear search"
+                >
+                ×
+                </button>
+              )}
+              <input
+                type="text"
+                placeholder="Search files..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                style={{
+                  flex: 1,
+                  padding: "6px 10px",
+                  fontSize: "13px",
+                  border: `1px solid ${theme.colors.neutral20}`,
+                  borderRadius: "4px",
+                  backgroundColor: theme.colors.neutral0,
+                  color: theme.colors.neutral80,
+                  outline: "none",
                 }}
-                onMouseEnter={(e) => {
-                  (e.target as HTMLElement).style.backgroundColor = theme.colors.neutral10 || "";
-                }}
-                onMouseLeave={(e) => {
-                  (e.target as HTMLElement).style.backgroundColor = "";
-                }}
-              >
-                {level.label}
-              </span>
-            </span>
-          ))}
-        </div>
-      </div>
+              />
+            </div>
+          </div>
+        )}
 
-      {/* Search toolbar - only show at file/folder level */}
-      {currentProp === fileOrFolderProp && !showLoading && !error && allItems.length > 0 && (
-        <div style={{
-          padding: "10px 16px",
-          borderBottom: `1px solid ${theme.colors.neutral10}`,
-        }}>
-          {/* Search input with clear button on left */}
+        {/* Content */}
+        {showLoading
+          ? (
+            <div style={styles.loading}>Loading...</div>
+          )
+          : error
+            ? (
+              <div style={styles.error}>
+              Failed to load items: {error instanceof Error
+                  ? error.message
+                  : "Unknown error"}
+              </div>
+            )
+            : items.length === 0
+              ? (
+                <div style={styles.empty}>No items found</div>
+              )
+              : (
+                <>
+                  {/* Column headers */}
+                  {currentProp === fileOrFolderProp && (
+                    <div style={{
+                      display: "flex",
+                      alignItems: "center",
+                      padding: "10px 16px",
+                      borderBottom: `1px solid ${theme.colors.neutral10}`,
+                      fontSize: "13px",
+                      fontWeight: 500,
+                      color: theme.colors.neutral50,
+                    }}>
+                      {/* Select all checkbox */}
+                      {multiSelect && (selectFiles || selectFolders) && selectableItems.length > 0 && (
+                        <input
+                          type="checkbox"
+                          checked={allSelectableSelected}
+                          ref={(el) => {
+                            if (el) el.indeterminate = someSelectableSelected;
+                          }}
+                          onChange={(e) => handleSelectAll(e.target.checked)}
+                          style={{
+                            width: "16px",
+                            height: "16px",
+                            marginRight: "10px",
+                            cursor: "pointer",
+                            accentColor: theme.colors.primary,
+                          }}
+                        />
+                      )}
+                      {/* Spacer for checkbox when not multiSelect */}
+                      {!multiSelect && (selectFiles || selectFolders) && (
+                        <div style={{
+                          width: "16px",
+                          height: "16px",
+                          marginRight: "10px",
+                          flexShrink: 0,
+                        }} />
+                      )}
+                      {/* Spacer for icon */}
+                      {showIcons && (
+                        <div style={{
+                          width: "20px",
+                          height: "20px",
+                          marginRight: "8px",
+                          flexShrink: 0,
+                        }} />
+                      )}
+                      <span style={{
+                        flex: 1,
+                      }}>Name</span>
+                      <span style={{
+                        width: "150px",
+                        textAlign: "left",
+                      }}>Last Modified</span>
+                    </div>
+                  )}
+                  <div style={{
+                    position: "relative",
+                    flex: 1,
+                    overflowY: "auto",
+                  }}>
+                    {/* Loading overlay */}
+                    {isFetching && (
+                      <div style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        backgroundColor: "rgba(255, 255, 255, 0.6)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        zIndex: 10,
+                        pointerEvents: "none",
+                      }}>
+                        <div style={{
+                          animation: "spin 1s linear infinite",
+                        }}>
+                          <RefreshIcon />
+                        </div>
+                      </div>
+                    )}
+                    <ul style={{
+                      ...styles.list,
+                      flex: "none",
+                    }}>
+                      {items.map((item) => {
+                        const selected = isSelected(item);
+                        // Show checkbox at file/folder level for selectable items
+                        const canSelect = currentProp === fileOrFolderProp && (
+                          (item.isFolder && selectFolders) || (!item.isFolder && selectFiles)
+                        );
+
+                        return (
+                          <li key={item.id}>
+                            <button
+                              type="button"
+                              style={{
+                                ...styles.item,
+                                backgroundColor: selected
+                                  ? theme.colors.primary25
+                                  : undefined,
+                                width: "100%",
+                                textAlign: "left",
+                                border: "none",
+                                cursor: "pointer",
+                              }}
+                              onClick={() => handleItemClick(item)}
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter" || e.key === " ") {
+                                  e.preventDefault();
+                                  handleItemClick(item);
+                                }
+                              }}
+                              onMouseEnter={(e) => {
+                                if (!selected) {
+                                  (e.currentTarget as HTMLElement).style.backgroundColor = theme.colors.neutral5 || "";
+                                }
+                              }}
+                              onMouseLeave={(e) => {
+                                (e.currentTarget as HTMLElement).style.backgroundColor = selected
+                                  ? theme.colors.primary25 || ""
+                                  : "";
+                              }}
+                            >
+                              {currentProp === fileOrFolderProp && (selectFiles || selectFolders) && (
+                                canSelect
+                                  ? (
+                                    <input
+                                      type="checkbox"
+                                      style={styles.checkbox}
+                                      checked={selected}
+                                      onChange={(e) => {
+                                        e.stopPropagation();
+                                        handleSelectionChange(item, e.target.checked);
+                                      }}
+                                      onClick={(e) => e.stopPropagation()}
+                                    />
+                                  )
+                                  : (
+                                    <div style={{
+                                      width: "16px",
+                                      height: "16px",
+                                      marginRight: "10px",
+                                      flexShrink: 0,
+                                    }} />
+                                  )
+                              )}
+                              {showIcons && (
+                                <span style={styles.itemIcon}>
+                                  {item.isFolder
+                                    ? icons.folder
+                                    : icons.file}
+                                </span>
+                              )}
+                              <div style={{
+                                flex: 1,
+                                minWidth: 0,
+                              }}>
+                                <span style={styles.itemName}>{item.label}</span>
+                                {/* Metadata row */}
+                                {currentProp === fileOrFolderProp && (
+                                  <div style={{
+                                    fontSize: "11px",
+                                    color: theme.colors.neutral40,
+                                    marginTop: "2px",
+                                    display: "flex",
+                                    gap: "8px",
+                                  }}>
+                                    {item.isFolder && item.childCount !== undefined && (
+                                      <span>{item.childCount} item{item.childCount !== 1
+                                        ? "s"
+                                        : ""}</span>
+                                    )}
+                                    {!item.isFolder && item.size !== undefined && (
+                                      <span>{formatFileSize(item.size)}</span>
+                                    )}
+                                  </div>
+                                )}
+                              </div>
+                              {/* Last modified column + chevron area */}
+                              {currentProp === fileOrFolderProp && (
+                                <div style={{
+                                  width: "150px",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "space-between",
+                                  flexShrink: 0,
+                                }}>
+                                  <span style={{
+                                    fontSize: "12px",
+                                    color: theme.colors.neutral40,
+                                    whiteSpace: "nowrap",
+                                  }}>
+                                    {item.lastModifiedDateTime
+                                      ? formatDate(item.lastModifiedDateTime)
+                                      : ""}
+                                  </span>
+                                  {item.isFolder && (
+                                    <span style={styles.chevron}>›</span>
+                                  )}
+                                </div>
+                              )}
+                              {currentProp !== fileOrFolderProp && (
+                                <span style={styles.chevron}>›</span>
+                              )}
+                            </button>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                </>
+              )}
+
+        {/* Footer */}
+        <div style={styles.footer}>
           <div style={{
             display: "flex",
             alignItems: "center",
             gap: "8px",
           }}>
-            {searchQuery && (
+            {currentProp === fileOrFolderProp && (
               <button
                 type="button"
-                onClick={() => setSearchQuery("")}
+                onClick={() => refetch()}
+                disabled={isFetching}
+                style={{
+                  background: "none",
+                  border: "none",
+                  cursor: isFetching
+                    ? "wait"
+                    : "pointer",
+                  padding: "0",
+                  marginRight: "12px",
+                  display: "flex",
+                  alignItems: "center",
+                  fontSize: "13px",
+                  color: theme.colors.neutral60,
+                  opacity: isFetching
+                    ? 0.7
+                    : 1,
+                  animation: isFetching
+                    ? "spin 1s linear infinite"
+                    : "none",
+                }}
+                title={isFetching
+                  ? "Loading..."
+                  : "Refresh file list"}
+              >
+                <RefreshIcon />
+              </button>
+            )}
+            <span style={styles.selectionCount}>
+              {selectedItems.length > 0
+                ? `${selectedItems.length} item${selectedItems.length > 1
+                  ? "s"
+                  : ""} selected`
+                : "No items selected"}
+            </span>
+            {selectedItems.length > 0 && (
+              <button
+                type="button"
+                onClick={() => setSelectedItems([])}
                 style={{
                   background: "none",
                   border: "none",
                   cursor: "pointer",
-                  color: theme.colors.neutral40,
-                  fontSize: "16px",
-                  padding: "2px",
-                  lineHeight: 1,
-                  display: "flex",
-                  alignItems: "center",
+                  color: theme.colors.primary,
+                  fontSize: "13px",
+                  padding: "2px 4px",
+                  textDecoration: "underline",
                 }}
-                aria-label="Clear search"
               >
-                ×
+              Clear
               </button>
             )}
-            <input
-              type="text"
-              placeholder="Search files..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              style={{
-                flex: 1,
-                padding: "6px 10px",
-                fontSize: "13px",
-                border: `1px solid ${theme.colors.neutral20}`,
-                borderRadius: "4px",
-                backgroundColor: theme.colors.neutral0,
-                color: theme.colors.neutral80,
-                outline: "none",
-              }}
-            />
+          </div>
+          <div style={styles.buttonGroup}>
+            {onCancel && (
+              <button type="button" style={styles.cancelButton} onClick={onCancel}>
+                {cancelText}
+              </button>
+            )}
+            <button
+              type="button"
+              style={styles.confirmButton}
+              onClick={handleConfirm}
+              disabled={selectedItems.length === 0}
+            >
+              {confirmText}
+            </button>
           </div>
         </div>
-      )}
-
-      {/* Content */}
-      {showLoading
-        ? (
-          <div style={styles.loading}>Loading...</div>
-        )
-        : error
-          ? (
-            <div style={styles.error}>
-              Failed to load items: {error instanceof Error
-                ? error.message
-                : "Unknown error"}
-            </div>
-          )
-          : items.length === 0
-            ? (
-              <div style={styles.empty}>No items found</div>
-            )
-            : (
-              <>
-                {/* Column headers */}
-                {currentProp === fileOrFolderProp && (
-                  <div style={{
-                    display: "flex",
-                    alignItems: "center",
-                    padding: "10px 16px",
-                    borderBottom: `1px solid ${theme.colors.neutral10}`,
-                    fontSize: "13px",
-                    fontWeight: 500,
-                    color: theme.colors.neutral50,
-                  }}>
-                    {/* Select all checkbox */}
-                    {multiSelect && (selectFiles || selectFolders) && selectableItems.length > 0 && (
-                      <input
-                        type="checkbox"
-                        checked={allSelectableSelected}
-                        ref={(el) => {
-                          if (el) el.indeterminate = someSelectableSelected;
-                        }}
-                        onChange={(e) => handleSelectAll(e.target.checked)}
-                        style={{
-                          width: "16px",
-                          height: "16px",
-                          marginRight: "10px",
-                          cursor: "pointer",
-                          accentColor: theme.colors.primary,
-                        }}
-                      />
-                    )}
-                    {/* Spacer for checkbox when not multiSelect */}
-                    {!multiSelect && (selectFiles || selectFolders) && (
-                      <div style={{
-                        width: "16px",
-                        height: "16px",
-                        marginRight: "10px",
-                        flexShrink: 0,
-                      }} />
-                    )}
-                    {/* Spacer for icon */}
-                    {showIcons && (
-                      <div style={{
-                        width: "20px",
-                        height: "20px",
-                        marginRight: "8px",
-                        flexShrink: 0,
-                      }} />
-                    )}
-                    <span style={{
-                      flex: 1,
-                    }}>Name</span>
-                    <span style={{
-                      width: "150px",
-                      textAlign: "left",
-                    }}>Last Modified</span>
-                  </div>
-                )}
-                <div style={{
-                  position: "relative",
-                  flex: 1,
-                  overflowY: "auto",
-                }}>
-                  {/* Loading overlay */}
-                  {isFetching && (
-                    <div style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      backgroundColor: "rgba(255, 255, 255, 0.6)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      zIndex: 10,
-                      pointerEvents: "none",
-                    }}>
-                      <div style={{
-                        animation: "spin 1s linear infinite",
-                      }}>
-                        <RefreshIcon />
-                      </div>
-                    </div>
-                  )}
-                  <ul style={{
-                    ...styles.list,
-                    flex: "none",
-                  }}>
-                  {items.map((item) => {
-                    const selected = isSelected(item);
-                    // Show checkbox at file/folder level for selectable items
-                    const canSelect = currentProp === fileOrFolderProp && (
-                      (item.isFolder && selectFolders) || (!item.isFolder && selectFiles)
-                    );
-
-                    return (
-                      <li key={item.id}>
-                        <button
-                          type="button"
-                          style={{
-                            ...styles.item,
-                            backgroundColor: selected
-                              ? theme.colors.primary25
-                              : undefined,
-                            width: "100%",
-                            textAlign: "left",
-                            border: "none",
-                            cursor: "pointer",
-                          }}
-                          onClick={() => handleItemClick(item)}
-                          onKeyDown={(e) => {
-                            if (e.key === "Enter" || e.key === " ") {
-                              e.preventDefault();
-                              handleItemClick(item);
-                            }
-                          }}
-                          onMouseEnter={(e) => {
-                            if (!selected) {
-                              (e.currentTarget as HTMLElement).style.backgroundColor = theme.colors.neutral5 || "";
-                            }
-                          }}
-                          onMouseLeave={(e) => {
-                            (e.currentTarget as HTMLElement).style.backgroundColor = selected
-                              ? theme.colors.primary25 || ""
-                              : "";
-                          }}
-                        >
-                          {currentProp === fileOrFolderProp && (selectFiles || selectFolders) && (
-                            canSelect
-                              ? (
-                                <input
-                                  type="checkbox"
-                                  style={styles.checkbox}
-                                  checked={selected}
-                                  onChange={(e) => {
-                                    e.stopPropagation();
-                                    handleSelectionChange(item, e.target.checked);
-                                  }}
-                                  onClick={(e) => e.stopPropagation()}
-                                />
-                              )
-                              : (
-                                <div style={{
-                                  width: "16px",
-                                  height: "16px",
-                                  marginRight: "10px",
-                                  flexShrink: 0,
-                                }} />
-                              )
-                          )}
-                          {showIcons && (
-                            <span style={styles.itemIcon}>
-                              {item.isFolder
-                                ? icons.folder
-                                : icons.file}
-                            </span>
-                          )}
-                          <div style={{
-                            flex: 1,
-                            minWidth: 0,
-                          }}>
-                            <span style={styles.itemName}>{item.label}</span>
-                            {/* Metadata row */}
-                            {currentProp === fileOrFolderProp && (
-                              <div style={{
-                                fontSize: "11px",
-                                color: theme.colors.neutral40,
-                                marginTop: "2px",
-                                display: "flex",
-                                gap: "8px",
-                              }}>
-                                {item.isFolder && item.childCount !== undefined && (
-                                  <span>{item.childCount} item{item.childCount !== 1
-                                    ? "s"
-                                    : ""}</span>
-                                )}
-                                {!item.isFolder && item.size !== undefined && (
-                                  <span>{formatFileSize(item.size)}</span>
-                                )}
-                              </div>
-                            )}
-                          </div>
-                          {/* Last modified column + chevron area */}
-                          {currentProp === fileOrFolderProp && (
-                            <div style={{
-                              width: "150px",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "space-between",
-                              flexShrink: 0,
-                            }}>
-                              <span style={{
-                                fontSize: "12px",
-                                color: theme.colors.neutral40,
-                                whiteSpace: "nowrap",
-                              }}>
-                                {item.lastModifiedDateTime
-                                  ? formatDate(item.lastModifiedDateTime)
-                                  : ""}
-                              </span>
-                              {item.isFolder && (
-                                <span style={styles.chevron}>›</span>
-                              )}
-                            </div>
-                          )}
-                          {currentProp !== fileOrFolderProp && (
-                            <span style={styles.chevron}>›</span>
-                          )}
-                        </button>
-                      </li>
-                    );
-                  })}
-                  </ul>
-                </div>
-              </>
-            )}
-
-      {/* Footer */}
-      <div style={styles.footer}>
-        <div style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "8px",
-        }}>
-          {currentProp === fileOrFolderProp && (
-            <button
-              type="button"
-              onClick={() => refetch()}
-              disabled={isFetching}
-              style={{
-                background: "none",
-                border: "none",
-                cursor: isFetching ? "wait" : "pointer",
-                padding: "0",
-                marginRight: "12px",
-                display: "flex",
-                alignItems: "center",
-                fontSize: "13px",
-                color: theme.colors.neutral60,
-                opacity: isFetching ? 0.7 : 1,
-                animation: isFetching ? "spin 1s linear infinite" : "none",
-              }}
-              title={isFetching ? "Loading..." : "Refresh file list"}
-            >
-              <style>
-                {`
-                  @keyframes spin {
-                    from { transform: rotate(0deg); }
-                    to { transform: rotate(360deg); }
-                  }
-                `}
-              </style>
-              <RefreshIcon />
-            </button>
-          )}
-          <span style={styles.selectionCount}>
-            {selectedItems.length > 0
-              ? `${selectedItems.length} item${selectedItems.length > 1
-                ? "s"
-                : ""} selected`
-              : "No items selected"}
-          </span>
-          {selectedItems.length > 0 && (
-            <button
-              type="button"
-              onClick={() => setSelectedItems([])}
-              style={{
-                background: "none",
-                border: "none",
-                cursor: "pointer",
-                color: theme.colors.primary,
-                fontSize: "13px",
-                padding: "2px 4px",
-                textDecoration: "underline",
-              }}
-            >
-              Clear
-            </button>
-          )}
-        </div>
-        <div style={styles.buttonGroup}>
-          {onCancel && (
-            <button type="button" style={styles.cancelButton} onClick={onCancel}>
-              {cancelText}
-            </button>
-          )}
-          <button
-            type="button"
-            style={styles.confirmButton}
-            onClick={handleConfirm}
-            disabled={selectedItems.length === 0}
-          >
-            {confirmText}
-          </button>
-        </div>
       </div>
-    </div>
+    </>
   );
 };
 

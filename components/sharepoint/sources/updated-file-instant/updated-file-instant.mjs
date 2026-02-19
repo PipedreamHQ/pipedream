@@ -108,9 +108,12 @@ export default {
         if (typeof fileId === "string" && fileId.startsWith("{")) {
           try {
             const parsed = JSON.parse(fileId);
+            if (!parsed || !parsed.id) {
+              throw new Error("Parsed object missing 'id' field");
+            }
             return parsed.id;
           } catch (e) {
-            console.warn(`Failed to parse fileId: ${fileId}`);
+            console.log(`Warning: Failed to parse fileId: ${fileId}, error: ${e.message}`);
             return fileId;
           }
         }
@@ -233,7 +236,17 @@ export default {
       }
     },
     generateMeta(file) {
-      const ts = Date.parse(file.lastModifiedDateTime) || Date.now();
+      // Use lastModifiedDateTime for updated files, deletedDateTime for deleted files
+      // Fall back to current time only if neither is available
+      let ts;
+      if (file.lastModifiedDateTime) {
+        ts = Date.parse(file.lastModifiedDateTime);
+      } else if (file.deletedDateTime) {
+        ts = Date.parse(file.deletedDateTime);
+      } else {
+        ts = Date.now();
+      }
+
       const action = file.deleted
         ? "deleted"
         : "updated";
@@ -288,8 +301,8 @@ export default {
 
     const validNotifications = body.value.filter((notification) => {
       if (notification.clientState !== clientState) {
-        console.warn(
-          `Ignoring notification with unexpected clientState: ${notification.clientState}`,
+        console.log(
+          `Warning: Ignoring notification with unexpected clientState: ${notification.clientState}`,
         );
         return false;
       }
