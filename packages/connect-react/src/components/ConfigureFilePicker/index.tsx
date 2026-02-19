@@ -399,7 +399,7 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
 
   // Debug logger (memoized to maintain stable reference)
   const log = useCallback(
-    () => {},
+    (..._args: unknown[]) => {},
     [],
   );
 
