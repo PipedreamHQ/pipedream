@@ -4,8 +4,8 @@ import { WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS } from "../../common/constants.mjs
 
 export default {
   key: "sharepoint-updated-file-instant",
-  name: "New File Updated (Instant)",
-  description: "Emit new event when specific files are updated or deleted in a SharePoint document library",
+  name: "File Updated or Deleted (Instant)",
+  description: "Emit a new event when specific files are updated or deleted in a SharePoint document library",
   version: "0.0.2",
   type: "source",
   dedupe: "unique",
