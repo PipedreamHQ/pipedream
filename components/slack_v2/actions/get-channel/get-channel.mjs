@@ -4,7 +4,7 @@ export default {
   key: "slack_v2-get-channel",
   name: "Get Channel Details",
   description: "Retrieve details for a Slack channel by selecting it or providing an ID. [See the documentation](https://api.slack.com/methods/conversations.info)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -20,26 +20,17 @@ export default {
         slack,
         "conversation",
       ],
-      optional: true,
-    },
-
-    channel_id: {
-      type: "string",
-      label: "Channel ID",
-      description: "Provide a channel ID manually. If a channel is also selected above, the selected channel takes precedence.",
-      optional: true,
+      description: "Select a channel or enter a channel ID manually.",
     },
   },
 
   async run({ $ }) {
-    const channelId = this.channel || this.channel_id;
-
-    if (!channelId) {
+    if (!this.channel) {
       throw new Error("Please select a channel or provide a channel ID");
     }
 
     const response = await this.slack.conversationsInfo({
-      channel: channelId,
+      channel: this.channel,
       include_locale: true,
       include_num_members: true,
     });
