@@ -1,6 +1,6 @@
 export default {
   type: "app",
-  app: "amplitude_experiment_management",
+  app: "sharepoint_admin",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
