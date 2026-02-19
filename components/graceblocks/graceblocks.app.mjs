@@ -28,7 +28,6 @@ export default {
       type: "string",
       label: "Name",
       description: "Name of the record",
-      optional: true,
     },
     description: {
       type: "string",

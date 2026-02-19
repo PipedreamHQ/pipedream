@@ -24,6 +24,7 @@ export default {
         graceblocks,
         "name",
       ],
+      optional: true,
     },
     description: {
       propDefinition: [
