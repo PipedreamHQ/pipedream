@@ -3,7 +3,22 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "remarkety",
-  propDefinitions: {},
+  propDefinitions: {
+    page: {
+      type: "integer",
+      label: "Page",
+      description: "Page to return - (1 will return the first page, 2 the second, etc)",
+      default: 1,
+      optional: true,
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "Number of records to return",
+      default: 100,
+      optional: true,
+    },
+  },
   methods: {
     _baseUrl() {
       return `https://app.remarkety.com/api/v2/stores/${this.$auth.store_id}`;
@@ -31,12 +46,32 @@ export default {
         ...opts,
       });
     },
-    createDiscount(opts = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/discounts",
-        ...opts,
-      });
+    async *paginate({
+      fn, params, resourceKey, max,
+    }) {
+      params = {
+        ...params,
+        limit: 100,
+        page: 1,
+      };
+      let count = 0, total = 0;
+      do {
+        const response = await fn({
+          params,
+        });
+        const items = response[resourceKey];
+        if (!items?.length) {
+          return;
+        }
+        for (const item of items) {
+          yield item;
+          if (max && ++count >= max) {
+            return;
+          }
+        }
+        params.page++;
+        total = items?.length;
+      } while (total === params.limit);
     },
   },
 };
