@@ -5,7 +5,7 @@ export default {
   key: "microsoft_outlook_calendar-updated-calendar-event",
   name: "New Calendar Event Update (Instant)",
   description: "Emit new event when a Calendar event is updated",
-  version: "0.0.12",
+  version: "0.0.13",
   type: "source",
   hooks: {
     ...common.hooks,

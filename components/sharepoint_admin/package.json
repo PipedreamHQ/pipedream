@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/sharepoint_admin",
+  "version": "0.0.1",
+  "description": "Pipedream SharePoint Admin Components",
+  "main": "sharepoint_admin.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sharepoint_admin"
+  ],
+  "homepage": "https://pipedream.com/apps/sharepoint_admin",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
