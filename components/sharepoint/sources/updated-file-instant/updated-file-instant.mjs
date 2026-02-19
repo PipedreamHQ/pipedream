@@ -5,8 +5,8 @@ import { WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS } from "../../common/constants.mjs
 export default {
   key: "sharepoint-updated-file-instant",
   name: "New File Updated (Instant)",
-  description: "Emit new event when specific files are updated in a SharePoint document library",
-  version: "0.0.1",
+  description: "Emit new event when specific files are updated or deleted in a SharePoint document library",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
@@ -67,8 +67,8 @@ export default {
       ],
       label: "Files to Monitor",
       description:
-        "Select one or more files to monitor for updates. " +
-        "You'll receive a real-time event whenever any of these files are modified.\n\n" +
+        "Select one or more files to monitor for changes. " +
+        "You'll receive a real-time event whenever any of these files are modified or deleted.\n\n" +
         "**Important:** Only the selected files will trigger events. Changes to other files in the drive will be ignored. " +
         "This ensures you only receive notifications for the documents you care about.",
     },
@@ -101,8 +101,21 @@ export default {
         clientState,
       });
 
-      // Store the file IDs we're monitoring (unwrap labeled values)
-      const fileIds = this.sharepoint.resolveWrappedArrayValues(this.fileIds);
+      // Store the file IDs we're monitoring (unwrap labeled values and parse JSON)
+      const wrappedFileIds = this.sharepoint.resolveWrappedArrayValues(this.fileIds);
+      // Parse JSON strings to extract just the IDs
+      const fileIds = wrappedFileIds.map((fileId) => {
+        if (typeof fileId === "string" && fileId.startsWith("{")) {
+          try {
+            const parsed = JSON.parse(fileId);
+            return parsed.id;
+          } catch (e) {
+            console.warn(`Failed to parse fileId: ${fileId}`);
+            return fileId;
+          }
+        }
+        return fileId;
+      });
       this._setMonitoredFileIds(fileIds);
 
       // Initialize delta tracking - get current state so we only see future changes
@@ -220,10 +233,13 @@ export default {
       }
     },
     generateMeta(file) {
-      const ts = Date.parse(file.lastModifiedDateTime);
+      const ts = Date.parse(file.lastModifiedDateTime) || Date.now();
+      const action = file.deleted
+        ? "deleted"
+        : "updated";
       return {
         id: `${file.id}-${ts}`,
-        summary: `File updated: ${file.name}`,
+        summary: `File ${action}: ${file.name}`,
         ts,
       };
     },
@@ -313,8 +329,9 @@ export default {
       });
 
       // Find files that changed and are in our monitored list
+      // Include both updated files (item.file) and deleted files (item.deleted)
       for (const item of deltaResponse.value || []) {
-        if (item.file && monitoredFileIds.includes(item.id)) {
+        if ((item.file || item.deleted) && monitoredFileIds.includes(item.id)) {
           changedFiles.push(item);
         }
       }
@@ -336,8 +353,9 @@ export default {
     // Emit events for each changed file
     for (const file of changedFiles) {
       // Delta response may not include downloadUrl - fetch fresh if needed
+      // Skip fetching download URL for deleted files (they no longer exist)
       let downloadUrl = file["@microsoft.graph.downloadUrl"];
-      if (!downloadUrl) {
+      if (!downloadUrl && !file.deleted) {
         try {
           const freshFile = await this.sharepoint.getDriveItem({
             driveId,

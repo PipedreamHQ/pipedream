@@ -58,6 +58,13 @@ const FileIcon = () => (
   </svg>
 );
 
+const RefreshIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <title>Refresh</title>
+    <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2" />
+  </svg>
+);
+
 /**
  * Format file size to human readable string
  */
@@ -529,6 +536,8 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
     data: optionsData,
     isLoading,
     error,
+    refetch,
+    isFetching,
   } = useQuery({
     queryKey: [
       "configureFilePicker",
@@ -1053,7 +1062,37 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
                     }}>Last Modified</span>
                   </div>
                 )}
-                <ul style={styles.list}>
+                <div style={{
+                  position: "relative",
+                  flex: 1,
+                  overflowY: "auto",
+                }}>
+                  {/* Loading overlay */}
+                  {isFetching && (
+                    <div style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      backgroundColor: "rgba(255, 255, 255, 0.6)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      zIndex: 10,
+                      pointerEvents: "none",
+                    }}>
+                      <div style={{
+                        animation: "spin 1s linear infinite",
+                      }}>
+                        <RefreshIcon />
+                      </div>
+                    </div>
+                  )}
+                  <ul style={{
+                    ...styles.list,
+                    flex: "none",
+                  }}>
                   {items.map((item) => {
                     const selected = isSelected(item);
                     // Show checkbox at file/folder level for selectable items
@@ -1178,7 +1217,8 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
                       </li>
                     );
                   })}
-                </ul>
+                  </ul>
+                </div>
               </>
             )}
 
@@ -1189,6 +1229,37 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
           alignItems: "center",
           gap: "8px",
         }}>
+          {currentProp === fileOrFolderProp && (
+            <button
+              type="button"
+              onClick={() => refetch()}
+              disabled={isFetching}
+              style={{
+                background: "none",
+                border: "none",
+                cursor: isFetching ? "wait" : "pointer",
+                padding: "0",
+                marginRight: "12px",
+                display: "flex",
+                alignItems: "center",
+                fontSize: "13px",
+                color: theme.colors.neutral60,
+                opacity: isFetching ? 0.7 : 1,
+                animation: isFetching ? "spin 1s linear infinite" : "none",
+              }}
+              title={isFetching ? "Loading..." : "Refresh file list"}
+            >
+              <style>
+                {`
+                  @keyframes spin {
+                    from { transform: rotate(0deg); }
+                    to { transform: rotate(360deg); }
+                  }
+                `}
+              </style>
+              <RefreshIcon />
+            </button>
+          )}
           <span style={styles.selectionCount}>
             {selectedItems.length > 0
               ? `${selectedItems.length} item${selectedItems.length > 1
