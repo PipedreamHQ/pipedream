@@ -177,14 +177,20 @@ export const filePickerMethods = {
     // Fetch metadata for all selected files in parallel, handling individual failures
     const settledResults = await Promise.allSettled(
       files.map(async (selected) => {
+        // When includeDownloadUrl is true, omit $select to get @microsoft.graph.downloadUrl
+        // (Graph API excludes downloadUrl when using $select)
+        const params = includeDownloadUrl
+          ? {}
+          : {
+            $select: "id,name,size,webUrl,createdDateTime,lastModifiedDateTime,createdBy,lastModifiedBy,parentReference,file,folder,image,video,audio,photo,shared,fileSystemInfo,cTag,eTag,sharepointIds",
+          };
+
         const file = await this.sharepoint.getDriveItem({
           $,
           siteId,
           driveId,
           fileId: selected.id,
-          params: {
-            $select: "id,name,size,webUrl,createdDateTime,lastModifiedDateTime,createdBy,lastModifiedBy,parentReference,file,folder,image,video,audio,photo,shared,fileSystemInfo,cTag,eTag,sharepointIds",
-          },
+          params,
         });
 
         // Construct SharePoint library view URL

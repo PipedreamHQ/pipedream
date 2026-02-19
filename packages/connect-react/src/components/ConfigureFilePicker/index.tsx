@@ -310,6 +310,22 @@ export const FILE_PICKER_APPS: Record<string, FilePickerAppConfig> = {
     fileOrFolderProp: "fileOrFolderIds",
     folderProp: "folderId",
   },
+  sharepoint_admin: {
+    app: "sharepoint_admin",
+    appPropName: "sharepointAdmin",
+    propHierarchy: [
+      "siteId",
+      "driveId",
+      "fileOrFolderIds",
+    ],
+    propLabels: {
+      siteId: "Sites",
+      driveId: "Drives",
+      fileOrFolderIds: "Files & Folders",
+    },
+    fileOrFolderProp: "fileOrFolderIds",
+    folderProp: "folderId",
+  },
   // Future apps can be added here:
   // google_drive: { ... },
   // dropbox: { ... },
