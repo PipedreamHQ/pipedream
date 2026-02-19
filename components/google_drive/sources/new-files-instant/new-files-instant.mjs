@@ -56,7 +56,7 @@ export default {
     },
     includeSubfolders: {
       type: "boolean",
-      label: "Enable Subfolders",
+      label: "Include Subfolders",
       description: "Whether to watch for new files in subfolders of the parent folder",
       default: false,
       optional: true,
@@ -99,20 +99,21 @@ export default {
       this.db.set("lastFileCreatedTime", lastFileCreatedTime);
     },
     async hasAncestor(file, targetFolderIds) {
-      let currentId = file.id;
+      const MAX_DEPTH = 50;
+      let currentId = file.parents?.[0];
+      if (!currentId) return false;
 
-      while (true) {
+      for (let i = 0; i < MAX_DEPTH; i++) {
+        if (targetFolderIds.includes(currentId)) return true;
+
         const data = await this.googleDrive.getFile(currentId, {
           fields: "parents",
         });
 
         if (!data.parents?.length) return false;
-
-        const parentId = data.parents[0];
-        if (targetFolderIds.includes(parentId)) return true;
-
-        currentId = parentId;
+        currentId = data.parents[0];
       }
+      return false;
     },
     async shouldProcess(file) {
       const watchedFolders = new Set(this.folders);
