@@ -4,7 +4,7 @@ export default {
   key: "remarkety-list-customers",
   name: "List Customers",
   description: "List Customers. [See the documentation](http://static.remarkety.com.s3-website-us-east-1.amazonaws.com/api-docs/#!/Customers/get_customers)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
