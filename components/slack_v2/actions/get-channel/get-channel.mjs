@@ -4,17 +4,15 @@ export default {
   key: "slack_v2-get-channel",
   name: "Get Channel Details",
   description: "Retrieve details for a Slack channel by selecting it or providing an ID. [See the documentation](https://api.slack.com/methods/conversations.info)",
-  version: "0.0.4",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
-    openWorldHint: false,
+    openWorldHint: true,
     readOnlyHint: true,
   },
-
   props: {
     slack,
-
     channel: {
       propDefinition: [
         slack,
@@ -37,9 +35,7 @@ export default {
       optional: true,
     },
   },
-
   async run({ $ }) {
-
     const response = await this.slack.conversationsInfo({
       channel: this.channel,
       include_locale: this.includeLocale,
@@ -47,7 +43,6 @@ export default {
     });
 
     const channelName = response.channel?.name || response.channel?.id || this.channel;
-
     $.export("$summary", `Fetched details for channel ${channelName}`);
 
     return response;
