@@ -103,20 +103,35 @@ export default {
 
       // Store the file IDs we're monitoring (unwrap labeled values and parse JSON)
       const wrappedFileIds = this.sharepoint.resolveWrappedArrayValues(this.fileIds);
-      // Parse JSON strings to extract just the IDs
+      // Parse JSON strings to extract just the IDs, handle objects, and trim strings
       const fileIds = wrappedFileIds.map((fileId) => {
-        if (typeof fileId === "string" && fileId.startsWith("{")) {
-          try {
-            const parsed = JSON.parse(fileId);
-            if (!parsed || !parsed.id) {
-              throw new Error("Parsed object missing 'id' field");
-            }
-            return parsed.id;
-          } catch (e) {
-            console.log(`Warning: Failed to parse fileId: ${fileId}, error: ${e.message}`);
-            return fileId;
+        // Handle object values directly
+        if (typeof fileId === "object" && fileId !== null) {
+          if (!fileId.id) {
+            console.log(`Warning: Object fileId missing 'id' field: ${JSON.stringify(fileId)}`);
+            return String(fileId);
           }
+          return fileId.id;
         }
+
+        // Handle string values - trim whitespace first
+        if (typeof fileId === "string") {
+          const trimmedFileId = fileId.trim();
+          if (trimmedFileId.startsWith("{")) {
+            try {
+              const parsed = JSON.parse(trimmedFileId);
+              if (!parsed || !parsed.id) {
+                throw new Error("Parsed object missing 'id' field");
+              }
+              return parsed.id;
+            } catch (e) {
+              console.log(`Warning: Failed to parse fileId: ${trimmedFileId}, error: ${e.message}`);
+              return trimmedFileId;
+            }
+          }
+          return trimmedFileId;
+        }
+
         return fileId;
       });
       this._setMonitoredFileIds(fileIds);

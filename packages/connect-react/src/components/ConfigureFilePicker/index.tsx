@@ -66,10 +66,10 @@ const RefreshIcon = () => (
 );
 
 /**
- * Spin animation keyframes for loading states
+ * Spin animation keyframes for loading states (scoped name to avoid collisions)
  */
-const spinKeyframes = `
-  @keyframes spin {
+const filePickerSpinKeyframes = `
+  @keyframes filePickerSpin {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
   }
@@ -898,7 +898,7 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
   return (
     <>
       {/* Inject keyframes once at component level */}
-      <style>{spinKeyframes}</style>
+      <style>{filePickerSpinKeyframes}</style>
       <div style={styles.container}>
         {/* Header with breadcrumbs */}
         <div style={styles.header}>
@@ -1086,7 +1086,7 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
                     flex: 1,
                     overflowY: "auto",
                   }}>
-                    {/* Loading overlay */}
+                    {/* Loading overlay - blocks interaction during fetch */}
                     {isFetching && (
                       <div style={{
                         position: "absolute",
@@ -1099,10 +1099,10 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
                         alignItems: "center",
                         justifyContent: "center",
                         zIndex: 10,
-                        pointerEvents: "none",
+                        cursor: "wait",
                       }}>
                         <div style={{
-                          animation: "spin 1s linear infinite",
+                          animation: "filePickerSpin 1s linear infinite",
                         }}>
                           <RefreshIcon />
                         </div>
