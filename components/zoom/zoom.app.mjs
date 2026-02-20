@@ -320,9 +320,11 @@ export default {
         ...args,
       });
     },
-    listRecordings(args = {}) {
+    listRecordings({
+      userId = "me", ...args
+    } = {}) {
       return this._makeRequest({
-        path: "/users/me/recordings",
+        path: `/users/${userId}/recordings`,
         ...args,
       });
     },
@@ -369,6 +371,14 @@ export default {
       return this._makeRequest({
         method: "DELETE",
         path: `/meetings/${utils.doubleEncode(meetingId)}`,
+        ...args,
+      });
+    },
+    getMeetingSummary({
+      meetingId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/meetings/${utils.doubleEncode(meetingId)}/meeting_summary`,
         ...args,
       });
     },
