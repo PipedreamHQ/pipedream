@@ -29,6 +29,7 @@ export default {
           appId,
         }),
       ],
+      description: "The Record ID of the record to update. Use this OR `Update Key`, not both",
       optional: true,
     },
     updateKeyField: {
@@ -54,6 +55,10 @@ export default {
         kintone,
         "record",
       ],
+      description: `Field codes and values are specified in this object.
+        \nFields not specified here will retain their current values.
+        \nFor more information on field types, refer to the following article: [Field Types](https://kintone.dev/en/docs/kintone/overview/field-types/).
+        \nExample: {"Text": {"value": "Sample"}, "Number": {"value": 1}}`,
     },
   },
   async run({ $ }) {

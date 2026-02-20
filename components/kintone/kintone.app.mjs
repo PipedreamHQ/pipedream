@@ -25,7 +25,7 @@ export default {
     recordId: {
       type: "string",
       label: "Record ID",
-      description: "The Record ID of the record to update. Use this OR `Update Key`, not both",
+      description: "The ID of the record",
       async options({
         appId, page,
       }) {
