@@ -3,7 +3,7 @@ import googleDialogflow from "../../google_dialogflow.app.mjs";
 export default {
   type: "action",
   key: "google_dialogflow-list-intents",
-  version: "1.0.1",
+  version: "1.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

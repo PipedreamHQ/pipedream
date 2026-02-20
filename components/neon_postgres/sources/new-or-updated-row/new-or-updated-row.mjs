@@ -5,7 +5,7 @@ export default {
   name: "New or Updated Row",
   key: "neon_postgres-new-or-updated-row",
   description: "Emit new event when a row is added or modified. [See the documentation](https://node-postgres.com/features/queries)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

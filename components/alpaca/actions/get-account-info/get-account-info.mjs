@@ -3,7 +3,7 @@ import app from "../../alpaca.app.mjs";
 export default {
   type: "action",
   key: "alpaca-get-account-info",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

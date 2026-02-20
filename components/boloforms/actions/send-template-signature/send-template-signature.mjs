@@ -6,7 +6,7 @@ export default {
   key: "boloforms-send-template-signature",
   name: "Send Template Signature",
   description: "Dispatch a predefined template to obtain a signature. [See the documentation](https://help.boloforms.com/en/articles/8557564-sending-for-signing)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
