@@ -68,10 +68,10 @@ export default {
         ...opts,
       });
     },
-    getApps({ params }) {
+    getApps(opts = {}) {
       return this._makeRequest({
         path: "/apps.json",
-        params,
+        ...opts,
       });
     },
     addRecord(opts = {}) {

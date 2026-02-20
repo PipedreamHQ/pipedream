@@ -29,6 +29,7 @@ export default {
           appId,
         }),
       ],
+      optional: true,
     },
     updateKeyField: {
       type: "string",
