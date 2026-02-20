@@ -710,8 +710,8 @@ importers:
   components/aivoov:
     dependencies:
       axios:
-        specifier: ^1.13.2
-        version: 1.13.2(debug@3.2.7)
+        specifier: ^0.30.2
+        version: 0.30.3
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -1122,8 +1122,8 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
       axios:
-        specifier: ^1.13.2
-        version: 1.13.2(debug@3.2.7)
+        specifier: ^0.30.2
+        version: 0.30.3
       sqlstring:
         specifier: ^2.3.3
         version: 2.3.3
@@ -1821,7 +1821,7 @@ importers:
         version: 0.10.1
       axios:
         specifier: ^0.30.2
-        version: 0.30.2
+        version: 0.30.3
       package-lock-only:
         specifier: ^0.0.4
         version: 0.0.4
@@ -1852,8 +1852,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
       axios:
-        specifier: ^1.13.2
-        version: 1.13.2(debug@3.2.7)
+        specifier: ^0.30.2
+        version: 0.30.3
 
   components/bitport:
     dependencies:
@@ -2151,7 +2151,7 @@ importers:
         version: 0.1.1
       axios:
         specifier: ^0.30.2
-        version: 0.30.2
+        version: 0.30.3
       uuid:
         specifier: ^8.3.2
         version: 8.3.2
@@ -2716,8 +2716,8 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
       axios:
-        specifier: ^1.13.2
-        version: 1.13.2(debug@3.2.7)
+        specifier: ^0.30.2
+        version: 0.30.3
 
   components/chatfai:
     dependencies:
@@ -8687,8 +8687,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
       axios:
-        specifier: ^1.13.2
-        version: 1.13.2(debug@3.2.7)
+        specifier: ^0.30.2
+        version: 0.30.3
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -8718,7 +8718,7 @@ importers:
     dependencies:
       linkup-sdk:
         specifier: ^1.0.3
-        version: 1.2.0(@types/node@25.2.3)(typescript@5.9.3)
+        version: 1.2.0(@types/node@20.19.33)(typescript@5.6.3)
 
   components/linkupapi:
     dependencies:
@@ -9223,8 +9223,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
       axios:
-        specifier: ^1.13.2
-        version: 1.13.2(debug@3.2.7)
+        specifier: ^0.30.2
+        version: 0.30.3
 
   components/matrix: {}
 
@@ -9574,7 +9574,7 @@ importers:
         version: 143.0.4
       axios:
         specifier: ^0.30.2
-        version: 0.30.2
+        version: 0.30.3
       js-base64:
         specifier: ^3.7.2
         version: 3.7.8
@@ -10158,7 +10158,7 @@ importers:
         version: 0.5.6
       netlify:
         specifier: ^23.0.0
-        version: 23.11.0(@azure/storage-blob@12.29.1)(@types/express@4.17.25)(@types/node@25.2.3)(encoding@0.1.13)(picomatch@4.0.3)(rollup@4.53.2)
+        version: 23.11.0(@azure/storage-blob@12.29.1)(@types/express@4.17.25)(@types/node@20.19.33)(encoding@0.1.13)(picomatch@4.0.3)(rollup@4.53.2)
       parse-link-header:
         specifier: ^2.0.0
         version: 2.0.0
@@ -10707,7 +10707,7 @@ importers:
     dependencies:
       axios:
         specifier: ^0.30.2
-        version: 0.30.2
+        version: 0.30.3
       node-fetch:
         specifier: ^2.6.7
         version: 2.7.0(encoding@0.1.13)
@@ -11203,8 +11203,8 @@ importers:
   components/patreon:
     dependencies:
       axios:
-        specifier: ^1.13.2
-        version: 1.13.2(debug@3.2.7)
+        specifier: ^0.30.2
+        version: 0.30.3
       url:
         specifier: ^0.11.0
         version: 0.11.4
@@ -11969,7 +11969,7 @@ importers:
     devDependencies:
       dtslint:
         specifier: ^4.2.1
-        version: 4.2.1(typescript@5.9.3)
+        version: 4.2.1(typescript@5.6.3)
 
   components/postgrid:
     dependencies:
@@ -12359,7 +12359,7 @@ importers:
     dependencies:
       '@qdrant/js-client-rest':
         specifier: ^1.11.0
-        version: 1.15.1(typescript@5.9.3)
+        version: 1.15.1(typescript@5.6.3)
 
   components/qntrl:
     dependencies:
@@ -12680,7 +12680,7 @@ importers:
         version: 1.3.3
       axios:
         specifier: ^0.30.2
-        version: 0.30.2
+        version: 0.30.3
       lodash:
         specifier: ^4.17.23
         version: 4.17.23
@@ -13225,8 +13225,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
       axios:
-        specifier: ^1.13.2
-        version: 1.13.2(debug@3.2.7)
+        specifier: ^0.30.2
+        version: 0.30.3
       feedparser:
         specifier: ^2.2.10
         version: 2.2.10
@@ -13917,7 +13917,7 @@ importers:
     dependencies:
       axios:
         specifier: ^0.30.2
-        version: 0.30.2
+        version: 0.30.3
 
   components/sftp:
     dependencies:
@@ -14779,8 +14779,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
       axios:
-        specifier: ^1.13.2
-        version: 1.13.2(debug@3.2.7)
+        specifier: ^0.30.2
+        version: 0.30.3
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -14850,7 +14850,7 @@ importers:
         version: 1.6.8
       axios:
         specifier: ^0.30.2
-        version: 0.30.2
+        version: 0.30.3
       he:
         specifier: ^1.2.0
         version: 1.2.0
@@ -14991,7 +14991,7 @@ importers:
     dependencies:
       stripe:
         specifier: ^18.0.0
-        version: 18.5.0(@types/node@25.2.3)
+        version: 18.5.0(@types/node@25.3.0)
 
   components/stripo:
     dependencies:
@@ -16184,7 +16184,7 @@ importers:
         version: 1.6.8
       axios:
         specifier: ^0.30.2
-        version: 0.30.2
+        version: 0.30.3
       lodash:
         specifier: ^4.17.23
         version: 4.17.23
@@ -16799,7 +16799,7 @@ importers:
         version: 4.5.2(@types/node@17.0.45)(encoding@0.1.13)(openapi-types@12.1.3)
       axios:
         specifier: ^0.30.2
-        version: 0.30.2
+        version: 0.30.3
       openapi-types:
         specifier: ^12.0.0
         version: 12.1.3
@@ -17430,7 +17430,7 @@ importers:
     dependencies:
       axios:
         specifier: ^0.30.2
-        version: 0.30.2
+        version: 0.30.3
       lodash.get:
         specifier: ^4.4.2
         version: 4.4.2
@@ -17886,8 +17886,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
       axios:
-        specifier: ^1.13.2
-        version: 1.13.2(debug@3.2.7)
+        specifier: ^0.30.2
+        version: 0.30.3
       file-type:
         specifier: ^21.0.0
         version: 21.1.0
@@ -18028,7 +18028,7 @@ importers:
         version: 1.3.2
       tsup:
         specifier: ^8.3.6
-        version: 8.5.1(@microsoft/api-extractor@7.55.0(@types/node@25.2.3))(jiti@2.6.1)(postcss@8.5.6)(tsx@4.20.6)(typescript@5.6.3)(yaml@2.8.1)
+        version: 8.5.1(@microsoft/api-extractor@7.55.0(@types/node@25.3.0))(jiti@2.6.1)(postcss@8.5.6)(tsx@4.20.6)(typescript@5.6.3)(yaml@2.8.1)
       typescript:
         specifier: ^5.6
         version: 5.6.3
@@ -18080,10 +18080,10 @@ importers:
         version: 18.3.26
       vite:
         specifier: ^5.4.11
-        version: 5.4.21(@types/node@25.2.3)
+        version: 5.4.21(@types/node@25.3.0)
       vite-plugin-dts:
         specifier: ^4.3.0
-        version: 4.5.4(@types/node@25.2.3)(rollup@4.53.2)(typescript@5.9.3)(vite@5.4.21(@types/node@25.2.3))
+        version: 4.5.4(@types/node@25.3.0)(rollup@4.53.2)(typescript@5.6.3)(vite@5.4.21(@types/node@25.3.0))
 
   packages/prompts:
     dependencies:
@@ -18147,7 +18147,7 @@ importers:
     dependencies:
       axios:
         specifier: ^1.13.2
-        version: 1.13.2(debug@3.2.7)
+        version: 1.13.5(debug@3.2.7)
       fp-ts:
         specifier: ^2.0.2
         version: 2.16.11
@@ -18172,7 +18172,7 @@ importers:
         version: 3.1.0
       jest:
         specifier: ^29.1.2
-        version: 29.7.0(@types/node@25.2.3)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.2.3)(typescript@5.6.3))
+        version: 29.7.0(@types/node@20.19.33)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.33)(typescript@5.6.3))
       type-fest:
         specifier: ^4.15.0
         version: 4.41.0
@@ -20584,10 +20584,6 @@ packages:
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
     engines: {node: '>=12'}
 
-  '@isaacs/cliui@9.0.0':
-    resolution: {integrity: sha512-AokJm4tuBHillT+FpMtxQ60n8ObyXBatq7jD2/JA9dxbDDokKQm8KMht5ibGzLVU9IJDIKK4TPKgMHEYMn3lMg==}
-    engines: {node: '>=18'}
-
   '@isaacs/fs-minipass@4.0.1':
     resolution: {integrity: sha512-wgm9Ehl2jpeqP3zw/7mo3kRHFp5MEDhqAdwy1fTGkHAwnkGOVsgpvQhL8B5n1qlb01jV3n/bI0ZfZp5lWA1k4w==}
     engines: {node: '>=18.0.0'}
@@ -21082,8 +21078,8 @@ packages:
     resolution: {integrity: sha512-+XTFxK2jJF/EJJ5SoAzXk3qwIDfvFc5/g+bD274LZ7uY7LE8sTfG6Z8rOanPl2ZEvZWqNvmEdtXC25cE54VcoA==}
     engines: {node: ^20.17.0 || >=22.9.0}
 
-  '@npmcli/package-json@7.0.4':
-    resolution: {integrity: sha512-0wInJG3j/K40OJt/33ax47WfWMzZTm6OQxB9cDhTt5huCP2a9g2GnlsxmfN+PulItNPIpPrZ+kfwwUil7eHcZQ==}
+  '@npmcli/package-json@7.0.5':
+    resolution: {integrity: sha512-iVuTlG3ORq2iaVa1IWUxAO/jIp77tUKBhoMjuzYW2kL4MLN1bi/ofqkZ7D7OOwh8coAx1/S2ge0rMdGv8sLSOQ==}
     engines: {node: ^20.17.0 || >=22.9.0}
 
   '@npmcli/promise-spawn@9.0.1':
@@ -23740,8 +23736,8 @@ packages:
   '@types/node@22.7.5':
     resolution: {integrity: sha512-jML7s2NAzMWc//QSJ1a3prpk78cOPchGvXJsC3C6R6PSMoooztvRVQEz89gmBTBY1SPMaqo5teB4uNHPdetShQ==}
 
-  '@types/node@25.2.3':
-    resolution: {integrity: sha512-m0jEgYlYz+mDJZ2+F4v8D1AyQb+QzsNqRuI7xg1VQX/KlKS0qT9r1Mo16yo5F/MtifXFgaofIFsdFMox2SxIbQ==}
+  '@types/node@25.3.0':
+    resolution: {integrity: sha512-4K3bqJpXpqfg2XKGK9bpDTc6xO/xoUP/RBWS7AtRMug6zZFaRekiLzjVtAoZMquxoAbzBvy5nxQ7veS5eYzf8A==}
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
@@ -24590,11 +24586,14 @@ packages:
     peerDependencies:
       axios: ^0.30.2
 
-  axios@0.30.2:
-    resolution: {integrity: sha512-0pE4RQ4UQi1jKY6p7u6i1Tkzqmu+d+/tHS7Q7rKunWLB9WyilBTpHHpXzPNMDj5hTbK0B0PTLSz07yqMBiF6xg==}
+  axios@0.30.3:
+    resolution: {integrity: sha512-5/tmEb6TmE/ax3mdXBc/Mi6YdPGxQsv+0p5YlciXWt3PHIn0VamqCXhRMtScnwY3lbgSXLneOuXAKUhgmSRpwg==}
 
   axios@1.13.2:
     resolution: {integrity: sha512-VPk9ebNqPcy5lRGuSlKx752IlDatOjT9paPlm8A7yOuW2Fbvp4X3JznJtT4f0GzGLLiWE9W8onz51SqLYwzGaA==}
+
+  axios@1.13.5:
+    resolution: {integrity: sha512-cz4ur7Vb0xS4/KUN0tPWe44eqxrIu31me+fbang3ijiNscE129POzipJJA6zniq2C/Z6sJCjMimjS8Lc/GAs8Q==}
 
   axobject-query@4.1.0:
     resolution: {integrity: sha512-qIj0G9wZbMGNLjLmg1PT6v2mE9AH2zlnADJD/2tC6E00hgmhUOfEB6greHPAfLRSufHqROIUTkw6E+M3lH0PTQ==}
@@ -24671,8 +24670,8 @@ packages:
   balanced-match@2.0.0:
     resolution: {integrity: sha512-1ugUSr8BHXRnK23KfuYS+gVMC3LB8QGH9W1iGtDPsNWoQbgtXSExkBu2aDR4epiGWZOjZsj6lDl/N/AqqTC3UA==}
 
-  balanced-match@4.0.2:
-    resolution: {integrity: sha512-x0K50QvKQ97fdEz2kPehIerj+YTeptKF9hyYkKf6egnwmMWAkADiO0QCzSp0R5xN8FTZgYaBfSaue46Ej62nMg==}
+  balanced-match@4.0.3:
+    resolution: {integrity: sha512-1pHv8LX9CpKut1Zp4EXey7Z8OfH11ONNH6Dhi2WDUt31VVZFXZzKwXcysBgqSumFCmR+0dqjMK5v5JiFHzi0+g==}
     engines: {node: 20 || >=22}
 
   bare-events@2.8.2:
@@ -27427,9 +27426,9 @@ packages:
     deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
     hasBin: true
 
-  glob@13.0.5:
-    resolution: {integrity: sha512-BzXxZg24Ibra1pbQ/zE7Kys4Ua1ks7Bn6pKLkVPZ9FZe4JQS6/Q7ef3LG1H+k7lUf5l4T3PLSyYyYJVYUvfgTw==}
-    engines: {node: 20 || >=22}
+  glob@13.0.6:
+    resolution: {integrity: sha512-Wjlyrolmm8uDpm/ogGyXZXb1Z+Ca2B8NbJwqBVg0axK9GbBeoS7yGV6vjXnYdGm6X53iehEuxxbyiKp8QmN4Vw==}
+    engines: {node: 18 || 20 || >=22}
 
   glob@6.0.4:
     resolution: {integrity: sha512-MKZeRNyYZAVVVG1oZeLaWie1uweH40m9AZwIwxyPbTSX4hHrVYSzLg0Ro5Z5R7XKkIX+Cc6oD1rqeDJnwsB8/A==}
@@ -28544,10 +28543,6 @@ packages:
 
   jackspeak@4.1.1:
     resolution: {integrity: sha512-zptv57P3GpL+O0I7VdMJNBZCu+BPHVQUk55Ft8/QCJjTVxrnJHuVuX/0Bl2A6/+2oyR/ZMEuFKwmzqqZ/U5nPQ==}
-    engines: {node: 20 || >=22}
-
-  jackspeak@4.2.3:
-    resolution: {integrity: sha512-ykkVRwrYvFm1nb2AJfKKYPr0emF6IiXDYUaFx4Zn9ZuIH7MrzEZ3sD5RlqGXNRpHtvUHJyOnCEFxOlNDtGo7wg==}
     engines: {node: 20 || >=22}
 
   java-properties@1.0.2:
@@ -29806,9 +29801,9 @@ packages:
     resolution: {integrity: sha512-enIvLvRAFZYXJzkCYG5RKmPfrFArdLv+R+lbQ53BmIMLIry74bjKzX6iHAm8WYamJkhSSEabrWN5D97XnKObjQ==}
     engines: {node: 20 || >=22}
 
-  minimatch@10.2.1:
-    resolution: {integrity: sha512-MClCe8IL5nRRmawL6ib/eT4oLyeKMGCghibcDWK+J0hh0Q8kqSdia6BvbRMVk6mPa6WqUa5uR2oxt6C5jd533A==}
-    engines: {node: 20 || >=22}
+  minimatch@10.2.2:
+    resolution: {integrity: sha512-+G4CpNBxa5MprY+04MbgOw1v7So6n5JY166pFi9KfYwT78fxScCeSNQSNzp6dpPSW2rONOps6Ocam1wFhCgoVw==}
+    engines: {node: 18 || 20 || >=22}
 
   minimatch@3.1.2:
     resolution: {integrity: sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==}
@@ -29850,6 +29845,10 @@ packages:
 
   minipass@7.1.2:
     resolution: {integrity: sha512-qOOzS1cBTWYF4BH8fVePDBOO9iptMnGUEZwNc/cMWnTV2nVLZ7VoNWEPHkYczZA0pdoA7dl6e7FL659nX9S2aw==}
+    engines: {node: '>=16 || 14 >=14.17'}
+
+  minipass@7.1.3:
+    resolution: {integrity: sha512-tEBHqDnIoM/1rXME1zgka9g6Q2lcoCkxHLuc7ODJ5BxbP5d4c2Z5cGgtXAku59200Cx7diuHTOYfSBD8n6mm8A==}
     engines: {node: '>=16 || 14 >=14.17'}
 
   minizlib@3.1.0:
@@ -30863,6 +30862,10 @@ packages:
   path-scurry@2.0.1:
     resolution: {integrity: sha512-oWyT4gICAu+kaA7QWk/jvCHWarMKNs6pXOGWKDTr7cw4IGcUbW+PeTfbaQiLGheFRpjo6O9J0PmyMfQPjH71oA==}
     engines: {node: 20 || >=22}
+
+  path-scurry@2.0.2:
+    resolution: {integrity: sha512-3O/iVVsJAPsOnpwWIeD+d6z/7PmqApyQePUtCndjatj/9I5LylHvt5qluFaBT3I5h3r1ejfR056c+FCv+NnNXg==}
+    engines: {node: 18 || 20 || >=22}
 
   path-to-regexp@0.1.12:
     resolution: {integrity: sha512-RA1GjUVMnvYFxuqovrEqZoxxW5NUZqbwKtYz/Tt7nXerk0LbLblQmrsgdeOxV5SFHf0UDggjS/bSeOZwt1pmEQ==}
@@ -32288,6 +32291,9 @@ packages:
   spdx-expression-parse@3.0.1:
     resolution: {integrity: sha512-cbqHunsQWnJNE6KhVSMsMeH5H/L9EpymbzqTQ3uLwNCLZ1Q481oWaofqH7nO6V07xlXwY6PhQdQ2IedWx/ZK4Q==}
 
+  spdx-expression-parse@4.0.0:
+    resolution: {integrity: sha512-Clya5JIij/7C6bRR22+tnGXbc4VKlibKSVj2iHvVeX5iMW7s1SIQlqu699JkODJJIhh/pUu8L0/VLh8xflD+LQ==}
+
   spdx-license-ids@3.0.22:
     resolution: {integrity: sha512-4PRT4nh1EImPbt2jASOKHX7PB7I+e4IWNLvkKFDxNhJlfjbYlleYQh285Z/3mPTHSAK/AvdMmw5BNNuYH8ShgQ==}
 
@@ -33293,8 +33299,8 @@ packages:
   undici-types@6.21.0:
     resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
 
-  undici-types@7.16.0:
-    resolution: {integrity: sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==}
+  undici-types@7.18.2:
+    resolution: {integrity: sha512-AsuCzffGHJybSaRrmr5eHr81mwJU3kjw6M+uprWvCXiNeN9SOGwQ3Jn8jb8m3Z6izVgknn1R0FTCEAP2QrLY/w==}
 
   undici@5.29.0:
     resolution: {integrity: sha512-raqeBD6NQK4SkWhQzeYKd1KmIG6dllBOTt55Rmkt4HtI9mwdWtJljnrXjAFUBLTSN67HWrOIZ3EPF4kjUw80Bg==}
@@ -36891,7 +36897,7 @@ snapshots:
   '@bandwidth/messaging@4.1.7':
     dependencies:
       '@apimatic/schema': 0.6.0
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.5(debug@3.2.7)
       detect-node: 2.1.0
       form-data: 3.0.4
       json-bigint: 1.0.0
@@ -36965,9 +36971,9 @@ snapshots:
     dependencies:
       '@scure/bip32': 1.7.0
       abitype: 1.1.1(typescript@5.9.3)(zod@4.1.12)
-      axios: 1.13.2(debug@3.2.7)
-      axios-mock-adapter: 1.22.0(axios@1.13.2)
-      axios-retry: 4.5.0(axios@1.13.2)
+      axios: 1.13.5(debug@3.2.7)
+      axios-mock-adapter: 1.22.0(axios@1.13.5)
+      axios-retry: 4.5.0(axios@1.13.5)
       bip32: 4.0.0
       bip39: 3.1.0
       decimal.js: 10.6.0
@@ -37002,11 +37008,11 @@ snapshots:
       - '@types/node'
       - typescript
 
-  '@commitlint/cli@19.8.1(@types/node@25.2.3)(typescript@5.9.3)':
+  '@commitlint/cli@19.8.1(@types/node@20.19.33)(typescript@5.6.3)':
     dependencies:
       '@commitlint/format': 19.8.1
       '@commitlint/lint': 19.8.1
-      '@commitlint/load': 19.8.1(@types/node@25.2.3)(typescript@5.9.3)
+      '@commitlint/load': 19.8.1(@types/node@20.19.33)(typescript@5.6.3)
       '@commitlint/read': 19.8.1
       '@commitlint/types': 19.8.1
       tinyexec: 1.0.2
@@ -37069,15 +37075,15 @@ snapshots:
       - '@types/node'
       - typescript
 
-  '@commitlint/load@19.8.1(@types/node@25.2.3)(typescript@5.9.3)':
+  '@commitlint/load@19.8.1(@types/node@20.19.33)(typescript@5.6.3)':
     dependencies:
       '@commitlint/config-validator': 19.8.1
       '@commitlint/execute-rule': 19.8.1
       '@commitlint/resolve-extends': 19.8.1
       '@commitlint/types': 19.8.1
       chalk: 5.6.2
-      cosmiconfig: 9.0.0(typescript@5.9.3)
-      cosmiconfig-typescript-loader: 6.2.0(@types/node@25.2.3)(cosmiconfig@9.0.0(typescript@5.9.3))(typescript@5.9.3)
+      cosmiconfig: 9.0.0(typescript@5.6.3)
+      cosmiconfig-typescript-loader: 6.2.0(@types/node@20.19.33)(cosmiconfig@9.0.0(typescript@5.6.3))(typescript@5.6.3)
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       lodash.uniq: 4.5.0
@@ -37200,7 +37206,7 @@ snapshots:
 
   '@daytonaio/api-client@0.138.0':
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.5(debug@3.2.7)
     transitivePeerDependencies:
       - debug
 
@@ -37211,7 +37217,7 @@ snapshots:
       '@daytonaio/api-client': 0.138.0
       '@daytonaio/toolbox-api-client': 0.138.0
       '@iarna/toml': 2.2.5
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.5(debug@3.2.7)
       busboy: 1.6.0
       dotenv: 17.2.3
       expand-tilde: 2.0.2
@@ -37228,7 +37234,7 @@ snapshots:
 
   '@daytonaio/toolbox-api-client@0.138.0':
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.5(debug@3.2.7)
     transitivePeerDependencies:
       - debug
 
@@ -37246,11 +37252,11 @@ snapshots:
 
   '@definitelytyped/utils@0.1.12':
     dependencies:
-      '@types/node': 25.2.3
+      '@types/node': 25.3.0
       cachedir: 2.4.0
       charm: 1.0.2
       libnpmpublish: 11.1.3
-      minimatch: 10.2.1
+      minimatch: 10.2.2
       npm-registry-fetch: 19.1.1
       tar: 7.5.9
       tar-stream: 3.1.7
@@ -38215,12 +38221,12 @@ snapshots:
     optionalDependencies:
       '@types/node': 17.0.45
 
-  '@inquirer/external-editor@1.0.3(@types/node@25.2.3)':
+  '@inquirer/external-editor@1.0.3(@types/node@20.19.33)':
     dependencies:
       chardet: 2.1.1
       iconv-lite: 0.7.2
     optionalDependencies:
-      '@types/node': 25.2.3
+      '@types/node': 20.19.33
 
   '@isaacs/balanced-match@4.0.1': {}
 
@@ -38236,8 +38242,6 @@ snapshots:
       strip-ansi-cjs: strip-ansi@6.0.1
       wrap-ansi: 8.1.0
       wrap-ansi-cjs: wrap-ansi@7.0.0
-
-  '@isaacs/cliui@9.0.0': {}
 
   '@isaacs/fs-minipass@4.0.1':
     dependencies:
@@ -38297,7 +38301,7 @@ snapshots:
       - supports-color
       - ts-node
 
-  '@jest/core@29.7.0(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.2.3)(typescript@5.6.3))':
+  '@jest/core@29.7.0(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.33)(typescript@5.6.3))':
     dependencies:
       '@jest/console': 29.7.0
       '@jest/reporters': 29.7.0
@@ -38311,7 +38315,7 @@ snapshots:
       exit: 0.1.2
       graceful-fs: 4.2.11
       jest-changed-files: 29.7.0
-      jest-config: 29.7.0(@types/node@20.19.33)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.2.3)(typescript@5.6.3))
+      jest-config: 29.7.0(@types/node@20.19.33)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.33)(typescript@5.6.3))
       jest-haste-map: 29.7.0
       jest-message-util: 29.7.0
       jest-regex-util: 29.6.3
@@ -38494,13 +38498,13 @@ snapshots:
 
   '@kontent-ai/core-sdk@10.4.0':
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.5(debug@3.2.7)
     transitivePeerDependencies:
       - debug
 
   '@kontent-ai/core-sdk@10.7.0':
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.5(debug@3.2.7)
     transitivePeerDependencies:
       - debug
 
@@ -38525,7 +38529,7 @@ snapshots:
     dependencies:
       '@types/body-parser': 1.19.6
       '@types/node': 18.19.130
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.5(debug@3.2.7)
       body-parser: 1.20.3
       file-type: 16.5.4
       form-data: 4.0.4
@@ -38547,7 +38551,7 @@ snapshots:
 
   '@lob/lob-typescript-sdk@1.3.5':
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.5(debug@3.2.7)
       tslib: 2.8.1
     transitivePeerDependencies:
       - debug
@@ -38589,7 +38593,7 @@ snapshots:
 
   '@memberstack/admin@1.3.1':
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.5(debug@3.2.7)
       jose: 4.15.5
     transitivePeerDependencies:
       - debug
@@ -38603,11 +38607,11 @@ snapshots:
       - '@types/node'
     optional: true
 
-  '@microsoft/api-extractor-model@7.32.0(@types/node@25.2.3)':
+  '@microsoft/api-extractor-model@7.32.0(@types/node@25.3.0)':
     dependencies:
       '@microsoft/tsdoc': 0.16.0
       '@microsoft/tsdoc-config': 0.18.0
-      '@rushstack/node-core-library': 5.18.0(@types/node@25.2.3)
+      '@rushstack/node-core-library': 5.18.0(@types/node@25.3.0)
     transitivePeerDependencies:
       - '@types/node'
 
@@ -38631,15 +38635,15 @@ snapshots:
       - '@types/node'
     optional: true
 
-  '@microsoft/api-extractor@7.55.0(@types/node@25.2.3)':
+  '@microsoft/api-extractor@7.55.0(@types/node@25.3.0)':
     dependencies:
-      '@microsoft/api-extractor-model': 7.32.0(@types/node@25.2.3)
+      '@microsoft/api-extractor-model': 7.32.0(@types/node@25.3.0)
       '@microsoft/tsdoc': 0.16.0
       '@microsoft/tsdoc-config': 0.18.0
-      '@rushstack/node-core-library': 5.18.0(@types/node@25.2.3)
+      '@rushstack/node-core-library': 5.18.0(@types/node@25.3.0)
       '@rushstack/rig-package': 0.6.0
-      '@rushstack/terminal': 0.19.3(@types/node@25.2.3)
-      '@rushstack/ts-command-line': 5.1.3(@types/node@25.2.3)
+      '@rushstack/terminal': 0.19.3(@types/node@25.3.0)
+      '@rushstack/ts-command-line': 5.1.3(@types/node@25.3.0)
       diff: 8.0.2
       lodash: 4.17.23
       minimatch: 10.0.3
@@ -38741,7 +38745,7 @@ snapshots:
       yaml: 2.8.1
       yargs: 17.7.2
 
-  '@netlify/build@35.3.1(@opentelemetry/api@1.8.0)(@types/node@25.2.3)(encoding@0.1.13)(picomatch@4.0.3)(rollup@4.53.2)':
+  '@netlify/build@35.3.1(@opentelemetry/api@1.8.0)(@types/node@20.19.33)(encoding@0.1.13)(picomatch@4.0.3)(rollup@4.53.2)':
     dependencies:
       '@bugsnag/js': 8.6.0
       '@netlify/blobs': 10.3.3(supports-color@10.2.2)
@@ -38789,7 +38793,7 @@ snapshots:
       string-width: 7.2.0
       supports-color: 10.2.2
       terminal-link: 4.0.0
-      ts-node: 10.9.2(@types/node@25.2.3)(typescript@5.6.3)
+      ts-node: 10.9.2(@types/node@20.19.33)(typescript@5.6.3)
       typescript: 5.6.3
       uuid: 11.1.0
       yaml: 2.8.1
@@ -39187,15 +39191,15 @@ snapshots:
       semver: 7.7.4
       which: 6.0.1
 
-  '@npmcli/package-json@7.0.4':
+  '@npmcli/package-json@7.0.5':
     dependencies:
       '@npmcli/git': 7.0.1
-      glob: 13.0.5
+      glob: 13.0.6
       hosted-git-info: 9.0.2
       json-parse-even-better-errors: 5.0.0
       proc-log: 6.1.0
       semver: 7.7.4
-      validate-npm-package-license: 3.0.4
+      spdx-expression-parse: 4.0.0
 
   '@npmcli/promise-spawn@9.0.1':
     dependencies:
@@ -39742,7 +39746,7 @@ snapshots:
   '@pipedream/linkedin@0.1.1':
     dependencies:
       '@pipedream/platform': 1.6.8
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.5(debug@3.2.7)
       form-data: 4.0.4
     transitivePeerDependencies:
       - debug
@@ -39750,7 +39754,7 @@ snapshots:
   '@pipedream/microsoft_outlook@1.7.5':
     dependencies:
       '@pipedream/platform': 3.2.5
-      axios: 0.30.2
+      axios: 0.30.3
       js-base64: 3.7.8
       md5: 2.3.0
       mime-types: 2.1.35
@@ -39797,7 +39801,7 @@ snapshots:
 
   '@pipedream/platform@0.10.1':
     dependencies:
-      axios: 0.30.2
+      axios: 0.30.3
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
     transitivePeerDependencies:
@@ -39805,7 +39809,7 @@ snapshots:
 
   '@pipedream/platform@1.6.8':
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.2
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
       querystring: 0.2.1
@@ -39814,7 +39818,7 @@ snapshots:
 
   '@pipedream/platform@2.0.2':
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.2
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
       querystring: 0.2.1
@@ -39823,7 +39827,7 @@ snapshots:
 
   '@pipedream/platform@3.0.3':
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.5(debug@3.2.7)
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
       querystring: 0.2.1
@@ -39832,7 +39836,7 @@ snapshots:
 
   '@pipedream/platform@3.1.1':
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.2
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
       mime-types: 3.0.1
@@ -39843,7 +39847,7 @@ snapshots:
 
   '@pipedream/platform@3.2.1':
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.5(debug@3.2.7)
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
       mime-types: 3.0.1
@@ -39854,7 +39858,7 @@ snapshots:
 
   '@pipedream/platform@3.2.2':
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.5(debug@3.2.7)
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
       mime-types: 3.0.1
@@ -39865,7 +39869,7 @@ snapshots:
 
   '@pipedream/platform@3.2.4':
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.5(debug@3.2.7)
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
       mime-types: 3.0.1
@@ -39876,7 +39880,7 @@ snapshots:
 
   '@pipedream/platform@3.2.5':
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.5(debug@3.2.7)
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
       mime-types: 3.0.1
@@ -40507,7 +40511,6 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
-      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.60)(rollup@4.53.2)':
     dependencies:
@@ -41130,11 +41133,11 @@ snapshots:
       - rollup
       - supports-color
 
-  '@qdrant/js-client-rest@1.15.1(typescript@5.9.3)':
+  '@qdrant/js-client-rest@1.15.1(typescript@5.6.3)':
     dependencies:
       '@qdrant/openapi-typescript-fetch': 1.2.6
       '@sevinf/maybe': 0.5.0
-      typescript: 5.9.3
+      typescript: 5.6.3
       undici: 6.22.0
 
   '@qdrant/openapi-typescript-fetch@1.2.6': {}
@@ -41366,7 +41369,7 @@ snapshots:
       '@types/node': 20.19.25
     optional: true
 
-  '@rushstack/node-core-library@5.18.0(@types/node@25.2.3)':
+  '@rushstack/node-core-library@5.18.0(@types/node@25.3.0)':
     dependencies:
       ajv: 8.13.0
       ajv-draft-04: 1.0.0(ajv@8.13.0)
@@ -41377,16 +41380,16 @@ snapshots:
       resolve: 1.22.11
       semver: 7.5.4
     optionalDependencies:
-      '@types/node': 25.2.3
+      '@types/node': 25.3.0
 
   '@rushstack/problem-matcher@0.1.1(@types/node@20.19.25)':
     optionalDependencies:
       '@types/node': 20.19.25
     optional: true
 
-  '@rushstack/problem-matcher@0.1.1(@types/node@25.2.3)':
+  '@rushstack/problem-matcher@0.1.1(@types/node@25.3.0)':
     optionalDependencies:
-      '@types/node': 25.2.3
+      '@types/node': 25.3.0
 
   '@rushstack/rig-package@0.6.0':
     dependencies:
@@ -41402,13 +41405,13 @@ snapshots:
       '@types/node': 20.19.25
     optional: true
 
-  '@rushstack/terminal@0.19.3(@types/node@25.2.3)':
+  '@rushstack/terminal@0.19.3(@types/node@25.3.0)':
     dependencies:
-      '@rushstack/node-core-library': 5.18.0(@types/node@25.2.3)
-      '@rushstack/problem-matcher': 0.1.1(@types/node@25.2.3)
+      '@rushstack/node-core-library': 5.18.0(@types/node@25.3.0)
+      '@rushstack/problem-matcher': 0.1.1(@types/node@25.3.0)
       supports-color: 8.1.1
     optionalDependencies:
-      '@types/node': 25.2.3
+      '@types/node': 25.3.0
 
   '@rushstack/ts-command-line@5.1.3(@types/node@20.19.25)':
     dependencies:
@@ -41420,9 +41423,9 @@ snapshots:
       - '@types/node'
     optional: true
 
-  '@rushstack/ts-command-line@5.1.3(@types/node@25.2.3)':
+  '@rushstack/ts-command-line@5.1.3(@types/node@25.3.0)':
     dependencies:
-      '@rushstack/terminal': 0.19.3(@types/node@25.2.3)
+      '@rushstack/terminal': 0.19.3(@types/node@25.3.0)
       '@types/argparse': 1.0.38
       argparse: 1.0.10
       string-argv: 0.3.2
@@ -41500,20 +41503,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@semantic-release/commit-analyzer@13.0.1(semantic-release@24.2.9(typescript@5.9.3))':
-    dependencies:
-      conventional-changelog-angular: 8.1.0
-      conventional-changelog-writer: 8.2.0
-      conventional-commits-filter: 5.0.0
-      conventional-commits-parser: 6.2.1
-      debug: 4.4.3(supports-color@9.4.0)
-      import-from-esm: 2.0.0
-      lodash-es: 4.17.23
-      micromatch: 4.0.8
-      semantic-release: 24.2.9(typescript@5.9.3)
-    transitivePeerDependencies:
-      - supports-color
-
   '@semantic-release/error@4.0.0': {}
 
   '@semantic-release/github@11.0.6(semantic-release@24.2.9(typescript@5.6.3))':
@@ -41538,28 +41527,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@semantic-release/github@11.0.6(semantic-release@24.2.9(typescript@5.9.3))':
-    dependencies:
-      '@octokit/core': 7.0.6
-      '@octokit/plugin-paginate-rest': 13.2.1(@octokit/core@7.0.6)
-      '@octokit/plugin-retry': 8.0.3(@octokit/core@7.0.6)
-      '@octokit/plugin-throttling': 11.0.3(@octokit/core@7.0.6)
-      '@semantic-release/error': 4.0.0
-      aggregate-error: 5.0.0
-      debug: 4.4.3(supports-color@9.4.0)
-      dir-glob: 3.0.1
-      http-proxy-agent: 7.0.2
-      https-proxy-agent: 7.0.6
-      issue-parser: 7.0.1
-      lodash-es: 4.17.23
-      mime: 4.1.0
-      p-filter: 4.1.0
-      semantic-release: 24.2.9(typescript@5.9.3)
-      tinyglobby: 0.2.15
-      url-join: 5.0.0
-    transitivePeerDependencies:
-      - supports-color
-
   '@semantic-release/npm@12.0.2(semantic-release@24.2.9(typescript@5.6.3))':
     dependencies:
       '@semantic-release/error': 4.0.0
@@ -41574,23 +41541,6 @@ snapshots:
       read-pkg: 9.0.1
       registry-auth-token: 5.1.0
       semantic-release: 24.2.9(typescript@5.6.3)
-      semver: 7.7.4
-      tempy: 3.1.0
-
-  '@semantic-release/npm@12.0.2(semantic-release@24.2.9(typescript@5.9.3))':
-    dependencies:
-      '@semantic-release/error': 4.0.0
-      aggregate-error: 5.0.0
-      execa: 9.6.0
-      fs-extra: 11.3.2
-      lodash-es: 4.17.23
-      nerf-dart: 1.0.0
-      normalize-url: 8.1.0
-      npm: 10.9.4
-      rc: 1.2.8
-      read-pkg: 9.0.1
-      registry-auth-token: 5.1.0
-      semantic-release: 24.2.9(typescript@5.9.3)
       semver: 7.7.4
       tempy: 3.1.0
 
@@ -41610,26 +41560,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@semantic-release/release-notes-generator@14.1.0(semantic-release@24.2.9(typescript@5.9.3))':
-    dependencies:
-      conventional-changelog-angular: 8.1.0
-      conventional-changelog-writer: 8.2.0
-      conventional-commits-filter: 5.0.0
-      conventional-commits-parser: 6.2.1
-      debug: 4.4.3(supports-color@9.4.0)
-      get-stream: 7.0.1
-      import-from-esm: 2.0.0
-      into-stream: 7.0.0
-      lodash-es: 4.17.23
-      read-package-up: 11.0.0
-      semantic-release: 24.2.9(typescript@5.9.3)
-    transitivePeerDependencies:
-      - supports-color
-
   '@sendgrid/client@7.7.0':
     dependencies:
       '@sendgrid/helpers': 7.7.0
-      axios: 0.30.2
+      axios: 0.30.3
     transitivePeerDependencies:
       - debug
 
@@ -41677,7 +41611,7 @@ snapshots:
 
   '@shortcut/client@2.3.1':
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.5(debug@3.2.7)
     transitivePeerDependencies:
       - debug
 
@@ -41768,7 +41702,7 @@ snapshots:
       '@slack/types': 1.10.0
       '@types/is-stream': 1.1.0
       '@types/node': 20.19.25
-      axios: 0.30.2
+      axios: 0.30.3
       eventemitter3: 3.1.2
       form-data: 2.5.4
       is-stream: 1.1.0
@@ -41783,7 +41717,7 @@ snapshots:
       '@slack/types': 2.18.0
       '@types/node': 20.19.25
       '@types/retry': 0.12.0
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.5(debug@3.2.7)
       eventemitter3: 5.0.1
       form-data: 4.0.4
       is-electron: 2.2.2
@@ -42336,11 +42270,11 @@ snapshots:
   '@tufjs/models@4.1.0':
     dependencies:
       '@tufjs/canonical-json': 2.0.0
-      minimatch: 10.2.1
+      minimatch: 10.2.2
 
   '@tuya/tuya-connector-nodejs@2.1.2':
     dependencies:
-      axios: 0.30.2
+      axios: 0.30.3
       qs: 6.14.2
     transitivePeerDependencies:
       - debug
@@ -42575,9 +42509,9 @@ snapshots:
     dependencies:
       undici-types: 6.19.8
 
-  '@types/node@25.2.3':
+  '@types/node@25.3.0':
     dependencies:
-      undici-types: 7.16.0
+      undici-types: 7.18.2
 
   '@types/normalize-package-data@2.4.4': {}
 
@@ -43065,7 +42999,7 @@ snapshots:
       de-indent: 1.0.2
       he: 1.2.0
 
-  '@vue/language-core@2.2.0(typescript@5.9.3)':
+  '@vue/language-core@2.2.0(typescript@5.6.3)':
     dependencies:
       '@volar/language-core': 2.4.23
       '@vue/compiler-dom': 3.5.24
@@ -43076,7 +43010,7 @@ snapshots:
       muggle-string: 0.4.1
       path-browserify: 1.0.1
     optionalDependencies:
-      typescript: 5.9.3
+      typescript: 5.6.3
 
   '@vue/shared@3.5.24': {}
 
@@ -43111,7 +43045,7 @@ snapshots:
 
   '@woocommerce/woocommerce-rest-api@1.0.2':
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.5(debug@3.2.7)
       create-hmac: 1.1.7
       oauth-1.0a: 2.2.6
       url-parse: 1.5.10
@@ -43450,7 +43384,7 @@ snapshots:
       '@crawlee/types': 3.15.3
       agentkeepalive: 4.6.0
       async-retry: 1.3.3
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.5(debug@3.2.7)
       content-type: 1.0.5
       ow: 0.28.2
       tslib: 2.8.1
@@ -43676,7 +43610,7 @@ snapshots:
     dependencies:
       '@aws-sdk/util-utf8-browser': 3.259.0
       '@httptoolkit/websocket-stream': 6.0.1
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.5(debug@3.2.7)
       buffer: 6.0.3
       crypto-js: 4.2.0
       mqtt: 4.3.8
@@ -43695,18 +43629,18 @@ snapshots:
 
   axe-core@4.11.0: {}
 
-  axios-mock-adapter@1.22.0(axios@1.13.2):
+  axios-mock-adapter@1.22.0(axios@1.13.5):
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.5(debug@3.2.7)
       fast-deep-equal: 3.1.3
       is-buffer: 2.0.5
 
-  axios-retry@4.5.0(axios@1.13.2):
+  axios-retry@4.5.0(axios@1.13.5):
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.5(debug@3.2.7)
       is-retry-allowed: 2.2.0
 
-  axios@0.30.2:
+  axios@0.30.3:
     dependencies:
       follow-redirects: 1.15.11(debug@3.2.7)
       form-data: 4.0.4
@@ -43714,7 +43648,15 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  axios@1.13.2(debug@3.2.7):
+  axios@1.13.2:
+    dependencies:
+      follow-redirects: 1.15.11(debug@3.2.7)
+      form-data: 4.0.4
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
+
+  axios@1.13.5(debug@3.2.7):
     dependencies:
       follow-redirects: 1.15.11(debug@3.2.7)
       form-data: 4.0.4
@@ -43870,9 +43812,7 @@ snapshots:
 
   balanced-match@2.0.0: {}
 
-  balanced-match@4.0.2:
-    dependencies:
-      jackspeak: 4.2.3
+  balanced-match@4.0.3: {}
 
   bare-events@2.8.2: {}
 
@@ -44071,7 +44011,7 @@ snapshots:
 
   brace-expansion@5.0.2:
     dependencies:
-      balanced-match: 4.0.2
+      balanced-match: 4.0.3
 
   braces@3.0.3:
     dependencies:
@@ -44193,9 +44133,9 @@ snapshots:
     dependencies:
       '@npmcli/fs': 5.0.0
       fs-minipass: 3.0.3
-      glob: 13.0.5
+      glob: 13.0.6
       lru-cache: 11.2.6
-      minipass: 7.1.2
+      minipass: 7.1.3
       minipass-collect: 2.0.1
       minipass-flush: 1.0.5
       minipass-pipeline: 1.2.4
@@ -44603,7 +44543,7 @@ snapshots:
 
   columns-sdk@0.0.6:
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.5(debug@3.2.7)
       columns-graph-model: 1.1.10
       nebula-js-lib: 0.3.3
       pako: 2.1.0
@@ -44829,12 +44769,12 @@ snapshots:
       jiti: 2.6.1
       typescript: 5.6.3
 
-  cosmiconfig-typescript-loader@6.2.0(@types/node@25.2.3)(cosmiconfig@9.0.0(typescript@5.9.3))(typescript@5.9.3):
+  cosmiconfig-typescript-loader@6.2.0(@types/node@20.19.33)(cosmiconfig@9.0.0(typescript@5.6.3))(typescript@5.6.3):
     dependencies:
-      '@types/node': 25.2.3
-      cosmiconfig: 9.0.0(typescript@5.9.3)
+      '@types/node': 20.19.33
+      cosmiconfig: 9.0.0(typescript@5.6.3)
       jiti: 2.6.1
-      typescript: 5.9.3
+      typescript: 5.6.3
 
   cosmiconfig@5.2.1:
     dependencies:
@@ -44859,15 +44799,6 @@ snapshots:
       parse-json: 5.2.0
     optionalDependencies:
       typescript: 5.6.3
-
-  cosmiconfig@9.0.0(typescript@5.9.3):
-    dependencies:
-      env-paths: 2.2.1
-      import-fresh: 3.3.1
-      js-yaml: 4.1.1
-      parse-json: 5.2.0
-    optionalDependencies:
-      typescript: 5.9.3
 
   cp-file@6.2.0:
     dependencies:
@@ -44931,13 +44862,13 @@ snapshots:
       - supports-color
       - ts-node
 
-  create-jest@29.7.0(@types/node@25.2.3)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.2.3)(typescript@5.6.3)):
+  create-jest@29.7.0(@types/node@20.19.33)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.33)(typescript@5.6.3)):
     dependencies:
       '@jest/types': 29.6.3
       chalk: 4.1.2
       exit: 0.1.2
       graceful-fs: 4.2.11
-      jest-config: 29.7.0(@types/node@25.2.3)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.2.3)(typescript@5.6.3))
+      jest-config: 29.7.0(@types/node@20.19.33)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.33)(typescript@5.6.3))
       jest-util: 29.7.0
       prompts: 2.4.2
     transitivePeerDependencies:
@@ -45489,20 +45420,6 @@ snapshots:
       - react-native-b4a
       - supports-color
 
-  dts-critic@3.3.11(typescript@5.9.3):
-    dependencies:
-      '@definitelytyped/header-parser': 0.2.24
-      command-exists: 1.2.9
-      rimraf: 3.0.2
-      semver: 6.3.1
-      tmp: 0.2.5
-      typescript: 5.9.3
-      yargs: 15.4.1
-    transitivePeerDependencies:
-      - bare-abort-controller
-      - react-native-b4a
-      - supports-color
-
   dts-resolver@2.1.3: {}
 
   dtslint@4.2.1(typescript@5.6.3):
@@ -45517,24 +45434,6 @@ snapshots:
       tslint: 5.14.0(typescript@5.6.3)
       tsutils: 2.29.0(typescript@5.6.3)
       typescript: 5.6.3
-      yargs: 15.4.1
-    transitivePeerDependencies:
-      - bare-abort-controller
-      - react-native-b4a
-      - supports-color
-
-  dtslint@4.2.1(typescript@5.9.3):
-    dependencies:
-      '@definitelytyped/header-parser': 0.2.24
-      '@definitelytyped/typescript-versions': 0.1.10
-      '@definitelytyped/utils': 0.1.12
-      dts-critic: 3.3.11(typescript@5.9.3)
-      fs-extra: 6.0.1
-      json-stable-stringify: 1.3.0
-      strip-json-comments: 2.0.1
-      tslint: 5.14.0(typescript@5.9.3)
-      tsutils: 2.29.0(typescript@5.9.3)
-      typescript: 5.9.3
       yargs: 15.4.1
     transitivePeerDependencies:
       - bare-abort-controller
@@ -47120,7 +47019,7 @@ snapshots:
 
   fs-minipass@3.0.3:
     dependencies:
-      minipass: 7.1.2
+      minipass: 7.1.3
 
   fs-readdir-recursive@1.1.0: {}
 
@@ -47233,7 +47132,7 @@ snapshots:
       '@types/uuid': 10.0.0
       '@types/ws': 8.18.1
       '@ungap/url-search-params': 0.2.2
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.5(debug@3.2.7)
       fast-sha256: 1.3.0
       typescript-json-serializer: 6.0.1
       uuid: 11.1.0
@@ -47404,11 +47303,11 @@ snapshots:
       package-json-from-dist: 1.0.1
       path-scurry: 2.0.1
 
-  glob@13.0.5:
+  glob@13.0.6:
     dependencies:
-      minimatch: 10.2.1
-      minipass: 7.1.2
-      path-scurry: 2.0.1
+      minimatch: 10.2.2
+      minipass: 7.1.3
+      path-scurry: 2.0.2
 
   glob@6.0.4:
     dependencies:
@@ -48282,12 +48181,12 @@ snapshots:
 
   inline-style-parser@0.2.6: {}
 
-  inquirer-autocomplete-prompt@1.4.0(inquirer@8.2.7(@types/node@25.2.3)):
+  inquirer-autocomplete-prompt@1.4.0(inquirer@8.2.7(@types/node@20.19.33)):
     dependencies:
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       figures: 3.2.0
-      inquirer: 8.2.7(@types/node@25.2.3)
+      inquirer: 8.2.7(@types/node@20.19.33)
       run-async: 2.4.1
       rxjs: 6.6.7
 
@@ -48311,9 +48210,9 @@ snapshots:
     transitivePeerDependencies:
       - '@types/node'
 
-  inquirer@8.2.7(@types/node@25.2.3):
+  inquirer@8.2.7(@types/node@20.19.33):
     dependencies:
-      '@inquirer/external-editor': 1.0.3(@types/node@25.2.3)
+      '@inquirer/external-editor': 1.0.3(@types/node@20.19.33)
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       cli-cursor: 3.1.0
@@ -48801,10 +48700,6 @@ snapshots:
     dependencies:
       '@isaacs/cliui': 8.0.2
 
-  jackspeak@4.2.3:
-    dependencies:
-      '@isaacs/cliui': 9.0.0
-
   java-properties@1.0.2: {}
 
   jessy@4.1.0: {}
@@ -48860,16 +48755,16 @@ snapshots:
       - supports-color
       - ts-node
 
-  jest-cli@29.7.0(@types/node@25.2.3)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.2.3)(typescript@5.6.3)):
+  jest-cli@29.7.0(@types/node@20.19.33)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.33)(typescript@5.6.3)):
     dependencies:
-      '@jest/core': 29.7.0(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.2.3)(typescript@5.6.3))
+      '@jest/core': 29.7.0(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.33)(typescript@5.6.3))
       '@jest/test-result': 29.7.0
       '@jest/types': 29.6.3
       chalk: 4.1.2
-      create-jest: 29.7.0(@types/node@25.2.3)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.2.3)(typescript@5.6.3))
+      create-jest: 29.7.0(@types/node@20.19.33)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.33)(typescript@5.6.3))
       exit: 0.1.2
       import-local: 3.2.0
-      jest-config: 29.7.0(@types/node@25.2.3)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.2.3)(typescript@5.6.3))
+      jest-config: 29.7.0(@types/node@20.19.33)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.33)(typescript@5.6.3))
       jest-util: 29.7.0
       jest-validate: 29.7.0
       yargs: 17.7.2
@@ -48941,7 +48836,7 @@ snapshots:
       - babel-plugin-macros
       - supports-color
 
-  jest-config@29.7.0(@types/node@20.19.33)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.2.3)(typescript@5.6.3)):
+  jest-config@29.7.0(@types/node@20.19.33)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.33)(typescript@5.6.3)):
     dependencies:
       '@babel/core': 7.28.5
       '@jest/test-sequencer': 29.7.0
@@ -48967,38 +48862,7 @@ snapshots:
       strip-json-comments: 3.1.1
     optionalDependencies:
       '@types/node': 20.19.33
-      ts-node: 10.9.2(@types/node@25.2.3)(typescript@5.6.3)
-    transitivePeerDependencies:
-      - babel-plugin-macros
-      - supports-color
-
-  jest-config@29.7.0(@types/node@25.2.3)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.2.3)(typescript@5.6.3)):
-    dependencies:
-      '@babel/core': 7.28.5
-      '@jest/test-sequencer': 29.7.0
-      '@jest/types': 29.6.3
-      babel-jest: 29.7.0(@babel/core@7.28.5)
-      chalk: 4.1.2
-      ci-info: 3.9.0
-      deepmerge: 4.3.1
-      glob: 7.2.3
-      graceful-fs: 4.2.11
-      jest-circus: 29.7.0(babel-plugin-macros@3.1.0)
-      jest-environment-node: 29.7.0
-      jest-get-type: 29.6.3
-      jest-regex-util: 29.6.3
-      jest-resolve: 29.7.0
-      jest-runner: 29.7.0
-      jest-util: 29.7.0
-      jest-validate: 29.7.0
-      micromatch: 4.0.8
-      parse-json: 5.2.0
-      pretty-format: 29.7.0
-      slash: 3.0.0
-      strip-json-comments: 3.1.1
-    optionalDependencies:
-      '@types/node': 25.2.3
-      ts-node: 10.9.2(@types/node@25.2.3)(typescript@5.6.3)
+      ts-node: 10.9.2(@types/node@20.19.33)(typescript@5.6.3)
     transitivePeerDependencies:
       - babel-plugin-macros
       - supports-color
@@ -49246,12 +49110,12 @@ snapshots:
       - supports-color
       - ts-node
 
-  jest@29.7.0(@types/node@25.2.3)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.2.3)(typescript@5.6.3)):
+  jest@29.7.0(@types/node@20.19.33)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.33)(typescript@5.6.3)):
     dependencies:
-      '@jest/core': 29.7.0(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.2.3)(typescript@5.6.3))
+      '@jest/core': 29.7.0(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.33)(typescript@5.6.3))
       '@jest/types': 29.6.3
       import-local: 3.2.0
-      jest-cli: 29.7.0(@types/node@25.2.3)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.2.3)(typescript@5.6.3))
+      jest-cli: 29.7.0(@types/node@20.19.33)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.33)(typescript@5.6.3))
     transitivePeerDependencies:
       - '@types/node'
       - babel-plugin-macros
@@ -49546,7 +49410,7 @@ snapshots:
 
   klaviyo-api@18.0.0:
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.5(debug@3.2.7)
       form-data: 4.0.4
     transitivePeerDependencies:
       - debug
@@ -49638,7 +49502,7 @@ snapshots:
 
   libnpmpublish@11.1.3:
     dependencies:
-      '@npmcli/package-json': 7.0.4
+      '@npmcli/package-json': 7.0.5
       ci-info: 4.4.0
       npm-package-arg: 13.0.2
       npm-registry-fetch: 19.1.1
@@ -49696,7 +49560,7 @@ snapshots:
     dependencies:
       '@commitlint/cli': 19.8.1(@types/node@20.19.25)(typescript@5.6.3)
       '@commitlint/config-conventional': 19.8.1
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.5(debug@3.2.7)
       semantic-release: 24.2.9(typescript@5.6.3)
       zod: 3.25.76
       zod-to-json-schema: 3.24.6(zod@3.25.76)
@@ -49706,12 +49570,12 @@ snapshots:
       - supports-color
       - typescript
 
-  linkup-sdk@1.2.0(@types/node@25.2.3)(typescript@5.9.3):
+  linkup-sdk@1.2.0(@types/node@20.19.33)(typescript@5.6.3):
     dependencies:
-      '@commitlint/cli': 19.8.1(@types/node@25.2.3)(typescript@5.9.3)
+      '@commitlint/cli': 19.8.1(@types/node@20.19.33)(typescript@5.6.3)
       '@commitlint/config-conventional': 19.8.1
-      axios: 1.13.2(debug@3.2.7)
-      semantic-release: 24.2.9(typescript@5.9.3)
+      axios: 1.13.5(debug@3.2.7)
+      semantic-release: 24.2.9(typescript@5.6.3)
       zod: 3.25.76
       zod-to-json-schema: 3.24.6(zod@3.25.76)
     transitivePeerDependencies:
@@ -50105,7 +49969,7 @@ snapshots:
       '@npmcli/agent': 4.0.0
       cacache: 20.0.3
       http-cache-semantics: 4.2.0
-      minipass: 7.1.2
+      minipass: 7.1.3
       minipass-fetch: 5.0.1
       minipass-flush: 1.0.5
       minipass-pipeline: 1.2.4
@@ -50658,7 +50522,7 @@ snapshots:
     dependencies:
       '@isaacs/brace-expansion': 5.0.1
 
-  minimatch@10.2.1:
+  minimatch@10.2.2:
     dependencies:
       brace-expansion: 5.0.2
 
@@ -50678,11 +50542,11 @@ snapshots:
 
   minipass-collect@2.0.1:
     dependencies:
-      minipass: 7.1.2
+      minipass: 7.1.3
 
   minipass-fetch@5.0.1:
     dependencies:
-      minipass: 7.1.2
+      minipass: 7.1.3
       minipass-sized: 2.0.0
       minizlib: 3.1.0
     optionalDependencies:
@@ -50698,13 +50562,15 @@ snapshots:
 
   minipass-sized@2.0.0:
     dependencies:
-      minipass: 7.1.2
+      minipass: 7.1.3
 
   minipass@3.3.6:
     dependencies:
       yallist: 4.0.0
 
   minipass@7.1.2: {}
+
+  minipass@7.1.3: {}
 
   minizlib@3.1.0:
     dependencies:
@@ -50962,13 +50828,13 @@ snapshots:
 
   netlify-redirector@0.5.0: {}
 
-  netlify@23.11.0(@azure/storage-blob@12.29.1)(@types/express@4.17.25)(@types/node@25.2.3)(encoding@0.1.13)(picomatch@4.0.3)(rollup@4.53.2):
+  netlify@23.11.0(@azure/storage-blob@12.29.1)(@types/express@4.17.25)(@types/node@20.19.33)(encoding@0.1.13)(picomatch@4.0.3)(rollup@4.53.2):
     dependencies:
       '@fastify/static': 7.0.4
       '@netlify/ai': 0.3.0(@netlify/api@14.0.9)
       '@netlify/api': 14.0.9
       '@netlify/blobs': 10.1.0
-      '@netlify/build': 35.3.1(@opentelemetry/api@1.8.0)(@types/node@25.2.3)(encoding@0.1.13)(picomatch@4.0.3)(rollup@4.53.2)
+      '@netlify/build': 35.3.1(@opentelemetry/api@1.8.0)(@types/node@20.19.33)(encoding@0.1.13)(picomatch@4.0.3)(rollup@4.53.2)
       '@netlify/build-info': 10.0.9
       '@netlify/config': 24.0.8
       '@netlify/dev-utils': 4.3.0
@@ -51019,8 +50885,8 @@ snapshots:
       http-proxy: 1.18.1(debug@4.4.3)
       http-proxy-middleware: 2.0.9(@types/express@4.17.25)(debug@4.4.3)
       https-proxy-agent: 7.0.6
-      inquirer: 8.2.7(@types/node@25.2.3)
-      inquirer-autocomplete-prompt: 1.4.0(inquirer@8.2.7(@types/node@25.2.3))
+      inquirer: 8.2.7(@types/node@20.19.33)
+      inquirer-autocomplete-prompt: 1.4.0(inquirer@8.2.7(@types/node@20.19.33))
       ipx: 3.1.1(@azure/storage-blob@12.29.1)(@netlify/blobs@10.1.0)
       is-docker: 3.0.0
       is-stream: 4.0.1
@@ -51165,7 +51031,7 @@ snapshots:
 
   node-mailjet@6.0.11:
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.5(debug@3.2.7)
       json-bigint: 1.0.0
       url-join: 4.0.1
     transitivePeerDependencies:
@@ -51299,7 +51165,7 @@ snapshots:
       '@npmcli/redact': 4.0.0
       jsonparse: 1.3.1
       make-fetch-happen: 15.0.3
-      minipass: 7.1.2
+      minipass: 7.1.3
       minipass-fetch: 5.0.1
       minizlib: 3.1.0
       npm-package-arg: 13.0.2
@@ -51947,6 +51813,11 @@ snapshots:
       lru-cache: 11.2.6
       minipass: 7.1.2
 
+  path-scurry@2.0.2:
+    dependencies:
+      lru-cache: 11.2.6
+      minipass: 7.1.3
+
   path-to-regexp@0.1.12: {}
 
   path-to-regexp@6.3.0: {}
@@ -52073,7 +51944,7 @@ snapshots:
 
   pipedrive@24.2.0:
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.5(debug@3.2.7)
       qs: 6.14.2
     transitivePeerDependencies:
       - debug
@@ -52109,7 +51980,7 @@ snapshots:
 
   plaid@33.0.0:
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.5(debug@3.2.7)
     transitivePeerDependencies:
       - debug
 
@@ -52126,7 +51997,7 @@ snapshots:
   plivo@4.75.2:
     dependencies:
       '@types/node': 14.18.63
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.5(debug@3.2.7)
       base-64: 0.1.0
       build-url: 1.3.3
       form-data: 4.0.4
@@ -53551,7 +53422,7 @@ snapshots:
 
   salesforce-webhooks@1.1.15(handlebars@4.7.8):
     dependencies:
-      axios: 0.30.2
+      axios: 0.30.3
       bindings: 1.5.0
       handlebars-loader: 1.7.3(handlebars@4.7.8)
       uuid: 8.3.2
@@ -53619,41 +53490,6 @@ snapshots:
       '@semantic-release/release-notes-generator': 14.1.0(semantic-release@24.2.9(typescript@5.6.3))
       aggregate-error: 5.0.0
       cosmiconfig: 9.0.0(typescript@5.6.3)
-      debug: 4.4.3(supports-color@9.4.0)
-      env-ci: 11.2.0
-      execa: 9.6.0
-      figures: 6.1.0
-      find-versions: 6.0.0
-      get-stream: 6.0.1
-      git-log-parser: 1.2.1
-      hook-std: 4.0.0
-      hosted-git-info: 8.1.0
-      import-from-esm: 2.0.0
-      lodash-es: 4.17.23
-      marked: 15.0.12
-      marked-terminal: 7.3.0(marked@15.0.12)
-      micromatch: 4.0.8
-      p-each-series: 3.0.0
-      p-reduce: 3.0.0
-      read-package-up: 11.0.0
-      resolve-from: 5.0.0
-      semver: 7.7.4
-      semver-diff: 5.0.0
-      signale: 1.4.0
-      yargs: 17.7.2
-    transitivePeerDependencies:
-      - supports-color
-      - typescript
-
-  semantic-release@24.2.9(typescript@5.9.3):
-    dependencies:
-      '@semantic-release/commit-analyzer': 13.0.1(semantic-release@24.2.9(typescript@5.9.3))
-      '@semantic-release/error': 4.0.0
-      '@semantic-release/github': 11.0.6(semantic-release@24.2.9(typescript@5.9.3))
-      '@semantic-release/npm': 12.0.2(semantic-release@24.2.9(typescript@5.9.3))
-      '@semantic-release/release-notes-generator': 14.1.0(semantic-release@24.2.9(typescript@5.9.3))
-      aggregate-error: 5.0.0
-      cosmiconfig: 9.0.0(typescript@5.9.3)
       debug: 4.4.3(supports-color@9.4.0)
       env-ci: 11.2.0
       execa: 9.6.0
@@ -53982,7 +53818,7 @@ snapshots:
       agent-base: 6.0.2
       asn1.js-rfc2560: 5.0.1(asn1.js@5.4.1)
       asn1.js-rfc5280: 3.0.0
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.5(debug@3.2.7)
       big-integer: 1.6.52
       bignumber.js: 2.4.0
       binascii: 0.0.2
@@ -54077,6 +53913,11 @@ snapshots:
       spdx-exceptions: 2.5.0
       spdx-license-ids: 3.0.22
 
+  spdx-expression-parse@4.0.0:
+    dependencies:
+      spdx-exceptions: 2.5.0
+      spdx-license-ids: 3.0.22
+
   spdx-license-ids@3.0.22: {}
 
   split-on-first@1.1.0: {}
@@ -54143,7 +53984,7 @@ snapshots:
 
   ssri@13.0.1:
     dependencies:
-      minipass: 7.1.2
+      minipass: 7.1.3
 
   stable-hash@0.0.5: {}
 
@@ -54369,11 +54210,11 @@ snapshots:
 
   strip-outer@2.0.0: {}
 
-  stripe@18.5.0(@types/node@25.2.3):
+  stripe@18.5.0(@types/node@25.3.0):
     dependencies:
       qs: 6.14.2
     optionalDependencies:
-      '@types/node': 25.2.3
+      '@types/node': 25.3.0
 
   strnum@1.1.2: {}
 
@@ -54666,7 +54507,7 @@ snapshots:
     dependencies:
       '@isaacs/fs-minipass': 4.0.1
       chownr: 3.0.0
-      minipass: 7.1.2
+      minipass: 7.1.3
       minizlib: 3.1.0
       yallist: 5.0.0
 
@@ -54957,14 +54798,14 @@ snapshots:
       yn: 3.1.1
     optional: true
 
-  ts-node@10.9.2(@types/node@25.2.3)(typescript@5.6.3):
+  ts-node@10.9.2(@types/node@20.19.33)(typescript@5.6.3):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       '@tsconfig/node10': 1.0.12
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
-      '@types/node': 25.2.3
+      '@types/node': 20.19.33
       acorn: 8.15.0
       acorn-walk: 8.3.4
       arg: 4.1.3
@@ -55029,23 +54870,6 @@ snapshots:
       tsutils: 2.29.0(typescript@5.6.3)
       typescript: 5.6.3
 
-  tslint@5.14.0(typescript@5.9.3):
-    dependencies:
-      babel-code-frame: 6.26.0
-      builtin-modules: 1.1.1
-      chalk: 2.4.2
-      commander: 2.20.3
-      diff: 3.5.0
-      glob: 7.2.3
-      js-yaml: 3.14.1
-      minimatch: 3.1.2
-      mkdirp: 0.5.6
-      resolve: 1.22.11
-      semver: 5.7.2
-      tslib: 1.14.1
-      tsutils: 2.29.0(typescript@5.9.3)
-      typescript: 5.9.3
-
   tsup@8.5.1(@microsoft/api-extractor@7.55.0(@types/node@20.19.25))(jiti@2.6.1)(postcss@8.5.6)(tsx@4.20.6)(typescript@5.6.3)(yaml@2.8.1):
     dependencies:
       bundle-require: 5.1.0(esbuild@0.27.0)
@@ -55075,7 +54899,7 @@ snapshots:
       - tsx
       - yaml
 
-  tsup@8.5.1(@microsoft/api-extractor@7.55.0(@types/node@25.2.3))(jiti@2.6.1)(postcss@8.5.6)(tsx@4.20.6)(typescript@5.6.3)(yaml@2.8.1):
+  tsup@8.5.1(@microsoft/api-extractor@7.55.0(@types/node@25.3.0))(jiti@2.6.1)(postcss@8.5.6)(tsx@4.20.6)(typescript@5.6.3)(yaml@2.8.1):
     dependencies:
       bundle-require: 5.1.0(esbuild@0.27.0)
       cac: 6.7.14
@@ -55095,7 +54919,7 @@ snapshots:
       tinyglobby: 0.2.15
       tree-kill: 1.2.2
     optionalDependencies:
-      '@microsoft/api-extractor': 7.55.0(@types/node@25.2.3)
+      '@microsoft/api-extractor': 7.55.0(@types/node@25.3.0)
       postcss: 8.5.6
       typescript: 5.6.3
     transitivePeerDependencies:
@@ -55108,11 +54932,6 @@ snapshots:
     dependencies:
       tslib: 1.14.1
       typescript: 5.6.3
-
-  tsutils@2.29.0(typescript@5.9.3):
-    dependencies:
-      tslib: 1.14.1
-      typescript: 5.9.3
 
   tsx@4.20.6:
     dependencies:
@@ -55155,7 +54974,7 @@ snapshots:
 
   twilio@5.10.5:
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.5(debug@3.2.7)
       dayjs: 1.11.19
       https-proxy-agent: 5.0.1
       jsonwebtoken: 9.0.2
@@ -55344,7 +55163,7 @@ snapshots:
 
   undici-types@6.21.0: {}
 
-  undici-types@7.16.0: {}
+  undici-types@7.18.2: {}
 
   undici@5.29.0:
     dependencies:
@@ -55622,7 +55441,7 @@ snapshots:
 
   utopianlabs@0.1.14:
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.5(debug@3.2.7)
       zod: 3.25.76
     transitivePeerDependencies:
       - debug
@@ -55769,39 +55588,39 @@ snapshots:
   viesapi-client@1.3.2:
     dependencies:
       '@xmldom/xmldom': 0.9.8
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.5(debug@3.2.7)
       date-fns: 4.1.0
       url: 0.11.4
       xpath: 0.0.34
     transitivePeerDependencies:
       - debug
 
-  vite-plugin-dts@4.5.4(@types/node@25.2.3)(rollup@4.53.2)(typescript@5.9.3)(vite@5.4.21(@types/node@25.2.3)):
+  vite-plugin-dts@4.5.4(@types/node@25.3.0)(rollup@4.53.2)(typescript@5.6.3)(vite@5.4.21(@types/node@25.3.0)):
     dependencies:
-      '@microsoft/api-extractor': 7.55.0(@types/node@25.2.3)
+      '@microsoft/api-extractor': 7.55.0(@types/node@25.3.0)
       '@rollup/pluginutils': 5.3.0(rollup@4.53.2)
       '@volar/typescript': 2.4.23
-      '@vue/language-core': 2.2.0(typescript@5.9.3)
+      '@vue/language-core': 2.2.0(typescript@5.6.3)
       compare-versions: 6.1.1
       debug: 4.4.3(supports-color@9.4.0)
       kolorist: 1.8.0
       local-pkg: 1.1.2
       magic-string: 0.30.21
-      typescript: 5.9.3
+      typescript: 5.6.3
     optionalDependencies:
-      vite: 5.4.21(@types/node@25.2.3)
+      vite: 5.4.21(@types/node@25.3.0)
     transitivePeerDependencies:
       - '@types/node'
       - rollup
       - supports-color
 
-  vite@5.4.21(@types/node@25.2.3):
+  vite@5.4.21(@types/node@25.3.0):
     dependencies:
       esbuild: 0.21.5
       postcss: 8.5.6
       rollup: 4.53.2
     optionalDependencies:
-      '@types/node': 25.2.3
+      '@types/node': 25.3.0
       fsevents: 2.3.3
 
   vscode-uri@3.1.0: {}
