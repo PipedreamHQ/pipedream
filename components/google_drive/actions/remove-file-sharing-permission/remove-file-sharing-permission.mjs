@@ -62,7 +62,7 @@ export default {
           fileId: c.fileId || c.folderId,
         }),
       ],
-      description: "The ID of the permission to remove.",
+      description: "The ID of the permission to remove",
     },
   },
   async additionalProps(previousProps) {
