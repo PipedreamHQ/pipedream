@@ -340,7 +340,7 @@ export default {
     permissionId: {
       type: "string",
       label: "Permission ID",
-      description: "The ID of the permission.",
+      description: "The ID of the permission",
       async options({
         fileId, prevContext,
       }) {
