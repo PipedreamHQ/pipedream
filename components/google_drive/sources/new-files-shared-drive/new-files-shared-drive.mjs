@@ -7,7 +7,7 @@ export default {
   key: "google_drive-new-files-shared-drive",
   name: "New Files (Shared Drive)",
   description: "Emit new event when a new file is added in your shared Google Drive",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "source",
   dedupe: "unique",
   props: {
