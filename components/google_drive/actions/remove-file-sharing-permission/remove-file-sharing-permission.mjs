@@ -87,7 +87,7 @@ export default {
     }
 
     await this.googleDrive.deletePermission({
-      fileId: folderId ?? fileId,
+      fileId: fileId || folderId,
       permissionId,
     });
 

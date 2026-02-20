@@ -356,9 +356,11 @@ export default {
           options: permissions
             ?.filter(({ role }) => role !== "owner")
             .map(({
-              id, role, type,
+              id, type, role, emailAddress,
             }) => ({
-              label: `${type} - ${role}`,
+              label: `${type} - ${role}${emailAddress
+                ? ` - ${emailAddress}`
+                : ""}`,
               value: id,
             })) || [],
           context: {
@@ -1489,14 +1491,6 @@ export default {
         })
       ).data;
     },
-    /**
-     * Delete a permission for a file
-     *
-     * @param {string} fileId - the ID value of the file for which to delete a
-     * permission
-     * @param {string} permissionId - the ID value of the permission to delete
-     * @returns the deleted permission
-     */
     async deletePermission(opts = {}) {
       const drive = this.drive();
       return (
@@ -1506,18 +1500,12 @@ export default {
         })
       ).data;
     },
-    /**
-     * List permissions for a file
-     *
-     * @param {string} fileId - the ID value of the file for which to list permissions
-     * permission
-     * @returns the list of permissions
-     */
     async listPermissions(pageToken, fileId) {
       const drive = this.drive();
       return (
         await drive.permissions.list({
           supportsAllDrives: true,
+          fields: "permissions(id,type,role,emailAddress),nextPageToken",
           pageToken,
           fileId,
         })
