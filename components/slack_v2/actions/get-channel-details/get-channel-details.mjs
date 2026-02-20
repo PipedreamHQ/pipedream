@@ -1,7 +1,7 @@
 import slack from "../../slack_v2.app.mjs";
 
 export default {
-  key: "slack_v2-get-channel",
+  key: "slack_v2-get-channel-details",
   name: "Get Channel Details",
   description: "Retrieve details for a Slack channel by selecting it or providing an ID. [See the documentation](https://api.slack.com/methods/conversations.info)",
   version: "0.0.1",
@@ -18,7 +18,7 @@ export default {
         slack,
         "conversation",
       ],
-      description: "Select a channel or enter a channel ID manually.",
+      description: "Select a channel or provide a channel ID manually.",
     },
     includeLocale: {
       type: "boolean",
@@ -29,8 +29,8 @@ export default {
     },
     includeNumberOfMembers: {
       type: "boolean",
-      label: "Number of members",
-      description: "Set to `true` to receive the number of member of this channel",
+      label: "Include Member Count",
+      description: "Set to `true` to receive the number of members of this channel",
       default: false,
       optional: true,
     },
