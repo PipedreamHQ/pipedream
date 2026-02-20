@@ -7,7 +7,7 @@ export default {
   key: "google_drive-new-files-shared-drive",
   name: "New Files (Shared Drive)",
   description: "Emit new event when a new file is added in your shared Google Drive",
-  version: "0.1.3",
+  version: "0.1.4",
   type: "source",
   dedupe: "unique",
   props: {
@@ -34,6 +34,13 @@ export default {
       label: "Include Link",
       type: "boolean",
       description: "Upload file to your File Stash and emit temporary download link to the file. Google Workspace documents will be converted to PDF. See [the docs](https://pipedream.com/docs/connect/components/files) to learn more about working with files in Pipedream.",
+      default: false,
+      optional: true,
+    },
+    includeSubfolders: {
+      type: "boolean",
+      label: "Enable Subfolders",
+      description: "Whether to watch for new files in subfolders of the parent folder",
       default: false,
       optional: true,
     },
