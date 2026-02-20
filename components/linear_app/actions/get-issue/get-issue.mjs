@@ -4,7 +4,7 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   key: "linear_app-get-issue",
   name: "Get Issue",
-  description: "Retrieves a Linear issue by its ID or identifier. Returns complete issue details including title, description, state, assignee, team, project, labels, and timestamps. Uses API Key authentication. [See the documentation]](https://linear.app/developers/graphql).",
+  description: "Retrieves a Linear issue by its ID or identifier. Returns complete issue details including title, description, state, assignee, team, project, labels, and timestamps. Uses API Key authentication. [See the documentation](https://linear.app/developers/graphql).",
   version: "0.1.16",
   annotations: {
     destructiveHint: false,
@@ -49,6 +49,9 @@ export default {
     const issue = await linearApp.getIssue({
       issueId: issueId || issueIdentifier,
     });
+    if (!issue) {
+      throw new ConfigurationError(`Issue not found: ${issueId || issueIdentifier}`);
+    }
     $.export("$summary", `Found issue with ID ${issue?.id}`);
     return issue;
   },
