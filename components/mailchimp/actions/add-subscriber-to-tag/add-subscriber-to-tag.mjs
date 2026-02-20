@@ -8,7 +8,7 @@ export default {
   key: "mailchimp-add-subscriber-to-tag",
   name: "Add Subscriber To Tag",
   description: "Adds an email address to a tag within an audience. [See docs here](https://mailchimp.com/developer/marketing/api/list-member-tags/add-or-remove-member-tags/)",
-  version: "0.2.3",
+  version: "0.2.4",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

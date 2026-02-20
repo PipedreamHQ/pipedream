@@ -6,7 +6,7 @@ export default {
   key: "mailchimp-new-or-updated-list-segment",
   name: "New or Updated List Segment",
   description: "Emit new event when segment is either created or updated.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {

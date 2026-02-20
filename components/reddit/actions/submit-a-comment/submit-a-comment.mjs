@@ -4,7 +4,7 @@ import reddit from "../../reddit.app.mjs";
 export default {
   type: "action",
   key: "reddit-submit-a-comment",
-  version: "0.1.3",
+  version: "0.1.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
