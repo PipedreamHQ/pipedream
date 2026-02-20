@@ -4,7 +4,7 @@ export default {
   key: "listen_notes-get-podcast-details",
   name: "Get Podcast Details",
   description: "Get the details of the selected podcast. [See the documentation](https://www.listennotes.com/api/docs/#get-api-v2-podcasts-id)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

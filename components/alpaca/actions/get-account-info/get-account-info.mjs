@@ -25,7 +25,7 @@ export default {
       $,
       isPaperAPI: this.isPaperAPI,
     });
-    $.export("$summary", "Account info has been retreived.");
+    $.export("$summary", "Account info has been retrieved.");
     return response;
   },
 };

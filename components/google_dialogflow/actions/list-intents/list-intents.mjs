@@ -16,7 +16,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.googleDialogflow.listIntents();
-    $.export("$summary", "Intent list has been retreived.");
+    $.export("$summary", "Intent list has been retrieved.");
     return response[0];
   },
 };

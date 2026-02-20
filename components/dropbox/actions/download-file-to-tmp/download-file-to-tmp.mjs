@@ -30,7 +30,7 @@ export default {
     name: {
       type: "string",
       label: "File Name",
-      description: "The new name of the file to be saved, including it's extension. e.g: `myFile.csv`",
+      description: "The new name of the file to be saved, including its extension. e.g: `myFile.csv`",
       optional: true,
     },
     syncDir: {

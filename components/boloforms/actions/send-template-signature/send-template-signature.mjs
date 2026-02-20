@@ -40,7 +40,7 @@ export default {
     receiversList: {
       type: "string[]",
       label: "Receivers List",
-      description: "A list of receiver objects. **Format: {\"name\": \"Chirag Gupta\", \"email\": \"support@boloforms.com\", \"roleTitle\": \"Junior Doctor\", \"roleColour\": \"#8FB1C8\"}** `RoleTitle has to exactly same as the role you added otherwise it will not work properly`. `Give color to your role you can pass any hex code but it's necessary`.",
+      description: "A list of receiver objects. **Format: {\"name\": \"Chirag Gupta\", \"email\": \"support@boloforms.com\", \"roleTitle\": \"Junior Doctor\", \"roleColour\": \"#8FB1C8\"}** `RoleTitle has to exactly same as the role you added otherwise it will not work properly`. `Give color to your role you can pass any hex code but it's necessary`.", // ###################### TODO: what?
     },
     customVariables: {
       type: "string[]",

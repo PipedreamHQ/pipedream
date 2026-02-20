@@ -35,7 +35,7 @@ export default {
           schema: c.schema,
         }),
       ],
-      description: "The column to identify an unique row, commonly it's `id` or `uuid`.",
+      description: "The column to identify an unique row, commonly its `id` or `uuid`.",
     },
     timestampColumn: {
       label: "Timestamp Column",

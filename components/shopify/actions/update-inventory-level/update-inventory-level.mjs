@@ -4,8 +4,8 @@ import { INVENTORY_ADJUSTMENT_REASONS } from "../../common/constants.mjs";
 export default {
   key: "shopify-update-inventory-level",
   name: "Update Inventory Level",
-  description: "Sets the inventory level for an inventory item at a location. [See the documenation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/inventorySetOnHandQuantities)",
-  version: "0.0.16",
+  description: "Sets the inventory level for an inventory item at a location. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/inventorySetOnHandQuantities)",
+  version: "0.0.17",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

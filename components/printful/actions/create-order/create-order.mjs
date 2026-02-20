@@ -10,7 +10,7 @@ export default {
     readOnlyHint: false,
   },
   key: "printful-create-order",
-  description: "Creates a new order in your Printful account. [See the documentaion](https://developers.printful.com/docs/#operation/createOrder)",
+  description: "Creates a new order in your Printful account. [See the documentation](https://developers.printful.com/docs/#operation/createOrder)",
   type: "action",
   props: {
     printful,

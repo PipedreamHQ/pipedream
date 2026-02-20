@@ -28,7 +28,7 @@ export function Label<T extends ConfigurableProps, U extends ConfigurableProp>(p
     lineHeight: "1.5",
   };
 
-  // XXX have to fix typing in customization (and elsewere really)
+  // XXX have to fix typing in customization (and elsewhere really)
   return (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     <label htmlFor={id} {...getProps("label", baseStyles, props as any)}>{text}</label>

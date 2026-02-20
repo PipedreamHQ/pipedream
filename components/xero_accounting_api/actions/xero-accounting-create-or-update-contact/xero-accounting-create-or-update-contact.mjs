@@ -155,7 +155,7 @@ export default {
       description: "The default sales [account code](https://developer.xero.com/documentation/api/accounts) for contacts",
       optional: true,
     },
-    puchasesDefaultAccountCode: {
+    purchasesDefaultAccountCode: {
       label: "Purchases Default Account Code",
       type: "string",
       description: "The default purchases [account code](https://developer.xero.com/documentation/api/accounts) for contacts",
@@ -167,7 +167,7 @@ export default {
       description: "The default sales [tracking categories](https://developer.xero.com/documentation/api/tracking-categories/) for contacts",
       optional: true,
     },
-    puechasesTrackingCategories: {
+    purchasesTrackingCategories: {
       label: "Purchases Tracking Categories",
       type: "string",
       description: "The default purchases [tracking categories](https://developer.xero.com/documentation/api/tracking-categories/) for contacts",
@@ -242,9 +242,9 @@ export default {
         DefaultCurrency: this.defaultCurrency,
         XeroNetworkKey: this.xeroNetworkKey,
         SalesDefaultAccountCode: this.salesDefaultAccountCode,
-        PurchasesDefaultAccountCode: this.puchasesDefaultAccountCode,
+        PurchasesDefaultAccountCode: this.purchasesDefaultAccountCode,
         SalesTrackingCategories: this.salesTrackingCategories,
-        PurchasesTrackingCategories: this.puechasesTrackingCategories,
+        PurchasesTrackingCategories: this.purchasesTrackingCategories,
         TrackingCategoryName: this.trackingCategoryName,
         TrackingOptionName: this.trackingOptionName,
         PaymentTerms: {

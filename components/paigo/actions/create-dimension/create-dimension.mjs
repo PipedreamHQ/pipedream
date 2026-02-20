@@ -5,7 +5,7 @@ export default {
   key: "paigo-create-dimension",
   name: "Create Dimension",
   description: "Creates a new dimension inside the Paigo platform. [See the documentation](http://www.api.docs.paigo.tech/#tag/Dimensions/operation/Create%20a%20dimension)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -41,7 +41,7 @@ export default {
     rounding: {
       type: "string",
       label: "Rounding",
-      description: "The rounding algorithm that is used to calculate the amount of usage increment. Ceiling algorithm rounds up, floor algorithm rounds down, the round algrogrithm rounds to the nearest whole integer rounding half away from zero.",
+      description: "The rounding algorithm that is used to calculate the amount of usage increment. Ceiling algorithm rounds up, floor algorithm rounds down, the round algorithm rounds to the nearest whole integer rounding half away from zero.",
       options: constants.USAGE_ROUNDING,
     },
     usageEntitlement: {

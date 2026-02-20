@@ -16,7 +16,7 @@ export default {
     types: {
       type: "string[]",
       label: "Engagement Types",
-      description: "Filter results by the type of engagment",
+      description: "Filter results by the type of engagement",
       options: ENGAGEMENT_TYPES,
       optional: true,
     },

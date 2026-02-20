@@ -3,7 +3,7 @@ import firefish from "../../firefish.app.mjs";
 export default {
   key: "firefish-unsubscribe-email",
   name: "Unsubscribe Email",
-  description: "Removes a particular contact or candidate from all existing firefish email subscriptions. [See the documentatio](https://developer.firefishsoftware.com/#002bb8c0-0b41-4016-b33c-026a46b499b2)",
+  description: "Removes a particular contact or candidate from all existing firefish email subscriptions. [See the documentation](https://developer.firefishsoftware.com/#002bb8c0-0b41-4016-b33c-026a46b499b2)",
   version: "0.0.2",
   annotations: {
     destructiveHint: true,
