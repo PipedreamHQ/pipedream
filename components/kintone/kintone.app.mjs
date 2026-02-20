@@ -88,15 +88,6 @@ export default {
         ...opts,
       });
     },
-
-    getFormFields({ appId }) {
-      return this._makeRequest({
-        path: "/app/form/fields.json",
-        params: {
-          app: appId,
-        },
-      });
-    },
     addComment(opts = {}) {
       return this._makeRequest({
         path: "/record/comment.json",
@@ -111,14 +102,17 @@ export default {
       });
     },
     async *paginate({
-      fn, params = {}, query, maxResults = null, ...opts
+      fn, params = {}, query = "", maxResults = null, ...opts
     }) {
       let hasMore = false;
       let count = 0;
       let page = 0;
+      let offset = 0;
 
       do {
-        params.query = `${query} limit ${LIMIT} offset ${page * LIMIT}`;
+        offset = page * LIMIT;
+        if (offset >= 10100) return false;
+        params.query = `${query} limit ${LIMIT} offset ${offset}`;
         page++;
 
         const { records } = await fn({

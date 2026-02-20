@@ -56,8 +56,8 @@ export default {
     },
   },
   async run({ $ }) {
-    if (!this.recordId && !this.updateKeyField) {
-      throw new ConfigurationError("Either `Record ID` or `Update Key Field` must be provided");
+    if (!this.recordId && (!this.updateKeyField && !this.updateKeyValue)) {
+      throw new ConfigurationError("Either `Record ID` or both `Update Key Field` and `Update Key Value` must be provided");
     }
     if (this.recordId && this.updateKeyField) {
       throw new ConfigurationError("Cannot specify both `Record ID` and `Update Key`");

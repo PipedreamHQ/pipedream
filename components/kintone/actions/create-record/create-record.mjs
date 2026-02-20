@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import { parseObject } from "../../common/utils.mjs";
 import kintone from "../../kintone.app.mjs";
 
@@ -40,7 +41,7 @@ export default {
       $.export("$summary", `Successfully created record (ID: ${response.id})`);
       return response;
     } catch (error) {
-      throw new Error(error.message);
+      throw new ConfigurationError(error.message);
     }
   },
 };
