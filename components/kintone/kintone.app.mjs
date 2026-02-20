@@ -111,7 +111,7 @@ export default {
 
       do {
         offset = page * LIMIT;
-        if (offset >= 10100) return false;
+        if (offset >= 10100) return;
         params.query = `${query} limit ${LIMIT} offset ${offset}`;
         page++;
 
