@@ -13,7 +13,8 @@
     "strictNullChecks": true,
     "skipLibCheck": true,                             /* Skip type checking of declaration files in node_modules. */
     "baseUrl": ".",
-    "paths": { "@pipedream/types": ["."] }
+    "paths": { "@pipedream/types": ["."] },
+    "isolatedModules": true
   },
   "include": [
     "./src"
