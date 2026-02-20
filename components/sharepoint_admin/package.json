@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sharepoint_admin",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "description": "Pipedream SharePoint Admin Components",
   "main": "sharepoint_admin.app.mjs",
   "keywords": [
