@@ -3,7 +3,6 @@ import {
   INCLUDE_OPTIONS,
   SORT_DIRECTION_OPTIONS,
 } from "../../common/constants.mjs";
-import { parseArray } from "../../common/utils.mjs";
 import voluum from "../../voluum.app.mjs";
 
 export default {
@@ -30,27 +29,11 @@ export default {
       description: "End of the report time range in ISO 8601 format (e.g., 2017-02-21T00:00:00Z)",
       optional: true,
     },
-    groupBy: {
-      propDefinition: [
-        voluum,
-        "columns",
-      ],
-      type: "string[]",
-      label: "Group By",
-      description: "A list of grouping column",
-    },
     include: {
       type: "string",
       label: "Include",
       description: "Type of core entities to include",
       options: INCLUDE_OPTIONS,
-      optional: true,
-    },
-    columns: {
-      propDefinition: [
-        voluum,
-        "columns",
-      ],
       optional: true,
     },
     compareFrom: {
@@ -118,9 +101,10 @@ export default {
       params: {
         from: this.from,
         to: this.to,
-        groupBy: parseArray(this.groupBy),
+        groupBy: [
+          "campaignId",
+        ],
         include: this.include,
-        columns: parseArray(this.columns),
         compareFrom: this.compareFrom,
         compareTo: this.compareTo,
         workspaces: this.workspaces,
@@ -140,7 +124,7 @@ export default {
     $.export("$summary", `Successfully retrieved ${responseArray.length} result${responseArray.length !== 1
       ? "s"
       : ""}`);
-    return response;
+    return responseArray;
   },
 };
 

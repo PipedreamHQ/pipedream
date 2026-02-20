@@ -5,20 +5,6 @@ export default {
   type: "app",
   app: "voluum",
   propDefinitions: {
-    columns: {
-      type: "string[]",
-      label: "Columns",
-      description: "A list of columns",
-      async options() {
-        const { columnMappings } = await this.getColumnInfo();
-        return columnMappings.map(({
-          key: value, label,
-        }) => ({
-          label,
-          value,
-        }));
-      },
-    },
     sharedReportId: {
       type: "string",
       label: "Shared Report ID",
@@ -58,11 +44,6 @@ export default {
       return this._makeRequest({
         path: "/report",
         ...opts,
-      });
-    },
-    getColumnInfo() {
-      return this._makeRequest({
-        path: "/column/info",
       });
     },
     listSharedReports(opts = {}) {

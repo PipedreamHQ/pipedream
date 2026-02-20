@@ -13,13 +13,14 @@ export default {
     ...common.methods,
     async emitEvent() {
       const { sharedReports } = await this.voluum.listSharedReports();
+      const lastDate = this._getLastDate();
 
       const filteredItems = sharedReports
-        .filter((item) => Date.parse(item.created) > this._getLastDate())
+        .filter((item) => Date.parse(item.created) > lastDate)
         .sort((a, b) => Date.parse(b.created) - Date.parse(a.created));
 
       if (filteredItems.length) {
-        this._setLastId(Date.parse(filteredItems[0].created));
+        this._setLastDate(Date.parse(filteredItems[0].created));
       }
 
       for (const item of filteredItems.reverse()) {
