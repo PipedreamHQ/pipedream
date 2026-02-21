@@ -2,6 +2,12 @@
 
 # Changelog
 
+## [2.7.2] - 2026-02-20
+
+### Added
+- Added `webUrl` and `description` fields to `FilePickerItem` interface
+- Parse `webUrl` and `description` from JSON option values in file picker
+
 ## [2.7.1] - 2026-02-19
 
 ### Added
