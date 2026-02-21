@@ -4,7 +4,7 @@ export default {
   key: "todoist-get-task",
   name: "Get Task",
   description: "Returns info about a task. [See the documentation](https://developer.todoist.com/api/v1#tag/Tasks/operation/get_task_api_v1_tasks__task_id__get)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

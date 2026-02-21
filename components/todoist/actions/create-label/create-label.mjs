@@ -4,7 +4,7 @@ export default {
   key: "todoist-create-label",
   name: "Create Label",
   description: "Creates a label. [See the documentation](https://developer.todoist.com/api/v1#tag/Labels/operation/create_label_api_v1_labels_post)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   key: "todoist-update-comment",
   name: "Update Comment",
   description: "Updates a comment. [See the documentation](https://developer.todoist.com/api/v1#tag/Comments/operation/update_comment_api_v1_comments__comment_id__post)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

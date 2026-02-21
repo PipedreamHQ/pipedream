@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/click2mail2",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Pipedream Click2Mail Components",
   "main": "click2mail2.app.mjs",
   "keywords": [

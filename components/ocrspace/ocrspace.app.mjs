@@ -24,7 +24,7 @@ export default {
     isOverlayRequired: {
       type: "boolean",
       label: "Is Overlay Required",
-      description: "If true, returns the coordinates of the bounding boxes for each word. If false, the OCR'ed text is returned only as a text block (this makes the JSON reponse smaller). Overlay data can be used, for example, to show [text over the image](https://ocr.space/english).",
+      description: "If true, returns the coordinates of the bounding boxes for each word. If false, the OCR'ed text is returned only as a text block (this makes the JSON response smaller). Overlay data can be used, for example, to show [text over the image](https://ocr.space/english).",
       optional: true,
     },
     filetype: {

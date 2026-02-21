@@ -2,7 +2,7 @@ import app from "../../kanban_tool.app.mjs";
 
 export default {
   key: "kanban_tool-get-task-details",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -34,7 +34,7 @@ export default {
       $,
       taskId: this.taskId,
     });
-    $.export("$summary", `The task(ID: ${resp.id}) details has been retreived.`);
+    $.export("$summary", `The task(ID: ${resp.id}) details have been retrieved.`);
     return resp;
   },
 };

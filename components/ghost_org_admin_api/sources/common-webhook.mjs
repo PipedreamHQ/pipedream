@@ -49,9 +49,9 @@ export default {
     },
     /**
      * Gets the [Ghost event](https://ghost.org/docs/webhooks/) for which this webhook should
-     * receieve events
+     * receive events
      *
-     * To receieve webhook requests for the Ghost event `site.changed`, the function would look like
+     * To receive webhook requests for the Ghost event `site.changed`, the function would look like
      * this:
      * @example
      * function getEvent() {

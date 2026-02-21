@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/microsoft_onedrive",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "description": "Pipedream Microsoft OneDrive components",
   "main": "microsoft_onedrive.app.mjs",
   "homepage": "https://pipedream.com/apps/microsoft-onedrive",

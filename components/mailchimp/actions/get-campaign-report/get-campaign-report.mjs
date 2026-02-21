@@ -4,10 +4,10 @@ import {
 import mailchimp from "../../mailchimp.app.mjs";
 
 export default {
-  key: "mailchimp-get-a-campaign-report",
-  name: "Get A Campaign Report",
+  key: "mailchimp-get-campaign-report",
+  name: "Get Campaign Report",
   description: "Gets a campaign report. [See docs here](https://mailchimp.com/developer/marketing/api/campaign-advice/)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

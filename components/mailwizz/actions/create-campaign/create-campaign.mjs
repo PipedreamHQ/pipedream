@@ -4,7 +4,7 @@ import mailwizz from "../../mailwizz.app.mjs";
 export default {
   key: "mailwizz-create-campaign",
   name: "Create Campaign",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -53,7 +53,7 @@ export default {
     replyTo: {
       type: "string",
       label: "Reply To",
-      description: "RThe camapaign reply to email address.",
+      description: "The campaign reply to email address.",
     },
     sendAt: {
       type: "string",
@@ -166,7 +166,7 @@ export default {
         "campaignId",
       ],
       label: "Autoresponder Open Campaign Id",
-      description: "Id of the camapign, only if event is AFTER-CAMPAIGN-OPEN.",
+      description: "ID of the campaign, only if event is AFTER-CAMPAIGN-OPEN.",
       optional: true,
     },
     cronjob: {

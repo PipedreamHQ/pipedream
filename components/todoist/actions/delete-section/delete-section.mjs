@@ -4,7 +4,7 @@ export default {
   key: "todoist-delete-section",
   name: "Delete Section",
   description: "Deletes a section. [See the documentation](https://developer.todoist.com/api/v1#tag/Sections/operation/delete_section_api_v1_sections__section_id__delete)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

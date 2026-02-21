@@ -6,7 +6,7 @@ export default {
   key: "boloforms-send-template-signature",
   name: "Send Template Signature",
   description: "Dispatch a predefined template to obtain a signature. [See the documentation](https://help.boloforms.com/en/articles/8557564-sending-for-signing)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -40,7 +40,7 @@ export default {
     receiversList: {
       type: "string[]",
       label: "Receivers List",
-      description: "A list of receiver objects. **Format: {\"name\": \"Chirag Gupta\", \"email\": \"support@boloforms.com\", \"roleTitle\": \"Junior Doctor\", \"roleColour\": \"#8FB1C8\"}** `RoleTitle has to exactly same as the role you added otherwise it will not work properly`. `Give color to your role you can pass any hex code but it's necessary`.",
+      description: "A list of receiver objects. **Format: {\"name\": \"Chirag Gupta\", \"email\": \"support@boloforms.com\", \"roleTitle\": \"Junior Doctor\", \"roleColour\": \"#8FB1C8\"}** `RoleTitle has to exactly same as the role you added otherwise it will not work properly`. `Give color to your role you can pass any hex code but it's necessary`.", // ###################### TODO: what?
     },
     customVariables: {
       type: "string[]",

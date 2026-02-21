@@ -4,7 +4,7 @@ export default {
   key: "todoist-update-label",
   name: "Update Label",
   description: "Updates a label. [See the documentation](https://developer.todoist.com/api/v1#tag/Labels/operation/update_label_api_v1_labels__label_id__post)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

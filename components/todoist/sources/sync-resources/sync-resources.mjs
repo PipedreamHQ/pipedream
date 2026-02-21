@@ -5,7 +5,7 @@ export default {
   key: "todoist-sync-resources",
   name: "New Sync Resources",
   description: "Emit new updates for your selected resources. [See the documentation](https://developer.todoist.com/api/v1#tag/Sync/Overview/Read-resources)",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "source",
   props: {
     ...common.props,
