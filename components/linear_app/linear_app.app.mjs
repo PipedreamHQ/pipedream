@@ -53,6 +53,34 @@ export default {
         });
       },
     },
+    issueIdentifier: {
+      type: "string",
+      label: "Issue Identifier",
+      description: "The identifier of the issue. Example: `APP-1234`",
+      async options({
+        teamId, prevContext,
+      }) {
+        return this.listResourcesOptions({
+          prevContext,
+          resourcesFn: this.listIssues,
+          resourcesArgs: teamId && {
+            filter: {
+              team: {
+                id: {
+                  eq: teamId,
+                },
+              },
+            },
+          },
+          resouceMapper: ({
+            identifier, title,
+          }) => ({
+            label: title,
+            value: identifier,
+          }),
+        });
+      },
+    },
     projectId: {
       type: "string",
       label: "Project",
