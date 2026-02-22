@@ -4,7 +4,7 @@ export default {
   key: "workday-change-business-title",
   name: "Change Business Title",
   description: "Change the business title of a worker. [See the documentation](https://community.workday.com/sites/default/files/file-hosting/restapi/#common/v1/post-/workers/-ID-/businessTitleChanges)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
