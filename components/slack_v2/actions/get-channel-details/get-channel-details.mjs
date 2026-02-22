@@ -18,7 +18,7 @@ export default {
         slack,
         "conversation",
       ],
-      description: "Select a channel or provide a channel ID manually.",
+      description: "Select a channel or provide a channel ID.",
     },
     includeLocale: {
       type: "boolean",
