@@ -150,7 +150,14 @@ export default {
       name: segmentName,
     };
 
-    const currentContacts = await this.getSegmentContacts(segmentId);
+    let currentContacts;
+    try {
+      currentContacts = await this.getSegmentContacts(segmentId);
+    } catch (error) {
+      console.warn("Error fetching segment contacts, skipping this poll cycle:", error);
+      return;
+    }
+
     const currentContactIds = new Set(currentContacts.map((c) => c.id));
 
     const previousContactIds = new Set(this._getStoredContactIds(segmentId));
@@ -209,10 +216,8 @@ export default {
       }
     }
 
-    if (currentContactIds.size > 0) {
-      this._setStoredContactIds(segmentId, [
-        ...currentContactIds,
-      ]);
-    }
+    this._setStoredContactIds(segmentId, [
+      ...currentContactIds,
+    ]);
   },
 };
