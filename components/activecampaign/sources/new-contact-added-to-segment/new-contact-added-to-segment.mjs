@@ -88,11 +88,10 @@ export default {
       return fieldMapping;
     },
     generateMeta(contact, segmentInfo) {
-      const ts = Date.now();
       return {
-        id: `${segmentInfo.segmentId}-${contact.id}-${ts}`,
+        id: `${segmentInfo.segmentId}-${contact.id}`,
         summary: `Contact ${contact.email} added to segment: ${segmentInfo.name}`,
-        ts,
+        ts: Date.now(),
       };
     },
     async getSegmentContacts(segmentId) {
@@ -210,8 +209,10 @@ export default {
       }
     }
 
-    this._setStoredContactIds(segmentId, [
-      ...currentContactIds,
-    ]);
+    if (currentContactIds.size > 0) {
+      this._setStoredContactIds(segmentId, [
+        ...currentContactIds,
+      ]);
+    }
   },
 };
