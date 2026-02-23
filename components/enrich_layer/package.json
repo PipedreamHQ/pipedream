@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/enrich_layer",
+  "version": "0.0.1",
+  "description": "Pipedream Enrich Layer Components",
+  "main": "enrich_layer.app.mjs",
+  "keywords": [
+    "pipedream",
+    "enrich_layer"
+  ],
+  "homepage": "https://pipedream.com/apps/enrich_layer",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
