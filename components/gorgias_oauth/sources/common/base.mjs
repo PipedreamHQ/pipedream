@@ -79,7 +79,7 @@ export default {
         });
         return customFieldValues || [];
       } catch (error) {
-        console.error(`Error fetching custom fields for ticket ${ticketId}: ${error.message}`);
+        console.error(`Error fetching custom fields for ticket ${ticketId}: ${error?.message ?? error}`);
         return [];
       }
     },
