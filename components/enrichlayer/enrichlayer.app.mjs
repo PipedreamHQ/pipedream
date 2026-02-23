@@ -167,14 +167,32 @@ export default {
     },
   },
   methods: {
+    /**
+     * Returns the full API URL for a given path.
+     * @param {string} path - The API endpoint path (e.g., "/api/v2/company").
+     * @returns {string} The full URL.
+     */
     getUrl(path) {
       return `https://enrichlayer.com${path}`;
     },
+    /**
+     * Returns the default headers for API requests, including the Bearer token.
+     * @returns {object} Headers object with Authorization.
+     */
     getHeaders() {
       return {
         Authorization: `Bearer ${this.$auth.api_key}`,
       };
     },
+    /**
+     * Makes an authenticated HTTP request to the Enrich Layer API.
+     * @param {object} opts - Request options.
+     * @param {object} [opts.$] - The Pipedream step context for `$.export` and `$.summary`.
+     * @param {string} opts.path - The API endpoint path.
+     * @param {object} [opts.params] - Query parameters.
+     * @param {object} [opts.headers] - Additional headers (merged with defaults).
+     * @returns {Promise<object>} The API response data.
+     */
     _makeRequest({
       $ = this, path, headers, ...args
     } = {}) {
