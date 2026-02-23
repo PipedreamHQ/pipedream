@@ -12793,7 +12793,11 @@ importers:
 
   components/relintex_crm: {}
 
-  components/remarkety: {}
+  components/remarkety:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.5
+        version: 3.2.5
 
   components/remote:
     dependencies:
