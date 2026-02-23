@@ -8,7 +8,7 @@ export default {
   name: "New Contact Added to Segment",
   key: "activecampaign-new-contact-added-to-segment",
   description: "Emit new event each time a new contact is added to a segment.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
