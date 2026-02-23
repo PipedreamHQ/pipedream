@@ -1965,6 +1965,9 @@ importers:
 
   components/bokun: {}
 
+  components/bol_com:
+    specifiers: {}
+
   components/boldsign:
     dependencies:
       '@pipedream/platform':
