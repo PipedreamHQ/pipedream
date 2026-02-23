@@ -8,7 +8,7 @@ export default {
   name: retrieveFileMetadata.name,
   description: retrieveFileMetadata.description,
   type: retrieveFileMetadata.type,
-  version: "0.0.1",
+  version: "0.0.2",
   methods: {
     ...retrieveFileMetadata.methods,
   },
