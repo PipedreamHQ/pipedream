@@ -57,15 +57,15 @@ export default {
     },
     async processHistoricalEvent(event) {
       const ticket = await this.retrieveTicket(event.object_id);
-      const enrichedTicket = await this.enrichTicketWithCustomFields(ticket);
       return {
-        ticket: enrichedTicket,
+        ticket,
       };
     },
     async processEvent(event) {
       const { ticket } = event;
       if (this.isRelevant(ticket)) {
-        this.emitEvent(ticket);
+        const enrichedTicket = await this.enrichTicketWithCustomFields(ticket);
+        this.emitEvent(enrichedTicket);
       }
     },
   },
