@@ -1,5 +1,5 @@
 export const parseObject = (obj) => {
-  if (!obj) return null;
+  if (!obj) return obj;
 
   if (typeof obj === "string") {
     try {

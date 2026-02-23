@@ -25,9 +25,14 @@ export default {
       type: "string",
       label: "Invoice ID",
       description: "The ID of the invoice",
-      async options({ accountId }) {
+      async options({
+        accountId, page,
+      }) {
         const { response: { result: { invoices } } } = await this.listInvoices({
           accountId,
+          params: {
+            page,
+          },
         });
         return invoices.map(({
           id: value, fname, lname, amount, currency_code: code,
@@ -57,7 +62,7 @@ export default {
         return clients.map(({
           id: value, fname, lname, email,
         }) => ({
-          label: `${fname} ${lname} - (${email || value})`,
+          label: `${fname ?? ""} ${lname ?? ""}`.trim() + ` - (${email || value})`,
           value,
         }));
       },
@@ -244,8 +249,8 @@ export default {
         path: `/accounting/account/${accountId}/invoices/invoices/${invoiceId}`,
         data: {
           invoice: {
-            action_email: true,
             ...data,
+            action_email: true,
           },
         },
         ...opts,

@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import { parseObject } from "../../common/utils.mjs";
 import freshbooks from "../../freshbooks.app.mjs";
 
@@ -8,7 +9,7 @@ export default {
   version: "0.0.1",
   type: "action",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
@@ -61,12 +62,17 @@ export default {
     if (subject) invoiceCustomizedEmail.subject = subject;
     if (body) invoiceCustomizedEmail.body = body;
 
+    const recipients = parseObject(emailRecipients)?.map((email) => email.trim());
+    if (!recipients?.length) {
+      throw new ConfigurationError("`Email Recipients` must not be empty");
+    }
+
     const result = await freshbooks.sendInvoiceByEmail({
       $,
       accountId,
       invoiceId,
       data: {
-        email_recipients: parseObject(emailRecipients)?.map((email) => email.trim()),
+        email_recipients: recipients,
         ...(Object.keys(invoiceCustomizedEmail).length
           ? {
             invoice_customized_email: invoiceCustomizedEmail,
@@ -74,7 +80,7 @@ export default {
           : {}),
       },
     });
-    $.export("$summary", `Successfully sent invoice to ${emailRecipients.length} recipient(s)`);
+    $.export("$summary", `Successfully sent invoice to ${recipients.length} recipient(s)`);
     return result;
   },
 };

@@ -171,14 +171,14 @@ export default {
     } = this;
 
     const invoice = {
-      customerid: Number(clientId),
+      customerid: clientId,
       create_date: createDate || new Date().toISOString()
         .slice(0, 10),
     };
     if (generationDate) invoice.generation_date = generationDate;
     if (notes) invoice.notes = notes;
     if (terms) invoice.terms = terms;
-    if (dueOffsetDays) invoice.due_offset_days = dueOffsetDays;
+    if (dueOffsetDays != null) invoice.due_offset_days = dueOffsetDays;
     if (invoiceNumber) invoice.invoice_number = invoiceNumber;
     if (discountValue) invoice.discount_value = discountValue && parseFloat(discountValue);
     if (discountDescription) invoice.discount_description = discountDescription;
@@ -204,7 +204,7 @@ export default {
 
     const responseInvoice = response.result.invoice;
 
-    $.export("$summary", `Successfully created invoice with  ${responseInvoice.id}`);
+    $.export("$summary", `Successfully created invoice with ID ${responseInvoice.id}`);
     return responseInvoice;
   },
 };

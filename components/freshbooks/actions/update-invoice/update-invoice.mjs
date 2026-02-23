@@ -187,7 +187,7 @@ export default {
     if (generationDate) invoice.generation_date = generationDate;
     if (notes) invoice.notes = notes;
     if (terms) invoice.terms = terms;
-    if (dueOffsetDays) invoice.due_offset_days = dueOffsetDays;
+    if (dueOffsetDays != null) invoice.due_offset_days = dueOffsetDays;
     if (discountValue) invoice.discount_value = discountValue && parseFloat(discountValue);
     if (discountDescription) invoice.discount_description = discountDescription;
     if (poNumber) invoice.po_number = poNumber;
