@@ -3809,6 +3809,9 @@ importers:
         specifier: ^0.3.2
         version: 0.3.4
 
+  components/daftara:
+    specifiers: {}
+
   components/daily:
     dependencies:
       '@pipedream/platform':

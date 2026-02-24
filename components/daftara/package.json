@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/daftara",
+  "version": "0.0.1",
+  "description": "Pipedream Daftara Components",
+  "main": "daftara.app.mjs",
+  "keywords": [
+    "pipedream",
+    "daftara"
+  ],
+  "homepage": "https://pipedream.com/apps/daftara",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
