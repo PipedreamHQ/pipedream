@@ -24,6 +24,7 @@ export const LEAD_OUTPUT_FIELDS = [
   "processes",
   "notes",
   "estimatedValue",
+  "customFields",
 ];
 
 export const LEAD_CONTACT_FIELD_NAMES = [
@@ -49,7 +50,32 @@ const PROCESS_OUTPUT_FIELDS = [
   "closedTime",
   "currentMilestoneID",
   "processTemplateID",
+  "steps",
 ];
+
+/** Step output fields returned for each process step. */
+const STEP_OUTPUT_FIELDS = [
+  "id",
+  "name",
+  "entityType",
+  "dueTime",
+  "completedTime",
+  "assignee",
+  "milestoneId",
+];
+
+export const formatStep = (step) => {
+  if (step == null) {
+    return step;
+  }
+  const out = {};
+  for (const key of STEP_OUTPUT_FIELDS) {
+    if (Object.prototype.hasOwnProperty.call(step, key)) {
+      out[key] = step[key];
+    }
+  }
+  return out;
+};
 
 export const formatAssignee = (assignee) => {
   if (assignee == null) {
@@ -83,8 +109,14 @@ export const formatProcess = (process) => {
   }
   const out = {};
   for (const key of PROCESS_OUTPUT_FIELDS) {
-    if (Object.prototype.hasOwnProperty.call(process, key)) {
-      out[key] = process[key];
+    if (!Object.prototype.hasOwnProperty.call(process, key)) {
+      continue;
+    }
+    const value = process[key];
+    if (key === "steps" && Array.isArray(value)) {
+      out[key] = value.map(formatStep);
+    } else {
+      out[key] = value;
     }
   }
   return out;

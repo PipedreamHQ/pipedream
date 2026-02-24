@@ -311,6 +311,54 @@ export default {
       });
       return result;
     },
+    async editContact({
+      $ = this, contactId, rev, contact,
+    }) {
+      const { result } = await this.post({
+        $,
+        method: "editContact",
+        data: {
+          params: {
+            contactId: parseInt(contactId, 10),
+            rev: rev ?? null,
+            contact,
+          },
+        },
+      });
+      return result;
+    },
+    async editAccount({
+      $ = this, companyId, rev, account,
+    }) {
+      const { result } = await this.post({
+        $,
+        method: "editAccount",
+        data: {
+          params: {
+            accountId: parseInt(companyId, 10),
+            rev: rev ?? null,
+            account,
+          },
+        },
+      });
+      return result;
+    },
+    async editLead({
+      $ = this, leadId, rev, lead,
+    }) {
+      const { result } = await this.post({
+        $,
+        method: "editLead",
+        data: {
+          params: {
+            leadId: parseInt(leadId, 10),
+            rev: rev ?? null,
+            lead,
+          },
+        },
+      });
+      return result;
+    },
     formatContact(contact) {
       return formatContactForOutput(contact);
     },
