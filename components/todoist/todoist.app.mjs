@@ -24,10 +24,11 @@ export default {
         "Filter for events that match one or more projects. Leave this blank to emit results for any project.",
       optional: true,
       async options() {
-        return (await this.getProjects({})).map((project) => ({
+        const { results } = await this.getProjects({});
+        return results?.map((project) => ({
           label: project.name,
           value: project.id,
-        }));
+        })) || [];
       },
     },
     project: {
@@ -125,7 +126,7 @@ export default {
         return {
           options: tasks,
           context: {
-            cursor: response.nextCursor,
+            cursor: response.next_cursor,
           },
         };
       },

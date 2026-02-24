@@ -18,15 +18,15 @@ export default {
     },
     async getSyncResult() {
       const lastDate = this._getLastDate();
-      const params = {};
-      if (lastDate) {
-        params.since = lastDate;
-      }
+      const newDate = new Date().toISOString();
+      const params = {
+        since: lastDate || newDate,
+        until: newDate,
+      };
       const response = await this.todoist.getCompletedTasks({
         params,
       });
 
-      const newDate = new Date().toISOString();
       this._setLastDate(newDate);
 
       return response.items ?? [];
