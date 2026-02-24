@@ -19,6 +19,7 @@ export const COMPANY_OUTPUT_FIELDS = [
   "createdTime",
   "modifiedTime",
   "contacts",
+  "customFields",
 ];
 
 /**

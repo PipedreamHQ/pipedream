@@ -4,7 +4,7 @@ export default {
   key: "nutshell-get-lead",
   name: "Get Lead",
   description: "Get a lead by ID.",
-  version: "0.0.4",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
