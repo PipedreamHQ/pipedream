@@ -1965,8 +1965,7 @@ importers:
 
   components/bokun: {}
 
-  components/bol_com:
-    specifiers: {}
+  components/bol_com: {}
 
   components/boldsign:
     dependencies:
@@ -6702,8 +6701,8 @@ importers:
   components/gorgias_oauth:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.2.5
       lodash-es:
         specifier: ^4.17.23
         version: 4.17.23
