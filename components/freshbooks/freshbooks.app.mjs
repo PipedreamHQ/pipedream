@@ -180,7 +180,7 @@ export default {
     lines: {
       type: "string[]",
       label: "Line Items",
-      description: "A list of line items. Example: `[{\"lineId\":1,\"amount\":\"10.50\",\"code\":\"USD\", \"updated\":\"2020-01-01 12:00:00\" }]` [See the documentation](https://www.freshbooks.com/api/invoices#:~:text=collection%20for%20details.-,Invoice%20Lines,-Invoice%20lines%20are)",
+      description: "A list of line items. Example: `[{\"lineId\":1, \"unit_cost\":{\"amount\":\"10.50\",\"code\":\"USD\"}, \"updated\":\"2020-01-01 12:00:00\" }]` [See the documentation](https://www.freshbooks.com/api/invoices#:~:text=collection%20for%20details.-,Invoice%20Lines,-Invoice%20lines%20are)",
       optional: true,
     },
   },
