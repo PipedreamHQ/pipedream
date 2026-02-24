@@ -4,7 +4,7 @@ export default {
   key: "nutshell-get-lead",
   name: "Get Lead",
   description: "Get a lead by ID.",
-  version: "0.0.2",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -34,6 +34,6 @@ export default {
       throw new Error(`No lead found for ID or number "${this.leadId}". In Nutshell, the number in the UI (e.g. Lead-1000) may differ from the internal ID—both are now tried.`);
     }
     $.export("$summary", `Successfully retrieved lead (ID: ${lead.id})`);
-    return lead;
+    return this.nutshell.formatLead(lead);
   },
 };

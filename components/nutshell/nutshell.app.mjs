@@ -1,4 +1,7 @@
 import { axios } from "@pipedream/platform";
+import { formatContact as formatContactForOutput } from "./common/contact-output.mjs";
+import { formatCompany as formatCompanyForOutput } from "./common/company-output.mjs";
+import { formatLead as formatLeadForOutput } from "./common/lead-output.mjs";
 
 export default {
   type: "app",
@@ -307,6 +310,15 @@ export default {
         },
       });
       return result;
+    },
+    formatContact(contact) {
+      return formatContactForOutput(contact);
+    },
+    formatCompany(company) {
+      return formatCompanyForOutput(company, formatContactForOutput);
+    },
+    formatLead(lead) {
+      return formatLeadForOutput(lead, formatContactForOutput);
     },
     async getLeadByNumber({
       $ = this, leadNumber,
