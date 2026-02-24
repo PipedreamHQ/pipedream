@@ -43,6 +43,9 @@ export default {
     },
   },
   async run({ $ }) {
+    if (!this.companyName && !this.companyDomain) {
+      throw new Error("At least one of Company Name or Company Domain must be provided.");
+    }
     const response = await this.enrichlayer._makeRequest({
       $,
       path: "/api/v2/company/resolve",

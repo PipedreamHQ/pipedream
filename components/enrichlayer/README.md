@@ -50,6 +50,10 @@ Many actions support optional enrichment parameters that incur additional credit
 - **Extra Data (`extra=include`)**: +1 credit for extended profile data
 - **Country Filter**: +3 credits per result on employee/student listings
 
+## Pagination
+
+Paginated endpoints (Employee Listing, Student Listing, Search People, Search Companies) return a **single page** of results per API call. To retrieve additional pages, use the `page` and `page_size` query parameters for manual pagination. Increment the `page` value across successive calls to iterate through all results.
+
 ## Documentation
 
 - [Enrich Layer API Documentation](https://enrichlayer.com/docs)

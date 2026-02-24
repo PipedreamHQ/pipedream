@@ -27,7 +27,11 @@ export default {
         email: this.email,
       },
     });
-    $.export("$summary", `Email ${this.email} is ${response.is_disposable_email ? "disposable" : "not disposable"}`);
+    if (typeof response.is_disposable_email === "boolean") {
+      $.export("$summary", `Email ${this.email} is ${response.is_disposable_email ? "disposable" : "not disposable"}`);
+    } else {
+      $.export("$summary", `Disposable email check completed for ${this.email}`);
+    }
     return response;
   },
 };

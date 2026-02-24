@@ -27,7 +27,7 @@ export default {
         phone_number: this.phoneNumber,
       },
     });
-    $.export("$summary", `Successfully resolved profiles for phone number ${this.phoneNumber}`);
+    $.export("$summary", "Successfully resolved profiles for phone number");
     return response;
   },
 };

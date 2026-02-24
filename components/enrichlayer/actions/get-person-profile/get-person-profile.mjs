@@ -123,6 +123,9 @@ export default {
     },
   },
   async run({ $ }) {
+    if (!this.profileUrl && !this.twitterProfileUrl && !this.facebookProfileUrl) {
+      throw new Error("At least one of Profile URL, Twitter/X Profile URL, or Facebook Profile URL must be provided.");
+    }
     const response = await this.enrichlayer._makeRequest({
       $,
       path: "/api/v2/profile",

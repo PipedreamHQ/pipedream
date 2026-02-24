@@ -134,7 +134,7 @@ export default {
       ],
     },
     pageSize: {
-      type: "string",
+      type: "integer",
       label: "Page Size",
       description: "Maximum number of results returned per API call. Defaults to 10.",
       optional: true,
@@ -199,7 +199,10 @@ export default {
       return axios($, {
         ...args,
         url: this.getUrl(path),
-        headers: this.getHeaders(),
+        headers: {
+          ...this.getHeaders(),
+          ...headers,
+        },
       });
     },
   },

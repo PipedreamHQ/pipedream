@@ -3,7 +3,7 @@ import enrichlayer from "../../enrichlayer.app.mjs";
 export default {
   key: "enrichlayer-search-people",
   name: "Search People",
-  description: "Search for people who meet a set of criteria. Returns up to 10,000,000 results. Cost: 3 credits per profile URL returned. [See the docs](https://enrichlayer.com/docs).",
+  description: "Search for people who meet a set of criteria. Returns a single page of results per call — use the `page` and `page_size` parameters to paginate manually. Cost: 3 credits per profile URL returned. [See the docs](https://enrichlayer.com/docs).",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -377,6 +377,9 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.skills && this.skillsAllInList) {
+      throw new Error("Cannot use both Skills and Skills All In List at the same time. Please provide only one.");
+    }
     const response = await this.enrichlayer._makeRequest({
       $,
       path: "/api/v2/search/person",
