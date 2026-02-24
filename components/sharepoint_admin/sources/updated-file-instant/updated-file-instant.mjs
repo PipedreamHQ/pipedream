@@ -8,12 +8,19 @@ export default {
   name: updatedFileInstant.name,
   description: updatedFileInstant.description,
   type: updatedFileInstant.type,
-  version: "0.0.1",
+  version: "0.0.2",
   methods: {
     ...updatedFileInstant.methods,
   },
   hooks: {
-    ...updatedFileInstant.hooks,
+    async activate() {
+      this.sharepoint = this.sharepointAdmin;
+      return updatedFileInstant.hooks.activate.call(this);
+    },
+    async deactivate() {
+      this.sharepoint = this.sharepointAdmin;
+      return updatedFileInstant.hooks.deactivate.call(this);
+    },
   },
   async run(event) {
     // Create compatibility layer: map this.sharepoint to this.sharepointAdmin

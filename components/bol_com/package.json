@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/bol_com",
+  "version": "0.0.1",
+  "description": "Pipedream Bol.com Components",
+  "main": "bol_com.app.mjs",
+  "keywords": [
+    "pipedream",
+    "bol_com"
+  ],
+  "homepage": "https://pipedream.com/apps/bol_com",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
