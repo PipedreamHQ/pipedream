@@ -41,21 +41,21 @@ export default {
       ],
       optional: true,
     },
-    accountId: {
+    companyId: {
       propDefinition: [
         nutshell,
-        "accountId",
+        "companyId",
       ],
       type: "string[]",
-      description: "The account's Id to the Contact.",
+      description: "The company ID for the contact.",
       optional: true,
     },
     leadId: {
       propDefinition: [
         nutshell,
         "leadId",
-        ({ accountId }) => ({
-          accountId,
+        ({ companyId }) => ({
+          companyId,
         }),
       ],
       optional: true,
@@ -135,8 +135,8 @@ export default {
             leads: this.leadId && this.leadId.map((lead) => ({
               id: lead,
             })),
-            accounts: this.accountId && this.accountId.map((account) => ({
-              id: account,
+            accounts: this.companyId && this.companyId.map((company) => ({
+              id: company,
             })),
             territoryId: this.territoryId,
             audienceId: this.audienceId && this.audienceId.map((audience) => ({

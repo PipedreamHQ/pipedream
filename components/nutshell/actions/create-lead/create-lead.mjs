@@ -27,10 +27,10 @@ export default {
       description: "A list of tags.",
       optional: true,
     },
-    accountId: {
+    companyId: {
       propDefinition: [
         nutshell,
-        "accountId",
+        "companyId",
       ],
       type: "string[]",
       optional: true,
@@ -99,8 +99,8 @@ export default {
             },
             tags: this.tags && parseObject(this.tags),
             description: this.description,
-            accounts: this.accountId && this.accountId.map((account) => ({
-              id: account,
+            accounts: this.companyId && this.companyId.map((company) => ({
+              id: company,
             })),
             contacts: this.contactId && this.contactId.map((contact) => ({
               id: contact,

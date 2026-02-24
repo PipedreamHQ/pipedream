@@ -4,10 +4,10 @@ export default {
   type: "app",
   app: "nutshell",
   propDefinitions: {
-    accountId: {
+    companyId: {
       type: "string",
-      label: "Account Id",
-      description: "The account's Id to the Lead.",
+      label: "Company ID",
+      description: "The company (account) ID.",
       async options({ page }) {
         const { result } = await this.post({
           method: "findAccounts",
@@ -134,7 +134,7 @@ export default {
       label: "Lead Id",
       description: "The lead's Id of the contact.",
       async options({
-        page, accountId,
+        page, companyId,
       }) {
         const { result } = await this.post({
           method: "findLeads",
@@ -142,7 +142,7 @@ export default {
             params: {
               page: page + 1,
               query: {
-                accountId: parseInt(accountId),
+                accountId: parseInt(companyId),
               },
             },
           },
@@ -265,6 +265,67 @@ export default {
         },
         ...opts,
       });
+    },
+    async getAccount({
+      $ = this, companyId,
+    }) {
+      const { result } = await this.post({
+        $,
+        method: "getAccount",
+        data: {
+          params: {
+            accountId: parseInt(companyId, 10),
+          },
+        },
+      });
+      return result;
+    },
+    async getContact({
+      $ = this, contactId,
+    }) {
+      const { result } = await this.post({
+        $,
+        method: "getContact",
+        data: {
+          params: {
+            contactId: parseInt(contactId, 10),
+          },
+        },
+      });
+      return result;
+    },
+    async getLead({
+      $ = this, leadId,
+    }) {
+      const { result } = await this.post({
+        $,
+        method: "getLead",
+        data: {
+          params: {
+            leadId: parseInt(leadId, 10),
+          },
+        },
+      });
+      return result;
+    },
+    async getLeadByNumber({
+      $ = this, leadNumber,
+    }) {
+      const { result } = await this.post({
+        $,
+        method: "findLeads",
+        data: {
+          params: {
+            query: {
+              number: parseInt(leadNumber, 10),
+            },
+            page: 1,
+            limit: 1,
+            stubResponses: false,
+          },
+        },
+      });
+      return result?.[0] ?? null;
     },
     async *paginate({
       method, query,
