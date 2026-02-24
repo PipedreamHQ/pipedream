@@ -7,7 +7,7 @@ export default {
   key: "todoist-export-tasks",
   name: "Export Tasks",
   description: "Export project task names as comma separated file. Returns path to new file. [See the documentation](https://developer.todoist.com/api/v1#tag/Tasks/operation/get_tasks_api_v1_tasks_get)",
-  version: "0.1.3",
+  version: "0.1.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
