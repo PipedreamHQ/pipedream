@@ -10,5 +10,5 @@ export default {
   ...utils.getAppProps(createProject),
   key: "linear-create-project",
   description: "Create a project in Linear. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/inputs/ProjectCreateInput).",
-  version: "0.0.1",
+  version: "0.0.2",
 };
