@@ -4,7 +4,7 @@ export default {
   key: "todoist-delete-filter",
   name: "Delete Filter",
   description: "Deletes a filter. [See the documentation](https://developer.todoist.com/api/v1#tag/Sync/Filters/Delete-a-filter)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
