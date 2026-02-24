@@ -76,10 +76,17 @@ export default {
       do {
         params.limit = LIMIT;
         params.offset = LIMIT * page++;
-        const data = await fn({
-          params,
-          ...opts,
-        });
+        let data;
+        try {
+          data = await fn({
+            params,
+            ...opts,
+          });
+        } catch (error) {
+          data = {
+            [itemsField]: [],
+          };
+        }
         for (const d of data[itemsField]) {
           yield d;
 

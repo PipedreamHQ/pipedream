@@ -44,9 +44,9 @@ export default {
 
       for (const item of responseArray.reverse()) {
         this.$emit(item, {
-          id: item.entityId,
+          id: item.entityId || item.id,
           summary: this.getSummary(item),
-          ts: Date.parse(item.editTime),
+          ts: item.editTime,
         });
       }
     },

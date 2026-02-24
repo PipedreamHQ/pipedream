@@ -65,7 +65,7 @@ export default {
       return this.voluum.listEventLogs;
     },
     getSummary(item) {
-      return `New Event Log: ${item.entityId}`;
+      return `New Event Log: ${item.entityId || item.id}`;
     },
   },
   sampleEmit,
