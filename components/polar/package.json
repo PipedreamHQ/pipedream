@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/polar",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Polar Components",
   "main": "polar.app.mjs",
   "keywords": [
