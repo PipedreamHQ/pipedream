@@ -61,7 +61,7 @@ export default {
     audienceId: {
       type: "string[]",
       label: "Audience Id",
-      description: "The aduence's Id to the Contact.",
+      description: "The audience's Id to the Contact.",
       async options({ page }) {
         const { result } = await this.post({
           method: "findAudiences",
@@ -259,6 +259,15 @@ export default {
         ...opts,
       });
     },
+    /**
+     * Send a JSON-RPC POST request to the Nutshell API.
+     *
+     * @param {Object} opts - Request options
+     * @param {string} opts.method - The RPC method name (e.g. getLead, findLeads)
+     * @param {Object} [opts.data={}] - Additional request payload (e.g. params)
+     * @param {Object} [opts.$=this] - Pipedream context for the request
+     * @returns {Promise<Object>} The API response
+     */
     post({
       method, data, ...opts
     }) {
@@ -271,6 +280,14 @@ export default {
         ...opts,
       });
     },
+    /**
+     * Get a company (account) by ID.
+     *
+     * @param {Object} opts - Options
+     * @param {Object} [opts.$=this] - Pipedream context
+     * @param {string} opts.companyId - The company (account) ID
+     * @returns {Promise<Object>} The account object
+     */
     async getAccount({
       $ = this, companyId,
     }) {
@@ -285,6 +302,14 @@ export default {
       });
       return result;
     },
+    /**
+     * Get a contact by ID.
+     *
+     * @param {Object} opts - Options
+     * @param {Object} [opts.$=this] - Pipedream context
+     * @param {string} opts.contactId - The contact ID
+     * @returns {Promise<Object>} The contact object
+     */
     async getContact({
       $ = this, contactId,
     }) {
@@ -299,6 +324,15 @@ export default {
       });
       return result;
     },
+    /**
+     * Search contacts by string (matches names, emails, etc.).
+     *
+     * @param {Object} opts - Options
+     * @param {Object} [opts.$=this] - Pipedream context
+     * @param {string} opts.string - Search string
+     * @param {number} [opts.limit=1000] - Maximum number of results
+     * @returns {Promise<Array>} Array of contact stubs
+     */
     async searchContacts({
       $ = this, string, limit = 1000,
     }) {
@@ -314,6 +348,15 @@ export default {
       });
       return result ?? [];
     },
+    /**
+     * Search companies (accounts) by string (matches company names, etc.).
+     *
+     * @param {Object} opts - Options
+     * @param {Object} [opts.$=this] - Pipedream context
+     * @param {string} opts.string - Search string
+     * @param {number} [opts.limit=1000] - Maximum number of results
+     * @returns {Promise<Array>} Array of account stubs
+     */
     async searchCompanies({
       $ = this, string, limit = 1000,
     }) {
@@ -329,6 +372,15 @@ export default {
       });
       return result ?? [];
     },
+    /**
+     * Search leads by string (matches lead names, descriptions, etc.).
+     *
+     * @param {Object} opts - Options
+     * @param {Object} [opts.$=this] - Pipedream context
+     * @param {string} opts.string - Search string
+     * @param {number} [opts.limit=1000] - Maximum number of results
+     * @returns {Promise<Array>} Array of formatted lead results
+     */
     async searchLeads({
       $ = this, string, limit = 1000,
     }) {
@@ -344,6 +396,14 @@ export default {
       });
       return (result ?? []).map(formatSearchLeadResult);
     },
+    /**
+     * Get a lead by ID.
+     *
+     * @param {Object} opts - Options
+     * @param {Object} [opts.$=this] - Pipedream context
+     * @param {string} opts.leadId - The lead ID
+     * @returns {Promise<Object|null>} The lead object or null
+     */
     async getLead({
       $ = this, leadId,
     }) {
@@ -358,6 +418,16 @@ export default {
       });
       return result;
     },
+    /**
+     * Update an existing contact.
+     *
+     * @param {Object} opts - Options
+     * @param {Object} [opts.$=this] - Pipedream context
+     * @param {string} opts.contactId - The contact ID to update
+     * @param {string|null} [opts.rev=null] - Revision for optimistic locking
+     * @param {Object} opts.contact - Contact fields to update
+     * @returns {Promise<Object>} The updated contact
+     */
     async editContact({
       $ = this, contactId, rev, contact,
     }) {
@@ -374,6 +444,16 @@ export default {
       });
       return result;
     },
+    /**
+     * Update an existing company (account).
+     *
+     * @param {Object} opts - Options
+     * @param {Object} [opts.$=this] - Pipedream context
+     * @param {string} opts.companyId - The company (account) ID to update
+     * @param {string|null} [opts.rev=null] - Revision for optimistic locking
+     * @param {Object} opts.account - Account fields to update
+     * @returns {Promise<Object>} The updated account
+     */
     async editAccount({
       $ = this, companyId, rev, account,
     }) {
@@ -390,6 +470,16 @@ export default {
       });
       return result;
     },
+    /**
+     * Update an existing lead.
+     *
+     * @param {Object} opts - Options
+     * @param {Object} [opts.$=this] - Pipedream context
+     * @param {string} opts.leadId - The lead ID to update
+     * @param {string|null} [opts.rev=null] - Revision for optimistic locking
+     * @param {Object} opts.lead - Lead fields to update
+     * @returns {Promise<Object>} The updated lead
+     */
     async editLead({
       $ = this, leadId, rev, lead,
     }) {
@@ -406,15 +496,43 @@ export default {
       });
       return result;
     },
+    /**
+     * Format a contact for component output (id, name, emails, phones, etc.).
+     *
+     * @param {Object} contact - Raw contact from the API
+     * @returns {Object} Formatted contact object
+     */
     formatContact(contact) {
       return formatContactForOutput(contact);
     },
+    /**
+     * Format a company (account) for component output, including nested contacts.
+     *
+     * @param {Object} company - Raw account from the API
+     * @param {Function} [formatContact=formatContactForOutput] - Contact formatter
+     * @returns {Object} Formatted company object
+     */
     formatCompany(company) {
       return formatCompanyForOutput(company, formatContactForOutput);
     },
+    /**
+     * Format a lead for component output (id, description, status, primary company/contact, etc.).
+     *
+     * @param {Object} lead - Raw lead from the API
+     * @param {Function} [formatContact=formatContactForOutput] - Contact formatter
+     * @returns {Object} Formatted lead object
+     */
     formatLead(lead) {
       return formatLeadForOutput(lead, formatContactForOutput);
     },
+    /**
+     * Get a lead by its display number (e.g. 1000 for Lead-1000).
+     *
+     * @param {Object} opts - Options
+     * @param {Object} [opts.$=this] - Pipedream context
+     * @param {string} opts.leadNumber - The lead number shown in the Nutshell UI
+     * @returns {Promise<Object|null>} The lead object or null
+     */
     async getLeadByNumber({
       $ = this, leadNumber,
     }) {
@@ -434,6 +552,15 @@ export default {
       });
       return result?.[0] ?? null;
     },
+    /**
+     * Paginate through a find* RPC method (e.g. findLeads, findContacts).
+     * Yields items page by page in descending ID order.
+     *
+     * @param {Object} opts - Options
+     * @param {string} opts.method - The RPC method name (e.g. findLeads)
+     * @param {Object} [opts.query={}] - Query params for the find method
+     * @yields {Object} Each item from the result set
+     */
     async *paginate({
       method, query,
     }) {

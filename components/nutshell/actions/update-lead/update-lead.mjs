@@ -4,8 +4,8 @@ import nutshell from "../../nutshell.app.mjs";
 export default {
   key: "nutshell-update-lead",
   name: "Update Lead",
-  description: "Update an existing lead. Only provided fields are updated. Custom fields from your Nutshell pipeline can be set below.",
-  version: "0.0.5",
+  description: "Update an existing lead. Only provided fields are updated. Custom fields from your Nutshell pipeline can be set below. [See the documentation](https://developers-rpc.nutshell.com/#json-rpc)",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

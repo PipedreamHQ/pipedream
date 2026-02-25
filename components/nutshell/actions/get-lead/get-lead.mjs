@@ -3,11 +3,11 @@ import nutshell from "../../nutshell.app.mjs";
 export default {
   key: "nutshell-get-lead",
   name: "Get Lead",
-  description: "Get a lead by ID.",
-  version: "0.0.6",
+  description: "Get a lead by ID. [See the documentation](https://developers-rpc.nutshell.com/#json-rpc)",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
-    openWorldHint: true,
+    openWorldHint: false,
     readOnlyHint: true,
   },
   type: "action",

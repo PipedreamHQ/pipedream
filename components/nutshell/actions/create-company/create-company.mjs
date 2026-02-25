@@ -4,8 +4,8 @@ import nutshell from "../../nutshell.app.mjs";
 export default {
   key: "nutshell-create-company",
   name: "Create Company",
-  description: "Creates a new company within Nutshell. [See the documentation](https://developers.nutshell.com/detail/class_core.html#a491d4330ca35e5403edd48a2cfd3b275)",
-  version: "0.0.2",
+  description: "Creates a new company within Nutshell. [See the documentation](https://developers-rpc.nutshell.com/detail/class_core.html#a491d4330ca35e5403edd48a2cfd3b275)",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
