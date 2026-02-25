@@ -1,5 +1,4 @@
 import app from "../../ical.app.mjs";
-import ical2json from "ical2json";
 
 export default {
   name: "Search Event",
@@ -25,15 +24,13 @@ export default {
       $,
     });
 
-    const calendarData = ical2json.convert(response);
-
-    if (!calendarData?.VCALENDAR?.length || !calendarData?.VCALENDAR[0].VEVENT?.length) {
+    if (!response?.VCALENDAR?.length || !response?.VCALENDAR[0].VEVENT?.length) {
       $.export("$summary", "No events found");
     }
 
-    const event = calendarData?.VCALENDAR[0].VEVENT.find((event) =>
-      event.SUMMARY?.toLowerCase().includes(this.search.toLowerCase()) ||
-            event.DESCRIPTION?.toLowerCase().includes(this.search.toLowerCase()));
+    const event = response?.VCALENDAR.find((event) =>
+      event.VEVENT[0].SUMMARY?.toLowerCase().includes(this.search.toLowerCase()) ||
+            event.VEVENT[0].DESCRIPTION?.toLowerCase().includes(this.search.toLowerCase()));
 
     if (event) {
       $.export("$summary", `Successfully retrieved event with summary \`${event.SUMMARY}\``);
