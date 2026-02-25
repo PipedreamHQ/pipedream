@@ -48,8 +48,8 @@ export default {
       $,
       data: {
         name: this.name,
-        description: this.description ?? "",
-        type: this.type ?? "Story",
+        description: this.description,
+        type: this.type,
         board: this.boardCode,
         sprint: this.sprint,
       },

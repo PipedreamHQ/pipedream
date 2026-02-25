@@ -31,7 +31,6 @@ export default {
     const response = await this.vivifyscrum.deleteBoardItem({
       $,
       data: {
-        board: this.boardCode,
         task: this.itemHashcode,
         delete_subtasks: this.removeSubitems,
       },
