@@ -50,6 +50,15 @@ export default {
       description: "The company ID for the contact.",
       optional: true,
     },
+    accountId: {
+      propDefinition: [
+        nutshell,
+        "accountId",
+      ],
+      type: "string[]",
+      description: "The account ID for the contact.",
+      optional: true,
+    },
     leadId: {
       propDefinition: [
         nutshell,
@@ -120,6 +129,13 @@ export default {
     },
   },
   async run({ $ }) {
+
+    // To keep backwards compatibility, but maintain consistency across the original conventions.
+    // we are setting the companyId to the accountId if it is provided.
+    if (this.accountId) {
+      this.companyId = this.accountId;
+    }
+
     const customFields = await this.parseCustomFields(this);
     const response = await this.nutshell.post({
       $,
