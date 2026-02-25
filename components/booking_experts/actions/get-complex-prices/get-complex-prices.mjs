@@ -4,7 +4,7 @@ export default {
   key: "booking_experts-get-complex-prices",
   name: "Get Complex Prices",
   description: "Returns all complex prices of a master price list. [See the documentation](https://developers.bookingexperts.com/reference/administration-masterpricelist-complexprices-index)",
-  version: "0.0.8",
+  version: "0.0.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
