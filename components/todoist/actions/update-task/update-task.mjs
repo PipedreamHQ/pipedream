@@ -4,7 +4,7 @@ export default {
   key: "todoist-update-task",
   name: "Update Task",
   description: "Updates a task. [See the documentation](https://developer.todoist.com/api/v1#tag/Tasks/operation/update_task_api_v1_tasks__task_id__post)",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

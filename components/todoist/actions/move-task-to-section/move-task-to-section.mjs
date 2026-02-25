@@ -4,7 +4,7 @@ export default {
   key: "todoist-move-task-to-section",
   name: "Move Task To Section",
   description: "Move a Task to a different section within the same project. [See the documentation](https://developer.todoist.com/api/v1#tag/Tasks/operation/move_task_api_v1_tasks__task_id__move_post)",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
