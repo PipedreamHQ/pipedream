@@ -85,7 +85,7 @@ export default {
         return orderItems?.map(({
           orderItemId, product,
         }) => ({
-          label: product.title,
+          label: product?.title || `Order Item ID: ${orderItemId}`,
           value: orderItemId,
         })) || [];
       },
@@ -142,6 +142,7 @@ export default {
     }) {
       return this._makeRequest({
         path: `/retailer/shipping-labels/${shippingLabelId}`,
+        responseType: "arraybuffer",
         ...opts,
       });
     },

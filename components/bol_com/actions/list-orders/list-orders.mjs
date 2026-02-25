@@ -48,7 +48,7 @@ export default {
     },
     vvb: {
       type: "string",
-      label: "VVV",
+      label: "VVB",
       description: "Filters results to include only orders fulfilled through VVB",
       optional: true,
     },

@@ -24,7 +24,7 @@ export default {
       $,
       shippingLabelId: this.shippingLabelId,
     });
-    $.export("$summary", `Successfully retrieved shipping label: ${response.shippingLabelId}`);
+    $.export("$summary", `Successfully retrieved shipping label: ${this.shippingLabelId}`);
     return response;
   },
 };
