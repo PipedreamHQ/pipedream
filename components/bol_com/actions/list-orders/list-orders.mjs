@@ -40,9 +40,9 @@ export default {
       description: "Indicate the period in minutes, to filter order items based on their most recent change",
       optional: true,
     },
-    lastChangeDate: {
+    latestChangeDate: {
       type: "string",
-      label: "Last Change Date",
+      label: "Latest Change Date",
       description: "To filter on the date on which the latest change was performed on an order item. Up to 3 months of history is supported.",
       optional: true,
     },
@@ -61,7 +61,7 @@ export default {
         "fulfilment-method": this.fulfilmentMethod,
         "status": this.status,
         "change-interval-minute": this.changeIntervalMinute,
-        "last-change-date": this.lastChangeDate,
+        "latest-change-date": this.latestChangeDate,
         "vvb": this.vvb,
       },
     });
