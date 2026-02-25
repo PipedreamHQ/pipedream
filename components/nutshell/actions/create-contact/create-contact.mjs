@@ -149,6 +149,7 @@ export default {
     });
 
     $.export("$summary", `New contact created with Id: ${response.result?.id}`);
+    // Note: Left out the formatContact for now to avoid breaking changes
     return response;
   },
 };

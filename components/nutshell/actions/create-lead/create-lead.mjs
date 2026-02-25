@@ -111,6 +111,7 @@ export default {
       },
     });
     $.export("$summary", `Successfully created lead with Id: ${response.result.id}`);
+    // Note: Left out the formatLead for now to avoid breaking changes
     return response;
   },
 };

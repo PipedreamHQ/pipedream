@@ -127,6 +127,7 @@ export default {
       },
     });
     $.export("$summary", `Successfully created company with Id: ${response.result?.id}`);
+    // Note: Left out the formatCompany for now to avoid breaking changes
     return response;
   },
 };
