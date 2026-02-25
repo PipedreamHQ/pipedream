@@ -16,6 +16,7 @@ export const CONTACT_OUTPUT_FIELDS = [
   "modifiedTime",
   "lastContactedDate",
   "contactedCount",
+  "customFields",
 ];
 
 /**

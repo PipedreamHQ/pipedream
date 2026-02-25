@@ -4,7 +4,7 @@ export default {
   key: "nutshell-get-contact",
   name: "Get Contact",
   description: "Get a contact by ID. [See the documentation](https://developers-rpc.nutshell.com/detail/class_core.html#ae2873af072fb636ea2eae1403653da8e)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
