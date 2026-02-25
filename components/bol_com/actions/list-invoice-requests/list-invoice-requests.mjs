@@ -19,6 +19,7 @@ export default {
         bolCom,
         "shipmentId",
       ],
+      optional: true,
     },
     page: {
       propDefinition: [
