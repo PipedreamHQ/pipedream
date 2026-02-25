@@ -3,8 +3,8 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-create-project",
   name: "Create Project",
-  description: "Creates a project. [See the docs here](https://developer.todoist.com/rest/v2/#create-a-new-project)",
-  version: "0.0.4",
+  description: "Creates a project. [See the documentation](https://developer.todoist.com/api/v1#tag/Projects/operation/create_project_api_v1_projects_post)",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -50,7 +50,7 @@ export default {
       name,
       parent_id: parent,
       color,
-      favorite,
+      is_favorite: favorite,
     };
     const resp = await this.todoist.createProject({
       $,

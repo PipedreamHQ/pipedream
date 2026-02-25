@@ -4,7 +4,7 @@ export default {
   key: "google_drive-get-comment",
   name: "Get Comment By ID",
   description: "Get comment by ID on a specific file. [See the documentation](https://developers.google.com/workspace/drive/api/reference/rest/v3/comments/get) for more information",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

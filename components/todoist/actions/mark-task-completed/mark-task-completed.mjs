@@ -3,8 +3,8 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-mark-task-completed",
   name: "Mark Task as Completed",
-  description: "Marks a task as being completed. [See the docs here](https://developer.todoist.com/rest/v2/#close-a-task)",
-  version: "0.0.4",
+  description: "Marks a task as being completed. [See the documentation](https://developer.todoist.com/api/v1#tag/Tasks/operation/close_task_api_v1_tasks__task_id__close_post)",
+  version: "0.0.6",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

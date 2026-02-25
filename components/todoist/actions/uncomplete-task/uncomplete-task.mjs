@@ -3,8 +3,8 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-uncomplete-task",
   name: "Uncomplete Task",
-  description: "Uncompletes a task. [See the docs here](https://developer.todoist.com/rest/v2/#reopen-a-task)",
-  version: "0.0.4",
+  description: "Uncompletes a task. [See the documentation](https://developer.todoist.com/api/v1#tag/Tasks/operation/reopen_task_api_v1_tasks__task_id__reopen_post)",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

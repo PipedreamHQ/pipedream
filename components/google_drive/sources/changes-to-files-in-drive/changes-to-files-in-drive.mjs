@@ -13,7 +13,7 @@ export default {
   key: "google_drive-changes-to-files-in-drive",
   name: "Changes to Files in Drive",
   description: "Emit new event when a change is made to one of the specified files. [See the documentation](https://developers.google.com/drive/api/v3/reference/changes/watch)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {

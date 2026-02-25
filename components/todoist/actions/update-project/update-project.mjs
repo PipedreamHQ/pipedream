@@ -3,8 +3,8 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-update-project",
   name: "Update Project",
-  description: "Updates a project. [See the docs here](https://developer.todoist.com/rest/v2/#update-a-project)",
-  version: "0.0.4",
+  description: "Updates a project. [See the documentation](https://developer.todoist.com/api/v1#tag/Projects/operation/update_project_api_v1_projects__project_id__post)",
+  version: "0.0.6",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -51,7 +51,7 @@ export default {
       projectId,
       name,
       color,
-      favorite,
+      is_favorite: favorite,
     };
     // No interesting data is returned from Todoist
     await this.todoist.updateProject({

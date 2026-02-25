@@ -142,7 +142,7 @@ async function callAxios(step: PipedreamStep | undefined, config: AxiosRequestCo
       : response.data;
   } catch (err) {
     const axiosErr = err as AxiosError;
-    if (axiosErr.response) {
+    if (axiosErr.response && step?.context) {
       convertAxiosError(axiosErr);
       stepExport(step, axiosErr.response, "debug");
     }

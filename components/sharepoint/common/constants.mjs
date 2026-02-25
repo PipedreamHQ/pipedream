@@ -1,3 +1,21 @@
+/**
+ * Microsoft Graph subscription constants for SharePoint webhooks.
+ * https://learn.microsoft.com/en-us/graph/api/subscription-post-subscriptions
+ */
+
+/**
+ * Maximum subscription lifetime for driveItem resources is 42,300 minutes (~29.4 days).
+ * We use 29 days in milliseconds to stay safely within the limit.
+ */
+const WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS = 29 * 24 * 60 * 60 * 1000;
+
+/**
+ * Renewal interval at 95% of max lifetime to ensure renewal before expiration.
+ * 29 days * 0.95 = 27.55 days = 2,380,320 seconds
+ */
+const WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS =
+  (WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS * 0.95) / 1000;
+
 const SHARING_LINK_TYPE_OPTIONS = [
   {
     label: "Create a read-only link to the DriveItem",
@@ -83,6 +101,11 @@ const RETURN_CONTENT_TYPE_OPTIONS = [
     value: "all",
   },
 ];
+
+export {
+  WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS,
+  WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS,
+};
 
 export default {
   SHARING_LINK_TYPE_OPTIONS,

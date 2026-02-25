@@ -174,6 +174,9 @@ export default {
         throw new Error("Please provide either a URL or HTML Content, not both");
       }
 
+      // Convert camelCase prop names to snake_case API parameters
+      const toSnakeCase = (str) => str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
+
       // Build form data
       const formData = new URLSearchParams();
 
@@ -183,13 +186,13 @@ export default {
         formData.append("text", htmlContent);
       }
 
-      // Add all other options
+      // Add all other options (convert camelCase to snake_case for API)
       for (const [
         key,
         value,
       ] of Object.entries(params)) {
         if (value !== undefined && value !== null && value !== "") {
-          formData.append(key, String(value));
+          formData.append(toSnakeCase(key), String(value));
         }
       }
 
@@ -201,7 +204,7 @@ export default {
         auth: this._auth(),
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
-          "User-Agent": "pdfcrowd-pipedream/0.0.1",
+          "User-Agent": "pdfcrowd-pipedream/0.1.1",
         },
         data: formData.toString(),
         responseType: "arraybuffer",

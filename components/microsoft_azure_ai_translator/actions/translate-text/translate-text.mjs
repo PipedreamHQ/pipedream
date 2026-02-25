@@ -4,7 +4,7 @@ export default {
   key: "microsoft_azure_ai_translator-translate-text",
   name: "Translate Text",
   description: "Translate text into the specified language. [See the documentation](https://learn.microsoft.com/en-us/azure/ai-services/translator/reference/v3-0-translate)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

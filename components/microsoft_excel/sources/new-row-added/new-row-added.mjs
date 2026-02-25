@@ -4,8 +4,8 @@ export default {
   ...common,
   key: "microsoft_excel-new-row-added",
   name: "New Row Added",
-  description: "Emit new event when when a new row is added to an Excel worksheet",
-  version: "0.0.1",
+  description: "Emit new event when a new row is added to an Excel worksheet",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

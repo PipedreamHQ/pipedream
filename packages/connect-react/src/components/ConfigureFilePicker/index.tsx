@@ -16,6 +16,10 @@ export interface FilePickerItem {
   value: unknown;
   isFolder?: boolean;
   size?: number;
+  childCount?: number;
+  lastModifiedDateTime?: string;
+  webUrl?: string;
+  description?: string;
   raw?: unknown;
 }
 
@@ -39,11 +43,81 @@ export interface FilePickerIcons {
 }
 
 /**
+ * Simple SVG icon components
+ */
+const FolderIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <title>Folder</title>
+    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" fill="#93c5fd" stroke="#3b82f6" />
+  </svg>
+);
+
+const FileIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <title>File</title>
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" fill="#f3f4f6" stroke="#9ca3af" />
+    <polyline points="14 2 14 8 20 8" fill="#e5e7eb" stroke="#9ca3af" />
+  </svg>
+);
+
+const RefreshIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <title>Refresh</title>
+    <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2" />
+  </svg>
+);
+
+/**
+ * Spin animation keyframes for loading states (scoped name to avoid collisions)
+ */
+const filePickerSpinKeyframes = `
+  @keyframes filePickerSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+`;
+
+/**
+ * Format file size to human readable string
+ */
+const formatFileSize = (bytes?: number): string => {
+  if (bytes === undefined || bytes === null) return "";
+  if (bytes === 0) return "0 B";
+  const k = 1024;
+  const sizes = [
+    "B",
+    "KB",
+    "MB",
+    "GB",
+    "TB",
+    "PB",
+  ];
+  const i = Math.min(
+    Math.floor(Math.log(bytes) / Math.log(k)),
+    sizes.length - 1,
+  );
+  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(1))} ${sizes[i]}`;
+};
+
+/**
+ * Format date to absolute format (e.g., "January 21, 2026")
+ */
+const formatDate = (isoDate?: string): string => {
+  if (!isoDate) return "";
+  const date = new Date(isoDate);
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+};
+
+/**
  * Default icons used when none are specified
  */
 const DEFAULT_ICONS: FilePickerIcons = {
-  folder: "📁",
-  file: "📄",
+  folder: <FolderIcon />,
+  file: <FileIcon />,
 };
 
 // ============================================================================
@@ -255,6 +329,22 @@ export const FILE_PICKER_APPS: Record<string, FilePickerAppConfig> = {
     fileOrFolderProp: "fileOrFolderIds",
     folderProp: "folderId",
   },
+  sharepoint_admin: {
+    app: "sharepoint_admin",
+    appPropName: "sharepointAdmin",
+    propHierarchy: [
+      "siteId",
+      "driveId",
+      "fileOrFolderIds",
+    ],
+    propLabels: {
+      siteId: "Sites",
+      driveId: "Drives",
+      fileOrFolderIds: "Files & Folders",
+    },
+    fileOrFolderProp: "fileOrFolderIds",
+    folderProp: "folderId",
+  },
   // Future apps can be added here:
   // google_drive: { ... },
   // dropbox: { ... },
@@ -334,11 +424,6 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
   const appConfig = customAppConfig || FILE_PICKER_APPS[app];
   const hasValidConfig = !!appConfig;
 
-  // Log missing config error (but don't early return to preserve hook order)
-  if (!hasValidConfig) {
-    console.error(`[ConfigureFilePicker] No configuration found for app "${app}". Provide appConfig prop or use a supported app.`);
-  }
-
   // Extract config values with safe defaults to ensure hooks run unconditionally
   const {
     propHierarchy = [],
@@ -349,10 +434,11 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
 
   // Debug logger (memoized to maintain stable reference)
   const log = useCallback(
-    debug
-      // eslint-disable-next-line no-console
-      ? (...args: unknown[]) => console.log("[ConfigureFilePicker]", ...args)
-      : () => {},
+    (...args: unknown[]) => {
+      if (debug) {
+        console.log("[ConfigureFilePicker]", ...args);
+      }
+    },
     [
       debug,
     ],
@@ -383,11 +469,55 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
     setNavigationPath,
   ] = useState<NavigationLevel[]>([]);
 
-  // Currently selected items
+  // Currently selected items - initialize from initialConfiguredProps if available
   const [
     selectedItems,
     setSelectedItems,
-  ] = useState<FilePickerItem[]>([]);
+  ] = useState<FilePickerItem[]>(() => {
+    if (!initialConfiguredProps || !fileOrFolderProp) return [];
+
+    const fileOrFolderIds = initialConfiguredProps[fileOrFolderProp];
+    if (!Array.isArray(fileOrFolderIds)) return [];
+
+    // Parse the JSON strings back into FilePickerItem format
+    const items: FilePickerItem[] = [];
+    for (const item of fileOrFolderIds) {
+      try {
+        const parsed = typeof item === "string"
+          ? JSON.parse(item)
+          : item;
+        if (parsed && typeof parsed === "object") {
+          const {
+            id, name, isFolder, size, childCount, lastModifiedDateTime, webUrl, description,
+          } = parsed as Record<string, unknown>;
+          items.push({
+            id: String(id ?? ""),
+            label: String(name ?? ""),
+            value: parsed,
+            isFolder: Boolean(isFolder),
+            size: typeof size === "number"
+              ? size
+              : undefined,
+            childCount: typeof childCount === "number"
+              ? childCount
+              : undefined,
+            lastModifiedDateTime: typeof lastModifiedDateTime === "string"
+              ? lastModifiedDateTime
+              : undefined,
+            webUrl: typeof webUrl === "string"
+              ? webUrl
+              : undefined,
+            description: typeof description === "string"
+              ? description
+              : undefined,
+          });
+        }
+      } catch {
+        // Failed to parse, skip this item
+      }
+    }
+    return items;
+  });
 
   // Current prop being browsed
   const [
@@ -401,6 +531,12 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
     setShowLoading,
   ] = useState(false);
   const loadingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Search query for filtering items
+  const [
+    searchQuery,
+    setSearchQuery,
+  ] = useState("");
 
   // Determine which prop to fetch options for based on configured props
   useEffect(() => {
@@ -424,6 +560,8 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
     data: optionsData,
     isLoading,
     error,
+    refetch,
+    isFetching,
   } = useQuery({
     queryKey: [
       "configureFilePicker",
@@ -447,10 +585,6 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
         optionsCount: response.options?.length || 0,
         errors: response.errors,
       });
-
-      if (response.errors?.length) {
-        console.error("[ConfigureFilePicker] API errors:", response.errors);
-      }
 
       return response;
     },
@@ -483,18 +617,22 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
   ]);
 
   // Parse options into FilePickerItem format
-  const items: FilePickerItem[] = (optionsData?.options || []).map((opt) => {
+  const allItems: FilePickerItem[] = (optionsData?.options || []).map((opt) => {
     const sanitized = sanitizeOption(opt);
     const label = sanitized.label;
     const rawValue = typeof sanitized.value === "string"
       ? sanitized.value
       : JSON.stringify(sanitized.value);
 
-    // Try to parse JSON value once (fileOrFolderIds returns JSON with {id, name, isFolder, size})
+    // Try to parse JSON value once (fileOrFolderIds returns JSON with {id, name, isFolder, size, childCount, lastModifiedDateTime})
     let isFolder = false;
     let id = rawValue;
     let name = label.replace(/^📁\s*/, "").replace(/^📄\s*/, "");
     let size: number | undefined;
+    let childCount: number | undefined;
+    let lastModifiedDateTime: string | undefined;
+    let webUrl: string | undefined;
+    let description: string | undefined;
     let parsedValue: unknown = rawValue;
 
     try {
@@ -505,6 +643,10 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
         name = parsed.name || name;
         isFolder = !!parsed.isFolder;
         size = parsed.size;
+        childCount = parsed.childCount;
+        lastModifiedDateTime = parsed.lastModifiedDateTime;
+        webUrl = parsed.webUrl;
+        description = parsed.description;
       }
     } catch {
       // Not JSON, check label for folder indicators
@@ -517,11 +659,31 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
       value: parsedValue,
       isFolder,
       size,
+      childCount,
+      lastModifiedDateTime,
+      webUrl,
+      description,
       raw: opt,
     };
   });
 
-  log("Parsed items:", items.length, "for prop:", currentProp);
+  // Filter items based on search query
+  const items = searchQuery
+    ? allItems.filter((item) =>
+      item.label.toLowerCase().includes(searchQuery.toLowerCase()))
+    : allItems;
+
+  log("Parsed items:", allItems.length, "filtered:", items.length, "for prop:", currentProp);
+
+  // Debug: log first item's raw data and parsed values
+  if (debug && allItems.length > 0) {
+    log("First item raw:", allItems[0].raw);
+    log("First item parsed:", {
+      size: allItems[0].size,
+      childCount: allItems[0].childCount,
+      lastModifiedDateTime: allItems[0].lastModifiedDateTime,
+    });
+  }
 
   // Handle item click (navigate into folder or select file/folder)
   const handleItemClick = useCallback((item: FilePickerItem) => {
@@ -529,6 +691,8 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
 
     // At file/folder level, clicking a folder navigates into it
     if (currentProp === fileOrFolderProp && item.isFolder) {
+      setSearchQuery(""); // Clear search when navigating into folder
+
       const newPath: NavigationLevel = {
         propName: "folder",
         label: item.label,
@@ -641,6 +805,7 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
 
   // Navigate to a specific level in the path
   const navigateTo = useCallback((index: number) => {
+    setSearchQuery(""); // Clear search when navigating
     if (index < 0) {
       // Go to root
       setNavigationPath([]);
@@ -649,7 +814,7 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
           authProvisionId: accountId,
         },
       });
-      setSelectedItems([]);
+      // Don't clear selectedItems - preserve selections across navigation
       return;
     }
 
@@ -671,7 +836,7 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
       newConfiguredProps[propKey] = level.value;
     }
     setConfiguredProps(newConfiguredProps);
-    setSelectedItems([]);
+    // Don't clear selectedItems - preserve selections across navigation
   }, [
     navigationPath,
     accountId,
@@ -686,6 +851,41 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
     selectedItems,
     configuredProps,
     onSelect,
+  ]);
+
+  // Get selectable items on current page (respects selectFiles/selectFolders settings)
+  const selectableItems = currentProp === fileOrFolderProp
+    ? items.filter((item) =>
+      (item.isFolder && selectFolders) || (!item.isFolder && selectFiles))
+    : [];
+
+  // Check if all selectable items on current page are selected
+  const allSelectableSelected = selectableItems.length > 0 &&
+    selectableItems.every((item) => selectedItems.some((s) => s.id === item.id));
+
+  // Check if some (but not all) selectable items are selected
+  const someSelectableSelected = selectableItems.some((item) =>
+    selectedItems.some((s) => s.id === item.id)) && !allSelectableSelected;
+
+  // Handle select all / deselect all for current page
+  const handleSelectAll = useCallback((selectAll: boolean) => {
+    if (selectAll) {
+      // Add all selectable items from current page that aren't already selected
+      setSelectedItems((prev) => {
+        const existingIds = new Set(prev.map((i) => i.id));
+        const newItems = selectableItems.filter((item) => !existingIds.has(item.id));
+        return [
+          ...prev,
+          ...newItems,
+        ];
+      });
+    } else {
+      // Remove all items from current page from selection
+      const currentPageIds = new Set(selectableItems.map((i) => i.id));
+      setSelectedItems((prev) => prev.filter((item) => !currentPageIds.has(item.id)));
+    }
+  }, [
+    selectableItems,
   ]);
 
   // Generate styles with current theme and selection count
@@ -710,171 +910,432 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
   }
 
   return (
-    <div style={styles.container}>
-      {/* Header with breadcrumbs */}
-      <div style={styles.header}>
-        <div style={styles.breadcrumb}>
-          <span
-            role="button"
-            tabIndex={0}
-            style={styles.breadcrumbItem}
-            onClick={() => navigateTo(-1)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                navigateTo(-1);
-              }
-            }}
-            onMouseEnter={(e) => {
-              (e.target as HTMLElement).style.backgroundColor = theme.colors.neutral10 || "";
-            }}
-            onMouseLeave={(e) => {
-              (e.target as HTMLElement).style.backgroundColor = "";
-            }}
-          >
+    <>
+      {/* Inject keyframes once at component level */}
+      <style>{filePickerSpinKeyframes}</style>
+      <div style={styles.container}>
+        {/* Header with breadcrumbs */}
+        <div style={styles.header}>
+          <div style={styles.breadcrumb}>
+            <span
+              role="button"
+              tabIndex={0}
+              style={styles.breadcrumbItem}
+              onClick={() => navigateTo(-1)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  navigateTo(-1);
+                }
+              }}
+              onMouseEnter={(e) => {
+                (e.target as HTMLElement).style.backgroundColor = theme.colors.neutral10 || "";
+              }}
+              onMouseLeave={(e) => {
+                (e.target as HTMLElement).style.backgroundColor = "";
+              }}
+            >
             Home
-          </span>
-          {navigationPath.map((level, index) => (
-            <span key={`${level.propName}-${index}`} style={{
+            </span>
+            {navigationPath.map((level, index) => (
+              <span key={`${level.propName}-${index}`} style={{
+                display: "flex",
+                alignItems: "center",
+              }}>
+                <span style={styles.breadcrumbSeparator}>/</span>
+                <span
+                  role="button"
+                  tabIndex={0}
+                  style={styles.breadcrumbItem}
+                  onClick={() => navigateTo(index)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      navigateTo(index);
+                    }
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.target as HTMLElement).style.backgroundColor = theme.colors.neutral10 || "";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.target as HTMLElement).style.backgroundColor = "";
+                  }}
+                >
+                  {level.label}
+                </span>
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Search toolbar - only show at file/folder level */}
+        {currentProp === fileOrFolderProp && !showLoading && !error && allItems.length > 0 && (
+          <div style={{
+            padding: "10px 16px",
+            borderBottom: `1px solid ${theme.colors.neutral10}`,
+          }}>
+            {/* Search input with clear button on left */}
+            <div style={{
               display: "flex",
               alignItems: "center",
+              gap: "8px",
             }}>
-              <span style={styles.breadcrumbSeparator}>/</span>
-              <span
-                role="button"
-                tabIndex={0}
-                style={styles.breadcrumbItem}
-                onClick={() => navigateTo(index)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    navigateTo(index);
-                  }
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery("")}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    color: theme.colors.neutral40,
+                    fontSize: "16px",
+                    padding: "2px",
+                    lineHeight: 1,
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                  aria-label="Clear search"
+                >
+                ×
+                </button>
+              )}
+              <input
+                type="text"
+                placeholder="Search files..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                style={{
+                  flex: 1,
+                  padding: "6px 10px",
+                  fontSize: "13px",
+                  border: `1px solid ${theme.colors.neutral20}`,
+                  borderRadius: "4px",
+                  backgroundColor: theme.colors.neutral0,
+                  color: theme.colors.neutral80,
+                  outline: "none",
                 }}
-                onMouseEnter={(e) => {
-                  (e.target as HTMLElement).style.backgroundColor = theme.colors.neutral10 || "";
-                }}
-                onMouseLeave={(e) => {
-                  (e.target as HTMLElement).style.backgroundColor = "";
-                }}
-              >
-                {level.label}
-              </span>
-            </span>
-          ))}
-        </div>
-      </div>
-
-      {/* Content */}
-      {showLoading
-        ? (
-          <div style={styles.loading}>Loading...</div>
-        )
-        : error
-          ? (
-            <div style={styles.error}>
-              Failed to load items: {error instanceof Error
-                ? error.message
-                : "Unknown error"}
+              />
             </div>
-          )
-          : items.length === 0
-            ? (
-              <div style={styles.empty}>No items found</div>
-            )
-            : (
-              <ul style={styles.list}>
-                {items.map((item) => {
-                  const selected = isSelected(item);
-                  // Show checkbox at file/folder level for selectable items
-                  const canSelect = currentProp === fileOrFolderProp && (
-                    (item.isFolder && selectFolders) || (!item.isFolder && selectFiles)
-                  );
+          </div>
+        )}
 
-                  return (
-                    <li
-                      key={item.id}
-                      role="button"
-                      tabIndex={0}
-                      style={{
-                        ...styles.item,
-                        backgroundColor: selected
-                          ? theme.colors.primary25
-                          : undefined,
-                      }}
-                      onClick={() => handleItemClick(item)}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" || e.key === " ") {
-                          e.preventDefault();
-                          handleItemClick(item);
-                        }
-                      }}
-                      onMouseEnter={(e) => {
-                        if (!selected) {
-                          (e.currentTarget as HTMLElement).style.backgroundColor = theme.colors.neutral5 || "";
-                        }
-                      }}
-                      onMouseLeave={(e) => {
-                        (e.currentTarget as HTMLElement).style.backgroundColor = selected
-                          ? theme.colors.primary25 || ""
-                          : "";
-                      }}
-                    >
-                      {canSelect && (
+        {/* Content */}
+        {showLoading
+          ? (
+            <div style={styles.loading}>Loading...</div>
+          )
+          : error
+            ? (
+              <div style={styles.error}>
+              Failed to load items: {error instanceof Error
+                  ? error.message
+                  : "Unknown error"}
+              </div>
+            )
+            : items.length === 0
+              ? (
+                <div style={styles.empty}>No items found</div>
+              )
+              : (
+                <>
+                  {/* Column headers */}
+                  {currentProp === fileOrFolderProp && (
+                    <div style={{
+                      display: "flex",
+                      alignItems: "center",
+                      padding: "10px 16px",
+                      borderBottom: `1px solid ${theme.colors.neutral10}`,
+                      fontSize: "13px",
+                      fontWeight: 500,
+                      color: theme.colors.neutral50,
+                    }}>
+                      {/* Select all checkbox */}
+                      {multiSelect && (selectFiles || selectFolders) && selectableItems.length > 0 && (
                         <input
                           type="checkbox"
-                          style={styles.checkbox}
-                          checked={selected}
-                          onChange={(e) => {
-                            e.stopPropagation();
-                            handleSelectionChange(item, e.target.checked);
+                          checked={allSelectableSelected}
+                          ref={(el) => {
+                            if (el) el.indeterminate = someSelectableSelected;
                           }}
-                          onClick={(e) => e.stopPropagation()}
+                          onChange={(e) => handleSelectAll(e.target.checked)}
+                          style={{
+                            width: "16px",
+                            height: "16px",
+                            marginRight: "10px",
+                            cursor: "pointer",
+                            accentColor: theme.colors.primary,
+                          }}
                         />
                       )}
+                      {/* Spacer for checkbox when not multiSelect */}
+                      {!multiSelect && (selectFiles || selectFolders) && (
+                        <div style={{
+                          width: "16px",
+                          height: "16px",
+                          marginRight: "10px",
+                          flexShrink: 0,
+                        }} />
+                      )}
+                      {/* Spacer for icon */}
                       {showIcons && (
-                        <span style={styles.itemIcon}>
-                          {item.isFolder
-                            ? icons.folder
-                            : icons.file}
-                        </span>
+                        <div style={{
+                          width: "20px",
+                          height: "20px",
+                          marginRight: "8px",
+                          flexShrink: 0,
+                        }} />
                       )}
-                      <span style={styles.itemName}>{item.label}</span>
-                      {(item.isFolder || currentProp !== fileOrFolderProp) && (
-                        <span style={styles.chevron}>›</span>
-                      )}
-                    </li>
-                  );
-                })}
-              </ul>
-            )}
+                      <span style={{
+                        flex: 1,
+                      }}>Name</span>
+                      <span style={{
+                        width: "150px",
+                        textAlign: "left",
+                      }}>Last Modified</span>
+                    </div>
+                  )}
+                  <div style={{
+                    position: "relative",
+                    flex: 1,
+                    overflowY: "auto",
+                  }}>
+                    {/* Loading overlay - blocks interaction during fetch */}
+                    {isFetching && (
+                      <div style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        backgroundColor: "rgba(255, 255, 255, 0.6)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        zIndex: 10,
+                        cursor: "wait",
+                      }}>
+                        <div style={{
+                          animation: "filePickerSpin 1s linear infinite",
+                        }}>
+                          <RefreshIcon />
+                        </div>
+                      </div>
+                    )}
+                    <ul style={{
+                      ...styles.list,
+                      flex: "none",
+                    }}>
+                      {items.map((item) => {
+                        const selected = isSelected(item);
+                        // Show checkbox at file/folder level for selectable items
+                        const canSelect = currentProp === fileOrFolderProp && (
+                          (item.isFolder && selectFolders) || (!item.isFolder && selectFiles)
+                        );
 
-      {/* Footer */}
-      <div style={styles.footer}>
-        <div style={styles.selectionCount}>
-          {selectedItems.length > 0
-            ? `${selectedItems.length} item${selectedItems.length > 1
-              ? "s"
-              : ""} selected`
-            : "No items selected"}
-        </div>
-        <div style={styles.buttonGroup}>
-          {onCancel && (
-            <button type="button" style={styles.cancelButton} onClick={onCancel}>
-              {cancelText}
+                        return (
+                          <li key={item.id}>
+                            <button
+                              type="button"
+                              style={{
+                                ...styles.item,
+                                backgroundColor: selected
+                                  ? theme.colors.primary25
+                                  : undefined,
+                                width: "100%",
+                                textAlign: "left",
+                                border: "none",
+                                cursor: "pointer",
+                              }}
+                              onClick={() => handleItemClick(item)}
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter" || e.key === " ") {
+                                  e.preventDefault();
+                                  handleItemClick(item);
+                                }
+                              }}
+                              onMouseEnter={(e) => {
+                                if (!selected) {
+                                  (e.currentTarget as HTMLElement).style.backgroundColor = theme.colors.neutral5 || "";
+                                }
+                              }}
+                              onMouseLeave={(e) => {
+                                (e.currentTarget as HTMLElement).style.backgroundColor = selected
+                                  ? theme.colors.primary25 || ""
+                                  : "";
+                              }}
+                            >
+                              {currentProp === fileOrFolderProp && (selectFiles || selectFolders) && (
+                                canSelect
+                                  ? (
+                                    <input
+                                      type="checkbox"
+                                      style={styles.checkbox}
+                                      checked={selected}
+                                      onChange={(e) => {
+                                        e.stopPropagation();
+                                        handleSelectionChange(item, e.target.checked);
+                                      }}
+                                      onClick={(e) => e.stopPropagation()}
+                                    />
+                                  )
+                                  : (
+                                    <div style={{
+                                      width: "16px",
+                                      height: "16px",
+                                      marginRight: "10px",
+                                      flexShrink: 0,
+                                    }} />
+                                  )
+                              )}
+                              {showIcons && (
+                                <span style={styles.itemIcon}>
+                                  {item.isFolder
+                                    ? icons.folder
+                                    : icons.file}
+                                </span>
+                              )}
+                              <div style={{
+                                flex: 1,
+                                minWidth: 0,
+                              }}>
+                                <span style={styles.itemName}>{item.label}</span>
+                                {/* Metadata row */}
+                                {currentProp === fileOrFolderProp && (
+                                  <div style={{
+                                    fontSize: "11px",
+                                    color: theme.colors.neutral40,
+                                    marginTop: "2px",
+                                    display: "flex",
+                                    gap: "8px",
+                                  }}>
+                                    {item.isFolder && item.childCount !== undefined && (
+                                      <span>{item.childCount} item{item.childCount !== 1
+                                        ? "s"
+                                        : ""}</span>
+                                    )}
+                                    {!item.isFolder && item.size !== undefined && (
+                                      <span>{formatFileSize(item.size)}</span>
+                                    )}
+                                  </div>
+                                )}
+                              </div>
+                              {/* Last modified column + chevron area */}
+                              {currentProp === fileOrFolderProp && (
+                                <div style={{
+                                  width: "150px",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "space-between",
+                                  flexShrink: 0,
+                                }}>
+                                  <span style={{
+                                    fontSize: "12px",
+                                    color: theme.colors.neutral40,
+                                    whiteSpace: "nowrap",
+                                  }}>
+                                    {item.lastModifiedDateTime
+                                      ? formatDate(item.lastModifiedDateTime)
+                                      : ""}
+                                  </span>
+                                  {item.isFolder && (
+                                    <span style={styles.chevron}>›</span>
+                                  )}
+                                </div>
+                              )}
+                              {currentProp !== fileOrFolderProp && (
+                                <span style={styles.chevron}>›</span>
+                              )}
+                            </button>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                </>
+              )}
+
+        {/* Footer */}
+        <div style={styles.footer}>
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+          }}>
+            {currentProp === fileOrFolderProp && (
+              <button
+                type="button"
+                onClick={() => refetch()}
+                disabled={isFetching}
+                style={{
+                  background: "none",
+                  border: "none",
+                  cursor: isFetching
+                    ? "wait"
+                    : "pointer",
+                  padding: "0",
+                  marginRight: "12px",
+                  display: "flex",
+                  alignItems: "center",
+                  fontSize: "13px",
+                  color: theme.colors.neutral60,
+                  opacity: isFetching
+                    ? 0.7
+                    : 1,
+                  animation: isFetching
+                    ? "spin 1s linear infinite"
+                    : "none",
+                }}
+                title={isFetching
+                  ? "Loading..."
+                  : "Refresh file list"}
+              >
+                <RefreshIcon />
+              </button>
+            )}
+            <span style={styles.selectionCount}>
+              {selectedItems.length > 0
+                ? `${selectedItems.length} item${selectedItems.length > 1
+                  ? "s"
+                  : ""} selected`
+                : "No items selected"}
+            </span>
+            {selectedItems.length > 0 && (
+              <button
+                type="button"
+                onClick={() => setSelectedItems([])}
+                style={{
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  color: theme.colors.primary,
+                  fontSize: "13px",
+                  padding: "2px 4px",
+                  textDecoration: "underline",
+                }}
+              >
+              Clear
+              </button>
+            )}
+          </div>
+          <div style={styles.buttonGroup}>
+            {onCancel && (
+              <button type="button" style={styles.cancelButton} onClick={onCancel}>
+                {cancelText}
+              </button>
+            )}
+            <button
+              type="button"
+              style={styles.confirmButton}
+              onClick={handleConfirm}
+              disabled={selectedItems.length === 0}
+            >
+              {confirmText}
             </button>
-          )}
-          <button
-            type="button"
-            style={styles.confirmButton}
-            onClick={handleConfirm}
-            disabled={selectedItems.length === 0}
-          >
-            {confirmText}
-          </button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

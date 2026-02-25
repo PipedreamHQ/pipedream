@@ -4,7 +4,7 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   type: "action",
   key: "microsoft_outlook_calendar-delete-recurring-event-instance",
-  version: "0.0.2",
+  version: "0.0.5",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

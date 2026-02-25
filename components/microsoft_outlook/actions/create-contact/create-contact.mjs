@@ -3,7 +3,7 @@ import microsoftOutlook from "../../microsoft_outlook.app.mjs";
 export default {
   type: "action",
   key: "microsoft_outlook-create-contact",
-  version: "0.0.21",
+  version: "0.0.24",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

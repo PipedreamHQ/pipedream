@@ -1,7 +1,7 @@
 import { axios } from "@pipedream/platform";
 import querystring from "query-string";
 import resourceTypes from "./common/resource-types.mjs";
-import colors from "./common/colors.mjs";
+import colors, { numericToString } from "./common/colors.mjs";
 import { v4 as uuid } from "uuid";
 
 export default {
@@ -24,10 +24,11 @@ export default {
         "Filter for events that match one or more projects. Leave this blank to emit results for any project.",
       optional: true,
       async options() {
-        return (await this.getProjects({})).map((project) => ({
+        const { results } = await this.getProjects({});
+        return results?.map((project) => ({
           label: project.name,
           value: project.id,
-        }));
+        })) || [];
       },
     },
     project: {
@@ -104,25 +105,28 @@ export default {
       async options({
         project, prevContext,
       }) {
-        const { offset = 0 } = prevContext;
+        const { cursor } = prevContext;
         const limit = 30;
         const params = {
-          offset,
           limit,
         };
+        if (cursor) {
+          params.cursor = cursor;
+        }
         if (project) {
           params.project_id = project;
         }
-        const tasks = (await this.getCompletedTasks({
+        const response = await this.getCompletedTasks({
           params,
-        })).map((task) => ({
+        });
+        const tasks = response.items.map((task) => ({
           label: task.content,
-          value: task.task_id,
+          value: task.id,
         }));
         return {
           options: tasks,
           context: {
-            offset: offset + limit,
+            cursor: response.next_cursor,
           },
         };
       },
@@ -185,7 +189,7 @@ export default {
     color: {
       type: "integer",
       label: "Color",
-      description: "A numeric ID representing a color. Refer to the id column in the [Colors](https://developer.todoist.com/guides/#colors) guide for more info.",
+      description: "A numeric ID representing a color (automatically converted to v1 API format). Refer to the id column in the [Colors](https://developer.todoist.com/guides/#colors) guide for more info.",
       options: colors,
       optional: true,
     },
@@ -272,7 +276,7 @@ export default {
     async _makeSyncRequest(opts) {
       const {
         $,
-        path = "/sync/v9/sync",
+        path = "/api/v1/sync",
       } = opts;
       delete opts.path;
       delete opts.$;
@@ -302,7 +306,7 @@ export default {
       } = opts;
       delete opts.path;
       delete opts.$;
-      opts.url = `https://api.todoist.com/rest/v2${path[0] === "/"
+      opts.url = `https://api.todoist.com/api/v1${path[0] === "/"
         ? ""
         : "/"}${path}`;
       opts.headers = {
@@ -351,7 +355,7 @@ export default {
     }) {
       return this._makeSyncRequest({
         $,
-        path: "/sync/v9/sync",
+        path: "/api/v1/sync",
         method: "POST",
         payload: opts,
       });
@@ -403,7 +407,9 @@ export default {
       } = opts;
       return this._makeRestRequest({
         $,
-        path: `/projects/${id}`,
+        path: id
+          ? `/projects/${id}`
+          : "/projects",
         method: "GET",
       });
     },
@@ -419,6 +425,10 @@ export default {
         $,
         data = {},
       } = opts;
+      // Transform numeric color to string for v1 API
+      if (data.color && typeof data.color === "number") {
+        data.color = numericToString(data.color);
+      }
       return this._makeRestRequest({
         $,
         path: "/projects",
@@ -439,6 +449,10 @@ export default {
       } = opts;
       const { projectId } = data;
       delete data.projectId;
+      // Transform numeric color to string for v1 API
+      if (data.color && typeof data.color === "number") {
+        data.color = numericToString(data.color);
+      }
       return this._makeRestRequest({
         $,
         path: `/projects/${projectId}`,
@@ -520,7 +534,9 @@ export default {
       delete params.section_id;
       return this._makeRestRequest({
         $,
-        path: `/sections/${id}`,
+        path: id
+          ? `/sections/${id}`
+          : "/sections",
         method: "GET",
         params,
       });
@@ -596,7 +612,9 @@ export default {
       } = opts;
       return this._makeRestRequest({
         $,
-        path: `/labels/${id}`,
+        path: id
+          ? `/labels/${id}`
+          : "/labels",
         method: "GET",
       });
     },
@@ -611,6 +629,10 @@ export default {
         $,
         data = {},
       } = opts;
+      // Transform numeric color to string for v1 API
+      if (data.color && typeof data.color === "number") {
+        data.color = numericToString(data.color);
+      }
       return this._makeRestRequest({
         $,
         path: "/labels",
@@ -631,6 +653,10 @@ export default {
       } = opts;
       const { labelId } = data;
       delete data.labelId;
+      // Transform numeric color to string for v1 API
+      if (data.color && typeof data.color === "number") {
+        data.color = numericToString(data.color);
+      }
       return this._makeRestRequest({
         $,
         path: `/labels/${labelId}`,
@@ -678,7 +704,9 @@ export default {
       delete params.comment_id;
       return this._makeRestRequest({
         $,
-        path: `/comments/${id}`,
+        path: id
+          ? `/comments/${id}`
+          : "/comments",
         method: "GET",
         params,
       });
@@ -757,7 +785,9 @@ export default {
       delete params.task_id;
       return this._makeRestRequest({
         $,
-        path: `/tasks/${id}`,
+        path: id
+          ? `/tasks/${id}`
+          : "/tasks",
         method: "GET",
         params,
       });
@@ -773,12 +803,12 @@ export default {
         $,
         params = {},
       } = opts;
-      return (await this._makeSyncRequest({
+      return this._makeRestRequest({
         $,
-        path: "/sync/v9/completed/get_all",
-        method: "POST",
-        payload: params,
-      })).items;
+        path: "/tasks/completed/by_completion_date",
+        method: "GET",
+        params,
+      });
     },
     /**
      * Create a new task
@@ -891,7 +921,7 @@ export default {
       const { taskId } = params;
       return this._makeRestRequest({
         $,
-        path: `tasks/${taskId}/close`,
+        path: `/tasks/${taskId}/close`,
         method: "POST",
       });
     },
@@ -909,7 +939,7 @@ export default {
       const { taskId } = params;
       return this._makeRestRequest({
         $,
-        path: `tasks/${taskId}/reopen`,
+        path: `/tasks/${taskId}/reopen`,
         method: "POST",
       });
     },
@@ -927,7 +957,7 @@ export default {
       const { taskId } = data;
       return this._makeRestRequest({
         $,
-        path: `tasks/${taskId}`,
+        path: `/tasks/${taskId}`,
         method: "DELETE",
       });
     },
@@ -1022,6 +1052,10 @@ export default {
         $,
         data = {},
       } = opts;
+      // Transform numeric color to string for v1 API
+      if (data.color && typeof data.color === "number") {
+        data.color = numericToString(data.color);
+      }
       const commands = [
         {
           type: "filter_add",
@@ -1048,6 +1082,10 @@ export default {
         $,
         data = {},
       } = opts;
+      // Transform numeric color to string for v1 API
+      if (data.color && typeof data.color === "number") {
+        data.color = numericToString(data.color);
+      }
       const commands = [
         {
           type: "filter_update",

@@ -337,6 +337,38 @@ export default {
         };
       },
     },
+    permissionId: {
+      type: "string",
+      label: "Permission ID",
+      description: "The ID of the permission",
+      async options({
+        fileId, prevContext,
+      }) {
+        const { pageToken } = prevContext;
+        const {
+          permissions, nextPageToken,
+        } = await this.listPermissions(
+          pageToken,
+          fileId,
+        );
+
+        return {
+          options: permissions
+            ?.filter(({ role }) => role !== "owner")
+            .map(({
+              id, type, role, emailAddress,
+            }) => ({
+              label: `${type} - ${role}${emailAddress
+                ? ` - ${emailAddress}`
+                : ""}`,
+              value: id,
+            })) || [],
+          context: {
+            pageToken: nextPageToken,
+          },
+        };
+      },
+    },
   },
   methods: {
     // Static methods
@@ -1456,6 +1488,26 @@ export default {
             domain,
             emailAddress,
           }),
+        })
+      ).data;
+    },
+    async deletePermission(opts = {}) {
+      const drive = this.drive();
+      return (
+        await drive.permissions.delete({
+          supportsAllDrives: true,
+          ...opts,
+        })
+      ).data;
+    },
+    async listPermissions(pageToken, fileId) {
+      const drive = this.drive();
+      return (
+        await drive.permissions.list({
+          supportsAllDrives: true,
+          fields: "permissions(id,type,role,emailAddress),nextPageToken",
+          pageToken,
+          fileId,
         })
       ).data;
     },

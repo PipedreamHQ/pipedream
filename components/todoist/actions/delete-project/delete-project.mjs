@@ -3,8 +3,8 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-delete-project",
   name: "Delete Project",
-  description: "Deletes a project. [See the docs here](https://developer.todoist.com/rest/v2/#delete-a-project)",
-  version: "0.0.4",
+  description: "Deletes a project. [See the documentation](https://developer.todoist.com/api/v1#tag/Projects/operation/delete_project_api_v1_projects__project_id__delete)",
+  version: "0.0.6",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

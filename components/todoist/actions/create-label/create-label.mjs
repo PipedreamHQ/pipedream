@@ -3,8 +3,8 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-create-label",
   name: "Create Label",
-  description: "Creates a label. [See the docs here](https://developer.todoist.com/rest/v2/#create-a-new-personal-label)",
-  version: "0.0.4",
+  description: "Creates a label. [See the documentation](https://developer.todoist.com/api/v1#tag/Labels/operation/create_label_api_v1_labels_post)",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -49,7 +49,7 @@ export default {
       name,
       order,
       color,
-      favorite,
+      is_favorite: favorite,
     };
     const resp = await this.todoist.createLabel({
       $,

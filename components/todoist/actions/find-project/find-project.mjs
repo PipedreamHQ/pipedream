@@ -3,8 +3,8 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-find-project",
   name: "Find Project",
-  description: "Finds a project (by name/title). [See Docs](https://developer.todoist.com/rest/v2/#get-all-projects) Optionally, create one if none are found. [See Docs](https://developer.todoist.com/rest/v2/#create-a-new-project)",
-  version: "0.0.4",
+  description: "Finds a project (by name/title). [See the documentation](https://developer.todoist.com/api/v1#tag/Projects/operation/get_projects_api_v1_projects_get) Optionally, create one if none are found. [See the documentation](https://developer.todoist.com/api/v1#tag/Projects/operation/create_project_api_v1_projects_post)",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
