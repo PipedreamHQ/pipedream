@@ -56,7 +56,7 @@ export default {
         "accountId",
       ],
       type: "string[]",
-      description: "The account ID for the contact.",
+      description: "**Deprecated**: Use `companyId` instead. The account ID for the contact.",
       optional: true,
     },
     leadId: {
@@ -132,7 +132,7 @@ export default {
 
     // To keep backwards compatibility, but maintain consistency across the original conventions.
     // we are setting the companyId to the accountId if it is provided.
-    if (this.accountId) {
+    if (this.accountId && !this.companyId) {
       this.companyId = this.accountId;
     }
 
