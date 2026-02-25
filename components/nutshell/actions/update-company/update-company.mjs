@@ -1,5 +1,6 @@
 import { parseObject } from "../../common/utils.mjs";
 import nutshell from "../../nutshell.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "nutshell-update-company",
@@ -121,7 +122,7 @@ export default {
       companyId: this.companyId,
     });
     if (!existing) {
-      throw new Error(`Company not found: ${this.companyId}`);
+      throw new ConfigurationError(`Company not found: ${this.companyId}`);
     }
     const rev = existing.rev ?? null;
 

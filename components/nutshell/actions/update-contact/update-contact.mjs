@@ -1,5 +1,6 @@
 import { parseObject } from "../../common/utils.mjs";
 import nutshell from "../../nutshell.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "nutshell-update-contact",
@@ -101,13 +102,12 @@ export default {
   async additionalProps() {
     const { result: { Contacts: fields } } = await this.getCustomFields();
     const props = {};
-    let i = 0;
-    for (const field of fields) {
-      i++;
-      props[`customField_${i}`] = {
+    for (const field of fields ?? []) {
+      const key = `customField_${field?.id}`;
+      props[key] = {
         type: "string",
-        label: field.name,
-        description: `Custom field ${i}.`,
+        label: field?.name,
+        description: `Custom field ${field?.name}.`,
         optional: true,
       };
     }
@@ -122,11 +122,10 @@ export default {
     async parseCustomFields(props) {
       const customFields = {};
       const { result: { Contacts } } = await this.getCustomFields();
-      let i = 0;
-      for (const field of Contacts) {
-        i++;
-        if (props[`customField_${i}`]) {
-          customFields[field.name] = props[`customField_${i}`];
+      for (const field of Contacts ?? []) {
+        const key = `customField_${field?.id}`;
+        if (Object.prototype.hasOwnProperty.call(props, key)) {
+          customFields[field.name] = props[key];
         }
       }
       return customFields;
@@ -138,7 +137,7 @@ export default {
       contactId: this.contactId,
     });
     if (!existing) {
-      throw new Error(`Contact not found: ${this.contactId}`);
+      throw new ConfigurationError(`Contact not found: ${this.contactId}`);
     }
     const rev = existing.rev ?? null;
 

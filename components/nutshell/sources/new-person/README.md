@@ -10,7 +10,7 @@ Emit events when a new person is created in Nutshell. This is a polling source t
 
 # Getting Started
 
-Connect your Nutshell account in the step. See the [Nutshell app README](../../README.md) for account setup.
+Connect your Nutshell account in the Pipedream step configuration. See the [Nutshell app README](../../README.md) for account setup.
 
 # Troubleshooting
 

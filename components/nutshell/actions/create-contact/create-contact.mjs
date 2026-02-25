@@ -63,8 +63,10 @@ export default {
       propDefinition: [
         nutshell,
         "leadId",
-        ({ companyId }) => ({
-          companyId,
+        ({
+          companyId, accountId,
+        }) => ({
+          companyId: companyId ?? accountId,
         }),
       ],
       optional: true,

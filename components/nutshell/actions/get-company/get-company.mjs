@@ -1,4 +1,5 @@
 import nutshell from "../../nutshell.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "nutshell-get-company",
@@ -26,7 +27,7 @@ export default {
     });
 
     if (!company) {
-      throw new Error(`Company not found: ${this.companyId}`);
+      throw new ConfigurationError(`Company not found: ${this.companyId}`);
     }
 
     $.export("$summary", `Successfully retrieved company "${company?.name ?? this.companyId}"`);
