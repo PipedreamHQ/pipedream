@@ -5,7 +5,7 @@ export default {
   key: "todoist-new-task",
   name: "New Task",
   description: "Emit new event for each new task. [See the documentation](https://developer.todoist.com/api/v1#tag/Sync/Overview/Read-resources)",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "source",
   dedupe: "greatest",
 };

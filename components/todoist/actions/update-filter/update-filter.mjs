@@ -4,7 +4,7 @@ export default {
   key: "todoist-update-filter",
   name: "Update Filter",
   description: "Updates a filter. [See the documentation](https://developer.todoist.com/api/v1#tag/Sync/Filters/Update-a-filter)",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
