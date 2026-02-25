@@ -24,7 +24,10 @@ export default {
       $,
       contactId: this.contactId,
     });
-    $.export("$summary", `Successfully retrieved contact "${contact?.name.displayName ?? this.contactId}"`);
+    if (!contact) {
+      throw new Error(`Contact not found: ${this.contactId}`);
+    }
+    $.export("$summary", `Successfully retrieved contact "${contact?.name?.displayName ?? this.contactId}"`);
     return this.nutshell.formatContact(contact);
   },
 };

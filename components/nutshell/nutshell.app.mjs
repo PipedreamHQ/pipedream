@@ -141,13 +141,20 @@ export default {
       async options({
         page, companyId,
       }) {
+        const selectedCompanyId = Array.isArray(companyId)
+          ? companyId[0]
+          : companyId;
+        if (!selectedCompanyId) {
+          return [];
+        }
+
         const { result } = await this.post({
           method: "findLeads",
           data: {
             params: {
               page: page + 1,
               query: {
-                accountId: parseInt(companyId),
+                accountId: parseInt(selectedCompanyId, 10),
               },
             },
           },

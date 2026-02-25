@@ -24,6 +24,11 @@ export default {
       $,
       companyId: this.companyId,
     });
+
+    if (!company) {
+      throw new Error(`Company not found: ${this.companyId}`);
+    }
+
     $.export("$summary", `Successfully retrieved company "${company?.name ?? this.companyId}"`);
     return this.nutshell.formatCompany(company);
   },

@@ -1,6 +1,7 @@
 # Overview
 
-Emit new events when a new person profile is created in Nutshell. This is a polling source that checks for new contacts on a configurable interval.
+Emit events when a new person is created in Nutshell. This is a polling source that checks for new people on a configurable interval.
+
 
 # Example Use Cases
 

@@ -27,7 +27,7 @@ export const CONTACT_OUTPUT_FIELDS = [
  */
 export const formatContact = (contact) => {
   if (contact == null) {
-    return contact;
+    return null;
   }
   const out = {};
   for (const key of CONTACT_OUTPUT_FIELDS) {

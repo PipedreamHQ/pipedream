@@ -71,7 +71,9 @@ export const formatStep = (step) => {
   const out = {};
   for (const key of STEP_OUTPUT_FIELDS) {
     if (Object.prototype.hasOwnProperty.call(step, key)) {
-      out[key] = step[key];
+      out[key] = key === "assignee" && step[key] != null
+        ? formatAssignee(step[key])
+        : step[key];
     }
   }
   return out;
@@ -182,7 +184,7 @@ export const formatSearchLeadResult = (lead) => {
     return lead;
   }
   return {
-    id: lead.id,
+    id: lead.id ?? null,
     description: lead.description ?? null,
     status: lead.status ?? null,
     completion: lead.completion ?? null,

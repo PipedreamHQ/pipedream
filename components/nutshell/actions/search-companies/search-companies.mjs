@@ -31,7 +31,7 @@ export default {
       $,
       string: this.searchString,
       limit: this.limit ?? 1000,
-    });
+    }) ?? [];
     $.export("$summary", `Found ${companies.length} company(ies)`);
     return companies;
   },

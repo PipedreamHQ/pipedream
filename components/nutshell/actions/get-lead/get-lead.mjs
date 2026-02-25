@@ -1,4 +1,5 @@
 import nutshell from "../../nutshell.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "nutshell-get-lead",
@@ -31,7 +32,7 @@ export default {
       });
     }
     if (lead == null) {
-      throw new Error(`No lead found for ID or number "${this.leadId}". In Nutshell, the number in the UI (e.g. Lead-1000) may differ from the internal ID—both are now tried.`);
+      throw new ConfigurationError(`No lead found for ID or number "${this.leadId}". In Nutshell, the number in the UI (e.g. Lead-1000) may differ from the internal ID—both are now tried.`);
     }
     $.export("$summary", `Successfully retrieved lead (ID: ${lead.id})`);
     return this.nutshell.formatLead(lead);

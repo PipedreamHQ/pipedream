@@ -82,7 +82,7 @@ export default {
     },
   },
   async additionalProps() {
-    const { result: { Accounts: fields } } = await this.getCustomFields();
+    const { result: { Accounts: fields = [] } = {} } = await this.getCustomFields();
     const props = {};
     let i = 0;
     for (const field of fields) {
@@ -104,7 +104,7 @@ export default {
     },
     async parseCustomFields(props) {
       const customFields = {};
-      const { result: { Accounts } } = await this.getCustomFields();
+      const { result: { Accounts = [] } = {} } = await this.getCustomFields();
       let i = 0;
       for (const field of Accounts) {
         i++;
@@ -135,9 +135,10 @@ export default {
     if (this.phone != null) account.phone = parseObject(this.phone);
     if (this.address != null) account.address = parseObject(this.address);
     const customFieldsFromProps = await this.parseCustomFields(this);
-    const customFieldsObject = this.customFields && typeof this.customFields === "object"
-      ? this.customFields
+    const customFieldsObject = this.customFields
+      ? parseObject(this.customFields)
       : {};
+
     const hasCustomFields = Object.keys(customFieldsFromProps).length > 0
       || Object.keys(customFieldsObject).length > 0;
     if (hasCustomFields) {

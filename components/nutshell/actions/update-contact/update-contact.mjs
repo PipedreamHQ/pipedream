@@ -149,9 +149,11 @@ export default {
     if (this.email != null) contact.email = parseObject(this.email);
     if (this.address != null) contact.address = parseObject(this.address);
     if (this.territoryId != null) contact.territoryId = this.territoryId;
-    if (this.audienceId != null) contact.audienceId = this.audienceId?.map((id) => ({
-      id,
-    })) ?? undefined;
+    if (this.audienceId != null) {
+      contact.audiences = this.audienceId.map((id) => ({
+        id,
+      }));
+    }
     if (this.companyId != null && this.companyId.length) {
       contact.accounts = this.companyId.map((id) => ({
         id,
