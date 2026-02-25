@@ -23,7 +23,7 @@ export default {
     info: {
       type: "alert",
       alertType: "info",
-      content: "Note: Sheets that contain hidden or formatted rows may prevent the API from correctly identifying the last row of the sheet.",
+      content: "Note: Sheets that contain hidden or formatted rows or columns may prevent the API from correctly identifying the last row of the sheet.",
     },
     drive: {
       propDefinition: [
