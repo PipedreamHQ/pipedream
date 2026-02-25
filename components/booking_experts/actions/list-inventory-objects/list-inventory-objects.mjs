@@ -4,7 +4,7 @@ export default {
   key: "booking_experts-list-inventory-objects",
   name: "List Inventory Objects",
   description: "Returns inventory objects of the administration. [See the documentation](https://developers.bookingexperts.com/reference/administration-inventoryobjects-index)",
-  version: "0.0.8",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -45,7 +45,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const { data } = await this.bookingExperts.listInventoryObjects({
+    const response = await this.bookingExperts.listInventoryObjects({
       $,
       administrationId: this.administrationId,
       params: {
@@ -57,7 +57,7 @@ export default {
         "page[size]": this.perPage,
       },
     });
-    $.export("$summary", `Found ${data.length} inventory objects`);
-    return data;
+    $.export("$summary", `Found ${response.data.length} inventory objects`);
+    return response;
   },
 };

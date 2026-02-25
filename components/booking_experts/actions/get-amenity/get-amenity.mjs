@@ -21,12 +21,12 @@ export default {
     },
   },
   async run({ $ }) {
-    const { data } = await this.bookingExperts.getAmenity({
+    const response = await this.bookingExperts.getAmenity({
       $,
       amenityId: this.amenityId,
     });
 
     $.export("$summary", `Successfully retrieved amenity ${this.amenityId}`);
-    return data;
+    return response;
   },
 };

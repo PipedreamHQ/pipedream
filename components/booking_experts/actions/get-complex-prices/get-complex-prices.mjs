@@ -42,7 +42,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const { data } = await this.bookingExperts.getComplexPrices({
+    const response = await this.bookingExperts.getComplexPrices({
       $,
       administrationId: this.administrationId,
       masterPriceListId: this.masterPriceListId,
@@ -51,7 +51,7 @@ export default {
         "page[size]": this.perPage,
       },
     });
-    $.export("$summary", `Found ${data.length} complex prices`);
-    return data;
+    $.export("$summary", `Found ${response.data.length} complex prices`);
+    return response;
   },
 };

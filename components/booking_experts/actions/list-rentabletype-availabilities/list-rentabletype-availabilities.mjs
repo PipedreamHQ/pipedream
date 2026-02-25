@@ -7,7 +7,7 @@ export default {
   key: "booking_experts-list-rentabletype-availabilities",
   name: "List RentableType Availabilities",
   description: "List availabilities of a RentableType you have access to. [See the documentation](https://developers.bookingexperts.com/reference/channel-rentabletype-availabilities-index)",
-  version: "0.0.6",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -73,7 +73,7 @@ export default {
     if ((!this.startDate && this.endDate) || (this.startDate && !this.endDate)) {
       throw new ConfigurationError("You should provide both the start and end date parameters.");
     }
-    const { data } = await this.bookingExperts.listRentableTypeAvailabilities({
+    const response = await this.bookingExperts.listRentableTypeAvailabilities({
       $,
       channelId: this.channelId,
       rentableTypeId: this.rentableTypeId,
@@ -87,7 +87,7 @@ export default {
         "multibook_safety_margin": this.multibookSafetyMargin,
       },
     });
-    $.export("$summary", `Found ${data.length} rentable type availabilities`);
-    return data;
+    $.export("$summary", `Found ${response.data.length} rentable type availabilities`);
+    return response;
   },
 };

@@ -4,7 +4,7 @@ export default {
   key: "booking_experts-create-agenda-period",
   name: "Create Agenda Period",
   description: "Creates a new agenda period. [See the documentation](https://developers.bookingexperts.com/reference/administration-maintenance-agenda-periods-create)",
-  version: "0.0.8",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -64,7 +64,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const { data } = await this.bookingExperts.createAgendaPeriod({
+    const response = await this.bookingExperts.createAgendaPeriod({
       $,
       administrationId: this.administrationId,
       type: this.type,
@@ -96,6 +96,6 @@ export default {
       },
     });
     $.export("$summary", "Agenda period created");
-    return data;
+    return response;
   },
 };

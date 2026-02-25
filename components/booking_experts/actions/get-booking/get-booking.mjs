@@ -30,12 +30,12 @@ export default {
     },
   },
   async run({ $ }) {
-    const { data } = await this.bookingExperts.getBooking({
+    const response = await this.bookingExperts.getBooking({
       $,
       administrationId: this.administrationId,
       bookingId: this.bookingId,
     });
     $.export("$summary", `Successfully retrieved booking with ID ${this.bookingId}`);
-    return data;
+    return response;
   },
 };
