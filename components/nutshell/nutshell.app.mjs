@@ -1,7 +1,9 @@
 import { axios } from "@pipedream/platform";
 import { formatContact as formatContactForOutput } from "./common/contact-output.mjs";
 import { formatCompany as formatCompanyForOutput } from "./common/company-output.mjs";
-import { formatLead as formatLeadForOutput } from "./common/lead-output.mjs";
+import {
+  formatLead as formatLeadForOutput, formatSearchLeadResult,
+} from "./common/lead-output.mjs";
 
 export default {
   type: "app",
@@ -296,6 +298,51 @@ export default {
         },
       });
       return result;
+    },
+    async searchContacts({
+      $ = this, string, limit = 1000,
+    }) {
+      const { result } = await this.post({
+        $,
+        method: "searchContacts",
+        data: {
+          params: {
+            string,
+            limit: limit ?? 1000,
+          },
+        },
+      });
+      return result ?? [];
+    },
+    async searchCompanies({
+      $ = this, string, limit = 1000,
+    }) {
+      const { result } = await this.post({
+        $,
+        method: "searchAccounts",
+        data: {
+          params: {
+            string,
+            limit: limit ?? 1000,
+          },
+        },
+      });
+      return result ?? [];
+    },
+    async searchLeads({
+      $ = this, string, limit = 1000,
+    }) {
+      const { result } = await this.post({
+        $,
+        method: "searchLeads",
+        data: {
+          params: {
+            string,
+            limit: limit ?? 1000,
+          },
+        },
+      });
+      return (result ?? []).map(formatSearchLeadResult);
     },
     async getLead({
       $ = this, leadId,

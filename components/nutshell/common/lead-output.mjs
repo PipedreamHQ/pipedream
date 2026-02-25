@@ -170,3 +170,27 @@ export const formatLead = (lead, contactFormatter = formatContact) => {
   }
   return out;
 };
+
+/**
+ * Returns a formatted lead object for search results: id, description, status, completion,
+ * value, primaryCompanyName, primaryContactName, isOverdue, lastContactDate, dueTime.
+ * @param {object|null|undefined} lead - Raw lead from Nutshell API (e.g. searchLeads)
+ * @returns {object|null} Lead with only search result fields
+ */
+export const formatSearchLeadResult = (lead) => {
+  if (lead == null) {
+    return lead;
+  }
+  return {
+    id: lead.id,
+    description: lead.description ?? null,
+    status: lead.status ?? null,
+    completion: lead.completion ?? null,
+    value: lead.value ?? lead.estimatedValue ?? null,
+    primaryCompanyName: lead.primaryAccountName ?? lead.primaryAccount?.name ?? null,
+    primaryContactName: lead.primaryContactName ?? lead.primaryContact?.name ?? null,
+    isOverdue: lead.isOverdue ?? null,
+    lastContactDate: lead.lastContactDate ?? lead.lastContactedDate ?? null,
+    dueTime: lead.dueTime ?? null,
+  };
+};
