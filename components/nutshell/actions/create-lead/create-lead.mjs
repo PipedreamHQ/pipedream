@@ -35,6 +35,15 @@ export default {
       type: "string[]",
       optional: true,
     },
+    accountId: {
+      propDefinition: [
+        nutshell,
+        "accountId",
+      ],
+      type: "string[]",
+      optional: true,
+      description: "**Deprecated**: Use `companyId` instead. The account ID for the lead.",
+    },
     contactId: {
       propDefinition: [
         nutshell,
@@ -87,6 +96,11 @@ export default {
     },
   },
   async run({ $ }) {
+
+    if (this.accountId && !this.companyId) {
+      this.companyId = this.accountId;
+    }
+
     const customFields = await this.parseCustomFields(this);
     const response = await this.nutshell.post({
       $,
@@ -111,7 +125,11 @@ export default {
       },
     });
     $.export("$summary", `Successfully created lead with Id: ${response.result?.id}`);
-    // Note: Left out the formatLead for now to avoid breaking changes
+
+    /* Note:
+       While unlikely, existing code may expect some of the system fields to be present.
+       The formatLead function is not included in the return to avoid breaking changes.
+    */
     return response;
   },
 };

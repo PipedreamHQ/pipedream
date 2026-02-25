@@ -150,6 +150,10 @@ export default {
       };
     }
 
+    if (Object.keys(account).length === 0) {
+      throw new ConfigurationError("Please provide at least one field to update.");
+    }
+
     const updated = await this.nutshell.editAccount({
       $,
       companyId: this.companyId,

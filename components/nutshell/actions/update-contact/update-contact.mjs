@@ -114,14 +114,18 @@ export default {
     return props;
   },
   methods: {
+    _customFieldsCache: null,
     async getCustomFields() {
-      return await this.nutshell.post({
-        method: "findCustomFields",
-      });
+      if (!this._customFieldsCache) {
+        this._customFieldsCache = await this.nutshell.post({
+          method: "findCustomFields",
+        });
+      }
+      return this._customFieldsCache;
     },
-    async parseCustomFields(props) {
+    async parseCustomFields(props, customFieldsResult) {
       const customFields = {};
-      const { result: { Contacts } } = await this.getCustomFields();
+      const { result: { Contacts } } = customFieldsResult ?? await this.getCustomFields();
       for (const field of Contacts ?? []) {
         const key = `customField_${field?.id}`;
         if (Object.prototype.hasOwnProperty.call(props, key)) {
@@ -163,7 +167,8 @@ export default {
         id,
       }));
     }
-    const customFieldsFromProps = await this.parseCustomFields(this);
+    const customFieldsData = await this.getCustomFields();
+    const customFieldsFromProps = await this.parseCustomFields(this, customFieldsData);
     const customFieldsObject = this.customFields && typeof this.customFields === "object"
       ? this.customFields
       : {};
@@ -175,6 +180,10 @@ export default {
         ...customFieldsObject,
         ...customFieldsFromProps,
       };
+    }
+
+    if (Object.keys(contact).length === 0) {
+      throw new ConfigurationError("Please provide at least one field to update.");
     }
 
     const updated = await this.nutshell.editContact({

@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import nutshell from "../../nutshell.app.mjs";
 
 export default {
@@ -25,7 +26,7 @@ export default {
       contactId: this.contactId,
     });
     if (!contact) {
-      throw new Error(`Contact not found: ${this.contactId}`);
+      throw new ConfigurationError(`Contact not found: ${this.contactId}`);
     }
     $.export("$summary", `Successfully retrieved contact "${contact?.name?.displayName ?? this.contactId}"`);
     return this.nutshell.formatContact(contact);

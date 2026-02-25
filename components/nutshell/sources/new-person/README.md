@@ -6,7 +6,7 @@ Emit events when a new person is created in Nutshell. This is a polling source t
 # Example Use Cases
 
 - Trigger workflows when new people are added to Nutshell (e.g. sync to CRM, send welcome emails)
-- Automate follow-up when a new contact is created
+- Automate follow-up when a new person is created
 
 # Getting Started
 
