@@ -127,7 +127,7 @@ export default {
         "Content-Type": "application/json",
       };
     },
-    _makeRequest({
+    async _makeRequest({
       $ = this,
       endpoint,
       url = `${this._getBaseUrl()}${endpoint}`,
@@ -138,7 +138,26 @@ export default {
         headers: this._getHeaders(),
         ...args,
       };
-      return axios($, config);
+      const maxAttempts = 3;
+      let attempt = 0;
+      while (attempt < maxAttempts) {
+        try {
+          return await axios($, config);
+        } catch (err) {
+          const status = err?.response?.status;
+          if (status === 429) {
+            const retryAfter = err?.response?.headers?.["retry-after"];
+            const waitMs = retryAfter
+              ? parseInt(retryAfter) * 1000
+              : Math.pow(2, attempt) * 1000;
+            await new Promise((resolve) => setTimeout(resolve, waitMs));
+            attempt++;
+          } else {
+            throw err;
+          }
+        }
+      }
+      throw new Error("Eventbrite rate limit exceeded. Please try again later.");
     },
     createHook(orgId, data) {
       return this._makeRequest({
