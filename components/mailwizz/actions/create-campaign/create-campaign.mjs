@@ -53,7 +53,7 @@ export default {
     replyTo: {
       type: "string",
       label: "Reply To",
-      description: "The campaign reply to email address.",
+      description: "The reply-to email address of the campaign.",
     },
     sendAt: {
       type: "string",
