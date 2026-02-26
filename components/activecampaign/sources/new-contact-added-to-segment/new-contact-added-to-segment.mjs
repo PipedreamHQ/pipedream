@@ -54,6 +54,15 @@ export default {
     _setFieldMapping(mapping) {
       this.db.set(this._getFieldMappingKey(), mapping);
     },
+    _getJoinCountersKey(segmentId) {
+      return `segment_${segmentId}_join_counters`;
+    },
+    _getJoinCounters(segmentId) {
+      return this.db.get(this._getJoinCountersKey(segmentId)) || {};
+    },
+    _setJoinCounters(segmentId, counters) {
+      this.db.set(this._getJoinCountersKey(segmentId), counters);
+    },
     async getCustomFieldMapping() {
       const cachedMapping = this._getFieldMapping();
       if (cachedMapping) {
@@ -87,9 +96,9 @@ export default {
       this._setFieldMapping(fieldMapping);
       return fieldMapping;
     },
-    generateMeta(contact, segmentInfo) {
+    generateMeta(contact, segmentInfo, joinCounter) {
       return {
-        id: `${segmentInfo.segmentId}-${contact.id}`,
+        id: `${segmentInfo.segmentId}-${contact.id}-${joinCounter}`,
         summary: `Contact ${contact.email} added to segment: ${segmentInfo.name}`,
         ts: Date.now(),
       };
@@ -181,6 +190,7 @@ export default {
       console.log(`Found ${newContactIds.length} new contacts in segment`);
 
       const fieldMapping = await this.getCustomFieldMapping();
+      const joinCounters = this._getJoinCounters(segmentId);
 
       for (const contactId of newContactIds) {
         const contact = currentContacts.find((c) => c.id === contactId);
@@ -202,6 +212,8 @@ export default {
             console.warn(`Error fetching custom fields for contact ${contact.id}:`, error);
           }
 
+          joinCounters[contactId] = (joinCounters[contactId] || 0) + 1;
+
           const eventData = {
             segmentId: segmentInfo.segmentId,
             segmentName: segmentInfo.name,
@@ -210,10 +222,12 @@ export default {
             addedAt: new Date().toISOString(),
           };
 
-          const meta = this.generateMeta(contact, segmentInfo);
+          const meta = this.generateMeta(contact, segmentInfo, joinCounters[contactId]);
           this.$emit(eventData, meta);
         }
       }
+
+      this._setJoinCounters(segmentId, joinCounters);
     }
 
     this._setStoredContactIds(segmentId, [
