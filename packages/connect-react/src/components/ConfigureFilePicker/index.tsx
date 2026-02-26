@@ -18,6 +18,8 @@ export interface FilePickerItem {
   size?: number;
   childCount?: number;
   lastModifiedDateTime?: string;
+  webUrl?: string;
+  description?: string;
   raw?: unknown;
 }
 
@@ -486,7 +488,7 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
           : item;
         if (parsed && typeof parsed === "object") {
           const {
-            id, name, isFolder, size, childCount, lastModifiedDateTime,
+            id, name, isFolder, size, childCount, lastModifiedDateTime, webUrl, description,
           } = parsed as Record<string, unknown>;
           items.push({
             id: String(id ?? ""),
@@ -501,6 +503,12 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
               : undefined,
             lastModifiedDateTime: typeof lastModifiedDateTime === "string"
               ? lastModifiedDateTime
+              : undefined,
+            webUrl: typeof webUrl === "string"
+              ? webUrl
+              : undefined,
+            description: typeof description === "string"
+              ? description
               : undefined,
           });
         }
@@ -623,6 +631,8 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
     let size: number | undefined;
     let childCount: number | undefined;
     let lastModifiedDateTime: string | undefined;
+    let webUrl: string | undefined;
+    let description: string | undefined;
     let parsedValue: unknown = rawValue;
 
     try {
@@ -635,6 +645,8 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
         size = parsed.size;
         childCount = parsed.childCount;
         lastModifiedDateTime = parsed.lastModifiedDateTime;
+        webUrl = parsed.webUrl;
+        description = parsed.description;
       }
     } catch {
       // Not JSON, check label for folder indicators
@@ -649,6 +661,8 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
       size,
       childCount,
       lastModifiedDateTime,
+      webUrl,
+      description,
       raw: opt,
     };
   });

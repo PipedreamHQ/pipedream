@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/jo4",
+  "version": "0.0.1",
+  "description": "Pipedream jo4 Components",
+  "main": "jo4.app.mjs",
+  "keywords": [
+    "pipedream",
+    "jo4"
+  ],
+  "homepage": "https://pipedream.com/apps/jo4",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -18,18 +18,18 @@ export default {
     },
     async getSyncResult() {
       const lastDate = this._getLastDate();
-      const items = await this.todoist.getCompletedTasks({
-        params: {
-          since: lastDate,
-          annotate_items: true,
-        },
+      const newDate = new Date().toISOString();
+      const params = {
+        since: lastDate || newDate,
+        until: newDate,
+      };
+      const response = await this.todoist.getCompletedTasks({
+        params,
       });
 
-      const newDate = new Date().toISOString();
       this._setLastDate(newDate);
 
-      console.log(items);
-      return items;
+      return response.items ?? [];
     },
     filterResults(syncResult) {
       return syncResult

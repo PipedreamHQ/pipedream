@@ -24,10 +24,11 @@ export default {
         "Filter for events that match one or more projects. Leave this blank to emit results for any project.",
       optional: true,
       async options() {
-        return (await this.getProjects({})).map((project) => ({
+        const { results } = await this.getProjects({});
+        return results?.map((project) => ({
           label: project.name,
           value: project.id,
-        }));
+        })) || [];
       },
     },
     project: {
@@ -104,25 +105,28 @@ export default {
       async options({
         project, prevContext,
       }) {
-        const { offset = 0 } = prevContext;
+        const { cursor } = prevContext;
         const limit = 30;
         const params = {
-          offset,
           limit,
         };
+        if (cursor) {
+          params.cursor = cursor;
+        }
         if (project) {
           params.project_id = project;
         }
-        const tasks = (await this.getCompletedTasks({
+        const response = await this.getCompletedTasks({
           params,
-        })).map((task) => ({
+        });
+        const tasks = response.items.map((task) => ({
           label: task.content,
-          value: task.task_id,
+          value: task.id,
         }));
         return {
           options: tasks,
           context: {
-            offset: offset + limit,
+            cursor: response.next_cursor,
           },
         };
       },
@@ -799,12 +803,12 @@ export default {
         $,
         params = {},
       } = opts;
-      return (await this._makeSyncRequest({
+      return this._makeRestRequest({
         $,
-        path: "/api/v1/tasks/completed/by_completion_date",
-        method: "POST",
-        payload: params,
-      })).items;
+        path: "/tasks/completed/by_completion_date",
+        method: "GET",
+        params,
+      });
     },
     /**
      * Create a new task

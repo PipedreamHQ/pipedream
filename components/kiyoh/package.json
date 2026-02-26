@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/kiyoh",
+  "version": "0.0.1",
+  "description": "Pipedream Kiyoh (& Klantenvertellen) Components",
+  "main": "kiyoh.app.mjs",
+  "keywords": [
+    "pipedream",
+    "kiyoh"
+  ],
+  "homepage": "https://pipedream.com/apps/kiyoh",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
