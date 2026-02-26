@@ -42,13 +42,13 @@ export default {
   },
   async run(event) {
     const {
-      body, headers,
+      body, bodyRaw, headers,
     } = event;
     const signature = headers["x-sendit-signature"];
     const webhookSecret = this.db.get("webhookSecret");
 
     // Verify signature before processing
-    if (!this.sendIt.verifySignature(JSON.stringify(body), signature, webhookSecret)) {
+    if (!this.sendIt.verifySignature(bodyRaw, signature, webhookSecret)) {
       this.http.respond({
         status: 401,
         body: "Invalid signature",
