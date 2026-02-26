@@ -13978,9 +13978,6 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
-      async-retry:
-        specifier: ^1.3.3
-        version: 1.3.3
       isomorphic-fetch:
         specifier: ^3.0.0
         version: 3.0.0(encoding@0.1.13)
