@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/jo4",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream jo4 Components",
   "main": "jo4.app.mjs",
   "keywords": [
@@ -9,6 +9,9 @@
   ],
   "homepage": "https://pipedream.com/apps/jo4",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1"
+  },
   "publishConfig": {
     "access": "public"
   }
