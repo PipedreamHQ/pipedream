@@ -18,8 +18,3 @@ SendIt uses API Key authentication. Get your API key from the [SendIt Dashboard]
 
 - [SendIt Documentation](https://sendit.infiniteappsai.com/docs)
 - [API Reference](https://sendit.infiniteappsai.com/docs/api)
-
-## Support
-
-- Email: support@infiniteappsai.com
-- Website: https://sendit.infiniteappsai.com
