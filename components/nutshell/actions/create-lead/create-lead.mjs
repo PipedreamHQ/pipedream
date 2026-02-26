@@ -87,11 +87,6 @@ export default {
     },
   },
   async run({ $ }) {
-
-    if (this.accountId && !this.companyId) {
-      this.companyId = this.accountId;
-    }
-
     const customFields = await this.parseCustomFields(this);
     const response = await this.nutshell.post({
       $,

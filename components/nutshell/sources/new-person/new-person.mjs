@@ -8,11 +8,6 @@ export default {
   description: "Emit new event when a new person profile is created.",
   version: "0.0.2",
   type: "source",
-  annotations: {
-    destructiveHint: false,
-    openWorldHint: true,
-    readOnlyHint: true,
-  },
   dedupe: "unique",
   methods: {
     ...common.methods,
