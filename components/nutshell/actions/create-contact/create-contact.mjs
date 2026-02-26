@@ -5,7 +5,7 @@ export default {
   key: "nutshell-create-contact",
   name: "Create Contact",
   description: "Creates a new contact. [See the documentation](https://developers.nutshell.com/detail/class_core.html#a4b40d4fe9c7b8ddfd7231aca65cd1556)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
