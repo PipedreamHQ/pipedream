@@ -8184,8 +8184,7 @@ importers:
         specifier: ^6.0.0
         version: 6.1.0(encoding@0.1.13)(graphql@16.12.0)
 
-  components/kiyoh:
-    specifiers: {}
+  components/kiyoh: {}
 
   components/kizeo_forms:
     dependencies:
@@ -13985,6 +13984,9 @@ importers:
       isomorphic-fetch:
         specifier: ^3.0.0
         version: 3.0.0(encoding@0.1.13)
+      lodash.pickby:
+        specifier: ^4.6.0
+        version: 4.6.0
 
   components/sharepoint_admin: {}
 
@@ -16379,8 +16381,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/upload_to_url:
-    specifiers: {}
+  components/upload_to_url: {}
 
   components/uploadcare:
     dependencies:
@@ -40550,6 +40551,7 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
+      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.60)(rollup@4.53.2)':
     dependencies:
