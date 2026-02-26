@@ -7,6 +7,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
+    "build:axios": "esbuild lib/axios.ts --bundle --format=esm --platform=node --external:axios --external:querystring --outfile=dist/axios.mjs",
     "test": "npm run build && jest"
   },
   "author": "Pipedream Team",
