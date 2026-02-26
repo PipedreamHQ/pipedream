@@ -51,7 +51,7 @@ export default {
       const events = await this.getSampleEvents();
       for (const event of events.slice(0, 25)) {
         const data = event.data || event;
-        const id = data.id || data.slug || Date.now();
+        const id = data.id ?? data.slug ?? Date.now();
         this.$emit(event, {
           id,
           summary: this.getSummary(event),

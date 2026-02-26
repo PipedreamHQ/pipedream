@@ -94,7 +94,7 @@ export default {
       $,
     });
 
-    $.export("$summary", `Created short URL: ${response.fullShortUrl}`);
+    $.export("$summary", `Created short URL: ${response.fullShortUrl || response.shortUrl || "successfully"}`);
     return response;
   },
 };

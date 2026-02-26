@@ -78,7 +78,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "DELETE",
-        path: `/zapier/hooks/${subscriptionId}`,
+        path: `/zapier/hooks/${encodeURIComponent(subscriptionId)}`,
         ...opts,
       });
     },
