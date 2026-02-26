@@ -4,7 +4,7 @@ export default {
   key: "todoist-update-project",
   name: "Update Project",
   description: "Updates a project. [See the documentation](https://developer.todoist.com/api/v1#tag/Projects/operation/update_project_api_v1_projects__project_id__post)",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

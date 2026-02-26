@@ -4,7 +4,7 @@ export default {
   key: "todoist-find-project",
   name: "Find Project",
   description: "Finds a project (by name/title). [See the documentation](https://developer.todoist.com/api/v1#tag/Projects/operation/get_projects_api_v1_projects_get) Optionally, create one if none are found. [See the documentation](https://developer.todoist.com/api/v1#tag/Projects/operation/create_project_api_v1_projects_post)",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -32,7 +32,7 @@ export default {
       name,
       createIfNotFound,
     } = this;
-    const projects = await this.todoist.getProjects({
+    const { results: projects } = await this.todoist.getProjects({
       $,
     });
     let result = projects.find((project) => project.name == name);

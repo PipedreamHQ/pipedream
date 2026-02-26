@@ -4,7 +4,7 @@ export default {
   key: "todoist-create-task-comment",
   name: "Create Task Comment",
   description: "Adds a comment to a task. [See the documentation](https://developer.todoist.com/api/v1#tag/Comments/operation/create_comment_api_v1_comments_post)",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

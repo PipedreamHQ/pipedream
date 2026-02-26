@@ -4,7 +4,7 @@ export default {
   key: "todoist-list-uncompleted-tasks",
   name: "List Uncompleted Tasks",
   description: "Returns a list of uncompleted tasks by project, section, and/or label. [See the documentation](https://developer.todoist.com/api/v1#tag/Tasks/operation/get_tasks_api_v1_tasks_get)",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

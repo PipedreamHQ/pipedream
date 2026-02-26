@@ -8184,8 +8184,7 @@ importers:
         specifier: ^6.0.0
         version: 6.1.0(encoding@0.1.13)(graphql@16.12.0)
 
-  components/kiyoh:
-    specifiers: {}
+  components/kiyoh: {}
 
   components/kizeo_forms:
     dependencies:
@@ -15792,8 +15791,8 @@ importers:
   components/todoist:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.2.5
       json-2-csv:
         specifier: ^5.5.9
         version: 5.5.10

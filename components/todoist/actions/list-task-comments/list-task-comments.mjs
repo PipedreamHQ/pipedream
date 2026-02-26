@@ -4,7 +4,7 @@ export default {
   key: "todoist-list-task-comments",
   name: "List Task Comments",
   description: "Returns a list of comments for a task. [See the documentation](https://developer.todoist.com/api/v1#tag/Comments/operation/get_comments_api_v1_comments_get)",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

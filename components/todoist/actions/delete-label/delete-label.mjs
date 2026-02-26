@@ -4,7 +4,7 @@ export default {
   key: "todoist-delete-label",
   name: "Delete Label",
   description: "Deletes a label. [See the documentation](https://developer.todoist.com/api/v1#tag/Labels/operation/delete_label_api_v1_labels__label_id__delete)",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
