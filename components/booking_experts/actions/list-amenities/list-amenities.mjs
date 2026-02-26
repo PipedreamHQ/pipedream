@@ -5,7 +5,7 @@ export default {
   key: "booking_experts-list-amenities",
   name: "List Amenities",
   description: "List amenities from BookingExperts. [See the documentation](https://developers.bookingexperts.com/reference/amenities-index)",
-  version: "0.1.0",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

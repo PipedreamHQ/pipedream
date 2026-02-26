@@ -5,7 +5,7 @@ export default {
   key: "booking_experts-search-contacts",
   name: "Search Contacts",
   description: "Search for contacts by email or phone. [See the documentation](https://developers.bookingexperts.com/reference/contact-search-first)",
-  version: "0.1.0",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

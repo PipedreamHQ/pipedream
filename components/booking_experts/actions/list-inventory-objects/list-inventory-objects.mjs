@@ -4,7 +4,7 @@ export default {
   key: "booking_experts-list-inventory-objects",
   name: "List Inventory Objects",
   description: "Returns inventory objects of the administration. [See the documentation](https://developers.bookingexperts.com/reference/administration-inventoryobjects-index)",
-  version: "0.1.0",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
