@@ -4,10 +4,10 @@ export default {
   key: "nutshell-search-companies",
   name: "Search Companies",
   description: "Search companies (accounts) by string. Returns raw API results (array of account stubs). [See the documentation](https://developers-rpc.nutshell.com/detail/class_core.html#a3c7830301c59b470e5947754cac32ad9)",
-  version: "0.0.2",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
-    openWorldHint: false,
+    openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",

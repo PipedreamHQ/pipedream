@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/nutshell",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Pipedream Nutshell Components",
   "main": "nutshell.app.mjs",
   "keywords": [
@@ -13,7 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.6.8"
+    "@pipedream/platform": "^3.2.5"
   }
 }
 

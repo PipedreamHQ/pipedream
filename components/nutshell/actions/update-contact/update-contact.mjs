@@ -6,7 +6,7 @@ export default {
   key: "nutshell-update-contact",
   name: "Update Contact",
   description: "Update an existing contact. Only provided fields are updated. Custom fields from your Nutshell pipeline can be set below or passed via the Custom Fields (Object) prop. [See the documentation](https://developers-rpc.nutshell.com/detail/class_core.html#a98db326321fb32ec79cff2112999dc1f)",
-  version: "0.0.2",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -16,10 +16,12 @@ export default {
   props: {
     nutshell,
     contactId: {
-      type: "string",
+      propDefinition: [
+        nutshell,
+        "contactId",
+      ],
       label: "Contact ID",
       description: "The ID of the contact to update.",
-      reloadProps: true,
     },
     name: {
       type: "string",
@@ -169,9 +171,10 @@ export default {
     }
     const customFieldsData = await this.getCustomFields();
     const customFieldsFromProps = await this.parseCustomFields(this, customFieldsData);
-    const customFieldsObject = this.customFields && typeof this.customFields === "object"
-      ? this.customFields
+    const customFieldsObject = this.customFields
+      ? parseObject(this.customFields)
       : {};
+
     const hasCustomFields = Object.keys(customFieldsFromProps).length > 0
       || Object.keys(customFieldsObject).length > 0;
     if (hasCustomFields) {

@@ -4,10 +4,10 @@ export default {
   key: "nutshell-search-leads",
   name: "Search Leads",
   description: "Search leads by string. Returns formatted results: id, description, status, completion, value, primaryCompanyName, primaryContactName, isOverdue, lastContactDate, dueTime. [See the documentation](https://developers-rpc.nutshell.com/detail/class_core.html#a9e841c85b13b24f819f10bca0df837c3)",
-  version: "0.0.3",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
-    openWorldHint: false,
+    openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",

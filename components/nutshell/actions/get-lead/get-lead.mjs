@@ -5,17 +5,20 @@ export default {
   key: "nutshell-get-lead",
   name: "Get Lead",
   description: "Get a lead by ID. [See the documentation](https://developers-rpc.nutshell.com/#json-rpc)",
-  version: "0.0.7",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
-    openWorldHint: false,
+    openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
   props: {
     nutshell,
     leadId: {
-      type: "string",
+      propDefinition: [
+        nutshell,
+        "leadId",
+      ],
       label: "Lead ID or Number",
       description: "The internal lead ID, or the lead number shown in the Nutshell UI (e.g. 1000 for Lead-1000). If lookup by ID returns nothing, the value is tried as a lead number.",
     },

@@ -10,7 +10,7 @@ export default {
   type: "source",
   annotations: {
     destructiveHint: false,
-    openWorldHint: false,
+    openWorldHint: true,
     readOnlyHint: true,
   },
   dedupe: "unique",

@@ -5,7 +5,7 @@ export default {
   key: "nutshell-update-lead",
   name: "Update Lead",
   description: "Update an existing lead. Only provided fields are updated. Custom fields from your Nutshell pipeline can be set below. [See the documentation](https://developers-rpc.nutshell.com/#json-rpc)",
-  version: "0.0.6",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -15,7 +15,10 @@ export default {
   props: {
     nutshell,
     leadId: {
-      type: "string",
+      propDefinition: [
+        nutshell,
+        "leadId",
+      ],
       label: "Lead ID or Number",
       description: "The internal lead ID or the lead number shown in the Nutshell UI (e.g. 1000 for Lead-1000).",
       reloadProps: true,

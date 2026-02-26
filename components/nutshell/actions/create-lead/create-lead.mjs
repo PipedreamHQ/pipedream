@@ -5,7 +5,7 @@ export default {
   key: "nutshell-create-lead",
   name: "Create Lead",
   description: "Initiates a new lead within Nutshell. [See the documentation](https://developers.nutshell.com)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -34,15 +34,6 @@ export default {
       ],
       type: "string[]",
       optional: true,
-    },
-    accountId: {
-      propDefinition: [
-        nutshell,
-        "accountId",
-      ],
-      type: "string[]",
-      optional: true,
-      description: "**Deprecated**: Use `companyId` instead. The account ID for the lead.",
     },
     contactId: {
       propDefinition: [
@@ -126,10 +117,6 @@ export default {
     });
     $.export("$summary", `Successfully created lead with Id: ${response.result?.id}`);
 
-    /* Note:
-       While unlikely, existing code may expect some of the system fields to be present.
-       The formatLead function is not included in the return to avoid breaking changes.
-    */
     return response;
   },
 };

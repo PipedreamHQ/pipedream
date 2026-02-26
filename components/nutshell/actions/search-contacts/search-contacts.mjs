@@ -4,10 +4,10 @@ export default {
   key: "nutshell-search-contacts",
   name: "Search Contacts",
   description: "Search contacts by string. Returns an array of contacts with id, displayName, primaryEmail, and primaryPhone. [See the documentation](https://developers-rpc.nutshell.com/detail/class_core.html#a7b09990091f6ae57ed2c2ee951abfc7b)",
-  version: "0.0.6",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
-    openWorldHint: false,
+    openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
