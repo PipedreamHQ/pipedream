@@ -16737,7 +16737,11 @@ importers:
         specifier: ^0.6.2
         version: 0.6.2
 
-  components/vivifyscrum: {}
+  components/vivifyscrum:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.5
+        version: 3.2.5
 
   components/vivocalendar:
     dependencies:
