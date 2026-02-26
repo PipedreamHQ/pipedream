@@ -77,9 +77,14 @@ export default {
     if (this.shortUrl) data.shortUrl = this.shortUrl;
     if (this.title) data.title = this.title;
     if (this.tags) data.tags = this.tags;
-    if (this.expirationTime) data.expirationTime = this.expirationTime;
-    if (this.passwordProtected != null) data.passwordProtected = this.passwordProtected;
-    if (this.password) data.password = this.password;
+    if (this.expirationTime != null) data.expirationTime = this.expirationTime;
+    if (this.passwordProtected) {
+      if (!this.password) {
+        throw new Error("Password is required when Password Protected is enabled.");
+      }
+      data.passwordProtected = true;
+      data.password = this.password;
+    }
     if (this.utmSource) data.utmSource = this.utmSource;
     if (this.utmMedium) data.utmMedium = this.utmMedium;
     if (this.utmCampaign) data.utmCampaign = this.utmCampaign;

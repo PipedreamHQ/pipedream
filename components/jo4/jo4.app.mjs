@@ -59,7 +59,7 @@ export default {
       slug, ...opts
     }) {
       const result = await this._makeRequest({
-        path: `/protected/url/${slug}/stats`,
+        path: `/protected/url/${encodeURIComponent(slug)}/stats`,
         ...opts,
       });
       return result?.response ?? result;

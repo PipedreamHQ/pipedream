@@ -34,6 +34,9 @@ export default {
           hookUrl: this.http.endpoint,
         },
       });
+      if (!response?.id) {
+        throw new Error("subscribeWebhook response is missing subscription id");
+      }
       this._setSubscriptionId(response.id);
     },
     async deactivate() {
@@ -67,7 +70,7 @@ export default {
       return;
     }
 
-    const id = body.data?.id || body.data?.slug || body.timestamp;
+    const id = body.data?.id ?? body.data?.slug ?? body.timestamp ?? Date.now();
 
     this.$emit(body, {
       id,

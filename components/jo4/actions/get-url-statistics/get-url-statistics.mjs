@@ -29,8 +29,8 @@ export default {
   },
   async run({ $ }) {
     const params = {};
-    if (this.startTime) params.startTime = this.startTime;
-    if (this.endTime) params.endTime = this.endTime;
+    if (this.startTime != null) params.startTime = this.startTime;
+    if (this.endTime != null) params.endTime = this.endTime;
 
     const response = await this.jo4.getUrlStats({
       slug: this.urlSlug,
