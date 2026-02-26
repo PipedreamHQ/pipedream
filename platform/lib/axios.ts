@@ -149,9 +149,10 @@ async function callAxios(step: PipedreamStep | undefined, config: AxiosRequestCo
       : response.data;
   } catch (err) {
     const axiosErr = err as AxiosError;
-    if (axiosErr.response && step?.context) {
-      const responseSummary = convertAxiosError(axiosErr);
+    if (axiosErr.response) {
+      const { error, responseSummary } = convertAxiosError(axiosErr);
       stepExport(step, responseSummary, "debug");
+      throw error;
     }
     throw err;
   }
@@ -172,12 +173,16 @@ function stepExport(step: PipedreamStep | undefined, message: unknown, key: stri
 }
 
 /**
- * Sanitizes an AxiosError in-place by removing sensitive request configuration,
- * request details, and stack trace. Returns a summary of the response containing
- * only status, statusText, headers, and data.
+ * Converts an AxiosError into a clean error object containing only the
+ * information relevant to the end user: the error name/message and a
+ * response summary (status, statusText, headers, data). This avoids
+ * leaking sensitive request configuration from the original AxiosError.
  */
-function convertAxiosError(err: AxiosError) {
+function convertAxiosError(err: AxiosError): { error: Error; responseSummary?: AxiosResponseSummary } {
   let responseSummary: AxiosResponseSummary | undefined;
+  const name = `${err.name} - ${err.message}`;
+  let message = err.message;
+
   if (err.response) {
     responseSummary = {
       status: err.response.status,
@@ -185,21 +190,21 @@ function convertAxiosError(err: AxiosError) {
       headers: err.response.headers,
       data: err.response.data,
     };
-    delete err.response.request;
-    delete (err.response as Partial<typeof err.response>).config;
-    err.name = `${err.name} - ${err.message}`;
     try {
-      err.message = JSON.stringify(err.response.data);
+      message = JSON.stringify(err.response.data);
     }
     catch (error) {
       console.error("Error trying to convert `err.response.data` to string");
       console.log(error);
     }
   }
-  delete err.config;
-  delete err.request;
-  delete err.stack;
-  return responseSummary;
+
+  const clean = new Error(message);
+  clean.name = name;
+  return {
+    error: clean,
+    responseSummary,
+  };
 }
 
 function create(config?: AxiosRequestConfig, signConfig?: OAuth1SignConfig) {
@@ -236,13 +241,14 @@ function create(config?: AxiosRequestConfig, signConfig?: OAuth1SignConfig) {
     return config.returnFullResponse
       ? response
       : response.data;
-  }, (error: AxiosError) => {
-    if (error.response) {
-      const responseSummary = convertAxiosError(error);
+  }, (err: AxiosError) => {
+    if (err.response) {
+      const { error, responseSummary } = convertAxiosError(err);
       stepExport(undefined, responseSummary, "debug");
+      throw error;
     }
 
-    throw error;
+    throw err;
   });
 
   return axiosInstance;
