@@ -69,7 +69,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/zapier/hooks/${event}`,
+        path: `/zapier/hooks/${encodeURIComponent(event)}`,
         ...opts,
       });
     },
