@@ -1,7 +1,7 @@
-import slack from "../../slack.app.mjs";
+import slack from "../../slack_v2.app.mjs";
 
 export default {
-  key: "slack-list-emojis",
+  key: "slack_v2-list-emojis",
   name: "List Emojis",
   description:
     "List all available emojis in the Slack workspace. Optionally include emoji image URLs. [See the documentation](https://api.slack.com/methods/emoji.list)",

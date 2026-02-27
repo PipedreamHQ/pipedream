@@ -4,7 +4,7 @@ export default {
   key: "slack_v2-list-channels",
   name: "List Channels",
   description: "Return a list of all channels in a workspace. [See the documentation](https://api.slack.com/methods/conversations.list)",
-  version: "0.1.1",
+  version: "0.1.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
