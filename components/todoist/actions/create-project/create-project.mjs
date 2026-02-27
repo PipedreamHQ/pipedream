@@ -4,7 +4,7 @@ export default {
   key: "todoist-create-project",
   name: "Create Project",
   description: "Creates a project. [See the documentation](https://developer.todoist.com/api/v1#tag/Projects/operation/create_project_api_v1_projects_post)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

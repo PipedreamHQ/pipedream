@@ -1,8 +1,7 @@
-import { axios } from "@pipedream/platform";
 import { Client } from "@microsoft/microsoft-graph-client";
-import retry from "async-retry";
 import "isomorphic-fetch";
 import { WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS } from "./common/constants.mjs";
+import pickBy from "lodash.pickby";
 
 export default {
   type: "app",
@@ -360,7 +359,7 @@ export default {
             driveId: resolvedDriveId,
           });
         return response.value?.map(({
-          id, name, folder, size, lastModifiedDateTime,
+          id, name, folder, size, lastModifiedDateTime, webUrl, description,
         }) => ({
           value: JSON.stringify({
             id,
@@ -369,6 +368,8 @@ export default {
             size,
             childCount: folder?.childCount,
             lastModifiedDateTime,
+            webUrl,
+            description,
           }),
           label: folder
             ? `📁 ${name}`
@@ -378,7 +379,6 @@ export default {
     },
   },
   methods: {
-    _graphClient: null,
     /**
      * Resolves a potentially wrapped labeled value to its actual value.
      * Pipedream props with withLabel: true wrap values in a special format.
@@ -431,399 +431,187 @@ export default {
      * and includes built-in pagination and type safety.
      */
     client() {
-      if (!this._graphClient) {
-        this._graphClient = Client.initWithMiddleware({
-          authProvider: {
-            getAccessToken: () => Promise.resolve(this._getAccessToken()),
-          },
-        });
-      }
-      return this._graphClient;
-    },
-    /**
-     * Makes a request to Microsoft Graph API with automatic retry logic.
-     * Retries on transient errors (5xx, 429) but not on auth/client
-     * errors (4xx).
-     *
-     * @param {Object} options - Request options
-     * @param {string} options.path - API path (e.g., "/sites/{siteId}")
-     * @param {string} [options.method="GET"] - HTTP method
-     * @param {*} [options.content] - Request body for POST/PATCH
-     * @param {number} [options.retries=3] - Number of retry attempts
-     * @returns {Promise<*>} API response
-     */
-    async graphRequest({
-      path, method = "GET", content, retries = 3,
-    }) {
-      return retry(
-        async (bail) => {
-          try {
-            const api = this.client().api(path);
-
-            switch (method.toUpperCase()) {
-            case "GET":
-              return await api.get();
-            case "POST":
-              return await api.post(content);
-            case "PATCH":
-              return await api.patch(content);
-            case "DELETE":
-              return await api.delete();
-            default:
-              throw new Error(`Unsupported HTTP method: ${method}`);
-            }
-          } catch (error) {
-            // Don't retry on auth errors or client errors (4xx except 429)
-            const status = error.statusCode || error.response?.status;
-            if ([
-              400,
-              401,
-              403,
-              404,
-            ].includes(status)) {
-              bail(error); // Throw immediately, don't retry
-              return;
-            }
-            throw error; // Retry on other errors
-          }
+      return Client.initWithMiddleware({
+        authProvider: {
+          getAccessToken: () => Promise.resolve(this._getAccessToken()),
         },
-        {
-          retries,
-          minTimeout: 1000,
-          maxTimeout: 10000,
-          onRetry: (error, attempt) => {
-            console.log(`Retry attempt ${attempt} after error: ${error.message}`);
-          },
-        },
-      );
-    },
-    _baseUrl() {
-      return "https://graph.microsoft.com/v1.0";
-    },
-    _headers(headers) {
-      return {
-        Authorization: `Bearer ${this._getAccessToken()}`,
-        ...headers,
-      };
-    },
-    _makeRequest({
-      $ = this,
-      path,
-      url,
-      headers,
-      ...args
-    }) {
-      return axios($, {
-        url: url || `${this._baseUrl()}${path}`,
-        headers: this._headers(headers),
-        ...args,
-      });
-    },
-    /**
-     * Makes a request to SharePoint REST API (not Microsoft Graph).
-     * Use this for SharePoint-specific features not available in Graph API,
-     * such as native SharePoint site groups.
-     *
-     * @param {Object} options - Request options
-     * @param {string} options.siteWebUrl - Full site URL (e.g., "https://tenant.sharepoint.com/sites/MySite")
-     * @param {string} options.path - REST API path (e.g., "/web/sitegroups")
-     * @param {Object} [options.headers] - Additional headers
-     * @returns {Promise<Object>} API response
-     * @example
-     * // Get SharePoint site groups
-     * await this._makeSharePointRestRequest({
-     *   siteWebUrl: "https://contoso.sharepoint.com/sites/TeamSite",
-     *   path: "/web/sitegroups"
-     * })
-     */
-    _makeSharePointRestRequest({
-      $ = this,
-      siteWebUrl,
-      path,
-      headers,
-      ...args
-    }) {
-      // SharePoint REST API uses the site's webUrl as base
-      // e.g., https://tenant.sharepoint.com/sites/MySite/_api/web/sitegroups
-      const baseUrl = siteWebUrl.replace(/\/$/, ""); // Remove trailing slash if present
-      return axios($, {
-        url: `${baseUrl}/_api${path}`,
-        headers: this._headers({
-          Accept: "application/json;odata=verbose",
-          ...headers,
-        }),
-        ...args,
       });
     },
     getSite({
-      siteId, ...args
-    }) {
-      return this._makeRequest({
-        path: `/sites/${siteId}`,
-        ...args,
-      });
-    },
-    /**
-     * Lists SharePoint-native site groups using the SharePoint REST API.
-     * These are different from Microsoft 365 Groups and can only be accessed via REST API.
-     *
-     * @param {Object} options - Request options
-     * @param {string} options.siteWebUrl - Full site URL
-     * @returns {Promise<Object>} Response with groups in d.results array
-     * @example
-     * const groups = await this.listSharePointSiteGroups({
-     *   siteWebUrl: "https://contoso.sharepoint.com/sites/TeamSite"
-     * });
-     * // Returns: { d: { results: [{ Id: 5, Title: "Team Site Members" }, ...] } }
-     */
-    listSharePointSiteGroups({
-      siteWebUrl, ...args
-    }) {
-      return this._makeSharePointRestRequest({
-        siteWebUrl,
-        path: "/web/sitegroups",
-        ...args,
-      });
-    },
-    /**
-     * Gets members of a SharePoint-native site group using the SharePoint REST API.
-     * Returns user details including email, display name, and login name.
-     *
-     * @param {Object} options - Request options
-     * @param {string} options.siteWebUrl - Full site URL
-     * @param {number} options.groupId - SharePoint group ID
-     * @returns {Promise<Object>} Response with users in d.results array
-     * @example
-     * const members = await this.getSharePointSiteGroupMembers({
-     *   siteWebUrl: "https://contoso.sharepoint.com/sites/TeamSite",
-     *   groupId: 5
-     * });
-     * // Returns: { d: { results: [{ Email: "user@contoso.com", Title: "John Doe" }, ...] } }
-     */
-    getSharePointSiteGroupMembers({
-      siteWebUrl, groupId, ...args
-    }) {
-      return this._makeSharePointRestRequest({
-        siteWebUrl,
-        path: `/web/sitegroups/getbyid(${groupId})/users`,
-        ...args,
-      });
-    },
-    listSites(args = {}) {
-      return this._makeRequest({
-        path: "/me/followedSites",
-        ...args,
-      });
-    },
-    listAllSites({
-      params = {}, ...args
+      siteId, params = {},
     } = {}) {
+      return this.client().api(`/sites/${siteId}`)
+        .query(pickBy(params))
+        .get();
+    },
+    listSites({ params = {} } = {}) {
+      return this.client().api("/me/followedSites")
+        .query(pickBy(params))
+        .get();
+    },
+    listAllSites({ params = {} } = {}) {
       if (!params.search) {
         params.search = "*";
       }
-      return this._makeRequest({
-        path: "/sites",
-        params,
-        ...args,
-      });
+      return this.client().api("/sites")
+        .query(pickBy(params))
+        .get();
     },
     listLists({
-      siteId, ...args
-    }) {
-      return this._makeRequest({
-        path: `/sites/${siteId}/lists`,
-        ...args,
-      });
+      siteId, params = {},
+    } = {}) {
+      return this.client().api(`/sites/${siteId}/lists`)
+        .query(pickBy(params))
+        .get();
     },
     listColumns({
-      siteId, listId, ...args
-    }) {
-      return this._makeRequest({
-        path: `/sites/${siteId}/lists/${listId}/columns`,
-        ...args,
-      });
+      siteId, listId, params = {},
+    } = {}) {
+      return this.client().api(`/sites/${siteId}/lists/${listId}/columns`)
+        .query(pickBy(params))
+        .get();
     },
     listItems({
-      siteId, listId, ...args
-    }) {
-      return this._makeRequest({
-        path: `/sites/${siteId}/lists/${listId}/items`,
-        ...args,
-      });
+      siteId, listId, params = {},
+    } = {}) {
+      return this.client().api(`/sites/${siteId}/lists/${listId}/items`)
+        .query(pickBy(params))
+        .get();
     },
     getListItem({
-      siteId, listId, itemId, ...args
-    }) {
-      return this._makeRequest({
-        path: `/sites/${siteId}/lists/${listId}/items/${itemId}`,
-        ...args,
-      });
+      siteId, listId, itemId, params = {},
+    } = {}) {
+      return this.client().api(`/sites/${siteId}/lists/${listId}/items/${itemId}`)
+        .query(pickBy(params))
+        .get();
     },
     listSiteDrives({
-      siteId, ...args
-    }) {
-      return this._makeRequest({
-        path: `/sites/${siteId}/drives`,
-        ...args,
-      });
+      siteId, params = {},
+    } = {}) {
+      return this.client().api(`/sites/${siteId}/drives`)
+        .query(pickBy(params))
+        .get();
     },
     listDriveItems({
-      siteId, driveId, ...args
-    }) {
-      return this._makeRequest({
-        path: `/sites/${siteId}/drives/${driveId}/root/children`,
-        ...args,
-      });
+      siteId, driveId, params = {},
+    } = {}) {
+      return this.client().api(`/sites/${siteId}/drives/${driveId}/root/children`)
+        .query(pickBy(params))
+        .get();
     },
     listDriveItemsInFolder({
-      driveId, folderId, ...args
-    }) {
-      return this._makeRequest({
-        path: `/drives/${driveId}/items/${folderId}/children`,
-        ...args,
-      });
+      driveId, folderId, params = {},
+    } = {}) {
+      return this.client().api(`/drives/${driveId}/items/${folderId}/children`)
+        .query(pickBy(params))
+        .get();
     },
     createDriveItem({
-      siteId, driveId, ...args
-    }) {
-      return this._makeRequest({
-        path: `/sites/${siteId}/drives/${driveId}/root/children`,
-        method: "POST",
-        ...args,
-      });
+      siteId, driveId, data = {},
+    } = {}) {
+      return this.client().api(`/sites/${siteId}/drives/${driveId}/root/children`)
+        .post(data);
     },
     createDriveItemInFolder({
-      siteId, folderId, ...args
-    }) {
-      return this._makeRequest({
-        path: `/sites/${siteId}/drive/items/${folderId}/children`,
-        method: "POST",
-        ...args,
-      });
+      siteId, folderId, data = {},
+    } = {}) {
+      return this.client().api(`/sites/${siteId}/drive/items/${folderId}/children`)
+        .post(data);
     },
     createLink({
-      siteId, fileId, ...args
-    }) {
-      return this._makeRequest({
-        path: `/sites/${siteId}/drive/items/${fileId}/createLink`,
-        method: "POST",
-        ...args,
-      });
+      siteId, fileId, data = {},
+    } = {}) {
+      return this.client().api(`/sites/${siteId}/drive/items/${fileId}/createLink`)
+        .post(data);
     },
     listExcelTables({
-      siteId, itemId, ...args
-    }) {
-      return this._makeRequest({
-        path: `/sites/${siteId}/drive/items/${itemId}/workbook/tables`,
-        ...args,
-      });
+      siteId, itemId, params = {},
+    } = {}) {
+      return this.client().api(`/sites/${siteId}/drive/items/${itemId}/workbook/tables`)
+        .query(pickBy(params))
+        .get();
     },
     getExcelTable({
-      siteId, itemId, tableName, ...args
-    }) {
-      return this._makeRequest({
-        path: `/sites/${siteId}/drive/items/${itemId}/workbook/tables/${tableName}/range`,
-        ...args,
-      });
+      siteId, itemId, tableName, params = {},
+    } = {}) {
+      return this.client().api(`/sites/${siteId}/drive/items/${itemId}/workbook/tables/${tableName}/range`)
+        .query(pickBy(params))
+        .get();
     },
     uploadFile({
-      siteId, driveId, uploadFolderId, name, ...args
-    }) {
-      return this._makeRequest({
-        path: uploadFolderId
-          ? `/sites/${siteId}/drives/${driveId}/items/${uploadFolderId}:/${encodeURI(name)}:/content`
-          : `/sites/${siteId}/drives/${driveId}/root:/${encodeURI(name)}:/content`,
-        method: "PUT",
-        headers: {
-          "Authorization": `Bearer ${this._getAccessToken()}`,
-        },
-        ...args,
-      });
+      siteId, driveId, uploadFolderId, name, data,
+    } = {}) {
+      const path = uploadFolderId
+        ? `/sites/${siteId}/drives/${driveId}/items/${uploadFolderId}:/${encodeURI(name)}:/content`
+        : `/sites/${siteId}/drives/${driveId}/root:/${encodeURI(name)}:/content`;
+      return this.client().api(path)
+        .put(data);
     },
     getDriveItem({
-      siteId, driveId, fileId, ...args
-    }) {
-      // Use driveId if provided, otherwise fall back to site's default drive
+      siteId, driveId, fileId, params = {},
+    } = {}) {
       const path = driveId
         ? `/drives/${driveId}/items/${fileId}`
         : `/sites/${siteId}/drive/items/${fileId}`;
-      return this._makeRequest({
-        path,
-        ...args,
-      });
+      return this.client().api(path)
+        .query(pickBy(params))
+        .get();
     },
     listDriveItemPermissions({
-      driveId, itemId, ...args
-    }) {
-      return this._makeRequest({
-        path: `/drives/${driveId}/items/${itemId}/permissions`,
-        ...args,
-      });
+      driveId, itemId, params = {},
+    } = {}) {
+      return this.client().api(`/drives/${driveId}/items/${itemId}/permissions`)
+        .query(pickBy(params))
+        .get();
     },
     searchDriveItems({
-      siteId, query, ...args
-    }) {
-      return this._makeRequest({
-        path: `/sites/${siteId}/drive/root/search(q='${encodeURIComponent(
-          query,
-        )}')`,
-        ...args,
-      });
+      siteId, query, params = {},
+    } = {}) {
+      return this.client().api(`/sites/${siteId}/drive/root/search(q='${encodeURIComponent(query)}')`)
+        .query(pickBy(params))
+        .get();
     },
     getFile({
-      driveId, fileId, ...args
-    }) {
-      return this._makeRequest({
-        path: `/drives/${driveId}/items/${fileId}/content`,
-        ...args,
-      });
+      driveId, fileId, params = {},
+    } = {}) {
+      return this.client().api(`/drives/${driveId}/items/${fileId}/content`)
+        .query(pickBy(params))
+        .get();
     },
     createList({
-      siteId, ...args
-    }) {
-      return this._makeRequest({
-        path: `/sites/${siteId}/lists`,
-        method: "POST",
-        ...args,
-      });
+      siteId, data = {},
+    } = {}) {
+      return this.client().api(`/sites/${siteId}/lists`)
+        .post(data);
     },
     createItem({
-      siteId, listId, ...args
-    }) {
-      return this._makeRequest({
-        path: `/sites/${siteId}/lists/${listId}/items`,
-        method: "POST",
-        ...args,
-      });
+      siteId, listId, data = {},
+    } = {}) {
+      return this.client().api(`/sites/${siteId}/lists/${listId}/items`)
+        .post(data);
     },
     updateItem({
-      siteId, listId, itemId, ...args
-    }) {
-      return this._makeRequest({
-        path: `/sites/${siteId}/lists/${listId}/items/${itemId}/fields`,
-        method: "PATCH",
-        ...args,
-      });
+      siteId, listId, itemId, data = {},
+    } = {}) {
+      return this.client().api(`/sites/${siteId}/lists/${listId}/items/${itemId}/fields`)
+        .patch(data);
     },
-    listGroups(args = {}) {
-      return this._makeRequest({
-        path: "/groups",
-        ...args,
-      });
+    listGroups({ params = {} } = {}) {
+      return this.client().api("/groups")
+        .query(pickBy(params))
+        .get();
     },
-    listUsers(args = {}) {
-      return this._makeRequest({
-        path: "/users",
-        ...args,
-      });
+    listUsers({ params = {} } = {}) {
+      return this.client().api("/users")
+        .query(pickBy(params))
+        .get();
     },
     listGroupMembers({
-      groupId, ...args
-    }) {
-      return this._makeRequest({
-        path: `/groups/${groupId}/members`,
-        ...args,
-      });
+      groupId, params = {},
+    } = {}) {
+      return this.client().api(`/groups/${groupId}/members`)
+        .query(pickBy(params))
+        .get();
     },
     /**
      * Get delta changes for a drive using Microsoft Graph delta query.
@@ -847,26 +635,19 @@ export default {
      * });
      */
     getDriveDelta({
-      driveId, deltaLink, ...args
-    }) {
-      // If we have a deltaLink/nextLink, use it as full URL; otherwise build path
+      driveId, deltaLink,
+    } = {}) {
       if (deltaLink) {
-        return this._makeRequest({
-          url: deltaLink,
-          ...args,
-        });
+        const path = deltaLink.replace(/^https:\/\/graph\.microsoft\.com\/v[^/]+/, "");
+        return this.client().api(path)
+          .get();
       }
-      return this._makeRequest({
-        path: `/drives/${driveId}/root/delta`,
-        ...args,
-      });
+      return this.client().api(`/drives/${driveId}/root/delta`)
+        .get();
     },
-    searchQuery(args = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/search/query",
-        ...args,
-      });
+    searchQuery({ data = {} } = {}) {
+      return this.client().api("/search/query")
+        .post(data);
     },
     async *paginate({
       fn, args,
@@ -913,24 +694,19 @@ export default {
      * });
      */
     createSubscription({
-      resource, notificationUrl, changeType = "updated", clientState, ...args
-    }) {
+      resource, notificationUrl, changeType = "updated", clientState,
+    } = {}) {
       const expirationDateTime = new Date(
         Date.now() + WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS,
       ).toISOString();
-
-      return this._makeRequest({
-        method: "POST",
-        path: "/subscriptions",
-        data: {
+      return this.client().api("/subscriptions")
+        .post({
           changeType,
           notificationUrl,
           resource,
           expirationDateTime,
           clientState,
-        },
-        ...args,
-      });
+        });
     },
     /**
      * Updates a subscription's expiration time (renewal).
@@ -945,21 +721,14 @@ export default {
      *   subscriptionId: "abc123-def456"
      * });
      */
-    updateSubscription({
-      subscriptionId, ...args
-    }) {
+    updateSubscription({ subscriptionId } = {}) {
       const expirationDateTime = new Date(
         Date.now() + WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS,
       ).toISOString();
-
-      return this._makeRequest({
-        method: "PATCH",
-        path: `/subscriptions/${subscriptionId}`,
-        data: {
+      return this.client().api(`/subscriptions/${subscriptionId}`)
+        .patch({
           expirationDateTime,
-        },
-        ...args,
-      });
+        });
     },
     /**
      * Deletes a subscription. Call this when deactivating a webhook source
@@ -974,14 +743,9 @@ export default {
      *   subscriptionId: "abc123-def456"
      * });
      */
-    deleteSubscription({
-      subscriptionId, ...args
-    }) {
-      return this._makeRequest({
-        method: "DELETE",
-        path: `/subscriptions/${subscriptionId}`,
-        ...args,
-      });
+    deleteSubscription({ subscriptionId } = {}) {
+      return this.client().api(`/subscriptions/${subscriptionId}`)
+        .delete();
     },
   },
 };

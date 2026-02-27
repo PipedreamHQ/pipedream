@@ -10,5 +10,5 @@ export default {
   ...utils.getAppProps(listProjects),
   key: "linear-list-projects",
   description: "List projects in Linear. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/ProjectConnection?query=projects).",
-  version: "0.0.1",
+  version: "0.0.2",
 };

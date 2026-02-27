@@ -4,7 +4,7 @@ export default {
   key: "todoist-create-project-comment",
   name: "Create Project Comment",
   description: "Adds a comment to a project. [See the documentation](https://developer.todoist.com/api/v1#tag/Comments/operation/create_comment_api_v1_comments_post)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

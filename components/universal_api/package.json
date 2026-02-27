@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/universal_api",
+  "version": "0.0.1",
+  "description": "Pipedream Universal API Components",
+  "main": "universal_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "universal_api"
+  ],
+  "homepage": "https://pipedream.com/apps/universal_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

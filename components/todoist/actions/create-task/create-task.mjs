@@ -4,7 +4,7 @@ export default {
   key: "todoist-create-task",
   name: "Create Task",
   description: "Creates a task. [See the documentation](https://developer.todoist.com/api/v1#tag/Tasks/operation/create_task_api_v1_tasks_post)",
-  version: "0.0.7",
+  version: "0.0.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -285,5 +285,34 @@ export default {
   "trashed_datetime": null,
   "updated_datetime": "2024-02-14T21:30:50.228948+00:00",
   "uri": "/api/tickets/86538298/",
-  "via": "helpdesk"
+  "via": "helpdesk",
+  "custom_fields": [
+    {
+      "field": {
+        "id": 12345,
+        "label": "Order Number",
+        "definition": {
+          "data_type": "text",
+          "input_settings": {
+            "input_type": "input"
+          }
+        }
+      },
+      "value": "ORD-12345"
+    },
+    {
+      "field": {
+        "id": 12346,
+        "label": "Priority Level",
+        "definition": {
+          "data_type": "text",
+          "input_settings": {
+            "input_type": "dropdown",
+            "choices": ["Low", "Medium", "High"]
+          }
+        }
+      },
+      "value": "High"
+    }
+  ]
 }

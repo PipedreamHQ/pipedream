@@ -4,7 +4,7 @@ export default {
   key: "sharepoint-search-files",
   name: "Search Files",
   description: "Search for files in Microsoft Sharepoint. [See the documentation](https://learn.microsoft.com/en-us/graph/api/search-query?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: false,
