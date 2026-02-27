@@ -6,7 +6,7 @@ export default {
   key: "zoom-webinar-updated",
   name: "Webinar Updated (Instant)",
   description: "Emit new event each time a webinar is updated where you're the host",
-  version: "0.1.7",
+  version: "0.1.8",
   type: "source",
   dedupe: "unique",
   props: {

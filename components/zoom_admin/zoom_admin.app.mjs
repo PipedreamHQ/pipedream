@@ -436,5 +436,66 @@ export default {
       });
       return data;
     },
+    getMeetingSummary({
+      meetingId, ...opts
+    } = {}) {
+      return this._makeRequest({
+        path: `/meetings/${doubleEncode(meetingId)}/meeting_summary`,
+        ...opts,
+      });
+    },
+    getMeetingSummaries(opts = {}) {
+      return this._makeRequest({
+        path: "/meetings/meeting_summaries",
+        ...opts,
+      });
+    },
+    listAllRecordings({
+      userId, ...opts
+    } = {}) {
+      return this._makeRequest({
+        path: `/users/${userId || "me"}/recordings`,
+        ...opts,
+      });
+    },
+    async *getResourcesStream({
+      resourceFn,
+      resourceFnArgs,
+      resourceName,
+      max,
+    } = {}) {
+      let nextPageToken;
+      let resourcesCount = 0;
+
+      while (true) {
+        const { data: response } = await resourceFn({
+          ...resourceFnArgs,
+          params: {
+            ...resourceFnArgs.params,
+            next_page_token: nextPageToken,
+          },
+        });
+
+        const nextResources = response[resourceName];
+
+        if (!nextResources?.length) {
+          return;
+        }
+
+        for (const resource of nextResources) {
+          yield resource;
+          resourcesCount += 1;
+
+          if (max && resourcesCount >= max) {
+            return;
+          }
+        }
+
+        nextPageToken = response.next_page_token;
+        if (!nextPageToken) {
+          return;
+        }
+      }
+    },
   },
 };
