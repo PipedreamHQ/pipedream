@@ -135,37 +135,39 @@ export default {
       },
     },
     leadId: {
-      type: "string[]",
-      label: "Lead Id",
-      description: "The lead's Id of the contact.",
-      async options({
-        page, companyId,
-      }) {
-        const selectedCompanyId = Array.isArray(companyId)
-          ? companyId[0]
-          : companyId;
-        if (!selectedCompanyId) {
-          return [];
-        }
-
+      type: "string",
+      label: "Lead ID",
+      description: "The lead's ID.",
+      async options({ page }) {
         const { result } = await this.post({
           method: "findLeads",
           data: {
             params: {
               page: page + 1,
               query: {
-                accountId: parseInt(selectedCompanyId, 10),
+                filter: 2,
               },
             },
           },
         });
 
-        return result.map(({
-          id: value, name: label,
-        }) => ({
-          label,
-          value,
-        }));
+        return result.map((item) => {
+          const value = item.id;
+          const name = item.name ?? "";
+          const primaryAccountName = item.primaryAccountName ?? item.primaryAccount?.name ?? "";
+          const primaryContactName = item.primaryContactName ?? item.primaryContact?.name ?? "";
+          const accountAndContact = [
+            primaryAccountName,
+            primaryContactName,
+          ].filter(Boolean).join(", ");
+          const label = (name && accountAndContact)
+            ? `${name}: ${accountAndContact}`
+            : (name || accountAndContact || String(value));
+          return {
+            label,
+            value,
+          };
+        });
       },
     },
     marketId: {

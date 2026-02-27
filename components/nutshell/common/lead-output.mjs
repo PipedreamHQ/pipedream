@@ -17,7 +17,7 @@ export const LEAD_OUTPUT_FIELDS = [
   "source",
   "market",
   "tags",
-  "accounts",
+  "primaryAccount",
   "contacts",
   "assignee",
   "products",
@@ -32,6 +32,11 @@ export const LEAD_CONTACT_FIELD_NAMES = [
 ];
 
 const ASSIGNEE_OUTPUT_FIELDS = [
+  "id",
+  "name",
+];
+
+const PRIMARY_ACCOUNT_OUTPUT_FIELDS = [
   "id",
   "name",
 ];
@@ -92,6 +97,19 @@ export const formatAssignee = (assignee) => {
   return out;
 };
 
+export const formatPrimaryAccount = (account) => {
+  if (account == null) {
+    return account;
+  }
+  const out = {};
+  for (const key of PRIMARY_ACCOUNT_OUTPUT_FIELDS) {
+    if (Object.prototype.hasOwnProperty.call(account, key)) {
+      out[key] = account[key];
+    }
+  }
+  return out;
+};
+
 export const formatProduct = (product) => {
   if (product == null) {
     return product;
@@ -128,6 +146,10 @@ const LEAD_ASSIGNEE_FIELD_NAMES = [
   "assignee",
 ];
 
+const LEAD_PRIMARY_ACCOUNT_FIELD_NAMES = [
+  "primaryAccount",
+];
+
 const LEAD_PRODUCT_FIELD_NAMES = [
   "products",
 ];
@@ -157,6 +179,10 @@ export const formatLead = (lead, contactFormatter = formatContact) => {
     } else if (LEAD_ASSIGNEE_FIELD_NAMES.includes(key)) {
       out[key] = value && typeof value === "object"
         ? formatAssignee(value)
+        : value;
+    } else if (LEAD_PRIMARY_ACCOUNT_FIELD_NAMES.includes(key)) {
+      out[key] = value && typeof value === "object"
+        ? formatPrimaryAccount(value)
         : value;
     } else if (LEAD_PRODUCT_FIELD_NAMES.includes(key)) {
       out[key] = Array.isArray(value)
