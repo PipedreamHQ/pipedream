@@ -5,7 +5,7 @@ export default {
   key: "nutshell-create-contact",
   name: "Create Contact",
   description: "Creates a new contact. [See the documentation](https://developers.nutshell.com/detail/class_core.html#a4b40d4fe9c7b8ddfd7231aca65cd1556)",
-  version: "0.0.2",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -41,22 +41,19 @@ export default {
       ],
       optional: true,
     },
-    accountId: {
+    companyId: {
       propDefinition: [
         nutshell,
-        "accountId",
+        "companyId",
       ],
       type: "string[]",
-      description: "The account's Id to the Contact.",
+      description: "The company ID for the contact.",
       optional: true,
     },
     leadId: {
       propDefinition: [
         nutshell,
         "leadId",
-        ({ accountId }) => ({
-          accountId,
-        }),
       ],
       optional: true,
     },
@@ -135,8 +132,8 @@ export default {
             leads: this.leadId && this.leadId.map((lead) => ({
               id: lead,
             })),
-            accounts: this.accountId && this.accountId.map((account) => ({
-              id: account,
+            accounts: this.companyId && this.companyId.map((company) => ({
+              id: company,
             })),
             territoryId: this.territoryId,
             audienceId: this.audienceId && this.audienceId.map((audience) => ({
@@ -149,6 +146,7 @@ export default {
     });
 
     $.export("$summary", `New contact created with Id: ${response.result?.id}`);
+
     return response;
   },
 };
