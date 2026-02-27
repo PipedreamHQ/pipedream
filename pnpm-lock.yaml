@@ -1965,6 +1965,12 @@ importers:
 
   components/bokun: {}
 
+  components/bol_com:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.5
+        version: 3.2.5
+
   components/boldsign:
     dependencies:
       '@pipedream/platform':
@@ -3286,7 +3292,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/coingecko: {}
+  components/coingecko:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.5
+        version: 3.2.5
 
   components/coinlore:
     dependencies:
@@ -3802,6 +3812,8 @@ importers:
       '@pipedream/types':
         specifier: ^0.3.2
         version: 0.3.4
+
+  components/daftara: {}
 
   components/daily:
     dependencies:
@@ -5795,7 +5807,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/freshbooks: {}
+  components/freshbooks:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.5
+        version: 3.2.5
 
   components/freshchat:
     dependencies:
@@ -6702,8 +6718,8 @@ importers:
   components/gorgias_oauth:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.2.5
       lodash-es:
         specifier: ^4.17.23
         version: 4.17.23
@@ -7940,6 +7956,8 @@ importers:
 
   components/jlcpcb: {}
 
+  components/jo4: {}
+
   components/jobber:
     dependencies:
       '@pipedream/platform':
@@ -8169,6 +8187,12 @@ importers:
       graphql-request:
         specifier: ^6.0.0
         version: 6.1.0(encoding@0.1.13)(graphql@16.12.0)
+
+  components/kiyoh:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.5
+        version: 3.2.5
 
   components/kizeo_forms:
     dependencies:
@@ -8658,8 +8682,8 @@ importers:
         specifier: ^55.1.0
         version: 55.2.1(encoding@0.1.13)
       '@pipedream/linear_app':
-        specifier: ^0.8.0
-        version: 0.8.1(encoding@0.1.13)
+        specifier: ^0.8.2
+        version: 0.8.2(encoding@0.1.13)
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
@@ -13841,7 +13865,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/serenity_ai_hub: {}
+  components/serenity_ai_hub:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.5
+        version: 3.2.5
 
   components/serpapi:
     dependencies:
@@ -13958,12 +13986,12 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
-      async-retry:
-        specifier: ^1.3.3
-        version: 1.3.3
       isomorphic-fetch:
         specifier: ^3.0.0
         version: 3.0.0(encoding@0.1.13)
+      lodash.pickby:
+        specifier: ^4.6.0
+        version: 4.6.0
 
   components/sharepoint_admin: {}
 
@@ -16287,6 +16315,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/universal_api: {}
+
   components/universal_summarizer_by_kagi:
     dependencies:
       '@pipedream/platform':
@@ -16355,6 +16385,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.6.8
         version: 1.6.8
+
+  components/upload_to_url: {}
 
   components/uploadcare:
     dependencies:
@@ -16663,7 +16695,11 @@ importers:
 
   components/virustotal: {}
 
-  components/visibot: {}
+  components/visibot:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.5
+        version: 3.2.5
 
   components/vision6:
     dependencies:
@@ -16707,7 +16743,11 @@ importers:
         specifier: ^0.6.2
         version: 0.6.2
 
-  components/vivifyscrum: {}
+  components/vivifyscrum:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.5
+        version: 3.2.5
 
   components/vivocalendar:
     dependencies:
@@ -21532,8 +21572,8 @@ packages:
   '@pipedream/launchdarkly@0.1.1':
     resolution: {integrity: sha512-RqW4cJ0CfCnCy/lCutIJNSlX3IXV3jxoyqxDgAeHx8Q8BUEjEl7T0+1vMLyNXhU+V4Kj38KVURnSKqCE59UVvg==}
 
-  '@pipedream/linear_app@0.8.1':
-    resolution: {integrity: sha512-s9HgYucBzlCaRX+9qV7XNDjC8LC/Mrv/pGh7Xjn0NT+92mI6fxrcRua2dDUh/va/uzHSXivWZfJ4qtfVUvDNmQ==}
+  '@pipedream/linear_app@0.8.2':
+    resolution: {integrity: sha512-EcEmyYixQOFQFeKaKCCnIWwLLjJ38uVDZXXVSFxGIaqYqIdPT792t4YRter2AkVrnyZExDNJW4CJpFStDOn32Q==}
 
   '@pipedream/linkedin@0.1.1':
     resolution: {integrity: sha512-9pFjaohz/wnJMIRpPmDPqHeWiXUIJVWIPvQudE8TkUjaBbyieDpscy8reWMp96UK9aXz1Z2J2yiNh0msILAX9Q==}
@@ -31330,7 +31370,6 @@ packages:
     engines: {node: '>=0.6.0', teleport: '>=0.2.0'}
     deprecated: |-
       You or someone you depend on is using Q, the JavaScript Promise library that gave JavaScript developers strong feelings about promises. They can almost certainly migrate to the native JavaScript promise now. Thank you literally everyone for joining me in this bet against the odds. Be excellent to each other.
-
       (For a CapTP with native promises, see @endo/eventual-send and @endo/captp)
 
   qified@0.5.2:
@@ -39741,7 +39780,7 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@pipedream/linear_app@0.8.1(encoding@0.1.13)':
+  '@pipedream/linear_app@0.8.2(encoding@0.1.13)':
     dependencies:
       '@linear/sdk': 55.2.1(encoding@0.1.13)
       '@pipedream/platform': 3.2.5

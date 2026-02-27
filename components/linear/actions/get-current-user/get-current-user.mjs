@@ -6,7 +6,7 @@ export default {
   key: "linear-get-current-user",
   name: "Get Current User",
   description: "Retrieve rich context about the authenticated Linear user, including core profile fields, recent timestamps, direct team memberships, and high-level organization settings. Returns the user object, a paginated team list (with names, keys, cycle configs, etc.), associated team memberships, and organization metadata such as auth defaults and SCIM/SAML flags. Use this when your workflow or agent needs to understand who is currently authenticated, which teams they belong to, or what workspace policies might influence subsequent Linear actions. See Linear's GraphQL viewer docs [here](https://linear.app/developers/graphql).",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

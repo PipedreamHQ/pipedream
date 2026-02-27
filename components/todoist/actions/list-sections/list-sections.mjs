@@ -4,7 +4,7 @@ export default {
   key: "todoist-list-sections",
   name: "List Sections",
   description: "Returns a list of all sections. [See the documentation](https://developer.todoist.com/api/v1#tag/Sections/operation/get_sections_api_v1_sections_get)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

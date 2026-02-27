@@ -5,7 +5,7 @@ export default {
   key: "todoist-completed-task",
   name: "New Completed Task",
   description: "Emit new event for each completed task. [See the documentation](https://developer.todoist.com/api/v1#tag/Sync/Overview/Read-resources)",
-  version: "1.0.1",
+  version: "1.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -18,18 +18,18 @@ export default {
     },
     async getSyncResult() {
       const lastDate = this._getLastDate();
-      const items = await this.todoist.getCompletedTasks({
-        params: {
-          since: lastDate,
-          annotate_items: true,
-        },
+      const newDate = new Date().toISOString();
+      const params = {
+        since: lastDate || newDate,
+        until: newDate,
+      };
+      const response = await this.todoist.getCompletedTasks({
+        params,
       });
 
-      const newDate = new Date().toISOString();
       this._setLastDate(newDate);
 
-      console.log(items);
-      return items;
+      return response.items ?? [];
     },
     filterResults(syncResult) {
       return syncResult
