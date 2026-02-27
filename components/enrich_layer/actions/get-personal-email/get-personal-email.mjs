@@ -3,7 +3,7 @@ import enrichlayer from "../../enrich_layer.app.mjs";
 export default {
   key: "enrich_layer-get-personal-email",
   name: "Get Personal Email",
-  description: "Find personal email addresses associated with a given social media profile. Cost: 1 credit per email returned. [See the docs](https://enrichlayer.com/docs).",
+  description: "Find personal email addresses associated with a given social media profile. Cost: 1 credit per email returned. [See the documentation](https://enrichlayer.com/docs/api/v2/contact-api/personal-email-lookup).",
   version: "0.0.1",
   type: "action",
   annotations: {

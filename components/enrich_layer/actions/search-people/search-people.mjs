@@ -3,7 +3,7 @@ import enrichlayer from "../../enrich_layer.app.mjs";
 export default {
   key: "enrich_layer-search-people",
   name: "Search People",
-  description: "Search for people who meet a set of criteria. Returns a single page of results per call — use the `page` and `page_size` parameters to paginate manually. Cost: 3 credits per profile URL returned. [See the docs](https://enrichlayer.com/docs).",
+  description: "Search for people who meet a set of criteria. Returns a single page of results per call — use the `page` and `page_size` parameters to paginate manually. Cost: 3 credits per profile URL returned. [See the documentation](https://enrichlayer.com/docs/api/v2/search-api/person-search).",
   version: "0.0.1",
   type: "action",
   annotations: {

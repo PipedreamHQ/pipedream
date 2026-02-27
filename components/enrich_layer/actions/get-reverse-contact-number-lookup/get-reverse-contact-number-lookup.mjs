@@ -3,7 +3,7 @@ import enrichlayer from "../../enrich_layer.app.mjs";
 export default {
   key: "enrich_layer-get-reverse-contact-number-lookup",
   name: "Get Reverse Contact Number Lookup",
-  description: "Find social media profiles from a contact phone number. Cost: 3 credits per successful request. [See the docs](https://enrichlayer.com/docs).",
+  description: "Find social media profiles from a contact phone number. Cost: 3 credits per successful request. [See the documentation](https://enrichlayer.com/docs/api/v2/contact-api/reverse-contact-number-lookup).",
   version: "0.0.1",
   type: "action",
   annotations: {

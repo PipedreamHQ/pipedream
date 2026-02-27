@@ -3,7 +3,7 @@ import enrichlayer from "../../enrich_layer.app.mjs";
 export default {
   key: "enrich_layer-get-student-listing",
   name: "Get Student Listing",
-  description: "Get a list of students of a school. Cost: 3 credits per student returned. [See the docs](https://enrichlayer.com/docs).",
+  description: "Get a list of students of a school. Cost: 3 credits per student returned. [See the documentation](https://enrichlayer.com/docs/api/v2/school-api/student-listing).",
   version: "0.0.1",
   type: "action",
   annotations: {

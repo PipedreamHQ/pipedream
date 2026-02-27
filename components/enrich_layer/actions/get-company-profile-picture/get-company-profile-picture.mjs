@@ -3,7 +3,7 @@ import enrichlayer from "../../enrich_layer.app.mjs";
 export default {
   key: "enrich_layer-get-company-profile-picture",
   name: "Get Company Profile Picture",
-  description: "Get the profile picture of a company from cached profiles. Cost: 0 credits. [See the docs](https://enrichlayer.com/docs).",
+  description: "Get the profile picture of a company from cached profiles. Cost: 0 credits. [See the documentation](https://enrichlayer.com/docs/api/v2/company-api/company-profile-picture).",
   version: "0.0.1",
   type: "action",
   annotations: {

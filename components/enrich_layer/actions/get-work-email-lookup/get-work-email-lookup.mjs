@@ -3,7 +3,7 @@ import enrichlayer from "../../enrich_layer.app.mjs";
 export default {
   key: "enrich_layer-get-work-email-lookup",
   name: "Get Work Email Lookup",
-  description: "Look up the work email address of a person from their professional network profile URL. Emails are verified with 95%+ deliverability guarantee. Cost: 3 credits per successful request. [See the docs](https://enrichlayer.com/docs).",
+  description: "Look up the work email address of a person from their professional network profile URL. Emails are verified with 95%+ deliverability guarantee. Cost: 3 credits per successful request. [See the documentation](https://enrichlayer.com/docs/api/v2/contact-api/work-email-lookup).",
   version: "0.0.1",
   type: "action",
   annotations: {

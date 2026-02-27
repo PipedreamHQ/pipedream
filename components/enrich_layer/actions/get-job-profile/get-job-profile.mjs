@@ -3,7 +3,7 @@ import enrichlayer from "../../enrich_layer.app.mjs";
 export default {
   key: "enrich_layer-get-job-profile",
   name: "Get Job Profile",
-  description: "Get structured data of a Job Profile from a professional network job URL. Cost: 2 credits per successful request. [See the docs](https://enrichlayer.com/docs).",
+  description: "Get structured data of a Job Profile from a professional network job URL. Cost: 2 credits per successful request. [See the documentation](https://enrichlayer.com/docs/api/v2/jobs-api/job-profile).",
   version: "0.0.1",
   type: "action",
   annotations: {

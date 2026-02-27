@@ -3,7 +3,7 @@ import enrichlayer from "../../enrich_layer.app.mjs";
 export default {
   key: "enrich_layer-get-reverse-email-lookup",
   name: "Get Reverse Email Lookup",
-  description: "Resolve social media profiles correlated from an email address. Works with both personal and work emails. Cost: 3 credits per successful request. [See the docs](https://enrichlayer.com/docs).",
+  description: "Resolve social media profiles correlated from an email address. Works with both personal and work emails. Cost: 3 credits per successful request. [See the documentation](https://enrichlayer.com/docs/api/v2/contact-api/reverse-email-lookup).",
   version: "0.0.1",
   type: "action",
   annotations: {

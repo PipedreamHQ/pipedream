@@ -3,7 +3,7 @@ import enrichlayer from "../../enrich_layer.app.mjs";
 export default {
   key: "enrich_layer-get-company-profile",
   name: "Get Company Profile",
-  description: "Get structured data of a Company Profile from a professional network URL. Cost: 1 credit per successful request. [See the docs](https://enrichlayer.com/docs).",
+  description: "Get structured data of a Company Profile from a professional network URL. Cost: 1 credit per successful request. [See the documentation](https://enrichlayer.com/docs/api/v2/company-api/company-profile).",
   version: "0.0.1",
   type: "action",
   annotations: {

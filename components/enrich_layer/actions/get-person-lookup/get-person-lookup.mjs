@@ -3,7 +3,7 @@ import enrichlayer from "../../enrich_layer.app.mjs";
 export default {
   key: "enrich_layer-get-person-lookup",
   name: "Get Person Lookup",
-  description: "Look up a person with a name and company information to find their professional network profile. Cost: 2 credits per successful request. [See the docs](https://enrichlayer.com/docs).",
+  description: "Look up a person with a name and company information to find their professional network profile. Cost: 2 credits per successful request. [See the documentation](https://enrichlayer.com/docs/api/v2/people-api/person-lookup).",
   version: "0.0.1",
   type: "action",
   annotations: {

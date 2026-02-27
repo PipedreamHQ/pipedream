@@ -3,7 +3,7 @@ import enrichlayer from "../../enrich_layer.app.mjs";
 export default {
   key: "enrich_layer-search-companies",
   name: "Search Companies",
-  description: "Search for companies that meet a set of criteria. Returns up to 10,000,000 results. Cost: 3 credits per company URL returned. [See the docs](https://enrichlayer.com/docs).",
+  description: "Search for companies that meet a set of criteria. Returns up to 10,000,000 results. Cost: 3 credits per company URL returned. [See the documentation](https://enrichlayer.com/docs/api/v2/search-api/company-search).",
   version: "0.0.1",
   type: "action",
   annotations: {

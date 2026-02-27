@@ -3,7 +3,7 @@ import enrichlayer from "../../enrich_layer.app.mjs";
 export default {
   key: "enrich_layer-get-employee-search",
   name: "Get Employee Search",
-  description: "Search employees of a target company by their job title. Cost: 10 credits per successful request + 3 credits per employee returned. [See the docs](https://enrichlayer.com/docs).",
+  description: "Search employees of a target company by their job title. Cost: 10 credits per successful request + 3 credits per employee returned. [See the documentation](https://enrichlayer.com/docs/api/v2/company-api/employee-search).",
   version: "0.0.1",
   type: "action",
   annotations: {

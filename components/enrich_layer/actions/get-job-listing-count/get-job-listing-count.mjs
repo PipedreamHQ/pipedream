@@ -3,7 +3,7 @@ import enrichlayer from "../../enrich_layer.app.mjs";
 export default {
   key: "enrich_layer-get-job-listing-count",
   name: "Get Job Listing Count",
-  description: "Count the number of jobs posted by a company on professional networks. Cost: 2 credits per successful request. [See the docs](https://enrichlayer.com/docs).",
+  description: "Count the number of jobs posted by a company on professional networks. Cost: 2 credits per successful request. [See the documentation](https://enrichlayer.com/docs/api/v2/jobs-api/jobs-listing-count).",
   version: "0.0.1",
   type: "action",
   annotations: {

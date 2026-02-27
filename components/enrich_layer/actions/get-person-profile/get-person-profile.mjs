@@ -3,7 +3,7 @@ import enrichlayer from "../../enrich_layer.app.mjs";
 export default {
   key: "enrich_layer-get-person-profile",
   name: "Get Person Profile",
-  description: "Get structured data of a Person Profile from a professional network URL. Cost: 1 credit per successful request. [See the docs](https://enrichlayer.com/docs).",
+  description: "Get structured data of a Person Profile from a professional network URL. Cost: 1 credit per successful request. [See the documentation](https://enrichlayer.com/docs/api/v2/people-api/person-profile).",
   version: "0.0.1",
   type: "action",
   annotations: {
