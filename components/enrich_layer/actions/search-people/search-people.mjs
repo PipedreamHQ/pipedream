@@ -291,13 +291,13 @@ export default {
       optional: true,
     },
     currentCompanyFundingAmountMin: {
-      type: "number",
+      type: "integer",
       label: "Current Company Funding Amount Min (USD)",
       description: "Filter by minimum current company funding amount.",
       optional: true,
     },
     currentCompanyFundingAmountMax: {
-      type: "number",
+      type: "integer",
       label: "Current Company Funding Amount Max (USD)",
       description: "Filter by maximum current company funding amount.",
       optional: true,

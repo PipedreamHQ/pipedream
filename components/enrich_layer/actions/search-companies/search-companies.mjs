@@ -147,13 +147,13 @@ export default {
       optional: true,
     },
     fundingAmountMin: {
-      type: "number",
+      type: "integer",
       label: "Funding Amount Min (USD)",
       description: "Filter companies that have raised at least this much funding.",
       optional: true,
     },
     fundingAmountMax: {
-      type: "number",
+      type: "integer",
       label: "Funding Amount Max (USD)",
       description: "Filter companies that have raised at most this much funding.",
       optional: true,
