@@ -6734,7 +6734,11 @@ importers:
 
   components/gotify: {}
 
-  components/goto_meeting: {}
+  components/goto_meeting:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/gotowebinar:
     dependencies:
