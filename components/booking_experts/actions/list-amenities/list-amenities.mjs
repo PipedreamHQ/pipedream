@@ -5,7 +5,7 @@ export default {
   key: "booking_experts-list-amenities",
   name: "List Amenities",
   description: "List amenities from BookingExperts. [See the documentation](https://developers.bookingexperts.com/reference/amenities-index)",
-  version: "0.0.3",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -104,13 +104,13 @@ export default {
       ...(parseObject(this.filters) || {}),
     };
 
-    const { data } = await this.bookingExperts.listAmenities({
+    const response = await this.bookingExperts.listAmenities({
       $,
       params,
     });
 
-    $.export("$summary", `Successfully retrieved ${data?.length ?? 0} amenities`);
+    $.export("$summary", `Successfully retrieved ${response.data?.length ?? 0} amenities`);
 
-    return data;
+    return response;
   },
 };

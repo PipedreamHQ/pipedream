@@ -5,7 +5,7 @@ export default {
   name: "Add Guest to Reservation",
   description:
     "Add a guest to a reservation. [See the documentation](https://developers.bookingexperts.com/reference/administration-reservation-guests-create)",
-  version: "0.0.9",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -94,7 +94,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const { data } = await this.bookingExperts.addGuestToReservation({
+    const response = await this.bookingExperts.addGuestToReservation({
       $,
       administrationId: this.administrationId,
       reservationId: this.reservationId,
@@ -117,6 +117,6 @@ export default {
       },
     });
     $.export("$summary", "Guest added to reservation");
-    return data;
+    return response;
   },
 };

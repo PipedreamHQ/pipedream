@@ -5,7 +5,7 @@ export default {
   key: "booking_experts-list-rentable-types",
   name: "List Rentable Types",
   description: "List all rentable types for a given administration. [See the documentation](https://developers.bookingexperts.com/reference/administration-rentabletypes-index)",
-  version: "0.0.2",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -58,7 +58,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const { data } = await this.bookingExperts.listRentableTypesForAdmin({
+    const response = await this.bookingExperts.listRentableTypesForAdmin({
       $,
       administrationId: this.administrationId,
       params: {
@@ -71,8 +71,8 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully retrieved ${data?.length ?? 0} rentable types for Administration ${this.administrationId}`);
+    $.export("$summary", `Successfully retrieved ${response.data?.length ?? 0} rentable types for Administration ${this.administrationId}`);
 
-    return data;
+    return response;
   },
 };

@@ -5,7 +5,7 @@ export default {
   key: "booking_experts-inventory-object-updated",
   name: "Inventory Object Updated",
   description: "Emit new event when an inventory object is updated. [See the documentation](https://developers.bookingexperts.com/reference/administration-inventoryobjects-index)",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "source",
   dedupe: "unique",
   props: {
