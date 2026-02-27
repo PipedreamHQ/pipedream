@@ -943,6 +943,12 @@ export default {
       }
       return emojis;
     },
+    listEmojis(args = {}) {
+      return this.makeRequest({
+        method: "emoji.list",
+        ...args,
+      });
+    },
     listChannelMembers(args = {}) {
       args.limit ||= constants.LIMIT;
       return this.makeRequest({

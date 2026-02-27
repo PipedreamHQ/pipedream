@@ -4,7 +4,7 @@ export default {
   key: "slack_v2-find-user-by-email",
   name: "Find User by Email",
   description: "Find a user by matching against their email. [See the documentation](https://api.slack.com/methods/users.lookupByEmail)",
-  version: "0.0.25",
+  version: "0.0.26",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

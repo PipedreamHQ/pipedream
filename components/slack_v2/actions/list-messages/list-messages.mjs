@@ -1,11 +1,11 @@
-import slack from "../../slack.app.mjs";
+import slack from "../../slack_v2.app.mjs";
 
 export default {
-  key: "slack-list-messages",
+  key: "slack_v2-list-messages",
   name: "List Messages",
   description:
     "Retrieve messages from a Slack conversation, including reactions. [See the documentation](https://api.slack.com/methods/conversations.history)",
-  version: "0.0.2",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -42,9 +42,10 @@ export default {
     let page = 0;
 
     do {
-      const response = await this.slack.conversationsHistory(params);
-      const messagesPage = response.messages || [];
-      const nextCursor = response.response_metadata?.next_cursor;
+      const {
+        messages: messagesPage,
+        response_metadata: { next_cursor: nextCursor },
+      } = await this.slack.conversationsHistory(params);
       messages.push(...messagesPage);
       params.cursor = nextCursor;
       page++;
