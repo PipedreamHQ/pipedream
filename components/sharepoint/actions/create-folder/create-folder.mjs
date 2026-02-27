@@ -4,7 +4,7 @@ export default {
   key: "sharepoint-create-folder",
   name: "Create Folder",
   description: "Create a new folder in SharePoint. [See the documentation](https://learn.microsoft.com/en-us/onedrive/developer/rest-api/api/driveitem_post_children?view=odsp-graph-online)",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   annotations: {
     destructiveHint: false,

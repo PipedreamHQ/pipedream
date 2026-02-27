@@ -4,7 +4,7 @@ export default {
   key: "slack_v2-find-user-by-id",
   name: "Find User by ID",
   description: "Find a user by their ID. Returns user profile information including name, email (requires `users:read.email` scope), timezone, and status. [See the documentation](https://api.slack.com/methods/users.info)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

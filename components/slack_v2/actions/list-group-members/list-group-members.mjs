@@ -4,7 +4,7 @@ export default {
   key: "slack_v2-list-group-members",
   name: "List Group Members",
   description: "List all users in a User Group. [See the documentation](https://api.slack.com/methods/usergroups.users.list)",
-  version: "0.0.10",
+  version: "0.0.11",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
