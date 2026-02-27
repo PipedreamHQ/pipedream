@@ -19,6 +19,7 @@ export default {
           data: {
             params: {
               page: page + 1,
+              orderBy: "name",
             },
           },
         });
@@ -41,6 +42,7 @@ export default {
           data: {
             params: {
               page: page + 1,
+              orderBy: "name",
             },
           },
         });
@@ -90,6 +92,7 @@ export default {
           data: {
             params: {
               page: page + 1,
+              orderBy: "name",
             },
           },
         });
@@ -122,6 +125,7 @@ export default {
           data: {
             params: {
               page: page + 1,
+              orderBy: "name",
             },
           },
         });

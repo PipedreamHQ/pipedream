@@ -116,14 +116,10 @@ export default {
     return props;
   },
   methods: {
-    _customFieldsCache: null,
     async getCustomFields() {
-      if (!this._customFieldsCache) {
-        this._customFieldsCache = await this.nutshell.post({
-          method: "findCustomFields",
-        });
-      }
-      return this._customFieldsCache;
+      return await this.nutshell.post({
+        method: "findCustomFields",
+      });
     },
     async parseCustomFields(props, customFieldsResult) {
       const customFields = {};
@@ -195,7 +191,17 @@ export default {
       rev,
       contact,
     });
-    $.export("$summary", `Successfully updated contact "${updated?.name ?? this.contactId}"`);
+
+    let displayName = null;
+    if (typeof updated.name === "object") {
+      displayName = updated.name.displayName;
+    } else if (typeof updated.name === "string") {
+      displayName = updated.name;
+    } else {
+      displayName = this.contactId;
+    }
+
+    $.export("$summary", `Successfully updated contact "${displayName}"`);
     return this.nutshell.formatContact(updated);
   },
 };
