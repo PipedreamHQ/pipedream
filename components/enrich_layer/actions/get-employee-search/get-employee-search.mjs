@@ -51,20 +51,11 @@ export default {
       ],
     },
     resolveNumericId: {
-      type: "string",
+      type: "boolean",
       label: "Resolve Numeric ID",
       description: "Enable support for profile URLs with numerical IDs. Costs 2 extra credits.",
       optional: true,
-      options: [
-        {
-          label: "False (default)",
-          value: "false",
-        },
-        {
-          label: "True (+2 credits)",
-          value: "true",
-        },
-      ],
+      default: false,
     },
   },
   async run({ $ }) {

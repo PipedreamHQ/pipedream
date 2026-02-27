@@ -26,7 +26,7 @@ export default {
         person_profile_url: this.personProfileUrl,
       },
     });
-    $.export("$summary", "Successfully retrieved person profile picture");
+    $.export("$summary", `Successfully retrieved profile picture for ${this.personProfileUrl}`);
     return response;
   },
 };

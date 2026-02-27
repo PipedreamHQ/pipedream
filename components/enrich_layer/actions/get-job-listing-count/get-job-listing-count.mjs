@@ -161,7 +161,7 @@ export default {
         keyword: this.keyword,
       },
     });
-    $.export("$summary", "Successfully retrieved job listing count");
+    $.export("$summary", `Successfully retrieved job listing count${this.searchId ? ` for company ${this.searchId}` : ""}`);
     return response;
   },
 };

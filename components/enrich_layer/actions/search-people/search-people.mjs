@@ -3,7 +3,7 @@ import enrichlayer from "../../enrich_layer.app.mjs";
 export default {
   key: "enrich_layer-search-people",
   name: "Search People",
-  description: "Search for people who meet a set of criteria. Returns a single page of results per call — use the `page` and `page_size` parameters to paginate manually. Cost: 3 credits per profile URL returned. [See the documentation](https://enrichlayer.com/docs/api/v2/search-api/person-search).",
+  description: "Search for people who meet a set of criteria. Returns a single page of results per call — use the `next_page` URL from the response to retrieve subsequent pages. Cost: 3 credits per profile URL returned. [See the documentation](https://enrichlayer.com/docs/api/v2/search-api/person-search).",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -261,13 +261,13 @@ export default {
       ],
     },
     currentCompanyEmployeeCountMin: {
-      type: "string",
+      type: "integer",
       label: "Current Company Employee Count Min",
       description: "Filter by minimum current company employee count.",
       optional: true,
     },
     currentCompanyEmployeeCountMax: {
-      type: "string",
+      type: "integer",
       label: "Current Company Employee Count Max",
       description: "Filter by maximum current company employee count.",
       optional: true,
@@ -279,25 +279,25 @@ export default {
       optional: true,
     },
     currentCompanyFoundedAfterYear: {
-      type: "string",
+      type: "integer",
       label: "Current Company Founded After Year",
       description: "Filter by current company founded after this year.",
       optional: true,
     },
     currentCompanyFoundedBeforeYear: {
-      type: "string",
+      type: "integer",
       label: "Current Company Founded Before Year",
       description: "Filter by current company founded before this year.",
       optional: true,
     },
     currentCompanyFundingAmountMin: {
-      type: "string",
+      type: "number",
       label: "Current Company Funding Amount Min (USD)",
       description: "Filter by minimum current company funding amount.",
       optional: true,
     },
     currentCompanyFundingAmountMax: {
-      type: "string",
+      type: "number",
       label: "Current Company Funding Amount Max (USD)",
       description: "Filter by maximum current company funding amount.",
       optional: true,
@@ -321,25 +321,25 @@ export default {
       optional: true,
     },
     currentCompanyFollowerCountMin: {
-      type: "string",
+      type: "integer",
       label: "Current Company Follower Count Min",
       description: "Filter by minimum current company follower count.",
       optional: true,
     },
     currentCompanyFollowerCountMax: {
-      type: "string",
+      type: "integer",
       label: "Current Company Follower Count Max",
       description: "Filter by maximum current company follower count.",
       optional: true,
     },
     followerCountMin: {
-      type: "string",
+      type: "integer",
       label: "Follower Count Min",
       description: "Filter people with more than this many followers.",
       optional: true,
     },
     followerCountMax: {
-      type: "string",
+      type: "integer",
       label: "Follower Count Max",
       description: "Filter people with fewer than this many followers.",
       optional: true,
@@ -367,7 +367,7 @@ export default {
         enrichlayer,
         "pageSize",
       ],
-      description: "Max results per call. Default is 100 (max 100). When enriching, max is 10.",
+      description: "Max results per call. Default is 10 (max 100). When enriching, max is 10.",
     },
     useCache: {
       propDefinition: [

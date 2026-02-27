@@ -28,7 +28,7 @@ export default {
         company_profile_url: this.companyProfileUrl,
       },
     });
-    $.export("$summary", "Successfully retrieved company profile picture");
+    $.export("$summary", `Successfully retrieved profile picture for ${this.companyProfileUrl}`);
     return response;
   },
 };

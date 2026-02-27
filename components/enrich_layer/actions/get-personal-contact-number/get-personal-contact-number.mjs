@@ -41,8 +41,13 @@ export default {
     },
   },
   async run({ $ }) {
-    if (!this.profileUrl && !this.twitterProfileUrl && !this.facebookProfileUrl) {
-      throw new Error("At least one of Profile URL, Twitter/X Profile URL, or Facebook Profile URL must be provided.");
+    const inputs = [
+      this.profileUrl,
+      this.twitterProfileUrl,
+      this.facebookProfileUrl,
+    ].filter(Boolean);
+    if (inputs.length !== 1) {
+      throw new Error("Provide exactly one of Profile URL, Twitter/X Profile URL, or Facebook Profile URL.");
     }
     const response = await this.enrichlayer.getPersonalContactNumber({
       $,
@@ -53,7 +58,7 @@ export default {
         page_size: this.pageSize,
       },
     });
-    $.export("$summary", "Successfully retrieved personal contact numbers");
+    $.export("$summary", `Successfully retrieved personal contact numbers for ${this.profileUrl || this.twitterProfileUrl || this.facebookProfileUrl}`);
     return response;
   },
 };
