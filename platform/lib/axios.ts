@@ -180,7 +180,7 @@ function stepExport(step: PipedreamStep | undefined, message: unknown, key: stri
  */
 function convertAxiosError(err: AxiosError): { error: Error; responseSummary?: AxiosResponseSummary } {
   let responseSummary: AxiosResponseSummary | undefined;
-  const name = `${err.name} - ${err.message}`;
+  const name = `${err.message} - see 'debug' export for the full response`;
   let message = err.message;
 
   if (err.response) {

@@ -143,7 +143,7 @@ function stepExport(step, message, key) {
  */
 function convertAxiosError(err) {
     let responseSummary;
-    const name = `${err.name} - ${err.message}`;
+    const name = `${err.message} - see 'debug' export for the full response`;
     let message = err.message;
     if (err.response) {
         responseSummary = {
