@@ -189,7 +189,7 @@ function convertAxiosError(err: AxiosError): AxiosResponseSummary | undefined {
     };
     delete err.response.request;
     delete (err.response as Partial<typeof err.response>).config;
-    err.name = `${err.message} - see 'debug' export for the full response`;
+    err.name = `${err.name} - ${err.message}`;
     try {
       err.message = JSON.stringify(err.response.data);
     }
