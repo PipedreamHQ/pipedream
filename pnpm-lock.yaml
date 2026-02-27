@@ -13785,7 +13785,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/sendit: {}
+  components/sendit:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.2
+        version: 3.2.2
 
   components/sendlane: {}
 
