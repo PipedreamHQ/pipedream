@@ -7,8 +7,8 @@ export default {
   ...common,
   key: "openai-analyze-image-content",
   name: "Analyze Image Content",
-  description: "Send a message or question about an image and receive a response. [See the documentation](https://platform.openai.com/docs/api-reference/runs/createThreadAndRun)",
-  version: "1.0.3",
+  description: "Send a message or question about an image and receive a response. [See the documentation](https://developers.openai.com/api/reference/resources/responses/methods/create)",
+  version: "1.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -46,44 +46,24 @@ export default {
     },
   },
   async run({ $ }) {
-    const { id: assistantId } = await this.openai.createAssistant({
-      $,
-      data: {
-        model: "gpt-4o", // replaced from "gpt-4-vision-preview" - see https://platform.openai.com/docs/deprecations
-      },
-    });
-
     const data = {
-      assistant_id: assistantId,
-      thread: {
-        messages: [
-          {
-            role: "user",
-            content: [
-              {
-                type: "text",
-                text: this.message,
-              },
-            ],
-          },
-        ],
-      },
-      model: this.model,
+      model: "gpt-4o",
+      input: [
+        {
+          role: "user",
+          content: [
+            {
+              type: "input_text",
+              text: this.message,
+            },
+          ],
+        },
+      ],
     };
-    if (this.imageUrl) {
-      data.thread.messages[0].content.push({
-        type: "image_url",
-        image_url: {
-          url: this.imageUrl,
-        },
-      });
-    }
     if (this.imageFileId) {
-      data.thread.messages[0].content.push({
-        type: "image_file",
-        image_file: {
-          file_id: this.imageFileId,
-        },
+      data.input[0].content.push({
+        type: "input_image",
+        file_id: this.imageFileId,
       });
     }
     if (this.filePath) {
@@ -104,35 +84,26 @@ export default {
         headers: fileData.getHeaders(),
       });
 
-      data.thread.messages[0].content.push({
-        type: "image_file",
-        image_file: {
-          file_id: id,
-        },
+      data.input[0].content.push({
+        type: "input_image",
+        file_id: id,
       });
     }
 
-    let run;
-    run = await this.openai.createThreadAndRun({
+    const run = await this.openai.responses({
       $,
       data,
     });
-    const runId = run.id;
-    const threadId = run.thread_id;
 
-    run = await this.pollRunUntilCompleted(run, threadId, runId, $);
-
-    // get response;
-    const { data: messages } = await this.openai.listMessages({
-      $,
-      threadId,
-      params: {
-        order: "desc",
-      },
+    const messages = data.input;
+    messages.push({
+      role: run.output[0].role,
+      content: run.output[0].content,
     });
-    const response = messages[0].content[0].text.value;
+
+    $.export("$summary", "Successfully analyzed image content.");
     return {
-      response,
+      response: run.output[0].content[0].text,
       messages,
       run,
     };
