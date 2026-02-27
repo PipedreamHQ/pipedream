@@ -4954,6 +4954,12 @@ importers:
 
   components/enormail: {}
 
+  components/enrichlayer:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.2.5
+
   components/enrichley:
     dependencies:
       '@pipedream/platform':
