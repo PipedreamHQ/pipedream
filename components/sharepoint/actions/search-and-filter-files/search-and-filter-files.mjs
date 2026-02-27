@@ -6,7 +6,7 @@ export default {
   name: "Search and Filter Files",
   description:
     "Search and filter SharePoint files based on metadata and custom columns. This action allows you to query files using SharePoint's custom properties, managed metadata, and other column values. [See the documentation](https://learn.microsoft.com/en-us/graph/api/listitem-list)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

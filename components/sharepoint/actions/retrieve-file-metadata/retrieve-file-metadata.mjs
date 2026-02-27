@@ -8,7 +8,7 @@ export default {
   key: "sharepoint-retrieve-file-metadata",
   name: "Retrieve File Metadata",
   description: "Browse and select files from SharePoint to retrieve their metadata (name, size, dates, etc.) without download URLs. [See the documentation](https://learn.microsoft.com/en-us/graph/api/driveitem-get)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

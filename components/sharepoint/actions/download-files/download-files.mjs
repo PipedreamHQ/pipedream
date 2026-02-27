@@ -6,7 +6,7 @@ export default {
   key: "sharepoint-download-files",
   name: "Download Files",
   description: "Browse and select files from SharePoint and get their metadata along with pre-authenticated download URLs (valid ~1 hour). [See the documentation](https://learn.microsoft.com/en-us/graph/api/driveitem-get)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
