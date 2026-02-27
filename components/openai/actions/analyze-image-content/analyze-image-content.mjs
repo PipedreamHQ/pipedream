@@ -95,17 +95,20 @@ export default {
       data,
     });
 
-    const messages = data.input;
-    messages.push({
-      role: run.output[0].role,
-      content: run.output[0].content,
-    });
+    const returnData = {
+      run,
+      messages: data.input,
+    };
+
+    if (run.output.length) {
+      returnData.response = run.output[0].content[0].text;
+      returnData.messages.push({
+        role: run.output[0].role,
+        content: run.output[0].content,
+      });
+    }
 
     $.export("$summary", "Successfully analyzed image content.");
-    return {
-      response: run.output[0].content[0].text,
-      messages,
-      run,
-    };
+    return returnData;
   },
 };
