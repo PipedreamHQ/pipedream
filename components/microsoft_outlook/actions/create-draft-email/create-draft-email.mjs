@@ -66,6 +66,7 @@ export default {
   },
   async run({ $ }) {
     const response =  await this.microsoftOutlook.createDraft({
+      $,
       data: {
         ...await this.microsoftOutlook.prepareMessageBody(this),
         ...parseObject(this.expand),

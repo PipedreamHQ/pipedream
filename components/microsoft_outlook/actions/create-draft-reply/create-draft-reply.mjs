@@ -74,7 +74,6 @@ export default {
   },
   async run({ $ }) {
     const response = await this.createReply({
-      $,
       messageId: this.messageId,
       data: {
         comment: this.comment,
