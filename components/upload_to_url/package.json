@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/upload_to_url",
+  "version": "0.0.1",
+  "description": "Pipedream Upload to URL Components",
+  "main": "upload_to_url.app.mjs",
+  "keywords": [
+    "pipedream",
+    "upload_to_url"
+  ],
+  "homepage": "https://pipedream.com/apps/upload_to_url",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

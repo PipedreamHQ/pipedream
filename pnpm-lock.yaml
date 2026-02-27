@@ -1965,7 +1965,11 @@ importers:
 
   components/bokun: {}
 
-  components/bol_com: {}
+  components/bol_com:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.5
+        version: 3.2.5
 
   components/boldsign:
     dependencies:
@@ -3809,6 +3813,7 @@ importers:
         specifier: ^0.3.2
         version: 0.3.4
 
+  components/daftara: {}
   components/daftara: {}
 
   components/daily:
@@ -8180,7 +8185,11 @@ importers:
         specifier: ^6.0.0
         version: 6.1.0(encoding@0.1.13)(graphql@16.12.0)
 
-  components/kiyoh: {}
+  components/kiyoh:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.5
+        version: 3.2.5
 
   components/kizeo_forms:
     dependencies:
@@ -16374,6 +16383,8 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
+  components/upload_to_url: {}
+
   components/uploadcare:
     dependencies:
       '@pipedream/platform':
@@ -16729,7 +16740,11 @@ importers:
         specifier: ^0.6.2
         version: 0.6.2
 
-  components/vivifyscrum: {}
+  components/vivifyscrum:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.5
+        version: 3.2.5
 
   components/vivocalendar:
     dependencies:
@@ -40538,7 +40553,6 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
-      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.60)(rollup@4.53.2)':
     dependencies:
