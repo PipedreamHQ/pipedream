@@ -92,9 +92,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.enrichlayer._makeRequest({
+    const response = await this.enrichlayer.getStudentListing({
       $,
-      path: "/api/v2/school/students/",
       params: {
         school_url: this.schoolUrl,
         enrich_profiles: this.enrichProfiles,

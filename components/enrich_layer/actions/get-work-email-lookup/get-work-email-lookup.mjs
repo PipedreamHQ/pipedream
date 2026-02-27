@@ -26,9 +26,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.enrichlayer._makeRequest({
+    const response = await this.enrichlayer.getWorkEmailLookup({
       $,
-      path: "/api/v2/profile/email",
       params: {
         profile_url: this.profileUrl,
         callback_url: this.callbackUrl,

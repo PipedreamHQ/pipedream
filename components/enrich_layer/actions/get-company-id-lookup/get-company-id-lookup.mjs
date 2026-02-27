@@ -20,9 +20,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.enrichlayer._makeRequest({
+    const response = await this.enrichlayer.getCompanyIdLookup({
       $,
-      path: "/api/v2/company/resolve-id",
       params: {
         id: this.id,
       },

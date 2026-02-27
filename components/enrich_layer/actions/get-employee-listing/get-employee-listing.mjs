@@ -120,9 +120,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.enrichlayer._makeRequest({
+    const response = await this.enrichlayer.getEmployeeListing({
       $,
-      path: "/api/v2/company/employees/",
       params: {
         url: this.url,
         coy_name_match: this.coyNameMatch,

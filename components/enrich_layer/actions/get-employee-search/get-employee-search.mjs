@@ -68,9 +68,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.enrichlayer._makeRequest({
+    const response = await this.enrichlayer.getEmployeeSearch({
       $,
-      path: "/api/v2/company/employee/search/",
       params: {
         company_profile_url: this.companyProfileUrl,
         keyword_boolean: this.keywordBoolean,

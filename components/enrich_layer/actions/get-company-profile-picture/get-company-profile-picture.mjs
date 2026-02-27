@@ -22,9 +22,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.enrichlayer._makeRequest({
+    const response = await this.enrichlayer.getCompanyProfilePicture({
       $,
-      path: "/api/v2/company/profile-picture",
       params: {
         company_profile_url: this.companyProfileUrl,
       },

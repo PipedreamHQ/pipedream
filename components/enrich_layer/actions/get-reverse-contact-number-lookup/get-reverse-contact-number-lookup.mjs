@@ -20,9 +20,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.enrichlayer._makeRequest({
+    const response = await this.enrichlayer.getReverseContactNumberLookup({
       $,
-      path: "/api/v2/resolve/phone",
       params: {
         phone_number: this.phoneNumber,
       },

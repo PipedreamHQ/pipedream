@@ -32,9 +32,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.enrichlayer._makeRequest({
+    const response = await this.enrichlayer.getSchoolProfile({
       $,
-      path: "/api/v2/school",
       params: {
         url: this.url,
         use_cache: this.useCache,

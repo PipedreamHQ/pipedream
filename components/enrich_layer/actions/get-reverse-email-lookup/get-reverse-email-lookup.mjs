@@ -42,9 +42,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.enrichlayer._makeRequest({
+    const response = await this.enrichlayer.getReverseEmailLookup({
       $,
-      path: "/api/v2/profile/resolve/email",
       params: {
         email: this.email,
         lookup_depth: this.lookupDepth,

@@ -380,9 +380,8 @@ export default {
     if (this.skills && this.skillsAllInList) {
       throw new Error("Cannot use both Skills and Skills All In List at the same time. Please provide only one.");
     }
-    const response = await this.enrichlayer._makeRequest({
+    const response = await this.enrichlayer.searchPeople({
       $,
-      path: "/api/v2/search/person",
       params: {
         country: this.country,
         first_name: this.firstName,

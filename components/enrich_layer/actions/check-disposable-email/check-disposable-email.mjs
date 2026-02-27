@@ -20,9 +20,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.enrichlayer._makeRequest({
+    const response = await this.enrichlayer.checkDisposableEmail({
       $,
-      path: "/api/v2/disposable-email",
       params: {
         email: this.email,
       },

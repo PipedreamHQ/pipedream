@@ -33,9 +33,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.enrichlayer._makeRequest({
+    const response = await this.enrichlayer.getRoleLookup({
       $,
-      path: "/api/v2/find/company/role/",
       params: {
         role: this.role,
         company_name: this.companyName,

@@ -67,9 +67,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.enrichlayer._makeRequest({
+    const response = await this.enrichlayer.getPersonLookup({
       $,
-      path: "/api/v2/profile/resolve",
       params: {
         first_name: this.firstName,
         last_name: this.lastName,

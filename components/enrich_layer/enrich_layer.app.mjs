@@ -205,5 +205,155 @@ export default {
         },
       });
     },
+    checkDisposableEmail(args = {}) {
+      return this._makeRequest({
+        path: "/api/v2/disposable-email",
+        ...args,
+      });
+    },
+    getCompanyIdLookup(args = {}) {
+      return this._makeRequest({
+        path: "/api/v2/company/resolve-id",
+        ...args,
+      });
+    },
+    getCompanyLookup(args = {}) {
+      return this._makeRequest({
+        path: "/api/v2/company/resolve",
+        ...args,
+      });
+    },
+    getCompanyProfile(args = {}) {
+      return this._makeRequest({
+        path: "/api/v2/company",
+        ...args,
+      });
+    },
+    getCompanyProfilePicture(args = {}) {
+      return this._makeRequest({
+        path: "/api/v2/company/profile-picture",
+        ...args,
+      });
+    },
+    getCreditBalance(args = {}) {
+      return this._makeRequest({
+        path: "/api/v2/credit-balance",
+        ...args,
+      });
+    },
+    getEmployeeCount(args = {}) {
+      return this._makeRequest({
+        path: "/api/v2/company/employees/count",
+        ...args,
+      });
+    },
+    getEmployeeListing(args = {}) {
+      return this._makeRequest({
+        path: "/api/v2/company/employees/",
+        ...args,
+      });
+    },
+    getEmployeeSearch(args = {}) {
+      return this._makeRequest({
+        path: "/api/v2/company/employee/search/",
+        ...args,
+      });
+    },
+    getJobListingCount(args = {}) {
+      return this._makeRequest({
+        path: "/api/v2/company/job/count",
+        ...args,
+      });
+    },
+    getJobProfile(args = {}) {
+      return this._makeRequest({
+        path: "/api/v2/job",
+        ...args,
+      });
+    },
+    getJobSearch(args = {}) {
+      return this._makeRequest({
+        path: "/api/v2/company/job",
+        ...args,
+      });
+    },
+    getPersonLookup(args = {}) {
+      return this._makeRequest({
+        path: "/api/v2/profile/resolve",
+        ...args,
+      });
+    },
+    getPersonProfile(args = {}) {
+      return this._makeRequest({
+        path: "/api/v2/profile",
+        ...args,
+      });
+    },
+    getPersonProfilePicture(args = {}) {
+      return this._makeRequest({
+        path: "/api/v2/person/profile-picture",
+        ...args,
+      });
+    },
+    getPersonalContactNumber(args = {}) {
+      return this._makeRequest({
+        path: "/api/v2/contact-api/personal-contact",
+        ...args,
+      });
+    },
+    getPersonalEmail(args = {}) {
+      return this._makeRequest({
+        path: "/api/v2/contact-api/personal-email",
+        ...args,
+      });
+    },
+    getReverseContactNumberLookup(args = {}) {
+      return this._makeRequest({
+        path: "/api/v2/resolve/phone",
+        ...args,
+      });
+    },
+    getReverseEmailLookup(args = {}) {
+      return this._makeRequest({
+        path: "/api/v2/profile/resolve/email",
+        ...args,
+      });
+    },
+    getRoleLookup(args = {}) {
+      return this._makeRequest({
+        path: "/api/v2/find/company/role/",
+        ...args,
+      });
+    },
+    getSchoolProfile(args = {}) {
+      return this._makeRequest({
+        path: "/api/v2/school",
+        ...args,
+      });
+    },
+    getStudentListing(args = {}) {
+      return this._makeRequest({
+        path: "/api/v2/school/students/",
+        ...args,
+      });
+    },
+    getWorkEmailLookup(args = {}) {
+      return this._makeRequest({
+        path: "/api/v2/profile/email",
+        ...args,
+      });
+    },
+    searchCompanies(args = {}) {
+      return this._makeRequest({
+        path: "/api/v2/search/company",
+        ...args,
+      });
+    },
+    searchPeople(args = {}) {
+      return this._makeRequest({
+        path: "/api/v2/search/person",
+        ...args,
+      });
+    },
   },
 };

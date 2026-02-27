@@ -15,9 +15,8 @@ export default {
     enrichlayer,
   },
   async run({ $ }) {
-    const response = await this.enrichlayer._makeRequest({
+    const response = await this.enrichlayer.getCreditBalance({
       $,
-      path: "/api/v2/credit-balance",
     });
     $.export("$summary", `Credit balance: ${response.credit_balance}`);
     return response;

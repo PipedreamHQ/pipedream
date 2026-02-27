@@ -149,9 +149,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.enrichlayer._makeRequest({
+    const response = await this.enrichlayer.getJobListingCount({
       $,
-      path: "/api/v2/company/job/count",
       params: {
         search_id: this.searchId,
         job_type: this.jobType,

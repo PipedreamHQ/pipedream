@@ -209,9 +209,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.enrichlayer._makeRequest({
+    const response = await this.enrichlayer.searchCompanies({
       $,
-      path: "/api/v2/search/company",
       params: {
         country: this.country,
         region: this.region,

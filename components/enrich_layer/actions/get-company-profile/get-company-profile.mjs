@@ -79,9 +79,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.enrichlayer._makeRequest({
+    const response = await this.enrichlayer.getCompanyProfile({
       $,
-      path: "/api/v2/company",
       params: {
         url: this.url,
         categories: this.categories,

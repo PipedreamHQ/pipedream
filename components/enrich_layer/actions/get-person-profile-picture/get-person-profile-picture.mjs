@@ -20,9 +20,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.enrichlayer._makeRequest({
+    const response = await this.enrichlayer.getPersonProfilePicture({
       $,
-      path: "/api/v2/person/profile-picture",
       params: {
         person_profile_url: this.personProfileUrl,
       },

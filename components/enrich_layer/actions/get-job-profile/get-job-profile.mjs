@@ -20,9 +20,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.enrichlayer._makeRequest({
+    const response = await this.enrichlayer.getJobProfile({
       $,
-      path: "/api/v2/job",
       params: {
         url: this.url,
       },
