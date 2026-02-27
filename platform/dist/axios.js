@@ -117,7 +117,7 @@ async function callAxios(step, config, signConfig) {
     catch (err) {
         const axiosErr = err;
         if (axiosErr.response) {
-            const { error, responseSummary } = convertAxiosError(axiosErr);
+            const { error, responseSummary, } = convertAxiosError(axiosErr);
             stepExport(step, responseSummary, "debug");
             throw error;
         }
@@ -197,7 +197,7 @@ function create(config, signConfig) {
             : response.data;
     }, (err) => {
         if (err.response) {
-            const { error, responseSummary } = convertAxiosError(err);
+            const { error, responseSummary, } = convertAxiosError(err);
             stepExport(undefined, responseSummary, "debug");
             throw error;
         }

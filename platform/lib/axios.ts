@@ -150,7 +150,9 @@ async function callAxios(step: PipedreamStep | undefined, config: AxiosRequestCo
   } catch (err) {
     const axiosErr = err as AxiosError;
     if (axiosErr.response) {
-      const { error, responseSummary } = convertAxiosError(axiosErr);
+      const {
+        error, responseSummary,
+      } = convertAxiosError(axiosErr);
       stepExport(step, responseSummary, "debug");
       throw error;
     }
@@ -243,7 +245,9 @@ function create(config?: AxiosRequestConfig, signConfig?: OAuth1SignConfig) {
       : response.data;
   }, (err: AxiosError) => {
     if (err.response) {
-      const { error, responseSummary } = convertAxiosError(err);
+      const {
+        error, responseSummary,
+      } = convertAxiosError(err);
       stepExport(undefined, responseSummary, "debug");
       throw error;
     }
