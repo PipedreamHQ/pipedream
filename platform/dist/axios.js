@@ -117,9 +117,10 @@ async function callAxios(step, config, signConfig) {
     catch (err) {
         const axiosErr = err;
         if (axiosErr.response) {
-            const { error, responseSummary, } = convertAxiosError(axiosErr);
-            stepExport(step, responseSummary, "debug");
-            throw error;
+            const responseSummary = convertAxiosError(axiosErr);
+            if (step === null || step === void 0 ? void 0 : step.context) {
+                stepExport(step, responseSummary, "debug");
+            }
         }
         throw err;
     }
@@ -136,15 +137,12 @@ function stepExport(step, message, key) {
     console.log(`export: ${key} - ${JSON.stringify(message, null, 2)}`);
 }
 /**
- * Converts an AxiosError into a clean error object containing only the
- * information relevant to the end user: the error name/message and a
- * response summary (status, statusText, headers, data). This avoids
- * leaking sensitive request configuration from the original AxiosError.
+ * Sanitizes an AxiosError in-place by removing sensitive request configuration,
+ * request details, and stack trace. Returns a summary of the response containing
+ * only status, statusText, headers, and data.
  */
 function convertAxiosError(err) {
     let responseSummary;
-    const name = `${err.message} - see 'debug' export for the full response`;
-    let message = err.message;
     if (err.response) {
         responseSummary = {
             status: err.response.status,
@@ -152,20 +150,21 @@ function convertAxiosError(err) {
             headers: err.response.headers,
             data: err.response.data,
         };
+        delete err.response.request;
+        delete err.response.config;
+        err.name = `${err.message} - see 'debug' export for the full response`;
         try {
-            message = JSON.stringify(err.response.data);
+            err.message = JSON.stringify(err.response.data);
         }
         catch (error) {
             console.error("Error trying to convert `err.response.data` to string");
             console.log(error);
         }
     }
-    const clean = new Error(message);
-    clean.name = name;
-    return {
-        error: clean,
-        responseSummary,
-    };
+    delete err.config;
+    delete err.request;
+    delete err.stack;
+    return responseSummary;
 }
 function create(config, signConfig) {
     const axiosInstance = axios_1.default.create(config);
@@ -197,9 +196,8 @@ function create(config, signConfig) {
             : response.data;
     }, (err) => {
         if (err.response) {
-            const { error, responseSummary, } = convertAxiosError(err);
+            const responseSummary = convertAxiosError(err);
             stepExport(undefined, responseSummary, "debug");
-            throw error;
         }
         throw err;
     });
