@@ -15118,6 +15118,9 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
+  components/surecart:
+    specifiers: {}
+
   components/survey2connect: {}
 
   components/survey_monkey:
