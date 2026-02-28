@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/aircall",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Pipedream Aircall Components",
   "main": "aircall.app.mjs",
   "keywords": [
