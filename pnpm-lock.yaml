@@ -11931,7 +11931,14 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/polar: {}
+  components/polar:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.6.8
+        version: 1.6.8
+      '@polar-sh/sdk':
+        specifier: ^0.44.0
+        version: 0.44.0
 
   components/polly:
     dependencies:
@@ -21680,6 +21687,9 @@ packages:
     resolution: {integrity: sha512-bWLDlHsBlgKY/05wDN/V3ETcn5G2SV/SiA2ZmNvKGGlmVX4G5li7GRDhHcgYvHJHyJ8TUStqg2xtHmCs0UbAbg==}
     engines: {node: '>=18'}
 
+  '@polar-sh/sdk@0.44.0':
+    resolution: {integrity: sha512-r9/9lmLJTAzkkbFQB66bCEQZ62VUwJwMp31UOB6Kqg3fgAqtph/m+jfzj2aVsMapbQl0xuJX+MpkPFTCdQXejA==}
+
   '@protobuf-ts/plugin@2.11.1':
     resolution: {integrity: sha512-HyuprDcw0bEEJqkOWe1rnXUP0gwYLij8YhPuZyZk6cJbIgc/Q0IFgoHQxOXNIXAcXM4Sbehh6kjVnCzasElw1A==}
     hasBin: true
@@ -23460,6 +23470,9 @@ packages:
   '@sparticuz/chromium@143.0.4':
     resolution: {integrity: sha512-/6I7uQTRhRDD2/gGPQ1Gkf+Dqk0RYDACPJDZfSzz0OWk4JmUTonNHPXbrn6UIklOHlnDLf8xAAzkOZKB/cJpLA==}
     engines: {node: '>=20.11.0'}
+
+  '@stablelib/base64@1.0.1':
+    resolution: {integrity: sha512-1bnPQqSxSuc3Ii6MhBysoWCg58j97aUjuCSZrGSmDxNqtytIi0k8utUenAwTZN4V5mXXYGsVUI9zeBqy+jBOSQ==}
 
   '@stylistic/eslint-plugin-js@3.1.0':
     resolution: {integrity: sha512-lQktsOiCr8S6StG29C5fzXYxLOD6ID1rp4j6TRS+E/qY1xd59Fm7dy5qm9UauJIEoSTlYx6yGsCHYh5UkgXPyg==}
@@ -32408,6 +32421,9 @@ packages:
   stackframe@1.3.4:
     resolution: {integrity: sha512-oeVtt7eWQS+Na6F//S4kJ2K2VbRlS9D43mAlMyVpVWovy9o+jfgH8O9agzANzaiLjclA0oYzUXEM4PurhSUChw==}
 
+  standardwebhooks@1.0.0:
+    resolution: {integrity: sha512-BbHGOQK9olHPMvQNHWul6MYlrRTAOKn03rOe4A8O3CLWhNf4YHBqq2HJKKC+sfqpxiBY52pNeesD6jIiLDz8jg==}
+
   starkbank-ecdsa@1.1.5:
     resolution: {integrity: sha512-5O9CJ0QF6pTrtDg6dmaHy1GC/2wA1tcXsYanWOCzg+2cZrCDylEvEl6krzI4Zy8ryar00lHErRTT2Q61w/MUVA==}
 
@@ -40056,6 +40072,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@polar-sh/sdk@0.44.0':
+    dependencies:
+      standardwebhooks: 1.0.0
+      zod: 3.25.76
+
   '@protobuf-ts/plugin@2.11.1':
     dependencies:
       '@bufbuild/protobuf': 2.10.1
@@ -42206,6 +42227,8 @@ snapshots:
       - bare-buffer
       - debug
       - react-native-b4a
+
+  '@stablelib/base64@1.0.1': {}
 
   '@stylistic/eslint-plugin-js@3.1.0(eslint@8.57.1)':
     dependencies:
@@ -54207,6 +54230,11 @@ snapshots:
       escape-string-regexp: 2.0.0
 
   stackframe@1.3.4: {}
+
+  standardwebhooks@1.0.0:
+    dependencies:
+      '@stablelib/base64': 1.0.1
+      fast-sha256: 1.3.0
 
   starkbank-ecdsa@1.1.5:
     dependencies:
