@@ -4,7 +4,7 @@ export default {
   key: "slack_v2-create-channel",
   name: "Create a Channel",
   description: "Create a new channel. [See the documentation](https://api.slack.com/methods/conversations.create)",
-  version: "0.0.26",
+  version: "0.0.27",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

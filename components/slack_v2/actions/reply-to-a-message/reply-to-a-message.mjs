@@ -6,7 +6,7 @@ export default {
   key: "slack_v2-reply-to-a-message",
   name: "Reply to a Message Thread",
   description: "Send a message as a threaded reply. See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
-  version: "0.2.0",
+  version: "0.2.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -6,7 +6,7 @@ export default {
   key: "nutshell-lead-won",
   name: "New Lead Won",
   description: "Emit new event when a lead is won.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

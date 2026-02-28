@@ -4,7 +4,7 @@ export default {
   key: "slack_v2-list-members-in-channel",
   name: "List Members in Channel",
   description: "Retrieve members of a channel. [See the documentation](https://api.slack.com/methods/conversations.members)",
-  version: "0.0.25",
+  version: "0.0.26",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
