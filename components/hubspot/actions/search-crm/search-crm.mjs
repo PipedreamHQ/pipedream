@@ -7,6 +7,7 @@ import {
   DEFAULT_LINE_ITEM_PROPERTIES,
   DEFAULT_PRODUCT_PROPERTIES,
   DEFAULT_TICKET_PROPERTIES,
+  HUBSPOT_OWNER,
   SEARCHABLE_OBJECT_TYPES,
 } from "../../common/constants.mjs";
 import hubspot from "../../hubspot.app.mjs";
@@ -18,7 +19,7 @@ export default {
   name: "Search CRM",
   description:
     "Search companies, contacts, deals, feedback submissions, products, tickets, line-items, quotes, leads, or custom objects. [See the documentation](https://developers.hubspot.com/docs/api/crm/search)",
-  version: "1.1.3",
+  version: "1.1.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -111,21 +112,54 @@ export default {
         label: "Search Property",
         description: "The field to search",
         options: searchableProperties,
+        reloadProps: true,
       };
+
+      if (this.searchProperty) {
+        const selectedProp = properties.find(({ name }) => name === this.searchProperty);
+        if (selectedProp?.referencedObjectType) {
+          const objectTypeName = this.hubspot.getObjectTypeName(selectedProp.referencedObjectType);
+          if (objectTypeName === HUBSPOT_OWNER) {
+            props.searchValue = {
+              type: "string",
+              label: "Search Value",
+              description:
+                "Search for objects where the specified search field/property contains a match of the search value",
+              options: (opts) => this.hubspot.getOwnersOptions(opts),
+              useQuery: true,
+            };
+          }
+        }
+        if (!props.searchValue && selectedProp?.options?.length) {
+          const options = this.makeLabelValueOptions(selectedProp);
+          if (options) {
+            props.searchValue = {
+              type: "string",
+              label: "Search Value",
+              description:
+                "Search for objects where the specified search field/property contains a match of the search value",
+              options,
+            };
+          }
+        }
+      }
     } catch {
       props.searchProperty = {
         type: "string",
         label: "Search Property",
         description: "The field to search",
+        reloadProps: true,
       };
     }
 
-    props.searchValue = {
-      type: "string",
-      label: "Search Value",
-      description:
-        "Search for objects where the specified search field/property contains a match of the search value",
-    };
+    if (!props.searchValue) {
+      props.searchValue = {
+        type: "string",
+        label: "Search Value",
+        description:
+          "Search for objects where the specified search field/property contains a match of the search value",
+      };
+    }
     const defaultProperties = this.getDefaultProperties();
     if (defaultProperties?.length) {
       props.info = {
