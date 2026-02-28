@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/roblox",
+  "version": "0.0.1",
+  "description": "Pipedream Roblox Components",
+  "main": "roblox.app.mjs",
+  "keywords": [
+    "pipedream",
+    "roblox"
+  ],
+  "homepage": "https://pipedream.com/apps/roblox",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
