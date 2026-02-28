@@ -2,7 +2,7 @@ import app from "../../airmeet.app.mjs";
 
 export default {
   name: "Add Authorized Attendee",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -22,17 +22,17 @@ export default {
     email: {
       type: "string",
       label: "Email",
-      description: "Email of the atendee",
+      description: "Email of the attendee",
     },
     firstName: {
       type: "string",
       label: "First name",
-      description: "First name of the atendee",
+      description: "First name of the attendee",
     },
     lastName: {
       type: "string",
       label: "Last name",
-      description: "Last name of the atendee",
+      description: "Last name of the attendee",
     },
   },
   async run({ $ }) {

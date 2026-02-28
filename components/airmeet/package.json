@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/airmeet",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Airmeet Components",
   "main": "airmeet.app.mjs",
   "keywords": [

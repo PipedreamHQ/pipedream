@@ -7,7 +7,7 @@ export default {
   key: "mailchimp-get-list-activities",
   name: "Get List Activities",
   description: "Retrieves up to the previous 180 days of daily detailed aggregated activity stats for a list. [See docs here](https://mailchimp.com/developer/marketing/api/list-activity/list-recent-activity/)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

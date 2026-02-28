@@ -3,8 +3,8 @@ import shortMenu from "../../short_menu.app.mjs";
 export default {
   key: "short_menu-create-short-link",
   name: "Create Short Link",
-  description: "Create a new short link. [See the documentationo](https://docs.shortmenu.com/api-reference/endpoint/create-link)",
-  version: "0.0.2",
+  description: "Create a new short link. [See the documentation](https://docs.shortmenu.com/api-reference/endpoint/create-link)",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -10,7 +10,7 @@ export default {
   key: "pennylane-create-customer",
   name: "Create Customer",
   description: "Creates a new customer in Pennylane. [See the documentation](https://pennylane.readme.io/reference/customers-post-1)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

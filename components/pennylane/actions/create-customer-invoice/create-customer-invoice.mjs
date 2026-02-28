@@ -11,7 +11,7 @@ export default {
   key: "pennylane-create-customer-invoice",
   name: "Create Customer Invoice",
   description: "Generates a new invoice for a customer using Pennylane. [See the documentation](https://pennylane.readme.io/reference/customer_invoices-post-1)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

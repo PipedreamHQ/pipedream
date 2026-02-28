@@ -7,7 +7,7 @@ export default {
   key: "mailchimp-get-list-member-tags",
   name: "Get List Member Tags",
   description: "Retrieves a list of all member tags. [See docs here](https://mailchimp.com/developer/marketing/api/list-member-tags/list-member-tags/)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -93,7 +93,7 @@ export default {
     data: {
       type: "string",
       label: "data",
-      description: "Enter Json Formated data",
+      description: "Enter JSON-formatted data",
     },
     fields: {
       type: "string[]",

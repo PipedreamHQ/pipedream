@@ -6,7 +6,7 @@ export default {
   key: "leiga-deleted-issue-instant",
   name: "New Deleted Issue (Instant)",
   description: "Emit new event when an issue is deleted in Leiga.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

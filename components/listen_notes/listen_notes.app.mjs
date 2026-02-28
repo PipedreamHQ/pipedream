@@ -146,7 +146,7 @@ export default {
       ...args
     }) {
       if (!q) {
-        throw new ConfigurationError("You need to inform a query to list the IDs. Alternatively you can directly inform an ID unsing the custom expression function.");
+        throw new ConfigurationError("You need to inform a query to list the IDs. Alternatively you can directly inform an ID using the custom expression function.");
       }
 
       return this._makeRequest({

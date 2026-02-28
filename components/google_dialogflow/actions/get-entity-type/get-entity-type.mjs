@@ -3,7 +3,7 @@ import googleDialogflow from "../../google_dialogflow.app.mjs";
 export default {
   type: "action",
   key: "google_dialogflow-get-entity-type",
-  version: "1.0.1",
+  version: "1.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -31,7 +31,7 @@ export default {
       languageCode: this.languageCode,
       name: this.name,
     });
-    $.export("$summary", "EntityType has been retreived.");
+    $.export("$summary", "EntityType has been retrieved.");
     return response;
   },
 };

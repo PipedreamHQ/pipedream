@@ -1,7 +1,7 @@
 {
   "name": "@pipedream/browsers",
   "version": "1.0.3",
-  "description": "For using Puppeteer or Playwright in Pipedream Node.js Code Steps. Includes the prebuilt binaries and specific versions for compatiblity with Pipedream.",
+  "description": "For using Puppeteer or Playwright in Pipedream Node.js Code Steps. Includes the prebuilt binaries and specific versions for compatability with Pipedream.",
   "main": "index.mjs",
   "scripts": {
     "test": "node test.mjs"

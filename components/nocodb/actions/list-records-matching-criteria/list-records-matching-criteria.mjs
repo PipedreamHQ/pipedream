@@ -5,7 +5,7 @@ export default {
   key: "nocodb-list-records-matching-criteria",
   name: "List Records in Table Matching Criteria",
   description: "This action lists all rows in a table. [See the documentation](https://data-apis-v2.nocodb.com/#tag/Table-Records/operation/db-data-table-row-list)",
-  version: "0.0.8",
+  version: "0.0.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -72,7 +72,7 @@ export default {
      * Will send a broadcast message to a specific channel or room.
      *
      * @param {string} channelAccessToken - The channel or room access token.
-     * @param {object} message - The message obejct.
+     * @param {object} message - The message object.
      *
      * @returns {object} The Line Client object response .
      */
@@ -87,7 +87,7 @@ export default {
      *
      * @param {string} channelAccessToken - The channel or room access token.
      * @param {string} replyToken - The token for reply a specific message.
-     * @param {object} message - The message obejct.
+     * @param {object} message - The message object.
      *
      * @returns {object} The Line Client object response.
      */
@@ -102,7 +102,7 @@ export default {
      *
      * @param {string} channelAccessToken - The channel or room access token.
      * @param {string} to - The id of user to send the message.
-     * @param {object} message - The message obejct.
+     * @param {object} message - The message object.
      *
      * @returns {object} The Line Client object response.
      */
@@ -116,7 +116,7 @@ export default {
      * Will send a notification to a specific message.
      *
      * @param {string} $ - Pipedream object to get the params for the request.
-     * @param {object} message - The message obejct.
+     * @param {object} message - The message object.
      * @param {string} accessToken - The access token of a user, channel or room,
      * if this this param is not provided, will use the current account access token.
      *

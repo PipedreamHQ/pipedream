@@ -6,7 +6,7 @@ export default {
   key: "line-new-message-received",
   name: "New Message Received",
   description: "Emit new event for every received message in a channel. [See docs here](https://developers.line.biz/en/docs/messaging-api/building-bot/#page-title)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {

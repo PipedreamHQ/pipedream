@@ -9,7 +9,7 @@ export default {
   name: "Download File to TMP",
   description: "Download a specific file to the temporary directory. [See the documentation](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesDownload__anchor).",
   key: "dropbox-download-file-to-tmp",
-  version: "0.0.10",
+  version: "0.0.11",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -30,7 +30,7 @@ export default {
     name: {
       type: "string",
       label: "File Name",
-      description: "The new name of the file to be saved, including it's extension. e.g: `myFile.csv`",
+      description: "The new name of the file to be saved, including its extension. e.g: `myFile.csv`",
       optional: true,
     },
     syncDir: {

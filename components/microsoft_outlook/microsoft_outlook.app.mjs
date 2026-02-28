@@ -89,7 +89,7 @@ export default {
       optional: true,
     },
     emailAddresses: {
-      label: "Email adresses",
+      label: "Email addresses",
       description: "Email addresses",
       type: "string[]",
       optional: true,

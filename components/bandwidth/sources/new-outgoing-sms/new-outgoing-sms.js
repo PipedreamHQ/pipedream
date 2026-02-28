@@ -5,7 +5,7 @@ module.exports = {
   description:
     "Emits an event each time an outbound message status event is received at the source url",
   key: "bandwidth-new-outgoing-sms",
-  version: "1.1.1",
+  version: "1.1.2",
   type: "source",
   props: {
     bandwidth,

@@ -5,7 +5,7 @@ export default {
   key: "svix-list-messages",
   name: "List Messages",
   description: "List all of the application's messages. [See the docs here](https://api.svix.com/docs#tag/Message/operation/list_messages_api_v1_app__app_id__msg__get)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -33,7 +33,7 @@ export default {
     limit: {
       type: "integer",
       label: "Limit",
-      description: "The maximum number of messages to retreive",
+      description: "The maximum number of messages to retrieve",
       optional: true,
       default: 50,
     },

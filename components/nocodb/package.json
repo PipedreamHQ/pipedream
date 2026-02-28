@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/nocodb",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Nocodb Components",
   "main": "nocodb.app.mjs",
   "keywords": [

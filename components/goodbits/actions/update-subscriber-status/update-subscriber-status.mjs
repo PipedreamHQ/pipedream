@@ -4,7 +4,7 @@ export default {
   key: "goodbits-update-subscriber-status",
   name: "Update Subscriber Status",
   description: "Update the status of a subscriber. [See the documentation](https://support.goodbits.io/article/115-goodbit-api)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -36,7 +36,7 @@ export default {
         },
       },
     });
-    $.export("$summary", "Successfully uptated subscriber status");
+    $.export("$summary", "Successfully updated subscriber status");
     return response;
   },
 };
