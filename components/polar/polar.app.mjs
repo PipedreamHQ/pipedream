@@ -33,54 +33,52 @@ export default {
       format = "raw",
     }) {
       const client = this._getClient();
-      return client.webhooks.createWebhookEndpoint({
-        url,
-        format,
-        events,
-        ...(organizationId && {
-          organizationId,
-        }),
-      });
+      try {
+        return client.webhooks.createWebhookEndpoint({
+          url,
+          format,
+          events,
+          ...(organizationId && {
+            organizationId,
+          }),
+        });
+      } finally {
+        if (client.close) await client.close();
+      }
     },
     async deleteWebhookEndpoint(endpointId) {
       const client = this._getClient();
-      return client.webhooks.deleteWebhookEndpoint({
-        id: endpointId,
-      });
+      try {
+        return client.webhooks.deleteWebhookEndpoint({
+          id: endpointId,
+        });
+      } finally {
+        if (client.close) await client.close();
+      }
+    },
+    async _listWithAutoPagination(listFn, params = {}) {
+      const client = this._getClient();
+      try {
+        const iterator = await listFn(client, params);
+        const items = [];
+        let pagination;
+        for await (const page of iterator) {
+          items.push(...page.result.items);
+          pagination = page.result.pagination;
+        }
+        return {
+          items,
+          pagination,
+        };
+      } finally {
+        if (client.close) await client.close();
+      }
     },
     async listOrders(params = {}) {
-      const client = this._getClient();
-      try {
-        const iterator = await client.orders.list(params);
-        let result;
-        for await (const page of iterator) {
-          result = page.result;
-          break;
-        }
-        return result ?? {
-          items: [],
-          pagination: null,
-        };
-      } finally {
-        if (client.close) await client.close();
-      }
+      return this._listWithAutoPagination((client, p) => client.orders.list(p), params);
     },
     async listSubscriptions(params = {}) {
-      const client = this._getClient();
-      try {
-        const iterator = await client.subscriptions.list(params);
-        let result;
-        for await (const page of iterator) {
-          result = page.result;
-          break;
-        }
-        return result ?? {
-          items: [],
-          pagination: null,
-        };
-      } finally {
-        if (client.close) await client.close();
-      }
+      return this._listWithAutoPagination((client, p) => client.subscriptions.list(p), params);
     },
   },
 };
