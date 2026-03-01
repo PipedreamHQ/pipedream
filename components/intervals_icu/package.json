@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/intervals_icu",
+  "version": "0.0.1",
+  "description": "Pipedream Intervals.icu Components",
+  "main": "intervals_icu.app.mjs",
+  "keywords": [
+    "pipedream",
+    "intervals_icu"
+  ],
+  "homepage": "https://pipedream.com/apps/intervals_icu",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
