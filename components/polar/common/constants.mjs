@@ -127,7 +127,19 @@ const WEBHOOK_EVENT_OPTIONS = [
   },
 ];
 
+const BILLING_TYPES = [
+  {
+    label: "One Time",
+    value: "one_time",
+  },
+  {
+    label: "Recurring",
+    value: "recurring",
+  },
+];
+
 export default {
   WEBHOOK_ID,
   WEBHOOK_EVENT_OPTIONS,
+  BILLING_TYPES,
 };

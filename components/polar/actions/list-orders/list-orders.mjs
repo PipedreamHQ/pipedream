@@ -1,4 +1,5 @@
 import app from "../../polar.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "polar-list-orders",
@@ -13,12 +14,6 @@ export default {
   },
   props: {
     app,
-    organisation_access_token: {
-      propDefinition: [
-        app,
-        "organisation_access_token",
-      ],
-    },
     organizationId: {
       propDefinition: [
         app,
@@ -36,16 +31,7 @@ export default {
       label: "Product Billing Type",
       description: "Filter by product billing type. `recurring` for subscriptions, `one_time` for one-time purchases.",
       optional: true,
-      options: [
-        {
-          label: "One Time",
-          value: "one_time",
-        },
-        {
-          label: "Recurring",
-          value: "recurring",
-        },
-      ],
+      options: constants.BILLING_TYPES,
     },
     customerId: {
       type: "string",
@@ -53,36 +39,16 @@ export default {
       description: "Filter by customer ID (UUID)",
       optional: true,
     },
-    page: {
-      type: "integer",
-      label: "Page",
-      description: "Page number, defaults to 1",
-      optional: true,
-      default: 1,
-    },
-    limit: {
-      type: "integer",
-      label: "Limit",
-      description: "Size of a page, defaults to 10. Maximum is 100.",
-      optional: true,
-      default: 10,
-    },
   },
   async run({ $ }) {
-    if (this.organisation_access_token) {
-      this.app._organisationAccessTokenOverride = this.organisation_access_token;
-    }
-    const params = {
-      page: this.page,
-      limit: this.limit,
-    };
+    const params = {};
     if (this.organizationId) params.organizationId = this.organizationId;
     if (this.productId) params.productId = this.productId;
     if (this.productBillingType) params.productBillingType = this.productBillingType;
     if (this.customerId) params.customerId = this.customerId;
 
-    const { items } = await this.app.listOrders(params);
-    $.export("$summary", `Successfully retrieved ${items.length} order(s)`);
-    return items;
+    const orderList = await this.app.listOrders(params);
+    $.export("$summary", `Successfully retrieved ${orderList?.items?.length} order(s)`);
+    return orderList;
   },
 };

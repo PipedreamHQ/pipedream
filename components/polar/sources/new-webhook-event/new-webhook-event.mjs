@@ -17,4 +17,10 @@ export default {
       options: constants.WEBHOOK_EVENT_OPTIONS,
     },
   },
+  methods: {
+    ...common.methods,
+    getEvents() {
+      return this.events;
+    },
+  },
 };

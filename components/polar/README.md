@@ -4,7 +4,7 @@ Polar is a monetization platform for developers and creators. This component use
 
 ## Authentication
 
-Use a Polar **Organization Access Token (OAT)**. The component sends it in the `Authorization: Bearer` header as per the [API Overview](https://polar.sh/docs/api-reference/introduction). Create an OAT in your organization settings in the Polar dashboard. The token must have the scopes required by the sources and actions (e.g. `webhooks:write` for webhooks, `orders:read` for list orders, `subscriptions:read` for list subscriptions). Production base URL is `https://api.polar.sh/v1`.
+The component uses the OAuth access token from `this.$auth.oauth_access_token`. Connect your Polar account in Pipedream so the token is available. The token is sent in the `Authorization: Bearer` header as per the [API Overview](https://polar.sh/docs/api-reference/introduction). Ensure the token has the scopes required by the sources and actions (e.g. `webhooks:write` for webhooks, `orders:read` for list orders, `subscriptions:read` for list subscriptions). Production base URL is `https://api.polar.sh/v1`.
 
 ## Webhook Sources
 

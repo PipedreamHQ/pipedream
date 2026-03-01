@@ -4,12 +4,6 @@ export default {
   type: "app",
   app: "polar",
   propDefinitions: {
-    organisation_access_token: {
-      type: "string",
-      label: "Organization Access Token",
-      description: "Your Polar Organization Access Token (OAT). Create one in your [organization settings](https://polar.sh/dashboard).",
-      secret: true,
-    },
     organizationId: {
       type: "string",
       label: "Organization ID",
@@ -19,10 +13,10 @@ export default {
   },
   methods: {
     _getAccessToken() {
-      const token = this._organisationAccessTokenOverride || this.organisation_access_token;
+      const token = this.$auth?.oauth_access_token;
       if (!token) {
         throw new Error(
-          "Polar Organization Access Token (OAT) is missing. Set the \"Organization Access Token\" prop or connect your Polar account. See [Polar OAT docs](https://polar.sh/docs/api-reference/introduction).",
+          "Polar OAuth access token is missing. Connect your Polar account to provide the token. See [Polar OAT docs](https://polar.sh/docs/api-reference/introduction).",
         );
       }
       return token;
@@ -58,19 +52,15 @@ export default {
       const client = this._getClient();
       try {
         const iterator = await client.orders.list(params);
-        const items = [];
-        let pagination;
+        let result;
         for await (const page of iterator) {
-          items.push(...page.result.items);
-          pagination = page.result.pagination;
+          result = page.result;
+          break;
         }
-        return {
-          items,
-          pagination,
+        return result ?? {
+          items: [],
+          pagination: null,
         };
-      } catch (error) {
-        console.error("error listing orders", error);
-        throw error;
       } finally {
         if (client.close) await client.close();
       }
@@ -79,19 +69,15 @@ export default {
       const client = this._getClient();
       try {
         const iterator = await client.subscriptions.list(params);
-        const items = [];
-        let pagination;
+        let result;
         for await (const page of iterator) {
-          items.push(...page.result.items);
-          pagination = page.result.pagination;
+          result = page.result;
+          break;
         }
-        return {
-          items,
-          pagination,
+        return result ?? {
+          items: [],
+          pagination: null,
         };
-      } catch (error) {
-        console.error("error listing subscriptions", error);
-        throw error;
       } finally {
         if (client.close) await client.close();
       }

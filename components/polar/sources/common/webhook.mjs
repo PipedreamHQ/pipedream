@@ -16,12 +16,6 @@ export default {
         "organizationId",
       ],
     },
-    organisation_access_token: {
-      propDefinition: [
-        app,
-        "organisation_access_token",
-      ],
-    },
   },
   hooks: {
     async activate() {
@@ -31,12 +25,7 @@ export default {
         getEvents,
         setWebhookId,
         organizationId,
-        organisation_access_token,
       } = this;
-
-      if (organisation_access_token) {
-        this.app._organisationAccessTokenOverride = organisation_access_token;
-      }
 
       const response = await createWebhook({
         url: targetUrl,
@@ -61,12 +50,12 @@ export default {
   methods: {
     generateMeta(payload) {
       const type = payload.type || "webhook";
-      const id = payload.data?.id ?? payload.id ?? `${type}-${Date.now()}`;
+      const entityId = payload.data?.id ?? payload.id ?? Date.now();
       const ts = payload.created_at
         ? new Date(payload.created_at).getTime()
         : Date.now();
       return {
-        id: String(id),
+        id: `${entityId}-${ts}`,
         summary: `${type}`,
         ts,
       };
@@ -92,9 +81,15 @@ export default {
       status: 200,
     });
 
-    const payload = typeof body === "string"
-      ? JSON.parse(body)
-      : body;
+    let payload;
+    try {
+      payload = typeof body === "string"
+        ? JSON.parse(body)
+        : body;
+    } catch (err) {
+      console.log("Failed to parse webhook body:", err.message);
+      return;
+    }
     this.$emit(payload, this.generateMeta(payload));
   },
 };
