@@ -5,7 +5,7 @@ export default {
   key: "eventbrite-new-event",
   name: "New Event (Instant)",
   description: "Emit new event when an event has been created",
-  version: "0.0.6",
+  version: "0.0.7",
   dedupe: "unique",
   type: "source",
   methods: {

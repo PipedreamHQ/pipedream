@@ -6,7 +6,7 @@ export default {
   key: "sharepoint-find-file-by-name",
   name: "Find File by Name",
   description: "Search for a file or folder by name. [See the documentation](https://learn.microsoft.com/en-us/onedrive/developer/rest-api/api/driveitem_search)",
-  version: "0.1.4",
+  version: "0.1.5",
   type: "action",
   annotations: {
     destructiveHint: false,
