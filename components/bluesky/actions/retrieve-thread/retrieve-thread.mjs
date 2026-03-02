@@ -4,7 +4,7 @@ export default {
   key: "bluesky-retrieve-thread",
   name: "Retrieve Thread",
   description: "Retrieve a full thread of posts. [See the documentation](https://docs.bsky.app/docs/api/app-bsky-feed-get-post-thread).",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

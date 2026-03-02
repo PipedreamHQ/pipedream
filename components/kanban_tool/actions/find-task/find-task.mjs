@@ -3,7 +3,7 @@ import utils from "../../common/utils.mjs";
 
 export default {
   key: "kanban_tool-find-task",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -53,7 +53,7 @@ export default {
     for await (const item of resourcesStream)
       items.push(item);
     // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `${items.length} task${items.length != 1 ? "s" : ""} has been found.`);
+    $.export("$summary", `${items.length} task${items.length != 1 ? "s have" : " has"} been found.`);
     return items;
   },
 };

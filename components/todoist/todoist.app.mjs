@@ -331,7 +331,7 @@ export default {
       db.set("syncToken", syncToken);
     },
     /**
-     * Check whether an array of project IDs contains the given proejct ID. This method is
+     * Check whether an array of project IDs contains the given project ID. This method is
      * used in multiple sources to validate if an event matches the selection in the project filter.
      * @params {Integer} project_id - The ID for a Todoist project
      * @params {Array} selectedProjectIds - An array of Todoist project IDs
@@ -397,7 +397,7 @@ export default {
      * Get project by ID or get all projects if no ID specified
      * @params {Object} opts - An object representing configuration options for this method
      * @params {Integer} [opts.id = ""] - A project ID
-     * @returns {Obect|Array} A project object related to the given ID or all user projects
+     * @returns {Object|Array} A project object related to the given ID or all user projects
      * if no ID specified
      */
     async getProjects(opts) {
@@ -863,7 +863,7 @@ export default {
     /**
      * Moves tasks to new parent_id, section_id, or project_id
      * @params {Object} opts - An object representing configuration options for this method
-     * @retursn {Object} - An array of responses, one per batch of tasks
+     * @returns {Object} - An array of responses, one per batch of tasks
     */
     async moveTasks(opts) {
       const {
