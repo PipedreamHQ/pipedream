@@ -2769,6 +2769,9 @@ importers:
 
   components/chatsonic: {}
 
+  components/chatspark:
+    specifiers: {}
+
   components/chattermill:
     dependencies:
       '@pipedream/platform':
