@@ -52,7 +52,6 @@ export default {
     const results = this.aircall.paginate({
       fn: this.aircall.listContacts,
       args: {
-        debug: true,
         $,
         params: {
           from: parseDate(this.from),
