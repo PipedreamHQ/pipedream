@@ -26,7 +26,7 @@ export default {
     },
   },
   async run({ $: step }) {
-    const transcript = await this.getMeetingTranscript({
+    const transcript = await this.zoom.getMeetingTranscript({
       step,
       meetingId: this.meetingId,
     });
