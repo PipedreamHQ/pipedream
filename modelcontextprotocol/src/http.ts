@@ -38,35 +38,64 @@ app.get("/v1/:uuid/sessions", async (req: Request, res: Response) => {
 })
 
 // static app specific mcp servers
-app.all("/v1/:uuid/:app", async (req: Request, res: Response) => {
-  if (req.method !== "POST") {
-    return res.status(405).json({
-      jsonrpc: "2.0",
-      error: {
-        code: -32600,
-        message: "Method not allowed",
-      },
-      id: null,
-    })
-  }
-
+app.post("/v1/:uuid/:app", async (req: Request, res: Response) => {
   console.log("Received MCP request:", req.body)
 
-  try {
-    const transport: StreamableHTTPServerTransport =
-      new StreamableHTTPServerTransport({
-        sessionIdGenerator: undefined, // set to undefined for stateless servers
-      })
-    console.log(
-      `Starting serverFactory for app: ${req.params.app}, uuid: ${req.params.uuid}`
-    )
-    const server = await serverFactory({
-      app: req.params.app,
-      uuid: req.params.uuid,
-    })
-    console.log("Server factory successful, connecting transport")
+  const sessionId = req.headers["mcp-session-id"] as string | undefined
+  let transport: StreamableHTTPServerTransport
 
-    await server.connect(transport)
+  try {
+    if (sessionId && httpTransports[sessionId]) {
+      // Reuse existing transport
+      transport = httpTransports[sessionId]
+      console.log(
+        `Session resumed with ID: ${sessionId} for app: ${req.params.app}, uuid: ${req.params.uuid}`
+      )
+    } else if (!sessionId && isInitializeRequest(req.body)) {
+      // New initialization request - create a stateful transport so SSE GET works
+      transport = new StreamableHTTPServerTransport({
+        sessionIdGenerator: () => randomUUID(),
+        onsessioninitialized: (newSessionId) => {
+          httpTransports[newSessionId] = transport
+          console.log(
+            `Session initialized with ID: ${newSessionId} for app: ${req.params.app}, uuid: ${req.params.uuid}`
+          )
+        },
+      })
+
+      transport.onclose = () => {
+        const sid = transport.sessionId
+        if (sid && httpTransports[sid]) {
+          console.log(
+            `Transport closed for session ${sid}, removing from transports map`
+          )
+          delete httpTransports[sid]
+        }
+      }
+
+      console.log(
+        `Starting serverFactory for app: ${req.params.app}, uuid: ${req.params.uuid}`
+      )
+      const server = await serverFactory({
+        app: req.params.app,
+        uuid: req.params.uuid,
+      })
+      console.log("Server factory successful, connecting transport")
+      await server.connect(transport)
+      await transport.handleRequest(req, res, req.body)
+      return
+    } else {
+      res.status(400).json({
+        jsonrpc: "2.0",
+        error: {
+          code: -32000,
+          message: "Bad Request: No valid session ID provided",
+        },
+        id: null,
+      })
+      return
+    }
+
     await transport.handleRequest(req, res, req.body)
   } catch (error) {
     console.error("Error handling MCP request:", error)
@@ -81,6 +110,27 @@ app.all("/v1/:uuid/:app", async (req: Request, res: Response) => {
       })
     }
   }
+})
+
+// Handle GET requests for SSE streams on app-specific servers
+app.get("/v1/:uuid/:app", async (req: Request, res: Response) => {
+  const sessionId = req.headers["mcp-session-id"] as string | undefined
+  if (!sessionId || !httpTransports[sessionId]) {
+    res.status(400).send("Invalid or missing session ID")
+    return
+  }
+
+  const lastEventId = req.headers["last-event-id"] as string | undefined
+  if (lastEventId) {
+    console.log(`Client reconnecting with Last-Event-ID: ${lastEventId}`)
+  } else {
+    console.log(
+      `Establishing new SSE stream for session ${sessionId}, app: ${req.params.app}, uuid: ${req.params.uuid}`
+    )
+  }
+
+  const transport = httpTransports[sessionId]
+  await transport.handleRequest(req, res)
 })
 
 // New route for uuid-only connections
@@ -178,7 +228,7 @@ app.post("/v1/:uuid", async (req: Request, res: Response) => {
 // Handle GET requests for SSE streams (using built-in support from StreamableHTTP)
 app.get("/v1/:uuid", async (req: Request, res: Response) => {
   const sessionId = req.headers["mcp-session-id"] as string | undefined
-  if (!sessionId || !transports[sessionId]) {
+  if (!sessionId || !httpTransports[sessionId]) {
     res.status(400).send("Invalid or missing session ID")
     return
   }
@@ -191,14 +241,14 @@ app.get("/v1/:uuid", async (req: Request, res: Response) => {
     console.log(`Establishing new SSE stream for session ${sessionId}`)
   }
 
-  const transport = transports[sessionId]
+  const transport = httpTransports[sessionId]
   await transport.handleRequest(req, res)
 })
 
 // Handle DELETE requests for session termination (according to MCP spec)
 app.delete("/v1/:uuid", async (req: Request, res: Response) => {
   const sessionId = req.headers["mcp-session-id"] as string | undefined
-  if (!sessionId || !transports[sessionId]) {
+  if (!sessionId || !httpTransports[sessionId]) {
     res.status(400).send("Invalid or missing session ID")
     return
   }
@@ -206,7 +256,7 @@ app.delete("/v1/:uuid", async (req: Request, res: Response) => {
   console.log(`Received session termination request for session ${sessionId}`)
 
   try {
-    const transport = transports[sessionId]
+    const transport = httpTransports[sessionId]
     await transport.handleRequest(req, res)
   } catch (error) {
     console.error("Error handling session termination:", error)
