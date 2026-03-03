@@ -27,11 +27,13 @@ export default {
 
       const response = await fetch(urlWithAuth, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+			"Content-Type": "application/json"
+		},
         body: JSON.stringify({
           url: this.http.endpoint,
           event: "status_changed",
-          description: "Pipedream Workflow Trigger"
+          description: "Pipedream Workflow Trigger",
         }),
       });
 
@@ -41,7 +43,7 @@ export default {
       }
 
       const data = await response.json();
-      
+
       // Store the ID returned by FraudLabs Pro
       if (data && data.id) {
         this.db.set("hookId", data.id);
@@ -52,19 +54,19 @@ export default {
       const hookId = this.db.get("hookId");
       if (!hookId) return;
 
-      const baseUrl = `https://www.fraudlabspro.com/pipedream-webhook-unsubscribe`;
+      const baseUrl = "https://www.fraudlabspro.com/pipedream-webhook-unsubscribe";
       const params = new URLSearchParams({
         key: this.$auth.api_key,
-        id: hookId
+        id: hookId,
       });
 
       const response = await fetch(`${baseUrl}?${params.toString()}`, {
         method: "GET",
       });
-       if (!response.ok) {
-         const errorText = await response.text();
-         throw new Error(`Deactivation failed (${response.status}): ${errorText}`);
-       }
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Deactivation failed (${response.status}): ${errorText}`);
+      }
 
       // Clear the DB so it can be re-activated later
       this.db.set("hookId", null);
@@ -73,13 +75,15 @@ export default {
   async run(event) {
     // 2. Capture the incoming POST data from the API
     const body = event.body;
-     if (!body || typeof body !== "object") {
-       this.http.respond({
-         status: 400,
-         body: { message: "Invalid payload" },
-       });
-       return;
-     }
+    if (!body || typeof body !== "object") {
+      this.http.respond({
+        status: 400,
+        body: {
+			message: "Invalid payload"
+		},
+      });
+      return;
+    }
 
     // Emit the data so it can be used in workflow steps
     // We use fields like order_id as the primary ID for deduplication in Pipedream
