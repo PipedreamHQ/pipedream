@@ -58,9 +58,13 @@ export default {
         id: hookId
       });
 
-      await fetch(`${baseUrl}?${params.toString()}`, {
+      const response = await fetch(`${baseUrl}?${params.toString()}`, {
         method: "GET",
       });
+       if (!response.ok) {
+         const errorText = await response.text();
+         throw new Error(`Deactivation failed (${response.status}): ${errorText}`);
+       }
 
       // Clear the DB so it can be re-activated later
       this.db.set("hookId", null);
@@ -69,12 +73,19 @@ export default {
   async run(event) {
     // 2. Capture the incoming POST data from the API
     const body = event.body;
+     if (!body || typeof body !== "object") {
+       this.http.respond({
+         status: 400,
+         body: { message: "Invalid payload" },
+       });
+       return;
+     }
 
     // Emit the data so it can be used in workflow steps
     // We use fields like order_id as the primary ID for deduplication in Pipedream
     this.$emit(body, {
       summary: `New Status: ${body.flp_status} for Order #${body.order_id}`,
-      id: body.order_id || Date.now(), 
+      id: `${body.order_id}-${body.flp_status}-${body.updated_at ?? body.timestamp ?? Date.now()}`,
       ts: Date.now(),
     });
 
