@@ -40,7 +40,6 @@ export default {
       }) {
         const { nextPageToken } = prevContext;
         const response = await this.listMeetings({
-          debug: true,
           params: {
             next_page_token: nextPageToken,
             type,
