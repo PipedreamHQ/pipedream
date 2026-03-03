@@ -8309,8 +8309,7 @@ importers:
 
   components/koyeb: {}
 
-  components/kraken:
-    specifiers: {}
+  components/kraken: {}
 
   components/kraken_io: {}
 
@@ -8593,8 +8592,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/lever_oauth:
-    specifiers: {}
+  components/lever_oauth: {}
 
   components/leverly: {}
 
@@ -45608,36 +45606,6 @@ snapshots:
       - react-native-b4a
       - supports-color
 
-  dts-critic@3.3.11(typescript@5.9.3):
-    dependencies:
-      '@definitelytyped/header-parser': 0.2.24
-      command-exists: 1.2.9
-      rimraf: 3.0.2
-      semver: 6.3.1
-      tmp: 0.2.5
-      typescript: 5.9.3
-      yargs: 15.4.1
-    transitivePeerDependencies:
-      - bare-abort-controller
-      - bare-buffer
-      - react-native-b4a
-      - supports-color
-
-  dts-critic@3.3.11(typescript@5.9.3):
-    dependencies:
-      '@definitelytyped/header-parser': 0.2.24
-      command-exists: 1.2.9
-      rimraf: 3.0.2
-      semver: 6.3.1
-      tmp: 0.2.5
-      typescript: 5.9.3
-      yargs: 15.4.1
-    transitivePeerDependencies:
-      - bare-abort-controller
-      - bare-buffer
-      - react-native-b4a
-      - supports-color
-
   dts-resolver@2.1.3: {}
 
   dtslint@4.2.1(typescript@5.6.3):
@@ -45652,44 +45620,6 @@ snapshots:
       tslint: 5.14.0(typescript@5.6.3)
       tsutils: 2.29.0(typescript@5.6.3)
       typescript: 5.6.3
-      yargs: 15.4.1
-    transitivePeerDependencies:
-      - bare-abort-controller
-      - bare-buffer
-      - react-native-b4a
-      - supports-color
-
-  dtslint@4.2.1(typescript@5.9.3):
-    dependencies:
-      '@definitelytyped/header-parser': 0.2.24
-      '@definitelytyped/typescript-versions': 0.1.10
-      '@definitelytyped/utils': 0.1.12
-      dts-critic: 3.3.11(typescript@5.9.3)
-      fs-extra: 6.0.1
-      json-stable-stringify: 1.3.0
-      strip-json-comments: 2.0.1
-      tslint: 5.14.0(typescript@5.9.3)
-      tsutils: 2.29.0(typescript@5.9.3)
-      typescript: 5.9.3
-      yargs: 15.4.1
-    transitivePeerDependencies:
-      - bare-abort-controller
-      - bare-buffer
-      - react-native-b4a
-      - supports-color
-
-  dtslint@4.2.1(typescript@5.9.3):
-    dependencies:
-      '@definitelytyped/header-parser': 0.2.24
-      '@definitelytyped/typescript-versions': 0.1.10
-      '@definitelytyped/utils': 0.1.12
-      dts-critic: 3.3.11(typescript@5.9.3)
-      fs-extra: 6.0.1
-      json-stable-stringify: 1.3.0
-      strip-json-comments: 2.0.1
-      tslint: 5.14.0(typescript@5.9.3)
-      tsutils: 2.29.0(typescript@5.9.3)
-      typescript: 5.9.3
       yargs: 15.4.1
     transitivePeerDependencies:
       - bare-abort-controller
