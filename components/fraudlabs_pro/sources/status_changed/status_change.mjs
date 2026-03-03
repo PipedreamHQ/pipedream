@@ -2,9 +2,9 @@ import fraudlabsProApp from "../../fraudlabs_pro.app.mjs";
 
 export default {
   name: "FraudLabs Pro Status Change Trigger",
-  description: "Trigger to receive data from FraudLabs Pro Screen Order API if the status changed match to your setting.",
+  description: "Trigger to receive data from FraudLabs Pro Screen Order API if the status change matches your setting.",
   version: "0.0.1",
-  key: "fraudlabspro_status_change",
+  key: "fraudlabs_pro-status-change",
   type: "source",
   props: {
     fraudlabsProApp,
