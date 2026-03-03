@@ -35,11 +35,15 @@ export default {
       type: "string",
       label: "Meeting ID",
       description: "The meeting ID to get details for.",
-      async options({ prevContext }) {
+      async options({
+        prevContext, type,
+      }) {
         const { nextPageToken } = prevContext;
         const response = await this.listMeetings({
+          debug: true,
           params: {
             next_page_token: nextPageToken,
+            type,
           },
         });
         const options = response.meetings.map((meeting) => ({
@@ -350,6 +354,14 @@ export default {
       return this._makeRequest({
         path: "/phone/recordings",
         ...args,
+      });
+    },
+    getMeetingTranscript({
+      meetingId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/meetings/${utils.doubleEncode(meetingId)}/transcript`,
+        ...opts,
       });
     },
     async listMeetingsOccurrences(meetingId) {
