@@ -25,7 +25,6 @@ export default {
       type: "string",
       label: "Text",
       description: "The text of the event. Example: `Added item to basket`",
-      optional: true,
     },
     data: {
       type: "object",
