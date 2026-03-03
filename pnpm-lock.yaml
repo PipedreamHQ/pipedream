@@ -8305,6 +8305,9 @@ importers:
 
   components/koyeb: {}
 
+  components/kraken:
+    specifiers: {}
+
   components/kraken_io: {}
 
   components/krispcall:
