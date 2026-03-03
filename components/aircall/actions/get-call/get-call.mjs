@@ -4,7 +4,7 @@ export default {
   name: "Get Call",
   description: "Retrieves details about a call. [See the docs here](https://developer.aircall.io/api-references/#retrieve-a-call)",
   key: "aircall-get-call",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
