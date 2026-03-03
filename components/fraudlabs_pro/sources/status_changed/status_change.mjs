@@ -96,7 +96,9 @@ export default {
     // Acknowledge the receipt to FraudLabs Pro
     this.http.respond({
       status: 200,
-      body: { message: "Success" },
+      body: {
+		  message: "Success"
+	  },
     });
   },
 };
