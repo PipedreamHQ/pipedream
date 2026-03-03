@@ -25,7 +25,7 @@ export default {
       label: "Project",
       description: "Select a project",
       async options() {
-        const { data } = await this.getProjects();
+        const { data } = await this.listProjects();
         return data.projects.map(({
           project_name: label, project_id: value,
         }) => ({
@@ -62,8 +62,8 @@ export default {
         projectId, page,
       }) {
         const { data } = await this.getTasks({
-          project_id: projectId,
           params: {
+            project_id: projectId,
             limit: LIMIT,
             offset: page * LIMIT,
           },

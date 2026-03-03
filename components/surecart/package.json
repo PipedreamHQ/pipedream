@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/surecart",
+  "version": "0.0.1",
+  "description": "Pipedream SureCart Components",
+  "main": "surecart.app.mjs",
+  "keywords": [
+    "pipedream",
+    "surecart"
+  ],
+  "homepage": "https://pipedream.com/apps/surecart",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
