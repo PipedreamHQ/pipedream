@@ -523,7 +523,9 @@ export default {
      */
     async getProjectCollaborators(projectId) {
       if (!projectId) {
-        return [];
+        return {
+          results: [],
+        };
       }
       return this._makeRestRequest({
         path: `/projects/${projectId}/collaborators`,

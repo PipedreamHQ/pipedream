@@ -6,7 +6,7 @@ export default {
   description: "Finds a project (by name/title). [See the documentation](https://developer.todoist.com/api/v1#tag/Projects/operation/get_projects_api_v1_projects_get) Optionally, create one if none are found. [See the documentation](https://developer.todoist.com/api/v1#tag/Projects/operation/create_project_api_v1_projects_post)",
   version: "0.0.7",
   annotations: {
-    destructiveHint: false,
+    destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: true,
   },

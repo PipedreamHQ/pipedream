@@ -6,9 +6,9 @@ export default {
   description: "Returns a list of all filters. [See the documentation](https://developer.todoist.com/api/v1#tag/Sync/Overview/Read-resources)",
   version: "0.0.7",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
-    readOnlyHint: false,
+    readOnlyHint: true,
   },
   type: "action",
   props: {
