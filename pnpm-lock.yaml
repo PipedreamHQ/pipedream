@@ -15812,8 +15812,8 @@ importers:
   components/todoist:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.2.5
-        version: 3.2.5
+        specifier: ^3.3.0
+        version: 3.3.0
       json-2-csv:
         specifier: ^5.5.9
         version: 5.5.10
@@ -21634,6 +21634,9 @@ packages:
 
   '@pipedream/platform@3.2.5':
     resolution: {integrity: sha512-fygR/JSYYKPvLbyUc4NjA5Uy4fggDQvoa0XQmLhsO682okO85lMYOWKHB5GhQsm/cl7wB/u6i2XmjC+OINqTgw==}
+
+  '@pipedream/platform@3.3.0':
+    resolution: {integrity: sha512-vqJ4yp9Ng3tQEr33qiilZlNHsBFP7V1XsHdza+2ksYVs7UA20dfy9ryd1WGWoVfsRaSakPCe+nq2O6Pgp0KtYA==}
 
   '@pipedream/postgresql@2.2.4':
     resolution: {integrity: sha512-ANR8xURO+5tDp/85oP/SrAwUjk+G6Xz5LOU40hsR2OAYGN6wU0cNAMRSq4durl3MVcb2+oxJwB9uNAdYQgga/g==}
@@ -39966,6 +39969,17 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
+  '@pipedream/platform@3.3.0':
+    dependencies:
+      axios: 1.13.2(debug@3.2.7)
+      fp-ts: 2.16.11
+      io-ts: 2.2.22(fp-ts@2.16.11)
+      mime-types: 3.0.1
+      querystring: 0.2.1
+      uuid: 11.1.0
+    transitivePeerDependencies:
+      - debug
+
   '@pipedream/postgresql@2.2.4':
     dependencies:
       '@pipedream/platform': 2.0.2
@@ -40059,7 +40073,7 @@ snapshots:
   '@pipedream/youtube_data_api@1.0.1(encoding@0.1.13)':
     dependencies:
       '@googleapis/youtube': 6.0.0(encoding@0.1.13)
-      '@pipedream/platform': 3.2.5
+      '@pipedream/platform': 3.3.0
       got: 14.6.4
       util: 0.12.5
     transitivePeerDependencies:
@@ -43207,9 +43221,10 @@ snapshots:
     dependencies:
       file-type: 18.7.0
       is-stream: 3.0.0
-      tar-stream: 3.1.7
+      tar-stream: 3.1.8
     transitivePeerDependencies:
       - bare-abort-controller
+      - bare-buffer
       - react-native-b4a
 
   '@xhmikosr/decompress-tarbz2@7.0.0':
@@ -43221,6 +43236,7 @@ snapshots:
       unbzip2-stream: 1.4.3
     transitivePeerDependencies:
       - bare-abort-controller
+      - bare-buffer
       - react-native-b4a
 
   '@xhmikosr/decompress-targz@7.0.0':
@@ -43230,6 +43246,7 @@ snapshots:
       is-stream: 3.0.0
     transitivePeerDependencies:
       - bare-abort-controller
+      - bare-buffer
       - react-native-b4a
 
   '@xhmikosr/decompress-unzip@6.0.0':
@@ -43249,6 +43266,7 @@ snapshots:
       strip-dirs: 3.0.0
     transitivePeerDependencies:
       - bare-abort-controller
+      - bare-buffer
       - react-native-b4a
 
   '@xhmikosr/downloader@13.0.1':
@@ -43265,6 +43283,7 @@ snapshots:
       p-event: 5.0.1
     transitivePeerDependencies:
       - bare-abort-controller
+      - bare-buffer
       - react-native-b4a
 
   '@xmldom/xmldom@0.8.11': {}
@@ -47433,6 +47452,7 @@ snapshots:
       semver: 7.7.4
     transitivePeerDependencies:
       - bare-abort-controller
+      - bare-buffer
       - react-native-b4a
 
   git-log-parser@1.2.1:
@@ -51176,6 +51196,7 @@ snapshots:
       - '@vercel/kv'
       - aws4fetch
       - bare-abort-controller
+      - bare-buffer
       - bufferutil
       - db0
       - encoding
