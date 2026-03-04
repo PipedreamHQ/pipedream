@@ -10,7 +10,9 @@ export default {
       description: "Select a call",
       async options({ page }) {
         const { calls } = await this.listCalls({
-          page,
+          params: {
+            page: page + 1,
+          },
         });
         return calls.map((call) => ({
           label: call.raw_digits,
@@ -23,10 +25,23 @@ export default {
       label: "Contact ID",
       description: "Search for a Contact by email. You can also select a listed Contact or provide a custom Contact ID",
       useQuery: true,
-      async options({ query }) {
+      async options({
+        query, page,
+      }) {
+        const params = {
+          page: page + 1,
+          order: "desc",
+        };
         const { contacts } = query
-          ? await this.searchContacts(query)
-          : await this.listContacts();
+          ? await this.searchContacts({
+            params: {
+              ...params,
+              email: query,
+            },
+          })
+          : await this.listContacts({
+            params,
+          });
 
         return contacts.map((contact) => {
           const value = contact.id;
@@ -63,6 +78,42 @@ export default {
       label: "Information",
       description: "Information on the contact",
       optional: true,
+    },
+    from: {
+      type: "string",
+      label: "From",
+      description: "The start date for record retrieval, in ISO 8601 format (e.g., 2016-09-24T00:00:05.000Z or 2016-09-21)",
+      optional: true,
+    },
+    to: {
+      type: "string",
+      label: "To",
+      description: "The end date for record retrieval, in ISO 8601 format (e.g., 2016-09-24T00:00:05.000Z or 2016-09-21)",
+      optional: true,
+    },
+    order: {
+      type: "string",
+      label: "Order",
+      description: "The order of the results",
+      options: [
+        {
+          label: "Ascending",
+          value: "asc",
+        },
+        {
+          label: "Descending",
+          value: "desc",
+        },
+      ],
+      default: "desc",
+      optional: true,
+    },
+    maxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: "The maximum number of results to return",
+      optional: true,
+      default: 100,
     },
   },
   methods: {
@@ -108,11 +159,10 @@ export default {
         $,
       });
     },
-    async listCalls(params = {}, $) {
+    async listCalls(args = {}) {
       return this._makeRequest({
         path: "calls",
-        params,
-        $,
+        ...args,
       });
     },
     async createContact(args) {
@@ -131,21 +181,16 @@ export default {
         ...args,
       });
     },
-    async listContacts() {
+    async listContacts(args = {}) {
       return this._makeRequest({
         path: "contacts",
-        params: {
-          order: "desc",
-        },
+        ...args,
       });
     },
-    async searchContacts(email) {
+    async searchContacts(args = {}) {
       return this._makeRequest({
         path: "contacts",
-        params: {
-          email,
-          order: "desc",
-        },
+        ...args,
       });
     },
     async retrieveTranscription({
@@ -156,6 +201,34 @@ export default {
         $,
         ...args,
       });
+    },
+    async *paginate({
+      fn, args, resourceKey, max,
+    }) {
+      args = {
+        ...args,
+        params: {
+          ...args?.params,
+          page: 1,
+          per_page: 50,
+        },
+      };
+      let total, count = 0;
+      do {
+        const response = await fn(args);
+        const items = response[resourceKey];
+        total = items?.length;
+        if (!total) {
+          return;
+        }
+        for (const item of items) {
+          yield item;
+          if (max && ++count >= max) {
+            return;
+          }
+        }
+        args.params.page++;
+      } while (total === args.params.per_page);
     },
   },
 };

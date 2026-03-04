@@ -5,7 +5,7 @@ export default {
   key: "aircall-new-note-added",
   name: "New Note Added",
   description: "Emit new event when a new note is added to a call",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -19,8 +19,10 @@ export default {
         const {
           calls, meta,
         } = await this.aircall.listCalls({
-          order: "desc",
-          page,
+          params: {
+            order: "desc",
+            page,
+          },
         });
 
         total = meta.total; // total number of results

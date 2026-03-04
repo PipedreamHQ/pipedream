@@ -5,15 +5,17 @@ export default {
   key: "aircall-new-call-ended",
   name: "New Call Ended",
   description: "Emit new event when a call ends",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
     async getHistoricalEvents() {
       const { calls } = await this.aircall.listCalls({
-        per_page: 25,
-        order: "desc",
+        params: {
+          per_page: 25,
+          order: "desc",
+        },
       });
       return calls;
     },
