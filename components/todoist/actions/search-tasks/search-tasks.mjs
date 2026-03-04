@@ -4,7 +4,7 @@ export default {
   key: "todoist-search-tasks",
   name: "Search Tasks",
   description: "Search tasks by name, label, project and/or section. [See the documentation](https://developer.todoist.com/api/v1#tag/Tasks/operation/get_tasks_api_v1_tasks_get)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

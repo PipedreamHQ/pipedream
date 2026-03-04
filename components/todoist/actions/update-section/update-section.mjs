@@ -4,7 +4,7 @@ export default {
   key: "todoist-update-section",
   name: "Update Section",
   description: "Updates a section. [See the documentation](https://developer.todoist.com/api/v1#tag/Sections/operation/update_section_api_v1_sections__section_id__post)",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
