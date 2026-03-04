@@ -54,7 +54,6 @@ export default {
     },
     webhookUnsubscribe(args = {}) {
       return this._makeRequest({
-        method: "POST",
         path: "/pipedream-webhook-unsubscribe",
         ...args,
       });

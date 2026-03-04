@@ -1,7 +1,7 @@
 import fraudlabsProApp from "../../fraudlabs_pro.app.mjs";
 
 export default {
-  name: "FraudLabs Pro Status Change Trigger",
+  name: "Status Changed (Instant)",
   description: "Emit new events when the status of an order changes in FraudLabs Pro.",
   version: "0.0.1",
   key: "fraudlabs_pro-status-changed",
@@ -14,10 +14,18 @@ export default {
       customResponse: true,
     },
   },
+  methods: {
+    _getHookId() {
+      return this.db.get("hookId");
+    },
+    _setHookId(hookId) {
+      this.db.set("hookId", hookId);
+    },
+  },
   hooks: {
     async activate() {
       // 1. Check if a webhook already exists in the DB to prevent duplicates
-      const existingHookId = this.db.get("hookId");
+      const existingHookId = this._getHookId();
       if (existingHookId) {
         console.log(`Webhook already active with ID: ${existingHookId}`);
         return;
@@ -31,36 +39,25 @@ export default {
         },
       });
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Activation failed (${response.status}): ${errorText}`);
+      if (!response?.id) {
+        throw new Error("Webhook activation failed");
       }
-
-      const data = await response.json();
 
       // Store the ID returned by FraudLabs Pro
-      if (data && data.id) {
-        this.db.set("hookId", data.id);
-      }
+      this._setHookId(response.id);
     },
-
     async deactivate() {
-      const hookId = this.db.get("hookId");
+      const hookId = this._getHookId();
       if (!hookId) return;
 
-      const response = await this.fraudlabsProApp.webhookUnsubscribe({
-        data: {
+      await this.fraudlabsProApp.webhookUnsubscribe({
+        params: {
           id: hookId,
         },
       });
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Deactivation failed (${response.status}): ${errorText}`);
-      }
-
       // Clear the DB so it can be re-activated later
-      this.db.set("hookId", null);
+      this._setHookId(null);
     },
   },
   async run(event) {
