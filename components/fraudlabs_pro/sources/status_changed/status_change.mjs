@@ -2,7 +2,7 @@ import fraudlabsProApp from "../../fraudlabs_pro.app.mjs";
 
 export default {
   name: "FraudLabs Pro Status Change Trigger",
-  description: "Trigger to receive data from FraudLabs Pro Screen Order API if the status change matches your setting.",
+  description: "Emit new events when the status of an order changes in FraudLabs Pro.",
   version: "0.0.1",
   key: "fraudlabs_pro-status-change",
   type: "source",
@@ -23,18 +23,12 @@ export default {
         return;
       }
 
-      const urlWithAuth = `https://www.fraudlabspro.com/pipedream-webhook-subscribe?key=${encodeURIComponent(this.$auth.api_key)}`;
-
-      const response = await fetch(urlWithAuth, {
-        method: "POST",
-        headers: {
-			"Content-Type": "application/json"
-		},
-        body: JSON.stringify({
+      const response = await this.fraudlabsProApp.webhookSubscribe({
+        data: {
           url: this.http.endpoint,
           event: "status_changed",
           description: "Pipedream Workflow Trigger",
-        }),
+        },
       });
 
       if (!response.ok) {
@@ -54,15 +48,12 @@ export default {
       const hookId = this.db.get("hookId");
       if (!hookId) return;
 
-      const baseUrl = "https://www.fraudlabspro.com/pipedream-webhook-unsubscribe";
-      const params = new URLSearchParams({
-        key: this.$auth.api_key,
-        id: hookId,
+      const response = await this.fraudlabsProApp.webhookUnsubscribe({
+        data: {
+          id: hookId,
+        },
       });
 
-      const response = await fetch(`${baseUrl}?${params.toString()}`, {
-        method: "GET",
-      });
       if (!response.ok) {
         const errorText = await response.text();
         throw new Error(`Deactivation failed (${response.status}): ${errorText}`);
@@ -79,8 +70,8 @@ export default {
       this.http.respond({
         status: 400,
         body: {
-			message: "Invalid payload"
-		},
+          message: "Invalid payload",
+        },
       });
       return;
     }
@@ -97,7 +88,7 @@ export default {
     this.http.respond({
       status: 200,
       body: {
-		  message: "Success"
+		  message: "Success",
 	  },
     });
   },

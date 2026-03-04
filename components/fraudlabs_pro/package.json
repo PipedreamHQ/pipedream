@@ -10,6 +10,7 @@
   "homepage": "https://pipedream.com/apps/fraudlabs_pro",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
+    "@pipedream/platform": "^3.3.0",
     "fraudlabspro-nodejs": "^3.0.0"
   },
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
