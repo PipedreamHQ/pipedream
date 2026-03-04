@@ -13934,9 +13934,6 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
-      bottleneck:
-        specifier: ^2.19.5
-        version: 2.19.5
 
   components/servicenow_oauth_: {}
 
