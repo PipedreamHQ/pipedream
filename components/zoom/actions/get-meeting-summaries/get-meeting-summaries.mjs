@@ -1,12 +1,12 @@
-import consts from "../../common/constants.mjs";
-import zoomAdmin from "../../zoom_admin.app.mjs";
+import constants from "../../common/constants.mjs";
+import zoom from "../../zoom.app.mjs";
 
 const DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;
 
 export default {
-  key: "zoom_admin-get-meeting-summaries",
+  key: "zoom-get-meeting-summaries",
   name: "Get Meeting Summaries",
-  description: "Retrieve a list of all meeting summaries for an account. [See the documentation](https://developers.zoom.us/docs/api/rest/reference/zoom-api/methods/#operation/Listmeetingsummaries)",
+  description: "Retrieve a list of meeting summaries for the authenticated user. Requires `meeting:read:list_summaries` scope. [See the documentation](https://developers.zoom.us/docs/api/rest/reference/zoom-api/methods/#operation/Listmeetingsummaries)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -15,7 +15,7 @@ export default {
     readOnlyHint: true,
   },
   props: {
-    zoomAdmin,
+    zoom,
     // eslint-disable-next-line pipedream/props-label, pipedream/props-description
     info: {
       type: "alert",
@@ -43,7 +43,7 @@ Learn more about [enabling or disabling AI Companion meeting summaries](https://
       label: "Meeting Type",
       description: "Filter summaries by meeting type",
       optional: true,
-      options: consts.MEETING_SUMMARY_TYPES,
+      options: constants.MEETING_SUMMARY_TYPES,
     },
     max: {
       type: "integer",
@@ -71,8 +71,8 @@ Learn more about [enabling or disabling AI Companion meeting summaries](https://
 
     const summaries = [];
 
-    const results = this.zoomAdmin.getResourcesStream({
-      resourceFn: this.zoomAdmin.getMeetingSummaries,
+    const results = this.zoom.getResourcesStream({
+      resourceFn: this.zoom.getMeetingSummaries,
       resourceFnArgs: {
         $,
         params: {

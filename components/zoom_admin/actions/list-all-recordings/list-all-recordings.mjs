@@ -1,4 +1,4 @@
-import consts from "../../consts.mjs";
+import consts from "../../common/constants.mjs";
 import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {
@@ -32,13 +32,13 @@ export default {
     from: {
       type: "string",
       label: "From",
-      description: "Start date in `yyyy-mm-dd` UTC format. The maximum date range is a month. Defaults to the current date if not provided.",
+      description: "Start date in `yyyy-MM-dd` UTC format. The maximum date range is a month. Defaults to the current date if not provided.",
       optional: true,
     },
     to: {
       type: "string",
       label: "To",
-      description: "End date in `yyyy-mm-dd` UTC format.",
+      description: "End date in `yyyy-MM-dd` UTC format.",
       optional: true,
     },
     mc: {
@@ -60,6 +60,14 @@ export default {
       optional: true,
       options: consts.CLOUD_RECORD_TRASH_TYPE_OPTIONS,
     },
+    max: {
+      type: "integer",
+      label: "Max Results",
+      description: "The maximum number of recordings to retrieve. Defaults to `300`.",
+      optional: true,
+      default: 300,
+      min: 1,
+    },
   },
   async run({ $ }) {
     const {
@@ -69,6 +77,7 @@ export default {
       mc,
       trash,
       trashType,
+      max,
     } = this;
 
     const recordings = [];
@@ -87,6 +96,7 @@ export default {
         },
       },
       resourceName: "meetings",
+      max,
     });
 
     for await (const recording of results) {

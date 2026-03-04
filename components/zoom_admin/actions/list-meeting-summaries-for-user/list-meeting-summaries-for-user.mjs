@@ -4,9 +4,9 @@ import zoomAdmin from "../../zoom_admin.app.mjs";
 const DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;
 
 export default {
-  key: "zoom_admin-get-meeting-summaries",
-  name: "Get Meeting Summaries",
-  description: "Retrieve a list of all meeting summaries for an account. [See the documentation](https://developers.zoom.us/docs/api/rest/reference/zoom-api/methods/#operation/Listmeetingsummaries)",
+  key: "zoom_admin-list-meeting-summaries-for-user",
+  name: "List Meeting Summaries for User",
+  description: "Retrieve a list of meeting summaries for a specific user in the account. [See the documentation](https://developers.zoom.us/docs/api/rest/reference/zoom-api/methods/#operation/Listmeetingsummaries)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -27,6 +27,14 @@ export default {
 - End-to-End Encrypted (E2EE) meetings do not support summaries.
 
 Learn more about [enabling or disabling AI Companion meeting summaries](https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0057960&_ics=1771446392860&irclickid=~ae~a521XQPMHICGKIJzGxnovBDKLGwCvzrhab340WULKDzsmda90).`,
+    },
+    userId: {
+      propDefinition: [
+        zoomAdmin,
+        "userId",
+      ],
+      description: "The user ID or email address of the user to retrieve meeting summaries for",
+      optional: false,
     },
     from: {
       type: "string",
@@ -56,6 +64,7 @@ Learn more about [enabling or disabling AI Companion meeting summaries](https://
   },
   async run({ $ }) {
     const {
+      userId,
       from,
       to,
       type,
@@ -76,6 +85,7 @@ Learn more about [enabling or disabling AI Companion meeting summaries](https://
       resourceFnArgs: {
         $,
         params: {
+          userId,
           from,
           to,
           type,
@@ -91,7 +101,7 @@ Learn more about [enabling or disabling AI Companion meeting summaries](https://
 
     $.export("$summary", `Successfully retrieved ${summaries.length} meeting ${summaries.length === 1
       ? "summary"
-      : "summaries"} from ${from} to ${to}`);
+      : "summaries"} for user ${userId} from ${from} to ${to}`);
 
     return summaries;
   },

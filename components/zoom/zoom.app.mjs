@@ -393,6 +393,12 @@ export default {
         ...args,
       });
     },
+    getMeetingSummaries(args = {}) {
+      return this._makeRequest({
+        path: "/meetings/meeting_summaries",
+        ...args,
+      });
+    },
     async *getResourcesStream({
       resourceFn,
       resourceFnArgs,

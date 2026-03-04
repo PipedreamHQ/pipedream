@@ -32,13 +32,13 @@ export default {
     from: {
       type: "string",
       label: "From",
-      description: "Start date in `yyyy-mm-dd` UTC format. The maximum date range is a month. Defaults to the current date if not provided.",
+      description: "Start date in `yyyy-MM-dd` UTC format. The maximum date range is a month. Defaults to the current date if not provided.",
       optional: true,
     },
     to: {
       type: "string",
       label: "To",
-      description: "End date in `yyyy-mm-dd` UTC format.",
+      description: "End date in `yyyy-MM-dd` UTC format.",
       optional: true,
     },
     mc: {

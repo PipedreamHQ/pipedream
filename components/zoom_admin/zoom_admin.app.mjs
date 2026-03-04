@@ -4,7 +4,7 @@ import flatten from "lodash/flatten.js";
 import get from "lodash/get.js";
 import sortBy from "lodash/sortBy.js";
 import { doubleEncode } from "./common/utils.mjs";
-import consts from "./consts.mjs";
+import consts from "./common/constants.mjs";
 import zoomCountries from "./zoom_countries.mjs";
 
 export default {
@@ -231,6 +231,26 @@ export default {
           options,
           context: {
             nextPageToken,
+          },
+        };
+      },
+    },
+    userId: {
+      type: "string",
+      label: "User ID",
+      description: "The user ID or email address of the user.",
+      async options({ prevContext }) {
+        const { nextPageToken } = prevContext;
+        const data = await this.listUsers({}, nextPageToken);
+        return {
+          options: data.users.map(({
+            id: value, display_name, email,
+          }) => ({
+            label: `${display_name} - ${email}`,
+            value,
+          })),
+          context: {
+            nextPageToken: data.next_page_token,
           },
         };
       },

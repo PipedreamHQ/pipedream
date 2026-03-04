@@ -1,5 +1,5 @@
 import { paginate } from "../../common/pagination.mjs";
-import consts from "../../consts.mjs";
+import consts from "../../common/constants.mjs";
 import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {

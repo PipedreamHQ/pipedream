@@ -2,7 +2,7 @@ import { axios } from "@pipedream/platform";
 import get from "lodash/get.js";
 import isObject from "lodash/isObject.js";
 import { doubleEncode } from "../../common/utils.mjs";
-import consts from "../../consts.mjs";
+import consts from "../../common/constants.mjs";
 import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {

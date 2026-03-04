@@ -21,6 +21,21 @@ const MEETING_TYPES = [
   },
 ];
 
+const MEETING_SUMMARY_TYPES = [
+  {
+    value: "scheduled",
+    label: "Scheduled meetings",
+  },
+  {
+    value: "instant",
+    label: "Instant meetings",
+  },
+  {
+    value: "recurring",
+    label: "Recurring meetings",
+  },
+];
+
 const CLOUD_RECORD_TRASH_TYPE_OPTIONS = [
   {
     label: "List all meeting recordings from the trash",
@@ -37,5 +52,6 @@ export default {
   VERSION_PATH,
   MAX_RESOURCES,
   MEETING_TYPES,
+  MEETING_SUMMARY_TYPES,
   CLOUD_RECORD_TRASH_TYPE_OPTIONS,
 };

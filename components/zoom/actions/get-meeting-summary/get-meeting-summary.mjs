@@ -29,8 +29,11 @@ Learn more about [enabling or disabling AI Companion meeting summaries](https://
       propDefinition: [
         zoom,
         "meetingId",
+        () => ({
+          type: "previous_meetings",
+        }),
       ],
-      description: "The meeting ID or meeting UUID. If the meeting ID is provided instead of UUID, the response will be for the latest meeting instance. If a UUID starts with `/` or contains `//`, you must double-encode the meeting UUID before making an API request.",
+      description: "The meeting ID or meeting UUID to retrieve the AI summary for. Only past meetings are listed.",
       optional: false,
     },
   },
@@ -40,12 +43,20 @@ Learn more about [enabling or disabling AI Companion meeting summaries](https://
       meetingId,
     } = this;
 
-    const summary = await zoom.getMeetingSummary({
-      step,
-      meetingId,
-    });
+    try {
+      const summary = await zoom.getMeetingSummary({
+        step,
+        meetingId,
+      });
 
-    step.export("$summary", `Successfully retrieved AI summary for meeting ${meetingId}`);
-    return summary;
+      step.export("$summary", `Successfully retrieved AI summary for meeting ${meetingId}`);
+      return summary;
+    } catch (error) {
+      const code = error?.response?.data?.code ?? error?.data?.code ?? error?.code;
+      if (code === 3322) {
+        throw new Error(`No AI summary found for meeting "${meetingId}". Ensure the meeting has ended and AI Companion was enabled before the meeting started.`);
+      }
+      throw error;
+    }
   },
 };
