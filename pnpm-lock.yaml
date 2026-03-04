@@ -7219,8 +7219,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/hogia:
-    specifiers: {}
+  components/hogia: {}
 
   components/holded:
     dependencies:
@@ -8308,8 +8307,7 @@ importers:
 
   components/koyeb: {}
 
-  components/kraken:
-    specifiers: {}
+  components/kraken: {}
 
   components/kraken_io: {}
 
@@ -8592,8 +8590,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/lever_oauth:
-    specifiers: {}
+  components/lever_oauth: {}
 
   components/leverly: {}
 
@@ -13937,6 +13934,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
+      bottleneck:
+        specifier: ^2.19.5
+        version: 2.19.5
 
   components/servicenow_oauth_: {}
 
@@ -17599,8 +17599,7 @@ importers:
 
   components/zenedu: {}
 
-  components/zenfulfillment:
-    specifiers: {}
+  components/zenfulfillment: {}
 
   components/zenkit:
     dependencies:
@@ -19612,16 +19611,16 @@ packages:
   '@daytonaio/toolbox-api-client@0.138.0':
     resolution: {integrity: sha512-unM9e7MOQiyDXdY8hCW1uTctYbxpo/TGZ6L71ZXyS/j2Cnz9/ud4VWBLcQP2VzlC+lrBP2YMrhT90zSSvcNfmA==}
 
-  '@definitelytyped/header-parser@0.2.24':
-    resolution: {integrity: sha512-p7zzgmqhCZPeT2wRkSjM0CXZdhi5AB96wcd5afEJwTMIulLyEO71ZGOk2x7bihdxMMYNSKGuBbSCRoz6KCDZKw==}
+  '@definitelytyped/header-parser@0.2.25':
+    resolution: {integrity: sha512-T5hVZCiOOjBNLZlw+MF8CRxNqEYCUptZDfix02DMfdLPgMIgidS2b1mtfk8cwf1Efk8Zm+AKuL5SCSbPbgvFgA==}
     engines: {node: '>=20.17.0'}
 
   '@definitelytyped/typescript-versions@0.1.10':
     resolution: {integrity: sha512-4aBop464n0PUxrlzj1FpAfiNa5P5ENycB0K/Ho22Ay8xAGEGXUpLkaWtFsn2R+Jfn4ldd7lJqfqw0z29sAingQ==}
     engines: {node: '>=20.17.0'}
 
-  '@definitelytyped/utils@0.1.12':
-    resolution: {integrity: sha512-jaFGcmCMWOcHxAkk3U73cO5ve27fJaHh/JtjoNBbMI+c/cjOeiCPVlbt4eR6U1dQl0Gn5a98RWA6oOZTFScK2w==}
+  '@definitelytyped/utils@0.1.13':
+    resolution: {integrity: sha512-B9+yLpGZbNHXofccDGOKujBimXrrKTK7NO41QhRwmRar/Z9/t5HdG5IpwdEpiioAbYd1Fju/FCLrI/3KzGweQw==}
     engines: {node: '>=20.17.0'}
 
   '@dependents/detective-less@5.0.1':
@@ -37321,10 +37320,10 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@definitelytyped/header-parser@0.2.24':
+  '@definitelytyped/header-parser@0.2.25':
     dependencies:
       '@definitelytyped/typescript-versions': 0.1.10
-      '@definitelytyped/utils': 0.1.12
+      '@definitelytyped/utils': 0.1.13
       semver: 7.7.4
     transitivePeerDependencies:
       - bare-abort-controller
@@ -37334,7 +37333,7 @@ snapshots:
 
   '@definitelytyped/typescript-versions@0.1.10': {}
 
-  '@definitelytyped/utils@0.1.12':
+  '@definitelytyped/utils@0.1.13':
     dependencies:
       '@types/node': 25.3.3
       cachedir: 2.4.0
@@ -42490,7 +42489,7 @@ snapshots:
 
   '@types/conventional-commits-parser@5.0.2':
     dependencies:
-      '@types/node': 25.3.3
+      '@types/node': 20.19.25
 
   '@types/debug@4.1.12':
     dependencies:
@@ -42508,7 +42507,7 @@ snapshots:
 
   '@types/express-serve-static-core@4.19.7':
     dependencies:
-      '@types/node': 22.19.1
+      '@types/node': 20.19.25
       '@types/qs': 6.14.0
       '@types/range-parser': 1.2.7
       '@types/send': 1.2.1
@@ -42606,7 +42605,7 @@ snapshots:
 
   '@types/keyv@3.1.4':
     dependencies:
-      '@types/node': 25.3.3
+      '@types/node': 20.19.25
 
   '@types/linkify-it@5.0.0': {}
 
@@ -42703,12 +42702,12 @@ snapshots:
 
   '@types/readable-stream@4.0.22':
     dependencies:
-      '@types/node': 25.3.3
+      '@types/node': 20.19.25
 
   '@types/request@2.48.13':
     dependencies:
       '@types/caseless': 0.12.5
-      '@types/node': 22.19.1
+      '@types/node': 20.19.25
       '@types/tough-cookie': 4.0.5
       form-data: 2.5.4
 
@@ -42732,11 +42731,11 @@ snapshots:
   '@types/send@0.17.6':
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 22.19.1
+      '@types/node': 20.19.25
 
   '@types/send@1.2.1':
     dependencies:
-      '@types/node': 22.19.1
+      '@types/node': 20.19.25
 
   '@types/serve-static@1.15.10':
     dependencies:
@@ -45582,7 +45581,7 @@ snapshots:
 
   dts-critic@3.3.11(typescript@5.6.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.24
+      '@definitelytyped/header-parser': 0.2.25
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -45597,7 +45596,7 @@ snapshots:
 
   dts-critic@3.3.11(typescript@5.9.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.24
+      '@definitelytyped/header-parser': 0.2.25
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -45614,9 +45613,9 @@ snapshots:
 
   dtslint@4.2.1(typescript@5.6.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.24
+      '@definitelytyped/header-parser': 0.2.25
       '@definitelytyped/typescript-versions': 0.1.10
-      '@definitelytyped/utils': 0.1.12
+      '@definitelytyped/utils': 0.1.13
       dts-critic: 3.3.11(typescript@5.6.3)
       fs-extra: 6.0.1
       json-stable-stringify: 1.3.0
@@ -45633,9 +45632,9 @@ snapshots:
 
   dtslint@4.2.1(typescript@5.9.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.24
+      '@definitelytyped/header-parser': 0.2.25
       '@definitelytyped/typescript-versions': 0.1.10
-      '@definitelytyped/utils': 0.1.12
+      '@definitelytyped/utils': 0.1.13
       dts-critic: 3.3.11(typescript@5.9.3)
       fs-extra: 6.0.1
       json-stable-stringify: 1.3.0
