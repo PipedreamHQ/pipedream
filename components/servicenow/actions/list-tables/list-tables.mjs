@@ -1,9 +1,4 @@
 import servicenow from "../../servicenow.app.mjs";
-import Bottleneck from "bottleneck";
-
-const limiter = new Bottleneck({
-  maxConcurrent: 10,
-});
 
 export default {
   key: "servicenow-list-tables",
@@ -70,28 +65,21 @@ export default {
       },
     });
 
-    // Poll tables to check if they are accessible to the user
-    // Uses bottleneck so calls can be made concurrently, and exit when limit is reached
-    const accessibleTables = [];
-
-    for (const table of tables) {
-      if (accessibleTables.length >= this.limit) break;
-
-      try {
-        await limiter.schedule(() =>
-          this.servicenow.getRecordCountsByField({
+    const accessibleTables = (await Promise.allSettled(
+      tables.map((t) =>
+        this.servicenow
+          .getRecordCountsByField({
             $,
-            table: table.name,
+            table: t.name,
             params: {
               sysparm_count: true,
             },
-          }));
-
-        accessibleTables.push(table);
-      } catch {
-        // ignore
-      }
-    }
+          })
+          .then(() => t)),
+    ))
+      .filter((r) => r.status === "fulfilled")
+      .map((r) => r.value)
+      .slice(0, this.limit);
 
     $.export("$summary", `Successfully retrieved ${accessibleTables.length} table${accessibleTables.length === 1
       ? ""
