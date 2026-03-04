@@ -5801,7 +5801,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/freedcamp: {}
+  components/freedcamp:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.5
+        version: 3.2.5
 
   components/freelancer:
     dependencies:
@@ -8308,8 +8312,7 @@ importers:
 
   components/koyeb: {}
 
-  components/kraken:
-    specifiers: {}
+  components/kraken: {}
 
   components/kraken_io: {}
 
@@ -8592,8 +8595,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/lever_oauth:
-    specifiers: {}
+  components/lever_oauth: {}
 
   components/leverly: {}
 
