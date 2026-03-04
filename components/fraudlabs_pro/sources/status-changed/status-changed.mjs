@@ -4,7 +4,7 @@ export default {
   name: "FraudLabs Pro Status Change Trigger",
   description: "Emit new events when the status of an order changes in FraudLabs Pro.",
   version: "0.0.1",
-  key: "fraudlabs_pro-status-change",
+  key: "fraudlabs_pro-status-changed",
   type: "source",
   props: {
     fraudlabsProApp,
