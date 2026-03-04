@@ -52,6 +52,17 @@ export default {
       type: "string",
       label: "Schedule ID",
       description: "The ID of the scheduled post",
+      async options({ $ }) {
+        const { posts } = await this.listScheduledPosts({
+          $,
+          platform: this.platformFilter,
+        });
+
+        return posts.map((post) => ({
+          label: `${post.content.text.slice(0, 50)}... (${post.platforms.join(", ")})`,
+          value: post.id,
+        }));
+      },
     },
     platformFilter: {
       type: "string",
