@@ -5789,6 +5789,9 @@ importers:
 
   components/fraudlabs_pro:
     dependencies:
+      '@pipedream/platform':
+        specifier: ^3.3.0
+        version: 3.3.0
       fraudlabspro-nodejs:
         specifier: ^3.0.0
         version: 3.0.0
@@ -19600,16 +19603,16 @@ packages:
   '@daytonaio/toolbox-api-client@0.138.0':
     resolution: {integrity: sha512-unM9e7MOQiyDXdY8hCW1uTctYbxpo/TGZ6L71ZXyS/j2Cnz9/ud4VWBLcQP2VzlC+lrBP2YMrhT90zSSvcNfmA==}
 
-  '@definitelytyped/header-parser@0.2.24':
-    resolution: {integrity: sha512-p7zzgmqhCZPeT2wRkSjM0CXZdhi5AB96wcd5afEJwTMIulLyEO71ZGOk2x7bihdxMMYNSKGuBbSCRoz6KCDZKw==}
+  '@definitelytyped/header-parser@0.2.25':
+    resolution: {integrity: sha512-T5hVZCiOOjBNLZlw+MF8CRxNqEYCUptZDfix02DMfdLPgMIgidS2b1mtfk8cwf1Efk8Zm+AKuL5SCSbPbgvFgA==}
     engines: {node: '>=20.17.0'}
 
   '@definitelytyped/typescript-versions@0.1.10':
     resolution: {integrity: sha512-4aBop464n0PUxrlzj1FpAfiNa5P5ENycB0K/Ho22Ay8xAGEGXUpLkaWtFsn2R+Jfn4ldd7lJqfqw0z29sAingQ==}
     engines: {node: '>=20.17.0'}
 
-  '@definitelytyped/utils@0.1.12':
-    resolution: {integrity: sha512-jaFGcmCMWOcHxAkk3U73cO5ve27fJaHh/JtjoNBbMI+c/cjOeiCPVlbt4eR6U1dQl0Gn5a98RWA6oOZTFScK2w==}
+  '@definitelytyped/utils@0.1.13':
+    resolution: {integrity: sha512-B9+yLpGZbNHXofccDGOKujBimXrrKTK7NO41QhRwmRar/Z9/t5HdG5IpwdEpiioAbYd1Fju/FCLrI/3KzGweQw==}
     engines: {node: '>=20.17.0'}
 
   '@dependents/detective-less@5.0.1':
@@ -21618,6 +21621,9 @@ packages:
 
   '@pipedream/platform@3.2.5':
     resolution: {integrity: sha512-fygR/JSYYKPvLbyUc4NjA5Uy4fggDQvoa0XQmLhsO682okO85lMYOWKHB5GhQsm/cl7wB/u6i2XmjC+OINqTgw==}
+
+  '@pipedream/platform@3.3.0':
+    resolution: {integrity: sha512-vqJ4yp9Ng3tQEr33qiilZlNHsBFP7V1XsHdza+2ksYVs7UA20dfy9ryd1WGWoVfsRaSakPCe+nq2O6Pgp0KtYA==}
 
   '@pipedream/postgresql@2.2.4':
     resolution: {integrity: sha512-ANR8xURO+5tDp/85oP/SrAwUjk+G6Xz5LOU40hsR2OAYGN6wU0cNAMRSq4durl3MVcb2+oxJwB9uNAdYQgga/g==}
@@ -37309,10 +37315,10 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@definitelytyped/header-parser@0.2.24':
+  '@definitelytyped/header-parser@0.2.25':
     dependencies:
       '@definitelytyped/typescript-versions': 0.1.10
-      '@definitelytyped/utils': 0.1.12
+      '@definitelytyped/utils': 0.1.13
       semver: 7.7.4
     transitivePeerDependencies:
       - bare-abort-controller
@@ -37322,7 +37328,7 @@ snapshots:
 
   '@definitelytyped/typescript-versions@0.1.10': {}
 
-  '@definitelytyped/utils@0.1.12':
+  '@definitelytyped/utils@0.1.13':
     dependencies:
       '@types/node': 25.3.3
       cachedir: 2.4.0
@@ -38233,7 +38239,7 @@ snapshots:
   '@grpc/grpc-js@1.8.22':
     dependencies:
       '@grpc/proto-loader': 0.7.15
-      '@types/node': 25.3.3
+      '@types/node': 20.19.25
 
   '@grpc/proto-loader@0.7.15':
     dependencies:
@@ -39769,7 +39775,7 @@ snapshots:
   '@pipedream/google_drive@1.2.0(encoding@0.1.13)':
     dependencies:
       '@googleapis/drive': 2.4.0(encoding@0.1.13)
-      '@pipedream/platform': 3.2.5
+      '@pipedream/platform': 3.3.0
       cron-parser: 4.9.0
       google-docs-mustaches: 1.2.2(encoding@0.1.13)
       got: 13.0.0
@@ -39784,7 +39790,7 @@ snapshots:
   '@pipedream/google_drive@1.4.1(encoding@0.1.13)':
     dependencies:
       '@googleapis/drive': 2.4.0(encoding@0.1.13)
-      '@pipedream/platform': 3.2.5
+      '@pipedream/platform': 3.3.0
       cron-parser: 4.9.0
       google-docs-mustaches: 1.2.2(encoding@0.1.13)
       got: 13.0.0
@@ -39819,7 +39825,7 @@ snapshots:
   '@pipedream/linear_app@0.8.2(encoding@0.1.13)':
     dependencies:
       '@linear/sdk': 55.2.1(encoding@0.1.13)
-      '@pipedream/platform': 3.2.5
+      '@pipedream/platform': 3.3.0
     transitivePeerDependencies:
       - debug
       - encoding
@@ -39834,7 +39840,7 @@ snapshots:
 
   '@pipedream/microsoft_outlook@1.7.5':
     dependencies:
-      '@pipedream/platform': 3.2.5
+      '@pipedream/platform': 3.3.0
       axios: 0.30.2
       js-base64: 3.7.8
       md5: 2.3.0
@@ -39844,7 +39850,7 @@ snapshots:
 
   '@pipedream/monday@0.7.0(encoding@0.1.13)':
     dependencies:
-      '@pipedream/platform': 3.2.5
+      '@pipedream/platform': 3.3.0
       form-data: 4.0.4
       lodash.flatmap: 4.5.0
       lodash.map: 4.6.0
@@ -39856,14 +39862,14 @@ snapshots:
 
   '@pipedream/notiff_io@0.1.0':
     dependencies:
-      '@pipedream/platform': 3.2.5
+      '@pipedream/platform': 3.3.0
     transitivePeerDependencies:
       - debug
 
   '@pipedream/notion@1.0.6(encoding@0.1.13)':
     dependencies:
       '@notionhq/client': 5.4.0
-      '@pipedream/platform': 3.2.5
+      '@pipedream/platform': 3.3.0
       '@tryfabric/martian': 1.2.4(encoding@0.1.13)
       lodash-es: 4.17.23
       notion-helper: 1.3.29
@@ -39970,6 +39976,17 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
+  '@pipedream/platform@3.3.0':
+    dependencies:
+      axios: 1.13.2(debug@3.2.7)
+      fp-ts: 2.16.11
+      io-ts: 2.2.22(fp-ts@2.16.11)
+      mime-types: 3.0.1
+      querystring: 0.2.1
+      uuid: 11.1.0
+    transitivePeerDependencies:
+      - debug
+
   '@pipedream/postgresql@2.2.4':
     dependencies:
       '@pipedream/platform': 2.0.2
@@ -39981,20 +39998,20 @@ snapshots:
 
   '@pipedream/procore@0.1.0':
     dependencies:
-      '@pipedream/platform': 3.2.5
+      '@pipedream/platform': 3.3.0
       uuid: 11.1.0
     transitivePeerDependencies:
       - debug
 
   '@pipedream/quickbooks@0.8.0':
     dependencies:
-      '@pipedream/platform': 3.2.5
+      '@pipedream/platform': 3.3.0
     transitivePeerDependencies:
       - debug
 
   '@pipedream/ramp@0.1.2':
     dependencies:
-      '@pipedream/platform': 3.2.5
+      '@pipedream/platform': 3.3.0
       uuid: 10.0.0
     transitivePeerDependencies:
       - debug
@@ -40013,14 +40030,14 @@ snapshots:
 
   '@pipedream/sftp@0.5.1':
     dependencies:
-      '@pipedream/platform': 3.2.5
+      '@pipedream/platform': 3.3.0
       ssh2-sftp-client: 11.0.0
     transitivePeerDependencies:
       - debug
 
   '@pipedream/shopify@0.7.2':
     dependencies:
-      '@pipedream/platform': 3.2.5
+      '@pipedream/platform': 3.3.0
       async-retry: 1.3.3
       bottleneck: 2.19.5
       form-data: 4.0.4
@@ -40032,7 +40049,7 @@ snapshots:
 
   '@pipedream/slack@0.10.3':
     dependencies:
-      '@pipedream/platform': 3.2.5
+      '@pipedream/platform': 3.3.0
       '@slack/web-api': 7.12.0
       async-retry: 1.3.3
       lodash: 4.17.23
@@ -40063,7 +40080,7 @@ snapshots:
   '@pipedream/youtube_data_api@1.0.1(encoding@0.1.13)':
     dependencies:
       '@googleapis/youtube': 6.0.0(encoding@0.1.13)
-      '@pipedream/platform': 3.2.5
+      '@pipedream/platform': 3.3.0
       got: 14.6.4
       util: 0.12.5
     transitivePeerDependencies:
@@ -42478,7 +42495,7 @@ snapshots:
 
   '@types/conventional-commits-parser@5.0.2':
     dependencies:
-      '@types/node': 25.3.3
+      '@types/node': 20.19.25
 
   '@types/debug@4.1.12':
     dependencies:
@@ -42496,7 +42513,7 @@ snapshots:
 
   '@types/express-serve-static-core@4.19.7':
     dependencies:
-      '@types/node': 22.19.1
+      '@types/node': 20.19.25
       '@types/qs': 6.14.0
       '@types/range-parser': 1.2.7
       '@types/send': 1.2.1
@@ -42547,7 +42564,7 @@ snapshots:
 
   '@types/http-proxy@1.17.17':
     dependencies:
-      '@types/node': 25.3.3
+      '@types/node': 20.19.25
 
   '@types/is-stream@1.1.0':
     dependencies:
@@ -42588,13 +42605,13 @@ snapshots:
   '@types/jsonwebtoken@9.0.10':
     dependencies:
       '@types/ms': 2.1.0
-      '@types/node': 22.19.1
+      '@types/node': 20.19.25
 
   '@types/jssha@2.0.0': {}
 
   '@types/keyv@3.1.4':
     dependencies:
-      '@types/node': 25.3.3
+      '@types/node': 20.19.25
 
   '@types/linkify-it@5.0.0': {}
 
@@ -42691,12 +42708,12 @@ snapshots:
 
   '@types/readable-stream@4.0.22':
     dependencies:
-      '@types/node': 25.3.3
+      '@types/node': 20.19.25
 
   '@types/request@2.48.13':
     dependencies:
       '@types/caseless': 0.12.5
-      '@types/node': 22.19.1
+      '@types/node': 20.19.25
       '@types/tough-cookie': 4.0.5
       form-data: 2.5.4
 
@@ -42711,7 +42728,7 @@ snapshots:
   '@types/rimraf@3.0.2':
     dependencies:
       '@types/glob': 8.1.0
-      '@types/node': 25.3.3
+      '@types/node': 20.19.25
 
   '@types/sax@1.2.7':
     dependencies:
@@ -42720,11 +42737,11 @@ snapshots:
   '@types/send@0.17.6':
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 22.19.1
+      '@types/node': 20.19.25
 
   '@types/send@1.2.1':
     dependencies:
-      '@types/node': 22.19.1
+      '@types/node': 20.19.25
 
   '@types/serve-static@1.15.10':
     dependencies:
@@ -42758,7 +42775,7 @@ snapshots:
 
   '@types/whatwg-url@8.2.2':
     dependencies:
-      '@types/node': 25.3.3
+      '@types/node': 20.19.25
       '@types/webidl-conversions': 7.0.3
 
   '@types/ws@8.18.1':
@@ -45570,7 +45587,7 @@ snapshots:
 
   dts-critic@3.3.11(typescript@5.6.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.24
+      '@definitelytyped/header-parser': 0.2.25
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -45585,7 +45602,7 @@ snapshots:
 
   dts-critic@3.3.11(typescript@5.9.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.24
+      '@definitelytyped/header-parser': 0.2.25
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -45602,9 +45619,9 @@ snapshots:
 
   dtslint@4.2.1(typescript@5.6.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.24
+      '@definitelytyped/header-parser': 0.2.25
       '@definitelytyped/typescript-versions': 0.1.10
-      '@definitelytyped/utils': 0.1.12
+      '@definitelytyped/utils': 0.1.13
       dts-critic: 3.3.11(typescript@5.6.3)
       fs-extra: 6.0.1
       json-stable-stringify: 1.3.0
@@ -45621,9 +45638,9 @@ snapshots:
 
   dtslint@4.2.1(typescript@5.9.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.24
+      '@definitelytyped/header-parser': 0.2.25
       '@definitelytyped/typescript-versions': 0.1.10
-      '@definitelytyped/utils': 0.1.12
+      '@definitelytyped/utils': 0.1.13
       dts-critic: 3.3.11(typescript@5.9.3)
       fs-extra: 6.0.1
       json-stable-stringify: 1.3.0
@@ -52435,7 +52452,7 @@ snapshots:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 25.3.3
+      '@types/node': 20.19.25
       long: 5.3.2
 
   protobufjs@7.5.4:
