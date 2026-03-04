@@ -13,6 +13,12 @@ export default {
   },
   props: {
     servicenow,
+    query: {
+      label: "Query",
+      type: "string",
+      description: "An [encoded query string](https://www.servicenow.com/docs/bundle/zurich-platform-user-interface/page/use/using-lists/concept/c_EncodedQueryStrings.html) to filter records by (e.g., `active=true^priority=1`). This overrides any other filters set.",
+      optional: true,
+    },
     filterCreatedAtDate: {
       type: "string",
       label: "Filter by Date Created",
@@ -34,27 +40,28 @@ export default {
     limit: {
       type: "integer",
       label: "Limit",
-      description: "The maximum number of results to return. Default: 100. Max: 200",
+      description: "The maximum number of results to return. Default: 100. Max: 1000",
       min: 1,
-      max: 200,
+      max: 1000,
       default: 100,
       optional: true,
     },
   },
   async run({ $ }) {
-    const filters = [];
-    if (this.filterCreatedAtDate) {
-      filters.push(`sys_created_on>=${this.filterCreatedAtDate}`);
+    let query = this.query;
+    if (!query) {
+      const filters = [];
+      if (this.filterCreatedAtDate) {
+        filters.push(`sys_created_on>=${this.filterCreatedAtDate}`);
+      }
+      if (this.filterUpdatedAtDate) {
+        filters.push(`sys_updated_on>=${this.filterUpdatedAtDate}`);
+      }
+      if (this.filterActive !== undefined) {
+        filters.push(`active=${this.filterActive}`);
+      }
+      query = filters.join("^");
     }
-    if (this.filterUpdatedAtDate) {
-      filters.push(`sys_updated_on>=${this.filterUpdatedAtDate}`);
-    }
-    if (this.filterActive !== undefined) {
-      filters.push(`active=${this.filterActive}`);
-    }
-    const query = filters.length
-      ? filters.join("^")
-      : undefined;
 
     // Get tables
     const tables = await this.servicenow.getTableRecords({
@@ -65,6 +72,7 @@ export default {
       },
     });
 
+    // Poll tables to check if they are accessible to the user
     const accessibleTables = (await Promise.allSettled(
       tables.map((t) =>
         this.servicenow
