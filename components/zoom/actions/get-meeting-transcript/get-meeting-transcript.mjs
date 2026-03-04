@@ -1,11 +1,10 @@
-import utils from "../../common/utils.mjs";
 import zoom from "../../zoom.app.mjs";
 
 export default {
   key: "zoom-get-meeting-transcript",
   name: "Get Meeting Transcript",
   description: "Get the transcript of a meeting. [See the documentation](https://developers.zoom.us/docs/api/meetings/#tag/cloud-recording/get/meetings/{meetingId}/transcript)",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -18,23 +17,16 @@ export default {
       propDefinition: [
         zoom,
         "meetingId",
+        () => ({
+          type: "previous_meetings",
+        }),
       ],
       description: "The meeting ID to get the transcript for",
       optional: false,
     },
   },
-  methods: {
-    getMeetingTranscript({
-      meetingId, ...opts
-    }) {
-      return this.zoom._makeRequest({
-        path: `/meetings/${utils.doubleEncode(meetingId)}/transcript`,
-        ...opts,
-      });
-    },
-  },
   async run({ $: step }) {
-    const transcript = await this.getMeetingTranscript({
+    const transcript = await this.zoom.getMeetingTranscript({
       step,
       meetingId: this.meetingId,
     });

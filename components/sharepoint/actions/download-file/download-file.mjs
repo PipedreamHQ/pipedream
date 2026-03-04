@@ -8,7 +8,7 @@ export default {
   key: "sharepoint-download-file",
   name: "Download File",
   description: "Download a Microsoft Sharepoint file to the /tmp directory. [See the documentation](https://learn.microsoft.com/en-us/graph/api/driveitem-get-content?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.12",
+  version: "0.0.13",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -116,31 +116,25 @@ export default {
       this.validateConversionFormat(originalExtension);
     }
 
-    let response;
-    let args = {
-      $,
+    const response = await this.sharepoint.getFile({
       driveId: this.driveId,
       fileId: this.fileId,
       params: {
         format: this.convertToFormat,
       },
-    };
-    try {
-      response = await this.sharepoint.getFile({
-        ...args,
-        responseType: "arraybuffer",
-      });
-    } catch {
-      // throw error without buffer encoding
-      await this.sharepoint.getFile(args);
-    }
+    });
 
-    const rawcontent = response.toString("base64");
-    const buffer = Buffer.from(rawcontent, "base64");
     // Since the filepath is not returned as one of the standard keys (filePath
     // or path), save the file to STASH_DIR, if defined, so it is synced at the
     // end of execution.
     const downloadedFilepath = `${process.env.STASH_DIR || "/tmp"}/${filename}`;
+
+    const chunks = [];
+    for await (const chunk of response) {
+      chunks.push(chunk);
+    }
+
+    const buffer = Buffer.concat(chunks);
     fs.writeFileSync(downloadedFilepath, buffer);
 
     const data = {

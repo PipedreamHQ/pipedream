@@ -4,7 +4,7 @@ export default {
   key: "zoom-delete-meeting",
   name: "Delete Meeting",
   description: "Delete a meeting. [See the documentation](https://developers.zoom.us/docs/api/meetings/#tag/meetings/delete/meetings/{meetingId})",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: true,

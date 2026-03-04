@@ -5,7 +5,7 @@ export default {
   key: "sharepoint-upload-file",
   name: "Upload File",
   description: "Upload a file to OneDrive. [See the documentation](https://learn.microsoft.com/en-us/onedrive/developer/rest-api/api/driveitem_put_content?view=odsp-graph-online)",
-  version: "0.0.5",
+  version: "0.0.7",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -45,6 +45,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
+      format: "file-ref",
     },
     filename: {
       type: "string",
@@ -68,13 +69,18 @@ export default {
     } = await getFileStreamAndMetadata(filePath);
     const name = filename || metadata.name;
 
+    const chunks = [];
+    for await (const chunk of stream) {
+      chunks.push(chunk);
+    }
+    const buffer = Buffer.concat(chunks);
+
     const response = await this.sharepoint.uploadFile({
       siteId,
       driveId,
       uploadFolderId,
       name,
-      data: stream,
-      $,
+      data: buffer,
     });
 
     if (response?.id) {
