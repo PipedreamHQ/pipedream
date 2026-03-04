@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ragie",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Pipedream Ragie Components",
   "main": "ragie.app.mjs",
   "keywords": [
@@ -13,6 +13,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.1.1"
+    "@pipedream/platform": "3.2.5"
   }
 }

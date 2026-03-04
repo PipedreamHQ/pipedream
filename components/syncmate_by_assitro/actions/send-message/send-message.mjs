@@ -8,7 +8,7 @@ export default {
   key: "syncmate_by_assitro-send-message",
   name: "Send WhatsApp Message",
   description: "Send a single WhatsApp message using SyncMate by Assistro. [See the documentation](https://assistro.co/user-guide/connect-your-custom-app-with-syncmate/)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -31,6 +31,7 @@ export default {
       type: "string",
       label: "Media",
       description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.pdf).",
+      format: "file-ref",
       optional: true,
     },
     fileName: {
