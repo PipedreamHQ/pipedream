@@ -14,5 +14,8 @@ export default {
         "subscription.created",
       ];
     },
+    generateMeta(payload) {
+      return this._generateMetaBase(payload, "Subscription created");
+    },
   },
 };

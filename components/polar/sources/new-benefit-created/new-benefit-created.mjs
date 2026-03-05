@@ -14,5 +14,8 @@ export default {
         "benefit.created",
       ];
     },
+    generateMeta(payload) {
+      return this._generateMetaBase(payload, "Benefit created");
+    },
   },
 };

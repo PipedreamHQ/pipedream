@@ -30,7 +30,7 @@ export default {
       const response = await createWebhook({
         url: targetUrl,
         events: getEvents(),
-        organizationId: organizationId || undefined,
+        organizationId,
       });
 
       setWebhookId(response.id);
@@ -48,17 +48,18 @@ export default {
     },
   },
   methods: {
-    generateMeta(payload) {
-      const type = payload.type || "webhook";
-      const entityId = payload.data?.id ?? payload.id ?? Date.now();
-      const ts = payload.created_at
-        ? new Date(payload.created_at).getTime()
-        : Date.now();
+    _generateMetaBase(payload, summaryPrefix) {
+      const entityId = payload.data.id;
+      const ts = payload.data.created_at;
+      const summary = summaryPrefix;
       return {
         id: `${entityId}-${ts}`,
-        summary: `${type}`,
+        summary: `${summary} - ${entityId}`,
         ts,
       };
+    },
+    generateMeta(payload) {
+      return this._generateMetaBase(payload, payload.type);
     },
     setWebhookId(value) {
       this.db.set(constants.WEBHOOK_ID, value);
@@ -87,7 +88,6 @@ export default {
         ? JSON.parse(body)
         : body;
     } catch (err) {
-      console.log("Failed to parse webhook body:", err.message);
       return;
     }
     this.$emit(payload, this.generateMeta(payload));

@@ -14,5 +14,8 @@ export default {
         "subscription.updated",
       ];
     },
+    generateMeta(payload) {
+      return this._generateMetaBase(payload, "Subscription updated");
+    },
   },
 };

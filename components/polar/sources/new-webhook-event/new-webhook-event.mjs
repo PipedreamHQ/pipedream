@@ -22,5 +22,8 @@ export default {
     getEvents() {
       return this.events;
     },
+    generateMeta(payload) {
+      return this._generateMetaBase(payload, payload.type);
+    },
   },
 };

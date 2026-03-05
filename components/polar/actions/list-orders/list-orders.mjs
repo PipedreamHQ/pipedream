@@ -19,12 +19,13 @@ export default {
         app,
         "organizationId",
       ],
+      optional: true,
     },
     productId: {
-      type: "string",
-      label: "Product ID",
-      description: "Filter by product ID (UUID)",
-      optional: true,
+      propDefinition: [
+        app,
+        "productId",
+      ],
     },
     productBillingType: {
       type: "string",
@@ -34,19 +35,19 @@ export default {
       options: constants.BILLING_TYPES,
     },
     customerId: {
-      type: "string",
-      label: "Customer ID",
-      description: "Filter by customer ID (UUID)",
-      optional: true,
+      propDefinition: [
+        app,
+        "customerId",
+      ],
     },
   },
   async run({ $ }) {
-    const params = {};
-    if (this.organizationId) params.organizationId = this.organizationId;
-    if (this.productId) params.productId = this.productId;
-    if (this.productBillingType) params.productBillingType = this.productBillingType;
-    if (this.customerId) params.customerId = this.customerId;
-
+    const params = {
+      organizationId: this.organizationId,
+      productId: this.productId,
+      productBillingType: this.productBillingType,
+      customerId: this.customerId,
+    };
     const orderList = await this.app.listOrders(params);
     $.export("$summary", `Successfully retrieved ${orderList?.items?.length} order(s)`);
     return orderList;

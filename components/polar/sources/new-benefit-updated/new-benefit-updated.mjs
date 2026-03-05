@@ -14,5 +14,8 @@ export default {
         "benefit.updated",
       ];
     },
+    generateMeta(payload) {
+      return this._generateMetaBase(payload, "Benefit updated");
+    },
   },
 };

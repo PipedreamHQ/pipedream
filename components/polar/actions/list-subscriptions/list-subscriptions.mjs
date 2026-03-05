@@ -18,18 +18,19 @@ export default {
         app,
         "organizationId",
       ],
+      optional: true,
     },
     productId: {
-      type: "string",
-      label: "Product ID",
-      description: "Filter by product ID (UUID)",
-      optional: true,
+      propDefinition: [
+        app,
+        "productId",
+      ],
     },
     customerId: {
-      type: "string",
-      label: "Customer ID",
-      description: "Filter by customer ID (UUID)",
-      optional: true,
+      propDefinition: [
+        app,
+        "customerId",
+      ],
     },
     active: {
       type: "boolean",
@@ -39,11 +40,12 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {};
-    if (this.organizationId) params.organizationId = this.organizationId;
-    if (this.productId) params.productId = this.productId;
-    if (this.customerId) params.customerId = this.customerId;
-    if (this.active !== undefined) params.active = this.active;
+    const params = {
+      organizationId: this.organizationId,
+      productId: this.productId,
+      customerId: this.customerId,
+      active: this.active,
+    };
     const subscriptionList = await this.app.listSubscriptions(params);
     $.export("$summary", `Successfully retrieved ${subscriptionList?.items?.length} subscription(s)`);
     return subscriptionList;
