@@ -78,7 +78,7 @@ export default {
           results = results[resultType];
         }
 
-        for (const result of results) { console.log(result);
+        for (const result of results) {
           const ts = this.getTs(result);
           // Adding ts && !after to handle the case where ts is null
           // (e.g. when using deletedAt as the ts field for deleted items)
