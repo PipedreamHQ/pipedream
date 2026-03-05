@@ -4,7 +4,7 @@ import _0codekit from "../../_0codekit.app.mjs";
 export default {
   key: "_0codekit-compress-pdf",
   name: "Compress PDF",
-  description: "Compresses a PDF using the specified URL. [See the documentation](https://documenter.getpostman.com/view/18297710/UVkntwBv#fdcb09dc-c316-4b80-b523-5a1f3afac1e6)",
+  description: "Compresses a PDF using the specified URL or file reference. [See the documentation](https://documenter.getpostman.com/view/18297710/UVkntwBv#fdcb09dc-c316-4b80-b523-5a1f3afac1e6)",
   version: "0.1.0",
   annotations: {
     destructiveHint: false,
@@ -24,6 +24,12 @@ export default {
       type: "string",
       label: "Filename",
       description: "File name of the compressed file",
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },
