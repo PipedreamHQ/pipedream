@@ -5,7 +5,7 @@ export default {
   key: "docsbot_ai-upload-source-file",
   name: "Upload Source File",
   description: "Upload a file to be used as a source. [See the documentation](https://docsbot.ai/documentation/developer/source-api#source-file-uploads)",
-  version: "0.1.2",
+  version: "0.1.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
