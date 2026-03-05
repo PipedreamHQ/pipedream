@@ -4,7 +4,7 @@ export default {
   key: "todoist-list-labels",
   name: "List Labels",
   description: "Returns a list of all labels. [See the documentation](https://developer.todoist.com/api/v1#tag/Labels/operation/get_labels_api_v1_labels_get)",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

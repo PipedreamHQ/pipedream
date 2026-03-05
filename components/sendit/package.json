@@ -1,15 +1,19 @@
 {
   "name": "@pipedream/sendit",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream SendIt Components",
   "main": "sendit.app.mjs",
   "keywords": [
     "pipedream",
-    "sendit"
+    "sendit",
+    "social media"
   ],
   "homepage": "https://pipedream.com/apps/sendit",
-  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "author": "Pipedream <support@pipedream.com>",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.2.2"
   }
 }

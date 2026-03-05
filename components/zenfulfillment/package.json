@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/zenfulfillment",
+  "version": "0.0.1",
+  "description": "Pipedream Zenfulfillment Components",
+  "main": "zenfulfillment.app.mjs",
+  "keywords": [
+    "pipedream",
+    "zenfulfillment"
+  ],
+  "homepage": "https://pipedream.com/apps/zenfulfillment",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

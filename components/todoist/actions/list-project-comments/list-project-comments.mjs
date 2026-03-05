@@ -4,7 +4,7 @@ export default {
   key: "todoist-list-project-comments",
   name: "List Project Comments",
   description: "Returns a list of comments for a project. [See the documentation](https://developer.todoist.com/api/v1#tag/Comments/operation/get_comments_api_v1_comments_get)",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
