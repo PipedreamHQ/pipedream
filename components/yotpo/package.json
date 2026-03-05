@@ -10,7 +10,7 @@
   "homepage": "https://pipedream.com/apps/yotpo",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "axios": "^0.30.2",
+    "axios": "^0.30.3",
     "lodash.get": "^4.4.2"
   },
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
