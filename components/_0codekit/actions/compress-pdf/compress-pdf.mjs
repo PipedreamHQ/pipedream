@@ -49,7 +49,7 @@ export default {
         getAsUrl: true,
       },
     });
-    $.export("$summary", `Successfully compressed PDF from: ${this.file}`);
+    $.export("$summary", "Successfully compressed PDF");
     return response;
   },
 };
