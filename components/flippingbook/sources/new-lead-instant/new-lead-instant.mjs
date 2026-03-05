@@ -6,7 +6,7 @@ export default {
   key: "flippingbook-new-lead-instant",
   name: "New Lead (Instant)",
   description: "Emit new event when a new lead is created via a lead capture form.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
