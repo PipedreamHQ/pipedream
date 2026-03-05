@@ -35,7 +35,7 @@ export default {
         buffer: buffer.toString("base64"),
       },
     });
-    $.export("$summary", `Successfully read QR code from file: ${this.file}`);
+    $.export("$summary", "Successfully read QR code from the provided file");
     return qrCodeData;
   },
 };
