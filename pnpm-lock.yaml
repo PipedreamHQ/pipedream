@@ -7228,7 +7228,6 @@ importers:
         version: 3.1.1
 
   components/hogia: {}
-  components/hogia: {}
 
   components/holded:
     dependencies:
@@ -9010,7 +9009,7 @@ importers:
     dependencies:
       '@pipedream/platform':
         specifier: ^3.2.5
-        version: 3.2.5
+        version: 3.3.0
 
   components/luminous: {}
 
@@ -15817,8 +15816,8 @@ importers:
   components/todoist:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.3.0
-        version: 3.3.0
+        specifier: 3.2.5
+        version: 3.2.5
       json-2-csv:
         specifier: ^5.5.9
         version: 5.5.10
@@ -39712,7 +39711,7 @@ snapshots:
   '@pipedream/apify@0.4.0':
     dependencies:
       '@apify/consts': 2.47.0
-      '@pipedream/platform': 3.2.5
+      '@pipedream/platform': 3.3.0
       apify-client: 2.19.0
     transitivePeerDependencies:
       - debug
@@ -39740,7 +39739,7 @@ snapshots:
       '@aws-sdk/s3-request-presigner': 3.931.0
       '@aws-sdk/signature-v4-crt': 3.931.0
       '@pipedream/helper_functions': 0.3.13
-      '@pipedream/platform': 3.2.5
+      '@pipedream/platform': 3.3.0
       adm-zip: 0.5.16
       dedent: 1.7.0(babel-plugin-macros@3.1.0)
       file-type: 21.1.0
@@ -39765,7 +39764,7 @@ snapshots:
 
   '@pipedream/canva@0.2.3':
     dependencies:
-      '@pipedream/platform': 3.2.5
+      '@pipedream/platform': 3.3.0
     transitivePeerDependencies:
       - debug
 
