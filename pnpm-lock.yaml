@@ -14023,7 +14023,11 @@ importers:
         specifier: ^4.6.0
         version: 4.6.0
 
-  components/sharepoint_admin: {}
+  components/sharepoint_admin:
+    dependencies:
+      '@pipedream/sharepoint':
+        specifier: ^0.8.3
+        version: 0.8.3(encoding@0.1.13)
 
   components/sharpspring:
     dependencies:
@@ -21668,6 +21672,9 @@ packages:
 
   '@pipedream/sftp@0.5.1':
     resolution: {integrity: sha512-bgy/U23KL2jVU0gDoa3HjK51tRRM/7cp6whYChBoNDRAd/pWxhFZzWGTx5/3dnJTviFQVfrD6wtY+IRMZ6Egyg==}
+
+  '@pipedream/sharepoint@0.8.3':
+    resolution: {integrity: sha512-6az6FeQ7D1gCmDnWzgQqCxsI/MrI2jJ3k1DmjXd8n4r10fQA54A18x1RqyElpiaCpMZZ6qLzpoQmjExyZyCrkw==}
 
   '@pipedream/shopify@0.7.2':
     resolution: {integrity: sha512-/tIBZjObqp/eo6AL16MeNXFiByxceF9OOBR7+0Z3hSpbmm28mXZ003e7MIyun7WwBtFZlRvCYNOrsj/C9mxIoA==}
@@ -40065,6 +40072,20 @@ snapshots:
       ssh2-sftp-client: 11.0.0
     transitivePeerDependencies:
       - debug
+
+  '@pipedream/sharepoint@0.8.3(encoding@0.1.13)':
+    dependencies:
+      '@microsoft/microsoft-graph-client': 3.0.7
+      '@pipedream/platform': 3.3.0
+      isomorphic-fetch: 3.0.0(encoding@0.1.13)
+      lodash.pickby: 4.6.0
+    transitivePeerDependencies:
+      - '@azure/identity'
+      - '@azure/msal-browser'
+      - buffer
+      - debug
+      - encoding
+      - stream-browserify
 
   '@pipedream/shopify@0.7.2':
     dependencies:
