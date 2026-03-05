@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/airparser",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Pipedream Airparser Components",
   "main": "airparser.app.mjs",
   "keywords": [
