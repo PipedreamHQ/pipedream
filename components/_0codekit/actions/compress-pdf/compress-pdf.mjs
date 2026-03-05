@@ -1,10 +1,11 @@
+import { getFileStream } from "@pipedream/platform";
 import _0codekit from "../../_0codekit.app.mjs";
 
 export default {
   key: "_0codekit-compress-pdf",
   name: "Compress PDF",
   description: "Compresses a PDF using the specified URL. [See the documentation](https://documenter.getpostman.com/view/18297710/UVkntwBv#fdcb09dc-c316-4b80-b523-5a1f3afac1e6)",
-  version: "0.0.2",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -13,10 +14,11 @@ export default {
   type: "action",
   props: {
     _0codekit,
-    pdfUrl: {
+    file: {
       type: "string",
-      label: "PDF URL",
-      description: "The URL of the PDF to be compressed",
+      label: "File Path or URL",
+      description: "The file to compress. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.pdf`)",
+      format: "file-ref",
     },
     fileName: {
       type: "string",
@@ -26,15 +28,22 @@ export default {
     },
   },
   async run({ $ }) {
+    const stream = await getFileStream(this.file);
+    const chunks = [];
+    for await (const chunk of stream) {
+      chunks.push(chunk);
+    }
+    const buffer = Buffer.concat(chunks);
+
     const response = await this._0codekit.compressPdf({
       $,
       data: {
-        url: this.pdfUrl,
+        buffer: buffer.toString("base64"),
         fileName: this.fileName,
         getAsUrl: true,
       },
     });
-    $.export("$summary", `Successfully compressed PDF from URL ${this.pdfUrl}`);
+    $.export("$summary", `Successfully compressed PDF from: ${this.file}`);
     return response;
   },
 };

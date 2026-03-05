@@ -29,6 +29,7 @@ export default {
       type: "string",
       label: "Image",
       description: "The URL of the file or path to the file saved to the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp)",
+      format: "file-ref",
     },
     lang: {
       type: "string",
