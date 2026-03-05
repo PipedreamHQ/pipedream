@@ -1,13 +1,13 @@
-import todoist from "../../todoist.app.mjs";
 import fs from "fs";
-import { file } from "tmp-promise";
 import converter from "json-2-csv";
+import { file } from "tmp-promise";
+import todoist from "../../todoist.app.mjs";
 
 export default {
   key: "todoist-export-tasks",
   name: "Export Tasks",
   description: "Export project task names as comma separated file. Returns path to new file. [See the documentation](https://developer.todoist.com/api/v1#tag/Tasks/operation/get_tasks_api_v1_tasks_get)",
-  version: "0.1.4",
+  version: "0.1.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -377,6 +377,7 @@ export default {
       label: "File Path or URL",
       description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
       type: "string",
+      format: "file-ref",
     },
     link_names: {
       type: "boolean",

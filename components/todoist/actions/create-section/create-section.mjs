@@ -4,7 +4,7 @@ export default {
   key: "todoist-create-section",
   name: "Create Section",
   description: "Creates a section. [See the documentation](https://developer.todoist.com/api/v1#tag/Sections/operation/create_section_api_v1_sections_post)",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
