@@ -13,7 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "3.2.5",
+    "@pipedream/platform": "^3.2.5",
     "dayjs": "^1.11.7"
   }
 }
