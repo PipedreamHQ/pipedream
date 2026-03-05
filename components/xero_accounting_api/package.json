@@ -10,7 +10,7 @@
   "homepage": "https://pipedream.com/apps/xero_accounting_api",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "3.2.5"
+    "@pipedream/platform": "^3.2.5"
   },
   "publishConfig": {
     "access": "public"
