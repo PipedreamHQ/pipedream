@@ -10,7 +10,7 @@ export default {
   ...common,
   key: "openai-chat-with-responses-api",
   name: "Chat With Responses API",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

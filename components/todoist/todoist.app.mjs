@@ -273,6 +273,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The .csv file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.csv`)",
+      format: "file-ref",
     },
   },
   methods: {

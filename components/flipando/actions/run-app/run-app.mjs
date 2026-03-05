@@ -6,7 +6,7 @@ export default {
   key: "flipando-run-app",
   name: "Run App",
   description: "Executes a chosen app within Flipando. Returns a 'task_id' to be used in fetching the outcome of this action. [See the documentation]([See the documentation](https://flipandoai.notion.site/Flipando-ai-API-Integration-Guide-6b508cfe1a5d4a249d20b926eac3a1d7#36b02715e5f440c9b21952b668e0e70c))",
-  version: "1.0.2",
+  version: "1.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -59,6 +59,7 @@ export default {
         type: "string",
         label: "File Path or URL",
         description: "Provide a file URL or path to a document file in the `/tmp` directory.",
+        format: "file-ref",
       };
       props.fileDescription = {
         type: "string",

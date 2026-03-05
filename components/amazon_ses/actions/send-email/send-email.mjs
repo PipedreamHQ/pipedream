@@ -71,6 +71,7 @@ export default {
       type: "string[]",
       label: "Attachments",
       description: "File paths (e.g., `/tmp/file.pdf`) or URLs to attach to the email. Files will be automatically base64-encoded and MIME types auto-detected.",
+      format: "file-ref",
       optional: true,
     },
     inlineAttachments: {

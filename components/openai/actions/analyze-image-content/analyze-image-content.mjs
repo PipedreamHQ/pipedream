@@ -8,7 +8,7 @@ export default {
   key: "openai-analyze-image-content",
   name: "Analyze Image Content",
   description: "Send a message or question about an image and receive a response. [See the documentation](https://developers.openai.com/api/reference/resources/responses/methods/create)",
-  version: "1.1.0",
+  version: "1.1.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -36,6 +36,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The image to process. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.jpg`). Supported image types: jpeg, jpg, png, gif, webp",
+      format: "file-ref",
       optional: true,
     },
     syncDir: {

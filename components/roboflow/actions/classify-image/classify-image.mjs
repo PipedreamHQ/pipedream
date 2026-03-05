@@ -5,7 +5,7 @@ export default {
   key: "roboflow-classify-image",
   name: "Classify Image",
   description: "Run inference on classification models hosted on Roboflow. [See the documentation](https://docs.roboflow.com/deploy/hosted-api/classification).",
-  version: "1.0.2",
+  version: "1.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -8,7 +8,7 @@ import {
 export default {
   key: "zoho_workdrive-upload-file",
   name: "Upload File",
-  version: "0.0.10",
+  version: "0.0.11",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -59,6 +59,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.pdf).",
+      format: "file-ref",
     },
     syncDir: {
       type: "dir",

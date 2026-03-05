@@ -7,7 +7,7 @@ export default {
   key: "claid_ai-remove-background",
   name: "Remove Background",
   description: "Easily erases the image's background, effectively isolating the main subject. [See the documentation](https://docs.claid.ai/image-editing-api/image-operations/background)",
-  version: "0.1.2",
+  version: "0.1.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
