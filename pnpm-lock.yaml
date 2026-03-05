@@ -10906,6 +10906,9 @@ importers:
         specifier: ^0.10.1
         version: 0.10.1
 
+  components/operating:
+    specifiers: {}
+
   components/opinion_stage:
     dependencies:
       '@pipedream/platform':
