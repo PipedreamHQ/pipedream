@@ -158,8 +158,8 @@ importers:
   components/_0codekit:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.8
-        version: 1.6.8
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/_10000ft:
     dependencies:
@@ -190,8 +190,8 @@ importers:
   components/_2markdown:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -643,8 +643,8 @@ importers:
   components/airparser:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -719,8 +719,8 @@ importers:
   components/akeneo:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -842,14 +842,14 @@ importers:
   components/alttext_ai:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/alttextify:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/alttextlab:
     dependencies:
@@ -908,8 +908,8 @@ importers:
         specifier: ^1.1.0
         version: 1.1.1(aws-crt@1.27.5)(babel-plugin-macros@3.1.0)
       '@pipedream/platform':
-        specifier: ^3.2.2
-        version: 3.2.2
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/ambee: {}
 
@@ -1022,8 +1022,8 @@ importers:
   components/api4ai:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -1224,8 +1224,8 @@ importers:
   components/askyourpdf:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -1301,8 +1301,8 @@ importers:
   components/autodesk:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/autoklose: {}
 
@@ -1420,8 +1420,8 @@ importers:
         specifier: ^0.3.6
         version: 0.3.13
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       adm-zip:
         specifier: ^0.5.10
         version: 0.5.16
@@ -1514,8 +1514,8 @@ importers:
   components/azure_storage:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       fast-xml-parser:
         specifier: ^5.3.8
         version: 5.4.2
@@ -39711,7 +39711,7 @@ snapshots:
   '@pipedream/apify@0.4.0':
     dependencies:
       '@apify/consts': 2.47.0
-      '@pipedream/platform': 3.2.5
+      '@pipedream/platform': 3.3.0
       apify-client: 2.19.0
     transitivePeerDependencies:
       - debug
@@ -39739,7 +39739,7 @@ snapshots:
       '@aws-sdk/s3-request-presigner': 3.931.0
       '@aws-sdk/signature-v4-crt': 3.931.0
       '@pipedream/helper_functions': 0.3.13
-      '@pipedream/platform': 3.2.5
+      '@pipedream/platform': 3.3.0
       adm-zip: 0.5.16
       dedent: 1.7.0(babel-plugin-macros@3.1.0)
       file-type: 21.1.0
@@ -39764,7 +39764,7 @@ snapshots:
 
   '@pipedream/canva@0.2.3':
     dependencies:
-      '@pipedream/platform': 3.2.5
+      '@pipedream/platform': 3.3.0
     transitivePeerDependencies:
       - debug
 
