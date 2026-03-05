@@ -7400,7 +7400,11 @@ importers:
 
   components/humaans: {}
 
-  components/humanitix: {}
+  components/humanitix:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.3.0
+        version: 3.3.0
 
   components/humanlayer: {}
 
@@ -40636,6 +40640,7 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
+      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.60)(rollup@4.53.2)':
     dependencies:
