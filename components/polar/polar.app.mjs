@@ -98,7 +98,7 @@ export default {
     }) {
       const client = this._getClient();
       try {
-        return client.webhooks.createWebhookEndpoint({
+        return await client.webhooks.createWebhookEndpoint({
           url,
           format,
           events,
@@ -111,7 +111,7 @@ export default {
     async deleteWebhookEndpoint(endpointId) {
       const client = this._getClient();
       try {
-        return client.webhooks.deleteWebhookEndpoint({
+        return await client.webhooks.deleteWebhookEndpoint({
           id: endpointId,
         });
       } finally {

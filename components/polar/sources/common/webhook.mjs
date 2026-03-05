@@ -88,6 +88,7 @@ export default {
         ? JSON.parse(body)
         : body;
     } catch (err) {
+      console.log("Failed to parse webhook body:", err.message);
       return;
     }
     this.$emit(payload, this.generateMeta(payload));
