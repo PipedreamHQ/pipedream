@@ -1,7 +1,7 @@
-import ipgeolocation_io from "../../ipgeolocation_io.app.mjs";
+import ipgeolocation_io from "../../ipgeolocation.app.mjs";
 
 export default {
-  key: "ipgeolocation_io-parse-bulk-user-agent",
+  key: "ipgeolocation-parse-bulk-user-agent",
   name: "Parse Bulk User Agent",
   description:
     "Extract browser, device, operating system, and engine details from multiple user agent strings in a single request. Maximum 50,000 strings per request. Only available on paid plans. [See the documentation](https://ipgeolocation.io/documentation/user-agent-api.html#parse-bulk-user-agent-strings)",

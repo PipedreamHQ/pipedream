@@ -1,7 +1,7 @@
-import ipgeolocation_io from "../../ipgeolocation_io.app.mjs";
+import ipgeolocation_io from "../../ipgeolocation.app.mjs";
 
 export default {
-  key: "ipgeolocation_io-get-timezone",
+  key: "ipgeolocation-get-timezone",
   name: "Get Timezone",
   description:
     "Retrieve timezone information using a timezone name, IP address, coordinates, city, IATA code, ICAO code, or UN/LOCODE. [See the documentation](https://ipgeolocation.io/documentation/timezone-api.html)",

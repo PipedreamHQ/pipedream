@@ -1,7 +1,7 @@
-import ipgeolocation_io from "../../ipgeolocation_io.app.mjs";
+import ipgeolocation_io from "../../ipgeolocation.app.mjs";
 
 export default {
-  key: "ipgeolocation_io-get-bulk-geolocation",
+  key: "ipgeolocation-get-bulk-geolocation",
   name: "Get Bulk IP Geolocation",
   description:
     "Retrieve geolocation data for multiple IPv4/IPv6 addresses or domain names in a single request. Maximum 50,000 IPs per request. Only available on paid plans. [See the documentation](https://ipgeolocation.io/documentation/ip-location-api.html#bulk-ip-geolocation-lookup-api)",

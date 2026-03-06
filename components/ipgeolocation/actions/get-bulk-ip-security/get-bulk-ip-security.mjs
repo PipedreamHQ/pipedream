@@ -1,7 +1,7 @@
-import ipgeolocation_io from "../../ipgeolocation_io.app.mjs";
+import ipgeolocation_io from "../../ipgeolocation.app.mjs";
 
 export default {
-  key: "ipgeolocation_io-get-bulk-ip-security",
+  key: "ipgeolocation-get-bulk-ip-security",
   name: "Get Bulk IP Security",
   description:
     "Retrieve real-time threat intelligence for multiple IPv4 or IPv6 addresses in a single request, including VPN, proxy, Tor, bot, spam detection, and threat scores. Maximum 50,000 IPs per request. Only available on paid plans. [See the documentation](https://ipgeolocation.io/documentation/ip-security-api.html#bulk-ip-security-lookup-endpoint)",

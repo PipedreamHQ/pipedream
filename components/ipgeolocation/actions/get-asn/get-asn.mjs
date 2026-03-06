@@ -1,7 +1,7 @@
-import ipgeolocation_io from "../../ipgeolocation_io.app.mjs";
+import ipgeolocation_io from "../../ipgeolocation.app.mjs";
 
 export default {
-  key: "ipgeolocation_io-get-asn",
+  key: "ipgeolocation-get-asn",
   name: "Get ASN Details",
   description:
     "Retrieve detailed ASN information including peers, upstreams, downstreams, routes, and WHOIS data for an ASN number or IP address. Only available on paid plans. [See the documentation](https://ipgeolocation.io/documentation/asn-api.html)",

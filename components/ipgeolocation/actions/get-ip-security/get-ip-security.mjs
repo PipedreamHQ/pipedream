@@ -1,7 +1,7 @@
-import ipgeolocation_io from "../../ipgeolocation_io.app.mjs";
+import ipgeolocation_io from "../../ipgeolocation.app.mjs";
 
 export default {
-  key: "ipgeolocation_io-get-ip-security",
+  key: "ipgeolocation-get-ip-security",
   name: "Get IP Security",
   description:
     "Retrieve real-time threat intelligence for an IPv4 or IPv6 address, including VPN, proxy, Tor, bot, spam detection, and a threat score. Only available on paid plans. [See the documentation](https://ipgeolocation.io/documentation/ip-security-api.html)",

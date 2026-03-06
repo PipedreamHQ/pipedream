@@ -7856,8 +7856,13 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/ipgeolocation:
-    specifiers: {}
+  components/ipgeolocation: {}
+
+  components/ipgeolocation_io:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.3.0
+        version: 3.3.0
 
   components/ipinfo_io:
     dependencies:
@@ -10694,8 +10699,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/oneflow:
-    specifiers: {}
+  components/oneflow: {}
 
   components/onehash: {}
 
@@ -10912,8 +10916,7 @@ importers:
         specifier: ^0.10.1
         version: 0.10.1
 
-  components/operating:
-    specifiers: {}
+  components/operating: {}
 
   components/opinion_stage:
     dependencies:

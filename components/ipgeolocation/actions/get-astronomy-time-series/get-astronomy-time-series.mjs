@@ -1,7 +1,7 @@
-import ipgeolocation_io from "../../ipgeolocation_io.app.mjs";
+import ipgeolocation_io from "../../ipgeolocation.app.mjs";
 
 export default {
-  key: "ipgeolocation_io-get-astronomy-time-series",
+  key: "ipgeolocation-get-astronomy-time-series",
   name: "Get Astronomy Time Series",
   description:
     "Retrieve astronomical data (sunrise, sunset, moonrise, moonset, moon phase, and more) for a date range up to 90 days for a location by IP address, coordinates, or address. [See the documentation](https://ipgeolocation.io/documentation/astronomy-api.html#time-series-lookup)",

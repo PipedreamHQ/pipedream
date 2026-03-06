@@ -1,8 +1,8 @@
 // actions/get-geolocation/get-geolocation.mjs
-import ipgeolocation_io from "../../ipgeolocation_io.app.mjs";
+import ipgeolocation_io from "../../ipgeolocation.app.mjs";
 
 export default {
-  key: "ipgeolocation_io-get-geolocation",
+  key: "ipgeolocation-get-geolocation",
   name: "Get IP Geolocation",
   description:
     "Retrieve geolocation data for an IPv4/IPv6 address or domain name, including location, country metadata, timezone, currency, ASN, security insights and more. [See the documentation](https://ipgeolocation.io/documentation/ip-location-api.html)",

@@ -1,7 +1,7 @@
-import ipgeolocation_io from "../../ipgeolocation_io.app.mjs";
+import ipgeolocation_io from "../../ipgeolocation.app.mjs";
 
 export default {
-  key: "ipgeolocation_io-get-abuse-contact",
+  key: "ipgeolocation-get-abuse-contact",
   name: "Get Abuse Contact",
   description:
     "Retrieve abuse contact information for an IPv4 or IPv6 address, including abuse emails, phone numbers, organization, and network route. Only available on paid plans. [See the documentation](https://ipgeolocation.io/documentation/ip-abuse-contact-api.html)",

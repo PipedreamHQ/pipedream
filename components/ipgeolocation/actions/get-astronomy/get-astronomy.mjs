@@ -1,7 +1,7 @@
-import ipgeolocation_io from "../../ipgeolocation_io.app.mjs";
+import ipgeolocation_io from "../../ipgeolocation.app.mjs";
 
 export default {
-  key: "ipgeolocation_io-get-astronomy",
+  key: "ipgeolocation-get-astronomy",
   name: "Get Astronomy Data",
   description:
     "Retrieve sunrise, sunset, moonrise, moonset, moon phase, and sun/moon position data for a location by IP address, coordinates, or location string. [See the documentation](https://ipgeolocation.io/documentation/astronomy-api.html)",
@@ -57,7 +57,6 @@ export default {
       ],
     },
   },
-  async run({ $ }) {
   async run({ $ }) {
     if ((this.lat && !this.long) || (!this.lat && this.long)) {
       throw new Error("Latitude and Longitude must be provided together.");

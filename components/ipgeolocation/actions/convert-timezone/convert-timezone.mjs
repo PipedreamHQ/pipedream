@@ -1,7 +1,7 @@
-import ipgeolocation_io from "../../ipgeolocation_io.app.mjs";
+import ipgeolocation_io from "../../ipgeolocation.app.mjs";
 
 export default {
-  key: "ipgeolocation_io-convert-timezone",
+  key: "ipgeolocation-convert-timezone",
   name: "Convert Timezone",
   description:
     "Convert a time between two timezones using timezone names, coordinates, city, IATA, ICAO, or UN/LOCODE. [See the documentation](https://ipgeolocation.io/documentation/timezone-api.html)",

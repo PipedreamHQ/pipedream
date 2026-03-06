@@ -1,7 +1,7 @@
-import ipgeolocation_io from "../../ipgeolocation_io.app.mjs";
+import ipgeolocation_io from "../../ipgeolocation.app.mjs";
 
 export default {
-  key: "ipgeolocation_io-parse-user-agent",
+  key: "ipgeolocation-parse-user-agent",
   name: "Parse User Agent",
   description:
     "Extract browser, device, operating system, and engine details from a user agent string. Only available on paid plans. [See the documentation](https://ipgeolocation.io/documentation/user-agent-api.html)",
