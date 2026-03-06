@@ -7,7 +7,7 @@ export default {
   ...common,
   key: "dreamstudio-upscale-image",
   name: "Upscale Image",
-  version: "1.0.2",
+  version: "1.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -21,6 +21,7 @@ export default {
       type: "string",
       label: "Image Path Or Url",
       description: "Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/example.png`)",
+      format: "file-ref",
     },
     height: {
       propDefinition: [

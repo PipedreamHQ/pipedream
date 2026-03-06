@@ -10,7 +10,7 @@ export default {
   key: "lumin_pdf-send-signature-request",
   name: "Send Signature Request",
   description: "Send a signature request to signers. [See the documentation](https://developers.luminpdf.com/api/send-signature-request/)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -29,6 +29,7 @@ export default {
       type: "string",
       label: "File",
       description: "A single path to a file in the `/tmp` directory (for example, `/tmp/myFile.pdf`) to be sent for signature. This field is mutually exclusive with `File URL`, `Files`, and `File URLs`. Only one of these fields should be provided in the request.",
+      format: "file-ref",
       optional: true,
     },
     fileUrls: {
@@ -41,6 +42,7 @@ export default {
       type: "string[]",
       label: "Files",
       description: "An array of path to files in the `/tmp` directory (for example, `/tmp/myFile.pdf`) to be sent for signature. This field is mutually exclusive with `File URL`, `Files`, and `File URLs`. Only one of these fields should be provided in the request.",
+      format: "file-ref",
       optional: true,
     },
     signers: {

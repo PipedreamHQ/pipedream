@@ -5,7 +5,7 @@ import { getFileStreamAndMetadata } from "@pipedream/platform";
 export default {
   key: "elevenlabs-add-voice",
   name: "Add Voice",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -24,6 +24,7 @@ export default {
       type: "string[]",
       label: "File Paths or URLs",
       description: "Provide either an array of file URLs or an array of paths to a files in the /tmp directory (for example, /tmp/myFile.pdf).",
+      format: "file-ref",
     },
     description: {
       type: "string",

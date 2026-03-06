@@ -7,7 +7,7 @@ export default {
   key: "sftp-upload-file",
   name: "Upload File",
   description: "Uploads a file or string in UTF-8 format to the SFTP server. [See the documentation](https://github.com/theophilusx/ssh2-sftp-client#org99d1b64)",
-  version: "0.4.2",
+  version: "0.4.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
