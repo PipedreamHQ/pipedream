@@ -58,8 +58,11 @@ export default {
     },
   },
   async run({ $ }) {
+  async run({ $ }) {
+    if ((this.lat && !this.long) || (!this.lat && this.long)) {
+      throw new Error("Latitude and Longitude must be provided together.");
+    }
     const response = await this.ipgeolocation_io._makeRequest({
-      $,
       path: "/astronomy",
       params: {
         ip: this.ip,
