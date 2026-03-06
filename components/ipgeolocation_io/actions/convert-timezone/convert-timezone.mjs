@@ -164,10 +164,27 @@ export default {
       },
     });
 
-    const from = this.tz_from || `${this.lat_from},${this.long_from}` || this.location_from || this.iata_from
-      || this.icao_from || this.locode_from ;
-    const to = this.tz_to || `${this.lat_to},${this.long_to}` || this.location_to || this.iata_to
-      || this.icao_to || this.locode_to;
+    let from, to;
+
+    if (hasPair(this.tz_from, this.tz_to)) {
+      from = this.tz_from;
+      to = this.tz_to;
+    } else if (hasFullCoordSet) {
+      from = `${this.lat_from},${this.long_from}`;
+      to = `${this.lat_to},${this.long_to}`;
+    } else if (hasPair(this.location_from, this.location_to)) {
+      from = this.location_from;
+      to = this.location_to;
+    } else if (hasPair(this.iata_from, this.iata_to)) {
+      from = this.iata_from;
+      to = this.iata_to;
+    } else if (hasPair(this.icao_from, this.icao_to)) {
+      from = this.icao_from;
+      to = this.icao_to;
+    } else {
+      from = this.locode_from;
+      to = this.locode_to;
+    }
 
     $.export("$summary", `Successfully converted time from ${from} to ${to}`);
     return response;

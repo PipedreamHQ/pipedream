@@ -70,7 +70,7 @@ export default {
         lang: this.lang,
       },
     });
-    const identifier =  ((this.lat != null && this.long != null)
+    const identifier =  ((this.lat && this.long)
       ? `${this.lat},${this.long}`
       : null) || this.location || this.timezone || this.ip || `caller's IP: ${response.ip}`;
     $.export("$summary", `Successfully retrieved astronomy data for ${identifier}`);

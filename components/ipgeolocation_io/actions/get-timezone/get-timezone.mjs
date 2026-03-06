@@ -84,9 +84,16 @@ export default {
         lang: this.lang,
       },
     });
-    const identifier = this.tz || ((this.lat != null && this.long != null)
-      ? `${this.lat},${this.long}`
-      : null ) || this.location || this.ip || this.iata || this.icao || this.locode || `caller's IP: ${response.ip}`;
+    const identifier = this.tz
+  || (this.lat && this.long
+    ? `${this.lat},${this.long}`
+    : null)
+  || this.location
+  || this.ip
+  || this.iata
+  || this.icao
+  || this.locode
+  || `caller's IP: ${response.ip}`;
     $.export("$summary", `Successfully retrieved timezone data for ${identifier}`);
     return response;
   },
