@@ -22,13 +22,17 @@ export default {
   },
   async run({ $ }) {
     const response = await this.ipgeolocation_io._makeRequest({
+      $,
       path: "/user-agent",
       method: "POST",
       data: {
         uaString: this.uaString,
       },
     });
-    $.export("$summary", `Successfully parsed user agent string for ${this.uaString}`);
+    const truncatedUa = this.uaString.length > 50
+      ? `${this.uaString.slice(0, 50)}...`
+      : this.uaString;
+    $.export("$summary", `Successfully parsed user agent string: ${truncatedUa}`);
     return response;
   },
 };
