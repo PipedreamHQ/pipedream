@@ -1,9 +1,9 @@
 import zoom from "../../zoom.app.mjs";
 
 export default {
-  key: "zoom-get-meeting-records",
-  name: "Get Meeting Records",
-  description: "Get the records of a meeting. [See the documentation](https://developers.zoom.us/docs/api/meetings/#tag/cloud-recording/get/meetings/{meetingId}/recordings)",
+  key: "zoom-get-meeting-recordings",
+  name: "Get Meeting Recordings",
+  description: "Get the recordings of a meeting. [See the documentation](https://developers.zoom.us/docs/api/meetings/#tag/cloud-recording/get/meetings/{meetingId}/recordings)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -21,7 +21,7 @@ export default {
           type: "previous_meetings",
         }),
       ],
-      description: "The meeting ID to get the records for",
+      description: "The meeting ID to get the recordings for",
       optional: false,
     },
     downloadAccessToken: {
@@ -33,7 +33,7 @@ export default {
   },
   async run({ $ }) {
     try {
-      const records = await this.zoom.getMeetingRecords({
+      const recordings = await this.zoom.getMeetingRecordings({
         $,
         meetingId: this.meetingId,
         params: {
@@ -43,20 +43,18 @@ export default {
         },
       });
 
-      $.export("$summary", `Retrieved records for meeting ${this.meetingId}`);
-      return records;
-    } catch ({ response }) {
-      console.log("response: ", response);
-
-      if (response.data.status === 200) {
+      $.export("$summary", `Retrieved recordings for meeting ${this.meetingId}`);
+      return recordings;
+    } catch (error) {
+      if (error.response.data.status === 200) {
         $.export("$summary", "You do not have the right permissions");
         return {};
       }
-      if (response.status === 404) {
-        $.export("$summary", "Records not found");
+      if (error.response.status === 404) {
+        $.export("$summary", "Recordings not found");
         return {};
       }
-      throw response;
+      throw error;
     }
   },
 };

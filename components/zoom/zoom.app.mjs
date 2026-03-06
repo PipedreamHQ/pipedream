@@ -363,7 +363,7 @@ export default {
         ...opts,
       });
     },
-    getMeetingRecords({
+    getMeetingRecordings({
       meetingId, ...opts
     }) {
       return this._makeRequest({
