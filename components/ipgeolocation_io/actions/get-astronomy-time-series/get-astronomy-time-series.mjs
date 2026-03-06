@@ -69,6 +69,19 @@ export default {
     },
   },
   async run({ $ }) {
+    const start = new Date(`${this.dateStart}T00:00:00Z`);
+    const end = new Date(`${this.dateEnd}T00:00:00Z`);
+
+    if (Number.isNaN(start.valueOf()) || Number.isNaN(end.valueOf())) {
+      throw new Error("`Start Date` and `End Date` must be valid dates in `YYYY-MM-DD` format.");
+    }
+    if (end < start) {
+      throw new Error("`End Date` must be on or after `Start Date`.");
+    }
+    const diffDays = (end - start) / (1000 * 60 * 60 * 24);
+    if (diffDays > 90) {
+      throw new Error("Astronomy time series supports a maximum 90-day range.");
+    }
     const response = await this.ipgeolocation_io._makeRequest({
       path: "/astronomy/timeSeries",
       params: {
