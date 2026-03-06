@@ -18,6 +18,7 @@ export default {
       type: "string",
       label: "IP Address",
       description: "The IPv4 or IPv6 address to retrieve abuse contact information for. Leave blank to retrieve abuse contact information for the caller's IP address",
+      optional: true,
     },
     fields: {
       type: "string",
