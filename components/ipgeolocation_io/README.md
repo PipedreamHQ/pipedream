@@ -68,4 +68,4 @@ This typically means an invalid IP address, malformed date format, or an unsuppo
 
 Some actions (bulk lookups, IP security, abuse contact, ASN details, and multi-language responses) require a paid plan. Upgrade your subscription at [ipgeolocation.io/pricing](https://ipgeolocation.io/pricing.html) to access these features.
 
-Moreover, If you're having trouble connecting to IPGeolocation.io, please [contact support](mailto:support@ipgeolocation.io).
+Moreover, if you're having trouble connecting to IPGeolocation.io, please [contact support](mailto:support@ipgeolocation.io).
