@@ -14245,6 +14245,9 @@ importers:
 
   components/signable: {}
 
+  components/signal:
+    specifiers: {}
+
   components/signalwire:
     dependencies:
       '@pipedream/platform':
