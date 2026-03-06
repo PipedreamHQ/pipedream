@@ -106,6 +106,43 @@ export default {
     },
   },
   async run({ $ }) {
+    const hasValue = (value) => value !== undefined && value !== null && value !== "";
+    const hasPair = (from, to) => hasValue(from) && hasValue(to);
+    const hasAnyCoord = [
+      this.lat_from,
+      this.long_from,
+      this.lat_to,
+      this.long_to,
+    ].some(hasValue);
+    const hasFullCoordSet = [
+      this.lat_from,
+      this.long_from,
+      this.lat_to,
+      this.long_to,
+    ].every(hasValue);
+
+    if (
+      (hasValue(this.tz_from) !== hasValue(this.tz_to))
+      || (hasValue(this.location_from) !== hasValue(this.location_to))
+      || (hasValue(this.iata_from) !== hasValue(this.iata_to))
+      || (hasValue(this.icao_from) !== hasValue(this.icao_to))
+      || (hasValue(this.locode_from) !== hasValue(this.locode_to))
+      || (hasAnyCoord && !hasFullCoordSet)
+    ) {
+      throw new Error("Provide complete source and target values for the selected conversion mode.");
+    }
+
+    if (!(
+      hasPair(this.tz_from, this.tz_to)
+      || hasPair(this.location_from, this.location_to)
+      || hasPair(this.iata_from, this.iata_to)
+      || hasPair(this.icao_from, this.icao_to)
+      || hasPair(this.locode_from, this.locode_to)
+      || hasFullCoordSet
+    )) {
+      throw new Error("Provide a valid source and target using timezone names, coordinates, locations, IATA, ICAO, or UN/LOCODE.");
+    }
+
     const response = await this.ipgeolocation_io._makeRequest({
       path: "/timezone/convert",
       params: {
@@ -126,7 +163,13 @@ export default {
         locode_to: this.locode_to,
       },
     });
-    $.export("$summary", `Successfully converted time from ${this.tz_from || this.location_from || this.iata_from || this.icao_from || this.locode_from || "source"} to ${this.tz_to || this.location_to || this.iata_to || this.icao_to || this.locode_to || "target"}`);
+
+    const from = this.tz_from || `${this.lat_from},${this.long_from}` || this.location_from || this.iata_from
+      || this.icao_from || this.locode_from ;
+    const to = this.tz_to || `${this.lat_to},${this.long_to}` || this.location_to || this.iata_to
+      || this.icao_to || this.locode_to;
+
+    $.export("$summary", `Successfully converted time from ${from} to ${to}`);
     return response;
   },
 };

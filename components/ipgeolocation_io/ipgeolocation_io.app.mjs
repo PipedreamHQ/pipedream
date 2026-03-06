@@ -1,6 +1,4 @@
 import { axios } from "@pipedream/platform";
-import { axios } from "@pipedream/platform";
-
 export default {
   type: "app",
   app: "ipgeolocation_io",
