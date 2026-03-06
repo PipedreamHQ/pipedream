@@ -8,6 +8,18 @@ export default {
   type: "source",
   dedupe: "unique",
   ...common,
+  props: {
+    ...common.props,
+    webhookTarget: {
+      propDefinition: [
+        common.props.app,
+        "webhookTarget",
+        () => ({
+          type: "folder",
+        }),
+      ],
+    },
+  },
   methods: {
     ...common.methods,
     getTriggers() {

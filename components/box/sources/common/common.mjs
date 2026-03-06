@@ -49,9 +49,13 @@ export default {
   hooks: {
     async activate() {
       // Delete existing hook with same target if it exists
-      const targetId = this.getTarget().id;
+      const {
+        id: targetId, type: targetType,
+      } = this.getTarget();
       const { entries } = await this.app.listWebhooks();
-      const existingHook = entries?.find((entry) => entry.target.id === targetId);
+      const existingHook = entries?.find(
+        (entry) => entry.target.id === targetId && entry.target.type === targetType,
+      );
       if (existingHook) {
         await this.app.deleteHook({
           hookId: existingHook.id,
