@@ -21,6 +21,10 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.uaStrings.length > 50000) {
+      throw new Error("`User Agent Strings` supports a maximum of 50,000 entries per request.");
+    }
+
     const response = await this.ipgeolocation_io._makeRequest({
       method: "POST",
       path: "/user-agent-bulk",
