@@ -1,4 +1,4 @@
-import ipgeolocation_io from "../../ipgeolocation.app.mjs";
+import ipgeolocation from "../../ipgeolocation.app.mjs";
 
 export default {
   key: "ipgeolocation-get-astronomy-time-series",
@@ -13,7 +13,7 @@ export default {
     readOnlyHint: true,
   },
   props: {
-    ipgeolocation_io,
+    ipgeolocation,
     dateStart: {
       type: "string",
       label: "Start Date",
@@ -63,7 +63,7 @@ export default {
     },
     lang: {
       propDefinition: [
-        ipgeolocation_io,
+        ipgeolocation,
         "lang",
       ],
     },
@@ -92,9 +92,8 @@ export default {
     if (diffDays > 90) {
       throw new Error("Astronomy time series supports a maximum 90-day range.");
     }
-    const response = await this.ipgeolocation_io._makeRequest({
+    const response = await this.ipgeolocation.getAstronomyTimeSeries({
       $,
-      path: "/astronomy/timeSeries",
       params: {
         dateStart: this.dateStart,
         dateEnd: this.dateEnd,

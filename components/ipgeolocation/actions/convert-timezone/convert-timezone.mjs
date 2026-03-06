@@ -1,4 +1,4 @@
-import ipgeolocation_io from "../../ipgeolocation.app.mjs";
+import ipgeolocation from "../../ipgeolocation.app.mjs";
 
 export default {
   key: "ipgeolocation-convert-timezone",
@@ -13,7 +13,7 @@ export default {
     readOnlyHint: true,
   },
   props: {
-    ipgeolocation_io,
+    ipgeolocation,
     tz_from: {
       type: "string",
       label: "From Timezone",
@@ -143,9 +143,8 @@ export default {
       throw new Error("Provide a valid source and target using timezone names, coordinates, locations, IATA, ICAO, or UN/LOCODE.");
     }
 
-    const response = await this.ipgeolocation_io._makeRequest({
+    const response = await this.ipgeolocation.convertTimezone({
       $,
-      path: "/timezone/convert",
       params: {
         tz_from: this.tz_from,
         tz_to: this.tz_to,

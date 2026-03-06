@@ -1,4 +1,4 @@
-import ipgeolocation_io from "../../ipgeolocation.app.mjs";
+import ipgeolocation from "../../ipgeolocation.app.mjs";
 
 export default {
   key: "ipgeolocation-get-astronomy",
@@ -13,7 +13,7 @@ export default {
     readOnlyHint: true,
   },
   props: {
-    ipgeolocation_io,
+    ipgeolocation,
     ip: {
       type: "string",
       label: "IP Address",
@@ -52,7 +52,7 @@ export default {
     },
     lang: {
       propDefinition: [
-        ipgeolocation_io,
+        ipgeolocation,
         "lang",
       ],
     },
@@ -61,8 +61,8 @@ export default {
     if ((this.lat && !this.long) || (!this.lat && this.long)) {
       throw new Error("Latitude and Longitude must be provided together.");
     }
-    const response = await this.ipgeolocation_io._makeRequest({
-      path: "/astronomy",
+    const response = await this.ipgeolocation.getAstronomy({
+      $,
       params: {
         ip: this.ip,
         lat: this.lat,

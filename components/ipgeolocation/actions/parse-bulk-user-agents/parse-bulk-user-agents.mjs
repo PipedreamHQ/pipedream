@@ -1,4 +1,4 @@
-import ipgeolocation_io from "../../ipgeolocation.app.mjs";
+import ipgeolocation from "../../ipgeolocation.app.mjs";
 
 export default {
   key: "ipgeolocation-parse-bulk-user-agent",
@@ -13,7 +13,7 @@ export default {
     readOnlyHint: true,
   },
   props: {
-    ipgeolocation_io,
+    ipgeolocation,
     uaStrings: {
       type: "string[]",
       label: "User Agent Strings",
@@ -25,10 +25,8 @@ export default {
       throw new Error("`User Agent Strings` supports a maximum of 50,000 entries per request.");
     }
 
-    const response = await this.ipgeolocation_io._makeRequest({
+    const response = await this.ipgeolocation.parseBulkUserAgent({
       $,
-      method: "POST",
-      path: "/user-agent-bulk",
       data: {
         uaStrings: this.uaStrings,
       },

@@ -1,4 +1,4 @@
-import ipgeolocation_io from "../../ipgeolocation.app.mjs";
+import ipgeolocation from "../../ipgeolocation.app.mjs";
 
 export default {
   key: "ipgeolocation-get-asn",
@@ -13,7 +13,7 @@ export default {
     readOnlyHint: true,
   },
   props: {
-    ipgeolocation_io,
+    ipgeolocation,
     ip: {
       type: "string",
       label: "IP Address",
@@ -46,9 +46,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.ipgeolocation_io._makeRequest({
+    const response = await this.ipgeolocation.getAsn({
       $,
-      path: "/asn",
       params: {
         asn: this.asn,
         ip: this.ip,

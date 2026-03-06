@@ -1,5 +1,4 @@
-// actions/get-geolocation/get-geolocation.mjs
-import ipgeolocation_io from "../../ipgeolocation.app.mjs";
+import ipgeolocation from "../../ipgeolocation.app.mjs";
 
 export default {
   key: "ipgeolocation-get-geolocation",
@@ -14,7 +13,7 @@ export default {
     readOnlyHint: true,
   },
   props: {
-    ipgeolocation_io,
+    ipgeolocation,
     ip: {
       type: "string",
       label: "IP Address or Domain",
@@ -23,7 +22,7 @@ export default {
     },
     lang: {
       propDefinition: [
-        ipgeolocation_io,
+        ipgeolocation,
         "lang",
       ],
     },
@@ -47,9 +46,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.ipgeolocation_io._makeRequest({
+    const response = await this.ipgeolocation.getGeolocation({
       $,
-      path: "/ipgeo",
       params: {
         ip: this.ip,
         lang: this.lang,

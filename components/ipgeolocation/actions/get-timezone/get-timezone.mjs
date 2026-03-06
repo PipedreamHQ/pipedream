@@ -1,4 +1,4 @@
-import ipgeolocation_io from "../../ipgeolocation.app.mjs";
+import ipgeolocation from "../../ipgeolocation.app.mjs";
 
 export default {
   key: "ipgeolocation-get-timezone",
@@ -13,7 +13,7 @@ export default {
     readOnlyHint: true,
   },
   props: {
-    ipgeolocation_io,
+    ipgeolocation,
     tz: {
       type: "string",
       label: "Timezone Name",
@@ -64,15 +64,14 @@ export default {
     },
     lang: {
       propDefinition: [
-        ipgeolocation_io,
+        ipgeolocation,
         "lang",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.ipgeolocation_io._makeRequest({
+    const response = await this.ipgeolocation.getTimezone({
       $,
-      path: "/timezone",
       params: {
         tz: this.tz,
         ip: this.ip,

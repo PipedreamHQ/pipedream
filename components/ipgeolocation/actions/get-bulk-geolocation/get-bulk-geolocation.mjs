@@ -1,4 +1,4 @@
-import ipgeolocation_io from "../../ipgeolocation.app.mjs";
+import ipgeolocation from "../../ipgeolocation.app.mjs";
 
 export default {
   key: "ipgeolocation-get-bulk-geolocation",
@@ -13,7 +13,7 @@ export default {
     readOnlyHint: true,
   },
   props: {
-    ipgeolocation_io,
+    ipgeolocation,
     ips: {
       type: "string[]",
       label: "IP Addresses or Domains",
@@ -22,7 +22,7 @@ export default {
     },
     lang: {
       propDefinition: [
-        ipgeolocation_io,
+        ipgeolocation,
         "lang",
       ],
     },
@@ -49,10 +49,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.ipgeolocation_io._makeRequest({
+    const response = await this.ipgeolocation.getBulkGeolocation({
       $,
-      method: "POST",
-      path: "/ipgeo-bulk",
       params: {
         lang: this.lang,
         include: this.include,

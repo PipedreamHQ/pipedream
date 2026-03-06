@@ -1,4 +1,4 @@
-import ipgeolocation_io from "../../ipgeolocation.app.mjs";
+import ipgeolocation from "../../ipgeolocation.app.mjs";
 
 export default {
   key: "ipgeolocation-get-bulk-ip-security",
@@ -13,7 +13,7 @@ export default {
     readOnlyHint: true,
   },
   props: {
-    ipgeolocation_io,
+    ipgeolocation,
     ips: {
       type: "string[]",
       label: "IP Addresses",
@@ -33,10 +33,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.ipgeolocation_io._makeRequest({
+    const response = await this.ipgeolocation.getBulkIpSecurity({
       $,
-      method: "POST",
-      path: "/security-bulk",
       params: {
         fields: this.fields,
         excludes: this.excludes,

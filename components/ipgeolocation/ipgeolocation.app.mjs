@@ -92,5 +92,81 @@ export default {
         ...opts,
       });
     },
+    convertTimezone(opts = {}) {
+      return this._makeRequest({
+        path: "/timezone/convert",
+        ...opts,
+      });
+    },
+    getAbuseContact(opts = {}) {
+      return this._makeRequest({
+        path: "/abuse",
+        ...opts,
+      });
+    },
+    getAsn(opts = {}) {
+      return this._makeRequest({
+        path: "/asn",
+        ...opts,
+      });
+    },
+    getAstronomy(opts = {}) {
+      return this._makeRequest({
+        path: "/astronomy",
+        ...opts,
+      });
+    },
+    getAstronomyTimeSeries(opts = {}) {
+      return this._makeRequest({
+        path: "/astronomy/timeSeries",
+        ...opts,
+      });
+    },
+    getBulkGeolocation(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/ipgeo-bulk",
+        ...opts,
+      });
+    },
+    getBulkIpSecurity(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/security-bulk",
+        ...opts,
+      });
+    },
+    getGeolocation(opts = {}) {
+      return this._makeRequest({
+        path: "/ipgeo",
+        ...opts,
+      });
+    },
+    getIpSecurity(opts = {}) {
+      return this._makeRequest({
+        path: "/security",
+        ...opts,
+      });
+    },
+    getTimezone(opts = {}) {
+      return this._makeRequest({
+        path: "/timezone",
+        ...opts,
+      });
+    },
+    parseBulkUserAgent(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/user-agent-bulk",
+        ...opts,
+      });
+    },
+    parseUserAgent(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/user-agent",
+        ...opts,
+      });
+    },
   },
 };
