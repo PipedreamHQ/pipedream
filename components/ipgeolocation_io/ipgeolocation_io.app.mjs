@@ -2,6 +2,14 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "ipgeolocation_io",
+  props: {
+    apiKey: {
+      type: "string",
+      label: "API Key",
+      description: "Your IPGeolocation.io API key.",
+      secret: true,
+    },
+  },
   propDefinitions: {
     lang: {
       type: "string",
