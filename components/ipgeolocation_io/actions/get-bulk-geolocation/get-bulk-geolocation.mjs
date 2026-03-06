@@ -50,6 +50,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.ipgeolocation_io._makeRequest({
+      $,
       method: "POST",
       path: "/ipgeo-bulk",
       params: {
