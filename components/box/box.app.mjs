@@ -271,6 +271,12 @@ export default {
         ...args,
       });
     },
+    async listWebhooks(args = {}) {
+      return this._makeRequest({
+        path: "/webhooks",
+        ...args,
+      });
+    },
     async getItems({
       folderId,
       ...args
