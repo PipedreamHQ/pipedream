@@ -46,11 +46,7 @@ export default {
       $.export("$summary", `Retrieved recordings for meeting ${this.meetingId}`);
       return recordings;
     } catch (error) {
-      if (error.response.data.status === 200) {
-        $.export("$summary", "You do not have the right permissions");
-        return {};
-      }
-      if (error.response.status === 404) {
+      if ((error.response?.status === 404) && (error.response?.data?.code === 3301)) {
         $.export("$summary", "Recordings not found");
         return {};
       }
