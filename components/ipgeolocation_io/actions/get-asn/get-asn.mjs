@@ -24,6 +24,7 @@ export default {
       type: "string",
       label: "ASN",
       description: "The ASN number (e.g. `AS15169`). If both `ip` and `asn` are provided, `asn` will be used",
+      optional: true,
     },
     include: {
       type: "string",
