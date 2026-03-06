@@ -17617,7 +17617,11 @@ importers:
 
   components/zenedu: {}
 
-  components/zenfulfillment: {}
+  components/zenfulfillment:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.3.0
+        version: 3.3.0
 
   components/zenkit:
     dependencies:
@@ -38919,6 +38923,7 @@ snapshots:
       - '@swc/wasm'
       - '@types/node'
       - bare-abort-controller
+      - bare-buffer
       - encoding
       - picomatch
       - react-native-b4a
@@ -39034,6 +39039,7 @@ snapshots:
       path-exists: 5.0.0
     transitivePeerDependencies:
       - bare-abort-controller
+      - bare-buffer
       - encoding
       - react-native-b4a
       - rollup
@@ -39181,6 +39187,7 @@ snapshots:
       zod: 3.25.76
     transitivePeerDependencies:
       - bare-abort-controller
+      - bare-buffer
       - encoding
       - react-native-b4a
       - rollup
@@ -39222,6 +39229,7 @@ snapshots:
       zod: 3.25.76
     transitivePeerDependencies:
       - bare-abort-controller
+      - bare-buffer
       - encoding
       - react-native-b4a
       - rollup
@@ -42592,7 +42600,7 @@ snapshots:
 
   '@types/http-proxy@1.17.17':
     dependencies:
-      '@types/node': 20.19.25
+      '@types/node': 20.19.35
 
   '@types/is-stream@1.1.0':
     dependencies:
@@ -43616,10 +43624,11 @@ snapshots:
       buffer-crc32: 1.0.0
       readable-stream: 4.7.0
       readdir-glob: 1.1.3
-      tar-stream: 3.1.7
+      tar-stream: 3.1.8
       zip-stream: 6.0.1
     transitivePeerDependencies:
       - bare-abort-controller
+      - bare-buffer
       - react-native-b4a
 
   arg@4.1.3: {}
