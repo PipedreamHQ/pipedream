@@ -18,7 +18,7 @@ export default {
       return "https://api.ipgeolocation.io/v3";
     },
     _apiKey() {
-      return this.$auth.apiKey;
+      return this.$auth.api_key;
     },
     _makeRequest({
       $ = this,
