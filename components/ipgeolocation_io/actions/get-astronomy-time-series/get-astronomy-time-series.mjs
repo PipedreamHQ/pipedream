@@ -69,10 +69,20 @@ export default {
     },
   },
   async run({ $ }) {
-    const start = new Date(`${this.dateStart}T00:00:00Z`);
-    const end = new Date(`${this.dateEnd}T00:00:00Z`);
+    const parseDate = (value) => {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+        return null;
+      }
+      const date = new Date(`${value}T00:00:00Z`);
+      return Number.isNaN(date.valueOf()) || date.toISOString().slice(0, 10) !== value
+        ? null
+        : date;
+    };
 
-    if (Number.isNaN(start.valueOf()) || Number.isNaN(end.valueOf())) {
+    const start = parseDate(this.dateStart);
+    const end = parseDate(this.dateEnd);
+
+    if (!start || !end) {
       throw new Error("`Start Date` and `End Date` must be valid dates in `YYYY-MM-DD` format.");
     }
     if (end < start) {
