@@ -48,6 +48,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.ipgeolocation_io._makeRequest({
+      $,
       path: "/ipgeo",
       params: {
         ip: this.ip,

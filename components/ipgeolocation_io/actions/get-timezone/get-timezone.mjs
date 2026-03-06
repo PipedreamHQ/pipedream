@@ -71,6 +71,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.ipgeolocation_io._makeRequest({
+      $,
       path: "/timezone",
       params: {
         tz: this.tz,

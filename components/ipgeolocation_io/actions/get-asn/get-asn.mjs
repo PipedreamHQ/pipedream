@@ -47,6 +47,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.ipgeolocation_io._makeRequest({
+      $,
       path: "/asn",
       params: {
         asn: this.asn,

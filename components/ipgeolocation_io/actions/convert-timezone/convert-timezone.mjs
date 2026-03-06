@@ -144,6 +144,7 @@ export default {
     }
 
     const response = await this.ipgeolocation_io._makeRequest({
+      $,
       path: "/timezone/convert",
       params: {
         tz_from: this.tz_from,

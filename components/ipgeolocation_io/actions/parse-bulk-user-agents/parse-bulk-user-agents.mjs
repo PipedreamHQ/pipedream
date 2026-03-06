@@ -26,6 +26,7 @@ export default {
     }
 
     const response = await this.ipgeolocation_io._makeRequest({
+      $,
       method: "POST",
       path: "/user-agent-bulk",
       data: {

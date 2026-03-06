@@ -83,6 +83,7 @@ export default {
       throw new Error("Astronomy time series supports a maximum 90-day range.");
     }
     const response = await this.ipgeolocation_io._makeRequest({
+      $,
       path: "/astronomy/timeSeries",
       params: {
         dateStart: this.dateStart,
