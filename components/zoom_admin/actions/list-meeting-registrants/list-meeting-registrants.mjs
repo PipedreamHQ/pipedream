@@ -1,13 +1,13 @@
 import get from "lodash/get.js";
 import { paginate } from "../../common/pagination.mjs";
-import consts from "../../consts.mjs";
+import consts from "../../common/constants.mjs";
 import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {
   name: "List meeting registrants",
   description: "List all users who have registered for a meeting. [See the documentation](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingregistrants)",
   key: "zoom_admin-list-meeting-registrants",
-  version: "0.2.5",
+  version: "0.2.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

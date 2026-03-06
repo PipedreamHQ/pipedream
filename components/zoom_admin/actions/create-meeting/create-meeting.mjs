@@ -1,5 +1,5 @@
 import { axios } from "@pipedream/platform";
-import consts from "../../consts.mjs";
+import consts from "../../common/constants.mjs";
 import zoomAdmin from "../../zoom_admin.app.mjs";
 import tzs from "../../zoom_tzs.mjs";
 
@@ -9,7 +9,7 @@ export default {
   name: "Create a meeting",
   description: "Create a new room in zoom. [See the documentation](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingcreate)",
   key: "zoom_admin-create-meeting",
-  version: "0.1.8",
+  version: "0.1.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

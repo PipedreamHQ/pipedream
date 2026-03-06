@@ -1,12 +1,12 @@
 import { paginate } from "../../common/pagination.mjs";
-import consts from "../../consts.mjs";
+import consts from "../../common/constants.mjs";
 import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {
   name: "List User Cloud Recordings",
   description: "Search cloud recordings from a user. [See the documentation](https://developers.zoom.us/docs/api/users/#tag/users/GET/users/{userId}/recordings)",
   key: "zoom_admin-list-user-cloud-recordings",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -1,12 +1,12 @@
 import { paginate } from "../../common/pagination.mjs";
-import consts from "../../consts.mjs";
+import consts from "../../common/constants.mjs";
 import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {
   name: "List meetings",
   description: "List all meetings. [See the documentation](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetings)",
   key: "zoom_admin-list-meetings",
-  version: "0.2.5",
+  version: "0.2.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

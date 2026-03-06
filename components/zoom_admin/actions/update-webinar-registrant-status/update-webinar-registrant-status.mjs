@@ -2,14 +2,14 @@ import { axios } from "@pipedream/platform";
 import get from "lodash/get.js";
 import isObject from "lodash/isObject.js";
 import { doubleEncode } from "../../common/utils.mjs";
-import consts from "../../consts.mjs";
+import consts from "../../common/constants.mjs";
 import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {
   name: "Update Webinar Registrant Status",
   description: "Update registrant status for a webinar. [See the documentation](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingregistrantstatus)",
   key: "zoom_admin-update-webinar-registrant-status",
-  version: "0.1.8",
+  version: "0.1.9",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

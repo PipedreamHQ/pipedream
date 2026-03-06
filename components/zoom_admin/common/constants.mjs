@@ -1,4 +1,18 @@
 export default {
+  MEETING_SUMMARY_TYPES: [
+    {
+      value: "scheduled",
+      label: "Scheduled meetings",
+    },
+    {
+      value: "instant",
+      label: "Instant meetings",
+    },
+    {
+      value: "recurring",
+      label: "Recurring meetings",
+    },
+  ],
   REGISTRANT_STATUSES_OPTIONS: [
     "pending",
     "approved",

@@ -1,7 +1,7 @@
 import { axios } from "@pipedream/platform";
 import get from "lodash/get.js";
 import { doubleEncode } from "../../common/utils.mjs";
-import consts from "../../consts.mjs";
+import consts from "../../common/constants.mjs";
 import zoomAdmin from "../../zoom_admin.app.mjs";
 import tzs from "../../zoom_tzs.mjs";
 
@@ -14,7 +14,7 @@ export default {
   name: "Update Webinar",
   description: "Update the details of a webinar. [See the documentation](https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinarupdate)",
   key: "zoom_admin-update-webinar",
-  version: "0.1.8",
+  version: "0.1.9",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
