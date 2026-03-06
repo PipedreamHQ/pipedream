@@ -14,7 +14,7 @@
 
 ## Limitations
 
-- The free plan provides generous 1,000 lookups per day 
+- The free plan provides generous 1,000 lookups per day
 - Bulk lookups, security data, abuse contacts, ASN details, and multi-language responses require a paid plan
 - The Astronomy Time Series endpoint supports a maximum date range of 90 days
 - The Bulk IP Geolocation and Bulk IP Security endpoints support a maximum of 50,000 IPs per request
