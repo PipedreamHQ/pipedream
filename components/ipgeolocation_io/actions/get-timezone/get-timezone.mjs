@@ -29,13 +29,13 @@ export default {
     lat: {
       type: "string",
       label: "Latitude",
-      description: "Latitude coordinate (e.g. `40.7128`). Must be used together with Longitude",
+      description: "Latitude coordinate (e.g. `40.7128`).",
       optional: true,
     },
     long: {
       type: "string",
       label: "Longitude",
-      description: "Longitude coordinate (e.g. `-74.0060`). Must be used together with Latitude",
+      description: "Longitude coordinate (e.g. `-74.0060`).",
       optional: true,
     },
     location: {
