@@ -7,7 +7,7 @@
     "ipgeolocation_io"
   ],
   "files": [
-    "dist/app/ipgeolocation_io.app.mjs"
+    "dist"
   ],
   "homepage": "https://pipedream.com/apps/ipgeolocation_io",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
