@@ -14,85 +14,85 @@ export default {
   },
   props: {
     ipgeolocation,
-    tz_from: {
+    tzFrom: {
       type: "string",
       label: "From Timezone",
       description: "Source timezone name (e.g. `America/New_York`). Must be used with `To Timezone`",
       optional: true,
     },
-    tz_to: {
+    tzTo: {
       type: "string",
       label: "To Timezone",
       description: "Target timezone name (e.g. `Asia/Tokyo`). Must be used with `From Timezone`",
       optional: true,
     },
-    lat_from: {
+    latFrom: {
       type: "string",
       label: "From Latitude",
       description: "Source latitude coordinate. Must be used with From Longitude",
       optional: true,
     },
-    long_from: {
+    longFrom: {
       type: "string",
       label: "From Longitude",
       description: "Source longitude coordinate. Must be used with From Latitude",
       optional: true,
     },
-    lat_to: {
+    latTo: {
       type: "string",
       label: "To Latitude",
       description: "Target latitude coordinate. Must be used with To Longitude",
       optional: true,
     },
-    long_to: {
+    longTo: {
       type: "string",
       label: "To Longitude",
       description: "Target longitude coordinate. Must be used with To Latitude",
       optional: true,
     },
-    location_from: {
+    locationFrom: {
       type: "string",
       label: "From Location",
       description: "Source city or address (e.g. `New York, USA`). Must be used with To Location",
       optional: true,
     },
-    location_to: {
+    locationTo: {
       type: "string",
       label: "To Location",
       description: "Target city or address (e.g. `London, UK`). Must be used with From Location",
       optional: true,
     },
-    iata_from: {
+    iataFrom: {
       type: "string",
       label: "From IATA Code",
       description: "Source airport IATA code (e.g. `JFK`). Must be used with To IATA Code",
       optional: true,
     },
-    iata_to: {
+    iataTo: {
       type: "string",
       label: "To IATA Code",
       description: "Target airport IATA code (e.g. `LHR`). Must be used with From IATA Code",
       optional: true,
     },
-    icao_from: {
+    icaoFrom: {
       type: "string",
       label: "From ICAO Code",
       description: "Source airport ICAO code (e.g. `KJFK`). Must be used with To ICAO Code",
       optional: true,
     },
-    icao_to: {
+    icaoTo: {
       type: "string",
       label: "To ICAO Code",
       description: "Target airport ICAO code (e.g. `EGLL`). Must be used with From ICAO Code",
       optional: true,
     },
-    locode_from: {
+    locodeFrom: {
       type: "string",
       label: "From UN/LOCODE",
       description: "Source UN/LOCODE (e.g. `USNYC`). Must be used with To UN/LOCODE",
       optional: true,
     },
-    locode_to: {
+    locodeTo: {
       type: "string",
       label: "To UN/LOCODE",
       description: "Target UN/LOCODE (e.g. `GBLON`). Must be used with From UN/LOCODE",
@@ -109,35 +109,35 @@ export default {
     const hasValue = (value) => value !== undefined && value !== null && value !== "";
     const hasPair = (from, to) => hasValue(from) && hasValue(to);
     const hasAnyCoord = [
-      this.lat_from,
-      this.long_from,
-      this.lat_to,
-      this.long_to,
+      this.latFrom,
+      this.longFrom,
+      this.latTo,
+      this.longTo,
     ].some(hasValue);
     const hasFullCoordSet = [
-      this.lat_from,
-      this.long_from,
-      this.lat_to,
-      this.long_to,
+      this.latFrom,
+      this.longFrom,
+      this.latTo,
+      this.longTo,
     ].every(hasValue);
 
     if (
-      (hasValue(this.tz_from) !== hasValue(this.tz_to))
-      || (hasValue(this.location_from) !== hasValue(this.location_to))
-      || (hasValue(this.iata_from) !== hasValue(this.iata_to))
-      || (hasValue(this.icao_from) !== hasValue(this.icao_to))
-      || (hasValue(this.locode_from) !== hasValue(this.locode_to))
+      (hasValue(this.tzFrom) !== hasValue(this.tzTo))
+      || (hasValue(this.locationFrom) !== hasValue(this.locationTo))
+      || (hasValue(this.iataFrom) !== hasValue(this.iataTo))
+      || (hasValue(this.icaoFrom) !== hasValue(this.icaoTo))
+      || (hasValue(this.locodeFrom) !== hasValue(this.locodeTo))
       || (hasAnyCoord && !hasFullCoordSet)
     ) {
       throw new Error("Provide complete source and target values for the selected conversion mode.");
     }
 
     if (!(
-      hasPair(this.tz_from, this.tz_to)
-      || hasPair(this.location_from, this.location_to)
-      || hasPair(this.iata_from, this.iata_to)
-      || hasPair(this.icao_from, this.icao_to)
-      || hasPair(this.locode_from, this.locode_to)
+      hasPair(this.tzFrom, this.tzTo)
+      || hasPair(this.locationFrom, this.locationTo)
+      || hasPair(this.iataFrom, this.iataTo)
+      || hasPair(this.icaoFrom, this.icaoTo)
+      || hasPair(this.locodeFrom, this.locodeTo)
       || hasFullCoordSet
     )) {
       throw new Error("Provide a valid source and target using timezone names, coordinates, locations, IATA, ICAO, or UN/LOCODE.");
@@ -146,44 +146,44 @@ export default {
     const response = await this.ipgeolocation.convertTimezone({
       $,
       params: {
-        tz_from: this.tz_from,
-        tz_to: this.tz_to,
+        tz_from: this.tzFrom,
+        tz_to: this.tzTo,
         time: this.time,
-        lat_from: this.lat_from,
-        long_from: this.long_from,
-        lat_to: this.lat_to,
-        long_to: this.long_to,
-        location_from: this.location_from,
-        location_to: this.location_to,
-        iata_from: this.iata_from,
-        iata_to: this.iata_to,
-        icao_from: this.icao_from,
-        icao_to: this.icao_to,
-        locode_from: this.locode_from,
-        locode_to: this.locode_to,
+        lat_from: this.latFrom,
+        long_from: this.longFrom,
+        lat_to: this.latTo,
+        long_to: this.longTo,
+        location_from: this.locationFrom,
+        location_to: this.locationTo,
+        iata_from: this.iataFrom,
+        iata_to: this.iataTo,
+        icao_from: this.icaoFrom,
+        icao_to: this.icaoTo,
+        locode_from: this.locodeFrom,
+        locode_to: this.locodeTo,
       },
     });
 
     let from, to;
 
-    if (hasPair(this.tz_from, this.tz_to)) {
-      from = this.tz_from;
-      to = this.tz_to;
+    if (hasPair(this.tzFrom, this.tzTo)) {
+      from = this.tzFrom;
+      to = this.tzTo;
     } else if (hasFullCoordSet) {
-      from = `${this.lat_from},${this.long_from}`;
-      to = `${this.lat_to},${this.long_to}`;
-    } else if (hasPair(this.location_from, this.location_to)) {
-      from = this.location_from;
-      to = this.location_to;
-    } else if (hasPair(this.iata_from, this.iata_to)) {
-      from = this.iata_from;
-      to = this.iata_to;
-    } else if (hasPair(this.icao_from, this.icao_to)) {
-      from = this.icao_from;
-      to = this.icao_to;
+      from = `${this.latFrom},${this.longFrom}`;
+      to = `${this.latTo},${this.longTo}`;
+    } else if (hasPair(this.locationFrom, this.locationTo)) {
+      from = this.locationFrom;
+      to = this.locationTo;
+    } else if (hasPair(this.iataFrom, this.iataTo)) {
+      from = this.iataFrom;
+      to = this.iataTo;
+    } else if (hasPair(this.icaoFrom, this.icaoTo)) {
+      from = this.icaoFrom;
+      to = this.icaoTo;
     } else {
-      from = this.locode_from;
-      to = this.locode_to;
+      from = this.locodeFrom;
+      to = this.locodeTo;
     }
 
     $.export("$summary", `Successfully converted time from ${from} to ${to}`);
