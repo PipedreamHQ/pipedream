@@ -158,8 +158,8 @@ importers:
   components/_0codekit:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.8
-        version: 1.6.8
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/_10000ft:
     dependencies:
@@ -190,8 +190,8 @@ importers:
   components/_2markdown:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -1022,8 +1022,8 @@ importers:
   components/api4ai:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
