@@ -5793,6 +5793,9 @@ importers:
 
   components/fraudlabs_pro:
     dependencies:
+      '@pipedream/platform':
+        specifier: ^3.3.0
+        version: 3.3.0
       fraudlabspro-nodejs:
         specifier: ^3.0.0
         version: 3.0.0
