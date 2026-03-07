@@ -1,4 +1,4 @@
-import { Sandbox } from "@e2b/code-interpreter@1.0.3";
+import { Sandbox } from "@e2b/code-interpreter";
 
 export default {
   type: "app",
