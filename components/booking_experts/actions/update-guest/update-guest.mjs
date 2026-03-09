@@ -5,7 +5,7 @@ export default {
   name: "Update Guest",
   description:
     "Update a guest for a reservation. [See the documentation](https://developers.bookingexperts.com/reference/administration-reservation-guests-update)",
-  version: "0.0.7",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -114,7 +114,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const { data } = await this.bookingExperts.updateGuest({
+    const response = await this.bookingExperts.updateGuest({
       $,
       administrationId: this.administrationId,
       reservationId: this.reservationId,
@@ -139,6 +139,6 @@ export default {
       },
     });
     $.export("$summary", "Guest updated");
-    return data;
+    return response;
   },
 };

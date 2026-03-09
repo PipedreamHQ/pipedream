@@ -1,7 +1,7 @@
-import alttextAi from "../../alttext_ai.app.mjs";
 import {
   ConfigurationError, getFileStream,
 } from "@pipedream/platform";
+import alttextAi from "../../alttext_ai.app.mjs";
 import { LANGUAGE_OPTIONS } from "../../commons/constants.mjs";
 
 export default {
@@ -9,7 +9,7 @@ export default {
   name: "Generate Alt Text",
   description:
     "Generates a descriptive alt text for a given image. [See the documentation](https://alttext.ai/apidocs#tag/Images/operation/create-image)",
-  version: "0.1.3",
+  version: "0.1.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
