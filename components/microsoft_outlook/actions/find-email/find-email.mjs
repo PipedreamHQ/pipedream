@@ -5,7 +5,7 @@ export default {
   key: "microsoft_outlook-find-email",
   name: "Find Email",
   description: "Search for an email in Microsoft Outlook. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list-messages)",
-  version: "0.0.19",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -43,6 +43,12 @@ export default {
         "maxResults",
       ],
     },
+    includeAttachments: {
+      type: "boolean",
+      label: "Include Attachments",
+      description: "If true, returns additional info for message attachments.",
+      default: true,
+    }
   },
   methods: {
     ensureQuotes(str) {
@@ -66,6 +72,7 @@ export default {
           params: {
             "$filter": this.filter,
             "$orderby": this.orderBy,
+            ...(this.includeAttachments ? { "$expand": "attachments" } : {}),
           },
         },
         max: this.maxResults,
@@ -80,6 +87,7 @@ export default {
         params: {
           "$search": this.ensureQuotes(this.search),
           "$top": this.maxResults,
+          ...(this.includeAttachments ? { "$expand": "attachments" } : {}),
         },
       });
 
