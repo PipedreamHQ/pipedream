@@ -63,7 +63,7 @@ export default {
     sortUpdatedAt: {
       type: "string",
       label: "Sort by updated at",
-      description: "Sort either ascending or descending by the update date of the fulfillment.",
+      description: "Sort either ascending or descending by the update date of the order",
       options: [
         "asc",
         "desc",
