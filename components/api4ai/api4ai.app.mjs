@@ -11,6 +11,7 @@ export default {
       type: "string",
       label: "Image",
       description: "Input image. Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.pdf).",
+      format: "file-ref",
     },
   },
   methods: {

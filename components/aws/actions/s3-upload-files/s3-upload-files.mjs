@@ -1,9 +1,9 @@
-import { join } from "path";
-import fs from "fs";
 import {
-  getFileStreamAndMetadata,
   ConfigurationError,
+  getFileStreamAndMetadata,
 } from "@pipedream/platform";
+import fs from "fs";
+import { join } from "path";
 import common from "../../common/common-s3.mjs";
 
 export default {
@@ -11,7 +11,7 @@ export default {
   key: "aws-s3-upload-files",
   name: "S3 - Upload Files",
   description: "Upload files to S3. Accepts either a file URL, a local file path, or a directory path. [See the documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
