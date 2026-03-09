@@ -48,7 +48,7 @@ export default {
       label: "Include Attachments",
       description: "If true, returns additional info for message attachments.",
       default: true,
-    }
+    },
   },
   methods: {
     ensureQuotes(str) {
@@ -72,7 +72,11 @@ export default {
           params: {
             "$filter": this.filter,
             "$orderby": this.orderBy,
-            ...(this.includeAttachments ? { "$expand": "attachments" } : {}),
+            ...(this.includeAttachments
+              ? {
+                "$expand": "attachments",
+              }
+              : {}),
           },
         },
         max: this.maxResults,
@@ -87,7 +91,11 @@ export default {
         params: {
           "$search": this.ensureQuotes(this.search),
           "$top": this.maxResults,
-          ...(this.includeAttachments ? { "$expand": "attachments" } : {}),
+          ...(this.includeAttachments
+            ? {
+              "$expand": "attachments",
+            }
+            : {}),
         },
       });
 
