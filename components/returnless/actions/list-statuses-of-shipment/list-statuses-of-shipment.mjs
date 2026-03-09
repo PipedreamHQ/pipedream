@@ -4,7 +4,7 @@ export default {
   key: "returnless-list-statuses-of-shipment",
   name: "List Statuses of Shipment",
   description: "List all statuses of a shipment. [See the documentation](https://docs.returnless.com/docs/api-rest-reference/e274dab430bb7-list-all-statuses-of-a-shipment)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
