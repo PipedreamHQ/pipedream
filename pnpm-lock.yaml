@@ -1001,8 +1001,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/anydb:
-    specifiers: {}
+  components/anydb: {}
 
   components/anyflow: {}
 
@@ -4219,8 +4218,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/dify:
-    specifiers: {}
+  components/dify: {}
 
   components/digicert: {}
 
@@ -14270,7 +14268,11 @@ importers:
 
   components/signable: {}
 
-  components/signal: {}
+  components/signal:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.3.0
+        version: 3.3.0
 
   components/signalwire:
     dependencies:
@@ -31509,7 +31511,6 @@ packages:
     engines: {node: '>=0.6.0', teleport: '>=0.2.0'}
     deprecated: |-
       You or someone you depend on is using Q, the JavaScript Promise library that gave JavaScript developers strong feelings about promises. They can almost certainly migrate to the native JavaScript promise now. Thank you literally everyone for joining me in this bet against the odds. Be excellent to each other.
-
       (For a CapTP with native promises, see @endo/eventual-send and @endo/captp)
 
   qified@0.5.2:
@@ -40724,7 +40725,6 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
-      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.60)(rollup@4.53.2)':
     dependencies:
@@ -42606,7 +42606,7 @@ snapshots:
     dependencies:
       '@types/http-cache-semantics': 4.0.4
       '@types/keyv': 3.1.4
-      '@types/node': 20.19.33
+      '@types/node': 20.19.35
       '@types/responselike': 1.0.3
 
   '@types/caseless@0.12.5': {}
@@ -42686,7 +42686,7 @@ snapshots:
 
   '@types/http-proxy@1.17.17':
     dependencies:
-      '@types/node': 20.19.35
+      '@types/node': 20.19.37
 
   '@types/is-stream@1.1.0':
     dependencies:
@@ -42853,7 +42853,7 @@ snapshots:
 
   '@types/responselike@1.0.3':
     dependencies:
-      '@types/node': 20.19.33
+      '@types/node': 20.19.35
 
   '@types/retry@0.12.0': {}
 
@@ -42924,7 +42924,7 @@ snapshots:
 
   '@types/yauzl@2.10.3':
     dependencies:
-      '@types/node': 20.19.33
+      '@types/node': 20.19.35
     optional: true
 
   '@typescript-eslint/eslint-plugin@8.46.4(@typescript-eslint/parser@8.46.4(eslint@8.57.1)(typescript@5.6.3))(eslint@8.57.1)(typescript@5.6.3)':
