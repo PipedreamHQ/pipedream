@@ -8,7 +8,7 @@ export default {
   key: "amazon_ses-send-email",
   name: "Send Email",
   description: "Send an email using Amazon SES. Supports simple email messaging. [See the docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-sesv2/classes/sendemailcommand.html)",
-  version: "0.9.6",
+  version: "0.9.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -78,7 +78,6 @@ export default {
       type: "object",
       label: "Inline Attachments",
       description: "Object mapping Content IDs to file paths/URLs for inline images in HTML emails. Example: `{\"logo\": \"/tmp/logo.png\"}`. Reference in HTML as `<img src=\"cid:logo\">`",
-      format: "file-ref",
       optional: true,
     },
     syncDir: {
