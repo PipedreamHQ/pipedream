@@ -4,7 +4,7 @@ export default {
   key: "returnless-retrieve-return-address",
   name: "Retrieve Return Address",
   description: "Retrieve a return address. [See the documentation](https://docs.returnless.com/docs/api-rest-reference/b702161eed54f-retrieve-a-return-address)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
