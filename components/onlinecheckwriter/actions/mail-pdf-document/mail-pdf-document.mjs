@@ -6,7 +6,7 @@ export default {
   key: "onlinecheckwriter-mail-pdf-document",
   name: "Mail PDF Document",
   description: "Mails a PDF document to a destination. [See the documentation](https://apiv3.onlinecheckwriter.com/#878daf05-e36e-44a2-bce8-15f24d72f82e).",
-  version: "0.1.2",
+  version: "0.1.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -25,6 +25,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The PDF file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.pdf`)",
+      format: "file-ref",
     },
     shippingTypeId: {
       optional: false,

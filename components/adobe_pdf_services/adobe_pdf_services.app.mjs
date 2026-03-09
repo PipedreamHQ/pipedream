@@ -8,6 +8,7 @@ export default {
       type: "string",
       label: "File Path",
       description: "The path to the pdf file saved to the `/tmp` directory (e.g. `/tmp/example.pdf`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
+      format: "file-ref",
     },
     filename: {
       type: "string",

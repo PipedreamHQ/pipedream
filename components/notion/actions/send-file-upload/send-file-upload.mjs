@@ -8,7 +8,7 @@ export default {
   key: "notion-send-file-upload",
   name: "Send File Upload",
   description: "Send a file upload. [See the documentation](https://developers.notion.com/reference/send-a-file-upload)",
-  version: "0.0.8",
+  version: "0.0.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -30,6 +30,7 @@ export default {
       type: "string",
       label: "Image File Path or URL",
       description: "The image to process. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myImage.jpg`).",
+      format: "file-ref",
     },
     syncDir: {
       type: "dir",

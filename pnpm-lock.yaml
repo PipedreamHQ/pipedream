@@ -158,8 +158,8 @@ importers:
   components/_0codekit:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.8
-        version: 1.6.8
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/_10000ft:
     dependencies:
@@ -190,8 +190,8 @@ importers:
   components/_2markdown:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -643,8 +643,8 @@ importers:
   components/airparser:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -719,8 +719,8 @@ importers:
   components/akeneo:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -842,14 +842,14 @@ importers:
   components/alttext_ai:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/alttextify:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/alttextlab:
     dependencies:
@@ -908,8 +908,8 @@ importers:
         specifier: ^1.1.0
         version: 1.1.1(aws-crt@1.27.5)(babel-plugin-macros@3.1.0)
       '@pipedream/platform':
-        specifier: ^3.2.2
-        version: 3.2.2
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/ambee: {}
 
@@ -1022,8 +1022,8 @@ importers:
   components/api4ai:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -1224,8 +1224,8 @@ importers:
   components/askyourpdf:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -1301,8 +1301,8 @@ importers:
   components/autodesk:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/autoklose: {}
 
@@ -1420,8 +1420,8 @@ importers:
         specifier: ^0.3.6
         version: 0.3.13
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       adm-zip:
         specifier: ^0.5.10
         version: 0.5.16
@@ -1514,8 +1514,8 @@ importers:
   components/azure_storage:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       fast-xml-parser:
         specifier: ^5.3.8
         version: 5.4.2
@@ -1974,8 +1974,8 @@ importers:
   components/boldsign:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/boloforms:
     dependencies:
@@ -1993,8 +1993,8 @@ importers:
   components/booking_experts:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.2.5
 
   components/bookingmood: {}
 
@@ -2063,8 +2063,8 @@ importers:
   components/box:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       file-type:
         specifier: ^21.0.0
         version: 21.1.0
@@ -2482,8 +2482,8 @@ importers:
   components/canva:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/canva_enterprise:
     dependencies:
@@ -2871,8 +2871,8 @@ importers:
   components/claid_ai:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -2939,8 +2939,8 @@ importers:
   components/click2mail2:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -3102,8 +3102,8 @@ importers:
   components/cloudflare_api_key:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       cloudflare:
         specifier: ^4.4.1
         version: 4.5.0(encoding@0.1.13)
@@ -3111,8 +3111,8 @@ importers:
   components/cloudflare_browser_rendering:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/cloudflare_r2: {}
 
@@ -3514,8 +3514,8 @@ importers:
   components/convertapi:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -3654,8 +3654,8 @@ importers:
   components/crowdin:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       fs:
         specifier: ^0.0.1-security
         version: 0.0.1-security
@@ -4010,8 +4010,8 @@ importers:
   components/deepgram:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/deepimage:
     dependencies:
@@ -4201,8 +4201,8 @@ importers:
   components/diffchecker:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -4271,14 +4271,14 @@ importers:
   components/discord:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/discord_bot:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -4346,8 +4346,8 @@ importers:
   components/docparser:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/docraptor: {}
 
@@ -4360,8 +4360,8 @@ importers:
   components/docsbot_ai:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/docsgenflow: {}
 
@@ -4400,8 +4400,8 @@ importers:
   components/documentpro:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -4537,8 +4537,8 @@ importers:
   components/dreamstudio:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -4584,8 +4584,8 @@ importers:
   components/dromo:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/dropboard:
     dependencies:
@@ -4596,8 +4596,8 @@ importers:
   components/dropbox:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       '@types/node-fetch':
         specifier: ^2.5.7
         version: 2.6.13
@@ -4802,8 +4802,8 @@ importers:
   components/eden_ai:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -4827,8 +4827,8 @@ importers:
   components/egnyte:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       bottleneck:
         specifier: ^2.19.5
         version: 2.19.5
@@ -4856,8 +4856,8 @@ importers:
   components/elevenlabs:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -5220,8 +5220,8 @@ importers:
   components/ezeep_blue:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -5384,8 +5384,8 @@ importers:
   components/fileforge:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -5401,8 +5401,8 @@ importers:
   components/filestack:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/fillout:
     dependencies:
@@ -5558,8 +5558,8 @@ importers:
   components/flipando:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -5567,8 +5567,8 @@ importers:
   components/flippingbook:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/float:
     dependencies:
@@ -5748,8 +5748,8 @@ importers:
   components/formstack_documents:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/formtitan:
     dependencies:
@@ -6012,8 +6012,8 @@ importers:
   components/generated_photos:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -6199,8 +6199,8 @@ importers:
   components/gladia:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -6414,8 +6414,8 @@ importers:
   components/google_chat:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/google_chat_developer_app: {}
 
@@ -6544,8 +6544,8 @@ importers:
   components/google_gemini:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       mime:
         specifier: ^4.0.7
         version: 4.1.0
@@ -6602,8 +6602,8 @@ importers:
   components/google_photos:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       mime:
         specifier: ^3.0.0
         version: 3.0.0
@@ -6780,8 +6780,8 @@ importers:
   components/gptzero_detect_ai:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -6828,8 +6828,8 @@ importers:
   components/greenhouse:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/greenhouse_job_board_api: {}
 
@@ -6967,8 +6967,8 @@ importers:
   components/happy_scribe:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/happyfox_chat:
     dependencies:
@@ -7011,8 +7011,8 @@ importers:
   components/hathr_ai:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       mime-types:
         specifier: ^3.0.1
         version: 3.0.1
@@ -7206,8 +7206,8 @@ importers:
   components/hippo_video:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -7270,8 +7270,8 @@ importers:
   components/hootsuite:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       dayjs:
         specifier: ^1.11.7
         version: 1.11.19
@@ -7516,8 +7516,8 @@ importers:
   components/ignisign:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -7550,8 +7550,8 @@ importers:
   components/ilovepdf:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -7559,8 +7559,8 @@ importers:
   components/imagekit_io:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -7606,8 +7606,8 @@ importers:
   components/imgbb:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/imgix: {}
 
@@ -7763,8 +7763,8 @@ importers:
   components/intelliprint:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/intercom:
     dependencies:
@@ -7856,6 +7856,12 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/ipgeolocation:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.3.0
+        version: 3.3.0
+
   components/ipinfo_io:
     dependencies:
       '@pipedream/platform':
@@ -7930,8 +7936,8 @@ importers:
   components/jigsawstack:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -7944,8 +7950,8 @@ importers:
   components/jina_reader:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/jira:
     dependencies:
@@ -7970,7 +7976,11 @@ importers:
 
   components/jlcpcb: {}
 
-  components/jo4: {}
+  components/jo4:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.3.0
 
   components/jobber:
     dependencies:
@@ -7986,8 +7996,8 @@ importers:
   components/jobnimbus:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/jobsoid_careers_portal: {}
 
@@ -8560,8 +8570,8 @@ importers:
   components/leonardo_ai:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -8607,8 +8617,8 @@ importers:
   components/lexoffice:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/libraria:
     dependencies:
@@ -8732,8 +8742,8 @@ importers:
   components/linkedin:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       axios:
         specifier: ^1.13.2
         version: 1.13.2(debug@3.2.7)
@@ -8766,7 +8776,7 @@ importers:
     dependencies:
       linkup-sdk:
         specifier: ^1.0.3
-        version: 1.2.0(@types/node@25.3.3)(typescript@5.9.3)
+        version: 1.2.0(@types/node@20.19.35)(typescript@5.6.3)
 
   components/linkupapi:
     dependencies:
@@ -8855,14 +8865,14 @@ importers:
   components/llmwhisperer:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/lmnt:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -8937,8 +8947,8 @@ importers:
   components/lokalise:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/looker: {}
 
@@ -9008,8 +9018,8 @@ importers:
   components/lumin_pdf:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/luminous: {}
 
@@ -9233,8 +9243,8 @@ importers:
   components/mapbox:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -9358,8 +9368,8 @@ importers:
   components/meistertask:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/melissa_data: {}
 
@@ -9599,8 +9609,8 @@ importers:
         specifier: ^3.0.1
         version: 3.0.7
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       bottleneck:
         specifier: ^2.19.5
         version: 2.19.5
@@ -9781,8 +9791,8 @@ importers:
   components/mistral_ai:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -9874,8 +9884,8 @@ importers:
   components/monday:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -10208,7 +10218,7 @@ importers:
         version: 0.5.6
       netlify:
         specifier: ^23.0.0
-        version: 23.11.0(@azure/storage-blob@12.29.1)(@types/express@4.17.25)(@types/node@25.3.3)(encoding@0.1.13)(picomatch@4.0.3)(rollup@4.53.2)
+        version: 23.11.0(@azure/storage-blob@12.29.1)(@types/express@4.17.25)(@types/node@20.19.35)(encoding@0.1.13)(picomatch@4.0.3)(rollup@4.53.2)
       parse-link-header:
         specifier: ^2.0.0
         version: 2.0.0
@@ -10468,8 +10478,8 @@ importers:
         specifier: ^5.3.0
         version: 5.4.0
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       '@tryfabric/martian':
         specifier: ^1.2.4
         version: 1.2.4(encoding@0.1.13)
@@ -10573,8 +10583,8 @@ importers:
   components/ocrspace:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       mime:
         specifier: ^4.0.6
         version: 4.1.0
@@ -10691,6 +10701,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/oneflow: {}
+
   components/onehash: {}
 
   components/onelogin:
@@ -10774,8 +10786,8 @@ importers:
   components/onlinecheckwriter:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -10783,8 +10795,8 @@ importers:
   components/onlyoffice_docspace:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -10810,8 +10822,8 @@ importers:
   components/openai:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       bottleneck:
         specifier: ^2.19.5
         version: 2.19.5
@@ -10905,6 +10917,8 @@ importers:
       '@pipedream/platform':
         specifier: ^0.10.1
         version: 0.10.1
+
+  components/operating: {}
 
   components/opinion_stage:
     dependencies:
@@ -11147,14 +11161,14 @@ importers:
   components/palatine_speech:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/pandadoc:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -11338,8 +11352,11 @@ importers:
   components/pdf4me:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
+
+  components/pdf_api_hub:
+    specifiers: {}
 
   components/pdf_api_io:
     dependencies:
@@ -11382,8 +11399,8 @@ importers:
   components/pdffiller:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -11780,8 +11797,8 @@ importers:
   components/pixelbin:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -11869,8 +11886,8 @@ importers:
   components/platerecognizer:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/platform_ly: {}
 
@@ -11925,8 +11942,8 @@ importers:
   components/podio:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -12019,7 +12036,7 @@ importers:
     devDependencies:
       dtslint:
         specifier: ^4.2.1
-        version: 4.2.1(typescript@5.9.3)
+        version: 4.2.1(typescript@5.6.3)
 
   components/postgrid:
     dependencies:
@@ -12108,8 +12125,8 @@ importers:
   components/printautopilot:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/printavo:
     dependencies:
@@ -12132,8 +12149,8 @@ importers:
   components/printify:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       fs:
         specifier: ^0.0.1-security
         version: 0.0.1-security
@@ -12141,8 +12158,8 @@ importers:
   components/printnode:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/prisma_management_api:
     dependencies:
@@ -12409,7 +12426,7 @@ importers:
     dependencies:
       '@qdrant/js-client-rest':
         specifier: ^1.11.0
-        version: 1.15.1(typescript@5.9.3)
+        version: 1.15.1(typescript@5.6.3)
 
   components/qntrl:
     dependencies:
@@ -12538,8 +12555,8 @@ importers:
   components/ragie:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/railsr: {}
 
@@ -12548,8 +12565,8 @@ importers:
   components/raindrop:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -12563,8 +12580,8 @@ importers:
   components/ramp:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       uuid:
         specifier: ^10.0.0
         version: 10.0.0
@@ -12783,8 +12800,8 @@ importers:
   components/reform:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -12852,8 +12869,8 @@ importers:
   components/remote:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/remote_retrieval:
     dependencies:
@@ -13200,8 +13217,8 @@ importers:
   components/roboflow:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/robopost:
     dependencies:
@@ -13528,8 +13545,8 @@ importers:
   components/scoredetect:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -13768,8 +13785,8 @@ importers:
   components/sendgrid:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       '@sendgrid/client':
         specifier: ^7.6.2
         version: 7.7.0
@@ -13986,8 +14003,8 @@ importers:
   components/sftp:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       ssh2-sftp-client:
         specifier: ^11.0.0
         version: 11.0.0
@@ -14236,6 +14253,8 @@ importers:
 
   components/signable: {}
 
+  components/signal: {}
+
   components/signalwire:
     dependencies:
       '@pipedream/platform':
@@ -14253,8 +14272,8 @@ importers:
   components/signaturit:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -14262,8 +14281,8 @@ importers:
   components/signerx:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -14273,8 +14292,8 @@ importers:
   components/signnow:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -14357,8 +14376,8 @@ importers:
   components/sinch:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -14426,8 +14445,8 @@ importers:
   components/slack_v2:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       '@slack/web-api':
         specifier: ^7.9.0
         version: 7.12.0
@@ -14596,8 +14615,8 @@ importers:
   components/smugmug:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -14705,8 +14724,8 @@ importers:
   components/sonix:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -14744,8 +14763,8 @@ importers:
   components/speechace:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -14825,8 +14844,8 @@ importers:
   components/spotlightr:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       axios:
         specifier: ^1.13.2
         version: 1.13.2(debug@3.2.7)
@@ -14922,8 +14941,8 @@ importers:
   components/stannp:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -15083,8 +15102,8 @@ importers:
   components/supabase:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       '@supabase/supabase-js':
         specifier: ^2.45.6
         version: 2.81.1
@@ -15261,8 +15280,8 @@ importers:
   components/syncmate_by_assitro:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/syncro: {}
 
@@ -15531,8 +15550,8 @@ importers:
   components/testmonitor:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       fs:
         specifier: ^0.0.1-security
         version: 0.0.1-security
@@ -15596,8 +15615,8 @@ importers:
   components/the_bookie:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/the_events_calendar: {}
 
@@ -15624,7 +15643,11 @@ importers:
 
   components/thehive: {}
 
-  components/themarketer: {}
+  components/themarketer:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.3.0
+        version: 3.3.0
 
   components/thesportsdb: {}
 
@@ -15780,8 +15803,8 @@ importers:
   components/tinypng:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       stream:
         specifier: ^0.0.2
         version: 0.0.2
@@ -15816,7 +15839,7 @@ importers:
   components/todoist:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.3.0
+        specifier: ^3.2.5
         version: 3.3.0
       json-2-csv:
         specifier: ^5.5.9
@@ -15943,8 +15966,8 @@ importers:
   components/transifex:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       fs:
         specifier: ^0.0.1-security
         version: 0.0.1-security
@@ -15988,8 +16011,8 @@ importers:
   components/trello:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -16065,8 +16088,8 @@ importers:
   components/trust:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -16548,8 +16571,8 @@ importers:
   components/vapi:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -17042,8 +17065,8 @@ importers:
   components/what_are_those:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/what_converts:
     dependencies:
@@ -17066,8 +17089,8 @@ importers:
   components/whatsapp_business:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -17242,8 +17265,8 @@ importers:
   components/wordpress_org:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       lodash.pickby:
         specifier: ^4.6.0
         version: 4.6.0
@@ -17398,8 +17421,8 @@ importers:
   components/xero_accounting_api:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/xero_payroll: {}
 
@@ -17608,7 +17631,11 @@ importers:
 
   components/zenedu: {}
 
-  components/zenfulfillment: {}
+  components/zenfulfillment:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.3.0
+        version: 3.3.0
 
   components/zenkit:
     dependencies:
@@ -17658,8 +17685,8 @@ importers:
   components/zerobounce:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -17688,8 +17715,8 @@ importers:
   components/zip_archive_api:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -17740,8 +17767,8 @@ importers:
   components/zoho_bugtracker:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -17801,8 +17828,8 @@ importers:
   components/zoho_crm:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       lodash.sortby:
         specifier: ^4.7.0
         version: 4.7.0
@@ -17810,8 +17837,8 @@ importers:
   components/zoho_desk:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       async-retry:
         specifier: ^1.3.3
         version: 1.3.3
@@ -17952,8 +17979,8 @@ importers:
   components/zoho_workdrive:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       axios:
         specifier: ^1.13.2
         version: 1.13.2(debug@3.2.7)
@@ -18152,7 +18179,7 @@ importers:
         version: 5.4.21(@types/node@25.3.3)
       vite-plugin-dts:
         specifier: ^4.3.0
-        version: 4.5.4(@types/node@25.3.3)(rollup@4.53.2)(typescript@5.9.3)(vite@5.4.21(@types/node@25.3.3))
+        version: 4.5.4(@types/node@25.3.3)(rollup@4.53.2)(typescript@5.6.3)(vite@5.4.21(@types/node@25.3.3))
 
   packages/prompts:
     dependencies:
@@ -18241,7 +18268,7 @@ importers:
         version: 3.1.0
       jest:
         specifier: ^29.1.2
-        version: 29.7.0(@types/node@25.3.3)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.3.3)(typescript@5.6.3))
+        version: 29.7.0(@types/node@20.19.35)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.35)(typescript@5.6.3))
       type-fest:
         specifier: ^4.15.0
         version: 4.41.0
@@ -26005,7 +26032,7 @@ packages:
 
   delighted@2.1.0:
     resolution: {integrity: sha512-GC981FrvWm4ElRf0QHDUNDn1NvvyVy0bmfdygPtUmknUJDeFqgmf8+MJlX40KQBgg1NgkYdWQQlW8PuIqRR0qw==}
-    deprecated: Delighted is being sunset on June 30, 2026. This package is deprecated and will no longer be maintained. For migration guidance, visit https://help.delighted.com/article/840-delighted-sunset-faq
+    deprecated: 'Delighted is being sunset on June 30, 2026. This package is deprecated and will no longer be maintained or receive updates. For more information, visit the Delighted Sunset FAQ: https://help.delighted.com/article/840-delighted-sunset-faq'
 
   denque@2.1.0:
     resolution: {integrity: sha512-HVQE3AAb/pxF8fQAoiqpvg9i3evqug3hoiwakOyZAwJm+6vZehbkYXZ0l4JxS+I3QxM97v5aaRNhj8v5oBhekw==}
@@ -37106,11 +37133,11 @@ snapshots:
       - '@types/node'
       - typescript
 
-  '@commitlint/cli@19.8.1(@types/node@25.3.3)(typescript@5.9.3)':
+  '@commitlint/cli@19.8.1(@types/node@20.19.35)(typescript@5.6.3)':
     dependencies:
       '@commitlint/format': 19.8.1
       '@commitlint/lint': 19.8.1
-      '@commitlint/load': 19.8.1(@types/node@25.3.3)(typescript@5.9.3)
+      '@commitlint/load': 19.8.1(@types/node@20.19.35)(typescript@5.6.3)
       '@commitlint/read': 19.8.1
       '@commitlint/types': 19.8.1
       tinyexec: 1.0.2
@@ -37173,15 +37200,15 @@ snapshots:
       - '@types/node'
       - typescript
 
-  '@commitlint/load@19.8.1(@types/node@25.3.3)(typescript@5.9.3)':
+  '@commitlint/load@19.8.1(@types/node@20.19.35)(typescript@5.6.3)':
     dependencies:
       '@commitlint/config-validator': 19.8.1
       '@commitlint/execute-rule': 19.8.1
       '@commitlint/resolve-extends': 19.8.1
       '@commitlint/types': 19.8.1
       chalk: 5.6.2
-      cosmiconfig: 9.0.0(typescript@5.9.3)
-      cosmiconfig-typescript-loader: 6.2.0(@types/node@25.3.3)(cosmiconfig@9.0.0(typescript@5.9.3))(typescript@5.9.3)
+      cosmiconfig: 9.0.0(typescript@5.6.3)
+      cosmiconfig-typescript-loader: 6.2.0(@types/node@20.19.35)(cosmiconfig@9.0.0(typescript@5.6.3))(typescript@5.6.3)
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       lodash.uniq: 4.5.0
@@ -38260,7 +38287,7 @@ snapshots:
   '@grpc/grpc-js@1.8.22':
     dependencies:
       '@grpc/proto-loader': 0.7.15
-      '@types/node': 20.19.25
+      '@types/node': 20.19.35
 
   '@grpc/proto-loader@0.7.15':
     dependencies:
@@ -38325,12 +38352,12 @@ snapshots:
     optionalDependencies:
       '@types/node': 17.0.45
 
-  '@inquirer/external-editor@1.0.3(@types/node@25.3.3)':
+  '@inquirer/external-editor@1.0.3(@types/node@20.19.35)':
     dependencies:
       chardet: 2.1.1
       iconv-lite: 0.7.2
     optionalDependencies:
-      '@types/node': 25.3.3
+      '@types/node': 20.19.35
 
   '@isaacs/balanced-match@4.0.1': {}
 
@@ -38407,7 +38434,7 @@ snapshots:
       - supports-color
       - ts-node
 
-  '@jest/core@29.7.0(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.3.3)(typescript@5.6.3))':
+  '@jest/core@29.7.0(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.35)(typescript@5.6.3))':
     dependencies:
       '@jest/console': 29.7.0
       '@jest/reporters': 29.7.0
@@ -38421,7 +38448,7 @@ snapshots:
       exit: 0.1.2
       graceful-fs: 4.2.11
       jest-changed-files: 29.7.0
-      jest-config: 29.7.0(@types/node@20.19.35)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.3.3)(typescript@5.6.3))
+      jest-config: 29.7.0(@types/node@20.19.35)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.35)(typescript@5.6.3))
       jest-haste-map: 29.7.0
       jest-message-util: 29.7.0
       jest-regex-util: 29.6.3
@@ -38851,7 +38878,7 @@ snapshots:
       yaml: 2.8.1
       yargs: 17.7.2
 
-  '@netlify/build@35.3.1(@opentelemetry/api@1.8.0)(@types/node@25.3.3)(encoding@0.1.13)(picomatch@4.0.3)(rollup@4.53.2)':
+  '@netlify/build@35.3.1(@opentelemetry/api@1.8.0)(@types/node@20.19.35)(encoding@0.1.13)(picomatch@4.0.3)(rollup@4.53.2)':
     dependencies:
       '@bugsnag/js': 8.6.0
       '@netlify/blobs': 10.3.3(supports-color@10.2.2)
@@ -38899,7 +38926,7 @@ snapshots:
       string-width: 7.2.0
       supports-color: 10.2.2
       terminal-link: 4.0.0
-      ts-node: 10.9.2(@types/node@25.3.3)(typescript@5.6.3)
+      ts-node: 10.9.2(@types/node@20.19.35)(typescript@5.6.3)
       typescript: 5.6.3
       uuid: 11.1.0
       yaml: 2.8.1
@@ -38910,6 +38937,7 @@ snapshots:
       - '@swc/wasm'
       - '@types/node'
       - bare-abort-controller
+      - bare-buffer
       - encoding
       - picomatch
       - react-native-b4a
@@ -39025,6 +39053,7 @@ snapshots:
       path-exists: 5.0.0
     transitivePeerDependencies:
       - bare-abort-controller
+      - bare-buffer
       - encoding
       - react-native-b4a
       - rollup
@@ -39172,6 +39201,7 @@ snapshots:
       zod: 3.25.76
     transitivePeerDependencies:
       - bare-abort-controller
+      - bare-buffer
       - encoding
       - react-native-b4a
       - rollup
@@ -39213,6 +39243,7 @@ snapshots:
       zod: 3.25.76
     transitivePeerDependencies:
       - bare-abort-controller
+      - bare-buffer
       - encoding
       - react-native-b4a
       - rollup
@@ -39711,7 +39742,7 @@ snapshots:
   '@pipedream/apify@0.4.0':
     dependencies:
       '@apify/consts': 2.47.0
-      '@pipedream/platform': 3.2.5
+      '@pipedream/platform': 3.3.0
       apify-client: 2.19.0
     transitivePeerDependencies:
       - debug
@@ -39739,7 +39770,7 @@ snapshots:
       '@aws-sdk/s3-request-presigner': 3.931.0
       '@aws-sdk/signature-v4-crt': 3.931.0
       '@pipedream/helper_functions': 0.3.13
-      '@pipedream/platform': 3.2.5
+      '@pipedream/platform': 3.3.0
       adm-zip: 0.5.16
       dedent: 1.7.0(babel-plugin-macros@3.1.0)
       file-type: 21.1.0
@@ -39764,7 +39795,7 @@ snapshots:
 
   '@pipedream/canva@0.2.3':
     dependencies:
-      '@pipedream/platform': 3.2.5
+      '@pipedream/platform': 3.3.0
     transitivePeerDependencies:
       - debug
 
@@ -41251,11 +41282,11 @@ snapshots:
       - rollup
       - supports-color
 
-  '@qdrant/js-client-rest@1.15.1(typescript@5.9.3)':
+  '@qdrant/js-client-rest@1.15.1(typescript@5.6.3)':
     dependencies:
       '@qdrant/openapi-typescript-fetch': 1.2.6
       '@sevinf/maybe': 0.5.0
-      typescript: 5.9.3
+      typescript: 5.6.3
       undici: 6.22.0
 
   '@qdrant/openapi-typescript-fetch@1.2.6': {}
@@ -41621,20 +41652,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@semantic-release/commit-analyzer@13.0.1(semantic-release@24.2.9(typescript@5.9.3))':
-    dependencies:
-      conventional-changelog-angular: 8.1.0
-      conventional-changelog-writer: 8.2.0
-      conventional-commits-filter: 5.0.0
-      conventional-commits-parser: 6.2.1
-      debug: 4.4.3(supports-color@9.4.0)
-      import-from-esm: 2.0.0
-      lodash-es: 4.17.23
-      micromatch: 4.0.8
-      semantic-release: 24.2.9(typescript@5.9.3)
-    transitivePeerDependencies:
-      - supports-color
-
   '@semantic-release/error@4.0.0': {}
 
   '@semantic-release/github@11.0.6(semantic-release@24.2.9(typescript@5.6.3))':
@@ -41659,28 +41676,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@semantic-release/github@11.0.6(semantic-release@24.2.9(typescript@5.9.3))':
-    dependencies:
-      '@octokit/core': 7.0.6
-      '@octokit/plugin-paginate-rest': 13.2.1(@octokit/core@7.0.6)
-      '@octokit/plugin-retry': 8.0.3(@octokit/core@7.0.6)
-      '@octokit/plugin-throttling': 11.0.3(@octokit/core@7.0.6)
-      '@semantic-release/error': 4.0.0
-      aggregate-error: 5.0.0
-      debug: 4.4.3(supports-color@9.4.0)
-      dir-glob: 3.0.1
-      http-proxy-agent: 7.0.2
-      https-proxy-agent: 7.0.6
-      issue-parser: 7.0.1
-      lodash-es: 4.17.23
-      mime: 4.1.0
-      p-filter: 4.1.0
-      semantic-release: 24.2.9(typescript@5.9.3)
-      tinyglobby: 0.2.15
-      url-join: 5.0.0
-    transitivePeerDependencies:
-      - supports-color
-
   '@semantic-release/npm@12.0.2(semantic-release@24.2.9(typescript@5.6.3))':
     dependencies:
       '@semantic-release/error': 4.0.0
@@ -41698,23 +41693,6 @@ snapshots:
       semver: 7.7.4
       tempy: 3.1.0
 
-  '@semantic-release/npm@12.0.2(semantic-release@24.2.9(typescript@5.9.3))':
-    dependencies:
-      '@semantic-release/error': 4.0.0
-      aggregate-error: 5.0.0
-      execa: 9.6.0
-      fs-extra: 11.3.2
-      lodash-es: 4.17.23
-      nerf-dart: 1.0.0
-      normalize-url: 8.1.0
-      npm: 10.9.4
-      rc: 1.2.8
-      read-pkg: 9.0.1
-      registry-auth-token: 5.1.0
-      semantic-release: 24.2.9(typescript@5.9.3)
-      semver: 7.7.4
-      tempy: 3.1.0
-
   '@semantic-release/release-notes-generator@14.1.0(semantic-release@24.2.9(typescript@5.6.3))':
     dependencies:
       conventional-changelog-angular: 8.1.0
@@ -41728,22 +41706,6 @@ snapshots:
       lodash-es: 4.17.23
       read-package-up: 11.0.0
       semantic-release: 24.2.9(typescript@5.6.3)
-    transitivePeerDependencies:
-      - supports-color
-
-  '@semantic-release/release-notes-generator@14.1.0(semantic-release@24.2.9(typescript@5.9.3))':
-    dependencies:
-      conventional-changelog-angular: 8.1.0
-      conventional-changelog-writer: 8.2.0
-      conventional-commits-filter: 5.0.0
-      conventional-commits-parser: 6.2.1
-      debug: 4.4.3(supports-color@9.4.0)
-      get-stream: 7.0.1
-      import-from-esm: 2.0.0
-      into-stream: 7.0.0
-      lodash-es: 4.17.23
-      read-package-up: 11.0.0
-      semantic-release: 24.2.9(typescript@5.9.3)
     transitivePeerDependencies:
       - supports-color
 
@@ -42583,7 +42545,7 @@ snapshots:
 
   '@types/http-proxy@1.17.17':
     dependencies:
-      '@types/node': 20.19.25
+      '@types/node': 20.19.35
 
   '@types/is-stream@1.1.0':
     dependencies:
@@ -42624,7 +42586,7 @@ snapshots:
   '@types/jsonwebtoken@9.0.10':
     dependencies:
       '@types/ms': 2.1.0
-      '@types/node': 20.19.25
+      '@types/node': 20.19.35
 
   '@types/jssha@2.0.0': {}
 
@@ -42751,7 +42713,7 @@ snapshots:
   '@types/rimraf@3.0.2':
     dependencies:
       '@types/glob': 8.1.0
-      '@types/node': 20.19.25
+      '@types/node': 20.19.35
 
   '@types/sax@1.2.7':
     dependencies:
@@ -42798,7 +42760,7 @@ snapshots:
 
   '@types/whatwg-url@8.2.2':
     dependencies:
-      '@types/node': 20.19.25
+      '@types/node': 20.19.35
       '@types/webidl-conversions': 7.0.3
 
   '@types/ws@8.18.1':
@@ -43186,7 +43148,7 @@ snapshots:
       de-indent: 1.0.2
       he: 1.2.0
 
-  '@vue/language-core@2.2.0(typescript@5.9.3)':
+  '@vue/language-core@2.2.0(typescript@5.6.3)':
     dependencies:
       '@volar/language-core': 2.4.23
       '@vue/compiler-dom': 3.5.24
@@ -43197,7 +43159,7 @@ snapshots:
       muggle-string: 0.4.1
       path-browserify: 1.0.1
     optionalDependencies:
-      typescript: 5.9.3
+      typescript: 5.6.3
 
   '@vue/shared@3.5.24': {}
 
@@ -43607,10 +43569,11 @@ snapshots:
       buffer-crc32: 1.0.0
       readable-stream: 4.7.0
       readdir-glob: 1.1.3
-      tar-stream: 3.1.7
+      tar-stream: 3.1.8
       zip-stream: 6.0.1
     transitivePeerDependencies:
       - bare-abort-controller
+      - bare-buffer
       - react-native-b4a
 
   arg@4.1.3: {}
@@ -44968,12 +44931,12 @@ snapshots:
       jiti: 2.6.1
       typescript: 5.6.3
 
-  cosmiconfig-typescript-loader@6.2.0(@types/node@25.3.3)(cosmiconfig@9.0.0(typescript@5.9.3))(typescript@5.9.3):
+  cosmiconfig-typescript-loader@6.2.0(@types/node@20.19.35)(cosmiconfig@9.0.0(typescript@5.6.3))(typescript@5.6.3):
     dependencies:
-      '@types/node': 25.3.3
-      cosmiconfig: 9.0.0(typescript@5.9.3)
+      '@types/node': 20.19.35
+      cosmiconfig: 9.0.0(typescript@5.6.3)
       jiti: 2.6.1
-      typescript: 5.9.3
+      typescript: 5.6.3
 
   cosmiconfig@5.2.1:
     dependencies:
@@ -44998,15 +44961,6 @@ snapshots:
       parse-json: 5.2.0
     optionalDependencies:
       typescript: 5.6.3
-
-  cosmiconfig@9.0.0(typescript@5.9.3):
-    dependencies:
-      env-paths: 2.2.1
-      import-fresh: 3.3.1
-      js-yaml: 4.1.1
-      parse-json: 5.2.0
-    optionalDependencies:
-      typescript: 5.9.3
 
   cp-file@6.2.0:
     dependencies:
@@ -45070,13 +45024,13 @@ snapshots:
       - supports-color
       - ts-node
 
-  create-jest@29.7.0(@types/node@25.3.3)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.3.3)(typescript@5.6.3)):
+  create-jest@29.7.0(@types/node@20.19.35)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.35)(typescript@5.6.3)):
     dependencies:
       '@jest/types': 29.6.3
       chalk: 4.1.2
       exit: 0.1.2
       graceful-fs: 4.2.11
-      jest-config: 29.7.0(@types/node@25.3.3)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.3.3)(typescript@5.6.3))
+      jest-config: 29.7.0(@types/node@20.19.35)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.35)(typescript@5.6.3))
       jest-util: 29.7.0
       prompts: 2.4.2
     transitivePeerDependencies:
@@ -45629,21 +45583,6 @@ snapshots:
       - react-native-b4a
       - supports-color
 
-  dts-critic@3.3.11(typescript@5.9.3):
-    dependencies:
-      '@definitelytyped/header-parser': 0.2.25
-      command-exists: 1.2.9
-      rimraf: 3.0.2
-      semver: 6.3.1
-      tmp: 0.2.5
-      typescript: 5.9.3
-      yargs: 15.4.1
-    transitivePeerDependencies:
-      - bare-abort-controller
-      - bare-buffer
-      - react-native-b4a
-      - supports-color
-
   dts-resolver@2.1.3: {}
 
   dtslint@4.2.1(typescript@5.6.3):
@@ -45658,25 +45597,6 @@ snapshots:
       tslint: 5.14.0(typescript@5.6.3)
       tsutils: 2.29.0(typescript@5.6.3)
       typescript: 5.6.3
-      yargs: 15.4.1
-    transitivePeerDependencies:
-      - bare-abort-controller
-      - bare-buffer
-      - react-native-b4a
-      - supports-color
-
-  dtslint@4.2.1(typescript@5.9.3):
-    dependencies:
-      '@definitelytyped/header-parser': 0.2.25
-      '@definitelytyped/typescript-versions': 0.1.10
-      '@definitelytyped/utils': 0.1.13
-      dts-critic: 3.3.11(typescript@5.9.3)
-      fs-extra: 6.0.1
-      json-stable-stringify: 1.3.0
-      strip-json-comments: 2.0.1
-      tslint: 5.14.0(typescript@5.9.3)
-      tsutils: 2.29.0(typescript@5.9.3)
-      typescript: 5.9.3
       yargs: 15.4.1
     transitivePeerDependencies:
       - bare-abort-controller
@@ -48431,12 +48351,12 @@ snapshots:
 
   inline-style-parser@0.2.6: {}
 
-  inquirer-autocomplete-prompt@1.4.0(inquirer@8.2.7(@types/node@25.3.3)):
+  inquirer-autocomplete-prompt@1.4.0(inquirer@8.2.7(@types/node@20.19.35)):
     dependencies:
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       figures: 3.2.0
-      inquirer: 8.2.7(@types/node@25.3.3)
+      inquirer: 8.2.7(@types/node@20.19.35)
       run-async: 2.4.1
       rxjs: 6.6.7
 
@@ -48460,9 +48380,9 @@ snapshots:
     transitivePeerDependencies:
       - '@types/node'
 
-  inquirer@8.2.7(@types/node@25.3.3):
+  inquirer@8.2.7(@types/node@20.19.35):
     dependencies:
-      '@inquirer/external-editor': 1.0.3(@types/node@25.3.3)
+      '@inquirer/external-editor': 1.0.3(@types/node@20.19.35)
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       cli-cursor: 3.1.0
@@ -49009,16 +48929,16 @@ snapshots:
       - supports-color
       - ts-node
 
-  jest-cli@29.7.0(@types/node@25.3.3)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.3.3)(typescript@5.6.3)):
+  jest-cli@29.7.0(@types/node@20.19.35)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.35)(typescript@5.6.3)):
     dependencies:
-      '@jest/core': 29.7.0(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.3.3)(typescript@5.6.3))
+      '@jest/core': 29.7.0(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.35)(typescript@5.6.3))
       '@jest/test-result': 29.7.0
       '@jest/types': 29.6.3
       chalk: 4.1.2
-      create-jest: 29.7.0(@types/node@25.3.3)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.3.3)(typescript@5.6.3))
+      create-jest: 29.7.0(@types/node@20.19.35)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.35)(typescript@5.6.3))
       exit: 0.1.2
       import-local: 3.2.0
-      jest-config: 29.7.0(@types/node@25.3.3)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.3.3)(typescript@5.6.3))
+      jest-config: 29.7.0(@types/node@20.19.35)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.35)(typescript@5.6.3))
       jest-util: 29.7.0
       jest-validate: 29.7.0
       yargs: 17.7.2
@@ -49090,7 +49010,7 @@ snapshots:
       - babel-plugin-macros
       - supports-color
 
-  jest-config@29.7.0(@types/node@20.19.35)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.3.3)(typescript@5.6.3)):
+  jest-config@29.7.0(@types/node@20.19.35)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.35)(typescript@5.6.3)):
     dependencies:
       '@babel/core': 7.28.5
       '@jest/test-sequencer': 29.7.0
@@ -49116,38 +49036,7 @@ snapshots:
       strip-json-comments: 3.1.1
     optionalDependencies:
       '@types/node': 20.19.35
-      ts-node: 10.9.2(@types/node@25.3.3)(typescript@5.6.3)
-    transitivePeerDependencies:
-      - babel-plugin-macros
-      - supports-color
-
-  jest-config@29.7.0(@types/node@25.3.3)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.3.3)(typescript@5.6.3)):
-    dependencies:
-      '@babel/core': 7.28.5
-      '@jest/test-sequencer': 29.7.0
-      '@jest/types': 29.6.3
-      babel-jest: 29.7.0(@babel/core@7.28.5)
-      chalk: 4.1.2
-      ci-info: 3.9.0
-      deepmerge: 4.3.1
-      glob: 7.2.3
-      graceful-fs: 4.2.11
-      jest-circus: 29.7.0(babel-plugin-macros@3.1.0)
-      jest-environment-node: 29.7.0
-      jest-get-type: 29.6.3
-      jest-regex-util: 29.6.3
-      jest-resolve: 29.7.0
-      jest-runner: 29.7.0
-      jest-util: 29.7.0
-      jest-validate: 29.7.0
-      micromatch: 4.0.8
-      parse-json: 5.2.0
-      pretty-format: 29.7.0
-      slash: 3.0.0
-      strip-json-comments: 3.1.1
-    optionalDependencies:
-      '@types/node': 25.3.3
-      ts-node: 10.9.2(@types/node@25.3.3)(typescript@5.6.3)
+      ts-node: 10.9.2(@types/node@20.19.35)(typescript@5.6.3)
     transitivePeerDependencies:
       - babel-plugin-macros
       - supports-color
@@ -49395,12 +49284,12 @@ snapshots:
       - supports-color
       - ts-node
 
-  jest@29.7.0(@types/node@25.3.3)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.3.3)(typescript@5.6.3)):
+  jest@29.7.0(@types/node@20.19.35)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.35)(typescript@5.6.3)):
     dependencies:
-      '@jest/core': 29.7.0(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.3.3)(typescript@5.6.3))
+      '@jest/core': 29.7.0(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.35)(typescript@5.6.3))
       '@jest/types': 29.6.3
       import-local: 3.2.0
-      jest-cli: 29.7.0(@types/node@25.3.3)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.3.3)(typescript@5.6.3))
+      jest-cli: 29.7.0(@types/node@20.19.35)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.35)(typescript@5.6.3))
     transitivePeerDependencies:
       - '@types/node'
       - babel-plugin-macros
@@ -49855,12 +49744,12 @@ snapshots:
       - supports-color
       - typescript
 
-  linkup-sdk@1.2.0(@types/node@25.3.3)(typescript@5.9.3):
+  linkup-sdk@1.2.0(@types/node@20.19.35)(typescript@5.6.3):
     dependencies:
-      '@commitlint/cli': 19.8.1(@types/node@25.3.3)(typescript@5.9.3)
+      '@commitlint/cli': 19.8.1(@types/node@20.19.35)(typescript@5.6.3)
       '@commitlint/config-conventional': 19.8.1
       axios: 1.13.2(debug@3.2.7)
-      semantic-release: 24.2.9(typescript@5.9.3)
+      semantic-release: 24.2.9(typescript@5.6.3)
       zod: 3.25.76
       zod-to-json-schema: 3.24.6(zod@3.25.76)
     transitivePeerDependencies:
@@ -51124,13 +51013,13 @@ snapshots:
 
   netlify-redirector@0.5.0: {}
 
-  netlify@23.11.0(@azure/storage-blob@12.29.1)(@types/express@4.17.25)(@types/node@25.3.3)(encoding@0.1.13)(picomatch@4.0.3)(rollup@4.53.2):
+  netlify@23.11.0(@azure/storage-blob@12.29.1)(@types/express@4.17.25)(@types/node@20.19.35)(encoding@0.1.13)(picomatch@4.0.3)(rollup@4.53.2):
     dependencies:
       '@fastify/static': 7.0.4
       '@netlify/ai': 0.3.0(@netlify/api@14.0.9)
       '@netlify/api': 14.0.9
       '@netlify/blobs': 10.1.0
-      '@netlify/build': 35.3.1(@opentelemetry/api@1.8.0)(@types/node@25.3.3)(encoding@0.1.13)(picomatch@4.0.3)(rollup@4.53.2)
+      '@netlify/build': 35.3.1(@opentelemetry/api@1.8.0)(@types/node@20.19.35)(encoding@0.1.13)(picomatch@4.0.3)(rollup@4.53.2)
       '@netlify/build-info': 10.0.9
       '@netlify/config': 24.0.8
       '@netlify/dev-utils': 4.3.0
@@ -51181,8 +51070,8 @@ snapshots:
       http-proxy: 1.18.1(debug@4.4.3)
       http-proxy-middleware: 2.0.9(@types/express@4.17.25)(debug@4.4.3)
       https-proxy-agent: 7.0.6
-      inquirer: 8.2.7(@types/node@25.3.3)
-      inquirer-autocomplete-prompt: 1.4.0(inquirer@8.2.7(@types/node@25.3.3))
+      inquirer: 8.2.7(@types/node@20.19.35)
+      inquirer-autocomplete-prompt: 1.4.0(inquirer@8.2.7(@types/node@20.19.35))
       ipx: 3.1.1(@azure/storage-blob@12.29.1)(@netlify/blobs@10.1.0)
       is-docker: 3.0.0
       is-stream: 4.0.1
@@ -52518,7 +52407,7 @@ snapshots:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 20.19.25
+      '@types/node': 20.19.35
       long: 5.3.2
 
   protobufjs@7.5.4:
@@ -53784,41 +53673,6 @@ snapshots:
       '@semantic-release/release-notes-generator': 14.1.0(semantic-release@24.2.9(typescript@5.6.3))
       aggregate-error: 5.0.0
       cosmiconfig: 9.0.0(typescript@5.6.3)
-      debug: 4.4.3(supports-color@9.4.0)
-      env-ci: 11.2.0
-      execa: 9.6.0
-      figures: 6.1.0
-      find-versions: 6.0.0
-      get-stream: 6.0.1
-      git-log-parser: 1.2.1
-      hook-std: 4.0.0
-      hosted-git-info: 8.1.0
-      import-from-esm: 2.0.0
-      lodash-es: 4.17.23
-      marked: 15.0.12
-      marked-terminal: 7.3.0(marked@15.0.12)
-      micromatch: 4.0.8
-      p-each-series: 3.0.0
-      p-reduce: 3.0.0
-      read-package-up: 11.0.0
-      resolve-from: 5.0.0
-      semver: 7.7.4
-      semver-diff: 5.0.0
-      signale: 1.4.0
-      yargs: 17.7.2
-    transitivePeerDependencies:
-      - supports-color
-      - typescript
-
-  semantic-release@24.2.9(typescript@5.9.3):
-    dependencies:
-      '@semantic-release/commit-analyzer': 13.0.1(semantic-release@24.2.9(typescript@5.9.3))
-      '@semantic-release/error': 4.0.0
-      '@semantic-release/github': 11.0.6(semantic-release@24.2.9(typescript@5.9.3))
-      '@semantic-release/npm': 12.0.2(semantic-release@24.2.9(typescript@5.9.3))
-      '@semantic-release/release-notes-generator': 14.1.0(semantic-release@24.2.9(typescript@5.9.3))
-      aggregate-error: 5.0.0
-      cosmiconfig: 9.0.0(typescript@5.9.3)
       debug: 4.4.3(supports-color@9.4.0)
       env-ci: 11.2.0
       execa: 9.6.0
@@ -55133,14 +54987,14 @@ snapshots:
       yn: 3.1.1
     optional: true
 
-  ts-node@10.9.2(@types/node@25.3.3)(typescript@5.6.3):
+  ts-node@10.9.2(@types/node@20.19.35)(typescript@5.6.3):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       '@tsconfig/node10': 1.0.12
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
-      '@types/node': 25.3.3
+      '@types/node': 20.19.35
       acorn: 8.15.0
       acorn-walk: 8.3.4
       arg: 4.1.3
@@ -55205,23 +55059,6 @@ snapshots:
       tsutils: 2.29.0(typescript@5.6.3)
       typescript: 5.6.3
 
-  tslint@5.14.0(typescript@5.9.3):
-    dependencies:
-      babel-code-frame: 6.26.0
-      builtin-modules: 1.1.1
-      chalk: 2.4.2
-      commander: 2.20.3
-      diff: 3.5.0
-      glob: 7.2.3
-      js-yaml: 3.14.1
-      minimatch: 3.1.2
-      mkdirp: 0.5.6
-      resolve: 1.22.11
-      semver: 5.7.2
-      tslib: 1.14.1
-      tsutils: 2.29.0(typescript@5.9.3)
-      typescript: 5.9.3
-
   tsup@8.5.1(@microsoft/api-extractor@7.55.0(@types/node@20.19.25))(jiti@2.6.1)(postcss@8.5.6)(tsx@4.20.6)(typescript@5.6.3)(yaml@2.8.1):
     dependencies:
       bundle-require: 5.1.0(esbuild@0.27.0)
@@ -55284,11 +55121,6 @@ snapshots:
     dependencies:
       tslib: 1.14.1
       typescript: 5.6.3
-
-  tsutils@2.29.0(typescript@5.9.3):
-    dependencies:
-      tslib: 1.14.1
-      typescript: 5.9.3
 
   tsx@4.20.6:
     dependencies:
@@ -55952,18 +55784,18 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  vite-plugin-dts@4.5.4(@types/node@25.3.3)(rollup@4.53.2)(typescript@5.9.3)(vite@5.4.21(@types/node@25.3.3)):
+  vite-plugin-dts@4.5.4(@types/node@25.3.3)(rollup@4.53.2)(typescript@5.6.3)(vite@5.4.21(@types/node@25.3.3)):
     dependencies:
       '@microsoft/api-extractor': 7.55.0(@types/node@25.3.3)
       '@rollup/pluginutils': 5.3.0(rollup@4.53.2)
       '@volar/typescript': 2.4.23
-      '@vue/language-core': 2.2.0(typescript@5.9.3)
+      '@vue/language-core': 2.2.0(typescript@5.6.3)
       compare-versions: 6.1.1
       debug: 4.4.3(supports-color@9.4.0)
       kolorist: 1.8.0
       local-pkg: 1.1.2
       magic-string: 0.30.21
-      typescript: 5.9.3
+      typescript: 5.6.3
     optionalDependencies:
       vite: 5.4.21(@types/node@25.3.3)
     transitivePeerDependencies:

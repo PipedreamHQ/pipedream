@@ -7,7 +7,7 @@ export default {
   key: "reform-extract-data-from-document",
   name: "Extract Data From Document",
   description: "Extract structured data from a document. [See the documentation](https://docs.reformhq.com/synchronous-data-processing/extract)",
-  version: "0.1.2",
+  version: "0.1.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

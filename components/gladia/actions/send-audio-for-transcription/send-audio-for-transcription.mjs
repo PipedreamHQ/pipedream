@@ -9,7 +9,7 @@ export default {
   key: "gladia-send-audio-for-transcription",
   name: "Send Audio For Transcription",
   description: "Sends audio to Gladia for transcription and optional translation. [See the documentation](https://docs.gladia.io/reference/pre-recorded)",
-  version: "1.0.2",
+  version: "1.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -22,6 +22,7 @@ export default {
       type: "string",
       label: "Audio File or URL",
       description: "Provide an audio file URL or a path to a file in the `/tmp` directory.",
+      format: "file-ref",
     },
     toggleNoiseReduction: {
       propDefinition: [

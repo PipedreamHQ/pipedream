@@ -6,7 +6,7 @@ export default {
   key: "trint-upload-file",
   name: "Upload File",
   description: "Upload media files directly to Trint for immediate transcription. [See the documentation](https://dev.trint.com/reference/upload)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -19,6 +19,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.mp4`)",
+      format: "file-ref",
     },
     language: {
       type: "string",

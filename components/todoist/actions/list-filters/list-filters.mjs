@@ -4,7 +4,7 @@ export default {
   key: "todoist-list-filters",
   name: "List Filters",
   description: "Returns a list of all filters. [See the documentation](https://developer.todoist.com/api/v1#tag/Sync/Overview/Read-resources)",
-  version: "0.0.7",
+  version: "0.0.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

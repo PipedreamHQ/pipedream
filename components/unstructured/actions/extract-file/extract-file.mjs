@@ -6,7 +6,7 @@ export default {
   key: "unstructured-extract-file",
   name: "Extract File",
   description: "Extract data from a file. [See the documentation](https://docs.unstructured.io/api-reference/general/summary)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -19,6 +19,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The file to extract data from. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.pdf`)",
+      format: "file-ref",
     },
     coordinates: {
       type: "boolean",
