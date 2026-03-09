@@ -14246,8 +14246,7 @@ importers:
 
   components/signable: {}
 
-  components/signal:
-    specifiers: {}
+  components/signal: {}
 
   components/signalwire:
     dependencies:
@@ -38280,7 +38279,7 @@ snapshots:
   '@grpc/grpc-js@1.8.22':
     dependencies:
       '@grpc/proto-loader': 0.7.15
-      '@types/node': 20.19.25
+      '@types/node': 20.19.35
 
   '@grpc/proto-loader@0.7.15':
     dependencies:
@@ -40652,6 +40651,7 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
+      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.60)(rollup@4.53.2)':
     dependencies:
@@ -42647,7 +42647,7 @@ snapshots:
   '@types/jsonwebtoken@9.0.10':
     dependencies:
       '@types/ms': 2.1.0
-      '@types/node': 20.19.25
+      '@types/node': 20.19.35
 
   '@types/jssha@2.0.0': {}
 
@@ -42774,7 +42774,7 @@ snapshots:
   '@types/rimraf@3.0.2':
     dependencies:
       '@types/glob': 8.1.0
-      '@types/node': 20.19.25
+      '@types/node': 20.19.35
 
   '@types/sax@1.2.7':
     dependencies:
@@ -42821,7 +42821,7 @@ snapshots:
 
   '@types/whatwg-url@8.2.2':
     dependencies:
-      '@types/node': 20.19.25
+      '@types/node': 20.19.35
       '@types/webidl-conversions': 7.0.3
 
   '@types/ws@8.18.1':
@@ -52542,7 +52542,7 @@ snapshots:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 20.19.25
+      '@types/node': 20.19.35
       long: 5.3.2
 
   protobufjs@7.5.4:

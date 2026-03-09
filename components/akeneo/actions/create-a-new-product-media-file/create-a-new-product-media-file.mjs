@@ -7,7 +7,7 @@ import app from "../../akeneo.app.mjs";
 export default {
   type: "action",
   key: "akeneo-create-a-new-product-media-file",
-  version: "0.2.0",
+  version: "0.2.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

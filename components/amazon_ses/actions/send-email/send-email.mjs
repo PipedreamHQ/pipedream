@@ -8,7 +8,7 @@ export default {
   key: "amazon_ses-send-email",
   name: "Send Email",
   description: "Send an email using Amazon SES. Supports simple email messaging. [See the docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-sesv2/classes/sendemailcommand.html)",
-  version: "0.9.5",
+  version: "0.9.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

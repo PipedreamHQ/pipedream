@@ -9,7 +9,7 @@ export default {
   description:
     "Automatically and quickly remove image background with high accuracy. Powered by API4AI.",
   key: "api4ai-background-removal",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
