@@ -6,7 +6,7 @@ export default {
   key: "zoom-meeting-created",
   name: "Meeting Created (Instant)",
   description: "Emit new event each time a meeting is created where you're the host",
-  version: "0.1.8",
+  version: "0.1.9",
   type: "source",
   dedupe: "unique",
   props: {
