@@ -4,7 +4,7 @@ export default {
   key: "booking_experts-list-bookings",
   name: "List Bookings",
   description: "Returns a list of bookings for an administration. [See the documentation](https://developers.bookingexperts.com/reference/administration-bookings-index)",
-  version: "0.0.8",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -155,7 +155,7 @@ export default {
       referenceNr,
     } = this;
 
-    const { data } = await this.bookingExperts.listBookings({
+    const response = await this.bookingExperts.listBookings({
       $,
       administrationId,
       params: {
@@ -174,7 +174,7 @@ export default {
         "filter[reference_nr]": referenceNr,
       },
     });
-    $.export("$summary", `Found ${data.length} bookings`);
-    return data;
+    $.export("$summary", `Found ${response.data.length} bookings`);
+    return response;
   },
 };
