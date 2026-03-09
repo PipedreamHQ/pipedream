@@ -5,7 +5,7 @@ export default {
   name: "Get Article",
   description: "Retrieves an article by its ID. [See the documentation](https://developer.zendesk.com/api-reference/help_center/help-center-api/articles/#show-article).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

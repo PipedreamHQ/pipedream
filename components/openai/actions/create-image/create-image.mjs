@@ -5,7 +5,7 @@ import { IMAGE_MODELS } from "../../common/models.mjs";
 
 export default {
   name: "Create Image (Dall-E)",
-  version: "0.1.25",
+  version: "0.1.26",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

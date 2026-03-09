@@ -10,7 +10,7 @@ export default {
   key: "sendgrid-send-email-multiple-recipients",
   name: "Send Email Multiple Recipients",
   description: "This action sends a personalized e-mail to multiple specified recipients. [See the docs here](https://docs.sendgrid.com/api-reference/mail-send/mail-send)",
-  version: "0.1.2",
+  version: "0.1.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -170,6 +170,7 @@ export default {
           type: "string",
           label: `Attachment File Path or URL ${i}`,
           description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`).",
+          format: "file-ref",
           optional: true,
         };
       }

@@ -6,7 +6,7 @@ export default {
   key: "generated_photos-generate-similar-faces-by-upload",
   name: "Generate Similar Faces to Uploaded Image",
   description: "Generates faces similar to an uploaded image with the Generated Photos API. [See the documentation](https://generated.photos/account#apikey)",
-  version: "1.0.2",
+  version: "1.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -19,6 +19,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "Provide a file URL or a path to a file in the `/tmp` directory.",
+      format: "file-ref",
     },
     limit: {
       propDefinition: [

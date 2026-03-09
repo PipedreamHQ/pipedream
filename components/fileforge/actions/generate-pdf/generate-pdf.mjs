@@ -7,7 +7,7 @@ export default {
   key: "fileforge-generate-pdf",
   name: "Generate PDF",
   description: "Generate a PDF from provided HTML. [See the documentation](https://docs.fileforge.com/api-reference/api-reference/pdf/generate)",
-  version: "0.1.2",
+  version: "0.1.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -31,6 +31,7 @@ export default {
       type: "string[]",
       label: "File Paths or URLs",
       description: "The HTML files to convert to PDF. For each entry, provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.pdf`)",
+      format: "file-ref",
     },
     test: {
       type: "boolean",

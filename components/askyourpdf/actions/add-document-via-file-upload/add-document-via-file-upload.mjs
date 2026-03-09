@@ -6,7 +6,7 @@ export default {
   name: "Add Document Via File Upload",
   description: "Add a document via file upload. [See the documentation](https://docs.askyourpdf.com/askyourpdf-docs/#2.-adding-document-via-file-upload)",
   type: "action",
-  version: "0.1.2",
+  version: "0.2.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -18,6 +18,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
+      format: "file-ref",
     },
     syncDir: {
       type: "dir",

@@ -4,7 +4,7 @@ import zohoBugtracker from "../../zoho_bugtracker.app.mjs";
 export default {
   key: "zoho_bugtracker-update-bug",
   name: "Update Bug",
-  version: "0.2.0",
+  version: "0.2.1",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
