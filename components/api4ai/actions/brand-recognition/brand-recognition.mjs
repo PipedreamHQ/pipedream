@@ -5,7 +5,7 @@ export default {
   name: "Brand Recognition",
   description: "The service processes input image and responds with a list of found brand logos. Powered by API4AI.",
   key: "api4ai-brand-recognition",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

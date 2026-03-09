@@ -1,13 +1,13 @@
-import autodesk from "../../autodesk.app.mjs";
 import {
   axios, getFileStreamAndMetadata,
 } from "@pipedream/platform";
+import autodesk from "../../autodesk.app.mjs";
 
 export default {
   key: "autodesk-upload-file",
   name: "Upload File",
   description: "Uploads a new file to a specified folder in Autodesk. [See the documentation](https://aps.autodesk.com/en/docs/data/v2/tutorials/upload-file/).",
-  version: "0.1.3",
+  version: "0.1.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
