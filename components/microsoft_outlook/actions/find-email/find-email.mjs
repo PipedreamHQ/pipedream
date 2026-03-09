@@ -47,7 +47,8 @@ export default {
       type: "boolean",
       label: "Include Attachments",
       description: "If true, returns additional info for message attachments.",
-      default: true,
+      optional: true,
+      default: false,
     },
   },
   methods: {
