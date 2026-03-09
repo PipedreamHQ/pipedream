@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/amazon_ses",
-  "version": "0.3.11",
+  "version": "0.3.12",
   "description": "Pipedream Amazon SES Components",
   "main": "amazon_ses.app.mjs",
   "keywords": [
