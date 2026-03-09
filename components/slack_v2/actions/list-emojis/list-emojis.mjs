@@ -5,7 +5,7 @@ export default {
   name: "List Emojis",
   description:
     "List all available emojis in the Slack workspace. Optionally include emoji image URLs. [See the documentation](https://api.slack.com/methods/emoji.list)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

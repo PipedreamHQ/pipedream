@@ -5,7 +5,7 @@ export default {
   key: "dromo-create-headless-import",
   name: "Create Headless Import",
   description: "Creates a new headless import. [See the documentation](https://developer.dromo.io/api/#tag/headless/operation/createHeadlessImport)",
-  version: "1.0.2",
+  version: "1.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -30,6 +30,7 @@ export default {
       type: "string",
       label: "File Path Or Url",
       description: "Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/example.csv`)",
+      format: "file-ref",
     },
     syncDir: {
       type: "dir",

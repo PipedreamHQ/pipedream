@@ -7,7 +7,7 @@ export default {
   key: "roboflow-upload-image",
   name: "Upload Image",
   description: "Upload an image to a project on the Roboflow platform. [See the documentation](https://docs.roboflow.com/datasets/adding-data/upload-api).",
-  version: "1.0.2",
+  version: "1.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

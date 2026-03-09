@@ -4,7 +4,7 @@ export default {
   key: "booking_experts-get-guest",
   name: "Get Guest",
   description: "Get a guest by ID. [See the documentation](https://developers.bookingexperts.com/reference/administration-reservation-guests-show)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

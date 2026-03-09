@@ -8,7 +8,7 @@ export default {
   key: "google_chat-create-message",
   name: "Create Message",
   description: "Create a message to post a text or an attachment. [See the documentation](https://developers.google.com/chat/api/reference/rest/v1/spaces.messages/create)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -33,6 +33,7 @@ export default {
       type: "string",
       label: "Attachment",
       description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.pdf).",
+      format: "file-ref",
       optional: true,
     },
     syncDir: {

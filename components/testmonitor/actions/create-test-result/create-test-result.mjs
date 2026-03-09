@@ -9,7 +9,7 @@ export default {
   key: "testmonitor-create-test-result",
   name: "Create Test Result",
   description: "Create a new test result. [See the documentation](https://docs.testmonitor.com/#tag/Test-Results/operation/PostTestResult)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -55,6 +55,7 @@ export default {
       type: "string[]",
       label: "Attachments",
       description: "A list of attachment files. Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.pdf).",
+      format: "file-ref",
       hidden: true,
       optional: true,
     },

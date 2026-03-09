@@ -6,7 +6,7 @@ export default {
   key: "ragie-new-document",
   name: "New Ragie Document Created",
   description: "Emit new event whenever a new document is created in Ragie. [See the documentation](https://docs.ragie.ai/reference/listdocuments)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

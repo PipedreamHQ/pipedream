@@ -6,7 +6,7 @@ export default {
   key: "lmnt-create-custom-voice",
   name: "Create Custom Voice",
   description: "Generates a custom voice from a batch of input audio data. [See the documentation](https://docs.lmnt.com/api-reference/voice/create-voice)",
-  version: "1.0.2",
+  version: "1.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -19,6 +19,7 @@ export default {
       type: "string[]",
       label: "Audio Files Paths or URLs",
       description: "One or more `.wav` or `.mp3` file paths or URLs. Max attached files: 20. Max total file size: 250 MB.",
+      format: "file-ref",
     },
     name: {
       propDefinition: [

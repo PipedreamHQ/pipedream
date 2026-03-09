@@ -5,7 +5,7 @@ export default {
   key: "printautopilot-add-pdf-to-queue",
   name: "Add PDF to Print Autopilot Queue",
   description: "Uploads a PDF document to the print-autopilot queue. [See the documentation](https://documenter.getpostman.com/view/1334461/TW6wJonb#53f82327-4f23-416d-b2f0-ce17b8037933)",
-  version: "0.1.2",
+  version: "0.1.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -18,6 +18,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.pdf`)",
+      format: "file-ref",
     },
     fileName: {
       type: "string",

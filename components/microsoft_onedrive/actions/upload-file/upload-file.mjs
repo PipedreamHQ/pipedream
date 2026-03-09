@@ -8,7 +8,7 @@ export default {
   name: "Upload File",
   description: "Upload a file to OneDrive. [See the documentation](https://learn.microsoft.com/en-us/onedrive/developer/rest-api/api/driveitem_put_content?view=odsp-graph-online)",
   key: "microsoft_onedrive-upload-file",
-  version: "0.2.3",
+  version: "0.2.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -29,6 +29,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
+      format: "file-ref",
     },
     filename: {
       type: "string",
