@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/trint",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Trint Components",
   "main": "trint.app.mjs",
   "keywords": [

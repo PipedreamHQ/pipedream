@@ -12,7 +12,7 @@ export default {
   key: "signaturit-create-signature-request-from-template",
   name: "Create Signature Request from Template",
   description: "Creates a signature request using a pre-existing template. [See the documentation](https://docs.signaturit.com/api/latest#signatures_create_signature)",
-  version: "0.1.2",
+  version: "0.1.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/unstructured",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Unstructured Components",
   "main": "unstructured.app.mjs",
   "keywords": [

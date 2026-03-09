@@ -19,7 +19,7 @@ export default {
   key: "intelliprint-create-a-print-job",
   name: "Create a Print Job",
   description: "Creates a new print job in the Intelliprint API. [See the documentation](https://api-docs.intelliprint.net/?_gl=1*19r3k2k*_gcl_au*MTU2NDU2MDgzMS4xNzY0MDIwNDQx#print_jobs-create)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -32,6 +32,7 @@ export default {
       type: "string",
       label: "File Path",
       description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
+      format: "file-ref",
     },
     reference: {
       type: "string",

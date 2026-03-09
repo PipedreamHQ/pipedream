@@ -6,7 +6,7 @@ export default {
   key: "zoho_bugtracker-add-attachment-to-bug",
   name: "Add Attachment To Bug",
   description: "Adds an attachment to a bug. [See the documentation](https://projects.zoho.com/api-docs#issue-attachment#associate-attachments)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

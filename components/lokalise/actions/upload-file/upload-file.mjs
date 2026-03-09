@@ -5,7 +5,7 @@ export default {
   key: "lokalise-upload-file",
   name: "Upload File",
   description: "Uploads a specified file to a Lokalise project. [See the documentation](https://developers.lokalise.com/reference/upload-a-file)",
-  version: "0.1.2",
+  version: "0.1.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -24,6 +24,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The file to upload (see the [Lokalise documentation for supported file formats](https://docs.lokalise.com/en/collections/2909229-supported-file-formats)). Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`). Must be a [supported file format](https://docs.lokalise.com/en/collections/2909229-supported-file-formats).",
+      format: "file-ref",
     },
     language: {
       propDefinition: [

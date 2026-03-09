@@ -1,0 +1,45 @@
+export default {
+  "id":"1234567",
+  "project_id":"1234567",
+  "group_id":"1234567",
+  "group_name":"Group Name",
+  "it_prefix":"PRO-",
+  "role_name":"Owner",
+  "role_type":"2",
+  "project_name":"Project Name",
+  "project_description":"",
+  "project_unique_name":"Project_Name_1eG",
+  "project_color":"34BADD",
+  "order":0,
+  "created_by_id":"1234567",
+  "created_ts":1772464754,
+  "archived_by_id":"",
+  "archived_ts":null,
+  "f_active":true,
+  "f_public":false,
+  "f_template_project":false,
+  "f_favorite":false,
+  "f_can_delete":true,
+  "f_can_manage":true,
+  "f_can_leave":false,
+  "notifications_count":0,
+  "features":{},
+  "users":[
+    "1234567",
+    "1234567"
+  ],
+  "user_ids":[
+    "1234567",
+    "1234567"
+  ],
+  "applications":[
+    "2",
+    "3",
+    "6",
+    "19",
+    "37"
+  ],
+  "f_no_cft_option":false,
+  "f_no_cfi_option":false,
+  "group_unique_name":"Group_Name_1eG"
+}

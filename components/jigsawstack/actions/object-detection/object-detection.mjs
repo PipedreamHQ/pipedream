@@ -10,7 +10,7 @@ export default {
   key: "jigsawstack-object-detection",
   name: "Object Detection",
   description: "Recognize objects within a provided image and retrieve it with great accuracy. [See the documentation](https://docs.jigsawstack.com/api-reference/ai/object-detection)",
-  version: "1.0.2",
+  version: "1.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -23,6 +23,7 @@ export default {
       type: "string",
       label: "Image File or URL",
       description: "The URL or file path of the image to process.",
+      format: "file-ref",
       optional: true,
     },
     fileStoreKey: {

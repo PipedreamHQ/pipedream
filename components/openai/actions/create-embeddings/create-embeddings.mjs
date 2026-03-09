@@ -4,7 +4,7 @@ import common from "../common/common.mjs";
 
 export default {
   name: "Create Embeddings",
-  version: "0.0.22",
+  version: "0.0.23",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

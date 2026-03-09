@@ -262,6 +262,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The file to process. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`). See the [Assistants Tools guide](https://platform.openai.com/docs/assistants/tools) to learn more about the types of files supported. The Fine-tuning API only supports `.jsonl` files.",
+      format: "file-ref",
     },
     purpose: {
       type: "string",

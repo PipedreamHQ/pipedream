@@ -6,7 +6,7 @@ export default {
   key: "ragie-create-document",
   name: "Create Document",
   description: "Creates a new document in Ragie. [See the documentation](https://docs.ragie.ai/reference/createdocument)",
-  version: "0.1.2",
+  version: "0.1.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
