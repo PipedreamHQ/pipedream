@@ -19,6 +19,8 @@ export default {
   EMBEDDING_MODELS: [
     "pplx-embed-v1-0.6b",
     "pplx-embed-v1-4b",
+  ],
+  CONTEXTUALIZED_EMBEDDING_MODELS: [
     "pplx-embed-context-v1-0.6b",
     "pplx-embed-context-v1-4b",
   ],
