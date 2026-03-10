@@ -5,7 +5,7 @@ export default {
   key: "jo4-new-referring-domain",
   name: "New Referring Domain (Instant)",
   description: "Emit new event when traffic from a new referring domain is detected. [See the documentation](https://jo4.io/docs)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

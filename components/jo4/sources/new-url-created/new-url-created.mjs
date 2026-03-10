@@ -5,7 +5,7 @@ export default {
   key: "jo4-new-url-created",
   name: "New Short URL Created (Instant)",
   description: "Emit new event when a short URL is created. [See the documentation](https://jo4.io/docs)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
