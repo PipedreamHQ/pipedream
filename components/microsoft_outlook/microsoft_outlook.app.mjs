@@ -156,7 +156,7 @@ export default {
       description: "Specify the folder IDs or names in Outlook that you want to monitor for new emails. Leave empty to monitor all folders (excluding \"Sent Items\" and \"Drafts\").",
       async options({ page }) {
         const limit = DEFAULT_LIMIT;
-        const { value: folders } = await this.listFolders({
+        const folders = await this.listAllFolders({
           params: {
             $top: limit,
             $skip: limit * page,
@@ -459,6 +459,25 @@ export default {
       return await this.client().api("/me/mailFolders")
         .query(pickBy(params))
         .get();
+    },
+    async listAllFolders({
+      parentFolderId, params = {},
+    } = {}) {
+      const { value } = await this.client().api(`/me/mailFolders${parentFolderId
+        ? `/${parentFolderId}/childFolders`
+        : ""}`)
+        .query(pickBy(params))
+        .get();
+
+      const foldersArray = [];
+      for (const folder of value) {
+        foldersArray.push(folder);
+        foldersArray.push(...await this.listAllFolders({
+          parentFolderId: folder.id,
+          params,
+        }));
+      }
+      return foldersArray;
     },
     async moveMessage({
       messageId, data = {},
