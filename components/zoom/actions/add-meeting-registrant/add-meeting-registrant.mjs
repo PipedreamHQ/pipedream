@@ -1,12 +1,12 @@
-import app from "../../zoom.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 import constants from "../../common/utils.mjs";
+import app from "../../zoom.app.mjs";
 
 export default {
   key: "zoom-add-meeting-registrant",
   name: "Add Meeting Registrant",
   description: "Registers a participant or multiple participants for a meeting. [See the documentation](https://developers.zoom.us/docs/api/rest/reference/zoom-api/methods/#operation/meetingRegistrantCreate)",
-  version: "0.3.10",
+  version: "0.3.11",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

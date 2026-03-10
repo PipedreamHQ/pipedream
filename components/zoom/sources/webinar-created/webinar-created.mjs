@@ -6,7 +6,7 @@ export default {
   key: "zoom-webinar-created",
   name: "Webinar Created (Instant)",
   description: "Emit new event each time a webinar is created where you're the host",
-  version: "0.1.9",
+  version: "0.1.10",
   type: "source",
   dedupe: "unique",
   props: {

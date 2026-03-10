@@ -4,8 +4,13 @@ export default {
   key: "jo4-list-urls",
   name: "List URLs",
   description: "List your short URLs with optional click statistics. [See the documentation](https://jo4.io/docs)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     jo4,
     page: {
