@@ -50,10 +50,15 @@ export default {
       throw new ConfigurationError("Either **Preset** or **Model** must be provided.");
     }
 
-    const tools = this.tools?.map((t) =>
-      typeof t === "string"
-        ? JSON.parse(t)
-        : t);
+    let tools;
+    try {
+      tools = this.tools?.map((t) =>
+        typeof t === "string"
+          ? JSON.parse(t)
+          : t);
+    } catch (error) {
+      throw new ConfigurationError("Invalid JSON in tools array: each element must be a valid JSON string.");
+    }
 
     const data = {
       input: this.input,
