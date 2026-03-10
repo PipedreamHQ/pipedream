@@ -85,7 +85,9 @@ export default {
       data,
     });
 
-    $.export("$summary", `Successfully created response \`${response.id}\`.`);
+    if (response?.id) {
+      $.export("$summary", `Successfully created response \`${response.id}\`.`);
+    }
     return response;
   },
 };
