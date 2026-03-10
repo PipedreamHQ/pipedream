@@ -120,6 +120,17 @@ export default {
       label: "Input",
       description: "Array of text strings to generate embeddings for",
     },
+    contextualizedEmbeddingsModel: {
+      type: "string",
+      label: "Model",
+      description: "The contextualized embedding model to use",
+      options: constants.CONTEXTUALIZED_EMBEDDING_MODELS,
+    },
+    contextualizedEmbeddingsInput: {
+      type: "string[]",
+      label: "Input",
+      description: "Array of JSON-stringified arrays. Each inner array is a group of text strings representing a document and its context.",
+    },
     temperature: {
       type: "string",
       label: "Temperature",
@@ -207,6 +218,13 @@ export default {
       return this._makeRequest({
         method: "post",
         path: "/v1/embeddings",
+        ...args,
+      });
+    },
+    async createContextualizedEmbeddings(args = {}) {
+      return this._makeRequest({
+        method: "post",
+        path: "/v1/contextualizedembeddings",
         ...args,
       });
     },
