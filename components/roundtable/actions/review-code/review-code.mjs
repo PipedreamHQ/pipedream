@@ -1,4 +1,4 @@
-import roundtable from "../../roundtable.app/roundtable.app.mjs";
+import roundtable from "../../roundtable.app.mjs";
 
 export default {
   key: "roundtable-review-code",

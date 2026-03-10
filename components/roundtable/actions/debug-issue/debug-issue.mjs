@@ -1,4 +1,4 @@
-import roundtable from "../../roundtable.app/roundtable.app.mjs";
+import roundtable from "../../roundtable.app.mjs";
 
 export default {
   key: "roundtable-debug-issue",
@@ -46,7 +46,7 @@ export default {
         thinking_level: this.thinkingLevel,
       },
     });
-    $.export("$summary", `Debugging completed: "${this.problem.slice(0, 60)}..."`);
+    $.export("$summary", "Debugging completed");
     return response;
   },
 };

@@ -1,4 +1,4 @@
-import roundtable from "../../roundtable.app/roundtable.app.mjs";
+import roundtable from "../../roundtable.app.mjs";
 
 export default {
   key: "roundtable-design-architecture",
@@ -37,7 +37,7 @@ export default {
         tech_stack: this.techStack,
       },
     });
-    $.export("$summary", `Architecture design completed: "${this.description.slice(0, 60)}..."`);
+    $.export("$summary", "Architecture design completed");
     return response;
   },
 };

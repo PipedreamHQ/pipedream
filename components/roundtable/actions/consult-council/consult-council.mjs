@@ -1,4 +1,4 @@
-import roundtable from "../../roundtable.app/roundtable.app.mjs";
+import roundtable from "../../roundtable.app.mjs";
 
 export default {
   key: "roundtable-consult-council",
@@ -34,7 +34,7 @@ export default {
         context: this.context,
       },
     });
-    $.export("$summary", `Council discussion completed: "${this.prompt.slice(0, 60)}..."`);
+    $.export("$summary", "Council discussion completed");
     return response;
   },
 };
