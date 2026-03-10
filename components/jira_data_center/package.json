@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/jira_data_center",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Jira Data Center Components",
   "main": "jira_data_center.app.mjs",
   "keywords": [

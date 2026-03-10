@@ -4,7 +4,7 @@ export default {
   name: "Move Issues To Sprint",
   description: "Moves issues to a sprint. [See the documentation](https://developer.atlassian.com/server/jira/platform/rest/v10002/api-group-sprint/#api-agile-1-0-sprint-sprintid-issue-post)",
   key: "jira_data_center-move-issues-to-sprint",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
