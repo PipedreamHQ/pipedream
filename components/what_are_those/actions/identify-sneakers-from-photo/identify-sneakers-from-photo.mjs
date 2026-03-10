@@ -6,7 +6,7 @@ export default {
   key: "what_are_those-identify-sneakers-from-photo",
   name: "Identify Sneakers from Photo",
   description: "Identifies sneakers from an uploaded image and returns details such as name, links, images, prices, and confidence scores. [See the documentation](https://documenter.getpostman.com/view/3847098/2sAY4rDQDs#957c900c-501f-4c8f-9b8b-71655a8cfb5d).",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -19,6 +19,7 @@ export default {
       type: "string",
       label: "Image",
       description: "The image to upload. Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.jpg).",
+      format: "file-ref",
     },
     syncDir: {
       type: "dir",

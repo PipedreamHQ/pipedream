@@ -5,7 +5,7 @@ export default {
   key: "hootsuite-create-media-upload-job",
   name: "Create Media Upload Job",
   description: "Creates a new Media Upload Job on your Hootsuite account. [See the documentation](https://apidocs.hootsuite.com/docs/api/index.html#operation/createMedia)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -18,6 +18,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The path or URL to the image file.",
+      format: "file-ref",
     },
     syncDir: {
       type: "dir",

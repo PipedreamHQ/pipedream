@@ -9,7 +9,7 @@ const langOptions = lang.LANGUAGES.map((l) => ({
 export default {
   ...common,
   name: "Translate Text (Whisper)",
-  version: "0.1.10",
+  version: "0.1.11",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

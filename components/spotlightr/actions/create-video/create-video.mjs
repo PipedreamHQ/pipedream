@@ -5,7 +5,7 @@ import spotlightr from "../../spotlightr.app.mjs";
 export default {
   key: "spotlightr-create-video",
   name: "Create Video",
-  version: "1.0.2",
+  version: "1.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -19,6 +19,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.pdf).",
+      format: "file-ref",
     },
     name: {
       type: "string",

@@ -1,12 +1,12 @@
-import _2markdown from "../../_2markdown.app.mjs";
 import { getFileStreamAndMetadata } from "@pipedream/platform";
 import FormData from "form-data";
+import _2markdown from "../../_2markdown.app.mjs";
 
 export default {
   key: "_2markdown-pdf-to-markdown",
   name: "PDF to Markdown",
   description: "Convert a PDF document to Markdown format. [See the documentation](https://2markdown.com/docs#pdf2md)",
-  version: "0.1.1",
+  version: "0.2.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
