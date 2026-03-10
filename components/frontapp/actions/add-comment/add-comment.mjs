@@ -1,11 +1,11 @@
-import frontApp from "../../frontapp.app.mjs";
 import utils from "../../common/utils.mjs";
+import frontApp from "../../frontapp.app.mjs";
 
 export default {
   key: "frontapp-add-comment",
   name: "Add Comment",
   description: "Add a comment to a conversation. [See the documentation](https://dev.frontapp.com/reference/add-comment)",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

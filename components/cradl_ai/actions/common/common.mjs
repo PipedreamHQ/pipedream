@@ -1,6 +1,6 @@
-import cradlAi from "../../cradl_ai.app.mjs";
-import constants from "../../common/constants.mjs";
 import { getFileStream } from "@pipedream/platform";
+import constants from "../../common/constants.mjs";
+import cradlAi from "../../cradl_ai.app.mjs";
 
 export default {
   props: {
@@ -9,6 +9,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The file to process. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`).",
+      format: "file-ref",
     },
     contentType: {
       type: "string",

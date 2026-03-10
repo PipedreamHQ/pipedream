@@ -72,8 +72,9 @@ export default {
     },
     file: {
       type: "string",
-      label: "File Path",
-      description: "The path to the file saved to the `/tmp` directory (e.g. `tmp/example.pdf`). Allowed types: **pdf, docx, doc, odt, txt, jpg, jpeg, png, webp**. [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
+      label: "File Path or URL to upload",
+      description: "Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.pdf`).",
+      format: "file-ref",
       optional: true,
     },
   },

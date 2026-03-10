@@ -6,7 +6,7 @@ export default {
   key: "customgpt-create-project",
   name: "Create Project (Agent)",
   description: "Create a new agent by importing data either from a sitemap or an uploaded file. The system will process the provided data and generate a new agent based on the imported or uploaded information. [See the documentation](https://docs.customgpt.ai/reference/post_api-v1-projects)",
-  version: "0.0.1",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -28,8 +28,9 @@ export default {
     },
     file: {
       type: "string",
-      label: "File Path",
-      description: "The path to the file saved to the `/tmp` directory (e.g. `tmp/example.pdf`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
+      label: "File Path or URL to upload",
+      description: "Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.pdf`).",
+      format: "file-ref",
       optional: true,
     },
   },
