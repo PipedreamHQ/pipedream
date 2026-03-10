@@ -6,6 +6,11 @@ export default {
   description: "Get a multi-perspective code review from multiple AI models. [See the documentation](https://roundtable.now)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     roundtable,
     code: {

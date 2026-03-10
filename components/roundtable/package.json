@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/roundtable",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Roundtable Components",
   "main": "roundtable.app.mjs",
   "keywords": [
@@ -16,6 +16,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.0.3"
+    "@pipedream/platform": "^3.2.5"
   }
 }

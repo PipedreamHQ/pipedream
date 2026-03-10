@@ -6,6 +6,11 @@ export default {
   description: "Get architectural recommendations from multiple AI models for system design decisions. [See the documentation](https://roundtable.now)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     roundtable,
     description: {

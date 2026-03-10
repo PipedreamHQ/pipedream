@@ -6,6 +6,11 @@ export default {
   description: "Debug an issue using multiple AI models analyzing the problem from different angles. [See the documentation](https://roundtable.now)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     roundtable,
     problem: {

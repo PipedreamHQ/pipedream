@@ -6,6 +6,11 @@ export default {
   description: "Run a multi-model AI debate on any question. Multiple AI models discuss your prompt, then a moderator synthesizes all perspectives. [See the documentation](https://roundtable.now)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     roundtable,
     prompt: {
