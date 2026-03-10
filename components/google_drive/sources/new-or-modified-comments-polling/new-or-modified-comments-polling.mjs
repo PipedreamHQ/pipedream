@@ -6,7 +6,7 @@ export default {
   key: "google_drive-new-or-modified-comments-polling",
   name: "New or Modified Comments (Polling)",
   description: "Emit new event when a comment is created or modified in the selected file",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   props: {
