@@ -38,12 +38,6 @@ export default {
         "tools",
       ],
     },
-    stream: {
-      propDefinition: [
-        app,
-        "stream",
-      ],
-    },
     temperature: {
       propDefinition: [
         app,
@@ -71,9 +65,6 @@ export default {
       }),
       ...(tools?.length && {
         tools,
-      }),
-      ...(this.stream != null && {
-        stream: this.stream,
       }),
       ...(this.temperature != null && {
         temperature: +this.temperature,
