@@ -43,7 +43,9 @@ export default {
       body: this.body,
     });
 
-    $.export("$summary", `Successfully created comment with ID ${response._comment.id}`);
+    if (response?._comment) {
+      $.export("$summary", `Successfully created comment with ID ${response._comment.id}`);
+    }
 
     return response;
   },
