@@ -4,7 +4,7 @@ export default {
   key: "returnless-update-return-address",
   name: "Update Return Address",
   description: "Update a return address. [See the documentation](https://docs.returnless.com/docs/api-rest-reference/bdf8070b84150-update-a-return-address)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

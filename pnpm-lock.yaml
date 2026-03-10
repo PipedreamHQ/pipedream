@@ -6815,6 +6815,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/granola: {}
+
   components/graphhopper: {}
 
   components/graphy: {}
@@ -7980,7 +7982,11 @@ importers:
 
   components/jlcpcb: {}
 
-  components/jo4: {}
+  components/jo4:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/jobber:
     dependencies:
@@ -11354,6 +11360,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.2.5
         version: 3.3.0
+
+  components/pdf_api_hub: {}
 
   components/pdf_api_io:
     dependencies:
@@ -17997,8 +18005,8 @@ importers:
   components/zoom:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/zoom_admin:
     dependencies:
@@ -26032,6 +26040,7 @@ packages:
 
   delighted@2.1.0:
     resolution: {integrity: sha512-GC981FrvWm4ElRf0QHDUNDn1NvvyVy0bmfdygPtUmknUJDeFqgmf8+MJlX40KQBgg1NgkYdWQQlW8PuIqRR0qw==}
+    deprecated: 'Delighted is being sunset on June 30, 2026. This package is deprecated and will no longer be maintained or receive updates. For more information, visit the Delighted Sunset FAQ: https://help.delighted.com/article/840-delighted-sunset-faq'
 
   denque@2.1.0:
     resolution: {integrity: sha512-HVQE3AAb/pxF8fQAoiqpvg9i3evqug3hoiwakOyZAwJm+6vZehbkYXZ0l4JxS+I3QxM97v5aaRNhj8v5oBhekw==}
@@ -42665,7 +42674,7 @@ snapshots:
   '@types/jsonwebtoken@9.0.10':
     dependencies:
       '@types/ms': 2.1.0
-      '@types/node': 20.19.33
+      '@types/node': 20.19.35
 
   '@types/jssha@2.0.0': {}
 

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zenfulfillment",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream Zenfulfillment Components",
   "main": "zenfulfillment.app.mjs",
   "keywords": [

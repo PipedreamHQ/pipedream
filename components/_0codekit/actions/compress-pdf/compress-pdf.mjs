@@ -5,7 +5,7 @@ export default {
   key: "_0codekit-compress-pdf",
   name: "Compress PDF",
   description: "Compresses a PDF using the specified URL or file reference. [See the documentation](https://documenter.getpostman.com/view/18297710/UVkntwBv#fdcb09dc-c316-4b80-b523-5a1f3afac1e6)",
-  version: "0.1.0",
+  version: "0.1.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
