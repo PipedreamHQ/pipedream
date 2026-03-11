@@ -4,7 +4,7 @@ export default {
   key: "e2b-run-code",
   name: "Run Code",
   description: "Run or interpret code using the E2B service. [See the documentation](https://www.npmjs.com/package/e2b).",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
