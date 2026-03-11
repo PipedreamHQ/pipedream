@@ -4,7 +4,7 @@ export default {
   key: "linear_app-get-view-issues",
   name: "Get View Issues",
   description: "Get issues from a custom view in Linear. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Query?query=customView)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

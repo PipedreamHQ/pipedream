@@ -5,7 +5,7 @@ export default {
   key: "linear_app-get-issue",
   name: "Get Issue",
   description: "Retrieves a Linear issue by its ID or identifier. Returns complete issue details including title, description, state, assignee, team, project, labels, and timestamps. Uses API Key authentication. [See the documentation](https://linear.app/developers/graphql).",
-  version: "0.1.18",
+  version: "0.1.19",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

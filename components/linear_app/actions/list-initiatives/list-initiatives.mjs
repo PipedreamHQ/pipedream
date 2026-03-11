@@ -4,7 +4,7 @@ export default {
   key: "linear_app-list-initiatives",
   name: "List Initiatives",
   description: "List initiatives in Linear. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Query?query=initiatives)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
