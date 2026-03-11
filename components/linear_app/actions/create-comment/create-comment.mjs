@@ -4,7 +4,7 @@ export default {
   key: "linear_app-create-comment",
   name: "Create Comment",
   description: "Create a comment in Linear. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Mutation?query=comment)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

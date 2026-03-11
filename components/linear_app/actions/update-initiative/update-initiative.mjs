@@ -4,7 +4,7 @@ export default {
   key: "linear_app-update-initiative",
   name: "Update Initiative",
   description: "Update an initiative in Linear. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Mutation?query=initiativeupdate)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: true,

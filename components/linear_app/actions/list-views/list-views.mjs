@@ -4,7 +4,7 @@ export default {
   key: "linear_app-list-views",
   name: "List Views",
   description: "List views in Linear. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Query?query=views)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
