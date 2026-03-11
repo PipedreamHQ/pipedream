@@ -46,28 +46,31 @@ export default {
         description: "Select a frequency to make this event repeating",
         optional: true,
         options: Object.keys(constants.REPEAT_FREQUENCIES),
-        reloadProps: true,
       },
       repeatInterval: {
         type: "integer",
         label: "Repeat Interval",
         description: "Enter 1 to \"repeat every day\", enter 2 to \"repeat every other day\", etc. Defaults to 1.",
         optional: true,
-        hidden: true,
+      },
+      repeatSpecificDays: {
+        type: "string[]",
+        label: "Repeat Specific Days",
+        description: "The event will repeat on these days of the week. Repeat Interval must be `WEEKLY`.",
+        optional: true,
+        options: constants.DAYS_OF_WEEK,
       },
       repeatUntil: {
         type: "string",
         label: "Repeat Until",
-        description: "The event will repeat only until this date, if set",
+        description: "The event will repeat only until this date, if set. Only one of `Repeat Until` or Repeat `How Many Times` may be entered.",
         optional: true,
-        hidden: true,
       },
       repeatTimes: {
         type: "integer",
         label: "Repeat How Many Times?",
-        description: "Limit the number of times this event will occur",
+        description: "Limit the number of times this event will occur. Only one of `Repeat Until` or Repeat `How Many Times` may be entered.",
         optional: true,
-        hidden: true,
       },
     }
   ),
@@ -159,15 +162,27 @@ export default {
       repeatInterval,
       repeatTimes,
       repeatUntil,
+      repeatSpecificDays,
     }) {
+      if (!repeatFrequency
+        && (repeatInterval || repeatTimes || repeatUntil || repeatSpecificDays)
+      ) {
+        throw new ConfigurationError("`Repeat Frequency` is required when `Repeat Interval`, `Repeat Times`, `Repeat Until`, or `Repeat Specific Days` is entered.");
+      }
       if (!repeatFrequency) {
         return;
       }
       if (repeatTimes && repeatUntil) {
         throw new ConfigurationError("Only one of `Repeat Until` or Repeat `How Many Times` may be entered");
       }
+      if (repeatSpecificDays && repeatFrequency !== "WEEKLY") {
+        throw new ConfigurationError("`Repeat Specific Days` is only for use with `Repeat Frequency` of `WEEKLY`.");
+      }
 
-      let recurrence = `RRULE:FREQ=${repeatFrequency}`;
+      let recurrence = `RRULE:FREQ=${repeatFrequency}` ;
+      if (repeatSpecificDays) {
+        recurrence = `${recurrence};BYDAY=${repeatSpecificDays.join(",")}`;
+      }
       if (repeatInterval) {
         recurrence = `${recurrence};INTERVAL=${repeatInterval}`;
       }
