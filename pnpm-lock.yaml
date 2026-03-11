@@ -2277,8 +2277,8 @@ importers:
   components/bugherd:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/bugsnag:
     dependencies:
