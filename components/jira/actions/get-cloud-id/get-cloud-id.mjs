@@ -3,7 +3,7 @@ import jira from "../../jira.app.mjs";
 export default {
   key: "jira-get-cloud-id",
   name: "Get Cloud ID",
-  description: "Gets the cloud ID and details of all accessible Jira Cloud sites. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/oauth-2-3LO-apps/#2--get-the-cloudid-for-your-site)",
+  description: "Gets the cloud ID and details of all accessible Jira Cloud sites. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/oauth-2-3lo-apps/)",
   version: "0.0.1",
   type: "action",
   annotations: {
