@@ -5,7 +5,7 @@ export default {
   key: "bugherd-add-attachment",
   name: "Add Attachment",
   description: "Adds a new attachment to the specified task using an existing URL. [See the documentation](https://www.bugherd.com/api_v2#api_attachment_create)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

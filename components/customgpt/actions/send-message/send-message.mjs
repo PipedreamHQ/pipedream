@@ -10,7 +10,7 @@ export default {
   key: "customgpt-send-message",
   name: "Send Message",
   description: "Sends a message to an existing conversation within a project. [See the documentation](https://docs.customgpt.ai/reference/post_api-v1-projects-projectid-conversations-sessionid-messages)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
