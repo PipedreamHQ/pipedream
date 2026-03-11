@@ -710,8 +710,8 @@ importers:
   components/aivoov:
     dependencies:
       axios:
-        specifier: ^1.13.2
-        version: 1.13.2(debug@3.2.7)
+        specifier: ^0.30.2
+        version: 0.30.3
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -1122,8 +1122,8 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
       axios:
-        specifier: ^1.13.2
-        version: 1.13.2(debug@3.2.7)
+        specifier: ^0.30.2
+        version: 0.30.3
       sqlstring:
         specifier: ^2.3.3
         version: 2.3.3
@@ -1821,7 +1821,7 @@ importers:
         version: 0.10.1
       axios:
         specifier: ^0.30.2
-        version: 0.30.2
+        version: 0.30.3
       package-lock-only:
         specifier: ^0.0.4
         version: 0.0.4
@@ -1852,8 +1852,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
       axios:
-        specifier: ^1.13.2
-        version: 1.13.2(debug@3.2.7)
+        specifier: ^0.30.2
+        version: 0.30.3
 
   components/bitport:
     dependencies:
@@ -2157,7 +2157,7 @@ importers:
         version: 0.1.1
       axios:
         specifier: ^0.30.2
-        version: 0.30.2
+        version: 0.30.3
       uuid:
         specifier: ^8.3.2
         version: 8.3.2
@@ -2722,8 +2722,8 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
       axios:
-        specifier: ^1.13.2
-        version: 1.13.2(debug@3.2.7)
+        specifier: ^0.30.2
+        version: 0.30.3
 
   components/chatfai:
     dependencies:
@@ -8751,8 +8751,8 @@ importers:
         specifier: ^3.2.5
         version: 3.3.0
       axios:
-        specifier: ^1.13.2
-        version: 1.13.2(debug@3.2.7)
+        specifier: ^0.30.2
+        version: 0.30.3
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -9287,8 +9287,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
       axios:
-        specifier: ^1.13.2
-        version: 1.13.2(debug@3.2.7)
+        specifier: ^0.30.2
+        version: 0.30.3
 
   components/matrix: {}
 
@@ -9640,7 +9640,7 @@ importers:
         version: 143.0.4
       axios:
         specifier: ^0.30.2
-        version: 0.30.2
+        version: 0.30.3
       js-base64:
         specifier: ^3.7.2
         version: 3.7.8
@@ -10775,7 +10775,7 @@ importers:
     dependencies:
       axios:
         specifier: ^0.30.2
-        version: 0.30.2
+        version: 0.30.3
       node-fetch:
         specifier: ^2.6.7
         version: 2.7.0(encoding@0.1.13)
@@ -11273,8 +11273,8 @@ importers:
   components/patreon:
     dependencies:
       axios:
-        specifier: ^1.13.2
-        version: 1.13.2(debug@3.2.7)
+        specifier: ^0.30.2
+        version: 0.30.3
       url:
         specifier: ^0.11.0
         version: 0.11.4
@@ -12752,7 +12752,7 @@ importers:
         version: 1.3.3
       axios:
         specifier: ^0.30.2
-        version: 0.30.2
+        version: 0.30.3
       lodash:
         specifier: ^4.17.23
         version: 4.17.23
@@ -13303,8 +13303,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
       axios:
-        specifier: ^1.13.2
-        version: 1.13.2(debug@3.2.7)
+        specifier: ^0.30.2
+        version: 0.30.3
       feedparser:
         specifier: ^2.2.10
         version: 2.2.10
@@ -14003,7 +14003,7 @@ importers:
     dependencies:
       axios:
         specifier: ^0.30.2
-        version: 0.30.2
+        version: 0.30.3
 
   components/sftp:
     dependencies:
@@ -14852,8 +14852,8 @@ importers:
         specifier: ^3.2.5
         version: 3.3.0
       axios:
-        specifier: ^1.13.2
-        version: 1.13.2(debug@3.2.7)
+        specifier: ^0.30.2
+        version: 0.30.3
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -14923,7 +14923,7 @@ importers:
         version: 1.6.8
       axios:
         specifier: ^0.30.2
-        version: 0.30.2
+        version: 0.30.3
       he:
         specifier: ^1.2.0
         version: 1.2.0
@@ -16267,7 +16267,7 @@ importers:
         version: 1.6.8
       axios:
         specifier: ^0.30.2
-        version: 0.30.2
+        version: 0.30.3
       lodash:
         specifier: ^4.17.23
         version: 4.17.23
@@ -16894,7 +16894,7 @@ importers:
         version: 4.5.2(@types/node@17.0.45)(encoding@0.1.13)(openapi-types@12.1.3)
       axios:
         specifier: ^0.30.2
-        version: 0.30.2
+        version: 0.30.3
       openapi-types:
         specifier: ^12.0.0
         version: 12.1.3
@@ -17525,7 +17525,7 @@ importers:
     dependencies:
       axios:
         specifier: ^0.30.2
-        version: 0.30.2
+        version: 0.30.3
       lodash.get:
         specifier: ^4.4.2
         version: 4.4.2
@@ -17987,8 +17987,8 @@ importers:
         specifier: ^3.2.5
         version: 3.3.0
       axios:
-        specifier: ^1.13.2
-        version: 1.13.2(debug@3.2.7)
+        specifier: ^0.30.2
+        version: 0.30.3
       file-type:
         specifier: ^21.3.1
         version: 21.3.1
@@ -18248,7 +18248,7 @@ importers:
     dependencies:
       axios:
         specifier: ^1.13.2
-        version: 1.13.2(debug@3.2.7)
+        version: 1.13.6(debug@3.2.7)
       fp-ts:
         specifier: ^2.0.2
         version: 2.16.11
@@ -24707,11 +24707,14 @@ packages:
     peerDependencies:
       axios: ^0.30.2
 
-  axios@0.30.2:
-    resolution: {integrity: sha512-0pE4RQ4UQi1jKY6p7u6i1Tkzqmu+d+/tHS7Q7rKunWLB9WyilBTpHHpXzPNMDj5hTbK0B0PTLSz07yqMBiF6xg==}
+  axios@0.30.3:
+    resolution: {integrity: sha512-5/tmEb6TmE/ax3mdXBc/Mi6YdPGxQsv+0p5YlciXWt3PHIn0VamqCXhRMtScnwY3lbgSXLneOuXAKUhgmSRpwg==}
 
   axios@1.13.2:
     resolution: {integrity: sha512-VPk9ebNqPcy5lRGuSlKx752IlDatOjT9paPlm8A7yOuW2Fbvp4X3JznJtT4f0GzGLLiWE9W8onz51SqLYwzGaA==}
+
+  axios@1.13.6:
+    resolution: {integrity: sha512-ChTCHMouEe2kn713WHbQGcuYrr6fXTBiu460OTwWrWob16g1bXn4vtz07Ope7ewMozJAnEquLk5lWQWtBig9DQ==}
 
   axobject-query@4.1.0:
     resolution: {integrity: sha512-qIj0G9wZbMGNLjLmg1PT6v2mE9AH2zlnADJD/2tC6E00hgmhUOfEB6greHPAfLRSufHqROIUTkw6E+M3lH0PTQ==}
@@ -37077,7 +37080,7 @@ snapshots:
   '@bandwidth/messaging@4.1.7':
     dependencies:
       '@apimatic/schema': 0.6.0
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.6(debug@3.2.7)
       detect-node: 2.1.0
       form-data: 3.0.4
       json-bigint: 1.0.0
@@ -37151,9 +37154,9 @@ snapshots:
     dependencies:
       '@scure/bip32': 1.7.0
       abitype: 1.1.1(typescript@5.9.3)(zod@4.1.12)
-      axios: 1.13.2(debug@3.2.7)
-      axios-mock-adapter: 1.22.0(axios@1.13.2)
-      axios-retry: 4.5.0(axios@1.13.2)
+      axios: 1.13.6(debug@3.2.7)
+      axios-mock-adapter: 1.22.0(axios@1.13.6)
+      axios-retry: 4.5.0(axios@1.13.6)
       bip32: 4.0.0
       bip39: 3.1.0
       decimal.js: 10.6.0
@@ -37386,7 +37389,7 @@ snapshots:
 
   '@daytonaio/api-client@0.138.0':
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.6(debug@3.2.7)
     transitivePeerDependencies:
       - debug
 
@@ -37397,7 +37400,7 @@ snapshots:
       '@daytonaio/api-client': 0.138.0
       '@daytonaio/toolbox-api-client': 0.138.0
       '@iarna/toml': 2.2.5
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.6(debug@3.2.7)
       busboy: 1.6.0
       dotenv: 17.2.3
       expand-tilde: 2.0.2
@@ -37414,7 +37417,7 @@ snapshots:
 
   '@daytonaio/toolbox-api-client@0.138.0':
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.6(debug@3.2.7)
     transitivePeerDependencies:
       - debug
 
@@ -38688,13 +38691,13 @@ snapshots:
 
   '@kontent-ai/core-sdk@10.4.0':
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.6(debug@3.2.7)
     transitivePeerDependencies:
       - debug
 
   '@kontent-ai/core-sdk@10.7.0':
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.6(debug@3.2.7)
     transitivePeerDependencies:
       - debug
 
@@ -38719,7 +38722,7 @@ snapshots:
     dependencies:
       '@types/body-parser': 1.19.6
       '@types/node': 18.19.130
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.6(debug@3.2.7)
       body-parser: 1.20.3
       file-type: 16.5.4
       form-data: 4.0.4
@@ -38741,7 +38744,7 @@ snapshots:
 
   '@lob/lob-typescript-sdk@1.3.5':
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.6(debug@3.2.7)
       tslib: 2.8.1
     transitivePeerDependencies:
       - debug
@@ -38783,7 +38786,7 @@ snapshots:
 
   '@memberstack/admin@1.3.1':
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.6(debug@3.2.7)
       jose: 4.15.5
     transitivePeerDependencies:
       - debug
@@ -39936,7 +39939,7 @@ snapshots:
   '@pipedream/linkedin@0.1.1':
     dependencies:
       '@pipedream/platform': 1.6.8
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.6(debug@3.2.7)
       form-data: 4.0.4
     transitivePeerDependencies:
       - debug
@@ -39944,7 +39947,7 @@ snapshots:
   '@pipedream/microsoft_outlook@1.7.5':
     dependencies:
       '@pipedream/platform': 3.3.0
-      axios: 0.30.2
+      axios: 0.30.3
       js-base64: 3.7.8
       md5: 2.3.0
       mime-types: 2.1.35
@@ -39991,7 +39994,7 @@ snapshots:
 
   '@pipedream/platform@0.10.1':
     dependencies:
-      axios: 0.30.2
+      axios: 0.30.3
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
     transitivePeerDependencies:
@@ -39999,7 +40002,7 @@ snapshots:
 
   '@pipedream/platform@1.6.8':
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.2
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
       querystring: 0.2.1
@@ -40008,7 +40011,7 @@ snapshots:
 
   '@pipedream/platform@2.0.2':
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.2
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
       querystring: 0.2.1
@@ -40017,7 +40020,7 @@ snapshots:
 
   '@pipedream/platform@3.0.3':
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.6(debug@3.2.7)
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
       querystring: 0.2.1
@@ -40026,7 +40029,7 @@ snapshots:
 
   '@pipedream/platform@3.1.1':
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.2
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
       mime-types: 3.0.1
@@ -40037,7 +40040,7 @@ snapshots:
 
   '@pipedream/platform@3.2.1':
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.6(debug@3.2.7)
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
       mime-types: 3.0.1
@@ -40048,7 +40051,7 @@ snapshots:
 
   '@pipedream/platform@3.2.2':
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.6(debug@3.2.7)
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
       mime-types: 3.0.1
@@ -40059,7 +40062,7 @@ snapshots:
 
   '@pipedream/platform@3.2.4':
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.6(debug@3.2.7)
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
       mime-types: 3.0.1
@@ -40070,7 +40073,7 @@ snapshots:
 
   '@pipedream/platform@3.2.5':
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.6(debug@3.2.7)
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
       mime-types: 3.0.1
@@ -40081,7 +40084,7 @@ snapshots:
 
   '@pipedream/platform@3.3.0':
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.2
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
       mime-types: 3.0.1
@@ -41764,7 +41767,7 @@ snapshots:
   '@sendgrid/client@7.7.0':
     dependencies:
       '@sendgrid/helpers': 7.7.0
-      axios: 0.30.2
+      axios: 0.30.3
     transitivePeerDependencies:
       - debug
 
@@ -41812,7 +41815,7 @@ snapshots:
 
   '@shortcut/client@2.3.1':
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.6(debug@3.2.7)
     transitivePeerDependencies:
       - debug
 
@@ -41903,7 +41906,7 @@ snapshots:
       '@slack/types': 1.10.0
       '@types/is-stream': 1.1.0
       '@types/node': 20.19.25
-      axios: 0.30.2
+      axios: 0.30.3
       eventemitter3: 3.1.2
       form-data: 2.5.4
       is-stream: 1.1.0
@@ -41918,7 +41921,7 @@ snapshots:
       '@slack/types': 2.18.0
       '@types/node': 20.19.25
       '@types/retry': 0.12.0
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.6(debug@3.2.7)
       eventemitter3: 5.0.1
       form-data: 4.0.4
       is-electron: 2.2.2
@@ -42482,7 +42485,7 @@ snapshots:
 
   '@tuya/tuya-connector-nodejs@2.1.2':
     dependencies:
-      axios: 0.30.2
+      axios: 0.30.3
       qs: 6.14.2
     transitivePeerDependencies:
       - debug
@@ -43261,7 +43264,7 @@ snapshots:
 
   '@woocommerce/woocommerce-rest-api@1.0.2':
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.6(debug@3.2.7)
       create-hmac: 1.1.7
       oauth-1.0a: 2.2.6
       url-parse: 1.5.10
@@ -43611,7 +43614,7 @@ snapshots:
       '@crawlee/types': 3.15.3
       agentkeepalive: 4.6.0
       async-retry: 1.3.3
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.6(debug@3.2.7)
       content-type: 1.0.5
       ow: 0.28.2
       tslib: 2.8.1
@@ -43837,7 +43840,7 @@ snapshots:
     dependencies:
       '@aws-sdk/util-utf8-browser': 3.259.0
       '@httptoolkit/websocket-stream': 6.0.1
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.6(debug@3.2.7)
       buffer: 6.0.3
       crypto-js: 4.2.0
       mqtt: 4.3.8
@@ -43856,18 +43859,18 @@ snapshots:
 
   axe-core@4.11.0: {}
 
-  axios-mock-adapter@1.22.0(axios@1.13.2):
+  axios-mock-adapter@1.22.0(axios@1.13.6):
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.6(debug@3.2.7)
       fast-deep-equal: 3.1.3
       is-buffer: 2.0.5
 
-  axios-retry@4.5.0(axios@1.13.2):
+  axios-retry@4.5.0(axios@1.13.6):
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.6(debug@3.2.7)
       is-retry-allowed: 2.2.0
 
-  axios@0.30.2:
+  axios@0.30.3:
     dependencies:
       follow-redirects: 1.15.11(debug@3.2.7)
       form-data: 4.0.4
@@ -43875,7 +43878,15 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  axios@1.13.2(debug@3.2.7):
+  axios@1.13.2:
+    dependencies:
+      follow-redirects: 1.15.11(debug@3.2.7)
+      form-data: 4.0.4
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
+
+  axios@1.13.6(debug@3.2.7):
     dependencies:
       follow-redirects: 1.15.11(debug@3.2.7)
       form-data: 4.0.4
@@ -44782,7 +44793,7 @@ snapshots:
 
   columns-sdk@0.0.6:
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.6(debug@3.2.7)
       columns-graph-model: 1.1.10
       nebula-js-lib: 0.3.3
       pako: 2.1.0
@@ -47385,7 +47396,7 @@ snapshots:
       '@types/uuid': 10.0.0
       '@types/ws': 8.18.1
       '@ungap/url-search-params': 0.2.2
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.6(debug@3.2.7)
       fast-sha256: 1.3.0
       typescript-json-serializer: 6.0.1
       uuid: 11.1.0
@@ -49697,7 +49708,7 @@ snapshots:
 
   klaviyo-api@18.0.0:
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.6(debug@3.2.7)
       form-data: 4.0.4
     transitivePeerDependencies:
       - debug
@@ -49847,7 +49858,7 @@ snapshots:
     dependencies:
       '@commitlint/cli': 19.8.1(@types/node@20.19.25)(typescript@5.6.3)
       '@commitlint/config-conventional': 19.8.1
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.6(debug@3.2.7)
       semantic-release: 24.2.9(typescript@5.6.3)
       zod: 3.25.76
       zod-to-json-schema: 3.24.6(zod@3.25.76)
@@ -49861,7 +49872,7 @@ snapshots:
     dependencies:
       '@commitlint/cli': 19.8.1(@types/node@20.19.37)(typescript@5.6.3)
       '@commitlint/config-conventional': 19.8.1
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.6(debug@3.2.7)
       semantic-release: 24.2.9(typescript@5.6.3)
       zod: 3.25.76
       zod-to-json-schema: 3.24.6(zod@3.25.76)
@@ -51340,7 +51351,7 @@ snapshots:
 
   node-mailjet@6.0.11:
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.6(debug@3.2.7)
       json-bigint: 1.0.0
       url-join: 4.0.1
     transitivePeerDependencies:
@@ -52255,7 +52266,7 @@ snapshots:
 
   pipedrive@24.2.0:
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.6(debug@3.2.7)
       qs: 6.14.2
     transitivePeerDependencies:
       - debug
@@ -52291,7 +52302,7 @@ snapshots:
 
   plaid@33.0.0:
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.6(debug@3.2.7)
     transitivePeerDependencies:
       - debug
 
@@ -52308,7 +52319,7 @@ snapshots:
   plivo@4.75.2:
     dependencies:
       '@types/node': 14.18.63
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.6(debug@3.2.7)
       base-64: 0.1.0
       build-url: 1.3.3
       form-data: 4.0.4
@@ -53733,7 +53744,7 @@ snapshots:
 
   salesforce-webhooks@1.1.15(handlebars@4.7.8):
     dependencies:
-      axios: 0.30.2
+      axios: 0.30.3
       bindings: 1.5.0
       handlebars-loader: 1.7.3(handlebars@4.7.8)
       uuid: 8.3.2
@@ -54129,7 +54140,7 @@ snapshots:
       agent-base: 6.0.2
       asn1.js-rfc2560: 5.0.1(asn1.js@5.4.1)
       asn1.js-rfc5280: 3.0.0
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.6(debug@3.2.7)
       big-integer: 1.6.52
       bignumber.js: 2.4.0
       binascii: 0.0.2
@@ -55303,7 +55314,7 @@ snapshots:
 
   twilio@5.10.5:
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.6(debug@3.2.7)
       dayjs: 1.11.19
       https-proxy-agent: 5.0.1
       jsonwebtoken: 9.0.2
@@ -55770,7 +55781,7 @@ snapshots:
 
   utopianlabs@0.1.14:
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.6(debug@3.2.7)
       zod: 3.25.76
     transitivePeerDependencies:
       - debug
@@ -55917,7 +55928,7 @@ snapshots:
   viesapi-client@1.3.2:
     dependencies:
       '@xmldom/xmldom': 0.9.8
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.13.6(debug@3.2.7)
       date-fns: 4.1.0
       url: 0.11.4
       xpath: 0.0.34
