@@ -1,12 +1,11 @@
 import linearApp from "../../linear_app.app.mjs";
-import utils from "../../common/utils.mjs";
 
 export default {
-  key: "linear_app-list-projects",
-  name: "List Projects",
-  description: "List projects in Linear. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/ProjectConnection?query=projects).",
+  key: "linear_app-list-views",
+  name: "List Views",
+  description: "List views in Linear. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Query?query=views)",
+  version: "0.0.2",
   type: "action",
-  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -19,6 +18,8 @@ export default {
         linearApp,
         "teamId",
       ],
+      description: "Filter views by team",
+      optional: true,
     },
     orderBy: {
       propDefinition: [
@@ -29,34 +30,37 @@ export default {
     first: {
       type: "integer",
       label: "First",
-      description: "The number of projects to return",
+      description: "The number of views to return",
       optional: true,
     },
     after: {
       type: "string",
       label: "After",
-      description: "The cursor to return the next page of projects",
+      description: "The cursor to return the next page of views",
       optional: true,
     },
   },
   async run({ $ }) {
-    const variables = utils.buildVariables(this.after, {
+    const variables = {
       filter: {
-        accessibleTeams: {
+        team: {
           id: {
             eq: this.teamId,
           },
         },
       },
       orderBy: this.orderBy,
-      limit: this.first,
-    });
+      first: this.first,
+      after: this.after,
+    };
 
     const {
       nodes, pageInfo,
-    } = await this.linearApp.listProjects(variables);
+    } = await this.linearApp.listCustomViews(variables);
 
-    $.export("$summary", `Found ${nodes.length} projects`);
+    $.export("$summary", `Found ${nodes.length} view${nodes.length === 1
+      ? ""
+      : "s"}`);
 
     return {
       nodes,
