@@ -56,7 +56,7 @@ export default {
       repeatSpecificDays: {
         type: "string[]",
         label: "Repeat Specific Days",
-        description: "The event will repeat on these days of the week. Repeat Interval must be `WEEKLY`.",
+        description: "The event will repeat on these days of the week. Repeat Frequency must be `WEEKLY`.",
         optional: true,
         options: constants.DAYS_OF_WEEK,
       },
@@ -180,8 +180,13 @@ export default {
       }
 
       let recurrence = `RRULE:FREQ=${repeatFrequency}` ;
-      if (repeatSpecificDays) {
-        recurrence = `${recurrence};BYDAY=${repeatSpecificDays.join(",")}`;
+      if (repeatSpecificDays?.length) {
+        const byDay = [
+          ...new Set(
+            repeatSpecificDays.flatMap((value) => value.split(",")),
+          ),
+        ].join(",");
+        recurrence = `${recurrence};BYDAY=${byDay}`;
       }
       if (repeatInterval) {
         recurrence = `${recurrence};INTERVAL=${repeatInterval}`;

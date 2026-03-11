@@ -107,7 +107,7 @@ export default {
     repeatSpecificDays: {
       type: "string[]",
       label: "Repeat Specific Days",
-      description: "The event will repeat on these days of the week. Repeat Interval must be `WEEKLY`.",
+      description: "The event will repeat on these days of the week. Repeat Frequency must be `WEEKLY`.",
       optional: true,
       options: constants.DAYS_OF_WEEK,
     },
