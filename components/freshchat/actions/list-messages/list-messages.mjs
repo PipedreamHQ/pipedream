@@ -60,7 +60,7 @@ export default {
 
     let messages = response.reverse();
     if (fromTime) {
-      messages = response.filter(( { created_time: ts }) => Date.parse(ts) > Date.parse(fromTime));
+      messages = messages.filter(( { created_time: ts }) => Date.parse(ts) > Date.parse(fromTime));
     }
     if (maxResults) {
       messages = messages.slice(0, maxResults);
