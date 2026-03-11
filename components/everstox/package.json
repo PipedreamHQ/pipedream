@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/everstox",
+  "version": "0.0.1",
+  "description": "Pipedream Everstox Components",
+  "main": "everstox.app.mjs",
+  "keywords": [
+    "pipedream",
+    "everstox"
+  ],
+  "homepage": "https://pipedream.com/apps/everstox",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
