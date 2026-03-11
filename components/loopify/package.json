@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/loopify",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Loopify Components",
   "main": "loopify.app.mjs",
   "keywords": [
