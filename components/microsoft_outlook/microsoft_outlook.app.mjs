@@ -112,12 +112,15 @@ export default {
       label: "Label",
       description: "The name of the label/category to add",
       async options({
-        messageId, excludeMessageLabels, onlyMessageLabels,
+        userId, messageId, excludeMessageLabels, onlyMessageLabels,
       }) {
-        const { value } = await this.listLabels();
+        const { value } = await this.listLabels({
+          userId,
+        });
         let labels = value;
         if (messageId) {
           const { categories } = await this.getMessage({
+            userId,
             messageId,
           });
           labels = excludeMessageLabels
@@ -133,9 +136,12 @@ export default {
       type: "string",
       label: "Message ID",
       description: "The identifier of the message to update",
-      async options({ page }) {
+      async options({
+        userId, page,
+      }) {
         const limit = DEFAULT_LIMIT;
         const { value } = await this.listMessages({
+          userId,
           params: {
             $top: limit,
             $skip: limit * page,
@@ -175,10 +181,11 @@ export default {
       label: "Attachment ID",
       description: "The identifier of the attachment to download",
       async options({
-        messageId, page,
+        userId, messageId, page,
       }) {
         const limit = DEFAULT_LIMIT;
         const { value: attachments } = await this.listAttachments({
+          userId,
           messageId,
           params: {
             $top: limit,
@@ -268,6 +275,11 @@ export default {
     },
   },
   methods: {
+    _userPath(userId) {
+      return userId
+        ? `/users/${userId}`
+        : "/me";
+    },
     client() {
       return Client.init({
         authProvider: (done) => {
@@ -390,18 +402,22 @@ export default {
 
       return message;
     },
-    async sendEmail({ data = {} } = {}) {
-      return await this.client().api("/me/sendMail")
+    async sendEmail({
+      userId, data = {},
+    } = {}) {
+      return await this.client().api(`${this._userPath(userId)}/sendMail`)
         .post(data);
     },
     async replyToEmail({
-      messageId, data = {},
+      userId, messageId, data = {},
     } = {}) {
-      return await this.client().api(`/me/messages/${messageId}/reply`)
+      return await this.client().api(`${this._userPath(userId)}/messages/${messageId}/reply`)
         .post(data);
     },
-    async createDraft({ data = {} } = {}) {
-      return await this.client().api("/me/messages")
+    async createDraft({
+      userId, data = {},
+    } = {}) {
+      return await this.client().api(`${this._userPath(userId)}/messages`)
         .post(data);
     },
     async createContact({ data = {} } = {}) {
@@ -425,14 +441,16 @@ export default {
         .patch(data);
     },
     async getMessage({
-      messageId, params = {},
+      userId, messageId, params = {},
     } = {}) {
-      return await this.client().api(`/me/messages/${messageId}`)
+      return await this.client().api(`${this._userPath(userId)}/messages/${messageId}`)
         .query(pickBy(params))
         .get();
     },
-    async listMessages({ params = {} } = {}) {
-      return await this.client().api("/me/messages")
+    async listMessages({
+      userId, params = {},
+    } = {}) {
+      return await this.client().api(`${this._userPath(userId)}/messages`)
         .query(pickBy(params))
         .get();
     },
@@ -450,8 +468,10 @@ export default {
         .query(pickBy(params))
         .get();
     },
-    async listLabels({ params = {} } = {}) {
-      return await this.client().api("/me/outlook/masterCategories")
+    async listLabels({
+      userId, params = {},
+    } = {}) {
+      return await this.client().api(`${this._userPath(userId)}/outlook/masterCategories`)
         .query(pickBy(params))
         .get();
     },
@@ -480,36 +500,36 @@ export default {
       return foldersArray;
     },
     async moveMessage({
-      messageId, data = {},
+      userId, messageId, data = {},
     } = {}) {
-      return await this.client().api(`/me/messages/${messageId}/move`)
+      return await this.client().api(`${this._userPath(userId)}/messages/${messageId}/move`)
         .post(data);
     },
     async updateMessage({
-      messageId, data = {},
+      userId, messageId, data = {},
     } = {}) {
-      return await this.client().api(`/me/messages/${messageId}`)
+      return await this.client().api(`${this._userPath(userId)}/messages/${messageId}`)
         .patch(data);
     },
     async getAttachment({
-      messageId, attachmentId, params = {},
+      userId, messageId, attachmentId, params = {},
     } = {}) {
-      return await this.client().api(`/me/messages/${messageId}/attachments/${attachmentId}/$value`)
+      return await this.client().api(`${this._userPath(userId)}/messages/${messageId}/attachments/${attachmentId}/$value`)
         .responseType("stream")
         .query(pickBy(params))
         .get();
     },
     async getAttachmentInfo({
-      messageId, attachmentId, params = {},
+      userId, messageId, attachmentId, params = {},
     } = {}) {
-      return await this.client().api(`/me/messages/${messageId}/attachments/${attachmentId}`)
+      return await this.client().api(`${this._userPath(userId)}/messages/${messageId}/attachments/${attachmentId}`)
         .query(pickBy(params))
         .get();
     },
     async listAttachments({
-      messageId, params = {},
+      userId, messageId, params = {},
     } = {}) {
-      return await this.client().api(`/me/messages/${messageId}/attachments`)
+      return await this.client().api(`${this._userPath(userId)}/messages/${messageId}/attachments`)
         .query(pickBy(params))
         .get();
     },

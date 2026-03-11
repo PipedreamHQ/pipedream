@@ -4,7 +4,7 @@ import microsoftOutlook from "../../microsoft_outlook.app.mjs";
 export default {
   type: "action",
   key: "microsoft_outlook-create-draft-email",
-  version: "0.0.26",
+  version: "0.0.27",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -14,6 +14,14 @@ export default {
   description: "Create a draft email, [See the documentation](https://docs.microsoft.com/en-us/graph/api/user-post-messages)",
   props: {
     microsoftOutlook,
+    userId: {
+      propDefinition: [
+        microsoftOutlook,
+        "userId",
+      ],
+      optional: true,
+      description: "The User ID or email address of a shared mailbox. If not provided, defaults to the authenticated user's mailbox.",
+    },
     recipients: {
       propDefinition: [
         microsoftOutlook,
@@ -67,6 +75,7 @@ export default {
   async run({ $ }) {
     const response =  await this.microsoftOutlook.createDraft({
       $,
+      userId: this.userId,
       data: {
         ...await this.microsoftOutlook.prepareMessageBody(this),
         ...parseObject(this.expand),
