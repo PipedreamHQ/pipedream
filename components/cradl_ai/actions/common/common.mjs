@@ -35,6 +35,12 @@ export default {
         "datasetId",
       ],
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   methods: {
     createDocumentHandle($) {

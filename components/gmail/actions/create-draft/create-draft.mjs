@@ -90,6 +90,12 @@ export default {
         "signature",
       ],
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   async run({ $ }) {
     this.attachmentFilenames = utils.parseArray(this.attachmentFilenames);

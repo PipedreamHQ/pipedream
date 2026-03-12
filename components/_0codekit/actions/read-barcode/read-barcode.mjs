@@ -20,6 +20,12 @@ export default {
       description: "The file containing the QR code to be read. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.png`)",
       format: "file-ref",
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   async run({ $ }) {
     const stream = await getFileStream(this.file);

@@ -66,6 +66,12 @@ export default {
       default: false,
       optional: true,
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   async run({ $ }) {
     // Initialize output.

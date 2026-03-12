@@ -34,6 +34,12 @@ export default {
       optional: true,
       default: "1.0",
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   async run({ $ }) {
     // Initialize output.

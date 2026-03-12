@@ -1,5 +1,5 @@
-import frontApp from "../../frontapp.app.mjs";
 import utils from "../../common/utils.mjs";
+import frontApp from "../../frontapp.app.mjs";
 
 export default {
   key: "frontapp-create-draft",
@@ -95,6 +95,12 @@ export default {
         frontApp,
         "quoteBody",
       ],
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {

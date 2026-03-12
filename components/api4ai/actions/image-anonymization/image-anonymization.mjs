@@ -55,6 +55,12 @@ export default {
         "Licence plates only",
       ],
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   async run({ $ }) {
     // Initialize output.

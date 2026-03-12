@@ -28,6 +28,12 @@ export default {
       description: "Set to `true` to poll the API in 3-second intervals until the job is complete",
       optional: true,
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   async run({ $ }) {
     const form = new FormData();

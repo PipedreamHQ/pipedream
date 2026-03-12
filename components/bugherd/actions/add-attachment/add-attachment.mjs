@@ -40,6 +40,12 @@ export default {
       label: "File Name",
       description: "The name of the file",
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   methods: {
     streamToBuffer(stream) {

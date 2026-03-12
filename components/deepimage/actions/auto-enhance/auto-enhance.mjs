@@ -20,6 +20,12 @@ export default {
         "image",
       ],
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   async run({ $ }) {
     const response = await this.deepimage.makeRequest({

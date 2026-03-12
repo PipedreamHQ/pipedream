@@ -77,6 +77,12 @@ export default {
       format: "file-ref",
       optional: true,
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   async run({ $ }) {
     const data = new FormData();

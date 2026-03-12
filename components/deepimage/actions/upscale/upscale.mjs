@@ -31,6 +31,12 @@ export default {
       description: "Whether to use generative upscale.",
       optional: true,
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   async run({ $ }) {
     const response = await this.deepimage.makeRequest({

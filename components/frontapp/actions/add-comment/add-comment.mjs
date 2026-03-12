@@ -45,6 +45,12 @@ export default {
         "attachments",
       ],
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   async run({ $ }) {
     const response = await this.frontApp.addComment({

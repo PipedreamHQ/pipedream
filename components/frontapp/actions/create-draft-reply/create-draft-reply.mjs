@@ -102,6 +102,12 @@ export default {
         "quoteBody",
       ],
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   async run({ $ }) {
     const response = await this.frontApp.createDraftReply({

@@ -63,6 +63,12 @@ export default {
       ],
       description: "Additional email details, [See object definition](https://docs.microsoft.com/en-us/graph/api/resources/message)",
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   async run({ $ }) {
     const response =  await this.microsoftOutlook.createDraft({

@@ -10,6 +10,12 @@ export default {
       description: "An HTML file. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.html`)",
       format: "file-ref",
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   methods: {
     _baseUrl() {

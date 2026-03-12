@@ -97,6 +97,12 @@ export default {
         "mimeType",
       ],
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   additionalProps(existingProps) {
     const props = {};

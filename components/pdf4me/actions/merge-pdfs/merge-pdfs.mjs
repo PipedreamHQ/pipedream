@@ -1,5 +1,5 @@
-import pdf4me from "../../pdf4me.app.mjs";
 import utils from "../../common/utils.mjs";
+import pdf4me from "../../pdf4me.app.mjs";
 
 export default {
   key: "pdf4me-merge-pdfs",
@@ -24,6 +24,11 @@ export default {
         pdf4me,
         "filename",
       ],
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read-write",
+      sync: true,
     },
   },
   async run({ $ }) {
