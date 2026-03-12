@@ -9,7 +9,7 @@ export default {
   description:
     "Remove Background for car images. Powered by API4AI.",
   key: "api4ai-car-image-background-removal",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
