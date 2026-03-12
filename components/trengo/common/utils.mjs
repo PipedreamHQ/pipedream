@@ -15,10 +15,13 @@ export default {
       if (!nextResources) {
         throw new Error("No response from the API.");
       }
-      for (const resource of nextResources.data) {
+      const items = Array.isArray(nextResources)
+        ? nextResources
+        : nextResources.data;
+      for (const resource of items) {
         yield resource;
       }
-      if (nextResources.data.length == 0 || nextResources?.meta?.last_page == page) {
+      if (Array.isArray(nextResources) || items.length == 0 || nextResources?.meta?.last_page == page) {
         return;
       }
       page++;
