@@ -116,6 +116,9 @@ export default {
       async options({
         page, channelId, administrationId,
       }) {
+        if (!administrationId && !channelId) {
+          return [];
+        }
         const params = {
           "page[number]": page + 1,
         };
