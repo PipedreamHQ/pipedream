@@ -86,7 +86,6 @@ export default {
   async run({ $ }) {
     const response = await this.everstox.listReturns({
       $,
-      debug: true,
       params: {
         order_number: this.orderNumber,
         stategroup: "all",
