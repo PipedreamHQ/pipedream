@@ -11,10 +11,10 @@ export default {
   },
   async run({ $ }) {
     const chats = [];
-    const response = await this.microsoftTeams.listChats();
+    const paginator = this.microsoftTeams.paginate(this.microsoftTeams.listChats);
 
-    if (response?.value) {
-      chats.push(...response.value);
+    for await (const chat of paginator) {
+      chats.push(chat);
     }
 
     $.export("$summary", `Successfully fetched ${chats.length} ${chats.length === 1
