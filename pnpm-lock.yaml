@@ -5138,7 +5138,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/everstox: {}
+  components/everstox:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.3.0
+        version: 3.3.0
 
   components/evervault: {}
 
