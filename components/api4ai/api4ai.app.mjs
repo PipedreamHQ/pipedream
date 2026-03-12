@@ -13,12 +13,6 @@ export default {
       description: "Input image. Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.pdf).",
       format: "file-ref",
     },
-    syncDir: {
-      type: "dir",
-      accessMode: "read",
-      sync: true,
-      optional: true,
-    },
   },
   methods: {
     async makeRequest($, url, image, params = {}) {
