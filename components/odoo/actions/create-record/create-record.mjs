@@ -4,7 +4,7 @@ export default {
   key: "odoo-create-record",
   name: "Create Record",
   description: "Create a new record in Odoo. [See the documentation](https://www.odoo.com/documentation/18.0/developer/reference/external_api.html#create-records)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -16,16 +16,24 @@ export default {
       ...odoo,
       reloadProps: true,
     },
+    model: {
+      propDefinition: [
+        odoo,
+        "model",
+      ],
+      reloadProps: true,
+    },
   },
   async additionalProps() {
-    return await this.odoo.getFieldProps();
+    return await this.odoo.getFieldProps(this.model);
   },
   async run({ $ }) {
     const {
       odoo,
+      model,
       ...data
     } = this;
-    const response = await odoo.createRecord([
+    const response = await odoo.createRecord(model, [
       data,
     ]);
     $.export("$summary", `Successfully created record with ID: ${response}`);

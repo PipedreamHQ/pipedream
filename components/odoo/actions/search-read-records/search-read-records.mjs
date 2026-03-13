@@ -5,7 +5,7 @@ export default {
   key: "odoo-search-read-records",
   name: "Search and Read Records",
   description: "Search and read records from Odoo. [See the documentation](https://www.odoo.com/documentation/18.0/developer/reference/external_api.html#search-and-read)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -14,6 +14,12 @@ export default {
   type: "action",
   props: {
     odoo,
+    model: {
+      propDefinition: [
+        odoo,
+        "model",
+      ],
+    },
     filter: {
       type: "string",
       label: "Search Filter",
@@ -33,7 +39,7 @@ export default {
         fields: this.fields,
       }
       : {};
-    const response = await this.odoo.searchAndReadRecords(parseObject(this.filter), args);
+    const response = await this.odoo.searchAndReadRecords(this.model, parseObject(this.filter), args);
     $.export("$summary", `Successfully retrieved ${response.length} record${response.length === 1
       ? ""
       : "s"}`);

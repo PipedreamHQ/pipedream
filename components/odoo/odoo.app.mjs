@@ -4,13 +4,20 @@ export default {
   type: "app",
   app: "odoo",
   propDefinitions: {
+    model: {
+      type: "string",
+      label: "Model",
+      description: "The Odoo model name (e.g. `res.partner`, `crm.lead`, `sale.order`, `account.move`)",
+      default: "res.partner",
+    },
     fields: {
       type: "string[]",
       label: "Fields",
       description: "The fields to return in the results. If not provided, all fields will be returned.",
       optional: true,
       async options() {
-        const fields = await this.getFields([], {
+        const model = this.model || "res.partner";
+        const fields = await this.getFields(model, [], {
           attributes: [
             "string",
           ],
@@ -44,7 +51,7 @@ export default {
       });
       return uid;
     },
-    async makeRequest(method, filter = [], args = {}) {
+    async makeRequest(model, method, filter = [], args = {}) {
       const db = this.$auth.db;
       const uid = await this.getUid();
       const password = this.$auth.password;
@@ -54,7 +61,7 @@ export default {
           db,
           uid,
           password,
-          "res.partner",
+          model,
           method,
           filter,
           args,
@@ -65,9 +72,9 @@ export default {
       });
       return results;
     },
-    async getFieldProps({ update = false } = {}) {
+    async getFieldProps(model, { update = false } = {}) {
       const props = {};
-      const fields = await this.getFields();
+      const fields = await this.getFields(model);
       Object.keys(fields).forEach((key) => {
         if (fields[key].readonly === true) return;
         props[key] = {
@@ -85,20 +92,20 @@ export default {
       });
       return props;
     },
-    getFields(filter = [], args = {}) {
-      return this.makeRequest("fields_get", filter, args);
+    getFields(model, filter = [], args = {}) {
+      return this.makeRequest(model, "fields_get", filter, args);
     },
-    searchAndReadRecords(filter = [], args = {}) {
-      return this.makeRequest("search_read", filter, args);
+    searchAndReadRecords(model, filter = [], args = {}) {
+      return this.makeRequest(model, "search_read", filter, args);
     },
-    readRecord(data) {
-      return this.makeRequest("read", data);
+    readRecord(model, data) {
+      return this.makeRequest(model, "read", data);
     },
-    createRecord(data) {
-      return this.makeRequest("create", data);
+    createRecord(model, data) {
+      return this.makeRequest(model, "create", data);
     },
-    updateRecord(data) {
-      return this.makeRequest("write", data);
+    updateRecord(model, data) {
+      return this.makeRequest(model, "write", data);
     },
   },
 };
