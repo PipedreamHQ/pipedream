@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/pdf4me",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Pipedream PDF4me Components",
   "main": "pdf4me.app.mjs",
   "keywords": [

@@ -4,7 +4,7 @@ export default {
   key: "frontapp-get-message",
   name: "Get Message",
   description: "Retrieve a message by its ID. [See the documentation](https://dev.frontapp.com/reference/get-message)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

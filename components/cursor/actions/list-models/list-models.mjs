@@ -4,7 +4,7 @@ export default {
   key: "cursor-list-models",
   name: "List Models",
   description: "List all available Cursor models. [See the documentation](https://cursor.com/docs/cloud-agent/api/endpoints#list-models)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

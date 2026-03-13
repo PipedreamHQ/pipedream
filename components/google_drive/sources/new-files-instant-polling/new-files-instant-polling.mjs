@@ -8,7 +8,7 @@ export default {
   key: "google_drive-new-files-instant-polling",
   name: "New Files (Polling)",
   description: "Emit new event when a new file is added in your linked Google Drive",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   props: {

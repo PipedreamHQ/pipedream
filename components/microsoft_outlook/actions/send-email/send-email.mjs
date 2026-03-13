@@ -4,7 +4,7 @@ import microsoftOutlook from "../../microsoft_outlook.app.mjs";
 export default {
   type: "action",
   key: "microsoft_outlook-send-email",
-  version: "0.0.28",
+  version: "0.0.29",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -70,6 +70,12 @@ export default {
         "expand",
       ],
       description: "Additional email details, [See object definition](https://docs.microsoft.com/en-us/graph/api/resources/message)",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {

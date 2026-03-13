@@ -15,6 +15,12 @@ export default {
       label: "File Name",
       description: "Name of the new file to be placed in `/tmp` directory",
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   methods: {
     getCredentials() {
