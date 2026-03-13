@@ -4,7 +4,7 @@ export default {
   key: "google_chat-get-message",
   name: "Get Message",
   description: "Returns details about a message. [See the documentation](https://developers.google.com/chat/api/reference/rest/v1/spaces.messages/get)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

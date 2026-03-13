@@ -6,7 +6,7 @@ export default {
   key: "diffchecker-compare-image",
   name: "Compare Image",
   description: "Compares two images and returns the result.",
-  version: "1.0.2",
+  version: "1.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -60,11 +60,17 @@ export default {
         type: "string",
         label: `Left Image ${label}`,
         description: `Left ${description}`,
+        ...(this.inputType === "form" && {
+          format: "file-ref",
+        }),
       };
       props.rightImage = {
         type: "string",
         label: `Right Image ${label}`,
         description: `Right ${description}`,
+        ...(this.inputType === "form" && {
+          format: "file-ref",
+        }),
       };
     }
     return props;

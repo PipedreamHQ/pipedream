@@ -4,7 +4,7 @@ export default {
   key: "paystack-add-split-code-to-virtual-terminal",
   name: "Add Split Code to Virtual Terminal",
   description: "Add Split Code to Virtual Terminal. [See the documentation](https://paystack.com/docs/api/virtual-terminal/#add-split)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

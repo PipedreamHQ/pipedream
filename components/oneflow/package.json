@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/oneflow",
+  "version": "0.0.1",
+  "description": "Pipedream Oneflow Components",
+  "main": "oneflow.app.mjs",
+  "keywords": [
+    "pipedream",
+    "oneflow"
+  ],
+  "homepage": "https://pipedream.com/apps/oneflow",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

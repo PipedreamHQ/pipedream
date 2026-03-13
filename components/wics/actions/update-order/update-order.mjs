@@ -5,7 +5,7 @@ export default {
   key: "wics-update-order",
   name: "Update Order",
   description: "Update an order. [See the documentation](https://docs.wics.nl/test-environment.html#orders-update-order)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: true,

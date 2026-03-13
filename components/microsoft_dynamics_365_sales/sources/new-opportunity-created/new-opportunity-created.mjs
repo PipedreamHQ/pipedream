@@ -5,7 +5,7 @@ export default {
   key: "microsoft_dynamics_365_sales-new-opportunity-created",
   name: "New Opportunity Created",
   description: "Emit new event when a new opportunity is created.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   hooks: {

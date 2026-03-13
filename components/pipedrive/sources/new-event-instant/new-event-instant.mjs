@@ -5,7 +5,7 @@ export default {
   key: "pipedrive-new-event-instant",
   name: "New Event (Instant)",
   description: "Emit new event when a new webhook event is received. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Webhooks#addWebhook)",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "source",
   dedupe: "unique",
   props: {

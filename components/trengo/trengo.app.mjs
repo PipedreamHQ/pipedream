@@ -38,6 +38,24 @@ export default {
         }));
       },
     },
+    teamId: {
+      type: "integer",
+      label: "Team ID",
+      description: "Select a team",
+      async options({ page = 0 }) {
+        const resp = await this._makeRequest({
+          path: "/teams",
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return resp.data.map((team) => ({
+          label: team.name,
+          value: team.id,
+        }));
+      },
+    },
     callDirection: {
       type: "string",
       label: "Direction",
@@ -78,8 +96,8 @@ export default {
           },
         });
         return response.data.map((ticket) => ({
-          label: `#${ticket.ticket_id} - ${ticket.subject || "No subject"}`,
-          value: ticket.ticket_id,
+          label: `#${ticket.id} - ${ticket.subject || "No subject"}`,
+          value: ticket.id,
         }));
       },
     },
@@ -450,6 +468,15 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: `/tickets/${ticketId}/labels`,
+        ...args,
+      });
+    },
+    assignTicket({
+      ticketId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/tickets/${ticketId}/assign`,
         ...args,
       });
     },

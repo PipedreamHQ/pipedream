@@ -5,7 +5,7 @@ export default {
   key: "shopify_developer_app-shop-update",
   name: "Shop Updated (Instant)",
   description: "Emit new event when a shop is updated.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

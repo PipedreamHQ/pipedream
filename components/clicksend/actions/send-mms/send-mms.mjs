@@ -4,7 +4,7 @@ export default {
   key: "clicksend-send-mms",
   name: "Send MMS",
   description: "Sends a new MMS to one or multiple recipients. [See the documentation](https://developers.clicksend.com/docs/rest/v3/#send-mms)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

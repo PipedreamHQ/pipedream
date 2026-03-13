@@ -4,7 +4,7 @@ export default {
   key: "paystack-update-virtual-terminal",
   name: "Update Virtual Terminal",
   description: "Update a Virtual Terminal on your integration. [See the documentation](https://paystack.com/docs/api/virtual-terminal/#update)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -6,7 +6,7 @@ export default {
   key: "signerx-upload-package",
   name: "Upload Package",
   description: "Quickly create a draft for a new package/document by uploading a file or providing a file_url to a PDF document. [See the documentation](https://documenter.getpostman.com/view/13877745/2sa3xv9kni)",
-  version: "0.1.2",
+  version: "0.1.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -19,6 +19,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.pdf`).",
+      format: "file-ref",
     },
     name: {
       type: "string",

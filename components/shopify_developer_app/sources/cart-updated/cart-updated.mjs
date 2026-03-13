@@ -5,7 +5,7 @@ export default {
   key: "shopify_developer_app-cart-updated",
   name: "Cart Updated (Instant)",
   description: "Emit new event when a cart is updated.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

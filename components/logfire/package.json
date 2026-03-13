@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/logfire",
+  "version": "0.0.1",
+  "description": "Pipedream Logfire Components",
+  "main": "logfire.app.mjs",
+  "keywords": [
+    "pipedream",
+    "logfire"
+  ],
+  "homepage": "https://pipedream.com/apps/logfire",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

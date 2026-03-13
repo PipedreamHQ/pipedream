@@ -4,7 +4,7 @@ export default {
   key: "paystack-fetch-virtual-terminal",
   name: "Fetch Virtual Terminal",
   description: "Fetch a Virtual Terminal on your integration. [See the documentation](https://paystack.com/docs/api/virtual-terminal/#fetch)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

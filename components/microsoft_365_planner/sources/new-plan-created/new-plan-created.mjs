@@ -5,7 +5,7 @@ export default {
   key: "microsoft_365_planner-new-plan-created",
   name: "New Plan Created",
   description: "Emit new event when a new Plan is created in Microsoft 365 Planner",
-  version: "0.0.2",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   props: {

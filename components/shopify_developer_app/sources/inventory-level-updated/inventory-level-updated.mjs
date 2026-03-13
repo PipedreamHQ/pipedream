@@ -5,7 +5,7 @@ export default {
   key: "shopify_developer_app-inventory-level-updated",
   name: "Inventory Level Updated (Instant)",
   description: "Emit new event when an inventory level is updated.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

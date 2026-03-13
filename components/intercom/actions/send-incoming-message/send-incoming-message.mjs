@@ -4,7 +4,7 @@ export default {
   key: "intercom-send-incoming-message",
   name: "Send Incoming Message",
   description: "Send a message from a user into your Intercom app. [See the docs here](https://developers.intercom.com/intercom-api-reference/reference/create-a-conversation)",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

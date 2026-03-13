@@ -5,7 +5,7 @@ export default {
   key: "intercom-new-event",
   name: "New Event",
   description: "Emit new event for each new Intercom event for a user.",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "source",
   dedupe: "unique",
   props: {

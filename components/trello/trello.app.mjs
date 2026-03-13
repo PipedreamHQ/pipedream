@@ -169,6 +169,27 @@ export default {
         }));
       },
     },
+    searchMemberId: {
+      type: "string",
+      label: "Member ID",
+      description: "The ID of a member",
+      optional: true,
+      useQuery: true,
+      async options({ query }) {
+        if (!query) {
+          return [];
+        }
+        const members = await this.searchMembers({
+          params: {
+            query,
+          },
+        });
+        return members?.map((member) => ({
+          label: member.fullName,
+          value: member.id,
+        })) || [];
+      },
+    },
     checklist: {
       type: "string",
       label: "Checklist",

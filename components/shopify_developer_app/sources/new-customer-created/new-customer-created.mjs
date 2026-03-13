@@ -6,7 +6,7 @@ export default {
   name: "New Customer Created (Instant)",
   type: "source",
   description: "Emit new event for each new customer added to a store.",
-  version: "0.0.14",
+  version: "0.0.15",
   dedupe: "unique",
   methods: {
     ...common.methods,

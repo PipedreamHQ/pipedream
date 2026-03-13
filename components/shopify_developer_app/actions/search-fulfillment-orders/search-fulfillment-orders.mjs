@@ -4,7 +4,7 @@ export default {
   key: "shopify_developer_app-search-fulfillment-orders",
   name: "Search for Fulfillment Orders",
   description: "Search for a fulfillment order or a list of fulfillment orders. [See the documentation](https://shopify.dev/docs/api/admin-graphql/unstable/queries/fulfillmentorders)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

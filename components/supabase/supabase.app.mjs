@@ -182,5 +182,31 @@ export default {
       this.verifyForErrors(resp);
       return resp;
     },
+    async countRows(args) {
+      const client = await this._client();
+      const {
+        table,
+        column,
+        filter,
+        value,
+      } = args;
+      const ctx = this;
+      const resp = await this.retryWithExponentialBackoff(async () => {
+        let query = client
+          .from(table)
+          .select("*", {
+            count: "exact",
+            head: true,
+          });
+        if (filter) {
+          query = ctx[filter](query, column, value);
+        }
+        return await query;
+      });
+      return {
+        count: resp.count,
+        error: resp.error,
+      };
+    },
   },
 };

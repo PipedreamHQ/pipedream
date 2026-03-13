@@ -1,10 +1,11 @@
 import shopify from "../../shopify.app.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   key: "shopify-search-orders",
   name: "Search for Orders",
   description: "Search for an order or a list of orders. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/queries/orders)",
-  version: "0.0.1",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -25,6 +26,19 @@ export default {
       description: "The search query. [See the documentation](https://shopify.dev/docs/api/usage/search-syntax)",
       optional: true,
     },
+    sortKey: {
+      type: "string",
+      label: "Sort Key",
+      description: "The key to sort the results by",
+      optional: true,
+      options: constants.ORDER_SORT_KEY,
+    },
+    reverse: {
+      type: "boolean",
+      label: "Sort Descending",
+      description: "Sort the results in descending order. Defaults to ascending",
+      optional: true,
+    },
     max: {
       type: "integer",
       label: "Max Records",
@@ -40,6 +54,8 @@ export default {
       ],
       variables: {
         query: this.query,
+        sortKey: this.sortKey,
+        reverse: this.reverse,
       },
       max: this.max,
     });

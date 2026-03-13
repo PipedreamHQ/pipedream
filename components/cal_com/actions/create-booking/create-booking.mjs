@@ -5,7 +5,7 @@ export default {
   key: "cal_com-create-booking",
   name: "Create Booking",
   description: "Create a new booking. [See the documentation](https://developer.cal.com/api/api-reference/bookings#create-a-new-booking)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

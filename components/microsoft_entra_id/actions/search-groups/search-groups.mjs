@@ -4,7 +4,7 @@ export default {
   key: "microsoft_entra_id-search-groups",
   name: "Search Groups",
   description: "Searches for groups by name or description. [See the documentation](https://learn.microsoft.com/en-us/graph/api/group-list?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.3",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -32,7 +32,6 @@ export default {
         "$search": `"displayName:${this.query}" OR "description:${this.query}"`,
         "$top": this.maxResults,
       },
-      $,
     });
 
     if (response.value?.length) {

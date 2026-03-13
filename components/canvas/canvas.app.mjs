@@ -124,5 +124,13 @@ export default {
         ...opts,
       });
     },
+    searchCourseContent({
+      courseId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/courses/${courseId}/smartsearch`,
+        ...opts,
+      });
+    },
   },
 };

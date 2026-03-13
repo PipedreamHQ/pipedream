@@ -556,8 +556,8 @@ const GET_FULFILLMENT_ORDER = `
 `;
 
 const LIST_ORDERS = `
-  query ($first: Int, $after: String, $reverse: Boolean, $query: String){
-    orders(first: $first, after: $after, reverse: $reverse, query: $query) {
+  query ($first: Int, $after: String, $reverse: Boolean, $query: String, $sortKey: OrderSortKeys){
+    orders(first: $first, after: $after, reverse: $reverse, query: $query, sortKey: $sortKey) {
       nodes {
         id
         name

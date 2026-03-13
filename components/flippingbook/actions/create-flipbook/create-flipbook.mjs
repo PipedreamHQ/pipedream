@@ -5,7 +5,7 @@ export default {
   key: "flippingbook-create-flipbook",
   name: "Create Flipbook",
   description: "Generates a new flipbook from an input PDF file. [See the documentation](https://apidocs.flippingbook.com/#create-a-new-publication-possibly-attaching-a-new-source-file)",
-  version: "1.0.2",
+  version: "1.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

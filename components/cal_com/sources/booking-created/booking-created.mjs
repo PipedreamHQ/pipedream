@@ -5,7 +5,7 @@ export default {
   key: "cal_com-booking-created",
   name: "New Booking Created",
   description: "Emit new event when a new booking is created.",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   methods: {

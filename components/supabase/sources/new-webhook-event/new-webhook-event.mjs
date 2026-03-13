@@ -5,7 +5,7 @@ export default {
   key: "supabase-new-webhook-event",
   name: "New Webhook Event (Instant)",
   description: "Emit new event for every `insert`, `update`, or `delete` operation in a table. This source requires user configuration using the Supabase website. More information in the README. [Also see documentation here](https://supabase.com/docs/guides/database/webhooks#creating-a-webhook)",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "source",
   props: {
     ...base.props,

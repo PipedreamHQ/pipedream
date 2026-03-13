@@ -4,7 +4,7 @@ export default {
   key: "google_chat-list-members",
   name: "List Members",
   description: "Lists memberships in a space. [See the documentation](https://developers.google.com/chat/api/reference/rest/v1/spaces.members/list)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

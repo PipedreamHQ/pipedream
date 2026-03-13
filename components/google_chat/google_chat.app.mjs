@@ -7,7 +7,7 @@ export default {
     spaceId: {
       type: "string",
       label: "Space ID",
-      description: "The ID of the space.",
+      description: "The ID of the space",
       async options() {
         const response = await this.listSpaces({
           params: {
@@ -23,7 +23,7 @@ export default {
     messageId: {
       type: "string",
       label: "Message ID",
-      description: "The ID of the message.",
+      description: "The ID of the message",
       async options({ spaceId }) {
         const response = await this.listMessages({
           spaceId,
@@ -37,7 +37,7 @@ export default {
     memberId: {
       type: "string",
       label: "Member ID",
-      description: "The ID of the member.",
+      description: "The ID of the member",
       async options({ spaceId }) {
         const response = await this.listMembers({
           spaceId,
@@ -61,28 +61,23 @@ export default {
       };
     },
     makeRequest({
-      $ = this, path, headers, ...args
+      $ = this, url, path, headers, ...args
     } = {}) {
       const config = {
         headers: this.getHeaders(headers),
-        url: this.getUrl(path),
+        url: url || this.getUrl(path),
         ...args,
       };
 
       return axios($, config);
     },
     createMessage({
-      $ = this,
-      text,
-      spaceId,
+      spaceId, ...opts
     }) {
       return this.makeRequest({
-        $,
         method: "POST",
         path: `/spaces/${spaceId}/messages`,
-        data: {
-          text,
-        },
+        ...opts,
       });
     },
     listMessages({
@@ -150,6 +145,15 @@ export default {
         method: "GET",
         path: "/spaces",
         params,
+      });
+    },
+    uploadFile({
+      spaceId, ...opts
+    }) {
+      return this.makeRequest({
+        method: "POST",
+        url: `https://chat.googleapis.com/upload/v1/spaces/${spaceId}/attachments:upload`,
+        ...opts,
       });
     },
   },

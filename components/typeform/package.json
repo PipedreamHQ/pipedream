@@ -12,7 +12,7 @@
   "dependencies": {
     "@pipedream/platform": "^1.6.8",
     "axios": "^0.30.2",
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "luxon": "^3.0.4",
     "querystring": "^0.2.0",
     "uuidv4": "^6.2.13"

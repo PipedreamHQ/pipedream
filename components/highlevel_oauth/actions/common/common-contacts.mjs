@@ -27,7 +27,7 @@ export default {
       type: "object",
       label: "Additional Options",
       description:
-        "Additional parameters to send in the request. [See the documentation](https://highlevel.stoplight.io/docs/integrations/4c8362223c17b-create-contact) for available parameters. Values will be parsed as JSON where applicable.",
+        "Additional parameters to send in the request. [See the documentation](https://marketplace.gohighlevel.com/docs/ghl/contacts/create-contact) for available parameters. Values will be parsed as JSON where applicable.",
       optional: true,
     },
   },

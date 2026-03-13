@@ -161,6 +161,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The file content to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
+      format: "file-ref",
     },
     fileName: {
       type: "string",
@@ -336,6 +337,44 @@ export default {
           },
         };
       },
+    },
+    permissionId: {
+      type: "string",
+      label: "Permission ID",
+      description: "The ID of the permission",
+      async options({
+        fileId, prevContext,
+      }) {
+        const { pageToken } = prevContext;
+        const {
+          permissions, nextPageToken,
+        } = await this.listPermissions(
+          pageToken,
+          fileId,
+        );
+
+        return {
+          options: permissions
+            ?.filter(({ role }) => role !== "owner")
+            .map(({
+              id, type, role, emailAddress,
+            }) => ({
+              label: `${type} - ${role}${emailAddress
+                ? ` - ${emailAddress}`
+                : ""}`,
+              value: id,
+            })) || [],
+          context: {
+            pageToken: nextPageToken,
+          },
+        };
+      },
+    },
+    includeItemsFromAllDrives: {
+      label: "Include Items From All Drives",
+      type: "boolean",
+      description: "If `true`, include items from all drives. If `false`, include items from the drive specified in the `drive` prop.",
+      default: false,
     },
   },
   methods: {
@@ -1456,6 +1495,26 @@ export default {
             domain,
             emailAddress,
           }),
+        })
+      ).data;
+    },
+    async deletePermission(opts = {}) {
+      const drive = this.drive();
+      return (
+        await drive.permissions.delete({
+          supportsAllDrives: true,
+          ...opts,
+        })
+      ).data;
+    },
+    async listPermissions(pageToken, fileId) {
+      const drive = this.drive();
+      return (
+        await drive.permissions.list({
+          supportsAllDrives: true,
+          fields: "permissions(id,type,role,emailAddress),nextPageToken",
+          pageToken,
+          fileId,
         })
       ).data;
     },

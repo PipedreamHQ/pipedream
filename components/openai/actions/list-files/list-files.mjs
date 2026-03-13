@@ -4,7 +4,7 @@ export default {
   key: "openai-list-files",
   name: "List Files",
   description: "Returns a list of files that belong to the user's organization. [See the documentation](https://platform.openai.com/docs/api-reference/files/list)",
-  version: "0.0.17",
+  version: "0.0.18",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

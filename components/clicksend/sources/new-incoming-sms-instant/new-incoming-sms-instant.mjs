@@ -7,7 +7,7 @@ export default {
   key: "clicksend-new-incoming-sms-instant",
   name: "New Incoming SMS (Instant)",
   description: "Emit new event for each new incoming SMS message received. [See the documentation](https://developers.clicksend.com/docs/rest/v3/#view-inbound-sms)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

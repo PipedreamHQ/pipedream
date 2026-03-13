@@ -1,4 +1,6 @@
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -71,18 +73,22 @@ export default {
     _baseUrl() {
       return "https://api.powerbi.com/v1.0/myorg";
     },
-    _makeRequest({
+    async _makeRequest({
       $ = this, path, headers, ...otherOpts
     }) {
-      return axios($, {
-        ...otherOpts,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        },
-      });
+      try {
+        return await axios($, {
+          ...otherOpts,
+          url: this._baseUrl() + path,
+          headers: {
+            ...headers,
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+          },
+        });
+      } catch (error) {
+        throw new ConfigurationError(error.message);
+      }
     },
     addRowsToTable({
       datasetId, tableName, ...args

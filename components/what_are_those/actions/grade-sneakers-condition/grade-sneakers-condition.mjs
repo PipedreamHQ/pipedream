@@ -6,7 +6,7 @@ export default {
   key: "what_are_those-grade-sneakers-condition",
   name: "Grade and Authenticate Sneakers",
   description: "Grades and authenticates sneakers using provided images. [See the documentation](https://documenter.getpostman.com/view/3847098/2sAY4rDQDs#13d527e8-5d8f-4511-857c-b40b8dd921b8)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -19,31 +19,37 @@ export default {
       type: "string",
       label: "Front Image",
       description: "The frontimage to upload. Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.jpg).",
+      format: "file-ref",
     },
     leftImage: {
       type: "string",
       label: "Left Image",
       description: "The leftimage to upload. Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.jpg).",
+      format: "file-ref",
     },
     rightImage: {
       type: "string",
       label: "Right Image",
       description: "The right image to upload. Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.jpg).",
+      format: "file-ref",
     },
     soleImage: {
       type: "string",
       label: "Sole Image",
       description: "The sole image to upload. Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.jpg).",
+      format: "file-ref",
     },
     insoleImage: {
       type: "string",
       label: "Insole Image",
       description: "The insole image to upload. Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.jpg).",
+      format: "file-ref",
     },
     sizeTagImage: {
       type: "string",
       label: "Size Tag Image",
       description: "The size tag image to upload. Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.jpg).",
+      format: "file-ref",
     },
     type: {
       type: "string",

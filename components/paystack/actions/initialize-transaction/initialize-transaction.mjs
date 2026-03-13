@@ -4,7 +4,7 @@ export default {
   key: "paystack-initialize-transaction",
   name: "Initialize Transaction",
   description: "Initializes a new transaction on Paystack. [See the documentation](https://paystack.com/docs/api/transaction/#initialize)",
-  version: "0.1.4",
+  version: "0.1.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

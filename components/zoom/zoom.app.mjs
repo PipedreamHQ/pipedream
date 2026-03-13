@@ -35,11 +35,14 @@ export default {
       type: "string",
       label: "Meeting ID",
       description: "The meeting ID to get details for.",
-      async options({ prevContext }) {
+      async options({
+        prevContext, type,
+      }) {
         const { nextPageToken } = prevContext;
         const response = await this.listMeetings({
           params: {
             next_page_token: nextPageToken,
+            type,
           },
         });
         const options = response.meetings.map((meeting) => ({
@@ -90,6 +93,31 @@ export default {
             label: `${name} - ${email}`,
             value,
           })),
+          context: {
+            nextPageToken: response.next_page_token,
+          },
+        };
+      },
+    },
+    meetingUserId: {
+      type: "string",
+      label: "User ID",
+      description: "The user ID or email address of the user to list meetings for",
+      async options({ prevContext }) {
+        const { nextPageToken } = prevContext;
+        const response = await this.listAllUsers({
+          params: {
+            next_page_token: nextPageToken,
+          },
+        });
+        const options = response.users.map(({
+          id: value, display_name, email,
+        }) => ({
+          label: `${display_name} - ${email}`,
+          value,
+        }));
+        return {
+          options,
           context: {
             nextPageToken: response.next_page_token,
           },
@@ -273,6 +301,14 @@ export default {
         ...args,
       });
     },
+    listUserMeetings({
+      userId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/users/${userId}/meetings`,
+        ...args,
+      });
+    },
     listWebinars({
       userId = "me", ...args
     } = {}) {
@@ -299,6 +335,12 @@ export default {
         ...opts,
       });
     },
+    listAllUsers(opts = {}) {
+      return this._makeRequest({
+        path: "/users",
+        ...opts,
+      });
+    },
     listCallLogs({
       userId, ...args
     }) {
@@ -311,6 +353,22 @@ export default {
       return this._makeRequest({
         path: "/phone/recordings",
         ...args,
+      });
+    },
+    getMeetingTranscript({
+      meetingId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/meetings/${utils.doubleEncode(meetingId)}/transcript`,
+        ...opts,
+      });
+    },
+    getMeetingRecordings({
+      meetingId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/meetings/${utils.doubleEncode(meetingId)}/recordings`,
+        ...opts,
       });
     },
     async listMeetingsOccurrences(meetingId) {

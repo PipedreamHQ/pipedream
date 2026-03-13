@@ -4,7 +4,7 @@ export default {
   key: "trengo-get-category",
   name: "Get Category",
   description: "Get a specific category. [See the documentation](https://developers.trengo.com/reference/get-a-category)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

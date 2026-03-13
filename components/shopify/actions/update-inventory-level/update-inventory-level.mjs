@@ -5,7 +5,7 @@ export default {
   key: "shopify-update-inventory-level",
   name: "Update Inventory Level",
   description: "Sets the inventory level for an inventory item at a location. [See the documenation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/inventorySetOnHandQuantities)",
-  version: "0.0.15",
+  version: "0.0.16",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

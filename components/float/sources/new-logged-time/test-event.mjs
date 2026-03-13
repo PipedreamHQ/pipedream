@@ -1,0 +1,21 @@
+export default {
+  "logged_time_id": "69ae9b91a636fda86455",
+  "people_id": 12345678,
+  "task_meta_id": 12345678,
+  "task_id": null,
+  "date": "2026-02-06",
+  "reference_date": null,
+  "hours": 0.5,
+  "notes": "",
+  "priority": 0,
+  "modified": "2026-02-06 20:09:07",
+  "modified_by": 12345678,
+  "created": "2026-02-06 20:09:07",
+  "created_by": 12345678,
+  "task_name": "",
+  "project_id": 12345678,
+  "phase_id": 0,
+  "billable": 0,
+  "locked": 0,
+  "locked_date": null
+}

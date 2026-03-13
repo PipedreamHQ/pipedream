@@ -6,7 +6,7 @@ export default {
   key: "trello-card-updates",
   name: "Card Updated (Instant)", /* eslint-disable-line pipedream/source-name */
   description: "Emit new event for each update to a Trello card.",
-  version: "0.1.3",
+  version: "0.1.4",
   type: "source",
   props: {
     ...common.props,

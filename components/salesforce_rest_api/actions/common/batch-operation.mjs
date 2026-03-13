@@ -11,6 +11,7 @@ export default {
       type: "string",
       label: "CSV File Path Or URL",
       description: "The path to the CSV file to process. Provide a path to a file in the `/tmp` directory (for example, `/tmp/data.csv`). If a URL is provided, the file will be downloaded to the `/tmp` directory. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_asynch.meta/api_asynch/datafiles_prepare_data.htm)",
+      format: "file-ref",
     },
     syncDir: {
       type: "dir",

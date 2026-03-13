@@ -4,7 +4,7 @@ export default {
   key: "wics-delete-order-line",
   name: "Delete Order Line",
   description: "Delete a line from an order. [See the documentation](https://docs.wics.nl/test-environment.html#orders-delete-order-line)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: true,

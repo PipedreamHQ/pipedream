@@ -1,10 +1,11 @@
 import bookingExperts from "../../booking_experts.app.mjs";
+import { parseObject } from "../../common/utils.mjs";
 
 export default {
   key: "booking_experts-list-amenities",
   name: "List Amenities",
   description: "List amenities from BookingExperts. [See the documentation](https://developers.bookingexperts.com/reference/amenities-index)",
-  version: "0.0.2",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -80,6 +81,12 @@ export default {
       description: "Filter on amenity_options. Specify a comma separated list of IDs to filter on.",
       optional: true,
     },
+    filters: {
+      type: "object",
+      label: "Filters",
+      description: "Additional query params to filter amenities. Example: `filter[name]=Wifi`. If a key overlaps with an explicit filter prop, the value provided here will override it.",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const params = {
@@ -94,15 +101,16 @@ export default {
       "filter[semantic_amenity_type]": this.semanticAmenityType,
       "filter[amenity_group]": this.amenityGroup,
       "filter[amenity_options]": this.amenityOptions,
+      ...(parseObject(this.filters) || {}),
     };
 
-    const { data } = await this.bookingExperts.listAmenities({
+    const response = await this.bookingExperts.listAmenities({
       $,
       params,
     });
 
-    $.export("$summary", `Successfully retrieved ${data?.length ?? 0} amenities`);
+    $.export("$summary", `Successfully retrieved ${response.data?.length ?? 0} amenities`);
 
-    return data;
+    return response;
   },
 };

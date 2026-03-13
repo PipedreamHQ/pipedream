@@ -1,4 +1,5 @@
-import { axios } from "@pipedream/platform";
+import { Client } from "@microsoft/microsoft-graph-client";
+import "isomorphic-fetch";
 
 export default {
   type: "app",
@@ -62,73 +63,72 @@ export default {
     },
   },
   methods: {
-    _baseUrl() {
-      return "https://graph.microsoft.com/v1.0";
-    },
-    _headers() {
-      return {
-        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        ConsistencyLevel: "eventual",
-      };
-    },
-    _makeRequest({
-      $ = this,
-      path,
-      url,
-      ...args
-    }) {
-      return axios($, {
-        url: url || `${this._baseUrl()}${path}`,
-        headers: this._headers(),
-        ...args,
+    client() {
+      return Client.init({
+        authProvider: (done) => {
+          done(null, this.$auth.oauth_access_token);
+        },
       });
     },
-    listGroups(args = {}) {
-      return this._makeRequest({
-        path: "/groups",
-        ...args,
-      });
+    listGroups({
+      url, params = {},
+    } = {}) {
+      const client = this.client();
+      return url
+        ? client.api(url)
+          .query(params)
+          .get()
+        : client.api("/groups")
+          .header("ConsistencyLevel", "eventual")
+          .query(params)
+          .get();
     },
     listGroupMembers({
-      groupId, ...args
-    }) {
-      return this._makeRequest({
-        path: `/groups/${groupId}/members`,
-        ...args,
-      });
+      groupId, url, params = {},
+    } = {}) {
+      const client = this.client();
+      return url
+        ? client.api(url)
+          .query(params)
+          .get()
+        : client.api(`/groups/${groupId}/members`)
+          .header("ConsistencyLevel", "eventual")
+          .query(params)
+          .get();
     },
-    listUsers(args = {}) {
-      return this._makeRequest({
-        path: "/users",
-        ...args,
-      });
+    listUsers({
+      url, params = {},
+    } = {}) {
+      const client = this.client();
+      return url
+        ? client.api(url)
+          .query(params)
+          .get()
+        : client.api("/users")
+          .header("ConsistencyLevel", "eventual")
+          .query(params)
+          .get();
     },
     updateUser({
-      userId, ...args
-    }) {
-      return this._makeRequest({
-        path: `/users/${userId}`,
-        method: "PATCH",
-        ...args,
-      });
+      userId, data = {},
+    } = {}) {
+      return this.client().api(`/users/${userId}`)
+        .header("ConsistencyLevel", "eventual")
+        .patch(data);
     },
     addMemberToGroup({
-      groupId, ...args
-    }) {
-      return this._makeRequest({
-        path: `/groups/${groupId}/members/$ref`,
-        method: "POST",
-        ...args,
-      });
+      groupId, data = {},
+    } = {}) {
+      return this.client().api(`/groups/${groupId}/members/$ref`)
+        .header("ConsistencyLevel", "eventual")
+        .post(data);
     },
     removeMemberFromGroup({
-      groupId, userId, ...args
-    }) {
-      return this._makeRequest({
-        path: `/groups/${groupId}/members/${userId}/$ref`,
-        method: "DELETE",
-        ...args,
-      });
+      groupId, userId,
+    } = {}) {
+      return this.client().api(`/groups/${groupId}/members/${userId}/$ref`)
+        .header("ConsistencyLevel", "eventual")
+        .delete();
     },
   },
 };

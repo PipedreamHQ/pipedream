@@ -4,7 +4,7 @@ export default {
   key: "paystack-fetch-transaction",
   name: "Fetch Transaction",
   description: "Fetch a single transaction. [See the documentation](https://paystack.com/docs/api/transaction/#fetch)",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

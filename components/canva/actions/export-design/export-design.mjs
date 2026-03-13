@@ -5,7 +5,7 @@ export default {
   key: "canva-export-design",
   name: "Export Design",
   description: "Starts a new job to export a file from Canva. [See the documentation](https://www.canva.dev/docs/connect/api-reference/exports/create-design-export-job/)",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

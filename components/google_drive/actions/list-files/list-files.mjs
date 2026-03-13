@@ -5,7 +5,7 @@ export default {
   key: "google_drive-list-files",
   name: "List Files",
   description: "List files from a specific folder. [See the documentation](https://developers.google.com/drive/api/v3/reference/files/list) for more information",
-  version: "0.1.19",
+  version: "0.2.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -14,6 +14,13 @@ export default {
   type: "action",
   props: {
     googleDrive,
+    includeItemsFromAllDrives: {
+      propDefinition: [
+        googleDrive,
+        "includeItemsFromAllDrives",
+      ],
+      optional: true,
+    },
     drive: {
       propDefinition: [
         googleDrive,
@@ -72,6 +79,7 @@ export default {
   async run({ $ }) {
     const opts = getListFilesOpts(this.drive, {
       q: "",
+      includeItemsFromAllDrives: this.includeItemsFromAllDrives,
     });
     if (this.folderId) {
       opts.q = `"${this.folderId}" in parents`;

@@ -6,7 +6,7 @@ import { FORMATS } from "../../common/constants.mjs";
 export default {
   key: "click2mail2-create-document",
   name: "Create Document",
-  version: "1.0.2",
+  version: "1.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -38,6 +38,7 @@ export default {
       type: "string",
       label: "File Path Or Url",
       description: "Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.pdf`).",
+      format: "file-ref",
     },
     syncDir: {
       type: "dir",
