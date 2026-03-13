@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/toneden",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream ToneDen Components",
   "main": "toneden.app.mjs",
   "keywords": [
