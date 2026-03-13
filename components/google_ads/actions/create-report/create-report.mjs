@@ -1,25 +1,14 @@
 import common from "../common/common.mjs";
-import { adGroup } from "../../common/resources/adGroup.mjs";
-import { ad } from "../../common/resources/ad.mjs";
-import { campaign } from "../../common/resources/campaign.mjs";
-import { customer } from "../../common/resources/customer.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 import { DATE_RANGE_OPTIONS } from "./common-constants.mjs";
 import { checkPrefix } from "../../common/utils.mjs";
-
-const RESOURCES = [
-  adGroup,
-  ad,
-  campaign,
-  customer,
-];
 
 export default {
   ...common,
   key: "google_ads-create-report",
   name: "Create Report",
   description: "Generates a report from your Google Ads data. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v21/GoogleAdsService/Search?transport=rest)",
-  version: "0.1.5",
+  version: "0.1.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -29,180 +18,108 @@ export default {
   props: {
     ...common.props,
     resource: {
-      type: "string",
-      label: "Resource",
-      description: "The resource to generate a report for.",
-      options: RESOURCES.map((r) => r.resourceOption),
-      reloadProps: true,
+      propDefinition: [
+        common.props.googleAds,
+        "resource",
+      ],
     },
-  },
-  additionalProps() {
-    const resource = RESOURCES.find((r) => r.resourceOption.value === this.resource);
-    if (!resource) throw new ConfigurationError("Select one of the available resources.");
-
-    const {
-      label, value,
-    } = resource.resourceOption;
-
-    return {
-      docsAlert: {
-        type: "alert",
-        alertType: "info",
-        content: `[See the documentation](https://developers.google.com/google-ads/api/fields/v21/${value}) for more information on available fields, segments and metrics.`,
-      },
-      objectFilter: {
-        type: "string[]",
-        label: `Filter by ${label}s`,
-        description: `Select the ${label}s to generate a report for (or leave blank for all ${label}s)`,
-        optional: true,
-        useQuery: true,
-        options: async ({
-          query, prevContext: { nextPageToken: pageToken },
-        }) => {
-          const {
-            accountId, customerClientId, resource,
-          } = this;
-          const {
-            results, nextPageToken,
-          } = await this.googleAds.listResources({
-            accountId,
-            customerClientId,
-            resource,
-            query,
-            pageToken,
-          });
-          const options = results?.map?.((item) => this.getResourceOption(item, resource));
-          return {
-            options,
-            context: {
-              nextPageToken,
-            },
-          };
-        },
-      },
-      dateRange: {
-        type: "string",
-        label: "Date Range",
-        description: "Select a date range for the report",
-        options: DATE_RANGE_OPTIONS,
-        optional: true,
-        reloadProps: true,
-      },
-      ...(this.dateRange === "CUSTOM" && {
-        startDate: {
-          type: "string",
-          label: "Start Date",
-          description: "The start date, in `YYYY-MM-DD` format",
-        },
-        endDate: {
-          type: "string",
-          label: "End Date",
-          description: "The end date, in `YYYY-MM-DD` format",
-        },
-      }),
-      fields: {
-        type: "string[]",
-        label: "Fields",
-        description: "Select any fields you want to include in your report.",
-        options: resource.fields,
-        optional: true,
-        reloadProps: true,
-      },
-      segments: {
-        type: "string[]",
-        label: "Segments",
-        description: "Select any segments you want to include in your report. See the documentation [here](https://developers.google.com/google-ads/api/reference/rpc/v21/Segments)",
-        options: resource.segments,
-        default: [
-          "segments.date",
-        ],
-        optional: true,
-        reloadProps: true,
-      },
-      metrics: {
-        type: "string[]",
-        label: "Metrics",
-        description: "Select any metrics you want to include in your report. See the documentation [here](https://developers.google.com/google-ads/api/reference/rpc/v21/Metrics)",
-        options: resource.metrics,
-        optional: true,
-        reloadProps: true,
-      },
-      orderBy: {
-        type: "string",
-        label: "Order By",
-        description: "The field to order the results by",
-        optional: true,
-        options: [
-          this.fields,
-          this.segments,
-          this.metrics,
-        ].filter((v) => v).flatMap((value) => {
-          let returnValue = value;
-          if (typeof value === "string") {
-            try {
-              returnValue = JSON.parse(value);
-            } catch (err) {
-              returnValue = value.split(",");
-            }
-          }
-          return returnValue?.map?.((str) => str.trim());
+    objectFilter: {
+      propDefinition: [
+        common.props.googleAds,
+        "objectFilter",
+        ({
+          accountId, customerClientId, resource,
+        }) => ({
+          accountId,
+          customerClientId,
+          resource,
         }),
-      },
-      direction: {
-        type: "string",
-        label: "Direction",
-        description: "The direction to order the results by, if `Order By` is specified",
-        optional: true,
-        options: [
-          {
-            label: "Ascending",
-            value: "ASC",
-          },
-          {
-            label: "Descending",
-            value: "DESC",
-          },
-        ],
-        default: "ASC",
-      },
-      limit: {
-        type: "integer",
-        label: "Limit",
-        description: "The maximum number of results to return",
-        optional: true,
-      },
-    };
+      ],
+    },
+    dateRange: {
+      type: "string",
+      label: "Date Range",
+      description: "Select a date range for the report",
+      options: DATE_RANGE_OPTIONS,
+      optional: true,
+    },
+    startDate: {
+      type: "string",
+      label: "Start Date",
+      description: "The start date, in `YYYY-MM-DD` format. Only applies when Date Range is set to 'CUSTOM'.",
+      optional: true,
+    },
+    endDate: {
+      type: "string",
+      label: "End Date",
+      description: "The end date, in `YYYY-MM-DD` format. Only applies when Date Range is set to 'CUSTOM'.",
+      optional: true,
+    },
+    fields: {
+      propDefinition: [
+        common.props.googleAds,
+        "reportFields",
+        ({ resource }) => ({
+          resource,
+        }),
+      ],
+    },
+    segments: {
+      propDefinition: [
+        common.props.googleAds,
+        "reportSegments",
+        ({ resource }) => ({
+          resource,
+        }),
+      ],
+    },
+    metrics: {
+      propDefinition: [
+        common.props.googleAds,
+        "reportMetrics",
+        ({ resource }) => ({
+          resource,
+        }),
+      ],
+    },
+    orderBy: {
+      propDefinition: [
+        common.props.googleAds,
+        "reportOrderBy",
+        ({
+          fields, segments, metrics,
+        }) => ({
+          reportFields: fields,
+          reportSegments: segments,
+          reportMetrics: metrics,
+        }),
+      ],
+    },
+    direction: {
+      type: "string",
+      label: "Direction",
+      description: "The direction to order the results by, if `Order By` is specified",
+      optional: true,
+      options: [
+        {
+          label: "Ascending",
+          value: "ASC",
+        },
+        {
+          label: "Descending",
+          value: "DESC",
+        },
+      ],
+      default: "ASC",
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "The maximum number of results to return",
+      optional: true,
+    },
   },
   methods: {
-    getResourceOption(item, resource) {
-      let label, value;
-      switch (resource) {
-      case "campaign":
-        label = item.campaign.name;
-        value = item.campaign.id;
-        break;
-
-      case "customer":
-        label = item.customer.descriptiveName;
-        value = item.customer.id;
-        break;
-
-      case "ad_group":
-        label = item.adGroup.name;
-        value = item.adGroup.id;
-        break;
-
-      case "ad_group_ad":
-        label = item.adGroupAd.ad.name;
-        value = item.adGroupAd.ad.id;
-        break;
-      }
-
-      return {
-        label,
-        value,
-      };
-    },
     buildQuery() {
       const {
         resource, fields, segments, metrics, limit, orderBy, direction, objectFilter, dateRange,

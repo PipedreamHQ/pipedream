@@ -1,5 +1,16 @@
 import { axios } from "@pipedream/platform";
 import { QUERIES } from "./common/queries.mjs";
+import { adGroup } from "./common/resources/adGroup.mjs";
+import { ad } from "./common/resources/ad.mjs";
+import { campaign } from "./common/resources/campaign.mjs";
+import { customer } from "./common/resources/customer.mjs";
+
+const RESOURCES = [
+  adGroup,
+  ad,
+  campaign,
+  customer,
+];
 
 export default {
   type: "app",
@@ -91,6 +102,111 @@ export default {
         }));
       },
     },
+    resource: {
+      type: "string",
+      label: "Resource",
+      description: "The resource to generate a report for. [See the documentation](https://developers.google.com/google-ads/api/fields/v21/) for more information on available fields, segments and metrics.",
+      options: RESOURCES.map((r) => r.resourceOption),
+    },
+    objectFilter: {
+      type: "string[]",
+      label: "Filter by Resources",
+      description: "Select the resources to generate a report for (or leave blank for all resources). The label will update based on the selected resource type.",
+      optional: true,
+      useQuery: true,
+      async options({
+        accountId, customerClientId, resource, query, prevContext,
+      }) {
+        if (!resource) {
+          return [];
+        }
+        const { nextPageToken: pageToken } = prevContext || {};
+        const {
+          results, nextPageToken,
+        } = await this.listResources({
+          accountId,
+          customerClientId,
+          resource,
+          query,
+          pageToken,
+        });
+        const options = results?.map?.((item) => this.getResourceOption(item, resource));
+        return {
+          options,
+          context: {
+            nextPageToken,
+          },
+        };
+      },
+    },
+    reportFields: {
+      type: "string[]",
+      label: "Fields",
+      description: "Select any fields you want to include in your report.",
+      optional: true,
+      async options({ resource }) {
+        if (!resource) {
+          return [];
+        }
+        const resourceObj = RESOURCES.find((r) => r.resourceOption.value === resource);
+        return resourceObj?.fields || [];
+      },
+    },
+    reportSegments: {
+      type: "string[]",
+      label: "Segments",
+      description: "Select any segments you want to include in your report. See the documentation [here](https://developers.google.com/google-ads/api/reference/rpc/v21/Segments)",
+      optional: true,
+      default: [
+        "segments.date",
+      ],
+      async options({ resource }) {
+        if (!resource) {
+          return [];
+        }
+        const resourceObj = RESOURCES.find((r) => r.resourceOption.value === resource);
+        return resourceObj?.segments || [];
+      },
+    },
+    reportMetrics: {
+      type: "string[]",
+      label: "Metrics",
+      description: "Select any metrics you want to include in your report. See the documentation [here](https://developers.google.com/google-ads/api/reference/rpc/v21/Metrics)",
+      optional: true,
+      async options({ resource }) {
+        if (!resource) {
+          return [];
+        }
+        const resourceObj = RESOURCES.find((r) => r.resourceOption.value === resource);
+        return resourceObj?.metrics || [];
+      },
+    },
+    reportOrderBy: {
+      type: "string",
+      label: "Order By",
+      description: "The field to order the results by",
+      optional: true,
+      async options({
+        reportFields, reportSegments, reportMetrics,
+      }) {
+        const allValues = [
+          reportFields,
+          reportSegments,
+          reportMetrics,
+        ].filter((v) => v).flatMap((value) => {
+          let returnValue = value;
+          if (typeof value === "string") {
+            try {
+              returnValue = JSON.parse(value);
+            } catch (err) {
+              returnValue = value.split(",");
+            }
+          }
+          return returnValue?.map?.((str) => str.trim());
+        });
+        return allValues;
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -100,6 +216,35 @@ export default {
       return {
         "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
         "login-customer-id": accountId,
+      };
+    },
+    getResourceOption(item, resource) {
+      let label, value;
+      switch (resource) {
+      case "campaign":
+        label = item.campaign.name;
+        value = item.campaign.id;
+        break;
+
+      case "customer":
+        label = item.customer.descriptiveName;
+        value = item.customer.id;
+        break;
+
+      case "ad_group":
+        label = item.adGroup.name;
+        value = item.adGroup.id;
+        break;
+
+      case "ad_group_ad":
+        label = item.adGroupAd.ad.name;
+        value = item.adGroupAd.ad.id;
+        break;
+      }
+
+      return {
+        label,
+        value,
       };
     },
     _makeRequest({
