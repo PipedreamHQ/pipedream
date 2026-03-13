@@ -1,11 +1,11 @@
-import frontApp from "../../frontapp.app.mjs";
 import utils from "../../common/utils.mjs";
+import frontApp from "../../frontapp.app.mjs";
 
 export default {
   key: "frontapp-create-draft",
   name: "Create Draft",
   description: "Create a draft message which is the first message of a new conversation. [See the documentation](https://dev.frontapp.com/reference/create-draft)",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -95,6 +95,12 @@ export default {
         frontApp,
         "quoteBody",
       ],
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {
