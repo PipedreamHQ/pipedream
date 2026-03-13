@@ -20,7 +20,7 @@ export default {
         "userId",
       ],
       optional: true,
-      description: "The User ID or email address of a shared mailbox. If not provided, defaults to the authenticated user's mailbox.",
+      description: "The User ID of a shared mailbox. If not provided, defaults to the authenticated user's mailbox.",
     },
     recipients: {
       propDefinition: [
