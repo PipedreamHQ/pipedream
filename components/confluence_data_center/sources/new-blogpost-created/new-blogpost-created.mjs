@@ -6,7 +6,7 @@ export default {
   key: "confluence_data_center-new-blogpost-created",
   name: "New Blogpost Created (Instant)",
   description: "Emit new event when a new blogpost is created in Confluence Data Center.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
