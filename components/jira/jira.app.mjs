@@ -42,9 +42,7 @@ export default {
       type: "string",
       label: "Issue Type",
       description: "An ID identifying the type of issue. [Check the API docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/#api-rest-api-3-issue-post) to see available options",
-      async options({
-        projectId,
-      }) {
+      async options({ projectId }) {
         const issueTypes = isNaN(projectId)
           ? await this.getUserIssueTypes()
           : await this.getProjectIssueTypes({
@@ -297,9 +295,7 @@ export default {
       type: "string",
       label: "Board ID",
       description: "The ID of the board",
-      async options({
-        prevContext,
-      }) {
+      async options({ prevContext }) {
         let { startAt } = prevContext || {};
         const pageSize = 50;
         const resp = await this.listBoards({
@@ -518,9 +514,7 @@ export default {
         hookId: response?.webhookRegistrationResult[0]?.createdWebhookId,
       };
     },
-    deleteHook({
-      hookId,
-    } = {}) {
+    deleteHook({ hookId } = {}) {
       return this._makeRequest({
         method: "DELETE",
         path: "/webhook",
