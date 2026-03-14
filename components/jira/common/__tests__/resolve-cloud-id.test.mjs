@@ -9,7 +9,9 @@
 
 import assert from "node:assert/strict";
 
-function buildApp({ getCloudsResult, getCloudsError } = {}) {
+function buildApp({
+  getCloudsResult, getCloudsError,
+} = {}) {
   return {
     _cloudId: null,
 
@@ -43,7 +45,9 @@ function buildApp({ getCloudsResult, getCloudsError } = {}) {
       return this._cloudId;
     },
 
-    async _makeRequest({ url, path, cloudId } = {}) {
+    async _makeRequest({
+      url, path, cloudId,
+    } = {}) {
       if (url) {
         return {
           resolvedCloudId: cloudId ?? null,
