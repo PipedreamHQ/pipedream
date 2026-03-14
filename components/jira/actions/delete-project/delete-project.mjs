@@ -25,11 +25,6 @@ export default {
       description: "Whether this project is placed in the Jira recycle bin where it will be available for restoration",
     },
   },
-  /**
-   * Runs the action.
-   * @param {object} $ - The Pipedream step context
-   * @returns {Promise<void>}
-   */
   async run({ $ }) {
     await this.jira.deleteProject({
       $,

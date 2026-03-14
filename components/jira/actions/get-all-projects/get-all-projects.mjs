@@ -34,11 +34,6 @@ export default {
       description: "Use expand to include additional information in the response. This parameter accepts a comma-separated list. Expanded options include:\n`description` Returns the project description.\n`issueTypes` Returns all issue types associated with the project.\n`lead` Returns information about the project lead.\n`projectKeys` Returns all project keys associated with the project.",
     },
   },
-  /**
-   * Runs the action and returns all projects.
-   * @param {object} $ - The Pipedream step context
-   * @returns {Promise<Array>} Array of project objects
-   */
   async run({ $ }) {
     let properties;
     try {

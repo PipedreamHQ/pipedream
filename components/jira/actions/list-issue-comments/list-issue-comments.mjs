@@ -38,11 +38,6 @@ export default {
       description: "Use expand to include additional information about comments in the response. This parameter accepts `renderedBody`, which returns the comment body rendered in HTML.",
     },
   },
-  /**
-   * Runs the action and returns all issue comments.
-   * @param {object} $ - The Pipedream step context
-   * @returns {Promise<Array>} Array of issue comment objects
-   */
   async run({ $ }) {
     const issueComments = [];
     const resourcesStream = await this.jira.getResourcesStream({

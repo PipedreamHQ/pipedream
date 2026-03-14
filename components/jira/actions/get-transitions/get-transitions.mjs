@@ -56,11 +56,6 @@ export default {
       description: "Use expand to include additional information about transitions in the response. This parameter accepts `transitions.fields`, which returns information about the fields in the transition screen for each transition. Fields hidden from the screen are not returned. Use this information to populate the fields and update fields in [Transition issue](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-transitions-post).",
     },
   },
-  /**
-   * Runs the action and returns the API response.
-   * @param {object} $ - The Pipedream step context
-   * @returns {Promise<object>} The API response
-   */
   async run({ $ }) {
     const response = await this.jira.getTransitions({
       $,

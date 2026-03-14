@@ -26,11 +26,6 @@ export default {
       ],
     },
   },
-  /**
-   * Runs the action.
-   * @param {object} $ - The Pipedream step context
-   * @returns {Promise<void>}
-   */
   async run({ $ }) {
     await this.jira.assignIssue({
       $,

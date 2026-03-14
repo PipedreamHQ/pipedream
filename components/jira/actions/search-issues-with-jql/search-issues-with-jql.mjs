@@ -90,18 +90,9 @@ export default {
     },
   },
   methods: {
-    /**
-     * Returns the effective max results per page, capped at 1000.
-     * @returns {number} Max results per page
-     */
     getMaxResultsPerPage() {
       return Math.min(this.maxResults, 1000);
     },
-    /**
-     * Paginates through all issues matching the JQL query and returns the full result set.
-     * @param {object} args - Pagination options including params and maxResults
-     * @returns {Promise<Array>} All matching issues across all pages
-     */
     async paginate({
       params, maxResults, ...otherArgs
     }) {
@@ -146,11 +137,6 @@ export default {
       return results;
     },
   },
-  /**
-   * Runs the action and returns the API response.
-   * @param {object} $ - The Pipedream step context
-   * @returns {Promise<object>} The API response
-   */
   async run({ $ }) {
     try {
       const issues = await this.paginate({

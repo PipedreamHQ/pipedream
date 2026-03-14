@@ -34,11 +34,6 @@ export default {
       optional: true,
     },
   },
-  /**
-   * Runs the action and returns all attachment API responses.
-   * @param {object} $ - The Pipedream step context
-   * @returns {Promise<Array>} Array of attachment responses
-   */
   async run({ $ }) {
     const responses = [];
 

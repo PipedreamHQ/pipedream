@@ -21,11 +21,6 @@ export default {
       optional: true,
     },
   },
-  /**
-   * Runs the action and returns the API response.
-   * @param {object} $ - The Pipedream step context
-   * @returns {Promise<Array>} Array of issue type objects
-   */
   async run({ $ }) {
     const response = this.projectId
       ? await this.jira.getProjectIssueTypes({

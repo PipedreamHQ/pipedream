@@ -77,10 +77,6 @@ export default {
       optional: true,
     },
   },
-  /**
-   * Returns dynamic props based on the selected issue and issue type.
-   * @returns {Promise<object>} Additional dynamic field props
-   */
   async additionalProps() {
     const {
       projectId,
@@ -127,11 +123,6 @@ export default {
       });
     }
   },
-  /**
-   * Runs the action and returns the API response.
-   * @param {object} $ - The Pipedream step context
-   * @returns {Promise<object>} The API response
-   */
   async run({ $ }) {
     const {
       app,

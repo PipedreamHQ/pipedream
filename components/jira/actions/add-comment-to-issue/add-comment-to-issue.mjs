@@ -61,11 +61,6 @@ export default {
       description: "The Jira REST API uses resource expansion, which means that some parts of a resource are not returned unless specified in the request. This parameter accepts `renderedBody`, which returns the comment body rendered in HTML.",
     },
   },
-  /**
-   * Runs the action and returns the API response.
-   * @param {object} $ - The Pipedream step context
-   * @returns {Promise<object>} The API response
-   */
   async run({ $ }) {
     if (!this.comment && !this.body) {
       throw new ConfigurationError("Either comment or body is required");

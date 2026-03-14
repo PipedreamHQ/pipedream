@@ -19,11 +19,6 @@ export default {
       description: "The JQL query to count issues. The JQL must be bounded. Example: `project = HSP`",
     },
   },
-  /**
-   * Runs the action and returns the API response.
-   * @param {object} $ - The Pipedream step context
-   * @returns {Promise<object>} The API response
-   */
   async run({ $ }) {
     const {
       app,

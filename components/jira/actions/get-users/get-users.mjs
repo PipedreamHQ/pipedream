@@ -20,11 +20,6 @@ export default {
       optional: true,
     },
   },
-  /**
-   * Runs the action and returns matching users.
-   * @param {object} $ - The Pipedream step context
-   * @returns {Promise<Array>} Array of user objects
-   */
   async run({ $ }) {
     const response = await this.jira.findUsers({
       $,

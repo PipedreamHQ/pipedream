@@ -28,11 +28,6 @@ export default {
       description: "A list of JQL query strings to check the issues against. Example: `[\"project = FOO\", \"issuetype = Bug\"]`",
     },
   },
-  /**
-   * Runs the action and returns the API response.
-   * @param {object} $ - The Pipedream step context
-   * @returns {Promise<object>} The API response
-   */
   async run({ $ }) {
     const {
       app,

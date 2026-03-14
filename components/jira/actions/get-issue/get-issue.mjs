@@ -52,11 +52,6 @@ export default {
       description: "Use expand to include additional information about the issues in the response. This parameter accepts a comma-separated list. Expand options include:\n`renderedFields` Returns field values rendered in HTML format.\n`names` Returns the display name of each field.\n`schema` Returns the schema describing a field type.\n`transitions` Returns all possible transitions for the issue.\n`editmeta` Returns information about how each field can be edited.\n`changelog` Returns a list of recent updates to an issue, sorted by date, starting from the most recent.\n`versionedRepresentations` Returns a JSON array for each version of a field's value, with the highest number representing the most recent version. Note: When included in the request, the fields parameter is ignored.",
     },
   },
-  /**
-   * Runs the action and returns the API response.
-   * @param {object} $ - The Pipedream step context
-   * @returns {Promise<object>} The API response
-   */
   async run({ $ }) {
     let properties;
     try {

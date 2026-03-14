@@ -40,11 +40,6 @@ export default {
       ],
     },
   },
-  /**
-   * Returns dynamic props based on the selected project and issue type.
-   * @param {object} existingProps - The existing props object to modify
-   * @returns {Promise<object>} Additional dynamic field props
-   */
   async additionalProps(existingProps) {
     const {
       projectId,
@@ -88,11 +83,6 @@ export default {
       return {};
     }
   },
-  /**
-   * Runs the action and returns the API response.
-   * @param {object} $ - The Pipedream step context
-   * @returns {Promise<object>} The API response
-   */
   async run({ $ }) {
     const {
       // eslint-disable-next-line no-unused-vars

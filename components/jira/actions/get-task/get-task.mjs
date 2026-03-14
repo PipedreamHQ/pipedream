@@ -25,11 +25,6 @@ export default {
       description: "The ID of the task to get details of. A task is a resource that represents a [long-running asynchronous tasks](https://developer.atlassian.com/cloud/jira/platform/rest/v3/intro/#async-operations).",
     },
   },
-  /**
-   * Runs the action and returns the API response.
-   * @param {object} $ - The Pipedream step context
-   * @returns {Promise<object>} The API response
-   */
   async run({ $ }) {
     const response = await this.jira.getTask({
       $,

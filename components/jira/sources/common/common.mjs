@@ -24,33 +24,15 @@ export default {
     },
   },
   methods: {
-    /**
-     * Returns the stored webhook ID from the database.
-     * @returns {string} The stored hook ID
-     */
     _getHookID() {
       return this.db.get("hookId");
     },
-    /**
-     * Stores the webhook ID in the database for later cleanup.
-     * @param {string} hookID - The webhook ID to store
-     */
     _setHookID(hookID) {
       this.db.set("hookId", hookID);
     },
-    /**
-     * Returns the list of Jira event types this source subscribes to.
-     * Must be overridden by each source component.
-     * @returns {Array<string>} List of Jira event type strings
-     */
     getEvents() {
       throw new Error("getEvents not implemented!");
     },
-    /**
-     * Extracts the relevant item, type, summary, and timestamp from a raw Jira webhook event.
-     * @param {object} event - The raw HTTP event from the Jira webhook
-     * @returns {object} Object containing summary, itemType, item, and ts
-     */
     exportItem(event) {
       //Since Jira is sending all information in events,
       //we don't re-fetch related items(issue, comment, etc.)
@@ -110,10 +92,6 @@ export default {
         ts,
       };
     },
-    /**
-     * Deletes all existing Jira webhooks registered by this app to avoid conflicts on re-activation.
-     * @returns {Promise<void>}
-     */
     async deleteExistingWebhooks() {
       const resourcesStream = await this.jira.getResourcesStream({
         resourceFn: this.jira.getWebhook,

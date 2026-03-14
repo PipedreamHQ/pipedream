@@ -76,11 +76,6 @@ export default {
       description: "Use expand to include additional information about comments in the response. This parameter accepts `renderedBody`, which returns the comment body rendered in HTML.",
     },
   },
-  /**
-   * Runs the action and returns the API response.
-   * @param {object} $ - The Pipedream step context
-   * @returns {Promise<object>} The API response
-   */
   async run({ $ }) {
     if (!this.comment && !this.body) {
       throw new ConfigurationError("Either comment or body is required");

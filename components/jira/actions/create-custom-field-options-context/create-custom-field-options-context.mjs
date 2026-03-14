@@ -43,11 +43,6 @@ export default {
     },
   },
   methods: {
-    /**
-     * Creates custom field options for a specific field context.
-     * @param {object} args - Object containing fieldId, contextId, and options data
-     * @returns {Promise<object>} The created options
-     */
     createCustomFieldOptionsContext({
       fieldId, contextId, ...args
     }) {
@@ -58,11 +53,6 @@ export default {
       });
     },
   },
-  /**
-   * Runs the action and returns the API response.
-   * @param {object} $ - The Pipedream step context
-   * @returns {Promise<object>} The API response
-   */
   async run({ $ }) {
     const {
       createCustomFieldOptionsContext,

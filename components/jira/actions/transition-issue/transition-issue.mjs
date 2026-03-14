@@ -61,11 +61,6 @@ export default {
       optional: true,
     },
   },
-  /**
-   * Runs the action.
-   * @param {object} $ - The Pipedream step context
-   * @returns {Promise<void>}
-   */
   async run({ $ }) {
     const transition = {
       id: this.transition,

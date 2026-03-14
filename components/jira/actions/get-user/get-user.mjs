@@ -27,11 +27,6 @@ export default {
       description: "Use expand to include additional information about users in the response. This parameter accepts a comma-separated list. Expand options include:\n*`groups` includes all groups and nested groups to which the user belongs.\n*`applicationRoles` includes details of all the applications to which the user has access.",
     },
   },
-  /**
-   * Runs the action and returns the API response.
-   * @param {object} $ - The Pipedream step context
-   * @returns {Promise<object>} The API response
-   */
   async run({ $ }) {
     const response = await this.jira.getUser({
       $,
