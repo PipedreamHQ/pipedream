@@ -4,7 +4,7 @@ export default {
   key: "jira-get-board",
   name: "Get Board",
   description: "Returns the board for the given board ID. [See the documentation](https://developer.atlassian.com/cloud/jira/software/rest/api-group-board/#api-rest-agile-1-0-board-boardid-get)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -13,26 +13,21 @@ export default {
   },
   props: {
     jira,
-    cloudId: {
-      propDefinition: [
-        jira,
-        "cloudId",
-      ],
-    },
     boardId: {
       propDefinition: [
         jira,
         "boardId",
-        (c) => ({
-          cloudId: c.cloudId,
-        }),
       ],
     },
   },
+  /**
+   * Runs the action and returns the API response.
+   * @param {object} $ - The Pipedream step context
+   * @returns {Promise<object>} The API response
+   */
   async run({ $ }) {
     const response = await this.jira.getBoard({
       $,
-      cloudId: this.cloudId,
       boardId: this.boardId,
     });
     $.export("$summary", `Successfully retrieved board with ID ${this.boardId}`);

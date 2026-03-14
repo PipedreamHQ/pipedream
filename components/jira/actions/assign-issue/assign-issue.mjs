@@ -3,7 +3,7 @@ import jira from "../../jira.app.mjs";
 export default {
   key: "jira-assign-issue",
   name: "Assign Issue",
-  version: "0.0.17",
+  version: "0.0.18",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -13,35 +13,27 @@ export default {
   type: "action",
   props: {
     jira,
-    cloudId: {
-      propDefinition: [
-        jira,
-        "cloudId",
-      ],
-    },
     issueIdOrKey: {
       propDefinition: [
         jira,
         "issueIdOrKey",
-        (c) => ({
-          cloudId: c.cloudId,
-        }),
       ],
     },
     accountId: {
       propDefinition: [
         jira,
         "accountId",
-        (c) => ({
-          cloudId: c.cloudId,
-        }),
       ],
     },
   },
+  /**
+   * Runs the action.
+   * @param {object} $ - The Pipedream step context
+   * @returns {Promise<void>}
+   */
   async run({ $ }) {
     await this.jira.assignIssue({
       $,
-      cloudId: this.cloudId,
       data: {
         accountId: this.accountId,
       },

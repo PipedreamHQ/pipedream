@@ -4,7 +4,7 @@ export default {
   name: "Search Issues with JQL",
   description: "Search for issues using JQL (Jira Query Language). [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-search/#api-rest-api-3-search-jql-get)",
   key: "jira-search-issues-with-jql",
-  version: "0.1.6",
+  version: "0.1.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -13,12 +13,6 @@ export default {
   type: "action",
   props: {
     jira,
-    cloudId: {
-      propDefinition: [
-        jira,
-        "cloudId",
-      ],
-    },
     jql: {
       type: "string",
       label: "JQL Query",
@@ -96,9 +90,18 @@ export default {
     },
   },
   methods: {
+    /**
+     * Returns the effective max results per page, capped at 1000.
+     * @returns {number} Max results per page
+     */
     getMaxResultsPerPage() {
       return Math.min(this.maxResults, 1000);
     },
+    /**
+     * Paginates through all issues matching the JQL query and returns the full result set.
+     * @param {object} args - Pagination options including params and maxResults
+     * @returns {Promise<Array>} All matching issues across all pages
+     */
     async paginate({
       params, maxResults, ...otherArgs
     }) {
@@ -143,11 +146,15 @@ export default {
       return results;
     },
   },
+  /**
+   * Runs the action and returns the API response.
+   * @param {object} $ - The Pipedream step context
+   * @returns {Promise<object>} The API response
+   */
   async run({ $ }) {
     try {
       const issues = await this.paginate({
         $,
-        cloudId: this.cloudId,
         params: {
           jql: this.jql,
           maxResults: this.getMaxResultsPerPage(),

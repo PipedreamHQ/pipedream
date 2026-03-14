@@ -4,7 +4,7 @@ export default {
   key: "jira-list-board-issues",
   name: "List Board Issues",
   description: "Returns all issues from a board, for the given board ID. [See the documentation](https://developer.atlassian.com/cloud/jira/software/rest/api-group-board/#api-rest-agile-1-0-board-boardid-issue-get)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -13,19 +13,10 @@ export default {
   },
   props: {
     jira,
-    cloudId: {
-      propDefinition: [
-        jira,
-        "cloudId",
-      ],
-    },
     boardId: {
       propDefinition: [
         jira,
         "boardId",
-        (c) => ({
-          cloudId: c.cloudId,
-        }),
       ],
     },
     startAt: {
@@ -59,10 +50,14 @@ export default {
       ],
     },
   },
+  /**
+   * Runs the action and returns the API response.
+   * @param {object} $ - The Pipedream step context
+   * @returns {Promise<object>} The API response
+   */
   async run({ $ }) {
     const response = await this.jira.listBoardIssues({
       $,
-      cloudId: this.cloudId,
       boardId: this.boardId,
       params: {
         startAt: this.startAt,

@@ -6,7 +6,7 @@ export default {
   key: "jira-add-multiple-attachments-to-issue",
   name: "Add Multiple Attachments To Issue",
   description: "Adds multiple attachments to an issue. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-attachments/#api-rest-api-3-issue-issueidorkey-attachments-post)",
-  version: "1.0.11",
+  version: "1.0.12",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -15,19 +15,10 @@ export default {
   type: "action",
   props: {
     jira,
-    cloudId: {
-      propDefinition: [
-        jira,
-        "cloudId",
-      ],
-    },
     issueIdOrKey: {
       propDefinition: [
         jira,
         "issueIdOrKey",
-        (c) => ({
-          cloudId: c.cloudId,
-        }),
       ],
     },
     files: {
@@ -43,6 +34,11 @@ export default {
       optional: true,
     },
   },
+  /**
+   * Runs the action and returns all attachment API responses.
+   * @param {object} $ - The Pipedream step context
+   * @returns {Promise<Array>} Array of attachment responses
+   */
   async run({ $ }) {
     const responses = [];
 
@@ -66,7 +62,6 @@ export default {
 
       const response = await this.jira.addAttachmentToIssue({
         $,
-        cloudId: this.cloudId,
         issueIdOrKey: this.issueIdOrKey,
         headers,
         data,

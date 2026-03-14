@@ -4,7 +4,7 @@ export default {
   key: "jira-list-issue-comments",
   name: "List Issue Comments",
   description: "Lists all comments for an issue. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-comments/#api-rest-api-3-issue-issueidorkey-comment-get)",
-  version: "0.1.18",
+  version: "0.1.19",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -13,19 +13,10 @@ export default {
   type: "action",
   props: {
     jira,
-    cloudId: {
-      propDefinition: [
-        jira,
-        "cloudId",
-      ],
-    },
     issueIdOrKey: {
       propDefinition: [
         jira,
         "issueIdOrKey",
-        (c) => ({
-          cloudId: c.cloudId,
-        }),
       ],
     },
     orderBy: {
@@ -47,10 +38,14 @@ export default {
       description: "Use expand to include additional information about comments in the response. This parameter accepts `renderedBody`, which returns the comment body rendered in HTML.",
     },
   },
+  /**
+   * Runs the action and returns all issue comments.
+   * @param {object} $ - The Pipedream step context
+   * @returns {Promise<Array>} Array of issue comment objects
+   */
   async run({ $ }) {
     const issueComments = [];
     const resourcesStream = await this.jira.getResourcesStream({
-      cloudId: this.cloudId,
       resourceFn: this.jira.listIssueComments,
       resourceFnArgs: {
         $,

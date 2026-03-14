@@ -4,7 +4,7 @@ export default {
   key: "jira-search-issues-with-jql-post",
   name: "Search Issues with JQL (POST)",
   description: "Searches for issues using JQL with enhanced search capabilities. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-search/#api-rest-api-3-search-jql-post)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   annotations: {
     readOnlyHint: true,
@@ -13,12 +13,6 @@ export default {
   },
   props: {
     app,
-    cloudId: {
-      propDefinition: [
-        app,
-        "cloudId",
-      ],
-    },
     jql: {
       type: "string",
       label: "JQL Query",
@@ -104,10 +98,14 @@ export default {
       optional: true,
     },
   },
+  /**
+   * Runs the action and returns the API response.
+   * @param {object} $ - The Pipedream step context
+   * @returns {Promise<object>} The API response
+   */
   async run({ $ }) {
     const {
       app,
-      cloudId,
       jql,
       maxResults,
       nextPageToken,
@@ -120,7 +118,6 @@ export default {
 
     const response = await app.postSearchIssues({
       $,
-      cloudId,
       data: {
         jql,
         maxResults,

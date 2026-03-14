@@ -4,12 +4,6 @@ import constants from "../../common/constants.mjs";
 export default {
   props: {
     app,
-    cloudId: {
-      propDefinition: [
-        app,
-        "cloudId",
-      ],
-    },
     historyMetadata: {
       type: "object",
       label: "History Metadata",
@@ -37,23 +31,28 @@ export default {
     },
   },
   methods: {
+    /**
+     * Returns all issue types visible to the current user.
+     * @param {object} args - Optional query params
+     * @returns {Promise<Array>} List of issue types
+     */
     getIssueTypes(args = {}) {
       return this.app._makeRequest({
         path: "/issuetype",
         ...args,
       });
     },
+    /**
+     * Returns the async options function for a dynamic field by key.
+     * @param {string} key - The field key constant (e.g. PARENT, LABELS, ISSUETYPE)
+     * @returns {Function|Array} Options function or empty array if key is not recognized
+     */
     getOptions(key) {
       switch (key) {
       case constants.FIELD_KEY.PARENT:
         return async ({ prevContext: { startAt = 0 } }) => {
-          const {
-            app,
-            cloudId,
-          } = this;
           const maxResults = 50;
-          const { issues } = await app.searchIssues({
-            cloudId,
+          const { issues } = await this.app.searchIssues({
             params: {
               jql: "project is not EMPTY ORDER BY created DESC",
               maxResults,
@@ -75,13 +74,8 @@ export default {
         };
       case constants.FIELD_KEY.LABELS:
         return async ({ prevContext: { startAt = 0 } }) => {
-          const {
-            app,
-            cloudId,
-          } = this;
           const maxResults = 50;
-          const { values } = await app.getLabels({
-            cloudId,
+          const { values } = await this.app.getLabels({
             params: {
               maxResults,
               startAt,
@@ -96,14 +90,7 @@ export default {
         };
       case constants.FIELD_KEY.ISSUETYPE:
         return async () => {
-          const {
-            getIssueTypes,
-            cloudId,
-          } = this;
-
-          const issueTypes = await getIssueTypes({
-            cloudId,
-          });
+          const issueTypes = await this.getIssueTypes();
           return {
             options: issueTypes.map(({
               id: value, name: label,
@@ -117,6 +104,13 @@ export default {
         return [];
       }
     },
+    /**
+     * Builds dynamic prop definitions for issue fields based on the Jira create/edit metadata.
+     * @param {object} options - Options object
+     * @param {object} options.fields - Fields object from Jira metadata API
+     * @param {Function} options.predicate - Filter function to include/exclude specific fields
+     * @returns {Promise<object>} Dynamic props keyed by field ID
+     */
     async getDynamicFields({
       fields, predicate = (field) => field,
     } = {}) {
@@ -205,6 +199,11 @@ export default {
           });
         }, Promise.resolve({}));
     },
+    /**
+     * Formats dynamic field values into the structure expected by the Jira API.
+     * @param {object} fields - Raw field values from the component props
+     * @returns {object} Formatted fields object ready for the API request body
+     */
     formatFields(fields) {
       const keysToFormat = [
         constants.FIELD_KEY.DESCRIPTION,

@@ -8,7 +8,7 @@ export default {
   key: "jira-update-issue",
   name: "Update Issue",
   description: "Updates an issue. A transition may be applied and issue properties updated as part of the edit. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-put)",
-  version: "0.2.22",
+  version: "0.2.23",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -21,9 +21,6 @@ export default {
       propDefinition: [
         common.props.app,
         "projectID",
-        ({ cloudId }) => ({
-          cloudId,
-        }),
       ],
     },
     issueIdOrKey: {
@@ -31,9 +28,6 @@ export default {
       propDefinition: [
         common.props.app,
         "issueIdOrKey",
-        ({ cloudId }) => ({
-          cloudId,
-        }),
       ],
     },
     issueTypeId: {
@@ -41,10 +35,7 @@ export default {
       propDefinition: [
         common.props.app,
         "issueType",
-        ({
-          cloudId, projectId,
-        }) => ({
-          cloudId,
+        ({ projectId }) => ({
           projectId,
         }),
       ],
@@ -74,10 +65,7 @@ export default {
       propDefinition: [
         common.props.app,
         "transition",
-        ({
-          cloudId, issueIdOrKey,
-        }) => ({
-          cloudId,
+        ({ issueIdOrKey }) => ({
           issueIdOrKey,
         }),
       ],
@@ -89,9 +77,12 @@ export default {
       optional: true,
     },
   },
+  /**
+   * Returns dynamic props based on the selected issue and issue type.
+   * @returns {Promise<object>} Additional dynamic field props
+   */
   async additionalProps() {
     const {
-      cloudId,
       projectId,
       issueTypeId,
       issueIdOrKey,
@@ -99,7 +90,6 @@ export default {
 
     try {
       const { fields } = await this.app.getEditIssueMetadata({
-        cloudId,
         issueIdOrKey,
       });
 
@@ -119,7 +109,6 @@ export default {
           },
         ],
       } = await this.app.getCreateIssueMetadata({
-        cloudId,
         params: {
           projectIds: projectId,
           issuetypeIds: issueTypeId,
@@ -138,10 +127,14 @@ export default {
       });
     }
   },
+  /**
+   * Runs the action and returns the API response.
+   * @param {object} $ - The Pipedream step context
+   * @returns {Promise<object>} The API response
+   */
   async run({ $ }) {
     const {
       app,
-      cloudId,
       issueIdOrKey,
       // eslint-disable-next-line no-unused-vars
       projectId,
@@ -185,7 +178,6 @@ export default {
 
     await app.updateIssue({
       $,
-      cloudId,
       issueIdOrKey,
       params,
       data: {

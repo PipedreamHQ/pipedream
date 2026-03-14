@@ -4,7 +4,7 @@ export default {
   key: "jira-create-version",
   name: "Create Jira Version in Project",
   description: "Creates a project version. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-project-versions/#api-rest-api-3-version-post)",
-  version: "0.1.18",
+  version: "0.1.19",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -13,19 +13,10 @@ export default {
   type: "action",
   props: {
     jira,
-    cloudId: {
-      propDefinition: [
-        jira,
-        "cloudId",
-      ],
-    },
     projectID: {
       propDefinition: [
         jira,
         "projectID",
-        (c) => ({
-          cloudId: c.cloudId,
-        }),
       ],
     },
     name: {
@@ -65,10 +56,14 @@ export default {
       description: "Use expand to include additional information about the version in the response. This parameter accepts a comma-separated list. Expand options include:\n`operations` Returns the list of operations available for this version.\n`issuesstatus` Returns the count of issues in this version for each of the status categories `to do`, `in progress`, `done`, and `unmapped`.",
     },
   },
+  /**
+   * Runs the action and returns the API response.
+   * @param {object} $ - The Pipedream step context
+   * @returns {Promise<object>} The API response
+   */
   async run({ $ }) {
     const response = await this.jira.createVersion({
       $,
-      cloudId: this.cloudId,
       data: {
         projectId: this.projectID,
         name: this.name,

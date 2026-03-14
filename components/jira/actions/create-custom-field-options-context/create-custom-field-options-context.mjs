@@ -5,7 +5,7 @@ export default {
   key: "jira-create-custom-field-options-context",
   name: "Create Custom Field Options (Context)",
   description: "Create a context for custom field options. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-custom-field-options/#api-rest-api-3-field-fieldid-context-contextid-option-post).",
-  version: "0.0.10",
+  version: "0.0.11",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -14,18 +14,11 @@ export default {
   type: "action",
   props: {
     app,
-    cloudId: {
-      propDefinition: [
-        app,
-        "cloudId",
-      ],
-    },
     fieldId: {
       propDefinition: [
         app,
         "fieldId",
-        ({ cloudId }) => ({
-          cloudId,
+        () => ({
           params: {
             type: [
               "custom",
@@ -38,10 +31,7 @@ export default {
       propDefinition: [
         app,
         "contextId",
-        ({
-          cloudId, fieldId,
-        }) => ({
-          cloudId,
+        ({ fieldId }) => ({
           fieldId,
         }),
       ],
@@ -53,6 +43,11 @@ export default {
     },
   },
   methods: {
+    /**
+     * Creates custom field options for a specific field context.
+     * @param {object} args - Object containing fieldId, contextId, and options data
+     * @returns {Promise<object>} The created options
+     */
     createCustomFieldOptionsContext({
       fieldId, contextId, ...args
     }) {
@@ -63,10 +58,14 @@ export default {
       });
     },
   },
+  /**
+   * Runs the action and returns the API response.
+   * @param {object} $ - The Pipedream step context
+   * @returns {Promise<object>} The API response
+   */
   async run({ $ }) {
     const {
       createCustomFieldOptionsContext,
-      cloudId,
       fieldId,
       contextId,
       options,
@@ -74,7 +73,6 @@ export default {
 
     const response = await createCustomFieldOptionsContext({
       $,
-      cloudId,
       fieldId,
       contextId,
       data: {

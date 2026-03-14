@@ -4,7 +4,7 @@ export default {
   key: "jira-list-boards",
   name: "List Boards",
   description: "Returns all boards. [See the documentation](https://developer.atlassian.com/cloud/jira/software/rest/api-group-board/#api-rest-agile-1-0-board-get)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -13,12 +13,6 @@ export default {
   },
   props: {
     jira,
-    cloudId: {
-      propDefinition: [
-        jira,
-        "cloudId",
-      ],
-    },
     startAt: {
       type: "integer",
       label: "Start At",
@@ -55,10 +49,14 @@ export default {
       optional: true,
     },
   },
+  /**
+   * Runs the action and returns the API response.
+   * @param {object} $ - The Pipedream step context
+   * @returns {Promise<object>} The API response
+   */
   async run({ $ }) {
     const response = await this.jira.listBoards({
       $,
-      cloudId: this.cloudId,
       params: {
         startAt: this.startAt,
         maxResults: this.maxResults,

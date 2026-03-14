@@ -7,7 +7,7 @@ export default {
   key: "jira-add-comment-to-issue",
   name: "Add Comment To Issue",
   description: "Adds a new comment to an issue. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-comments/#api-rest-api-3-issue-issueidorkey-comment-post)",
-  version: "0.1.18",
+  version: "0.1.19",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -16,19 +16,10 @@ export default {
   type: "action",
   props: {
     jira,
-    cloudId: {
-      propDefinition: [
-        jira,
-        "cloudId",
-      ],
-    },
     issueIdOrKey: {
       propDefinition: [
         jira,
         "issueIdOrKey",
-        (c) => ({
-          cloudId: c.cloudId,
-        }),
       ],
     },
     comment: {
@@ -70,6 +61,11 @@ export default {
       description: "The Jira REST API uses resource expansion, which means that some parts of a resource are not returned unless specified in the request. This parameter accepts `renderedBody`, which returns the comment body rendered in HTML.",
     },
   },
+  /**
+   * Runs the action and returns the API response.
+   * @param {object} $ - The Pipedream step context
+   * @returns {Promise<object>} The API response
+   */
   async run({ $ }) {
     if (!this.comment && !this.body) {
       throw new ConfigurationError("Either comment or body is required");
@@ -89,7 +85,6 @@ export default {
     }
     const response = await this.jira.addCommentToIssue({
       $,
-      cloudId: this.cloudId,
       issueIdOrKey: this.issueIdOrKey,
       params: {
         expand: this.expand,

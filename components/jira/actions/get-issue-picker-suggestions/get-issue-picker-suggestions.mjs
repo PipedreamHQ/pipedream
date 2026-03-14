@@ -4,7 +4,7 @@ export default {
   key: "jira-get-issue-picker-suggestions",
   name: "Get Issue Picker Suggestions",
   description: "Returns lists of issues matching a query string. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-search/#api-rest-api-3-issue-picker-get)",
-  version: "0.0.3",
+  version: "0.0.5",
   type: "action",
   annotations: {
     readOnlyHint: true,
@@ -13,12 +13,6 @@ export default {
   },
   props: {
     app,
-    cloudId: {
-      propDefinition: [
-        app,
-        "cloudId",
-      ],
-    },
     query: {
       type: "string",
       label: "Query",
@@ -43,9 +37,6 @@ export default {
       propDefinition: [
         app,
         "projectID",
-        ({ cloudId }) => ({
-          cloudId,
-        }),
       ],
     },
     showSubTasks: {
@@ -61,10 +52,14 @@ export default {
       optional: true,
     },
   },
+  /**
+   * Runs the action and returns the API response.
+   * @param {object} $ - The Pipedream step context
+   * @returns {Promise<object>} The API response
+   */
   async run({ $ }) {
     const {
       app,
-      cloudId,
       query,
       currentJQL,
       currentIssueKey,
@@ -75,7 +70,6 @@ export default {
 
     const response = await app.getIssuePickerSuggestions({
       $,
-      cloudId,
       params: {
         query,
         currentJQL,

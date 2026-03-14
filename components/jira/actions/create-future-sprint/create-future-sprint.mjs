@@ -4,7 +4,7 @@ export default {
   key: "jira-create-future-sprint",
   name: "Create Future Sprint",
   description: "Creates a future sprint. [See the documentation](https://developer.atlassian.com/cloud/jira/software/rest/api-group-sprint/#api-rest-agile-1-0-sprint-post)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -13,19 +13,10 @@ export default {
   },
   props: {
     jira,
-    cloudId: {
-      propDefinition: [
-        jira,
-        "cloudId",
-      ],
-    },
     boardId: {
       propDefinition: [
         jira,
         "boardId",
-        (c) => ({
-          cloudId: c.cloudId,
-        }),
       ],
       description: "The ID of the board the sprint will be created on.",
     },
@@ -53,10 +44,14 @@ export default {
       optional: true,
     },
   },
+  /**
+   * Runs the action and returns the API response.
+   * @param {object} $ - The Pipedream step context
+   * @returns {Promise<object>} The API response
+   */
   async run({ $ }) {
     const response = await this.jira.createSprint({
       $,
-      cloudId: this.cloudId,
       data: {
         originBoardId: parseInt(this.boardId),
         name: this.name,

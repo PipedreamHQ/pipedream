@@ -7,7 +7,7 @@ export default {
   key: "jira-update-comment",
   name: "Update Comment",
   description: "Updates a comment. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-comments/#api-rest-api-3-issue-issueidorkey-comment-id-put)",
-  version: "0.1.18",
+  version: "0.1.19",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -16,19 +16,10 @@ export default {
   type: "action",
   props: {
     jira,
-    cloudId: {
-      propDefinition: [
-        jira,
-        "cloudId",
-      ],
-    },
     issueIdOrKey: {
       propDefinition: [
         jira,
         "issueIdOrKey",
-        (c) => ({
-          cloudId: c.cloudId,
-        }),
       ],
     },
     commentId: {
@@ -36,7 +27,6 @@ export default {
         jira,
         "commentId",
         (c) => ({
-          cloudId: c.cloudId,
           issueIdOrKey: c.issueIdOrKey,
         }),
       ],
@@ -86,6 +76,11 @@ export default {
       description: "Use expand to include additional information about comments in the response. This parameter accepts `renderedBody`, which returns the comment body rendered in HTML.",
     },
   },
+  /**
+   * Runs the action and returns the API response.
+   * @param {object} $ - The Pipedream step context
+   * @returns {Promise<object>} The API response
+   */
   async run({ $ }) {
     if (!this.comment && !this.body) {
       throw new ConfigurationError("Either comment or body is required");
@@ -107,7 +102,6 @@ export default {
     }
     const response = await this.jira.updateComment({
       $,
-      cloudId: this.cloudId,
       issueIdOrKey: this.issueIdOrKey,
       commentId: this.commentId,
       params: {

@@ -5,7 +5,7 @@ export default {
   key: "jira-list-epic-issues",
   name: "List Epic Issues",
   description: "Returns all issues that belong to an epic on the given board. [See the documentation](https://developer.atlassian.com/cloud/jira/software/rest/api-group-board/#api-rest-agile-1-0-board-boardid-epic-epicid-issue-get)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -20,19 +20,10 @@ export default {
       alertType: "warning",
       content: "This action only works with **classic (company-managed)** Jira Software boards. If your board uses a **next-gen (team-managed)** project, use the **Search Issues with JQL** action with a filter like `parent = EPIC-KEY` instead.",
     },
-    cloudId: {
-      propDefinition: [
-        jira,
-        "cloudId",
-      ],
-    },
     boardId: {
       propDefinition: [
         jira,
         "boardId",
-        (c) => ({
-          cloudId: c.cloudId,
-        }),
       ],
     },
     epicId: {
@@ -40,7 +31,6 @@ export default {
         jira,
         "epicId",
         (c) => ({
-          cloudId: c.cloudId,
           boardId: c.boardId,
         }),
       ],
@@ -76,12 +66,16 @@ export default {
       ],
     },
   },
+  /**
+   * Runs the action and returns the API response.
+   * @param {object} $ - The Pipedream step context
+   * @returns {Promise<object>} The API response
+   */
   async run({ $ }) {
     let response;
     try {
       response = await this.jira.listEpicIssues({
         $,
-        cloudId: this.cloudId,
         boardId: this.boardId,
         epicId: this.epicId,
         params: {

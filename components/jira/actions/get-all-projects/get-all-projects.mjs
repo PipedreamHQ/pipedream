@@ -4,7 +4,7 @@ export default {
   key: "jira-get-all-projects",
   name: "Get All Projects",
   description: "Gets metadata on all projects. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/#api-rest-api-3-project-get)",
-  version: "0.1.19",
+  version: "0.1.20",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -13,12 +13,6 @@ export default {
   type: "action",
   props: {
     jira,
-    cloudId: {
-      propDefinition: [
-        jira,
-        "cloudId",
-      ],
-    },
     recent: {
       type: "integer",
       label: "Recent Projects",
@@ -40,6 +34,11 @@ export default {
       description: "Use expand to include additional information in the response. This parameter accepts a comma-separated list. Expanded options include:\n`description` Returns the project description.\n`issueTypes` Returns all issue types associated with the project.\n`lead` Returns information about the project lead.\n`projectKeys` Returns all project keys associated with the project.",
     },
   },
+  /**
+   * Runs the action and returns all projects.
+   * @param {object} $ - The Pipedream step context
+   * @returns {Promise<Array>} Array of project objects
+   */
   async run({ $ }) {
     let properties;
     try {
@@ -49,7 +48,6 @@ export default {
     }
     const projects = [];
     const resourcesStream = await this.jira.getResourcesStream({
-      cloudId: this.cloudId,
       resourceFn: this.jira.getAllProjects,
       resourceFnArgs: {
         $,

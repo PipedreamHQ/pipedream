@@ -8,7 +8,7 @@ export default {
   key: "jira-create-issue",
   name: "Create Issue",
   description: "Creates an issue or, where the option to create subtasks is enabled in Jira, a subtask. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-post)",
-  version: "0.1.29",
+  version: "0.1.30",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -27,9 +27,6 @@ export default {
       propDefinition: [
         common.props.app,
         "projectID",
-        ({ cloudId }) => ({
-          cloudId,
-        }),
       ],
     },
     issueTypeId: {
@@ -37,23 +34,24 @@ export default {
       propDefinition: [
         common.props.app,
         "issueType",
-        ({
-          cloudId, projectId,
-        }) => ({
-          cloudId,
+        ({ projectId }) => ({
           projectId,
         }),
       ],
     },
   },
+  /**
+   * Returns dynamic props based on the selected project and issue type.
+   * @param {object} existingProps - The existing props object to modify
+   * @returns {Promise<object>} Additional dynamic field props
+   */
   async additionalProps(existingProps) {
     const {
-      cloudId,
       projectId,
       issueTypeId,
     } = this;
 
-    if (isNaN(projectId) || !cloudId || isNaN(issueTypeId)) {
+    if (isNaN(projectId) || isNaN(issueTypeId)) {
       existingProps.additionalProperties.optional = false;
       return {};
     }
@@ -68,7 +66,6 @@ export default {
           },
         ],
       } = await this.app.getCreateIssueMetadata({
-        cloudId,
         params: {
           projectIds: projectId,
           issuetypeIds: issueTypeId,
@@ -91,11 +88,15 @@ export default {
       return {};
     }
   },
+  /**
+   * Runs the action and returns the API response.
+   * @param {object} $ - The Pipedream step context
+   * @returns {Promise<object>} The API response
+   */
   async run({ $ }) {
     const {
       // eslint-disable-next-line no-unused-vars
       app,
-      cloudId,
       projectId,
       issueTypeId,
       updateHistory,
@@ -132,7 +133,6 @@ export default {
 
     const response = await this.app.createIssue({
       $,
-      cloudId,
       params,
       data: {
         fields: {

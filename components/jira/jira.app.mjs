@@ -7,32 +7,17 @@ export default {
   type: "app",
   app: "jira",
   propDefinitions: {
-    cloudId: {
-      type: "string",
-      label: "Cloud ID",
-      description: "The cloud ID",
-      useQuery: true,
-      async options() {
-        const clouds = await this.getClouds();
-
-        return clouds.map((cloud) => ({
-          label: cloud.name,
-          value: cloud.id,
-        }));
-      },
-    },
     projectID: {
       type: "string",
       label: "Project ID",
       description: "The project ID",
       useQuery: true,
       async options({
-        prevContext, query, cloudId,
+        prevContext, query,
       }) {
         let { startAt } = prevContext || {};
         const pageSize = 50;
         const resp = await this.getAllProjects({
-          cloudId,
           params: {
             startAt,
             maxResults: pageSize,
@@ -58,14 +43,11 @@ export default {
       label: "Issue Type",
       description: "An ID identifying the type of issue. [Check the API docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/#api-rest-api-3-issue-post) to see available options",
       async options({
-        cloudId, projectId,
+        projectId,
       }) {
         const issueTypes = isNaN(projectId)
-          ? await this.getUserIssueTypes({
-            cloudId,
-          })
+          ? await this.getUserIssueTypes()
           : await this.getProjectIssueTypes({
-            cloudId,
             params: {
               projectId,
             },
@@ -93,7 +75,7 @@ export default {
       label: "Issue ID or Key",
       description: "The ID or key of an issue",
       async options({
-        prevContext, cloudId, tasksOnly = false,
+        prevContext, tasksOnly = false,
       }) {
         let { startAt } = prevContext || {};
         const pageSize = 50;
@@ -101,7 +83,6 @@ export default {
           ? "project is not EMPTY AND issuetype = \"Task\" ORDER BY created DESC"
           : "project is not EMPTY ORDER BY created DESC";
         const resp = await this.searchIssues({
-          cloudId,
           params: {
             jql,
             startAt,
@@ -129,12 +110,11 @@ export default {
       description: "The account ID of the user, which uniquely identifies the user across all Atlassian products, For example, `5b10ac8d82e05b22cc7d4ef5`",
       useQuery: true,
       async options({
-        prevContext, query, cloudId,
+        prevContext, query,
       }) {
         let { startAt } = prevContext || {};
         const pageSize = 50;
         const resp = await this.findUsers({
-          cloudId,
           params: {
             startAt,
             maxResults: pageSize,
@@ -184,7 +164,7 @@ export default {
       description: "Details of a transition. Required when performing a transition, optional when creating or editing an issue, See `Transition` section of [doc](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-put). Also you can go edit the workflow and choose the Text option instead of the Diagram option. You can see the transition ID in parenthesis.",
       optional: true,
       async options({
-        prevContext, issueIdOrKey, cloudId,
+        prevContext, issueIdOrKey,
       }) {
         if (!issueIdOrKey) {
           return [];
@@ -193,7 +173,6 @@ export default {
         const pageSize = 50;
         try {
           const resp = await this.getTransitions({
-            cloudId,
             issueIdOrKey,
             params: {
               startAt,
@@ -234,7 +213,6 @@ export default {
           hasMore,
           startAt = 0,
         },
-        cloudId,
         params = {
           type: [
             "custom",
@@ -250,7 +228,6 @@ export default {
           isLast,
           values,
         } = await this.getFieldsPaginated({
-          cloudId,
           params: {
             ...params,
             query,
@@ -282,7 +259,6 @@ export default {
           hasMore,
           startAt = 0,
         },
-        cloudId,
         fieldId,
         params = {
           isAnyIssueType: true,
@@ -296,7 +272,6 @@ export default {
           isLast,
           values,
         } = await this.getCustomFieldContexts({
-          cloudId,
           fieldId,
           params: {
             ...params,
@@ -323,12 +298,11 @@ export default {
       label: "Board ID",
       description: "The ID of the board",
       async options({
-        prevContext, cloudId,
+        prevContext,
       }) {
         let { startAt } = prevContext || {};
         const pageSize = 50;
         const resp = await this.listBoards({
-          cloudId,
           params: {
             startAt,
             maxResults: pageSize,
@@ -355,7 +329,7 @@ export default {
       label: "Sprint ID",
       description: "The ID of the sprint",
       async options({
-        prevContext, cloudId, boardId,
+        prevContext, boardId,
       }) {
         if (!boardId) {
           return [];
@@ -363,7 +337,6 @@ export default {
         let { startAt } = prevContext || {};
         const pageSize = 50;
         const resp = await this.listSprints({
-          cloudId,
           boardId,
           params: {
             startAt,
@@ -391,7 +364,7 @@ export default {
       label: "Epic ID",
       description: "The ID of the epic",
       async options({
-        prevContext, cloudId, boardId,
+        prevContext, boardId,
       }) {
         if (!boardId) {
           return [];
@@ -399,7 +372,6 @@ export default {
         let { startAt } = prevContext || {};
         const pageSize = 50;
         const resp = await this.listEpics({
-          cloudId,
           boardId,
           params: {
             startAt,
@@ -426,7 +398,7 @@ export default {
       label: "Comment ID",
       description: "The ID of the comment",
       async options({
-        prevContext, issueIdOrKey, cloudId,
+        prevContext, issueIdOrKey,
       }) {
         if (!issueIdOrKey) {
           return [];
@@ -436,7 +408,6 @@ export default {
         try {
           const resp = await this.listIssueComments({
             issueIdOrKey,
-            cloudId,
             params: {
               startAt,
               maxResults: pageSize,
@@ -461,6 +432,11 @@ export default {
     },
   },
   methods: {
+    /**
+     * Returns the default headers for all Jira API requests, including authorization and content type.
+     * @param {object} headers - Optional additional headers to merge in
+     * @returns {object} The merged headers object
+     */
     _getHeaders(headers = {}) {
       return {
         "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
@@ -470,36 +446,95 @@ export default {
         ...headers,
       };
     },
+    /**
+     * Returns the base URL for Jira REST API v3 requests for the given cloud instance.
+     * @param {string} cloudId - The Jira cloud ID
+     * @returns {string} The base REST API URL
+     */
     _getUrl(cloudId) {
       return `https://api.atlassian.com/ex/jira/${cloudId}/rest/api/3`;
     },
+    /**
+     * Returns the base URL for Jira Agile REST API requests for the given cloud instance.
+     * @param {string} cloudId - The Jira cloud ID
+     * @returns {string} The base Agile API URL
+     */
     _getAgileUrl(cloudId) {
       return `https://api.atlassian.com/ex/jira/${cloudId}/rest/agile/1.0`;
     },
-    _makeAgileRequest({
+    /**
+     * Resolves the Jira Cloud ID for the connected account and caches it for
+     * the duration of the run. Most accounts have a single cloud instance, but
+     * if multiple are found the first one is used and a log message lists all
+     * available instances so the user can reconnect to a specific site if needed.
+     * @returns {Promise<string>} The resolved cloud ID
+     * @throws {ConfigurationError} If the cloud instances cannot be fetched or none are found
+     */
+    async _resolveCloudId() {
+      if (this._cloudId) {
+        return this._cloudId;
+      }
+
+      let clouds;
+      try {
+        clouds = await this.getClouds();
+      } catch (err) {
+        throw new ConfigurationError(`Unable to retrieve your Jira Cloud instance. Please check your connection. (${err.message})`);
+      }
+
+      if (!clouds?.length) {
+        throw new ConfigurationError("No Jira Cloud instances found. Please reconnect your Jira account and confirm site access was granted.");
+      }
+
+      if (clouds.length > 1) {
+        const names = clouds.map((c) => `"${c.name}"`).join(", ");
+        console.log(`Multiple Jira Cloud instances found (${names}). Using "${clouds[0].name}" (${clouds[0].id}). To use a different instance, reconnect your Jira account scoped to that specific site.`);
+      }
+
+      this._cloudId = clouds[0].id;
+      return this._cloudId;
+    },
+    /**
+     * Makes an authenticated request to the Jira Agile API.
+     * @param {object} args - Request options including path, headers, and optional cloudId override
+     * @returns {Promise<object>} The API response
+     */
+    async _makeAgileRequest({
       $ = this, path, headers, cloudId, ...args
     } = {}) {
       return axios($, {
-        url: `${this._getAgileUrl(cloudId)}${path}`,
+        url: `${this._getAgileUrl(cloudId ?? await this._resolveCloudId())}${path}`,
         headers: this._getHeaders(headers),
         ...args,
       });
     },
-    _makeRequest({
+    /**
+     * Makes an authenticated request to the Jira REST API. Accepts either a full
+     * URL or a path, resolving the cloud ID automatically when using a path.
+     * @param {object} args - Request options including url or path, headers, and optional cloudId override
+     * @returns {Promise<object>} The API response
+     */
+    async _makeRequest({
       $ = this, url, path, headers, cloudId, ...args
     } = {}) {
-      const config = {
-        url: url || `${this._getUrl(cloudId)}${path}`,
+      // When a full URL is provided (e.g. autocomplete endpoints) cloudId is
+      // not needed; otherwise resolve it before building the path-based URL.
+      const effectiveUrl = url ?? `${this._getUrl(cloudId ?? await this._resolveCloudId())}${path}`;
+      return axios($, {
+        url: effectiveUrl,
         headers: this._getHeaders(headers),
         ...args,
-      };
-      return axios($, config);
+      });
     },
+    /**
+     * Registers a new Jira webhook for the given URL, events, and JQL filter.
+     * @param {object} args - Hook options including url, events, and jqlFilter
+     * @returns {Promise<object>} Object containing the created hookId
+     */
     async createHook({
-      cloudId, url, events, jqlFilter,
+      url, events, jqlFilter,
     } = {}) {
       const response = await this._makeRequest({
-        cloudId,
         method: "POST",
         path: "/webhook",
         data: {
@@ -522,11 +557,15 @@ export default {
         hookId: response?.webhookRegistrationResult[0]?.createdWebhookId,
       };
     },
+    /**
+     * Deletes a Jira webhook by its ID.
+     * @param {object} args - Object containing the hookId to delete
+     * @returns {Promise<void>}
+     */
     deleteHook({
-      cloudId, hookId,
+      hookId,
     } = {}) {
       return this._makeRequest({
-        cloudId,
         method: "DELETE",
         path: "/webhook",
         data: {
@@ -536,6 +575,11 @@ export default {
         },
       });
     },
+    /**
+     * Assigns an issue to a user.
+     * @param {object} args - Object containing issueIdOrKey and assignment data
+     * @returns {Promise<void>}
+     */
     assignIssue({
       issueIdOrKey, ...args
     } = {}) {
@@ -545,6 +589,11 @@ export default {
         ...args,
       });
     },
+    /**
+     * Adds a watcher to an issue.
+     * @param {object} args - Object containing issueIdOrKey and accountId
+     * @returns {Promise<void>}
+     */
     addWatcher({
       issueIdOrKey, accountId, ...args
     } = {}) {
@@ -555,16 +604,25 @@ export default {
         ...args,
       });
     },
+    /**
+     * Adds an attachment to an issue.
+     * @param {object} args - Object containing issueIdOrKey and attachment data
+     * @returns {Promise<object>} The created attachment details
+     */
     addAttachmentToIssue({
-      cloudId, issueIdOrKey, ...args
+      issueIdOrKey, ...args
     } = {}) {
       return this._makeRequest({
-        cloudId,
         method: "POST",
         path: `/issue/${issueIdOrKey}/attachments`,
         ...args,
       });
     },
+    /**
+     * Adds a comment to an issue.
+     * @param {object} args - Object containing issueIdOrKey and comment data
+     * @returns {Promise<object>} The created comment
+     */
     addCommentToIssue({
       issueIdOrKey, ...args
     } = {}) {
@@ -574,6 +632,11 @@ export default {
         ...args,
       });
     },
+    /**
+     * Creates a new Jira issue.
+     * @param {object} args - Issue creation data
+     * @returns {Promise<object>} The created issue
+     */
     createIssue(args = {}) {
       return this._makeRequest({
         method: "POST",
@@ -581,6 +644,11 @@ export default {
         ...args,
       });
     },
+    /**
+     * Creates a new version in a project.
+     * @param {object} args - Version creation data
+     * @returns {Promise<object>} The created version
+     */
     createVersion({ ...args } = {}) {
       return this._makeRequest({
         method: "POST",
@@ -588,6 +656,11 @@ export default {
         ...args,
       });
     },
+    /**
+     * Deletes a project by its ID or key.
+     * @param {object} args - Object containing projectIdOrKey
+     * @returns {Promise<void>}
+     */
     deleteProject({
       projectIdOrKey, ...args
     } = {}) {
@@ -597,24 +670,44 @@ export default {
         ...args,
       });
     },
+    /**
+     * Returns a paginated list of projects matching the given search criteria.
+     * @param {object} args - Query params such as query, maxResults, startAt
+     * @returns {Promise<object>} Paginated project results
+     */
     getAllProjects(args = {}) {
       return this._makeRequest({
         path: "/project/search",
         ...args,
       });
     },
+    /**
+     * Returns a paginated list of labels.
+     * @param {object} args - Query params
+     * @returns {Promise<object>} Paginated label results
+     */
     getLabels(args = {}) {
       return this._makeRequest({
         path: "/label",
         ...args,
       });
     },
+    /**
+     * Returns a list of users matching the given search query.
+     * @param {object} args - Query params such as query, maxResults, startAt
+     * @returns {Promise<Array>} List of matching users
+     */
     findUsers(args = {}) {
       return this._makeRequest({
         path: "/user/search",
         ...args,
       });
     },
+    /**
+     * Returns the details of a single issue.
+     * @param {object} args - Object containing issueIdOrKey and optional field params
+     * @returns {Promise<object>} The issue details
+     */
     getIssue({
       issueIdOrKey, ...args
     } = {}) {
@@ -623,12 +716,22 @@ export default {
         ...args,
       });
     },
+    /**
+     * Searches for issues using JQL.
+     * @param {object} args - Query params including jql, fields, maxResults, startAt
+     * @returns {Promise<object>} Search results with issues array
+     */
     searchIssues(args = {}) {
       return this._makeRequest({
         path: "/search/jql",
         ...args,
       });
     },
+    /**
+     * Returns the details of an async task.
+     * @param {object} args - Object containing taskId
+     * @returns {Promise<object>} Task details
+     */
     getTask({
       taskId, ...args
     } = {}) {
@@ -637,6 +740,11 @@ export default {
         ...args,
       });
     },
+    /**
+     * Returns the available transitions for an issue.
+     * @param {object} args - Object containing issueIdOrKey
+     * @returns {Promise<object>} Available transitions
+     */
     getTransitions({
       issueIdOrKey, ...args
     } = {}) {
@@ -645,12 +753,22 @@ export default {
         ...args,
       });
     },
+    /**
+     * Returns the details of a single user.
+     * @param {object} args - Query params such as accountId
+     * @returns {Promise<object>} User details
+     */
     getUser(args = {}) {
       return this._makeRequest({
         path: "/user",
         ...args,
       });
     },
+    /**
+     * Returns a paginated list of comments for an issue.
+     * @param {object} args - Object containing issueIdOrKey and pagination params
+     * @returns {Promise<object>} Paginated comments
+     */
     listIssueComments({
       issueIdOrKey, ...args
     } = {}) {
@@ -659,6 +777,11 @@ export default {
         ...args,
       });
     },
+    /**
+     * Transitions an issue to a new status.
+     * @param {object} args - Object containing issueIdOrKey and transition data
+     * @returns {Promise<void>}
+     */
     transitionIssue({
       issueIdOrKey, ...args
     } = {}) {
@@ -668,6 +791,11 @@ export default {
         ...args,
       });
     },
+    /**
+     * Updates a comment on an issue.
+     * @param {object} args - Object containing issueIdOrKey, commentId, and updated body
+     * @returns {Promise<object>} The updated comment
+     */
     updateComment({
       issueIdOrKey, commentId, ...args
     } = {}) {
@@ -677,12 +805,16 @@ export default {
         ...args,
       });
     },
+    /**
+     * Updates an issue, optionally applying a transition first.
+     * @param {object} args - Object containing issueIdOrKey, optional transition, and field data
+     * @returns {Promise<void>}
+     */
     async updateIssue({
-      cloudId, issueIdOrKey, transition, ...args
+      issueIdOrKey, transition, ...args
     } = {}) {
       if (transition) {
         await this.transitionIssue({
-          cloudId,
           issueIdOrKey,
           data: {
             transition,
@@ -690,12 +822,16 @@ export default {
         });
       }
       return this._makeRequest({
-        cloudId,
         method: "PUT",
         path: `/issue/${issueIdOrKey}`,
         ...args,
       });
     },
+    /**
+     * Returns the edit metadata for an issue, describing which fields can be updated.
+     * @param {object} args - Object containing issueIdOrKey
+     * @returns {Promise<object>} Edit metadata
+     */
     getEditIssueMetadata({
       issueIdOrKey, ...args
     } = {}) {
@@ -704,30 +840,55 @@ export default {
         ...args,
       });
     },
+    /**
+     * Returns metadata for creating issues, including available fields per issue type.
+     * @param {object} args - Query params such as projectIds, issuetypeIds, expand
+     * @returns {Promise<object>} Create issue metadata
+     */
     getCreateIssueMetadata(args = {}) {
       return this._makeRequest({
         path: "/issue/createmeta",
         ...args,
       });
     },
+    /**
+     * Returns issue types available for a specific project.
+     * @param {object} args - Query params including projectId
+     * @returns {Promise<Array>} List of issue types
+     */
     getProjectIssueTypes(args = {}) {
       return this._makeRequest({
         path: "/issuetype/project",
         ...args,
       });
     },
+    /**
+     * Returns all issue types visible to the current user.
+     * @param {object} args - Optional query params
+     * @returns {Promise<Array>} List of issue types
+     */
     getUserIssueTypes(args = {}) {
       return this._makeRequest({
         path: "/issuetype",
         ...args,
       });
     },
+    /**
+     * Returns registered webhooks for the current app.
+     * @param {object} args - Optional query params
+     * @returns {Promise<object>} Paginated webhook results
+     */
     getWebhook(args = {}) {
       return this._makeRequest({
         path: "/webhook",
         ...args,
       });
     },
+    /**
+     * Returns the list of Jira cloud instances accessible to the connected account.
+     * @param {object} args - Optional request overrides
+     * @returns {Promise<Array>} List of accessible cloud instances
+     */
     getClouds(args = {}) {
       return axios(this, {
         url: "https://api.atlassian.com/oauth/token/accessible-resources",
@@ -737,12 +898,22 @@ export default {
         ...args,
       });
     },
+    /**
+     * Returns a paginated list of fields matching the given search criteria.
+     * @param {object} args - Query params such as type, query, maxResults, startAt
+     * @returns {Promise<object>} Paginated field results
+     */
     getFieldsPaginated(args = {}) {
       return this._makeRequest({
         path: "/field/search",
         ...args,
       });
     },
+    /**
+     * Returns the custom field contexts for a given field.
+     * @param {object} args - Object containing fieldId and optional params
+     * @returns {Promise<object>} Paginated context results
+     */
     getCustomFieldContexts({
       fieldId, ...args
     } = {}) {
@@ -751,51 +922,69 @@ export default {
         ...args,
       });
     },
-    countIssuesUsingJQL({
-      cloudId, ...args
-    } = {}) {
+    /**
+     * Returns an approximate count of issues matching the given JQL query.
+     * @param {object} args - Request body containing the JQL query
+     * @returns {Promise<object>} Approximate issue count
+     */
+    countIssuesUsingJQL(args = {}) {
       return this._makeRequest({
-        cloudId,
         method: "POST",
         path: "/search/approximate-count",
         ...args,
       });
     },
-    checkIssuesAgainstJQL({
-      cloudId, ...args
-    } = {}) {
+    /**
+     * Checks which issues in a list match the given JQL queries.
+     * @param {object} args - Request body with issue IDs and JQL queries
+     * @returns {Promise<object>} Match results per query
+     */
+    checkIssuesAgainstJQL(args = {}) {
       return this._makeRequest({
-        cloudId,
         method: "POST",
         path: "/jql/match",
         ...args,
       });
     },
-    postSearchIssues({
-      cloudId, ...args
-    } = {}) {
+    /**
+     * Searches for issues using JQL via POST (supports larger query payloads).
+     * @param {object} args - Request body including jql, fields, maxResults, startAt
+     * @returns {Promise<object>} Search results with issues array
+     */
+    postSearchIssues(args = {}) {
       return this._makeRequest({
-        cloudId,
         method: "POST",
         path: "/search/jql",
         ...args,
       });
     },
-    getIssuePickerSuggestions({
-      cloudId, ...args
-    } = {}) {
+    /**
+     * Returns issue picker suggestions based on a search query.
+     * @param {object} args - Query params such as query and currentJQL
+     * @returns {Promise<object>} Issue picker suggestions
+     */
+    getIssuePickerSuggestions(args = {}) {
       return this._makeRequest({
-        cloudId,
         path: "/issue/picker",
         ...args,
       });
     },
+    /**
+     * Returns a paginated list of boards.
+     * @param {object} args - Query params such as maxResults, startAt
+     * @returns {Promise<object>} Paginated board results
+     */
     listBoards(args = {}) {
       return this._makeAgileRequest({
         path: "/board",
         ...args,
       });
     },
+    /**
+     * Returns the details of a single board.
+     * @param {object} args - Object containing boardId
+     * @returns {Promise<object>} Board details
+     */
     getBoard({
       boardId, ...args
     } = {}) {
@@ -804,6 +993,11 @@ export default {
         ...args,
       });
     },
+    /**
+     * Returns a paginated list of issues on a board.
+     * @param {object} args - Object containing boardId and pagination params
+     * @returns {Promise<object>} Paginated issue results
+     */
     listBoardIssues({
       boardId, ...args
     } = {}) {
@@ -812,6 +1006,11 @@ export default {
         ...args,
       });
     },
+    /**
+     * Returns a paginated list of sprints for a board.
+     * @param {object} args - Object containing boardId and pagination params
+     * @returns {Promise<object>} Paginated sprint results
+     */
     listSprints({
       boardId, ...args
     } = {}) {
@@ -820,6 +1019,11 @@ export default {
         ...args,
       });
     },
+    /**
+     * Returns the details of a single sprint.
+     * @param {object} args - Object containing sprintId
+     * @returns {Promise<object>} Sprint details
+     */
     getSprint({
       sprintId, ...args
     } = {}) {
@@ -828,6 +1032,11 @@ export default {
         ...args,
       });
     },
+    /**
+     * Returns a paginated list of issues in a sprint.
+     * @param {object} args - Object containing sprintId and pagination params
+     * @returns {Promise<object>} Paginated issue results
+     */
     listSprintIssues({
       sprintId, ...args
     } = {}) {
@@ -836,6 +1045,11 @@ export default {
         ...args,
       });
     },
+    /**
+     * Moves issues into a sprint.
+     * @param {object} args - Object containing sprintId and issue IDs
+     * @returns {Promise<void>}
+     */
     moveIssuesToSprint({
       sprintId, ...args
     } = {}) {
@@ -845,6 +1059,11 @@ export default {
         ...args,
       });
     },
+    /**
+     * Creates a new sprint on a board.
+     * @param {object} args - Sprint creation data including name, startDate, endDate
+     * @returns {Promise<object>} The created sprint
+     */
     createSprint(args = {}) {
       return this._makeAgileRequest({
         method: "POST",
@@ -852,6 +1071,11 @@ export default {
         ...args,
       });
     },
+    /**
+     * Returns a paginated list of epics on a board.
+     * @param {object} args - Object containing boardId and pagination params
+     * @returns {Promise<object>} Paginated epic results
+     */
     listEpics({
       boardId, ...args
     } = {}) {
@@ -860,6 +1084,11 @@ export default {
         ...args,
       });
     },
+    /**
+     * Returns a paginated list of issues belonging to an epic on a board.
+     * @param {object} args - Object containing boardId, epicId, and pagination params
+     * @returns {Promise<object>} Paginated issue results
+     */
     listEpicIssues({
       boardId, epicId, ...args
     } = {}) {
@@ -868,8 +1097,15 @@ export default {
         ...args,
       });
     },
+    /**
+     * Async generator that pages through all resources returned by a given API function.
+     * @param {object} options - Options object
+     * @param {Function} options.resourceFn - The API method to call for each page
+     * @param {object} options.resourceFnArgs - Arguments to pass to resourceFn on each call
+     * @param {Function} options.resourceFiltererFn - Extracts the items array from each page response
+     * @yields {object} Individual resource items across all pages
+     */
     async *getResourcesStream({
-      cloudId,
       resourceFn,
       resourceFnArgs,
       resourceFiltererFn,
@@ -878,7 +1114,6 @@ export default {
       const pageSize = 50;
       while (true) {
         const nextResources = await resourceFn({
-          cloudId,
           ...resourceFnArgs,
           params: {
             ...resourceFnArgs.params,
