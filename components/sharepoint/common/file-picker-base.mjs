@@ -1,4 +1,5 @@
 import sharepoint from "../sharepoint.app.mjs";
+import { LIST_ITEM_FIELDS_EXPAND } from "./constants.mjs";
 
 /**
  * Shared prop definitions for file picker actions.
@@ -179,11 +180,11 @@ export const filePickerMethods = {
         // Always expand listItem fields to include custom column values
         const params = includeDownloadUrl
           ? {
-            $expand: "listItem($expand=fields)",
+            $expand: LIST_ITEM_FIELDS_EXPAND,
           }
           : {
             $select: "id,name,size,webUrl,createdDateTime,lastModifiedDateTime,createdBy,lastModifiedBy,parentReference,file,folder,image,video,audio,photo,shared,fileSystemInfo,cTag,eTag,sharepointIds",
-            $expand: "listItem($expand=fields)",
+            $expand: LIST_ITEM_FIELDS_EXPAND,
           };
 
         const file = await this.sharepoint.getDriveItem({
