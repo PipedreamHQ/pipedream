@@ -43,7 +43,7 @@ const LEAD_FIELD_OPTIONS = [
 
 const DEAL_SORT_BY_OPTIONS = [
   "id",
-  "updated_time",
+  "update_time",
   "add_time",
 ];
 
