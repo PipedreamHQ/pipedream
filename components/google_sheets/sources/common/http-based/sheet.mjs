@@ -71,7 +71,7 @@ export default {
         changes, newStartPageToken,
       } = data;
       this._setChangeToken(newStartPageToken);
-      return changes.some((change) => change?.file?.id === this.getSheetId());
+      return changes?.some((change) => change?.file?.id === this.getSheetId());
     },
     async renewSubscription() {
       // Assume subscription & channelID may all be undefined at
