@@ -5,7 +5,7 @@ import constants from "../../common/constants.mjs";
 export default {
   ...common,
   name: "Chat using File Search",
-  version: "0.0.8",
+  version: "0.0.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

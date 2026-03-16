@@ -6,7 +6,7 @@ export default {
   key: "zerobounce-file-validation",
   name: "Validate Emails in File",
   description: "Performs email validation on all the addresses contained in a provided file. [See the documentation](https://www.zerobounce.net/docs/email-validation-api-quickstart/)",
-  version: "0.1.3",
+  version: "0.1.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -19,6 +19,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The csv or txt file to validate. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.csv`)",
+      format: "file-ref",
     },
     emailAddressColumn: {
       type: "integer",

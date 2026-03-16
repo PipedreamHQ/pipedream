@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/signal",
+  "version": "0.0.1",
+  "description": "Pipedream Signal Components",
+  "main": "signal.app.mjs",
+  "keywords": [
+    "pipedream",
+    "signal"
+  ],
+  "homepage": "https://pipedream.com/apps/signal",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

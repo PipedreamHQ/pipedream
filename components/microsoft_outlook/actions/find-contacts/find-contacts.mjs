@@ -3,7 +3,7 @@ import microsoftOutlook from "../../microsoft_outlook.app.mjs";
 export default {
   type: "action",
   key: "microsoft_outlook-find-contacts",
-  version: "0.0.25",
+  version: "0.0.28",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

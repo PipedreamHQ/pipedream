@@ -13,7 +13,7 @@ export default {
   key: "microsoft_outlook-download-attachment",
   name: "Download Attachment",
   description: "Downloads an attachment to the /tmp directory. [See the documentation](https://learn.microsoft.com/en-us/graph/api/attachment-get?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.14",
+  version: "0.0.17",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -22,10 +22,21 @@ export default {
   type: "action",
   props: {
     microsoftOutlook,
+    userId: {
+      propDefinition: [
+        microsoftOutlook,
+        "userId",
+      ],
+      optional: true,
+      description: "The User ID of a shared mailbox. If not provided, defaults to the authenticated user's mailbox.",
+    },
     messageId: {
       propDefinition: [
         microsoftOutlook,
         "messageId",
+        ({ userId }) => ({
+          userId,
+        }),
       ],
       description: "The identifier of the message containing the attachment to download",
     },
@@ -34,6 +45,7 @@ export default {
         microsoftOutlook,
         "attachmentId",
         (c) => ({
+          userId: c.userId,
           messageId: c.messageId,
         }),
       ],
@@ -103,6 +115,7 @@ export default {
   async run({ $ }) {
     const response = await this.microsoftOutlook.getAttachment({
       $,
+      userId: this.userId,
       messageId: this.messageId,
       attachmentId: this.attachmentId,
     });
@@ -118,6 +131,7 @@ export default {
     if (this.convertToPdf) {
       const { contentType: mimeType } = await this.microsoftOutlook.getAttachmentInfo({
         $,
+        userId: this.userId,
         messageId: this.messageId,
         attachmentId: this.attachmentId,
       });

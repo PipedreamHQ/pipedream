@@ -5,7 +5,7 @@ export default {
   key: "sharepoint-new-folder-created",
   name: "New Folder Created",
   description: "Emit new event when a new folder is created in Microsoft Sharepoint.",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "source",
   dedupe: "unique",
   props: {

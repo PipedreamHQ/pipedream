@@ -5,7 +5,7 @@ export default {
   key: "booking_experts-search-contacts",
   name: "Search Contacts",
   description: "Search for contacts by email or phone. [See the documentation](https://developers.bookingexperts.com/reference/contact-search-first)",
-  version: "0.0.8",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -33,17 +33,17 @@ export default {
     }
 
     try {
-      const { data } = await this.bookingExperts.searchContacts({
+      const response = await this.bookingExperts.searchContacts({
         $,
         params: {
           email: this.email,
           phone: this.phone,
         },
       });
-      if (data?.id) {
+      if (response.data?.id) {
         $.export("$summary", "Found contact matching criteria");
       }
-      return data;
+      return response;
     } catch (error) {
       if (error.response?.status === 404) {
         $.export("$summary", "No contact found matching criteria");

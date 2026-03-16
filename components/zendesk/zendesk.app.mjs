@@ -664,6 +664,12 @@ export default {
         ...args,
       });
     },
+    searchMacros(args = {}) {
+      return this.makeRequest({
+        path: "/macros/search",
+        ...args,
+      });
+    },
     listMacroCategories(args = {}) {
       return this.makeRequest({
         path: "/macros/categories",

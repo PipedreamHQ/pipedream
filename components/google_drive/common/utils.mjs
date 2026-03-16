@@ -1,11 +1,11 @@
 import { ConfigurationError } from "@pipedream/platform";
+import { Readable } from "stream";
 import {
-  MY_DRIVE_VALUE,
+  GOOGLE_DRIVE_MIME_TYPE_PREFIX,
   LEGACY_MY_DRIVE_VALUE,
   MAX_FILE_OPTION_PATH_SEGMENTS,
-  GOOGLE_DRIVE_MIME_TYPE_PREFIX,
+  MY_DRIVE_VALUE,
 } from "../common/constants.mjs";
-import { Readable } from "stream";
 
 /**
  * Returns whether the specified drive ID corresponds to the authenticated
@@ -47,13 +47,16 @@ function getListFilesOpts(drive, baseOpts = {}) {
   // Use default options (e.g., `corpora=drive`) for `files.list` if `drive` is
   // empty or is "My Drive". Otherwise, use the "drive" corpus and include
   // `supportsAllDrives` param.
+
   const opts = (!drive || isMyDrive(drive))
-    ? baseOpts
+    ? {
+      ...baseOpts,
+      supportsAllDrives: true,
+    }
     : {
       ...baseOpts,
       corpora: "drive",
       driveId: getDriveId(drive),
-      includeItemsFromAllDrives: true,
       supportsAllDrives: true,
     };
   return opts;
@@ -304,16 +307,17 @@ async function stashFile(item, googleDrive, dir) {
 }
 
 export {
-  MY_DRIVE_VALUE,
-  isMyDrive,
-  getDriveId,
-  getListFilesOpts,
-  omitEmptyStringValues,
-  toSingleLineString,
   buildFilePaths,
-  getFilePaths,
-  streamToBuffer,
   byteToMB,
+  getDriveId,
+  getFilePaths,
+  getListFilesOpts,
+  isMyDrive,
+  MY_DRIVE_VALUE,
+  omitEmptyStringValues,
   parseObjectEntries,
   stashFile,
+  streamToBuffer,
+  toSingleLineString,
 };
+

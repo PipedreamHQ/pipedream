@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/pdf_api_hub",
+  "version": "0.0.1",
+  "description": "Pipedream PDF API Hub Components",
+  "main": "pdf_api_hub.app.mjs",
+  "keywords": [
+    "pipedream",
+    "pdf_api_hub"
+  ],
+  "homepage": "https://pipedream.com/apps/pdf_api_hub",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

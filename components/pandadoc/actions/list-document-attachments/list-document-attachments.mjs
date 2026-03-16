@@ -5,7 +5,7 @@ export default {
   name: "List Document Attachments",
   description: "Returns a list of attachments associated with a specified document. [See the documentation here](https://developers.pandadoc.com/reference/list-attachment)",
   type: "action",
-  version: "0.0.8",
+  version: "0.0.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

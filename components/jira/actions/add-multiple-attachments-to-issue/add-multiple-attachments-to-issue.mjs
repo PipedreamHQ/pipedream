@@ -6,7 +6,7 @@ export default {
   key: "jira-add-multiple-attachments-to-issue",
   name: "Add Multiple Attachments To Issue",
   description: "Adds multiple attachments to an issue. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-attachments/#api-rest-api-3-issue-issueidorkey-attachments-post)",
-  version: "1.0.9",
+  version: "1.0.11",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -34,6 +34,7 @@ export default {
       type: "string[]",
       label: "File Paths or URLs",
       description: "Provide either an array of file URLs or paths to files in the /tmp directory (for example, /tmp/myFile.pdf).",
+      format: "file-ref",
     },
     syncDir: {
       type: "dir",

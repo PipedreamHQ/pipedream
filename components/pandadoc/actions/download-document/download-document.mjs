@@ -7,7 +7,7 @@ export default {
   description:
     "Download a document as PDF. [See documentation here](https://developers.pandadoc.com/reference/download-document)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

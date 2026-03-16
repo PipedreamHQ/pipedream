@@ -7,7 +7,7 @@ export default {
   name: "Add Ticket Attachment",
   description: "Attaches a file to a ticket. [See the docs here](https://desk.zoho.com/DeskAPIDocument#TicketAttachments#TicketAttachments_CreateTicketattachment)",
   type: "action",
-  version: "0.1.8",
+  version: "0.1.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -40,6 +40,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The file to attach. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
+      format: "file-ref",
     },
     syncDir: {
       type: "dir",

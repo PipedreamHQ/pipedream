@@ -1,0 +1,34 @@
+import enrichlayer from "../../enrich_layer.app.mjs";
+
+export default {
+  key: "enrich_layer-get-company-profile-picture",
+  name: "Get Company Profile Picture",
+  description: "Get the profile picture of a company from cached profiles. Cost: 0 credits. [See the documentation](https://enrichlayer.com/docs/api/v2/company-api/company-profile-picture).",
+  version: "0.0.1",
+  type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
+  props: {
+    enrichlayer,
+    companyProfileUrl: {
+      propDefinition: [
+        enrichlayer,
+        "companyProfileUrl",
+      ],
+      description: "The professional network URL of the company whose profile picture you want to retrieve (e.g., `https://www.linkedin.com/company/apple/`).",
+    },
+  },
+  async run({ $ }) {
+    const response = await this.enrichlayer.getCompanyProfilePicture({
+      $,
+      params: {
+        company_profile_url: this.companyProfileUrl,
+      },
+    });
+    $.export("$summary", `Successfully retrieved profile picture for ${this.companyProfileUrl}`);
+    return response;
+  },
+};
