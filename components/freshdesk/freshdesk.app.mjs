@@ -745,6 +745,24 @@ export default {
         ...args,
       });
     },
+    forwardTicket({
+      ticketId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        url: `/tickets/${ticketId}/forward`,
+        ...args,
+      });
+    },
+    replyToForward({
+      ticketId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        url: `/tickets/${ticketId}/reply_to_forward`,
+        ...args,
+      });
+    },
     listEmailConfigs(args) {
       return this._makeRequest({
         url: "/email_configs",
