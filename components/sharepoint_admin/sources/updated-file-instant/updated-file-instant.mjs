@@ -1,4 +1,4 @@
-import updatedFileInstant from "../../../sharepoint/sources/updated-file-instant/updated-file-instant.mjs";
+import updatedFileInstant from "@pipedream/sharepoint/sources/updated-file-instant/updated-file-instant.mjs";
 import utils from "../../common/utils.mjs";
 
 export default {

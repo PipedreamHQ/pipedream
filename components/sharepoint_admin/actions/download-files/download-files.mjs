@@ -1,4 +1,4 @@
-import downloadFiles from "../../../sharepoint/actions/download-files/download-files.mjs";
+import downloadFiles from "@pipedream/sharepoint/actions/download-files/download-files.mjs";
 import utils from "../../common/utils.mjs";
 
 export default {

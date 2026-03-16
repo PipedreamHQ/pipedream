@@ -1,4 +1,4 @@
-import retrieveFileMetadata from "../../../sharepoint/actions/retrieve-file-metadata/retrieve-file-metadata.mjs";
+import retrieveFileMetadata from "@pipedream/sharepoint/actions/retrieve-file-metadata/retrieve-file-metadata.mjs";
 import utils from "../../common/utils.mjs";
 
 export default {
