@@ -41,6 +41,36 @@ const LEAD_FIELD_OPTIONS = [
   "title",
 ];
 
+const DEAL_SORT_BY_OPTIONS = [
+  "id",
+  "updated_time",
+  "add_time",
+];
+
+const SORT_DIRECTION_OPTIONS = [
+  "asc",
+  "desc",
+];
+
+const DEAL_INCLUDE_FIELDS_OPTIONS = [
+  "next_activity_id",
+  "last_activity_id",
+  "first_won_time",
+  "products_count",
+  "files_count",
+  "notes_count",
+  "followers_count",
+  "email_messages_count",
+  "activities_count",
+  "done_activities_count",
+  "undone_activities_count",
+  "participants_count",
+  "last_incoming_mail_time",
+  "last_outgoing_mail_time",
+  "smart_bcc_email",
+  "source_lead_id",
+];
+
 export default {
   STATUS_OPTIONS,
   FIELD_OPTIONS,
@@ -49,4 +79,7 @@ export default {
   DEFAULT_PAGE_LIMIT,
   FIELD,
   LEAD_FIELD_OPTIONS,
+  DEAL_SORT_BY_OPTIONS,
+  SORT_DIRECTION_OPTIONS,
+  DEAL_INCLUDE_FIELDS_OPTIONS,
 };
