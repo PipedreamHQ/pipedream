@@ -34,7 +34,7 @@ export default {
       $,
       taskId: this.taskId,
     });
-    $.export("$summary", `The task(ID: ${resp.id}) details have been retrieved.`);
+    $.export("$summary", `Task(ID: ${resp.id}) details retrieved`);
     return resp;
   },
 };

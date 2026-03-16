@@ -75,7 +75,7 @@ export default {
         is_completed: this.isCompleted,
       },
     });
-    $.export("$summary", `The subtask(ID: ${resp.id}) has been created successfully.`);
+    $.export("$summary", `Subtask(ID: ${resp.id}) created successfully`);
     return resp;
   },
 };

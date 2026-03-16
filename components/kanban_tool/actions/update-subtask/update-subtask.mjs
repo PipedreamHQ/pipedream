@@ -70,7 +70,7 @@ export default {
         is_completed: this.isCompleted,
       },
     });
-    $.export("$summary", `The subtask(ID: ${resp.id}) has been updated.`);
+    $.export("$summary", `Subtask(ID: ${resp.id}) updated`);
     return resp;
   },
 };

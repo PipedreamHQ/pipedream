@@ -100,7 +100,7 @@ export default {
         due_date: this.dueDate,
       },
     });
-    $.export("$summary", `The task(ID: ${resp.id}) has been created successfully.`);
+    $.export("$summary", ` Task(ID: ${resp.id}) created successfully`);
     return resp;
   },
 };

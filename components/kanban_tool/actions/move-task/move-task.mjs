@@ -58,7 +58,7 @@ export default {
         workflow_stage_id: this.stageId,
       },
     });
-    $.export("$summary", `The task(ID: ${resp.id}) has been moved.`);
+    $.export("$summary", `Task(ID: ${resp.id}) moved`);
     return resp;
   },
 };

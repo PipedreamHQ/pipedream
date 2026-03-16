@@ -43,7 +43,7 @@ export default {
       $,
       subtaskId: this.subtaskId,
     });
-    $.export("$summary", `The subtask(ID: ${resp.id}) has been deleted.`);
+    $.export("$summary", `Subtask(ID: ${resp.id}) deleted`);
     return resp;
   },
 };

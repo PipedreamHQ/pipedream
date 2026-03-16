@@ -37,7 +37,7 @@ export default {
         _action: "delete",
       },
     });
-    $.export("$summary", `The task(ID: ${resp.id}) has been marked as deleted.`);
+    $.export("$summary", `Task(ID: ${resp.id}) marked as deleted`);
     return resp;
   },
 };

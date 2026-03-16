@@ -53,7 +53,7 @@ export default {
     for await (const item of resourcesStream)
       items.push(item);
     // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `${items.length} task${items.length != 1 ? "s have" : " has"} been found.`);
+    $.export("$summary", `${items.length} task${items.length != 1 ? "s" : ""} found`);
     return items;
   },
 };

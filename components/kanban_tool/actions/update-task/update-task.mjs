@@ -110,7 +110,7 @@ export default {
         due_date: this.dueDate,
       },
     });
-    $.export("$summary", `The task(ID: ${resp.id}) has been updated successfully.`);
+    $.export("$summary", `Task(ID: ${resp.id}) updated successfully.`);
     return resp;
   },
 };

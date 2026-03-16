@@ -37,7 +37,7 @@ export default {
         _action: "archive",
       },
     });
-    $.export("$summary", `The task(ID: ${resp.id}) has been archived.`);
+    $.export("$summary", `Task(ID: ${resp.id}) archived`);
     return resp;
   },
 };

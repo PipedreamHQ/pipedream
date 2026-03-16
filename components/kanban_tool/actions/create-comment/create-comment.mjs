@@ -49,7 +49,7 @@ export default {
         recipients: this.recipients,
       },
     });
-    $.export("$summary", `The comment(ID: ${resp.id}) has been created successfully.`);
+    $.export("$summary", `Comment(ID: ${resp.id}) created successfully`);
     return resp;
   },
 };

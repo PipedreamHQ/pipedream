@@ -46,7 +46,7 @@ export default {
         is_completed: true,
       },
     });
-    $.export("$summary", `The subtask(ID: ${resp.id}) has been marked as completed.`);
+    $.export("$summary", `Subtask(ID: ${resp.id}) marked as completed`);
     return resp;
   },
 };
