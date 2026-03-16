@@ -1001,6 +1001,9 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
+  components/anydb:
+    specifiers: {}
+
   components/anyflow: {}
 
   components/anymail_finder:
@@ -2277,8 +2280,8 @@ importers:
   components/bugherd:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/bugsnag:
     dependencies:
@@ -3127,8 +3130,8 @@ importers:
   components/cloudmersive:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -3580,8 +3583,8 @@ importers:
   components/cradl_ai:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/craftboxx:
     dependencies:
@@ -3725,8 +3728,8 @@ importers:
   components/cursor:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       image-size:
         specifier: ^2.0.2
         version: 2.0.2
@@ -3748,8 +3751,8 @@ importers:
   components/customgpt:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/customjs:
     dependencies:
@@ -4016,8 +4019,8 @@ importers:
   components/deepimage:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
 
   components/deepl: {}
 
@@ -4121,8 +4124,8 @@ importers:
   components/devin:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -4216,6 +4219,9 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
+  components/dify:
+    specifiers: {}
+
   components/digicert: {}
 
   components/digistore24:
@@ -4238,8 +4244,8 @@ importers:
         specifier: ^3.231.0
         version: 3.931.0(aws-crt@1.27.5)
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       fs:
         specifier: ^0.0.1-security
         version: 0.0.1-security
@@ -5138,7 +5144,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/everstox: {}
+  components/everstox:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.3.0
+        version: 3.3.0
 
   components/evervault: {}
 
@@ -5882,8 +5892,8 @@ importers:
   components/frontapp:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.2.5
+        version: 3.3.0
       async-retry:
         specifier: ^1.3.3
         version: 1.3.3

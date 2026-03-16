@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/google_photos",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Pipedream Google Photos Components",
   "main": "google_photos.app.mjs",
   "keywords": [
