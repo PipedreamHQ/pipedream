@@ -176,10 +176,14 @@ export const filePickerMethods = {
       files.map(async (selected) => {
         // When includeDownloadUrl is true, omit $select to get @microsoft.graph.downloadUrl
         // (Graph API excludes downloadUrl when using $select)
+        // Always expand listItem fields to include custom column values
         const params = includeDownloadUrl
-          ? {}
+          ? {
+            $expand: "listItem($expand=fields)",
+          }
           : {
             $select: "id,name,size,webUrl,createdDateTime,lastModifiedDateTime,createdBy,lastModifiedBy,parentReference,file,folder,image,video,audio,photo,shared,fileSystemInfo,cTag,eTag,sharepointIds",
+            $expand: "listItem($expand=fields)",
           };
 
         const file = await this.sharepoint.getDriveItem({

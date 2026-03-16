@@ -6,7 +6,7 @@ export default {
   key: "sharepoint-updated-file-instant",
   name: "File Updated or Deleted (Instant)",
   description: "Emit a new event when specific files are updated or deleted in a SharePoint document library",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   props: {
@@ -380,25 +380,36 @@ export default {
 
     // Emit events for each changed file
     for (const file of changedFiles) {
-      // Delta response may not include downloadUrl - fetch fresh if needed
-      // Skip fetching download URL for deleted files (they no longer exist)
-      let downloadUrl = file["@microsoft.graph.downloadUrl"];
-      if (!downloadUrl && !file.deleted) {
+      // For non-deleted files, fetch fresh data with custom column values
+      // Delta response lacks downloadUrl and listItem fields
+      let downloadUrl = null;
+      let listItemFields = null;
+      if (!file.deleted) {
         try {
           const freshFile = await this.sharepoint.getDriveItem({
             driveId,
             fileId: file.id,
+            params: {
+              $expand: "listItem($expand=fields)",
+            },
           });
           downloadUrl = freshFile["@microsoft.graph.downloadUrl"];
+          listItemFields = freshFile.listItem?.fields ?? null;
         } catch (err) {
-          console.log(`Could not fetch download URL for ${file.name}: ${err.message}`);
+          console.log(
+            `Could not fetch details for ${file.name}: ${err.message}`,
+          );
         }
       }
 
       this.$emit(
         {
+          eventType: file.deleted
+            ? "deleted"
+            : "updated",
           file,
           downloadUrl,
+          listItemFields,
         },
         this.generateMeta(file),
       );

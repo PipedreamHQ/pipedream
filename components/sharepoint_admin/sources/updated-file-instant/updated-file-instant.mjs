@@ -8,7 +8,7 @@ export default {
   name: updatedFileInstant.name,
   description: updatedFileInstant.description,
   type: updatedFileInstant.type,
-  version: "0.0.2",
+  version: "0.0.3",
   methods: {
     ...updatedFileInstant.methods,
   },
