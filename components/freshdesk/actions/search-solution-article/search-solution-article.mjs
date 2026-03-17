@@ -3,7 +3,7 @@ import freshdesk from "../../freshdesk.app.mjs";
 export default {
   key: "freshdesk-search-solution-article",
   name: "Search Solution Article",
-  description: "Search solution articles in Freshdesk by keyword. Returns matching articles with their category/folder hierarchy, metadata, and content. [See the documentation](https://developers.freshdesk.com/api/#search_solutions)",
+  description: "Search solution articles in Freshdesk by keyword. Returns matching articles with their category/folder hierarchy, metadata, and content. [See the documentation](https://developers.freshdesk.com/api/#solution_article_attributes)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -22,7 +22,9 @@ export default {
   async run({ $ }) {
     const results = await this.freshdesk.searchSolutions({
       $,
-      term: this.term,
+      params: {
+        term: this.term,
+      },
     });
     $.export("$summary", `Successfully found ${results.length} solution article${results.length === 1
       ? ""
