@@ -10,6 +10,7 @@
 
 import { GOOGLE_DRIVE_NOTIFICATION_CHANGE } from "../../common/constants.mjs";
 import common from "../common-webhook.mjs";
+import md5 from "md5";
 
 export default {
   ...common,
@@ -17,7 +18,7 @@ export default {
   name: "New or Modified Comments (Instant)",
   description:
     "Emit new event when a comment is created or modified in the selected file",
-  version: "1.0.14",
+  version: "1.0.15",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
@@ -81,7 +82,7 @@ export default {
       const eventId = headers && headers["x-goog-message-number"];
 
       return {
-        id: `${commentId}-${eventId || ts}`,
+        id: md5(`${commentId}-${eventId || ts}`),
         summary,
         ts,
       };

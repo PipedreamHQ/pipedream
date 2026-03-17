@@ -3,12 +3,13 @@ import googleDrive from "../../google_drive.app.mjs";
 import { getListFilesOpts } from "../../common/utils.mjs";
 import sampleEmit from "./test-event.mjs";
 import { GOOGLE_DRIVE_FOLDER_MIME_TYPE } from "../../common/constants.mjs";
+import md5 from "md5";
 
 export default {
   key: "google_drive-new-or-modified-files-polling",
   name: "New or Modified Files (Polling)",
   description: "Emit new event when a file in the selected Drive is created, modified or trashed. [See the documentation](https://developers.google.com/drive/api/v3/reference/changes/list)",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "source",
   dedupe: "unique",
   props: {
@@ -159,7 +160,7 @@ export default {
       const ts = Date.parse(tsString);
 
       return {
-        id: `${fileId}-${ts}`,
+        id: md5(`${fileId}-${ts}`),
         summary,
         ts,
       };
