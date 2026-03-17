@@ -115,6 +115,11 @@ export default {
     },
   },
   methods: {
+    _normalizeStringArray(values) {
+      return (values ?? [])
+        .map((v) => v?.toString?.().trim())
+        .filter(Boolean);
+    },
     _toAttendeeBase(address, type) {
       return {
         type,
@@ -134,9 +139,13 @@ export default {
       ? `/users/${encodeURIComponent(this.userId)}`
       : "/me";
 
+    const cleanedAttendees = this._normalizeStringArray(this.attendees);
+    const cleanedResourceAttendees = this._normalizeStringArray(this.resourceAttendees);
+    const cleanedLocations = this._normalizeStringArray(this.locations);
+
     const attendees = [
-      ...(this.attendees ?? []).map((address) => this._toAttendeeBase(address, "required")),
-      ...(this.resourceAttendees ?? []).map((address) => this._toAttendeeBase(address, "resource")),
+      ...cleanedAttendees.map((address) => this._toAttendeeBase(address, "required")),
+      ...cleanedResourceAttendees.map((address) => this._toAttendeeBase(address, "resource")),
     ];
 
     const body = {
@@ -186,7 +195,7 @@ export default {
         ],
       },
       ...(this.suggestLocation !== undefined
-        || this.locations?.length
+        || cleanedLocations.length
         || this.isLocationRequired !== undefined
         ? {
           locationConstraint: {
@@ -200,9 +209,9 @@ export default {
                 suggestLocation: this.suggestLocation,
               }
               : {}),
-            ...(this.locations?.length
+            ...(cleanedLocations.length
               ? {
-                locations: this.locations.map((displayName) => ({
+                locations: cleanedLocations.map((displayName) => ({
                   resolveAvailability: false,
                   displayName,
                 })),
