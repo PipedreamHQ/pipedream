@@ -143,6 +143,11 @@ export default {
     const cleanedAttendees = this._normalizeStringArray(this.attendees);
     const cleanedResourceAttendees = this._normalizeStringArray(this.resourceAttendees);
     const cleanedLocations = this._normalizeStringArray(this.locations);
+    const startMs = Date.parse(this.start);
+    const endMs = Date.parse(this.end);
+    if (!Number.isFinite(startMs) || !Number.isFinite(endMs) || startMs >= endMs) {
+      throw new Error("`start` must be before `end` and both must be valid date-time strings.");
+    }
 
     const attendees = [
       ...cleanedAttendees.map((address) => this._toAttendeeBase(address, "required")),
