@@ -801,5 +801,16 @@ export default {
         ...args,
       });
     },
+    searchSolutions({
+      term, ...args
+    }) {
+      return this._makeRequest({
+        url: "/search/solutions",
+        params: {
+          term,
+        },
+        ...args,
+      });
+    },
   },
 };
