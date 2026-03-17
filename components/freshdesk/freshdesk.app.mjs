@@ -802,11 +802,12 @@ export default {
       });
     },
     searchSolutions({
-      term, ...args
+      term, params = {}, ...args
     }) {
       return this._makeRequest({
         url: "/search/solutions",
         params: {
+          ...params,
           term,
         },
         ...args,
