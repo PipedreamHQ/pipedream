@@ -1,9 +1,10 @@
+import pickBy from "lodash.pickby";
 import microsoftOutlook from "../../microsoft_outlook.app.mjs";
 
 export default {
   key: "microsoft_outlook-list-important-mail",
   name: "List Important Mail",
-  description: "Retrieves important (high-importance) email messages from Microsoft Outlook. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list-messages?view=graph-rest-1.0&tabs=http)",
+  description: "Get the most important mail from the user's Inbox. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list-messages?view=graph-rest-1.0&tabs=http)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -26,69 +27,49 @@ export default {
         microsoftOutlook,
         "maxResults",
       ],
-      description: "The maximum number of important messages to return.",
-    },
-    includeAttachments: {
-      type: "boolean",
-      label: "Include Attachments",
-      description: "If true, returns additional info for message attachments.",
-      optional: true,
-      default: false,
-    },
-    includeBody: {
-      type: "boolean",
-      label: "Include Body",
-      description: "If true, includes the `body` property for each message (HTML by default per Graph API).",
-      optional: true,
-      default: false,
+      description: "The maximum number of messages to return.",
     },
   },
   async run({ $ }) {
-    const emails = [];
-    const select = [
-      "id",
-      "subject",
-      "from",
-      "toRecipients",
-      "ccRecipients",
-      "receivedDateTime",
-      "sentDateTime",
-      "isRead",
-      "importance",
-      "conversationId",
-      "webLink",
-    ];
-
-    if (this.includeBody) {
-      select.push("body");
-    }
+    const listInboxMessages = ({
+      userId, params = {},
+    } = {}) => {
+      return this.microsoftOutlook.client()
+        .api(`${this.microsoftOutlook._userPath(userId)}/mailFolders/inbox/messages`)
+        .query(pickBy(params))
+        .get();
+    };
 
     const items = this.microsoftOutlook.paginate({
-      fn: this.microsoftOutlook.listMessages,
+      fn: listInboxMessages,
       args: {
         $,
         userId: this.userId,
         params: {
-          $filter: "importance eq 'high'",
-          $select: select.join(","),
-          ...(this.includeAttachments
-            ? {
-              $expand: "attachments",
-            }
-            : {}),
+          $filter: "importance eq 'high' or flag/flagStatus eq 'flagged'",
+          $select: "id,subject,sender,receivedDateTime",
+          $orderby: "receivedDateTime desc",
         },
       },
       max: this.maxResults,
     });
 
+    const messages = [];
     for await (const item of items) {
-      emails.push(item);
+      messages.push({
+        id: item.id,
+        subject: item.subject,
+        sender: item?.sender?.emailAddress?.name,
+        receivedDateTime: item.receivedDateTime,
+      });
     }
 
-    $.export("$summary", `Successfully retrieved ${emails.length} important message${emails.length === 1
+    $.export("$summary", `Successfully retrieved ${messages.length} message${messages.length === 1
       ? ""
       : "s"}.`);
-    return emails;
+    return {
+      data: messages,
+    };
   },
 };
 

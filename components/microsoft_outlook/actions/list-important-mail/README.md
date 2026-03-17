@@ -1,18 +1,17 @@
 # Overview
 
-This action retrieves email messages marked as **High** importance from Microsoft Outlook (Microsoft Graph).
+Get the most important mail from the user's Inbox. This action lists messages where `importance` is `high` **or** the message is `flagged`.
 
 # Example Use Cases
 
-- Pull important messages into a ticketing / task system
-- Send notifications for high-importance emails
-- Build dashboards / reporting for important messages
+- Notify a team channel when an email is marked High importance or Flagged
+- Triage important Inbox messages into a task system
 
 # Getting Started
 
 1. Connect your Microsoft Outlook account.
 2. (Optional) Set **User ID** to read from a shared mailbox.
-3. Set **Max Results** to limit the number of messages returned.
+3. (Optional) Adjust **Max Results**.
 
 # Troubleshooting
 
