@@ -135,8 +135,9 @@ export default {
       throw new Error("Missing OAuth access token for Microsoft Outlook Calendar.");
     }
 
-    const basePath = this.userId
-      ? `/users/${encodeURIComponent(this.userId)}`
+    const userId = this.userId?.trim();
+    const basePath = userId
+      ? `/users/${encodeURIComponent(userId)}`
       : "/me";
 
     const cleanedAttendees = this._normalizeStringArray(this.attendees);
