@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/cloudmersive",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Pipedream Cloudmersive Components",
   "main": "dist/app/cloudmersive.app.mjs",
   "keywords": [
@@ -16,7 +16,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.1.1",
+    "@pipedream/platform": "^3.2.5",
     "form-data": "^4.0.4"
   },
   "devDependencies": {

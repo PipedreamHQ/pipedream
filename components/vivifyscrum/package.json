@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/vivifyscrum",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "description": "Pipedream VivifyScrum Components",
   "main": "vivifyscrum.app.mjs",
   "keywords": [
@@ -11,5 +11,8 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.2.5"
   }
 }

@@ -5,7 +5,7 @@ export default {
   name: "Get Macro",
   description: "Retrieves a macro by its ID. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/business-rules/macros/#show-macro).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -35,11 +35,14 @@ export default {
       type: "string",
       label: "Meeting ID",
       description: "The meeting ID to get details for.",
-      async options({ prevContext }) {
+      async options({
+        prevContext, type,
+      }) {
         const { nextPageToken } = prevContext;
         const response = await this.listMeetings({
           params: {
             next_page_token: nextPageToken,
+            type,
           },
         });
         const options = response.meetings.map((meeting) => ({
@@ -320,9 +323,11 @@ export default {
         ...args,
       });
     },
-    listRecordings(args = {}) {
+    listRecordings({
+      userId = "me", ...args
+    } = {}) {
       return this._makeRequest({
-        path: "/users/me/recordings",
+        path: `/users/${userId}/recordings`,
         ...args,
       });
     },
@@ -352,6 +357,22 @@ export default {
         ...args,
       });
     },
+    getMeetingTranscript({
+      meetingId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/meetings/${utils.doubleEncode(meetingId)}/transcript`,
+        ...opts,
+      });
+    },
+    getMeetingRecordings({
+      meetingId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/meetings/${utils.doubleEncode(meetingId)}/recordings`,
+        ...opts,
+      });
+    },
     async listMeetingsOccurrences(meetingId) {
       try {
         meetingId = utils.doubleEncode(meetingId);
@@ -369,6 +390,14 @@ export default {
       return this._makeRequest({
         method: "DELETE",
         path: `/meetings/${utils.doubleEncode(meetingId)}`,
+        ...args,
+      });
+    },
+    getMeetingSummary({
+      meetingId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/meetings/${utils.doubleEncode(meetingId)}/meeting_summary`,
         ...args,
       });
     },

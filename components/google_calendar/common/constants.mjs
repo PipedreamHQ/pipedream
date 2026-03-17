@@ -89,8 +89,44 @@ const WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS = 24 * 60 * 60 * 1000;
 const WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS =
   (WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS * 0.95) / 1000;
 
+const DAYS_OF_WEEK = [
+  {
+    label: "Sunday",
+    value: "SU",
+  },
+  {
+    label: "Monday",
+    value: "MO",
+  },
+  {
+    label: "Tuesday",
+    value: "TU",
+  },
+  {
+    label: "Wednesday",
+    value: "WE",
+  },
+  {
+    label: "Thursday",
+    value: "TH",
+  },
+  {
+    label: "Friday",
+    value: "FR",
+  },
+  {
+    label: "Saturday",
+    value: "SA",
+  },
+  {
+    label: "Weekdays",
+    value: "MO,TU,WE,TH,FR",
+  },
+];
+
 export default {
   API,
   REPEAT_FREQUENCIES,
   WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS,
+  DAYS_OF_WEEK,
 };

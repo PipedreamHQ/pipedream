@@ -161,6 +161,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The file content to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
+      format: "file-ref",
     },
     fileName: {
       type: "string",
@@ -368,6 +369,12 @@ export default {
           },
         };
       },
+    },
+    includeItemsFromAllDrives: {
+      label: "Include Items From All Drives",
+      type: "boolean",
+      description: "If `true`, include items from all drives. If `false`, include items from the drive specified in the `drive` prop.",
+      default: false,
     },
   },
   methods: {

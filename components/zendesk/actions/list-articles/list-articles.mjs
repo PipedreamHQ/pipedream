@@ -6,7 +6,7 @@ export default {
   name: "List Articles",
   description: "Retrieves a list of articles. [See the documentation](https://developer.zendesk.com/api-reference/help_center/help-center-api/articles/#list-articles).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -1,13 +1,13 @@
-import app from "../../akeneo.app.mjs";
 import {
   ConfigurationError, getFileStreamAndMetadata,
 } from "@pipedream/platform";
 import FormData from "form-data";
+import app from "../../akeneo.app.mjs";
 
 export default {
   type: "action",
   key: "akeneo-create-a-new-product-media-file",
-  version: "0.1.4",
+  version: "0.2.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -40,6 +40,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The file to be uploaded. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
+      format: "file-ref",
     },
     syncDir: {
       type: "dir",

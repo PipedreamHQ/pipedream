@@ -8,7 +8,7 @@ export default {
   key: "pdffiller-create-distributable-form-generate-link",
   name: "Create Distributable Form and Generate Link",
   description: "Transforms a document into a fillable form and generates a shareable link for the form. [See the documentation](https://docs.pdffiller.com/docs/pdffiller/9d3a06696db96-create-fillable-document-converts-a-downloaded-document-to-a-link-to-fill-form)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

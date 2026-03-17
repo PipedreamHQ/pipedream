@@ -4,7 +4,7 @@ export default {
   name: "Create Future Sprint",
   description: "Creates a future sprint. [See the documentation](https://developer.atlassian.com/server/jira/platform/rest/v10002/api-group-sprint/#api-agile-1-0-sprint-post)",
   key: "jira_data_center-create-future-sprint",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

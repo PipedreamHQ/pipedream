@@ -5,7 +5,7 @@ export default {
   key: "llmwhisperer-extract-text",
   name: "Extract Text",
   description: "Convert your PDF/scanned documents to text format which can be used by LLMs. [See the documentation](https://docs.unstract.com/llm_whisperer/apis/llm_whisperer_text_extraction_api)",
-  version: "0.1.2",
+  version: "0.1.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -100,6 +100,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The document to process. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
+      format: "file-ref",
     },
     syncDir: {
       type: "dir",

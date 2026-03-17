@@ -1,8 +1,8 @@
 import { axios } from "@pipedream/platform";
 import querystring from "query-string";
-import resourceTypes from "./common/resource-types.mjs";
-import colors, { numericToString } from "./common/colors.mjs";
 import { v4 as uuid } from "uuid";
+import colors, { numericToString } from "./common/colors.mjs";
+import resourceTypes from "./common/resource-types.mjs";
 
 export default {
   type: "app",
@@ -24,10 +24,11 @@ export default {
         "Filter for events that match one or more projects. Leave this blank to emit results for any project.",
       optional: true,
       async options() {
-        return (await this.getProjects({})).map((project) => ({
+        const { results } = await this.getProjects({});
+        return results?.map((project) => ({
           label: project.name,
           value: project.id,
-        }));
+        })) || [];
       },
     },
     project: {
@@ -36,7 +37,8 @@ export default {
       description: "Select a project to filter results by",
       optional: true,
       async options() {
-        return (await this.getProjects({})).map((project) => ({
+        const { results } = await this.getProjects({});
+        return (results || []).map((project) => ({
           label: project.name,
           value: project.id,
         }));
@@ -48,11 +50,12 @@ export default {
       description: "Select a section to filter results by",
       optional: true,
       async options({ project }) {
-        return (await this.getSections({
+        const { results } = await this.getSections({
           params: {
             project_id: project,
           },
-        })).map((section) => ({
+        });
+        return (results || []).map((section) => ({
           label: section.name,
           value: section.id,
         }));
@@ -64,7 +67,8 @@ export default {
       description: "Select a label to filter results by",
       optional: true,
       async options() {
-        return (await this.getLabels({})).map((label) => ({
+        const { results } = await this.getLabels({});
+        return (results || []).map((label) => ({
           label: label.name,
           value: label.id,
         }));
@@ -76,7 +80,8 @@ export default {
       description: "Select labels to add to the task.",
       optional: true,
       async options() {
-        return (await this.getLabels({})).map((label) => label.name);
+        const { results } = await this.getLabels({});
+        return (results || []).map((label) => label.name);
       },
     },
     task: {
@@ -86,12 +91,13 @@ export default {
       async options({
         project, section,
       }) {
-        return (await this.getActiveTasks({
+        const { results } = await this.getActiveTasks({
           params: {
             project_id: project,
             section_id: section,
           },
-        })).map((task) => ({
+        });
+        return (results || []).map((task) => ({
           label: task.content,
           value: task.id,
         }));
@@ -104,25 +110,33 @@ export default {
       async options({
         project, prevContext,
       }) {
-        const { offset = 0 } = prevContext;
+        const { cursor } = prevContext;
         const limit = 30;
+        const now = new Date();
+        const sinceDate = new Date(now);
+        sinceDate.setMonth(sinceDate.getMonth() - 3);
         const params = {
-          offset,
           limit,
+          since: sinceDate.toISOString(),
+          until: now.toISOString(),
         };
+        if (cursor) {
+          params.cursor = cursor;
+        }
         if (project) {
           params.project_id = project;
         }
-        const tasks = (await this.getCompletedTasks({
+        const response = await this.getCompletedTasks({
           params,
-        })).map((task) => ({
+        });
+        const tasks = response.items.map((task) => ({
           label: task.content,
-          value: task.task_id,
+          value: task.id,
         }));
         return {
           options: tasks,
           context: {
-            offset: offset + limit,
+            cursor: response.next_cursor,
           },
         };
       },
@@ -132,7 +146,8 @@ export default {
       label: "Assignee",
       description: "The responsible user (if set, and only for shared tasks)",
       async options({ project }) {
-        return (await this.getProjectCollaborators(project)).map((assignee) => ({
+        const { results } = await this.getProjectCollaborators(project);
+        return (results || []).map((assignee) => ({
           label: assignee.name,
           value: assignee.id,
         }));
@@ -165,12 +180,13 @@ export default {
         if (!project && !task) {
           return [];
         }
-        return (await this.getComments({
+        const { results } = await this.getComments({
           params: {
             project_id: project,
             task_id: task,
           },
-        })).map((comment) => ({
+        });
+        return (results || []).map((comment) => ({
           label: comment.content,
           value: comment.id,
         }));
@@ -257,6 +273,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The .csv file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.csv`)",
+      format: "file-ref",
     },
   },
   methods: {
@@ -507,7 +524,9 @@ export default {
      */
     async getProjectCollaborators(projectId) {
       if (!projectId) {
-        return [];
+        return {
+          results: [],
+        };
       }
       return this._makeRestRequest({
         path: `/projects/${projectId}/collaborators`,
@@ -799,12 +818,12 @@ export default {
         $,
         params = {},
       } = opts;
-      return (await this._makeSyncRequest({
+      return this._makeRestRequest({
         $,
-        path: "/api/v1/tasks/completed/by_completion_date",
-        method: "POST",
-        payload: params,
-      })).items;
+        path: "/tasks/completed/by_completion_date",
+        method: "GET",
+        params,
+      });
     },
     /**
      * Create a new task

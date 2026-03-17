@@ -6,7 +6,7 @@ export default {
   name: "List Active Macros",
   description: "Lists all active shared and personal macros available to the current user. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/business-rules/macros/#list-active-macros).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,7 +4,7 @@ import zohoBugtracker from "../../zoho_bugtracker.app.mjs";
 export default {
   key: "zoho_bugtracker-new-bug-reported",
   name: "New Bug Reported",
-  version: "0.0.2",
+  version: "0.0.3",
   description: "Emit new event when a new bug is reported.",
   type: "source",
   dedupe: "unique",
