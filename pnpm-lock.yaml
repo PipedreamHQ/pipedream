@@ -3674,6 +3674,9 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/crustdata:
+    specifiers: {}
+
   components/cryptlex: {}
 
   components/crypto_apis_by_alternative: {}
