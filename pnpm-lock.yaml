@@ -6538,6 +6538,9 @@ importers:
       lodash:
         specifier: ^4.17.23
         version: 4.17.23
+      md5:
+        specifier: ^2.3.0
+        version: 2.3.0
       mime-db:
         specifier: ^1.51.0
         version: 1.54.0
@@ -9566,6 +9569,9 @@ importers:
       isomorphic-fetch:
         specifier: ^3.0.0
         version: 3.0.0(encoding@0.1.13)
+
+  components/microsoft_clarity:
+    specifiers: {}
 
   components/microsoft_dataverse: {}
 
@@ -42893,7 +42899,7 @@ snapshots:
 
   '@types/whatwg-url@8.2.2':
     dependencies:
-      '@types/node': 20.19.35
+      '@types/node': 20.19.37
       '@types/webidl-conversions': 7.0.3
 
   '@types/ws@8.18.1':

@@ -17,6 +17,7 @@ import commonDedupeChanges from "../common-dedupe-changes.mjs";
 import common from "../common-webhook.mjs";
 import { stashFile } from "../../common/utils.mjs";
 import sampleEmit from "./test-event.mjs";
+import md5 from "md5";
 
 const { googleDrive } = common.props;
 
@@ -25,7 +26,7 @@ export default {
   key: "google_drive-new-or-modified-files",
   name: "New or Modified Files (Instant)",
   description: "Emit new event when a file in the selected Drive is created, modified or trashed.",
-  version: "0.4.6",
+  version: "0.4.7",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
@@ -122,7 +123,7 @@ export default {
       const eventId = headers && headers["x-goog-message-number"];
 
       return {
-        id: `${fileId}-${eventId || ts}`,
+        id: md5(`${fileId}-${eventId || ts}`),
         summary,
         ts,
       };
