@@ -69,7 +69,6 @@ const GlobeIcon = () => (
   </svg>
 );
 
-
 const RefreshIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
     <title>Refresh</title>
@@ -1186,7 +1185,9 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
                               type="button"
                               style={{
                                 ...styles.item,
-                                ...(currentProp === fileOrFolderProp && { padding: "4px 16px" }),
+                                ...(currentProp === fileOrFolderProp && {
+                                  padding: "4px 16px",
+                                }),
                                 backgroundColor: selected
                                   ? theme.colors.primary25
                                   : undefined,
@@ -1255,7 +1256,9 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
                                 <span style={styles.columnSize}>
                                   {item.isFolder
                                     ? (item.childCount !== undefined
-                                      ? `${item.childCount} item${item.childCount !== 1 ? "s" : ""}`
+                                      ? `${item.childCount} item${item.childCount !== 1
+                                        ? "s"
+                                        : ""}`
                                       : "")
                                     : (item.size !== undefined
                                       ? formatFileSize(item.size)
