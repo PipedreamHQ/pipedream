@@ -303,19 +303,5 @@ export default {
         ...args,
       });
     },
-    async searchLogs(args) {
-      return this._makeRequest({
-        path: "/v2/logs/events/search",
-        method: "post",
-        ...args,
-      });
-    },
-    async listLogs(args) {
-      return this._makeRequest({
-        path: "/v2/logs/events",
-        method: "get",
-        ...args,
-      });
-    },
   },
 };
