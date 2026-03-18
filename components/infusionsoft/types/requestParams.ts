@@ -70,6 +70,19 @@ interface CreateCompanyParams extends ActionRequestParams {
   customFields?: string;
 }
 
+interface CreateContactParams extends ActionRequestParams {
+  givenName?: string;
+  familyName?: string;
+  email?: string;
+  phoneNumber?: string;
+  companyName?: string;
+  companyId?: string;
+  jobTitle?: string;
+  ownerId?: string;
+  leadsourceId?: string;
+  customFields?: string;
+}
+
 interface GetObjectParams extends ActionRequestParams {
   id: number;
 }
@@ -88,6 +101,7 @@ export {
   ApplyTagToContactsParams,
   CreateAffiliateParams,
   CreateCompanyParams,
+  CreateContactParams,
   CreateHookParams,
   DeleteHookParams,
   CreateOrderItemParams,

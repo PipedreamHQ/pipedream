@@ -5,6 +5,7 @@ import {
   ApplyTagToContactsParams,
   CreateAffiliateParams,
   CreateCompanyParams,
+  CreateContactParams,
   CreateHookParams,
   DeleteHookParams,
   CreateOrderItemParams,
@@ -234,6 +235,62 @@ export default defineApp({
       return this._httpRequest({
         $,
         url: `${this._baseUrlV2()}/companies`,
+        method: "POST",
+        data: body,
+      });
+    },
+    async createContact({
+      $,
+      givenName,
+      familyName,
+      email,
+      phoneNumber,
+      companyName,
+      companyId,
+      jobTitle,
+      ownerId,
+      leadsourceId,
+      customFields,
+    }: CreateContactParams): Promise<object> {
+      const body: Record<string, unknown> = {};
+
+      if (givenName?.trim()) body.given_name = givenName.trim();
+      if (familyName?.trim()) body.family_name = familyName.trim();
+      if (jobTitle?.trim()) body.job_title = jobTitle.trim();
+      if (ownerId?.trim()) body.owner_id = parseInt(ownerId.trim(), 10);
+      if (leadsourceId?.trim()) body.leadsource_id = parseInt(leadsourceId.trim(), 10);
+
+      if (email?.trim()) {
+        body.email_addresses = [
+          { email: email.trim(), field: "EMAIL1" },
+        ];
+      }
+
+      if (phoneNumber?.trim()) {
+        body.phone_numbers = [
+          { number: phoneNumber.trim(), field: "PHONE1" },
+        ];
+      }
+
+      const company: Record<string, unknown> = {};
+      if (companyId?.trim()) company.id = parseInt(companyId.trim(), 10);
+      if (companyName?.trim()) company.company_name = companyName.trim();
+      if (Object.keys(company).length > 0) body.company = company;
+
+      if (customFields?.trim()) {
+        try {
+          const parsed = JSON.parse(customFields);
+          if (Array.isArray(parsed)) {
+            body.custom_fields = parsed;
+          }
+        } catch {
+          // Skip invalid custom_fields JSON
+        }
+      }
+
+      return this._httpRequest({
+        $,
+        url: `${this._baseUrlV2()}/contacts`,
         method: "POST",
         data: body,
       });
