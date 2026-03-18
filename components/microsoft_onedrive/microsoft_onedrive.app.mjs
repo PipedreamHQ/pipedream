@@ -480,6 +480,19 @@ export default {
         .select("id", "description", "name", "driveType", "owner")
         .get();
     },
+    _normalizeDrive(drive) {
+      return {
+        id: drive.id,
+        name: drive.name ?? "",
+        driveType: drive.driveType ?? "personal",
+        ...(drive.owner && {
+          owner: drive.owner,
+        }),
+        ...(drive.quota && {
+          quota: drive.quota,
+        }),
+      };
+    },
     /**
      * Get all drives the signed-in user has access to, including the personal
      * OneDrive. Returns a list of drives with id, name, driveType, owner, and
@@ -517,29 +530,8 @@ export default {
         nextLink = drivesResponse["@odata.nextLink"];
       } while (nextLink);
 
-      const personalDrive = {
-        id: personalDriveResponse.id,
-        name: personalDriveResponse.name ?? "",
-        driveType: personalDriveResponse.driveType ?? "personal",
-        ...(personalDriveResponse.owner && {
-          owner: personalDriveResponse.owner,
-        }),
-        ...(personalDriveResponse.quota && {
-          quota: personalDriveResponse.quota,
-        }),
-      };
-
-      const drives = allDriveItems.map((drive) => ({
-        id: drive.id,
-        name: drive.name ?? "",
-        driveType: drive.driveType ?? "personal",
-        ...(drive.owner && {
-          owner: drive.owner,
-        }),
-        ...(drive.quota && {
-          quota: drive.quota,
-        }),
-      }));
+      const personalDrive = this._normalizeDrive(personalDriveResponse);
+      const drives = allDriveItems.map((drive) => this._normalizeDrive(drive));
 
       const driveIds = new Set(drives.map((d) => d.id));
       if (!driveIds.has(personalDrive.id)) {
