@@ -69,7 +69,6 @@ const GlobeIcon = () => (
   </svg>
 );
 
-const DriveIcon = () => <FolderIcon />;
 
 const RefreshIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -217,6 +216,29 @@ const createStyles = (theme: Theme, selectedItemsCount: number) => ({
     marginLeft: "8px",
   } as CSSProperties,
 
+  columnSize: {
+    width: "80px",
+    fontSize: "12px",
+    color: theme.colors.neutral40,
+    textAlign: "right",
+    flexShrink: 0,
+  } as CSSProperties,
+
+  columnLastModified: {
+    width: "130px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    gap: "8px",
+    flexShrink: 0,
+  } as CSSProperties,
+
+  columnMeta: {
+    fontSize: "12px",
+    color: theme.colors.neutral40,
+    whiteSpace: "nowrap",
+  } as CSSProperties,
+
   footer: {
     padding: "12px 16px",
     borderTop: `1px solid ${theme.colors.neutral10}`,
@@ -343,7 +365,7 @@ export const FILE_PICKER_APPS: Record<string, FilePickerAppConfig> = {
     folderProp: "folderId",
     propIcons: {
       siteId: <GlobeIcon />,
-      driveId: <DriveIcon />,
+      driveId: <FolderIcon />,
     },
   },
   sharepoint_admin: {
@@ -363,7 +385,7 @@ export const FILE_PICKER_APPS: Record<string, FilePickerAppConfig> = {
     folderProp: "folderId",
     propIcons: {
       siteId: <GlobeIcon />,
-      driveId: <DriveIcon />,
+      driveId: <FolderIcon />,
     },
   },
   // Future apps can be added here:
@@ -1111,11 +1133,11 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
                         flex: 1,
                       }}>Name</span>
                       <span style={{
-                        width: "80px",
+                        width: styles.columnSize.width,
                         textAlign: "right",
                       }}>Size</span>
                       <span style={{
-                        width: "130px",
+                        width: styles.columnLastModified.width,
                         textAlign: "right",
                       }}>Last Modified</span>
                     </div>
@@ -1230,13 +1252,7 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
                               </div>
                               {/* Size column */}
                               {currentProp === fileOrFolderProp && (
-                                <span style={{
-                                  width: "80px",
-                                  fontSize: "12px",
-                                  color: theme.colors.neutral40,
-                                  textAlign: "right",
-                                  flexShrink: 0,
-                                }}>
+                                <span style={styles.columnSize}>
                                   {item.isFolder
                                     ? (item.childCount !== undefined
                                       ? `${item.childCount} item${item.childCount !== 1 ? "s" : ""}`
@@ -1246,21 +1262,10 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
                                       : "")}
                                 </span>
                               )}
-                              {/* Last modified column + chevron area */}
+                              {/* Last modified column */}
                               {currentProp === fileOrFolderProp && (
-                                <div style={{
-                                  width: "130px",
-                                  display: "flex",
-                                  alignItems: "center",
-                                  justifyContent: "flex-end",
-                                  gap: "8px",
-                                  flexShrink: 0,
-                                }}>
-                                  <span style={{
-                                    fontSize: "12px",
-                                    color: theme.colors.neutral40,
-                                    whiteSpace: "nowrap",
-                                  }}>
+                                <div style={styles.columnLastModified}>
+                                  <span style={styles.columnMeta}>
                                     {item.lastModifiedDateTime
                                       ? formatDate(item.lastModifiedDateTime)
                                       : ""}
