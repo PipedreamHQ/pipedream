@@ -425,8 +425,12 @@ export default {
         .post(data);
     },
     async listContacts({
-      filterAddress, params = {},
+      filterAddress, params = {}, nextLink,
     } = {}) {
+      if (nextLink) {
+        return await this.client().api(nextLink)
+          .get();
+      }
       if (filterAddress) {
         params["$filter"] = `emailAddresses/any(a:a/address eq '${filterAddress}')`;
       }
@@ -448,8 +452,12 @@ export default {
         .get();
     },
     async listMessages({
-      userId, params = {},
+      userId, params = {}, nextLink,
     } = {}) {
+      if (nextLink) {
+        return await this.client().api(nextLink)
+          .get();
+      }
       return await this.client().api(`${this._userPath(userId)}/messages`)
         .query(pickBy(params))
         .get();
@@ -467,8 +475,12 @@ export default {
         .get();
     },
     async listSharedFolderMessages({
-      userId, sharedFolderId, params = {},
+      userId, sharedFolderId, params = {}, nextLink,
     } = {}) {
+      if (nextLink) {
+        return await this.client().api(nextLink)
+          .get();
+      }
       return await this.client().api(`/users/${userId}/mailFolders/${sharedFolderId}/messages`)
         .query(pickBy(params))
         .get();
@@ -487,7 +499,13 @@ export default {
         .query(pickBy(params))
         .get();
     },
-    async listFolders({ params = {} } = {}) {
+    async listFolders({
+      params = {}, nextLink,
+    } = {}) {
+      if (nextLink) {
+        return await this.client().api(nextLink)
+          .get();
+      }
       return await this.client().api("/me/mailFolders")
         .query(pickBy(params))
         .get();
