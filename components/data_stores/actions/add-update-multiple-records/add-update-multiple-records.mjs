@@ -4,7 +4,7 @@ export default {
   key: "data_stores-add-update-multiple-records",
   name: "Add or update multiple records",
   description: "Add or update multiple records to your [Pipedream Data Store](https://pipedream.com/data-stores/).",
-  version: "0.0.8",
+  version: "0.0.9",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -63,7 +63,11 @@ export default {
         }
       }
 
-      return this.app.evaluate(value);
+      try {
+        return JSON.parse(value);
+      } catch {
+        return value;
+      }
     },
     /**
      * Add all the key-value pairs in the map object to be used in the data store
@@ -90,7 +94,11 @@ export default {
   },
   async run({ $ }) {
     if (typeof this.data === "string") {
-      this.data = this.app.evaluate(this.data);
+      try {
+        this.data = JSON.parse(this.data);
+      } catch {
+        // keep as-is if not valid JSON
+      }
     }
     const map = this.getHashMapOfData(this.data);
     const keys = Object.keys(map);
