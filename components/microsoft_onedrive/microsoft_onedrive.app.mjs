@@ -501,15 +501,17 @@ export default {
       let nextLink = null;
 
       do {
-        const drivesResponse = nextLink
-          ? await client.api(
-            new URL(nextLink).pathname.replace(/^\/v1\.0/, "")
-              + new URL(nextLink).search,
-          ).get()
-          : await client
+        let drivesResponse;
+        if (nextLink) {
+          const url = new URL(nextLink);
+          const path = url.pathname.replace(/^\/v\d+\.\d+/, "") + url.search;
+          drivesResponse = await client.api(path).get();
+        } else {
+          drivesResponse = await client
             .api("/me/drives")
             .select("id", "name", "driveType", "owner", "quota")
             .get();
+        }
 
         allDriveItems.push(...(drivesResponse.value ?? []));
         nextLink = drivesResponse["@odata.nextLink"];
