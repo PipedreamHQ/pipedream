@@ -6,7 +6,7 @@ export default {
   name: "List Articles",
   description: "Retrieves a list of articles. [See the documentation](https://developer.zendesk.com/api-reference/help_center/help-center-api/articles/#list-articles).",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -14,6 +14,12 @@ export default {
   },
   props: {
     zendesk,
+    // eslint-disable-next-line pipedream/props-label, pipedream/props-description
+    alert: {
+      type: "alert",
+      alertType: "warning",
+      content: "If a User ID is provided, you cannot provide a Category ID or Section ID.",
+    },
     locale: {
       propDefinition: [
         zendesk,
@@ -26,7 +32,9 @@ export default {
         zendesk,
         "articleCategoryId",
         ({ locale }) => ({
-          locale,
+          locale: locale
+            ? locale.toLowerCase()
+            : undefined,
         }),
       ],
       optional: true,
@@ -38,7 +46,9 @@ export default {
         ({
           locale, categoryId,
         }) => ({
-          locale,
+          locale: locale
+            ? locale.toLowerCase()
+            : undefined,
           categoryId,
         }),
       ],
@@ -50,7 +60,6 @@ export default {
         "userId",
       ],
       optional: true,
-      reloadProps: true,
     },
     limit: {
       propDefinition: [
@@ -59,17 +68,6 @@ export default {
       ],
       description: "Maximum number of articles to return",
     },
-  },
-  async additionalProps(props) {
-    props.locale.hidden = false;
-    props.categoryId.hidden = false;
-    props.sectionId.hidden = false;
-    if (this.userId) {
-      props.locale.hidden = true;
-      props.categoryId.hidden = true;
-      props.sectionId.hidden = true;
-    }
-    return {};
   },
   async run({ $ }) {
     if ((this.categoryId && this.userId) || (this.sectionId && this.userId)) {
@@ -85,7 +83,9 @@ export default {
         userId: this.userId,
         locale: this.userId
           ? null
-          : this.locale,
+          : this.locale
+            ? this.locale.toLowerCase()
+            : undefined,
       },
       resourceKey: "articles",
       max: this.limit,
