@@ -483,7 +483,8 @@ export default {
     /**
      * Get all drives the signed-in user has access to, including the personal
      * OneDrive. Returns a list of drives with id, name, driveType, owner, and
-     * quota information.
+     * quota information. Handles pagination via @odata.nextLink for users with
+     * multiple pages of drives.
      *
      * @returns {Promise<Array>} Array of drive objects
      * @see https://learn.microsoft.com/en-us/graph/api/drive-list
@@ -491,15 +492,28 @@ export default {
     async listMyDrives() {
       const client = this.client();
 
-      const [
-        personalDriveResponse,
-        drivesResponse,
-      ] = await Promise.all([
-        client.api("/me/drive").select("id", "name", "driveType", "owner", "quota")
-          .get(),
-        client.api("/me/drives").select("id", "name", "driveType", "owner", "quota")
-          .get(),
-      ]);
+      const personalDriveResponse = await client
+        .api("/me/drive")
+        .select("id", "name", "driveType", "owner", "quota")
+        .get();
+
+      const allDriveItems = [];
+      let nextLink = null;
+
+      do {
+        const drivesResponse = nextLink
+          ? await client.api(
+            new URL(nextLink).pathname.replace(/^\/v1\.0/, "")
+              + new URL(nextLink).search,
+          ).get()
+          : await client
+            .api("/me/drives")
+            .select("id", "name", "driveType", "owner", "quota")
+            .get();
+
+        allDriveItems.push(...(drivesResponse.value ?? []));
+        nextLink = drivesResponse["@odata.nextLink"];
+      } while (nextLink);
 
       const personalDrive = {
         id: personalDriveResponse.id,
@@ -513,7 +527,7 @@ export default {
         }),
       };
 
-      const drives = (drivesResponse.value ?? []).map((drive) => ({
+      const drives = allDriveItems.map((drive) => ({
         id: drive.id,
         name: drive.name ?? "",
         driveType: drive.driveType ?? "personal",
