@@ -53,6 +53,23 @@ interface CreateAffiliateParams extends ActionRequestParams {
   name?: string;
 }
 
+interface CreateCompanyParams extends ActionRequestParams {
+  companyName: string;
+  email?: string;
+  phoneNumber?: string;
+  website?: string;
+  addressLine1?: string;
+  addressLine2?: string;
+  locality?: string;
+  region?: string;
+  regionCode?: string;
+  postalCode?: string;
+  country?: string;
+  countryCode?: string;
+  notes?: string;
+  customFields?: string;
+}
+
 interface GetObjectParams extends ActionRequestParams {
   id: number;
 }
@@ -70,6 +87,7 @@ export {
   AddContactToAutomationParams,
   ApplyTagToContactsParams,
   CreateAffiliateParams,
+  CreateCompanyParams,
   CreateHookParams,
   DeleteHookParams,
   CreateOrderItemParams,

@@ -4,6 +4,7 @@ import {
   AddContactToAutomationParams,
   ApplyTagToContactsParams,
   CreateAffiliateParams,
+  CreateCompanyParams,
   CreateHookParams,
   DeleteHookParams,
   CreateOrderItemParams,
@@ -152,6 +153,89 @@ export default defineApp({
         endpoint: `/orders/${orderId}/payments`,
         method: "POST",
         ...params,
+      });
+    },
+    async createCompany({
+      $,
+      companyName,
+      email,
+      phoneNumber,
+      website,
+      addressLine1,
+      addressLine2,
+      locality,
+      region,
+      regionCode,
+      postalCode,
+      country,
+      countryCode,
+      notes,
+      customFields,
+    }: CreateCompanyParams): Promise<object> {
+      const body: Record<string, unknown> = {
+        company_name: companyName.trim(),
+      };
+
+      if (email?.trim()) {
+        body.email_address = {
+          email: email.trim(),
+          field: "EMAIL1",
+        };
+      }
+
+      if (phoneNumber?.trim()) {
+        body.phone_number = {
+          number: phoneNumber.trim(),
+          field: "PHONE1",
+        };
+      }
+
+      if (website?.trim()) {
+        body.website = website.trim();
+      }
+
+      if (
+        addressLine1 ||
+        addressLine2 ||
+        locality ||
+        region ||
+        regionCode ||
+        postalCode ||
+        country ||
+        countryCode
+      ) {
+        const address: Record<string, string> = {};
+        if (addressLine1?.trim()) address.line1 = addressLine1.trim();
+        if (addressLine2?.trim()) address.line2 = addressLine2.trim();
+        if (locality?.trim()) address.locality = locality.trim();
+        if (region?.trim()) address.region = region.trim();
+        if (regionCode?.trim()) address.region_code = regionCode.trim();
+        if (postalCode?.trim()) address.postal_code = postalCode.trim();
+        if (country?.trim()) address.country = country.trim();
+        if (countryCode?.trim()) address.country_code = countryCode.trim();
+        body.address = address;
+      }
+
+      if (notes?.trim()) {
+        body.notes = notes.trim();
+      }
+
+      if (customFields?.trim()) {
+        try {
+          const parsed = JSON.parse(customFields);
+          if (Array.isArray(parsed)) {
+            body.custom_fields = parsed;
+          }
+        } catch {
+          // Skip invalid custom_fields JSON
+        }
+      }
+
+      return this._httpRequest({
+        $,
+        url: `${this._baseUrlV2()}/companies`,
+        method: "POST",
+        data: body,
       });
     },
     async createAffiliate({
