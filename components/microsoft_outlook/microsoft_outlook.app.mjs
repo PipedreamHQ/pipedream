@@ -462,6 +462,17 @@ export default {
         .query(pickBy(params))
         .get();
     },
+    /**
+     * List messages from a user's inbox. Uses this.client(), this._userPath(userId),
+     * and pickBy(params) for the initial request; when nextLink is provided, fetches
+     * the next page from that URL so callers can paginate using Graph's @odata.nextLink.
+     *
+     * @param {Object} opts - Options for the request
+     * @param {string} [opts.userId] - User ID; omitted for the signed-in user
+     * @param {Object} [opts.params={}] - Query params (e.g. $filter, $select, $orderby)
+     * @param {string} [opts.nextLink] - Full URL for the next page (from @odata.nextLink)
+     * @returns {Promise<Object>} Graph API response with value array and optional @odata.nextLink
+     */
     async listInboxMessages({
       userId, params = {}, nextLink,
     } = {}) {
