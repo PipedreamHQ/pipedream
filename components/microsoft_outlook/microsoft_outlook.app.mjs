@@ -454,6 +454,13 @@ export default {
         .query(pickBy(params))
         .get();
     },
+    async listInboxMessages({
+      userId, params = {},
+    } = {}) {
+      return await this.client().api(`${this._userPath(userId)}/mailFolders/inbox/messages`)
+        .query(pickBy(params))
+        .get();
+    },
     async listSharedFolderMessages({
       userId, sharedFolderId, params = {},
     } = {}) {

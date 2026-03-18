@@ -1,4 +1,3 @@
-import pickBy from "lodash.pickby";
 import microsoftOutlook from "../../microsoft_outlook.app.mjs";
 
 export default {
@@ -31,17 +30,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const listInboxMessages = ({
-      userId, params = {},
-    } = {}) => {
-      return this.microsoftOutlook.client()
-        .api(`${this.microsoftOutlook._userPath(userId)}/mailFolders/inbox/messages`)
-        .query(pickBy(params))
-        .get();
-    };
-
     const items = this.microsoftOutlook.paginate({
-      fn: listInboxMessages,
+      fn: this.microsoftOutlook.listInboxMessages,
       args: {
         $,
         userId: this.userId,
