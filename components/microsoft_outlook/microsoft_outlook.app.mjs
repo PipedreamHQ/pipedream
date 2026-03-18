@@ -455,8 +455,13 @@ export default {
         .get();
     },
     async listInboxMessages({
-      userId, params = {},
+      userId, params = {}, nextLink,
     } = {}) {
+      if (nextLink) {
+        return await this.client().api(nextLink)
+          .get();
+      }
+
       return await this.client().api(`${this._userPath(userId)}/mailFolders/inbox/messages`)
         .query(pickBy(params))
         .get();
@@ -577,9 +582,19 @@ export default {
           $skip: 0,
         },
       };
-      let hasMore, count = 0;
+      let hasMore = true;
+      let count = 0;
+      let nextLink;
       do {
-        const response = await fn(args);
+        const response = await fn({
+          ...args,
+          ...(nextLink
+            ? {
+              nextLink,
+              params: undefined,
+            }
+            : {}),
+        });
         const { value } = response;
         for (const item of value) {
           yield item;
@@ -587,8 +602,21 @@ export default {
             return;
           }
         }
-        hasMore = response?.["@odata.nextLink"];
-        args.params["$skip"] += limit;
+        nextLink = response?.["@odata.nextLink"];
+
+        if (nextLink) {
+          hasMore = true;
+          continue;
+        }
+
+        if (args?.params && typeof args.params.$skip === "number") {
+          hasMore = value?.length === limit;
+          if (hasMore) {
+            args.params.$skip += limit;
+          }
+        } else {
+          hasMore = false;
+        }
       } while (hasMore);
     },
   },
