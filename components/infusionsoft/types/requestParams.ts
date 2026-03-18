@@ -35,6 +35,12 @@ interface CreatePaymentParams extends ActionRequestParams {
   };
 }
 
+interface AddContactToAutomationParams extends ActionRequestParams {
+  automationId: string;
+  sequenceId: string;
+  contactIds: string[];
+}
+
 interface GetObjectParams extends ActionRequestParams {
   id: number;
 }
@@ -49,6 +55,7 @@ interface DeleteHookParams {
 }
 
 export {
+  AddContactToAutomationParams,
   CreateHookParams,
   DeleteHookParams,
   CreateOrderItemParams,

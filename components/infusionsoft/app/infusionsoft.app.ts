@@ -1,6 +1,7 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
+  AddContactToAutomationParams,
   CreateHookParams,
   DeleteHookParams,
   CreateOrderItemParams,
@@ -147,6 +148,30 @@ export default defineApp({
         method: "POST",
         ...params,
       });
+    },
+    async addContactToAutomation({
+      $,
+      automationId,
+      sequenceId,
+      contactIds,
+    }: AddContactToAutomationParams): Promise<object> {
+      const results = [];
+      const body: Record<string, number> = {
+        sequence_id: parseInt(sequenceId, 10),
+      };
+      if (automationId) {
+        body.campaign_id = parseInt(automationId, 10);
+      }
+      for (const contactId of contactIds) {
+        const result = await this._httpRequest({
+          $,
+          endpoint: `/contacts/${contactId}/sequences`,
+          method: "POST",
+          data: body,
+        });
+        results.push({ contactId, ...result });
+      }
+      return { data: results };
     },
   },
   propDefinitions: {
