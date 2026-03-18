@@ -1792,7 +1792,11 @@ importers:
 
   components/billplz: {}
 
-  components/billsby: {}
+  components/billsby:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.3.0
+        version: 3.3.0
 
   components/binalyze_air: {}
 
@@ -3674,8 +3678,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/crustdata:
-    specifiers: {}
+  components/crustdata: {}
 
   components/cryptlex: {}
 
@@ -11462,8 +11465,7 @@ importers:
         specifier: ^2.0.2
         version: 2.0.2
 
-  components/peakon_employee_voice:
-    specifiers: {}
+  components/peakon_employee_voice: {}
 
   components/peekalink: {}
 
@@ -40731,6 +40733,7 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
+      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.60)(rollup@4.53.2)':
     dependencies:
