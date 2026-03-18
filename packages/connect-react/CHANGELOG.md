@@ -2,7 +2,7 @@
 
 # Changelog
 
-## [2.8.0] - 2026-03-18
+## [2.7.3] - 2026-03-18
 
 ### Added
 - Globe icon for SharePoint sites and folder icon for drives in file picker navigation
