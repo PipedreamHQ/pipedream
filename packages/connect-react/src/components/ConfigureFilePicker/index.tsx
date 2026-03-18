@@ -60,6 +60,17 @@ const FileIcon = () => (
   </svg>
 );
 
+const GlobeIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <title>Site</title>
+    <circle cx="12" cy="12" r="10" />
+    <line x1="2" y1="12" x2="22" y2="12" />
+    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+  </svg>
+);
+
+const DriveIcon = () => <FolderIcon />;
+
 const RefreshIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
     <title>Refresh</title>
@@ -174,7 +185,7 @@ const createStyles = (theme: Theme, selectedItemsCount: number) => ({
   item: {
     display: "flex",
     alignItems: "center",
-    padding: "10px 16px",
+    padding: "8px 16px",
     cursor: "pointer",
     borderBottom: `1px solid ${theme.colors.neutral10}`,
     transition: "background-color 0.1s",
@@ -307,6 +318,8 @@ export interface FilePickerAppConfig {
   fileOrFolderProp: string;
   /** The prop name used for folder navigation (set when drilling into folders) */
   folderProp?: string;
+  /** Icons to show for items at each navigation level (keyed by prop name) */
+  propIcons?: Record<string, ReactNode>;
 }
 
 /**
@@ -328,6 +341,10 @@ export const FILE_PICKER_APPS: Record<string, FilePickerAppConfig> = {
     },
     fileOrFolderProp: "fileOrFolderIds",
     folderProp: "folderId",
+    propIcons: {
+      siteId: <GlobeIcon />,
+      driveId: <DriveIcon />,
+    },
   },
   sharepoint_admin: {
     app: "sharepoint_admin",
@@ -335,15 +352,19 @@ export const FILE_PICKER_APPS: Record<string, FilePickerAppConfig> = {
     propHierarchy: [
       "siteId",
       "driveId",
-      "fileOrFolderIds",
+      "fileIds",
     ],
     propLabels: {
       siteId: "Sites",
       driveId: "Drives",
-      fileOrFolderIds: "Files & Folders",
+      fileIds: "Files",
     },
-    fileOrFolderProp: "fileOrFolderIds",
+    fileOrFolderProp: "fileIds",
     folderProp: "folderId",
+    propIcons: {
+      siteId: <GlobeIcon />,
+      driveId: <DriveIcon />,
+    },
   },
   // Future apps can be added here:
   // google_drive: { ... },
@@ -430,6 +451,7 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
     fileOrFolderProp = "",
     folderProp = "",
     appPropName = app,
+    propIcons = {},
   } = appConfig || {};
 
   // Debug logger (memoized to maintain stable reference)
@@ -627,7 +649,7 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
     // Try to parse JSON value once (fileOrFolderIds returns JSON with {id, name, isFolder, size, childCount, lastModifiedDateTime})
     let isFolder = false;
     let id = rawValue;
-    let name = label.replace(/^📁\s*/, "").replace(/^📄\s*/, "");
+    let name = label;
     let size: number | undefined;
     let childCount: number | undefined;
     let lastModifiedDateTime: string | undefined;
@@ -649,8 +671,7 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
         description = parsed.description;
       }
     } catch {
-      // Not JSON, check label for folder indicators
-      isFolder = label.startsWith("📁");
+      // Not JSON — isFolder stays false
     }
 
     return {
@@ -1090,8 +1111,12 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
                         flex: 1,
                       }}>Name</span>
                       <span style={{
-                        width: "150px",
-                        textAlign: "left",
+                        width: "80px",
+                        textAlign: "right",
+                      }}>Size</span>
+                      <span style={{
+                        width: "130px",
+                        textAlign: "right",
                       }}>Last Modified</span>
                     </div>
                   )}
@@ -1139,6 +1164,7 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
                               type="button"
                               style={{
                                 ...styles.item,
+                                ...(currentProp === fileOrFolderProp && { padding: "4px 16px" }),
                                 backgroundColor: selected
                                   ? theme.colors.primary25
                                   : undefined,
@@ -1190,9 +1216,10 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
                               )}
                               {showIcons && (
                                 <span style={styles.itemIcon}>
-                                  {item.isFolder
-                                    ? icons.folder
-                                    : icons.file}
+                                  {propIcons[currentProp]
+                                    || (item.isFolder
+                                      ? icons.folder
+                                      : icons.file)}
                                 </span>
                               )}
                               <div style={{
@@ -1200,33 +1227,33 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
                                 minWidth: 0,
                               }}>
                                 <span style={styles.itemName}>{item.label}</span>
-                                {/* Metadata row */}
-                                {currentProp === fileOrFolderProp && (
-                                  <div style={{
-                                    fontSize: "11px",
-                                    color: theme.colors.neutral40,
-                                    marginTop: "2px",
-                                    display: "flex",
-                                    gap: "8px",
-                                  }}>
-                                    {item.isFolder && item.childCount !== undefined && (
-                                      <span>{item.childCount} item{item.childCount !== 1
-                                        ? "s"
-                                        : ""}</span>
-                                    )}
-                                    {!item.isFolder && item.size !== undefined && (
-                                      <span>{formatFileSize(item.size)}</span>
-                                    )}
-                                  </div>
-                                )}
                               </div>
+                              {/* Size column */}
+                              {currentProp === fileOrFolderProp && (
+                                <span style={{
+                                  width: "80px",
+                                  fontSize: "12px",
+                                  color: theme.colors.neutral40,
+                                  textAlign: "right",
+                                  flexShrink: 0,
+                                }}>
+                                  {item.isFolder
+                                    ? (item.childCount !== undefined
+                                      ? `${item.childCount} item${item.childCount !== 1 ? "s" : ""}`
+                                      : "")
+                                    : (item.size !== undefined
+                                      ? formatFileSize(item.size)
+                                      : "")}
+                                </span>
+                              )}
                               {/* Last modified column + chevron area */}
                               {currentProp === fileOrFolderProp && (
                                 <div style={{
-                                  width: "150px",
+                                  width: "130px",
                                   display: "flex",
                                   alignItems: "center",
-                                  justifyContent: "space-between",
+                                  justifyContent: "flex-end",
+                                  gap: "8px",
                                   flexShrink: 0,
                                 }}>
                                   <span style={{
@@ -1238,9 +1265,6 @@ export const ConfigureFilePicker: FC<ConfigureFilePickerProps> = ({
                                       ? formatDate(item.lastModifiedDateTime)
                                       : ""}
                                   </span>
-                                  {item.isFolder && (
-                                    <span style={styles.chevron}>›</span>
-                                  )}
                                 </div>
                               )}
                               {currentProp !== fileOrFolderProp && (

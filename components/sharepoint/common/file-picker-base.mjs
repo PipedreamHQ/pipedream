@@ -278,7 +278,7 @@ export const filePickerMethods = {
 
     // If all files failed, throw an error
     if (fileResults.length === 0 && errors.length > 0) {
-      throw new Error(`Failed to fetch all selected files: ${errors.map((e) => e.fileName).join(", ")}`);
+      throw new Error(`Failed to fetch all selected files:\n${errors.map((e) => `  ${e.fileName}: ${e.error}`).join("\n")}`);
     }
 
     // If single file, return it directly for backwards compatibility
