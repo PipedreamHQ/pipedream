@@ -1026,7 +1026,7 @@ export default defineApp({
       }
       return this._httpRequest({
         $,
-        url: `${this._baseUrl()}/opportunities/${opportunityId.trim()}`,
+        url: `${this._baseUrl()}/opportunities/${String(opportunityId ?? "").trim()}`,
         method: "PATCH",
         data: body,
       });
