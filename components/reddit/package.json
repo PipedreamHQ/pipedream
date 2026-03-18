@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/reddit",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Pipedream Reddit Components",
   "main": "reddit.app.mjs",
   "keywords": [

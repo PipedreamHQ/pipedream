@@ -5,7 +5,7 @@ export default {
   key: "mailchimp-new-open",
   name: "New Open",
   description: "Emit new event when a recipient opens an email in a specific campaign.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {

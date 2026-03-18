@@ -819,5 +819,11 @@ export default {
         ...args,
       });
     },
+    searchSolutions(args = {}) {
+      return this._makeRequest({
+        url: "/search/solutions",
+        ...args,
+      });
+    },
   },
 };
