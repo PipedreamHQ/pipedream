@@ -9,7 +9,7 @@ export default {
   key: "google_sheets-new-worksheet-polling",
   name: "New Worksheet (Polling)",
   description: "Emit new event each time a new worksheet is created in a spreadsheet.",
-  version: "0.0.3",
+  version: "0.0.2",
   dedupe: "unique",
   type: "source",
   hooks: {
