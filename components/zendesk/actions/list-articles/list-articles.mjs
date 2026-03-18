@@ -32,7 +32,9 @@ export default {
         zendesk,
         "articleCategoryId",
         ({ locale }) => ({
-          locale,
+          locale: locale
+            ? locale.toLowerCase()
+            : undefined,
         }),
       ],
       optional: true,
@@ -44,7 +46,9 @@ export default {
         ({
           locale, categoryId,
         }) => ({
-          locale,
+          locale: locale
+            ? locale.toLowerCase()
+            : undefined,
           categoryId,
         }),
       ],

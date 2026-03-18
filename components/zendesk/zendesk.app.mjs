@@ -577,6 +577,7 @@ export default {
       step = this, url, path, headers, customSubdomain, ...args
     }) {
       return axios(step, {
+        debug: true,
         headers: this.getHeaders(headers),
         url: url ?? this.getUrl(path, customSubdomain),
         timeout: constants.DEFAULT_TIMEOUT,
