@@ -74,5 +74,24 @@ export default {
       });
       return data;
     },
+    /**
+     * List all groups in the organization (excluding dynamic distribution groups).
+     * @param {Object} opts - Options for the request
+     * @param {string} [opts.nextLink] - OData nextLink URL for pagination
+     * @returns {Promise<Object>} Response with value array and @odata.nextLink if more pages exist
+     */
+    async listOrganizationGroups({ nextLink } = {}) {
+      if (nextLink) {
+        const { data } = await this._makeRequest({
+          url: nextLink,
+        });
+        return data;
+      }
+
+      const { data } = await this._makeRequest({
+        path: "/groups",
+      });
+      return data;
+    },
   },
 };
