@@ -8,7 +8,7 @@ export default {
   key: "google_sheets-new-updates-polling",
   name: "New Updates",
   description: "Emit new event each time a row or cell is updated in a spreadsheet.",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   type: "source",
   props: {
@@ -20,7 +20,6 @@ export default {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
-    // eslint-disable-next-line pipedream/props-label, pipedream/props-description
     alert: {
       type: "alert",
       alertType: "info",
