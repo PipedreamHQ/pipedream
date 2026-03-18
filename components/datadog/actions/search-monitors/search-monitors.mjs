@@ -62,7 +62,7 @@ export default {
 
     const response = await this.datadog.listMonitors({
       $,
-      query: params,
+      params,
       region: this.region,
     });
 

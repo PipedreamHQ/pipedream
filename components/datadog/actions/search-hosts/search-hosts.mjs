@@ -71,7 +71,7 @@ export default {
 
     const response = await this.datadog.listHosts({
       $,
-      query: params,
+      params,
       region: this.region,
     });
 
