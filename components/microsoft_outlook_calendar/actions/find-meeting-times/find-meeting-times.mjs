@@ -167,14 +167,13 @@ export default {
       throw new Error("`start` must be before `end` and both must be valid date-time strings.");
     }
 
-    if (!cleanedAttendees.length) {
-      throw new ConfigurationError("At least one attendee email address is required.");
-    }
-
     const attendees = [
       ...cleanedAttendees.map((address) => this._toAttendeeBase(address, "required")),
       ...cleanedResourceAttendees.map((address) => this._toAttendeeBase(address, "resource")),
     ];
+    if (!attendees.length) {
+      throw new ConfigurationError("Provide at least one attendee or resource attendee email address.");
+    }
 
     const durationMinutes = this._clampInt(this.duration, {
       min: 1,
