@@ -1001,8 +1001,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/anydb:
-    specifiers: {}
+  components/anydb: {}
 
   components/anyflow: {}
 
@@ -3675,6 +3674,9 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/crustdata:
+    specifiers: {}
+
   components/cryptlex: {}
 
   components/crypto_apis_by_alternative: {}
@@ -4219,8 +4221,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/dify:
-    specifiers: {}
+  components/dify: {}
 
   components/digicert: {}
 
@@ -11461,6 +11462,9 @@ importers:
         specifier: ^2.0.2
         version: 2.0.2
 
+  components/peakon_employee_voice:
+    specifiers: {}
+
   components/peekalink: {}
 
   components/peerdom:
@@ -11985,7 +11989,14 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/polar: {}
+  components/polar:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.6.8
+        version: 1.6.8
+      '@polar-sh/sdk':
+        specifier: ^0.44.0
+        version: 0.44.0
 
   components/polly:
     dependencies:
@@ -14270,7 +14281,11 @@ importers:
 
   components/signable: {}
 
-  components/signal: {}
+  components/signal:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.3.0
+        version: 3.3.0
 
   components/signalwire:
     dependencies:
@@ -21754,6 +21769,9 @@ packages:
     resolution: {integrity: sha512-bWLDlHsBlgKY/05wDN/V3ETcn5G2SV/SiA2ZmNvKGGlmVX4G5li7GRDhHcgYvHJHyJ8TUStqg2xtHmCs0UbAbg==}
     engines: {node: '>=18'}
 
+  '@polar-sh/sdk@0.44.0':
+    resolution: {integrity: sha512-r9/9lmLJTAzkkbFQB66bCEQZ62VUwJwMp31UOB6Kqg3fgAqtph/m+jfzj2aVsMapbQl0xuJX+MpkPFTCdQXejA==}
+
   '@protobuf-ts/plugin@2.11.1':
     resolution: {integrity: sha512-HyuprDcw0bEEJqkOWe1rnXUP0gwYLij8YhPuZyZk6cJbIgc/Q0IFgoHQxOXNIXAcXM4Sbehh6kjVnCzasElw1A==}
     hasBin: true
@@ -23534,6 +23552,9 @@ packages:
   '@sparticuz/chromium@143.0.4':
     resolution: {integrity: sha512-/6I7uQTRhRDD2/gGPQ1Gkf+Dqk0RYDACPJDZfSzz0OWk4JmUTonNHPXbrn6UIklOHlnDLf8xAAzkOZKB/cJpLA==}
     engines: {node: '>=20.11.0'}
+
+  '@stablelib/base64@1.0.1':
+    resolution: {integrity: sha512-1bnPQqSxSuc3Ii6MhBysoWCg58j97aUjuCSZrGSmDxNqtytIi0k8utUenAwTZN4V5mXXYGsVUI9zeBqy+jBOSQ==}
 
   '@stylistic/eslint-plugin-js@3.1.0':
     resolution: {integrity: sha512-lQktsOiCr8S6StG29C5fzXYxLOD6ID1rp4j6TRS+E/qY1xd59Fm7dy5qm9UauJIEoSTlYx6yGsCHYh5UkgXPyg==}
@@ -31509,7 +31530,6 @@ packages:
     engines: {node: '>=0.6.0', teleport: '>=0.2.0'}
     deprecated: |-
       You or someone you depend on is using Q, the JavaScript Promise library that gave JavaScript developers strong feelings about promises. They can almost certainly migrate to the native JavaScript promise now. Thank you literally everyone for joining me in this bet against the odds. Be excellent to each other.
-
       (For a CapTP with native promises, see @endo/eventual-send and @endo/captp)
 
   qified@0.5.2:
@@ -32555,6 +32575,9 @@ packages:
 
   stackframe@1.3.4:
     resolution: {integrity: sha512-oeVtt7eWQS+Na6F//S4kJ2K2VbRlS9D43mAlMyVpVWovy9o+jfgH8O9agzANzaiLjclA0oYzUXEM4PurhSUChw==}
+
+  standardwebhooks@1.0.0:
+    resolution: {integrity: sha512-BbHGOQK9olHPMvQNHWul6MYlrRTAOKn03rOe4A8O3CLWhNf4YHBqq2HJKKC+sfqpxiBY52pNeesD6jIiLDz8jg==}
 
   starkbank-ecdsa@1.1.5:
     resolution: {integrity: sha512-5O9CJ0QF6pTrtDg6dmaHy1GC/2wA1tcXsYanWOCzg+2cZrCDylEvEl6krzI4Zy8ryar00lHErRTT2Q61w/MUVA==}
@@ -40229,6 +40252,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@polar-sh/sdk@0.44.0':
+    dependencies:
+      standardwebhooks: 1.0.0
+      zod: 3.25.76
+
   '@protobuf-ts/plugin@2.11.1':
     dependencies:
       '@bufbuild/protobuf': 2.10.1
@@ -40724,7 +40752,6 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
-      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.60)(rollup@4.53.2)':
     dependencies:
@@ -42380,6 +42407,8 @@ snapshots:
       - debug
       - react-native-b4a
 
+  '@stablelib/base64@1.0.1': {}
+
   '@stylistic/eslint-plugin-js@3.1.0(eslint@8.57.1)':
     dependencies:
       eslint: 8.57.1
@@ -42606,7 +42635,7 @@ snapshots:
     dependencies:
       '@types/http-cache-semantics': 4.0.4
       '@types/keyv': 3.1.4
-      '@types/node': 20.19.33
+      '@types/node': 20.19.35
       '@types/responselike': 1.0.3
 
   '@types/caseless@0.12.5': {}
@@ -42686,7 +42715,7 @@ snapshots:
 
   '@types/http-proxy@1.17.17':
     dependencies:
-      '@types/node': 20.19.35
+      '@types/node': 20.19.37
 
   '@types/is-stream@1.1.0':
     dependencies:
@@ -42853,7 +42882,7 @@ snapshots:
 
   '@types/responselike@1.0.3':
     dependencies:
-      '@types/node': 20.19.33
+      '@types/node': 20.19.35
 
   '@types/retry@0.12.0': {}
 
@@ -42924,7 +42953,7 @@ snapshots:
 
   '@types/yauzl@2.10.3':
     dependencies:
-      '@types/node': 20.19.33
+      '@types/node': 20.19.35
     optional: true
 
   '@typescript-eslint/eslint-plugin@8.46.4(@typescript-eslint/parser@8.46.4(eslint@8.57.1)(typescript@5.6.3))(eslint@8.57.1)(typescript@5.6.3)':
@@ -54472,6 +54501,11 @@ snapshots:
       escape-string-regexp: 2.0.0
 
   stackframe@1.3.4: {}
+
+  standardwebhooks@1.0.0:
+    dependencies:
+      '@stablelib/base64': 1.0.1
+      fast-sha256: 1.3.0
 
   starkbank-ecdsa@1.1.5:
     dependencies:
