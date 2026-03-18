@@ -585,6 +585,7 @@ export default {
       let hasMore = true;
       let count = 0;
       let nextLink;
+      let usedNextLink = false;
       do {
         const response = await fn({
           ...args,
@@ -606,10 +607,11 @@ export default {
 
         if (nextLink) {
           hasMore = true;
+          usedNextLink = true;
           continue;
         }
 
-        if (args?.params && typeof args.params.$skip === "number") {
+        if (!usedNextLink && args?.params && typeof args.params.$skip === "number") {
           hasMore = value?.length === limit;
           if (hasMore) {
             args.params.$skip += limit;
