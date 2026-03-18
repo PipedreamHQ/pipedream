@@ -480,6 +480,58 @@ export default {
         .select("id", "description", "name", "driveType", "owner")
         .get();
     },
+    /**
+     * Get all drives the signed-in user has access to, including the personal
+     * OneDrive. Returns a list of drives with id, name, driveType, owner, and
+     * quota information.
+     *
+     * @returns {Promise<Array>} Array of drive objects
+     * @see https://learn.microsoft.com/en-us/graph/api/drive-list
+     */
+    async listMyDrives() {
+      const client = this.client();
+
+      const [
+        personalDriveResponse,
+        drivesResponse,
+      ] = await Promise.all([
+        client.api("/me/drive").select("id", "name", "driveType", "owner", "quota")
+          .get(),
+        client.api("/me/drives").select("id", "name", "driveType", "owner", "quota")
+          .get(),
+      ]);
+
+      const personalDrive = {
+        id: personalDriveResponse.id,
+        name: personalDriveResponse.name ?? "",
+        driveType: personalDriveResponse.driveType ?? "personal",
+        ...(personalDriveResponse.owner && {
+          owner: personalDriveResponse.owner,
+        }),
+        ...(personalDriveResponse.quota && {
+          quota: personalDriveResponse.quota,
+        }),
+      };
+
+      const drives = (drivesResponse.value ?? []).map((drive) => ({
+        id: drive.id,
+        name: drive.name ?? "",
+        driveType: drive.driveType ?? "personal",
+        ...(drive.owner && {
+          owner: drive.owner,
+        }),
+        ...(drive.quota && {
+          quota: drive.quota,
+        }),
+      }));
+
+      const driveIds = new Set(drives.map((d) => d.id));
+      if (!driveIds.has(personalDrive.id)) {
+        drives.push(personalDrive);
+      }
+
+      return drives;
+    },
     listSharedFiles() {
       const client = this.client();
       return client
