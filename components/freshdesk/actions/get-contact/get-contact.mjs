@@ -4,7 +4,7 @@ export default {
   key: "freshdesk-get-contact",
   name: "Get Contact",
   description: "Get a contact from Freshdesk. [See the documentation](https://developers.freshdesk.com/api/#view_contact)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

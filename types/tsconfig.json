@@ -6,7 +6,7 @@
     "outDir": "./dist",                               /* Specify an output folder for all emitted files. */
     "esModuleInterop": true,                          /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables `allowSyntheticDefaultImports` for type compatibility. */
     "forceConsistentCasingInFileNames": true,         /* Ensure that casing is correct in imports. */
-    "noImplicitAny": true,                            /* Enable error reporting when a type hasn't been explicity specified. */
+    "noImplicitAny": true,                            /* Enable error reporting when a type hasn't been explicitly specified. */
     "noImplicitThis": true,                           /* Enable error reporting when `this` is given the type `any`. */
     "lib": ["es6"],
     "strictFunctionTypes": true,
