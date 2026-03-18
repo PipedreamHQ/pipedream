@@ -6,12 +6,13 @@ import {
 } from "../../common/utils.mjs";
 import { GOOGLE_DRIVE_FOLDER_MIME_TYPE } from "../../common/constants.mjs";
 import sampleEmit from "./test-event.mjs";
+import md5 from "md5";
 
 export default {
   key: "google_drive-new-or-modified-folders-polling",
   name: "New or Modified Folders (Polling)",
   description: "Emit new event when a folder is created or modified in the selected Drive",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "source",
   dedupe: "unique",
   props: {
@@ -170,7 +171,7 @@ export default {
       const ts = Date.parse(tsString);
 
       return {
-        id: `${fileId}-${ts}`,
+        id: md5(`${fileId}-${ts}`),
         summary,
         ts,
       };
