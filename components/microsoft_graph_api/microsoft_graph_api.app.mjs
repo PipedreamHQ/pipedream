@@ -93,5 +93,28 @@ export default {
       });
       return data;
     },
+    /**
+     * List all users in the organization.
+     * Filters to only enabled accounts (accountEnabled eq true).
+     * @param {Object} opts - Options for the request
+     * @param {string} [opts.nextLink] - OData nextLink URL for pagination
+     * @returns {Promise<Object>} Response with value array and @odata.nextLink if more pages exist
+     */
+    async listOrganizationUsers({ nextLink } = {}) {
+      if (nextLink) {
+        const { data } = await this._makeRequest({
+          url: nextLink,
+        });
+        return data;
+      }
+
+      const { data } = await this._makeRequest({
+        path: "/users",
+        params: {
+          $filter: "accountEnabled eq true",
+        },
+      });
+      return data;
+    },
   },
 };
