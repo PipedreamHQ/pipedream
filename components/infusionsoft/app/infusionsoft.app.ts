@@ -17,6 +17,12 @@ import {
   CreatePaymentParams,
   GetObjectParams,
   HttpRequestParams,
+  SendEmailParams,
+  SendEmailTemplateParams,
+  UpdateContactParams,
+  UpdateOpportunityParams,
+  UpdateTaskParams,
+  UploadFileParams,
 } from "../types/requestParams";
 import {
   Appointment,
@@ -797,6 +803,301 @@ export default defineApp({
         $,
         url: `${this._baseUrlV2()}/users`,
         params,
+      });
+    },
+    async retrieveContactModel({ $ }: { $?: Pipedream }): Promise<object> {
+      return this._httpRequest({
+        $,
+        url: `${this._baseUrlV2()}/contacts/model`,
+      });
+    },
+    async retrieveOpportunity({
+      $,
+      opportunityId,
+      fields,
+    }: {
+      $?: Pipedream;
+      opportunityId: string;
+      fields?: string;
+    }): Promise<object> {
+      const params: Record<string, string> = {};
+      if (fields?.trim()) params.optional_properties = fields.split(",").map((f) => f.trim()).filter(Boolean).join(",");
+      return this._httpRequest({
+        $,
+        url: `${this._baseUrlV2()}/opportunities/${opportunityId.trim()}`,
+        params,
+      });
+    },
+    async retrieveOpportunityCustomFieldsModel({ $ }: { $?: Pipedream }): Promise<object> {
+      return this._httpRequest({
+        $,
+        url: `${this._baseUrl()}/opportunities/model`,
+      });
+    },
+    async retrieveTask({
+      $,
+      taskId,
+    }: {
+      $?: Pipedream;
+      taskId: string;
+    }): Promise<object> {
+      return this._httpRequest({
+        $,
+        url: `${this._baseUrlV2()}/tasks/${taskId.trim()}`,
+      });
+    },
+    async retrieveUser({
+      $,
+      userId,
+    }: {
+      $?: Pipedream;
+      userId: string;
+    }): Promise<object> {
+      return this._httpRequest({
+        $,
+        url: `${this._baseUrlV2()}/users/${userId.trim()}`,
+      });
+    },
+    async sendEmail({
+      $,
+      userId,
+      subject,
+      contactIds,
+      htmlContent,
+      plainContent,
+      addressField,
+      attachments,
+    }: SendEmailParams): Promise<object> {
+      const body: Record<string, unknown> = {
+        user_id: userId.trim(),
+        subject: subject.trim(),
+        contacts: contactIds.filter((id) => typeof id === "string" && id.trim()),
+      };
+      if (htmlContent?.trim()) body.html_content = Buffer.from(htmlContent).toString("base64");
+      if (plainContent?.trim()) body.plain_content = Buffer.from(plainContent).toString("base64");
+      if (addressField?.trim()) body.address_field = addressField.trim();
+      if (attachments?.trim()) {
+        try {
+          const parsed = JSON.parse(attachments);
+          if (Array.isArray(parsed)) body.attachments = parsed;
+        } catch {
+          // Skip invalid JSON
+        }
+      }
+      return this._httpRequest({
+        $,
+        url: `${this._baseUrlV2()}/emails:send`,
+        method: "POST",
+        data: body,
+      });
+    },
+    async sendEmailTemplate({
+      $,
+      templateId,
+      userId,
+      contactIds,
+      addressField,
+    }: SendEmailTemplateParams): Promise<object> {
+      const body: Record<string, unknown> = {
+        template_id: templateId.trim(),
+        user_id: userId.trim(),
+        contact_ids: contactIds.filter((id) => typeof id === "string" && id.trim()),
+      };
+      if (addressField?.trim()) body.address_field = addressField.trim();
+      return this._httpRequest({
+        $,
+        url: `${this._baseUrlV2()}/emails/templates:send`,
+        method: "POST",
+        data: body,
+      });
+    },
+    async setOpportunityStage({
+      $,
+      opportunityId,
+      stageId,
+    }: {
+      $?: Pipedream;
+      opportunityId: string;
+      stageId: string;
+    }): Promise<object> {
+      return this._httpRequest({
+        $,
+        url: `${this._baseUrl()}/opportunities/${opportunityId.trim()}`,
+        method: "PATCH",
+        data: { stage: { id: parseInt(stageId.trim(), 10) } },
+      });
+    },
+    async updateContact({
+      $,
+      contactId,
+      givenName,
+      familyName,
+      email,
+      phoneNumber,
+      companyName,
+      jobTitle,
+      ownerId,
+      leadsourceId,
+      customFields,
+    }: UpdateContactParams): Promise<object> {
+      const body: Record<string, unknown> = {};
+      if (givenName?.trim()) body.given_name = givenName.trim();
+      if (familyName?.trim()) body.family_name = familyName.trim();
+      if (jobTitle?.trim()) body.job_title = jobTitle.trim();
+      if (ownerId?.trim()) body.owner_id = parseInt(ownerId.trim(), 10);
+      if (leadsourceId?.trim()) body.leadsource_id = parseInt(leadsourceId.trim(), 10);
+      if (email?.trim()) body.email_addresses = [{ email: email.trim(), field: "EMAIL1" }];
+      if (phoneNumber?.trim()) body.phone_numbers = [{ number: phoneNumber.trim(), field: "PHONE1" }];
+      if (companyName?.trim()) body.company = { company_name: companyName.trim() };
+      if (customFields?.trim()) {
+        try {
+          const parsed = JSON.parse(customFields);
+          if (Array.isArray(parsed)) body.custom_fields = parsed;
+        } catch {
+          // Skip invalid JSON
+        }
+      }
+      return this._httpRequest({
+        $,
+        url: `${this._baseUrlV2()}/contacts/${contactId.trim()}`,
+        method: "PATCH",
+        data: body,
+      });
+    },
+    async updateOpportunity({
+      $,
+      opportunityId,
+      opportunityTitle,
+      contactId,
+      stageId,
+      userId,
+      projectedRevenueHigh,
+      projectedRevenueLow,
+      estimatedCloseTime,
+      nextActionTime,
+      nextActionNotes,
+      opportunityNotes,
+      includeInForecast,
+      customFields,
+    }: UpdateOpportunityParams): Promise<object> {
+      const body: Record<string, unknown> = {};
+      if (opportunityTitle?.trim()) body.opportunity_title = opportunityTitle.trim();
+      if (contactId?.trim()) {
+        const cid = parseInt(contactId.trim(), 10);
+        if (!isNaN(cid)) body.contact = { id: cid };
+      }
+      if (stageId?.trim()) {
+        const sid = parseInt(stageId.trim(), 10);
+        if (!isNaN(sid)) body.stage = { id: sid };
+      }
+      if (userId?.trim()) {
+        const uid = parseInt(userId.trim(), 10);
+        if (!isNaN(uid)) body.user = { id: uid };
+      }
+      if (estimatedCloseTime?.trim()) body.estimated_close_date = estimatedCloseTime.trim();
+      if (nextActionTime?.trim()) body.next_action_date = nextActionTime.trim();
+      if (nextActionNotes?.trim()) body.next_action_notes = nextActionNotes.trim();
+      if (opportunityNotes?.trim()) body.opportunity_notes = opportunityNotes.trim();
+      const highVal = parseFloat(String(projectedRevenueHigh));
+      if (!isNaN(highVal)) body.projected_revenue_high = highVal;
+      const lowVal = parseFloat(String(projectedRevenueLow));
+      if (!isNaN(lowVal)) body.projected_revenue_low = lowVal;
+      if (includeInForecast !== undefined && includeInForecast !== null) {
+        body.include_in_forecast = includeInForecast ? 1 : 0;
+      }
+      if (customFields?.trim()) {
+        try {
+          const parsed = JSON.parse(customFields);
+          if (Array.isArray(parsed)) {
+            body.custom_fields = parsed
+              .map((f: { id: unknown; content: unknown }) => {
+                const idNum = typeof f.id === "string" ? parseInt(f.id, 10) : Number(f.id);
+                if (isNaN(idNum)) return null;
+                const content = f.content && typeof f.content === "object" && "value" in (f.content as object)
+                  ? (f.content as { value: unknown }).value
+                  : f.content;
+                return { id: idNum, content };
+              })
+              .filter(Boolean);
+          }
+        } catch {
+          // Skip invalid JSON
+        }
+      }
+      return this._httpRequest({
+        $,
+        url: `${this._baseUrl()}/opportunities/${opportunityId.trim()}`,
+        method: "PATCH",
+        data: body,
+      });
+    },
+    async updateTask({
+      $,
+      taskId,
+      assignedToUserId,
+      title,
+      contactId,
+      description,
+      dueTime,
+      priority,
+      type,
+      completed,
+      completionTime,
+      remindTimeMins,
+    }: UpdateTaskParams): Promise<object> {
+      const body: Record<string, unknown> = {};
+      if (assignedToUserId?.trim()) body.assigned_to_user_id = assignedToUserId.trim();
+      if (title?.trim()) body.title = title.trim();
+      if (contactId?.trim()) body.contact_id = contactId.trim();
+      if (description?.trim()) body.description = description.trim();
+      if (dueTime?.trim()) body.due_time = dueTime.trim();
+      if (priority?.trim()) body.priority = priority.trim();
+      if (type?.trim()) body.type = type.trim();
+      if (completionTime?.trim()) body.completion_time = completionTime.trim();
+      if (completed !== undefined && completed !== null) body.completed = Boolean(completed);
+      const remindVal = parseInt(String(remindTimeMins), 10);
+      if (!isNaN(remindVal)) body.remind_time_mins = remindVal;
+      return this._httpRequest({
+        $,
+        url: `${this._baseUrlV2()}/tasks/${taskId.trim()}`,
+        method: "PATCH",
+        data: body,
+      });
+    },
+    async uploadFile({
+      $,
+      fileData,
+      fileName,
+      fileAssociation,
+      contactId,
+      isPublic,
+    }: UploadFileParams): Promise<object> {
+      const association = fileAssociation.trim().toUpperCase();
+      if (!["CONTACT", "USER", "COMPANY"].includes(association)) {
+        throw new Error("File association must be CONTACT, USER, or COMPANY");
+      }
+      if (association === "CONTACT" && !contactId?.trim()) {
+        throw new Error("Contact ID is required for CONTACT association");
+      }
+      let base64Data = fileData;
+      if (fileData.startsWith("data:")) {
+        const commaIdx = fileData.indexOf(",");
+        if (commaIdx > 0) base64Data = fileData.substring(commaIdx + 1);
+      } else if (!/^[A-Za-z0-9+/]+=*$/.test(fileData.replace(/[\r\n\s]/g, ""))) {
+        base64Data = Buffer.from(fileData, "utf-8").toString("base64");
+      }
+      const body: Record<string, unknown> = {
+        file_name: fileName.trim(),
+        file_data: base64Data,
+        file_association: association,
+        is_public: Boolean(isPublic),
+      };
+      if (contactId?.trim()) body.contact_id = parseInt(contactId.trim(), 10);
+      return this._httpRequest({
+        $,
+        url: `${this._baseUrl()}/files`,
+        method: "POST",
+        data: body,
       });
     },
   },

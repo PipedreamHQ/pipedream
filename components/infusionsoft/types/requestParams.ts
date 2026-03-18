@@ -132,6 +132,74 @@ interface DeleteTaskParams extends ActionRequestParams {
   taskId: string;
 }
 
+interface SendEmailParams extends ActionRequestParams {
+  userId: string;
+  subject: string;
+  contactIds: string[];
+  htmlContent?: string;
+  plainContent?: string;
+  addressField?: string;
+  attachments?: string;
+}
+
+interface SendEmailTemplateParams extends ActionRequestParams {
+  templateId: string;
+  userId: string;
+  contactIds: string[];
+  addressField?: string;
+}
+
+interface UpdateContactParams extends ActionRequestParams {
+  contactId: string;
+  givenName?: string;
+  familyName?: string;
+  email?: string;
+  phoneNumber?: string;
+  companyName?: string;
+  jobTitle?: string;
+  ownerId?: string;
+  leadsourceId?: string;
+  customFields?: string;
+}
+
+interface UpdateOpportunityParams extends ActionRequestParams {
+  opportunityId: string;
+  opportunityTitle?: string;
+  contactId?: string;
+  stageId?: string;
+  userId?: string;
+  projectedRevenueHigh?: string;
+  projectedRevenueLow?: string;
+  estimatedCloseTime?: string;
+  nextActionTime?: string;
+  nextActionNotes?: string;
+  opportunityNotes?: string;
+  includeInForecast?: boolean;
+  customFields?: string;
+}
+
+interface UpdateTaskParams extends ActionRequestParams {
+  taskId: string;
+  assignedToUserId?: string;
+  title?: string;
+  contactId?: string;
+  description?: string;
+  dueTime?: string;
+  priority?: string;
+  type?: string;
+  completed?: boolean;
+  completionTime?: string;
+  remindTimeMins?: string;
+}
+
+interface UploadFileParams extends ActionRequestParams {
+  fileData: string;
+  fileName: string;
+  fileAssociation: string;
+  contactId?: string;
+  isPublic?: boolean;
+}
+
 interface GetObjectParams extends ActionRequestParams {
   id: number;
 }
@@ -162,4 +230,10 @@ export {
   CreatePaymentParams,
   GetObjectParams,
   HttpRequestParams,
+  SendEmailParams,
+  SendEmailTemplateParams,
+  UpdateContactParams,
+  UpdateOpportunityParams,
+  UpdateTaskParams,
+  UploadFileParams,
 };
