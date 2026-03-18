@@ -3,6 +3,7 @@ import { axios } from "@pipedream/platform";
 import {
   AddContactToAutomationParams,
   ApplyTagToContactsParams,
+  CreateAffiliateParams,
   CreateHookParams,
   DeleteHookParams,
   CreateOrderItemParams,
@@ -151,6 +152,28 @@ export default defineApp({
         endpoint: `/orders/${orderId}/payments`,
         method: "POST",
         ...params,
+      });
+    },
+    async createAffiliate({
+      $,
+      code,
+      contactId,
+      status,
+      name,
+    }: CreateAffiliateParams): Promise<object> {
+      const body: Record<string, string> = {
+        code: code.trim(),
+        contact_id: contactId.trim(),
+        status: status.trim().toUpperCase(),
+      };
+      if (name?.trim()) {
+        body.name = name.trim();
+      }
+      return this._httpRequest({
+        $,
+        url: `${this._baseUrlV2()}/affiliates`,
+        method: "POST",
+        data: body,
       });
     },
     async applyTagToContacts({
