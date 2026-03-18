@@ -505,10 +505,18 @@ export default {
     async listMyDrives() {
       const client = this.client();
 
-      const personalDriveResponse = await client
-        .api("/me/drive")
-        .select("id", "name", "driveType", "owner", "quota")
-        .get();
+      let personalDriveResponse = null;
+      try {
+        personalDriveResponse = await client
+          .api("/me/drive")
+          .select("id", "name", "driveType", "owner", "quota")
+          .get();
+      } catch (error) {
+        const status = error?.statusCode ?? error?.status ?? error?.response?.status;
+        if (status !== 404) {
+          throw error;
+        }
+      }
 
       const allDriveItems = [];
       let nextLink = null;
@@ -530,12 +538,14 @@ export default {
         nextLink = drivesResponse["@odata.nextLink"];
       } while (nextLink);
 
-      const personalDrive = this._normalizeDrive(personalDriveResponse);
       const drives = allDriveItems.map((drive) => this._normalizeDrive(drive));
 
-      const driveIds = new Set(drives.map((d) => d.id));
-      if (!driveIds.has(personalDrive.id)) {
-        drives.push(personalDrive);
+      if (personalDriveResponse) {
+        const personalDrive = this._normalizeDrive(personalDriveResponse);
+        const driveIds = new Set(drives.map((d) => d.id));
+        if (!driveIds.has(personalDrive.id)) {
+          drives.push(personalDrive);
+        }
       }
 
       return drives;
