@@ -9570,6 +9570,9 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0(encoding@0.1.13)
 
+  components/microsoft_clarity:
+    specifiers: {}
+
   components/microsoft_dataverse: {}
 
   components/microsoft_dynamics_365_sales:
