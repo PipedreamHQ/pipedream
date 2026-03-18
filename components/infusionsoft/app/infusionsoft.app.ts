@@ -922,9 +922,9 @@ export default defineApp({
     }): Promise<object> {
       return this._httpRequest({
         $,
-        url: `${this._baseUrl()}/opportunities/${opportunityId.trim()}`,
+        url: `${this._baseUrl()}/opportunities/${String(opportunityId ?? "").trim()}`,
         method: "PATCH",
-        data: { stage: { id: parseInt(stageId.trim(), 10) } },
+        data: { stage: { id: parseInt(String(stageId ?? "").trim(), 10) } },
       });
     },
     async updateContact({
