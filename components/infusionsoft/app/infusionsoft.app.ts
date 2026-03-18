@@ -1,4 +1,4 @@
-import { defineApp } from "@pipedream/types";
+import { defineApp, Pipedream } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
   AddContactToAutomationParams,
@@ -6,7 +6,12 @@ import {
   CreateAffiliateParams,
   CreateCompanyParams,
   CreateContactParams,
+  CreateContactNoteParams,
   CreateHookParams,
+  CreateOpportunityParams,
+  CreateOpportunityStageParams,
+  CreateTaskParams,
+  DeleteTaskParams,
   DeleteHookParams,
   CreateOrderItemParams,
   CreatePaymentParams,
@@ -355,6 +360,444 @@ export default defineApp({
         results.push({ contactId, ...result });
       }
       return { data: results };
+    },
+    async createContactNote({
+      $,
+      contactId,
+      body,
+      userId,
+      title,
+      type,
+    }: CreateContactNoteParams): Promise<object> {
+      const data: Record<string, unknown> = {
+        contact_id: parseInt(contactId, 10),
+        body: body.trim(),
+      };
+      if (title?.trim()) data.title = title.trim();
+      if (userId?.trim()) data.user_id = parseInt(userId.trim(), 10);
+      if (type?.trim()) data.type = type.trim();
+      return this._httpRequest({
+        $,
+        url: `${this._baseUrl()}/notes`,
+        method: "POST",
+        data,
+      });
+    },
+    async createOpportunity({
+      $,
+      opportunityTitle,
+      contactId,
+      stageId,
+      userId,
+      projectedRevenueHigh,
+      projectedRevenueLow,
+      estimatedCloseTime,
+      nextActionTime,
+      nextActionNotes,
+      opportunityNotes,
+      includeInForecast,
+      customFields,
+    }: CreateOpportunityParams): Promise<object> {
+      const body: Record<string, unknown> = {
+        opportunity_title: opportunityTitle.trim(),
+        contact: { id: parseInt(contactId, 10) },
+        stage: { id: parseInt(stageId, 10) },
+        user: { id: parseInt(userId, 10) },
+        affiliate_id: "",
+      };
+      if (estimatedCloseTime?.trim()) body.estimated_close_date = estimatedCloseTime.trim();
+      if (nextActionTime?.trim()) body.next_action_date = nextActionTime.trim();
+      if (nextActionNotes?.trim()) body.next_action_notes = nextActionNotes.trim();
+      if (opportunityNotes?.trim()) body.opportunity_notes = opportunityNotes.trim();
+      const highVal = parseFloat(String(projectedRevenueHigh));
+      if (!isNaN(highVal)) body.projected_revenue_high = highVal;
+      const lowVal = parseFloat(String(projectedRevenueLow));
+      if (!isNaN(lowVal)) body.projected_revenue_low = lowVal;
+      if (includeInForecast !== undefined && includeInForecast !== null) {
+        body.include_in_forecast = includeInForecast ? 1 : 0;
+      }
+      if (customFields?.trim()) {
+        try {
+          const parsed = JSON.parse(customFields);
+          if (Array.isArray(parsed)) {
+            body.custom_fields = parsed
+              .map((f: { id: unknown; content: unknown }) => {
+                const idNum = typeof f.id === "string" ? parseInt(f.id, 10) : Number(f.id);
+                if (isNaN(idNum)) return null;
+                const content = f.content && typeof f.content === "object" && "value" in (f.content as object)
+                  ? (f.content as { value: unknown }).value
+                  : f.content;
+                return { id: idNum, content };
+              })
+              .filter(Boolean);
+          }
+        } catch {
+          // Skip invalid JSON
+        }
+      }
+      return this._httpRequest({
+        $,
+        url: `${this._baseUrl()}/opportunities`,
+        method: "POST",
+        data: body,
+      });
+    },
+    async createOpportunityStage({
+      $,
+      name,
+      order,
+      probability,
+      targetNumberDays,
+      checklistItems,
+    }: CreateOpportunityStageParams): Promise<object> {
+      const body: Record<string, unknown> = {
+        name: name.trim(),
+        order: parseInt(order, 10),
+        probability: parseInt(probability, 10),
+        target_number_days: parseInt(targetNumberDays, 10),
+      };
+      if (checklistItems?.trim()) {
+        try {
+          const parsed = JSON.parse(checklistItems);
+          if (Array.isArray(parsed)) {
+            body.checklist_items = parsed.map((item: { description: string; order: number; required: boolean }) => ({
+              description: String(item.description).trim(),
+              order: parseInt(String(item.order), 10),
+              required: Boolean(item.required),
+            }));
+          }
+        } catch {
+          // Skip invalid JSON
+        }
+      }
+      return this._httpRequest({
+        $,
+        url: `${this._baseUrlV2()}/opportunities/stages`,
+        method: "POST",
+        data: body,
+      });
+    },
+    async createTask({
+      $,
+      assignedToUserId,
+      title,
+      contactId,
+      description,
+      dueTime,
+      priority,
+      type,
+      completed,
+      completionTime,
+      remindTimeMins,
+    }: CreateTaskParams): Promise<object> {
+      const body: Record<string, unknown> = {
+        assigned_to_user_id: assignedToUserId.trim(),
+      };
+      if (title?.trim()) body.title = title.trim();
+      if (contactId?.trim()) body.contact_id = contactId.trim();
+      if (description?.trim()) body.description = description.trim();
+      if (dueTime?.trim()) body.due_time = dueTime.trim();
+      if (priority?.trim()) body.priority = priority.trim();
+      if (type?.trim()) body.type = type.trim();
+      if (completionTime?.trim()) body.completion_time = completionTime.trim();
+      if (completed !== undefined && completed !== null) body.completed = Boolean(completed);
+      const remindVal = parseInt(String(remindTimeMins), 10);
+      if (!isNaN(remindVal)) body.remind_time_mins = remindVal;
+      return this._httpRequest({
+        $,
+        url: `${this._baseUrlV2()}/tasks`,
+        method: "POST",
+        data: body,
+      });
+    },
+    async deleteTask({
+      $,
+      taskId,
+    }: DeleteTaskParams): Promise<object> {
+      await this._httpRequest({
+        $,
+        url: `${this._baseUrlV2()}/tasks/${taskId.trim()}`,
+        method: "DELETE",
+      });
+      return { deleted: true, task_id: taskId };
+    },
+    async listAffiliates({
+      $,
+      affiliateName,
+      contactId,
+      status,
+      code,
+      orderBy,
+      pageSize,
+      pageToken,
+    }: {
+      $?: Pipedream;
+      affiliateName?: string;
+      contactId?: string;
+      status?: string;
+      code?: string;
+      orderBy?: string;
+      pageSize?: string;
+      pageToken?: string;
+    }): Promise<object> {
+      const params: Record<string, string | number | string[]> = {};
+      const filters: string[] = [];
+      if (affiliateName?.trim()) filters.push(`affiliate_name==${affiliateName.trim()}`);
+      if (contactId?.trim()) filters.push(`contact_id==${contactId.trim()}`);
+      if (status?.trim()) filters.push(`status==${status.trim().toUpperCase()}`);
+      if (code?.trim()) filters.push(`code==${code.trim()}`);
+      if (filters.length > 0) params.filter = filters;
+      if (orderBy?.trim()) params.order_by = orderBy.trim();
+      const size = parseInt(String(pageSize || "").trim(), 10);
+      if (!isNaN(size) && size >= 1 && size <= 1000) params.page_size = size;
+      if (pageToken?.trim()) params.page_token = pageToken.trim();
+      return this._httpRequest({
+        $,
+        url: `${this._baseUrlV2()}/affiliates`,
+        params,
+      });
+    },
+    async listCompaniesV2({
+      $,
+      companyName,
+      email,
+      sinceTime,
+      untilTime,
+      fields,
+      orderBy,
+      pageSize,
+      pageToken,
+    }: {
+      $?: Pipedream;
+      companyName?: string;
+      email?: string;
+      sinceTime?: string;
+      untilTime?: string;
+      fields?: string;
+      orderBy?: string;
+      pageSize?: string;
+      pageToken?: string;
+    }): Promise<object> {
+      const params: Record<string, string | number> = {};
+      const filters: string[] = [];
+      if (companyName?.trim()) filters.push(`company_name==${companyName.trim()}`);
+      if (email?.trim()) filters.push(`email==${email.trim()}`);
+      if (sinceTime?.trim()) filters.push(`since_time==${sinceTime.trim()}`);
+      if (untilTime?.trim()) filters.push(`until_time==${untilTime.trim()}`);
+      if (filters.length > 0) params.filter = filters.join(";");
+      if (fields?.trim()) params.fields = fields.split(",").map((f) => f.trim()).filter(Boolean).join(",");
+      if (orderBy?.trim()) params.order_by = orderBy.trim();
+      const size = parseInt(String(pageSize || "").trim(), 10);
+      if (!isNaN(size) && size >= 1 && size <= 1000) params.page_size = size;
+      if (pageToken?.trim()) params.page_token = pageToken.trim();
+      return this._httpRequest({
+        $,
+        url: `${this._baseUrlV2()}/companies`,
+        params,
+      });
+    },
+    async listContactNotes({
+      $,
+      contactId,
+      userId,
+      limit,
+      offset,
+    }: {
+      $?: Pipedream;
+      contactId: string;
+      userId?: string;
+      limit?: string;
+      offset?: string;
+    }): Promise<object> {
+      const params: Record<string, number> = {
+        contact_id: parseInt(contactId, 10),
+      };
+      if (userId?.trim()) {
+        const uid = parseInt(userId.trim(), 10);
+        if (!isNaN(uid)) params.user_id = uid;
+      }
+      const limitVal = parseInt(String(limit || "").trim(), 10);
+      if (!isNaN(limitVal) && limitVal > 0) params.limit = limitVal;
+      const offsetVal = parseInt(String(offset || "").trim(), 10);
+      if (!isNaN(offsetVal) && offsetVal >= 0) params.offset = offsetVal;
+      return this._httpRequest({
+        $,
+        url: `${this._baseUrl()}/notes`,
+        params: params as Record<string, string | number>,
+      });
+    },
+    async listContactsV2({
+      $,
+      email,
+      givenName,
+      familyName,
+      companyId,
+      contactIds,
+      startUpdateTime,
+      endUpdateTime,
+      fields,
+      orderBy,
+      pageSize,
+      pageToken,
+    }: {
+      $?: Pipedream;
+      email?: string;
+      givenName?: string;
+      familyName?: string;
+      companyId?: string;
+      contactIds?: string;
+      startUpdateTime?: string;
+      endUpdateTime?: string;
+      fields?: string;
+      orderBy?: string;
+      pageSize?: string;
+      pageToken?: string;
+    }): Promise<object> {
+      const params: Record<string, string | number> = {};
+      const filters: string[] = [];
+      if (email?.trim()) filters.push(`email==${email.trim()}`);
+      if (givenName?.trim()) filters.push(`given_name==${givenName.trim()}`);
+      if (familyName?.trim()) filters.push(`family_name==${familyName.trim()}`);
+      if (companyId?.trim()) filters.push(`company_id==${companyId.trim()}`);
+      if (contactIds?.trim()) filters.push(`contact_ids==${contactIds.trim()}`);
+      if (startUpdateTime?.trim()) filters.push(`start_update_time==${startUpdateTime.trim()}`);
+      if (endUpdateTime?.trim()) filters.push(`end_update_time==${endUpdateTime.trim()}`);
+      if (filters.length > 0) params.filter = filters.join(";");
+      if (fields?.trim()) params.fields = fields.split(",").map((f) => f.trim()).filter(Boolean).join(",");
+      if (orderBy?.trim()) params.order_by = orderBy.trim();
+      const size = parseInt(String(pageSize || "").trim(), 10);
+      if (!isNaN(size) && size >= 1 && size <= 1000) params.page_size = size;
+      if (pageToken?.trim()) params.page_token = pageToken.trim();
+      return this._httpRequest({
+        $,
+        url: `${this._baseUrlV2()}/contacts`,
+        params,
+      });
+    },
+    async listOpportunities({
+      $,
+      stageId,
+      userId,
+      fields,
+      orderBy,
+      pageSize,
+      pageToken,
+    }: {
+      $?: Pipedream;
+      stageId?: string;
+      userId?: string;
+      fields?: string;
+      orderBy?: string;
+      pageSize?: string;
+      pageToken?: string;
+    }): Promise<object> {
+      const params: Record<string, string | number> = {};
+      const filters: string[] = [];
+      if (stageId?.trim()) filters.push(`stage_id==${stageId.trim()}`);
+      if (userId?.trim()) filters.push(`user_id==${userId.trim()}`);
+      if (filters.length > 0) params.filter = filters.join(";");
+      const coreFields = ["id", "contact", "stage", "opportunity_title"];
+      if (fields?.trim()) {
+        const valid = fields.split(",").map((f) => f.trim()).filter((f) => f && !coreFields.includes(f.toLowerCase()));
+        if (valid.length > 0) params.fields = valid.join(",");
+      }
+      if (orderBy?.trim()) params.order_by = orderBy.trim();
+      const size = parseInt(String(pageSize || "").trim(), 10);
+      if (!isNaN(size) && size >= 1 && size <= 1000) params.page_size = size;
+      if (pageToken?.trim()) params.page_token = pageToken.trim();
+      return this._httpRequest({
+        $,
+        url: `${this._baseUrlV2()}/opportunities`,
+        params,
+      });
+    },
+    async listOpportunityStages({
+      $,
+      orderBy,
+      pageSize,
+      pageToken,
+    }: {
+      $?: Pipedream;
+      orderBy?: string;
+      pageSize?: string;
+      pageToken?: string;
+    }): Promise<object> {
+      const params: Record<string, string | number> = {};
+      if (orderBy?.trim()) params.order_by = orderBy.trim();
+      const size = parseInt(String(pageSize || "").trim(), 10);
+      if (!isNaN(size) && size >= 1 && size <= 1000) params.page_size = size;
+      if (pageToken?.trim()) params.page_token = pageToken.trim();
+      return this._httpRequest({
+        $,
+        url: `${this._baseUrlV2()}/opportunities/stages`,
+        params,
+      });
+    },
+    async listTasks({
+      $,
+      filter,
+      orderBy,
+      pageSize,
+      pageToken,
+    }: {
+      $?: Pipedream;
+      filter?: string;
+      orderBy?: string;
+      pageSize?: string;
+      pageToken?: string;
+    }): Promise<object> {
+      const params: Record<string, string | number> = {};
+      if (filter?.trim()) params.filter = filter.trim();
+      if (orderBy?.trim()) params.order_by = orderBy.trim();
+      const size = parseInt(String(pageSize || "").trim(), 10);
+      if (!isNaN(size) && size >= 1 && size <= 1000) params.page_size = Math.max(size, 10);
+      if (pageToken?.trim()) params.page_token = pageToken.trim();
+      return this._httpRequest({
+        $,
+        url: `${this._baseUrlV2()}/tasks`,
+        params,
+      });
+    },
+    async listUsers({
+      $,
+      email,
+      givenName,
+      userIds,
+      includeInactive,
+      includePartners,
+      orderBy,
+      pageSize,
+      pageToken,
+    }: {
+      $?: Pipedream;
+      email?: string;
+      givenName?: string;
+      userIds?: string;
+      includeInactive?: boolean;
+      includePartners?: boolean;
+      orderBy?: string;
+      pageSize?: string;
+      pageToken?: string;
+    }): Promise<object> {
+      const params: Record<string, string | number> = {};
+      const filters: string[] = [];
+      if (email?.trim()) filters.push(`email==${email.trim()}`);
+      if (givenName?.trim()) filters.push(`given_name==${givenName.trim()}`);
+      if (userIds?.trim()) filters.push(`user_ids==${userIds.trim()}`);
+      if (includeInactive) filters.push("include_inactive==true");
+      if (includePartners) filters.push("include_partners==true");
+      if (filters.length > 0) params.filter = filters.join(";");
+      if (orderBy?.trim()) params.order_by = orderBy.trim();
+      let size = 10;
+      const sizeVal = parseInt(String(pageSize || "").trim(), 10);
+      if (!isNaN(sizeVal) && sizeVal >= 1 && sizeVal <= 100) size = sizeVal;
+      params.page_size = size;
+      if (pageToken?.trim()) params.page_token = pageToken.trim();
+      return this._httpRequest({
+        $,
+        url: `${this._baseUrlV2()}/users`,
+        params,
+      });
     },
   },
   propDefinitions: {

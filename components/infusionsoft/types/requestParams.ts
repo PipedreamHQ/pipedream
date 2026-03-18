@@ -9,6 +9,7 @@ interface HttpRequestParams extends ActionRequestParams {
   data?: object;
   method?: string;
   url?: string;
+  params?: Record<string, string | number | string[] | undefined>;
 }
 
 interface CreateOrderItemParams extends ActionRequestParams {
@@ -83,6 +84,54 @@ interface CreateContactParams extends ActionRequestParams {
   customFields?: string;
 }
 
+interface CreateContactNoteParams extends ActionRequestParams {
+  contactId: string;
+  body: string;
+  userId?: string;
+  title?: string;
+  type?: string;
+}
+
+interface CreateOpportunityParams extends ActionRequestParams {
+  opportunityTitle: string;
+  contactId: string;
+  stageId: string;
+  userId: string;
+  projectedRevenueHigh?: string;
+  projectedRevenueLow?: string;
+  estimatedCloseTime?: string;
+  nextActionTime?: string;
+  nextActionNotes?: string;
+  opportunityNotes?: string;
+  includeInForecast?: boolean;
+  customFields?: string;
+}
+
+interface CreateOpportunityStageParams extends ActionRequestParams {
+  name: string;
+  order: string;
+  probability: string;
+  targetNumberDays: string;
+  checklistItems?: string;
+}
+
+interface CreateTaskParams extends ActionRequestParams {
+  assignedToUserId: string;
+  title?: string;
+  contactId?: string;
+  description?: string;
+  dueTime?: string;
+  priority?: string;
+  type?: string;
+  completed?: boolean;
+  completionTime?: string;
+  remindTimeMins?: string;
+}
+
+interface DeleteTaskParams extends ActionRequestParams {
+  taskId: string;
+}
+
 interface GetObjectParams extends ActionRequestParams {
   id: number;
 }
@@ -102,8 +151,13 @@ export {
   CreateAffiliateParams,
   CreateCompanyParams,
   CreateContactParams,
+  CreateContactNoteParams,
   CreateHookParams,
+  CreateOpportunityParams,
+  CreateOpportunityStageParams,
+  CreateTaskParams,
   DeleteHookParams,
+  DeleteTaskParams,
   CreateOrderItemParams,
   CreatePaymentParams,
   GetObjectParams,
