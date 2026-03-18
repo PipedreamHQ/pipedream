@@ -277,6 +277,8 @@ export default {
       organizerAvailability: time.organizerAvailability,
       attendeeAvailability: time.attendeeAvailability,
       meetingTimeSlot: time.meetingTimeSlot,
+      suggestionReason: time.suggestionReason,
+      locations: time.locations,
     }));
 
     return {
