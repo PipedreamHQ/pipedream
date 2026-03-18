@@ -17,7 +17,7 @@ Discord and Discord Bot actions and triggers _can_ both:
 
 However the Discord integration will perform actions with the official Pipedream Discord bot.
 
-Using the Discord Bot integration will use a custom bot instead, with it's own name and photo.
+Using the Discord Bot integration will use a custom bot instead, with its own name and photo.
 
 ### Accounts
 
