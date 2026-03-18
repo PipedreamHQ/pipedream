@@ -6,7 +6,7 @@ export default {
   name: "Search files and folders",
   description: "Searches for files and folders by name. [See the documentation](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesSearchV2__anchor)",
   key: "dropbox-search-files-folders",
-  version: "0.0.13",
+  version: "0.0.14",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -91,7 +91,7 @@ export default {
     } = this;
     const res = await this.dropbox.searchFilesFolders({
       query,
-      match_field_options: !isNil(includeHighlights)
+      match_field_options: isNil(includeHighlights)
         ? undefined
         : {
           include_highlights: includeHighlights,

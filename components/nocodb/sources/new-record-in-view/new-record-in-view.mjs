@@ -5,7 +5,7 @@ export default {
   key: "nocodb-new-record-in-view",
   name: "New Record in View",
   description: "Emit new event for each new record in a view. [See the documentation](https://data-apis-v2.nocodb.com/#tag/Table-Records/operation/db-data-table-row-list)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {
