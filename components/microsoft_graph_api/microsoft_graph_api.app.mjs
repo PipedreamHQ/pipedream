@@ -94,6 +94,21 @@ export default {
       return data;
     },
     /**
+     * Get the signed-in user's profile information.
+     * @param {Object} opts - Options for the request
+     * @param {string} [opts.userId] - User ID or userPrincipalName. If not provided, uses /me
+     * @returns {Promise<Object>} User profile (displayName, mail, jobTitle, etc.)
+     */
+    async getProfile({ userId } = {}) {
+      const path = userId
+        ? `/users/${userId}`
+        : "/me";
+      const { data } = await this._makeRequest({
+        path,
+      });
+      return data;
+    },
+    /**
      * List all users in the organization.
      * Filters to only enabled accounts (accountEnabled eq true).
      * @param {Object} opts - Options for the request
