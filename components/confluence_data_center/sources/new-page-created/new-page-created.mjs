@@ -6,7 +6,7 @@ export default {
   key: "confluence_data_center-new-page-created",
   name: "New Page Created (Instant)",
   description: "Emit new event when a new page is created in Confluence Data Center.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
