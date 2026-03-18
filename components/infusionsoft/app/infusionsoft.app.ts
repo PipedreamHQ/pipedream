@@ -959,7 +959,7 @@ export default defineApp({
       }
       return this._httpRequest({
         $,
-        url: `${this._baseUrlV2()}/contacts/${contactId.trim()}`,
+        url: `${this._baseUrlV2()}/contacts/${String(contactId ?? "").trim()}`,
         method: "PATCH",
         data: body,
       });
