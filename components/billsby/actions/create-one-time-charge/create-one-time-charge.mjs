@@ -3,7 +3,7 @@ import billsby from "../../billsby.app.mjs";
 export default {
   key: "billsby-create-one-time-charge",
   name: "Create One-Time Charge",
-  description: "Create a one-time charge for a subscription. [See the documentation](https://support.billsby.com/reference/create-a-one-time-charge)",
+  description: "Create a one-time charge for a customer. [See the documentation](https://support.billsby.com/reference/create-a-one-time-charge)",
   version: "0.0.1",
   type: "action",
   annotations: {
