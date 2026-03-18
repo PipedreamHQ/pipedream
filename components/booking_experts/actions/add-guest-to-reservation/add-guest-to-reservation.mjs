@@ -5,7 +5,7 @@ export default {
   name: "Add Guest to Reservation",
   description:
     "Add a guest to a reservation. [See the documentation](https://developers.bookingexperts.com/reference/administration-reservation-guests-create)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

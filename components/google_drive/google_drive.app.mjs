@@ -428,14 +428,16 @@ export default {
      * returned by this same method.
      * @param {string} [driveId]  - the shared drive from which changes are
      * returned
+     * @param {number} [pageSize=1000] - the maximum number of changes to return
+     * per page
      * @yields
      * @type {ChangesPage}
      */
-    async *listChanges(pageToken, driveId) {
+    async *listChanges(pageToken, driveId, pageSize = 1000) {
       const drive = this.drive();
       let changeRequest = {
         pageToken,
-        pageSize: 1000,
+        pageSize,
       };
 
       // As with many of the methods for Google Drive, we must

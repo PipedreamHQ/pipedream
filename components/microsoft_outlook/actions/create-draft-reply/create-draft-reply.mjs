@@ -4,7 +4,7 @@ export default {
   key: "microsoft_outlook-create-draft-reply",
   name: "Create Draft Reply",
   description: "Create a draft reply to an email. [See the documentation](https://learn.microsoft.com/en-us/graph/api/message-createreply)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

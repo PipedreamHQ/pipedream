@@ -2,7 +2,7 @@ import app from "../../kanban_tool.app.mjs";
 
 export default {
   key: "kanban_tool-create-comment",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -49,7 +49,7 @@ export default {
         recipients: this.recipients,
       },
     });
-    $.export("$summary", `The comment(ID: ${resp.id}) has been created successfully.`);
+    $.export("$summary", `Comment(ID: ${resp.id}) created successfully`);
     return resp;
   },
 };

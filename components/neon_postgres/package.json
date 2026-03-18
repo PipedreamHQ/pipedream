@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/neon_postgres",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Neon Postgres Components",
   "main": "neon_postgres.app.mjs",
   "keywords": [
