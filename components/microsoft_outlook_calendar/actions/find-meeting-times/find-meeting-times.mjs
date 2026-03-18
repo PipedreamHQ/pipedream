@@ -1,4 +1,7 @@
-import { axios } from "@pipedream/platform";
+import {
+  axios,
+  ConfigurationError,
+} from "@pipedream/platform";
 import microsoftOutlook from "../../microsoft_outlook_calendar.app.mjs";
 
 export default {
@@ -62,18 +65,22 @@ export default {
       default: "work",
       optional: true,
     },
-    meetingDuration: {
-      type: "string",
-      label: "Meeting Duration",
-      description: "Optional. Meeting duration in ISO 8601 format (for example, `PT30M`, `PT1H`, `PT2H30M`). Defaults to 30 minutes if omitted by Microsoft Graph.",
-      optional: true,
-    },
-    maxCandidates: {
+    duration: {
       type: "integer",
-      label: "Max Candidates",
-      description: "Optional. The maximum number of meeting suggestions to return.",
+      label: "Duration (Minutes)",
+      description: "Optional. Meeting duration in minutes. Defaults to 30.",
+      optional: true,
+      default: 30,
+      min: 1,
+    },
+    maxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: "Optional. Maximum number of meeting time suggestions to return (default: 20, max: 50).",
       optional: true,
       min: 1,
+      max: 50,
+      default: 20,
     },
     minimumAttendeePercentage: {
       type: "integer",
@@ -94,6 +101,7 @@ export default {
       label: "Return Suggestion Reasons",
       description: "Optional. Set to true to include a reason for each suggestion in the response.",
       optional: true,
+      default: true,
     },
     suggestLocation: {
       type: "boolean",
@@ -119,6 +127,16 @@ export default {
       return (values ?? [])
         .map((v) => v?.toString?.().trim())
         .filter(Boolean);
+    },
+    _clampInt(value, {
+      min,
+      max,
+    }) {
+      if (value === null || value === undefined) return undefined;
+      const n = Number(value);
+      if (!Number.isFinite(n)) return undefined;
+      const rounded = Math.round(n);
+      return Math.max(min, Math.min(max, rounded));
     },
     _toAttendeeBase(address, type) {
       return {
@@ -149,10 +167,25 @@ export default {
       throw new Error("`start` must be before `end` and both must be valid date-time strings.");
     }
 
+    if (!cleanedAttendees.length) {
+      throw new ConfigurationError("At least one attendee email address is required.");
+    }
+
     const attendees = [
       ...cleanedAttendees.map((address) => this._toAttendeeBase(address, "required")),
       ...cleanedResourceAttendees.map((address) => this._toAttendeeBase(address, "resource")),
     ];
+
+    const durationMinutes = this._clampInt(this.duration, {
+      min: 1,
+      max: 24 * 60,
+    }) ?? 30;
+    const meetingDuration = `PT${durationMinutes}M`;
+
+    const maxCandidates = this._clampInt(this.maxResults, {
+      min: 1,
+      max: 50,
+    }) ?? 20;
 
     const body = {
       ...(attendees.length
@@ -165,26 +198,14 @@ export default {
           isOrganizerOptional: this.isOrganizerOptional,
         }
         : {}),
-      ...(this.maxCandidates !== undefined
-        ? {
-          maxCandidates: this.maxCandidates,
-        }
-        : {}),
-      ...(this.meetingDuration
-        ? {
-          meetingDuration: this.meetingDuration,
-        }
-        : {}),
+      maxCandidates,
+      meetingDuration,
       ...(this.minimumAttendeePercentage !== undefined
         ? {
           minimumAttendeePercentage: this.minimumAttendeePercentage,
         }
         : {}),
-      ...(this.returnSuggestionReasons !== undefined
-        ? {
-          returnSuggestionReasons: this.returnSuggestionReasons,
-        }
-        : {}),
+      returnSuggestionReasons: this.returnSuggestionReasons ?? true,
       timeConstraint: {
         activityDomain: this.activityDomain,
         timeSlots: [
@@ -251,7 +272,16 @@ export default {
         ? ` (${data.emptySuggestionsReason})`
         : ""}`);
 
-    return data;
+    const meetingTimesData = (data?.meetingTimeSuggestions ?? []).map((time) => ({
+      confidence: time.confidence,
+      organizerAvailability: time.organizerAvailability,
+      attendeeAvailability: time.attendeeAvailability,
+      meetingTimeSlot: time.meetingTimeSlot,
+    }));
+
+    return {
+      data: meetingTimesData,
+    };
   },
 };
 
