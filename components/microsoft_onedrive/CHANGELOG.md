@@ -6,4 +6,4 @@
 
 ### Added
 
-- list-my-drives action
+- Add list-my-drives action to retrieve all drives the authenticated user has access to
