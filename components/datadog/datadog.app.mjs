@@ -317,5 +317,33 @@ export default {
         ...args,
       });
     },
+    async queryMetricData(args) {
+      return this._makeRequest({
+        path: "/v1/query",
+        method: "get",
+        ...args,
+      });
+    },
+    async listIncidents(args) {
+      return this._makeRequest({
+        path: "/v2/incidents",
+        method: "get",
+        ...args,
+      });
+    },
+    async listDashboards(args) {
+      return this._makeRequest({
+        path: "/v1/dashboard",
+        method: "get",
+        ...args,
+      });
+    },
+    async listServices(args) {
+      return this._makeRequest({
+        path: "/v2/services/definitions",
+        method: "get",
+        ...args,
+      });
+    },
   },
 };
