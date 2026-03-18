@@ -6,7 +6,7 @@ export default {
   key: "github-update-gist",
   name: "Update Gist",
   description: "Allows you to update a gist's description and to update, delete, or rename gist files. [See the documentation](https://docs.github.com/en/rest/gists/gists?apiVersion=2022-11-28#update-a-gist)",
-  version: "0.0.13",
+  version: "0.0.14",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
