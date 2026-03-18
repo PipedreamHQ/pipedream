@@ -41,6 +41,11 @@ interface AddContactToAutomationParams extends ActionRequestParams {
   contactIds: string[];
 }
 
+interface ApplyTagToContactsParams extends ActionRequestParams {
+  tagId: string;
+  contactIds: string[];
+}
+
 interface GetObjectParams extends ActionRequestParams {
   id: number;
 }
@@ -56,6 +61,7 @@ interface DeleteHookParams {
 
 export {
   AddContactToAutomationParams,
+  ApplyTagToContactsParams,
   CreateHookParams,
   DeleteHookParams,
   CreateOrderItemParams,

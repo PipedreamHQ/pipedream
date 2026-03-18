@@ -2,6 +2,7 @@ import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
   AddContactToAutomationParams,
+  ApplyTagToContactsParams,
   CreateHookParams,
   DeleteHookParams,
   CreateOrderItemParams,
@@ -24,6 +25,9 @@ export default defineApp({
   methods: {
     _baseUrl(): string {
       return "https://api.infusionsoft.com/crm/rest/v1";
+    },
+    _baseUrlV2(): string {
+      return "https://api.infusionsoft.com/crm/rest/v2";
     },
     async _httpRequest({
       $ = this,
@@ -147,6 +151,21 @@ export default defineApp({
         endpoint: `/orders/${orderId}/payments`,
         method: "POST",
         ...params,
+      });
+    },
+    async applyTagToContacts({
+      $,
+      tagId,
+      contactIds,
+    }: ApplyTagToContactsParams): Promise<object> {
+      return this._httpRequest({
+        $,
+        url: `${this._baseUrlV2()}/tags/contacts`,
+        method: "POST",
+        data: {
+          tag_ids: [parseInt(tagId, 10)],
+          contact_ids: contactIds.map((id) => parseInt(id, 10)),
+        },
       });
     },
     async addContactToAutomation({
