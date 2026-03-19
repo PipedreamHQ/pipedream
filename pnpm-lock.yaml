@@ -1519,8 +1519,8 @@ importers:
         specifier: ^3.2.5
         version: 3.3.0
       fast-xml-parser:
-        specifier: ^5.5.6
-        version: 5.5.6
+        specifier: ^5.5.7
+        version: 5.5.7
       mime-types:
         specifier: ^2.1.35
         version: 2.1.35
@@ -4167,8 +4167,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/dhl_parcel:
-    specifiers: {}
+  components/dhl_parcel: {}
 
   components/diabatix_coldstream:
     dependencies:
@@ -7952,8 +7951,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
       fast-xml-parser:
-        specifier: ^5.5.6
-        version: 5.5.6
+        specifier: ^5.5.7
+        version: 5.5.7
 
   components/jibble:
     dependencies:
@@ -9577,8 +9576,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0(encoding@0.1.13)
 
-  components/microsoft_clarity:
-    specifiers: {}
+  components/microsoft_clarity: {}
 
   components/microsoft_dataverse: {}
 
@@ -10936,8 +10934,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
       fast-xml-parser:
-        specifier: ^5.5.6
-        version: 5.5.6
+        specifier: ^5.5.7
+        version: 5.5.7
 
   components/openthesaurus: {}
 
@@ -13434,8 +13432,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
       fast-xml-parser:
-        specifier: ^5.5.6
-        version: 5.5.6
+        specifier: ^5.5.7
+        version: 5.5.7
       handlebars:
         specifier: ^4.7.7
         version: 4.7.8
@@ -19720,14 +19718,14 @@ packages:
   '@emnapi/core@1.7.1':
     resolution: {integrity: sha512-o1uhUASyo921r2XtHYOHy7gdkGLge8ghBEQHMWmyJFoXlpU58kIrhhN3w26lpQb6dspetweapMn2CSNwQ8I4wg==}
 
-  '@emnapi/core@1.9.0':
-    resolution: {integrity: sha512-0DQ98G9ZQZOxfUcQn1waV2yS8aWdZ6kJMbYCJB3oUBecjWYO1fqJ+a1DRfPF3O5JEkwqwP1A9QEN/9mYm2Yd0w==}
+  '@emnapi/core@1.9.1':
+    resolution: {integrity: sha512-mukuNALVsoix/w1BJwFzwXBN/dHeejQtuVzcDsfOEsdpCumXb/E9j8w11h5S54tT1xhifGfbbSm/ICrObRb3KA==}
 
   '@emnapi/runtime@1.7.1':
     resolution: {integrity: sha512-PVtJr5CmLwYAU9PZDMITZoR5iAOShYREoR45EyyLrbntV50mdePTgUn4AmOw90Ifcj+x2kRjdzr1HP3RrNiHGA==}
 
-  '@emnapi/runtime@1.9.0':
-    resolution: {integrity: sha512-QN75eB0IH2ywSpRpNddCRfQIhmJYBCJ1x5Lb3IscKAL8bMnVAKnRg8dCoXbHzVLLH7P38N2Z3mtulB7W0J0FKw==}
+  '@emnapi/runtime@1.9.1':
+    resolution: {integrity: sha512-VYi5+ZVLhpgK4hQ0TAjiQiZ6ol0oe4mBx7mVv7IflsiEp0OWoVsp/+f9Vc1hOhE0TtkORVrI1GvzyreqpgWtkA==}
 
   '@emnapi/wasi-threads@1.1.0':
     resolution: {integrity: sha512-WI0DdZ8xFSbgMjR1sFsKABJ/C5OnRrjT06JXbZKexJGrDuPTzZdDYfFlsgcCXCyf+suG5QU2e/y1Wo2V/OapLQ==}
@@ -20514,8 +20512,8 @@ packages:
   '@floating-ui/utils@0.2.10':
     resolution: {integrity: sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ==}
 
-  '@gar/promise-retry@1.0.2':
-    resolution: {integrity: sha512-Lm/ZLhDZcBECta3TmCQSngiQykFdfw+QtI1/GYMsZd4l3nG+P8WLB16XuS7WaBGLQ+9E+cOcWQsth9cayuGt8g==}
+  '@gar/promise-retry@1.0.3':
+    resolution: {integrity: sha512-GmzA9ckNokPypTg10pgpeHNQe7ph+iIKKmhKu3Ob9ANkswreCx7R3cKmY781K8QK3AqVL3xVh9A42JvIAbkkSA==}
     engines: {node: ^20.17.0 || >=22.9.0}
 
   '@google-ai/generativelanguage@0.2.1':
@@ -23259,20 +23257,20 @@ packages:
     resolution: {integrity: sha512-NwCl5Y0V6Di0NexvkTqdoVfmjTaQwoLM236r89KEojGmq/jMls8S+zb7yOwAPdXvbwfKDlP+lmXgAL4vKSQT+A==}
     engines: {node: ^20.17.0 || >=22.9.0}
 
-  '@sigstore/core@3.1.0':
-    resolution: {integrity: sha512-o5cw1QYhNQ9IroioJxpzexmPjfCe7gzafd2RY3qnMpxr4ZEja+Jad/U8sgFpaue6bOaF+z7RVkyKVV44FN+N8A==}
+  '@sigstore/core@3.2.0':
+    resolution: {integrity: sha512-kxHrDQ9YgfrWUSXU0cjsQGv8JykOFZQ9ErNKbFPWzk3Hgpwu8x2hHrQ9IdA8yl+j9RTLTC3sAF3Tdq1IQCP4oA==}
     engines: {node: ^20.17.0 || >=22.9.0}
 
   '@sigstore/protobuf-specs@0.5.0':
     resolution: {integrity: sha512-MM8XIwUjN2bwvCg1QvrMtbBmpcSHrkhFSCu1D11NyPvDQ25HEc4oG5/OcQfd/Tlf/OxmKWERDj0zGE23jQaMwA==}
     engines: {node: ^18.17.0 || >=20.5.0}
 
-  '@sigstore/sign@4.1.0':
-    resolution: {integrity: sha512-Vx1RmLxLGnSUqx/o5/VsCjkuN5L7y+vxEEwawvc7u+6WtX2W4GNa7b9HEjmcRWohw/d6BpATXmvOwc78m+Swdg==}
+  '@sigstore/sign@4.1.1':
+    resolution: {integrity: sha512-Hf4xglukg0XXQ2RiD5vSoLjdPe8OBUPA8XeVjUObheuDcWdYWrnH/BNmxZCzkAy68MzmNCxXLeurJvs6hcP2OQ==}
     engines: {node: ^20.17.0 || >=22.9.0}
 
-  '@sigstore/tuf@4.0.1':
-    resolution: {integrity: sha512-OPZBg8y5Vc9yZjmWCHrlWPMBqW5yd8+wFNl+thMdtcWz3vjVSoJQutF8YkrzI0SLGnkuFof4HSsWUhXrf219Lw==}
+  '@sigstore/tuf@4.0.2':
+    resolution: {integrity: sha512-TCAzTy0xzdP79EnxSjq9KQ3eaR7+FmudLC6eRKknVKZbV7ZNlGLClAAQb/HMNJ5n2OBNk2GT1tEmU0xuPr+SLQ==}
     engines: {node: ^20.17.0 || >=22.9.0}
 
   '@sigstore/verify@3.1.0':
@@ -24868,8 +24866,8 @@ packages:
       bare-buffer:
         optional: true
 
-  bare-fs@4.5.5:
-    resolution: {integrity: sha512-XvwYM6VZqKoqDll8BmSww5luA5eflDzY0uEFfBJtFKe4PAAtxBjU3YIxzIBzhyaEQBy1VXEQBto4cpN5RZJw+w==}
+  bare-fs@4.5.6:
+    resolution: {integrity: sha512-1QovqDrR80Pmt5HPAsMsXTCFcDYr+NSUKW6nd6WO5v0JBmnItc/irNRzm2KOQ5oZ69P37y+AMujNyNtG+1Rggw==}
     engines: {bare: '>=1.16.0'}
     peerDependencies:
       bare-buffer: '*'
@@ -24884,6 +24882,17 @@ packages:
   bare-path@3.0.0:
     resolution: {integrity: sha512-tyfW2cQcB5NN8Saijrhqn0Zh7AnFNsnczRcuWODH0eYAXBsJ5gVxAUuNr7tsHSC6IZ77cA0SitzT+s47kot8Mw==}
 
+  bare-stream@2.10.0:
+    resolution: {integrity: sha512-DOPZF/DDcDruKDA43cOw6e9Quq5daua7ygcAwJE/pKJsRWhgSSemi7qVNGE5kyDIxIeN1533G/zfbvWX7Wcb9w==}
+    peerDependencies:
+      bare-buffer: '*'
+      bare-events: '*'
+    peerDependenciesMeta:
+      bare-buffer:
+        optional: true
+      bare-events:
+        optional: true
+
   bare-stream@2.7.0:
     resolution: {integrity: sha512-oyXQNicV1y8nc2aKffH+BUHFRXmx6VrPzlnaEvMhram0nPBrKcEdcyBg5r08D0i8VxngHFAiVyn1QKXpSG0B8A==}
     peerDependencies:
@@ -24895,19 +24904,11 @@ packages:
       bare-events:
         optional: true
 
-  bare-stream@2.8.1:
-    resolution: {integrity: sha512-bSeR8RfvbRwDpD7HWZvn8M3uYNDrk7m9DQjYOFkENZlXW8Ju/MPaqUPQq5LqJ3kyjEm07siTaAQ7wBKCU59oHg==}
-    peerDependencies:
-      bare-buffer: '*'
-      bare-events: '*'
-    peerDependenciesMeta:
-      bare-buffer:
-        optional: true
-      bare-events:
-        optional: true
-
   bare-url@2.3.2:
     resolution: {integrity: sha512-ZMq4gd9ngV5aTMa5p9+UfY0b3skwhHELaDkhEHetMdX0LRkW9kzaym4oo/Eh+Ghm0CCDuMTsRIGM/ytUc1ZYmw==}
+
+  bare-url@2.4.0:
+    resolution: {integrity: sha512-NSTU5WN+fy/L0DDenfE8SXQna4voXuW0FHM7wH8i3/q9khUSchfPbPezO4zSFMnDGIf9YE+mt/RWhZgNRKRIXA==}
 
   base-64@0.1.0:
     resolution: {integrity: sha512-Y5gU45svrR5tI2Vt/X9GPd3L0HNIKzGu202EjxrXMpuc2V2CiKgemAbUUsqYmZJvPtCXoUKjNZwBJzsNScUbXA==}
@@ -25155,8 +25156,8 @@ packages:
     resolution: {integrity: sha512-b6Ilus+c3RrdDk+JhLKUAQfzzgLEPy6wcXqS7f/xe1EETvsDP6GORG7SFuOs6cID5YkqchW/LXZbX5bc8j7ZcQ==}
     engines: {node: '>=8'}
 
-  cacache@20.0.3:
-    resolution: {integrity: sha512-3pUp4e8hv07k1QlijZu6Kn7c9+ZpWWk4j3F8N3xPuCExULobqJydKYOTj1FTq58srkJsXvO7LbGAH4C0ZU3WGw==}
+  cacache@20.0.4:
+    resolution: {integrity: sha512-M3Lab8NPYlZU2exsL3bMVvMrMqgwCnMWfdZbK28bn3pK6APT/Te/I8hjRPNu1uwORY9a1eEQoifXbKPQMfMTOA==}
     engines: {node: ^20.17.0 || >=22.9.0}
 
   cacheable-lookup@5.0.4:
@@ -27052,8 +27053,8 @@ packages:
     resolution: {integrity: sha512-pfX9uG9Ki0yekDHx2SiuRIyFdyAr1kMIMitPvb0YBo8SUfKvia7w7FIyd/l6av85pFYRhZscS75MwMnbvY+hcQ==}
     hasBin: true
 
-  fast-xml-parser@5.5.6:
-    resolution: {integrity: sha512-3+fdZyBRVg29n4rXP0joHthhcHdPUHaIC16cuyyd1iLsuaO6Vea36MPrxgAzbZna8lhvZeRL8Bc9GP56/J9xEw==}
+  fast-xml-parser@5.5.7:
+    resolution: {integrity: sha512-LteOsISQ2GEiDHZch6L9hB0+MLoYVLToR7xotrzU0opCICBkxOPgHAy1HxAvtxfJNXDJpgAsQN30mkrfpO2Prg==}
     hasBin: true
 
   fastest-levenshtein@1.0.16:
@@ -32680,6 +32681,9 @@ packages:
   streamx@2.23.0:
     resolution: {integrity: sha512-kn+e44esVfn2Fa/O0CPFcex27fjIL6MkVae0Mm6q+E6f0hWv578YCERbv+4m02cjxvDsPKLnmxral/rR6lBMAg==}
 
+  streamx@2.25.0:
+    resolution: {integrity: sha512-0nQuG6jf1w+wddNEEXCF4nTg3LtufWINB5eFEN+5TNZW7KWJp6x87+JFL43vaAUPyCfH1wID+mNVyW6OHtFamg==}
+
   strict-uri-encode@2.0.0:
     resolution: {integrity: sha512-QwiXZgpRcKkhTj2Scnn++4PKtWsH0kpzZ62L2R6c/LUVYv7hVnZqcg2+sMuT6R7Jusu1vviK/MFsu6kNJfWlEQ==}
     engines: {node: '>=4'}
@@ -32809,8 +32813,8 @@ packages:
   strnum@1.1.2:
     resolution: {integrity: sha512-vrN+B7DBIoTTZjnPNewwhx6cBA/H+IS7rfW68n7XxC1y7uoiGQBxaKzqucGUgavX15dJgiGztLJ8vxuEzwqBdA==}
 
-  strnum@2.2.0:
-    resolution: {integrity: sha512-Y7Bj8XyJxnPAORMZj/xltsfo55uOiyHcU2tnAVzHUnSJR/KsEX+9RoDeXEnsXtl/CX4fAcrt64gZ13aGaWPeBg==}
+  strnum@2.2.1:
+    resolution: {integrity: sha512-BwRvNd5/QoAtyW1na1y1LsJGQNvRlkde6Q/ipqqEaivoMdV+B1OMOTVdwR+N/cwVUcIt9PYyHmV8HyexCZSupg==}
 
   strtok3@10.3.4:
     resolution: {integrity: sha512-KIy5nylvC5le1OdaaoCJ07L+8iQzJHGH6pWDuzS+d07Cu7n1MZ2x26P8ZKIWfbK02+XIL8Mp4RkWeqdUCrDMfg==}
@@ -33029,6 +33033,9 @@ packages:
 
   text-decoder@1.2.3:
     resolution: {integrity: sha512-3/o9z3X0X0fTupwsYvR03pJ/DjWuqqrfwBgTQzdWDiQSm9KitAyz/9WqsT2JQW7KV2m+bC2ol/zqpW37NHxLaA==}
+
+  text-decoder@1.2.7:
+    resolution: {integrity: sha512-vlLytXkeP4xvEq2otHeJfSQIRyWxo/oZGEbXrtEEF9Hnmrdly59sUbzZ/QgyWuLYHctCHxFF4tRQZNQ9k60ExQ==}
 
   text-extensions@2.4.0:
     resolution: {integrity: sha512-te/NtwBwfiNRLf9Ijqx3T0nlqZiQ2XrrtBvu+cLL8ZRrGkO0NHTug8MYFKyoSrv/sHTaSKfilUkizV6XhxMJ3g==}
@@ -33603,14 +33610,6 @@ packages:
 
   unified@9.2.2:
     resolution: {integrity: sha512-Sg7j110mtefBD+qunSLO1lqOEKdrwBFBrR6Qd8f4uwkhWNlbkaqwHse6e7QvD3AP/MNoJdEDLaf8OxYyoWgorQ==}
-
-  unique-filename@5.0.0:
-    resolution: {integrity: sha512-2RaJTAvAb4owyjllTfXzFClJ7WsGxlykkPvCr9pA//LD9goVq+m4PPAeBgNodGZ7nSrntT/auWpJ6Y5IFXcfjg==}
-    engines: {node: ^20.17.0 || >=22.9.0}
-
-  unique-slug@6.0.0:
-    resolution: {integrity: sha512-4Lup7Ezn8W3d52/xBhZBVdx323ckxa7DEvd9kPQHppTkLoJXw6ltrBCyj5pnrxj0qKDxYMJ56CoxNuFCscdTiw==}
-    engines: {node: ^20.17.0 || >=22.9.0}
 
   unique-string@3.0.0:
     resolution: {integrity: sha512-VGXBUVwxKMBUznyffQweQABPRRW1vHZAbadFZud4pLFAqRGvv/96vafgjWFqzourzr8YonlQiPgH0YCJfawoGQ==}
@@ -36092,7 +36091,7 @@ snapshots:
 
   '@azure/core-xml@1.5.0':
     dependencies:
-      fast-xml-parser: 5.5.6
+      fast-xml-parser: 5.5.7
       tslib: 2.8.1
 
   '@azure/identity@3.4.2':
@@ -37527,7 +37526,7 @@ snapshots:
       tslib: 2.8.1
     optional: true
 
-  '@emnapi/core@1.9.0':
+  '@emnapi/core@1.9.1':
     dependencies:
       '@emnapi/wasi-threads': 1.2.0
       tslib: 2.8.1
@@ -37538,7 +37537,7 @@ snapshots:
       tslib: 2.8.1
     optional: true
 
-  '@emnapi/runtime@1.9.0':
+  '@emnapi/runtime@1.9.1':
     dependencies:
       tslib: 2.8.1
     optional: true
@@ -38100,9 +38099,7 @@ snapshots:
 
   '@floating-ui/utils@0.2.10': {}
 
-  '@gar/promise-retry@1.0.2':
-    dependencies:
-      retry: 0.13.1
+  '@gar/promise-retry@1.0.3': {}
 
   '@google-ai/generativelanguage@0.2.1(encoding@0.1.13)':
     dependencies:
@@ -38959,8 +38956,8 @@ snapshots:
 
   '@napi-rs/wasm-runtime@1.1.1':
     dependencies:
-      '@emnapi/core': 1.9.0
-      '@emnapi/runtime': 1.9.0
+      '@emnapi/core': 1.9.1
+      '@emnapi/runtime': 1.9.1
       '@tybys/wasm-util': 0.10.1
     optional: true
 
@@ -39443,7 +39440,7 @@ snapshots:
 
   '@npmcli/git@7.0.2':
     dependencies:
-      '@gar/promise-retry': 1.0.2
+      '@gar/promise-retry': 1.0.3
       '@npmcli/promise-spawn': 9.0.1
       ini: 6.0.0
       lru-cache: 11.2.7
@@ -40788,7 +40785,6 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
-      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.60)(rollup@4.53.2)':
     dependencies:
@@ -41905,22 +41901,22 @@ snapshots:
     dependencies:
       '@sigstore/protobuf-specs': 0.5.0
 
-  '@sigstore/core@3.1.0': {}
+  '@sigstore/core@3.2.0': {}
 
   '@sigstore/protobuf-specs@0.5.0': {}
 
-  '@sigstore/sign@4.1.0':
+  '@sigstore/sign@4.1.1':
     dependencies:
+      '@gar/promise-retry': 1.0.3
       '@sigstore/bundle': 4.0.0
-      '@sigstore/core': 3.1.0
+      '@sigstore/core': 3.2.0
       '@sigstore/protobuf-specs': 0.5.0
       make-fetch-happen: 15.0.5
       proc-log: 6.1.0
-      promise-retry: 2.0.1
     transitivePeerDependencies:
       - supports-color
 
-  '@sigstore/tuf@4.0.1':
+  '@sigstore/tuf@4.0.2':
     dependencies:
       '@sigstore/protobuf-specs': 0.5.0
       tuf-js: 4.1.0
@@ -41930,7 +41926,7 @@ snapshots:
   '@sigstore/verify@3.1.0':
     dependencies:
       '@sigstore/bundle': 4.0.0
-      '@sigstore/core': 3.1.0
+      '@sigstore/core': 3.2.0
       '@sigstore/protobuf-specs': 0.5.0
 
   '@sinclair/typebox@0.27.8': {}
@@ -44129,12 +44125,12 @@ snapshots:
       - react-native-b4a
     optional: true
 
-  bare-fs@4.5.5:
+  bare-fs@4.5.6:
     dependencies:
       bare-events: 2.8.2
       bare-path: 3.0.0
-      bare-stream: 2.8.1(bare-events@2.8.2)
-      bare-url: 2.3.2
+      bare-stream: 2.10.0(bare-events@2.8.2)
+      bare-url: 2.4.0
       fast-fifo: 1.3.2
     transitivePeerDependencies:
       - bare-abort-controller
@@ -44146,6 +44142,16 @@ snapshots:
     dependencies:
       bare-os: 3.6.2
 
+  bare-stream@2.10.0(bare-events@2.8.2):
+    dependencies:
+      streamx: 2.25.0
+      teex: 1.0.1
+    optionalDependencies:
+      bare-events: 2.8.2
+    transitivePeerDependencies:
+      - bare-abort-controller
+      - react-native-b4a
+
   bare-stream@2.7.0(bare-events@2.8.2):
     dependencies:
       streamx: 2.23.0
@@ -44156,17 +44162,12 @@ snapshots:
       - react-native-b4a
     optional: true
 
-  bare-stream@2.8.1(bare-events@2.8.2):
-    dependencies:
-      streamx: 2.23.0
-      teex: 1.0.1
-    optionalDependencies:
-      bare-events: 2.8.2
-    transitivePeerDependencies:
-      - bare-abort-controller
-      - react-native-b4a
-
   bare-url@2.3.2:
+    dependencies:
+      bare-path: 3.0.0
+    optional: true
+
+  bare-url@2.4.0:
     dependencies:
       bare-path: 3.0.0
 
@@ -44448,7 +44449,7 @@ snapshots:
 
   cac@6.7.14: {}
 
-  cacache@20.0.3:
+  cacache@20.0.4:
     dependencies:
       '@npmcli/fs': 5.0.0
       fs-minipass: 3.0.3
@@ -44460,7 +44461,6 @@ snapshots:
       minipass-pipeline: 1.2.4
       p-map: 7.0.4
       ssri: 13.0.1
-      unique-filename: 5.0.0
 
   cacheable-lookup@5.0.4: {}
 
@@ -46902,13 +46902,13 @@ snapshots:
 
   fast-xml-parser@5.2.5:
     dependencies:
-      strnum: 2.2.0
+      strnum: 2.2.1
 
-  fast-xml-parser@5.5.6:
+  fast-xml-parser@5.5.7:
     dependencies:
       fast-xml-builder: 1.1.4
       path-expression-matcher: 1.1.3
-      strnum: 2.2.0
+      strnum: 2.2.1
 
   fastest-levenshtein@1.0.16: {}
 
@@ -50351,10 +50351,10 @@ snapshots:
 
   make-fetch-happen@15.0.5:
     dependencies:
-      '@gar/promise-retry': 1.0.2
+      '@gar/promise-retry': 1.0.3
       '@npmcli/agent': 4.0.0
       '@npmcli/redact': 4.0.0
-      cacache: 20.0.3
+      cacache: 20.0.4
       http-cache-semantics: 4.2.0
       minipass: 7.1.3
       minipass-fetch: 5.0.2
@@ -54147,10 +54147,10 @@ snapshots:
   sigstore@4.1.0:
     dependencies:
       '@sigstore/bundle': 4.0.0
-      '@sigstore/core': 3.1.0
+      '@sigstore/core': 3.2.0
       '@sigstore/protobuf-specs': 0.5.0
-      '@sigstore/sign': 4.1.0
-      '@sigstore/tuf': 4.0.1
+      '@sigstore/sign': 4.1.1
+      '@sigstore/tuf': 4.0.2
       '@sigstore/verify': 3.1.0
     transitivePeerDependencies:
       - supports-color
@@ -54481,6 +54481,15 @@ snapshots:
       - bare-abort-controller
       - react-native-b4a
 
+  streamx@2.25.0:
+    dependencies:
+      events-universal: 1.0.1
+      fast-fifo: 1.3.2
+      text-decoder: 1.2.7
+    transitivePeerDependencies:
+      - bare-abort-controller
+      - react-native-b4a
+
   strict-uri-encode@2.0.0: {}
 
   string-argv@0.3.2: {}
@@ -54622,7 +54631,7 @@ snapshots:
 
   strnum@1.1.2: {}
 
-  strnum@2.2.0: {}
+  strnum@2.2.1: {}
 
   strtok3@10.3.4:
     dependencies:
@@ -54902,9 +54911,9 @@ snapshots:
   tar-stream@3.1.8:
     dependencies:
       b4a: 1.8.0
-      bare-fs: 4.5.5
+      bare-fs: 4.5.6
       fast-fifo: 1.3.2
-      streamx: 2.23.0
+      streamx: 2.25.0
     transitivePeerDependencies:
       - bare-abort-controller
       - bare-buffer
@@ -54968,7 +54977,7 @@ snapshots:
 
   teex@1.0.1:
     dependencies:
-      streamx: 2.23.0
+      streamx: 2.25.0
     transitivePeerDependencies:
       - bare-abort-controller
       - react-native-b4a
@@ -54996,6 +55005,12 @@ snapshots:
       minimatch: 3.1.5
 
   text-decoder@1.2.3:
+    dependencies:
+      b4a: 1.8.0
+    transitivePeerDependencies:
+      - react-native-b4a
+
+  text-decoder@1.2.7:
     dependencies:
       b4a: 1.8.0
     transitivePeerDependencies:
@@ -55661,14 +55676,6 @@ snapshots:
       is-plain-obj: 2.1.0
       trough: 1.0.5
       vfile: 4.2.1
-
-  unique-filename@5.0.0:
-    dependencies:
-      unique-slug: 6.0.0
-
-  unique-slug@6.0.0:
-    dependencies:
-      imurmurhash: 0.1.4
 
   unique-string@3.0.0:
     dependencies:
