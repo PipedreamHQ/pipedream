@@ -4,7 +4,7 @@ import { defineAction } from "@pipedream/types";
 export default defineAction({
   name: "Retrieve Contact Model",
   description:
-    "Retrieve the custom fields model for contacts to discover available custom field IDs and types. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Contact)",
+    "Retrieve the custom fields model for contacts to discover available custom field IDs and types. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Contact/operation/retrieveContactModel)",
   key: "infusionsoft-retrieve-contact-model",
   version: "0.0.1",
   annotations: {

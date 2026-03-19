@@ -4,7 +4,7 @@ import { defineAction } from "@pipedream/types";
 export default defineAction({
   name: "Set Opportunity Stage",
   description:
-    "Set the stage of an opportunity in Keap CRM. [See the documentation](https://developer.infusionsoft.com/docs/rest/#tag/Opportunity)",
+    "Set the stage of an opportunity in Keap CRM. [See the documentation](https://developer.infusionsoft.com/docs/rest/#tag/Opportunity/operation/updatePropertiesOnOpportunity)",
   key: "infusionsoft-set-opportunity-stage",
   version: "0.0.1",
   annotations: {

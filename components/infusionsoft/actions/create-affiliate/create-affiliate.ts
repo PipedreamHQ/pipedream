@@ -5,7 +5,7 @@ import { CreateAffiliateParams } from "../../types/requestParams";
 export default defineAction({
   name: "Create Affiliate",
   description:
-    "Create a new affiliate in Keap CRM. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Affiliate)",
+    "Create a new affiliate in Keap CRM. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Affiliate/operation/addAffiliate)",
   key: "infusionsoft-create-affiliate",
   version: "0.0.1",
   annotations: {

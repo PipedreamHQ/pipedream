@@ -4,7 +4,7 @@ import { defineAction } from "@pipedream/types";
 export default defineAction({
   name: "List Companies",
   description:
-    "Search for and list all the companies that match by filters. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Company)",
+    "Search for and list all the companies that match by filters. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Company/operation/listCompanies)",
   key: "infusionsoft-list-companies",
   version: "0.0.1",
   annotations: {

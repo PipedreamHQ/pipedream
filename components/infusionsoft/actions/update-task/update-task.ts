@@ -5,7 +5,7 @@ import { UpdateTaskParams } from "../../types/requestParams";
 export default defineAction({
   name: "Update Task",
   description:
-    "Update an existing task in Keap CRM. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Task)",
+    "Update an existing task in Keap CRM. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Task/operation/updateTask)",
   key: "infusionsoft-update-task",
   version: "0.0.1",
   annotations: {

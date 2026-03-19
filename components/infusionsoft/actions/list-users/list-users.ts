@@ -4,7 +4,7 @@ import { defineAction } from "@pipedream/types";
 export default defineAction({
   name: "List Users",
   description:
-    "List users in Keap CRM with optional filtering. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/User)",
+    "List users in Keap CRM with optional filtering. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Users/operation/listPaginatedUsers)",
   key: "infusionsoft-list-users",
   version: "0.0.1",
   annotations: {

@@ -5,7 +5,7 @@ import { CreateOpportunityStageParams } from "../../types/requestParams";
 export default defineAction({
   name: "Create Opportunity Stage",
   description:
-    "Create a new opportunity stage in Keap CRM. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Opportunity-Stage)",
+    "Create a new opportunity stage in Keap CRM. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Opportunity/operation/createOpportunityStage)",
   key: "infusionsoft-create-opportunity-stage",
   version: "0.0.1",
   annotations: {

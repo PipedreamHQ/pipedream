@@ -5,7 +5,7 @@ import { CreateContactNoteParams } from "../../types/requestParams";
 export default defineAction({
   name: "Create Contact Note",
   description:
-    "Create a new note for a contact in Keap CRM. [See the documentation](https://developer.infusionsoft.com/docs/rest/#tag/Note)",
+    "Create a new note for a contact in Keap CRM. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Note/operation/createNote)",
   key: "infusionsoft-create-contact-note",
   version: "0.0.1",
   annotations: {

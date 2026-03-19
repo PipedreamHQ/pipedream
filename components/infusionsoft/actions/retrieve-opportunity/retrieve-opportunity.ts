@@ -4,7 +4,7 @@ import { defineAction } from "@pipedream/types";
 export default defineAction({
   name: "Retrieve Opportunity",
   description:
-    "Retrieve a single opportunity by ID. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Opportunity)",
+    "Retrieve a single opportunity by ID. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Opportunity/operation/getOpportunity)",
   key: "infusionsoft-retrieve-opportunity",
   version: "0.0.1",
   annotations: {

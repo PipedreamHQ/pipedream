@@ -5,7 +5,7 @@ import { SendEmailParams } from "../../types/requestParams";
 export default defineAction({
   name: "Send Email",
   description:
-    "Send an email to one or more contacts in Keap CRM. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Email)",
+    "Send an email to one or more contacts in Keap CRM. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Email/operation/sendEmail)",
   key: "infusionsoft-send-email",
   version: "0.0.1",
   annotations: {

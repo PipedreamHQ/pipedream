@@ -5,7 +5,7 @@ import { UpdateOpportunityParams } from "../../types/requestParams";
 export default defineAction({
   name: "Update Opportunity",
   description:
-    "Update an existing opportunity in Keap CRM. [See the documentation](https://developer.infusionsoft.com/docs/rest/#tag/Opportunity)",
+    "Update an existing opportunity in Keap CRM. [See the documentation](https://developer.infusionsoft.com/docs/rest/#tag/Opportunity/operation/updatePropertiesOnOpportunity)",
   key: "infusionsoft-update-opportunity",
   version: "0.0.1",
   annotations: {

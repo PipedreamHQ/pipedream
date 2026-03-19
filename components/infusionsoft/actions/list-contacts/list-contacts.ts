@@ -4,7 +4,7 @@ import { defineAction } from "@pipedream/types";
 export default defineAction({
   name: "List Contacts",
   description:
-    "Search for and list all the contacts that match by filters. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Contact)",
+    "Search for and list all the contacts that match by filters. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Contact/operation/listContacts)",
   key: "infusionsoft-list-contacts",
   version: "0.0.1",
   annotations: {

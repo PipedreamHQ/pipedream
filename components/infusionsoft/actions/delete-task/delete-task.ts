@@ -5,7 +5,7 @@ import { DeleteTaskParams } from "../../types/requestParams";
 export default defineAction({
   name: "Delete Task",
   description:
-    "Delete a single task by ID. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Task)",
+    "Delete a single task by ID. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Task/operation/deleteTask)",
   key: "infusionsoft-delete-task",
   version: "0.0.1",
   annotations: {

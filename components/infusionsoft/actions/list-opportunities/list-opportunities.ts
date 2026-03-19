@@ -4,7 +4,7 @@ import { defineAction } from "@pipedream/types";
 export default defineAction({
   name: "List Opportunities",
   description:
-    "List opportunities with optional filters. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Opportunity)",
+    "List opportunities with optional filters. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Opportunity/operation/listOpportunities)",
   key: "infusionsoft-list-opportunities",
   version: "0.0.1",
   annotations: {

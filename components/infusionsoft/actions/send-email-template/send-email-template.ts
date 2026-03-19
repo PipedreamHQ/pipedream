@@ -5,7 +5,7 @@ import { SendEmailTemplateParams } from "../../types/requestParams";
 export default defineAction({
   name: "Send Email Template",
   description:
-    "Send an email template to one or more contacts in Keap CRM. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Email)",
+    "Send an email template to one or more contacts in Keap CRM. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Email/operation/sendEmailTemplate)",
   key: "infusionsoft-send-email-template",
   version: "0.0.1",
   annotations: {

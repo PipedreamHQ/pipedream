@@ -4,7 +4,7 @@ import { defineAction } from "@pipedream/types";
 export default defineAction({
   name: "List Opportunity Stages",
   description:
-    "List opportunity stages in Keap CRM with optional filtering. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Opportunity-Stage)",
+    "List opportunity stages in Keap CRM with optional filtering. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Opportunity/operation/listOpportunityStages)",
   key: "infusionsoft-list-opportunity-stages",
   version: "0.0.1",
   annotations: {

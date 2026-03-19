@@ -4,7 +4,7 @@ import { defineAction } from "@pipedream/types";
 export default defineAction({
   name: "List Tasks",
   description:
-    "Retrieves a list of tasks based on the provided filter. Tasks which are not assigned may be queried with user_id==UNASSIGNED. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Task)",
+    "Retrieves a list of tasks based on the provided filter. Tasks which are not assigned may be queried with user_id==UNASSIGNED. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Task/operation/listTasks)",
   key: "infusionsoft-list-tasks",
   version: "0.0.1",
   annotations: {

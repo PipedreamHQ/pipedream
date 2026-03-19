@@ -4,7 +4,7 @@ import { defineAction } from "@pipedream/types";
 export default defineAction({
   name: "Retrieve User",
   description:
-    "Retrieve a single user by ID from Keap CRM. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/User)",
+    "Retrieve a single user by ID from Keap CRM. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Users/operation/getUserById)",
   key: "infusionsoft-retrieve-user",
   version: "0.0.1",
   annotations: {

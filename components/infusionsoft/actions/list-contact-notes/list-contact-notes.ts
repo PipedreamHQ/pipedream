@@ -4,7 +4,7 @@ import { defineAction } from "@pipedream/types";
 export default defineAction({
   name: "List Contact Notes",
   description:
-    "List notes for a contact in Keap CRM. [See the documentation](https://developer.infusionsoft.com/docs/rest/#tag/Note)",
+    "List notes for a contact in Keap CRM. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Note/operation/listNotes)",
   key: "infusionsoft-list-contact-notes",
   version: "0.0.1",
   annotations: {

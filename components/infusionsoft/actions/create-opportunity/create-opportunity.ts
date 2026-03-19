@@ -5,7 +5,7 @@ import { CreateOpportunityParams } from "../../types/requestParams";
 export default defineAction({
   name: "Create Opportunity",
   description:
-    "Create a new opportunity in Keap CRM. [See the documentation](https://developer.infusionsoft.com/docs/rest/#tag/Opportunity)",
+    "Create a new opportunity in Keap CRM. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Opportunity/operation/createOpportunity)",
   key: "infusionsoft-create-opportunity",
   version: "0.0.1",
   annotations: {

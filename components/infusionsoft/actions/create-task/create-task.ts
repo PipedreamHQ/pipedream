@@ -5,7 +5,7 @@ import { CreateTaskParams } from "../../types/requestParams";
 export default defineAction({
   name: "Create Task",
   description:
-    "Create a new task in Keap CRM. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Task)",
+    "Create a new task in Keap CRM. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Task/operation/createTask)",
   key: "infusionsoft-create-task",
   version: "0.0.1",
   annotations: {

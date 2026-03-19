@@ -4,7 +4,7 @@ import { defineAction } from "@pipedream/types";
 export default defineAction({
   name: "List Affiliates",
   description:
-    "List affiliates with optional filters in Keap CRM. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Affiliate)",
+    "List affiliates with optional filters in Keap CRM. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Affiliate/operation/listAffiliate)",
   key: "infusionsoft-list-affiliates",
   version: "0.0.1",
   annotations: {

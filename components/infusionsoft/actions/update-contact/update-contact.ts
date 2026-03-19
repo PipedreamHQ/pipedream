@@ -5,7 +5,7 @@ import { UpdateContactParams } from "../../types/requestParams";
 export default defineAction({
   name: "Update Contact",
   description:
-    "Update an existing contact in Keap CRM. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Contact)",
+    "Update an existing contact in Keap CRM. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Contact/operation/updateContact)",
   key: "infusionsoft-update-contact",
   version: "0.0.1",
   annotations: {

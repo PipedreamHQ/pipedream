@@ -4,7 +4,7 @@ import { defineAction } from "@pipedream/types";
 export default defineAction({
   name: "Retrieve Opportunity Custom Fields Model",
   description:
-    "Retrieve the custom fields model for opportunities. [See the documentation](https://developer.infusionsoft.com/docs/rest/#tag/Opportunity)",
+    "Retrieve the custom fields model for opportunities. [See the documentation](https://developer.infusionsoft.com/docs/rest/#tag/Opportunity/operation/retrieveOpportunityModel)",
   key: "infusionsoft-retrieve-opportunity-custom-fields-model",
   version: "0.0.1",
   annotations: {

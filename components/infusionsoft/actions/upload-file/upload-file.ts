@@ -5,7 +5,7 @@ import { UploadFileParams } from "../../types/requestParams";
 export default defineAction({
   name: "Upload File",
   description:
-    "Upload a file to Keap CRM. [See the documentation](https://developer.infusionsoft.com/docs/rest/#tag/File)",
+    "Upload a file to Keap CRM. [See the documentation](https://developer.infusionsoft.com/docs/rest/#tag/File/operation/createFile)",
   key: "infusionsoft-upload-file",
   version: "0.0.1",
   annotations: {
