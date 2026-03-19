@@ -4167,6 +4167,9 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/dhl_parcel:
+    specifiers: {}
+
   components/diabatix_coldstream:
     dependencies:
       '@pipedream/platform':
