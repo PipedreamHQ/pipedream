@@ -335,10 +335,9 @@ export default defineApp({
     }: ApplyTagToContactsParams): Promise<object> {
       return this._httpRequest({
         $,
-        url: `${this._baseUrlV2()}/tags/contacts`,
+        url: `${this._baseUrlV2()}/tags/${parseInt(tagId, 10)}/contacts:applyTags`,
         method: "POST",
         data: {
-          tag_ids: [parseInt(tagId, 10)],
           contact_ids: contactIds.map((id) => parseInt(id, 10)),
         },
       });
