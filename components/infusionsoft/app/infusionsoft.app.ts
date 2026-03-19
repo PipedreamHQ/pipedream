@@ -240,8 +240,10 @@ export default defineApp({
           if (Array.isArray(parsed)) {
             body.custom_fields = parsed;
           }
-        } catch {
-          // Skip invalid custom_fields JSON
+        } catch (e) {
+          throw new Error(`Invalid customFields JSON: ${e instanceof Error
+            ? e.message
+            : String(e)}`);
         }
       }
 
@@ -302,8 +304,10 @@ export default defineApp({
           if (Array.isArray(parsed)) {
             body.custom_fields = parsed;
           }
-        } catch {
-          // Skip invalid custom_fields JSON
+        } catch (e) {
+          throw new Error(`Invalid customFields JSON: ${e instanceof Error
+            ? e.message
+            : String(e)}`);
         }
       }
 
@@ -356,27 +360,39 @@ export default defineApp({
       sequenceId,
       contactIds,
     }: AddContactToAutomationParams): Promise<object> {
-      const results = [];
       const body: Record<string, number> = {
         sequence_id: parseInt(sequenceId, 10),
       };
       if (automationId) {
         body.campaign_id = parseInt(automationId, 10);
       }
-      for (const contactId of contactIds) {
-        const result = await this._httpRequest({
-          $,
-          endpoint: `/contacts/${contactId}/sequences`,
-          method: "POST",
-          data: body,
-        });
-        results.push({
-          contactId,
-          ...result,
-        });
-      }
+      const data = await Promise.all(
+        contactIds.map(async (contactId) => {
+          try {
+            const result = await this._httpRequest({
+              $,
+              endpoint: `/contacts/${contactId}/sequences`,
+              method: "POST",
+              data: body,
+            });
+            return {
+              contactId,
+              status: "success" as const,
+              ...result,
+            };
+          } catch (err) {
+            return {
+              contactId,
+              status: "failed" as const,
+              error: err instanceof Error
+                ? err.message
+                : String(err),
+            };
+          }
+        }),
+      );
       return {
-        data: results,
+        data,
       };
     },
     async createContactNote({
@@ -416,16 +432,29 @@ export default defineApp({
       includeInForecast,
       customFields,
     }: CreateOpportunityParams): Promise<object> {
+      const contactIdNum = parseInt(String(contactId), 10);
+      const stageIdNum = parseInt(String(stageId), 10);
+      const userIdNum = parseInt(String(userId), 10);
+      if (!Number.isFinite(contactIdNum) || contactIdNum < 1) {
+        throw new Error("Contact ID must be a valid positive number");
+      }
+      if (!Number.isFinite(stageIdNum) || stageIdNum < 1) {
+        throw new Error("Stage ID must be a valid positive number");
+      }
+      if (!Number.isFinite(userIdNum) || userIdNum < 1) {
+        throw new Error("User ID must be a valid positive number");
+      }
+
       const body: Record<string, unknown> = {
         opportunity_title: opportunityTitle.trim(),
         contact: {
-          id: parseInt(contactId, 10),
+          id: contactIdNum,
         },
         stage: {
-          id: parseInt(stageId, 10),
+          id: stageIdNum,
         },
         user: {
-          id: parseInt(userId, 10),
+          id: userIdNum,
         },
         affiliate_id: "",
       };
@@ -462,8 +491,10 @@ export default defineApp({
               })
               .filter(Boolean);
           }
-        } catch {
-          // Skip invalid JSON
+        } catch (e) {
+          throw new Error(`Invalid customFields JSON: ${e instanceof Error
+            ? e.message
+            : String(e)}`);
         }
       }
       return this._httpRequest({
@@ -481,11 +512,20 @@ export default defineApp({
       targetNumberDays,
       checklistItems,
     }: CreateOpportunityStageParams): Promise<object> {
+      const orderNum = parseInt(String(order), 10);
+      const probabilityNum = parseInt(String(probability), 10);
+      const targetDaysNum = parseInt(String(targetNumberDays), 10);
+      if (!Number.isFinite(orderNum)) throw new Error("Order must be a valid number");
+      if (!Number.isFinite(probabilityNum) || probabilityNum < 0 || probabilityNum > 100) {
+        throw new Error("Probability must be a number between 0 and 100");
+      }
+      if (!Number.isFinite(targetDaysNum)) throw new Error("Target number of days must be a valid number");
+
       const body: Record<string, unknown> = {
         name: name.trim(),
-        order: parseInt(order, 10),
-        probability: parseInt(probability, 10),
-        target_number_days: parseInt(targetNumberDays, 10),
+        order: orderNum,
+        probability: probabilityNum,
+        target_number_days: targetDaysNum,
       };
       if (checklistItems?.trim()) {
         try {
@@ -497,8 +537,10 @@ export default defineApp({
               required: Boolean(item.required),
             }));
           }
-        } catch {
-          // Skip invalid JSON
+        } catch (e) {
+          throw new Error(`Invalid checklistItems JSON: ${e instanceof Error
+            ? e.message
+            : String(e)}`);
         }
       }
       return this._httpRequest({
@@ -580,7 +622,7 @@ export default defineApp({
       if (contactId?.trim()) filters.push(`contact_id==${contactId.trim()}`);
       if (status?.trim()) filters.push(`status==${status.trim().toUpperCase()}`);
       if (code?.trim()) filters.push(`code==${code.trim()}`);
-      if (filters.length > 0) params.filter = filters;
+      if (filters.length > 0) params.filter = filters.join(";");
       if (orderBy?.trim()) params.order_by = orderBy.trim();
       const size = parseInt(String(pageSize || "").trim(), 10);
       if (!isNaN(size) && size >= 1 && size <= 1000) params.page_size = size;
@@ -920,8 +962,10 @@ export default defineApp({
         try {
           const parsed = JSON.parse(attachments);
           if (Array.isArray(parsed)) body.attachments = parsed;
-        } catch {
-          // Skip invalid JSON
+        } catch (e) {
+          throw new Error(`Invalid attachments JSON: ${e instanceof Error
+            ? e.message
+            : String(e)}`);
         }
       }
       return this._httpRequest({
@@ -1009,8 +1053,10 @@ export default defineApp({
         try {
           const parsed = JSON.parse(customFields);
           if (Array.isArray(parsed)) body.custom_fields = parsed;
-        } catch {
-          // Skip invalid JSON
+        } catch (e) {
+          throw new Error(`Invalid customFields JSON: ${e instanceof Error
+            ? e.message
+            : String(e)}`);
         }
       }
       return this._httpRequest({
@@ -1089,8 +1135,10 @@ export default defineApp({
               })
               .filter(Boolean);
           }
-        } catch {
-          // Skip invalid JSON
+        } catch (e) {
+          throw new Error(`Invalid customFields JSON: ${e instanceof Error
+            ? e.message
+            : String(e)}`);
         }
       }
       return this._httpRequest({
@@ -1156,7 +1204,7 @@ export default defineApp({
       if (fileData.startsWith("data:")) {
         const commaIdx = fileData.indexOf(",");
         if (commaIdx > 0) base64Data = fileData.substring(commaIdx + 1);
-      } else if (!/^[A-Za-z0-9+/]+=*$/.test(fileData.replace(/[\r\n\s]/g, ""))) {
+      } else {
         base64Data = Buffer.from(fileData, "utf-8").toString("base64");
       }
       const body: Record<string, unknown> = {

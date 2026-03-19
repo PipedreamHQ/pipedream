@@ -56,7 +56,9 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
-    const validContactIds = this.contactIds.filter((id) => typeof id === "string" && String(id).trim());
+    const validContactIds = this.contactIds
+      .filter((id) => String(id ?? "").trim())
+      .map((id) => String(id).trim());
     if (validContactIds.length === 0) {
       throw new Error("At least one valid contact ID is required");
     }

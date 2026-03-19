@@ -140,9 +140,12 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
-    const params: UpdateTaskParams = {
-      $,
-      taskId: this.taskId,
+    const taskId = String(this.taskId ?? "").trim();
+    if (!taskId) {
+      throw new Error("Task ID is required");
+    }
+
+    const mutableFields = {
       assignedToUserId: this.assignedToUserId,
       title: this.title,
       contactId: this.contactId,
@@ -154,10 +157,20 @@ export default defineAction({
       completionTime: this.completionTime,
       remindTimeMins: this.remindTimeMins,
     };
+    const hasMutable = Object.values(mutableFields).some((v) => v != null && (typeof v === "boolean" || String(v).trim() !== ""));
+    if (!hasMutable) {
+      throw new Error("At least one field to update is required (assignedToUserId, title, contactId, description, dueTime, priority, type, completed, completionTime, or remindTimeMins)");
+    }
+
+    const params: UpdateTaskParams = {
+      $,
+      taskId,
+      ...mutableFields,
+    };
 
     const result = await this.infusionsoft.updateTask(params);
 
-    $.export("$summary", `Successfully updated task ${this.taskId}`);
+    $.export("$summary", `Successfully updated task ${taskId}`);
 
     return result;
   },

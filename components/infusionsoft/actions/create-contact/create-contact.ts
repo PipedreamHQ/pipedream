@@ -81,14 +81,20 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
+    const companyName = this.companyName?.trim();
+    const companyId = this.companyId?.trim();
+    if (companyName && companyId) {
+      throw new Error("Provide either Company Name or Company ID, not both");
+    }
+
     const params: CreateContactParams = {
       $,
       givenName: this.givenName,
       familyName: this.familyName,
       email: this.email,
       phoneNumber: this.phoneNumber,
-      companyName: this.companyName,
-      companyId: this.companyId,
+      companyName: companyName || undefined,
+      companyId: companyId || undefined,
       jobTitle: this.jobTitle,
       ownerId: this.ownerId,
       leadsourceId: this.leadsourceId,

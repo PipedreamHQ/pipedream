@@ -98,7 +98,9 @@ export default defineAction({
     });
 
     const count = (result as { opportunities?: unknown[] }).opportunities?.length ?? 0;
-    $.export("$summary", `Retrieved ${count} opportunit(ies)`);
+    $.export("$summary", `Retrieved ${count} ${count === 1
+      ? "opportunity"
+      : "opportunities"}`);
 
     return result;
   },

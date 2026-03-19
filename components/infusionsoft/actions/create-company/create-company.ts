@@ -103,9 +103,14 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
+    const companyName = (this.companyName ?? "").trim();
+    if (!companyName) {
+      throw new Error("Company name is required");
+    }
+
     const params: CreateCompanyParams = {
       $,
-      companyName: this.companyName,
+      companyName,
       email: this.email,
       phoneNumber: this.phoneNumber,
       website: this.website,
@@ -125,7 +130,7 @@ export default defineAction({
 
     $.export(
       "$summary",
-      `Successfully created company "${this.companyName}"`,
+      `Successfully created company "${companyName}"`,
     );
 
     return result;

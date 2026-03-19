@@ -24,14 +24,19 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
+    const taskId = String(this.taskId ?? "").trim();
+    if (!taskId) {
+      throw new Error("Task ID is required");
+    }
+
     const params: DeleteTaskParams = {
       $,
-      taskId: this.taskId,
+      taskId,
     };
 
     const result = await this.infusionsoft.deleteTask(params);
 
-    $.export("$summary", `Successfully deleted task ${this.taskId}`);
+    $.export("$summary", `Successfully deleted task ${taskId}`);
 
     return result;
   },

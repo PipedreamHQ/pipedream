@@ -30,13 +30,21 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
+    const opportunityId = String(this.opportunityId ?? "").trim();
+    if (!opportunityId) {
+      throw new Error("Opportunity ID is required");
+    }
+    const fields = this.fields?.split(",").map((f) => f.trim())
+      .filter(Boolean)
+      .join(",");
+
     const result = await this.infusionsoft.retrieveOpportunity({
       $,
-      opportunityId: this.opportunityId,
-      fields: this.fields,
+      opportunityId,
+      fields: fields || undefined,
     });
 
-    $.export("$summary", `Successfully retrieved opportunity ${this.opportunityId}`);
+    $.export("$summary", `Successfully retrieved opportunity ${opportunityId}`);
 
     return result;
   },

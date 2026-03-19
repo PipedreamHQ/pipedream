@@ -23,12 +23,17 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
+    const taskId = String(this.taskId ?? "").trim();
+    if (!taskId) {
+      throw new Error("Task ID is required");
+    }
+
     const result = await this.infusionsoft.retrieveTask({
       $,
-      taskId: this.taskId,
+      taskId,
     });
 
-    $.export("$summary", `Successfully retrieved task ${this.taskId}`);
+    $.export("$summary", `Successfully retrieved task ${taskId}`);
 
     return result;
   },

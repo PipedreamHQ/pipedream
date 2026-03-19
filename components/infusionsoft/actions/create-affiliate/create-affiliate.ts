@@ -65,9 +65,13 @@ export default defineAction({
       );
     }
 
-    const contactId = String(this.contactId).trim();
+    const contactId = String(this.contactId ?? "").trim();
     if (!contactId) {
       throw new Error("Contact ID is required");
+    }
+    const contactIdNum = parseInt(contactId, 10);
+    if (!Number.isFinite(contactIdNum) || contactIdNum < 1) {
+      throw new Error("Contact ID must be a positive number");
     }
 
     const affiliateStatus = String(this.status).trim()
@@ -82,7 +86,7 @@ export default defineAction({
     const params: CreateAffiliateParams = {
       $,
       code: affiliateCode,
-      contactId,
+      contactId: String(contactIdNum),
       status: affiliateStatus,
       name: this.name,
     };

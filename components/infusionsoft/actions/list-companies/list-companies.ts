@@ -112,7 +112,9 @@ export default defineAction({
     });
 
     const count = (result as { companies?: unknown[] }).companies?.length ?? 0;
-    $.export("$summary", `Retrieved ${count} compan(ies)`);
+    $.export("$summary", `Retrieved ${count} ${count === 1
+      ? "company"
+      : "companies"}`);
 
     return result;
   },

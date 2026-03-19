@@ -30,7 +30,7 @@ export default defineAction({
     userIds: {
       type: "string",
       label: "User IDs",
-      description: "Filter by specific user IDs (semicolon-separated).",
+      description: "Filter by specific user IDs (comma-separated).",
       optional: true,
     },
     includeInactive: {
@@ -85,11 +85,12 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
+    const userIds = this.userIds?.replace(/;/g, ",") ?? undefined;
     const result = await this.infusionsoft.listUsers({
       $,
       email: this.email,
       givenName: this.givenName,
-      userIds: this.userIds,
+      userIds,
       includeInactive: this.includeInactive,
       includePartners: this.includePartners,
       orderBy: this.orderBy,

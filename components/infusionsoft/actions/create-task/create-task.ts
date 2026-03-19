@@ -135,6 +135,10 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
+    if (this.completionTime?.trim() && this.completed !== true) {
+      throw new Error("completionTime is only allowed when completed is true");
+    }
+
     const params: CreateTaskParams = {
       $,
       assignedToUserId: this.assignedToUserId,

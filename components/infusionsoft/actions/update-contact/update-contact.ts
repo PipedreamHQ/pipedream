@@ -79,9 +79,12 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
-    const params: UpdateContactParams = {
-      $,
-      contactId: this.contactId,
+    const contactId = String(this.contactId ?? "").trim();
+    if (!contactId) {
+      throw new Error("Contact ID is required");
+    }
+
+    const mutableFields = {
       givenName: this.givenName,
       familyName: this.familyName,
       email: this.email,
@@ -92,10 +95,20 @@ export default defineAction({
       leadsourceId: this.leadsourceId,
       customFields: this.customFields,
     };
+    const hasMutable = Object.values(mutableFields).some((v) => v != null && String(v).trim() !== "");
+    if (!hasMutable) {
+      throw new Error("At least one field to update is required (givenName, familyName, email, phoneNumber, companyName, jobTitle, ownerId, leadsourceId, or customFields)");
+    }
+
+    const params: UpdateContactParams = {
+      $,
+      contactId,
+      ...mutableFields,
+    };
 
     const result = await this.infusionsoft.updateContact(params);
 
-    $.export("$summary", `Successfully updated contact ${this.contactId}`);
+    $.export("$summary", `Successfully updated contact ${contactId}`);
 
     return result;
   },
