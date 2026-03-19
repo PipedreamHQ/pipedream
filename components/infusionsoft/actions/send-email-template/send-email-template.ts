@@ -19,25 +19,25 @@ export default defineAction({
     templateId: {
       type: "string",
       label: "Template ID",
-      description: "The ID of the email template to send.",
+      description: "The ID of the email template to send",
       optional: false,
     },
     userId: {
       type: "string",
       label: "Sender User ID",
-      description: "The ID of the Keap user to send the email on behalf of.",
+      description: "The ID of the Keap user to send the email on behalf of",
       optional: false,
     },
     contactIds: {
       type: "string[]",
       label: "Contact IDs",
-      description: "List of contact IDs to send the email template to.",
+      description: "List of contact IDs to send the email template to",
       optional: false,
     },
     addressField: {
       type: "string",
       label: "Address Field",
-      description: "Email field of each Contact to address the email to.",
+      description: "Email field of each Contact to address the email to",
       optional: true,
       options: [
         {

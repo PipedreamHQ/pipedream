@@ -19,13 +19,13 @@ export default defineAction({
     tagId: {
       type: "string",
       label: "Tag ID",
-      description: "The ID of the tag to apply.",
+      description: "The ID of the tag to apply",
       optional: false,
     },
     contactIds: {
       type: "string[]",
       label: "Contact IDs",
-      description: "List of contact IDs to apply the tag to.",
+      description: "List of contact IDs to apply the tag to",
       optional: false,
     },
   },

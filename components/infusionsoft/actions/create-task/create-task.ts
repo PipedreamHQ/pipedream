@@ -19,37 +19,37 @@ export default defineAction({
     assignedToUserId: {
       type: "string",
       label: "Assigned To User ID",
-      description: "The ID of the Keap user the task is assigned to.",
+      description: "The ID of the Keap user the task is assigned to",
       optional: false,
     },
     title: {
       type: "string",
       label: "Title",
-      description: "The title of the task.",
+      description: "The title of the task",
       optional: true,
     },
     contactId: {
       type: "string",
       label: "Contact ID",
-      description: "The ID of the contact associated with this task.",
+      description: "The ID of the contact associated with this task",
       optional: true,
     },
     description: {
       type: "string",
       label: "Description",
-      description: "A detailed description of the task.",
+      description: "A detailed description of the task",
       optional: true,
     },
     dueTime: {
       type: "string",
       label: "Due Time",
-      description: "The due date/time for the task in ISO 8601 format.",
+      description: "The due date/time for the task in ISO 8601 format",
       optional: true,
     },
     priority: {
       type: "string",
       label: "Priority",
-      description: "The priority level of the task.",
+      description: "The priority level of the task",
       optional: true,
       options: [
         {
@@ -69,26 +69,26 @@ export default defineAction({
     type: {
       type: "string",
       label: "Task Type",
-      description: "The type of task (e.g., Call, Email, Appointment).",
+      description: "The type of task (e.g., Call, Email, Appointment)",
       optional: true,
     },
     completed: {
       type: "boolean",
       label: "Completed",
-      description: "Whether the task is already completed.",
+      description: "Whether the task is already completed",
       optional: true,
       default: false,
     },
     completionTime: {
       type: "string",
       label: "Completion Time",
-      description: "The completion date/time in ISO 8601 format (if completed).",
+      description: "The completion date/time in ISO 8601 format (if completed)",
       optional: true,
     },
     remindTimeMins: {
       type: "string",
       label: "Reminder Time (Minutes)",
-      description: "Minutes before the task due time to show a reminder.",
+      description: "Minutes before the task due time to show a reminder",
       optional: true,
       options: [
         {

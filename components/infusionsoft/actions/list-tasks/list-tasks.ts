@@ -25,19 +25,19 @@ export default defineAction({
     orderBy: {
       type: "string",
       label: "Order By",
-      description: "Attribute and direction (e.g., due_time desc). Fields: id, create_time, due_time.",
+      description: "Attribute and direction (e.g., due_time desc). Fields: id, create_time, due_time",
       optional: true,
     },
     pageSize: {
       type: "string",
       label: "Page Size",
-      description: "Number of items per page (10-1000). Values below 10 are increased to 10.",
+      description: "Number of items per page (10-1000). Values below 10 are increased to 10",
       optional: true,
     },
     pageToken: {
       type: "string",
       label: "Page Token",
-      description: "Page token for pagination.",
+      description: "Page token for pagination",
       optional: true,
     },
   },

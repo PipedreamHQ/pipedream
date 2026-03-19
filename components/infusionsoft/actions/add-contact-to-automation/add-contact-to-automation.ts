@@ -19,19 +19,19 @@ export default defineAction({
     automationId: {
       type: "string",
       label: "Automation ID",
-      description: "The ID of the automation (campaign) in Keap.",
+      description: "The ID of the automation (campaign) in Keap",
       optional: false,
     },
     sequenceId: {
       type: "string",
       label: "Sequence ID",
-      description: "The ID of the sequence within the automation.",
+      description: "The ID of the sequence within the automation",
       optional: false,
     },
     contactIds: {
       type: "string[]",
       label: "Contact IDs",
-      description: "List of contact IDs to add to the automation sequence.",
+      description: "List of contact IDs to add to the automation sequence",
       optional: false,
     },
   },

@@ -18,13 +18,13 @@ export default defineAction({
     opportunityId: {
       type: "string",
       label: "Opportunity ID",
-      description: "The ID of the opportunity to update.",
+      description: "The ID of the opportunity to update",
       optional: false,
     },
     stageId: {
       type: "string",
       label: "Stage ID",
-      description: "The ID of the opportunity stage to set.",
+      description: "The ID of the opportunity stage to set",
       optional: false,
     },
   },

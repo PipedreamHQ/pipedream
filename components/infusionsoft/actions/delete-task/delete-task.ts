@@ -19,7 +19,7 @@ export default defineAction({
     taskId: {
       type: "string",
       label: "Task ID",
-      description: "The ID of the task to delete.",
+      description: "The ID of the task to delete",
       optional: false,
     },
   },

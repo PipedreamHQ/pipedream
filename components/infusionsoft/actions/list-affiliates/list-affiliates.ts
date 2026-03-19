@@ -18,19 +18,19 @@ export default defineAction({
     affiliateName: {
       type: "string",
       label: "Affiliate Name",
-      description: "Filter affiliates by name.",
+      description: "Filter affiliates by name",
       optional: true,
     },
     contactId: {
       type: "string",
       label: "Contact ID",
-      description: "Filter affiliates by contact ID.",
+      description: "Filter affiliates by contact ID",
       optional: true,
     },
     status: {
       type: "string",
       label: "Status",
-      description: "Filter affiliates by status.",
+      description: "Filter affiliates by status",
       optional: true,
       options: [
         {
@@ -46,13 +46,13 @@ export default defineAction({
     code: {
       type: "string",
       label: "Affiliate Code",
-      description: "Filter affiliates by code.",
+      description: "Filter affiliates by code",
       optional: true,
     },
     orderBy: {
       type: "string",
       label: "Order By",
-      description: "Field and direction to order results.",
+      description: "Field and direction to order results",
       optional: true,
       options: [
         {
@@ -92,13 +92,13 @@ export default defineAction({
     pageSize: {
       type: "string",
       label: "Page Size",
-      description: "Number of results per page (1-1000).",
+      description: "Number of results per page (1-1000)",
       optional: true,
     },
     pageToken: {
       type: "string",
       label: "Page Token",
-      description: "Token for fetching the next page of results.",
+      description: "Token for fetching the next page of results",
       optional: true,
     },
   },

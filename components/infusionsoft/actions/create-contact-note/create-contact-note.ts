@@ -19,19 +19,19 @@ export default defineAction({
     contactId: {
       type: "string",
       label: "Contact ID",
-      description: "The ID of the contact to associate this note with.",
+      description: "The ID of the contact to associate this note with",
       optional: false,
     },
     body: {
       type: "string",
       label: "Note Body",
-      description: "The main content/description of the note.",
+      description: "The main content/description of the note",
       optional: false,
     },
     title: {
       type: "string",
       label: "Title",
-      description: "A short subject/title of the note.",
+      description: "A short subject/title of the note",
       optional: true,
     },
     userId: {

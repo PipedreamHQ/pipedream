@@ -19,25 +19,25 @@ export default defineAction({
     givenName: {
       type: "string",
       label: "First Name",
-      description: "The contact's first name.",
+      description: "The contact's first name",
       optional: true,
     },
     familyName: {
       type: "string",
       label: "Last Name",
-      description: "The contact's last name.",
+      description: "The contact's last name",
       optional: true,
     },
     email: {
       type: "string",
       label: "Email",
-      description: "The contact's primary email address.",
+      description: "The contact's primary email address",
       optional: true,
     },
     phoneNumber: {
       type: "string",
       label: "Phone Number",
-      description: "The contact's primary phone number.",
+      description: "The contact's primary phone number",
       optional: true,
     },
     companyName: {
@@ -57,19 +57,19 @@ export default defineAction({
     jobTitle: {
       type: "string",
       label: "Job Title",
-      description: "The contact's job title.",
+      description: "The contact's job title",
       optional: true,
     },
     ownerId: {
       type: "string",
       label: "Owner ID",
-      description: "The ID of the Keap user who owns this contact.",
+      description: "The ID of the Keap user who owns this contact",
       optional: true,
     },
     leadsourceId: {
       type: "string",
       label: "Lead Source ID",
-      description: "The ID of the lead source for this contact.",
+      description: "The ID of the lead source for this contact",
       optional: true,
     },
     customFields: {

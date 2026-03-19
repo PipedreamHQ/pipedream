@@ -26,13 +26,13 @@ export default defineAction({
     fileName: {
       type: "string",
       label: "File Name",
-      description: "Name of the file with extension (e.g., document.pdf).",
+      description: "Name of the file with extension (e.g., document.pdf)",
       optional: false,
     },
     fileAssociation: {
       type: "string",
       label: "File Association",
-      description: "Type of entity to associate the file with.",
+      description: "Type of entity to associate the file with",
       optional: false,
       options: [
         {
@@ -52,13 +52,13 @@ export default defineAction({
     contactId: {
       type: "string",
       label: "Contact ID",
-      description: "Required when File Association is CONTACT.",
+      description: "Required when File Association is CONTACT",
       optional: true,
     },
     isPublic: {
       type: "boolean",
       label: "Is Public",
-      description: "Whether the file is publicly accessible.",
+      description: "Whether the file is publicly accessible",
       optional: true,
       default: false,
     },

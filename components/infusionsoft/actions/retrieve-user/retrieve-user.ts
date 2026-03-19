@@ -18,7 +18,7 @@ export default defineAction({
     userId: {
       type: "string",
       label: "User ID",
-      description: "The ID of the user to retrieve.",
+      description: "The ID of the user to retrieve",
       optional: false,
     },
   },

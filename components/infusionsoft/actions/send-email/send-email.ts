@@ -19,37 +19,37 @@ export default defineAction({
     userId: {
       type: "string",
       label: "Sender User ID",
-      description: "The ID of the Keap user to send the email on behalf of.",
+      description: "The ID of the Keap user to send the email on behalf of",
       optional: false,
     },
     subject: {
       type: "string",
       label: "Subject",
-      description: "The subject line of the email.",
+      description: "The subject line of the email",
       optional: false,
     },
     contactIds: {
       type: "string[]",
       label: "Contact IDs",
-      description: "List of contact IDs to send the email to.",
+      description: "List of contact IDs to send the email to",
       optional: false,
     },
     htmlContent: {
       type: "string",
       label: "HTML Content",
-      description: "The HTML-formatted content of the email. Will be Base64 encoded automatically.",
+      description: "The HTML-formatted content of the email. Will be Base64 encoded automatically",
       optional: true,
     },
     plainContent: {
       type: "string",
       label: "Plain Text Content",
-      description: "The plain-text content of the email. Will be Base64 encoded automatically.",
+      description: "The plain-text content of the email. Will be Base64 encoded automatically",
       optional: true,
     },
     addressField: {
       type: "string",
       label: "Address Field",
-      description: "Email field of each Contact to address the email to.",
+      description: "Email field of each Contact to address the email to",
       optional: true,
       options: [
         {

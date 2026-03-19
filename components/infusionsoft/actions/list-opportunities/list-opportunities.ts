@@ -18,25 +18,25 @@ export default defineAction({
     stageId: {
       type: "string",
       label: "Stage ID",
-      description: "Filter opportunities by stage ID.",
+      description: "Filter opportunities by stage ID",
       optional: true,
     },
     userId: {
       type: "string",
       label: "User ID",
-      description: "Filter opportunities by owner user ID.",
+      description: "Filter opportunities by owner user ID",
       optional: true,
     },
     fields: {
       type: "string",
       label: "Fields",
-      description: "Comma-separated additional fields (e.g., custom_fields,projected_revenue_high).",
+      description: "Comma-separated additional fields (e.g., custom_fields,projected_revenue_high)",
       optional: true,
     },
     orderBy: {
       type: "string",
       label: "Order By",
-      description: "Field and direction to order results.",
+      description: "Field and direction to order results",
       optional: true,
       options: [
         {
@@ -76,13 +76,13 @@ export default defineAction({
     pageSize: {
       type: "string",
       label: "Page Size",
-      description: "Number of results per page (1-1000).",
+      description: "Number of results per page (1-1000)",
       optional: true,
     },
     pageToken: {
       type: "string",
       label: "Page Token",
-      description: "Token for fetching the next page of results.",
+      description: "Token for fetching the next page of results",
       optional: true,
     },
   },

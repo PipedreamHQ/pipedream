@@ -18,7 +18,7 @@ export default defineAction({
     orderBy: {
       type: "string",
       label: "Order By",
-      description: "Order stages by stage_order.",
+      description: "Order stages by stage_order",
       optional: true,
       options: [
         {
@@ -34,13 +34,13 @@ export default defineAction({
     pageSize: {
       type: "string",
       label: "Page Size",
-      description: "Number of results per page (1-1000).",
+      description: "Number of results per page (1-1000)",
       optional: true,
     },
     pageToken: {
       type: "string",
       label: "Page Token",
-      description: "Token for fetching the next page of results.",
+      description: "Token for fetching the next page of results",
       optional: true,
     },
   },

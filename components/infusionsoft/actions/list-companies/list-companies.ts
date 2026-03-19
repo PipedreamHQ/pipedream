@@ -18,37 +18,37 @@ export default defineAction({
     companyName: {
       type: "string",
       label: "Company Name",
-      description: "Filter companies by name.",
+      description: "Filter companies by name",
       optional: true,
     },
     email: {
       type: "string",
       label: "Email",
-      description: "Filter companies by email.",
+      description: "Filter companies by email",
       optional: true,
     },
     sinceTime: {
       type: "string",
       label: "Since Time",
-      description: "Filter companies created/updated after this time (ISO 8601 format).",
+      description: "Filter companies created/updated after this time (ISO 8601 format)",
       optional: true,
     },
     untilTime: {
       type: "string",
       label: "Until Time",
-      description: "Filter companies created/updated before this time (ISO 8601 format).",
+      description: "Filter companies created/updated before this time (ISO 8601 format)",
       optional: true,
     },
     fields: {
       type: "string",
       label: "Fields",
-      description: "Comma-separated company properties to include (e.g., id,company_name,email_address).",
+      description: "Comma-separated company properties to include (e.g., id,company_name,email_address)",
       optional: true,
     },
     orderBy: {
       type: "string",
       label: "Order By",
-      description: "Field and direction to order results.",
+      description: "Field and direction to order results",
       optional: true,
       options: [
         {
@@ -88,13 +88,13 @@ export default defineAction({
     pageSize: {
       type: "string",
       label: "Page Size",
-      description: "Number of results per page (1-1000).",
+      description: "Number of results per page (1-1000)",
       optional: true,
     },
     pageToken: {
       type: "string",
       label: "Page Token",
-      description: "Token for fetching the next page of results.",
+      description: "Token for fetching the next page of results",
       optional: true,
     },
   },

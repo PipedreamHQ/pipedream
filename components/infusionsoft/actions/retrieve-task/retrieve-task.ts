@@ -18,7 +18,7 @@ export default defineAction({
     taskId: {
       type: "string",
       label: "Task ID",
-      description: "The ID of the task to retrieve.",
+      description: "The ID of the task to retrieve",
       optional: false,
     },
   },

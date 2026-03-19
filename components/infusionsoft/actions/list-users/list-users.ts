@@ -18,39 +18,39 @@ export default defineAction({
     email: {
       type: "string",
       label: "Email",
-      description: "Filter users by email address.",
+      description: "Filter users by email address",
       optional: true,
     },
     givenName: {
       type: "string",
       label: "Given Name",
-      description: "Filter users by first name.",
+      description: "Filter users by first name",
       optional: true,
     },
     userIds: {
       type: "string",
       label: "User IDs",
-      description: "Filter by specific user IDs (comma-separated).",
+      description: "Filter by specific user IDs (comma-separated)",
       optional: true,
     },
     includeInactive: {
       type: "boolean",
       label: "Include Inactive",
-      description: "Include inactive users in the results.",
+      description: "Include inactive users in the results",
       optional: true,
       default: false,
     },
     includePartners: {
       type: "boolean",
       label: "Include Partners",
-      description: "Include partner users in the results.",
+      description: "Include partner users in the results",
       optional: true,
       default: false,
     },
     orderBy: {
       type: "string",
       label: "Order By",
-      description: "Field and direction to order results.",
+      description: "Field and direction to order results",
       optional: true,
       options: [
         {
@@ -74,13 +74,13 @@ export default defineAction({
     pageSize: {
       type: "string",
       label: "Page Size",
-      description: "Number of results per page (1-100, default: 10).",
+      description: "Number of results per page (1-100, default: 10)",
       optional: true,
     },
     pageToken: {
       type: "string",
       label: "Page Token",
-      description: "Token for fetching the next page of results.",
+      description: "Token for fetching the next page of results",
       optional: true,
     },
   },
