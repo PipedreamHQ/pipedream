@@ -1792,7 +1792,11 @@ importers:
 
   components/billplz: {}
 
-  components/billsby: {}
+  components/billsby:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.3.0
+        version: 3.3.0
 
   components/binalyze_air: {}
 
