@@ -6,7 +6,7 @@ export default defineAction({
   description:
     "Retrieve a single opportunity by ID. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Opportunity)",
   key: "infusionsoft-retrieve-opportunity",
-  version: "0.0.2",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

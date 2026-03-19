@@ -6,7 +6,7 @@ export default defineAction({
   description:
     "Set the stage of an opportunity in Keap CRM. [See the documentation](https://developer.infusionsoft.com/docs/rest/#tag/Opportunity)",
   key: "infusionsoft-set-opportunity-stage",
-  version: "0.0.2",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

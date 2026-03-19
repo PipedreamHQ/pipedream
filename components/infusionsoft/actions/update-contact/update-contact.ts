@@ -7,7 +7,7 @@ export default defineAction({
   description:
     "Update an existing contact in Keap CRM. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Contact)",
   key: "infusionsoft-update-contact",
-  version: "0.0.2",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

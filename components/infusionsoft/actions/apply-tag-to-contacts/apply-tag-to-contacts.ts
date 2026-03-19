@@ -7,7 +7,7 @@ export default defineAction({
   description:
     "Apply a tag to one or more contacts in Keap CRM. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Tags/operation/applyTags)",
   key: "infusionsoft-apply-tag-to-contacts",
-  version: "0.0.3",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
