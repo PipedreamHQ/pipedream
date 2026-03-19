@@ -87,6 +87,12 @@ const HTML_CONVERTIBLE_FORMATS = [
   "fluid",
   "wbtx",
 ];
+/**
+ * OData $expand value to include custom column values from the
+ * associated list item when fetching drive items.
+ */
+const LIST_ITEM_FIELDS_EXPAND = "listItem($expand=fields)";
+
 const RETURN_CONTENT_TYPE_OPTIONS = [
   {
     label: "Only Files",
@@ -105,6 +111,7 @@ const RETURN_CONTENT_TYPE_OPTIONS = [
 export {
   WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS,
   WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS,
+  LIST_ITEM_FIELDS_EXPAND,
 };
 
 export default {

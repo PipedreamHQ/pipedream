@@ -5,7 +5,7 @@ export default {
   key: "freshdesk-create-message-for-thread",
   name: "Create Message For Thread",
   description: "Create message for a thread. [See the documentation](https://developers.freshdesk.com/api/#create_message_for_thread).",
-  version: "0.0.2",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -20,7 +20,7 @@ export default {
         "ticketId",
       ],
       label: "Ticket ID",
-      description: "ID of the ticket to create the message for.",
+      description: "ID of the ticket to create the message for",
     },
     threadId: {
       propDefinition: [
@@ -31,18 +31,29 @@ export default {
         }),
       ],
       label: "Thread ID",
-      description: "ID of the thread to create the message for.",
+      description: "ID of the thread to create the message for",
     },
     body: {
       type: "string",
       label: "Body",
-      description: "Content of the note in HTML format.",
-      optional: true,
+      description: "Content of the note in HTML format",
     },
     participants: {
       type: "string[]",
       label: "Participants",
-      description: "List of the participants to be added to the message.",
+      description: "List of the participants to be added to the message",
+      optional: true,
+    },
+    subject: {
+      type: "string",
+      label: "Subject",
+      description: "Subject of the email",
+      optional: true,
+    },
+    hasQuotedText: {
+      type: "boolean",
+      label: "Has Quoted Text",
+      description: "Whether the email has quoted text",
       optional: true,
     },
   },
@@ -57,6 +68,10 @@ export default {
           },
         },
         thread_id: this.threadId,
+        additional_info: {
+          email_subject: this.subject,
+          has_quoted_text: this.hasQuotedText,
+        },
       },
     });
 
