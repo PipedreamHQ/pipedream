@@ -35,9 +35,18 @@ export default defineAction({
       description: "Type of entity to associate the file with.",
       optional: false,
       options: [
-        { label: "Contact", value: "CONTACT" },
-        { label: "User", value: "USER" },
-        { label: "Company", value: "COMPANY" },
+        {
+          label: "Contact",
+          value: "CONTACT",
+        },
+        {
+          label: "User",
+          value: "USER",
+        },
+        {
+          label: "Company",
+          value: "COMPANY",
+        },
       ],
     },
     contactId: {

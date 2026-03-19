@@ -17,7 +17,9 @@ export default defineAction({
     infusionsoft,
   },
   async run({ $ }): Promise<object> {
-    const result = await this.infusionsoft.retrieveContactModel({ $ });
+    const result = await this.infusionsoft.retrieveContactModel({
+      $,
+    });
 
     $.export("$summary", "Successfully retrieved contact model");
 

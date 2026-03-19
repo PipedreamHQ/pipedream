@@ -44,7 +44,7 @@ export default defineAction({
       type: "string",
       label: "Checklist Items",
       description:
-        'Optional: JSON array of checklist items. Example: [{"description": "Send proposal", "order": 1, "required": true}]',
+        "Optional: JSON array of checklist items. Example: [{\"description\": \"Send proposal\", \"order\": 1, \"required\": true}]",
       optional: true,
     },
   },

@@ -36,8 +36,14 @@ export default defineAction({
       description: "The status of the affiliate.",
       optional: false,
       options: [
-        { label: "Active", value: "ACTIVE" },
-        { label: "Inactive", value: "INACTIVE" },
+        {
+          label: "Active",
+          value: "ACTIVE",
+        },
+        {
+          label: "Inactive",
+          value: "INACTIVE",
+        },
       ],
     },
     name: {
@@ -64,8 +70,12 @@ export default defineAction({
       throw new Error("Contact ID is required");
     }
 
-    const affiliateStatus = String(this.status).trim().toUpperCase();
-    if (!["ACTIVE", "INACTIVE"].includes(affiliateStatus)) {
+    const affiliateStatus = String(this.status).trim()
+      .toUpperCase();
+    if (![
+      "ACTIVE",
+      "INACTIVE",
+    ].includes(affiliateStatus)) {
       throw new Error("Status must be ACTIVE or INACTIVE");
     }
 

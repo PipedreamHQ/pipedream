@@ -21,8 +21,14 @@ export default defineAction({
       description: "Order stages by stage_order.",
       optional: true,
       options: [
-        { label: "Stage Order (Ascending)", value: "stage_order asc" },
-        { label: "Stage Order (Descending)", value: "stage_order desc" },
+        {
+          label: "Stage Order (Ascending)",
+          value: "stage_order asc",
+        },
+        {
+          label: "Stage Order (Descending)",
+          value: "stage_order desc",
+        },
       ],
     },
     pageSize: {

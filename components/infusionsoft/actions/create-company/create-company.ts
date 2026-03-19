@@ -98,7 +98,7 @@ export default defineAction({
       type: "string",
       label: "Custom Fields",
       description:
-        'JSON array of custom field objects with id and content. Example: [{"id": "1", "content": "value"}]',
+        "JSON array of custom field objects with id and content. Example: [{\"id\": \"1\", \"content\": \"value\"}]",
       optional: true,
     },
   },

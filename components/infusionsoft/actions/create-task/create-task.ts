@@ -52,9 +52,18 @@ export default defineAction({
       description: "The priority level of the task.",
       optional: true,
       options: [
-        { label: "Critical", value: "CRITICAL" },
-        { label: "Essential", value: "ESSENTIAL" },
-        { label: "Non-Essential", value: "NONESSENTIAL" },
+        {
+          label: "Critical",
+          value: "CRITICAL",
+        },
+        {
+          label: "Essential",
+          value: "ESSENTIAL",
+        },
+        {
+          label: "Non-Essential",
+          value: "NONESSENTIAL",
+        },
       ],
     },
     type: {
@@ -82,16 +91,46 @@ export default defineAction({
       description: "Minutes before the task due time to show a reminder.",
       optional: true,
       options: [
-        { label: "5 minutes", value: "5" },
-        { label: "10 minutes", value: "10" },
-        { label: "15 minutes", value: "15" },
-        { label: "30 minutes", value: "30" },
-        { label: "1 hour", value: "60" },
-        { label: "2 hours", value: "120" },
-        { label: "4 hours", value: "240" },
-        { label: "8 hours", value: "480" },
-        { label: "1 day", value: "1440" },
-        { label: "2 days", value: "2880" },
+        {
+          label: "5 minutes",
+          value: "5",
+        },
+        {
+          label: "10 minutes",
+          value: "10",
+        },
+        {
+          label: "15 minutes",
+          value: "15",
+        },
+        {
+          label: "30 minutes",
+          value: "30",
+        },
+        {
+          label: "1 hour",
+          value: "60",
+        },
+        {
+          label: "2 hours",
+          value: "120",
+        },
+        {
+          label: "4 hours",
+          value: "240",
+        },
+        {
+          label: "8 hours",
+          value: "480",
+        },
+        {
+          label: "1 day",
+          value: "1440",
+        },
+        {
+          label: "2 days",
+          value: "2880",
+        },
       ],
     },
   },
@@ -114,7 +153,9 @@ export default defineAction({
 
     $.export(
       "$summary",
-      `Successfully created task${this.title ? ` "${this.title}"` : ""}`,
+      `Successfully created task${this.title
+        ? ` "${this.title}"`
+        : ""}`,
     );
 
     return result;

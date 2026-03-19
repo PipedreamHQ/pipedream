@@ -52,16 +52,25 @@ export default defineAction({
       description: "Email field of each Contact to address the email to.",
       optional: true,
       options: [
-        { label: "Primary Email (EMAIL1)", value: "EMAIL1" },
-        { label: "Email 2 (EMAIL2)", value: "EMAIL2" },
-        { label: "Email 3 (EMAIL3)", value: "EMAIL3" },
+        {
+          label: "Primary Email (EMAIL1)",
+          value: "EMAIL1",
+        },
+        {
+          label: "Email 2 (EMAIL2)",
+          value: "EMAIL2",
+        },
+        {
+          label: "Email 3 (EMAIL3)",
+          value: "EMAIL3",
+        },
       ],
     },
     attachments: {
       type: "string",
       label: "Attachments",
       description:
-        'JSON array of attachment objects with file_name and file_data (Base64). Example: [{"file_name": "doc.pdf", "file_data": "base64string"}]',
+        "JSON array of attachment objects with file_name and file_data (Base64). Example: [{\"file_name\": \"doc.pdf\", \"file_data\": \"base64string\"}]",
       optional: true,
     },
   },

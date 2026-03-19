@@ -33,8 +33,14 @@ export default defineAction({
       description: "Filter affiliates by status.",
       optional: true,
       options: [
-        { label: "Active", value: "ACTIVE" },
-        { label: "Inactive", value: "INACTIVE" },
+        {
+          label: "Active",
+          value: "ACTIVE",
+        },
+        {
+          label: "Inactive",
+          value: "INACTIVE",
+        },
       ],
     },
     code: {
@@ -49,14 +55,38 @@ export default defineAction({
       description: "Field and direction to order results.",
       optional: true,
       options: [
-        { label: "ID (Ascending)", value: "id asc" },
-        { label: "ID (Descending)", value: "id desc" },
-        { label: "Name (Ascending)", value: "name asc" },
-        { label: "Name (Descending)", value: "name desc" },
-        { label: "Code (Ascending)", value: "code asc" },
-        { label: "Code (Descending)", value: "code desc" },
-        { label: "Create Time (Ascending)", value: "create_time asc" },
-        { label: "Create Time (Descending)", value: "create_time desc" },
+        {
+          label: "ID (Ascending)",
+          value: "id asc",
+        },
+        {
+          label: "ID (Descending)",
+          value: "id desc",
+        },
+        {
+          label: "Name (Ascending)",
+          value: "name asc",
+        },
+        {
+          label: "Name (Descending)",
+          value: "name desc",
+        },
+        {
+          label: "Code (Ascending)",
+          value: "code asc",
+        },
+        {
+          label: "Code (Descending)",
+          value: "code desc",
+        },
+        {
+          label: "Create Time (Ascending)",
+          value: "create_time asc",
+        },
+        {
+          label: "Create Time (Descending)",
+          value: "create_time desc",
+        },
       ],
     },
     pageSize: {

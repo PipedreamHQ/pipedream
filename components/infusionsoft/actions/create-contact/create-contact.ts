@@ -76,7 +76,7 @@ export default defineAction({
       type: "string",
       label: "Custom Fields",
       description:
-        'JSON array of custom field objects with id and content. Example: [{"id": "1", "content": "value"}]',
+        "JSON array of custom field objects with id and content. Example: [{\"id\": \"1\", \"content\": \"value\"}]",
       optional: true,
     },
   },
@@ -97,7 +97,10 @@ export default defineAction({
 
     const result = await this.infusionsoft.createContact(params);
 
-    const displayName = [this.givenName, this.familyName].filter(Boolean).join(" ") || "Contact";
+    const displayName = [
+      this.givenName,
+      this.familyName,
+    ].filter(Boolean).join(" ") || "Contact";
     $.export(
       "$summary",
       `Successfully created contact "${displayName}"`,

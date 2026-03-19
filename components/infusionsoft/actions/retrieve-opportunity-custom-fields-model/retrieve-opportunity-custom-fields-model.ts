@@ -17,7 +17,9 @@ export default defineAction({
     infusionsoft,
   },
   async run({ $ }): Promise<object> {
-    const result = await this.infusionsoft.retrieveOpportunityCustomFieldsModel({ $ });
+    const result = await this.infusionsoft.retrieveOpportunityCustomFieldsModel({
+      $,
+    });
 
     $.export("$summary", "Successfully retrieved opportunity custom fields model");
 

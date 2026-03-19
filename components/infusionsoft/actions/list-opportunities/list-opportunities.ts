@@ -39,14 +39,38 @@ export default defineAction({
       description: "Field and direction to order results.",
       optional: true,
       options: [
-        { label: "Next Action Time (Ascending)", value: "next_action_time asc" },
-        { label: "Next Action Time (Descending)", value: "next_action_time desc" },
-        { label: "Contact Name (Ascending)", value: "contact_name asc" },
-        { label: "Contact Name (Descending)", value: "contact_name desc" },
-        { label: "Opportunity Name (Ascending)", value: "opportunity_name asc" },
-        { label: "Opportunity Name (Descending)", value: "opportunity_name desc" },
-        { label: "Created Time (Ascending)", value: "created_time asc" },
-        { label: "Created Time (Descending)", value: "created_time desc" },
+        {
+          label: "Next Action Time (Ascending)",
+          value: "next_action_time asc",
+        },
+        {
+          label: "Next Action Time (Descending)",
+          value: "next_action_time desc",
+        },
+        {
+          label: "Contact Name (Ascending)",
+          value: "contact_name asc",
+        },
+        {
+          label: "Contact Name (Descending)",
+          value: "contact_name desc",
+        },
+        {
+          label: "Opportunity Name (Ascending)",
+          value: "opportunity_name asc",
+        },
+        {
+          label: "Opportunity Name (Descending)",
+          value: "opportunity_name desc",
+        },
+        {
+          label: "Created Time (Ascending)",
+          value: "created_time asc",
+        },
+        {
+          label: "Created Time (Descending)",
+          value: "created_time desc",
+        },
       ],
     },
     pageSize: {

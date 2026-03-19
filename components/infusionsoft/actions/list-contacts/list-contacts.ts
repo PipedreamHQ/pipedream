@@ -69,12 +69,30 @@ export default defineAction({
       description: "Field and direction to order results.",
       optional: true,
       options: [
-        { label: "ID (Ascending)", value: "id asc" },
-        { label: "ID (Descending)", value: "id desc" },
-        { label: "Create Time (Ascending)", value: "create_time asc" },
-        { label: "Create Time (Descending)", value: "create_time desc" },
-        { label: "Email (Ascending)", value: "email asc" },
-        { label: "Email (Descending)", value: "email desc" },
+        {
+          label: "ID (Ascending)",
+          value: "id asc",
+        },
+        {
+          label: "ID (Descending)",
+          value: "id desc",
+        },
+        {
+          label: "Create Time (Ascending)",
+          value: "create_time asc",
+        },
+        {
+          label: "Create Time (Descending)",
+          value: "create_time desc",
+        },
+        {
+          label: "Email (Ascending)",
+          value: "email asc",
+        },
+        {
+          label: "Email (Descending)",
+          value: "email desc",
+        },
       ],
     },
     pageSize: {

@@ -65,14 +65,14 @@ export default {
     this.http.respond(httpResponse);
 
     // Actual event trigger
-    const { object_keys: objectKeys } = data.body;
+    const objectKeys = (data.body as { object_keys?: unknown } | undefined)?.object_keys;
     if (!Array.isArray(objectKeys)) {
       throw new Error("Unknown data received from Infusionsoft webhook");
     }
 
     const promises: Promise<{
       obj: WebhookObject;
-      response: any;
+      response: object & { noUrl?: boolean };
     }>[] = objectKeys.map(async (obj: WebhookObject) => ({
       obj,
       response: await this.infusionsoft.hookResponseRequest(obj.apiUrl),

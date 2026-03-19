@@ -1,4 +1,6 @@
-import { defineApp, Pipedream } from "@pipedream/types";
+import {
+  defineApp, Pipedream,
+} from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
   AddContactToAutomationParams,
@@ -273,13 +275,19 @@ export default defineApp({
 
       if (email?.trim()) {
         body.email_addresses = [
-          { email: email.trim(), field: "EMAIL1" },
+          {
+            email: email.trim(),
+            field: "EMAIL1",
+          },
         ];
       }
 
       if (phoneNumber?.trim()) {
         body.phone_numbers = [
-          { number: phoneNumber.trim(), field: "PHONE1" },
+          {
+            number: phoneNumber.trim(),
+            field: "PHONE1",
+          },
         ];
       }
 
@@ -362,9 +370,14 @@ export default defineApp({
           method: "POST",
           data: body,
         });
-        results.push({ contactId, ...result });
+        results.push({
+          contactId,
+          ...result,
+        });
       }
-      return { data: results };
+      return {
+        data: results,
+      };
     },
     async createContactNote({
       $,
@@ -405,9 +418,15 @@ export default defineApp({
     }: CreateOpportunityParams): Promise<object> {
       const body: Record<string, unknown> = {
         opportunity_title: opportunityTitle.trim(),
-        contact: { id: parseInt(contactId, 10) },
-        stage: { id: parseInt(stageId, 10) },
-        user: { id: parseInt(userId, 10) },
+        contact: {
+          id: parseInt(contactId, 10),
+        },
+        stage: {
+          id: parseInt(stageId, 10),
+        },
+        user: {
+          id: parseInt(userId, 10),
+        },
         affiliate_id: "",
       };
       if (estimatedCloseTime?.trim()) body.estimated_close_date = estimatedCloseTime.trim();
@@ -419,7 +438,9 @@ export default defineApp({
       const lowVal = parseFloat(String(projectedRevenueLow));
       if (!isNaN(lowVal)) body.projected_revenue_low = lowVal;
       if (includeInForecast !== undefined && includeInForecast !== null) {
-        body.include_in_forecast = includeInForecast ? 1 : 0;
+        body.include_in_forecast = includeInForecast
+          ? 1
+          : 0;
       }
       if (customFields?.trim()) {
         try {
@@ -427,12 +448,17 @@ export default defineApp({
           if (Array.isArray(parsed)) {
             body.custom_fields = parsed
               .map((f: { id: unknown; content: unknown }) => {
-                const idNum = typeof f.id === "string" ? parseInt(f.id, 10) : Number(f.id);
+                const idNum = typeof f.id === "string"
+                  ? parseInt(f.id, 10)
+                  : Number(f.id);
                 if (isNaN(idNum)) return null;
                 const content = f.content && typeof f.content === "object" && "value" in (f.content as object)
                   ? (f.content as { value: unknown }).value
                   : f.content;
-                return { id: idNum, content };
+                return {
+                  id: idNum,
+                  content,
+                };
               })
               .filter(Boolean);
           }
@@ -524,7 +550,10 @@ export default defineApp({
         url: `${this._baseUrlV2()}/tasks/${taskId.trim()}`,
         method: "DELETE",
       });
-      return { deleted: true, task_id: taskId };
+      return {
+        deleted: true,
+        task_id: taskId,
+      };
     },
     async listAffiliates({
       $,
@@ -590,7 +619,9 @@ export default defineApp({
       if (sinceTime?.trim()) filters.push(`since_time==${sinceTime.trim()}`);
       if (untilTime?.trim()) filters.push(`until_time==${untilTime.trim()}`);
       if (filters.length > 0) params.filter = filters.join(";");
-      if (fields?.trim()) params.fields = fields.split(",").map((f) => f.trim()).filter(Boolean).join(",");
+      if (fields?.trim()) params.fields = fields.split(",").map((f) => f.trim())
+        .filter(Boolean)
+        .join(",");
       if (orderBy?.trim()) params.order_by = orderBy.trim();
       const size = parseInt(String(pageSize || "").trim(), 10);
       if (!isNaN(size) && size >= 1 && size <= 1000) params.page_size = size;
@@ -668,7 +699,9 @@ export default defineApp({
       if (startUpdateTime?.trim()) filters.push(`start_update_time==${startUpdateTime.trim()}`);
       if (endUpdateTime?.trim()) filters.push(`end_update_time==${endUpdateTime.trim()}`);
       if (filters.length > 0) params.filter = filters.join(";");
-      if (fields?.trim()) params.fields = fields.split(",").map((f) => f.trim()).filter(Boolean).join(",");
+      if (fields?.trim()) params.fields = fields.split(",").map((f) => f.trim())
+        .filter(Boolean)
+        .join(",");
       if (orderBy?.trim()) params.order_by = orderBy.trim();
       const size = parseInt(String(pageSize || "").trim(), 10);
       if (!isNaN(size) && size >= 1 && size <= 1000) params.page_size = size;
@@ -701,9 +734,15 @@ export default defineApp({
       if (stageId?.trim()) filters.push(`stage_id==${stageId.trim()}`);
       if (userId?.trim()) filters.push(`user_id==${userId.trim()}`);
       if (filters.length > 0) params.filter = filters.join(";");
-      const coreFields = ["id", "contact", "stage", "opportunity_title"];
+      const coreFields = [
+        "id",
+        "contact",
+        "stage",
+        "opportunity_title",
+      ];
       if (fields?.trim()) {
-        const valid = fields.split(",").map((f) => f.trim()).filter((f) => f && !coreFields.includes(f.toLowerCase()));
+        const valid = fields.split(",").map((f) => f.trim())
+          .filter((f) => f && !coreFields.includes(f.toLowerCase()));
         if (valid.length > 0) params.fields = valid.join(",");
       }
       if (orderBy?.trim()) params.order_by = orderBy.trim();
@@ -820,7 +859,9 @@ export default defineApp({
       fields?: string;
     }): Promise<object> {
       const params: Record<string, string> = {};
-      if (fields?.trim()) params.optional_properties = fields.split(",").map((f) => f.trim()).filter(Boolean).join(",");
+      if (fields?.trim()) params.optional_properties = fields.split(",").map((f) => f.trim())
+        .filter(Boolean)
+        .join(",");
       return this._httpRequest({
         $,
         url: `${this._baseUrlV2()}/opportunities/${String(opportunityId ?? "").trim()}`,
@@ -923,7 +964,11 @@ export default defineApp({
         $,
         url: `${this._baseUrl()}/opportunities/${String(opportunityId ?? "").trim()}`,
         method: "PATCH",
-        data: { stage: { id: parseInt(String(stageId ?? "").trim(), 10) } },
+        data: {
+          stage: {
+            id: parseInt(String(stageId ?? "").trim(), 10),
+          },
+        },
       });
     },
     async updateContact({
@@ -945,9 +990,21 @@ export default defineApp({
       if (jobTitle?.trim()) body.job_title = jobTitle.trim();
       if (ownerId?.trim()) body.owner_id = parseInt(ownerId.trim(), 10);
       if (leadsourceId?.trim()) body.leadsource_id = parseInt(leadsourceId.trim(), 10);
-      if (email?.trim()) body.email_addresses = [{ email: email.trim(), field: "EMAIL1" }];
-      if (phoneNumber?.trim()) body.phone_numbers = [{ number: phoneNumber.trim(), field: "PHONE1" }];
-      if (companyName?.trim()) body.company = { company_name: companyName.trim() };
+      if (email?.trim()) body.email_addresses = [
+        {
+          email: email.trim(),
+          field: "EMAIL1",
+        },
+      ];
+      if (phoneNumber?.trim()) body.phone_numbers = [
+        {
+          number: phoneNumber.trim(),
+          field: "PHONE1",
+        },
+      ];
+      if (companyName?.trim()) body.company = {
+        company_name: companyName.trim(),
+      };
       if (customFields?.trim()) {
         try {
           const parsed = JSON.parse(customFields);
@@ -983,15 +1040,21 @@ export default defineApp({
       if (opportunityTitle?.trim()) body.opportunity_title = opportunityTitle.trim();
       if (contactId?.trim()) {
         const cid = parseInt(contactId.trim(), 10);
-        if (!isNaN(cid)) body.contact = { id: cid };
+        if (!isNaN(cid)) body.contact = {
+          id: cid,
+        };
       }
       if (stageId?.trim()) {
         const sid = parseInt(stageId.trim(), 10);
-        if (!isNaN(sid)) body.stage = { id: sid };
+        if (!isNaN(sid)) body.stage = {
+          id: sid,
+        };
       }
       if (userId?.trim()) {
         const uid = parseInt(userId.trim(), 10);
-        if (!isNaN(uid)) body.user = { id: uid };
+        if (!isNaN(uid)) body.user = {
+          id: uid,
+        };
       }
       if (estimatedCloseTime?.trim()) body.estimated_close_date = estimatedCloseTime.trim();
       if (nextActionTime?.trim()) body.next_action_date = nextActionTime.trim();
@@ -1002,7 +1065,9 @@ export default defineApp({
       const lowVal = parseFloat(String(projectedRevenueLow));
       if (!isNaN(lowVal)) body.projected_revenue_low = lowVal;
       if (includeInForecast !== undefined && includeInForecast !== null) {
-        body.include_in_forecast = includeInForecast ? 1 : 0;
+        body.include_in_forecast = includeInForecast
+          ? 1
+          : 0;
       }
       if (customFields?.trim()) {
         try {
@@ -1010,12 +1075,17 @@ export default defineApp({
           if (Array.isArray(parsed)) {
             body.custom_fields = parsed
               .map((f: { id: unknown; content: unknown }) => {
-                const idNum = typeof f.id === "string" ? parseInt(f.id, 10) : Number(f.id);
+                const idNum = typeof f.id === "string"
+                  ? parseInt(f.id, 10)
+                  : Number(f.id);
                 if (isNaN(idNum)) return null;
                 const content = f.content && typeof f.content === "object" && "value" in (f.content as object)
                   ? (f.content as { value: unknown }).value
                   : f.content;
-                return { id: idNum, content };
+                return {
+                  id: idNum,
+                  content,
+                };
               })
               .filter(Boolean);
           }
@@ -1072,7 +1142,11 @@ export default defineApp({
       isPublic,
     }: UploadFileParams): Promise<object> {
       const association = fileAssociation.trim().toUpperCase();
-      if (!["CONTACT", "USER", "COMPANY"].includes(association)) {
+      if (![
+        "CONTACT",
+        "USER",
+        "COMPANY",
+      ].includes(association)) {
         throw new Error("File association must be CONTACT, USER, or COMPANY");
       }
       if (association === "CONTACT" && !contactId?.trim()) {
