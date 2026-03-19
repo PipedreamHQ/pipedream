@@ -90,7 +90,32 @@ function extractCustomFields(fields) {
   return customFields;
 }
 
+/**
+ * Adds customFields to file-picker action results.
+ * Handles both single-file (object) and multi-file
+ * ({ files: [...] }) result shapes.
+ *
+ * @param {Object} results - The action results
+ * @returns {Object} Results with customFields added
+ */
+function addCustomFields(results) {
+  if (!results) return results;
+  const isSingleFile = !results.files
+    && results._meta;
+  const items = isSingleFile
+    ? [
+      results,
+    ]
+    : results.files || [];
+  for (const item of items) {
+    item.customFields = extractCustomFields(
+      item.listItem?.fields,
+    );
+  }
+  return results;
+}
+
 export {
+  addCustomFields,
   extractCustomFields,
-  isStandardField,
 };

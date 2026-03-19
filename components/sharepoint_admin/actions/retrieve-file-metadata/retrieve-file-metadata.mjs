@@ -4,7 +4,7 @@ import sharepointAdmin from
   "../../sharepoint_admin.app.mjs";
 import parseUtils from
   "../../../sharepoint/common/utils.mjs";
-import { extractCustomFields } from
+import { addCustomFields } from
   "../../common/customFields.mjs";
 
 export default {
@@ -67,22 +67,6 @@ export default {
   },
   methods: {
     ...retrieveFileMetadata.methods,
-    addCustomFields(results) {
-      if (!results) return results;
-      const isSingleFile = !results.files
-        && results._meta;
-      const items = isSingleFile
-        ? [
-          results,
-        ]
-        : results.files || [];
-      for (const item of items) {
-        item.customFields = extractCustomFields(
-          item.listItem?.fields,
-        );
-      }
-      return results;
-    },
   },
   async run({ $ }) {
     this.sharepoint = this.sharepointAdmin;
@@ -117,6 +101,6 @@ export default {
       },
     );
 
-    return this.addCustomFields(result);
+    return addCustomFields(result);
   },
 };
