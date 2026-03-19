@@ -823,7 +823,7 @@ export default defineApp({
       if (fields?.trim()) params.optional_properties = fields.split(",").map((f) => f.trim()).filter(Boolean).join(",");
       return this._httpRequest({
         $,
-        url: `${this._baseUrlV2()}/opportunities/${opportunityId.trim()}`,
+        url: `${this._baseUrlV2()}/opportunities/${String(opportunityId ?? "").trim()}`,
         params,
       });
     },
