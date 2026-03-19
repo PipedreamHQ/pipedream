@@ -1389,5 +1389,24 @@ export default defineApp({
         }));
       },
     },
+    taskId: {
+      type: "string",
+      label: "Task",
+      description: `Select a **Task** from the list.
+        \\
+        Alternatively, you can provide a custom *Task ID*.`,
+      async options({ $ }: { $?: Pipedream }) {
+        const response = await this.listTasks({
+          $,
+          pageSize: "100",
+        }) as { tasks?: { id: string; title?: string }[] };
+        const tasks = response.tasks ?? [];
+
+        return tasks.map((t) => ({
+          label: t.title ?? String(t.id),
+          value: String(t.id),
+        }));
+      },
+    },
   },
 });

@@ -17,10 +17,10 @@ export default defineAction({
   props: {
     infusionsoft,
     taskId: {
-      type: "string",
-      label: "Task ID",
-      description: "The ID of the task to update",
-      optional: false,
+      propDefinition: [
+        infusionsoft,
+        "taskId",
+      ],
     },
     assignedToUserId: {
       propDefinition: [

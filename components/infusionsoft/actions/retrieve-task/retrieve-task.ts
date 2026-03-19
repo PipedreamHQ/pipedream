@@ -16,10 +16,10 @@ export default defineAction({
   props: {
     infusionsoft,
     taskId: {
-      type: "string",
-      label: "Task ID",
-      description: "The ID of the task to retrieve",
-      optional: false,
+      propDefinition: [
+        infusionsoft,
+        "taskId",
+      ],
     },
   },
   async run({ $ }): Promise<object> {
