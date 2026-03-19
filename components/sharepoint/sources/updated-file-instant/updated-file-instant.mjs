@@ -253,6 +253,18 @@ export default {
         };
       }
     },
+    async buildEmitPayload(file, freshFile) {
+      return {
+        eventType: file.deleted
+          ? "deleted"
+          : "updated",
+        file,
+        downloadUrl:
+          freshFile?.["@microsoft.graph.downloadUrl"] ?? null,
+        listItemFields:
+          freshFile?.listItem?.fields ?? null,
+      };
+    },
     generateMeta(file) {
       // Use lastModifiedDateTime for updated files, deletedDateTime for deleted files
       // Fall back to current time only if neither is available
@@ -409,20 +421,9 @@ export default {
     // Emit events for each changed file
     for (const file of changedFiles) {
       const freshFile = freshDataMap.get(file.id);
-
-      this.$emit(
-        {
-          eventType: file.deleted
-            ? "deleted"
-            : "updated",
-          file,
-          downloadUrl:
-            freshFile?.["@microsoft.graph.downloadUrl"] ?? null,
-          listItemFields:
-            freshFile?.listItem?.fields ?? null,
-        },
-        this.generateMeta(file),
-      );
+      const payload =
+        await this.buildEmitPayload(file, freshFile);
+      this.$emit(payload, this.generateMeta(file));
     }
   },
 };
