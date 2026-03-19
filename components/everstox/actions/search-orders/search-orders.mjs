@@ -117,9 +117,11 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.everstox.listReturns({
+    const response = await this.everstox.listOrders({
       $,
       params: {
+        warehouse_ids: this.warehouseIds,
+        fields: this.fields,
         order_number: this.orderNumber,
         hours_late_lte: this.hoursLateLte,
         hours_late_gte: this.hoursLateGte,
