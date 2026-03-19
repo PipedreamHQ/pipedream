@@ -26,7 +26,9 @@ export default defineAction({
       propDefinition: [
         infusionsoft,
         "sequenceId",
-        ({ automationId }: { automationId: string }) => ({ automationId }),
+        ({ automationId }: { automationId: string }) => ({
+          automationId,
+        }),
       ],
     },
     contactIds: {

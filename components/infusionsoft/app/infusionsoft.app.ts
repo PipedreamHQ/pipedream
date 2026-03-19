@@ -1308,7 +1308,9 @@ export default defineApp({
       async options() {
         const automations = await this.listAutomations();
 
-        return automations.map(({ id, name }) => ({
+        return automations.map(({
+          id, name,
+        }) => ({
           label: name,
           value: id,
         }));
@@ -1325,7 +1327,9 @@ export default defineApp({
 
         const sequences = await this.listSequences(automationId);
 
-        return sequences.map(({ id, name }) => ({
+        return sequences.map(({
+          id, name,
+        }) => ({
           label: name,
           value: id,
         }));
