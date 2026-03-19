@@ -16,15 +16,17 @@ export default defineAction({
   props: {
     infusionsoft,
     stageId: {
-      type: "string",
-      label: "Stage ID",
-      description: "Filter opportunities by stage ID",
+      propDefinition: [
+        infusionsoft,
+        "stageId",
+      ],
       optional: true,
     },
     userId: {
-      type: "string",
-      label: "User ID",
-      description: "Filter opportunities by owner user ID",
+      propDefinition: [
+        infusionsoft,
+        "userId",
+      ],
       optional: true,
     },
     fields: {
@@ -89,8 +91,12 @@ export default defineAction({
   async run({ $ }): Promise<object> {
     const result = await this.infusionsoft.listOpportunities({
       $,
-      stageId: this.stageId,
-      userId: this.userId,
+      stageId: this.stageId
+        ? String(this.stageId)
+        : undefined,
+      userId: this.userId
+        ? String(this.userId)
+        : undefined,
       fields: this.fields,
       orderBy: this.orderBy,
       pageSize: this.pageSize,

@@ -48,10 +48,10 @@ export default defineAction({
       optional: true,
     },
     companyId: {
-      type: "string",
-      label: "Company ID",
-      description:
-        "The ID of an existing company to link this contact to (use this or Company Name, not both).",
+      propDefinition: [
+        infusionsoft,
+        "companyId",
+      ],
       optional: true,
     },
     jobTitle: {
@@ -82,7 +82,9 @@ export default defineAction({
   },
   async run({ $ }): Promise<object> {
     const companyName = this.companyName?.trim();
-    const companyId = this.companyId?.trim();
+    const companyId = this.companyId != null && String(this.companyId).trim() !== ""
+      ? String(this.companyId).trim()
+      : undefined;
     if (companyName && companyId) {
       throw new Error("Provide either Company Name or Company ID, not both");
     }

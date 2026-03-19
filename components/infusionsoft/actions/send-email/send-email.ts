@@ -17,10 +17,10 @@ export default defineAction({
   props: {
     infusionsoft,
     userId: {
-      type: "string",
-      label: "Sender User ID",
-      description: "The ID of the Keap user to send the email on behalf of",
-      optional: false,
+      propDefinition: [
+        infusionsoft,
+        "userId",
+      ],
     },
     subject: {
       type: "string",
@@ -82,7 +82,7 @@ export default defineAction({
 
     const params: SendEmailParams = {
       $,
-      userId: this.userId,
+      userId: String(this.userId ?? ""),
       subject: this.subject,
       contactIds: validContactIds as string[],
       htmlContent: this.htmlContent,

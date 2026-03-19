@@ -17,10 +17,10 @@ export default defineAction({
   props: {
     infusionsoft,
     contactId: {
-      type: "string",
-      label: "Contact ID",
-      description: "The ID of the contact to associate this note with",
-      optional: false,
+      propDefinition: [
+        infusionsoft,
+        "contactId",
+      ],
     },
     body: {
       type: "string",
@@ -35,10 +35,10 @@ export default defineAction({
       optional: true,
     },
     userId: {
-      type: "string",
-      label: "User ID",
-      description:
-        "The ID of the Keap user to attribute the note to (defaults to authenticated user if not provided).",
+      propDefinition: [
+        infusionsoft,
+        "userId",
+      ],
       optional: true,
     },
     type: {
@@ -50,7 +50,7 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
-    const contactId = String(this.contactId).trim();
+    const contactId = String(this.contactId ?? "").trim();
     if (!contactId) throw new Error("Contact ID is required");
 
     const noteBody = String(this.body).trim();
@@ -60,7 +60,9 @@ export default defineAction({
       $,
       contactId,
       body: noteBody,
-      userId: this.userId,
+      userId: this.userId
+        ? String(this.userId)
+        : undefined,
       title: this.title,
       type: this.type,
     };

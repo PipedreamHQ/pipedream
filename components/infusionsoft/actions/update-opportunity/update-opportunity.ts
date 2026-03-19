@@ -17,10 +17,10 @@ export default defineAction({
   props: {
     infusionsoft,
     opportunityId: {
-      type: "string",
-      label: "Opportunity ID",
-      description: "The ID of the opportunity to update",
-      optional: false,
+      propDefinition: [
+        infusionsoft,
+        "opportunityId",
+      ],
     },
     opportunityTitle: {
       type: "string",
@@ -29,21 +29,24 @@ export default defineAction({
       optional: true,
     },
     contactId: {
-      type: "string",
-      label: "Contact ID",
-      description: "The ID of the contact associated with this opportunity",
+      propDefinition: [
+        infusionsoft,
+        "contactId",
+      ],
       optional: true,
     },
     stageId: {
-      type: "string",
-      label: "Stage ID",
-      description: "The ID of the opportunity stage",
+      propDefinition: [
+        infusionsoft,
+        "stageId",
+      ],
       optional: true,
     },
     userId: {
-      type: "string",
-      label: "Owner User ID",
-      description: "The ID of the Keap user who owns this opportunity",
+      propDefinition: [
+        infusionsoft,
+        "userId",
+      ],
       optional: true,
     },
     projectedRevenueHigh: {
@@ -99,11 +102,17 @@ export default defineAction({
   async run({ $ }): Promise<object> {
     const params: UpdateOpportunityParams = {
       $,
-      opportunityId: this.opportunityId,
+      opportunityId: String(this.opportunityId ?? ""),
       opportunityTitle: this.opportunityTitle,
-      contactId: this.contactId,
-      stageId: this.stageId,
-      userId: this.userId,
+      contactId: this.contactId
+        ? String(this.contactId)
+        : undefined,
+      stageId: this.stageId
+        ? String(this.stageId)
+        : undefined,
+      userId: this.userId
+        ? String(this.userId)
+        : undefined,
       projectedRevenueHigh: this.projectedRevenueHigh,
       projectedRevenueLow: this.projectedRevenueLow,
       estimatedCloseTime: this.estimatedCloseTime,

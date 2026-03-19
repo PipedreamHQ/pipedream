@@ -34,9 +34,10 @@ export default defineAction({
       optional: true,
     },
     companyId: {
-      type: "string",
-      label: "Company ID",
-      description: "Filter contacts by company ID",
+      propDefinition: [
+        infusionsoft,
+        "companyId",
+      ],
       optional: true,
     },
     contactIds: {
@@ -114,7 +115,9 @@ export default defineAction({
       email: this.email,
       givenName: this.givenName,
       familyName: this.familyName,
-      companyId: this.companyId,
+      companyId: this.companyId
+        ? String(this.companyId)
+        : undefined,
       contactIds: this.contactIds,
       startUpdateTime: this.startUpdateTime,
       endUpdateTime: this.endUpdateTime,

@@ -1335,5 +1335,59 @@ export default defineApp({
         }));
       },
     },
+    stageId: {
+      type: "string",
+      label: "Opportunity Stage",
+      description: `Select an **Opportunity Stage** from the list.
+        \\
+        Alternatively, you can provide a custom *Stage ID*.`,
+      async options({ $ }: { $?: Pipedream }) {
+        const response = await this.listOpportunityStages({
+          $,
+        }) as { stages?: { id: string; name?: string }[] };
+        const stages = response.stages ?? [];
+
+        return stages.map((s) => ({
+          label: s.name ?? String(s.id),
+          value: String(s.id),
+        }));
+      },
+    },
+    userId: {
+      type: "string",
+      label: "User",
+      description: `Select a **User** from the list.
+        \\
+        Alternatively, you can provide a custom *User ID*.`,
+      async options({ $ }: { $?: Pipedream }) {
+        const response = await this.listUsers({
+          $,
+        }) as { users?: { id: string; email?: string }[] };
+        const users = response.users ?? [];
+
+        return users.map((u) => ({
+          label: u.email ?? String(u.id),
+          value: String(u.id),
+        }));
+      },
+    },
+    opportunityId: {
+      type: "string",
+      label: "Opportunity",
+      description: `Select an **Opportunity** from the list.
+        \\
+        Alternatively, you can provide a custom *Opportunity ID*.`,
+      async options({ $ }: { $?: Pipedream }) {
+        const response = await this.listOpportunities({
+          $,
+        }) as { opportunities?: { id: string; opportunity_title?: string }[] };
+        const opportunities = response.opportunities ?? [];
+
+        return opportunities.map((o) => ({
+          label: o.opportunity_title ?? String(o.id),
+          value: String(o.id),
+        }));
+      },
+    },
   },
 });

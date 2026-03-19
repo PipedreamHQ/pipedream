@@ -50,9 +50,10 @@ export default defineAction({
       ],
     },
     contactId: {
-      type: "string",
-      label: "Contact ID",
-      description: "Required when File Association is CONTACT",
+      propDefinition: [
+        infusionsoft,
+        "contactId",
+      ],
       optional: true,
     },
     isPublic: {
@@ -64,7 +65,7 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
-    if (this.fileAssociation === "CONTACT" && !this.contactId?.trim()) {
+    if (this.fileAssociation === "CONTACT" && !String(this.contactId ?? "").trim()) {
       throw new Error("Contact ID is required when File Association is CONTACT");
     }
 
@@ -73,7 +74,9 @@ export default defineAction({
       fileData: this.fileData,
       fileName: this.fileName,
       fileAssociation: this.fileAssociation,
-      contactId: this.contactId,
+      contactId: this.contactId
+        ? String(this.contactId)
+        : undefined,
       isPublic: this.isPublic,
     };
 

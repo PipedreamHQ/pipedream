@@ -16,10 +16,10 @@ export default defineAction({
   props: {
     infusionsoft,
     opportunityId: {
-      type: "string",
-      label: "Opportunity ID",
-      description: "The ID of the opportunity to retrieve",
-      optional: false,
+      propDefinition: [
+        infusionsoft,
+        "opportunityId",
+      ],
     },
     fields: {
       type: "string",

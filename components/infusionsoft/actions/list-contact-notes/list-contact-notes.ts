@@ -16,15 +16,16 @@ export default defineAction({
   props: {
     infusionsoft,
     contactId: {
-      type: "string",
-      label: "Contact ID",
-      description: "The ID of the contact to retrieve notes for",
-      optional: false,
+      propDefinition: [
+        infusionsoft,
+        "contactId",
+      ],
     },
     userId: {
-      type: "string",
-      label: "User ID",
-      description: "Filter notes by the user who created them",
+      propDefinition: [
+        infusionsoft,
+        "userId",
+      ],
       optional: true,
     },
     limit: {
@@ -43,8 +44,10 @@ export default defineAction({
   async run({ $ }): Promise<object> {
     const result = await this.infusionsoft.listContactNotes({
       $,
-      contactId: this.contactId,
-      userId: this.userId,
+      contactId: String(this.contactId ?? ""),
+      userId: this.userId
+        ? String(this.userId)
+        : undefined,
       limit: this.limit,
       offset: this.offset,
     });

@@ -16,23 +16,23 @@ export default defineAction({
   props: {
     infusionsoft,
     opportunityId: {
-      type: "string",
-      label: "Opportunity ID",
-      description: "The ID of the opportunity to update",
-      optional: false,
+      propDefinition: [
+        infusionsoft,
+        "opportunityId",
+      ],
     },
     stageId: {
-      type: "string",
-      label: "Stage ID",
-      description: "The ID of the opportunity stage to set",
-      optional: false,
+      propDefinition: [
+        infusionsoft,
+        "stageId",
+      ],
     },
   },
   async run({ $ }): Promise<object> {
     const result = await this.infusionsoft.setOpportunityStage({
       $,
-      opportunityId: this.opportunityId,
-      stageId: this.stageId,
+      opportunityId: String(this.opportunityId ?? ""),
+      stageId: String(this.stageId ?? ""),
     });
 
     $.export(

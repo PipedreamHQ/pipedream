@@ -17,10 +17,10 @@ export default defineAction({
   props: {
     infusionsoft,
     contactId: {
-      type: "string",
-      label: "Contact ID",
-      description: "The ID of the contact to update",
-      optional: false,
+      propDefinition: [
+        infusionsoft,
+        "contactId",
+      ],
     },
     givenName: {
       type: "string",

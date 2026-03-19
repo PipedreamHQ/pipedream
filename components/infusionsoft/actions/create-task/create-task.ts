@@ -17,10 +17,10 @@ export default defineAction({
   props: {
     infusionsoft,
     assignedToUserId: {
-      type: "string",
-      label: "Assigned To User ID",
-      description: "The ID of the Keap user the task is assigned to",
-      optional: false,
+      propDefinition: [
+        infusionsoft,
+        "userId",
+      ],
     },
     title: {
       type: "string",
@@ -29,9 +29,10 @@ export default defineAction({
       optional: true,
     },
     contactId: {
-      type: "string",
-      label: "Contact ID",
-      description: "The ID of the contact associated with this task",
+      propDefinition: [
+        infusionsoft,
+        "contactId",
+      ],
       optional: true,
     },
     description: {
@@ -141,9 +142,11 @@ export default defineAction({
 
     const params: CreateTaskParams = {
       $,
-      assignedToUserId: this.assignedToUserId,
+      assignedToUserId: String(this.assignedToUserId ?? ""),
       title: this.title,
-      contactId: this.contactId,
+      contactId: this.contactId
+        ? String(this.contactId)
+        : undefined,
       description: this.description,
       dueTime: this.dueTime,
       priority: this.priority,

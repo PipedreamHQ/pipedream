@@ -16,16 +16,16 @@ export default defineAction({
   props: {
     infusionsoft,
     userId: {
-      type: "string",
-      label: "User ID",
-      description: "The ID of the user to retrieve",
-      optional: false,
+      propDefinition: [
+        infusionsoft,
+        "userId",
+      ],
     },
   },
   async run({ $ }): Promise<object> {
     const result = await this.infusionsoft.retrieveUser({
       $,
-      userId: this.userId,
+      userId: String(this.userId ?? ""),
     });
 
     $.export("$summary", `Successfully retrieved user ${this.userId}`);

@@ -24,11 +24,10 @@ export default defineAction({
       optional: false,
     },
     contactId: {
-      type: "string",
-      label: "Contact ID",
-      description:
-        "The ID of the contact to associate with this affiliate. Must be a positive number.",
-      optional: false,
+      propDefinition: [
+        infusionsoft,
+        "contactId",
+      ],
     },
     status: {
       type: "string",

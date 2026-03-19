@@ -22,9 +22,10 @@ export default defineAction({
       optional: true,
     },
     contactId: {
-      type: "string",
-      label: "Contact ID",
-      description: "Filter affiliates by contact ID",
+      propDefinition: [
+        infusionsoft,
+        "contactId",
+      ],
       optional: true,
     },
     status: {
@@ -106,7 +107,9 @@ export default defineAction({
     const result = await this.infusionsoft.listAffiliates({
       $,
       affiliateName: this.affiliateName,
-      contactId: this.contactId,
+      contactId: this.contactId
+        ? String(this.contactId)
+        : undefined,
       status: this.status,
       code: this.code,
       orderBy: this.orderBy,

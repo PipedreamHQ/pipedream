@@ -23,22 +23,22 @@ export default defineAction({
       optional: false,
     },
     contactId: {
-      type: "string",
-      label: "Contact ID",
-      description: "The ID of the contact associated with this opportunity",
-      optional: false,
+      propDefinition: [
+        infusionsoft,
+        "contactId",
+      ],
     },
     stageId: {
-      type: "string",
-      label: "Stage ID",
-      description: "The ID of the opportunity stage",
-      optional: false,
+      propDefinition: [
+        infusionsoft,
+        "stageId",
+      ],
     },
     userId: {
-      type: "string",
-      label: "Owner User ID",
-      description: "The ID of the Keap user who owns this opportunity",
-      optional: false,
+      propDefinition: [
+        infusionsoft,
+        "userId",
+      ],
     },
     projectedRevenueHigh: {
       type: "string",
@@ -95,9 +95,9 @@ export default defineAction({
     const params: CreateOpportunityParams = {
       $,
       opportunityTitle: this.opportunityTitle,
-      contactId: this.contactId,
-      stageId: this.stageId,
-      userId: this.userId,
+      contactId: String(this.contactId ?? ""),
+      stageId: String(this.stageId ?? ""),
+      userId: String(this.userId ?? ""),
       projectedRevenueHigh: this.projectedRevenueHigh,
       projectedRevenueLow: this.projectedRevenueLow,
       estimatedCloseTime: this.estimatedCloseTime,

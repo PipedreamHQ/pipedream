@@ -23,9 +23,10 @@ export default defineAction({
       optional: false,
     },
     assignedToUserId: {
-      type: "string",
-      label: "Assigned To User ID",
-      description: "The ID of the Keap user the task is assigned to",
+      propDefinition: [
+        infusionsoft,
+        "userId",
+      ],
       optional: true,
     },
     title: {
@@ -35,9 +36,10 @@ export default defineAction({
       optional: true,
     },
     contactId: {
-      type: "string",
-      label: "Contact ID",
-      description: "The ID of the contact associated with this task",
+      propDefinition: [
+        infusionsoft,
+        "contactId",
+      ],
       optional: true,
     },
     description: {
@@ -146,9 +148,13 @@ export default defineAction({
     }
 
     const mutableFields = {
-      assignedToUserId: this.assignedToUserId,
+      assignedToUserId: this.assignedToUserId
+        ? String(this.assignedToUserId)
+        : undefined,
       title: this.title,
-      contactId: this.contactId,
+      contactId: this.contactId
+        ? String(this.contactId)
+        : undefined,
       description: this.description,
       dueTime: this.dueTime,
       priority: this.priority,
