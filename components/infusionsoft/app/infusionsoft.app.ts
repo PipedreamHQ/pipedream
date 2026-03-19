@@ -360,40 +360,30 @@ export default defineApp({
       sequenceId,
       contactIds,
     }: AddContactToAutomationParams): Promise<object> {
-      const body: Record<string, number> = {
-        sequence_id: parseInt(sequenceId, 10),
-      };
-      if (automationId) {
-        body.campaign_id = parseInt(automationId, 10);
+      const automationIdStr = String(automationId ?? "").trim();
+      const sequenceIdStr = String(sequenceId ?? "").trim();
+      if (!automationIdStr) {
+        throw new Error("Automation ID is required");
       }
-      const data = await Promise.all(
-        contactIds.map(async (contactId) => {
-          try {
-            const result = await this._httpRequest({
-              $,
-              endpoint: `/contacts/${contactId}/sequences`,
-              method: "POST",
-              data: body,
-            });
-            return {
-              contactId,
-              status: "success" as const,
-              ...result,
-            };
-          } catch (err) {
-            return {
-              contactId,
-              status: "failed" as const,
-              error: err instanceof Error
-                ? err.message
-                : String(err),
-            };
-          }
-        }),
-      );
-      return {
-        data,
-      };
+      if (!sequenceIdStr) {
+        throw new Error("Sequence ID is required");
+      }
+
+      const contactIdsStr = contactIds
+        .map((id) => String(id ?? "").trim())
+        .filter((s) => s.length > 0);
+      if (contactIdsStr.length === 0) {
+        throw new Error("At least one valid contact ID is required");
+      }
+
+      return this._httpRequest({
+        $,
+        url: `${this._baseUrlV2()}/automations/${automationIdStr}/sequences/${sequenceIdStr}:addContacts`,
+        method: "POST",
+        data: {
+          contact_ids: contactIdsStr,
+        },
+      });
     },
     async createContactNote({
       $,

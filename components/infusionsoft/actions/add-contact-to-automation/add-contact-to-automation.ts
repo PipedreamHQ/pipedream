@@ -5,7 +5,7 @@ import { AddContactToAutomationParams } from "../../types/requestParams";
 export default defineAction({
   name: "Add Contact to Automation",
   description:
-    "Add one or more contacts to an automation sequence in Keap CRM. [See docs here](https://developer.infusionsoft.com/docs/rest/#tag/Contact/operation/addContactToSequenceUsingPOST)",
+    "Add one or more contacts to an automation sequence in Keap CRM. [See docs here](https://developer.infusionsoft.com/docs/restv2/#tag/Automation/operation/addContactsToAutomationSequence)",
   key: "infusionsoft-add-contact-to-automation",
   version: "0.0.1",
   annotations: {
