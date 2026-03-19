@@ -167,12 +167,12 @@ jobs:
           # Ana06/get-changed-files@v2.3.0 treats renamed files that are modified as modified. We shouldn't be renaming files without modification.
           mapfile -d ',' -t added_modified_files < <(printf '%s' '${{ steps.files.outputs.added_modified }}')
           # included in the components dir, ends with .ts and not app.ts,
-          # doesn't end with /common*.ts, and doesn't follow */common/
+          # doesn't end with /common*.ts, doesn't follow */common/, and not in */types/*
           for added_modified_file in "${added_modified_files[@]}";
           do
             echo "Checking if $added_modified_file is a publishable ts file"
             if [[ $added_modified_file == components/* ]] && [[ $added_modified_file == *.ts ]] && [[ $added_modified_file != *.app.ts ]] \
-                && [[ $added_modified_file != */common*.ts ]] && [[ $added_modified_file != */common/* ]]
+                && [[ $added_modified_file != */common*.ts ]] && [[ $added_modified_file != */common/* ]] && [[ $added_modified_file != */types/* ]]
             then
               # XXX This is a hacky way to publish only TS components with changes. If a changed
               # file "path-a/path-b/c.ts" has a corresponding compiled output file
