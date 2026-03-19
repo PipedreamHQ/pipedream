@@ -17,16 +17,17 @@ export default defineAction({
   props: {
     infusionsoft,
     automationId: {
-      type: "string",
-      label: "Automation ID",
-      description: "The ID of the automation (campaign) in Keap",
-      optional: false,
+      propDefinition: [
+        infusionsoft,
+        "automationId",
+      ],
     },
     sequenceId: {
-      type: "string",
-      label: "Sequence ID",
-      description: "The ID of the sequence within the automation",
-      optional: false,
+      propDefinition: [
+        infusionsoft,
+        "sequenceId",
+        ({ automationId }: { automationId: string }) => ({ automationId }),
+      ],
     },
     contactIds: {
       type: "string[]",

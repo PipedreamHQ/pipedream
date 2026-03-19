@@ -354,6 +354,26 @@ export default defineApp({
         },
       });
     },
+    async listAutomations(): Promise<{ id: string; name: string }[]> {
+      const response = await this._httpRequest({
+        url: `${this._baseUrlV2()}/automations`,
+      }) as { automations?: { id: string; name?: string }[] };
+      const automations = response.automations ?? [];
+      return automations.map((a) => ({
+        id: String(a.id),
+        name: a.name ?? String(a.id),
+      }));
+    },
+    async listSequences(automationId: string): Promise<{ id: string; name: string }[]> {
+      const response = await this._httpRequest({
+        url: `${this._baseUrlV2()}/automations/${String(automationId).trim()}/sequences`,
+      }) as { sequences?: { id: string; name?: string }[] };
+      const sequences = response.sequences ?? [];
+      return sequences.map((s) => ({
+        id: String(s.id),
+        name: s.name ?? String(s.id),
+      }));
+    },
     async addContactToAutomation({
       $,
       automationId,
@@ -1275,6 +1295,38 @@ export default defineApp({
           product_name, product_price, id,
         }) => ({
           label: `${product_name} ($${product_price})`,
+          value: id,
+        }));
+      },
+    },
+    automationId: {
+      type: "string",
+      label: "Automation",
+      description: `Select an **Automation** from the list.
+        \\
+        Alternatively, you can provide a custom *Automation ID*.`,
+      async options() {
+        const automations = await this.listAutomations();
+
+        return automations.map(({ id, name }) => ({
+          label: name,
+          value: id,
+        }));
+      },
+    },
+    sequenceId: {
+      type: "string",
+      label: "Sequence",
+      description: `Select a **Sequence** from the list.
+        \\
+        Alternatively, you can provide a custom *Sequence ID*.`,
+      async options({ automationId }: { automationId: string }) {
+        if (!automationId) return [];
+
+        const sequences = await this.listSequences(automationId);
+
+        return sequences.map(({ id, name }) => ({
+          label: name,
           value: id,
         }));
       },
