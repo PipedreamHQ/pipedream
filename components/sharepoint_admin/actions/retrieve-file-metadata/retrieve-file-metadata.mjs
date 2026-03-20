@@ -1,6 +1,11 @@
-import retrieveFileMetadata from "../../../sharepoint/actions/retrieve-file-metadata/retrieve-file-metadata.mjs";
-import sharepointAdmin from "../../sharepoint_admin.app.mjs";
-import parseUtils from "../../../sharepoint/common/utils.mjs";
+import retrieveFileMetadata from
+  "../../../sharepoint/actions/retrieve-file-metadata/retrieve-file-metadata.mjs";
+import sharepointAdmin from
+  "../../sharepoint_admin.app.mjs";
+import parseUtils from
+  "../../../sharepoint/common/utils.mjs";
+import { addCustomFields } from
+  "../../common/customFields.mjs";
 
 export default {
   ...retrieveFileMetadata,
@@ -8,7 +13,7 @@ export default {
   name: retrieveFileMetadata.name,
   description: retrieveFileMetadata.description,
   type: retrieveFileMetadata.type,
-  version: "0.0.3",
+  version: "0.0.4",
   props: {
     sharepointAdmin,
     siteId: {
@@ -38,7 +43,8 @@ export default {
         }),
       ],
       label: "Folder",
-      description: "The folder to browse. Leave empty to browse the root of the drive.",
+      description: "The folder to browse. Leave empty "
+        + "to browse the root of the drive.",
       optional: true,
       withLabel: true,
     },
@@ -54,7 +60,8 @@ export default {
       ],
       type: "string[]",
       label: "Files",
-      description: "Select one or more files to retrieve metadata for.",
+      description:
+        "Select one or more files to retrieve metadata for.",
       withLabel: true,
     },
   },
@@ -64,25 +71,36 @@ export default {
   async run({ $ }) {
     this.sharepoint = this.sharepointAdmin;
 
-    const selections = parseUtils.parseFileOrFolderList(this.fileIds);
+    const selections =
+      parseUtils.parseFileOrFolderList(this.fileIds);
 
     if (selections.length === 0) {
-      throw new Error("Please select at least one file");
+      throw new Error(
+        "Please select at least one file",
+      );
     }
 
-    const siteId = this.sharepoint.resolveWrappedValue(this.siteId);
-    const driveId = this.sharepoint.resolveWrappedValue(this.driveId);
+    const siteId =
+      this.sharepoint.resolveWrappedValue(this.siteId);
+    const driveId =
+      this.sharepoint.resolveWrappedValue(this.driveId);
 
     const {
       fileResults,
       errors,
-    } = await this.fetchFileMetadata($, selections, siteId, driveId, {
-      includeDownloadUrl: false,
-    });
+    } = await this.fetchFileMetadata(
+      $, selections, siteId, driveId, {
+        includeDownloadUrl: false,
+      },
+    );
 
-    return this.processResults($, fileResults, errors, [], {
-      successVerb: "Retrieved",
-      successNoun: "metadata",
-    });
+    const result = this.processResults(
+      $, fileResults, errors, [], {
+        successVerb: "Retrieved",
+        successNoun: "metadata",
+      },
+    );
+
+    return addCustomFields(result);
   },
 };
