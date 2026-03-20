@@ -56,7 +56,6 @@ export default {
 
     const response = await this.hubspot.createBlogPost({
       $,
-      debug: true,
       data,
     });
 
