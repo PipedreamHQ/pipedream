@@ -130,5 +130,62 @@ export default {
         .header("ConsistencyLevel", "eventual")
         .delete();
     },
+    /**
+     * Get the user's manager information.
+     * @param {Object} opts - Options for the request
+     * @param {string} [opts.userId] - User ID or userPrincipalName. If not provided, uses /me
+     * @returns {Promise<Object>} Manager data
+     */
+    async getManager({ userId } = {}) {
+      const path = userId
+        ? `/users/${userId}/manager`
+        : "/me/manager";
+      return this.client()
+        .api(path)
+        .get();
+    },
+    /**
+     * Get the user's profile information.
+     * @param {Object} opts - Options for the request
+     * @param {string} [opts.userId] - User ID or userPrincipalName. If not provided, uses /me
+     * @returns {Promise<Object>} User profile
+     */
+    async getProfile({ userId } = {}) {
+      const path = userId
+        ? `/users/${userId}`
+        : "/me";
+      return this.client()
+        .api(path)
+        .get();
+    },
+    /**
+     * Get the user's Microsoft 365 groups (unified groups).
+     * @param {Object} opts - Options for the request
+     * @param {string} [opts.userId] - User ID or userPrincipalName. If not provided, uses /me
+     * @param {string} [opts.nextLink] - OData nextLink URL for pagination
+     * @returns {Promise<Object>} Response with value array and @odata.nextLink
+     */
+    getMS365Groups({
+      userId, nextLink,
+    } = {}) {
+      const client = this.client();
+      const filter = "groupTypes/any(a:a eq 'unified')";
+
+      if (nextLink) {
+        return client.api(nextLink)
+          .header("ConsistencyLevel", "eventual")
+          .get();
+      }
+
+      const path = userId
+        ? `/users/${userId}/memberOf/microsoft.graph.group`
+        : "/me/memberOf/microsoft.graph.group";
+      return client.api(path)
+        .header("ConsistencyLevel", "eventual")
+        .query({
+          $filter: filter,
+        })
+        .get();
+    },
   },
 };

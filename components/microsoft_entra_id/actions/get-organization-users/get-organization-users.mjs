@@ -1,7 +1,7 @@
-import microsoftGraphApi from "../../microsoft_graph_api.app.mjs";
+import microsoftEntraId from "../../microsoft_entra_id.app.mjs";
 
 export default {
-  key: "microsoft_graph_api-get-organization-users",
+  key: "microsoft_entra_id-get-organization-users",
   name: "Get Organization Users",
   description: "List all users in the organization. By default returns only enabled accounts. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list?view=graph-rest-1.0&tabs=http)",
   version: "0.0.1",
@@ -12,11 +12,15 @@ export default {
     readOnlyHint: true,
   },
   props: {
-    microsoftGraphApi,
+    microsoftEntraId,
   },
   async run({ $ }) {
     const users = [];
-    let response = await this.microsoftGraphApi.listOrganizationUsers();
+    let response = await this.microsoftEntraId.listUsers({
+      params: {
+        $filter: "accountEnabled eq true",
+      },
+    });
 
     const mapUser = (user) => ({
       id: user.id,
@@ -33,8 +37,8 @@ export default {
     users.push(...(response.value || []).map(mapUser));
 
     while (response["@odata.nextLink"]) {
-      response = await this.microsoftGraphApi.listOrganizationUsers({
-        nextLink: response["@odata.nextLink"],
+      response = await this.microsoftEntraId.listUsers({
+        url: response["@odata.nextLink"],
       });
       users.push(...(response.value || []).map(mapUser));
     }

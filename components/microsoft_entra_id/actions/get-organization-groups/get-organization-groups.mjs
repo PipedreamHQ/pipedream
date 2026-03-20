@@ -1,7 +1,7 @@
-import microsoftGraphApi from "../../microsoft_graph_api.app.mjs";
+import microsoftEntraId from "../../microsoft_entra_id.app.mjs";
 
 export default {
-  key: "microsoft_graph_api-get-organization-groups",
+  key: "microsoft_entra_id-get-organization-groups",
   name: "Get Organization Groups",
   description: "List all groups in the organization (excluding dynamic distribution groups). [See the documentation](https://learn.microsoft.com/en-us/graph/api/group-list?view=graph-rest-1.0&tabs=http)",
   version: "0.0.1",
@@ -12,11 +12,11 @@ export default {
     readOnlyHint: true,
   },
   props: {
-    microsoftGraphApi,
+    microsoftEntraId,
   },
   async run({ $ }) {
     const groups = [];
-    let response = await this.microsoftGraphApi.listOrganizationGroups();
+    let response = await this.microsoftEntraId.listGroups();
 
     const mapGroup = (group) => ({
       id: group.id,
@@ -29,8 +29,8 @@ export default {
     groups.push(...(response.value || []).map(mapGroup));
 
     while (response["@odata.nextLink"]) {
-      response = await this.microsoftGraphApi.listOrganizationGroups({
-        nextLink: response["@odata.nextLink"],
+      response = await this.microsoftEntraId.listGroups({
+        url: response["@odata.nextLink"],
       });
       groups.push(...(response.value || []).map(mapGroup));
     }

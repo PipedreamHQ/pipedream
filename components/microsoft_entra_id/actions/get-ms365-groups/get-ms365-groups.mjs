@@ -1,7 +1,7 @@
-import microsoftGraphApi from "../../microsoft_graph_api.app.mjs";
+import microsoftEntraId from "../../microsoft_entra_id.app.mjs";
 
 export default {
-  key: "microsoft_graph_api-get-ms365-groups",
+  key: "microsoft_entra_id-get-ms365-groups",
   name: "Get MS365 Groups",
   description: "Get the user's Microsoft 365 groups (unified groups). Returns groups the user is a direct member of. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list-memberof?view=graph-rest-1.0&tabs=http)",
   version: "0.0.1",
@@ -12,17 +12,19 @@ export default {
     readOnlyHint: true,
   },
   props: {
-    microsoftGraphApi,
+    microsoftEntraId,
     userId: {
       propDefinition: [
-        microsoftGraphApi,
+        microsoftEntraId,
         "userId",
       ],
+      optional: true,
+      description: "Leave empty to use the signed-in user.",
     },
   },
   async run({ $ }) {
     const groups = [];
-    let response = await this.microsoftGraphApi.getMS365Groups({
+    let response = await this.microsoftEntraId.getMS365Groups({
       userId: this.userId || undefined,
     });
 
@@ -36,7 +38,7 @@ export default {
     groups.push(...(response.value || []).map(mapGroup));
 
     while (response["@odata.nextLink"]) {
-      response = await this.microsoftGraphApi.getMS365Groups({
+      response = await this.microsoftEntraId.getMS365Groups({
         userId: this.userId || undefined,
         nextLink: response["@odata.nextLink"],
       });

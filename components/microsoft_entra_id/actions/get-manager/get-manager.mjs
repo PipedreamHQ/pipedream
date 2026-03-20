@@ -1,7 +1,7 @@
-import microsoftGraphApi from "../../microsoft_graph_api.app.mjs";
+import microsoftEntraId from "../../microsoft_entra_id.app.mjs";
 
 export default {
-  key: "microsoft_graph_api-get-manager",
+  key: "microsoft_entra_id-get-manager",
   name: "Get Manager",
   description: "Get the user's manager information. Returns the user or organizational contact assigned as the user's manager. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list-manager?view=graph-rest-1.0&tabs=http)",
   version: "0.0.1",
@@ -12,17 +12,19 @@ export default {
     readOnlyHint: true,
   },
   props: {
-    microsoftGraphApi,
+    microsoftEntraId,
     userId: {
       propDefinition: [
-        microsoftGraphApi,
+        microsoftEntraId,
         "userId",
       ],
+      optional: true,
+      description: "Leave empty to use the signed-in user.",
     },
   },
   async run({ $ }) {
     try {
-      const manager = await this.microsoftGraphApi.getManager({
+      const manager = await this.microsoftEntraId.getManager({
         userId: this.userId || undefined,
       });
 
@@ -38,7 +40,8 @@ export default {
 
       return managerData;
     } catch (error) {
-      if (error?.response?.status === 404) {
+      const status = error?.statusCode ?? error?.response?.status;
+      if (status === 404) {
         const noManagerData = {
           id: null,
           name: null,
