@@ -139,8 +139,8 @@ export default {
           sheetId: this.worksheetId,
           startRowIndex: startRow,
           endRowIndex: endRow,
-          startColumnIndex: startCol.charCodeAt(0) - 65,
-          endColumnIndex: endCol.charCodeAt(0) - 64,
+          startColumnIndex: this.googleSheets._columnLetterToIndex(startCol),
+          endColumnIndex: this.googleSheets._columnLetterToIndex(endCol) + 1, // API end is exclusive
         },
       ],
     };

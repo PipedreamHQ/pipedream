@@ -116,6 +116,22 @@ export default {
     },
 
     /**
+     * Converts a column letter (or multi-letter column like "AH") to a 0-based column index
+     * for use with the Google Sheets API.
+     *
+     * @param {string} col - The column letter(s), e.g. "A", "Z", "AA", "AH".
+     * @returns {number} The 0-based column index.
+     */
+    _columnLetterToIndex(col) {
+      if (!col) return 0;
+      let index = 0;
+      const upper = col.toUpperCase();
+      for (let i = 0; i < upper.length; i++) {
+        index = index * 26 + (upper.charCodeAt(i) - 64);
+      }
+      return index - 1; // 0-based for Google Sheets API
+    },
+    /**
      * Parses a range string into its components:
      * sheet name, start column, end column, start row, and end row.
      *
@@ -662,9 +678,6 @@ export default {
      * @returns {Promise<Object>} The response data from the batchUpdate request.
      */
     async resetRowFormat(spreadsheetId, rangeStr, opts = {}) {
-      const ASCII_A = 65;    // Unicode (UTF-16) value for the character 'A'
-      const OFFSET_INCLUSIVE = -1;  // For making the end column index inclusive
-
       const {
         sheetName,
         startCol,
@@ -681,8 +694,8 @@ export default {
         sheetId: sheetId,
         startRowIndex: startRow,
         endRowIndex: endRow,
-        startColumnIndex: startCol.charCodeAt(0) - ASCII_A,
-        endColumnIndex: endCol.charCodeAt(0) - (ASCII_A + OFFSET_INCLUSIVE),
+        startColumnIndex: this._columnLetterToIndex(startCol),
+        endColumnIndex: this._columnLetterToIndex(endCol) + 1, // API end is exclusive
       };
       return (await sheets.spreadsheets.batchUpdate({
         spreadsheetId,

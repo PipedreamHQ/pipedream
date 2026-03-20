@@ -160,8 +160,6 @@ export default {
     },
   },
   async run({ $ }) {
-    const ASCII_A = 65;    // Unicode (UTF-16) value for the character 'A'
-    const OFFSET_INCLUSIVE = -1;  // For making the end column index inclusive
     const {
       startCol,
       endCol,
@@ -173,8 +171,8 @@ export default {
       sheetId: this.worksheetId,
       startRowIndex: startRow,
       endRowIndex: endRow,
-      startColumnIndex: startCol.charCodeAt(0) - ASCII_A,
-      endColumnIndex: endCol.charCodeAt(0) - (ASCII_A + OFFSET_INCLUSIVE),
+      startColumnIndex: this.googleSheets._columnLetterToIndex(startCol),
+      endColumnIndex: this.googleSheets._columnLetterToIndex(endCol) + 1, // API end is exclusive
     };
 
     const hasBorderStyles = this.topBorderStyle
