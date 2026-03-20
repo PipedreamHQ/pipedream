@@ -116,22 +116,6 @@ export default {
     },
 
     /**
-     * Converts a column letter (or multi-letter column like "AH") to a 0-based column index
-     * for use with the Google Sheets API.
-     *
-     * @param {string} col - The column letter(s), e.g. "A", "Z", "AA", "AH".
-     * @returns {number} The 0-based column index.
-     */
-    _columnLetterToIndex(col) {
-      if (!col) return 0;
-      let index = 0;
-      const upper = col.toUpperCase();
-      for (let i = 0; i < upper.length; i++) {
-        index = index * 26 + (upper.charCodeAt(i) - 64);
-      }
-      return index - 1; // 0-based for Google Sheets API
-    },
-    /**
      * Parses a range string into its components:
      * sheet name, start column, end column, start row, and end row.
      *
@@ -694,8 +678,8 @@ export default {
         sheetId: sheetId,
         startRowIndex: startRow,
         endRowIndex: endRow,
-        startColumnIndex: this._columnLetterToIndex(startCol),
-        endColumnIndex: this._columnLetterToIndex(endCol) + 1, // API end is exclusive
+        startColumnIndex: this._getColumnIndex(startCol) - 1,
+        endColumnIndex: this._getColumnIndex(endCol), // API end is exclusive
       };
       return (await sheets.spreadsheets.batchUpdate({
         spreadsheetId,
