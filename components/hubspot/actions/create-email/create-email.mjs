@@ -6,11 +6,12 @@ import hubspot from "../../hubspot.app.mjs";
 import common from "../common/common-get-object.mjs";
 
 export default {
+  ...common,
   key: "hubspot-create-email",
   name: "Create Marketing Email",
   description:
     "Create a marketing email in Hubspot. [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/emails/marketing-emails#post-%2Fmarketing%2Fv3%2Femails%2F)",
-  version: "0.0.9",
+  version: "0.0.10",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -66,6 +67,8 @@ export default {
         hubspot,
         "lists",
       ],
+      label: "Include Contact Lists",
+      description: "The contact lists to include",
       optional: true,
     },
     excludeContactLists: {
@@ -73,6 +76,8 @@ export default {
         hubspot,
         "lists",
       ],
+      label: "Exclude Contact Lists",
+      description: "The contact lists to exclude",
       optional: true,
     },
     feedbackSurveyId: {
@@ -143,6 +148,15 @@ export default {
     },
   },
   async run({ $ }) {
+    let includeContactLists = this.includeContactLists;
+    let excludeContactLists = this.excludeContactLists;
+    if (includeContactLists?.length && includeContactLists[0]?.value) {
+      includeContactLists = includeContactLists.map((item) => item.value);
+    }
+    if (excludeContactLists?.length && excludeContactLists[0]?.value) {
+      excludeContactLists = excludeContactLists.map((item) => item.value);
+    }
+
     const response = await this.hubspot.createEmail({
       $,
       data: {
@@ -157,8 +171,8 @@ export default {
           limitSendFrequency: this.limitSendFrequency,
           suppressGraymail: this.suppressGraymail,
           contactLists: {
-            include: parseObject(this.includeContactLists),
-            exclude: parseObject(this.excludeContactLists),
+            include: parseObject(includeContactLists),
+            exclude: parseObject(excludeContactLists),
           },
         },
         feedbackSurveyId: this.feedbackSurveyId,
