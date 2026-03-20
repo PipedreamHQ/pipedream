@@ -39,18 +39,29 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
+    const contactIds = (this.contactIds ?? [])
+      .map((id) => String(id ?? "").trim())
+      .filter((s) => s.length > 0);
+    const uniqueIds = [
+      ...new Set(contactIds),
+    ];
+
+    if (uniqueIds.length === 0) {
+      throw new Error("At least one valid contact ID is required");
+    }
+
     const params: AddContactToAutomationParams = {
       $,
       automationId: this.automationId,
       sequenceId: this.sequenceId,
-      contactIds: this.contactIds,
+      contactIds: uniqueIds,
     };
 
     const result = await this.infusionsoft.addContactToAutomation(params);
 
     $.export(
       "$summary",
-      `Successfully added ${this.contactIds.length} contact(s) to automation sequence`,
+      `Successfully added ${uniqueIds.length} contact(s) to automation sequence`,
     );
 
     return result;

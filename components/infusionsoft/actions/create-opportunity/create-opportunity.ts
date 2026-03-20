@@ -92,12 +92,24 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
+    const contactId = String(this.contactId ?? "").trim();
+    const stageId = String(this.stageId ?? "").trim();
+    const userId = String(this.userId ?? "").trim();
+
+    const missing: string[] = [];
+    if (!contactId) missing.push("Contact");
+    if (!stageId) missing.push("Stage");
+    if (!userId) missing.push("Owner User");
+    if (missing.length > 0) {
+      throw new Error(`${missing.join(", ")} is required`);
+    }
+
     const params: CreateOpportunityParams = {
       $,
       opportunityTitle: this.opportunityTitle,
-      contactId: String(this.contactId ?? ""),
-      stageId: String(this.stageId ?? ""),
-      userId: String(this.userId ?? ""),
+      contactId,
+      stageId,
+      userId,
       projectedRevenueHigh: this.projectedRevenueHigh,
       projectedRevenueLow: this.projectedRevenueLow,
       estimatedCloseTime: this.estimatedCloseTime,

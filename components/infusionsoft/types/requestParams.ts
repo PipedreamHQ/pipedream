@@ -109,9 +109,9 @@ interface CreateOpportunityParams extends ActionRequestParams {
 
 interface CreateOpportunityStageParams extends ActionRequestParams {
   name: string;
-  order: string;
-  probability: string;
-  targetNumberDays: string;
+  order: number;
+  probability: number;
+  targetNumberDays: number;
   checklistItems?: string;
 }
 
@@ -197,6 +197,8 @@ interface UploadFileParams extends ActionRequestParams {
   fileName: string;
   fileAssociation: string;
   contactId?: string;
+  userId?: string;
+  companyId?: string;
   isPublic?: boolean;
 }
 

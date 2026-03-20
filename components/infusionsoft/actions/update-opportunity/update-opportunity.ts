@@ -100,9 +100,12 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
-    const params: UpdateOpportunityParams = {
-      $,
-      opportunityId: String(this.opportunityId ?? ""),
+    const opportunityId = String(this.opportunityId ?? "").trim();
+    if (!opportunityId) {
+      throw new Error("Opportunity ID is required");
+    }
+
+    const mutableFields = {
       opportunityTitle: this.opportunityTitle,
       contactId: this.contactId
         ? String(this.contactId)
@@ -122,10 +125,20 @@ export default defineAction({
       includeInForecast: this.includeInForecast,
       customFields: this.customFields,
     };
+    const hasMutable = Object.values(mutableFields).some((v) => v != null && (typeof v === "boolean" || String(v).trim() !== ""));
+    if (!hasMutable) {
+      throw new Error("At least one field to update is required (opportunityTitle, contactId, stageId, userId, projectedRevenueHigh, projectedRevenueLow, estimatedCloseTime, nextActionTime, nextActionNotes, opportunityNotes, includeInForecast, or customFields)");
+    }
+
+    const params: UpdateOpportunityParams = {
+      $,
+      opportunityId,
+      ...mutableFields,
+    };
 
     const result = await this.infusionsoft.updateOpportunity(params);
 
-    $.export("$summary", `Successfully updated opportunity ${this.opportunityId}`);
+    $.export("$summary", `Successfully updated opportunity ${opportunityId}`);
 
     return result;
   },

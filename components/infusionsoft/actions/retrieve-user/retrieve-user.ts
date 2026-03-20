@@ -23,12 +23,17 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
+    const userId = String(this.userId ?? "").trim();
+    if (!userId) {
+      throw new Error("User ID is required");
+    }
+
     const result = await this.infusionsoft.retrieveUser({
       $,
-      userId: String(this.userId ?? ""),
+      userId,
     });
 
-    $.export("$summary", `Successfully retrieved user ${this.userId}`);
+    $.export("$summary", `Successfully retrieved user ${userId}`);
 
     return result;
   },

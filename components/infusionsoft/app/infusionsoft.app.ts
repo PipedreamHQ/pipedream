@@ -272,8 +272,14 @@ export default defineApp({
       if (givenName?.trim()) body.given_name = givenName.trim();
       if (familyName?.trim()) body.family_name = familyName.trim();
       if (jobTitle?.trim()) body.job_title = jobTitle.trim();
-      if (ownerId?.trim()) body.owner_id = parseInt(ownerId.trim(), 10);
-      if (leadsourceId?.trim()) body.leadsource_id = parseInt(leadsourceId.trim(), 10);
+      if (ownerId?.trim()) {
+        const parsed = parseInt(ownerId.trim(), 10);
+        if (Number.isFinite(parsed)) body.owner_id = parsed;
+      }
+      if (leadsourceId?.trim()) {
+        const parsed = parseInt(leadsourceId.trim(), 10);
+        if (Number.isFinite(parsed)) body.leadsource_id = parsed;
+      }
 
       if (email?.trim()) {
         body.email_addresses = [
@@ -294,7 +300,10 @@ export default defineApp({
       }
 
       const company: Record<string, unknown> = {};
-      if (companyId?.trim()) company.id = parseInt(companyId.trim(), 10);
+      if (companyId?.trim()) {
+        const parsed = parseInt(companyId.trim(), 10);
+        if (Number.isFinite(parsed)) company.id = parsed;
+      }
       if (companyName?.trim()) company.company_name = companyName.trim();
       if (Object.keys(company).length > 0) body.company = company;
 
@@ -846,7 +855,7 @@ export default defineApp({
       if (filter?.trim()) params.filter = filter.trim();
       if (orderBy?.trim()) params.order_by = orderBy.trim();
       const size = parseInt(String(pageSize || "").trim(), 10);
-      if (!isNaN(size) && size >= 1 && size <= 1000) params.page_size = Math.max(size, 10);
+      if (!isNaN(size) && size >= 1 && size <= 1000) params.page_size = size;
       if (pageToken?.trim()) params.page_token = pageToken.trim();
       return this._httpRequest({
         $,
@@ -963,7 +972,11 @@ export default defineApp({
       const body: Record<string, unknown> = {
         user_id: userId.trim(),
         subject: subject.trim(),
-        contacts: contactIds.filter((id) => typeof id === "string" && id.trim()),
+        contacts: contactIds
+          .map((id) => (typeof id === "string"
+            ? id.trim()
+            : ""))
+          .filter((s) => s.length > 0),
       };
       if (htmlContent?.trim()) body.html_content = Buffer.from(htmlContent).toString("base64");
       if (plainContent?.trim()) body.plain_content = Buffer.from(plainContent).toString("base64");
@@ -995,7 +1008,11 @@ export default defineApp({
       const body: Record<string, unknown> = {
         template_id: templateId.trim(),
         user_id: userId.trim(),
-        contact_ids: contactIds.filter((id) => typeof id === "string" && id.trim()),
+        contact_ids: contactIds
+          .map((id) => (typeof id === "string"
+            ? id.trim()
+            : ""))
+          .filter((s) => s.length > 0),
       };
       if (addressField?.trim()) body.address_field = addressField.trim();
       return this._httpRequest({
@@ -1014,13 +1031,17 @@ export default defineApp({
       opportunityId: string;
       stageId: string;
     }): Promise<object> {
+      const stageIdNum = parseInt(String(stageId ?? "").trim(), 10);
+      if (!Number.isFinite(stageIdNum)) {
+        throw new Error("Stage ID must be a valid number");
+      }
       return this._httpRequest({
         $,
         url: `${this._baseUrl()}/opportunities/${String(opportunityId ?? "").trim()}`,
         method: "PATCH",
         data: {
           stage: {
-            id: parseInt(String(stageId ?? "").trim(), 10),
+            id: stageIdNum,
           },
         },
       });
@@ -1197,6 +1218,8 @@ export default defineApp({
       fileName,
       fileAssociation,
       contactId,
+      userId,
+      companyId,
       isPublic,
     }: UploadFileParams): Promise<object> {
       const association = fileAssociation.trim().toUpperCase();
@@ -1209,6 +1232,12 @@ export default defineApp({
       }
       if (association === "CONTACT" && !contactId?.trim()) {
         throw new Error("Contact ID is required for CONTACT association");
+      }
+      if (association === "USER" && !userId?.trim()) {
+        throw new Error("User ID is required for USER association");
+      }
+      if (association === "COMPANY" && !companyId?.trim()) {
+        throw new Error("Company ID is required for COMPANY association");
       }
       let base64Data = fileData;
       if (fileData.startsWith("data:")) {
@@ -1224,6 +1253,8 @@ export default defineApp({
         is_public: Boolean(isPublic),
       };
       if (contactId?.trim()) body.contact_id = parseInt(contactId.trim(), 10);
+      if (userId?.trim()) body.user_id = parseInt(userId.trim(), 10);
+      if (companyId?.trim()) body.company_id = parseInt(companyId.trim(), 10);
       return this._httpRequest({
         $,
         url: `${this._baseUrl()}/files`,

@@ -65,9 +65,9 @@ export default defineAction({
     const params: CreateOpportunityStageParams = {
       $,
       name: this.name,
-      order: this.order,
-      probability: this.probability,
-      targetNumberDays: this.targetNumberDays,
+      order: stageOrder,
+      probability: stageProbability,
+      targetNumberDays: targetDays,
       checklistItems: this.checklistItems,
     };
 

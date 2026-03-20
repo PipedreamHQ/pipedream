@@ -29,15 +29,25 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
+    const opportunityId = String(this.opportunityId ?? "").trim();
+    const stageId = String(this.stageId ?? "").trim();
+
+    if (!opportunityId) {
+      throw new Error("Opportunity ID is required");
+    }
+    if (!stageId) {
+      throw new Error("Stage ID is required");
+    }
+
     const result = await this.infusionsoft.setOpportunityStage({
       $,
-      opportunityId: String(this.opportunityId ?? ""),
-      stageId: String(this.stageId ?? ""),
+      opportunityId,
+      stageId,
     });
 
     $.export(
       "$summary",
-      `Successfully set opportunity ${this.opportunityId} to stage ${this.stageId}`,
+      `Successfully set opportunity ${opportunityId} to stage ${stageId}`,
     );
 
     return result;

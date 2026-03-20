@@ -30,17 +30,25 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
+    const contactIds = (this.contactIds ?? [])
+      .map((id) => String(id ?? "").trim())
+      .filter((s) => s.length > 0);
+
+    if (contactIds.length === 0) {
+      throw new Error("At least one valid contact ID is required");
+    }
+
     const params: ApplyTagToContactsParams = {
       $,
       tagId: this.tagId,
-      contactIds: this.contactIds,
+      contactIds,
     };
 
     const result = await this.infusionsoft.applyTagToContacts(params);
 
     $.export(
       "$summary",
-      `Successfully applied tag to ${this.contactIds.length} contact(s)`,
+      `Successfully applied tag to ${contactIds.length} contact(s)`,
     );
 
     return result;

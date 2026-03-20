@@ -56,6 +56,20 @@ export default defineAction({
       ],
       optional: true,
     },
+    userId: {
+      propDefinition: [
+        infusionsoft,
+        "userId",
+      ],
+      optional: true,
+    },
+    companyId: {
+      propDefinition: [
+        infusionsoft,
+        "companyId",
+      ],
+      optional: true,
+    },
     isPublic: {
       type: "boolean",
       label: "Is Public",
@@ -65,8 +79,24 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
-    if (this.fileAssociation === "CONTACT" && !String(this.contactId ?? "").trim()) {
+    if (!String(this.fileData ?? "").trim()) {
+      throw new Error("File Data is required");
+    }
+    const fileName = String(this.fileName ?? "").trim();
+    if (!fileName) {
+      throw new Error("File Name is required");
+    }
+
+    const association = String(this.fileAssociation ?? "").trim()
+      .toUpperCase();
+    if (association === "CONTACT" && !String(this.contactId ?? "").trim()) {
       throw new Error("Contact ID is required when File Association is CONTACT");
+    }
+    if (association === "USER" && !String(this.userId ?? "").trim()) {
+      throw new Error("User ID is required when File Association is USER");
+    }
+    if (association === "COMPANY" && !String(this.companyId ?? "").trim()) {
+      throw new Error("Company ID is required when File Association is COMPANY");
     }
 
     const params: UploadFileParams = {
@@ -77,12 +107,18 @@ export default defineAction({
       contactId: this.contactId
         ? String(this.contactId)
         : undefined,
+      userId: this.userId
+        ? String(this.userId)
+        : undefined,
+      companyId: this.companyId
+        ? String(this.companyId)
+        : undefined,
       isPublic: this.isPublic,
     };
 
     const result = await this.infusionsoft.uploadFile(params);
 
-    $.export("$summary", `Successfully uploaded file "${this.fileName}"`);
+    $.export("$summary", `Successfully uploaded file "${fileName}"`);
 
     return result;
   },
