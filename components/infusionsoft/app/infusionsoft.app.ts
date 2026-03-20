@@ -45,6 +45,13 @@ export default defineApp({
     _baseUrlV2(): string {
       return "https://api.infusionsoft.com/crm/rest/v2";
     },
+    _parseId(val: string, fieldName: string): number {
+      const t = String(val ?? "").trim();
+      if (!/^\d+$/.test(t)) {
+        throw new Error(`${fieldName} must be a valid numeric ID`);
+      }
+      return parseInt(t, 10);
+    },
     async _httpRequest({
       $ = this,
       endpoint,
@@ -237,13 +244,14 @@ export default defineApp({
       if (customFields?.trim()) {
         try {
           const parsed = JSON.parse(customFields);
-          if (Array.isArray(parsed)) {
-            body.custom_fields = parsed;
+          if (!Array.isArray(parsed)) {
+            throw new Error("customFields must be a JSON array");
           }
+          body.custom_fields = parsed;
         } catch (e) {
-          throw new Error(`Invalid customFields JSON: ${e instanceof Error
+          throw new Error(e instanceof Error
             ? e.message
-            : String(e)}`);
+            : `Invalid customFields JSON: ${String(e)}`);
         }
       }
 
@@ -272,14 +280,8 @@ export default defineApp({
       if (givenName?.trim()) body.given_name = givenName.trim();
       if (familyName?.trim()) body.family_name = familyName.trim();
       if (jobTitle?.trim()) body.job_title = jobTitle.trim();
-      if (ownerId?.trim()) {
-        const parsed = parseInt(ownerId.trim(), 10);
-        if (Number.isFinite(parsed)) body.owner_id = parsed;
-      }
-      if (leadsourceId?.trim()) {
-        const parsed = parseInt(leadsourceId.trim(), 10);
-        if (Number.isFinite(parsed)) body.leadsource_id = parsed;
-      }
+      if (ownerId?.trim()) body.owner_id = this._parseId(ownerId, "Owner ID");
+      if (leadsourceId?.trim()) body.leadsource_id = this._parseId(leadsourceId, "Lead Source ID");
 
       if (email?.trim()) {
         body.email_addresses = [
@@ -300,23 +302,21 @@ export default defineApp({
       }
 
       const company: Record<string, unknown> = {};
-      if (companyId?.trim()) {
-        const parsed = parseInt(companyId.trim(), 10);
-        if (Number.isFinite(parsed)) company.id = parsed;
-      }
+      if (companyId?.trim()) company.id = this._parseId(companyId, "Company ID");
       if (companyName?.trim()) company.company_name = companyName.trim();
       if (Object.keys(company).length > 0) body.company = company;
 
       if (customFields?.trim()) {
         try {
           const parsed = JSON.parse(customFields);
-          if (Array.isArray(parsed)) {
-            body.custom_fields = parsed;
+          if (!Array.isArray(parsed)) {
+            throw new Error("customFields must be a JSON array");
           }
+          body.custom_fields = parsed;
         } catch (e) {
-          throw new Error(`Invalid customFields JSON: ${e instanceof Error
+          throw new Error(e instanceof Error
             ? e.message
-            : String(e)}`);
+            : `Invalid customFields JSON: ${String(e)}`);
         }
       }
 
@@ -354,12 +354,14 @@ export default defineApp({
       tagId,
       contactIds,
     }: ApplyTagToContactsParams): Promise<object> {
+      const tagIdNum = this._parseId(tagId, "Tag ID");
+      const contactIdsNum = contactIds.map((id, i) => this._parseId(String(id), `Contact ID at index ${i}`));
       return this._httpRequest({
         $,
-        url: `${this._baseUrlV2()}/tags/${parseInt(tagId, 10)}/contacts:applyTags`,
+        url: `${this._baseUrlV2()}/tags/${tagIdNum}/contacts:applyTags`,
         method: "POST",
         data: {
-          contact_ids: contactIds.map((id) => parseInt(id, 10)),
+          contact_ids: contactIdsNum,
         },
       });
     },
@@ -423,11 +425,11 @@ export default defineApp({
       type,
     }: CreateContactNoteParams): Promise<object> {
       const data: Record<string, unknown> = {
-        contact_id: parseInt(contactId, 10),
+        contact_id: this._parseId(contactId, "Contact ID"),
         body: body.trim(),
       };
       if (title?.trim()) data.title = title.trim();
-      if (userId?.trim()) data.user_id = parseInt(userId.trim(), 10);
+      if (userId?.trim()) data.user_id = this._parseId(userId, "User ID");
       if (type?.trim()) data.type = type.trim();
       return this._httpRequest({
         $,
@@ -493,27 +495,28 @@ export default defineApp({
       if (customFields?.trim()) {
         try {
           const parsed = JSON.parse(customFields);
-          if (Array.isArray(parsed)) {
-            body.custom_fields = parsed
-              .map((f: { id: unknown; content: unknown }) => {
-                const idNum = typeof f.id === "string"
-                  ? parseInt(f.id, 10)
-                  : Number(f.id);
-                if (isNaN(idNum)) return null;
-                const content = f.content && typeof f.content === "object" && "value" in (f.content as object)
-                  ? (f.content as { value: unknown }).value
-                  : f.content;
-                return {
-                  id: idNum,
-                  content,
-                };
-              })
-              .filter(Boolean);
+          if (!Array.isArray(parsed)) {
+            throw new Error("customFields must be a JSON array");
           }
+          body.custom_fields = parsed
+            .map((f: { id: unknown; content: unknown }) => {
+              const idNum = typeof f.id === "string"
+                ? parseInt(f.id, 10)
+                : Number(f.id);
+              if (isNaN(idNum)) return null;
+              const content = f.content && typeof f.content === "object" && "value" in (f.content as object)
+                ? (f.content as { value: unknown }).value
+                : f.content;
+              return {
+                id: idNum,
+                content,
+              };
+            })
+            .filter(Boolean);
         } catch (e) {
-          throw new Error(`Invalid customFields JSON: ${e instanceof Error
+          throw new Error(e instanceof Error
             ? e.message
-            : String(e)}`);
+            : `Invalid customFields JSON: ${String(e)}`);
         }
       }
       return this._httpRequest({
@@ -549,17 +552,18 @@ export default defineApp({
       if (checklistItems?.trim()) {
         try {
           const parsed = JSON.parse(checklistItems);
-          if (Array.isArray(parsed)) {
-            body.checklist_items = parsed.map((item: { description: string; order: number; required: boolean }) => ({
-              description: String(item.description).trim(),
-              order: parseInt(String(item.order), 10),
-              required: Boolean(item.required),
-            }));
+          if (!Array.isArray(parsed)) {
+            throw new Error("checklistItems must be a JSON array");
           }
+          body.checklist_items = parsed.map((item: { description: string; order: number; required: boolean }) => ({
+            description: String(item.description).trim(),
+            order: parseInt(String(item.order), 10),
+            required: Boolean(item.required),
+          }));
         } catch (e) {
-          throw new Error(`Invalid checklistItems JSON: ${e instanceof Error
+          throw new Error(e instanceof Error
             ? e.message
-            : String(e)}`);
+            : `Invalid checklistItems JSON: ${String(e)}`);
         }
       }
       return this._httpRequest({
@@ -984,11 +988,14 @@ export default defineApp({
       if (attachments?.trim()) {
         try {
           const parsed = JSON.parse(attachments);
-          if (Array.isArray(parsed)) body.attachments = parsed;
+          if (!Array.isArray(parsed)) {
+            throw new Error("attachments must be a JSON array");
+          }
+          body.attachments = parsed;
         } catch (e) {
-          throw new Error(`Invalid attachments JSON: ${e instanceof Error
+          throw new Error(e instanceof Error
             ? e.message
-            : String(e)}`);
+            : `Invalid attachments JSON: ${String(e)}`);
         }
       }
       return this._httpRequest({
@@ -1063,8 +1070,8 @@ export default defineApp({
       if (givenName?.trim()) body.given_name = givenName.trim();
       if (familyName?.trim()) body.family_name = familyName.trim();
       if (jobTitle?.trim()) body.job_title = jobTitle.trim();
-      if (ownerId?.trim()) body.owner_id = parseInt(ownerId.trim(), 10);
-      if (leadsourceId?.trim()) body.leadsource_id = parseInt(leadsourceId.trim(), 10);
+      if (ownerId?.trim()) body.owner_id = this._parseId(ownerId, "Owner ID");
+      if (leadsourceId?.trim()) body.leadsource_id = this._parseId(leadsourceId, "Lead Source ID");
       if (email?.trim()) body.email_addresses = [
         {
           email: email.trim(),
@@ -1083,11 +1090,14 @@ export default defineApp({
       if (customFields?.trim()) {
         try {
           const parsed = JSON.parse(customFields);
-          if (Array.isArray(parsed)) body.custom_fields = parsed;
+          if (!Array.isArray(parsed)) {
+            throw new Error("customFields must be a JSON array");
+          }
+          body.custom_fields = parsed;
         } catch (e) {
-          throw new Error(`Invalid customFields JSON: ${e instanceof Error
+          throw new Error(e instanceof Error
             ? e.message
-            : String(e)}`);
+            : `Invalid customFields JSON: ${String(e)}`);
         }
       }
       return this._httpRequest({
@@ -1149,27 +1159,28 @@ export default defineApp({
       if (customFields?.trim()) {
         try {
           const parsed = JSON.parse(customFields);
-          if (Array.isArray(parsed)) {
-            body.custom_fields = parsed
-              .map((f: { id: unknown; content: unknown }) => {
-                const idNum = typeof f.id === "string"
-                  ? parseInt(f.id, 10)
-                  : Number(f.id);
-                if (isNaN(idNum)) return null;
-                const content = f.content && typeof f.content === "object" && "value" in (f.content as object)
-                  ? (f.content as { value: unknown }).value
-                  : f.content;
-                return {
-                  id: idNum,
-                  content,
-                };
-              })
-              .filter(Boolean);
+          if (!Array.isArray(parsed)) {
+            throw new Error("customFields must be a JSON array");
           }
+          body.custom_fields = parsed
+            .map((f: { id: unknown; content: unknown }) => {
+              const idNum = typeof f.id === "string"
+                ? parseInt(f.id, 10)
+                : Number(f.id);
+              if (isNaN(idNum)) return null;
+              const content = f.content && typeof f.content === "object" && "value" in (f.content as object)
+                ? (f.content as { value: unknown }).value
+                : f.content;
+              return {
+                id: idNum,
+                content,
+              };
+            })
+            .filter(Boolean);
         } catch (e) {
-          throw new Error(`Invalid customFields JSON: ${e instanceof Error
+          throw new Error(e instanceof Error
             ? e.message
-            : String(e)}`);
+            : `Invalid customFields JSON: ${String(e)}`);
         }
       }
       return this._httpRequest({
@@ -1239,12 +1250,13 @@ export default defineApp({
       if (association === "COMPANY" && !companyId?.trim()) {
         throw new Error("Company ID is required for COMPANY association");
       }
-      let base64Data = fileData;
-      if (fileData.startsWith("data:")) {
-        const commaIdx = fileData.indexOf(",");
-        if (commaIdx > 0) base64Data = fileData.substring(commaIdx + 1);
+      const fileDataTrimmed = String(fileData ?? "").trim();
+      let base64Data = fileDataTrimmed;
+      if (fileDataTrimmed.startsWith("data:")) {
+        const commaIdx = fileDataTrimmed.indexOf(",");
+        if (commaIdx > 0) base64Data = fileDataTrimmed.substring(commaIdx + 1);
       } else {
-        base64Data = Buffer.from(fileData, "utf-8").toString("base64");
+        base64Data = Buffer.from(fileDataTrimmed, "utf-8").toString("base64");
       }
       const body: Record<string, unknown> = {
         file_name: fileName.trim(),
@@ -1252,9 +1264,9 @@ export default defineApp({
         file_association: association,
         is_public: Boolean(isPublic),
       };
-      if (contactId?.trim()) body.contact_id = parseInt(contactId.trim(), 10);
-      if (userId?.trim()) body.user_id = parseInt(userId.trim(), 10);
-      if (companyId?.trim()) body.company_id = parseInt(companyId.trim(), 10);
+      if (contactId?.trim()) body.contact_id = this._parseId(contactId, "Contact ID");
+      if (userId?.trim()) body.user_id = this._parseId(userId, "User ID");
+      if (companyId?.trim()) body.company_id = this._parseId(companyId, "Company ID");
       return this._httpRequest({
         $,
         url: `${this._baseUrl()}/files`,

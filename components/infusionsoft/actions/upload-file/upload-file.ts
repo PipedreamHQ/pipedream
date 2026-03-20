@@ -20,7 +20,7 @@ export default defineAction({
       type: "string",
       label: "File Data",
       description:
-        "Binary data as Base64 encoded string, or a data URL (e.g., data:application/pdf;base64,...).",
+        "Raw binary/text content (will be Base64 encoded), or a data URL (e.g., data:application/pdf;base64,...).",
       optional: false,
     },
     fileName: {
@@ -101,7 +101,7 @@ export default defineAction({
 
     const params: UploadFileParams = {
       $,
-      fileData: this.fileData,
+      fileData: String(this.fileData ?? "").trim(),
       fileName: this.fileName,
       fileAssociation: this.fileAssociation,
       contactId: this.contactId

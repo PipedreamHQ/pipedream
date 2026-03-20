@@ -101,7 +101,10 @@ export default defineAction({
     if (!stageId) missing.push("Stage");
     if (!userId) missing.push("Owner User");
     if (missing.length > 0) {
-      throw new Error(`${missing.join(", ")} is required`);
+      const verb = missing.length === 1
+        ? "is"
+        : "are";
+      throw new Error(`${missing.join(", ")} ${verb} required`);
     }
 
     const params: CreateOpportunityParams = {
