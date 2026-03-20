@@ -453,18 +453,12 @@ export default defineApp({
       includeInForecast,
       customFields,
     }: CreateOpportunityParams): Promise<object> {
-      const contactIdNum = parseInt(String(contactId), 10);
-      const stageIdNum = parseInt(String(stageId), 10);
-      const userIdNum = parseInt(String(userId), 10);
-      if (!Number.isFinite(contactIdNum) || contactIdNum < 1) {
-        throw new Error("Contact ID must be a valid positive number");
-      }
-      if (!Number.isFinite(stageIdNum) || stageIdNum < 1) {
-        throw new Error("Stage ID must be a valid positive number");
-      }
-      if (!Number.isFinite(userIdNum) || userIdNum < 1) {
-        throw new Error("User ID must be a valid positive number");
-      }
+      const contactIdNum = this._parseId(contactId, "Contact ID");
+      const stageIdNum = this._parseId(stageId, "Stage ID");
+      const userIdNum = this._parseId(userId, "User ID");
+      if (contactIdNum < 1) throw new Error("Contact ID must be a positive number");
+      if (stageIdNum < 1) throw new Error("Stage ID must be a positive number");
+      if (userIdNum < 1) throw new Error("User ID must be a positive number");
 
       const body: Record<string, unknown> = {
         opportunity_title: opportunityTitle.trim(),
@@ -498,21 +492,25 @@ export default defineApp({
           if (!Array.isArray(parsed)) {
             throw new Error("customFields must be a JSON array");
           }
-          body.custom_fields = parsed
-            .map((f: { id: unknown; content: unknown }) => {
-              const idNum = typeof f.id === "string"
-                ? parseInt(f.id, 10)
-                : Number(f.id);
-              if (isNaN(idNum)) return null;
-              const content = f.content && typeof f.content === "object" && "value" in (f.content as object)
-                ? (f.content as { value: unknown }).value
-                : f.content;
-              return {
-                id: idNum,
-                content,
-              };
-            })
-            .filter(Boolean);
+          body.custom_fields = parsed.map((f: { id: unknown; content: unknown }, i: number) => {
+            const idVal = f.id;
+            const idNum = typeof idVal === "string"
+              ? parseInt(idVal, 10)
+              : Number(idVal);
+            if (!Number.isInteger(idNum) || idNum < 1) {
+              throw new Error(`customFields[${i}].id must be a positive integer`);
+            }
+            const content = f.content && typeof f.content === "object" && "value" in (f.content as object)
+              ? (f.content as { value: unknown }).value
+              : f.content;
+            if (content === undefined || content === null) {
+              throw new Error(`customFields[${i}].content is required`);
+            }
+            return {
+              id: idNum,
+              content,
+            };
+          });
         } catch (e) {
           throw new Error(e instanceof Error
             ? e.message
@@ -555,11 +553,24 @@ export default defineApp({
           if (!Array.isArray(parsed)) {
             throw new Error("checklistItems must be a JSON array");
           }
-          body.checklist_items = parsed.map((item: { description: string; order: number; required: boolean }) => ({
-            description: String(item.description).trim(),
-            order: parseInt(String(item.order), 10),
-            required: Boolean(item.required),
-          }));
+          body.checklist_items = parsed.map((item: { description?: unknown; order?: unknown; required?: unknown }, i: number) => {
+            const desc = item.description;
+            if (desc === undefined || desc === null || typeof desc !== "string") {
+              throw new Error(`checklistItems[${i}].description must be a string`);
+            }
+            const orderVal = item.order;
+            const orderNum = typeof orderVal === "string"
+              ? parseInt(orderVal, 10)
+              : Number(orderVal);
+            if (!Number.isInteger(orderNum) || orderNum < 0) {
+              throw new Error(`checklistItems[${i}].order must be a non-negative integer`);
+            }
+            return {
+              description: desc.trim(),
+              order: orderNum,
+              required: Boolean(item.required),
+            };
+          });
         } catch (e) {
           throw new Error(e instanceof Error
             ? e.message
@@ -1125,24 +1136,15 @@ export default defineApp({
     }: UpdateOpportunityParams): Promise<object> {
       const body: Record<string, unknown> = {};
       if (opportunityTitle?.trim()) body.opportunity_title = opportunityTitle.trim();
-      if (contactId?.trim()) {
-        const cid = parseInt(contactId.trim(), 10);
-        if (!isNaN(cid)) body.contact = {
-          id: cid,
-        };
-      }
-      if (stageId?.trim()) {
-        const sid = parseInt(stageId.trim(), 10);
-        if (!isNaN(sid)) body.stage = {
-          id: sid,
-        };
-      }
-      if (userId?.trim()) {
-        const uid = parseInt(userId.trim(), 10);
-        if (!isNaN(uid)) body.user = {
-          id: uid,
-        };
-      }
+      if (contactId?.trim()) body.contact = {
+        id: this._parseId(contactId, "Contact ID"),
+      };
+      if (stageId?.trim()) body.stage = {
+        id: this._parseId(stageId, "Stage ID"),
+      };
+      if (userId?.trim()) body.user = {
+        id: this._parseId(userId, "User ID"),
+      };
       if (estimatedCloseTime?.trim()) body.estimated_close_date = estimatedCloseTime.trim();
       if (nextActionTime?.trim()) body.next_action_date = nextActionTime.trim();
       if (nextActionNotes?.trim()) body.next_action_notes = nextActionNotes.trim();
@@ -1162,21 +1164,25 @@ export default defineApp({
           if (!Array.isArray(parsed)) {
             throw new Error("customFields must be a JSON array");
           }
-          body.custom_fields = parsed
-            .map((f: { id: unknown; content: unknown }) => {
-              const idNum = typeof f.id === "string"
-                ? parseInt(f.id, 10)
-                : Number(f.id);
-              if (isNaN(idNum)) return null;
-              const content = f.content && typeof f.content === "object" && "value" in (f.content as object)
-                ? (f.content as { value: unknown }).value
-                : f.content;
-              return {
-                id: idNum,
-                content,
-              };
-            })
-            .filter(Boolean);
+          body.custom_fields = parsed.map((f: { id: unknown; content: unknown }, i: number) => {
+            const idVal = f.id;
+            const idNum = typeof idVal === "string"
+              ? parseInt(idVal, 10)
+              : Number(idVal);
+            if (!Number.isInteger(idNum) || idNum < 1) {
+              throw new Error(`customFields[${i}].id must be a positive integer`);
+            }
+            const content = f.content && typeof f.content === "object" && "value" in (f.content as object)
+              ? (f.content as { value: unknown }).value
+              : f.content;
+            if (content === undefined || content === null) {
+              throw new Error(`customFields[${i}].content is required`);
+            }
+            return {
+              id: idNum,
+              content,
+            };
+          });
         } catch (e) {
           throw new Error(e instanceof Error
             ? e.message
@@ -1250,13 +1256,16 @@ export default defineApp({
       if (association === "COMPANY" && !companyId?.trim()) {
         throw new Error("Company ID is required for COMPANY association");
       }
-      const fileDataTrimmed = String(fileData ?? "").trim();
-      let base64Data = fileDataTrimmed;
+      const raw = String(fileData ?? "");
+      const fileDataTrimmed = raw.trim();
+      let base64Data: string;
       if (fileDataTrimmed.startsWith("data:")) {
         const commaIdx = fileDataTrimmed.indexOf(",");
-        if (commaIdx > 0) base64Data = fileDataTrimmed.substring(commaIdx + 1);
+        base64Data = commaIdx > 0
+          ? fileDataTrimmed.substring(commaIdx + 1)
+          : "";
       } else {
-        base64Data = Buffer.from(fileDataTrimmed, "utf-8").toString("base64");
+        base64Data = Buffer.from(raw, "utf-8").toString("base64");
       }
       const body: Record<string, unknown> = {
         file_name: fileName.trim(),
@@ -1403,12 +1412,20 @@ export default defineApp({
         \\
         Alternatively, you can provide a custom *User ID*.`,
       async options({ $ }: { $?: Pipedream }) {
-        const response = await this.listUsers({
-          $,
-        }) as { users?: { id: string; email?: string }[] };
-        const users = response.users ?? [];
+        const allUsers: { id: string; email?: string }[] = [];
+        let pageToken: string | undefined;
+        do {
+          const response = await this.listUsers({
+            $,
+            pageSize: "100",
+            pageToken,
+          }) as { users?: { id: string; email?: string }[]; next_page_token?: string };
+          const users = response.users ?? [];
+          allUsers.push(...users);
+          pageToken = response.next_page_token;
+        } while (pageToken);
 
-        return users.map((u) => ({
+        return allUsers.map((u) => ({
           label: u.email ?? String(u.id),
           value: String(u.id),
         }));
@@ -1439,13 +1456,20 @@ export default defineApp({
         \\
         Alternatively, you can provide a custom *Task ID*.`,
       async options({ $ }: { $?: Pipedream }) {
-        const response = await this.listTasks({
-          $,
-          pageSize: "100",
-        }) as { tasks?: { id: string; title?: string }[] };
-        const tasks = response.tasks ?? [];
+        const allTasks: { id: string; title?: string }[] = [];
+        let pageToken: string | undefined;
+        do {
+          const response = await this.listTasks({
+            $,
+            pageSize: "100",
+            pageToken,
+          }) as { tasks?: { id: string; title?: string }[]; next_page_token?: string };
+          const tasks = response.tasks ?? [];
+          allTasks.push(...tasks);
+          pageToken = response.next_page_token;
+        } while (pageToken);
 
-        return tasks.map((t) => ({
+        return allTasks.map((t) => ({
           label: t.title ?? String(t.id),
           value: String(t.id),
         }));
