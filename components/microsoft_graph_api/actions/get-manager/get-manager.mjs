@@ -8,16 +8,16 @@ export default {
   type: "action",
   annotations: {
     destructiveHint: false,
-    openWorldHint: false,
+    openWorldHint: true,
     readOnlyHint: true,
   },
   props: {
     microsoftGraphApi,
     userId: {
-      type: "string",
-      label: "User ID",
-      description: "The user ID or user principal name. Leave empty to get the signed-in user's manager.",
-      optional: true,
+      propDefinition: [
+        microsoftGraphApi,
+        "userId",
+      ],
     },
   },
   async run({ $ }) {

@@ -3,11 +3,54 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "microsoft_graph_api",
-  propDefinitions: {},
+  propDefinitions: {
+    userId: {
+      type: "string",
+      label: "User",
+      description: "The user ID or user principal name. Leave empty to use the signed-in user.",
+      optional: true,
+      async options({ prevContext }) {
+        try {
+          const response = prevContext?.nextLink
+            ? await this.listOrganizationUsers({
+              nextLink: prevContext.nextLink,
+            })
+            : await this.listOrganizationUsers();
+          const options = (response.value || []).map((user) => ({
+            label: user.displayName || user.userPrincipalName || user.id,
+            value: user.id,
+          }));
+          return {
+            options,
+            context: {
+              nextLink: response["@odata.nextLink"],
+            },
+          };
+        } catch (error) {
+          return {
+            options: [],
+          };
+        }
+      },
+    },
+  },
   methods: {
+    /**
+     * Returns the Microsoft Graph API base URL.
+     * @returns {string} Base URL for v1.0 API
+     */
     _baseUrl() {
       return "https://graph.microsoft.com/v1.0";
     },
+    /**
+     * Make an authenticated request to the Microsoft Graph API.
+     * @param {Object} opts - Request options
+     * @param {Object} [opts.$=this] - Pipedream context for axios
+     * @param {string} [opts.path] - API path (e.g. /me, /users)
+     * @param {string} [opts.url] - Full URL (overrides path when provided)
+     * @param {Object} [opts.headers] - Additional headers
+     * @returns {Promise<Object>} Axios response
+     */
     async _makeRequest({
       $ = this, path, url, headers, ...opts
     } = {}) {
