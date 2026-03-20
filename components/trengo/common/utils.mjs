@@ -21,7 +21,9 @@ export default {
       for (const resource of items) {
         yield resource;
       }
-      if (Array.isArray(nextResources) || items.length == 0 || nextResources?.meta?.last_page == page) {
+      if (Array.isArray(nextResources)
+        || items.length == 0
+        || nextResources?.meta?.last_page == page) {
         return;
       }
       page++;
