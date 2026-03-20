@@ -6573,6 +6573,9 @@ importers:
 
   components/google_identity: {}
 
+  components/google_keep:
+    specifiers: {}
+
   components/google_maps_platform:
     dependencies:
       '@pipedream/platform':
