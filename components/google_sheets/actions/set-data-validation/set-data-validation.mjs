@@ -97,8 +97,8 @@ export default {
                 sheetId: this.worksheetId,
                 startRowIndex: startRow,
                 endRowIndex: endRow,
-                startColumnIndex: startCol.charCodeAt(0) - 65,
-                endColumnIndex: endCol.charCodeAt(0) - 64,
+                startColumnIndex: this.googleSheets._getColumnIndex(startCol) - 1,
+                endColumnIndex: this.googleSheets._getColumnIndex(endCol), // API end is exclusive
               },
               rule: {
                 condition: {
