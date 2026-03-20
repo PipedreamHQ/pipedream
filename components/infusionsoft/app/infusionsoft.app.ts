@@ -336,7 +336,7 @@ export default defineApp({
     }: CreateAffiliateParams): Promise<object> {
       const body: Record<string, string> = {
         code: code.trim(),
-        contact_id: contactId.trim(),
+        contact_id: this._parseId(contactId, "Contact ID").toString(),
         status: status.trim().toUpperCase(),
       };
       if (name?.trim()) {
@@ -598,10 +598,10 @@ export default defineApp({
       remindTimeMins,
     }: CreateTaskParams): Promise<object> {
       const body: Record<string, unknown> = {
-        assigned_to_user_id: assignedToUserId.trim(),
+        assigned_to_user_id: this._parseId(assignedToUserId, "Assigned To User ID"),
       };
       if (title?.trim()) body.title = title.trim();
-      if (contactId?.trim()) body.contact_id = contactId.trim();
+      if (contactId?.trim()) body.contact_id = this._parseId(contactId, "Contact ID");
       if (description?.trim()) body.description = description.trim();
       if (dueTime?.trim()) body.due_time = dueTime.trim();
       if (priority?.trim()) body.priority = priority.trim();
@@ -722,12 +722,9 @@ export default defineApp({
       offset?: string;
     }): Promise<object> {
       const params: Record<string, number> = {
-        contact_id: parseInt(contactId, 10),
+        contact_id: this._parseId(contactId, "Contact ID"),
       };
-      if (userId?.trim()) {
-        const uid = parseInt(userId.trim(), 10);
-        if (!isNaN(uid)) params.user_id = uid;
-      }
+      if (userId?.trim()) params.user_id = this._parseId(userId, "User ID");
       const limitVal = parseInt(String(limit || "").trim(), 10);
       if (!isNaN(limitVal) && limitVal > 0) params.limit = limitVal;
       const offsetVal = parseInt(String(offset || "").trim(), 10);
@@ -1211,9 +1208,9 @@ export default defineApp({
       remindTimeMins,
     }: UpdateTaskParams): Promise<object> {
       const body: Record<string, unknown> = {};
-      if (assignedToUserId?.trim()) body.assigned_to_user_id = assignedToUserId.trim();
+      if (assignedToUserId?.trim()) body.assigned_to_user_id = this._parseId(assignedToUserId, "Assigned To User ID");
       if (title?.trim()) body.title = title.trim();
-      if (contactId?.trim()) body.contact_id = contactId.trim();
+      if (contactId?.trim()) body.contact_id = this._parseId(contactId, "Contact ID");
       if (description?.trim()) body.description = description.trim();
       if (dueTime?.trim()) body.due_time = dueTime.trim();
       if (priority?.trim()) body.priority = priority.trim();
@@ -1394,12 +1391,27 @@ export default defineApp({
         \\
         Alternatively, you can provide a custom *Stage ID*.`,
       async options({ $ }: { $?: Pipedream }) {
-        const response = await this.listOpportunityStages({
-          $,
-        }) as { stages?: { id: string; name?: string }[] };
-        const stages = response.stages ?? [];
+        const allStages: { id: string; name?: string }[] = [];
+        const seen = new Set<string>();
+        let pageToken: string | undefined;
+        do {
+          const response = await this.listOpportunityStages({
+            $,
+            pageSize: "100",
+            pageToken,
+          }) as { stages?: { id: string; name?: string }[]; next_page_token?: string };
+          const stages = response.stages ?? [];
+          for (const s of stages) {
+            const id = String(s.id);
+            if (!seen.has(id)) {
+              seen.add(id);
+              allStages.push(s);
+            }
+          }
+          pageToken = response.next_page_token;
+        } while (pageToken);
 
-        return stages.map((s) => ({
+        return allStages.map((s) => ({
           label: s.name ?? String(s.id),
           value: String(s.id),
         }));
