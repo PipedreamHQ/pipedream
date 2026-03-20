@@ -39,7 +39,11 @@ export default {
         fields: this.fields,
       }
       : {};
-    const response = await this.odoo.searchAndReadRecords(this.model, parseObject(this.filter), args);
+    const response = await this.odoo.searchAndReadRecords(
+      this.model,
+      parseObject(this.filter),
+      args,
+    );
     $.export("$summary", `Successfully retrieved ${response.length} record${response.length === 1
       ? ""
       : "s"}`);
