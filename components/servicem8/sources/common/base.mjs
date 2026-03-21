@@ -24,6 +24,7 @@ export default {
         ...this.getParams(),
       }).toString();
       await this.servicem8.setHook({
+        $: this,
         data,
       });
 
@@ -32,6 +33,7 @@ export default {
     async deactivate() {
       const { object } = this.getParams();
       await this.servicem8.removeHook({
+        $: this,
         data: `object=${object}`,
       });
     },

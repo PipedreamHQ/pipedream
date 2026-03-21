@@ -2,19 +2,13 @@ const {
   describe,
   it,
   expect,
-  beforeAll,
 } = require("@jest/globals");
 
+const servicem8App = require("../servicem8.app.mjs").default;
+const buildListQueryParams = servicem8App.methods.buildListQueryParams;
+const { propDefinitions } = servicem8App;
+
 describe("servicem8 buildListQueryParams", () => {
-  let buildListQueryParams;
-  let propDefinitions;
-
-  beforeAll(async () => {
-    const appMod = await import("../servicem8.app.mjs");
-    buildListQueryParams = appMod.default.methods.buildListQueryParams;
-    propDefinitions = appMod.default.propDefinitions;
-  });
-
   describe("buildListQueryParams", () => {
     it("returns empty object when no list args are set", () => {
       expect(buildListQueryParams({})).toEqual({});

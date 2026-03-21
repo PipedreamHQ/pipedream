@@ -3,7 +3,7 @@ import app from "../../servicem8.app.mjs";
 export default {
   key: "servicem8-create-company-contact",
   name: "Create Company Contact",
-  description: "Create a new Company Contact. The new record UUID is returned in the result field recordUuid (HTTP header x-record-uuid). [See the documentation](https://developer.servicem8.com/docs/rest-overview)",
+  description: "Create a new Company Contact. The new record UUID may be returned in the result field recordUuid when the API sends the x-record-uuid response header. [See the documentation](https://developer.servicem8.com/docs/rest-overview)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

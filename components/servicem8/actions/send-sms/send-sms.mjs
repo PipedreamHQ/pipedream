@@ -42,7 +42,11 @@ export default {
       $,
       data,
     });
-    $.export("$summary", `SMS submitted to ServiceM8 (${this.to})`);
+    const digits = String(this.to).replace(/\D/g, "");
+    const tail = digits.length >= 4
+      ? digits.slice(-4)
+      : "****";
+    $.export("$summary", `SMS submitted to ServiceM8 (recipient …${tail})`);
     return response;
   },
 };

@@ -1,24 +1,19 @@
+jest.mock("@pipedream/platform", () => ({
+  axios: jest.fn(),
+}));
+
 const {
   describe,
   it,
   expect,
-  beforeAll,
   beforeEach,
 } = require("@jest/globals");
 
+// Loaded after jest.mock; babel-jest compiles ../servicem8.app.mjs to CommonJS.
+const servicem8App = require("../servicem8.app.mjs").default;
+const { axios } = require("@pipedream/platform");
+
 describe("servicem8.app.mjs", () => {
-  let servicem8App;
-  let axios;
-
-  beforeAll(async () => {
-    await jest.unstable_mockModule("@pipedream/platform", () => ({
-      axios: jest.fn(),
-    }));
-    const appMod = await import("../servicem8.app.mjs");
-    servicem8App = appMod.default;
-    ({ axios } = await import("@pipedream/platform"));
-  });
-
   beforeEach(() => {
     axios.mockReset();
   });
@@ -167,6 +162,46 @@ describe("servicem8.app.mjs", () => {
       expect(axios).toHaveBeenCalledWith(c.$, expect.objectContaining({
         method: "DELETE",
         url: "https://api.servicem8.com/api_1.0/note/u1.json",
+      }));
+    });
+
+    it("getResource GETs the item path by uuid", async () => {
+      axios.mockResolvedValue({
+        uuid: "cat-1",
+        name: "Test",
+      });
+      const c = ctx();
+      await c.getResource({
+        $: c.$,
+        resource: "category",
+        uuid: "cat-uuid",
+      });
+      expect(axios).toHaveBeenCalledWith(c.$, expect.objectContaining({
+        method: "GET",
+        url: "https://api.servicem8.com/api_1.0/category/cat-uuid.json",
+      }));
+    });
+
+    it("updateResource POSTs JSON to the item path", async () => {
+      axios.mockResolvedValue({});
+      const c = ctx();
+      await c.updateResource({
+        $: c.$,
+        resource: "job",
+        uuid: "j1",
+        data: {
+          status: "Completed",
+        },
+      });
+      expect(axios).toHaveBeenCalledWith(c.$, expect.objectContaining({
+        method: "POST",
+        url: "https://api.servicem8.com/api_1.0/job/j1.json",
+        data: {
+          status: "Completed",
+        },
+        headers: expect.objectContaining({
+          "Content-Type": "application/json",
+        }),
       }));
     });
   });

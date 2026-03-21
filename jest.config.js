@@ -20,5 +20,23 @@ module.exports = {
         "useESM": true,
       },
     ],
+    // Allow `require()` of component `.mjs` app modules in Jest without
+    // `import()` / NODE_OPTIONS=--experimental-vm-modules.
+    "\\.mjs$": [
+      "babel-jest",
+      {
+        presets: [
+          [
+            "@babel/preset-env",
+            {
+              targets: {
+                node: "current",
+              },
+              modules: "commonjs",
+            },
+          ],
+        ],
+      },
+    ],
   },
 };

@@ -30,7 +30,7 @@
   "scripts": {
     "prepare": "husky install",
     "build": "node scripts/build-components.mjs",
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest --passWithNoTests components",
+    "test": "jest --passWithNoTests components",
     "test-all": "npm test && npm run platform-test && npm run types-test",
     "platform-dist": "cd platform && git add dist && (git diff-index --quiet HEAD || git commit -m 'update platform/dist')",
     "platform-test": "cd platform && npm test",
@@ -90,6 +90,7 @@
       "components/sdk": false
     },
     "overrides": {
+      "@babel/core": "7.26.10",
       "form-data@^2": "2.5.4",
       "form-data@^3": "3.0.4",
       "form-data@^4": "4.0.4",
