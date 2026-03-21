@@ -18,7 +18,12 @@ export default {
     const response = await this.servicem8.listWebhooks({
       $,
     });
-    $.export("$summary", "Retrieved webhook subscriptions");
+    const count = Array.isArray(response)
+      ? response.length
+      : 0;
+    $.export("$summary", `Retrieved ${count} webhook subscription${count === 1
+      ? ""
+      : "s"}`);
     return response;
   },
 };

@@ -2,7 +2,7 @@ import app from "../../servicem8.app.mjs";
 
 export default {
   key: "servicem8-list-job-activities",
-  name: "List Job Activitys",
+  name: "List Job Activities",
   description: "List Job Activity records with optional filtering. [See the documentation](https://developer.servicem8.com/reference/listjobactivities)",
   version: "0.0.1",
   annotations: {

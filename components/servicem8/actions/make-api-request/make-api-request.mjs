@@ -39,7 +39,7 @@ export default {
     body: {
       type: "object",
       label: "Body",
-      description: "Optional JSON body for POST",
+      description: "Optional JSON body for POST or DELETE (ignored for GET)",
       optional: true,
     },
   },
@@ -47,6 +47,7 @@ export default {
     const {
       method, path, query, body,
     } = this;
+    const includeBody = method !== "GET" && body !== undefined;
     const response = await this.servicem8._makeRequest({
       $,
       path,
@@ -54,7 +55,7 @@ export default {
       ...(query && {
         params: query,
       }),
-      ...(body !== undefined && {
+      ...(includeBody && {
         data: body,
       }),
     });

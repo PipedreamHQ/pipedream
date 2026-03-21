@@ -35,12 +35,14 @@ export default {
       to: this.to,
       message: this.message,
     };
-    if (this.regardingJobUUID) data.regardingJobUUID = this.regardingJobUUID;
+    if (this.regardingJobUUID !== undefined) {
+      data.regardingJobUUID = this.regardingJobUUID;
+    }
     const response = await this.servicem8.sendSms({
       $,
       data,
     });
-    $.export("$summary", "SMS submitted to ServiceM8");
+    $.export("$summary", `SMS submitted to ServiceM8 (${this.to})`);
     return response;
   },
 };

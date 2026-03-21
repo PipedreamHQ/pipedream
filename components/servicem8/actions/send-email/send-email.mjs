@@ -61,15 +61,25 @@ export default {
     },
   },
   async run({ $ }) {
+    const hasHtml =
+      this.htmlBody !== undefined && String(this.htmlBody).trim() !== "";
+    const hasText =
+      this.textBody !== undefined && String(this.textBody).trim() !== "";
+    if (!hasHtml && !hasText) {
+      throw new Error("Provide htmlBody and/or textBody.");
+    }
+
     const data = {
       to: this.to,
       subject: this.subject,
     };
     if (this.htmlBody !== undefined) data.htmlBody = this.htmlBody;
     if (this.textBody !== undefined) data.textBody = this.textBody;
-    if (this.cc) data.cc = this.cc;
-    if (this.replyTo) data.replyTo = this.replyTo;
-    if (this.regardingJobUUID) data.regardingJobUUID = this.regardingJobUUID;
+    if (this.cc !== undefined) data.cc = this.cc;
+    if (this.replyTo !== undefined) data.replyTo = this.replyTo;
+    if (this.regardingJobUUID !== undefined) {
+      data.regardingJobUUID = this.regardingJobUUID;
+    }
 
     const response = await this.servicem8.sendEmail({
       $,

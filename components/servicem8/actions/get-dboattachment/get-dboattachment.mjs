@@ -3,7 +3,7 @@ import app from "../../servicem8.app.mjs";
 export default {
   key: "servicem8-get-dboattachment",
   name: "Get Attachment",
-  description: "Retrieve a Attachment by UUID. [See the documentation](https://developer.servicem8.com/reference/listattachments)",
+  description: "Retrieve an Attachment by UUID. [See the documentation](https://developer.servicem8.com/docs/rest-overview)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

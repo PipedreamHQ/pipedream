@@ -184,21 +184,21 @@ describe("servicem8.app.mjs", () => {
       }));
     });
 
-    it("setHook POSTs webhook_subscriptions with params", async () => {
+    it("setHook POSTs form-encoded body to webhook_subscriptions", async () => {
       axios.mockResolvedValue({});
       const c = ctx();
-      const params = {
-        callback_url: "https://example.com/hook",
-        object: "Job",
-      };
+      const data = "callback_url=https%3A%2F%2Fexample.com%2Fhook&object=Job";
       await c.setHook({
         $: c.$,
-        params,
+        data,
       });
       expect(axios).toHaveBeenCalledWith(c.$, expect.objectContaining({
         method: "POST",
         url: "https://api.servicem8.com/webhook_subscriptions",
-        params,
+        data,
+        headers: expect.objectContaining({
+          "Content-Type": "application/x-www-form-urlencoded",
+        }),
       }));
     });
 

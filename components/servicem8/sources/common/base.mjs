@@ -19,11 +19,12 @@ export default {
   },
   hooks: {
     async activate() {
+      const data = new URLSearchParams({
+        callback_url: this.http.endpoint,
+        ...this.getParams(),
+      }).toString();
       await this.servicem8.setHook({
-        params: {
-          callback_url: this.http.endpoint,
-          ...this.getParams(),
-        },
+        data,
       });
 
       console.log(`Webhook successful created. (Endpoint: ${this.http.endpoint})`);

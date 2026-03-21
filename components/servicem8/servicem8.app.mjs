@@ -49,7 +49,7 @@ export default {
     record: {
       type: "object",
       label: "Record",
-      description: "JSON object of fields for the ServiceM8 API request body",
+      description: "JSON object of fields for the ServiceM8 API request body. Updates use POST (not PATCH); include the full set of fields to persist—omitted fields may be cleared.",
     },
     jobUuid: makeResourceUuidProp("job", "Job", "job"),
     companyUuid: makeResourceUuidProp("company", "Company", "company"),
@@ -273,20 +273,20 @@ export default {
       });
     },
     /**
-     * Create or update a webhook subscription.
+     * Create or update a webhook subscription (POST body must be form-encoded).
      * @param {object} opts
-     * @param {object} opts.$
-     * @param {Record<string, string>} opts.params - Query params
-     *   (e.g. `callback_url`, `object`, `fields`)
+     * @param {object} [opts.$]
+     * @param {string} opts.data - URL-encoded body (e.g. `callback_url=...&object=Job`)
      */
     setHook({
-      $, params,
+      $, data,
     }) {
       return this._makeRequest({
         $,
         path: "webhook_subscriptions",
         method: "POST",
-        params,
+        data,
+        formUrlEncoded: true,
       });
     },
     /**

@@ -43,7 +43,12 @@ export default {
       resource: "jobpayment",
       params,
     });
-    $.export("$summary", "Successfully retrieved Job Payment records");
+    const count = Array.isArray(response)
+      ? response.length
+      : 0;
+    $.export("$summary", `Retrieved ${count} Job Payment record${count === 1
+      ? ""
+      : "s"}`);
     return response;
   },
 };

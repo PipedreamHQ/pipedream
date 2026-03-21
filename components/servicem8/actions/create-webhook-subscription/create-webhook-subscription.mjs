@@ -31,14 +31,16 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {
+    const body = new URLSearchParams({
       callback_url: this.callbackUrl,
       object: this.object,
-    };
-    if (this.fields) params.fields = this.fields;
+    });
+    if (this.fields) {
+      body.set("fields", this.fields);
+    }
     const response = await this.servicem8.setHook({
       $,
-      params,
+      data: body.toString(),
     });
     $.export("$summary", "Webhook subscription saved");
     return response;
