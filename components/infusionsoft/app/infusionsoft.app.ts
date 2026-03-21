@@ -52,6 +52,19 @@ export default defineApp({
       }
       return parseInt(t, 10);
     },
+    _parseCustomFields(customFields: unknown): unknown[] | undefined {
+      if (customFields == null) return undefined;
+      const parsed = typeof customFields === "string"
+        ? (customFields.trim()
+          ? JSON.parse(customFields)
+          : undefined)
+        : customFields;
+      if (parsed == null) return undefined;
+      if (!Array.isArray(parsed)) {
+        throw new Error("customFields must be a JSON array");
+      }
+      return parsed;
+    },
     async _httpRequest({
       $ = this,
       endpoint,
@@ -241,18 +254,13 @@ export default defineApp({
         body.notes = notes.trim();
       }
 
-      if (customFields?.trim()) {
-        try {
-          const parsed = JSON.parse(customFields);
-          if (!Array.isArray(parsed)) {
-            throw new Error("customFields must be a JSON array");
-          }
-          body.custom_fields = parsed;
-        } catch (e) {
-          throw new Error(e instanceof Error
-            ? e.message
-            : `Invalid customFields JSON: ${String(e)}`);
-        }
+      try {
+        const parsed = this._parseCustomFields(customFields);
+        if (parsed && parsed.length > 0) body.custom_fields = parsed;
+      } catch (e) {
+        throw new Error(e instanceof Error
+          ? e.message
+          : `Invalid customFields: ${String(e)}`);
       }
 
       return this._httpRequest({
@@ -306,18 +314,13 @@ export default defineApp({
       if (companyName?.trim()) company.company_name = companyName.trim();
       if (Object.keys(company).length > 0) body.company = company;
 
-      if (customFields?.trim()) {
-        try {
-          const parsed = JSON.parse(customFields);
-          if (!Array.isArray(parsed)) {
-            throw new Error("customFields must be a JSON array");
-          }
-          body.custom_fields = parsed;
-        } catch (e) {
-          throw new Error(e instanceof Error
-            ? e.message
-            : `Invalid customFields JSON: ${String(e)}`);
-        }
+      try {
+        const parsed = this._parseCustomFields(customFields);
+        if (parsed && parsed.length > 0) body.custom_fields = parsed;
+      } catch (e) {
+        throw new Error(e instanceof Error
+          ? e.message
+          : `Invalid customFields: ${String(e)}`);
       }
 
       return this._httpRequest({
@@ -369,7 +372,9 @@ export default defineApp({
       const allTags: { id: string; name?: string }[] = [];
       let pageToken: string | undefined;
       do {
-        const params: Record<string, string> = { page_size: "100" };
+        const params: Record<string, string> = {
+          page_size: "100",
+        };
         if (pageToken) params.page_token = pageToken;
         const response = await this._httpRequest({
           url: `${this._baseUrlV2()}/tags`,
@@ -390,7 +395,9 @@ export default defineApp({
         const allSources: { id: string; name?: string }[] = [];
         let pageToken: string | undefined;
         do {
-          const params: Record<string, string> = { page_size: "100" };
+          const params: Record<string, string> = {
+            page_size: "100",
+          };
           if (pageToken) params.page_token = pageToken;
           const response = await this._httpRequest({
             url: `${this._baseUrlV2()}/leadsources`,
@@ -530,12 +537,9 @@ export default defineApp({
           ? 1
           : 0;
       }
-      if (customFields?.trim()) {
-        try {
-          const parsed = JSON.parse(customFields);
-          if (!Array.isArray(parsed)) {
-            throw new Error("customFields must be a JSON array");
-          }
+      try {
+        const parsed = this._parseCustomFields(customFields);
+        if (parsed && parsed.length > 0) {
           body.custom_fields = parsed.map((f: { id: unknown; content: unknown }, i: number) => {
             const idVal = f.id;
             const idNum = typeof idVal === "string"
@@ -555,11 +559,11 @@ export default defineApp({
               content,
             };
           });
-        } catch (e) {
-          throw new Error(e instanceof Error
-            ? e.message
-            : `Invalid customFields JSON: ${String(e)}`);
         }
+      } catch (e) {
+        throw new Error(e instanceof Error
+          ? e.message
+          : `Invalid customFields: ${String(e)}`);
       }
       return this._httpRequest({
         $,
@@ -1139,18 +1143,13 @@ export default defineApp({
       if (companyName?.trim()) body.company = {
         company_name: companyName.trim(),
       };
-      if (customFields?.trim()) {
-        try {
-          const parsed = JSON.parse(customFields);
-          if (!Array.isArray(parsed)) {
-            throw new Error("customFields must be a JSON array");
-          }
-          body.custom_fields = parsed;
-        } catch (e) {
-          throw new Error(e instanceof Error
-            ? e.message
-            : `Invalid customFields JSON: ${String(e)}`);
-        }
+      try {
+        const parsed = this._parseCustomFields(customFields);
+        if (parsed && parsed.length > 0) body.custom_fields = parsed;
+      } catch (e) {
+        throw new Error(e instanceof Error
+          ? e.message
+          : `Invalid customFields: ${String(e)}`);
       }
       return this._httpRequest({
         $,
@@ -1199,12 +1198,9 @@ export default defineApp({
           ? 1
           : 0;
       }
-      if (customFields?.trim()) {
-        try {
-          const parsed = JSON.parse(customFields);
-          if (!Array.isArray(parsed)) {
-            throw new Error("customFields must be a JSON array");
-          }
+      try {
+        const parsed = this._parseCustomFields(customFields);
+        if (parsed && parsed.length > 0) {
           body.custom_fields = parsed.map((f: { id: unknown; content: unknown }, i: number) => {
             const idVal = f.id;
             const idNum = typeof idVal === "string"
@@ -1224,11 +1220,11 @@ export default defineApp({
               content,
             };
           });
-        } catch (e) {
-          throw new Error(e instanceof Error
-            ? e.message
-            : `Invalid customFields JSON: ${String(e)}`);
         }
+      } catch (e) {
+        throw new Error(e instanceof Error
+          ? e.message
+          : `Invalid customFields: ${String(e)}`);
       }
       return this._httpRequest({
         $,

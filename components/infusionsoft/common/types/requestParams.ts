@@ -68,7 +68,7 @@ interface CreateCompanyParams extends ActionRequestParams {
   country?: string;
   countryCode?: string;
   notes?: string;
-  customFields?: string;
+  customFields?: string | unknown[];
 }
 
 interface CreateContactParams extends ActionRequestParams {
@@ -81,7 +81,7 @@ interface CreateContactParams extends ActionRequestParams {
   jobTitle?: string;
   ownerId?: string;
   leadsourceId?: string;
-  customFields?: string;
+  customFields?: string | unknown[];
 }
 
 interface CreateContactNoteParams extends ActionRequestParams {
@@ -104,7 +104,7 @@ interface CreateOpportunityParams extends ActionRequestParams {
   nextActionNotes?: string;
   opportunityNotes?: string;
   includeInForecast?: boolean;
-  customFields?: string;
+  customFields?: string | unknown[];
 }
 
 interface CreateOpportunityStageParams extends ActionRequestParams {
@@ -159,7 +159,7 @@ interface UpdateContactParams extends ActionRequestParams {
   jobTitle?: string;
   ownerId?: string;
   leadsourceId?: string;
-  customFields?: string;
+  customFields?: string | unknown[];
 }
 
 interface UpdateOpportunityParams extends ActionRequestParams {
@@ -175,7 +175,7 @@ interface UpdateOpportunityParams extends ActionRequestParams {
   nextActionNotes?: string;
   opportunityNotes?: string;
   includeInForecast?: boolean;
-  customFields?: string;
+  customFields?: string | unknown[];
 }
 
 interface UpdateTaskParams extends ActionRequestParams {

@@ -90,7 +90,8 @@ export default defineAction({
   },
   async run({ $ }): Promise<object> {
     const userIds = Array.isArray(this.userIds) && this.userIds.length > 0
-      ? this.userIds.map((id) => String(id ?? "").trim()).filter(Boolean).join(",")
+      ? this.userIds.map((id) => String(id ?? "").trim()).filter(Boolean)
+        .join(",")
       : undefined;
     const result = await this.infusionsoft.listUsers({
       $,
