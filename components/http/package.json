@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/http",
-  "version": "0.6.0",
+  "version": "0.6.2",
   "description": "Pipedream Http Components",
   "main": "http.app.mjs",
   "keywords": [
