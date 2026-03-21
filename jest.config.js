@@ -1,4 +1,8 @@
-/** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
+/**
+ * Component tests that `import` native ESM `.mjs` modules (e.g. ServiceM8) rely on
+ * Node’s ESM loader. The root `test` script sets NODE_OPTIONS=--experimental-vm-modules.
+ * @type {import('ts-jest/dist/types').InitialOptionsTsJest}
+ */
 module.exports = {
   preset: "ts-jest",
   testEnvironment: "node",
@@ -17,25 +21,15 @@ module.exports = {
     "\\.[jt]s$": [
       "ts-jest",
       {
-        "useESM": true,
-      },
-    ],
-    // Allow `require()` of component `.mjs` app modules in Jest without
-    // `import()` / NODE_OPTIONS=--experimental-vm-modules.
-    "\\.mjs$": [
-      "babel-jest",
-      {
-        presets: [
-          [
-            "@babel/preset-env",
-            {
-              targets: {
-                node: "current",
-              },
-              modules: "commonjs",
-            },
-          ],
-        ],
+        useESM: true,
+        tsconfig: {
+          module: "ESNext",
+          moduleResolution: "bundler",
+          target: "ES2022",
+          esModuleInterop: true,
+          allowSyntheticDefaultImports: true,
+          noEmit: true,
+        },
       },
     ],
   },

@@ -31,6 +31,7 @@ export default {
     },
   },
   async run({ $ }) {
+    // ServiceM8 expects subscription parameters as form-encoded POST body (not query string).
     const body = new URLSearchParams({
       callback_url: this.callbackUrl,
       object: this.object,

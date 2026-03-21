@@ -1,17 +1,25 @@
-jest.mock("@pipedream/platform", () => ({
-  axios: jest.fn(),
-}));
-
-const {
+import {
+  jest,
   describe,
   it,
   expect,
   beforeEach,
-} = require("@jest/globals");
+  beforeAll,
+} from "@jest/globals";
 
-// Loaded after jest.mock; babel-jest compiles ../servicem8.app.mjs to CommonJS.
-const servicem8App = require("../servicem8.app.mjs").default;
-const { axios } = require("@pipedream/platform");
+let axios: jest.Mock<any>;
+type Servicem8App = typeof import("../servicem8.app.mjs").default;
+let servicem8App: Servicem8App;
+
+beforeAll(async () => {
+  await jest.unstable_mockModule("@pipedream/platform", () => ({
+    axios: jest.fn(),
+  }));
+  const platform = await import("@pipedream/platform");
+  axios = platform.axios as unknown as jest.Mock<any>;
+  const mod = await import("../servicem8.app.mjs");
+  servicem8App = mod.default;
+});
 
 describe("servicem8.app.mjs", () => {
   beforeEach(() => {
@@ -81,7 +89,7 @@ describe("servicem8.app.mjs", () => {
       }));
     });
 
-    it("POST with formUrlEncoded sets application/x-www-form-urlencoded", async () => {
+    it("DELETE with formUrlEncoded sets application/x-www-form-urlencoded", async () => {
       axios.mockResolvedValue({});
       const c = ctx();
       const data = "object=Job";

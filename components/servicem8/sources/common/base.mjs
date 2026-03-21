@@ -34,7 +34,7 @@ export default {
       const { object } = this.getParams();
       await this.servicem8.removeHook({
         $: this,
-        data: `object=${object}`,
+        data: `object=${encodeURIComponent(object)}`,
       });
     },
   },

@@ -1,10 +1,10 @@
-const {
+import {
   describe,
   it,
   expect,
-} = require("@jest/globals");
+} from "@jest/globals";
+import servicem8App from "../servicem8.app.mjs";
 
-const servicem8App = require("../servicem8.app.mjs").default;
 const buildListQueryParams = servicem8App.methods.buildListQueryParams;
 const { propDefinitions } = servicem8App;
 
