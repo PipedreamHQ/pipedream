@@ -2,8 +2,6 @@ import http from "../../http.app.mjs";
 
 /**
  * Webhook source — receives incoming HTTP requests and triggers workflows.
- * Design aligned with [n8n Webhook node](https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.webhook/).
- * Use Build API Request or similar actions to send outgoing requests.
  */
 export default {
   key: "http-webhook",
