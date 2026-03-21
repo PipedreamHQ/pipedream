@@ -5,7 +5,7 @@ export default {
   key: "mailchimp-new-or-updated-subscriber",
   name: "New or Updated Subscriber (Instant)",
   description: "Emit new event when a subscriber is added or updated (on profile, or email address change) in an audience list.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

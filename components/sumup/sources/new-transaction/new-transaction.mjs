@@ -5,8 +5,8 @@ import sampleEmit from "./test-event.mjs";
 export default {
   key: "sumup-new-transaction",
   name: "New Transaction",
-  description: "Emit new event when a new transaction is posted in SumUp. [See the documenation](https://developer.sumup.com/api/transactions/list-detailed)",
-  version: "0.0.1",
+  description: "Emit new event when a new transaction is posted in SumUp. [See the documentation](https://developer.sumup.com/api/transactions/list-detailed)",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

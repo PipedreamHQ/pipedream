@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/confluence_data_center",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Confluence Data Center Components",
   "main": "confluence_data_center.app.mjs",
   "keywords": [
