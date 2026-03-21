@@ -4,7 +4,7 @@ import { uuidProp } from "../common/props.mjs";
 export default {
   key: "servicem8-delete-company",
   name: "Delete Company",
-  description: `Delete a Company by UUID. [See the documentation](https://developer.servicem8.com/docs/rest-overview)`,
+  description: "Delete a Company by UUID. [See the documentation](https://developer.servicem8.com/docs/rest-overview)",
   version: "0.0.1",
   annotations: {
     destructiveHint: true,

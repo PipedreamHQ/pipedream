@@ -1,10 +1,12 @@
 import app from "../../servicem8.app.mjs";
-import { uuidProp, recordProp } from "../common/props.mjs";
+import {
+  uuidProp, recordProp,
+} from "../common/props.mjs";
 
 export default {
   key: "servicem8-update-category",
   name: "Update Category",
-  description: `Update an existing Category. [See the documentation](https://developer.servicem8.com/docs/rest-overview)`,
+  description: "Update an existing Category. [See the documentation](https://developer.servicem8.com/docs/rest-overview)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

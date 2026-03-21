@@ -22,7 +22,8 @@ export default {
     },
     /**
      * @param {object} opts
-     * @param {string} opts.path - Path relative to API host (e.g. api_1.0/job.json or webhook_subscriptions)
+     * @param {string} opts.path - Path under API host (e.g. api_1.0/job.json,
+     *   or webhook_subscriptions)
      */
     async _makeRequest({
       $ = this, path, method = "GET", data, params, headers, returnFullResponse = false,

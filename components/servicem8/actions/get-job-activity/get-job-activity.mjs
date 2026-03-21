@@ -4,7 +4,7 @@ import { uuidProp } from "../common/props.mjs";
 export default {
   key: "servicem8-get-job-activity",
   name: "Get Job Activity",
-  description: `Retrieve a Job Activity by UUID. [See the documentation](https://developer.servicem8.com/reference/listjobactivities)`,
+  description: "Retrieve a Job Activity by UUID. [See the documentation](https://developer.servicem8.com/reference/listjobactivities)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

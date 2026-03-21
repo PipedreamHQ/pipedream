@@ -36,7 +36,10 @@ export default {
       object: this.object,
     };
     if (this.fields) params.fields = this.fields;
-    const response = await this.servicem8.setHook({ $, params });
+    const response = await this.servicem8.setHook({
+      $,
+      params,
+    });
     $.export("$summary", "Webhook subscription saved");
     return response;
   },

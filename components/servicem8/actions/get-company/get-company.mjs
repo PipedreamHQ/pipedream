@@ -4,7 +4,7 @@ import { uuidProp } from "../common/props.mjs";
 export default {
   key: "servicem8-get-company",
   name: "Get Company",
-  description: `Retrieve a Company by UUID. [See the documentation](https://developer.servicem8.com/reference/listcompanies)`,
+  description: "Retrieve a Company by UUID. [See the documentation](https://developer.servicem8.com/reference/listcompanies)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

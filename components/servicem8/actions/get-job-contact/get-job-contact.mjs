@@ -4,7 +4,7 @@ import { uuidProp } from "../common/props.mjs";
 export default {
   key: "servicem8-get-job-contact",
   name: "Get Job Contact",
-  description: `Retrieve a Job Contact by UUID. [See the documentation](https://developer.servicem8.com/reference/listjobcontacts)`,
+  description: "Retrieve a Job Contact by UUID. [See the documentation](https://developer.servicem8.com/reference/listjobcontacts)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

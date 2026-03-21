@@ -15,7 +15,9 @@ export default {
     servicem8: app,
   },
   async run({ $ }) {
-    const response = await this.servicem8.listWebhooks({ $ });
+    const response = await this.servicem8.listWebhooks({
+      $,
+    });
     $.export("$summary", "Retrieved webhook subscriptions");
     return response;
   },

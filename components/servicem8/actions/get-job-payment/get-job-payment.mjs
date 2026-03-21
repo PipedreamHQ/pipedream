@@ -4,7 +4,7 @@ import { uuidProp } from "../common/props.mjs";
 export default {
   key: "servicem8-get-job-payment",
   name: "Get Job Payment",
-  description: `Retrieve a Job Payment by UUID. [See the documentation](https://developer.servicem8.com/reference/listjobpayments)`,
+  description: "Retrieve a Job Payment by UUID. [See the documentation](https://developer.servicem8.com/reference/listjobpayments)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

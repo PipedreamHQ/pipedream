@@ -1,10 +1,12 @@
 import app from "../../servicem8.app.mjs";
-import { buildListParams, listQueryPropDefinitions } from "../common/query.mjs";
+import {
+  buildListParams, listQueryPropDefinitions,
+} from "../common/query.mjs";
 
 export default {
   key: "servicem8-list-job-payments",
   name: "List Job Payments",
-  description: `List Job Payment records with optional filtering. [See the documentation](https://developer.servicem8.com/reference/listjobpayments)`,
+  description: "List Job Payment records with optional filtering. [See the documentation](https://developer.servicem8.com/reference/listjobpayments)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -22,7 +24,11 @@ export default {
       sort: this.sort,
       cursor: this.cursor,
     });
-    const response = await this.servicem8.listResource({ $, resource: "jobpayment", params });
+    const response = await this.servicem8.listResource({
+      $,
+      resource: "jobpayment",
+      params,
+    });
     $.export("$summary", "Successfully retrieved Job Payment records");
     return response;
   },

@@ -4,7 +4,7 @@ import { uuidProp } from "../common/props.mjs";
 export default {
   key: "servicem8-get-feedback",
   name: "Get Feedback",
-  description: `Retrieve a Feedback by UUID. [See the documentation](https://developer.servicem8.com/reference/listfeedback)`,
+  description: "Retrieve a Feedback by UUID. [See the documentation](https://developer.servicem8.com/reference/listfeedback)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

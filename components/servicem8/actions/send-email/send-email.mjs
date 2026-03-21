@@ -38,11 +38,13 @@ export default {
     cc: {
       type: "string",
       label: "CC",
+      description: "Optional carbon-copy recipient email address",
       optional: true,
     },
     replyTo: {
       type: "string",
       label: "Reply To",
+      description: "Optional reply-to email address",
       optional: true,
     },
     regardingJobUUID: {

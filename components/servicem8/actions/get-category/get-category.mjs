@@ -4,7 +4,7 @@ import { uuidProp } from "../common/props.mjs";
 export default {
   key: "servicem8-get-category",
   name: "Get Category",
-  description: `Retrieve a Category by UUID. [See the documentation](https://developer.servicem8.com/reference/listcategories)`,
+  description: "Retrieve a Category by UUID. [See the documentation](https://developer.servicem8.com/reference/listcategories)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

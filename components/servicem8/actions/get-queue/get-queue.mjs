@@ -4,7 +4,7 @@ import { uuidProp } from "../common/props.mjs";
 export default {
   key: "servicem8-get-queue",
   name: "Get Queue",
-  description: `Retrieve a Queue by UUID. [See the documentation](https://developer.servicem8.com/reference/listqueues)`,
+  description: "Retrieve a Queue by UUID. [See the documentation](https://developer.servicem8.com/reference/listqueues)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
