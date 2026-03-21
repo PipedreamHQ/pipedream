@@ -4,7 +4,7 @@ export default {
   key: "servicem8-delete-dboattachment",
   name: "Delete Attachment",
   description: "Delete an Attachment by UUID. [See the documentation](https://developer.servicem8.com/docs/rest-overview)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

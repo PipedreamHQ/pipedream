@@ -4,7 +4,7 @@ export default {
   key: "servicem8-get-queue",
   name: "Get Queue",
   description: "Retrieve a Queue by UUID. [See the documentation](https://developer.servicem8.com/reference/listqueues)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

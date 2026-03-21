@@ -4,7 +4,7 @@ export default {
   key: "servicem8-update-job-material",
   name: "Update Job Material",
   description: "Update an existing Job Material. [See the documentation](https://developer.servicem8.com/docs/rest-overview)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

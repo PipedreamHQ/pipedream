@@ -4,7 +4,7 @@ export default {
   key: "servicem8-delete-job-payment",
   name: "Delete Job Payment",
   description: "Delete a Job Payment by UUID. [See the documentation](https://developer.servicem8.com/docs/rest-overview)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

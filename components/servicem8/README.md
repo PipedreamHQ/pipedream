@@ -27,3 +27,14 @@ List actions support `$filter`, `$sort`, and `cursor` query parameters per the [
 ## Pipedream component conventions
 
 Shared props (`filter`, `sort`, `cursor`, `record`, and resource-specific UUID selectors) and HTTP helpers are defined on the ServiceM8 app file with JSDoc. UUID fields use **async options** where possible so you can pick a record from a list or type a UUID. Optional props are used for filters and pagination; set defaults in your workflow where needed.
+
+## Testing (contributors)
+
+[Pipedream does not currently support unit tests](https://pipedream.com/docs/components/contributing/guidelines#testing) to prove that app-file changes stay backwards compatible with existing actions and sources. **If you change `servicem8.app.mjs` or files under `common/`, manually test impacted components** in a workflow (or the Pipedream UI) so behaviour is unchanged.
+
+Suggested checks:
+
+- **Sources** that call app methods or webhooks (`new-job`, `new-client`, `job-completed`, `job-queued`, `new-form-response`): create or update the source, confirm activation/deactivation and that events emit as expected.
+- **Actions** covering main API patterns: at least one **list** action with optional filter/cursor, one **get** by UUID, one **create** / **update** / **delete** if you touched CRUD helpers, and **webhook** / **SMS** / **email** actions if you changed those code paths.
+
+Also run `npx eslint components/servicem8` from the monorepo root before opening a PR.

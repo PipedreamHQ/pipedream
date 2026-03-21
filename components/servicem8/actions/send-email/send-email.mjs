@@ -4,7 +4,7 @@ export default {
   key: "servicem8-send-email",
   name: "Send Email",
   description: "Send an email via the ServiceM8 Messaging API. [See the documentation](https://developer.servicem8.com/reference/send_email)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

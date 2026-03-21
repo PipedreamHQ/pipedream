@@ -4,7 +4,7 @@ export default {
   key: "servicem8-create-job-material",
   name: "Create Job Material",
   description: "Create a new Job Material. The new record UUID may be returned in the result field recordUuid when the API sends the x-record-uuid response header. [See the documentation](https://developer.servicem8.com/docs/rest-overview)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

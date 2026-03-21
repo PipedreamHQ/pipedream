@@ -4,7 +4,7 @@ export default {
   key: "servicem8-update-job",
   name: "Update Job",
   description: "Update an existing Job. The API uses POST to the job URL; send a complete `record` object with every field you want to keep—partial payloads can clear omitted fields. [See the documentation](https://developer.servicem8.com/docs/rest-overview)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

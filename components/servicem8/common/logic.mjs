@@ -1,19 +1,18 @@
 /**
  * Pure helpers and shared list-query prop definitions for the ServiceM8 app.
- * Used by `servicem8.app.mjs` and unit tests without loading ESM.
- * @module servicem8.app.logic
+ * Shared by `servicem8.app.mjs` and unit tests.
+ * @module servicem8/common/logic
  */
-"use strict";
 
 /** REST API version path segment used in list and item URLs. */
-const API_PATH = "api_1.0";
+export const API_PATH = "api_1.0";
 
 /**
  * Builds the relative list URL path for a resource (e.g. `api_1.0/job.json`).
  * @param {string} resource - Resource key (e.g. `job`, `company`)
  * @returns {string}
  */
-function resourceListPath(resource) {
+export function resourceListPath(resource) {
   return `${API_PATH}/${resource}.json`;
 }
 
@@ -23,7 +22,7 @@ function resourceListPath(resource) {
  * @param {string} uuid - Record UUID
  * @returns {string}
  */
-function resourceItemPath(resource, uuid) {
+export function resourceItemPath(resource, uuid) {
   return `${API_PATH}/${resource}/${uuid}.json`;
 }
 
@@ -36,7 +35,7 @@ function resourceItemPath(resource, uuid) {
  * @param {string} [opts.cursor]
  * @returns {Record<string, string>}
  */
-function buildListQueryParams({
+export function buildListQueryParams({
   filter, sort, cursor,
 }) {
   const params = {};
@@ -50,7 +49,7 @@ function buildListQueryParams({
  * Pipedream prop definitions for `$filter`, `$sort`, and `cursor` on list actions.
  * @type {Record<string, { type: string, label: string, optional: boolean, description: string }>}
  */
-const listQueryPropDefinitions = {
+export const listQueryPropDefinitions = {
   filter: {
     type: "string",
     label: "$filter",
@@ -69,12 +68,4 @@ const listQueryPropDefinitions = {
     optional: true,
     description: "Pagination cursor from a previous list response. Pass the cursor from the prior page to retrieve the next page until no cursor is returned.",
   },
-};
-
-module.exports = {
-  API_PATH,
-  resourceListPath,
-  resourceItemPath,
-  buildListQueryParams,
-  listQueryPropDefinitions,
 };

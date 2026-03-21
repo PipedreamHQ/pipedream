@@ -4,7 +4,7 @@ export default {
   key: "servicem8-list-webhook-subscriptions",
   name: "List Webhook Subscriptions",
   description: "List webhook subscriptions. [See the documentation](https://developer.servicem8.com/docs/webhooks-overview)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

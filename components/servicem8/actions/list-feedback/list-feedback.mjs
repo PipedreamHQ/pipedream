@@ -4,7 +4,7 @@ export default {
   key: "servicem8-list-feedback",
   name: "List Feedback",
   description: "List Feedback records with optional filtering. [See the documentation](https://developer.servicem8.com/reference/listfeedback)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

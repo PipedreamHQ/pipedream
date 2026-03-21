@@ -4,7 +4,7 @@ export default {
   key: "servicem8-create-company",
   name: "Create Company",
   description: "Create a new Company. The new record UUID may be returned in the result field recordUuid when the API sends the x-record-uuid response header. [See the documentation](https://developer.servicem8.com/docs/rest-overview)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

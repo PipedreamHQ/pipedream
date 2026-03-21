@@ -4,7 +4,7 @@ export default {
   key: "servicem8-list-job-payments",
   name: "List Job Payments",
   description: "List Job Payment records with optional filtering. [See the documentation](https://developer.servicem8.com/reference/listjobpayments)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

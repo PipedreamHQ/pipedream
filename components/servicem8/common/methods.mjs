@@ -1,17 +1,16 @@
 /**
  * ServiceM8 app HTTP and CRUD methods, bound to `@pipedream/platform` axios.
- * @module servicem8.methods
+ * @module servicem8/common/methods
  */
-"use strict";
 
-const logic = require("./servicem8.app.logic.js");
+import * as logic from "./logic.mjs";
 
 /**
  * Factory that returns the `methods` object for the ServiceM8 Pipedream app.
  * @param {import("@pipedream/platform").axios} axios - Platform axios helper
  * @returns {object} Methods merged onto component `this` at runtime
  */
-module.exports = function createMethods(axios) {
+export function createMethods(axios) {
   return {
     /**
      * @returns {string} Base URL for the ServiceM8 API
@@ -331,4 +330,4 @@ module.exports = function createMethods(axios) {
       };
     },
   };
-};
+}

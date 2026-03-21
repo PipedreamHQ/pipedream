@@ -4,7 +4,7 @@ export default {
   key: "servicem8-delete-webhook-subscription",
   name: "Delete Webhook Subscription",
   description: "Delete a webhook subscription for an object type. [See the documentation](https://developer.servicem8.com/docs/webhooks-overview)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

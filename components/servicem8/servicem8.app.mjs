@@ -3,11 +3,8 @@
  * @module servicem8.app
  */
 import { axios } from "@pipedream/platform";
-import { createRequire } from "module";
-
-const require = createRequire(import.meta.url);
-const logic = require("./servicem8.app.logic.js");
-const createMethods = require("./servicem8.methods.cjs");
+import * as logic from "./common/logic.mjs";
+import { createMethods } from "./common/methods.mjs";
 
 /**
  * Build a prop definition that loads UUIDs for a ServiceM8 list resource via async options.

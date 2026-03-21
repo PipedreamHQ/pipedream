@@ -4,7 +4,7 @@ export default {
   key: "servicem8-list-badges",
   name: "List Badges",
   description: "List Badge records with optional filtering. [See the documentation](https://developer.servicem8.com/reference/listbadges)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
