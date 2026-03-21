@@ -1,7 +1,4 @@
 import app from "../../servicem8.app.mjs";
-import {
-  uuidProp, recordProp,
-} from "../common/props.mjs";
 
 export default {
   key: "servicem8-update-job-activity",
@@ -16,8 +13,18 @@ export default {
   type: "action",
   props: {
     servicem8: app,
-    ...uuidProp,
-    ...recordProp,
+    uuid: {
+      propDefinition: [
+        app,
+        "jobactivityUuid",
+      ],
+    },
+    record: {
+      propDefinition: [
+        app,
+        "record",
+      ],
+    },
   },
   async run({ $ }) {
     const response = await this.servicem8.updateResource({

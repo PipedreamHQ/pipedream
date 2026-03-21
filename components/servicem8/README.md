@@ -12,7 +12,7 @@ The ServiceM8 API allows businesses to streamline their field service management
 
 # Actions (REST API)
 
-These actions call the [ServiceM8 REST API](https://developer.servicem8.com/docs/rest-overview) and related endpoints. Use **Make API Request** for paths not wrapped below. OAuth tokens must include the scopes required for each operation (for example `read_jobs`, `manage_jobs`, `publish_sms`).
+These actions call the [ServiceM8 REST API](https://developer.servicem8.com/docs/rest-overview) and related endpoints. ServiceM8 does not publish an official Node.js SDK; integration uses the documented REST endpoints. Use **Make API Request** for paths not wrapped below. OAuth tokens must include the scopes required for each operation (for example `read_jobs`, `manage_jobs`, `publish_sms`).
 
 **Jobs, clients, and operations:** list/get/create/update/delete for jobs, companies, company contacts, job materials, job activities, staff, queues, categories, badges, notes, attachments (`dboattachment`), job payments, job contacts, and feedback.
 
@@ -20,4 +20,10 @@ These actions call the [ServiceM8 REST API](https://developer.servicem8.com/docs
 
 **Webhooks:** list, create, and delete webhook subscriptions ([Webhooks overview](https://developer.servicem8.com/docs/webhooks-overview)).
 
-**Filtering:** list actions support `$filter`, `$sort`, and `cursor` query parameters per the [filtering](https://developer.servicem8.com/docs/filtering) and pagination docs.
+## Filtering and pagination
+
+List actions support `$filter`, `$sort`, and `cursor` query parameters per the [filtering](https://developer.servicem8.com/docs/filtering) and pagination docs. To process **all** pages, run the list action repeatedly: pass the `cursor` returned from each response into the next run until no further cursor is returned (or use a code step to loop). Sensitive credentials are handled via the app connection (OAuth); do not put tokens in action props.
+
+## Pipedream component conventions
+
+Shared props (`filter`, `sort`, `cursor`, `record`, and resource-specific UUID selectors) and HTTP helpers are defined on the ServiceM8 app file with JSDoc. UUID fields use **async options** where possible so you can pick a record from a list or type a UUID. Optional props are used for filters and pagination; set defaults in your workflow where needed.

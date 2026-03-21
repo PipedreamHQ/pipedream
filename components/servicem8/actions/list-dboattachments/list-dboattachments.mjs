@@ -1,7 +1,4 @@
 import app from "../../servicem8.app.mjs";
-import {
-  buildListParams, listQueryPropDefinitions,
-} from "../common/query.mjs";
 
 export default {
   key: "servicem8-list-dboattachments",
@@ -16,10 +13,27 @@ export default {
   type: "action",
   props: {
     servicem8: app,
-    ...listQueryPropDefinitions,
+    filter: {
+      propDefinition: [
+        app,
+        "filter",
+      ],
+    },
+    sort: {
+      propDefinition: [
+        app,
+        "sort",
+      ],
+    },
+    cursor: {
+      propDefinition: [
+        app,
+        "cursor",
+      ],
+    },
   },
   async run({ $ }) {
-    const params = buildListParams({
+    const params = this.servicem8.buildListQueryParams({
       filter: this.filter,
       sort: this.sort,
       cursor: this.cursor,

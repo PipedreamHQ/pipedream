@@ -1,5 +1,4 @@
 import app from "../../servicem8.app.mjs";
-import { uuidProp } from "../common/props.mjs";
 
 export default {
   key: "servicem8-get-job-payment",
@@ -14,7 +13,12 @@ export default {
   type: "action",
   props: {
     servicem8: app,
-    ...uuidProp,
+    uuid: {
+      propDefinition: [
+        app,
+        "jobpaymentUuid",
+      ],
+    },
   },
   async run({ $ }) {
     const response = await this.servicem8.getResource({

@@ -1,5 +1,4 @@
 import app from "../../servicem8.app.mjs";
-import { recordProp } from "../common/props.mjs";
 
 export default {
   key: "servicem8-create-job-payment",
@@ -14,7 +13,12 @@ export default {
   type: "action",
   props: {
     servicem8: app,
-    ...recordProp,
+    record: {
+      propDefinition: [
+        app,
+        "record",
+      ],
+    },
   },
   async run({ $ }) {
     const {
