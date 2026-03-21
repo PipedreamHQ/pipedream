@@ -1,6 +1,6 @@
 import infusionsoft from "../../app/infusionsoft.app";
 import { defineAction } from "@pipedream/types";
-import { CreateOpportunityStageParams } from "../../types/requestParams";
+import { CreateOpportunityStageParams } from "../../common/types/requestParams";
 
 export default defineAction({
   name: "Create Opportunity Stage",

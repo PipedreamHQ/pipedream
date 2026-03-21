@@ -1,9 +1,9 @@
 import infusionsoft from "../app/infusionsoft.app";
 import { SourceHttpRunOptions } from "@pipedream/types";
-import { CreateHookParams } from "../types/requestParams";
+import { CreateHookParams } from "../common/types/requestParams";
 import {
   Webhook, WebhookObject,
-} from "../types/responseSchemas";
+} from "../common/types/responseSchemas";
 
 export default {
   props: {

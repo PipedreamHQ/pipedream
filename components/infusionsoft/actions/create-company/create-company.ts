@@ -1,6 +1,6 @@
 import infusionsoft from "../../app/infusionsoft.app";
 import { defineAction } from "@pipedream/types";
-import { CreateCompanyParams } from "../../types/requestParams";
+import { CreateCompanyParams } from "../../common/types/requestParams";
 
 export default defineAction({
   name: "Create Company",

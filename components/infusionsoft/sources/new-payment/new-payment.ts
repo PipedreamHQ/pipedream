@@ -1,5 +1,5 @@
 import { defineSource } from "@pipedream/types";
-import { Transaction } from "../../types/responseSchemas";
+import { Transaction } from "../../common/types/responseSchemas";
 import common from "../common";
 
 export default defineSource({

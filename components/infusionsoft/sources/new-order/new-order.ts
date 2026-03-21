@@ -1,5 +1,5 @@
 import { defineSource } from "@pipedream/types";
-import { Order } from "../../types/responseSchemas";
+import { Order } from "../../common/types/responseSchemas";
 import common from "../common";
 
 export default defineSource({

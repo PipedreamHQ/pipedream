@@ -172,7 +172,7 @@ jobs:
           do
             echo "Checking if $added_modified_file is a publishable ts file"
             if [[ $added_modified_file == components/* ]] && [[ $added_modified_file == *.ts ]] && [[ $added_modified_file != *.app.ts ]] \
-                && [[ $added_modified_file != */common*.ts ]] && [[ $added_modified_file != */common/* ]] && [[ $added_modified_file != */types/* ]]
+                && [[ $added_modified_file != */common*.ts ]] && [[ $added_modified_file != */common/* ]]
             then
               # XXX This is a hacky way to publish only TS components with changes. If a changed
               # file "path-a/path-b/c.ts" has a corresponding compiled output file

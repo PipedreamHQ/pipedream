@@ -1,6 +1,6 @@
 import infusionsoft from "../../app/infusionsoft.app";
 import { defineAction } from "@pipedream/types";
-import { CreatePaymentParams } from "../../types/requestParams";
+import { CreatePaymentParams } from "../../common/types/requestParams";
 
 export default defineAction({
   name: "Create Payment",

@@ -1,6 +1,6 @@
 import infusionsoft from "../../app/infusionsoft.app";
 import { defineAction } from "@pipedream/types";
-import { UpdateContactParams } from "../../types/requestParams";
+import { UpdateContactParams } from "../../common/types/requestParams";
 
 export default defineAction({
   name: "Update Contact",

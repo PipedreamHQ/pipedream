@@ -25,7 +25,7 @@ import {
   UpdateOpportunityParams,
   UpdateTaskParams,
   UploadFileParams,
-} from "../types/requestParams";
+} from "../common/types/requestParams";
 import {
   Appointment,
   Company,
@@ -33,7 +33,7 @@ import {
   Webhook,
   Order,
   Product,
-} from "../types/responseSchemas";
+} from "../common/types/responseSchemas";
 
 export default defineApp({
   type: "app",

@@ -1,6 +1,6 @@
 import infusionsoft from "../../app/infusionsoft.app";
 import { defineAction } from "@pipedream/types";
-import { AddContactToAutomationParams } from "../../types/requestParams";
+import { AddContactToAutomationParams } from "../../common/types/requestParams";
 
 export default defineAction({
   name: "Add Contact to Automation",

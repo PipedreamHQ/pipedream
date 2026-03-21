@@ -1,6 +1,6 @@
 import infusionsoft from "../../app/infusionsoft.app";
 import { defineAction } from "@pipedream/types";
-import { CreateAffiliateParams } from "../../types/requestParams";
+import { CreateAffiliateParams } from "../../common/types/requestParams";
 
 export default defineAction({
   name: "Create Affiliate",

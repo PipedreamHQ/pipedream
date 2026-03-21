@@ -1,6 +1,6 @@
 import infusionsoft from "../../app/infusionsoft.app";
 import { defineAction } from "@pipedream/types";
-import { ApplyTagToContactsParams } from "../../types/requestParams";
+import { ApplyTagToContactsParams } from "../../common/types/requestParams";
 
 export default defineAction({
   name: "Apply Tag to Contacts",

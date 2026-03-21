@@ -1,6 +1,6 @@
 import infusionsoft from "../../app/infusionsoft.app";
 import { defineAction } from "@pipedream/types";
-import { UploadFileParams } from "../../types/requestParams";
+import { UploadFileParams } from "../../common/types/requestParams";
 
 export default defineAction({
   name: "Upload File",

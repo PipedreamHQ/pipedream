@@ -1,5 +1,5 @@
 import { defineSource } from "@pipedream/types";
-import { WebhookObject } from "../../types/responseSchemas";
+import { WebhookObject } from "../../common/types/responseSchemas";
 import common from "../common";
 
 export default defineSource({

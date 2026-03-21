@@ -1,6 +1,6 @@
 import infusionsoft from "../../app/infusionsoft.app";
 import { defineAction } from "@pipedream/types";
-import { DeleteTaskParams } from "../../types/requestParams";
+import { DeleteTaskParams } from "../../common/types/requestParams";
 
 export default defineAction({
   name: "Delete Task",

@@ -1,6 +1,6 @@
 import infusionsoft from "../../app/infusionsoft.app";
 import { defineAction } from "@pipedream/types";
-import { CreateTaskParams } from "../../types/requestParams";
+import { CreateTaskParams } from "../../common/types/requestParams";
 
 export default defineAction({
   name: "Create Task",

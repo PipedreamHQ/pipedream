@@ -1,5 +1,5 @@
 import infusionsoft from "../../app/infusionsoft.app";
-import { CreateOrderItemParams } from "../../types/requestParams";
+import { CreateOrderItemParams } from "../../common/types/requestParams";
 import { defineAction } from "@pipedream/types";
 
 export default defineAction({

@@ -1,6 +1,6 @@
 import infusionsoft from "../../app/infusionsoft.app";
 import { defineAction } from "@pipedream/types";
-import { UpdateOpportunityParams } from "../../types/requestParams";
+import { UpdateOpportunityParams } from "../../common/types/requestParams";
 
 export default defineAction({
   name: "Update Opportunity",

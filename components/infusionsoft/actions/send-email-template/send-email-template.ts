@@ -1,6 +1,6 @@
 import infusionsoft from "../../app/infusionsoft.app";
 import { defineAction } from "@pipedream/types";
-import { SendEmailTemplateParams } from "../../types/requestParams";
+import { SendEmailTemplateParams } from "../../common/types/requestParams";
 
 export default defineAction({
   name: "Send Email Template",
