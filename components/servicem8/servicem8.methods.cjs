@@ -1,15 +1,36 @@
+/**
+ * ServiceM8 app HTTP and CRUD methods, bound to `@pipedream/platform` axios.
+ * @module servicem8.methods
+ */
 "use strict";
 
 const logic = require("./servicem8.app.logic.js");
 
+/**
+ * Factory that returns the `methods` object for the ServiceM8 Pipedream app.
+ * @param {import("@pipedream/platform").axios} axios - Platform axios helper
+ * @returns {object} Methods merged onto component `this` at runtime
+ */
 module.exports = function createMethods(axios) {
   return {
+    /**
+     * @returns {string} Base URL for the ServiceM8 API
+     */
     _apiRoot() {
       return "https://api.servicem8.com";
     },
+    /**
+     * @returns {string} Versioned REST path segment (e.g. `api_1.0`)
+     */
     _apiPath() {
       return logic.API_PATH;
     },
+    /**
+     * Default headers for authenticated requests.
+     * @param {object} [opts]
+     * @param {boolean} [opts.json] - When true, include `Content-Type: application/json`
+     * @returns {Record<string, string>}
+     */
     _authHeaders({ json = false } = {}) {
       const headers = {
         Authorization: `Bearer ${this.$auth.oauth_access_token}`,
@@ -19,6 +40,18 @@ module.exports = function createMethods(axios) {
       }
       return headers;
     },
+    /**
+     * Low-level HTTP helper (uses `@pipedream/platform` axios).
+     * @param {object} opts
+     * @param {object} [opts.$] - Pipedream context (defaults to `this`)
+     * @param {string} opts.path - Path under the API host
+     * @param {string} [opts.method]
+     * @param {object} [opts.data] - Request body
+     * @param {object} [opts.params] - Query string params
+     * @param {object} [opts.headers] - Extra headers merged after auth
+     * @param {boolean} [opts.returnFullResponse]
+     * @param {boolean} [opts.formUrlEncoded] - Send body as `application/x-www-form-urlencoded`
+     */
     async _makeRequest({
       $ = this, path, method = "GET", data, params, headers, returnFullResponse = false,
       formUrlEncoded = false,
@@ -46,15 +79,35 @@ module.exports = function createMethods(axios) {
       }
       return axios($, config);
     },
+    /**
+     * @param {string} resource - Resource name used in list URLs
+     * @returns {string}
+     */
     resourceListPath(resource) {
       return logic.resourceListPath(resource);
     },
+    /**
+     * @param {string} resource
+     * @param {string} uuid
+     * @returns {string}
+     */
     resourceItemPath(resource, uuid) {
       return logic.resourceItemPath(resource, uuid);
     },
+    /**
+     * @param {object} opts
+     * @returns {Record<string, string>}
+     */
     buildListQueryParams(opts) {
       return logic.buildListQueryParams(opts);
     },
+    /**
+     * List records for a resource with optional filter/sort/cursor (pagination).
+     * @param {object} opts
+     * @param {object} opts.$
+     * @param {string} opts.resource
+     * @param {object} [opts.params]
+     */
     async listResource({
       $, resource, params = {},
     }) {
@@ -64,6 +117,12 @@ module.exports = function createMethods(axios) {
         params,
       });
     },
+    /**
+     * @param {object} opts
+     * @param {object} opts.$
+     * @param {string} opts.resource
+     * @param {string} opts.uuid
+     */
     async getResource({
       $, resource, uuid,
     }) {
@@ -72,6 +131,13 @@ module.exports = function createMethods(axios) {
         path: this.resourceItemPath(resource, uuid),
       });
     },
+    /**
+     * @param {object} opts
+     * @param {object} opts.$
+     * @param {string} opts.resource
+     * @param {object} opts.data
+     * @returns {Promise<{ body: unknown, recordUuid?: string }>}
+     */
     async createResource({
       $, resource, data,
     }) {
@@ -88,6 +154,13 @@ module.exports = function createMethods(axios) {
         recordUuid,
       };
     },
+    /**
+     * @param {object} opts
+     * @param {object} opts.$
+     * @param {string} opts.resource
+     * @param {string} opts.uuid
+     * @param {object} opts.data
+     */
     async updateResource({
       $, resource, uuid, data,
     }) {
@@ -98,6 +171,12 @@ module.exports = function createMethods(axios) {
         data,
       });
     },
+    /**
+     * @param {object} opts
+     * @param {object} opts.$
+     * @param {string} opts.resource
+     * @param {string} opts.uuid
+     */
     async deleteResource({
       $, resource, uuid,
     }) {
@@ -107,12 +186,19 @@ module.exports = function createMethods(axios) {
         method: "DELETE",
       });
     },
+    /**
+     * @param {string} jobId - Job UUID
+     */
     getJob(jobId) {
       return this.getResource({
         resource: "job",
         uuid: jobId,
       });
     },
+    /**
+     * @param {object} opts
+     * @param {object} opts.$
+     */
     async listWebhooks({ $ }) {
       return this._makeRequest({
         $,
@@ -120,6 +206,12 @@ module.exports = function createMethods(axios) {
         method: "GET",
       });
     },
+    /**
+     * Create or update a webhook subscription (POST body must be form-encoded).
+     * @param {object} opts
+     * @param {object} [opts.$]
+     * @param {string} opts.data - URL-encoded body
+     */
     setHook({
       $, data,
     }) {
@@ -131,6 +223,12 @@ module.exports = function createMethods(axios) {
         formUrlEncoded: true,
       });
     },
+    /**
+     * Delete a webhook subscription (form-encoded body).
+     * @param {object} opts
+     * @param {object} opts.$
+     * @param {string} opts.data - URL-encoded body
+     */
     removeHook({
       $, data,
     }) {
@@ -142,6 +240,12 @@ module.exports = function createMethods(axios) {
         formUrlEncoded: true,
       });
     },
+    /**
+     * Messaging API (requires `publish_sms` scope).
+     * @param {object} opts
+     * @param {object} opts.$
+     * @param {object} opts.data
+     */
     async sendSms({
       $, data,
     }) {
@@ -152,6 +256,13 @@ module.exports = function createMethods(axios) {
         data,
       });
     },
+    /**
+     * Messaging API (requires `publish_email` scope).
+     * @param {object} opts
+     * @param {object} opts.$
+     * @param {object} opts.data
+     * @param {object} [opts.headers]
+     */
     async sendEmail({
       $, data, headers,
     }) {
@@ -163,6 +274,15 @@ module.exports = function createMethods(axios) {
         headers,
       });
     },
+    /**
+     * Options for dropdowns: list resource rows and map `uuid` to labels.
+     * @param {object} opts
+     * @param {object} opts.$
+     * @param {string} opts.resource
+     * @param {object} [opts.prevContext]
+     * @param {string} [opts.prevContext.cursor]
+     * @returns {Promise<object>}
+     */
     async _uuidOptionsForResource({
       $, resource, prevContext,
     }) {

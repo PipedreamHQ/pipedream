@@ -1,3 +1,7 @@
+/**
+ * ServiceM8 Pipedream app: OAuth, CRUD, webhooks, and messaging against the ServiceM8 API.
+ * @module servicem8.app
+ */
 import { axios } from "@pipedream/platform";
 import { createRequire } from "module";
 
