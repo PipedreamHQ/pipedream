@@ -474,6 +474,15 @@ export default {
         ...args,
       });
     },
+    detachLabel({
+      ticketId, labelId, ...args
+    }) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/tickets/${ticketId}/labels/${labelId}`,
+        ...args,
+      });
+    },
     assignTicket({
       ticketId, ...args
     }) {
@@ -554,3 +563,4 @@ export default {
     },
   },
 };
+
