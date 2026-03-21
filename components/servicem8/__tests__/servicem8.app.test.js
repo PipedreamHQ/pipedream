@@ -1,27 +1,18 @@
-import {
-  jest,
+jest.mock("@pipedream/platform", () => ({
+  axios: jest.fn(),
+}));
+
+const {
   describe,
   it,
   expect,
   beforeEach,
-  beforeAll,
-} from "@jest/globals";
+} = require("@jest/globals");
 
-let axios: jest.Mock<any>;
-type Servicem8App = typeof import("../servicem8.app.mjs").default;
-let servicem8App: Servicem8App;
+const { axios } = require("@pipedream/platform");
+const createMethods = require("../servicem8.methods.cjs");
 
-beforeAll(async () => {
-  await jest.unstable_mockModule("@pipedream/platform", () => ({
-    axios: jest.fn(),
-  }));
-  const platform = await import("@pipedream/platform");
-  axios = platform.axios as unknown as jest.Mock<any>;
-  const mod = await import("../servicem8.app.mjs");
-  servicem8App = mod.default;
-});
-
-describe("servicem8.app.mjs", () => {
+describe("servicem8 app methods", () => {
   beforeEach(() => {
     axios.mockReset();
   });
@@ -32,7 +23,7 @@ describe("servicem8.app.mjs", () => {
       $auth: {
         oauth_access_token: "test-oauth-token",
       },
-      ...servicem8App.methods,
+      ...createMethods(axios),
       $,
     };
   }

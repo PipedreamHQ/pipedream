@@ -3,19 +3,16 @@ import {
   it,
   expect,
 } from "@jest/globals";
-import servicem8App from "../servicem8.app.mjs";
-
-const buildListQueryParams = servicem8App.methods.buildListQueryParams;
-const { propDefinitions } = servicem8App;
+import * as logic from "../servicem8.app.logic.js";
 
 describe("servicem8 buildListQueryParams", () => {
   describe("buildListQueryParams", () => {
     it("returns empty object when no list args are set", () => {
-      expect(buildListQueryParams({})).toEqual({});
+      expect(logic.buildListQueryParams({})).toEqual({});
     });
 
     it("maps filter, sort, and cursor to API query keys", () => {
-      expect(buildListQueryParams({
+      expect(logic.buildListQueryParams({
         filter: "active eq 1",
         sort: "edit_date desc",
         cursor: "abc123",
@@ -27,7 +24,7 @@ describe("servicem8 buildListQueryParams", () => {
     });
 
     it("omits empty strings so unset props do not appear in the request", () => {
-      expect(buildListQueryParams({
+      expect(logic.buildListQueryParams({
         filter: "",
         sort: "",
         cursor: "",
@@ -37,7 +34,7 @@ describe("servicem8 buildListQueryParams", () => {
 
   describe("propDefinitions (list query)", () => {
     it("defines filter, sort, and cursor as optional string props", () => {
-      expect(propDefinitions).toMatchObject({
+      expect(logic.listQueryPropDefinitions).toMatchObject({
         filter: expect.objectContaining({
           type: "string",
           optional: true,
