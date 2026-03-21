@@ -29,10 +29,13 @@ export default defineAction({
       ],
     },
     contactIds: {
+      propDefinition: [
+        infusionsoft,
+        "contactId",
+      ],
       type: "string[]",
       label: "Contact IDs",
       description: "List of contact IDs to send the email template to",
-      optional: false,
     },
     addressField: {
       type: "string",

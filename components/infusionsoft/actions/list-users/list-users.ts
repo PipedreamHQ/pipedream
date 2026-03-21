@@ -28,9 +28,13 @@ export default defineAction({
       optional: true,
     },
     userIds: {
-      type: "string",
+      propDefinition: [
+        infusionsoft,
+        "userId",
+      ],
+      type: "string[]",
       label: "User IDs",
-      description: "Filter by specific user IDs (comma-separated)",
+      description: "Filter by specific user IDs",
       optional: true,
     },
     includeInactive: {
@@ -85,7 +89,9 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
-    const userIds = this.userIds?.replace(/;/g, ",") ?? undefined;
+    const userIds = Array.isArray(this.userIds) && this.userIds.length > 0
+      ? this.userIds.map((id) => String(id ?? "").trim()).filter(Boolean).join(",")
+      : undefined;
     const result = await this.infusionsoft.listUsers({
       $,
       email: this.email,

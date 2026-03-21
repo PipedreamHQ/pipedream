@@ -61,15 +61,17 @@ export default defineAction({
       optional: true,
     },
     ownerId: {
-      type: "string",
-      label: "Owner ID",
-      description: "The ID of the Keap user who owns this contact",
+      propDefinition: [
+        infusionsoft,
+        "ownerId",
+      ],
       optional: true,
     },
     leadsourceId: {
-      type: "string",
-      label: "Lead Source ID",
-      description: "The ID of the lead source for this contact",
+      propDefinition: [
+        infusionsoft,
+        "leadsourceId",
+      ],
       optional: true,
     },
     customFields: {

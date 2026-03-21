@@ -32,10 +32,13 @@ export default defineAction({
       ],
     },
     contactIds: {
+      propDefinition: [
+        infusionsoft,
+        "contactId",
+      ],
       type: "string[]",
       label: "Contact IDs",
       description: "List of contact IDs to add to the automation sequence",
-      optional: false,
     },
   },
   async run({ $ }): Promise<object> {

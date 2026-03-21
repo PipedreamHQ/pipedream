@@ -365,6 +365,50 @@ export default defineApp({
         },
       });
     },
+    async listTags(): Promise<{ id: string; name: string }[]> {
+      const allTags: { id: string; name?: string }[] = [];
+      let pageToken: string | undefined;
+      do {
+        const params: Record<string, string> = { page_size: "100" };
+        if (pageToken) params.page_token = pageToken;
+        const response = await this._httpRequest({
+          url: `${this._baseUrlV2()}/tags`,
+          params,
+        }) as { tags?: { id: string; name?: string }[]; next_page_token?: string };
+        const tags = response.tags ?? [];
+        allTags.push(...tags);
+        pageToken = response.next_page_token;
+      } while (pageToken);
+
+      return allTags.map((t) => ({
+        id: String(t.id),
+        name: t.name ?? String(t.id),
+      }));
+    },
+    async listLeadSources(): Promise<{ id: string; name: string }[]> {
+      try {
+        const allSources: { id: string; name?: string }[] = [];
+        let pageToken: string | undefined;
+        do {
+          const params: Record<string, string> = { page_size: "100" };
+          if (pageToken) params.page_token = pageToken;
+          const response = await this._httpRequest({
+            url: `${this._baseUrlV2()}/leadsources`,
+            params,
+          }) as { leadsources?: { id: string; name?: string }[]; next_page_token?: string };
+          const sources = response.leadsources ?? [];
+          allSources.push(...sources);
+          pageToken = response.next_page_token;
+        } while (pageToken);
+
+        return allSources.map((s) => ({
+          id: String(s.id),
+          name: s.name ?? String(s.id),
+        }));
+      } catch {
+        return [];
+      }
+    },
     async listAutomations(): Promise<{ id: string; name: string }[]> {
       const response = await this._httpRequest({
         url: `${this._baseUrlV2()}/automations`,
@@ -1295,6 +1339,66 @@ export default defineApp({
           company_name, id,
         }) => ({
           label: company_name,
+          value: id,
+        }));
+      },
+    },
+    ownerId: {
+      type: "string",
+      label: "Owner",
+      description: `Select the **User** who owns this contact.
+        \\
+        Alternatively, you can provide a custom *Owner ID*.`,
+      async options({ $ }: { $?: Pipedream }) {
+        const allUsers: { id: string; email?: string }[] = [];
+        let pageToken: string | undefined;
+        do {
+          const response = await this.listUsers({
+            $,
+            pageSize: "100",
+            pageToken,
+          }) as { users?: { id: string; email?: string }[]; next_page_token?: string };
+          const users = response.users ?? [];
+          allUsers.push(...users);
+          pageToken = response.next_page_token;
+        } while (pageToken);
+
+        return allUsers.map((u) => ({
+          label: u.email ?? String(u.id),
+          value: String(u.id),
+        }));
+      },
+    },
+    leadsourceId: {
+      type: "string",
+      label: "Lead Source",
+      description: `Select a **Lead Source** from the list.
+        \\
+        Alternatively, you can provide a custom *Lead Source ID*.`,
+      async options() {
+        const sources = await this.listLeadSources();
+
+        return sources.map(({
+          id, name,
+        }) => ({
+          label: name,
+          value: id,
+        }));
+      },
+    },
+    tagId: {
+      type: "string",
+      label: "Tag",
+      description: `Select a **Tag** from the list.
+        \\
+        Alternatively, you can provide a custom *Tag ID*.`,
+      async options() {
+        const tags = await this.listTags();
+
+        return tags.map(({
+          id, name,
+        }) => ({
+          label: name,
           value: id,
         }));
       },

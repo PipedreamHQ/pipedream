@@ -17,16 +17,19 @@ export default defineAction({
   props: {
     infusionsoft,
     tagId: {
-      type: "string",
-      label: "Tag ID",
-      description: "The ID of the tag to apply",
-      optional: false,
+      propDefinition: [
+        infusionsoft,
+        "tagId",
+      ],
     },
     contactIds: {
+      propDefinition: [
+        infusionsoft,
+        "contactId",
+      ],
       type: "string[]",
       label: "Contact IDs",
       description: "List of contact IDs to apply the tag to",
-      optional: false,
     },
   },
   async run({ $ }): Promise<object> {
