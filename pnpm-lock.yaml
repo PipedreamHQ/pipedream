@@ -13054,6 +13054,9 @@ importers:
 
   components/retell: {}
 
+  components/retell_ai:
+    specifiers: {}
+
   components/retently:
     dependencies:
       '@pipedream/platform':
