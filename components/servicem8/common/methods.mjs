@@ -50,10 +50,11 @@ export function createMethods(axios) {
      * @param {object} [opts.headers] - Extra headers merged after auth
      * @param {boolean} [opts.returnFullResponse]
      * @param {boolean} [opts.formUrlEncoded] - Send body as `application/x-www-form-urlencoded`
+     * @param {string} [opts.responseType] - Axios responseType (e.g. "arraybuffer" for binary)
      */
     async _makeRequest({
       $ = this, path, method = "GET", data, params, headers, returnFullResponse = false,
-      formUrlEncoded = false,
+      formUrlEncoded = false, responseType,
     }) {
       const useJsonBody = !formUrlEncoded && data && method !== "GET" && typeof data === "object";
       const config = {
@@ -72,6 +73,9 @@ export function createMethods(axios) {
           data,
         }),
         returnFullResponse,
+        ...(responseType && {
+          responseType,
+        }),
       };
       if (formUrlEncoded) {
         config.headers["Content-Type"] = "application/x-www-form-urlencoded";
@@ -293,6 +297,37 @@ export function createMethods(axios) {
         method: "POST",
         data,
         headers,
+      });
+    },
+    /**
+     * Produce a templated document (Quote, Work Order, or Invoice) for a job.
+     * @param {object} opts
+     * @param {object} opts.$
+     * @param {string} opts.objectType - Record type (e.g. "Job")
+     * @param {string} opts.objectUUID - Job UUID
+     * @param {string} opts.templateType - "Quote", "Work Order", or "Invoice"
+     * @param {string} [opts.templateUUID] - Optional template UUID
+     * @param {string} opts.outputFormat - "pdf", "docx", or "jpg"
+     * @param {boolean} [opts.storeToDiary] - Attach produced doc to job diary
+     */
+    async produceTemplatedDocument({
+      $, objectType, objectUUID, templateType, templateUUID, outputFormat, storeToDiary,
+    }) {
+      const data = {
+        objectType,
+        objectUUID,
+        templateType,
+        outputFormat,
+      };
+      if (templateUUID) data.templateUUID = templateUUID;
+      if (storeToDiary !== undefined) data.storeToDiary = storeToDiary;
+      return this._makeRequest({
+        $,
+        path: "platform_produce_document",
+        method: "POST",
+        data,
+        returnFullResponse: true,
+        responseType: "arraybuffer",
       });
     },
     /**
