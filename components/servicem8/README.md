@@ -14,7 +14,7 @@ The ServiceM8 API allows businesses to streamline their field service management
 
 These actions call the [ServiceM8 REST API](https://developer.servicem8.com/docs/rest-overview) and related endpoints. ServiceM8 does not publish an official Node.js SDK; integration uses the documented REST endpoints. Use **Make API Request** for paths not wrapped below. OAuth tokens must include the scopes required for each operation (for example `read_jobs`, `manage_jobs`, `publish_sms`).
 
-**Jobs, clients, and operations:** list/get/create/update/delete for jobs, companies, company contacts, job materials, job activities, staff, queues, categories, badges, notes, attachments (`dboattachment`), job payments, job contacts, and feedback.
+**Jobs, clients, and operations:** list/get/create/update/delete for jobs, companies, company contacts, job materials, job activities, staff, queues, categories, badges, notes, attachments (`dboattachment`), job payments, job contacts, feedback, materials, tasks, assets, locations, and bundles. **Allocation Windows:** list/get (read-only; time periods for job scheduling). Full coverage aligned with [ServiceM8 REST API reference](https://developer.servicem8.com/reference).
 
 **Messaging:** [Send SMS](https://developer.servicem8.com/reference/send_sms), [Send Email](https://developer.servicem8.com/reference/send_email) (Messaging API; public apps / quotas apply).
 

@@ -131,20 +131,41 @@ export function createMethods(axios) {
       });
     },
     /**
+     * Ensure data is an object (parse JSON string if needed).
+     * @param {object|string} data - Record data from props
+     * @returns {object}
+     */
+    _ensureRecordObject(data) {
+      if (data == null) {
+        return {};
+      }
+      if (typeof data === "string") {
+        try {
+          return JSON.parse(data);
+        } catch {
+          return {};
+        }
+      }
+      return typeof data === "object"
+        ? data
+        : {};
+    },
+    /**
      * @param {object} opts
      * @param {object} opts.$
      * @param {string} opts.resource
-     * @param {object} opts.data
+     * @param {object|string} opts.data
      * @returns {Promise<{ body: unknown, recordUuid?: string }>}
      */
     async createResource({
       $, resource, data,
     }) {
+      const payload = this._ensureRecordObject(data);
       const res = await this._makeRequest({
         $,
         path: this.resourceListPath(resource),
         method: "POST",
-        data,
+        data: payload,
         returnFullResponse: true,
       });
       const recordUuid = res.headers["x-record-uuid"] ?? res.headers["X-Record-Uuid"];
@@ -163,11 +184,12 @@ export function createMethods(axios) {
     async updateResource({
       $, resource, uuid, data,
     }) {
+      const payload = this._ensureRecordObject(data);
       return this._makeRequest({
         $,
         path: this.resourceItemPath(resource, uuid),
         method: "POST",
-        data,
+        data: payload,
       });
     },
     /**
@@ -309,7 +331,7 @@ export function createMethods(axios) {
       return {
         options: rows
           .map((row) => {
-            const value = row.uuid ?? row.UUID;
+            const value = row.uuid ?? row.UUID ?? row.id;
             if (!value) {
               return null;
             }
@@ -319,6 +341,8 @@ export function createMethods(axios) {
               ?? row.job_address
               ?? row.subject
               ?? row.title
+              ?? row.start_time
+              ?? row.end_time
               ?? String(value);
             return {
               label,

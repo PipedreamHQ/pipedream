@@ -22,7 +22,7 @@ function makeResourceUuidProp(resource, label, noun) {
       $, prevContext,
     }) {
       return this._uuidOptionsForResource({
-        $,
+        $: $ ?? this,
         resource,
         prevContext,
       });
@@ -40,20 +40,17 @@ export default {
       label: "Record",
       description: "JSON object of fields for the ServiceM8 API request body. Updates use POST (not PATCH); include the full set of fields to persist—omitted fields may be cleared.",
     },
-    jobUuid: makeResourceUuidProp("job", "Job", "job"),
-    companyUuid: makeResourceUuidProp("company", "Company", "company"),
-    jobactivityUuid: makeResourceUuidProp("jobactivity", "Job Activity", "job activity"),
-    jobpaymentUuid: makeResourceUuidProp("jobpayment", "Job Payment", "job payment"),
-    categoryUuid: makeResourceUuidProp("category", "Category", "category"),
-    jobmaterialUuid: makeResourceUuidProp("jobmaterial", "Job Material", "job material"),
-    staffUuid: makeResourceUuidProp("staff", "Staff", "staff member"),
-    badgeUuid: makeResourceUuidProp("badge", "Badge", "badge"),
-    dboattachmentUuid: makeResourceUuidProp("dboattachment", "Attachment", "attachment"),
-    companycontactUuid: makeResourceUuidProp("companycontact", "Company Contact", "company contact"),
-    jobcontactUuid: makeResourceUuidProp("jobcontact", "Job Contact", "job contact"),
-    noteUuid: makeResourceUuidProp("note", "Note", "note"),
-    queueUuid: makeResourceUuidProp("queue", "Queue", "queue"),
-    feedbackUuid: makeResourceUuidProp("feedback", "Feedback", "feedback item"),
+    ...Object.fromEntries(
+      Object.entries(logic.RESOURCES).map(([
+        key,
+        {
+          label, noun,
+        },
+      ]) => [
+        `${key}Uuid`,
+        makeResourceUuidProp(key, label, noun),
+      ]),
+    ),
   },
   methods: createMethods(axios),
 };

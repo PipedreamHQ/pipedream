@@ -8,6 +8,69 @@
 export const API_PATH = "api_1.0";
 
 /**
+ * ServiceM8 API resources with display labels. Aligned with
+ * [ServiceM8 REST API reference](https://developer.servicem8.com/reference).
+ */
+export const RESOURCES = {
+  job: {
+    label: "Job",
+    noun: "job",
+  },
+  company: {
+    label: "Company",
+    noun: "company",
+  },
+  companycontact: {
+    label: "Company Contact",
+    noun: "company contact",
+  },
+  jobcontact: {
+    label: "Job Contact",
+    noun: "job contact",
+  },
+  jobactivity: {
+    label: "Job Activity",
+    noun: "job activity",
+  },
+  jobmaterial: {
+    label: "Job Material",
+    noun: "job material",
+  },
+  jobpayment: {
+    label: "Job Payment",
+    noun: "job payment",
+  },
+  category: {
+    label: "Category",
+    noun: "category",
+  },
+  staff: {
+    label: "Staff",
+    noun: "staff member",
+  },
+  queue: {
+    label: "Queue",
+    noun: "queue",
+  },
+  note: {
+    label: "Note",
+    noun: "note",
+  },
+  dboattachment: {
+    label: "Attachment",
+    noun: "attachment",
+  },
+  badge: {
+    label: "Badge",
+    noun: "badge",
+  },
+  feedback: {
+    label: "Feedback",
+    noun: "feedback item",
+  },
+};
+
+/**
  * Builds the relative list URL path for a resource (e.g. `api_1.0/job.json`).
  * @param {string} resource - Resource key (e.g. `job`, `company`)
  * @returns {string}
