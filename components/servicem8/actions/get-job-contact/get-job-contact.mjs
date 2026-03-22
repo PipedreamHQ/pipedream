@@ -1,0 +1,32 @@
+import app from "../../servicem8.app.mjs";
+
+export default {
+  key: "servicem8-get-job-contact",
+  name: "Get Job Contact",
+  description: "Retrieve a Job Contact by UUID. [See the documentation](https://developer.servicem8.com/reference/listjobcontacts)",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
+  type: "action",
+  props: {
+    servicem8: app,
+    uuid: {
+      propDefinition: [
+        app,
+        "jobcontactUuid",
+      ],
+    },
+  },
+  async run({ $ }) {
+    const response = await this.servicem8.getResource({
+      $,
+      resource: "jobcontact",
+      uuid: this.uuid,
+    });
+    $.export("$summary", `Retrieved Job Contact ${this.uuid}`);
+    return response;
+  },
+};
