@@ -33,7 +33,7 @@ export default defineAction({
       type: "string",
       label: "Status",
       description: "The status of the affiliate",
-      optional: false,
+      optional: true,
       options: [
         {
           label: "Active",
