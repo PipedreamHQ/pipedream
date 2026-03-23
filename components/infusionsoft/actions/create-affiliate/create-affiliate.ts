@@ -16,6 +16,11 @@ export default defineAction({
   type: "action",
   props: {
     infusionsoft,
+    alert: {
+      type: "alert",
+      alertType: "info",
+      content: "This action is only available for Keap plans that support affiliates",
+    },
     code: {
       type: "string",
       label: "Affiliate Code",
