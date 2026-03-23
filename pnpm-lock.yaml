@@ -13054,6 +13054,9 @@ importers:
 
   components/retell: {}
 
+  components/retell_ai:
+    specifiers: {}
+
   components/retently:
     dependencies:
       '@pipedream/platform':
@@ -16732,6 +16735,9 @@ importers:
       '@pipedream/platform':
         specifier: ^2.0.2
         version: 2.0.2
+
+  components/vibe_prospecting:
+    specifiers: {}
 
   components/vida:
     dependencies:
