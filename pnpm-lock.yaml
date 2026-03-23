@@ -13051,7 +13051,10 @@ importers:
   components/retell: {}
 
   components/retell_ai:
-    specifiers: {}
+    dependencies:
+      retell-sdk:
+        specifier: ^5.9.0
+        version: 5.9.0
 
   components/retently:
     dependencies:
@@ -16732,8 +16735,7 @@ importers:
         specifier: ^2.0.2
         version: 2.0.2
 
-  components/vibe_prospecting:
-    specifiers: {}
+  components/vibe_prospecting: {}
 
   components/vida:
     dependencies:
@@ -31990,6 +31992,9 @@ packages:
   ret@0.4.3:
     resolution: {integrity: sha512-0f4Memo5QP7WQyUEAYUO3esD/XjOc3Zjjg5CPsAq1p8sIu0XPeMbHJemKA0BO7tV0X7+A0FoEpbmHXWxPyD3wQ==}
     engines: {node: '>=10'}
+
+  retell-sdk@5.9.0:
+    resolution: {integrity: sha512-tdk9vUa2Mqajdp8eK3aWroNEu/pvGuPi8sXVh8DjQGAu6hK7ug2CZ4pMgKvEIuRxAj/OC0HvSZ3vKXOKNjjGqg==}
 
   retry-request@5.0.2:
     resolution: {integrity: sha512-wfI3pk7EE80lCIXprqh7ym48IHYdwmAAzESdbU8Q9l7pnRCk9LEhpbOTNKjz6FARLm/Bl5m+4F0ABxOkYUujSQ==}
@@ -53672,6 +53677,8 @@ snapshots:
   ret@0.1.15: {}
 
   ret@0.4.3: {}
+
+  retell-sdk@5.9.0: {}
 
   retry-request@5.0.2:
     dependencies:
