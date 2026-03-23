@@ -5,7 +5,7 @@ export default {
   key: "linkupapi-verify-code",
   name: "Verify Code",
   description: "Verify security code for LinkedIn authentication. [See the documentation](https://docs.linkupapi.com/api-reference/linkup/authentication/verify)",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     email: {

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/vibe_prospecting",
+  "version": "0.0.1",
+  "description": "Pipedream Vibe Prospecting Components",
+  "main": "vibe_prospecting.app.mjs",
+  "keywords": [
+    "pipedream",
+    "vibe_prospecting"
+  ],
+  "homepage": "https://pipedream.com/apps/vibe_prospecting",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
