@@ -26,7 +26,6 @@ export default defineAction({
       type: "string",
       label: "Title",
       description: "The title of the task",
-      optional: true,
     },
     contactId: {
       propDefinition: [
