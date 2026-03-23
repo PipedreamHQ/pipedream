@@ -3,7 +3,7 @@ import app from "../../trengo.app.mjs";
 export default {
   type: "action",
   key: "trengo-assign-ticket",
-  version: "0.0.1",
+  version: "0.0.2",
   name: "Assign Ticket",
   description:
     "Assign a Trengo ticket to a user or a team. [See the documentation](https://developers.trengo.com/reference/assign-a-ticket)",
