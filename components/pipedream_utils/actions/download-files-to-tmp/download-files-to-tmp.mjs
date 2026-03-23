@@ -40,9 +40,9 @@ export default {
   async run({ $ }) {
     const files = [];
     for (const file of this.files) {
-      const { stream } = await getFileStreamAndMetadata(file);
+      const { stream, metadata } = await getFileStreamAndMetadata(file);
       const buffer = await this.streamToBuffer(stream);
-      const filename = path.basename(file);
+      const filename = metadata.name || `file_${Date.now()}`;
       const filepath = `/tmp/${filename}`;
       fs.writeFileSync(filepath, buffer);
       files.push({
