@@ -3,8 +3,8 @@ import app from "../../servicem8.app.mjs";
 export default {
   key: "servicem8-list-categories",
   name: "List Categories",
-  description: "List Category records with optional filtering. [See the documentation](https://developer.servicem8.com/reference/listcategories)",
-  version: "0.0.2",
+  description: "List categories with optional filters. [See the documentation](https://developer.servicem8.com/reference/listcategories)",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

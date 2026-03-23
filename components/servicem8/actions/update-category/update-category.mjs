@@ -1,10 +1,16 @@
 import app from "../../servicem8.app.mjs";
+import { buildUpdateBody } from "../../common/payload.mjs";
+import {
+  buildPropsFromSchema,
+  fieldsFromSchema,
+} from "../../common/action-schema.mjs";
+import { categoryUpdateFields } from "../common/category-fields.mjs";
 
 export default {
   key: "servicem8-update-category",
   name: "Update Category",
-  description: "Update an existing Category. [See the documentation](https://developer.servicem8.com/docs/rest-overview)",
-  version: "0.0.2",
+  description: "Update a category (loads the record, merges your fields, then POSTs). [See the documentation](https://developer.servicem8.com/reference/updatecategories)",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -19,19 +25,21 @@ export default {
         "categoryUuid",
       ],
     },
-    record: {
-      propDefinition: [
-        app,
-        "record",
-      ],
-    },
+    ...buildPropsFromSchema(app, categoryUpdateFields),
   },
   async run({ $ }) {
+    const patch = fieldsFromSchema(this, categoryUpdateFields);
+    const data = await buildUpdateBody(this.servicem8, {
+      $,
+      resource: "category",
+      uuid: this.uuid,
+      fields: patch,
+    });
     const response = await this.servicem8.updateResource({
       $,
       resource: "category",
       uuid: this.uuid,
-      data: this.record,
+      data,
     });
     $.export("$summary", `Updated Category ${this.uuid}`);
     return response;

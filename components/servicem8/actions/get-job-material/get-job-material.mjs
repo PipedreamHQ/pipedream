@@ -3,8 +3,8 @@ import app from "../../servicem8.app.mjs";
 export default {
   key: "servicem8-get-job-material",
   name: "Get Job Material",
-  description: "Retrieve a Job Material by UUID. [See the documentation](https://developer.servicem8.com/reference/listjobmaterials)",
-  version: "0.0.2",
+  description: "Get a job material by UUID. [See the documentation](https://developer.servicem8.com/reference/getjobmaterials)",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

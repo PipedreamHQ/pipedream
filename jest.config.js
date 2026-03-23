@@ -4,6 +4,7 @@ module.exports = {
   testEnvironment: "node",
   // See https://kulshekhar.github.io/ts-jest/docs/guides/esm-support
   extensionsToTreatAsEsm: [
+    ".js",
     ".ts",
     ".mts",
   ],

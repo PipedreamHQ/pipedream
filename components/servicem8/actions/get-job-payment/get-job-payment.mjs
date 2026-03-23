@@ -3,8 +3,8 @@ import app from "../../servicem8.app.mjs";
 export default {
   key: "servicem8-get-job-payment",
   name: "Get Job Payment",
-  description: "Retrieve a Job Payment by UUID. [See the documentation](https://developer.servicem8.com/reference/listjobpayments)",
-  version: "0.0.2",
+  description: "Get a job payment by UUID. [See the documentation](https://developer.servicem8.com/reference/getjobpayments)",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

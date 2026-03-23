@@ -1,10 +1,15 @@
 import app from "../../servicem8.app.mjs";
+import {
+  buildPropsFromSchema,
+  fieldsFromSchema,
+} from "../../common/action-schema.mjs";
+import { companyContactCreateFields } from "../common/company-contact-fields.mjs";
 
 export default {
   key: "servicem8-create-company-contact",
   name: "Create Company Contact",
-  description: "Create a new Company Contact. The new record UUID may be returned in the result field recordUuid when the API sends the x-record-uuid response header. [See the documentation](https://developer.servicem8.com/docs/rest-overview)",
-  version: "0.0.2",
+  description: "Create a company contact. [See the documentation](https://developer.servicem8.com/reference/createcompanycontacts)",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -13,20 +18,16 @@ export default {
   type: "action",
   props: {
     servicem8: app,
-    record: {
-      propDefinition: [
-        app,
-        "record",
-      ],
-    },
+    ...buildPropsFromSchema(app, companyContactCreateFields),
   },
   async run({ $ }) {
+    const data = fieldsFromSchema(this, companyContactCreateFields);
     const {
       body, recordUuid,
     } = await this.servicem8.createResource({
       $,
       resource: "companycontact",
-      data: this.record,
+      data,
     });
     $.export("$summary", `Created Company Contact${recordUuid
       ? ` (${recordUuid})`

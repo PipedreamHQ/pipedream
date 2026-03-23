@@ -1,10 +1,15 @@
 import app from "../../servicem8.app.mjs";
+import {
+  buildPropsFromSchema,
+  fieldsFromSchema,
+} from "../../common/action-schema.mjs";
+import { jobPaymentCreateFields } from "../common/job-payment-fields.mjs";
 
 export default {
   key: "servicem8-create-job-payment",
   name: "Create Job Payment",
-  description: "Create a new Job Payment. The new record UUID may be returned in the result field recordUuid when the API sends the x-record-uuid response header. [See the documentation](https://developer.servicem8.com/docs/rest-overview)",
-  version: "0.0.2",
+  description: "Create a job payment. [See the documentation](https://developer.servicem8.com/reference/createjobpayments)",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -13,20 +18,16 @@ export default {
   type: "action",
   props: {
     servicem8: app,
-    record: {
-      propDefinition: [
-        app,
-        "record",
-      ],
-    },
+    ...buildPropsFromSchema(app, jobPaymentCreateFields),
   },
   async run({ $ }) {
+    const data = fieldsFromSchema(this, jobPaymentCreateFields);
     const {
       body, recordUuid,
     } = await this.servicem8.createResource({
       $,
       resource: "jobpayment",
-      data: this.record,
+      data,
     });
     $.export("$summary", `Created Job Payment${recordUuid
       ? ` (${recordUuid})`

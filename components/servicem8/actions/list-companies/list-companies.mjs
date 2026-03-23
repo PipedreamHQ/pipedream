@@ -3,8 +3,8 @@ import app from "../../servicem8.app.mjs";
 export default {
   key: "servicem8-list-companies",
   name: "List Companies",
-  description: "List Company records with optional filtering. [See the documentation](https://developer.servicem8.com/reference/listcompanies)",
-  version: "0.0.2",
+  description: "List companies (clients) with optional filters. [See the documentation](https://developer.servicem8.com/reference/listclients)",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

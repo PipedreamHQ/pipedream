@@ -1,10 +1,16 @@
 import app from "../../servicem8.app.mjs";
+import { buildUpdateBody } from "../../common/payload.mjs";
+import {
+  buildPropsFromSchema,
+  fieldsFromSchema,
+} from "../../common/action-schema.mjs";
+import { jobUpdateFields } from "../common/job-fields.mjs";
 
 export default {
   key: "servicem8-update-job",
   name: "Update Job",
-  description: "Update an existing Job. The API uses POST to the job URL; send a complete `record` object with every field you want to keep—partial payloads can clear omitted fields. [See the documentation](https://developer.servicem8.com/docs/rest-overview)",
-  version: "0.0.2",
+  description: "Update a job (loads the record, merges your fields, then POSTs). [See the documentation](https://developer.servicem8.com/reference/updatejobs)",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -19,19 +25,21 @@ export default {
         "jobUuid",
       ],
     },
-    record: {
-      propDefinition: [
-        app,
-        "record",
-      ],
-    },
+    ...buildPropsFromSchema(app, jobUpdateFields),
   },
   async run({ $ }) {
+    const patch = fieldsFromSchema(this, jobUpdateFields);
+    const data = await buildUpdateBody(this.servicem8, {
+      $,
+      resource: "job",
+      uuid: this.uuid,
+      fields: patch,
+    });
     const response = await this.servicem8.updateResource({
       $,
       resource: "job",
       uuid: this.uuid,
-      data: this.record,
+      data,
     });
     $.export("$summary", `Updated Job ${this.uuid}`);
     return response;

@@ -3,8 +3,8 @@ import app from "../../servicem8.app.mjs";
 export default {
   key: "servicem8-list-staff",
   name: "List Staff",
-  description: "List Staff records with optional filtering. [See the documentation](https://developer.servicem8.com/reference/liststaff)",
-  version: "0.0.2",
+  description: "List staff with optional filters. [See the documentation](https://developer.servicem8.com/reference/liststaffmembers)",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -1,10 +1,16 @@
 import app from "../../servicem8.app.mjs";
+import { buildUpdateBody } from "../../common/payload.mjs";
+import {
+  buildPropsFromSchema,
+  fieldsFromSchema,
+} from "../../common/action-schema.mjs";
+import { jobContactUpdateFields } from "../common/job-contact-fields.mjs";
 
 export default {
   key: "servicem8-update-job-contact",
   name: "Update Job Contact",
-  description: "Update an existing Job Contact. [See the documentation](https://developer.servicem8.com/docs/rest-overview)",
-  version: "0.0.2",
+  description: "Update a job contact (loads the record, merges your fields, then POSTs). [See the documentation](https://developer.servicem8.com/reference/updatejobcontacts)",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -19,19 +25,21 @@ export default {
         "jobcontactUuid",
       ],
     },
-    record: {
-      propDefinition: [
-        app,
-        "record",
-      ],
-    },
+    ...buildPropsFromSchema(app, jobContactUpdateFields),
   },
   async run({ $ }) {
+    const patch = fieldsFromSchema(this, jobContactUpdateFields);
+    const data = await buildUpdateBody(this.servicem8, {
+      $,
+      resource: "jobcontact",
+      uuid: this.uuid,
+      fields: patch,
+    });
     const response = await this.servicem8.updateResource({
       $,
       resource: "jobcontact",
       uuid: this.uuid,
-      data: this.record,
+      data,
     });
     $.export("$summary", `Updated Job Contact ${this.uuid}`);
     return response;

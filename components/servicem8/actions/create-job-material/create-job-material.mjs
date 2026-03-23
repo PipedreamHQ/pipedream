@@ -1,10 +1,15 @@
 import app from "../../servicem8.app.mjs";
+import {
+  buildPropsFromSchema,
+  fieldsFromSchema,
+} from "../../common/action-schema.mjs";
+import { jobMaterialCreateFields } from "../common/job-material-fields.mjs";
 
 export default {
   key: "servicem8-create-job-material",
   name: "Create Job Material",
-  description: "Create a new Job Material. The new record UUID may be returned in the result field recordUuid when the API sends the x-record-uuid response header. [See the documentation](https://developer.servicem8.com/docs/rest-overview)",
-  version: "0.0.2",
+  description: "Create a job material. [See the documentation](https://developer.servicem8.com/reference/createjobmaterials)",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -13,20 +18,16 @@ export default {
   type: "action",
   props: {
     servicem8: app,
-    record: {
-      propDefinition: [
-        app,
-        "record",
-      ],
-    },
+    ...buildPropsFromSchema(app, jobMaterialCreateFields),
   },
   async run({ $ }) {
+    const data = fieldsFromSchema(this, jobMaterialCreateFields);
     const {
       body, recordUuid,
     } = await this.servicem8.createResource({
       $,
       resource: "jobmaterial",
-      data: this.record,
+      data,
     });
     $.export("$summary", `Created Job Material${recordUuid
       ? ` (${recordUuid})`

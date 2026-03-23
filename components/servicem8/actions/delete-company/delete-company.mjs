@@ -3,8 +3,8 @@ import app from "../../servicem8.app.mjs";
 export default {
   key: "servicem8-delete-company",
   name: "Delete Company",
-  description: "Delete a Company by UUID. [See the documentation](https://developer.servicem8.com/docs/rest-overview)",
-  version: "0.0.2",
+  description: "Delete a company by UUID. [See the documentation](https://developer.servicem8.com/reference/deleteclients)",
+  version: "0.0.1",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

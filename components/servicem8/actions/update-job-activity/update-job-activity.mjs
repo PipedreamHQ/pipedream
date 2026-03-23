@@ -1,10 +1,16 @@
 import app from "../../servicem8.app.mjs";
+import { buildUpdateBody } from "../../common/payload.mjs";
+import {
+  buildPropsFromSchema,
+  fieldsFromSchema,
+} from "../../common/action-schema.mjs";
+import { jobActivityUpdateFields } from "../common/job-activity-fields.mjs";
 
 export default {
   key: "servicem8-update-job-activity",
   name: "Update Job Activity",
-  description: "Update an existing Job Activity. [See the documentation](https://developer.servicem8.com/docs/rest-overview)",
-  version: "0.0.2",
+  description: "Update a job activity (loads the record, merges your fields, then POSTs). [See the documentation](https://developer.servicem8.com/reference/updatejobactivities)",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -19,19 +25,21 @@ export default {
         "jobactivityUuid",
       ],
     },
-    record: {
-      propDefinition: [
-        app,
-        "record",
-      ],
-    },
+    ...buildPropsFromSchema(app, jobActivityUpdateFields),
   },
   async run({ $ }) {
+    const patch = fieldsFromSchema(this, jobActivityUpdateFields);
+    const data = await buildUpdateBody(this.servicem8, {
+      $,
+      resource: "jobactivity",
+      uuid: this.uuid,
+      fields: patch,
+    });
     const response = await this.servicem8.updateResource({
       $,
       resource: "jobactivity",
       uuid: this.uuid,
-      data: this.record,
+      data,
     });
     $.export("$summary", `Updated Job Activity ${this.uuid}`);
     return response;

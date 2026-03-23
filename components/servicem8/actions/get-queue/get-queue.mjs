@@ -3,8 +3,8 @@ import app from "../../servicem8.app.mjs";
 export default {
   key: "servicem8-get-queue",
   name: "Get Queue",
-  description: "Retrieve a Queue by UUID. [See the documentation](https://developer.servicem8.com/reference/listqueues)",
-  version: "0.0.2",
+  description: "Get a job queue by UUID. [See the documentation](https://developer.servicem8.com/reference/getjobqueues)",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

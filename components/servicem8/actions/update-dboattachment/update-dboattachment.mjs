@@ -1,10 +1,16 @@
 import app from "../../servicem8.app.mjs";
+import { buildUpdateBody } from "../../common/payload.mjs";
+import {
+  buildPropsFromSchema,
+  fieldsFromSchema,
+} from "../../common/action-schema.mjs";
+import { dboattachmentUpdateFields } from "../common/dboattachment-fields.mjs";
 
 export default {
   key: "servicem8-update-dboattachment",
   name: "Update Attachment",
-  description: "Update an existing attachment record. [See the documentation](https://developer.servicem8.com/docs/rest-overview)",
-  version: "0.0.2",
+  description: "Update an attachment (loads the record, merges your fields, then POSTs). [See the documentation](https://developer.servicem8.com/reference/updateattachments)",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -19,21 +25,23 @@ export default {
         "dboattachmentUuid",
       ],
     },
-    record: {
-      propDefinition: [
-        app,
-        "record",
-      ],
-    },
+    ...buildPropsFromSchema(app, dboattachmentUpdateFields),
   },
   async run({ $ }) {
+    const patch = fieldsFromSchema(this, dboattachmentUpdateFields);
+    const data = await buildUpdateBody(this.servicem8, {
+      $,
+      resource: "dboattachment",
+      uuid: this.uuid,
+      fields: patch,
+    });
     const response = await this.servicem8.updateResource({
       $,
       resource: "dboattachment",
       uuid: this.uuid,
-      data: this.record,
+      data,
     });
-    $.export("$summary", `Updated attachment ${this.uuid}`);
+    $.export("$summary", `Updated Attachment ${this.uuid}`);
     return response;
   },
 };

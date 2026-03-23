@@ -3,8 +3,8 @@ import app from "../../servicem8.app.mjs";
 export default {
   key: "servicem8-delete-webhook-subscription",
   name: "Delete Webhook Subscription",
-  description: "Delete a webhook subscription for an object type. [See the documentation](https://developer.servicem8.com/docs/webhooks-overview)",
-  version: "0.0.2",
+  description: "Delete a webhook subscription by object type. [See the documentation](https://developer.servicem8.com/reference/delete_webhook_subscriptions)",
+  version: "0.0.1",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

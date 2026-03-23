@@ -3,8 +3,8 @@ import app from "../../servicem8.app.mjs";
 export default {
   key: "servicem8-get-job",
   name: "Get Job",
-  description: "Retrieve a Job by UUID. [See the documentation](https://developer.servicem8.com/docs/rest-overview)",
-  version: "0.0.2",
+  description: "Get a job by UUID. [See the documentation](https://developer.servicem8.com/reference/getjobs)",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

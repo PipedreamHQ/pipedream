@@ -1,12 +1,11 @@
 import app from "../../servicem8.app.mjs";
 
-const DOCS =
-  "https://developer.servicem8.com/reference/produce_templated_document";
+const DOCS = "https://developer.servicem8.com/reference/produce_templated_document";
 
 export default {
   key: "servicem8-produce-quote",
   name: "Produce Quote",
-  description: `Generate a Quote document for a job using the Document Templates API. Outputs PDF, DOCX, or JPG. [See the documentation](${DOCS})`,
+  description: `Generate a job quote (PDF, DOCX, or JPG). [See the documentation](${DOCS})`,
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

@@ -3,8 +3,8 @@ import app from "../../servicem8.app.mjs";
 export default {
   key: "servicem8-get-feedback",
   name: "Get Feedback",
-  description: "Retrieve Feedback by UUID. [See the documentation](https://developer.servicem8.com/docs/rest-overview)",
-  version: "0.0.2",
+  description: "Get feedback by UUID. [See the documentation](https://developer.servicem8.com/reference/getfeedback)",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

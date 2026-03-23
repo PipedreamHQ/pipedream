@@ -3,8 +3,8 @@ import app from "../../servicem8.app.mjs";
 export default {
   key: "servicem8-send-sms",
   name: "Send SMS",
-  description: "Send an SMS via the ServiceM8 Messaging API (charges apply). [See the documentation](https://developer.servicem8.com/reference/send_sms)",
-  version: "0.0.3",
+  description: "Send an SMS via the Messaging API (charges may apply). [See the documentation](https://developer.servicem8.com/reference/send_sms)",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

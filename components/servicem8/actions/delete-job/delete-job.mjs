@@ -3,8 +3,8 @@ import app from "../../servicem8.app.mjs";
 export default {
   key: "servicem8-delete-job",
   name: "Delete Job",
-  description: "Delete a Job by UUID. [See the documentation](https://developer.servicem8.com/docs/rest-overview)",
-  version: "0.0.2",
+  description: "Delete a job by UUID. [See the documentation](https://developer.servicem8.com/reference/deletejobs)",
+  version: "0.0.1",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

@@ -35,11 +35,6 @@ export default {
   app: "servicem8",
   propDefinitions: {
     ...logic.listQueryPropDefinitions,
-    record: {
-      type: "object",
-      label: "Record",
-      description: "JSON object of fields for the ServiceM8 API request body. Updates use POST (not PATCH); include the full set of fields to persist—omitted fields may be cleared.",
-    },
     ...Object.fromEntries(
       Object.entries(logic.RESOURCES).map(([
         key,

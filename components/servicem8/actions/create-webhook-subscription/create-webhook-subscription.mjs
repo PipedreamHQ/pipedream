@@ -3,8 +3,8 @@ import app from "../../servicem8.app.mjs";
 export default {
   key: "servicem8-create-webhook-subscription",
   name: "Create Webhook Subscription",
-  description: "Create or update a webhook subscription (POST `webhook_subscriptions`). [See the documentation](https://developer.servicem8.com/docs/webhooks-overview)",
-  version: "0.0.2",
+  description: "Create or update an object webhook subscription. [See the documentation](https://developer.servicem8.com/reference/post_object_webhook_subscription)",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

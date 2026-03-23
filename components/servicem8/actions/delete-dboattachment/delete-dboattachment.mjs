@@ -3,8 +3,8 @@ import app from "../../servicem8.app.mjs";
 export default {
   key: "servicem8-delete-dboattachment",
   name: "Delete Attachment",
-  description: "Delete an Attachment by UUID. [See the documentation](https://developer.servicem8.com/docs/rest-overview)",
-  version: "0.0.2",
+  description: "Delete an attachment by UUID. [See the documentation](https://developer.servicem8.com/reference/deleteattachments)",
+  version: "0.0.1",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

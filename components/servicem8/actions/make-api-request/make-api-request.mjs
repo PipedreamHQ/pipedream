@@ -5,8 +5,8 @@ const DOCS = "https://developer.servicem8.com/docs/rest-overview";
 export default {
   key: "servicem8-make-api-request",
   name: "Make API Request",
-  description: `Send an authenticated request to the ServiceM8 API. Use paths under \`api_1.0/\` (e.g. \`api_1.0/job.json\`) or \`webhook_subscriptions\` for webhooks. [REST overview](${DOCS})`,
-  version: "0.0.2",
+  description: `Send an authenticated ServiceM8 API request. [See the documentation](${DOCS})`,
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

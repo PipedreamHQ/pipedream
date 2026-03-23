@@ -3,8 +3,8 @@ import app from "../../servicem8.app.mjs";
 export default {
   key: "servicem8-list-company-contacts",
   name: "List Company Contacts",
-  description: "List Company Contact records with optional filtering. [See the documentation](https://developer.servicem8.com/reference/listcompanycontacts)",
-  version: "0.0.2",
+  description: "List company contacts with optional filters. [See the documentation](https://developer.servicem8.com/reference/listcompanycontacts)",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

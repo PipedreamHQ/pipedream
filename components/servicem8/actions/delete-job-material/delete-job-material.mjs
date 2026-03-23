@@ -3,8 +3,8 @@ import app from "../../servicem8.app.mjs";
 export default {
   key: "servicem8-delete-job-material",
   name: "Delete Job Material",
-  description: "Delete a Job Material by UUID. [See the documentation](https://developer.servicem8.com/docs/rest-overview)",
-  version: "0.0.2",
+  description: "Delete a job material by UUID. [See the documentation](https://developer.servicem8.com/reference/deletejobmaterials)",
+  version: "0.0.1",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
