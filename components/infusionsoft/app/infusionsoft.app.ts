@@ -419,11 +419,11 @@ export default defineApp({
     async listAutomations(): Promise<{ id: string; name: string }[]> {
       const response = await this._httpRequest({
         url: `${this._baseUrlV2()}/automations`,
-      }) as { automations?: { id: string; name?: string }[] };
+      }) as { automations?: { id: string; title?: string }[] };
       const automations = response.automations ?? [];
       return automations.map((a) => ({
         id: String(a.id),
-        name: a.name ?? String(a.id),
+        name: a.title ?? String(a.id),
       }));
     },
     async addContactToAutomation({
