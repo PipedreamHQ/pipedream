@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import tapfiliate from "../../tapfiliate.app.mjs";
 
 export default {
@@ -34,6 +35,10 @@ export default {
     const {
       childAffiliateId, parentAffiliateId,
     } = this;
+
+    if (childAffiliateId === parentAffiliateId) {
+      throw new ConfigurationError("Parent Affiliate ID must be different from Child Affiliate ID.");
+    }
 
     const response = await this.tapfiliate.setParentAffiliate({
       $,
