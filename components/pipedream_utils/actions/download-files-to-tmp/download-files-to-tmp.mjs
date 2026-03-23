@@ -40,7 +40,7 @@ export default {
   },
   async run({ $ }) {
     const files = [];
-    for (const file of this.files) { console.log(file);
+    for (const file of this.files) {
       const { stream } = await getFileStreamAndMetadata(file);
       const buffer = await this.streamToBuffer(stream);
       const filename = path.basename(file);
