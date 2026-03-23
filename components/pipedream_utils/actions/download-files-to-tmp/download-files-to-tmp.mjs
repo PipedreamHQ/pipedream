@@ -1,7 +1,6 @@
 import pipedream_utils from "../../pipedream_utils.app.mjs";
 import { getFileStreamAndMetadata } from "@pipedream/platform";
 import fs from "fs";
-import path from "path";
 
 export default {
   key: "pipedream_utils-download-files-to-tmp",
