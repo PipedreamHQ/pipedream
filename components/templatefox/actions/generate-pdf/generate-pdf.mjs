@@ -1,5 +1,6 @@
-import { axios } from "@pipedream/platform";
-import fs from "fs";
+import { axios, getFileStream } from "@pipedream/platform";
+import { createWriteStream } from "fs";
+import { pipeline } from "stream/promises";
 import templatefox from "../../templatefox.app.mjs";
 
 export default {
@@ -196,11 +197,8 @@ export default {
     // Download PDF to /tmp for downstream steps (Google Drive, Gmail, Slack, etc.)
     const filePath = `/tmp/${pdfFilename}`;
     try {
-      const pdfData = await axios($, {
-        url: response.url,
-        responseType: "arraybuffer",
-      });
-      fs.writeFileSync(filePath, Buffer.from(pdfData));
+      const stream = await getFileStream(response.url);
+      await pipeline(stream, createWriteStream(filePath));
     } catch {
       $.export("$summary", `PDF generated (${response.credits_remaining} credits remaining) — download to /tmp failed, use the URL instead`);
       return response;
