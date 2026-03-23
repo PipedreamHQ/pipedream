@@ -124,11 +124,7 @@ export default {
         }
       }
     } catch {
-      props.data = {
-        type: "object",
-        label: "Template Data (JSON)",
-        description: "Could not load template fields. Enter data as key-value pairs.",
-      };
+      // Field discovery failed — user can switch to JSON mode
     }
     return props;
   },
