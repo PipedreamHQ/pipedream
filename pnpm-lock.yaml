@@ -11750,6 +11750,9 @@ importers:
       nodemailer:
         specifier: ^7.0.11
         version: 7.0.11
+      path:
+        specifier: ^0.12.7
+        version: 0.12.7
       pluralize:
         specifier: ^8.0.0
         version: 8.0.0
@@ -13057,8 +13060,7 @@ importers:
 
   components/retell: {}
 
-  components/retell_ai:
-    specifiers: {}
+  components/retell_ai: {}
 
   components/retently:
     dependencies:
@@ -16739,8 +16741,7 @@ importers:
         specifier: ^2.0.2
         version: 2.0.2
 
-  components/vibe_prospecting:
-    specifiers: {}
+  components/vibe_prospecting: {}
 
   components/vida:
     dependencies:
