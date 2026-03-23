@@ -1,4 +1,4 @@
-import { axios, getFileStream } from "@pipedream/platform";
+import { getFileStream } from "@pipedream/platform";
 import { createWriteStream } from "fs";
 import { pipeline } from "stream/promises";
 import templatefox from "../../templatefox.app.mjs";
@@ -87,7 +87,12 @@ export default {
             props[`field_${field.key}`] = {
               type: "string",
               label: field.label || field.key,
-              description: `JSON array — e.g. [${JSON.stringify(Object.fromEntries(field.spec.map((s) => [s.name, s.type === "number" ? 0 : "..."])))}]`,
+              description: `JSON array — e.g. [${JSON.stringify(Object.fromEntries(field.spec.map((s) => [
+                s.name,
+                s.type === "number"
+                  ? 0
+                  : "...",
+              ])))}]`,
               optional: !field.required,
             };
           } else {
@@ -133,7 +138,10 @@ export default {
       data = this.data;
     } else {
       data = {};
-      for (const [key, value] of Object.entries(this)) {
+      for (const [
+        key,
+        value,
+      ] of Object.entries(this)) {
         if (key.startsWith("field_")) {
           const fieldName = key.slice(6);
           if (typeof value === "string" && value.startsWith("[")) {
@@ -149,7 +157,10 @@ export default {
       }
       // Zip mapped array columns into row objects
       const arrayFields = {};
-      for (const [key, value] of Object.entries(this)) {
+      for (const [
+        key,
+        value,
+      ] of Object.entries(this)) {
         if (key.startsWith("array_")) {
           const rest = key.slice(6);
           const sepIdx = rest.indexOf("__");
@@ -159,10 +170,15 @@ export default {
           if (!arrayFields[fieldKey]) arrayFields[fieldKey] = {};
           arrayFields[fieldKey][colName] = Array.isArray(value)
             ? value
-            : [value];
+            : [
+              value,
+            ];
         }
       }
-      for (const [fieldKey, columns] of Object.entries(arrayFields)) {
+      for (const [
+        fieldKey,
+        columns,
+      ] of Object.entries(arrayFields)) {
         const colNames = Object.keys(columns);
         const maxLen = Math.max(...colNames.map((c) => columns[c].length));
         const rows = [];
