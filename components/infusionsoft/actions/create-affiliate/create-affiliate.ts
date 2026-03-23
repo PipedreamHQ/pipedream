@@ -21,7 +21,6 @@ export default defineAction({
       label: "Affiliate Code",
       description:
         "The affiliate code. Must start with letters, be at least 4 characters, and contain no spaces.",
-      optional: false,
     },
     contactId: {
       propDefinition: [
