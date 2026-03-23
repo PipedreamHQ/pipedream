@@ -11750,9 +11750,6 @@ importers:
       nodemailer:
         specifier: ^7.0.11
         version: 7.0.11
-      path:
-        specifier: ^0.12.7
-        version: 0.12.7
       pluralize:
         specifier: ^8.0.0
         version: 8.0.0
