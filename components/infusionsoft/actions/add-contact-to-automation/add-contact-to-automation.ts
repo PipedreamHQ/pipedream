@@ -23,13 +23,10 @@ export default defineAction({
       ],
     },
     sequenceId: {
-      propDefinition: [
-        infusionsoft,
-        "sequenceId",
-        ({ automationId }: { automationId: string }) => ({
-          automationId,
-        }),
-      ],
+      type: "string",
+      label: "Sequence ID",
+      description: "The ID of the automation sequence to add contacts to",
+      optional: false,
     },
     contactIds: {
       propDefinition: [
@@ -53,10 +50,15 @@ export default defineAction({
       throw new Error("At least one valid contact ID is required");
     }
 
+    const sequenceId = String(this.sequenceId ?? "").trim();
+    if (!sequenceId) {
+      throw new Error("Sequence ID is required");
+    }
+
     const params: AddContactToAutomationParams = {
       $,
       automationId: this.automationId,
-      sequenceId: this.sequenceId,
+      sequenceId,
       contactIds: uniqueIds,
     };
 
