@@ -9,7 +9,7 @@ export default {
   key: "servicem8-create-job-payment",
   name: "Create Job Payment",
   description: "Create a job payment. [See the documentation](https://developer.servicem8.com/reference/createjobpayments)",
-  version: "0.0.3",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

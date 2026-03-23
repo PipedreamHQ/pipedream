@@ -9,7 +9,7 @@ export default {
   key: "servicem8-create-job-material",
   name: "Create Job Material",
   description: "Create a job material. [See the documentation](https://developer.servicem8.com/reference/createjobmaterials)",
-  version: "0.0.3",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

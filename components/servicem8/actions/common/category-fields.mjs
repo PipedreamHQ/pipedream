@@ -1,26 +1,28 @@
-import { optionalBool01 } from "../../common/payload.mjs";
+import { allOptional } from "../../common/action-schema.mjs";
 
-export const categoryUpdateFields = [
+/**
+ * ServiceM8 job category create/update body fields.
+ * Aligned with [Create categories](https://developer.servicem8.com/reference/createcategories)
+ * and [Update categories](https://developer.servicem8.com/reference/updatecategories).
+ */
+export const categoryCreateFields = [
   {
     prop: "name",
     api: "name",
     type: "string",
     label: "Name",
-    optional: true,
+    description:
+      "Job category name (required by API). Used to classify and organize jobs.",
   },
   {
-    prop: "sort",
-    api: "sort",
+    prop: "colour",
+    api: "colour",
     type: "string",
-    label: "Sort",
+    label: "Colour",
     optional: true,
-  },
-  {
-    prop: "active",
-    api: "active",
-    type: "boolean",
-    label: "Active",
-    optional: true,
-    transform: optionalBool01,
+    description:
+      "Hex colour (6 characters 0-9a-f) for the dispatch board and calendar.",
   },
 ];
+
+export const categoryUpdateFields = allOptional(categoryCreateFields);

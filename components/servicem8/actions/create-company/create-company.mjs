@@ -9,7 +9,7 @@ export default {
   key: "servicem8-create-company",
   name: "Create Company",
   description: "Create a company (client). [See the documentation](https://developer.servicem8.com/reference/createclients)",
-  version: "0.0.3",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

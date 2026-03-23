@@ -3,12 +3,12 @@ import {
   buildPropsFromSchema,
   fieldsFromSchema,
 } from "../../common/action-schema.mjs";
-import { companyContactCreateFields } from "../common/company-contact-fields.mjs";
+import { badgeCreateFields } from "../common/badge-fields.mjs";
 
 export default {
-  key: "servicem8-create-company-contact",
-  name: "Create Company Contact",
-  description: "Create a company contact. [See the documentation](https://developer.servicem8.com/reference/createcompanycontacts)",
+  key: "servicem8-create-badge",
+  name: "Create Badge",
+  description: "Create a badge. [See the documentation](https://developer.servicem8.com/reference/createbadges)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -18,18 +18,18 @@ export default {
   type: "action",
   props: {
     servicem8: app,
-    ...buildPropsFromSchema(app, companyContactCreateFields),
+    ...buildPropsFromSchema(app, badgeCreateFields),
   },
   async run({ $ }) {
-    const data = fieldsFromSchema(this, companyContactCreateFields);
+    const data = fieldsFromSchema(this, badgeCreateFields);
     const {
       body, recordUuid,
     } = await this.servicem8.createResource({
       $,
-      resource: "companycontact",
+      resource: "badge",
       data,
     });
-    $.export("$summary", `Created Company Contact${recordUuid
+    $.export("$summary", `Created Badge${recordUuid
       ? ` (${recordUuid})`
       : ""}`);
     return {

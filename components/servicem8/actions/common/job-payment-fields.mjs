@@ -1,48 +1,62 @@
-import { optionalBool01 } from "../../common/payload.mjs";
 import { allOptional } from "../../common/action-schema.mjs";
 
+/**
+ * ServiceM8 job payment create/update body fields.
+ * Aligned with [Create job payments](https://developer.servicem8.com/reference/createjobpayments)
+ * and [Update job payments](https://developer.servicem8.com/reference/updatejobpayments).
+ */
 export const jobPaymentCreateFields = [
   {
     prop: "jobUuid",
     api: "job_uuid",
     propDefinition: "jobUuid",
+    description: "Job this payment belongs to.",
   },
   {
-    prop: "paymentAmount",
-    api: "payment_amount",
+    prop: "actionedByUuid",
+    api: "actioned_by_uuid",
+    propDefinition: "staffUuid",
+    optional: true,
+    description: "Staff member who recorded or processed this payment.",
+  },
+  {
+    prop: "timestamp",
+    api: "timestamp",
     type: "string",
-    label: "Payment Amount",
+    label: "Timestamp",
     optional: true,
+    description: "When the payment was recorded (`YYYY-MM-DD HH:MM:SS`).",
   },
   {
-    prop: "paymentDate",
-    api: "payment_date",
+    prop: "amount",
+    api: "amount",
     type: "string",
-    label: "Payment Date",
+    label: "Amount",
     optional: true,
-    description: "e.g. ISO date string accepted by ServiceM8",
+    description: "Payment amount in the account currency.",
   },
   {
-    prop: "paymentMethod",
-    api: "payment_method",
+    prop: "method",
+    api: "method",
     type: "string",
-    label: "Payment Method",
+    label: "Method",
     optional: true,
+    description: "e.g. Cash, Credit Card, Bank Transfer, Stripe",
   },
   {
-    prop: "paymentNote",
-    api: "payment_note",
+    prop: "note",
+    api: "note",
     type: "string",
-    label: "Payment Note",
+    label: "Note",
     optional: true,
+    description: "Reference numbers, transaction IDs, or other details.",
   },
   {
-    prop: "paymentReceived",
-    api: "payment_received",
-    type: "boolean",
-    label: "Payment Received",
+    prop: "attachmentUuid",
+    api: "attachment_uuid",
+    propDefinition: "dboattachmentUuid",
     optional: true,
-    transform: optionalBool01,
+    description: "Optional attachment (e.g. receipt) linked to this payment.",
   },
 ];
 

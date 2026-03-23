@@ -9,7 +9,7 @@ export default {
   key: "servicem8-create-note",
   name: "Create Note",
   description: "Create a note. [See the documentation](https://developer.servicem8.com/reference/createnotes)",
-  version: "0.0.3",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

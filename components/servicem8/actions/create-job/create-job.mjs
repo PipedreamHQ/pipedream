@@ -9,7 +9,7 @@ export default {
   key: "servicem8-create-job",
   name: "Create Job",
   description: "Create a job. [See the documentation](https://developer.servicem8.com/reference/createjobs)",
-  version: "0.0.3",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

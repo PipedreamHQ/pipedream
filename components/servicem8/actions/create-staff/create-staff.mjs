@@ -3,12 +3,12 @@ import {
   buildPropsFromSchema,
   fieldsFromSchema,
 } from "../../common/action-schema.mjs";
-import { companyContactCreateFields } from "../common/company-contact-fields.mjs";
+import { staffCreateFields } from "../common/staff-fields.mjs";
 
 export default {
-  key: "servicem8-create-company-contact",
-  name: "Create Company Contact",
-  description: "Create a company contact. [See the documentation](https://developer.servicem8.com/reference/createcompanycontacts)",
+  key: "servicem8-create-staff",
+  name: "Create Staff Member",
+  description: "Create a staff member. [See the documentation](https://developer.servicem8.com/reference/createstaffmembers)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -18,18 +18,18 @@ export default {
   type: "action",
   props: {
     servicem8: app,
-    ...buildPropsFromSchema(app, companyContactCreateFields),
+    ...buildPropsFromSchema(app, staffCreateFields),
   },
   async run({ $ }) {
-    const data = fieldsFromSchema(this, companyContactCreateFields);
+    const data = fieldsFromSchema(this, staffCreateFields);
     const {
       body, recordUuid,
     } = await this.servicem8.createResource({
       $,
-      resource: "companycontact",
+      resource: "staff",
       data,
     });
-    $.export("$summary", `Created Company Contact${recordUuid
+    $.export("$summary", `Created Staff Member${recordUuid
       ? ` (${recordUuid})`
       : ""}`);
     return {

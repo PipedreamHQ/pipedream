@@ -9,7 +9,7 @@ export default {
   key: "servicem8-create-dboattachment",
   name: "Create Attachment",
   description: "Create an attachment. [See the documentation](https://developer.servicem8.com/reference/createattachments)",
-  version: "0.0.3",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

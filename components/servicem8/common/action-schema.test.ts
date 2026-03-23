@@ -27,6 +27,23 @@ describe("servicem8/common/action-schema", () => {
       });
     });
 
+    it("passes options for enum-like string props", () => {
+      const schema = [
+        {
+          prop: "status",
+          type: "string",
+          label: "Status",
+          options: ["Quote", "Completed"],
+        },
+      ];
+      const props = buildPropsFromSchema(mockApp, schema);
+      expect(props.status).toEqual({
+        type: "string",
+        label: "Status",
+        options: ["Quote", "Completed"],
+      });
+    });
+
     it("uses propDefinition when present", () => {
       const schema = [
         {

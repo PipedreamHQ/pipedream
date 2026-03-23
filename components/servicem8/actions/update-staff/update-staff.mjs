@@ -8,9 +8,9 @@ import { staffUpdateFields } from "../common/staff-fields.mjs";
 
 export default {
   key: "servicem8-update-staff",
-  name: "Update Staff",
+  name: "Update Staff Member",
   description: "Update a staff member (loads the record, merges your fields, then POSTs). [See the documentation](https://developer.servicem8.com/reference/updatestaffmembers)",
-  version: "0.0.3",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

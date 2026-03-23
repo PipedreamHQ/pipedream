@@ -10,7 +10,7 @@ export default {
   key: "servicem8-update-company",
   name: "Update Company",
   description: "Update a company (loads the record, merges your fields, then POSTs). [See the documentation](https://developer.servicem8.com/reference/updateclients)",
-  version: "0.0.3",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

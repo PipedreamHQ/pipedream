@@ -10,7 +10,7 @@ export default {
   key: "servicem8-update-category",
   name: "Update Category",
   description: "Update a category (loads the record, merges your fields, then POSTs). [See the documentation](https://developer.servicem8.com/reference/updatecategories)",
-  version: "0.0.3",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

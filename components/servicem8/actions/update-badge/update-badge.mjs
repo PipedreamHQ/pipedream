@@ -10,7 +10,7 @@ export default {
   key: "servicem8-update-badge",
   name: "Update Badge",
   description: "Update a badge (loads the record, merges your fields, then POSTs). [See the documentation](https://developer.servicem8.com/reference/updatebadges)",
-  version: "0.0.3",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -31,6 +31,9 @@ export function buildPropsFromSchema(app, schema) {
         ...(field.description && {
           description: field.description,
         }),
+        ...(field.options && {
+          options: field.options,
+        }),
       },
   ]));
 }

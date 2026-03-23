@@ -8,9 +8,9 @@ import { queueUpdateFields } from "../common/queue-fields.mjs";
 
 export default {
   key: "servicem8-update-queue",
-  name: "Update Queue",
+  name: "Update Job Queue",
   description: "Update a job queue (loads the record, merges your fields, then POSTs). [See the documentation](https://developer.servicem8.com/reference/updatejobqueues)",
-  version: "0.0.3",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

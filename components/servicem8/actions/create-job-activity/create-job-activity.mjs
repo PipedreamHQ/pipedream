@@ -9,7 +9,7 @@ export default {
   key: "servicem8-create-job-activity",
   name: "Create Job Activity",
   description: "Create a job activity. [See the documentation](https://developer.servicem8.com/reference/createjobactivities)",
-  version: "0.0.3",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

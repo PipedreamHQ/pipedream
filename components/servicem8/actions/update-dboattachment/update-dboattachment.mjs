@@ -10,7 +10,7 @@ export default {
   key: "servicem8-update-dboattachment",
   name: "Update Attachment",
   description: "Update an attachment (loads the record, merges your fields, then POSTs). [See the documentation](https://developer.servicem8.com/reference/updateattachments)",
-  version: "0.0.3",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

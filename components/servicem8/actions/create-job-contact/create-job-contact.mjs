@@ -9,7 +9,7 @@ export default {
   key: "servicem8-create-job-contact",
   name: "Create Job Contact",
   description: "Create a job contact. [See the documentation](https://developer.servicem8.com/reference/createjobcontacts)",
-  version: "0.0.3",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
