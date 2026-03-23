@@ -20,7 +20,7 @@ export default defineAction({
       type: "string",
       label: "File Data",
       description:
-        "Raw binary/text content (will be Base64 encoded), or a data URL (e.g., data:application/pdf;base64,...).",
+        "Base64-encoded file content. Pass raw base64 data, or a data URL (e.g., data:application/pdf;base64,...).",
       optional: false,
     },
     fileName: {
@@ -56,20 +56,6 @@ export default defineAction({
       ],
       optional: true,
     },
-    userId: {
-      propDefinition: [
-        infusionsoft,
-        "userId",
-      ],
-      optional: true,
-    },
-    companyId: {
-      propDefinition: [
-        infusionsoft,
-        "companyId",
-      ],
-      optional: true,
-    },
     isPublic: {
       type: "boolean",
       label: "Is Public",
@@ -92,12 +78,6 @@ export default defineAction({
     if (association === "CONTACT" && !String(this.contactId ?? "").trim()) {
       throw new Error("Contact ID is required when File Association is CONTACT");
     }
-    if (association === "USER" && !String(this.userId ?? "").trim()) {
-      throw new Error("User ID is required when File Association is USER");
-    }
-    if (association === "COMPANY" && !String(this.companyId ?? "").trim()) {
-      throw new Error("Company ID is required when File Association is COMPANY");
-    }
 
     const params: UploadFileParams = {
       $,
@@ -106,12 +86,6 @@ export default defineAction({
       fileAssociation: this.fileAssociation,
       contactId: this.contactId
         ? String(this.contactId)
-        : undefined,
-      userId: this.userId
-        ? String(this.userId)
-        : undefined,
-      companyId: this.companyId
-        ? String(this.companyId)
         : undefined,
       isPublic: this.isPublic,
     };

@@ -197,8 +197,6 @@ interface UploadFileParams extends ActionRequestParams {
   fileName: string;
   fileAssociation: string;
   contactId?: string;
-  userId?: string;
-  companyId?: string;
   isPublic?: boolean;
 }
 

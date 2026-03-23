@@ -1262,8 +1262,6 @@ export default defineApp({
       fileName,
       fileAssociation,
       contactId,
-      userId,
-      companyId,
       isPublic,
     }: UploadFileParams): Promise<object> {
       const association = fileAssociation.trim().toUpperCase();
@@ -1277,12 +1275,6 @@ export default defineApp({
       if (association === "CONTACT" && !contactId?.trim()) {
         throw new Error("Contact ID is required for CONTACT association");
       }
-      if (association === "USER" && !userId?.trim()) {
-        throw new Error("User ID is required for USER association");
-      }
-      if (association === "COMPANY" && !companyId?.trim()) {
-        throw new Error("Company ID is required for COMPANY association");
-      }
       const raw = String(fileData ?? "");
       const fileDataTrimmed = raw.trim();
       let base64Data: string;
@@ -1292,7 +1284,7 @@ export default defineApp({
           ? fileDataTrimmed.substring(commaIdx + 1)
           : "";
       } else {
-        base64Data = Buffer.from(raw, "utf-8").toString("base64");
+        base64Data = fileDataTrimmed;
       }
       const body: Record<string, unknown> = {
         file_name: fileName.trim(),
@@ -1300,9 +1292,9 @@ export default defineApp({
         file_association: association,
         is_public: Boolean(isPublic),
       };
-      if (contactId?.trim()) body.contact_id = this._parseId(contactId, "Contact ID");
-      if (userId?.trim()) body.user_id = this._parseId(userId, "User ID");
-      if (companyId?.trim()) body.company_id = this._parseId(companyId, "Company ID");
+      if (association === "CONTACT" && contactId?.trim()) {
+        body.contact_id = this._parseId(contactId, "Contact ID");
+      }
       return this._httpRequest({
         $,
         url: `${this._baseUrl()}/files`,
