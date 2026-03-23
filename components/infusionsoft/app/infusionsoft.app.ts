@@ -1495,21 +1495,21 @@ export default defineApp({
         \\
         Alternatively, you can provide a custom *User ID*.`,
       async options({ $ }: { $?: Pipedream }) {
-        const allUsers: { id: string; email?: string }[] = [];
+        const allUsers: { id: string; keap_id?: string }[] = [];
         let pageToken: string | undefined;
         do {
           const response = await this.listUsers({
             $,
             pageSize: "100",
             pageToken,
-          }) as { users?: { id: string; email?: string }[]; next_page_token?: string };
+          }) as { users?: { id: string; keap_id?: string }[]; next_page_token?: string };
           const users = response.users ?? [];
           allUsers.push(...users);
           pageToken = response.next_page_token;
         } while (pageToken);
 
         return allUsers.map((u) => ({
-          label: u.email ?? String(u.id),
+          label: u.keap_id ?? String(u.id),
           value: String(u.id),
         }));
       },
