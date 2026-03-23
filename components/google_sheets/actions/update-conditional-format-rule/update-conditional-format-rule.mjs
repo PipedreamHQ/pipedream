@@ -5,7 +5,7 @@ export default {
   key: "google_sheets-update-conditional-format-rule",
   name: "Update Conditional Format Rule",
   description: "Modify existing conditional formatting rule. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/request#UpdateConditionalFormatRuleRequest)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

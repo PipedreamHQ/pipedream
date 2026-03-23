@@ -4,7 +4,7 @@ export default {
   key: "google_sheets-merge-cells",
   name: "Merge Cells",
   description: "Merge a range of cells into a single cell. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/request#MergeCellsRequest)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

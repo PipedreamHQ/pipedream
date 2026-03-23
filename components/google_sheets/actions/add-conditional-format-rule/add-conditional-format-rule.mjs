@@ -5,7 +5,7 @@ export default {
   key: "google_sheets-add-conditional-format-rule",
   name: "Add Conditional Format Rule",
   description: "Create conditional formatting with color scales or custom formulas. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/request#AddConditionalFormatRuleRequest)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

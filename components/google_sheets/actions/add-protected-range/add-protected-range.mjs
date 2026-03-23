@@ -4,7 +4,7 @@ export default {
   key: "google_sheets-add-protected-range",
   name: "Add Protected Range",
   description: "Add edit protection to cell range with permissions. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/request#AddProtectedRangeRequest)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
