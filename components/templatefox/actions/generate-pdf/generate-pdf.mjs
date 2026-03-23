@@ -91,7 +91,7 @@ export default {
             };
           } else {
             for (const col of field.spec) {
-              props[`array_${field.key}_${col.name}`] = {
+              props[`array_${field.key}__${col.name}`] = {
                 type: "string[]",
                 label: `${field.label || field.key} → ${col.label || col.name}`,
                 description: col.type === "number"
@@ -138,8 +138,8 @@ export default {
           if (typeof value === "string" && value.startsWith("[")) {
             try {
               data[fieldName] = JSON.parse(value);
-            } catch {
-              data[fieldName] = value;
+            } catch (e) {
+              throw new Error(`Invalid JSON for field "${fieldName}": ${e.message}`);
             }
           } else {
             data[fieldName] = value;
@@ -151,10 +151,10 @@ export default {
       for (const [key, value] of Object.entries(this)) {
         if (key.startsWith("array_")) {
           const rest = key.slice(6);
-          const sepIdx = rest.indexOf("_");
+          const sepIdx = rest.indexOf("__");
           if (sepIdx === -1) continue;
           const fieldKey = rest.slice(0, sepIdx);
-          const colName = rest.slice(sepIdx + 1);
+          const colName = rest.slice(sepIdx + 2);
           if (!arrayFields[fieldKey]) arrayFields[fieldKey] = {};
           arrayFields[fieldKey][colName] = Array.isArray(value)
             ? value
