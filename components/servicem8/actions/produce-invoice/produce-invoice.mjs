@@ -62,7 +62,7 @@ export default {
       }) {
         return this.servicem8._uuidOptionsForResource({
           $: $ ?? this,
-          resource: "template",
+          resource: "documenttemplate",
           prevContext,
           query,
         });
