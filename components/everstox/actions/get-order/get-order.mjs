@@ -4,7 +4,7 @@ export default {
   key: "everstox-get-order",
   name: "Get Order",
   description: "Get an order from Everstox. [See the documentation](https://api.everstox.com/api/v1/ui/#/Order/district_core.api.shops.orders.orders.Orders.get)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
