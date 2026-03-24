@@ -131,7 +131,7 @@ export default {
   async run({ $ }) {
     let data;
     if (this.useJsonMode) {
-      data = this.data;
+      data = this.templatefox.parseObject(this.data);
     } else {
       data = {};
       for (const [
