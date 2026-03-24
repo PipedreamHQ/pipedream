@@ -4,7 +4,7 @@ export default {
   key: "linkedin-retrieve-comments-shares",
   name: "Retrieve Comments On Shares",
   description: "Retrieve comments on shares given the share urn. [See the docs here](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/network-update-social-actions#retrieve-comments-on-shares)",
-  version: "0.1.11",
+  version: "0.1.12",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -16,7 +16,7 @@ export default {
     entityUrn: {
       type: "string",
       label: "Entity Urn",
-      description: "Urn of the entity to retreive comments on.",
+      description: "Urn of the entity to retrieve comments on.",
     },
     max: {
       propDefinition: [

@@ -371,9 +371,7 @@ export default {
             webUrl,
             description,
           }),
-          label: folder
-            ? `📁 ${name}`
-            : `📄 ${name}`,
+          label: name,
         })) || [];
       },
     },

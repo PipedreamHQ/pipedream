@@ -1,12 +1,15 @@
 import { randomUUID } from "crypto";
 import sharepoint from "../../sharepoint.app.mjs";
-import { WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS } from "../../common/constants.mjs";
+import {
+  LIST_ITEM_FIELDS_EXPAND,
+  WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS,
+} from "../../common/constants.mjs";
 
 export default {
   key: "sharepoint-updated-file-instant",
   name: "File Updated or Deleted (Instant)",
   description: "Emit a new event when specific files are updated or deleted in a SharePoint document library",
-  version: "0.0.3",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   props: {
@@ -250,6 +253,18 @@ export default {
         };
       }
     },
+    async buildEmitPayload(file, freshFile) {
+      return {
+        eventType: file.deleted
+          ? "deleted"
+          : "updated",
+        file,
+        downloadUrl:
+          freshFile?.["@microsoft.graph.downloadUrl"] ?? null,
+        listItemFields:
+          freshFile?.listItem?.fields ?? null,
+      };
+    },
     generateMeta(file) {
       // Use lastModifiedDateTime for updated files, deletedDateTime for deleted files
       // Fall back to current time only if neither is available
@@ -378,30 +393,37 @@ export default {
 
     console.log(`Found ${changedFiles.length} changed monitored files`);
 
+    // Fetch fresh data for non-deleted files in parallel
+    // Delta response lacks downloadUrl and listItem fields
+    const nonDeletedFiles = changedFiles.filter((f) => !f.deleted);
+    const freshResults = await Promise.allSettled(
+      nonDeletedFiles.map((file) =>
+        this.sharepoint.getDriveItem({
+          driveId,
+          fileId: file.id,
+          params: {
+            $expand: LIST_ITEM_FIELDS_EXPAND,
+          },
+        })),
+    );
+    const freshDataMap = new Map();
+    freshResults.forEach((result, i) => {
+      if (result.status === "fulfilled") {
+        freshDataMap.set(nonDeletedFiles[i].id, result.value);
+      } else {
+        console.log(
+          `Could not fetch details for ${nonDeletedFiles[i].name}: `
+          + `${result.reason?.message}`,
+        );
+      }
+    });
+
     // Emit events for each changed file
     for (const file of changedFiles) {
-      // Delta response may not include downloadUrl - fetch fresh if needed
-      // Skip fetching download URL for deleted files (they no longer exist)
-      let downloadUrl = file["@microsoft.graph.downloadUrl"];
-      if (!downloadUrl && !file.deleted) {
-        try {
-          const freshFile = await this.sharepoint.getDriveItem({
-            driveId,
-            fileId: file.id,
-          });
-          downloadUrl = freshFile["@microsoft.graph.downloadUrl"];
-        } catch (err) {
-          console.log(`Could not fetch download URL for ${file.name}: ${err.message}`);
-        }
-      }
-
-      this.$emit(
-        {
-          file,
-          downloadUrl,
-        },
-        this.generateMeta(file),
-      );
+      const freshFile = freshDataMap.get(file.id);
+      const payload =
+        await this.buildEmitPayload(file, freshFile);
+      this.$emit(payload, this.generateMeta(file));
     }
   },
 };

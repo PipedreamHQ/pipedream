@@ -27,7 +27,7 @@ module.exports = {
     mediaUrl: {
       type: "string[]",
       label: "Media URL",
-      description: "Publicly addressible URL of the media you would like to send with the SMS",
+      description: "Publicly addressable URL of the media you would like to send with the SMS",
     },
   },
   methods: {
