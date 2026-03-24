@@ -102,9 +102,12 @@ export default {
           const status = err?.response?.status;
           if (status === 429) {
             const retryAfter = err?.response?.headers?.["retry-after"];
-            const waitMs = retryAfter
-              ? parseInt(retryAfter) * 1000
-              : Math.pow(2, attempt) * BASE_BACKOFF_MS;
+            const parsedRetryAfter = retryAfter
+              ? parseInt(retryAfter, 10) * 1000
+              : NaN;
+            const waitMs = Number.isNaN(parsedRetryAfter)
+              ? Math.pow(2, attempt) * BASE_BACKOFF_MS
+              : parsedRetryAfter;
             console.log(`Rate limited (429). Waiting ${waitMs}ms before retry (attempt ${attempt + 1}/${MAX_RETRIES})`);
             await new Promise((resolve) => setTimeout(resolve, waitMs));
             attempt++;
