@@ -19,7 +19,7 @@ export default {
     customerId: {
       type: "string",
       label: "Customer ID",
-      description: "The id for this customer in your system. The customer id should be unique for each customer",
+      description: "The ID for this customer in your system. The customer ID should be unique for each customer",
     },
     affiliateId: {
       propDefinition: [
