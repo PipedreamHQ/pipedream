@@ -28,6 +28,17 @@ export default {
       label: "Regarding Job UUID",
       description: "Optional job UUID to link the SMS to the job diary",
       optional: true,
+      useQuery: true,
+      async options({
+        $, prevContext, query,
+      }) {
+        return this.servicem8._uuidOptionsForResource({
+          $: $ ?? this,
+          resource: "job",
+          prevContext,
+          query,
+        });
+      },
     },
   },
   async run({ $ }) {

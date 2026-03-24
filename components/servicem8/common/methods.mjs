@@ -337,12 +337,16 @@ export function createMethods(axios) {
      * @param {string} opts.resource
      * @param {object} [opts.prevContext]
      * @param {string} [opts.prevContext.cursor]
+     * @param {Record<string, string>} [opts.listParams] - Extra query params for list requests
+     *   (e.g. `$filter`).
      * @returns {Promise<object>}
      */
     async _uuidOptionsForResource({
-      $, resource, prevContext, query,
+      $, resource, prevContext, query, listParams = {},
     }) {
-      const params = {};
+      const params = {
+        ...listParams,
+      };
       if (prevContext?.cursor) {
         params.cursor = prevContext.cursor;
       }

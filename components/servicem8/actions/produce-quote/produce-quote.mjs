@@ -56,6 +56,17 @@ export default {
       description:
         "Optional. If you have multiple template designs, specify the template UUID. Omit to use the default Quote template.",
       optional: true,
+      useQuery: true,
+      async options({
+        $, prevContext, query,
+      }) {
+        return this.servicem8._uuidOptionsForResource({
+          $: $ ?? this,
+          resource: "template",
+          prevContext,
+          query,
+        });
+      },
     },
     storeToDiary: {
       type: "boolean",

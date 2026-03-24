@@ -52,12 +52,34 @@ export default {
       label: "Regarding Job UUID",
       description: "Optional job UUID to link the email to the job diary",
       optional: true,
+      useQuery: true,
+      async options({
+        $, prevContext, query,
+      }) {
+        return this.servicem8._uuidOptionsForResource({
+          $: $ ?? this,
+          resource: "job",
+          prevContext,
+          query,
+        });
+      },
     },
     impersonateStaffUuid: {
       type: "string",
       label: "Impersonate Staff UUID",
       description: "Required when using the platform-user-signature tag in the body (x-impersonate-uuid header)",
       optional: true,
+      useQuery: true,
+      async options({
+        $, prevContext, query,
+      }) {
+        return this.servicem8._uuidOptionsForResource({
+          $: $ ?? this,
+          resource: "staff",
+          prevContext,
+          query,
+        });
+      },
     },
   },
   async run({ $ }) {
@@ -77,8 +99,13 @@ export default {
     if (this.textBody !== undefined) data.textBody = this.textBody;
     if (this.cc !== undefined) data.cc = this.cc;
     if (this.replyTo !== undefined) data.replyTo = this.replyTo;
-    if (this.regardingJobUUID !== undefined) {
-      data.regardingJobUUID = this.regardingJobUUID;
+    const regardingJob = this.regardingJobUUID;
+    if (
+      regardingJob !== undefined &&
+      regardingJob !== null &&
+      String(regardingJob).trim() !== ""
+    ) {
+      data.regardingJobUUID = String(regardingJob).trim();
     }
 
     const response = await this.servicem8.sendEmail({

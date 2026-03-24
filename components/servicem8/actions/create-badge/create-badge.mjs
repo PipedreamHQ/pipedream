@@ -36,6 +36,17 @@ export default {
       label: "Regarding Form UUID",
       optional: true,
       description: "Linked form UUID when the badge relates to a specific form.",
+      useQuery: true,
+      async options({
+        $, prevContext, query,
+      }) {
+        return this.servicem8._uuidOptionsForResource({
+          $: $ ?? this,
+          resource: "form",
+          prevContext,
+          query,
+        });
+      },
     },
     regardingAssetTypeUuid: {
       type: "string",
@@ -43,6 +54,17 @@ export default {
       optional: true,
       description:
         "Asset type this badge is associated with; only used for asset-based badges.",
+      useQuery: true,
+      async options({
+        $, prevContext, query,
+      }) {
+        return this.servicem8._uuidOptionsForResource({
+          $: $ ?? this,
+          resource: "assettype",
+          prevContext,
+          query,
+        });
+      },
     },
   },
   async run({ $ }) {
