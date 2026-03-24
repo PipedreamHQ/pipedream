@@ -169,7 +169,7 @@ export default {
       userId, nextLink,
     } = {}) {
       const client = this.client();
-      const filter = "groupTypes/any(a:a eq 'unified')";
+      const filter = "groupTypes/any(a:a eq 'Unified')";
 
       if (nextLink) {
         return client.api(nextLink)
