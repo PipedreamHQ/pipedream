@@ -1,6 +1,6 @@
 export default {
   type: "app",
-  app: "vibe_prospecting",
+  app: "templatefox",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
