@@ -1,5 +1,10 @@
+import type { Readable } from "stream";
 import infusionsoft from "../../app/infusionsoft.app";
 import { defineAction } from "@pipedream/types";
+import {
+  ConfigurationError,
+  getFileStream,
+} from "@pipedream/platform";
 import { UploadFileParams } from "../../common/types/requestParams";
 
 export default defineAction({
@@ -16,18 +21,17 @@ export default defineAction({
   type: "action",
   props: {
     infusionsoft,
-    fileData: {
+    file: {
       type: "string",
-      label: "File Data",
-      description:
-        "Base64-encoded file content. Pass raw base64 data, or a data URL (e.g., data:application/pdf;base64,...).",
-      optional: false,
+      label: "File Path or URL",
+      description: "The file to upload. Provide a file URL or a path to a file in the `/tmp` directory.",
+      format: "file-ref",
     },
     fileName: {
       type: "string",
       label: "File Name",
-      description: "Name of the file with extension (e.g., document.pdf)",
-      optional: false,
+      description: "Name of the file with extension (e.g., document.pdf). Optional; defaults to the file name from the path.",
+      optional: true,
     },
     fileAssociation: {
       type: "string",
@@ -63,26 +67,51 @@ export default defineAction({
       optional: true,
       default: false,
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
+  },
+  methods: {
+    streamToBase64(stream: Readable): Promise<string> {
+      return new Promise((resolve, reject) => {
+        const chunks: Buffer[] = [];
+        stream.on("data", (chunk: Buffer) => chunks.push(chunk));
+        stream.on("end", () => {
+          const buffer = Buffer.concat(chunks);
+          resolve(buffer.toString("base64"));
+        });
+        stream.on("error", reject);
+      });
+    },
   },
   async run({ $ }): Promise<object> {
-    if (!String(this.fileData ?? "").trim()) {
-      throw new Error("File Data is required");
+    if (!this.file) {
+      throw new ConfigurationError("The **File Path or URL** prop is required.");
     }
-    const fileName = String(this.fileName ?? "").trim();
+
+    const stream = await getFileStream(this.file);
+    const fileData = await this.streamToBase64(stream);
+
+    const fileName = String(this.fileName ?? "").trim()
+      || this.file.split("/").pop()
+      || "file";
     if (!fileName) {
-      throw new Error("File Name is required");
+      throw new ConfigurationError("File name could not be determined. Please provide a **File Name**.");
     }
 
     const association = String(this.fileAssociation ?? "").trim()
       .toUpperCase();
     if (association === "CONTACT" && !String(this.contactId ?? "").trim()) {
-      throw new Error("Contact ID is required when File Association is CONTACT");
+      throw new ConfigurationError("Contact ID is required when File Association is CONTACT");
     }
 
     const params: UploadFileParams = {
       $,
-      fileData: String(this.fileData ?? "").trim(),
-      fileName: this.fileName,
+      fileData,
+      fileName,
       fileAssociation: this.fileAssociation,
       contactId: this.contactId
         ? String(this.contactId)

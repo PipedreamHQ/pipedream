@@ -1275,16 +1275,9 @@ export default defineApp({
       if (association === "CONTACT" && !contactId?.trim()) {
         throw new Error("Contact ID is required for CONTACT association");
       }
-      const raw = String(fileData ?? "");
-      const fileDataTrimmed = raw.trim();
-      let base64Data: string;
-      if (fileDataTrimmed.startsWith("data:")) {
-        const commaIdx = fileDataTrimmed.indexOf(",");
-        base64Data = commaIdx > 0
-          ? fileDataTrimmed.substring(commaIdx + 1)
-          : "";
-      } else {
-        base64Data = fileDataTrimmed;
+      const base64Data = String(fileData ?? "").trim();
+      if (!base64Data) {
+        throw new Error("File data is required");
       }
       const body: Record<string, unknown> = {
         file_name: fileName.trim(),
