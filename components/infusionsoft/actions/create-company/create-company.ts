@@ -20,7 +20,6 @@ export default defineAction({
       type: "string",
       label: "Company Name",
       description: "The name of the company",
-      optional: false,
     },
     email: {
       type: "string",

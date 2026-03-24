@@ -20,7 +20,6 @@ export default defineAction({
       type: "string",
       label: "Template ID",
       description: "The ID of the email template to send",
-      optional: false,
     },
     userId: {
       propDefinition: [

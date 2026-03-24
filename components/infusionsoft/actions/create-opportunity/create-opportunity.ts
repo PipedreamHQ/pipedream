@@ -20,7 +20,6 @@ export default defineAction({
       type: "string",
       label: "Opportunity Title",
       description: "The title of the opportunity",
-      optional: false,
     },
     contactId: {
       propDefinition: [

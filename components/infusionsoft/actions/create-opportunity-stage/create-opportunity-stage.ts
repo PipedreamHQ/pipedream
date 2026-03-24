@@ -20,25 +20,21 @@ export default defineAction({
       type: "string",
       label: "Stage Name",
       description: "The name of the opportunity stage",
-      optional: false,
     },
     order: {
       type: "string",
       label: "Order",
       description: "The display order of the stage in the pipeline (integer)",
-      optional: false,
     },
     probability: {
       type: "string",
       label: "Probability (%)",
       description: "The probability percentage of closing a deal at this stage (0-100)",
-      optional: false,
     },
     targetNumberDays: {
       type: "string",
       label: "Target Number of Days",
       description: "The target number of days an opportunity should spend in this stage",
-      optional: false,
     },
     checklistItems: {
       type: "string",

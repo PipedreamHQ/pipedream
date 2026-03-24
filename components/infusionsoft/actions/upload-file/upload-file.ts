@@ -37,7 +37,6 @@ export default defineAction({
       type: "string",
       label: "File Association",
       description: "Type of entity to associate the file with",
-      optional: false,
       options: [
         {
           label: "Contact",

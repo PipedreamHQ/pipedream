@@ -26,7 +26,6 @@ export default defineAction({
       type: "string",
       label: "Subject",
       description: "The subject line of the email",
-      optional: false,
     },
     contactIds: {
       propDefinition: [

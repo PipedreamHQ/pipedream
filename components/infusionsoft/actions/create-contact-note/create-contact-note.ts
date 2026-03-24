@@ -26,7 +26,6 @@ export default defineAction({
       type: "string",
       label: "Note Body",
       description: "The main content/description of the note",
-      optional: false,
     },
     title: {
       type: "string",
