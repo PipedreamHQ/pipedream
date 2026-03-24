@@ -8,7 +8,7 @@ export default {
   key: "hubspot-new-engagement",
   name: "New Engagement",
   description: "Emit new event for each new engagement created. This action returns a maximum of 5000 records at a time, make sure you set a correct time range so you don't miss any events",
-  version: "0.0.42",
+  version: "0.0.43",
   dedupe: "unique",
   type: "source",
   props: {
@@ -16,7 +16,7 @@ export default {
     types: {
       type: "string[]",
       label: "Engagement Types",
-      description: "Filter results by the type of engagment",
+      description: "Filter results by the type of engagement",
       options: ENGAGEMENT_TYPES,
       optional: true,
     },
