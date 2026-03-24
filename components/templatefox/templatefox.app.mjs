@@ -41,15 +41,6 @@ export default {
     /**
      * @returns {string} The base URL for the TemplateFox API
      */
-    parseObject(value) {
-      if (typeof value === "object") return value;
-      if (typeof value === "string") {
-        const trimmed = value.trim();
-        if (!trimmed) return undefined;
-        return JSON.parse(trimmed);
-      }
-      return value;
-    },
     _baseUrl() {
       return "https://api.pdftemplateapi.com/v1";
     },

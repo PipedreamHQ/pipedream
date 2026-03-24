@@ -1,6 +1,7 @@
 import { getFileStream } from "@pipedream/platform";
 import { createWriteStream } from "fs";
 import { pipeline } from "stream/promises";
+import { parseObject } from "../../common/utils.mjs";
 import templatefox from "../../templatefox.app.mjs";
 
 export default {
@@ -131,7 +132,7 @@ export default {
   async run({ $ }) {
     let data;
     if (this.useJsonMode) {
-      data = this.templatefox.parseObject(this.data);
+      data = parseObject(this.data);
     } else {
       data = {};
       for (const [
