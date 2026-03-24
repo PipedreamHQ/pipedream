@@ -6,6 +6,7 @@ import parseUtils from
   "../../../sharepoint/common/utils.mjs";
 import { addCustomFields } from
   "../../common/customFields.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   ...retrieveFileMetadata,
@@ -75,7 +76,7 @@ export default {
       parseUtils.parseFileOrFolderList(this.fileIds);
 
     if (selections.length === 0) {
-      throw new Error(
+      throw new ConfigurationError(
         "Please select at least one file",
       );
     }
