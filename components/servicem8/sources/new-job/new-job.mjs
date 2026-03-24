@@ -5,7 +5,7 @@ export default {
   name: "New Job (Instant)",
   key: "servicem8-new-job",
   description: "Emit new event when a new job is created. By creating this trigger, any other `Job` triggers will stop working as ServiceM8 will replace any previous ones.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
