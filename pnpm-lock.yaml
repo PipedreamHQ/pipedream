@@ -7694,8 +7694,8 @@ importers:
   components/infusionsoft:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.8
-        version: 1.6.8
+        specifier: ^3.1.1
+        version: 3.3.0
     devDependencies:
       '@pipedream/types':
         specifier: ^0.1.4
@@ -13050,8 +13050,7 @@ importers:
 
   components/retell: {}
 
-  components/retell_ai:
-    specifiers: {}
+  components/retell_ai: {}
 
   components/retently:
     dependencies:
@@ -16732,8 +16731,7 @@ importers:
         specifier: ^2.0.2
         version: 2.0.2
 
-  components/vibe_prospecting:
-    specifiers: {}
+  components/vibe_prospecting: {}
 
   components/vida:
     dependencies:
