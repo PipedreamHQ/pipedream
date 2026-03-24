@@ -40,17 +40,21 @@ export default {
   async run({ $ }) {
     const files = [];
     for (const file of this.files) {
-      const {
-        stream, metadata,
-      } = await getFileStreamAndMetadata(file);
-      const buffer = await this.streamToBuffer(stream);
-      const filename = metadata.name || `file_${Date.now()}`;
-      const filepath = `/tmp/${filename}`;
-      fs.writeFileSync(filepath, buffer);
-      files.push({
-        filename,
-        filepath,
-      });
+      try {
+        const {
+          stream, metadata,
+        } = await getFileStreamAndMetadata(file);
+        const buffer = await this.streamToBuffer(stream);
+        const filename = metadata.name || `file_${Date.now()}`;
+        const filepath = `/tmp/${filename}`;
+        fs.writeFileSync(filepath, buffer);
+        files.push({
+          filename,
+          filepath,
+        });
+      } catch {
+        console.log(`Failed to add file: ${file}`);
+      }
     }
     $.export("$summary", `Successfully added ${files.length} files to /tmp`);
     return files;
