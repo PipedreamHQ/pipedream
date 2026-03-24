@@ -1,5 +1,7 @@
 import { axios } from "@pipedream/platform";
 const DEFAULT_LIMIT = 100;
+const MAX_RETRIES = 5;
+const BASE_BACKOFF_MS = 1000;
 
 export default {
   type: "app",
@@ -81,16 +83,38 @@ export default {
         Authorization: `Bearer ${this.$auth.oauth_access_token}`,
       };
     },
-    _makeRequest({
+    async _makeRequest({
       $ = this,
       path,
+      url,
       ...args
     }) {
-      return axios($, {
-        url: `${this._baseUrl()}${path}`,
+      const config = {
+        url: url || `${this._baseUrl()}${path}`,
         headers: this._headers(),
         ...args,
-      });
+      };
+      let attempt = 0;
+      while (attempt < MAX_RETRIES) {
+        try {
+          return await axios($, config);
+        } catch (err) {
+          const status = err?.response?.status;
+          if (status === 429) {
+            const retryAfter = err?.response?.headers?.["retry-after"];
+            const waitMs = retryAfter
+              ? parseInt(retryAfter) * 1000
+              : Math.pow(2, attempt) * BASE_BACKOFF_MS;
+            console.log(`Rate limited (429). Waiting ${waitMs}ms before retry (attempt ${attempt + 1}/${MAX_RETRIES})`);
+            await new Promise((resolve) => setTimeout(resolve, waitMs));
+            attempt++;
+          } else {
+            throw err;
+          }
+        }
+      }
+      // Final attempt after exhausting retries — let the error propagate
+      return axios($, config);
     },
     async getPropOptions({
       accountId, resourceFn, resourceKey, valueKey, labelKey, next,
@@ -215,7 +239,6 @@ export default {
           limit: DEFAULT_LIMIT,
         },
       };
-      let total = 0;
       let count = 0;
       do {
         const response = await resourceFn(args);
@@ -235,9 +258,14 @@ export default {
             return;
           }
         }
-        args.url = attributes?.next;
-        total = items?.length;
-      } while (total === args.params.limit);
+        const next = attributes?.next;
+        if (!next) {
+          return;
+        }
+        args = {
+          url: next,
+        };
+      } while (true);
     },
   },
 };
