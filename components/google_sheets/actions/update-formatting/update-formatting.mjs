@@ -7,7 +7,7 @@ export default {
   key: "google_sheets-update-formatting",
   name: "Update Formatting",
   description: "Update the formatting of a cell in a spreadsheet. [See the documentation](https://developers.google.com/workspace/sheets/api/samples/formatting)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: true,
@@ -160,8 +160,6 @@ export default {
     },
   },
   async run({ $ }) {
-    const ASCII_A = 65;    // Unicode (UTF-16) value for the character 'A'
-    const OFFSET_INCLUSIVE = -1;  // For making the end column index inclusive
     const {
       startCol,
       endCol,
@@ -173,8 +171,8 @@ export default {
       sheetId: this.worksheetId,
       startRowIndex: startRow,
       endRowIndex: endRow,
-      startColumnIndex: startCol.charCodeAt(0) - ASCII_A,
-      endColumnIndex: endCol.charCodeAt(0) - (ASCII_A + OFFSET_INCLUSIVE),
+      startColumnIndex: this.googleSheets._getColumnIndex(startCol) - 1,
+      endColumnIndex: this.googleSheets._getColumnIndex(endCol), // API end is exclusive
     };
 
     const hasBorderStyles = this.topBorderStyle

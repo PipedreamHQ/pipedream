@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/templatefox",
+  "version": "0.0.1",
+  "description": "Pipedream TemplateFox Components",
+  "main": "templatefox.app.mjs",
+  "keywords": [
+    "pipedream",
+    "templatefox"
+  ],
+  "homepage": "https://pipedream.com/apps/templatefox",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
