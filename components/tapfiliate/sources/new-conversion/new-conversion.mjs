@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "tapfiliate-new-conversion",
   name: "New Conversion",
-  description: "Emit new event when a new conversion is created. Conversion details are supplied by the application. [See the API docs](https://tapfiliate.com/docs/rest/#conversions-conversions-collection-get)",
+  description: "Emit new event when a new conversion is created. Conversion details are supplied by the application. [See the documentation](https://tapfiliate.com/docs/rest/#conversions-conversions-collection-get)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
