@@ -426,6 +426,16 @@ export default defineApp({
         name: a.title ?? String(a.id),
       }));
     },
+    async getAutomationSequences(automationId: string): Promise<{ id: string; name: string }[]> {
+      const response = await this._httpRequest({
+        url: `${this._baseUrlV2()}/campaigns/${String(automationId).trim()}/sequences`,
+      }) as { sequences?: { id: string; name?: string; title?: string }[] };
+      const sequences = response.sequences ?? [];
+      return sequences.map((s) => ({
+        id: String(s.id),
+        name: s.name ?? s.title ?? String(s.id),
+      }));
+    },
     async addContactToAutomation({
       $,
       automationId,
@@ -1433,6 +1443,25 @@ export default defineApp({
         const automations = await this.listAutomations();
 
         return automations.map(({
+          id, name,
+        }) => ({
+          label: name,
+          value: id,
+        }));
+      },
+    },
+    sequenceId: {
+      type: "string",
+      label: "Sequence",
+      description: `Select a **Sequence** from the list.
+        \\
+        Alternatively, you can provide a custom *Sequence ID*.`,
+      async options({ automationId }: { automationId: string }) {
+        if (!automationId) return [];
+
+        const sequences = await this.getAutomationSequences(automationId);
+
+        return sequences.map(({
           id, name,
         }) => ({
           label: name,
