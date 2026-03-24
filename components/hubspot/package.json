@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/hubspot",
-  "version": "1.8.2",
+  "version": "1.9.0",
   "description": "Pipedream Hubspot Components",
   "main": "hubspot.app.mjs",
   "keywords": [
