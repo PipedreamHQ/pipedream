@@ -29,6 +29,9 @@ export default {
       async options({
         page, affiliateId,
       }) {
+        if (!affiliateId) {
+          return [];
+        }
         const affiliates = await this.listPrograms({
           affiliateId,
           params: {
