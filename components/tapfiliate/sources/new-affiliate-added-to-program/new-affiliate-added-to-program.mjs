@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "tapfiliate-new-affiliate-added-to-program",
   name: "New Affiliate Added to Program",
-  description: "Emit new event when an affiliate is added to a program. [See the API docs](https://tapfiliate.com/docs/rest/#programs-program-affiliates-collection-get)",
+  description: "Emit new event when an affiliate is added to a program. [See the documentation](https://tapfiliate.com/docs/rest/#programs-program-affiliates-collection-get)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
