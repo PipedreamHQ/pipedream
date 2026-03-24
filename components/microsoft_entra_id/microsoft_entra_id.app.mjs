@@ -131,6 +131,74 @@ export default {
         .delete();
     },
     /**
+     * Paginate an OData collection via @odata.nextLink (dedupes repeated links, caps page count).
+     * @param {Object} opts
+     * @param {() => Promise<Object>} opts.fetchFirst - First page response
+     * @param {(nextLink: string) => Promise<Object>} opts.fetchNext - Next page from URL
+     * @param {(item: Object) => any} [opts.mapItem] - Map each item from value[]
+     * @param {number} [opts.maxItems] - Stop after this many mapped items
+     * @returns {Promise<{ items: any[], truncated: boolean }>}
+     */
+    async collectODataValues({
+      fetchFirst,
+      fetchNext,
+      mapItem = (x) => x,
+      maxItems,
+    } = {}) {
+      const items = [];
+      const seenNextLinks = new Set();
+      const MAX_PAGES = 10000;
+      let pageCount = 0;
+      let truncatedByLimit = false;
+
+      let response = await fetchFirst();
+
+      const append = (valueArray) => {
+        const mapped = (valueArray || []).map(mapItem);
+        if (maxItems == null) {
+          items.push(...mapped);
+          return true;
+        }
+        const remaining = maxItems - items.length;
+        if (remaining <= 0) {
+          return false;
+        }
+        if (mapped.length > remaining) {
+          items.push(...mapped.slice(0, remaining));
+          truncatedByLimit = true;
+          return false;
+        }
+        items.push(...mapped);
+        return items.length < maxItems;
+      };
+
+      append(response.value);
+
+      while (response["@odata.nextLink"] && pageCount < MAX_PAGES) {
+        const nextLink = response["@odata.nextLink"];
+        if (seenNextLinks.has(nextLink)) {
+          break;
+        }
+        seenNextLinks.add(nextLink);
+        response = await fetchNext(nextLink);
+        pageCount += 1;
+        if (!append(response.value)) {
+          break;
+        }
+        if (maxItems != null && items.length >= maxItems) {
+          break;
+        }
+      }
+
+      const truncated = truncatedByLimit
+        || (maxItems != null && items.length >= maxItems && Boolean(response["@odata.nextLink"]));
+
+      return {
+        items,
+        truncated,
+      };
+    },
+    /**
      * Get the user's manager information.
      * @param {Object} opts - Options for the request
      * @param {string} [opts.userId] - User ID or userPrincipalName. If not provided, uses /me

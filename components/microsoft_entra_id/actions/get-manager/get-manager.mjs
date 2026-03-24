@@ -30,10 +30,10 @@ export default {
 
       const managerData = {
         id: manager.id,
-        name: manager.displayName,
-        email: manager.mail,
-        jobTitle: manager.jobTitle,
-        mobilePhone: manager.mobilePhone,
+        name: manager.displayName ?? null,
+        email: manager.mail ?? null,
+        jobTitle: manager.jobTitle ?? null,
+        mobilePhone: manager.mobilePhone ?? null,
       };
 
       $.export("$summary", `Successfully retrieved manager: ${managerData.name || managerData.id}`);
@@ -56,7 +56,19 @@ export default {
         return noManagerData;
       }
 
-      throw new Error(`Failed to get manager: ${error.message}`);
+      const httpStatus = error?.statusCode ?? error?.status ?? error?.response?.status;
+      const body = error?.body ?? error?.response?.data;
+      let bodyStr = "none";
+      if (body != null) {
+        bodyStr = typeof body === "string"
+          ? body
+          : JSON.stringify(body);
+      }
+      const wrapped = new Error(
+        `Failed to get manager: ${error.message} (status: ${httpStatus ?? "unknown"}, body: ${bodyStr})`,
+      );
+      wrapped.cause = error;
+      throw wrapped;
     }
   },
 };

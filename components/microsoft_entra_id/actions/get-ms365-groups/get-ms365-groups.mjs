@@ -23,10 +23,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const groups = [];
-    let response = await this.microsoftEntraId.getMS365Groups({
-      userId: this.userId || undefined,
-    });
+    const userIdArg = this.userId || undefined;
 
     const mapGroup = (group) => ({
       id: group.id,
@@ -35,15 +32,16 @@ export default {
       groupTypes: group.groupTypes ?? [],
     });
 
-    groups.push(...(response.value || []).map(mapGroup));
-
-    while (response["@odata.nextLink"]) {
-      response = await this.microsoftEntraId.getMS365Groups({
-        userId: this.userId || undefined,
-        nextLink: response["@odata.nextLink"],
-      });
-      groups.push(...(response.value || []).map(mapGroup));
-    }
+    const { items: groups } = await this.microsoftEntraId.collectODataValues({
+      fetchFirst: () => this.microsoftEntraId.getMS365Groups({
+        userId: userIdArg,
+      }),
+      fetchNext: (url) => this.microsoftEntraId.getMS365Groups({
+        userId: userIdArg,
+        nextLink: url,
+      }),
+      mapItem: mapGroup,
+    });
 
     $.export(
       "$summary",

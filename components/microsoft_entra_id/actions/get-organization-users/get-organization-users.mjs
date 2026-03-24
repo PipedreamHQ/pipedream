@@ -13,15 +13,15 @@ export default {
   },
   props: {
     microsoftEntraId,
+    maxUsers: {
+      type: "integer",
+      label: "Max Users",
+      description: "Maximum number of users to return. Omit for no limit (may be heavy for very large tenants).",
+      optional: true,
+      min: 1,
+    },
   },
   async run({ $ }) {
-    const users = [];
-    let response = await this.microsoftEntraId.listUsers({
-      params: {
-        $filter: "accountEnabled eq true",
-      },
-    });
-
     const mapUser = (user) => ({
       id: user.id,
       fullName: user.displayName,
@@ -34,21 +34,30 @@ export default {
       mobilePhone: user.mobilePhone ?? null,
     });
 
-    users.push(...(response.value || []).map(mapUser));
+    const maxItems = this.maxUsers ?? undefined;
 
-    while (response["@odata.nextLink"]) {
-      response = await this.microsoftEntraId.listUsers({
-        url: response["@odata.nextLink"],
-      });
-      users.push(...(response.value || []).map(mapUser));
-    }
+    const {
+      items: users, truncated,
+    } = await this.microsoftEntraId.collectODataValues({
+      fetchFirst: () => this.microsoftEntraId.listUsers({
+        params: {
+          $filter: "accountEnabled eq true",
+        },
+      }),
+      fetchNext: (url) => this.microsoftEntraId.listUsers({
+        url,
+      }),
+      mapItem: mapUser,
+      maxItems,
+    });
 
-    $.export(
-      "$summary",
-      `Successfully retrieved ${users.length} organization user${users.length !== 1
-        ? "s"
-        : ""}.`,
-    );
+    const base = `Successfully retrieved ${users.length} organization user${users.length !== 1
+      ? "s"
+      : ""}`;
+    const summary = truncated && maxItems != null
+      ? `${base} (truncated to max ${this.maxUsers})`
+      : base;
+    $.export("$summary", summary);
 
     return users;
   },

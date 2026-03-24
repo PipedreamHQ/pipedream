@@ -15,9 +15,6 @@ export default {
     microsoftEntraId,
   },
   async run({ $ }) {
-    const groups = [];
-    let response = await this.microsoftEntraId.listGroups();
-
     const mapGroup = (group) => ({
       id: group.id,
       name: group.displayName,
@@ -26,14 +23,13 @@ export default {
       deletedDateTime: group.deletedDateTime ?? null,
     });
 
-    groups.push(...(response.value || []).map(mapGroup));
-
-    while (response["@odata.nextLink"]) {
-      response = await this.microsoftEntraId.listGroups({
-        url: response["@odata.nextLink"],
-      });
-      groups.push(...(response.value || []).map(mapGroup));
-    }
+    const { items: groups } = await this.microsoftEntraId.collectODataValues({
+      fetchFirst: () => this.microsoftEntraId.listGroups(),
+      fetchNext: (url) => this.microsoftEntraId.listGroups({
+        url,
+      }),
+      mapItem: mapGroup,
+    });
 
     $.export(
       "$summary",
