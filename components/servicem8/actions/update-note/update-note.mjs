@@ -1,10 +1,4 @@
-import app from "../../servicem8.app.mjs";
-import { buildUpdateBody } from "../../common/payload.mjs";
-import {
-  buildPropsFromSchema,
-  fieldsFromSchema,
-} from "../../common/action-schema.mjs";
-import { noteUpdateFields } from "../common/note-fields.mjs";
+import servicem8 from "../../servicem8.app.mjs";
 
 export default {
   key: "servicem8-update-note",
@@ -18,28 +12,176 @@ export default {
   },
   type: "action",
   props: {
-    servicem8: app,
+    servicem8,
     uuid: {
-      propDefinition: [
-        app,
-        "noteUuid",
+      type: "string",
+      useQuery: true,
+      async options({
+        $, prevContext, query,
+      }) {
+        return this.servicem8._uuidOptionsForResource({
+          $: $ ?? this,
+          resource: "note",
+          prevContext,
+          query,
+        });
+      },
+      label: "Note to update",
+      description: "Note record to load, merge, and save (search or paste UUID).",
+    },
+    relatedObject: {
+      type: "string",
+      label: "Related Object",
+      optional: true,
+      description:
+        "Object type this note is attached to; lowercase per API. Pick a type, then choose the record below.",
+      options: [
+        {
+          label: "Job",
+          value: "job",
+        },
+        {
+          label: "Company",
+          value: "company",
+        },
+        {
+          label: "Staff",
+          value: "staff",
+        },
+        {
+          label: "Company contact",
+          value: "companycontact",
+        },
+        {
+          label: "Job contact",
+          value: "jobcontact",
+        },
+        {
+          label: "Job activity",
+          value: "jobactivity",
+        },
+        {
+          label: "Job material",
+          value: "jobmaterial",
+        },
+        {
+          label: "Job payment",
+          value: "jobpayment",
+        },
+        {
+          label: "Queue",
+          value: "queue",
+        },
+        {
+          label: "Category",
+          value: "category",
+        },
+        {
+          label: "Badge",
+          value: "badge",
+        },
+        {
+          label: "Feedback",
+          value: "feedback",
+        },
+        {
+          label: "Note",
+          value: "note",
+        },
+        {
+          label: "Attachment",
+          value: "dboattachment",
+        },
       ],
     },
-    ...buildPropsFromSchema(app, noteUpdateFields),
+    relatedObjectUuid: {
+      type: "string",
+      label: "Related record",
+      optional: true,
+      description:
+        "Related record UUID (choose Related object first, then search).",
+      useQuery: true,
+      async options({
+        $, prevContext, query,
+      }) {
+        const key = (this.relatedObject || "").trim().toLowerCase();
+        const resource = {
+          job: "job",
+          company: "company",
+          staff: "staff",
+          companycontact: "companycontact",
+          jobcontact: "jobcontact",
+          jobactivity: "jobactivity",
+          jobmaterial: "jobmaterial",
+          jobpayment: "jobpayment",
+          queue: "queue",
+          category: "category",
+          badge: "badge",
+          feedback: "feedback",
+          note: "note",
+          dboattachment: "dboattachment",
+        }[key];
+        if (!resource) {
+          return {
+            options: [],
+          };
+        }
+        return this.servicem8._uuidOptionsForResource({
+          $: $ ?? this,
+          resource,
+          prevContext,
+          query,
+        });
+      },
+    },
+    note: {
+      type: "string",
+      label: "Note",
+      optional: true,
+      description: "Note text and content.",
+    },
+    actionRequired: {
+      type: "string",
+      label: "Action Required",
+      optional: true,
+      description: "Follow-up text when the note requires an action from someone.",
+    },
+    actionCompletedByStaffUuid: {
+      type: "string",
+      label: "Action completed by",
+      useQuery: true,
+      async options({
+        $, prevContext, query,
+      }) {
+        return this.servicem8._uuidOptionsForResource({
+          $: $ ?? this,
+          resource: "staff",
+          prevContext,
+          query,
+        });
+      },
+      optional: true,
+      description: "Staff member who completed the required action.",
+    },
+    createDate: {
+      type: "string",
+      label: "Create Date",
+      optional: true,
+      description: "Timestamp string as accepted by the API (reference field name `create_date`).",
+    },
   },
   async run({ $ }) {
-    const patch = fieldsFromSchema(this, noteUpdateFields);
-    const data = await buildUpdateBody(this.servicem8, {
+    const response = await this.servicem8.updateNote({
       $,
-      resource: "note",
       uuid: this.uuid,
-      fields: patch,
-    });
-    const response = await this.servicem8.updateResource({
-      $,
-      resource: "note",
-      uuid: this.uuid,
-      data,
+      data: {
+        related_object: this.relatedObject,
+        related_object_uuid: this.relatedObjectUuid,
+        note: this.note,
+        action_required: this.actionRequired,
+        action_completed_by_staff_uuid: this.actionCompletedByStaffUuid,
+        create_date: this.createDate,
+      },
     });
     $.export("$summary", `Updated Note ${this.uuid}`);
     return response;

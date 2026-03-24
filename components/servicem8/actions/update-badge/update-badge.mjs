@@ -1,10 +1,4 @@
-import app from "../../servicem8.app.mjs";
-import { buildUpdateBody } from "../../common/payload.mjs";
-import {
-  buildPropsFromSchema,
-  fieldsFromSchema,
-} from "../../common/action-schema.mjs";
-import { badgeUpdateFields } from "../common/badge-fields.mjs";
+import servicem8 from "../../servicem8.app.mjs";
 
 export default {
   key: "servicem8-update-badge",
@@ -18,28 +12,66 @@ export default {
   },
   type: "action",
   props: {
-    servicem8: app,
+    servicem8,
     uuid: {
-      propDefinition: [
-        app,
-        "badgeUuid",
-      ],
+      type: "string",
+      label: "Badge to update",
+      description:
+        "Pick a badge from the dropdown (type to search) or paste a UUID.",
+      useQuery: true,
+      async options({
+        $, prevContext, query,
+      }) {
+        return this.servicem8._uuidOptionsForResource({
+          $: $ ?? this,
+          resource: "badge",
+          prevContext,
+          query,
+        });
+      },
     },
-    ...buildPropsFromSchema(app, badgeUpdateFields),
+    name: {
+      type: "string",
+      label: "Name",
+      optional: true,
+      description: "Display name (max 50 characters).",
+    },
+    automaticallyAllocated: {
+      type: "string",
+      label: "Automatically Allocated",
+      optional: true,
+      description: "Whether the badge is auto-assigned when criteria match (API string/flag).",
+    },
+    fileName: {
+      type: "string",
+      label: "File Name",
+      optional: true,
+      description: "Badge image or asset file name in ServiceM8.",
+    },
+    regardingFormUuid: {
+      type: "string",
+      label: "Regarding Form UUID",
+      optional: true,
+      description: "Linked form UUID when the badge relates to a specific form.",
+    },
+    regardingAssetTypeUuid: {
+      type: "string",
+      label: "Regarding Asset Type UUID",
+      optional: true,
+      description: "Asset type this badge is associated with; only used for asset-based badges.",
+    },
   },
   async run({ $ }) {
-    const patch = fieldsFromSchema(this, badgeUpdateFields);
-    const data = await buildUpdateBody(this.servicem8, {
+    const response = await this.servicem8.updateBadge({
       $,
-      resource: "badge",
       uuid: this.uuid,
-      fields: patch,
-    });
-    const response = await this.servicem8.updateResource({
-      $,
-      resource: "badge",
-      uuid: this.uuid,
-      data,
+      data: {
+        name: this.name,
+        automatically_allocated: this.automaticallyAllocated,
+        file_name: this.fileName,
+        regarding_form_uuid: this.regardingFormUuid,
+        regarding_asset_type_uuid: this.regardingAssetTypeUuid,
+      },
     });
     $.export("$summary", `Updated Badge ${this.uuid}`);
     return response;

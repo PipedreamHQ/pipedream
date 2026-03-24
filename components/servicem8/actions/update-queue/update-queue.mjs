@@ -1,10 +1,5 @@
-import app from "../../servicem8.app.mjs";
-import { buildUpdateBody } from "../../common/payload.mjs";
-import {
-  buildPropsFromSchema,
-  fieldsFromSchema,
-} from "../../common/action-schema.mjs";
-import { queueUpdateFields } from "../common/queue-fields.mjs";
+import servicem8 from "../../servicem8.app.mjs";
+import { optionalParsedInt } from "../../common/payload.mjs";
 
 export default {
   key: "servicem8-update-queue",
@@ -18,28 +13,58 @@ export default {
   },
   type: "action",
   props: {
-    servicem8: app,
+    servicem8,
     uuid: {
-      propDefinition: [
-        app,
-        "queueUuid",
-      ],
+      type: "string",
+      useQuery: true,
+      async options({
+        $, prevContext, query,
+      }) {
+        return this.servicem8._uuidOptionsForResource({
+          $: $ ?? this,
+          resource: "queue",
+          prevContext,
+          query,
+        });
+      },
+      label: "Queue to update",
+      description: "Queue record to load, merge, and save (search or paste UUID).",
     },
-    ...buildPropsFromSchema(app, queueUpdateFields),
+    name: {
+      type: "string",
+      label: "Name",
+      optional: true,
+      description: "Queue name (e.g. Workshop, Pending Quotes).",
+    },
+    defaultTimeframe: {
+      type: "string",
+      label: "Default Timeframe (days)",
+      optional: true,
+      description: "Default days jobs stay in this queue before needing attention (e.g. 7 or 14).",
+    },
+    subscribedStaff: {
+      type: "string",
+      label: "Subscribed Staff",
+      optional: true,
+      description: "Semicolon-separated staff UUIDs subscribed to notifications for this queue.",
+    },
+    requiresAssignment: {
+      type: "string",
+      label: "Requires Assignment",
+      optional: true,
+      description: "0 = visible to all staff; 1 = jobs must be assigned.",
+    },
   },
   async run({ $ }) {
-    const patch = fieldsFromSchema(this, queueUpdateFields);
-    const data = await buildUpdateBody(this.servicem8, {
+    const response = await this.servicem8.updateQueue({
       $,
-      resource: "queue",
       uuid: this.uuid,
-      fields: patch,
-    });
-    const response = await this.servicem8.updateResource({
-      $,
-      resource: "queue",
-      uuid: this.uuid,
-      data,
+      data: {
+        name: this.name,
+        default_timeframe: optionalParsedInt(this.defaultTimeframe),
+        subscribed_staff: this.subscribedStaff,
+        requires_assignment: optionalParsedInt(this.requiresAssignment),
+      },
     });
     $.export("$summary", `Updated Queue ${this.uuid}`);
     return response;

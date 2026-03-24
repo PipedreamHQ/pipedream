@@ -68,6 +68,20 @@ export const RESOURCES = {
     label: "Feedback",
     noun: "feedback item",
   },
+  taxrate: {
+    label: "Tax Rate",
+    noun: "tax rate",
+  },
+  /** Inventory material (`material.json`); used e.g. for staff `labour_material_uuid`. */
+  material: {
+    label: "Material",
+    noun: "material",
+  },
+  /** Security role (`securityrole.json`); used for staff `security_role_uuid`. */
+  securityrole: {
+    label: "Security Role",
+    noun: "security role",
+  },
 };
 
 /**

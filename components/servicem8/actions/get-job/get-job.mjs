@@ -1,4 +1,4 @@
-import app from "../../servicem8.app.mjs";
+import servicem8 from "../../servicem8.app.mjs";
 
 export default {
   key: "servicem8-get-job",
@@ -12,12 +12,22 @@ export default {
   },
   type: "action",
   props: {
-    servicem8: app,
+    servicem8,
     uuid: {
-      propDefinition: [
-        app,
-        "jobUuid",
-      ],
+      type: "string",
+      label: "Job",
+      description: "Select the job to retrieve (search or paste UUID).",
+      useQuery: true,
+      async options({
+        $, prevContext, query,
+      }) {
+        return this.servicem8._uuidOptionsForResource({
+          $: $ ?? this,
+          resource: "job",
+          prevContext,
+          query,
+        });
+      },
     },
   },
   async run({ $ }) {

@@ -1,9 +1,4 @@
-import app from "../../servicem8.app.mjs";
-import {
-  buildPropsFromSchema,
-  fieldsFromSchema,
-} from "../../common/action-schema.mjs";
-import { jobPaymentCreateFields } from "../common/job-payment-fields.mjs";
+import servicem8 from "../../servicem8.app.mjs";
 
 export default {
   key: "servicem8-create-job-payment",
@@ -17,17 +12,96 @@ export default {
   },
   type: "action",
   props: {
-    servicem8: app,
-    ...buildPropsFromSchema(app, jobPaymentCreateFields),
+    servicem8,
+    jobUuid: {
+      type: "string",
+      label: "Job",
+      useQuery: true,
+      async options({
+        $, prevContext, query,
+      }) {
+        return this.servicem8._uuidOptionsForResource({
+          $: $ ?? this,
+          resource: "job",
+          prevContext,
+          query,
+        });
+      },
+      description: "Job this payment belongs to.",
+    },
+    actionedByUuid: {
+      type: "string",
+      label: "Actioned by",
+      useQuery: true,
+      async options({
+        $, prevContext, query,
+      }) {
+        return this.servicem8._uuidOptionsForResource({
+          $: $ ?? this,
+          resource: "staff",
+          prevContext,
+          query,
+        });
+      },
+      optional: true,
+      description: "Staff member who recorded or processed this payment.",
+    },
+    timestamp: {
+      type: "string",
+      label: "Timestamp",
+      optional: true,
+      description: "When the payment was recorded (`YYYY-MM-DD HH:MM:SS`).",
+    },
+    amount: {
+      type: "string",
+      label: "Amount",
+      optional: true,
+      description: "Payment amount in the account currency.",
+    },
+    method: {
+      type: "string",
+      label: "Method",
+      optional: true,
+      description: "e.g. Cash, Credit Card, Bank Transfer, Stripe",
+    },
+    note: {
+      type: "string",
+      label: "Note",
+      optional: true,
+      description: "Reference numbers, transaction IDs, or other details.",
+    },
+    attachmentUuid: {
+      type: "string",
+      label: "Attachment",
+      useQuery: true,
+      async options({
+        $, prevContext, query,
+      }) {
+        return this.servicem8._uuidOptionsForResource({
+          $: $ ?? this,
+          resource: "dboattachment",
+          prevContext,
+          query,
+        });
+      },
+      optional: true,
+      description: "Optional attachment (e.g. receipt) linked to this payment.",
+    },
   },
   async run({ $ }) {
-    const data = fieldsFromSchema(this, jobPaymentCreateFields);
     const {
       body, recordUuid,
-    } = await this.servicem8.createResource({
+    } = await this.servicem8.createJobPayment({
       $,
-      resource: "jobpayment",
-      data,
+      data: {
+        job_uuid: this.jobUuid,
+        actioned_by_uuid: this.actionedByUuid,
+        timestamp: this.timestamp,
+        amount: this.amount,
+        method: this.method,
+        note: this.note,
+        attachment_uuid: this.attachmentUuid,
+      },
     });
     $.export("$summary", `Created Job Payment${recordUuid
       ? ` (${recordUuid})`

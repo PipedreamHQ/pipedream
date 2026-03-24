@@ -1,9 +1,4 @@
-import app from "../../servicem8.app.mjs";
-import {
-  buildPropsFromSchema,
-  fieldsFromSchema,
-} from "../../common/action-schema.mjs";
-import { categoryCreateFields } from "../common/category-fields.mjs";
+import servicem8 from "../../servicem8.app.mjs";
 
 export default {
   key: "servicem8-create-category",
@@ -17,17 +12,30 @@ export default {
   },
   type: "action",
   props: {
-    servicem8: app,
-    ...buildPropsFromSchema(app, categoryCreateFields),
+    servicem8,
+    name: {
+      type: "string",
+      label: "Name",
+      description:
+        "Job category name (required by API). Used to classify and organize jobs.",
+    },
+    colour: {
+      type: "string",
+      label: "Colour",
+      optional: true,
+      description:
+        "Hex colour (6 characters 0-9a-f) for the dispatch board and calendar.",
+    },
   },
   async run({ $ }) {
-    const data = fieldsFromSchema(this, categoryCreateFields);
     const {
       body, recordUuid,
-    } = await this.servicem8.createResource({
+    } = await this.servicem8.createCategory({
       $,
-      resource: "category",
-      data,
+      data: {
+        name: this.name,
+        colour: this.colour,
+      },
     });
     $.export("$summary", `Created Category${recordUuid
       ? ` (${recordUuid})`

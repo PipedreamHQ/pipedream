@@ -1,28 +1,64 @@
+import * as logic from "./logic.mjs";
 import { bodyFromFields } from "./payload.mjs";
 
 /**
  * Build Pipedream props object from a field schema.
+ * UUID fields (propDefinition ending in "Uuid") get inline async options in the component.
  * @param {object} app
  * @param {Array<object>} schema
  * @returns {Record<string, object>}
  */
 export function buildPropsFromSchema(app, schema) {
-  return Object.fromEntries(schema.map((field) => [
-    field.prop,
-    field.propDefinition
-      ? {
-        propDefinition: [
-          app,
-          field.propDefinition,
-        ],
-        ...(field.optional !== undefined && {
-          optional: field.optional,
-        }),
-        ...(field.description && {
-          description: field.description,
-        }),
-      }
-      : {
+  return Object.fromEntries(schema.map((field) => {
+    if (field.propDefinition?.endsWith("Uuid")) {
+      const resource = field.propDefinition.replace(/Uuid$/, "");
+      const {
+        label, noun,
+      } = logic.RESOURCES[resource] ?? {
+        label: resource,
+        noun: resource,
+      };
+      return [
+        field.prop,
+        {
+          type: "string",
+          label,
+          description: field.description ?? `Select a ${noun} or enter its UUID`,
+          ...(field.optional !== undefined && {
+            optional: field.optional,
+          }),
+          async options({
+            $, prevContext,
+          }) {
+            return this.servicem8._uuidOptionsForResource({
+              $: $ ?? this,
+              resource,
+              prevContext,
+            });
+          },
+        },
+      ];
+    }
+    if (field.propDefinition) {
+      return [
+        field.prop,
+        {
+          propDefinition: [
+            app,
+            field.propDefinition,
+          ],
+          ...(field.optional !== undefined && {
+            optional: field.optional,
+          }),
+          ...(field.description && {
+            description: field.description,
+          }),
+        },
+      ];
+    }
+    return [
+      field.prop,
+      {
         type: field.type,
         label: field.label,
         ...(field.optional !== undefined && {
@@ -35,7 +71,8 @@ export function buildPropsFromSchema(app, schema) {
           options: field.options,
         }),
       },
-  ]));
+    ];
+  }));
 }
 
 /**

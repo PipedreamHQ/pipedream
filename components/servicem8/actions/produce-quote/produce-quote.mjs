@@ -1,4 +1,4 @@
-import app from "../../servicem8.app.mjs";
+import servicem8 from "../../servicem8.app.mjs";
 
 const DOCS = "https://developer.servicem8.com/reference/produce_templated_document";
 
@@ -14,12 +14,22 @@ export default {
   },
   type: "action",
   props: {
-    servicem8: app,
+    servicem8,
     jobUuid: {
-      propDefinition: [
-        app,
-        "jobUuid",
-      ],
+      type: "string",
+      label: "Job",
+      useQuery: true,
+      async options({
+        $, prevContext, query,
+      }) {
+        return this.servicem8._uuidOptionsForResource({
+          $: $ ?? this,
+          resource: "job",
+          prevContext,
+          query,
+        });
+      },
+      description: "Job to produce the quote for (search or paste UUID).",
     },
     outputFormat: {
       type: "string",

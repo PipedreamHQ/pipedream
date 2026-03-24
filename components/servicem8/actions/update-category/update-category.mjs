@@ -1,10 +1,4 @@
-import app from "../../servicem8.app.mjs";
-import { buildUpdateBody } from "../../common/payload.mjs";
-import {
-  buildPropsFromSchema,
-  fieldsFromSchema,
-} from "../../common/action-schema.mjs";
-import { categoryUpdateFields } from "../common/category-fields.mjs";
+import servicem8 from "../../servicem8.app.mjs";
 
 export default {
   key: "servicem8-update-category",
@@ -18,28 +12,44 @@ export default {
   },
   type: "action",
   props: {
-    servicem8: app,
+    servicem8,
     uuid: {
-      propDefinition: [
-        app,
-        "categoryUuid",
-      ],
+      type: "string",
+      useQuery: true,
+      async options({
+        $, prevContext, query,
+      }) {
+        return this.servicem8._uuidOptionsForResource({
+          $: $ ?? this,
+          resource: "category",
+          prevContext,
+          query,
+        });
+      },
+      label: "Category to update",
+      description: "Category record to load, merge, and save (search or paste UUID).",
     },
-    ...buildPropsFromSchema(app, categoryUpdateFields),
+    name: {
+      type: "string",
+      label: "Name",
+      optional: true,
+      description: "Job category name.",
+    },
+    colour: {
+      type: "string",
+      label: "Colour",
+      optional: true,
+      description: "Hex colour (6 characters 0-9a-f).",
+    },
   },
   async run({ $ }) {
-    const patch = fieldsFromSchema(this, categoryUpdateFields);
-    const data = await buildUpdateBody(this.servicem8, {
+    const response = await this.servicem8.updateCategory({
       $,
-      resource: "category",
       uuid: this.uuid,
-      fields: patch,
-    });
-    const response = await this.servicem8.updateResource({
-      $,
-      resource: "category",
-      uuid: this.uuid,
-      data,
+      data: {
+        name: this.name,
+        colour: this.colour,
+      },
     });
     $.export("$summary", `Updated Category ${this.uuid}`);
     return response;

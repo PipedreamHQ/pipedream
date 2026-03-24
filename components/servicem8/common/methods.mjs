@@ -340,7 +340,7 @@ export function createMethods(axios) {
      * @returns {Promise<object>}
      */
     async _uuidOptionsForResource({
-      $, resource, prevContext,
+      $, resource, prevContext, query,
     }) {
       const params = {};
       if (prevContext?.cursor) {
@@ -363,28 +363,38 @@ export function createMethods(axios) {
       if (nextCursor) {
         context.cursor = nextCursor;
       }
+      let options = rows
+        .map((row) => {
+          const value = row.uuid ?? row.UUID ?? row.id;
+          if (!value) {
+            return null;
+          }
+          const label =
+            row.name
+            ?? row.company_name
+            ?? row.job_address
+            ?? row.subject
+            ?? row.title
+            ?? row.start_time
+            ?? row.end_time
+            ?? row.role_description
+            ?? String(value);
+          return {
+            label,
+            value,
+          };
+        })
+        .filter(Boolean);
+      if (query && String(query).trim()) {
+        const q = String(query).trim()
+          .toLowerCase();
+        options = options.filter((o) => String(o.label).toLowerCase()
+          .includes(q)
+          || String(o.value).toLowerCase()
+            .includes(q));
+      }
       return {
-        options: rows
-          .map((row) => {
-            const value = row.uuid ?? row.UUID ?? row.id;
-            if (!value) {
-              return null;
-            }
-            const label =
-              row.name
-              ?? row.company_name
-              ?? row.job_address
-              ?? row.subject
-              ?? row.title
-              ?? row.start_time
-              ?? row.end_time
-              ?? String(value);
-            return {
-              label,
-              value,
-            };
-          })
-          .filter(Boolean),
+        options,
         context,
       };
     },

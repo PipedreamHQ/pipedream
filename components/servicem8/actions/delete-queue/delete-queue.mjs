@@ -1,4 +1,4 @@
-import app from "../../servicem8.app.mjs";
+import servicem8 from "../../servicem8.app.mjs";
 
 export default {
   key: "servicem8-delete-queue",
@@ -12,12 +12,22 @@ export default {
   },
   type: "action",
   props: {
-    servicem8: app,
+    servicem8,
     uuid: {
-      propDefinition: [
-        app,
-        "queueUuid",
-      ],
+      type: "string",
+      label: "Queue",
+      description: "Select the queue to delete (search or paste UUID).",
+      useQuery: true,
+      async options({
+        $, prevContext, query,
+      }) {
+        return this.servicem8._uuidOptionsForResource({
+          $: $ ?? this,
+          resource: "queue",
+          prevContext,
+          query,
+        });
+      },
     },
   },
   async run({ $ }) {

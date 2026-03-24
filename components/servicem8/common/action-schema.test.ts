@@ -4,7 +4,9 @@ import {
   fieldsFromSchema,
 } from "./action-schema.mjs";
 
-const mockApp = { name: "servicem8" };
+const mockApp = {
+  name: "servicem8",
+};
 
 describe("servicem8/common/action-schema", () => {
   describe("buildPropsFromSchema", () => {
@@ -33,14 +35,20 @@ describe("servicem8/common/action-schema", () => {
           prop: "status",
           type: "string",
           label: "Status",
-          options: ["Quote", "Completed"],
+          options: [
+            "Quote",
+            "Completed",
+          ],
         },
       ];
       const props = buildPropsFromSchema(mockApp, schema);
       expect(props.status).toEqual({
         type: "string",
         label: "Status",
-        options: ["Quote", "Completed"],
+        options: [
+          "Quote",
+          "Completed",
+        ],
       });
     });
 
@@ -54,7 +62,10 @@ describe("servicem8/common/action-schema", () => {
       ];
       const props = buildPropsFromSchema(mockApp, schema);
       expect(props.jobId).toEqual({
-        propDefinition: [mockApp, "listJobs"],
+        propDefinition: [
+          mockApp,
+          "listJobs",
+        ],
         optional: false,
       });
     });
@@ -63,10 +74,22 @@ describe("servicem8/common/action-schema", () => {
   describe("fieldsFromSchema", () => {
     it("maps props to api keys and applies transforms", () => {
       const schema = [
-        { prop: "active", api: "active", transform: (v: boolean) => (v ? 1 : 0) },
-        { prop: "name", api: "company_name" },
+        {
+          prop: "active",
+          api: "active",
+          transform: (v: boolean) => (v
+            ? 1
+            : 0),
+        },
+        {
+          prop: "name",
+          api: "company_name",
+        },
       ];
-      const component = { active: true, name: "Acme" };
+      const component = {
+        active: true,
+        name: "Acme",
+      };
       expect(fieldsFromSchema(component, schema)).toEqual({
         active: 1,
         company_name: "Acme",
@@ -77,8 +100,17 @@ describe("servicem8/common/action-schema", () => {
   describe("allOptional", () => {
     it("marks every field optional", () => {
       const schema = [
-        { prop: "a", type: "string", label: "A", optional: false },
-        { prop: "b", type: "string", label: "B" },
+        {
+          prop: "a",
+          type: "string",
+          label: "A",
+          optional: false,
+        },
+        {
+          prop: "b",
+          type: "string",
+          label: "B",
+        },
       ];
       expect(allOptional(schema).every((f) => f.optional === true)).toBe(true);
     });

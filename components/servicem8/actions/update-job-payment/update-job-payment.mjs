@@ -1,10 +1,4 @@
-import app from "../../servicem8.app.mjs";
-import { buildUpdateBody } from "../../common/payload.mjs";
-import {
-  buildPropsFromSchema,
-  fieldsFromSchema,
-} from "../../common/action-schema.mjs";
-import { jobPaymentUpdateFields } from "../common/job-payment-fields.mjs";
+import servicem8 from "../../servicem8.app.mjs";
 
 export default {
   key: "servicem8-update-job-payment",
@@ -18,28 +12,112 @@ export default {
   },
   type: "action",
   props: {
-    servicem8: app,
+    servicem8,
     uuid: {
-      propDefinition: [
-        app,
-        "jobpaymentUuid",
-      ],
+      type: "string",
+      useQuery: true,
+      async options({
+        $, prevContext, query,
+      }) {
+        return this.servicem8._uuidOptionsForResource({
+          $: $ ?? this,
+          resource: "jobpayment",
+          prevContext,
+          query,
+        });
+      },
+      label: "Job payment to update",
+      description: "Payment record to load, merge, and save (search or paste UUID).",
     },
-    ...buildPropsFromSchema(app, jobPaymentUpdateFields),
+    jobUuid: {
+      type: "string",
+      label: "Job",
+      useQuery: true,
+      async options({
+        $, prevContext, query,
+      }) {
+        return this.servicem8._uuidOptionsForResource({
+          $: $ ?? this,
+          resource: "job",
+          prevContext,
+          query,
+        });
+      },
+      optional: true,
+      description: "Job this payment belongs to.",
+    },
+    actionedByUuid: {
+      type: "string",
+      label: "Actioned by",
+      useQuery: true,
+      async options({
+        $, prevContext, query,
+      }) {
+        return this.servicem8._uuidOptionsForResource({
+          $: $ ?? this,
+          resource: "staff",
+          prevContext,
+          query,
+        });
+      },
+      optional: true,
+      description: "Staff member who recorded or processed this payment.",
+    },
+    timestamp: {
+      type: "string",
+      label: "Timestamp",
+      optional: true,
+      description: "When the payment was recorded (`YYYY-MM-DD HH:MM:SS`).",
+    },
+    amount: {
+      type: "string",
+      label: "Amount",
+      optional: true,
+      description: "Payment amount in the account currency.",
+    },
+    method: {
+      type: "string",
+      label: "Method",
+      optional: true,
+      description: "e.g. Cash, Credit Card, Bank Transfer, Stripe",
+    },
+    note: {
+      type: "string",
+      label: "Note",
+      optional: true,
+      description: "Reference numbers, transaction IDs, or other details.",
+    },
+    attachmentUuid: {
+      type: "string",
+      label: "Attachment",
+      useQuery: true,
+      async options({
+        $, prevContext, query,
+      }) {
+        return this.servicem8._uuidOptionsForResource({
+          $: $ ?? this,
+          resource: "dboattachment",
+          prevContext,
+          query,
+        });
+      },
+      optional: true,
+      description: "Optional attachment (e.g. receipt) linked to this payment.",
+    },
   },
   async run({ $ }) {
-    const patch = fieldsFromSchema(this, jobPaymentUpdateFields);
-    const data = await buildUpdateBody(this.servicem8, {
+    const response = await this.servicem8.updateJobPayment({
       $,
-      resource: "jobpayment",
       uuid: this.uuid,
-      fields: patch,
-    });
-    const response = await this.servicem8.updateResource({
-      $,
-      resource: "jobpayment",
-      uuid: this.uuid,
-      data,
+      data: {
+        job_uuid: this.jobUuid,
+        actioned_by_uuid: this.actionedByUuid,
+        timestamp: this.timestamp,
+        amount: this.amount,
+        method: this.method,
+        note: this.note,
+        attachment_uuid: this.attachmentUuid,
+      },
     });
     $.export("$summary", `Updated Job Payment ${this.uuid}`);
     return response;
