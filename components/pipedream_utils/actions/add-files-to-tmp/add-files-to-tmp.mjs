@@ -3,9 +3,9 @@ import { getFileStreamAndMetadata } from "@pipedream/platform";
 import fs from "fs";
 
 export default {
-  key: "pipedream_utils-download-files-to-tmp",
-  name: "Download Files To /tmp",
-  description: "Downloads a list of files to [your workflow's /tmp directory](https://pipedream.com/docs/code/nodejs/working-with-files/#the-tmp-directory)",
+  key: "pipedream_utils-add-files-to-tmp",
+  name: "Add Files To /tmp",
+  description: "Adds a list of files to [your workflow's /tmp directory](https://pipedream.com/docs/code/nodejs/working-with-files/#the-tmp-directory)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -52,7 +52,7 @@ export default {
         filepath,
       });
     }
-    $.export("$summary", `Successfully downloaded ${files.length} files to /tmp`);
+    $.export("$summary", `Successfully added ${files.length} files to /tmp`);
     return files;
   },
 };
