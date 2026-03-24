@@ -6,7 +6,7 @@ export default {
   key: "linkupapi-search-companies",
   name: "Search Companies",
   description: "Search for companies on LinkedIn based on criteria. [See the documentation](https://docs.linkupapi.com/api-reference/linkup/Companies/search)",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     loginToken: {

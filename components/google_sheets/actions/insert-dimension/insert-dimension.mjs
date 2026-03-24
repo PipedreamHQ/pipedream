@@ -4,7 +4,7 @@ export default {
   key: "google_sheets-insert-dimension",
   name: "Insert Dimension",
   description: "Insert a dimension into a spreadsheet. [See the documentation](https://developers.google.com/workspace/sheets/api/reference/rest/v4/spreadsheets/request#InsertDimensionRequest)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
