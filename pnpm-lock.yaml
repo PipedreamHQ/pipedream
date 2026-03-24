@@ -15403,7 +15403,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/tapfiliate: {}
+  components/tapfiliate:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.3.0
+        version: 3.3.0
 
   components/tapform:
     dependencies:
