@@ -56,7 +56,15 @@ export default {
         console.log(`Failed to add file: ${file}`);
       }
     }
-    $.export("$summary", `Successfully added ${files.length} files to /tmp`);
+    if (files.length === this.files.length) {
+      $.export("$summary", `Successfully added ${files.length} file${files.length === 1
+        ? ""
+        : "s"} to /tmp`);
+    } else if (files.length > 0) {
+      $.export("$summary", `Successfully added ${files.length} of ${this.files.length} files to /tmp`);
+    } else {
+      throw new Error("Failed to add files to /tmp");
+    }
     return files;
   },
 };
