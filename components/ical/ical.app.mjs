@@ -55,10 +55,6 @@ export default {
     async _makeRequestIcal({
       $ = this, path, ...args
     }) {
-      console.log({
-        url: `${this.$auth.url}${path}`,
-        ...args,
-      });
       return axios($, {
         url: `${this.$auth.url}${path}`,
         ...args,
