@@ -8,7 +8,7 @@ export default {
   key: "microsoft_outlook_calendar-find-meeting-times",
   name: "Find Meeting Times",
   description: "Suggest meeting times and locations based on organizer and attendee availability. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-findmeetingtimes?view=graph-rest-1.0)",
-  version: "0.0.1",
+  version: "0.2.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -146,6 +146,26 @@ export default {
         },
       };
     },
+    async _postFindMeetingTimes({
+      $,
+      basePath,
+      token,
+      body,
+    }) {
+      return axios($, {
+        method: "POST",
+        url: `https://graph.microsoft.com/v1.0${basePath}/findMeetingTimes`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          ...(this.timeZone
+            ? {
+              Prefer: `outlook.timezone="${this.timeZone}"`,
+            }
+            : {}),
+        },
+        data: body,
+      });
+    },
   },
   async run({ $ }) {
     const token = this.microsoftOutlook?.$auth?.oauth_access_token;
@@ -245,20 +265,11 @@ export default {
         : {}),
     };
 
-    const graphUrl = `https://graph.microsoft.com/v1.0${basePath}/findMeetingTimes`;
-
-    const graphResponse = await axios($, {
-      method: "POST",
-      url: graphUrl,
-      headers: {
-        Authorization: `Bearer ${token}`,
-        ...(this.timeZone
-          ? {
-            Prefer: `outlook.timezone="${this.timeZone}"`,
-          }
-          : {}),
-      },
-      data: body,
+    const graphResponse = await this._postFindMeetingTimes({
+      $,
+      basePath,
+      token,
+      body,
     });
 
     const suggestionCount = graphResponse?.meetingTimeSuggestions?.length ?? 0;
