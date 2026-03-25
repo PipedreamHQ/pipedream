@@ -4,8 +4,8 @@ export default {
   key: "arcgis_online-query-intersecting-features-by-geometry",
   name: "Query Intersecting Features by Geometry",
   description:
-    "Find features that intersect with a provided geometry boundary. Use when you already have the geometry (polygon, polyline, or point) with spatial reference. [See the documentation](https://developers.arcgis.com/rest/)",
-  version: "0.0.7",
+    "Query layers in a hosted feature service (resolved by portal item title) for features whose geometry intersects a boundary you provide as [Esri JSON geometry](https://developers.arcgis.com/documentation/common-data-types/geometry-objects.htm) (`rings`, `paths`, or `x`/`y`, with `spatialReference.wkid`). Each target layer uses the [Feature Layer query](https://developers.arcgis.com/rest/services-reference/enterprise/query-feature-service-layer-.htm) operation with `spatialRel=esriSpatialRelIntersects`. Returns `{ geometryType, layers: { [layerName]: { count, features } } }` where `features` are attribute objects only (geometries are not returned)",
+  version: "0.0.8",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -19,6 +19,8 @@ export default {
         arcgisOnline,
         "mapTitle",
       ],
+      description:
+        "Title of the hosted Feature Service item in ArcGIS Online or Enterprise used to resolve the service URL",
     },
     targetLayerNames: {
       propDefinition: [
@@ -28,12 +30,14 @@ export default {
           mapTitle: c.mapTitle,
         }),
       ],
+      description:
+        "Layer names in that service to query; each runs an intersect `query` against the same boundary",
     },
     geometry: {
       type: "object",
       label: "Geometry",
       description:
-        "ArcGIS geometry object with spatialReference (e.g. polygon with `rings` and `spatialReference.wkid`, or point with `x`, `y`, and `spatialReference`)",
+        "Boundary as Esri JSON: include `spatialReference` (e.g. `wkid: 4326`). Polygons use `rings`, polylines use `paths`, points use `x` and `y`",
     },
   },
   async run({ $ }) {

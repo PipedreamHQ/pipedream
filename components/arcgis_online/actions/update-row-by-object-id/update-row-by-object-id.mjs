@@ -4,8 +4,8 @@ export default {
   key: "arcgis_online-update-row-by-object-id",
   name: "Update Row by Object ID",
   description:
-    "Update an attribute value for a feature identified by OBJECTID. [See the documentation](https://developers.arcgis.com/rest/)",
-  version: "0.0.7",
+    "Send an `applyEdits` `updates` payload to one layer: set `OBJECTID` and one additional field to `newValue` (string in the props; sent as the attribute value). The feature service must allow editing. Returns `objectId`, `layerName`, `columnName`, `newValue`, and the raw `updateResult` from the API. See [Apply Edits (Feature Service Layer)](https://developers.arcgis.com/rest/services-reference/enterprise/apply-edits-feature-service-layer-.htm)",
+  version: "0.0.8",
   type: "action",
   annotations: {
     destructiveHint: true,
@@ -19,6 +19,8 @@ export default {
         arcgisOnline,
         "mapTitle",
       ],
+      description:
+        "Title of the hosted Feature Service item used to resolve the service URL",
     },
     layerName: {
       propDefinition: [
@@ -28,6 +30,7 @@ export default {
           mapTitle: c.mapTitle,
         }),
       ],
+      description: "Layer that contains the row to update (must be editable)",
     },
     objectId: {
       propDefinition: [
@@ -38,7 +41,8 @@ export default {
           layerName: c.layerName,
         }),
       ],
-      description: "Row to update",
+      description:
+        "Feature to update; `OBJECTID` in the edit payload is set from this value (dropdown is paged; you may type an ID)",
     },
     columnName: {
       propDefinition: [
@@ -49,11 +53,14 @@ export default {
           layerName: c.layerName,
         }),
       ],
+      description:
+        "Attribute field to change (must be editable; value is sent as a string in the update attributes object)",
     },
     newValue: {
       type: "string",
       label: "New Value",
-      description: "New value for the column",
+      description:
+        "New attribute value as text (ArcGIS coerces to the field type where applicable)",
     },
   },
   async run({ $ }) {

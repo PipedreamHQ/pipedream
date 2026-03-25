@@ -4,8 +4,8 @@ export default {
   key: "arcgis_online-query-intersecting-features-by-object-id",
   name: "Query Intersecting Features by Object ID",
   description:
-    "Find features that intersect with the geometry of a feature identified by OBJECTID. Fetches geometry from the layer, then queries target layers. [See the documentation](https://developers.arcgis.com/rest/)",
-  version: "0.0.7",
+    "Load one feature from the source layer by `OBJECTID` (first match only), use its geometry as the boundary, then intersect-query the target layers in the same hosted feature service. Return shape matches Query Intersecting Features by Geometry: per-layer `count` and `features` (attributes only). Uses [Feature Layer query](https://developers.arcgis.com/rest/services-reference/enterprise/query-feature-service-layer-.htm) for the boundary fetch and for spatial queries",
+  version: "0.0.8",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -19,6 +19,8 @@ export default {
         arcgisOnline,
         "mapTitle",
       ],
+      description:
+        "Title of the hosted Feature Service item used to resolve the service URL",
     },
     layerName: {
       propDefinition: [
@@ -28,6 +30,8 @@ export default {
           mapTitle: c.mapTitle,
         }),
       ],
+      description:
+        "Layer that contains the boundary feature; its geometry is loaded via `objectIds` on `query`",
     },
     objectId: {
       propDefinition: [
@@ -38,7 +42,8 @@ export default {
           layerName: c.layerName,
         }),
       ],
-      description: "Feature to use as the search boundary (geometry source)",
+      description:
+        "Object ID of the feature whose geometry becomes the intersect boundary (dropdown is paged; you may type an ID)",
     },
     targetLayerNames: {
       propDefinition: [
@@ -48,6 +53,8 @@ export default {
           mapTitle: c.mapTitle,
         }),
       ],
+      description:
+        "Layers in the same service to query for features intersecting the boundary geometry",
     },
   },
   async run({ $ }) {

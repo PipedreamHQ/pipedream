@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/arcgis_online",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Pipedream ArcGIS Online Components",
   "main": "arcgis_online.app.mjs",
   "keywords": [

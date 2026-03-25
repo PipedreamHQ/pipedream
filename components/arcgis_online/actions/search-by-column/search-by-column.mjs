@@ -4,8 +4,8 @@ export default {
   key: "arcgis_online-search-by-column",
   name: "Search by Column",
   description:
-    "Search for features in a layer by column and value. [See the documentation](https://developers.arcgis.com/rest/)",
-  version: "0.0.7",
+    "Run a [Feature Layer query](https://developers.arcgis.com/rest/services-reference/enterprise/query-feature-service-layer-.htm) with `where` built as `field = 'value'` (the search value is wrapped in single quotes). Returns `{ count, features }` where `features` is an array of attribute objects (no geometries). Errors if no rows match. Values containing a single quote can break the clause",
+  version: "0.0.8",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -19,6 +19,8 @@ export default {
         arcgisOnline,
         "mapTitle",
       ],
+      description:
+        "Title of the hosted Feature Service item used to resolve the service URL",
     },
     layerName: {
       propDefinition: [
@@ -28,6 +30,7 @@ export default {
           mapTitle: c.mapTitle,
         }),
       ],
+      description: "Layer to query",
     },
     columnName: {
       propDefinition: [
@@ -38,11 +41,14 @@ export default {
           layerName: c.layerName,
         }),
       ],
+      description:
+        "Field name used on the left-hand side of `field = 'value'` (must match the service field name)",
     },
     searchValue: {
       type: "string",
       label: "Search Value",
-      description: "Value to match in the specified column (matched with single-quoted equality in the WHERE clause)",
+      description:
+        "Literal compared with exact string equality after single-quoting; numeric fields may still coerce depending on the service",
     },
   },
   async run({ $ }) {
