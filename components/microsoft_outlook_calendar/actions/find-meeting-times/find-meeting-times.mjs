@@ -3,12 +3,13 @@ import {
   ConfigurationError,
 } from "@pipedream/platform";
 import microsoftOutlook from "../../microsoft_outlook_calendar.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "microsoft_outlook_calendar-find-meeting-times",
   name: "Find Meeting Times",
   description: "Suggest meeting times and locations based on organizer and attendee availability. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-findmeetingtimes?view=graph-rest-1.0)",
-  version: "0.2.1",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -123,21 +124,6 @@ export default {
     },
   },
   methods: {
-    _normalizeStringArray(values) {
-      return (values ?? [])
-        .map((v) => v?.toString?.().trim())
-        .filter(Boolean);
-    },
-    _clampInt(value, {
-      min,
-      max,
-    }) {
-      if (value === null || value === undefined) return undefined;
-      const n = Number(value);
-      if (!Number.isFinite(n)) return undefined;
-      const rounded = Math.round(n);
-      return Math.max(min, Math.min(max, rounded));
-    },
     _toAttendeeBase(address, type) {
       return {
         type,
@@ -175,9 +161,9 @@ export default {
       ? `/users/${encodeURIComponent(userId)}`
       : "/me";
 
-    const cleanedAttendees = this._normalizeStringArray(this.attendees);
-    const cleanedResourceAttendees = this._normalizeStringArray(this.resourceAttendees);
-    const cleanedLocations = this._normalizeStringArray(this.locations);
+    const cleanedAttendees = utils.normalizeStringArray(this.attendees);
+    const cleanedResourceAttendees = utils.normalizeStringArray(this.resourceAttendees);
+    const cleanedLocations = utils.normalizeStringArray(this.locations);
     const startMs = Date.parse(this.start);
     const endMs = Date.parse(this.end);
     if (!Number.isFinite(startMs) || !Number.isFinite(endMs) || startMs >= endMs) {
@@ -192,13 +178,13 @@ export default {
       throw new ConfigurationError("Provide at least one attendee or resource attendee email address.");
     }
 
-    const durationMinutes = this._clampInt(this.duration, {
+    const durationMinutes = utils.clampInt(this.duration, {
       min: 1,
       max: 24 * 60,
     }) ?? 30;
     const meetingDuration = `PT${durationMinutes}M`;
 
-    const maxCandidates = this._clampInt(this.maxResults, {
+    const maxCandidates = utils.clampInt(this.maxResults, {
       min: 1,
       max: 50,
     }) ?? 20;
