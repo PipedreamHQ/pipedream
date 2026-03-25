@@ -248,9 +248,11 @@ export default {
         : {}),
     };
 
-    const { data } = await axios($, {
+    const graphUrl = `https://graph.microsoft.com/v1.0${basePath}/findMeetingTimes`;
+
+    const graphResponse = await axios($, {
       method: "POST",
-      url: `https://graph.microsoft.com/v1.0${basePath}/findMeetingTimes`,
+      url: graphUrl,
       headers: {
         Authorization: `Bearer ${token}`,
         ...(this.timeZone
@@ -262,16 +264,16 @@ export default {
       data: body,
     });
 
-    const suggestionCount = data?.meetingTimeSuggestions?.length ?? 0;
+    const suggestionCount = graphResponse?.meetingTimeSuggestions?.length ?? 0;
     $.export("$summary", suggestionCount
       ? `Successfully found ${suggestionCount} meeting time suggestion${suggestionCount === 1
         ? ""
         : "s"}`
-      : `No meeting time suggestions found${data?.emptySuggestionsReason
-        ? ` (${data.emptySuggestionsReason})`
+      : `No meeting time suggestions found${graphResponse?.emptySuggestionsReason
+        ? ` (${graphResponse.emptySuggestionsReason})`
         : ""}`);
 
-    const meetingTimesData = (data?.meetingTimeSuggestions ?? []).map((time) => ({
+    const meetingTimesData = (graphResponse?.meetingTimeSuggestions ?? []).map((time) => ({
       confidence: time.confidence,
       organizerAvailability: time.organizerAvailability,
       attendeeAvailability: time.attendeeAvailability,
