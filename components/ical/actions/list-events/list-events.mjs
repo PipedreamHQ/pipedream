@@ -1,4 +1,5 @@
 import app from "../../ical.app.mjs";
+import ical2json from "ical2json";
 
 export default {
   name: "List Events",
@@ -13,24 +14,43 @@ export default {
   },
   props: {
     app,
+    calendarProtocol: {
+      propDefinition: [
+        app,
+        "calendarProtocol",
+      ],
+    },
   },
   async run({ $ }) {
-    const response = await this.app.getEvents({
-      $,
-    });
+    let eventsQuantity, returnData;
 
-    if (!response?.VCALENDAR?.length) {
+    if (this.calendarProtocol === "ical") {
+      const response = await this.app.getEventsIcal({
+        $,
+      });
+
+      const calendarData = ical2json.convert(response);
+
+      eventsQuantity = calendarData?.VCALENDAR[0].VEVENT?.length || 0;
+      returnData = calendarData;
+    } else {
+      returnData = await this.app.getEvents({
+        $,
+      });
+
+      eventsQuantity = returnData?.VCALENDAR.length || 0;
+    }
+
+    if (!returnData?.VCALENDAR?.length) {
       $.export("$error", "No calendar events found");
     }
 
-    const eventsQuantity = response?.VCALENDAR.length || 0;
-
-    if (response) {
+    if (returnData) {
       $.export("$summary", `Successfully retrieved ${eventsQuantity} ${eventsQuantity <= 1
         ? "event"
         : "events"}`);
     }
 
-    return response;
+    return returnData;
   },
 };
