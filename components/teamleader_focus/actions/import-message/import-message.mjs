@@ -31,11 +31,31 @@ export default {
       label: "Sent By Type",
       description: "The type of the sender",
       options: constants.SENT_BY_TYPE_OPTIONS,
+      reloadProps: true,
     },
-    sentById: {
-      type: "string",
-      label: "Sent By ID",
-      description: "The ID of the sender",
+    company: {
+      propDefinition: [
+        teamleaderFocus,
+        "company",
+      ],
+      label: "Sent By Id (Company)",
+      hidden: true,
+    },
+    contact: {
+      propDefinition: [
+        teamleaderFocus,
+        "contact",
+      ],
+      label: "Sent By Id (Contact)",
+      hidden: true,
+    },
+    user: {
+      propDefinition: [
+        teamleaderFocus,
+        "user",
+      ],
+      label: "Sent By Id (User)",
+      hidden: true,
     },
     sentAt: {
       type: "string",
@@ -49,16 +69,49 @@ export default {
       optional: true,
     },
   },
+  async additionalProps(props) {
+    props.company.hidden = true;
+    props.contact.hidden = true;
+    props.user.hidden = true;
+
+    switch (this.sentByType) {
+    case "company":
+      props.company.hidden = false;
+      break;
+    case "contact":
+      props.contact.hidden = false;
+      break;
+    case "user":
+      props.user.hidden = false;
+      break;
+    }
+    return {};
+  },
   async run({ $ }) {
     const {
       teamleaderFocus,
       ticketId,
       body,
       sentByType,
-      sentById,
+      company,
+      contact,
+      user,
       sentAt,
       fileIds,
     } = this;
+
+    let sentById;
+    switch (sentByType) {
+    case "company":
+      sentById = company;
+      break;
+    case "contact":
+      sentById = contact;
+      break;
+    case "user":
+      sentById = user;
+      break;
+    }
 
     const { data: response } = await teamleaderFocus.importMessage({
       $,
