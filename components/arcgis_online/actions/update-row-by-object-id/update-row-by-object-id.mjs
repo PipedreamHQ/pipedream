@@ -77,6 +77,14 @@ export default {
       throw new Error("All fields are required");
     }
 
+    const objectIdStr = String(objectId).trim();
+    if (!/^\d+$/.test(objectIdStr)) {
+      throw new Error(
+        `objectId must be a whole non-negative integer (digits only); got "${objectId}"`,
+      );
+    }
+    const objectIdNum = parseInt(objectIdStr, 10);
+
     const ctx = await app.resolveLayerContext({
       $,
       mapTitle,
@@ -94,7 +102,7 @@ export default {
       servicePath: ctx.servicePath,
       layerId: ctx.layerId,
       attributes: {
-        [ctx.objectIdField]: parseInt(objectId, 10),
+        [ctx.objectIdField]: objectIdNum,
         [columnName]: newValue,
       },
     });

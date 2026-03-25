@@ -74,7 +74,7 @@ export default {
     }
 
     const escapedValue = String(searchValue).replace(/'/g, "''");
-    const queryResult = await app.queryLayerAttributes({
+    const queryResult = await app.queryLayerAttributesAllPages({
       $,
       mapTitle,
       layerName,

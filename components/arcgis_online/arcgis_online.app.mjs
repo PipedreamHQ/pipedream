@@ -198,15 +198,32 @@ export default {
         url: "/search",
         params: {
           q: `title:"${ref.replace(/"/g, "")}" AND type:"Feature Service"`,
-          num: 1,
+          num: PAGE_SIZE,
           f: "json",
         },
       });
-      const item = data?.results?.[0];
-      if (!item?.url) {
+      const results = data?.results ?? [];
+      const refLower = ref.toLowerCase();
+      const matches = results.filter((r) => {
+        const title = r?.title;
+        if (title == null) {
+          return false;
+        }
+        if (String(title).toLowerCase() !== refLower) {
+          return false;
+        }
+        return /FeatureServer/i.test(r.url || "");
+      });
+      if (matches.length === 0) {
         throw new Error(`No Feature Service found with title: "${ref}"`);
       }
-      return this._serviceUrlFromItem(item, `title "${ref}"`);
+      if (matches.length > 1) {
+        throw new Error(
+          `getFeatureServerPath: Multiple portal items share the feature service title "${ref}". `
+          + "Pass the portal item ID (32-character hex from the item details page) as mapTitle instead of the title.",
+        );
+      }
+      return this._serviceUrlFromItem(matches[0], `title "${ref}"`);
     },
 
     /**
@@ -364,7 +381,7 @@ export default {
     },
 
     /**
-     * Paginated OBJECTID values for async options (layer query with returnIdsOnly).
+     * Paginated OBJECTID async options (attribute query only; honors resultOffset).
      * @param {object} opts
      * @param {object} opts.$
      * @param {string} opts.mapTitle
@@ -410,7 +427,8 @@ export default {
         url: `${servicePath}/${layer.id}/query`,
         params: {
           where: "1=1",
-          returnIdsOnly: "true",
+          returnGeometry: "false",
+          outFields: oidField,
           resultRecordCount: batch,
           resultOffset: offset,
           // Match ArcGIS Online item tables (newest / highest OIDs first)
@@ -418,18 +436,19 @@ export default {
           f: "json",
         },
       });
-      const ids = data.objectIds ?? [];
+      const feats = data.features ?? [];
+      const ids = feats.map((f) => f.attributes?.[oidField]).filter((id) => id != null && id !== "");
       const options = ids.map((id) => ({
         label: `${oidField} ${id}`,
         value: String(id),
       }));
       const hasMore = data.exceededTransferLimit === true
-        || (ids.length === batch && data.exceededTransferLimit !== false);
+        || (feats.length === batch && data.exceededTransferLimit !== false);
       return {
         options,
         context: hasMore
           ? {
-            nextOffset: offset + ids.length,
+            nextOffset: offset + feats.length,
           }
           : {},
       };
@@ -521,6 +540,77 @@ export default {
           f: "json",
         },
       });
+    },
+
+    /**
+     * Layer query by WHERE with paging until transfer limit clears; merged features.
+     * @param {object} opts
+     * @param {object} opts.$
+     * @param {string} opts.mapTitle
+     * @param {string} opts.layerName
+     * @param {string} opts.where
+     * @param {string} [opts.returnGeometry]
+     */
+    async queryLayerAttributesAllPages({
+      $, mapTitle, layerName, where, returnGeometry = "false",
+    }) {
+      const {
+        baseUrl, servicePath,
+      } = await this.getFeatureServerPath({
+        $,
+        mapTitle,
+      });
+      const layers = await this.getLayers({
+        $,
+        baseUrl,
+        servicePath,
+      });
+      const targetLayer = layers.find((l) => l.name?.toLowerCase() === layerName.toLowerCase());
+      if (targetLayer?.id == null) {
+        throw new Error(`Layer '${layerName}' not found. Check service definition.`);
+      }
+      const meta = await this._request({
+        $,
+        baseUrl,
+        url: `${servicePath}/${targetLayer.id}`,
+        params: {
+          f: "json",
+        },
+      });
+      const maxRc = meta.maxRecordCount;
+      const pageSize = typeof maxRc === "number" && maxRc > 0
+        ? Math.min(maxRc, 5000)
+        : 1000;
+      const all = [];
+      let offset = 0;
+      while (true) {
+        const data = await this._request({
+          $,
+          baseUrl,
+          url: `${servicePath}/${targetLayer.id}/query`,
+          params: {
+            where,
+            outFields: "*",
+            returnGeometry,
+            f: "json",
+            resultOffset: offset,
+            resultRecordCount: pageSize,
+          },
+        });
+        const batch = data.features ?? [];
+        all.push(...batch);
+        if (data.exceededTransferLimit !== true) {
+          break;
+        }
+        offset += batch.length;
+        if (batch.length === 0) {
+          break;
+        }
+      }
+      return {
+        features: all,
+        count: all.length,
+      };
     },
 
     /**
@@ -708,16 +798,6 @@ export default {
         geometryType = "esriGeometryPoint";
       }
 
-      const params = {
-        geometry: JSON.stringify(geom),
-        geometryType,
-        inSR,
-        spatialRel: "esriSpatialRelIntersects",
-        outFields: "*",
-        returnGeometry: "false",
-        f: "json",
-      };
-
       const layerIds = targetLayerNames.map((name) => {
         const id = findId(name);
         if (id == null) {
@@ -729,25 +809,82 @@ export default {
         };
       });
 
-      const queryResults = await Promise.all(layerIds.map(({ id }) => this._request({
-        $,
-        baseUrl,
-        url: `${servicePath}/${id}/query`,
-        method: "GET",
-        params,
-      })));
+      const pageSizeById = new Map();
+      await Promise.all(layerIds.map(async ({ id }) => {
+        const meta = await this._request({
+          $,
+          baseUrl,
+          url: `${servicePath}/${id}`,
+          params: {
+            f: "json",
+          },
+        });
+        const maxRc = meta.maxRecordCount;
+        const pageSize = typeof maxRc === "number" && maxRc > 0
+          ? Math.min(maxRc, 5000)
+          : 1000;
+        pageSizeById.set(id, pageSize);
+      }));
+
+      const queryOneLayer = async ({
+        name, id,
+      }) => {
+        const pageSize = pageSizeById.get(id) ?? 1000;
+        const collected = [];
+        let offset = 0;
+        while (true) {
+          const body = new URLSearchParams({
+            f: "json",
+            geometry: JSON.stringify(geom),
+            geometryType,
+            inSR,
+            spatialRel: "esriSpatialRelIntersects",
+            outFields: "*",
+            returnGeometry: "false",
+            resultOffset: String(offset),
+            resultRecordCount: String(pageSize),
+          }).toString();
+          const data = await this._request({
+            $,
+            baseUrl,
+            url: `${servicePath}/${id}/query`,
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            data: body,
+          });
+          const batch = data.features ?? [];
+          collected.push(...batch.map((f) => f.attributes));
+          if (data.exceededTransferLimit !== true) {
+            break;
+          }
+          offset += batch.length;
+          if (batch.length === 0) {
+            break;
+          }
+        }
+        return {
+          name,
+          count: collected.length,
+          features: collected,
+        };
+      };
+
+      const perLayer = await Promise.all(layerIds.map((entry) => queryOneLayer(entry)));
 
       const result = {
         geometryType,
         layers: {},
       };
-      layerIds.forEach(({ name }, index) => {
-        const features = queryResults[index].features ?? [];
+      for (const {
+        name, count, features,
+      } of perLayer) {
         result.layers[name] = {
-          count: features.length,
-          features: features.map((f) => f.attributes),
+          count,
+          features,
         };
-      });
+      }
       return result;
     },
   },
