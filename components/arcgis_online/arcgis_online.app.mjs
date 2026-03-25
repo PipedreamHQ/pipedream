@@ -206,9 +206,6 @@ export default {
       const start = prevContext?.nextStart ?? 1;
       const raw = String(query ?? "").trim()
         .replace(/"/g, "");
-      // ArcGIS only allows * wildcards at the END of a field term (not title:*foo*).
-      // Use full-text `q` + exact `filter` on type so matches can hit title, tags, snippet, etc.
-      // See https://developers.arcgis.com/rest/users-groups-and-items/search-reference/
       const params = {
         num: PAGE_SIZE,
         start,
