@@ -35,7 +35,10 @@ export default {
       };
     },
 
-    /** Autotask REST headers per https://www.autotask.net/help/DeveloperHelp/Content/APIs/REST/General_Topics/REST_Security_Auth.htm */
+    /**
+     * Autotask auth headers (matches Prismatic `UserName` casing).
+     * @see https://www.autotask.net/help/DeveloperHelp/Content/APIs/REST/General_Topics/REST_Security_Auth.htm
+     */
     _headers() {
       const {
         username,
@@ -44,7 +47,7 @@ export default {
         impersonationResourceId,
       } = this._credentials();
       const headers = {
-        "Username": username,
+        "UserName": username,
         "Secret": secret,
         "ApiIntegrationCode": apiIntegrationCode,
         "Content-Type": "application/json",
@@ -57,11 +60,11 @@ export default {
 
     _entityUrl(entity, suffix) {
       const { baseUrl } = this._credentials();
-      return `${baseUrl}/v1.0/${entity}/${suffix}`;
+      return `${baseUrl}/V1.0/${entity}/${suffix}`;
     },
 
     /**
-     * POST entity query (list / search).
+     * POST `/V1.0/{entity}/query` with JSON body
      * @param {object} opts
      * @param {object} [opts.$] - Pipedream axios context
      * @param {string} opts.entity - REST entity name (e.g. `Companies`)
@@ -79,11 +82,11 @@ export default {
     },
 
     /**
-     * POST entity query count.
+     * POST `/V1.0/{entity}/query/count` with the same JSON body as `queryEntity`.
      * @param {object} opts
      * @param {object} [opts.$] - Pipedream axios context
      * @param {string} opts.entity - REST entity name (e.g. `Companies`)
-     * @param {object} opts.data - Same filter shape as `queryEntity`
+     * @param {object} opts.data - Same filter object as list actions
      */
     queryEntityCount({
       $ = this, entity, data,

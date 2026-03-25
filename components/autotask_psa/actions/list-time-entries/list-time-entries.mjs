@@ -1,12 +1,12 @@
 import autotaskPsa from "../../autotask_psa.app.mjs";
-import { QUERY_PROP_DESCRIPTION } from "../../common/constants.mjs";
+import { FILTER_PROP_DESCRIPTION } from "../../common/constants.mjs";
 
 export default {
   key: "autotask_psa-list-time-entries",
   name: "List Time Entries",
   description:
-    "List time entries from Autotask PSA using a query object. [See the documentation](https://www.autotask.net/help/developerhelp/Content/APIs/REST/REST_API_Home.htm)",
-  version: "0.0.2",
+    "Query time entries from Autotask PSA. [See the documentation](https://www.autotask.net/help/developerhelp/Content/APIs/REST/REST_API_Home.htm)",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -15,17 +15,17 @@ export default {
   },
   props: {
     autotaskPsa,
-    query: {
+    filter: {
       type: "object",
-      label: "Query",
-      description: QUERY_PROP_DESCRIPTION,
+      label: "Filter",
+      description: FILTER_PROP_DESCRIPTION,
     },
   },
   async run({ $ }) {
     const result = await this.autotaskPsa.queryEntity({
       $,
       entity: "TimeEntries",
-      data: this.query,
+      data: this.filter,
     });
     const n = result?.items?.length;
     $.export(
