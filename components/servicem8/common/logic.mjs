@@ -72,6 +72,11 @@ export const RESOURCES = {
     label: "Tax Rate",
     noun: "tax rate",
   },
+  /** Asset record (`asset.json`); equipment/sites managed via Asset Management. */
+  asset: {
+    label: "Asset",
+    noun: "asset",
+  },
   /** Inventory material (`material.json`); used e.g. for staff `labour_material_uuid`. */
   material: {
     label: "Material",
@@ -101,6 +106,33 @@ export function resourceListPath(resource) {
  */
 export function resourceItemPath(resource, uuid) {
   return `${API_PATH}/${resource}/${uuid}.json`;
+}
+
+/**
+ * Ensures versioned REST paths (`api_1.0/...`) use a `.json` suffix (JSON API responses).
+ * Webhook and platform endpoints (no `api_1.0/` prefix) are left unchanged.
+ * @param {string} path - Path relative to `https://api.servicem8.com/`
+ * @returns {string}
+ */
+export function normalizeUserApiPath(path) {
+  if (path == null || path === "") {
+    return path;
+  }
+  const trimmed = String(path).trim()
+    .replace(/^\/+/, "");
+  if (!trimmed) {
+    return trimmed;
+  }
+  if (!trimmed.startsWith(`${API_PATH}/`)) {
+    return trimmed;
+  }
+  if (trimmed.endsWith(".json")) {
+    return trimmed;
+  }
+  if (/\.html$/i.test(trimmed)) {
+    return trimmed.replace(/\.html$/i, ".json");
+  }
+  return `${trimmed}.json`;
 }
 
 /**

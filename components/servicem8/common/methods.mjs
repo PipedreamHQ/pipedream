@@ -341,6 +341,78 @@ export function createMethods(axios) {
      *   (e.g. `$filter`).
      * @returns {Promise<object>}
      */
+    /**
+     * Async options for badge `file_name`: list Assets (`read_assets` scope) and map rows to
+     * API `file_name` values (asset `name` or `asset_code`).
+     * @param {object} opts
+     * @param {object} opts.$
+     * @param {object} [opts.prevContext]
+     * @param {string} [opts.prevContext.cursor]
+     * @param {string} [opts.query]
+     */
+    async _badgeFileNameOptionsFromAssets({
+      $, prevContext, query,
+    }) {
+      const params = {};
+      if (prevContext?.cursor) {
+        params.cursor = prevContext.cursor;
+      }
+      const data = await this.listResource({
+        $,
+        resource: "asset",
+        params,
+      });
+      const rows = Array.isArray(data)
+        ? data
+        : (data && typeof data === "object" && Array.isArray(data.items))
+          ? data.items
+          : [];
+      const nextCursor = (data && typeof data === "object" && !Array.isArray(data))
+        ? (data.cursor ?? data.next_cursor)
+        : undefined;
+      const context = {};
+      if (nextCursor) {
+        context.cursor = nextCursor;
+      }
+      let options = rows
+        .map((row) => {
+          const name = row.name != null && String(row.name).trim() !== ""
+            ? String(row.name).trim()
+            : null;
+          const code = row.asset_code != null && String(row.asset_code).trim() !== ""
+            ? String(row.asset_code).trim()
+            : null;
+          const value = code ?? name;
+          if (!value) {
+            return null;
+          }
+          const id = row.uuid ?? row.UUID;
+          const labelParts = [
+            name ?? code,
+            code && name && code !== name
+              ? code
+              : null,
+            id,
+          ].filter(Boolean);
+          return {
+            label: labelParts.join(" · "),
+            value,
+          };
+        })
+        .filter(Boolean);
+      if (query && String(query).trim()) {
+        const q = String(query).trim()
+          .toLowerCase();
+        options = options.filter((o) => String(o.label).toLowerCase()
+          .includes(q)
+          || String(o.value).toLowerCase()
+            .includes(q));
+      }
+      return {
+        options,
+        context,
+      };
+    },
     async _uuidOptionsForResource({
       $, resource, prevContext, query, listParams = {},
     }) {

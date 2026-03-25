@@ -68,9 +68,8 @@ export default {
     type: {
       type: "string",
       label: "Type",
-      optional: true,
       description:
-        "Controls which job fields sync when this contact changes ([API](https://developer.servicem8.com/reference/createjobcontacts)).",
+        "Controls which job fields sync when this contact changes; required by the API ([docs](https://developer.servicem8.com/reference/createjobcontacts)).",
       options: [
         "JOB",
         "BILLING",

@@ -1,5 +1,5 @@
 import servicem8 from "../../servicem8.app.mjs";
-import { optionalParsedInt } from "../../common/payload.mjs";
+import { optionalBool01 } from "../../common/payload.mjs";
 
 const JOB_STATUS_OPTIONS = [
   "Quote",
@@ -161,10 +161,10 @@ export default {
       description: "Client PO reference (max 100 characters).",
     },
     invoiceSent: {
-      type: "string",
+      type: "boolean",
       label: "Invoice Sent",
       optional: true,
-      description: "0 or 1 — whether an invoice has been sent.",
+      description: "Whether an invoice has been sent (sent to the API as 0 or 1).",
     },
     invoiceSentStamp: {
       type: "string",
@@ -261,10 +261,22 @@ export default {
       description: "Staff assigned to this job in the queue.",
     },
     badges: {
-      type: "string",
+      type: "string[]",
       label: "Badges",
       optional: true,
-      description: "JSON array of badge UUIDs as a string.",
+      useQuery: true,
+      async options({
+        $, prevContext, query,
+      }) {
+        return this.servicem8._uuidOptionsForResource({
+          $: $ ?? this,
+          resource: "badge",
+          prevContext,
+          query,
+        });
+      },
+      description:
+        "Badge UUIDs for this job (multi-select from [list badges](https://developer.servicem8.com/reference/listbadges)). Sent as a JSON array string per the API.",
     },
     quoteDate: {
       type: "string",
@@ -273,10 +285,10 @@ export default {
       description: "When status became Quote.",
     },
     quoteSent: {
-      type: "string",
+      type: "boolean",
       label: "Quote Sent",
       optional: true,
-      description: "0 or 1 — whether a quote was sent.",
+      description: "Whether a quote was sent (sent to the API as 0 or 1).",
     },
     quoteSentStamp: {
       type: "string",
@@ -322,16 +334,18 @@ export default {
       description: "Description of work completed.",
     },
     paymentProcessed: {
-      type: "string",
+      type: "boolean",
       label: "Payment Processed",
       optional: true,
-      description: "0 or 1 — exported to the connected accounting package.",
+      description:
+        "Whether payment was exported to the connected accounting package (0 or 1).",
     },
     paymentReceived: {
-      type: "string",
+      type: "boolean",
       label: "Payment Received",
       optional: true,
-      description: "0 or 1 — full payment received for the job.",
+      description:
+        "Whether full payment was received for the job (sent to the API as 0 or 1).",
     },
     completionDate: {
       type: "string",
@@ -368,7 +382,7 @@ export default {
         payment_note: this.paymentNote,
         geo_is_valid: this.geoIsValid,
         purchase_order_number: this.purchaseOrderNumber,
-        invoice_sent: optionalParsedInt(this.invoiceSent),
+        invoice_sent: optionalBool01(this.invoiceSent),
         invoice_sent_stamp: this.invoiceSentStamp,
         ready_to_invoice: this.readyToInvoice,
         ready_to_invoice_stamp: this.readyToInvoiceStamp,
@@ -383,15 +397,15 @@ export default {
         queue_assigned_staff_uuid: this.queueAssignedStaffUuid,
         badges: this.badges,
         quote_date: this.quoteDate,
-        quote_sent: optionalParsedInt(this.quoteSent),
+        quote_sent: optionalBool01(this.quoteSent),
         quote_sent_stamp: this.quoteSentStamp,
         work_order_date: this.workOrderDate,
         active_network_request_uuid: this.activeNetworkRequestUuid,
         related_knowledge_articles: this.relatedKnowledgeArticles,
         job_description: this.jobDescription,
         work_done_description: this.workDoneDescription,
-        payment_processed: optionalParsedInt(this.paymentProcessed),
-        payment_received: optionalParsedInt(this.paymentReceived),
+        payment_processed: optionalBool01(this.paymentProcessed),
+        payment_received: optionalBool01(this.paymentReceived),
         completion_date: this.completionDate,
         unsuccessful_date: this.unsuccessfulDate,
       },

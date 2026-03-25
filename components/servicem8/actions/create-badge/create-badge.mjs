@@ -19,17 +19,22 @@ export default {
       description:
         "Display name (required by API; max 50 characters). Examples: Warranty, VIP, Take Payment Facilities.",
     },
-    automaticallyAllocated: {
-      type: "string",
-      label: "Automatically Allocated",
-      optional: true,
-      description: "Whether the badge is auto-assigned when criteria match (API string/flag).",
-    },
     fileName: {
       type: "string",
       label: "File Name",
       optional: true,
-      description: "Badge image or asset file name in ServiceM8.",
+      description:
+        "Badge image / `file_name` for the API. Search loads [assets](https://developer.servicem8.com/reference/listassets) (`read_assets` scope); the value uses each asset’s label **code** when present, otherwise its **name**. Paste a custom value if needed.",
+      useQuery: true,
+      async options({
+        $, prevContext, query,
+      }) {
+        return this.servicem8._badgeFileNameOptionsFromAssets({
+          $: $ ?? this,
+          prevContext,
+          query,
+        });
+      },
     },
     regardingFormUuid: {
       type: "string",
@@ -74,7 +79,6 @@ export default {
       $,
       data: {
         name: this.name,
-        automatically_allocated: this.automaticallyAllocated,
         file_name: this.fileName,
         regarding_form_uuid: this.regardingFormUuid,
         regarding_asset_type_uuid: this.regardingAssetTypeUuid,

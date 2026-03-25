@@ -47,8 +47,8 @@ export default {
           query,
         });
       },
-      optional: true,
-      description: "The UUID of the staff member assigned to this activity",
+      description:
+        "The staff member assigned to this activity (`staff_uuid`; required by the API).",
     },
     startDate: {
       type: "string",

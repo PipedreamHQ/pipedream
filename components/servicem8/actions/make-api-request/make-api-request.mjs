@@ -1,4 +1,5 @@
 import app from "../../servicem8.app.mjs";
+import { normalizeUserApiPath } from "../../common/logic.mjs";
 
 const DOCS = "https://developer.servicem8.com/docs/rest-overview";
 
@@ -28,7 +29,8 @@ export default {
     path: {
       type: "string",
       label: "Path",
-      description: "Path relative to `https://api.servicem8.com/` (e.g. `api_1.0/company.json`)",
+      description:
+        "Path relative to `https://api.servicem8.com/` (e.g. `api_1.0/company` or `api_1.0/company.json`). For `api_1.0/...` routes, `.json` is appended when omitted so responses use the JSON API. Webhook and platform paths (no `api_1.0/` prefix) are unchanged.",
     },
     query: {
       type: "object",
@@ -47,10 +49,11 @@ export default {
     const {
       method, path, query, body,
     } = this;
+    const resolvedPath = normalizeUserApiPath(path);
     const includeBody = method !== "GET" && body !== undefined;
     const response = await this.servicem8._makeRequest({
       $,
-      path,
+      path: resolvedPath,
       method,
       ...(query && {
         params: query,
@@ -59,7 +62,7 @@ export default {
         data: body,
       }),
     });
-    $.export("$summary", `Completed ${method} ${path}`);
+    $.export("$summary", `Completed ${method} ${resolvedPath}`);
     return response;
   },
 };

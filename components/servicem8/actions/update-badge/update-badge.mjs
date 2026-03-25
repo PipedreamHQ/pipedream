@@ -36,17 +36,21 @@ export default {
       optional: true,
       description: "Display name (max 50 characters).",
     },
-    automaticallyAllocated: {
-      type: "string",
-      label: "Automatically Allocated",
-      optional: true,
-      description: "Whether the badge is auto-assigned when criteria match (API string/flag).",
-    },
     fileName: {
       type: "string",
       label: "File Name",
       optional: true,
       description: "Badge image or asset file name in ServiceM8.",
+      useQuery: true,
+      async options({
+        $, prevContext, query,
+      }) {
+        return this.servicem8._badgeFileNameOptionsFromAssets({
+          $: $ ?? this,
+          prevContext,
+          query,
+        });
+      },
     },
     regardingFormUuid: {
       type: "string",
@@ -89,7 +93,6 @@ export default {
       uuid: this.uuid,
       data: {
         name: this.name,
-        automatically_allocated: this.automaticallyAllocated,
         file_name: this.fileName,
         regarding_form_uuid: this.regardingFormUuid,
         regarding_asset_type_uuid: this.regardingAssetTypeUuid,
