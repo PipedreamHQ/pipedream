@@ -132,8 +132,12 @@ export function createReportComponent(resource) {
           throw new ConfigurationError("Select at least one field, segment or metric.");
         }
 
+        if (dateRange === "CUSTOM" && (!this.startDate || !this.endDate)) {
+          throw new ConfigurationError("Both **Custom Start Date** and **Custom End Date** are required when using a custom date range.");
+        }
+
         let query = `SELECT ${selection.join(", ")} FROM ${value}`;
-        if (objectFilter) {
+        if (objectFilter?.length) {
           query += ` WHERE ${value === "ad_group_ad"
             ? "ad_group_ad.ad"
             : value}.id IN (${objectFilter.join?.(", ") ?? objectFilter})`;
