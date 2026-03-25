@@ -56,7 +56,6 @@ export default {
         `DTEND:${this.end}`,
         `SUMMARY:${this.summary}`,
         `DESCRIPTION:${this.description || "No description provided"}`,
-        "LOCATION:Online",
         "END:VEVENT",
         "END:VCALENDAR",
         "",
