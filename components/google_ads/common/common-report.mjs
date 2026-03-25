@@ -1,7 +1,7 @@
 import { ConfigurationError } from "@pipedream/platform";
 import googleAds from "../google_ads.app.mjs";
 import props from "./props.mjs";
-import { DATE_RANGE_OPTIONS } from "../actions/create-report/common-constants.mjs";
+import { DATE_RANGE_OPTIONS } from "./constants.mjs";
 import { checkPrefix } from "./utils.mjs";
 
 export function createReportComponent(resource) {
