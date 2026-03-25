@@ -1,5 +1,6 @@
 import { axios } from "@pipedream/platform";
 import { QUERIES } from "./common/queries.mjs";
+import { getResourceOption } from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -68,6 +69,59 @@ export default {
         })).filter(({ value }) => value !== accountId);
       },
     },
+    reportResourceFilter: {
+      type: "string[]",
+      label: "Filter by Resources",
+      description: "Select the resources to generate a report for (or leave blank for all)",
+      optional: true,
+      useQuery: true,
+      async options({
+        accountId, customerClientId, resource, query, prevContext,
+      }) {
+        const pageToken = prevContext?.nextPageToken;
+        const {
+          results, nextPageToken,
+        } = await this.listResources({
+          accountId,
+          customerClientId,
+          resource,
+          query,
+          pageToken,
+        });
+        const options = results?.map?.((item) => this.getResourceOption(item, resource));
+        return {
+          options,
+          context: {
+            nextPageToken,
+          },
+        };
+      },
+    },
+    reportOrderBy: {
+      type: "string",
+      label: "Order By",
+      description: "The field to order the results by",
+      optional: true,
+      options({
+        fields, segments, metrics,
+      }) {
+        return [
+          fields,
+          segments,
+          metrics,
+        ].filter((v) => v).flatMap((value) => {
+          let returnValue = value;
+          if (typeof value === "string") {
+            try {
+              returnValue = JSON.parse(value);
+            } catch (err) {
+              returnValue = value.split(",");
+            }
+          }
+          return returnValue?.map?.((str) => str.trim());
+        });
+      },
+    },
     leadFormId: {
       type: "string",
       label: "Lead Form ID",
@@ -93,6 +147,7 @@ export default {
     },
   },
   methods: {
+    getResourceOption,
     _baseUrl() {
       return "https://googleads.m.pipedream.net";
     },
