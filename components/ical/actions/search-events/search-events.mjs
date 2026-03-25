@@ -45,7 +45,7 @@ export default {
 
     if (!data?.VCALENDAR?.length || !data?.VCALENDAR[0].VEVENT?.length) {
       $.export("$summary", "No events found");
-      return
+      return;
     }
 
     const events = data?.VCALENDAR.filter((event) =>
@@ -54,7 +54,7 @@ export default {
 
     if (events.length) {
       $.export("$summary", `Successfully find ${events.length} events`);
-      return
+      return;
     }
 
     return events;

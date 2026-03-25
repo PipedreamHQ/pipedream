@@ -43,14 +43,14 @@ export default {
 
     if (!returnData?.VCALENDAR?.length) {
       $.export("$error", "No calendar events found");
-      return
+      return;
     }
 
     if (returnData) {
       $.export("$summary", `Successfully retrieved ${eventsQuantity} ${eventsQuantity <= 1
         ? "event"
         : "events"}`);
-      return
+      return;
     }
 
     return returnData;
