@@ -51,7 +51,7 @@ export default {
       default: "scout",
       options: [
         { label: "Scout (default)", value: "scout" },
-        { label: "Flat", value: "zapier" },
+        { label: "Flat (Zapier-compatible)", value: "zapier" },
         { label: "Slack", value: "slack" },
       ],
     },

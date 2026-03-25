@@ -57,7 +57,7 @@ export default {
     async getBrowsingTask(ctx, taskId) {
       return this._request(ctx, {
         method: "GET",
-        path: `/browsing/tasks/${taskId}`,
+        path: `/browsing/tasks/${encodeURIComponent(taskId)}`,
       });
     },
     // Research
@@ -71,7 +71,7 @@ export default {
     async getResearchTask(ctx, taskId) {
       return this._request(ctx, {
         method: "GET",
-        path: `/research/tasks/${taskId}`,
+        path: `/research/tasks/${encodeURIComponent(taskId)}`,
       });
     },
     // Scouting
@@ -92,31 +92,31 @@ export default {
     async getScout(ctx, scoutId) {
       return this._request(ctx, {
         method: "GET",
-        path: `/scouting/tasks/${scoutId}`,
+        path: `/scouting/tasks/${encodeURIComponent(scoutId)}`,
       });
     },
     async markScoutDone(ctx, scoutId) {
       return this._request(ctx, {
         method: "POST",
-        path: `/scouting/tasks/${scoutId}/done`,
+        path: `/scouting/tasks/${encodeURIComponent(scoutId)}/done`,
       });
     },
     async restartScout(ctx, scoutId) {
       return this._request(ctx, {
         method: "POST",
-        path: `/scouting/tasks/${scoutId}/restart`,
+        path: `/scouting/tasks/${encodeURIComponent(scoutId)}/restart`,
       });
     },
     async deleteScout(ctx, scoutId) {
       return this._request(ctx, {
         method: "DELETE",
-        path: `/scouting/tasks/${scoutId}`,
+        path: `/scouting/tasks/${encodeURIComponent(scoutId)}`,
       });
     },
     async getScoutUpdates(ctx, scoutId, params = {}) {
       return this._request(ctx, {
         method: "GET",
-        path: `/scouting/tasks/${scoutId}/updates`,
+        path: `/scouting/tasks/${encodeURIComponent(scoutId)}/updates`,
         params,
       });
     },

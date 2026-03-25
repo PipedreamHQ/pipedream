@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     _getLastTimestamp() {
-      return this.db.get("lastTimestamp") || null;
+      return this.db.get("lastTimestamp") ?? null;
     },
     _setLastTimestamp(ts) {
       this.db.set("lastTimestamp", ts);
@@ -43,7 +43,7 @@ export default {
     let sinceTimestamp = this._getLastTimestamp();
 
     // On first run, look back by hoursBack
-    if (!sinceTimestamp) {
+    if (sinceTimestamp == null) {
       const hoursBack = this.hoursBack ?? 24;
       sinceTimestamp = hoursBack > 0
         ? Date.now() - hoursBack * 60 * 60 * 1000
@@ -54,7 +54,14 @@ export default {
     // Collect all pages so bursts don't silently drop updates.
     const updates = [];
     let cursor = undefined;
+    const seenCursors = new Set();
+    const MAX_PAGES = 100;
+    let pages = 0;
     do {
+      if (pages++ >= MAX_PAGES) break;
+      if (cursor && seenCursors.has(cursor)) break;
+      if (cursor) seenCursors.add(cursor);
+
       const response = await this.yutori.getUpdates(this, {
         start_time: new Date(sinceTimestamp).toISOString(),
         end_time: new Date(now).toISOString(),
