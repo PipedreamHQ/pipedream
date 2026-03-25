@@ -1162,7 +1162,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/arcgis_online: {}
+  components/arcgis_online:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.6.8
+        version: 1.6.8
 
   components/are_na:
     dependencies:
@@ -5388,8 +5392,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/fellow:
-    specifiers: {}
+  components/fellow: {}
 
   components/felt: {}
 
@@ -11530,8 +11533,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/permit_io:
-    specifiers: {}
+  components/permit_io: {}
 
   components/perplexity:
     dependencies:
@@ -14384,8 +14386,7 @@ importers:
 
   components/signwell: {}
 
-  components/siit:
-    specifiers: {}
+  components/siit: {}
 
   components/silfer_bots:
     dependencies:
