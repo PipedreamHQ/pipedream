@@ -5,7 +5,7 @@ export default {
   name: "Update Row by Object ID",
   description:
     "Update an attribute value for a feature identified by OBJECTID. [See the documentation](https://developers.arcgis.com/rest/)",
-  version: "0.0.3",
+  version: "0.0.5",
   type: "action",
   annotations: {
     destructiveHint: true,
@@ -30,9 +30,15 @@ export default {
       ],
     },
     objectId: {
-      type: "string",
-      label: "Object ID",
-      description: "OBJECTID of the feature to update",
+      propDefinition: [
+        arcgisOnline,
+        "objectId",
+        (c) => ({
+          mapTitle: c.mapTitle,
+          layerName: c.layerName,
+        }),
+      ],
+      description: "Row to update",
     },
     columnName: {
       propDefinition: [

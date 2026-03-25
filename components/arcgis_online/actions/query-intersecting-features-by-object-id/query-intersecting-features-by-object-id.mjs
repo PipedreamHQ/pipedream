@@ -5,7 +5,7 @@ export default {
   name: "Query Intersecting Features by Object ID",
   description:
     "Find features that intersect with the geometry of a feature identified by OBJECTID. Fetches geometry from the layer, then queries target layers. [See the documentation](https://developers.arcgis.com/rest/)",
-  version: "0.0.3",
+  version: "0.0.5",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -30,9 +30,15 @@ export default {
       ],
     },
     objectId: {
-      type: "string",
-      label: "Object ID",
-      description: "OBJECTID of the feature to use as the search boundary",
+      propDefinition: [
+        arcgisOnline,
+        "objectId",
+        (c) => ({
+          mapTitle: c.mapTitle,
+          layerName: c.layerName,
+        }),
+      ],
+      description: "Feature to use as the search boundary (geometry source)",
     },
     targetLayerNames: {
       propDefinition: [

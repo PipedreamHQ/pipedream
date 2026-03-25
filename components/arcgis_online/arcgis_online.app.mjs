@@ -72,6 +72,27 @@ export default {
         });
       },
     },
+    objectId: {
+      type: "string",
+      label: "Object ID",
+      description:
+        "Feature OBJECTID from the selected layer (paginated). You can still type an ID manually",
+      async options({
+        mapTitle,
+        layerName,
+        prevContext,
+      }) {
+        if (!mapTitle || !layerName) {
+          return [];
+        }
+        return this.listObjectIdOptions({
+          $: this,
+          mapTitle,
+          layerName,
+          prevContext,
+        });
+      },
+    },
   },
   methods: {
     /**
@@ -308,6 +329,82 @@ export default {
           value: name,
         };
       });
+    },
+
+    /**
+     * Paginated OBJECTID values for async options (layer query with returnIdsOnly).
+     * @param {object} opts
+     * @param {object} opts.$
+     * @param {string} opts.mapTitle
+     * @param {string} opts.layerName
+     * @param {object} [opts.prevContext]
+     * @param {number} [opts.prevContext.nextOffset]
+     */
+    async listObjectIdOptions({
+      $, mapTitle, layerName, prevContext,
+    }) {
+      const batch = 100;
+      const offset = prevContext?.nextOffset ?? 0;
+      const {
+        baseUrl, servicePath,
+      } = await this.getFeatureServerPath({
+        $,
+        mapTitle,
+      });
+      const layers = await this.getLayers({
+        $,
+        baseUrl,
+        servicePath,
+      });
+      const layer = layers.find((l) => l.name?.toLowerCase() === layerName.toLowerCase());
+      if (!layer?.id) {
+        return {
+          options: [],
+          context: {},
+        };
+      }
+      const meta = await this._request({
+        $,
+        baseUrl,
+        url: `${servicePath}/${layer.id}`,
+        params: {
+          f: "json",
+        },
+      });
+      const oidField = meta.objectIdField || "OBJECTID";
+      const data = await this._request({
+        $,
+        baseUrl,
+        url: `${servicePath}/${layer.id}/query`,
+        params: {
+          where: "1=1",
+          returnIdsOnly: "true",
+          resultRecordCount: batch,
+          resultOffset: offset,
+          // Match ArcGIS Online item tables (newest / highest OIDs first)
+          orderByFields: `${oidField} DESC`,
+          f: "json",
+        },
+      });
+      if (data?.error) {
+        const msg = data.error.message || JSON.stringify(data.error);
+        throw new Error(`ArcGIS query failed: ${msg}`);
+      }
+      const ids = data.objectIds ?? [];
+      const options = ids.map((id) => ({
+        label: `${oidField} ${id}`,
+        value: String(id),
+      }));
+      const hasMore = data.exceededTransferLimit === true
+        || (ids.length === batch && data.exceededTransferLimit !== false);
+      return {
+        options,
+        context: hasMore
+          ? {
+            nextOffset: offset + ids.length,
+          }
+          : {},
+      };
     },
 
     /**

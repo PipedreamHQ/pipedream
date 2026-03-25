@@ -5,7 +5,7 @@ export default {
   name: "Query Intersecting Features by Geometry",
   description:
     "Find features that intersect with a provided geometry boundary. Use when you already have the geometry (polygon, polyline, or point) with spatial reference. [See the documentation](https://developers.arcgis.com/rest/)",
-  version: "0.0.3",
+  version: "0.0.5",
   type: "action",
   annotations: {
     destructiveHint: false,
