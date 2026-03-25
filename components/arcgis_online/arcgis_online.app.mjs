@@ -3,6 +3,8 @@ import { axios } from "@pipedream/platform";
 const PORTAL_REST = "https://www.arcgis.com/sharing/rest";
 // Portal /search allows up to 100 results per request
 const PAGE_SIZE = 100;
+// ArcGIS Online hosted item ids are 32 hex characters
+const PORTAL_ITEM_ID_RE = /^[a-f0-9]{32}$/i;
 
 export default {
   type: "app",
@@ -12,7 +14,7 @@ export default {
       type: "string",
       label: "Map / Feature Service Title",
       description:
-        "Hosted feature service title. Search matches title, tags, snippet, and description (not only title)",
+        "Hosted Feature Service: dropdown values are portal item IDs (stable). You can also enter a service title for lookup (ambiguous if titles collide)",
       useQuery: true,
       async options({
         query,
@@ -127,47 +129,84 @@ export default {
           ...headers,
         },
       });
+      if (body && typeof body === "object" && body.error != null) {
+        const e = body.error;
+        const code = e.code != null
+          ? ` [${e.code}]`
+          : "";
+        const msg = e.message || JSON.stringify(e);
+        throw new Error(`ArcGIS error${code}: ${msg}`);
+      }
       return body;
     },
 
     /**
-     * Resolve feature service URL from an exact title match (Prismatic get_map_url).
-     * @param {object} opts
-     * @param {object} opts.$
-     * @param {string} opts.mapTitle
-     * @returns {Promise<{ baseUrl: string, servicePath: string }>}
+     * Parse item.url into hosting origin and service path.
+     * @param {object} item - Portal item with url
+     * @param {string} refLabel - For error messages
      */
-    async getFeatureServerPath({
-      $, mapTitle,
-    }) {
-      const data = await this._request({
-        $,
-        baseUrl: PORTAL_REST,
-        url: "/search",
-        params: {
-          q: `title:"${mapTitle}" AND type:"Feature Service"`,
-          num: 1,
-          f: "json",
-        },
-      });
-      if (data?.error) {
-        const msg = data.error.message || JSON.stringify(data.error);
-        throw new Error(`ArcGIS portal search failed: ${msg}`);
-      }
-      const item = data?.results?.[0];
+    _serviceUrlFromItem(item, refLabel) {
       if (!item?.url) {
-        throw new Error(`No Feature Service found with title: "${mapTitle}"`);
+        throw new Error(`No service URL on item ${refLabel}`);
       }
       const match = item.url.match(/^(https?:\/\/[^/]+)(\/.*)$/);
       const baseUrl = match?.[1] || "";
       const servicePath = match?.[2] || "";
       if (!baseUrl || !servicePath) {
-        throw new Error(`Could not parse feature service URL for "${mapTitle}"`);
+        throw new Error(`Could not parse feature service URL for ${refLabel}`);
       }
       return {
         baseUrl,
         servicePath,
       };
+    },
+
+    /**
+     * Resolve hosted feature service URL from portal item id or exact title.
+     * @param {object} opts
+     * @param {object} opts.$
+     * @param {string} opts.mapTitle - Portal item id (32 hex) or feature service title
+     * @returns {Promise<{ baseUrl: string, servicePath: string }>}
+     */
+    async getFeatureServerPath({
+      $, mapTitle,
+    }) {
+      const ref = String(mapTitle ?? "").trim();
+      if (!ref) {
+        throw new Error("mapTitle is required");
+      }
+      if (PORTAL_ITEM_ID_RE.test(ref)) {
+        const item = await this._request({
+          $,
+          baseUrl: PORTAL_REST,
+          url: `/content/items/${ref}`,
+          params: {
+            f: "json",
+          },
+        });
+        const url = item.url || "";
+        if (!/\/FeatureServer(\/|$)/i.test(url)) {
+          throw new Error(
+            `Portal item ${ref} must point to a FeatureServer URL`,
+          );
+        }
+        return this._serviceUrlFromItem(item, `id ${ref}`);
+      }
+      const data = await this._request({
+        $,
+        baseUrl: PORTAL_REST,
+        url: "/search",
+        params: {
+          q: `title:"${ref.replace(/"/g, "")}" AND type:"Feature Service"`,
+          num: 1,
+          f: "json",
+        },
+      });
+      const item = data?.results?.[0];
+      if (!item?.url) {
+        throw new Error(`No Feature Service found with title: "${ref}"`);
+      }
+      return this._serviceUrlFromItem(item, `title "${ref}"`);
     },
 
     /**
@@ -223,22 +262,19 @@ export default {
         url: "/search",
         params,
       });
-      if (data?.error) {
-        const msg = data.error.message || JSON.stringify(data.error);
-        throw new Error(`ArcGIS portal search failed: ${msg}`);
-      }
       const results = data?.results ?? [];
       const seen = new Set();
       const options = [];
       for (const item of results) {
-        const title = item.title;
-        if (!title || seen.has(title)) {
+        const id = item.id;
+        const title = item.title || "(no title)";
+        if (id == null || id === "" || seen.has(id)) {
           continue;
         }
-        seen.add(title);
+        seen.add(id);
         options.push({
           label: title,
-          value: title,
+          value: id,
         });
       }
       const nextStart = data?.nextStart;
@@ -303,7 +339,7 @@ export default {
         servicePath,
       });
       const layer = layers.find((l) => l.name?.toLowerCase() === layerName.toLowerCase());
-      if (!layer?.id) {
+      if (layer?.id == null) {
         return [];
       }
       const meta = await this._request({
@@ -353,7 +389,7 @@ export default {
         servicePath,
       });
       const layer = layers.find((l) => l.name?.toLowerCase() === layerName.toLowerCase());
-      if (!layer?.id) {
+      if (layer?.id == null) {
         return {
           options: [],
           context: {},
@@ -382,10 +418,6 @@ export default {
           f: "json",
         },
       });
-      if (data?.error) {
-        const msg = data.error.message || JSON.stringify(data.error);
-        throw new Error(`ArcGIS query failed: ${msg}`);
-      }
       const ids = data.objectIds ?? [];
       const options = ids.map((id) => ({
         label: `${oidField} ${id}`,
@@ -426,7 +458,7 @@ export default {
         servicePath,
       });
       const layer = layers.find((l) => l.name?.toLowerCase() === layerName.toLowerCase());
-      if (!layer?.id) {
+      if (layer?.id == null) {
         throw new Error(`Layer '${layerName}' not found`);
       }
       const data = await this._request({
@@ -475,7 +507,7 @@ export default {
         servicePath,
       });
       const targetLayer = layers.find((l) => l.name?.toLowerCase() === layerName.toLowerCase());
-      if (!targetLayer?.id) {
+      if (targetLayer?.id == null) {
         throw new Error(`Layer '${layerName}' not found. Check service definition.`);
       }
       return this._request({
@@ -492,15 +524,14 @@ export default {
     },
 
     /**
-     * POST applyEdits with a single update payload (form-encoded).
+     * Resolve layer id and metadata (objectIdField) by map reference and layer name.
      * @param {object} opts
      * @param {object} opts.$
      * @param {string} opts.mapTitle
      * @param {string} opts.layerName
-     * @param {Record<string, unknown>} opts.attributes - OBJECTID and fields to update
      */
-    async applyFeatureUpdates({
-      $, mapTitle, layerName, attributes,
+    async resolveLayerContext({
+      $, mapTitle, layerName,
     }) {
       const {
         baseUrl, servicePath,
@@ -514,9 +545,39 @@ export default {
         servicePath,
       });
       const layer = layers.find((l) => l.name?.toLowerCase() === layerName.toLowerCase());
-      if (!layer?.id) {
+      if (layer?.id == null) {
         throw new Error(`Layer '${layerName}' not found`);
       }
+      const meta = await this._request({
+        $,
+        baseUrl,
+        url: `${servicePath}/${layer.id}`,
+        params: {
+          f: "json",
+        },
+      });
+      const objectIdField = meta.objectIdField || "OBJECTID";
+      return {
+        baseUrl,
+        servicePath,
+        layerId: layer.id,
+        objectIdField,
+        meta,
+      };
+    },
+
+    /**
+     * POST applyEdits for a known layer id (form-encoded).
+     * @param {object} opts
+     * @param {object} opts.$
+     * @param {string} opts.baseUrl
+     * @param {string} opts.servicePath
+     * @param {number} opts.layerId
+     * @param {Record<string, unknown>} opts.attributes
+     */
+    async postApplyEdits({
+      $, baseUrl, servicePath, layerId, attributes,
+    }) {
       const updates = JSON.stringify([
         {
           attributes,
@@ -525,12 +586,37 @@ export default {
       return this._request({
         $,
         baseUrl,
-        url: `${servicePath}/${layer.id}/applyEdits`,
+        url: `${servicePath}/${layerId}/applyEdits`,
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
         data: `f=json&updates=${encodeURIComponent(updates)}`,
+      });
+    },
+
+    /**
+     * POST applyEdits with a single update payload (form-encoded).
+     * @param {object} opts
+     * @param {object} opts.$
+     * @param {string} opts.mapTitle
+     * @param {string} opts.layerName
+     * @param {Record<string, unknown>} opts.attributes - Field names incl. object id field
+     */
+    async applyFeatureUpdates({
+      $, mapTitle, layerName, attributes,
+    }) {
+      const ctx = await this.resolveLayerContext({
+        $,
+        mapTitle,
+        layerName,
+      });
+      return this.postApplyEdits({
+        $,
+        baseUrl: ctx.baseUrl,
+        servicePath: ctx.servicePath,
+        layerId: ctx.layerId,
+        attributes,
       });
     },
 
@@ -634,7 +720,7 @@ export default {
 
       const layerIds = targetLayerNames.map((name) => {
         const id = findId(name);
-        if (!id) {
+        if (id == null) {
           throw new Error(`Layer '${name}' not found`);
         }
         return {

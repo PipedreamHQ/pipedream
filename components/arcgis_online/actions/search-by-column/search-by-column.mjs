@@ -4,7 +4,7 @@ export default {
   key: "arcgis_online-search-by-column",
   name: "Search by Column",
   description:
-    "Run a [Feature Layer query](https://developers.arcgis.com/rest/services-reference/enterprise/query-feature-service-layer-.htm) with `where` built as `field = 'value'` (the search value is wrapped in single quotes). Returns `{ count, features }` where `features` is an array of attribute objects (no geometries). Errors if no rows match. Values containing a single quote can break the clause",
+    "Run a [Feature Layer query](https://developers.arcgis.com/rest/services-reference/enterprise/query-feature-service-layer-.htm) with `where` built as `field = 'value'`. Single quotes in the search value are SQL-escaped for ArcGIS. Returns `{ count, features }` (attribute objects only, no geometries). Errors if no rows match",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -20,7 +20,7 @@ export default {
         "mapTitle",
       ],
       description:
-        "Title of the hosted Feature Service item used to resolve the service URL",
+        "Portal item ID from search, or feature service title for lookup",
     },
     layerName: {
       propDefinition: [
@@ -73,11 +73,12 @@ export default {
       throw new Error("searchValue is required");
     }
 
+    const escapedValue = String(searchValue).replace(/'/g, "''");
     const queryResult = await app.queryLayerAttributes({
       $,
       mapTitle,
       layerName,
-      where: `${columnName} = '${searchValue}'`,
+      where: `${columnName} = '${escapedValue}'`,
     });
 
     const features = queryResult.features ?? [];

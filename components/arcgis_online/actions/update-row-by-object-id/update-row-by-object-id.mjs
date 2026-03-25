@@ -4,7 +4,7 @@ export default {
   key: "arcgis_online-update-row-by-object-id",
   name: "Update Row by Object ID",
   description:
-    "Send an `applyEdits` `updates` payload to one layer: set `OBJECTID` and one additional field to `newValue` (string in the props; sent as the attribute value). The feature service must allow editing. Returns `objectId`, `layerName`, `columnName`, `newValue`, and the raw `updateResult` from the API. See [Apply Edits (Feature Service Layer)](https://developers.arcgis.com/rest/services-reference/enterprise/apply-edits-feature-service-layer-.htm)",
+    "Send `applyEdits` with the layer's real object id field (from service metadata, not always `OBJECTID`) plus one other field. You cannot set `columnName` to the OID field. Throws if the service reports `updateResults[0].success` false. See [Apply Edits (Feature Service Layer)](https://developers.arcgis.com/rest/services-reference/enterprise/apply-edits-feature-service-layer-.htm)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -20,7 +20,7 @@ export default {
         "mapTitle",
       ],
       description:
-        "Title of the hosted Feature Service item used to resolve the service URL",
+        "Portal item ID from search, or feature service title for lookup",
     },
     layerName: {
       propDefinition: [
@@ -42,7 +42,7 @@ export default {
         }),
       ],
       description:
-        "Feature to update; `OBJECTID` in the edit payload is set from this value (dropdown is paged; you may type an ID)",
+        "Feature to update; the layer's object id field is set from this value (dropdown is paged; you may type an ID)",
     },
     columnName: {
       propDefinition: [
@@ -77,17 +77,40 @@ export default {
       throw new Error("All fields are required");
     }
 
-    const updateResult = await app.applyFeatureUpdates({
+    const ctx = await app.resolveLayerContext({
       $,
       mapTitle,
       layerName,
+    });
+    if (columnName.toLowerCase() === ctx.objectIdField.toLowerCase()) {
+      throw new Error(
+        `columnName must not be the layer object id field (${ctx.objectIdField})`,
+      );
+    }
+
+    const updateResult = await app.postApplyEdits({
+      $,
+      baseUrl: ctx.baseUrl,
+      servicePath: ctx.servicePath,
+      layerId: ctx.layerId,
       attributes: {
-        OBJECTID: parseInt(objectId, 10),
+        [ctx.objectIdField]: parseInt(objectId, 10),
         [columnName]: newValue,
       },
     });
 
-    $.export("$summary", `Updated ${layerName} OBJECTID ${objectId} (${columnName})`);
+    const first = updateResult?.updateResults?.[0];
+    if (!first?.success) {
+      const errDetail = first?.error
+        ? JSON.stringify(first.error)
+        : JSON.stringify(updateResult);
+      throw new Error(`applyEdits failed: ${errDetail}`);
+    }
+
+    $.export(
+      "$summary",
+      `Updated ${layerName} ${ctx.objectIdField} ${objectId} (${columnName})`,
+    );
 
     return {
       objectId,

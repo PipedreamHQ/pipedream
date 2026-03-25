@@ -20,7 +20,7 @@ export default {
         "mapTitle",
       ],
       description:
-        "Title of the hosted Feature Service item in ArcGIS Online or Enterprise used to resolve the service URL",
+        "Portal item ID from search, or feature service title for lookup",
     },
     targetLayerNames: {
       propDefinition: [
