@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/autotask_psa",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Pipedream Autotask PSA Components",
   "main": "autotask_psa.app.mjs",
   "keywords": [
