@@ -5,7 +5,7 @@ export default {
   name: "Search by Column",
   description:
     "Run a [Feature Layer query](https://developers.arcgis.com/rest/services-reference/enterprise/query-feature-service-layer-.htm) with `where` built as `field = 'value'` (the search value is wrapped in single quotes). Returns `{ count, features }` where `features` is an array of attribute objects (no geometries). Errors if no rows match. Values containing a single quote can break the clause",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
   annotations: {
     destructiveHint: false,

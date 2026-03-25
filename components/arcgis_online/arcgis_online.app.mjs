@@ -535,27 +535,70 @@ export default {
     },
 
     /**
+     * Parse and validate geometry for intersect query (object or JSON string; wkid or latestWkid).
+     * @param {unknown} boundary
+     * @returns {{ ok: true, boundary: object, inSR: string } | { ok: false, error: string }}
+     */
+    _normalizeBoundaryForQuery(boundary) {
+      let g = boundary;
+      if (g == null || (typeof g === "string" && !String(g).trim())) {
+        return {
+          ok: false,
+          error: "No geometry available",
+        };
+      }
+      if (typeof g === "string") {
+        try {
+          g = JSON.parse(g.trim());
+        } catch {
+          return {
+            ok: false,
+            error: "Geometry must be a JSON object or a JSON string",
+          };
+        }
+      }
+      if (typeof g !== "object" || g === null || Array.isArray(g)) {
+        return {
+          ok: false,
+          error: "Geometry must be a JSON object",
+        };
+      }
+      const sr = g.spatialReference;
+      const wkid = sr?.wkid ?? sr?.latestWkid;
+      if (wkid == null || wkid === "") {
+        return {
+          ok: false,
+          error:
+            "Geometry missing spatial reference: include spatialReference with wkid or latestWkid (e.g. 4326 for WGS 84)",
+        };
+      }
+      return {
+        ok: true,
+        boundary: g,
+        inSR: String(wkid),
+      };
+    },
+
+    /**
      * Query multiple layers for features intersecting a geometry (attributes only).
      * @param {object} opts
      * @param {object} opts.$
      * @param {string} opts.mapTitle
-     * @param {object} opts.boundary - Esri geometry with spatialReference.wkid
+     * @param {object|string} opts.boundary - Esri geometry; spatialReference.wkid or latestWkid
      * @param {string[]} opts.targetLayerNames
      */
     async queryIntersectingFeaturesByGeometry({
       $, mapTitle, boundary, targetLayerNames,
     }) {
-      if (!boundary) {
+      const normalized = this._normalizeBoundaryForQuery(boundary);
+      if (!normalized.ok) {
         return {
-          error: "No geometry available",
+          error: normalized.error,
         };
       }
-      const spatialReference = boundary.spatialReference?.wkid;
-      if (!spatialReference) {
-        return {
-          error: "Geometry missing spatial reference",
-        };
-      }
+      const {
+        boundary: geom, inSR,
+      } = normalized;
 
       const {
         baseUrl, servicePath,
@@ -571,18 +614,18 @@ export default {
       const findId = (name) => layers.find((l) => l.name?.toLowerCase() === name.toLowerCase())?.id;
 
       let geometryType = "esriGeometryPolygon";
-      if (boundary.rings) {
+      if (geom.rings) {
         geometryType = "esriGeometryPolygon";
-      } else if (boundary.paths) {
+      } else if (geom.paths) {
         geometryType = "esriGeometryPolyline";
-      } else if (boundary.x !== undefined && boundary.y !== undefined) {
+      } else if (geom.x !== undefined && geom.y !== undefined) {
         geometryType = "esriGeometryPoint";
       }
 
       const params = {
-        geometry: JSON.stringify(boundary),
+        geometry: JSON.stringify(geom),
         geometryType,
-        inSR: String(spatialReference),
+        inSR,
         spatialRel: "esriSpatialRelIntersects",
         outFields: "*",
         returnGeometry: "false",

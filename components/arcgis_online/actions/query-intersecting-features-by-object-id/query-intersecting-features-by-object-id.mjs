@@ -5,7 +5,7 @@ export default {
   name: "Query Intersecting Features by Object ID",
   description:
     "Load one feature from the source layer by `OBJECTID` (first match only), use its geometry as the boundary, then intersect-query the target layers in the same hosted feature service. Return shape matches Query Intersecting Features by Geometry: per-layer `count` and `features` (attributes only). Uses [Feature Layer query](https://developers.arcgis.com/rest/services-reference/enterprise/query-feature-service-layer-.htm) for the boundary fetch and for spatial queries",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -5,7 +5,7 @@ export default {
   name: "Query Intersecting Features by Geometry",
   description:
     "Query layers in a hosted feature service (resolved by portal item title) for features whose geometry intersects a boundary you provide as [Esri JSON geometry](https://developers.arcgis.com/documentation/common-data-types/geometry-objects.htm) (`rings`, `paths`, or `x`/`y`, with `spatialReference.wkid`). Each target layer uses the [Feature Layer query](https://developers.arcgis.com/rest/services-reference/enterprise/query-feature-service-layer-.htm) operation with `spatialRel=esriSpatialRelIntersects`. Returns `{ geometryType, layers: { [layerName]: { count, features } } }` where `features` are attribute objects only (geometries are not returned)",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -37,7 +37,7 @@ export default {
       type: "object",
       label: "Geometry",
       description:
-        "Boundary as Esri JSON: include `spatialReference` (e.g. `wkid: 4326`). Polygons use `rings`, polylines use `paths`, points use `x` and `y`",
+        "Esri JSON boundary as an object or JSON string. Points: `x` (longitude), `y` (latitude), and `spatialReference` with `wkid` or `latestWkid` (e.g. 4326 for WGS 84). Polygons use `rings`; polylines use `paths`",
     },
   },
   async run({ $ }) {
