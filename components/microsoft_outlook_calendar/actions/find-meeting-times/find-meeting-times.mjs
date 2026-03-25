@@ -149,9 +149,6 @@ export default {
   },
   async run({ $ }) {
     const token = this.microsoftOutlook?.$auth?.oauth_access_token;
-    if (!token) {
-      throw new Error("Missing OAuth access token for Microsoft Outlook Calendar.");
-    }
 
     const userId = this.userId?.trim();
     const basePath = userId
