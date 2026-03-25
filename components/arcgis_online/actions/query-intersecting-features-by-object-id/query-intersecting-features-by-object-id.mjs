@@ -5,7 +5,7 @@ export default {
   name: "Query Intersecting Features by Object ID",
   description:
     "Find features that intersect with the geometry of a feature identified by OBJECTID. Fetches geometry from the layer, then queries target layers. [See the documentation](https://developers.arcgis.com/rest/)",
-  version: "0.0.5",
+  version: "0.0.7",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -5,7 +5,7 @@ export default {
   name: "Query Intersecting Features by Search Query",
   description:
     "Find features that intersect with the geometry of a feature matched by a WHERE clause on a layer, then query target layers. [See the documentation](https://developers.arcgis.com/rest/)",
-  version: "0.0.5",
+  version: "0.0.7",
   type: "action",
   annotations: {
     destructiveHint: false,

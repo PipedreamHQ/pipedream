@@ -13,7 +13,6 @@ export default {
       label: "Map / Feature Service Title",
       description:
         "Hosted feature service title. Search matches title, tags, snippet, and description (not only title)",
-      reloadProps: true,
       useQuery: true,
       async options({
         query,

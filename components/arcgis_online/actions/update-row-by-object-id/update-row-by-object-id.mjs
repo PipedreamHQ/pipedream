@@ -5,7 +5,7 @@ export default {
   name: "Update Row by Object ID",
   description:
     "Update an attribute value for a feature identified by OBJECTID. [See the documentation](https://developers.arcgis.com/rest/)",
-  version: "0.0.5",
+  version: "0.0.7",
   type: "action",
   annotations: {
     destructiveHint: true,
