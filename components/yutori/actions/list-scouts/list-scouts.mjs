@@ -24,8 +24,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {};
-    if (this.pageSize) params.page_size = this.pageSize;
+    const params = {
+      page_size: this.pageSize,
+    };
 
     const result = await this.yutori.listScouts($, params);
     const scouts = result?.scouts ?? result ?? [];

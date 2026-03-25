@@ -41,8 +41,8 @@ export default {
     const payload = {
       task: this.task,
       start_url: this.startUrl,
+      max_steps: this.maxSteps,
     };
-    if (this.maxSteps) payload.max_steps = this.maxSteps;
     if (this.webhookUrl) {
       payload.webhook_url = this.webhookUrl;
       payload.webhook_format = "scout";
