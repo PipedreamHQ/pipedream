@@ -5,7 +5,7 @@ export default {
   name: "Query Intersecting Features by Geometry",
   description:
     "Query layers in a hosted feature service (resolved by portal item title) for features whose geometry intersects a boundary you provide as [Esri JSON geometry](https://developers.arcgis.com/documentation/common-data-types/geometry-objects.htm) (`rings`, `paths`, or `x`/`y`, with `spatialReference.wkid`). Each target layer uses the [Feature Layer query](https://developers.arcgis.com/rest/services-reference/enterprise/query-feature-service-layer-.htm) operation with `spatialRel=esriSpatialRelIntersects`. Returns `{ geometryType, layers: { [layerName]: { count, features } } }` where `features` are attribute objects only (geometries are not returned)",
-  version: "0.0.9",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

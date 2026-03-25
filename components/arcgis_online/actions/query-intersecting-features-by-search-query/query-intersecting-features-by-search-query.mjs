@@ -5,7 +5,7 @@ export default {
   name: "Query Intersecting Features by Search Query",
   description:
     "On the source layer, run a SQL `WHERE` clause to load one boundary feature (first match only, `resultRecordCount` 1). Use that feature's geometry to intersect-query the target layers in the same hosted feature service. Returns per-layer attribute lists only, same structure as Query Intersecting Features by Geometry. See [Feature Layer query](https://developers.arcgis.com/rest/services-reference/enterprise/query-feature-service-layer-.htm) (`where` parameter)",
-  version: "0.0.9",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

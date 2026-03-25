@@ -5,7 +5,7 @@ export default {
   name: "Update Row by Object ID",
   description:
     "Send an `applyEdits` `updates` payload to one layer: set `OBJECTID` and one additional field to `newValue` (string in the props; sent as the attribute value). The feature service must allow editing. Returns `objectId`, `layerName`, `columnName`, `newValue`, and the raw `updateResult` from the API. See [Apply Edits (Feature Service Layer)](https://developers.arcgis.com/rest/services-reference/enterprise/apply-edits-feature-service-layer-.htm)",
-  version: "0.0.9",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: true,
