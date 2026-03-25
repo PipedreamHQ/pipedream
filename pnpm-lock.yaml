@@ -4320,7 +4320,11 @@ importers:
         specifier: ^4.0.1
         version: 4.0.2
 
-  components/dispatch: {}
+  components/dispatch:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.3.0
+        version: 3.3.0
 
   components/ditlead:
     dependencies:
@@ -5383,6 +5387,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
+
+  components/fellow:
+    specifiers: {}
 
   components/felt: {}
 
@@ -7701,8 +7708,8 @@ importers:
   components/infusionsoft:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.8
-        version: 1.6.8
+        specifier: ^3.1.1
+        version: 3.3.0
     devDependencies:
       '@pipedream/types':
         specifier: ^0.1.4
@@ -11523,6 +11530,9 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/permit_io:
+    specifiers: {}
+
   components/perplexity:
     dependencies:
       '@pipedream/platform':
@@ -13058,7 +13068,10 @@ importers:
   components/retell: {}
 
   components/retell_ai:
-    specifiers: {}
+    dependencies:
+      retell-sdk:
+        specifier: ^5.9.0
+        version: 5.9.0
 
   components/retently:
     dependencies:
@@ -14085,7 +14098,11 @@ importers:
         specifier: ^4.6.0
         version: 4.6.0
 
-  components/sharepoint_admin: {}
+  components/sharepoint_admin:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.3.0
 
   components/sharpspring:
     dependencies:
@@ -14366,6 +14383,9 @@ importers:
   components/signrequest: {}
 
   components/signwell: {}
+
+  components/siit:
+    specifiers: {}
 
   components/silfer_bots:
     dependencies:
@@ -15400,7 +15420,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/tapfiliate: {}
+  components/tapfiliate:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.3.0
+        version: 3.3.0
 
   components/tapform:
     dependencies:
@@ -15557,7 +15581,10 @@ importers:
         version: 3.3.0
 
   components/templatefox:
-    specifiers: {}
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.3.0
 
   components/tento8: {}
 
@@ -16742,8 +16769,7 @@ importers:
         specifier: ^2.0.2
         version: 2.0.2
 
-  components/vibe_prospecting:
-    specifiers: {}
+  components/vibe_prospecting: {}
 
   components/vida:
     dependencies:
@@ -24897,9 +24923,6 @@ packages:
       bare-events:
         optional: true
 
-  bare-url@2.3.2:
-    resolution: {integrity: sha512-ZMq4gd9ngV5aTMa5p9+UfY0b3skwhHELaDkhEHetMdX0LRkW9kzaym4oo/Eh+Ghm0CCDuMTsRIGM/ytUc1ZYmw==}
-
   bare-url@2.4.0:
     resolution: {integrity: sha512-NSTU5WN+fy/L0DDenfE8SXQna4voXuW0FHM7wH8i3/q9khUSchfPbPezO4zSFMnDGIf9YE+mt/RWhZgNRKRIXA==}
 
@@ -31558,7 +31581,6 @@ packages:
     engines: {node: '>=0.6.0', teleport: '>=0.2.0'}
     deprecated: |-
       You or someone you depend on is using Q, the JavaScript Promise library that gave JavaScript developers strong feelings about promises. They can almost certainly migrate to the native JavaScript promise now. Thank you literally everyone for joining me in this bet against the odds. Be excellent to each other.
-
       (For a CapTP with native promises, see @endo/eventual-send and @endo/captp)
 
   qified@0.5.2:
@@ -32008,6 +32030,9 @@ packages:
   ret@0.4.3:
     resolution: {integrity: sha512-0f4Memo5QP7WQyUEAYUO3esD/XjOc3Zjjg5CPsAq1p8sIu0XPeMbHJemKA0BO7tV0X7+A0FoEpbmHXWxPyD3wQ==}
     engines: {node: '>=10'}
+
+  retell-sdk@5.9.0:
+    resolution: {integrity: sha512-tdk9vUa2Mqajdp8eK3aWroNEu/pvGuPi8sXVh8DjQGAu6hK7ug2CZ4pMgKvEIuRxAj/OC0HvSZ3vKXOKNjjGqg==}
 
   retry-request@5.0.2:
     resolution: {integrity: sha512-wfI3pk7EE80lCIXprqh7ym48IHYdwmAAzESdbU8Q9l7pnRCk9LEhpbOTNKjz6FARLm/Bl5m+4F0ABxOkYUujSQ==}
@@ -44173,7 +44198,7 @@ snapshots:
       bare-events: 2.8.2
       bare-path: 3.0.0
       bare-stream: 2.10.0(bare-events@2.8.2)
-      bare-url: 2.3.2
+      bare-url: 2.4.0
       fast-fifo: 1.3.2
     transitivePeerDependencies:
       - bare-abort-controller
@@ -44206,11 +44231,6 @@ snapshots:
     transitivePeerDependencies:
       - bare-abort-controller
       - react-native-b4a
-
-  bare-url@2.3.2:
-    dependencies:
-      bare-path: 3.0.0
-    optional: true
 
   bare-url@2.4.0:
     dependencies:
@@ -53698,6 +53718,8 @@ snapshots:
   ret@0.1.15: {}
 
   ret@0.4.3: {}
+
+  retell-sdk@5.9.0: {}
 
   retry-request@5.0.2:
     dependencies:
