@@ -7,7 +7,7 @@ export default {
   key: "pixelbin-upload-file",
   name: "Upload File",
   description: "Upload a file to Pixelbin. [See the documentation](https://www.pixelbin.io/docs/api-docs/)",
-  version: "0.1.2",
+  version: "0.1.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -20,6 +20,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
+      format: "file-ref",
     },
     path: {
       propDefinition: [

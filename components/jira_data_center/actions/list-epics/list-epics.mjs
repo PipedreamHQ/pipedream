@@ -4,7 +4,7 @@ export default {
   name: "List Epics",
   description: "Lists the epics for a given board. [See the documentation](https://developer.atlassian.com/server/jira/platform/rest/v10002/api-group-board/#api-agile-1-0-board-boardid-epic-get)",
   key: "jira_data_center-list-epics",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

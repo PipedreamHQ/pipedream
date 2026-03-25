@@ -7,7 +7,7 @@ export default {
   key: "convertapi-convert-file",
   name: "Convert File",
   description: "Use this action to convert files to the chosen format. [See the documentation](https://v2.convertapi.com/info/openapi)",
-  version: "1.0.2",
+  version: "1.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -20,6 +20,7 @@ export default {
       type: "string",
       label: "File Path Or Url",
       description: "Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/file.docx`).",
+      format: "file-ref",
     },
     formatFrom: {
       propDefinition: [

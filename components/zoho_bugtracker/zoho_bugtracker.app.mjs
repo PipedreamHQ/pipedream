@@ -170,6 +170,7 @@ export default {
       type: "string",
       label: "Upload Doc File Path or URL",
       description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`. Please configure [Zoho Drive integration](https://help.zoho.com/portal/en/kb/projects/integration/zoho-apps/articles/zoho-workdrive-integration) to enable attachment for your Zoho BugTracker. The maximum size to upload a file is 128 MB.",
+      format: "file-ref",
     },
   },
   methods: {

@@ -269,6 +269,7 @@ export default {
       type: "string[]",
       label: "Attachment URLs or Paths",
       description: "Array of the URLs of the download links for the files, or the local paths (e.g. `/tmp/my-file.txt`). Use in conjuction with `Attachment Filenames`.",
+      format: "file-ref",
       optional: true,
     },
     inReplyTo: {

@@ -8,7 +8,7 @@ export default {
   key: "greenhouse-add-attachment-to-candidate",
   name: "Add Attachment to Candidate",
   description: "Adds an attachment to a specific candidate or prospect. [See the documentation](https://developers.greenhouse.io/harvest.html#post-add-attachment)",
-  version: "1.0.2",
+  version: "1.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -48,6 +48,7 @@ export default {
       type: "string",
       label: "File or URL",
       description: "Provide a file URL or path to a file in the `/tmp` directory.",
+      format: "file-ref",
     },
     contentType: {
       type: "string",

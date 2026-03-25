@@ -6,7 +6,7 @@ export default {
   key: "whatsapp_business-send-voice-message",
   name: "Send Voice Message",
   description: "Sends a voice message. [See the documentation](https://developers.facebook.com/docs/whatsapp/cloud-api/messages/audio-messages)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -31,6 +31,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.pdf).",
+      format: "file-ref",
     },
     type: {
       type: "string",

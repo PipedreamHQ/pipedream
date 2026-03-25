@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/kraken",
+  "version": "0.0.1",
+  "description": "Pipedream Kraken Components",
+  "main": "kraken.app.mjs",
+  "keywords": [
+    "pipedream",
+    "kraken"
+  ],
+  "homepage": "https://pipedream.com/apps/kraken",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

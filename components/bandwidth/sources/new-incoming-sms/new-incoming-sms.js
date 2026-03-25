@@ -4,7 +4,8 @@ module.exports = {
   name: "New Incoming SMS",
   description: "Emits an event each time a `message-received` event is received at the source url",
   key: "bandwidth-new-incoming-sms",
-  version: "1.1.0",
+  version: "1.1.1",
+  type: "source",
   props: {
     bandwidth,
     http: {

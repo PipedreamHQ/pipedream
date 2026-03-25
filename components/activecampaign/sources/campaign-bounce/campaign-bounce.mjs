@@ -6,7 +6,7 @@ export default {
   key: "activecampaign-campaign-bounce",
   description:
     "Emit new event when a contact email address bounces from a sent campaign.",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "source",
   dedupe: "unique",
   methods: {

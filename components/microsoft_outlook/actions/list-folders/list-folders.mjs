@@ -4,7 +4,7 @@ export default {
   key: "microsoft_outlook-list-folders",
   name: "List Folders",
   description: "Retrieves a list of all folders in Microsoft Outlook. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list-mailfolders)",
-  version: "0.0.15",
+  version: "0.0.20",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -19,19 +19,47 @@ export default {
         "maxResults",
       ],
     },
+    includeSubfolders: {
+      type: "boolean",
+      label: "Include Subfolders",
+      description: "If `true`, the list of folders will include subfolders",
+      optional: true,
+      default: false,
+    },
+    includeHiddenFolders: {
+      type: "boolean",
+      label: "Include Hidden Folders",
+      description: "If `true`, the list of folders will include hidden folders",
+      optional: true,
+      default: false,
+    },
   },
   async run({ $ }) {
-    const items = this.microsoftOutlook.paginate({
-      fn: this.microsoftOutlook.listFolders,
-      args: {
-        $,
-      },
-      max: this.maxResults,
-    });
-
-    const folders = [];
-    for await (const item of items) {
-      folders.push(item);
+    let folders = [];
+    if (this.includeSubfolders) {
+      folders = await this.microsoftOutlook.listAllFolders({
+        params: {
+          $top: this.maxResults,
+          includeHiddenFolders: this.includeHiddenFolders,
+        },
+      });
+      if (folders.length > this.maxResults) {
+        folders = folders.slice(0, this.maxResults);
+      }
+    } else {
+      const items = this.microsoftOutlook.paginate({
+        fn: this.microsoftOutlook.listFolders,
+        args: {
+          $,
+          params: {
+            includeHiddenFolders: this.includeHiddenFolders,
+          },
+        },
+        max: this.maxResults,
+      });
+      for await (const item of items) {
+        folders.push(item);
+      }
     }
 
     $.export("$summary", `Successfully retrieved ${folders.length} folder${folders.length != 1

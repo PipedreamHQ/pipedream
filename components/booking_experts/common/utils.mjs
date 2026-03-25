@@ -25,3 +25,9 @@ export const parseObject = (obj) => {
 
   return obj;
 };
+
+// Remove any spaces and trim the string
+export const formatCommaSeparatedString = (str) => {
+  if (!str) return undefined;
+  return str.replace(/\s*,\s*/g, ",").trim();
+};

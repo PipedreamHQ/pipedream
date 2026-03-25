@@ -6,7 +6,7 @@ export default {
   key: "heyy-send-whatsapp-message",
   name: "Send WhatsApp Message",
   description: "Sends a WhatsApp message to a contact. [See the documentation](https://documenter.getpostman.com/view/27408936/2sa2r3a6dw)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -103,7 +103,7 @@ export default {
         buttons: {
           type: "string[]",
           label: "Buttons",
-          description: "The buttons to include in the message. Each row should have a JSON formated string. Eg. `{ \"id\": \"STRING\", \"title\": \"STRING\" }`.",
+          description: "The buttons to include in the message. Each row should have a JSON formatted string. Eg. `{ \"id\": \"STRING\", \"title\": \"STRING\" }`.",
         },
         headerText: {
           type: "string",

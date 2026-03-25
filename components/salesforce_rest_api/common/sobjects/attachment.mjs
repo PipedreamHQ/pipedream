@@ -11,6 +11,7 @@ export default {
       type: "string",
       label: "File Path, URL or Content",
       description: "The file to attach. Provide either a file URL, a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`), or base64-encoded file data.",
+      format: "file-ref",
     },
     ContentType: {
       type: "string",
@@ -21,6 +22,12 @@ export default {
       type: "string",
       label: "Parent ID",
       description: "ID of the parent object of the attachment. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.228.0.object_reference.meta/object_reference/sforce_api_objects_attachment.htm) for supported objects.",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   updateProps: {

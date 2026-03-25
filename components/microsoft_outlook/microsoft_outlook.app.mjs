@@ -56,6 +56,7 @@ export default {
       type: "string[]",
       label: "File Paths or URLs",
       description: "Provide either an array of file URLs or an array of paths to a files in the /tmp directory (for example, /tmp/myFile.pdf).",
+      format: "file-ref",
       optional: true,
     },
     contact: {
@@ -89,7 +90,7 @@ export default {
       optional: true,
     },
     emailAddresses: {
-      label: "Email adresses",
+      label: "Email addresses",
       description: "Email addresses",
       type: "string[]",
       optional: true,
@@ -111,12 +112,15 @@ export default {
       label: "Label",
       description: "The name of the label/category to add",
       async options({
-        messageId, excludeMessageLabels, onlyMessageLabels,
+        userId, messageId, excludeMessageLabels, onlyMessageLabels,
       }) {
-        const { value } = await this.listLabels();
+        const { value } = await this.listLabels({
+          userId,
+        });
         let labels = value;
         if (messageId) {
           const { categories } = await this.getMessage({
+            userId,
             messageId,
           });
           labels = excludeMessageLabels
@@ -132,9 +136,12 @@ export default {
       type: "string",
       label: "Message ID",
       description: "The identifier of the message to update",
-      async options({ page }) {
+      async options({
+        userId, page,
+      }) {
         const limit = DEFAULT_LIMIT;
         const { value } = await this.listMessages({
+          userId,
           params: {
             $top: limit,
             $skip: limit * page,
@@ -155,7 +162,7 @@ export default {
       description: "Specify the folder IDs or names in Outlook that you want to monitor for new emails. Leave empty to monitor all folders (excluding \"Sent Items\" and \"Drafts\").",
       async options({ page }) {
         const limit = DEFAULT_LIMIT;
-        const { value: folders } = await this.listFolders({
+        const folders = await this.listAllFolders({
           params: {
             $top: limit,
             $skip: limit * page,
@@ -174,10 +181,11 @@ export default {
       label: "Attachment ID",
       description: "The identifier of the attachment to download",
       async options({
-        messageId, page,
+        userId, messageId, page,
       }) {
         const limit = DEFAULT_LIMIT;
         const { value: attachments } = await this.listAttachments({
+          userId,
           messageId,
           params: {
             $top: limit,
@@ -267,6 +275,11 @@ export default {
     },
   },
   methods: {
+    _userPath(userId) {
+      return userId
+        ? `/users/${userId}`
+        : "/me";
+    },
     client() {
       return Client.init({
         authProvider: (done) => {
@@ -389,18 +402,22 @@ export default {
 
       return message;
     },
-    async sendEmail({ data = {} } = {}) {
-      return await this.client().api("/me/sendMail")
+    async sendEmail({
+      userId, data = {},
+    } = {}) {
+      return await this.client().api(`${this._userPath(userId)}/sendMail`)
         .post(data);
     },
     async replyToEmail({
-      messageId, data = {},
+      userId, messageId, data = {},
     } = {}) {
-      return await this.client().api(`/me/messages/${messageId}/reply`)
+      return await this.client().api(`${this._userPath(userId)}/messages/${messageId}/reply`)
         .post(data);
     },
-    async createDraft({ data = {} } = {}) {
-      return await this.client().api("/me/messages")
+    async createDraft({
+      userId, data = {},
+    } = {}) {
+      return await this.client().api(`${this._userPath(userId)}/messages`)
         .post(data);
     },
     async createContact({ data = {} } = {}) {
@@ -408,8 +425,12 @@ export default {
         .post(data);
     },
     async listContacts({
-      filterAddress, params = {},
+      filterAddress, params = {}, nextLink,
     } = {}) {
+      if (nextLink) {
+        return await this.client().api(nextLink)
+          .get();
+      }
       if (filterAddress) {
         params["$filter"] = `emailAddresses/any(a:a/address eq '${filterAddress}')`;
       }
@@ -424,20 +445,53 @@ export default {
         .patch(data);
     },
     async getMessage({
-      messageId, params = {},
+      userId, messageId, params = {},
     } = {}) {
-      return await this.client().api(`/me/messages/${messageId}`)
+      return await this.client().api(`${this._userPath(userId)}/messages/${messageId}`)
         .query(pickBy(params))
         .get();
     },
-    async listMessages({ params = {} } = {}) {
-      return await this.client().api("/me/messages")
+    async listMessages({
+      userId, params = {}, nextLink,
+    } = {}) {
+      if (nextLink) {
+        return await this.client().api(nextLink)
+          .get();
+      }
+      return await this.client().api(`${this._userPath(userId)}/messages`)
+        .query(pickBy(params))
+        .get();
+    },
+    /**
+     * List messages from a user's inbox. Uses this.client(), this._userPath(userId),
+     * and pickBy(params) for the initial request; when nextLink is provided, fetches
+     * the next page from that URL so callers can paginate using Graph's @odata.nextLink.
+     *
+     * @param {Object} opts - Options for the request
+     * @param {string} [opts.userId] - User ID; omitted for the signed-in user
+     * @param {Object} [opts.params={}] - Query params (e.g. $filter, $select, $orderby)
+     * @param {string} [opts.nextLink] - Full URL for the next page (from @odata.nextLink)
+     * @returns {Promise<Object>} Graph API response with value array and optional @odata.nextLink
+     */
+    async listInboxMessages({
+      userId, params = {}, nextLink,
+    } = {}) {
+      if (nextLink) {
+        return await this.client().api(nextLink)
+          .get();
+      }
+
+      return await this.client().api(`${this._userPath(userId)}/mailFolders/inbox/messages`)
         .query(pickBy(params))
         .get();
     },
     async listSharedFolderMessages({
-      userId, sharedFolderId, params = {},
+      userId, sharedFolderId, params = {}, nextLink,
     } = {}) {
+      if (nextLink) {
+        return await this.client().api(nextLink)
+          .get();
+      }
       return await this.client().api(`/users/${userId}/mailFolders/${sharedFolderId}/messages`)
         .query(pickBy(params))
         .get();
@@ -449,47 +503,74 @@ export default {
         .query(pickBy(params))
         .get();
     },
-    async listLabels({ params = {} } = {}) {
-      return await this.client().api("/me/outlook/masterCategories")
+    async listLabels({
+      userId, params = {},
+    } = {}) {
+      return await this.client().api(`${this._userPath(userId)}/outlook/masterCategories`)
         .query(pickBy(params))
         .get();
     },
-    async listFolders({ params = {} } = {}) {
+    async listFolders({
+      params = {}, nextLink,
+    } = {}) {
+      if (nextLink) {
+        return await this.client().api(nextLink)
+          .get();
+      }
       return await this.client().api("/me/mailFolders")
         .query(pickBy(params))
         .get();
     },
-    async moveMessage({
-      messageId, data = {},
+    async listAllFolders({
+      parentFolderId, params = {},
     } = {}) {
-      return await this.client().api(`/me/messages/${messageId}/move`)
+      const { value } = await this.client().api(`/me/mailFolders${parentFolderId
+        ? `/${parentFolderId}/childFolders`
+        : ""}`)
+        .query(pickBy(params))
+        .get();
+
+      const foldersArray = [];
+      for (const folder of value) {
+        foldersArray.push(folder);
+        foldersArray.push(...await this.listAllFolders({
+          parentFolderId: folder.id,
+          params,
+        }));
+      }
+      return foldersArray;
+    },
+    async moveMessage({
+      userId, messageId, data = {},
+    } = {}) {
+      return await this.client().api(`${this._userPath(userId)}/messages/${messageId}/move`)
         .post(data);
     },
     async updateMessage({
-      messageId, data = {},
+      userId, messageId, data = {},
     } = {}) {
-      return await this.client().api(`/me/messages/${messageId}`)
+      return await this.client().api(`${this._userPath(userId)}/messages/${messageId}`)
         .patch(data);
     },
     async getAttachment({
-      messageId, attachmentId, params = {},
+      userId, messageId, attachmentId, params = {},
     } = {}) {
-      return await this.client().api(`/me/messages/${messageId}/attachments/${attachmentId}/$value`)
+      return await this.client().api(`${this._userPath(userId)}/messages/${messageId}/attachments/${attachmentId}/$value`)
         .responseType("stream")
         .query(pickBy(params))
         .get();
     },
     async getAttachmentInfo({
-      messageId, attachmentId, params = {},
+      userId, messageId, attachmentId, params = {},
     } = {}) {
-      return await this.client().api(`/me/messages/${messageId}/attachments/${attachmentId}`)
+      return await this.client().api(`${this._userPath(userId)}/messages/${messageId}/attachments/${attachmentId}`)
         .query(pickBy(params))
         .get();
     },
     async listAttachments({
-      messageId, params = {},
+      userId, messageId, params = {},
     } = {}) {
-      return await this.client().api(`/me/messages/${messageId}/attachments`)
+      return await this.client().api(`${this._userPath(userId)}/messages/${messageId}/attachments`)
         .query(pickBy(params))
         .get();
     },
@@ -530,9 +611,20 @@ export default {
           $skip: 0,
         },
       };
-      let hasMore, count = 0;
+      let hasMore = true;
+      let count = 0;
+      let nextLink;
+      let usedNextLink = false;
       do {
-        const response = await fn(args);
+        const response = await fn({
+          ...args,
+          ...(nextLink
+            ? {
+              nextLink,
+              params: undefined,
+            }
+            : {}),
+        });
         const { value } = response;
         for (const item of value) {
           yield item;
@@ -540,8 +632,22 @@ export default {
             return;
           }
         }
-        hasMore = response?.["@odata.nextLink"];
-        args.params["$skip"] += limit;
+        nextLink = response?.["@odata.nextLink"];
+
+        if (nextLink) {
+          hasMore = true;
+          usedNextLink = true;
+          continue;
+        }
+
+        if (!usedNextLink && args?.params && typeof args.params.$skip === "number") {
+          hasMore = value?.length === limit;
+          if (hasMore) {
+            args.params.$skip += limit;
+          }
+        } else {
+          hasMore = false;
+        }
       } while (hasMore);
     },
   },

@@ -6,7 +6,7 @@ import { WEB_SEARCH_CHAT_MODELS } from "../../common/models.mjs";
 export default {
   ...common,
   name: "Chat using Web Search",
-  version: "0.0.8",
+  version: "0.0.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
