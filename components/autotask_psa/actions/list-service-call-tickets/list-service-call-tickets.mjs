@@ -5,7 +5,7 @@ export default {
   key: "autotask_psa-list-service-call-tickets",
   name: "List Service Call Tickets",
   description:
-    "Query service call tickets from Autotask PSA. [See the documentation](https://www.autotask.net/help/developerhelp/Content/APIs/REST/REST_API_Home.htm)",
+    "Query service call tickets from Autotask PSA. [See the documentation](https://www.autotask.net/help/DeveloperHelp/Content/APIs/REST/Entities/ServiceCallTicketsEntity.htm)",
   version: "0.0.1",
   type: "action",
   annotations: {

@@ -5,7 +5,7 @@ export default {
   key: "autotask_psa-list-time-entries",
   name: "List Time Entries",
   description:
-    "Query time entries from Autotask PSA. [See the documentation](https://www.autotask.net/help/developerhelp/Content/APIs/REST/REST_API_Home.htm)",
+    "Query time entries from Autotask PSA. [See the documentation](https://www.autotask.net/help/DeveloperHelp/Content/APIs/REST/Entities/TimeEntriesEntity.htm)",
   version: "0.0.1",
   type: "action",
   annotations: {

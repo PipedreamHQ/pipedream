@@ -5,7 +5,7 @@ export default {
   key: "autotask_psa-list-billing-items",
   name: "List Billing Items",
   description:
-    "Query billing items from Autotask PSA. [See the documentation](https://www.autotask.net/help/developerhelp/Content/APIs/REST/REST_API_Home.htm)",
+    "Query billing items from Autotask PSA. [See the documentation](https://www.autotask.net/help/DeveloperHelp/Content/APIs/REST/Entities/BillingItemsEntity.htm)",
   version: "0.0.1",
   type: "action",
   annotations: {

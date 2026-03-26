@@ -5,7 +5,7 @@ export default {
   key: "autotask_psa-list-ticket-notes",
   name: "List Ticket Notes",
   description:
-    "Query ticket notes from Autotask PSA. [See the documentation](https://www.autotask.net/help/developerhelp/Content/APIs/REST/REST_API_Home.htm)",
+    "Query ticket notes from Autotask PSA. [See the documentation](https://www.autotask.net/help/DeveloperHelp/Content/APIs/REST/Entities/TicketNotesEntity.htm)",
   version: "0.0.1",
   type: "action",
   annotations: {
