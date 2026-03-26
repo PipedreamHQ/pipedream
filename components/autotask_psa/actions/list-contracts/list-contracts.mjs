@@ -6,7 +6,7 @@ export default {
   name: "List Contracts",
   description:
     "Query contracts from Autotask PSA. [See the documentation](https://www.autotask.net/help/developerhelp/Content/APIs/REST/REST_API_Home.htm)",
-  version: "0.0.3",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
