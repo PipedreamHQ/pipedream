@@ -54,7 +54,8 @@ export function createMethods(axios) {
      * @param {boolean} [opts.returnFullResponse]
      * @param {boolean} [opts.formUrlEncoded] - Send body as `application/x-www-form-urlencoded`
      * @param {string} [opts.responseType] - Axios responseType (e.g. "arraybuffer" for binary)
-     * @param {(status: number) => boolean} [opts.validateStatus] - When set, axios will not throw on matching status (e.g. read 4xx JSON body).
+     * @param {(status: number) => boolean} [opts.validateStatus] - When set, axios returns
+     *   non-throwing responses for matching statuses (e.g. read 4xx JSON body).
      */
     async _makeRequest({
       $ = this, path, method = "GET", data, params, headers, returnFullResponse = false,
@@ -320,7 +321,10 @@ export function createMethods(axios) {
     async produceTemplatedDocument({
       $, objectType, objectUUID, templateType, templateUUID, outputFormat, storeToDiary,
     }) {
-      /** String body + explicit `Content-Type` avoids axios/object + `responseType: arraybuffer` quirks. */
+      /**
+       * String body + explicit `Content-Type` avoids axios/object + `responseType: arraybuffer`
+       * quirks.
+       */
       const data = buildProduceDocumentJsonBody({
         objectType,
         objectUUID,
@@ -338,9 +342,11 @@ export function createMethods(axios) {
         responseType: "arraybuffer",
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json, application/pdf, application/octet-stream, */*",
+          "Accept": "application/json, application/pdf, application/octet-stream, */*",
         },
-        /** Return 4xx bodies so actions can parse JSON error messages instead of AxiosError Buffer. */
+        /**
+         * Return 4xx bodies so actions can parse JSON errors instead of AxiosError Buffer.
+         */
         validateStatus: (status) => status >= 200 && status < 600,
       });
     },

@@ -112,7 +112,11 @@ export function coercePipedreamString(v) {
     return "";
   }
   if (Array.isArray(v)) {
-    return v.map(coercePipedreamString).filter((s) => s !== "").join("\n").trim();
+    return v
+      .map(coercePipedreamString)
+      .filter((s) => s !== "")
+      .join("\n")
+      .trim();
   }
   if (typeof v === "object" && v !== null && "value" in v) {
     return coercePipedreamString(/** @type {{ value?: unknown }} */ (v).value);

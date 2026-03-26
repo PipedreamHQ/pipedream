@@ -1,5 +1,8 @@
 import servicem8 from "../../servicem8.app.mjs";
-import { optionalBool01, optionalParsedInt } from "../../common/payload.mjs";
+import {
+  optionalBool01,
+  optionalParsedInt,
+} from "../../common/payload.mjs";
 
 export default {
   key: "servicem8-update-queue",
