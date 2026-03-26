@@ -5,7 +5,7 @@ export default {
   key: "linkupapi-get-invitations-status",
   name: "Get Invitations Status",
   description: "Check the status of connection invitations for a LinkedIn profile. [See the documentation](https://docs.linkupapi.com/api-reference/linkup/Network/get_invitations_status)",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     linkedinUrl: {

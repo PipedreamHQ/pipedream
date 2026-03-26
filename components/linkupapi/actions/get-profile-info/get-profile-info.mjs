@@ -5,7 +5,7 @@ export default {
   key: "linkupapi-get-profile-info",
   name: "Get Profile Info",
   description: "Extract information from a LinkedIn profile. [See the documentation](https://docs.linkupapi.com/api-reference/linkup/Profile/profile-info)",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     linkedinUrl: {

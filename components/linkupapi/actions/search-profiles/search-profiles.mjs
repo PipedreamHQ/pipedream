@@ -6,7 +6,7 @@ export default {
   key: "linkupapi-search-profiles",
   name: "Search Profiles",
   description: "Search for LinkedIn profiles based on criteria. [See the documentation](https://docs.linkupapi.com/api-reference/linkup/Profile/search)",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     loginToken: {
