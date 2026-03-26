@@ -127,28 +127,46 @@ syncDir: {
  if (this.waitForCompletion) {
   const timer = (ms) => new Promise((res) => setTimeout(res, ms));
   const exportId = response.job.id;
+
   while (response.job.status === "in_progress") {
     response = await this.canva.getDesignExportJob({
       $,
       exportId,
     });
+
     if (response.job.error) {
       throw new Error(response.job.error.message);
     }
+
     await timer(3000);
   }
 
+  
+  if (!response.job || response.job.status !== "success" || !response.job.urls?.length) {
+    throw new Error("Export failed or no download URL available");
+  }
+
   const exportUrl = response.job.urls[0];
+
+
   const fileResponse = await fetch(exportUrl);
-  const fileName = (this.newFileName || "export").split("/").pop();
+
+  if (!fileResponse.ok) {
+    throw new Error(`Failed to download file: ${fileResponse.status}`);
+  }
+
+  const extension = exportUrl.split(".").pop().split("?")[0];
+  const defaultName = `export.${extension}`;
+  const fileName = (this.newFileName || defaultName).split("/").pop();
+
   const tmpFilePath = `/tmp/${fileName}`;
   const pipeline = util.promisify(stream.pipeline);
+
   await pipeline(fileResponse.body, fs.createWriteStream(tmpFilePath));
 
   $.export("$summary", `Successfully exported design "${this.designId}" and saved to ${tmpFilePath}`);
   return tmpFilePath;
 }
-
 $.export("$summary", `Successfully started export job for design "${this.designId}"`);
 return response;
   },
