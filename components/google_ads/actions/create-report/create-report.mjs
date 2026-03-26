@@ -14,6 +14,7 @@ const RESOURCES = [
   customer,
 ];
 
+// Action kept for backwards compatibility - prefer the individual resource-specific actions
 export default {
   ...common,
   key: "google_ads-create-report",
@@ -208,9 +209,13 @@ export default {
         resource, fields, segments, metrics, limit, orderBy, direction, objectFilter, dateRange,
       } = this;
 
+      const filteredSegments = dateRange
+        ? segments
+        : segments?.filter((i) => i !== "segments.date");
+
       const selection = [
         ...checkPrefix(fields, resource),
-        ...checkPrefix(segments, "segments"),
+        ...checkPrefix(filteredSegments, "segments"),
         ...checkPrefix(metrics, "metrics"),
       ];
 

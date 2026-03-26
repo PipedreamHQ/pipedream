@@ -1,7 +1,9 @@
 import { ConfigurationError } from "@pipedream/platform";
 import googleAds from "../google_ads.app.mjs";
 import props from "./props.mjs";
-import { DATE_RANGE_OPTIONS } from "./constants.mjs";
+import {
+  CORE_DATE_SEGMENTS, DATE_RANGE_OPTIONS,
+} from "./constants.mjs";
 import { checkPrefix } from "./utils.mjs";
 
 export function createReportComponent(resource) {
@@ -80,11 +82,12 @@ export function createReportComponent(resource) {
           googleAds,
           "reportOrderBy",
           ({
-            fields, segments, metrics,
+            fields, segments, metrics, dateRange,
           }) => ({
             fields,
             segments,
             metrics,
+            dateRange,
           }),
         ],
       },
@@ -120,7 +123,7 @@ export function createReportComponent(resource) {
 
         const filteredSegments = dateRange
           ? segments
-          : segments?.filter((i) => i !== "segments.date");
+          : segments?.filter((s) => !CORE_DATE_SEGMENTS.includes(s));
 
         const selection = [
           ...checkPrefix(fields, value),
@@ -134,6 +137,10 @@ export function createReportComponent(resource) {
 
         if (dateRange === "CUSTOM" && (!this.startDate || !this.endDate)) {
           throw new ConfigurationError("Both **Custom Start Date** and **Custom End Date** are required when using a custom date range.");
+        }
+
+        if (!dateRange && orderBy && CORE_DATE_SEGMENTS.includes(orderBy)) {
+          throw new ConfigurationError(`Cannot order by "${orderBy}" without a date range. Either select a **Date Range** or choose a different **Order By** field.`);
         }
 
         let query = `SELECT ${selection.join(", ")} FROM ${value}`;

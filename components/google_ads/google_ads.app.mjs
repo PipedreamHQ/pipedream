@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { CORE_DATE_SEGMENTS } from "./common/constants.mjs";
 import { QUERIES } from "./common/queries.mjs";
 import { getResourceOption } from "./common/utils.mjs";
 
@@ -103,7 +104,7 @@ export default {
       description: "The field to order the results by",
       optional: true,
       options({
-        fields, segments, metrics,
+        fields, segments, metrics, dateRange,
       }) {
         return [
           fields,
@@ -119,7 +120,8 @@ export default {
             }
           }
           return returnValue?.map?.((str) => str.trim());
-        });
+        })
+          .filter((v) => dateRange || !CORE_DATE_SEGMENTS.includes(v));
       },
     },
     leadFormId: {
