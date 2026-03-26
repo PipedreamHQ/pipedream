@@ -16,6 +16,11 @@ export default {
   type: "action",
   props: {
     hubspot,
+    info: {
+      type: "alert",
+      alertType: "info",
+      content: "Note: This action is only available for users with a paid Hubspot account with access to Marketing Features.",
+    },
     name: {
       type: "string",
       label: "Name",
