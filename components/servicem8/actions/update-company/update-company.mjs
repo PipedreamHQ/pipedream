@@ -33,7 +33,6 @@ export default {
     name: {
       type: "string",
       label: "Name",
-      optional: true,
       description: "Company name (required by API; max 100 characters)",
     },
     abnNumber: {

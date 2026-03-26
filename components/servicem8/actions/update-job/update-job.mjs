@@ -69,7 +69,6 @@ export default {
     status: {
       type: "string",
       label: "Status",
-      optional: true,
       description: "Job status (max 20 characters).",
       options: JOB_STATUS_OPTIONS,
     },

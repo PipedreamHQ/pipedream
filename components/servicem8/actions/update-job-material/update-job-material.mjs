@@ -62,7 +62,6 @@ export default {
     quantity: {
       type: "string",
       label: "Quantity",
-      optional: true,
       description: "Quantity sold or used (API string/number as accepted).",
     },
     price: {

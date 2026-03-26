@@ -33,19 +33,16 @@ export default {
     first: {
       type: "string",
       label: "First Name",
-      optional: true,
       description: "First name (max 30 characters).",
     },
     last: {
       type: "string",
       label: "Last Name",
-      optional: true,
       description: "Last name (max 30 characters).",
     },
     email: {
       type: "string",
       label: "Email",
-      optional: true,
       description: "Email address; also used as login name.",
     },
     mobile: {
