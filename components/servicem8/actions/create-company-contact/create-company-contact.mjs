@@ -63,8 +63,8 @@ export default {
     role: {
       type: "string",
       label: "Role",
-      optional: true,
-      description: "Maps to API `type`: BILLING, JOB, or Property Manager.",
+      description:
+        "Maps to API `type`: BILLING, JOB, or Property Manager (required for create).",
       options: [
         "BILLING",
         "JOB",
