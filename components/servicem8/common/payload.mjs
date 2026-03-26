@@ -121,7 +121,8 @@ export function coercePipedreamString(v) {
   if (typeof v === "object" && v !== null && "value" in v) {
     return coercePipedreamString(/** @type {{ value?: unknown }} */ (v).value);
   }
-  return String(v).trim();
+  return String(v)
+    .trim();
 }
 
 /**
@@ -129,7 +130,8 @@ export function coercePipedreamString(v) {
  * @returns {"pdf"|"docx"|"jpg"}
  */
 export function normalizeProduceOutputFormat(raw) {
-  const s = coercePipedreamString(raw).toLowerCase();
+  const s = coercePipedreamString(raw)
+    .toLowerCase();
   return PRODUCE_OUTPUT_FORMATS.has(s)
     ? /** @type {"pdf"|"docx"|"jpg"} */ (s)
     : "pdf";

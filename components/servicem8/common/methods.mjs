@@ -52,8 +52,10 @@ export function createMethods(axios) {
      * @param {object} [opts.params] - Query string params
      * @param {object} [opts.headers] - Extra headers merged after auth
      * @param {boolean} [opts.returnFullResponse]
-     * @param {boolean} [opts.formUrlEncoded] - Send body as `application/x-www-form-urlencoded`
-     * @param {string} [opts.responseType] - Axios responseType (e.g. "arraybuffer" for binary)
+     * @param {boolean} [opts.formUrlEncoded] - Send body as
+     *   `application/x-www-form-urlencoded`
+     * @param {string} [opts.responseType] - Axios responseType (e.g. "arraybuffer" for
+     *   binary)
      * @param {(status: number) => boolean} [opts.validateStatus] - When set, axios returns
      *   non-throwing responses for matching statuses (e.g. read 4xx JSON body).
      */
@@ -322,8 +324,8 @@ export function createMethods(axios) {
       $, objectType, objectUUID, templateType, templateUUID, outputFormat, storeToDiary,
     }) {
       /**
-       * String body + explicit `Content-Type` avoids axios/object + `responseType: arraybuffer`
-       * quirks.
+       * String body + explicit `Content-Type` avoids axios/object +
+       * `responseType: arraybuffer` quirks.
        */
       const data = buildProduceDocumentJsonBody({
         objectType,
@@ -342,7 +344,8 @@ export function createMethods(axios) {
         responseType: "arraybuffer",
         headers: {
           "Content-Type": "application/json",
-          "Accept": "application/json, application/pdf, application/octet-stream, */*",
+          Accept:
+            "application/json, application/pdf, application/octet-stream, */*",
         },
         /**
          * Return 4xx bodies so actions can parse JSON errors instead of AxiosError Buffer.
