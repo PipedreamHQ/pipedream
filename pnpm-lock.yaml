@@ -17682,6 +17682,9 @@ importers:
 
   components/yumpu: {}
 
+  components/yuroti:
+    specifiers: {}
+
   components/z_api:
     dependencies:
       '@pipedream/platform':
