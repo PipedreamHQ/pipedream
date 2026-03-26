@@ -32,11 +32,20 @@ export default {
       async options({
         page, listType,
       }) {
-        const { lists } = await this.getLists({
-          listType,
-          params: {
+        const { lists } = await this.searchLists({
+          data: {
             count: DEFAULT_LIMIT,
             offset: page * DEFAULT_LIMIT,
+            processingTypes: listType === "static"
+              ? [
+                "MANUAL",
+                "SNAPSHOT",
+              ]
+              : listType === "dynamic"
+                ? [
+                  "DYNAMIC",
+                ]
+                : undefined,
           },
         });
         return lists?.map(({
@@ -1344,14 +1353,11 @@ export default {
         ...opts,
       });
     },
-    getLists({
-      listType, ...opts
-    }) {
+    searchLists(opts = {}) {
       return this.makeRequest({
-        api: API_PATH.CONTACTS,
-        endpoint: `/lists${listType
-          ? `/${listType}`
-          : ""}`,
+        api: API_PATH.CRMV3,
+        endpoint: "/lists/search",
+        method: "POST",
         ...opts,
       });
     },
@@ -1359,8 +1365,8 @@ export default {
       listId, ...opts
     }) {
       return this.makeRequest({
-        api: API_PATH.CONTACTS,
-        endpoint: `/lists/${listId}/contacts/all`,
+        api: API_PATH.CRMV3,
+        endpoint: `/lists/${listId}/memberships`,
         ...opts,
       });
     },
@@ -1531,9 +1537,9 @@ export default {
       listId, ...opts
     }) {
       return this.makeRequest({
-        api: API_PATH.CONTACTS,
-        endpoint: `/lists/${listId}/add`,
-        method: "POST",
+        api: API_PATH.CRMV3,
+        endpoint: `/lists/${listId}/memberships/add`,
+        method: "PUT",
         ...opts,
       });
     },
