@@ -49,6 +49,7 @@ export default {
       return axios($, {
         method: "POST",
         url: "https://testverifyapi.certs365.io/proui/api/issue-pipedream",
+        timeout: 10000,
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${this.$auth.api_key}`,
