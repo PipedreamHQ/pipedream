@@ -86,7 +86,7 @@ export default {
       method: "PUT",
       data: [
         {
-          associationCategory: this.associationCategory || "HUBSPOT_DEFINED",
+          associationCategory: this.associationCategory,
           associationTypeId: this.associationTypeId,
         },
       ],

@@ -60,7 +60,7 @@ export default {
           let score = 0;
           if (name === keyword) score = 100;
           else if (name.includes(keyword)) score = 75;
-          else if (label.toLowerCase() === keyword) score = 60;
+          else if (label === keyword) score = 60;
           else if (label.includes(keyword)) score = 50;
           else if (description.includes(keyword)) score = 25;
           bestScore = Math.max(bestScore, score);
