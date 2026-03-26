@@ -20,7 +20,7 @@ export default {
       description: "Queue name (e.g. Workshop, Pending Quotes).",
     },
     defaultTimeframe: {
-      type: "string",
+      type: "integer",
       label: "Default Timeframe (days)",
       optional: true,
       description:

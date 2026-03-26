@@ -1,4 +1,9 @@
 import servicem8 from "../../servicem8.app.mjs";
+import {
+  coercePipedreamString,
+  errorMessageFromProduceDocumentResponse,
+  normalizeProduceOutputFormat,
+} from "../../common/payload.mjs";
 
 const DOCS = "https://developer.servicem8.com/reference/produce_templated_document";
 
@@ -35,6 +40,7 @@ export default {
       type: "string",
       label: "Output Format",
       description: "File format for the produced document",
+      default: "pdf",
       options: [
         {
           label: "PDF",
@@ -76,36 +82,44 @@ export default {
     },
   },
   async run({ $ }) {
+    const jobUuid = coercePipedreamString(this.jobUuid);
+    const templateUuid = coercePipedreamString(this.templateUuid);
     const res = await this.servicem8.produceTemplatedDocument({
       $,
       objectType: "Job",
-      objectUUID: this.jobUuid,
+      objectUUID: jobUuid,
       templateType: "Quote",
-      templateUUID: this.templateUuid || undefined,
+      templateUUID: templateUuid || undefined,
       outputFormat: this.outputFormat,
       storeToDiary: this.storeToDiary,
     });
-    const contentType = res.headers["content-type"] || "";
-    if (contentType.includes("application/json")) {
+    if (res.status >= 400) {
+      throw new Error(
+        errorMessageFromProduceDocumentResponse(res) || "Document production failed",
+      );
+    }
+    const format = normalizeProduceOutputFormat(this.outputFormat);
+    const resContentType = res.headers["content-type"] || "";
+    if (resContentType.includes("application/json")) {
       const err = typeof res.data === "string"
         ? JSON.parse(res.data)
         : JSON.parse(Buffer.from(res.data).toString("utf8"));
       throw new Error(err.message || JSON.stringify(err));
     }
     const buffer = Buffer.from(res.data, "binary");
-    const respContentType =
+    const contentType =
       res.headers["content-type"] ||
-      (this.outputFormat === "pdf"
+      (format === "pdf"
         ? "application/pdf"
-        : this.outputFormat === "docx"
+        : format === "docx"
           ? "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
           : "image/jpeg");
-    $.export("$summary", `Produced Quote for job ${this.jobUuid}`);
+    $.export("$summary", `Produced Quote for job ${jobUuid}`);
     return {
       file: buffer.toString("base64"),
-      contentType: respContentType,
-      filename: `quote.${this.outputFormat}`,
-      jobUuid: this.jobUuid,
+      contentType,
+      filename: `quote.${format}`,
+      jobUuid,
     };
   },
 };

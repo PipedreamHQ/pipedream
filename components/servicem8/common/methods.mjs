@@ -4,6 +4,7 @@
  */
 
 import * as logic from "./logic.mjs";
+import { buildProduceDocumentJsonBody } from "./payload.mjs";
 
 /**
  * Factory that returns the `methods` object for the ServiceM8 Pipedream app.
@@ -33,6 +34,8 @@ export function createMethods(axios) {
     _authHeaders({ json = false } = {}) {
       const headers = {
         Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+        /** Prefer JSON responses on `*.json` REST routes (GET/POST/DELETE), not HTML. */
+        Accept: "application/json",
       };
       if (json) {
         headers["Content-Type"] = "application/json";
@@ -51,10 +54,11 @@ export function createMethods(axios) {
      * @param {boolean} [opts.returnFullResponse]
      * @param {boolean} [opts.formUrlEncoded] - Send body as `application/x-www-form-urlencoded`
      * @param {string} [opts.responseType] - Axios responseType (e.g. "arraybuffer" for binary)
+     * @param {(status: number) => boolean} [opts.validateStatus] - When set, axios will not throw on matching status (e.g. read 4xx JSON body).
      */
     async _makeRequest({
       $ = this, path, method = "GET", data, params, headers, returnFullResponse = false,
-      formUrlEncoded = false, responseType,
+      formUrlEncoded = false, responseType, validateStatus,
     }) {
       const useJsonBody = !formUrlEncoded && data && method !== "GET" && typeof data === "object";
       const config = {
@@ -75,6 +79,9 @@ export function createMethods(axios) {
         returnFullResponse,
         ...(responseType && {
           responseType,
+        }),
+        ...(validateStatus && {
+          validateStatus,
         }),
       };
       if (formUrlEncoded) {
@@ -313,14 +320,15 @@ export function createMethods(axios) {
     async produceTemplatedDocument({
       $, objectType, objectUUID, templateType, templateUUID, outputFormat, storeToDiary,
     }) {
-      const data = {
+      /** String body + explicit `Content-Type` avoids axios/object + `responseType: arraybuffer` quirks. */
+      const data = buildProduceDocumentJsonBody({
         objectType,
         objectUUID,
         templateType,
+        templateUUID,
         outputFormat,
-      };
-      if (templateUUID) data.templateUUID = templateUUID;
-      if (storeToDiary !== undefined) data.storeToDiary = storeToDiary;
+        storeToDiary,
+      });
       return this._makeRequest({
         $,
         path: "platform_produce_document",
@@ -328,6 +336,12 @@ export function createMethods(axios) {
         data,
         returnFullResponse: true,
         responseType: "arraybuffer",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json, application/pdf, application/octet-stream, */*",
+        },
+        /** Return 4xx bodies so actions can parse JSON error messages instead of AxiosError Buffer. */
+        validateStatus: (status) => status >= 200 && status < 600,
       });
     },
     /**

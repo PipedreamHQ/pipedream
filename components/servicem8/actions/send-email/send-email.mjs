@@ -1,4 +1,5 @@
 import app from "../../servicem8.app.mjs";
+import { coercePipedreamString } from "../../common/payload.mjs";
 
 export default {
   key: "servicem8-send-email",
@@ -26,13 +27,19 @@ export default {
     htmlBody: {
       type: "string",
       label: "HTML Body",
-      description: "HTML body (provide htmlBody and/or textBody)",
+      description:
+        `HTML email body.
+\\
+**Required** if no \`Text Body\` is specified.`,
       optional: true,
     },
     textBody: {
       type: "string",
       label: "Text Body",
-      description: "Plain text body (provide htmlBody and/or textBody)",
+      description:
+        `Plain text body.
+\\
+**Required** if no \`HTML Body\` is specified.`,
       optional: true,
     },
     cc: {
@@ -83,37 +90,42 @@ export default {
     },
   },
   async run({ $ }) {
-    const hasHtml =
-      this.htmlBody !== undefined && String(this.htmlBody).trim() !== "";
-    const hasText =
-      this.textBody !== undefined && String(this.textBody).trim() !== "";
-    if (!hasHtml && !hasText) {
-      throw new Error("Provide htmlBody and/or textBody.");
+    const htmlBody = coercePipedreamString(this.htmlBody);
+    const textBody = coercePipedreamString(this.textBody);
+    if (!htmlBody && !textBody) {
+      throw new Error("At least one of HTML Body or Text Body is required (non-empty).");
     }
 
     const data = {
-      to: this.to,
-      subject: this.subject,
+      to: coercePipedreamString(this.to),
+      subject: coercePipedreamString(this.subject),
     };
-    if (this.htmlBody !== undefined) data.htmlBody = this.htmlBody;
-    if (this.textBody !== undefined) data.textBody = this.textBody;
-    if (this.cc !== undefined) data.cc = this.cc;
-    if (this.replyTo !== undefined) data.replyTo = this.replyTo;
-    const regardingJob = this.regardingJobUUID;
-    if (
-      regardingJob !== undefined &&
-      regardingJob !== null &&
-      String(regardingJob).trim() !== ""
-    ) {
-      data.regardingJobUUID = String(regardingJob).trim();
+    if (htmlBody) {
+      data.htmlBody = htmlBody;
+    }
+    if (textBody) {
+      data.textBody = textBody;
+    }
+    const cc = coercePipedreamString(this.cc);
+    if (cc) {
+      data.cc = cc;
+    }
+    const replyTo = coercePipedreamString(this.replyTo);
+    if (replyTo) {
+      data.replyTo = replyTo;
+    }
+    const regardingJob = coercePipedreamString(this.regardingJobUUID);
+    if (regardingJob) {
+      data.regardingJobUUID = regardingJob;
     }
 
+    const impersonate = coercePipedreamString(this.impersonateStaffUuid);
     const response = await this.servicem8.sendEmail({
       $,
       data,
-      ...(this.impersonateStaffUuid && {
+      ...(impersonate && {
         headers: {
-          "x-impersonate-uuid": this.impersonateStaffUuid,
+          "x-impersonate-uuid": impersonate,
         },
       }),
     });

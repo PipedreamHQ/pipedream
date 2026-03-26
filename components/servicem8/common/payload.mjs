@@ -95,6 +95,105 @@ export function normalizeServiceM8Record(raw) {
   };
 }
 
+/** Allowed `outputFormat` values for `platform_produce_document`. */
+const PRODUCE_OUTPUT_FORMATS = new Set([
+  "pdf",
+  "docx",
+  "jpg",
+]);
+
+/**
+ * Pipedream props sometimes arrive as `{ value, label }` or nested; coerce to a plain string.
+ * @param {unknown} v
+ * @returns {string}
+ */
+export function coercePipedreamString(v) {
+  if (v == null) {
+    return "";
+  }
+  if (Array.isArray(v)) {
+    return v.map(coercePipedreamString).filter((s) => s !== "").join("\n").trim();
+  }
+  if (typeof v === "object" && v !== null && "value" in v) {
+    return coercePipedreamString(/** @type {{ value?: unknown }} */ (v).value);
+  }
+  return String(v).trim();
+}
+
+/**
+ * @param {unknown} raw
+ * @returns {"pdf"|"docx"|"jpg"}
+ */
+export function normalizeProduceOutputFormat(raw) {
+  const s = coercePipedreamString(raw).toLowerCase();
+  return PRODUCE_OUTPUT_FORMATS.has(s)
+    ? /** @type {"pdf"|"docx"|"jpg"} */ (s)
+    : "pdf";
+}
+
+/**
+ * Build the exact JSON body for `POST /platform_produce_document` (explicit string + Content-Type).
+ * @param {object} opts
+ * @returns {string}
+ */
+export function buildProduceDocumentJsonBody({
+  objectType,
+  objectUUID,
+  templateType,
+  templateUUID,
+  outputFormat,
+  storeToDiary,
+}) {
+  const ou = coercePipedreamString(objectUUID);
+  if (!ou) {
+    throw new Error(
+      "objectUUID is empty: set Job / object UUID (Pipedream may pass { value, label } — use the value or bind a string).",
+    );
+  }
+  const body = {
+    objectType: coercePipedreamString(objectType) || "Job",
+    objectUUID: ou,
+    templateType: coercePipedreamString(templateType),
+    outputFormat: normalizeProduceOutputFormat(outputFormat),
+  };
+  const tu = coercePipedreamString(templateUUID);
+  if (tu) {
+    body.templateUUID = tu;
+  }
+  if (storeToDiary !== undefined && storeToDiary !== null) {
+    body.storeToDiary = Boolean(storeToDiary);
+  }
+  return JSON.stringify(body);
+}
+
+/**
+ * Parse JSON error body from a failed produce-document response (`responseType: arraybuffer`).
+ * @param {import("axios").AxiosResponse} res
+ * @returns {string}
+ */
+export function errorMessageFromProduceDocumentResponse(res) {
+  if (!res || res.status < 400) {
+    return "";
+  }
+  const raw = res.data;
+  const buf = Buffer.isBuffer(raw)
+    ? raw
+    : Buffer.from(raw ?? []);
+  const text = buf.toString("utf8").trim();
+  try {
+    const j = JSON.parse(text);
+    if (typeof j.message === "string" && j.message) {
+      return j.message;
+    }
+    if (j.errorCode != null) {
+      return `errorCode ${j.errorCode}`;
+    }
+  } catch {
+    // ignore
+  }
+  return text || `HTTP ${res.status}`;
+}
+
 /**
  * GET current record and merge non-empty field updates (ServiceM8 POST replaces the full record).
  * @param {object} svc - `this.servicem8` (app with getResource)

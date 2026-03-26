@@ -27,7 +27,6 @@ export default {
       type: "string",
       label: "Fields",
       description: "Comma-separated fields to include (optional; depends on object type)",
-      optional: true,
     },
   },
   async run({ $ }) {

@@ -1,4 +1,9 @@
 import servicem8 from "../../servicem8.app.mjs";
+import {
+  coercePipedreamString,
+  errorMessageFromProduceDocumentResponse,
+  normalizeProduceOutputFormat,
+} from "../../common/payload.mjs";
 
 const DOCS = "https://developer.servicem8.com/reference/produce_templated_document";
 
@@ -35,6 +40,7 @@ export default {
       type: "string",
       label: "Output Format",
       description: "File format for the produced document",
+      default: "pdf",
       options: [
         {
           label: "PDF",
@@ -76,15 +82,22 @@ export default {
     },
   },
   async run({ $ }) {
+    const jobUuid = coercePipedreamString(this.jobUuid);
     const res = await this.servicem8.produceTemplatedDocument({
       $,
       objectType: "Job",
-      objectUUID: this.jobUuid,
+      objectUUID: jobUuid,
       templateType: "Invoice",
       templateUUID: this.templateUuid || undefined,
       outputFormat: this.outputFormat,
       storeToDiary: this.storeToDiary,
     });
+    if (res.status >= 400) {
+      throw new Error(
+        errorMessageFromProduceDocumentResponse(res) || "Document production failed",
+      );
+    }
+    const format = normalizeProduceOutputFormat(this.outputFormat);
     const resContentType = res.headers["content-type"] || "";
     if (resContentType.includes("application/json")) {
       const err = typeof res.data === "string"
@@ -95,17 +108,17 @@ export default {
     const buffer = Buffer.from(res.data, "binary");
     const contentType =
       res.headers["content-type"] ||
-      (this.outputFormat === "pdf"
+      (format === "pdf"
         ? "application/pdf"
-        : this.outputFormat === "docx"
+        : format === "docx"
           ? "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
           : "image/jpeg");
-    $.export("$summary", `Produced Invoice for job ${this.jobUuid}`);
+    $.export("$summary", `Produced Invoice for job ${jobUuid}`);
     return {
       file: buffer.toString("base64"),
       contentType,
-      filename: `invoice.${this.outputFormat}`,
-      jobUuid: this.jobUuid,
+      filename: `invoice.${format}`,
+      jobUuid,
     };
   },
 };
