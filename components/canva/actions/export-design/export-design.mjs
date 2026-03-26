@@ -124,22 +124,20 @@ syncDir: {
       },
     });
 
-    if (this.waitForCompletion) {
-      const timer = (ms) => new Promise((res) => setTimeout(res, ms));
-      const exportId = response.job.id;
-      while (response.job.status === "in_progress") {
-        response = await this.canva.getDesignExportJob({
-          $,
-          exportId,
-        });
-        if (response.job.error) {
-          throw new Error(response.job.error.message);
-        }
-        await timer(3000);
-      }
-    }
-
  if (this.waitForCompletion) {
+  const timer = (ms) => new Promise((res) => setTimeout(res, ms));
+  const exportId = response.job.id;
+  while (response.job.status === "in_progress") {
+    response = await this.canva.getDesignExportJob({
+      $,
+      exportId,
+    });
+    if (response.job.error) {
+      throw new Error(response.job.error.message);
+    }
+    await timer(3000);
+  }
+
   const exportUrl = response.job.urls[0];
   const fileResponse = await fetch(exportUrl);
   const fileName = (this.newFileName || "export").split("/").pop();
