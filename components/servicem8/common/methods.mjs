@@ -445,8 +445,19 @@ export function createMethods(axios) {
           if (!value) {
             return null;
           }
+          const nameFromFirstLast = (() => {
+            const parts = [
+              row.first,
+              row.last,
+            ].filter((v) => v != null && String(v).trim() !== "")
+              .map((v) => String(v).trim());
+            return parts.length
+              ? parts.join(" ")
+              : undefined;
+          })();
           const label =
             row.name
+            ?? nameFromFirstLast
             ?? row.company_name
             ?? row.job_address
             ?? row.subject
