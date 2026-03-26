@@ -49,7 +49,7 @@ export default {
     },
   },
   async run({ $ }) {
-    let url = `${this.salesforce._sObjectsApiUrl()}/${this.objectType}/${this.recordId}/${this.relationshipName}`;
+    let url = `${this.salesforce._sObjectDetailsApiUrl(this.objectType, this.recordId)}/${this.relationshipName}`;
 
     if (this.fields?.length) {
       url += `?fields=${this.fields.join(",")}`;
@@ -73,6 +73,7 @@ export default {
     return {
       totalSize,
       records,
+      hasMore: totalSize > records.length,
     };
   },
 };

@@ -21,7 +21,7 @@ export default {
   },
   async run({ $ }) {
     const userInfo = await this.salesforce.getUserInfo(
-      this.salesforce.$auth.oauth_access_token,
+      this.salesforce._authToken(),
     );
 
     const result = {

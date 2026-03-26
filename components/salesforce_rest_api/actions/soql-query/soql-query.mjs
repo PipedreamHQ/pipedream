@@ -40,34 +40,35 @@ export default {
     },
   },
   async run({ $ }) {
-    const baseUrl = this.salesforce._baseApiVersionUrl();
-    let allRecords = [];
-    let url = `${baseUrl}/query/?q=${encodeURIComponent(this.query)}`;
-    let totalSize = 0;
-    let requestCount = 0;
-    const maxRequests = 5;
+    const firstPage = await this.salesforce.query({
+      $,
+      query: this.query,
+    });
 
-    while (url && requestCount < maxRequests) {
+    const totalSize = firstPage.totalSize;
+    const allRecords = [
+      ...(firstPage.records || []),
+    ];
+    let nextUrl = firstPage.nextRecordsUrl
+      ? `${this.salesforce._baseApiUrl()}${firstPage.nextRecordsUrl}`
+      : null;
+    const maxPages = 5;
+
+    for (let page = 1; page < maxPages && nextUrl; page++) {
       const response = await this.salesforce._makeRequest({
         $,
-        url,
+        url: nextUrl,
       });
-
-      if (requestCount === 0) {
-        totalSize = response.totalSize;
-      }
-
-      allRecords = allRecords.concat(response.records || []);
-      url = response.nextRecordsUrl
+      allRecords.push(...(response.records || []));
+      nextUrl = response.nextRecordsUrl
         ? `${this.salesforce._baseApiUrl()}${response.nextRecordsUrl}`
         : null;
-      requestCount++;
     }
 
     const result = {
       totalSize,
       records: allRecords,
-      hasMore: !!url,
+      hasMore: !!nextUrl,
     };
 
     $.export(
