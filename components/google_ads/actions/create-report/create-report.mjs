@@ -208,13 +208,9 @@ export default {
         resource, fields, segments, metrics, limit, orderBy, direction, objectFilter, dateRange,
       } = this;
 
-      const filteredSegments = dateRange
-        ? segments
-        : segments?.filter((i) => i !== "segments.date");
-
       const selection = [
         ...checkPrefix(fields, resource),
-        ...checkPrefix(filteredSegments, "segments"),
+        ...checkPrefix(segments, "segments"),
         ...checkPrefix(metrics, "metrics"),
       ];
 
