@@ -344,7 +344,7 @@ export function createMethods(axios) {
         responseType: "arraybuffer",
         headers: {
           "Content-Type": "application/json",
-          Accept:
+          "Accept":
             "application/json, application/pdf, application/octet-stream, */*",
         },
         /**
