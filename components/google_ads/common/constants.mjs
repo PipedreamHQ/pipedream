@@ -1,3 +1,11 @@
+export const CORE_DATE_SEGMENTS = [
+  "segments.date",
+  "segments.week",
+  "segments.month",
+  "segments.quarter",
+  "segments.year",
+];
+
 export const DATE_RANGE_OPTIONS = [
   {
     value: "CUSTOM",
