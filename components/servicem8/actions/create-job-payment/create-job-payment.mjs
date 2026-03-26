@@ -44,13 +44,7 @@ export default {
         });
       },
       optional: true,
-      description: "Staff member who recorded or processed this payment.",
-    },
-    timestamp: {
-      type: "string",
-      label: "Timestamp",
-      optional: true,
-      description: "When the payment was recorded (`YYYY-MM-DD HH:MM:SS`).",
+      description: "Staff member who recorded this payment.",
     },
     amount: {
       type: "string",
@@ -70,23 +64,6 @@ export default {
       optional: true,
       description: "Reference numbers, transaction IDs, or other details.",
     },
-    attachmentUuid: {
-      type: "string",
-      label: "Attachment",
-      useQuery: true,
-      async options({
-        $, prevContext, query,
-      }) {
-        return this.servicem8._uuidOptionsForResource({
-          $: $ ?? this,
-          resource: "dboattachment",
-          prevContext,
-          query,
-        });
-      },
-      optional: true,
-      description: "Optional attachment (e.g. receipt) linked to this payment.",
-    },
   },
   async run({ $ }) {
     const {
@@ -96,11 +73,9 @@ export default {
       data: {
         job_uuid: this.jobUuid,
         actioned_by_uuid: this.actionedByUuid,
-        timestamp: this.timestamp,
         amount: this.amount,
         method: this.method,
         note: this.note,
-        attachment_uuid: this.attachmentUuid,
       },
     });
     $.export("$summary", `Created Job Payment${recordUuid

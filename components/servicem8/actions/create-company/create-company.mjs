@@ -1,5 +1,4 @@
 import servicem8 from "../../servicem8.app.mjs";
-import { optionalBool01 } from "../../common/payload.mjs";
 
 export default {
   key: "servicem8-create-company",
@@ -24,19 +23,13 @@ export default {
       label: "ABN",
       optional: true,
       description:
-        "Australian Business Number: unique 11-digit identifier issued by the Australian Taxation Office. Used for tax compliance and business identity in Australia.",
-    },
-    companyName: {
-      type: "string",
-      label: "Company Name (legacy field)",
-      optional: true,
-      description: "Maps to `company_name` if the API accepts it alongside `name`",
+        "Australian Business Number (11 digits). Used for tax and business identity in Australia.",
     },
     email: {
       type: "string",
       label: "Email",
       optional: true,
-      description: "Primary company email for correspondence.",
+      description: "Primary company email.",
     },
     phone: {
       type: "string",
@@ -48,7 +41,7 @@ export default {
       type: "string",
       label: "Mobile",
       optional: true,
-      description: "Mobile number for SMS or contact.",
+      description: "Mobile number.",
     },
     address: {
       type: "string",
@@ -66,7 +59,7 @@ export default {
       type: "string",
       label: "Postal Address",
       optional: true,
-      description: "Mailing or postal address if different from billing.",
+      description: "Mailing address if different from billing.",
     },
     parentCompanyUuid: {
       type: "string",
@@ -84,7 +77,7 @@ export default {
       },
       optional: true,
       description:
-        "Parent company UUID when this record is a Site; leave blank for a Head Office. Only applies when the Company Sites add-on is enabled.",
+        "Parent company when this record is a Site (Company Sites add-on). Leave blank for a head office.",
     },
     website: {
       type: "string",
@@ -92,136 +85,8 @@ export default {
       optional: true,
       description: "Company website URL.",
     },
-    addressStreet: {
-      type: "string",
-      label: "Address Street",
-      optional: true,
-      description: "Street line (max 500 characters)",
-    },
-    addressCity: {
-      type: "string",
-      label: "Address City",
-      optional: true,
-      description: "City for structured address fields.",
-    },
-    addressState: {
-      type: "string",
-      label: "Address State",
-      optional: true,
-      description: "State or region.",
-    },
-    addressPostcode: {
-      type: "string",
-      label: "Address Postcode",
-      optional: true,
-      description: "Postal or ZIP code.",
-    },
-    addressCountry: {
-      type: "string",
-      label: "Address Country",
-      optional: true,
-      description: "Country name or code.",
-    },
-    faxNumber: {
-      type: "string",
-      label: "Fax Number",
-      optional: true,
-      description: "Fax number if used.",
-    },
-    badges: {
-      type: "string[]",
-      label: "Badges",
-      optional: true,
-      useQuery: true,
-      async options({
-        $, prevContext, query,
-      }) {
-        return this.servicem8._uuidOptionsForResource({
-          $: $ ?? this,
-          resource: "badge",
-          prevContext,
-          query,
-        });
-      },
-      description:
-        "Badge UUIDs applied to this company (multi-select). Loaded from the API ([list badges](https://developer.servicem8.com/reference/listbadges))",
-    },
-    taxRateUuid: {
-      type: "string",
-      label: "Tax rate",
-      useQuery: true,
-      async options({
-        $, prevContext, query,
-      }) {
-        return this.servicem8._uuidOptionsForResource({
-          $: $ ?? this,
-          resource: "taxrate",
-          prevContext,
-          query,
-        });
-      },
-      optional: true,
-      description: "Tax rate applied to this company’s invoices and quotes.",
-    },
-    billingAttention: {
-      type: "string",
-      label: "Billing Attention",
-      optional: true,
-      description: "Who invoices should be addressed to.",
-      options: [
-        "Accounts",
-        "Accounts Payable",
-        "Managing Director",
-        "Office Manager",
-        "Primary Contact",
-      ],
-    },
-    paymentTerms: {
-      type: "string",
-      label: "Payment Terms",
-      optional: true,
-      description: "When payment is due.",
-      options: [
-        "Due on receipt",
-        "7 days",
-        "14 days",
-        "21 days",
-        "30 days",
-        "60 days",
-        "90 days",
-        "End of month",
-        "COD",
-      ],
-    },
-    notes: {
-      type: "string",
-      label: "Notes",
-      optional: true,
-      description: "Free-text notes stored on the company record.",
-    },
-    active: {
-      type: "boolean",
-      label: "Active",
-      optional: true,
-      description: "When set, sends 1 (active) or 0 (inactive) to the API",
-    },
   },
   async run({ $ }) {
-    const badgesForApi = (() => {
-      const b = this.badges;
-      if (b === undefined || b === null) {
-        return undefined;
-      }
-      if (Array.isArray(b)) {
-        return b.length
-          ? JSON.stringify(b)
-          : undefined;
-      }
-      if (typeof b === "string" && b.trim() !== "") {
-        return b.trim();
-      }
-      return undefined;
-    })();
     const {
       body, recordUuid,
     } = await this.servicem8.createCompany({
@@ -229,7 +94,6 @@ export default {
       data: {
         name: this.name,
         abn_number: this.abnNumber,
-        company_name: this.companyName,
         email: this.email,
         phone: this.phone,
         mobile: this.mobile,
@@ -238,18 +102,6 @@ export default {
         postal_address: this.postalAddress,
         parent_company_uuid: this.parentCompanyUuid,
         website: this.website,
-        address_street: this.addressStreet,
-        address_city: this.addressCity,
-        address_state: this.addressState,
-        address_postcode: this.addressPostcode,
-        address_country: this.addressCountry,
-        fax_number: this.faxNumber,
-        badges: badgesForApi,
-        tax_rate_uuid: this.taxRateUuid,
-        billing_attention: this.billingAttention,
-        payment_terms: this.paymentTerms,
-        notes: this.notes,
-        active: optionalBool01(this.active),
       },
     });
     $.export("$summary", `Created Company${recordUuid

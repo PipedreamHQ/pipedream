@@ -1,5 +1,4 @@
 import servicem8 from "../../servicem8.app.mjs";
-import { optionalParsedFloat } from "../../common/payload.mjs";
 
 export default {
   key: "servicem8-create-dboattachment",
@@ -141,53 +140,6 @@ export default {
       optional: true,
       description: "Comma-separated tags for categorization and filtering",
     },
-    lng: {
-      type: "string",
-      label: "Longitude",
-      optional: true,
-      description: "Longitude in decimal degrees (geolocation); sent as a JSON number",
-    },
-    lat: {
-      type: "string",
-      label: "Latitude",
-      optional: true,
-      description: "Latitude in decimal degrees (geolocation); sent as a JSON number",
-    },
-    isFavourite: {
-      type: "string",
-      label: "Is Favourite",
-      optional: true,
-      description: "Favourite flag as accepted by the API (string)",
-    },
-    metadata: {
-      type: "string",
-      label: "Metadata",
-      optional: true,
-      description: "Additional JSON metadata (schema varies by attachment type/source)",
-    },
-    createdByStaffUuid: {
-      type: "string",
-      label: "Created by staff",
-      useQuery: true,
-      async options({
-        $, prevContext, query,
-      }) {
-        return this.servicem8._uuidOptionsForResource({
-          $: $ ?? this,
-          resource: "staff",
-          prevContext,
-          query,
-        });
-      },
-      optional: true,
-      description: "Staff UUID for the creating user",
-    },
-    timestamp: {
-      type: "string",
-      label: "Timestamp",
-      optional: true,
-      description: "When the attachment was created, as accepted by the API.",
-    },
   },
   async run({ $ }) {
     const {
@@ -201,12 +153,6 @@ export default {
         file_type: this.fileType,
         attachment_source: this.attachmentSource,
         tags: this.tags,
-        lng: optionalParsedFloat(this.lng),
-        lat: optionalParsedFloat(this.lat),
-        is_favourite: this.isFavourite,
-        metadata: this.metadata,
-        created_by_staff_uuid: this.createdByStaffUuid,
-        timestamp: this.timestamp,
       },
     });
     $.export("$summary", `Created Attachment${recordUuid

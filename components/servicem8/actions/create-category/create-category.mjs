@@ -16,15 +16,7 @@ export default {
     name: {
       type: "string",
       label: "Name",
-      description:
-        "Job category name (required by API). Used to classify and organize jobs.",
-    },
-    colour: {
-      type: "string",
-      label: "Colour",
-      optional: true,
-      description:
-        "Hex colour (6 characters 0-9a-f) for the dispatch board and calendar.",
+      description: "Job category name (required by API).",
     },
   },
   async run({ $ }) {
@@ -34,7 +26,6 @@ export default {
       $,
       data: {
         name: this.name,
-        colour: this.colour,
       },
     });
     $.export("$summary", `Created Category${recordUuid

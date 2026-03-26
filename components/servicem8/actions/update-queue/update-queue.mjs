@@ -1,5 +1,5 @@
 import servicem8 from "../../servicem8.app.mjs";
-import { optionalParsedInt } from "../../common/payload.mjs";
+import { optionalBool01, optionalParsedInt } from "../../common/payload.mjs";
 
 export default {
   key: "servicem8-update-queue",
@@ -49,10 +49,10 @@ export default {
       description: "Semicolon-separated staff UUIDs subscribed to notifications for this queue.",
     },
     requiresAssignment: {
-      type: "string",
+      type: "boolean",
       label: "Requires Assignment",
       optional: true,
-      description: "0 = visible to all staff; 1 = jobs must be assigned.",
+      description: "When true, jobs must be assigned; when false, visible to all staff (sent as 0 or 1).",
     },
   },
   async run({ $ }) {
@@ -63,7 +63,7 @@ export default {
         name: this.name,
         default_timeframe: optionalParsedInt(this.defaultTimeframe),
         subscribed_staff: this.subscribedStaff,
-        requires_assignment: optionalParsedInt(this.requiresAssignment),
+        requires_assignment: optionalBool01(this.requiresAssignment),
       },
     });
     $.export("$summary", `Updated Queue ${this.uuid}`);

@@ -1,5 +1,4 @@
 import servicem8 from "../../servicem8.app.mjs";
-import { optionalBool01 } from "../../common/payload.mjs";
 
 export default {
   key: "servicem8-create-job-material",
@@ -54,24 +53,6 @@ export default {
       optional: true,
       description: "Sell price per unit or line total per API.",
     },
-    sort: {
-      type: "string",
-      label: "Sort Order",
-      optional: true,
-      description: "Display order among lines on the job.",
-    },
-    unitCost: {
-      type: "string",
-      label: "Unit Cost",
-      optional: true,
-      description: "Cost/purchase price per unit (distinct from the sell price)",
-    },
-    active: {
-      type: "boolean",
-      label: "Active",
-      optional: true,
-      description: "When set, sends 1 (active) or 0 (inactive) to the API",
-    },
   },
   async run({ $ }) {
     const {
@@ -84,9 +65,6 @@ export default {
         description: this.description,
         quantity: this.quantity,
         price: this.price,
-        sort: this.sort,
-        unit_cost: this.unitCost,
-        active: optionalBool01(this.active),
       },
     });
     $.export("$summary", `Created Job Material${recordUuid

@@ -45,7 +45,7 @@ export function optionalBool10String(v) {
 }
 
 /**
- * Optional float fields (e.g. `lng` / `lat` on attachments). Omits blank or invalid values.
+ * Optional float fields for API bodies. Omits blank or invalid values.
  * @param {unknown} v
  * @returns {number|undefined}
  */

@@ -17,8 +17,7 @@ export default {
     name: {
       type: "string",
       label: "Name",
-      description:
-        "Queue name (e.g. Workshop, Pending Quotes).",
+      description: "Queue name (e.g. Workshop, Pending Quotes).",
     },
     defaultTimeframe: {
       type: "string",
@@ -26,19 +25,6 @@ export default {
       optional: true,
       description:
         "Default days jobs stay in this queue before needing attention (e.g. 7 or 14).",
-    },
-    subscribedStaff: {
-      type: "string",
-      label: "Subscribed Staff",
-      optional: true,
-      description:
-        "Semicolon-separated staff UUIDs subscribed to notifications for this queue.",
-    },
-    requiresAssignment: {
-      type: "string",
-      label: "Requires Assignment",
-      optional: true,
-      description: "0 = visible to all staff; 1 = jobs must be assigned.",
     },
   },
   async run({ $ }) {
@@ -49,8 +35,6 @@ export default {
       data: {
         name: this.name,
         default_timeframe: optionalParsedInt(this.defaultTimeframe),
-        subscribed_staff: this.subscribedStaff,
-        requires_assignment: optionalParsedInt(this.requiresAssignment),
       },
     });
     $.export("$summary", `Created Job Queue${recordUuid

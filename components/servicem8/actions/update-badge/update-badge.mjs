@@ -40,47 +40,14 @@ export default {
       type: "string",
       label: "File Name",
       optional: true,
-      description: "Badge image or asset file name in ServiceM8.",
+      description:
+        "Badge image / `file_name`. Search loads [assets](https://developer.servicem8.com/reference/listassets); value uses asset **code** when present, else **name**. Paste a custom value if needed.",
       useQuery: true,
       async options({
         $, prevContext, query,
       }) {
         return this.servicem8._badgeFileNameOptionsFromAssets({
           $: $ ?? this,
-          prevContext,
-          query,
-        });
-      },
-    },
-    regardingFormUuid: {
-      type: "string",
-      label: "Regarding Form UUID",
-      optional: true,
-      description: "Linked form UUID when the badge relates to a specific form.",
-      useQuery: true,
-      async options({
-        $, prevContext, query,
-      }) {
-        return this.servicem8._uuidOptionsForResource({
-          $: $ ?? this,
-          resource: "form",
-          prevContext,
-          query,
-        });
-      },
-    },
-    regardingAssetTypeUuid: {
-      type: "string",
-      label: "Regarding Asset Type UUID",
-      optional: true,
-      description: "Asset type this badge is associated with; only used for asset-based badges.",
-      useQuery: true,
-      async options({
-        $, prevContext, query,
-      }) {
-        return this.servicem8._uuidOptionsForResource({
-          $: $ ?? this,
-          resource: "assettype",
           prevContext,
           query,
         });
@@ -94,8 +61,6 @@ export default {
       data: {
         name: this.name,
         file_name: this.fileName,
-        regarding_form_uuid: this.regardingFormUuid,
-        regarding_asset_type_uuid: this.regardingAssetTypeUuid,
       },
     });
     $.export("$summary", `Updated Badge ${this.uuid}`);

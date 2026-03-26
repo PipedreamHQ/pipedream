@@ -1,5 +1,5 @@
 import servicem8 from "../../servicem8.app.mjs";
-import { optionalParsedInt } from "../../common/payload.mjs";
+import { optionalBool01 } from "../../common/payload.mjs";
 
 const JOB_STATUS_OPTIONS = [
   "Quote",
@@ -35,7 +35,7 @@ export default {
         });
       },
       label: "Job to update",
-      description: "Job record to load, merge, and save (search or paste UUID).",
+      description: "Job to load, merge, and save (search or paste UUID).",
     },
     companyUuid: {
       type: "string",
@@ -52,26 +52,25 @@ export default {
         });
       },
       optional: true,
-      description:
-        "Client/company record for this job (billing and contact relationship).",
+      description: "Client/company for this job.",
     },
     jobAddress: {
       type: "string",
       label: "Job Address",
       optional: true,
-      description: "Work site address (max 500 characters); used for geocoding and maps.",
+      description: "Work site address (max 500 characters).",
     },
     billingAddress: {
       type: "string",
       label: "Billing Address",
       optional: true,
-      description: "Where to send invoices; defaults to job address if omitted (max 500).",
+      description: "Invoice address (max 500).",
     },
     status: {
       type: "string",
       label: "Status",
       optional: true,
-      description: "Controls dispatch board placement (max 20 characters).",
+      description: "Job status (max 20 characters).",
       options: JOB_STATUS_OPTIONS,
     },
     createdByStaffUuid: {
@@ -91,12 +90,6 @@ export default {
       optional: true,
       description: "Staff member who created the job.",
     },
-    date: {
-      type: "string",
-      label: "Date",
-      optional: true,
-      description: "Job created or scheduled date (reporting / chronology).",
-    },
     categoryUuid: {
       type: "string",
       label: "Category",
@@ -112,66 +105,7 @@ export default {
         });
       },
       optional: true,
-      description: "Job category (type of work / department).",
-    },
-    lng: {
-      type: "string",
-      label: "Longitude",
-      optional: true,
-      description: "Usually auto-filled from geocoding the job address.",
-    },
-    lat: {
-      type: "string",
-      label: "Latitude",
-      optional: true,
-      description: "Usually auto-filled from geocoding the job address.",
-    },
-    paymentDate: {
-      type: "string",
-      label: "Payment Date",
-      optional: true,
-      description: "Not used on Job; use the JobPayment endpoint.",
-    },
-    paymentActionedByUuid: {
-      type: "string",
-      label: "Payment actioned by",
-      useQuery: true,
-      async options({
-        $, prevContext, query,
-      }) {
-        return this.servicem8._uuidOptionsForResource({
-          $: $ ?? this,
-          resource: "staff",
-          prevContext,
-          query,
-        });
-      },
-      optional: true,
-      description: "Not used on Job; use the JobPayment endpoint.",
-    },
-    paymentMethod: {
-      type: "string",
-      label: "Payment Method",
-      optional: true,
-      description: "Not used on Job; use the JobPayment endpoint.",
-    },
-    paymentAmount: {
-      type: "string",
-      label: "Payment Amount",
-      optional: true,
-      description: "Not used on Job; use the JobPayment endpoint.",
-    },
-    paymentNote: {
-      type: "string",
-      label: "Payment Note",
-      optional: true,
-      description: "Not used on Job; use the JobPayment endpoint.",
-    },
-    geoIsValid: {
-      type: "string",
-      label: "Geo Is Valid",
-      optional: true,
-      description: "Whether geocoding for the job address succeeded.",
+      description: "Job category.",
     },
     purchaseOrderNumber: {
       type: "string",
@@ -180,64 +114,10 @@ export default {
       description: "Client PO reference (max 100 characters).",
     },
     invoiceSent: {
-      type: "string",
+      type: "boolean",
       label: "Invoice Sent",
       optional: true,
-      description: "0 or 1 — whether an invoice has been sent.",
-    },
-    invoiceSentStamp: {
-      type: "string",
-      label: "Invoice Sent Timestamp",
-      optional: true,
-      description: "When the invoice was sent (`YYYY-MM-DD HH:MM:SS`).",
-    },
-    readyToInvoice: {
-      type: "string",
-      label: "Ready To Invoice",
-      optional: true,
-      description: "Deprecated in the API.",
-    },
-    readyToInvoiceStamp: {
-      type: "string",
-      label: "Ready To Invoice Timestamp",
-      optional: true,
-      description: "Deprecated in the API.",
-    },
-    geoCountry: {
-      type: "string",
-      label: "Geo Country",
-      optional: true,
-      description: "Country from geocoded address.",
-    },
-    geoPostcode: {
-      type: "string",
-      label: "Geo Postcode",
-      optional: true,
-      description: "Postal code from geocoded address.",
-    },
-    geoState: {
-      type: "string",
-      label: "Geo State",
-      optional: true,
-      description: "State/province from geocoded address.",
-    },
-    geoCity: {
-      type: "string",
-      label: "Geo City",
-      optional: true,
-      description: "City from geocoded address.",
-    },
-    geoStreet: {
-      type: "string",
-      label: "Geo Street",
-      optional: true,
-      description: "Street name from geocoded address.",
-    },
-    geoNumber: {
-      type: "string",
-      label: "Geo Street Number",
-      optional: true,
-      description: "Street number from geocoded address.",
+      description: "Whether an invoice has been sent (sent as 0 or 1).",
     },
     queueUuid: {
       type: "string",
@@ -280,10 +160,22 @@ export default {
       description: "Staff assigned to this job in the queue.",
     },
     badges: {
-      type: "string",
+      type: "string[]",
       label: "Badges",
       optional: true,
-      description: "JSON array of badge UUIDs as a string.",
+      useQuery: true,
+      async options({
+        $, prevContext, query,
+      }) {
+        return this.servicem8._uuidOptionsForResource({
+          $: $ ?? this,
+          resource: "badge",
+          prevContext,
+          query,
+        });
+      },
+      description:
+        "Badge UUIDs ([list badges](https://developer.servicem8.com/reference/listbadges)). Sent as a JSON array string.",
     },
     quoteDate: {
       type: "string",
@@ -292,16 +184,10 @@ export default {
       description: "When status became Quote.",
     },
     quoteSent: {
-      type: "string",
+      type: "boolean",
       label: "Quote Sent",
       optional: true,
-      description: "0 or 1 — whether a quote was sent.",
-    },
-    quoteSentStamp: {
-      type: "string",
-      label: "Quote Sent Timestamp",
-      optional: true,
-      description: "When the quote was sent (`YYYY-MM-DD HH:MM:SS`).",
+      description: "Whether a quote was sent (0 or 1).",
     },
     workOrderDate: {
       type: "string",
@@ -309,23 +195,11 @@ export default {
       optional: true,
       description: "When status became Work Order.",
     },
-    activeNetworkRequestUuid: {
-      type: "string",
-      label: "Active Network Request UUID",
-      optional: true,
-      description: "Deprecated in the API.",
-    },
-    relatedKnowledgeArticles: {
-      type: "string",
-      label: "Related Knowledge Articles",
-      optional: true,
-      description: "Deprecated in the API.",
-    },
     jobDescription: {
       type: "string",
       label: "Job Description",
       optional: true,
-      description: "Longer description of the job scope or work requested.",
+      description: "Scope or work requested.",
     },
     workDoneDescription: {
       type: "string",
@@ -334,16 +208,16 @@ export default {
       description: "Description of work completed.",
     },
     paymentProcessed: {
-      type: "string",
+      type: "boolean",
       label: "Payment Processed",
       optional: true,
-      description: "0 or 1 — exported to the connected accounting package.",
+      description: "Exported to accounting (0 or 1).",
     },
     paymentReceived: {
-      type: "string",
+      type: "boolean",
       label: "Payment Received",
       optional: true,
-      description: "0 or 1 — full payment received for the job.",
+      description: "Full payment received (0 or 1).",
     },
     completionDate: {
       type: "string",
@@ -359,6 +233,21 @@ export default {
     },
   },
   async run({ $ }) {
+    const badgesForApi = (() => {
+      const b = this.badges;
+      if (b === undefined || b === null) {
+        return undefined;
+      }
+      if (Array.isArray(b)) {
+        return b.length
+          ? JSON.stringify(b)
+          : undefined;
+      }
+      if (typeof b === "string" && b.trim() !== "") {
+        return b.trim();
+      }
+      return undefined;
+    })();
     const response = await this.servicem8.updateJob({
       $,
       uuid: this.uuid,
@@ -368,41 +257,20 @@ export default {
         billing_address: this.billingAddress,
         status: this.status,
         created_by_staff_uuid: this.createdByStaffUuid,
-        date: this.date,
         category_uuid: this.categoryUuid,
-        lng: this.lng,
-        lat: this.lat,
-        payment_date: this.paymentDate,
-        payment_actioned_by_uuid: this.paymentActionedByUuid,
-        payment_method: this.paymentMethod,
-        payment_amount: this.paymentAmount,
-        payment_note: this.paymentNote,
-        geo_is_valid: this.geoIsValid,
         purchase_order_number: this.purchaseOrderNumber,
-        invoice_sent: optionalParsedInt(this.invoiceSent),
-        invoice_sent_stamp: this.invoiceSentStamp,
-        ready_to_invoice: this.readyToInvoice,
-        ready_to_invoice_stamp: this.readyToInvoiceStamp,
-        geo_country: this.geoCountry,
-        geo_postcode: this.geoPostcode,
-        geo_state: this.geoState,
-        geo_city: this.geoCity,
-        geo_street: this.geoStreet,
-        geo_number: this.geoNumber,
+        invoice_sent: optionalBool01(this.invoiceSent),
         queue_uuid: this.queueUuid,
         queue_expiry_date: this.queueExpiryDate,
         queue_assigned_staff_uuid: this.queueAssignedStaffUuid,
-        badges: this.badges,
+        badges: badgesForApi,
         quote_date: this.quoteDate,
-        quote_sent: optionalParsedInt(this.quoteSent),
-        quote_sent_stamp: this.quoteSentStamp,
+        quote_sent: optionalBool01(this.quoteSent),
         work_order_date: this.workOrderDate,
-        active_network_request_uuid: this.activeNetworkRequestUuid,
-        related_knowledge_articles: this.relatedKnowledgeArticles,
         job_description: this.jobDescription,
         work_done_description: this.workDoneDescription,
-        payment_processed: optionalParsedInt(this.paymentProcessed),
-        payment_received: optionalParsedInt(this.paymentReceived),
+        payment_processed: optionalBool01(this.paymentProcessed),
+        payment_received: optionalBool01(this.paymentReceived),
         completion_date: this.completionDate,
         unsuccessful_date: this.unsuccessfulDate,
       },

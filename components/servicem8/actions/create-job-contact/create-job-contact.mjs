@@ -27,60 +27,48 @@ export default {
           query,
         });
       },
-      description:
-        "Job this contact belongs to; cannot be changed after the contact is created.",
+      description: "Job this contact belongs to (cannot be changed after create).",
     },
     first: {
       type: "string",
       label: "First Name",
       optional: true,
-      description:
-        "First name; syncs with job contact fields depending on contact `type`",
+      description: "First name.",
     },
     last: {
       type: "string",
       label: "Last Name",
       optional: true,
-      description:
-        "Last name; syncs with job contact fields depending on contact `type`",
+      description: "Last name.",
     },
     phone: {
       type: "string",
       label: "Phone",
       optional: true,
-      description:
-        "Landline/office phone; for `JOB` syncs to job `phone_1`, for billing-style types to `phone_2`",
+      description: "Landline/office phone.",
     },
     mobile: {
       type: "string",
       label: "Mobile",
       optional: true,
-      description:
-        "Mobile number; for `JOB` syncs to job `mobile`, for billing-style types to `billing_mobile`",
+      description: "Mobile number.",
     },
     email: {
       type: "string",
       label: "Email",
       optional: true,
-      description:
-        "Email for job communications; for `JOB` syncs to job `email`, for billing-style types to `billing_email`",
+      description: "Email for job communications.",
     },
     type: {
       type: "string",
       label: "Type",
       description:
-        "Controls which job fields sync when this contact changes; required by the API ([docs](https://developer.servicem8.com/reference/createjobcontacts)).",
+        "Controls field sync when this contact changes ([docs](https://developer.servicem8.com/reference/createjobcontacts)).",
       options: [
         "JOB",
         "BILLING",
         "Property Manager",
       ],
-    },
-    isPrimaryContact: {
-      type: "string",
-      label: "Is Primary Contact",
-      optional: true,
-      description: "Deprecated in the API; string flag if you still need to send it",
     },
   },
   async run({ $ }) {
@@ -96,7 +84,6 @@ export default {
         mobile: this.mobile,
         email: this.email,
         type: this.type,
-        is_primary_contact: this.isPrimaryContact,
       },
     });
     $.export("$summary", `Created Job Contact${recordUuid

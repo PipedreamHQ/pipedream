@@ -61,13 +61,7 @@ export default {
         });
       },
       optional: true,
-      description: "Staff member who recorded or processed this payment.",
-    },
-    timestamp: {
-      type: "string",
-      label: "Timestamp",
-      optional: true,
-      description: "When the payment was recorded (`YYYY-MM-DD HH:MM:SS`).",
+      description: "Staff member who recorded this payment.",
     },
     amount: {
       type: "string",
@@ -112,7 +106,6 @@ export default {
       data: {
         job_uuid: this.jobUuid,
         actioned_by_uuid: this.actionedByUuid,
-        timestamp: this.timestamp,
         amount: this.amount,
         method: this.method,
         note: this.note,

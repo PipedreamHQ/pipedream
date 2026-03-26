@@ -1,5 +1,5 @@
 import servicem8 from "../../servicem8.app.mjs";
-import { optionalParsedFloat } from "../../common/payload.mjs";
+import { optionalBool01 } from "../../common/payload.mjs";
 
 export default {
   key: "servicem8-update-dboattachment",
@@ -28,14 +28,13 @@ export default {
         });
       },
       label: "Attachment to update",
-      description: "Attachment record to load, merge, and save (search or paste UUID).",
+      description: "Attachment to load, merge, and save (search or paste UUID).",
     },
     relatedObject: {
       type: "string",
       label: "Related Object",
       optional: true,
-      description:
-        "Object type this attachment belongs to; lowercase per API. Pick a type, then choose the record below.",
+      description: "Object type; lowercase per API. Pick a type, then choose the record below.",
       options: [
         {
           label: "Job",
@@ -99,8 +98,7 @@ export default {
       type: "string",
       label: "Related record",
       optional: true,
-      description:
-        "Related record UUID (choose Related object first, then search).",
+      description: "Related record UUID (choose Related object first, then search).",
       useQuery: true,
       async options({
         $, prevContext, query,
@@ -151,60 +149,25 @@ export default {
       type: "string",
       label: "Attachment Source",
       optional: true,
-      description: "Source or kind, e.g. `INVOICE`, `QUOTE` (filtering / display)",
+      description: "Source or kind, e.g. `INVOICE`, `QUOTE`",
     },
     tags: {
       type: "string",
       label: "Tags",
       optional: true,
-      description: "Comma-separated tags for categorization and filtering",
-    },
-    lng: {
-      type: "string",
-      label: "Longitude",
-      optional: true,
-      description: "Longitude in decimal degrees (geolocation); sent as a JSON number",
-    },
-    lat: {
-      type: "string",
-      label: "Latitude",
-      optional: true,
-      description: "Latitude in decimal degrees (geolocation); sent as a JSON number",
+      description: "Comma-separated tags",
     },
     isFavourite: {
-      type: "string",
+      type: "boolean",
       label: "Is Favourite",
       optional: true,
-      description: "Favourite flag as accepted by the API (string)",
+      description: "Favourite flag (`1` / `0` in the API body).",
     },
     metadata: {
       type: "string",
       label: "Metadata",
       optional: true,
-      description: "Additional JSON metadata (schema varies by attachment type/source)",
-    },
-    createdByStaffUuid: {
-      type: "string",
-      label: "Created by staff",
-      useQuery: true,
-      async options({
-        $, prevContext, query,
-      }) {
-        return this.servicem8._uuidOptionsForResource({
-          $: $ ?? this,
-          resource: "staff",
-          prevContext,
-          query,
-        });
-      },
-      optional: true,
-      description: "Staff UUID for the creating user",
-    },
-    timestamp: {
-      type: "string",
-      label: "Timestamp",
-      optional: true,
-      description: "When the attachment was created, as accepted by the API.",
+      description: "Additional JSON metadata (schema varies by type/source).",
     },
   },
   async run({ $ }) {
@@ -218,12 +181,8 @@ export default {
         file_type: this.fileType,
         attachment_source: this.attachmentSource,
         tags: this.tags,
-        lng: optionalParsedFloat(this.lng),
-        lat: optionalParsedFloat(this.lat),
-        is_favourite: this.isFavourite,
+        is_favourite: optionalBool01(this.isFavourite),
         metadata: this.metadata,
-        created_by_staff_uuid: this.createdByStaffUuid,
-        timestamp: this.timestamp,
       },
     });
     $.export("$summary", `Updated Attachment ${this.uuid}`);

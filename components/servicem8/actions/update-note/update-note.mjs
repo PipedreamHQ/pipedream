@@ -163,12 +163,6 @@ export default {
       optional: true,
       description: "Staff member who completed the required action.",
     },
-    createDate: {
-      type: "string",
-      label: "Create Date",
-      optional: true,
-      description: "Timestamp string as accepted by the API (reference field name `create_date`).",
-    },
   },
   async run({ $ }) {
     const response = await this.servicem8.updateNote({
@@ -180,7 +174,6 @@ export default {
         note: this.note,
         action_required: this.actionRequired,
         action_completed_by_staff_uuid: this.actionCompletedByStaffUuid,
-        create_date: this.createDate,
       },
     });
     $.export("$summary", `Updated Note ${this.uuid}`);
