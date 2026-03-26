@@ -36,12 +36,12 @@ export default {
     const resourceFn = this.getResourceFn();
     const tsField = this.getTsField();
 
-    const formatedDate = lastDateChecked.substr(
+    const formattedDate = lastDateChecked.substr(
       0,
       (lastDateChecked + "T").indexOf("T"),
     );
     const results = await resourceFn({
-      query: `"${tsField}:>'${formatedDate}'"`,
+      query: `"${tsField}:>'${formattedDate}'"`,
       page: 1,
     });
     for await (const result of results) {

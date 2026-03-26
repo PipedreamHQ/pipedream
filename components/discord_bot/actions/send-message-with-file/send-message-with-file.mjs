@@ -9,7 +9,7 @@ export default {
   key: "discord_bot-send-message-with-file",
   name: "Send Message With File",
   description: "Post a message with an attached file. [See the docs here](https://discord.com/developers/docs/reference#uploading-files)",
-  version: "1.0.2",
+  version: "1.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -23,6 +23,7 @@ export default {
       type: "string",
       label: "File Path Or Url",
       description: "Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/example.pdf`)",
+      format: "file-ref",
     },
     message: {
       propDefinition: [

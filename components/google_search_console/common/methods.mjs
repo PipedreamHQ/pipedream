@@ -176,7 +176,7 @@ export default {
     // Throws an error if the input is not a string or if its a blank string;
     this.throwIfBlankOrNotString(input);
 
-    // Warnin accumulator
+    // Warning accumulator
     let warnings = [];
     ;
     // Trim the input (already checked for string);
@@ -226,7 +226,7 @@ export default {
       } catch (err) {
         // If after all checks we are here that means that the url
         // contain potentially unacceptable characters.
-        warnings.push(` URL contains potentionally unacceptable characters"  ${this._reasonMsg(reason)}`);
+        warnings.push(` URL contains potentially unacceptable characters"  ${this._reasonMsg(reason)}`);
 
       };
 

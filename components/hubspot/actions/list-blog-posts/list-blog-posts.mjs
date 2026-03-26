@@ -61,6 +61,12 @@ export default {
       description: "Specifies whether to return deleted Blog Posts",
       optional: true,
     },
+    properties: {
+      type: "string",
+      label: "Properties",
+      description: "A comma-separated list of properties to return in the response",
+      optional: true,
+    },
     sort: {
       type: "string",
       label: "Sort",
@@ -95,6 +101,7 @@ export default {
       updatedAfter: this.updatedAfter,
       updatedBefore: this.updatedBefore,
       archived: this.archived,
+      property: this.properties,
       sort: this.sort,
     };
 

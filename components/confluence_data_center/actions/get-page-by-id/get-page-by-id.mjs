@@ -4,7 +4,7 @@ export default {
   key: "confluence_data_center-get-page-by-id",
   name: "Get Page by ID",
   description: "Retrieve a page by its ID. [See the documentation](https://developer.atlassian.com/server/confluence/rest/v1022/api-group-content-resource/#api-rest-api-content-id-get)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

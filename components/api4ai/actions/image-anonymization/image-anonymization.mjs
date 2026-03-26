@@ -1,13 +1,14 @@
 import app from "../../api4ai.app.mjs";
 import {
-  retryWithExponentialBackoff, representFile,
+  representFile,
+  retryWithExponentialBackoff,
 } from "../../common/utils.mjs";
 
 export default {
   name: "Image Anonymization",
   description: "Performs actual image anonymization. Powered by API4AI.",
   key: "api4ai-image-anonymization",
-  version: "0.0.3",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -53,6 +54,12 @@ export default {
         "Faces only",
         "Licence plates only",
       ],
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {

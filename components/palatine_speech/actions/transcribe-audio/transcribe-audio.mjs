@@ -9,7 +9,7 @@ export default {
   key: "palatine_speech-transcribe-audio",
   name: "Transcribe Audio",
   description: "Starts an asynchronous transcription job for an audio or video file. Optionally wait for completion by enabling the 'Wait for Completion' option. [See the documentation](https://docs.speech.palatine.ru/api-reference/transcribe/transcribe-polling-api/transcribe)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     readOnlyHint: false,
@@ -22,6 +22,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.mp3`)",
+      format: "file-ref",
     },
     model: {
       propDefinition: [

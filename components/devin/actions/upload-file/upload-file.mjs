@@ -1,12 +1,12 @@
-import devin from "../../devin.app.mjs";
 import { getFileStreamAndMetadata } from "@pipedream/platform";
 import FormData from "form-data";
+import devin from "../../devin.app.mjs";
 
 export default {
   key: "devin-upload-file",
   name: "Upload File",
   description: "Upload files for Devin to use in sessions. [See the documentation](https://docs.devin.ai/api-reference/attachments/upload-files-for-devin-to-work-with)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -19,6 +19,13 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
+      format: "file-ref",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {

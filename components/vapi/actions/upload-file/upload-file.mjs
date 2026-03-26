@@ -6,7 +6,7 @@ export default {
   key: "vapi-upload-file",
   name: "Upload File",
   description: "Uploads a new file. [See the documentation](https://docs.vapi.ai/api-reference)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -19,6 +19,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.pdf).",
+      format: "file-ref",
     },
     syncDir: {
       type: "dir",

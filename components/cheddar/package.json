@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/cheddar",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Pipedream Cheddar Components",
   "main": "cheddar.app.mjs",
   "keywords": [
@@ -11,5 +11,9 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.3.0",
+    "fast-xml-parser": "^5.5.8"
   }
 }

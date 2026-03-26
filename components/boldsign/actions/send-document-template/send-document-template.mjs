@@ -9,7 +9,7 @@ export default {
   key: "boldsign-send-document-template",
   name: "Send Document Using Template",
   description: "Send documents for e-signature using a BoldSign template. [See the documentation](https://developers.boldsign.com/documents/send-document-from-template/?region=us)",
-  version: "0.1.2",
+  version: "0.1.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -160,6 +160,7 @@ export default {
       type: "string[]",
       label: "File Paths or URLs",
       description: "The files to upload. For each entry, provide either a file URL or path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
+      format: "file-ref",
       optional: true,
     },
     fileUrls: {

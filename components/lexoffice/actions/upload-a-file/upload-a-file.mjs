@@ -6,7 +6,7 @@ export default {
   key: "lexoffice-upload-a-file",
   name: "Upload A File",
   description: "Uploads a file to Lexware using the files endpoint. [See the documentation](https://developers.lexware.io/docs/#files-endpoint-upload-a-file).",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -19,6 +19,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.pdf`). Accepts only pdf, jpg, png and xml files.",
+      format: "file-ref",
     },
     voucherId: {
       propDefinition: [

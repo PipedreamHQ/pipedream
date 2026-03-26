@@ -716,6 +716,32 @@ export default {
         };
       },
     },
+    blogPostId: {
+      type: "string",
+      label: "Blog Post ID",
+      description: "The ID of the blog post",
+      async options({ prevContext }) {
+        const { nextAfter } = prevContext;
+        const {
+          results, paging,
+        } = await this.getBlogPosts({
+          params: {
+            after: nextAfter,
+          },
+        });
+        return {
+          options: results?.map(({
+            id: value, name: label,
+          }) => ({
+            value,
+            label,
+          })) || [],
+          context: {
+            nextAfter: paging?.next?.after,
+          },
+        };
+      },
+    },
     inboxId: {
       type: "string",
       label: "Inbox ID",
@@ -846,6 +872,58 @@ export default {
         return {
           options: results?.map(({
             userId: value, email: label,
+          }) => ({
+            value,
+            label,
+          })) || [],
+          context: {
+            nextAfter: paging?.next.after,
+          },
+        };
+      },
+    },
+    blogId: {
+      type: "string",
+      label: "Content Group ID (Blog ID)",
+      description: "The ID of the blog (content group) this post belongs to",
+      async options({ prevContext }) {
+        const { nextAfter } = prevContext;
+        const {
+          results, paging,
+        } = await this.getBlogs({
+          params: {
+            after: nextAfter,
+          },
+        });
+        return {
+          options: results?.map(({
+            id: value, name: label,
+          }) => ({
+            value,
+            label,
+          })) || [],
+          context: {
+            nextAfter: paging?.next.after,
+          },
+        };
+      },
+    },
+    blogAuthorId: {
+      type: "string",
+      label: "Blog Author ID",
+      description: "The ID of the blog post author",
+      async options({ prevContext }) {
+        const { nextAfter } = prevContext;
+        const {
+          results, paging,
+        } = await this.getBlogPostAuthors({
+          params: {
+            after: nextAfter,
+          },
+        });
+        return {
+          options: results?.map(({
+            id: value, name: label,
           }) => ({
             value,
             label,
@@ -1118,6 +1196,84 @@ export default {
       return this.makeRequest({
         api: API_PATH.CMS,
         endpoint: "/blogs/posts",
+        ...opts,
+      });
+    },
+    getBlogPost({
+      objectId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CMS,
+        endpoint: `/blogs/posts/${objectId}`,
+        ...opts,
+      });
+    },
+    getBlogs(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.CMS,
+        endpoint: "/blog-settings/settings",
+        ...opts,
+      });
+    },
+    getBlogPostAuthors(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.CMS,
+        endpoint: "/blogs/authors",
+        ...opts,
+      });
+    },
+    createBlogPost(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.CMS,
+        method: "POST",
+        endpoint: "/blogs/posts",
+        ...opts,
+      });
+    },
+    updateBlogPost({
+      objectId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CMS,
+        method: "PATCH",
+        endpoint: `/blogs/posts/${objectId}`,
+        ...opts,
+      });
+    },
+    getBlogPostDraft({
+      objectId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CMS,
+        endpoint: `/blogs/posts/${objectId}/draft`,
+        ...opts,
+      });
+    },
+    updateBlogPostDraft({
+      objectId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CMS,
+        method: "PATCH",
+        endpoint: `/blogs/posts/${objectId}/draft`,
+        ...opts,
+      });
+    },
+    pushBlogPostDraftLive({
+      objectId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CMS,
+        method: "POST",
+        endpoint: `/blogs/posts/${objectId}/draft/push-live`,
+        ...opts,
+      });
+    },
+    scheduleBlogPost(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.CMS,
+        method: "POST",
+        endpoint: "/blogs/posts/schedule",
         ...opts,
       });
     },

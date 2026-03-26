@@ -5,7 +5,7 @@ export default {
   key: "linkupapi-send-message",
   name: "Send Message",
   description: "Send a message to a LinkedIn profile. [See the documentation](https://docs.linkupapi.com/api-reference/linkup/Messages/send)",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     // eslint-disable-next-line pipedream/props-label, pipedream/props-description

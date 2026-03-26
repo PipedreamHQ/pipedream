@@ -1,14 +1,14 @@
-import base from "../common/base.mjs";
 import {
   ConfigurationError,
   getFileStreamAndMetadata,
 } from "@pipedream/platform";
+import base from "../common/base.mjs";
 
 export default {
   key: "amazon_ses-send-email",
   name: "Send Email",
   description: "Send an email using Amazon SES. Supports simple email messaging. [See the docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-sesv2/classes/sendemailcommand.html)",
-  version: "0.9.3",
+  version: "0.9.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -71,6 +71,7 @@ export default {
       type: "string[]",
       label: "Attachments",
       description: "File paths (e.g., `/tmp/file.pdf`) or URLs to attach to the email. Files will be automatically base64-encoded and MIME types auto-detected.",
+      format: "file-ref",
       optional: true,
     },
     inlineAttachments: {

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/wordpress_com",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "description": "Pipedream wordpress_com Components",
   "main": "wordpress_com.app.mjs",
   "keywords": [

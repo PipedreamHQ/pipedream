@@ -745,6 +745,24 @@ export default {
         ...args,
       });
     },
+    forwardTicket({
+      ticketId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        url: `/tickets/${ticketId}/forward`,
+        ...args,
+      });
+    },
+    replyToForward({
+      ticketId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        url: `/tickets/${ticketId}/reply_to_forward`,
+        ...args,
+      });
+    },
     listEmailConfigs(args) {
       return this._makeRequest({
         url: "/email_configs",
@@ -798,6 +816,12 @@ export default {
     }) {
       return this._makeRequest({
         url: `/canned_response_folders/${folderId}/responses`,
+        ...args,
+      });
+    },
+    searchSolutions(args = {}) {
+      return this._makeRequest({
+        url: "/search/solutions",
         ...args,
       });
     },

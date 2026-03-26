@@ -6,7 +6,7 @@ export default {
   name: "Upload a File",
   description: "Uploads a file to a selected folder. [See the documentation](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesUpload__anchor)",
   key: "dropbox-upload-file",
-  version: "1.0.3",
+  version: "1.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -34,6 +34,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.pdf).",
+      format: "file-ref",
     },
     autorename: {
       type: "boolean",

@@ -1,6 +1,7 @@
 import app from "../../api4ai.app.mjs";
 import {
-  retryWithExponentialBackoff, representFile,
+  representFile,
+  retryWithExponentialBackoff,
 } from "../../common/utils.mjs";
 
 export default {
@@ -8,7 +9,7 @@ export default {
   description:
     "Automatically and quickly remove image background with high accuracy. Powered by API4AI.",
   key: "api4ai-background-removal",
-  version: "0.0.3",
+  version: "0.0.6",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -50,6 +51,12 @@ export default {
         "JSON Buffer",
         "Array",
       ],
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {

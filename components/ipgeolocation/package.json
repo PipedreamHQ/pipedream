@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/ipgeolocation",
+  "version": "0.1.0",
+  "description": "Pipedream IPGeolocation Components",
+  "main": "ipgeolocation.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ipgeolocation"
+  ],
+  "homepage": "https://pipedream.com/apps/ipgeolocation",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.3.0"
+  }
+}
