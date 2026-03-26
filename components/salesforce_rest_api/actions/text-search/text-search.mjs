@@ -43,16 +43,16 @@ export default {
         "Opportunity",
       ];
 
-    const sobjects = objectTypes.map((type) => ({
-      name: type,
-    }));
+    const returningClause = objectTypes
+      .map((type) => `${type}(Id, Name)`)
+      .join(", ");
 
-    const response = await this.salesforce.parameterizedSearch({
+    const escapedTerm = this.searchTerm.replace(/[?&|!{}[\]()^~*:\\"'+-]/g, "\\$&");
+    const sosl = `FIND {${escapedTerm}} IN ALL FIELDS RETURNING ${returningClause}`;
+
+    const response = await this.salesforce.search({
       $,
-      params: {
-        q: this.searchTerm,
-        sobjects: JSON.stringify(sobjects),
-      },
+      search: sosl,
     });
 
     const results = response.searchRecords || [];
