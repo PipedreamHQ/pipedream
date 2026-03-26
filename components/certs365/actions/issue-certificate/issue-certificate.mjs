@@ -62,7 +62,7 @@ export default {
       customFields,
     } = this;
 
-    let parsedCustomFields = {};
+    let parsedCustomFields;
 
     if (customFields) {
       try {
@@ -70,6 +70,13 @@ export default {
       } catch (e) {
         throw new Error("Invalid JSON in customFields");
       }
+      if (
++        !parsedCustomFields ||
++        typeof parsedCustomFields !== "object" ||
++        Array.isArray(parsedCustomFields)
++      ) {
++        throw new Error("customFields must be a JSON object");
++      }
     }
 
     const response = await certs365.issueCertificate({
@@ -78,8 +85,8 @@ export default {
         name,
         recipientEmail,
         course_name: courseName,
-        templateId,
-        custom_fields: parsedCustomFields,
++       ...(templateId ? { templateId } : {}),
++       ...(parsedCustomFields ? { custom_fields: parsedCustomFields } : {}),
       },
     });
 
