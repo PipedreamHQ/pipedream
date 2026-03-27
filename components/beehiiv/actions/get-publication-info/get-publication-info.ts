@@ -47,13 +47,23 @@ export default defineAction({
     });
 
     const publications = response.data || [];
-    const pub = this.publicationId
-      ? publications.find((p) => p.id === this.publicationId)
-        || publications[0]
-      : publications[0];
 
-    if (!pub) {
+    if (!publications.length) {
       throw new Error("No publications found for this account.");
+    }
+
+    let pub;
+    if (this.publicationId) {
+      pub = publications.find((p) => p.id === this.publicationId);
+      if (!pub) {
+        const ids = publications.map((p) => p.id).join(", ");
+        throw new Error(
+          `Publication "${this.publicationId}" not found.`
+          + ` Available: ${ids}`,
+        );
+      }
+    } else {
+      pub = publications[0];
     }
 
     const result = {

@@ -4,6 +4,16 @@ import {
   getHeaders, rowObjectToArray,
 } from "../../common/ai-utils.mjs";
 
+function indexToColumnLetter(index) {
+  let letter = "";
+  let i = index;
+  while (i >= 0) {
+    letter = String.fromCharCode((i % 26) + 65) + letter;
+    i = Math.floor(i / 26) - 1;
+  }
+  return letter;
+}
+
 export default {
   key: "google_sheets-update-rows",
   name: "Update Rows",
@@ -120,17 +130,14 @@ export default {
             + " Ensure row 1 has headers.",
           );
         }
-        // Partial update — only specified columns
-        const fullRow = rowObjectToArray(headers, values);
         // Find which columns were specified
-        const cellUpdates = {};
-        headers.forEach((header, i) => {
-          if (values[header] !== undefined) {
-            cellUpdates[i] = String(values[header]);
-          }
-        });
+        const specifiedCount = headers.filter(
+          (h) => values[h] !== undefined,
+        ).length;
 
-        if (Object.keys(cellUpdates).length === headers.length) {
+        if (specifiedCount === headers.length) {
+          // Full row update — overwrite entire row
+          const fullRow = rowObjectToArray(headers, values);
           await this.googleSheets.updateRow(
             this.spreadsheetId,
             this.sheetName,
@@ -138,7 +145,15 @@ export default {
             fullRow,
           );
         } else {
-          // Use cell-level updates for partial row changes
+          // Partial update — only specified columns
+          // updateRowCells expects column letters as keys
+          const cellUpdates = {};
+          headers.forEach((header, i) => {
+            if (values[header] !== undefined) {
+              const colLetter = indexToColumnLetter(i);
+              cellUpdates[colLetter] = String(values[header]);
+            }
+          });
           await this.googleSheets.updateRowCells(
             this.spreadsheetId,
             this.sheetName,
