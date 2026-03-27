@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/grafana",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Grafana Components",
   "main": "grafana.app.mjs",
   "keywords": [
