@@ -7,36 +7,23 @@ export default {
   app: "autotask_psa",
   propDefinitions: {},
   methods: {
-    /**
-     * Reads connection fields from `$auth` (OAuth or API user flows). Supports
-     * snake_case and camelCase: base_url/baseUrl, api_integration_code/
-     * apiIntegrationCode, username, secret, impersonation_resource_id/
-     * impersonationResourceId (optional).
-     */
     _credentials() {
-      const a = this.$auth || {};
-      const baseUrlRaw = a.base_url || a.baseUrl || DEFAULT_BASE_URL;
-      const baseUrl = String(baseUrlRaw).replace(/\/+$/, "");
-      const username = a.username;
-      const secret = a.secret;
-      const apiIntegrationCode = a.api_integration_code || a.apiIntegrationCode;
-      const impersonationRaw =
-        a.impersonation_resource_id ?? a.impersonationResourceId;
-      const impersonationResourceId =
-        impersonationRaw != null && String(impersonationRaw).trim() !== ""
-          ? String(impersonationRaw)
-          : undefined;
-      return {
-        baseUrl,
+      const {
+        url,
         username,
-        secret,
-        apiIntegrationCode,
-        impersonationResourceId,
+        password,
+        api_integration_code,
+      } = this.$auth || {};
+      return {
+        baseUrl: (url || DEFAULT_BASE_URL).replace(/\/+$/, ""),
+        username,
+        secret: password,
+        apiIntegrationCode: api_integration_code,
       };
     },
 
     /**
-     * Autotask auth headers (matches Prismatic `UserName` casing).
+     * Autotask auth headers (UserName casing per API).
      * @see https://www.autotask.net/help/DeveloperHelp/Content/APIs/REST/General_Topics/REST_Security_Auth.htm
      */
     _headers() {
@@ -44,57 +31,65 @@ export default {
         username,
         secret,
         apiIntegrationCode,
-        impersonationResourceId,
       } = this._credentials();
-      const headers = {
+      return {
         "UserName": username,
         "Secret": secret,
         "ApiIntegrationCode": apiIntegrationCode,
         "Content-Type": "application/json",
       };
-      if (impersonationResourceId != null) {
-        headers["ImpersonationResourceId"] = impersonationResourceId;
-      }
-      return headers;
-    },
-
-    _entityUrl(entity, suffix) {
-      const { baseUrl } = this._credentials();
-      return `${baseUrl}/V1.0/${entity}/${suffix}`;
     },
 
     /**
-     * POST `/V1.0/{entity}/query` with JSON body
+     * Generic HTTP helper for `/V1.0/{path}` (POST by default).
      * @param {object} opts
-     * @param {object} [opts.$] - Pipedream axios context
-     * @param {string} opts.entity - REST entity name (e.g. `Companies`)
-     * @param {object} opts.data - Body: MaxRecords, IncludeFields, filter, etc.
+     * @param {object} [opts.$]
+     * @param {string} [opts.method]
+     * @param {string} opts.path - Path under `V1.0` (e.g. `Companies/query`)
+     * @param {object} [opts.data]
      */
-    queryEntity({
-      $ = this, entity, data,
+    makeRequest({
+      $ = this, method = "POST", path, data,
     }) {
+      const { baseUrl } = this._credentials();
       return axios($, {
-        method: "POST",
-        url: this._entityUrl(entity, "query"),
+        method,
+        url: `${baseUrl}/V1.0/${path}`,
         headers: this._headers(),
         data,
       });
     },
 
     /**
-     * POST `/V1.0/{entity}/query/count` with the same JSON body as `queryEntity`.
+     * POST `/V1.0/{entity}/query` with JSON body.
      * @param {object} opts
-     * @param {object} [opts.$] - Pipedream axios context
+     * @param {object} [opts.$]
      * @param {string} opts.entity - REST entity name (e.g. `Companies`)
-     * @param {object} opts.data - Same filter object as list actions
+     * @param {object} opts.data - MaxRecords, IncludeFields, filter, etc.
+     */
+    queryEntity({
+      $ = this, entity, data,
+    }) {
+      return this.makeRequest({
+        $,
+        path: `${entity}/query`,
+        data,
+      });
+    },
+
+    /**
+     * POST `/V1.0/{entity}/query/count` with the same body as `queryEntity`.
+     * @param {object} opts
+     * @param {object} [opts.$]
+     * @param {string} opts.entity
+     * @param {object} opts.data
      */
     queryEntityCount({
       $ = this, entity, data,
     }) {
-      return axios($, {
-        method: "POST",
-        url: this._entityUrl(entity, "query/count"),
-        headers: this._headers(),
+      return this.makeRequest({
+        $,
+        path: `${entity}/query/count`,
         data,
       });
     },
