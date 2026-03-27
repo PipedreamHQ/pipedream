@@ -1,0 +1,69 @@
+import datadog from "../../datadog.app.mjs";
+
+export default {
+  key: "datadog-search-dashboards",
+  name: "Search Dashboards",
+  description:
+    "List and search Datadog dashboards."
+    + " [See the docs](https://docs.datadoghq.com/api/latest/"
+    + "dashboards/#get-all-dashboards)",
+  version: "0.0.1",
+  type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
+  props: {
+    datadog,
+    region: {
+      propDefinition: [
+        datadog,
+        "region",
+      ],
+    },
+    filterShared: {
+      type: "boolean",
+      label: "Shared Only",
+      description:
+        "If true, only return dashboards that are shared.",
+      optional: true,
+    },
+    count: {
+      type: "integer",
+      label: "Count",
+      description: "Max dashboards to return.",
+      optional: true,
+    },
+    start: {
+      type: "integer",
+      label: "Start",
+      description: "Offset for pagination.",
+      optional: true,
+    },
+  },
+  async run({ $ }) {
+    const params = {};
+    if (this.filterShared !== undefined) {
+      params.filter_shared = this.filterShared;
+    }
+    if (this.count) params.count = this.count;
+    if (this.start) params.start = this.start;
+
+    const response = await this.datadog.listDashboards({
+      $,
+      params,
+      region: this.region,
+    });
+
+    const count = response?.dashboards?.length ?? 0;
+    $.export(
+      "$summary",
+      `Found ${count} dashboard${count === 1
+        ? ""
+        : "s"}`,
+    );
+
+    return response;
+  },
+};
