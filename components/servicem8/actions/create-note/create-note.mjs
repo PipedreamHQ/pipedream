@@ -16,7 +16,6 @@ export default {
     relatedObject: {
       type: "string",
       label: "Related Object",
-      optional: true,
       description:
         "Object type this note is attached to ([API](https://developer.servicem8.com/reference/createnotes)); lowercase. Pick a type, then choose the record below.",
       options: [
@@ -81,7 +80,6 @@ export default {
     relatedObjectUuid: {
       type: "string",
       label: "Related record",
-      optional: true,
       description:
         "Record this note is attached to (choose Related object first, then search).",
       useQuery: true,

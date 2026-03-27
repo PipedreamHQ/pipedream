@@ -16,27 +16,39 @@ export default {
     callbackUrl: {
       type: "string",
       label: "Callback URL",
-      description: "Public HTTPS URL that receives webhook POSTs",
+      description:
+        "URI of the endpoint that receives webhook POSTs when a subscribed field changes (typically HTTPS).",
     },
     object: {
       type: "string",
       label: "Object",
-      description: "ServiceM8 object to subscribe to (e.g. `Job`, `Company`)",
+      description:
+        "Object type to subscribe to (e.g. job, company). Required; max 64 characters.",
     },
     fields: {
       type: "string",
       label: "Fields",
-      description: "Comma-separated fields to include (optional; depends on object type)",
+      description:
+        "Comma-separated list of fields on the object to subscribe to.",
+    },
+    uniqueId: {
+      type: "string",
+      label: "Unique ID",
+      optional: true,
+      description:
+        "Optional identifier for grouping subscriptions (max 100 characters).",
     },
   },
   async run({ $ }) {
     // ServiceM8 expects subscription parameters as form-encoded POST body (not query string).
     const body = new URLSearchParams({
-      callback_url: this.callbackUrl,
       object: this.object,
+      fields: this.fields,
+      callback_url: this.callbackUrl,
     });
-    if (this.fields) {
-      body.set("fields", this.fields);
+    if (this.uniqueId !== undefined && this.uniqueId !== null
+      && String(this.uniqueId).trim() !== "") {
+      body.set("unique_id", String(this.uniqueId).trim());
     }
     const response = await this.servicem8.setHook({
       $,
