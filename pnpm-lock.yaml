@@ -1344,6 +1344,9 @@ importers:
 
   components/avosms: {}
 
+  components/awardco:
+    specifiers: {}
+
   components/aweber:
     dependencies:
       '@pipedream/platform':
