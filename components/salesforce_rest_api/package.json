@@ -12,7 +12,7 @@
   "dependencies": {
     "@pipedream/platform": "^3.1.1",
     "fast-xml-parser": "^5.5.7",
-    "handlebars": "^4.7.7",
+    "handlebars": "^4.7.9",
     "lodash": "^4.17.23",
     "lodash-es": "^4.17.23",
     "salesforce-webhooks": "^1.1.11",
