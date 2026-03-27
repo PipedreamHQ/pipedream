@@ -5388,8 +5388,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/fellow:
-    specifiers: {}
+  components/fellow: {}
 
   components/felt: {}
 
@@ -7163,7 +7162,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/helpwise: {}
+  components/helpwise:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.3.0
+        version: 3.3.0
 
   components/here:
     dependencies:
@@ -11530,8 +11533,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/permit_io:
-    specifiers: {}
+  components/permit_io: {}
 
   components/perplexity:
     dependencies:
@@ -14384,8 +14386,7 @@ importers:
 
   components/signwell: {}
 
-  components/siit:
-    specifiers: {}
+  components/siit: {}
 
   components/silfer_bots:
     dependencies:
@@ -19736,12 +19737,12 @@ packages:
   '@daytonaio/toolbox-api-client@0.138.0':
     resolution: {integrity: sha512-unM9e7MOQiyDXdY8hCW1uTctYbxpo/TGZ6L71ZXyS/j2Cnz9/ud4VWBLcQP2VzlC+lrBP2YMrhT90zSSvcNfmA==}
 
-  '@definitelytyped/header-parser@0.2.25':
-    resolution: {integrity: sha512-T5hVZCiOOjBNLZlw+MF8CRxNqEYCUptZDfix02DMfdLPgMIgidS2b1mtfk8cwf1Efk8Zm+AKuL5SCSbPbgvFgA==}
+  '@definitelytyped/header-parser@0.2.26':
+    resolution: {integrity: sha512-t8j4cfEDV5fe7Pji/KuvFIBOpwVXZ4Zm7ptoGFqkqgw1tSONJOCveElEmGxSideo6pr30W7nQziPiJreZ6Li3A==}
     engines: {node: '>=20.17.0'}
 
-  '@definitelytyped/typescript-versions@0.1.10':
-    resolution: {integrity: sha512-4aBop464n0PUxrlzj1FpAfiNa5P5ENycB0K/Ho22Ay8xAGEGXUpLkaWtFsn2R+Jfn4ldd7lJqfqw0z29sAingQ==}
+  '@definitelytyped/typescript-versions@0.1.11':
+    resolution: {integrity: sha512-hkO3A+ZyjeiLEXLTYe561uv9hnTvHM15+JTi3RgetfuB/+/Rp4Im1y/m+SehSi6D3iwdnbPckupv5TZ4PnlKPg==}
     engines: {node: '>=20.17.0'}
 
   '@definitelytyped/utils@0.1.13':
@@ -37499,9 +37500,9 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@definitelytyped/header-parser@0.2.25':
+  '@definitelytyped/header-parser@0.2.26':
     dependencies:
-      '@definitelytyped/typescript-versions': 0.1.10
+      '@definitelytyped/typescript-versions': 0.1.11
       '@definitelytyped/utils': 0.1.13
       semver: 7.7.4
     transitivePeerDependencies:
@@ -37510,7 +37511,7 @@ snapshots:
       - react-native-b4a
       - supports-color
 
-  '@definitelytyped/typescript-versions@0.1.10': {}
+  '@definitelytyped/typescript-versions@0.1.11': {}
 
   '@definitelytyped/utils@0.1.13':
     dependencies:
@@ -45801,7 +45802,7 @@ snapshots:
 
   dts-critic@3.3.11(typescript@5.6.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.25
+      '@definitelytyped/header-parser': 0.2.26
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -45816,7 +45817,7 @@ snapshots:
 
   dts-critic@3.3.11(typescript@5.9.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.25
+      '@definitelytyped/header-parser': 0.2.26
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -45833,8 +45834,8 @@ snapshots:
 
   dtslint@4.2.1(typescript@5.6.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.25
-      '@definitelytyped/typescript-versions': 0.1.10
+      '@definitelytyped/header-parser': 0.2.26
+      '@definitelytyped/typescript-versions': 0.1.11
       '@definitelytyped/utils': 0.1.13
       dts-critic: 3.3.11(typescript@5.6.3)
       fs-extra: 6.0.1
@@ -45852,8 +45853,8 @@ snapshots:
 
   dtslint@4.2.1(typescript@5.9.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.25
-      '@definitelytyped/typescript-versions': 0.1.10
+      '@definitelytyped/header-parser': 0.2.26
+      '@definitelytyped/typescript-versions': 0.1.11
       '@definitelytyped/utils': 0.1.13
       dts-critic: 3.3.11(typescript@5.9.3)
       fs-extra: 6.0.1
