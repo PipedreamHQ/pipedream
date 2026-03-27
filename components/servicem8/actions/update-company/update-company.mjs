@@ -1,5 +1,4 @@
 import servicem8 from "../../servicem8.app.mjs";
-import { optionalBool01 } from "../../common/payload.mjs";
 
 export default {
   key: "servicem8-update-company",
@@ -28,55 +27,32 @@ export default {
         });
       },
       label: "Company to update",
-      description: "Company record to load, merge, and save (search or paste UUID).",
+      description:
+        "Unique identifier for this company record to load, merge, and save (search or paste UUID).",
     },
     name: {
       type: "string",
       label: "Name",
-      description: "Company name (required by API; max 100 characters)",
+      description: "Company name (required; max 100 characters).",
     },
     abnNumber: {
       type: "string",
       label: "ABN",
       optional: true,
       description:
-        "Australian Business Number (11 digits). Used for tax and business identity in Australia.",
-    },
-    email: {
-      type: "string",
-      label: "Email",
-      optional: true,
-      description: "Primary company email.",
-    },
-    phone: {
-      type: "string",
-      label: "Phone",
-      optional: true,
-      description: "Main landline or office phone.",
-    },
-    mobile: {
-      type: "string",
-      label: "Mobile",
-      optional: true,
-      description: "Mobile number.",
+        "Australian Business Number — unique 11-digit identifier issued by the Australian Taxation Office. Used for tax compliance and business identity in Australia.",
     },
     address: {
       type: "string",
       label: "Address",
       optional: true,
-      description: "General address (max 500 characters)",
+      description: "General address (max 500 characters).",
     },
     billingAddress: {
       type: "string",
-      label: "Billing Address",
+      label: "Billing address",
       optional: true,
-      description: "Billing address (max 500 characters)",
-    },
-    postalAddress: {
-      type: "string",
-      label: "Postal Address",
-      optional: true,
-      description: "Mailing address if different from billing.",
+      description: "Billing address (max 500 characters).",
     },
     parentCompanyUuid: {
       type: "string",
@@ -94,13 +70,49 @@ export default {
       },
       optional: true,
       description:
-        "Parent company when this record is a Site (Company Sites add-on). Leave blank for a head office.",
+        "Parent company UUID when this record is a Site. If blank, this record is a Head Office. Only used when the Company Sites add-on is enabled.",
     },
     website: {
       type: "string",
       label: "Website",
       optional: true,
       description: "Company website URL.",
+    },
+    addressStreet: {
+      type: "string",
+      label: "Address — street",
+      optional: true,
+      description: "Street line (max 500 characters).",
+    },
+    addressCity: {
+      type: "string",
+      label: "Address — city",
+      optional: true,
+      description: "City / locality.",
+    },
+    addressState: {
+      type: "string",
+      label: "Address — state",
+      optional: true,
+      description: "State or region.",
+    },
+    addressPostcode: {
+      type: "string",
+      label: "Address — postcode",
+      optional: true,
+      description: "Postal or ZIP code.",
+    },
+    addressCountry: {
+      type: "string",
+      label: "Address — country",
+      optional: true,
+      description: "Country.",
+    },
+    faxNumber: {
+      type: "string",
+      label: "Fax number",
+      optional: true,
+      description: "Fax number.",
     },
     badges: {
       type: "string[]",
@@ -118,7 +130,7 @@ export default {
         });
       },
       description:
-        "Badge UUIDs ([list badges](https://developer.servicem8.com/reference/listbadges)). Sent as a JSON array string.",
+        "JSON array of badge UUIDs ([list badges](https://developer.servicem8.com/reference/listbadges)). Sent as a JSON array string.",
     },
     taxRateUuid: {
       type: "string",
@@ -135,49 +147,19 @@ export default {
         });
       },
       optional: true,
-      description: "Tax rate applied to this company’s invoices and quotes.",
+      description: "UUID of the tax rate applied to this company’s invoices and quotes.",
     },
     billingAttention: {
       type: "string",
-      label: "Billing Attention",
+      label: "Billing attention",
       optional: true,
       description: "Who invoices should be addressed to.",
-      options: [
-        "Accounts",
-        "Accounts Payable",
-        "Managing Director",
-        "Office Manager",
-        "Primary Contact",
-      ],
     },
     paymentTerms: {
       type: "string",
-      label: "Payment Terms",
+      label: "Payment terms",
       optional: true,
-      description: "When payment is due.",
-      options: [
-        "Due on receipt",
-        "7 days",
-        "14 days",
-        "21 days",
-        "30 days",
-        "60 days",
-        "90 days",
-        "End of month",
-        "COD",
-      ],
-    },
-    notes: {
-      type: "string",
-      label: "Notes",
-      optional: true,
-      description: "Free-text notes stored on the company record.",
-    },
-    active: {
-      type: "boolean",
-      label: "Active",
-      optional: true,
-      description: "When set, sends 1 (active) or 0 (inactive) to the API",
+      description: "Payment terms for invoices (e.g. due date wording).",
     },
   },
   async run({ $ }) {
@@ -202,20 +184,20 @@ export default {
       data: {
         name: this.name,
         abn_number: this.abnNumber,
-        email: this.email,
-        phone: this.phone,
-        mobile: this.mobile,
         address: this.address,
         billing_address: this.billingAddress,
-        postal_address: this.postalAddress,
         parent_company_uuid: this.parentCompanyUuid,
         website: this.website,
+        address_street: this.addressStreet,
+        address_city: this.addressCity,
+        address_state: this.addressState,
+        address_postcode: this.addressPostcode,
+        address_country: this.addressCountry,
+        fax_number: this.faxNumber,
         badges: badgesForApi,
         tax_rate_uuid: this.taxRateUuid,
         billing_attention: this.billingAttention,
         payment_terms: this.paymentTerms,
-        notes: this.notes,
-        active: optionalBool01(this.active),
       },
     });
     $.export("$summary", `Updated Company ${this.uuid}`);
