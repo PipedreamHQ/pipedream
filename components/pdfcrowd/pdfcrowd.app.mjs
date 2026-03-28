@@ -204,7 +204,7 @@ export default {
         auth: this._auth(),
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
-          "User-Agent": "pdfcrowd-pipedream/0.1.1",
+          "User-Agent": "pdfcrowd-pipedream/1.1.0",
         },
         data: formData.toString(),
         responseType: "arraybuffer",
