@@ -1,5 +1,8 @@
 import servicem8 from "../../servicem8.app.mjs";
-import { optionalBool01 } from "../../common/payload.mjs";
+import {
+  badgesJsonArrayForApi,
+  optionalBool01,
+} from "../../common/payload.mjs";
 
 const JOB_STATUS_OPTIONS = [
   "Quote",
@@ -37,6 +40,29 @@ export default {
       label: "Job to update",
       description: "Job to load, merge, and save (search or paste UUID).",
     },
+    createdByStaffUuid: {
+      type: "string",
+      label: "Created by staff",
+      useQuery: true,
+      async options({
+        $, prevContext, query,
+      }) {
+        return this.servicem8._uuidOptionsForResource({
+          $: $ ?? this,
+          resource: "staff",
+          prevContext,
+          query,
+        });
+      },
+      optional: true,
+      description: "Staff member who created the job (`created_by_staff_uuid`).",
+    },
+    date: {
+      type: "string",
+      label: "Date",
+      optional: true,
+      description: "Job date (`date`; e.g. `YYYY-MM-DD` per API).",
+    },
     companyUuid: {
       type: "string",
       label: "Company",
@@ -54,12 +80,6 @@ export default {
       optional: true,
       description: "Client/company for this job.",
     },
-    jobAddress: {
-      type: "string",
-      label: "Job Address",
-      optional: true,
-      description: "Work site address (max 500 characters).",
-    },
     billingAddress: {
       type: "string",
       label: "Billing Address",
@@ -71,23 +91,6 @@ export default {
       label: "Status",
       description: "Job status (max 20 characters).",
       options: JOB_STATUS_OPTIONS,
-    },
-    createdByStaffUuid: {
-      type: "string",
-      label: "Created by staff",
-      useQuery: true,
-      async options({
-        $, prevContext, query,
-      }) {
-        return this.servicem8._uuidOptionsForResource({
-          $: $ ?? this,
-          resource: "staff",
-          prevContext,
-          query,
-        });
-      },
-      optional: true,
-      description: "Staff member who created the job.",
     },
     categoryUuid: {
       type: "string",
@@ -194,6 +197,12 @@ export default {
       optional: true,
       description: "When status became Work Order.",
     },
+    jobAddress: {
+      type: "string",
+      label: "Job Address",
+      optional: true,
+      description: "Work site address (max 500 characters).",
+    },
     jobDescription: {
       type: "string",
       label: "Job Description",
@@ -232,40 +241,26 @@ export default {
     },
   },
   async run({ $ }) {
-    const badgesForApi = (() => {
-      const b = this.badges;
-      if (b === undefined || b === null) {
-        return undefined;
-      }
-      if (Array.isArray(b)) {
-        return b.length
-          ? JSON.stringify(b)
-          : undefined;
-      }
-      if (typeof b === "string" && b.trim() !== "") {
-        return b.trim();
-      }
-      return undefined;
-    })();
     const response = await this.servicem8.updateJob({
       $,
       uuid: this.uuid,
       data: {
+        created_by_staff_uuid: this.createdByStaffUuid,
+        date: this.date,
         company_uuid: this.companyUuid,
-        job_address: this.jobAddress,
         billing_address: this.billingAddress,
         status: this.status,
-        created_by_staff_uuid: this.createdByStaffUuid,
         category_uuid: this.categoryUuid,
         purchase_order_number: this.purchaseOrderNumber,
         invoice_sent: optionalBool01(this.invoiceSent),
         queue_uuid: this.queueUuid,
         queue_expiry_date: this.queueExpiryDate,
         queue_assigned_staff_uuid: this.queueAssignedStaffUuid,
-        badges: badgesForApi,
+        badges: badgesJsonArrayForApi(this.badges),
         quote_date: this.quoteDate,
         quote_sent: optionalBool01(this.quoteSent),
         work_order_date: this.workOrderDate,
+        job_address: this.jobAddress,
         job_description: this.jobDescription,
         work_done_description: this.workDoneDescription,
         payment_processed: optionalBool01(this.paymentProcessed),

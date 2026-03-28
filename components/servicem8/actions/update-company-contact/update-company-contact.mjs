@@ -1,5 +1,5 @@
 import servicem8 from "../../servicem8.app.mjs";
-import { optionalBool10String } from "../../common/payload.mjs";
+import { YES_NO_10_OPTIONS } from "../../common/logic.mjs";
 
 export default {
   key: "servicem8-update-company-contact",
@@ -81,12 +81,12 @@ export default {
       description:
         "Email for quotes, invoices, and other correspondence",
     },
-    role: {
+    type: {
       type: "string",
-      label: "Role",
+      label: "Type",
       optional: true,
       description:
-        "How this contact is used (maps to API `type`: BILLING, JOB, or Property Manager).",
+        "Contact type (`type` in the API): BILLING, JOB, or Property Manager.",
       options: [
         "BILLING",
         "JOB",
@@ -94,11 +94,12 @@ export default {
       ],
     },
     isPrimaryContact: {
-      type: "boolean",
+      type: "string",
       label: "Primary Contact",
       optional: true,
       description:
-        "When set, sends `\"1\"` (primary) or `\"0\"` (not primary). Only one active primary contact per company.",
+        "Whether this is the primary company contact (`is_primary_contact`: `1` = yes, `0` = no). Only one active primary contact per company.",
+      options: YES_NO_10_OPTIONS,
     },
   },
   async run({ $ }) {
@@ -112,8 +113,8 @@ export default {
         phone: this.phone,
         mobile: this.mobile,
         email: this.email,
-        type: this.role,
-        is_primary_contact: optionalBool10String(this.isPrimaryContact),
+        type: this.type,
+        is_primary_contact: this.isPrimaryContact,
       },
     });
     $.export("$summary", `Updated Company Contact ${this.uuid}`);

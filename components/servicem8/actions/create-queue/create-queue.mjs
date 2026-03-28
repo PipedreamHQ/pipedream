@@ -1,5 +1,9 @@
 import servicem8 from "../../servicem8.app.mjs";
-import { optionalParsedInt } from "../../common/payload.mjs";
+import { YES_NO_10_OPTIONS } from "../../common/logic.mjs";
+import {
+  optionalParsedInt,
+  semicolonDelimitedUuidsForApi,
+} from "../../common/payload.mjs";
 
 export default {
   key: "servicem8-create-queue",
@@ -26,6 +30,32 @@ export default {
       description:
         "Default days jobs stay in this queue before needing attention (e.g. 7 or 14).",
     },
+    subscribedStaff: {
+      type: "string[]",
+      label: "Subscribed staff",
+      optional: true,
+      useQuery: true,
+      async options({
+        $, prevContext, query,
+      }) {
+        return this.servicem8._uuidOptionsForResource({
+          $: $ ?? this,
+          resource: "staff",
+          prevContext,
+          query,
+        });
+      },
+      description:
+        "Staff UUIDs subscribed to notifications for this queue (`subscribed_staff`). Sent as a semicolon-delimited string.",
+    },
+    requiresAssignment: {
+      type: "string",
+      label: "Requires assignment",
+      optional: true,
+      options: YES_NO_10_OPTIONS,
+      description:
+        "If Yes (1), jobs must be assigned to staff; if No (0), jobs are visible to all staff (`requires_assignment`, integer 0 or 1).",
+    },
   },
   async run({ $ }) {
     const {
@@ -35,6 +65,8 @@ export default {
       data: {
         name: this.name,
         default_timeframe: optionalParsedInt(this.defaultTimeframe),
+        subscribed_staff: semicolonDelimitedUuidsForApi(this.subscribedStaff),
+        requires_assignment: optionalParsedInt(this.requiresAssignment),
       },
     });
     $.export("$summary", `Created Job Queue${recordUuid

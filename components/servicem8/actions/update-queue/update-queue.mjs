@@ -2,6 +2,7 @@ import servicem8 from "../../servicem8.app.mjs";
 import {
   optionalBool01,
   optionalParsedInt,
+  semicolonDelimitedUuidsForApi,
 } from "../../common/payload.mjs";
 
 export default {
@@ -46,10 +47,22 @@ export default {
       description: "Default days jobs stay in this queue before needing attention (e.g. 7 or 14).",
     },
     subscribedStaff: {
-      type: "string",
-      label: "Subscribed Staff",
+      type: "string[]",
+      label: "Subscribed staff",
       optional: true,
-      description: "Semicolon-separated staff UUIDs subscribed to notifications for this queue.",
+      useQuery: true,
+      async options({
+        $, prevContext, query,
+      }) {
+        return this.servicem8._uuidOptionsForResource({
+          $: $ ?? this,
+          resource: "staff",
+          prevContext,
+          query,
+        });
+      },
+      description:
+        "Staff UUIDs subscribed to notifications for this queue (`subscribed_staff`). Sent as a semicolon-delimited string.",
     },
     requiresAssignment: {
       type: "boolean",
@@ -65,7 +78,7 @@ export default {
       data: {
         name: this.name,
         default_timeframe: optionalParsedInt(this.defaultTimeframe),
-        subscribed_staff: this.subscribedStaff,
+        subscribed_staff: semicolonDelimitedUuidsForApi(this.subscribedStaff),
         requires_assignment: optionalBool01(this.requiresAssignment),
       },
     });

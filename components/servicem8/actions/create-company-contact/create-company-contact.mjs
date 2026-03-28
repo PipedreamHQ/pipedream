@@ -1,4 +1,5 @@
 import servicem8 from "../../servicem8.app.mjs";
+import { YES_NO_10_OPTIONS } from "../../common/logic.mjs";
 
 export default {
   key: "servicem8-create-company-contact",
@@ -60,16 +61,24 @@ export default {
       optional: true,
       description: "Email for quotes, invoices, and correspondence.",
     },
-    role: {
+    type: {
       type: "string",
-      label: "Role",
+      label: "Type",
       description:
-        "Maps to API `type`: BILLING, JOB, or Property Manager (required for create).",
+        "Contact type (`type` in the API): BILLING, JOB, or Property Manager (required for create).",
       options: [
         "BILLING",
         "JOB",
         "Property Manager",
       ],
+    },
+    isPrimaryContact: {
+      type: "string",
+      label: "Primary Contact",
+      optional: true,
+      description:
+        "Whether this is the primary company contact (`is_primary_contact`: `1` = yes, `0` = no).",
+      options: YES_NO_10_OPTIONS,
     },
   },
   async run({ $ }) {
@@ -84,7 +93,8 @@ export default {
         phone: this.phone,
         mobile: this.mobile,
         email: this.email,
-        type: this.role,
+        type: this.type,
+        is_primary_contact: this.isPrimaryContact,
       },
     });
     $.export("$summary", `Created Company Contact${recordUuid

@@ -169,6 +169,23 @@ export default {
       optional: true,
       description: "Additional JSON metadata (schema varies by type/source).",
     },
+    createdByStaffUuid: {
+      type: "string",
+      label: "Created by staff",
+      optional: true,
+      useQuery: true,
+      async options({
+        $, prevContext, query,
+      }) {
+        return this.servicem8._uuidOptionsForResource({
+          $: $ ?? this,
+          resource: "staff",
+          prevContext,
+          query,
+        });
+      },
+      description: "Staff member who created the attachment (`created_by_staff_uuid`).",
+    },
   },
   async run({ $ }) {
     const response = await this.servicem8.updateDboattachment({
@@ -183,6 +200,7 @@ export default {
         tags: this.tags,
         is_favourite: optionalBool01(this.isFavourite),
         metadata: this.metadata,
+        created_by_staff_uuid: this.createdByStaffUuid,
       },
     });
     $.export("$summary", `Updated Attachment ${this.uuid}`);

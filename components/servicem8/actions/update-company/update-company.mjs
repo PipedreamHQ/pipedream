@@ -1,4 +1,5 @@
 import servicem8 from "../../servicem8.app.mjs";
+import { badgesJsonArrayForApi } from "../../common/payload.mjs";
 
 export default {
   key: "servicem8-update-company",
@@ -163,21 +164,6 @@ export default {
     },
   },
   async run({ $ }) {
-    const badgesForApi = (() => {
-      const b = this.badges;
-      if (b === undefined || b === null) {
-        return undefined;
-      }
-      if (Array.isArray(b)) {
-        return b.length
-          ? JSON.stringify(b)
-          : undefined;
-      }
-      if (typeof b === "string" && b.trim() !== "") {
-        return b.trim();
-      }
-      return undefined;
-    })();
     const response = await this.servicem8.updateCompany({
       $,
       uuid: this.uuid,
@@ -194,7 +180,7 @@ export default {
         address_postcode: this.addressPostcode,
         address_country: this.addressCountry,
         fax_number: this.faxNumber,
-        badges: badgesForApi,
+        badges: badgesJsonArrayForApi(this.badges),
         tax_rate_uuid: this.taxRateUuid,
         billing_attention: this.billingAttention,
         payment_terms: this.paymentTerms,

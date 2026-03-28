@@ -36,6 +36,42 @@ export default {
         });
       },
     },
+    regardingFormUuid: {
+      type: "string",
+      label: "Regarding Form",
+      optional: true,
+      description:
+        "Form UUID (`regarding_form_uuid`). For form badges; pick from [list forms](https://developer.servicem8.com/reference/listforms) (requires `read_forms`) or paste a UUID.",
+      useQuery: true,
+      async options({
+        $, prevContext, query,
+      }) {
+        return this.servicem8._uuidOptionsForResource({
+          $: $ ?? this,
+          resource: "form",
+          prevContext,
+          query,
+        });
+      },
+    },
+    regardingAssetTypeUuid: {
+      type: "string",
+      label: "Regarding Asset Type",
+      optional: true,
+      description:
+        "Asset type UUID (`regarding_asset_type_uuid`). For asset badges; pick from [list asset types](https://developer.servicem8.com/reference/listassettypes) (requires `read_assets`) or paste a UUID.",
+      useQuery: true,
+      async options({
+        $, prevContext, query,
+      }) {
+        return this.servicem8._uuidOptionsForResource({
+          $: $ ?? this,
+          resource: "assettype",
+          prevContext,
+          query,
+        });
+      },
+    },
   },
   async run({ $ }) {
     const {
@@ -45,6 +81,8 @@ export default {
       data: {
         name: this.name,
         file_name: this.fileName,
+        regarding_form_uuid: this.regardingFormUuid,
+        regarding_asset_type_uuid: this.regardingAssetTypeUuid,
       },
     });
     $.export("$summary", `Created Badge${recordUuid

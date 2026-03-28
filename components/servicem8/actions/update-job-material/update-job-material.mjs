@@ -1,4 +1,5 @@
 import servicem8 from "../../servicem8.app.mjs";
+import { YES_NO_TRUE_FALSE_OPTIONS } from "../../common/logic.mjs";
 import { coercePipedreamString } from "../../common/payload.mjs";
 
 export default {
@@ -96,16 +97,7 @@ export default {
     displayedAmountIsTaxInclusive: {
       type: "string",
       label: "Displayed amount is tax inclusive",
-      options: [
-        {
-          label: "Yes",
-          value: "true",
-        },
-        {
-          label: "No",
-          value: "false",
-        },
-      ],
+      options: YES_NO_TRUE_FALSE_OPTIONS,
       description:
         "Required. UI shows Yes/No; the API receives the strings true or false.",
     },

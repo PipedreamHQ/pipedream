@@ -1,4 +1,6 @@
 import servicem8 from "../../servicem8.app.mjs";
+import { YES_NO_10_OPTIONS } from "../../common/logic.mjs";
+import { optionalParsedInt } from "../../common/payload.mjs";
 
 export default {
   key: "servicem8-create-staff",
@@ -39,6 +41,52 @@ export default {
       label: "Job Title",
       optional: true,
       description: "Role or title shown across the product.",
+    },
+    navigatingToJobUuid: {
+      type: "string",
+      label: "Navigating to job",
+      useQuery: true,
+      async options({
+        $, prevContext, query,
+      }) {
+        return this.servicem8._uuidOptionsForResource({
+          $: $ ?? this,
+          resource: "job",
+          prevContext,
+          query,
+        });
+      },
+      optional: true,
+      description:
+        "Job the staff member is currently navigating to (`navigating_to_job_uuid`).",
+    },
+    color: {
+      type: "string",
+      label: "Color",
+      optional: true,
+      description:
+        "Hex color for schedule and dispatch display (`color`).",
+    },
+    statusMessage: {
+      type: "string",
+      label: "Status message",
+      optional: true,
+      description: "Short summary of current status (`status_message`).",
+    },
+    statusMessageTimestamp: {
+      type: "string",
+      label: "Status message timestamp",
+      optional: true,
+      description:
+        "When the status message was last updated (`status_message_timestamp`; e.g. `YYYY-MM-DD HH:MM:SS`).",
+    },
+    hideFromSchedule: {
+      type: "string",
+      label: "Hide from schedule",
+      optional: true,
+      options: YES_NO_10_OPTIONS,
+      description:
+        "Yes (1) to hide from the schedule; No (0) to show (`hide_from_schedule`, integer 0 or 1).",
     },
     securityRoleUuid: {
       type: "string",
@@ -88,6 +136,11 @@ export default {
         email: this.email,
         mobile: this.mobile,
         job_title: this.jobTitle,
+        navigating_to_job_uuid: this.navigatingToJobUuid,
+        color: this.color,
+        status_message: this.statusMessage,
+        status_message_timestamp: this.statusMessageTimestamp,
+        hide_from_schedule: optionalParsedInt(this.hideFromSchedule),
         security_role_uuid: this.securityRoleUuid,
         labour_material_uuid: this.labourMaterialUuid,
       },

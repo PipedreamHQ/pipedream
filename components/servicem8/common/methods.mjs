@@ -436,6 +436,71 @@ export function createMethods(axios) {
         context,
       };
     },
+    /**
+     * Async options for Job `payment_method`: distinct `method` values from
+     * [list job payments](https://developer.servicem8.com/reference/listjobpayments) (`jobpayment.json`).
+     * @param {object} opts
+     * @param {object} opts.$
+     * @param {object} [opts.prevContext]
+     * @param {string} [opts.prevContext.cursor]
+     * @param {string} [opts.query]
+     */
+    async _paymentMethodOptionsFromJobPayments({
+      $, prevContext, query,
+    }) {
+      const params = {};
+      if (prevContext?.cursor) {
+        params.cursor = prevContext.cursor;
+      }
+      const data = await this.listResource({
+        $,
+        resource: "jobpayment",
+        params,
+      });
+      const rows = Array.isArray(data)
+        ? data
+        : (data && typeof data === "object" && Array.isArray(data.items))
+          ? data.items
+          : [];
+      const nextCursor = (data && typeof data === "object" && !Array.isArray(data))
+        ? (data.cursor ?? data.next_cursor)
+        : undefined;
+      const context = {};
+      if (nextCursor) {
+        context.cursor = nextCursor;
+      }
+      const seen = new Set();
+      const options = [];
+      for (const row of rows) {
+        const raw = row.method;
+        if (raw == null || String(raw).trim() === "") {
+          continue;
+        }
+        const v = String(raw).trim();
+        if (seen.has(v)) {
+          continue;
+        }
+        seen.add(v);
+        options.push({
+          label: v,
+          value: v,
+        });
+      }
+      options.sort((a, b) => String(a.label).localeCompare(String(b.label)));
+      let filtered = options;
+      if (query && String(query).trim()) {
+        const q = String(query).trim()
+          .toLowerCase();
+        filtered = options.filter((o) => String(o.label).toLowerCase()
+          .includes(q)
+          || String(o.value).toLowerCase()
+            .includes(q));
+      }
+      return {
+        options: filtered,
+        context,
+      };
+    },
     async _uuidOptionsForResource({
       $, resource, prevContext, query, listParams = {},
     }) {

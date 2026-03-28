@@ -64,6 +64,24 @@ export default {
       optional: true,
       description: "Reference numbers, transaction IDs, or other details.",
     },
+    attachmentUuid: {
+      type: "string",
+      label: "Attachment",
+      useQuery: true,
+      async options({
+        $, prevContext, query,
+      }) {
+        return this.servicem8._uuidOptionsForResource({
+          $: $ ?? this,
+          resource: "dboattachment",
+          prevContext,
+          query,
+        });
+      },
+      optional: true,
+      description:
+        "UUID linking to a stored attachment related to this payment, such as a receipt image. Optional reference to an Attachment record (`attachment_uuid`).",
+    },
   },
   async run({ $ }) {
     const {
@@ -76,6 +94,7 @@ export default {
         amount: this.amount,
         method: this.method,
         note: this.note,
+        attachment_uuid: this.attachmentUuid,
       },
     });
     $.export("$summary", `Created Job Payment${recordUuid

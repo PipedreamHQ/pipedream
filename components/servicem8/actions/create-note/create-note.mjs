@@ -125,7 +125,33 @@ export default {
       type: "string",
       label: "Action Required",
       optional: true,
-      description: "Follow-up text when the note requires an action from someone.",
+      description:
+        "Follow-up text when the note requires an action from someone (`action_required`).",
+    },
+    actionCompletedByStaffUuid: {
+      type: "string",
+      label: "Action completed by",
+      useQuery: true,
+      async options({
+        $, prevContext, query,
+      }) {
+        return this.servicem8._uuidOptionsForResource({
+          $: $ ?? this,
+          resource: "staff",
+          prevContext,
+          query,
+        });
+      },
+      optional: true,
+      description:
+        "Staff member who completed the required action (`action_completed_by_staff_uuid`).",
+    },
+    createDate: {
+      type: "string",
+      label: "Create date",
+      optional: true,
+      description:
+        "Timestamp string (`create_date`); format as accepted by the API (e.g. `YYYY-MM-DD HH:MM:SS`).",
     },
   },
   async run({ $ }) {
@@ -138,6 +164,8 @@ export default {
         related_object_uuid: this.relatedObjectUuid,
         note: this.note,
         action_required: this.actionRequired,
+        action_completed_by_staff_uuid: this.actionCompletedByStaffUuid,
+        create_date: this.createDate,
       },
     });
     $.export("$summary", `Created Note${recordUuid

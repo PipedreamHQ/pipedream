@@ -8,6 +8,36 @@
 export const API_PATH = "api_1.0";
 
 /**
+ * Pipedream `options` for API string flags `"1"` / `"0"`.
+ * Examples: `invoice_sent`, `is_primary_contact`, `payment_processed`.
+ */
+export const YES_NO_10_OPTIONS = [
+  {
+    label: "Yes",
+    value: "1",
+  },
+  {
+    label: "No",
+    value: "0",
+  },
+];
+
+/**
+ * Pipedream `options` for API string flags `"true"` / `"false"`.
+ * Example: job material “displayed amount is tax inclusive”.
+ */
+export const YES_NO_TRUE_FALSE_OPTIONS = [
+  {
+    label: "Yes",
+    value: "true",
+  },
+  {
+    label: "No",
+    value: "false",
+  },
+];
+
+/**
  * ServiceM8 API resources with display labels. Aligned with
  * [ServiceM8 REST API reference](https://developer.servicem8.com/reference).
  */

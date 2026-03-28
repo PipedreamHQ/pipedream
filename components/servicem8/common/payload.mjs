@@ -77,6 +77,46 @@ export function optionalParsedInt(v) {
 }
 
 /**
+ * Multiselect `badges` prop → API JSON array string (or passthrough non-empty string).
+ * @param {unknown} b
+ * @returns {string|undefined}
+ */
+export function badgesJsonArrayForApi(b) {
+  if (b === undefined || b === null) {
+    return undefined;
+  }
+  if (Array.isArray(b)) {
+    return b.length
+      ? JSON.stringify(b)
+      : undefined;
+  }
+  if (typeof b === "string" && b.trim() !== "") {
+    return b.trim();
+  }
+  return undefined;
+}
+
+/**
+ * Multiselect UUID list → semicolon-delimited string (`subscribed_staff`).
+ * @param {unknown} s
+ * @returns {string|undefined}
+ */
+export function semicolonDelimitedUuidsForApi(s) {
+  if (s === undefined || s === null) {
+    return undefined;
+  }
+  if (Array.isArray(s)) {
+    return s.length
+      ? s.join(";")
+      : undefined;
+  }
+  if (typeof s === "string" && s.trim() !== "") {
+    return s.trim();
+  }
+  return undefined;
+}
+
+/**
  * @param {unknown} raw
  * @returns {Record<string, unknown>}
  */
