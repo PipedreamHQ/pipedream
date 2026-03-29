@@ -1,5 +1,5 @@
 import servicem8 from "../../servicem8.app.mjs";
-import { YES_NO_10_OPTIONS } from "../../common/logic.mjs";
+import { optionalBool10String } from "../../common/payload.mjs";
 
 export default {
   key: "servicem8-update-badge",
@@ -38,12 +38,11 @@ export default {
       description: "Display name (max 50 characters).",
     },
     automaticallyAllocated: {
-      type: "string",
+      type: "boolean",
       label: "Automatically allocated",
       optional: true,
-      options: YES_NO_10_OPTIONS,
       description:
-        "Whether the badge is automatically allocated (`automatically_allocated`; API string `1` / `0`).",
+        "Whether the badge is automatically allocated (`automatically_allocated`).",
     },
     fileName: {
       type: "string",
@@ -105,7 +104,7 @@ export default {
       uuid: this.uuid,
       data: {
         name: this.name,
-        automatically_allocated: this.automaticallyAllocated,
+        automatically_allocated: optionalBool10String(this.automaticallyAllocated),
         file_name: this.fileName,
         regarding_form_uuid: this.regardingFormUuid,
         regarding_asset_type_uuid: this.regardingAssetTypeUuid,

@@ -1,6 +1,6 @@
 import servicem8 from "../../servicem8.app.mjs";
-import { YES_NO_10_OPTIONS } from "../../common/logic.mjs";
 import {
+  optionalBool01,
   optionalParsedInt,
   semicolonDelimitedUuidsForApi,
 } from "../../common/payload.mjs";
@@ -49,12 +49,11 @@ export default {
         "Staff UUIDs subscribed to notifications for this queue (`subscribed_staff`). Sent as a semicolon-delimited string.",
     },
     requiresAssignment: {
-      type: "string",
+      type: "boolean",
       label: "Requires assignment",
       optional: true,
-      options: YES_NO_10_OPTIONS,
       description:
-        "If Yes (1), jobs must be assigned to staff; if No (0), jobs are visible to all staff (`requires_assignment`, integer 0 or 1).",
+        "If enabled, jobs must be assigned to staff; otherwise jobs are visible to all staff (`requires_assignment`).",
     },
   },
   async run({ $ }) {
@@ -66,7 +65,7 @@ export default {
         name: this.name,
         default_timeframe: optionalParsedInt(this.defaultTimeframe),
         subscribed_staff: semicolonDelimitedUuidsForApi(this.subscribedStaff),
-        requires_assignment: optionalParsedInt(this.requiresAssignment),
+        requires_assignment: optionalBool01(this.requiresAssignment),
       },
     });
     $.export("$summary", `Created Job Queue${recordUuid

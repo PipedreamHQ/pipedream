@@ -1,6 +1,8 @@
 import servicem8 from "../../servicem8.app.mjs";
-import { YES_NO_10_OPTIONS } from "../../common/logic.mjs";
-import { badgesJsonArrayForApi } from "../../common/payload.mjs";
+import {
+  badgesJsonArrayForApi,
+  optionalBool10String,
+} from "../../common/payload.mjs";
 
 const JOB_STATUS_OPTIONS = [
   "Quote",
@@ -144,11 +146,10 @@ export default {
       description: "Client PO reference (`purchase_order_number`; max 100 characters).",
     },
     invoiceSent: {
-      type: "string",
+      type: "boolean",
       label: "Invoice sent",
       optional: true,
       description: "Whether an invoice has been sent (`invoice_sent`).",
-      options: YES_NO_10_OPTIONS,
     },
     queueUuid: {
       type: "string",
@@ -220,18 +221,16 @@ export default {
       description: "Description of work completed (`work_done_description`).",
     },
     paymentProcessed: {
-      type: "string",
+      type: "boolean",
       label: "Payment processed",
       optional: true,
       description: "Exported to accounting (`payment_processed`).",
-      options: YES_NO_10_OPTIONS,
     },
     paymentReceived: {
-      type: "string",
+      type: "boolean",
       label: "Payment received",
       optional: true,
       description: "Full payment received (`payment_received`).",
-      options: YES_NO_10_OPTIONS,
     },
     completionDate: {
       type: "string",
@@ -270,15 +269,15 @@ export default {
         payment_amount: this.paymentAmount,
         category_uuid: this.categoryUuid,
         purchase_order_number: this.purchaseOrderNumber,
-        invoice_sent: this.invoiceSent,
+        invoice_sent: optionalBool10String(this.invoiceSent),
         queue_uuid: this.queueUuid,
         queue_assigned_staff_uuid: this.queueAssignedStaffUuid,
         badges: badgesJsonArrayForApi(this.badges),
         job_address: this.jobAddress,
         job_description: this.jobDescription,
         work_done_description: this.workDoneDescription,
-        payment_processed: this.paymentProcessed,
-        payment_received: this.paymentReceived,
+        payment_processed: optionalBool10String(this.paymentProcessed),
+        payment_received: optionalBool10String(this.paymentReceived),
         completion_date: this.completionDate,
         unsuccessful_date: this.unsuccessfulDate,
       },

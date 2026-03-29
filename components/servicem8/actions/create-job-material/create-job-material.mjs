@@ -1,5 +1,4 @@
 import servicem8 from "../../servicem8.app.mjs";
-import { YES_NO_TRUE_FALSE_OPTIONS } from "../../common/logic.mjs";
 import { coercePipedreamString } from "../../common/payload.mjs";
 
 export default {
@@ -77,11 +76,10 @@ export default {
         "Unit price as shown on invoices/quotes (required; tax-inclusive or exclusive per “Displayed amount is tax inclusive”).",
     },
     displayedAmountIsTaxInclusive: {
-      type: "string",
+      type: "boolean",
       label: "Displayed amount is tax inclusive",
-      options: YES_NO_TRUE_FALSE_OPTIONS,
       description:
-        "Required. UI shows Yes/No; the API receives the strings true or false.",
+        "Whether the displayed amount includes tax (`displayed_amount_is_tax_inclusive`).",
     },
     taxRateUuid: {
       type: "string",

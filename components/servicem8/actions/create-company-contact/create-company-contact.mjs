@@ -1,5 +1,5 @@
 import servicem8 from "../../servicem8.app.mjs";
-import { YES_NO_10_OPTIONS } from "../../common/logic.mjs";
+import { optionalBool10String } from "../../common/payload.mjs";
 
 export default {
   key: "servicem8-create-company-contact",
@@ -73,12 +73,11 @@ export default {
       ],
     },
     isPrimaryContact: {
-      type: "string",
+      type: "boolean",
       label: "Primary Contact",
       optional: true,
       description:
-        "Whether this is the primary company contact (`is_primary_contact`: `1` = yes, `0` = no).",
-      options: YES_NO_10_OPTIONS,
+        "Whether this is the primary company contact (`is_primary_contact`).",
     },
   },
   async run({ $ }) {
@@ -94,7 +93,7 @@ export default {
         mobile: this.mobile,
         email: this.email,
         type: this.type,
-        is_primary_contact: this.isPrimaryContact,
+        is_primary_contact: optionalBool10String(this.isPrimaryContact),
       },
     });
     $.export("$summary", `Created Company Contact${recordUuid

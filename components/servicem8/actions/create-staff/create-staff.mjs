@@ -1,6 +1,5 @@
 import servicem8 from "../../servicem8.app.mjs";
-import { YES_NO_10_OPTIONS } from "../../common/logic.mjs";
-import { optionalParsedInt } from "../../common/payload.mjs";
+import { optionalBool01 } from "../../common/payload.mjs";
 
 export default {
   key: "servicem8-create-staff",
@@ -81,12 +80,11 @@ export default {
         "When the status message was last updated (`status_message_timestamp`; e.g. `YYYY-MM-DD HH:MM:SS`).",
     },
     hideFromSchedule: {
-      type: "string",
+      type: "boolean",
       label: "Hide from schedule",
       optional: true,
-      options: YES_NO_10_OPTIONS,
       description:
-        "Yes (1) to hide from the schedule; No (0) to show (`hide_from_schedule`, integer 0 or 1).",
+        "Enable to hide this staff member from the schedule (`hide_from_schedule`).",
     },
     securityRoleUuid: {
       type: "string",
@@ -140,7 +138,7 @@ export default {
         color: this.color,
         status_message: this.statusMessage,
         status_message_timestamp: this.statusMessageTimestamp,
-        hide_from_schedule: optionalParsedInt(this.hideFromSchedule),
+        hide_from_schedule: optionalBool01(this.hideFromSchedule),
         security_role_uuid: this.securityRoleUuid,
         labour_material_uuid: this.labourMaterialUuid,
       },

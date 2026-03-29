@@ -6,6 +6,129 @@
 import * as logic from "./logic.mjs";
 import { buildProduceDocumentJsonBody } from "./payload.mjs";
 
+// ---------------------------------------------------------------------------
+// Module-level pure helpers
+// ---------------------------------------------------------------------------
+
+/** Trim a value to a non-empty string, or return null. */
+function strVal(v) {
+  const s = v != null
+    ? String(v).trim()
+    : "";
+  return s || null;
+}
+
+/** Extract rows and pagination context from a list API response. */
+function extractPageResult(data) {
+  const rows = Array.isArray(data)
+    ? data
+    : data && typeof data === "object" && Array.isArray(data.items)
+      ? data.items
+      : [];
+  const nextCursor = !Array.isArray(data) && data && typeof data === "object"
+    ? (data.cursor ?? data.next_cursor)
+    : undefined;
+  return {
+    rows,
+    context: nextCursor
+      ? {
+        cursor: nextCursor,
+      }
+      : {},
+  };
+}
+
+/** Filter options by a query string (label or value, case-insensitive). */
+function filterByQuery(options, query) {
+  if (!query || !String(query).trim()) {
+    return options;
+  }
+  const q = String(query).trim()
+    .toLowerCase();
+  return options.filter(
+    (o) =>
+      String(o.label).toLowerCase()
+        .includes(q) ||
+      String(o.value).toLowerCase()
+        .includes(q),
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Row → label helpers (each returns a string or undefined)
+// ---------------------------------------------------------------------------
+
+function labelFromFirstLast(row) {
+  const parts = [
+    row.first,
+    row.last,
+  ].map(strVal).filter(Boolean);
+  return parts.length
+    ? parts.join(" ")
+    : undefined;
+}
+
+function labelFromNote(row) {
+  const text = strVal(row.note);
+  if (!text) {
+    return undefined;
+  }
+  return text.length > 60
+    ? `${text.slice(0, 60)}…`
+    : text;
+}
+
+/** jobactivity: API returns start_date / end_date (not start_time / end_time). */
+function labelFromActivity(row) {
+  const start = row.start_date ?? row.start_time;
+  const end = row.end_date ?? row.end_time;
+  if (!start && !end) {
+    return undefined;
+  }
+  return [
+    start,
+    end,
+  ].filter(Boolean).join(" → ");
+}
+
+/** jobpayment: no single name field; combine method + amount. */
+function labelFromPayment(row) {
+  const method = strVal(row.method);
+  const amount = strVal(row.amount);
+  if (!method && !amount) {
+    return undefined;
+  }
+  return [
+    method,
+    amount,
+  ].filter(Boolean).join(" · ");
+}
+
+/**
+ * Resolve a human-readable label for any ServiceM8 API row.
+ * Priority order covers every resource type used across components.
+ */
+function rowLabel(row, uuid) {
+  return (
+    row.name ??
+    labelFromFirstLast(row) ??
+    row.attachment_name ??
+    row.company_name ??
+    row.job_address ??
+    row.subject ??
+    row.title ??
+    labelFromNote(row) ??
+    labelFromActivity(row) ??
+    labelFromPayment(row) ??
+    row.role_description ??
+    String(uuid)
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Methods factory
+// ---------------------------------------------------------------------------
+
 /**
  * Factory that returns the `methods` object for the ServiceM8 Pipedream app.
  * @param {import("@pipedream/platform").axios} axios - Platform axios helper
@@ -13,18 +136,16 @@ import { buildProduceDocumentJsonBody } from "./payload.mjs";
  */
 export function createMethods(axios) {
   return {
-    /**
-     * @returns {string} Base URL for the ServiceM8 API
-     */
+    /** @returns {string} Base URL for the ServiceM8 API */
     _apiRoot() {
       return "https://api.servicem8.com";
     },
-    /**
-     * @returns {string} Versioned REST path segment (e.g. `api_1.0`)
-     */
+
+    /** @returns {string} Versioned REST path segment (e.g. `api_1.0`) */
     _apiPath() {
       return logic.API_PATH;
     },
+
     /**
      * Default headers for authenticated requests.
      * @param {object} [opts]
@@ -34,7 +155,6 @@ export function createMethods(axios) {
     _authHeaders({ json = false } = {}) {
       const headers = {
         Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        /** Prefer JSON responses on `*.json` REST routes (GET/POST/DELETE), not HTML. */
         Accept: "application/json",
       };
       if (json) {
@@ -42,6 +162,7 @@ export function createMethods(axios) {
       }
       return headers;
     },
+
     /**
      * Low-level HTTP helper (uses `@pipedream/platform` axios).
      * @param {object} opts
@@ -52,16 +173,13 @@ export function createMethods(axios) {
      * @param {object} [opts.params] - Query string params
      * @param {object} [opts.headers] - Extra headers merged after auth
      * @param {boolean} [opts.returnFullResponse]
-     * @param {boolean} [opts.formUrlEncoded] - Send body as
-     *   `application/x-www-form-urlencoded`
-     * @param {string} [opts.responseType] - Axios responseType (e.g. "arraybuffer" for
-     *   binary)
-     * @param {(status: number) => boolean} [opts.validateStatus] - When set, axios returns
-     *   non-throwing responses for matching statuses (e.g. read 4xx JSON body).
+     * @param {boolean} [opts.formUrlEncoded] - Send body as `application/x-www-form-urlencoded`
+     * @param {string} [opts.responseType] - Axios responseType (e.g. "arraybuffer" for binary)
+     * @param {(status: number) => boolean} [opts.validateStatus]
      */
     async _makeRequest({
-      $ = this, path, method = "GET", data, params, headers, returnFullResponse = false,
-      formUrlEncoded = false, responseType, validateStatus,
+      $ = this, path, method = "GET", data, params, headers,
+      returnFullResponse = false, formUrlEncoded = false, responseType, validateStatus,
     }) {
       const useJsonBody = !formUrlEncoded && data && method !== "GET" && typeof data === "object";
       const config = {
@@ -92,28 +210,22 @@ export function createMethods(axios) {
       }
       return axios($, config);
     },
-    /**
-     * @param {string} resource - Resource name used in list URLs
-     * @returns {string}
-     */
+
+    /** @param {string} resource @returns {string} */
     resourceListPath(resource) {
       return logic.resourceListPath(resource);
     },
-    /**
-     * @param {string} resource
-     * @param {string} uuid
-     * @returns {string}
-     */
+
+    /** @param {string} resource @param {string} uuid @returns {string} */
     resourceItemPath(resource, uuid) {
       return logic.resourceItemPath(resource, uuid);
     },
-    /**
-     * @param {object} opts
-     * @returns {Record<string, string>}
-     */
+
+    /** @param {object} opts @returns {Record<string, string>} */
     buildListQueryParams(opts) {
       return logic.buildListQueryParams(opts);
     },
+
     /**
      * List records for a resource with optional filter/sort/cursor (pagination).
      * @param {object} opts
@@ -130,6 +242,7 @@ export function createMethods(axios) {
         params,
       });
     },
+
     /**
      * @param {object} opts
      * @param {object} opts.$
@@ -144,9 +257,10 @@ export function createMethods(axios) {
         path: this.resourceItemPath(resource, uuid),
       });
     },
+
     /**
      * Ensure data is an object (parse JSON string if needed).
-     * @param {object|string} data - Record data from props
+     * @param {object|string} data
      * @returns {object}
      */
     _ensureRecordObject(data) {
@@ -164,6 +278,7 @@ export function createMethods(axios) {
         ? data
         : {};
     },
+
     /**
      * @param {object} opts
      * @param {object} opts.$
@@ -188,6 +303,7 @@ export function createMethods(axios) {
         recordUuid,
       };
     },
+
     /**
      * @param {object} opts
      * @param {object} opts.$
@@ -198,14 +314,14 @@ export function createMethods(axios) {
     async updateResource({
       $, resource, uuid, data,
     }) {
-      const payload = this._ensureRecordObject(data);
       return this._makeRequest({
         $,
         path: this.resourceItemPath(resource, uuid),
         method: "POST",
-        data: payload,
+        data: this._ensureRecordObject(data),
       });
     },
+
     /**
      * @param {object} opts
      * @param {object} opts.$
@@ -221,19 +337,16 @@ export function createMethods(axios) {
         method: "DELETE",
       });
     },
-    /**
-     * @param {string} jobId - Job UUID
-     */
+
+    /** @param {string} jobId - Job UUID */
     getJob(jobId) {
       return this.getResource({
         resource: "job",
         uuid: jobId,
       });
     },
-    /**
-     * @param {object} opts
-     * @param {object} opts.$
-     */
+
+    /** @param {object} opts @param {object} opts.$ */
     async listWebhooks({ $ }) {
       return this._makeRequest({
         $,
@@ -241,6 +354,7 @@ export function createMethods(axios) {
         method: "GET",
       });
     },
+
     /**
      * Create or update a webhook subscription (POST body must be form-encoded).
      * @param {object} opts
@@ -258,6 +372,7 @@ export function createMethods(axios) {
         formUrlEncoded: true,
       });
     },
+
     /**
      * Delete a webhook subscription (form-encoded body).
      * @param {object} opts
@@ -275,6 +390,7 @@ export function createMethods(axios) {
         formUrlEncoded: true,
       });
     },
+
     /**
      * Messaging API (requires `publish_sms` scope).
      * @param {object} opts
@@ -291,6 +407,7 @@ export function createMethods(axios) {
         data,
       });
     },
+
     /**
      * Messaging API (requires `publish_email` scope).
      * @param {object} opts
@@ -309,6 +426,7 @@ export function createMethods(axios) {
         headers,
       });
     },
+
     /**
      * Produce a templated document (Quote, Work Order, or Invoice) for a job.
      * @param {object} opts
@@ -323,10 +441,7 @@ export function createMethods(axios) {
     async produceTemplatedDocument({
       $, objectType, objectUUID, templateType, templateUUID, outputFormat, storeToDiary,
     }) {
-      /**
-       * String body + explicit `Content-Type` avoids axios/object +
-       * `responseType: arraybuffer` quirks.
-       */
+      // String body + explicit Content-Type avoids axios/object + responseType:arraybuffer quirks.
       const data = buildProduceDocumentJsonBody({
         objectType,
         objectUUID,
@@ -344,67 +459,61 @@ export function createMethods(axios) {
         responseType: "arraybuffer",
         headers: {
           "Content-Type": "application/json",
-          "Accept":
-            "application/json, application/pdf, application/octet-stream, */*",
+          "Accept": "application/json, application/pdf, application/octet-stream, */*",
         },
-        /**
-         * Return 4xx bodies so actions can parse JSON errors instead of AxiosError Buffer.
-         */
+        // Return 4xx bodies so actions can parse JSON errors instead of AxiosError Buffer.
         validateStatus: (status) => status >= 200 && status < 600,
       });
     },
+
     /**
-     * Options for dropdowns: list resource rows and map `uuid` to labels.
+     * Fetch one page of a resource list, returning rows and pagination context.
      * @param {object} opts
      * @param {object} opts.$
      * @param {string} opts.resource
      * @param {object} [opts.prevContext]
-     * @param {string} [opts.prevContext.cursor]
-     * @param {Record<string, string>} [opts.listParams] - Extra query params for list requests
-     *   (e.g. `$filter`).
-     * @returns {Promise<object>}
+     * @param {object} [opts.extraParams]
+     * @returns {Promise<{ rows: object[], context: object }>}
      */
+    async _listResourcePage({
+      $, resource, prevContext, extraParams = {},
+    }) {
+      const params = {
+        ...extraParams,
+        ...(prevContext?.cursor && {
+          cursor: prevContext.cursor,
+        }),
+      };
+      const data = await this.listResource({
+        $,
+        resource,
+        params,
+      });
+      return extractPageResult(data);
+    },
+
     /**
      * Async options for badge `file_name`: list Assets (`read_assets` scope) and map rows to
      * API `file_name` values (asset `name` or `asset_code`).
      * @param {object} opts
      * @param {object} opts.$
      * @param {object} [opts.prevContext]
-     * @param {string} [opts.prevContext.cursor]
      * @param {string} [opts.query]
      */
     async _badgeFileNameOptionsFromAssets({
       $, prevContext, query,
     }) {
-      const params = {};
-      if (prevContext?.cursor) {
-        params.cursor = prevContext.cursor;
-      }
-      const data = await this.listResource({
+      const {
+        rows, context,
+      } = await this._listResourcePage({
         $,
         resource: "asset",
-        params,
+        prevContext,
       });
-      const rows = Array.isArray(data)
-        ? data
-        : (data && typeof data === "object" && Array.isArray(data.items))
-          ? data.items
-          : [];
-      const nextCursor = (data && typeof data === "object" && !Array.isArray(data))
-        ? (data.cursor ?? data.next_cursor)
-        : undefined;
-      const context = {};
-      if (nextCursor) {
-        context.cursor = nextCursor;
-      }
-      let options = rows
+      const options = rows
         .map((row) => {
-          const name = row.name != null && String(row.name).trim() !== ""
-            ? String(row.name).trim()
-            : null;
-          const code = row.asset_code != null && String(row.asset_code).trim() !== ""
-            ? String(row.asset_code).trim()
-            : null;
+          const name = strVal(row.name);
+          const code = strVal(row.asset_code);
           const value = code ?? name;
           if (!value) {
             return null;
@@ -423,61 +532,35 @@ export function createMethods(axios) {
           };
         })
         .filter(Boolean);
-      if (query && String(query).trim()) {
-        const q = String(query).trim()
-          .toLowerCase();
-        options = options.filter((o) => String(o.label).toLowerCase()
-          .includes(q)
-          || String(o.value).toLowerCase()
-            .includes(q));
-      }
       return {
-        options,
+        options: filterByQuery(options, query),
         context,
       };
     },
+
     /**
-     * Async options for Job `payment_method`: distinct `method` values from
-     * [list job payments](https://developer.servicem8.com/reference/listjobpayments) (`jobpayment.json`).
+     * Async options for Job `payment_method`: distinct `method` values from job payments.
+     * [See the documentation](https://developer.servicem8.com/reference/listjobpayments)
      * @param {object} opts
      * @param {object} opts.$
      * @param {object} [opts.prevContext]
-     * @param {string} [opts.prevContext.cursor]
      * @param {string} [opts.query]
      */
     async _paymentMethodOptionsFromJobPayments({
       $, prevContext, query,
     }) {
-      const params = {};
-      if (prevContext?.cursor) {
-        params.cursor = prevContext.cursor;
-      }
-      const data = await this.listResource({
+      const {
+        rows, context,
+      } = await this._listResourcePage({
         $,
         resource: "jobpayment",
-        params,
+        prevContext,
       });
-      const rows = Array.isArray(data)
-        ? data
-        : (data && typeof data === "object" && Array.isArray(data.items))
-          ? data.items
-          : [];
-      const nextCursor = (data && typeof data === "object" && !Array.isArray(data))
-        ? (data.cursor ?? data.next_cursor)
-        : undefined;
-      const context = {};
-      if (nextCursor) {
-        context.cursor = nextCursor;
-      }
       const seen = new Set();
       const options = [];
       for (const row of rows) {
-        const raw = row.method;
-        if (raw == null || String(raw).trim() === "") {
-          continue;
-        }
-        const v = String(raw).trim();
-        if (seen.has(v)) {
+        const v = strVal(row.method);
+        if (!v || seen.has(v)) {
           continue;
         }
         seen.add(v);
@@ -487,89 +570,47 @@ export function createMethods(axios) {
         });
       }
       options.sort((a, b) => String(a.label).localeCompare(String(b.label)));
-      let filtered = options;
-      if (query && String(query).trim()) {
-        const q = String(query).trim()
-          .toLowerCase();
-        filtered = options.filter((o) => String(o.label).toLowerCase()
-          .includes(q)
-          || String(o.value).toLowerCase()
-            .includes(q));
-      }
       return {
-        options: filtered,
+        options: filterByQuery(options, query),
         context,
       };
     },
+
+    /**
+     * Async options for any resource: list rows and map uuid → human-readable label.
+     * @param {object} opts
+     * @param {object} opts.$
+     * @param {string} opts.resource
+     * @param {object} [opts.prevContext]
+     * @param {string} [opts.query]
+     * @param {Record<string, string>} [opts.listParams] - Extra query params (e.g. `$filter`)
+     * @returns {Promise<{ options: Array<{ label: string, value: string }>, context: object }>}
+     */
     async _uuidOptionsForResource({
       $, resource, prevContext, query, listParams = {},
     }) {
-      const params = {
-        ...listParams,
-      };
-      if (prevContext?.cursor) {
-        params.cursor = prevContext.cursor;
-      }
-      const data = await this.listResource({
+      const {
+        rows, context,
+      } = await this._listResourcePage({
         $,
         resource,
-        params,
+        prevContext,
+        extraParams: listParams,
       });
-      const rows = Array.isArray(data)
-        ? data
-        : (data && typeof data === "object" && Array.isArray(data.items))
-          ? data.items
-          : [];
-      const nextCursor = (data && typeof data === "object" && !Array.isArray(data))
-        ? (data.cursor ?? data.next_cursor)
-        : undefined;
-      const context = {};
-      if (nextCursor) {
-        context.cursor = nextCursor;
-      }
-      let options = rows
+      const options = rows
         .map((row) => {
           const value = row.uuid ?? row.UUID ?? row.id;
           if (!value) {
             return null;
           }
-          const nameFromFirstLast = (() => {
-            const parts = [
-              row.first,
-              row.last,
-            ].filter((v) => v != null && String(v).trim() !== "")
-              .map((v) => String(v).trim());
-            return parts.length
-              ? parts.join(" ")
-              : undefined;
-          })();
-          const label =
-            row.name
-            ?? nameFromFirstLast
-            ?? row.company_name
-            ?? row.job_address
-            ?? row.subject
-            ?? row.title
-            ?? row.start_time
-            ?? row.end_time
-            ?? row.role_description
-            ?? String(value);
           return {
-            label,
+            label: rowLabel(row, value),
             value,
           };
         })
         .filter(Boolean);
-      if (query && String(query).trim()) {
-        const q = String(query).trim()
-          .toLowerCase();
-        options = options.filter((o) => String(o.label).toLowerCase()
-          .includes(q)
-          || String(o.value).toLowerCase()
-            .includes(q));
-      }
       return {
-        options,
+        options: filterByQuery(options, query),
         context,
       };
     },
