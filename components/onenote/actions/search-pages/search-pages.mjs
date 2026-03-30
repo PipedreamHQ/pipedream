@@ -33,7 +33,6 @@ export default {
     const { value: response } = await this.app.getPages({
       $,
       params: {
-        "$search": this.search,
         "$filter": this.filter,
         "$expand": this.expand,
       },
