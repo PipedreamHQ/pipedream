@@ -58,8 +58,12 @@ export default {
           this.spreadsheetId,
           name,
         );
-      } catch {
-        // Sheet may be empty
+      } catch (err) {
+        // Empty sheets return no values — that's expected.
+        // Rethrow unexpected errors (permissions, rate limits).
+        if (err?.response?.status && err.response.status !== 400) {
+          throw err;
+        }
       }
 
       results.push({

@@ -42,6 +42,7 @@ export default defineAction({
         "draft",
         "confirmed",
         "archived",
+        "all",
       ],
     },
     audience: {

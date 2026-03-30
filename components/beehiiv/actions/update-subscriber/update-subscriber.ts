@@ -79,6 +79,12 @@ export default defineAction({
       }
     }
 
+    if (!Object.keys(data).length) {
+      throw new Error(
+        "No update provided. Set `unsubscribe` or `customFields`.",
+      );
+    }
+
     const response = await this.app.updateSubscription(
       $,
       this.publicationId,

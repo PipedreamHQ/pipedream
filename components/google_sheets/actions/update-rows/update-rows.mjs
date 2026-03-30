@@ -104,14 +104,23 @@ export default {
     }
 
     for (const update of parsedUpdates) {
-      if (!update.row) {
+      if (!update.row || !Number.isInteger(update.row)
+        || update.row < 1) {
         throw new Error(
-          "Each update must have a `row` number.",
+          "Each update must have a `row` integer >= 1.",
         );
       }
 
       const { values } = update;
       const rowNum = update.row;
+
+      if (!values || (typeof values !== "object"
+        && !Array.isArray(values))) {
+        throw new Error(
+          `Update for row ${rowNum}: values must be an object`
+          + " or array.",
+        );
+      }
 
       if (Array.isArray(values)) {
         // Positional update — overwrite the entire row
@@ -151,15 +160,19 @@ export default {
           headers.forEach((header, i) => {
             if (values[header] !== undefined) {
               const colLetter = indexToColumnLetter(i);
-              cellUpdates[colLetter] = String(values[header]);
+              cellUpdates[colLetter] = values[header] != null
+                ? String(values[header])
+                : "";
             }
           });
-          await this.googleSheets.updateRowCells(
-            this.spreadsheetId,
-            this.sheetName,
-            rowNum,
-            cellUpdates,
-          );
+          if (Object.keys(cellUpdates).length) {
+            await this.googleSheets.updateRowCells(
+              this.spreadsheetId,
+              this.sheetName,
+              rowNum,
+              cellUpdates,
+            );
+          }
         }
       }
     }

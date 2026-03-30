@@ -102,10 +102,21 @@ export default {
       }
       rowArrays = parsedRows.map((row) => parseRowInput(headers, row));
     } else {
+      const hasObjects = parsedRows.some(
+        (r) => !Array.isArray(r) && typeof r === "object",
+      );
+      if (hasObjects) {
+        throw new Error(
+          "Cannot use object rows without headers. Either set"
+          + " hasHeaders: true or pass rows as arrays.",
+        );
+      }
       rowArrays = parsedRows.map((row) => (
         Array.isArray(row)
           ? row
-          : Object.values(row)
+          : [
+            row,
+          ]
       ));
     }
 

@@ -12,7 +12,8 @@
  * @returns {string[]} array of header values
  */
 export async function getHeaders(app, spreadsheetId, sheetName) {
-  const range = `'${sheetName}'!1:1`;
+  const escaped = sheetName.replace(/'/g, "''");
+  const range = `'${escaped}'!1:1`;
   const { values } = await app.getSpreadsheetValues(
     spreadsheetId,
     range,
