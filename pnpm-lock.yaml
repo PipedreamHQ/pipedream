@@ -1162,7 +1162,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/arcgis_online: {}
+  components/arcgis_online:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.6.8
+        version: 1.6.8
 
   components/are_na:
     dependencies:
