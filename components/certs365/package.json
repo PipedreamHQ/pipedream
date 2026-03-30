@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/certs365",
+  "version": "0.0.1",
+  "description": "Pipedream certs365 Components",
+  "main": "certs365.app.mjs",
+  "keywords": [
+    "pipedream",
+    "certs365"
+  ],
+  "homepage": "https://pipedream.com/apps/certs365",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
