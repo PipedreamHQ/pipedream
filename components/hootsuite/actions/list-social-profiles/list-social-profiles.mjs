@@ -4,7 +4,7 @@ export default {
   key: "hootsuite-list-social-profiles",
   name: "List Social Profiles",
   description: "Retrieves a list of social profiles for the authenticated Hootsuite account. [See the documentation](https://apidocs.hootsuite.com/docs/api/index.html#operation/getSocialProfiles)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -19,7 +19,7 @@ export default {
       $,
     });
 
-    const length = response?.data?.length || response?.length;
+    const length = response?.data?.length ?? response?.length;
     $.export("$summary", `Successfully retrieved ${length} social profile${length === 1
       ? ""
       : "s"}`);
