@@ -9,6 +9,19 @@ const axiosRateLimiter = limiter.wrap(axios);
 export default {
   type: "app",
   app: "egnyte",
+  propDefinitions: {
+    filename: {
+      type: "string",
+      label: "Filename",
+      description: "The name of the file to download",
+      async options({ folderPath }) {
+        const { files } = await this.getFolder({
+          folderPath,
+        });
+        return files.map((file) => file.name);
+      },
+    },
+  },
   methods: {
     _baseUrl() {
       return `https://${this.$auth.subdomain}.egnyte.com/pubapi/v1`;
