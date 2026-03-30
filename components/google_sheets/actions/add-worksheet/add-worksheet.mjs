@@ -2,8 +2,8 @@
 import googleSheets from "../../google_sheets.app.mjs";
 
 export default {
-  key: "google_sheets-new-worksheet",
-  name: "New Worksheet",
+  key: "google_sheets-add-worksheet",
+  name: "Add Worksheet",
   description:
     "Add a new worksheet (tab) to an existing spreadsheet."
     + " Optionally set column headers."
