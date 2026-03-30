@@ -235,7 +235,3 @@ You can read about our platform security and privacy [here](https://pipedream.co
 
 If you'd like to report a suspected vulnerability or security issue, or have any questions about the security of the product, please contact our security team at **security@pipedream.com**.
 
-## Hosted deployment
-
-A hosted deployment is available on [Fronteir AI](https://fronteir.ai/mcp/pipedreamhq-pipedream).
-
