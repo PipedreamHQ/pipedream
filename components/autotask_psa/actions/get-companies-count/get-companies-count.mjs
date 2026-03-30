@@ -1,5 +1,5 @@
 import autotaskPsa from "../../autotask_psa.app.mjs";
-import { FILTER_PROP_DESCRIPTION } from "../../common/constants.mjs";
+import { parseAutotaskQueryBody } from "../../common/utils.mjs";
 
 export default {
   key: "autotask_psa-get-companies-count",
@@ -16,16 +16,18 @@ export default {
   props: {
     autotaskPsa,
     filter: {
-      type: "object",
-      label: "Filter",
-      description: FILTER_PROP_DESCRIPTION,
+      propDefinition: [
+        autotaskPsa,
+        "filter",
+      ],
     },
   },
   async run({ $ }) {
+    const data = parseAutotaskQueryBody(this.filter);
     const result = await this.autotaskPsa.queryEntityCount({
       $,
       entity: "Companies",
-      data: this.filter,
+      data,
     });
     const count =
       result?.queryCount ?? result?.count ?? result?.itemCount;

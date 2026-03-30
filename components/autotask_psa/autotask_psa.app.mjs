@@ -5,7 +5,28 @@ const DEFAULT_BASE_URL = "https://webservices3.autotask.net/ATServicesRest";
 export default {
   type: "app",
   app: "autotask_psa",
-  propDefinitions: {},
+  propDefinitions: {
+    filter: {
+      type: "object",
+      label: "Filter",
+      description:
+        "POST body for entity query: `filter` (conditions array); optional " +
+        "`IncludeFields`, `MaxRecords`, etc. Omitting `filter` can return a 500 error. " +
+        "An empty `filter` array returns no records. If you type `filter` as text in " +
+        "the object UI, use valid JSON (it is parsed before the request). " +
+        "Operators: eq, noteq, gt, gte, lt, lte, beginsWith, endsWith, contains, " +
+        "exist, notExist, in, notIn; group with `and`/`or` and nested `items`. " +
+        "For UDFs add `\"udf\": true` on the filter object (one UDF per request). " +
+        "Include `Id` in IncludeFields when paginating past 500 rows. " +
+        "Example: " +
+        "`{\"MaxRecords\":100,\"IncludeFields\":[],\"filter\":[" +
+        "{\"field\":\"companyName\",\"op\":\"eq\",\"value\":\"Acme Corp\"}]}`. " +
+        "[Basic queries](https://www.autotask.net/help/DeveloperHelp/Content/APIs/" +
+        "REST/API_Calls/REST_Basic_Query_Calls.htm), " +
+        "[Advanced features](https://www.autotask.net/help/DeveloperHelp/Content/" +
+        "APIs/REST/API_Calls/REST_Advanced_Query_Features.htm).",
+    },
+  },
   methods: {
     _credentials() {
       const {
