@@ -1,10 +1,10 @@
-import { EXPAND_NOTEBOOK_OPTIONS } from "../../common/constants.mjs";
+import { EXPAND_PAGE_OPTIONS } from "../../common/constants.mjs";
 import app from "../../onenote.app.mjs";
 
 export default {
-  name: "Search Notebooks",
-  description: "Searches for notebooks. [See the documentation](https://learn.microsoft.com/en-us/graph/api/onenote-list-notebooks?view=graph-rest-1.0&tabs=http)",
-  key: "onenote-search-notebooks",
+  name: "Search Pages",
+  description: "Searches for pages. [See the documentation](https://learn.microsoft.com/en-us/graph/api/onenote-list-pages?view=graph-rest-1.0&tabs=http)",
+  key: "onenote-search-pages",
   type: "action",
   version: "0.0.1",
   annotations: {
@@ -14,28 +14,23 @@ export default {
   },
   props: {
     app,
-    search: {
-      propDefinition: [
-        app,
-        "search",
-      ],
-    },
     filter: {
       propDefinition: [
         app,
         "filter",
       ],
+      description: "Filter for pages. [See the documentation](https://learn.microsoft.com/en-us/graph/query-parameters?tabs=http#filter)",
     },
     expand: {
       propDefinition: [
         app,
         "expand",
       ],
-      options: EXPAND_NOTEBOOK_OPTIONS,
+      options: EXPAND_PAGE_OPTIONS,
     },
   },
   async run({ $ }) {
-    const { value: response } = await this.app.getNotebooks({
+    const { value: response } = await this.app.getPages({
       $,
       params: {
         "$search": this.search,
@@ -44,7 +39,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully found ${response.length} notebook${response.length === 1
+    $.export("$summary", `Successfully found ${response.length} page${response.length === 1
       ? ""
       : "s"}`);
 
