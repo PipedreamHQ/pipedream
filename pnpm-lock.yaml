@@ -1348,8 +1348,7 @@ importers:
 
   components/avosms: {}
 
-  components/awardco:
-    specifiers: {}
+  components/awardco: {}
 
   components/aweber:
     dependencies:
@@ -1662,8 +1661,7 @@ importers:
         specifier: ^0.3.2
         version: 0.3.4
 
-  components/beehiv:
-    specifiers: {}
+  components/beehiv: {}
 
   components/beekeeper:
     dependencies:
@@ -2606,8 +2604,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/certs365:
-    specifiers: {}
+  components/certs365: {}
 
   components/cflow: {}
 
@@ -10771,8 +10768,8 @@ importers:
   components/onenote:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.8
-        version: 1.6.8
+        specifier: ^3.3.0
+        version: 3.3.0
 
   components/onepage: {}
 
@@ -15182,8 +15179,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/sunshine_conversations:
-    specifiers: {}
+  components/sunshine_conversations: {}
 
   components/supabase:
     dependencies:
@@ -17697,8 +17693,7 @@ importers:
 
   components/yuroti: {}
 
-  components/yutori:
-    specifiers: {}
+  components/yutori: {}
 
   components/z_api:
     dependencies:
@@ -54289,7 +54284,7 @@ snapshots:
 
   simple-update-notifier@2.0.0:
     dependencies:
-      semver: 7.7.3
+      semver: 7.7.4
 
   simple-xml2json@1.2.3: {}
 
