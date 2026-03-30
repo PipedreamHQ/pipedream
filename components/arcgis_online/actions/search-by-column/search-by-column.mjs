@@ -30,7 +30,7 @@ export default {
           mapTitle: c.mapTitle,
         }),
       ],
-      description: "Layer to query",
+      description: "Layer id from the dropdown (feature to query)",
     },
     columnName: {
       propDefinition: [

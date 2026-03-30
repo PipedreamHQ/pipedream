@@ -5,7 +5,7 @@ export default {
   name: "Update Row by Object ID",
   description:
     "Send `applyEdits` with the layer's object id field plus one other attribute. Dropdowns list only layers and fields that service metadata marks as editable (read-only views and system fields are hidden). You may still type ids or field names manually; `applyEdits` enforces portal permissions. See [Apply Edits (Feature Service Layer)](https://developers.arcgis.com/rest/services-reference/enterprise/apply-edits-feature-service-layer-.htm)",
-  version: "0.0.1",
+  version: "0.1.3",
   type: "action",
   annotations: {
     destructiveHint: true,
@@ -30,7 +30,8 @@ export default {
           mapTitle: c.mapTitle,
         }),
       ],
-      description: "Editable layer only (service metadata must include Editing/Update)",
+      description:
+        "Editable layer id only (metadata must list Update/Editing on capabilities)",
     },
     objectId: {
       propDefinition: [
@@ -90,7 +91,7 @@ export default {
       mapTitle,
       layerName,
     });
-    app.assertLayerSupportsUpdates(ctx.meta, layerName);
+    app.assertLayerSupportsUpdates(ctx.meta, ctx.layerDisplayName);
     if (columnName.toLowerCase() === ctx.objectIdField.toLowerCase()) {
       throw new Error(
         `columnName must not be the layer object id field (${ctx.objectIdField})`,
@@ -126,7 +127,7 @@ export default {
 
     $.export(
       "$summary",
-      `Updated ${layerName} ${ctx.objectIdField} ${objectId} (${columnName})`,
+      `Updated ${ctx.layerDisplayName} ${ctx.objectIdField} ${objectId} (${columnName})`,
     );
 
     return {

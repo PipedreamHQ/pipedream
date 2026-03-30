@@ -29,8 +29,9 @@ export default {
     },
     layerName: {
       type: "string",
-      label: "Layer Name",
-      description: "Name of the layer in the feature service",
+      label: "Layer",
+      description:
+        "Layer id from the dropdown (stable). Matches FeatureServer layer index as a string.",
       async options({ mapTitle }) {
         if (!mapTitle) {
           return [];
@@ -43,8 +44,9 @@ export default {
     },
     targetLayerNames: {
       type: "string[]",
-      label: "Target Layer Names",
-      description: "One or more layers to query for intersecting features",
+      label: "Target Layer IDs",
+      description:
+        "Layer ids from the dropdown (same feature service) to intersect-query",
       async options({ mapTitle }) {
         if (!mapTitle) {
           return [];
@@ -97,9 +99,9 @@ export default {
     /** Same as layerName but only layers whose metadata allows Edit/Update */
     layerNameEditable: {
       type: "string",
-      label: "Layer Name",
+      label: "Layer",
       description:
-        "Layers that support editing in service metadata (query-only views excluded)",
+        "Editable layer id from the dropdown (service metadata must list Update/Editing)",
       async options({ mapTitle }) {
         if (!mapTitle) {
           return [];
@@ -214,6 +216,7 @@ export default {
       }
       const raw = String(meta.capabilities ?? "").trim();
       if (!raw) {
+        // Many hosted layers omit capabilities on /layer; only exclude when explicitly non-editing
         return true;
       }
       const caps = raw.split(",")
@@ -249,10 +252,26 @@ export default {
       ) {
         return false;
       }
-      if (f.editable === false) {
-        return false;
+      // REST often omits editable on writable fields; only exclude explicit false
+      return f.editable !== false;
+    },
+
+    /**
+     * Resolve a feature layer by id (async option value) or legacy layer display name.
+     * @param {object[]} layers
+     * @param {string|number} layerRef
+     * @returns {object|undefined}
+     */
+    _findLayerById(layers, layerRef) {
+      if (layerRef == null || String(layerRef).trim() === "") {
+        return undefined;
       }
-      return true;
+      const ref = String(layerRef).trim();
+      const byId = layers.find((l) => l.id != null && String(l.id) === ref);
+      if (byId) {
+        return byId;
+      }
+      return layers.find((l) => l.name?.toLowerCase() === ref.toLowerCase());
     },
 
     /**
@@ -402,12 +421,9 @@ export default {
         start,
         f: "json",
       };
-      if (raw) {
-        params.q = raw;
-        params.filter = "type:\"Feature Service\"";
-      } else {
-        params.q = "type:\"Feature Service\"";
-      }
+      params.q = raw
+        ? `${raw} AND type:"Feature Service"`
+        : "type:\"Feature Service\"";
       const data = await this._request({
         $,
         baseUrl: PORTAL_REST,
@@ -466,7 +482,7 @@ export default {
       if (!editableOnly) {
         return named.map((l) => ({
           label: l.name,
-          value: l.name,
+          value: String(l.id),
         }));
       }
       const metas = await Promise.all(
@@ -483,7 +499,7 @@ export default {
         .filter((_, i) => this._layerMetadataSupportsUpdates(metas[i]))
         .map((l) => ({
           label: l.name,
-          value: l.name,
+          value: String(l.id),
         }));
     },
 
@@ -509,7 +525,7 @@ export default {
         baseUrl,
         servicePath,
       });
-      const layer = layers.find((l) => l.name?.toLowerCase() === layerName.toLowerCase());
+      const layer = this._findLayerById(layers, layerName);
       if (layer?.id == null) {
         return [];
       }
@@ -563,7 +579,7 @@ export default {
         baseUrl,
         servicePath,
       });
-      const layer = layers.find((l) => l.name?.toLowerCase() === layerName.toLowerCase());
+      const layer = this._findLayerById(layers, layerName);
       if (layer?.id == null) {
         return {
           options: [],
@@ -640,9 +656,9 @@ export default {
         baseUrl,
         servicePath,
       });
-      const layer = layers.find((l) => l.name?.toLowerCase() === layerName.toLowerCase());
+      const layer = this._findLayerById(layers, layerName);
       if (layer?.id == null) {
-        throw new Error(`Layer '${layerName}' not found`);
+        throw new Error(`Layer id '${layerName}' not found in this feature service`);
       }
       const data = await this._request({
         $,
@@ -689,9 +705,11 @@ export default {
         baseUrl,
         servicePath,
       });
-      const targetLayer = layers.find((l) => l.name?.toLowerCase() === layerName.toLowerCase());
+      const targetLayer = this._findLayerById(layers, layerName);
       if (targetLayer?.id == null) {
-        throw new Error(`Layer '${layerName}' not found. Check service definition.`);
+        throw new Error(
+          `Layer id '${layerName}' not found. Check service definition.`,
+        );
       }
       return this._request({
         $,
@@ -729,9 +747,11 @@ export default {
         baseUrl,
         servicePath,
       });
-      const targetLayer = layers.find((l) => l.name?.toLowerCase() === layerName.toLowerCase());
+      const targetLayer = this._findLayerById(layers, layerName);
       if (targetLayer?.id == null) {
-        throw new Error(`Layer '${layerName}' not found. Check service definition.`);
+        throw new Error(
+          `Layer id '${layerName}' not found. Check service definition.`,
+        );
       }
       const meta = await this._request({
         $,
@@ -778,11 +798,11 @@ export default {
     },
 
     /**
-     * Resolve layer id and metadata (objectIdField) by map reference and layer name.
+     * Resolve layer id and metadata (objectIdField) by map reference and layer id.
      * @param {object} opts
      * @param {object} opts.$
      * @param {string} opts.mapTitle
-     * @param {string} opts.layerName
+     * @param {string} opts.layerName - FeatureServer layer index as string (from async options)
      */
     async resolveLayerContext({
       $, mapTitle, layerName,
@@ -798,9 +818,9 @@ export default {
         baseUrl,
         servicePath,
       });
-      const layer = layers.find((l) => l.name?.toLowerCase() === layerName.toLowerCase());
+      const layer = this._findLayerById(layers, layerName);
       if (layer?.id == null) {
-        throw new Error(`Layer '${layerName}' not found`);
+        throw new Error(`Layer id '${layerName}' not found`);
       }
       const meta = await this._request({
         $,
@@ -811,11 +831,15 @@ export default {
         },
       });
       const objectIdField = meta.objectIdField || "OBJECTID";
+      const layerDisplayName = meta.name != null && meta.name !== ""
+        ? meta.name
+        : String(layer.id);
       return {
         baseUrl,
         servicePath,
         layerId: layer.id,
         objectIdField,
+        layerDisplayName,
         meta,
       };
     },
@@ -877,7 +901,7 @@ export default {
     /**
      * Parse and validate geometry for intersect query (object or JSON string; wkid or latestWkid).
      * @param {unknown} boundary
-     * @returns {{ ok: true, boundary: object, inSR: string } | { ok: false, error: string }}
+     * @returns {object} ok true with boundary, inSR, geometryType; or ok false with error
      */
     _normalizeBoundaryForQuery(boundary) {
       let g = boundary;
@@ -912,10 +936,30 @@ export default {
             "Geometry missing spatial reference: include spatialReference with wkid or latestWkid (e.g. 4326 for WGS 84)",
         };
       }
+      const hasRings = Array.isArray(g.rings) && g.rings.length > 0;
+      const hasPaths = Array.isArray(g.paths) && g.paths.length > 0;
+      const hasPoint = g.x !== undefined && g.x !== null
+        && g.y !== undefined && g.y !== null;
+      if (!hasRings && !hasPaths && !hasPoint) {
+        return {
+          ok: false,
+          error:
+            "Geometry must be a polygon (`rings`), polyline (`paths`), or point (`x`/`y`)",
+        };
+      }
+      let geometryType;
+      if (hasRings) {
+        geometryType = "esriGeometryPolygon";
+      } else if (hasPaths) {
+        geometryType = "esriGeometryPolyline";
+      } else {
+        geometryType = "esriGeometryPoint";
+      }
       return {
         ok: true,
         boundary: g,
         inSR: String(wkid),
+        geometryType,
       };
     },
 
@@ -932,12 +976,10 @@ export default {
     }) {
       const normalized = this._normalizeBoundaryForQuery(boundary);
       if (!normalized.ok) {
-        return {
-          error: normalized.error,
-        };
+        throw new Error(normalized.error);
       }
       const {
-        boundary: geom, inSR,
+        boundary: geom, inSR, geometryType,
       } = normalized;
 
       const {
@@ -951,25 +993,15 @@ export default {
         baseUrl,
         servicePath,
       });
-      const findId = (name) => layers.find((l) => l.name?.toLowerCase() === name.toLowerCase())?.id;
 
-      let geometryType = "esriGeometryPolygon";
-      if (geom.rings) {
-        geometryType = "esriGeometryPolygon";
-      } else if (geom.paths) {
-        geometryType = "esriGeometryPolyline";
-      } else if (geom.x !== undefined && geom.y !== undefined) {
-        geometryType = "esriGeometryPoint";
-      }
-
-      const layerIds = targetLayerNames.map((name) => {
-        const id = findId(name);
-        if (id == null) {
-          throw new Error(`Layer '${name}' not found`);
+      const layerIds = targetLayerNames.map((ref) => {
+        const layer = this._findLayerById(layers, ref);
+        if (layer?.id == null) {
+          throw new Error(`Layer id '${ref}' not found in this feature service`);
         }
         return {
-          name,
-          id,
+          name: layer.name || String(layer.id),
+          id: layer.id,
         };
       });
 

@@ -31,7 +31,7 @@ export default {
         }),
       ],
       description:
-        "Layer whose `query` `where` clause selects the single boundary feature",
+        "Layer id whose `query` `where` clause selects the single boundary feature",
     },
     whereClause: {
       type: "string",
@@ -48,7 +48,7 @@ export default {
         }),
       ],
       description:
-        "Layers in the same service to query for features intersecting the boundary geometry",
+        "Target layer ids in the same service to intersect-query against the boundary",
     },
   },
   async run({ $ }) {
@@ -83,7 +83,9 @@ export default {
     });
 
     if (!boundary) {
-      throw new Error(`No feature found in layer '${layerName}' with WHERE ${whereClause}`);
+      throw new Error(
+        `No feature found in layer id '${layerName}' with WHERE ${whereClause}`,
+      );
     }
 
     const result = await app.queryIntersectingFeaturesByGeometry({
@@ -92,10 +94,6 @@ export default {
       boundary,
       targetLayerNames,
     });
-
-    if (result.error) {
-      throw new Error(result.error);
-    }
 
     const total = Object.values(result.layers || {})
       .reduce((n, l) => n + (l.count || 0), 0);

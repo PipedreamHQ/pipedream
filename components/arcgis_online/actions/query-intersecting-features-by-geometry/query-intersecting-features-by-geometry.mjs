@@ -31,7 +31,7 @@ export default {
         }),
       ],
       description:
-        "Layer names in that service to query; each runs an intersect `query` against the same boundary",
+        "Layer ids from the dropdown; each runs an intersect `query` against the same boundary",
     },
     geometry: {
       type: "object",
@@ -64,10 +64,6 @@ export default {
       boundary: geometry,
       targetLayerNames,
     });
-
-    if (result.error) {
-      throw new Error(result.error);
-    }
 
     const total = Object.values(result.layers || {})
       .reduce((n, l) => n + (l.count || 0), 0);

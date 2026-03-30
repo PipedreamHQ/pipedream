@@ -31,7 +31,7 @@ export default {
         }),
       ],
       description:
-        "Layer that contains the boundary feature; its geometry is loaded via `objectIds` on `query`",
+        "Layer id for the boundary feature; geometry is loaded via `objectIds` on `query`",
     },
     objectId: {
       propDefinition: [
@@ -54,7 +54,7 @@ export default {
         }),
       ],
       description:
-        "Layers in the same service to query for features intersecting the boundary geometry",
+        "Target layer ids in the same service to intersect-query against the boundary",
     },
   },
   async run({ $ }) {
@@ -89,7 +89,9 @@ export default {
     });
 
     if (!boundary) {
-      throw new Error(`No feature found in layer '${layerName}' with OBJECTID ${objectId}`);
+      throw new Error(
+        `No feature found in layer id '${layerName}' with OBJECTID ${objectId}`,
+      );
     }
 
     const result = await app.queryIntersectingFeaturesByGeometry({
@@ -98,10 +100,6 @@ export default {
       boundary,
       targetLayerNames,
     });
-
-    if (result.error) {
-      throw new Error(result.error);
-    }
 
     const total = Object.values(result.layers || {})
       .reduce((n, l) => n + (l.count || 0), 0);
