@@ -94,6 +94,67 @@ export default {
         });
       },
     },
+    /** Same as layerName but only layers whose metadata allows Edit/Update */
+    layerNameEditable: {
+      type: "string",
+      label: "Layer Name",
+      description:
+        "Layers that support editing in service metadata (query-only views excluded)",
+      async options({ mapTitle }) {
+        if (!mapTitle) {
+          return [];
+        }
+        return this.listLayerNameOptions({
+          $: this,
+          mapTitle,
+          editableOnly: true,
+        });
+      },
+    },
+    /** Same as columnName but only user-editable attribute fields */
+    columnNameEditable: {
+      type: "string",
+      label: "Column / Field Name",
+      description:
+        "Editable attribute fields only (object id, global id, geometry, read-only excluded)",
+      async options({
+        mapTitle,
+        layerName,
+      }) {
+        if (!mapTitle || !layerName) {
+          return [];
+        }
+        return this.listLayerFieldOptions({
+          $: this,
+          mapTitle,
+          layerName,
+          editableOnly: true,
+        });
+      },
+    },
+    /** Object id options for a layer chosen from layerNameEditable */
+    objectIdEditable: {
+      type: "string",
+      label: "Object ID",
+      description:
+        "Feature object id (paginated). Layer must support editing; you may type an id manually",
+      async options({
+        mapTitle,
+        layerName,
+        prevContext,
+      }) {
+        if (!mapTitle || !layerName) {
+          return [];
+        }
+        return this.listObjectIdOptions({
+          $: this,
+          mapTitle,
+          layerName,
+          prevContext,
+          editableOnly: true,
+        });
+      },
+    },
   },
   methods: {
     /**
@@ -138,6 +199,80 @@ export default {
         throw new Error(`ArcGIS error${code}: ${msg}`);
       }
       return body;
+    },
+
+    /**
+     * True if layer JSON says attributes can be updated (Editing/Update capability).
+     * @param {object} meta
+     */
+    _layerMetadataSupportsUpdates(meta) {
+      if (!meta || typeof meta !== "object") {
+        return false;
+      }
+      if (meta.supportsEditing === false) {
+        return false;
+      }
+      const raw = String(meta.capabilities ?? "").trim();
+      if (!raw) {
+        return true;
+      }
+      const caps = raw.split(",")
+        .map((s) => s.trim().toLowerCase())
+        .filter(Boolean);
+      return caps.includes("update") || caps.includes("editing");
+    },
+
+    /**
+     * True if a field can be sent in applyEdits attribute updates.
+     * @param {object} f - Field from layer fields[]
+     * @param {object} meta - Layer metadata (objectIdField, globalIdField, etc.)
+     */
+    _fieldIsUpdatable(f, meta) {
+      const name = f?.name;
+      if (name == null || name === "") {
+        return false;
+      }
+      const oid = meta?.objectIdField ?? "OBJECTID";
+      const gid = meta?.globalIdField;
+      const nLower = String(name).toLowerCase();
+      if (nLower === String(oid).toLowerCase()) {
+        return false;
+      }
+      if (gid != null && gid !== "" && nLower === String(gid).toLowerCase()) {
+        return false;
+      }
+      const t = f.type || "";
+      if (
+        t === "esriFieldTypeOID"
+        || t === "esriFieldTypeGlobalID"
+        || t === "esriFieldTypeGeometry"
+      ) {
+        return false;
+      }
+      if (f.editable === false) {
+        return false;
+      }
+      return true;
+    },
+
+    /**
+     * Runtime guard before applyEdits (metadata may still allow Update while the user cannot edit).
+     * @param {object} meta
+     * @param {string} layerName
+     */
+    assertLayerSupportsUpdates(meta, layerName) {
+      const label = layerName || "layer";
+      if (!this._layerMetadataSupportsUpdates(meta)) {
+        const caps = meta?.capabilities != null
+          ? String(meta.capabilities)
+          : "(none)";
+        const se = meta?.supportsEditing;
+        throw new Error(
+          `Layer "${label}" does not support updates in service metadata `
+          + `(supportsEditing: ${se}, capabilities: ${caps}). `
+          + "Pick a different layer or connect an account with edit access.",
+        );
+      }
     },
 
     /**
@@ -311,9 +446,10 @@ export default {
      * @param {object} opts
      * @param {object} opts.$
      * @param {string} opts.mapTitle
+     * @param {boolean} [opts.editableOnly] - Fetch metadata and keep layers with Update/Editing
      */
     async listLayerNameOptions({
-      $, mapTitle,
+      $, mapTitle, editableOnly = false,
     }) {
       const {
         baseUrl, servicePath,
@@ -326,8 +462,25 @@ export default {
         baseUrl,
         servicePath,
       });
-      return layers
-        .filter((l) => l.name)
+      const named = layers.filter((l) => l.name && l.id != null);
+      if (!editableOnly) {
+        return named.map((l) => ({
+          label: l.name,
+          value: l.name,
+        }));
+      }
+      const metas = await Promise.all(
+        named.map((l) => this._request({
+          $,
+          baseUrl,
+          url: `${servicePath}/${l.id}`,
+          params: {
+            f: "json",
+          },
+        })),
+      );
+      return named
+        .filter((_, i) => this._layerMetadataSupportsUpdates(metas[i]))
         .map((l) => ({
           label: l.name,
           value: l.name,
@@ -340,9 +493,10 @@ export default {
      * @param {object} opts.$
      * @param {string} opts.mapTitle
      * @param {string} opts.layerName
+     * @param {boolean} [opts.editableOnly] - User-editable fields only (not OID/global/geometry)
      */
     async listLayerFieldOptions({
-      $, mapTitle, layerName,
+      $, mapTitle, layerName, editableOnly = false,
     }) {
       const {
         baseUrl, servicePath,
@@ -367,7 +521,10 @@ export default {
           f: "json",
         },
       });
-      const fields = meta.fields ?? [];
+      let fields = meta.fields ?? [];
+      if (editableOnly) {
+        fields = fields.filter((f) => this._fieldIsUpdatable(f, meta));
+      }
       return fields.map((f) => {
         const name = f.name;
         const alias = f.alias && f.alias !== name
@@ -388,9 +545,10 @@ export default {
      * @param {string} opts.layerName
      * @param {object} [opts.prevContext]
      * @param {number} [opts.prevContext.nextOffset]
+     * @param {boolean} [opts.editableOnly] - No options if layer metadata does not support updates
      */
     async listObjectIdOptions({
-      $, mapTitle, layerName, prevContext,
+      $, mapTitle, layerName, prevContext, editableOnly = false,
     }) {
       const batch = 100;
       const offset = prevContext?.nextOffset ?? 0;
@@ -420,6 +578,12 @@ export default {
           f: "json",
         },
       });
+      if (editableOnly && !this._layerMetadataSupportsUpdates(meta)) {
+        return {
+          options: [],
+          context: {},
+        };
+      }
       const oidField = meta.objectIdField || "OBJECTID";
       const data = await this._request({
         $,

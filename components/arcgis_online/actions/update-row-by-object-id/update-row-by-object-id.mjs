@@ -4,8 +4,8 @@ export default {
   key: "arcgis_online-update-row-by-object-id",
   name: "Update Row by Object ID",
   description:
-    "Send `applyEdits` with the layer's real object id field (from service metadata, not always `OBJECTID`) plus one other field. You cannot set `columnName` to the OID field. Throws if the service reports `updateResults[0].success` false. See [Apply Edits (Feature Service Layer)](https://developers.arcgis.com/rest/services-reference/enterprise/apply-edits-feature-service-layer-.htm)",
-  version: "0.0.1",
+    "Send `applyEdits` with the layer's object id field plus one other attribute. Dropdowns list only layers and fields that service metadata marks as editable (read-only views and system fields are hidden). You may still type ids or field names manually; `applyEdits` enforces portal permissions. See [Apply Edits (Feature Service Layer)](https://developers.arcgis.com/rest/services-reference/enterprise/apply-edits-feature-service-layer-.htm)",
+  version: "0.1.1",
   type: "action",
   annotations: {
     destructiveHint: true,
@@ -25,36 +25,36 @@ export default {
     layerName: {
       propDefinition: [
         arcgisOnline,
-        "layerName",
+        "layerNameEditable",
         (c) => ({
           mapTitle: c.mapTitle,
         }),
       ],
-      description: "Layer that contains the row to update (must be editable)",
+      description: "Editable layer only (service metadata must include Editing/Update)",
     },
     objectId: {
       propDefinition: [
         arcgisOnline,
-        "objectId",
+        "objectIdEditable",
         (c) => ({
           mapTitle: c.mapTitle,
           layerName: c.layerName,
         }),
       ],
       description:
-        "Feature to update; the layer's object id field is set from this value (dropdown is paged; you may type an ID)",
+        "Row to update (paged ids; layer must allow editing in metadata; you may type an id)",
     },
     columnName: {
       propDefinition: [
         arcgisOnline,
-        "columnName",
+        "columnNameEditable",
         (c) => ({
           mapTitle: c.mapTitle,
           layerName: c.layerName,
         }),
       ],
       description:
-        "Attribute field to change (must be editable; value is sent as a string in the update attributes object)",
+        "User-editable field from layer metadata (`editable: true`); sent as text in attributes",
     },
     newValue: {
       type: "string",
@@ -90,9 +90,18 @@ export default {
       mapTitle,
       layerName,
     });
+    app.assertLayerSupportsUpdates(ctx.meta, layerName);
     if (columnName.toLowerCase() === ctx.objectIdField.toLowerCase()) {
       throw new Error(
         `columnName must not be the layer object id field (${ctx.objectIdField})`,
+      );
+    }
+    const fieldMeta = (ctx.meta.fields ?? []).find(
+      (f) => f.name != null && f.name.toLowerCase() === columnName.toLowerCase(),
+    );
+    if (fieldMeta && !app._fieldIsUpdatable(fieldMeta, ctx.meta)) {
+      throw new Error(
+        `Field "${columnName}" is not editable on this layer (metadata). Pick a field from the dropdown or correct the name.`,
       );
     }
 
