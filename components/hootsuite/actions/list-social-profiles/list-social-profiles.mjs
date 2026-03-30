@@ -14,25 +14,15 @@ export default {
   props: {
     hootsuite,
   },
-  /**
-   * Retrieves all social profiles for the authenticated Hootsuite account
-   * @param {object} params - The parameters object
-   * @param {object} params.props - The action props containing the hootsuite app
-   * @returns {Promise<Array>} An array of social profile objects from Hootsuite
-   */
   async run({ $ }) {
-    try {
-      const response = await $.apps.hootsuite.listSocialProfiles({
-        $,
-      });
-      $.export("$summary", `Successfully retrieved ${response?.data?.length} social profile${response?.data?.length === 1
-        ? ""
-        : "s"}`);
-      return response;
-    } catch (error) {
-      console.error("API call to Hootsuite failed:", error.response?.data || error.message);
-      const errorMessage = error.response?.data?.errors?.[0]?.message || error.message || "Unknown error";
-      throw new Error(`Failed to retrieve social profiles. Error: ${errorMessage}`);
-    }
+    const response = await this.hootsuite.listSocialProfiles({
+      $,
+    });
+
+    const length = response?.data?.length || response?.length;
+    $.export("$summary", `Successfully retrieved ${length} social profile${length === 1
+      ? ""
+      : "s"}`);
+    return response;
   },
 };
