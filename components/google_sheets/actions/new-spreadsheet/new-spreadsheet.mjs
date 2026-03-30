@@ -2,8 +2,8 @@
 import googleSheets from "../../google_sheets.app.mjs";
 
 export default {
-  key: "google_sheets-create-spreadsheet-ai",
-  name: "Create Spreadsheet (AI)",
+  key: "google_sheets-new-spreadsheet",
+  name: "New Spreadsheet",
   description:
     "Create a new Google Spreadsheet with an optional worksheet"
     + " name and column headers."

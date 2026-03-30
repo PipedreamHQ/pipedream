@@ -3,8 +3,8 @@ import app from "../../app/beehiiv.app";
 import { defineAction } from "@pipedream/types";
 
 export default defineAction({
-  key: "beehiiv-create-subscriber-ai",
-  name: "Create Subscriber (AI)",
+  key: "beehiiv-add-subscriber",
+  name: "Add Subscriber",
   description:
     "Create a new subscriber for a publication."
     + " Use **List Custom Fields** to discover available custom"

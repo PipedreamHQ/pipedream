@@ -3,8 +3,8 @@ import googleSheets from "../../google_sheets.app.mjs";
 import { rowsToObjects } from "../../common/ai-utils.mjs";
 
 export default {
-  key: "google_sheets-find-rows-ai",
-  name: "Find Rows (AI)",
+  key: "google_sheets-find-rows",
+  name: "Find Rows",
   description:
     "Search for rows matching a value in a specific column."
     + " Use **Get Spreadsheet Info** to discover column header"

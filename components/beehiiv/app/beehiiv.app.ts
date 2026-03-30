@@ -92,7 +92,8 @@ export default defineApp({
     async _makeRequest({
       $ = this, path, method = "GET", params = {}, data = undefined,
       pathParams = {},
-    }: Record<string, unknown>) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    }: any) {
       return axios($, {
         method,
         url: this._getUrl(path, pathParams),
