@@ -3,6 +3,9 @@ import { ensureIncludeFieldsHasIdForPagination } from "./common/utils.mjs";
 
 const DEFAULT_BASE_URL = "https://webservices3.autotask.net/ATServicesRest";
 
+/** Default HTTP timeout when `$auth` / `_config` do not override (ms). */
+const DEFAULT_REQUEST_TIMEOUT_MS = 30000;
+
 /** Max pages per list run (Autotask allows arbitrary forward paging; cap for safety). */
 const MAX_PAGINATION_PAGES = 500;
 
@@ -66,6 +69,27 @@ export default {
     },
 
     /**
+     * Request timeout in ms for axios (`_config`, then `$auth`, then default).
+     */
+    _requestTimeout() {
+      let raw;
+      if (this._config && typeof this._config === "object") {
+        raw = this._config.requestTimeout ?? this._config.request_timeout;
+      }
+      if (raw == null || raw === "") {
+        const a = this.$auth || {};
+        raw = a.request_timeout ?? a.requestTimeout;
+      }
+      if (raw == null || raw === "") {
+        return DEFAULT_REQUEST_TIMEOUT_MS;
+      }
+      const n = Number(raw);
+      return Number.isFinite(n) && n > 0
+        ? n
+        : DEFAULT_REQUEST_TIMEOUT_MS;
+    },
+
+    /**
      * Generic HTTP helper for `/V1.0/{path}` (POST by default).
      * @param {object} opts
      * @param {object} [opts.$]
@@ -77,11 +101,13 @@ export default {
       $ = this, method = "POST", path, data,
     }) {
       const { baseUrl } = this._credentials();
+      const timeout = this._requestTimeout();
       return axios($, {
         method,
         url: `${baseUrl}/V1.0/${path}`,
         headers: this._headers(),
         data,
+        timeout,
       });
     },
 
@@ -128,10 +154,12 @@ export default {
     queryEntityPageUrl({
       $ = this, url,
     }) {
+      const timeout = this._requestTimeout();
       return axios($, {
         method: "GET",
         url,
         headers: this._headers(),
+        timeout,
       });
     },
 

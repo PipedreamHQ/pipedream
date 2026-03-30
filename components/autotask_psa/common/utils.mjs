@@ -5,8 +5,9 @@ import { ConfigurationError } from "@pipedream/platform";
  * a JSON string (e.g. object builder with a text value), Autotask returns 500
  * unless it is parsed into an array. The whole body may also be a JSON string.
  *
- * @param {object|string} [data] - Body or JSON string of same shape
- * @returns {object|undefined} - Shallow clone with normalized `filter`
+ * @param {object|string|Array} [data] - Body, JSON string, or a bare filter array
+ *   (wrapped as `{ filter: [...] }`).
+ * @returns {object|undefined} - Object with normalized `filter`
  */
 export function parseAutotaskQueryBody(data) {
   if (data == null) {
@@ -29,8 +30,16 @@ export function parseAutotaskQueryBody(data) {
       );
     }
   }
-  if (typeof body !== "object" || body == null || Array.isArray(body)) {
-    return body;
+  if (body == null || typeof body !== "object") {
+    throw new ConfigurationError(
+      "Autotask query body must be a non-null object with a \"filter\" property " +
+        "(or a JSON array of filter expressions, which is wrapped automatically).",
+    );
+  }
+  if (Array.isArray(body)) {
+    body = {
+      filter: body,
+    };
   }
   const out = {
     ...body,
