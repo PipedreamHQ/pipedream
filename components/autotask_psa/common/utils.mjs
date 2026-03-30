@@ -62,3 +62,56 @@ export function parseAutotaskQueryBody(data) {
   }
   return out;
 }
+
+/**
+ * When `IncludeFields` is set, Autotask requires `id` for paging past 500 rows.
+ * @param {object} [body] - Parsed query body
+ * @returns {object|undefined}
+ */
+export function ensureIncludeFieldsHasIdForPagination(body) {
+  if (body == null || typeof body !== "object" || Array.isArray(body)) {
+    return body;
+  }
+  const include = body.IncludeFields;
+  if (include == null || !Array.isArray(include)) {
+    return {
+      ...body,
+    };
+  }
+  const hasId = include.some((f) => String(f).toLowerCase() === "id");
+  if (hasId) {
+    return {
+      ...body,
+      IncludeFields: [
+        ...include,
+      ],
+    };
+  }
+  return {
+    ...body,
+    IncludeFields: [
+      ...include,
+      "id",
+    ],
+  };
+}
+
+/**
+ * User-facing $summary for list actions (full vs partial pagination).
+ * @param {object} opts
+ * @param {number} opts.total
+ * @param {string} opts.resourceLabel - e.g. `ticket(s)` or `companies`
+ * @param {boolean} opts.stoppedEarly
+ * @param {number} opts.maxPages
+ */
+export function formatListActionSummary({
+  total, resourceLabel, stoppedEarly, maxPages,
+}) {
+  if (stoppedEarly) {
+    return (
+      `Retrieved ${total} ${resourceLabel} (partial: pagination capped at ` +
+      `${maxPages} pages; use filters or narrow the query)`
+    );
+  }
+  return `Retrieved ${total} ${resourceLabel}`;
+}

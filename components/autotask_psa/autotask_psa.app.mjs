@@ -1,6 +1,10 @@
 import { axios } from "@pipedream/platform";
+import { ensureIncludeFieldsHasIdForPagination } from "./common/utils.mjs";
 
 const DEFAULT_BASE_URL = "https://webservices3.autotask.net/ATServicesRest";
+
+/** Max pages per list run (Autotask allows arbitrary forward paging; cap for safety). */
+const MAX_PAGINATION_PAGES = 500;
 
 export default {
   type: "app",
@@ -113,6 +117,76 @@ export default {
         path: `${entity}/query/count`,
         data,
       });
+    },
+
+    /**
+     * GET a full `pageDetails.nextPageUrl` / `prevPageUrl` (pagination).
+     * @param {object} opts
+     * @param {object} [opts.$]
+     * @param {string} opts.url - Absolute URL from the API response
+     */
+    queryEntityPageUrl({
+      $ = this, url,
+    }) {
+      return axios($, {
+        method: "GET",
+        url,
+        headers: this._headers(),
+      });
+    },
+
+    /**
+     * POST query then follow `pageDetails.nextPageUrl` (GET) until exhausted.
+     * Preserves original body via `ensureIncludeFieldsHasIdForPagination` only.
+     * @param {object} opts
+     * @param {object} [opts.$]
+     * @param {string} opts.entity
+     * @param {object} opts.data - Parsed POST body (same shape as `queryEntity`)
+     * @param {number} [opts.maxPages]
+     */
+    async queryEntityAllPages({
+      $ = this, entity, data, maxPages = MAX_PAGINATION_PAGES,
+    }) {
+      const baseData = ensureIncludeFieldsHasIdForPagination(data);
+      const allItems = [];
+      let page = await this.queryEntity({
+        $,
+        entity,
+        data: baseData,
+      });
+      allItems.push(...(page?.items ?? []));
+      let nextUrl = page?.pageDetails?.nextPageUrl;
+      let pagesFetched = 1;
+      let stoppedEarly = false;
+
+      while (nextUrl) {
+        if (pagesFetched >= maxPages) {
+          stoppedEarly = true;
+          break;
+        }
+        page = await this.queryEntityPageUrl({
+          $,
+          url: nextUrl,
+        });
+        pagesFetched += 1;
+        allItems.push(...(page?.items ?? []));
+        nextUrl = page?.pageDetails?.nextPageUrl;
+      }
+
+      const total = allItems.length;
+      return {
+        items: allItems,
+        pageDetails: {
+          ...(page?.pageDetails ?? {}),
+          totalItemsRetrieved: total,
+          pagesFetched,
+          nextPageUrl: stoppedEarly
+            ? nextUrl
+            : (page?.pageDetails?.nextPageUrl ?? null),
+        },
+        paginationStoppedEarly: stoppedEarly,
+        maxPages,
+      };
     },
   },
 };

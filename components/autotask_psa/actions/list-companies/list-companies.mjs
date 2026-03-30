@@ -1,5 +1,8 @@
 import autotaskPsa from "../../autotask_psa.app.mjs";
-import { parseAutotaskQueryBody } from "../../common/utils.mjs";
+import {
+  formatListActionSummary,
+  parseAutotaskQueryBody,
+} from "../../common/utils.mjs";
 
 export default {
   key: "autotask_psa-list-companies",
@@ -24,18 +27,24 @@ export default {
   },
   async run({ $ }) {
     const data = parseAutotaskQueryBody(this.filter);
-    const result = await this.autotaskPsa.queryEntity({
+    const result = await this.autotaskPsa.queryEntityAllPages({
       $,
       entity: "Companies",
       data,
     });
-    const n = result?.items?.length;
     $.export(
       "$summary",
-      typeof n === "number"
-        ? `Retrieved ${n} companies`
-        : "Retrieved companies from Autotask PSA",
+      formatListActionSummary({
+        total: result.items.length,
+        resourceLabel: "companies",
+        stoppedEarly: result.paginationStoppedEarly,
+        maxPages: result.maxPages,
+      }),
     );
-    return result;
+    return {
+      items: result.items,
+      pageDetails: result.pageDetails,
+      paginationStoppedEarly: result.paginationStoppedEarly,
+    };
   },
 };
