@@ -44,7 +44,7 @@ export default {
     quality: {
       type: "integer",
       label: "Quality",
-      description: "Applicable for JPG exports only. 1 (smallest file, most compressed) to 100 (best quality).",
+      description: "Applicable for JPG exports only. 1 (smallest) to 100 (best quality). Defaults to 80 if not specified.",
       optional: true,
     },
     mp4Quality: {
@@ -113,9 +113,15 @@ export default {
         format: {
           type: this.type,
           pages: this.pages,
-          quality: this.type === "mp4"
-            ? this.mp4Quality
-            : this.quality,
+          ...(this.type === "mp4"
+            ? {
+              quality: this.mp4Quality,
+            }
+            : {
+              quality: this.quality ?? (this.type === "jpg"
+                ? 80
+                : undefined),
+            }),
           export_quality: this.exportQuality,
           size: this.size,
           height: this.height,
@@ -131,7 +137,7 @@ export default {
       const exportId = response.job.id;
       const deadline = Date.now() + 2 * 60 * 1000;
 
-      // FIX 1 — bounded polling loop
+ 
       while (response.job.status === "in_progress") {
         if (Date.now() >= deadline) {
           throw new Error(`Timed out waiting for export job "${exportId}" to complete`);
