@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/sunshine_conversations",
+  "version": "0.0.1",
+  "description": "Pipedream Sunshine Conversations Components",
+  "main": "sunshine_conversations.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sunshine_conversations"
+  ],
+  "homepage": "https://pipedream.com/apps/sunshine_conversations",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
