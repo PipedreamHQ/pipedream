@@ -137,7 +137,6 @@ export default {
       const exportId = response.job.id;
       const deadline = Date.now() + 2 * 60 * 1000;
 
- 
       while (response.job.status === "in_progress") {
         if (Date.now() >= deadline) {
           throw new Error(`Timed out waiting for export job "${exportId}" to complete`);
