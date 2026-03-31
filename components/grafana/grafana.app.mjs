@@ -6,7 +6,7 @@ export default {
   propDefinitions: {},
   methods: {
     _baseUrl() {
-      return this.$auth.domain;
+      return this.$auth.domain.replace(/\/+$/, "");
     },
     _headers() {
       return {

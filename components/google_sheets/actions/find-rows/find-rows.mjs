@@ -13,7 +13,7 @@ export default {
     + " for subsequent **Update Rows** calls)."
     + " For simple reads without filtering, use **Read Rows**"
     + " instead.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -107,10 +107,11 @@ export default {
     const matchType = this.matchType || "contains";
     const searchLower = this.searchValue.toLowerCase();
 
+    const colHeader = headers[colIndex];
     const allRows = rowsToObjects(headers, dataRows);
     const matches = allRows.filter((row) => {
       const cellValue = String(
-        dataRows[row._rowNumber - 2]?.[colIndex] || "",
+        row[colHeader] ?? "",
       ).toLowerCase();
 
       switch (matchType) {

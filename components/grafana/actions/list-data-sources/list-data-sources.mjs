@@ -12,7 +12,7 @@ export default {
     + " The `type` field indicates what query language to use"
     + " (e.g., `prometheus` → PromQL, `loki` → LogQL,"
     + " `mysql` → SQL).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

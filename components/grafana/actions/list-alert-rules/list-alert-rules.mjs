@@ -11,7 +11,7 @@ export default {
     + " and annotations."
     + " Use this to answer questions like 'what alerts are"
     + " firing?' or 'what alerts exist for service X?'",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

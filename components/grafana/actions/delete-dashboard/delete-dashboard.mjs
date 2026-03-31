@@ -8,7 +8,7 @@ export default {
     "Permanently delete a Grafana dashboard by UID."
     + " This cannot be undone."
     + " Use **Search Dashboards** to find the dashboard UID.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: true,

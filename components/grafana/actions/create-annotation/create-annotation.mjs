@@ -13,7 +13,7 @@ export default {
     + " all dashboards."
     + " Use `time` and `timeEnd` for range annotations (e.g.,"
     + " deployment window).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

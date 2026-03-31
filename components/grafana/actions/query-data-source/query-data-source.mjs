@@ -27,7 +27,7 @@ export default {
     + "Time range defaults to last 1 hour. Use `from` and `to`"
     + " for custom ranges (supports relative: `now-24h`,"
     + " `now-7d`, or epoch milliseconds).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
