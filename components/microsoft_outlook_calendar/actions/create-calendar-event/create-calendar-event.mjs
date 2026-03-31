@@ -9,7 +9,7 @@ import {
 export default {
   type: "action",
   key: "microsoft_outlook_calendar-create-calendar-event",
-  version: "0.0.13",
+  version: "0.0.14",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
