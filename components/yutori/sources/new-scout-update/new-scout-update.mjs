@@ -57,8 +57,12 @@ export default {
     const seenCursors = new Set();
     const MAX_PAGES = 100;
     let pages = 0;
+    let paginationTruncated = false;
     do {
-      if (pages++ >= MAX_PAGES) break;
+      if (pages++ >= MAX_PAGES) {
+        paginationTruncated = true;
+        break;
+      }
       if (cursor && seenCursors.has(cursor)) break;
       if (cursor) seenCursors.add(cursor);
 
@@ -86,11 +90,15 @@ export default {
       });
     }
 
-    if (updates.length > 0) {
-      // updates[0] is the newest (API returns reverse-chronological order)
-      this._setLastTimestamp(updates[0].timestamp + 1);
-    } else {
-      this._setLastTimestamp(now);
+    // Only advance lastTimestamp when pagination completed fully.
+    // If truncated, leave it unchanged so the next run retries from the same window.
+    if (!paginationTruncated) {
+      if (updates.length > 0) {
+        // updates[0] is the newest (API returns reverse-chronological order)
+        this._setLastTimestamp(updates[0].timestamp + 1);
+      } else {
+        this._setLastTimestamp(now);
+      }
     }
   },
   sampleEmit,
