@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/permit_io",
+  "version": "0.0.1",
+  "description": "Pipedream Permit.io Components",
+  "main": "permit_io.app.mjs",
+  "keywords": [
+    "pipedream",
+    "permit_io"
+  ],
+  "homepage": "https://pipedream.com/apps/permit_io",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

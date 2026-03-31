@@ -34,7 +34,7 @@
     "@pipedream/platform": "^3.2.5",
     "adm-zip": "^0.5.10",
     "dedent": "^1.5.1",
-    "file-type": "^21.3.1",
+    "file-type": "^21.3.2",
     "mailparser": "^3.9.3",
     "mailparser-mit": "^1.0.0",
     "nanoid": "^5.0.4",
