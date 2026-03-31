@@ -1,10 +1,10 @@
 import app from "../../trengo.app.mjs";
 
 export default {
-  key: "trengo-close-ticket",
-  name: "Close Ticket",
-  description: "Close a ticket. [See the documentation](https://developers.trengo.com/reference/close-a-ticket)",
-  version: "0.0.6",
+  key: "trengo-remove-label",
+  name: "Remove Label",
+  description: "Remove a label from a ticket. [See the documentation](https://developers.trengo.com/reference/detach-a-label)",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: true,
@@ -19,24 +19,20 @@ export default {
         "ticketId",
       ],
     },
-    ticketResultId: {
+    labelId: {
       propDefinition: [
         app,
-        "ticketResultId",
+        "labelId",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.app.closeTicket({
+    const response = await this.app.detachLabel({
       $,
       ticketId: this.ticketId,
-      data: {
-        ticket_result_id: this.ticketResultId,
-      },
+      labelId: this.labelId,
     });
-
-    $.export("$summary", "Successfully closed ticket");
-
+    $.export("$summary", `Successfully removed label with ID ${this.labelId} from ticket with ID ${this.ticketId}`);
     return response;
   },
 };
