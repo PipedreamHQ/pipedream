@@ -80,9 +80,21 @@ export default {
       cursor = response?.next_cursor ?? null;
     } while (cursor);
 
-    // Emit oldest first so downstream steps process in chronological order
-    for (let i = updates.length - 1; i >= 0; i--) {
-      const update = updates[i];
+    const toEpochMs = (value) => {
+      if (typeof value === "number") return value;
+      const parsed = Date.parse(value);
+      if (!Number.isNaN(parsed)) return parsed;
+      throw new Error(`Unexpected timestamp format: ${value}`);
+    };
+
+    // Sort oldest-first for chronological emission, regardless of API ordering.
+    const orderedUpdates = [
+      ...updates,
+    ].sort(
+      (a, b) => toEpochMs(a.timestamp) - toEpochMs(b.timestamp),
+    );
+
+    for (const update of orderedUpdates) {
       this.$emit(update, {
         id: update.id,
         summary: `[${update.scout_display_name}] ${String(update.content || "").slice(0, 80)}`,
@@ -93,9 +105,9 @@ export default {
     // Only advance lastTimestamp when pagination completed fully.
     // If truncated, leave it unchanged so the next run retries from the same window.
     if (!paginationTruncated) {
-      if (updates.length > 0) {
-        // updates[0] is the newest (API returns reverse-chronological order)
-        this._setLastTimestamp(updates[0].timestamp + 1);
+      if (orderedUpdates.length > 0) {
+        const newestTimestamp = toEpochMs(orderedUpdates[orderedUpdates.length - 1].timestamp);
+        this._setLastTimestamp(newestTimestamp + 1);
       } else {
         this._setLastTimestamp(now);
       }
