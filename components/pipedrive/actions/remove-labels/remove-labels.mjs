@@ -1,4 +1,3 @@
-import { ConfigurationError } from "@pipedream/platform";
 import pipedriveApp from "../../pipedrive.app.mjs";
 
 export default {
@@ -150,12 +149,9 @@ export default {
       throw new ConfigurationError("Please select at least one label to remove.");
     }
 
-    // Fetch the item's current labels
     const item = await this.getItem(type);
     const currentLabelIds = item?.label_ids ?? [];
 
-    // Build the removal set — normalise both sides to strings for safe comparison
-    // (lead labels are UUIDs/strings; person/deal/org labels are integers)
     const removeSet = new Set(labelsToRemove.map(String));
     const updatedLabelIds = currentLabelIds.filter(
       (id) => !removeSet.has(String(id)),
@@ -174,9 +170,8 @@ export default {
         label_ids: updatedLabelIds,
       });
     } catch (error) {
-      throw new ConfigurationError(
-        `Failed to update ${type} labels: ${JSON.stringify(error, null, 2)}`,
-      );
+      const message = error?.message || JSON.stringify(error, null, 2);
+      throw new Error(`Failed to update ${type} labels: ${message}`);
     }
 
     $.export(
