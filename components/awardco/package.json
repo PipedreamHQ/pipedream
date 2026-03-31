@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/awardco",
+  "version": "0.0.1",
+  "description": "Pipedream Awardco Components",
+  "main": "awardco.app.mjs",
+  "keywords": [
+    "pipedream",
+    "awardco"
+  ],
+  "homepage": "https://pipedream.com/apps/awardco",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
