@@ -1,4 +1,5 @@
 import app from "../../ical.app.mjs";
+import * as ical2json from "ical2json";
 
 export default {
   name: "Update Event",
@@ -24,6 +25,7 @@ export default {
       type: "string",
       label: "Summary",
       description: "Short title or summary of the event",
+      optional: true,
     },
     description: {
       type: "string",
@@ -35,14 +37,24 @@ export default {
       type: "string",
       label: "Start",
       description: "Event start date/time (e.g. YYYYMMDDTHHMMSS or ISO 8601)",
+      optional: true,
     },
     end: {
       type: "string",
       label: "End",
       description: "Event end date/time (e.g. YYYYMMDDTHHMMSS or ISO 8601)",
+      optional: true,
     },
   },
   async run({ $ }) {
+    const { VCALENDAR } = await this.app.getEvent({
+      uid: this.eventUID,
+      $,
+    });
+    const event = VCALENDAR[0].VEVENT[0];
+    if (!event) {
+      throw new Error("Event not found");
+    }
     const ics =
       [
         "BEGIN:VCALENDAR",
@@ -52,16 +64,16 @@ export default {
         "BEGIN:VEVENT",
         `UID:${this.eventUID}`,
         `DTSTAMP:${new Date().toISOString()}`,
-        `DTSTART:${this.start}`,
-        `DTEND:${this.end}`,
-        `SUMMARY:${this.summary}`,
-        `DESCRIPTION:${this.description || "No description provided"}`,
+        `DTSTART:${this.start || event.DTSTART}`,
+        `DTEND:${this.end || event.DTEND}`,
+        `SUMMARY:${this.summary || event.SUMMARY}`,
+        `DESCRIPTION:${this.description || event.DESCRIPTION}`,
         "END:VEVENT",
         "END:VCALENDAR",
         "",
       ];
 
-    const response = await this.app.updateEvent({
+    await this.app.updateEvent({
       $,
       uid: this.eventUID,
       data: ics.join("\r\n"),
@@ -69,6 +81,6 @@ export default {
 
     $.export("$summary", `Successfully updated event with UID \`${this.eventUID}\``);
 
-    return response;
+    return ical2json.convert(ics.join("\r\n"));
   },
 };

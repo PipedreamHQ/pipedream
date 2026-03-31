@@ -1,5 +1,5 @@
 import app from "../../ical.app.mjs";
-import ical2json from "ical2json";
+import * as ical2json from "ical2json";
 
 export default {
   name: "List Events",
@@ -31,18 +31,22 @@ export default {
 
       const calendarData = ical2json.convert(response);
 
-      eventsQuantity = calendarData?.VCALENDAR[0].VEVENT?.length || 0;
+      eventsQuantity = !calendarData || !calendarData?.VCALENDAR
+        ? 0
+        : calendarData?.VCALENDAR?.length;
       returnData = calendarData;
     } else {
       returnData = await this.app.getEvents({
         $,
       });
 
-      eventsQuantity = returnData?.VCALENDAR.length || 0;
+      eventsQuantity = !returnData || !returnData?.VCALENDAR
+        ? 0
+        : returnData?.VCALENDAR?.length;
     }
 
     if (!returnData?.VCALENDAR?.length) {
-      $.export("$error", "No calendar events found");
+      $.export("$summary", "No calendar events found");
       return;
     }
 
@@ -50,7 +54,6 @@ export default {
       $.export("$summary", `Successfully retrieved ${eventsQuantity} ${eventsQuantity <= 1
         ? "event"
         : "events"}`);
-      return;
     }
 
     return returnData;

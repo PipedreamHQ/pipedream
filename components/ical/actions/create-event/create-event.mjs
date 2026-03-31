@@ -1,4 +1,5 @@
 import app from "../../ical.app.mjs";
+import * as ical2json from "ical2json";
 
 export default {
   name: "Create Event",
@@ -56,7 +57,7 @@ export default {
         "",
       ];
 
-    const response = await this.app.createEvent({
+    await this.app.createEvent({
       $,
       uid,
       data: ics.join("\r\n"),
@@ -64,6 +65,6 @@ export default {
 
     $.export("$summary", `Successfully created event with UID \`${uid}\``);
 
-    return response;
+    return ical2json.convert(ics.join("\r\n"));
   },
 };

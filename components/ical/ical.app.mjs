@@ -1,5 +1,5 @@
 import { axios } from "@pipedream/platform";
-import ical2json from "ical2json";
+import * as ical2json from "ical2json";
 import helper from "./common/helper.mjs";
 import constants from "./common/constants.mjs";
 
@@ -95,6 +95,15 @@ export default {
         path: "",
         ...args,
       });
+    },
+    async getEvent({
+      uid, ...args
+    }) {
+      const response = await this._makeRequest({
+        path: `/${uid}.ics`,
+        ...args,
+      });
+      return ical2json.convert(response);
     },
     async createEvent({
       uid, ...args

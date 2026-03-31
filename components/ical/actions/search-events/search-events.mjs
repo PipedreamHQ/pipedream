@@ -1,5 +1,5 @@
 import app from "../../ical.app.mjs";
-import ical2json from "ical2json";
+import * as ical2json from "ical2json";
 
 export default {
   name: "Search Events",
@@ -53,8 +53,9 @@ export default {
       event.VEVENT[0].DESCRIPTION?.toLowerCase().includes(this.search.toLowerCase()));
 
     if (events.length) {
-      $.export("$summary", `Successfully find ${events.length} events`);
-      return;
+      $.export("$summary", `Successfully found ${events.length} event${events.length > 1
+        ? "s"
+        : ""}`);
     }
 
     return events;
