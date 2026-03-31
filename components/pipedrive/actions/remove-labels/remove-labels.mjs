@@ -1,4 +1,5 @@
 import pipedriveApp from "../../pipedrive.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "pipedrive-remove-labels",
