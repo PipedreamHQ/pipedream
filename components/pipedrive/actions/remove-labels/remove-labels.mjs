@@ -1,6 +1,11 @@
 import { ConfigurationError } from "@pipedream/platform";
 import pipedriveApp from "../../pipedrive.app.mjs";
-
+const ENTITY_TYPES = [
+  "lead",
+  "person",
+  "deal",
+  "organization",
+];
 export default {
   key: "pipedrive-remove-labels",
   name: "Remove Labels",
@@ -18,12 +23,7 @@ export default {
       type: "string",
       label: "Type",
       description: "The type of the item to remove labels from",
-      options: [
-        "lead",
-        "person",
-        "deal",
-        "organization",
-      ],
+      options: ENTITY_TYPES,
       reloadProps: true,
     },
     leadId: {
@@ -107,7 +107,7 @@ export default {
     if (!this.type) {
       return {};
     }
-    for (const entity of ["lead", "person", "deal", "organization"]) {
+    for (const entity of ENTITY_TYPES) {
       props[`${entity}Id`].hidden = this.type !== entity;
       props[`${entity}Id`].optional = this.type !== entity;
       props[`${entity}LabelIds`].hidden = this.type !== entity;
@@ -157,10 +157,16 @@ export default {
         label_ids: updatedLabelIds,
       });
       updatedItem = response?.data ?? response;
-    } catch (error) {
-      const message = error?.message || JSON.stringify(error, null, 2);
-      throw new Error(`Failed to update ${type} labels: ${message}`);
-    }
+    }  catch (error) {
+  let serialized;
+  try {
+    serialized = JSON.stringify(error, null, 2);
+  } catch {
+    serialized = String(error);
+  }
+  const message = error?.message ?? serialized;
+  throw new Error(`Failed to update ${type} labels: ${message}`);
+}
 
     $.export(
       "$summary",
