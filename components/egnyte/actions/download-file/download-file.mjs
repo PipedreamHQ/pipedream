@@ -5,7 +5,7 @@ import path from "path";
 export default {
   key: "egnyte-download-file",
   name: "Download File",
-  description: "Download a file from Egnyte and save it under `/tmp`. For common text-based types (for example `text/*`, JSON, XML, CSV, Markdown), the response can includes a `content` string with the file body. [See the documentation](https://developers.egnyte.com/api-docs/read/file-system-management-api-documentation)",
+  description: "Download a file from Egnyte and save it under `/tmp`. For common text-based types (for example `text/*`, JSON, XML, CSV, Markdown), the response can include a `content` string with the file body. [See the documentation](https://developers.egnyte.com/api-docs/read/file-system-management-api-documentation)",
   version: "0.0.1",
   type: "action",
   annotations: {
