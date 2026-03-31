@@ -98,7 +98,7 @@ export default {
       this.$emit(update, {
         id: update.id,
         summary: `[${update.scout_display_name}] ${String(update.content || "").slice(0, 80)}`,
-        ts: update.timestamp,
+        ts: toEpochMs(update.timestamp),
       });
     }
 
