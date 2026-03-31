@@ -10,7 +10,7 @@ export default {
     + " Returns the spreadsheet ID and URL."
     + " Use the spreadsheet ID with other tools to read/write"
     + " data.",
-  version: "0.0.2",
+  version: "0.0.14",
   type: "action",
   annotations: {
     destructiveHint: false,
