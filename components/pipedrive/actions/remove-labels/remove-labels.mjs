@@ -1,5 +1,5 @@
-import pipedriveApp from "../../pipedrive.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import pipedriveApp from "../../pipedrive.app.mjs";
 
 export default {
   key: "pipedrive-remove-labels",
@@ -107,26 +107,12 @@ export default {
     if (!this.type) {
       return {};
     }
-    props.leadId.hidden = this.type !== "lead";
-    props.personId.hidden = this.type !== "person";
-    props.dealId.hidden = this.type !== "deal";
-    props.organizationId.hidden = this.type !== "organization";
-
-    props.leadId.optional = this.type !== "lead";
-    props.personId.optional = this.type !== "person";
-    props.dealId.optional = this.type !== "deal";
-    props.organizationId.optional = this.type !== "organization";
-
-    props.leadLabelIds.hidden = this.type !== "lead";
-    props.personLabelIds.hidden = this.type !== "person";
-    props.dealLabelIds.hidden = this.type !== "deal";
-    props.organizationLabelIds.hidden = this.type !== "organization";
-
-    props.leadLabelIds.optional = this.type !== "lead";
-    props.personLabelIds.optional = this.type !== "person";
-    props.dealLabelIds.optional = this.type !== "deal";
-    props.organizationLabelIds.optional = this.type !== "organization";
-
+    for (const entity of ["lead", "person", "deal", "organization"]) {
+      props[`${entity}Id`].hidden = this.type !== entity;
+      props[`${entity}Id`].optional = this.type !== entity;
+      props[`${entity}LabelIds`].hidden = this.type !== entity;
+      props[`${entity}LabelIds`].optional = this.type !== entity;
+    }
     return {};
   },
   methods: {
@@ -164,12 +150,13 @@ export default {
       return item;
     }
 
-    let response;
+    let updatedItem;
     try {
-      response = await this.pipedriveApp[`update${this.capitalizedType(type)}`]({
+      const response = await this.pipedriveApp[`update${this.capitalizedType(type)}`]({
         [`${type}Id`]: this[`${type}Id`],
         label_ids: updatedLabelIds,
       });
+      updatedItem = response?.data ?? response;
     } catch (error) {
       const message = error?.message || JSON.stringify(error, null, 2);
       throw new Error(`Failed to update ${type} labels: ${message}`);
@@ -179,6 +166,6 @@ export default {
       "$summary",
       `Successfully removed ${removedCount} label(s) from the ${type}. ${updatedLabelIds.length} label(s) remain.`,
     );
-    return response;
+    return updatedItem;
   },
 };
