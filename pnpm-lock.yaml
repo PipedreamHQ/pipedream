@@ -9674,9 +9674,6 @@ importers:
       lodash.get:
         specifier: ^4.4.2
         version: 4.4.2
-      path:
-        specifier: ^0.12.7
-        version: 0.12.7
 
   components/microsoft_outlook:
     dependencies:
