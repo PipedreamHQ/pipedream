@@ -13,7 +13,7 @@ export default {
     + " for subsequent **Update Rows** calls)."
     + " For simple reads without filtering, use **Read Rows**"
     + " instead.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
