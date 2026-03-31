@@ -281,5 +281,19 @@ export default {
         .header("Prefer", `outlook.timezone="${timeZone}"`)
         .post(data);
     },
+    async findMeetingTimes({
+      userId,
+      timeZone,
+      data = {},
+    } = {}) {
+      const basePath = userId
+        ? `/users/${encodeURIComponent(userId)}`
+        : "/me";
+      let request = this.client().api(`${basePath}/findMeetingTimes`);
+      if (timeZone) {
+        request = request.header("Prefer", `outlook.timezone="${timeZone}"`);
+      }
+      return await request.post(data);
+    },
   },
 };

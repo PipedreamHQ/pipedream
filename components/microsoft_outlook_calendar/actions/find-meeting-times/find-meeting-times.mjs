@@ -1,7 +1,4 @@
-import {
-  axios,
-  ConfigurationError,
-} from "@pipedream/platform";
+import { ConfigurationError } from "@pipedream/platform";
 import microsoftOutlook from "../../microsoft_outlook_calendar.app.mjs";
 import utils from "../../common/utils.mjs";
 
@@ -132,34 +129,9 @@ export default {
         },
       };
     },
-    async _postFindMeetingTimes({
-      $,
-      basePath,
-      token,
-      body,
-    }) {
-      return axios($, {
-        method: "POST",
-        url: `https://graph.microsoft.com/v1.0${basePath}/findMeetingTimes`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-          ...(this.timeZone
-            ? {
-              Prefer: `outlook.timezone="${this.timeZone}"`,
-            }
-            : {}),
-        },
-        data: body,
-      });
-    },
   },
   async run({ $ }) {
-    const token = this.microsoftOutlook?.$auth?.oauth_access_token;
-
     const userId = this.userId?.trim();
-    const basePath = userId
-      ? `/users/${encodeURIComponent(userId)}`
-      : "/me";
 
     const cleanedAttendees = utils.normalizeStringArray(this.attendees);
     const cleanedResourceAttendees = utils.normalizeStringArray(this.resourceAttendees);
@@ -251,11 +223,11 @@ export default {
         : {}),
     };
 
-    const graphResponse = await this._postFindMeetingTimes({
+    const graphResponse = await this.microsoftOutlook.findMeetingTimes({
       $,
-      basePath,
-      token,
-      body,
+      userId,
+      timeZone: this.timeZone,
+      data: body,
     });
 
     const suggestionCount = graphResponse?.meetingTimeSuggestions?.length ?? 0;
