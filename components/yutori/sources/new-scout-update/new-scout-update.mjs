@@ -5,7 +5,7 @@ import sampleEmit from "./test-event.mjs";
 export default {
   key: "yutori-new-scout-update",
   name: "New Scout Update",
-  description: "Trigger a workflow whenever any of your Yutori Scouts produces new findings. Scouts are recurring web monitors that watch prices, news, competitors, job postings, or anything else on the web. This is the companion trigger for the **Create Scout** action — use it as the starting point for workflows that react to scout results (e.g. send a Slack message, update a Google Sheet, or post to Notion whenever a scout finds something new).",
+  description: "Emit new findings from your Yutori Scouts. Scouts are recurring web monitors that watch prices, news, competitors, job postings, or anything else on the web. Use this as the companion trigger for the **Create Scout** action — start workflows that react to scout results (e.g. send a Slack message, update a Google Sheet, or post to Notion whenever a scout finds something new).",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -65,7 +65,11 @@ export default {
       const response = await this.yutori.getUpdates(this, {
         start_time: new Date(sinceTimestamp).toISOString(),
         end_time: new Date(now).toISOString(),
-        ...(cursor ? { cursor } : {}),
+        ...(cursor
+          ? {
+            cursor,
+          }
+          : {}),
       });
       const page = response?.updates ?? [];
       updates.push(...page);

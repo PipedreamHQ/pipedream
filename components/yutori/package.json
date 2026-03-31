@@ -1,10 +1,11 @@
 {
   "name": "@pipedream/yutori",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "Pipedream Yutori Components",
   "main": "yutori.app.mjs",
   "keywords": [
-    "pipedream"
+    "pipedream",
+    "yutori"
   ],
   "homepage": "https://pipedream.com/apps/yutori",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
