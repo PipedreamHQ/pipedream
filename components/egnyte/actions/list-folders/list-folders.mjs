@@ -6,7 +6,7 @@ export default {
   key: "egnyte-list-folders",
   name: "List Folders",
   description: "List folders in your Egnyte workspace. [See the documentation](https://developers.egnyte.com/api-docs/read/file-system-management-api-documentation)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

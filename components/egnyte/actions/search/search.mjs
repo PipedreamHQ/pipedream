@@ -4,7 +4,7 @@ export default {
   key: "egnyte-search",
   name: "Search",
   description: "Search for files and folders in your Egnyte workspace. [See the documentation](https://developers.egnyte.com/api-docs/read/search-api)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
