@@ -1,11 +1,13 @@
 import { ConfigurationError } from "@pipedream/platform";
 import pipedriveApp from "../../pipedrive.app.mjs";
+
 const ENTITY_TYPES = [
   "lead",
   "person",
   "deal",
   "organization",
 ];
+
 export default {
   key: "pipedrive-remove-labels",
   name: "Remove Labels",
@@ -157,16 +159,16 @@ export default {
         label_ids: updatedLabelIds,
       });
       updatedItem = response?.data ?? response;
-    }  catch (error) {
-  let serialized;
-  try {
-    serialized = JSON.stringify(error, null, 2);
-  } catch {
-    serialized = String(error);
-  }
-  const message = error?.message ?? serialized;
-  throw new Error(`Failed to update ${type} labels: ${message}`);
-}
+    } catch (error) {
+      let serialized;
+      try {
+        serialized = JSON.stringify(error, null, 2);
+      } catch {
+        serialized = String(error);
+      }
+      const message = error?.message ?? serialized;
+      throw new Error(`Failed to update ${type} labels: ${message}`);
+    }
 
     $.export(
       "$summary",
