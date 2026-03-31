@@ -11,7 +11,7 @@ const ENTITY_TYPES = [
 export default {
   key: "pipedrive-remove-labels",
   name: "Remove Labels",
-  description: "Removes one or more specific labels from a lead, person, deal, or organization in Pipedrive, leaving all other labels intact. [See the documentation](https://developers.pipedrive.com/docs/api/v1)",
+  description: "Removes one or more specific labels from a lead, person, deal, or organization in Pipedrive, leaving all other labels intact. **Note:** This action uses a read-modify-write pattern; concurrent label changes by other workflows or users may be overwritten. [See the documentation](https://developers.pipedrive.com/docs/api/v1)",
   version: "0.1.0",
   annotations: {
     destructiveHint: true,
@@ -132,34 +132,51 @@ export default {
   },
   async run({ $ }) {
     const { type } = this;
-    const labelsToRemove = this.getLabelsToRemove(type);
 
+    // Validate entity ID
+    const entityId = this[`${type}Id`];
+    if (!entityId) {
+      throw new ConfigurationError(`Please provide a valid ${type} ID.`);
+    }
+
+    // Validate labels to remove
+    const labelsToRemove = this.getLabelsToRemove(type);
     if (!labelsToRemove.length) {
       throw new ConfigurationError("Please select at least one label to remove.");
     }
 
-    const item = await this.getItem(type);
-    const currentLabelIds = item?.label_ids ?? [];
-
-    const removeSet = new Set(labelsToRemove.map(String));
-    const updatedLabelIds = currentLabelIds.filter(
-      (id) => !removeSet.has(String(id)),
-    );
-
-    const removedCount = currentLabelIds.length - updatedLabelIds.length;
-    if (removedCount === 0) {
-      $.export("$summary", "No matching labels found on the item — nothing was changed.");
-      return item;
-    }
-
+    let item;
     let updatedItem;
     try {
+      // Fetch fresh state immediately before computing the diff
+      item = await this.getItem(type);
+      const currentLabelIds = item?.label_ids ?? [];
+
+      const removeSet = new Set(labelsToRemove.map(String));
+      const updatedLabelIds = currentLabelIds.filter(
+        (id) => !removeSet.has(String(id)),
+      );
+
+      const removedCount = currentLabelIds.length - updatedLabelIds.length;
+      if (removedCount === 0) {
+        $.export("$summary", "No matching labels found on the item — nothing was changed.");
+        return item;
+      }
+
       const response = await this.pipedriveApp[`update${this.capitalizedType(type)}`]({
-        [`${type}Id`]: this[`${type}Id`],
+        [`${type}Id`]: entityId,
         label_ids: updatedLabelIds,
       });
       updatedItem = response?.data ?? response;
+
+      $.export(
+        "$summary",
+        `Successfully removed ${removedCount} label(s) from the ${type}. ${updatedLabelIds.length} label(s) remain.`,
+      );
     } catch (error) {
+      if (error instanceof ConfigurationError) {
+        throw error;
+      }
       let serialized;
       try {
         serialized = JSON.stringify(error, null, 2);
@@ -170,10 +187,6 @@ export default {
       throw new Error(`Failed to update ${type} labels: ${message}`);
     }
 
-    $.export(
-      "$summary",
-      `Successfully removed ${removedCount} label(s) from the ${type}. ${updatedLabelIds.length} label(s) remain.`,
-    );
     return updatedItem;
   },
 };
