@@ -123,8 +123,8 @@ export default {
     },
     async getItem(type) {
       const capitalizedType = this.capitalizedType(type);
-      const { data } = await this.pipedriveApp[`get${capitalizedType}`](this[`${type}Id`]);
-      return data;
+      const response = await this.pipedriveApp[`get${capitalizedType}`](this[`${type}Id`]);
+      return response?.data ?? response;
     },
     getLabelsToRemove(type) {
       return this[`${type}LabelIds`] || [];
@@ -133,23 +133,19 @@ export default {
   async run({ $ }) {
     const { type } = this;
 
-    // Validate entity ID
     const entityId = this[`${type}Id`];
     if (!entityId) {
       throw new ConfigurationError(`Please provide a valid ${type} ID.`);
     }
 
-    // Validate labels to remove
     const labelsToRemove = this.getLabelsToRemove(type);
     if (!labelsToRemove.length) {
       throw new ConfigurationError("Please select at least one label to remove.");
     }
 
-    let item;
     let updatedItem;
     try {
-      // Fetch fresh state immediately before computing the diff
-      item = await this.getItem(type);
+      const item = await this.getItem(type);
       const currentLabelIds = item?.label_ids ?? [];
 
       const removeSet = new Set(labelsToRemove.map(String));
