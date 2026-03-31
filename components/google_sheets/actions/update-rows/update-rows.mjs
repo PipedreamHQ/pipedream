@@ -29,7 +29,7 @@ export default {
     + " names."
     + " Only specified columns are updated when using object"
     + " values — unspecified columns are left unchanged.",
-  version: "0.0.3",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
