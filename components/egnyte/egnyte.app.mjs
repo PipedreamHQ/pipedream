@@ -50,6 +50,12 @@ export default {
         ...opts,
       });
     },
+    search(opts = {}) {
+      return this._makeRequest({
+        path: "/search",
+        ...opts,
+      });
+    },
     createFolder({ folderPath }) {
       return this._makeRequest({
         method: "POST",
