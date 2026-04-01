@@ -21,7 +21,6 @@ export default {
       type: "string[]",
       label: "Files",
       description: "An array of File URLs or base64-encoded file contents",
-      format: "file-ref",
     },
     syncDir: {
       type: "dir",
@@ -81,7 +80,10 @@ export default {
   },
   async run({ $ }) {
     const files = [];
-    for (const file of this.files) {
+    for (const [
+      index,
+      file,
+    ] of this.files.entries()) {
       try {
         let extension = "";
         if (file.startsWith("data:")) {
@@ -104,8 +106,11 @@ export default {
           filename,
           filepath,
         });
-      } catch {
-        console.log(`Failed to add file: ${file}`);
+      } catch (error) {
+        const message = error instanceof Error
+          ? error.message
+          : String(error);
+        console.error(`Failed to add file at index ${index}: ${message}`);
       }
     }
     if (files.length === this.files.length) {
