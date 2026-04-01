@@ -8,7 +8,7 @@ const SERVICES = [
   "imessage",
   "sms",
   "whatsapp",
-  "rcs"
+  "rcs",
 ];
 
 const EFFECTS = [

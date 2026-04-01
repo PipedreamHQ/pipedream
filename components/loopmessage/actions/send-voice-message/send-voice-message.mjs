@@ -20,7 +20,7 @@ export default {
         "contact",
       ],
     },
-    senderName: {
+    sender: {
       optional: true,
       propDefinition: [
         app,

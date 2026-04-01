@@ -7,15 +7,10 @@ export default {
   auth: {
     type: "custom",
     props: {
-      auth: {
-        type: "custom",
-        props: {
-          api_key: {
-            type: "string",
-            label: "Authorization",
-            secret: true,
-          },
-        },
+      api_key: {
+        type: "string",
+        label: "Authorization",
+        secret: true,
       },
     },
   },
@@ -66,12 +61,6 @@ export default {
       description: "Optional. Reply to a message with a specific ID",
       optional: true,
     },
-    passthrough: {
-      type: "string",
-      label: "Passthrough",
-      description: "Optional. A string of metadata you wish to store with the checkout. Will be sent alongside all webhooks associated with the outbound message. Max length: 1000 characters.",
-      optional: true,
-    },
     channel: {
       type: "string",
       label: "Channel",
@@ -89,6 +78,12 @@ export default {
       type: "string",
       label: "Message ID",
       description: "The ID of the message.",
+    },
+    passthrough: {
+      type: "string",
+      label: "Passthrough",
+      description: "Optional. A string of metadata you wish to store in this request. Max length: 1000 characters.",
+      optional: true,
     },
   },
   methods: {

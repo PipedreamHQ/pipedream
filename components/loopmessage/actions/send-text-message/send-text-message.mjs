@@ -38,7 +38,7 @@ export default {
         "effect",
       ],
     },
-    senderName: {
+    sender: {
       optional: true,
       propDefinition: [
         app,
@@ -58,18 +58,18 @@ export default {
         "replyToId",
       ],
     },
-    passthrough: {
-      optional: true,
-      propDefinition: [
-        app,
-        "passthrough",
-      ],
-    },
     channel: {
       optional: true,
       propDefinition: [
         app,
         "channel",
+      ],
+    },
+    passthrough: {
+      optional: true,
+      propDefinition: [
+        app,
+        "passthrough",
       ],
     },
   },
