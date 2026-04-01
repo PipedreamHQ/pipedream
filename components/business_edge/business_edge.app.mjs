@@ -26,6 +26,37 @@ export default {
       return `Basic ${token}`;
     },
     /**
+     * Bounded, non-sensitive summary for API error responses (avoids full body
+     * stringify).
+     * @param {object} data
+     * @returns {string}
+     */
+    _summarizeApiError(data) {
+      const MAX_LEN = 500;
+      const summary = {
+        Success: data.Success,
+        LogID: data.LogID,
+        Error: typeof data.Error === "string"
+          ? data.Error.slice(0, 200)
+          : undefined,
+        ErrorList: data.ErrorList,
+        ErrorLog: Array.isArray(data.ErrorLog)
+          ? data.ErrorLog.slice(0, 3).map((e) => ({
+            Type: e?.Type,
+            TypeDesc: e?.TypeDesc,
+            Message: typeof e?.Message === "string"
+              ? e.Message.slice(0, 150)
+              : e?.Message,
+          }))
+          : undefined,
+      };
+      let text = JSON.stringify(summary);
+      if (text.length > MAX_LEN) {
+        text = `${text.slice(0, MAX_LEN - 3)}...`;
+      }
+      return text;
+    },
+    /**
      * Throws if the API body indicates failure (HTTP may still be 200).
      * @param {object} data Parsed JSON response body
      */
@@ -36,7 +67,9 @@ export default {
       if (data.Success !== false) {
         return;
       }
-      throw new Error(`Business Edge API error: ${JSON.stringify(data)}`);
+      throw new Error(
+        `Business Edge API error: ${this._summarizeApiError(data)}`,
+      );
     },
     /**
      * POST JSON to a Business Edge export endpoint.

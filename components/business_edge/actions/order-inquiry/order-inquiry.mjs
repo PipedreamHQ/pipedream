@@ -85,7 +85,7 @@ export default {
       ...orderReturnSchema,
     };
 
-    if (dateDelim !== undefined && dateDelim !== null && dateDelim !== "") {
+    if (dateDelim) {
       body.DateDelim = dateDelim;
     }
     if (savedSchemaId) {
@@ -94,7 +94,11 @@ export default {
     if (savedSchemaCode) {
       body.SavedSchemaCode = savedSchemaCode;
     }
-    if (chooseOne && typeof chooseOne === "object" && Object.keys(chooseOne).length > 0) {
+    if (
+      chooseOne
+      && typeof chooseOne === "object"
+      && Object.keys(chooseOne).length > 0
+    ) {
       body.ChooseOne = chooseOne;
     }
 

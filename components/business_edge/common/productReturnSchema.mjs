@@ -1,6 +1,7 @@
 /**
  * Return schema for Get Products flow
- * Contains all product fields that are not child objects
+ * Contains product fields returned by the export (excluded optional fields are
+ * listed in the upstream schema: see URL below).
  */
 export const productReturnSchema = {
   Product: [
@@ -23,43 +24,12 @@ export const productReturnSchema = {
       TrackExpOptDesc: true,
       ReplTypeOpt: true,
       ReplTypeOptDesc: true,
-      // I removed these because I don't think the client is currently using these,
-      // eventually this entire schema file may be replaced
-      // SyncVMIOpt: true,
-      // SyncVMIOptDesc: true,
       TrkMfgLotHeatOpt: true,
       TrkMfgLotHeatOptDesc: true,
       TrkCoOOpt: true,
       TrkCoOOptDesc: true,
       InspReqOpt: true,
       InspReqOptDesc: true,
-      // I removed these because I don't think the client is currently using these,
-      // eventually this entire schema file may be replaced
-      // ClassID: true,
-      // ClassCode: true,
-      // ClassDesc: true,
-      // ClassInfo: true,
-      // ClassDescDisp: true,
-      // GLAssetID: true,
-      // GLAssetCode: true,
-      // GLAssetDesc: true,
-      // GLAssetInfo: true,
-      // GLAssetDescDisp: true,
-      // GLCOGSID: true,
-      // GLCOGSCode: true,
-      // GLCOGSDesc: true,
-      // GLCOGSInfo: true,
-      // GLCOGSDescDisp: true,
-      // GLRevenueID: true,
-      // GLRevenueCode: true,
-      // GLRevenueDesc: true,
-      // GLRevenueInfo: true,
-      // GLRevenueDescDisp: true,
-      // GLReturnID: true,
-      // GLReturnCode: true,
-      // GLReturnDesc: true,
-      // GLReturnInfo: true,
-      // GLReturnDescDisp: true,
       StockUOMID: true,
       PurchUOMID: true,
       SellUOMID: true,
@@ -101,16 +71,6 @@ export const productReturnSchema = {
       TheoWght: true,
       TheoWghtDec: true,
       TheoWghtString: true,
-      // I removed these because I don't think the client is currently using these,
-      // eventually this entire schema file may be replaced
-      // Create: true,
-      // CreateUser: true,
-      // CreateUserFull: true,
-      // CreateDate: true,
-      // CreateTime: true,
-      // CreateTimeString: true,
-      // CreateEpoch: true,
-      // CreateFormatted: true,
       Volume: true,
       VolumeDec: true,
       VolumeString: true,

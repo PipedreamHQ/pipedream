@@ -115,7 +115,13 @@ export default {
       data: body,
     });
 
-    $.export("$summary", "Retrieved customers from Business Edge");
+    const customers = Array.isArray(data?.Customer)
+      ? data.Customer
+      : [];
+    $.export(
+      "$summary",
+      `Successfully retrieved ${customers.length} customers`,
+    );
     return data;
   },
 };

@@ -135,7 +135,13 @@ export default {
       data: body,
     });
 
-    $.export("$summary", "Retrieved products from Business Edge");
+    const products = Array.isArray(data?.Product)
+      ? data.Product
+      : [];
+    $.export(
+      "$summary",
+      `Successfully retrieved ${products.length} products`,
+    );
     return data;
   },
 };
