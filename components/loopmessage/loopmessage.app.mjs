@@ -30,9 +30,23 @@ export default {
       label: "Text",
       description: "Message text.",
     },
+    subject: {
+      type: "string",
+      label: "Subject",
+      description: "Optional. Message subject. A recipient will see this subject as a bold title before the text. For iMessage only.",
+      optional: true,
+    },
+    effect: {
+      type: "string",
+      label: "Effect",
+      description: "Optional. Add effect to your message. For iMessage only.",
+      options: constants.EFFECTS,
+      optional: true,
+    },
     sender: {
       type: "string",
       label: "Sender",
+      description: "Optional. Use a specific Sender Name for outbound message.",
       optional: true,
       async options() {
         const response = await this.makeRequest({
@@ -46,23 +60,10 @@ export default {
         }));
       },
     },
-    subject: {
-      type: "string",
-      label: "Subject",
-      description: "Message subject. A recipient will see this subject as a bold title before the text. For iMessage only.",
-      optional: true,
-    },
-    effect: {
-      type: "string",
-      label: "Effect",
-      description: "Optional. Add effect to your message. For iMessage only.",
-      options: constants.EFFECTS,
-      optional: true,
-    },
     replyToId: {
       type: "string",
       label: "Reply To ID",
-      description: "Reply to a message with a specific ID",
+      description: "Optional. Reply to a message with a specific ID",
       optional: true,
     },
     passthrough: {
@@ -119,9 +120,33 @@ export default {
         ...args,
       });
     },
+    delete(args = {}) {
+      return this.makeRequest({
+        method: "delete",
+        ...args,
+      });
+    },
     sendMessage(args = {}) {
       return this.post({
         path: "/integrations/pipedream/message/send/",
+        ...args,
+      });
+    },
+    updatePipedreamWebhook(webhookUrl, args = {}) {
+      return this.post({
+        path: "/integrations/pipedream/update-pipedream-webhook/",
+        data: {
+          webhook_url: webhookUrl,
+        },
+        ...args,
+      });
+    },
+    deactivatePipedreamWebhook(webhookUrl, args = {}) {
+      return this.delete({
+        path: "/integrations/pipedream/update-pipedream-webhook/",
+        data: {
+          webhook_url: webhookUrl,
+        },
         ...args,
       });
     },

@@ -2,8 +2,8 @@ import app from "../../loopmessage.app.mjs";
 
 export default {
   key: "loopmessage-new-inbound-message",
-  name: "Inbound message",
-  description: "New inbound message",
+  name: "New inbound message",
+  description: "Emit new inbound message",
   type: "source",
   version: "0.0.1",
   dedupe: "unique",
@@ -12,6 +12,14 @@ export default {
     http: {
       type: "$.interface.http",
       customResponse: true,
+    },
+  },
+  hooks: {
+    async activate() {
+      await this.app.updatePipedreamWebhook(this.http.endpoint);
+    },
+    async deactivate() {
+      await this.app.deactivatePipedreamWebhook(this.http.endpoint);
     },
   },
   async run({ body }) {
