@@ -151,15 +151,9 @@ export default {
       response = await this.awardco.recognizeNoProgram({
         $,
         data: omitEmpty({
-          recipients: this.recipients,
-          note: this.note,
           emailTemplateName: this.emailTemplateName,
           sendNotifications: this.sendNotifications,
           budgetName: this.budgetName,
-          tagNames: this.tagNames,
-          giver: this.giver || undefined,
-          amount: this.amount,
-          isPublic: this.isPublic,
         }),
       });
       summary = "Successfully submitted recognition without program";
