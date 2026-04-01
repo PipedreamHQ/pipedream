@@ -81,9 +81,13 @@ export default {
     } while (cursor);
 
     const toEpochMs = (value) => {
-      if (typeof value === "number") return value;
-      const parsed = Date.parse(value);
-      if (!Number.isNaN(parsed)) return parsed;
+      if (typeof value === "number" && Number.isFinite(value)) return value;
+      if (typeof value === "string") {
+        const numeric = Number(value);
+        if (value.trim() !== "" && Number.isFinite(numeric)) return numeric;
+        const parsed = Date.parse(value);
+        if (!Number.isNaN(parsed)) return parsed;
+      }
       throw new Error(`Unexpected timestamp format: ${value}`);
     };
 
