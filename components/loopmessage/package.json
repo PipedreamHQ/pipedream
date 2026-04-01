@@ -5,7 +5,9 @@
   "main": "loopmessage.app.mjs",
   "keywords": [
     "pipedream",
-    "loopmessage"
+    "loopmessage",
+    "imessage",
+    "blue"
   ],
   "homepage": "https://pipedream.com/apps/loopmessage",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

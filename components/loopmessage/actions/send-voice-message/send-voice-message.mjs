@@ -1,51 +1,54 @@
 import app from "../../loopmessage.app.mjs";
 import utils from "../../common/utils.mjs";
-import { ConfigurationError } from "@pipedream/platform";
 
 export default {
+  key: "loopmessage-send-voice-message",
+  name: "Send Outbound Voice Message",
+  description: "Send s voice memo. Supports only in: iMessage, RCS, WhatsApp.",
+  type: "action",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
-    recipient: {
+    contact: {
       propDefinition: [
         app,
-        "recipient",
-      ],
-    },
-    text: {
-      propDefinition: [
-        app,
-        "text",
+        "contact",
       ],
     },
     senderName: {
       optional: true,
       propDefinition: [
         app,
-        "senderName",
+        "sender",
       ],
     },
-    statusCallback: {
+    mediaUrl: {
       propDefinition: [
         app,
-        "statusCallback",
+        "mediaUrl",
       ],
     },
-    statusCallbackHeader: {
+    passthrough: {
+      optional: true,
       propDefinition: [
         app,
-        "statusCallbackHeader",
+        "passthrough",
       ],
     },
   },
   methods: {
-    getSummary() {
-      throw new ConfigurationError("The `getSummary` method is not implemented.");
+    getSummary(response) {
+      return `Request accepted. Message ID: \`${response.message_id}\``;
     },
   },
   async run({ $: step }) {
     const {
       app,
-      getSummary,
       ...data
     } = this;
 
@@ -54,7 +57,7 @@ export default {
       data: utils.keysToSnakeCase(data),
     });
 
-    step.export("$summary", getSummary(response));
+    step.export("$summary", this.getSummary(response));
 
     return response;
   },
