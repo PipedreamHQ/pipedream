@@ -108,7 +108,13 @@ export default {
       data: body,
     });
 
-    $.export("$summary", "Order inquiry completed");
+    const orders = Array.isArray(data?.Order)
+      ? data.Order
+      : [];
+    $.export(
+      "$summary",
+      `Successfully retrieved ${orders.length} orders`,
+    );
     return data;
   },
 };

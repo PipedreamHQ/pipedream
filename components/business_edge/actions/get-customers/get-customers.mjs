@@ -90,10 +90,10 @@ export default {
     const body = {
       Entity: entity,
       DateFormatOpt: dateFormatOpt || "A",
-      Customer: customerReturnSchema.Customer,
+      ...customerReturnSchema,
     };
 
-    if (dateDelim !== undefined && dateDelim !== null && dateDelim !== "") {
+    if (dateDelim) {
       body.DateDelim = dateDelim;
     }
     if (savedSchemaId) {

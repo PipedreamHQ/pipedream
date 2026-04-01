@@ -107,7 +107,7 @@ export default {
       ...productReturnSchema,
     };
 
-    if (dateDelim !== undefined && dateDelim !== null && dateDelim !== "") {
+    if (dateDelim) {
       body.DateDelim = dateDelim;
     }
     if (savedSchemaId) {
