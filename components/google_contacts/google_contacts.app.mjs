@@ -39,6 +39,8 @@ export default {
             label = `${displayName} (${email})`;
           } else if (displayName) {
             label = displayName;
+          } else if (email) {
+            label = email;
           } else {
             label = contact.resourceName;
           }
