@@ -17,7 +17,7 @@ export default {
     messages: {
       type: "string[]",
       label: "Messages",
-      description: "The IDs of the emails to archive",
+      description: "The IDs of the emails to archive. Maximum 1000 messages per request.",
       propDefinition: [
         gmail,
         "message",
