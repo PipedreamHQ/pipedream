@@ -47,12 +47,7 @@ export default {
       positionId: this.positionId,
       candidateId: this.candidateId,
     });
-    const fullName = [
-      data?.first_name,
-      data?.last_name,
-    ].filter(Boolean).join(" ");
-    const label = data?.name || fullName || data?.email_address || this.candidateId;
-    $.export("$summary", `Retrieved candidate ${label}`);
+    $.export("$summary", "Candidate retrieved successfully");
     return data;
   },
 };
