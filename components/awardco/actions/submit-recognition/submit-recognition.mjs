@@ -134,6 +134,7 @@ export default {
         throw new ConfigurationError("Recognition program ID or Name is required");
       }
       response = await this.awardco.recognize({
+        $,
         data: omitEmpty({
           ...data,
           recognitionProgramId: this.recognitionProgramId,
@@ -148,6 +149,7 @@ export default {
 
     if (this.recognitionMode === "no_program") {
       response = await this.awardco.recognizeNoProgram({
+        $,
         data: omitEmpty({
           recipients: this.recipients,
           note: this.note,

@@ -66,17 +66,23 @@ export default {
 
     if (this.feedSource === "custom") {
       const response = await this.awardco.getCustomFeed({
-        page,
-        limit,
-        metadataFilter: this.metadataFilter,
+        $,
+        params: {
+          page,
+          limit,
+          metadataFilter: this.metadataFilter,
+        },
       });
       $.export("$summary", "Successfully retrieved custom feed data");
       return response;
     }
 
     const response = await this.awardco.getSocialFeed({
-      page,
-      limit,
+      $,
+      data: {
+        page,
+        limit,
+      },
     });
     $.export("$summary", "Successfully retrieved social feed data");
     return response;
