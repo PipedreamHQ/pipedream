@@ -1,7 +1,7 @@
 import app from "../../loopmessage.app.mjs";
 
 export default {
-  key: "loopmessage-new-alert-received",
+  key: "loopmessage-new-inbound-message",
   name: "Inbound message",
   description: "New inbound message",
   type: "source",
@@ -16,11 +16,13 @@ export default {
   },
   async run({ body }) {
     this.$emit(body, {
-      id: body.webhook_id || body.message_id || Date.now().toString(),
+      id: body.webhook_id || body.message_id,
       summary: body.contact
-          ? `New inbound message from ${body.contact}`
-          : "New inbound received",
-      ts: body.created_at ? Date.parse(body.created_at) : Date.now(),
+        ? `New inbound message from ${body.contact}`
+        : "New inbound received",
+      ts: body.created_at
+        ? Date.parse(body.created_at)
+        : Date.now(),
     });
 
     this.http.respond({

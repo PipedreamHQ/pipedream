@@ -55,7 +55,7 @@ export default {
     effect: {
       type: "string",
       label: "Effect",
-      description: "Optional. Optional. Add effect to your message. For iMessage only.",
+      description: "Optional. Add effect to your message. For iMessage only.",
       options: constants.EFFECTS,
       optional: true,
     },
@@ -68,7 +68,7 @@ export default {
     passthrough: {
       type: "string",
       label: "Passthrough",
-      description: "Optional. A string of metadata you wish to store with the checkout. Will be sent alongside all webhooks associated with the outbound message. Max length: 1000 characters.о",
+      description: "Optional. A string of metadata you wish to store with the checkout. Will be sent alongside all webhooks associated with the outbound message. Max length: 1000 characters.",
       optional: true,
     },
     channel: {
@@ -100,13 +100,13 @@ export default {
     getHeaders(headers = {}) {
       return {
         "Content-Type": "application/json",
-        Authorization: this.$auth.api_key,
+        "Authorization": this.$auth.api_key,
         ...headers,
       };
     },
     makeRequest({
-                  step = this, path, headers, ...args
-                } = {}) {
+      step = this, path, headers, ...args
+    } = {}) {
       return axios(step, {
         headers: this.getHeaders(headers),
         url: this.getUrl(path),

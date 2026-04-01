@@ -4,7 +4,7 @@ import utils from "../../common/utils.mjs";
 export default {
   key: "loopmessage-send-voice-message",
   name: "Send Outbound Voice Message",
-  description: "Send s voice memo. Supports only in: iMessage, RCS, WhatsApp.",
+  description: "Send a voice memo. Supports only in: iMessage, RCS, WhatsApp.",
   type: "action",
   version: "0.0.4",
   annotations: {

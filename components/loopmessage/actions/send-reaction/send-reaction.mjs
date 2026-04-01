@@ -35,7 +35,7 @@ export default {
   },
   methods: {
     getSummary(response) {
-      return `Request accepted.`;
+      return `Request accepted. Message ID: ID \`${response.message_id}\``;
     },
   },
   async run({ $: step }) {
