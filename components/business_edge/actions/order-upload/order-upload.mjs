@@ -1,11 +1,20 @@
 import app from "../../business_edge.app.mjs";
 import { orderReturnSchema } from "../../common/orderReturnSchema.mjs";
 
+function lineHasProductIdentifier(line) {
+  return Boolean(
+    line?.ProdCode
+    || line?.ProdID
+    || line?.BinBarcode
+    || line?.AnyScan,
+  );
+}
+
 export default {
   key: "business_edge-order-upload",
   name: "Order Upload",
   description:
-    "Upload an order to Business Edge via `POST /documents/orderupload/export.json`. [API index](https://hangerbolt.ci-inc.com/apilist/export)",
+    "Upload an order to Business Edge via `POST /documents/orderupload/export.json`. ImpOrder is required and validated before the request (OrdDate, ImpDtlLine with product id + OrdQty; ShipTo/BillTo/ThirdPartyBillTo require Name when set). [API index](https://hangerbolt.ci-inc.com/apilist/export)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -66,8 +75,82 @@ export default {
       type: "object",
       label: "Import Order (ImpOrder)",
       description:
-        "Order payload per Business Edge order upload schema (header, lines in ImpDtlLine, addresses, etc.)",
-      optional: true,
+        "Order header and lines (ImpDtlLine). OrdDate required; each line needs OrdQty plus one of ProdCode, ProdID, BinBarcode, AnyScan; optional ShipTo/BillTo/ThirdPartyBillTo require Name when included",
+      optional: false,
+    },
+  },
+  methods: {
+    /**
+     * Ensures ImpOrder is present and matches minimum shape before calling the API.
+     * @param {object} impOrder
+     */
+    validateImpOrder(impOrder) {
+      if (
+        impOrder == null
+        || typeof impOrder !== "object"
+        || Array.isArray(impOrder)
+      ) {
+        throw new Error(
+          "ImpOrder is required and must be a plain object (order header and lines).",
+        );
+      }
+
+      const ordDate = impOrder.OrdDate;
+      if (ordDate == null || String(ordDate).trim() === "") {
+        throw new Error(
+          "ImpOrder.OrdDate is required (order date; use format matching DateFormatOpt).",
+        );
+      }
+
+      const lines = impOrder.ImpDtlLine;
+      if (!Array.isArray(lines) || lines.length === 0) {
+        throw new Error(
+          "ImpOrder.ImpDtlLine is required and must be a non-empty array of line items.",
+        );
+      }
+
+      lines.forEach((line, i) => {
+        if (line == null || typeof line !== "object" || Array.isArray(line)) {
+          throw new Error(
+            `ImpOrder.ImpDtlLine[${i}] must be an object.`,
+          );
+        }
+        const qty = line.OrdQty;
+        if (qty == null || String(qty).trim() === "") {
+          throw new Error(
+            `ImpOrder.ImpDtlLine[${i}].OrdQty is required.`,
+          );
+        }
+        if (!lineHasProductIdentifier(line)) {
+          throw new Error(
+            `ImpOrder.ImpDtlLine[${i}] must include one of ProdCode, ProdID, `
+            + "BinBarcode, or AnyScan.",
+          );
+        }
+      });
+
+      const addressKeys = [
+        "ShipTo",
+        "BillTo",
+        "ThirdPartyBillTo",
+      ];
+      for (const key of addressKeys) {
+        const addr = impOrder[key];
+        if (addr == null) {
+          continue;
+        }
+        if (typeof addr !== "object" || Array.isArray(addr)) {
+          throw new Error(
+            `ImpOrder.${key} must be an object when provided.`,
+          );
+        }
+        const name = addr.Name;
+        if (name == null || String(name).trim() === "") {
+          throw new Error(
+            `ImpOrder.${key}.Name is required when ${key} is included.`,
+          );
+        }
+      }
     },
   },
   async run({ $ }) {
@@ -80,10 +163,13 @@ export default {
       impOrder,
     } = this;
 
+    this.validateImpOrder(impOrder);
+
     const body = {
       Entity: entity,
       DateFormatOpt: dateFormatOpt || "A",
       DateDelim: dateDelim || "-",
+      ImpOrder: impOrder,
       ...orderReturnSchema,
     };
 
@@ -92,9 +178,6 @@ export default {
     }
     if (savedSchemaCode) {
       body.SavedSchemaCode = savedSchemaCode;
-    }
-    if (impOrder && typeof impOrder === "object" && Object.keys(impOrder).length > 0) {
-      body.ImpOrder = impOrder;
     }
 
     const data = await this.app.postExport({
