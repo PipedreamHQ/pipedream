@@ -1,6 +1,6 @@
 # Overview
 
-The LoopMessage is an omnichannel messaging solution that allows you to receive and send messages across multiple channels: iMessage/SMS/RCS/WhatsApp. Through Pipedream's integration, you can harness this platform to automate communication processes, organize message flows, and even connect to various data sources or other APIs to create complex messaging workflows. With Pipedream, you can trigger actions based on events, schedule messages, and interact with users in real-time without managing servers or infrastructure.
+LoopMessage is an omnichannel messaging solution that allows you to receive and send messages across multiple channels: iMessage/SMS/RCS/WhatsApp. Through Pipedream's integration, you can harness this platform to automate communication processes, organize message flows, and even connect to various data sources or other APIs to create complex messaging workflows. With Pipedream, you can trigger actions based on events, schedule messages, and interact with users in real-time without managing servers or infrastructure.
 
 # Example Use Cases
 

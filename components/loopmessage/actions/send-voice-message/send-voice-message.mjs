@@ -6,7 +6,7 @@ export default {
   name: "Send Outbound Voice Message",
   description: "Send a voice memo. Supports only in: iMessage, RCS, WhatsApp.",
   type: "action",
-  version: "0.0.4",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

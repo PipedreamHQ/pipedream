@@ -6,7 +6,7 @@ export default {
   name: "Show Typing Indicator",
   description: "Action to present a typing indicator or read status",
   type: "action",
-  version: "0.0.4",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

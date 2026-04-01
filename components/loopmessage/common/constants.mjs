@@ -32,13 +32,13 @@ const REACTIONS = [
   "like",
   "dislike",
   "laugh",
-  "exclaim",
+  "emphasize",
   "question",
   "-love",
   "-like",
   "-dislike",
   "-laugh",
-  "-exclaim",
+  "-emphasize",
   "-question",
 ];
 

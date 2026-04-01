@@ -72,7 +72,6 @@ export default {
       type: "string",
       label: "Media URL",
       description: "Voice/Media file URL. The string must be a full URL of your audio file. URL should start with https://..., http links (without SSL) are not supported. This must be a publicly accessible URL: we will not be able to reach any URLs that are hidden or that require authentication. Max length of each URL: 256 characters. Audio files of the following formats are supported: mp3, wav, m4a, caf, aac.",
-      optional: true,
     },
     messageId: {
       type: "string",
