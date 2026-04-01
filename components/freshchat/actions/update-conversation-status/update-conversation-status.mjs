@@ -106,8 +106,16 @@ export default {
 
     const updates = [];
     if (this.status) updates.push(`status to ${this.status}`);
-    if (this.agentId !== undefined) updates.push(this.agentId ? "agent assignment" : "unassigned agent");
-    if (this.groupId !== undefined) updates.push(this.groupId ? "group assignment" : "unassigned group");
+    if (this.agentId !== undefined) {
+      updates.push(this.agentId
+        ? "agent assignment"
+        : "unassigned agent");
+    }
+    if (this.groupId !== undefined) {
+      updates.push(this.groupId
+        ? "group assignment"
+        : "unassigned group");
+    }
     if (this.priority) updates.push(`priority to ${this.priority}`);
     if (this.customProperties) updates.push("custom properties");
 
