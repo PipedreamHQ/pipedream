@@ -42,7 +42,8 @@ export default {
      * POST JSON to a Business Edge export endpoint.
      * @param {object} opts
      * @param {object} opts.$ Pipedream context passed to axios
-     * @param {string} opts.endpoint Path beginning with `/`, e.g. `/masterfiles/customerV3/export.json`
+     * @param {string} opts.endpoint Export path with leading `/` (e.g.
+     * `/masterfiles/customerV3/export.json`)
      * @param {object} opts.data Request body
      * @returns {Promise<object>}
      */
@@ -54,9 +55,9 @@ export default {
         method: "POST",
         url,
         headers: {
-          Authorization: this._authorizationHeader(),
+          "Authorization": this._authorizationHeader(),
           "Content-Type": "application/json",
-          Accept: "application/json",
+          "Accept": "application/json",
         },
         data,
       });

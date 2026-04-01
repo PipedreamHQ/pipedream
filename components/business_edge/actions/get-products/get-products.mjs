@@ -46,31 +46,37 @@ export default {
     dateDelim: {
       type: "string",
       label: "Date Delimiter (DateDelim)",
+      description: "Optional delimiter used with formatted dates in the API request",
       optional: true,
     },
     savedSchemaId: {
       type: "string",
       label: "Saved Schema ID (SavedSchemaID)",
+      description: "Optional saved API schema ID for returned data (use with or instead of schema code)",
       optional: true,
     },
     savedSchemaCode: {
       type: "string",
       label: "Saved Schema Code (SavedSchemaCode)",
+      description: "Optional saved API schema code for returned data (use with or instead of schema ID)",
       optional: true,
     },
     branchCode: {
       type: "string",
       label: "Branch Code (BranchCode)",
+      description: "Optional branch code filter for the product export",
       optional: true,
     },
     branchId: {
       type: "string",
       label: "Branch ID (BranchID)",
+      description: "Optional branch ID filter for the product export",
       optional: true,
     },
     availBom: {
       type: "boolean",
       label: "Include Bill of Materials in Available (AvailBOM)",
+      description: "When true, include bill of materials in availability data",
       optional: true,
       default: false,
     },

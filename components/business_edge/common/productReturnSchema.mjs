@@ -23,7 +23,8 @@ export const productReturnSchema = {
       TrackExpOptDesc: true,
       ReplTypeOpt: true,
       ReplTypeOptDesc: true,
-      // I removed these because I don't think the client is currently using these, eventually this entire schema file may be replaced
+      // I removed these because I don't think the client is currently using these,
+      // eventually this entire schema file may be replaced
       // SyncVMIOpt: true,
       // SyncVMIOptDesc: true,
       TrkMfgLotHeatOpt: true,
@@ -32,7 +33,8 @@ export const productReturnSchema = {
       TrkCoOOptDesc: true,
       InspReqOpt: true,
       InspReqOptDesc: true,
-      // I removed these because I don't think the client is currently using these, eventually this entire schema file may be replaced
+      // I removed these because I don't think the client is currently using these,
+      // eventually this entire schema file may be replaced
       // ClassID: true,
       // ClassCode: true,
       // ClassDesc: true,
@@ -99,7 +101,8 @@ export const productReturnSchema = {
       TheoWght: true,
       TheoWghtDec: true,
       TheoWghtString: true,
-      // I removed these because I don't think the client is currently using these, eventually this entire schema file may be replaced
+      // I removed these because I don't think the client is currently using these,
+      // eventually this entire schema file may be replaced
       // Create: true,
       // CreateUser: true,
       // CreateUserFull: true,
@@ -115,11 +118,12 @@ export const productReturnSchema = {
         EntityAvail: {
           SaleAvail: true,
           SaleAvailDec: true,
-          SaleAvailString: true
-        }
-      }
+          SaleAvailString: true,
+        },
+      },
     },
   ],
 };
 
-// The full product args and schema can be found here: https://hangerbolttest.ci-inc.com/masterfiles/productV3/args.json?MimicReq=true&InclSchema=true
+// Full product args/schema:
+// https://hangerbolttest.ci-inc.com/masterfiles/productV3/args.json?MimicReq=true&InclSchema=true
