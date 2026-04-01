@@ -4,7 +4,7 @@ export default {
   key: "freshchat-list-all-conversation-properties",
   name: "List All Conversation Properties",
   description: "Retrieves a list of all conversation properties configured in the Freshchat system. [See the documentation](https://developers.freshchat.com/api/#list_all_conversation_properties)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
