@@ -1,7 +1,4 @@
-import {
-  axios,
-  ConfigurationError,
-} from "@pipedream/platform";
+import { axios } from "@pipedream/platform";
 
 const BASE_URL = "https://api.breezy.hr/v3";
 
@@ -104,13 +101,9 @@ export default {
     },
 
     _accessToken() {
-      const auth = this.$auth || {};
-      const token = auth.oauth_access_token || auth.api_key || auth.access_token;
-      if (token == null || token === "") {
-        throw new ConfigurationError(
-          "Breezy HR requires an access token. Connect your account in the trigger or action props.",
-        );
-      }
+      const auth = this.$auth;
+      const token = auth.oauth_access_token;
+
       return typeof token === "string"
         ? token
         : String(token);
