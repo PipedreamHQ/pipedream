@@ -5,7 +5,7 @@ export default {
   name: "Get Candidate",
   description:
     "Retrieve a candidate by ID for a given position. [See the documentation](https://developer.breezy.hr/reference/company-position-candidate)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -24,12 +24,19 @@ export default {
       propDefinition: [
         breezyHr,
         "positionId",
+        (c) => ({
+          companyId: c.companyId,
+        }),
       ],
     },
     candidateId: {
       propDefinition: [
         breezyHr,
         "candidateId",
+        (c) => ({
+          companyId: c.companyId,
+          positionId: c.positionId,
+        }),
       ],
     },
   },

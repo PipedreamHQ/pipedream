@@ -30,7 +30,7 @@ export default {
     positionId: {
       type: "string",
       label: "Position",
-      description: "The position that contains the candidate",
+      description: "The position that contains the candidate. (This will only show published positions)",
       async options({ companyId }) {
         if (!companyId) {
           return [];
@@ -142,13 +142,31 @@ export default {
       return this._normalizeArray(result);
     },
 
+    /**
+     * List positions for a company. See
+     * https://developer.breezy.hr/reference/company-positions
+     * @param {object} opts
+     * @param {string} opts.companyId
+     * @param {string} [opts.state] - `published` (default when omitted), or a
+     *   specific state
+     */
     async listPositions({
-      companyId, ...opts
+      companyId,
+      state,
+      ...opts
     }) {
+      const mergedParams = {
+        ...(opts.params || {}),
+      };
+      mergedParams.state =
+        state === undefined || state === null || state === ""
+          ? "published"
+          : state;
       const result = await this._makeRequest({
         method: "get",
         path: `/company/${encodeURIComponent(companyId)}/positions`,
         ...opts,
+        params: mergedParams,
       });
       return this._normalizeArray(result);
     },
