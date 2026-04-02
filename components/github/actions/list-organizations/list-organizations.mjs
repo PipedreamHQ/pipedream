@@ -22,7 +22,7 @@ export default {
     while (true) {
       const organizations = await this.github.getOrganizations({
         page,
-        perPage,
+        per_page: perPage,
       });
 
       if (organizations.length === 0) {
