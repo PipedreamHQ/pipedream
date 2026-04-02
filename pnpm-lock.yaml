@@ -2799,6 +2799,9 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/chatwoot:
+    specifiers: {}
+
   components/chatwork:
     dependencies:
       '@pipedream/platform':
@@ -13115,6 +13118,9 @@ importers:
       '@pipedream/platform':
         specifier: ^1.6.8
         version: 1.6.8
+
+  components/returnista:
+    specifiers: {}
 
   components/returnless:
     dependencies:
