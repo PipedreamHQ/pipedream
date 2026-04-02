@@ -3,7 +3,7 @@ import yutori from "../../yutori.app.mjs";
 export default {
   key: "yutori-create-scout",
   name: "Create Scout",
-  description: "Create a Yutori Scout — a recurring web monitor that watches any part of the web on a schedule and alerts you when something relevant happens (price changes, news mentions, competitor updates, job postings, and more). Provide a **Webhook URL** to receive instant push notifications when findings arrive. [See the documentation](https://docs.yutori.com/reference/scouting-create)",
+  description: "Create a standalone Yutori Scout — a recurring web monitor that runs independently of this workflow. Use this when you want a scout that persists beyond the lifetime of this workflow or is managed from the Yutori platform. To trigger a workflow whenever a scout finds something new, use the **New Scout Update** source instead — it handles scout creation and deletion automatically. [See the documentation](https://docs.yutori.com/reference/scouting-create)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -14,7 +14,10 @@ export default {
   props: {
     yutori,
     query: {
-      propDefinition: [yutori, "query"],
+      propDefinition: [
+        yutori,
+        "query",
+      ],
       label: "Monitoring Query",
       description: "What to monitor, e.g. `Alert me when AAPL stock drops below $200`",
     },
@@ -27,10 +30,16 @@ export default {
       min: 1800,
     },
     userTimezone: {
-      propDefinition: [yutori, "userTimezone"],
+      propDefinition: [
+        yutori,
+        "userTimezone",
+      ],
     },
     userLocation: {
-      propDefinition: [yutori, "userLocation"],
+      propDefinition: [
+        yutori,
+        "userLocation",
+      ],
     },
     skipEmail: {
       type: "boolean",
@@ -40,7 +49,10 @@ export default {
       default: false,
     },
     webhookUrl: {
-      propDefinition: [yutori, "webhookUrl"],
+      propDefinition: [
+        yutori,
+        "webhookUrl",
+      ],
       description: "URL to receive a notification each time the scout produces new findings",
     },
     webhookFormat: {
@@ -50,9 +62,18 @@ export default {
       optional: true,
       default: "scout",
       options: [
-        { label: "Scout (default)", value: "scout" },
-        { label: "Flat (Zapier-compatible)", value: "zapier" },
-        { label: "Slack", value: "slack" },
+        {
+          label: "Scout (default)",
+          value: "scout",
+        },
+        {
+          label: "Flat (Zapier-compatible)",
+          value: "zapier",
+        },
+        {
+          label: "Slack",
+          value: "slack",
+        },
       ],
     },
   },
