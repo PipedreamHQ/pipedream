@@ -19,9 +19,11 @@ export default {
       description: "The query to search for",
     },
     folder: {
-      type: "string",
-      label: "Folder",
-      description: "Limit the result set to only items contained in the specified folder and all of its descendants.",
+      propDefinition: [
+        egnyte,
+        "folderPath",
+      ],
+      description: "Limit the result set to only items contained in the specified folder and all of its descendants. Search for a folder to select or enter a folder path manually.",
       optional: true,
     },
     type: {

@@ -16,9 +16,11 @@ export default {
   props: {
     egnyte,
     folderPath: {
-      type: "string",
-      label: "Folder Path",
-      description: "The path to the folder containing the file to download",
+      propDefinition: [
+        egnyte,
+        "folderPath",
+      ],
+      description: "The path to the folder containing the file to download. Search for a folder to select or enter a folder path manually.",
     },
     filename: {
       propDefinition: [

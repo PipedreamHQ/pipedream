@@ -21,6 +21,27 @@ export default {
         return files.map((file) => file.name);
       },
     },
+    folderPath: {
+      type: "string",
+      label: "Folder Path",
+      description: "The path to a folder in your Egnyte workspace",
+      useQuery: true,
+      async options({ query }) {
+        if (query) {
+          const { results } = await this.search({
+            params: {
+              query,
+              type: "FOLDER",
+            },
+          });
+          return results.map((result) => result.path);
+        }
+        const { folders } = await this.getFolder({
+          folderPath: "",
+        });
+        return folders.map((folder) => folder.path);
+      },
+    },
   },
   methods: {
     _baseUrl() {

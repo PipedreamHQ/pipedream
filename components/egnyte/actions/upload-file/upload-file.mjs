@@ -22,9 +22,11 @@ export default {
       format: "file-ref",
     },
     folderPath: {
-      type: "string",
-      label: "Folder Path",
-      description: "The full path to the folder where the file should be uploaded. Example: `/Shared/Documents",
+      propDefinition: [
+        egnyte,
+        "folderPath",
+      ],
+      description: "The full path to the folder where the file should be uploaded. Example: `/Shared/Documents`. Search for a folder to select or enter a folder path manually.",
     },
     syncDir: {
       type: "dir",

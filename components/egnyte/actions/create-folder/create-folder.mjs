@@ -14,9 +14,11 @@ export default {
   props: {
     egnyte,
     folderPath: {
-      type: "string",
-      label: "Folder Path",
-      description: "The full path to the new folder. Example: `/Shared/test`",
+      propDefinition: [
+        egnyte,
+        "folderPath",
+      ],
+      description: "The full path to the new folder. Example: `/Shared/test`. Search for a folder to select or enter a folder path manually.",
     },
   },
   async run({ $ }) {

@@ -14,9 +14,11 @@ export default {
   props: {
     egnyte,
     folderPath: {
-      type: "string",
-      label: "Folder Path",
-      description: "List documents within this folder. Defaults to the root folder.",
+      propDefinition: [
+        egnyte,
+        "folderPath",
+      ],
+      description: "List documents within this folder. Search for a folder to select or enter a folder path manually. Defaults to the root folder.",
       optional: true,
     },
   },
