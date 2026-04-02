@@ -132,5 +132,26 @@ export default {
 
       return all;
     },
+    /**
+     * Read a single airport (GET /airports/{airportId}).
+     * @see https://developer.avinodegroup.com/reference/readairport-1
+     * @param {object} opts
+     * @param {*} [opts.$]
+     * @param {string} opts.airportId - Airport identifier
+     * @returns {Promise<object>} Parsed JSON response body
+     */
+    async getAirport({
+      $ = this,
+      airportId,
+    } = {}) {
+      const id = airportId?.toString?.()?.trim();
+      if (!id) {
+        throw new Error("airportId is required");
+      }
+      return this._makeRequest({
+        $,
+        path: `/airports/${encodeURIComponent(id)}`,
+      });
+    },
   },
 };
