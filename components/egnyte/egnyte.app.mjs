@@ -18,7 +18,7 @@ export default {
         const { files } = await this.getFolder({
           folderPath,
         });
-        return files.map((file) => file.name);
+        return files?.map?.((file) => file.name) || [];
       },
     },
     folderPath: {
@@ -34,12 +34,12 @@ export default {
               type: "FOLDER",
             },
           });
-          return results.map((result) => result.path);
+          return results?.map?.((result) => result.path) || [];
         }
         const { folders } = await this.getFolder({
           folderPath: "",
         });
-        return folders.map((folder) => folder.path);
+        return folders?.map?.((folder) => folder.path) || [];
       },
     },
   },
