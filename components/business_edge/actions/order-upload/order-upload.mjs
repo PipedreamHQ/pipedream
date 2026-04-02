@@ -1,5 +1,6 @@
 import app from "../../business_edge.app.mjs";
 import { orderReturnSchema } from "../../common/orderReturnSchema.mjs";
+import { shouldOmitDateDelim } from "../../common/dateFormat.mjs";
 
 function lineHasProductIdentifier(line) {
   return Boolean(
@@ -25,23 +26,9 @@ export default {
   props: {
     app,
     entity: {
-      type: "string",
-      label: "Entity",
-      description:
-        "Entity number: 1 = Hanger Bolt & Stud Co.; 2 = Enterkin Manufacturing; 3 = Enterkin Leasing",
-      options: [
-        {
-          label: "1 — Hanger Bolt & Stud Co.",
-          value: "1",
-        },
-        {
-          label: "2 — Enterkin Manufacturing",
-          value: "2",
-        },
-        {
-          label: "3 — Enterkin Leasing",
-          value: "3",
-        },
+      propDefinition: [
+        app,
+        "entity",
       ],
     },
     dateFormatOpt: {
@@ -55,7 +42,9 @@ export default {
     dateDelim: {
       type: "string",
       label: "Date Delimiter (DateDelim)",
-      description: "Optional delimiter used with formatted dates in the API request",
+      description:
+        "Separator for delimited date formats. Ignored (not sent) when DateFormatOpt is "
+        + "D, E, F, or H (compact formats without delimiters). Default \"-\" for other formats.",
       optional: true,
       default: "-",
     },
@@ -165,13 +154,19 @@ export default {
 
     this.validateImpOrder(impOrder);
 
+    const fmt = dateFormatOpt || "A";
+    const omitDelim = shouldOmitDateDelim(fmt);
+
     const body = {
       Entity: entity,
-      DateFormatOpt: dateFormatOpt || "A",
-      DateDelim: dateDelim || "-",
+      DateFormatOpt: fmt,
       ImpOrder: impOrder,
       ...orderReturnSchema,
     };
+
+    if (!omitDelim) {
+      body.DateDelim = dateDelim || "-";
+    }
 
     if (savedSchemaId) {
       body.SavedSchemaID = savedSchemaId;

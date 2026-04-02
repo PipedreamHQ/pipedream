@@ -1,5 +1,6 @@
 import app from "../../business_edge.app.mjs";
 import { orderReturnSchema } from "../../common/orderReturnSchema.mjs";
+import { isChooseOneObject } from "../../common/propUtils.mjs";
 
 export default {
   key: "business_edge-order-inquiry",
@@ -16,23 +17,9 @@ export default {
   props: {
     app,
     entity: {
-      type: "string",
-      label: "Entity",
-      description:
-        "Entity number: 1 = Hanger Bolt & Stud Co.; 2 = Enterkin Manufacturing; 3 = Enterkin Leasing",
-      options: [
-        {
-          label: "1 — Hanger Bolt & Stud Co.",
-          value: "1",
-        },
-        {
-          label: "2 — Enterkin Manufacturing",
-          value: "2",
-        },
-        {
-          label: "3 — Enterkin Leasing",
-          value: "3",
-        },
+      propDefinition: [
+        app,
+        "entity",
       ],
     },
     dateFormatOpt: {
@@ -94,11 +81,7 @@ export default {
     if (savedSchemaCode) {
       body.SavedSchemaCode = savedSchemaCode;
     }
-    if (
-      chooseOne
-      && typeof chooseOne === "object"
-      && Object.keys(chooseOne).length > 0
-    ) {
+    if (isChooseOneObject(chooseOne)) {
       body.ChooseOne = chooseOne;
     }
 

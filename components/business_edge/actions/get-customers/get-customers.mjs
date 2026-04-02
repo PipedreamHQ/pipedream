@@ -1,5 +1,6 @@
 import app from "../../business_edge.app.mjs";
 import { customerReturnSchema } from "../../common/customerReturnSchema.mjs";
+import { isChooseOneObject } from "../../common/propUtils.mjs";
 
 export default {
   key: "business_edge-get-customers",
@@ -16,23 +17,9 @@ export default {
   props: {
     app,
     entity: {
-      type: "string",
-      label: "Entity",
-      description:
-        "Entity number: 1 = Hanger Bolt & Stud Co.; 2 = Enterkin Manufacturing; 3 = Enterkin Leasing",
-      options: [
-        {
-          label: "1 — Hanger Bolt & Stud Co.",
-          value: "1",
-        },
-        {
-          label: "2 — Enterkin Manufacturing",
-          value: "2",
-        },
-        {
-          label: "3 — Enterkin Leasing",
-          value: "3",
-        },
+      propDefinition: [
+        app,
+        "entity",
       ],
     },
     dateFormatOpt: {
@@ -63,8 +50,11 @@ export default {
     },
     availBom: {
       type: "boolean",
-      label: "Include Bill of Materials in Available (AvailBOM)",
-      description: "When true, include bill of materials in availability data",
+      label: "AvailBOM (customer V3 export)",
+      description:
+        "Sets API field AvailBOM on `customerV3/export`: when true, include "
+        + "bill-of-materials in the customer export’s available-related output "
+        + "(per Business Edge customer master export)",
       optional: true,
       default: false,
     },
@@ -105,7 +95,7 @@ export default {
     if (availBom !== undefined) {
       body.AvailBOM = availBom;
     }
-    if (chooseOne && typeof chooseOne === "object" && Object.keys(chooseOne).length > 0) {
+    if (isChooseOneObject(chooseOne)) {
       body.ChooseOne = chooseOne;
     }
 

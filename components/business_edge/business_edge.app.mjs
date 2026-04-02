@@ -1,4 +1,8 @@
 import { axios } from "@pipedream/platform";
+import {
+  FALLBACK_ENTITY_OPTIONS,
+  parseEntityOptionsFromArgsPayload,
+} from "./common/entities.mjs";
 
 /**
  * Business Edge (CI, Inc.) — DevKey auth: `Authorization: Basic base64("DevKey:" + dev_key)`.
@@ -7,6 +11,24 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "business_edge",
+  propDefinitions: {
+    entity: {
+      type: "string",
+      label: "Entity",
+      description:
+        "Entity for this request. Options load from customer V3 `args.json` when "
+        + "available; otherwise generic codes 1–3 are shown.",
+      async options({ $ }) {
+        const fromApi = await this.fetchEntityOptions({
+          $,
+        });
+        if (Array.isArray(fromApi) && fromApi.length > 0) {
+          return fromApi;
+        }
+        return FALLBACK_ENTITY_OPTIONS;
+      },
+    },
+  },
   methods: {
     /**
      * Normalize configured base URL (no trailing slash).
@@ -24,6 +46,28 @@ export default {
       const devKey = this.$auth?.dev_key ?? "";
       const token = Buffer.from(`DevKey:${devKey}`, "utf8").toString("base64");
       return `Basic ${token}`;
+    },
+    /**
+     * Try to load Entity enum/options from customer V3 args (GET, same auth as exports).
+     * @param {object} opts
+     * @param {object} opts.$
+     * @returns {Promise<{ label: string, value: string }[]|null>}
+     */
+    async fetchEntityOptions({ $ }) {
+      try {
+        const url = `${this._baseUrl()}/masterfiles/customerV3/args.json?MimicReq=true`;
+        const payload = await axios($, {
+          method: "GET",
+          url,
+          headers: {
+            Authorization: this._authorizationHeader(),
+            Accept: "application/json",
+          },
+        });
+        return parseEntityOptionsFromArgsPayload(payload);
+      } catch {
+        return null;
+      }
     },
     /**
      * Bounded, non-sensitive summary for API error responses (avoids full body
