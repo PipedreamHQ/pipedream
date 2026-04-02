@@ -16,7 +16,7 @@ export default {
   },
   async run({ $ }) {
     let page = 1;
-    let perPage = 100;
+    const perPage = 100;
     let allOrganizations = [];
 
     while (true) {
