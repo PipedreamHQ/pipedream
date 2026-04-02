@@ -4,7 +4,7 @@ export default {
   key: "coda-list-docs",
   name: "List Docs",
   description: "Returns a list of docs accessible by the user. These are returned in the same order as on the docs page: reverse chronological by the latest event relevant to the user (last viewed, edited, or shared). [See docs](https://coda.io/developers/apis/v1#operation/listDocs)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
