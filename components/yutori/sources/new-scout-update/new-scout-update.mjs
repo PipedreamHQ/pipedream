@@ -5,14 +5,14 @@ import sampleEmit from "./test-event.mjs";
 export default {
   key: "yutori-new-scout-update",
   name: "New Scout Update",
-  description: "Emit new findings from your Yutori Scouts. Scouts are recurring web monitors that watch prices, news, competitors, job postings, or anything else on the web. Use this as the companion trigger for the **Create Scout** action — start workflows that react to scout results (e.g. send a Slack message, update a Google Sheet, or post to Notion whenever a scout finds something new).",
-  version: "0.0.1",
+  description: "Emit new findings from a Yutori Scout. Configure your scout once here — it is created automatically when this source is deployed and deleted when it is disabled. Each new finding emits an event you can act on with downstream steps (e.g. send a Slack message, update a Google Sheet, or post to Notion).",
+  version: "0.1.0",
   type: "source",
   dedupe: "unique",
   annotations: {
-    openWorldHint: false,
+    openWorldHint: true,
     destructiveHint: false,
-    readOnlyHint: true,
+    readOnlyHint: false,
   },
   props: {
     yutori,
@@ -23,15 +23,73 @@ export default {
       },
     },
     db: "$.service.db",
+    query: {
+      propDefinition: [
+        yutori,
+        "query",
+      ],
+      label: "Monitoring Query",
+      description: "What to monitor, e.g. `Alert me when AAPL stock drops below $200` or `Notify me when new Python engineer roles appear on Stripe's careers page`",
+    },
+    outputInterval: {
+      type: "integer",
+      label: "Scout Run Interval (seconds)",
+      description: "How often the scout checks the web, in seconds. Minimum 1800 (30 minutes). Default 86400 (daily).",
+      optional: true,
+      default: 86400,
+      min: 1800,
+    },
+    userTimezone: {
+      propDefinition: [
+        yutori,
+        "userTimezone",
+      ],
+    },
+    userLocation: {
+      propDefinition: [
+        yutori,
+        "userLocation",
+      ],
+    },
+    skipEmail: {
+      type: "boolean",
+      label: "Skip Email Notifications",
+      description: "Disable Yutori email notifications for this scout's findings. Defaults to true since Pipedream steps handle the notifications instead.",
+      optional: true,
+      default: true,
+    },
     hoursBack: {
       type: "integer",
       label: "Initial Lookback (hours)",
-      description: "On first run, how many hours back to check for existing updates. Set to 0 to only emit new updates going forward.",
+      description: "On first run, how many hours back to check for existing findings. Set to 0 to only emit new findings going forward.",
       optional: true,
       default: 24,
     },
   },
+  hooks: {
+    async activate() {
+      const payload = {
+        query: this.query,
+        output_interval: this.outputInterval ?? 86400,
+        skip_email: this.skipEmail ?? true,
+      };
+      if (this.userTimezone) payload.user_timezone = this.userTimezone;
+      if (this.userLocation) payload.user_location = this.userLocation;
+
+      const scout = await this.yutori.createScout(this, payload);
+      this.db.set("scoutId", scout.id);
+    },
+    async deactivate() {
+      const scoutId = this.db.get("scoutId");
+      if (scoutId) {
+        await this.yutori.deleteScout(this, scoutId);
+      }
+    },
+  },
   methods: {
+    _getScoutId() {
+      return this.db.get("scoutId");
+    },
     _getLastTimestamp() {
       return this.db.get("lastTimestamp") ?? null;
     },
@@ -40,6 +98,9 @@ export default {
     },
   },
   async run() {
+    const scoutId = this._getScoutId();
+    if (!scoutId) return;
+
     let sinceTimestamp = this._getLastTimestamp();
 
     // On first run, look back by hoursBack
@@ -51,7 +112,7 @@ export default {
     }
 
     const now = Date.now();
-    // Collect all pages so bursts don't silently drop updates.
+    // Collect all pages so bursts don't silently drop findings.
     const updates = [];
     let cursor = undefined;
     const seenCursors = new Set();
@@ -66,7 +127,7 @@ export default {
       if (cursor && seenCursors.has(cursor)) break;
       if (cursor) seenCursors.add(cursor);
 
-      const response = await this.yutori.getUpdates(this, {
+      const response = await this.yutori.getScoutUpdates(this, scoutId, {
         start_time: new Date(sinceTimestamp).toISOString(),
         end_time: new Date(now).toISOString(),
         ...(cursor
