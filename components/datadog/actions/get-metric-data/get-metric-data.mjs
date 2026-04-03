@@ -4,11 +4,20 @@ export default {
   key: "datadog-get-metric-data",
   name: "Get Metric Data",
   description:
-    "Query time-series metric data with support for"
-    + " custom queries and aggregations."
-    + " [See the docs](https://docs.datadoghq.com/api/latest/"
-    + "metrics/#query-timeseries-data-across-multiple-products)",
-  version: "0.0.1",
+    "Query time-series metric data for analyzing trends"
+    + " and system performance. Query syntax:"
+    + " `avg:system.cpu.user{*}`,"
+    + " `sum:requests.count{env:prod} by {host}`,"
+    + " `max:system.mem.used{service:web}`. Both `from`"
+    + " and `to` are POSIX timestamps in seconds. Use"
+    + " **Search Metrics** first to discover available"
+    + " metric names. Use **Search Hosts** to find valid"
+    + " host tags for scoping. After finding anomalies,"
+    + " use **Search Logs** to investigate related entries."
+    + " [See the docs](https://docs.datadoghq.com/api/"
+    + "latest/metrics/#query-timeseries-data-across"
+    + "-multiple-products)",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

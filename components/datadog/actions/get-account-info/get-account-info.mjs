@@ -3,16 +3,19 @@ import datadog from "../../datadog.app.mjs";
 import regions from "../../common/constants.mjs";
 
 export default {
-  key: "datadog-get-account-region",
-  name: "Get Account Region",
+  key: "datadog-get-account-info",
+  name: "Get Account Info",
   description:
-    "Detect the Datadog region for the connected account"
-    + " by validating the API key against each regional endpoint."
-    + " Use this to discover the correct region before calling"
-    + " other Datadog actions."
-    + " [See the docs](https://docs.datadoghq.com/api/latest/"
-    + "authentication/#validate-api-key)",
-  version: "0.0.1",
+    "Detect the Datadog region for the connected account."
+    + " Call this FIRST before any other Datadog tool if"
+    + " you do not already know the region. Returns the"
+    + " region domain (e.g. `datadoghq.com`) which must"
+    + " be passed as the `region` parameter to"
+    + " **Search Logs**, **Search Monitors**,"
+    + " **Get Metric Data**, and all other Datadog tools."
+    + " [See the docs](https://docs.datadoghq.com/api/"
+    + "latest/authentication/#validate-api-key)",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

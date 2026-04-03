@@ -4,11 +4,20 @@ export default {
   key: "datadog-search-hosts",
   name: "Search Hosts",
   description:
-    "Search and list monitored hosts with filtering"
-    + " and sorting options."
-    + " [See the docs](https://docs.datadoghq.com/api/latest/"
-    + "hosts/#get-all-hosts-for-your-organization)",
-  version: "0.0.1",
+    "Search monitored infrastructure hosts. Filter"
+    + " by tag (`env:production`), name"
+    + " (`host:web-01`), or partial match. Sort by"
+    + " `cpu`, `iowait`, `load`, `status`, or `apps`."
+    + " Host names from results can scope queries in"
+    + " **Get Metric Data**"
+    + " (e.g. `avg:system.cpu.user{host:web-01}`),"
+    + " filter logs in **Search Logs**"
+    + " (`host:web-01`), or filter metrics in"
+    + " **Search Metrics**. Max 1000 results."
+    + " [See the docs](https://docs.datadoghq.com/api/"
+    + "latest/hosts/"
+    + "#get-all-hosts-for-your-organization)",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
