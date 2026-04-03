@@ -10,7 +10,7 @@ export default {
     "Fetch one quote by ID or list quotes with CRM v3 pagination (`after`, `limit`)."
     + " Complements **Create CRM Object** for quotes when you need read access outside **Search CRM**."
     + " [See the documentation](https://developers.hubspot.com/docs/api-reference/crm-quotes-v3/basic/get-crm-v3-objects-quotes)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -51,8 +51,26 @@ export default {
       type: "string[]",
       label: "Properties",
       description:
-        "Property internal names to include. If omitted, HubSpot returns a default set. Use **Get Properties** with object type Quotes to discover names.",
+        "Optional. Select quote properties to include in the response, or leave empty for HubSpot's default set. Options load from your account's quote property schema.",
       optional: true,
+      async options({ page }) {
+        if (page !== 0) {
+          return [];
+        }
+        const { results: props } = await this.hubspot.getProperties({
+          objectType: OBJECT_TYPE.QUOTE,
+        });
+        return (
+          props
+            ?.filter((p) => !p.hidden)
+            .map((property) => ({
+              label: property.label
+                ? `${property.label} (${property.name})`
+                : property.name,
+              value: property.name,
+            })) || []
+        );
+      },
     },
   },
   async run({ $ }) {
