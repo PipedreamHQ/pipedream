@@ -4,7 +4,7 @@ export default {
   key: "google_sheets-delete-conditional-format-rule",
   name: "Delete Conditional Format Rule",
   description: "Remove conditional formatting rule by index. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/request#DeleteConditionalFormatRuleRequest)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: true,
