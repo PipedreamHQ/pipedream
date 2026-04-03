@@ -5,7 +5,7 @@ export default {
   key: "pipedrive-add-labels",
   name: "Add Labels",
   description: "Adds labels to a lead, person, deal, or organization in Pipedrive. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Leads#updateLead)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
