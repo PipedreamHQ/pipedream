@@ -69,8 +69,8 @@ export default {
   async run({ $ }) {
     const now = Math.floor(Date.now() / 1000);
     const params = {
-      start: this.start || (now - 86400),
-      end: this.end || now,
+      start: this.start ?? (now - 86400),
+      end: this.end ?? now,
     };
     if (this.priority) params.priority = this.priority;
     if (this.sources) params.sources = this.sources;

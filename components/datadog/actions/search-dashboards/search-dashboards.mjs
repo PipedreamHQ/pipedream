@@ -47,8 +47,8 @@ export default {
     if (this.filterShared !== undefined) {
       params.filter_shared = this.filterShared;
     }
-    if (this.count) params.count = this.count;
-    if (this.start) params.start = this.start;
+    if (this.count !== undefined) params.count = this.count;
+    if (this.start !== undefined) params.start = this.start;
 
     const response = await this.datadog.listDashboards({
       $,

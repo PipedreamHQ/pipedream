@@ -67,7 +67,7 @@ export default {
     if (this.filter) params.filter = this.filter;
     if (this.sortField) params.sort_field = this.sortField;
     if (this.sortDir) params.sort_dir = this.sortDir;
-    if (this.count) params.count = this.count;
+    if (this.count !== undefined) params.count = this.count;
 
     const response = await this.datadog.listHosts({
       $,

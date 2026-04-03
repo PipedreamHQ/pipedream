@@ -49,8 +49,12 @@ export default {
   async run({ $ }) {
     const params = {};
     if (this.query) params["filter[query]"] = this.query;
-    if (this.pageSize) params["page[size]"] = this.pageSize;
-    if (this.pageOffset) params["page[offset]"] = this.pageOffset;
+    if (this.pageSize !== undefined) {
+      params["page[size]"] = this.pageSize;
+    }
+    if (this.pageOffset !== undefined) {
+      params["page[offset]"] = this.pageOffset;
+    }
 
     const response = await this.datadog.listIncidents({
       $,

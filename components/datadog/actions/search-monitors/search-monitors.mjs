@@ -58,7 +58,9 @@ export default {
     if (this.query) params.query = this.query;
     if (this.tags) params.tags = this.tags;
     if (this.page !== undefined) params.page = this.page;
-    if (this.pageSize) params.page_size = this.pageSize;
+    if (this.pageSize !== undefined) {
+      params.page_size = this.pageSize;
+    }
 
     const response = await this.datadog.listMonitors({
       $,
