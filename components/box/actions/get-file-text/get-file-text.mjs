@@ -57,11 +57,13 @@ export default {
       throw new ConfigurationError("File does not have a text representation");
     }
 
-    const url = urlTemplate.slice(0, urlTemplate.lastIndexOf("/") + 1);
+    const url = urlTemplate.replace("{+asset_path}", "");
     const response = await this.app._makeRequest({
       $,
       url,
     });
+
+    $.export("$summary", "Successfully extracted text from file");
 
     return response;
   },
