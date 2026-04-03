@@ -2,11 +2,11 @@ import app from "../../loopmessage.app.mjs";
 import utils from "../../common/utils.mjs";
 
 export default {
-  key: "loopmessage-send-text-message",
-  name: "Send Outbound Message",
-  description: "Action to send a message to an individual recipient.",
+  key: "loopmessage-send-voice-message",
+  name: "Send Outbound Voice Message",
+  description: "Send a voice memo. Supports only in: iMessage, RCS, WhatsApp.",
   type: "action",
-  version: "0.0.4",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -20,24 +20,6 @@ export default {
         "contact",
       ],
     },
-    text: {
-      propDefinition: [
-        app,
-        "text",
-      ],
-    },
-    subject: {
-      propDefinition: [
-        app,
-        "subject",
-      ],
-    },
-    effect: {
-      propDefinition: [
-        app,
-        "effect",
-      ],
-    },
     sender: {
       optional: true,
       propDefinition: [
@@ -45,24 +27,10 @@ export default {
         "sender",
       ],
     },
-    attachments: {
-      type: "string[]",
-      label: "Attachments",
-      description: "Optional. An array of strings. The string must be a full URL of your image. URL should start with https://. HTTP links (without SSL) are not supported. This must be a publicly accessible file URL: we will not be able to reach any URLs that are hidden or that require authentication.",
-      optional: true,
-    },
-    replyToId: {
-      optional: true,
+    mediaUrl: {
       propDefinition: [
         app,
-        "replyToId",
-      ],
-    },
-    channel: {
-      optional: true,
-      propDefinition: [
-        app,
-        "channel",
+        "mediaUrl",
       ],
     },
     passthrough: {
