@@ -1,26 +1,7 @@
 {
-<<<<<<< certs365-integration
-  "name": "@pipedream/certs365-beta",
-  "version": "0.0.1",
-  "description": "Pipedream Certs365-beta Components",
-  "main": "certs365.app.mjs",
-  "keywords": [
-    "pipedream",
-    "certs365-beta"
-  ],
-  "homepage": "https://pipedream.com/apps/certs365-beta",
-  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "publishConfig": {
-    "access": "public"
-  },
-  "dependencies": {
-    "@pipedream/platform": "^3.1.1"
-  }
-}
-=======
   "name": "@pipedream/certs365",
   "version": "0.0.1",
-  "description": "Pipedream certs365 Components",
+  "description": "Pipedream Certs365-beta Components",
   "main": "certs365.app.mjs",
   "keywords": [
     "pipedream",
@@ -30,6 +11,8 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1"
   }
 }
->>>>>>> master
