@@ -1,5 +1,4 @@
 import hubspot from "../../hubspot.app.mjs";
-import { OBJECT_TYPES } from "../../common/object-types.mjs";
 
 export default {
   key: "hubspot-list-association-labels",
@@ -9,7 +8,7 @@ export default {
     + " Use the returned `typeId` values when creating associations with **Create Association** or **Create CRM Object** (associations JSON)."
     + " Order matters: from/to defines the direction of the relationship."
     + " [See the documentation](https://developers.hubspot.com/docs/api-reference/crm/associations-v4/definitions/get-crm-v4-associations-fromToObjectType-toToObjectType-labels)",
-  version: "0.0.2"
+  version: "0.0.1"
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -19,16 +18,28 @@ export default {
   props: {
     hubspot,
     fromObjectType: {
-      type: "string",
+      propDefinition: [
+        hubspot,
+        "objectType",
+        () => ({
+          includeCustom: true,
+        }),
+      ],
       label: "From Object Type",
-      description: "First object type in the association pair (directional).",
-      options: OBJECT_TYPES,
+      description:
+        "First object type in the association pair (directional). Standard or custom object.",
     },
     toObjectType: {
-      type: "string",
+      propDefinition: [
+        hubspot,
+        "objectType",
+        () => ({
+          includeCustom: true,
+        }),
+      ],
       label: "To Object Type",
-      description: "Second object type in the association pair.",
-      options: OBJECT_TYPES,
+      description:
+        "Second object type in the association pair. Standard or custom object.",
     },
   },
   async run({ $ }) {

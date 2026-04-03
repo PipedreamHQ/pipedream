@@ -4,9 +4,9 @@ export default {
   key: "hubspot-get-owner",
   name: "Get Owner",
   description:
-    "Get a single HubSpot owner (user) by ID. Use **List Owners** to discover IDs or filter by email."
+    "Get a single HubSpot owner (user) by ID. Select an owner from the dropdown (search by email), enter an ID manually, or use **List Owners** for a full list."
     + " [See the documentation](https://developers.hubspot.com/docs/api-reference/crm-owners-v3/owners/get-crm-v3-owners-ownerId)",
-  version: "0.0.2"
+  version: "0.0.1"
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -16,9 +16,10 @@ export default {
   props: {
     hubspot,
     ownerId: {
-      type: "string",
-      label: "Owner ID",
-      description: "Numeric HubSpot owner ID (e.g. from **List Owners**).",
+      propDefinition: [
+        hubspot,
+        "ownerId",
+      ],
     },
   },
   async run({ $ }) {

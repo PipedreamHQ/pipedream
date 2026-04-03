@@ -1,29 +1,15 @@
 import hubspot from "../../hubspot.app.mjs";
 
-const CRM_OBJECT_TYPES = [
-  {
-    label: "Company",
-    value: "company",
-  },
-  {
-    label: "Deal",
-    value: "deal",
-  },
-  {
-    label: "Quote",
-    value: "quote",
-  },
-];
-
 export default {
   key: "hubspot-list-associated-engagements",
   name: "List Associated Engagements",
   description:
-    "List engagements (notes, tasks, calls, meetings, emails, etc.) associated with a company, deal, or quote using HubSpot's legacy Engagements v1 paged API."
+    "List engagements (notes, tasks, calls, meetings, emails, etc.) associated with a CRM record using HubSpot's legacy Engagements v1 paged API."
+    + " This endpoint is documented for **company**, **deal**, and **quote**; other object types may return errors."
     + " Use **Offset** for pagination when `hasMore` is true."
     + " For newer CRM v3 engagement objects, prefer v4 **List CRM Associations** from the record to `notes`, `tasks`, `calls`, etc."
     + " [See the documentation](https://developers.hubspot.com/docs/api-reference/legacy/engagements-v1/engagements/get-engagements-v1-engagements-associated-crm-object-id-paged)",
-  version: "0.0.2"
+  version: "0.0.1"
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -33,15 +19,29 @@ export default {
   props: {
     hubspot,
     objectType: {
-      type: "string",
+      propDefinition: [
+        hubspot,
+        "objectType",
+        () => ({
+          includeCustom: true,
+        }),
+      ],
       label: "CRM Object Type",
-      description: "Type of HubSpot CRM record to load engagements for.",
-      options: CRM_OBJECT_TYPES,
+      description:
+        "Type of CRM record to load engagements for (standard or custom object). Legacy API: typically **company**, **deal**, or **quote**.",
+      reloadProps: true,
     },
     objectId: {
-      type: "string",
+      propDefinition: [
+        hubspot,
+        "objectId",
+        ({ objectType }) => ({
+          objectType,
+        }),
+      ],
       label: "Object ID",
-      description: "HubSpot ID of the company, deal, or quote.",
+      description:
+        "HubSpot ID of the record. After choosing **CRM Object Type**, pick from the list or enter an ID (for contacts you can search by email).",
     },
     offset: {
       type: "integer",

@@ -873,6 +873,50 @@ export default {
         };
       },
     },
+    ownerId: {
+      type: "string",
+      label: "Owner ID",
+      description: "HubSpot CRM owner ID (use the dropdown or enter an ID manually)",
+      useQuery: true,
+      async options({
+        prevContext, query,
+      }) {
+        const { nextAfter } = prevContext;
+        const params = {
+          after: nextAfter,
+          limit: 100,
+        };
+        if (query) {
+          params.email = query;
+        }
+        const {
+          results, paging,
+        } = await this.getOwners({
+          params,
+        });
+        return {
+          options: results?.map((owner) => {
+            const name = [
+              owner.firstName,
+              owner.lastName,
+            ]
+              .filter(Boolean)
+              .join(" ")
+              .trim();
+            const label = name
+              ? `${name} (${owner.email})`
+              : (owner.email ?? String(owner.id));
+            return {
+              value: String(owner.id),
+              label,
+            };
+          }) || [],
+          context: {
+            nextAfter: paging?.next?.after,
+          },
+        };
+      },
+    },
     blogId: {
       type: "string",
       label: "Content Group ID (Blog ID)",

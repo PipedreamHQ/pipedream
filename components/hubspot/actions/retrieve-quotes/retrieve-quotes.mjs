@@ -1,3 +1,4 @@
+import { OBJECT_TYPE } from "../../common/constants.mjs";
 import hubspot from "../../hubspot.app.mjs";
 
 const DEFAULT_LIMIT = 100;
@@ -9,7 +10,7 @@ export default {
     "Fetch one quote by ID or list quotes with CRM v3 pagination (`after`, `limit`)."
     + " Complements **Create CRM Object** for quotes when you need read access outside **Search CRM**."
     + " [See the documentation](https://developers.hubspot.com/docs/api-reference/crm-quotes-v3/basic/get-crm-v3-objects-quotes)",
-  version: "0.0.2"
+  version: "0.0.1"
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -19,10 +20,16 @@ export default {
   props: {
     hubspot,
     quoteId: {
-      type: "string",
+      propDefinition: [
+        hubspot,
+        "objectId",
+        () => ({
+          objectType: OBJECT_TYPE.QUOTE,
+        }),
+      ],
       label: "Quote ID",
       description:
-        "If set, returns a single quote by ID. Leave empty to list quotes (use **After** / **Limit** for pagination).",
+        "Optional. Pick a quote from the list, search by name/title, or enter a quote ID. Leave empty to list quotes (use **After** / **Limit** for pagination).",
       optional: true,
     },
     after: {
