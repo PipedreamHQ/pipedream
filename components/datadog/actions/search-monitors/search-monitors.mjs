@@ -4,11 +4,18 @@ export default {
   key: "datadog-search-monitors",
   name: "Search Monitors",
   description:
-    "Search and list Datadog monitors, including statuses,"
-    + " thresholds, and alert conditions."
-    + " [See the docs](https://docs.datadoghq.com/api/latest/"
-    + "monitors/#get-all-monitor-details)",
-  version: "0.0.1",
+    "Search Datadog monitors (alerting rules) including"
+    + " status, thresholds, and conditions. Query syntax:"
+    + " `tag:env:production`, `type:metric`,"
+    + " `status:Alert`. Tags filter: comma-separated"
+    + " (e.g. `env:prod,team:backend`). After finding a"
+    + " monitor, use **Search Events** to see recent"
+    + " state changes, or **Get Metric Data** to query"
+    + " the underlying metric it tracks. Returns monitor"
+    + " ID, name, type, query, status, and tags."
+    + " [See the docs](https://docs.datadoghq.com/api/"
+    + "latest/monitors/#get-all-monitor-details)",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

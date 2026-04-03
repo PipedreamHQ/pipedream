@@ -4,11 +4,17 @@ export default {
   key: "datadog-search-incidents",
   name: "Search Incidents",
   description:
-    "Search and list Datadog incidents, including their"
-    + " state, severity, and metadata."
-    + " [See the docs](https://docs.datadoghq.com/api/latest/"
-    + "incidents/#get-a-list-of-incidents)",
-  version: "0.0.1",
+    "Search Datadog incidents by state, severity, and"
+    + " metadata. Query syntax: `state:active`,"
+    + " `state:resolved`, `severity:SEV-1`. After"
+    + " finding an incident, investigate with:"
+    + " **Search Logs** for the incident time window,"
+    + " **Get Metric Data** for relevant metrics,"
+    + " **Search Events** for related monitor alerts,"
+    + " and **Search Services** for ownership info."
+    + " [See the docs](https://docs.datadoghq.com/api/"
+    + "latest/incidents/#get-a-list-of-incidents)",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

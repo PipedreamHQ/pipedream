@@ -4,11 +4,20 @@ export default {
   key: "datadog-search-events",
   name: "Search Events",
   description:
-    "Search Datadog events such as monitor alerts,"
-    + " deployment notifications, and infrastructure changes."
-    + " [See the docs](https://docs.datadoghq.com/api/latest/"
-    + "events/#get-a-list-of-events)",
-  version: "0.0.1",
+    "Search Datadog events: monitor state changes,"
+    + " deployment markers, error spikes, and"
+    + " infrastructure events. Filter by `sources`"
+    + " (e.g. `nagios,docker`), `tags`"
+    + " (e.g. `env:prod,service:web`), and `priority`"
+    + " (`normal` or `low`). Time range defaults to"
+    + " last 24h (POSIX timestamps in seconds). To"
+    + " investigate a monitor alert, use"
+    + " **Search Monitors** first, then search events"
+    + " for the relevant time range. Follow up with"
+    + " **Search Logs** for deeper investigation."
+    + " [See the docs](https://docs.datadoghq.com/api/"
+    + "latest/events/#get-a-list-of-events)",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

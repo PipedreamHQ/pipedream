@@ -23,7 +23,8 @@ export default {
     label: "From",
     description:
       "Minimum timestamp for requested logs."
-      + " Supports ISO-8601 strings or epoch milliseconds."
+      + " Supports date math (e.g. `now-15m`,"
+      + " `now-24h`), ISO-8601, or epoch ms."
       + " Defaults to 15 minutes ago.",
     optional: true,
   },
@@ -32,7 +33,8 @@ export default {
     label: "To",
     description:
       "Maximum timestamp for requested logs."
-      + " Supports ISO-8601 strings or epoch milliseconds."
+      + " Supports date math (e.g. `now`),"
+      + " ISO-8601, or epoch ms."
       + " Defaults to now.",
     optional: true,
   },

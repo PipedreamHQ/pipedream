@@ -4,10 +4,16 @@ export default {
   key: "datadog-search-dashboards",
   name: "Search Dashboards",
   description:
-    "List and search Datadog dashboards."
-    + " [See the docs](https://docs.datadoghq.com/api/latest/"
-    + "dashboards/#get-all-dashboards)",
-  version: "0.0.1",
+    "List and search Datadog dashboards. Returns"
+    + " dashboard IDs, titles, URLs, and metadata."
+    + " Dashboard URL:"
+    + " `https://app.{region}/dashboard/{id}` where"
+    + " region comes from **Get Account Info**. Use"
+    + " alongside **Search Services** to find"
+    + " dashboards related to a specific service."
+    + " [See the docs](https://docs.datadoghq.com/api/"
+    + "latest/dashboards/#get-all-dashboards)",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

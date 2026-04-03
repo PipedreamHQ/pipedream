@@ -310,13 +310,6 @@ export default {
         ...args,
       });
     },
-    async listLogs(args) {
-      return this._makeRequest({
-        path: "/v2/logs/events",
-        method: "get",
-        ...args,
-      });
-    },
     async queryMetricData(args) {
       return this._makeRequest({
         path: "/v1/query",

@@ -4,10 +4,17 @@ export default {
   key: "datadog-search-metrics",
   name: "Search Metrics",
   description:
-    "List available metrics with filtering by host."
-    + " [See the docs](https://docs.datadoghq.com/api/latest/"
-    + "metrics/#get-active-metrics-list)",
-  version: "0.0.1",
+    "Discovery tool: list available Datadog metric names,"
+    + " optionally filtered by host. Returns metric name"
+    + " strings (e.g. `system.cpu.user`,"
+    + " `aws.ec2.cpuutilization`) for use in"
+    + " **Get Metric Data** queries with the syntax"
+    + " `aggregation:metric.name{tags}`. Use"
+    + " **Search Hosts** to find valid host names for"
+    + " the `host` filter."
+    + " [See the docs](https://docs.datadoghq.com/api/"
+    + "latest/metrics/#get-active-metrics-list)",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

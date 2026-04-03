@@ -5,10 +5,16 @@ export default {
   name: "Search Services",
   description:
     "List services from Datadog's Service Catalog"
-    + " with details and team information."
-    + " [See the docs](https://docs.datadoghq.com/api/latest/"
-    + "service-definition/#get-all-service-definitions)",
-  version: "0.0.1",
+    + " with ownership, metadata, and team info. Use"
+    + " to discover service names for filtering in"
+    + " **Search Logs** (`service:my-app`) or finding"
+    + " monitors via **Search Monitors**"
+    + " (`tag:service:my-app`). Returns service"
+    + " definitions including links, docs, and on-call."
+    + " [See the docs](https://docs.datadoghq.com/api/"
+    + "latest/service-definition/"
+    + "#get-all-service-definitions)",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
