@@ -29,26 +29,24 @@ export default {
     deal: {
       type: "object",
       label: "Deal",
-      description: "A CRM deal reference to link to the recording. Example: `{\"id\": \"deal-123\", \"type\": \"hubspot\"}`  Allowed types: `attio`, `hubspot`, `pipedrive`, `salesforce`.",
+      description: "A CRM deal reference to link to the recording. Requires meeting information and the workspace to be connected to the same CRM. Example: `{\"id\": \"deal-123\", \"type\": \"hubspot\"}`. Both `id` and `type` are required. Allowed types: `attio`, `hubspot`, `pipedrive`, `salesforce`.",
       optional: true,
     },
     downloadUrl: {
       type: "string",
       label: "Download URL",
-      description: "URL where the recording video content can be retrieved using an HTTP GET request",
+      description: "URL where the recording video content can be retrieved using an HTTP GET request. Do not use the response upload URL if this parameter is supplied.",
       optional: true,
     },
     meetingStartedAt: {
       type: "string",
       label: "Meeting Started At",
-      description: "Meeting start time (ISO 8601)",
-      optional: true,
+      description: "Meeting start time in ISO 8601 format (e.g. `2026-04-03T14:30:00Z`)",
     },
     meetingEndedAt: {
       type: "string",
       label: "Meeting Ended At",
-      description: "Meeting end time (ISO 8601)",
-      optional: true,
+      description: "Meeting end time in ISO 8601 format (e.g. `2026-04-03T15:00:00Z`)",
     },
     meetingParticipants: {
       type: "string[]",
@@ -65,7 +63,7 @@ export default {
     transcript: {
       type: "boolean",
       label: "Upload Transcript",
-      description: "Set to `true` to signal intent to supply transcript data. The response will include a `metaUrl` upload attribute for posting the transcript payload.",
+      description: "Set to `true` to signal intent to supply transcript data. The response will include a `metaUrl` upload attribute. Use it to send the transcript JSON payload with an HTTP PUT request. **Note:** the recording creation will only proceed once both the video and the transcript payloads have been sent.",
       optional: true,
     },
     source: {
@@ -90,17 +88,17 @@ export default {
     const data = {
       authorEmail: this.authorEmail,
       channelId: this.channelId,
-      deal: parseObject(this.deal),
       downloadUrl: this.downloadUrl,
-      title: this.title,
-      source: this.source,
-    };
-    if (this.meetingStartedAt || this.meetingEndedAt || this.meetingParticipants) {
-      data.meeting = {
+      meeting: {
         startedAt: this.meetingStartedAt,
         endedAt: this.meetingEndedAt,
         participants: parseObject(this.meetingParticipants),
-      };
+      },
+      title: this.title,
+      source: this.source,
+    };
+    if (this.deal) {
+      data.deal = parseObject(this.deal);
     }
     if (this.transcript) {
       data.transcript = {
