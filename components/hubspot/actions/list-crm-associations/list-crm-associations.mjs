@@ -8,7 +8,7 @@ export default {
     + " Returns associated record IDs and association types for each link."
     + " Direction matters: `from` is the record you are querying from; swap from/to to traverse the relationship the other way."
     + " [See the documentation](https://developers.hubspot.com/docs/api-reference/crm/associations-v4/basic/get-crm-v4-objects-objectType-objectId-associations-toObjectType)",
-  version: "0.0.2",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -24,8 +24,7 @@ export default {
       ],
       label: "From Object Type",
       description:
-        "Object type of the record you are listing associations from (standard or custom object).",
-      reloadProps: true,
+        "Object type of the record you are listing associations from.",
     },
     fromObjectId: {
       propDefinition: [
@@ -46,7 +45,7 @@ export default {
       ],
       label: "To Object Type",
       description:
-        "Object type of associated records to return (e.g. contacts linked to this company). Standard or custom object.",
+        "Object type of associated records to return (e.g. contacts linked to this company).",
     },
   },
   async run({ $ }) {
