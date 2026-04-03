@@ -3,7 +3,7 @@ import app from "../../apollo_io_oauth.app.mjs";
 export default {
   key: "apollo_io_oauth-update-opportunity",
   name: "Update Opportunity",
-  description: "Updates a new opportunity in Apollo.io. [See the documentation](https://apolloio.github.io/apollo-api-docs/?shell#update-opportunity)",
+  description: "Updates an existing opportunity in Apollo.io. [See the documentation](https://apolloio.github.io/apollo-api-docs/?shell#update-opportunity)",
   type: "action",
   version: "0.0.1",
   annotations: {

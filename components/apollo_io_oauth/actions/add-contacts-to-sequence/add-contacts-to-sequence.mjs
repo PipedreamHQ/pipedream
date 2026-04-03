@@ -63,7 +63,7 @@ export default {
         send_email_from_email_account_id: this.emailAccountId,
         sequence_no_email: this.sequenceNoEmail,
         sequence_active_in_other_campaigns: this.sequenceActiveInOtherCampaigns,
-        sequence_finished_in_other_campaigns: this.sequencFinishedInOtherCampaigns,
+        sequence_finished_in_other_campaigns: this.sequenceFinishedInOtherCampaigns,
       },
     });
 
