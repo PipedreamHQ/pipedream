@@ -16,7 +16,7 @@ export default {
     scoutId: {
       type: "string",
       label: "Scout ID",
-      description: "The ID of the scout whose updates to fetch, e.g. `{{steps.create_scout.$return_value.id}}`",
+      description: "The ID of the scout whose updates to fetch, e.g. from the Yutori dashboard or a previous **Get Scout** step",
     },
     pageSize: {
       type: "integer",
@@ -34,9 +34,13 @@ export default {
 
     const result = await this.yutori.getScoutUpdates($, this.scoutId, params);
     const updates = result?.updates ?? result?.items ?? [];
-    const count = Array.isArray(updates) ? updates.length : "?";
+    const count = Array.isArray(updates)
+      ? updates.length
+      : "?";
 
-    $.export("$summary", `Retrieved ${count} update${count === 1 ? "" : "s"} for scout ${this.scoutId}`);
+    $.export("$summary", `Retrieved ${count} update${count === 1
+      ? ""
+      : "s"} for scout ${this.scoutId}`);
     return result;
   },
 };

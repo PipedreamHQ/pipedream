@@ -16,7 +16,7 @@ export default {
     scoutId: {
       type: "string",
       label: "Scout ID",
-      description: "The ID of the scout to retrieve, e.g. `{{steps.create_scout.$return_value.id}}`",
+      description: "The ID of the scout to retrieve, e.g. from the Yutori dashboard or a previous **Get Scout** / **Get Scout Updates** step",
     },
   },
   async run({ $ }) {

@@ -33,7 +33,10 @@ export default {
       default: 50,
     },
     webhookUrl: {
-      propDefinition: [yutori, "webhookUrl"],
+      propDefinition: [
+        yutori,
+        "webhookUrl",
+      ],
       description: "URL to receive the result when the task completes. Recommended for reliable delivery — Yutori will POST the result to this URL.",
     },
   },

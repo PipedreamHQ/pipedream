@@ -78,17 +78,30 @@ export default {
 
       const scout = await this.yutori.createScout(this, payload);
       this.db.set("scoutId", scout.id);
+      this.db.set("scoutDisplayName", scout.display_name);
     },
     async deactivate() {
       const scoutId = this.db.get("scoutId");
       if (scoutId) {
-        await this.yutori.deleteScout(this, scoutId);
+        try {
+          await this.yutori.deleteScout(this, scoutId);
+        } catch (error) {
+          if (error?.response?.status !== 404) {
+            throw error;
+          }
+        }
       }
+      this.db.set("scoutId", null);
+      this.db.set("scoutDisplayName", null);
+      this.db.set("lastTimestamp", null);
     },
   },
   methods: {
     _getScoutId() {
       return this.db.get("scoutId");
+    },
+    _getScoutDisplayName() {
+      return this.db.get("scoutDisplayName") ?? "Yutori Scout";
     },
     _getLastTimestamp() {
       return this.db.get("lastTimestamp") ?? null;
@@ -100,6 +113,7 @@ export default {
   async run() {
     const scoutId = this._getScoutId();
     if (!scoutId) return;
+    const scoutDisplayName = this._getScoutDisplayName();
 
     let sinceTimestamp = this._getLastTimestamp();
 
@@ -110,36 +124,6 @@ export default {
         ? Date.now() - hoursBack * 60 * 60 * 1000
         : Date.now();
     }
-
-    const now = Date.now();
-    // Collect all pages so bursts don't silently drop findings.
-    const updates = [];
-    let cursor = undefined;
-    const seenCursors = new Set();
-    const MAX_PAGES = 100;
-    let pages = 0;
-    let paginationTruncated = false;
-    do {
-      if (pages++ >= MAX_PAGES) {
-        paginationTruncated = true;
-        break;
-      }
-      if (cursor && seenCursors.has(cursor)) break;
-      if (cursor) seenCursors.add(cursor);
-
-      const response = await this.yutori.getScoutUpdates(this, scoutId, {
-        start_time: new Date(sinceTimestamp).toISOString(),
-        end_time: new Date(now).toISOString(),
-        ...(cursor
-          ? {
-            cursor,
-          }
-          : {}),
-      });
-      const page = response?.updates ?? [];
-      updates.push(...page);
-      cursor = response?.next_cursor ?? null;
-    } while (cursor);
 
     const toEpochMs = (value) => {
       if (typeof value === "number" && Number.isFinite(value)) return value;
@@ -152,6 +136,44 @@ export default {
       throw new Error(`Unexpected timestamp format: ${value}`);
     };
 
+    const now = Date.now();
+    // Collect pages until we cross the last emitted timestamp.
+    const updates = [];
+    let cursor = undefined;
+    const seenCursors = new Set();
+    const MAX_PAGES = 100;
+    const PAGE_SIZE = 100;
+    let pages = 0;
+    let paginationTruncated = false;
+    let reachedKnownHistory = false;
+    do {
+      if (pages++ >= MAX_PAGES) {
+        paginationTruncated = true;
+        break;
+      }
+      if (cursor && seenCursors.has(cursor)) break;
+      if (cursor) seenCursors.add(cursor);
+
+      const response = await this.yutori.getScoutUpdates(this, scoutId, {
+        page_size: PAGE_SIZE,
+        ...(cursor
+          ? {
+            cursor,
+          }
+          : {}),
+      });
+      const page = response?.updates ?? [];
+      for (const update of page) {
+        const timestamp = toEpochMs(update.timestamp);
+        if (timestamp < sinceTimestamp) {
+          reachedKnownHistory = true;
+          continue;
+        }
+        updates.push(update);
+      }
+      cursor = response?.next_cursor ?? null;
+    } while (cursor && !reachedKnownHistory);
+
     // Sort oldest-first for chronological emission, regardless of API ordering.
     const orderedUpdates = [
       ...updates,
@@ -162,7 +184,7 @@ export default {
     for (const update of orderedUpdates) {
       this.$emit(update, {
         id: update.id,
-        summary: `[${update.scout_display_name}] ${String(update.content || "").slice(0, 80)}`,
+        summary: `[${scoutDisplayName}] ${String(update.content || "").slice(0, 80)}`,
         ts: toEpochMs(update.timestamp),
       });
     }

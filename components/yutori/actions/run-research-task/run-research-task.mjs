@@ -14,18 +14,30 @@ export default {
   props: {
     yutori,
     query: {
-      propDefinition: [yutori, "query"],
+      propDefinition: [
+        yutori,
+        "query",
+      ],
       label: "Research Query",
       description: "What to research, e.g. `What are the top 5 CRM tools for startups in 2025, with pricing?`",
     },
     userTimezone: {
-      propDefinition: [yutori, "userTimezone"],
+      propDefinition: [
+        yutori,
+        "userTimezone",
+      ],
     },
     userLocation: {
-      propDefinition: [yutori, "userLocation"],
+      propDefinition: [
+        yutori,
+        "userLocation",
+      ],
     },
     webhookUrl: {
-      propDefinition: [yutori, "webhookUrl"],
+      propDefinition: [
+        yutori,
+        "webhookUrl",
+      ],
       description: "URL to receive the result when research completes. Recommended for reliable delivery — Yutori will POST the findings to this URL.",
     },
   },
