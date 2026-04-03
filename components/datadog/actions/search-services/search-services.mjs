@@ -39,12 +39,8 @@ export default {
   },
   async run({ $ }) {
     const params = {};
-    if (this.pageSize !== undefined) {
-      params["page[size]"] = this.pageSize;
-    }
-    if (this.pageNumber !== undefined) {
-      params["page[number]"] = this.pageNumber;
-    }
+    if (this.pageSize !== undefined) params["page[size]"] = this.pageSize;
+    if (this.pageNumber !== undefined) params["page[number]"] = this.pageNumber;
 
     const response = await this.datadog.listServices({
       $,
