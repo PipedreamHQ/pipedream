@@ -4,16 +4,6 @@ import constants from "./common/constants.mjs";
 export default {
   type: "app",
   app: "loopmessage",
-  auth: {
-    type: "custom",
-    props: {
-      api_key: {
-        type: "string",
-        label: "Authorization",
-        secret: true,
-      },
-    },
-  },
   propDefinitions: {
     contact: {
       type: "string",

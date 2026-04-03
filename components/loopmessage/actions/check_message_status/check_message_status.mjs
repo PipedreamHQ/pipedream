@@ -3,7 +3,7 @@ import app from "../../loopmessage.app.mjs";
 export default {
   key: "loopmessage-check-message-status",
   name: "Check Message Status",
-  description: "Action to get the current outbound message status.",
+  description: "Action to get the current outbound message status. Possible values: processing, failed, delivered.",
   type: "action",
   version: "0.0.4",
   annotations: {
