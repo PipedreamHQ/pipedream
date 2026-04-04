@@ -4,7 +4,7 @@ export default {
   key: "pipedrive-get-all-leads",
   name: "Get All Leads",
   description: "Get all leads from Pipedrive. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Leads#getLeads)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: false,
