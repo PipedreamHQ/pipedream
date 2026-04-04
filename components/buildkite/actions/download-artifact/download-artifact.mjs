@@ -6,6 +6,11 @@ export default {
   description: "Returns a download URL for a specific artifact. [See the documentation](https://buildkite.com/docs/apis/rest-api/artifacts#download-an-artifact)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     buildkite,
     organizationSlug: {
@@ -46,7 +51,7 @@ export default {
       $,
       path: `/organizations/${this.organizationSlug}/pipelines/${this.pipelineSlug}/builds/${this.buildNumber}/jobs/${this.jobId}/artifacts/${this.artifactId}/download`,
     });
-    $.export("$summary", `Retrieved download URL for artifact ${this.artifactId}`);
+    $.export("$summary", `Successfully retrieved download URL for artifact ${this.artifactId}`);
     return response;
   },
 };

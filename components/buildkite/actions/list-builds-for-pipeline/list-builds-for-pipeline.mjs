@@ -6,6 +6,11 @@ export default {
   description: "Returns a list of a pipeline's builds, filterable by state, branch, and commit. [See the documentation](https://buildkite.com/docs/apis/rest-api/builds#list-builds-for-a-pipeline)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     buildkite,
     organizationSlug: {
@@ -46,7 +51,7 @@ export default {
     branch: {
       type: "string",
       label: "Branch",
-      description: "Filter by branch name (e.g. `main`). Supports wildcards (e.g. `*dev*`)",
+      description: "Filter by branch name (e.g. `main`)",
       optional: true,
     },
     commit: {
@@ -61,12 +66,23 @@ export default {
       description: "Filter builds created on or after this time (ISO 8601 format)",
       optional: true,
     },
-    perPage: {
-      type: "integer",
-      label: "Per Page",
-      description: "Number of results per page (max 100)",
+    createdTo: {
+      type: "string",
+      label: "Created To",
+      description: "Filter builds created before this time (ISO 8601 format)",
       optional: true,
-      default: 30,
+    },
+    finishedFrom: {
+      type: "string",
+      label: "Finished From",
+      description: "Filter builds finished on or after this time (ISO 8601 format)",
+      optional: true,
+    },
+    limit: {
+      propDefinition: [
+        buildkite,
+        "limit",
+      ],
     },
   },
   async run({ $ }) {
@@ -75,13 +91,18 @@ export default {
     if (this.branch) params.branch = this.branch;
     if (this.commit) params.commit = this.commit;
     if (this.createdFrom) params.created_from = this.createdFrom;
-    if (this.perPage) params.per_page = this.perPage;
-    const response = await this.buildkite._makeRequest({
+    if (this.createdTo) params.created_to = this.createdTo;
+    if (this.finishedFrom) params.finished_from = this.finishedFrom;
+    const results = [];
+    for await (const build of this.buildkite.paginate({
       $,
       path: `/organizations/${this.organizationSlug}/pipelines/${this.pipelineSlug}/builds`,
       params,
-    });
-    $.export("$summary", `Found ${response.length} build(s)`);
-    return response;
+      max: this.limit,
+    })) {
+      results.push(build);
+    }
+    $.export("$summary", `Successfully retrieved ${results.length} build(s)`);
+    return results;
   },
 };

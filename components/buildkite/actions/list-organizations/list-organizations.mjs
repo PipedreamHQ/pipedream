@@ -6,15 +6,30 @@ export default {
   description: "Returns a list of organizations accessible by the API token. [See the documentation](https://buildkite.com/docs/apis/rest-api/organizations#list-organizations)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     buildkite,
+    limit: {
+      propDefinition: [
+        buildkite,
+        "limit",
+      ],
+    },
   },
   async run({ $ }) {
-    const response = await this.buildkite._makeRequest({
+    const results = [];
+    for await (const org of this.buildkite.paginate({
       $,
       path: "/organizations",
-    });
-    $.export("$summary", `Found ${response.length} organization(s)`);
-    return response;
+      max: this.limit,
+    })) {
+      results.push(org);
+    }
+    $.export("$summary", `Successfully retrieved ${results.length} organization(s)`);
+    return results;
   },
 };

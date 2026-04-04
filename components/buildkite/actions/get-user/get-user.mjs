@@ -6,6 +6,11 @@ export default {
   description: "Returns basic details about the user account that sent the request. [See the documentation](https://buildkite.com/docs/apis/rest-api/user)",
   version: "0.2.0",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     buildkite,
   },
@@ -14,7 +19,7 @@ export default {
       $,
       path: "/user",
     });
-    $.export("$summary", `Retrieved user: ${response.name}`);
+    $.export("$summary", `Successfully retrieved user: ${response.name}`);
     return response;
   },
 };

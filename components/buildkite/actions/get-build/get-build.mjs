@@ -6,6 +6,11 @@ export default {
   description: "Returns the details for a single build, including its jobs. [See the documentation](https://buildkite.com/docs/apis/rest-api/builds#get-a-build)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     buildkite,
     organizationSlug: {
@@ -45,7 +50,7 @@ export default {
       path: `/organizations/${this.organizationSlug}/pipelines/${this.pipelineSlug}/builds/${this.buildNumber}`,
       params,
     });
-    $.export("$summary", `Build #${response.number} — ${response.state}`);
+    $.export("$summary", `Successfully retrieved build #${response.number} (${response.state})`);
     return response;
   },
 };

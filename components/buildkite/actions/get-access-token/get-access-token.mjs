@@ -6,6 +6,11 @@ export default {
   description: "Returns details about the API access token used to authenticate the request, including its scopes. [See the documentation](https://buildkite.com/docs/apis/rest-api/access-token)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     buildkite,
   },
@@ -14,7 +19,10 @@ export default {
       $,
       path: "/access-token",
     });
-    $.export("$summary", `Token has scopes: ${response.scopes?.join(", ")}`);
+    const scopes = response.scopes?.length
+      ? response.scopes.join(", ")
+      : "none";
+    $.export("$summary", `Token has scopes: ${scopes}`);
     return response;
   },
 };

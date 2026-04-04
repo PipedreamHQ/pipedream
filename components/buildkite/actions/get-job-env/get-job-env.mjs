@@ -6,6 +6,11 @@ export default {
   description: "Returns the environment variables for a specific job in a build. [See the documentation](https://buildkite.com/docs/apis/rest-api/jobs#get-a-jobs-environment-variables)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     buildkite,
     organizationSlug: {
@@ -42,7 +47,7 @@ export default {
       path: `/organizations/${this.organizationSlug}/pipelines/${this.pipelineSlug}/builds/${this.buildNumber}/jobs/${this.jobId}/env`,
     });
     const count = Object.keys(response.env || {}).length;
-    $.export("$summary", `Retrieved ${count} environment variable(s) for job ${this.jobId}`);
+    $.export("$summary", `Successfully retrieved ${count} environment variable(s)`);
     return response;
   },
 };

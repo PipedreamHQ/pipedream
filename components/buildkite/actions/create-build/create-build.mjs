@@ -6,6 +6,11 @@ export default {
   description: "Creates a new build for a pipeline. [See the documentation](https://buildkite.com/docs/apis/rest-api/builds#create-a-build)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     buildkite,
     organizationSlug: {
@@ -46,6 +51,12 @@ export default {
       description: "Environment variables to pass to the build",
       optional: true,
     },
+    metaData: {
+      type: "object",
+      label: "Meta Data",
+      description: "Key-value meta-data to attach to the build",
+      optional: true,
+    },
     cleanCheckout: {
       type: "boolean",
       label: "Clean Checkout",
@@ -61,6 +72,7 @@ export default {
     };
     if (this.message) data.message = this.message;
     if (this.env) data.env = this.env;
+    if (this.metaData) data.meta_data = this.metaData;
     if (this.cleanCheckout) data.clean_checkout = true;
     const response = await this.buildkite._makeRequest({
       $,
@@ -68,7 +80,7 @@ export default {
       path: `/organizations/${this.organizationSlug}/pipelines/${this.pipelineSlug}/builds`,
       data,
     });
-    $.export("$summary", `Created build #${response.number} on ${this.branch}`);
+    $.export("$summary", `Successfully created build #${response.number} on ${this.branch}`);
     return response;
   },
 };

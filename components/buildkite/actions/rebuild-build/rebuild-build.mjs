@@ -3,9 +3,14 @@ import buildkite from "../../buildkite.app.mjs";
 export default {
   key: "buildkite-rebuild-build",
   name: "Rebuild Build",
-  description: "Creates a new build from an existing build. The new build preserves lineage and shows as \"rebuilt from\" the original. [See the documentation](https://buildkite.com/docs/apis/rest-api/builds#rebuild-a-build)",
+  description: "Creates a new build from an existing build, preserving lineage. [See the documentation](https://buildkite.com/docs/apis/rest-api/builds#rebuild-a-build)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     buildkite,
     organizationSlug: {
@@ -36,7 +41,7 @@ export default {
       method: "PUT",
       path: `/organizations/${this.organizationSlug}/pipelines/${this.pipelineSlug}/builds/${this.buildNumber}/rebuild`,
     });
-    $.export("$summary", `Rebuilt build #${this.buildNumber} — new build #${response.number}`);
+    $.export("$summary", `Successfully rebuilt build #${this.buildNumber} — new build #${response.number}`);
     return response;
   },
 };
