@@ -9,6 +9,9 @@
   ],
   "homepage": "https://pipedream.com/apps/apollo_io_oauth",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1"
+  },
   "publishConfig": {
     "access": "public"
   }
