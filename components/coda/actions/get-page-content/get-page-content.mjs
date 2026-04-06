@@ -84,9 +84,10 @@ export default {
       responseStatus.downloadLink,
     );
 
-    const filePath = `/tmp/${this.fileName}${this.outputFormat === "html"
+    const fileName = `${this.fileName}${this.outputFormat === "html"
       ? ".html"
       : ".md"}`;
+    const filePath = `/tmp/${fileName}`;
     const rawcontent = pageFile.toString("base64");
     const buffer = Buffer.from(rawcontent, "base64");
     fs.writeFileSync(filePath, buffer);
@@ -95,7 +96,7 @@ export default {
 
     return {
       message: "Successfully downloaded page content to /tmp.",
-      fileName: `${this.fileName}.${this.outputFormat}`,
+      fileName,
       filePath,
     };
   },
