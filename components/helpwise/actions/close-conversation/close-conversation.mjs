@@ -7,7 +7,7 @@ export default {
   description: "Closes conversations by its IDs. [See the documentation](https://documenter.getpostman.com/view/29744652/2s9YC5yYKf#333c4b46-0e2a-4f28-89e2-d77f969b7011)",
   version: "0.0.1",
   annotations: {
-    destructiveHint: false,
+    destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },

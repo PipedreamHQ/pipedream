@@ -66,7 +66,7 @@ export default {
           },
         });
         return {
-          options: threads.map(({
+          options: (threads ?? []).map(({
             id: value, snippet: label,
           }) => ({
             label,
