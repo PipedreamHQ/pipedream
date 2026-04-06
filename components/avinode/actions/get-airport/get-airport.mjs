@@ -4,7 +4,7 @@ export default {
   key: "avinode-get-airport",
   name: "Get Airport",
   description:
-    "Read a single airport by identifier. [See the documentation](https://developer.avinodegroup.com/reference/readairport-1)",
+    "Read a single airport by identifier (search or select from the dropdown, or enter an ID). [Read airport](https://developer.avinodegroup.com/reference/readairport-1)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -15,10 +15,10 @@ export default {
   props: {
     app,
     airportId: {
-      type: "string",
-      label: "Airport ID",
-      description: "The identifier of the airport to retrieve",
-      optional: false,
+      propDefinition: [
+        app,
+        "airportId",
+      ],
     },
   },
   async run({ $ }) {
