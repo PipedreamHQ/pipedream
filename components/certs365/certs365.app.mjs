@@ -2,7 +2,7 @@ import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
-  app: "certs365-beta",
+  app: "certs365",
   propDefinitions: {
     name: {
       type: "string",
@@ -13,8 +13,6 @@ export default {
       type: "string",
       label: "Recipient Email",
       description: "Email of the certificate recipient",
-      pattern: "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$",
-      message: "Please enter a valid email address (e.g., user@example.com)",
     },
     courseName: {
       type: "string",
@@ -45,7 +43,6 @@ export default {
         // Replace with production endpoint:
         // https://api2.certs365.io/proui/api/issue-pipedream (confirm final path)
         url: "https://testverifyapi.certs365.io/proui/api/issue-pipedream",
-        timeout: 10000,
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${this.$auth.api_key}`,
