@@ -4,7 +4,7 @@ export default {
   key: "apollo_io_oauth-list-metadata",
   name: "List Metadata",
   description:
-    "Lists metadata such as stages, sequences, email"
+    "Lists metadata such as stages, sequences, labels, email"
     + " accounts, or team users."
     + " Use this tool to discover valid IDs before calling write"
     + " tools — e.g., find a contact stage ID for"
@@ -33,6 +33,7 @@ export default {
         + " opportunities/deals."
         + " `sequences` — email outreach sequences/campaigns."
         + " `email_accounts` — connected email sending accounts."
+        + " `labels` — tags/labels for contacts."
         + " `users` — team members (useful for owner IDs).",
       options: [
         "contact_stages",
@@ -40,6 +41,7 @@ export default {
         "opportunity_stages",
         "sequences",
         "email_accounts",
+        "labels",
         "users",
       ],
     },
@@ -75,6 +77,12 @@ export default {
           $,
         }),
         key: "email_accounts",
+      },
+      labels: {
+        fn: () => this.app.listLabels({
+          $,
+        }),
+        key: "labels",
       },
       users: {
         fn: () => this.app.listUsers({

@@ -73,7 +73,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const { contacts } = await this.app.addContactsToSequence({
+    const response = await this.app.addContactsToSequence({
       $,
       sequenceId: this.sequenceId,
       data: {
@@ -87,6 +87,7 @@ export default {
           this.sequenceFinishedInOtherCampaigns,
       },
     });
+    const contacts = response?.contacts ?? [];
 
     $.export(
       "$summary",

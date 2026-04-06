@@ -11,8 +11,6 @@ export default {
     + " Use this to find contacts before updating them with"
     + " **Create or Update Contact** or enrolling them with"
     + " **Add Contacts to Sequence**."
-    + " When the user says \"my contacts\", filter by the owner"
-    + " ID from **Get Current User**."
     + " The `query` parameter searches across name, title,"
     + " company, and email."
     + " [See the documentation](https://docs.apollo.io/reference"
@@ -85,7 +83,7 @@ export default {
         },
       },
       resourceName: "contacts",
-      max: this.maxResults || undefined,
+      max: this.maxResults ?? undefined,
     });
 
     const contacts = await utils.iterate(resourcesStream);

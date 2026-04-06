@@ -68,7 +68,7 @@ export default {
     updateContact({
       contactId, ...args
     }) {
-      return this.put({
+      return this.patch({
         path: `/contacts/${contactId}`,
         ...args,
       });
@@ -82,7 +82,7 @@ export default {
     updateAccount({
       accountId, ...args
     }) {
-      return this.put({
+      return this.patch({
         path: `/accounts/${accountId}`,
         ...args,
       });

@@ -11,8 +11,6 @@ export default {
     + " Use this to find accounts before updating them with"
     + " **Create or Update Account** or linking them to"
     + " contacts or opportunities."
-    + " When the user says \"my accounts\", filter by the owner"
-    + " ID from **Get Current User**."
     + " [See the documentation](https://docs.apollo.io/reference"
     + "/search-for-accounts)",
   version: "0.0.1",
@@ -80,7 +78,7 @@ export default {
         },
       },
       resourceName: "accounts",
-      max: this.maxResults || undefined,
+      max: this.maxResults ?? undefined,
     });
 
     const accounts = await utils.iterate(resourcesStream);
