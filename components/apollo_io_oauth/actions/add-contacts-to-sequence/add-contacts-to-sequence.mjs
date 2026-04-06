@@ -90,7 +90,7 @@ export default {
 
     $.export(
       "$summary",
-      `Added ${contacts.length} contact${contacts.length === 1
+      `Added ${contacts?.length} contact${contacts?.length === 1
         ? ""
         : "s"} to sequence`,
     );
