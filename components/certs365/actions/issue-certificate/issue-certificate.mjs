@@ -64,8 +64,8 @@ export default {
       }
       if (
         !parsedCustomFields ||
-typeof parsedCustomFields !== "object" ||
-Array.isArray(parsedCustomFields)
+        typeof parsedCustomFields !== "object" ||
+        Array.isArray(parsedCustomFields)
       ) {
         throw new Error("customFields must be a JSON object");
       }
