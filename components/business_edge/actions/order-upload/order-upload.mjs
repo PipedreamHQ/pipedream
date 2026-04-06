@@ -1,14 +1,26 @@
 import app from "../../business_edge.app.mjs";
 import { orderReturnSchema } from "../../common/orderReturnSchema.mjs";
-import { shouldOmitDateDelim } from "../../common/dateFormat.mjs";
+import {
+  normalizeDateFormatOpt,
+  shouldOmitDateDelim,
+} from "../../common/dateFormat.mjs";
+
+function nonEmptyTrimmedString(value) {
+  return typeof value === "string" && value.trim() !== "";
+}
 
 function lineHasProductIdentifier(line) {
-  return Boolean(
-    line?.ProdCode
-    || line?.ProdID
-    || line?.BinBarcode
-    || line?.AnyScan,
-  );
+  if (!line || typeof line !== "object") {
+    return false;
+  }
+  const stringIds = [
+    line.ProdCode,
+    line.BinBarcode,
+    line.AnyScan,
+  ].some((f) => nonEmptyTrimmedString(f));
+  const prodId = line.ProdID;
+  const prodIdOk = prodId != null && String(prodId).trim() !== "";
+  return stringIds || prodIdOk;
 }
 
 export default {
@@ -152,9 +164,8 @@ export default {
       impOrder,
     } = this;
 
+    const fmt = normalizeDateFormatOpt(dateFormatOpt);
     this.validateImpOrder(impOrder);
-
-    const fmt = dateFormatOpt || "A";
     const omitDelim = shouldOmitDateDelim(fmt);
 
     const body = {

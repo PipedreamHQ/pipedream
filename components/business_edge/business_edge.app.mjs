@@ -1,6 +1,6 @@
 import { axios } from "@pipedream/platform";
 import {
-  FALLBACK_ENTITY_OPTIONS,
+  getFallbackEntityOptions,
   parseEntityOptionsFromArgsPayload,
 } from "./common/entities.mjs";
 
@@ -17,7 +17,7 @@ export default {
       label: "Entity",
       description:
         "Entity for this request. Options load from customer V3 `args.json` when "
-        + "available; otherwise generic codes 1–3 are shown.",
+        + "available; otherwise numeric codes 1–20 are shown (configurable fallback).",
       async options({ $ }) {
         const fromApi = await this.fetchEntityOptions({
           $,
@@ -25,7 +25,7 @@ export default {
         if (Array.isArray(fromApi) && fromApi.length > 0) {
           return fromApi;
         }
-        return FALLBACK_ENTITY_OPTIONS;
+        return getFallbackEntityOptions();
       },
     },
   },

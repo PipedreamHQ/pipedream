@@ -1,5 +1,6 @@
 import app from "../../business_edge.app.mjs";
 import { customerReturnSchema } from "../../common/customerReturnSchema.mjs";
+import { normalizeDateFormatOpt } from "../../common/dateFormat.mjs";
 import { isChooseOneObject } from "../../common/propUtils.mjs";
 
 export default {
@@ -77,9 +78,10 @@ export default {
       chooseOne,
     } = this;
 
+    const fmt = normalizeDateFormatOpt(dateFormatOpt);
     const body = {
       Entity: entity,
-      DateFormatOpt: dateFormatOpt || "A",
+      DateFormatOpt: fmt,
       ...customerReturnSchema,
     };
 
