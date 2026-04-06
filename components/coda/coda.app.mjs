@@ -286,6 +286,24 @@ export default {
         params,
       });
     },
+    getPageContent($, docId, pageId, data = {}) {
+      return this._makeRequest($, {
+        method: "POST",
+        path: `/docs/${docId}/pages/${encodeURIComponent(pageId)}/export`,
+        data,
+      });
+    },
+    getPageContentExportStatus($, docId, pageId, exportId) {
+      return this._makeRequest($, {
+        path: `/docs/${docId}/pages/${encodeURIComponent(pageId)}/export/${exportId}`,
+      });
+    },
+    downloadPageFile($, downloadLink) {
+      return axios($, {
+        url: downloadLink,
+        responseType: "arraybuffer",
+      });
+    },
     /**
      * Delete a single row by name or ID
      * @param {object}  $
