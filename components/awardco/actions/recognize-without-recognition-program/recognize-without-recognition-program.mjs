@@ -54,7 +54,7 @@ export default {
     emailTemplateName: {
       type: "string",
       label: "Email template name",
-      description: "Recognition email template name (optional if send notifications is true)",
+      description: "Recognition email template name (optional if send notifications is false)",
       optional: true,
     },
     sendNotifications: {
