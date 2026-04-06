@@ -1,6 +1,6 @@
 export default {
   type: "app",
-  app: "avinode",
+  app: "moodle",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
