@@ -29,7 +29,7 @@ export default {
     name: {
       type: "string",
       label: "File Name",
-      description: "The new name of the file to be saved, including its extension. e.g: `myFile.html`. Only supports exporting files that cannot be downloaded directly and whose ExportResult.file_metadata has ExportInfo.export_as populated.",
+      description: "The new name of the file to be saved, including its extension. e.g: `myFile.html`.",
     },
     exportFormat: {
       propDefinition: [

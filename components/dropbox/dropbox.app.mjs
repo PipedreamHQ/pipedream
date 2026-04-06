@@ -125,7 +125,7 @@ export default {
     exportFormat: {
       type: "string",
       label: "Export Format",
-      description: "The format to export the file in. Required for exportable files.",
+      description: "The format to export the file in. Required for exportable files. Only supports exporting files that cannot be downloaded directly and whose ExportResult.file_metadata has ExportInfo.export_as populated.",
       optional: true,
       async options({ path }) {
         const { result } = await this.filesGetMetadata({
