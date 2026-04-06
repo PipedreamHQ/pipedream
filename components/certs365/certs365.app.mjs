@@ -3,15 +3,6 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "certs365-beta",
-
-  auth: {
-    type: "api_key",
-    api_key: {
-      type: "string",
-      label: "API Key",
-    },
-  },
-
   propDefinitions: {
     name: {
       type: "string",
@@ -43,7 +34,6 @@ export default {
       optional: true,
     },
   },
-
   methods: {
     async issueCertificate({
       $, data,

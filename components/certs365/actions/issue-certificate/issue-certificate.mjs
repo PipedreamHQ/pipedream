@@ -9,41 +9,34 @@ export default {
     openWorldHint: true,
     readOnlyHint: false,
   },
-  description: "Issue a certificate via Certs365-beta API",
-
+  description: "Issue a certificate via Certs365-beta API. [See the documentation](https://help.certs365.io/documentation/code-module-apis/issue-certification-details/)",
   type: "action",
-
   props: {
     certs365,
-
     name: {
       propDefinition: [
         certs365,
         "name",
       ],
     },
-
     recipientEmail: {
       propDefinition: [
         certs365,
         "recipientEmail",
       ],
     },
-
     courseName: {
       propDefinition: [
         certs365,
         "courseName",
       ],
     },
-
     templateId: {
       propDefinition: [
         certs365,
         "templateId",
       ],
     },
-
     customFields: {
       propDefinition: [
         certs365,
@@ -51,7 +44,6 @@ export default {
       ],
     },
   },
-
   async run({ $ }) {
     const {
       certs365,
@@ -71,12 +63,12 @@ export default {
         throw new Error("Invalid JSON in customFields");
       }
       if (
-+        !parsedCustomFields ||
-+        typeof parsedCustomFields !== "object" ||
-+        Array.isArray(parsedCustomFields)
-+      ) {
-+        throw new Error("customFields must be a JSON object");
-+      }
+        !parsedCustomFields ||
+typeof parsedCustomFields !== "object" ||
+Array.isArray(parsedCustomFields)
+      ) {
+        throw new Error("customFields must be a JSON object");
+      }
     }
 
     const response = await certs365.issueCertificate({
@@ -85,8 +77,16 @@ export default {
         name,
         recipientEmail,
         course_name: courseName,
-+       ...(templateId ? { templateId } : {}),
-+       ...(parsedCustomFields ? { custom_fields: parsedCustomFields } : {}),
+        ...(templateId
+          ? {
+            templateId,
+          }
+          : {}),
+        ...(parsedCustomFields
+          ? {
+            custom_fields: parsedCustomFields,
+          }
+          : {}),
       },
     });
 
