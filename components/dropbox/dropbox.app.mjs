@@ -125,7 +125,7 @@ export default {
     exportFormat: {
       type: "string",
       label: "Export Format",
-      description: "The format to export the file in",
+      description: "The format to export the file in. Required for exportable files.",
       optional: true,
       async options({ path }) {
         const { result } = await this.filesGetMetadata({
