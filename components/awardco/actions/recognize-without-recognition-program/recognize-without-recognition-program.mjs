@@ -61,7 +61,7 @@ export default {
       type: "boolean",
       label: "Send notifications",
       description: "Whether to email recipients about the recognition",
-      default: true,
+      default: false,
       optional: true,
     },
     budgetName: {

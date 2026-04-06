@@ -29,7 +29,6 @@ export default {
       type: "string[]",
       label: "Tag names",
       description: "Optional tags to attach to the recognition",
-      optional: true,
     },
     giver: {
       type: "string",
