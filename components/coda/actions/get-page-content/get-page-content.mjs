@@ -3,7 +3,7 @@ import coda from "../../coda.app.mjs";
 import { sleep } from "../../common/utils.mjs";
 
 export default {
-  key: "coda-get-page",
+  key: "coda-get-page-content",
   name: "Get Page Content",
   description: "Fetch the content of a single page by name or ID. [See docs](https://coda.io/developers/apis/v1#tag/Pages/operation/beginPageContentExport)",
   version: "0.0.1",
