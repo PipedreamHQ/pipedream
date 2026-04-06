@@ -8,7 +8,7 @@ import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   name: "Download and Export",
-  description: "Export a file from a user's Dropbox. This route only supports exporting files that cannot be downloaded directly and whose ExportResult.file_metadata has ExportInfo.export_as populated. [See the documentation](https://www.dropbox.com/developers/documentation/http/documentation#files-export)",
+  description: "Export a file from a user's Dropbox. If file is not exportable, it will be downloaded in original format. [See the documentation](https://www.dropbox.com/developers/documentation/http/documentation#files-export)",
   key: "dropbox-download-and-export",
   version: "0.0.1",
   type: "action",
@@ -24,12 +24,12 @@ export default {
         dropbox,
         "path",
       ],
-      description: "Type the file name to search for it in the user's Dropbox. Only supports exporting files that cannot be downloaded directly and whose ExportResult.file_metadata has ExportInfo.export_as populated.",
+      description: "Type the file name to search for it in the user's Dropbox.",
     },
     name: {
       type: "string",
       label: "File Name",
-      description: "The new name of the file to be saved, including its extension. e.g: `myFile.html`",
+      description: "The new name of the file to be saved, including its extension. e.g: `myFile.html`. Only supports exporting files that cannot be downloaded directly and whose ExportResult.file_metadata has ExportInfo.export_as populated.",
     },
     exportFormat: {
       propDefinition: [
@@ -96,6 +96,8 @@ export default {
       if (!result?.export_info?.export_options?.includes(this.exportFormat)) {
         throw new ConfigurationError("Export format not supported for this file");
       }
+
+      // export file in specified format
 
       try {
         const { result: { fileBinary } } = await this.dropbox.exportFile({
