@@ -100,6 +100,72 @@ export default {
       description: "Comma-separated LinkedIn URLs to monitor",
       optional: true,
     },
+    companyFilters: {
+      type: "string",
+      label: "Company Filters",
+      description: "JSON object of company filters",
+      optional: true,
+    },
+    signalFilters: {
+      type: "string",
+      label: "Signal Filters",
+      description: "JSON array of signal filter objects",
+      optional: true,
+    },
+    peopleEnrichmentConfigs: {
+      type: "string",
+      label: "People Enrichment Configs",
+      description: "JSON array of people enrichment configuration objects",
+      optional: true,
+    },
+    isCompanyEnrichment: {
+      type: "boolean",
+      label: "Enable Company Enrichment",
+      description: "Whether to enrich company data",
+      optional: true,
+    },
+    isPeopleEnrichment: {
+      type: "boolean",
+      label: "Enable People Enrichment",
+      description: "Whether to enrich people data",
+      optional: true,
+    },
+    isActive: {
+      type: "boolean",
+      label: "Is Active",
+      description: "Whether the monitor is active",
+      optional: true,
+    },
+    isPaused: {
+      type: "boolean",
+      label: "Is Paused",
+      description: "Whether the monitor is paused",
+      optional: true,
+    },
+    maxFailureTrigger: {
+      type: "integer",
+      label: "Max Failure Triggers",
+      description: "Maximum number of failure triggers",
+      optional: true,
+    },
+    maxRetryPerTrigger: {
+      type: "integer",
+      label: "Max Retry Per Trigger",
+      description: "Maximum retries per trigger",
+      optional: true,
+    },
+    retryDelaySecond: {
+      type: "integer",
+      label: "Retry Delay (Seconds)",
+      description: "Delay between retries in seconds",
+      optional: true,
+    },
+    notificationEmail: {
+      type: "string",
+      label: "Notification Email",
+      description: "Email address for failure notifications",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const data = {
@@ -119,6 +185,17 @@ export default {
     if (this.companies) data.companies = this.pubrio.splitComma(this.companies);
     if (this.domains) data.domains = this.pubrio.splitComma(this.domains);
     if (this.linkedinUrls) data.linkedin_urls = this.pubrio.splitComma(this.linkedinUrls);
+    if (this.companyFilters) data.company_filters = JSON.parse(this.companyFilters);
+    if (this.signalFilters) data.signal_filters = JSON.parse(this.signalFilters);
+    if (this.peopleEnrichmentConfigs) data.people_enrichment_configs = JSON.parse(this.peopleEnrichmentConfigs);
+    if (this.isCompanyEnrichment != null) data.is_company_enrichment = this.isCompanyEnrichment;
+    if (this.isPeopleEnrichment != null) data.is_people_enrichment = this.isPeopleEnrichment;
+    if (this.isActive != null) data.is_active = this.isActive;
+    if (this.isPaused != null) data.is_paused = this.isPaused;
+    if (this.maxFailureTrigger != null) data.max_failure_trigger = this.maxFailureTrigger;
+    if (this.maxRetryPerTrigger != null) data.max_retry_per_trigger = this.maxRetryPerTrigger;
+    if (this.retryDelaySecond != null) data.retry_delay_second = this.retryDelaySecond;
+    if (this.notificationEmail) data.notification_email = this.notificationEmail;
     const response = await this.pubrio.makeRequest({
       $,
       method: "POST",
