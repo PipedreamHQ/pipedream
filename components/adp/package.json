@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/adp",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Pipedream ADP Components",
   "main": "adp.app.mjs",
   "keywords": [
