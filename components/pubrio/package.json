@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/pubrio",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Pubrio Components",
   "main": "pubrio.app.mjs",
   "keywords": [
@@ -8,8 +8,11 @@
     "pubrio"
   ],
   "homepage": "https://pipedream.com/apps/pubrio",
-  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "author": "Pubrio <support@pubrio.com> (https://pubrio.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
   }
 }

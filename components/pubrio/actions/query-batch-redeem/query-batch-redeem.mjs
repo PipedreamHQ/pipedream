@@ -1,0 +1,27 @@
+import pubrio from "../../pubrio.app.mjs";
+
+export default {
+  key: "pubrio-query-batch-redeem",
+  name: "Query Batch Redeem",
+  description: "Query the status and results of a batch redeem request. [See the documentation](https://docs.pubrio.com)",
+  version: "0.0.1",
+  type: "action",
+  props: {
+    pubrio,
+    redeemQueryId: {
+      type: "string",
+      label: "Redeem Query ID",
+      description: "The batch redeem query ID to check",
+    },
+  },
+  async run({ $ }) {
+    const response = await this.pubrio.makeRequest({
+      $,
+      method: "POST",
+      url: "/redeem/people/batch/query",
+      data: { redeem_query_id: this.redeemQueryId },
+    });
+    $.export("$summary", "Successfully queried batch redeem status");
+    return response;
+  },
+};
