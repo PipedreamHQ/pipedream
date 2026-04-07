@@ -16,9 +16,13 @@ export default {
   },
   async run(event) {
     this.http.respond({ status: 200, body: "OK" });
-    this.$emit(event.body, {
-      id: event.body?.monitor_id || crypto.randomUUID(),
-      summary: `Pubrio monitor event: ${event.body?.signal_type || "unknown"}`,
+    const payload = event.body ?? {};
+    const dedupeId = payload?.event_id
+      || payload?.id
+      || crypto.randomUUID();
+    this.$emit(payload, {
+      id: dedupeId,
+      summary: `Pubrio monitor event: ${payload?.signal_type || "unknown"}`,
       ts: Date.now(),
     });
   },

@@ -8,24 +8,22 @@ export default {
   type: "action",
   props: {
     pubrio,
-    lookupType: {
-      type: "string",
-      label: "Lookup Type",
-      description: "How to identify the company for lookalike lookup",
-      options: ["domain", "linkedin_url", "domain_search_id"],
-    },
-    value: {
-      type: "string",
-      label: "Value",
-      description: "The domain, LinkedIn URL, or domain search ID value",
-    },
+    lookupType: { propDefinition: [pubrio, "lookupTypeDomain"] },
+    value: { propDefinition: [pubrio, "lookupValue"] },
   },
   async run({ $ }) {
+    let val = this.value;
+    if (this.lookupType === "domain_id") {
+      val = parseInt(this.value, 10);
+      if (Number.isNaN(val)) {
+        throw new Error(`domain_id must be a valid integer, got: "${this.value}"`);
+      }
+    }
     const response = await this.pubrio.makeRequest({
       $,
       method: "POST",
       url: "/companies/lookalikes/lookup",
-      data: { [this.lookupType]: this.value },
+      data: { [this.lookupType]: val },
     });
     $.export("$summary", "Successfully looked up lookalike");
     return response;

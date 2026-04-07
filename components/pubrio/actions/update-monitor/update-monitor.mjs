@@ -168,6 +168,9 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.isActive === true && this.isPaused === true) {
+      throw new Error("isActive and isPaused cannot both be true");
+    }
     const data = {
       monitor_id: this.monitorId,
     };
@@ -197,16 +200,31 @@ export default {
     if (this.domains) data.domains = this.pubrio.splitComma(this.domains);
     if (this.linkedinUrls) data.linkedin_urls = this.pubrio.splitComma(this.linkedinUrls);
     if (this.companyFilters) {
-      try { data.company_filters = JSON.parse(this.companyFilters); }
+      let parsed;
+      try { parsed = JSON.parse(this.companyFilters); }
       catch { throw new Error("company_filters must be valid JSON"); }
+      if (typeof parsed !== "object" || Array.isArray(parsed) || parsed === null) {
+        throw new Error("company_filters must be a JSON object");
+      }
+      data.company_filters = parsed;
     }
     if (this.signalFilters) {
-      try { data.signal_filters = JSON.parse(this.signalFilters); }
+      let parsed;
+      try { parsed = JSON.parse(this.signalFilters); }
       catch { throw new Error("signal_filters must be valid JSON"); }
+      if (!Array.isArray(parsed)) {
+        throw new Error("signal_filters must be a JSON array");
+      }
+      data.signal_filters = parsed;
     }
     if (this.peopleEnrichmentConfigs) {
-      try { data.people_enrichment_configs = JSON.parse(this.peopleEnrichmentConfigs); }
+      let parsed;
+      try { parsed = JSON.parse(this.peopleEnrichmentConfigs); }
       catch { throw new Error("people_enrichment_configs must be valid JSON"); }
+      if (!Array.isArray(parsed)) {
+        throw new Error("people_enrichment_configs must be a JSON array");
+      }
+      data.people_enrichment_configs = parsed;
     }
     if (this.isCompanyEnrichment != null) data.is_company_enrichment = this.isCompanyEnrichment;
     if (this.isPeopleEnrichment != null) data.is_people_enrichment = this.isPeopleEnrichment;
