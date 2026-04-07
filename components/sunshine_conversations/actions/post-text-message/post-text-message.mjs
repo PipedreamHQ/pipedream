@@ -111,14 +111,12 @@ export default {
       description: "Flat object containing custom properties. Strings, numbers and booleans are the only supported format that can be passed to metadata. The metadata is limited to 4KB in size",
       optional: true,
     },
-    schema: {
-      type: "string",
-      label: "Schema",
-      description: "When schema is set to \"whatsapp\", the `content` key is expected to conform to the [native WhatsApp schema](https://developers.facebook.com/docs/whatsapp/api/messages/message-templates) for sending message templates. For more details, consult the documentation for [sending message templates on WhatsApp](https://developer.zendesk.com/documentation/conversations/messaging-platform/programmable-conversations/message-overrides/#template-messages)",
-      optional: true,
-    },
   },
   async run({ $ }) {
+    if (this.htmlText && this.markdownText) {
+      throw new ConfigurationError("`htmlText` and `markdownText` cannot be used together");
+    }
+
     if (!this.text && !this.htmlText && !this.markdownText) {
       throw new ConfigurationError("Either `text`, `htmlText`, or `markdownText` is required");
     }
@@ -148,7 +146,6 @@ export default {
           payload: this.payload,
         },
         metadata: parseObject(this.metadata),
-        schema: this.schema,
       },
     });
 

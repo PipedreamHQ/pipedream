@@ -20,7 +20,7 @@ export default {
         const { conversations } = await this.getConversations({
           params: {
             page: {
-              after: prevContext.afterId,
+              after: prevContext?.afterId,
             },
             filter: {
               userId,
@@ -147,7 +147,15 @@ export default {
       let afterId = null;
 
       do {
-        params.after = afterId;
+        params.page = {
+          ...(params.page ?? {}),
+          ...(afterId
+            ? {
+              after: afterId,
+            }
+            : {}),
+        };
+
         const data = await fn({
           params,
           ...opts,
