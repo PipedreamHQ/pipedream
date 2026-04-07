@@ -199,33 +199,9 @@ export default {
     if (this.companies) data.companies = this.pubrio.splitComma(this.companies);
     if (this.domains) data.domains = this.pubrio.splitComma(this.domains);
     if (this.linkedinUrls) data.linkedin_urls = this.pubrio.splitComma(this.linkedinUrls);
-    if (this.companyFilters) {
-      let parsed;
-      try { parsed = JSON.parse(this.companyFilters); }
-      catch { throw new Error("company_filters must be valid JSON"); }
-      if (typeof parsed !== "object" || Array.isArray(parsed) || parsed === null) {
-        throw new Error("company_filters must be a JSON object");
-      }
-      data.company_filters = parsed;
-    }
-    if (this.signalFilters) {
-      let parsed;
-      try { parsed = JSON.parse(this.signalFilters); }
-      catch { throw new Error("signal_filters must be valid JSON"); }
-      if (!Array.isArray(parsed)) {
-        throw new Error("signal_filters must be a JSON array");
-      }
-      data.signal_filters = parsed;
-    }
-    if (this.peopleEnrichmentConfigs) {
-      let parsed;
-      try { parsed = JSON.parse(this.peopleEnrichmentConfigs); }
-      catch { throw new Error("people_enrichment_configs must be valid JSON"); }
-      if (!Array.isArray(parsed)) {
-        throw new Error("people_enrichment_configs must be a JSON array");
-      }
-      data.people_enrichment_configs = parsed;
-    }
+    if (this.companyFilters) data.company_filters = this.pubrio.parseJsonField(this.companyFilters, "company_filters", "object");
+    if (this.signalFilters) data.signal_filters = this.pubrio.parseJsonField(this.signalFilters, "signal_filters", "array");
+    if (this.peopleEnrichmentConfigs) data.people_enrichment_configs = this.pubrio.parseJsonField(this.peopleEnrichmentConfigs, "people_enrichment_configs", "array");
     if (this.isCompanyEnrichment != null) data.is_company_enrichment = this.isCompanyEnrichment;
     if (this.isPeopleEnrichment != null) data.is_people_enrichment = this.isPeopleEnrichment;
     if (this.isActive != null) data.is_active = this.isActive;
