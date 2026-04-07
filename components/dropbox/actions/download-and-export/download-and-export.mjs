@@ -77,7 +77,7 @@ export default {
             ? this.name
             : `${newFilename}.${extension}`
           : metadata.name;
-        const cleanFileName = fileName.replace(/[?$#&{}[]<>\*!@:\+\\\/]/g, "");
+        const cleanFileName = fileName.replace(/[?$#&{}[\]<>*!@:+\\/]/g, "");
 
         filePath = checkTmp(cleanFileName);
         const pipeline = promisify(stream.pipeline);
