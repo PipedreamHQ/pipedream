@@ -49,7 +49,7 @@ export default {
         return response.map(({
           sys_id: value, label,
         }) => ({
-          label,
+          label: label || value,
           value,
         }));
       },
