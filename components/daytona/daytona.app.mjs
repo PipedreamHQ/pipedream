@@ -55,7 +55,7 @@ export default {
       return new Daytona({
         apiKey: this.$auth.api_key,
         apiUrl: this.$auth.api_url,
-        target: this.$auth.us,
+        target: this.$auth.target,
       });
     },
     getSandbox(sandboxId) {
@@ -70,6 +70,10 @@ export default {
     createSandbox(params = {}, options = {}) {
       return this._client().create(params, options);
     },
+    async deleteSandbox(sandboxId, timeout) {
+      const sandbox = await this.getSandbox(sandboxId);
+      return sandbox.delete(timeout);
+    },
     async startSandbox(sandboxId, timeout) {
       const sandbox = await this.getSandbox(sandboxId);
       return sandbox.start(timeout);
@@ -78,6 +82,14 @@ export default {
       const sandbox = await this.getSandbox(sandboxId);
       return sandbox.stop(timeout);
     },
+    async runCommand(sandboxId, command, cwd, timeout) {
+      const sandbox = await this.getSandbox(sandboxId);
+      return sandbox.process.executeCommand(command, cwd, undefined, timeout);
+    },
+    async runCode(sandboxId, code, params, timeout) {
+      const sandbox = await this.getSandbox(sandboxId);
+      return sandbox.process.codeRun(code, params, timeout);
+    },
     async createSshAccess(sandboxId, timeout) {
       const sandbox = await this.getSandbox(sandboxId);
       return sandbox.createSshAccess(timeout);
@@ -85,6 +97,14 @@ export default {
     async revokeSshAccess(sandboxId, token) {
       const sandbox = await this.getSandbox(sandboxId);
       return sandbox.revokeSshAccess(token);
+    },
+    async cloneGitRepository(sandboxId, url, path, branch, commitId, username, password) {
+      const sandbox = await this.getSandbox(sandboxId);
+      return sandbox.git.clone(url, path, branch, commitId, username, password);
+    },
+    async getPreviewLink(sandboxId, port) {
+      const sandbox = await this.getSandbox(sandboxId);
+      return sandbox.getPreviewLink(port);
     },
     async waitUntilStopped(sandboxId, timeout) {
       const sandbox = await this.getSandbox(sandboxId);
