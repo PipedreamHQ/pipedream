@@ -8,9 +8,24 @@ export default {
   type: "action",
   props: {
     pubrio,
-    companyName: { propDefinition: [pubrio, "companyName"] },
-    domains: { propDefinition: [pubrio, "domains"] },
-    locations: { propDefinition: [pubrio, "locations"] },
+    companyName: {
+      propDefinition: [
+        pubrio,
+        "companyName",
+      ],
+    },
+    domains: {
+      propDefinition: [
+        pubrio,
+        "domains",
+      ],
+    },
+    locations: {
+      propDefinition: [
+        pubrio,
+        "locations",
+      ],
+    },
     keywords: {
       type: "string",
       label: "Keywords",
@@ -39,8 +54,18 @@ export default {
       label: "Max Employees",
       optional: true,
     },
-    page: { propDefinition: [pubrio, "page"] },
-    perPage: { propDefinition: [pubrio, "perPage"] },
+    page: {
+      propDefinition: [
+        pubrio,
+        "page",
+      ],
+    },
+    perPage: {
+      propDefinition: [
+        pubrio,
+        "perPage",
+      ],
+    },
   },
   async run({ $ }) {
     const data = {
@@ -49,14 +74,22 @@ export default {
     };
     if (this.companyName) data.company_name = this.companyName;
     if (this.domains) data.domains = this.pubrio.splitComma(this.domains);
-    if (this.locations) data.locations = this.pubrio.splitComma(this.locations);
+    if (this.locations?.length) data.locations = this.locations;
     if (this.keywords) data.keywords = this.pubrio.splitComma(this.keywords);
     if (this.verticals) data.verticals = this.pubrio.splitComma(this.verticals);
     if (this.technologies) data.technologies = this.pubrio.splitComma(this.technologies);
     if (this.employeesMin != null || this.employeesMax != null) {
-      data.employees = [this.employeesMin ?? 1, this.employeesMax ?? 1000000];
+      data.employees = [
+        this.employeesMin ?? 1,
+        this.employeesMax ?? 1000000,
+      ];
     }
-    const response = await this.pubrio.makeRequest({ $, method: "POST", url: "/companies/search", data });
+    const response = await this.pubrio.makeRequest({
+      $,
+      method: "POST",
+      url: "/companies/search",
+      data,
+    });
     $.export("$summary", `Found ${response.data?.length ?? 0} companies`);
     return response;
   },

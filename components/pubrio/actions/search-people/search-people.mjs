@@ -8,7 +8,12 @@ export default {
   type: "action",
   props: {
     pubrio,
-    searchTerm: { propDefinition: [pubrio, "searchTerm"] },
+    searchTerm: {
+      propDefinition: [
+        pubrio,
+        "searchTerm",
+      ],
+    },
     peopleName: {
       type: "string",
       label: "Person Name",
@@ -27,22 +32,22 @@ export default {
       optional: true,
     },
     managementLevels: {
-      type: "string",
-      label: "Management Levels",
-      description: "Comma-separated seniority levels",
-      optional: true,
+      propDefinition: [
+        pubrio,
+        "managementLevels",
+      ],
     },
     departments: {
-      type: "string",
-      label: "Departments",
-      description: "Comma-separated departments",
-      optional: true,
+      propDefinition: [
+        pubrio,
+        "departments",
+      ],
     },
     departmentFunctions: {
-      type: "string",
-      label: "Department Functions",
-      description: "Comma-separated department functions",
-      optional: true,
+      propDefinition: [
+        pubrio,
+        "departmentFunctions",
+      ],
     },
     employees: {
       type: "string",
@@ -51,16 +56,20 @@ export default {
       optional: true,
     },
     peopleLocations: {
-      type: "string",
+      propDefinition: [
+        pubrio,
+        "locations",
+      ],
       label: "People Locations",
-      description: "Comma-separated people location codes",
-      optional: true,
+      description: "Location codes for people",
     },
     companyLocations: {
-      type: "string",
+      propDefinition: [
+        pubrio,
+        "locations",
+      ],
       label: "Company Locations",
-      description: "Comma-separated company location codes",
-      optional: true,
+      description: "Location codes for companies",
     },
     companyLinkedinUrls: {
       type: "string",
@@ -80,9 +89,24 @@ export default {
       description: "Comma-separated company UUIDs",
       optional: true,
     },
-    domains: { propDefinition: [pubrio, "domains"] },
-    page: { propDefinition: [pubrio, "page"] },
-    perPage: { propDefinition: [pubrio, "perPage"] },
+    domains: {
+      propDefinition: [
+        pubrio,
+        "domains",
+      ],
+    },
+    page: {
+      propDefinition: [
+        pubrio,
+        "page",
+      ],
+    },
+    perPage: {
+      propDefinition: [
+        pubrio,
+        "perPage",
+      ],
+    },
   },
   async run({ $ }) {
     const data = {
@@ -93,17 +117,22 @@ export default {
     if (this.peopleName) data.people_name = this.peopleName;
     if (this.peopleTitles) data.people_titles = this.pubrio.splitComma(this.peopleTitles);
     if (this.peoples) data.peoples = this.pubrio.splitComma(this.peoples);
-    if (this.managementLevels) data.management_levels = this.pubrio.splitComma(this.managementLevels);
-    if (this.departments) data.departments = this.pubrio.splitComma(this.departments);
-    if (this.departmentFunctions) data.department_functions = this.pubrio.splitComma(this.departmentFunctions);
+    if (this.managementLevels?.length) data.management_levels = this.managementLevels;
+    if (this.departments?.length) data.departments = this.departments;
+    if (this.departmentFunctions?.length) data.department_functions = this.departmentFunctions;
     if (this.employees) data.employees = this.pubrio.splitComma(this.employees).map(Number);
-    if (this.peopleLocations) data.people_locations = this.pubrio.splitComma(this.peopleLocations);
-    if (this.companyLocations) data.company_locations = this.pubrio.splitComma(this.companyLocations);
+    if (this.peopleLocations?.length) data.people_locations = this.peopleLocations;
+    if (this.companyLocations?.length) data.company_locations = this.companyLocations;
     if (this.companyLinkedinUrls) data.company_linkedin_urls = this.pubrio.splitComma(this.companyLinkedinUrls);
     if (this.linkedinUrls) data.linkedin_urls = this.pubrio.splitComma(this.linkedinUrls);
     if (this.companies) data.companies = this.pubrio.splitComma(this.companies);
     if (this.domains) data.domains = this.pubrio.splitComma(this.domains);
-    const response = await this.pubrio.makeRequest({ $, method: "POST", url: "/people/search", data });
+    const response = await this.pubrio.makeRequest({
+      $,
+      method: "POST",
+      url: "/people/search",
+      data,
+    });
     $.export("$summary", `Found ${response.data?.length ?? 0} people`);
     return response;
   },
