@@ -415,7 +415,7 @@ description: "Creates a record in Hubspot."
   structures, enum strings.
 - **Examples**: Include a concrete example for any prop that accepts a JSON object or a
   value the agent must construct:
-  `` `{"firstname": "Jane", "lastname": "Doe", "email": "jane@example.com"}` ``
+  `{"firstname": "Jane", "lastname": "Doe", "email": "jane@example.com"}`
 - **ID props**: Explain where to get the ID if the user might only have a name or URL.
   "Use **Search Contacts** to find the contact ID."
 - **Avoid UI language**: Replace "select from the dropdown" with a description of what
