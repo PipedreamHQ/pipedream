@@ -6,7 +6,7 @@ export default {
   key: "evernote-new-notebook",
   name: "New Notebook Created",
   description: "Emit new event when a notebook is created in Evernote.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
