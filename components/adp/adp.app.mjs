@@ -32,6 +32,7 @@ export default {
         data,
       });
     },
+    /** List workers. Supports OData `$filter`, `$top`, `$skip`, `$select`. */
     async getWorkers({
       $, params,
     } = {}) {
@@ -41,6 +42,7 @@ export default {
         params,
       });
     },
+    /** Single worker by associate OID. */
     async getWorker({
       $, associateOID,
     }) {
@@ -49,12 +51,13 @@ export default {
         path: `/hr/v2/workers/${associateOID}`,
       });
     },
+    /** Worker demographics (WFN v2). Not under `/workers/.../demographics`. */
     async getWorkerDemographics({
       $, associateOID,
     }) {
       return this._makeRequest({
         $,
-        path: `/hr/v2/workers/${associateOID}/demographics`,
+        path: `/hr/v2/worker-demographics/${associateOID}`,
       });
     },
   },
