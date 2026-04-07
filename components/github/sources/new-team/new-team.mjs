@@ -4,8 +4,8 @@ export default {
   ...common,
   key: "github-new-team",
   name: "New Team",
-  description: "Emit new event when the authenticated user is added to a new team. [See the documentation](https://docs.github.com/en/rest/teams/teams?apiVersion=20.2.61-28#list-teams-for-the-authenticated-user)",
-  version: "0.2.6",
+  description: "Emit new event when the authenticated user is added to a new team. [See the documentation](https://docs.github.com/en/rest/teams/teams?apiVersion=20.2.71-28#list-teams-for-the-authenticated-user)",
+  version: "0.2.7",
   type: "source",
   dedupe: "unique",
   methods: {
