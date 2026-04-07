@@ -4,7 +4,7 @@ export default {
   key: "adp-get-workers",
   name: "Get Workers",
   description: "Returns a list of workers (active employees) from ADP. Uses the `/hr/v2/workers` endpoint. [See docs](https://developers.adp.com/apis/api-explorer/hcm-offrg-wfn/hcm-offrg-wfn-hr-workers-v2-workers)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -39,20 +39,23 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {};
-    if (this.filter) params["$filter"] = this.filter;
-    if (this.top) params["$top"] = this.top;
-    if (this.skip) params["$skip"] = this.skip;
-    if (this.select) params["$select"] = this.select;
+    const params = Object.fromEntries(
+      Object.entries({
+        $filter: this.filter,
+        $top: this.top,
+        $skip: this.skip,
+        $select: this.select,
+      }).filter(([
+        , v,
+      ]) => v !== undefined),
+    );
 
     const response = await this.adp.getWorkers({
       $,
-      params: Object.keys(params).length
-        ? params
-        : undefined,
+      params,
     });
 
-    const workers = response?.workers ?? [];
+    const workers = this.adp.workersArrayFromResponse(response);
     const n = workers.length;
     const suffix = n === 1
       ? ""
