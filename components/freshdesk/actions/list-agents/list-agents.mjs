@@ -4,7 +4,7 @@ export default {
   key: "freshdesk-list-agents",
   name: "List Agents",
   description: "List all agents in Freshdesk. [See the documentation](https://developers.freshdesk.com/api/#list_all_agents)",
-  version: "0.0.7",
+  version: "0.0.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -53,12 +53,16 @@ export default {
       fn: this.freshdesk.listAgents,
       args: {
         $,
-        params: {
-          email: this.email,
-          mobile: this.mobile,
-          phone: this.phone,
-          state: this.state,
-        },
+        params: Object.fromEntries(
+          Object.entries({
+            email: this.email,
+            mobile: this.mobile,
+            phone: this.phone,
+            state: this.state,
+          }).filter(([
+            , v,
+          ]) => v !== undefined),
+        ),
       },
       max: this.maxResults,
     });
