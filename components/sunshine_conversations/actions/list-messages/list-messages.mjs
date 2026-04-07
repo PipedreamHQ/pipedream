@@ -41,15 +41,12 @@ export default {
       $,
       conversationId: this.conversationId,
       resourceKey: "messages",
-      max: this.maxResults,
+      maxResults: this.maxResults,
     });
 
     const messages = [];
     for await (const message of response) {
       messages.push(message);
-      if (this.maxResults && messages.length >= this.maxResults) {
-        break;
-      }
     }
 
     $.export("$summary", `Successfully retrieved ${messages.length} message(s)`);

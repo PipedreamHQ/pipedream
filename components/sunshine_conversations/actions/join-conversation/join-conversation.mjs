@@ -49,7 +49,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully updated conversation with ID ${this.conversationId}`);
+    $.export("$summary", `Successfully joined user with ID ${this.newUserId} to conversation with ID ${this.conversationId}`);
     return response;
   },
 };

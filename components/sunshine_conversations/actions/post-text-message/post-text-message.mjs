@@ -123,17 +123,22 @@ export default {
       throw new ConfigurationError("Either `text`, `htmlText`, or `markdownText` is required");
     }
 
+    const author = {
+      type: this.authorType,
+      subtypes: parseObject(this.subtypes),
+      displayName: this.displayName,
+      avatarUrl: this.avatarUrl,
+    };
+
+    if (this.authorType === "user") {
+      author.userId = this.userId;
+    }
+
     const response = await this.sunshineConversations.postMessage({
       $,
       conversationId: this.conversationId,
       data: {
-        author: {
-          type: this.authorType,
-          subtypes: parseObject(this.subtypes),
-          userId: this.userId,
-          displayName: this.displayName,
-          avatarUrl: this.avatarUrl,
-        },
+        author,
         content: {
           type: "text",
           text: this.text,

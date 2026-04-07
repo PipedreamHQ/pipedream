@@ -35,7 +35,9 @@ export default {
               afterId: conversations[conversations.length - 1]?.id,
             },
           }
-          : [];
+          : {
+            options: [],
+          };
       },
     },
     maxResults: {
@@ -68,13 +70,11 @@ export default {
     _makeRequest({
       $ = this, path, ...opts
     }) {
-      const config = {
+      return axios($, {
         url: this._baseUrl() + path,
         headers: this._getHeaders(),
         ...opts,
-      };
-      console.log("config: ", config);
-      return axios($, config);
+      });
     },
     listUsers(opts = {}) {
       return this._makeRequest({
@@ -152,8 +152,8 @@ export default {
           params,
           ...opts,
         });
-        let resource = data[resourceKey];
-        for (const d of data[resourceKey]) {
+        let resource = data[resourceKey] || [];
+        for (const d of resource) {
           yield d;
 
           if (maxResults && ++count === maxResults) {
@@ -161,8 +161,10 @@ export default {
           }
         }
 
-        hasMore = data.meta.hasMore;
-        afterId = resource[resource.length - 1].id;
+        hasMore = data.meta?.hasMore;
+        if (resource.length) {
+          afterId = resource[resource.length - 1].id;
+        }
 
       } while (hasMore);
     },
