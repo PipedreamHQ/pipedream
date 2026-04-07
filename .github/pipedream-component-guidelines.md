@@ -395,19 +395,18 @@ other sections apply when relevant:
 
 **Poor — too vague, gives an agent no useful context:**
 ```javascript
-description: "Creates a record in Salesforce."
+description: "Creates a record in Hubspot."
 ```
 
 **Good — tells the agent when to use it, what to look up first, and how to format inputs:**
 ```javascript
-description:
-  "Create a new Salesforce record of any object type."
-  + " Use **Describe Object** first if you're unsure what fields are available or required."
-  + " For picklist fields, use the API value from **Describe Object**, not the display label."
-  + "\n\n**Common required fields:**"
-  + "\n- Account: `Name`"
-  + "\n- Contact: `LastName`"
-  + "\n- Opportunity: `Name`, `StageName`, `CloseDate`",
+  description:
+    "Create a new CRM record (contact, company, deal, ticket, etc.)."
+    + " Pass property values as a JSON object in the `properties` parameter."
+    + " Use **Search Properties** to discover available fields for the object type,"
+    + " **Get Properties** to find valid enum values (e.g. `lifecyclestage`, `dealstage`),"
+    + " and **List Owners** to find valid `hubspot_owner_id` values."
+    + " [See the documentation](https://developers.hubspot.com/docs/api/crm/objects)",
 ```
 
 ### Prop description standards
