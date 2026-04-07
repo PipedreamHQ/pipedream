@@ -16,10 +16,16 @@ export default {
       description: "Comma-separated news categories",
       optional: true,
     },
-    publishedDates: {
+    publishedDateFrom: {
       type: "string",
-      label: "Published Dates",
-      description: "Comma-separated published date filters",
+      label: "Published Date From",
+      description: "Start date in YYYY-MM-DD format",
+      optional: true,
+    },
+    publishedDateTo: {
+      type: "string",
+      label: "Published Date To",
+      description: "End date in YYYY-MM-DD format",
       optional: true,
     },
     locations: { propDefinition: [pubrio, "locations"] },
@@ -55,7 +61,9 @@ export default {
     if (this.searchTerm) data.search_term = this.searchTerm;
     if (this.domains) data.domains = this.pubrio.splitComma(this.domains);
     if (this.categories) data.categories = this.pubrio.splitComma(this.categories);
-    if (this.publishedDates) data.published_dates = this.pubrio.splitComma(this.publishedDates);
+    if (this.publishedDateFrom || this.publishedDateTo) {
+      data.published_dates = [this.publishedDateFrom || this.publishedDateTo, this.publishedDateTo || this.publishedDateFrom];
+    }
     if (this.locations) data.locations = this.pubrio.splitComma(this.locations);
     if (this.companyLocations) data.company_locations = this.pubrio.splitComma(this.companyLocations);
     if (this.newsGalleryIds) data.news_gallery_ids = this.pubrio.splitComma(this.newsGalleryIds);

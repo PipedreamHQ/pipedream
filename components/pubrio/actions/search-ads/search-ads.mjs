@@ -32,16 +32,28 @@ export default {
       description: "Comma-separated headline keywords",
       optional: true,
     },
-    startDates: {
+    startDateFrom: {
       type: "string",
-      label: "Start Dates",
-      description: "Comma-separated start date filters",
+      label: "Start Date From",
+      description: "Start date in YYYY-MM-DD format",
       optional: true,
     },
-    endDates: {
+    startDateTo: {
       type: "string",
-      label: "End Dates",
-      description: "Comma-separated end date filters",
+      label: "Start Date To",
+      description: "End date in YYYY-MM-DD format",
+      optional: true,
+    },
+    endDateFrom: {
+      type: "string",
+      label: "End Date From",
+      description: "Start date in YYYY-MM-DD format",
+      optional: true,
+    },
+    endDateTo: {
+      type: "string",
+      label: "End Date To",
+      description: "End date in YYYY-MM-DD format",
       optional: true,
     },
     companyLocations: {
@@ -60,8 +72,12 @@ export default {
     if (this.targetLocations) data.target_locations = this.pubrio.splitComma(this.targetLocations);
     if (this.excludeTargetLocations) data.exclude_target_locations = this.pubrio.splitComma(this.excludeTargetLocations);
     if (this.headlines) data.headlines = this.pubrio.splitComma(this.headlines);
-    if (this.startDates) data.start_dates = this.pubrio.splitComma(this.startDates);
-    if (this.endDates) data.end_dates = this.pubrio.splitComma(this.endDates);
+    if (this.startDateFrom || this.startDateTo) {
+      data.start_dates = [this.startDateFrom || this.startDateTo, this.startDateTo || this.startDateFrom];
+    }
+    if (this.endDateFrom || this.endDateTo) {
+      data.end_dates = [this.endDateFrom || this.endDateTo, this.endDateTo || this.endDateFrom];
+    }
     if (this.companyLocations) data.company_locations = this.pubrio.splitComma(this.companyLocations);
     if (this.domains) data.domains = this.pubrio.splitComma(this.domains);
     const response = await this.pubrio.makeRequest({ $, method: "POST", url: "/companies/advertisements/search", data });

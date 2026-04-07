@@ -35,13 +35,13 @@ export default {
     verticals: {
       type: "string",
       label: "Verticals",
-      description: "Comma-separated industry verticals",
+      description: "Comma-separated industry vertical names",
       optional: true,
     },
     technologies: {
       type: "string",
       label: "Technologies",
-      description: "Comma-separated technologies",
+      description: "Comma-separated technology names",
       optional: true,
     },
     employeesMin: {
@@ -162,10 +162,16 @@ export default {
       description: "Comma-separated country codes to exclude from job locations",
       optional: true,
     },
-    jobPostedDates: {
+    jobPostedDateFrom: {
       type: "string",
-      label: "Job Posted Dates",
-      description: "Comma-separated date range in YYYY-MM-DD format",
+      label: "Job Posted Date From",
+      description: "Start date in YYYY-MM-DD format",
+      optional: true,
+    },
+    jobPostedDateTo: {
+      type: "string",
+      label: "Job Posted Date To",
+      description: "End date in YYYY-MM-DD format",
       optional: true,
     },
     newsCategories: {
@@ -174,10 +180,16 @@ export default {
       description: "Comma-separated news category slugs",
       optional: true,
     },
-    newsPublishedDates: {
+    newsPublishedDateFrom: {
       type: "string",
-      label: "News Published Dates",
-      description: "Comma-separated date range in YYYY-MM-DD format",
+      label: "News Published Date From",
+      description: "Start date in YYYY-MM-DD format",
+      optional: true,
+    },
+    newsPublishedDateTo: {
+      type: "string",
+      label: "News Published Date To",
+      description: "End date in YYYY-MM-DD format",
       optional: true,
     },
     newsGalleries: {
@@ -210,16 +222,28 @@ export default {
       description: "Comma-separated country codes to exclude from advertisement targeting",
       optional: true,
     },
-    advertisementStartDates: {
+    advertisementStartDateFrom: {
       type: "string",
-      label: "Advertisement Start Dates",
-      description: "Comma-separated date range in YYYY-MM-DD format",
+      label: "Advertisement Start Date From",
+      description: "Start date in YYYY-MM-DD format",
       optional: true,
     },
-    advertisementEndDates: {
+    advertisementStartDateTo: {
       type: "string",
-      label: "Advertisement End Dates",
-      description: "Comma-separated date range in YYYY-MM-DD format",
+      label: "Advertisement Start Date To",
+      description: "End date in YYYY-MM-DD format",
+      optional: true,
+    },
+    advertisementEndDateFrom: {
+      type: "string",
+      label: "Advertisement End Date From",
+      description: "Start date in YYYY-MM-DD format",
+      optional: true,
+    },
+    advertisementEndDateTo: {
+      type: "string",
+      label: "Advertisement End Date To",
+      description: "End date in YYYY-MM-DD format",
       optional: true,
     },
     page: {
@@ -260,26 +284,36 @@ export default {
     if (this.verticalSubCategories) data.vertical_sub_categories = this.pubrio.splitComma(this.verticalSubCategories);
     if (this.categories) data.categories = this.pubrio.splitComma(this.categories);
     if (this.companies) data.companies = this.pubrio.splitComma(this.companies);
-    if (this.revenueMin != null) data.revenue_min = this.revenueMin;
-    if (this.revenueMax != null) data.revenue_max = this.revenueMax;
-    if (this.foundedYearStart != null) data.founded_year_start = this.foundedYearStart;
-    if (this.foundedYearEnd != null) data.founded_year_end = this.foundedYearEnd;
+    if (this.revenueMin != null || this.revenueMax != null) {
+      data.revenues = [this.revenueMin ?? 0, this.revenueMax ?? 999999999999];
+    }
+    if (this.foundedYearStart != null || this.foundedYearEnd != null) {
+      data.founded_dates = [this.foundedYearStart ?? 1900, this.foundedYearEnd ?? 2100];
+    }
     if (this.isEnableSimilaritySearch != null) data.is_enable_similarity_search = this.isEnableSimilaritySearch;
     if (this.similarityScore) data.similarity_score = this.similarityScore;
     if (this.excludeFields) data.exclude_fields = this.pubrio.splitComma(this.excludeFields);
     if (this.jobTitles) data.job_titles = this.pubrio.splitComma(this.jobTitles);
     if (this.jobLocations) data.job_locations = this.pubrio.splitComma(this.jobLocations);
     if (this.jobExcludeLocations) data.job_exclude_locations = this.pubrio.splitComma(this.jobExcludeLocations);
-    if (this.jobPostedDates) data.job_posted_dates = this.pubrio.splitComma(this.jobPostedDates);
+    if (this.jobPostedDateFrom || this.jobPostedDateTo) {
+      data.job_posted_dates = [this.jobPostedDateFrom || this.jobPostedDateTo, this.jobPostedDateTo || this.jobPostedDateFrom];
+    }
     if (this.newsCategories) data.news_categories = this.pubrio.splitComma(this.newsCategories);
-    if (this.newsPublishedDates) data.news_published_dates = this.pubrio.splitComma(this.newsPublishedDates);
+    if (this.newsPublishedDateFrom || this.newsPublishedDateTo) {
+      data.news_published_dates = [this.newsPublishedDateFrom || this.newsPublishedDateTo, this.newsPublishedDateTo || this.newsPublishedDateFrom];
+    }
     if (this.newsGalleries) data.news_galleries = this.pubrio.splitComma(this.newsGalleries);
     if (this.newsGalleryIds) data.news_gallery_ids = this.pubrio.splitComma(this.newsGalleryIds);
     if (this.advertisementSearchTerms) data.advertisement_search_terms = this.pubrio.splitComma(this.advertisementSearchTerms);
     if (this.advertisementTargetLocations) data.advertisement_target_locations = this.pubrio.splitComma(this.advertisementTargetLocations);
     if (this.advertisementExcludeTargetLocations) data.advertisement_exclude_target_locations = this.pubrio.splitComma(this.advertisementExcludeTargetLocations);
-    if (this.advertisementStartDates) data.advertisement_start_dates = this.pubrio.splitComma(this.advertisementStartDates);
-    if (this.advertisementEndDates) data.advertisement_end_dates = this.pubrio.splitComma(this.advertisementEndDates);
+    if (this.advertisementStartDateFrom || this.advertisementStartDateTo) {
+      data.advertisement_start_dates = [this.advertisementStartDateFrom || this.advertisementStartDateTo, this.advertisementStartDateTo || this.advertisementStartDateFrom];
+    }
+    if (this.advertisementEndDateFrom || this.advertisementEndDateTo) {
+      data.advertisement_end_dates = [this.advertisementEndDateFrom || this.advertisementEndDateTo, this.advertisementEndDateTo || this.advertisementEndDateFrom];
+    }
     const response = await this.pubrio.makeRequest({
       $,
       method: "POST",

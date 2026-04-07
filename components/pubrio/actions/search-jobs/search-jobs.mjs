@@ -21,10 +21,16 @@ export default {
       description: "Comma-separated job titles",
       optional: true,
     },
-    postedDates: {
+    postedDateFrom: {
       type: "string",
-      label: "Posted Dates",
-      description: "Comma-separated posted date filters",
+      label: "Posted Date From",
+      description: "Start date in YYYY-MM-DD format",
+      optional: true,
+    },
+    postedDateTo: {
+      type: "string",
+      label: "Posted Date To",
+      description: "End date in YYYY-MM-DD format",
       optional: true,
     },
     locations: { propDefinition: [pubrio, "locations"] },
@@ -61,7 +67,9 @@ export default {
     if (this.searchTerm) data.search_term = this.searchTerm;
     if (this.searchTerms) data.search_terms = this.pubrio.splitComma(this.searchTerms);
     if (this.titles) data.titles = this.pubrio.splitComma(this.titles);
-    if (this.postedDates) data.posted_dates = this.pubrio.splitComma(this.postedDates);
+    if (this.postedDateFrom || this.postedDateTo) {
+      data.posted_dates = [this.postedDateFrom || this.postedDateTo, this.postedDateTo || this.postedDateFrom];
+    }
     if (this.locations) data.locations = this.pubrio.splitComma(this.locations);
     if (this.excludeLocations) data.exclude_locations = this.pubrio.splitComma(this.excludeLocations);
     if (this.companyLocations) data.company_locations = this.pubrio.splitComma(this.companyLocations);
