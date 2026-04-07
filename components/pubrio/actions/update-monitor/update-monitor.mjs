@@ -189,9 +189,14 @@ export default {
         throw new Error("Sequence Identifier is required when destination type is 'outreach_sequence'");
       }
     }
-    if (this.webhookUrl) data.webhook_url = this.webhookUrl;
-    if (this.email) data.email = this.email;
-    if (this.sequenceIdentifier) data.sequence_identifier = this.sequenceIdentifier;
+    if (this.destinationType === "webhook" && this.webhookUrl) data.webhook_url = this.webhookUrl;
+    else if (this.destinationType === "email" && this.email) data.email = this.email;
+    else if (this.destinationType === "outreach_sequence" && this.sequenceIdentifier) data.sequence_identifier = this.sequenceIdentifier;
+    else if (!this.destinationType) {
+      if (this.webhookUrl) data.webhook_url = this.webhookUrl;
+      if (this.email) data.email = this.email;
+      if (this.sequenceIdentifier) data.sequence_identifier = this.sequenceIdentifier;
+    }
     if (this.description) data.description = this.description;
     if (this.frequencyMinute != null) data.frequency_minute = this.frequencyMinute;
     if (this.maxDailyTrigger != null) data.max_daily_trigger = this.maxDailyTrigger;
@@ -206,9 +211,18 @@ export default {
     if (this.isPeopleEnrichment != null) data.is_people_enrichment = this.isPeopleEnrichment;
     if (this.isActive != null) data.is_active = this.isActive;
     if (this.isPaused != null) data.is_paused = this.isPaused;
-    if (this.maxFailureTrigger != null) data.max_failure_trigger = this.maxFailureTrigger;
-    if (this.maxRetryPerTrigger != null) data.max_retry_per_trigger = this.maxRetryPerTrigger;
-    if (this.retryDelaySecond != null) data.retry_delay_second = this.retryDelaySecond;
+    if (this.maxFailureTrigger != null) {
+      if (this.maxFailureTrigger < 1 || this.maxFailureTrigger > 10) throw new Error("Max Failure Trigger must be between 1 and 10");
+      data.max_failure_trigger = this.maxFailureTrigger;
+    }
+    if (this.maxRetryPerTrigger != null) {
+      if (this.maxRetryPerTrigger < 0 || this.maxRetryPerTrigger > 3) throw new Error("Max Retry Per Trigger must be between 0 and 3");
+      data.max_retry_per_trigger = this.maxRetryPerTrigger;
+    }
+    if (this.retryDelaySecond != null) {
+      if (this.retryDelaySecond < 1 || this.retryDelaySecond > 5) throw new Error("Retry Delay must be between 1 and 5 seconds");
+      data.retry_delay_second = this.retryDelaySecond;
+    }
     if (this.notificationEmail) data.notification_email = this.notificationEmail;
     const response = await this.pubrio.makeRequest({
       $,

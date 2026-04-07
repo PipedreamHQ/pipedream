@@ -177,7 +177,13 @@ export default {
       data.news_published_dates = [this.newsPublishedDateFrom || this.newsPublishedDateTo, this.newsPublishedDateTo || this.newsPublishedDateFrom];
     }
     if (this.isEnableSimilaritySearch != null) data.is_enable_similarity_search = this.isEnableSimilaritySearch;
-    if (this.similarityScore) data.similarity_score = this.similarityScore;
+    if (this.similarityScore != null && this.similarityScore !== "") {
+      const score = parseFloat(this.similarityScore);
+      if (Number.isNaN(score) || score < 0 || score > 1) {
+        throw new Error(`similarity_score must be a number between 0 and 1, got: "${this.similarityScore}"`);
+      }
+      data.similarity_score = score;
+    }
     const response = await this.pubrio.makeRequest({
       $,
       method: "POST",
