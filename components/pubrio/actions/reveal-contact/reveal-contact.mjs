@@ -29,6 +29,9 @@ export default {
     },
   },
   async run({ $ }) {
+    if (!this.peopleSearchId && !this.linkedinUrl) {
+      throw new Error("Either People Search ID or LinkedIn URL must be provided");
+    }
     const data = {};
     if (this.peopleSearchId) data.people_search_id = this.peopleSearchId;
     if (this.linkedinUrl) data.linkedin_url = this.linkedinUrl;

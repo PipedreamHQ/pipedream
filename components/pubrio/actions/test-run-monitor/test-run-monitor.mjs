@@ -31,7 +31,7 @@ export default {
       url: "/monitors/process/try",
       data,
     });
-    $.export("$summary", "Successfully test ran monitor");
+    $.export("$summary", "Successfully ran monitor test");
     return response;
   },
 };

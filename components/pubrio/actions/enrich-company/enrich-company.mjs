@@ -12,7 +12,13 @@ export default {
     value: { propDefinition: [pubrio, "lookupValue"] },
   },
   async run({ $ }) {
-    const val = this.lookupType === "domain_id" ? parseInt(this.value, 10) : this.value;
+    let val = this.value;
+    if (this.lookupType === "domain_id") {
+      val = parseInt(this.value, 10);
+      if (Number.isNaN(val)) {
+        throw new Error(`domain_id must be a valid integer, got: "${this.value}"`);
+      }
+    }
     const response = await this.pubrio.makeRequest({
       $,
       method: "POST",

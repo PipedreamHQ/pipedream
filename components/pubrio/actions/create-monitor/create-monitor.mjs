@@ -147,6 +147,15 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.destinationType === "webhook" && !this.webhookUrl) {
+      throw new Error("Webhook URL is required when destination type is 'webhook'");
+    }
+    if (this.destinationType === "email" && !this.email) {
+      throw new Error("Email is required when destination type is 'email'");
+    }
+    if (this.destinationType === "outreach_sequence" && !this.sequenceIdentifier) {
+      throw new Error("Sequence Identifier is required when destination type is 'outreach_sequence'");
+    }
     const data = {
       name: this.name,
       detection_mode: this.detectionMode,
@@ -163,9 +172,18 @@ export default {
     if (this.companies) data.companies = this.pubrio.splitComma(this.companies);
     if (this.domains) data.domains = this.pubrio.splitComma(this.domains);
     if (this.linkedinUrls) data.linkedin_urls = this.pubrio.splitComma(this.linkedinUrls);
-    if (this.companyFilters) data.company_filters = JSON.parse(this.companyFilters);
-    if (this.signalFilters) data.signal_filters = JSON.parse(this.signalFilters);
-    if (this.peopleEnrichmentConfigs) data.people_enrichment_configs = JSON.parse(this.peopleEnrichmentConfigs);
+    if (this.companyFilters) {
+      try { data.company_filters = JSON.parse(this.companyFilters); }
+      catch { throw new Error("company_filters must be valid JSON"); }
+    }
+    if (this.signalFilters) {
+      try { data.signal_filters = JSON.parse(this.signalFilters); }
+      catch { throw new Error("signal_filters must be valid JSON"); }
+    }
+    if (this.peopleEnrichmentConfigs) {
+      try { data.people_enrichment_configs = JSON.parse(this.peopleEnrichmentConfigs); }
+      catch { throw new Error("people_enrichment_configs must be valid JSON"); }
+    }
     if (this.isCompanyEnrichment != null) data.is_company_enrichment = this.isCompanyEnrichment;
     if (this.isPeopleEnrichment != null) data.is_people_enrichment = this.isPeopleEnrichment;
     if (this.maxFailureTrigger != null) data.max_failure_trigger = this.maxFailureTrigger;

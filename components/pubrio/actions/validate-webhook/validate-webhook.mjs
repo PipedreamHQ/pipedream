@@ -24,7 +24,10 @@ export default {
     const data = {
       webhook_url: this.webhookUrl,
     };
-    if (this.headers) data.headers = this.headers;
+    if (this.headers) {
+      try { data.headers = JSON.parse(this.headers); }
+      catch { throw new Error("headers must be valid JSON"); }
+    }
     const response = await this.pubrio.makeRequest({
       $,
       method: "POST",

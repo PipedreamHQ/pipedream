@@ -174,7 +174,18 @@ export default {
     if (this.name) data.name = this.name;
     if (this.detectionMode) data.detection_mode = this.detectionMode;
     if (this.signalTypes?.length) data.signal_types = this.signalTypes;
-    if (this.destinationType) data.destination_type = this.destinationType;
+    if (this.destinationType) {
+      data.destination_type = this.destinationType;
+      if (this.destinationType === "webhook" && !this.webhookUrl) {
+        throw new Error("Webhook URL is required when destination type is 'webhook'");
+      }
+      if (this.destinationType === "email" && !this.email) {
+        throw new Error("Email is required when destination type is 'email'");
+      }
+      if (this.destinationType === "outreach_sequence" && !this.sequenceIdentifier) {
+        throw new Error("Sequence Identifier is required when destination type is 'outreach_sequence'");
+      }
+    }
     if (this.webhookUrl) data.webhook_url = this.webhookUrl;
     if (this.email) data.email = this.email;
     if (this.sequenceIdentifier) data.sequence_identifier = this.sequenceIdentifier;
@@ -185,9 +196,18 @@ export default {
     if (this.companies) data.companies = this.pubrio.splitComma(this.companies);
     if (this.domains) data.domains = this.pubrio.splitComma(this.domains);
     if (this.linkedinUrls) data.linkedin_urls = this.pubrio.splitComma(this.linkedinUrls);
-    if (this.companyFilters) data.company_filters = JSON.parse(this.companyFilters);
-    if (this.signalFilters) data.signal_filters = JSON.parse(this.signalFilters);
-    if (this.peopleEnrichmentConfigs) data.people_enrichment_configs = JSON.parse(this.peopleEnrichmentConfigs);
+    if (this.companyFilters) {
+      try { data.company_filters = JSON.parse(this.companyFilters); }
+      catch { throw new Error("company_filters must be valid JSON"); }
+    }
+    if (this.signalFilters) {
+      try { data.signal_filters = JSON.parse(this.signalFilters); }
+      catch { throw new Error("signal_filters must be valid JSON"); }
+    }
+    if (this.peopleEnrichmentConfigs) {
+      try { data.people_enrichment_configs = JSON.parse(this.peopleEnrichmentConfigs); }
+      catch { throw new Error("people_enrichment_configs must be valid JSON"); }
+    }
     if (this.isCompanyEnrichment != null) data.is_company_enrichment = this.isCompanyEnrichment;
     if (this.isPeopleEnrichment != null) data.is_people_enrichment = this.isPeopleEnrichment;
     if (this.isActive != null) data.is_active = this.isActive;

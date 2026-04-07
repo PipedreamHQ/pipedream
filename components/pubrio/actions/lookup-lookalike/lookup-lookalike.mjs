@@ -3,7 +3,7 @@ import pubrio from "../../pubrio.app.mjs";
 export default {
   key: "pubrio-lookup-lookalike",
   name: "Lookup Lookalike",
-  description: "Look up a similar companies (lookalike) result by domain, LinkedIn URL, or domain search ID. [See the documentation](https://docs.pubrio.com)",
+  description: "Look up similar companies (lookalike) result by domain, LinkedIn URL, or domain search ID. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
   type: "action",
   props: {
