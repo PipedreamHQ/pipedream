@@ -104,7 +104,7 @@ knowledge_base:
   opt_out: false
   code_guidelines:
     enabled: true
-    guideline_files:
+    filePatterns:
       - ".github/pipedream-component-guidelines.md"
       - ".github/pipedream-action-guidelines.md"
       - ".github/pipedream-source-guidelines.md"
