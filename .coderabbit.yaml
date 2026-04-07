@@ -102,8 +102,6 @@ reviews:
 
 knowledge_base:
   opt_out: false
-  issues: "auto"
-  pull_requests: "auto"
   code_guidelines:
     enabled: true
     guideline_files:
