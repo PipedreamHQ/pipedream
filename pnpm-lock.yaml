@@ -17661,8 +17661,8 @@ importers:
   components/yotpo:
     dependencies:
       axios:
-        specifier: ^0.30.2
-        version: 0.30.2
+        specifier: ^1.13.2
+        version: 1.13.2(debug@3.2.7)
       lodash.get:
         specifier: ^4.4.2
         version: 4.4.2
@@ -44297,7 +44297,7 @@ snapshots:
 
   '@types/whatwg-url@8.2.2':
     dependencies:
-      '@types/node': 25.5.0
+      '@types/node': 20.19.39
       '@types/webidl-conversions': 7.0.3
 
   '@types/ws@8.18.1':
