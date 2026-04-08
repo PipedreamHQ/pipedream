@@ -10853,8 +10853,8 @@ importers:
   components/ongage:
     dependencies:
       axios:
-        specifier: ^0.30.2
-        version: 0.30.2
+        specifier: ^1.13.2
+        version: 1.13.2(debug@3.2.7)
       node-fetch:
         specifier: ^2.6.7
         version: 2.7.0(encoding@0.1.13)
