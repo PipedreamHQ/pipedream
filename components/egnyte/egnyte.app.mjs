@@ -9,6 +9,40 @@ const axiosRateLimiter = limiter.wrap(axios);
 export default {
   type: "app",
   app: "egnyte",
+  propDefinitions: {
+    filename: {
+      type: "string",
+      label: "Filename",
+      description: "The name of the file to download",
+      async options({ folderPath }) {
+        const { files } = await this.getFolder({
+          folderPath,
+        });
+        return files?.map?.((file) => file.name) || [];
+      },
+    },
+    folderPath: {
+      type: "string",
+      label: "Folder Path",
+      description: "The path to a folder in your Egnyte workspace",
+      useQuery: true,
+      async options({ query }) {
+        if (query) {
+          const { results } = await this.search({
+            params: {
+              query,
+              type: "FOLDER",
+            },
+          });
+          return results?.map?.((result) => result.path) || [];
+        }
+        const { folders } = await this.getFolder({
+          folderPath: "",
+        });
+        return folders?.map?.((folder) => folder.path) || [];
+      },
+    },
+  },
   methods: {
     _baseUrl() {
       return `https://${this.$auth.subdomain}.egnyte.com/pubapi/v1`;
