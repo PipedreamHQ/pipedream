@@ -99,8 +99,9 @@ reviews:
         Key checks:
         - New methods follow naming conventions: `_camelCase()` for private helpers,
           verb-noun for public methods (`getRecords`, `createContact`, `deleteItem`)
-        - Existing methods must not be renamed or refactored — only additions are acceptable,
-          since renames break deployed components that reference those method names
+        - If an existing method is renamed or refactored, all components in the app
+          that reference it must be updated in the same PR — flag any rename that leaves
+          call sites in other component files unchanged
         - HTTP requests must use `axios` from `@pipedream/platform`, never the bare `axios` package
         - Each public method should represent one logical API operation and delegate to a shared
           private `_makeRequest()` (or equivalent) — raw axios calls should not appear in public methods

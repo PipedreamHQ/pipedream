@@ -259,8 +259,10 @@ App files (`{app}.app.mjs`) define the app connection, shared `propDefinitions`,
 ### Adding methods
 
 When a PR adds new methods to an app file:
-- **Only add, never rename or refactor existing methods.** Deployed components reference
-  method names directly — renaming a method silently breaks all deployed instances.
+- **Renaming or refactoring a shared method requires updating all call sites in the same PR.**
+  Already-deployed component instances are unaffected (components are packaged with their
+  dependencies at deploy time), but other components in the app that reference the
+  old method name will be broken at the source level until updated.
 - Each public method should represent one logical API operation and delegate to a shared
   private `_makeRequest()` (or equivalent) that centralizes auth headers, base URL, and
   error handling. Do not inline raw `axios` calls in public methods.
