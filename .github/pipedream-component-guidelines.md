@@ -39,7 +39,7 @@ export default {
   type: "action",               // or "source"
   annotations: { ... },        // MCP tool metadata — see Annotations section
   props: { ... },              // configuration inputs
-  async run({ $ }) { ... },    // execution entry point
+  async run({ $ }) { ... },    // execution entry point (signature differs for sources)
 };
 ```
 

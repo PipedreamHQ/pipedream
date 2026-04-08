@@ -81,7 +81,7 @@ For deduplication to work correctly:
 - The `id` must be unique per real-world event (not per poll execution)
 - The `id` must be stable — if the source is paused and restarted, the same real-world
   event must produce the same `id`
--  The `id` will only be deduplicated up to 64 characters.
+- The `id` will only be deduplicated up to 64 characters
 
 ---
 
@@ -143,6 +143,7 @@ props: {
 
 ```javascript
 async run() {
+  // no ts stored on first run, but must avoid fetching full history
   const lastTs = this._getLastTimestamp() ?? 0;
 
   const items = await this.app.getItems({ since: lastTs });
@@ -171,7 +172,7 @@ async run() {
 - **Update stored state after emitting**, not before — a partial failure should not
   silently skip events on the next run
 - **Handle first run** (no stored state) gracefully — emit nothing, or a bounded initial
-  window of recent items; never try to emit the full history
+  window of recent items; never try to emit the full history (the amount of items emitted should be sliced to the most recent 25 if possible)
 - **Paginate through all new items** when the API paginates; do not stop after the first page
 
 ### Pagination in polling
@@ -260,6 +261,7 @@ async run(event) {
   const { body, headers } = event;
 
   this.$emit(body, {
+    // id field must exist and match the event schema
     id: headers["x-request-id"] ?? body.id,
     summary: `${body.type} event`,
     ts: body.occurredAt ? Date.parse(body.occurredAt) : Date.now(),
