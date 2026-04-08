@@ -1,3 +1,4 @@
+import { buildInvoiceListQuery } from "../../common/build-invoice-list-query.mjs";
 import quickbooks from "../../quickbooks.app.mjs";
 
 export default {
@@ -39,23 +40,16 @@ export default {
     },
   },
   async run({ $ }) {
-    let sql = this.query;
-    if (!sql) {
-      const today = new Date()
-        .toISOString()
-        .split("T")[0];
-      sql = `select * from Invoice where Balance > '0' and DueDate < '${today}'`;
-      const orderClause = this.orderClause
-        ? ` ORDERBY  ${this.orderClause}`
-        : "";
-      const startPosition = this.startPosition
-        ? ` STARTPOSITION  ${this.startPosition}`
-        : "";
-      const maxResults = this.maxResults
-        ? ` MAXRESULTS ${this.maxResults}`
-        : "";
-      sql += `${orderClause}${startPosition}${maxResults}`;
-    }
+    const today = new Date()
+      .toISOString()
+      .split("T")[0];
+    const sql = buildInvoiceListQuery({
+      customQuery: this.query,
+      defaultSql: `select * from Invoice where Balance > '0' and DueDate < '${today}'`,
+      orderClause: this.orderClause,
+      startPosition: this.startPosition,
+      maxResults: this.maxResults,
+    });
 
     const response = await this.quickbooks.query({
       $,
