@@ -303,5 +303,36 @@ export default {
         ...args,
       });
     },
+    async searchLogs(args) {
+      return this._makeRequest({
+        path: "/v2/logs/events/search",
+        method: "post",
+        ...args,
+      });
+    },
+    async queryMetricData(args) {
+      return this._makeRequest({
+        path: "/v1/query",
+        ...args,
+      });
+    },
+    async listIncidents(args) {
+      return this._makeRequest({
+        path: "/v2/incidents",
+        ...args,
+      });
+    },
+    async listDashboards(args) {
+      return this._makeRequest({
+        path: "/v1/dashboard",
+        ...args,
+      });
+    },
+    async listServices(args) {
+      return this._makeRequest({
+        path: "/v2/services/definitions",
+        ...args,
+      });
+    },
   },
 };

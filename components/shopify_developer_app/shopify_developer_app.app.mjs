@@ -214,5 +214,8 @@ export default {
     updateFulfillmentTrackingInfo(variables) {
       return this._makeGraphQlRequest(mutations.UPDATE_FULFILLMENT_TRACKING_INFO, variables);
     },
+    sendOrderInvoice(variables) {
+      return this._makeGraphQlRequest(mutations.ORDER_INVOICE_SEND, variables);
+    },
   },
 };
