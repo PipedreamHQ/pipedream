@@ -44,4 +44,3 @@ export async function getCompanyLocalTodayYyyyMmDd(quickbooks, $) {
     return formatYyyyMmDdInTimeZone(new Date(), "UTC");
   }
 }
-}
