@@ -12,7 +12,7 @@ export default {
     mailboxId: {
       type: "integer",
       label: "Mailbox ID",
-      description: "The mailbox/inbox ID of your email",
+      description: "The mailbox/inbox ID of your email. Only inboxes with send email permission are shown.",
       async options({ page }) {
         const { data } = await this.getMailboxes({
           data: {
