@@ -4,7 +4,7 @@ export default {
   name: "Get Shared Link Metadata",
   description: "Retrieves the shared link metadata for a given shared link. [See the documentation](https://www.dropbox.com/developers/documentation/http/documentation#sharing-get_shared_link_metadata)",
   key: "dropbox-get-shared-link-metadata",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

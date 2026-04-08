@@ -492,6 +492,14 @@ export default {
         ...args,
       });
     },
+    getAgent({
+      agentId, ...args
+    }) {
+      return this._makeRequest({
+        url: `/agents/${agentId}`,
+        ...args,
+      });
+    },
     createAgent(args) {
       return this._makeRequest({
         url: "/agents",

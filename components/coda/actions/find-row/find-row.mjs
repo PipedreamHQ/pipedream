@@ -4,7 +4,7 @@ export default {
   key: "coda-find-row",
   name: "Find Row",
   description: "Searches for a row in the selected table using a column match search. [See docs](https://coda.io/developers/apis/v1#operation/listRows)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
