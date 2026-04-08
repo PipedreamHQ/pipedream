@@ -348,7 +348,7 @@ A few notes on this pattern:
 
 Prop definitions shared across more than one component belong in the app file. New
 `propDefinitions` entries must include both `label` and `description`. If the definition
-includes `async options()` that calls a paginated API endpoint, it must support `prevContext` pr `page`.
+includes `async options()` that calls a paginated API endpoint, it must support `prevContext` or `page`.
 
 ---
 

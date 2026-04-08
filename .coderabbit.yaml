@@ -99,15 +99,13 @@ reviews:
         Key checks:
         - New methods follow naming conventions: `_camelCase()` for private helpers,
           verb-noun for public methods (`getRecords`, `createContact`, `deleteItem`)
-        - If an existing method is renamed or refactored, all components in the app
-          that reference it must be updated in the same PR — flag any rename that leaves
-          call sites in other component files unchanged
+        - If an existing method is updated, all components in the app that use it must be updated in the same PR, or verified as not needing an update
         - HTTP requests must use `axios` from `@pipedream/platform`, never the bare `axios` package
         - Each public method should represent one logical API operation and delegate to a shared
           private `_makeRequest()` (or equivalent) — raw axios calls should not appear in public methods
         - New `propDefinitions` entries must include both `label` and `description`
         - If `async options()` is added to a propDefinition and the underlying API paginates,
-          the implementation must handle `prevContext` to support "load more"
+          the implementation must handle `prevContext` or `page` to support "load more"
 
 knowledge_base:
   opt_out: false
