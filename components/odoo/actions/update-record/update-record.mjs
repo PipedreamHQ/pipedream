@@ -13,14 +13,12 @@ export default {
   },
   type: "action",
   props: {
+    odoo,
     modelName: {
       propDefinition: [
         odoo,
         "modelName",
       ],
-    },
-    odoo: {
-      ...odoo,
       reloadProps: true,
     },
   },

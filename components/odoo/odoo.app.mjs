@@ -15,8 +15,8 @@ export default {
       label: "Fields",
       description: "The fields to return in the results. If not provided, all fields will be returned.",
       optional: true,
-      async options() {
-        const fields = await this.getFields(this.modelName ?? "res.partner", [], {
+      async options({ modelName }) {
+        const fields = await this.getFields(modelName ?? "res.partner", [], {
           attributes: [
             "string",
           ],
@@ -96,9 +96,6 @@ export default {
     },
     searchAndReadRecords(model, filter = [], args = {}) {
       return this.makeRequest(model, "search_read", filter, args);
-    },
-    readRecord(model, data) {
-      return this.makeRequest(model, "read", data);
     },
     createRecord(model, data) {
       return this.makeRequest(model, "create", data);

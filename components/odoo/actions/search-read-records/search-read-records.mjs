@@ -13,14 +13,12 @@ export default {
   },
   type: "action",
   props: {
+    odoo,
     modelName: {
       propDefinition: [
         odoo,
         "modelName",
       ],
-    },
-    odoo: {
-      ...odoo,
       reloadProps: true,
     },
     filter: {
@@ -33,6 +31,9 @@ export default {
       propDefinition: [
         odoo,
         "fields",
+        ({ modelName }) => ({
+          modelName,
+        }),
       ],
     },
   },
@@ -42,7 +43,11 @@ export default {
         fields: this.fields,
       }
       : {};
-    const response = await this.odoo.searchAndReadRecords(this.modelName, parseObject(this.filter), args);
+    const response = await this.odoo.searchAndReadRecords(
+      this.modelName,
+      parseObject(this.filter),
+      args,
+    );
     $.export("$summary", `Successfully retrieved ${response.length} record${response.length === 1
       ? ""
       : "s"}`);
