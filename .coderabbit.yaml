@@ -6,7 +6,7 @@ reviews:
     enabled: true
     drafts: false
     base_branches:
-      - coderabbit-testing
+      - master
   high_level_summary: true
   collapse_walkthrough: true
   poem: false
