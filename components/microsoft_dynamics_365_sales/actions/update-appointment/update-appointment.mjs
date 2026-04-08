@@ -1,6 +1,14 @@
 import microsoft from "../../microsoft_dynamics_365_sales.app.mjs";
 import { APPOINTMENT_CATEGORY_OF_APPOINTMENT_FIELD } from "../../common/appointment-fields.mjs";
 
+function parseScheduleMs(value, fieldLabel) {
+  const ms = Date.parse(value);
+  if (!Number.isFinite(ms)) {
+    throw new Error(`${fieldLabel} must be a valid ISO 8601 datetime`);
+  }
+  return ms;
+}
+
 export default {
   key: "microsoft_dynamics_365_sales-update-appointment",
   name: "Update Appointment",
@@ -63,10 +71,9 @@ export default {
       patchBody[APPOINTMENT_CATEGORY_OF_APPOINTMENT_FIELD] = this.category;
     }
 
-    if (
-      this.scheduledstart !== undefined &&
-      this.scheduledend !== undefined
-    ) {
+    const startProvided = this.scheduledstart !== undefined;
+    const endProvided = this.scheduledend !== undefined;
+    if (startProvided && endProvided) {
       const startMs = Date.parse(this.scheduledstart);
       const endMs = Date.parse(this.scheduledend);
       if (!Number.isFinite(startMs) || !Number.isFinite(endMs)) {
@@ -76,6 +83,34 @@ export default {
       }
       if (endMs <= startMs) {
         throw new Error("scheduledend must be after scheduledstart");
+      }
+    } else if (startProvided || endProvided) {
+      const existing = await this.microsoft.getAppointment({
+        $,
+        appointmentId: this.appointmentId,
+      });
+      if (startProvided) {
+        const startMs = parseScheduleMs(this.scheduledstart, "scheduledstart");
+        const endMs = Date.parse(existing?.scheduledend);
+        if (!Number.isFinite(endMs)) {
+          throw new Error(
+            "Cannot validate schedule: existing scheduledend is missing; provide both scheduledstart and scheduledend",
+          );
+        }
+        if (endMs <= startMs) {
+          throw new Error("scheduledend must be after scheduledstart");
+        }
+      } else {
+        const endMs = parseScheduleMs(this.scheduledend, "scheduledend");
+        const startMs = Date.parse(existing?.scheduledstart);
+        if (!Number.isFinite(startMs)) {
+          throw new Error(
+            "Cannot validate schedule: existing scheduledstart is missing; provide both scheduledstart and scheduledend",
+          );
+        }
+        if (endMs <= startMs) {
+          throw new Error("scheduledend must be after scheduledstart");
+        }
       }
     }
 

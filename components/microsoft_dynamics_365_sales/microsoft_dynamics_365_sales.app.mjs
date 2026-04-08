@@ -302,7 +302,7 @@ export default {
       return this._makeRequest({
         path: "/systemusers",
         params: {
-          $filter: `internalemailaddress eq '${safe}'`,
+          $filter: `internalemailaddress eq '${safe}' and isdisabled eq false`,
           $select: "systemuserid,fullname,internalemailaddress",
         },
         ...opts,
@@ -337,6 +337,26 @@ export default {
         method: "PATCH",
         path: `/appointments(${appointmentId})`,
         data,
+        ...opts,
+      });
+    },
+    /**
+     * @param {object} opts
+     * @param {string} opts.appointmentId
+     * @param {string} [opts.select] `$select` field list (default scheduling fields)
+     */
+    getAppointment({
+      appointmentId,
+      select: selectFields = "scheduledstart,scheduledend",
+      ...opts
+    }) {
+      return this._makeRequest({
+        path: `/appointments(${appointmentId})`,
+        params: {
+          ...(selectFields && {
+            $select: selectFields,
+          }),
+        },
         ...opts,
       });
     },
@@ -397,24 +417,35 @@ export default {
           // Fall through to distinct-values path
         }
       }
-      let appointmentsResponse;
+      const appointments = [];
       try {
-        appointmentsResponse = await this._makeRequest({
+        let response = await this._makeRequest({
           path: "/appointments",
           params: {
             $select: categoryField,
             $filter: `${categoryField} ne null`,
+            $orderby: `${categoryField} asc`,
             $top: 500,
           },
           ...opts,
         });
+        for (;;) {
+          appointments.push(...(response?.value ?? []));
+          const nextLink = response?.["@odata.nextLink"];
+          if (!nextLink) {
+            break;
+          }
+          response = await this._makeRequest({
+            url: nextLink,
+            ...opts,
+          });
+        }
       } catch {
         return {
           type: "unknown",
           categories: [],
         };
       }
-      const appointments = appointmentsResponse?.value ?? [];
       const distinctCategories = [
         ...new Set(
           appointments
