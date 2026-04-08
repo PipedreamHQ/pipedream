@@ -61,6 +61,11 @@ reviews:
           of user configuration mistakes
         - Optional props may be passed directly into request bodies or params without
           truthiness checks — `@pipedream/platform` axios strips `undefined` values automatically
+        - API calls must go through dedicated methods (typically on the app object, but component-level
+          methods are acceptable); when those methods use `@pipedream/platform` axios internally,
+          the `$` context from `run({ $ })` must be passed to them — it enables request logging
+          and error propagation; flag any app method call that omits `$` when the standard HTTP
+          helper pattern is in use
         - Bold **Tool Name** cross-references in descriptions must correspond to tools that
           actually exist in the same app's actions directory
 
@@ -75,6 +80,9 @@ reviews:
         - `$emit(data, metadata)` must include all three metadata fields: `id`, `summary`, `ts`
         - The `id` must be stable (deterministic for the same real-world event across runs) and
           unique per event — using `Date.now()` or random values as `id` can cause duplicates
+        - Constructed `id` values must not exceed 64 characters — deduplication silently stops
+          working beyond this limit; flag any `id` that concatenates multiple fields without a
+          length check or hash
         - `ts` should use the event's own timestamp from the API when available, not `Date.now()`
         - State stored in `$.service.db` should be accessed through private methods
           (`_getX()`, `_setX()`), not called directly from `run()` or event handlers
