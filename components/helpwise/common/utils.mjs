@@ -32,7 +32,7 @@ export const parseObject = (obj) => {
 };
 
 const validEmail = (email) => {
-  return (email || email.trim() != "") && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  return email && email.trim() !== "" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 };
 
 export const filterInboxes = (inboxes) => {
