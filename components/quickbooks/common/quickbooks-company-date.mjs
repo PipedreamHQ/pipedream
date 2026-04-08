@@ -34,9 +34,14 @@ export function formatYyyyMmDdInTimeZone(date, timeZone) {
 
 /** Today's date (YYYY-MM-DD) in the connected company's DefaultTimeZone when available. */
 export async function getCompanyLocalTodayYyyyMmDd(quickbooks, $) {
-  const resp = await quickbooks.getMyCompany({
-    $,
-  });
-  const tz = resp?.CompanyInfo?.DefaultTimeZone;
-  return formatYyyyMmDdInTimeZone(new Date(), tz);
+  try {
+    const resp = await quickbooks.getMyCompany({
+      $,
+    });
+    const tz = resp?.CompanyInfo?.DefaultTimeZone;
+    return formatYyyyMmDdInTimeZone(new Date(), tz);
+  } catch {
+    return formatYyyyMmDdInTimeZone(new Date(), "UTC");
+  }
+}
 }
