@@ -4,7 +4,7 @@ export default {
   key: "adp-get-workers",
   name: "Get Workers",
   description: "Returns a list of workers (active employees) from ADP. Uses the `/hr/v2/workers` endpoint. [See docs](https://developers.adp.com/apis/api-explorer/hcm-offrg-wfn/hcm-offrg-wfn-hr-workers-v2-workers)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

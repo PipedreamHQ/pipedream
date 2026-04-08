@@ -7,7 +7,34 @@ export default {
     associateOID: {
       type: "string",
       label: "Associate OID",
-      description: "The unique OID of the worker (e.g. `G3349PZGBAZW8PHM`). Found in the response of the **Get Workers** action.",
+      description:
+        "Select a worker or enter the Associate OID (e.g. `G3349PZGBAZW8PHM`). " +
+        "Options are loaded from the workers API (paginated); you can also use an OID from the **Get Workers** response.",
+      async options({
+        $, page,
+      }) {
+        const pageSize = 100;
+        const response = await this.getWorkers({
+          $,
+          params: {
+            "$top": pageSize,
+            "$skip": page * pageSize,
+            "$select": "workers/associateOID,workers/person/legalName",
+          },
+        });
+        const workers = this.workersArrayFromResponse(response);
+        return workers
+          .map((worker) => {
+            const value = worker?.associateOID;
+            if (!value) return null;
+            const label = worker?.person?.legalName?.formattedName ?? value;
+            return {
+              label,
+              value,
+            };
+          })
+          .filter(Boolean);
+      },
     },
   },
   methods: {
