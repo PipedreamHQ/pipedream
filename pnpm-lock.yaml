@@ -10303,7 +10303,7 @@ importers:
         version: 0.5.6
       netlify:
         specifier: ^23.0.0
-        version: 23.11.0(@azure/identity@4.13.1)(@azure/storage-blob@12.29.1)(@types/express@4.17.25)(@types/node@20.19.39)(encoding@0.1.13)(picomatch@4.0.4)(rollup@4.60.1)
+        version: 23.11.0(@azure/identity@4.13.1)(@azure/storage-blob@12.29.1)(@types/express@4.17.25)(@types/node@25.5.2)(encoding@0.1.13)(picomatch@4.0.4)(rollup@4.60.1)
       parse-link-header:
         specifier: ^2.0.0
         version: 2.0.0
@@ -18325,7 +18325,7 @@ importers:
         version: 6.4.2(@types/node@25.5.2)(jiti@2.6.1)(tsx@4.20.6)(yaml@2.8.1)
       vite-plugin-dts:
         specifier: ^4.3.0
-        version: 4.5.4(@types/node@25.5.2)(rollup@4.60.1)(typescript@5.6.3)(vite@6.4.2(@types/node@25.5.2)(jiti@2.6.1)(tsx@4.20.6)(yaml@2.8.1))
+        version: 4.5.4(@types/node@25.5.2)(rollup@4.60.1)(typescript@5.9.3)(vite@6.4.2(@types/node@25.5.2)(jiti@2.6.1)(tsx@4.20.6)(yaml@2.8.1))
 
   packages/prompts:
     dependencies:
@@ -39926,7 +39926,7 @@ snapshots:
       yaml: 2.8.1
       yargs: 17.7.2
 
-  '@netlify/build@35.3.1(@opentelemetry/api@1.8.0)(@types/node@20.19.39)(encoding@0.1.13)(picomatch@4.0.4)(rollup@4.60.1)':
+  '@netlify/build@35.3.1(@opentelemetry/api@1.8.0)(@types/node@25.5.2)(encoding@0.1.13)(picomatch@4.0.4)(rollup@4.60.1)':
     dependencies:
       '@bugsnag/js': 8.6.0
       '@netlify/blobs': 10.3.3(supports-color@10.2.2)
@@ -52627,13 +52627,13 @@ snapshots:
 
   netlify-redirector@0.5.0: {}
 
-  netlify@23.11.0(@azure/identity@4.13.1)(@azure/storage-blob@12.29.1)(@types/express@4.17.25)(@types/node@20.19.39)(encoding@0.1.13)(picomatch@4.0.4)(rollup@4.60.1):
+  netlify@23.11.0(@azure/identity@4.13.1)(@azure/storage-blob@12.29.1)(@types/express@4.17.25)(@types/node@25.5.2)(encoding@0.1.13)(picomatch@4.0.4)(rollup@4.60.1):
     dependencies:
       '@fastify/static': 7.0.4
       '@netlify/ai': 0.3.0(@netlify/api@14.0.9)
       '@netlify/api': 14.0.9
       '@netlify/blobs': 10.1.0
-      '@netlify/build': 35.3.1(@opentelemetry/api@1.8.0)(@types/node@20.19.39)(encoding@0.1.13)(picomatch@4.0.4)(rollup@4.60.1)
+      '@netlify/build': 35.3.1(@opentelemetry/api@1.8.0)(@types/node@25.5.2)(encoding@0.1.13)(picomatch@4.0.4)(rollup@4.60.1)
       '@netlify/build-info': 10.0.9
       '@netlify/config': 24.0.8
       '@netlify/dev-utils': 4.3.0
@@ -56805,13 +56805,30 @@ snapshots:
       diff: 3.5.0
       glob: 7.2.3
       js-yaml: 3.14.1
-      minimatch: 3.1.2
+      minimatch: 3.1.5
       mkdirp: 0.5.6
       resolve: 1.22.11
       semver: 5.7.2
       tslib: 1.14.1
       tsutils: 2.29.0(typescript@5.6.3)
       typescript: 5.6.3
+
+  tslint@5.14.0(typescript@5.9.3):
+    dependencies:
+      babel-code-frame: 6.26.0
+      builtin-modules: 1.1.1
+      chalk: 2.4.2
+      commander: 2.20.3
+      diff: 3.5.0
+      glob: 7.2.3
+      js-yaml: 3.14.1
+      minimatch: 3.1.5
+      mkdirp: 0.5.6
+      resolve: 1.22.11
+      semver: 5.7.2
+      tslib: 1.14.1
+      tsutils: 2.29.0(typescript@5.9.3)
+      typescript: 5.9.3
 
   tsup@8.5.1(@microsoft/api-extractor@7.55.0(@types/node@20.19.25))(jiti@2.6.1)(postcss@8.5.8)(tsx@4.20.6)(typescript@5.6.3)(yaml@2.8.1):
     dependencies:
@@ -57536,7 +57553,7 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  vite-plugin-dts@4.5.4(@types/node@25.5.2)(rollup@4.60.1)(typescript@5.6.3)(vite@6.4.2(@types/node@25.5.2)(jiti@2.6.1)(tsx@4.20.6)(yaml@2.8.1)):
+  vite-plugin-dts@4.5.4(@types/node@25.5.2)(rollup@4.60.1)(typescript@5.9.3)(vite@6.4.2(@types/node@25.5.2)(jiti@2.6.1)(tsx@4.20.6)(yaml@2.8.1)):
     dependencies:
       '@microsoft/api-extractor': 7.55.0(@types/node@25.5.2)
       '@rollup/pluginutils': 5.3.0(rollup@4.60.1)
