@@ -30,3 +30,16 @@ export const parseObject = (obj) => {
   }
   return obj;
 };
+
+const validEmail = (email) => {
+  return (email || email.trim() != "") && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+};
+
+export const filterInboxes = (inboxes) => {
+  return inboxes?.filter(({
+    isVerified,
+    email,
+  }) => {
+    return isVerified && validEmail(email);
+  });
+};

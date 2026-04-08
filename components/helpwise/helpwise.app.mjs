@@ -1,5 +1,6 @@
 import { axios } from "@pipedream/platform";
 import { LIMIT } from "./common/constants.mjs";
+import { filterInboxes } from "./common/utils.mjs";
 
 const V1_BASE = "https://apis.helpwise.io";
 const DEV_BASE = "https://app.helpwise.io";
@@ -18,7 +19,7 @@ export default {
             page: page + 1,
           },
         });
-        return data.map(({
+        return filterInboxes(data ?? []).map(({
           id: value, displayName: label,
         }) => ({
           label,
