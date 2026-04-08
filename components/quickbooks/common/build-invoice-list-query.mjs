@@ -1,3 +1,5 @@
+import { ConfigurationError } from "@pipedream/platform";
+
 const NUMERIC_STRING = /^\d+$/;
 
 function normalizedNumericClause(value) {
@@ -8,6 +10,24 @@ function normalizedNumericClause(value) {
   return NUMERIC_STRING.test(s)
     ? s
     : "";
+}
+
+/**
+ * When a custom query is provided, it must target Invoice so responses match
+ * `invoicesFromInvoiceQueryResponse`.
+ */
+export function assertCustomQueryTargetsInvoice(customQuery) {
+  const trimmed = typeof customQuery === "string"
+    ? customQuery.trim()
+    : "";
+  if (!trimmed) {
+    return;
+  }
+  if (!/\bfrom\s+invoice\b/i.test(trimmed)) {
+    throw new ConfigurationError(
+      "Custom query must select from Invoice (e.g. select * from Invoice where ...).",
+    );
+  }
 }
 
 /**
@@ -48,9 +68,16 @@ export function buildInvoiceListQuery({
   return `${defaultSql}${oc}${sp}${mr}`;
 }
 
-/** Normalizes QuickBooks query `Invoice` payload to an array (single entity or list). */
+/**
+ * Normalizes QuickBooks Invoice query results to an array.
+ * Returns [] unless QueryResponse includes an Invoice property (Invoice-targeting query).
+ */
 export function invoicesFromInvoiceQueryResponse(response) {
-  const raw = response?.QueryResponse?.Invoice;
+  const qr = response?.QueryResponse;
+  if (!qr || !Object.hasOwn(qr, "Invoice")) {
+    return [];
+  }
+  const raw = qr.Invoice;
   if (raw == null) {
     return [];
   }

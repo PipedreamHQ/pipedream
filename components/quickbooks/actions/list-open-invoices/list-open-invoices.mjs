@@ -1,4 +1,5 @@
 import {
+  assertCustomQueryTargetsInvoice,
   buildInvoiceListQuery,
   invoicesFromInvoiceQueryResponse,
 } from "../../common/build-invoice-list-query.mjs";
@@ -21,7 +22,7 @@ export default {
       type: "string",
       label: "Query",
       optional: true,
-      description: "Full QuickBooks query string. When omitted, the action runs `select * from Invoice where Balance > '0'` (plus optional sort/pagination below).",
+      description: "Full QuickBooks query string targeting Invoice. When omitted, the action runs `select * from Invoice where Balance > '0'` (plus optional sort/pagination below).",
     },
     maxResults: {
       propDefinition: [
@@ -43,6 +44,8 @@ export default {
     },
   },
   async run({ $ }) {
+    assertCustomQueryTargetsInvoice(this.query);
+
     const sql = buildInvoiceListQuery({
       customQuery: this.query,
       defaultSql: "select * from Invoice where Balance > '0'",
