@@ -47,9 +47,11 @@ export default {
     },
   },
   async run({ $ }) {
+    // Escape caret characters used in ServiceNow encoded queries
+    const sanitizedKeyword = this.keyword.replace(/\^/g, "^^");
     const query = this.exactMatch
-      ? `name=${this.keyword}^ORlabel=${this.keyword}`
-      : `nameLIKE${this.keyword}^ORlabelLIKE${this.keyword}`;
+      ? `name=${sanitizedKeyword}^ORlabel=${sanitizedKeyword}`
+      : `nameLIKE${sanitizedKeyword}^ORlabelLIKE${sanitizedKeyword}`;
     const response = await this.servicenow.getTableRecords({
       $,
       table: this.table,
