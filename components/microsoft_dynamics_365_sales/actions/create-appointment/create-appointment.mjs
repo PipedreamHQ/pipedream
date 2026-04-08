@@ -59,9 +59,8 @@ export default {
         microsoft,
         "appointmentCategory",
       ],
-      description: "Category of Appointment (custom field). Defaults to `100000001` (Sales - 1st Prospect Meeting) when omitted",
+      description: "Optional Category of Appointment (numeric option). Omit to let Dynamics use its default for your org",
       optional: true,
-      default: 100000001,
     },
   },
   async run({ $ }) {
@@ -74,13 +73,11 @@ export default {
       throw new Error(`No Dynamics user found with email: ${this.requiredAttendeeEmail}`);
     }
 
-    const categoryValue = this.category ?? 100000001;
     const appointmentBody = {
       "subject": this.subject,
       "scheduledstart": this.scheduledstart,
       "scheduledend": this.scheduledend,
       "regardingobjectid_account@odata.bind": `/accounts(${this.regardingAccountId})`,
-      [APPOINTMENT_CATEGORY_OF_APPOINTMENT_FIELD]: categoryValue,
       "appointment_activity_parties": [
         {
           "partyid_systemuser@odata.bind": `/systemusers(${userId})`,
@@ -88,6 +85,9 @@ export default {
         },
       ],
     };
+    if (this.category !== undefined && this.category !== null) {
+      appointmentBody[APPOINTMENT_CATEGORY_OF_APPOINTMENT_FIELD] = this.category;
+    }
 
     const createResponse = await this.microsoft.createAppointment({
       $,
@@ -95,13 +95,14 @@ export default {
       returnFullResponse: true,
     });
 
-    const body = createResponse?.data ?? createResponse;
+    const appointmentPayload = createResponse?.data ?? null;
     const entityHeader =
       createResponse?.headers?.["odata-entityid"] ??
       createResponse?.headers?.["OData-EntityId"] ??
       "";
     const appointmentId =
-      body?.activityid || appointmentIdFromEntityHeader(entityHeader);
+      appointmentPayload?.activityid ||
+      appointmentIdFromEntityHeader(entityHeader);
 
     const orgRoot = this.microsoft._orgRootUrl().replace(/\/$/, "");
     const deepLink = appointmentId
@@ -115,7 +116,7 @@ export default {
     return {
       appointmentId,
       deepLink,
-      appointment: body,
+      appointment: appointmentPayload,
     };
   },
 };

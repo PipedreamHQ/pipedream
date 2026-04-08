@@ -63,6 +63,22 @@ export default {
       patchBody[APPOINTMENT_CATEGORY_OF_APPOINTMENT_FIELD] = this.category;
     }
 
+    if (
+      this.scheduledstart !== undefined &&
+      this.scheduledend !== undefined
+    ) {
+      const startMs = Date.parse(this.scheduledstart);
+      const endMs = Date.parse(this.scheduledend);
+      if (!Number.isFinite(startMs) || !Number.isFinite(endMs)) {
+        throw new Error(
+          "scheduledstart and scheduledend must be valid ISO 8601 datetimes when both are provided",
+        );
+      }
+      if (endMs <= startMs) {
+        throw new Error("scheduledend must be after scheduledstart");
+      }
+    }
+
     if (!Object.keys(patchBody).length) {
       throw new Error("Provide at least one of: subject, scheduledstart, scheduledend, category");
     }

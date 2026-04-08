@@ -360,7 +360,10 @@ export default {
           attributeType = typeName;
         }
       } catch {
-        // Metadata may be unavailable
+        return {
+          type: "unknown",
+          categories: [],
+        };
       }
       const isPicklist =
         attributeType === "Picklist" ||
@@ -391,18 +394,26 @@ export default {
             categories,
           };
         } catch {
-          // Fall through
+          // Fall through to distinct-values path
         }
       }
-      const appointmentsResponse = await this._makeRequest({
-        path: "/appointments",
-        params: {
-          $select: categoryField,
-          $filter: `${categoryField} ne null`,
-          $top: 500,
-        },
-        ...opts,
-      });
+      let appointmentsResponse;
+      try {
+        appointmentsResponse = await this._makeRequest({
+          path: "/appointments",
+          params: {
+            $select: categoryField,
+            $filter: `${categoryField} ne null`,
+            $top: 500,
+          },
+          ...opts,
+        });
+      } catch {
+        return {
+          type: "unknown",
+          categories: [],
+        };
+      }
       const appointments = appointmentsResponse?.value ?? [];
       const distinctCategories = [
         ...new Set(
@@ -431,6 +442,9 @@ export default {
           value,
           label: `${label} (${value})`,
         }));
+      }
+      if (result.type === "unknown") {
+        return [];
       }
       return result.categories.flatMap((c) => {
         const n = Number(c);
