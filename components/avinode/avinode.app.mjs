@@ -14,7 +14,7 @@ export default {
         $, query, prevContext,
       }) {
         const pageSize = 50;
-        const pageNumber = prevContext?.nextPageNumber ?? 1;
+        const pageNumber = prevContext?.nextPageNumber ?? 0;
         const body = await this.searchAirports({
           $,
           filter: query,
@@ -32,7 +32,7 @@ export default {
 
         let nextPageNumber;
         if (typeof totalCount === "number" && airports.length > 0) {
-          const loaded = (currentPage - 1) * batchSize + airports.length;
+          const loaded = currentPage * batchSize + airports.length;
           if (loaded < totalCount && airports.length >= Math.min(batchSize, pageSize)) {
             nextPageNumber = currentPage + 1;
           }
@@ -143,7 +143,8 @@ export default {
      * @see https://developer.avinodegroup.com/reference/listaircrafttypes
      * @param {object} [opts]
      * @param {*} [opts.$]
-     * @param {number} [opts.pageSize] - Batch size per request (page[size])
+     * @param {number} [opts.pageSize] - Batch size per request (`page[size]`);
+     *   `page[number]` is 0-based (first page is `0`)
      * @param {string[]} [opts.fields] - Sparse fields: perfdetails, typedetails, typephotos
      * @returns {Promise<object[]>} Combined `data` items from all pages
      */
@@ -153,7 +154,7 @@ export default {
       fields,
     } = {}) {
       const all = [];
-      let pageNumber = 1;
+      let pageNumber = 0;
       const maxPages = 500;
 
       for (let i = 0; i < maxPages; i++) {
@@ -202,7 +203,8 @@ export default {
      * @param {*} [opts.$]
      * @param {string} [opts.filter] - Search criteria (`filter` query param)
      * @param {"contains"|"starts_with"} [opts.filterMatchType] - Default `contains`
-     * @param {number} [opts.pageNumber] - `page[number]` (1-based)
+     * @param {number} [opts.pageNumber] - `page[number]` (0-based; first page is `0`;
+     *   aligns with `meta.pagination.pageNumber`)
      * @param {number} [opts.pageSize] - `page[size]`
      * @returns {Promise<object>} Parsed JSON body (`data`, `meta`, …)
      */
@@ -210,7 +212,7 @@ export default {
       $ = this,
       filter,
       filterMatchType = "contains",
-      pageNumber = 1,
+      pageNumber = 0,
       pageSize = 50,
     } = {}) {
       const sp = new URLSearchParams();
