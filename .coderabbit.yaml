@@ -1,7 +1,7 @@
 language: "en-US"
 
 reviews:
-  profile: "chill"
+  profile: "assertive"
   auto_review:
     enabled: true
     drafts: false
