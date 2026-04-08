@@ -104,8 +104,7 @@ props: {
 | `"string"` | Text input |
 | `"string[]"` | Array of text inputs |
 | `"integer"` | Integer, supports `min` / `max` |
-| `"number"` | Floating-point |
-| `"boolean"` | Checkbox |
+| `"boolean"` | True or false |
 | `"object"` | Key-value object (use sparingly — see JSON input pattern in action guidelines) |
 | `"any"` | Untyped |
 | `"$.service.db"` | Persistent key-value store (sources) |
@@ -177,8 +176,8 @@ status: {
 ```
 
 Requirements:
-- Each option must have both `label` (shown in UI) and `value` (used at runtime).
-- If the API paginates results, `async options()` must support `prevContext` for "load more":
+- Each option should be either an object with `label` and `value`, or the primitive value itself (string or number).
+- If the API paginates results, `async options()` must support `prevContext` or `page` (starts at 0) for "load more":
 
 ```javascript
 async options({ prevContext }) {
@@ -188,6 +187,12 @@ async options({ prevContext }) {
     options: items.map((i) => ({ label: i.name, value: i.id })),
     context: { cursor: nextCursor },
   };
+},
+```
+```javascript
+async options({ page }) {
+  const { items } = await this.app.getItems({ page: page + 1 });
+  return items.map((i) => ({ label: i.name, value: i.id }));
 },
 ```
 
@@ -230,7 +235,7 @@ annotations: {
 |---|---|---|---|
 | Fetch / list / search / get | `true` | `false` | `true` |
 | Create / send / post / publish | `false` | `false` | `true` |
-| Update / patch / upsert | `false` | `false` | `true` |
+| Update / patch / upsert | `false` | `true` | `true` |
 | Archive / disable (reversible) | `false` | `false` | `true` |
 | Delete / purge / permanently remove | `false` | `true` | `true` |
 
@@ -341,7 +346,7 @@ A few notes on this pattern:
 
 Prop definitions shared across more than one component belong in the app file. New
 `propDefinitions` entries must include both `label` and `description`. If the definition
-includes `async options()` that calls a paginated API endpoint, it must support `prevContext`.
+includes `async options()` that calls a paginated API endpoint, it must support `prevContext` pr `page`.
 
 ---
 
