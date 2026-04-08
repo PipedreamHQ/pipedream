@@ -81,6 +81,7 @@ For deduplication to work correctly:
 - The `id` must be unique per real-world event (not per poll execution)
 - The `id` must be stable — if the source is paused and restarted, the same real-world
   event must produce the same `id`
+-  The `id` will only be deduplicated up to 64 characters.
 
 ---
 
