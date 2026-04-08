@@ -4,7 +4,7 @@ export default {
   key: "egnyte-create-folder",
   name: "Create Folder",
   description: "Creates a new folder in your Egnyte workspace. [See the documentation](https://developers.egnyte.com/docs/File_System_Management_API_Documentation#Create-a-Folder)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -14,9 +14,11 @@ export default {
   props: {
     egnyte,
     folderPath: {
-      type: "string",
-      label: "Folder Path",
-      description: "The full path to the new folder. Example: `/Shared/test`",
+      propDefinition: [
+        egnyte,
+        "folderPath",
+      ],
+      description: "The full path to the new folder. Example: `/Shared/test`. Search for a folder to select or enter a folder path manually.",
     },
   },
   async run({ $ }) {

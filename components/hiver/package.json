@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/hiver",
+  "version": "0.0.1",
+  "description": "Pipedream Hiver Components",
+  "main": "hiver.app.mjs",
+  "keywords": [
+    "pipedream",
+    "hiver"
+  ],
+  "homepage": "https://pipedream.com/apps/hiver",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
