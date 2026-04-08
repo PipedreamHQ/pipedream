@@ -1,4 +1,7 @@
-import { buildInvoiceListQuery } from "../../common/build-invoice-list-query.mjs";
+import {
+  buildInvoiceListQuery,
+  invoicesFromInvoiceQueryResponse,
+} from "../../common/build-invoice-list-query.mjs";
 import quickbooks from "../../quickbooks.app.mjs";
 
 export default {
@@ -33,10 +36,10 @@ export default {
       ],
     },
     startPosition: {
-      description: "The starting count of the response for pagination.",
-      label: "Start Position",
-      optional: true,
-      type: "string",
+      propDefinition: [
+        quickbooks,
+        "startPosition",
+      ],
     },
   },
   async run({ $ }) {
@@ -55,10 +58,16 @@ export default {
       },
     });
 
-    if (response) {
-      $.export("summary", "Successfully retrieved invoices");
+    const invoices = invoicesFromInvoiceQueryResponse(response);
+    if (invoices.length > 0) {
+      $.export("summary", `Successfully retrieved ${invoices.length} invoices`);
+    } else {
+      $.export("summary", "No invoices found");
     }
 
-    return response;
+    return {
+      invoices,
+      raw: response,
+    };
   },
 };
