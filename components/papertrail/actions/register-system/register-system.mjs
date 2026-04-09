@@ -66,8 +66,7 @@ export default {
           "For a log-destination system, `Hostname` is required (filter hostname for syslog).",
         );
       }
-    }
-    if (!this.ipAddress) {
+    } else if (!this.ipAddress) {
       throw new ConfigurationError(
         "Provide either `Destination ID` or `Destination Port` with `Hostname`, or `IP Address` for standard syslog (port 514).",
       );
