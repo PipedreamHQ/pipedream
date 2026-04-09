@@ -11270,7 +11270,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/papertrail: {}
+  components/papertrail:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.3.0
+        version: 3.3.0
 
   components/papyrs:
     dependencies:
