@@ -5592,6 +5592,9 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/fleetbase:
+    specifiers: {}
+
   components/flexie:
     dependencies:
       '@pipedream/platform':
