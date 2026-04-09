@@ -15,8 +15,6 @@ export default {
     getSummary(item) {
       return `New system created: ${item.name}`;
     },
-    getData() {
-    },
     async prepareResults(lastData, maxResults) {
       let results = await this.papertrail.listSystems();
       results = results

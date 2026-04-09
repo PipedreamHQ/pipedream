@@ -30,8 +30,6 @@ export default {
     },
     async emitEvent(maxResults = false) {
       const lastId = this._getLastId();
-      // let responseArray = await this.getData(lastId);
-
       let responseArray = await this.prepareResults(lastId, maxResults);
 
       if (responseArray.length) {

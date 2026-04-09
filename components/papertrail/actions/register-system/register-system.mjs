@@ -66,7 +66,6 @@ export default {
           "For a log-destination system, `Hostname` is required (filter hostname for syslog).",
         );
       }
-      return;
     }
     if (!this.ipAddress) {
       throw new ConfigurationError(

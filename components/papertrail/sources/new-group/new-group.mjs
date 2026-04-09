@@ -14,8 +14,6 @@ export default {
     getSummary(item) {
       return `New group created: ${item.name}`;
     },
-    getData() {
-    },
     async prepareResults(lastData, maxResults) {
       let groups = await this.papertrail.listGroups();
       groups = groups

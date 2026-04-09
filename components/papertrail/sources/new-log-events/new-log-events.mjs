@@ -34,16 +34,14 @@ export default {
   methods: {
     ...common.methods,
     getSummary(item) {
-      return `New group created: ${item.name}`;
-    },
-    getData() {
+      return `New log event: ${item.id}`;
     },
     async prepareResults(lastData, maxResults) {
       let { events } = await this.papertrail.searchEvents({
         params: {
           q: this.q,
-          systemId: this.systemId,
-          groupId: this.groupId,
+          system_id: this.systemId,
+          group_id: this.groupId,
         },
       });
       events = events
