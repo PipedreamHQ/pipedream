@@ -2,7 +2,7 @@ import app from "../../loopmessage.app.mjs";
 import utils from "../../common/utils.mjs";
 
 export default {
-  key: "loopmessage-send-typing-indicator",
+  key: "loopmessage-typing-indicator",
   name: "Show Typing Indicator",
   description: "Action to present a typing indicator or read status",
   type: "action",
