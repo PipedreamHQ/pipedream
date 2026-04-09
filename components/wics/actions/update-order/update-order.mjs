@@ -198,7 +198,7 @@ export default {
 
     const { data } = await this.wics.updateOrder({
       $,
-      orderReference: this.orderNumber,
+      orderNumber: this.orderNumber,
       data: {
         ...order,
         deliveryDate: this.deliveryDate,

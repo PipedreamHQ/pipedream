@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/wics",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Pipedream WICS Components",
   "main": "wics.app.mjs",
   "keywords": [
