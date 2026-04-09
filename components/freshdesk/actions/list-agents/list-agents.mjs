@@ -53,16 +53,12 @@ export default {
       fn: this.freshdesk.listAgents,
       args: {
         $,
-        params: Object.fromEntries(
-          Object.entries({
-            email: this.email,
-            mobile: this.mobile,
-            phone: this.phone,
-            state: this.state,
-          }).filter(([
-            , v,
-          ]) => v !== undefined),
-        ),
+        params: {
+          email: this.email,
+          mobile: this.mobile,
+          phone: this.phone,
+          state: this.state,
+        },
       },
       max: this.maxResults,
     });
