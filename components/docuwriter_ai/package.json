@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/docuwriter_ai",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream DocuWriter.ai Components",
   "main": "docuwriter_ai.app.mjs",
   "keywords": [
