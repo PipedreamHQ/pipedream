@@ -4,7 +4,7 @@ export default {
   key: "jira-get-issue",
   name: "Get Issue",
   description: "Gets the details for an issue. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-get)",
-  version: "0.1.20",
+  version: "0.1.21",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -80,7 +80,20 @@ export default {
         expand: this.expand,
       },
     });
+    let browserUrl;
+    try {
+      const baseUrl = await this.jira.getCloudBaseUrl(this.cloudId);
+      browserUrl = baseUrl && response.key
+        ? `${baseUrl}/browse/${response.key}`
+        : undefined;
+    } catch (e) {
+      console.log("Could not enrich response with browser URL", e.message);
+    }
+
     $.export("$summary", `Successfully retrieved issue with ID(or key): ${this.issueIdOrKey}`);
-    return response;
+    return {
+      ...response,
+      browserUrl,
+    };
   },
 };
