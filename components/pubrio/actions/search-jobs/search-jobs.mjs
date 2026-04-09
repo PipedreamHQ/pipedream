@@ -6,19 +6,23 @@ export default {
   description: "Search job postings across companies. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   props: {
     pubrio,
     searchTerm: { propDefinition: [pubrio, "searchTerm"] },
     searchTerms: {
-      type: "string",
+      type: "string[]",
       label: "Search Terms",
-      description: "Comma-separated search terms",
+      description: "Search terms",
       optional: true,
     },
     titles: {
-      type: "string",
+      type: "string[]",
       label: "Titles",
-      description: "Comma-separated job titles",
+      description: "Job titles",
       optional: true,
     },
     postedDateFrom: {
@@ -35,28 +39,28 @@ export default {
     },
     locations: { propDefinition: [pubrio, "locations"] },
     excludeLocations: {
-      type: "string",
+      type: "string[]",
       label: "Exclude Locations",
-      description: "Comma-separated location codes to exclude",
+      description: "Location codes to exclude",
       optional: true,
     },
     companyLocations: {
-      type: "string",
+      type: "string[]",
       label: "Company Locations",
-      description: "Comma-separated company location codes",
+      description: "Company location codes",
       optional: true,
     },
     companies: {
-      type: "string",
+      type: "string[]",
       label: "Companies",
-      description: "Comma-separated company UUIDs",
+      description: "Company UUIDs",
       optional: true,
     },
     domains: { propDefinition: [pubrio, "domains"] },
     linkedinUrls: {
-      type: "string",
+      type: "string[]",
       label: "LinkedIn URLs",
-      description: "Comma-separated LinkedIn company URLs",
+      description: "LinkedIn company URLs",
       optional: true,
     },
     page: { propDefinition: [pubrio, "page"] },
@@ -65,17 +69,17 @@ export default {
   async run({ $ }) {
     const data = { page: this.page ?? 1, per_page: this.perPage ?? 25 };
     if (this.searchTerm) data.search_term = this.searchTerm;
-    if (this.searchTerms) data.search_terms = this.pubrio.splitComma(this.searchTerms);
-    if (this.titles) data.titles = this.pubrio.splitComma(this.titles);
+    if (this.searchTerms?.length) data.search_terms = this.searchTerms;
+    if (this.titles?.length) data.titles = this.titles;
     if (this.postedDateFrom || this.postedDateTo) {
-      data.posted_dates = [this.postedDateFrom || this.postedDateTo, this.postedDateTo || this.postedDateFrom];
+      data.posted_dates = [this.postedDateFrom ?? null, this.postedDateTo ?? null];
     }
-    if (this.locations) data.locations = this.pubrio.splitComma(this.locations);
-    if (this.excludeLocations) data.exclude_locations = this.pubrio.splitComma(this.excludeLocations);
-    if (this.companyLocations) data.company_locations = this.pubrio.splitComma(this.companyLocations);
-    if (this.companies) data.companies = this.pubrio.splitComma(this.companies);
-    if (this.domains) data.domains = this.pubrio.splitComma(this.domains);
-    if (this.linkedinUrls) data.linkedin_urls = this.pubrio.splitComma(this.linkedinUrls);
+    if (this.locations?.length) data.locations = this.locations;
+    if (this.excludeLocations?.length) data.exclude_locations = this.excludeLocations;
+    if (this.companyLocations?.length) data.company_locations = this.companyLocations;
+    if (this.companies?.length) data.companies = this.companies;
+    if (this.domains?.length) data.domains = this.domains;
+    if (this.linkedinUrls?.length) data.linkedin_urls = this.linkedinUrls;
     const response = await this.pubrio.makeRequest({ $, method: "POST", url: "/companies/jobs/search", data });
     $.export("$summary", `Found ${response.data?.length ?? 0} jobs`);
     return response;

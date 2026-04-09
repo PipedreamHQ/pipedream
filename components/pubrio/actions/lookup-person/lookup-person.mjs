@@ -6,6 +6,10 @@ export default {
   description: "Look up a person's professional profile by LinkedIn URL or Pubrio ID. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   props: {
     pubrio,
     lookupType: { propDefinition: [pubrio, "lookupTypePerson"] },

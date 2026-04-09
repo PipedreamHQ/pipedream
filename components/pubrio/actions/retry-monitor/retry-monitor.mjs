@@ -6,6 +6,9 @@ export default {
   description: "Retry a failed monitor process. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    openWorldHint: true,
+  },
   props: {
     pubrio,
     monitorId: {

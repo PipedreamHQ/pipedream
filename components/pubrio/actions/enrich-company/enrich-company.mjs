@@ -6,6 +6,10 @@ export default {
   description: "Get enriched company data with full firmographic details (uses credits). [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   props: {
     pubrio,
     lookupType: { propDefinition: [pubrio, "lookupTypeDomain"] },

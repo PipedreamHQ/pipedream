@@ -6,6 +6,9 @@ export default {
   description: "Create a new signal monitor for jobs, news, or advertisements. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    openWorldHint: true,
+  },
   props: {
     pubrio,
     name: {
@@ -74,21 +77,21 @@ export default {
       optional: true,
     },
     companies: {
-      type: "string",
+      type: "string[]",
       label: "Companies",
-      description: "Comma-separated company names to monitor",
+      description: "Company names to monitor",
       optional: true,
     },
     domains: {
-      type: "string",
+      type: "string[]",
       label: "Domains",
-      description: "Comma-separated domains to monitor",
+      description: "Domains to monitor",
       optional: true,
     },
     linkedinUrls: {
-      type: "string",
+      type: "string[]",
       label: "LinkedIn URLs",
-      description: "Comma-separated LinkedIn URLs to monitor",
+      description: "LinkedIn URLs to monitor",
       optional: true,
     },
     companyFilters: {
@@ -169,9 +172,9 @@ export default {
     if (this.frequencyMinute != null) data.frequency_minute = this.frequencyMinute;
     if (this.maxDailyTrigger != null) data.max_daily_trigger = this.maxDailyTrigger;
     if (this.maxRecordsPerTrigger != null) data.max_records_per_trigger = this.maxRecordsPerTrigger;
-    if (this.companies) data.companies = this.pubrio.splitComma(this.companies);
-    if (this.domains) data.domains = this.pubrio.splitComma(this.domains);
-    if (this.linkedinUrls) data.linkedin_urls = this.pubrio.splitComma(this.linkedinUrls);
+    if (this.companies?.length) data.companies = this.companies;
+    if (this.domains?.length) data.domains = this.domains;
+    if (this.linkedinUrls?.length) data.linkedin_urls = this.linkedinUrls;
     if (this.companyFilters) data.company_filters = this.pubrio.parseJsonField(this.companyFilters, "company_filters", "object");
     if (this.signalFilters) data.signal_filters = this.pubrio.parseJsonField(this.signalFilters, "signal_filters", "array");
     if (this.peopleEnrichmentConfigs) data.people_enrichment_configs = this.pubrio.parseJsonField(this.peopleEnrichmentConfigs, "people_enrichment_configs", "array");

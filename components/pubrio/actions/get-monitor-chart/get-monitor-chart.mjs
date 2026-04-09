@@ -6,6 +6,10 @@ export default {
   description: "Get chart data for a specific monitor over a date range. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   props: {
     pubrio,
     monitorId: {

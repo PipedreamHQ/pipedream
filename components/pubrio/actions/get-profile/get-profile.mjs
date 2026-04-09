@@ -6,6 +6,10 @@ export default {
   description: "Get your Pubrio account profile information. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   props: {
     pubrio,
   },

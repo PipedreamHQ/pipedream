@@ -6,6 +6,10 @@ export default {
   description: "Look up similar companies (lookalike) result by domain, LinkedIn URL, domain search ID, or domain ID. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   props: {
     pubrio,
     lookupType: { propDefinition: [pubrio, "lookupTypeDomain"] },

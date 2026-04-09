@@ -6,6 +6,10 @@ export default {
   description: "Get available department title codes for filtering. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   props: {
     pubrio,
   },

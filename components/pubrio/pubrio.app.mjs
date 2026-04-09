@@ -1,4 +1,7 @@
 import { axios } from "@pipedream/platform";
+import {
+  splitComma, parseJsonField,
+} from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -11,9 +14,9 @@ export default {
       optional: true,
     },
     domains: {
-      type: "string",
+      type: "string[]",
       label: "Domains",
-      description: "Comma-separated company domains (e.g. `google.com,apple.com`)",
+      description: "Company domains (e.g. `google.com`)",
       optional: true,
     },
     locations: {
@@ -22,11 +25,7 @@ export default {
       description: "Location codes to filter by",
       optional: true,
       async options() {
-        const response = await this.makeRequest({
-          url: "/locations",
-          method: "GET",
-        });
-        const items = response?.data ?? response ?? [];
+        const items = await this.listLocations();
         return Array.isArray(items)
           ? items.map((item) =>
             typeof item === "string"
@@ -44,11 +43,7 @@ export default {
       description: "Seniority / management level codes",
       optional: true,
       async options() {
-        const response = await this.makeRequest({
-          url: "/management_levels",
-          method: "GET",
-        });
-        const items = response?.data ?? response ?? [];
+        const items = await this.listManagementLevels();
         return Array.isArray(items)
           ? items.map((item) =>
             typeof item === "string"
@@ -66,11 +61,7 @@ export default {
       description: "Department title codes",
       optional: true,
       async options() {
-        const response = await this.makeRequest({
-          url: "/departments/title",
-          method: "GET",
-        });
-        const items = response?.data ?? response ?? [];
+        const items = await this.listDepartments();
         return Array.isArray(items)
           ? items.map((item) =>
             typeof item === "string"
@@ -88,11 +79,7 @@ export default {
       description: "Department function codes",
       optional: true,
       async options() {
-        const response = await this.makeRequest({
-          url: "/departments/function",
-          method: "GET",
-        });
-        const items = response?.data ?? response ?? [];
+        const items = await this.listDepartmentFunctions();
         return Array.isArray(items)
           ? items.map((item) =>
             typeof item === "string"
@@ -110,11 +97,7 @@ export default {
       description: "Company size range codes",
       optional: true,
       async options() {
-        const response = await this.makeRequest({
-          url: "/company_sizes",
-          method: "GET",
-        });
-        const items = response?.data ?? response ?? [];
+        const items = await this.listCompanySizes();
         return Array.isArray(items)
           ? items.map((item) =>
             typeof item === "string"
@@ -173,32 +156,17 @@ export default {
     },
   },
   methods: {
-    /**
-     * Returns the base URL for the Pubrio API.
-     * @returns {string} The API base URL
-     */
+    splitComma,
+    parseJsonField,
     getBaseUrl() {
       return "https://api.pubrio.com";
     },
-    /**
-     * Returns the authentication and content-type headers for API requests.
-     * @returns {object} Headers object with API key and content type
-     */
     getHeaders() {
       return {
         "pubrio-api-key": this.$auth.api_key,
         "Content-Type": "application/json",
       };
     },
-    /**
-     * Makes an authenticated HTTP request to the Pubrio API.
-     * @param {object} opts - Request options passed to @pipedream/platform axios
-     * @param {object} [opts.$] - Pipedream step context for exporting data
-     * @param {string} [opts.method] - HTTP method (GET, POST, etc.)
-     * @param {string} [opts.url] - API endpoint path
-     * @param {object} [opts.data] - Request body for POST requests
-     * @returns {Promise<object>} The API response
-     */
     async makeRequest(opts = {}) {
       const {
         $ = this, ...otherOpts
@@ -209,36 +177,40 @@ export default {
         headers: this.getHeaders(),
       });
     },
-    /**
-     * Splits a comma-separated string into a trimmed array of non-empty values.
-     * @param {string} value - Comma-separated string to split
-     * @returns {string[]|undefined} Array of trimmed values, or undefined if input is falsy
-     */
-    splitComma(value) {
-      if (!value) return undefined;
-      return value.split(",").map((s) => s.trim()).filter(Boolean);
+    async listLocations() {
+      const response = await this.makeRequest({
+        url: "/locations",
+        method: "GET",
+      });
+      return response?.data ?? response ?? [];
     },
-    /**
-     * Parses and validates a JSON string input.
-     * @param {string} value - JSON string to parse
-     * @param {string} fieldName - Field name for error messages
-     * @param {string} expectedType - "object" or "array"
-     * @returns {object|array} Parsed and validated value
-     */
-    parseJsonField(value, fieldName, expectedType = "object") {
-      let parsed;
-      try {
-        parsed = JSON.parse(value);
-      } catch {
-        throw new Error(`${fieldName} must be valid JSON`);
-      }
-      if (expectedType === "array" && !Array.isArray(parsed)) {
-        throw new Error(`${fieldName} must be a JSON array`);
-      }
-      if (expectedType === "object" && (typeof parsed !== "object" || Array.isArray(parsed) || parsed === null)) {
-        throw new Error(`${fieldName} must be a JSON object`);
-      }
-      return parsed;
+    async listManagementLevels() {
+      const response = await this.makeRequest({
+        url: "/management_levels",
+        method: "GET",
+      });
+      return response?.data ?? response ?? [];
+    },
+    async listDepartments() {
+      const response = await this.makeRequest({
+        url: "/departments/title",
+        method: "GET",
+      });
+      return response?.data ?? response ?? [];
+    },
+    async listDepartmentFunctions() {
+      const response = await this.makeRequest({
+        url: "/departments/function",
+        method: "GET",
+      });
+      return response?.data ?? response ?? [];
+    },
+    async listCompanySizes() {
+      const response = await this.makeRequest({
+        url: "/company_sizes",
+        method: "GET",
+      });
+      return response?.data ?? response ?? [];
     },
   },
 };

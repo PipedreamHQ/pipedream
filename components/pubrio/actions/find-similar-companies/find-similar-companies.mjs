@@ -6,15 +6,19 @@ export default {
   description: "Find companies similar to a given company. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   props: {
     pubrio,
     lookupType: { propDefinition: [pubrio, "lookupTypeDomain"] },
     value: { propDefinition: [pubrio, "lookupValue"] },
     locations: { propDefinition: [pubrio, "locations"] },
     excludeLocations: {
-      type: "string",
+      type: "string[]",
       label: "Exclude Locations",
-      description: "Comma-separated ISO country codes to exclude",
+      description: "ISO country codes to exclude",
       optional: true,
     },
     employeesMin: {
@@ -52,45 +56,45 @@ export default {
       optional: true,
     },
     technologies: {
-      type: "string",
+      type: "string[]",
       label: "Technologies",
-      description: "Comma-separated technology names",
+      description: "Technology names",
       optional: true,
     },
     categories: {
-      type: "string",
+      type: "string[]",
       label: "Technology Categories",
-      description: "Comma-separated technology category IDs",
+      description: "Technology category IDs",
       optional: true,
     },
     verticals: {
-      type: "string",
+      type: "string[]",
       label: "Verticals",
-      description: "Comma-separated industry vertical names",
+      description: "Industry vertical names",
       optional: true,
     },
     verticalCategories: {
-      type: "string",
+      type: "string[]",
       label: "Vertical Categories",
-      description: "Comma-separated vertical category IDs",
+      description: "Vertical category IDs",
       optional: true,
     },
     verticalSubCategories: {
-      type: "string",
+      type: "string[]",
       label: "Vertical Sub-Categories",
-      description: "Comma-separated vertical sub-category IDs",
+      description: "Vertical sub-category IDs",
       optional: true,
     },
     jobTitles: {
-      type: "string",
+      type: "string[]",
       label: "Job Titles",
-      description: "Comma-separated job titles",
+      description: "Job titles",
       optional: true,
     },
     jobLocations: {
-      type: "string",
+      type: "string[]",
       label: "Job Locations",
-      description: "Comma-separated country codes for job locations",
+      description: "Country codes for job locations",
       optional: true,
     },
     jobPostedDateFrom: {
@@ -106,9 +110,9 @@ export default {
       optional: true,
     },
     newsCategories: {
-      type: "string",
+      type: "string[]",
       label: "News Categories",
-      description: "Comma-separated news category slugs",
+      description: "News category slugs",
       optional: true,
     },
     newsPublishedDateFrom: {
@@ -152,7 +156,7 @@ export default {
       per_page: this.perPage ?? 25,
     };
     if (this.locations?.length) data.locations = this.locations;
-    if (this.excludeLocations) data.exclude_locations = this.pubrio.splitComma(this.excludeLocations);
+    if (this.excludeLocations?.length) data.exclude_locations = this.excludeLocations;
     if (this.employeesMin != null || this.employeesMax != null) {
       data.employees = [this.employeesMin ?? 1, this.employeesMax ?? 1000000];
     }
@@ -162,19 +166,19 @@ export default {
     if (this.foundedYearStart != null || this.foundedYearEnd != null) {
       data.founded_dates = [this.foundedYearStart ?? 1900, this.foundedYearEnd ?? 2100];
     }
-    if (this.technologies) data.technologies = this.pubrio.splitComma(this.technologies);
-    if (this.categories) data.categories = this.pubrio.splitComma(this.categories);
-    if (this.verticals) data.verticals = this.pubrio.splitComma(this.verticals);
-    if (this.verticalCategories) data.vertical_categories = this.pubrio.splitComma(this.verticalCategories);
-    if (this.verticalSubCategories) data.vertical_sub_categories = this.pubrio.splitComma(this.verticalSubCategories);
-    if (this.jobTitles) data.job_titles = this.pubrio.splitComma(this.jobTitles);
-    if (this.jobLocations) data.job_locations = this.pubrio.splitComma(this.jobLocations);
+    if (this.technologies?.length) data.technologies = this.technologies;
+    if (this.categories?.length) data.categories = this.categories;
+    if (this.verticals?.length) data.verticals = this.verticals;
+    if (this.verticalCategories?.length) data.vertical_categories = this.verticalCategories;
+    if (this.verticalSubCategories?.length) data.vertical_sub_categories = this.verticalSubCategories;
+    if (this.jobTitles?.length) data.job_titles = this.jobTitles;
+    if (this.jobLocations?.length) data.job_locations = this.jobLocations;
     if (this.jobPostedDateFrom || this.jobPostedDateTo) {
-      data.job_posted_dates = [this.jobPostedDateFrom || this.jobPostedDateTo, this.jobPostedDateTo || this.jobPostedDateFrom];
+      data.job_posted_dates = [this.jobPostedDateFrom ?? null, this.jobPostedDateTo ?? null];
     }
-    if (this.newsCategories) data.news_categories = this.pubrio.splitComma(this.newsCategories);
+    if (this.newsCategories?.length) data.news_categories = this.newsCategories;
     if (this.newsPublishedDateFrom || this.newsPublishedDateTo) {
-      data.news_published_dates = [this.newsPublishedDateFrom || this.newsPublishedDateTo, this.newsPublishedDateTo || this.newsPublishedDateFrom];
+      data.news_published_dates = [this.newsPublishedDateFrom ?? null, this.newsPublishedDateTo ?? null];
     }
     if (this.isEnableSimilaritySearch != null) data.is_enable_similarity_search = this.isEnableSimilaritySearch;
     if (this.similarityScore != null && this.similarityScore !== "") {

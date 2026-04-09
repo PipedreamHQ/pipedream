@@ -6,6 +6,10 @@ export default {
   description: "Look up detailed company information by domain or LinkedIn URL. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   props: {
     pubrio,
     lookupType: { propDefinition: [pubrio, "lookupTypeDomain"] },

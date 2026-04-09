@@ -6,6 +6,10 @@ export default {
   description: "Query the status and results of a batch redeem request. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   props: {
     pubrio,
     redeemQueryId: {

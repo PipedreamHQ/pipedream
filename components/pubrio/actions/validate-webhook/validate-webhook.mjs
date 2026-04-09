@@ -6,6 +6,9 @@ export default {
   description: "Validate a webhook URL for use with monitors. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    openWorldHint: true,
+  },
   props: {
     pubrio,
     webhookUrl: {

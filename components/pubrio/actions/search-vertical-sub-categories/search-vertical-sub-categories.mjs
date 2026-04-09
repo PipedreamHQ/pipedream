@@ -6,6 +6,10 @@ export default {
   description: "Search available vertical sub-categories by keyword. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   props: {
     pubrio,
     keyword: {

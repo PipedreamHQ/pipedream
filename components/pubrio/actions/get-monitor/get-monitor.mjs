@@ -6,6 +6,10 @@ export default {
   description: "Get detailed information about a specific monitor. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   props: {
     pubrio,
     monitorId: {

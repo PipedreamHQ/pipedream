@@ -6,6 +6,10 @@ export default {
   description: "Get enriched person data with full professional details (uses credits). [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   props: {
     pubrio,
     lookupType: { propDefinition: [pubrio, "lookupTypePerson"] },

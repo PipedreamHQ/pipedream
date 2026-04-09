@@ -6,6 +6,10 @@ export default {
   description: "Search business professionals by name, title, department, seniority, or company. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   props: {
     pubrio,
     searchTerm: {
@@ -20,15 +24,15 @@ export default {
       optional: true,
     },
     peopleTitles: {
-      type: "string",
+      type: "string[]",
       label: "Job Titles",
-      description: "Comma-separated job titles",
+      description: "Job titles",
       optional: true,
     },
     peoples: {
-      type: "string",
+      type: "string[]",
       label: "People IDs",
-      description: "Comma-separated people UUIDs",
+      description: "People UUIDs",
       optional: true,
     },
     managementLevels: {
@@ -50,9 +54,9 @@ export default {
       ],
     },
     employees: {
-      type: "string",
+      type: "integer[]",
       label: "Employees",
-      description: "Comma-separated employee range (e.g. `1,10`)",
+      description: "Employee range (e.g. `[1, 10]`)",
       optional: true,
     },
     peopleLocations: {
@@ -72,21 +76,21 @@ export default {
       description: "Location codes for companies",
     },
     companyLinkedinUrls: {
-      type: "string",
+      type: "string[]",
       label: "Company LinkedIn URLs",
-      description: "Comma-separated company LinkedIn URLs",
+      description: "Company LinkedIn URLs",
       optional: true,
     },
     linkedinUrls: {
-      type: "string",
+      type: "string[]",
       label: "LinkedIn URLs",
-      description: "Comma-separated person LinkedIn URLs",
+      description: "Person LinkedIn URLs",
       optional: true,
     },
     companies: {
-      type: "string",
+      type: "string[]",
       label: "Companies",
-      description: "Comma-separated company UUIDs",
+      description: "Company UUIDs",
       optional: true,
     },
     domains: {
@@ -115,18 +119,18 @@ export default {
     };
     if (this.searchTerm) data.search_term = this.searchTerm;
     if (this.peopleName) data.people_name = this.peopleName;
-    if (this.peopleTitles) data.people_titles = this.pubrio.splitComma(this.peopleTitles);
-    if (this.peoples) data.peoples = this.pubrio.splitComma(this.peoples);
+    if (this.peopleTitles?.length) data.people_titles = this.peopleTitles;
+    if (this.peoples?.length) data.peoples = this.peoples;
     if (this.managementLevels?.length) data.management_levels = this.managementLevels;
     if (this.departments?.length) data.departments = this.departments;
     if (this.departmentFunctions?.length) data.department_functions = this.departmentFunctions;
-    if (this.employees) data.employees = this.pubrio.splitComma(this.employees).map(Number);
+    if (this.employees?.length) data.employees = this.employees;
     if (this.peopleLocations?.length) data.people_locations = this.peopleLocations;
     if (this.companyLocations?.length) data.company_locations = this.companyLocations;
-    if (this.companyLinkedinUrls) data.company_linkedin_urls = this.pubrio.splitComma(this.companyLinkedinUrls);
-    if (this.linkedinUrls) data.linkedin_urls = this.pubrio.splitComma(this.linkedinUrls);
-    if (this.companies) data.companies = this.pubrio.splitComma(this.companies);
-    if (this.domains) data.domains = this.pubrio.splitComma(this.domains);
+    if (this.companyLinkedinUrls?.length) data.company_linkedin_urls = this.companyLinkedinUrls;
+    if (this.linkedinUrls?.length) data.linkedin_urls = this.linkedinUrls;
+    if (this.companies?.length) data.companies = this.companies;
+    if (this.domains?.length) data.domains = this.domains;
     const response = await this.pubrio.makeRequest({
       $,
       method: "POST",

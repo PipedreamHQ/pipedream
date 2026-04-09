@@ -6,6 +6,10 @@ export default {
   description: "Real-time LinkedIn person lookup. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   props: {
     pubrio,
     peopleLinkedinUrl: {

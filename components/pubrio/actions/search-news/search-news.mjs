@@ -6,14 +6,18 @@ export default {
   description: "Search company news and press releases. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   props: {
     pubrio,
     searchTerm: { propDefinition: [pubrio, "searchTerm"] },
     domains: { propDefinition: [pubrio, "domains"] },
     categories: {
-      type: "string",
+      type: "string[]",
       label: "Categories",
-      description: "Comma-separated news categories",
+      description: "News categories",
       optional: true,
     },
     publishedDateFrom: {
@@ -30,27 +34,27 @@ export default {
     },
     locations: { propDefinition: [pubrio, "locations"] },
     companyLocations: {
-      type: "string",
+      type: "string[]",
       label: "Company Locations",
-      description: "Comma-separated company location codes",
+      description: "Company location codes",
       optional: true,
     },
     newsGalleryIds: {
-      type: "string",
+      type: "string[]",
       label: "News Gallery IDs",
-      description: "Comma-separated news gallery IDs",
+      description: "News gallery IDs",
       optional: true,
     },
     newsGalleries: {
-      type: "string",
+      type: "string[]",
       label: "News Galleries",
-      description: "Comma-separated news galleries",
+      description: "News galleries",
       optional: true,
     },
     newsLanguages: {
-      type: "string",
+      type: "string[]",
       label: "News Languages",
-      description: "Comma-separated news language codes",
+      description: "News language codes",
       optional: true,
     },
     page: { propDefinition: [pubrio, "page"] },
@@ -59,16 +63,16 @@ export default {
   async run({ $ }) {
     const data = { page: this.page ?? 1, per_page: this.perPage ?? 25 };
     if (this.searchTerm) data.search_term = this.searchTerm;
-    if (this.domains) data.domains = this.pubrio.splitComma(this.domains);
-    if (this.categories) data.categories = this.pubrio.splitComma(this.categories);
+    if (this.domains?.length) data.domains = this.domains;
+    if (this.categories?.length) data.categories = this.categories;
     if (this.publishedDateFrom || this.publishedDateTo) {
-      data.published_dates = [this.publishedDateFrom || this.publishedDateTo, this.publishedDateTo || this.publishedDateFrom];
+      data.published_dates = [this.publishedDateFrom ?? null, this.publishedDateTo ?? null];
     }
-    if (this.locations) data.locations = this.pubrio.splitComma(this.locations);
-    if (this.companyLocations) data.company_locations = this.pubrio.splitComma(this.companyLocations);
-    if (this.newsGalleryIds) data.news_gallery_ids = this.pubrio.splitComma(this.newsGalleryIds);
-    if (this.newsGalleries) data.news_galleries = this.pubrio.splitComma(this.newsGalleries);
-    if (this.newsLanguages) data.news_languages = this.pubrio.splitComma(this.newsLanguages);
+    if (this.locations?.length) data.locations = this.locations;
+    if (this.companyLocations?.length) data.company_locations = this.companyLocations;
+    if (this.newsGalleryIds?.length) data.news_gallery_ids = this.newsGalleryIds;
+    if (this.newsGalleries?.length) data.news_galleries = this.newsGalleries;
+    if (this.newsLanguages?.length) data.news_languages = this.newsLanguages;
     const response = await this.pubrio.makeRequest({ $, method: "POST", url: "/companies/news/search", data });
     $.export("$summary", `Found ${response.data?.length ?? 0} news articles`);
     return response;

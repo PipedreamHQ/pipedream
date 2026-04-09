@@ -6,6 +6,10 @@ export default {
   description: "Delete an existing signal monitor. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+  },
   props: {
     pubrio,
     monitorId: {

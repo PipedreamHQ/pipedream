@@ -6,12 +6,15 @@ export default {
   description: "Batch reveal contact information for multiple people (uses credits). [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    openWorldHint: true,
+  },
   props: {
     pubrio,
     peoples: {
-      type: "string",
+      type: "string[]",
       label: "Peoples",
-      description: "Comma-separated people search IDs or LinkedIn URLs to redeem",
+      description: "People search IDs or LinkedIn URLs to redeem",
     },
     peopleContactTypes: {
       type: "string[]",
@@ -23,7 +26,7 @@ export default {
   },
   async run({ $ }) {
     const data = {
-      peoples: this.pubrio.splitComma(this.peoples),
+      peoples: this.peoples,
     };
     if (this.peopleContactTypes?.length) data.people_contact_types = this.peopleContactTypes;
     const response = await this.pubrio.makeRequest({

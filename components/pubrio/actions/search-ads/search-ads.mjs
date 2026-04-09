@@ -6,30 +6,34 @@ export default {
   description: "Search advertisements across companies. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   props: {
     pubrio,
     searchTerms: {
-      type: "string",
+      type: "string[]",
       label: "Search Terms",
-      description: "Comma-separated search terms",
+      description: "Search terms",
       optional: true,
     },
     targetLocations: {
-      type: "string",
+      type: "string[]",
       label: "Target Locations",
-      description: "Comma-separated target location codes",
+      description: "Target location codes",
       optional: true,
     },
     excludeTargetLocations: {
-      type: "string",
+      type: "string[]",
       label: "Exclude Target Locations",
-      description: "Comma-separated target location codes to exclude",
+      description: "Target location codes to exclude",
       optional: true,
     },
     headlines: {
-      type: "string",
+      type: "string[]",
       label: "Headlines",
-      description: "Comma-separated headline keywords",
+      description: "Headline keywords",
       optional: true,
     },
     startDateFrom: {
@@ -57,9 +61,9 @@ export default {
       optional: true,
     },
     companyLocations: {
-      type: "string",
+      type: "string[]",
       label: "Company Locations",
-      description: "Comma-separated company location codes",
+      description: "Company location codes",
       optional: true,
     },
     domains: { propDefinition: [pubrio, "domains"] },
@@ -68,18 +72,18 @@ export default {
   },
   async run({ $ }) {
     const data = { page: this.page ?? 1, per_page: this.perPage ?? 25 };
-    if (this.searchTerms) data.search_terms = this.pubrio.splitComma(this.searchTerms);
-    if (this.targetLocations) data.target_locations = this.pubrio.splitComma(this.targetLocations);
-    if (this.excludeTargetLocations) data.exclude_target_locations = this.pubrio.splitComma(this.excludeTargetLocations);
-    if (this.headlines) data.headlines = this.pubrio.splitComma(this.headlines);
+    if (this.searchTerms?.length) data.search_terms = this.searchTerms;
+    if (this.targetLocations?.length) data.target_locations = this.targetLocations;
+    if (this.excludeTargetLocations?.length) data.exclude_target_locations = this.excludeTargetLocations;
+    if (this.headlines?.length) data.headlines = this.headlines;
     if (this.startDateFrom || this.startDateTo) {
-      data.start_dates = [this.startDateFrom || this.startDateTo, this.startDateTo || this.startDateFrom];
+      data.start_dates = [this.startDateFrom ?? null, this.startDateTo ?? null];
     }
     if (this.endDateFrom || this.endDateTo) {
-      data.end_dates = [this.endDateFrom || this.endDateTo, this.endDateTo || this.endDateFrom];
+      data.end_dates = [this.endDateFrom ?? null, this.endDateTo ?? null];
     }
-    if (this.companyLocations) data.company_locations = this.pubrio.splitComma(this.companyLocations);
-    if (this.domains) data.domains = this.pubrio.splitComma(this.domains);
+    if (this.companyLocations?.length) data.company_locations = this.companyLocations;
+    if (this.domains?.length) data.domains = this.domains;
     const response = await this.pubrio.makeRequest({ $, method: "POST", url: "/companies/advertisements/search", data });
     $.export("$summary", `Found ${response.data?.length ?? 0} advertisements`);
     return response;

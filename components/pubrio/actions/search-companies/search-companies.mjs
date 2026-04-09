@@ -6,6 +6,10 @@ export default {
   description: "Search B2B companies by name, domain, location, industry, technology, or headcount. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   props: {
     pubrio,
     companyName: {
@@ -27,21 +31,21 @@ export default {
       ],
     },
     keywords: {
-      type: "string",
+      type: "string[]",
       label: "Keywords",
-      description: "Comma-separated keywords",
+      description: "Keywords",
       optional: true,
     },
     verticals: {
-      type: "string",
+      type: "string[]",
       label: "Verticals",
-      description: "Comma-separated industry vertical names",
+      description: "Industry vertical names",
       optional: true,
     },
     technologies: {
-      type: "string",
+      type: "string[]",
       label: "Technologies",
-      description: "Comma-separated technology names",
+      description: "Technology names",
       optional: true,
     },
     employeesMin: {
@@ -55,51 +59,51 @@ export default {
       optional: true,
     },
     linkedinUrls: {
-      type: "string",
+      type: "string[]",
       label: "LinkedIn URLs",
-      description: "Comma-separated LinkedIn company URLs",
+      description: "LinkedIn company URLs",
       optional: true,
     },
     excludeLocations: {
-      type: "string",
+      type: "string[]",
       label: "Exclude Locations",
-      description: "Comma-separated ISO country codes to exclude",
+      description: "ISO country codes to exclude",
       optional: true,
     },
     places: {
-      type: "string",
+      type: "string[]",
       label: "Places",
-      description: "Comma-separated place names",
+      description: "Place names",
       optional: true,
     },
     excludePlaces: {
-      type: "string",
+      type: "string[]",
       label: "Exclude Places",
-      description: "Comma-separated place names to exclude",
+      description: "Place names to exclude",
       optional: true,
     },
     verticalCategories: {
-      type: "string",
+      type: "string[]",
       label: "Vertical Categories",
-      description: "Comma-separated vertical category IDs",
+      description: "Vertical category IDs",
       optional: true,
     },
     verticalSubCategories: {
-      type: "string",
+      type: "string[]",
       label: "Vertical Sub-Categories",
-      description: "Comma-separated vertical sub-category IDs",
+      description: "Vertical sub-category IDs",
       optional: true,
     },
     categories: {
-      type: "string",
+      type: "string[]",
       label: "Technology Categories",
-      description: "Comma-separated technology category IDs",
+      description: "Technology category IDs",
       optional: true,
     },
     companies: {
-      type: "string",
+      type: "string[]",
       label: "Companies",
-      description: "Comma-separated company domain_search_id UUIDs",
+      description: "Company domain_search_id UUIDs",
       optional: true,
     },
     revenueMin: {
@@ -139,27 +143,27 @@ export default {
       optional: true,
     },
     excludeFields: {
-      type: "string",
+      type: "string[]",
       label: "Exclude Fields",
-      description: "Comma-separated field names to exclude from the response",
+      description: "Field names to exclude from the response",
       optional: true,
     },
     jobTitles: {
-      type: "string",
+      type: "string[]",
       label: "Job Titles",
-      description: "Comma-separated job titles",
+      description: "Job titles",
       optional: true,
     },
     jobLocations: {
-      type: "string",
+      type: "string[]",
       label: "Job Locations",
-      description: "Comma-separated country codes for job locations",
+      description: "Country codes for job locations",
       optional: true,
     },
     jobExcludeLocations: {
-      type: "string",
+      type: "string[]",
       label: "Job Exclude Locations",
-      description: "Comma-separated country codes to exclude from job locations",
+      description: "Country codes to exclude from job locations",
       optional: true,
     },
     jobPostedDateFrom: {
@@ -175,9 +179,9 @@ export default {
       optional: true,
     },
     newsCategories: {
-      type: "string",
+      type: "string[]",
       label: "News Categories",
-      description: "Comma-separated news category slugs",
+      description: "News category slugs",
       optional: true,
     },
     newsPublishedDateFrom: {
@@ -193,33 +197,33 @@ export default {
       optional: true,
     },
     newsGalleries: {
-      type: "string",
+      type: "string[]",
       label: "News Galleries",
-      description: "Comma-separated news gallery slugs",
+      description: "News gallery slugs",
       optional: true,
     },
     newsGalleryIds: {
-      type: "string",
+      type: "string[]",
       label: "News Gallery IDs",
-      description: "Comma-separated news gallery UUIDs",
+      description: "News gallery UUIDs",
       optional: true,
     },
     advertisementSearchTerms: {
-      type: "string",
+      type: "string[]",
       label: "Advertisement Search Terms",
-      description: "Comma-separated advertisement keywords",
+      description: "Advertisement keywords",
       optional: true,
     },
     advertisementTargetLocations: {
-      type: "string",
+      type: "string[]",
       label: "Advertisement Target Locations",
-      description: "Comma-separated country codes for advertisement targeting",
+      description: "Country codes for advertisement targeting",
       optional: true,
     },
     advertisementExcludeTargetLocations: {
-      type: "string",
+      type: "string[]",
       label: "Advertisement Exclude Target Locations",
-      description: "Comma-separated country codes to exclude from advertisement targeting",
+      description: "Country codes to exclude from advertisement targeting",
       optional: true,
     },
     advertisementStartDateFrom: {
@@ -265,25 +269,25 @@ export default {
       per_page: this.perPage ?? 25,
     };
     if (this.companyName) data.company_name = this.companyName;
-    if (this.domains) data.domains = this.pubrio.splitComma(this.domains);
+    if (this.domains?.length) data.domains = this.domains;
     if (this.locations?.length) data.locations = this.locations;
-    if (this.keywords) data.keywords = this.pubrio.splitComma(this.keywords);
-    if (this.verticals) data.verticals = this.pubrio.splitComma(this.verticals);
-    if (this.technologies) data.technologies = this.pubrio.splitComma(this.technologies);
+    if (this.keywords?.length) data.keywords = this.keywords;
+    if (this.verticals?.length) data.verticals = this.verticals;
+    if (this.technologies?.length) data.technologies = this.technologies;
     if (this.employeesMin != null || this.employeesMax != null) {
       data.employees = [
         this.employeesMin ?? 1,
         this.employeesMax ?? 1000000,
       ];
     }
-    if (this.linkedinUrls) data.linkedin_urls = this.pubrio.splitComma(this.linkedinUrls);
-    if (this.excludeLocations) data.exclude_locations = this.pubrio.splitComma(this.excludeLocations);
-    if (this.places) data.places = this.pubrio.splitComma(this.places);
-    if (this.excludePlaces) data.exclude_places = this.pubrio.splitComma(this.excludePlaces);
-    if (this.verticalCategories) data.vertical_categories = this.pubrio.splitComma(this.verticalCategories);
-    if (this.verticalSubCategories) data.vertical_sub_categories = this.pubrio.splitComma(this.verticalSubCategories);
-    if (this.categories) data.categories = this.pubrio.splitComma(this.categories);
-    if (this.companies) data.companies = this.pubrio.splitComma(this.companies);
+    if (this.linkedinUrls?.length) data.linkedin_urls = this.linkedinUrls;
+    if (this.excludeLocations?.length) data.exclude_locations = this.excludeLocations;
+    if (this.places?.length) data.places = this.places;
+    if (this.excludePlaces?.length) data.exclude_places = this.excludePlaces;
+    if (this.verticalCategories?.length) data.vertical_categories = this.verticalCategories;
+    if (this.verticalSubCategories?.length) data.vertical_sub_categories = this.verticalSubCategories;
+    if (this.categories?.length) data.categories = this.categories;
+    if (this.companies?.length) data.companies = this.companies;
     if (this.revenueMin != null || this.revenueMax != null) {
       data.revenues = [this.revenueMin ?? 0, this.revenueMax ?? 999999999999];
     }
@@ -292,27 +296,27 @@ export default {
     }
     if (this.isEnableSimilaritySearch != null) data.is_enable_similarity_search = this.isEnableSimilaritySearch;
     if (this.similarityScore) data.similarity_score = this.similarityScore;
-    if (this.excludeFields) data.exclude_fields = this.pubrio.splitComma(this.excludeFields);
-    if (this.jobTitles) data.job_titles = this.pubrio.splitComma(this.jobTitles);
-    if (this.jobLocations) data.job_locations = this.pubrio.splitComma(this.jobLocations);
-    if (this.jobExcludeLocations) data.job_exclude_locations = this.pubrio.splitComma(this.jobExcludeLocations);
+    if (this.excludeFields?.length) data.exclude_fields = this.excludeFields;
+    if (this.jobTitles?.length) data.job_titles = this.jobTitles;
+    if (this.jobLocations?.length) data.job_locations = this.jobLocations;
+    if (this.jobExcludeLocations?.length) data.job_exclude_locations = this.jobExcludeLocations;
     if (this.jobPostedDateFrom || this.jobPostedDateTo) {
-      data.job_posted_dates = [this.jobPostedDateFrom || this.jobPostedDateTo, this.jobPostedDateTo || this.jobPostedDateFrom];
+      data.job_posted_dates = [this.jobPostedDateFrom ?? null, this.jobPostedDateTo ?? null];
     }
-    if (this.newsCategories) data.news_categories = this.pubrio.splitComma(this.newsCategories);
+    if (this.newsCategories?.length) data.news_categories = this.newsCategories;
     if (this.newsPublishedDateFrom || this.newsPublishedDateTo) {
-      data.news_published_dates = [this.newsPublishedDateFrom || this.newsPublishedDateTo, this.newsPublishedDateTo || this.newsPublishedDateFrom];
+      data.news_published_dates = [this.newsPublishedDateFrom ?? null, this.newsPublishedDateTo ?? null];
     }
-    if (this.newsGalleries) data.news_galleries = this.pubrio.splitComma(this.newsGalleries);
-    if (this.newsGalleryIds) data.news_gallery_ids = this.pubrio.splitComma(this.newsGalleryIds);
-    if (this.advertisementSearchTerms) data.advertisement_search_terms = this.pubrio.splitComma(this.advertisementSearchTerms);
-    if (this.advertisementTargetLocations) data.advertisement_target_locations = this.pubrio.splitComma(this.advertisementTargetLocations);
-    if (this.advertisementExcludeTargetLocations) data.advertisement_exclude_target_locations = this.pubrio.splitComma(this.advertisementExcludeTargetLocations);
+    if (this.newsGalleries?.length) data.news_galleries = this.newsGalleries;
+    if (this.newsGalleryIds?.length) data.news_gallery_ids = this.newsGalleryIds;
+    if (this.advertisementSearchTerms?.length) data.advertisement_search_terms = this.advertisementSearchTerms;
+    if (this.advertisementTargetLocations?.length) data.advertisement_target_locations = this.advertisementTargetLocations;
+    if (this.advertisementExcludeTargetLocations?.length) data.advertisement_exclude_target_locations = this.advertisementExcludeTargetLocations;
     if (this.advertisementStartDateFrom || this.advertisementStartDateTo) {
-      data.advertisement_start_dates = [this.advertisementStartDateFrom || this.advertisementStartDateTo, this.advertisementStartDateTo || this.advertisementStartDateFrom];
+      data.advertisement_start_dates = [this.advertisementStartDateFrom ?? null, this.advertisementStartDateTo ?? null];
     }
     if (this.advertisementEndDateFrom || this.advertisementEndDateTo) {
-      data.advertisement_end_dates = [this.advertisementEndDateFrom || this.advertisementEndDateTo, this.advertisementEndDateTo || this.advertisementEndDateFrom];
+      data.advertisement_end_dates = [this.advertisementEndDateFrom ?? null, this.advertisementEndDateTo ?? null];
     }
     const response = await this.pubrio.makeRequest({
       $,
