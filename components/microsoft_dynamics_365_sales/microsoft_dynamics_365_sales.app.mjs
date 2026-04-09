@@ -1,7 +1,7 @@
 import {
   axios, ConfigurationError,
 } from "@pipedream/platform";
-import { APPOINTMENT_CATEGORY_OF_APPOINTMENT_FIELD } from "./common/appointment-fields.mjs";
+import { APPOINTMENT_CATEGORY_OF_APPOINTMENT_FIELD } from "./common/utils.mjs";
 
 const APPOINTMENT_CATEGORY_FIELD = APPOINTMENT_CATEGORY_OF_APPOINTMENT_FIELD;
 

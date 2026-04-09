@@ -1,16 +1,8 @@
 import microsoft from "../../microsoft_dynamics_365_sales.app.mjs";
-import { APPOINTMENT_CATEGORY_OF_APPOINTMENT_FIELD } from "../../common/appointment-fields.mjs";
-
-/** @param {string} entityIdHeader OData-EntityId response header */
-function appointmentIdFromEntityHeader(entityIdHeader) {
-  if (!entityIdHeader) {
-    return "";
-  }
-  const match = String(entityIdHeader).match(/appointments\(([^)]+)\)/);
-  return match
-    ? match[1]
-    : "";
-}
+import {
+  APPOINTMENT_CATEGORY_OF_APPOINTMENT_FIELD,
+  appointmentIdFromEntityHeader,
+} from "../../common/utils.mjs";
 
 export default {
   key: "microsoft_dynamics_365_sales-create-appointment",

@@ -15,3 +15,30 @@ function resolveAppointmentCategoryField() {
 
 export const APPOINTMENT_CATEGORY_OF_APPOINTMENT_FIELD =
   resolveAppointmentCategoryField();
+
+/**
+ * @param {string} entityIdHeader OData-EntityId response header
+ * @returns {string} Appointment id or empty string
+ */
+export function appointmentIdFromEntityHeader(entityIdHeader) {
+  if (!entityIdHeader) {
+    return "";
+  }
+  const match = String(entityIdHeader).match(/appointments\(([^)]+)\)/);
+  return match
+    ? match[1]
+    : "";
+}
+
+/**
+ * @param {string} value
+ * @param {string} fieldLabel
+ * @returns {number} Epoch milliseconds
+ */
+export function parseScheduleMs(value, fieldLabel) {
+  const ms = Date.parse(value);
+  if (!Number.isFinite(ms)) {
+    throw new Error(`${fieldLabel} must be a valid ISO 8601 datetime`);
+  }
+  return ms;
+}

@@ -1,13 +1,8 @@
 import microsoft from "../../microsoft_dynamics_365_sales.app.mjs";
-import { APPOINTMENT_CATEGORY_OF_APPOINTMENT_FIELD } from "../../common/appointment-fields.mjs";
-
-function parseScheduleMs(value, fieldLabel) {
-  const ms = Date.parse(value);
-  if (!Number.isFinite(ms)) {
-    throw new Error(`${fieldLabel} must be a valid ISO 8601 datetime`);
-  }
-  return ms;
-}
+import {
+  APPOINTMENT_CATEGORY_OF_APPOINTMENT_FIELD,
+  parseScheduleMs,
+} from "../../common/utils.mjs";
 
 export default {
   key: "microsoft_dynamics_365_sales-update-appointment",
