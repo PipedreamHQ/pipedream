@@ -4,7 +4,7 @@ export default {
   key: "freshdesk-list-ticket-fields",
   name: "List Ticket Fields",
   description: "List all ticket fields in Freshdesk. [See the documentation](https://developers.freshdesk.com/api/#list_all_ticket_fields)",
-  version: "0.0.7",
+  version: "0.0.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
