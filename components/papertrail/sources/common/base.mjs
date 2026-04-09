@@ -19,9 +19,6 @@ export default {
     _setLastId(lastId) {
       this.db.set("lastId", lastId);
     },
-    checkBreak() {
-      return false;
-    },
     lastId(results) {
       return results[results.length - 1].id;
     },
