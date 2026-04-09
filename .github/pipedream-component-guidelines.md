@@ -235,9 +235,18 @@ annotations: {
 |---|---|---|---|
 | Fetch / list / search / get | `true` | `false` | `true` |
 | Create / send / post / publish | `false` | `false` | `true` |
-| Update / patch / upsert | `false` | `true` | `true` |
+| Update / patch / upsert | `false` | `false`* | `true` |
 | Archive / disable (reversible) | `false` | `false` | `true` |
 | Delete / purge / permanently remove | `false` | `true` | `true` |
+
+\* Update operations are **generally non-destructive** (`false`) because the change can be
+undone by another update. Use `true` only when the specific endpoint irreversibly overwrites
+data — for example, a full-replace operation that discards prior field values with no
+recovery path. When in doubt, prefer `false`.
+
+`openWorldHint` is `true` for any component that makes external API calls, which covers
+the vast majority of components. Pure utility or formatting components that only process
+their inputs locally (no HTTP requests) should use `false`.
 
 ESLint enforces that all three properties **exist**. Reviews should catch semantically
 incorrect values — a fetch-only action with `readOnlyHint: false`, or a delete action

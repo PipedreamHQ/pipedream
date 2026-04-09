@@ -26,8 +26,12 @@ reviews:
           definition that duplicates one already in the app file
         - Verify `annotations` values are semantically correct (ESLint already enforces presence):
           - `readOnlyHint: true` only when the component exclusively reads data with no side effects
-          - `destructiveHint: true` for any operation that deletes or irreversibly modifies data
-          - `openWorldHint: true` should be true on all components making external API calls
+          - `destructiveHint: true` for operations that permanently delete data or irreversibly
+            overwrite it with no recovery path; update/patch/upsert operations are generally
+            `false` (reversible by another update) unless the specific endpoint does a full
+            destructive replace — when in doubt, flag and let the author decide
+          - `openWorldHint: true` for any component making external API calls (almost all);
+            `false` only for pure utility/formatting components with no HTTP requests
         - Prop `description` fields must be written for AI agent consumption:
           - Include concrete inline examples for non-obvious formats (JSON objects, IDs, dates, enums)
           - Avoid UI-centric language ("select from the dropdown", "choose from the list")

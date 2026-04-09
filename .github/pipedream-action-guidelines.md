@@ -271,16 +271,23 @@ async run({ $ }) {
 
 ## Annotations for Actions
 
-`openWorldHint` must be `true` for all actions. The `readOnlyHint` and `destructiveHint`
-values depend on the API operations performed:
+`openWorldHint` must be `true` for any action that makes external API calls (the vast majority of actions). Pure utility or formatting actions that only process
+their inputs locally (no HTTP requests) should use `false`.
+
+The `readOnlyHint` and `destructiveHint` values depend on the API operations performed:
 
 | Action type | `readOnlyHint` | `destructiveHint` |
 |---|---|---|
 | Fetch / get / list / search / describe | `true` | `false` |
 | Create / add / send / publish | `false` | `false` |
-| Update / edit / patch / upsert | `false` | `false` |
+| Update / edit / patch / upsert | `false` | `false`* |
 | Archive / disable / deactivate (reversible) | `false` | `false` |
 | Delete / remove / purge (irreversible) | `false` | `true` |
+
+\* Update operations are **generally non-destructive** (`false`) because the prior state
+can be restored by another update. Use `true` only when the specific endpoint irreversibly
+overwrites data — for example, a full-replace operation that discards prior field values
+with no recovery path. When in doubt, prefer `false`.
 
 An action that performs both reads and writes (e.g., upsert — create or update) is **not**
 read-only: `readOnlyHint: false`.
