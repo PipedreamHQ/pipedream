@@ -10,7 +10,7 @@ export default {
       description: "Papertrail system ID or name (see [Systems](https://www.papertrail.com/help/settings-api/#systems))",
       async options() {
         const systems = await this.listSystems();
-        return systems.map((s) => ({
+        return (systems || []).map((s) => ({
           value: String(s.id),
           label: `${s.name} (${s.id})`,
         }));

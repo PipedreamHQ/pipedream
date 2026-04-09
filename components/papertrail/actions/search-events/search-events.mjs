@@ -73,20 +73,19 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {};
-    if (this.q != null && this.q !== "") params.q = this.q;
-    if (this.systemId != null && this.systemId !== "") params.system_id = this.systemId;
-    if (this.groupId != null && this.groupId !== "") params.group_id = this.groupId;
-    if (this.minId != null && this.minId !== "") params.min_id = this.minId;
-    if (this.maxId != null && this.maxId !== "") params.max_id = this.maxId;
-    if (this.minTime != null) params.min_time = this.minTime;
-    if (this.maxTime != null) params.max_time = this.maxTime;
-    if (this.limit != null) params.limit = this.limit;
-    if (this.tail !== undefined) params.tail = this.tail;
-
     const response = await this.papertrail.searchEvents({
       $,
-      ...params,
+      params: {
+        q: this.q,
+        systemId: this.systemId,
+        groupId: this.groupId,
+        minId: this.minId,
+        maxId: this.maxId,
+        minTime: this.minTime,
+        maxTime: this.maxTime,
+        limit: this.limit,
+        tail: this.tail,
+      },
     });
 
     const count = response?.events?.length ?? 0;

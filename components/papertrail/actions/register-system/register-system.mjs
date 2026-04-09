@@ -1,4 +1,4 @@
-import { validateRegisterSystemProps } from "../../common/utils.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 import papertrail from "../../papertrail.app.mjs";
 
 export default {
@@ -60,13 +60,19 @@ export default {
     },
   },
   async run({ $ }) {
-    validateRegisterSystemProps({
-      name: this.name,
-      hostname: this.hostname,
-      ipAddress: this.ipAddress,
-      destinationId: this.destinationId,
-      destinationPort: this.destinationPort,
-    });
+    if (this.destinationId || this.destinationPort) {
+      if (!this.hostname) {
+        throw new ConfigurationError(
+          "For a log-destination system, `Hostname` is required (filter hostname for syslog).",
+        );
+      }
+      return;
+    }
+    if (!this.ipAddress) {
+      throw new ConfigurationError(
+        "Provide either `Destination ID` or `Destination Port` with `Hostname`, or `IP Address` for standard syslog (port 514).",
+      );
+    }
 
     const formParams = {
       "system[name]": this.name,
