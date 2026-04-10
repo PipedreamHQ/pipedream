@@ -23,7 +23,7 @@ export default {
     },
     agentId: {
       label: "Agent ID",
-      description: "The agent ID. Example: `0rnbfcr8",
+      description: "The agent ID. Example: `0rnbfcr8`",
       type: "string",
       async options({ page }) {
         const agents = await this.listAgents({
