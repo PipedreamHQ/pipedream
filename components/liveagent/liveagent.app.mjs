@@ -123,7 +123,6 @@ export default {
       $ = this, path, ...args
     }) {
       return axios($, {
-        debug: true,
         url: `${this._apiUrl()}${path}`,
         ...args,
         headers: {
