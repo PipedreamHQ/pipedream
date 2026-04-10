@@ -33,7 +33,7 @@ export default {
 
       let newItems = items
         .filter((item) => item.created > lastTs)
-        .sort((a, b) => a.created - b.created);
+        .sort((a, b) => b.created - a.created);
 
       if (maxResults && newItems.length > maxResults) {
         newItems = newItems.slice(0, maxResults);
@@ -43,7 +43,7 @@ export default {
         this._setLastTs(newItems[newItems.length - 1].created);
       }
 
-      for (const item of newItems) {
+      for (const item of newItems.reverse()) {
         this.$emit(item, this.generateMeta(item));
       }
     },
