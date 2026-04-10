@@ -234,9 +234,9 @@ validation of user-provided inputs.
 
 ## API Calls via App Methods
 
-Actions should invoke API calls through the app object (`this.app.methodName()`), not
-make raw HTTP calls directly in `run()`. If a needed method does not exist in the app
-file, it should be added there (see "App File Conventions" in the general guidelines).
+Actions should invoke API calls through dedicated methods, either in the app object (`this.app.methodName()`) or in the component itself, never
+making raw HTTP calls directly in `run()`. If a needed method does not exist in the app
+file, it should be added there or in the component's methods (see "App File Conventions" in the general guidelines).
 
 ```javascript
 // Correct — delegates to an app method
