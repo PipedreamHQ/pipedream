@@ -3950,8 +3950,7 @@ importers:
         specifier: ^8.3.2
         version: 8.3.2
 
-  components/dataforb2b:
-    specifiers: {}
+  components/dataforb2b: {}
 
   components/dataforseo:
     dependencies:
@@ -5592,8 +5591,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/fleetbase:
-    specifiers: {}
+  components/fleetbase: {}
 
   components/flexie:
     dependencies:
@@ -5637,8 +5635,7 @@ importers:
         specifier: ^3.2.2
         version: 3.2.4
 
-  components/flock:
-    specifiers: {}
+  components/flock: {}
 
   components/flodesk:
     dependencies:
@@ -8917,8 +8914,8 @@ importers:
   components/liveagent:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.8
-        version: 1.6.8
+        specifier: ^3.3.1
+        version: 3.3.1
 
   components/livechat: {}
 
@@ -21855,6 +21852,9 @@ packages:
 
   '@pipedream/platform@3.3.0':
     resolution: {integrity: sha512-vqJ4yp9Ng3tQEr33qiilZlNHsBFP7V1XsHdza+2ksYVs7UA20dfy9ryd1WGWoVfsRaSakPCe+nq2O6Pgp0KtYA==}
+
+  '@pipedream/platform@3.3.1':
+    resolution: {integrity: sha512-efVpYQQxYKcNf+kJJadu4uD5jCdyv+x1UgBRVG0OGOXnQmUvl33KjxXft575tJwLeW5kMJWL+TQngKk4phHMDA==}
 
   '@pipedream/postgresql@2.2.4':
     resolution: {integrity: sha512-ANR8xURO+5tDp/85oP/SrAwUjk+G6Xz5LOU40hsR2OAYGN6wU0cNAMRSq4durl3MVcb2+oxJwB9uNAdYQgga/g==}
@@ -40924,7 +40924,7 @@ snapshots:
 
   '@pipedream/microsoft_outlook@1.7.5':
     dependencies:
-      '@pipedream/platform': 3.3.0
+      '@pipedream/platform': 3.3.1
       axios: 0.30.2
       js-base64: 3.7.8
       md5: 2.3.0
@@ -40934,7 +40934,7 @@ snapshots:
 
   '@pipedream/monday@0.7.0(encoding@0.1.13)':
     dependencies:
-      '@pipedream/platform': 3.3.0
+      '@pipedream/platform': 3.3.1
       form-data: 4.0.4
       lodash.flatmap: 4.5.0
       lodash.map: 4.6.0
@@ -40946,14 +40946,14 @@ snapshots:
 
   '@pipedream/notiff_io@0.1.0':
     dependencies:
-      '@pipedream/platform': 3.3.0
+      '@pipedream/platform': 3.3.1
     transitivePeerDependencies:
       - debug
 
   '@pipedream/notion@1.0.6(encoding@0.1.13)':
     dependencies:
       '@notionhq/client': 5.4.0
-      '@pipedream/platform': 3.3.0
+      '@pipedream/platform': 3.3.1
       '@tryfabric/martian': 1.2.4(encoding@0.1.13)
       lodash-es: 4.18.1
       notion-helper: 1.3.29
@@ -41071,6 +41071,17 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
+  '@pipedream/platform@3.3.1':
+    dependencies:
+      axios: 1.13.2(debug@3.2.7)
+      fp-ts: 2.16.11
+      io-ts: 2.2.22(fp-ts@2.16.11)
+      mime-types: 3.0.1
+      querystring: 0.2.1
+      uuid: 11.1.0
+    transitivePeerDependencies:
+      - debug
+
   '@pipedream/postgresql@2.2.4':
     dependencies:
       '@pipedream/platform': 2.0.2
@@ -41082,20 +41093,20 @@ snapshots:
 
   '@pipedream/procore@0.1.0':
     dependencies:
-      '@pipedream/platform': 3.3.0
+      '@pipedream/platform': 3.3.1
       uuid: 11.1.0
     transitivePeerDependencies:
       - debug
 
   '@pipedream/quickbooks@0.8.0':
     dependencies:
-      '@pipedream/platform': 3.3.0
+      '@pipedream/platform': 3.3.1
     transitivePeerDependencies:
       - debug
 
   '@pipedream/ramp@0.1.2':
     dependencies:
-      '@pipedream/platform': 3.3.0
+      '@pipedream/platform': 3.3.1
       uuid: 10.0.0
     transitivePeerDependencies:
       - debug
@@ -41114,14 +41125,14 @@ snapshots:
 
   '@pipedream/sftp@0.5.1':
     dependencies:
-      '@pipedream/platform': 3.3.0
+      '@pipedream/platform': 3.3.1
       ssh2-sftp-client: 11.0.0
     transitivePeerDependencies:
       - debug
 
   '@pipedream/shopify@0.7.2':
     dependencies:
-      '@pipedream/platform': 3.3.0
+      '@pipedream/platform': 3.3.1
       async-retry: 1.3.3
       bottleneck: 2.19.5
       form-data: 4.0.4
@@ -41133,7 +41144,7 @@ snapshots:
 
   '@pipedream/slack@0.10.3':
     dependencies:
-      '@pipedream/platform': 3.3.0
+      '@pipedream/platform': 3.3.1
       '@slack/web-api': 7.12.0
       async-retry: 1.3.3
       lodash: 4.18.1
@@ -41155,7 +41166,7 @@ snapshots:
   '@pipedream/youtube_data_api@1.0.1(encoding@0.1.13)':
     dependencies:
       '@googleapis/youtube': 6.0.0(encoding@0.1.13)
-      '@pipedream/platform': 3.3.0
+      '@pipedream/platform': 3.3.1
       got: 14.6.4
       util: 0.12.5
     transitivePeerDependencies:
@@ -41689,6 +41700,7 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
+      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.60(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1))(rollup@4.60.1)':
     dependencies:
