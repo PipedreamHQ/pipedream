@@ -3,7 +3,7 @@ import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
-  key: "docugenerate-new-document-created",
+  key: "docugenerate-new-document",
   name: "New Document",
   description: "Emit new event when a document is created for a template. [See the documentation](https://api.docugenerate.com/#/Document/queryDocuments)",
   version: "0.0.1",
