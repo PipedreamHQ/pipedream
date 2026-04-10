@@ -32,6 +32,10 @@ export default {
       propDefinition: [
         buildkite,
         "buildNumber",
+        (c) => ({
+          organizationSlug: c.organizationSlug,
+          pipelineSlug: c.pipelineSlug,
+        }),
       ],
     },
     limit: {

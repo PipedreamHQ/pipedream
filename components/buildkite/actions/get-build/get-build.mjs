@@ -32,6 +32,10 @@ export default {
       propDefinition: [
         buildkite,
         "buildNumber",
+        (c) => ({
+          organizationSlug: c.organizationSlug,
+          pipelineSlug: c.pipelineSlug,
+        }),
       ],
     },
     includeRetriedJobs: {
@@ -45,9 +49,11 @@ export default {
   async run({ $ }) {
     const params = {};
     if (this.includeRetriedJobs) params.include_retried_jobs = true;
-    const response = await this.buildkite._makeRequest({
+    const response = await this.buildkite.getBuild({
       $,
-      path: `/organizations/${this.organizationSlug}/pipelines/${this.pipelineSlug}/builds/${this.buildNumber}`,
+      organizationSlug: this.organizationSlug,
+      pipelineSlug: this.pipelineSlug,
+      buildNumber: this.buildNumber,
       params,
     });
     $.export("$summary", `Successfully retrieved build #${response.number} (${response.state})`);

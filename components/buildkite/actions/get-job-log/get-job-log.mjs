@@ -32,12 +32,21 @@ export default {
       propDefinition: [
         buildkite,
         "buildNumber",
+        (c) => ({
+          organizationSlug: c.organizationSlug,
+          pipelineSlug: c.pipelineSlug,
+        }),
       ],
     },
     jobId: {
       propDefinition: [
         buildkite,
         "jobId",
+        (c) => ({
+          organizationSlug: c.organizationSlug,
+          pipelineSlug: c.pipelineSlug,
+          buildNumber: c.buildNumber,
+        }),
       ],
     },
     format: {

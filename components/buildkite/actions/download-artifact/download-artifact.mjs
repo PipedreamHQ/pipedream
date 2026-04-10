@@ -32,18 +32,34 @@ export default {
       propDefinition: [
         buildkite,
         "buildNumber",
+        (c) => ({
+          organizationSlug: c.organizationSlug,
+          pipelineSlug: c.pipelineSlug,
+        }),
       ],
     },
     jobId: {
       propDefinition: [
         buildkite,
         "jobId",
+        (c) => ({
+          organizationSlug: c.organizationSlug,
+          pipelineSlug: c.pipelineSlug,
+          buildNumber: c.buildNumber,
+        }),
       ],
     },
     artifactId: {
-      type: "string",
-      label: "Artifact ID",
-      description: "The UUID of the artifact to download",
+      propDefinition: [
+        buildkite,
+        "artifactId",
+        (c) => ({
+          organizationSlug: c.organizationSlug,
+          pipelineSlug: c.pipelineSlug,
+          buildNumber: c.buildNumber,
+          jobId: c.jobId,
+        }),
+      ],
     },
   },
   async run({ $ }) {

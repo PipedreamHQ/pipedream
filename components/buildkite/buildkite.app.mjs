@@ -13,7 +13,9 @@ export default {
       description: "The slug of the organization (e.g. `my-org`)",
       async options() {
         const orgs = await this.listOrganizations();
-        return orgs.map(({ slug, name }) => ({
+        return orgs.map(({
+          slug, name,
+        }) => ({
           label: name,
           value: slug,
         }));
@@ -23,12 +25,19 @@ export default {
       type: "string",
       label: "Pipeline Slug",
       description: "The slug of the pipeline (e.g. `my-pipeline`)",
-      async options({ organizationSlug }) {
+      async options({
+        organizationSlug, page,
+      }) {
         if (!organizationSlug) return [];
         const pipelines = await this.listPipelines({
           organizationSlug,
+          params: {
+            page: page + 1,
+          },
         });
-        return pipelines.map(({ slug, name }) => ({
+        return pipelines.map(({
+          slug, name,
+        }) => ({
           label: name,
           value: slug,
         }));
@@ -38,11 +47,65 @@ export default {
       type: "integer",
       label: "Build Number",
       description: "The number of the build",
+      async options({
+        organizationSlug, pipelineSlug, page,
+      }) {
+        if (!organizationSlug || !pipelineSlug) return [];
+        const builds = await this.listBuilds({
+          organizationSlug,
+          pipelineSlug,
+          params: {
+            page: page + 1,
+          },
+        });
+        return builds?.map(({ number }) => ({
+          label: `Build #${number}`,
+          value: number,
+        })) || [];
+      },
     },
     jobId: {
       type: "string",
       label: "Job ID",
       description: "The UUID of the job",
+      async options({
+        organizationSlug, pipelineSlug, buildNumber,
+      }) {
+        if (!organizationSlug || !pipelineSlug || !buildNumber) return [];
+        const build = await this.getBuild({
+          organizationSlug,
+          pipelineSlug,
+          buildNumber,
+        });
+        return build?.jobs?.map(({
+          id, name,
+        }) => ({
+          label: name,
+          value: id,
+        })) || [];
+      },
+    },
+    artifactId: {
+      type: "string",
+      label: "Artifact ID",
+      description: "The UUID of the artifact to download",
+      async options({
+        organizationSlug, pipelineSlug, buildNumber, jobId,
+      }) {
+        if (!organizationSlug || !pipelineSlug || !buildNumber) return [];
+        const artifacts = await this.listArtifacts({
+          organizationSlug,
+          pipelineSlug,
+          buildNumber,
+          jobId,
+        });
+        return artifacts?.map(({
+          id, path,
+        }) => ({
+          label: path,
+          value: id,
+        })) || [];
+      },
     },
     limit: {
       type: "integer",
@@ -117,6 +180,33 @@ export default {
       return this._makeRequest({
         ...opts,
         path: `/organizations/${organizationSlug}/pipelines`,
+      });
+    },
+    getBuild({
+      organizationSlug, pipelineSlug, buildNumber, ...opts
+    }) {
+      return this._makeRequest({
+        ...opts,
+        path: `/organizations/${organizationSlug}/pipelines/${pipelineSlug}/builds/${buildNumber}`,
+      });
+    },
+    listBuilds({
+      organizationSlug, pipelineSlug, ...opts
+    }) {
+      return this._makeRequest({
+        ...opts,
+        path: `/organizations/${organizationSlug}/pipelines/${pipelineSlug}/builds`,
+      });
+    },
+    listArtifacts({
+      organizationSlug, pipelineSlug, buildNumber, jobId, ...opts
+    }) {
+      const jobPath = jobId
+        ? `/jobs/${jobId}`
+        : "";
+      return this._makeRequest({
+        ...opts,
+        path: `/organizations/${organizationSlug}/pipelines/${pipelineSlug}/builds/${buildNumber}${jobPath}/artifacts`,
       });
     },
   },
