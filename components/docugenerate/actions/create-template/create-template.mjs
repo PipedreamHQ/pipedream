@@ -3,7 +3,7 @@ import FormData from "form-data";
 import app from "../../docugenerate.app.mjs";
 
 export default {
-  key: "docugenerate-create-template.mjs",
+  key: "docugenerate-create-template",
   name: "New Template",
   description: "Creates a new document template from a file. [See the documentation](https://api.docugenerate.com/#/Template/createTemplate)",
   version: "0.0.1",
