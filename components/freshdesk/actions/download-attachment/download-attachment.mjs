@@ -6,7 +6,7 @@ export default {
   key: "freshdesk-download-attachment",
   name: "Download Attachment",
   description: "Download an attachment from a ticket. [See the documentation](https://developers.freshdesk.com/api/#view_a_ticket)",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
   annotations: {
     destructiveHint: false,
