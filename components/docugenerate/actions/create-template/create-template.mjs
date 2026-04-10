@@ -1,5 +1,6 @@
 import { getFileStreamAndMetadata } from "@pipedream/platform";
 import FormData from "form-data";
+import { REGION_OPTIONS } from "../../common/constants.mjs";
 import app from "../../docugenerate.app.mjs";
 
 export default {
@@ -24,7 +25,7 @@ export default {
     name: {
       type: "string",
       label: "Name",
-      description: "The template`s name. If not provided, it will be initialized with the name of the uploaded template file.",
+      description: "The template's name. If not provided, it will be initialized with the name of the uploaded template file.",
       optional: true,
     },
     delimiters: {
@@ -38,22 +39,22 @@ export default {
       type: "string",
       label: "Region",
       description: `The physical location where the template and its generated documents are stored.
-      \nThis value is optional. If omitted, the account's default region will be used.
-      \nPossible values are \`us\` (United States), \`eu\` (European Union), \`uk\` (United Kingdom), and \`au\` (Australia).`,
+      \nThis value is optional. If omitted, the account's default region will be used.`,
+      options: REGION_OPTIONS,
       optional: true,
     },
     enhancedSyntax: {
       type: "boolean",
       label: "Enhanced Syntax",
       description: `Flag to determine if nested properties of objects and logical & mathematical operators can be used for this template. The default value is false.
-      \nEnabling this flag make it possible to use tags like \`[item.name]\` in the template, where \`item\` is an object containing the \`name\` property.`,
+      \nEnabling this flag makes it possible to use tags like \`[item.name]\` in the template, where \`item\` is an object containing the \`name\` property.`,
       optional: true,
     },
     versioningEnabled: {
       type: "boolean",
       label: "Versioning Enabled",
       description: `Flag to enable template file versioning, preserving previous versions when a new file is uploaded.
-      \nThe default value is \`true\` if the versioning feature is available, otherwhise the default value is \`false\`.
+      \nThe default value is \`true\` if the versioning feature is available, otherwise the default value is \`false\`.
       \nThe template versioning feature is available only with the Premium and Business plans.`,
       optional: true,
     },
