@@ -1,11 +1,11 @@
 import zohoDesk from "../../zoho_desk.app.mjs";
 
 export default {
-  key: "zoho_desk-list-ticket-threads",
-  name: "List Ticket Threads",
-  description: "Get a list of threads for a specified ticket. [See the documentation](https://desk.zoho.com/DeskAPIDocument#Threads#Threads_Listallthreads)",
+  key: "zoho_desk-list-ticket-comments",
+  name: "List All Ticket Comments",
+  description: "Retrieves all comments for a specified ticket. [See the documentation](https://desk.zoho.com/DeskAPIDocument#TicketsComments_Listallticketcomments)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -53,7 +53,7 @@ export default {
     if (from) params.from = from;
     if (limit) params.limit = limit;
 
-    const response = await this.zohoDesk.getTicketThreads({
+    const response = await this.zohoDesk.getTicketComments({
       $,
       ticketId,
       headers: {
@@ -62,9 +62,8 @@ export default {
       params,
     });
 
-    const threads = response.data || [];
-    $.export("$summary", `Successfully retrieved ${threads.length} thread(s)`);
+    $.export("$summary", `Successfully retrieved ${response.data?.length} comment(s) for ticket ID ${ticketId}`);
 
-    return threads;
+    return response;
   },
 };

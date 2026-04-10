@@ -1,11 +1,11 @@
 import zohoDesk from "../../zoho_desk.app.mjs";
 
 export default {
-  key: "zoho_desk-get-thread-details",
-  name: "Get Thread Details",
-  description: "Retrieve details for a specific thread belonging to a ticket. [See the documentation](https://desk.zoho.com/DeskAPIDocument#Threads_Getathread)",
+  key: "zoho_desk-get-ticket-comment-history",
+  name: "Get Ticket Comment History",
+  description: "Retrieves the edit history of a specific ticket comment. [See the documentation](https://desk.zoho.com/DeskAPIDocument#TicketsComments_Getaticketcommenthistory)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -28,10 +28,10 @@ export default {
         }),
       ],
     },
-    threadId: {
+    commentId: {
       propDefinition: [
         zohoDesk,
-        "threadId",
+        "commentId",
         ({
           orgId, ticketId,
         }) => ({
@@ -45,20 +45,21 @@ export default {
     const {
       orgId,
       ticketId,
-      threadId,
+      commentId,
     } = this;
 
-    const response = await this.zohoDesk.getThreadDetails({
+    const response = await this.zohoDesk.getTicketCommentHistory({
       $,
       ticketId,
-      threadId,
+      commentId,
       headers: {
         orgId,
       },
     });
 
-    $.export("$summary", `Successfully retrieved thread details for thread ID ${threadId}`);
+    const history = response.data || response;
+    $.export("$summary", `Successfully retrieved history for comment with ID ${commentId}`);
 
-    return response.data || response;
+    return history;
   },
 };
