@@ -21,16 +21,16 @@ export default {
       optional: true,
     },
     systemId: {
-      type: "string",
-      label: "System ID or Name",
-      description: "Limit results to a system (numeric ID or allowed name).",
-      optional: true,
+      propDefinition: [
+        papertrail,
+        "systemId",
+      ],
     },
     groupId: {
-      type: "string",
-      label: "Group ID",
-      description: "Limit results to a group (numeric ID only).",
-      optional: true,
+      propDefinition: [
+        papertrail,
+        "groupId",
+      ],
     },
     minId: {
       type: "string",

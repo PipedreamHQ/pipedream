@@ -6,13 +6,27 @@ export default {
   propDefinitions: {
     systemId: {
       type: "string",
-      label: "System",
-      description: "Papertrail system ID or name (see [Systems](https://www.papertrail.com/help/settings-api/#systems))",
+      label: "System ID",
+      description: "Papertrail system ID",
+      optional: true,
       async options() {
         const systems = await this.listSystems();
         return (systems || []).map((s) => ({
           value: String(s.id),
           label: `${s.name} (${s.id})`,
+        }));
+      },
+    },
+    groupId: {
+      type: "string",
+      label: "Group ID",
+      description: "The ID of the group",
+      optional: true,
+      async options() {
+        const groups = await this.listGroups();
+        return (groups || []).map((g) => ({
+          value: String(g.id),
+          label: `${g.name} (${g.id})`,
         }));
       },
     },
