@@ -1,7 +1,7 @@
 import liveagent from "../../liveagent.app.mjs";
 
 export default {
-  key: "update-ticket-status",
+  key: "liveagent-update-ticket-status",
   name: "Update Ticket Status",
   description: "Update the status of a ticket. [See the documentation](https://support.liveagent.com/911737-API-v3)",
   version: "0.0.1",

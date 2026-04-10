@@ -1,7 +1,7 @@
 import liveagent from "../../liveagent.app.mjs";
 
 export default {
-  key: "get-ticket",
+  key: "liveagent-get-ticket",
   name: "Get Ticket",
   description: "Get a ticket. [See the documentation](https://support.liveagent.com/911737-API-v3)",
   version: "0.0.1",

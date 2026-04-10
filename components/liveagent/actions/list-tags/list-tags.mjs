@@ -1,7 +1,7 @@
 import liveagent from "../../liveagent.app.mjs";
 
 export default {
-  key: "list-tags",
+  key: "liveagent-list-tags",
   name: "List Tags",
   description: "Lists all tags. [See the documentation](https://support.liveagent.com/911737-API-v3)",
   version: "0.0.1",

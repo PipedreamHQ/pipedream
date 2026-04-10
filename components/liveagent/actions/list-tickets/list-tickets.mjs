@@ -1,7 +1,7 @@
 import liveagent from "../../liveagent.app.mjs";
 
 export default {
-  key: "list-tickets",
+  key: "liveagent-list-tickets",
   name: "List Tickets",
   description: "Lists all tickets. [See the documentation](https://support.liveagent.com/911737-API-v3)",
   version: "0.0.1",

@@ -1,7 +1,7 @@
 import liveagent from "../../liveagent.app.mjs";
 
 export default {
-  key: "add-tag-to-ticket",
+  key: "liveagent-add-tag-to-ticket",
   name: "Add Tag to Ticket",
   description: "Add a tag to a ticket. [See the documentation](https://support.liveagent.com/911737-API-v3)",
   version: "0.0.1",

@@ -1,7 +1,7 @@
 import liveagent from "../../liveagent.app.mjs";
 
 export default {
-  key: "get-agent",
+  key: "liveagent-get-agent",
   name: "Get Agent",
   description: "Retrieves agent info and auth token. [See the documentation](https://support.liveagent.com/911737-API-v3)",
   type: "action",
