@@ -3950,8 +3950,7 @@ importers:
         specifier: ^8.3.2
         version: 8.3.2
 
-  components/dataforb2b:
-    specifiers: {}
+  components/dataforb2b: {}
 
   components/dataforseo:
     dependencies:
@@ -4426,6 +4425,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
+      form-data:
+        specifier: 4.0.4
+        version: 4.0.4
 
   components/documenso:
     dependencies:
@@ -5592,8 +5594,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/fleetbase:
-    specifiers: {}
+  components/fleetbase: {}
 
   components/flexie:
     dependencies:
@@ -5637,8 +5638,7 @@ importers:
         specifier: ^3.2.2
         version: 3.2.4
 
-  components/flock:
-    specifiers: {}
+  components/flock: {}
 
   components/flodesk:
     dependencies:
@@ -41689,6 +41689,7 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
+      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.60(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1))(rollup@4.60.1)':
     dependencies:
