@@ -4,8 +4,11 @@ export default {
   key: "docuwriter_ai-generate-swagger-api",
   name: "Generate Swagger/OpenAPI Spec",
   description: "Generate an OpenAPI/Swagger specification from source code. Consumes 1 credit per call. Requires workflow timeout of 5+ minutes for large files. [See the documentation](https://docs.docuwriter.ai/docuwriterai-api-docs/92065)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  annotations: {
+    openWorldHint: true,
+  },
   props: {
     docuwriter_ai: {
       type: "app",

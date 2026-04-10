@@ -4,8 +4,11 @@ export default {
   key: "docuwriter_ai-generate-tests",
   name: "Generate Code Tests",
   description: "Generate unit or integration tests for a source code file. Consumes 1 credit per call. Requires workflow timeout of 5+ minutes for large files. [See the documentation](https://docs.docuwriter.ai/docuwriterai-api-docs/92068)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  annotations: {
+    openWorldHint: true,
+  },
   props: {
     docuwriter_ai: {
       type: "app",

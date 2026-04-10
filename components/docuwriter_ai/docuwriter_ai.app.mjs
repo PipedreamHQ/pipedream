@@ -46,5 +46,12 @@ export default {
         data,
       });
     },
+    async listGenerations($, params = {}) {
+      return this._makeRequest($, {
+        method: "GET",
+        path: "/generations",
+        params,
+      });
+    },
   },
 };
