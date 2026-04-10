@@ -90,7 +90,7 @@ export default {
       label: "Artifact ID",
       description: "The UUID of the artifact to download",
       async options({
-        organizationSlug, pipelineSlug, buildNumber, jobId,
+        organizationSlug, pipelineSlug, buildNumber, jobId, page,
       }) {
         if (!organizationSlug || !pipelineSlug || !buildNumber) return [];
         const artifacts = await this.listArtifacts({
@@ -98,6 +98,9 @@ export default {
           pipelineSlug,
           buildNumber,
           jobId,
+          params: {
+            page: page + 1,
+          },
         });
         return artifacts?.map(({
           id, path,
