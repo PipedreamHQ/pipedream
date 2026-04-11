@@ -8,7 +8,7 @@ export default {
     fileId: {
       type: "string",
       label: "File ID",
-      description: "The unique ID of the uploaded file.",
+      description: "The unique ID of the uploaded file (the `file_id` field returned by the Upload File action).",
     },
     filePath: {
       type: "string",
