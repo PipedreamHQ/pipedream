@@ -7,13 +7,24 @@ export default {
   version: "0.0.1",
   type: "action",
   annotations: {
-    readOnlyHint: true,
     openWorldHint: true,
+    readOnlyHint: false,
+    destructiveHint: false,
   },
   props: {
     pubrio,
-    lookupType: { propDefinition: [pubrio, "lookupTypeDomain"] },
-    value: { propDefinition: [pubrio, "lookupValue"] },
+    lookupType: {
+      propDefinition: [
+        pubrio,
+        "lookupTypeDomain",
+      ],
+    },
+    value: {
+      propDefinition: [
+        pubrio,
+        "lookupValue",
+      ],
+    },
   },
   async run({ $ }) {
     let val = this.value;
@@ -25,7 +36,9 @@ export default {
     }
     const response = await this.pubrio.enrichCompany({
       $,
-      data: { [this.lookupType]: val },
+      data: {
+        [this.lookupType]: val,
+      },
     });
     $.export("$summary", "Successfully enriched company");
     return response;

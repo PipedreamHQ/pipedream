@@ -7,8 +7,9 @@ export default {
   version: "0.0.1",
   type: "action",
   annotations: {
-    readOnlyHint: true,
     openWorldHint: true,
+    readOnlyHint: true,
+    destructiveHint: false,
   },
   props: {
     pubrio,
@@ -21,7 +22,9 @@ export default {
   async run({ $ }) {
     const response = await this.pubrio.lookupAdvertisement({
       $,
-      data: { advertisement_search_id: this.advertisementSearchId },
+      data: {
+        advertisement_search_id: this.advertisementSearchId,
+      },
     });
     $.export("$summary", "Successfully looked up advertisement");
     return response;

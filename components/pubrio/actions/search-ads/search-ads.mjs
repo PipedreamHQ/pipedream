@@ -7,8 +7,9 @@ export default {
   version: "0.0.1",
   type: "action",
   annotations: {
-    readOnlyHint: true,
     openWorldHint: true,
+    readOnlyHint: true,
+    destructiveHint: false,
   },
   props: {
     pubrio,
@@ -66,21 +67,47 @@ export default {
       description: "Company location codes",
       optional: true,
     },
-    domains: { propDefinition: [pubrio, "domains"] },
-    page: { propDefinition: [pubrio, "page"] },
-    perPage: { propDefinition: [pubrio, "perPage"] },
+    domains: {
+      propDefinition: [
+        pubrio,
+        "domains",
+      ],
+    },
+    page: {
+      propDefinition: [
+        pubrio,
+        "page",
+      ],
+    },
+    perPage: {
+      propDefinition: [
+        pubrio,
+        "perPage",
+      ],
+    },
   },
   async run({ $ }) {
-    const data = { page: this.page ?? 1, per_page: this.perPage ?? 25 };
+    const data = {
+      page: this.page ?? 1,
+      per_page: this.perPage ?? 25,
+    };
     if (this.searchTerms?.length) data.search_terms = this.searchTerms;
     if (this.targetLocations?.length) data.target_locations = this.targetLocations;
-    if (this.excludeTargetLocations?.length) data.exclude_target_locations = this.excludeTargetLocations;
+    if (this.excludeTargetLocations?.length) {
+      data.exclude_target_locations = this.excludeTargetLocations;
+    }
     if (this.headlines?.length) data.headlines = this.headlines;
     if (this.startDateFrom || this.startDateTo) {
-      data.start_dates = [this.startDateFrom ?? null, this.startDateTo ?? null];
+      data.start_dates = [
+        this.startDateFrom ?? null,
+        this.startDateTo ?? null,
+      ];
     }
     if (this.endDateFrom || this.endDateTo) {
-      data.end_dates = [this.endDateFrom ?? null, this.endDateTo ?? null];
+      data.end_dates = [
+        this.endDateFrom ?? null,
+        this.endDateTo ?? null,
+      ];
     }
     if (this.companyLocations?.length) data.company_locations = this.companyLocations;
     if (this.domains?.length) data.domains = this.domains;

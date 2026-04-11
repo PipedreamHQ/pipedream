@@ -7,13 +7,24 @@ export default {
   version: "0.0.1",
   type: "action",
   annotations: {
-    readOnlyHint: true,
     openWorldHint: true,
+    readOnlyHint: true,
+    destructiveHint: false,
   },
   props: {
     pubrio,
-    page: { propDefinition: [pubrio, "page"] },
-    perPage: { propDefinition: [pubrio, "perPage"] },
+    page: {
+      propDefinition: [
+        pubrio,
+        "page",
+      ],
+    },
+    perPage: {
+      propDefinition: [
+        pubrio,
+        "perPage",
+      ],
+    },
     searchTerm: {
       type: "string",
       label: "Search Term",
@@ -24,7 +35,11 @@ export default {
       type: "string[]",
       label: "Destination Type",
       description: "Filter by destination type",
-      options: ["webhook", "email", "sequences"],
+      options: [
+        "webhook",
+        "email",
+        "sequences",
+      ],
       optional: true,
     },
     detectionMode: {

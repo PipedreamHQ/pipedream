@@ -8,6 +8,8 @@ export default {
   type: "action",
   annotations: {
     openWorldHint: true,
+    readOnlyHint: false,
+    destructiveHint: false,
   },
   props: {
     pubrio,
@@ -35,7 +37,11 @@ export default {
       type: "string[]",
       label: "Signal Types",
       description: "Types of signals to monitor",
-      options: ["jobs", "news", "advertisements"],
+      options: [
+        "jobs",
+        "news",
+        "advertisements",
+      ],
     },
     destinationType: {
       type: "string",
@@ -189,7 +195,9 @@ export default {
     };
     if (this.destinationType === "webhook" && this.webhookUrl) data.webhook_url = this.webhookUrl;
     if (this.destinationType === "email" && this.email) data.email = this.email;
-    if (this.destinationType === "sequences" && this.sequenceIdentifier) data.sequence_identifier = this.sequenceIdentifier;
+    if (this.destinationType === "sequences" && this.sequenceIdentifier) {
+      data.sequence_identifier = this.sequenceIdentifier;
+    }
     if (this.description) data.description = this.description;
     if (this.frequencyMinute != null) data.frequency_minute = this.frequencyMinute;
     if (this.maxDailyTrigger != null) data.max_daily_trigger = this.maxDailyTrigger;
@@ -197,21 +205,33 @@ export default {
     if (this.companies?.length) data.companies = this.companies;
     if (this.domains?.length) data.domains = this.domains;
     if (this.linkedinUrls?.length) data.linkedin_urls = this.linkedinUrls;
-    if (this.companyFilters) data.company_filters = this.pubrio.parseJsonField(this.companyFilters, "company_filters", "object");
-    if (this.signalFilters) data.signal_filters = this.pubrio.parseJsonField(this.signalFilters, "signal_filters", "array");
-    if (this.peopleEnrichmentConfigs) data.people_enrichment_configs = this.pubrio.parseJsonField(this.peopleEnrichmentConfigs, "people_enrichment_configs", "array");
+    if (this.companyFilters) {
+      data.company_filters = this.pubrio.parseJsonField(this.companyFilters, "company_filters", "object");
+    }
+    if (this.signalFilters) {
+      data.signal_filters = this.pubrio.parseJsonField(this.signalFilters, "signal_filters", "array");
+    }
+    if (this.peopleEnrichmentConfigs) {
+      data.people_enrichment_configs = this.pubrio.parseJsonField(this.peopleEnrichmentConfigs, "people_enrichment_configs", "array");
+    }
     if (this.isCompanyEnrichment != null) data.is_company_enrichment = this.isCompanyEnrichment;
     if (this.isPeopleEnrichment != null) data.is_people_enrichment = this.isPeopleEnrichment;
     if (this.maxFailureTrigger != null) {
-      if (this.maxFailureTrigger < 1 || this.maxFailureTrigger > 10) throw new Error("Max Failure Trigger must be between 1 and 10");
+      if (this.maxFailureTrigger < 1 || this.maxFailureTrigger > 10) {
+        throw new Error("Max Failure Trigger must be between 1 and 10");
+      }
       data.max_failure_trigger = this.maxFailureTrigger;
     }
     if (this.maxRetryPerTrigger != null) {
-      if (this.maxRetryPerTrigger < 0 || this.maxRetryPerTrigger > 3) throw new Error("Max Retry Per Trigger must be between 0 and 3");
+      if (this.maxRetryPerTrigger < 0 || this.maxRetryPerTrigger > 3) {
+        throw new Error("Max Retry Per Trigger must be between 0 and 3");
+      }
       data.max_retry_per_trigger = this.maxRetryPerTrigger;
     }
     if (this.retryDelaySecond != null) {
-      if (this.retryDelaySecond < 1 || this.retryDelaySecond > 5) throw new Error("Retry Delay must be between 1 and 5 seconds");
+      if (this.retryDelaySecond < 1 || this.retryDelaySecond > 5) {
+        throw new Error("Retry Delay must be between 1 and 5 seconds");
+      }
       data.retry_delay_second = this.retryDelaySecond;
     }
     if (this.notificationEmail) data.notification_email = this.notificationEmail;

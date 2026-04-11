@@ -7,18 +7,31 @@ export default {
   version: "0.0.1",
   type: "action",
   annotations: {
-    readOnlyHint: true,
     openWorldHint: true,
+    readOnlyHint: false,
+    destructiveHint: false,
   },
   props: {
     pubrio,
-    lookupType: { propDefinition: [pubrio, "lookupTypePerson"] },
-    value: { propDefinition: [pubrio, "lookupValue"] },
+    lookupType: {
+      propDefinition: [
+        pubrio,
+        "lookupTypePerson",
+      ],
+    },
+    value: {
+      propDefinition: [
+        pubrio,
+        "lookupValue",
+      ],
+    },
   },
   async run({ $ }) {
     const response = await this.pubrio.enrichPerson({
       $,
-      data: { [this.lookupType]: this.value },
+      data: {
+        [this.lookupType]: this.value,
+      },
     });
     $.export("$summary", "Successfully enriched person");
     return response;

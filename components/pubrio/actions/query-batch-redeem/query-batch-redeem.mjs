@@ -7,8 +7,9 @@ export default {
   version: "0.0.1",
   type: "action",
   annotations: {
-    readOnlyHint: true,
     openWorldHint: true,
+    readOnlyHint: true,
+    destructiveHint: false,
   },
   props: {
     pubrio,
@@ -21,7 +22,9 @@ export default {
   async run({ $ }) {
     const response = await this.pubrio.queryBatchRedeem({
       $,
-      data: { redeem_query_id: this.redeemQueryId },
+      data: {
+        redeem_query_id: this.redeemQueryId,
+      },
     });
     $.export("$summary", "Successfully queried batch redeem status");
     return response;

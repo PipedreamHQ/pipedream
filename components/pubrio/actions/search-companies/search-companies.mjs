@@ -7,8 +7,9 @@ export default {
   version: "0.0.1",
   type: "action",
   annotations: {
-    readOnlyHint: true,
     openWorldHint: true,
+    readOnlyHint: true,
+    destructiveHint: false,
   },
   props: {
     pubrio,
@@ -51,11 +52,13 @@ export default {
     employeesMin: {
       type: "integer",
       label: "Min Employees",
+      description: "Minimum number of employees",
       optional: true,
     },
     employeesMax: {
       type: "integer",
       label: "Max Employees",
+      description: "Maximum number of employees",
       optional: true,
     },
     linkedinUrls: {
@@ -285,16 +288,26 @@ export default {
     if (this.places?.length) data.places = this.places;
     if (this.excludePlaces?.length) data.exclude_places = this.excludePlaces;
     if (this.verticalCategories?.length) data.vertical_categories = this.verticalCategories;
-    if (this.verticalSubCategories?.length) data.vertical_sub_categories = this.verticalSubCategories;
+    if (this.verticalSubCategories?.length) {
+      data.vertical_sub_categories = this.verticalSubCategories;
+    }
     if (this.categories?.length) data.categories = this.categories;
     if (this.companies?.length) data.companies = this.companies;
     if (this.revenueMin != null || this.revenueMax != null) {
-      data.revenues = [this.revenueMin ?? 0, this.revenueMax ?? 999999999999];
+      data.revenues = [
+        this.revenueMin ?? 0,
+        this.revenueMax ?? 999999999999,
+      ];
     }
     if (this.foundedYearStart != null || this.foundedYearEnd != null) {
-      data.founded_dates = [this.foundedYearStart ?? 1900, this.foundedYearEnd ?? 2100];
+      data.founded_dates = [
+        this.foundedYearStart ?? 1900,
+        this.foundedYearEnd ?? 2100,
+      ];
     }
-    if (this.isEnableSimilaritySearch != null) data.is_enable_similarity_search = this.isEnableSimilaritySearch;
+    if (this.isEnableSimilaritySearch != null) {
+      data.is_enable_similarity_search = this.isEnableSimilaritySearch;
+    }
     if (this.similarityScore != null && this.similarityScore !== "") {
       const score = parseFloat(this.similarityScore);
       if (Number.isNaN(score) || score < 0 || score > 1) {
@@ -307,22 +320,40 @@ export default {
     if (this.jobLocations?.length) data.job_locations = this.jobLocations;
     if (this.jobExcludeLocations?.length) data.job_exclude_locations = this.jobExcludeLocations;
     if (this.jobPostedDateFrom || this.jobPostedDateTo) {
-      data.job_posted_dates = [this.jobPostedDateFrom ?? null, this.jobPostedDateTo ?? null];
+      data.job_posted_dates = [
+        this.jobPostedDateFrom ?? null,
+        this.jobPostedDateTo ?? null,
+      ];
     }
     if (this.newsCategories?.length) data.news_categories = this.newsCategories;
     if (this.newsPublishedDateFrom || this.newsPublishedDateTo) {
-      data.news_published_dates = [this.newsPublishedDateFrom ?? null, this.newsPublishedDateTo ?? null];
+      data.news_published_dates = [
+        this.newsPublishedDateFrom ?? null,
+        this.newsPublishedDateTo ?? null,
+      ];
     }
     if (this.newsGalleries?.length) data.news_galleries = this.newsGalleries;
     if (this.newsGalleryIds?.length) data.news_gallery_ids = this.newsGalleryIds;
-    if (this.advertisementSearchTerms?.length) data.advertisement_search_terms = this.advertisementSearchTerms;
-    if (this.advertisementTargetLocations?.length) data.advertisement_target_locations = this.advertisementTargetLocations;
-    if (this.advertisementExcludeTargetLocations?.length) data.advertisement_exclude_target_locations = this.advertisementExcludeTargetLocations;
+    if (this.advertisementSearchTerms?.length) {
+      data.advertisement_search_terms = this.advertisementSearchTerms;
+    }
+    if (this.advertisementTargetLocations?.length) {
+      data.advertisement_target_locations = this.advertisementTargetLocations;
+    }
+    if (this.advertisementExcludeTargetLocations?.length) {
+      data.advertisement_exclude_target_locations = this.advertisementExcludeTargetLocations;
+    }
     if (this.advertisementStartDateFrom || this.advertisementStartDateTo) {
-      data.advertisement_start_dates = [this.advertisementStartDateFrom ?? null, this.advertisementStartDateTo ?? null];
+      data.advertisement_start_dates = [
+        this.advertisementStartDateFrom ?? null,
+        this.advertisementStartDateTo ?? null,
+      ];
     }
     if (this.advertisementEndDateFrom || this.advertisementEndDateTo) {
-      data.advertisement_end_dates = [this.advertisementEndDateFrom ?? null, this.advertisementEndDateTo ?? null];
+      data.advertisement_end_dates = [
+        this.advertisementEndDateFrom ?? null,
+        this.advertisementEndDateTo ?? null,
+      ];
     }
     const response = await this.pubrio.searchCompanies({
       $,

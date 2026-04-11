@@ -7,8 +7,9 @@ export default {
   version: "0.0.1",
   type: "action",
   annotations: {
-    destructiveHint: true,
     openWorldHint: true,
+    readOnlyHint: false,
+    destructiveHint: true,
   },
   props: {
     pubrio,
@@ -21,7 +22,9 @@ export default {
   async run({ $ }) {
     const response = await this.pubrio.deleteMonitor({
       $,
-      data: { monitor_id: this.monitorId },
+      data: {
+        monitor_id: this.monitorId,
+      },
     });
     $.export("$summary", "Successfully deleted monitor");
     return response;

@@ -7,8 +7,9 @@ export default {
   version: "0.0.1",
   type: "action",
   annotations: {
-    readOnlyHint: true,
     openWorldHint: true,
+    readOnlyHint: true,
+    destructiveHint: false,
   },
   props: {
     pubrio,
@@ -21,7 +22,9 @@ export default {
   async run({ $ }) {
     const response = await this.pubrio.linkedinCompanyLookup({
       $,
-      data: { linkedin_url: this.linkedinUrl },
+      data: {
+        linkedin_url: this.linkedinUrl,
+      },
     });
     $.export("$summary", "Successfully looked up LinkedIn company");
     return response;

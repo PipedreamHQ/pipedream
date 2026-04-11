@@ -8,6 +8,8 @@ export default {
   type: "action",
   annotations: {
     openWorldHint: true,
+    readOnlyHint: false,
+    destructiveHint: false,
   },
   props: {
     pubrio,
@@ -20,7 +22,11 @@ export default {
       type: "string[]",
       label: "Contact Types",
       description: "Types of contact info to reveal",
-      options: ["email-work", "email-personal", "phone"],
+      options: [
+        "email-work",
+        "email-personal",
+        "phone",
+      ],
       optional: true,
     },
   },

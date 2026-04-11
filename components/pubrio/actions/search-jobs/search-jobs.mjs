@@ -7,12 +7,18 @@ export default {
   version: "0.0.1",
   type: "action",
   annotations: {
-    readOnlyHint: true,
     openWorldHint: true,
+    readOnlyHint: true,
+    destructiveHint: false,
   },
   props: {
     pubrio,
-    searchTerm: { propDefinition: [pubrio, "searchTerm"] },
+    searchTerm: {
+      propDefinition: [
+        pubrio,
+        "searchTerm",
+      ],
+    },
     searchTerms: {
       type: "string[]",
       label: "Search Terms",
@@ -37,7 +43,12 @@ export default {
       description: "End date in YYYY-MM-DD format",
       optional: true,
     },
-    locations: { propDefinition: [pubrio, "locations"] },
+    locations: {
+      propDefinition: [
+        pubrio,
+        "locations",
+      ],
+    },
     excludeLocations: {
       type: "string[]",
       label: "Exclude Locations",
@@ -56,23 +67,44 @@ export default {
       description: "Company UUIDs",
       optional: true,
     },
-    domains: { propDefinition: [pubrio, "domains"] },
+    domains: {
+      propDefinition: [
+        pubrio,
+        "domains",
+      ],
+    },
     linkedinUrls: {
       type: "string[]",
       label: "LinkedIn URLs",
       description: "LinkedIn company URLs",
       optional: true,
     },
-    page: { propDefinition: [pubrio, "page"] },
-    perPage: { propDefinition: [pubrio, "perPage"] },
+    page: {
+      propDefinition: [
+        pubrio,
+        "page",
+      ],
+    },
+    perPage: {
+      propDefinition: [
+        pubrio,
+        "perPage",
+      ],
+    },
   },
   async run({ $ }) {
-    const data = { page: this.page ?? 1, per_page: this.perPage ?? 25 };
+    const data = {
+      page: this.page ?? 1,
+      per_page: this.perPage ?? 25,
+    };
     if (this.searchTerm) data.search_term = this.searchTerm;
     if (this.searchTerms?.length) data.search_terms = this.searchTerms;
     if (this.titles?.length) data.titles = this.titles;
     if (this.postedDateFrom || this.postedDateTo) {
-      data.posted_dates = [this.postedDateFrom ?? null, this.postedDateTo ?? null];
+      data.posted_dates = [
+        this.postedDateFrom ?? null,
+        this.postedDateTo ?? null,
+      ];
     }
     if (this.locations?.length) data.locations = this.locations;
     if (this.excludeLocations?.length) data.exclude_locations = this.excludeLocations;

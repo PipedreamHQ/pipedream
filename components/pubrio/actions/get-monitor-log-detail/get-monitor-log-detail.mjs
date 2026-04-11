@@ -7,8 +7,9 @@ export default {
   version: "0.0.1",
   type: "action",
   annotations: {
-    readOnlyHint: true,
     openWorldHint: true,
+    readOnlyHint: true,
+    destructiveHint: false,
   },
   props: {
     pubrio,
@@ -21,7 +22,9 @@ export default {
   async run({ $ }) {
     const response = await this.pubrio.getMonitorLogDetail({
       $,
-      data: { monitor_log_id: this.monitorLogId },
+      data: {
+        monitor_log_id: this.monitorLogId,
+      },
     });
     $.export("$summary", "Successfully retrieved monitor log detail");
     return response;

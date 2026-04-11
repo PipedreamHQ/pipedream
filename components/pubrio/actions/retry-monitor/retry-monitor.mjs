@@ -8,6 +8,8 @@ export default {
   type: "action",
   annotations: {
     openWorldHint: true,
+    readOnlyHint: false,
+    destructiveHint: false,
   },
   props: {
     pubrio,
@@ -33,7 +35,9 @@ export default {
       monitor_id: this.monitorId,
       monitor_log_id: this.monitorLogId,
     };
-    if (this.isUseOriginalDestination != null) data.is_use_original_destination = this.isUseOriginalDestination;
+    if (this.isUseOriginalDestination != null) {
+      data.is_use_original_destination = this.isUseOriginalDestination;
+    }
     const response = await this.pubrio.retryMonitor({
       $,
       data,

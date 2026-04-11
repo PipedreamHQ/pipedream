@@ -8,6 +8,8 @@ export default {
   type: "action",
   annotations: {
     openWorldHint: true,
+    readOnlyHint: false,
+    destructiveHint: false,
   },
   props: {
     pubrio,
@@ -20,7 +22,9 @@ export default {
   async run({ $ }) {
     const response = await this.pubrio.revealMonitorSignature({
       $,
-      data: { monitor_id: this.monitorId },
+      data: {
+        monitor_id: this.monitorId,
+      },
     });
     $.export("$summary", "Successfully revealed monitor signature");
     return response;

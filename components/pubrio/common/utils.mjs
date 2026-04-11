@@ -5,7 +5,8 @@
  */
 function splitComma(value) {
   if (!value) return undefined;
-  return value.split(",").map((s) => s.trim()).filter(Boolean);
+  return value.split(",").map((s) => s.trim())
+    .filter(Boolean);
 }
 
 /**

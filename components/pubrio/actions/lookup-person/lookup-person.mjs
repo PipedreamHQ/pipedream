@@ -7,18 +7,31 @@ export default {
   version: "0.0.1",
   type: "action",
   annotations: {
-    readOnlyHint: true,
     openWorldHint: true,
+    readOnlyHint: true,
+    destructiveHint: false,
   },
   props: {
     pubrio,
-    lookupType: { propDefinition: [pubrio, "lookupTypePerson"] },
-    value: { propDefinition: [pubrio, "lookupValue"] },
+    lookupType: {
+      propDefinition: [
+        pubrio,
+        "lookupTypePerson",
+      ],
+    },
+    value: {
+      propDefinition: [
+        pubrio,
+        "lookupValue",
+      ],
+    },
   },
   async run({ $ }) {
     const response = await this.pubrio.lookupPerson({
       $,
-      data: { [this.lookupType]: this.value },
+      data: {
+        [this.lookupType]: this.value,
+      },
     });
     $.export("$summary", "Successfully looked up person");
     return response;

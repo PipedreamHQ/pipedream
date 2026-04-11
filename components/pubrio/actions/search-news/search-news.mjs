@@ -7,13 +7,24 @@ export default {
   version: "0.0.1",
   type: "action",
   annotations: {
-    readOnlyHint: true,
     openWorldHint: true,
+    readOnlyHint: true,
+    destructiveHint: false,
   },
   props: {
     pubrio,
-    searchTerm: { propDefinition: [pubrio, "searchTerm"] },
-    domains: { propDefinition: [pubrio, "domains"] },
+    searchTerm: {
+      propDefinition: [
+        pubrio,
+        "searchTerm",
+      ],
+    },
+    domains: {
+      propDefinition: [
+        pubrio,
+        "domains",
+      ],
+    },
     categories: {
       type: "string[]",
       label: "Categories",
@@ -32,7 +43,12 @@ export default {
       description: "End date in YYYY-MM-DD format",
       optional: true,
     },
-    locations: { propDefinition: [pubrio, "locations"] },
+    locations: {
+      propDefinition: [
+        pubrio,
+        "locations",
+      ],
+    },
     companyLocations: {
       type: "string[]",
       label: "Company Locations",
@@ -57,16 +73,32 @@ export default {
       description: "News language codes",
       optional: true,
     },
-    page: { propDefinition: [pubrio, "page"] },
-    perPage: { propDefinition: [pubrio, "perPage"] },
+    page: {
+      propDefinition: [
+        pubrio,
+        "page",
+      ],
+    },
+    perPage: {
+      propDefinition: [
+        pubrio,
+        "perPage",
+      ],
+    },
   },
   async run({ $ }) {
-    const data = { page: this.page ?? 1, per_page: this.perPage ?? 25 };
+    const data = {
+      page: this.page ?? 1,
+      per_page: this.perPage ?? 25,
+    };
     if (this.searchTerm) data.search_term = this.searchTerm;
     if (this.domains?.length) data.domains = this.domains;
     if (this.categories?.length) data.categories = this.categories;
     if (this.publishedDateFrom || this.publishedDateTo) {
-      data.published_dates = [this.publishedDateFrom ?? null, this.publishedDateTo ?? null];
+      data.published_dates = [
+        this.publishedDateFrom ?? null,
+        this.publishedDateTo ?? null,
+      ];
     }
     if (this.locations?.length) data.locations = this.locations;
     if (this.companyLocations?.length) data.company_locations = this.companyLocations;

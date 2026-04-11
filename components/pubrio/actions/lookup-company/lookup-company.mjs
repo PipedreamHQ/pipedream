@@ -7,13 +7,24 @@ export default {
   version: "0.0.1",
   type: "action",
   annotations: {
-    readOnlyHint: true,
     openWorldHint: true,
+    readOnlyHint: true,
+    destructiveHint: false,
   },
   props: {
     pubrio,
-    lookupType: { propDefinition: [pubrio, "lookupTypeDomain"] },
-    value: { propDefinition: [pubrio, "lookupValue"] },
+    lookupType: {
+      propDefinition: [
+        pubrio,
+        "lookupTypeDomain",
+      ],
+    },
+    value: {
+      propDefinition: [
+        pubrio,
+        "lookupValue",
+      ],
+    },
   },
   async run({ $ }) {
     let val = this.value;
@@ -25,7 +36,9 @@ export default {
     }
     const response = await this.pubrio.lookupCompany({
       $,
-      data: { [this.lookupType]: val },
+      data: {
+        [this.lookupType]: val,
+      },
     });
     $.export("$summary", "Successfully looked up company");
     return response;

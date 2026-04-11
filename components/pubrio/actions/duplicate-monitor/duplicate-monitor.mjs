@@ -8,6 +8,8 @@ export default {
   type: "action",
   annotations: {
     openWorldHint: true,
+    readOnlyHint: false,
+    destructiveHint: false,
   },
   props: {
     pubrio,
