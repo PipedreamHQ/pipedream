@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/filepost",
+  "version": "0.1.0",
+  "description": "Pipedream FilePost Components",
+  "main": "filepost.app.mjs",
+  "keywords": [
+    "pipedream",
+    "filepost"
+  ],
+  "homepage": "https://pipedream.com/apps/filepost",
+  "author": "Pipedream <support@pipedream.com> (https://www.pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "form-data": "^4.0.0",
+    "mime-types": "^2.1.35",
+    "node-fetch": "^3.3.2"
+  }
+}
