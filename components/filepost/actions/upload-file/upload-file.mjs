@@ -26,11 +26,29 @@ export default {
     let mimeType;
 
     if (input.startsWith("http://") || input.startsWith("https://")) {
-      // Download from URL
-      const res = await fetch(input);
+      // Download from URL with timeout and size guard (50 MB max)
+      const MAX_BYTES = 50 * 1024 * 1024;
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 30_000);
+      let res;
+      try {
+        res = await fetch(input, { signal: controller.signal });
+      } finally {
+        clearTimeout(timer);
+      }
       if (!res.ok) throw new Error(`Failed to fetch URL: ${res.status}`);
-      const arrayBuffer = await res.arrayBuffer();
-      fileBuffer = Buffer.from(arrayBuffer);
+      const contentLength = res.headers.get("content-length");
+      if (contentLength && Number(contentLength) > MAX_BYTES) {
+        throw new Error(`Remote file exceeds the 50 MB limit (${contentLength} bytes).`);
+      }
+      const chunks = [];
+      let totalBytes = 0;
+      for await (const chunk of res.body) {
+        totalBytes += chunk.length;
+        if (totalBytes > MAX_BYTES) throw new Error("Remote file exceeds the 50 MB limit.");
+        chunks.push(chunk);
+      }
+      fileBuffer = Buffer.concat(chunks);
       const urlPath = new URL(input).pathname;
       fileName = basename(urlPath) || "file";
       mimeType = res.headers.get("content-type")?.split(";")[0] || lookup(fileName) || "application/octet-stream";

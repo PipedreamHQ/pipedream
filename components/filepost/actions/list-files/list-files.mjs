@@ -24,7 +24,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.filepost.listFiles(this.page, this.perPage);
+    const page = Math.max(1, this.page ?? 1);
+    const perPage = Math.min(100, Math.max(1, this.perPage ?? 50));
+    const response = await this.filepost.listFiles(page, perPage);
     $.export("$summary", `Retrieved ${response.files?.length ?? 0} file(s).`);
     return response;
   },
