@@ -22,10 +22,8 @@ export default {
   async run({ $ }) {
     const data = {};
     if (this.keyword) data.keyword = this.keyword;
-    const response = await this.pubrio.makeRequest({
+    const response = await this.pubrio.searchTechnologyCategories({
       $,
-      method: "POST",
-      url: "/technologies/categories",
       data,
     });
     $.export("$summary", "Successfully retrieved technology categories");

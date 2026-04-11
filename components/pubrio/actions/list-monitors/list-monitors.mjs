@@ -33,10 +33,8 @@ export default {
     if (this.perPage != null) data.per_page = this.perPage;
     if (this.orderBy) data.order_by = this.orderBy;
     if (this.isAscendingOrder != null) data.is_ascending_order = this.isAscendingOrder;
-    const response = await this.pubrio.makeRequest({
+    const response = await this.pubrio.listMonitors({
       $,
-      method: "POST",
-      url: "/monitors",
       data,
     });
     $.export("$summary", `Found ${response.data?.length ?? 0} monitors`);

@@ -73,7 +73,10 @@ export default {
     if (this.newsGalleryIds?.length) data.news_gallery_ids = this.newsGalleryIds;
     if (this.newsGalleries?.length) data.news_galleries = this.newsGalleries;
     if (this.newsLanguages?.length) data.news_languages = this.newsLanguages;
-    const response = await this.pubrio.makeRequest({ $, method: "POST", url: "/companies/news/search", data });
+    const response = await this.pubrio.searchNews({
+      $,
+      data,
+    });
     $.export("$summary", `Found ${response.data?.length ?? 0} news articles`);
     return response;
   },

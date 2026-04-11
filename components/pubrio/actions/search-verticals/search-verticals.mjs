@@ -22,10 +22,8 @@ export default {
   async run({ $ }) {
     const data = {};
     if (this.keyword) data.keyword = this.keyword;
-    const response = await this.pubrio.makeRequest({
+    const response = await this.pubrio.searchVerticals({
       $,
-      method: "POST",
-      url: "/verticals",
       data,
     });
     $.export("$summary", "Successfully retrieved verticals");

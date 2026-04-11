@@ -16,10 +16,8 @@ export default {
     value: { propDefinition: [pubrio, "lookupValue"] },
   },
   async run({ $ }) {
-    const response = await this.pubrio.makeRequest({
+    const response = await this.pubrio.lookupPerson({
       $,
-      method: "POST",
-      url: "/people/lookup",
       data: { [this.lookupType]: this.value },
     });
     $.export("$summary", "Successfully looked up person");

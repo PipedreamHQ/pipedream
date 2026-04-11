@@ -193,10 +193,8 @@ export default {
       data.retry_delay_second = this.retryDelaySecond;
     }
     if (this.notificationEmail) data.notification_email = this.notificationEmail;
-    const response = await this.pubrio.makeRequest({
+    const response = await this.pubrio.createMonitor({
       $,
-      method: "POST",
-      url: "/monitors/create",
       data,
     });
     $.export("$summary", "Successfully created monitor");

@@ -80,7 +80,10 @@ export default {
     if (this.companies?.length) data.companies = this.companies;
     if (this.domains?.length) data.domains = this.domains;
     if (this.linkedinUrls?.length) data.linkedin_urls = this.linkedinUrls;
-    const response = await this.pubrio.makeRequest({ $, method: "POST", url: "/companies/jobs/search", data });
+    const response = await this.pubrio.searchJobs({
+      $,
+      data,
+    });
     $.export("$summary", `Found ${response.data?.length ?? 0} jobs`);
     return response;
   },

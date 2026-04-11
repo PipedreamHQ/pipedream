@@ -23,10 +23,8 @@ export default {
         throw new Error(`domain_id must be a valid integer, got: "${this.value}"`);
       }
     }
-    const response = await this.pubrio.makeRequest({
+    const response = await this.pubrio.lookupCompany({
       $,
-      method: "POST",
-      url: "/companies/lookup",
       data: { [this.lookupType]: val },
     });
     $.export("$summary", "Successfully looked up company");

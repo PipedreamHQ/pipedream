@@ -14,10 +14,8 @@ export default {
     pubrio,
   },
   async run({ $ }) {
-    const response = await this.pubrio.makeRequest({
+    const response = await this.pubrio.getCompanySizes({
       $,
-      method: "GET",
-      url: "/company_sizes",
     });
     $.export("$summary", "Successfully retrieved company sizes");
     return response;

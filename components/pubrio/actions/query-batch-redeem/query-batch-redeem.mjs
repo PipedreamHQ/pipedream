@@ -19,10 +19,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.pubrio.makeRequest({
+    const response = await this.pubrio.queryBatchRedeem({
       $,
-      method: "POST",
-      url: "/redeem/people/batch/query",
       data: { redeem_query_id: this.redeemQueryId },
     });
     $.export("$summary", "Successfully queried batch redeem status");

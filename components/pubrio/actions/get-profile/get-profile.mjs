@@ -14,10 +14,8 @@ export default {
     pubrio,
   },
   async run({ $ }) {
-    const response = await this.pubrio.makeRequest({
+    const response = await this.pubrio.getProfile({
       $,
-      method: "POST",
-      url: "/profile",
       data: {},
     });
     $.export("$summary", "Successfully retrieved profile");

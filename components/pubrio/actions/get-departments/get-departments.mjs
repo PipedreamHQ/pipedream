@@ -14,10 +14,8 @@ export default {
     pubrio,
   },
   async run({ $ }) {
-    const response = await this.pubrio.makeRequest({
+    const response = await this.pubrio.getDepartments({
       $,
-      method: "GET",
-      url: "/departments/title",
     });
     $.export("$summary", "Successfully retrieved departments");
     return response;

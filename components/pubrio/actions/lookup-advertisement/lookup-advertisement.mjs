@@ -19,10 +19,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.pubrio.makeRequest({
+    const response = await this.pubrio.lookupAdvertisement({
       $,
-      method: "POST",
-      url: "/companies/advertisements/lookup",
       data: { advertisement_search_id: this.advertisementSearchId },
     });
     $.export("$summary", "Successfully looked up advertisement");

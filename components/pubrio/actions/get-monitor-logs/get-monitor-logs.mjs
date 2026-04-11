@@ -26,10 +26,8 @@ export default {
     };
     if (this.page != null) data.page = this.page;
     if (this.perPage != null) data.per_page = this.perPage;
-    const response = await this.pubrio.makeRequest({
+    const response = await this.pubrio.getMonitorLogs({
       $,
-      method: "POST",
-      url: "/monitors/statistics/logs",
       data,
     });
     $.export("$summary", `Found ${response.data?.length ?? 0} monitor logs`);

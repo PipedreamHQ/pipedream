@@ -14,10 +14,8 @@ export default {
     pubrio,
   },
   async run({ $ }) {
-    const response = await this.pubrio.makeRequest({
+    const response = await this.pubrio.getUsage({
       $,
-      method: "POST",
-      url: "/profile/usage",
       data: {},
     });
     $.export("$summary", "Successfully retrieved usage statistics");

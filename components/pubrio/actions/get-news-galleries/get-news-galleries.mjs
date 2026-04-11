@@ -14,10 +14,8 @@ export default {
     pubrio,
   },
   async run({ $ }) {
-    const response = await this.pubrio.makeRequest({
+    const response = await this.pubrio.getNewsGalleries({
       $,
-      method: "GET",
-      url: "/companies/news/galleries",
     });
     $.export("$summary", "Successfully retrieved news galleries");
     return response;

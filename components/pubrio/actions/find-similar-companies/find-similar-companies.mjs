@@ -188,10 +188,8 @@ export default {
       }
       data.similarity_score = score;
     }
-    const response = await this.pubrio.makeRequest({
+    const response = await this.pubrio.findSimilarCompanies({
       $,
-      method: "POST",
-      url: "/companies/lookalikes/search",
       data,
     });
     $.export("$summary", `Found ${response.data?.length ?? 0} similar companies`);

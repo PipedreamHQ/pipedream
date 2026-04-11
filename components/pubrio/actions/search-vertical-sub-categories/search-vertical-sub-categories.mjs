@@ -22,10 +22,8 @@ export default {
   async run({ $ }) {
     const data = {};
     if (this.keyword) data.keyword = this.keyword;
-    const response = await this.pubrio.makeRequest({
+    const response = await this.pubrio.searchVerticalSubCategories({
       $,
-      method: "POST",
-      url: "/verticals/sub_categories",
       data,
     });
     $.export("$summary", "Successfully retrieved vertical sub-categories");

@@ -84,7 +84,10 @@ export default {
     }
     if (this.companyLocations?.length) data.company_locations = this.companyLocations;
     if (this.domains?.length) data.domains = this.domains;
-    const response = await this.pubrio.makeRequest({ $, method: "POST", url: "/companies/advertisements/search", data });
+    const response = await this.pubrio.searchAds({
+      $,
+      data,
+    });
     $.export("$summary", `Found ${response.data?.length ?? 0} advertisements`);
     return response;
   },

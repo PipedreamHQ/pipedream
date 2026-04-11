@@ -34,10 +34,8 @@ export default {
       monitor_log_id: this.monitorLogId,
     };
     if (this.isUseOriginalDestination != null) data.is_use_original_destination = this.isUseOriginalDestination;
-    const response = await this.pubrio.makeRequest({
+    const response = await this.pubrio.retryMonitor({
       $,
-      method: "POST",
-      url: "/monitors/process/retry",
       data,
     });
     $.export("$summary", "Successfully retried monitor");

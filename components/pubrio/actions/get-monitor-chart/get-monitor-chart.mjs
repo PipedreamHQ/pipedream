@@ -29,10 +29,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.pubrio.makeRequest({
+    const response = await this.pubrio.getMonitorChart({
       $,
-      method: "POST",
-      url: "/monitors/statistics/chart",
       data: {
         monitor_id: this.monitorId,
         start_date: this.startDate,

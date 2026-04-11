@@ -19,10 +19,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.pubrio.makeRequest({
+    const response = await this.pubrio.linkedinPersonLookup({
       $,
-      method: "POST",
-      url: "/people/linkedin/lookup",
       data: { people_linkedin_url: this.peopleLinkedinUrl },
     });
     $.export("$summary", "Successfully looked up LinkedIn person");

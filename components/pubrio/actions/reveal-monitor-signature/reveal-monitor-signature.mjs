@@ -18,10 +18,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.pubrio.makeRequest({
+    const response = await this.pubrio.revealMonitorSignature({
       $,
-      method: "POST",
-      url: "/monitors/signature/reveal",
       data: { monitor_id: this.monitorId },
     });
     $.export("$summary", "Successfully revealed monitor signature");

@@ -29,10 +29,8 @@ export default {
       monitor_id: this.monitorId,
     };
     if (this.isSignatureReveal != null) data.is_signature_reveal = this.isSignatureReveal;
-    const response = await this.pubrio.makeRequest({
+    const response = await this.pubrio.getMonitor({
       $,
-      method: "POST",
-      url: "/monitors/lookup",
       data,
     });
     $.export("$summary", "Successfully retrieved monitor");

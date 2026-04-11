@@ -21,6 +21,7 @@ export default {
     peopleName: {
       type: "string",
       label: "Person Name",
+      description: "Full or partial name of the person to search for",
       optional: true,
     },
     peopleTitles: {
@@ -131,10 +132,8 @@ export default {
     if (this.linkedinUrls?.length) data.linkedin_urls = this.linkedinUrls;
     if (this.companies?.length) data.companies = this.companies;
     if (this.domains?.length) data.domains = this.domains;
-    const response = await this.pubrio.makeRequest({
+    const response = await this.pubrio.searchPeople({
       $,
-      method: "POST",
-      url: "/people/search",
       data,
     });
     $.export("$summary", `Found ${response.data?.length ?? 0} people`);

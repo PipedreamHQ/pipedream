@@ -14,10 +14,8 @@ export default {
     pubrio,
   },
   async run({ $ }) {
-    const response = await this.pubrio.makeRequest({
+    const response = await this.pubrio.getNewsLanguages({
       $,
-      method: "GET",
-      url: "/companies/news/languages",
     });
     $.export("$summary", "Successfully retrieved news languages");
     return response;

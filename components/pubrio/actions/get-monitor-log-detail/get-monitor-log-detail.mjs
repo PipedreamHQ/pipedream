@@ -19,10 +19,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.pubrio.makeRequest({
+    const response = await this.pubrio.getMonitorLogDetail({
       $,
-      method: "POST",
-      url: "/monitors/statistics/logs/lookup",
       data: { monitor_log_id: this.monitorLogId },
     });
     $.export("$summary", "Successfully retrieved monitor log detail");

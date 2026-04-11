@@ -14,10 +14,8 @@ export default {
     pubrio,
   },
   async run({ $ }) {
-    const response = await this.pubrio.makeRequest({
+    const response = await this.pubrio.getTimezones({
       $,
-      method: "GET",
-      url: "/timezones",
     });
     $.export("$summary", "Successfully retrieved timezones");
     return response;

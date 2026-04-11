@@ -14,10 +14,8 @@ export default {
     pubrio,
   },
   async run({ $ }) {
-    const response = await this.pubrio.makeRequest({
+    const response = await this.pubrio.getLocations({
       $,
-      method: "GET",
-      url: "/locations",
     });
     $.export("$summary", "Successfully retrieved locations");
     return response;

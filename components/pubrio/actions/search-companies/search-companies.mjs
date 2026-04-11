@@ -295,7 +295,13 @@ export default {
       data.founded_dates = [this.foundedYearStart ?? 1900, this.foundedYearEnd ?? 2100];
     }
     if (this.isEnableSimilaritySearch != null) data.is_enable_similarity_search = this.isEnableSimilaritySearch;
-    if (this.similarityScore) data.similarity_score = this.similarityScore;
+    if (this.similarityScore != null && this.similarityScore !== "") {
+      const score = parseFloat(this.similarityScore);
+      if (Number.isNaN(score) || score < 0 || score > 1) {
+        throw new Error(`similarity_score must be a number between 0 and 1, got: "${this.similarityScore}"`);
+      }
+      data.similarity_score = score;
+    }
     if (this.excludeFields?.length) data.exclude_fields = this.excludeFields;
     if (this.jobTitles?.length) data.job_titles = this.jobTitles;
     if (this.jobLocations?.length) data.job_locations = this.jobLocations;
@@ -318,10 +324,8 @@ export default {
     if (this.advertisementEndDateFrom || this.advertisementEndDateTo) {
       data.advertisement_end_dates = [this.advertisementEndDateFrom ?? null, this.advertisementEndDateTo ?? null];
     }
-    const response = await this.pubrio.makeRequest({
+    const response = await this.pubrio.searchCompanies({
       $,
-      method: "POST",
-      url: "/companies/search",
       data,
     });
     $.export("$summary", `Found ${response.data?.length ?? 0} companies`);

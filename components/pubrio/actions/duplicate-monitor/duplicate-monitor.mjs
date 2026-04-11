@@ -28,10 +28,8 @@ export default {
       monitor_id: this.monitorId,
     };
     if (this.name) data.name = this.name;
-    const response = await this.pubrio.makeRequest({
+    const response = await this.pubrio.duplicateMonitor({
       $,
-      method: "POST",
-      url: "/monitors/duplicate",
       data,
     });
     $.export("$summary", "Successfully duplicated monitor");

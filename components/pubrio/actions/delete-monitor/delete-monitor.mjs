@@ -19,10 +19,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.pubrio.makeRequest({
+    const response = await this.pubrio.deleteMonitor({
       $,
-      method: "POST",
-      url: "/monitors/delete",
       data: { monitor_id: this.monitorId },
     });
     $.export("$summary", "Successfully deleted monitor");

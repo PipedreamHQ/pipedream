@@ -14,10 +14,8 @@ export default {
     pubrio,
   },
   async run({ $ }) {
-    const response = await this.pubrio.makeRequest({
+    const response = await this.pubrio.getManagementLevels({
       $,
-      method: "GET",
-      url: "/management_levels",
     });
     $.export("$summary", "Successfully retrieved management levels");
     return response;

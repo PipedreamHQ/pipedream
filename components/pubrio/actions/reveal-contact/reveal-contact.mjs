@@ -39,7 +39,10 @@ export default {
     if (this.peopleSearchId) data.people_search_id = this.peopleSearchId;
     if (this.linkedinUrl) data.linkedin_url = this.linkedinUrl;
     if (this.peopleContactTypes?.length) data.people_contact_types = this.peopleContactTypes;
-    const response = await this.pubrio.makeRequest({ $, method: "POST", url: "/redeem/people", data });
+    const response = await this.pubrio.revealContact({
+      $,
+      data,
+    });
     $.export("$summary", "Successfully revealed contact");
     return response;
   },

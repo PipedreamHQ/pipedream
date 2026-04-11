@@ -13,7 +13,7 @@ export default {
     pubrio,
     peoples: {
       type: "string[]",
-      label: "Peoples",
+      label: "People",
       description: "People search IDs or LinkedIn URLs to redeem",
     },
     peopleContactTypes: {
@@ -29,10 +29,8 @@ export default {
       peoples: this.peoples,
     };
     if (this.peopleContactTypes?.length) data.people_contact_types = this.peopleContactTypes;
-    const response = await this.pubrio.makeRequest({
+    const response = await this.pubrio.batchRedeemContacts({
       $,
-      method: "POST",
-      url: "/redeem/people/batch",
       data,
     });
     $.export("$summary", "Successfully submitted batch redeem request");

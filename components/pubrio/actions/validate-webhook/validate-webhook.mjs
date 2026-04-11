@@ -28,13 +28,10 @@ export default {
       webhook_url: this.webhookUrl,
     };
     if (this.headers) {
-      try { data.headers = JSON.parse(this.headers); }
-      catch { throw new Error("headers must be valid JSON"); }
+      data.headers = this.pubrio.parseJsonField(this.headers, "headers", "object");
     }
-    const response = await this.pubrio.makeRequest({
+    const response = await this.pubrio.validateWebhook({
       $,
-      method: "POST",
-      url: "/monitors/webhook/validate",
       data,
     });
     $.export("$summary", "Successfully validated webhook");

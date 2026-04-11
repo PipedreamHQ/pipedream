@@ -28,10 +28,8 @@ export default {
       monitor_id: this.monitorId,
     };
     if (this.triedAt) data.tried_at = this.triedAt;
-    const response = await this.pubrio.makeRequest({
+    const response = await this.pubrio.testRunMonitor({
       $,
-      method: "POST",
-      url: "/monitors/process/try",
       data,
     });
     $.export("$summary", "Successfully ran monitor test");

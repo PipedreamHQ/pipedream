@@ -14,10 +14,8 @@ export default {
     pubrio,
   },
   async run({ $ }) {
-    const response = await this.pubrio.makeRequest({
+    const response = await this.pubrio.getMonitorStats({
       $,
-      method: "POST",
-      url: "/monitors/statistics",
       data: {},
     });
     $.export("$summary", "Successfully retrieved monitor statistics");
