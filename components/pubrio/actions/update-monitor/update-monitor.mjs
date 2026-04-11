@@ -25,8 +25,17 @@ export default {
     detectionMode: {
       type: "string",
       label: "Detection Mode",
-      description: "Whether to detect new signals only or new and updated",
-      options: ["new", "new_and_updated"],
+      description: "How the monitor detects changes: `company_first` monitors specific companies for signals, `signal_first` monitors signals and matches to companies",
+      options: [
+        {
+          label: "Company First",
+          value: "company_first",
+        },
+        {
+          label: "Signal First",
+          value: "signal_first",
+        },
+      ],
       optional: true,
     },
     signalTypes: {
@@ -40,7 +49,20 @@ export default {
       type: "string",
       label: "Destination Type",
       description: "How to deliver monitor results",
-      options: ["webhook", "email", "outreach_sequence"],
+      options: [
+        {
+          label: "Webhook",
+          value: "webhook",
+        },
+        {
+          label: "Email",
+          value: "email",
+        },
+        {
+          label: "Sequences",
+          value: "sequences",
+        },
+      ],
       optional: true,
     },
     webhookUrl: {
@@ -188,13 +210,13 @@ export default {
       if (this.destinationType === "email" && !this.email) {
         throw new Error("Email is required when destination type is 'email'");
       }
-      if (this.destinationType === "outreach_sequence" && !this.sequenceIdentifier) {
-        throw new Error("Sequence Identifier is required when destination type is 'outreach_sequence'");
+      if (this.destinationType === "sequences" && !this.sequenceIdentifier) {
+        throw new Error("Sequence Identifier is required when destination type is 'sequences'");
       }
     }
     if (this.destinationType === "webhook" && this.webhookUrl) data.webhook_url = this.webhookUrl;
     else if (this.destinationType === "email" && this.email) data.email = this.email;
-    else if (this.destinationType === "outreach_sequence" && this.sequenceIdentifier) data.sequence_identifier = this.sequenceIdentifier;
+    else if (this.destinationType === "sequences" && this.sequenceIdentifier) data.sequence_identifier = this.sequenceIdentifier;
     else if (!this.destinationType) {
       if (this.webhookUrl) data.webhook_url = this.webhookUrl;
       if (this.email) data.email = this.email;

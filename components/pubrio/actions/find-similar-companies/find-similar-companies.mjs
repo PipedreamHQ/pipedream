@@ -145,10 +145,10 @@ export default {
   async run({ $ }) {
     let val = this.value;
     if (this.lookupType === "domain_id") {
-      val = parseInt(this.value, 10);
-      if (Number.isNaN(val)) {
+      if (!/^\d+$/.test(this.value)) {
         throw new Error(`domain_id must be a valid integer, got: "${this.value}"`);
       }
+      val = parseInt(this.value, 10);
     }
     const data = {
       [this.lookupType]: val,

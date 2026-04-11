@@ -19,8 +19,17 @@ export default {
     detectionMode: {
       type: "string",
       label: "Detection Mode",
-      description: "Whether to detect new signals only or new and updated",
-      options: ["new", "new_and_updated"],
+      description: "How the monitor detects changes: `company_first` monitors specific companies for signals, `signal_first` monitors signals and matches to companies",
+      options: [
+        {
+          label: "Company First",
+          value: "company_first",
+        },
+        {
+          label: "Signal First",
+          value: "signal_first",
+        },
+      ],
     },
     signalTypes: {
       type: "string[]",
@@ -32,7 +41,20 @@ export default {
       type: "string",
       label: "Destination Type",
       description: "How to deliver monitor results",
-      options: ["webhook", "email", "outreach_sequence"],
+      options: [
+        {
+          label: "Webhook",
+          value: "webhook",
+        },
+        {
+          label: "Email",
+          value: "email",
+        },
+        {
+          label: "Sequences",
+          value: "sequences",
+        },
+      ],
     },
     webhookUrl: {
       type: "string",
@@ -49,7 +71,7 @@ export default {
     sequenceIdentifier: {
       type: "string",
       label: "Sequence Identifier",
-      description: "Outreach sequence identifier (required if destination_type is outreach_sequence)",
+      description: "Outreach sequence identifier (required if destination_type is sequences)",
       optional: true,
     },
     description: {
@@ -156,8 +178,8 @@ export default {
     if (this.destinationType === "email" && !this.email) {
       throw new Error("Email is required when destination type is 'email'");
     }
-    if (this.destinationType === "outreach_sequence" && !this.sequenceIdentifier) {
-      throw new Error("Sequence Identifier is required when destination type is 'outreach_sequence'");
+    if (this.destinationType === "sequences" && !this.sequenceIdentifier) {
+      throw new Error("Sequence Identifier is required when destination type is 'sequences'");
     }
     const data = {
       name: this.name,
@@ -167,7 +189,7 @@ export default {
     };
     if (this.destinationType === "webhook" && this.webhookUrl) data.webhook_url = this.webhookUrl;
     if (this.destinationType === "email" && this.email) data.email = this.email;
-    if (this.destinationType === "outreach_sequence" && this.sequenceIdentifier) data.sequence_identifier = this.sequenceIdentifier;
+    if (this.destinationType === "sequences" && this.sequenceIdentifier) data.sequence_identifier = this.sequenceIdentifier;
     if (this.description) data.description = this.description;
     if (this.frequencyMinute != null) data.frequency_minute = this.frequencyMinute;
     if (this.maxDailyTrigger != null) data.max_daily_trigger = this.maxDailyTrigger;
