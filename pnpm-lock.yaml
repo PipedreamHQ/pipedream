@@ -41101,7 +41101,7 @@ snapshots:
 
   '@pipedream/platform@3.3.1':
     dependencies:
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.15.0(debug@3.2.7)
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
       mime-types: 3.0.1
@@ -41728,7 +41728,6 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
-      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.60(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1))(rollup@4.60.1)':
     dependencies:
