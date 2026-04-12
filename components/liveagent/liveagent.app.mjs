@@ -41,12 +41,17 @@ export default {
       type: "string",
       label: "Ticket ID",
       description: "The ID of the ticket. Example: `fp80688h`",
-      async options({ page }) {
-        const tickets = await this.listTickets({
+      async options({
+        page, excludeClosedAndDeleted = false,
+      }) {
+        let tickets = await this.listTickets({
           params: {
             _page: page + 1,
           },
         });
+        if (excludeClosedAndDeleted) {
+          tickets = tickets.filter((ticket) => ticket.status !== "X" && ticket.status !== "L");
+        }
         return tickets.map((ticket) => ({
           label: ticket.subject,
           value: ticket.id,

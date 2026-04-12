@@ -17,6 +17,9 @@ export default {
       propDefinition: [
         liveagent,
         "ticketId",
+        () => ({
+          excludeClosedAndDeleted: true,
+        }),
       ],
     },
     tagId: {
