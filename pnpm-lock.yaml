@@ -5635,7 +5635,11 @@ importers:
         specifier: ^3.2.2
         version: 3.2.4
 
-  components/flock: {}
+  components/flock:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.3.1
+        version: 3.3.1
 
   components/flodesk:
     dependencies:
@@ -40887,7 +40891,7 @@ snapshots:
   '@pipedream/google_drive@1.2.0(encoding@0.1.13)':
     dependencies:
       '@googleapis/drive': 2.4.0(encoding@0.1.13)
-      '@pipedream/platform': 3.3.0
+      '@pipedream/platform': 3.3.1
       cron-parser: 4.9.0
       google-docs-mustaches: 1.2.2(encoding@0.1.13)
       got: 13.0.0
@@ -40902,7 +40906,7 @@ snapshots:
   '@pipedream/google_drive@1.4.1(encoding@0.1.13)':
     dependencies:
       '@googleapis/drive': 2.4.0(encoding@0.1.13)
-      '@pipedream/platform': 3.3.0
+      '@pipedream/platform': 3.3.1
       cron-parser: 4.9.0
       google-docs-mustaches: 1.2.2(encoding@0.1.13)
       got: 13.0.0
@@ -40937,7 +40941,7 @@ snapshots:
   '@pipedream/linear_app@0.9.2(encoding@0.1.13)':
     dependencies:
       '@linear/sdk': 55.2.1(encoding@0.1.13)
-      '@pipedream/platform': 3.3.0
+      '@pipedream/platform': 3.3.1
     transitivePeerDependencies:
       - debug
       - encoding
@@ -40952,7 +40956,7 @@ snapshots:
 
   '@pipedream/microsoft_outlook@1.7.5':
     dependencies:
-      '@pipedream/platform': 3.3.0
+      '@pipedream/platform': 3.3.1
       axios: 0.30.3
       js-base64: 3.7.8
       md5: 2.3.0
@@ -41728,7 +41732,6 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
-      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.60(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1))(rollup@4.60.1)':
     dependencies:
