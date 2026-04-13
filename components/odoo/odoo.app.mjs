@@ -45,7 +45,7 @@ export default {
           {},
         ], (error, value) => {
           if (error) reject(error);
-          resolve(value);
+          else resolve(value);
         });
       });
       return uid;
@@ -66,7 +66,7 @@ export default {
           args,
         ], (error, value) => {
           if (error) reject(error);
-          resolve(value);
+          else resolve(value);
         });
       });
       return results;
