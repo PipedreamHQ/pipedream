@@ -254,6 +254,43 @@ export default {
         };
       },
     },
+    commentId: {
+      type: "string",
+      label: "Comment ID",
+      description: "The ID of the ticket comment",
+      async options({
+        ticketId, orgId, prevContext,
+      }) {
+        if (!ticketId) {
+          return [];
+        }
+        const { from = 1 } = prevContext || {};
+        if (from === null) {
+          return [];
+        }
+        const { data: comments = [] } =
+          await this.getTicketComments({
+            ticketId,
+            headers: {
+              orgId,
+            },
+            params: {
+              from,
+              limit: constants.DEFAULT_LIMIT,
+            },
+          });
+        const currentLen = comments?.length;
+        const options = comments?.map(({ id }) => id);
+        return {
+          options: options || [],
+          context: {
+            from: currentLen
+              ? currentLen + from
+              : null,
+          },
+        };
+      },
+    },
     maxResults: {
       type: "integer",
       label: "Max Results",
@@ -652,6 +689,40 @@ export default {
     } = {}) {
       return this.makeRequest({
         path: `/tickets/${ticketId}/comments`,
+        ...args,
+      });
+    },
+    getTicketComment({
+      ticketId, commentId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/tickets/${ticketId}/comments/${commentId}`,
+        ...args,
+      });
+    },
+    updateTicketComment({
+      ticketId, commentId, ...args
+    } = {}) {
+      return this.makeRequest({
+        method: "put",
+        path: `/tickets/${ticketId}/comments/${commentId}`,
+        ...args,
+      });
+    },
+    deleteTicketComment({
+      ticketId, commentId, ...args
+    } = {}) {
+      return this.makeRequest({
+        method: "delete",
+        path: `/tickets/${ticketId}/comments/${commentId}`,
+        ...args,
+      });
+    },
+    getTicketCommentHistory({
+      ticketId, commentId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/tickets/${ticketId}/comments/${commentId}/history`,
         ...args,
       });
     },
