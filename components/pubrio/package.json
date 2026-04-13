@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/pubrio",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Pipedream Pubrio Components",
   "main": "pubrio.app.mjs",
   "keywords": [
