@@ -3,7 +3,7 @@ import pubrio from "../../pubrio.app.mjs";
 export default {
   key: "pubrio-lookup-technology",
   name: "Lookup Technology",
-  description: "Look up technologies used by a company. [See the documentation](https://docs.pubrio.com)",
+  description: "Look up technologies used by a company. [See the documentation](https://docs.pubrio.com/en/api-reference/endpoint/companies/technology_lookup)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

@@ -3,7 +3,7 @@ import pubrio from "../../pubrio.app.mjs";
 export default {
   key: "pubrio-search-news",
   name: "Search News",
-  description: "Search company news and press releases. [See the documentation](https://docs.pubrio.com)",
+  description: "Search company news and press releases. [See the documentation](https://docs.pubrio.com/en/api-reference/endpoint/companies/news_search)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

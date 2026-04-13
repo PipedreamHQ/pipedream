@@ -3,7 +3,7 @@ import pubrio from "../../pubrio.app.mjs";
 export default {
   key: "pubrio-search-companies",
   name: "Search Companies",
-  description: "Search B2B companies by name, domain, location, industry, technology, or headcount. [See the documentation](https://docs.pubrio.com)",
+  description: "Search B2B companies by name, domain, location, industry, technology, or headcount. [See the documentation](https://docs.pubrio.com/en/api-reference/endpoint/companies/search)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

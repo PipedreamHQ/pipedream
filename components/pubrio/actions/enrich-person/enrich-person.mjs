@@ -3,7 +3,7 @@ import pubrio from "../../pubrio.app.mjs";
 export default {
   key: "pubrio-enrich-person",
   name: "Enrich Person",
-  description: "Get enriched person data with full professional details (uses credits). [See the documentation](https://docs.pubrio.com)",
+  description: "Get enriched person data with full professional details (uses credits). [See the documentation](https://docs.pubrio.com/en/api-reference/endpoint/people/lookup)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

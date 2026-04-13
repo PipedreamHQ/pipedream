@@ -3,7 +3,7 @@ import pubrio from "../../pubrio.app.mjs";
 export default {
   key: "pubrio-test-run-monitor",
   name: "Test Run Monitor",
-  description: "Perform a test run of a signal monitor. [See the documentation](https://docs.pubrio.com)",
+  description: "Perform a test run of a signal monitor. [See the documentation](https://docs.pubrio.com/en/api-reference/endpoint/monitors/process_try)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

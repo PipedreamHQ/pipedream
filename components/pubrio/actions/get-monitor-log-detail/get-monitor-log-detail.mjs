@@ -3,7 +3,7 @@ import pubrio from "../../pubrio.app.mjs";
 export default {
   key: "pubrio-get-monitor-log-detail",
   name: "Get Monitor Log Detail",
-  description: "Get detailed information about a specific monitor log entry. [See the documentation](https://docs.pubrio.com)",
+  description: "Get detailed information about a specific monitor log entry. [See the documentation](https://docs.pubrio.com/en/api-reference/endpoint/monitors/statistics_logs_lookup)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

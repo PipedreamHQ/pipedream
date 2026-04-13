@@ -3,7 +3,7 @@ import pubrio from "../../pubrio.app.mjs";
 export default {
   key: "pubrio-get-news-galleries",
   name: "Get News Galleries",
-  description: "Get available news gallery codes for filtering. [See the documentation](https://docs.pubrio.com)",
+  description: "Get available news gallery codes for filtering. [See the documentation](https://docs.pubrio.com/en/api-reference/endpoint/news/galleries)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

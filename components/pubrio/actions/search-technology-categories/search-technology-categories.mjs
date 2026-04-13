@@ -3,7 +3,7 @@ import pubrio from "../../pubrio.app.mjs";
 export default {
   key: "pubrio-search-technology-categories",
   name: "Search Technology Categories",
-  description: "Search available technology categories by keyword. [See the documentation](https://docs.pubrio.com)",
+  description: "Search available technology categories by keyword. [See the documentation](https://docs.pubrio.com/en/api-reference/endpoint/technologies/categories)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

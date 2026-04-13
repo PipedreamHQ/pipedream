@@ -1,7 +1,5 @@
 import { axios } from "@pipedream/platform";
-import {
-  splitComma, parseJsonField,
-} from "./common/utils.mjs";
+import { parseJsonField } from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -156,7 +154,6 @@ export default {
     },
   },
   methods: {
-    splitComma,
     parseJsonField,
     _baseUrl() {
       return "https://api.pubrio.com";

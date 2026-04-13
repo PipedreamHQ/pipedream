@@ -3,7 +3,7 @@ import pubrio from "../../pubrio.app.mjs";
 export default {
   key: "pubrio-reveal-monitor-signature",
   name: "Reveal Monitor Signature",
-  description: "Reveal the signature for a specific monitor. [See the documentation](https://docs.pubrio.com)",
+  description: "Reveal the signature for a specific monitor. [See the documentation](https://docs.pubrio.com/en/api-reference/endpoint/monitors/signature_reveal)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

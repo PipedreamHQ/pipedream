@@ -3,7 +3,7 @@ import pubrio from "../../pubrio.app.mjs";
 export default {
   key: "pubrio-lookup-advertisement",
   name: "Lookup Advertisement",
-  description: "Look up detailed advertisement information by advertisement search ID. [See the documentation](https://docs.pubrio.com)",
+  description: "Look up detailed advertisement information by advertisement search ID. [See the documentation](https://docs.pubrio.com/en/api-reference/endpoint/companies/advertisements_lookup)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

@@ -3,7 +3,7 @@ import pubrio from "../../pubrio.app.mjs";
 export default {
   key: "pubrio-lookup-company",
   name: "Lookup Company",
-  description: "Look up detailed company information by domain or LinkedIn URL. [See the documentation](https://docs.pubrio.com)",
+  description: "Look up detailed company information by domain or LinkedIn URL. [See the documentation](https://docs.pubrio.com/en/api-reference/endpoint/companies/lookup)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

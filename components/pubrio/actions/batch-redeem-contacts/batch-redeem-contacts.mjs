@@ -3,7 +3,7 @@ import pubrio from "../../pubrio.app.mjs";
 export default {
   key: "pubrio-batch-redeem-contacts",
   name: "Batch Redeem Contacts",
-  description: "Batch reveal contact information for multiple people (uses credits). [See the documentation](https://docs.pubrio.com)",
+  description: "Batch reveal contact information for multiple people (uses credits). [See the documentation](https://docs.pubrio.com/en/api-reference/endpoint/redeem/people/batch)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

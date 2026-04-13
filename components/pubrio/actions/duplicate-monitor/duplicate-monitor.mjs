@@ -3,7 +3,7 @@ import pubrio from "../../pubrio.app.mjs";
 export default {
   key: "pubrio-duplicate-monitor",
   name: "Duplicate Monitor",
-  description: "Duplicate an existing signal monitor. [See the documentation](https://docs.pubrio.com)",
+  description: "Duplicate an existing signal monitor. [See the documentation](https://docs.pubrio.com/en/api-reference/endpoint/monitors/duplicate)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

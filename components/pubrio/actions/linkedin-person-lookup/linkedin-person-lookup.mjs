@@ -3,7 +3,7 @@ import pubrio from "../../pubrio.app.mjs";
 export default {
   key: "pubrio-linkedin-person-lookup",
   name: "People LinkedIn Lookup",
-  description: "Real-time LinkedIn person lookup. [See the documentation](https://docs.pubrio.com)",
+  description: "Real-time LinkedIn person lookup. [See the documentation](https://docs.pubrio.com/en/api-reference/endpoint/people/linkedin_lookup)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

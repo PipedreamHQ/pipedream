@@ -3,7 +3,7 @@ import pubrio from "../../pubrio.app.mjs";
 export default {
   key: "pubrio-query-batch-redeem",
   name: "Query Batch Redeem",
-  description: "Query the status and results of a batch redeem request. [See the documentation](https://docs.pubrio.com)",
+  description: "Query the status and results of a batch redeem request. [See the documentation](https://docs.pubrio.com/en/api-reference/endpoint/redeem/people/batch/query)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

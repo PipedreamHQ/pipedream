@@ -3,7 +3,7 @@ import pubrio from "../../pubrio.app.mjs";
 export default {
   key: "pubrio-search-ads",
   name: "Search Advertisements",
-  description: "Search advertisements across companies. [See the documentation](https://docs.pubrio.com)",
+  description: "Search advertisements across companies. [See the documentation](https://docs.pubrio.com/en/api-reference/endpoint/companies/advertisements_search)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

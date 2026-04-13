@@ -3,7 +3,7 @@ import pubrio from "../../pubrio.app.mjs";
 export default {
   key: "pubrio-get-monitor-chart",
   name: "Get Monitor Chart",
-  description: "Get chart data for a specific monitor over a date range. [See the documentation](https://docs.pubrio.com)",
+  description: "Get chart data for a specific monitor over a date range. [See the documentation](https://docs.pubrio.com/en/api-reference/endpoint/monitors/statistics_chart)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

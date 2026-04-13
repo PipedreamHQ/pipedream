@@ -3,7 +3,7 @@ import pubrio from "../../pubrio.app.mjs";
 export default {
   key: "pubrio-find-similar-companies",
   name: "Find Similar Companies",
-  description: "Find companies similar to a given company. [See the documentation](https://docs.pubrio.com)",
+  description: "Find companies similar to a given company. [See the documentation](https://docs.pubrio.com/en/api-reference/endpoint/companies/similar)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

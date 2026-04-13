@@ -3,7 +3,7 @@ import pubrio from "../../pubrio.app.mjs";
 export default {
   key: "pubrio-reveal-contact",
   name: "Reveal Contact",
-  description: "Reveal email or phone number for a person (uses credits). [See the documentation](https://docs.pubrio.com)",
+  description: "Reveal email or phone number for a person (uses credits). [See the documentation](https://docs.pubrio.com/en/api-reference/endpoint/redeem/people)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

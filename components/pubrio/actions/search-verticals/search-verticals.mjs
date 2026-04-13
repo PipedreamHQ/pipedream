@@ -3,7 +3,7 @@ import pubrio from "../../pubrio.app.mjs";
 export default {
   key: "pubrio-search-verticals",
   name: "Search Verticals",
-  description: "Search available industry verticals by keyword. [See the documentation](https://docs.pubrio.com)",
+  description: "Search available industry verticals by keyword. [See the documentation](https://docs.pubrio.com/en/api-reference/endpoint/verticals/verticals)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

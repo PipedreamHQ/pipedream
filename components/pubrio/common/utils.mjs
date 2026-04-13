@@ -1,15 +1,4 @@
 /**
- * Splits a comma-separated string into a trimmed array of non-empty values.
- * @param {string} value - Comma-separated string to split
- * @returns {string[]|undefined} Array of trimmed values, or undefined if input is falsy
- */
-function splitComma(value) {
-  if (!value) return undefined;
-  return value.split(",").map((s) => s.trim())
-    .filter(Boolean);
-}
-
-/**
  * Parses and validates a JSON string input.
  * @param {string} value - JSON string to parse
  * @param {string} fieldName - Field name for error messages
@@ -33,6 +22,5 @@ function parseJsonField(value, fieldName, expectedType = "object") {
 }
 
 export {
-  splitComma,
   parseJsonField,
 };

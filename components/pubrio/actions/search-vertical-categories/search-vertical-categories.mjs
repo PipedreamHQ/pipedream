@@ -3,7 +3,7 @@ import pubrio from "../../pubrio.app.mjs";
 export default {
   key: "pubrio-search-vertical-categories",
   name: "Search Vertical Categories",
-  description: "Search available vertical categories by keyword. [See the documentation](https://docs.pubrio.com)",
+  description: "Search available vertical categories by keyword. [See the documentation](https://docs.pubrio.com/en/api-reference/endpoint/verticals/vertical_categories)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

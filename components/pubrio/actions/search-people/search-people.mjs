@@ -3,7 +3,7 @@ import pubrio from "../../pubrio.app.mjs";
 export default {
   key: "pubrio-search-people",
   name: "Search People",
-  description: "Search business professionals by name, title, department, seniority, or company. [See the documentation](https://docs.pubrio.com)",
+  description: "Search business professionals by name, title, department, seniority, or company. [See the documentation](https://docs.pubrio.com/en/api-reference/endpoint/people/search)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

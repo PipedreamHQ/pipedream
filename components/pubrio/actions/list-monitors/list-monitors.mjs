@@ -3,7 +3,7 @@ import pubrio from "../../pubrio.app.mjs";
 export default {
   key: "pubrio-list-monitors",
   name: "List Monitors",
-  description: "List all signal monitors. [See the documentation](https://docs.pubrio.com)",
+  description: "List all signal monitors. [See the documentation](https://docs.pubrio.com/en/api-reference/endpoint/monitors/monitors)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

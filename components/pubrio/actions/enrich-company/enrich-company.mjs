@@ -3,7 +3,7 @@ import pubrio from "../../pubrio.app.mjs";
 export default {
   key: "pubrio-enrich-company",
   name: "Enrich Company",
-  description: "Get enriched company data with full firmographic details (uses credits). [See the documentation](https://docs.pubrio.com)",
+  description: "Get enriched company data with full firmographic details (uses credits). [See the documentation](https://docs.pubrio.com/en/api-reference/endpoint/companies/enrichment)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

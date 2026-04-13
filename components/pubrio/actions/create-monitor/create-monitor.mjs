@@ -3,7 +3,7 @@ import pubrio from "../../pubrio.app.mjs";
 export default {
   key: "pubrio-create-monitor",
   name: "Create Monitor",
-  description: "Create a new signal monitor for jobs, news, or advertisements. [See the documentation](https://docs.pubrio.com)",
+  description: "Create a new signal monitor for jobs, news, or advertisements. [See the documentation](https://docs.pubrio.com/en/api-reference/endpoint/monitors/create)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

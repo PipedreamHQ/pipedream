@@ -3,7 +3,7 @@ import pubrio from "../../pubrio.app.mjs";
 export default {
   key: "pubrio-retry-monitor",
   name: "Retry Monitor",
-  description: "Retry a failed monitor process. [See the documentation](https://docs.pubrio.com)",
+  description: "Retry a failed monitor process. [See the documentation](https://docs.pubrio.com/en/api-reference/endpoint/monitors/process_retry)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

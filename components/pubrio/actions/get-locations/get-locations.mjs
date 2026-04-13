@@ -3,7 +3,7 @@ import pubrio from "../../pubrio.app.mjs";
 export default {
   key: "pubrio-get-locations",
   name: "Get Locations",
-  description: "Get available location codes for filtering. [See the documentation](https://docs.pubrio.com)",
+  description: "Get available location codes for filtering. [See the documentation](https://docs.pubrio.com/en/api-reference/endpoint/locations/locations)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

@@ -3,7 +3,7 @@ import pubrio from "../../pubrio.app.mjs";
 export default {
   key: "pubrio-get-monitor",
   name: "Get Monitor",
-  description: "Get detailed information about a specific monitor. [See the documentation](https://docs.pubrio.com)",
+  description: "Get detailed information about a specific monitor. [See the documentation](https://docs.pubrio.com/en/api-reference/endpoint/monitors/lookup)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

@@ -3,7 +3,7 @@ import pubrio from "../../pubrio.app.mjs";
 export default {
   key: "pubrio-update-monitor",
   name: "Update Monitor",
-  description: "Update an existing signal monitor. [See the documentation](https://docs.pubrio.com)",
+  description: "Update an existing signal monitor. [See the documentation](https://docs.pubrio.com/en/api-reference/endpoint/monitors/update)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

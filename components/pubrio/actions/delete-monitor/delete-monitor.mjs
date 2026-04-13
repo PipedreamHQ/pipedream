@@ -3,7 +3,7 @@ import pubrio from "../../pubrio.app.mjs";
 export default {
   key: "pubrio-delete-monitor",
   name: "Delete Monitor",
-  description: "Delete an existing signal monitor. [See the documentation](https://docs.pubrio.com)",
+  description: "Delete an existing signal monitor. [See the documentation](https://docs.pubrio.com/en/api-reference/endpoint/monitors/delete)",
   version: "0.0.1",
   annotations: {
     destructiveHint: true,

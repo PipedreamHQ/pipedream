@@ -3,7 +3,7 @@ import pubrio from "../../pubrio.app.mjs";
 export default {
   key: "pubrio-get-monitor-logs",
   name: "Get Monitor Logs",
-  description: "Get logs for a specific monitor. [See the documentation](https://docs.pubrio.com)",
+  description: "Get logs for a specific monitor. [See the documentation](https://docs.pubrio.com/en/api-reference/endpoint/monitors/statistics_logs)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

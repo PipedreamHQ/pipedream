@@ -3,7 +3,7 @@ import pubrio from "../../pubrio.app.mjs";
 export default {
   key: "pubrio-lookup-news",
   name: "Lookup News",
-  description: "Look up detailed news article information by news search ID. [See the documentation](https://docs.pubrio.com)",
+  description: "Look up detailed news article information by news search ID. [See the documentation](https://docs.pubrio.com/en/api-reference/endpoint/companies/news_lookup)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

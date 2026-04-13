@@ -3,7 +3,7 @@ import pubrio from "../../pubrio.app.mjs";
 export default {
   key: "pubrio-search-jobs",
   name: "Search Jobs",
-  description: "Search job postings across companies. [See the documentation](https://docs.pubrio.com)",
+  description: "Search job postings across companies. [See the documentation](https://docs.pubrio.com/en/api-reference/endpoint/companies/job_search)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
