@@ -807,6 +807,14 @@ export default {
         ...args,
       });
     },
+    getConversations({
+      ticketId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/tickets/${ticketId}/conversations`,
+        ...args,
+      });
+    },
     async getResourcesOptions({
       orgId, departmentId, prevContext, resourceFn, resourceMapper,
     }) {
