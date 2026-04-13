@@ -8914,8 +8914,8 @@ importers:
   components/liveagent:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.8
-        version: 1.6.8
+        specifier: ^3.3.1
+        version: 3.3.1
 
   components/livechat: {}
 
@@ -16411,8 +16411,8 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
       axios:
-        specifier: ^0.30.2
-        version: 0.30.3
+        specifier: ^1.13.2
+        version: 1.15.0(debug@3.2.7)
       lodash:
         specifier: ^4.18.1
         version: 4.18.1
@@ -21983,8 +21983,23 @@ packages:
   '@pipedream/platform@3.3.1':
     resolution: {integrity: sha512-efVpYQQxYKcNf+kJJadu4uD5jCdyv+x1UgBRVG0OGOXnQmUvl33KjxXft575tJwLeW5kMJWL+TQngKk4phHMDA==}
 
-  '@pipedream/postgresql@2.2.5':
-    resolution: {integrity: sha512-8zYAO1DxWL5tcBDjNKf9TlL6GDVCvczvrT6ap/rWLAElQlK79q0Gs7j65WT4x7hKO4ppy93T5ZZiVk1znLE27A==}
+  '@pipedream/platform@3.2.2':
+    resolution: {integrity: sha512-D4i7l0lNofw70soZM4taEw4XIsTT1pgi44WaoB1WkdH1VUR6Q/FVqFYUaA+5XeuErapFpGyd+mWOCvRQusN7Vw==}
+
+  '@pipedream/platform@3.2.4':
+    resolution: {integrity: sha512-lX6MBwjD12MCkztCwsL10EfpxaevdtpW5BSY1xpFyfGffa1i3AG7gI2HowFrx3gZ3dfUHT2Ilx8nEdTOseyR4A==}
+
+  '@pipedream/platform@3.2.5':
+    resolution: {integrity: sha512-fygR/JSYYKPvLbyUc4NjA5Uy4fggDQvoa0XQmLhsO682okO85lMYOWKHB5GhQsm/cl7wB/u6i2XmjC+OINqTgw==}
+
+  '@pipedream/platform@3.3.0':
+    resolution: {integrity: sha512-vqJ4yp9Ng3tQEr33qiilZlNHsBFP7V1XsHdza+2ksYVs7UA20dfy9ryd1WGWoVfsRaSakPCe+nq2O6Pgp0KtYA==}
+
+  '@pipedream/platform@3.3.1':
+    resolution: {integrity: sha512-efVpYQQxYKcNf+kJJadu4uD5jCdyv+x1UgBRVG0OGOXnQmUvl33KjxXft575tJwLeW5kMJWL+TQngKk4phHMDA==}
+
+  '@pipedream/postgresql@2.2.4':
+    resolution: {integrity: sha512-ANR8xURO+5tDp/85oP/SrAwUjk+G6Xz5LOU40hsR2OAYGN6wU0cNAMRSq4durl3MVcb2+oxJwB9uNAdYQgga/g==}
 
   '@pipedream/procore@0.1.0':
     resolution: {integrity: sha512-9AD+MfV/PrgvZN5BJkTiDXZh8ymcjBLd1coTIVFOAfRFvU8Iz1dHfIn40OpgdylEo8bsqJLJHN0V8d4pAk1Byg==}
@@ -40218,9 +40233,9 @@ snapshots:
 
   '@pipedream/notion@1.0.7':
     dependencies:
-      '@notionhq/client': 5.17.0
+      '@notionhq/client': 5.4.0
       '@pipedream/platform': 3.3.1
-      '@tryfabric/martian': 1.2.4
+      '@tryfabric/martian': 1.2.4(encoding@0.1.13)
       lodash-es: 4.18.1
       notion-helper: 1.3.30
       notion-to-md: 3.1.8
@@ -40293,7 +40308,62 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@pipedream/postgresql@2.2.5':
+  '@pipedream/platform@3.2.2':
+    dependencies:
+      axios: 1.15.0(debug@3.2.7)
+      fp-ts: 2.16.11
+      io-ts: 2.2.22(fp-ts@2.16.11)
+      mime-types: 3.0.1
+      querystring: 0.2.1
+      uuid: 11.1.0
+    transitivePeerDependencies:
+      - debug
+
+  '@pipedream/platform@3.2.4':
+    dependencies:
+      axios: 1.15.0(debug@3.2.7)
+      fp-ts: 2.16.11
+      io-ts: 2.2.22(fp-ts@2.16.11)
+      mime-types: 3.0.1
+      querystring: 0.2.1
+      uuid: 11.1.0
+    transitivePeerDependencies:
+      - debug
+
+  '@pipedream/platform@3.2.5':
+    dependencies:
+      axios: 1.15.0(debug@3.2.7)
+      fp-ts: 2.16.11
+      io-ts: 2.2.22(fp-ts@2.16.11)
+      mime-types: 3.0.1
+      querystring: 0.2.1
+      uuid: 11.1.0
+    transitivePeerDependencies:
+      - debug
+
+  '@pipedream/platform@3.3.0':
+    dependencies:
+      axios: 1.13.2
+      fp-ts: 2.16.11
+      io-ts: 2.2.22(fp-ts@2.16.11)
+      mime-types: 3.0.1
+      querystring: 0.2.1
+      uuid: 11.1.0
+    transitivePeerDependencies:
+      - debug
+
+  '@pipedream/platform@3.3.1':
+    dependencies:
+      axios: 1.15.0(debug@3.2.7)
+      fp-ts: 2.16.11
+      io-ts: 2.2.22(fp-ts@2.16.11)
+      mime-types: 3.0.1
+      querystring: 0.2.1
+      uuid: 11.1.0
+    transitivePeerDependencies:
+      - debug
+
+  '@pipedream/postgresql@2.2.4':
     dependencies:
       '@pipedream/platform': 2.0.2
       pg: 8.20.0
@@ -40356,7 +40426,7 @@ snapshots:
   '@pipedream/slack@0.10.3':
     dependencies:
       '@pipedream/platform': 3.3.1
-      '@slack/web-api': 7.15.0
+      '@slack/web-api': 7.12.0
       async-retry: 1.3.3
       lodash: 4.18.1
     transitivePeerDependencies:
@@ -40376,9 +40446,9 @@ snapshots:
 
   '@pipedream/youtube_data_api@1.0.2':
     dependencies:
-      '@googleapis/youtube': 6.0.0
+      '@googleapis/youtube': 6.0.0(encoding@0.1.13)
       '@pipedream/platform': 3.3.1
-      got: 14.6.6
+      got: 14.6.4
       util: 0.12.5
     transitivePeerDependencies:
       - debug
@@ -40808,9 +40878,15 @@ snapshots:
 
   '@putout/operator-jsx@3.0.0(putout@42.4.3(@putout/printer@18.9.3)(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
-      '@putout/babel': 5.4.2
-      '@putout/operate': 15.3.3
-      putout: 42.4.3(@putout/printer@18.9.3)(eslint@8.57.1)(typescript@5.6.3)
+      '@putout/babel': 4.5.4(rolldown@1.0.0-beta.60(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1))(rollup@4.60.1)
+      '@putout/engine-parser': 14.2.0(rolldown@1.0.0-beta.60(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1))(rollup@4.60.1)
+      '@putout/operator-filesystem': 9.0.1(putout@40.14.0(eslint@8.57.1)(rolldown@1.0.0-beta.60(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1))(rollup@4.60.1)(typescript@5.6.3))(rolldown@1.0.0-beta.60(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1))(rollup@4.60.1)
+      '@putout/operator-json': 2.2.0
+      putout: 40.14.0(eslint@8.57.1)(rolldown@1.0.0-beta.60(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1))(rollup@4.60.1)(typescript@5.6.3)
+    transitivePeerDependencies:
+      - rolldown
+      - rollup
+      - supports-color
 
   '@putout/operator-keyword@5.1.1': {}
 
@@ -42691,6 +42767,15 @@ snapshots:
   '@types/rimraf@3.0.2':
     dependencies:
       '@types/glob': 8.1.0
+      '@types/node': 20.19.39
+
+  '@types/sax@1.2.7':
+    dependencies:
+      '@types/node': 20.19.25
+
+  '@types/send@0.17.6':
+    dependencies:
+      '@types/mime': 1.3.5
       '@types/node': 20.19.39
 
   '@types/send@1.2.1':
