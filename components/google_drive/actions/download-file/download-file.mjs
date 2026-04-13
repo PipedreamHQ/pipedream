@@ -18,7 +18,7 @@ export default {
   key: "google_drive-download-file",
   name: "Download File",
   description: "Download a file. [See the documentation](https://developers.google.com/drive/api/v3/manage-downloads) for more information",
-  version: "0.1.22",
+  version: "0.1.23",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -107,10 +107,7 @@ export default {
     },
   },
   async run({ $ }) {
-    // Validate that filePath is provided when not getting raw response
-    if (!this.getBufferResponse && !this.filePath) {
-      throw new Error("File Path is required when not using Get Buffer Response");
-    }
+    const useBufferResponse = this.getBufferResponse || !this.filePath;
 
     // Get file metadata to get file's MIME type
     const fileMetadata = await this.googleDrive.getFile(this.fileId, {
@@ -135,7 +132,7 @@ export default {
         alt: "media",
       });
 
-    if (this.getBufferResponse) {
+    if (useBufferResponse) {
       $.export("$summary", `Successfully retrieved raw content for file "${fileMetadata.name}"`);
 
       // Convert stream to buffer
