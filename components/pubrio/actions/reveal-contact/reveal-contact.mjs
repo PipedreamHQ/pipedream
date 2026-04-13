@@ -5,12 +5,12 @@ export default {
   name: "Reveal Contact",
   description: "Reveal email or phone number for a person (uses credits). [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
-  type: "action",
   annotations: {
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
-    destructiveHint: false,
   },
+  type: "action",
   props: {
     pubrio,
     peopleSearchId: {
@@ -49,7 +49,7 @@ export default {
       $,
       data,
     });
-    $.export("$summary", "Successfully revealed contact");
+    $.export("$summary", `Successfully revealed contact for ${this.peopleSearchId || this.linkedinUrl}`);
     return response;
   },
 };

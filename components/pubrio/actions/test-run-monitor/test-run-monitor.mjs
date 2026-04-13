@@ -5,12 +5,12 @@ export default {
   name: "Test Run Monitor",
   description: "Perform a test run of a signal monitor. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
-  type: "action",
   annotations: {
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
-    destructiveHint: false,
   },
+  type: "action",
   props: {
     pubrio,
     monitorId: {

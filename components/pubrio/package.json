@@ -8,7 +8,7 @@
     "pubrio"
   ],
   "homepage": "https://pipedream.com/apps/pubrio",
-  "author": "Pubrio <support@pubrio.com> (https://pubrio.com/)",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
   },

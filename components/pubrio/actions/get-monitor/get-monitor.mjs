@@ -5,12 +5,12 @@ export default {
   name: "Get Monitor",
   description: "Get detailed information about a specific monitor. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
-  type: "action",
   annotations: {
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
-    destructiveHint: false,
   },
+  type: "action",
   props: {
     pubrio,
     monitorId: {
@@ -34,7 +34,7 @@ export default {
       $,
       data,
     });
-    $.export("$summary", "Successfully retrieved monitor");
+    $.export("$summary", `Successfully retrieved monitor ${this.monitorId}`);
     return response;
   },
 };

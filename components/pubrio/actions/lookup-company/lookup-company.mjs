@@ -5,12 +5,12 @@ export default {
   name: "Lookup Company",
   description: "Look up detailed company information by domain or LinkedIn URL. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
-  type: "action",
   annotations: {
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
-    destructiveHint: false,
   },
+  type: "action",
   props: {
     pubrio,
     lookupType: {
@@ -40,7 +40,7 @@ export default {
         [this.lookupType]: val,
       },
     });
-    $.export("$summary", "Successfully looked up company");
+    $.export("$summary", `Successfully looked up company by ${this.lookupType}: ${this.value}`);
     return response;
   },
 };

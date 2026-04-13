@@ -5,12 +5,12 @@ export default {
   name: "Duplicate Monitor",
   description: "Duplicate an existing signal monitor. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
-  type: "action",
   annotations: {
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
-    destructiveHint: false,
   },
+  type: "action",
   props: {
     pubrio,
     monitorId: {
@@ -34,7 +34,7 @@ export default {
       $,
       data,
     });
-    $.export("$summary", "Successfully duplicated monitor");
+    $.export("$summary", `Successfully duplicated monitor ${this.monitorId}`);
     return response;
   },
 };

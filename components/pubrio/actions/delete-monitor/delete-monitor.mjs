@@ -5,12 +5,12 @@ export default {
   name: "Delete Monitor",
   description: "Delete an existing signal monitor. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
-  type: "action",
   annotations: {
+    destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
-    destructiveHint: true,
   },
+  type: "action",
   props: {
     pubrio,
     monitorId: {
@@ -26,7 +26,7 @@ export default {
         monitor_id: this.monitorId,
       },
     });
-    $.export("$summary", "Successfully deleted monitor");
+    $.export("$summary", `Successfully deleted monitor ${this.monitorId}`);
     return response;
   },
 };

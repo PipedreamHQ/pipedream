@@ -5,12 +5,12 @@ export default {
   name: "Enrich Person",
   description: "Get enriched person data with full professional details (uses credits). [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
-  type: "action",
   annotations: {
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
-    destructiveHint: false,
   },
+  type: "action",
   props: {
     pubrio,
     lookupType: {
@@ -33,7 +33,7 @@ export default {
         [this.lookupType]: this.value,
       },
     });
-    $.export("$summary", "Successfully enriched person");
+    $.export("$summary", `Successfully enriched person by ${this.lookupType}: ${this.value}`);
     return response;
   },
 };

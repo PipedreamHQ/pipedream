@@ -5,12 +5,12 @@ export default {
   name: "Get Monitor Log Detail",
   description: "Get detailed information about a specific monitor log entry. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
-  type: "action",
   annotations: {
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
-    destructiveHint: false,
   },
+  type: "action",
   props: {
     pubrio,
     monitorLogId: {
@@ -26,7 +26,7 @@ export default {
         monitor_log_id: this.monitorLogId,
       },
     });
-    $.export("$summary", "Successfully retrieved monitor log detail");
+    $.export("$summary", `Successfully retrieved monitor log detail ${this.monitorLogId}`);
     return response;
   },
 };

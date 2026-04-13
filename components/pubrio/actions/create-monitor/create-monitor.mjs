@@ -5,12 +5,12 @@ export default {
   name: "Create Monitor",
   description: "Create a new signal monitor for jobs, news, or advertisements. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
-  type: "action",
   annotations: {
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
-    destructiveHint: false,
   },
+  type: "action",
   props: {
     pubrio,
     name: {

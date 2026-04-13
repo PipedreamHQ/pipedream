@@ -5,12 +5,12 @@ export default {
   name: "List Monitors",
   description: "List all signal monitors. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
-  type: "action",
   annotations: {
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
-    destructiveHint: false,
   },
+  type: "action",
   props: {
     pubrio,
     page: {

@@ -5,12 +5,12 @@ export default {
   name: "Lookup Person",
   description: "Look up a person's professional profile by LinkedIn URL or Pubrio ID. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
-  type: "action",
   annotations: {
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
-    destructiveHint: false,
   },
+  type: "action",
   props: {
     pubrio,
     lookupType: {
@@ -33,7 +33,7 @@ export default {
         [this.lookupType]: this.value,
       },
     });
-    $.export("$summary", "Successfully looked up person");
+    $.export("$summary", `Successfully looked up person by ${this.lookupType}: ${this.value}`);
     return response;
   },
 };

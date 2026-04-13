@@ -5,12 +5,12 @@ export default {
   name: "Get News Categories",
   description: "Get available news category codes for filtering. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
-  type: "action",
   annotations: {
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
-    destructiveHint: false,
   },
+  type: "action",
   props: {
     pubrio,
   },

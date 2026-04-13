@@ -5,12 +5,12 @@ export default {
   name: "Batch Redeem Contacts",
   description: "Batch reveal contact information for multiple people (uses credits). [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
-  type: "action",
   annotations: {
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
-    destructiveHint: false,
   },
+  type: "action",
   props: {
     pubrio,
     peoples: {

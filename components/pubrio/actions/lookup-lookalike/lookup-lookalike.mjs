@@ -5,12 +5,12 @@ export default {
   name: "Lookup Lookalike",
   description: "Look up similar companies (lookalike) result by domain, LinkedIn URL, domain search ID, or domain ID. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
-  type: "action",
   annotations: {
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
-    destructiveHint: false,
   },
+  type: "action",
   props: {
     pubrio,
     lookupType: {
@@ -40,7 +40,7 @@ export default {
         [this.lookupType]: val,
       },
     });
-    $.export("$summary", "Successfully looked up lookalike");
+    $.export("$summary", `Successfully looked up lookalike by ${this.lookupType}: ${this.value}`);
     return response;
   },
 };

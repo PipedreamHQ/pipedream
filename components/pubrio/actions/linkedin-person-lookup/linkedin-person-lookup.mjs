@@ -5,12 +5,12 @@ export default {
   name: "People LinkedIn Lookup",
   description: "Real-time LinkedIn person lookup. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
-  type: "action",
   annotations: {
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
-    destructiveHint: false,
   },
+  type: "action",
   props: {
     pubrio,
     peopleLinkedinUrl: {
@@ -26,7 +26,7 @@ export default {
         people_linkedin_url: this.peopleLinkedinUrl,
       },
     });
-    $.export("$summary", "Successfully looked up LinkedIn person");
+    $.export("$summary", `Successfully looked up LinkedIn person: ${this.peopleLinkedinUrl}`);
     return response;
   },
 };

@@ -5,12 +5,12 @@ export default {
   name: "Retry Monitor",
   description: "Retry a failed monitor process. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
-  type: "action",
   annotations: {
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
-    destructiveHint: false,
   },
+  type: "action",
   props: {
     pubrio,
     monitorId: {
@@ -42,7 +42,7 @@ export default {
       $,
       data,
     });
-    $.export("$summary", "Successfully retried monitor");
+    $.export("$summary", `Successfully retried monitor ${this.monitorId}`);
     return response;
   },
 };

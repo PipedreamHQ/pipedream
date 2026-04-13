@@ -5,12 +5,12 @@ export default {
   name: "Company LinkedIn Lookup",
   description: "Real-time LinkedIn company lookup. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
-  type: "action",
   annotations: {
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
-    destructiveHint: false,
   },
+  type: "action",
   props: {
     pubrio,
     linkedinUrl: {
@@ -26,7 +26,7 @@ export default {
         linkedin_url: this.linkedinUrl,
       },
     });
-    $.export("$summary", "Successfully looked up LinkedIn company");
+    $.export("$summary", `Successfully looked up LinkedIn company: ${this.linkedinUrl}`);
     return response;
   },
 };

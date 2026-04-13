@@ -5,12 +5,12 @@ export default {
   name: "Find Similar Companies",
   description: "Find companies similar to a given company. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
-  type: "action",
   annotations: {
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
-    destructiveHint: false,
   },
+  type: "action",
   props: {
     pubrio,
     lookupType: {

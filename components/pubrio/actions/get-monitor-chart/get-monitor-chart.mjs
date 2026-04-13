@@ -5,12 +5,12 @@ export default {
   name: "Get Monitor Chart",
   description: "Get chart data for a specific monitor over a date range. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
-  type: "action",
   annotations: {
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
-    destructiveHint: false,
   },
+  type: "action",
   props: {
     pubrio,
     monitorId: {
@@ -38,7 +38,7 @@ export default {
         end_date: this.endDate,
       },
     });
-    $.export("$summary", "Successfully retrieved monitor chart data");
+    $.export("$summary", `Successfully retrieved chart data for monitor ${this.monitorId}`);
     return response;
   },
 };

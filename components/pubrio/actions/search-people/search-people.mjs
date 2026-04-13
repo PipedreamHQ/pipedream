@@ -5,12 +5,12 @@ export default {
   name: "Search People",
   description: "Search business professionals by name, title, department, seniority, or company. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
-  type: "action",
   annotations: {
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
-    destructiveHint: false,
   },
+  type: "action",
   props: {
     pubrio,
     searchTerm: {
@@ -126,7 +126,12 @@ export default {
     if (this.managementLevels?.length) data.management_levels = this.managementLevels;
     if (this.departments?.length) data.departments = this.departments;
     if (this.departmentFunctions?.length) data.department_functions = this.departmentFunctions;
-    if (this.employees?.length) data.employees = this.employees;
+    if (this.employees?.length) {
+      if (this.employees.length !== 2) {
+        throw new Error("Employees must be a range of exactly 2 values: [min, max]");
+      }
+      data.employees = this.employees;
+    }
     if (this.peopleLocations?.length) data.people_locations = this.peopleLocations;
     if (this.companyLocations?.length) data.company_locations = this.companyLocations;
     if (this.companyLinkedinUrls?.length) data.company_linkedin_urls = this.companyLinkedinUrls;

@@ -5,12 +5,12 @@ export default {
   name: "Lookup Job",
   description: "Look up detailed job posting information by job search ID. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
-  type: "action",
   annotations: {
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
-    destructiveHint: false,
   },
+  type: "action",
   props: {
     pubrio,
     jobSearchId: {
@@ -26,7 +26,7 @@ export default {
         job_search_id: this.jobSearchId,
       },
     });
-    $.export("$summary", "Successfully looked up job");
+    $.export("$summary", `Successfully looked up job ${this.jobSearchId}`);
     return response;
   },
 };

@@ -5,12 +5,12 @@ export default {
   name: "Reveal Monitor Signature",
   description: "Reveal the signature for a specific monitor. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
-  type: "action",
   annotations: {
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
-    destructiveHint: false,
   },
+  type: "action",
   props: {
     pubrio,
     monitorId: {
@@ -26,7 +26,7 @@ export default {
         monitor_id: this.monitorId,
       },
     });
-    $.export("$summary", "Successfully revealed monitor signature");
+    $.export("$summary", `Successfully revealed signature for monitor ${this.monitorId}`);
     return response;
   },
 };

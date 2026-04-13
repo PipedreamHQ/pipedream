@@ -5,19 +5,18 @@ export default {
   name: "Get Monitor Statistics",
   description: "Get overall monitor statistics. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
-  type: "action",
   annotations: {
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
-    destructiveHint: false,
   },
+  type: "action",
   props: {
     pubrio,
   },
   async run({ $ }) {
     const response = await this.pubrio.getMonitorStats({
       $,
-      data: {},
     });
     $.export("$summary", "Successfully retrieved monitor statistics");
     return response;

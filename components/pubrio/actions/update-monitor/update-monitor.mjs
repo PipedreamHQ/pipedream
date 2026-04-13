@@ -5,12 +5,12 @@ export default {
   name: "Update Monitor",
   description: "Update an existing signal monitor. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
-  type: "action",
   annotations: {
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
-    destructiveHint: false,
   },
+  type: "action",
   props: {
     pubrio,
     monitorId: {
@@ -176,19 +176,19 @@ export default {
     maxFailureTrigger: {
       type: "integer",
       label: "Max Failure Triggers",
-      description: "Maximum number of failure triggers",
+      description: "Maximum number of failure triggers (1-10)",
       optional: true,
     },
     maxRetryPerTrigger: {
       type: "integer",
       label: "Max Retry Per Trigger",
-      description: "Maximum retries per trigger",
+      description: "Maximum retries per trigger (0-3)",
       optional: true,
     },
     retryDelaySecond: {
       type: "integer",
       label: "Retry Delay (Seconds)",
-      description: "Delay between retries in seconds",
+      description: "Delay between retries in seconds (1-5)",
       optional: true,
     },
     notificationEmail: {
@@ -273,7 +273,7 @@ export default {
       $,
       data,
     });
-    $.export("$summary", "Successfully updated monitor");
+    $.export("$summary", `Successfully updated monitor ${this.monitorId}`);
     return response;
   },
 };

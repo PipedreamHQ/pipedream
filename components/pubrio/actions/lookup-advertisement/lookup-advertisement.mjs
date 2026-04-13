@@ -5,12 +5,12 @@ export default {
   name: "Lookup Advertisement",
   description: "Look up detailed advertisement information by advertisement search ID. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
-  type: "action",
   annotations: {
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
-    destructiveHint: false,
   },
+  type: "action",
   props: {
     pubrio,
     advertisementSearchId: {
@@ -26,7 +26,7 @@ export default {
         advertisement_search_id: this.advertisementSearchId,
       },
     });
-    $.export("$summary", "Successfully looked up advertisement");
+    $.export("$summary", `Successfully looked up advertisement ${this.advertisementSearchId}`);
     return response;
   },
 };

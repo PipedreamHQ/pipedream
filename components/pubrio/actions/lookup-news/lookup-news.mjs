@@ -5,12 +5,12 @@ export default {
   name: "Lookup News",
   description: "Look up detailed news article information by news search ID. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
-  type: "action",
   annotations: {
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
-    destructiveHint: false,
   },
+  type: "action",
   props: {
     pubrio,
     newsSearchId: {
@@ -26,7 +26,7 @@ export default {
         news_search_id: this.newsSearchId,
       },
     });
-    $.export("$summary", "Successfully looked up news article");
+    $.export("$summary", `Successfully looked up news article ${this.newsSearchId}`);
     return response;
   },
 };

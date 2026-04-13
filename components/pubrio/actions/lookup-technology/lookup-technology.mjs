@@ -5,12 +5,12 @@ export default {
   name: "Lookup Technology",
   description: "Look up technologies used by a company. [See the documentation](https://docs.pubrio.com)",
   version: "0.0.1",
-  type: "action",
   annotations: {
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
-    destructiveHint: false,
   },
+  type: "action",
   props: {
     pubrio,
     lookupType: {
@@ -40,7 +40,7 @@ export default {
         [this.lookupType]: val,
       },
     });
-    $.export("$summary", "Successfully looked up technologies");
+    $.export("$summary", `Successfully looked up technologies for ${this.value}`);
     return response;
   },
 };
