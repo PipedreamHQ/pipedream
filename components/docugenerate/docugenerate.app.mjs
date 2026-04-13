@@ -7,7 +7,7 @@ export default {
     templateId: {
       type: "string",
       label: "Template",
-      description: "The selected template",
+      description: "The ID of the template",
       async options() {
         const response = await this.listTemplates();
         return response.map((template) => ({
@@ -21,58 +21,60 @@ export default {
     getBaseUrl() {
       return "https://api.docugenerate.com/v1";
     },
-    getHeaders() {
+    getHeaders(headers) {
       return {
-        "Authorization": `${this.$auth.api_key}`,
         "Content-Type": "application/json",
+        ...headers,
+        "Authorization": `${this.$auth.api_key}`,
       };
     },
-    async makeRequest({
+    makeRequest({
       $ = this,
       method = "GET",
       path,
+      headers,
       ...args
     }) {
       const config = {
         method,
         url: `${this.getBaseUrl()}${path}`,
-        headers: this.getHeaders(),
+        headers: this.getHeaders(headers),
         ...args,
       };
       return axios($, config);
     },
-    async listTemplates($ = this) {
+    listTemplates($ = this) {
       return this.makeRequest({
         $,
         path: "/template",
       });
     },
-    async getTemplate($ = this, templateId) {
+    getTemplate($ = this, templateId) {
       return this.makeRequest({
         $,
         path: `/template/${templateId}`,
       });
     },
-    async deleteTemplate($ = this, templateId) {
+    deleteTemplate($ = this, templateId) {
       return this.makeRequest({
         $,
         method: "DELETE",
         path: `/template/${templateId}`,
       });
     },
-    async listDocuments($ = this, templateId) {
+    listDocuments($ = this, templateId) {
       return this.makeRequest({
         $,
         path: `/document?template_id=${templateId}`,
       });
     },
-    async getDocument($ = this, documentId) {
+    getDocument($ = this, documentId) {
       return this.makeRequest({
         $,
         path: `/document/${documentId}`,
       });
     },
-    async updateDocument($ = this, documentId, body) {
+    updateDocument($ = this, documentId, body) {
       return this.makeRequest({
         $,
         method: "PUT",
@@ -80,19 +82,28 @@ export default {
         data: body,
       });
     },
-    async deleteDocument($ = this, documentId) {
+    deleteDocument($ = this, documentId) {
       return this.makeRequest({
         $,
         method: "DELETE",
         path: `/document/${documentId}`,
       });
     },
-    async generateDocument($ = this, body) {
+    generateDocument($ = this, body) {
       return this.makeRequest({
         $,
         method: "POST",
         path: "/document",
         data: body,
+      });
+    },
+    createTemplate($ = this, body, headers) {
+      return this.makeRequest({
+        $,
+        method: "POST",
+        path: "/template",
+        data: body,
+        headers,
       });
     },
   },
