@@ -41,6 +41,9 @@ export default {
       resourceFnArgs: {
         $,
         ticketId: this.ticketId,
+        headers: {
+          orgId: this.orgId,
+        },
       },
       max: this.maxResults,
     });
