@@ -4,7 +4,7 @@ export default {
   key: "jira-search-issues-with-jql-post",
   name: "Search Issues with JQL (POST)",
   description: "Searches for issues using JQL with enhanced search capabilities. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-search/#api-rest-api-3-search-jql-post)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   annotations: {
     readOnlyHint: true,
@@ -118,6 +118,15 @@ export default {
       reconcileIssues,
     } = this;
 
+    const fieldsWithKey = fields?.includes("key")
+      ? fields
+      : fields && [
+        ...fields,
+        "key",
+      ] || [
+        "key",
+      ];
+
     const response = await app.postSearchIssues({
       $,
       cloudId,
@@ -125,7 +134,7 @@ export default {
         jql,
         maxResults,
         nextPageToken,
-        fields,
+        fields: fieldsWithKey,
         expand,
         properties,
         fieldsByKeys,
@@ -133,11 +142,29 @@ export default {
       },
     });
 
+    let baseUrl;
+    try {
+      baseUrl = await app.getCloudBaseUrl(cloudId);
+    } catch (e) {
+      console.log("Could not enrich response with browser URL", e.message);
+    }
+    const issues = baseUrl && response.issues
+      ? response.issues.map((issue) => ({
+        ...issue,
+        browserUrl: issue.key
+          ? `${baseUrl}/browse/${issue.key}`
+          : undefined,
+      }))
+      : response.issues;
+
     const isLast = response.isLast !== false;
     const resultSummary = `Successfully retrieved ${response.issues?.length || 0} issue(s)${!isLast
       ? " (more pages available)"
       : ""}`;
     $.export("$summary", resultSummary);
-    return response;
+    return {
+      ...response,
+      issues,
+    };
   },
 };

@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@pipedream/platform": "^3.2.5",
-    "axios": "1.14.0",
+    "axios": "1.15.0",
     "file-type": "^21.3.2",
     "form-data": "^4.0.4"
   }
