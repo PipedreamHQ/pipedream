@@ -5,7 +5,7 @@ export default {
   key: "github-list-repositories",
   name: "List Repositories",
   description: "List repositories that the authenticated user has access to. [See the documentation](https://docs.github.com/en/rest/repos/repos?apiVersion=2026-03-10#list-repositories-for-the-authenticated-user)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

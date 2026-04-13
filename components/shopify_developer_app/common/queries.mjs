@@ -21,7 +21,11 @@ const GET_ORDER = `
       riskLevel
       customerAcceptsMarketing
       paymentGatewayNames
-      
+      customAttributes {
+        key
+        value
+      }
+
       totalPriceSet {
         shopMoney {
           amount
@@ -157,7 +161,11 @@ const GET_ORDER = `
             refundableQuantity
             requiresShipping
             restockable
-            
+            customAttributes {
+              key
+              value
+            }
+
             originalUnitPriceSet {
               shopMoney {
                 amount

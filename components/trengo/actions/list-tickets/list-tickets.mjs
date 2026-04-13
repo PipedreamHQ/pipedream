@@ -5,7 +5,7 @@ export default {
   key: "trengo-list-tickets",
   name: "List Tickets",
   description: "List tickets according to the specified criteria. [See the documentation](https://developers.trengo.com/reference/list-all-tickets)",
-  version: "0.0.9",
+  version: "0.0.10",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
