@@ -9,6 +9,12 @@ export default {
       label: "Model Name",
       description: "The technical name of the Odoo model to interact with (e.g. `res.partner`, `helpdesk.ticket`, `sale.order`, `crm.lead`).",
       default: "res.partner",
+      options: [
+        "res.partner",
+        "helpdesk.ticket",
+        "sale.order",
+        "crm.lead",
+      ],
     },
     fields: {
       type: "string[]",
