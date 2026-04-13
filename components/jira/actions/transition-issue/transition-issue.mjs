@@ -5,7 +5,7 @@ export default {
   key: "jira-transition-issue",
   name: "Transition Issue",
   description: "Performs an issue transition and, if the transition has a screen, updates the fields from the transition screen. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-transitions-post)",
-  version: "0.1.20",
+  version: "0.1.21",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -98,6 +98,37 @@ export default {
         ...additionalProperties,
       },
     });
+
+    let browserUrl;
+    let issueKey;
+    try {
+      const [
+        baseUrl,
+        issue,
+      ] = await Promise.all([
+        this.jira.getCloudBaseUrl(this.cloudId),
+        this.jira.getIssue({
+          $,
+          cloudId: this.cloudId,
+          issueIdOrKey: this.issueIdOrKey,
+          params: {
+            fields: "key",
+          },
+        }),
+      ]);
+      issueKey = issue.key;
+      browserUrl = baseUrl && issue.key
+        ? `${baseUrl}/browse/${issue.key}`
+        : undefined;
+    } catch (e) {
+      console.log("Could not enrich response with browser URL", e.message);
+    }
+
     $.export("$summary", `Transition has performed for the issue with ID(or key): ${this.issueIdOrKey}`);
+    return {
+      success: true,
+      issueIdOrKey: issueKey || this.issueIdOrKey,
+      browserUrl,
+    };
   },
 };

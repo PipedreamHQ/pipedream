@@ -4,7 +4,7 @@ export default {
   key: "jira-get-all-projects",
   name: "Get All Projects",
   description: "Gets metadata on all projects. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/#api-rest-api-3-project-get)",
-  version: "0.1.19",
+  version: "0.1.20",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -65,8 +65,51 @@ export default {
     for await (const project of resourcesStream) {
       projects.push(project);
     }
+
+    const getProjectBrowserUrl = async (baseUrl, project) => {
+      if (!project.key) return undefined;
+      const {
+        projectTypeKey, simplified, style,
+      } = project;
+      if (projectTypeKey === "service_desk") {
+        return `${baseUrl}/jira/servicedesk/projects/${project.key}/queues`;
+      }
+      if (projectTypeKey === "business") {
+        return `${baseUrl}/jira/core/projects/${project.key}/board`;
+      }
+      const boards = await this.jira.listBoards({
+        $,
+        cloudId: this.cloudId,
+        params: {
+          projectKeyOrId: project.key,
+          maxResults: 1,
+        },
+      });
+      const boardId = boards?.values?.[0]?.id;
+      const isNextGen = simplified || style === "next-gen";
+      const basePath = isNextGen
+        ? `${baseUrl}/jira/software/projects/${project.key}/boards`
+        : `${baseUrl}/jira/software/c/projects/${project.key}/boards`;
+      return boardId
+        ? `${basePath}/${boardId}`
+        : basePath;
+    };
+
+    let baseUrl;
+    try {
+      baseUrl = await this.jira.getCloudBaseUrl(this.cloudId);
+    } catch (e) {
+      console.log("Could not enrich response with browser URL", e.message);
+    }
+    const projectsWithUrls = baseUrl
+      ? await Promise.all(projects.map(async (project) => ({
+        ...project,
+        browserUrl: await getProjectBrowserUrl(baseUrl, project),
+      })))
+      : projects;
+
     // eslint-disable-next-line multiline-ternary
     $.export("$summary", `Successfully fetched ${projects.length} ${projects.length === 1 ? "project" : "projects"}`);
-    return projects;
+    return projectsWithUrls;
   },
 };
