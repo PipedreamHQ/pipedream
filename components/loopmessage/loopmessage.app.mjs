@@ -123,6 +123,17 @@ export default {
           webhook_url: webhookUrl,
         },
         ...args,
+      }).catch((error) => {
+        if (error.response?.status === 400) {
+          const data = error.response.data;
+          const message =
+              typeof data === "string"
+                ? data
+                : data?.message ?? data?.error ?? data?.detail ?? JSON.stringify(data);
+          throw new Error(message);
+        }
+
+        throw error;
       });
     },
     deactivatePipedreamWebhook(webhookUrl, args = {}) {
@@ -132,6 +143,17 @@ export default {
           webhook_url: webhookUrl,
         },
         ...args,
+      }).catch((error) => {
+        if (error.response?.status === 400) {
+          const data = error.response.data;
+          const message =
+              typeof data === "string"
+                ? data
+                : data?.message ?? data?.error ?? data?.detail ?? JSON.stringify(data);
+          throw new Error(message);
+        }
+
+        throw error;
       });
     },
     sendReaction(args = {}) {

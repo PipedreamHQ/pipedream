@@ -25,12 +25,23 @@ export default {
     },
   },
   async run({ $: step }) {
-    const response = await this.app.getMessageStatus(this.messageId, {
-      step,
-    });
+    try {
+      const response = await this.app.getMessageStatus(this.messageId, {
+        step,
+      });
+      step.export("$summary", this.getSummary(response));
 
-    step.export("$summary", this.getSummary(response));
+      return response;
+    } catch (error) {
+      if (error.response?.status === 400) {
+        const message =
+            error.response.data?.message ??
+            error.response.data?.error_code ??
+            JSON.stringify(error.response.data);
 
-    return response;
+        throw new Error(message);
+      }
+      throw error;
+    }
   },
 };

@@ -2,8 +2,8 @@ import app from "../../loopmessage.app.mjs";
 
 export default {
   key: "loopmessage-new-inbound-message",
-  name: "New inbound message",
-  description: "Emit new inbound message",
+  name: "New Inbound Message (Instant)",
+  description: "Emit new event when an inbound message is received.",
   type: "source",
   version: "0.0.1",
   dedupe: "unique",
