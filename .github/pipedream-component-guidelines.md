@@ -361,6 +361,89 @@ includes `async options()` that calls a paginated API endpoint, it must support 
 
 ---
 
+## File Handling
+
+Components that accept files as input or write files to `/tmp` must follow a consistent
+pattern using helpers from `@pipedream/platform`.
+
+### Reading / uploading files
+
+When a component accepts a file from the user (a URL or a `/tmp` path), the input prop
+must include `format: "file-ref"`:
+
+```javascript
+filePath: {
+  type: "string",
+  label: "File Path or URL",
+  description: "Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.pdf`).",
+  format: "file-ref",
+},
+```
+
+The file content is accessed at runtime via `getFileStreamAndMetadata` (or `getFileStream`
+for stream-only access) imported from `@pipedream/platform`:
+
+```javascript
+import { getFileStreamAndMetadata } from "@pipedream/platform";
+
+async run({ $ }) {
+  const { stream, metadata } = await getFileStreamAndMetadata(this.filePath);
+  // stream             — a readable stream of the file contents
+  // metadata.name        — filename
+  // metadata.contentType — MIME type
+  // metadata.size        — byte size
+},
+```
+
+The component must also declare a `syncDir` prop with `accessMode: "read"` to allow the
+platform to sync the referenced file into the execution environment:
+
+```javascript
+syncDir: {
+  type: "dir",
+  accessMode: "read",
+  sync: true,
+  optional: true,
+},
+```
+
+### Writing / downloading files to `/tmp`
+
+When a component writes a file to `/tmp`, declare a `syncDir` prop with
+`accessMode: "write"` so the platform can sync the result out:
+
+```javascript
+syncDir: {
+  type: "dir",
+  accessMode: "write",
+  sync: true,
+},
+```
+
+Write the file using standard Node.js `fs` or a stream pipeline:
+
+```javascript
+import { pipeline } from "stream/promises";
+import fs from "fs";
+
+async run({ $ }) {
+  const { Body: data } = await this.app.downloadFile(...);
+  await pipeline(data, fs.createWriteStream(this.filePath));
+},
+```
+
+### File handling checklist
+
+- `format: "file-ref"` must be present on every prop that accepts a file path or URL as
+  input — without it the platform cannot resolve the reference at runtime
+- A `syncDir` prop with the appropriate `accessMode` must always accompany a file input or
+  output: `"read"` when the component consumes a file, `"write"` when it produces one
+- Use `getFileStreamAndMetadata` when both the stream and metadata (name, content type,
+  size) are needed; use `getFileStream` when only the stream is needed
+- File handling applies equally to actions and sources — it is not restricted to actions
+
+---
+
 ## Runtime Primitives
 
 These values are injected by the Pipedream platform at runtime. They are not importable —

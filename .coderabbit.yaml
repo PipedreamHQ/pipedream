@@ -40,6 +40,13 @@ reviews:
         - Component `description` must end with a documentation link `[See the documentation](https://...)`
           and should follow the agent-friendly structure in the guidelines:
           primary purpose → when to use → cross-tool references → parameter notes → gotchas → docs link
+        - When a component accepts a file input, verify:
+          - The file input prop includes `format: "file-ref"`
+          - A `syncDir` prop with `accessMode: "read"` and `sync: true` is declared alongside it
+          - `getFileStreamAndMetadata` or `getFileStream` from `@pipedream/platform` is used to
+            access the file in `run()`, not raw `fs.readFileSync` or direct URL fetching
+        - When a component writes a file to `/tmp`, verify a `syncDir` prop with
+          `accessMode: "write"` and `sync: true` is present
 
     # ── Action components ──────────────────────────────────────────────────────
     - path: "components/*/actions/**/*.mjs"
