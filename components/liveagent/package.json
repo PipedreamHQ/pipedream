@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/liveagent",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Pipedream Liveagent Components",
   "main": "liveagent.app.mjs",
   "keywords": [
@@ -14,6 +14,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.6.8"
+    "@pipedream/platform": "^3.3.1"
   }
 }
