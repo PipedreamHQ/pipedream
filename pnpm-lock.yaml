@@ -12616,8 +12616,8 @@ importers:
   components/quickbooks_sandbox:
     dependencies:
       '@pipedream/quickbooks':
-        specifier: ^0.8.0
-        version: 0.8.0
+        specifier: workspace:^
+        version: link:../quickbooks
 
   components/quickchart: {}
 
@@ -19971,16 +19971,16 @@ packages:
   '@daytonaio/toolbox-api-client@0.138.0':
     resolution: {integrity: sha512-unM9e7MOQiyDXdY8hCW1uTctYbxpo/TGZ6L71ZXyS/j2Cnz9/ud4VWBLcQP2VzlC+lrBP2YMrhT90zSSvcNfmA==}
 
-  '@definitelytyped/header-parser@0.2.26':
-    resolution: {integrity: sha512-t8j4cfEDV5fe7Pji/KuvFIBOpwVXZ4Zm7ptoGFqkqgw1tSONJOCveElEmGxSideo6pr30W7nQziPiJreZ6Li3A==}
+  '@definitelytyped/header-parser@0.2.28':
+    resolution: {integrity: sha512-JONMU+bw65y1EHtJggxMM9LdFUuvjFY1SXdSH038HcfYceRKiVHvWnMa8/cCKTAj/X696UqND8MVa5s7cJZwfg==}
     engines: {node: '>=20.17.0'}
 
   '@definitelytyped/typescript-versions@0.1.11':
     resolution: {integrity: sha512-hkO3A+ZyjeiLEXLTYe561uv9hnTvHM15+JTi3RgetfuB/+/Rp4Im1y/m+SehSi6D3iwdnbPckupv5TZ4PnlKPg==}
     engines: {node: '>=20.17.0'}
 
-  '@definitelytyped/utils@0.1.13':
-    resolution: {integrity: sha512-B9+yLpGZbNHXofccDGOKujBimXrrKTK7NO41QhRwmRar/Z9/t5HdG5IpwdEpiioAbYd1Fju/FCLrI/3KzGweQw==}
+  '@definitelytyped/utils@0.1.14':
+    resolution: {integrity: sha512-dh6J1DPR2WbczPP5/eFeeVh0tXiYTnfM0FTl6NzVqpummcqSzbo9gB2ySXQaK7Xr4bJskz/lszSBuDrz9bFWcw==}
     engines: {node: '>=20.17.0'}
 
   '@dependents/detective-less@5.0.1':
@@ -21869,9 +21869,6 @@ packages:
 
   '@pipedream/procore@0.1.0':
     resolution: {integrity: sha512-9AD+MfV/PrgvZN5BJkTiDXZh8ymcjBLd1coTIVFOAfRFvU8Iz1dHfIn40OpgdylEo8bsqJLJHN0V8d4pAk1Byg==}
-
-  '@pipedream/quickbooks@0.8.0':
-    resolution: {integrity: sha512-HMVwsNiSaGoeHQ2PYxkeasVifhJe330oJL/aLbXYdeVYxH5JPfAfVcFfEumOQk9EYPTA7dC34uHfFxdlIctitQ==}
 
   '@pipedream/ramp@0.1.2':
     resolution: {integrity: sha512-vYC5OPJo+kxhYYav5y0Mb7WihbLqNdoUO/CnOH1rHfKKNI4E23LLLLICn3VAl0gRc7xbWLHf4Nmcyjw7qf5k7Q==}
@@ -38325,10 +38322,10 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@definitelytyped/header-parser@0.2.26':
+  '@definitelytyped/header-parser@0.2.28':
     dependencies:
       '@definitelytyped/typescript-versions': 0.1.11
-      '@definitelytyped/utils': 0.1.13
+      '@definitelytyped/utils': 0.1.14
       semver: 7.7.4
     transitivePeerDependencies:
       - bare-abort-controller
@@ -38338,7 +38335,7 @@ snapshots:
 
   '@definitelytyped/typescript-versions@0.1.11': {}
 
-  '@definitelytyped/utils@0.1.13':
+  '@definitelytyped/utils@0.1.14':
     dependencies:
       '@types/node': 25.5.0
       cachedir: 2.4.0
@@ -40962,12 +40959,6 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@pipedream/quickbooks@0.8.0':
-    dependencies:
-      '@pipedream/platform': 3.3.1
-    transitivePeerDependencies:
-      - debug
-
   '@pipedream/ramp@0.1.2':
     dependencies:
       '@pipedream/platform': 3.3.1
@@ -41564,7 +41555,6 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
-      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.60(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1))(rollup@4.53.2)':
     dependencies:
@@ -46895,7 +46885,7 @@ snapshots:
 
   dts-critic@3.3.11(typescript@5.6.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.26
+      '@definitelytyped/header-parser': 0.2.28
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -46910,7 +46900,7 @@ snapshots:
 
   dts-critic@3.3.11(typescript@5.9.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.26
+      '@definitelytyped/header-parser': 0.2.28
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -46927,9 +46917,9 @@ snapshots:
 
   dtslint@4.2.1(typescript@5.6.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.26
+      '@definitelytyped/header-parser': 0.2.28
       '@definitelytyped/typescript-versions': 0.1.11
-      '@definitelytyped/utils': 0.1.13
+      '@definitelytyped/utils': 0.1.14
       dts-critic: 3.3.11(typescript@5.6.3)
       fs-extra: 6.0.1
       json-stable-stringify: 1.3.0
@@ -46946,9 +46936,9 @@ snapshots:
 
   dtslint@4.2.1(typescript@5.9.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.26
+      '@definitelytyped/header-parser': 0.2.28
       '@definitelytyped/typescript-versions': 0.1.11
-      '@definitelytyped/utils': 0.1.13
+      '@definitelytyped/utils': 0.1.14
       dts-critic: 3.3.11(typescript@5.9.3)
       fs-extra: 6.0.1
       json-stable-stringify: 1.3.0
