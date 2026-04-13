@@ -20,6 +20,22 @@ export default {
         })) || [];
       },
     },
+    orderNumber: {
+      type: "string",
+      label: "Order Number",
+      description: "Number identifier for the order",
+      async options({ page }) {
+        const { data } = await this.listOrders({
+          params: {
+            page: page + 1,
+          },
+        });
+        return data?.filter((order) => order.number)?.map((order) => ({
+          label: `Order #${order.number}`,
+          value: order.number,
+        })) || [];
+      },
+    },
     additionalReference: {
       type: "string",
       label: "Additional Reference",
@@ -40,9 +56,9 @@ export default {
       type: "string",
       label: "Line Number",
       description: "Line number of an order",
-      async options({ orderReference }) {
+      async options({ orderNumber }) {
         const { data } = await this.getOrder({
-          orderReference,
+          orderNumber,
         });
         return data?.lines?.map((line) => ({
           label: `Line #${line.lineNumber}`,
@@ -68,10 +84,10 @@ export default {
       });
     },
     getOrder({
-      orderReference, ...opts
+      orderNumber, ...opts
     }) {
       return this._makeRequest({
-        path: `/order/${orderReference}`,
+        path: `/order/${orderNumber}`,
         ...opts,
       });
     },
@@ -90,19 +106,19 @@ export default {
       });
     },
     updateOrder({
-      orderReference, ...opts
+      orderNumber, ...opts
     }) {
       return this._makeRequest({
-        path: `/order/${orderReference}`,
+        path: `/order/${orderNumber}`,
         method: "PUT",
         ...opts,
       });
     },
     deleteOrderLine({
-      orderReference, lineNumber, ...opts
+      orderNumber, lineNumber, ...opts
     }) {
       return this._makeRequest({
-        path: `/order/${orderReference}/line/${lineNumber}`,
+        path: `/order/${orderNumber}/line/${lineNumber}`,
         method: "DELETE",
         ...opts,
       });
