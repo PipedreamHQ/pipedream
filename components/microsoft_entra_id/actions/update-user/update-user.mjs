@@ -11,9 +11,6 @@ export default {
     openWorldHint: true,
     readOnlyHint: false,
   },
-    openWorldHint: true,
-    readOnlyHint: false,
-  },
   type: "action",
   props: {
     microsoftEntraId,
