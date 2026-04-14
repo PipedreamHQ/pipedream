@@ -84,7 +84,7 @@ export default {
     },
     /**
      * Retrieves Xray test cases matching an optional JQL filter. Supports
-     * cursor-based pagination via the `start` parameter.
+     * offset-based pagination via the `start` parameter.
      *
      * @param {object} [opts] - Options object
      * @param {object} [opts.$] - The Pipedream context object
@@ -126,17 +126,6 @@ export default {
       });
     },
     /**
-     * Retrieves Xray test executions matching an optional JQL filter. Supports
-     * cursor-based pagination via the `start` parameter.
-     *
-     * @param {object} [opts] - Options object
-     * @param {object} [opts.$] - The Pipedream context object
-     * @param {string} [opts.jql] - JQL filter string
-     * @param {number} [opts.limit=50] - Max results per page (1-100)
-     * @param {number} [opts.start=0] - Pagination offset
-     * @returns {object} The GraphQL response containing test executions
-     */
-    /**
      * Executes an arbitrary GraphQL query against the Xray Cloud API.
      *
      * @param {object} [opts] - Options object
@@ -154,6 +143,17 @@ export default {
         variables,
       });
     },
+    /**
+     * Retrieves Xray test executions matching an optional JQL filter. Supports
+     * offset-based pagination via the `start` parameter.
+     *
+     * @param {object} [opts] - Options object
+     * @param {object} [opts.$] - The Pipedream context object
+     * @param {string} [opts.jql] - JQL filter string
+     * @param {number} [opts.limit=50] - Max results per page (1-100)
+     * @param {number} [opts.start=0] - Pagination offset
+     * @returns {object} The GraphQL response containing test executions
+     */
     async getTestExecutions({
       $, jql, limit = 50, start = 0,
     } = {}) {

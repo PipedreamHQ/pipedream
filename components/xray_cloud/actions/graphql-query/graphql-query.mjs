@@ -4,8 +4,8 @@ export default {
   key: "xray_cloud-graphql-query",
   name: "GraphQL Query",
   description:
-    "Run an arbitrary GraphQL query against the Xray Cloud API. [See the schema](https://us.xray.cloud.getxray.app/doc/graphql/index.html)",
-  version: "0.0.2",
+    "Run an arbitrary GraphQL query against the Xray Cloud API. [See the documentation](https://us.xray.cloud.getxray.app/doc/graphql/index.html)",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

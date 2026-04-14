@@ -5,7 +5,7 @@ export default {
   name: "Get Tests",
   description:
     "Search and retrieve Xray test cases. Use JQL to filter by project, labels, or other Jira fields. [See the documentation](https://docs.getxray.app/display/XRAYCLOUD/GraphQL+API)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -33,8 +33,8 @@ export default {
       jql: this.jql,
       limit: this.limit,
     });
-    const total = response?.data?.getTests?.total ?? 0;
-    $.export("$summary", `Successfully retrieved ${total} test(s)`);
+    const count = response?.getTests?.results?.length ?? 0;
+    $.export("$summary", `Successfully retrieved ${count} test(s)`);
     return response;
   },
 };
