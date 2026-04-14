@@ -59,13 +59,13 @@ export default {
     completedSince: {
       label: "Completed Since",
       type: "string",
-      description: "Only return tasks that are either incomplete or that have been completed since this time. ISO 8601 date string",
+      description: "Only return tasks that are either incomplete or completed since this time. ISO 8601 format (for example: `2026-04-14` or `2026-04-14T00:00:00Z`).",
       optional: true,
     },
     modifiedSince: {
       label: "Modified Since",
       type: "string",
-      description: "Only return tasks that have been modified since the given time. ISO 8601 date string",
+      description: "Only return tasks modified since this time. ISO 8601 format (for example: `2026-04-14` or `2026-04-14T00:00:00Z`).",
       optional: true,
     },
   },
@@ -75,7 +75,7 @@ export default {
       "modified_at.after": this.modifiedSince,
       "assignee.any": this.assignee,
       "sections.any": this.section,
-      "project.any": this.project,
+      "projects.any": this.project,
       "text": this.name,
     };
 

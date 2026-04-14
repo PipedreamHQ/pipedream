@@ -7,7 +7,7 @@ export default {
   key: "asana-add-task-to-section",
   version: "0.2.12",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
