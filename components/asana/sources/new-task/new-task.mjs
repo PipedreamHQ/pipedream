@@ -7,7 +7,7 @@ export default {
   type: "source",
   name: "New Task (Instant)",
   description: "Emit new event for each task added to a project. [See docs here](https://developers.asana.com/docs/establish-a-webhook)",
-  version: "0.1.10",
+  version: "0.1.11",
   dedupe: "unique",
   props: {
     ...common.props,
