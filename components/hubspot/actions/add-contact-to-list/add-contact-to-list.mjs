@@ -4,8 +4,8 @@ export default {
   key: "hubspot-add-contact-to-list",
   name: "Add Contact to List",
   description:
-    "Adds a contact to a specific static list. [See the documentation](https://legacydocs.hubspot.com/docs/methods/lists/add_contact_to_list)",
-  version: "0.0.30",
+    "Adds a contact to a specific static list. [See the documentation](https://developers.hubspot.com/docs/api-reference/latest/crm/lists/guide#add-records-to-an-existing-list)",
+  version: "0.0.31",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -39,16 +39,47 @@ export default {
     const {
       list, contactEmail,
     } = this;
-    const response = await this.hubspot.addContactsToList({
+
+    const listId = typeof list === "object"
+      ? list.value
+      : list;
+
+    const { results } = await this.hubspot.searchCRM({
+      object: "contacts",
       $,
-      listId: list.value,
       data: {
-        emails: [
-          contactEmail,
+        filterGroups: [
+          {
+            filters: [
+              {
+                propertyName: "email",
+                operator: "EQ",
+                value: contactEmail,
+              },
+            ],
+          },
         ],
+        limit: 1,
       },
     });
-    $.export("$summary", "Successfully added contact to list");
+
+    if (!results?.length) {
+      throw new Error(`Contact with email "${contactEmail}" not found in HubSpot. The contact must exist before being added to a list.`);
+    }
+
+    const recordId = results[0].id;
+
+    const response = await this.hubspot.makeRequest({
+      api: "/crm/v3",
+      endpoint: `/lists/${listId}/memberships/add`,
+      method: "PUT",
+      $,
+      data: [
+        recordId,
+      ],
+    });
+
+    $.export("$summary", `Successfully added contact (${contactEmail}) to list`);
     return response;
   },
 };
