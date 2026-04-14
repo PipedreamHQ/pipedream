@@ -17,7 +17,7 @@ export default {
     name: {
       type: "string",
       label: "Name",
-      description: "Search repositories by name",
+      description: "Case-insensitive substring match on repository name. Example: `api` matches `payments-api` and `internal-api-tools`.",
       optional: true,
     },
     visibility: {
