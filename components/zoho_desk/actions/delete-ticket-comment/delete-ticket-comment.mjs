@@ -5,7 +5,7 @@ export default {
   name: "Delete Ticket Comment",
   description: "Deletes a specific comment from a ticket. [See the documentation](https://desk.zoho.com/DeskAPIDocument#TicketsComments_Deleteticketcomment)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
