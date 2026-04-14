@@ -15,10 +15,11 @@ export default {
       return "shipment.received_tracking_updates";
     },
     generateMeta({ data }) {
+      const ts = Date.parse(data.updatedAt);
       return {
-        id: data.id,
+        id: `${data.id}-${ts}`,
         summary: `Shipment Received Tracking Updates: ${data.id}`,
-        ts: Date.parse(data.updatedAt),
+        ts,
       };
     },
   },

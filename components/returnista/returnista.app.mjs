@@ -68,7 +68,7 @@ export default {
     returnOrderId: {
       type: "string",
       label: "Return Order ID",
-      description: "The ID of the return order to get emails for",
+      description: "The ID of the return order",
       async options({ accountId }) {
         const { data } = await this.getReturnOrders({
           accountId,
@@ -219,7 +219,7 @@ export default {
         ...opts,
       });
     },
-    getReturnOrdersEmails({
+    getReturnOrderEmails({
       accountId, returnOrderId, ...opts
     }) {
       return this._makeRequest({

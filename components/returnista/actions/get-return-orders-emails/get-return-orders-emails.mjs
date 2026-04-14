@@ -3,7 +3,7 @@ import returnista from "../../returnista.app.mjs";
 export default {
   key: "returnista-get-return-orders-emails",
   name: "Get Return Orders Emails",
-  description: "Returns the emails related to return a order. [See the documentation](https://platform.returnista.com/reference/rest-api/#get-/account/-accountId/return-orders/emails)",
+  description: "Returns emails related to return a order. [See the documentation](https://platform.returnista.com/reference/rest-api/#get-/account/-accountId/return-orders/emails)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -30,13 +30,13 @@ export default {
     },
   },
   async run({ $ }) {
-    const { data: response } = await this.returnista.getReturnOrdersEmails({
+    const { data: response } = await this.returnista.getReturnOrderEmails({
       $,
       accountId: this.accountId,
       returnOrderId: this.returnOrderId,
     });
 
-    $.export("$summary", `Successfully retrieved ${response.length} return orders emails`);
+    $.export("$summary", `Successfully retrieved ${response.length} return order emails`);
     return response;
   },
 };

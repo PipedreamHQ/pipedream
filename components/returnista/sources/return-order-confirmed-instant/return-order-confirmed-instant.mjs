@@ -15,10 +15,11 @@ export default {
       return "return_order.confirmed";
     },
     generateMeta({ data }) {
+      const ts = Date.parse(data.updatedAt);
       return {
-        id: data.id,
+        id: `${data.id}-${ts}`,
         summary: `Return Order Confirmed: ${data.id}`,
-        ts: Date.parse(data.updatedAt),
+        ts,
       };
     },
   },

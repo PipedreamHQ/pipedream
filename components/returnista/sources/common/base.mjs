@@ -31,6 +31,7 @@ export default {
     },
     async deactivate() {
       const hookId = this._getHookId();
+      if (!hookId) return;
 
       await this.returnista.deleteWebhook({
         accountId: this.accountId,

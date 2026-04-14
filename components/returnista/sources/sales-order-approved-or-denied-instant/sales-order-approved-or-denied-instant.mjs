@@ -15,10 +15,11 @@ export default {
       return "sales_order.approved_or_denied";
     },
     generateMeta({ data }) {
+      const ts = Date.parse(data.updatedAt);
       return {
-        id: data.id,
+        id: `${data.id}-${ts}`,
         summary: `Sales Order Approved or Denied: ${data.id}`,
-        ts: Date.parse(data.updatedAt),
+        ts,
       };
     },
   },
