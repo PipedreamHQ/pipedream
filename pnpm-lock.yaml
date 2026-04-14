@@ -5639,7 +5639,11 @@ importers:
         specifier: ^3.2.2
         version: 3.2.4
 
-  components/flock: {}
+  components/flock:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.3.1
+        version: 3.3.1
 
   components/flodesk:
     dependencies:
