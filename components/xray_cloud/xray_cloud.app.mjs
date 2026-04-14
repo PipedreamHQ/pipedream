@@ -22,9 +22,21 @@ export default {
     },
   },
   methods: {
+    /**
+     * Returns the base URL for the Xray Cloud API v2.
+     *
+     * @returns {string} The base API URL
+     */
     _baseUrl() {
       return "https://xray.cloud.getxray.app/api/v2";
     },
+    /**
+     * Authenticates with Xray Cloud using client credentials and returns a JWT
+     * token. Tokens expire after 24 hours.
+     *
+     * @param {object} $ - The Pipedream context object for HTTP requests
+     * @returns {string} A JWT bearer token
+     */
     async _authenticate($) {
       return axios($ ?? this, {
         method: "POST",
@@ -38,11 +50,21 @@ export default {
         },
       });
     },
+    /**
+     * Sends an authenticated GraphQL request to the Xray Cloud API. Checks
+     * the response for GraphQL-level errors and throws if present.
+     *
+     * @param {object} opts - Options object
+     * @param {object} [opts.$=this] - The Pipedream context object
+     * @param {string} opts.query - The GraphQL query string
+     * @param {object} [opts.variables={}] - GraphQL query variables
+     * @returns {object} The GraphQL response data
+     */
     async _makeGraphqlRequest({
       $ = this, query, variables = {},
     }) {
       const token = await this._authenticate($);
-      return axios($, {
+      const response = await axios($, {
         method: "POST",
         url: `${this._baseUrl()}/graphql`,
         headers: {
@@ -54,16 +76,34 @@ export default {
           variables,
         },
       });
+      if (response?.errors?.length) {
+        const messages = response.errors.map((e) => e.message).join("; ");
+        throw new Error(`GraphQL error: ${messages}`);
+      }
+      return response;
     },
+    /**
+     * Retrieves Xray test cases matching an optional JQL filter. Supports
+     * cursor-based pagination via the `start` parameter.
+     *
+     * @param {object} [opts] - Options object
+     * @param {object} [opts.$] - The Pipedream context object
+     * @param {string} [opts.jql] - JQL filter string
+     * @param {number} [opts.limit=50] - Max results per page (1-100)
+     * @param {number} [opts.start=0] - Pagination offset
+     * @returns {object} The GraphQL response containing tests
+     */
     async getTests({
-      $, jql, limit = 50,
+      $, jql, limit = 50, start = 0,
     } = {}) {
       return this._makeGraphqlRequest({
         $,
         query: `
-          query ($jql: String, $limit: Int!) {
-            getTests(jql: $jql, limit: $limit) {
+          query ($jql: String, $limit: Int!, $start: Int) {
+            getTests(jql: $jql, limit: $limit, start: $start) {
               total
+              start
+              limit
               results {
                 issueId
                 testType { name }
@@ -81,18 +121,32 @@ export default {
         variables: {
           jql,
           limit,
+          start,
         },
       });
     },
+    /**
+     * Retrieves Xray test executions matching an optional JQL filter. Supports
+     * cursor-based pagination via the `start` parameter.
+     *
+     * @param {object} [opts] - Options object
+     * @param {object} [opts.$] - The Pipedream context object
+     * @param {string} [opts.jql] - JQL filter string
+     * @param {number} [opts.limit=50] - Max results per page (1-100)
+     * @param {number} [opts.start=0] - Pagination offset
+     * @returns {object} The GraphQL response containing test executions
+     */
     async getTestExecutions({
-      $, jql, limit = 50,
+      $, jql, limit = 50, start = 0,
     } = {}) {
       return this._makeGraphqlRequest({
         $,
         query: `
-          query ($jql: String, $limit: Int!) {
-            getTestExecutions(jql: $jql, limit: $limit) {
+          query ($jql: String, $limit: Int!, $start: Int) {
+            getTestExecutions(jql: $jql, limit: $limit, start: $start) {
               total
+              start
+              limit
               results {
                 issueId
                 testRuns(limit: 100) {
@@ -108,6 +162,7 @@ export default {
         variables: {
           jql,
           limit,
+          start,
         },
       });
     },
