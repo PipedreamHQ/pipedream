@@ -4,7 +4,7 @@ export default {
   key: "microsoft_entra_id-get-organization-users",
   name: "Get Organization Users",
   description: "List all users in the organization. By default returns only enabled accounts. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
