@@ -5,8 +5,13 @@ export default {
   name: "GraphQL Query",
   description:
     "Run an arbitrary GraphQL query against the Xray Cloud API. [See the schema](https://us.xray.cloud.getxray.app/doc/graphql/index.html)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     xrayCloud,
     query: {
@@ -22,9 +27,18 @@ export default {
     },
   },
   async run({ $ }) {
-    const variables = this.variables
-      ? JSON.parse(this.variables)
-      : {};
+    let variables = {};
+    if (this.variables) {
+      try {
+        const parsed = JSON.parse(this.variables);
+        if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+          throw new Error("Variables must be a JSON object");
+        }
+        variables = parsed;
+      } catch (err) {
+        throw new Error(`Invalid variables JSON: ${err.message}`);
+      }
+    }
     const response = await this.xrayCloud._makeGraphqlRequest({
       $,
       query: this.query,

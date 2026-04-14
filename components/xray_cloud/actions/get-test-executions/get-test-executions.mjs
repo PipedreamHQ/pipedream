@@ -5,8 +5,13 @@ export default {
   name: "Get Test Executions",
   description:
     "Search and retrieve Xray test executions with their run statuses. Use JQL to filter. [See the documentation](https://docs.getxray.app/display/XRAYCLOUD/GraphQL+API)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: false,
+    readOnlyHint: true,
+  },
   props: {
     xrayCloud,
     jql: {
