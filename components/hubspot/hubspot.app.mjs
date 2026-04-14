@@ -882,6 +882,50 @@ export default {
         };
       },
     },
+    ownerId: {
+      type: "string",
+      label: "Owner ID",
+      description: "HubSpot CRM owner ID (use the dropdown or enter an ID manually)",
+      useQuery: true,
+      async options({
+        prevContext, query,
+      }) {
+        const { nextAfter } = prevContext;
+        const params = {
+          after: nextAfter,
+          limit: 100,
+        };
+        if (query) {
+          params.email = query;
+        }
+        const {
+          results, paging,
+        } = await this.getOwners({
+          params,
+        });
+        return {
+          options: results?.map((owner) => {
+            const name = [
+              owner.firstName,
+              owner.lastName,
+            ]
+              .filter(Boolean)
+              .join(" ")
+              .trim();
+            const label = name
+              ? `${name} (${owner.email})`
+              : (owner.email ?? String(owner.id));
+            return {
+              value: String(owner.id),
+              label,
+            };
+          }) || [],
+          context: {
+            nextAfter: paging?.next?.after,
+          },
+        };
+      },
+    },
     blogId: {
       type: "string",
       label: "Content Group ID (Blog ID)",
@@ -1377,6 +1421,21 @@ export default {
         ...opts,
       });
     },
+    /**
+     * Get a single CRM owner by ID.
+     * @param {string} ownerId - HubSpot owner ID
+     * @param {object} opts - Additional request options (include `$` for Pipedream)
+     * @returns {Promise<object>} Owner record
+     */
+    getOwner({
+      ownerId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: `/owners/${ownerId}`,
+        ...opts,
+      });
+    },
     listObjectsInPage(objectType, after, params, $) {
       return this.makeRequest({
         api: API_PATH.CRMV3,
@@ -1744,6 +1803,63 @@ export default {
       return this.makeRequest({
         api: API_PATH.CRMV4,
         endpoint: `/objects/${objectType}/${objectId}/associations/${toObjectType}`,
+        ...opts,
+      });
+    },
+    /**
+     * List quotes or fetch one quote (CRM v3 quotes object API).
+     * @param {object} opts
+     * @param {string} [opts.quoteId] - When set, returns a single quote by ID
+     * @param {string} [opts.after] - Pagination cursor for list requests
+     * @param {number} [opts.limit] - Max records per page when listing
+     * @param {string[]} [opts.properties] - Property names to return
+     * @returns {Promise<object>} Single quote or paged list response
+     */
+    listQuotes({
+      quoteId, after, limit, properties, ...opts
+    } = {}) {
+      const params = {};
+      if (properties?.length) {
+        params.properties = properties.join(",");
+      }
+      if (quoteId) {
+        return this.makeRequest({
+          api: API_PATH.CRMV3,
+          endpoint: `/objects/quotes/${quoteId}`,
+          params,
+          ...opts,
+        });
+      }
+      if (after) {
+        params.after = after;
+      }
+      if (limit != null) {
+        params.limit = limit;
+      }
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: "/objects/quotes",
+        params,
+        ...opts,
+      });
+    },
+    /**
+     * Legacy Engagements API: paged engagements associated with a CRM record.
+     * Supported CRM object types: company, deal, quote (HubSpot v1 path segment).
+     * @param {string} objectType - `company`, `deal`, or `quote`
+     * @param {string} objectId - CRM object ID
+     * @param {number|string} [offset] - Pagination offset (default 0)
+     * @returns {Promise<object>} Paged engagement results
+     */
+    getAssociatedEngagementsPaged({
+      objectType, objectId, offset, ...opts
+    } = {}) {
+      return this.makeRequest({
+        api: API_PATH.ENGAGEMENTS,
+        endpoint: `/engagements/associated/${objectType}/${objectId}/paged`,
+        params: {
+          offset: offset ?? 0,
+        },
         ...opts,
       });
     },

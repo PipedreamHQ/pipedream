@@ -5,7 +5,7 @@ export default {
   key: "trengo-list-all-categories",
   name: "List All Categories",
   description: "List all categories in a help center. [See the documentation](https://developers.trengo.com/reference/list-all-categories)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   annotations: {
     destructiveHint: false,
