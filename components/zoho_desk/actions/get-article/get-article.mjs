@@ -5,7 +5,7 @@ export default {
   name: "Get Article",
   description: "Retrieves the details of a knowledge base article. [See the documentation](https://desk.zoho.com/portal/APIDocument.do#KnowledgeBase_Getarticle)",
   type: "action",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
