@@ -4,7 +4,7 @@ export default {
   key: "microsoft_entra_id-get-manager",
   name: "Get Manager",
   description: "Get the user's manager information. Returns the user or organizational contact assigned as the user's manager. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list-manager?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
