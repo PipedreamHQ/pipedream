@@ -5635,7 +5635,11 @@ importers:
         specifier: ^3.2.2
         version: 3.2.4
 
-  components/flock: {}
+  components/flock:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.3.1
+        version: 3.3.1
 
   components/flodesk:
     dependencies:
@@ -40758,7 +40762,7 @@ snapshots:
   '@pipedream/google_drive@1.2.0(encoding@0.1.13)':
     dependencies:
       '@googleapis/drive': 2.4.0(encoding@0.1.13)
-      '@pipedream/platform': 3.3.0
+      '@pipedream/platform': 3.3.1
       cron-parser: 4.9.0
       google-docs-mustaches: 1.2.2(encoding@0.1.13)
       got: 13.0.0
@@ -40773,7 +40777,7 @@ snapshots:
   '@pipedream/google_drive@1.4.1(encoding@0.1.13)':
     dependencies:
       '@googleapis/drive': 2.4.0(encoding@0.1.13)
-      '@pipedream/platform': 3.3.0
+      '@pipedream/platform': 3.3.1
       cron-parser: 4.9.0
       google-docs-mustaches: 1.2.2(encoding@0.1.13)
       got: 13.0.0
