@@ -54,7 +54,7 @@ export default {
       type: "boolean",
       label: "Top Level Only",
       description: "Limit to top-level groups, excluding all subgroups",
-      default: true,
+      optional: true,
     },
     search: {
       type: "string",
@@ -111,6 +111,8 @@ export default {
         search: this.search,
         order_by: this.orderBy,
         sort: this.sort,
+        archived: this.archived,
+        active: this.active,
       },
     });
 
