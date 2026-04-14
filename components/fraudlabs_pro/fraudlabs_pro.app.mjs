@@ -1,5 +1,6 @@
 import fraudlabspro from "fraudlabspro-nodejs";
 import { promisify } from "util";
+import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -25,6 +26,37 @@ export default {
       const smsVerification = this.smsVerification();
       const verifyOTP = promisify(smsVerification.verifyOTP).bind(smsVerification);
       return verifyOTP(params);
+    },
+    _baseUrl() {
+      return "https://www.fraudlabspro.com";
+    },
+    _makeRequest({
+      $ = this, path, params, ...args
+    }) {
+      return axios($, {
+        url: `${this._baseUrl()}${path}`,
+        params: {
+          ...params,
+          key: this.$auth.api_key,
+        },
+        headers: {
+          "Content-Type": "application/json",
+        },
+        ...args,
+      });
+    },
+    webhookSubscribe(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/pipedream-webhook-subscribe",
+        ...args,
+      });
+    },
+    webhookUnsubscribe(args = {}) {
+      return this._makeRequest({
+        path: "/pipedream-webhook-unsubscribe",
+        ...args,
+      });
     },
   },
 };
