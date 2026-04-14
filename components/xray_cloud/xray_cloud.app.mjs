@@ -136,6 +136,24 @@ export default {
      * @param {number} [opts.start=0] - Pagination offset
      * @returns {object} The GraphQL response containing test executions
      */
+    /**
+     * Executes an arbitrary GraphQL query against the Xray Cloud API.
+     *
+     * @param {object} [opts] - Options object
+     * @param {object} [opts.$] - The Pipedream context object
+     * @param {string} opts.query - The GraphQL query string
+     * @param {object} [opts.variables={}] - GraphQL query variables
+     * @returns {object} The GraphQL response data
+     */
+    async executeGraphqlQuery({
+      $, query, variables = {},
+    } = {}) {
+      return this._makeGraphqlRequest({
+        $,
+        query,
+        variables,
+      });
+    },
     async getTestExecutions({
       $, jql, limit = 50, start = 0,
     } = {}) {

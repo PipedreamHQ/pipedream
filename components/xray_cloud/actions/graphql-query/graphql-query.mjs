@@ -22,7 +22,7 @@ export default {
     variables: {
       type: "string",
       label: "Variables (JSON)",
-      description: "JSON string of query variables",
+      description: "JSON object string of query variables (e.g., `{ \"jql\": \"project = PROJ\", \"limit\": 25 }`)",
       optional: true,
     },
   },
@@ -39,7 +39,7 @@ export default {
         throw new Error(`Invalid variables JSON: ${err.message}`);
       }
     }
-    const response = await this.xrayCloud._makeGraphqlRequest({
+    const response = await this.xrayCloud.executeGraphqlQuery({
       $,
       query: this.query,
       variables,
