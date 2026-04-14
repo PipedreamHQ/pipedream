@@ -27,7 +27,20 @@ export default {
             channelId,
           },
         });
-        return members?.map(({ userId }) => userId) || [];
+        return members?.map(({
+          userId, publicProfile,
+        }) => {
+          const firstName = publicProfile?.firstName;
+          const lastName = publicProfile?.lastName;
+          const label = lastName
+            ? (firstName
+              ? `${firstName} ${lastName}`
+              : lastName)
+            : userId;
+          return {
+            label,
+            value: userId,
+          };}) || [];
       },
     },
     text: {
