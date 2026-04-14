@@ -4,7 +4,7 @@ export default {
   key: "hubspot-list-messages",
   name: "List Messages",
   description: "Retrieves a list of messages in a thread. [See the documentation](https://developers.hubspot.com/docs/api-reference/conversations-conversations-inbox-&-messages-v3/public-message/get-conversations-v3-conversations-threads-threadId-messages)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: false,
