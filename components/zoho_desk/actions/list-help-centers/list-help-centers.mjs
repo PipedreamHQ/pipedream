@@ -5,7 +5,7 @@ export default {
   name: "List Help Centers",
   description: "Lists the help centers configured in an organization. [See the documentation](https://desk.zoho.com/portal/APIDocument.do#HelpCenters_Listhelpcenters)",
   type: "action",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

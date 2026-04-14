@@ -5,7 +5,7 @@ export default {
   name: "Get Ticket Comment",
   description: "Retrieves details of a specific comment on a ticket. [See the documentation](https://desk.zoho.com/DeskAPIDocument#TicketsComments_Getticketcomment)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
