@@ -36,7 +36,7 @@ jobs:
         done
 
         echo "files=${files}" >> $GITHUB_ENV
-    - uses: rojopolis/spellcheck-github-actions@0.58.0
+    - uses: rojopolis/spellcheck-github-actions@0.60.0
       name: Spellcheck
       if: ${{ env.files }}
       with:
@@ -59,7 +59,7 @@ jobs:
         run: git fetch origin master --depth=1
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4.2.0
+        uses: pnpm/action-setup@v5.0.0
         with:
           version: 10.28.2
 

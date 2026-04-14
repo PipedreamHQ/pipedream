@@ -3,7 +3,7 @@ import app from "../../happy_scribe.app.mjs";
 
 export default {
   name: "Submit File",
-  version: "0.1.2",
+  version: "0.1.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -23,6 +23,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
+      format: "file-ref",
     },
     syncDir: {
       type: "dir",

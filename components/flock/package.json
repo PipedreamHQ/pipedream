@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/flock",
+  "version": "0.0.1",
+  "description": "Pipedream Flock Components",
+  "main": "flock.app.mjs",
+  "keywords": [
+    "pipedream",
+    "flock"
+  ],
+  "homepage": "https://pipedream.com/apps/flock",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

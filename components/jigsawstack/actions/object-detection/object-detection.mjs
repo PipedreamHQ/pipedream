@@ -10,7 +10,7 @@ export default {
   key: "jigsawstack-object-detection",
   name: "Object Detection",
   description: "Recognize objects within a provided image and retrieve it with great accuracy. [See the documentation](https://docs.jigsawstack.com/api-reference/ai/object-detection)",
-  version: "1.0.2",
+  version: "1.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -23,12 +23,19 @@ export default {
       type: "string",
       label: "Image File or URL",
       description: "The URL or file path of the image to process.",
+      format: "file-ref",
       optional: true,
     },
     fileStoreKey: {
       type: "string",
       label: "File Store Key",
       description: "The key used to store the image on Jigsawstack file [Storage](https://docs.jigsawstack.com/api-reference/store/file/add).",
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },
@@ -40,12 +47,6 @@ export default {
         stream.on("end", () => resolve(Buffer.concat(chunks)));
         stream.on("error", reject);
       });
-    },
-    syncDir: {
-      type: "dir",
-      accessMode: "read",
-      sync: true,
-      optional: true,
     },
   },
   async run({ $ }) {

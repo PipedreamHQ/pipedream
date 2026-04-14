@@ -7,7 +7,7 @@ export default {
   key: "google_calendar-create-event",
   name: "Create Event",
   description: "Create an event in a Google Calendar. [See the documentation](https://developers.google.com/calendar/api/v3/reference/events/insert)",
-  version: "1.0.1",
+  version: "1.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -97,33 +97,32 @@ export default {
       description: "Select a frequency to make this event repeating",
       optional: true,
       options: Object.keys(constants.REPEAT_FREQUENCIES),
-      reloadProps: true,
     },
-  },
-  async additionalProps() {
-    const props = {};
-    const frequency = constants.REPEAT_FREQUENCIES[this.repeatFrequency];
-    if (frequency) {
-      props.repeatInterval = {
-        type: "integer",
-        label: "Repeat Interval",
-        description: `Enter 1 to "repeat every ${frequency}", enter 2 to "repeat every other ${frequency}", etc. Defaults to 1.`,
-        optional: true,
-      };
-      props.repeatUntil = {
-        type: "string",
-        label: "Repeat Until",
-        description: "The event will repeat only until this date (format: `yyyy-mm-dd`, e.g., `2025-12-31`)",
-        optional: true,
-      };
-      props.repeatTimes = {
-        type: "integer",
-        label: "Repeat How Many Times?",
-        description: "Limit the number of times this event will occur",
-        optional: true,
-      };
-    }
-    return props;
+    repeatInterval: {
+      type: "integer",
+      label: "Repeat Interval",
+      description: "Enter 1 to \"repeat every day\", enter 2 to \"repeat every other day\", etc. Defaults to 1.",
+      optional: true,
+    },
+    repeatSpecificDays: {
+      type: "string[]",
+      label: "Repeat Specific Days",
+      description: "The event will repeat on these days of the week. Repeat Frequency must be `WEEKLY`.",
+      optional: true,
+      options: constants.DAYS_OF_WEEK,
+    },
+    repeatUntil: {
+      type: "string",
+      label: "Repeat Until",
+      description: "The event will repeat only until this date, if set. Only one of `Repeat Until` or Repeat `How Many Times` may be entered.",
+      optional: true,
+    },
+    repeatTimes: {
+      type: "integer",
+      label: "Repeat How Many Times?",
+      description: "Limit the number of times this event will occur. Only one of `Repeat Until` or Repeat `How Many Times` may be entered.",
+      optional: true,
+    },
   },
   methods: {
     ...createEventCommon.methods,
@@ -136,6 +135,7 @@ export default {
       repeatInterval: this.repeatInterval,
       repeatTimes: this.repeatTimes,
       repeatUntil: this.repeatUntil,
+      repeatSpecificDays: this.repeatSpecificDays,
     });
 
     const trimmedStart = this.eventStartDate?.trim();

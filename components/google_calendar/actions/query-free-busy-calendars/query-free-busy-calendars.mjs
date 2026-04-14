@@ -5,7 +5,7 @@ export default {
   key: "google_calendar-query-free-busy-calendars",
   name: "Retrieve Free/Busy Calendar Details",
   description: "Retrieve free/busy calendar details from Google Calendar. [See the documentation](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Resource$Freebusy.html#query)",
-  version: "0.2.0",
+  version: "0.2.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

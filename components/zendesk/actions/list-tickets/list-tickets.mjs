@@ -5,7 +5,7 @@ export default {
   name: "List Tickets",
   description: "Retrieves a list of tickets. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/tickets/tickets/#list-tickets).",
   type: "action",
-  version: "0.0.9",
+  version: "0.0.11",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

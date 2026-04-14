@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/jumpseller",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Jumpseller Components",
   "main": "jumpseller.app.mjs",
   "keywords": [
@@ -14,6 +14,6 @@
   },
   "dependencies": {
     "@pipedream/platform": "^1.6.8",
-    "lodash": "^4.17.23"
+    "lodash": "^4.18.1"
   }
 }

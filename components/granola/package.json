@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/granola",
+  "version": "0.0.1",
+  "description": "Pipedream Granola Components",
+  "main": "granola.app.mjs",
+  "keywords": [
+    "pipedream",
+    "granola"
+  ],
+  "homepage": "https://pipedream.com/apps/granola",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

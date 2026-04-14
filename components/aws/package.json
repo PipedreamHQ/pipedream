@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/aws",
-  "version": "1.1.1",
+  "version": "1.1.4",
   "description": "Pipedream Aws Components",
   "main": "aws.app.mjs",
   "keywords": [
@@ -31,10 +31,10 @@
     "@aws-sdk/s3-request-presigner": "^3.609.0",
     "@aws-sdk/signature-v4-crt": "^3.731.0",
     "@pipedream/helper_functions": "^0.3.6",
-    "@pipedream/platform": "^3.1.1",
+    "@pipedream/platform": "^3.2.5",
     "adm-zip": "^0.5.10",
     "dedent": "^1.5.1",
-    "file-type": "^21.0.0",
+    "file-type": "^21.3.2",
     "mailparser": "^3.9.3",
     "mailparser-mit": "^1.0.0",
     "nanoid": "^5.0.4",

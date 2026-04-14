@@ -1,0 +1,131 @@
+language: "en-US"
+
+reviews:
+  profile: "assertive"
+  auto_review:
+    enabled: true
+    drafts: false
+    base_branches:
+      - master
+  high_level_summary: true
+  collapse_walkthrough: true
+  poem: false
+
+  path_instructions:
+
+    # ── All component files ────────────────────────────────────────────────────
+    - path: "components/**/*.mjs"
+      instructions: |
+        Review this file against the Pipedream component model described in
+        .github/pipedream-component-guidelines.md.
+
+        - All prop names, method names, and local variables must use camelCase; API request
+          parameter names follow the API's own convention and are the only exception
+        - Props used in more than one component must be defined in the app file's
+          `propDefinitions` and referenced via `propDefinition` — flag any inline prop
+          definition that duplicates one already in the app file
+        - Verify `annotations` values are semantically correct (ESLint already enforces presence):
+          - `readOnlyHint: true` only when the component exclusively reads data with no side effects
+          - `destructiveHint: true` for operations that permanently delete data or irreversibly
+            overwrite it with no recovery path; update/patch/upsert operations are generally
+            `false` (reversible by another update) unless the specific endpoint does a full
+            destructive replace — when in doubt, flag and let the author decide
+          - `openWorldHint: true` for any component making external API calls (almost all);
+            `false` only for pure utility/formatting components with no HTTP requests
+        - Prop `description` fields must be written for AI agent consumption:
+          - Include concrete inline examples for non-obvious formats (JSON objects, IDs, dates, enums)
+          - Avoid UI-centric language ("select from the dropdown", "choose from the list")
+          - Cross-references to other tools must use **bold tool names** matching real tool names
+            that actually exist as `name` values in other component files in the same app
+        - Component `description` must end with a documentation link `[See the documentation](https://...)`
+          and should follow the agent-friendly structure in the guidelines:
+          primary purpose → when to use → cross-tool references → parameter notes → gotchas → docs link
+        - When a component accepts a file input, verify:
+          - The file input prop includes `format: "file-ref"`
+          - A `syncDir` prop with `accessMode: "read"` and `sync: true` is declared alongside it
+          - `getFileStreamAndMetadata` or `getFileStream` from `@pipedream/platform` is used to
+            access the file in `run()`, not raw `fs.readFileSync` or direct URL fetching
+        - When a component writes a file to `/tmp`, verify a `syncDir` prop with
+          `accessMode: "write"` and `sync: true` is present
+
+    # ── Action components ──────────────────────────────────────────────────────
+    - path: "components/*/actions/**/*.mjs"
+      instructions: |
+        In addition to .github/pipedream-component-guidelines.md, apply the action-specific
+        guidelines in .github/pipedream-action-guidelines.md.
+
+        Key checks:
+        - `run()` must call `$.export("$summary", ...)` on every successful execution path;
+          summaries should be concise one-liners with key result info (record ID, name, count)
+        - When `additionalProps()` or `reloadProps: true` are present, verify they are
+          actually needed: could `async options()` alone satisfy the use case by returning
+          a filtered option set? If yes, flag it; if the prop structure genuinely depends
+          on an earlier selection in a way fixed optional props cannot represent, it is
+          justified — note that these patterns may not work in some agent (MCP) contexts
+        - The app connection prop must be the first prop defined
+        - Props accepting dynamic key-value structures may use either `type: "object"` or
+          `type: "string"` with `JSON.parse()` in `run()` — both are acceptable; the description
+          must include a concrete JSON example regardless of which type is used
+        - Errors should throw naturally; do not wrap `run()` in a blanket try/catch —
+          `@pipedream/platform` axios surfaces HTTP errors automatically with the API's
+          original message; `ConfigurationError` is appropriate only for pre-call validation
+          of user configuration mistakes
+        - Optional props may be passed directly into request bodies or params without
+          truthiness checks — `@pipedream/platform` axios strips `undefined` values automatically
+        - API calls must go through dedicated methods (typically on the app object, but component-level
+          methods are acceptable); when those methods use `@pipedream/platform` axios internally,
+          the `$` context from `run({ $ })` must be passed to them — it enables request logging
+          and error propagation; flag any app method call that omits `$` when the standard HTTP
+          helper pattern is in use
+        - Bold **Tool Name** cross-references in descriptions must correspond to tools that
+          actually exist in the same app's actions directory
+
+    # ── Source (event) components ──────────────────────────────────────────────
+    - path: "components/*/sources/**/*.mjs"
+      instructions: |
+        In addition to .github/pipedream-component-guidelines.md, apply the source-specific
+        guidelines in .github/pipedream-source-guidelines.md.
+
+        Key checks:
+        - `dedupe: "unique"` must be set at the top level of the component export
+        - `$emit(data, metadata)` must include all three metadata fields: `id`, `summary`, `ts`
+        - The `id` must be stable (deterministic for the same real-world event across runs) and
+          unique per event — using `Date.now()` or random values as `id` can cause duplicates
+        - Constructed `id` values must not exceed 64 characters — deduplication silently stops
+          working beyond this limit; flag any `id` that concatenates multiple fields without a
+          length check or hash
+        - `ts` should use the event's own timestamp from the API when available, not `Date.now()`
+        - State stored in `$.service.db` should be accessed through private methods
+          (`_getX()`, `_setX()`), not called directly from `run()` or event handlers
+        - Polling sources must handle the "no new events" case without errors or spurious emits
+        - Webhook sources must implement both `activate()` (register) and `deactivate()` (clean up)
+          in the top-level `hooks` object (not inside `methods`) when they create webhook registrations
+
+    # ── App definition files ───────────────────────────────────────────────────
+    - path: "components/*/*.app.mjs"
+      instructions: |
+        Review against the "App File Conventions" section of
+        .github/pipedream-component-guidelines.md.
+
+        Key checks:
+        - New methods follow naming conventions: `_camelCase()` for private helpers,
+          verb-noun for public methods (`getRecords`, `createContact`, `deleteItem`)
+        - If an existing method is updated, all components in the app that use it must be updated in the same PR, or verified as not needing an update
+        - HTTP requests must use `axios` from `@pipedream/platform`, never the bare `axios` package
+        - Each public method should represent one logical API operation and delegate to a shared
+          private `_makeRequest()` (or equivalent) — raw axios calls should not appear in public methods
+        - New `propDefinitions` entries must include both `label` and `description`
+        - If `async options()` is added to a propDefinition and the underlying API paginates,
+          the implementation must handle `prevContext` or `page` to support "load more"
+
+knowledge_base:
+  opt_out: false
+  code_guidelines:
+    enabled: true
+    filePatterns:
+      - ".github/pipedream-component-guidelines.md"
+      - ".github/pipedream-action-guidelines.md"
+      - ".github/pipedream-source-guidelines.md"
+
+chat:
+  auto_reply: true

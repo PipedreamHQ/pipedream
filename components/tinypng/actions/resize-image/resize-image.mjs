@@ -8,7 +8,7 @@ export default {
   key: "tinypng-resize-image",
   name: "Resize Image",
   description: "Create resized versions of your uploaded image. [See the documentation](https://tinypng.com/developers/reference#resizing-images)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

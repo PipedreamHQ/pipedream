@@ -16,6 +16,6 @@
   },
   "dependencies": {
     "@pipedream/platform": "^3.2.5",
-    "lodash-es": "^4.17.23"
+    "lodash-es": "^4.18.1"
   }
 }

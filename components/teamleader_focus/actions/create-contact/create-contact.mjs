@@ -4,7 +4,7 @@ export default {
   key: "teamleader_focus-create-contact",
   name: "Create Contact",
   description: "Add a new contact. [See the documentation](https://developer.teamleader.eu/#/reference/crm/contacts/contacts.add)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

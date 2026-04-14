@@ -5,7 +5,7 @@ export default {
   key: "deepgram-transcribe-audio",
   name: "Transcribe Audio",
   description: "Transcribes the specified audio file. [See the documentation](https://developers.deepgram.com/api-reference/transcription/#transcribe-pre-recorded-audio)",
-  version: "1.0.2",
+  version: "1.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -18,6 +18,7 @@ export default {
       type: "string",
       label: "File Path Or Url",
       description: "Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/example.mp3`)",
+      format: "file-ref",
     },
     tier: {
       propDefinition: [

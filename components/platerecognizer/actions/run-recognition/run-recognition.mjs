@@ -5,7 +5,7 @@ export default {
   key: "platerecognizer-run-recognition",
   name: "Run Recognition",
   description: "Triggers a recognition process using the Plate Recognizer SDK.",
-  version: "0.1.2",
+  version: "0.1.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -18,6 +18,7 @@ export default {
       type: "string",
       label: "Image Path or URL",
       description: "The image to be recognized. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myImage.jpg`)",
+      format: "file-ref",
     },
     regions: {
       type: "string[]",

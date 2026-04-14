@@ -6,7 +6,7 @@ export default {
   key: "gmail-create-draft",
   name: "Create Draft",
   description: "Create a draft from your Google Workspace email account. [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.drafts/create)",
-  version: "0.1.11",
+  version: "0.1.12",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -89,6 +89,12 @@ export default {
         gmail,
         "signature",
       ],
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {

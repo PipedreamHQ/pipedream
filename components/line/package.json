@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/line",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Line Components",
   "main": "line.app.mjs",
   "keywords": [

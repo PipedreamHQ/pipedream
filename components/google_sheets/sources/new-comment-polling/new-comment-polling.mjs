@@ -8,7 +8,7 @@ export default {
   key: "google_sheets-new-comment-polling",
   name: "New Comment",
   description: "Emit new event each time a comment is added to a spreadsheet.",
-  version: "0.0.1",
+  version: "0.0.3",
   dedupe: "unique",
   type: "source",
   props: {
