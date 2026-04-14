@@ -46,7 +46,7 @@ export default {
     section: {
       label: "Section",
       type: "string",
-      description: "The section to filter tasks on. Must specify Project to list options.",
+      description: "Section GID used to filter tasks (for example: `1200123456789013`). Provide `project` so valid section IDs can be resolved.",
       optional: true,
       propDefinition: [
         asana,
