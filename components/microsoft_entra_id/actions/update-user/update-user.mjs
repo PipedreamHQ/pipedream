@@ -7,7 +7,10 @@ export default {
   description: "Updates an existing user in Microsoft Entra ID. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-update?view=graph-rest-1.0&tabs=http)",
   version: "0.0.8",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
     openWorldHint: true,
     readOnlyHint: false,
   },
