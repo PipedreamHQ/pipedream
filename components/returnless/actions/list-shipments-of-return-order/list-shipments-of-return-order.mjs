@@ -4,7 +4,7 @@ export default {
   key: "returnless-list-shipments-of-return-order",
   name: "List Shipments of Return Order",
   description: "List all shipments of a return order. [See the documentation](https://docs.returnless.com/docs/api-rest-reference/1e0748fdd876f-list-all-shipments-of-a-return-order)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

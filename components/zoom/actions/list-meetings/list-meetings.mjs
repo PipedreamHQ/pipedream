@@ -1,11 +1,11 @@
-import zoom from "../../zoom.app.mjs";
 import constants from "../../common/constants.mjs";
+import zoom from "../../zoom.app.mjs";
 
 export default {
   name: "List Meetings",
   description: "List meetings for a user. [See the documentation](https://developers.zoom.us/docs/api/rest/reference/zoom-api/methods/#operation/meetings)",
   key: "zoom-list-meetings",
-  version: "0.0.2",
+  version: "0.0.5",
   type: "action",
   annotations: {
     destructiveHint: false,

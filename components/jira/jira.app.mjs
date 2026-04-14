@@ -318,6 +318,109 @@ export default {
         };
       },
     },
+    boardId: {
+      type: "string",
+      label: "Board ID",
+      description: "The ID of the board",
+      async options({
+        prevContext, cloudId,
+      }) {
+        let { startAt } = prevContext || {};
+        const pageSize = 50;
+        const resp = await this.listBoards({
+          cloudId,
+          params: {
+            startAt,
+            maxResults: pageSize,
+          },
+        });
+        startAt = startAt > 0
+          ? startAt + pageSize
+          : pageSize;
+        return {
+          options: resp?.values?.map(({
+            id: value, name: label,
+          }) => ({
+            label,
+            value,
+          })) ?? [],
+          context: {
+            startAt,
+          },
+        };
+      },
+    },
+    sprintId: {
+      type: "string",
+      label: "Sprint ID",
+      description: "The ID of the sprint",
+      async options({
+        prevContext, cloudId, boardId,
+      }) {
+        if (!boardId) {
+          return [];
+        }
+        let { startAt } = prevContext || {};
+        const pageSize = 50;
+        const resp = await this.listSprints({
+          cloudId,
+          boardId,
+          params: {
+            startAt,
+            maxResults: pageSize,
+          },
+        });
+        startAt = startAt > 0
+          ? startAt + pageSize
+          : pageSize;
+        return {
+          options: resp?.values?.map(({
+            id: value, name: label,
+          }) => ({
+            label,
+            value,
+          })) ?? [],
+          context: {
+            startAt,
+          },
+        };
+      },
+    },
+    epicId: {
+      type: "string",
+      label: "Epic ID",
+      description: "The ID of the epic",
+      async options({
+        prevContext, cloudId, boardId,
+      }) {
+        if (!boardId) {
+          return [];
+        }
+        let { startAt } = prevContext || {};
+        const pageSize = 50;
+        const resp = await this.listEpics({
+          cloudId,
+          boardId,
+          params: {
+            startAt,
+            maxResults: pageSize,
+          },
+        });
+        return {
+          options: resp?.values?.map(({
+            id: value, name, summary,
+          }) => ({
+            value,
+            label: name || summary || value,
+          })) ?? [],
+          context: {
+            startAt: startAt > 0
+              ? startAt + pageSize
+              : pageSize,
+          },
+        };
+      },
+    },
     commentId: {
       type: "string",
       label: "Comment ID",
@@ -369,6 +472,18 @@ export default {
     },
     _getUrl(cloudId) {
       return `https://api.atlassian.com/ex/jira/${cloudId}/rest/api/3`;
+    },
+    _getAgileUrl(cloudId) {
+      return `https://api.atlassian.com/ex/jira/${cloudId}/rest/agile/1.0`;
+    },
+    _makeAgileRequest({
+      $ = this, path, headers, cloudId, ...args
+    } = {}) {
+      return axios($, {
+        url: `${this._getAgileUrl(cloudId)}${path}`,
+        headers: this._getHeaders(headers),
+        ...args,
+      });
     },
     _makeRequest({
       $ = this, url, path, headers, cloudId, ...args
@@ -672,6 +787,84 @@ export default {
       return this._makeRequest({
         cloudId,
         path: "/issue/picker",
+        ...args,
+      });
+    },
+    listBoards(args = {}) {
+      return this._makeAgileRequest({
+        path: "/board",
+        ...args,
+      });
+    },
+    getBoard({
+      boardId, ...args
+    } = {}) {
+      return this._makeAgileRequest({
+        path: `/board/${boardId}`,
+        ...args,
+      });
+    },
+    listBoardIssues({
+      boardId, ...args
+    } = {}) {
+      return this._makeAgileRequest({
+        path: `/board/${boardId}/issue`,
+        ...args,
+      });
+    },
+    listSprints({
+      boardId, ...args
+    } = {}) {
+      return this._makeAgileRequest({
+        path: `/board/${boardId}/sprint`,
+        ...args,
+      });
+    },
+    getSprint({
+      sprintId, ...args
+    } = {}) {
+      return this._makeAgileRequest({
+        path: `/sprint/${sprintId}`,
+        ...args,
+      });
+    },
+    listSprintIssues({
+      sprintId, ...args
+    } = {}) {
+      return this._makeAgileRequest({
+        path: `/sprint/${sprintId}/issue`,
+        ...args,
+      });
+    },
+    moveIssuesToSprint({
+      sprintId, ...args
+    } = {}) {
+      return this._makeAgileRequest({
+        method: "POST",
+        path: `/sprint/${sprintId}/issue`,
+        ...args,
+      });
+    },
+    createSprint(args = {}) {
+      return this._makeAgileRequest({
+        method: "POST",
+        path: "/sprint",
+        ...args,
+      });
+    },
+    listEpics({
+      boardId, ...args
+    } = {}) {
+      return this._makeAgileRequest({
+        path: `/board/${boardId}/epic`,
+        ...args,
+      });
+    },
+    listEpicIssues({
+      boardId, epicId, ...args
+    } = {}) {
+      return this._makeAgileRequest({
+        path: `/board/${boardId}/epic/${epicId}/issue`,
         ...args,
       });
     },

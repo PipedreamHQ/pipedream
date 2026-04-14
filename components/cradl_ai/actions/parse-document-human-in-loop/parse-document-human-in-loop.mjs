@@ -5,7 +5,7 @@ export default {
   key: "cradl_ai-parse-document-human-in-loop",
   name: "Parse Document with Human in the Loop",
   description: "Sends a document to an existing flow for human-in-the-loop processing. [See the documentation](https://docs.cradl.ai/integrations/rest-api)",
-  version: "0.1.1",
+  version: "0.1.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

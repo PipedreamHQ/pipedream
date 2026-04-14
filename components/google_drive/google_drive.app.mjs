@@ -161,6 +161,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The file content to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
+      format: "file-ref",
     },
     fileName: {
       type: "string",
@@ -369,6 +370,12 @@ export default {
         };
       },
     },
+    includeItemsFromAllDrives: {
+      label: "Include Items From All Drives",
+      type: "boolean",
+      description: "If `true`, include items from all drives. If `false`, include items from the drive specified in the `drive` prop.",
+      default: false,
+    },
   },
   methods: {
     // Static methods
@@ -421,14 +428,16 @@ export default {
      * returned by this same method.
      * @param {string} [driveId]  - the shared drive from which changes are
      * returned
+     * @param {number} [pageSize=1000] - the maximum number of changes to return
+     * per page
      * @yields
      * @type {ChangesPage}
      */
-    async *listChanges(pageToken, driveId) {
+    async *listChanges(pageToken, driveId, pageSize = 1000) {
       const drive = this.drive();
       let changeRequest = {
         pageToken,
-        pageSize: 1000,
+        pageSize,
       };
 
       // As with many of the methods for Google Drive, we must

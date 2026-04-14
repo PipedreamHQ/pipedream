@@ -8,7 +8,7 @@ export default {
   name: "Upload Multiple Files",
   description: "Uploads multiple file to a selected folder. [See the documentation](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesUpload__anchor)",
   key: "dropbox-upload-multiple-files",
-  version: "1.0.3",
+  version: "1.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -31,6 +31,7 @@ export default {
       type: "string[]",
       label: "File Paths or URLs",
       description: "Provide an array of either file URLs or paths to a files in the /tmp directory (for example, /tmp/myFile.pdf).",
+      format: "file-ref",
     },
     filenames: {
       type: "string[]",

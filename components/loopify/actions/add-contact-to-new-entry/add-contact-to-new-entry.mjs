@@ -4,7 +4,7 @@ export default {
   key: "loopify-add-contact-to-new-entry",
   name: "Add Contact To New Entry",
   description: "Adds a contact to an **API Entry** block in a Loopify flow. [See the documentation](https://api.loopify.com/docs/index.html#tag/Flows/operation/addContactToNewEntry)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

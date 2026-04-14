@@ -5,7 +5,7 @@ export default defineAction({
   name: "List All Publications",
   description: "Get a list of all your publications. [See docs](https://www.beehiiv.com/developers/docs)",
   key: "beehiiv-list-all-publications",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

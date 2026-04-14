@@ -5,7 +5,7 @@ export default {
   key: "openai-create-moderation",
   name: "Create Moderation",
   description: "Classifies if text is potentially harmful. [See the documentation](https://platform.openai.com/docs/api-reference/moderations/create)",
-  version: "0.0.11",
+  version: "0.0.12",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

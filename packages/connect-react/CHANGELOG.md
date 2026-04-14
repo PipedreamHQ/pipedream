@@ -2,6 +2,24 @@
 
 # Changelog
 
+## [2.8.0] - 2026-03-19
+
+### Changed
+
+- Updated `@pipedream/sdk` dependency to `^2.4.0`
+
+## [2.7.3] - 2026-03-18
+
+### Added
+- Globe icon for SharePoint sites and folder icon for drives in file picker navigation
+- Per-prop icon support via `propIcons` in `FilePickerAppConfig`
+
+### Changed
+- File list is now more compact: metadata (size, item count) shown as columns instead of second row
+- Removed folder chevron from file list to keep Last Modified column aligned
+- Removed emoji prefix stripping from option labels (emojis no longer returned by API)
+- Updated `sharepoint_admin` config to use `fileIds` prop
+
 ## [2.7.2] - 2026-02-20
 
 ### Added

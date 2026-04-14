@@ -15,6 +15,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
+      format: "file-ref",
     },
     createdAt: {
       type: "string",
@@ -244,10 +245,10 @@ export default {
       };
     },
     async _makeRequest({
-      $, path, headers, ...otherConfig
+      $, url, path, headers, ...otherConfig
     } = {}) {
       const config = {
-        url: this._getApiUrl(path),
+        url: url ?? this._getApiUrl(path),
         headers: this._getHeaders(headers),
         ...otherConfig,
       };
@@ -267,6 +268,12 @@ export default {
       return this._makeRequest({
         method: "DELETE",
         path: `/webhooks/${hookId}`,
+        ...args,
+      });
+    },
+    async listWebhooks(args = {}) {
+      return this._makeRequest({
+        path: "/webhooks",
         ...args,
       });
     },
@@ -302,6 +309,15 @@ export default {
       return this._makeRequest({
         path: `/files/${fileId}/content`,
         responseType: "stream",
+        ...args,
+      });
+    },
+    async getFile({
+      fileId, ...args
+    } = {}) {
+      return this._makeRequest({
+        method: "GET",
+        path: `/files/${fileId}`,
         ...args,
       });
     },

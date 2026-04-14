@@ -6,7 +6,7 @@ export default {
   key: "pdffiller-upload-document",
   name: "Upload Document",
   description: "Uploads a chosen file to PDFfiller. [See the documentation](https://docs.pdffiller.com/docs/pdffiller/992d9d79fec32-creates-a-new-document-template-by-uploading-file-from-multipart)",
-  version: "0.1.2",
+  version: "0.1.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

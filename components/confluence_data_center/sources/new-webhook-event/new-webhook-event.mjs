@@ -6,7 +6,7 @@ export default {
   key: "confluence_data_center-new-webhook-event",
   name: "New Webhook Event (Instant)",
   description: "Emit new event when a webhook event is received from Confluence Data Center.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

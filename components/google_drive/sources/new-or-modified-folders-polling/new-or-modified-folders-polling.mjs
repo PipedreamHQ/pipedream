@@ -1,14 +1,18 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import googleDrive from "../../google_drive.app.mjs";
-import { getListFilesOpts } from "../../common/utils.mjs";
+import {
+  getListFilesOpts,
+  isMyDrive,
+} from "../../common/utils.mjs";
 import { GOOGLE_DRIVE_FOLDER_MIME_TYPE } from "../../common/constants.mjs";
 import sampleEmit from "./test-event.mjs";
+import md5 from "md5";
 
 export default {
   key: "google_drive-new-or-modified-folders-polling",
   name: "New or Modified Folders (Polling)",
   description: "Emit new event when a folder is created or modified in the selected Drive",
-  version: "0.0.2",
+  version: "0.0.6",
   type: "source",
   dedupe: "unique",
   props: {
@@ -46,6 +50,13 @@ export default {
       description: "Whether to include subfolders of the parent folder in the changes.",
       optional: true,
     },
+    changesPageSize: {
+      type: "integer",
+      label: "Changes Page Size",
+      description: "Maximum number of changes to fetch per API call. Lower values reduce the risk of execution timeouts on active drives.",
+      default: 1000,
+      optional: true,
+    },
   },
   hooks: {
     async deploy() {
@@ -69,8 +80,10 @@ export default {
 
       const { files } = await this.googleDrive.listFilesInPage(null, args);
 
+      const rootId = await this.getRootId();
+
       for (const file of files) {
-        if (await this.shouldProcess(file)) {
+        if (await this.shouldProcess(file, rootId)) {
           await this.emitFolder(file);
         }
       }
@@ -121,7 +134,15 @@ export default {
 
       return allParents;
     },
-    async shouldProcess(file) {
+    async getRootId() {
+      const root = await this.googleDrive.getFile(
+        isMyDrive(this.drive)
+          ? "root"
+          : this.drive,
+      );
+      return root.id;
+    },
+    async shouldProcess(file, rootId) {
       // Skip if not a folder
       if (file.mimeType !== GOOGLE_DRIVE_FOLDER_MIME_TYPE) {
         return false;
@@ -132,10 +153,6 @@ export default {
         return true;
       }
 
-      const root = await this.googleDrive.getFile(this.drive === "My Drive"
-        ? "root"
-        : this.drive);
-
       const allParents = [];
       if (this.includeSubfolders) {
         allParents.push(...(await this.getAllParents(file.id)));
@@ -143,7 +160,7 @@ export default {
         allParents.push(file.parents[0]);
       }
 
-      return allParents.includes(this.folderId || root.id);
+      return allParents.includes(this.folderId || rootId);
     },
     generateMeta(file) {
       const {
@@ -154,7 +171,7 @@ export default {
       const ts = Date.parse(tsString);
 
       return {
-        id: `${fileId}-${ts}`,
+        id: md5(`${fileId}-${ts}`),
         summary,
         ts,
       };
@@ -169,8 +186,10 @@ export default {
 
     const pageToken = this._getPageToken();
     const driveId = this.getDriveId();
+    const rootId = await this.getRootId();
 
-    const changedFilesStream = this.googleDrive.listChanges(pageToken, driveId);
+    const changedFilesStream =
+      this.googleDrive.listChanges(pageToken, driveId, this.changesPageSize);
 
     for await (const changedFilesPage of changedFilesStream) {
       console.log("Changed files page:", changedFilesPage);
@@ -203,7 +222,7 @@ export default {
           continue;
         }
 
-        if (!await this.shouldProcess(fullFile)) {
+        if (!await this.shouldProcess(fullFile, rootId)) {
           console.log(`Skipping folder ${fullFile.name || fullFile.id}`);
           continue;
         }

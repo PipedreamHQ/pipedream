@@ -1,0 +1,39 @@
+import ipgeolocation from "../../ipgeolocation.app.mjs";
+
+export default {
+  key: "ipgeolocation-parse-bulk-user-agents",
+  name: "Parse Bulk User Agents",
+  description:
+    "Extract browser, device, operating system, and engine details from multiple user agent strings in a single request. Maximum 50,000 strings per request. Only available on paid plans. [See the documentation](https://ipgeolocation.io/documentation/user-agent-api.html#parse-bulk-user-agent-strings)",
+  version: "0.0.1",
+  type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
+  props: {
+    ipgeolocation,
+    uaStrings: {
+      type: "string[]",
+      label: "User Agent Strings",
+      description: "List of user agent strings to parse. Maximum 50,000 per request",
+    },
+  },
+  async run({ $ }) {
+    if (this.uaStrings.length > 50000) {
+      throw new Error("`User Agent Strings` supports a maximum of 50,000 entries per request.");
+    }
+
+    const response = await this.ipgeolocation.parseBulkUserAgent({
+      $,
+      data: {
+        uaStrings: this.uaStrings,
+      },
+    });
+    $.export("$summary", `Successfully parsed ${this.uaStrings.length} user agent string${this.uaStrings.length === 1
+      ? ""
+      : "s"}`);
+    return response;
+  },
+};

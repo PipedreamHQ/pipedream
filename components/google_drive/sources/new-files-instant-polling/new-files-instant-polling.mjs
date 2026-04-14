@@ -8,7 +8,7 @@ export default {
   key: "google_drive-new-files-instant-polling",
   name: "New Files (Polling)",
   description: "Emit new event when a new file is added in your linked Google Drive",
-  version: "0.0.2",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   props: {
@@ -44,6 +44,13 @@ export default {
       description: "The specific folder(s) to watch for new files. Leave blank to watch all files in the Drive.",
       optional: true,
       default: [],
+    },
+    changesPageSize: {
+      type: "integer",
+      label: "Changes Page Size",
+      description: "Maximum number of changes to fetch per API call. Lower values reduce the risk of execution timeouts on active drives.",
+      default: 1000,
+      optional: true,
     },
   },
   hooks: {
@@ -140,7 +147,8 @@ export default {
     const pageToken = this._getPageToken();
     const driveId = this.getDriveId();
 
-    const changedFilesStream = this.googleDrive.listChanges(pageToken, driveId);
+    const changedFilesStream =
+      this.googleDrive.listChanges(pageToken, driveId, this.changesPageSize);
 
     for await (const changedFilesPage of changedFilesStream) {
       console.log("Changed files page:", changedFilesPage);

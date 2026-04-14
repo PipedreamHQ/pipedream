@@ -3,7 +3,7 @@ import common from "../common/common-helper.mjs";
 export default {
   ...common,
   name: "Classify Items into Categories",
-  version: "0.1.10",
+  version: "0.1.11",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

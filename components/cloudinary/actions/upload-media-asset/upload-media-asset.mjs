@@ -4,7 +4,7 @@ export default {
   key: "cloudinary-upload-media-asset",
   name: "Upload Media Asset",
   description: "Upload media assets such as images or videos. [See the documentation](https://cloudinary.com/documentation/image_upload_api_reference#upload_method)",
-  version: "1.0.2",
+  version: "1.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -22,6 +22,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The file to upload. You can provide a file path from the `/tmp` folder (e.g. `/tmp/myFile.jpg`) or a public file URL, among other options supported by Cloudinary ([see the documentation](https://cloudinary.com/documentation/upload_images#file_source_options) for available options).",
+      format: "file-ref",
     },
     publicId: {
       type: "string",

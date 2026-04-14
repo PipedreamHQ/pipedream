@@ -13,7 +13,7 @@ export default {
   key: "google_drive-upload-file",
   name: "Upload File",
   description: "Upload a file to Google Drive. [See the documentation](https://developers.google.com/drive/api/v3/manage-uploads) for more information",
-  version: "2.0.9",
+  version: "2.0.12",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -45,6 +45,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.pdf).",
+      format: "file-ref",
     },
     name: {
       propDefinition: [
