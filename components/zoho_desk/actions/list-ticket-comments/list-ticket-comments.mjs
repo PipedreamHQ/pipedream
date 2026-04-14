@@ -5,7 +5,7 @@ export default {
   name: "List All Ticket Comments",
   description: "Retrieves all comments for a specified ticket. [See the documentation](https://desk.zoho.com/DeskAPIDocument#TicketsComments_Listallticketcomments)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
