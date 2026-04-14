@@ -1,4 +1,5 @@
 import common from "../common/column-values.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   ...common,
@@ -39,10 +40,10 @@ export default {
       try {
         queryParams = JSON.parse(this.queryParams);
       } catch (error) {
-        throw new Error(`Invalid query params: ${error.message}`);
+        throw new ConfigurationError(`Invalid query params: ${error.message}`);
       }
     }
-    console.log(queryParams);
+
     const args = {
       boardId: +this.boardId,
     };
