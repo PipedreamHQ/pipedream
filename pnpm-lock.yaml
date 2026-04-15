@@ -16239,6 +16239,9 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
+  components/trugrid_securerdp:
+    specifiers: {}
+
   components/trunkrs:
     dependencies:
       '@pipedream/platform':
