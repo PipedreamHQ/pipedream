@@ -3,7 +3,7 @@ import asana from "../../asana.app.mjs";
 export default {
   type: "action",
   key: "asana-search-projects",
-  version: "0.2.11",
+  version: "0.2.12",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

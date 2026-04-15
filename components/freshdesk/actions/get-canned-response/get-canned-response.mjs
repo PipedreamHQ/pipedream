@@ -4,7 +4,7 @@ export default {
   key: "freshdesk-get-canned-response",
   name: "Get Canned Response",
   description: "View a Canned Response. [See the documentation](https://developers.freshdesk.com/api/#view_a_canned_response)",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   annotations: {
     destructiveHint: false,

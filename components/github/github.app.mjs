@@ -414,16 +414,18 @@ export default {
     }) {
       return this._client().request(`DELETE /orgs/${org}/hooks/${webhookId}`, {});
     },
-    async getOrganizations() {
-      const response = await this._client().request("GET /user/orgs", {});
+    async getOrganizations(data = {}) {
+      const response = await this._client().request("GET /user/orgs", data);
 
       return response.data;
     },
     async getRepos() {
       return this._client().paginate("GET /user/repos", {});
     },
-    async getOrgRepos({ org }) {
-      return this._client().paginate(`GET /orgs/${org}/repos`, {});
+    async getOrgRepos({
+      org, ...args
+    }) {
+      return this._client().paginate(`GET /orgs/${org}/repos`, args);
     },
     async getRepo({ repoFullname }) {
       const response = await this._client().request(`GET /repos/${repoFullname}`, {});
