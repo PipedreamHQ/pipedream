@@ -3,7 +3,7 @@ import returnista from "../../returnista.app.mjs";
 export default {
   key: "returnista-get-consumer-purchases",
   name: "Get Consumer Purchases",
-  description: "Get consumer purchases. [See the documentation](https://docs.returnista.com/reference/get-consumer-purchases)",
+  description: "Get consumer purchases. [See the documentation](https://platform.returnista.com/reference/rest-api/#get-/consumer/-consumerId/purchases)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
