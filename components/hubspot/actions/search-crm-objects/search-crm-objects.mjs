@@ -35,7 +35,7 @@ export default {
     + " Use `filterGroups` for advanced filtering with operators like EQ, NEQ, LT, GT, CONTAINS_TOKEN, IN, HAS_PROPERTY, etc."
     + " You can combine up to 5 filter groups (OR logic) with up to 6 filters each (AND logic within a group)."
     + " [See the documentation](https://developers.hubspot.com/docs/api/crm/search)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
