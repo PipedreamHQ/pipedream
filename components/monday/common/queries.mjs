@@ -106,13 +106,28 @@ export default {
     }
   `,
   listBoardItemsPage: `
-    query listBoardItemsPage ($boardId: ID!, $cursor: String) {
+    query listBoardItemsPage ($boardId: ID!, $cursor: String, $query_params: ItemsQuery) {
       boards (ids: [$boardId]){
-        items_page (cursor: $cursor) {
+        items_page (
+          cursor: $cursor
+          query_params: $query_params
+        ) {
           cursor
           items {
             id 
             name 
+            column_values {
+              column {
+                title
+              }
+            }
+            created_at
+            creator_id
+            email
+            relative_link
+            state
+            updated_at
+            url
           }
         }
       }
