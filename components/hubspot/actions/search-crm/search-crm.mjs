@@ -19,7 +19,7 @@ export default {
   name: "Search CRM",
   description:
     "Search companies, contacts, deals, feedback submissions, products, tickets, line-items, quotes, leads, or custom objects. [See the documentation](https://developers.hubspot.com/docs/api/crm/search)",
-  version: "1.1.6",
+  version: "1.1.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
