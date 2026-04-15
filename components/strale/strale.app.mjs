@@ -18,7 +18,7 @@ export default {
     inputs: {
       type: "object",
       label: "Inputs",
-      description: "Input parameters for the capability as a JSON object. The required fields depend on the capability being called.",
+      description: "Input parameters for the capability as a JSON object (e.g. `{ \"vat_number\": \"SE556677889901\" }` or `{ \"email\": \"ops@example.com\" }`). The required fields depend on the capability being called.",
     },
     limit: {
       type: "integer",
@@ -31,7 +31,6 @@ export default {
       type: "integer",
       label: "Max Price (cents)",
       description: "Maximum price in euro cents you are willing to pay per execution.",
-      optional: true,
     },
     dryRun: {
       type: "boolean",

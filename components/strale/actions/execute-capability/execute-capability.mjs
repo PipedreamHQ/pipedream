@@ -2,10 +2,15 @@ import strale from "../../strale.app.mjs";
 
 export default {
   name: "Execute Capability",
-  version: "0.1.0",
+  version: "0.0.1",
   key: "strale-execute-capability",
   description: "Execute a specific Strale capability by slug with the provided inputs. Returns structured data with quality score and audit trail. [See the documentation](https://strale.dev)",
   type: "action",
+  annotations: {
+    readOnlyHint: false,
+    destructiveHint: false,
+    openWorldHint: true,
+  },
   props: {
     strale,
     capabilitySlug: {
@@ -37,11 +42,8 @@ export default {
     const data = {
       capability_slug: this.capabilitySlug,
       inputs: this.inputs,
+      max_price_cents: this.maxPriceCents,
     };
-
-    if (this.maxPriceCents) {
-      data.max_price_cents = this.maxPriceCents;
-    }
 
     if (this.dryRun) {
       data.dry_run = true;

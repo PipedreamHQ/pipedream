@@ -2,10 +2,15 @@ import strale from "../../strale.app.mjs";
 
 export default {
   name: "Search and Execute",
-  version: "0.1.0",
+  version: "0.0.1",
   key: "strale-search-and-execute",
   description: "Describe what you need in plain language, and Strale finds the best-matching capability and executes it. Combines search (POST /v1/suggest) and execution (POST /v1/do) in one step. [See the documentation](https://strale.dev)",
   type: "action",
+  annotations: {
+    readOnlyHint: false,
+    destructiveHint: false,
+    openWorldHint: true,
+  },
   props: {
     strale,
     task: {
@@ -39,13 +44,12 @@ export default {
     const suggestResponse = await this.strale.suggest({
       $,
       data: {
-        task: this.task,
+        query: this.task,
         limit: 1,
       },
     });
 
-    const suggestions = suggestResponse.suggestions ?? [];
-    if (!suggestions.length) {
+    if (!suggestResponse.recommendation) {
       $.export("$summary", `No matching capability found for "${this.task}"`);
       return {
         matched: false,
@@ -54,18 +58,15 @@ export default {
       };
     }
 
-    const bestMatch = suggestions[0];
+    const bestMatch = suggestResponse.recommendation;
     const slug = bestMatch.slug;
 
     // Step 2: Execute the best match
     const data = {
       capability_slug: slug,
       inputs: this.inputs ?? {},
+      max_price_cents: this.maxPriceCents,
     };
-
-    if (this.maxPriceCents) {
-      data.max_price_cents = this.maxPriceCents;
-    }
 
     if (this.dryRun) {
       data.dry_run = true;
