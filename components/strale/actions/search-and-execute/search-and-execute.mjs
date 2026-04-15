@@ -40,30 +40,8 @@ export default {
     },
   },
   async run({ $ }) {
-    // Step 1: Find the best matching capability
-    const suggestResponse = await this.strale.suggest({
-      $,
-      data: {
-        query: this.task,
-        limit: 1,
-      },
-    });
-
-    if (!suggestResponse.recommendation) {
-      $.export("$summary", `No matching capability found for "${this.task}"`);
-      return {
-        matched: false,
-        task: this.task,
-        suggestions: [],
-      };
-    }
-
-    const bestMatch = suggestResponse.recommendation;
-    const slug = bestMatch.slug;
-
-    // Step 2: Execute the best match
     const data = {
-      capability_slug: slug,
+      task: this.task,
       inputs: this.inputs ?? {},
       max_price_cents: this.maxPriceCents,
     };
@@ -74,12 +52,8 @@ export default {
         $,
         data,
       });
-      $.export("$summary", `Dry run: matched "${slug}" for "${this.task}"`);
-      return {
-        matched: true,
-        capability: bestMatch,
-        result: response,
-      };
+      $.export("$summary", `Dry run completed for "${this.task}"`);
+      return response;
     }
 
     const response = await this.strale.execute({
@@ -87,12 +61,8 @@ export default {
       data,
     });
 
-    $.export("$summary", `Executed "${slug}" for "${this.task}" (transaction: ${response.transaction_id ?? "n/a"})`);
+    $.export("$summary", `Executed "${this.task}" (transaction: ${response.transaction_id ?? "n/a"})`);
 
-    return {
-      matched: true,
-      capability: bestMatch,
-      result: response,
-    };
+    return response;
   },
 };

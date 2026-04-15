@@ -57,7 +57,7 @@ export default {
     if (this.dryRun) {
       $.export("$summary", `Dry run matched capability "${response.capability?.slug ?? this.capabilitySlug}"`);
     } else {
-      $.export("$summary", `Successfully executed "${this.capabilitySlug}" (transaction: ${response.transaction_id ?? "n/a"})`);
+      $.export("$summary", `Successfully executed "${this.capabilitySlug}" (transaction: ${response?.result?.transaction_id ?? "n/a"})`);
     }
 
     return response;
