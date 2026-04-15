@@ -4,7 +4,7 @@ import servicenow from "../../servicenow.app.mjs";
 export default {
   key: "servicenow-get-current-user",
   name: "Get Current User",
-  description: "Retrieve profile information for the authenticated ServiceNow user. Returns user sys_id, name, email, and username. [See the documentation](https://docs.servicenow.com/bundle/vancouver-api-reference/page/integrate/inbound-rest/concept/c_TableAPI.html).",
+  description: "Returns the authenticated ServiceNow user's sys_id, name, email, username, and instance URL. Call this first when the user says 'my incidents', 'my cases', 'assigned to me', or needs their ServiceNow identity. Use `sys_id` to filter records in **Get Table Records** (e.g. `assigned_to={sys_id}`) or **Create Table Record**. [See the documentation](https://docs.servicenow.com/bundle/vancouver-api-reference/page/integrate/inbound-rest/concept/c_TableAPI.html).",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -16,7 +16,6 @@ export default {
     servicenow,
   },
   async run({ $ }) {
-    // First get the current session user info
     const sessionInfo = await axios($, {
       url: `${this.servicenow.baseUrl()}/api/now/ui/user/current_user`,
       headers: this.servicenow.authHeaders(),
@@ -28,7 +27,6 @@ export default {
       throw new Error("Unable to determine current user from session");
     }
 
-    // Get user details from sys_user table
     const userResponse = await axios($, {
       url: `${this.servicenow.baseUrl()}/api/now/table/sys_user/${userSysId}`,
       headers: this.servicenow.authHeaders(),
@@ -41,6 +39,15 @@ export default {
     const summaryName = user.name || user.user_name || user.sys_id;
     $.export("$summary", `Retrieved user ${summaryName}`);
 
-    return user;
+    return {
+      instance_url: this.servicenow.baseUrl(),
+      sys_id: user.sys_id,
+      user_name: user.user_name,
+      name: user.name,
+      email: user.email,
+      title: user.title,
+      department: user.department,
+      location: user.location,
+    };
   },
 };

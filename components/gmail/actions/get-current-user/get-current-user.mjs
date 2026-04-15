@@ -3,7 +3,7 @@ import gmail from "../../gmail.app.mjs";
 export default {
   key: "gmail-get-current-user",
   name: "Get Current User",
-  description: "Retrieve profile information for the authenticated Gmail user. Returns the user's name, email address, and Gmail profile info. [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users/getProfile).",
+  description: "Returns the authenticated Gmail user's name, email address, and mailbox stats (total messages and threads). Call this first when the user says 'my emails', 'my inbox', or needs identity context. Use the returned `emailAddress` to identify the user's own messages in **Find Email** results. [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users/getProfile).",
   version: "0.0.1",
   type: "action",
   annotations: {

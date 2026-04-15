@@ -3,7 +3,7 @@ import jira from "../../jira.app.mjs";
 export default {
   key: "jira-get-current-user",
   name: "Get Current User",
-  description: "Retrieve profile information for the authenticated Jira user via the `/myself` endpoint. Returns account ID, display name, email address, and active status. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-myself/#api-rest-api-3-myself-get).",
+  description: "Returns the authenticated Jira user's account ID, display name, email, and active status. Call this first when the user says 'my issues', 'assigned to me', or needs their Jira identity. Use the returned `accountId` with **Search Issues with JQL** (e.g. `assignee = '{accountId}'`) or **Assign Issue**. Requires a Cloud ID to identify the Jira site. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-myself/#api-rest-api-3-myself-get).",
   version: "0.0.1",
   type: "action",
   annotations: {

@@ -4,7 +4,7 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "box-list-folder-items",
   name: "List Folder Items",
-  description: "Retrieves a list of items (files, folders, and web links) in a folder. [See the documentation](https://developer.box.com/reference/get-folders-id-items/).",
+  description: "Lists files, folders, and web links in a Box folder. Use `0` for the root folder. Returns one page of results (default 100, max 1000). To find items by name or metadata across all folders, use **Search Content** instead. [See the documentation](https://developer.box.com/reference/get-folders-id-items/).",
   version: "0.0.{{ts}}",
   type: "action",
   annotations: {

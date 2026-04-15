@@ -1,10 +1,9 @@
-import { axios } from "@pipedream/platform";
 import confluence from "../../confluence.app.mjs";
 
 export default {
   key: "confluence-get-current-user",
   name: "Get Current User",
-  description: "Retrieve profile information for the authenticated Confluence user. Returns account ID, display name, and email. [See the documentation](https://developer.atlassian.com/cloud/confluence/rest/v1/api-group-users/#api-wiki-rest-api-user-current-get).",
+  description: "Returns the authenticated Confluence user's account ID, display name, email, and cloud ID. Call this first when the user says 'my pages', 'my posts', or needs to scope queries to themselves. Use the returned `accountId` to filter results from **Search Content** or **Get Pages**. [See the documentation](https://developer.atlassian.com/cloud/confluence/rest/v1/api-group-users/#api-wiki-rest-api-user-current-get).",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -20,17 +19,16 @@ export default {
       $,
     });
 
-    const user = await axios($, {
+    const user = await this.confluence._makeRequest({
+      $,
       url: `https://api.atlassian.com/ex/confluence/${cloudId}/wiki/rest/api/user/current`,
-      headers: {
-        Authorization: `Bearer ${this.confluence.$auth.oauth_access_token}`,
-      },
     });
 
     const summaryName = user.displayName || user.email || user.accountId;
     $.export("$summary", `Retrieved user ${summaryName}`);
 
     return {
+      cloudId,
       accountId: user.accountId,
       displayName: user.displayName,
       email: user.email,

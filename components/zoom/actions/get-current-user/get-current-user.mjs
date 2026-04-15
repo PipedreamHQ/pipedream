@@ -3,7 +3,7 @@ import zoom from "../../zoom.app.mjs";
 export default {
   key: "zoom-get-current-user",
   name: "Get Current User",
-  description: "Retrieve profile information for the authenticated Zoom user via the `/users/me` endpoint. Returns user ID, name, email, and account info. [See the documentation](https://developers.zoom.us/docs/api/users/#tag/users/GET/users/{userId}).",
+  description: "Returns the authenticated Zoom user's ID, name, email, account ID, and timezone. Call this first when the user says 'my meetings', 'my recordings', or needs their Zoom identity. Use `id` with **Create Meeting**, `account_id` to scope queries, and `email` to match participants in **List Past Meeting Participants**. [See the documentation](https://developers.zoom.us/docs/api/users/#tag/users/GET/users/{userId}).",
   version: "0.0.1",
   type: "action",
   annotations: {
