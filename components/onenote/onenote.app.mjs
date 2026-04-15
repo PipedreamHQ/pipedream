@@ -30,6 +30,36 @@ export default {
         }));
       },
     },
+    pageId: {
+      label: "Page ID",
+      description: "The page ID",
+      type: "string",
+      async options() {
+        const { value: pages } = await this.getPages();
+        return pages.map((page) => ({
+          label: page.title,
+          value: page.id,
+        }));
+      },
+    },
+    search: {
+      type: "string",
+      label: "Search",
+      description: "Search for notebooks. [See the documentation](https://learn.microsoft.com/en-us/graph/search-query-parameter?tabs=http)",
+      optional: true,
+    },
+    filter: {
+      type: "string",
+      label: "Filter",
+      description: "Filter for notebooks. [See the documentation](https://learn.microsoft.com/en-us/graph/query-parameters?tabs=http#filter)",
+      optional: true,
+    },
+    expand: {
+      type: "string",
+      label: "Expand",
+      description: "Expand the response",
+      optional: true,
+    },
   },
   methods: {
     _oauthAccessToken() {
@@ -75,6 +105,20 @@ export default {
     async getSections(args = {}) {
       return this._makeRequest({
         path: "/me/onenote/sections",
+        ...args,
+      });
+    },
+    async getPages(args = {}) {
+      return this._makeRequest({
+        path: "/me/onenote/pages",
+        ...args,
+      });
+    },
+    async getPage({
+      pageId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/me/onenote/pages/${pageId}`,
         ...args,
       });
     },

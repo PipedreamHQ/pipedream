@@ -425,8 +425,12 @@ export default {
         .post(data);
     },
     async listContacts({
-      filterAddress, params = {},
+      filterAddress, params = {}, nextLink,
     } = {}) {
+      if (nextLink) {
+        return await this.client().api(nextLink)
+          .get();
+      }
       if (filterAddress) {
         params["$filter"] = `emailAddresses/any(a:a/address eq '${filterAddress}')`;
       }
@@ -448,15 +452,46 @@ export default {
         .get();
     },
     async listMessages({
-      userId, params = {},
+      userId, params = {}, nextLink,
     } = {}) {
+      if (nextLink) {
+        return await this.client().api(nextLink)
+          .get();
+      }
       return await this.client().api(`${this._userPath(userId)}/messages`)
         .query(pickBy(params))
         .get();
     },
-    async listSharedFolderMessages({
-      userId, sharedFolderId, params = {},
+    /**
+     * List messages from a user's inbox. Uses this.client(), this._userPath(userId),
+     * and pickBy(params) for the initial request; when nextLink is provided, fetches
+     * the next page from that URL so callers can paginate using Graph's @odata.nextLink.
+     *
+     * @param {Object} opts - Options for the request
+     * @param {string} [opts.userId] - User ID; omitted for the signed-in user
+     * @param {Object} [opts.params={}] - Query params (e.g. $filter, $select, $orderby)
+     * @param {string} [opts.nextLink] - Full URL for the next page (from @odata.nextLink)
+     * @returns {Promise<Object>} Graph API response with value array and optional @odata.nextLink
+     */
+    async listInboxMessages({
+      userId, params = {}, nextLink,
     } = {}) {
+      if (nextLink) {
+        return await this.client().api(nextLink)
+          .get();
+      }
+
+      return await this.client().api(`${this._userPath(userId)}/mailFolders/inbox/messages`)
+        .query(pickBy(params))
+        .get();
+    },
+    async listSharedFolderMessages({
+      userId, sharedFolderId, params = {}, nextLink,
+    } = {}) {
+      if (nextLink) {
+        return await this.client().api(nextLink)
+          .get();
+      }
       return await this.client().api(`/users/${userId}/mailFolders/${sharedFolderId}/messages`)
         .query(pickBy(params))
         .get();
@@ -475,7 +510,13 @@ export default {
         .query(pickBy(params))
         .get();
     },
-    async listFolders({ params = {} } = {}) {
+    async listFolders({
+      params = {}, nextLink,
+    } = {}) {
+      if (nextLink) {
+        return await this.client().api(nextLink)
+          .get();
+      }
       return await this.client().api("/me/mailFolders")
         .query(pickBy(params))
         .get();
@@ -570,9 +611,20 @@ export default {
           $skip: 0,
         },
       };
-      let hasMore, count = 0;
+      let hasMore = true;
+      let count = 0;
+      let nextLink;
+      let usedNextLink = false;
       do {
-        const response = await fn(args);
+        const response = await fn({
+          ...args,
+          ...(nextLink
+            ? {
+              nextLink,
+              params: undefined,
+            }
+            : {}),
+        });
         const { value } = response;
         for (const item of value) {
           yield item;
@@ -580,8 +632,22 @@ export default {
             return;
           }
         }
-        hasMore = response?.["@odata.nextLink"];
-        args.params["$skip"] += limit;
+        nextLink = response?.["@odata.nextLink"];
+
+        if (nextLink) {
+          hasMore = true;
+          usedNextLink = true;
+          continue;
+        }
+
+        if (!usedNextLink && args?.params && typeof args.params.$skip === "number") {
+          hasMore = value?.length === limit;
+          if (hasMore) {
+            args.params.$skip += limit;
+          }
+        } else {
+          hasMore = false;
+        }
       } while (hasMore);
     },
   },
