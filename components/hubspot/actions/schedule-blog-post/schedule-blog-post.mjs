@@ -4,7 +4,7 @@ export default {
   key: "hubspot-schedule-blog-post",
   name: "Schedule Blog Post",
   description: "Schedules a blog post to be published at a specified time. [See the documentation](https://developers.hubspot.com/docs/api-reference/cms-posts-v3/basic/post-cms-v3-blogs-posts-schedule)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
