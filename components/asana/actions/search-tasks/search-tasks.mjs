@@ -5,8 +5,8 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   key: "asana-search-tasks",
   name: "Search Tasks",
-  description: "Searches for a Task by name within a Project. [See the documentation](https://developers.asana.com/docs/get-multiple-tasks)",
-  version: "0.3.5",
+  description: "Searches for tasks by name across a workspace, or within a specific project, section, or assignee. Supports workspace-wide task search by name alone. [See the documentation](https://developers.asana.com/docs/search-tasks-in-a-workspace)",
+  version: "0.3.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -64,36 +64,47 @@ export default {
     },
   },
   async run({ $ }) {
-    if (!this.project && !this.section && !this.assignee) {
-      throw new ConfigurationError("Must specify one of Project, Section, or Assignee");
-    }
+    let tasks;
 
-    if ((this.project || this.section) && this.assignee) {
-      throw new ConfigurationError("Must specify only one of Assignee, Project, or Project + Section");
-    }
+    if (this.project || this.section || this.assignee) {
+      if ((this.project || this.section) && this.assignee) {
+        throw new ConfigurationError("Must specify only one of Assignee, Project, or Project + Section");
+      }
 
-    const params = {
-      completed_since: this.completedSince,
-      modified_since: this.modifiedSince,
-    };
+      const params = {
+        completed_since: this.completedSince,
+        modified_since: this.modifiedSince,
+      };
 
-    if (this.assignee) {
-      params.assignee = this.assignee;
-      params.workspace = this.workspace;
-    } else if (this.section) {
-      params.section = this.section;
+      if (this.assignee) {
+        params.assignee = this.assignee;
+        params.workspace = this.workspace;
+      } else if (this.section) {
+        params.section = this.section;
+      } else {
+        params.project = this.project;
+      }
+
+      ({ data: tasks } = await this.asana.getTasks({
+        params,
+        $,
+      }));
+
+      if (this.name) tasks = tasks.filter((task) => task.name.includes(this.name));
     } else {
-      params.project = this.project;
-    }
+      const params = {};
+      if (this.name) params.text = this.name;
+      if (this.completedSince) params["completed_on.after"] = this.completedSince;
+      if (this.modifiedSince) params["modified_on.after"] = this.modifiedSince;
 
-    const { data: tasks } = await this.asana.getTasks({
-      params,
-      $,
-    });
+      ({ data: tasks } = await this.asana._makeRequest({
+        path: `workspaces/${this.workspace}/tasks/search`,
+        params,
+        $,
+      }));
+    }
 
     $.export("$summary", "Successfully retrieved tasks");
-
-    if (this.name) return tasks.filter((task) => task.name.includes(this.name));
-    else return tasks;
+    return tasks;
   },
 };

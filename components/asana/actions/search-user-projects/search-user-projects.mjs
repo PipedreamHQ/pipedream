@@ -3,9 +3,9 @@ import asana from "../../asana.app.mjs";
 
 export default {
   key: "asana-search-user-projects",
-  name: "Get list of user projects",
-  description: "Return list of projects given the user and workspace gid. [See the documentation](https://developers.asana.com/docs/get-multiple-projects)",
-  version: "0.5.4",
+  name: "Get My Projects",
+  description: "Returns projects for the currently authenticated user (my projects, assigned to me) in a given workspace. Can also retrieve projects for any specified user. [See the documentation](https://developers.asana.com/docs/get-multiple-projects)",
+  version: "0.5.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -26,7 +26,9 @@ export default {
     user: {
       label: "User",
       type: "string",
-      description: "GID of a user",
+      description: "The user whose projects to retrieve. Defaults to the currently authenticated user (me).",
+      optional: true,
+      default: "me",
       propDefinition: [
         asana,
         "users",

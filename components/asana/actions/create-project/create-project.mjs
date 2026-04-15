@@ -5,7 +5,7 @@ export default {
   key: "asana-create-project",
   name: "Create Project",
   description: "Create a new project in a workspace or team. [See the documentation](https://developers.asana.com/docs/create-a-project)",
-  version: "0.10.5",
+  version: "0.10.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -16,7 +16,7 @@ export default {
     asana,
     workspace: {
       label: "Workspace",
-      description: "GID of a workspace.",
+      description: "The workspace to create the project in. Required.",
       type: "string",
       propDefinition: [
         asana,
@@ -33,7 +33,8 @@ export default {
       ],
       type: "string",
       label: "Team",
-      description: "The team that this project is shared with. If the workspace for your project is an organization, you must supply a team to share the project with",
+      description: "The team to share the project with. Required if the workspace is an organization.",
+      optional: true,
     },
     name: {
       label: "Name",
@@ -44,6 +45,7 @@ export default {
       label: "Notes",
       description: "Free-form textual information associated with the project (ie., its description).",
       type: "string",
+      optional: true,
     },
     color: {
       label: "Color",
