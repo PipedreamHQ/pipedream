@@ -20,6 +20,18 @@ export default {
         "messageId",
       ],
     },
+    typing: {
+      propDefinition: [
+        app,
+        "typing",
+      ],
+    },
+    read: {
+      propDefinition: [
+        app,
+        "read",
+      ],
+    },
   },
   methods: {
     getSummary() {

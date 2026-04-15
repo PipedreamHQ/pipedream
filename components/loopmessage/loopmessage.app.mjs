@@ -74,6 +74,18 @@ export default {
       description: "Optional. A string of metadata you wish to store in this request. Max length: 1000 characters.",
       optional: true,
     },
+    typing: {
+      type: "integer",
+      label: "Typing",
+      description: "Typing duration in seconds.",
+      default: 3,
+    },
+    read: {
+      type: "boolean",
+      label: "Read",
+      description: "Mark message as read.",
+      default: true,
+    },
   },
   methods: {
     getBaseUrl() {
