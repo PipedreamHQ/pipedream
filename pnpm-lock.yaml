@@ -15168,6 +15168,9 @@ importers:
 
   components/straker_verify: {}
 
+  components/strale:
+    specifiers: {}
+
   components/strapi: {}
 
   components/strava:
