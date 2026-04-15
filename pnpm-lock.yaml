@@ -12457,6 +12457,9 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
+  components/pubrio:
+    specifiers: {}
+
   components/pulsetic:
     dependencies:
       '@pipedream/platform':
