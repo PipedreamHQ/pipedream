@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/strale",
+  "version": "0.0.1",
+  "description": "Pipedream Strale Components",
+  "main": "strale.app.mjs",
+  "keywords": [
+    "pipedream",
+    "strale"
+  ],
+  "homepage": "https://pipedream.com/apps/strale",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
