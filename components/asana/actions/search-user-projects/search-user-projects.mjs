@@ -5,7 +5,7 @@ export default {
   key: "asana-search-user-projects",
   name: "Get My Projects",
   description: "Returns projects for the currently authenticated user (my projects, assigned to me) in a given workspace. Can also retrieve projects for any specified user. [See the documentation](https://developers.asana.com/docs/get-multiple-projects)",
-  version: "0.5.5",
+  version: "0.5.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -39,6 +39,15 @@ export default {
     },
   },
   async run({ $ }) {
+    let userGid = this.user;
+    if (!userGid || userGid === "me") {
+      const { data: me } = await this.asana.getUser({
+        userId: "me",
+        $,
+      });
+      userGid = me.gid;
+    }
+
     let { data: projects } = await this.asana.getProjects({
       params: {
         workspace: this.workspace,
@@ -53,7 +62,7 @@ export default {
       });
 
       return data.members && !!_.find(data.members, {
-        gid: this.user,
+        gid: userGid,
       });
     });
 

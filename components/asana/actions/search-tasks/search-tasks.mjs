@@ -5,8 +5,8 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   key: "asana-search-tasks",
   name: "Search Tasks",
-  description: "Searches for tasks by name across a workspace, or within a specific project, section, or assignee. Supports workspace-wide task search by name alone. [See the documentation](https://developers.asana.com/docs/search-tasks-in-a-workspace)",
-  version: "0.3.6",
+  description: "Searches for tasks by name within a project, section, or assignee. If none are specified, searches the current user's tasks in the workspace. [See the documentation](https://developers.asana.com/docs/get-multiple-tasks)",
+  version: "0.3.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -92,16 +92,17 @@ export default {
 
       if (this.name) tasks = tasks.filter((task) => task.name.includes(this.name));
     } else {
-      const params = {};
-      if (this.name) params.text = this.name;
-      if (this.completedSince) params["completed_on.after"] = this.completedSince;
-      if (this.modifiedSince) params["modified_on.after"] = this.modifiedSince;
-
-      ({ data: tasks } = await this.asana._makeRequest({
-        path: `workspaces/${this.workspace}/tasks/search`,
-        params,
+      ({ data: tasks } = await this.asana.getTasks({
+        params: {
+          assignee: "me",
+          workspace: this.workspace,
+          completed_since: this.completedSince,
+          modified_since: this.modifiedSince,
+        },
         $,
       }));
+
+      if (this.name) tasks = tasks.filter((task) => task.name.includes(this.name));
     }
 
     $.export("$summary", "Successfully retrieved tasks");
