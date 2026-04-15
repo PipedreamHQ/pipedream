@@ -12462,7 +12462,10 @@ importers:
         version: 1.6.8
 
   components/pubrio:
-    specifiers: {}
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.3.1
+        version: 3.3.1
 
   components/pulsetic:
     dependencies:
@@ -15172,8 +15175,7 @@ importers:
 
   components/straker_verify: {}
 
-  components/strale:
-    specifiers: {}
+  components/strale: {}
 
   components/strapi: {}
 
@@ -16246,8 +16248,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/trugrid_securerdp:
-    specifiers: {}
+  components/trugrid_securerdp: {}
 
   components/trunkrs:
     dependencies:
@@ -17620,8 +17621,7 @@ importers:
         specifier: ^0.3.2
         version: 0.3.4
 
-  components/xray_cloud:
-    specifiers: {}
+  components/xray_cloud: {}
 
   components/xverify:
     dependencies:
