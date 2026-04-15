@@ -61,7 +61,7 @@ export default {
       data,
     });
 
-    $.export("$summary", `Executed "${this.task}" (transaction: ${response.transaction_id ?? "n/a"})`);
+    $.export("$summary", `Executed "${this.task}" (transaction: ${response?.result?.transaction_id ?? "n/a"})`);
 
     return response;
   },
