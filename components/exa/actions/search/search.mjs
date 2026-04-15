@@ -3,8 +3,8 @@ import app from "../../exa.app.mjs";
 export default {
   key: "exa-search",
   name: "Search",
-  description: "Performs an intelligent web search. [See the documentation](https://docs.exa.ai/reference/search)",
-  version: "0.0.1",
+  description: "Performs an intelligent web search using Exa, a web search API optimized for AI applications. [See the documentation](https://docs.exa.ai/reference/search)",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
