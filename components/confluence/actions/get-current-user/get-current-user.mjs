@@ -21,19 +21,17 @@ export default {
 
     const user = await this.confluence._makeRequest({
       $,
-      url: `https://api.atlassian.com/ex/confluence/${cloudId}/wiki/rest/api/user/current`,
+      url: "https://api.atlassian.com/me",
     });
 
-    const summaryName = user.displayName || user.email || user.accountId;
+    const summaryName = user.name || user.email || user.account_id;
     $.export("$summary", `Retrieved user ${summaryName}`);
 
     return {
       cloudId,
-      accountId: user.accountId,
-      displayName: user.displayName,
+      accountId: user.account_id,
+      name: user.name,
       email: user.email,
-      accountType: user.accountType,
-      profilePicture: user.profilePicture,
     };
   },
 };
