@@ -25,7 +25,7 @@ export default {
       ],
       type: "string[]",
       label: "Users",
-      description: "Select one or more users to associate with the appointment",
+      description: "User IDs to associate with the appointment",
       optional: true,
     },
     date: {
@@ -66,18 +66,22 @@ export default {
       $,
       data: {
         client: this.clientId,
-        users: this.users.map((user) => ({
-          id: user,
-        })),
+        users: this.users
+          ? this.users.map((user) => ({
+            id: user,
+          }))
+          : undefined,
         date: this.date,
         endTime: this.endTime,
         description: this.description,
         activityType: {
           id: this.activityType,
         },
-        contacts: this.contactIds.map((contact) => ({
-          id: contact,
-        })),
+        contacts: this.contactIds
+          ? this.contactIds.map((contact) => ({
+            id: contact,
+          }))
+          : undefined,
       },
     });
     $.export("$summary", `Successfully created appointment with ID: ${response.data.id}`);

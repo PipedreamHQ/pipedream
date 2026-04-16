@@ -3,7 +3,7 @@ import app from "../../upsales.app.mjs";
 export default {
   key: "upsales-get-activity-list",
   name: "Get Activity List",
-  description: "Retrieves a list of activities from Upsales. [See the documentation]https://api.upsales.com/#ae3a30c0-dcc6-4abc-9be4-6ffe725f989f)",
+  description: "Retrieves a list of activities from Upsales. [See the documentation](https://api.upsales.com/#ae3a30c0-dcc6-4abc-9be4-6ffe725f989f)",
   version: "0.0.1",
   type: "action",
   annotations: {

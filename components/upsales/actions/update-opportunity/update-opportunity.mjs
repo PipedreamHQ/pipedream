@@ -81,21 +81,27 @@ export default {
       data: {
         description: this.description,
         date: this.date,
-        user: {
-          id: this.userId,
-        },
-        client: {
-          id: this.clientId,
-        },
-        stage: {
-          id: this.stageId,
-        },
+        user: this.userId
+          ? {
+            id: this.userId,
+          }
+          : undefined,
+        client: this.clientId
+          ? {
+            id: this.clientId,
+          }
+          : undefined,
+        stage: this.stageId
+          ? {
+            id: this.stageId,
+          }
+          : undefined,
         probability: this.probability,
         orderRow,
       },
     });
 
-    $.export("$summary", `Successfully created opportunity: ${this.description}`);
+    $.export("$summary", `Successfully updated opportunity: ${this.description}`);
     return response;
   },
 };

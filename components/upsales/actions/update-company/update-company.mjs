@@ -46,7 +46,7 @@ export default {
       ],
       type: "string[]",
       label: "Users",
-      description: "Select one or more users to associate with this company",
+      description: "User IDs to associate with this company. Example: [\"12345\", \"67890\"]",
       optional: true,
     },
     custom: {

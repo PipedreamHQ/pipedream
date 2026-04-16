@@ -74,6 +74,7 @@ export default {
   async run({ $ }) {
     const response = await this.app.updateAppointment({
       $,
+      appointmentId: this.appointmentId,
       data: {
         client: this.clientId,
         users: this.users
@@ -84,7 +85,7 @@ export default {
         date: this.date,
         endTime: this.endTime,
         description: this.description,
-        activityType: this.acctivityType
+        activityType: this.activityType
           ? {
             id: this.activityType,
           }

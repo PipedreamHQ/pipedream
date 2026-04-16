@@ -9,7 +9,7 @@ export default {
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
-    readOnlyHint: false,
+    readOnlyHint: true,
   },
   props: {
     app,
@@ -39,7 +39,9 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully retrieved ${response.length || 0} order(s)`);
+    $.export("$summary", `Successfully retrieved ${response?.data?.length || 0} opportunit${response?.data?.length === 1
+      ? "y"
+      : "ies"}`);
     return response;
   },
 };

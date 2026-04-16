@@ -35,7 +35,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully retrieved ${response.length || 0} company(ies)`);
+    $.export("$summary", `Successfully retrieved ${response?.data?.length || 0} company(ies)`);
     return response;
   },
 };

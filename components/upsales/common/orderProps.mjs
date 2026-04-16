@@ -63,7 +63,7 @@ export default {
   projects: {
     type: "object",
     label: "Projects",
-    description: "Campaign this order is added to (as a JSON object)",
+    description: "Campaign payload as a JSON object, e.g. { \"id\": 42, \"name\": \"Q1 Retention\" }",
     optional: true,
   },
   clientConnectionId: {

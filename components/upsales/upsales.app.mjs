@@ -10,7 +10,7 @@ export default {
       label: "User ID",
       description: "Select a user or provide a user ID",
       async options({ page }) {
-        const data = await this.listUsers({
+        const { data } = await this.listUsers({
           params: {
             limit: DEFAULT_LIMIT,
             offset: page * DEFAULT_LIMIT,
@@ -27,7 +27,7 @@ export default {
       label: "Stage ID",
       description: "Select a stage or provide a stage ID",
       async options({ page }) {
-        const data = await this.listStages({
+        const { data } = await this.listStages({
           params: {
             limit: DEFAULT_LIMIT,
             offset: page * DEFAULT_LIMIT,
@@ -56,7 +56,7 @@ export default {
       label: "Company ID",
       description: "Select a company or provide a company ID",
       async options({ page }) {
-        const data = await this.listCompanies({
+        const { data } = await this.listCompanies({
           params: {
             limit: DEFAULT_LIMIT,
             offset: page * DEFAULT_LIMIT,
@@ -96,7 +96,7 @@ export default {
       label: "Contact ID",
       description: "Select a contact or provide a contact ID",
       async options({ page }) {
-        const data = await this.listContacts({
+        const { data } = await this.listContacts({
           params: {
             limit: DEFAULT_LIMIT,
             offset: page * DEFAULT_LIMIT,
@@ -161,7 +161,7 @@ export default {
       label: "Activity ID",
       description: "Select an activity or provide an activity ID",
       async options({ page }) {
-        const data = await this.listActivities({
+        const { data } = await this.listActivities({
           params: {
             limit: DEFAULT_LIMIT,
             offset: page * DEFAULT_LIMIT,
@@ -178,7 +178,7 @@ export default {
       label: "NPS ID",
       description: "Select an NPS record or provide an NPS ID",
       async options({ page }) {
-        const data = await this.listNps({
+        const { data } = await this.listNps({
           params: {
             limit: DEFAULT_LIMIT,
             offset: page * DEFAULT_LIMIT,
@@ -195,7 +195,7 @@ export default {
       label: "Order ID",
       description: "Select an order or provide an order ID",
       async options({ page }) {
-        const data = await this.listOrders({
+        const { data } = await this.listOrders({
           params: {
             limit: DEFAULT_LIMIT,
             offset: page * DEFAULT_LIMIT,
@@ -213,7 +213,7 @@ export default {
       label: "Product ID",
       description: "Select a product or provide a product ID",
       async options({ page }) {
-        const data = await this.listProducts({
+        const { data } = await this.listProducts({
           params: {
             limit: DEFAULT_LIMIT,
             offset: page * DEFAULT_LIMIT,
@@ -230,7 +230,7 @@ export default {
       label: "Activity Type ID",
       description: "Select an activity type or provide an activity type ID",
       async options({ page }) {
-        const data = await this.listActivityTypes({
+        const { data } = await this.listActivityTypes({
           params: {
             limit: DEFAULT_LIMIT,
             offset: page * DEFAULT_LIMIT,
@@ -247,7 +247,7 @@ export default {
       label: "Opportunity ID",
       description: "Select an opportunity or provide an opportunity ID",
       async options({ page }) {
-        const data = await this.listOpportunities({
+        const { data } = await this.listOpportunities({
           params: {
             limit: DEFAULT_LIMIT,
             offset: page * DEFAULT_LIMIT,

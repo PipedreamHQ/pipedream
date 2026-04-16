@@ -1,4 +1,3 @@
-import { ConfigurationError } from "@pipedream/platform";
 import app from "../../upsales.app.mjs";
 
 export default {
@@ -115,7 +114,7 @@ export default {
     });
 
     if (response.error) {
-      throw new ConfigurationError(`Failed to create user: ${JSON.stringify(response.error)}`);
+      throw new Error(`Failed to create user: ${JSON.stringify(response.error)}`);
     }
 
     $.export("$summary", `Successfully created user with ID: ${response.data.id}`);
