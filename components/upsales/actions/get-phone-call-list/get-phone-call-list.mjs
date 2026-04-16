@@ -13,10 +13,26 @@ export default {
   },
   props: {
     app,
+    limit: {
+      propDefinition: [
+        app,
+        "limit",
+      ],
+    },
+    offset: {
+      propDefinition: [
+        app,
+        "offset",
+      ],
+    },
   },
   async run({ $ }) {
     const response = await this.app.listPhoneCalls({
       $,
+      params: {
+        limit: this.limit,
+        offset: this.offset,
+      },
     });
 
     $.export("$summary", `Successfully retrieved ${response.data?.length || 0} phone call(s)`);

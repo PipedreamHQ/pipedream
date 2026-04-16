@@ -13,10 +13,26 @@ export default {
   },
   props: {
     app,
+    limit: {
+      propDefinition: [
+        app,
+        "limit",
+      ],
+    },
+    offset: {
+      propDefinition: [
+        app,
+        "offset",
+      ],
+    },
   },
   async run({ $ }) {
     const response = await this.app.listStages({
       $,
+      params: {
+        limit: this.limit,
+        offset: this.offset,
+      },
     });
 
     $.export("$summary", `Successfully retrieved ${response.length || 0} stage(s)`);

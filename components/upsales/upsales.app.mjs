@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+const DEFAULT_LIMIT = 100;
 
 export default {
   type: "app",
@@ -8,8 +9,13 @@ export default {
       type: "string",
       label: "User ID",
       description: "Select a user or provide a user ID",
-      async options() {
-        const data = await this.listUsers();
+      async options({ page }) {
+        const data = await this.listUsers({
+          params: {
+            limit: DEFAULT_LIMIT,
+            offset: page * DEFAULT_LIMIT,
+          },
+        });
         return data.map((user) => ({
           label: `${user.name} (${user.email})`,
           value: user.clientid,
@@ -20,8 +26,13 @@ export default {
       type: "string",
       label: "Stage ID",
       description: "Select a stage or provide a stage ID",
-      async options() {
-        const data = await this.listStages();
+      async options({ page }) {
+        const data = await this.listStages({
+          params: {
+            limit: DEFAULT_LIMIT,
+            offset: page * DEFAULT_LIMIT,
+          },
+        });
         return data.map((stage) => ({
           label: `${stage.name} (${stage.probability}%)`,
           value: stage.id,
@@ -44,8 +55,13 @@ export default {
       type: "string",
       label: "Company ID",
       description: "Select a company or provide a company ID",
-      async options() {
-        const data = await this.listCompanies();
+      async options({ page }) {
+        const data = await this.listCompanies({
+          params: {
+            limit: DEFAULT_LIMIT,
+            offset: page * DEFAULT_LIMIT,
+          },
+        });
         return data.map((company) => ({
           label: company.name,
           value: company.id,
@@ -79,8 +95,13 @@ export default {
       type: "string",
       label: "Contact ID",
       description: "Select a contact or provide a contact ID",
-      async options() {
-        const data = await this.listContacts();
+      async options({ page }) {
+        const data = await this.listContacts({
+          params: {
+            limit: DEFAULT_LIMIT,
+            offset: page * DEFAULT_LIMIT,
+          },
+        });
         return data.map((contact) => ({
           label: `${contact.name || `${contact.firstName} ${contact.lastName}`} (${contact.email || "No email"})`,
           value: contact.id,
@@ -139,8 +160,13 @@ export default {
       type: "string",
       label: "Activity ID",
       description: "Select an activity or provide an activity ID",
-      async options() {
-        const data = await this.listActivities();
+      async options({ page }) {
+        const data = await this.listActivities({
+          params: {
+            limit: DEFAULT_LIMIT,
+            offset: page * DEFAULT_LIMIT,
+          },
+        });
         return data.map((activity) => ({
           label: `${activity.description || activity.type || "Activity"} (ID: ${activity.id})`,
           value: activity.id,
@@ -151,8 +177,13 @@ export default {
       type: "string",
       label: "NPS ID",
       description: "Select an NPS record or provide an NPS ID",
-      async options() {
-        const data = await this.listNps();
+      async options({ page }) {
+        const data = await this.listNps({
+          params: {
+            limit: DEFAULT_LIMIT,
+            offset: page * DEFAULT_LIMIT,
+          },
+        });
         return data.map((nps) => ({
           label: `NPS ${nps.id} - Score: ${nps.score || "N/A"}`,
           value: nps.id,
@@ -163,13 +194,32 @@ export default {
       type: "string",
       label: "Order ID",
       description: "Select an order or provide an order ID",
-      async options() {
-        const data = await this.listOrders();
+      async options({ page }) {
+        const data = await this.listOrders({
+          params: {
+            limit: DEFAULT_LIMIT,
+            offset: page * DEFAULT_LIMIT,
+          },
+        });
         return data.map((order) => ({
           label: `${order.description || `Order ${order.id}`} - ${order.value || "N/A"}`,
           value: order.id,
         }));
       },
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "The maximum number of results to return. Defaults to 1000.",
+      default: 1000,
+      optional: true,
+    },
+    offset: {
+      type: "integer",
+      label: "Offset",
+      description: "The number of results to skip. Defaults to 0.",
+      default: 0,
+      optional: true,
     },
   },
   methods: {
