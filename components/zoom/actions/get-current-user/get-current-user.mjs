@@ -29,10 +29,8 @@ export default {
       last_name: user.last_name,
       display_name: user.display_name,
       email: user.email,
-      type: user.type,
       account_id: user.account_id,
       timezone: user.timezone,
-      language: user.language,
     };
   },
 };

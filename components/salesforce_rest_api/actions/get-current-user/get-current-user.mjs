@@ -26,9 +26,7 @@ export default {
       email: user.email,
       organization_id: user.organization_id,
       username: user.preferred_username,
-      nickname: user.nickname,
       profile: user.profile,
-      picture: user.picture,
       locale: user.locale,
       zoneinfo: user.zoneinfo,
     };

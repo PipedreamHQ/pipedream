@@ -35,10 +35,7 @@ export default {
       displayName: user.displayName,
       emailAddress: user.emailAddress,
       active: user.active,
-      accountType: user.accountType,
-      avatarUrls: user.avatarUrls,
       timeZone: user.timeZone,
-      locale: user.locale,
     };
   },
 };

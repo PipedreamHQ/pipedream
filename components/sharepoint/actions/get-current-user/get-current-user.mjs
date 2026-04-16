@@ -15,13 +15,10 @@ export default {
     sharepoint,
   },
   async run({ $ }) {
-    const user = await this.sharepoint._makeRequest({
-      $,
-      path: "/me",
-      params: {
-        $select: "id,displayName,mail,userPrincipalName",
-      },
-    });
+    const user = await this.sharepoint.client()
+      .api("/me")
+      .select("id,displayName,mail,userPrincipalName")
+      .get();
 
     const summaryName = user.displayName || user.mail || user.id;
     $.export("$summary", `Retrieved user ${summaryName}`);

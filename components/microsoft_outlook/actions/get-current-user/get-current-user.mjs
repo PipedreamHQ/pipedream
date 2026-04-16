@@ -15,13 +15,10 @@ export default {
     microsoftOutlook,
   },
   async run({ $ }) {
-    const user = await this.microsoftOutlook._makeRequest({
-      $,
-      path: "/me",
-      params: {
-        $select: "id,displayName,mail,userPrincipalName",
-      },
-    });
+    const user = await this.microsoftOutlook.client()
+      .api("/me")
+      .select("id,displayName,mail,userPrincipalName")
+      .get();
 
     const summaryName = user.displayName || user.mail || user.id;
     $.export("$summary", `Retrieved user ${summaryName}`);

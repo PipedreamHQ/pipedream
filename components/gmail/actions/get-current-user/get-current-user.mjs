@@ -28,11 +28,9 @@ export default {
 
     return {
       name: userInfo.name,
-      email: userInfo.email,
       emailAddress: profile.emailAddress,
       messagesTotal: profile.messagesTotal,
       threadsTotal: profile.threadsTotal,
-      historyId: profile.historyId,
     };
   },
 };
