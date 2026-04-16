@@ -4,7 +4,7 @@ export default {
   key: "jira-list-sprints",
   name: "List Sprints",
   description: "Returns all sprints from a board, for the given board ID. [See the documentation](https://developer.atlassian.com/cloud/jira/software/rest/api-group-board/#api-rest-agile-1-0-board-boardid-sprint-get)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
