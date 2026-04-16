@@ -4,7 +4,7 @@ export default {
   key: "trello-search-checklists",
   name: "Search Checklists",
   description: "Find a checklist on a particular board or card by name. [See the documentation here](https://developer.atlassian.com/cloud/trello/rest/api-group-boards/#api-boards-id-checklists-get) and [here](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-checklists-get).",
-  version: "0.2.4",
+  version: "0.2.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

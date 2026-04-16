@@ -4,7 +4,7 @@ export default {
   key: "belco-close-conversation",
   name: "Close Conversation",
   description: "Close a conversation specified by ID. [See the documentation](https://developers.belco.io/reference/put_conversations-conversationid-close)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

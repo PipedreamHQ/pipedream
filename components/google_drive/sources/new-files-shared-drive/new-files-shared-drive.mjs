@@ -7,7 +7,7 @@ export default {
   key: "google_drive-new-files-shared-drive",
   name: "New Files (Shared Drive)",
   description: "Emit new event when a new file is added in your shared Google Drive",
-  version: "0.1.2",
+  version: "0.1.8",
   type: "source",
   dedupe: "unique",
   props: {
@@ -37,9 +37,23 @@ export default {
       default: false,
       optional: true,
     },
+    includeSubfolders: {
+      type: "boolean",
+      label: "Enable Subfolders",
+      description: "Whether to watch for new files in subfolders of the parent folder",
+      default: false,
+      optional: true,
+    },
     dir: {
       type: "dir",
       accessMode: "write",
+      optional: true,
+    },
+    changesPageSize: {
+      type: "integer",
+      label: "Changes Page Size",
+      description: "Maximum number of changes to fetch per API call. Lower values reduce the risk of execution timeouts on active drives.",
+      default: 1000,
       optional: true,
     },
   },
@@ -59,7 +73,8 @@ export default {
     const pageToken = this._getPageToken();
 
     const driveId = this.getDriveId();
-    const changedFilesStream = this.googleDrive.listChanges(pageToken, driveId);
+    const changedFilesStream =
+      this.googleDrive.listChanges(pageToken, driveId, this.changesPageSize);
     for await (const changedFilesPage of changedFilesStream) {
       const { nextPageToken } = changedFilesPage;
 

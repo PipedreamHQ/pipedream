@@ -15,8 +15,10 @@ export default {
       if (!this.skipFirstRun) {
         const { recentItems } = await this.salesforce.listSObjectTypeIds(objectType);
         const ids = recentItems.map((item) => item.Id);
+
         for (const id of ids.slice(-25)) {
           const object = await this.salesforce.getSObject(objectType, id);
+
           const event = {
             body: {
               "New": object,
@@ -65,6 +67,89 @@ export default {
   },
   methods: {
     ...common.methods,
+    getHistoryObjectName(objectType) {
+      if (objectType.endsWith("__c")) {
+        return objectType.replace(/__c$/, "__History");
+      }
+      return `${objectType}History`;
+    },
+    getHistoryParentIdField(objectType) {
+      if (objectType.endsWith("__c")) {
+        return "ParentId";
+      }
+      return `${objectType}Id`;
+    },
+    async queryFieldHistory({
+      objectType, recordIds, fields, startTimestamp,
+    }) {
+      if (!recordIds?.length || !fields?.length) {
+        return new Set();
+      }
+
+      const validFields = fields.filter((f) => /^[a-zA-Z_]\w*$/.test(f));
+      if (!validFields.length) {
+        return new Set();
+      }
+
+      const historyObjectName = this.getHistoryObjectName(objectType);
+      const parentIdField = this.getHistoryParentIdField(objectType);
+      const fieldList = validFields.map((f) => `'${f}'`).join(", ");
+
+      const BATCH_SIZE = 200;
+      const recordsWithChanges = new Set();
+      let totalHistoryRecords = 0;
+      let successfulBatches = 0;
+      let failedBatches = 0;
+      const totalBatches = Math.ceil(recordIds.length / BATCH_SIZE);
+
+      for (let i = 0; i < recordIds.length; i += BATCH_SIZE) {
+        const batch = recordIds.slice(i, i + BATCH_SIZE);
+        const recordIdList = batch.map((id) => `'${id}'`).join(", ");
+        const batchNumber = Math.floor(i / BATCH_SIZE) + 1;
+
+        const query = `
+          SELECT ${parentIdField}, Field, OldValue, NewValue, CreatedDate
+          FROM ${historyObjectName}
+          WHERE ${parentIdField} IN (${recordIdList})
+            AND Field IN (${fieldList})
+            AND CreatedDate >= ${startTimestamp}
+          ORDER BY CreatedDate DESC
+        `;
+
+        try {
+          const { records } = await this.query({
+            query,
+          });
+
+          totalHistoryRecords += records.length;
+          for (const record of records) {
+            recordsWithChanges.add(record[parentIdField]);
+          }
+          successfulBatches++;
+        } catch (err) {
+          failedBatches++;
+          console.log(`Field history query batch ${batchNumber}/${totalBatches} failed for ${historyObjectName}: ${err.message}`);
+        }
+      }
+
+      // If all batches failed, fall back to emitting all records
+      if (successfulBatches === 0) {
+        console.log("All field history query batches failed.");
+        console.log("This usually means field history tracking is not enabled for this object or the selected fields.");
+        console.log("To enable field history tracking in Salesforce:");
+        console.log("1. Go to Setup → Object Manager → [Your Object] → Fields & Relationships");
+        console.log("2. Click 'Set History Tracking' and select the fields you want to track");
+        console.log("Falling back to emitting all updated records without field filtering.");
+        return null;
+      }
+
+      if (failedBatches > 0) {
+        console.log(`Warning: ${failedBatches}/${totalBatches} batches failed, results may be incomplete`);
+      }
+
+      console.log(`Field history query found ${totalHistoryRecords} change(s) for ${recordsWithChanges.size} record(s)`);
+      return recordsWithChanges;
+    },
     generateWebhookMeta(data) {
       const nameField = this.getNameField();
       const { New: newObject } = data.body;
@@ -157,9 +242,10 @@ export default {
 
       const fieldName = getNameField();
       const columns = getObjectTypeColumns();
+      const objectType = this.getObjectType();
 
       const events = await paginate({
-        objectType: this.getObjectType(),
+        objectType,
         startTimestamp,
         endTimestamp,
         columns,
@@ -177,7 +263,42 @@ export default {
       latestDateCovered.setSeconds(0);
       setLatestDateCovered(latestDateCovered.toISOString());
 
-      Array.from(events)
+      const { fields } = this;
+
+      if (!fields?.length) {
+        Array.from(events)
+          .reverse()
+          .forEach((item) => {
+            const meta = generateTimerMeta(item, fieldName);
+            emit(item, meta);
+          });
+        return;
+      }
+
+      const recordIds = events.map((event) => event.Id);
+      const recordsWithFieldChanges = await this.queryFieldHistory({
+        objectType,
+        recordIds,
+        fields,
+        startTimestamp,
+      });
+
+      if (recordsWithFieldChanges === null) {
+        console.log("Emitting all updated records due to field history unavailability");
+        Array.from(events)
+          .reverse()
+          .forEach((item) => {
+            const meta = generateTimerMeta(item, fieldName);
+            emit(item, meta);
+          });
+        return;
+      }
+
+      const filteredEvents = events.filter((item) => recordsWithFieldChanges.has(item.Id));
+
+      console.log(`Filtered ${events.length} updated records to ${filteredEvents.length} with watched field changes`);
+
+      Array.from(filteredEvents)
         .reverse()
         .forEach((item) => {
           const meta = generateTimerMeta(item, fieldName);

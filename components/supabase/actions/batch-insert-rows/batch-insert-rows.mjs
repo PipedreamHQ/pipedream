@@ -6,7 +6,7 @@ export default {
   key: "supabase-batch-insert-rows",
   name: "Batch Insert Rows",
   description: "Inserts new rows into a database. [See the documentation](https://supabase.com/docs/reference/javascript/insert)",
-  version: "0.0.5",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -53,6 +53,7 @@ export default {
         type: "string",
         label: "File Path or URL",
         description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.pdf).",
+        format: "file-ref",
       };
     }
     return props;

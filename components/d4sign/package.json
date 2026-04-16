@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/d4sign",
+  "version": "0.0.1",
+  "description": "Pipedream D4Sign Components",
+  "main": "d4sign.app.mjs",
+  "keywords": [
+    "pipedream",
+    "d4sign"
+  ],
+  "homepage": "https://pipedream.com/apps/d4sign",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

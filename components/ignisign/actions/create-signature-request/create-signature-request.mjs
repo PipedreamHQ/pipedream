@@ -10,7 +10,7 @@ export default {
   key: "ignisign-create-signature-request",
   name: "Create Signature Request",
   description: "Creates a document signature request through IgniSign. [See the documentation](https://ignisign.io/docs/ignisign-api/init-signature-request)",
-  version: "1.0.2",
+  version: "1.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -47,6 +47,7 @@ export default {
       type: "string",
       label: "Document File Path or URL",
       description: "Provide a file URL or a path to a file in the `/tmp` directory.",
+      format: "file-ref",
     },
     title: {
       type: "string",

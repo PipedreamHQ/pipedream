@@ -35,11 +35,14 @@ export default {
       type: "string",
       label: "Meeting ID",
       description: "The meeting ID to get details for.",
-      async options({ prevContext }) {
+      async options({
+        prevContext, type,
+      }) {
         const { nextPageToken } = prevContext;
         const response = await this.listMeetings({
           params: {
             next_page_token: nextPageToken,
+            type,
           },
         });
         const options = response.meetings.map((meeting) => ({
@@ -54,6 +57,22 @@ export default {
         };
       },
       optional: true,
+    },
+    occurrenceId: {
+      type: "string",
+      label: "Occurrence ID",
+      description: "If you select a value for this param, only that instance will be deleted. Otherwise, the entire meeting series will be deleted.",
+      optional: true,
+      async options({ meetingId }) {
+        if (!meetingId) {
+          return [];
+        }
+        const occurrences = await this.listMeetingsOccurrences(meetingId);
+        return occurrences.map((occurrence) => ({
+          label: `${occurrence.start_time} (${occurrence.status})`,
+          value: occurrence.occurrence_id,
+        }));
+      },
     },
     userId: {
       type: "string",
@@ -74,6 +93,31 @@ export default {
             label: `${name} - ${email}`,
             value,
           })),
+          context: {
+            nextPageToken: response.next_page_token,
+          },
+        };
+      },
+    },
+    meetingUserId: {
+      type: "string",
+      label: "User ID",
+      description: "The user ID or email address of the user to list meetings for",
+      async options({ prevContext }) {
+        const { nextPageToken } = prevContext;
+        const response = await this.listAllUsers({
+          params: {
+            next_page_token: nextPageToken,
+          },
+        });
+        const options = response.users.map(({
+          id: value, display_name, email,
+        }) => ({
+          label: `${display_name} - ${email}`,
+          value,
+        }));
+        return {
+          options,
           context: {
             nextPageToken: response.next_page_token,
           },
@@ -257,6 +301,14 @@ export default {
         ...args,
       });
     },
+    listUserMeetings({
+      userId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/users/${userId}/meetings`,
+        ...args,
+      });
+    },
     listWebinars({
       userId = "me", ...args
     } = {}) {
@@ -271,15 +323,23 @@ export default {
         ...args,
       });
     },
-    listRecordings(args = {}) {
+    listRecordings({
+      userId = "me", ...args
+    } = {}) {
       return this._makeRequest({
-        path: "/users/me/recordings",
+        path: `/users/${userId}/recordings`,
         ...args,
       });
     },
     listUsers(opts = {}) {
       return this._makeRequest({
         path: "/phone/users",
+        ...opts,
+      });
+    },
+    listAllUsers(opts = {}) {
+      return this._makeRequest({
+        path: "/users",
         ...opts,
       });
     },
@@ -294,6 +354,50 @@ export default {
     listCallRecordings(args = {}) {
       return this._makeRequest({
         path: "/phone/recordings",
+        ...args,
+      });
+    },
+    getMeetingTranscript({
+      meetingId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/meetings/${utils.doubleEncode(meetingId)}/transcript`,
+        ...opts,
+      });
+    },
+    getMeetingRecordings({
+      meetingId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/meetings/${utils.doubleEncode(meetingId)}/recordings`,
+        ...opts,
+      });
+    },
+    async listMeetingsOccurrences(meetingId) {
+      try {
+        meetingId = utils.doubleEncode(meetingId);
+        const { occurrences } = await this._makeRequest({
+          path: `/meetings/${meetingId}`,
+        });
+        return occurrences || [];
+      } catch {
+        return [];
+      }
+    },
+    deleteMeeting({
+      meetingId, ...args
+    }) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/meetings/${utils.doubleEncode(meetingId)}`,
+        ...args,
+      });
+    },
+    getMeetingSummary({
+      meetingId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/meetings/${utils.doubleEncode(meetingId)}/meeting_summary`,
         ...args,
       });
     },

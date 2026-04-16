@@ -291,7 +291,7 @@ export default {
         : campaign.create_time;
     },
     /**
-     * Gets the audience lists under the connected Mailchimp acccount.
+     * Gets the audience lists under the connected Mailchimp account.
      * @param {Object} config - An object representing the configuration options for this method.
      * @returns {lists: array, total_items: integer, constraints: object, _links: object } An
      * array with the information of the audience `lists` returned, `total_items` with the total
@@ -310,7 +310,7 @@ export default {
       return lists;
     },
     /**
-     * Gets the marketing campaigns under the connected Mailchimp acccount.
+     * Gets the marketing campaigns under the connected Mailchimp account.
      * @param {Object} config - An object representing the configuration options for this method.
      * @returns An array of campaign objects, each with all the details of a campaign.
      * For details of a campaing object, expand
@@ -323,7 +323,7 @@ export default {
       return campaigns;
     },
     /**
-     * Gets the marketing campaigns under the connected Mailchimp acccount, ordered by
+     * Gets the marketing campaigns under the connected Mailchimp account, ordered by
      * creation date.
      * @param {Object} opts={} - Options to customize request against Get Campaigns Mailchimp API.
      * @param {Integer} opts.count - For pagination, the number of records to return on each page.
@@ -356,7 +356,7 @@ export default {
       return this.getCampaigns(config);
     },
     /**
-     * Gets the marketing campaigns under the connected Mailchimp acccount, ordered by sent date.
+     * Gets the marketing campaigns under the connected Mailchimp account, ordered by sent date.
      * @param {Object} opts={} - Options to customize request against Get Campaigns Mailchimp API.
      * @param {Integer} opts.count - For pagination, the number of records to return on each page.
      * Default value and maximum is 1000.
@@ -389,7 +389,7 @@ export default {
     },
     /**
      * Gets the subscribers added to a given audience list segment or tag under the connected
-     * Mailchimp acccount.
+     * Mailchimp account.
      * @param {String} listId - The unique ID that identifies the Audience List associated to
      * the segment or tag to look for subscribers.
      * @param {String} segmentId - The unique ID that identifies the Audience List segment or
@@ -407,7 +407,7 @@ export default {
       return members;
     },
     /**
-     * Gets segments and tags of the specified Audience List under the connected Mailchimp acccount.
+     * Gets segments and tags of the specified Audience List under the connected Mailchimp account.
      * @param {String} listId - The unique ID for the Audience list.
      * @param {Object} config - An object representing the configuration options for this method.
      * @returns {store_id: string, customers: array, total_items: integer, _links: object }
@@ -439,7 +439,7 @@ export default {
         mailchimp.facebookAds.list(config));
     },
     /**
-     * Gets files in the File Manager under the connected Mailchimp acccount.
+     * Gets files in the File Manager under the connected Mailchimp account.
      * @param {String} fileType - "image" or "file", or "all"
      * @param {Object} config - An object representing the configuration options for this method.
      * @returns {files: array, total_file_size: integer, total_items: integer, _links: object } An
@@ -484,7 +484,7 @@ export default {
         this.api().ecommerce.stores(config));
     },
     /**
-     * Gets orders in the specified Mailchimp connected acccount's Ecommerce Store.
+     * Gets orders in the specified Mailchimp connected account's Ecommerce Store.
      * @param {String} storeId - The unique ID of the Ecommerce Store you'd like to get
      * orders from.
      * @param {Object} config - An object representing the configuration options for this method.
@@ -555,7 +555,7 @@ export default {
       } while (true);
     },
     /**
-     * Gets the Click Report for the given campaign under the connected Mailchimp acccount.
+     * Gets the Click Report for the given campaign under the connected Mailchimp account.
      * @param {String} campaignId - The unique ID of the campaign you want the clicks report of.
      * @returns An object with all the details of a report object with campaigns's click details.
      * For details of the report, expand
@@ -566,7 +566,7 @@ export default {
       return await this._withRetries(() => this.api().reports.getCampaignClickDetails(campaignId));
     },
     /**
-     * Gets the Click Report for the given campaign and link under the connected Mailchimp acccount.
+     * Gets the Click Report for the given campaign and link under the connected Mailchimp account.
      * @param {String} campaignId - The unique ID of the campaign related to the link you'd like to
      * get click details report of.
      * @param {String} linkId - The unique ID of the link you'd like to get click details report of.

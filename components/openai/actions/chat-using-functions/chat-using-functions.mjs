@@ -5,7 +5,7 @@ import constants from "../../common/constants.mjs";
 export default {
   ...common,
   name: "Chat using Functions",
-  version: "0.0.9",
+  version: "0.0.10",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

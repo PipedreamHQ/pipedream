@@ -4,7 +4,7 @@ export default {
   key: "intercom-reply-to-conversation",
   name: "Reply To Conversation",
   description: "Add a reply or a note to an existing conversation thread. [See the documentation](https://developers.intercom.com/docs/references/rest-api/api.intercom.io/conversations/replyconversation).",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -168,7 +168,7 @@ export default {
     } = {}) {
       return this.intercom.makeRequest({
         method: "POST",
-        endpoint: `conversations/${conversationId}/parts`,
+        endpoint: `conversations/${conversationId}/reply`,
         ...args,
       });
     },

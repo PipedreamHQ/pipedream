@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/emailchaser",
+  "version": "0.0.1",
+  "description": "Pipedream Emailchaser Components",
+  "main": "emailchaser.app.mjs",
+  "keywords": [
+    "pipedream",
+    "emailchaser"
+  ],
+  "homepage": "https://pipedream.com/apps/emailchaser",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

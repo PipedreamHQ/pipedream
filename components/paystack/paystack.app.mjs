@@ -153,6 +153,80 @@ export default {
           });
       },
     },
+    customerCode: {
+      type: "string",
+      label: "Customer Code",
+      description: "The customer's code (e.g., CUS_xxxxx)",
+      async options({ page }) {
+        const { data } = await this.listCustomers({
+          params: {
+            page: page + 1,
+          },
+        });
+        return data?.map(({
+          customer_code, email,
+        }) => ({
+          label: `${email} (${customer_code})`,
+          value: customer_code,
+        })) || [];
+      },
+    },
+    riskAction: {
+      type: "string",
+      label: "Risk Action",
+      description: "The risk action to apply to the customer",
+      options: [
+        {
+          label: "Allow",
+          value: "allow",
+        },
+        {
+          label: "Deny (Blacklist)",
+          value: "deny",
+        },
+        {
+          label: "Default",
+          value: "default",
+        },
+      ],
+    },
+    firstName: {
+      type: "string",
+      label: "First Name",
+      description: "Customer's first name",
+    },
+    lastName: {
+      type: "string",
+      label: "Last Name",
+      description: "Customer's last name",
+    },
+    phone: {
+      type: "string",
+      label: "Phone",
+      description: "Customer's phone number",
+    },
+    country: {
+      type: "string",
+      label: "Country",
+      description: "Two-letter country code (e.g., NG for Nigeria)",
+    },
+    bankCode: {
+      type: "string",
+      label: "Bank Code",
+      description: "Bank code from the List Banks endpoint",
+    },
+    accountNumber: {
+      type: "string",
+      label: "Account Number",
+      description: "Customer's bank account number",
+      secret: true,
+    },
+    bvn: {
+      type: "string",
+      label: "BVN",
+      description: "Customer's Bank Verification Number",
+      secret: true,
+    },
     from: {
       type: "string",
       label: "From",
@@ -168,6 +242,42 @@ export default {
       label: "Max Results",
       description: "The maximum number of results to return",
       optional: true,
+    },
+    virtualTerminalCode: {
+      type: "string",
+      label: "Virtual Terminal Code",
+      description: "Code of the Virtual Terminal",
+      async options({ page }) {
+        const { data } = await this.listVirtualTerminals({
+          params: {
+            page: page + 1,
+          },
+        });
+        return data?.map(({
+          code, name,
+        }) => ({
+          label: `${name} (${code})`,
+          value: code,
+        })) || [];
+      },
+    },
+    splitCode: {
+      type: "string",
+      label: "Split Code",
+      description: "The split code to use",
+      async options({ page }) {
+        const { data } = await this.listSplits({
+          params: {
+            page: page + 1,
+          },
+        });
+        return data?.map(({
+          split_code, name,
+        }) => ({
+          label: `${name} (${split_code})`,
+          value: split_code,
+        })) || [];
+      },
     },
   },
   methods: {
@@ -230,7 +340,72 @@ export default {
     }) {
       return this._makeRequest({
         path: `/customer/${customer}`,
-        args,
+        ...args,
+      });
+    },
+    createCustomer(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/customer",
+        ...args,
+      });
+    },
+    updateCustomer({
+      code, ...args
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/customer/${code}`,
+        ...args,
+      });
+    },
+    setCustomerRiskAction(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/customer/set_risk_action",
+        ...args,
+      });
+    },
+    validateCustomer({
+      code, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/customer/${code}/identification`,
+        ...args,
+      });
+    },
+    deactivateAuthorization(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/customer/authorization/deactivate",
+        ...args,
+      });
+    },
+    initializeDirectDebit({
+      customerId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/customer/${customerId}/initialize-direct-debit`,
+        ...args,
+      });
+    },
+    directDebitActivationCharge({
+      customerId, ...args
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/customer/${customerId}/directdebit-activation-charge`,
+        ...args,
+      });
+    },
+    fetchMandateAuthorizations({
+      customerId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/customer/${customerId}/directdebit-mandate-authorizations`,
+        ...args,
       });
     },
     chargeAuthorization(args = {}) {
@@ -243,6 +418,87 @@ export default {
     exportTransactions(args = {}) {
       return this._makeRequest({
         path: "/transaction/export",
+        ...args,
+      });
+    },
+    listSplits(args = {}) {
+      return this._makeRequest({
+        path: "/split",
+        ...args,
+      });
+    },
+    createVirtualTerminal(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/virtual_terminal",
+        ...args,
+      });
+    },
+    listVirtualTerminals(args = {}) {
+      return this._makeRequest({
+        path: "/virtual_terminal",
+        ...args,
+      });
+    },
+    fetchVirtualTerminal({
+      code, ...args
+    }) {
+      return this._makeRequest({
+        path: `/virtual_terminal/${code}`,
+        ...args,
+      });
+    },
+    updateVirtualTerminal({
+      code, ...args
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/virtual_terminal/${code}`,
+        ...args,
+      });
+    },
+    deactivateVirtualTerminal({
+      code, ...args
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/virtual_terminal/${code}/deactivate`,
+        ...args,
+      });
+    },
+    assignDestinationToVirtualTerminal({
+      code, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/virtual_terminal/${code}/destination/assign`,
+        ...args,
+      });
+    },
+    unassignDestinationFromVirtualTerminal({
+      code, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/virtual_terminal/${code}/destination/unassign`,
+        ...args,
+      });
+    },
+    addSplitCodeToVirtualTerminal({
+      code, ...args
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/virtual_terminal/${code}/split_code`,
+        ...args,
+      });
+    },
+    removeSplitCodeFromVirtualTerminal({
+      code, ...args
+    }) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/virtual_terminal/${code}/split_code`,
         ...args,
       });
     },

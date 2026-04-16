@@ -377,6 +377,7 @@ export default {
       label: "File Path or URL",
       description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
       type: "string",
+      format: "file-ref",
     },
     link_names: {
       type: "boolean",
@@ -942,6 +943,12 @@ export default {
         emojis.push(...category.emoji_names);
       }
       return emojis;
+    },
+    listEmojis(args = {}) {
+      return this.makeRequest({
+        method: "emoji.list",
+        ...args,
+      });
     },
     listChannelMembers(args = {}) {
       args.limit ||= constants.LIMIT;

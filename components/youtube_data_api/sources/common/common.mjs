@@ -75,7 +75,7 @@ export default {
         ...video,
         url: `https://www.youtube.com/watch?v=${video.id.videoId}`,
       }));
-      return videos[0].snippet.publishedAt;
+      return videos[0]?.snippet?.publishedAt;
     },
     async paginatePlaylistItems(params, publishedAfter = null) {
       const videos = await this.paginate({

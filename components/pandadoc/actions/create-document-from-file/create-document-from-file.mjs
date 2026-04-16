@@ -7,7 +7,7 @@ export default {
   name: "Create Document From File",
   description: "Create a document from a file or public file URL. [See the documentation here](https://developers.pandadoc.com/reference/create-document-from-pdf)",
   type: "action",
-  version: "1.0.2",
+  version: "1.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

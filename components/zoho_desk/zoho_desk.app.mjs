@@ -139,6 +139,34 @@ export default {
         };
       },
     },
+    attachmentId: {
+      type: "string",
+      label: "Attachment ID",
+      description: "The ID of the attachment",
+      async options({
+        ticketId, threadId, orgId,
+      }) {
+        if (!ticketId || !threadId) {
+          return [];
+        }
+        const response = await this.getThreadDetails({
+          ticketId,
+          threadId,
+          headers: {
+            orgId,
+          },
+        });
+        // Handle response structure - getThreadDetails returns { data: {...} }
+        const thread = response?.data || response;
+        const attachments = thread?.attachments || [];
+        return attachments.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label: label || value,
+        }));
+      },
+    },
     supportEmailAddress: {
       type: "string",
       label: "Support Email Address",
@@ -221,6 +249,43 @@ export default {
           context: {
             from: data?.length
               ? data[data.length - 1].id
+              : null,
+          },
+        };
+      },
+    },
+    commentId: {
+      type: "string",
+      label: "Comment ID",
+      description: "The ID of the ticket comment",
+      async options({
+        ticketId, orgId, prevContext,
+      }) {
+        if (!ticketId) {
+          return [];
+        }
+        const { from = 1 } = prevContext || {};
+        if (from === null) {
+          return [];
+        }
+        const { data: comments = [] } =
+          await this.getTicketComments({
+            ticketId,
+            headers: {
+              orgId,
+            },
+            params: {
+              from,
+              limit: constants.DEFAULT_LIMIT,
+            },
+          });
+        const currentLen = comments?.length;
+        const options = comments?.map(({ id }) => id);
+        return {
+          options: options || [],
+          context: {
+            from: currentLen
+              ? currentLen + from
               : null,
           },
         };
@@ -627,6 +692,40 @@ export default {
         ...args,
       });
     },
+    getTicketComment({
+      ticketId, commentId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/tickets/${ticketId}/comments/${commentId}`,
+        ...args,
+      });
+    },
+    updateTicketComment({
+      ticketId, commentId, ...args
+    } = {}) {
+      return this.makeRequest({
+        method: "put",
+        path: `/tickets/${ticketId}/comments/${commentId}`,
+        ...args,
+      });
+    },
+    deleteTicketComment({
+      ticketId, commentId, ...args
+    } = {}) {
+      return this.makeRequest({
+        method: "delete",
+        path: `/tickets/${ticketId}/comments/${commentId}`,
+        ...args,
+      });
+    },
+    getTicketCommentHistory({
+      ticketId, commentId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/tickets/${ticketId}/comments/${commentId}/history`,
+        ...args,
+      });
+    },
     listHelpCenters(args = {}) {
       return this.makeRequest({
         path: "/helpCenters",
@@ -740,6 +839,15 @@ export default {
         ...args,
       });
     },
+    downloadThreadAttachment({
+      ticketId, threadId, attachmentId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/tickets/${ticketId}/threads/${threadId}/attachments/${attachmentId}/content`,
+        responseType: "arraybuffer",
+        ...args,
+      });
+    },
     getContacts(args = {}) {
       return this.makeRequest({
         path: "/contacts",
@@ -767,6 +875,14 @@ export default {
     getOrganizationFields(args = {}) {
       return this.makeRequest({
         path: "/organizationFields",
+        ...args,
+      });
+    },
+    getConversations({
+      ticketId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/tickets/${ticketId}/conversations`,
         ...args,
       });
     },

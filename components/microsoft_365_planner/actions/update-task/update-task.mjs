@@ -5,7 +5,7 @@ export default {
   key: "microsoft_365_planner-update-task",
   name: "Update Task",
   description: "Updates a task in Microsoft 365 Planner. [See the documentation](https://learn.microsoft.com/en-us/graph/api/plannertask-update?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.2",
+  version: "0.0.4",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

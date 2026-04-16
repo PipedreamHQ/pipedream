@@ -3,9 +3,9 @@ import common from "../common/common-webhook.mjs";
 export default {
   ...common,
   key: "microsoft_365_people-new-contact-created",
-  name: "New Contact Created",
+  name: "New Contact Created (Instant)",
   description: "Emit new event when a new contact is created in a folder.",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {

@@ -2,7 +2,7 @@ import app from "../../trengo.app.mjs";
 
 export default {
   type: "action",
-  version: "0.0.4",
+  version: "0.0.7",
   key: "trengo-send-a-ticket-message",
   annotations: {
     destructiveHint: false,

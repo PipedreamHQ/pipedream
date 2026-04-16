@@ -6,7 +6,7 @@ export default {
   key: "gmail-send-email",
   name: "Send Email",
   description: "Send an email from your Google Workspace email account. [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/send)",
-  version: "0.2.2",
+  version: "0.2.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -96,6 +96,12 @@ export default {
         gmail,
         "mimeType",
       ],
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   additionalProps(existingProps) {

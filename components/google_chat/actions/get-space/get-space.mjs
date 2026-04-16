@@ -4,7 +4,7 @@ export default {
   key: "google_chat-get-space",
   name: "Get Space",
   description: "Returns details about a space. [See the documentation](https://developers.google.com/chat/api/reference/rest/v1/spaces/get)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

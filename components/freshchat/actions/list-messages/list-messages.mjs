@@ -5,7 +5,7 @@ export default {
   name: "List Messages",
   description: "Lists all messages in a conversation. [See the documentation](https://developers.freshchat.com/api/#list_messages)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -54,15 +54,19 @@ export default {
       args: {
         $,
         conversationId,
-        params: {
-          from_time: fromTime,
-        },
       },
       resourceKey: "messages",
-      max: maxResults,
     });
 
-    $.export("$summary", `Listed ${response.length} message(s)`);
-    return response;
+    let messages = response.reverse();
+    if (fromTime) {
+      messages = messages.filter(( { created_time: ts }) => Date.parse(ts) > Date.parse(fromTime));
+    }
+    if (maxResults) {
+      messages = messages.slice(0, maxResults);
+    }
+
+    $.export("$summary", `Listed ${messages.length} message(s)`);
+    return messages;
   },
 };

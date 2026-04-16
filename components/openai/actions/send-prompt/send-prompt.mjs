@@ -4,7 +4,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "Create Completion (Send Prompt)",
-  version: "0.1.21",
+  version: "0.1.22",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

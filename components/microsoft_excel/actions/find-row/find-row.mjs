@@ -4,7 +4,7 @@ export default {
   key: "microsoft_excel-find-row",
   name: "Find Row",
   description: "Find a row by column and value in an Excel worksheet. [See the documentation](https://learn.microsoft.com/en-us/graph/api/range-get?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.2",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

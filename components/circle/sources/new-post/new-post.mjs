@@ -6,7 +6,7 @@ export default {
   key: "circle-new-post",
   name: "New Post Published",
   description: "Emit new event each time a new post gets published in the community.",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

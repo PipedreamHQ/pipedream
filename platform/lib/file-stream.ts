@@ -24,7 +24,9 @@ export interface FileMetadata {
  * @returns a Readable stream of the file content
  */
 export async function getFileStream(pathOrUrl: string): Promise<Readable> {
-  if (isUrl(pathOrUrl)) {
+  if (isDataUrl(pathOrUrl)) {
+    return getDataUrlStream(pathOrUrl);
+  } else if (isUrl(pathOrUrl)) {
     const response = await fetch(pathOrUrl);
     if (!response.ok || !response.body) {
       throw new Error(`Failed to fetch ${pathOrUrl}: ${response.status} ${response.statusText}`);
@@ -41,7 +43,9 @@ export async function getFileStream(pathOrUrl: string): Promise<Readable> {
  * @returns a Readable stream of the file content and its metadata
  */
 export async function getFileStreamAndMetadata(pathOrUrl: string): Promise<{ stream: Readable; metadata: FileMetadata }> {
-  if (isUrl(pathOrUrl)) {
+  if (isDataUrl(pathOrUrl)) {
+    return getDataUrlStreamAndMetadata(pathOrUrl);
+  } else if (isUrl(pathOrUrl)) {
     return await getRemoteFileStreamAndMetadata(pathOrUrl);
   } else {
     return await getLocalFileStreamAndMetadata(pathOrUrl);
@@ -55,6 +59,92 @@ function isUrl(pathOrUrl: string): boolean {
   } catch {
     return false;
   }
+}
+
+function isDataUrl(pathOrUrl: string): boolean {
+  return pathOrUrl.startsWith("data:");
+}
+
+interface ParsedDataUrl {
+  mediaType: string;
+  isBase64: boolean;
+  data: string;
+  name?: string;
+}
+
+function parseDataUrl(dataUrl: string): ParsedDataUrl {
+  // Format: data:[<mediatype>][;parameter=value]*[;base64],<data>
+  // Examples:
+  //   data:image/png;base64,iVBORw0K...
+  //   data:image/png;name=file.png;base64,iVBORw0K...
+  //   data:text/plain,Hello%20World
+  const match = dataUrl.match(/^data:([^;,]*)?(?:;([^,]*))?,([\s\S]*)$/);
+  if (!match) {
+    throw new Error("Invalid data URL format");
+  }
+  const [
+    ,
+    mediaType = "text/plain;charset=US-ASCII",
+    params = "",
+    data,
+  ] = match;
+
+  // Parse parameters (e.g., "name=file.png;base64" or just "base64")
+  const paramParts = params.split(";").filter(Boolean);
+  let isBase64 = false;
+  let name: string | undefined;
+
+  for (const param of paramParts) {
+    if (param.toLowerCase() === "base64") {
+      isBase64 = true;
+    } else if (param.toLowerCase().startsWith("name=")) {
+      name = decodeURIComponent(param.slice(5));
+    } else if (param.toLowerCase().startsWith("filename=")) {
+      name = decodeURIComponent(param.slice(9));
+    }
+  }
+
+  return {
+    mediaType,
+    isBase64,
+    data,
+    name,
+  };
+}
+
+function getDataUrlStream(dataUrl: string): Readable {
+  const parsed = parseDataUrl(dataUrl);
+  const buffer = parsed.isBase64
+    ? Buffer.from(parsed.data, "base64")
+    : Buffer.from(decodeURIComponent(parsed.data), "utf-8");
+  return Readable.from(buffer);
+}
+
+function getDataUrlStreamAndMetadata(dataUrl: string): { stream: Readable; metadata: FileMetadata } {
+  const parsed = parseDataUrl(dataUrl);
+  const buffer = parsed.isBase64
+    ? Buffer.from(parsed.data, "base64")
+    : Buffer.from(decodeURIComponent(parsed.data), "utf-8");
+
+  // Use name from data URL if available, otherwise generate from media type
+  let name = parsed.name;
+  if (!name) {
+    const ext = mime.extension(parsed.mediaType);
+    name = ext
+      ? `file.${ext}`
+      : "file";
+  }
+
+  const metadata: FileMetadata = {
+    size: buffer.length,
+    contentType: parsed.mediaType || undefined,
+    name,
+  };
+
+  return {
+    stream: Readable.from(buffer),
+    metadata,
+  };
 }
 
 async function safeStat(path: string): Promise<Stats> {

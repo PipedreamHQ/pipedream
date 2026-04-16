@@ -1,11 +1,11 @@
-import pdf4me from "../../pdf4me.app.mjs";
 import utils from "../../common/utils.mjs";
+import pdf4me from "../../pdf4me.app.mjs";
 
 export default {
   key: "pdf4me-merge-pdfs",
   name: "Merge PDF Files",
   description: "Merge multiple PDF files into a single PDF. [See the documentation](https://dev.pdf4me.com/apiv2/documentation/actions/merge/)",
-  version: "0.1.1",
+  version: "0.1.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -24,6 +24,11 @@ export default {
         pdf4me,
         "filename",
       ],
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read-write",
+      sync: true,
     },
   },
   async run({ $ }) {

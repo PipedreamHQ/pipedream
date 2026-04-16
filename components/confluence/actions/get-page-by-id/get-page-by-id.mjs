@@ -6,7 +6,7 @@ export default {
   key: "confluence-get-page-by-id",
   name: "Get Page by ID",
   description: "Retrieve a page by its ID. [See the documentation](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-page/#api-pages-id-get)",
-  version: "0.1.0",
+  version: "0.1.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

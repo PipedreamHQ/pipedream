@@ -5,7 +5,7 @@ export default {
   key: "printify-create-product",
   name: "Create a Product",
   description: "Creates a new product on Printify. [See the documentation](https://developers.printify.com/#create-a-new-product)",
-  version: "0.1.2",
+  version: "0.1.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -128,6 +128,7 @@ export default {
           type: "string",
           label: `Image Path or URL ${i}`,
           description: `The file to upload for image ${i}. Provide either a file URL or a path to a file in the \`/tmp\` directory (for example, \`/tmp/myImage.jpg\`).`,
+          format: "file-ref",
         };
         props[`imageX_${i}`] = {
           type: "string",

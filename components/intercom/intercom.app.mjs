@@ -103,12 +103,33 @@ export default {
         }));
       },
     },
+    teamAssigneeId: {
+      type: "string",
+      label: "Assignee ID",
+      description: "The `id` of the `team` which will be assigned the conversation. A conversation can be assigned both an admin and a team. Set `0` if you want this assign to no team (ie. Unassigned)",
+      async options() {
+        const { teams } = await this.getTeams();
+        return teams.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
   },
   methods: {
     monthAgo() {
       const monthAgo = new Date();
       monthAgo.setMonth(monthAgo.getMonth() - 1);
       return monthAgo;
+    },
+    _headers() {
+      return {
+        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+        "Accept": "application/json",
+        "Intercom-Version": "2.12",
+      };
     },
     /**
     * Make a request to the Intercom API
@@ -121,23 +142,16 @@ export default {
     * @returns {*} The response may vary depending on the specific API request.
     */
     async makeRequest({
-      method,
       url,
       endpoint,
-      $,
+      $ = this,
       ...opts
     }) {
-      const config = {
-        method,
+      return axios($, {
         url: url ?? `https://api.intercom.io/${endpoint}`,
-        headers: {
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-          "Accept": "application/json",
-          "Intercom-Version": "2.12",
-        },
+        headers: this._headers(),
         ...opts,
-      };
-      return axios($ || this, config);
+      });
     },
     /**
      * Paginate through a list of items and return the results
@@ -196,7 +210,6 @@ export default {
      */
     async getAdmin($) {
       return this.makeRequest({
-        method: "GET",
         endpoint: "me",
         $,
       });
@@ -206,10 +219,21 @@ export default {
      * @params {String} id - The identifier for the conversation as given by Intercom
      * @returns {Object} A conversation object matching the given id
      */
-    async getConversation(id) {
+    async getConversation({
+      conversationId, ...opts
+    }) {
       return this.makeRequest({
-        method: "GET",
-        endpoint: `conversations/${id}`,
+        endpoint: `conversations/${conversationId}`,
+        ...opts,
+      });
+    },
+    /**
+     * Get a list of teams
+     * @returns {Array} List of team objects
+     */
+    getTeams() {
+      return this.makeRequest({
+        endpoint: "teams",
       });
     },
     /**
@@ -246,7 +270,6 @@ export default {
      */
     async getContact(id, $) {
       return this.makeRequest({
-        method: "GET",
         endpoint: `contacts/${id}`,
         $,
       });

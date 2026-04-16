@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/rydoo",
+  "version": "0.0.1",
+  "description": "Pipedream Rydoo Components",
+  "main": "rydoo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "rydoo"
+  ],
+  "homepage": "https://pipedream.com/apps/rydoo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

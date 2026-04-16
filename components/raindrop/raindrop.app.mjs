@@ -55,6 +55,15 @@ export default {
         };
       },
     },
+    tags: {
+      type: "string[]",
+      label: "Tags",
+      description: "Emit events when the specified tags are added to a bookmark",
+      async options({ collectionId }) {
+        const { items } = await this.getTags(this, collectionId);
+        return items?.map(({ _id: id }) => id) || [];
+      },
+    },
     expanded: {
       type: "boolean",
       label: "Expanded",
@@ -160,6 +169,11 @@ export default {
       return this._makeRequest($, {
         path: `/raindrops/${collectionId}`,
         params,
+      });
+    },
+    async getTags($, collectionId) {
+      return this._makeRequest($, {
+        path: `/tags/${collectionId}`,
       });
     },
     async postBookmark($, bookmarkData) {

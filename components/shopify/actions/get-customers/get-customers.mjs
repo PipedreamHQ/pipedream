@@ -4,7 +4,7 @@ export default {
   key: "shopify-get-customers",
   name: "Get Customers",
   description: "Retrieve a list of customers. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/queries/customers)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

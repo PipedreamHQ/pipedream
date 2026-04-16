@@ -6,7 +6,7 @@ export default {
   key: "shopify-collection-updated",
   name: "Collection Updated (Instant)",
   description: "Emit new event whenever a collection is updated, including whenever products are added or removed from a collection.",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "source",
   dedupe: "unique",
   methods: {

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/daytona",
+  "version": "0.1.0",
+  "description": "Pipedream Daytona Components",
+  "main": "daytona.app.mjs",
+  "keywords": [
+    "pipedream",
+    "daytona"
+  ],
+  "homepage": "https://pipedream.com/apps/daytona",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@daytonaio/sdk": "^0.138.0"
+  }
+}

@@ -4,7 +4,7 @@ export default {
   key: "intercom-create-note",
   name: "Create Note",
   description: "Creates a note for a specific user. [See the docs here](https://developers.intercom.com/intercom-api-reference/reference/create-note-for-contact)",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

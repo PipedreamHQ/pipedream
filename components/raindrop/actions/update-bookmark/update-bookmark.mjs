@@ -4,7 +4,7 @@ export default {
   key: "raindrop-update-bookmark",
   name: "Update Bookmark",
   description: "Update an existing bookmark. [See the docs here](https://developer.raindrop.io/v1/raindrops/single#update-raindrop)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

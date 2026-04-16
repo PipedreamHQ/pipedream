@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/klaviyo_oauth",
+  "version": "0.0.1",
+  "description": "Pipedream Klaviyo (Oauth) Components",
+  "main": "klaviyo_oauth.app.mjs",
+  "keywords": [
+    "pipedream",
+    "klaviyo_oauth"
+  ],
+  "homepage": "https://pipedream.com/apps/klaviyo_oauth",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

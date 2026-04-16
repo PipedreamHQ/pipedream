@@ -7,7 +7,7 @@ export default {
   key: "mailchimp-get-campaign",
   name: "Get Campaign",
   description: "Gets metadata of a specific campaign. [See docs here](https://mailchimp.com/developer/marketing/api/campaigns/get-campaign-info/)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

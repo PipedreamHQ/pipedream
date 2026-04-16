@@ -6,7 +6,7 @@ export default {
   key: "trello-update-card",
   name: "Update Card",
   description: "Updates a card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-put).",
-  version: "0.2.4",
+  version: "0.2.5",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

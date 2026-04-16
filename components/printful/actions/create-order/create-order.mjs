@@ -3,14 +3,14 @@ import printful from "../../printful.app.mjs";
 
 export default {
   name: "Create Order",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   key: "printful-create-order",
-  description: "Creates a new order in your Printful account. [See the documentaion](https://developers.printful.com/docs/#operation/createOrder)",
+  description: "Creates a new order in your Printful account. [See the documentation](https://developers.printful.com/docs/#operation/createOrder)",
   type: "action",
   props: {
     printful,

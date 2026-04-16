@@ -195,5 +195,11 @@ export default {
         ...opts,
       });
     },
+    createComment(opts = {}) {
+      return this.post({
+        path: "/posts/comment",
+        ...opts,
+      });
+    },
   },
 };

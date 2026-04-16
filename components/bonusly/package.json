@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/bonusly",
+  "version": "0.0.1",
+  "description": "Pipedream Bonusly Components",
+  "main": "bonusly.app.mjs",
+  "keywords": [
+    "pipedream",
+    "bonusly"
+  ],
+  "homepage": "https://pipedream.com/apps/bonusly",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
