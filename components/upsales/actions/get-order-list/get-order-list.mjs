@@ -37,8 +37,8 @@ export default {
     });
 
     $.export("$summary", `Successfully retrieved ${response?.data?.length || 0} order${response?.data?.length === 1
-      ? "y"
-      : "ies"}`);
+      ? ""
+      : "s"}`);
     return response;
   },
 };

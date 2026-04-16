@@ -247,7 +247,7 @@ export default {
       label: "Opportunity ID",
       description: "Select an opportunity or provide an opportunity ID",
       async options({ page }) {
-        const { data } = await this.listOpportunities({
+        const { data } = await this.listOrders({
           params: {
             limit: DEFAULT_LIMIT,
             offset: page * DEFAULT_LIMIT,
@@ -283,12 +283,13 @@ export default {
       return "https://integration.upsales.com/api/v2";
     },
     async _makeRequest({
-      $ = this, ...args
+      $ = this, params, ...args
     }) {
       return axios($, {
         baseURL: this._baseUrl(),
         params: {
           token: this.$auth.api_key,
+          ...params,
         },
         ...args,
       });
