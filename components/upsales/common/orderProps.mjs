@@ -16,7 +16,7 @@ export default {
       app,
       "userId",
     ],
-    description: "User who did the order",
+    description: "User who created the order",
   },
   clientId: {
     propDefinition: [
@@ -57,7 +57,7 @@ export default {
       app,
       "contactId",
     ],
-    description: "Contact reference of the company that bought",
+    description: "Contact reference of the company that ordered",
     optional: true,
   },
   projects: {
@@ -84,7 +84,7 @@ export default {
   currency: {
     type: "string",
     label: "Currency",
-    description: "Currency order is sold in (e.g., USD, EUR, SEK)",
+    description: "Currency for the order (e.g., USD, EUR, SEK)",
     optional: true,
   },
   custom: {
@@ -108,7 +108,7 @@ export default {
   notify: {
     type: "boolean",
     label: "Notify",
-    description: "If we should notify other users in the account about this order. Default is true.",
+    description: "Whether to notify other users in the account about this order. Default is true.",
     optional: true,
     default: true,
   },
