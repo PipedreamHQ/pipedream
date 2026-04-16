@@ -1,12 +1,12 @@
-import todoist from "../../todoist.app.mjs";
-import converter from "json-2-csv";
 import { getFileStream } from "@pipedream/platform";
+import converter from "json-2-csv";
+import todoist from "../../todoist.app.mjs";
 
 export default {
   key: "todoist-import-tasks",
   name: "Import Tasks",
-  description: "Import tasks into a selected project. [See Docs](https://developer.todoist.com/sync/v9/#add-an-item)",
-  version: "0.1.2",
+  description: "Import tasks into a selected project. [See the documentation](https://developer.todoist.com/api/v1#tag/Tasks/operation/create_task_api_v1_tasks_post)",
+  version: "0.1.7",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

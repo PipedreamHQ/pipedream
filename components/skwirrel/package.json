@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/skwirrel",
+  "version": "0.0.1",
+  "description": "Pipedream Skwirrel Components",
+  "main": "skwirrel.app.mjs",
+  "keywords": [
+    "pipedream",
+    "skwirrel"
+  ],
+  "homepage": "https://pipedream.com/apps/skwirrel",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

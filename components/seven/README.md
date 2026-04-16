@@ -1,11 +1,31 @@
-# Overview
+# Seven (seven.io)
 
-The Seven API offers tools to augment business communications by providing powerful messaging capabilities. With Pipedream, you can harness these features to create custom, automated workflows that trigger on events, process data, and interact with other apps. Imagine sending personalized SMS campaigns, automating customer support responses, or syncing communication data with CRM platforms. Pipedream's serverless platform allows you to build these integrations with ease, tapping into a wide range of pre-built connectors or using HTTP requests to interact with the Seven API directly.
+The Seven API on Pipedream allows you to send SMS messages, make voice calls (TTS), retrieve account analytics, and react to incoming SMS and voice events. seven.io provides SMS, RCS, WhatsApp, and Voice communication APIs.
 
-# Example Use Cases
+## Links
 
-- **Automated Customer Support Messaging Workflow**: Trigger a workflow in Pipedream when a ticket is created in a support platform like Zendesk. Use the Seven API to send an automated SMS to the customer, acknowledging the receipt of their support request and providing an estimated response time.
+- [seven.io Documentation](https://docs.seven.io/)
+- [API Authentication](https://docs.seven.io/en/rest-api/authentication)
+- [Pipedream Seven App](https://pipedream.com/apps/seven)
 
-- **SMS Marketing Campaigns with Audience Segmentation**: Kick off a Pipedream workflow based on a subscriber event in Mailchimp. Segment the audience based on subscriber data, and use the Seven API to send targeted SMS marketing campaigns to those segments, tracking engagement through custom events.
+## Authentication
 
-- **Syncing SMS Communication with CRM**: Whenever a new SMS message is sent via the Seven API, trigger a Pipedream workflow that logs the message details into a CRM platform like Salesforce. This ensures sales and support teams have up-to-date communication records for each customer.
+Connect your seven.io account using your **API Key**. You can create and manage API keys in the [seven.io Developer area](https://app.seven.io/developer).
+
+## Actions
+
+- **Send SMS** - Send an SMS to one or more recipients
+- **Send Voice Call** - Create a TTS (Text-to-Speech) voice call
+- **Get Analytics** - Retrieve account statistics (SMS, RCS, voice, HLR, usage)
+
+## Event Sources
+
+- **New Incoming SMS (Instant)** - Emit when a new inbound SMS is received
+- **New Incoming Call (Instant)** - Emit when a voice call event occurs
+
+## Example Use Cases
+
+- **SMS Notifications**: Send SMS alerts when important events occur (e.g., server downtime, order confirmations)
+- **Voice Reminders**: Trigger TTS voice calls for appointment reminders or verification codes
+- **Inbound SMS Processing**: Process incoming SMS messages (e.g., customer support, two-way SMS campaigns)
+- **Analytics Reporting**: Pull account usage and statistics into dashboards or reports

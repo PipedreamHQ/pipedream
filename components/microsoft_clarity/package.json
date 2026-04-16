@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/microsoft_clarity",
+  "version": "0.0.1",
+  "description": "Pipedream Microsoft Clarity Components",
+  "main": "microsoft_clarity.app.mjs",
+  "keywords": [
+    "pipedream",
+    "microsoft_clarity"
+  ],
+  "homepage": "https://pipedream.com/apps/microsoft_clarity",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

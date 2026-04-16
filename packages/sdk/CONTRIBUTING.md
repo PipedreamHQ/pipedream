@@ -73,7 +73,7 @@ asdf install
 pnpm install @pipedream/sdk
 ```
 
-Then, link the SDK package to it's local path:
+Then, link the SDK package to its local path:
 
 ```shell
 pnpm link @pipedream/sdk

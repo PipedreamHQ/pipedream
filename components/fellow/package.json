@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/fellow",
+  "version": "0.0.1",
+  "description": "Pipedream Fellow Components",
+  "main": "fellow.app.mjs",
+  "keywords": [
+    "pipedream",
+    "fellow"
+  ],
+  "homepage": "https://pipedream.com/apps/fellow",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

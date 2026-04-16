@@ -5,7 +5,7 @@ export default {
   key: "microsoft_dynamics_365_sales-contact-added-to-account",
   name: "Contact Added to Account",
   description: "Emit new event when a contact is added to an account.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

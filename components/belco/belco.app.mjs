@@ -143,8 +143,32 @@ export default {
       $ = this, path, ...opts
     }) {
       return axios($, {
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: this._headers(),
+        ...opts,
+      });
+    },
+    createWebhook(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/webhooks",
+        ...opts,
+      });
+    },
+    deleteWebhook({
+      webhookId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/webhooks/${webhookId}`,
+        ...opts,
+      });
+    },
+    getContact({
+      shopId, contactId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/shops/${shopId}/contacts/${contactId}`,
         ...opts,
       });
     },

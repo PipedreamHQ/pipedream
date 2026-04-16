@@ -7,7 +7,7 @@ export default {
   key: "sonix-upload-media",
   name: "Upload Media",
   description: "Submits new media for processing. [See the documentation](https://sonix.ai/docs/api#new_media)",
-  version: "1.0.2",
+  version: "1.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -20,6 +20,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The audio or video file to upload (max 100MB). Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
+      format: "file-ref",
     },
     language: {
       type: "string",

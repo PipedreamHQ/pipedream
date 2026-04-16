@@ -5,7 +5,7 @@ export default {
   key: "trello-find-labels",
   name: "Find a Label",
   description: "Finds a label on a specific board by name. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-boards/#api-boards-id-labels-get)",
-  version: "0.2.4",
+  version: "0.2.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

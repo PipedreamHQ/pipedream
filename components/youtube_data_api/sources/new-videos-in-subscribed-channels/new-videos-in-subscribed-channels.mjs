@@ -22,7 +22,7 @@ export default {
   key: "youtube_data_api-new-videos-in-subscribed-channels",
   name: "New Videos in Subscribed Channels",
   description: "Emit new event for each new YouTube video posted to a subscribed channel.",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "source",
   dedupe: "unique",
   props: {

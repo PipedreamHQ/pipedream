@@ -17,12 +17,14 @@ export default defineConfig({
         "react",
         "react-dom",
         "react/jsx-runtime",
+        "react/jsx-dev-runtime",
       ],
       output: {
         globals: {
           "react": "React",
           "react-dom": "ReactDOM",
           "react/jsx-runtime": "react/jsx-runtime",
+          "react/jsx-dev-runtime": "react/jsx-dev-runtime",
           "@emotion/react": "@emotion/react",
           "@tanstack/react-query": "reactQuery",
         },

@@ -4,7 +4,7 @@ export default {
   key: "clicksend-create-contact",
   name: "Create Contact",
   description: "Creates a new contact in a specific list. [See the documentation](https://developers.clicksend.com/docs/rest/v3/#create-new-contact)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

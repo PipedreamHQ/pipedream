@@ -1,12 +1,12 @@
-import _2markdown from "../../_2markdown.app.mjs";
 import { getFileStreamAndMetadata } from "@pipedream/platform";
 import FormData from "form-data";
+import _2markdown from "../../_2markdown.app.mjs";
 
 export default {
   key: "_2markdown-html-file-to-markdown",
   name: "HTML File to Markdown",
   description: "Convert an HTML file to Markdown format. [See the documentation](https://2markdown.com/docs#file2md)",
-  version: "0.1.1",
+  version: "0.2.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -20,6 +20,12 @@ export default {
         _2markdown,
         "filePath",
       ],
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {

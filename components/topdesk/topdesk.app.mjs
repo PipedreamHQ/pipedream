@@ -8,7 +8,15 @@ export default {
       type: "string",
       label: "Incident ID",
       description: "The UUID of the incident",
-      async options({ prevContext }) {
+      async options({
+        prevContext,
+        mapper = (incident) => ({
+          label: incident.briefDescription
+            ? `${incident.number} - ${incident.briefDescription}`
+            : incident.number,
+          value: incident.id,
+        }),
+      }) {
         const { pageStart } = prevContext;
         if (pageStart === null) {
           return [];
@@ -20,12 +28,7 @@ export default {
           },
         });
         return {
-          options: incidents?.map((incident) => ({
-            label: incident.briefDescription
-              ? `${incident.number} - ${incident.briefDescription}`
-              : incident.number,
-            value: incident.id,
-          })) || [],
+          options: incidents?.map(mapper) || [],
           context: {
             pageStart: incidents.length === 100
               ? (pageStart || 0) + 100
@@ -465,6 +468,24 @@ export default {
       description: "Optional fields tab 2 as a JSON object",
       optional: true,
     },
+    inlineImages: {
+      type: "boolean",
+      label: "Inline Images",
+      description: "Whether inline images should be returned",
+      optional: true,
+    },
+    forceImagesAsData: {
+      type: "boolean",
+      label: "Force Images As Data",
+      description: "Whether imageData should be forced to be returned as Base64 inline images instead of a URL. Only taken into account when inlineImages is true.",
+      optional: true,
+    },
+    nonApiAttachmentUrls: {
+      type: "boolean",
+      label: "Non API Attachment URLs",
+      description: "Whether links to attachments and bigger versions of inline images should be returned in a format that can be used by a browser (with cookie authentication) instead of by an API user",
+      optional: true,
+    },
   },
   methods: {
     getUrl(path) {
@@ -651,6 +672,38 @@ export default {
         ...opts,
       });
     },
+    getIncidentActionsById({
+      incidentId, ...opts
+    } = {}) {
+      return this._makeRequest({
+        path: `/tas/api/incidents/id/${incidentId}/actions`,
+        ...opts,
+      });
+    },
+    getIncidentActionsByNumber({
+      number, ...opts
+    } = {}) {
+      return this._makeRequest({
+        path: `/tas/api/incidents/number/${number}/actions`,
+        ...opts,
+      });
+    },
+    getIncidentProgressTrailById({
+      incidentId, ...opts
+    } = {}) {
+      return this._makeRequest({
+        path: `/tas/api/incidents/id/${incidentId}/progresstrail`,
+        ...opts,
+      });
+    },
+    getIncidentProgressTrailByNumber({
+      number, ...opts
+    } = {}) {
+      return this._makeRequest({
+        path: `/tas/api/incidents/number/${number}/progresstrail`,
+        ...opts,
+      });
+    },
     async *paginate({
       fn,
       fnArgs = {},
@@ -665,7 +718,7 @@ export default {
           ...fnArgs,
           params: {
             ...fnArgs.params,
-            start: start + (fnArgs.params?.page_size || 100),
+            start,
             page_size: (fnArgs.params?.page_size || 100),
           },
         });

@@ -32,6 +32,7 @@ export default {
       type: "string[]",
       label: "File Paths or URLs",
       description: "The files to upload. For each entry, provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
+      format: "file-ref",
     },
   },
   methods: {

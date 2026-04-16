@@ -1,0 +1,15 @@
+export default [
+  "call.created",
+  "call.queued",
+  "call.answered",
+  "call.closed",
+  "conversation.created",
+  "conversation.replied",
+  "conversation.note.added",
+  "conversation.assigned",
+  "conversation.closed",
+  "conversation.reopened",
+  "contact.created",
+  "contact.updated",
+  "contact.deleted",
+];

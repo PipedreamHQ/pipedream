@@ -208,6 +208,24 @@ export default {
         })) || [];
       },
     },
+    ticketId: {
+      type: "string",
+      label: "Ticket ID",
+      description: "The ID of the ticket to retrieve",
+      async options({ page }) {
+        const tickets = await this.listTickets({
+          params: {
+            page: page + 1,
+          },
+        });
+        return tickets?.map(({
+          id: value, summary: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -257,6 +275,26 @@ export default {
     listTickets(opts = {}) {
       return this._makeRequest({
         path: "/service/tickets",
+        ...opts,
+      });
+    },
+    getTicket({
+      ticketId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/service/tickets/${ticketId}`,
+        ...opts,
+      });
+    },
+    listTimeEntries(opts = {}) {
+      return this._makeRequest({
+        path: "/time/entries",
+        ...opts,
+      });
+    },
+    listReports(opts = {}) {
+      return this._makeRequest({
+        path: "/system/reports",
         ...opts,
       });
     },

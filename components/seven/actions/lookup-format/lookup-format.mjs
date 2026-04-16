@@ -4,7 +4,7 @@ export default {
   key: "seven-lookup-format",
   name: "Lookup Format",
   description: "Look up phone number formatting via Seven. [See the documentation](https://docs.seven.io/en/rest-api/endpoints/lookup#format)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zoho_crm",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "Pipedream Zoho CRM Components",
   "main": "zoho_crm.app.mjs",
   "keywords": [
@@ -10,7 +10,7 @@
   "homepage": "https://pipedream.com/apps/zoho_crm",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^3.1.1",
+    "@pipedream/platform": "^3.2.5",
     "lodash.sortby": "^4.7.0"
   },
   "publishConfig": {

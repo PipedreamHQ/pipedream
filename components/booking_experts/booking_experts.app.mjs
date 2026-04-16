@@ -114,18 +114,27 @@ export default {
       label: "Rentable Type ID",
       description: "The ID of a rentable type",
       async options({
-        page, channelId,
+        page, channelId, administrationId,
       }) {
-        const { data } = await this.listRentableTypes({
-          channelId,
-          params: {
-            "page[number]": page + 1,
-          },
-        });
+        if (!administrationId && !channelId) {
+          return [];
+        }
+        const params = {
+          "page[number]": page + 1,
+        };
+        const { data } = channelId
+          ? await this.listRentableTypes({
+            channelId,
+            params,
+          })
+          : await this.listRentableTypesForAdmin({
+            administrationId,
+            params,
+          });
         return data?.map(({
           id, attributes,
         }) => ({
-          label: attributes.name,
+          label: attributes.name?.en || attributes.name,
           value: id,
         })) || [];
       },
@@ -413,6 +422,22 @@ export default {
     }) {
       return this._makeRequest({
         path: `/reservations/${reservationId}`,
+        ...opts,
+      });
+    },
+    getGuest({
+      administrationId, reservationId, guestId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/administrations/${administrationId}/reservations/${reservationId}/guests/${guestId}`,
+        ...opts,
+      });
+    },
+    getRentableType({
+      administrationId, rentableTypeId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/administrations/${administrationId}/rentable_types/${rentableTypeId}`,
         ...opts,
       });
     },

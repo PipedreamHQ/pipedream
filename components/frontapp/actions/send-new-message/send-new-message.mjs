@@ -5,7 +5,7 @@ export default {
   key: "frontapp-send-new-message",
   name: "Send New Message",
   description: "Sends a new message from a channel. It will create a new conversation. [See the documentation](https://dev.frontapp.com/reference/post_channels-channel-id-messages).",
-  version: "0.2.11",
+  version: "0.2.12",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -88,6 +88,12 @@ export default {
         frontApp,
         "bcc",
       ],
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {

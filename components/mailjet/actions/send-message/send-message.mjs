@@ -5,7 +5,7 @@ export default {
   name: "Send Message",
   description: "Send a message via Send API v3. Send API v3 is built mainly for speed, allowing you to send up to 100 messages in a single API call. [See the docs here](https://dev.mailjet.com/email/reference/send-emails/#v3_1_post_send)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

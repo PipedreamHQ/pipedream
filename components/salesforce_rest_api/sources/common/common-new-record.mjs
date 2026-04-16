@@ -126,11 +126,12 @@ export default {
         latestEvent,
       ] = events;
 
-      if (latestEvent?.CreatedDate) {
-        const latestDateCovered = new Date(latestEvent.CreatedDate);
-        latestDateCovered.setSeconds(0);
-        setLatestDateCovered(latestDateCovered.toISOString());
+      let latestDateCovered = new Date(latestEvent?.CreatedDate || endTimestamp);
+      if (isNaN(latestDateCovered.getMilliseconds())) {
+        latestDateCovered = new Date();
       }
+      latestDateCovered.setSeconds(0);
+      setLatestDateCovered(latestDateCovered.toISOString());
 
       Array.from(events)
         .reverse()

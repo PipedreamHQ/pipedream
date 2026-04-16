@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/privatebin",
+  "version": "0.0.1",
+  "description": "Pipedream PrivateBin Components",
+  "main": "privatebin.app.mjs",
+  "keywords": [
+    "pipedream",
+    "privatebin"
+  ],
+  "homepage": "https://pipedream.com/apps/privatebin",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

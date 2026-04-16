@@ -1,30 +1,14 @@
-import raindrop from "../../raindrop.app.mjs";
+import common from "../common/base-polling.mjs";
 import constants from "../../common/constants.mjs";
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
+  ...common,
   key: "raindrop-new-bookmark",
   name: "New Bookmark",
   description: "Emit new event when a bookmark is added",
   type: "source",
-  version: "0.0.6",
+  version: "0.0.7",
   dedupe: "unique",
-  props: {
-    raindrop,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
-    },
-    collectionId: {
-      propDefinition: [
-        raindrop,
-        "collectionId",
-      ],
-    },
-  },
   methods: {
     _getPage() {
       return this.db.get("page") ?? 0;

@@ -161,7 +161,13 @@ export default {
         params.page = ++page;
         const data = await fn({
           params,
-        });
+        }) || [];
+
+        if (!Array.isArray(data) || !data.length) {
+          console.log("No items found");
+          return;
+        }
+
         for (const d of data) {
           yield d;
 

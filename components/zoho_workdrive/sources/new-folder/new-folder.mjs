@@ -7,7 +7,7 @@ export default {
   ...common,
   key: "zoho_workdrive-new-folder",
   name: "New Folder",
-  version: "0.1.1",
+  version: "0.1.2",
   description: "Emit new event when a new folder is created in a specific folder.",
   type: "source",
   dedupe: "unique",
@@ -32,23 +32,27 @@ export default {
       ],
       label: "Folder ID",
       description: "The unique ID of the folder. Select a folder to view its subfolders.",
-      optional: true,
       reloadProps: true,
     },
   },
   methods: {
     ...common.methods,
     async startEvent(maxResults = 0) {
-      const num = findMaxFolderId(this);
-      const folderId = num > 0
-        ? this[`folderId${num}`]
-        : this.folderId;
+      let folderId;
+      if (this.manuallyEnterFolderId) {
+        folderId = this.typedFolderId;
+      } else {
+        const num = findMaxFolderId(this);
+        folderId = num > 0
+          ? this[`folderId${num}`]
+          : this.folderId;
+      }
 
       if (!folderId) {
         throw new ConfigurationError("Please select a Folder ID or type in a Folder ID.");
       }
 
-      const lastDate = this._getLastDate();
+      const lastDate = this._getValidatedLastDate();
       let maxDate = lastDate;
       const items = this.app.paginate({
         fn: this.app.listFiles,

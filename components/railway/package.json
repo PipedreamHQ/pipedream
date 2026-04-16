@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/railway",
+  "version": "0.0.1",
+  "description": "Pipedream Railway Components",
+  "main": "railway.app.mjs",
+  "keywords": [
+    "pipedream",
+    "railway"
+  ],
+  "homepage": "https://pipedream.com/apps/railway",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

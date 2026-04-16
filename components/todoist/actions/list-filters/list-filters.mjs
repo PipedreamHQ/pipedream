@@ -3,12 +3,12 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-list-filters",
   name: "List Filters",
-  description: "Returns a list of all filters. [See the docs here](https://developer.todoist.com/sync/v9/#read-resources)",
-  version: "0.0.4",
+  description: "Returns a list of all filters. [See the documentation](https://developer.todoist.com/api/v1#tag/Sync/Overview/Read-resources)",
+  version: "0.0.9",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
-    readOnlyHint: false,
+    readOnlyHint: true,
   },
   type: "action",
   props: {

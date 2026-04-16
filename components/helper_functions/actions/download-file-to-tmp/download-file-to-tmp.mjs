@@ -6,7 +6,7 @@ export default {
   key: "helper_functions-download-file-to-tmp",
   name: "Download File To /tmp",
   description: "Downloads a file to [your workflow's /tmp directory](https://pipedream.com/docs/code/nodejs/working-with-files/#the-tmp-directory)",
-  version: "0.3.2",
+  version: "0.3.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -25,6 +25,12 @@ export default {
       label: "Target Filename",
       description: "The filename that will be used to save in /tmp",
     },
+    headers: {
+      type: "object",
+      label: "HTTP Headers",
+      description: "Optional HTTP headers to send with the request (e.g., for authentication or bypassing hotlink protection)",
+      optional: true,
+    },
     syncDir: {
       type: "dir",
       accessMode: "write",
@@ -33,12 +39,18 @@ export default {
   },
   async run({ $ }) {
     const {
-      url, filename,
+      url,
+      filename,
+      headers = {},
     } = this;
 
     const resp = await axios($, {
       url,
       responseType: "arraybuffer",
+      headers: {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+        ...headers,
+      },
     });
 
     /**

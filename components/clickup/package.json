@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/clickup",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Pipedream Clickup Components",
   "main": "clickup.app.mjs",
   "keywords": [
@@ -15,6 +15,6 @@
   },
   "dependencies": {
     "@pipedream/platform": "^3.1.1",
-    "lodash": "^4.17.21"
+    "lodash": "^4.18.1"
   }
 }

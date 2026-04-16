@@ -1,12 +1,11 @@
 import googleCalendar from "../../google_calendar.app.mjs";
 import createEventCommon from "../common/create-event-common.mjs";
-import constants from "../../common/constants.mjs";
 
 export default {
   key: "google_calendar-update-event",
   name: "Update Event",
   description: "Update an event from Google Calendar. [See the documentation](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Resource$Events.html#update)",
-  version: "0.0.11",
+  version: "0.0.15",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -46,16 +45,6 @@ export default {
       ],
     },
   },
-  async additionalProps(props) {
-    if (this.repeatFrequency) {
-      const frequency = constants.REPEAT_FREQUENCIES[this.repeatFrequency];
-      props.repeatInterval.description = `Enter 1 to "repeat every ${frequency}", enter 2 to "repeat every other ${frequency}", etc. Defaults to 1.`;
-    }
-    props.repeatInterval.hidden = !this.repeatFrequency;
-    props.repeatUntil.hidden = !this.repeatFrequency;
-    props.repeatTimes.hidden = !this.repeatFrequency;
-    return {};
-  },
   methods: {
     ...createEventCommon.methods,
   },
@@ -72,6 +61,7 @@ export default {
       repeatInterval: this.repeatInterval,
       repeatTimes: this.repeatTimes,
       repeatUntil: this.repeatUntil,
+      repeatSpecificDays: this.repeatSpecificDays,
     });
 
     const response = await this.googleCalendar.updateEvent({

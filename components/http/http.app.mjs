@@ -7,5 +7,27 @@ export default {
       type: "http_request",
       label: "HTTP Request Configuration",
     },
+    summary: {
+      type: "string",
+      label: "Summary",
+      description: "An optional summary. This will be emitted as the `summary` metadata for the event. Use dot notation to reference nested values. Example: `New item with ID: ${body.id}` or `User: ${body.user.name}`",
+      optional: true,
+    },
+  },
+  methods: {
+    interpolateSummary(summary, context) {
+      if (typeof summary !== "string") {
+        return "";
+      }
+      if (!context || typeof context !== "object") {
+        return summary;
+      }
+      return summary.replace(/\$\{([^}]+)\}/g, (_, path) => {
+        return path
+          .trim()
+          .split(".")
+          .reduce((obj, key) => obj?.[key], context) ?? "";
+      });
+    },
   },
 };

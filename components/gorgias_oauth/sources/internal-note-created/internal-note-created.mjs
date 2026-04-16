@@ -7,7 +7,7 @@ export default {
   key: "gorgias_oauth-internal-note-created",
   name: "New Internal Note",
   description: "Emit new event when an internal note is created on a ticket. [See the documentation](https://developers.gorgias.com/reference/the-event-object)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   props: {
     ...base.props,

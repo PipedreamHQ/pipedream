@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/gosquared",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Pipedream gosquared Components",
   "main": "gosquared.app.mjs",
   "keywords": [

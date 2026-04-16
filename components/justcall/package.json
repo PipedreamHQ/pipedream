@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/justcall",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Pipedream JustCall Components",
   "main": "justcall.app.mjs",
   "keywords": [

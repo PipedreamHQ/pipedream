@@ -17,7 +17,7 @@ import type { OptionProps } from "react-select";
 import type {
   Account,
   App,
-  ConfigurablePropApp,
+  ConfigurableProp,
 } from "@pipedream/sdk";
 
 const BaseOption = (props: OptionProps<SelectValue>) => {
@@ -46,7 +46,7 @@ export function ControlApp({ app }: ControlAppProps) {
   const {
     externalUserId, oauthAppConfig,
   } = useFormContext();
-  const formFieldCtx = useFormFieldContext<ConfigurablePropApp>();
+  const formFieldCtx = useFormFieldContext<ConfigurableProp.App>();
   const {
     id, prop, value, onChange,
   } = formFieldCtx;

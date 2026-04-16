@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/the_events_calendar",
+  "version": "0.0.1",
+  "description": "Pipedream The Events Calendar Components",
+  "main": "the_events_calendar.app.mjs",
+  "keywords": [
+    "pipedream",
+    "the_events_calendar"
+  ],
+  "homepage": "https://pipedream.com/apps/the_events_calendar",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

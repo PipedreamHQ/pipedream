@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/element",
+  "version": "0.0.1",
+  "description": "Pipedream Element Components",
+  "main": "element.app.mjs",
+  "keywords": [
+    "pipedream",
+    "element"
+  ],
+  "homepage": "https://pipedream.com/apps/element",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

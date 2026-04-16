@@ -1,4 +1,6 @@
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -73,25 +75,29 @@ export default {
     _baseUrl() {
       return `https://${this.$auth.api_url}/api/data/v9.2`;
     },
-    _makeRequest({
+    async _makeRequest({
       $ = this,
       path,
       url,
       headers,
       ...opts
     }) {
-      return axios($, {
-        url: url || `${this._baseUrl()}${path}`,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-          "odata-maxversion": "4.0",
-          "odata-version": "4.0",
-          "content-type": "application/json",
-          "If-None-Match": null,
-        },
-        ...opts,
-      });
+      try {
+        return await axios($, {
+          url: url || `${this._baseUrl()}${path}`,
+          headers: {
+            ...headers,
+            "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+            "odata-maxversion": "4.0",
+            "odata-version": "4.0",
+            "content-type": "application/json",
+            "If-None-Match": null,
+          },
+          ...opts,
+        });
+      } catch (error) {
+        throw new ConfigurationError(error.message);
+      }
     },
     listContacts(opts = {}) {
       return this._makeRequest({

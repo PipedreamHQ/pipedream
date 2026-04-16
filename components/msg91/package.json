@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/msg91",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Pipedream msg91 Components",
   "main": "msg91.app.mjs",
   "keywords": [

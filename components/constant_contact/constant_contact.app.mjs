@@ -216,6 +216,33 @@ export default {
         ...args,
       });
     },
+    createEmailCampaign(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "emails",
+        ...args,
+      });
+    },
+    createOrUpdateContact(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "contacts/sign_up_form",
+        ...args,
+      });
+    },
+    addAccountEmailAddress(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "account/emails",
+        ...args,
+      });
+    },
+    listAccounts(args = {}) {
+      return this._makeRequest({
+        path: "account/emails",
+        ...args,
+      });
+    },
     async *paginate({
       fn, field, params = {}, maxResults = null,
     }) {

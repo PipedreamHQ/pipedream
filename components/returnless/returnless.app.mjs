@@ -29,6 +29,29 @@ export default {
         };
       },
     },
+    returnOrderNumber: {
+      type: "string",
+      label: "Return Order Number",
+      description: "The number of a return order to filter by",
+      async options({ prevContext }) {
+        const {
+          data, meta,
+        } = await this.listReturnOrders({
+          params: {
+            cursor: prevContext?.cursor,
+          },
+        });
+        return {
+          options: data.map(({ return_number: number }) => ({
+            value: number,
+            label: `Return Number: ${number}`,
+          })) || [],
+          context: {
+            cursor: meta.next_cursor,
+          },
+        };
+      },
+    },
     formId: {
       type: "string",
       label: "Form ID",
@@ -71,6 +94,29 @@ export default {
             id: value, order_number: number,
           }) => ({
             value,
+            label: `Order Number: ${number}`,
+          })) || [],
+          context: {
+            cursor: meta.next_cursor,
+          },
+        };
+      },
+    },
+    orderNumber: {
+      type: "string",
+      label: "Order Number",
+      description: "The number of the sales order to filter by",
+      async options({ prevContext }) {
+        const {
+          data, meta,
+        } = await this.listSalesOrders({
+          params: {
+            cursor: prevContext?.cursor,
+          },
+        });
+        return {
+          options: data.map(({ order_number: number }) => ({
+            value: number,
             label: `Order Number: ${number}`,
           })) || [],
           context: {
@@ -124,6 +170,31 @@ export default {
         const {
           data, meta,
         } = await this.listReturnStatuses({
+          params: {
+            cursor: prevContext?.cursor,
+          },
+        });
+        return {
+          options: data.map(({
+            id: value, label,
+          }) => ({
+            value,
+            label,
+          })) || [],
+          context: {
+            cursor: meta.next_cursor,
+          },
+        };
+      },
+    },
+    requestStatusId: {
+      type: "string",
+      label: "Request Status ID",
+      description: "The ID of the request status to filter by",
+      async options({ prevContext }) {
+        const {
+          data, meta,
+        } = await this.listRequestStatuses({
           params: {
             cursor: prevContext?.cursor,
           },
@@ -318,6 +389,12 @@ export default {
     listReturnStatuses(opts = {}) {
       return this._makeRequest({
         path: "/return-statuses",
+        ...opts,
+      });
+    },
+    listRequestStatuses(opts = {}) {
+      return this._makeRequest({
+        path: "/request-statuses",
         ...opts,
       });
     },

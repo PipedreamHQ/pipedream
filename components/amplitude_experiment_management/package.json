@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/amplitude_experiment_management",
+  "version": "0.0.1",
+  "description": "Pipedream Amplitude Experiment Management Components",
+  "main": "amplitude_experiment_management.app.mjs",
+  "keywords": [
+    "pipedream",
+    "amplitude_experiment_management"
+  ],
+  "homepage": "https://pipedream.com/apps/amplitude_experiment_management",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

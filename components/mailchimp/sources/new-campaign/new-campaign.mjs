@@ -6,7 +6,7 @@ export default {
   key: "mailchimp-new-campaign",
   name: "New Campaign",
   description: "Emit new event when a new campaign is created or sent",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {

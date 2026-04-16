@@ -46,67 +46,90 @@ export default {
         description: "Select a frequency to make this event repeating",
         optional: true,
         options: Object.keys(constants.REPEAT_FREQUENCIES),
-        reloadProps: true,
       },
       repeatInterval: {
         type: "integer",
         label: "Repeat Interval",
         description: "Enter 1 to \"repeat every day\", enter 2 to \"repeat every other day\", etc. Defaults to 1.",
         optional: true,
-        hidden: true,
+      },
+      repeatSpecificDays: {
+        type: "string[]",
+        label: "Repeat Specific Days",
+        description: "The event will repeat on these days of the week. Repeat Frequency must be `WEEKLY`.",
+        optional: true,
+        options: constants.DAYS_OF_WEEK,
       },
       repeatUntil: {
         type: "string",
         label: "Repeat Until",
-        description: "The event will repeat only until this date, if set",
+        description: "The event will repeat only until this date, if set. Only one of `Repeat Until` or Repeat `How Many Times` may be entered.",
         optional: true,
-        hidden: true,
       },
       repeatTimes: {
         type: "integer",
         label: "Repeat How Many Times?",
-        description: "Limit the number of times this event will occur",
+        description: "Limit the number of times this event will occur. Only one of `Repeat Until` or Repeat `How Many Times` may be entered.",
         optional: true,
-        hidden: true,
       },
     }
   ),
   methods: {
     async getTimeZone(selectedTimeZone) {
       /**
-      * Based on the IINA Time Zone DB
+      * Based on the IANA Time Zone DB
       * http://www.iana.org/time-zones
       */
-      const { value: timeZone } = selectedTimeZone ?? await this.googleCalendar.getSettings({
+      if (typeof selectedTimeZone === "string") {
+        return selectedTimeZone;
+      }
+      const { value: timeZone } = await this.googleCalendar.getSettings({
         setting: "timezone",
       });
       return timeZone;
     },
-    formatAttendees(selectedAttendees, currentAttendees) {
-      /**
-      * Format for the attendees
-      *
-      * [
-      *   { "email": "lpage@example.com",},
-      *   { "email": "sbrin@example.com",},
-      * ]
-      */
-      let attendees = [];
-      if (typeof selectedAttendees === "string") {
-        selectedAttendees = selectedAttendees.includes("[") && selectedAttendees.includes("]")
-          ? JSON.parse(selectedAttendees)
-          : selectedAttendees.replaceAll(" ", "").split(",");
+    parseEmails(input) {
+      if (typeof input === "string") {
+        return input.split(",")
+          .map((e) => e.trim())
+          .filter(Boolean);
       }
-      if (selectedAttendees && Array.isArray(selectedAttendees)) {
-        attendees = selectedAttendees.map((email) => ({
+      if (Array.isArray(input)) {
+        return input
+          .filter((e) => typeof e === "string")
+          .map((e) => e.trim())
+          .filter(Boolean);
+      }
+      return [];
+    },
+    formatAttendees(selectedAttendees, currentAttendees) {
+      const emails = this.parseEmails(selectedAttendees);
+
+      if (emails.length) {
+        return emails.map((email) => ({
           email,
         }));
-      } else if (currentAttendees && Array.isArray(currentAttendees)) {
-        return currentAttendees.map((attendee) => ({
-          email: attendee.email,
+      }
+
+      // Fall back to currentAttendees if no selectedAttendees
+      const fallbackEmails = this.parseEmails(currentAttendees);
+      if (fallbackEmails.length) {
+        return fallbackEmails.map((email) => ({
+          email,
         }));
       }
-      return attendees;
+
+      // Handle currentAttendees as array of attendee objects
+      if (Array.isArray(currentAttendees) && currentAttendees.length) {
+        return currentAttendees
+          .filter((a) => a && typeof a.email === "string")
+          .map((attendee) => ({
+            email: attendee.email.trim(),
+          }))
+          .filter((a) => a.email);
+      }
+
+      return [];
     },
     checkDateOrDateTimeInput(date, type) {
       if (type === "date") {
@@ -139,15 +162,32 @@ export default {
       repeatInterval,
       repeatTimes,
       repeatUntil,
+      repeatSpecificDays,
     }) {
+      if (!repeatFrequency
+        && (repeatInterval || repeatTimes || repeatUntil || repeatSpecificDays)
+      ) {
+        throw new ConfigurationError("`Repeat Frequency` is required when `Repeat Interval`, `Repeat Times`, `Repeat Until`, or `Repeat Specific Days` is entered.");
+      }
       if (!repeatFrequency) {
         return;
       }
       if (repeatTimes && repeatUntil) {
         throw new ConfigurationError("Only one of `Repeat Until` or Repeat `How Many Times` may be entered");
       }
+      if (repeatSpecificDays && repeatFrequency !== "WEEKLY") {
+        throw new ConfigurationError("`Repeat Specific Days` is only for use with `Repeat Frequency` of `WEEKLY`.");
+      }
 
-      let recurrence = `RRULE:FREQ=${repeatFrequency}`;
+      let recurrence = `RRULE:FREQ=${repeatFrequency}` ;
+      if (repeatSpecificDays?.length) {
+        const byDay = [
+          ...new Set(
+            repeatSpecificDays.flatMap((value) => value.split(",")),
+          ),
+        ].join(",");
+        recurrence = `${recurrence};BYDAY=${byDay}`;
+      }
       if (repeatInterval) {
         recurrence = `${recurrence};INTERVAL=${repeatInterval}`;
       }

@@ -4,7 +4,7 @@ export default {
   key: "loopify-create-update-contact",
   name: "Create Or Update Contact",
   description: "Creates or updates a contact in Loopify. If the contact exists, it will be updated; otherwise, a new contact will be created. [See the documentation](https://api.loopify.com/docs/index.html#tag/Contacts)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

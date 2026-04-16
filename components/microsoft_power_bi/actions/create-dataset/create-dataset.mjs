@@ -5,7 +5,7 @@ export default {
   key: "microsoft_power_bi-create-dataset",
   name: "Create Dataset",
   description: "Creates a new Push Dataset in Power BI. [See the documentation](https://learn.microsoft.com/en-us/rest/api/power-bi/push-datasets/datasets-post-dataset)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

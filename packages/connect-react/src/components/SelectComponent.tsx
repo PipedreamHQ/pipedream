@@ -1,6 +1,7 @@
 import {
   App,
   Component,
+  ComponentsListRequest,
 } from "@pipedream/sdk";
 import {
   useId,
@@ -25,6 +26,10 @@ type SelectComponentProps = {
   componentType?: "action" | "trigger";
   value?: Partial<Component> & { key: string; };
   onChange?: (component?: Component) => void;
+  /**
+   * Additional options for fetching components (e.g., registry)
+   */
+  componentsOptions?: Omit<ComponentsListRequest, "app" | "componentType">;
 };
 
 export function SelectComponent({
@@ -32,6 +37,7 @@ export function SelectComponent({
   componentType,
   value,
   onChange,
+  componentsOptions,
 }: SelectComponentProps) {
   const instanceId = useId();
   const {
@@ -41,6 +47,7 @@ export function SelectComponent({
     loadMore,
     components: componentsList,
   } = useComponents({
+    ...componentsOptions ?? {},
     app: app?.nameSlug,
     componentType,
   });

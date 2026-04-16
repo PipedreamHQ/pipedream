@@ -4,7 +4,7 @@ export default {
   key: "salesforce_rest_api-list-object-fields",
   name: "List Object Fields",
   description: "Lists all fields for a given object type. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_sobject_describe.htm)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -5,7 +5,7 @@ export default {
   key: "intercom-new-conversation-rating-added",
   name: "New Conversation Rating Added",
   description: "Emit new event each time a new rating is added to a conversation.",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   props: {

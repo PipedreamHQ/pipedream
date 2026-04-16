@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/helper_functions",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "Pipedream Helper_functions Components",
   "main": "helper_functions.app.mjs",
   "keywords": [

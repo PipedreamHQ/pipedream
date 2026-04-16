@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/niledesk",
+  "version": "0.0.1",
+  "description": "Pipedream NileDesk Components",
+  "main": "niledesk.app.mjs",
+  "keywords": [
+    "pipedream",
+    "niledesk"
+  ],
+  "homepage": "https://pipedream.com/apps/niledesk",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

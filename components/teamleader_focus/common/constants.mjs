@@ -108,7 +108,39 @@ const PAYMENT_TERM_TYPES = [
   },
 ];
 
+const SENT_BY_TYPE_OPTIONS = [
+  {
+    value: "company",
+    label: "Company",
+  },
+  {
+    value: "contact",
+    label: "Contact",
+  },
+  {
+    value: "user",
+    label: "User",
+  },
+];
+
+const MESSAGE_TYPE_OPTIONS = [
+  {
+    value: "customer",
+    label: "Customer",
+  },
+  {
+    value: "internal",
+    label: "Internal",
+  },
+  {
+    value: "thirdParty",
+    label: "Third Party",
+  },
+];
+
 export default {
   CURRENCY_CODES,
   PAYMENT_TERM_TYPES,
+  SENT_BY_TYPE_OPTIONS,
+  MESSAGE_TYPE_OPTIONS,
 };

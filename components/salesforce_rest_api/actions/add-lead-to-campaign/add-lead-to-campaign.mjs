@@ -5,7 +5,7 @@ export default {
   key: "salesforce_rest_api-add-lead-to-campaign",
   name: "Add Lead to Campaign",
   description: "Adds an existing lead to an existing campaign. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.228.0.object_reference.meta/object_reference/sforce_api_objects_campaignmember.htm)",
-  version: "0.1.3",
+  version: "0.1.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

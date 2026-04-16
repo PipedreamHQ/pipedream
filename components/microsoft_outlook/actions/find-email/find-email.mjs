@@ -5,7 +5,7 @@ export default {
   key: "microsoft_outlook-find-email",
   name: "Find Email",
   description: "Search for an email in Microsoft Outlook. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list-messages)",
-  version: "0.0.15",
+  version: "0.1.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -14,6 +14,14 @@ export default {
   type: "action",
   props: {
     microsoftOutlook,
+    userId: {
+      propDefinition: [
+        microsoftOutlook,
+        "userId",
+      ],
+      optional: true,
+      description: "The User ID of a shared mailbox. If not provided, defaults to the authenticated user's mailbox.",
+    },
     info: {
       type: "alert",
       alertType: "info",
@@ -43,6 +51,13 @@ export default {
         "maxResults",
       ],
     },
+    includeAttachments: {
+      type: "boolean",
+      label: "Include Attachments",
+      description: "If true, returns additional info for message attachments.",
+      optional: true,
+      default: false,
+    },
   },
   methods: {
     ensureQuotes(str) {
@@ -63,9 +78,15 @@ export default {
         fn: this.microsoftOutlook.listMessages,
         args: {
           $,
+          userId: this.userId,
           params: {
             "$filter": this.filter,
             "$orderby": this.orderBy,
+            ...(this.includeAttachments
+              ? {
+                "$expand": "attachments",
+              }
+              : {}),
           },
         },
         max: this.maxResults,
@@ -77,9 +98,15 @@ export default {
     } else {
       const { value } = await this.microsoftOutlook.listMessages({
         $,
+        userId: this.userId,
         params: {
           "$search": this.ensureQuotes(this.search),
           "$top": this.maxResults,
+          ...(this.includeAttachments
+            ? {
+              "$expand": "attachments",
+            }
+            : {}),
         },
       });
 

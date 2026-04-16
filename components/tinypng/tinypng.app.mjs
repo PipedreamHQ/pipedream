@@ -9,6 +9,7 @@ export default {
       type: "string",
       label: "Image Path or URL",
       description: "The image to upload (WebP, JPEG, or PNG). Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.png`)",
+      format: "file-ref",
     },
     imageId: {
       type: "string",

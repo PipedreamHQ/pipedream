@@ -4,7 +4,7 @@ export default {
   key: "topdesk-get-knowledge-items",
   name: "Get Knowledge Items",
   description: "Returns a list of Knowledge Items. [See the documentation](https://developers.topdesk.com/explorer/?page=knowledge-base#/Knowledge%20Items/getKnowledgeItems)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     app,

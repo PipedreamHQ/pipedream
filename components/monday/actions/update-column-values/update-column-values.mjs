@@ -12,7 +12,7 @@ export default {
   key: "monday-update-column-values",
   name: "Update Column Values",
   description: "Update multiple column values of an item. [See the documentation](https://developer.monday.com/api-reference/reference/columns#change-multiple-column-values)",
-  version: "0.2.4",
+  version: "0.2.6",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -65,6 +65,7 @@ export default {
         };
         if (column.type === "file") {
           props[column.id].description += ". Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)";
+          props[column.id].format = "file-ref";
         }
       }
     }

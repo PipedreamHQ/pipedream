@@ -3,7 +3,7 @@ import http from "../../http.app.mjs";
 
 export default {
   name: "Verify HMAC Signature",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

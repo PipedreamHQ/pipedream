@@ -6,7 +6,7 @@ export default {
   key: "circle-new-comment-posted",
   name: "New Comment Posted",
   description: "Emit new event each time a new comment is posted in the selected community space.",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {
@@ -36,7 +36,7 @@ export default {
           space_id: this.spaceId,
           post_id: this.postId,
         },
-      });
+      }) || [];
 
       if (maxResults && response.length > maxResults) response.length = maxResults;
 
