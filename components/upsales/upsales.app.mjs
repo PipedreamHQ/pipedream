@@ -8,7 +8,7 @@ export default {
     userId: {
       type: "string",
       label: "User ID",
-      description: "Select a user or provide a user ID",
+      description: "The user's unique ID. Use **Get User List** to find an ID by name or email.",
       async options({ page }) {
         const { data } = await this.listUsers({
           params: {
@@ -25,7 +25,7 @@ export default {
     stageId: {
       type: "string",
       label: "Stage ID",
-      description: "Select a stage or provide a stage ID",
+      description: "The stage's unique ID. Use **Get Stage List** to find an ID by name or probability.",
       async options({ page }) {
         const { data } = await this.listStages({
           params: {
@@ -54,7 +54,7 @@ export default {
     companyId: {
       type: "string",
       label: "Company ID",
-      description: "Select a company or provide a company ID",
+      description: "The company's unique ID. Use **Get Company List** to find an ID by name.",
       async options({ page }) {
         const { data } = await this.listCompanies({
           params: {
@@ -94,7 +94,7 @@ export default {
     contactId: {
       type: "string",
       label: "Contact ID",
-      description: "Select a contact or provide a contact ID",
+      description: "The contact's unique ID. Use **Get Contact List** to find an ID by name or email.",
       async options({ page }) {
         const { data } = await this.listContacts({
           params: {
@@ -153,13 +153,13 @@ export default {
     contactClientId: {
       type: "integer",
       label: "Client ID",
-      description: "The client ID to associate with this contact",
+      description: "The client's unique ID to associate with this contact. Use **Get Company List** to find an ID by name.",
       optional: true,
     },
     activityId: {
       type: "string",
       label: "Activity ID",
-      description: "Select an activity or provide an activity ID",
+      description: "The activity's unique ID. Use **Get Activity List** to find an ID.",
       async options({ page }) {
         const { data } = await this.listActivities({
           params: {
@@ -176,7 +176,7 @@ export default {
     npsId: {
       type: "string",
       label: "NPS ID",
-      description: "Select an NPS record or provide an NPS ID",
+      description: "The NPS record's unique ID. Use **Get NPS List** to find an ID.",
       async options({ page }) {
         const { data } = await this.listNps({
           params: {
@@ -193,7 +193,7 @@ export default {
     orderId: {
       type: "string",
       label: "Order ID",
-      description: "Select an order or provide an order ID",
+      description: "The order's unique ID. Use **Get Order List** to find an ID.",
       async options({ page }) {
         const { data } = await this.listOrders({
           params: {
@@ -211,7 +211,7 @@ export default {
     productId: {
       type: "string",
       label: "Product ID",
-      description: "Select a product or provide a product ID",
+      description: "The product's unique ID. Use **Get Product List** to find an ID by name.",
       async options({ page }) {
         const { data } = await this.listProducts({
           params: {
@@ -228,7 +228,7 @@ export default {
     activityTypeId: {
       type: "string",
       label: "Activity Type ID",
-      description: "Select an activity type or provide an activity type ID",
+      description: "The activity type's unique ID. Use **Get Activity List** to find activity types.",
       async options({ page }) {
         const { data } = await this.listActivityTypes({
           params: {
@@ -245,7 +245,7 @@ export default {
     opportunityId: {
       type: "string",
       label: "Opportunity ID",
-      description: "Select an opportunity or provide an opportunity ID",
+      description: "The opportunity's unique ID. Use **Get Opportunity List** to find an ID.",
       async options({ page }) {
         const { data } = await this.listOrders({
           params: {
