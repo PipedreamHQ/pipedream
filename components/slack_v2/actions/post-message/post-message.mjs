@@ -108,7 +108,7 @@ export default {
       : ""}`);
     return {
       ...response,
-      permalink: permalink?.permalink,
+      permalink: permalink,
     };
   },
 };
