@@ -6,7 +6,7 @@ export default {
   key: "pdfcrowd-html-to-pdf",
   name: "Convert HTML to PDF",
   description: "Convert URL or HTML to PDF. [See docs](https://pdfcrowd.com/api/)",
-  version: "1.1.0",
+  version: "0.1.0",
   type: "action",
   annotations: {
     destructiveHint: false,
