@@ -199,11 +199,67 @@ export default {
           params: {
             limit: DEFAULT_LIMIT,
             offset: page * DEFAULT_LIMIT,
+            probability: 100,
           },
         });
         return data.map((order) => ({
           label: `${order.description || `Order ${order.id}`} - ${order.value || "N/A"}`,
           value: order.id,
+        }));
+      },
+    },
+    productId: {
+      type: "string",
+      label: "Product ID",
+      description: "Select a product or provide a product ID",
+      async options({ page }) {
+        const data = await this.listProducts({
+          params: {
+            limit: DEFAULT_LIMIT,
+            offset: page * DEFAULT_LIMIT,
+          },
+        });
+        return data.map((product) => ({
+          label: product.name,
+          value: product.id,
+        }));
+      },
+    },
+    activityTypeId: {
+      type: "string",
+      label: "Activity Type ID",
+      description: "Select an activity type or provide an activity type ID",
+      async options({ page }) {
+        const data = await this.listActivityTypes({
+          params: {
+            limit: DEFAULT_LIMIT,
+            offset: page * DEFAULT_LIMIT,
+          },
+        });
+        return data.map((activityType) => ({
+          label: activityType.name,
+          value: activityType.id,
+        }));
+      },
+    },
+    opportunityId: {
+      type: "string",
+      label: "Opportunity ID",
+      description: "Select an opportunity or provide an opportunity ID",
+      async options({ page }) {
+        const data = await this.listOpportunities({
+          params: {
+            limit: DEFAULT_LIMIT,
+            offset: page * DEFAULT_LIMIT,
+            probability: [
+              "gte:1",
+              "lte:99",
+            ],
+          },
+        });
+        return data.map((opportunity) => ({
+          label: opportunity.name,
+          value: opportunity.id,
         }));
       },
     },
@@ -373,7 +429,23 @@ export default {
     },
     async listAppointments(args = {}) {
       return this._makeRequest({
-        url: "/appointsments",
+        url: "/appointments",
+        ...args,
+      });
+    },
+    async createAppointment(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        url: "/appointments",
+        ...args,
+      });
+    },
+    async updateAppointment({
+      appointmentId, ...args
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        url: `/appointments/${appointmentId}`,
         ...args,
       });
     },
@@ -424,6 +496,35 @@ export default {
       return this._makeRequest({
         method: "PUT",
         url: `/orders/${orderId}`,
+        ...args,
+      });
+    },
+    async listProducts(args = {}) {
+      return this._makeRequest({
+        url: "/products",
+        ...args,
+      });
+    },
+    async getProduct({
+      productId, ...args
+    }) {
+      return this._makeRequest({
+        url: `/products/${productId}`,
+        ...args,
+      });
+    },
+    async listActivityTypes(args = {}) {
+      return this._makeRequest({
+        url: "/todoTypes",
+        ...args,
+      });
+    },
+    async uploadOrderDocument({
+      orderId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        url: `/resources/upload/internal/orders/${orderId}`,
         ...args,
       });
     },

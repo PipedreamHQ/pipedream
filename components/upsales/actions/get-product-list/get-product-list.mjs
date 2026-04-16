@@ -1,9 +1,9 @@
 import app from "../../upsales.app.mjs";
 
 export default {
-  key: "upsales-get-order-list",
-  name: "Get Order List",
-  description: "Retrieves a list of orders from Upsales. [See the documentation](https://api.upsales.com/#9c402e62-1951-4b50-9372-6f2664736431)",
+  key: "upsales-get-product-list",
+  name: "Get Product List",
+  description: "Retrieves a list of products from Upsales. [See the documentation](https://api.upsales.com/#378f1b2f-11ce-409a-bf89-ee9f3dda854c)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -27,17 +27,15 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.listOrders({
+    const response = await this.app.listProducts({
       $,
       params: {
         limit: this.limit,
         offset: this.offset,
-        probability: 100,
       },
     });
 
-    $.export("$summary", `Successfully retrieved ${response.length || 0} order(s)`);
+    $.export("$summary", `Successfully retrieved ${response.data?.length || 0} product(s)`);
     return response;
   },
 };
-

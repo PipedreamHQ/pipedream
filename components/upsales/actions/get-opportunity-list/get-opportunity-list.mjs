@@ -1,15 +1,15 @@
 import app from "../../upsales.app.mjs";
 
 export default {
-  key: "upsales-get-order-list",
-  name: "Get Order List",
-  description: "Retrieves a list of orders from Upsales. [See the documentation](https://api.upsales.com/#9c402e62-1951-4b50-9372-6f2664736431)",
+  key: "upsales-get-opportunity-list",
+  name: "Get Opportunity List",
+  description: "Retrieves a list of opportunities from Upsales. [See the documentation](https://api.upsales.com/#d448e686-69ab-4832-987b-f718abcb8c7e)",
   version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
-    readOnlyHint: true,
+    readOnlyHint: false,
   },
   props: {
     app,
@@ -32,7 +32,10 @@ export default {
       params: {
         limit: this.limit,
         offset: this.offset,
-        probability: 100,
+        probability: [
+          "gte:1",
+          "lte:99",
+        ],
       },
     });
 
@@ -40,4 +43,3 @@ export default {
     return response;
   },
 };
-
