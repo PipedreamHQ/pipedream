@@ -37,7 +37,7 @@ export default {
     blocks: {
       type: "string",
       label: "Blocks",
-      description: "JSON array of Block Kit blocks. Replaces existing blocks.",
+      description: "JSON array of Block Kit blocks. Replaces existing blocks. Example: `[{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"*Updated* message\"}}]`.",
       optional: true,
     },
   },

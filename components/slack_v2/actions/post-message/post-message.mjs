@@ -32,7 +32,7 @@ export default {
     blocks: {
       type: "string",
       label: "Blocks",
-      description: "JSON array of Block Kit blocks for rich message layouts.",
+      description: "JSON array of Block Kit blocks for rich message layouts. Example: `[{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"Hello from Pipedream\"}}]`.",
       optional: true,
     },
     threadTs: {
@@ -92,11 +92,17 @@ export default {
       args.reply_broadcast = this.replyBroadcast;
     }
     const response = await this.slack.postChatMessage(args);
-    const permalink = await this.slack.makeRequest({
-      method: "chat.getPermalink",
-      channel: response.channel,
-      message_ts: response.ts,
-    });
+    let permalink;
+    try {
+      const permalinkResponse = await this.slack.makeRequest({
+        method: "chat.getPermalink",
+        channel: response.channel,
+        message_ts: response.ts,
+      });
+      permalink = permalinkResponse?.permalink;
+    } catch {
+      // Best-effort enrichment only. Posting already succeeded.
+    }
     $.export("$summary", `Message sent to ${response.channel}${this.threadTs
       ? " (thread reply)"
       : ""}`);
