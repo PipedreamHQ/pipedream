@@ -228,7 +228,7 @@ export default {
     activityTypeId: {
       type: "string",
       label: "Activity Type ID",
-      description: "The activity type's unique ID. Use **Get Activity List** to find activity types.",
+      description: "The activity type's unique ID",
       async options({ page }) {
         const { data } = await this.listActivityTypes({
           params: {
