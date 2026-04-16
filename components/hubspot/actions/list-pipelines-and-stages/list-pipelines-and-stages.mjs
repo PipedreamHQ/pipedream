@@ -6,7 +6,7 @@ export default {
   name: "List Pipelines and Stages",
   description:
     "List all pipelines and their stages for deals or tickets. Returns pipeline IDs, labels, and each pipeline's ordered stages with stage IDs and labels. Use this to discover valid `pipeline` and `dealstage` / `hs_pipeline_stage` values before creating or updating deals and tickets. [See the documentation](https://developers.hubspot.com/docs/api/crm/pipelines)",
-  version: "0.0.1",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

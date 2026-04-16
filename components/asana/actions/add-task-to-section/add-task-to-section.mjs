@@ -5,9 +5,9 @@ export default {
   name: "Add Task To Section",
   description: "Add a task to a specific, existing section. This will remove the task from other sections of the project. [See the documentation](https://developers.asana.com/docs/add-task-to-section)",
   key: "asana-add-task-to-section",
-  version: "0.2.11",
+  version: "0.2.12",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },

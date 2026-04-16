@@ -5,7 +5,7 @@ export default {
   key: "hubspot-list-threads",
   name: "List Threads",
   description: "Retrieves a list of threads. [See the documentation](https://developers.hubspot.com/docs/api-reference/conversations-conversations-inbox-&-messages-v3/public-thread/get-conversations-v3-conversations-threads)",
-  version: "0.0.2",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: false,

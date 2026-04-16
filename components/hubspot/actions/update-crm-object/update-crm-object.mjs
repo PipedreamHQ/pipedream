@@ -13,7 +13,7 @@ export default {
     + " **Search Properties** to discover available fields,"
     + " and **Get Properties** to find valid enum values."
     + " [See the documentation](https://developers.hubspot.com/docs/api/crm/objects)",
-  version: "0.0.1",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

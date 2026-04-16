@@ -7,7 +7,7 @@ export default {
   name: "Draft Order Updated (Instant)",
   type: "source",
   description: "Emit new event for each draft order updated in a store.",
-  version: "0.0.4",
+  version: "0.0.5",
   dedupe: "unique",
   methods: {
     ...common.methods,

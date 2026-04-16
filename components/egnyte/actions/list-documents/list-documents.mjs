@@ -4,7 +4,7 @@ export default {
   key: "egnyte-list-documents",
   name: "List Documents",
   description: "List documents in your Egnyte workspace. [See the documentation](https://developers.egnyte.com/api-docs/read/file-system-management-api-documentation)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -14,9 +14,11 @@ export default {
   props: {
     egnyte,
     folderPath: {
-      type: "string",
-      label: "Folder Path",
-      description: "List documents within this folder. Defaults to the root folder.",
+      propDefinition: [
+        egnyte,
+        "folderPath",
+      ],
+      description: "List documents within this folder. Search for a folder to select or enter a folder path manually. Defaults to the root folder.",
       optional: true,
     },
   },
