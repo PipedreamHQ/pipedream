@@ -19,11 +19,13 @@ export default {
   },
   hooks: {
     async activate() {
+      const data = new URLSearchParams({
+        callback_url: this.http.endpoint,
+        ...this.getParams(),
+      }).toString();
       await this.servicem8.setHook({
-        params: {
-          callback_url: this.http.endpoint,
-          ...this.getParams(),
-        },
+        $: this,
+        data,
       });
 
       console.log(`Webhook successful created. (Endpoint: ${this.http.endpoint})`);
@@ -31,7 +33,8 @@ export default {
     async deactivate() {
       const { object } = this.getParams();
       await this.servicem8.removeHook({
-        data: `object=${object}`,
+        $: this,
+        data: `object=${encodeURIComponent(object)}`,
       });
     },
   },

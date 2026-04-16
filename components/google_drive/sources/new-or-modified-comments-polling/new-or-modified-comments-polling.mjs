@@ -1,12 +1,13 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import googleDrive from "../../google_drive.app.mjs";
 import sampleEmit from "./test-event.mjs";
+import md5 from "md5";
 
 export default {
   key: "google_drive-new-or-modified-comments-polling",
   name: "New or Modified Comments (Polling)",
   description: "Emit new event when a comment is created or modified in the selected file",
-  version: "0.0.4",
+  version: "0.0.7",
   type: "source",
   dedupe: "unique",
   props: {
@@ -75,7 +76,7 @@ export default {
       const ts = Date.parse(tsString);
 
       return {
-        id: `${commentId}-${ts}`,
+        id: md5(`${commentId}-${ts}`),
         summary,
         ts,
       };

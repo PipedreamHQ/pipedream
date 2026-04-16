@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/quaderno",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Quaderno Components",
   "main": "quaderno.app.mjs",
   "keywords": [

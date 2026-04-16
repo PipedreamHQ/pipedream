@@ -4,7 +4,7 @@ export default {
   key: "wics-delete-order-line",
   name: "Delete Order Line",
   description: "Delete a line from an order. [See the documentation](https://docs.wics.nl/test-environment.html#orders-delete-order-line)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: true,
@@ -13,10 +13,10 @@ export default {
   },
   props: {
     wics,
-    orderReference: {
+    orderNumber: {
       propDefinition: [
         wics,
-        "orderReference",
+        "orderNumber",
       ],
     },
     lineNumber: {
@@ -24,7 +24,7 @@ export default {
         wics,
         "lineNumber",
         (c) => ({
-          orderReference: c.orderReference,
+          orderNumber: c.orderNumber,
         }),
       ],
     },
@@ -32,10 +32,10 @@ export default {
   async run({ $ }) {
     const { data } = await this.wics.deleteOrderLine({
       $,
-      orderReference: this.orderReference,
+      orderNumber: this.orderNumber,
       lineNumber: this.lineNumber,
     });
-    $.export("$summary", `Successfully deleted line ${this.lineNumber} from order ${this.orderReference}`);
+    $.export("$summary", `Successfully deleted line ${this.lineNumber} from order ${this.orderNumber}`);
     return data;
   },
 };

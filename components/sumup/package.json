@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sumup",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream SumUp Components",
   "main": "sumup.app.mjs",
   "keywords": [

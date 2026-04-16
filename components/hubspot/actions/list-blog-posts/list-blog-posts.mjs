@@ -4,7 +4,7 @@ export default {
   key: "hubspot-list-blog-posts",
   name: "List Blog Posts",
   description: "Retrieves a list of blog posts. [See the documentation](https://developers.hubspot.com/docs/reference/api/cms/blogs/blog-posts)",
-  version: "0.0.11",
+  version: "0.0.14",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -61,6 +61,12 @@ export default {
       description: "Specifies whether to return deleted Blog Posts",
       optional: true,
     },
+    properties: {
+      type: "string",
+      label: "Properties",
+      description: "A comma-separated list of properties to return in the response",
+      optional: true,
+    },
     sort: {
       type: "string",
       label: "Sort",
@@ -95,6 +101,7 @@ export default {
       updatedAfter: this.updatedAfter,
       updatedBefore: this.updatedBefore,
       archived: this.archived,
+      property: this.properties,
       sort: this.sort,
     };
 

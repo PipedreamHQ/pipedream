@@ -3,12 +3,13 @@ import googleDrive from "../../google_drive.app.mjs";
 import { getListFilesOpts } from "../../common/utils.mjs";
 import sampleEmit from "./test-event.mjs";
 import { GOOGLE_DRIVE_FOLDER_MIME_TYPE } from "../../common/constants.mjs";
+import md5 from "md5";
 
 export default {
   key: "google_drive-new-or-modified-files-polling",
   name: "New or Modified Files (Polling)",
   description: "Emit new event when a file in the selected Drive is created, modified or trashed. [See the documentation](https://developers.google.com/drive/api/v3/reference/changes/list)",
-  version: "0.0.5",
+  version: "0.0.8",
   type: "source",
   dedupe: "unique",
   props: {
@@ -63,6 +64,13 @@ export default {
       label: "New Files Only",
       description: "If enabled, only emit events for newly created files (based on `createdTime`)",
       default: false,
+      optional: true,
+    },
+    changesPageSize: {
+      type: "integer",
+      label: "Changes Page Size",
+      description: "Maximum number of changes to fetch per API call. Lower values reduce the risk of execution timeouts on active drives.",
+      default: 1000,
       optional: true,
     },
   },
@@ -159,7 +167,7 @@ export default {
       const ts = Date.parse(tsString);
 
       return {
-        id: `${fileId}-${ts}`,
+        id: md5(`${fileId}-${ts}`),
         summary,
         ts,
       };
@@ -177,7 +185,8 @@ export default {
     const pageToken = this._getPageToken();
     const driveId = this.getDriveId();
 
-    const changedFilesStream = this.googleDrive.listChanges(pageToken, driveId);
+    const changedFilesStream =
+      this.googleDrive.listChanges(pageToken, driveId, this.changesPageSize);
 
     for await (const changedFilesPage of changedFilesStream) {
       console.log("Changed files page:", changedFilesPage);
