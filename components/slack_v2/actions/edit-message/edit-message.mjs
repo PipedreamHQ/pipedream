@@ -1,4 +1,5 @@
 import slack from "../../slack_v2.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "slack_v2-edit-message",
@@ -12,7 +13,7 @@ export default {
   version: "0.0.1",
   type: "action",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
@@ -49,7 +50,11 @@ export default {
       text: this.text,
     };
     if (this.blocks) {
-      args.blocks = JSON.parse(this.blocks);
+      try {
+        args.blocks = JSON.parse(this.blocks);
+      } catch (error) {
+        throw new ConfigurationError("Invalid JSON string: " + error.message);
+      }
     }
     const response = await this.slack.updateMessage(args);
     $.export("$summary", `Message updated in ${channelId}`);

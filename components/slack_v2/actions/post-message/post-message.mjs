@@ -1,4 +1,5 @@
 import slack from "../../slack_v2.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "slack_v2-post-message",
@@ -80,7 +81,11 @@ export default {
       unfurl_media: this.unfurlMedia,
     };
     if (this.blocks) {
-      args.blocks = JSON.parse(this.blocks);
+      try {
+        args.blocks = JSON.parse(this.blocks);
+      } catch (error) {
+        throw new ConfigurationError("Invalid JSON string: " + error.message);
+      }
     }
     if (this.threadTs) {
       args.thread_ts = this.threadTs;
