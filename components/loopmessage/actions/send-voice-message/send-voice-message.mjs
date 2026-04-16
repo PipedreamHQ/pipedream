@@ -1,13 +1,12 @@
-import constants from "../../common/constants.mjs";
 import app from "../../loopmessage.app.mjs";
 import utils from "../../common/utils.mjs";
 
 export default {
-  key: "loopmessage-send-reaction",
-  name: "Send Reaction",
-  description: "Action to send a reaction in iMessage or RCS.",
+  key: "loopmessage-send-voice-message",
+  name: "Send Outbound Voice Message",
+  description: "Send a voice memo. Supports only in: iMessage, RCS, WhatsApp.",
   type: "action",
-  version: "0.0.4",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -21,16 +20,25 @@ export default {
         "contact",
       ],
     },
-    messageId: {
-      type: "string",
-      label: "Message ID",
-      description: "The ID of the message to react to. You can get it from the webhook trigger.",
+    sender: {
+      optional: true,
+      propDefinition: [
+        app,
+        "sender",
+      ],
     },
-    reaction: {
-      type: "string",
-      label: "Reaction",
-      description: "Reactions that starts with `-` mean remove it from the message.",
-      options: constants.REACTIONS,
+    mediaUrl: {
+      propDefinition: [
+        app,
+        "mediaUrl",
+      ],
+    },
+    passthrough: {
+      optional: true,
+      propDefinition: [
+        app,
+        "passthrough",
+      ],
     },
   },
   methods: {
@@ -45,7 +53,7 @@ export default {
     } = this;
 
     try {
-      const response = await app.sendReaction({
+      const response = await app.sendMessage({
         step,
         data: utils.keysToSnakeCase(data),
       });

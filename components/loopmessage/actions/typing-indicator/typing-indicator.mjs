@@ -1,13 +1,12 @@
-import constants from "../../common/constants.mjs";
 import app from "../../loopmessage.app.mjs";
 import utils from "../../common/utils.mjs";
 
 export default {
-  key: "loopmessage-send-reaction",
-  name: "Send Reaction",
-  description: "Action to send a reaction in iMessage or RCS.",
+  key: "loopmessage-typing-indicator",
+  name: "Show Typing Indicator",
+  description: "Action to present a typing indicator or read status",
   type: "action",
-  version: "0.0.4",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -15,27 +14,28 @@ export default {
   },
   props: {
     app,
-    contact: {
+    messageId: {
       propDefinition: [
         app,
-        "contact",
+        "messageId",
       ],
     },
-    messageId: {
-      type: "string",
-      label: "Message ID",
-      description: "The ID of the message to react to. You can get it from the webhook trigger.",
+    typing: {
+      propDefinition: [
+        app,
+        "typing",
+      ],
     },
-    reaction: {
-      type: "string",
-      label: "Reaction",
-      description: "Reactions that starts with `-` mean remove it from the message.",
-      options: constants.REACTIONS,
+    read: {
+      propDefinition: [
+        app,
+        "read",
+      ],
     },
   },
   methods: {
-    getSummary(response) {
-      return `Request accepted. Message ID: \`${response.message_id}\``;
+    getSummary() {
+      return "Request accepted.";
     },
   },
   async run({ $: step }) {
@@ -45,7 +45,7 @@ export default {
     } = this;
 
     try {
-      const response = await app.sendReaction({
+      const response = await app.sendTyping({
         step,
         data: utils.keysToSnakeCase(data),
       });
