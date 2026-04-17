@@ -4,7 +4,7 @@ export default {
   name: "Search Capabilities",
   version: "0.0.1",
   key: "strale-search-capabilities",
-  description: "Search Strale's catalog of 290+ data capabilities using natural language. Returns matching capabilities with prices and quality scores. [See the documentation](https://strale.dev)",
+  description: "Search Strale's catalog of 290+ data capabilities using natural language. Returns matching capabilities with prices and quality scores. [See the documentation](https://strale.dev/docs)",
   type: "action",
   annotations: {
     readOnlyHint: true,

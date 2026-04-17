@@ -3,7 +3,7 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "strale",
-  description: "Strale is the data layer for AI agents — 290+ quality-tested data capabilities including company verification, sanctions screening, VAT validation, invoice extraction, and more. [See the documentation](https://strale.dev)",
+  description: "Strale is the data layer for AI agents — 290+ quality-tested data capabilities including company verification, sanctions screening, VAT validation, invoice extraction, and more. [See the documentation](https://strale.dev/docs)",
   propDefinitions: {
     task: {
       type: "string",
@@ -31,6 +31,7 @@ export default {
       type: "integer",
       label: "Max Price (cents)",
       description: "Maximum price in euro cents you are willing to pay per execution.",
+      optional: true,
     },
     dryRun: {
       type: "boolean",
@@ -58,12 +59,15 @@ export default {
       return headers;
     },
     _makeRequest({
-      $ = this, path, ...args
+      $ = this, path, headers = {}, ...args
     }) {
       return axios($, {
         url: `${this._baseUrl()}${path}`,
-        headers: this._headers(),
         ...args,
+        headers: {
+          ...this._headers(),
+          ...headers,
+        },
       });
     },
     suggest(args = {}) {

@@ -4,7 +4,7 @@ export default {
   name: "Search and Execute",
   version: "0.0.1",
   key: "strale-search-and-execute",
-  description: "Describe what you need in plain language, and Strale finds the best-matching capability and executes it. Combines search (POST /v1/suggest) and execution (POST /v1/do) in one step. [See the documentation](https://strale.dev)",
+  description: "Describe what you need in plain language \u2014 Strale picks the best capability and executes it in one step. Use this when you don't know the exact capability slug. If you already know the slug, use **Execute Capability** instead; if you only want to discover matches without running anything, use **Search Capabilities**. [See the documentation](https://strale.dev/docs)",
   type: "action",
   annotations: {
     readOnlyHint: false,
