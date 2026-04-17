@@ -31,12 +31,12 @@ export default {
     subject: {
       type: "string",
       label: "Subject",
-      description: "The resource instance assigned the new relation. Use the format `resource_type:instance_key` (e.g. `organization:permitio`).",
+      description: "The resource instance assigned to the new relation. Use the format `resource_type:instance_key` (e.g. `organization:permitio`).",
     },
     relation: {
       type: "string",
       label: "Relation",
-      description: "The relation to assign between the subject and object (e.g. `owner`, `member`).",
+      description: "The relation to assign between the subject and object (e.g. `owner`, `member`)",
     },
     object: {
       type: "string",

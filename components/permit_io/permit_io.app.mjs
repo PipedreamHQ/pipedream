@@ -7,7 +7,7 @@ export default {
     projId: {
       type: "string",
       label: "Project ID",
-      description: "The project key or ID.",
+      description: "The project key or ID",
       async options({ page }) {
         const projects = await this.listProjects({
           params: {
@@ -26,7 +26,7 @@ export default {
     envId: {
       type: "string",
       label: "Environment ID",
-      description: "The environment key or ID.",
+      description: "The environment key or ID",
       async options({
         page, projId,
       }) {
@@ -51,7 +51,7 @@ export default {
     role: {
       type: "string",
       label: "Role",
-      description: "The role key or ID (e.g. `admin`, `editor`).",
+      description: "The role key or ID (e.g. `admin`, `editor`)",
       async options({
         page, projId, envId,
       }) {
@@ -80,7 +80,7 @@ export default {
     user: {
       type: "string",
       label: "User",
-      description: "The user key or ID (e.g. `jane@example.com`).",
+      description: "The user key or ID (e.g. `jane@example.com`)",
       async options({
         page, projId, envId,
       }) {
@@ -112,7 +112,7 @@ export default {
     tenant: {
       type: "string",
       label: "Tenant",
-      description: "The tenant key or ID (e.g. `stripe-inc`).",
+      description: "The tenant key or ID (e.g. `stripe-inc`)",
       async options({
         page, projId, envId,
       }) {

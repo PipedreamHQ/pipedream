@@ -37,18 +37,18 @@ export default {
     name: {
       type: "string",
       label: "Name",
-      description: "A descriptive display name for the tenant (e.g. `Stripe Inc`).",
+      description: "A descriptive display name for the tenant (e.g. `Stripe Inc`)",
     },
     description: {
       type: "string",
       label: "Description",
-      description: "An optional longer description of the tenant.",
+      description: "An optional longer description of the tenant",
       optional: true,
     },
     attributes: {
       type: "object",
       label: "Attributes",
-      description: "Arbitrary JSON attributes used to enforce attribute-based access control (ABAC) policies (e.g. `{ \"allowed_locations\": [\"US\", \"CA\"] }`).",
+      description: "Arbitrary JSON attributes used to enforce attribute-based access control (ABAC) policies (e.g. `{ \"allowed_locations\": [\"US\", \"CA\"] }`)",
       optional: true,
     },
   },
