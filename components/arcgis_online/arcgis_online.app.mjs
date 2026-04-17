@@ -12,7 +12,7 @@ export default {
       type: "string",
       label: "Feature Service",
       description:
-        "Select a Feature Service from your organization, or enter a portal item ID or full FeatureServer URL",
+        "The Feature Service to use: a 32-character portal item ID (e.g. \"0123456789abcdef0123456789abcdef\"), a full FeatureServer URL (e.g. \"https://services.arcgis.com/.../FeatureServer/0\"), or a service title that matches search results",
       useQuery: true,
       async options({
         query,
@@ -28,7 +28,8 @@ export default {
     layerId: {
       type: "string",
       label: "Layer",
-      description: "Layer from the selected Feature Service",
+      description:
+        "Layer in the Feature Service: numeric layer id as a string (e.g. \"0\" or \"1\") or layer name (e.g. \"Parcels\"); names are matched case-insensitively",
       async options({
         featureService,
         editableOnly,
@@ -47,7 +48,7 @@ export default {
       type: "string[]",
       label: "Target Layers",
       description:
-        "Layers in the same Feature Service to query for intersections",
+        "Layers in the same Feature Service: each entry is a numeric layer id as a string and/or a layer name (e.g. [\"0\", \"Parcels\", \"2\"]); names are matched case-insensitively",
       async options({ featureService }) {
         if (!featureService) {
           return [];
@@ -61,7 +62,8 @@ export default {
     fieldName: {
       type: "string",
       label: "Field Name",
-      description: "Attribute field on the layer",
+      description:
+        "Layer attribute field name (e.g. \"OBJECTID\", \"CITY_NAME\"). Names are case-sensitive and must match the layer schema",
       async options({
         featureService,
         layerId,
@@ -82,7 +84,7 @@ export default {
       type: "string",
       label: "Object ID",
       description:
-        "Feature OBJECTID from the selected layer. You can also type an ID manually",
+        "Feature OBJECTID: a numeric identifier, as a string (e.g. \"12345\")",
       async options({
         featureService,
         layerId,
@@ -516,7 +518,9 @@ export default {
      * @param {string} [opts.query] - Optional search text
      * @param {boolean} [opts.includePublic=false] - Include public maps
      * @param {number} [opts.maxRecords=500] - Safety limit on total results
-     * @returns {Promise<object[]>} Flat array of { itemId, title, url, owner, description }
+     * @returns {Promise<{ items: object[], truncated: boolean }>}
+     *   `items` — flat array of { itemId, title, url, owner, description };
+     *   `truncated` — true when the result set was cut off at maxRecords
      */
     async listAllFeatureServices({
       $, query, includePublic = false, maxRecords = 500,
@@ -541,6 +545,7 @@ export default {
 
       const all = [];
       let start = 1;
+      let truncated = false;
 
       while (all.length < maxRecords) {
         const data = await this._request({
@@ -557,6 +562,7 @@ export default {
         const results = data?.results ?? [];
         for (const item of results) {
           if (all.length >= maxRecords) {
+            truncated = true;
             break;
           }
           all.push({
@@ -578,7 +584,10 @@ export default {
         start = nextStart;
       }
 
-      return all;
+      return {
+        items: all,
+        truncated,
+      };
     },
 
     /**
@@ -688,7 +697,11 @@ export default {
      * @param {object} opts.$ - Pipedream execution context
      * @param {string} opts.featureService - Item ID, URL, or title
      * @param {string} opts.layerId - Layer index or name
-     * @returns {Promise<object[]>} Flat array of { name, alias, type, editable }
+     * @returns {Promise<object[]>} Flat array of { name, alias, type, editable, updatable }
+     *   `editable` — raw server flag (f.editable); may be true for OID/GlobalID fields.
+     *   `updatable` — derived flag; false for OID, GlobalID, and Geometry fields even
+     *   when the server reports them as editable. Use this when deciding which fields
+     *   to include in an applyEdits attribute update.
      */
     async getLayerFields({
       $, featureService, layerId,
@@ -723,6 +736,7 @@ export default {
         alias: f.alias || f.name,
         type: f.type,
         editable: f.editable !== false,
+        updatable: this._fieldIsUpdatable(f, meta),
       }));
     },
 
@@ -1141,7 +1155,16 @@ export default {
      * @param {string} opts.featureService - Item ID, URL, or title
      * @param {object|string} opts.boundary - Esri geometry with spatialReference
      * @param {string[]} opts.targetLayerIds - Layer indices or names to query
-     * @returns {Promise<{ geometryType: string, layers: object }>}
+     * @returns {Promise<{
+     *   geometryType: string,
+     *   layers: Record<string, {
+     *     id: number,
+     *     name: string,
+     *     count: number,
+     *     features: object[]
+     *   }>
+     * }>}
+
      */
     async queryIntersectingFeaturesByGeometry({
       $, featureService, boundary, targetLayerIds,
@@ -1235,6 +1258,7 @@ export default {
           }
         }
         return {
+          id,
           name,
           count: collected.length,
           features: collected,
@@ -1250,9 +1274,12 @@ export default {
         layers: {},
       };
       for (const {
-        name, count, features,
+        id, name, count, features,
       } of perLayer) {
-        result.layers[name] = {
+        const key = String(id);
+        result.layers[key] = {
+          id,
+          name,
           count,
           features,
         };

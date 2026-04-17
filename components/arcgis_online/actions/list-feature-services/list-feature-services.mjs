@@ -37,7 +37,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const results = await this.arcgisOnline.listAllFeatureServices({
+    const {
+      items, truncated,
+    } = await this.arcgisOnline.listAllFeatureServices({
       $,
       query: this.searchQuery,
       includePublic: this.includePublic,
@@ -46,8 +48,10 @@ export default {
 
     $.export(
       "$summary",
-      `Found ${results.length} feature service(s)`,
+      truncated
+        ? `Returned ${items.length} feature service(s) (results truncated — more may exist)`
+        : `Found ${items.length} feature service(s)`,
     );
-    return results;
+    return items;
   },
 };
