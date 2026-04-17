@@ -17,7 +17,7 @@ export default {
     + " [See the docs](https://docs.datadoghq.com/api/"
     + "latest/hosts/"
     + "#get-all-hosts-for-your-organization)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -26,12 +26,6 @@ export default {
   },
   props: {
     datadog,
-    region: {
-      propDefinition: [
-        datadog,
-        "region",
-      ],
-    },
     filter: {
       type: "string",
       label: "Filter",
@@ -81,7 +75,6 @@ export default {
     const response = await this.datadog.listHosts({
       $,
       params,
-      region: this.region,
     });
 
     const count = response?.hostList?.length

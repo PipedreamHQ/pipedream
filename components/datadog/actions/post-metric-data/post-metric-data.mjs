@@ -16,7 +16,7 @@ export default {
     + " appends data to a metric time series."
     + " [See the docs](https://docs.datadoghq.com/"
     + "metrics)",
-  version: "0.1.5",
+  version: "0.1.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -25,19 +25,10 @@ export default {
   type: "action",
   props: {
     datadog,
-    region: {
-      propDefinition: [
-        datadog,
-        "region",
-      ],
-    },
     metric: {
       propDefinition: [
         datadog,
         "metric",
-        (c) => ({
-          region: c.region,
-        }),
       ],
     },
     points: {
@@ -65,7 +56,6 @@ export default {
           },
         ],
       },
-      region: this.region,
     });
 
     $.export("$summary", `Posted to ${this.metric} timeseries`);
