@@ -4,7 +4,7 @@ export default {
   key: "amazon_selling_partner-optimize-product-pricing",
   name: "Optimize Product Pricing",
   description: "Retrieves pricing data to adjust product prices dynamically based on market trends. [See the documentation](https://developer-docs.amazon.com/sp-api/reference/getcompetitivepricing)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
