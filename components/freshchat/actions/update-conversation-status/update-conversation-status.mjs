@@ -1,5 +1,6 @@
 import freshchat from "../../freshchat.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import { parseObject } from "../../common/utils.mjs";
 
 export default {
   key: "freshchat-update-conversation-status",
@@ -39,7 +40,6 @@ export default {
         "resolved",
         "reopened",
       ],
-      optional: true,
     },
     agentId: {
       propDefinition: [
@@ -85,14 +85,14 @@ export default {
 
     // Only include fields that are set
     if (this.status) data.status = this.status;
-    if (this.agentId !== undefined) data.assigned_agent_id = this.agentId || " ";
-    if (this.groupId !== undefined) data.assigned_group_id = this.groupId || " ";
+    if (this.agentId !== undefined) data.assigned_agent_id = this.agentId || "";
+    if (this.groupId !== undefined) data.assigned_group_id = this.groupId || "";
 
     // Build properties object
     const properties = {};
     if (this.priority) properties.priority = this.priority;
     if (this.customProperties) {
-      Object.assign(properties, this.customProperties);
+      Object.assign(properties, parseObject(this.customProperties));
     }
     if (Object.keys(properties).length > 0) {
       data.properties = properties;
