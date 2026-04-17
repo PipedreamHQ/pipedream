@@ -574,11 +574,14 @@ export default {
           });
         }
         const nextStart = data?.nextStart;
-        if (
-          typeof nextStart !== "number"
-          || nextStart <= start
-          || nextStart === -1
-        ) {
+        const hasMorePages = typeof nextStart === "number"
+          && nextStart > start
+          && nextStart !== -1;
+        if (!hasMorePages) {
+          break;
+        }
+        if (all.length >= maxRecords) {
+          truncated = true;
           break;
         }
         start = nextStart;
