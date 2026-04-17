@@ -6,7 +6,7 @@ export default {
   key: "pdfcrowd-html-to-pdf",
   name: "Convert HTML to PDF",
   description: "Convert URL or HTML to PDF. [See docs](https://pdfcrowd.com/api/)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -118,6 +118,9 @@ export default {
       type: "dir",
       accessMode: "write",
       sync: true,
+      label: "Sync Directory",
+      description: "Directory used for saving the generated PDF to `/tmp` so it can be referenced by later steps in the same workflow.",
+      optional: true,
     },
   },
   additionalProps() {
