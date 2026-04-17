@@ -18,7 +18,7 @@ export default {
   key: "google_drive-download-file",
   name: "Download File",
   description: "Download a file. [See the documentation](https://developers.google.com/drive/api/v3/manage-downloads) for more information",
-  version: "0.1.22",
+  version: "0.1.23",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -146,6 +146,7 @@ export default {
       const buffer = Buffer.concat(chunks);
 
       return {
+        fileId: this.fileId,
         fileMetadata,
         content: buffer,
       };
@@ -159,6 +160,7 @@ export default {
     await pipeline(file, fs.createWriteStream(filePath));
     $.export("$summary", `Successfully downloaded the file, "${fileMetadata.name}"`);
     return {
+      fileId: this.fileId,
       fileMetadata,
       filePath,
     };

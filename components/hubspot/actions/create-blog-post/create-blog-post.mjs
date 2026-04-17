@@ -5,7 +5,7 @@ export default {
   key: "hubspot-create-blog-post",
   name: "Create Blog Post",
   description: "Creates a new blog post in HubSpot. [See the documentation](https://developers.hubspot.com/docs/api-reference/cms-posts-v3/basic/post-cms-v3-blogs-posts)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
