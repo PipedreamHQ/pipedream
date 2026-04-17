@@ -8,7 +8,7 @@ export default {
     + " Use the returned `typeId` values when creating associations with **Create Association** or **Create CRM Object** (associations JSON)."
     + " Order matters: from/to defines the direction of the relationship."
     + " [See the documentation](https://developers.hubspot.com/docs/api-reference/crm/associations-v4/definitions/get-crm-v4-associations-fromToObjectType-toToObjectType-labels)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

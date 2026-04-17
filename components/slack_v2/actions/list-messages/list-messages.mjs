@@ -5,7 +5,7 @@ export default {
   name: "List Messages",
   description:
     "Retrieve messages from a Slack conversation, including reactions. [See the documentation](https://api.slack.com/methods/conversations.history)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
