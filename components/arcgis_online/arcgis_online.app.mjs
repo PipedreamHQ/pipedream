@@ -446,7 +446,7 @@ export default {
      * @param {string} [opts.query] - User search text
      * @param {object} [opts.prevContext] - Pagination context
      * @param {number} [opts.prevContext.nextStart]
-     * @param {boolean} [opts.includePublic=false] - Include public maps beyond the org
+     * @param {boolean} [opts.includePublic=false] - Include public Feature Services beyond the org
      * @returns {Promise<{ options: object[], context: object }>}
      */
     async searchFeatureServices({
@@ -516,7 +516,7 @@ export default {
      * @param {object} opts
      * @param {object} opts.$ - Pipedream execution context
      * @param {string} [opts.query] - Optional search text
-     * @param {boolean} [opts.includePublic=false] - Include public maps
+     * @param {boolean} [opts.includePublic=false] - Include public Feature Services beyond the org
      * @param {number} [opts.maxRecords=500] - Safety limit on total results
      * @returns {Promise<{ items: object[], truncated: boolean }>}
      *   `items` — flat array of { itemId, title, url, owner, description };
