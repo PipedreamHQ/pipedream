@@ -9,7 +9,7 @@ export default {
   type: "action",
   annotations: {
     destructiveHint: false,
-    openWorldHint: false,
+    openWorldHint: true,
     readOnlyHint: true,
   },
   props: {
@@ -59,17 +59,8 @@ export default {
       targetLayerIds,
     } = this;
 
-    if (!featureService) {
-      throw new Error("featureService is required");
-    }
-    if (!targetLayerIds?.length) {
-      throw new Error("targetLayerIds is required");
-    }
-    if (!sourceLayerId) {
-      throw new Error("sourceLayerId is required");
-    }
-    if (!whereClause) {
-      throw new Error("whereClause is required");
+    if (targetLayerIds?.length === 0) {
+      throw new Error("Target Layers must include at least one layer");
     }
 
     const { boundary } = await app.fetchFirstFeatureGeometry({

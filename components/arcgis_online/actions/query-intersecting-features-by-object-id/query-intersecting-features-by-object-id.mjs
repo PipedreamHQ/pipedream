@@ -2,14 +2,14 @@ import arcgisOnline from "../../arcgis_online.app.mjs";
 
 export default {
   key: "arcgis_online-query-intersecting-features-by-object-id",
-  name: "Find Intersecting Features",
+  name: "Find Intersecting Features by Object ID",
   description:
     "Load a feature by OBJECTID from the source layer, then query target layers in the same Feature Service for spatially intersecting features. Returns per-layer attribute arrays. [See the documentation](https://developers.arcgis.com/rest/services-reference/enterprise/query-feature-service-layer-.htm)",
   version: "0.1.1",
   type: "action",
   annotations: {
     destructiveHint: false,
-    openWorldHint: false,
+    openWorldHint: true,
     readOnlyHint: true,
   },
   props: {
@@ -69,8 +69,14 @@ export default {
     if (!sourceLayerId) {
       throw new Error("sourceLayerId is required");
     }
-    if (!objectId) {
+    const objectIdStr = String(objectId).trim();
+    if (!objectIdStr) {
       throw new Error("objectId is required");
+    }
+    if (!/^\d+$/.test(objectIdStr)) {
+      throw new Error(
+        `objectId must be a digits-only string; got "${objectId}"`,
+      );
     }
     if (!targetLayerIds?.length) {
       throw new Error("targetLayerIds is required");
@@ -81,13 +87,13 @@ export default {
       featureService,
       layerId: sourceLayerId,
       queryParams: {
-        objectIds: objectId,
+        objectIds: objectIdStr,
       },
     });
 
     if (!boundary) {
       throw new Error(
-        `No feature found in layer '${sourceLayerId}' with OBJECTID ${objectId}`,
+        `No feature found in layer '${sourceLayerId}' with OBJECTID ${objectIdStr}`,
       );
     }
 

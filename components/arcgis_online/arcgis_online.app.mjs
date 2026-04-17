@@ -169,6 +169,14 @@ export default {
           f: "json",
         },
       });
+
+      if (data.username == null || data.username === "") {
+        throw new Error("No username found for current user");
+      }
+      if (data.orgId == null || data.orgId === "") {
+        throw new Error("No orgId found for current user");
+      }
+
       this._cachedUser = {
         username: data.username,
         orgId: data.orgId,
@@ -1045,6 +1053,7 @@ export default {
           error: "Geometry must be a JSON object",
         };
       }
+
       if (
         g.geometry != null
         && typeof g.geometry === "object"

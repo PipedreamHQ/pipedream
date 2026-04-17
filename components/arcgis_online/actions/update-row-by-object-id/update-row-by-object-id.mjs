@@ -58,10 +58,11 @@ export default {
         "Editable field to update (system fields like OBJECTID and GlobalID are excluded)",
     },
     newValue: {
-      type: "string",
+      type: "any",
       label: "New Value",
       description:
-        "New attribute value (ArcGIS coerces to the field type where applicable)",
+        "New value for the attribute. Pass string, number, boolean, or other JSON-serializable " +
+        "primitive. Use null to clear nullable fields. ArcGIS coerces values to field type.",
     },
   },
   async run({ $ }) {
@@ -74,8 +75,20 @@ export default {
       newValue,
     } = this;
 
-    if (!featureService || !layerId || !objectId || !fieldName || newValue === undefined) {
-      throw new Error("All fields are required");
+    if (!featureService) {
+      throw new Error("featureService is required");
+    }
+    if (layerId == null || layerId === "") {
+      throw new Error("layerId is required");
+    }
+    if (objectId == null || String(objectId).trim() === "") {
+      throw new Error("objectId is required");
+    }
+    if (!fieldName) {
+      throw new Error("fieldName is required");
+    }
+    if (newValue === undefined) {
+      throw new Error("newValue is required");
     }
 
     const objectIdStr = String(objectId).trim();

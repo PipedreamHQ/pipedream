@@ -9,7 +9,7 @@ export default {
   type: "action",
   annotations: {
     destructiveHint: false,
-    openWorldHint: false,
+    openWorldHint: true,
     readOnlyHint: true,
   },
   props: {
@@ -20,9 +20,9 @@ export default {
       description: "Optional text to filter Feature Services by name or keyword",
       optional: true,
     },
-    includePublicMaps: {
+    includePublic: {
       type: "boolean",
-      label: "Include Public Maps",
+      label: "Include Public",
       description:
         "When `false` (default), only Feature Services within your organization are returned. Set to `true` to also include publicly shared Feature Services",
       default: false,
@@ -40,7 +40,7 @@ export default {
     const results = await this.arcgisOnline.listAllFeatureServices({
       $,
       query: this.searchQuery,
-      includePublic: this.includePublicMaps,
+      includePublic: this.includePublic,
       maxRecords: this.maxRecords,
     });
 

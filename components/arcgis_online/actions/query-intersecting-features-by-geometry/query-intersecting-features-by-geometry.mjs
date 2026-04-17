@@ -5,11 +5,11 @@ export default {
   name: "Find Intersecting Features by Geometry",
   description:
     "Query target layers in a Feature Service for records whose geometry intersects an Esri JSON boundary you provide. Supports polygon (`rings`), polyline (`paths`), and point (`x` / `y`) geometries and returns per-layer attribute arrays. [See the documentation](https://developers.arcgis.com/rest/services-reference/enterprise/query-feature-service-layer-.htm)",
-  version: "0.1.2",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
-    openWorldHint: false,
+    openWorldHint: true,
     readOnlyHint: true,
   },
   props: {
@@ -45,13 +45,13 @@ export default {
     } = this;
 
     if (!featureService) {
-      throw new Error("featureService is required");
+      throw new Error("Feature Service is required");
     }
     if (!targetLayerIds?.length) {
-      throw new Error("targetLayerIds is required");
+      throw new Error("Target Layers must be provided");
     }
     if (!geometry) {
-      throw new Error("geometry is required");
+      throw new Error("Geometry is required");
     }
 
     const result = await app.queryIntersectingFeaturesByGeometry({

@@ -9,7 +9,7 @@ export default {
   type: "action",
   annotations: {
     destructiveHint: false,
-    openWorldHint: false,
+    openWorldHint: true,
     readOnlyHint: true,
   },
   props: {
@@ -69,6 +69,11 @@ export default {
     }
 
     const escapedValue = String(searchValue).replace(/'/g, "''");
+    if (!/^[A-Za-z_][A-Za-z0-9_.]*$/.test(fieldName)) {
+      throw new Error(
+        `Invalid fieldName "${fieldName}": use a letter or underscore first, then letters, digits, underscores, or dots only`,
+      );
+    }
     const queryResult = await app.queryLayerAttributesAllPages({
       $,
       featureService,
