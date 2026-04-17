@@ -2,6 +2,7 @@ import { axios } from "@pipedream/platform";
 
 const PORTAL_REST = "https://www.arcgis.com/sharing/rest";
 const PAGE_SIZE = 100;
+const MAX_TITLE_PAGES = 5;
 const PORTAL_ITEM_ID_RE = /^[a-f0-9]{32}$/i;
 
 export default {
@@ -369,6 +370,7 @@ export default {
       const refLower = ref.toLowerCase();
       const matches = [];
       let start = 1;
+      let pagesFetched = 0;
 
       while (true) {
         const data = await this._request({
@@ -382,6 +384,7 @@ export default {
             f: "json",
           },
         });
+        pagesFetched++;
         const results = data?.results ?? [];
         for (const r of results) {
           if (
@@ -392,11 +395,15 @@ export default {
             matches.push(r);
           }
         }
+        if (matches.length >= 2) {
+          break;
+        }
         const nextStart = data?.nextStart;
         if (
           typeof nextStart !== "number"
           || nextStart <= start
           || nextStart === -1
+          || pagesFetched >= MAX_TITLE_PAGES
         ) {
           break;
         }
@@ -464,8 +471,12 @@ export default {
         if (user.orgId && !includePublic) {
           orgFilter = ` AND orgid:${user.orgId}`;
         }
-      } catch {
-        // Fall back to unscoped search if user info unavailable
+      } catch (err) {
+        const msg = err?.message ?? "";
+        if (msg.includes("oauth_access_token") || /\[(401|403|498|499)\]/.test(msg)) {
+          throw err;
+        }
+        console.warn("ArcGIS org lookup unavailable, falling back to unscoped search:", msg);
       }
 
       const params = {
@@ -535,8 +546,12 @@ export default {
         if (user.orgId && !includePublic) {
           orgFilter = ` AND orgid:${user.orgId}`;
         }
-      } catch {
-        // Fall back to unscoped search
+      } catch (err) {
+        const msg = err?.message ?? "";
+        if (msg.includes("oauth_access_token") || /\[(401|403|498|499)\]/.test(msg)) {
+          throw err;
+        }
+        console.warn("ArcGIS org lookup unavailable, falling back to unscoped search:", msg);
       }
 
       const q = raw
@@ -1192,7 +1207,7 @@ export default {
         servicePath,
       });
 
-      const resolvedLayers = targetLayerIds.map((ref) => {
+      const rawResolvedLayers = targetLayerIds.map((ref) => {
         const layer = this._findLayerById(layers, ref);
         if (layer?.id == null) {
           throw new Error(
@@ -1203,6 +1218,16 @@ export default {
           name: layer.name || String(layer.id),
           id: layer.id,
         };
+      });
+
+      // Handles edge case where duplicate Ids or both id an name are provided for a layer
+      const seenIds = new Set();
+      const resolvedLayers = rawResolvedLayers.filter(({ id }) => {
+        if (seenIds.has(id)) {
+          return false;
+        }
+        seenIds.add(id);
+        return true;
       });
 
       const pageSizeById = new Map();
