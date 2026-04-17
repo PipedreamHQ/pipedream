@@ -1,20 +1,26 @@
-import common from "../common/send-message.mjs";
 import constants from "../../common/constants.mjs";
+import app from "../../loopmessage.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
-  ...common,
   key: "loopmessage-send-reaction",
   name: "Send Reaction",
-  description: "Action to submit your request to the sending queue. When a request in the queue will be ready to send a reaction in iMessage, an attempt will be made to deliver it to the recipient. [See the documentation](https://docs.loopmessage.com/imessage-conversation-api/messaging/send-message#send-reaction)",
+  description: "Action to send a reaction in iMessage or RCS.",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   props: {
-    ...common.props,
+    app,
+    contact: {
+      propDefinition: [
+        app,
+        "contact",
+      ],
+    },
     messageId: {
       type: "string",
       label: "Message ID",
@@ -23,14 +29,39 @@ export default {
     reaction: {
       type: "string",
       label: "Reaction",
-      description: "Reactions that starts with `-` mean *remove* it from the message. You can check the [Apple guide](https://support.apple.com/HT206894) about reactions and tapbacks.",
+      description: "Reactions that starts with `-` mean remove it from the message.",
       options: constants.REACTIONS,
     },
   },
   methods: {
-    ...common.methods,
     getSummary(response) {
-      return `Successfully sent a reaction to with ID \`${response.message_id}\``;
+      return `Request accepted. Message ID: \`${response.message_id}\``;
     },
+  },
+  async run({ $: step }) {
+    const {
+      app,
+      ...data
+    } = this;
+
+    try {
+      const response = await app.sendReaction({
+        step,
+        data: utils.keysToSnakeCase(data),
+      });
+      step.export("$summary", this.getSummary(response));
+
+      return response;
+    } catch (error) {
+      if (error.response?.status === 400) {
+        const message =
+            error.response.data?.message ??
+            error.response.data?.error_code ??
+            JSON.stringify(error.response.data);
+
+        throw new Error(message);
+      }
+      throw error;
+    }
   },
 };

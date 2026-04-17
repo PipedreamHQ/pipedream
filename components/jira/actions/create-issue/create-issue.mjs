@@ -8,7 +8,7 @@ export default {
   key: "jira-create-issue",
   name: "Create Issue",
   description: "Creates an issue or, where the option to create subtasks is enabled in Jira, a subtask. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-post)",
-  version: "0.1.29",
+  version: "0.1.30",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -145,8 +145,21 @@ export default {
       },
     });
 
+    let browserUrl;
+    try {
+      const baseUrl = await this.app.getCloudBaseUrl(cloudId);
+      browserUrl = baseUrl && response.key
+        ? `${baseUrl}/browse/${response.key}`
+        : undefined;
+    } catch (e) {
+      console.log("Could not enrich response with browser URL", e.message);
+    }
+
     $.export("$summary", `Issue has been created successfuly. (ID:${response.id}, KEY:${response.key})`);
 
-    return response;
+    return {
+      ...response,
+      browserUrl,
+    };
   },
 };

@@ -5,7 +5,7 @@ export default {
   key: "github-list-repositories",
   name: "List Repositories",
   description: "List repositories that the authenticated user has access to. [See the documentation](https://docs.github.com/en/rest/repos/repos?apiVersion=2026-03-10#list-repositories-for-the-authenticated-user)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -14,6 +14,12 @@ export default {
   type: "action",
   props: {
     github,
+    name: {
+      type: "string",
+      label: "Name",
+      description: "Case-insensitive substring match on repository name. Example: `api` matches `payments-api` and `internal-api-tools`.",
+      optional: true,
+    },
     visibility: {
       type: "string",
       label: "Visibility",
@@ -89,7 +95,7 @@ export default {
       throw new ConfigurationError("`type` cannot be used with `visibility` or `affiliation`.");
     }
 
-    const response = await this.github._client().paginate("GET /user/repos", {
+    let response = await this.github._client().paginate("GET /user/repos", {
       visibility: this.visibility,
       affiliation: this.affiliation && this.affiliation.join(","),
       type: this.type,
@@ -98,6 +104,11 @@ export default {
       since: this.since,
       before: this.before,
     });
+
+    if (this.name) {
+      const nameLower = this.name.toLowerCase();
+      response = response.filter((repo) => repo.name.toLowerCase().includes(nameLower));
+    }
 
     $.export("$summary", `Successfully listed ${response.length} repository${response.length === 1
       ? ""
