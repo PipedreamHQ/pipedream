@@ -2,34 +2,33 @@ import arcgisOnline from "../../arcgis_online.app.mjs";
 
 export default {
   key: "arcgis_online-query-intersecting-features-by-search-query",
-  name: "Query Intersecting Features by Search Query",
+  name: "Find Intersecting Features by Search Query",
   description:
-    "On the source layer, run a SQL `WHERE` clause to load one boundary feature (first match only, `resultRecordCount` 1). Use that feature's geometry to intersect-query the target layers in the same hosted feature service. Returns per-layer attribute lists only, same structure as Query Intersecting Features by Geometry. See [Feature Layer query](https://developers.arcgis.com/rest/services-reference/enterprise/query-feature-service-layer-.htm) (`where` parameter)",
-  version: "0.0.1",
+    "Query one source feature by SQL `WHERE` clause, then use that feature's geometry to find intersecting records in target layers from the same Feature Service. Returns per-layer attribute arrays. [See the documentation](https://developers.arcgis.com/rest/services-reference/enterprise/query-feature-service-layer-.htm)",
+  version: "0.1.1",
   type: "action",
   annotations: {
     destructiveHint: false,
-    openWorldHint: true,
+    openWorldHint: false,
     readOnlyHint: true,
   },
   props: {
     arcgisOnline,
-    mapTitle: {
+    featureService: {
       propDefinition: [
         arcgisOnline,
-        "mapTitle",
+        "featureService",
       ],
-      description:
-        "Portal item ID from search, or feature service title for lookup",
     },
-    layerName: {
+    sourceLayerId: {
       propDefinition: [
         arcgisOnline,
-        "layerName",
+        "layerId",
         (c) => ({
-          mapTitle: c.mapTitle,
+          featureService: c.featureService,
         }),
       ],
+      label: "Source Layer",
       description:
         "Layer id whose `query` `where` clause selects the single boundary feature",
     },
@@ -39,12 +38,12 @@ export default {
       description:
         "SQL `WHERE` fragment passed to the layer `query` API (e.g. `OBJECTID = 1` or `APN = '123-456'`). Only the **first** returned feature is used",
     },
-    targetLayerNames: {
+    targetLayerIds: {
       propDefinition: [
         arcgisOnline,
-        "targetLayerNames",
+        "targetLayerIds",
         (c) => ({
-          mapTitle: c.mapTitle,
+          featureService: c.featureService,
         }),
       ],
       description:
@@ -54,20 +53,20 @@ export default {
   async run({ $ }) {
     const {
       arcgisOnline: app,
-      mapTitle,
-      layerName,
+      featureService,
+      sourceLayerId,
       whereClause,
-      targetLayerNames,
+      targetLayerIds,
     } = this;
 
-    if (!mapTitle) {
-      throw new Error("mapTitle is required");
+    if (!featureService) {
+      throw new Error("featureService is required");
     }
-    if (!targetLayerNames?.length) {
-      throw new Error("targetLayerNames is required");
+    if (!targetLayerIds?.length) {
+      throw new Error("targetLayerIds is required");
     }
-    if (!layerName) {
-      throw new Error("layerName is required");
+    if (!sourceLayerId) {
+      throw new Error("sourceLayerId is required");
     }
     if (!whereClause) {
       throw new Error("whereClause is required");
@@ -75,8 +74,8 @@ export default {
 
     const { boundary } = await app.fetchFirstFeatureGeometry({
       $,
-      mapTitle,
-      layerName,
+      featureService,
+      layerId: sourceLayerId,
       queryParams: {
         where: whereClause,
       },
@@ -84,20 +83,23 @@ export default {
 
     if (!boundary) {
       throw new Error(
-        `No feature found in layer id '${layerName}' with WHERE ${whereClause}`,
+        `No feature found in layer '${sourceLayerId}' with WHERE ${whereClause}`,
       );
     }
 
     const result = await app.queryIntersectingFeaturesByGeometry({
       $,
-      mapTitle,
+      featureService,
       boundary,
-      targetLayerNames,
+      targetLayerIds,
     });
 
     const total = Object.values(result.layers || {})
       .reduce((n, l) => n + (l.count || 0), 0);
-    $.export("$summary", `Found ${total} intersecting feature(s) across ${Object.keys(result.layers || {}).length} layer(s)`);
+    $.export(
+      "$summary",
+      `Found ${total} intersecting feature(s) across ${Object.keys(result.layers || {}).length} layer(s)`,
+    );
 
     return result;
   },
