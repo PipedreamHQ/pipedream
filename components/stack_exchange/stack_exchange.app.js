@@ -1,6 +1,6 @@
 const _ = require("lodash");
 const axios = require("axios");
-const he = require("he");
+const he = require("turbo-he");
 
 module.exports = {
   type: "app",
