@@ -13,25 +13,25 @@ export default {
   type: "action",
   props: {
     app,
-    parcelUuid: {
+    trackingNumber: {
       propDefinition: [
         app,
-        "parcelUuid",
+        "trackingNumber",
       ],
     },
   },
   async run({ $ }) {
     const {
       app,
-      parcelUuid,
+      trackingNumber,
     } = this;
 
     const response = await app.getTrackingInfo({
       $,
-      parcelUuid,
+      trackingNumber,
     });
 
-    $.export("$summary", `Successfully retrieved tracking info for parcel \`${parcelUuid}\``);
+    $.export("$summary", `Successfully retrieved tracking info for parcel \`${trackingNumber}\``);
 
     return response;
   },

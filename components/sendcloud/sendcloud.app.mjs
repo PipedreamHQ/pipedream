@@ -33,10 +33,10 @@ export default {
         };
       },
     },
-    parcelUuid: {
+    trackingNumber: {
       type: "string",
-      label: "Parcel UUID",
-      description: "The unique UUID of the parcel to track",
+      label: "Tracking Number",
+      description: "The tracking number of the parcel to retrieve tracking information for",
     },
     name: {
       type: "string",
@@ -688,10 +688,10 @@ Example:
       });
     },
     getTrackingInfo({
-      parcelUuid, ...args
+      trackingNumber, ...args
     } = {}) {
       return this._makeRequest({
-        path: `/tracking/${parcelUuid}`,
+        path: `/tracking/${trackingNumber}`,
         ...args,
       });
     },
