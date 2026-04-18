@@ -58,17 +58,32 @@ export default {
       }
       return headers;
     },
-    _makeRequest({
+    async _makeRequest({
       $ = this, path, headers = {}, ...args
     }) {
-      return axios($, {
-        url: `${this._baseUrl()}${path}`,
-        ...args,
-        headers: {
-          ...this._headers(),
-          ...headers,
-        },
-      });
+      try {
+        return await axios($, {
+          url: `${this._baseUrl()}${path}`,
+          ...args,
+          headers: {
+            ...this._headers(),
+            ...headers,
+          },
+        });
+      } catch (err) {
+        // The Strale API returns HTTP 500 with a structured body for
+        // execution-level failures (missing input fields, capability
+        // timeouts, etc.). axios throws on non-2xx — without this catch,
+        // Pipedream surfaces it as a generic "Internal server error".
+        // Re-throw with the actual message + error_code so the workflow
+        // UI shows something actionable.
+        const data = err.response?.data;
+        const message = data?.message ?? data?.error_code ?? err.message;
+        const code = data?.error_code ? ` (${data.error_code})` : "";
+        const status = err.response?.status ?? "";
+        const statusLabel = status ? ` [HTTP ${status}]` : "";
+        throw new Error(`Strale API error${statusLabel}${code}: ${message}`);
+      }
     },
     suggest(args = {}) {
       return this._makeRequest({

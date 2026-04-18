@@ -2,7 +2,7 @@ import strale from "../../strale.app.mjs";
 
 export default {
   name: "Search and Execute",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "strale-search-and-execute",
   description: "Describe what you need in plain language \u2014 Strale picks the best capability and executes it in one step. Use this when you don't know the exact capability slug. If you already know the slug, use **Execute Capability** instead; if you only want to discover matches without running anything, use **Search Capabilities**. [See the documentation](https://strale.dev/docs)",
   type: "action",
@@ -40,9 +40,23 @@ export default {
     },
   },
   async run({ $ }) {
+    // Pipedream's object-type prop is usually parsed to a JS object, but
+    // can arrive as a string if the user pasted raw JSON in the UI. Coerce
+    // defensively so `/v1/do` receives an object as the API expects.
+    let parsedInputs = this.inputs;
+    if (typeof parsedInputs === "string") {
+      try {
+        parsedInputs = JSON.parse(parsedInputs);
+      } catch {
+        throw new Error(
+          "The \"Inputs\" field must be a valid JSON object (e.g. {\"email\": \"ops@example.com\"}).",
+        );
+      }
+    }
+
     const data = {
       task: this.task,
-      inputs: this.inputs ?? {},
+      inputs: parsedInputs ?? {},
       max_price_cents: this.maxPriceCents,
     };
 
