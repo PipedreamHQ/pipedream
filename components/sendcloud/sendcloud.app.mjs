@@ -33,6 +33,11 @@ export default {
         };
       },
     },
+    parcelUuid: {
+      type: "string",
+      label: "Parcel UUID",
+      description: "The unique UUID of the parcel to track",
+    },
     name: {
       type: "string",
       label: "Name",
@@ -679,6 +684,14 @@ Example:
       return this._makeRequest({
         path: `/parcels/${parcelId}`,
         mockPath: `/299107074/parcels/${parcelId}`,
+        ...args,
+      });
+    },
+    getTrackingInfo({
+      parcelUuid, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/tracking/${parcelUuid}`,
         ...args,
       });
     },
