@@ -4,7 +4,7 @@ export default {
   key: "hiver-list-all-conversations-in-inbox",
   name: "List All Conversations In Inbox",
   description: "Get all conversations in a Hiver inbox. [See the documentation](https://developer.hiverhq.com/hiver-api/conversations/get-conversations-in-the-inbox)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -21,8 +21,8 @@ export default {
     },
     limit: {
       type: "integer",
-      label: "Limit",
-      description: "Maximum number of conversations to return per page (10–100). Defaults to 50. Set to 0 to fetch all pages.",
+      label: "Page Size",
+      description: "Number of conversations to fetch per page (10–100). Defaults to 50. All pages are automatically fetched.",
       optional: true,
       min: 10,
       max: 100,
@@ -33,14 +33,15 @@ export default {
     let nextPage;
     do {
       const response = await this.hiver.listConversations({
+        $,
         inboxId: this.inboxId,
         params: {
           limit: this.limit ?? 50,
           next_page: nextPage ?? undefined,
         },
       });
-      results.push(...response.data.results);
-      nextPage = response.data.pagination?.next_page ?? null;
+      results.push(...response.results);
+      nextPage = response.pagination?.next_page ?? null;
     } while (nextPage);
     $.export("$summary", `Successfully retrieved ${results.length} conversation(s) from inbox ${this.inboxId}`);
     return results;
