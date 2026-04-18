@@ -17,7 +17,7 @@ export default {
     + " **Search Logs** for deeper investigation."
     + " [See the docs](https://docs.datadoghq.com/api/"
     + "latest/events/#get-a-list-of-events)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -26,6 +26,12 @@ export default {
   },
   props: {
     datadog,
+    region: {
+      propDefinition: [
+        datadog,
+        "region",
+      ],
+    },
     start: {
       type: "integer",
       label: "Start",
@@ -82,6 +88,7 @@ export default {
     const response = await this.datadog.getEvents({
       $,
       params,
+      region: this.region,
     });
 
     const count = response?.events?.length ?? 0;

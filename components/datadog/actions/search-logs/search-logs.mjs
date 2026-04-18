@@ -16,7 +16,7 @@ export default {
     + " search logs for that time window and service."
     + " [See the docs](https://docs.datadoghq.com/api/"
     + "latest/logs/#search-logs)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -45,6 +45,7 @@ export default {
     const response = await this.datadog.searchLogs({
       $,
       data: body,
+      region: this.region,
     });
 
     const count = response?.data?.length ?? 0;
