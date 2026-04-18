@@ -14,7 +14,7 @@ export default {
     + " and **Search Services** for ownership info."
     + " [See the docs](https://docs.datadoghq.com/api/"
     + "latest/incidents/#get-a-list-of-incidents)",
-  version: "0.0.2",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -23,12 +23,6 @@ export default {
   },
   props: {
     datadog,
-    region: {
-      propDefinition: [
-        datadog,
-        "region",
-      ],
-    },
     query: {
       type: "string",
       label: "Query",
@@ -61,7 +55,6 @@ export default {
     const response = await this.datadog.listIncidents({
       $,
       params,
-      region: this.region,
     });
 
     const count = response?.data?.length ?? 0;
