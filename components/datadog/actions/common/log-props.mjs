@@ -2,12 +2,6 @@ import datadog from "../../datadog.app.mjs";
 
 export default {
   datadog,
-  region: {
-    propDefinition: [
-      datadog,
-      "region",
-    ],
-  },
   query: {
     type: "string",
     label: "Query",
