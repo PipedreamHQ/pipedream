@@ -17,7 +17,7 @@ export default {
     + " [See the docs](https://docs.datadoghq.com/api/"
     + "latest/metrics/#query-timeseries-data-across"
     + "-multiple-products)",
-  version: "1.0.0",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -26,6 +26,12 @@ export default {
   },
   props: {
     datadog,
+    region: {
+      propDefinition: [
+        datadog,
+        "region",
+      ],
+    },
     query: {
       type: "string",
       label: "Query",
@@ -59,6 +65,7 @@ export default {
         from: this.from,
         to: this.to,
       },
+      region: this.region,
     });
 
     const count = response?.series?.length ?? 0;

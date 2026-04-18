@@ -14,7 +14,7 @@ export default {
     + " [See the docs](https://docs.datadoghq.com/api/"
     + "latest/service-definition/"
     + "#get-all-service-definitions)",
-  version: "1.0.0",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -23,6 +23,12 @@ export default {
   },
   props: {
     datadog,
+    region: {
+      propDefinition: [
+        datadog,
+        "region",
+      ],
+    },
     pageSize: {
       type: "integer",
       label: "Page Size",
@@ -45,6 +51,7 @@ export default {
     const response = await this.datadog.listServices({
       $,
       params,
+      region: this.region,
     });
 
     const count = response?.data?.length ?? 0;
