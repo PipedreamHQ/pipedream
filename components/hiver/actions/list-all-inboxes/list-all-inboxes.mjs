@@ -1,0 +1,41 @@
+import hiver from "../../hiver.app.mjs";
+
+export default {
+  key: "hiver-list-all-inboxes",
+  name: "List All Inboxes",
+  description: "List all the inboxes in your Hiver account. [See the documentation](https://developer.hiverhq.com/hiver-api/inbox/list-all-the-inboxes)",
+  version: "0.0.1",
+  type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: false,
+    readOnlyHint: true,
+  },
+  props: {
+    hiver,
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "Maximum number of inboxes to return per page (10–100). Defaults to 10.",
+      optional: true,
+      min: 10,
+      max: 100,
+    },
+  },
+  async run({ $ }) {
+    const results = [];
+    let nextPage;
+    do {
+      const response = await this.hiver.listInboxes({
+        params: {
+          limit: this.limit ?? 50,
+          next_page: nextPage ?? undefined,
+        },
+      });
+      results.push(...response.data.results);
+      nextPage = response.data.pagination?.next_page ?? null;
+    } while (nextPage);
+    $.export("$summary", `Successfully retrieved ${results.length} inbox(es)`);
+    return results;
+  },
+};
