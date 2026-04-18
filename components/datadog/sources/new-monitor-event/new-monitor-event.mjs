@@ -6,7 +6,7 @@ export default {
   name: "New Monitor Event (Instant)",
   description: "Emit new events captured by a Datadog monitor",
   dedupe: "unique",
-  version: "0.1.5",
+  version: "1.0.0",
   type: "source",
   props: {
     datadog,

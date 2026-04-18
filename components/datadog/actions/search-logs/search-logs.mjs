@@ -16,7 +16,7 @@ export default {
     + " search logs for that time window and service."
     + " [See the docs](https://docs.datadoghq.com/api/"
     + "latest/logs/#search-logs)",
-  version: "0.0.3",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,
