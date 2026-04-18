@@ -4,7 +4,7 @@ export default {
   key: "hiver-get-inbox",
   name: "Get Inbox",
   description: "Get an inbox by ID. [See the documentation](https://developer.hiverhq.com/hiver-api/inbox/get-an-inbox-by-id)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -22,6 +22,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.hiver.getInbox({
+      $,
       inboxId: this.inboxId,
     });
     $.export("$summary", `Successfully retrieved inbox ${this.inboxId}`);
