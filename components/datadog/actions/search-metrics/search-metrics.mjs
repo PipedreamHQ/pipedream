@@ -14,7 +14,7 @@ export default {
     + " the `host` filter."
     + " [See the docs](https://docs.datadoghq.com/api/"
     + "latest/metrics/#get-active-metrics-list)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -23,6 +23,12 @@ export default {
   },
   props: {
     datadog,
+    region: {
+      propDefinition: [
+        datadog,
+        "region",
+      ],
+    },
     host: {
       type: "string",
       label: "Host",
@@ -38,6 +44,7 @@ export default {
         from: 1,
         host: this.host,
       },
+      region: this.region,
     });
 
     const count = response?.metrics?.length ?? 0;

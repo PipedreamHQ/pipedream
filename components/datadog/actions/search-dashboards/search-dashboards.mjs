@@ -5,13 +5,15 @@ export default {
   name: "Search Dashboards",
   description:
     "List and search Datadog dashboards. Returns"
-    + " dashboard IDs, titles, metadata, and a"
-    + " ready-to-use `dashboard_url` for each result."
-    + " Use alongside **Search Services** to find"
+    + " dashboard IDs, titles, URLs, and metadata."
+    + " Dashboard URL:"
+    + " `https://app.{region}/dashboard/{id}` where"
+    + " region comes from **Get Account Info**. Use"
+    + " alongside **Search Services** to find"
     + " dashboards related to a specific service."
     + " [See the docs](https://docs.datadoghq.com/api/"
     + "latest/dashboards/#get-all-dashboards)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -20,6 +22,12 @@ export default {
   },
   props: {
     datadog,
+    region: {
+      propDefinition: [
+        datadog,
+        "region",
+      ],
+    },
     filterShared: {
       type: "boolean",
       label: "Shared Only",
@@ -51,15 +59,8 @@ export default {
     const response = await this.datadog.listDashboards({
       $,
       params,
+      region: this.region,
     });
-
-    const region = this.datadog._region();
-    if (Array.isArray(response?.dashboards)) {
-      response.dashboards = response.dashboards.map((d) => ({
-        ...d,
-        dashboard_url: `https://app.${region}/dashboard/${d.id}`,
-      }));
-    }
 
     const count = response?.dashboards?.length ?? 0;
     $.export(
