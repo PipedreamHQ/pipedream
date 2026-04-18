@@ -15,14 +15,14 @@ export default {
             next_page: prevContext?.nextPage ?? undefined,
           },
         });
-        const options = response.data.results.map((inbox) => ({
+        const options = response.results.map((inbox) => ({
           label: inbox.display_name,
           value: inbox.id,
         }));
         return {
           options,
           context: {
-            nextPage: response.data.pagination?.next_page ?? null,
+            nextPage: response.pagination?.next_page ?? null,
           },
         };
       },
@@ -38,38 +38,48 @@ export default {
         "Content-Type": "application/json",
       };
     },
-    async _makeRequest({ $ = this, path, ...opts }) {
+    async _makeRequest({
+      $ = this, path, headers = {}, ...opts
+    }) {
       return axios($, {
         url: `${this._baseUrl()}${path}`,
-        headers: this._headers(),
+        headers: {
+          ...this._headers(),
+          ...headers,
+        },
         ...opts,
       });
     },
-    async listInboxes({ params } = {}) {
+    async listInboxes({ $ = this, params } = {}) {
       return this._makeRequest({
+        $,
         path: "/inboxes",
         params,
       });
     },
-    async getInbox({ inboxId }) {
+    async getInbox({ $, inboxId }) {
       return this._makeRequest({
+        $,
         path: `/inboxes/${inboxId}`,
       });
     },
-    async listInboxUsers({ inboxId, params } = {}) {
+    async listInboxUsers({ $, inboxId, params } = {}) {
       return this._makeRequest({
+        $,
         path: `/inboxes/${inboxId}/users`,
         params,
       });
     },
-    async listInboxTags({ inboxId, params } = {}) {
+    async listInboxTags({ $, inboxId, params } = {}) {
       return this._makeRequest({
+        $,
         path: `/inboxes/${inboxId}/tags`,
         params,
       });
     },
-    async listConversations({ inboxId, params } = {}) {
+    async listConversations({ $, inboxId, params } = {}) {
       return this._makeRequest({
+        $,
         path: `/inboxes/${inboxId}/conversations`,
         params,
       });
