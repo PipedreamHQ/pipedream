@@ -4,7 +4,7 @@ export default {
   key: "workday-list-organization-types",
   name: "List Organization Types",
   description: "List organization types. [See the documentation](https://community.workday.com/sites/default/files/file-hosting/restapi/#common/v1/organizationTypes)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
