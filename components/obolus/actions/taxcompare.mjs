@@ -1,7 +1,6 @@
 import { ConfigurationError } from "@pipedream/platform";
 import obolus from "../app/obolus.app.mjs";
 
-const API_URL = "https://www.obolusfinanz.de/api/taxcompare";
 const COUNTRY_OPTIONS = [
   "DE",
   "AT",
@@ -32,12 +31,17 @@ function parseOptionalObject(rawValue, label) {
 export default {
   key: "obolus-taxcompare",
   name: "Compare Salary Across Countries",
-  description: "Compare after-tax income across multiple countries using the same salary input or a local median salary basis.",
+  description: "Compare after-tax income across multiple countries using the same salary input or a local median salary basis. [See the documentation](https://www.obolusfinanz.de/en/developers)",
   version: "0.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     obolus,
-    gross_mode: {
+    grossMode: {
       type: "string",
       label: "Gross Mode",
       description: "Comparison basis from the Obolus OpenAPI contract.",
@@ -47,13 +51,13 @@ export default {
       ],
       default: "shared_gross",
     },
-    annual_gross: {
+    annualGross: {
       type: "number",
       label: "Annual Gross Salary",
       description: "Annual gross salary in major currency units, e.g. 60000. Optional when gross mode is local_median_gross.",
       optional: true,
     },
-    tax_year: {
+    taxYear: {
       type: "string",
       label: "Tax Year",
       description: "Tax year for the comparison, e.g. 2026.",
@@ -85,7 +89,7 @@ export default {
         "AU",
       ],
     },
-    show_advanced_inputs: {
+    showAdvancedInputs: {
       type: "boolean",
       label: "Show Advanced Inputs",
       description: "Reveal additional taxcompare inputs such as joint assessment, children, and raw JSON overrides.",
@@ -95,12 +99,12 @@ export default {
     },
   },
   async additionalProps() {
-    if (!this.show_advanced_inputs) {
+    if (!this.showAdvancedInputs) {
       return {};
     }
 
     return {
-      joint_assessment: {
+      jointAssessment: {
         type: "boolean",
         label: "Joint Assessment",
         description: "Apply joint filing / joint assessment where supported.",
@@ -112,7 +116,7 @@ export default {
         description: "Number of children for the comparison.",
         optional: true,
       },
-      request_overrides: {
+      requestOverrides: {
         type: "string",
         label: "JSON Overrides",
         description: "Optional JSON object merged into the taxcompare payload for forward compatibility with new OpenAPI fields.",
@@ -121,16 +125,8 @@ export default {
     };
   },
   async run({ $ }) {
-    const headers = {
-      "Content-Type": "application/json",
-    };
-
-    if (this.obolus.apiKey) {
-      headers["x-public-api-key"] = this.obolus.apiKey;
-    }
-
-    const requestOverrides = parseOptionalObject(this.request_overrides, "JSON Overrides");
-    const effectiveAnnualGross = this.annual_gross ?? requestOverrides.annual_gross;
+    const requestOverrides = parseOptionalObject(this.requestOverrides, "JSON Overrides");
+    const effectiveAnnualGross = this.annualGross ?? requestOverrides.annual_gross;
 
     if (effectiveAnnualGross !== undefined && !Number.isFinite(effectiveAnnualGross)) {
       throw new ConfigurationError("Annual Gross Salary must be a valid number.");
@@ -140,13 +136,13 @@ export default {
       throw new ConfigurationError("Annual Gross Salary must not be negative.");
     }
 
-    if (this.gross_mode !== "local_median_gross" && effectiveAnnualGross === undefined) {
+    if (this.grossMode !== "local_median_gross" && effectiveAnnualGross === undefined) {
       throw new ConfigurationError("Annual Gross Salary is required unless Gross Mode is local_median_gross.");
     }
 
     const payload = {
-      gross_mode: this.gross_mode,
-      tax_year: this.tax_year,
+      gross_mode: this.grossMode,
+      tax_year: this.taxYear,
       countries: this.countries,
       currency: this.currency,
       ...requestOverrides,
@@ -155,25 +151,17 @@ export default {
     if (effectiveAnnualGross !== undefined) {
       payload.annual_gross = effectiveAnnualGross;
     }
-    if (this.joint_assessment !== undefined) {
-      payload.joint_assessment = this.joint_assessment;
+    if (this.jointAssessment !== undefined) {
+      payload.joint_assessment = this.jointAssessment;
     }
     if (this.children !== undefined) {
       payload.children = this.children;
     }
 
-    const response = await fetch(API_URL, {
-      method: "POST",
-      headers,
-      body: JSON.stringify(payload),
+    const data = await this.obolus.compareSalaryAcrossCountries({
+      $,
+      data: payload,
     });
-
-    if (!response.ok) {
-      const text = await response.text();
-      throw new Error(`Obolus taxcompare failed: ${response.status} ${text}`);
-    }
-
-    const data = await response.json();
 
     $.export("$summary", `Compared salary across ${payload.countries.length} countries using ${payload.gross_mode}.`);
 

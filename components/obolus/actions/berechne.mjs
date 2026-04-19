@@ -1,7 +1,6 @@
 import { ConfigurationError } from "@pipedream/platform";
 import obolus from "../app/obolus.app.mjs";
 
-const API_URL = "https://www.obolusfinanz.de/api/berechne";
 const COUNTRY_OPTIONS = [
   "DE",
   "AT",
@@ -12,6 +11,7 @@ const COUNTRY_OPTIONS = [
   "UK",
   "IE",
 ];
+
 const PERSON_ADVANCED_FIELDS = [
   {
     prop: "bundesland",
@@ -56,49 +56,49 @@ const PERSON_ADVANCED_FIELDS = [
     description: "Raw Obolus API field `Kinderfreibetrag` for the person's child allowance share.",
   },
   {
-    prop: "geldwerter_vorteil",
+    prop: "geldwerterVorteil",
     apiKey: "Geldwerter_Vorteil",
     type: "integer",
     label: "Geldwerter Vorteil",
     description: "Raw Obolus API field `Geldwerter_Vorteil` in minor units.",
   },
   {
-    prop: "pre_tax_deduction_ct",
+    prop: "preTaxDeductionCt",
     apiKey: "PreTax_Deduction_ct",
     type: "integer",
     label: "Pre-Tax Deduction",
     description: "Raw Obolus API field `PreTax_Deduction_ct` in minor units.",
   },
   {
-    prop: "sonstige_bezuege",
+    prop: "sonstigeBezuege",
     apiKey: "Sonstige_Bezuege",
     type: "integer",
     label: "Sonstige Bezuege",
     description: "Raw Obolus API field `Sonstige_Bezuege` in minor units.",
   },
   {
-    prop: "gesetzliche_rv",
+    prop: "gesetzlicheRv",
     apiKey: "gesetzliche_RV",
     type: "integer",
     label: "Gesetzliche RV",
     description: "Raw Obolus API field `gesetzliche_RV`, typically `1` or `0` depending on pension insurance status.",
   },
   {
-    prop: "gesetzliche_kvpv_status",
+    prop: "gesetzlicheKvpvStatus",
     apiKey: "gesetzlicheKvPvStatus",
     type: "integer",
     label: "Gesetzliche KV/PV Status",
     description: "Raw Obolus API field `gesetzlicheKvPvStatus` for German statutory health / care insurance mode.",
   },
   {
-    prop: "pendler_km",
+    prop: "pendlerKm",
     apiKey: "Pendler_KM",
     type: "integer",
     label: "Pendler KM",
     description: "Raw Obolus API field `Pendler_KM` for commuter distance in kilometers.",
   },
   {
-    prop: "pendler_tage",
+    prop: "pendlerTage",
     apiKey: "Pendler_Tage",
     type: "integer",
     label: "Pendler Tage",
@@ -106,10 +106,14 @@ const PERSON_ADVANCED_FIELDS = [
   },
 ];
 
+function buildAdvancedPropName(prefix, prop) {
+  return `${prefix}${prop.charAt(0).toUpperCase()}${prop.slice(1)}`;
+}
+
 function buildPersonAdvancedProps(prefix, labelPrefix) {
   return PERSON_ADVANCED_FIELDS.reduce((props, field) => ({
     ...props,
-    [`${prefix}_${field.prop}`]: {
+    [buildAdvancedPropName(prefix, field.prop)]: {
       type: field.type,
       label: `${labelPrefix} ${field.label}`,
       description: field.description,
@@ -120,7 +124,7 @@ function buildPersonAdvancedProps(prefix, labelPrefix) {
 
 function buildPersonAdvancedOverrides(ctx, prefix) {
   return PERSON_ADVANCED_FIELDS.reduce((overrides, field) => {
-    const value = ctx[`${prefix}_${field.prop}`];
+    const value = ctx[buildAdvancedPropName(prefix, field.prop)];
     if (value !== undefined && value !== null && value !== "") {
       overrides[field.apiKey] = value;
     }
@@ -168,8 +172,13 @@ function setIfDefined(target, key, value) {
 export default {
   key: "obolus-berechne",
   name: "Calculate Net Salary",
-  description: "Calculate net salary, taxes, and social contributions for one or two people using the Obolus API.",
+  description: "Calculate net salary, taxes, and social contributions for one or two people using the Obolus API. [See the documentation](https://www.obolusfinanz.de/en/developers)",
   version: "0.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     obolus,
@@ -180,7 +189,7 @@ export default {
       options: COUNTRY_OPTIONS,
       default: "DE",
     },
-    tax_year: {
+    taxYear: {
       type: "integer",
       label: "Tax Year",
       description: "Tax year, e.g. 2026.",
@@ -200,30 +209,30 @@ export default {
       ],
       default: "EUR",
     },
-    payroll_period: {
+    payrollPeriod: {
       type: "integer",
       label: "Payroll Period",
       description: "Top-level LZZ value. Commonly 1=year, 2=month, 3=week depending on country logic.",
       default: 1,
     },
-    gross_annual: {
+    grossAnnual: {
       type: "number",
       label: "Person 1 Annual Gross Salary",
       description: "Annual gross salary in major units, e.g. 60000.",
     },
-    tax_class: {
+    taxClass: {
       type: "integer",
       label: "Person 1 Tax Class",
       description: "Country-specific tax class / filing status value.",
       default: 1,
     },
-    birth_year: {
+    birthYear: {
       type: "integer",
       label: "Person 1 Birth Year",
       description: "Birth year of the first person.",
       default: 1990,
     },
-    include_second_person: {
+    includeSecondPerson: {
       type: "boolean",
       label: "Include Person 2",
       description: "Enable a second person and switch Modus to 2.",
@@ -231,7 +240,7 @@ export default {
       default: false,
       reloadProps: true,
     },
-    show_advanced_inputs: {
+    showAdvancedInputs: {
       type: "boolean",
       label: "Show Advanced Inputs",
       description: "Reveal additional Obolus OpenAPI fields for advanced and country-specific payroll scenarios.",
@@ -243,21 +252,21 @@ export default {
   async additionalProps() {
     const props = {};
 
-    if (this.include_second_person) {
+    if (this.includeSecondPerson) {
       Object.assign(props, {
-        second_gross_annual: {
+        secondGrossAnnual: {
           type: "number",
           label: "Person 2 Annual Gross Salary",
           description: "Annual gross salary for the second person in major units.",
           optional: true,
         },
-        second_tax_class: {
+        secondTaxClass: {
           type: "integer",
           label: "Person 2 Tax Class",
           description: "Country-specific tax class / filing status value for the second person.",
           optional: true,
         },
-        second_birth_year: {
+        secondBirthYear: {
           type: "integer",
           label: "Person 2 Birth Year",
           description: "Birth year of the second person.",
@@ -266,42 +275,42 @@ export default {
       });
     }
 
-    if (!this.show_advanced_inputs) {
+    if (!this.showAdvancedInputs) {
       return props;
     }
 
     Object.assign(props, {
-      global_factor: {
+      globalFactor: {
         type: "number",
         label: "Global Factor",
         description: "Advanced top-level factor field.",
         optional: true,
       },
-      child_allowance_factor: {
+      childAllowanceFactor: {
         type: "integer",
         label: "Child Allowance Factor",
         description: "Advanced top-level child allowance factor.",
         optional: true,
       },
-      child_count_for_care_insurance: {
+      childCountForCareInsurance: {
         type: "integer",
         label: "Children For Care Insurance",
         description: "Advanced top-level child count for care insurance logic.",
         optional: true,
       },
-      child_benefit: {
+      childBenefit: {
         type: "number",
         label: "Child Benefit",
         description: "Advanced top-level child benefit in major units.",
         optional: true,
       },
-      person1_overrides: {
+      person1Overrides: {
         type: "string",
         label: "Person 1 JSON Overrides",
         description: "Optional JSON object merged into person 1 for edge cases and forward compatibility.",
         optional: true,
       },
-      request_overrides: {
+      requestOverrides: {
         type: "string",
         label: "Top-Level JSON Overrides",
         description: "Optional JSON object merged into the top-level berechne payload. Do not include `Personen`.",
@@ -310,8 +319,8 @@ export default {
       ...buildPersonAdvancedProps("person1", "Person 1"),
     });
 
-    if (this.include_second_person) {
-      props.person2_overrides = {
+    if (this.includeSecondPerson) {
+      props.person2Overrides = {
         type: "string",
         label: "Person 2 JSON Overrides",
         description: "Optional JSON object merged into person 2 for edge cases and forward compatibility.",
@@ -324,23 +333,15 @@ export default {
     return props;
   },
   async run({ $ }) {
-    const headers = {
-      "Content-Type": "application/json",
-    };
-
-    if (this.obolus.apiKey) {
-      headers["x-public-api-key"] = this.obolus.apiKey;
-    }
-
-    const requestOverrides = parseOptionalObject(this.request_overrides, "Top-Level JSON Overrides");
+    const requestOverrides = parseOptionalObject(this.requestOverrides, "Top-Level JSON Overrides");
     const person1DirectOverrides = buildPersonAdvancedOverrides(this, "person1");
     const person2DirectOverrides = buildPersonAdvancedOverrides(this, "person2");
     const person1Overrides = {
-      ...parseOptionalObject(this.person1_overrides, "Person 1 JSON Overrides"),
+      ...parseOptionalObject(this.person1Overrides, "Person 1 JSON Overrides"),
       ...person1DirectOverrides,
     };
     const person2Overrides = {
-      ...parseOptionalObject(this.person2_overrides, "Person 2 JSON Overrides"),
+      ...parseOptionalObject(this.person2Overrides, "Person 2 JSON Overrides"),
       ...person2DirectOverrides,
     };
 
@@ -348,36 +349,35 @@ export default {
       throw new ConfigurationError("Top-Level JSON Overrides must not include Personen. Use the person override fields instead.");
     }
 
+    const person1GrossMinor = toMinorUnits(this.grossAnnual, "Person 1 Annual Gross Salary");
     const person1 = {
       Land: this.country,
-      Gehalt_ct: toMinorUnits(this.gross_annual, "Person 1 Annual Gross Salary"),
-      Gehalt_ct_ohne_Sonst: toMinorUnits(this.gross_annual, "Person 1 Annual Gross Salary"),
-      Steuerklasse: this.tax_class,
-      Geburtsjahr: this.birth_year,
+      Gehalt_ct: person1GrossMinor,
+      Gehalt_ct_ohne_Sonst: person1GrossMinor,
+      Steuerklasse: this.taxClass,
+      Geburtsjahr: this.birthYear,
       ...person1Overrides,
     };
-
-    const hasSecondPerson =
-      this.include_second_person ||
-      Object.keys(person2Overrides).length > 0 ||
-      this.second_gross_annual !== undefined ||
-      this.second_tax_class !== undefined ||
-      this.second_birth_year !== undefined;
 
     const people = [
       person1,
     ];
 
-    if (hasSecondPerson) {
+    if (this.includeSecondPerson) {
+      const person2GrossMinor = toMinorUnits(this.secondGrossAnnual, "Person 2 Annual Gross Salary", {
+        optional: true,
+      });
       const person2 = {
         Land: this.country,
         ...person2Overrides,
       };
 
-      setIfDefined(person2, "Gehalt_ct", toMinorUnits(this.second_gross_annual, "Person 2 Annual Gross Salary", { optional: true }));
-      setIfDefined(person2, "Gehalt_ct_ohne_Sonst", toMinorUnits(this.second_gross_annual, "Person 2 Annual Gross Salary", { optional: true }));
-      setIfDefined(person2, "Steuerklasse", this.second_tax_class);
-      setIfDefined(person2, "Geburtsjahr", this.second_birth_year);
+      setIfDefined(person2, "Gehalt_ct", person2GrossMinor);
+      if (person2.Gehalt_ct_ohne_Sonst === undefined) {
+        setIfDefined(person2, "Gehalt_ct_ohne_Sonst", person2GrossMinor);
+      }
+      setIfDefined(person2, "Steuerklasse", this.secondTaxClass);
+      setIfDefined(person2, "Geburtsjahr", this.secondBirthYear);
 
       for (const key of [
         "Land",
@@ -399,31 +399,23 @@ export default {
 
     const payload = {
       Land: this.country,
-      Stjahr: this.tax_year,
+      Stjahr: this.taxYear,
       Currency: this.currency,
-      LZZ: this.payroll_period,
+      LZZ: this.payrollPeriod,
       Modus: people.length,
       ...requestOverrides,
       Personen: people,
     };
 
-    setIfDefined(payload, "Faktor", this.global_factor);
-    setIfDefined(payload, "KinderFRB", this.child_allowance_factor);
-    setIfDefined(payload, "KinderPVA", this.child_count_for_care_insurance);
-    setIfDefined(payload, "Kindergeld", toMinorUnits(this.child_benefit, "Child Benefit", { optional: true }));
+    setIfDefined(payload, "Faktor", this.globalFactor);
+    setIfDefined(payload, "KinderFRB", this.childAllowanceFactor);
+    setIfDefined(payload, "KinderPVA", this.childCountForCareInsurance);
+    setIfDefined(payload, "Kindergeld", toMinorUnits(this.childBenefit, "Child Benefit", { optional: true }));
 
-    const response = await fetch(API_URL, {
-      method: "POST",
-      headers,
-      body: JSON.stringify(payload),
+    const data = await this.obolus.calculateNetSalary({
+      $,
+      data: payload,
     });
-
-    if (!response.ok) {
-      const text = await response.text();
-      throw new Error(`Obolus berechne failed: ${response.status} ${text}`);
-    }
-
-    const data = await response.json();
     const scope = people.length === 1 ? "1 person" : "2 persons";
 
     $.export("$summary", `Calculated net salary for ${payload.Land} (${payload.Stjahr}) for ${scope}.`);
