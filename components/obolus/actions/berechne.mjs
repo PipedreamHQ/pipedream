@@ -349,8 +349,8 @@ export default {
       ...person2DirectOverrides,
     };
 
-    if ("Personen" in requestOverrides) {
-      throw new ConfigurationError("Top-Level JSON Overrides must not include Personen. Use the person override fields instead.");
+    if ("Personen" in requestOverrides || "Modus" in requestOverrides) {
+      throw new ConfigurationError("Top-Level JSON Overrides must not include Personen or Modus. Use the person override fields instead.");
     }
 
     const person1GrossMinor = toMinorUnits(this.grossAnnual, "Person 1 Annual Gross Salary");

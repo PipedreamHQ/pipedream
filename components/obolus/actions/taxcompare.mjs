@@ -140,6 +140,10 @@ export default {
       throw new ConfigurationError("Annual Gross Salary is required unless Gross Mode is local_median_gross.");
     }
 
+    if (this.children !== undefined && this.children < 0) {
+      throw new ConfigurationError("Children must not be negative.");
+    }
+
     const payload = {
       gross_mode: this.grossMode,
       tax_year: this.taxYear,

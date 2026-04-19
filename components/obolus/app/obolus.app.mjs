@@ -37,8 +37,8 @@ export default {
         method,
         url: `${BASE_URL}${path}`,
         headers: {
-          ...this._getHeaders(),
           ...headers,
+          ...this._getHeaders(),
         },
         data,
         ...args,
