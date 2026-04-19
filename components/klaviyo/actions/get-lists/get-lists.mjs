@@ -4,7 +4,7 @@ export default {
   key: "klaviyo-get-lists",
   name: "Get Lists",
   description: "Get a listing of all of the lists in an account. [See the documentation](https://developers.klaviyo.com/en/reference/get_lists)",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
