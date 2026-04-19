@@ -2,7 +2,7 @@ import strale from "../../strale.app.mjs";
 
 export default {
   name: "Execute Capability",
-  version: "0.0.2",
+  version: "0.0.1",
   key: "strale-execute-capability",
   description: "Execute a specific Strale capability by slug with the provided inputs. Returns structured data with quality score and audit trail. [See the documentation](https://strale.dev/docs)",
   type: "action",
