@@ -2,6 +2,16 @@ import { ConfigurationError } from "@pipedream/platform";
 import obolus from "../app/obolus.app.mjs";
 
 const API_URL = "https://www.obolusfinanz.de/api/taxcompare";
+const COUNTRY_OPTIONS = [
+  "DE",
+  "AT",
+  "US",
+  "CH",
+  "CA",
+  "AU",
+  "UK",
+  "IE",
+];
 
 function parseOptionalObject(rawValue, label) {
   if (!rawValue) {
@@ -22,8 +32,8 @@ function parseOptionalObject(rawValue, label) {
 export default {
   key: "obolus-taxcompare",
   name: "Compare Salary Across Countries",
-  description: "Compare after-tax income across multiple countries using the Obolus API. Supports shared_gross and local_median_gross modes from the current OpenAPI contract.",
-  version: "0.1.1",
+  description: "Compare after-tax income across multiple countries using the same salary input or a local median salary basis.",
+  version: "0.0.1",
   type: "action",
   props: {
     obolus,
@@ -67,6 +77,7 @@ export default {
       type: "string[]",
       label: "Countries",
       description: "Country codes to compare, e.g. DE, AT, CH, AU.",
+      options: COUNTRY_OPTIONS,
       default: [
         "DE",
         "AT",
@@ -119,8 +130,17 @@ export default {
     }
 
     const requestOverrides = parseOptionalObject(this.request_overrides, "JSON Overrides");
+    const effectiveAnnualGross = this.annual_gross ?? requestOverrides.annual_gross;
 
-    if (this.gross_mode !== "local_median_gross" && this.annual_gross === undefined) {
+    if (effectiveAnnualGross !== undefined && !Number.isFinite(effectiveAnnualGross)) {
+      throw new ConfigurationError("Annual Gross Salary must be a valid number.");
+    }
+
+    if (effectiveAnnualGross !== undefined && effectiveAnnualGross < 0) {
+      throw new ConfigurationError("Annual Gross Salary must not be negative.");
+    }
+
+    if (this.gross_mode !== "local_median_gross" && effectiveAnnualGross === undefined) {
       throw new ConfigurationError("Annual Gross Salary is required unless Gross Mode is local_median_gross.");
     }
 
@@ -132,8 +152,8 @@ export default {
       ...requestOverrides,
     };
 
-    if (this.annual_gross !== undefined) {
-      payload.annual_gross = this.annual_gross;
+    if (effectiveAnnualGross !== undefined) {
+      payload.annual_gross = effectiveAnnualGross;
     }
     if (this.joint_assessment !== undefined) {
       payload.joint_assessment = this.joint_assessment;

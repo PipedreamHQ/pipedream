@@ -2,6 +2,16 @@ import { ConfigurationError } from "@pipedream/platform";
 import obolus from "../app/obolus.app.mjs";
 
 const API_URL = "https://www.obolusfinanz.de/api/berechne";
+const COUNTRY_OPTIONS = [
+  "DE",
+  "AT",
+  "US",
+  "CH",
+  "CA",
+  "AU",
+  "UK",
+  "IE",
+];
 const PERSON_ADVANCED_FIELDS = [
   {
     prop: "bundesland",
@@ -158,8 +168,8 @@ function setIfDefined(target, key, value) {
 export default {
   key: "obolus-berechne",
   name: "Calculate Net Salary",
-  description: "Calculate net salary, taxes, and social contributions for one or two persons using the Obolus API. Returns the full berechne response object documented by the current OpenAPI contract.",
-  version: "0.1.1",
+  description: "Calculate net salary, taxes, and social contributions for one or two people using the Obolus API.",
+  version: "0.0.1",
   type: "action",
   props: {
     obolus,
@@ -167,6 +177,7 @@ export default {
       type: "string",
       label: "Country",
       description: "Root country code for the calculation, e.g. DE.",
+      options: COUNTRY_OPTIONS,
       default: "DE",
     },
     tax_year: {
@@ -220,24 +231,6 @@ export default {
       default: false,
       reloadProps: true,
     },
-    second_gross_annual: {
-      type: "number",
-      label: "Person 2 Annual Gross Salary",
-      description: "Annual gross salary for the second person in major units.",
-      optional: true,
-    },
-    second_tax_class: {
-      type: "integer",
-      label: "Person 2 Tax Class",
-      description: "Country-specific tax class / filing status value for the second person.",
-      optional: true,
-    },
-    second_birth_year: {
-      type: "integer",
-      label: "Person 2 Birth Year",
-      description: "Birth year of the second person.",
-      optional: true,
-    },
     show_advanced_inputs: {
       type: "boolean",
       label: "Show Advanced Inputs",
@@ -248,55 +241,80 @@ export default {
     },
   },
   async additionalProps() {
-    if (!this.show_advanced_inputs) {
-      return {};
+    const props = {};
+
+    if (this.include_second_person) {
+      Object.assign(props, {
+        second_gross_annual: {
+          type: "number",
+          label: "Person 2 Annual Gross Salary",
+          description: "Annual gross salary for the second person in major units.",
+          optional: true,
+        },
+        second_tax_class: {
+          type: "integer",
+          label: "Person 2 Tax Class",
+          description: "Country-specific tax class / filing status value for the second person.",
+          optional: true,
+        },
+        second_birth_year: {
+          type: "integer",
+          label: "Person 2 Birth Year",
+          description: "Birth year of the second person.",
+          optional: true,
+        },
+      });
     }
 
-    const props = {
+    if (!this.show_advanced_inputs) {
+      return props;
+    }
+
+    Object.assign(props, {
       global_factor: {
         type: "number",
         label: "Global Factor",
-        description: "Top-level Obolus field `Faktor` for factor-based workflows.",
+        description: "Advanced top-level factor field.",
         optional: true,
       },
       child_allowance_factor: {
         type: "integer",
         label: "Child Allowance Factor",
-        description: "Top-level Obolus field `KinderFRB`.",
+        description: "Advanced top-level child allowance factor.",
         optional: true,
       },
       child_count_for_care_insurance: {
         type: "integer",
         label: "Children For Care Insurance",
-        description: "Top-level Obolus field `KinderPVA`.",
+        description: "Advanced top-level child count for care insurance logic.",
         optional: true,
       },
       child_benefit: {
         type: "number",
         label: "Child Benefit",
-        description: "Top-level Obolus field `Kindergeld` in major units.",
+        description: "Advanced top-level child benefit in major units.",
         optional: true,
       },
       person1_overrides: {
         type: "string",
         label: "Person 1 JSON Overrides",
-        description: "Optional JSON object merged into person 1 for full OpenAPI coverage beyond the curated advanced fields.",
+        description: "Optional JSON object merged into person 1 for edge cases and forward compatibility.",
         optional: true,
       },
       request_overrides: {
         type: "string",
         label: "Top-Level JSON Overrides",
-        description: "Optional JSON object merged into the top-level berechne payload. Do not include `Personen` here.",
+        description: "Optional JSON object merged into the top-level berechne payload. Do not include `Personen`.",
         optional: true,
       },
       ...buildPersonAdvancedProps("person1", "Person 1"),
-    };
+    });
 
     if (this.include_second_person) {
       props.person2_overrides = {
         type: "string",
         label: "Person 2 JSON Overrides",
-        description: "Optional JSON object merged into person 2 for full OpenAPI coverage beyond the curated advanced fields.",
+        description: "Optional JSON object merged into person 2 for edge cases and forward compatibility.",
         optional: true,
       };
 
@@ -393,7 +411,6 @@ export default {
     setIfDefined(payload, "KinderFRB", this.child_allowance_factor);
     setIfDefined(payload, "KinderPVA", this.child_count_for_care_insurance);
     setIfDefined(payload, "Kindergeld", toMinorUnits(this.child_benefit, "Child Benefit", { optional: true }));
-    payload.Modus = people.length;
 
     const response = await fetch(API_URL, {
       method: "POST",
