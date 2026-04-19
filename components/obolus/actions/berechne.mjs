@@ -160,6 +160,10 @@ function toMinorUnits(value, label, { optional = false } = {}) {
     throw new ConfigurationError(`${label} must be a valid number.`);
   }
 
+  if (value < 0) {
+    throw new ConfigurationError(`${label} must not be negative.`);
+  }
+
   return Math.round(value * 100);
 }
 
@@ -307,13 +311,13 @@ export default {
       person1Overrides: {
         type: "string",
         label: "Person 1 JSON Overrides",
-        description: "Optional JSON object merged into person 1 for edge cases and forward compatibility.",
+        description: "Optional JSON object merged into person 1 for edge cases and forward compatibility. Example: {\"Kirche\":1,\"KVZ\":2.9}",
         optional: true,
       },
       requestOverrides: {
         type: "string",
         label: "Top-Level JSON Overrides",
-        description: "Optional JSON object merged into the top-level berechne payload. Do not include `Personen`.",
+        description: "Optional JSON object merged into the top-level berechne payload. Do not include `Personen`. Example: {\"Faktor\":0.95,\"KinderFRB\":1}",
         optional: true,
       },
       ...buildPersonAdvancedProps("person1", "Person 1"),
@@ -323,7 +327,7 @@ export default {
       props.person2Overrides = {
         type: "string",
         label: "Person 2 JSON Overrides",
-        description: "Optional JSON object merged into person 2 for edge cases and forward compatibility.",
+        description: "Optional JSON object merged into person 2 for edge cases and forward compatibility. Example: {\"Kirche\":0,\"KinderPVA\":2}",
         optional: true,
       };
 

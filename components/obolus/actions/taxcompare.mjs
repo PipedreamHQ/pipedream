@@ -119,7 +119,7 @@ export default {
       requestOverrides: {
         type: "string",
         label: "JSON Overrides",
-        description: "Optional JSON object merged into the taxcompare payload for forward compatibility with new OpenAPI fields.",
+        description: "Optional JSON object merged into the taxcompare payload for forward compatibility with new OpenAPI fields. Example: {\"joint_assessment\":true,\"children\":2}",
         optional: true,
       },
     };

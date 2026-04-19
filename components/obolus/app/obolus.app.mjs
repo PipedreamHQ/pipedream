@@ -15,7 +15,7 @@ export default {
     },
   },
   methods: {
-    getHeaders() {
+    _getHeaders() {
       return {
         "Content-Type": "application/json",
         ...(this.$auth?.apiKey
@@ -30,19 +30,19 @@ export default {
       method,
       path,
       data,
+      headers = {},
       ...args
     } = {}) {
-      try {
-        return await axios($, {
-          method,
-          url: `${BASE_URL}${path}`,
-          headers: this.getHeaders(),
-          data,
-          ...args,
-        });
-      } catch (error) {
-        throw error.response?.data?.error || error.response?.data?.message || error;
-      }
+      return axios($, {
+        method,
+        url: `${BASE_URL}${path}`,
+        headers: {
+          ...this._getHeaders(),
+          ...headers,
+        },
+        data,
+        ...args,
+      });
     },
     async calculateNetSalary({
       $,
