@@ -355,12 +355,12 @@ export default {
 
     const person1GrossMinor = toMinorUnits(this.grossAnnual, "Person 1 Annual Gross Salary");
     const person1 = {
+      ...person1Overrides,
       Land: this.country,
       Gehalt_ct: person1GrossMinor,
-      Gehalt_ct_ohne_Sonst: person1GrossMinor,
+      Gehalt_ct_ohne_Sonst: person1Overrides.Gehalt_ct_ohne_Sonst ?? person1GrossMinor,
       Steuerklasse: this.taxClass,
       Geburtsjahr: this.birthYear,
-      ...person1Overrides,
     };
 
     const people = [
@@ -384,7 +384,6 @@ export default {
       setIfDefined(person2, "Geburtsjahr", this.secondBirthYear);
 
       for (const key of [
-        "Land",
         "Gehalt_ct",
         "Steuerklasse",
         "Geburtsjahr",

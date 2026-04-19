@@ -127,6 +127,7 @@ export default {
   async run({ $ }) {
     const requestOverrides = parseOptionalObject(this.requestOverrides, "JSON Overrides");
     const effectiveAnnualGross = this.annualGross ?? requestOverrides.annual_gross;
+    const effectiveChildren = this.children ?? requestOverrides.children;
 
     if (effectiveAnnualGross !== undefined && !Number.isFinite(effectiveAnnualGross)) {
       throw new ConfigurationError("Annual Gross Salary must be a valid number.");
@@ -140,8 +141,8 @@ export default {
       throw new ConfigurationError("Annual Gross Salary is required unless Gross Mode is local_median_gross.");
     }
 
-    if (this.children !== undefined && this.children < 0) {
-      throw new ConfigurationError("Children must not be negative.");
+    if (effectiveChildren !== undefined && (!Number.isInteger(effectiveChildren) || effectiveChildren < 0)) {
+      throw new ConfigurationError("Children must be a non-negative integer.");
     }
 
     const payload = {
@@ -158,8 +159,8 @@ export default {
     if (this.jointAssessment !== undefined) {
       payload.joint_assessment = this.jointAssessment;
     }
-    if (this.children !== undefined) {
-      payload.children = this.children;
+    if (effectiveChildren !== undefined) {
+      payload.children = effectiveChildren;
     }
 
     const data = await this.obolus.compareSalaryAcrossCountries({
