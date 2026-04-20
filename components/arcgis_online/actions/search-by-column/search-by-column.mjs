@@ -62,7 +62,14 @@ export default {
       throw new Error("layerId is required");
     }
     if (!fieldName) {
-      throw new Error("fieldName is required");
+    if (!featureService) {
+      throw new ConfigurationError("featureService is required");
+    }
+    if (!layerId) {
+      throw new ConfigurationError("layerId is required");
+    }
+    if (!fieldName) {
+      throw new ConfigurationError("fieldName is required");
     }
     if (searchValue === undefined || searchValue === null || searchValue === "") {
       throw new Error("searchValue is required");
