@@ -30,7 +30,7 @@ export default {
     const response = await axios($, {
       url: `https://api.fitbit.com/1/user/-/body/log/weight/date/${date}.json`,
       headers: {
-        "Authorization": `Bearer ${this.fitbit.$auth.oauth_access_token}`,
+        Authorization: `Bearer ${this.fitbit.$auth.oauth_access_token}`,
       },
     });
 
