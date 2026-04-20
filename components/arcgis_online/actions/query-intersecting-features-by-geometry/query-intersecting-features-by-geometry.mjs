@@ -51,7 +51,14 @@ export default {
       throw new Error("Target Layers must be provided");
     }
     if (!geometry) {
-      throw new Error("Geometry is required");
+    if (!featureService) {
+      throw new ConfigurationError("Feature Service is required");
+    }
+    if (!targetLayerIds?.length) {
+      throw new ConfigurationError("Target Layers must be provided");
+    }
+    if (!geometry) {
+      throw new ConfigurationError("Geometry is required");
     }
 
     const result = await app.queryIntersectingFeaturesByGeometry({
