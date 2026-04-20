@@ -21,8 +21,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const date = this.date || new Date().toISOString()
-      .slice(0, 10);
+    const date = this.date || new Date().toISOString().slice(0, 10);
     const response = await this.fitbit.getActivitySummary({
       $,
       date,
