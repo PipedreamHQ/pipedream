@@ -1,0 +1,21 @@
+{
+  "name": "@pipedream/roundtable",
+  "version": "0.1.0",
+  "description": "Pipedream Roundtable Components",
+  "main": "roundtable.app.mjs",
+  "keywords": [
+    "pipedream",
+    "roundtable",
+    "ai",
+    "multi-model",
+    "debate"
+  ],
+  "homepage": "https://pipedream.com/apps/roundtable",
+  "author": "Pipedream <support@pipedream.com>",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.2.5"
+  }
+}
