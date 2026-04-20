@@ -64,7 +64,7 @@ export default {
       activities: response?.activities ?? [],
     };
 
-    $.summary = `Successfully retrieved Fitbit activity summary for ${date}.`;
+    $.export("$summary", `Successfully retrieved Fitbit activity summary for ${date}.`);
     return activitySummary;
   },
 };
