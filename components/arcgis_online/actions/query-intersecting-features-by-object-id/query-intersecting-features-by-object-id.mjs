@@ -80,6 +80,23 @@ export default {
     }
     if (!targetLayerIds?.length) {
       throw new Error("targetLayerIds is required");
+    if (!featureService) {
+      throw new ConfigurationError("featureService is required");
+    }
+    if (!sourceLayerId) {
+      throw new ConfigurationError("sourceLayerId is required");
+    }
+    const objectIdStr = String(objectId).trim();
+    if (!objectIdStr) {
+      throw new ConfigurationError("objectId is required");
+    }
+    if (!/^\d+$/.test(objectIdStr)) {
+      throw new ConfigurationError(
+        `objectId must be a digits-only string; got "${objectId}"`,
+      );
+    }
+    if (!targetLayerIds?.length) {
+      throw new ConfigurationError("targetLayerIds is required");
     }
 
     const { boundary } = await app.fetchFirstFeatureGeometry({
