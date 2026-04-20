@@ -3,7 +3,7 @@ import microsoftTeams from "../../microsoft_teams.app.mjs";
 export default {
   key: "microsoft_teams-send-channel-message",
   name: "Send Channel Message",
-  description: "Send a message to a team's channel. Optionally include inline images via `hostedContents`. [See the docs here](https://learn.microsoft.com/en-us/graph/api/chatmessage-post?view=graph-rest-1.0&tabs=http)",
+  description: "Send a message to a team's channel. Optionally include inline images via `hostedContents`. [See the documentation](https://learn.microsoft.com/en-us/graph/api/chatmessage-post?view=graph-rest-1.0&tabs=http)",
   type: "action",
   version: "0.1.0",
   annotations: {
@@ -59,8 +59,7 @@ export default {
     const parsedHostedContents = hostedContents?.map((item) =>
       typeof item === "string"
         ? JSON.parse(item)
-        : item
-    );
+        : item);
 
     const content = {
       body: {
