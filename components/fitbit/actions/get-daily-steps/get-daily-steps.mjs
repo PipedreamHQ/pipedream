@@ -8,8 +8,8 @@ export default {
   type: "action",
   annotations: {
     destructiveHint: false,
-    openWorldHint: true,
-    readOnlyHint: false,
+    openWorldHint: false,
+    readOnlyHint: true,
   },
   props: {
     fitbit: {
@@ -34,7 +34,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully retrieved step count for ${date}`);
+    $.summary = `Successfully retrieved step count for ${date}`;
     return response;
   },
 };

@@ -7,7 +7,7 @@ export default {
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
-    openWorldHint: true,
+    openWorldHint: false,
     readOnlyHint: true,
   },
   type: "action",
@@ -64,7 +64,7 @@ export default {
       activities: response?.activities ?? [],
     };
 
-    $.export("$summary", `Successfully retrieved Fitbit activity summary for ${date}.`);
+    $.summary = `Successfully retrieved Fitbit activity summary for ${date}.`;
     return activitySummary;
   },
 };

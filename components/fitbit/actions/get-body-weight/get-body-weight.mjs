@@ -8,8 +8,8 @@ export default {
   type: "action",
   annotations: {
     destructiveHint: false,
-    openWorldHint: true,
-    readOnlyHint: false,
+    openWorldHint: false,
+    readOnlyHint: true,
   },
   props: {
     fitbit: {
@@ -34,7 +34,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully retrieved weight/BMI logs for ${date}`);
+    $.summary = `Successfully retrieved weight/BMI logs for ${date}`;
     return response;
   },
 };
