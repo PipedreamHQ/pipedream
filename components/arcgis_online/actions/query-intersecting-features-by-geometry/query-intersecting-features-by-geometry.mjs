@@ -1,4 +1,5 @@
 import arcgisOnline from "../../arcgis_online.app.mjs";
+import { ConfigurationError } from "@pipedream/types";
 
 export default {
   key: "arcgis_online-query-intersecting-features-by-geometry",
@@ -45,20 +46,13 @@ export default {
     } = this;
 
     if (!featureService) {
-      throw new Error("Feature Service is required");
+      throw new ConfigurationError("featureService is required");
     }
     if (!targetLayerIds?.length) {
-      throw new Error("Target Layers must be provided");
+      throw new ConfigurationError("targetLayerIds is required");
     }
     if (!geometry) {
-    if (!featureService) {
-      throw new ConfigurationError("Feature Service is required");
-    }
-    if (!targetLayerIds?.length) {
-      throw new ConfigurationError("Target Layers must be provided");
-    }
-    if (!geometry) {
-      throw new ConfigurationError("Geometry is required");
+      throw new ConfigurationError("geometry is required");
     }
 
     const result = await app.queryIntersectingFeaturesByGeometry({

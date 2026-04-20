@@ -1,4 +1,5 @@
 import arcgisOnline from "../../arcgis_online.app.mjs";
+import { ConfigurationError } from "@pipedream/types";
 
 export default {
   key: "arcgis_online-query-intersecting-features-by-object-id",
@@ -63,23 +64,6 @@ export default {
       targetLayerIds,
     } = this;
 
-    if (!featureService) {
-      throw new Error("featureService is required");
-    }
-    if (!sourceLayerId) {
-      throw new Error("sourceLayerId is required");
-    }
-    const objectIdStr = String(objectId).trim();
-    if (!objectIdStr) {
-      throw new Error("objectId is required");
-    }
-    if (!/^\d+$/.test(objectIdStr)) {
-      throw new Error(
-        `objectId must be a digits-only string; got "${objectId}"`,
-      );
-    }
-    if (!targetLayerIds?.length) {
-      throw new Error("targetLayerIds is required");
     if (!featureService) {
       throw new ConfigurationError("featureService is required");
     }

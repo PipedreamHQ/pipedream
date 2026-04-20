@@ -1,4 +1,5 @@
 import arcgisOnline from "../../arcgis_online.app.mjs";
+import { ConfigurationError } from "@pipedream/types";
 
 export default {
   key: "arcgis_online-update-row-by-object-id",

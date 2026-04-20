@@ -1,4 +1,5 @@
 import arcgisOnline from "../../arcgis_online.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "arcgis_online-query-intersecting-features-by-search-query",
@@ -59,8 +60,17 @@ export default {
       targetLayerIds,
     } = this;
 
+    if (!featureService) {
+      throw new ConfigurationError("featureService is required");
+    }
+    if (!sourceLayerId) {
+      throw new ConfigurationError("sourceLayerId is required");
+    }
+    if (!whereClause || whereClause === "") {
+      throw new ConfigurationError("whereClause is required");
+    }
     if (targetLayerIds?.length === 0) {
-      throw new ConfigurationError("Target Layers must include at least one layer");
+      throw new ConfigurationError("targetLayerIds is required");
     }
 
     const { boundary } = await app.fetchFirstFeatureGeometry({

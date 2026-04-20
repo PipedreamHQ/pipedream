@@ -1,4 +1,5 @@
 import arcgisOnline from "../../arcgis_online.app.mjs";
+import { ConfigurationError } from "@pipedream/types";
 
 export default {
   key: "arcgis_online-search-by-column",
@@ -56,13 +57,6 @@ export default {
     } = this;
 
     if (!featureService) {
-      throw new Error("featureService is required");
-    }
-    if (!layerId) {
-      throw new Error("layerId is required");
-    }
-    if (!fieldName) {
-    if (!featureService) {
       throw new ConfigurationError("featureService is required");
     }
     if (!layerId) {
@@ -72,7 +66,7 @@ export default {
       throw new ConfigurationError("fieldName is required");
     }
     if (searchValue === undefined || searchValue === null || searchValue === "") {
-      throw new Error("searchValue is required");
+      throw new ConfigurationError("searchValue is required");
     }
 
     const escapedValue = String(searchValue).replace(/'/g, "''");
