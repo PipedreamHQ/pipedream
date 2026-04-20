@@ -59,7 +59,7 @@ jobs:
         run: git fetch origin master --depth=1
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v5.0.0
+        uses: pnpm/action-setup@v6.0.1
         with:
           version: 10.28.2
 
