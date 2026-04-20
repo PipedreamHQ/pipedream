@@ -27,3 +27,5 @@ components/**/package-lock.json
 .cursor
 **/.claude/settings.local.json
 mcp-exploration/
+.archiver_shadow/
+.snapshots/
