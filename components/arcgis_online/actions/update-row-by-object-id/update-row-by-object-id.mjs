@@ -76,19 +76,19 @@ export default {
     } = this;
 
     if (!featureService) {
-      throw new Error("featureService is required");
+      throw new ConfigurationError("featureService is required");
     }
     if (layerId == null || layerId === "") {
-      throw new Error("layerId is required");
+      throw new ConfigurationError("layerId is required");
     }
     if (objectId == null || String(objectId).trim() === "") {
-      throw new Error("objectId is required");
+      throw new ConfigurationError("objectId is required");
     }
     if (!fieldName) {
-      throw new Error("fieldName is required");
+      throw new ConfigurationError("fieldName is required");
     }
     if (newValue === undefined) {
-      throw new Error("newValue is required");
+      throw new ConfigurationError("newValue is required");
     }
 
     const objectIdStr = String(objectId).trim();
