@@ -60,7 +60,7 @@ export default {
     } = this;
 
     if (targetLayerIds?.length === 0) {
-      throw new Error("Target Layers must include at least one layer");
+      throw new ConfigurationError("Target Layers must include at least one layer");
     }
 
     const { boundary } = await app.fetchFirstFeatureGeometry({
