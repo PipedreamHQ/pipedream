@@ -79,9 +79,13 @@ export default {
         // UI shows something actionable.
         const data = err.response?.data;
         const message = data?.message ?? data?.error_code ?? err.message;
-        const code = data?.error_code ? ` (${data.error_code})` : "";
+        const code = data?.error_code
+          ? ` (${data.error_code})`
+          : "";
         const status = err.response?.status ?? "";
-        const statusLabel = status ? ` [HTTP ${status}]` : "";
+        const statusLabel = status
+          ? ` [HTTP ${status}]`
+          : "";
         throw new Error(`Strale API error${statusLabel}${code}: ${message}`);
       }
     },
