@@ -5,7 +5,7 @@ export default {
   key: "github-new-gist",
   name: "New Gist",
   description: "Emit new events when new gists are created by the authenticated user. [See the documentation](https://docs.github.com/en/rest/gists/gists?apiVersion=20.2.61-28#list-gists-for-the-authenticated-user)",
-  version: "0.2.7",
+  version: "0.2.8",
   type: "source",
   dedupe: "unique",
   methods: {

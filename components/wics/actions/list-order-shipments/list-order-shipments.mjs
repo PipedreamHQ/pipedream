@@ -4,7 +4,7 @@ export default {
   key: "wics-list-order-shipments",
   name: "List Order Shipments",
   description: "List shipments for an order by reference. [See the documentation](https://docs.wics.nl/#orders-list-shipments-for-order)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

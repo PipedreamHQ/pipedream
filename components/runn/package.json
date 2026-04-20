@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/runn",
+  "version": "0.0.1",
+  "description": "Pipedream Runn Components",
+  "main": "runn.app.mjs",
+  "keywords": [
+    "pipedream",
+    "runn"
+  ],
+  "homepage": "https://pipedream.com/apps/runn",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

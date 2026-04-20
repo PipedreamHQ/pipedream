@@ -4,7 +4,7 @@ export default {
   key: "freshdesk-list-all-folders",
   name: "List All Folders",
   description: "View all the canned response folders. [See the documentation](https://developers.freshdesk.com/api/#list_all_canned_response_folders)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

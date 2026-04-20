@@ -4,7 +4,7 @@ export default {
   key: "github-update-pull-request",
   name: "Update Pull Request",
   description: "Updates an existing pull request with new title, body, state, or base branch. [See the documentation](https://docs.github.com/en/rest/pulls/pulls#update-a-pull-request)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: true,

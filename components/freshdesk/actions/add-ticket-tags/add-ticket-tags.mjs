@@ -6,7 +6,7 @@ export default {
   name: "Add Ticket Tags",
   description: "Add tags to a ticket (appends to existing tags). [See the documentation](https://developers.freshdesk.com/api/#update_ticket)",
   type: "action",
-  version: "0.0.9",
+  version: "0.0.10",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

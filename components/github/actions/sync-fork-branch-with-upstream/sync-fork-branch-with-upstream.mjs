@@ -4,7 +4,7 @@ export default {
   key: "github-sync-fork-branch-with-upstream",
   name: "Sync Fork Branch with Upstream",
   description: "Sync a forked branch with the upstream branch. [See the documentation](https://docs.github.com/en/rest/branches/branches?apiVersion=2022-11-28#sync-a-fork-branch-with-the-upstream-repository)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: true,

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/hedy",
+  "version": "0.0.1",
+  "description": "Pipedream Hedy Components",
+  "main": "hedy.app.mjs",
+  "keywords": [
+    "pipedream",
+    "hedy"
+  ],
+  "homepage": "https://pipedream.com/apps/hedy",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

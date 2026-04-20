@@ -10,7 +10,7 @@ export default {
   key: "hubspot-new-or-updated-contact",
   name: "New or Updated Contact",
   description: "Emit new event for each new or updated contact in Hubspot.",
-  version: "0.0.26",
+  version: "0.0.28",
   dedupe: "unique",
   type: "source",
   props: {
@@ -86,8 +86,7 @@ export default {
           objectId: contact.id,
         });
         const contactListIds = results?.map(({ listId }) => listId) || [];
-        const listIds = await this.translateListIds(this.lists);
-        for (const list of listIds) {
+        for (const list of this.lists) {
           if (contactListIds.includes(list)) {
             return true;
           }

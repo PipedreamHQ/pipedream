@@ -33,6 +33,26 @@ export default {
       type: "string",
       label: "Record ID",
       description: "The ID (`sys_id` field) of the record",
+      async options({
+        table, page,
+      }) {
+        if (!table) {
+          return [];
+        }
+        const response = await this.getTableRecords({
+          table,
+          params: {
+            sysparm_limit: 100,
+            sysparm_offset: page * 100,
+          },
+        });
+        return response.map(({
+          sys_id: value, label,
+        }) => ({
+          label: label || value,
+          value,
+        }));
+      },
     },
     responseDataFormat: {
       label: "Response Data Format",

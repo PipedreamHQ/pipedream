@@ -7,7 +7,7 @@ export default {
   key: "trello-create-card",
   name: "Create Card",
   description: "Creates a new card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-post).",
-  version: "1.0.6",
+  version: "1.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -92,6 +92,12 @@ export default {
       type: "string[]",
       label: "Labels",
       description: "Array of labelIDs to add to the card",
+      optional: true,
+    },
+    urlSource: {
+      type: "string",
+      label: "URL Attachment",
+      description: "A URL to attach as a link on the card. Must start with `http://` or `https://`.",
       optional: true,
     },
     file: {
@@ -226,6 +232,7 @@ export default {
       idList,
       idMembers,
       idLabels,
+      urlSource,
       mimeType,
       file,
       idCardSource,
@@ -246,6 +253,7 @@ export default {
       idList,
       idMembers,
       idLabels,
+      urlSource,
       mimeType,
       idCardSource,
       keepFromSource: keepFromSource?.join(","),

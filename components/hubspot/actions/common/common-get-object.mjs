@@ -52,6 +52,7 @@ export default {
     },
   },
   async additionalProps(props) {
+    if (!props.info) return {};
     return {
       info: {
         ...props.info,

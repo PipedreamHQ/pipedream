@@ -5,7 +5,7 @@ export default {
   key: "jira-list-epic-issues",
   name: "List Epic Issues",
   description: "Returns all issues that belong to an epic on the given board. [See the documentation](https://developer.atlassian.com/cloud/jira/software/rest/api-group-board/#api-rest-agile-1-0-board-boardid-epic-epicid-issue-get)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -100,10 +100,28 @@ export default {
       }
       throw err;
     }
+    let baseUrl;
+    try {
+      baseUrl = await this.jira.getCloudBaseUrl(this.cloudId);
+    } catch (e) {
+      console.log("Could not enrich response with browser URL", e.message);
+    }
+    const issues = baseUrl && response.issues
+      ? response.issues.map((issue) => ({
+        ...issue,
+        browserUrl: issue.key
+          ? `${baseUrl}/browse/${issue.key}`
+          : undefined,
+      }))
+      : response.issues;
+
     const count = response?.issues?.length ?? 0;
     $.export("$summary", `Successfully retrieved ${count} issue${count !== 1
       ? "s"
       : ""} from epic ${this.epicId}`);
-    return response;
+    return {
+      ...response,
+      issues,
+    };
   },
 };

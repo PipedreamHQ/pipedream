@@ -7,7 +7,7 @@ export default {
   key: "hubspot-new-or-updated-blog-article",
   name: "New or Updated Blog Post",
   description: "Emit new event for each new or updated blog post in Hubspot.",
-  version: "0.0.25",
+  version: "0.0.27",
   dedupe: "unique",
   type: "source",
   props: {

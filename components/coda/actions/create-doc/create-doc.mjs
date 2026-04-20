@@ -4,7 +4,7 @@ export default {
   key: "coda-create-doc",
   name: "Create Doc",
   description: "Creates a new doc. [See docs](https://coda.io/developers/apis/v1#operation/createDoc)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

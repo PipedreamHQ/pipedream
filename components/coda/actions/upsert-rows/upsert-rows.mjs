@@ -4,7 +4,7 @@ export default {
   key: "coda-upsert-rows",
   name: "Upsert Rows",
   description: "Creates a new row or updates existing rows if any upsert key columns are provided. When upserting, if multiple rows match the specified key column(s), they will all be updated with the specified value. [See docs](https://coda.io/developers/apis/v1#operation/upsertRows)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

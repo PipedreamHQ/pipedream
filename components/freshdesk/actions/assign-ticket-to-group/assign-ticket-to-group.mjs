@@ -4,7 +4,7 @@ export default {
   key: "freshdesk-assign-ticket-to-group",
   name: "Assign Ticket to Group",
   description: "Assign a Freshdesk ticket to a specific group [See the documentation](https://developers.freshdesk.com/api/#update_ticket).",
-  version: "0.0.10",
+  version: "0.0.11",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

@@ -6,7 +6,7 @@ export default {
   key: "freshdesk-update-solution-article",
   name: "Update Solution Article",
   description: "Update a solution article in Freshdesk. [See the documentation](https://developers.freshdesk.com/api/#solution_article_attributes)",
-  version: "0.0.7",
+  version: "0.0.8",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

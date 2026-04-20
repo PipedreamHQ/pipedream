@@ -122,6 +122,18 @@ export default {
         };
       },
     },
+    exportFormat: {
+      type: "string",
+      label: "Export Format",
+      description: "The format to export the file in. Required for exportable files. Only supports exporting files that cannot be downloaded directly and whose ExportResult.file_metadata has ExportInfo.export_as populated.",
+      optional: true,
+      async options({ path }) {
+        const { result } = await this.filesGetMetadata({
+          path: this.getNormalizedPath(path, false),
+        });
+        return result?.export_info?.export_options || [];
+      },
+    },
     linkPassword: {
       type: "string",
       label: "Link Password",
@@ -459,6 +471,30 @@ export default {
       try {
         const dpx = await this.sdk();
         return await dpx.filesGetTemporaryLink(args);
+      } catch (err) {
+        this.normalizeError(err);
+      }
+    },
+    async exportFile(args) {
+      try {
+        const dpx = await this.sdk();
+        return await dpx.filesExport(args);
+      } catch (err) {
+        this.normalizeError(err);
+      }
+    },
+    async filesGetPreview(args) {
+      try {
+        const dpx = await this.sdk();
+        return await dpx.filesGetPreview(args);
+      } catch (err) {
+        this.normalizeError(err);
+      }
+    },
+    async filesGetMetadata(args) {
+      try {
+        const dpx = await this.sdk();
+        return await dpx.filesGetMetadata(args);
       } catch (err) {
         this.normalizeError(err);
       }
