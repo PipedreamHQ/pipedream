@@ -8,13 +8,13 @@ export default {
   type: "action",
   annotations: {
     destructiveHint: false,
-    	openWorldHint: true,
-    	readOnlyHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
   },
   props: {
     fitbit: {
       type: "app",
-      app: "fitbit",
+    		app: "fitbit",
     },
     date: {
       type: "string",
@@ -23,6 +23,7 @@ export default {
       optional: true,
     },
   },
+
   async run({ $ }) {
     const date = this.date || "today";
 
