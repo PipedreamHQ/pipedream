@@ -4,7 +4,7 @@ export default {
   key: "hubspot-get-blog-post-draft",
   name: "Get Blog Post Draft",
   description: "Retrieves the draft version of a blog post. [See the documentation](https://developers.hubspot.com/docs/api-reference/cms-posts-v3/basic/get-cms-v3-blogs-posts-objectId-draft)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

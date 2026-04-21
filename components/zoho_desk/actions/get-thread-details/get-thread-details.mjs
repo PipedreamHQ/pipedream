@@ -5,7 +5,7 @@ export default {
   name: "Get Thread Details",
   description: "Retrieve details for a specific thread belonging to a ticket. [See the documentation](https://desk.zoho.com/DeskAPIDocument#Threads_Getathread)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

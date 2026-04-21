@@ -7,7 +7,7 @@ export default {
   key: "jira-add-comment-to-issue",
   name: "Add Comment To Issue",
   description: "Adds a new comment to an issue. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-comments/#api-rest-api-3-issue-issueidorkey-comment-post)",
-  version: "0.1.18",
+  version: "0.1.19",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -101,8 +101,34 @@ export default {
         ...additionalProperties,
       },
     });
+    let browserUrl;
+    try {
+      const [
+        baseUrl,
+        issue,
+      ] = await Promise.all([
+        this.jira.getCloudBaseUrl(this.cloudId),
+        this.jira.getIssue({
+          $,
+          cloudId: this.cloudId,
+          issueIdOrKey: this.issueIdOrKey,
+          params: {
+            fields: "key",
+          },
+        }),
+      ]);
+      browserUrl = baseUrl && issue.key
+        ? `${baseUrl}/browse/${issue.key}`
+        : undefined;
+    } catch (e) {
+      console.log("Could not enrich response with browser URL", e.message);
+    }
+
     $.export("$summary", `Comment has been added to the issue with ID(or key): ${this.issueIdOrKey}`);
-    return response;
+    return {
+      ...response,
+      browserUrl,
+    };
 
   },
 };

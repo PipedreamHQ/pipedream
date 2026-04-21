@@ -1,16 +1,13 @@
-import {
-  LANGUAGE_OPTIONS, OBJECT_TYPE,
-} from "../../common/constants.mjs";
+import { LANGUAGE_OPTIONS } from "../../common/constants.mjs";
 import { parseObject } from "../../common/utils.mjs";
 import hubspot from "../../hubspot.app.mjs";
-import common from "../common/common-get-object.mjs";
 
 export default {
   key: "hubspot-create-email",
   name: "Create Marketing Email",
   description:
     "Create a marketing email in Hubspot. [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/emails/marketing-emails#post-%2Fmarketing%2Fv3%2Femails%2F)",
-  version: "0.0.11",
+  version: "0.0.12",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -19,6 +16,11 @@ export default {
   type: "action",
   props: {
     hubspot,
+    info: {
+      type: "alert",
+      alertType: "info",
+      content: "Note: This action is only available for users with a paid Hubspot account with access to Marketing Features.",
+    },
     name: {
       type: "string",
       label: "Name",
@@ -66,6 +68,8 @@ export default {
         hubspot,
         "lists",
       ],
+      label: "Include Contact Lists",
+      description: "The contact lists to include",
       optional: true,
     },
     excludeContactLists: {
@@ -73,12 +77,14 @@ export default {
         hubspot,
         "lists",
       ],
+      label: "Exclude Contact Lists",
+      description: "The contact lists to exclude",
       optional: true,
     },
     feedbackSurveyId: {
-      ...common.props.objectId,
+      type: "string",
       label: "Feedback Survey ID",
-      description: "Hubspot's internal ID for the feedback survey",
+      description: "Hubspot's internal ID for the feedback survey. From the Hubspot UI, go to Service -> Feedback Surveys and the ID will be in the URL.",
       optional: true,
     },
     rssData: {
@@ -136,13 +142,16 @@ export default {
       optional: true,
     },
   },
-  methods: {
-    ...common.methods,
-    getObjectType() {
-      return OBJECT_TYPE.FEEDBACK_SUBMISSION;
-    },
-  },
   async run({ $ }) {
+    let includeContactLists = this.includeContactLists;
+    let excludeContactLists = this.excludeContactLists;
+    if (includeContactLists?.length && includeContactLists[0]?.value) {
+      includeContactLists = includeContactLists.map((item) => item.value);
+    }
+    if (excludeContactLists?.length && excludeContactLists[0]?.value) {
+      excludeContactLists = excludeContactLists.map((item) => item.value);
+    }
+
     const response = await this.hubspot.createEmail({
       $,
       data: {
@@ -157,11 +166,13 @@ export default {
           limitSendFrequency: this.limitSendFrequency,
           suppressGraymail: this.suppressGraymail,
           contactLists: {
-            include: parseObject(this.includeContactLists),
-            exclude: parseObject(this.excludeContactLists),
+            include: parseObject(includeContactLists),
+            exclude: parseObject(excludeContactLists),
           },
         },
-        feedbackSurveyId: this.feedbackSurveyId,
+        feedbackSurveyId: this.feedbackSurveyId
+          ? parseInt(this.feedbackSurveyId)
+          : undefined,
         rssData: parseObject(this.rssData),
         subject: this.subject,
         testing: parseObject(this.testing),
