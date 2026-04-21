@@ -1,7 +1,7 @@
 import fellow from "../../fellow.app.mjs";
 
 export default {
-  key: "get-note-by-id",
+  key: "fellow-get-note-by-id",
   name: "Get Note by ID",
   description: "Get a note by its ID. [See the documentation](https://developers.fellow.ai/reference/apps_developer_api_api_get_note_by_id)",
   version: "0.0.1",
