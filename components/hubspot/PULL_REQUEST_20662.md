@@ -1,9 +1,3 @@
-# HubSpot: add note to contact (Prismatic parity) + MCP/AI guidance
-
-Use this as the GitHub PR description (copy into the PR body on GitHub).
-
----
-
 ## Why
 
 Customers need to **add a note to a HubSpot contact** the same way they could in **Prismatic**.
