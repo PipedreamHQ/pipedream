@@ -24,7 +24,13 @@ const SHORTCUT_MIME_TYPE = "application/vnd.google-apps.shortcut";
 export default {
   key: "google_drive-download-file",
   name: "Download File",
-  description: "Download a file. [See the documentation](https://developers.google.com/drive/api/v3/manage-downloads) for more information",
+  description: "Download a file from Google Drive to the `/tmp` directory or return its contents as a buffer."
+    + " Use to fetch a file's contents for processing in downstream steps — e.g., parsing a CSV, extracting text from a PDF, or re-uploading to another service."
+    + " For Google Workspace files (Docs, Sheets, Slides, Drawings, Apps Script), exports to an Office-compatible format by default:"
+    + " Docs → `.docx`, Sheets → `.xlsx`, Slides → `.pptx`, Drawings → PNG, Apps Script → JSON."
+    + " Pass `mimeType` to force a specific format. Shortcuts are resolved to their target automatically."
+    + " Folders, Forms, and My Maps cannot be downloaded via this action."
+    + " [See the documentation](https://developers.google.com/drive/api/v3/manage-downloads)",
   version: "0.1.24",
   annotations: {
     destructiveHint: false,
@@ -39,6 +45,7 @@ export default {
         googleDrive,
         "watchedDrive",
       ],
+      description: "The shared drive the file is in, if any. Leave empty for files in My Drive.",
       optional: true,
     },
     fileId: {
@@ -49,7 +56,7 @@ export default {
           drive: c.drive,
         }),
       ],
-      description: "The file to download",
+      description: "The Google Drive file to download. Accepts a file ID (opaque Drive identifier). If a shortcut is passed, the target file is resolved and downloaded automatically.",
     },
     filePath: {
       type: "string",
@@ -110,17 +117,18 @@ export default {
       type: "dir",
       accessMode: "write",
       sync: true,
+      optional: true,
     },
     getBufferResponse: {
       type: "boolean",
       label: "Get Buffer Response",
-      description: "Whether to return the file content as a buffer instead of writing to a file path",
+      description: "If true, returns the file content as a buffer in the output (useful for passing directly to another step) instead of writing it to `/tmp`. Defaults to false.",
       optional: true,
     },
   },
   async run({ $ }) {
     let fileMetadata = await this.googleDrive.getFile(this.fileId, {
-      fields: "name,mimeType,shortcutDetails",
+      fields: "name,mimeType,shortcutDetails,webViewLink",
     });
 
     // Shortcuts point at a target file; resolve and download the target instead.
@@ -134,7 +142,7 @@ export default {
       downloadFileId = targetId;
       resolvedFromShortcut = true;
       fileMetadata = await this.googleDrive.getFile(targetId, {
-        fields: "name,mimeType",
+        fields: "name,mimeType,webViewLink",
       });
     }
 
@@ -188,6 +196,7 @@ export default {
       return {
         fileId: this.fileId,
         fileMetadata,
+        webViewLink: fileMetadata.webViewLink,
         content: buffer,
       };
     }
@@ -214,6 +223,7 @@ export default {
     return {
       fileId: this.fileId,
       fileMetadata,
+      webViewLink: fileMetadata.webViewLink,
       filePath,
     };
   },
