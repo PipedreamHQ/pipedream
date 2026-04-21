@@ -111,16 +111,24 @@ export default {
     },
   },
   methods: {
+    baseUrl() {
+      return `https://${this.$auth.instance_name}.service-now.com`;
+    },
+    authHeaders() {
+      return {
+        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+      };
+    },
     async _makeRequest({
       $ = this,
       headers,
       ...args
     }) {
       const response = await axios($, {
-        baseURL: `https://${this.$auth.instance_name}.service-now.com/api/now`,
+        baseURL: `${this.baseUrl()}/api/now`,
         headers: {
           ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+          ...this.authHeaders(),
         },
         ...args,
       });

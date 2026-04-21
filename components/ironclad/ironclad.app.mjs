@@ -170,6 +170,14 @@ export default {
         ...opts,
       });
     },
+    getRecord({
+      recordId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/records/${recordId}`,
+        ...opts,
+      });
+    },
     launchWorkflow(opts = {}) {
       return this._makeRequest({
         method: "POST",
@@ -184,12 +192,39 @@ export default {
         ...opts,
       });
     },
+    updateRecord({
+      recordId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "PATCH",
+        path: `/records/${recordId}`,
+        ...opts,
+      });
+    },
+    deleteRecord({
+      recordId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/records/${recordId}`,
+        ...opts,
+      });
+    },
     updateWorkflowMetadata({
       workflowId, ...opts
     }) {
       return this._makeRequest({
         method: "PATCH",
         path: `/workflows/${workflowId}/attributes`,
+        ...opts,
+      });
+    },
+    transitionWorkflow({
+      workflowId, action, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/workflows/${workflowId}/${action}`,
         ...opts,
       });
     },
