@@ -7,13 +7,13 @@ export default {
   version: "0.0.2",
   type: "action",
   annotations: {
+    readOnlyHint: false,
     openWorldHint: true,
+    destructiveHint: false,
+    idempotentHint: false,
   },
   props: {
-    docuwriter_ai: {
-      type: "app",
-      app: "docuwriter_ai",
-    },
+    docuwriterAi,
     sourceCode: {
       propDefinition: [
         docuwriterAi,
@@ -40,8 +40,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.docuwriter_ai.makeGenerationRequest($, {
-      endpoint: "/generate-code-tests",
+    const response = await this.docuwriterAi.generateCodeTests({
+      $,
       data: {
         source_code: this.sourceCode,
         filename: this.filename,

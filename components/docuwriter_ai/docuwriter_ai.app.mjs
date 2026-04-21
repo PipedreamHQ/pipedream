@@ -32,25 +32,55 @@ export default {
         "Accept": "application/json",
       };
     },
-    async _makeRequest($, opts = {}) {
+    _makeRequest({
+      $ = this, path, ...opts
+    } = {}) {
       return axios($, {
         ...opts,
-        url: `${this._baseUrl()}${opts.path}`,
+        url: `${this._baseUrl()}${path}`,
         headers: this._headers(),
       });
     },
-    async makeGenerationRequest($, { endpoint, data }) {
-      return this._makeRequest($, {
+    generateCodeOptimization(opts = {}) {
+      return this._makeRequest({
         method: "POST",
-        path: endpoint,
-        data,
+        path: "/generate-code-optimization",
+        ...opts,
       });
     },
-    async listGenerations($, params = {}) {
-      return this._makeRequest($, {
+    generateCodeDocumentation(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/generate-code-documentation",
+        ...opts,
+      });
+    },
+    generateCodeTests(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/generate-code-tests",
+        ...opts,
+      });
+    },
+    generateSwaggerApi(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/generate-swagger-api",
+        ...opts,
+      });
+    },
+    generateUmlDiagram(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/generate-uml-diagram",
+        ...opts,
+      });
+    },
+    listGenerations(opts = {}) {
+      return this._makeRequest({
         method: "GET",
         path: "/generations",
-        params,
+        ...opts,
       });
     },
   },
