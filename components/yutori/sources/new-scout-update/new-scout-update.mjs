@@ -6,7 +6,7 @@ export default {
   key: "yutori-new-scout-update",
   name: "New Scout Update",
   description: "Emit new findings from a Yutori Scout. Configure your scout once here — it is created automatically when this source is deployed and deleted when it is disabled. Each new finding emits an event you can act on with downstream steps (e.g. send a Slack message, update a Google Sheet, or post to Notion).",
-  version: "0.1.0",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
