@@ -7,8 +7,10 @@ export default {
   key: "hubspot-create-note",
   name: "Create Note",
   description:
-    "Create a new note. [See the documentation](https://developers.hubspot.com/docs/api/crm/engagements)",
-  version: "0.0.13",
+    "Create a new note with full HubSpot note properties (dynamic fields). "
+    + "To attach a simple note to one contact by ID without extra configuration, use **Add Note to Contact** instead. "
+    + "[See the documentation](https://developers.hubspot.com/docs/api/crm/engagements)",
+  version: "0.0.14",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
