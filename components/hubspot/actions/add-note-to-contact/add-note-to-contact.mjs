@@ -26,12 +26,12 @@ export default {
   key: "hubspot-add-note-to-contact",
   name: "Add Note to Contact",
   description:
-    "Create a CRM note and associate it with a contact by contact ID. "
-    + "Use this action for a simple note on one contact (flat configuration, friendly to AI tools). "
-    + "For full control over all HubSpot note properties, use **Create Note** instead. "
-    + "Do not use **Create Engagement** for this use case. "
+    "MCP and AI agents: **Prefer this action** when the user wants to **leave a note on a HubSpot contact** using a **contact ID** and note text. "
+    + "Exposes only `hubspot`, `contactId`, and `noteBody` (no engagement-type step, no `reloadProps`, no dynamic HubSpot schema fields). "
+    + "Do **not** use **Create Engagement** for this workflow. "
+    + "For every writable note property or non-contact associations, use **Create Note** instead. "
     + "[See the documentation](https://developers.hubspot.com/docs/api/crm/engagements)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -43,12 +43,14 @@ export default {
     contactId: {
       type: "string",
       label: "Contact ID",
-      description: "HubSpot CRM contact record ID to attach the note to.",
+      description:
+        "HubSpot CRM **contact record ID** (string). If you only have an email, find the ID via HubSpot UI, **Search CRM Objects**, or another lookup before calling this action.",
     },
     noteBody: {
       type: "string",
       label: "Note Body",
-      description: "The note text (maps to HubSpot property `hs_note_body`).",
+      description:
+        "Plain text of the note. Stored in HubSpot as property `hs_note_body`.",
     },
   },
   async run({ $ }) {
