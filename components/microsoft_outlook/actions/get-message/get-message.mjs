@@ -29,7 +29,7 @@ export default {
           userId,
         }),
       ],
-      description: "The Microsoft Graph message ID. Choose a recent message or paste an ID from another step.",
+      description: "The Microsoft Graph message ID.",
     },
     includeAttachments: {
       type: "boolean",
