@@ -6,23 +6,6 @@
 
 All components authenticate with a Yutori API key. Get yours at [platform.yutori.com](https://platform.yutori.com). You'll enter it once in Pipedream Connect and it applies to all Yutori actions in your workflows.
 
-### Triggers (Sources)
-
-| Component | Description |
-|---|---|
-| **New Scout Update** | Configure a scout here and deploy — it is created automatically on deploy and deleted on disable. Fires whenever the scout produces new findings. |
-
-### Actions
-
-| Component | Description |
-|---|---|
-| **Run Browsing Task** | Start a cloud browser agent task given a URL and plain-English instructions — returns a task ID immediately |
-| **Get Browsing Task Result** | Fetch the status and result of a previously started browsing task |
-| **Run Research Task** | Start a deep web research task across 100+ sources — returns a task ID immediately |
-| **Get Research Task Result** | Fetch the status and result of a previously started research task |
-| **Get Scout** | Fetch details and current status of a specific scout |
-| **Get Scout Updates** | Fetch the latest findings from a specific scout on demand |
-
 ## Example Use Cases
 
 - **Competitive monitoring** *(Scout)*: Add the **New Scout Update** trigger, set the query to "alert me when [competitor]'s pricing page changes", and add a Slack step — deploy once and get notified automatically whenever prices change.
