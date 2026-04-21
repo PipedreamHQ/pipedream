@@ -9,11 +9,6 @@ export default {
   version: "0.1.0",
   type: "source",
   dedupe: "unique",
-  annotations: {
-    openWorldHint: true,
-    destructiveHint: false,
-    readOnlyHint: false,
-  },
   props: {
     yutori,
     timer: {
