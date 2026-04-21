@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/dataforb2b",
+  "version": "0.0.1",
+  "description": "Pipedream DataForB2B Components",
+  "main": "dataforb2b.app.mjs",
+  "keywords": [
+    "pipedream",
+    "dataforb2b"
+  ],
+  "homepage": "https://pipedream.com/apps/dataforb2b",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

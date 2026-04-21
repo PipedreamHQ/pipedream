@@ -5,7 +5,7 @@ export default {
   key: "freshdesk-forward-ticket",
   name: "Forward Ticket",
   description: "Forward a ticket to an external email address. [See the documentation](https://developers.freshdesk.com/api/#forward_a_ticket).",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -6,7 +6,7 @@ export default {
   key: "shopify_developer_app-update-customer",
   name: "Update Customer",
   description: "Update a existing customer. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/customerupdate)",
-  version: "0.0.13",
+  version: "0.0.14",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

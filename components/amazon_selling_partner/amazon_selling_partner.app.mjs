@@ -179,7 +179,9 @@ export default {
         }
         hasMore = false;
         if (payload?.NextToken) {
-          params.NextToken = payload.NextToken;
+          params = {
+            NextToken: payload.NextToken,
+          };
           hasMore = true;
         }
         if (payload?.nextToken) {

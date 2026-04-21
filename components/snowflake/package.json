@@ -16,7 +16,7 @@
   "dependencies": {
     "@pipedream/platform": "^3.3.0",
     "asn1.js": "^5.4.1",
-    "lodash-es": "^4.17.23",
+    "lodash-es": "^4.18.1",
     "snowflake-sdk": "^2.3.6",
     "uuid": "^13.0.0"
   }

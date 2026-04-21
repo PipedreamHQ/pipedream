@@ -5,7 +5,7 @@ export default {
   key: "hubspot-new-message-in-thread",
   name: "New Message in Thread",
   description: "Emit new event when a new message is added to a thread. [See the documentation](https://developers.hubspot.com/docs/api-reference/conversations-conversations-inbox-&-messages-v3/public-message/get-conversations-v3-conversations-threads-threadId-messages)",
-  version: "0.0.2",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   props: {

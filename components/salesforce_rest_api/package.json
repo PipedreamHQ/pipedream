@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/salesforce_rest_api",
-  "version": "1.12.0",
+  "version": "1.12.2",
   "description": "Pipedream Salesforce (REST API) Components",
   "main": "salesforce_rest_api.app.mjs",
   "keywords": [
@@ -13,8 +13,8 @@
     "@pipedream/platform": "^3.1.1",
     "fast-xml-parser": "^5.5.7",
     "handlebars": "^4.7.9",
-    "lodash": "^4.17.23",
-    "lodash-es": "^4.17.23",
+    "lodash": "^4.18.1",
+    "lodash-es": "^4.18.1",
     "salesforce-webhooks": "^1.1.11",
     "uuid": "^9.0.1"
   },

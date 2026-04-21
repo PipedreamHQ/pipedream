@@ -201,6 +201,21 @@ mutation fulfillmentCreate($fulfillment: FulfillmentInput!, $message: String) {
 }
 `;
 
+const ORDER_INVOICE_SEND = `
+mutation OrderInvoiceSend($id: ID!, $email: EmailInput) {
+  orderInvoiceSend(id: $id, email: $email) {
+    order {
+      id
+      name
+    }
+    userErrors {
+      field
+      message
+    }
+  }
+}
+`;
+
 export default {
   CREATE_ORDER,
   CREATE_CUSTOMER,
@@ -209,4 +224,5 @@ export default {
   REFUND_ORDER,
   UPDATE_FULFILLMENT_TRACKING_INFO,
   CREATE_FULFILLMENT,
+  ORDER_INVOICE_SEND,
 };

@@ -8,7 +8,7 @@ export default {
   key: "salesforce_rest_api-create-opportunity",
   name: "Create Opportunity",
   description: `Creates an opportunity. [See the documentation](${docsLink})`,
-  version: "0.3.5",
+  version: "0.3.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -28,6 +28,7 @@ export default {
     objType: opportunity,
     docsLink,
     showDateInfo: true,
+    advancedProps: false,
   }),
   async run({ $ }) {
     /* eslint-disable no-unused-vars */

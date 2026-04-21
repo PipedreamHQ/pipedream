@@ -4,7 +4,7 @@ export default {
   key: "egnyte-search",
   name: "Search",
   description: "Search for files and folders in your Egnyte workspace. [See the documentation](https://developers.egnyte.com/api-docs/read/search-api)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -19,9 +19,11 @@ export default {
       description: "The query to search for",
     },
     folder: {
-      type: "string",
-      label: "Folder",
-      description: "Limit the result set to only items contained in the specified folder and all of its descendants.",
+      propDefinition: [
+        egnyte,
+        "folderPath",
+      ],
+      description: "Limit the result set to only items contained in the specified folder and all of its descendants. Search for a folder to select or enter a folder path manually.",
       optional: true,
     },
     type: {

@@ -16,6 +16,7 @@ export function getProps({
   docsLink = "https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_concepts.htm",
   showDocsInfo = true,
   showDateInfo = false,
+  advancedProps = true,
 }) {
   let { initialProps } = objType;
   if (initialProps && createOrUpdate === "update") {
@@ -53,12 +54,18 @@ export function getProps({
       ? "createProps"
       : "updateProps"],
     ...initialProps,
-    useAdvancedProps: {
-      propDefinition: [
-        salesforce,
-        "useAdvancedProps",
-      ],
-    },
+    ...advancedProps
+      ? {
+        useAdvancedProps: {
+          propDefinition: [
+            salesforce,
+            "useAdvancedProps",
+          ],
+        },
+      }
+      : {
+        ...objType.extraProps,
+      },
   };
 }
 

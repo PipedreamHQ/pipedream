@@ -6,7 +6,7 @@ export default {
   key: "google_contacts-list-contacts",
   name: "List Contacts",
   description: "Lists all contacts of the authenticated user. [See the documentation](https://developers.google.com/people/api/rest/v1/people.connections/list)",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

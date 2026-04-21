@@ -5,7 +5,7 @@ export default {
   key: "wics-update-order",
   name: "Update Order",
   description: "Update an order. [See the documentation](https://docs.wics.nl/test-environment.html#orders-update-order)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: true,
@@ -14,10 +14,10 @@ export default {
   },
   props: {
     wics,
-    orderReference: {
+    orderNumber: {
       propDefinition: [
         wics,
-        "orderReference",
+        "orderNumber",
       ],
     },
     deliveryDate: {
@@ -174,13 +174,13 @@ export default {
   async run({ $ }) {
     const { data: order } = await this.wics.getOrder({
       $,
-      orderReference: this.orderReference,
+      orderNumber: this.orderNumber,
     });
 
     // add in updated lines
     const lines = [];
-    const newLines = parseObject(this.lines);
-    for (const line of order.lines) {
+    const newLines = parseObject(this.lines) || [];
+    for (const line of order.lines || []) {
       const newLine = newLines.find((l) => l.lineNumber === line.lineNumber);
       if (newLine) {
         lines.push(newLine);
@@ -198,7 +198,7 @@ export default {
 
     const { data } = await this.wics.updateOrder({
       $,
-      orderReference: this.orderReference,
+      orderNumber: this.orderNumber,
       data: {
         ...order,
         deliveryDate: this.deliveryDate,
@@ -234,7 +234,7 @@ export default {
         lines,
       },
     });
-    $.export("$summary", `Successfully updated order ${this.orderReference}`);
+    $.export("$summary", `Successfully updated order ${this.orderNumber}`);
     return data;
   },
 };

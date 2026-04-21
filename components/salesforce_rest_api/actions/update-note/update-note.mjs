@@ -17,7 +17,7 @@ export default {
   key: "salesforce_rest_api-update-note",
   name: "Update Note",
   description: `Updates a classic Salesforce note, which can contain up to 32 KB of text and is associated with a parent record. [See the documentation](${docsLink})`,
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: true,

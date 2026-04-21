@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/chatwoot",
+  "version": "0.0.1",
+  "description": "Pipedream Chatwoot Components",
+  "main": "chatwoot.app.mjs",
+  "keywords": [
+    "pipedream",
+    "chatwoot"
+  ],
+  "homepage": "https://pipedream.com/apps/chatwoot",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

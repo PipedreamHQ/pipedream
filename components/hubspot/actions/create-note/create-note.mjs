@@ -11,7 +11,7 @@ export default {
     + "MCP/AI: For **only** contact ID + note body, use **Add Note to Contact** — fewer props and no association-type configuration. "
     + "If associating to another record, supply `toObjectType`, `toObjectId`, and `associationType` together; use **CONFIGURE_COMPONENT** with `componentKey` `hubspot-create-note` to load dropdown options for those props when needed. "
     + "[See the documentation](https://developers.hubspot.com/docs/api/crm/engagements)",
-  version: "0.0.15",
+  version: "0.0.16",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

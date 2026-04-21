@@ -9,6 +9,7 @@ const {
   objType: opportunity,
   docsLink,
   showDateInfo: true,
+  advancedProps: false,
 });
 
 export default {
@@ -16,7 +17,7 @@ export default {
   key: "salesforce_rest_api-update-opportunity",
   name: "Update Opportunity",
   description: `Updates an opportunity. [See the documentation](${docsLink})`,
-  version: "0.3.5",
+  version: "0.3.6",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

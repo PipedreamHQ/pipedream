@@ -7,7 +7,7 @@ export default {
   key: "egnyte-new-file-in-folder",
   name: "New File in Folder",
   description: "Emit new event when a file is added within the specified folder in Egnyte. [See the documentation](https://developers.egnyte.com/docs/read/File_System_Management_API_Documentation#List-File-or-Folder)",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "source",
   dedupe: "unique",
   props: {

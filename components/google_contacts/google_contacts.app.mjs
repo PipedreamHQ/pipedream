@@ -20,7 +20,7 @@ export default {
         const { nextPageToken: pageToken } = prevContext;
         const params = {
           resourceName: constants.RESOURCE_NAME,
-          personFields: "names",
+          personFields: "names,emailAddresses",
           pageToken,
         };
         const client = await this.getClient();
@@ -31,12 +31,24 @@ export default {
         if (!connections) {
           return [];
         }
-        const options = connections.map((contact) => ({
-          label: contact?.names
-            ? contact?.names[0].displayName
-            : contact.resourceName,
-          value: contact.resourceName,
-        }));
+        const options = connections.map((contact) => {
+          const displayName = contact?.names?.[0]?.displayName;
+          const email = contact?.emailAddresses?.[0]?.value;
+          let label;
+          if (displayName && email) {
+            label = `${displayName} (${email})`;
+          } else if (displayName) {
+            label = displayName;
+          } else if (email) {
+            label = email;
+          } else {
+            label = contact.resourceName;
+          }
+          return {
+            label,
+            value: contact.resourceName,
+          };
+        });
         return {
           options,
           context: {

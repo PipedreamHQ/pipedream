@@ -4,8 +4,8 @@ export default {
   ...common,
   key: "github-new-organization",
   name: "New Organization",
-  description: "Emit new event when the authenticated user is added to a new organization. [See the documentation](https://docs.github.com/en/rest/orgs/orgs?apiVersion=20.2.61-28#list-organizations-for-the-authenticated-user)",
-  version: "0.2.6",
+  description: "Emit new event when the authenticated user is added to a new organization. [See the documentation](https://docs.github.com/en/rest/orgs/orgs?apiVersion=20.2.71-28#list-organizations-for-the-authenticated-user)",
+  version: "0.2.7",
   type: "source",
   dedupe: "unique",
   methods: {
