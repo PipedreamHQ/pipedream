@@ -9,7 +9,7 @@ export default {
     + " **Returns:** `{ instance_url, sys_id, user_name, name, email, title, department, location }`."
     + " **Cross-references:** Use the `sys_id` as the `assigned_to` / `caller_id` / `opened_by` filter in **Search Records** and as a reference value in **Create Record** / **Update Record**."
     + " [See the documentation](https://docs.servicenow.com/bundle/zurich-api-reference/page/integrate/inbound-rest/concept/c_TableAPI.html)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
