@@ -156,7 +156,7 @@ export default {
 
     const isWorkspaceDocument = sourceMimeType.includes(GOOGLE_DRIVE_MIME_TYPE_PREFIX);
 
-    // Fallback chain for Workspace docs: user-provided -> static per-type default -> runtime getExportFormats().
+    // Fallback: user value -> static default -> runtime getExportFormats().
     let effectiveMimeType = this.mimeType;
     if (isWorkspaceDocument && !effectiveMimeType) {
       effectiveMimeType = defaultExportMimeBySource[sourceMimeType];
