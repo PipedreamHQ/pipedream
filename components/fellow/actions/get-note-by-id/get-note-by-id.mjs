@@ -21,7 +21,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const result = await fellow.getNote({
+    const result = await this.fellow.getNote({
       $,
       noteId: this.noteId,
     });

@@ -9,7 +9,7 @@ export default {
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
-    readOnlyHint: true,
+    readOnlyHint: false,
   },
   props: {
     fellow,
@@ -21,7 +21,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const result = await fellow.completeActionItem({
+    const result = await this.fellow.completeActionItem({
       $,
       actionItemId: this.actionItemId,
       data: {

@@ -7,7 +7,7 @@ export default {
   version: "0.0.1",
   type: "action",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
@@ -21,7 +21,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const result = await fellow.archiveActionItem({
+    const result = await this.fellow.archiveActionItem({
       $,
       actionItemId: this.actionItemId,
     });
