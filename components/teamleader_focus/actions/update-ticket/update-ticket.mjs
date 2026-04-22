@@ -1,10 +1,11 @@
+import { ConfigurationError } from "@pipedream/platform";
 import teamleaderFocus from "../../teamleader_focus.app.mjs";
 
 export default {
   key: "teamleader_focus-update-ticket",
   name: "Update Ticket",
-  description: "Updates a ticket's fields such as subject, description, status, assignee, and more. [See the documentation](https://developer.focus.teamleader.eu/docs/api/tickets-update)",
-  version: "0.0.1",
+  description: "Updates a ticket's subject, description, status, or milestone. [See the documentation](https://developer.focus.teamleader.eu/docs/api/tickets-update)",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -32,10 +33,10 @@ export default {
       optional: true,
     },
     ticketStatusId: {
-      type: "string",
-      label: "Ticket Status ID",
-      description: "The ID of the new ticket status.",
-      optional: true,
+      propDefinition: [
+        teamleaderFocus,
+        "ticketStatusId",
+      ],
     },
     milestoneId: {
       type: "string",
@@ -45,23 +46,35 @@ export default {
     },
   },
   async run({ $ }) {
+    const {
+      ticketId,
+      subject,
+      description,
+      ticketStatusId,
+      milestoneId,
+    } = this;
+
+    if (!subject && !description && !ticketStatusId && !milestoneId) {
+      throw new ConfigurationError("At least one field to update must be provided.");
+    }
+
     const data = {
-      id: this.ticketId,
+      id: ticketId,
     };
-    if (this.subject) data.subject = this.subject;
-    if (this.description) data.description = this.description;
-    if (this.ticketStatusId) data.ticket_status_id = this.ticketStatusId;
-    if (this.milestoneId) data.milestone_id = this.milestoneId;
+    if (subject) data.subject = subject;
+    if (description) data.description = description;
+    if (ticketStatusId) data.ticket_status_id = ticketStatusId;
+    if (milestoneId) data.milestone_id = milestoneId;
 
     await this.teamleaderFocus.updateTicket({
       $,
       data,
     });
 
-    $.export("$summary", `Ticket ${this.ticketId} updated successfully`);
+    $.export("$summary", `Ticket ${ticketId} updated successfully`);
     return {
       success: true,
-      id: this.ticketId,
+      id: ticketId,
     };
   },
 };
