@@ -422,5 +422,23 @@ export default {
         ...args,
       });
     },
+    addInternalMessage(args = {}) {
+      return this._makeRequest({
+        path: "/tickets.addInternalMessage",
+        ...args,
+      });
+    },
+    addReply(args = {}) {
+      return this._makeRequest({
+        path: "/tickets.addReply",
+        ...args,
+      });
+    },
+    updateTicket(args = {}) {
+      return this._makeRequest({
+        path: "/tickets.update",
+        ...args,
+      });
+    },
   },
 };
