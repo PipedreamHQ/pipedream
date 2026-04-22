@@ -10,7 +10,7 @@ export default {
     + " The owner permission cannot be removed."
     + " Use **Search Files** to find the file ID by name if needed."
     + " [See the documentation](https://developers.google.com/drive/api/v3/reference/permissions/delete)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: true,
@@ -48,5 +48,3 @@ export default {
     };
   },
 };
-// published 1776808395
-// pub1776810225
