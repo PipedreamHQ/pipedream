@@ -245,6 +245,10 @@ export default {
         .query(pickBy(params))
         .get();
     },
+    async listCalendarEventsPage({ url } = {}) {
+      return await this.client().api(url)
+        .get();
+    },
     async getCalendarEvent({
       eventId, params = {},
     } = {}) {
