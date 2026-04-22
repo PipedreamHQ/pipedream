@@ -1,5 +1,5 @@
 import arcgisOnline from "../../arcgis_online.app.mjs";
-import { ConfigurationError } from "@pipedream/types";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "arcgis_online-query-intersecting-features-by-geometry",
