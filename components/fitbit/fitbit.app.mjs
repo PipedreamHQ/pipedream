@@ -38,6 +38,34 @@ export default {
         ...args,
       });
     },
+    // Add heart rate tool
+    async getHeartRate({
+      startDate,
+      endDate,
+      detailLevel = "1min",
+      startTime,
+      endTime,
+      timezone,
+      ...args
+    } = {}) {
+      let path;
+      if (startTime && endTime) {
+        path = `/1/user/-/activities/heart/date/${startDate}/${endDate}/${detailLevel}/time/${startTime}/${endTime}.json`;
+      } else {
+        path = `/1/user/-/activities/heart/date/${startDate}/${endDate}/${detailLevel}.json`;
+      }
+
+      const params = {};
+      if (timezone) params.timezone = timezone;
+
+      return this._makeRequest({
+        method: "GET",
+        path,
+        params,
+        ...args, 
+      });    
+    },          
+
     async getDailySteps({
       date, ...args
     } = {}) {
