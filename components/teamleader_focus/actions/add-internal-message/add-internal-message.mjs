@@ -4,7 +4,7 @@ export default {
   key: "teamleader_focus-add-internal-message",
   name: "Add Internal Message to Ticket",
   description: "Adds an internal message to a ticket. [See the documentation](https://developer.focus.teamleader.eu/docs/api/tickets-add-internal-message)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -25,16 +25,16 @@ export default {
       description: "Content of the internal message. Uses HTML formatting.",
     },
     ticketStatusId: {
-      type: "string",
-      label: "Ticket Status ID",
-      description: "Optionally update the ticket status when adding the message.",
-      optional: true,
+      propDefinition: [
+        teamleaderFocus,
+        "ticketStatusId",
+      ],
     },
     attachments: {
-      type: "string[]",
-      label: "Attachments",
-      description: "File IDs to attach. All files must have the ticket as subject.",
-      optional: true,
+      propDefinition: [
+        teamleaderFocus,
+        "attachments",
+      ],
     },
   },
   async run({ $ }) {
