@@ -1,11 +1,12 @@
 import arcgisOnline from "../../arcgis_online.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "arcgis_online-search-by-column",
   name: "Search by Column",
   description:
-    "Run a [Feature Layer query](https://developers.arcgis.com/rest/services-reference/enterprise/query-feature-service-layer-.htm) with `where` built as `field = 'value'`. Single quotes in the search value are SQL-escaped for ArcGIS. Returns `{ count, features }` (attribute objects only, no geometries). Errors if no rows match",
-  version: "0.0.1",
+    "Search for features in a layer where a field matches a value. Builds a `WHERE field = 'value'` query with SQL-escaped single quotes. Returns matching features as a flat array of attribute objects (no geometries). [See the documentation](https://developers.arcgis.com/rest/services-reference/enterprise/query-feature-service-layer-.htm)",
+  version: "0.1.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -14,85 +15,80 @@ export default {
   },
   props: {
     arcgisOnline,
-    mapTitle: {
+    featureService: {
       propDefinition: [
         arcgisOnline,
-        "mapTitle",
+        "featureService",
       ],
-      description:
-        "Portal item ID from search, or feature service title for lookup",
     },
-    layerName: {
+    layerId: {
       propDefinition: [
         arcgisOnline,
-        "layerName",
+        "layerId",
         (c) => ({
-          mapTitle: c.mapTitle,
+          featureService: c.featureService,
         }),
       ],
-      description: "Layer id from the dropdown (feature to query)",
     },
-    columnName: {
+    fieldName: {
       propDefinition: [
         arcgisOnline,
-        "columnName",
+        "fieldName",
         (c) => ({
-          mapTitle: c.mapTitle,
-          layerName: c.layerName,
+          featureService: c.featureService,
+          layerId: c.layerId,
         }),
       ],
-      description:
-        "Field name used on the left-hand side of `field = 'value'` (must match the service field name)",
     },
     searchValue: {
       type: "string",
       label: "Search Value",
       description:
-        "Literal compared with exact string equality after single-quoting; numeric fields may still coerce depending on the service",
+        "Value to match against the selected field. Compared with exact string equality; numeric fields may coerce depending on the service",
     },
   },
   async run({ $ }) {
     const {
       arcgisOnline: app,
-      mapTitle,
-      layerName,
-      columnName,
+      featureService,
+      layerId,
+      fieldName,
       searchValue,
     } = this;
 
-    if (!mapTitle) {
-      throw new Error("mapTitle is required");
+    if (!featureService) {
+      throw new ConfigurationError("featureService is required");
     }
-    if (!layerName) {
-      throw new Error("layerName is required");
+    if (!layerId) {
+      throw new ConfigurationError("layerId is required");
     }
-    if (!columnName) {
-      throw new Error("columnName is required");
+    if (!fieldName) {
+      throw new ConfigurationError("fieldName is required");
     }
     if (searchValue === undefined || searchValue === null || searchValue === "") {
-      throw new Error("searchValue is required");
+      throw new ConfigurationError("searchValue is required");
     }
 
     const escapedValue = String(searchValue).replace(/'/g, "''");
+    if (!/^[A-Za-z_][A-Za-z0-9_.]*$/.test(fieldName)) {
+      throw new Error(
+        `Invalid fieldName "${fieldName}": use a letter or underscore first, then letters, digits, underscores, or dots only`,
+      );
+    }
     const queryResult = await app.queryLayerAttributesAllPages({
       $,
-      mapTitle,
-      layerName,
-      where: `${columnName} = '${escapedValue}'`,
+      featureService,
+      layerId,
+      where: `${fieldName} = '${escapedValue}'`,
     });
 
     const features = queryResult.features ?? [];
     const attributes = features.map((f) => f.attributes);
 
-    if (attributes.length === 0) {
-      throw new Error(`No records found with ${columnName} = ${searchValue}`);
-    }
-
-    const out = {
-      count: attributes.length,
-      features: attributes,
-    };
-    $.export("$summary", `Found ${out.count} feature(s)`);
-    return out;
+    $.export(
+      "$summary",
+      `Found ${attributes.length} feature(s) where ${fieldName} = '${searchValue}'`,
+    );
+    return attributes;
   },
 };
