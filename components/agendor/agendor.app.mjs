@@ -7,7 +7,7 @@ export default {
     personId: {
       type: "string",
       label: "Person ID",
-      description: "The ID of the person to retrieve.",
+      description: "The ID of the person to retrieveaa.",
       async options(prevContext) {
         const persons = await this.listPersons(prevContext.page + 1);
         return persons.data.map((person) => ({
