@@ -1,4 +1,4 @@
-import { axios } from "@pipedream/platform";
+import fitbit from "../../fitbit.app.mjs";
 
 export default {
   name: "Get Body Weight and BMI Logs",
@@ -8,14 +8,11 @@ export default {
   type: "action",
   annotations: {
     destructiveHint: false,
-    openWorldHint: false,
+    openWorldHint: true,
     readOnlyHint: true,
   },
   props: {
-    fitbit: {
-      type: "app",
-      app: "fitbit",
-    },
+    fitbit,
     date: {
       type: "string",
       label: "Date",
@@ -25,16 +22,14 @@ export default {
   },
 
   async run({ $ }) {
-    const date = this.date || "today";
+    const date = this.fitbit._getDateOrToday(this.date);
 
-    const response = await axios($, {
-      url: `https://api.fitbit.com/1/user/-/body/log/weight/date/${date}.json`,
-      headers: {
-        Authorization: `Bearer ${this.fitbit.$auth.oauth_access_token}`,
-      },
+    const response = await this.fitbit.getWeightLogs({
+      $,
+      date,
     });
 
-    $.summary = `Successfully retrieved weight/BMI logs for ${date}`;
+    $.export("$summary", `Successfully retrieved weight/BMI logs for ${date}`);
     return response;
   },
 };

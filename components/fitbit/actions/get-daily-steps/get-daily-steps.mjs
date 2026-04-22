@@ -1,4 +1,4 @@
-import { axios } from "@pipedream/platform";
+import fitbit from "../../fitbit.app.mjs";
 
 export default {
   name: "Get Daily Step Count",
@@ -8,14 +8,11 @@ export default {
   type: "action",
   annotations: {
     destructiveHint: false,
-    openWorldHint: false,
+    openWorldHint: true,
     readOnlyHint: true,
   },
   props: {
-    fitbit: {
-      type: "app",
-    		app: "fitbit",
-    },
+    fitbit,
     date: {
       type: "string",
       label: "Date",
@@ -25,16 +22,14 @@ export default {
   },
 
   async run({ $ }) {
-    const date = this.date || "today";
+    const date = this.fitbit._getDateOrToday(this.date);
 
-    const response = await axios($, {
-      url: `https://api.fitbit.com/1/user/-/activities/steps/date/${date}/1d.json`,
-      headers: {
-        Authorization: `Bearer ${this.fitbit.$auth.oauth_access_token}`,
-      },
+    const response = await this.fitbit.getDailySteps({
+      $,
+      date,
     });
 
-    $.summary = `Successfully retrieved step count for ${date}`;
+    $.export("$summary", `Successfully retrieved step count for ${date}`);
     return response;
   },
 };
