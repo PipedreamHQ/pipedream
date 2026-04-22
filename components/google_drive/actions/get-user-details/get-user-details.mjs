@@ -10,7 +10,7 @@ export default {
     + " When the user says 'my files' or 'my documents', call this first to get the owner email,"
     + " then pass it to **Search Files** with a query like `'user@example.com' in owners`."
     + " [See the documentation](https://developers.google.com/drive/api/v3/reference/about/get)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -32,4 +32,3 @@ export default {
     return about;
   },
 };
-// pub1776810225

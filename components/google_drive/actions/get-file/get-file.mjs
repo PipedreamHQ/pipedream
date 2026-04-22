@@ -11,7 +11,7 @@ export default {
     + "\n\nCommon fields: `id`, `name`, `mimeType`, `size`, `parents`, `webViewLink`, `webContentLink`,"
     + " `createdTime`, `modifiedTime`, `owners`, `permissions`, `description`, `trashed`."
     + " [See the documentation](https://developers.google.com/drive/api/v3/reference/files/get)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -46,4 +46,3 @@ export default {
     return response;
   },
 };
-// pub1776810225

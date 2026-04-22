@@ -10,7 +10,7 @@ export default {
     + " Use this instead of permanent deletion as the safer default."
     + " To find trashed files, use **Search Files** with `trashed = true`."
     + " [See the documentation](https://developers.google.com/drive/api/v3/reference/files/update)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: true,
@@ -39,4 +39,3 @@ export default {
     return resp;
   },
 };
-// pub1776810225

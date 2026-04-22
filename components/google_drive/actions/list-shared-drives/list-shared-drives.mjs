@@ -10,7 +10,7 @@ export default {
     + " Pass a drive ID to **Search Files** `driveId` parameter to search within a specific shared drive."
     + " Optionally filter by name using the `query` parameter (e.g., `name contains 'Engineering'`)."
     + " [See the documentation](https://developers.google.com/drive/api/v3/reference/drives/list)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -50,4 +50,3 @@ export default {
     return allDrives;
   },
 };
-// pub1776810225
