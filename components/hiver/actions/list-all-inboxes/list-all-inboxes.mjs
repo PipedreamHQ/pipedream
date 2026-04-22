@@ -4,7 +4,7 @@ export default {
   key: "hiver-list-all-inboxes",
   name: "List All Inboxes",
   description: "List all the inboxes in your Hiver account. [See the documentation](https://developer.hiverhq.com/hiver-api/inbox/list-all-the-inboxes)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -16,7 +16,7 @@ export default {
     limit: {
       type: "integer",
       label: "Page Size",
-      description: "Number of inboxes to fetch per page (10–100). Defaults to 50. All pages are automatically fetched.",
+      description: "Number of inboxes to fetch per page (10-100). Defaults to 50. All pages are automatically fetched.",
       optional: true,
       min: 10,
       max: 100,
@@ -33,8 +33,9 @@ export default {
           next_page: nextPage ?? undefined,
         },
       });
-      results.push(...response.results);
+      results.push(...(response.results ?? []));
       nextPage = response.pagination?.next_page ?? null;
+      if (nextPage) await new Promise((r) => setTimeout(r, 1000));
     } while (nextPage);
     $.export("$summary", `Successfully retrieved ${results.length} inbox(es)`);
     return results;
