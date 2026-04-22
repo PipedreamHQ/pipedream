@@ -12,7 +12,7 @@ Please check the following items before your PR can be reviewed:
 - [ ] The app updated in this PR had its `package.json`'s version updated
 
 ### New app
-If this a new app, please submit [an app integration request](https://github.com/PipedreamHQ/pipedream/issues/new?template=app---service-integration.md) - the PR will only be reviewed after the app is integrated.
+If this is a new app, please submit [an app integration request](https://github.com/PipedreamHQ/pipedream/issues/new?template=app---service-integration.md) - the PR will only be reviewed after the app is integrated.
 - [ ] The app updated in this PR is already integrated
 
 ### CodeRabbit review
