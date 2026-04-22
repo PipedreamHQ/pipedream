@@ -30,8 +30,8 @@ export default {
     + "Exposes only `hubspot`, `contactId`, and `noteBody` (no engagement-type step, no `reloadProps`, no dynamic HubSpot schema fields). "
     + "Do **not** use **Create Engagement** for this workflow. "
     + "For every writable note property or non-contact associations, use **Create Note** instead. "
-    + "[See the documentation](https://developers.hubspot.com/docs/api/crm/engagements)",
-  version: "0.0.2",
+    + "[See the documentation](https://developers.hubspot.com/docs/api/crm/objects/notes)",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -41,10 +41,16 @@ export default {
   props: {
     hubspot,
     contactId: {
-      type: "string",
+      propDefinition: [
+        hubspot,
+        "objectId",
+        () => ({
+          objectType: "contact",
+        }),
+      ],
       label: "Contact ID",
       description:
-        "HubSpot CRM **contact record ID** (string). If you only have an email, find the ID via HubSpot UI, **Search CRM Objects**, or another lookup before calling this action.",
+        "Select a contact or enter a **contact record ID**. Search uses HubSpot's contact list; if you only have an email, find the contact here or via **Search CRM Objects** first.",
     },
     noteBody: {
       type: "string",
@@ -74,6 +80,7 @@ export default {
       data: {
         properties: {
           hs_note_body: this.noteBody,
+          hs_timestamp: new Date().toISOString(),
         },
         associations: [
           {

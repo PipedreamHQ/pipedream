@@ -15,7 +15,7 @@ export default {
     + "**Engagement Type** has `reloadProps: true`: set `engagementType` first to exactly one of `notes`, `tasks`, `meetings`, `emails`, `calls` (lowercase strings). "
     + "After that, the host reloads props and HubSpot-specific fields appear; use the **CONFIGURE_COMPONENT** tool with `componentKey` `hubspot-create-engagement` and the relevant `propName` to load remote options (object IDs, association types, etc.). "
     + "[See the documentation](https://developers.hubspot.com/docs/api/crm/engagements)",
-  version: "0.0.35",
+  version: "0.0.33",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -10,8 +10,8 @@ export default {
     "Create a HubSpot CRM **note** with **all writable note properties** from your portal schema (dynamic fields after connect). "
     + "MCP/AI: For **only** contact ID + note body, use **Add Note to Contact** — fewer props and no association-type configuration. "
     + "If associating to another record, supply `toObjectType`, `toObjectId`, and `associationType` together; use **CONFIGURE_COMPONENT** with `componentKey` `hubspot-create-note` to load dropdown options for those props when needed. "
-    + "[See the documentation](https://developers.hubspot.com/docs/api/crm/engagements)",
-  version: "0.0.16",
+    + "[See the documentation](https://developers.hubspot.com/docs/api/crm/objects/notes)",
+  version: "0.0.14",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
