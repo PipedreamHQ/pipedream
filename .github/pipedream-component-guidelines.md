@@ -37,7 +37,6 @@ export default {
   description: "...",           // shown in UI and used as MCP tool documentation
   version: "0.0.1",            // semantic versioning; must be incremented on every change
   type: "action",               // or "source"
-  annotations: { ... },        // MCP tool metadata — see Annotations section
   props: { ... },              // configuration inputs
   async run({ $ }) { ... },    // execution entry point (signature differs for sources)
 };
