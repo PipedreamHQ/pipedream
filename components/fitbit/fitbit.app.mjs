@@ -1,4 +1,3 @@
-// Readded
 import { axios } from "@pipedream/platform";
 
 export default {
@@ -49,7 +48,6 @@ export default {
       timezone,
       ...args
     } = {}) {
-      // Build path with or without optional time window
       let path;
       if (startTime && endTime) {
         path = `/1/user/-/activities/heart/date/${startDate}/${endDate}/${detailLevel}/time/${startTime}/${endTime}.json`;
@@ -64,6 +62,25 @@ export default {
         method: "GET",
         path,
         params,
+        ...args, 
+      });    
+    },          
+
+    async getDailySteps({
+      date, ...args
+    } = {}) {
+      return this._makeRequest({
+        method: "GET",
+        path: `/1/user/-/activities/steps/date/${date}/1d.json`,
+        ...args,
+      });
+    },
+    async getWeightLogs({
+      date, ...args
+    } = {}) {
+      return this._makeRequest({
+        method: "GET",
+        path: `/1/user/-/body/log/weight/date/${date}.json`,
         ...args,
       });
     },
