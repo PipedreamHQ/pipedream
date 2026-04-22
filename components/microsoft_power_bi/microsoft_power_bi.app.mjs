@@ -68,6 +68,29 @@ export default {
       description: "You may enter a Dataset ID directly. Either Dataset ID or Custom Dataset ID must be entered.",
       optional: true,
     },
+    groupId: {
+      type: "string",
+      label: "Workspace (Group) ID",
+      description: "Optional. Power BI workspace ID from the service URL or admin settings.",
+      optional: true,
+    },
+    reportId: {
+      type: "string",
+      label: "Report ID",
+      description: "Select a report or provide a custom Report ID.",
+      async options({ groupId }) {
+        let workspaceId = (groupId == null || groupId === "") ? undefined : groupId;
+        const reports = await this.getReports({
+          groupId: workspaceId,
+        });
+        return reports?.map?.(({
+          id, name,
+        }) => ({
+          label: name,
+          value: id,
+        })) ?? [];
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -143,6 +166,34 @@ export default {
         path: "/datasets/",
       });
       return response.value;
+    },
+    async getReports({
+      groupId, ...args
+    } = {}) {
+      const path = groupId
+        ? `/groups/${groupId}/reports`
+        : "/reports";
+      const response = await this._makeRequest({
+        method: "GET",
+        path,
+        ...args,
+      });
+      return response.value;
+    },
+    getReport({
+      reportId, groupId, ...args
+    }) {
+      if (reportId == null || reportId === "") {
+        throw new ConfigurationError("Report ID is required.");
+      }
+      const path = groupId
+        ? `/groups/${groupId}/reports/${reportId}`
+        : `/reports/${reportId}`;
+      return this._makeRequest({
+        method: "GET",
+        path,
+        ...args,
+      });
     },
     createDataset(args = {}) {
       return this._makeRequest({
