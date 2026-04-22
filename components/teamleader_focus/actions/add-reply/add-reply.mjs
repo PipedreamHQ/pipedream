@@ -4,7 +4,7 @@ export default {
   key: "teamleader_focus-add-reply",
   name: "Add Reply to Ticket",
   description: "Adds a public reply to a ticket. [See the documentation](https://developer.focus.teamleader.eu/docs/api/tickets-add-reply)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -25,16 +25,16 @@ export default {
       description: "Content of the reply. Uses HTML formatting.",
     },
     ticketStatusId: {
-      type: "string",
-      label: "Ticket Status ID",
-      description: "Optionally update the ticket status when adding the reply.",
-      optional: true,
+      propDefinition: [
+        teamleaderFocus,
+        "ticketStatusId",
+      ],
     },
     attachments: {
-      type: "string[]",
-      label: "Attachments",
-      description: "File IDs to attach. All files must have the ticket as subject.",
-      optional: true,
+      propDefinition: [
+        teamleaderFocus,
+        "attachments",
+      ],
     },
   },
   async run({ $ }) {
