@@ -38,6 +38,24 @@ export default {
         ...args,
       });
     },
+    async getDailySteps({
+      date, ...args
+    } = {}) {
+      return this._makeRequest({
+        method: "GET",
+        path: `/1/user/-/activities/steps/date/${date}/1d.json`,
+        ...args,
+      });
+    },
+    async getWeightLogs({
+      date, ...args
+    } = {}) {
+      return this._makeRequest({
+        method: "GET",
+        path: `/1/user/-/body/log/weight/date/${date}.json`,
+        ...args,
+      });
+    },
     // this.$auth contains connected account data
     authKeys() {
       console.log(Object.keys(this.$auth));
