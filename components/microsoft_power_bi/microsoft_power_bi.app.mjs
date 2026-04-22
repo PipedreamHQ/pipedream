@@ -52,6 +52,18 @@ export default {
       description: "You may enter a Dataset ID directly. Either Dataset ID or Custom Dataset ID must be entered.",
       optional: true,
     },
+    workspaceId: {
+      type: "string",
+      label: "Workspace ID",
+      description: "ID of the workspace. Use **List Workspaces** to find IDs. Omit to target My workspace.",
+      optional: true,
+    },
+    workspaceName: {
+      type: "string",
+      label: "Workspace Name",
+      description: "Name of the workspace (alternative to `workspaceId`). Resolved via **List Workspaces**.",
+      optional: true,
+    },
   },
   methods: {
     _baseUrl() {

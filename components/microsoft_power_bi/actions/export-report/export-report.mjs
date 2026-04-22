@@ -18,7 +18,7 @@ export default {
     + " The export is asynchronous — this tool starts the export, then polls until the job reaches `Succeeded` or `Failed` (or `pollTimeoutSeconds` elapses), then downloads the file and returns it as base64 along with the job metadata."
     + " PNG exports only work for single-page reports. For PPTX/PDF, pass `pages` (array of page names, e.g., `[\"ReportSection\", \"ReportSection1\"]`) to limit the export."
     + " [See the documentation](https://learn.microsoft.com/en-us/rest/api/power-bi/reports/export-to-file-in-group)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -50,16 +50,16 @@ export default {
       default: "PDF",
     },
     workspaceId: {
-      type: "string",
-      label: "Workspace ID",
-      description: "ID of the workspace containing the report. Omit to target My workspace.",
-      optional: true,
+      propDefinition: [
+        app,
+        "workspaceId",
+      ],
     },
     workspaceName: {
-      type: "string",
-      label: "Workspace Name",
-      description: "Name of the workspace (alternative to `workspaceId`). Resolved via **List Workspaces**.",
-      optional: true,
+      propDefinition: [
+        app,
+        "workspaceName",
+      ],
     },
     pages: {
       type: "string[]",

@@ -17,7 +17,7 @@ export default {
     + " The tenant must have 'Dataset Execute Queries REST API' enabled (admin setting) or the call returns 401/403."
     + " Pass `workspaceId` (from **List Workspaces**) or `workspaceName` to target a specific workspace, or omit both for My workspace."
     + " [See the documentation](https://learn.microsoft.com/en-us/rest/api/power-bi/datasets/execute-queries-in-group)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -37,16 +37,16 @@ export default {
       description: "A single DAX expression. Must start with `EVALUATE`. Example: `EVALUATE FILTER('Species', 'Species'[dietType] = \"Carnivore\")`.",
     },
     workspaceId: {
-      type: "string",
-      label: "Workspace ID",
-      description: "ID of the workspace containing the dataset. Omit to target My workspace.",
-      optional: true,
+      propDefinition: [
+        app,
+        "workspaceId",
+      ],
     },
     workspaceName: {
-      type: "string",
-      label: "Workspace Name",
-      description: "Name of the workspace (alternative to `workspaceId`). Resolved via **List Workspaces**.",
-      optional: true,
+      propDefinition: [
+        app,
+        "workspaceName",
+      ],
     },
     includeNulls: {
       type: "boolean",

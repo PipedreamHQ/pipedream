@@ -8,7 +8,7 @@ export default {
     + " Pass `workspaceId` (from **List Workspaces**) or `workspaceName` to scope to a specific workspace, or omit both for My workspace."
     + " Each entry includes `requestId`, `refreshType` (`OnDemand`, `Scheduled`, `ViaApi`, etc.), `startTime`, `endTime`, `status` (`Completed`, `Failed`, `Disabled`, `Cancelled`, `Unknown` — `Unknown` means still in progress), and `serviceExceptionJson` on failures."
     + " [See the documentation](https://learn.microsoft.com/en-us/rest/api/power-bi/datasets/get-refresh-history-in-group)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -23,16 +23,16 @@ export default {
       description: "ID of the dataset. Use **List Datasets** to find IDs by name.",
     },
     workspaceId: {
-      type: "string",
-      label: "Workspace ID",
-      description: "ID of the workspace containing the dataset. Omit to target My workspace.",
-      optional: true,
+      propDefinition: [
+        app,
+        "workspaceId",
+      ],
     },
     workspaceName: {
-      type: "string",
-      label: "Workspace Name",
-      description: "Name of the workspace (alternative to `workspaceId`). Resolved via **List Workspaces**.",
-      optional: true,
+      propDefinition: [
+        app,
+        "workspaceName",
+      ],
     },
     top: {
       type: "integer",

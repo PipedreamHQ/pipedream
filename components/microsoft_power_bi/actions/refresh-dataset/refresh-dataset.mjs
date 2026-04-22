@@ -10,7 +10,7 @@ export default {
     + " Power BI Pro licenses allow up to 8 scheduled refreshes per day; Premium allows 48."
     + " Note: Push datasets accept this endpoint but the refresh is metadata-only (tile refresh), not a data refresh — no cancellable history entry is produced."
     + " [See the documentation](https://learn.microsoft.com/en-us/rest/api/power-bi/datasets/refresh-dataset-in-group)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -25,16 +25,16 @@ export default {
       description: "ID of the dataset to refresh. Use **List Datasets** to find IDs by name.",
     },
     workspaceId: {
-      type: "string",
-      label: "Workspace ID",
-      description: "ID of the workspace containing the dataset. Omit to target My workspace.",
-      optional: true,
+      propDefinition: [
+        app,
+        "workspaceId",
+      ],
     },
     workspaceName: {
-      type: "string",
-      label: "Workspace Name",
-      description: "Name of the workspace (alternative to `workspaceId`). Resolved via **List Workspaces**.",
-      optional: true,
+      propDefinition: [
+        app,
+        "workspaceName",
+      ],
     },
     notifyOption: {
       type: "string",

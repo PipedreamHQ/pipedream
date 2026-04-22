@@ -9,7 +9,7 @@ export default {
     + " Each dashboard includes `id`, `displayName`, `isReadOnly`, `webUrl`, and `embedUrl`."
     + " Note: dashboards cannot be created via the REST API — they are built interactively in the Power BI service."
     + " [See the documentation](https://learn.microsoft.com/en-us/rest/api/power-bi/dashboards/get-dashboards-in-group)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -19,16 +19,16 @@ export default {
   props: {
     app,
     workspaceId: {
-      type: "string",
-      label: "Workspace ID",
-      description: "ID of the workspace to list dashboards from. Omit to list dashboards in My workspace. Use **List Workspaces** to find IDs.",
-      optional: true,
+      propDefinition: [
+        app,
+        "workspaceId",
+      ],
     },
     workspaceName: {
-      type: "string",
-      label: "Workspace Name",
-      description: "Name of the workspace to list dashboards from (alternative to `workspaceId`). The tool resolves the name to an ID via **List Workspaces**. Ignored if `workspaceId` is set.",
-      optional: true,
+      propDefinition: [
+        app,
+        "workspaceName",
+      ],
     },
   },
   async run({ $ }) {

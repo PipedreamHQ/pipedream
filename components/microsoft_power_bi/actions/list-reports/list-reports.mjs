@@ -9,7 +9,7 @@ export default {
     + " Each report includes `id`, `name`, `webUrl`, `embedUrl`, `datasetId`, and `reportType` (`PowerBIReport` or `PaginatedReport`)."
     + " Note: reports cannot be created via the REST API — they are published from Power BI Desktop."
     + " [See the documentation](https://learn.microsoft.com/en-us/rest/api/power-bi/reports/get-reports)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -19,16 +19,16 @@ export default {
   props: {
     app,
     workspaceId: {
-      type: "string",
-      label: "Workspace ID",
-      description: "ID of the workspace to list reports from. Omit to list reports in My workspace. Use **List Workspaces** to find IDs.",
-      optional: true,
+      propDefinition: [
+        app,
+        "workspaceId",
+      ],
     },
     workspaceName: {
-      type: "string",
-      label: "Workspace Name",
-      description: "Name of the workspace to list reports from (alternative to `workspaceId`). The tool resolves the name to an ID via **List Workspaces**. Ignored if `workspaceId` is set.",
-      optional: true,
+      propDefinition: [
+        app,
+        "workspaceName",
+      ],
     },
   },
   async run({ $ }) {
