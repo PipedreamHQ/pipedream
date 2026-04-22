@@ -14,12 +14,12 @@ export default {
   type: "action",
   props: {
     fitbit,
-    date: {
-      type: "string",
-      label: "Start Date",
-      description: "Start date in `YYYY-MM-DD` format, or `today`.",
-      default: "today",
-    },
+    startDate: {
+       type: "string",
+       label: "Start Date",
+       description: "Start date in `YYYY-MM-DD` format, or `today`.",
+       default: "today",
+     },
     endDate: {
       type: "string",
       label: "End Date",
@@ -67,21 +67,14 @@ export default {
       timezone,
     } = this;
 
-    // Build path: with or without time window
-    let path;
-    if (startTime && endTime) {
-      path = `/1/user/-/activities/heart/date/${startDate}/${endDate}/${detailLevel}/time/${startTime}/${endTime}.json`;
-    } else {
-      path = `/1/user/-/activities/heart/date/${startDate}/${endDate}/${detailLevel}.json`;
-    }
-
-    // Append optional timezone query param
-    const params = {};
-    if (timezone) params.timezone = timezone;
-
-    const response = await this.fitbit.makeRequest($, {
-      path,
-      params,
+    const response = await this.fitbit.getHeartRate({
+      $,
+      startDate,
+      endDate,
+      detailLevel,
+      startTime,
+      endTime,
+      timezone,
     });
 
     $.export("$summary", `Retrieved heart rate data from ${startDate} to ${endDate} at ${detailLevel} detail`);
