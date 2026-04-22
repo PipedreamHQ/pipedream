@@ -38,7 +38,6 @@ export default {
         ...args,
       });
     },
-    // Add heart rate tool
     async getHeartRate({
       startDate,
       endDate,
@@ -65,7 +64,6 @@ export default {
         ...args, 
       });    
     },          
-
     async getDailySteps({
       date, ...args
     } = {}) {
