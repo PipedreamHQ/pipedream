@@ -77,23 +77,21 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {
-      "users[0][username]": this.username,
-      "users[0][password]": this.password,
-      "users[0][firstname]": this.firstname,
-      "users[0][lastname]": this.lastname,
-      "users[0][email]": this.email,
-    };
-    if (this.idnumber !== undefined) params["users[0][idnumber]"] = this.idnumber;
-    if (this.city !== undefined) params["users[0][city]"] = this.city;
-    if (this.country !== undefined) params["users[0][country]"] = this.country;
-    if (this.department !== undefined) params["users[0][department]"] = this.department;
-    if (this.phone1 !== undefined) params["users[0][phone1]"] = this.phone1;
-    if (this.lang !== undefined) params["users[0][lang]"] = this.lang;
-
     const response = await this.moodle.createUsers({
       $,
-      params,
+      params: {
+        "users[0][username]": this.username,
+        "users[0][password]": this.password,
+        "users[0][firstname]": this.firstname,
+        "users[0][lastname]": this.lastname,
+        "users[0][email]": this.email,
+        "users[0][idnumber]": this.idNumber,
+        "users[0][city]": this.city,
+        "users[0][country]": this.country,
+        "users[0][department]": this.department,
+        "users[0][phone1]": this.phone1,
+        "users[0][lang]": this.lang,
+      },
     });
     $.export("$summary", `Successfully created user "${this.username}"`);
     return response;

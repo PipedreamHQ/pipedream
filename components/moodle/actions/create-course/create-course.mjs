@@ -4,7 +4,7 @@ export default {
   key: "moodle-create-course",
   name: "Create a Course",
   description: "Creates a new course in Moodle. [See the documentation](https://moodledev.io/docs/5.2)",
-  version: "0.0.`",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -47,7 +47,7 @@ export default {
       description: "Whether the course is visible to students",
       optional: true,
     },
-    idnumber: {
+    idNumber: {
       type: "string",
       label: "ID Number",
       description: "An optional ID number for the course (used for external systems)",
@@ -67,23 +67,21 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {
-      "courses[0][fullname]": this.fullname,
-      "courses[0][shortname]": this.shortname,
-      "courses[0][categoryid]": this.categoryId,
-    };
-    if (this.summary !== undefined) params["courses[0][summary]"] = this.summary;
-    if (this.format !== undefined) params["courses[0][format]"] = this.format;
-    if (this.visible !== undefined) params["courses[0][visible]"] = this.visible
-      ? 1
-      : 0;
-    if (this.idnumber !== undefined) params["courses[0][idnumber]"] = this.idnumber;
-    if (this.startdate !== undefined) params["courses[0][startdate]"] = this.startdate;
-    if (this.enddate !== undefined) params["courses[0][enddate]"] = this.enddate;
-
     const response = await this.moodle.createCourses({
       $,
-      params,
+      params: {
+        "courses[0][fullname]": this.fullname,
+        "courses[0][shortname]": this.shortname,
+        "courses[0][categoryid]": this.categoryId,
+        "courses[0][summary]": this.summary,
+        "courses[0][format]": this.format,
+        "courses[0][visible]": this.visible
+          ? 1
+          : 0,
+        "courses[0][idnumber]": this.idNumber,
+        "courses[0][startdate]": this.startdate,
+        "courses[0][enddate]": this.enddate,
+      },
     });
     $.export("$summary", `Successfully created course "${this.fullname}"`);
     return response;

@@ -23,7 +23,7 @@ export default {
         "shortname",
         "idnumber",
         "category",
-        "section",
+        "sectionid",
       ],
     },
     value: {

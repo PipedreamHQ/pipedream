@@ -31,14 +31,12 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {
-      courseid: this.courseId,
-    };
-    if (this.sectionNumber !== undefined) params.sectionnumber = this.sectionId;
-
     const response = await this.moodle.viewCourse({
       $,
-      params,
+      params: {
+        courseid: this.courseId,
+        sectionnumber: this.sectionId,
+      },
     });
     $.export("$summary", `Successfully logged view for course ${this.courseId}`);
     return response;

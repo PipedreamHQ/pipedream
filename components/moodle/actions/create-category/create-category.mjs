@@ -27,7 +27,7 @@ export default {
       description: "The ID of the parent category. Leave empty to create a top-level category",
       optional: true,
     },
-    idnumber: {
+    idNumber: {
       type: "string",
       label: "ID Number",
       description: "An optional external ID number for the category",
@@ -41,16 +41,14 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {
-      "categories[0][name]": this.name,
-    };
-    if (this.parent !== undefined) params["categories[0][parent]"] = this.parent;
-    if (this.idnumber !== undefined) params["categories[0][idnumber]"] = this.idnumber;
-    if (this.description !== undefined) params["categories[0][description]"] = this.description;
-
     const response = await this.moodle.createCategories({
       $,
-      params,
+      params: {
+        "categories[0][name]": this.name,
+        "categories[0][parent]": this.parent,
+        "categories[0][idnumber]": this.idNumber,
+        "categories[0][description]": this.description,
+      },
     });
     $.export("$summary", `Successfully created category "${this.name}"`);
     return response;

@@ -41,15 +41,13 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {
-      classification: this.classification,
-    };
-    if (this.offset !== undefined) params.offset = this.offset;
-    if (this.limit !== undefined) params.limit = this.limit;
-
     const response = await this.moodle.getEnrolledCoursesByTimeline({
       $,
-      params,
+      params: {
+        classification: this.classification,
+        offset: this.offset,
+        limit: this.limit,
+      },
     });
     const courses = response?.courses ?? response;
     const count = Array.isArray(courses)

@@ -1,4 +1,5 @@
 import moodle from "../../moodle.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "moodle-add-content-item-to-favorites",
@@ -50,7 +51,10 @@ export default {
       },
     });
     const contentItem = contentItems.find(({ id }) => id == this.contentItemId);
-    const componentname = contentItem?.componentname;
+    if (!contentItem) {
+      throw new ConfigurationError(`Content item ${this.contentItemId} not found in course ${this.courseId}, section ${this.sectionId}`);
+    }
+    const { componentname } = contentItem;
     const response = await this.moodle.addContentItemToFavorites({
       $,
       params: {

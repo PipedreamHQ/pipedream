@@ -27,7 +27,7 @@ export default {
         courseid: this.courseId,
       },
     });
-    $.export("$summary", `Successfully retrieved ${response.length} enrolled user(s) for course ${this.courseId}`);
+    $.export("$summary", `Successfully retrieved ${response?.length} enrolled user(s) for course ${this.courseId}`);
     return response;
   },
 };

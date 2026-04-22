@@ -44,17 +44,15 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {
-      "enrolments[0][roleid]": this.roleid,
-      "enrolments[0][userid]": this.userId,
-      "enrolments[0][courseid]": this.courseId,
-    };
-    if (this.timestart !== undefined) params["enrolments[0][timestart]"] = this.timestart;
-    if (this.timeend !== undefined) params["enrolments[0][timeend]"] = this.timeend;
-
     const response = await this.moodle.enrollUsers({
       $,
-      params,
+      params: {
+        "enrolments[0][roleid]": this.roleid,
+        "enrolments[0][userid]": this.userId,
+        "enrolments[0][courseid]": this.courseId,
+        "enrolments[0][timestart]": this.timestart,
+        "enrolments[0][timeend]": this.timeend,
+      },
     });
     $.export("$summary", `Successfully enrolled user ${this.userId} in course ${this.courseId}`);
     return response;
