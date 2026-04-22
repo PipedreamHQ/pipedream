@@ -7,7 +7,7 @@ export default {
   description: "Append rows to a table in a Power BI Push Dataset (streaming / realtime data)."
     + " Only works for datasets created via the REST API with `defaultMode: Push` — these datasets expose `addRowsAPIEnabled: true` on the object returned by **List Datasets**."
     + " Use **List Datasets** first to resolve a dataset name → `datasetId` and inspect its `tables` for the exact `tableName` (case-sensitive)."
-    + " Pass `workspaceId` (from **List Workspaces**) or `workspaceName` to target a specific workspace, or omit both for **My workspace**."
+    + " Pass `workspaceId` (from **List Workspaces**) or `workspaceName` to target a specific workspace, or omit both for My workspace."
     + " Rows must match the table's column schema. `rows` accepts either a JSON array (`[{...}, {...}]`) or a JSON-stringified array. Each row is an object of `columnName → value`."
     + " Common mistakes: (1) case mismatch on `tableName` returns 404 — copy the exact string from the dataset's `tables` array. (2) Sending values that don't match the declared column data type returns `RequestedResourceNotFound` or `DMTS_DatasourceHasNoCredentialsError`."
     + " Push-dataset rows have no individual IDs and cannot be updated or deleted — only appended or bulk-cleared."
@@ -41,7 +41,7 @@ export default {
     workspaceId: {
       type: "string",
       label: "Workspace ID",
-      description: "ID of the workspace containing the dataset. Omit to target **My workspace**.",
+      description: "ID of the workspace containing the dataset. Omit to target My workspace.",
       optional: true,
     },
     workspaceName: {

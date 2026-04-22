@@ -217,22 +217,16 @@ export default {
         path: `${this._groupPrefix(groupId)}/reports/${reportId}/exports/${exportId}`,
       });
     },
-    async getReportExportFile({
+    getReportExportFile({
       $, reportId, exportId, groupId,
     }) {
-      try {
-        return await axios($ ?? this, {
-          method: "GET",
-          url: `${this._baseUrl()}${this._groupPrefix(groupId)}/reports/${reportId}/exports/${exportId}/file`,
-          headers: {
-            "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-          },
-          responseType: "arraybuffer",
-          returnFullResponse: true,
-        });
-      } catch (error) {
-        throw new ConfigurationError(error.message);
-      }
+      return this._makeRequest({
+        $,
+        method: "GET",
+        path: `${this._groupPrefix(groupId)}/reports/${reportId}/exports/${exportId}/file`,
+        responseType: "arraybuffer",
+        returnFullResponse: true,
+      });
     },
   },
 };

@@ -5,7 +5,7 @@ export default {
   name: "Refresh Dataset",
   description: "Trigger a refresh of a Power BI dataset. Returns 202 Accepted on success; the request ID is available in the `Location` response header (last path segment) and `x-ms-request-id` header — use **Get Refresh History** to check status."
     + " Use **List Datasets** first to resolve a dataset name → `datasetId`."
-    + " Pass `workspaceId` (from **List Workspaces**) or `workspaceName` to target a specific workspace, or omit both for **My workspace**."
+    + " Pass `workspaceId` (from **List Workspaces**) or `workspaceName` to target a specific workspace, or omit both for My workspace."
     + " `notifyOption` controls email notifications on refresh outcome: `NoNotification` (default), `MailOnCompletion`, or `MailOnFailure`."
     + " Power BI Pro licenses allow up to 8 scheduled refreshes per day; Premium allows 48."
     + " Note: Push datasets accept this endpoint but the refresh is metadata-only (tile refresh), not a data refresh — no cancellable history entry is produced."
@@ -27,7 +27,7 @@ export default {
     workspaceId: {
       type: "string",
       label: "Workspace ID",
-      description: "ID of the workspace containing the dataset. Omit to target **My workspace**.",
+      description: "ID of the workspace containing the dataset. Omit to target My workspace.",
       optional: true,
     },
     workspaceName: {
@@ -66,9 +66,11 @@ export default {
     });
     const headers = response?.headers ?? {};
     const location = headers.location || headers.Location;
-    const requestId = location
-      ? location.split("/").pop()
-      : (headers["x-ms-request-id"] || headers.requestid);
+    const requestIdFromLocation = location?.split("/").filter(Boolean)
+      .pop();
+    const requestId = requestIdFromLocation
+      || headers["x-ms-request-id"]
+      || headers.requestid;
 
     $.export("$summary", `Triggered refresh of dataset ${this.datasetId}${requestId
       ? ` (requestId ${requestId})`

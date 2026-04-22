@@ -10,7 +10,7 @@ export default {
   key: "microsoft_power_bi-export-report",
   name: "Export Report",
   description: "Export a Power BI report to a file format such as PDF, PPTX, or PNG. Requires a report ID (use **List Reports** to find it) and defaults to PDF if no format is given."
-    + " Pass `workspaceId` (from **List Workspaces**) or `workspaceName` to target a specific workspace, or omit both for **My workspace**."
+    + " Pass `workspaceId` (from **List Workspaces**) or `workspaceName` to target a specific workspace, or omit both for My workspace."
     + " Supported `format` values depend on the report type:"
     + " Power BI reports support `PDF`, `PPTX`, `PNG`."
     + " Paginated reports additionally support `CSV`, `XLSX`, `DOCX`, `XML`, `MHTML`."
@@ -52,7 +52,7 @@ export default {
     workspaceId: {
       type: "string",
       label: "Workspace ID",
-      description: "ID of the workspace containing the report. Omit to target **My workspace**.",
+      description: "ID of the workspace containing the report. Omit to target My workspace.",
       optional: true,
     },
     workspaceName: {
@@ -125,7 +125,10 @@ export default {
     }
 
     if (status.status !== "Succeeded") {
-      $.export("$summary", `Report export ${exportId} finished with status ${status.status}`);
+      const summary = TERMINAL_STATUSES.has(status.status)
+        ? `Report export ${exportId} finished with status ${status.status}`
+        : `Report export ${exportId} polling timed out at status ${status.status}`;
+      $.export("$summary", summary);
       return {
         exportId,
         status: status.status,

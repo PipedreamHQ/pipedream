@@ -4,7 +4,7 @@ export default {
   key: "microsoft_power_bi-list-reports",
   name: "List Reports",
   description: "List Power BI reports in a workspace."
-    + " Defaults to the authenticated user's personal **My workspace** when no workspace is specified."
+    + " Defaults to the authenticated user's personal My workspace when no workspace is specified."
     + " Pass `workspaceId` (preferred, from **List Workspaces**) OR `workspaceName` to scope to a specific workspace — the tool resolves the name to an ID server-side."
     + " Each report includes `id`, `name`, `webUrl`, `embedUrl`, `datasetId`, and `reportType` (`PowerBIReport` or `PaginatedReport`)."
     + " Note: reports cannot be created via the REST API — they are published from Power BI Desktop."
@@ -21,7 +21,7 @@ export default {
     workspaceId: {
       type: "string",
       label: "Workspace ID",
-      description: "ID of the workspace to list reports from. Omit to list reports in **My workspace**. Use **List Workspaces** to find IDs.",
+      description: "ID of the workspace to list reports from. Omit to list reports in My workspace. Use **List Workspaces** to find IDs.",
       optional: true,
     },
     workspaceName: {

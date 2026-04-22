@@ -4,7 +4,7 @@ export default {
   key: "microsoft_power_bi-list-datasets",
   name: "List Datasets",
   description: "List Power BI datasets (semantic models) in a workspace."
-    + " Defaults to the authenticated user's personal **My workspace** when no workspace is specified."
+    + " Defaults to the authenticated user's personal My workspace when no workspace is specified."
     + " Pass `workspaceId` (preferred, from **List Workspaces**) OR `workspaceName` to scope to a specific workspace."
     + " Each dataset includes `id`, `name`, `webUrl`, `addRowsAPIEnabled` (true for Push Datasets), `isRefreshable`, and `defaultMode` (`Push`, `Streaming`, `PushStreaming`, `AsOnPrem`, `AsAzure`)."
     + " Use this tool to resolve a dataset name → ID before calling **Refresh Dataset**, **Execute DAX Query**, **Get Refresh History**, or **Add Rows To Push Dataset**."
@@ -22,7 +22,7 @@ export default {
     workspaceId: {
       type: "string",
       label: "Workspace ID",
-      description: "ID of the workspace to list datasets from. Omit to list datasets in **My workspace**. Use **List Workspaces** to find IDs.",
+      description: "ID of the workspace to list datasets from. Omit to list datasets in My workspace. Use **List Workspaces** to find IDs.",
       optional: true,
     },
     workspaceName: {

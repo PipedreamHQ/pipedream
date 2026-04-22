@@ -15,7 +15,7 @@ export default {
     + " • Peek at a table's columns — `EVALUATE TOPN(0, 'Species')` (returns an empty rowset with column names in the response)."
     + " Limits: max 100,000 rows or 1,000,000 values per query, and `DEFINE`/multiple-statement queries are not supported via REST."
     + " The tenant must have 'Dataset Execute Queries REST API' enabled (admin setting) or the call returns 401/403."
-    + " Pass `workspaceId` (from **List Workspaces**) or `workspaceName` to target a specific workspace, or omit both for **My workspace**."
+    + " Pass `workspaceId` (from **List Workspaces**) or `workspaceName` to target a specific workspace, or omit both for My workspace."
     + " [See the documentation](https://learn.microsoft.com/en-us/rest/api/power-bi/datasets/execute-queries-in-group)",
   version: "0.0.1",
   type: "action",
@@ -39,7 +39,7 @@ export default {
     workspaceId: {
       type: "string",
       label: "Workspace ID",
-      description: "ID of the workspace containing the dataset. Omit to target **My workspace**.",
+      description: "ID of the workspace containing the dataset. Omit to target My workspace.",
       optional: true,
     },
     workspaceName: {

@@ -5,7 +5,7 @@ export default {
   name: "Get Refresh History",
   description: "Get the refresh history for a Power BI dataset."
     + " Use **List Datasets** first to resolve a dataset name → `datasetId`."
-    + " Pass `workspaceId` (from **List Workspaces**) or `workspaceName` to scope to a specific workspace, or omit both for **My workspace**."
+    + " Pass `workspaceId` (from **List Workspaces**) or `workspaceName` to scope to a specific workspace, or omit both for My workspace."
     + " Each entry includes `requestId`, `refreshType` (`OnDemand`, `Scheduled`, `ViaApi`, etc.), `startTime`, `endTime`, `status` (`Completed`, `Failed`, `Disabled`, `Cancelled`, `Unknown` — `Unknown` means still in progress), and `serviceExceptionJson` on failures."
     + " [See the documentation](https://learn.microsoft.com/en-us/rest/api/power-bi/datasets/get-refresh-history-in-group)",
   version: "0.0.1",
@@ -25,7 +25,7 @@ export default {
     workspaceId: {
       type: "string",
       label: "Workspace ID",
-      description: "ID of the workspace containing the dataset. Omit to target **My workspace**.",
+      description: "ID of the workspace containing the dataset. Omit to target My workspace.",
       optional: true,
     },
     workspaceName: {
@@ -51,11 +51,9 @@ export default {
       $,
       datasetId: this.datasetId,
       groupId,
-      params: this.top
-        ? {
-          ["$top"]: this.top,
-        }
-        : undefined,
+      params: {
+        ["$top"]: this.top,
+      },
     });
     $.export("$summary", `Found ${history.length} refresh record${history.length === 1
       ? ""

@@ -7,7 +7,7 @@ export default {
     + " Use this tool first whenever the user refers to a workspace by name — it returns the `id` you need to pass as `workspaceId` to other tools."
     + " Power BI has no `/me` endpoint, so the set of accessible workspaces is the user's primary context (the 'who am I' signal for this app)."
     + " Every item in the response includes `id`, `name`, `isReadOnly`, `isOnDedicatedCapacity`, and `type`."
-    + " Note: when a user says 'my workspace' without a name, they may mean personal **My workspace** (implicit — pass no `workspaceId` to other tools) OR a specific named workspace — ask only if ambiguous."
+    + " Note: when a user says 'my workspace' without a name, they may mean personal My workspace (implicit — pass no `workspaceId` to other tools) OR a specific named workspace — ask only if ambiguous."
     + " [See the documentation](https://learn.microsoft.com/en-us/rest/api/power-bi/groups/get-groups)",
   version: "0.0.1",
   type: "action",
