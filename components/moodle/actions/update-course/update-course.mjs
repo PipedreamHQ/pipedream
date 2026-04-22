@@ -72,9 +72,11 @@ export default {
         "courses[0][fullname]": this.fullname,
         "courses[0][shortname]": this.shortname,
         "courses[0][summary]": this.summary,
-        "courses[0][visible]": this.visible
-          ? 1
-          : 0,
+        "courses[0][visible]": this.visible === undefined
+          ? undefined
+          : this.visible
+            ? 1
+            : 0,
         "courses[0][categoryid]": this.categoryId,
         "courses[0][startdate]": this.startdate,
         "courses[0][enddate]": this.enddate,

@@ -43,7 +43,9 @@ export default {
     const courses = response?.courses ?? response;
     const count = Array.isArray(courses)
       ? courses.length
-      : 1;
+      : courses && typeof courses === "object"
+        ? Object.keys(courses).length
+        : 0;
     $.export("$summary", `Successfully retrieved ${count} course(s) by ${this.field}`);
     return response;
   },

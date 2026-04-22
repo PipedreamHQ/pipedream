@@ -41,9 +41,11 @@ export default {
       params: {
         "categories[0][id]": this.categoryId,
         "categories[0][newparent]": this.newparent,
-        "categories[0][recursive]": this.recursive
-          ? 1
-          : 0,
+        "categories[0][recursive]": this.recursive === undefined
+          ? undefined
+          : this.recursive
+            ? 1
+            : 0,
       },
     });
     $.export("$summary", `Successfully deleted category with ID ${this.categoryId}`);

@@ -52,9 +52,11 @@ export default {
         fullname: this.fullname,
         shortname: this.shortname,
         categoryid: this.categoryId,
-        visible: this.visible
-          ? 1
-          : 0,
+        visible: this.visible === undefined
+          ? undefined
+          : this.visible
+            ? 1
+            : 0,
       },
     });
     $.export("$summary", `Successfully duplicated course "${this.fullname}"`);
