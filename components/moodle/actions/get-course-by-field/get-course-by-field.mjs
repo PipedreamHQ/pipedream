@@ -16,7 +16,7 @@ export default {
     field: {
       type: "string",
       label: "Field",
-      description: "The field to search by",
+      description: "The course field to search by. Use `id` for one course ID, `ids` for comma-separated course IDs like `12,34,56`, `shortname` for a course short name like `BIO101`, `idnumber` for an external course ID number, `category` for a category ID like `7`, or `sectionid` for a Moodle course section ID.",
       options: [
         "id",
         "ids",
@@ -29,7 +29,7 @@ export default {
     value: {
       type: "string",
       label: "Value",
-      description: "The value to match against the selected field",
+      description: "The value to match against the selected field. Examples: `42` for `id`, `42,43` for `ids`, `BIO101` for `shortname`, or `7` for `category`.",
     },
   },
   async run({ $ }) {

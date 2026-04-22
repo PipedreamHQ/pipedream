@@ -65,22 +65,20 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {
-      "courses[0][id]": this.courseId,
-    };
-    if (this.fullname !== undefined) params["courses[0][fullname]"] = this.fullname;
-    if (this.shortname !== undefined) params["courses[0][shortname]"] = this.shortname;
-    if (this.summary !== undefined) params["courses[0][summary]"] = this.summary;
-    if (this.visible !== undefined) params["courses[0][visible]"] = this.visible
-      ? 1
-      : 0;
-    if (this.categoryId !== undefined) params["courses[0][categoryid]"] = this.categoryId;
-    if (this.startdate !== undefined) params["courses[0][startdate]"] = this.startdate;
-    if (this.enddate !== undefined) params["courses[0][enddate]"] = this.enddate;
-
     const response = await this.moodle.updateCourses({
       $,
-      params,
+      params: {
+        "courses[0][id]": this.courseId,
+        "courses[0][fullname]": this.fullname,
+        "courses[0][shortname]": this.shortname,
+        "courses[0][summary]": this.summary,
+        "courses[0][visible]": this.visible
+          ? 1
+          : 0,
+        "courses[0][categoryid]": this.categoryId,
+        "courses[0][startdate]": this.startdate,
+        "courses[0][enddate]": this.enddate,
+      },
     });
     $.export("$summary", `Successfully updated course ${this.courseId}`);
     return response;

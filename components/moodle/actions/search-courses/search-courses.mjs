@@ -55,22 +55,20 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {
-      criterianame: this.criterianame,
-      criteriavalue: this.criteriavalue,
-    };
-    if (this.page !== undefined) params.page = this.page;
-    if (this.perpage !== undefined) params.perpage = this.perpage;
-    if (this.limittoenrolled !== undefined) params.limittoenrolled = this.limittoenrolled
-      ? 1
-      : 0;
-    if (this.onlywithcompletion !== undefined) params.onlywithcompletion = this.onlywithcompletion
-      ? 1
-      : 0;
-
     const response = await this.moodle.searchCourses({
       $,
-      params,
+      params: {
+        criterianame: this.criterianame,
+        criteriavalue: this.criteriavalue,
+        page: this.page,
+        perpage: this.perpage,
+        limittoenrolled: this.limittoenrolled
+          ? 1
+          : 0,
+        onlywithcompletion: this.onlywithcompletion
+          ? 1
+          : 0,
+      },
     });
     const courses = response?.courses ?? [];
     $.export("$summary", `Successfully found ${courses.length} course(s) matching "${this.criteriavalue}"`);

@@ -37,17 +37,15 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {
-      importfrom: this.importfrom,
-      importto: this.importto,
-    };
-    if (this.deletecontent !== undefined) params.deletecontent = this.deletecontent
-      ? 1
-      : 0;
-
     const response = await this.moodle.importCourse({
       $,
-      params,
+      params: {
+        importfrom: this.importfrom,
+        importto: this.importto,
+        deletecontent: this.deletecontent
+          ? 1
+          : 0,
+      },
     });
     $.export("$summary", `Successfully imported course data from course ${this.importfrom} into course ${this.importto}`);
     return response;

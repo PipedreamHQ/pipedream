@@ -45,19 +45,17 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {
-      courseid: this.courseId,
-      fullname: this.fullname,
-      shortname: this.shortname,
-    };
-    if (this.categoryId !== undefined) params.categoryid = this.categoryId;
-    if (this.visible !== undefined) params.visible = this.visible
-      ? 1
-      : 0;
-
     const response = await this.moodle.duplicateCourse({
       $,
-      params,
+      params: {
+        courseid: this.courseId,
+        fullname: this.fullname,
+        shortname: this.shortname,
+        categoryid: this.categoryId,
+        visible: this.visible
+          ? 1
+          : 0,
+      },
     });
     $.export("$summary", `Successfully duplicated course "${this.fullname}"`);
     return response;

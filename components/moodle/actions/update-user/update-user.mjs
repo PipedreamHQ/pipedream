@@ -70,21 +70,19 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {
-      "users[0][id]": this.userId,
-    };
-    if (this.password !== undefined) params["users[0][password]"] = this.password;
-    if (this.firstname !== undefined) params["users[0][firstname]"] = this.firstname;
-    if (this.lastname !== undefined) params["users[0][lastname]"] = this.lastname;
-    if (this.email !== undefined) params["users[0][email]"] = this.email;
-    if (this.city !== undefined) params["users[0][city]"] = this.city;
-    if (this.country !== undefined) params["users[0][country]"] = this.country;
-    if (this.department !== undefined) params["users[0][department]"] = this.department;
-    if (this.lang !== undefined) params["users[0][lang]"] = this.lang;
-
     const response = await this.moodle.updateUsers({
       $,
-      params,
+      params: {
+        "users[0][id]": this.userId,
+        "users[0][password]": this.password,
+        "users[0][firstname]": this.firstname,
+        "users[0][lastname]": this.lastname,
+        "users[0][email]": this.email,
+        "users[0][city]": this.city,
+        "users[0][country]": this.country,
+        "users[0][department]": this.department,
+        "users[0][lang]": this.lang,
+      },
     });
     $.export("$summary", `Successfully updated user ${this.userId}`);
     return response;

@@ -36,17 +36,15 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {
-      "categories[0][id]": this.categoryId,
-    };
-    if (this.newparent !== undefined) params["categories[0][newparent]"] = this.newparent;
-    if (this.recursive !== undefined) params["categories[0][recursive]"] = this.recursive
-      ? 1
-      : 0;
-
     const response = await this.moodle.deleteCategories({
       $,
-      params,
+      params: {
+        "categories[0][id]": this.categoryId,
+        "categories[0][newparent]": this.newparent,
+        "categories[0][recursive]": this.recursive
+          ? 1
+          : 0,
+      },
     });
     $.export("$summary", `Successfully deleted category with ID ${this.categoryId}`);
     return response;
