@@ -79,7 +79,9 @@ export default {
       label: "Report ID",
       description: "Select a report or provide a custom Report ID.",
       async options({ groupId }) {
-        let workspaceId = (groupId == null || groupId === "") ? undefined : groupId;
+        let workspaceId = (groupId == null || groupId === "")
+          ? undefined
+          : groupId;
         const reports = await this.getReports({
           groupId: workspaceId,
         });
