@@ -1,0 +1,12 @@
+# This file contains contact info for the team that maintains
+# this repo. This information will be used by security in the
+# event that we need to contact you about security issues
+# discovered in this code.
+#
+# See https://wolinks.com/repocontact for more information.
+#
+# You may use the Red Hat YAML extension in VS Code to validate this file.
+# yaml-language-server: $schema=https://security-api.appsec.inday.io/schemas/security_contact.json
+
+version: "1.0"
+include: "git::https://github.com/PipedreamHQ/pipedreamin"
