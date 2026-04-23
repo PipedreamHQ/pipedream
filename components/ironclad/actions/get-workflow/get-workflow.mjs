@@ -19,7 +19,7 @@ export default {
     workflowId: {
       type: "string",
       label: "Workflow ID",
-      description: "The ID of the workflow to retrieve.",
+      description: "The ID of the workflow to retrieve. Obtain via **Search Workflows**.",
     },
     hydrateEntities: {
       type: "boolean",

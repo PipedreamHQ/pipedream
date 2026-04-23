@@ -32,7 +32,7 @@ export default {
     recordId: {
       type: "string",
       label: "Record ID",
-      description: "The ID (`sys_id` field) of the record",
+      description: "The ID (`sys_id` field) of the record. Obtain via **Search Records**.",
       async options({
         table, page,
       }) {

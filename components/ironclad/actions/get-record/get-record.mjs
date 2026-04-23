@@ -18,7 +18,7 @@ export default {
     recordId: {
       type: "string",
       label: "Record ID",
-      description: "The ID of the record to retrieve.",
+      description: "The ID of the record to retrieve. Obtain via **Search Records**.",
     },
     hydrateEntities: {
       type: "boolean",

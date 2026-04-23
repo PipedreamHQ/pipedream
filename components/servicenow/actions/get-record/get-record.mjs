@@ -26,7 +26,7 @@ export default {
     sys_id: {
       type: "string",
       label: "Record sys_id",
-      description: "The 32-character `sys_id` of the record to fetch.",
+      description: "The 32-character `sys_id` of the record to fetch. Obtain via **Search Records**.",
     },
     fields: {
       type: "string",

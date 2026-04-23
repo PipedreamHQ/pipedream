@@ -28,7 +28,7 @@ export default {
     sys_id: {
       type: "string",
       label: "Record sys_id",
-      description: "`sys_id` of the record to update.",
+      description: "`sys_id` of the record to update. Obtain via **Search Records**.",
     },
     data: {
       type: "string",

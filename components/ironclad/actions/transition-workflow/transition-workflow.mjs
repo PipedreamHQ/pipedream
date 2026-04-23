@@ -19,7 +19,7 @@ export default {
     workflowId: {
       type: "string",
       label: "Workflow ID",
-      description: "The ID of the workflow to transition.",
+      description: "The ID of the workflow to transition. Obtain via **Search Workflows**.",
     },
     action: {
       type: "string",

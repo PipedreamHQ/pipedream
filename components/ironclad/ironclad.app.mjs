@@ -23,7 +23,7 @@ export default {
     recordId: {
       type: "string",
       label: "Record ID",
-      description: "The identifier of a record",
+      description: "The identifier of a record. Obtain via **Search Records**.",
       optional: true,
       async options({ page }) {
         const { list } = await this.listRecords({
@@ -57,7 +57,7 @@ export default {
     templateId: {
       type: "string",
       label: "Template ID",
-      description: "The identifier of a workflow template",
+      description: "The identifier of a workflow template. Obtain via **Describe Workspace**.",
       async options() {
         const { list } = await this.listWorkflowSchemas();
         return list?.map(({
@@ -71,7 +71,7 @@ export default {
     workflowId: {
       type: "string",
       label: "Workflow ID",
-      description: "The identifier of a workflow",
+      description: "The identifier of a workflow. Obtain via **Search Workflows**.",
       async options({ page }) {
         const { list } = await this.listWorkflows({
           params: {

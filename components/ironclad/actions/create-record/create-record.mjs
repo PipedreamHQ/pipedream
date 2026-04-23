@@ -38,19 +38,19 @@ export default {
     links: {
       type: "string[]",
       label: "Links",
-      description: "Optional array of record IDs to link to this record.",
+      description: "Optional array of record IDs to link to this record. Obtain via **Search Records**.",
       optional: true,
     },
     parent: {
       type: "string",
       label: "Parent",
-      description: "Optional record ID to set as the parent of this record.",
+      description: "Optional record ID to set as the parent of this record. Obtain via **Search Records**.",
       optional: true,
     },
     children: {
       type: "string[]",
       label: "Children",
-      description: "Optional array of record IDs to set as children of this record.",
+      description: "Optional array of record IDs to set as children of this record. Obtain via **Search Records**.",
       optional: true,
     },
   },

@@ -19,7 +19,7 @@ export default {
     recordId: {
       type: "string",
       label: "Record ID",
-      description: "The ID of the record to delete.",
+      description: "The ID of the record to delete. Obtain via **Search Records**.",
     },
   },
   async run({ $ }) {

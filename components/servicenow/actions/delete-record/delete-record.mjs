@@ -26,7 +26,7 @@ export default {
     sys_id: {
       type: "string",
       label: "Record sys_id",
-      description: "`sys_id` of the record to delete.",
+      description: "`sys_id` of the record to delete. Obtain via **Search Records**.",
     },
   },
   async run({ $ }) {

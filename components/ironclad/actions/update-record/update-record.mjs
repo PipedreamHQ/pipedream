@@ -21,7 +21,7 @@ export default {
     recordId: {
       type: "string",
       label: "Record ID",
-      description: "The ID of the record to update.",
+      description: "The ID of the record to update. Obtain via **Search Records**.",
     },
     properties: {
       type: "string",

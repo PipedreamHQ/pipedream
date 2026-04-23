@@ -21,7 +21,7 @@ export default {
     workflowId: {
       type: "string",
       label: "Workflow ID",
-      description: "The ID of the workflow to update.",
+      description: "The ID of the workflow to update. Obtain via **Search Workflows**.",
     },
     updates: {
       type: "string",
