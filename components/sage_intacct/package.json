@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sage_intacct",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Sage Intacct Components",
   "main": "sage_intacct.app.mjs",
   "keywords": [
