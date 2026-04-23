@@ -14,10 +14,21 @@ export default {
   props: {
     app,
     appointmentId: {
-      propDefinition: [
-        app,
-        "appointmentId",
-      ],
+      type: "string",
+      label: "Appointment ID",
+      description: "The ID of the appointment to update",
+      async options({ page }) {
+        const { data } = await this.app.listAppointments({
+          params: {
+            limit: 100,
+            offset: 100 * page,
+          },
+        });
+        return data?.map((appointment) => ({
+          label: appointment.description || `Appointment ${appointment.id}`,
+          value: appointment.id,
+        })) || [];
+      },
     },
     clientId: {
       type: "integer",
