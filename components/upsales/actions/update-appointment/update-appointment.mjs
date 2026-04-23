@@ -4,7 +4,7 @@ export default {
   key: "upsales-update-appointment",
   name: "Update Appointment",
   description: "Updates an existing appointment in Upsales. [See the documentation](https://api.upsales.com/#79919ae8-cef0-40cd-a505-22a5a7ad0611)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
