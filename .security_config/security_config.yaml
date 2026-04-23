@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=https://security-api.appsec.inday.io/schemas/security_config.json
+# This is the configuration file for Chimera. This file is required to allow the scanning platform to scan your repo.
+# Please see https://wolinks.com/chimera for details.
+
+#####################
+# SLACK CONFIGURATION
+#####################
+# Uncomment the below section and provide a Slack channel's name to allow Chimera to
+# notify your slack channel about scans. Please see Chimera documentation on how to do this.
+slack:
+  enabled: true
+  channel: pd-workflows
+
+##########################
+# SCAN TOOL  CONFIGURATION
+##########################
+tools_config:
+  snyk: {}
