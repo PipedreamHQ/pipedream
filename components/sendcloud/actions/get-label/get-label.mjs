@@ -4,7 +4,7 @@ export default {
   key: "sendcloud-get-label",
   name: "Get Label",
   description: "Retrieve a label by parcel ID. [See the documentation](https://api.sendcloud.dev/docs/sendcloud-public-api/branches/v2/labels/operations/get-a-label)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
