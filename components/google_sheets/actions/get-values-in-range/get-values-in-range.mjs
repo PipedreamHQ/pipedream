@@ -48,15 +48,17 @@ export default {
       optional: true,
     },
   },
-  async run() {
+  async run({ $ }) {
     const worksheet = await this.getWorksheetById(this.sheetId, this.worksheetId);
     const sheets = this.googleSheets.sheets();
 
-    return (await sheets.spreadsheets.values.get({
+    const values = (await sheets.spreadsheets.values.get({
       spreadsheetId: this.sheetId,
       range: this.range
         ? `${worksheet?.properties?.title}!${this.range}`
         : `${worksheet?.properties?.title}`,
     })).data.values ?? [];
+    $.export("$summary", `Returned ${values.length} row(s) of values.`);
+    return values;
   },
 };

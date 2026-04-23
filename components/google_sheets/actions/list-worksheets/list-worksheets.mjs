@@ -31,8 +31,11 @@ export default {
       description: "List worksheets in the specified spreadsheet",
     },
   },
-  async run() {
+  async run({ $ }) {
     const { sheets = [] } = await this.googleSheets.getSpreadsheet(this.sheetId);
+    $.export("$summary", `Returned ${sheets.length} worksheet${sheets.length === 1
+      ? ""
+      : "s"}.`);
     return sheets;
   },
 };

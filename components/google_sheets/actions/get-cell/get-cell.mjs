@@ -47,7 +47,7 @@ export default {
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
     const worksheet = await this.getWorksheetById(this.sheetId, this.worksheetId);
     const sheets = this.googleSheets.sheets();
 
@@ -55,8 +55,10 @@ export default {
       spreadsheetId: this.sheetId,
       range: `${worksheet?.properties?.title}!${this.cell}:${this.cell}`,
     })).data.values;
-    return values?.length
-      ? values[0][0]
-      : null;
+    const ret = values?.[0]?.[0] ?? null;
+    $.export("$summary", ret === null
+      ? `No value found in cell ${this.cell}.`
+      : `Retrieved value from cell ${this.cell}.`);
+    return ret;
   },
 };
