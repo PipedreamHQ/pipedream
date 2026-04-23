@@ -137,6 +137,14 @@ export default {
         ...args,
       });
     },
+    async getUnresolvedIncidents({
+      pageId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/pages/${pageId}/incidents/unresolved`,
+        ...args,
+      });
+    },
     async getComponents({
       pageId, ...args
     }) {
