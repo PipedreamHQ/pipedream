@@ -22,7 +22,7 @@ export default {
     datasetId: {
       type: "string",
       label: "Dataset ID",
-      description: "ID of the dataset to refresh. Use **List Datasets** to find IDs by name.",
+      description: "ID of the dataset to refresh. Example: `cfafbeb1-8037-4d0c-896e-a46fb27ff229`. Use **List Datasets** to find IDs by name.",
     },
     workspaceId: {
       propDefinition: [
@@ -39,7 +39,7 @@ export default {
     notifyOption: {
       type: "string",
       label: "Notify Option",
-      description: "Email notification behavior on refresh outcome.",
+      description: "Email notification behavior on refresh outcome. Allowed values: `NoNotification` (default), `MailOnCompletion`, `MailOnFailure`.",
       options: [
         "NoNotification",
         "MailOnCompletion",
