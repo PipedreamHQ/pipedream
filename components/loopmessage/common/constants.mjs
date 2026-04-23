@@ -1,18 +1,14 @@
-const API_PLACEHOLDER = "{api}";
-const BASE_URL = `https://${API_PLACEHOLDER}.loopmessage.com`;
+const BASE_URL = "https://pipedream-api.loopmessage.com";
 const VERSION_PATH = "/api/v1";
 const LAST_CREATED_AT = "lastCreatedAt";
 const DEFAULT_MAX = 600;
 const AUTH_HEADER = "authHeader";
 
-const API = {
-  SERVER: "server",
-  LOOKUP: "lookup",
-};
-
 const SERVICES = [
   "imessage",
   "sms",
+  "whatsapp",
+  "rcs",
 ];
 
 const EFFECTS = [
@@ -36,13 +32,13 @@ const REACTIONS = [
   "like",
   "dislike",
   "laugh",
-  "exlaim",
+  "emphasize",
   "question",
   "-love",
   "-like",
   "-dislike",
   "-laugh",
-  "-exlaim",
+  "-emphasize",
   "-question",
 ];
 
@@ -55,6 +51,4 @@ export default {
   SERVICES,
   EFFECTS,
   REACTIONS,
-  API,
-  API_PLACEHOLDER,
 };

@@ -13,7 +13,7 @@ export default {
     + " dashboards related to a specific service."
     + " [See the docs](https://docs.datadoghq.com/api/"
     + "latest/dashboards/#get-all-dashboards)",
-  version: "0.0.2",
+  version: "1.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
