@@ -4,7 +4,7 @@ export default {
   key: "google_sheets-list-worksheets",
   name: "List Worksheets",
   description: "Get a list of all worksheets in a spreadsheet. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/get)",
-  version: "0.1.15",
+  version: "0.1.16",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -32,7 +32,7 @@ export default {
     },
   },
   async run() {
-    const { sheets } = await this.googleSheets.getSpreadsheet(this.sheetId);
+    const { sheets = [] } = await this.googleSheets.getSpreadsheet(this.sheetId);
     return sheets;
   },
 };

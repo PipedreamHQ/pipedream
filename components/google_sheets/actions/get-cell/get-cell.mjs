@@ -7,7 +7,7 @@ export default {
   key: "google_sheets-get-cell",
   name: "Get Cell",
   description: "Fetch the contents of a specific cell in a spreadsheet. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/get)",
-  version: "0.1.17",
+  version: "0.1.18",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -55,8 +55,8 @@ export default {
       spreadsheetId: this.sheetId,
       range: `${worksheet?.properties?.title}!${this.cell}:${this.cell}`,
     })).data.values;
-    if (values?.length) {
-      return values[0][0];
-    }
+    return values?.length
+      ? values[0][0]
+      : null;
   },
 };
