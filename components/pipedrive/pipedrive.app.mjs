@@ -424,6 +424,152 @@ export default {
       description: "When enabled, all custom fields will be included in the results",
       optional: true,
     },
+    entityId: {
+      type: "string",
+      label: "Entity ID",
+      description: "ID of the entity to remove labels from",
+      async options({
+        type, prevContext,
+      }) {
+        if (prevContext?.cursor === false || prevContext?.nextStart === false) {
+          return [];
+        }
+        switch (type) {
+        case "lead": {
+          const {
+            data: leads,
+            additional_data: additionalData,
+          } = await this.getLeads({
+            start: prevContext?.nextStart,
+            limit: constants.DEFAULT_PAGE_LIMIT,
+          });
+          return {
+            options: leads?.map(({
+              id, title,
+            }) => ({
+              label: title,
+              value: id,
+            })),
+            context: {
+              nextStart: additionalData?.next_start || false,
+            },
+          };
+        }
+        case "person": {
+          const {
+            data: persons,
+            additional_data: additionalData,
+          } = await this.getPersons({
+            cursor: prevContext?.cursor,
+            limit: constants.DEFAULT_PAGE_LIMIT,
+          });
+          return {
+            options: persons?.map(({
+              id, name,
+            }) => ({
+              label: name,
+              value: id,
+            })),
+            context: {
+              cursor: additionalData?.next_cursor || false,
+            },
+          };
+        }
+        case "deal": {
+          const {
+            data: deals,
+            additional_data: additionalData,
+          } = await this.getDeals({
+            cursor: prevContext?.cursor,
+            limit: constants.DEFAULT_PAGE_LIMIT,
+          });
+          return {
+            options: deals?.map(({
+              id, title,
+            }) => ({
+              label: title,
+              value: id,
+            })),
+            context: {
+              cursor: additionalData?.next_cursor || false,
+            },
+          };
+        }
+        case "organization": {
+          const {
+            data: organizations,
+            additional_data: additionalData,
+          } = await this.getOrganizations({
+            cursor: prevContext?.cursor,
+            limit: constants.DEFAULT_PAGE_LIMIT,
+          });
+          return {
+            options: organizations?.map(({
+              id, name,
+            }) => ({
+              label: name,
+              value: id,
+            })),
+            context: {
+              cursor: additionalData?.next_cursor || false,
+            },
+          };
+        }
+        default:
+          return [];
+        }
+      },
+    },
+    removeLabelIds: {
+      type: "string[]",
+      label: "Labels to Remove",
+      description: "The labels to remove from the entity",
+      async options({ type }) {
+        switch (type) {
+        case "lead": {
+          const { data: leadLabels } = await this.getLeadLabels();
+          return leadLabels?.map(({
+            id, name,
+          }) => ({
+            label: name,
+            value: id,
+          })) || [];
+        }
+        case "person": {
+          const { data } = await this.getPersonCustomFields();
+          const labelField = data.find(({ key }) => key === "label");
+          return labelField?.options?.map(({
+            id: value, label,
+          }) => ({
+            label,
+            value,
+          })) || [];
+        }
+        case "deal": {
+          const { data } = await this.getDealCustomFields();
+          const labelField = data.find(({ key }) => key === "label");
+          return labelField?.options?.map(({
+            id: value, label,
+          }) => ({
+            label,
+            value,
+          })) || [];
+        }
+        case "organization": {
+          const { data } = await this.getOrganizationCustomFields();
+          const labelField = data.find(({ field_code: fieldCode }) => fieldCode === "label_ids");
+          return labelField?.options?.map(({
+            id: value, label,
+          }) => ({
+            label,
+            value,
+          })) || [];
+        }
+        default:
+          return [];
+        }
+      },
+    },
   },
   methods: {
     api(model, version = "v1") {
