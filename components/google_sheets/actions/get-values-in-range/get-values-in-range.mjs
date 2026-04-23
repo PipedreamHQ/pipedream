@@ -7,7 +7,7 @@ export default {
   key: "google_sheets-get-values-in-range",
   name: "Get Values in Range",
   description: "Get all values or values from a range of cells using A1 notation. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/get)",
-  version: "0.1.17",
+  version: "0.1.18",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -48,15 +48,17 @@ export default {
       optional: true,
     },
   },
-  async run() {
+  async run({ $ }) {
     const worksheet = await this.getWorksheetById(this.sheetId, this.worksheetId);
     const sheets = this.googleSheets.sheets();
 
-    return (await sheets.spreadsheets.values.get({
+    const values = (await sheets.spreadsheets.values.get({
       spreadsheetId: this.sheetId,
       range: this.range
         ? `${worksheet?.properties?.title}!${this.range}`
         : `${worksheet?.properties?.title}`,
-    })).data.values;
+    })).data.values ?? [];
+    $.export("$summary", `Returned ${values.length} row(s) of values.`);
+    return values;
   },
 };
