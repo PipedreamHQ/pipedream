@@ -9,7 +9,7 @@ export default {
     + " Every item in the response includes `id`, `name`, `isReadOnly`, `isOnDedicatedCapacity`, and `type`."
     + " Note: when a user says 'my workspace' without a name, they may mean personal My workspace (implicit — pass no `workspaceId` to other tools) OR a specific named workspace — ask only if ambiguous."
     + " [See the documentation](https://learn.microsoft.com/en-us/rest/api/power-bi/groups/get-groups)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

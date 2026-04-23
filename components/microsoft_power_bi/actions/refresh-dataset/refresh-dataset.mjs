@@ -10,7 +10,7 @@ export default {
     + " Power BI Pro licenses allow up to 8 scheduled refreshes per day; Premium allows 48."
     + " Note: Push datasets accept this endpoint but the refresh is metadata-only (tile refresh), not a data refresh — no cancellable history entry is produced."
     + " [See the documentation](https://learn.microsoft.com/en-us/rest/api/power-bi/datasets/refresh-dataset-in-group)",
-  version: "0.1.1",
+  version: "0.1.0",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -17,7 +17,7 @@ export default {
     + " The tenant must have 'Dataset Execute Queries REST API' enabled (admin setting) or the call returns 401/403."
     + " Pass `workspaceId` (from **List Workspaces**) or `workspaceName` to target a specific workspace, or omit both for My workspace."
     + " [See the documentation](https://learn.microsoft.com/en-us/rest/api/power-bi/datasets/execute-queries-in-group)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

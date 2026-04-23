@@ -9,7 +9,7 @@ export default {
     + " Each dashboard includes `id`, `displayName`, `isReadOnly`, `webUrl`, and `embedUrl`."
     + " Note: dashboards cannot be created via the REST API — they are built interactively in the Power BI service."
     + " [See the documentation](https://learn.microsoft.com/en-us/rest/api/power-bi/dashboards/get-dashboards-in-group)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

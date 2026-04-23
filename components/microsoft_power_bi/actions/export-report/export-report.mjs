@@ -18,7 +18,7 @@ export default {
     + " The export is asynchronous — this tool starts the export, then polls until the job reaches `Succeeded` or `Failed` (or `pollTimeoutSeconds` elapses), then downloads the file and returns it as base64 along with the job metadata."
     + " PNG exports only work for single-page reports. For PPTX/PDF, pass `pages` (array of page names, e.g., `[\"ReportSection\", \"ReportSection1\"]`) to limit the export."
     + " [See the documentation](https://learn.microsoft.com/en-us/rest/api/power-bi/reports/export-to-file-in-group)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

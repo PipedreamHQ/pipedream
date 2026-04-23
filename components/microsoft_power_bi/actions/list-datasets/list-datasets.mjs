@@ -10,7 +10,7 @@ export default {
     + " Use this tool to resolve a dataset name → ID before calling **Refresh Dataset**, **Execute DAX Query**, **Get Refresh History**, or **Add Rows To Push Dataset**."
     + " For push-dataset row inserts, call the dataset's `GET tables` endpoint (not exposed as a separate tool) by inspecting the dataset's `name` → tables are defined at dataset creation; the table name is the string configured at creation time (e.g., `Species`)."
     + " [See the documentation](https://learn.microsoft.com/en-us/rest/api/power-bi/datasets/get-datasets-in-group)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

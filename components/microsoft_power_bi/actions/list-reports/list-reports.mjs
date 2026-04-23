@@ -9,7 +9,7 @@ export default {
     + " Each report includes `id`, `name`, `webUrl`, `embedUrl`, `datasetId`, and `reportType` (`PowerBIReport` or `PaginatedReport`)."
     + " Note: reports cannot be created via the REST API — they are published from Power BI Desktop."
     + " [See the documentation](https://learn.microsoft.com/en-us/rest/api/power-bi/reports/get-reports)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
