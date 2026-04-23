@@ -3,7 +3,7 @@ import fitbit from "../../fitbit.app.mjs";
 export default {
   name: "Get Body Weight and BMI Logs",
   description: "Gets body weight and BMI log entries for a given date. [See the docs](https://dev.fitbit.com/build/reference/web-api/body/get-weight-logs/)",
-  key: "fitbit-get-weight-bmi",
+  key: "fitbit-get-body-weight",
   version: "0.0.1",
   type: "action",
   annotations: {

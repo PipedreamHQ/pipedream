@@ -4,7 +4,7 @@ export default {
   key: "fitbit-get-activity-summary",
   name: "Get Activity Summary",
   description: "Get a daily activity summary including calories, distance, and active minutes. [See the documentation](https://dev.fitbit.com/build/reference/web-api/activity/get-daily-activity-summary/)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
