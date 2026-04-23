@@ -14,10 +14,10 @@ export default {
   props: {
     fitbit,
     date: {
-      type: "string",
-      label: "Date",
-      description: "The date of the weight logs in the format yyyy-MM-dd. Defaults to today.",
-      optional: true,
+      propDefinition: [
+        fitbit,
+        "date",
+      ],
     },
   },
 

@@ -3,7 +3,26 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "fitbit",
-  propDefinitions: {},
+  propDefinitions: {
+    date: {
+      type: "string",
+      label: "Date",
+      description: "Date in `YYYY-MM-DD` format. Defaults to today.",
+      optional: true,
+    },
+    startDate: {
+      type: "string",
+      label: "Start Date",
+      description: "Start date in `YYYY-MM-DD` format, or `today`.",
+      default: "today",
+    },
+    endDate: {
+      type: "string",
+      label: "End Date",
+      description: "End date in `YYYY-MM-DD` format. Defaults to Start Date and must stay within 24 hours of it.",
+      optional: true,
+    },
+  },
   methods: {
     _getDateOrToday(date) {
       return date || new Date()
