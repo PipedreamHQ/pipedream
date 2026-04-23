@@ -5414,7 +5414,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/fellow: {}
+  components/fellow:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.3.1
+        version: 3.3.1
 
   components/felt: {}
 
@@ -11593,7 +11597,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/permit_io: {}
+  components/permit_io:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.3.1
+        version: 3.3.1
 
   components/perplexity:
     dependencies:
@@ -15175,7 +15183,11 @@ importers:
 
   components/straker_verify: {}
 
-  components/strale: {}
+  components/strale:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.3.1
 
   components/strapi: {}
 
@@ -39039,7 +39051,7 @@ snapshots:
     dependencies:
       '@humanwhocodes/object-schema': 2.0.3
       debug: 4.4.3(supports-color@9.4.0)
-      minimatch: 3.1.2
+      minimatch: 3.1.5
     transitivePeerDependencies:
       - supports-color
 
@@ -40998,9 +41010,9 @@ snapshots:
 
   '@putout/compare@18.1.0(rolldown@1.0.0-beta.9)(rollup@4.53.2)':
     dependencies:
-      '@putout/babel': 4.5.4(rolldown@1.0.0-beta.9)(rollup@4.53.2)
-      '@putout/engine-parser': 14.2.0(rolldown@1.0.0-beta.9)(rollup@4.53.2)
-      '@putout/operate': 14.2.0(rolldown@1.0.0-beta.9)(rollup@4.53.2)
+      '@putout/babel': 4.5.4(rolldown@1.0.0-beta.60(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1))(rollup@4.53.2)
+      '@putout/engine-parser': 14.2.0(rolldown@1.0.0-beta.60(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1))(rollup@4.53.2)
+      '@putout/operate': 14.2.0(rolldown@1.0.0-beta.60(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1))(rollup@4.53.2)
       debug: 4.4.3(supports-color@9.4.0)
       jessy: 4.1.0
       nessy: 5.3.0
@@ -41097,7 +41109,7 @@ snapshots:
       '@putout/operator-declare': 14.0.2(putout@40.14.0(eslint@8.57.1)(rolldown@1.0.0-beta.9)(rollup@4.53.2)(typescript@5.6.3))(rolldown@1.0.0-beta.9)(rollup@4.53.2)
       '@putout/operator-filesystem': 9.0.1(putout@40.14.0(eslint@8.57.1)(rolldown@1.0.0-beta.9)(rollup@4.53.2)(typescript@5.6.3))(rolldown@1.0.0-beta.9)(rollup@4.53.2)
       '@putout/operator-json': 2.2.0
-      '@putout/plugin-filesystem': 11.0.1(putout@40.14.0(eslint@8.57.1)(rolldown@1.0.0-beta.9)(rollup@4.53.2)(typescript@5.6.3))(rolldown@1.0.0-beta.9)(rollup@4.53.2)
+      '@putout/plugin-filesystem': 11.0.1(putout@40.14.0(eslint@8.57.1)(rolldown@1.0.0-beta.60(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1))(rollup@4.53.2)(typescript@5.6.3))(rolldown@1.0.0-beta.60(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1))(rollup@4.53.2)
       debug: 4.4.3(supports-color@9.4.0)
       fullstore: 3.0.0
       jessy: 4.1.0
@@ -43392,7 +43404,7 @@ snapshots:
   '@tokenizer/inflate@0.4.1':
     dependencies:
       debug: 4.4.3(supports-color@9.4.0)
-      token-types: 6.1.1
+      token-types: 6.1.2
     transitivePeerDependencies:
       - supports-color
 
@@ -50783,7 +50795,7 @@ snapshots:
     dependencies:
       '@commitlint/cli': 19.8.1(@types/node@25.6.0)(typescript@5.9.3)
       '@commitlint/config-conventional': 19.8.1
-      axios: 1.13.2(debug@3.2.7)
+      axios: 1.15.0(debug@3.2.7)
       semantic-release: 24.2.9(typescript@5.9.3)
       zod: 3.25.76
       zod-to-json-schema: 3.24.6(zod@3.25.76)
@@ -53576,12 +53588,12 @@ snapshots:
 
   puppeteer-core@24.41.0:
     dependencies:
-      '@puppeteer/browsers': 2.13.0
-      chromium-bidi: 14.0.0(devtools-protocol@0.0.1595872)
+      '@puppeteer/browsers': 2.11.2
+      chromium-bidi: 13.0.1(devtools-protocol@0.0.1551306)
       debug: 4.4.3(supports-color@9.4.0)
-      devtools-protocol: 0.0.1595872
-      typed-query-selector: 2.12.1
-      webdriver-bidi-protocol: 0.4.1
+      devtools-protocol: 0.0.1551306
+      typed-query-selector: 2.12.0
+      webdriver-bidi-protocol: 0.4.0
       ws: 8.18.3
     transitivePeerDependencies:
       - bare-abort-controller
@@ -54694,6 +54706,41 @@ snapshots:
       '@semantic-release/release-notes-generator': 14.1.0(semantic-release@24.2.9(typescript@5.6.3))
       aggregate-error: 5.0.0
       cosmiconfig: 9.0.0(typescript@5.6.3)
+      debug: 4.4.3(supports-color@9.4.0)
+      env-ci: 11.2.0
+      execa: 9.6.0
+      figures: 6.1.0
+      find-versions: 6.0.0
+      get-stream: 6.0.1
+      git-log-parser: 1.2.1
+      hook-std: 4.0.0
+      hosted-git-info: 8.1.0
+      import-from-esm: 2.0.0
+      lodash-es: 4.18.1
+      marked: 15.0.12
+      marked-terminal: 7.3.0(marked@15.0.12)
+      micromatch: 4.0.8
+      p-each-series: 3.0.0
+      p-reduce: 3.0.0
+      read-package-up: 11.0.0
+      resolve-from: 5.0.0
+      semver: 7.7.4
+      semver-diff: 5.0.0
+      signale: 1.4.0
+      yargs: 17.7.2
+    transitivePeerDependencies:
+      - supports-color
+      - typescript
+
+  semantic-release@24.2.9(typescript@5.9.3):
+    dependencies:
+      '@semantic-release/commit-analyzer': 13.0.1(semantic-release@24.2.9(typescript@5.9.3))
+      '@semantic-release/error': 4.0.0
+      '@semantic-release/github': 11.0.6(semantic-release@24.2.9(typescript@5.9.3))
+      '@semantic-release/npm': 12.0.2(semantic-release@24.2.9(typescript@5.9.3))
+      '@semantic-release/release-notes-generator': 14.1.0(semantic-release@24.2.9(typescript@5.9.3))
+      aggregate-error: 5.0.0
+      cosmiconfig: 9.0.0(typescript@5.9.3)
       debug: 4.4.3(supports-color@9.4.0)
       env-ci: 11.2.0
       execa: 9.6.0
