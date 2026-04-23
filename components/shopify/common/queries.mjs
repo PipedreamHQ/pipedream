@@ -604,6 +604,13 @@ const LIST_ORDERS = `
           id
           status
           displayStatus
+          createdAt
+          updatedAt
+          trackingInfo {
+            number
+            url
+            company
+          }
         }
         metafields (first: $first) {
           nodes {
