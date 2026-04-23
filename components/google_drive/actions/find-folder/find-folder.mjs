@@ -7,7 +7,7 @@ export default {
   key: "google_drive-find-folder",
   name: "Find Folder",
   description: "Search for a specific folder by name. [See the documentation](https://developers.google.com/drive/api/v3/search-files) for more information",
-  version: "0.1.20",
+  version: "0.1.21",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
