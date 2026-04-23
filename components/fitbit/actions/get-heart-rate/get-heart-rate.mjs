@@ -1,10 +1,9 @@
-// Readded
 import fitbit from "../../fitbit.app.mjs";
 
 export default {
   key: "fitbit-get-heart-rate",
   name: "Get Heart Rate",
-  description: "Gets the heart rate intraday time series data on a specific date range for a 24 hour period. [See the documentation (https://dev.fitbit.com/build/reference/web-api/intraday/get-heartrate-intraday-by-interval/)",
+  description: "Gets the heart rate intraday time series data on a specific date range for a 24 hour period. [See the documentation](https://dev.fitbit.com/build/reference/web-api/intraday/get-heartrate-intraday-by-interval/)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -15,11 +14,11 @@ export default {
   props: {
     fitbit,
     startDate: {
-       type: "string",
-       label: "Start Date",
-       description: "Start date in `YYYY-MM-DD` format, or `today`.",
-       default: "today",
-     },
+      type: "string",
+      label: "Start Date",
+      description: "Start date in `YYYY-MM-DD` format, or `today`.",
+      default: "today",
+    },
     endDate: {
       type: "string",
       label: "End Date",
@@ -31,10 +30,22 @@ export default {
       label: "Detail Level",
       description: "The granularity of intraday heart rate data points.",
       options: [
-        { label: "1 Second", value: "1sec" },
-        { label: "1 Minute", value: "1min" },
-        { label: "5 Minutes", value: "5min" },
-        { label: "15 Minutes", value: "15min" },
+        {
+          label: "1 Second",
+          value: "1sec",
+        },
+        {
+          label: "1 Minute",
+          value: "1min",
+        },
+        {
+          label: "5 Minutes",
+          value: "5min",
+        },
+        {
+          label: "15 Minutes",
+          value: "15min",
+        },
       ],
       default: "1min",
     },

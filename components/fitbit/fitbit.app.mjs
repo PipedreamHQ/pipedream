@@ -6,13 +6,15 @@ export default {
   propDefinitions: {},
   methods: {
     _getDateOrToday(date) {
-      return date || new Date().toISOString().slice(0, 10);
+      return date || new Date()
+        .toISOString()
+        .slice(0, 10);
     },
     _getHeaders(headers = {}) {
       return {
-        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
         "Content-Type": "application/json",
-        "user-agent": "@PipedreamHQ/pipedream v0.1",
+        "User-Agent": "@PipedreamHQ/pipedream v0.1",
         ...headers,
       };
     },
@@ -64,9 +66,9 @@ export default {
         method: "GET",
         path,
         params,
-        ...args, 
-      });    
-    },          
+        ...args,
+      });
+    },
     async getDailySteps({
       date, ...args
     } = {}) {
