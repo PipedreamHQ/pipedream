@@ -58,7 +58,7 @@ export default {
     impersonatedUserName: {
       type: "string",
       label: "Impersonated User Name",
-      description: "UPN of an effective identity to use for Row-Level Security (RLS). Typically only needed for datasets with RLS roles configured.",
+      description: "UPN of an effective identity to use for Row-Level Security (RLS). Typically only needed for datasets with RLS roles configured. Example: `someuser@mycompany.com`",
       optional: true,
     },
   },
