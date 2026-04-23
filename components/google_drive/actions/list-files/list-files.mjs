@@ -1,5 +1,7 @@
 import { ConfigurationError } from "@pipedream/platform";
-import { getListFilesOpts, isMyDrive } from "../../common/utils.mjs";
+import {
+  getListFilesOpts, isMyDrive,
+} from "../../common/utils.mjs";
 import googleDrive from "../../google_drive.app.mjs";
 
 export default {
