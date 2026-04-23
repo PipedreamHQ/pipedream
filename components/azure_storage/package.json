@@ -15,6 +15,6 @@
   "dependencies": {
     "@pipedream/platform": "^3.2.5",
     "mime-types": "^2.1.35",
-    "fast-xml-parser": "^5.5.7"
+    "fast-xml-parser": "^5.7.0"
   }
 }
