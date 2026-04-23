@@ -1,11 +1,12 @@
-import { getListFilesOpts } from "../../common/utils.mjs";
+import { ConfigurationError } from "@pipedream/platform";
+import { getListFilesOpts, isMyDrive } from "../../common/utils.mjs";
 import googleDrive from "../../google_drive.app.mjs";
 
 export default {
   key: "google_drive-list-files",
   name: "List Files",
   description: "List files from a specific folder. [See the documentation](https://developers.google.com/drive/api/v3/reference/files/list) for more information",
-  version: "0.2.2",
+  version: "0.2.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -14,11 +15,11 @@ export default {
   type: "action",
   props: {
     googleDrive,
-    includeItemsFromAllDrives: {
-      propDefinition: [
-        googleDrive,
-        "includeItemsFromAllDrives",
-      ],
+    limitToMyDrive: {
+      label: "Limit to My Drive",
+      type: "boolean",
+      description: "When enabled, results are limited to My Drive. Shared drives and team drives are excluded. Note: files directly shared with you by another user ('Shared with me') will still appear.",
+      default: false,
       optional: true,
     },
     drive: {
@@ -77,9 +78,16 @@ export default {
     return props;
   },
   async run({ $ }) {
+    if (this.limitToMyDrive && this.drive && !isMyDrive(this.drive)) {
+      throw new ConfigurationError("`Limit to My Drive` cannot be enabled when a Shared Drive is selected in the `Drive` prop. Either clear the `Drive` selection (defaults to My Drive) or disable `Limit to My Drive`.");
+    }
     const opts = getListFilesOpts(this.drive, {
       q: "",
-      includeItemsFromAllDrives: this.includeItemsFromAllDrives,
+      ...(this.limitToMyDrive
+        ? {
+          includeItemsFromAllDrives: false,
+        }
+        : {}),
     });
     if (this.folderId) {
       opts.q = `"${this.folderId}" in parents`;

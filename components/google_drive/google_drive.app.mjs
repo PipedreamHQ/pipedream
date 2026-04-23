@@ -370,12 +370,6 @@ export default {
         };
       },
     },
-    includeItemsFromAllDrives: {
-      label: "Include Items From All Drives",
-      type: "boolean",
-      description: "If `true`, include items from all drives. If `false`, include items from the drive specified in the `drive` prop.",
-      default: false,
-    },
   },
   methods: {
     // Static methods
