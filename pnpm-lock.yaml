@@ -9825,7 +9825,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/microsoft_teams_bot: {}
+  components/microsoft_teams_bot:
+    dependencies:
+      '@pipedream/platform':
+        specifier: 3.0.3
+        version: 3.0.3
 
   components/microsoft_teams_events: {}
 
