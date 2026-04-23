@@ -61,6 +61,7 @@ export default {
         path: `/1/user/-/activities/date/${date}.json`,
         ...args,
       });
+<<<<<<< main
     },
     async getHeartRate({
       startDate,
@@ -139,6 +140,8 @@ export default {
     // this.$auth contains connected account data
     authKeys() {
       console.log(Object.keys(this.$auth));
+=======
+>>>>>>> master
     },
   },
 };
