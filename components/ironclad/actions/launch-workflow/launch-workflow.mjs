@@ -47,14 +47,8 @@ export default {
   async run({ $ }) {
     const parsedAttributes = parseValue(this.attributes) ?? {};
 
-    const headers = {};
-    if (this.creatorEmail) {
-      headers["x-as-user-email"] = this.creatorEmail;
-    }
-
-    const response = await this.app.launchWorkflow({
+    const opts = {
       $,
-      headers,
       params: {
         useDefaultValues: this.useDefaultValues !== false,
       },
@@ -69,7 +63,17 @@ export default {
           }
           : {}),
       },
-    });
+    };
+    // NOTE: ironclad.app.mjs#_makeRequest spreads ...otherOpts after setting
+    // the Authorization header, so any `headers` key (even `{}`) clobbers
+    // Authorization. Only attach headers when we actually have one to set.
+    if (this.creatorEmail) {
+      opts.headers = {
+        "x-as-user-email": this.creatorEmail,
+      };
+    }
+
+    const response = await this.app.launchWorkflow(opts);
 
     $.export("$summary", `Launched workflow ${response?.id ?? ""} from template ${this.templateId}`);
     return response;

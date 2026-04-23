@@ -33,30 +33,24 @@ export default {
   async run({ $ }) {
     const parsedProperties = parseValue(this.properties) ?? {};
 
-    const { properties: schema } = await this.app.getRecordsSchema({
-      $,
-    });
-
-    const propertiesData = {};
-    for (const [
-      key,
+    const updates = Object.entries(parsedProperties).map(([
+      path,
       value,
-    ] of Object.entries(parsedProperties)) {
-      propertiesData[key] = {
-        type: schema?.[key]?.type,
-        value,
-      };
-    }
+    ]) => ({
+      action: "set",
+      path,
+      value,
+    }));
 
     const response = await this.app.updateRecord({
       $,
       recordId: this.recordId,
       data: {
-        properties: propertiesData,
+        updates,
       },
     });
 
-    $.export("$summary", `Updated ${Object.keys(propertiesData).length} property(ies) on record ${this.recordId}`);
+    $.export("$summary", `Updated ${updates.length} property(ies) on record ${this.recordId}`);
     return response ?? {
       success: true,
       recordId: this.recordId,
