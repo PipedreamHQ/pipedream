@@ -1,11 +1,12 @@
 import arcgisOnline from "../../arcgis_online.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "arcgis_online-query-intersecting-features-by-geometry",
-  name: "Query Intersecting Features by Geometry",
+  name: "Find Intersecting Features by Geometry",
   description:
-    "Query layers in a hosted feature service (resolved by portal item title) for features whose geometry intersects a boundary you provide as [Esri JSON geometry](https://developers.arcgis.com/documentation/common-data-types/geometry-objects.htm) (`rings`, `paths`, or `x`/`y`, with `spatialReference.wkid`). Each target layer uses the [Feature Layer query](https://developers.arcgis.com/rest/services-reference/enterprise/query-feature-service-layer-.htm) operation with `spatialRel=esriSpatialRelIntersects`. Returns `{ geometryType, layers: { [layerName]: { count, features } } }` where `features` are attribute objects only (geometries are not returned)",
-  version: "0.0.1",
+    "Query target layers in a Feature Service for records whose geometry intersects an Esri JSON boundary you provide. Supports polygon (`rings`), polyline (`paths`), and point (`x` / `y`) geometries and returns per-layer attribute arrays. [See the documentation](https://developers.arcgis.com/rest/services-reference/enterprise/query-feature-service-layer-.htm)",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -14,60 +15,59 @@ export default {
   },
   props: {
     arcgisOnline,
-    mapTitle: {
+    featureService: {
       propDefinition: [
         arcgisOnline,
-        "mapTitle",
+        "featureService",
       ],
-      description:
-        "Portal item ID from search, or feature service title for lookup",
     },
-    targetLayerNames: {
+    targetLayerIds: {
       propDefinition: [
         arcgisOnline,
-        "targetLayerNames",
+        "targetLayerIds",
         (c) => ({
-          mapTitle: c.mapTitle,
+          featureService: c.featureService,
         }),
       ],
-      description:
-        "Layer ids from the dropdown; each runs an intersect `query` against the same boundary",
     },
     geometry: {
       type: "object",
       label: "Geometry",
       description:
-        "Esri JSON boundary as an object or JSON string. Points: `x` (longitude), `y` (latitude), and `spatialReference` with `wkid` or `latestWkid` (e.g. 4326 for WGS 84). Polygons use `rings`; polylines use `paths`",
+        "Esri geometry JSON (`rings`, `paths`, or `x`/`y`) with `spatialReference` (`wkid` or `latestWkid`), **or** a Feature Layer `query`-style object whose `geometry` property holds that shape (other keys like `outFields` are ignored). Can be an object or a JSON string",
     },
   },
   async run({ $ }) {
     const {
       arcgisOnline: app,
-      mapTitle,
-      targetLayerNames,
+      featureService,
+      targetLayerIds,
       geometry,
     } = this;
 
-    if (!mapTitle) {
-      throw new Error("mapTitle is required");
+    if (!featureService) {
+      throw new ConfigurationError("featureService is required");
     }
-    if (!targetLayerNames?.length) {
-      throw new Error("targetLayerNames is required");
+    if (!targetLayerIds?.length) {
+      throw new ConfigurationError("targetLayerIds is required");
     }
     if (!geometry) {
-      throw new Error("geometry is required");
+      throw new ConfigurationError("geometry is required");
     }
 
     const result = await app.queryIntersectingFeaturesByGeometry({
       $,
-      mapTitle,
+      featureService,
       boundary: geometry,
-      targetLayerNames,
+      targetLayerIds,
     });
 
     const total = Object.values(result.layers || {})
       .reduce((n, l) => n + (l.count || 0), 0);
-    $.export("$summary", `Found ${total} intersecting feature(s) across ${Object.keys(result.layers || {}).length} layer(s)`);
+    $.export(
+      "$summary",
+      `Found ${total} intersecting feature(s) across ${Object.keys(result.layers || {}).length} layer(s)`,
+    );
 
     return result;
   },
