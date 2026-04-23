@@ -55,8 +55,8 @@ export default {
       spreadsheetId: this.sheetId,
       range: `${worksheet?.properties?.title}!${this.cell}:${this.cell}`,
     })).data.values;
-    const ret = values?.[0]?.[0] ?? null;
-    $.export("$summary", ret === null
+    const ret = values?.[0]?.[0] ?? "";
+    $.export("$summary", ret === ""
       ? `No value found in cell ${this.cell}.`
       : `Retrieved value from cell ${this.cell}.`);
     return ret;
