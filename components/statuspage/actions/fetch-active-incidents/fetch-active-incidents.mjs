@@ -9,7 +9,7 @@ export default {
     readOnlyHint: true,
   },
   key: "statuspage-fetch-active-incidents",
-  description: "Fetches active incidents for a page. [See docs here](https://developer.statuspage.io/#operation/getPagesPageIdIncidentsUnresolved)",
+  description: "Fetch all unresolved (active) incidents for a Statuspage page — i.e. incidents not yet in the `resolved` or `postmortem` state. Returns an array (possibly empty) of incident objects. [See the documentation](https://developer.statuspage.io/#operation/getPagesPageIdIncidentsUnresolved)",
   type: "action",
   props: {
     statuspage,
