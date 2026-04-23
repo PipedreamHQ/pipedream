@@ -6,7 +6,7 @@ export default {
   key: "evernote-new-tag",
   name: "New Tag Created",
   description: "Emit new event when a new tag is created in Evernote. Useful for tracking new organizational labels.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
