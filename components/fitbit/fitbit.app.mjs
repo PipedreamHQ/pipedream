@@ -7,7 +7,7 @@ export default {
   methods: {
     _getHeaders(headers = {}) {
       return {
-        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
         "Content-Type": "application/json",
         "user-agent": "@PipedreamHQ/pipedream v0.1",
         ...headers,
