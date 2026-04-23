@@ -1,11 +1,12 @@
 import arcgisOnline from "../../arcgis_online.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "arcgis_online-query-intersecting-features-by-object-id",
-  name: "Query Intersecting Features by Object ID",
+  name: "Find Intersecting Features by Object ID",
   description:
-    "Load one feature from the source layer by `OBJECTID` (first match only), use its geometry as the boundary, then intersect-query the target layers in the same hosted feature service. Return shape matches Query Intersecting Features by Geometry: per-layer `count` and `features` (attributes only). Uses [Feature Layer query](https://developers.arcgis.com/rest/services-reference/enterprise/query-feature-service-layer-.htm) for the boundary fetch and for spatial queries",
-  version: "0.0.1",
+    "Load a feature by OBJECTID from the source layer, then query target layers in the same Feature Service for spatially intersecting features. Returns per-layer attribute arrays. [See the documentation](https://developers.arcgis.com/rest/services-reference/enterprise/query-feature-service-layer-.htm)",
+  version: "0.1.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -14,96 +15,102 @@ export default {
   },
   props: {
     arcgisOnline,
-    mapTitle: {
+    featureService: {
       propDefinition: [
         arcgisOnline,
-        "mapTitle",
+        "featureService",
       ],
-      description:
-        "Portal item ID from search, or feature service title for lookup",
     },
-    layerName: {
+    sourceLayerId: {
       propDefinition: [
         arcgisOnline,
-        "layerName",
+        "layerId",
         (c) => ({
-          mapTitle: c.mapTitle,
+          featureService: c.featureService,
         }),
       ],
+      label: "Source Layer",
       description:
-        "Layer id for the boundary feature; geometry is loaded via `objectIds` on `query`",
+        "Layer containing the boundary feature whose geometry drives the spatial query",
     },
     objectId: {
       propDefinition: [
         arcgisOnline,
         "objectId",
         (c) => ({
-          mapTitle: c.mapTitle,
-          layerName: c.layerName,
+          featureService: c.featureService,
+          layerId: c.sourceLayerId,
         }),
       ],
       description:
-        "Object ID of the feature whose geometry becomes the intersect boundary (dropdown is paged; you may type an ID)",
+        "OBJECTID of the feature whose geometry becomes the intersect boundary",
     },
-    targetLayerNames: {
+    targetLayerIds: {
       propDefinition: [
         arcgisOnline,
-        "targetLayerNames",
+        "targetLayerIds",
         (c) => ({
-          mapTitle: c.mapTitle,
+          featureService: c.featureService,
         }),
       ],
-      description:
-        "Target layer ids in the same service to intersect-query against the boundary",
     },
   },
   async run({ $ }) {
     const {
       arcgisOnline: app,
-      mapTitle,
-      layerName,
+      featureService,
+      sourceLayerId,
       objectId,
-      targetLayerNames,
+      targetLayerIds,
     } = this;
 
-    if (!mapTitle) {
-      throw new Error("mapTitle is required");
+    if (!featureService) {
+      throw new ConfigurationError("featureService is required");
     }
-    if (!targetLayerNames?.length) {
-      throw new Error("targetLayerNames is required");
+    if (!sourceLayerId) {
+      throw new ConfigurationError("sourceLayerId is required");
     }
-    if (!layerName) {
-      throw new Error("layerName is required");
+    const objectIdStr = String(objectId).trim();
+    if (!objectIdStr) {
+      throw new ConfigurationError("objectId is required");
     }
-    if (!objectId) {
-      throw new Error("objectId is required");
+    if (!/^\d+$/.test(objectIdStr)) {
+      throw new ConfigurationError(
+        `objectId must be a digits-only string; got "${objectId}"`,
+      );
+    }
+    if (!targetLayerIds?.length) {
+      throw new ConfigurationError("targetLayerIds is required");
     }
 
     const { boundary } = await app.fetchFirstFeatureGeometry({
       $,
-      mapTitle,
-      layerName,
+      featureService,
+      layerId: sourceLayerId,
       queryParams: {
-        objectIds: objectId,
+        objectIds: objectIdStr,
       },
     });
 
     if (!boundary) {
       throw new Error(
-        `No feature found in layer id '${layerName}' with OBJECTID ${objectId}`,
+        `No feature found in layer '${sourceLayerId}' with OBJECTID ${objectIdStr}`,
       );
     }
 
     const result = await app.queryIntersectingFeaturesByGeometry({
       $,
-      mapTitle,
+      featureService,
       boundary,
-      targetLayerNames,
+      targetLayerIds,
     });
 
     const total = Object.values(result.layers || {})
       .reduce((n, l) => n + (l.count || 0), 0);
-    $.export("$summary", `Found ${total} intersecting feature(s) across ${Object.keys(result.layers || {}).length} layer(s)`);
+    $.export(
+      "$summary",
+      `Found ${total} intersecting feature(s) across ${Object.keys(result.layers || {}).length} layer(s)`,
+    );
 
     return result;
   },
