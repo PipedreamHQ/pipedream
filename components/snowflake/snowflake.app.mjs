@@ -7,6 +7,7 @@ import {
 import utils from "./common/utils.mjs";
 
 snowflake.configure({
+  logFilePath: "STDOUT",
   logLevel: "WARN",
 });
 
