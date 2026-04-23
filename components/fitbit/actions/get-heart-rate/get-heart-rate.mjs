@@ -14,16 +14,16 @@ export default {
   props: {
     fitbit,
     startDate: {
-      type: "string",
-      label: "Start Date",
-      description: "Start date in `YYYY-MM-DD` format, or `today`.",
-      default: "today",
+      propDefinition: [
+        fitbit,
+        "startDate",
+      ],
     },
     endDate: {
-      type: "string",
-      label: "End Date",
-      description: "End date in `YYYY-MM-DD` format, or `today`. Must be within 24 hours of Start Date.",
-      default: "today",
+      propDefinition: [
+        fitbit,
+        "endDate",
+      ],
     },
     detailLevel: {
       type: "string",
@@ -64,7 +64,7 @@ export default {
     timezone: {
       type: "string",
       label: "Timezone",
-      description: "Optional. Return data in a specific timezone (e.g. `UTC` or `America/New_York`).",
+      description: "Optional. Return data in `UTC`. Fitbit's heart rate intraday endpoint only supports `UTC` for this parameter.",
       optional: true,
     },
   },
@@ -77,18 +77,19 @@ export default {
       endTime,
       timezone,
     } = this;
+    const resolvedEndDate = endDate || startDate;
 
     const response = await this.fitbit.getHeartRate({
       $,
       startDate,
-      endDate,
+      endDate: resolvedEndDate,
       detailLevel,
       startTime,
       endTime,
       timezone,
     });
 
-    $.export("$summary", `Retrieved heart rate data from ${startDate} to ${endDate} at ${detailLevel} detail`);
+    $.export("$summary", `Retrieved heart rate data from ${startDate} to ${resolvedEndDate} at ${detailLevel} detail`);
     return response;
   },
 };

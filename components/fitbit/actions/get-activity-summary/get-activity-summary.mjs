@@ -14,10 +14,10 @@ export default {
   props: {
     fitbit,
     date: {
-      type: "string",
-      label: "Date",
-      description: "Date in `YYYY-MM-DD` format. Defaults to today.",
-      optional: true,
+      propDefinition: [
+        fitbit,
+        "date",
+      ],
     },
   },
   async run({ $ }) {
