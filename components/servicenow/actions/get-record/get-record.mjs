@@ -3,7 +3,9 @@ import app from "../../servicenow.app.mjs";
 export default {
   key: "servicenow-get-record",
   name: "Get Record",
-  description: "Retrieves a single record from a ServiceNow table by its sys_id. Use this when you already have a record's sys_id and need its full details. For example, to get an incident, set table_name to 'incident' and provide the sys_id.",
+  description: "Retrieves a single record from a ServiceNow table by its `sys_id`. Use this when you already have a record's `sys_id` and need its full details. For example, to get an incident, set `table` to `incident` and provide the `sys_id`."
+    + " If you only have a name or number, call **Search Records** first to find the `sys_id`."
+    + " [See the documentation](https://www.servicenow.com/docs/bundle/zurich-api-reference/page/integrate/inbound-rest/concept/c_TableAPI.html)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -26,7 +28,7 @@ export default {
     fields: {
       type: "string",
       label: "Fields",
-      description: "Comma-separated list of fields to return. Omit to return all fields.",
+      description: "Comma-separated list of fields to return (e.g., `number,short_description,state`). Omit to return all fields.",
       optional: true,
     },
   },

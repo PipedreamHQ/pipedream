@@ -4,7 +4,9 @@ import { parseObject } from "../../common/utils.mjs";
 export default {
   key: "servicenow-submit-record-producer",
   name: "Submit Record Producer",
-  description: "Submits a Record Producer from the ServiceNow service catalog. Record producers are catalog items that directly create records in a target table (e.g., VPN access requests, HR cases, facilities requests). Use this instead of order-catalog-item when the catalog item is a record producer type.",
+  description: "Submits a Record Producer from the ServiceNow service catalog. Record producers are catalog items that directly create records in a target table (e.g., VPN access requests, HR cases, facilities requests)."
+    + " Use this instead of **Order Catalog Item** when the catalog item is a record producer type."
+    + " [See the documentation](https://docs.servicenow.com/bundle/zurich-api-reference/page/integrate/inbound-rest/concept/c_ServiceCatalogAPI.html)",
   version: "0.0.1",
   type: "action",
   annotations: {

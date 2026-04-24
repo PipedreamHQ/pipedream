@@ -207,5 +207,18 @@ export default {
         ...args,
       });
     },
+    async orderCatalogItem({
+      sysId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        apiPath: "/api/sn_sc/servicecatalog",
+        url: `/items/${sysId}/order_now`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        ...args,
+      });
+    },
   },
 };
