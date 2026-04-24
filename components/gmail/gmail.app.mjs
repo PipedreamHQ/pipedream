@@ -330,7 +330,7 @@ export default {
         return addr.address;
       });
     },
-    async getOptionsToSendEmail($, props) {
+    async getOptionsToSendEmail(props) {
       const {
         name: fromName,
         email,

@@ -4,7 +4,7 @@ export default {
   key: "gmail-approve-workflow",
   name: "Approve Workflow",
   description: "Suspend the workflow until approved by email. [See the documentation](https://pipedream.com/docs/code/nodejs/rerun#flowsuspend)",
-  version: "0.0.14",
+  version: "0.0.15",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -47,7 +47,7 @@ export default {
       resume_url, cancel_url,
     } = $.flow.suspend();
     const approvalText = `Click here to approve:<br />${resume_url}<br /><br />Cancel here:<br />${cancel_url}`;
-    const opts = await this.gmail.getOptionsToSendEmail($, {
+    const opts = await this.gmail.getOptionsToSendEmail({
       ...this,
       body: this.body
         ? `${this.body}<br /><br />${approvalText}`

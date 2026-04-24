@@ -12,7 +12,7 @@ export default {
     + " Nested labels are expressed with `/` — e.g. `Clients/Acme` creates or targets a sub-label under `Clients`."
     + " `color` is optional; when provided, both `textColor` and `backgroundColor` must be supplied together and must come from Gmail's fixed palette."
     + " [See the documentation](https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.labels/create).",
-  version: "0.2.0",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

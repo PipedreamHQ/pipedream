@@ -13,7 +13,7 @@ export default {
     + " To send to yourself, pass `\"me\"` in `to` — the action resolves it to the authenticated user's email address. No pre-call to **Get Current User** required."
     + " Attachments: for small inline content (the common case in MCP / cloud runs), set `attachmentContent` to the file's text contents and `attachmentFilename` to its name. For files already on disk (Pipedream workflows, File Stash), use `attachments[]` + `attachmentFilenames[]` instead."
     + " [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/send).",
-  version: "0.4.0",
+  version: "0.3.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -138,7 +138,7 @@ export default {
     const cc = await this.gmail.resolveMe(this.cc);
     const bcc = await this.gmail.resolveMe(this.bcc);
 
-    const opts = await this.gmail.getOptionsToSendEmail($, {
+    const opts = await this.gmail.getOptionsToSendEmail({
       ...this,
       to,
       cc,

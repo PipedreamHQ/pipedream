@@ -56,6 +56,12 @@ export default {
     },
   },
   methods: {
+    escapeHtml(text) {
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+    },
     async imageToPdf(imageBuffer) {
       return new Promise((resolve, reject) => {
         const doc = new PDFDocument({
@@ -146,7 +152,7 @@ export default {
       } else if (sourceMimeType === "text/html") {
         buffer = await this.htmlToPdf(buffer);
       } else if (sourceMimeType === "text/plain") {
-        const textBuffer = Buffer.from(`<pre>${buffer.toString("utf8")}</pre>`, "utf8");
+        const textBuffer = Buffer.from(`<pre>${this.escapeHtml(buffer.toString("utf8"))}</pre>`, "utf8");
         buffer = await this.htmlToPdf(textBuffer);
       } else if (sourceMimeType === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
         const { value: html } = await mammoth.convertToHtml({

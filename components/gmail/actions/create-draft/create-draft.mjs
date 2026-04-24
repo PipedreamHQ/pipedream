@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import gmail from "../../gmail.app.mjs";
 
 export default {
@@ -10,7 +11,7 @@ export default {
     + " To draft to yourself, pass `\"me\"` in `to` — the action resolves it to the authenticated user's email address. No pre-call to **Get Current User** required."
     + " Attachments use `file-ref` inputs and require matching `attachmentFilenames[]` entries."
     + " [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.drafts/create).",
-  version: "0.3.0",
+  version: "0.2.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -114,14 +115,14 @@ export default {
     const filenames = this.attachmentFilenames ?? [];
     const files = this.attachments ?? [];
     if (filenames.length !== files.length) {
-      throw new Error("`attachments` and `attachmentFilenames` must be the same length.");
+      throw new ConfigurationError("`attachments` and `attachmentFilenames` must be the same length.");
     }
 
     const to = await this.gmail.resolveMe(this.to);
     const cc = await this.gmail.resolveMe(this.cc);
     const bcc = await this.gmail.resolveMe(this.bcc);
 
-    const opts = await this.gmail.getOptionsToSendEmail($, {
+    const opts = await this.gmail.getOptionsToSendEmail({
       ...this,
       to,
       cc,
