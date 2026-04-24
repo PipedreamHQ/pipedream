@@ -5451,6 +5451,15 @@ importers:
         specifier: 4.0.4
         version: 4.0.4
 
+  components/filepost:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.3.1
+        version: 3.3.1
+      form-data:
+        specifier: 4.0.4
+        version: 4.0.4
+
   components/files_com:
     dependencies:
       '@pipedream/platform':
@@ -12102,6 +12111,9 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/polly_help:
+    specifiers: {}
+
   components/polygon:
     dependencies:
       '@pipedream/platform':
@@ -16635,7 +16647,14 @@ importers:
         specifier: ^13.0.0
         version: 13.0.0
 
-  components/upsales: {}
+  components/upsales:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.3.1
+      form-data:
+        specifier: 4.0.4
+        version: 4.0.4
 
   components/upstash_redis:
     dependencies:
