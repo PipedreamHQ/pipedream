@@ -23,7 +23,7 @@ export default {
       label: "Table",
       description: "Internal name of the ServiceNow table (e.g. `incident`).",
     },
-    sys_id: {
+    sysId: {
       type: "string",
       label: "Record sys_id",
       description: "`sys_id` of the record to delete. Obtain via **Search Records**.",
@@ -33,15 +33,15 @@ export default {
     await this.app.deleteTableRecord({
       $,
       table: this.table,
-      recordId: this.sys_id,
+      recordId: this.sysId,
     });
 
-    $.export("$summary", `Deleted ${this.table} record ${this.sys_id}`);
+    $.export("$summary", `Deleted ${this.table} record ${this.sysId}`);
 
     return {
       success: true,
       table: this.table,
-      sys_id: this.sys_id,
+      sys_id: this.sysId,
     };
   },
 };

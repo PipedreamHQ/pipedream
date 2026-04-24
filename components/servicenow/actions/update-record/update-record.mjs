@@ -25,7 +25,7 @@ export default {
       label: "Table",
       description: "Internal name of the ServiceNow table (e.g. `incident`, `change_request`).",
     },
-    sys_id: {
+    sysId: {
       type: "string",
       label: "Record sys_id",
       description: "`sys_id` of the record to update. Obtain via **Search Records**.",
@@ -42,11 +42,11 @@ export default {
     const record = await this.app.updateTableRecord({
       $,
       table: this.table,
-      recordId: this.sys_id,
+      recordId: this.sysId,
       data,
     });
 
-    const identifier = record?.number || this.sys_id;
+    const identifier = record?.number || this.sysId;
     $.export("$summary", `Updated ${this.table} record ${identifier}`);
 
     return record;

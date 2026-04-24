@@ -21,8 +21,8 @@ export default {
   },
   async run({ $ }) {
     const sessionInfo = await axios($, {
-      url: `${this.app.baseUrl()}/api/now/ui/user/current_user`,
-      headers: this.app.authHeaders(),
+      url: `${this.app.getBaseUrl()}/api/now/ui/user/current_user`,
+      headers: this.app.getAuthHeaders(),
     });
 
     const userSysId = sessionInfo.result?.user_sys_id;
@@ -31,8 +31,8 @@ export default {
     }
 
     const userResponse = await axios($, {
-      url: `${this.app.baseUrl()}/api/now/table/sys_user/${userSysId}`,
-      headers: this.app.authHeaders(),
+      url: `${this.app.getBaseUrl()}/api/now/table/sys_user/${userSysId}`,
+      headers: this.app.getAuthHeaders(),
       params: {
         sysparm_fields: "sys_id,user_name,name,email,title,department,location",
       },
@@ -43,7 +43,7 @@ export default {
     $.export("$summary", `Retrieved user ${summaryName}`);
 
     return {
-      instance_url: this.app.baseUrl(),
+      instance_url: this.app.getBaseUrl(),
       sys_id: user.sys_id,
       user_name: user.user_name,
       name: user.name,

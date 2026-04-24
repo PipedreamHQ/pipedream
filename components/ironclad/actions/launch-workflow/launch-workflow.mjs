@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../ironclad.app.mjs";
 import { parseValue } from "../../common/utils.mjs";
 
@@ -5,7 +6,7 @@ export default {
   key: "ironclad-launch-workflow",
   name: "Launch Workflow",
   description: "Launches a new Ironclad workflow from a template."
-    + " **Call Describe Workflow Template first** to learn which attributes the template expects and their required shapes — the `attributes` object is template-specific."
+    + " Call **Describe Workflow Template** first to learn which attributes the template expects and their required shapes — the `attributes` object is template-specific."
     + " Pass `attributes` as a free-form JSON object keyed by attribute key. Example: `{\"counterpartyName\": \"Acme Corp\", \"contractValue\": {\"currency\": \"USD\", \"amount\": 25000}}`."
     + " Complex attribute shapes: `monetaryAmount` → `{currency, amount}`, `address` → `{lines, locality, region, postcode, country}`, `duration` → `{years, months, weeks, days}`, `date` → ISO 8601 string, `document` → `{url}`, `user` → `{email}`."
     + " If the connection uses Client Credentials (service account) rather than standard OAuth, set `creatorEmail` to act on behalf of a user."
@@ -22,13 +23,14 @@ export default {
     templateId: {
       type: "string",
       label: "Template ID",
-      description: "The ID of the workflow template to launch. Obtain via **Describe Workspace**.",
+      description: "The ID of the workflow template to launch (24-character hex string, e.g., `5f74b234e4e8e8002c1b2458`). Obtain via **Describe Workspace**.",
     },
     attributes: {
       type: "string",
       label: "Attributes",
       description: "JSON object of attribute key-value pairs for the workflow. Use **Describe Workflow Template** to discover valid keys and expected value shapes."
         + " Example: `{\"counterpartyName\": \"Acme Corp\", \"paperSource\": \"Our paper\", \"effectiveDate\": \"2026-01-01T00:00:00Z\"}`.",
+      optional: true,
     },
     useDefaultValues: {
       type: "boolean",
@@ -46,6 +48,13 @@ export default {
   },
   async run({ $ }) {
     const parsedAttributes = parseValue(this.attributes) ?? {};
+    if (
+      typeof parsedAttributes !== "object"
+      || parsedAttributes === null
+      || Array.isArray(parsedAttributes)
+    ) {
+      throw new ConfigurationError("`attributes` must be a JSON object keyed by attribute key. Example: `{\"counterpartyName\":\"Acme Corp\"}`.");
+    }
 
     const opts = {
       $,

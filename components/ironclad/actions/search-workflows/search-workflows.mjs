@@ -14,7 +14,7 @@ export default {
     + " `GreaterThan([lastUpdated], Date('2024-01-01'))`,"
     + " `Equals([startDate], Today())`."
     + " Attribute keys come from **Describe Workflow Template**. Wrap values in single quotes — double quotes fail on some operators."
-    + " [See the filter documentation](https://developer.ironcladapp.com/reference/filter-workflows)",
+    + " [See the documentation](https://developer.ironcladapp.com/reference/filter-workflows)",
   version: "0.0.1",
   type: "action",
   annotations: {

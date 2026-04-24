@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../ironclad.app.mjs";
 import { parseValue } from "../../common/utils.mjs";
 
@@ -12,7 +13,7 @@ export default {
   version: "0.1.0",
   type: "action",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
@@ -38,6 +39,14 @@ export default {
   },
   async run({ $ }) {
     const parsedUpdates = parseValue(this.updates) ?? {};
+    if (
+      typeof parsedUpdates !== "object"
+      || parsedUpdates === null
+      || Array.isArray(parsedUpdates)
+    ) {
+      throw new ConfigurationError("`updates` must be a JSON object keyed by workflow attribute key. Example: `{\"counterpartyName\":\"Acme Corp\"}`.");
+    }
+
     const updates = Object.entries(parsedUpdates).map(([
       path,
       value,

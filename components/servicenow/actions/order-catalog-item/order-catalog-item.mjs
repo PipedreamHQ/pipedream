@@ -15,7 +15,7 @@ export default {
   },
   props: {
     app,
-    sys_id: {
+    sysId: {
       type: "string",
       label: "Catalog Item sys_id",
       description: "`sys_id` of the catalog item to order. Get this from **List Catalog Items**.",
@@ -45,9 +45,9 @@ export default {
 
     const response = await axios($, {
       method: "POST",
-      url: `${this.app.baseUrl()}/api/sn_sc/servicecatalog/items/${this.sys_id}/order_now`,
+      url: `${this.app.getBaseUrl()}/api/sn_sc/servicecatalog/items/${this.sysId}/order_now`,
       headers: {
-        ...this.app.authHeaders(),
+        ...this.app.getAuthHeaders(),
         "Content-Type": "application/json",
       },
       data: body,

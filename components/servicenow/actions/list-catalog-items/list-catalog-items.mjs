@@ -65,8 +65,8 @@ export default {
     if (this.category) params.sysparm_category = this.category;
 
     const response = await axios($, {
-      url: `${this.app.baseUrl()}/api/sn_sc/servicecatalog/items`,
-      headers: this.app.authHeaders(),
+      url: `${this.app.getBaseUrl()}/api/sn_sc/servicecatalog/items`,
+      headers: this.app.getAuthHeaders(),
       params,
     });
 

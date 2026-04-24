@@ -14,7 +14,7 @@ export default {
     + " `number=INC0012345` (lookup by human-readable number)."
     + " **Cross-references:** call **Get Current User** first to get your `sys_id` for any 'my records' filter. Call **Describe Table** if you don't know what columns a table has."
     + " **Common mistakes:** don't URL-encode the query yourself — pass it raw. Use `^` (not `&`) between conditions. `LIKE` is substring; `=` is exact."
-    + " [See the encoded query docs](https://www.servicenow.com/docs/bundle/zurich-platform-user-interface/page/use/using-lists/concept/c_EncodedQueryStrings.html)",
+    + " [See the documentation](https://www.servicenow.com/docs/bundle/zurich-platform-user-interface/page/use/using-lists/concept/c_EncodedQueryStrings.html)",
   version: "0.0.1",
   type: "action",
   annotations: {

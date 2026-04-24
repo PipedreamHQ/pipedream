@@ -19,7 +19,7 @@ export default {
   },
   props: {
     app,
-    sys_id: {
+    sysId: {
       type: "string",
       label: "Catalog Item sys_id",
       description: "`sys_id` of the catalog item. Get this from **List Catalog Items**.",
@@ -27,13 +27,13 @@ export default {
   },
   async run({ $ }) {
     const response = await axios($, {
-      url: `${this.app.baseUrl()}/api/sn_sc/servicecatalog/items/${this.sys_id}`,
-      headers: this.app.authHeaders(),
+      url: `${this.app.getBaseUrl()}/api/sn_sc/servicecatalog/items/${this.sysId}`,
+      headers: this.app.getAuthHeaders(),
     });
 
     const item = response.result ?? {};
     const varCount = item.variables?.length ?? 0;
-    $.export("$summary", `Retrieved catalog item "${item.name ?? this.sys_id}" (${varCount} variables)`);
+    $.export("$summary", `Retrieved catalog item "${item.name ?? this.sysId}" (${varCount} variables)`);
 
     return item;
   },

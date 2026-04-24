@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../ironclad.app.mjs";
 import { parseValue } from "../../common/utils.mjs";
 
@@ -56,6 +57,13 @@ export default {
   },
   async run({ $ }) {
     const parsedProperties = parseValue(this.properties) ?? {};
+    if (
+      typeof parsedProperties !== "object"
+      || parsedProperties === null
+      || Array.isArray(parsedProperties)
+    ) {
+      throw new ConfigurationError("`properties` must be a JSON object keyed by record property key. Example: `{\"counterpartyName\":\"Acme Corp\"}`.");
+    }
 
     const { properties: schema } = await this.app.getRecordsSchema({
       $,
@@ -66,8 +74,11 @@ export default {
       key,
       value,
     ] of Object.entries(parsedProperties)) {
+      if (!schema?.[key]?.type) {
+        throw new ConfigurationError(`Unknown record property key: \`${key}\`. Use **Describe Workspace** to discover valid keys.`);
+      }
       propertiesData[key] = {
-        type: schema?.[key]?.type,
+        type: schema[key].type,
         value,
       };
     }

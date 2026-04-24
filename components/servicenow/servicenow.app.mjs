@@ -111,10 +111,10 @@ export default {
     },
   },
   methods: {
-    baseUrl() {
+    getBaseUrl() {
       return `https://${this.$auth.instance_name}.service-now.com`;
     },
-    authHeaders() {
+    getAuthHeaders() {
       return {
         "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
       };
@@ -122,13 +122,14 @@ export default {
     async _makeRequest({
       $ = this,
       headers,
+      apiPath = "/api/now",
       ...args
     }) {
       const response = await axios($, {
-        baseURL: `${this.baseUrl()}/api/now`,
+        baseURL: `${this.getBaseUrl()}${apiPath}`,
         headers: {
           ...headers,
-          ...this.authHeaders(),
+          ...this.getAuthHeaders(),
         },
         ...args,
       });
@@ -190,6 +191,19 @@ export default {
     }) {
       return this._makeRequest({
         url: `/stats/${table}`,
+        ...args,
+      });
+    },
+    async submitRecordProducer({
+      sysId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        apiPath: "/api/sn_sc/servicecatalog",
+        url: `/items/${sysId}/submit_producer`,
+        headers: {
+          "Content-Type": "application/json",
+        },
         ...args,
       });
     },

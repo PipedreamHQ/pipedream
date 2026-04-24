@@ -14,7 +14,7 @@ export default {
   key: "ironclad-describe-workflow-template",
   name: "Describe Workflow Template",
   description: "Returns the fillable attribute schema for a specific Ironclad workflow template — attribute keys, types, display names, required flags, enum options, and format examples."
-    + " **Use this before Launch Workflow** to learn what attributes the template expects and their expected shapes."
+    + " Use this before **Launch Workflow** to learn what attributes the template expects and their expected shapes."
     + " Call **Describe Workspace** first to list available templates and get a `templateId`."
     + " Attribute shapes include: `string`, `boolean`, `date` (ISO 8601), `monetaryAmount` (`{currency, amount}`), `address` (`{lines, locality, region, postcode, country}`), `duration` (`{years, months, weeks, days}`), `email`, `document` (`{url}`), `user` (`{email}`), and `array` of any of these."
     + " [See the documentation](https://developer.ironcladapp.com/reference/retrieve-a-workflow-schema)",
@@ -30,7 +30,7 @@ export default {
     templateId: {
       type: "string",
       label: "Template ID",
-      description: "The ID of the workflow template to describe. Obtain from **Describe Workspace**.",
+      description: "The ID of the workflow template to describe (24-character hex string, e.g., `5f74b234e4e8e8002c1b2458`). Obtain from **Describe Workspace**.",
     },
   },
   async run({ $ }) {

@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../ironclad.app.mjs";
 import { parseValue } from "../../common/utils.mjs";
 
@@ -12,7 +13,7 @@ export default {
   version: "0.0.1",
   type: "action",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
@@ -21,7 +22,7 @@ export default {
     recordId: {
       type: "string",
       label: "Record ID",
-      description: "The ID of the record to update. Obtain via **Search Records**.",
+      description: "Ironclad record ID to update (24-character hex string, e.g., `5f74b234e4e8e8002c1b2458`). Obtain via **Search Records**.",
     },
     properties: {
       type: "string",
@@ -32,6 +33,13 @@ export default {
   },
   async run({ $ }) {
     const parsedProperties = parseValue(this.properties) ?? {};
+    if (
+      typeof parsedProperties !== "object"
+      || parsedProperties === null
+      || Array.isArray(parsedProperties)
+    ) {
+      throw new ConfigurationError("`properties` must be a JSON object keyed by record property key. Example: `{\"counterpartyName\":\"Acme Corp\"}`.");
+    }
 
     const updates = Object.entries(parsedProperties).map(([
       path,

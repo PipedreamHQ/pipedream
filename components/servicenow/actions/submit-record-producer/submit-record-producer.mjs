@@ -1,4 +1,3 @@
-import { axios } from "@pipedream/platform";
 import app from "../../servicenow.app.mjs";
 import { parseObject } from "../../common/utils.mjs";
 
@@ -15,7 +14,7 @@ export default {
   },
   props: {
     app,
-    sys_id: {
+    sysId: {
       type: "string",
       label: "Record Producer sys_id",
       description: "`sys_id` of the record producer catalog item. Get this from **List Catalog Items** (filter to items where `type: record_producer`).",
@@ -29,25 +28,20 @@ export default {
   async run({ $ }) {
     const variables = parseObject(this.variables) ?? {};
 
-    const response = await axios($, {
-      method: "POST",
-      url: `${this.app.baseUrl()}/api/sn_sc/servicecatalog/items/${this.sys_id}/submit_producer`,
-      headers: {
-        ...this.app.authHeaders(),
-        "Content-Type": "application/json",
-      },
+    const result = await this.app.submitRecordProducer({
+      $,
+      sysId: this.sysId,
       data: {
         variables,
       },
     });
 
-    const result = response.result ?? {};
-    const identifier = result.number || result.sys_id || "(unknown)";
-    const table = result.table
+    const identifier = result?.number || result?.sys_id || "(unknown)";
+    const table = result?.table
       ? ` in ${result.table}`
       : "";
     $.export("$summary", `Submitted record producer — created ${identifier}${table}`);
 
-    return result;
+    return result ?? {};
   },
 };

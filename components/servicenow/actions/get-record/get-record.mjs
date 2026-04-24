@@ -18,10 +18,10 @@ export default {
       label: "Table",
       description: "The API name of the table (e.g., 'incident', 'sc_request', 'change_request').",
     },
-    sys_id: {
+    sysId: {
       type: "string",
       label: "Record sys_id",
-      description: "The unique sys_id of the record to retrieve. This is the primary identifier for any ServiceNow record.",
+      description: "The 32-character `sys_id` of the record to retrieve. Obtain via **Search Records**.",
     },
     fields: {
       type: "string",
@@ -37,11 +37,11 @@ export default {
     const record = await this.app.getTableRecordById({
       $,
       table: this.table,
-      recordId: this.sys_id,
+      recordId: this.sysId,
       params,
     });
 
-    $.export("$summary", `Retrieved record ${this.sys_id} from "${this.table}"`);
+    $.export("$summary", `Retrieved record ${this.sysId} from "${this.table}"`);
 
     return record;
   },
