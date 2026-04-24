@@ -81,15 +81,17 @@ export default {
   async run({ $ }) {
     let labelIds = this.labelIds;
     if (labelIds?.length) {
-      const needsResolution = labelIds.some((l) => l && l !== l.toUpperCase());
-      if (needsResolution) {
-        const { labels = [] } = await this.gmail.listLabels();
-        const byName = new Map(labels.map((l) => [
-          l.name,
-          l.id,
-        ]));
-        labelIds = labelIds.map((l) => byName.get(l) ?? l);
-      }
+      const { labels = [] } = await this.gmail.listLabels();
+      const byName = new Map(labels.map((l) => [
+        l.name,
+        l.id,
+      ]));
+      const byId = new Set(labels.map((l) => l.id));
+      labelIds = labelIds.map((l) => {
+        if (!l) return l;
+        if (byId.has(l)) return l;
+        return byName.get(l) ?? l;
+      });
     }
 
     const format = this.format || "metadata";
@@ -112,19 +114,16 @@ export default {
     const results = [];
     for await (const message of this.gmail.getAllMessages(messages.map(({ id }) => id), getOpts)) {
       const headers = message.payload?.headers ?? [];
-      const getHeader = (name) => headers
-        .find((h) => h.name.toLowerCase() === name.toLowerCase())?.value;
-
-      const messageIdHeader = getHeader("message-id");
+      const messageIdHeader = utils.getHeader(headers, "message-id");
       if (messageIdHeader) {
         message.message_id = messageIdHeader.replace(/[<>]/g, "");
       }
       if (message.internalDate) {
         message.date = new Date(parseInt(message.internalDate)).toISOString();
       }
-      message.subject = getHeader("subject");
-      message.sender = getHeader("from");
-      message.recipient = getHeader("to");
+      message.subject = utils.getHeader(headers, "subject");
+      message.sender = utils.getHeader(headers, "from");
+      message.recipient = utils.getHeader(headers, "to");
 
       if (format === "metadata") {
         delete message.payload;

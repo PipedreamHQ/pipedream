@@ -393,6 +393,10 @@ export default {
             }
           }
         } catch (err) {
+          const status = err?.status ?? err?.code ?? err?.response?.status;
+          if (status !== 404) {
+            throw err;
+          }
           opts.threadId = inReplyToMessageId;
         }
       }
@@ -473,10 +477,15 @@ export default {
       });
       return data;
     },
-    async getThread({ threadId }) {
+    async getThread({
+      threadId, format,
+    }) {
       const { data } = await this._client().users.threads.get({
         userId: constants.USER_ID,
         id: threadId,
+        ...(format && {
+          format,
+        }),
       });
       return data;
     },

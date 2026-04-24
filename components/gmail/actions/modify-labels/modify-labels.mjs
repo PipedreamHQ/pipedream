@@ -22,7 +22,7 @@ export default {
     + " [See the documentation](https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.messages/batchModify).",
   version: "0.0.1",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
@@ -59,21 +59,19 @@ export default {
       throw new Error("At least one of `addLabels` or `removeLabels` must be non-empty.");
     }
 
-    const needsResolution = [
-      ...addLabels,
-      ...removeLabels,
-    ].some((l) => l && l !== l.toUpperCase());
-    let addLabelIds = addLabels;
-    let removeLabelIds = removeLabels;
-    if (needsResolution) {
-      const { labels = [] } = await this.gmail.listLabels();
-      const byName = new Map(labels.map((l) => [
-        l.name,
-        l.id,
-      ]));
-      addLabelIds = addLabels.map((l) => byName.get(l) ?? l);
-      removeLabelIds = removeLabels.map((l) => byName.get(l) ?? l);
-    }
+    const { labels = [] } = await this.gmail.listLabels();
+    const byName = new Map(labels.map((l) => [
+      l.name,
+      l.id,
+    ]));
+    const byId = new Set(labels.map((l) => l.id));
+    const resolve = (l) => {
+      if (!l) return l;
+      if (byId.has(l)) return l;
+      return byName.get(l) ?? l;
+    };
+    const addLabelIds = addLabels.map(resolve);
+    const removeLabelIds = removeLabels.map(resolve);
 
     await this.gmail._client().users.messages.batchModify({
       userId: constants.USER_ID,

@@ -81,6 +81,18 @@ export default {
         doc.end();
       });
     },
+    findPartByAttachmentId(parts, attachmentId) {
+      for (const part of parts ?? []) {
+        if (part.body?.attachmentId === attachmentId) {
+          return part;
+        }
+        if (Array.isArray(part.parts)) {
+          const nested = this.findPartByAttachmentId(part.parts, attachmentId);
+          if (nested) return nested;
+        }
+      }
+      return undefined;
+    },
     async htmlToPdf(htmlBuffer) {
       const browser = await puppeteer.launch({
         executablePath: await chromium.executablePath(),
@@ -107,8 +119,7 @@ export default {
       const message = await this.gmail.getMessage({
         id: this.messageId,
       });
-      const parts = message.payload?.parts ?? [];
-      const part = parts.find((p) => p.body?.attachmentId === this.attachmentId);
+      const part = this.findPartByAttachmentId(message.payload?.parts, this.attachmentId);
       if (part) {
         filename = filename || part.filename;
         sourceMimeType = part.mimeType;
@@ -117,6 +128,11 @@ export default {
     if (!filename) {
       filename = `attachment-${this.attachmentId.slice(0, 8)}`;
     }
+    const safeFilename = path.basename(filename);
+    if (safeFilename !== filename || safeFilename === "" || safeFilename === "." || safeFilename === "..") {
+      throw new ConfigurationError(`Invalid filename "${filename}" — must not contain path separators or traversal segments.`);
+    }
+    filename = safeFilename;
 
     const attachment = await this.gmail.getAttachment({
       messageId: this.messageId,
