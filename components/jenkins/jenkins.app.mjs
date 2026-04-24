@@ -5,16 +5,13 @@ import { axios } from "@pipedream/platform";
 
 const parser = new XMLParser({
   ignoreAttributes: false,
-  const parser = new XMLParser({
-    ignoreAttributes: false,
-    processEntities: true,
-    htmlEntities: true,
-    maxEntitySize: 1024 * 1024, // 1MB
-    maxExpansionDepth: 10,
-    maxTotalExpansions: 1000,
-    maxExpandedLength: 10 * 1024 * 1024, // 10MB
-    maxEntityCount: 100,
-  });
+  processEntities: true,
+  htmlEntities: true,
+  maxEntitySize: 1024 * 1024, // 1MB
+  maxExpansionDepth: 10,
+  maxTotalExpansions: 1000,
+  maxExpandedLength: 10 * 1024 * 1024, // 10MB
+  maxEntityCount: 100,
 });
 
 const builder = new XMLBuilder({
