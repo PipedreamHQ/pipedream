@@ -15,6 +15,6 @@
   "dependencies": {
     "@pipedream/platform": "^3.1.1",
     "mssql": "^10.0.1",
-    "uuid": "^9.0.1"
+    "uuid": "^14.0.0"
   }
 }
