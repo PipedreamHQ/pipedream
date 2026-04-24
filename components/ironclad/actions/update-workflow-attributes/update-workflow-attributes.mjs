@@ -6,7 +6,7 @@ export default {
   key: "ironclad-update-workflow-attributes",
   name: "Update Workflow Attributes",
   description: "Updates attribute values on an in-flight Ironclad workflow."
-    + " **Use Get Workflow first** to inspect the workflow's current attribute keys, and **Describe Workflow Template** for the expected value shapes."
+    + " Use **Get Workflow** first to inspect the workflow's current attribute keys, and **Describe Workflow Template** for the expected value shapes."
     + " Pass `updates` as a JSON object keyed by attribute key — this tool converts it to Ironclad's internal `[{action: 'set', path, value}]` array."
     + " Example: `{\"counterpartyName\": \"Acme Corp\", \"contractValue\": {\"currency\": \"USD\", \"amount\": 50000}}`."
     + " [See the documentation](https://developer.ironcladapp.com/reference/update-workflow-attributes)",
@@ -22,7 +22,7 @@ export default {
     workflowId: {
       type: "string",
       label: "Workflow ID",
-      description: "The ID of the workflow to update. Obtain via **Search Workflows**.",
+      description: "The ID of the workflow to update (24-character hex string, e.g., `5f74b234e4e8e8002c1b2458`). Obtain via **Search Workflows**.",
     },
     updates: {
       type: "string",

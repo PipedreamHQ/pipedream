@@ -6,7 +6,7 @@ export default {
   key: "ironclad-create-record",
   name: "Create Record",
   description: "Creates a new record in the Ironclad repository."
-    + " **Call Describe Workspace first** to discover valid record `type` keys and `properties` keys for the tenant."
+    + " Call **Describe Workspace** first to discover valid record `type` keys and `properties` keys for the tenant."
     + " `properties` is a free-form JSON object keyed by property key. Property values follow the same shapes as workflow attributes — `monetaryAmount` → `{currency, amount}`, `address` → `{lines, locality, region, postcode, country}`, `date` → ISO 8601 string, etc."
     + " `links`, `parent`, and `children` accept record ID strings (or an array of IDs)."
     + " [See the documentation](https://developer.ironcladapp.com/reference/create-a-record)",

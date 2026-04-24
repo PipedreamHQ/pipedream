@@ -39,7 +39,7 @@ export default {
     template: {
       type: "string",
       label: "Template ID",
-      description: "Filter to workflows launched from a specific template. Obtain via **Describe Workspace**.",
+      description: "Filter to workflows launched from a specific template (24-character hex string, e.g., `5f74b234e4e8e8002c1b2458`). Obtain via **Describe Workspace**.",
       optional: true,
     },
     lastUpdated: {
