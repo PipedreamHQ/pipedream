@@ -5,13 +5,7 @@ import { parseObject } from "../../common/utils.mjs";
 export default {
   key: "servicenow-order-catalog-item",
   name: "Order Catalog Item",
-  description: "Place a Service Catalog order. Triggers the full fulfillment workflow (approvals, tasks, SLAs) and creates a `sc_request` (REQ) and one or more `sc_req_item` (RITM) records."
-    + " **When to use:** the caller wants to order a laptop, phone, software license, access grant, or any orderable Service Catalog item (`type: catalog_item`). For record producers (type: `record_producer`), use **Submit Record Producer** instead."
-    + " **Returns:** `{ request_number, request_id, sys_id, table }` where `request_number` is the REQ number and the response also references the RITM record(s)."
-    + " **Cross-references:** ALWAYS call **Get Catalog Item** first to fetch the item's `variables` schema — you need to know which variables are mandatory, their types, reference tables, and valid choice values before you can submit a valid payload."
-    + " **Parameter guidance:** `variables` is a JSON object of variable `name` → value pairs (not `label` → value). Example: `{\"quantity\":\"1\",\"hardware_model\":\"Standard Laptop\",\"business_justification\":\"New hire\"}`. Reference variables take the referenced record's `sys_id`; choice variables take the option value."
-    + " **Common mistakes:** use variable `name`, not `label`. Don't include variables outside the schema returned by **Get Catalog Item** — they'll be silently dropped or fail validation."
-    + " [See the documentation](https://docs.servicenow.com/bundle/zurich-api-reference/page/integrate/inbound-rest/concept/c_ServiceCatalogAPI.html)",
+  description: "Orders a standard item from the ServiceNow service catalog (e.g., laptops, equipment, software licenses). For record producer catalog items (e.g., VPN access requests, HR cases), use submit-record-producer instead.",
   version: "0.0.1",
   type: "action",
   annotations: {

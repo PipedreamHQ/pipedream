@@ -5,13 +5,7 @@ import { parseObject } from "../../common/utils.mjs";
 export default {
   key: "servicenow-submit-record-producer",
   name: "Submit Record Producer",
-  description: "Submit a ServiceNow record producer form — creates a record in the producer's target table (e.g. `incident`, `hr_case`, custom tables) by running the catalog workflow engine."
-    + " **When to use:** the catalog item has `type: record_producer` (NOT `catalog_item`). Record producers are forms configured to create a specific record type via the catalog UX — like \"Report an Outage\", \"VPN Access Request\", \"New Hire Onboarding\". For normal orderable items use **Order Catalog Item** instead."
-    + " **Returns:** `{ table, sys_id, number, redirect_url }` where `table` is the producer's target table and `number` is the created record's human-readable number."
-    + " **Cross-references:** ALWAYS call **Get Catalog Item** first to see the producer's `variables` schema — you need each variable's `name`, `type`, and `mandatory` flag to build a valid payload."
-    + " **Parameter guidance:** `variables` is a JSON object of variable `name` → value pairs. Example: `{\"justification\":\"testing\",\"duration\":\"30 days\"}`."
-    + " **Common mistakes:** record producers differ from raw **Create Record** on the target table — producers run approval / assignment / SLA logic that a direct Table API insert skips. Use this tool (not **Create Record**) when the catalog intent is explicit."
-    + " [See the documentation](https://docs.servicenow.com/bundle/zurich-api-reference/page/integrate/inbound-rest/concept/c_ServiceCatalogAPI.html)",
+  description: "Submits a Record Producer from the ServiceNow service catalog. Record producers are catalog items that directly create records in a target table (e.g., VPN access requests, HR cases, facilities requests). Use this instead of order-catalog-item when the catalog item is a record producer type.",
   version: "0.0.1",
   type: "action",
   annotations: {
