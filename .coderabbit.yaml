@@ -19,19 +19,19 @@ reviews:
         Review this file against the Pipedream component model described in
         .github/pipedream-component-guidelines.md.
 
+        - Verify the `version` field is incremented from its previous value and the bump
+          follows semantic versioning (see the Versioning section of the guidelines):
+          new components start at `0.0.1`; bug fixes and non-breaking refactors → patch;
+          new optional props or backwards-compatible additions → minor; removed/renamed props
+          or breaking behavior changes → major; flag any PR where the version was not bumped
+          or where the bump level seems inconsistent with the scope of the change
+        - Verify the app's `package.json` version is also bumped by the same or greater
+          semver segment as the component change
         - All prop names, method names, and local variables must use camelCase; API request
           parameter names follow the API's own convention and are the only exception
         - Props used in more than one component must be defined in the app file's
           `propDefinitions` and referenced via `propDefinition` — flag any inline prop
           definition that duplicates one already in the app file
-        - Verify `annotations` values are semantically correct (ESLint already enforces presence):
-          - `readOnlyHint: true` only when the component exclusively reads data with no side effects
-          - `destructiveHint: true` for operations that permanently delete data or irreversibly
-            overwrite it with no recovery path; update/patch/upsert operations are generally
-            `false` (reversible by another update) unless the specific endpoint does a full
-            destructive replace — when in doubt, flag and let the author decide
-          - `openWorldHint: true` for any component making external API calls (almost all);
-            `false` only for pure utility/formatting components with no HTTP requests
         - Prop `description` fields must be written for AI agent consumption:
           - Include concrete inline examples for non-obvious formats (JSON objects, IDs, dates, enums)
           - Avoid UI-centric language ("select from the dropdown", "choose from the list")
@@ -55,6 +55,14 @@ reviews:
         guidelines in .github/pipedream-action-guidelines.md.
 
         Key checks:
+        - Verify `annotations` values are semantically correct (ESLint already enforces presence):
+          - `readOnlyHint: true` only when the action exclusively reads data with no side effects
+          - `destructiveHint: true` for operations that permanently delete data or irreversibly
+            overwrite it with no recovery path; update/patch/upsert operations are generally
+            `false` (reversible by another update) unless the specific endpoint does a full
+            destructive replace — when in doubt, flag and let the author decide
+          - `openWorldHint: true` for any action making external API calls (almost all);
+            `false` only for pure utility/formatting actions with no HTTP requests
         - `run()` must call `$.export("$summary", ...)` on every successful execution path;
           summaries should be concise one-liners with key result info (record ID, name, count)
         - When `additionalProps()` or `reloadProps: true` are present, verify they are
@@ -87,6 +95,7 @@ reviews:
         guidelines in .github/pipedream-source-guidelines.md.
 
         Key checks:
+        - Source components must NOT include an `annotations` field — flag its presence as an error
         - `dedupe: "unique"` must be set at the top level of the component export
         - `$emit(data, metadata)` must include all three metadata fields: `id`, `summary`, `ts`
         - The `id` must be stable (deterministic for the same real-world event across runs) and
