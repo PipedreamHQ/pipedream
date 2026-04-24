@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/obolus",
+  "version": "0.0.1",
+  "description": "Pipedream Obolus Components",
+  "main": "app/obolus.app.mjs",
+  "keywords": [
+    "pipedream",
+    "obolus",
+    "tax"
+  ],
+  "homepage": "https://pipedream.com/apps/obolus",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1"
+  }
+}
