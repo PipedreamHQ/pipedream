@@ -7,7 +7,7 @@ export default {
   name: "New Article (Instant)",
   description: "Emit new event when a new article is created",
   type: "source",
-  version: "0.0.7",
+  version: "0.0.8",
   dedupe: "unique",
   methods: {
     ...common.methods,

@@ -5,7 +5,7 @@ export default {
   key: "hubspot-new-thread-created",
   name: "New Thread Created",
   description: "Emit new event when a new thread is created. [See the documentation](https://developers.hubspot.com/docs/api-reference/conversations-conversations-inbox-&-messages-v3/public-thread/get-conversations-v3-conversations-threads)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   methods: {

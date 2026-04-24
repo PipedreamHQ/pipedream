@@ -4,13 +4,25 @@ export default {
   type: "app",
   app: "odoo",
   propDefinitions: {
+    modelName: {
+      type: "string",
+      label: "Model Name",
+      description: "The technical name of the Odoo model to interact with (e.g. `res.partner`, `helpdesk.ticket`, `sale.order`, `crm.lead`).",
+      default: "res.partner",
+      options: [
+        "res.partner",
+        "helpdesk.ticket",
+        "sale.order",
+        "crm.lead",
+      ],
+    },
     fields: {
       type: "string[]",
       label: "Fields",
       description: "The fields to return in the results. If not provided, all fields will be returned.",
       optional: true,
-      async options() {
-        const fields = await this.getFields([], {
+      async options({ modelName }) {
+        const fields = await this.getFields(modelName ?? "res.partner", [], {
           attributes: [
             "string",
           ],
@@ -39,12 +51,12 @@ export default {
           {},
         ], (error, value) => {
           if (error) reject(error);
-          resolve(value);
+          else resolve(value);
         });
       });
       return uid;
     },
-    async makeRequest(method, filter = [], args = {}) {
+    async makeRequest(model, method, filter = [], args = {}) {
       const db = this.$auth.db;
       const uid = await this.getUid();
       const password = this.$auth.password;
@@ -54,20 +66,20 @@ export default {
           db,
           uid,
           password,
-          "res.partner",
+          model,
           method,
           filter,
           args,
         ], (error, value) => {
           if (error) reject(error);
-          resolve(value);
+          else resolve(value);
         });
       });
       return results;
     },
-    async getFieldProps({ update = false } = {}) {
+    async getFieldProps(model, { update = false } = {}) {
       const props = {};
-      const fields = await this.getFields();
+      const fields = await this.getFields(model, [], {});
       Object.keys(fields).forEach((key) => {
         if (fields[key].readonly === true) return;
         props[key] = {
@@ -85,20 +97,17 @@ export default {
       });
       return props;
     },
-    getFields(filter = [], args = {}) {
-      return this.makeRequest("fields_get", filter, args);
+    getFields(model, filter = [], args = {}) {
+      return this.makeRequest(model, "fields_get", filter, args);
     },
-    searchAndReadRecords(filter = [], args = {}) {
-      return this.makeRequest("search_read", filter, args);
+    searchAndReadRecords(model, filter = [], args = {}) {
+      return this.makeRequest(model, "search_read", filter, args);
     },
-    readRecord(data) {
-      return this.makeRequest("read", data);
+    createRecord(model, data) {
+      return this.makeRequest(model, "create", data);
     },
-    createRecord(data) {
-      return this.makeRequest("create", data);
-    },
-    updateRecord(data) {
-      return this.makeRequest("write", data);
+    updateRecord(model, data) {
+      return this.makeRequest(model, "write", data);
     },
   },
 };

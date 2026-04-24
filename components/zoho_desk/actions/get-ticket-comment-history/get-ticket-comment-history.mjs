@@ -5,7 +5,7 @@ export default {
   name: "Get Ticket Comment History",
   description: "Retrieves the edit history of a specific ticket comment. [See the documentation](https://desk.zoho.com/DeskAPIDocument#TicketsComments_Getaticketcommenthistory)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -10,8 +10,12 @@ export default {
   key: "hubspot-create-engagement",
   name: "Create Engagement",
   description:
-    "Create a new engagement for a contact. [See the documentation](https://developers.hubspot.com/docs/api/crm/engagements)",
-  version: "0.0.33",
+    "Create a **task, meeting, email, call, or note** engagement with optional associations. "
+    + "MCP/AI: **Do not use this action for a simple note on a contact by ID** — use **Add Note to Contact** (`hubspot-add-note-to-contact`) instead; it avoids the engagement-type reload step that confuses agents. "
+    + "**Engagement Type** has `reloadProps: true`: set `engagementType` first to exactly one of `notes`, `tasks`, `meetings`, `emails`, `calls` (lowercase strings). "
+    + "After that, the host reloads props and HubSpot-specific fields appear; use the **CONFIGURE_COMPONENT** tool with `componentKey` `hubspot-create-engagement` and the relevant `propName` to load remote options (object IDs, association types, etc.). "
+    + "[See the documentation](https://developers.hubspot.com/docs/api/crm/engagements)",
+  version: "0.0.35",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -23,7 +27,10 @@ export default {
     engagementType: {
       type: "string",
       label: "Engagement Type",
-      description: "The type of engagement to create",
+      description:
+        "Set this **before** other engagement fields load (`reloadProps`). "
+        + "Value must be exactly: `notes`, `tasks`, `meetings`, `emails`, or `calls`. "
+        + "For **note on contact by ID**, use **Add Note to Contact** instead.",
       reloadProps: true,
       options: ENGAGEMENT_TYPE_OPTIONS,
     },
@@ -58,7 +65,8 @@ export default {
         }),
       ],
       description:
-        "A unique identifier to indicate the association type between the task and the other object",
+        "Association type ID between this engagement and the other object. "
+        + "Use **CONFIGURE_COMPONENT** with `propName` `associationType` after `toObjectType` and `engagementType` are set to load valid options.",
       optional: true,
     },
     objectProperties: {

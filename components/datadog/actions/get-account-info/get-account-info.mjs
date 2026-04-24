@@ -15,7 +15,7 @@ export default {
     + " **Get Metric Data**, and all other Datadog tools."
     + " [See the docs](https://docs.datadoghq.com/api/"
     + "latest/authentication/#validate-api-key)",
-  version: "0.0.2",
+  version: "1.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

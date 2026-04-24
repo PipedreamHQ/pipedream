@@ -11,7 +11,7 @@ export default {
     + " Use **Search CRM Objects** first to find record IDs, then use this tool to fetch full details."
     + " Max 100 IDs per request."
     + " [See the documentation](https://developers.hubspot.com/docs/api/crm/objects)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
