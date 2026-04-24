@@ -3,8 +3,13 @@ import filepost from "../../filepost.app.mjs";
 export default {
   key: "filepost-get-file",
   name: "Get File",
-  description: "Retrieve details of a specific file by its ID. [See the documentation](https://filepost.dev/docs)",
-  version: "0.1.0",
+  description: "Retrieve details of a specific file by its ID. [See the documentation](https://filepost.dev/docs#get-file)",
+  version: "0.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     filepost,
@@ -16,7 +21,11 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.filepost.getFile(this.fileId);
+    const response = await this.filepost.getFile({
+      $,
+      debug: true,
+      fileId: this.fileId,
+    });
     $.export("$summary", `Retrieved file: ${response.url}`);
     return response;
   },

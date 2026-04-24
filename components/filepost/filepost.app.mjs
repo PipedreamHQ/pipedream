@@ -1,5 +1,4 @@
-import FormData from "form-data";
-import fetch from "node-fetch";
+import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -8,7 +7,20 @@ export default {
     fileId: {
       type: "string",
       label: "File ID",
-      description: "The unique ID of the uploaded file (the `file_id` field returned by the Upload File action).",
+      description: "The unique ID of the uploaded file (the `file_id` field returned by the Upload File action). Obtain this from **List Files**",
+      async options({ page }) {
+        const { files } = await this.listFiles({
+          params: {
+            page: page + 1,
+          },
+        });
+        return files?.map(({
+          file_id: value, name: label,
+        }) => ({
+          label,
+          value,
+        })) || [];
+      },
     },
     filePath: {
       type: "string",
@@ -23,57 +35,46 @@ export default {
     _baseUrl() {
       return "https://filepost.dev/v1";
     },
-    async _request({
-      method = "GET", path, body, formData,
+    async _makeRequest({
+      $ = this, headers, ...opts
     }) {
-      const url = `${this._baseUrl()}${path}`;
-      const headers = {
-        "X-API-Key": this._apiKey(),
-      };
-      const options = {
-        method,
-        headers,
-      };
-      if (formData) {
-        options.body = formData;
-        Object.assign(headers, formData.getHeaders());
-      } else if (body) {
-        headers["Content-Type"] = "application/json";
-        options.body = JSON.stringify(body);
-      }
-      const res = await fetch(url, options);
-      if (!res.ok) {
-        const text = await res.text();
-        throw new Error(`FilePost API error ${res.status}: ${text}`);
-      }
-      return res.json();
-    },
-    async uploadFile(fileBuffer, fileName, mimeType) {
-      const form = new FormData();
-      form.append("file", fileBuffer, {
-        filename: fileName,
-        contentType: mimeType || "application/octet-stream",
+      return axios($, {
+        baseURL: this._baseUrl(),
+        headers: {
+          ...headers,
+          "X-API-Key": this._apiKey(),
+        },
+        ...opts,
       });
-      return this._request({
+    },
+    async uploadFile(opts = {}) {
+      return this._makeRequest({
         method: "POST",
-        path: "/upload",
-        formData: form,
+        url: "/upload",
+        ...opts,
       });
     },
-    async listFiles(page = 1, perPage = 50) {
-      return this._request({
-        path: `/files?page=${page}&per_page=${perPage}`,
+    async listFiles(opts = {}) {
+      return this._makeRequest({
+        url: "/files",
+        ...opts,
       });
     },
-    async getFile(fileId) {
-      return this._request({
-        path: `/files/${fileId}`,
+    async getFile({
+      fileId, ...opts
+    }) {
+      return this._makeRequest({
+        url: `/files/${fileId}`,
+        ...opts,
       });
     },
-    async deleteFile(fileId) {
-      return this._request({
+    async deleteFile({
+      fileId, ...opts
+    }) {
+      return this._makeRequest({
         method: "DELETE",
-        path: `/files/${fileId}`,
+        url: `/files/${fileId}`,
+        ...opts,
       });
     },
   },

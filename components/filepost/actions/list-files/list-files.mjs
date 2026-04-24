@@ -3,8 +3,13 @@ import filepost from "../../filepost.app.mjs";
 export default {
   key: "filepost-list-files",
   name: "List Files",
-  description: "Retrieve a list of files uploaded to your FilePost account. [See the documentation](https://filepost.dev/docs)",
-  version: "0.1.0",
+  description: "Retrieve a list of files uploaded to your FilePost account. [See the documentation](https://filepost.dev/docs#list-files)",
+  version: "0.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     filepost,
@@ -24,9 +29,13 @@ export default {
     },
   },
   async run({ $ }) {
-    const page = Math.max(1, this.page ?? 1);
-    const perPage = Math.min(100, Math.max(1, this.perPage ?? 50));
-    const response = await this.filepost.listFiles(page, perPage);
+    const response = await this.filepost.listFiles({
+      $,
+      params: {
+        page: this.page,
+        per_page: this.perPage,
+      },
+    });
     $.export("$summary", `Retrieved ${response.files?.length ?? 0} file(s).`);
     return response;
   },
