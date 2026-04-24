@@ -5,7 +5,7 @@ export default {
   name: "Get Test Executions",
   description:
     "Search and retrieve Xray test executions with their run statuses. Use JQL to filter. [See the documentation](https://docs.getxray.app/display/XRAYCLOUD/GraphQL+API)",
-  version: "0.0.3",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -26,12 +26,19 @@ export default {
         "limit",
       ],
     },
+    start: {
+      propDefinition: [
+        xrayCloud,
+        "start",
+      ],
+    },
   },
   async run({ $ }) {
     const response = await this.xrayCloud.getTestExecutions({
       $,
       jql: this.jql,
       limit: this.limit,
+      start: this.start,
     });
     const count = response?.getTestExecutions?.results?.length ?? 0;
     $.export("$summary", `Successfully retrieved ${count} test execution(s)`);

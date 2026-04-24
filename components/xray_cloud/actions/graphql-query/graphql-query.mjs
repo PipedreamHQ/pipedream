@@ -8,7 +8,7 @@ export default {
   version: "0.0.3",
   type: "action",
   annotations: {
-    destructiveHint: false,
+    destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
@@ -17,7 +17,7 @@ export default {
     query: {
       type: "string",
       label: "GraphQL Query",
-      description: "The GraphQL query to execute against Xray Cloud",
+      description: "The GraphQL query to execute against Xray Cloud (e.g., `query GetTests($jql: String, $limit: Int!) { getTests(jql: $jql, limit: $limit) { total results { issueId testType { name } } } }`)",
     },
     variables: {
       type: "string",

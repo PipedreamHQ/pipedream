@@ -20,6 +20,14 @@ export default {
       max: 100,
       optional: true,
     },
+    start: {
+      type: "integer",
+      label: "Start Offset",
+      description: "Pagination offset — number of results to skip (e.g. `50` to fetch the second page when Limit is 50)",
+      default: 0,
+      min: 0,
+      optional: true,
+    },
   },
   methods: {
     /**
@@ -112,6 +120,7 @@ export default {
                   expectedResult
                 }
                 preconditions(limit: 10) {
+                  total
                   results { issueId }
                 }
               }
@@ -168,6 +177,7 @@ export default {
               results {
                 issueId
                 testRuns(limit: 100) {
+                  total
                   results {
                     status { name }
                     test { issueId }
