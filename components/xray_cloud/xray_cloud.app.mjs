@@ -71,7 +71,10 @@ export default {
     async _makeGraphqlRequest({
       $ = this, query, variables = {},
     }) {
-      const token = await this._authenticate($);
+      if (!this._cachedToken) {
+        this._cachedToken = await this._authenticate($);
+      }
+      const token = this._cachedToken;
       const response = await axios($, {
         method: "POST",
         url: `${this._baseUrl()}/graphql`,
