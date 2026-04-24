@@ -28,15 +28,16 @@ export default {
       };
     },
     async _makeRequest({
-      $ = this, path, params = {}, ...opts
+      $ = this, path, params = {}, headers = {}, ...opts
     }) {
       return axios($, {
         url: `${this._apiUrl()}/${path}`,
         params: this._getParams(params),
+        ...opts,
         headers: {
           Accept: "application/json",
+          ...headers,
         },
-        ...opts,
       });
     },
     listCurrencies(args = {}) {

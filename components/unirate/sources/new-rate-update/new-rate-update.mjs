@@ -5,7 +5,12 @@ export default {
   key: "unirate-new-rate-update",
   name: "New Rate Update",
   version: "0.0.1",
-  description: "Emit a new event whenever the exchange rate between two currencies changes.",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
+  description: "Emit a new event whenever the exchange rate between two currencies changes. [See the documentation](https://unirateapi.com/docs).",
   type: "source",
   dedupe: "unique",
   props: {
@@ -44,12 +49,13 @@ export default {
       this.db.set("lastRate", rate);
     },
   },
-  async run() {
+  async run({ $ }) {
     const {
       app, from, to,
     } = this;
 
     const response = await app.getRates({
+      $,
       from,
       to,
     });
@@ -63,7 +69,11 @@ export default {
     if (lastRate === rate) {
       return;
     }
-    this._setLastRate(rate);
+
+    if (lastRate === undefined) {
+      this._setLastRate(rate);
+      return;
+    }
 
     const ts = Date.now();
     this.$emit(
@@ -71,14 +81,15 @@ export default {
         from,
         to,
         rate,
-        previousRate: lastRate ?? null,
+        previousRate: lastRate,
         ts,
       },
       {
-        id: `${from}-${to}-${rate}-${ts}`,
-        summary: `New rate for ${from}→${to}: ${rate}`,
+        id: `${from}-${to}-${rate}`,
+        summary: `${from}→${to}: ${lastRate} → ${rate}`,
         ts,
       },
     );
+    this._setLastRate(rate);
   },
 };

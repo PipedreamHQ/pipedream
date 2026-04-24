@@ -43,11 +43,15 @@ export default {
       to,
     });
 
+    const base = from || "USD";
+    const rateCount = response?.rates
+      ? Object.keys(response.rates).length
+      : 0;
     $.export(
       "$summary",
       to
-        ? `Fetched ${from || "USD"}→${to} rate.`
-        : `Fetched all rates for ${from || "USD"}.`,
+        ? `Fetched ${base}→${to} rate: ${response?.rate ?? "?"}`
+        : `Fetched ${rateCount} rate(s) for ${base}`,
     );
     return response;
   },

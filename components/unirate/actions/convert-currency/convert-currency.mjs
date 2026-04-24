@@ -48,7 +48,10 @@ export default {
       amount,
     });
 
-    $.export("$summary", `Converted ${amount} ${from} to ${to}.`);
+    $.export(
+      "$summary",
+      `Converted ${amount} ${from} → ${response?.result ?? "?"} ${to}`,
+    );
     return response;
   },
 };
