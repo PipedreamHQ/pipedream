@@ -262,21 +262,28 @@ export default {
     attachmentFilenames: {
       type: "string[]",
       label: "Attachment Filenames",
-      description: "Array of the names of the files to attach. Must contain the file extension (e.g. `.jpeg`, `.txt`). Use in conjuction with `Attachment URLs or Paths`.",
+      description: "Filenames for each attached file (include the extension, e.g. `report.pdf`, `dna.txt`). Must be the same length as `attachments` — index `i` in this list pairs with index `i` in `attachments`.",
       optional: true,
     },
-    attachmentUrlsOrPaths: {
+    attachments: {
       type: "string[]",
-      label: "Attachment URLs or Paths",
-      description: "Array of the URLs of the download links for the files, or the local paths (e.g. `/tmp/my-file.txt`). Use in conjuction with `Attachment Filenames`.",
+      label: "Attachments",
+      description: "Files to attach. Each entry is either a public URL or a path under `/tmp` (e.g. `/tmp/dna.txt`). Must be the same length as `attachmentFilenames` — index `i` here pairs with index `i` there.",
       format: "file-ref",
       optional: true,
     },
-    inReplyTo: {
+    inReplyToMessageId: {
       type: "string",
-      label: "In Reply To",
-      description: "Specify the `message-id` this email is replying to. Must be from the first message sent in the thread. To use this prop with `async options` please use `Gmail (Developer App)` `Send Email` component.",
+      label: "In Reply To Message ID",
+      description: "To send this email as a reply, pass the `id` of any message in the target thread (from **Find Emails** or **Get Thread**). The action will preserve `References`/`In-Reply-To` headers, thread correctly, and auto-prefix `Re:` on the subject.",
       optional: true,
+    },
+    replyAll: {
+      type: "boolean",
+      label: "Reply All",
+      description: "When `inReplyToMessageId` is set, fan-out recipients to the original `From`/`To`/`Cc` (minus the user's own address). Ignored when `inReplyToMessageId` is blank.",
+      optional: true,
+      default: false,
     },
     mimeType: {
       type: "string",
@@ -323,7 +330,7 @@ export default {
         return addr.address;
       });
     },
-    async getOptionsToSendEmail($, props) {
+    async getOptionsToSendEmail(props) {
       const {
         name: fromName,
         email,
@@ -341,10 +348,11 @@ export default {
         subject: props.subject,
       };
 
-      if (props.inReplyTo) {
+      const inReplyToMessageId = props.inReplyToMessageId ?? props.inReplyTo;
+      if (inReplyToMessageId) {
         try {
           const repliedMessage = await this.getMessage({
-            id: props.inReplyTo,
+            id: inReplyToMessageId,
           });
           const { value: subject } = repliedMessage.payload.headers.find(({ name }) => name === "Subject");
           //sometimes coming as 'Message-ID' and sometimes 'Message-Id'
@@ -385,16 +393,21 @@ export default {
             }
           }
         } catch (err) {
-          opts.threadId = props.inReplyTo;
+          const status = err?.status ?? err?.code ?? err?.response?.status;
+          if (status !== 404) {
+            throw err;
+          }
+          opts.threadId = inReplyToMessageId;
         }
       }
 
-      if (props.attachmentFilenames?.length && props.attachmentUrlsOrPaths?.length) {
+      const attachments = props.attachments ?? props.attachmentUrlsOrPaths;
+      if (props.attachmentFilenames?.length && attachments?.length) {
         opts.attachments = [];
         for (let i = 0; i < props.attachmentFilenames.length; i++) {
           opts.attachments.push({
             filename: props.attachmentFilenames[i],
-            path: props.attachmentUrlsOrPaths[i],
+            path: attachments[i],
           });
         }
       }
@@ -434,10 +447,18 @@ export default {
       });
       return data;
     },
-    async getMessage({ id }) {
+    async getMessage({
+      id, format, metadataHeaders,
+    }) {
       const fn = () => this._client().users.messages.get({
         userId: constants.USER_ID,
         id,
+        ...(format && {
+          format,
+        }),
+        ...(metadataHeaders && {
+          metadataHeaders,
+        }),
       });
       const { data } = await this.retryWithExponentialBackoff(fn);
       return data;
@@ -456,10 +477,15 @@ export default {
       });
       return data;
     },
-    async getThread({ threadId }) {
+    async getThread({
+      threadId, format,
+    }) {
       const { data } = await this._client().users.threads.get({
         userId: constants.USER_ID,
         id: threadId,
+        ...(format && {
+          format,
+        }),
       });
       return data;
     },
@@ -469,6 +495,22 @@ export default {
       });
       return data;
     },
+    /**
+     * Resolve the literal string "me" to the authenticated user's email
+     * address inside a list of recipient addresses. Any other address passes
+     * through unchanged. Gmail's API accepts "me" only as the `userId` path
+     * param — never as a recipient — so callers that want a self-addressing
+     * shortcut must expand it before sending.
+     */
+    async resolveMe(addresses) {
+      if (!addresses?.length || !addresses.includes("me")) {
+        return addresses;
+      }
+      const { emailAddress } = await this.getProfile();
+      return addresses.map((a) => (a === "me"
+        ? emailAddress
+        : a));
+    },
     async getMessageSubject({ id }) {
       const message = await this.getMessage({
         id,
@@ -476,10 +518,11 @@ export default {
       const { value: subject } = message.payload.headers.find(({ name }) => name === "Subject");
       return subject;
     },
-    async *getAllMessages(ids = []) {
+    async *getAllMessages(ids = [], opts = {}) {
       for (const id of ids) {
         const message = await this.getMessage({
           id,
+          ...opts,
         });
         yield message;
       }

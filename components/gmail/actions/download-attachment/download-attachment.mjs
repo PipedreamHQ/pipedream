@@ -11,8 +11,13 @@ import gmail from "../../gmail.app.mjs";
 export default {
   key: "gmail-download-attachment",
   name: "Download Attachment",
-  description: "Download an attachment by attachmentId to the /tmp directory. [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.messages.attachments/get)",
-  version: "0.0.17",
+  description:
+    "Download a Gmail message attachment to `/tmp` and return its path + metadata. File Stash syncs the file and exposes a presigned download URL so the caller can retrieve it."
+    + " Call **Find Emails** or **Get Thread** first — each returned message's `payload.parts[]` enumerates attachments as `{ body.attachmentId, filename, mimeType }`. Pass the enclosing message's `id` as `messageId` and the part's `body.attachmentId` as `attachmentId`."
+    + " If `filename` is omitted, the action looks up the attachment's filename from the message payload."
+    + " Set `convertToPdf: true` to convert image / HTML / plain-text / DOCX attachments to PDF during download; other MIME types are rejected."
+    + " [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.messages.attachments/get).",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -22,32 +27,27 @@ export default {
   props: {
     gmail,
     messageId: {
-      propDefinition: [
-        gmail,
-        "messageWithAttachments",
-      ],
+      type: "string",
+      label: "Message ID",
+      description: "The `id` of the message containing the attachment. Obtain this from **Find Emails** or **Get Thread**.",
     },
     attachmentId: {
-      propDefinition: [
-        gmail,
-        "attachmentId",
-        ({ messageId }) => ({
-          messageId,
-        }),
-      ],
-      withLabel: true,
+      type: "string",
+      label: "Attachment ID",
+      description: "The attachment's ID. Find this on a message's `payload.parts[].body.attachmentId` from **Find Emails** or **Get Thread**.",
     },
     filename: {
       type: "string",
       label: "Filename",
-      description: "Name of the new file. Example: `test.jpg`",
+      description: "Filename to save in `/tmp` (include the extension, e.g. `report.pdf`). If omitted, the action looks up the filename from the message payload.",
       optional: true,
     },
     convertToPdf: {
       type: "boolean",
       label: "Convert to PDF",
-      description: "Whether to convert the attachment to a PDF file. Supports converting image, text, HTML, and DOCX files.",
+      description: "When true, convert the attachment to a PDF. Supported source MIME types: image/*, text/html, text/plain, and DOCX (`application/vnd.openxmlformats-officedocument.wordprocessingml.document`). Other types throw.",
       optional: true,
+      default: false,
     },
     syncDir: {
       type: "dir",
@@ -56,6 +56,12 @@ export default {
     },
   },
   methods: {
+    escapeHtml(text) {
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+    },
     async imageToPdf(imageBuffer) {
       return new Promise((resolve, reject) => {
         const doc = new PDFDocument({
@@ -81,6 +87,18 @@ export default {
         doc.end();
       });
     },
+    findPartByAttachmentId(parts, attachmentId) {
+      for (const part of parts ?? []) {
+        if (part.body?.attachmentId === attachmentId) {
+          return part;
+        }
+        if (Array.isArray(part.parts)) {
+          const nested = this.findPartByAttachmentId(part.parts, attachmentId);
+          if (nested) return nested;
+        }
+      }
+      return undefined;
+    },
     async htmlToPdf(htmlBuffer) {
       const browser = await puppeteer.launch({
         executablePath: await chromium.executablePath(),
@@ -101,63 +119,62 @@ export default {
     },
   },
   async run({ $ }) {
-    const attachmentId = this.attachmentId.value || this.attachmentId;
+    let filename = this.filename;
+    let sourceMimeType;
+    if (!filename || this.convertToPdf) {
+      const message = await this.gmail.getMessage({
+        id: this.messageId,
+      });
+      const part = this.findPartByAttachmentId(message.payload?.parts, this.attachmentId);
+      if (part) {
+        filename = filename || part.filename;
+        sourceMimeType = part.mimeType;
+      }
+    }
+    if (!filename) {
+      filename = `attachment-${this.attachmentId.slice(0, 8)}`;
+    }
+    const safeFilename = path.basename(filename);
+    if (safeFilename !== filename || safeFilename === "" || safeFilename === "." || safeFilename === "..") {
+      throw new ConfigurationError(`Invalid filename "${filename}" — must not contain path separators or traversal segments.`);
+    }
+    filename = safeFilename;
 
     const attachment = await this.gmail.getAttachment({
       messageId: this.messageId,
-      attachmentId,
+      attachmentId: this.attachmentId,
     });
-
-    let filename = this.filename || this.attachmentId.label;
-
-    if (!filename) {
-      throw new ConfigurationError("Please enter a filename to save the downloaded file as in the `/tmp` directory.");
-    }
-
-    const name = path.parse(filename).name;
-
-    if (this.convertToPdf) {
-      filename = `${name}.pdf`;
-    }
-
-    const filePath = path.join("/tmp", filename);
     let buffer = Buffer.from(attachment.data, "base64");
 
-    if (this.convertToPdf) {
-      // get original mime type
-      const { payload: { parts } } = await this.gmail.getMessage({
-        $,
-        id: this.messageId,
-      });
-      const attachmentInfo = parts.find(({ filename }) => filename.startsWith(name));
-      const mimeType = attachmentInfo.mimeType;
-
-      if (mimeType !== "application/pdf") {
-        if (mimeType?.startsWith("image/")) {
-          buffer = await this.imageToPdf(buffer);
-        } else if (mimeType === "text/html") {
-          buffer = await this.htmlToPdf(buffer);
-        } else if (mimeType === "text/plain") {
-          const textBuffer = Buffer.from(`<pre>${buffer.toString("utf8")}</pre>`, "utf8");
-          buffer = await this.htmlToPdf(textBuffer);
-        } else if (mimeType === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
-          const { value: html } = await mammoth.convertToHtml({
-            buffer,
-          });
-          buffer = await this.htmlToPdf(html);
-        } else {
-          throw new ConfigurationError(`Cannot convert file type: ${mimeType} to PDF`);
-        }
+    if (this.convertToPdf && sourceMimeType !== "application/pdf") {
+      if (sourceMimeType?.startsWith("image/")) {
+        buffer = await this.imageToPdf(buffer);
+      } else if (sourceMimeType === "text/html") {
+        buffer = await this.htmlToPdf(buffer);
+      } else if (sourceMimeType === "text/plain") {
+        const textBuffer = Buffer.from(`<pre>${this.escapeHtml(buffer.toString("utf8"))}</pre>`, "utf8");
+        buffer = await this.htmlToPdf(textBuffer);
+      } else if (sourceMimeType === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+        const { value: html } = await mammoth.convertToHtml({
+          buffer,
+        });
+        buffer = await this.htmlToPdf(html);
+      } else {
+        throw new ConfigurationError(`Cannot convert file type: ${sourceMimeType} to PDF`);
       }
+      filename = `${path.parse(filename).name}.pdf`;
     }
 
+    const stashDir = process.env.STASH_DIR || "/tmp";
+    const filePath = path.join(stashDir, filename);
     fs.writeFileSync(filePath, buffer);
 
-    $.export("$summary", `Successfully created file ${filename} in \`/tmp\` directory`);
+    $.export("$summary", `Downloaded ${filename} (${buffer.length} bytes)`);
 
     return {
       filename,
       filePath,
+      size: buffer.length,
     };
   },
 };
