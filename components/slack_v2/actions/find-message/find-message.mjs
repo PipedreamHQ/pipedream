@@ -4,7 +4,7 @@ export default {
   key: "slack_v2-find-message",
   name: "Find Message",
   description: "Find a Slack message. [See the documentation](https://api.slack.com/methods/assistant.search.context)",
-  version: "0.1.2",
+  version: "0.1.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

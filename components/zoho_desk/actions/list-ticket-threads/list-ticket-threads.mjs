@@ -5,7 +5,7 @@ export default {
   name: "List Ticket Threads",
   description: "Get a list of threads for a specified ticket. [See the documentation](https://desk.zoho.com/DeskAPIDocument#Threads#Threads_Listallthreads)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -40,6 +40,12 @@ export default {
         "limit",
       ],
     },
+    includeFullContent: {
+      type: "boolean",
+      label: "Include Full Content",
+      description: "Whether to include the full content of the threads",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const {
@@ -47,6 +53,7 @@ export default {
       ticketId,
       from,
       limit,
+      includeFullContent,
     } = this;
 
     const params = {};
@@ -62,7 +69,19 @@ export default {
       params,
     });
 
-    const threads = response.data || [];
+    let threads;
+    if (includeFullContent) {
+      threads = await Promise.all(response.data.map(async (thread) => {
+        return await this.zohoDesk.getThreadDetails({
+          $,
+          ticketId,
+          threadId: thread.id,
+        });
+      }));
+    } else {
+      threads = response.data || [];
+    }
+
     $.export("$summary", `Successfully retrieved ${threads.length} thread(s)`);
 
     return threads;

@@ -9,7 +9,7 @@ export default {
     + " Use **Offset** for pagination when `hasMore` is true."
     + " For newer CRM v3 engagement objects, prefer v4 **List CRM Associations** from the record to `notes`, `tasks`, `calls`, etc."
     + " [See the documentation](https://developers.hubspot.com/docs/api-reference/legacy/engagements-v1/engagements/get-engagements-v1-engagements-associated-crm-object-id-paged)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

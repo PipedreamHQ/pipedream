@@ -5,7 +5,7 @@ export default {
   key: "hubspot-update-blog-post-draft",
   name: "Update Blog Post Draft",
   description: "Updates the draft version of an existing blog post in HubSpot. [See the documentation](https://developers.hubspot.com/docs/api-reference/cms-posts-v3/basic/patch-cms-v3-blogs-posts-objectId-draft)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: true,

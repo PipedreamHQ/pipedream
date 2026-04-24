@@ -5,7 +5,7 @@ export default {
   key: "jira-move-issues-to-sprint",
   name: "Move Issues to Sprint",
   description: "Moves issues to a sprint, for a given sprint ID. [See the documentation](https://developer.atlassian.com/cloud/jira/software/rest/api-group-sprint/#api-rest-agile-1-0-sprint-sprintid-issue-post)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: true,
