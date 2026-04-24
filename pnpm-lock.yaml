@@ -2360,6 +2360,12 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/business_edge:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.6.8
+        version: 1.6.8
+
   components/businesslogic:
     dependencies:
       '@pipedream/platform':
