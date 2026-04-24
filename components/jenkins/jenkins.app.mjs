@@ -5,6 +5,8 @@ import { axios } from "@pipedream/platform";
 
 const parser = new XMLParser({
   ignoreAttributes: false,
+  processEntities: true,
+  htmlEntities: true,
 });
 
 const builder = new XMLBuilder({
