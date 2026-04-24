@@ -1,10 +1,10 @@
-import app from "../../cal_com.app.mjs";
+import calCom from "../../cal_com.app.mjs";
 
 export default {
   key: "cal_com-get-bookable-slots",
   name: "Get Bookable Slots",
-  description: "Retrieves all bookable slots between a datetime range. [See the documentation](https://cal.com/docs/api-reference/v1/slots/get-all-bookable-slots-between-a-datetime-range#get-all-bookable-slots-between-a-datetime-range)",
-  version: "0.0.4",
+  description: "Retrieve available bookable slots between a datetime range. [See the documentation](https://cal.com/docs/api-reference/v2/slots/get-available-slots)",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -12,49 +12,85 @@ export default {
   },
   type: "action",
   props: {
-    app,
+    calCom,
+    start: {
+      type: "string",
+      label: "Start",
+      description: "Start date/time in ISO 8601 format (UTC), e.g. `2025-04-01T06:00:00Z`",
+    },
+    end: {
+      type: "string",
+      label: "End",
+      description: "End date/time in ISO 8601 format (UTC), e.g. `2025-04-07T06:00:00Z`",
+    },
     eventTypeId: {
       propDefinition: [
-        app,
+        calCom,
         "eventTypeId",
       ],
+      description: "The ID of the event type to get slots for",
+      optional: true,
     },
-    startTime: {
+    eventTypeSlug: {
       type: "string",
-      label: "Start Time",
-      description: "Start time of the slot lookup (ISO 8601 format), e.g. `2025-04-01T06:00:00Z`",
+      label: "Event Type Slug",
+      description: "Slug of the event type. Requires `username` or `teamSlug`.",
+      optional: true,
     },
-    endTime: {
+    username: {
       type: "string",
-      label: "End Time",
-      description: "End time of the slot lookup (ISO 8601 format), e.g. `2025-04-01T06:00:00Z`",
+      label: "Username",
+      description: "Username of the individual event owner",
+      optional: true,
     },
     timeZone: {
       propDefinition: [
-        app,
+        calCom,
         "timeZone",
       ],
       optional: true,
     },
-    isTeamEvent: {
-      type: "boolean",
-      label: "Is Team Event",
-      description: "True if the event is a team event",
+    duration: {
+      type: "integer",
+      label: "Duration (Minutes)",
+      description: "Override the default slot duration in minutes",
+      optional: true,
+    },
+    format: {
+      type: "string",
+      label: "Format",
+      description: "`range` returns objects with `start` and `end`; `time` returns start times only",
+      optional: true,
+      options: [
+        "time",
+        "range",
+      ],
+    },
+    bookingUidToReschedule: {
+      type: "string",
+      label: "Booking UID to Reschedule",
+      description: "UID of the booking being rescheduled. Excludes the original slot from busy calculations.",
       optional: true,
     },
   },
   async run({ $ }) {
-    const {
-      app,
-      ...params
-    } = this;
+    const params = {
+      start: this.start,
+      end: this.end,
+    };
+    if (this.eventTypeId) params.eventTypeId = this.eventTypeId;
+    if (this.eventTypeSlug) params.eventTypeSlug = this.eventTypeSlug;
+    if (this.username) params.username = this.username;
+    if (this.timeZone) params.timeZone = this.timeZone;
+    if (this.duration) params.duration = this.duration;
+    if (this.format) params.format = this.format;
+    if (this.bookingUidToReschedule) params.bookingUidToReschedule = this.bookingUidToReschedule;
 
-    const response = await app.getBookableSlots({
-      $,
+    const response = await this.calCom.getBookableSlots({
       params,
+      $,
     });
-
-    $.export("$summary", "Successfully retrieved bookable slots");
+    $.export("$summary", "Successfully retrieved available slots");
     return response;
   },
 };

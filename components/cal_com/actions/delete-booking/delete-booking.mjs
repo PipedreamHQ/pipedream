@@ -3,8 +3,8 @@ import calCom from "../../cal_com.app.mjs";
 export default {
   key: "cal_com-delete-booking",
   name: "Delete Booking",
-  description: "Delete an existing booking by its ID. [See the documentation](https://developer.cal.com/api/api-reference/bookings)",
-  version: "0.0.6",
+  description: "Delete an existing booking by its UID. [See the documentation](https://cal.com/docs/api-reference/v2/bookings/cancel-a-booking)",
+  version: "0.0.7",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -21,12 +21,29 @@ export default {
           filterCancelled: true,
         }),
       ],
-      description: "The identifier of the booking to delete",
+      description: "The UID of the booking to cancel",
+    },
+    cancellationReason: {
+      type: "string",
+      label: "Cancellation Reason",
+      description: "The reason for cancelling the booking",
+      optional: true,
+    },
+    cancelSubsequentBookings: {
+      type: "boolean",
+      label: "Cancel Subsequent Bookings",
+      description: "Whether to cancel all subsequent occurrences of a recurring booking",
+      optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.calCom.deleteBooking(this.bookingId, $);
-    $.export("$summary", `Successfully deleted booking with ID ${this.bookingId}`);
+    const data = {};
+    if (this.cancellationReason) data.cancellationReason = this.cancellationReason;
+    if (this.cancelSubsequentBookings !== undefined) {
+      data.cancelSubsequentBookings = this.cancelSubsequentBookings;
+    }
+    const response = await this.calCom.deleteBooking(this.bookingId, data, $);
+    $.export("$summary", `Successfully cancelled booking with UID ${this.bookingId}`);
     return response;
   },
 };

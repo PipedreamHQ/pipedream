@@ -2,9 +2,9 @@ import calCom from "../../cal_com.app.mjs";
 
 export default {
   key: "cal_com-get-all-bookings",
-  name: "Get All Bookings (v2)",
-  description: "Retrieve all bookings from Cal.com using API v2. [See the documentation](https://cal.com/docs/api-reference/v2/bookings/get-all-bookings)",
-  version: "0.0.2",
+  name: "Get All Bookings",
+  description: "Retrieve all bookings from Cal.com. [See the documentation](https://cal.com/docs/api-reference/v2/bookings/get-all-bookings)",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -44,7 +44,6 @@ export default {
       description: "Return bookings created after this time (ISO 8601)",
       optional: true,
     },
-
     beforeCreatedAt: {
       type: "string",
       label: "Before Created At",
@@ -64,17 +63,12 @@ export default {
       optional: true,
     },
     bookingUid: {
-      type: "string",
-      label: "Booking UID",
+      propDefinition: [
+        calCom,
+        "bookingId",
+      ],
       description: "Filter bookings by booking UID",
       optional: true,
-      async options() {
-        const { bookings = [] } = await this.calCom.listBookings();
-        return bookings.map((booking) => ({
-          label: booking.title,
-          value: booking.uid,
-        }));
-      },
     },
     eventTypeId: {
       propDefinition: [
@@ -115,21 +109,8 @@ export default {
       ],
     },
   },
-  methods: {
-    getAllBookingsV2(opts = {}) {
-      return this.calCom._makeRequest({
-        url: `https://${this.calCom.$auth.domain}/v2/bookings`,
-        headers: {
-          "cal-api-version": "2024-08-13",
-          "Authorization": `Bearer ${this.calCom.$auth.api_key}`,
-        },
-        ...opts,
-      });
-    },
-  },
   async run({ $ }) {
     const params = {};
-
     if (this.status?.length) params.status = this.status.join(",");
     if (this.afterStart) params.afterStart = this.afterStart;
     if (this.beforeEnd) params.beforeEnd = this.beforeEnd;
@@ -148,7 +129,7 @@ export default {
     const take = 100;
 
     while (true) {
-      const response = await this.getAllBookingsV2({
+      const response = await this.calCom.listBookings({
         $,
         params: {
           ...params,
@@ -160,14 +141,12 @@ export default {
       const bookings = response?.data ?? [];
       allBookings.push(...bookings);
 
-      const hasNextPage = response?.data?.pagination?.hasNextPage;
+      const hasNextPage = response?.pagination?.hasNextPage;
       if (!hasNextPage || bookings.length < take) break;
-
       skip += take;
     }
 
     $.export("$summary", `Retrieved ${allBookings.length} bookings`);
-
     return allBookings;
   },
 };
