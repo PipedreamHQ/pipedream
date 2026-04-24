@@ -38,7 +38,7 @@
     "mailparser": "^3.9.3",
     "mailparser-mit": "^1.0.0",
     "nanoid": "^5.0.4",
-    "uuid": "^9.0.1"
+    "uuid": "^14.0.0"
   },
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
   "publishConfig": {

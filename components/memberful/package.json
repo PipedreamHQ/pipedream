@@ -13,6 +13,6 @@
     "access": "public"
   },
   "dependencies": {
-    "uuid": "^9.0.0"
+    "uuid": "^14.0.0"
   }
 }

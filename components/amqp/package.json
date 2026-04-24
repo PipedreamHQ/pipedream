@@ -12,7 +12,7 @@
   "dependencies": {
     "@pipedream/platform": "^1.6.8",
     "rhea-promise": "^2.1.0",
-    "uuid": "^8.3.2"
+    "uuid": "^14.0.0"
   },
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
   "publishConfig": {

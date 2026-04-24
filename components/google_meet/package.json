@@ -15,6 +15,6 @@
   "dependencies": {
     "@googleapis/calendar": "^9.7.0",
     "moment-timezone": "^0.5.45",
-    "uuid": "^9.0.1"
+    "uuid": "^14.0.0"
   }
 }
