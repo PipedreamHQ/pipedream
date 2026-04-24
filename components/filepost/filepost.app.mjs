@@ -26,6 +26,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "A file path in `/tmp` (e.g. `/tmp/image.png`) or a public URL to upload to FilePost CDN.",
+      format: "file-ref",
     },
   },
   methods: {

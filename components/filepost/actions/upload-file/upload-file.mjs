@@ -21,6 +21,12 @@ export default {
         "filePath",
       ],
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   async run({ $ }) {
     const input = this.filePathOrUrl.trim();

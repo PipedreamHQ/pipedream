@@ -23,7 +23,6 @@ export default {
   async run({ $ }) {
     const response = await this.filepost.getFile({
       $,
-      debug: true,
       fileId: this.fileId,
     });
     $.export("$summary", `Retrieved file: ${response.url}`);
