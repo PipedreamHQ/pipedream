@@ -130,6 +130,23 @@ export default {
         .header("ConsistencyLevel", "eventual")
         .delete();
     },
+    createGroup({ data = {} } = {}) {
+      return this.client().api("/groups")
+        .header("ConsistencyLevel", "eventual")
+        .post(data);
+    },
+    updateGroup({
+      groupId, data = {},
+    } = {}) {
+      return this.client().api(`/groups/${groupId}`)
+        .header("ConsistencyLevel", "eventual")
+        .patch(data);
+    },
+    deleteGroup({ groupId } = {}) {
+      return this.client().api(`/groups/${groupId}`)
+        .header("ConsistencyLevel", "eventual")
+        .delete();
+    },
     /**
      * Paginate an OData collection via @odata.nextLink (dedupes repeated links, caps page count).
      * @param {Object} opts
