@@ -5,7 +5,7 @@ export default {
   key: "gmail-bulk-archive-emails",
   name: "Bulk Archive Emails",
   description: "Archive multiple emails at once. [See the documentation](https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.messages/batchModify)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
