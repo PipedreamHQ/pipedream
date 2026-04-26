@@ -160,6 +160,18 @@ export default {
         })) || [];
       },
     },
+    ticketStatusId: {
+      type: "string",
+      label: "Ticket Status ID",
+      description: "Optionally update the ticket status.",
+      optional: true,
+    },
+    attachments: {
+      type: "string[]",
+      label: "Attachments",
+      description: "File IDs to attach. All files must have the ticket as subject.",
+      optional: true,
+    },
     messageId: {
       type: "string",
       label: "Message ID",
@@ -419,6 +431,24 @@ export default {
     importMessage(args = {}) {
       return this._makeRequest({
         path: "/tickets.importMessage",
+        ...args,
+      });
+    },
+    addInternalMessage(args = {}) {
+      return this._makeRequest({
+        path: "/tickets.addInternalMessage",
+        ...args,
+      });
+    },
+    addReply(args = {}) {
+      return this._makeRequest({
+        path: "/tickets.addReply",
+        ...args,
+      });
+    },
+    updateTicket(args = {}) {
+      return this._makeRequest({
+        path: "/tickets.update",
         ...args,
       });
     },
