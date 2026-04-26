@@ -5,17 +5,17 @@ export default {
   key: "cal_com-booking-ended",
   name: "Booking Ended",
   description: "Emit new event when a booking ends.",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
     async emitHistoricalEvents(bookings) {
       const filteredBookings = bookings?.length > 0
-        ? bookings.filter((booking) => Date.parse(booking.endTime) < Date.now())
+        ? bookings.filter((booking) => Date.parse(booking.end) < Date.now())
         : [];
       for (const booking of filteredBookings.slice(-25)) {
-        const meta = this.generateMeta(booking, Date.parse(booking.endTime));
+        const meta = this.generateMeta(booking, Date.parse(booking.end));
         this.$emit(booking, meta);
       }
     },

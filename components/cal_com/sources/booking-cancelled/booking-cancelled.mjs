@@ -5,14 +5,14 @@ export default {
   key: "cal_com-booking-cancelled",
   name: "Booking Cancelled",
   description: "Emit new event when a booking is cancelled.",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
     async emitHistoricalEvents(bookings) {
       const filteredBookings = bookings?.length > 0
-        ? bookings.filter((booking) => booking.status === "CANCELLED")
+        ? bookings.filter((booking) => booking.status === "cancelled")
         : [];
       for (const booking of filteredBookings.slice(-25)) {
         const meta = this.generateMeta(booking, Date.now());
