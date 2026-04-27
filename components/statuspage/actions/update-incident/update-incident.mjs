@@ -9,7 +9,7 @@ export default {
     readOnlyHint: false,
   },
   key: "statuspage-update-incident",
-  description: "Updates an existing incident. [See docs here](https://developer.statuspage.io/#update-an-incident)",
+  description: "Updates an existing incident. [See the documentation](https://developer.statuspage.io/#update-an-incident)",
   type: "action",
   props: {
     statuspage,
@@ -39,19 +39,19 @@ export default {
       description: "The body of the update",
       type: "string",
     },
-    componentIds: {                        
-      label: "Component IDs",              
-      description: "The IDs of the components affected by this incident update",  
-      type: "string[]",                    
-      propDefinition: [                    
-        statuspage,                        
-        "componentId",                     
-        (c) => ({                          
-          pageId: c.pageId,               
-        }),                                
-      ],                                   
-      optional: true,                      
-    },                                     
+    componentIds: {
+      label: "Component IDs",
+      description: "The IDs of the components affected by this incident update (e.g., `[\"ftgks51sfs2d\", \"bb5w0kc1234x\"]`). Leave empty to keep the existing affected components unchanged.",
+      type: "string[]",
+      propDefinition: [
+        statuspage,
+        "componentId",
+        (c) => ({
+          pageId: c.pageId,
+        }),
+      ],
+      optional: true,
+    },
   },
   async run({ $ }) {
     const response = await this.statuspage.updateIncident({
@@ -63,8 +63,8 @@ export default {
           status: this.status,
           body: this.body,
           ...(this.componentIds?.length && {
-            component_ids: this.componentIds,  
-          }),                                  
+            component_ids: this.componentIds,
+          }),
         },
       },
     });
