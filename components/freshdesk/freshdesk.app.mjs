@@ -332,10 +332,12 @@ export default {
     base64Encode(data) {
       return Buffer.from(data).toString("base64");
     },
-    _getHeaders(headers = {}) {
+    _getHeaders(headers = {}, includeContentType = true) {
       return {
         "Authorization": "Basic " + this.base64Encode(this.$auth.api_key + ":X"),
-        "Content-Type": "application/json;charset=utf-8",
+        ...(includeContentType && {
+          "Content-Type": "application/json;charset=utf-8",
+        }),
         ...headers,
       };
     },
@@ -346,11 +348,17 @@ export default {
         : `${domain}.freshdesk.com`;
     },
     _makeRequest({
-      $ = this, headers, ...args
+      $ = this, method = "GET", headers, ...args
     }) {
+      const hasBody = [
+        "POST",
+        "PUT",
+        "PATCH",
+      ].includes(method.toUpperCase());
       return axios($, {
         baseURL: `https://${this._getDomain()}/api/v2`,
-        headers: this._getHeaders(headers),
+        headers: this._getHeaders(headers, hasBody),
+        method,
         ...args,
       });
     },

@@ -17,7 +17,7 @@ export default {
     + " **Search Logs** for deeper investigation."
     + " [See the docs](https://docs.datadoghq.com/api/"
     + "latest/events/#get-a-list-of-events)",
-  version: "0.0.2",
+  version: "1.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -1,11 +1,13 @@
 {
   "name": "@pipedream/loopmessage",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Pipedream LoopMessage Components",
   "main": "loopmessage.app.mjs",
   "keywords": [
     "pipedream",
-    "loopmessage"
+    "loopmessage",
+    "imessage",
+    "blue"
   ],
   "homepage": "https://pipedream.com/apps/loopmessage",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

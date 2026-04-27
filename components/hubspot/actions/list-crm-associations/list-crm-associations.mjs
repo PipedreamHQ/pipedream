@@ -8,7 +8,7 @@ export default {
     + " Returns associated record IDs and association types for each link."
     + " Direction matters: `from` is the record you are querying from; swap from/to to traverse the relationship the other way."
     + " [See the documentation](https://developers.hubspot.com/docs/api-reference/crm/associations-v4/basic/get-crm-v4-objects-objectType-objectId-associations-toObjectType)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

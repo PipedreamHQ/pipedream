@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/lever",
+  "version": "0.0.1",
+  "description": "Pipedream Lever (Hidden) Components",
+  "main": "lever.app.mjs",
+  "keywords": [
+    "pipedream",
+    "lever"
+  ],
+  "homepage": "https://pipedream.com/apps/lever",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

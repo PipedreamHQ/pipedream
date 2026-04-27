@@ -1,8 +1,10 @@
 # Overview
 
-The LoopMessage API offers you the ability to send, receive, and manage messages within your applications. Through Pipedream's integration, you can harness this API to automate communication processes, organize message flows, and even connect to various data sources or other APIs to create complex messaging workflows. With Pipedream, you can trigger actions based on events, schedule messages, and interact with users in real-time without managing servers or infrastructure.
+LoopMessage is an omnichannel messaging solution that allows you to receive and send messages across multiple channels: iMessage/SMS/RCS/WhatsApp. Through Pipedream's integration, you can harness this platform to automate communication processes, organize message flows, and even connect to various data sources or other APIs to create complex messaging workflows. With Pipedream, you can trigger actions based on events, schedule messages, and interact with users in real-time without managing servers or infrastructure.
 
 # Example Use Cases
+
+- **Building AI Assistants**: Create AI-powered chatbots that can respond to user queries, integrate with natural language processing (NLP) services, and provide personalized assistance.
 
 - **Automated Customer Support Tickets**: Automatically create customer support tickets in your helpdesk software when a message is received via LoopMessage. Use this to streamline support queries and ensure no customer message is overlooked.
 

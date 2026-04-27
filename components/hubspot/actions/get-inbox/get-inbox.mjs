@@ -4,7 +4,7 @@ export default {
   key: "hubspot-get-inbox",
   name: "Get Inbox",
   description: "Retrieves a single inbox by its ID. [See the documentation](https://developers.hubspot.com/docs/api-reference/conversations-conversations-inbox-&-messages-v3/public-inbox/get-conversations-v3-conversations-inboxes-inboxId)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: false,

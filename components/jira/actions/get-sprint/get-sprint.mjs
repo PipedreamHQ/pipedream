@@ -4,7 +4,7 @@ export default {
   key: "jira-get-sprint",
   name: "Get Sprint",
   description: "Returns the sprint for a given sprint ID. [See the documentation](https://developer.atlassian.com/cloud/jira/software/rest/api-group-sprint/#api-rest-agile-1-0-sprint-sprintid-get)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

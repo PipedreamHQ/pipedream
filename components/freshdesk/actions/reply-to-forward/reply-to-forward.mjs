@@ -5,7 +5,7 @@ export default {
   key: "freshdesk-reply-to-forward",
   name: "Reply to Forward",
   description: "Reply to a previously forwarded ticket email. [See the documentation](https://developers.freshdesk.com/api/#reply_to_forward).",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

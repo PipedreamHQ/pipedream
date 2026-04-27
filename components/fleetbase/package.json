@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/fleetbase",
+  "version": "0.0.1",
+  "description": "Pipedream Fleetbase Components",
+  "main": "fleetbase.app.mjs",
+  "keywords": [
+    "pipedream",
+    "fleetbase"
+  ],
+  "homepage": "https://pipedream.com/apps/fleetbase",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

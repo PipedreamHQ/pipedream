@@ -868,6 +868,21 @@ export default {
         ...args,
       });
     },
+    getServerInfo({
+      cloudId, ...args
+    } = {}) {
+      return this._makeRequest({
+        cloudId,
+        path: "/serverInfo",
+        ...args,
+      });
+    },
+    async getCloudBaseUrl(cloudId) {
+      const { baseUrl } = await this.getServerInfo({
+        cloudId,
+      });
+      return baseUrl;
+    },
     async *getResourcesStream({
       cloudId,
       resourceFn,

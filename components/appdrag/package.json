@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@pipedream/platform": "^1.6.8",
-    "axios": "1.14.0",
+    "axios": "1.15.0",
     "sqlstring": "^2.3.3"
   }
 }

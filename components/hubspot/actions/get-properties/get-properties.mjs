@@ -7,7 +7,7 @@ export default {
   name: "Get Properties",
   description:
     "Get detailed property definitions for specific properties on a CRM object type. Returns full metadata including data types, enum options with valid values, referenced object types, and read-only status. Use this after **Search Properties** to get valid values for specific fields (e.g. enum options for `dealstage` or `hs_pipeline`). Property details can be large — fetch only the properties you need rather than all of them. [See the documentation](https://developers.hubspot.com/docs/api/crm/properties)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

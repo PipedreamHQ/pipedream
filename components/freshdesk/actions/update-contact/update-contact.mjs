@@ -4,7 +4,7 @@ export default {
   key: "freshdesk-update-contact",
   name: "Update Contact",
   description: "Update a contact in Freshdesk. [See the documentation](https://developers.freshdesk.com/api/#update_contact)",
-  version: "0.0.7",
+  version: "0.0.8",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

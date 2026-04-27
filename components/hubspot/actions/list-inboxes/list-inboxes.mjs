@@ -4,7 +4,7 @@ export default {
   key: "hubspot-list-inboxes",
   name: "List Inboxes",
   description: "Retrieves a list of inboxes. [See the documentation](https://developers.hubspot.com/docs/api-reference/conversations-conversations-inbox-&-messages-v3/public-inbox/get-conversations-v3-conversations-inboxes)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: false,

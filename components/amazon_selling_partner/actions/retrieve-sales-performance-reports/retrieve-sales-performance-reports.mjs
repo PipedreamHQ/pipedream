@@ -5,7 +5,7 @@ export default {
   key: "amazon_selling_partner-retrieve-sales-performance-reports",
   name: "Retrieve Sales Performance Reports",
   description: "Fetches sales reports for visualization in third-party dashboarding tools. [See the documentation](https://developer-docs.amazon.com/sp-api/reference/getordermetrics)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

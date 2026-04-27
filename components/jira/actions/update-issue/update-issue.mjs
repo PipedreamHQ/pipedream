@@ -8,7 +8,7 @@ export default {
   key: "jira-update-issue",
   name: "Update Issue",
   description: "Updates an issue. A transition may be applied and issue properties updated as part of the edit. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-put)",
-  version: "0.2.22",
+  version: "0.2.23",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -198,11 +198,37 @@ export default {
       transition,
     });
 
+    let browserUrl;
+    let issueKey;
+    try {
+      const [
+        baseUrl,
+        issue,
+      ] = await Promise.all([
+        app.getCloudBaseUrl(cloudId),
+        app.getIssue({
+          $,
+          cloudId,
+          issueIdOrKey,
+          params: {
+            fields: "key",
+          },
+        }),
+      ]);
+      issueKey = issue.key;
+      browserUrl = baseUrl && issue.key
+        ? `${baseUrl}/browse/${issue.key}`
+        : undefined;
+    } catch (e) {
+      console.log("Could not enrich response with browser URL", e.message);
+    }
+
     $.export("$summary", `Issue with ID(or key): ${this.issueIdOrKey} has been updated.`);
 
     return {
       success: true,
-      issueIdOrKey,
+      issueIdOrKey: issueKey || issueIdOrKey,
+      browserUrl,
     };
   },
 };

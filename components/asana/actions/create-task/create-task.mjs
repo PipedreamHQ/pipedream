@@ -5,7 +5,7 @@ export default {
   key: "asana-create-task",
   name: "Create Task",
   description: "Creates a new task. [See the documentation](https://developers.asana.com/docs/create-a-task)",
-  version: "0.4.4",
+  version: "0.4.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

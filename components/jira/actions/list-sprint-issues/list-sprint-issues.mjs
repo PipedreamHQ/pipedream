@@ -4,7 +4,7 @@ export default {
   key: "jira-list-sprint-issues",
   name: "List Sprint Issues",
   description: "Returns all issues in a sprint. [See the documentation](https://developer.atlassian.com/cloud/jira/software/rest/api-group-sprint/#api-rest-agile-1-0-sprint-sprintid-issue-get)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -82,10 +82,28 @@ export default {
         expand: this.expand,
       },
     });
+    let baseUrl;
+    try {
+      baseUrl = await this.jira.getCloudBaseUrl(this.cloudId);
+    } catch (e) {
+      console.log("Could not enrich response with browser URL", e.message);
+    }
+    const issues = baseUrl && response.issues
+      ? response.issues.map((issue) => ({
+        ...issue,
+        browserUrl: issue.key
+          ? `${baseUrl}/browse/${issue.key}`
+          : undefined,
+      }))
+      : response.issues;
+
     const count = response?.issues?.length ?? 0;
     $.export("$summary", `Successfully retrieved ${count} issue${count !== 1
       ? "s"
       : ""} from sprint ${this.sprintId}`);
-    return response;
+    return {
+      ...response,
+      issues,
+    };
   },
 };

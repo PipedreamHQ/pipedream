@@ -302,8 +302,12 @@ async function stashFile(item, googleDrive, dir) {
     buffer.length,
   );
   // Return file details and temporary download link:
-  // { path, get_url, s3Key, type }
-  return await file.withoutPutUrl().withGetUrl();
+  // { fileId, path, get_url, s3Key, type }
+  const stashedFile = await file.withoutPutUrl().withGetUrl();
+  return {
+    fileId: item.id,
+    ...stashedFile,
+  };
 }
 
 export {
