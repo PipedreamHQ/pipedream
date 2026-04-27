@@ -1,12 +1,18 @@
 /**
  * Standard list of contact fields to include in client output.
  * Edit this array to add/remove fields returned from get-contact, create-contact, etc.
+ *
+ * Nutshell getContact / full Contact _render() uses "email" and "phone" (object maps);
+ * search stubs may expose primaryEmail, primaryPhone, emails, or phones. We keep
+ * both shapes so all callers receive what the API returns.
  */
 export const CONTACT_OUTPUT_FIELDS = [
   "id",
   "name",
   "entityType",
+  "email",
   "emails",
+  "phone",
   "phones",
   "primaryEmail",
   "primaryPhone",
