@@ -10,7 +10,6 @@ export default {
     readOnlyHint: false,
     openWorldHint: true,
     destructiveHint: false,
-    idempotentHint: false,
   },
   props: {
     docuwriterAi,

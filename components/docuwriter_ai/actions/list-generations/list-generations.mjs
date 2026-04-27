@@ -16,7 +16,7 @@ export default {
     type: {
       type: "string",
       label: "Generation Type",
-      description: "Filter by generation type",
+      description: "Filter by generation type (e.g., `documentation`, `tests`, `optimizer`)",
       optional: true,
     },
     archived: {

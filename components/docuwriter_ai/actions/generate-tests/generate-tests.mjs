@@ -10,7 +10,6 @@ export default {
     readOnlyHint: false,
     openWorldHint: true,
     destructiveHint: false,
-    idempotentHint: false,
   },
   props: {
     docuwriterAi,
@@ -29,13 +28,13 @@ export default {
     testFramework: {
       type: "string",
       label: "Test Framework",
-      description: "The test framework to use (e.g., `PHPUnit`, `Jest`, `Pytest`)",
+      description: "Optional hint for the test framework (e.g., `phpunit`, `jest`). Defaults to auto-detect.",
       optional: true,
     },
     testType: {
       type: "string",
       label: "Test Type",
-      description: "The type of tests to generate (e.g., `unit`, `integration`)",
+      description: "Optional hint for the type of tests to generate (e.g., `unit tests`, `integration tests`). Defaults to `unit tests`.",
       optional: true,
     },
   },
