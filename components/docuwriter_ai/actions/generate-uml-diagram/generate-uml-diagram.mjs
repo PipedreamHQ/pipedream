@@ -4,7 +4,7 @@ export default {
   key: "docuwriter_ai-generate-uml-diagram",
   name: "Generate UML Diagram",
   description: "Generate a UML diagram from source code using Mermaid syntax. Consumes 1 credit per call. Requires workflow timeout of 5+ minutes for large files. [See the documentation](https://docs.docuwriter.ai/docuwriterai-api-docs/92070)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     readOnlyHint: false,
