@@ -5,11 +5,17 @@
  * Nutshell getContact / full Contact _render() uses "email" and "phone" (object maps);
  * search stubs may expose primaryEmail, primaryPhone, emails, or phones. We keep
  * both shapes so all callers receive what the API returns.
+ *
+ * Pipeline-specific custom fields from findCustomFields are returned under customFields
+ * when present on the entity. Other documented pass-through fields below avoid dropping
+ * RPC data (same pattern as email/phone).
  */
 export const CONTACT_OUTPUT_FIELDS = [
   "id",
   "name",
   "entityType",
+  "rev",
+  "htmlUrl",
   "email",
   "emails",
   "phone",
@@ -18,6 +24,10 @@ export const CONTACT_OUTPUT_FIELDS = [
   "primaryPhone",
   "description",
   "address",
+  "url",
+  "tags",
+  "notes",
+  "territory",
   "createdTime",
   "modifiedTime",
   "lastContactedDate",

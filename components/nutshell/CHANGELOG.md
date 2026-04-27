@@ -2,6 +2,13 @@
 
 # Changelog
 
+## [0.2.2] - 2026-04-28
+
+### Fixed
+
+- **Output allowlists (MCP / all get and update actions using formatters):** Expanded pass-through fields to match Nutshell RPC `Lead`, `Contact`, and `Account` renders so we do not drop documented fields the way we previously dropped `email`/`phone`. Leads now include `value` (not only `estimatedValue`), `primaryContact` (formatted like contacts), `accounts`, `sources`, `milestone`, `stageset`, and other common top-level keys; contacts and companies include `rev`, `htmlUrl`, `tags`, `notes`, `territory`, and `url` where applicable. `formatPrimaryAccount` (for `primaryAccount` on leads) now includes `email`/`phone`/`url` so account email is not stripped.
+- **Custom fields:** `customFields` was already allowlisted; docs in code now state that pipeline custom fields from `findCustomFields` are returned under `customFields` when the API includes them.
+
 ## [0.2.1] - 2026-04-28
 
 ### Fixed

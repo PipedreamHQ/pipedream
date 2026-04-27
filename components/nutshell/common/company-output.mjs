@@ -6,11 +6,15 @@ import { formatContact } from "./contact-output.mjs";
  *
  * Nutshell getAccount / full Account _render() uses "email" and "phone" (object maps);
  * older or stub responses may use "emails" / "phones". We include both.
+ *
+ * Custom fields from findCustomFields appear under customFields when the API returns them.
  */
 export const COMPANY_OUTPUT_FIELDS = [
   "id",
   "name",
   "entityType",
+  "rev",
+  "htmlUrl",
   "industry",
   "accountType",
   "territory",
@@ -21,6 +25,7 @@ export const COMPANY_OUTPUT_FIELDS = [
   "phone",
   "phones",
   "address",
+  "tags",
   "createdTime",
   "modifiedTime",
   "contacts",
