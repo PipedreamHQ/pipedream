@@ -2,6 +2,12 @@
 
 # Changelog
 
+## [0.2.3] - 2026-04-28
+
+### Changed
+
+- Bumped the component `version` on every Nutshell action (including search and create) so the Pipedream PR check (shared `common` changes require a registry version bump) is satisfied for all entry points that import the app.
+
 ## [0.2.2] - 2026-04-28
 
 ### Fixed
