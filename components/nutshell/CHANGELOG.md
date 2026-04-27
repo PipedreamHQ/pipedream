@@ -2,6 +2,12 @@
 
 # Changelog
 
+## [0.2.4] - 2026-04-28
+
+### Changed
+
+- Bumped `version` on Nutshell **sources** (new-lead, new-person, lead-won) to satisfy the component PR check when `common` changes affect the shared app.
+
 ## [0.2.3] - 2026-04-28
 
 ### Changed
