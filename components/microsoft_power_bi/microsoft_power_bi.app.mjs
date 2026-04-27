@@ -46,32 +46,33 @@ export default {
       label: "Rows",
       description: "An array of data rows to add to the dataset table. Each element should be a JSON object represented using key-value format.",
     },
-    refreshId: {
-      type: "string",
-      label: "Refresh ID",
-      description: "Select a refresh operation or provide a custom ID. Refreshes that have already been completed are not listed.",
-      async options({ datasetId }) {
-        const refreshes = await this.getRefreshHistory({
-          datasetId,
-        });
-        return refreshes?.filter?.(({ status }) => status !== "Completed").map(({
-          requestId, startTime, status,
-        }) => ({
-          label: `${startTime} (${status})`,
-          value: requestId,
-        }));
-      },
-    },
     customDatasetId: {
       type: "string",
       label: "Custom Dataset ID",
       description: "You may enter a Dataset ID directly. Either Dataset ID or Custom Dataset ID must be entered.",
       optional: true,
     },
+    workspaceId: {
+      type: "string",
+      label: "Workspace ID",
+      description: "ID of the workspace. Use **List Workspaces** to find IDs. Omit to target My workspace.",
+      optional: true,
+    },
+    workspaceName: {
+      type: "string",
+      label: "Workspace Name",
+      description: "Name of the workspace (alternative to `workspaceId`). Resolved via **List Workspaces**.",
+      optional: true,
+    },
   },
   methods: {
     _baseUrl() {
       return "https://api.powerbi.com/v1.0/myorg";
+    },
+    _groupPrefix(groupId) {
+      return groupId
+        ? `/groups/${groupId}`
+        : "";
     },
     async _makeRequest({
       $ = this, path, headers, ...otherOpts
@@ -90,55 +91,103 @@ export default {
         throw new ConfigurationError(error.message);
       }
     },
+    async resolveGroupId({
+      $, workspaceId, workspaceName,
+    }) {
+      if (workspaceId) return workspaceId;
+      if (!workspaceName) return undefined;
+      const groups = await this.listGroups({
+        $,
+      });
+      const match = groups.find(({ name }) => name === workspaceName);
+      if (!match) {
+        throw new ConfigurationError(`No workspace found with name "${workspaceName}". Use the List Workspaces tool to see accessible workspaces.`);
+      }
+      return match.id;
+    },
+    async listGroups({ $ } = {}) {
+      const response = await this._makeRequest({
+        $,
+        method: "GET",
+        path: "/groups",
+      });
+      return response.value;
+    },
+    async listReports({
+      $, groupId,
+    } = {}) {
+      const response = await this._makeRequest({
+        $,
+        method: "GET",
+        path: `${this._groupPrefix(groupId)}/reports`,
+      });
+      return response.value;
+    },
+    async listDatasets({
+      $, groupId,
+    } = {}) {
+      const response = await this._makeRequest({
+        $,
+        method: "GET",
+        path: `${this._groupPrefix(groupId)}/datasets`,
+      });
+      return response.value;
+    },
+    async listDashboards({
+      $, groupId,
+    } = {}) {
+      const response = await this._makeRequest({
+        $,
+        method: "GET",
+        path: `${this._groupPrefix(groupId)}/dashboards`,
+      });
+      return response.value;
+    },
     addRowsToTable({
-      datasetId, tableName, ...args
+      $, datasetId, tableName, groupId, ...args
     }) {
       return this._makeRequest({
+        $,
         method: "POST",
-        path: `/datasets/${datasetId}/tables/${tableName}/rows`,
+        path: `${this._groupPrefix(groupId)}/datasets/${datasetId}/tables/${tableName}/rows`,
         ...args,
       });
     },
     refreshDataset({
-      datasetId, ...args
+      $, datasetId, groupId, ...args
     }) {
       return this._makeRequest({
+        $,
         method: "POST",
-        path: `/datasets/${datasetId}/refreshes`,
-        ...args,
-      });
-    },
-    cancelRefresh({
-      datasetId, refreshId, ...args
-    }) {
-      return this._makeRequest({
-        method: "DELETE",
-        path: `/datasets/${datasetId}/refreshes/${refreshId}`,
+        path: `${this._groupPrefix(groupId)}/datasets/${datasetId}/refreshes`,
         ...args,
       });
     },
     async getRefreshHistory({
-      datasetId, ...args
+      $, datasetId, groupId, ...args
     }) {
       const response = await this._makeRequest({
+        $,
         method: "GET",
-        path: `/datasets/${datasetId}/refreshes`,
+        path: `${this._groupPrefix(groupId)}/datasets/${datasetId}/refreshes`,
         ...args,
       });
       return response.value;
     },
     async getTables({
-      datasetId, ...args
+      $, datasetId, groupId, ...args
     }) {
       const response = await this._makeRequest({
+        $,
         method: "GET",
-        path: `/datasets/${datasetId}/tables`,
+        path: `${this._groupPrefix(groupId)}/datasets/${datasetId}/tables`,
         ...args,
       });
       return response.value;
     },
-    async getDatasets() {
+    async getDatasets({ $ } = {}) {
       const response = await this._makeRequest({
+        $,
         method: "GET",
         path: "/datasets/",
       });
@@ -149,6 +198,46 @@ export default {
         method: "POST",
         path: "/datasets",
         ...args,
+      });
+    },
+    executeQueries({
+      $, datasetId, groupId, data,
+    }) {
+      return this._makeRequest({
+        $,
+        method: "POST",
+        path: `${this._groupPrefix(groupId)}/datasets/${datasetId}/executeQueries`,
+        data,
+      });
+    },
+    startReportExport({
+      $, reportId, groupId, data,
+    }) {
+      return this._makeRequest({
+        $,
+        method: "POST",
+        path: `${this._groupPrefix(groupId)}/reports/${reportId}/ExportTo`,
+        data,
+      });
+    },
+    getReportExportStatus({
+      $, reportId, exportId, groupId,
+    }) {
+      return this._makeRequest({
+        $,
+        method: "GET",
+        path: `${this._groupPrefix(groupId)}/reports/${reportId}/exports/${exportId}`,
+      });
+    },
+    getReportExportFile({
+      $, reportId, exportId, groupId,
+    }) {
+      return this._makeRequest({
+        $,
+        method: "GET",
+        path: `${this._groupPrefix(groupId)}/reports/${reportId}/exports/${exportId}/file`,
+        responseType: "arraybuffer",
+        returnFullResponse: true,
       });
     },
   },
