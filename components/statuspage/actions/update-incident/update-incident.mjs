@@ -2,7 +2,7 @@ import statuspage from "../../statuspage.app.mjs";
 
 export default {
   name: "Update Incident",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -39,6 +39,19 @@ export default {
       description: "The body of the update",
       type: "string",
     },
+    componentIds: {                        
+      label: "Component IDs",              
+      description: "The IDs of the components affected by this incident update",  
+      type: "string[]",                    
+      propDefinition: [                    
+        statuspage,                        
+        "componentId",                     
+        (c) => ({                          
+          pageId: c.pageId,               
+        }),                                
+      ],                                   
+      optional: true,                      
+    },                                     
   },
   async run({ $ }) {
     const response = await this.statuspage.updateIncident({
@@ -49,6 +62,9 @@ export default {
         incident: {
           status: this.status,
           body: this.body,
+          ...(this.componentIds?.length && {
+            component_ids: this.componentIds,  
+          }),                                  
         },
       },
     });
