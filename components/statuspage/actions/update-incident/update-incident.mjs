@@ -4,7 +4,7 @@ export default {
   name: "Update Incident",
   version: "0.0.5",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
