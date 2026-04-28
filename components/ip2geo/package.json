@@ -1,7 +1,7 @@
 {
   "name": "@pipedream/ip2geo",
-  "version": "0.0.1",
-  "description": "Pipedream ip2geo Components",
+  "version": "0.1.0",
+  "description": "Pipedream Ip2Geo Components",
   "main": "ip2geo.app.mjs",
   "keywords": [
     "pipedream",
