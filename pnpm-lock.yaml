@@ -3588,6 +3588,8 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
+  components/corporate_merch: {}
+
   components/corrently: {}
 
   components/corsizio:
@@ -7935,6 +7937,12 @@ importers:
   components/invoicing_plus: {}
 
   components/ionos_hosting_services: {}
+
+  components/ip2geo:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.3.1
 
   components/ip2location:
     dependencies:
