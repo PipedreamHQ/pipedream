@@ -7941,6 +7941,9 @@ importers:
 
   components/ionos_hosting_services: {}
 
+  components/ip2geo:
+    specifiers: {}
+
   components/ip2location:
     dependencies:
       '@pipedream/platform':

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/ip2geo",
+  "version": "0.0.1",
+  "description": "Pipedream Ip2Geo Components",
+  "main": "ip2geo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ip2geo"
+  ],
+  "homepage": "https://pipedream.com/apps/ip2geo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
