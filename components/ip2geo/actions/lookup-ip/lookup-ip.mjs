@@ -9,7 +9,7 @@ export default {
     readOnlyHint: true,
   },
   key: "ip2geo-lookup-ip",
-  description: "Convert an IP address into geolocation data including city, country, timezone, ASN, and currency. [See docs](https://ip2geo.dev/docs)",
+  description: "Convert an IP address into geolocation data including city, country, timezone, ASN, and currency. [See the documentation](https://docs.ip2geo.dev/api/convert-ip)",
   type: "action",
   props: {
     ip2geo,
