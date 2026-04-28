@@ -5,7 +5,7 @@ export default {
   key: "shopify_developer_app-search-orders",
   name: "Search for Orders",
   description: "Search for an order or a list of orders. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/queries/orders)",
-  version: "0.0.8",
+  version: "0.0.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

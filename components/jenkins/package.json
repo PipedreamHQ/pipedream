@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/jenkins",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Jenkins Components",
   "main": "jenkins.app.mjs",
   "keywords": [
@@ -14,6 +14,6 @@
   },
   "dependencies": {
     "@pipedream/platform": "^3.1.1",
-    "fast-xml-parser": "^5.5.7"
+    "fast-xml-parser": "^5.7.0"
   }
 }
