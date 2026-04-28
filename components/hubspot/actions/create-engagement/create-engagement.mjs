@@ -114,7 +114,7 @@ export default {
       );
     }
 
-    if ((toObjectId && (associationType === undefined || associationType === null || associationType === "")) || (!toObjectId && associationType !== undefined && associationType !== null && associationType !== "")) {
+    if ((toObjectId && !associationType) || (!toObjectId && associationType)) {
       throw new ConfigurationError(
         "Both **Associated Object ID** and **Association Type ID** must be set together, or both omitted.",
       );
@@ -128,13 +128,13 @@ export default {
 
     const objectType = this.getObjectType();
 
-    const associationTypeId = associationType !== undefined && associationType !== null && associationType !== ""
+    const associationTypeId = associationType
       ? Number(associationType)
       : undefined;
 
-    if (toObjectId && Number.isNaN(associationTypeId)) {
+    if (toObjectId && (Number.isNaN(associationTypeId) || associationTypeId <= 0)) {
       throw new ConfigurationError(
-        "`associationType` must be a numeric HubSpot association type ID.",
+        "`associationType` must be a positive numeric HubSpot association type ID.",
       );
     }
 
@@ -142,7 +142,7 @@ export default {
       ? [
         {
           to: {
-            id: String(toObjectId),
+            id: toObjectId,
           },
           types: [
             {
@@ -166,7 +166,7 @@ export default {
     );
 
     const objectName = hubspot.getObjectTypeName(objectType);
-    $.export("$summary", `Successfully created ${objectName}`);
+    $.export("$summary", `Successfully created ${objectName} with ID ${engagement.id}`);
 
     return engagement;
   },
