@@ -534,6 +534,12 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/agify:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
+
   components/agile_crm:
     dependencies:
       '@pipedream/platform':
@@ -10233,6 +10239,12 @@ importers:
   components/nasa: {}
 
   components/nasdaq_data_link_time_series_and_table_data_:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
+
+  components/nationalize:
     dependencies:
       '@pipedream/platform':
         specifier: ^3.1.1
