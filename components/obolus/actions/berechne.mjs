@@ -1,17 +1,6 @@
 import { ConfigurationError } from "@pipedream/platform";
 import obolus from "../app/obolus.app.mjs";
 
-const COUNTRY_OPTIONS = [
-  "DE",
-  "AT",
-  "US",
-  "CH",
-  "CA",
-  "AU",
-  "UK",
-  "IE",
-];
-
 const PERSON_ADVANCED_FIELDS = [
   {
     prop: "bundesland",
@@ -132,22 +121,6 @@ function buildPersonAdvancedOverrides(ctx, prefix) {
   }, {});
 }
 
-function parseOptionalObject(rawValue, label) {
-  if (!rawValue) {
-    return {};
-  }
-
-  try {
-    const parsed = JSON.parse(rawValue);
-    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
-      throw new Error("must be a JSON object");
-    }
-    return parsed;
-  } catch (error) {
-    throw new ConfigurationError(`${label} must be a valid JSON object. ${error.message}`);
-  }
-}
-
 function toMinorUnits(value, label, { optional = false } = {}) {
   if (value === undefined || value === null || value === "") {
     if (optional) {
@@ -187,11 +160,10 @@ export default {
   props: {
     obolus,
     country: {
-      type: "string",
-      label: "Country",
-      description: "Root country code for the calculation, e.g. DE.",
-      options: COUNTRY_OPTIONS,
-      default: "DE",
+      propDefinition: [
+        obolus,
+        "country",
+      ],
     },
     taxYear: {
       type: "integer",
@@ -337,15 +309,15 @@ export default {
     return props;
   },
   async run({ $ }) {
-    const requestOverrides = parseOptionalObject(this.requestOverrides, "Top-Level JSON Overrides");
+    const requestOverrides = this.obolus.parseJsonObject(this.requestOverrides, "Top-Level JSON Overrides");
     const person1DirectOverrides = buildPersonAdvancedOverrides(this, "person1");
     const person2DirectOverrides = buildPersonAdvancedOverrides(this, "person2");
     const person1Overrides = {
-      ...parseOptionalObject(this.person1Overrides, "Person 1 JSON Overrides"),
+      ...this.obolus.parseJsonObject(this.person1Overrides, "Person 1 JSON Overrides"),
       ...person1DirectOverrides,
     };
     const person2Overrides = {
-      ...parseOptionalObject(this.person2Overrides, "Person 2 JSON Overrides"),
+      ...this.obolus.parseJsonObject(this.person2Overrides, "Person 2 JSON Overrides"),
       ...person2DirectOverrides,
     };
 
@@ -372,8 +344,8 @@ export default {
         optional: true,
       });
       const person2 = {
-        Land: this.country,
         ...person2Overrides,
+        Land: this.country,
       };
 
       setIfDefined(person2, "Gehalt_ct", person2GrossMinor);

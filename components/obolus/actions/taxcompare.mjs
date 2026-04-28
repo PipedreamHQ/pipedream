@@ -1,33 +1,6 @@
 import { ConfigurationError } from "@pipedream/platform";
 import obolus from "../app/obolus.app.mjs";
 
-const COUNTRY_OPTIONS = [
-  "DE",
-  "AT",
-  "US",
-  "CH",
-  "CA",
-  "AU",
-  "UK",
-  "IE",
-];
-
-function parseOptionalObject(rawValue, label) {
-  if (!rawValue) {
-    return {};
-  }
-
-  try {
-    const parsed = JSON.parse(rawValue);
-    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
-      throw new Error("must be a JSON object");
-    }
-    return parsed;
-  } catch (error) {
-    throw new ConfigurationError(`${label} must be a valid JSON object. ${error.message}`);
-  }
-}
-
 export default {
   key: "obolus-taxcompare",
   name: "Compare Salary Across Countries",
@@ -78,10 +51,13 @@ export default {
       default: "eur",
     },
     countries: {
+      propDefinition: [
+        obolus,
+        "country",
+      ],
       type: "string[]",
       label: "Countries",
       description: "Country codes to compare, e.g. DE, AT, CH, AU.",
-      options: COUNTRY_OPTIONS,
       default: [
         "DE",
         "AT",
@@ -125,7 +101,7 @@ export default {
     };
   },
   async run({ $ }) {
-    const requestOverrides = parseOptionalObject(this.requestOverrides, "JSON Overrides");
+    const requestOverrides = this.obolus.parseJsonObject(this.requestOverrides, "JSON Overrides");
     const effectiveAnnualGross = this.annualGross ?? requestOverrides.annual_gross;
     const effectiveChildren = this.children ?? requestOverrides.children;
 

@@ -1,4 +1,7 @@
-import { axios } from "@pipedream/platform";
+import {
+  axios,
+  ConfigurationError,
+} from "@pipedream/platform";
 
 const BASE_URL = "https://www.obolusfinanz.de/api";
 
@@ -6,15 +9,39 @@ export default {
   type: "app",
   app: "obolus",
   propDefinitions: {
-    apiKey: {
+    country: {
       type: "string",
-      label: "API Key",
-      description: "Optional public API key for Obolus",
-      secret: true,
-      optional: true,
+      label: "Country",
+      description: "Country code for the calculation, e.g. DE.",
+      options: [
+        "DE",
+        "AT",
+        "US",
+        "CH",
+        "CA",
+        "AU",
+        "UK",
+        "IE",
+      ],
+      default: "DE",
     },
   },
   methods: {
+    parseJsonObject(rawValue, label) {
+      if (!rawValue) {
+        return {};
+      }
+
+      try {
+        const parsed = JSON.parse(rawValue);
+        if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+          throw new Error("must be a JSON object");
+        }
+        return parsed;
+      } catch (error) {
+        throw new ConfigurationError(`${label} must be a valid JSON object. ${error.message}`);
+      }
+    },
     _getHeaders() {
       return {
         "Content-Type": "application/json",
