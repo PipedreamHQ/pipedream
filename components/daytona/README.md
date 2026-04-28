@@ -47,3 +47,27 @@ Daytona uses API key-based authentication. To connect your Daytona account:
 - [Daytona Dashboard](https://app.daytona.io)
 - [Daytona TypeScript SDK](https://www.daytona.io/docs/en/typescript-sdk)
 - [API Reference](https://www.daytona.io/docs/en/tools/api)
+
+# Troubleshooting
+
+## Toolbox actions fail with a validation error
+
+Actions that interact with a running sandbox (Run Code, Run Command, Clone Git Repository, Get Preview Link) require the sandbox to be in a **started** state. If your sandbox has auto-stopped due to inactivity, add a **Start Sandbox** step before these actions in your workflow.
+
+## Clone Git Repository returns a 400 error
+
+The destination path likely already exists in the sandbox from a previous run. Use a unique path for each execution, or add a **Run Command** step before the clone to remove the existing directory:
+
+```bash
+rm -rf /path/to/destination
+```
+
+## Private repository clone fails with authentication error
+
+Ensure you are passing your Git **username** (not email) and a valid **personal access token (PAT)** with repository read access in the **Password / Token** field — not your account password.
+
+GitHub **fine-grained tokens** may not work reliably with git operations over HTTPS. If cloning fails, use a **classic token** instead: go to **GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic)** and generate one with the `repo` scope.
+
+## API key errors
+
+Verify your API key is valid and has not expired at [app.daytona.io/dashboard/keys](https://app.daytona.io/dashboard/keys). API keys can be scoped — ensure the key has permissions for the operations you are performing (e.g., `write:sandboxes` to create sandboxes).
