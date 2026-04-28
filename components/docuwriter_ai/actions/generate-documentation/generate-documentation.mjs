@@ -28,14 +28,14 @@ export default {
     outputLanguage: {
       type: "string",
       label: "Output Language",
-      description: "The language for the generated documentation",
+      description: "Language for generated docs (e.g., `English`, `Spanish`, `German`)",
       optional: true,
       default: "English",
     },
     documentationType: {
       type: "string",
       label: "Documentation Type",
-      description: "The type of documentation to generate",
+      description: "Documentation style to generate (e.g., `General Documentation`, `API Reference`, `Inline Comments`)",
       optional: true,
       default: "General Documentation",
     },
