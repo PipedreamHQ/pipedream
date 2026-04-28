@@ -5,7 +5,7 @@ export default {
   key: "shopify-update-order",
   name: "Update Order",
   description: "Update an existing order. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/orderupdate)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

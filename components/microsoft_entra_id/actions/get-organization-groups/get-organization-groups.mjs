@@ -4,7 +4,7 @@ export default {
   key: "microsoft_entra_id-get-organization-groups",
   name: "Get Organization Groups",
   description: "List all groups in the organization (excluding dynamic distribution groups). [See the documentation](https://learn.microsoft.com/en-us/graph/api/group-list?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
