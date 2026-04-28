@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/nationalize",
+  "version": "0.0.1",
+  "description": "Pipedream Nationalize Components",
+  "main": "nationalize.app.mjs",
+  "keywords": [
+    "pipedream",
+    "nationalize"
+  ],
+  "homepage": "https://pipedream.com/apps/nationalize",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
