@@ -4007,6 +4007,9 @@ importers:
       '@daytonaio/sdk':
         specifier: ^0.138.0
         version: 0.138.0(ws@8.18.3)
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.3.1
 
   components/dbt:
     dependencies:

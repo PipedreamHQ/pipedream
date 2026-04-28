@@ -4,12 +4,12 @@ export default {
   key: "daytona-wait-until-stopped",
   name: "Wait Until Stopped",
   description: "Wait for Sandbox to reach 'stopped' state. [See the documentation](https://www.daytona.io/docs/en/typescript-sdk/sandbox/#waituntilstopped)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
-    readOnlyHint: false,
+    readOnlyHint: true,
   },
   props: {
     daytona,
