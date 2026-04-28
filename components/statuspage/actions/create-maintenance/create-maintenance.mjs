@@ -151,10 +151,12 @@ export default {
           deliver_notifications: this.deliverNotifications,
           scheduled_remind_prior: this.scheduledRemindPrior,
           scheduled_auto_in_progress: this.scheduledAutoInProgress,
-          auto_transition_deliver_notifications_at_start: this.autoTransitionDeliverNotificationsAtStart,
+          auto_transition_deliver_notifications_at_start: // changed — split for max-len
+            this.autoTransitionDeliverNotificationsAtStart,
           auto_transition_to_maintenance_state: this.autoTransitionToMaintenanceState,
           scheduled_auto_completed: this.scheduledAutoCompleted,
-          auto_transition_deliver_notifications_at_end: this.autoTransitionDeliverNotificationsAtEnd,
+          auto_transition_deliver_notifications_at_end: // changed — split for max-len
+            this.autoTransitionDeliverNotificationsAtEnd,
           auto_transition_to_operational_state: this.autoTransitionToOperationalState,
           auto_tweet_on_creation: this.autoTweetOnCreation,
           auto_tweet_one_hour_before: this.autoTweetOneHourBefore,
