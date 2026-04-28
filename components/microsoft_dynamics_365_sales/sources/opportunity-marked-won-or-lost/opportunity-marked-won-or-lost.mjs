@@ -5,7 +5,7 @@ export default {
   key: "microsoft_dynamics_365_sales-opportunity-marked-won-or-lost",
   name: "Opportunity Marked Won or Lost",
   description: "Emit new event when an opportunity is marked as won or lost.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   props: {
