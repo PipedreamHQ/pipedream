@@ -7,7 +7,7 @@ export default {
   key: "microsoft_outlook_calendar-list-events",
   name: "List Events",
   description: "Get a list of event objects in the user's mailbox. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list-events)",
-  version: "0.0.12",
+  version: "0.0.13",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -67,22 +67,43 @@ export default {
       const params = {
         "$orderby": this.orderBy,
         "$filter": this.filter,
-        "$top": maxResults,
+        "$top": PAGE_SIZE,
         startDateTime,
         endDateTime,
       };
-      const { value = [] } = await this.microsoftOutlook.listCalendarView({
-        $,
-        params,
-      });
-      $.export("$summary", `Successfully retrieved ${value.length} event${value.length === 1
+
+      const events = [];
+      let nextLink = null;
+
+      do {
+        const response = nextLink
+          ? await this.microsoftOutlook.listCalendarEventsPage({
+            $,
+            url: nextLink,
+          })
+          : await this.microsoftOutlook.listCalendarView({
+            $,
+            params,
+          });
+
+        for (const event of (response.value ?? [])) {
+          events.push(event);
+          if (maxResults && events.length >= maxResults) break;
+        }
+
+        nextLink = (maxResults && events.length >= maxResults)
+          ? null
+          : response["@odata.nextLink"];
+      } while (nextLink);
+
+      $.export("$summary", `Successfully retrieved ${events.length} event${events.length === 1
         ? ""
         : "s"}`);
-      return value;
+      return events;
     }
 
     const filterParts = [];
-    if (this.filter) filterParts.push(this.filter);
+    if (this.filter) filterParts.push(`(${this.filter})`);
     if (startDateTime) filterParts.push(`start/dateTime ge '${startDateTime}'`);
     if (endDateTime) filterParts.push(`end/dateTime le '${endDateTime}'`);
 
