@@ -51,13 +51,13 @@ export default {
       description: "Move the course to a different category",
       optional: true,
     },
-    startdate: {
+    startDate: {
       type: "integer",
       label: "Start Date",
       description: "The updated course start date as a Unix timestamp",
       optional: true,
     },
-    enddate: {
+    endDate: {
       type: "integer",
       label: "End Date",
       description: "The updated course end date as a Unix timestamp",
@@ -78,8 +78,8 @@ export default {
             ? 1
             : 0,
         "courses[0][categoryid]": this.categoryId,
-        "courses[0][startdate]": this.startdate,
-        "courses[0][enddate]": this.enddate,
+        "courses[0][startdate]": this.startDate,
+        "courses[0][enddate]": this.endDate,
       },
     });
     $.export("$summary", `Successfully updated course ${this.courseId}`);
