@@ -28,7 +28,7 @@ export default {
     diagramType: {
       type: "string",
       label: "Diagram Type",
-      description: "The type of UML diagram to generate",
+      description: "UML diagram type to generate (e.g., `Class Diagrams`, `Sequence Diagrams`, `Activity Diagrams`)",
       options: [
         "Class Diagrams",
         "Sequence Diagrams",
