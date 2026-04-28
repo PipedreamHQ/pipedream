@@ -167,10 +167,10 @@ export default {
       // Custom image — attach resources only if at least one field is set
       const resources = (this.cpu || this.memory || this.disk)
         ? {
-            cpu: this.cpu,
-            memory: this.memory,
-            disk: this.disk,
-          }
+          cpu: this.cpu,
+          memory: this.memory,
+          disk: this.disk,
+        }
         : undefined;
       params = {
         ...baseParams,
