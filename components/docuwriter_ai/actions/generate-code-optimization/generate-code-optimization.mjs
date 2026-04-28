@@ -3,7 +3,7 @@ import docuwriterAi from "../../docuwriter_ai.app.mjs";
 export default {
   key: "docuwriter_ai-generate-code-optimization",
   name: "Generate Code Optimization",
-  description: "Generate optimization suggestions and improved code for a source file. Consumes 1 credit per call. Requires workflow timeout of 5+ minutes for large files. [See the documentation](https://docs.docuwriter.ai/docuwriterai-api-docs/92062)",
+  description: "Generate optimization suggestions and improved code for a source file. Consumes 1 Docuwriter credit. Requires workflow timeout of 5+ minutes for large files. [See the documentation](https://docs.docuwriter.ai/docuwriterai-api-docs/92062)",
   version: "0.0.1",
   type: "action",
   annotations: {
