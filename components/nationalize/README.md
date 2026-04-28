@@ -4,11 +4,11 @@ The Nationalize API predicts the likely nationality of a person from their first
 
 # Example Use Cases
 
-- **Localize Marketing Copy**: When a subscriber joins your list, send their first name through Nationalize and pick the top-ranked country to choose a language and currency for the welcome email. Wire it into SendGrid or Customer.io with a single Pipedream workflow.
+- **Nationality Diversity Research**: Run names from a public dataset — conference speaker lists, paper authors, hiring rosters — through Nationalize to estimate national distribution at the cohort level. Useful for diversity audits, academic representation studies, and reporting on fields where self-reported data isn't available.
 
-- **Regional Segmentation in CRMs**: Append a probable country code to every new lead in HubSpot or Salesforce so reports, dashboards, and audiences can slice by region without depending on self-reported data.
+- **Customer Cohort Analytics**: Batch your customer or subscriber list through Nationalize and push aggregate country distributions to BigQuery, Snowflake, or your warehouse of choice. Build dashboards that show which products, channels, or campaigns skew which way at the population level.
 
-- **Sales Territory Mapping**: When a deal is created, look up the contact's likely nationality and assign the deal to the right regional rep automatically. Combine with your CRM's round-robin logic for territory routing that doesn't depend on form fields.
+- **CRM Aggregate Reporting**: When new records land in Salesforce or HubSpot, route a copy through Nationalize on a schedule and roll the results up into group-level summaries — country splits by segment, channel, or product line — for executive reports.
 
 # Getting Started
 

@@ -4,11 +4,11 @@ The Agify API estimates the age of a person from their first name. With Pipedrea
 
 # Example Use Cases
 
-- **Age-Based Marketing Segmentation**: When a new lead lands in your CRM, look up their estimated age via Agify and route them into the appropriate Mailchimp or HubSpot audience — different messaging for younger vs. older cohorts, no manual tagging required.
+- **Age Diversity Research**: Run names from a public dataset — conference speaker lists, paper authors, hiring rosters — through Agify to estimate age distribution at the cohort level. Useful for diversity audits, academic representation studies, and reporting on fields where self-reported data isn't available.
 
-- **Customer Cohort Analysis**: Append estimated ages to rows in a Google Sheet or BigQuery table on a schedule, then build dashboards that bucket purchases or signups by generation. Useful for spotting which products skew toward which age groups.
+- **Customer Cohort Analytics**: Batch your customer or subscriber list through Agify and push aggregate age distributions to BigQuery, Snowflake, or your warehouse of choice. Build dashboards that show which products, channels, or campaigns skew which way at the population level.
 
-- **Age-Aware UI Personalization**: On signup, send the user's first name through a Pipedream workflow to Agify, store the estimated age on the profile, and let your app surface different default settings, tutorials, or recommendations based on the result.
+- **CRM Aggregate Reporting**: When new records land in Salesforce or HubSpot, route a copy through Agify on a schedule and roll the results up into group-level summaries — age bands by segment, channel, or product line — for executive reports.
 
 # Getting Started
 
