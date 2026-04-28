@@ -16,7 +16,7 @@ export default {
     + " appends data to a metric time series."
     + " [See the docs](https://docs.datadoghq.com/"
     + "metrics)",
-  version: "0.1.5",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

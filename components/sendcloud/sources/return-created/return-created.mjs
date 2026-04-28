@@ -6,7 +6,7 @@ export default {
   name: "New Return Created",
   description: "Emit new event each time a return is created.",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,
