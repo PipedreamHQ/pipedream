@@ -23,6 +23,8 @@ export default {
       type: "integer",
       label: "Port",
       description: "The port number of the service running in the sandbox (e.g. `3000`, `8080`)",
+      min: 1,
+      max: 65535,
     },
   },
   async run({ $ }) {

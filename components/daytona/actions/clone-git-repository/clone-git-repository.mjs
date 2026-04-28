@@ -1,4 +1,5 @@
 import daytona from "../../daytona.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "daytona-clone-git-repository",
@@ -56,6 +57,10 @@ export default {
     },
   },
   async run({ $ }) {
+    if ((this.username && !this.password) || (!this.username && this.password)) {
+      throw new ConfigurationError("Provide both Username and Password / Token together for private repository cloning.");
+    }
+
     await this.daytona.cloneGitRepository(
       this.sandboxId,
       this.url,
