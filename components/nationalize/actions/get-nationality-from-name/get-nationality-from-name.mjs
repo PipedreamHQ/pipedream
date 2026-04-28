@@ -1,10 +1,10 @@
-import app from "../../genderize.app.mjs";
+import app from "../../nationalize.app.mjs";
 
 export default {
-  key: "genderize-get-gender-from-name",
-  name: "Get Gender From Name",
-  description: "Check the statistical probability of a name being male or female. [See the documentation](https://genderize.io/documentation#basic-usage)",
-  version: "0.1.0",
+  key: "nationalize-get-nationality-from-name",
+  name: "Get Nationality From Name",
+  description: "Estimate the nationality of a name. [See the documentation](https://nationalize.io/documentation)",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -27,14 +27,14 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.getGenderFromName({
+    const response = await this.app.getNationalityFromName({
       $,
       params: {
         name: this.name,
         country_id: this.countryId,
       },
     });
-    $.export("$summary", `Successfully sent the request. Result: ${response.gender}`);
+    $.export("$summary", `Successfully sent the request. Top result: ${response.country?.[0]?.country_id ?? "no match"}`);
     return response;
   },
 };

@@ -1,13 +1,13 @@
 {
-  "name": "@pipedream/genderize",
-  "version": "0.2.0",
-  "description": "Pipedream Genderize Components",
-  "main": "genderize.app.mjs",
+  "name": "@pipedream/agify",
+  "version": "0.1.0",
+  "description": "Pipedream Agify Components",
+  "main": "agify.app.mjs",
   "keywords": [
     "pipedream",
-    "genderize"
+    "agify"
   ],
-  "homepage": "https://pipedream.com/apps/genderize",
+  "homepage": "https://pipedream.com/apps/agify",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"

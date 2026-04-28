@@ -9,3 +9,14 @@ The Genderize API lets you predict the gender of a name. With Pipedream, you can
 - **Enhanced CRM Data by Gender for Targeted Advertising**: Improve CRM databases by appending gender data to user profiles. Integrate Genderize with Salesforce via Pipedream workflows. Automatically fetch names from new or updated CRM entries, determine the gender, and append this information back to each customer profile. This enriched data aids in segmenting contacts for more targeted, gender-specific marketing campaigns.
 
 - **User Signup Form Enhancement for Gender Prediction**: Streamline user experience on signup forms by using the Genderize API to predict and auto-fill the gender field as a user types their name. This can be particularly useful in applications where gender data improves user interaction but where explicitly asking it might deter signups. Use Pipedream to connect the Genderize API directly to your web form's backend, enhancing it without altering the frontend design.
+
+# Getting Started
+
+Sign up for a [Genderize API key](https://genderize.io) and paste it into Pipedream when connecting the account. The same key also works with [Agify](https://pipedream.com/apps/agify) and [Nationalize](https://pipedream.com/apps/nationalize). Free tier: 2,500 names/month.
+
+# Troubleshooting
+
+- **`401 Unauthorized`**: the API key is missing, mistyped, or has been revoked. Reconnect the account in Pipedream.
+- **`gender` is `null`**: the name wasn't found in Genderize's dataset. This is expected for very rare names — handle it gracefully in downstream steps.
+- **`429 Too Many Requests`**: you've hit the monthly request limit. Upgrade the Genderize plan, or throttle the workflow.
+- **Batch action returns fewer results than names submitted**: requests are capped at 10 names; if you need more, split into chunks.

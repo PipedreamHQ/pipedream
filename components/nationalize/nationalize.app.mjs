@@ -2,7 +2,7 @@ import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
-  app: "genderize",
+  app: "nationalize",
   propDefinitions: {
     name: {
       type: "string",
@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://api.genderize.io";
+      return "https://api.nationalize.io";
     },
     async _makeRequest(opts = {}) {
       const {
@@ -40,12 +40,12 @@ export default {
         },
       });
     },
-    async getGenderFromName(args = {}) {
+    async getNationalityFromName(args = {}) {
       return this._makeRequest({
         ...args,
       });
     },
-    async getGenderFromNames(args = {}) {
+    async getNationalityFromNames(args = {}) {
       return this._makeRequest({
         ...args,
       });
