@@ -19,7 +19,7 @@ const MAX_ACTIVE_ORDERS_PER_POLL = 50;
 export default {
   key: "virtualsms-new-sms-received",
   name: "New SMS Received",
-  description: "Emit a new event for each SMS message received on any of your active rentals. Polls the VirtualSMS API on the configured interval (default 60s) and de-duplicates so each SMS is emitted exactly once. [See the documentation](https://virtualsms.io/docs/api-reference/introduction)",
+  description: "Emit new event for each SMS message received on any of your active rentals. Polls the VirtualSMS API on the configured interval (default 60s) and de-duplicates so each SMS is emitted exactly once. [See the documentation](https://virtualsms.io/docs/api-reference/introduction)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",

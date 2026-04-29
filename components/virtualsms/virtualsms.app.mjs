@@ -21,7 +21,7 @@ export default {
     country: {
       type: "string",
       label: "Country",
-      description: "The ISO-3166-1 alpha-2 country code of the number (e.g. `GB`, `US`, `PL`). Use the **List Countries** action to see all available countries with current stock indicators. Pass an empty string or omit for the cheapest available country.",
+      description: "The numeric country ID expected by the VirtualSMS API (e.g., `0` for Russia, `1` for Ukraine). Use the **List Countries** action to discover all available countries and their numeric IDs. Omit for the cheapest available country.",
       optional: true,
       async options() {
         const { countries = [] } = await this.listCountries();
