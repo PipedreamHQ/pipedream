@@ -55,7 +55,9 @@ export default {
         : Date.now();
       return {
         id,
-        summary: `New SMS for ${order.phone_number ?? orderId}: ${code}`,
+        // Avoid leaking the phone number or the OTP in the emitted event
+        // summary — the full payload is still available on the event itself.
+        summary: `New SMS received for order ${orderId}`,
         ts,
       };
     },

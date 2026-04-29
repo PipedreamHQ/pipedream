@@ -28,8 +28,10 @@ export default {
 
     const status = response?.status ?? "unknown";
     const code = response?.sms_code;
+    // Do NOT include the OTP in $summary — summary is shown in run history,
+    // logs, and notifications. Keep the code in the response payload only.
     const summary = code
-      ? `SMS received: ${code} (status ${status})`
+      ? `SMS received (status ${status})`
       : `No SMS yet — status ${status}`;
     $.export("$summary", summary);
     return response;

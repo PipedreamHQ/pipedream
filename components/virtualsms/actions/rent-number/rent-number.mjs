@@ -33,9 +33,14 @@ export default {
       country: this.country,
     });
 
-    const phone = response?.phone_number ?? "(pending)";
     const orderId = response?.order_id ?? response?.id ?? "(unknown)";
-    $.export("$summary", `Rented ${phone} for ${this.service} (order ${orderId})`);
+    // Avoid leaking the full phone number into $summary (run history / logs /
+    // notifications). Show only the last 4 digits if available.
+    const rawPhone = response?.phone_number ?? "";
+    const phoneTail = rawPhone
+      ? `***${String(rawPhone).slice(-4)}`
+      : "(pending)";
+    $.export("$summary", `Rented ${phoneTail} for ${this.service} (order ${orderId})`);
     return response;
   },
 };
