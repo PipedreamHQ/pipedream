@@ -33,6 +33,11 @@ export default {
         };
       },
     },
+    trackingNumber: {
+      type: "string",
+      label: "Tracking Number",
+      description: "The tracking number of the parcel to retrieve tracking information for",
+    },
     name: {
       type: "string",
       label: "Name",
@@ -679,6 +684,14 @@ Example:
       return this._makeRequest({
         path: `/parcels/${parcelId}`,
         mockPath: `/299107074/parcels/${parcelId}`,
+        ...args,
+      });
+    },
+    getTrackingInfo({
+      trackingNumber, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/tracking/${trackingNumber}`,
         ...args,
       });
     },

@@ -1,108 +1,124 @@
 import arcgisOnline from "../../arcgis_online.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "arcgis_online-update-row-by-object-id",
   name: "Update Row by Object ID",
   description:
-    "Send `applyEdits` with the layer's object id field plus one other attribute. Dropdowns list only layers and fields that service metadata marks as editable (read-only views and system fields are hidden). You may still type ids or field names manually; `applyEdits` enforces portal permissions. See [Apply Edits (Feature Service Layer)](https://developers.arcgis.com/rest/services-reference/enterprise/apply-edits-feature-service-layer-.htm)",
-  version: "0.1.3",
+    "Update a single attribute on a feature identified by OBJECTID using the applyEdits operation. Dropdowns filter to editable layers and fields. [See the documentation](https://developers.arcgis.com/rest/services-reference/enterprise/apply-edits-feature-service-layer-.htm)",
+  version: "0.2.0",
   type: "action",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   props: {
     arcgisOnline,
-    mapTitle: {
+    featureService: {
       propDefinition: [
         arcgisOnline,
-        "mapTitle",
+        "featureService",
       ],
-      description:
-        "Portal item ID from search, or feature service title for lookup",
     },
-    layerName: {
+    layerId: {
       propDefinition: [
         arcgisOnline,
-        "layerNameEditable",
+        "layerId",
         (c) => ({
-          mapTitle: c.mapTitle,
+          featureService: c.featureService,
+          editableOnly: true,
         }),
       ],
       description:
-        "Editable layer id only (metadata must list Update/Editing on capabilities)",
+        "Editable layer (service metadata must list Update or Editing capability)",
     },
     objectId: {
       propDefinition: [
         arcgisOnline,
-        "objectIdEditable",
+        "objectId",
         (c) => ({
-          mapTitle: c.mapTitle,
-          layerName: c.layerName,
+          featureService: c.featureService,
+          layerId: c.layerId,
+          editableOnly: true,
         }),
       ],
-      description:
-        "Row to update (paged ids; layer must allow editing in metadata; you may type an id)",
+      description: "OBJECTID of the feature to update",
     },
-    columnName: {
+    fieldName: {
       propDefinition: [
         arcgisOnline,
-        "columnNameEditable",
+        "fieldName",
         (c) => ({
-          mapTitle: c.mapTitle,
-          layerName: c.layerName,
+          featureService: c.featureService,
+          layerId: c.layerId,
+          editableOnly: true,
         }),
       ],
       description:
-        "User-editable field from layer metadata (`editable: true`); sent as text in attributes",
+        "Editable field to update (system fields like OBJECTID and GlobalID are excluded)",
     },
     newValue: {
-      type: "string",
+      type: "any",
       label: "New Value",
       description:
-        "New attribute value as text (ArcGIS coerces to the field type where applicable)",
+        "New value for the attribute. Pass string, number, boolean, or other JSON-serializable " +
+        "primitive. Use null to clear nullable fields. ArcGIS coerces values to field type.",
     },
   },
   async run({ $ }) {
     const {
       arcgisOnline: app,
-      mapTitle,
-      layerName,
+      featureService,
+      layerId,
       objectId,
-      columnName,
+      fieldName,
       newValue,
     } = this;
 
-    if (!mapTitle || !layerName || !objectId || !columnName || newValue === undefined) {
-      throw new Error("All fields are required");
+    if (!featureService) {
+      throw new ConfigurationError("featureService is required");
+    }
+    if (layerId == null || layerId === "") {
+      throw new ConfigurationError("layerId is required");
+    }
+    if (objectId == null || String(objectId).trim() === "") {
+      throw new ConfigurationError("objectId is required");
+    }
+    if (!fieldName) {
+      throw new ConfigurationError("fieldName is required");
+    }
+    if (newValue === undefined) {
+      throw new ConfigurationError("newValue is required");
     }
 
     const objectIdStr = String(objectId).trim();
     if (!/^\d+$/.test(objectIdStr)) {
       throw new Error(
-        `objectId must be a whole non-negative integer (digits only); got "${objectId}"`,
+        `objectId must be a whole non-negative integer; got "${objectId}"`,
       );
     }
     const objectIdNum = parseInt(objectIdStr, 10);
 
     const ctx = await app.resolveLayerContext({
       $,
-      mapTitle,
-      layerName,
+      featureService,
+      layerId,
     });
     app.assertLayerSupportsUpdates(ctx.meta, ctx.layerDisplayName);
-    if (columnName.toLowerCase() === ctx.objectIdField.toLowerCase()) {
+
+    if (fieldName.toLowerCase() === ctx.objectIdField.toLowerCase()) {
       throw new Error(
-        `columnName must not be the layer object id field (${ctx.objectIdField})`,
+        `fieldName must not be the object id field (${ctx.objectIdField})`,
       );
     }
     const fieldMeta = (ctx.meta.fields ?? []).find(
-      (f) => f.name != null && f.name.toLowerCase() === columnName.toLowerCase(),
+      (f) => f.name != null
+        && f.name.toLowerCase() === fieldName.toLowerCase(),
     );
     if (fieldMeta && !app._fieldIsUpdatable(fieldMeta, ctx.meta)) {
       throw new Error(
-        `Field "${columnName}" is not editable on this layer (metadata). Pick a field from the dropdown or correct the name.`,
+        `Field "${fieldName}" is not editable on this layer. Pick a field from the dropdown or correct the name.`,
       );
     }
 
@@ -113,7 +129,7 @@ export default {
       layerId: ctx.layerId,
       attributes: {
         [ctx.objectIdField]: objectIdNum,
-        [columnName]: newValue,
+        [fieldName]: newValue,
       },
     });
 
@@ -127,13 +143,13 @@ export default {
 
     $.export(
       "$summary",
-      `Updated ${ctx.layerDisplayName} ${ctx.objectIdField} ${objectId} (${columnName})`,
+      `Updated ${ctx.layerDisplayName} OBJECTID ${objectId}: set ${fieldName} to "${newValue}"`,
     );
 
     return {
       objectId,
-      layerName,
-      columnName,
+      layerId,
+      fieldName,
       newValue,
       updateResult,
     };
