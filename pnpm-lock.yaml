@@ -534,8 +534,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/agify:
-    specifiers: {}
+  components/agify: {}
 
   components/agile_crm:
     dependencies:
@@ -10245,8 +10244,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/nationalize:
-    specifiers: {}
+  components/nationalize: {}
 
   components/nationbuilder:
     dependencies:
@@ -10708,8 +10706,7 @@ importers:
 
   components/oauth_app_demo_1: {}
 
-  components/obolus:
-    specifiers: {}
+  components/obolus: {}
 
   components/occasion:
     dependencies:
@@ -16561,8 +16558,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/unirateapi:
-    specifiers: {}
+  components/unirateapi: {}
 
   components/unisender:
     dependencies:
@@ -16964,7 +16960,10 @@ importers:
   components/virifi: {}
 
   components/virtualsms:
-    specifiers: {}
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.5
+        version: 3.3.1
 
   components/virustotal: {}
 
