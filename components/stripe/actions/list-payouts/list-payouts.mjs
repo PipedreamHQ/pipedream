@@ -5,7 +5,7 @@ export default {
   key: "stripe-list-payouts",
   name: "List Payouts",
   type: "action",
-  version: "0.1.4",
+  version: "0.1.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -160,13 +160,10 @@ export default {
       ending_before: endingBefore,
       starting_after: startingAfter,
       ...getOtherParams(),
-    })
-      .autoPagingToArray({
-        limit,
-      });
+    });
 
     // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `Successfully fetched ${status ? `${status} ` : ""}payouts`);
+    $.export("$summary", `Successfully fetched ${resp.data.length} ${status ? `${status} ` : ""}payout${resp.data.length === 1 ? "" : "s"}${resp.has_more ? " (more available)" : ""}`);
     return resp;
   },
 };

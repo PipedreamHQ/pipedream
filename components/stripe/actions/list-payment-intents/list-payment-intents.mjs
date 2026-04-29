@@ -4,7 +4,7 @@ export default {
   key: "stripe-list-payment-intents",
   name: "List Payment Intents",
   type: "action",
-  version: "0.1.4",
+  version: "0.1.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -25,21 +25,35 @@ export default {
         "limit",
       ],
     },
+    endingBefore: {
+      propDefinition: [
+        app,
+        "endingBefore",
+      ],
+    },
+    startingAfter: {
+      propDefinition: [
+        app,
+        "startingAfter",
+      ],
+    },
   },
   async run({ $ }) {
     const {
       app,
       customer,
       limit,
+      endingBefore,
+      startingAfter,
     } = this;
 
     const resp = await app.sdk().paymentIntents.list({
       customer,
-    })
-      .autoPagingToArray({
-        limit,
-      });
-    $.export("$summary", "Successfully fetched payment intents");
+      limit,
+      ending_before: endingBefore,
+      starting_after: startingAfter,
+    });
+    $.export("$summary", `Successfully fetched ${resp.data.length} payment intent${resp.data.length === 1 ? "" : "s"}${resp.has_more ? " (more available)" : ""}`);
     return resp;
   },
 };

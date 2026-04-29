@@ -5,7 +5,7 @@ export default {
   key: "stripe-list-customers",
   name: "List Customers",
   type: "action",
-  version: "0.1.4",
+  version: "0.1.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -79,6 +79,7 @@ export default {
 
     const resp = await app.sdk().customers.list({
       email,
+      limit,
       ...(createdGt || createdGte || createdLt || createdLte
         ? {
           created: {
@@ -92,12 +93,9 @@ export default {
       ),
       ending_before: endingBefore,
       starting_after: startingAfter,
-    })
-      .autoPagingToArray({
-        limit,
-      });
+    });
 
-    $.export("$summary", "Successfully fetched customer info");
+    $.export("$summary", `Successfully fetched ${resp.data.length} customer${resp.data.length === 1 ? "" : "s"}${resp.has_more ? " (more available)" : ""}`);
 
     return resp;
   },

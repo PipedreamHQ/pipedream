@@ -5,7 +5,7 @@ export default {
   key: "stripe-list-balance-history",
   name: "List Balance History",
   type: "action",
-  version: "0.1.4",
+  version: "0.1.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -137,6 +137,7 @@ export default {
       payout,
       type,
       currency,
+      limit,
       ending_before: endingBefore,
       starting_after: startingAfter,
       ...(createdGt || createdGte || createdLt || createdLte
@@ -150,11 +151,8 @@ export default {
         }
         : {}
       ),
-    })
-      .autoPagingToArray({
-        limit,
-      });
-    $.export("$summary", "Successfully fetched balance transactions");
+    });
+    $.export("$summary", `Successfully fetched ${resp.data.length} balance transaction${resp.data.length === 1 ? "" : "s"}${resp.has_more ? " (more available)" : ""}`);
     return resp;
   },
 };

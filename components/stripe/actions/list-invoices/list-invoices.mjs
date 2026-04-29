@@ -5,7 +5,7 @@ export default {
   key: "stripe-list-invoices",
   name: "List Invoices",
   type: "action",
-  version: "0.1.4",
+  version: "0.1.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -116,6 +116,7 @@ export default {
       subscription,
       status,
       collection_method,
+      limit,
       ...(createdGt || createdGte || createdLt || createdLte
         ? {
           created: {
@@ -129,11 +130,8 @@ export default {
       ),
       ending_before: endingBefore,
       starting_after: startingAfter,
-    })
-      .autoPagingToArray({
-        limit,
-      });
-    $.export("$summary", "Successfully fetched invoices");
+    });
+    $.export("$summary", `Successfully fetched ${resp.data.length} invoice${resp.data.length === 1 ? "" : "s"}${resp.has_more ? " (more available)" : ""}`);
     return resp;
   },
 };
