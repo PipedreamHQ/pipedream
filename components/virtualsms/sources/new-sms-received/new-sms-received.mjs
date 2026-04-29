@@ -1,10 +1,11 @@
-import virtualsms from "../../virtualsms.app.mjs";
+import { createHash } from "crypto";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import virtualsms from "../../virtualsms.app.mjs";
 
 export default {
   key: "virtualsms-new-sms-received",
   name: "New SMS Received",
-  description: "Emit a new event for each SMS message received on any of your active rentals. Polls the VirtualSMS API on the configured interval (default 60s) and de-duplicates by order ID so each SMS is emitted exactly once. [See the docs](https://virtualsms.io/docs/api-reference/introduction)",
+  description: "Emit a new event for each SMS message received on any of your active rentals. Polls the VirtualSMS API on the configured interval (default 60s) and de-duplicates by order ID so each SMS is emitted exactly once. [See the documentation](https://virtualsms.io/docs/api-reference/introduction)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -31,16 +32,24 @@ export default {
           seen[id] = code;
         }
       }
-      this.db.set("seenCodes", seen);
+      this._setSeenCodes(seen);
     },
   },
   methods: {
+    _getSeenCodes() {
+      return this.db.get("seenCodes") ?? {};
+    },
+    _setSeenCodes(seenCodes) {
+      this.db.set("seenCodes", seenCodes);
+    },
     generateMeta(order) {
       const orderId = String(order.order_id ?? order.id ?? "");
       const code = order.sms_code ?? "";
-      // Compose unique id so the same code arriving twice on different
-      // orders (or the same order across restarts) only fires once.
-      const id = `${orderId}:${code}`;
+      // Hash to a 64-char SHA256 hex digest so we always stay within
+      // Pipedream's 64-char dedupe id limit, regardless of orderId/code length.
+      const id = createHash("sha256")
+        .update(`${orderId}:${code}`)
+        .digest("hex");
       const ts = order.received_at
         ? Date.parse(order.received_at)
         : Date.now();
@@ -57,7 +66,7 @@ export default {
       return;
     }
 
-    const seen = this.db.get("seenCodes") ?? {};
+    const seen = this._getSeenCodes();
     const updated = {
       ...seen,
     };
@@ -76,6 +85,6 @@ export default {
       updated[id] = code;
     }
 
-    this.db.set("seenCodes", updated);
+    this._setSeenCodes(updated);
   },
 };
