@@ -10708,6 +10708,9 @@ importers:
 
   components/oauth_app_demo_1: {}
 
+  components/obolus:
+    specifiers: {}
+
   components/occasion:
     dependencies:
       '@pipedream/platform':
@@ -16558,6 +16561,9 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/unirateapi:
+    specifiers: {}
+
   components/unisender:
     dependencies:
       '@pipedream/platform':
@@ -16956,6 +16962,9 @@ importers:
         version: 1.6.8
 
   components/virifi: {}
+
+  components/virtualsms:
+    specifiers: {}
 
   components/virustotal: {}
 
