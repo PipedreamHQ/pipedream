@@ -6,6 +6,11 @@ export default {
   description: "Search professional profiles using advanced filters or a lookalike profile. Returns matching people with their details. [See the documentation](https://docs.dataforb2b.ai/api-reference/search-people)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     dataforb2b,
     filters: {

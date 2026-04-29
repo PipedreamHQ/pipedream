@@ -6,6 +6,11 @@ export default {
   description: "Search companies using advanced filters by size, funding stage, industry, investor, and more. [See the documentation](https://docs.dataforb2b.ai/api-reference/search-company)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     dataforb2b,
     filters: {

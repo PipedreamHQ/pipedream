@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/dataforb2b",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream DataForB2B Components",
   "main": "dataforb2b.app.mjs",
   "keywords": [
