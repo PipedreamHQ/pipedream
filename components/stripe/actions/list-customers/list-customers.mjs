@@ -11,7 +11,7 @@ export default {
     openWorldHint: true,
     readOnlyHint: true,
   },
-  description: "Find or list customers. Returns up to `limit` customer objects per call. To paginate, read `has_more` and `next_starting_after` from this step's exports — pass `next_starting_after` as the `Starting After` prop on the next call to fetch the next page. [See the documentation](https://stripe.com/docs/api/customers/list).",
+  description: "Find or list customers. By default returns an array of customer objects. Set `Return Pagination Info` to true to instead receive `{ data, has_more, next_starting_after }` — useful when iterating through multiple pages by passing `next_starting_after` as `Starting After` on the next call. [See the documentation](https://stripe.com/docs/api/customers/list).",
   props: {
     app,
     email: {
@@ -63,6 +63,13 @@ export default {
         "startingAfter",
       ],
     },
+    returnPaginationInfo: {
+      type: "boolean",
+      label: "Return Pagination Info",
+      description: "If `true`, returns an object `{ data, has_more, next_starting_after }` instead of a plain array. Set this when you need to know whether more results exist or want to paginate through additional pages.",
+      optional: true,
+      default: false,
+    },
   },
   async run({ $ }) {
     const {
@@ -75,12 +82,10 @@ export default {
       createdLte,
       endingBefore,
       startingAfter,
+      returnPaginationInfo,
     } = this;
 
-    // Fetch limit+1 internally to detect `has_more` accurately, then trim
-    // back to `limit` before returning. This preserves the array return
-    // shape while exposing pagination metadata via $.export.
-    const allItems = await app.sdk().customers.list({
+    const params = {
       email,
       ...(createdGt || createdGte || createdLt || createdLte
         ? {
@@ -95,22 +100,38 @@ export default {
       ),
       ending_before: endingBefore,
       starting_after: startingAfter,
-    })
+    };
+
+    if (returnPaginationInfo) {
+      // Fetch limit+1 to detect `has_more`, then trim to `limit`.
+      const allItems = await app.sdk().customers.list(params)
+        .autoPagingToArray({
+          limit: limit + 1,
+        });
+
+      const hasMore = allItems.length > limit;
+      const items = hasMore
+        ? allItems.slice(0, limit)
+        : allItems;
+      const nextStartingAfter = hasMore
+        ? items[items.length - 1]?.id
+        : null;
+
+      $.export("$summary", `Successfully fetched ${items.length} customer${items.length === 1 ? "" : "s"}${hasMore ? " (more available)" : ""}`);
+
+      return {
+        data: items,
+        has_more: hasMore,
+        next_starting_after: nextStartingAfter,
+      };
+    }
+
+    const items = await app.sdk().customers.list(params)
       .autoPagingToArray({
-        limit: limit + 1,
+        limit,
       });
 
-    const hasMore = allItems.length > limit;
-    const items = hasMore
-      ? allItems.slice(0, limit)
-      : allItems;
-    const nextStartingAfter = hasMore
-      ? items[items.length - 1]?.id
-      : null;
-
-    $.export("$summary", `Successfully fetched ${items.length} customer${items.length === 1 ? "" : "s"}${hasMore ? " (more available)" : ""}`);
-    $.export("has_more", hasMore);
-    $.export("next_starting_after", nextStartingAfter);
+    $.export("$summary", `Successfully fetched ${items.length} customer${items.length === 1 ? "" : "s"}`);
 
     return items;
   },

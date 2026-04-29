@@ -11,7 +11,7 @@ export default {
     openWorldHint: true,
     readOnlyHint: true,
   },
-  description: "Find or list invoices. Returns up to `limit` invoice objects per call. To paginate, read `has_more` and `next_starting_after` from this step's exports — pass `next_starting_after` as the `Starting After` prop on the next call to fetch the next page. [See the documentation](https://stripe.com/docs/api/invoices/list).",
+  description: "Find or list invoices. By default returns an array of invoice objects. Set `Return Pagination Info` to true to instead receive `{ data, has_more, next_starting_after }` — useful when iterating through multiple pages by passing `next_starting_after` as `Starting After` on the next call. [See the documentation](https://stripe.com/docs/api/invoices/list).",
   props: {
     app,
     customer: {
@@ -94,6 +94,13 @@ export default {
         "startingAfter",
       ],
     },
+    returnPaginationInfo: {
+      type: "boolean",
+      label: "Return Pagination Info",
+      description: "If `true`, returns an object `{ data, has_more, next_starting_after }` instead of a plain array. Set this when you need to know whether more results exist or want to paginate through additional pages.",
+      optional: true,
+      default: false,
+    },
   },
   async run({ $ }) {
     const {
@@ -109,12 +116,10 @@ export default {
       createdLte,
       endingBefore,
       startingAfter,
+      returnPaginationInfo,
     } = this;
 
-    // Fetch limit+1 internally to detect `has_more` accurately, then trim
-    // back to `limit` before returning. This preserves the array return
-    // shape while exposing pagination metadata via $.export.
-    const allItems = await app.sdk().invoices.list({
+    const params = {
       customer,
       subscription,
       status,
@@ -132,22 +137,38 @@ export default {
       ),
       ending_before: endingBefore,
       starting_after: startingAfter,
-    })
+    };
+
+    if (returnPaginationInfo) {
+      // Fetch limit+1 to detect `has_more`, then trim to `limit`.
+      const allItems = await app.sdk().invoices.list(params)
+        .autoPagingToArray({
+          limit: limit + 1,
+        });
+
+      const hasMore = allItems.length > limit;
+      const items = hasMore
+        ? allItems.slice(0, limit)
+        : allItems;
+      const nextStartingAfter = hasMore
+        ? items[items.length - 1]?.id
+        : null;
+
+      $.export("$summary", `Successfully fetched ${items.length} invoice${items.length === 1 ? "" : "s"}${hasMore ? " (more available)" : ""}`);
+
+      return {
+        data: items,
+        has_more: hasMore,
+        next_starting_after: nextStartingAfter,
+      };
+    }
+
+    const items = await app.sdk().invoices.list(params)
       .autoPagingToArray({
-        limit: limit + 1,
+        limit,
       });
 
-    const hasMore = allItems.length > limit;
-    const items = hasMore
-      ? allItems.slice(0, limit)
-      : allItems;
-    const nextStartingAfter = hasMore
-      ? items[items.length - 1]?.id
-      : null;
-
-    $.export("$summary", `Successfully fetched ${items.length} invoice${items.length === 1 ? "" : "s"}${hasMore ? " (more available)" : ""}`);
-    $.export("has_more", hasMore);
-    $.export("next_starting_after", nextStartingAfter);
+    $.export("$summary", `Successfully fetched ${items.length} invoice${items.length === 1 ? "" : "s"}`);
 
     return items;
   },
