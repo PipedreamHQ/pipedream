@@ -5,13 +5,13 @@ export default {
   key: "stripe-list-customers",
   name: "List Customers",
   type: "action",
-  version: "1.0.0",
+  version: "0.2.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
-  description: "Find or list customers. [See the documentation](https://stripe.com/docs/api/customers/list).",
+  description: "Find or list customers. Returns up to `limit` customer objects per call. To paginate, read `has_more` and `next_starting_after` from this step's exports — pass `next_starting_after` as the `Starting After` prop on the next call to fetch the next page. [See the documentation](https://stripe.com/docs/api/customers/list).",
   props: {
     app,
     email: {
@@ -77,9 +77,11 @@ export default {
       startingAfter,
     } = this;
 
-    const resp = await app.sdk().customers.list({
+    // Fetch limit+1 internally to detect `has_more` accurately, then trim
+    // back to `limit` before returning. This preserves the array return
+    // shape while exposing pagination metadata via $.export.
+    const allItems = await app.sdk().customers.list({
       email,
-      limit,
       ...(createdGt || createdGte || createdLt || createdLte
         ? {
           created: {
@@ -93,10 +95,23 @@ export default {
       ),
       ending_before: endingBefore,
       starting_after: startingAfter,
-    });
+    })
+      .autoPagingToArray({
+        limit: limit + 1,
+      });
 
-    $.export("$summary", `Successfully fetched ${resp.data.length} customer${resp.data.length === 1 ? "" : "s"}${resp.has_more ? " (more available)" : ""}`);
+    const hasMore = allItems.length > limit;
+    const items = hasMore
+      ? allItems.slice(0, limit)
+      : allItems;
+    const nextStartingAfter = hasMore
+      ? items[items.length - 1]?.id
+      : null;
 
-    return resp;
+    $.export("$summary", `Successfully fetched ${items.length} customer${items.length === 1 ? "" : "s"}${hasMore ? " (more available)" : ""}`);
+    $.export("has_more", hasMore);
+    $.export("next_starting_after", nextStartingAfter);
+
+    return items;
   },
 };

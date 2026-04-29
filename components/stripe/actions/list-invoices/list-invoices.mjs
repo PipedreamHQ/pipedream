@@ -5,13 +5,13 @@ export default {
   key: "stripe-list-invoices",
   name: "List Invoices",
   type: "action",
-  version: "1.0.0",
+  version: "0.2.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
-  description: "Find or list invoices. [See the documentation](https://stripe.com/docs/api/invoices/list).",
+  description: "Find or list invoices. Returns up to `limit` invoice objects per call. To paginate, read `has_more` and `next_starting_after` from this step's exports — pass `next_starting_after` as the `Starting After` prop on the next call to fetch the next page. [See the documentation](https://stripe.com/docs/api/invoices/list).",
   props: {
     app,
     customer: {
@@ -111,12 +111,14 @@ export default {
       startingAfter,
     } = this;
 
-    const resp = await app.sdk().invoices.list({
+    // Fetch limit+1 internally to detect `has_more` accurately, then trim
+    // back to `limit` before returning. This preserves the array return
+    // shape while exposing pagination metadata via $.export.
+    const allItems = await app.sdk().invoices.list({
       customer,
       subscription,
       status,
       collection_method,
-      limit,
       ...(createdGt || createdGte || createdLt || createdLte
         ? {
           created: {
@@ -130,8 +132,23 @@ export default {
       ),
       ending_before: endingBefore,
       starting_after: startingAfter,
-    });
-    $.export("$summary", `Successfully fetched ${resp.data.length} invoice${resp.data.length === 1 ? "" : "s"}${resp.has_more ? " (more available)" : ""}`);
-    return resp;
+    })
+      .autoPagingToArray({
+        limit: limit + 1,
+      });
+
+    const hasMore = allItems.length > limit;
+    const items = hasMore
+      ? allItems.slice(0, limit)
+      : allItems;
+    const nextStartingAfter = hasMore
+      ? items[items.length - 1]?.id
+      : null;
+
+    $.export("$summary", `Successfully fetched ${items.length} invoice${items.length === 1 ? "" : "s"}${hasMore ? " (more available)" : ""}`);
+    $.export("has_more", hasMore);
+    $.export("next_starting_after", nextStartingAfter);
+
+    return items;
   },
 };

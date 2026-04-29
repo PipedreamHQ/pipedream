@@ -5,13 +5,13 @@ export default {
   key: "stripe-list-balance-history",
   name: "List Balance History",
   type: "action",
-  version: "1.0.0",
+  version: "0.2.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
-  description: "List all balance transactions. [See the documentation](https://stripe.com/docs/api/balance_transactions/list).",
+  description: "List all balance transactions. Returns up to `limit` transaction objects per call. To paginate, read `has_more` and `next_starting_after` from this step's exports — pass `next_starting_after` as the `Starting After` prop on the next call to fetch the next page. [See the documentation](https://stripe.com/docs/api/balance_transactions/list).",
   props: {
     app,
     // eslint-disable-next-line pipedream/props-label, pipedream/props-description
@@ -133,11 +133,13 @@ export default {
       startingAfter,
     } = this;
 
-    const resp = await app.sdk().balanceTransactions.list({
+    // Fetch limit+1 internally to detect `has_more` accurately, then trim
+    // back to `limit` before returning. This preserves the array return
+    // shape while exposing pagination metadata via $.export.
+    const allItems = await app.sdk().balanceTransactions.list({
       payout,
       type,
       currency,
-      limit,
       ending_before: endingBefore,
       starting_after: startingAfter,
       ...(createdGt || createdGte || createdLt || createdLte
@@ -151,8 +153,23 @@ export default {
         }
         : {}
       ),
-    });
-    $.export("$summary", `Successfully fetched ${resp.data.length} balance transaction${resp.data.length === 1 ? "" : "s"}${resp.has_more ? " (more available)" : ""}`);
-    return resp;
+    })
+      .autoPagingToArray({
+        limit: limit + 1,
+      });
+
+    const hasMore = allItems.length > limit;
+    const items = hasMore
+      ? allItems.slice(0, limit)
+      : allItems;
+    const nextStartingAfter = hasMore
+      ? items[items.length - 1]?.id
+      : null;
+
+    $.export("$summary", `Successfully fetched ${items.length} balance transaction${items.length === 1 ? "" : "s"}${hasMore ? " (more available)" : ""}`);
+    $.export("has_more", hasMore);
+    $.export("next_starting_after", nextStartingAfter);
+
+    return items;
   },
 };
