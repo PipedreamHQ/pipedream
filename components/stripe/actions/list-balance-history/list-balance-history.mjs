@@ -5,7 +5,7 @@ export default {
   key: "stripe-list-balance-history",
   name: "List Balance History",
   type: "action",
-  version: "0.1.5",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

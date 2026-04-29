@@ -5,7 +5,7 @@ export default {
   key: "stripe-list-payouts",
   name: "List Payouts",
   type: "action",
-  version: "0.1.5",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
