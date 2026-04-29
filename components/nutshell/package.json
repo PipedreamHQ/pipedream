@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/nutshell",
-  "version": "0.2.4",
+  "version": "0.2.1",
   "description": "Pipedream Nutshell Components",
   "main": "nutshell.app.mjs",
   "keywords": [

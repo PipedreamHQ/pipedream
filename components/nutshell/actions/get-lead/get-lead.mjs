@@ -5,7 +5,7 @@ export default {
   key: "nutshell-get-lead",
   name: "Get Lead",
   description: "Get a lead by ID. [See the documentation](https://developers-rpc.nutshell.com/#json-rpc)",
-  version: "0.0.5",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
