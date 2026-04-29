@@ -7,7 +7,7 @@ export default {
   key: "microsoft_outlook_calendar-list-events",
   name: "List Events",
   description: "Get a list of event objects in the user's mailbox. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list-events)",
-  version: "0.0.13",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -34,6 +34,7 @@ export default {
       label: "Max Results",
       description: "The maximum number of results to return",
       optional: true,
+      min: 0,
     },
     includeRecurring: {
       type: "boolean",
@@ -61,6 +62,10 @@ export default {
 
     if (includeRecurring && (!startDateTime || !endDateTime)) {
       throw new ConfigurationError("`Start Date Time` and `End Date Time` are required when `Include Recurring` is true");
+    }
+
+    if (maxResults < 0) {
+      throw new ConfigurationError(`\`Max Results\` is set to "${maxResults}" but must be a positive integer`);
     }
 
     if (includeRecurring) {
