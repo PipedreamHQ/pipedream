@@ -10712,6 +10712,9 @@ importers:
 
   components/oauth_app_demo_1: {}
 
+  components/obolus:
+    specifiers: {}
+
   components/occasion:
     dependencies:
       '@pipedream/platform':
