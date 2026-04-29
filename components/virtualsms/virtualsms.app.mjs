@@ -105,7 +105,9 @@ export default {
         data: {
           service,
           ...(country
-            ? { country }
+            ? {
+              country,
+            }
             : {}),
         },
         ...args,

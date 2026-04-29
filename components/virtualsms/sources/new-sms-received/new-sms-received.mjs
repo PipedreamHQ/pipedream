@@ -72,7 +72,8 @@ export default {
       const seed = receivedAt
         ? `${orderId}:${receivedAt}:${content}`
         : `${orderId}:${content}`;
-      return createHash("sha256").update(seed).digest("hex");
+      return createHash("sha256").update(seed)
+        .digest("hex");
     },
     async _safeGetOrder(orderId) {
       try {
@@ -97,7 +98,9 @@ export default {
         // Avoid leaking the phone number, sender, or OTP body in the emitted
         // event summary — the full payload is still available on the event.
         summary: `New SMS received for order ${orderId}`,
-        ts: Number.isFinite(ts) ? ts : Date.now(),
+        ts: Number.isFinite(ts)
+          ? ts
+          : Date.now(),
       };
     },
   },
