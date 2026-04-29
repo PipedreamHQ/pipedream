@@ -20,12 +20,12 @@ export default {
       ],
       type: "string",
       label: "Workspace",
-      description: "The workspace to list teams for. This field uses the workspace GID.",
+      description: "The workspace to list teams for. This field uses the workspace GID (e.g. \"120111222333444\").",
     },
     optFields: {
       type: "string",
       label: "Opt Fields",
-      description: "This endpoint returns a resource which excludes some properties by default. To include those optional properties, set this query parameter to a comma-separated list of the properties you wish to include.",
+      description: "This endpoint returns a resource which excludes some properties by default. To include those optional properties, set this query parameter to a comma-separated list of the properties you wish to include (e.g. \"members,description,projects\").",
       optional: true,
     },
     limit: {
@@ -39,7 +39,7 @@ export default {
     offset: {
       type: "string",
       label: "Offset",
-      description: "Offset token. An offset to the next page returned by the API. A pagination request will return an offset token, which can be used as an input parameter to the next request. If an offset is not passed in, the API will return the first page of results. Note: You can only pass in an offset that was returned to you via a previously paginated request.",
+      description: "Offset token. An offset to the next page returned by the API. A pagination request will return an offset token, which can be used as an input parameter to the next request. If an offset is not passed in, the API will return the first page of results. Note: You can only pass in an offset that was returned to you via a previously paginated request (e.g. \"3:0:abcdef123456\").",
       optional: true,
     },
   },
