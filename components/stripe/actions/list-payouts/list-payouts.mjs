@@ -169,6 +169,10 @@ export default {
       ...getOtherParams(),
     };
 
+    const statusPrefix = status
+      ? `${status} `
+      : "";
+
     if (returnPaginationInfo) {
       // Fetch limit+1 to detect `has_more`, then trim to `limit`.
       const allItems = await app.sdk().payouts.list(params)
@@ -184,8 +188,14 @@ export default {
         ? items[items.length - 1]?.id
         : null;
 
-      // eslint-disable-next-line multiline-ternary
-      $.export("$summary", `Successfully fetched ${items.length} ${status ? `${status} ` : ""}payout${items.length === 1 ? "" : "s"}${hasMore ? " (more available)" : ""}`);
+      const count = items.length;
+      const noun = count === 1
+        ? "payout"
+        : "payouts";
+      const moreSuffix = hasMore
+        ? " (more available)"
+        : "";
+      $.export("$summary", `Successfully fetched ${count} ${statusPrefix}${noun}${moreSuffix}`);
 
       return {
         data: items,
@@ -199,8 +209,11 @@ export default {
         limit,
       });
 
-    // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `Successfully fetched ${items.length} ${status ? `${status} ` : ""}payout${items.length === 1 ? "" : "s"}`);
+    const count = items.length;
+    const noun = count === 1
+      ? "payout"
+      : "payouts";
+    $.export("$summary", `Successfully fetched ${count} ${statusPrefix}${noun}`);
 
     return items;
   },

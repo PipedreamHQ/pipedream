@@ -154,7 +154,14 @@ export default {
         ? items[items.length - 1]?.id
         : null;
 
-      $.export("$summary", `Successfully fetched ${items.length} invoice${items.length === 1 ? "" : "s"}${hasMore ? " (more available)" : ""}`);
+      const count = items.length;
+      const noun = count === 1
+        ? "invoice"
+        : "invoices";
+      const moreSuffix = hasMore
+        ? " (more available)"
+        : "";
+      $.export("$summary", `Successfully fetched ${count} ${noun}${moreSuffix}`);
 
       return {
         data: items,
@@ -168,7 +175,11 @@ export default {
         limit,
       });
 
-    $.export("$summary", `Successfully fetched ${items.length} invoice${items.length === 1 ? "" : "s"}`);
+    const count = items.length;
+    const noun = count === 1
+      ? "invoice"
+      : "invoices";
+    $.export("$summary", `Successfully fetched ${count} ${noun}`);
 
     return items;
   },
