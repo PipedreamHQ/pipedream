@@ -32,14 +32,14 @@ export default {
       optional: true,
       default: true,
     },
-    lookalikProfile: {
+    lookalikeProfile: {
       type: "string",
       label: "Lookalike Profile",
       description:
         "LinkedIn URL or public_id of a profile to find similar people. Mutually exclusive with filters.",
       optional: true,
     },
-    lookalikUseCase: {
+    lookalikeUseCase: {
       type: "string",
       label: "Lookalike Use Case",
       description: "Use case context for lookalike search.",

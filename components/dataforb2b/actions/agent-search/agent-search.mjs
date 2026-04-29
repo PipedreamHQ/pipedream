@@ -25,10 +25,10 @@ export default {
         "category",
       ],
     },
-    lookalikUseCase: {
+    lookalikeUseCase: {
       propDefinition: [
         dataforb2b,
-        "lookalikUseCase",
+        "lookalikeUseCase",
       ],
     },
     count: {
@@ -52,7 +52,7 @@ export default {
       data: {
         query: this.query,
         category: this.category,
-        lookalike_use_case: this.lookalikUseCase,
+        lookalike_use_case: this.lookalikeUseCase,
         count: this.count,
         enrich_live: this.enrichLive,
       },

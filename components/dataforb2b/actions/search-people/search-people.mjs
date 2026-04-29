@@ -19,16 +19,16 @@ export default {
         "filters",
       ],
     },
-    lookalikProfile: {
+    lookalikeProfile: {
       propDefinition: [
         dataforb2b,
-        "lookalikProfile",
+        "lookalikeProfile",
       ],
     },
-    lookalikUseCase: {
+    lookalikeUseCase: {
       propDefinition: [
         dataforb2b,
-        "lookalikUseCase",
+        "lookalikeUseCase",
       ],
     },
     count: {
@@ -57,10 +57,10 @@ export default {
       enrich_live: this.enrichLive,
     };
 
-    if (this.lookalikProfile) {
-      data.lookalike_profile = this.lookalikProfile;
-      if (this.lookalikUseCase) {
-        data.lookalike_use_case = this.lookalikUseCase;
+    if (this.lookalikeProfile) {
+      data.lookalike_profile = this.lookalikeProfile;
+      if (this.lookalikeUseCase) {
+        data.lookalike_use_case = this.lookalikeUseCase;
       }
     } else if (this.filters) {
       data.filters = typeof this.filters === "string"
