@@ -26,10 +26,21 @@ export default {
       orderId: this.orderId,
     });
 
-    const refunded = response?.refunded
-      ? "refunded"
-      : "no refund";
-    $.export("$summary", `Cancelled rental ${this.orderId} (${refunded})`);
+    // Real API returns { success, order_id, status: "cancelled", refund_amount }
+    const refundAmount = typeof response?.refund_amount === "number"
+      ? response.refund_amount
+      : null;
+    const cancelled = response?.status === "cancelled";
+
+    let summary;
+    if (cancelled && refundAmount !== null && refundAmount > 0) {
+      summary = `Cancelled rental ${this.orderId} (refunded $${refundAmount.toFixed(2)})`;
+    } else if (cancelled) {
+      summary = `Cancelled rental ${this.orderId} (no refund)`;
+    } else {
+      summary = `Cancel attempt for rental ${this.orderId} — status ${response?.status ?? "unknown"}`;
+    }
+    $.export("$summary", summary);
     return response;
   },
 };
