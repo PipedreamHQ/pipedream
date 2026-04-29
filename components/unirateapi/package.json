@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/unirateapi",
+  "version": "0.0.1",
+  "description": "Pipedream UniRateAPI Components",
+  "main": "unirateapi.app.mjs",
+  "keywords": [
+    "pipedream",
+    "unirateapi"
+  ],
+  "homepage": "https://pipedream.com/apps/unirateapi",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/virtualsms",
+  "version": "0.0.1",
+  "description": "Pipedream VirtualSMS Components",
+  "main": "virtualsms.app.mjs",
+  "keywords": [
+    "pipedream",
+    "virtualsms"
+  ],
+  "homepage": "https://pipedream.com/apps/virtualsms",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

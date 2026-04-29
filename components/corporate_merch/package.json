@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/corporate_merch",
+  "version": "0.0.1",
+  "description": "Pipedream Corporate Merch Components",
+  "main": "corporate_merch.app.mjs",
+  "keywords": [
+    "pipedream",
+    "corporate_merch"
+  ],
+  "homepage": "https://pipedream.com/apps/corporate_merch",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
