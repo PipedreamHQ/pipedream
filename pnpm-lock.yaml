@@ -535,7 +535,10 @@ importers:
         version: 3.1.1
 
   components/agify:
-    specifiers: {}
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/agile_crm:
     dependencies:
@@ -3961,7 +3964,11 @@ importers:
         specifier: ^8.3.2
         version: 8.3.2
 
-  components/dataforb2b: {}
+  components/dataforb2b:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.3.1
+        version: 3.3.1
 
   components/dataforseo:
     dependencies:
@@ -10252,7 +10259,10 @@ importers:
         version: 3.1.1
 
   components/nationalize:
-    specifiers: {}
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/nationbuilder:
     dependencies:
@@ -10714,8 +10724,7 @@ importers:
 
   components/oauth_app_demo_1: {}
 
-  components/obolus:
-    specifiers: {}
+  components/obolus: {}
 
   components/occasion:
     dependencies:
@@ -16567,8 +16576,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/unirateapi:
-    specifiers: {}
+  components/unirateapi: {}
 
   components/unisender:
     dependencies:
@@ -16970,7 +16978,10 @@ importers:
   components/virifi: {}
 
   components/virtualsms:
-    specifiers: {}
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.5
+        version: 3.3.1
 
   components/virustotal: {}
 
