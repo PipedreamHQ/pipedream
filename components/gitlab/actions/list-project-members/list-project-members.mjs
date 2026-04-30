@@ -25,6 +25,30 @@ export default {
       description: "Filters results based on a given name, email, or username. Use partial values to widen the scope of the query.",
       optional: true,
     },
+    userIds: {
+      propDefinition: [
+        gitlab,
+        "assignee",
+        ({ projectId }) => ({
+          projectId,
+        }),
+      ],
+      type: "string[]",
+      label: "User IDs",
+      description: "Filter the results on the given user IDs",
+    },
+    skipUsers: {
+      propDefinition: [
+        gitlab,
+        "assignee",
+        ({ projectId }) => ({
+          projectId,
+        }),
+      ],
+      type: "string[]",
+      label: "Skip Users",
+      description: "Filter skipped users out of the results",
+    },
     showSeatInfo: {
       type: "boolean",
       label: "Show Seat Info",
@@ -37,6 +61,8 @@ export default {
       $,
       params: {
         query: this.query,
+        user_ids: this.userIds,
+        skip_users: this.skipUsers,
         show_seat_info: this.showSeatInfo,
       },
     });
