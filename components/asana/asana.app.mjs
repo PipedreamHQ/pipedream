@@ -556,6 +556,22 @@ export default {
       return teams;
     },
     /**
+     * Get an Asana Team list for a workspace.
+     *
+     * @param {string} workspace - A Workspace GID.
+     * @param {object} opts - The params to filter the teams.
+     *
+     * @returns {string} An Asana Team list.
+     */
+    async getTeamsForWorkspace({
+      workspace, ...opts
+    }) {
+      return this._makeRequest({
+        path: `workspaces/${workspace}/teams`,
+        ...opts,
+      });
+    },
+    /**
      * Get an Asana Workspace Membership.
      *
      * @param {string} membershipId - A Workspace Membership GID.
