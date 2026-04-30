@@ -53,39 +53,16 @@ export default {
         })) || [];
       },
     },
-    propertiesWithHistory: {
-      type: "string[]",
-      label: "Properties with History",
-      description: "Key-value pairs for setting properties for the new object and their histories",
-      optional: true,
-    },
-    archived: {
-      type: "boolean",
-      label: "Archived",
-      description: "Whether to return only results that have been archived",
-      optional: true,
-    },
-    idProperty: {
-      type: "string",
-      label: "ID Property",
-      description: "When using a custom unique value property to retrieve records, the name of the property. Do not include this parameter if retrieving by record ID.",
-      optional: true,
-    },
   },
   async run({ $ }) {
     const response = await this.hubspot.batchGetObjects({
       $,
       objectType: this.engagementType,
-      params: {
-        archived: this.archived,
-      },
       data: {
         inputs: this.engagementIds.map((id) => ({
           id,
         })),
         properties: this.properties,
-        propertiesWithHistory: this.propertiesWithHistory,
-        idProperty: this.idProperty,
       },
     });
     const count = response?.results?.length ?? 0;
