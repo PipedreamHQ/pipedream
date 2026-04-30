@@ -44,6 +44,9 @@ export default {
         + " If not specified, engagement-type defaults should be returned.",
       optional: true,
       async options() {
+        if (!this.engagementType) {
+          return [];
+        }
         const { results: properties } = await this.hubspot.getProperties({
           objectType: this.engagementType,
         });
