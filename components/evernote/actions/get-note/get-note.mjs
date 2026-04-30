@@ -1,5 +1,4 @@
 import evernote from "../../evernote.app.mjs";
-import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "evernote-get-note",
@@ -22,19 +21,13 @@ export default {
     },
   },
   async run({ $ }) {
-    let response;
-    try {
-      response = await this.evernote.getNote({
-        noteId: this.noteId,
-        resultSpec: {
-          withContent: true,
-        },
-      });
-    } catch ({
-      parameter, message,
-    }) {
-      throw new ConfigurationError(message || parameter);
-    }
+    const response = await this.evernote.getNote({
+      $,
+      noteId: this.noteId,
+      resultSpec: {
+        withContent: true,
+      },
+    });
     $.export("$summary", `Successfully retrieved note with ID: ${this.noteId}`);
     return response;
   },
