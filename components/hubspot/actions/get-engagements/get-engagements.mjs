@@ -41,7 +41,7 @@ export default {
       description:
         "Property names to include in results."
         + " Use **Search Properties** to discover available property names."
-        + " If not specified, returns default properties.",
+        + " If not specified, returns all properties.",
       optional: true,
       async options() {
         const { results: properties } = await this.hubspot.getProperties({
@@ -55,6 +55,12 @@ export default {
     },
   },
   async run({ $ }) {
+    const properties = this.properties?.length
+      ? this.properties
+      : (await this.hubspot.getProperties({
+        objectType: this.engagementType,
+      }))?.results.map((property) => property.name);
+
     const response = await this.hubspot.batchGetObjects({
       $,
       objectType: this.engagementType,
@@ -62,7 +68,7 @@ export default {
         inputs: this.engagementIds.map((id) => ({
           id,
         })),
-        properties: this.properties,
+        properties,
       },
     });
     const count = response?.results?.length ?? 0;
