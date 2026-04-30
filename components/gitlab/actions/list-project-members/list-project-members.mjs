@@ -35,7 +35,8 @@ export default {
       ],
       type: "string[]",
       label: "User IDs",
-      description: "Filter the results on the given user IDs",
+      description: "Filter results to specific GitLab user IDs. Example: `[\"123\", \"456\"]`.",
+      optional: true,
     },
     skipUsers: {
       propDefinition: [
@@ -47,7 +48,8 @@ export default {
       ],
       type: "string[]",
       label: "Skip Users",
-      description: "Filter skipped users out of the results",
+      description: "Exclude specific GitLab user IDs from results. Example: `[\"123\", \"456\"]`.",
+      optional: true,
     },
     showSeatInfo: {
       type: "boolean",
