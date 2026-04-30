@@ -6,7 +6,7 @@ export default {
   key: "evernote-create-note",
   name: "Create Note",
   description: "Creates a new note in Evernote. [See the documentation](https://dev.evernote.com/doc/reference/NoteStore.html#Fn_NoteStore_createNote)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

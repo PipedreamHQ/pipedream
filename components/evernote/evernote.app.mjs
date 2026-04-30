@@ -56,6 +56,12 @@ export default {
       });
       return client.getNoteStore();
     },
+    async getNote({
+      noteId, resultSpec,
+    }) {
+      const noteStore = await this.client();
+      return await noteStore.getNoteWithResultSpec(noteId, resultSpec);
+    },
     async list({ method }) {
       const noteStore = await this.client();
       return await noteStore[method]();
