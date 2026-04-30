@@ -67,11 +67,11 @@ export default {
       $,
       workspace: this.workspace,
       params: {
-        opt_fields: this.optFields
+        opt_fields: Array.isArray(this.optFields) && this.optFields.length
           ? this.optFields.join(",")
           : undefined,
         limit: this.limit,
-        offset: this.offset,
+        offset: this.offset?.trim() || undefined,
       },
     });
     $.export("$summary", `Successfully fetched ${response.data?.length} teams`);

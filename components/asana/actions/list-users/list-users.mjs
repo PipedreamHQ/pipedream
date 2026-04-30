@@ -48,10 +48,10 @@ export default {
       $,
       params: {
         workspace: this.workspace,
-        opt_fields: this.optFields
+        opt_fields: Array.isArray(this.optFields) && this.optFields.length
           ? this.optFields.join(",")
           : undefined,
-        offset: this.offset,
+        offset: this.offset?.trim() || undefined,
       },
     });
     $.export("$summary", `Successfully fetched ${response.data?.length} users`);
