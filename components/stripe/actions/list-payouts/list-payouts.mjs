@@ -11,7 +11,7 @@ export default {
     openWorldHint: true,
     readOnlyHint: true,
   },
-  description: "Find or list payouts. By default returns an array of payout objects. Set `Return Pagination Info` to true to instead receive `{ data, has_more, next_starting_after }` — useful when iterating through multiple pages by passing `next_starting_after` as `Starting After` on the next call. [See the documentation](https://stripe.com/docs/api/payouts/list).",
+  description: "Find or list payouts. By default returns an array of payout objects (auto-paginated up to `Limit`). Set `Return Pagination Info` to true to instead receive `{ data, has_more, next_starting_after }` for a single Stripe page (max 100 per call) — pass `next_starting_after` as `Starting After` on the next call to iterate. [See the documentation](https://stripe.com/docs/api/payouts/list).",
   props: {
     app,
     status: {
@@ -173,48 +173,25 @@ export default {
       ? `${status} `
       : "";
 
-    if (returnPaginationInfo) {
-      // Fetch limit+1 to detect `has_more`, then trim to `limit`.
-      const allItems = await app.sdk().payouts.list(params)
-        .autoPagingToArray({
-          limit: limit + 1,
-        });
+    const result = await app.paginate({
+      collection: "payouts",
+      params,
+      limit,
+      returnPaginationInfo,
+    });
 
-      const hasMore = allItems.length > limit;
-      const items = hasMore
-        ? allItems.slice(0, limit)
-        : allItems;
-      const nextStartingAfter = hasMore
-        ? items[items.length - 1]?.id
-        : null;
-
-      const count = items.length;
-      const noun = count === 1
-        ? "payout"
-        : "payouts";
-      const moreSuffix = hasMore
-        ? " (more available)"
-        : "";
-      $.export("$summary", `Successfully fetched ${count} ${statusPrefix}${noun}${moreSuffix}`);
-
-      return {
-        data: items,
-        has_more: hasMore,
-        next_starting_after: nextStartingAfter,
-      };
-    }
-
-    const items = await app.sdk().payouts.list(params)
-      .autoPagingToArray({
-        limit,
-      });
-
+    const items = returnPaginationInfo
+      ? result.data
+      : result;
     const count = items.length;
     const noun = count === 1
       ? "payout"
       : "payouts";
-    $.export("$summary", `Successfully fetched ${count} ${statusPrefix}${noun}`);
+    const moreSuffix = returnPaginationInfo && result.has_more
+      ? " (more available)"
+      : "";
+    $.export("$summary", `Successfully fetched ${count} ${statusPrefix}${noun}${moreSuffix}`);
 
-    return items;
+    return result;
   },
 };

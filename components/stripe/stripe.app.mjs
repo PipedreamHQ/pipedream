@@ -620,5 +620,43 @@ export default {
     getProducts(args = {}) {
       return this.sdk().products.list(args);
     },
+    /**
+     * Centralized pagination helper for Stripe list endpoints.
+     *
+     * - Default mode: backwards-compatible auto-paginated array. Uses the
+     *   Stripe SDK's `autoPagingToArray` to gather up to `limit` items
+     *   across pages.
+     * - Pagination-info mode (`returnPaginationInfo: true`): returns one
+     *   Stripe page along with the API's native `has_more` and a derived
+     *   `next_starting_after` cursor. Stripe enforces a max page size of
+     *   100, so `limit` is clamped accordingly.
+     */
+    async paginate({
+      collection,
+      params = {},
+      limit,
+      returnPaginationInfo = false,
+    }) {
+      if (returnPaginationInfo) {
+        const pageLimit = Math.min(limit ?? 100, 100);
+        const resp = await this.sdk()[collection].list({
+          ...params,
+          limit: pageLimit,
+        });
+        const data = resp.data;
+        return {
+          data,
+          has_more: resp.has_more,
+          next_starting_after: resp.has_more
+            ? data[data.length - 1]?.id
+            : null,
+        };
+      }
+
+      return this.sdk()[collection].list(params)
+        .autoPagingToArray({
+          limit,
+        });
+    },
   },
 };
