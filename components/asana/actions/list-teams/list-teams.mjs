@@ -23,10 +23,28 @@ export default {
       description: "The workspace to list teams for. This field uses the workspace GID (e.g. \"120111222333444\").",
     },
     optFields: {
-      type: "string",
+      type: "string[]",
       label: "Opt Fields",
-      description: "This endpoint returns a resource which excludes some properties by default. To include those optional properties, set this query parameter to a comma-separated list of the properties you wish to include (e.g. \"members,description,projects\").",
+      description: "This endpoint returns a resource which excludes some properties by default. To include those optional properties, set this query parameter to a list of the properties you wish to include (e.g. `[\"name\", \"description\", \"organization\"]`).",
       optional: true,
+      options: [
+        "resource_type",
+        "name",
+        "description",
+        "html_description",
+        "organization",
+        "permalink_url",
+        "visibility",
+        "edit_team_name_or_description_access_level",
+        "edit_team_visibility_or_trash_team_access_level",
+        "member_invite_management_access_level",
+        "guest_invite_management_access_level",
+        "join_request_management_access_level",
+        "team_member_removal_access_level",
+        "team_content_management_access_level",
+        "endorsed",
+        "custom_field_settings",
+      ],
     },
     limit: {
       type: "integer",
@@ -34,6 +52,7 @@ export default {
       description: "The number of teams to return per page. Defaults to 25. Maximum is 100.",
       optional: true,
       default: 25,
+      min: 1,
       max: 100,
     },
     offset: {
@@ -48,7 +67,9 @@ export default {
       $,
       workspace: this.workspace,
       params: {
-        opt_fields: this.optFields,
+        opt_fields: this.optFields
+          ? this.optFields.join(",")
+          : undefined,
         limit: this.limit,
         offset: this.offset,
       },

@@ -23,10 +23,18 @@ export default {
       description: "The workspace to list users for. This field uses the workspace GID (e.g., \"1234567890123456\").",
     },
     optFields: {
-      type: "string",
+      type: "string[]",
       label: "Opt Fields",
-      description: "This endpoint returns a resource which excludes some properties by default. To include those optional properties, set this query parameter to a comma-separated list of the properties you wish to include (e.g., \"name,email,photo\").",
+      description: "This endpoint returns a resource which excludes some properties by default. To include those optional properties, set this query parameter to a list of the properties you wish to include (e.g., `[\"name\", \"email\", \"photo\"]`).",
       optional: true,
+      options: [
+        "resource_type",
+        "name",
+        "email",
+        "photo",
+        "workspaces",
+        "custom_fields",
+      ],
     },
     offset: {
       type: "string",
@@ -40,7 +48,9 @@ export default {
       $,
       params: {
         workspace: this.workspace,
-        opt_fields: this.optFields,
+        opt_fields: this.optFields
+          ? this.optFields.join(",")
+          : undefined,
         offset: this.offset,
       },
     });
