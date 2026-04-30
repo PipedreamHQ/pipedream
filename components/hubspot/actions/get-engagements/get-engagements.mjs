@@ -33,15 +33,15 @@ export default {
         }),
       ],
       label: "Engagement IDs",
-      description: "The IDs of the engagements to retrieve",
+      description: "Array of engagement record IDs to retrieve. Example: `[\"191980186487\", \"191980186488\"]`.",
     },
     properties: {
       type: "string[]",
       label: "Properties",
       description:
-        "Property names to include in results."
+        "Property names to include in results. Example: `[\"hs_note_body\"]` for notes or `[\"hs_task_subject\", \"hs_task_body\"]` for tasks."
         + " Use **Search Properties** to discover available property names."
-        + " If not specified, returns all properties.",
+        + " If not specified, engagement-type defaults should be returned.",
       optional: true,
       async options() {
         const { results: properties } = await this.hubspot.getProperties({
