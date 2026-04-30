@@ -23,7 +23,7 @@ export default {
     pageSize: {
       type: "integer",
       label: "Page Size",
-      description: "The number of sites to return per page. The default is 100.",
+      description: "The number of workbooks to return per page. The default is 100.",
       optional: true,
       default: 100,
       min: 1,
@@ -47,7 +47,8 @@ export default {
         pageNumber: this.pageNumber,
       },
     });
-    $.export("$summary", `Successfully listed ${response.workbooks.workbook.length} workbook${response.workbooks.workbook.length === 1
+    const count = response.workbooks?.workbook?.length ?? 0;
+    $.export("$summary", `Successfully listed ${count} workbook${count === 1
       ? ""
       : "s"}`);
     return response;
