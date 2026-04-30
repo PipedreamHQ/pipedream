@@ -58,6 +58,7 @@ export default {
     const properties = this.properties?.length
       ? this.properties
       : (await this.hubspot.getProperties({
+        $,
         objectType: this.engagementType,
       }))?.results.map((property) => property.name);
 
