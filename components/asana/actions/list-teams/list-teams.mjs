@@ -3,7 +3,7 @@ import asana from "../../asana.app.mjs";
 export default {
   key: "asana-list-teams",
   name: "List Teams",
-  description: "List teams in a workspace. [See the documentation](https://developers.asana.com/reference/getteamsforworkspace)",
+  description: "Retrieves all teams in a specified Asana workspace. Use this action to discover available teams for creating projects, adding team members, or organizing work by department. Requires a workspace GID, which you can obtain from the **List Workspaces** action. The authenticated user must have access to the workspace; only teams visible to the user are returned. Results are paginated (default 25, max 100 per page); use the returned offset token to fetch additional pages. To include optional fields like description, visibility, or access levels, specify them in Opt Fields. Consider following up with **Create Project** to create a project under a team, or **List Users** to find team members. [See the documentation](https://developers.asana.com/reference/getteamsforworkspace)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
