@@ -4,7 +4,7 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   key: "github-list-branches",
   name: "List Branches",
-  description: "List branches for a repository. [See the documentation](https://docs.github.com/en/rest/branches/branches?apiVersion=2026-03-10#list-branches)",
+  description: "List branches for a repository using its `owner/repo` full name (for example, `octocat/Hello-World`). If you need to discover repository names first, use **List Repositories**. [See the documentation](https://docs.github.com/en/rest/branches/branches?apiVersion=2026-03-10#list-branches)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
