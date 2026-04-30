@@ -3,19 +3,29 @@ import { formatContact } from "./contact-output.mjs";
 /**
  * Standard list of company (account) fields to include in client output.
  * Edit this array to add/remove fields returned from get-company, create-company, etc.
+ *
+ * Nutshell getAccount / full Account _render() uses "email" and "phone" (object maps);
+ * older or stub responses may use "emails" / "phones". We include both.
+ *
+ * Custom fields from findCustomFields appear under customFields when the API returns them.
  */
 export const COMPANY_OUTPUT_FIELDS = [
   "id",
   "name",
   "entityType",
+  "rev",
+  "htmlUrl",
   "industry",
   "accountType",
   "territory",
   "location",
   "url",
+  "email",
   "emails",
+  "phone",
   "phones",
   "address",
+  "tags",
   "createdTime",
   "modifiedTime",
   "contacts",

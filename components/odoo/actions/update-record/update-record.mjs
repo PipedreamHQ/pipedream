@@ -5,7 +5,7 @@ export default {
   key: "odoo-update-record",
   name: "Update Record",
   description: "Update an existing record in Odoo. [See the documentation](https://www.odoo.com/documentation/18.0/developer/reference/external_api.html#update-records)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -13,13 +13,17 @@ export default {
   },
   type: "action",
   props: {
-    odoo: {
-      ...odoo,
+    odoo,
+    modelName: {
+      propDefinition: [
+        odoo,
+        "modelName",
+      ],
       reloadProps: true,
     },
   },
   async additionalProps() {
-    const fieldProps = await this.odoo.getFieldProps({
+    const fieldProps = await this.odoo.getFieldProps(this.modelName, {
       update: true,
     });
     const recordId = {
@@ -35,7 +39,7 @@ export default {
   },
   methods: {
     async getRecordIdOptions(page) {
-      const records = await this.odoo.searchAndReadRecords([], {
+      const records = await this.odoo.searchAndReadRecords(this.modelName, [], {
         limit: DEFAULT_LIMIT,
         offset: page * DEFAULT_LIMIT,
       });
@@ -52,10 +56,11 @@ export default {
       odoo,
       // eslint-disable-next-line no-unused-vars
       getRecordIdOptions,
+      modelName,
       recordId,
       ...data
     } = this;
-    const response = await odoo.updateRecord([
+    const response = await odoo.updateRecord(modelName, [
       [
         recordId,
       ],

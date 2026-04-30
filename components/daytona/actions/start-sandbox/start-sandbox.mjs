@@ -4,7 +4,7 @@ export default {
   key: "daytona-start-sandbox",
   name: "Start Sandbox",
   description: "Start a sandbox on Daytona. [See the documentation](https://www.daytona.io/docs/en/typescript-sdk/sandbox/#start)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

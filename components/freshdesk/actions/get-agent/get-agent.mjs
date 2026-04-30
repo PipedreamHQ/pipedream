@@ -4,7 +4,7 @@ export default {
   key: "freshdesk-get-agent",
   name: "Get Agent",
   description: "Retrieve a single agent by their ID. [See the documentation](https://developers.freshdesk.com/api/#view_agent)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

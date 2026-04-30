@@ -5,9 +5,9 @@ export default {
   key: "asana-update-task",
   name: "Update Task",
   description: "Updates a specific and existing task. [See the documentation](https://developers.asana.com/docs/update-a-task)",
-  version: "0.4.4",
+  version: "0.4.6",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },

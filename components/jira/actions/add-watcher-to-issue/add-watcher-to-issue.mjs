@@ -3,7 +3,7 @@ import jira from "../../jira.app.mjs";
 export default {
   key: "jira-add-watcher-to-issue",
   name: "Add Watcher To Issue",
-  version: "0.0.17",
+  version: "0.0.18",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -45,6 +45,37 @@ export default {
       accountId: this.accountId,
       issueIdOrKey: this.issueIdOrKey,
     });
+
+    let browserUrl;
+    let issueKey;
+    try {
+      const [
+        baseUrl,
+        issue,
+      ] = await Promise.all([
+        this.jira.getCloudBaseUrl(this.cloudId),
+        this.jira.getIssue({
+          $,
+          cloudId: this.cloudId,
+          issueIdOrKey: this.issueIdOrKey,
+          params: {
+            fields: "key",
+          },
+        }),
+      ]);
+      issueKey = issue.key;
+      browserUrl = baseUrl && issue.key
+        ? `${baseUrl}/browse/${issue.key}`
+        : undefined;
+    } catch (e) {
+      console.log("Could not enrich response with browser URL", e.message);
+    }
+
     $.export("$summary", `Successfully added watcher to issue with ID(or key): ${this.issueIdOrKey}`);
+    return {
+      success: true,
+      issueIdOrKey: issueKey || this.issueIdOrKey,
+      browserUrl,
+    };
   },
 };

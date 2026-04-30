@@ -6,7 +6,7 @@ export default {
   name: "Remove File Sharing Permission",
   description:
     "Remove a [sharing permission](https://support.google.com/drive/answer/7166529) from the sharing preferences of a file or folder. [See the documentation](https://developers.google.com/workspace/drive/api/reference/rest/v3/permissions/delete)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

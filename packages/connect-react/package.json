@@ -41,7 +41,7 @@
     "@emotion/react": "^11.13.5",
     "@types/lodash.isequal": "^4.5.8",
     "@types/react": "^18.3.12",
-    "vite": "^5.4.11",
+    "vite": "^6.4.2",
     "vite-plugin-dts": "^4.3.0"
   },
   "peerDependencies": {

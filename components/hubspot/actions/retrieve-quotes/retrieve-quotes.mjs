@@ -10,7 +10,7 @@ export default {
     "Fetch one quote by ID or list quotes with CRM v3 pagination (`after`, `limit`)."
     + " Complements **Create CRM Object** for quotes when you need read access outside **Search CRM**."
     + " [See the documentation](https://developers.hubspot.com/docs/api-reference/crm-quotes-v3/basic/get-crm-v3-objects-quotes)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
