@@ -26,7 +26,8 @@ export default {
     const response = await this.monday.listBoards({
       page: this.page,
     });
-    $.export("$summary", `Successfully retrieved ${response.data?.boards?.length} board${response.data?.boards?.length === 1
+    const boardCount = response.data?.boards?.length ?? 0;
+    $.export("$summary", `Successfully retrieved ${boardCount} board${boardCount === 1
       ? ""
       : "s"}`);
     return response;
