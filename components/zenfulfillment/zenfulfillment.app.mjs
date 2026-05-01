@@ -125,7 +125,7 @@ export default {
     }) {
       return this._makeRequest({
         path: `/order-return/${orderReturnId}`,
-        ...opts
+        ...opts,
       });
     },
   },
