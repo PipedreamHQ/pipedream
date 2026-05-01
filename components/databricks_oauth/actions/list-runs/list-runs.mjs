@@ -38,7 +38,7 @@ export default {
     const params = {
       job_id: this.jobId,
       active_only: this.activeOnly,
-      limit: 100,
+      limit: 25,
       offset: 0,
     };
     const allRuns = [];
