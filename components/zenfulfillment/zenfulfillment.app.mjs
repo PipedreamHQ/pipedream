@@ -121,12 +121,11 @@ export default {
       });
     },
     getOrderReturn({
-      orderReturnId,
-      ...opts
+      orderReturnId, ...opts
     }) {
       return this._makeRequest({
         path: `/order-return/${orderReturnId}`,
-        ...opts,
+        ...opts
       });
     },
   },
