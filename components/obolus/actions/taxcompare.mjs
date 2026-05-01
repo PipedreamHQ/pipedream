@@ -17,7 +17,7 @@ export default {
     grossMode: {
       type: "string",
       label: "Gross Mode",
-      description: "Comparison basis from the Obolus OpenAPI contract.",
+      description: "`shared_gross` compares the same annual salary across countries. `local_median_gross` compares country-specific editorial median salary benchmarks.",
       options: [
         "shared_gross",
         "local_median_gross",
@@ -27,7 +27,7 @@ export default {
     annualGross: {
       type: "number",
       label: "Annual Gross Salary",
-      description: "Annual gross salary in major currency units, e.g. 60000. Optional when gross mode is local_median_gross.",
+      description: "Annual gross salary in major currency units, e.g. `60000` for EUR 60,000. Do not enter cents. Optional and ignored when Gross Mode is `local_median_gross`.",
       optional: true,
     },
     taxYear: {
@@ -83,13 +83,13 @@ export default {
       jointAssessment: {
         type: "boolean",
         label: "Joint Assessment",
-        description: "Apply joint filing / joint assessment where supported.",
+        description: "Apply broad joint filing / joint assessment assumptions where supported. For precise country-specific spouse or tax-class handling, use Calculate Net Salary instead.",
         optional: true,
       },
       children: {
         type: "integer",
         label: "Children",
-        description: "Number of children for the comparison.",
+        description: "Number of children for broad cross-country comparison assumptions. Country-specific child allowance details are simplified for comparability.",
         optional: true,
       },
       requestOverrides: {

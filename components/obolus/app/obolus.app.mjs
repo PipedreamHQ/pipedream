@@ -24,6 +24,7 @@ export default {
         "IE",
       ],
       default: "DE",
+      reloadProps: true,
     },
   },
   methods: {

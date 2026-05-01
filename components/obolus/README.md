@@ -18,6 +18,26 @@ Supported countries: `DE`, `AT`, `US`, `CH`, `CA`, `AU`, `UK`, `IE`
 
 Direct fields cover common use cases. JSON overrides exist for forward compatibility and niche cases.
 
+### Germany payroll defaults
+
+For standard German employees, the `Calculate Net Salary` action uses semantic adapter fields:
+
+- `de_payroll_preset: "DE_STANDARD_EMPLOYEE_STATUTORY"`
+- `de_statutory_pension_and_unemployment: true`
+- `de_statutory_health_and_care: true`
+- `de_health_extra_contribution_percent: 2.5`
+
+The extra health contribution is a literal percent value. Use `2.5` for 2.5%, not `25`, `250`, basis points, tenths, or cents.
+
+The German payroll preset is the safest translation layer for automations:
+
+- `DE_STANDARD_EMPLOYEE_STATUTORY`: normal employee, statutory pension/unemployment and statutory GKV/PV.
+- `DE_PRIVATE_HEALTH_INSURANCE`: employee with statutory pension/unemployment and private health insurance.
+- `DE_PENSION_EXEMPT`: civil servant, self-employed, or otherwise pension-exempt with statutory GKV/PV.
+- `DE_PENSION_EXEMPT_PRIVATE_HEALTH`: pension-exempt with private health insurance.
+
+The action UI does not expose raw German Obolus payroll flags. JSON overrides can still carry legacy fields for compatibility, but contradictions are rejected before the API call. If private health insurance is selected, provide `de_private_health_employee_contribution_ct` in minor units for the selected payroll period.
+
 For country-specific input and output parameter details, the Obolus `/developers` page can serve as the knowledge base:
 
 https://www.obolusfinanz.de/en/developers
