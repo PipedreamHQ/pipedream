@@ -18,6 +18,22 @@ Supported countries: `DE`, `AT`, `US`, `CH`, `CA`, `AU`, `UK`, `IE`
 
 Direct fields cover common use cases. JSON overrides exist for forward compatibility and niche cases.
 
+### Tool selection for ChatGPT Apps and MCP
+
+Use `Compare Salary Across Countries` (`taxcompare`) as the default action whenever the user asks to compare salary, net income, taxes, or social contributions across multiple countries. Example prompts that should route to `taxcompare`:
+
+- "Compare a EUR 50,000 salary in Germany, Ireland, the United States, and Canada."
+- "Which of DE, CH, AT, and AU has the highest net income for 100k gross?"
+- "Compare tax burden across these four countries."
+
+Use `Calculate Net Salary` (`berechne`) only for detailed payroll calculation in one selected country for one or two people. Example prompts that should route to `berechne`:
+
+- "Calculate German net salary for EUR 60,000 gross, tax class 1, Berlin."
+- "Calculate a two-person German household with church tax and children."
+- "Run a detailed payroll calculation for one country with country-specific inputs."
+
+`berechne` is country-polymorphic. The same input or output field name can represent different tax, social security, or payroll concepts depending on the selected country and tax system. Do not treat raw fields such as region, tax class, child allowance, pension, health, or payroll-period fields as globally portable. Prefer semantic country presets and documented country-specific fields over raw flags.
+
 ### Germany payroll defaults
 
 For standard German employees, the `Calculate Net Salary` action uses semantic adapter fields:

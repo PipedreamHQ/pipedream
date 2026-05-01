@@ -12,7 +12,7 @@ export default {
     country: {
       type: "string",
       label: "Country",
-      description: "Country code for the calculation, e.g. DE.",
+      description: "Country code, e.g. DE. In Calculate Net Salary this selects the country-specific tax and payroll system, so identically named inputs and outputs can have different meanings by country.",
       options: [
         "DE",
         "AT",

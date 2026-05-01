@@ -52,14 +52,14 @@ const PERSON_ADVANCED_FIELDS = [
     apiKey: "Bundesland",
     type: "string",
     label: "Bundesland",
-    description: "Raw Obolus API field `Bundesland` for state / canton / region.",
+    description: "Raw Obolus API field `Bundesland` for state / canton / region. The valid values and tax effect are country-specific.",
   },
   {
     prop: "lohnzahlungszeitraum",
     apiKey: "Lohnzahlungszeitraum",
     type: "integer",
     label: "Lohnzahlungszeitraum",
-    description: "Raw Obolus API field `Lohnzahlungszeitraum` for the person-specific payroll period.",
+    description: "Raw Obolus API field `Lohnzahlungszeitraum` for the person-specific payroll period. Its exact semantics are interpreted by the selected country's payroll rules.",
   },
   {
     prop: "kirche",
@@ -73,14 +73,14 @@ const PERSON_ADVANCED_FIELDS = [
     apiKey: "KinderPVA",
     type: "integer",
     label: "KinderPVA",
-    description: "Raw Obolus API field `KinderPVA` for child count relevant to care insurance logic.",
+    description: "Raw Obolus API field `KinderPVA` for child count relevant to care insurance logic. This is country-specific and primarily relevant where the selected tax system uses this concept.",
   },
   {
     prop: "kinderfreibetrag",
     apiKey: "Kinderfreibetrag",
     type: "number",
     label: "Kinderfreibetrag",
-    description: "Raw Obolus API field `Kinderfreibetrag` for the person's child allowance share.",
+    description: "Raw Obolus API field `Kinderfreibetrag` for the person's child allowance share. The meaning and valid range are country-specific.",
   },
   {
     prop: "geldwerterVorteil",
@@ -299,7 +299,7 @@ function validateGermanPayrollInputs(person, label, country) {
 export default {
   key: "obolus-berechne",
   name: "Calculate Net Salary",
-  description: "Calculate net salary, taxes, and social contributions for one or two people using the Obolus API. [See the documentation](https://www.obolusfinanz.de/en/developers)",
+  description: "Use this only for detailed net salary and payroll calculation for one country and one or two people. Inputs and outputs are country-polymorphic: the same field name can map to different tax, social security, or payroll concepts depending on the selected country and tax system. For comparing salary, tax, or net income across multiple countries, use Compare Salary Across Countries instead. [See the documentation](https://www.obolusfinanz.de/en/developers)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -318,13 +318,13 @@ export default {
     taxYear: {
       type: "integer",
       label: "Tax Year",
-      description: "Tax year, e.g. 2026.",
+      description: "Country-specific tax year for this detailed payroll calculation, e.g. 2026.",
       default: 2026,
     },
     currency: {
       type: "string",
       label: "Currency",
-      description: "Currency code in upper-case ISO style.",
+      description: "Currency code in upper-case ISO style for the salary input and payroll output.",
       options: [
         "EUR",
         "USD",
@@ -338,18 +338,18 @@ export default {
     payrollPeriod: {
       type: "integer",
       label: "Payroll Period",
-      description: "Top-level LZZ value. 1=year, 2=month, 3=week, 4=day. Direct salary inputs are annual gross amounts; this action converts them to the selected payroll period before calling Obolus.",
+      description: "Top-level LZZ value. 1=year, 2=month, 3=week, 4=day. Direct salary inputs are annual gross amounts; this action converts them to the selected payroll period before calling Obolus. Period handling is interpreted by the selected country's payroll rules.",
       default: 1,
     },
     grossAnnual: {
       type: "number",
       label: "Person 1 Annual Gross Salary",
-      description: "Annual gross salary in major units, e.g. 60000.",
+      description: "Person 1 annual gross salary in major units, e.g. 60000. Use Compare Salary Across Countries instead when the task is to compare this salary across multiple countries.",
     },
     taxClass: {
       type: "integer",
       label: "Person 1 Tax Class",
-      description: "Country-specific tax class / filing status value.",
+      description: "Country-specific tax class, filing status, or equivalent payroll category. The numeric meaning depends on the selected country.",
       default: 1,
     },
     birthYear: {
@@ -361,7 +361,7 @@ export default {
     includeSecondPerson: {
       type: "boolean",
       label: "Include Person 2",
-      description: "Enable a second person and switch Modus to 2.",
+      description: "Enable a second person and switch Modus to 2 for detailed household payroll in one selected country.",
       optional: true,
       default: false,
       reloadProps: true,
@@ -369,7 +369,7 @@ export default {
     showAdvancedInputs: {
       type: "boolean",
       label: "Show Advanced Inputs",
-      description: "Reveal additional Obolus OpenAPI fields for advanced and country-specific payroll scenarios.",
+      description: "Reveal additional Obolus OpenAPI fields for advanced and country-specific payroll scenarios. These fields are not globally portable; their meaning can change by country and tax system.",
       optional: true,
       reloadProps: true,
       default: false,
@@ -389,7 +389,7 @@ export default {
         secondTaxClass: {
           type: "integer",
           label: "Person 2 Tax Class",
-          description: "Country-specific tax class / filing status value for the second person.",
+          description: "Country-specific tax class, filing status, or equivalent payroll category for the second person. The numeric meaning depends on the selected country.",
           optional: true,
         },
         secondBirthYear: {
@@ -433,13 +433,13 @@ export default {
       person1Overrides: {
         type: "string",
         label: "Person 1 JSON Overrides",
-        description: "Optional JSON object merged into person 1 for edge cases and forward compatibility. Prefer readable German aliases, e.g. {\"de_health_extra_contribution_percent\":2.9,\"de_health_insurance\":\"statutory\"}.",
+        description: "Optional JSON object merged into person 1 for edge cases and forward compatibility. Override keys are country-specific and should not be reused across countries unless the Obolus API documents the same meaning. Prefer readable German aliases, e.g. {\"de_health_extra_contribution_percent\":2.9,\"de_health_insurance\":\"statutory\"}.",
         optional: true,
       },
       requestOverrides: {
         type: "string",
         label: "Top-Level JSON Overrides",
-        description: "Optional JSON object merged into the top-level berechne payload. Do not include `Personen`. Example: {\"Faktor\":0.95,\"KinderFRB\":1}",
+        description: "Optional JSON object merged into the top-level berechne payload for country-specific payroll features. Do not include `Personen`. Example: {\"Faktor\":0.95,\"KinderFRB\":1}",
         optional: true,
       },
       ...buildPersonAdvancedProps("person1", "Person 1", this.country),
@@ -449,7 +449,7 @@ export default {
       props.person2Overrides = {
         type: "string",
         label: "Person 2 JSON Overrides",
-        description: "Optional JSON object merged into person 2 for edge cases and forward compatibility. Prefer readable German aliases, e.g. {\"de_pension_insurance\":\"statutory\",\"de_health_insurance\":\"statutory\"}.",
+        description: "Optional JSON object merged into person 2 for edge cases and forward compatibility. Override keys are country-specific and should not be reused across countries unless the Obolus API documents the same meaning. Prefer readable German aliases, e.g. {\"de_pension_insurance\":\"statutory\",\"de_health_insurance\":\"statutory\"}.",
         optional: true,
       };
 
