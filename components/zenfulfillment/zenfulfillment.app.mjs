@@ -120,7 +120,10 @@ export default {
         ...opts,
       });
     },
-    getOrderReturn({ orderReturnId, ...opts }) {
+    getOrderReturn({
+      orderReturnId,
+      ...opts
+    }) {
       return this._makeRequest({
         path: `/order-return/${orderReturnId}`,
         ...opts,
