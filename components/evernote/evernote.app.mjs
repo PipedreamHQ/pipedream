@@ -75,13 +75,14 @@ export default {
       });
     },
     async listNotes({
-      maxNotes, offset,
+      maxNotes, offset, notebookGuid,
     }) {
       const noteStore = await this.client();
       return await noteStore.findNotesMetadata(
         new Evernote.NoteStore.NoteFilter({
           order: "created",
           ascending: false,
+          notebookGuid,
         }),
         offset,
         maxNotes,
