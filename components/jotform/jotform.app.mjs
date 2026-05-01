@@ -185,8 +185,11 @@ export default {
         teamId,
       });
     },
-    async getForms(params, teamId) {
+    async getForms({
+      $, params, teamId,
+    }) {
       return this._makeRequest({
+        $,
         endpoint: "user/forms",
         params,
         teamId,
