@@ -55,7 +55,6 @@ export default {
   async run({ $ }) {
     const designs = await this.canva.listDesigns({
       $,
-      debug: true,
       params: {
         query: this.query?.length
           ? this.query.slice(0, 255)
