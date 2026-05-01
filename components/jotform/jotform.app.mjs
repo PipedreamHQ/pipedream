@@ -15,9 +15,12 @@ export default {
         const limit = 20;
         const offset = page * limit;
         let { content: forms } = await this.getForms({
-          offset,
-          limit,
-        }, teamId);
+          params: {
+            offset,
+            limit,
+          },
+          teamId,
+        });
         if (excludeDeleted) {
           forms = forms.filter(({ status }) => status !== "DELETED");
         }
