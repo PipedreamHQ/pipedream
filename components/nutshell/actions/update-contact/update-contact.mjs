@@ -6,7 +6,7 @@ export default {
   key: "nutshell-update-contact",
   name: "Update Contact",
   description: "Update an existing contact. Only provided fields are updated. Custom fields from your Nutshell pipeline can be set below or passed via the Custom Fields (Object) prop. [See the documentation](https://developers-rpc.nutshell.com/detail/class_core.html#a98db326321fb32ec79cff2112999dc1f)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

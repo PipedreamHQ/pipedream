@@ -12,8 +12,8 @@ overrides:
   protobufjs@7.2.4: 7.2.6
   vm2: 3.10.0
   xmldom: npm:@xmldom/xmldom@0.8.11
-  axios@0.x: ^0.30.2
-  axios@1.x: ^1.13.2
+  axios@0.x: ^0.31.1
+  axios@1.x: ^1.15.2
   tar-fs@2.x: ^2.1.4
   tar-fs@3.x: ^3.1.1
   ws@8.x: ^8.17.1
@@ -534,6 +534,12 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/agify:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
+
   components/agile_crm:
     dependencies:
       '@pipedream/platform':
@@ -710,8 +716,8 @@ importers:
   components/aivoov:
     dependencies:
       axios:
-        specifier: ^1.13.2
-        version: 1.15.0(debug@3.2.7)
+        specifier: ^1.15.2
+        version: 1.15.2(debug@3.2.7)
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -1128,8 +1134,8 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
       axios:
-        specifier: ^1.13.2
-        version: 1.15.0(debug@3.2.7)
+        specifier: ^1.15.2
+        version: 1.15.2(debug@3.2.7)
       sqlstring:
         specifier: ^2.3.3
         version: 2.3.3
@@ -1535,8 +1541,8 @@ importers:
         specifier: ^3.2.5
         version: 3.3.0
       fast-xml-parser:
-        specifier: ^5.5.7
-        version: 5.5.7
+        specifier: ^5.7.0
+        version: 5.7.1
       mime-types:
         specifier: ^2.1.35
         version: 2.1.35
@@ -1844,8 +1850,8 @@ importers:
         specifier: ^0.10.1
         version: 0.10.1
       axios:
-        specifier: ^1.13.2
-        version: 1.15.0(debug@3.2.7)
+        specifier: ^1.15.2
+        version: 1.15.2(debug@3.2.7)
       package-lock-only:
         specifier: ^0.0.4
         version: 0.0.4
@@ -1876,8 +1882,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
       axios:
-        specifier: ^1.13.2
-        version: 1.15.0(debug@3.2.7)
+        specifier: ^1.15.2
+        version: 1.15.2(debug@3.2.7)
 
   components/bitport:
     dependencies:
@@ -2180,8 +2186,8 @@ importers:
         specifier: ^0.1.0
         version: 0.1.1
       axios:
-        specifier: ^1.13.2
-        version: 1.15.0(debug@3.2.7)
+        specifier: ^1.15.2
+        version: 1.15.2(debug@3.2.7)
       uuid:
         specifier: ^8.3.2
         version: 8.3.2
@@ -2748,8 +2754,8 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
       axios:
-        specifier: ^1.13.2
-        version: 1.15.0(debug@3.2.7)
+        specifier: ^1.15.2
+        version: 1.15.2(debug@3.2.7)
 
   components/chatfai:
     dependencies:
@@ -2826,7 +2832,7 @@ importers:
         version: 3.3.0
       fast-xml-parser:
         specifier: ^5.5.8
-        version: 5.5.8
+        version: 5.7.0
 
   components/chimp_rewriter: {}
 
@@ -3588,6 +3594,8 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
+  components/corporate_merch: {}
+
   components/corrently: {}
 
   components/corsizio:
@@ -3950,7 +3958,11 @@ importers:
         specifier: ^8.3.2
         version: 8.3.2
 
-  components/dataforb2b: {}
+  components/dataforb2b:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.3.1
+        version: 3.3.1
 
   components/dataforseo:
     dependencies:
@@ -4001,6 +4013,9 @@ importers:
       '@daytonaio/sdk':
         specifier: ^0.138.0
         version: 0.138.0(ws@8.18.3)
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.3.1
 
   components/dbt:
     dependencies:
@@ -5452,7 +5467,13 @@ importers:
         version: 4.0.4
 
   components/filepost:
-    specifiers: {}
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.3.1
+        version: 3.3.1
+      form-data:
+        specifier: 4.0.4
+        version: 4.0.4
 
   components/files_com:
     dependencies:
@@ -7518,6 +7539,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/huntress: {}
+
   components/hybrid_analysis: {}
 
   components/hygraph: {}
@@ -7925,6 +7948,12 @@ importers:
 
   components/ionos_hosting_services: {}
 
+  components/ip2geo:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.3.1
+
   components/ip2location:
     dependencies:
       '@pipedream/platform':
@@ -8029,8 +8058,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
       fast-xml-parser:
-        specifier: ^5.5.7
-        version: 5.5.7
+        specifier: ^5.7.0
+        version: 5.7.1
 
   components/jibble:
     dependencies:
@@ -8852,8 +8881,8 @@ importers:
         specifier: ^3.2.5
         version: 3.3.0
       axios:
-        specifier: ^1.13.2
-        version: 1.15.0(debug@3.2.7)
+        specifier: ^1.15.2
+        version: 1.15.2(debug@3.2.7)
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -8883,7 +8912,7 @@ importers:
     dependencies:
       linkup-sdk:
         specifier: ^1.0.3
-        version: 1.2.0(@types/node@25.6.0)(typescript@5.9.3)
+        version: 1.2.0(@types/node@25.6.0)(typescript@5.6.3)
 
   components/linkupapi:
     dependencies:
@@ -9388,8 +9417,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
       axios:
-        specifier: ^1.13.2
-        version: 1.15.0(debug@3.2.7)
+        specifier: ^1.15.2
+        version: 1.15.2(debug@3.2.7)
 
   components/matrix: {}
 
@@ -9742,8 +9771,8 @@ importers:
         specifier: ^143.0.4
         version: 143.0.4
       axios:
-        specifier: ^1.13.2
-        version: 1.15.0(debug@3.2.7)
+        specifier: ^1.15.2
+        version: 1.15.2(debug@3.2.7)
       js-base64:
         specifier: ^3.7.2
         version: 3.7.8
@@ -10223,6 +10252,12 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/nationalize:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
+
   components/nationbuilder:
     dependencies:
       '@pipedream/platform':
@@ -10683,6 +10718,8 @@ importers:
 
   components/oauth_app_demo_1: {}
 
+  components/obolus: {}
+
   components/occasion:
     dependencies:
       '@pipedream/platform':
@@ -10879,8 +10916,8 @@ importers:
   components/ongage:
     dependencies:
       axios:
-        specifier: ^1.13.2
-        version: 1.15.0(debug@3.2.7)
+        specifier: ^1.15.2
+        version: 1.15.2(debug@3.2.7)
       node-fetch:
         specifier: ^2.6.7
         version: 2.7.0(encoding@0.1.13)
@@ -11016,8 +11053,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
       fast-xml-parser:
-        specifier: ^5.5.7
-        version: 5.5.7
+        specifier: ^5.7.0
+        version: 5.7.1
 
   components/openthesaurus: {}
 
@@ -11382,8 +11419,8 @@ importers:
   components/patreon:
     dependencies:
       axios:
-        specifier: ^1.13.2
-        version: 1.15.0(debug@3.2.7)
+        specifier: ^1.15.2
+        version: 1.15.2(debug@3.2.7)
       url:
         specifier: ^0.11.0
         version: 0.11.4
@@ -12105,6 +12142,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/polly_help: {}
+
   components/polygon:
     dependencies:
       '@pipedream/platform':
@@ -12165,7 +12204,7 @@ importers:
     devDependencies:
       dtslint:
         specifier: ^4.2.1
-        version: 4.2.1(typescript@5.9.3)
+        version: 4.2.1(typescript@5.6.3)
 
   components/postgrid:
     dependencies:
@@ -12561,7 +12600,7 @@ importers:
     dependencies:
       '@qdrant/js-client-rest':
         specifier: ^1.11.0
-        version: 1.15.1(typescript@5.9.3)
+        version: 1.15.1(typescript@5.6.3)
 
   components/qntrl:
     dependencies:
@@ -12881,8 +12920,8 @@ importers:
         specifier: ^1.3.3
         version: 1.3.3
       axios:
-        specifier: ^1.13.2
-        version: 1.15.0(debug@3.2.7)
+        specifier: ^1.15.2
+        version: 1.15.2(debug@3.2.7)
       lodash:
         specifier: ^4.18.1
         version: 4.18.1
@@ -13445,8 +13484,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
       axios:
-        specifier: ^1.13.2
-        version: 1.15.0(debug@3.2.7)
+        specifier: ^1.15.2
+        version: 1.15.2(debug@3.2.7)
       feedparser:
         specifier: ^2.2.10
         version: 2.2.10
@@ -13546,8 +13585,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
       fast-xml-parser:
-        specifier: ^5.5.7
-        version: 5.5.7
+        specifier: ^5.7.0
+        version: 5.7.1
       handlebars:
         specifier: ^4.7.9
         version: 4.7.9
@@ -14148,8 +14187,8 @@ importers:
   components/seventodos:
     dependencies:
       axios:
-        specifier: ^1.13.2
-        version: 1.15.0(debug@3.2.7)
+        specifier: ^1.15.2
+        version: 1.15.2(debug@3.2.7)
 
   components/sftp:
     dependencies:
@@ -15008,8 +15047,8 @@ importers:
         specifier: ^3.2.5
         version: 3.3.0
       axios:
-        specifier: ^1.13.2
-        version: 1.15.0(debug@3.2.7)
+        specifier: ^1.15.2
+        version: 1.15.2(debug@3.2.7)
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -15078,8 +15117,8 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
       axios:
-        specifier: ^1.13.2
-        version: 1.15.0(debug@3.2.7)
+        specifier: ^1.15.2
+        version: 1.15.2(debug@3.2.7)
       he:
         specifier: ^1.2.0
         version: 1.2.0
@@ -16263,6 +16302,9 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
+  components/trolley:
+    specifiers: {}
+
   components/trugrid_securerdp: {}
 
   components/trunkrs:
@@ -16449,8 +16491,8 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
       axios:
-        specifier: ^1.13.2
-        version: 1.15.0(debug@3.2.7)
+        specifier: ^1.15.2
+        version: 1.15.2(debug@3.2.7)
       lodash:
         specifier: ^4.18.1
         version: 4.18.1
@@ -16530,6 +16572,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
+
+  components/unirateapi: {}
 
   components/unisender:
     dependencies:
@@ -16930,6 +16974,12 @@ importers:
 
   components/virifi: {}
 
+  components/virtualsms:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.5
+        version: 3.3.1
+
   components/virustotal: {}
 
   components/visibot:
@@ -17089,8 +17139,8 @@ importers:
         specifier: ^4.5.2
         version: 4.5.2(@types/node@17.0.45)(encoding@0.1.13)(openapi-types@12.1.3)
       axios:
-        specifier: ^1.13.2
-        version: 1.15.0(debug@3.2.7)
+        specifier: ^1.15.2
+        version: 1.15.2(debug@3.2.7)
       openapi-types:
         specifier: ^12.0.0
         version: 12.1.3
@@ -17722,8 +17772,8 @@ importers:
   components/yotpo:
     dependencies:
       axios:
-        specifier: ^1.13.2
-        version: 1.15.0(debug@3.2.7)
+        specifier: ^1.15.2
+        version: 1.15.2(debug@3.2.7)
       lodash.get:
         specifier: ^4.4.2
         version: 4.4.2
@@ -18189,8 +18239,8 @@ importers:
         specifier: ^3.2.5
         version: 3.3.0
       axios:
-        specifier: ^1.13.2
-        version: 1.15.0(debug@3.2.7)
+        specifier: ^1.15.2
+        version: 1.15.2(debug@3.2.7)
       file-type:
         specifier: ^21.3.2
         version: 21.3.2
@@ -18386,7 +18436,7 @@ importers:
         version: 6.4.2(@types/node@25.6.0)(jiti@2.6.1)(tsx@4.20.6)(yaml@2.8.1)
       vite-plugin-dts:
         specifier: ^4.3.0
-        version: 4.5.4(@types/node@25.6.0)(rollup@4.53.2)(typescript@5.9.3)(vite@6.4.2(@types/node@25.6.0)(jiti@2.6.1)(tsx@4.20.6)(yaml@2.8.1))
+        version: 4.5.4(@types/node@25.6.0)(rollup@4.53.2)(typescript@5.6.3)(vite@6.4.2(@types/node@25.6.0)(jiti@2.6.1)(tsx@4.20.6)(yaml@2.8.1))
 
   packages/prompts:
     dependencies:
@@ -18432,7 +18482,7 @@ importers:
         version: 3.1.11
       ts-jest:
         specifier: ^29.2.5
-        version: 29.4.5(@babel/core@8.0.0-beta.3)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@8.0.0-beta.3))(jest-util@29.7.0)(jest@29.7.0(@types/node@20.19.25)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.25)(typescript@5.6.3)))(typescript@5.6.3)
+        version: 29.4.5(@babel/core@7.28.5)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.28.5))(jest-util@29.7.0)(jest@29.7.0(@types/node@20.19.25)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.25)(typescript@5.6.3)))(typescript@5.6.3)
       tsup:
         specifier: ^8.3.6
         version: 8.5.1(@microsoft/api-extractor@7.55.0(@types/node@20.19.25))(jiti@2.6.1)(postcss@8.5.6)(tsx@4.20.6)(typescript@5.6.3)(yaml@2.8.1)
@@ -18449,8 +18499,8 @@ importers:
   platform:
     dependencies:
       axios:
-        specifier: ^1.13.2
-        version: 1.15.0(debug@3.2.7)
+        specifier: ^1.15.2
+        version: 1.15.2(debug@3.2.7)
       fp-ts:
         specifier: ^2.0.2
         version: 2.16.11
@@ -21135,8 +21185,8 @@ packages:
   '@napi-rs/wasm-runtime@0.2.12':
     resolution: {integrity: sha512-ZVWUcfwY4E/yPitQJl481FjFo3K22D6qF0DuFH6Y/nbnE11GY5uguDxZMGXPQ8WQ0128MXQD7TnfHyK4oWoIJQ==}
 
-  '@napi-rs/wasm-runtime@1.1.3':
-    resolution: {integrity: sha512-xK9sGVbJWYb08+mTJt3/YV24WxvxpXcXtP6B172paPZ+Ts69Re9dAr7lKwJoeIx8OoeuimEiRZ7umkiUVClmmQ==}
+  '@napi-rs/wasm-runtime@1.1.4':
+    resolution: {integrity: sha512-3NQNNgA1YSlJb/kMH1ildASP9HW7/7kYnRI2szWJaofaS1hWmbGI4H+d3+22aGzXXN9IJ+n+GiFVcGipJP18ow==}
     peerDependencies:
       '@emnapi/core': ^1.7.1
       '@emnapi/runtime': ^1.7.1
@@ -21372,6 +21422,9 @@ packages:
   '@noble/hashes@1.8.0':
     resolution: {integrity: sha512-jCs9ldd7NwzpgXDIf6P3+NrHh9/sD6CQdxHyjQI+h/6rDNo88ypBxxz45UDuZHz9r3tNz7N/VInSVoVdtXEI4A==}
     engines: {node: ^14.21.3 || >=16}
+
+  '@nodable/entities@2.1.0':
+    resolution: {integrity: sha512-nyT7T3nbMyBI/lvr6L5TyWbFJAI9FTgVRakNoBqCD+PmID8DzFrrNdLLtHMwMszOtqZa8PAOV24ZqDnQrhQINA==}
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -25136,21 +25189,18 @@ packages:
   axios-mock-adapter@1.22.0:
     resolution: {integrity: sha512-dmI0KbkyAhntUR05YY96qg2H6gg0XMl2+qTW0xmYg6Up+BFBAJYRLROMXRdDEL06/Wqwa0TJThAYvFtSFdRCZw==}
     peerDependencies:
-      axios: ^0.30.2
+      axios: ^0.31.1
 
   axios-retry@4.5.0:
     resolution: {integrity: sha512-aR99oXhpEDGo0UuAlYcn2iGRds30k366Zfa05XWScR9QaQD4JYiP3/1Qt1u7YlefUOK+cn0CcwoL1oefavQUlQ==}
     peerDependencies:
-      axios: ^0.30.2
+      axios: ^0.31.1
 
-  axios@0.30.3:
-    resolution: {integrity: sha512-5/tmEb6TmE/ax3mdXBc/Mi6YdPGxQsv+0p5YlciXWt3PHIn0VamqCXhRMtScnwY3lbgSXLneOuXAKUhgmSRpwg==}
+  axios@0.31.1:
+    resolution: {integrity: sha512-Ef8DUZSZQP6igY48mjGaoEjwhely97lserep0IFJifBH4YdKvwH5eMLniy3kig2HQoBNR8EkZpDjowxwTJcmbg==}
 
-  axios@1.13.2:
-    resolution: {integrity: sha512-VPk9ebNqPcy5lRGuSlKx752IlDatOjT9paPlm8A7yOuW2Fbvp4X3JznJtT4f0GzGLLiWE9W8onz51SqLYwzGaA==}
-
-  axios@1.15.0:
-    resolution: {integrity: sha512-wWyJDlAatxk30ZJer+GeCWS209sA42X+N5jU2jy6oHTp7ufw8uzUTVFBX9+wTfAlhiJXGS0Bq7X6efruWjuK9Q==}
+  axios@1.15.2:
+    resolution: {integrity: sha512-wLrXxPtcrPTsNlJmKjkPnNPK2Ihe0hn0wGSaTEiHRPxwjvJwT3hKmXF4dpqxmPO9SoNb2FsYXj/xEo0gHN+D5A==}
 
   axobject-query@4.1.0:
     resolution: {integrity: sha512-qIj0G9wZbMGNLjLmg1PT6v2mE9AH2zlnADJD/2tC6E00hgmhUOfEB6greHPAfLRSufHqROIUTkw6E+M3lH0PTQ==}
@@ -25248,8 +25298,8 @@ packages:
       bare-buffer:
         optional: true
 
-  bare-fs@4.7.0:
-    resolution: {integrity: sha512-xzqKsCFxAek9aezYhjJuJRXBIaYlg/0OGDTZp+T8eYmYMlm66cs6cYko02drIyjN2CBbi+I6L7YfXyqpqtKRXA==}
+  bare-fs@4.7.1:
+    resolution: {integrity: sha512-WDRsyVN52eAx/lBamKD6uyw8H4228h/x0sGGGegOamM2cd7Pag88GfMQalobXI+HaEUxpCkbKQUDOQqt9wawRw==}
     engines: {bare: '>=1.16.0'}
     peerDependencies:
       bare-buffer: '*'
@@ -25294,6 +25344,9 @@ packages:
 
   bare-url@2.4.0:
     resolution: {integrity: sha512-NSTU5WN+fy/L0DDenfE8SXQna4voXuW0FHM7wH8i3/q9khUSchfPbPezO4zSFMnDGIf9YE+mt/RWhZgNRKRIXA==}
+
+  bare-url@2.4.2:
+    resolution: {integrity: sha512-/9a2j4ac6ckpmAHvod/ob7x439OAHst/drc2Clnq+reRYd/ovddwcF4LfoxHyNk5AuGBnPg+HqFjmE/Zpq6v0A==}
 
   base-64@0.1.0:
     resolution: {integrity: sha512-Y5gU45svrR5tI2Vt/X9GPd3L0HNIKzGu202EjxrXMpuc2V2CiKgemAbUUsqYmZJvPtCXoUKjNZwBJzsNScUbXA==}
@@ -27422,23 +27475,27 @@ packages:
   fast-uri@3.1.0:
     resolution: {integrity: sha512-iPeeDKJSWf4IEOasVVrknXpaBV0IApz/gp7S2bb7Z4Lljbl2MGJRqInZiUrQwV16cpzw/D3S5j5Julj/gT52AA==}
 
-  fast-xml-builder@1.1.4:
-    resolution: {integrity: sha512-f2jhpN4Eccy0/Uz9csxh3Nu6q4ErKxf0XIsasomfOihuSUa3/xw6w8dnOtCDgEItQFJG8KyXPzQXzcODDrrbOg==}
+  fast-xml-builder@1.1.5:
+    resolution: {integrity: sha512-4TJn/8FKLeslLAH3dnohXqE3QSoxkhvaMzepOIZytwJXZO69Bfz0HBdDHzOTOon6G59Zrk6VQ2bEiv1t61rfkA==}
 
-  fast-xml-parser@4.5.4:
-    resolution: {integrity: sha512-jE8ugADnYOBsu1uaoayVl1tVKAMNOXyjwvv2U6udEA2ORBhDooJDWoGxTkhd4Qn4yh59JVVt/pKXtjPwx9OguQ==}
+  fast-xml-parser@4.5.6:
+    resolution: {integrity: sha512-Yd4vkROfJf8AuJrDIVMVmYfULKmIJszVsMv7Vo71aocsKgFxpdlpSHXSaInvyYfgw2PRuObQSW2GFpVMUjxu9A==}
     hasBin: true
 
   fast-xml-parser@5.2.5:
     resolution: {integrity: sha512-pfX9uG9Ki0yekDHx2SiuRIyFdyAr1kMIMitPvb0YBo8SUfKvia7w7FIyd/l6av85pFYRhZscS75MwMnbvY+hcQ==}
     hasBin: true
 
-  fast-xml-parser@5.5.7:
-    resolution: {integrity: sha512-LteOsISQ2GEiDHZch6L9hB0+MLoYVLToR7xotrzU0opCICBkxOPgHAy1HxAvtxfJNXDJpgAsQN30mkrfpO2Prg==}
-    hasBin: true
-
   fast-xml-parser@5.5.8:
     resolution: {integrity: sha512-Z7Fh2nVQSb2d+poDViM063ix2ZGt9jmY1nWhPfHBOK2Hgnb/OW3P4Et3P/81SEej0J7QbWtJqxO05h8QYfK7LQ==}
+    hasBin: true
+
+  fast-xml-parser@5.7.0:
+    resolution: {integrity: sha512-MTcrUoRQ1GSQ9iG3QJzBGquYYYeA7piZaJoIWbPFGbRn6Jj6z7xgoAyi4DrZX4y2ZIQQBF59gc/zmvvejjgoFQ==}
+    hasBin: true
+
+  fast-xml-parser@5.7.1:
+    resolution: {integrity: sha512-8Cc3f8GUGUULg34pBch/KGyPLglS+OFs05deyOlY7fL2MTagYPKrVQNmR1fLF/yJ9PH5ZSTd3YDF6pnmeZU+zA==}
     hasBin: true
 
   fastest-levenshtein@1.0.16:
@@ -31471,12 +31528,8 @@ packages:
     resolution: {integrity: sha512-RjhtfwJOxzcFmNOi6ltcbcu4Iu+FL3zEj83dk4kAS+fVpTxXLO1b38RvJgT/0QwvV/L3aY9TAnyv0EOqW4GoMQ==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
-  path-expression-matcher@1.1.3:
-    resolution: {integrity: sha512-qdVgY8KXmVdJZRSS1JdEPOKPdTiEK/pi0RkcT2sw1RhXxohdujUlJFPuS1TSkevZ9vzd3ZlL7ULl1MHGTApKzQ==}
-    engines: {node: '>=14.0.0'}
-
-  path-expression-matcher@1.2.0:
-    resolution: {integrity: sha512-DwmPWeFn+tq7TiyJ2CxezCAirXjFxvaiD03npak3cRjlP9+OjTmSy1EpIrEbh+l6JgUundniloMLDQ/6VTdhLQ==}
+  path-expression-matcher@1.5.0:
+    resolution: {integrity: sha512-cbrerZV+6rvdQrrD+iGMcZFEiiSrbv9Tfdkvnusy6y0x0GKBXREFg/Y65GhIfm0tnLntThhzCnfKwp1WRjeCyQ==}
     engines: {node: '>=14.0.0'}
 
   path-is-absolute@1.0.1:
@@ -31970,6 +32023,7 @@ packages:
     engines: {node: '>=0.6.0', teleport: '>=0.2.0'}
     deprecated: |-
       You or someone you depend on is using Q, the JavaScript Promise library that gave JavaScript developers strong feelings about promises. They can almost certainly migrate to the native JavaScript promise now. Thank you literally everyone for joining me in this bet against the odds. Be excellent to each other.
+
       (For a CapTP with native promises, see @endo/eventual-send and @endo/captp)
 
   qified@0.5.2:
@@ -33231,8 +33285,8 @@ packages:
   strnum@1.1.2:
     resolution: {integrity: sha512-vrN+B7DBIoTTZjnPNewwhx6cBA/H+IS7rfW68n7XxC1y7uoiGQBxaKzqucGUgavX15dJgiGztLJ8vxuEzwqBdA==}
 
-  strnum@2.2.1:
-    resolution: {integrity: sha512-BwRvNd5/QoAtyW1na1y1LsJGQNvRlkde6Q/ipqqEaivoMdV+B1OMOTVdwR+N/cwVUcIt9PYyHmV8HyexCZSupg==}
+  strnum@2.2.3:
+    resolution: {integrity: sha512-oKx6RUCuHfT3oyVjtnrmn19H1SiCqgJSg+54XqURKp5aCMbrXrhLjRN9TjuwMjiYstZ0MzDrHqkGZ5dFTKd+zg==}
 
   strtok3@10.3.4:
     resolution: {integrity: sha512-KIy5nylvC5le1OdaaoCJ07L+8iQzJHGH6pWDuzS+d07Cu7n1MZ2x26P8ZKIWfbK02+XIL8Mp4RkWeqdUCrDMfg==}
@@ -34241,6 +34295,7 @@ packages:
 
   uuid@10.0.0:
     resolution: {integrity: sha512-8XkAphELsDnEGrDxUOHB3RGvXz6TeuYSGEZBOjtTtPm2lwhGBjLgOzLHB63IUWfBpNucQjND6d3AOudO+H3RWQ==}
+    deprecated: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
     hasBin: true
 
   uuid@11.1.0:
@@ -34253,12 +34308,12 @@ packages:
 
   uuid@3.3.2:
     resolution: {integrity: sha512-yXJmeNaw3DnnKAOKJE51sL/ZaYfWJRl1pK9dr19YFCu0ObS231AB1/LbqTKRAQ5kw8A90rA6fr4riOUpTZvQZA==}
-    deprecated: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
+    deprecated: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
     hasBin: true
 
   uuid@3.3.3:
     resolution: {integrity: sha512-pW0No1RGHgzlpHJO1nsVrHKpOEIxkGg1xB+v0ZmdNH5OAeAwzAVrCnI2/6Mtx+Uys6iaylxa+D3g4j63IKKjSQ==}
-    deprecated: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
+    deprecated: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
     hasBin: true
 
   uuid@3.4.0:
@@ -36964,7 +37019,7 @@ snapshots:
 
   '@azure/core-xml@1.5.0':
     dependencies:
-      fast-xml-parser: 5.5.8
+      fast-xml-parser: 5.7.1
       tslib: 2.8.1
 
   '@azure/identity@3.4.2':
@@ -38057,7 +38112,7 @@ snapshots:
   '@bandwidth/messaging@4.1.7':
     dependencies:
       '@apimatic/schema': 0.6.0
-      axios: 1.15.0(debug@3.2.7)
+      axios: 1.15.2(debug@3.2.7)
       detect-node: 2.1.0
       form-data: 3.0.4
       json-bigint: 1.0.0
@@ -38131,9 +38186,9 @@ snapshots:
     dependencies:
       '@scure/bip32': 1.7.0
       abitype: 1.1.1(typescript@5.9.3)(zod@4.1.12)
-      axios: 1.15.0(debug@3.2.7)
-      axios-mock-adapter: 1.22.0(axios@1.15.0)
-      axios-retry: 4.5.0(axios@1.15.0)
+      axios: 1.15.2(debug@3.2.7)
+      axios-mock-adapter: 1.22.0(axios@1.15.2)
+      axios-retry: 4.5.0(axios@1.15.2)
       bip32: 4.0.0
       bip39: 3.1.0
       decimal.js: 10.6.0
@@ -38168,11 +38223,11 @@ snapshots:
       - '@types/node'
       - typescript
 
-  '@commitlint/cli@19.8.1(@types/node@25.6.0)(typescript@5.9.3)':
+  '@commitlint/cli@19.8.1(@types/node@25.6.0)(typescript@5.6.3)':
     dependencies:
       '@commitlint/format': 19.8.1
       '@commitlint/lint': 19.8.1
-      '@commitlint/load': 19.8.1(@types/node@25.6.0)(typescript@5.9.3)
+      '@commitlint/load': 19.8.1(@types/node@25.6.0)(typescript@5.6.3)
       '@commitlint/read': 19.8.1
       '@commitlint/types': 19.8.1
       tinyexec: 1.0.2
@@ -38235,15 +38290,15 @@ snapshots:
       - '@types/node'
       - typescript
 
-  '@commitlint/load@19.8.1(@types/node@25.6.0)(typescript@5.9.3)':
+  '@commitlint/load@19.8.1(@types/node@25.6.0)(typescript@5.6.3)':
     dependencies:
       '@commitlint/config-validator': 19.8.1
       '@commitlint/execute-rule': 19.8.1
       '@commitlint/resolve-extends': 19.8.1
       '@commitlint/types': 19.8.1
       chalk: 5.6.2
-      cosmiconfig: 9.0.0(typescript@5.9.3)
-      cosmiconfig-typescript-loader: 6.2.0(@types/node@25.6.0)(cosmiconfig@9.0.0(typescript@5.9.3))(typescript@5.9.3)
+      cosmiconfig: 9.0.0(typescript@5.6.3)
+      cosmiconfig-typescript-loader: 6.2.0(@types/node@25.6.0)(cosmiconfig@9.0.0(typescript@5.6.3))(typescript@5.6.3)
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       lodash.uniq: 4.5.0
@@ -38366,7 +38421,7 @@ snapshots:
 
   '@daytonaio/api-client@0.138.0':
     dependencies:
-      axios: 1.15.0(debug@3.2.7)
+      axios: 1.15.2(debug@3.2.7)
     transitivePeerDependencies:
       - debug
 
@@ -38377,7 +38432,7 @@ snapshots:
       '@daytonaio/api-client': 0.138.0
       '@daytonaio/toolbox-api-client': 0.138.0
       '@iarna/toml': 2.2.5
-      axios: 1.15.0(debug@3.2.7)
+      axios: 1.15.2(debug@3.2.7)
       busboy: 1.6.0
       dotenv: 17.2.3
       expand-tilde: 2.0.2
@@ -38394,7 +38449,7 @@ snapshots:
 
   '@daytonaio/toolbox-api-client@0.138.0':
     dependencies:
-      axios: 1.15.0(debug@3.2.7)
+      axios: 1.15.2(debug@3.2.7)
     transitivePeerDependencies:
       - debug
 
@@ -39136,7 +39191,7 @@ snapshots:
       duplexify: 4.1.3
       ent: 2.2.2
       extend: 3.0.2
-      fast-xml-parser: 4.5.4
+      fast-xml-parser: 4.5.6
       gaxios: 5.1.3(encoding@0.1.13)
       google-auth-library: 8.9.0(encoding@0.1.13)
       mime: 3.0.0
@@ -39157,7 +39212,7 @@ snapshots:
       abort-controller: 3.0.0
       async-retry: 1.3.3
       duplexify: 4.1.3
-      fast-xml-parser: 4.5.4
+      fast-xml-parser: 4.5.6
       gaxios: 6.7.1(encoding@0.1.13)
       google-auth-library: 9.15.1(encoding@0.1.13)
       html-entities: 2.6.0
@@ -39602,13 +39657,13 @@ snapshots:
 
   '@kontent-ai/core-sdk@10.4.0':
     dependencies:
-      axios: 1.15.0(debug@3.2.7)
+      axios: 1.15.2(debug@3.2.7)
     transitivePeerDependencies:
       - debug
 
   '@kontent-ai/core-sdk@10.7.0':
     dependencies:
-      axios: 1.15.0(debug@3.2.7)
+      axios: 1.15.2(debug@3.2.7)
     transitivePeerDependencies:
       - debug
 
@@ -39633,7 +39688,7 @@ snapshots:
     dependencies:
       '@types/body-parser': 1.19.6
       '@types/node': 18.19.130
-      axios: 1.15.0(debug@3.2.7)
+      axios: 1.15.2(debug@3.2.7)
       body-parser: 1.20.3
       file-type: 16.5.4
       form-data: 4.0.4
@@ -39655,7 +39710,7 @@ snapshots:
 
   '@lob/lob-typescript-sdk@1.3.5':
     dependencies:
-      axios: 1.15.0(debug@3.2.7)
+      axios: 1.15.2(debug@3.2.7)
       tslib: 2.8.1
     transitivePeerDependencies:
       - debug
@@ -39697,7 +39752,7 @@ snapshots:
 
   '@memberstack/admin@1.3.1':
     dependencies:
-      axios: 1.15.0(debug@3.2.7)
+      axios: 1.15.2(debug@3.2.7)
       jose: 4.15.5
     transitivePeerDependencies:
       - debug
@@ -39804,7 +39859,7 @@ snapshots:
       '@tybys/wasm-util': 0.10.1
     optional: true
 
-  '@napi-rs/wasm-runtime@1.1.3(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1)':
+  '@napi-rs/wasm-runtime@1.1.4(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1)':
     dependencies:
       '@emnapi/core': 1.9.1
       '@emnapi/runtime': 1.9.1
@@ -40248,6 +40303,8 @@ snapshots:
   '@noble/hashes@1.3.2': {}
 
   '@noble/hashes@1.8.0': {}
+
+  '@nodable/entities@2.1.0': {}
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
@@ -40854,7 +40911,7 @@ snapshots:
   '@pipedream/linkedin@0.1.1':
     dependencies:
       '@pipedream/platform': 1.6.8
-      axios: 1.15.0(debug@3.2.7)
+      axios: 1.15.2(debug@3.2.7)
       form-data: 4.0.4
     transitivePeerDependencies:
       - debug
@@ -40862,7 +40919,7 @@ snapshots:
   '@pipedream/microsoft_outlook@1.7.5':
     dependencies:
       '@pipedream/platform': 3.3.1
-      axios: 0.30.3
+      axios: 0.31.1
       js-base64: 3.7.8
       md5: 2.3.0
       mime-types: 2.1.35
@@ -40909,7 +40966,7 @@ snapshots:
 
   '@pipedream/platform@0.10.1':
     dependencies:
-      axios: 0.30.3
+      axios: 0.31.1
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
     transitivePeerDependencies:
@@ -40917,7 +40974,7 @@ snapshots:
 
   '@pipedream/platform@1.6.8':
     dependencies:
-      axios: 1.13.2
+      axios: 1.15.2(debug@3.2.7)
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
       querystring: 0.2.1
@@ -40926,7 +40983,7 @@ snapshots:
 
   '@pipedream/platform@2.0.2':
     dependencies:
-      axios: 1.13.2
+      axios: 1.15.2(debug@3.2.7)
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
       querystring: 0.2.1
@@ -40935,7 +40992,7 @@ snapshots:
 
   '@pipedream/platform@3.0.3':
     dependencies:
-      axios: 1.15.0(debug@3.2.7)
+      axios: 1.15.2(debug@3.2.7)
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
       querystring: 0.2.1
@@ -40944,7 +41001,7 @@ snapshots:
 
   '@pipedream/platform@3.1.1':
     dependencies:
-      axios: 1.13.2
+      axios: 1.15.2(debug@3.2.7)
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
       mime-types: 3.0.1
@@ -40955,7 +41012,7 @@ snapshots:
 
   '@pipedream/platform@3.2.1':
     dependencies:
-      axios: 1.15.0(debug@3.2.7)
+      axios: 1.15.2(debug@3.2.7)
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
       mime-types: 3.0.1
@@ -40966,7 +41023,7 @@ snapshots:
 
   '@pipedream/platform@3.2.2':
     dependencies:
-      axios: 1.15.0(debug@3.2.7)
+      axios: 1.15.2(debug@3.2.7)
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
       mime-types: 3.0.1
@@ -40977,7 +41034,7 @@ snapshots:
 
   '@pipedream/platform@3.2.4':
     dependencies:
-      axios: 1.15.0(debug@3.2.7)
+      axios: 1.15.2(debug@3.2.7)
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
       mime-types: 3.0.1
@@ -40988,7 +41045,7 @@ snapshots:
 
   '@pipedream/platform@3.2.5':
     dependencies:
-      axios: 1.15.0(debug@3.2.7)
+      axios: 1.15.2(debug@3.2.7)
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
       mime-types: 3.0.1
@@ -40999,7 +41056,7 @@ snapshots:
 
   '@pipedream/platform@3.3.0':
     dependencies:
-      axios: 1.13.2
+      axios: 1.15.2(debug@3.2.7)
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
       mime-types: 3.0.1
@@ -41010,7 +41067,7 @@ snapshots:
 
   '@pipedream/platform@3.3.1':
     dependencies:
-      axios: 1.15.0(debug@3.2.7)
+      axios: 1.15.2(debug@3.2.7)
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
       mime-types: 3.0.1
@@ -42254,11 +42311,11 @@ snapshots:
       - rollup
       - supports-color
 
-  '@qdrant/js-client-rest@1.15.1(typescript@5.9.3)':
+  '@qdrant/js-client-rest@1.15.1(typescript@5.6.3)':
     dependencies:
       '@qdrant/openapi-typescript-fetch': 1.2.6
       '@sevinf/maybe': 0.5.0
-      typescript: 5.9.3
+      typescript: 5.6.3
       undici: 6.22.0
 
   '@qdrant/openapi-typescript-fetch@1.2.6': {}
@@ -42370,7 +42427,7 @@ snapshots:
 
   '@rolldown/binding-wasm32-wasi@1.0.0-beta.60(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1)':
     dependencies:
-      '@napi-rs/wasm-runtime': 1.1.3(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1)
+      '@napi-rs/wasm-runtime': 1.1.4(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1)
     transitivePeerDependencies:
       - '@emnapi/core'
       - '@emnapi/runtime'
@@ -42627,20 +42684,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@semantic-release/commit-analyzer@13.0.1(semantic-release@24.2.9(typescript@5.9.3))':
-    dependencies:
-      conventional-changelog-angular: 8.1.0
-      conventional-changelog-writer: 8.2.0
-      conventional-commits-filter: 5.0.0
-      conventional-commits-parser: 6.2.1
-      debug: 4.4.3(supports-color@9.4.0)
-      import-from-esm: 2.0.0
-      lodash-es: 4.18.1
-      micromatch: 4.0.8
-      semantic-release: 24.2.9(typescript@5.9.3)
-    transitivePeerDependencies:
-      - supports-color
-
   '@semantic-release/error@4.0.0': {}
 
   '@semantic-release/github@11.0.6(semantic-release@24.2.9(typescript@5.6.3))':
@@ -42665,28 +42708,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@semantic-release/github@11.0.6(semantic-release@24.2.9(typescript@5.9.3))':
-    dependencies:
-      '@octokit/core': 7.0.6
-      '@octokit/plugin-paginate-rest': 13.2.1(@octokit/core@7.0.6)
-      '@octokit/plugin-retry': 8.0.3(@octokit/core@7.0.6)
-      '@octokit/plugin-throttling': 11.0.3(@octokit/core@7.0.6)
-      '@semantic-release/error': 4.0.0
-      aggregate-error: 5.0.0
-      debug: 4.4.3(supports-color@9.4.0)
-      dir-glob: 3.0.1
-      http-proxy-agent: 7.0.2
-      https-proxy-agent: 7.0.6
-      issue-parser: 7.0.1
-      lodash-es: 4.18.1
-      mime: 4.1.0
-      p-filter: 4.1.0
-      semantic-release: 24.2.9(typescript@5.9.3)
-      tinyglobby: 0.2.15
-      url-join: 5.0.0
-    transitivePeerDependencies:
-      - supports-color
-
   '@semantic-release/npm@12.0.2(semantic-release@24.2.9(typescript@5.6.3))':
     dependencies:
       '@semantic-release/error': 4.0.0
@@ -42701,23 +42722,6 @@ snapshots:
       read-pkg: 9.0.1
       registry-auth-token: 5.1.0
       semantic-release: 24.2.9(typescript@5.6.3)
-      semver: 7.7.4
-      tempy: 3.1.0
-
-  '@semantic-release/npm@12.0.2(semantic-release@24.2.9(typescript@5.9.3))':
-    dependencies:
-      '@semantic-release/error': 4.0.0
-      aggregate-error: 5.0.0
-      execa: 9.6.0
-      fs-extra: 11.3.2
-      lodash-es: 4.18.1
-      nerf-dart: 1.0.0
-      normalize-url: 8.1.0
-      npm: 10.9.4
-      rc: 1.2.8
-      read-pkg: 9.0.1
-      registry-auth-token: 5.1.0
-      semantic-release: 24.2.9(typescript@5.9.3)
       semver: 7.7.4
       tempy: 3.1.0
 
@@ -42737,26 +42741,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@semantic-release/release-notes-generator@14.1.0(semantic-release@24.2.9(typescript@5.9.3))':
-    dependencies:
-      conventional-changelog-angular: 8.1.0
-      conventional-changelog-writer: 8.2.0
-      conventional-commits-filter: 5.0.0
-      conventional-commits-parser: 6.2.1
-      debug: 4.4.3(supports-color@9.4.0)
-      get-stream: 7.0.1
-      import-from-esm: 2.0.0
-      into-stream: 7.0.0
-      lodash-es: 4.18.1
-      read-package-up: 11.0.0
-      semantic-release: 24.2.9(typescript@5.9.3)
-    transitivePeerDependencies:
-      - supports-color
-
   '@sendgrid/client@7.7.0':
     dependencies:
       '@sendgrid/helpers': 7.7.0
-      axios: 0.30.3
+      axios: 0.31.1
     transitivePeerDependencies:
       - debug
 
@@ -42804,7 +42792,7 @@ snapshots:
 
   '@shortcut/client@2.3.1':
     dependencies:
-      axios: 1.15.0(debug@3.2.7)
+      axios: 1.15.2(debug@3.2.7)
     transitivePeerDependencies:
       - debug
 
@@ -42895,7 +42883,7 @@ snapshots:
       '@slack/types': 1.10.0
       '@types/is-stream': 1.1.0
       '@types/node': 20.19.25
-      axios: 0.30.3
+      axios: 0.31.1
       eventemitter3: 3.1.2
       form-data: 2.5.4
       is-stream: 1.1.0
@@ -42910,7 +42898,7 @@ snapshots:
       '@slack/types': 2.18.0
       '@types/node': 20.19.25
       '@types/retry': 0.12.0
-      axios: 1.15.0(debug@3.2.7)
+      axios: 1.15.2(debug@3.2.7)
       eventemitter3: 5.0.1
       form-data: 4.0.4
       is-electron: 2.2.2
@@ -43809,7 +43797,7 @@ snapshots:
 
   '@tuya/tuya-connector-nodejs@2.1.2':
     dependencies:
-      axios: 0.30.3
+      axios: 0.31.1
       qs: 6.14.2
     transitivePeerDependencies:
       - debug
@@ -44534,7 +44522,7 @@ snapshots:
       de-indent: 1.0.2
       he: 1.2.0
 
-  '@vue/language-core@2.2.0(typescript@5.9.3)':
+  '@vue/language-core@2.2.0(typescript@5.6.3)':
     dependencies:
       '@volar/language-core': 2.4.23
       '@vue/compiler-dom': 3.5.24
@@ -44545,7 +44533,7 @@ snapshots:
       muggle-string: 0.4.1
       path-browserify: 1.0.1
     optionalDependencies:
-      typescript: 5.9.3
+      typescript: 5.6.3
 
   '@vue/shared@3.5.24': {}
 
@@ -44580,7 +44568,7 @@ snapshots:
 
   '@woocommerce/woocommerce-rest-api@1.0.2':
     dependencies:
-      axios: 1.15.0(debug@3.2.7)
+      axios: 1.15.2(debug@3.2.7)
       create-hmac: 1.1.7
       oauth-1.0a: 2.2.6
       url-parse: 1.5.10
@@ -44930,7 +44918,7 @@ snapshots:
       '@crawlee/types': 3.15.3
       agentkeepalive: 4.6.0
       async-retry: 1.3.3
-      axios: 1.15.0(debug@3.2.7)
+      axios: 1.15.2(debug@3.2.7)
       content-type: 1.0.5
       ow: 0.28.2
       tslib: 2.8.1
@@ -45157,7 +45145,7 @@ snapshots:
     dependencies:
       '@aws-sdk/util-utf8-browser': 3.259.0
       '@httptoolkit/websocket-stream': 6.0.1
-      axios: 1.15.0(debug@3.2.7)
+      axios: 1.15.2(debug@3.2.7)
       buffer: 6.0.3
       crypto-js: 4.2.0
       mqtt: 4.3.8
@@ -45176,18 +45164,18 @@ snapshots:
 
   axe-core@4.11.0: {}
 
-  axios-mock-adapter@1.22.0(axios@1.15.0):
+  axios-mock-adapter@1.22.0(axios@1.15.2):
     dependencies:
-      axios: 1.15.0(debug@3.2.7)
+      axios: 1.15.2(debug@3.2.7)
       fast-deep-equal: 3.1.3
       is-buffer: 2.0.5
 
-  axios-retry@4.5.0(axios@1.15.0):
+  axios-retry@4.5.0(axios@1.15.2):
     dependencies:
-      axios: 1.15.0(debug@3.2.7)
+      axios: 1.15.2(debug@3.2.7)
       is-retry-allowed: 2.2.0
 
-  axios@0.30.3:
+  axios@0.31.1:
     dependencies:
       follow-redirects: 1.16.0(debug@3.2.7)
       form-data: 4.0.4
@@ -45195,15 +45183,7 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  axios@1.13.2:
-    dependencies:
-      follow-redirects: 1.16.0(debug@3.2.7)
-      form-data: 4.0.4
-      proxy-from-env: 1.1.0
-    transitivePeerDependencies:
-      - debug
-
-  axios@1.15.0(debug@3.2.7):
+  axios@1.15.2(debug@3.2.7):
     dependencies:
       follow-redirects: 1.16.0(debug@3.2.7)
       form-data: 4.0.4
@@ -45375,12 +45355,12 @@ snapshots:
       - react-native-b4a
     optional: true
 
-  bare-fs@4.7.0:
+  bare-fs@4.7.1:
     dependencies:
       bare-events: 2.8.2
       bare-path: 3.0.0
       bare-stream: 2.13.0(bare-events@2.8.2)
-      bare-url: 2.4.0
+      bare-url: 2.4.2
       fast-fifo: 1.3.2
     transitivePeerDependencies:
       - bare-abort-controller
@@ -45412,6 +45392,11 @@ snapshots:
       - react-native-b4a
 
   bare-url@2.4.0:
+    dependencies:
+      bare-path: 3.0.0
+    optional: true
+
+  bare-url@2.4.2:
     dependencies:
       bare-path: 3.0.0
 
@@ -46106,7 +46091,7 @@ snapshots:
 
   columns-sdk@0.0.6:
     dependencies:
-      axios: 1.15.0(debug@3.2.7)
+      axios: 1.15.2(debug@3.2.7)
       columns-graph-model: 1.1.10
       nebula-js-lib: 0.3.3
       pako: 2.1.0
@@ -46332,12 +46317,12 @@ snapshots:
       jiti: 2.6.1
       typescript: 5.6.3
 
-  cosmiconfig-typescript-loader@6.2.0(@types/node@25.6.0)(cosmiconfig@9.0.0(typescript@5.9.3))(typescript@5.9.3):
+  cosmiconfig-typescript-loader@6.2.0(@types/node@25.6.0)(cosmiconfig@9.0.0(typescript@5.6.3))(typescript@5.6.3):
     dependencies:
       '@types/node': 25.6.0
-      cosmiconfig: 9.0.0(typescript@5.9.3)
+      cosmiconfig: 9.0.0(typescript@5.6.3)
       jiti: 2.6.1
-      typescript: 5.9.3
+      typescript: 5.6.3
 
   cosmiconfig@5.2.1:
     dependencies:
@@ -46362,15 +46347,6 @@ snapshots:
       parse-json: 5.2.0
     optionalDependencies:
       typescript: 5.6.3
-
-  cosmiconfig@9.0.0(typescript@5.9.3):
-    dependencies:
-      env-paths: 2.2.1
-      import-fresh: 3.3.1
-      js-yaml: 4.1.1
-      parse-json: 5.2.0
-    optionalDependencies:
-      typescript: 5.9.3
 
   cp-file@6.2.0:
     dependencies:
@@ -46993,21 +46969,6 @@ snapshots:
       - react-native-b4a
       - supports-color
 
-  dts-critic@3.3.11(typescript@5.9.3):
-    dependencies:
-      '@definitelytyped/header-parser': 0.2.26
-      command-exists: 1.2.9
-      rimraf: 3.0.2
-      semver: 6.3.1
-      tmp: 0.2.5
-      typescript: 5.9.3
-      yargs: 15.4.1
-    transitivePeerDependencies:
-      - bare-abort-controller
-      - bare-buffer
-      - react-native-b4a
-      - supports-color
-
   dts-resolver@2.1.3: {}
 
   dtslint@4.2.1(typescript@5.6.3):
@@ -47022,25 +46983,6 @@ snapshots:
       tslint: 5.14.0(typescript@5.6.3)
       tsutils: 2.29.0(typescript@5.6.3)
       typescript: 5.6.3
-      yargs: 15.4.1
-    transitivePeerDependencies:
-      - bare-abort-controller
-      - bare-buffer
-      - react-native-b4a
-      - supports-color
-
-  dtslint@4.2.1(typescript@5.9.3):
-    dependencies:
-      '@definitelytyped/header-parser': 0.2.26
-      '@definitelytyped/typescript-versions': 0.1.11
-      '@definitelytyped/utils': 0.1.13
-      dts-critic: 3.3.11(typescript@5.9.3)
-      fs-extra: 6.0.1
-      json-stable-stringify: 1.3.0
-      strip-json-comments: 2.0.1
-      tslint: 5.14.0(typescript@5.9.3)
-      tsutils: 2.29.0(typescript@5.9.3)
-      typescript: 5.9.3
       yargs: 15.4.1
     transitivePeerDependencies:
       - bare-abort-controller
@@ -48153,29 +48095,37 @@ snapshots:
 
   fast-uri@3.1.0: {}
 
-  fast-xml-builder@1.1.4:
+  fast-xml-builder@1.1.5:
     dependencies:
-      path-expression-matcher: 1.2.0
+      path-expression-matcher: 1.5.0
 
-  fast-xml-parser@4.5.4:
+  fast-xml-parser@4.5.6:
     dependencies:
       strnum: 1.1.2
 
   fast-xml-parser@5.2.5:
     dependencies:
-      strnum: 2.2.1
-
-  fast-xml-parser@5.5.7:
-    dependencies:
-      fast-xml-builder: 1.1.4
-      path-expression-matcher: 1.1.3
-      strnum: 2.2.1
+      strnum: 2.2.3
 
   fast-xml-parser@5.5.8:
     dependencies:
-      fast-xml-builder: 1.1.4
-      path-expression-matcher: 1.2.0
-      strnum: 2.2.1
+      fast-xml-builder: 1.1.5
+      path-expression-matcher: 1.5.0
+      strnum: 2.2.3
+
+  fast-xml-parser@5.7.0:
+    dependencies:
+      '@nodable/entities': 2.1.0
+      fast-xml-builder: 1.1.5
+      path-expression-matcher: 1.5.0
+      strnum: 2.2.3
+
+  fast-xml-parser@5.7.1:
+    dependencies:
+      '@nodable/entities': 2.1.0
+      fast-xml-builder: 1.1.5
+      path-expression-matcher: 1.5.0
+      strnum: 2.2.3
 
   fastest-levenshtein@1.0.16: {}
 
@@ -48737,7 +48687,7 @@ snapshots:
       '@types/uuid': 10.0.0
       '@types/ws': 8.18.1
       '@ungap/url-search-params': 0.2.2
-      axios: 1.15.0(debug@3.2.7)
+      axios: 1.15.2(debug@3.2.7)
       fast-sha256: 1.3.0
       typescript-json-serializer: 6.0.1
       uuid: 11.1.0
@@ -51071,7 +51021,7 @@ snapshots:
 
   klaviyo-api@18.0.0:
     dependencies:
-      axios: 1.15.0(debug@3.2.7)
+      axios: 1.15.2(debug@3.2.7)
       form-data: 4.0.4
     transitivePeerDependencies:
       - debug
@@ -51221,7 +51171,7 @@ snapshots:
     dependencies:
       '@commitlint/cli': 19.8.1(@types/node@20.19.25)(typescript@5.6.3)
       '@commitlint/config-conventional': 19.8.1
-      axios: 1.15.0(debug@3.2.7)
+      axios: 1.15.2(debug@3.2.7)
       semantic-release: 24.2.9(typescript@5.6.3)
       zod: 3.25.76
       zod-to-json-schema: 3.24.6(zod@3.25.76)
@@ -51231,12 +51181,12 @@ snapshots:
       - supports-color
       - typescript
 
-  linkup-sdk@1.2.0(@types/node@25.6.0)(typescript@5.9.3):
+  linkup-sdk@1.2.0(@types/node@25.6.0)(typescript@5.6.3):
     dependencies:
-      '@commitlint/cli': 19.8.1(@types/node@25.6.0)(typescript@5.9.3)
+      '@commitlint/cli': 19.8.1(@types/node@25.6.0)(typescript@5.6.3)
       '@commitlint/config-conventional': 19.8.1
-      axios: 1.15.0(debug@3.2.7)
-      semantic-release: 24.2.9(typescript@5.9.3)
+      axios: 1.15.2(debug@3.2.7)
+      semantic-release: 24.2.9(typescript@5.6.3)
       zod: 3.25.76
       zod-to-json-schema: 3.24.6(zod@3.25.76)
     transitivePeerDependencies:
@@ -52717,7 +52667,7 @@ snapshots:
 
   node-mailjet@6.0.11:
     dependencies:
-      axios: 1.15.0(debug@3.2.7)
+      axios: 1.15.2(debug@3.2.7)
       json-bigint: 1.0.0
       url-join: 4.0.1
     transitivePeerDependencies:
@@ -53481,9 +53431,7 @@ snapshots:
 
   path-exists@5.0.0: {}
 
-  path-expression-matcher@1.1.3: {}
-
-  path-expression-matcher@1.2.0: {}
+  path-expression-matcher@1.5.0: {}
 
   path-is-absolute@1.0.1: {}
 
@@ -53636,7 +53584,7 @@ snapshots:
 
   pipedrive@24.2.0:
     dependencies:
-      axios: 1.15.0(debug@3.2.7)
+      axios: 1.15.2(debug@3.2.7)
       qs: 6.14.2
     transitivePeerDependencies:
       - debug
@@ -53672,7 +53620,7 @@ snapshots:
 
   plaid@33.0.0:
     dependencies:
-      axios: 1.15.0(debug@3.2.7)
+      axios: 1.15.2(debug@3.2.7)
     transitivePeerDependencies:
       - debug
 
@@ -53689,7 +53637,7 @@ snapshots:
   plivo@4.75.2:
     dependencies:
       '@types/node': 14.18.63
-      axios: 1.15.0(debug@3.2.7)
+      axios: 1.15.2(debug@3.2.7)
       base-64: 0.1.0
       build-url: 1.3.3
       form-data: 4.0.4
@@ -55121,7 +55069,7 @@ snapshots:
 
   salesforce-webhooks@1.1.15(handlebars@4.7.9):
     dependencies:
-      axios: 0.30.3
+      axios: 0.31.1
       bindings: 1.5.0
       handlebars-loader: 1.7.3(handlebars@4.7.9)
       uuid: 8.3.2
@@ -55189,41 +55137,6 @@ snapshots:
       '@semantic-release/release-notes-generator': 14.1.0(semantic-release@24.2.9(typescript@5.6.3))
       aggregate-error: 5.0.0
       cosmiconfig: 9.0.0(typescript@5.6.3)
-      debug: 4.4.3(supports-color@9.4.0)
-      env-ci: 11.2.0
-      execa: 9.6.0
-      figures: 6.1.0
-      find-versions: 6.0.0
-      get-stream: 6.0.1
-      git-log-parser: 1.2.1
-      hook-std: 4.0.0
-      hosted-git-info: 8.1.0
-      import-from-esm: 2.0.0
-      lodash-es: 4.18.1
-      marked: 15.0.12
-      marked-terminal: 7.3.0(marked@15.0.12)
-      micromatch: 4.0.8
-      p-each-series: 3.0.0
-      p-reduce: 3.0.0
-      read-package-up: 11.0.0
-      resolve-from: 5.0.0
-      semver: 7.7.4
-      semver-diff: 5.0.0
-      signale: 1.4.0
-      yargs: 17.7.2
-    transitivePeerDependencies:
-      - supports-color
-      - typescript
-
-  semantic-release@24.2.9(typescript@5.9.3):
-    dependencies:
-      '@semantic-release/commit-analyzer': 13.0.1(semantic-release@24.2.9(typescript@5.9.3))
-      '@semantic-release/error': 4.0.0
-      '@semantic-release/github': 11.0.6(semantic-release@24.2.9(typescript@5.9.3))
-      '@semantic-release/npm': 12.0.2(semantic-release@24.2.9(typescript@5.9.3))
-      '@semantic-release/release-notes-generator': 14.1.0(semantic-release@24.2.9(typescript@5.9.3))
-      aggregate-error: 5.0.0
-      cosmiconfig: 9.0.0(typescript@5.9.3)
       debug: 4.4.3(supports-color@9.4.0)
       env-ci: 11.2.0
       execa: 9.6.0
@@ -55552,7 +55465,7 @@ snapshots:
       agent-base: 6.0.2
       asn1.js-rfc2560: 5.0.1(asn1.js@5.4.1)
       asn1.js-rfc5280: 3.0.0
-      axios: 1.15.0(debug@3.2.7)
+      axios: 1.15.2(debug@3.2.7)
       big-integer: 1.6.52
       bignumber.js: 2.4.0
       binascii: 0.0.2
@@ -55561,7 +55474,7 @@ snapshots:
       debug: 3.2.7
       expand-tilde: 2.0.2
       extend: 3.0.2
-      fast-xml-parser: 4.5.4
+      fast-xml-parser: 4.5.6
       generic-pool: 3.9.0
       glob: 7.2.3
       https-proxy-agent: 5.0.1
@@ -55599,12 +55512,12 @@ snapshots:
       asn1.js: 5.4.1
       asn1.js-rfc2560: 5.0.1(asn1.js@5.4.1)
       asn1.js-rfc5280: 3.0.0
-      axios: 1.15.0(debug@3.2.7)
+      axios: 1.15.2(debug@3.2.7)
       big-integer: 1.6.52
       bignumber.js: 9.3.1
       browser-request: 0.3.3
       expand-tilde: 2.0.2
-      fast-xml-parser: 5.5.8
+      fast-xml-parser: 5.7.1
       fastest-levenshtein: 1.0.16
       generic-pool: 3.9.0
       google-auth-library: 10.5.0
@@ -55998,7 +55911,7 @@ snapshots:
 
   strnum@1.1.2: {}
 
-  strnum@2.2.1: {}
+  strnum@2.2.3: {}
 
   strtok3@10.3.4:
     dependencies:
@@ -56278,7 +56191,7 @@ snapshots:
   tar-stream@3.1.8:
     dependencies:
       b4a: 1.8.0
-      bare-fs: 4.7.0
+      bare-fs: 4.7.1
       fast-fifo: 1.3.2
       streamx: 2.25.0
     transitivePeerDependencies:
@@ -56557,6 +56470,26 @@ snapshots:
 
   ts-interface-checker@0.1.13: {}
 
+  ts-jest@29.4.5(@babel/core@7.28.5)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.28.5))(jest-util@29.7.0)(jest@29.7.0(@types/node@20.19.25)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.25)(typescript@5.6.3)))(typescript@5.6.3):
+    dependencies:
+      bs-logger: 0.2.6
+      fast-json-stable-stringify: 2.1.0
+      handlebars: 4.7.9
+      jest: 29.7.0(@types/node@20.19.25)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.25)(typescript@5.6.3))
+      json5: 2.2.3
+      lodash.memoize: 4.1.2
+      make-error: 1.3.6
+      semver: 7.7.4
+      type-fest: 4.41.0
+      typescript: 5.6.3
+      yargs-parser: 21.1.1
+    optionalDependencies:
+      '@babel/core': 7.28.5
+      '@jest/transform': 29.7.0
+      '@jest/types': 29.6.3
+      babel-jest: 29.7.0(@babel/core@7.28.5)
+      jest-util: 29.7.0
+
   ts-jest@29.4.5(@babel/core@8.0.0-beta.3)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@8.0.0-beta.3))(jest-util@29.7.0)(jest@29.7.0(@types/node@20.19.25)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.25)(typescript@5.6.3)))(typescript@5.6.3):
     dependencies:
       bs-logger: 0.2.6
@@ -56668,23 +56601,6 @@ snapshots:
       tsutils: 2.29.0(typescript@5.6.3)
       typescript: 5.6.3
 
-  tslint@5.14.0(typescript@5.9.3):
-    dependencies:
-      babel-code-frame: 6.26.0
-      builtin-modules: 1.1.1
-      chalk: 2.4.2
-      commander: 2.20.3
-      diff: 3.5.0
-      glob: 7.2.3
-      js-yaml: 3.14.1
-      minimatch: 3.1.2
-      mkdirp: 0.5.6
-      resolve: 1.22.11
-      semver: 5.7.2
-      tslib: 1.14.1
-      tsutils: 2.29.0(typescript@5.9.3)
-      typescript: 5.9.3
-
   tsup@8.5.1(@microsoft/api-extractor@7.55.0(@types/node@20.19.25))(jiti@2.6.1)(postcss@8.5.6)(tsx@4.20.6)(typescript@5.6.3)(yaml@2.8.1):
     dependencies:
       bundle-require: 5.1.0(esbuild@0.27.0)
@@ -56748,11 +56664,6 @@ snapshots:
       tslib: 1.14.1
       typescript: 5.6.3
 
-  tsutils@2.29.0(typescript@5.9.3):
-    dependencies:
-      tslib: 1.14.1
-      typescript: 5.9.3
-
   tsx@4.20.6:
     dependencies:
       esbuild: 0.25.12
@@ -56794,7 +56705,7 @@ snapshots:
 
   twilio@5.10.5:
     dependencies:
-      axios: 1.15.0(debug@3.2.7)
+      axios: 1.15.2(debug@3.2.7)
       dayjs: 1.11.19
       https-proxy-agent: 5.0.1
       jsonwebtoken: 9.0.3
@@ -57254,7 +57165,7 @@ snapshots:
 
   utopianlabs@0.1.14:
     dependencies:
-      axios: 1.15.0(debug@3.2.7)
+      axios: 1.15.2(debug@3.2.7)
       zod: 3.25.76
     transitivePeerDependencies:
       - debug
@@ -57401,25 +57312,25 @@ snapshots:
   viesapi-client@1.3.2:
     dependencies:
       '@xmldom/xmldom': 0.9.8
-      axios: 1.15.0(debug@3.2.7)
+      axios: 1.15.2(debug@3.2.7)
       date-fns: 4.1.0
       url: 0.11.4
       xpath: 0.0.34
     transitivePeerDependencies:
       - debug
 
-  vite-plugin-dts@4.5.4(@types/node@25.6.0)(rollup@4.53.2)(typescript@5.9.3)(vite@6.4.2(@types/node@25.6.0)(jiti@2.6.1)(tsx@4.20.6)(yaml@2.8.1)):
+  vite-plugin-dts@4.5.4(@types/node@25.6.0)(rollup@4.53.2)(typescript@5.6.3)(vite@6.4.2(@types/node@25.6.0)(jiti@2.6.1)(tsx@4.20.6)(yaml@2.8.1)):
     dependencies:
       '@microsoft/api-extractor': 7.55.0(@types/node@25.6.0)
       '@rollup/pluginutils': 5.3.0(rollup@4.53.2)
       '@volar/typescript': 2.4.23
-      '@vue/language-core': 2.2.0(typescript@5.9.3)
+      '@vue/language-core': 2.2.0(typescript@5.6.3)
       compare-versions: 6.1.1
       debug: 4.4.3(supports-color@9.4.0)
       kolorist: 1.8.0
       local-pkg: 1.1.2
       magic-string: 0.30.21
-      typescript: 5.9.3
+      typescript: 5.6.3
     optionalDependencies:
       vite: 6.4.2(@types/node@25.6.0)(jiti@2.6.1)(tsx@4.20.6)(yaml@2.8.1)
     transitivePeerDependencies:

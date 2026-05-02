@@ -35,9 +35,8 @@ export default {
   key: "app-action-name",       // globally unique; kebab-case; prefixed with app slug
   name: "Human Readable Name",  // shown in UI and as the MCP tool name
   description: "...",           // shown in UI and used as MCP tool documentation
-  version: "0.1.0",            // semantic versioning; must be incremented on every change
+  version: "0.0.1",            // semantic versioning; must be incremented on every change
   type: "action",               // or "source"
-  annotations: { ... },        // MCP tool metadata — see Annotations section
   props: { ... },              // configuration inputs
   async run({ $ }) { ... },    // execution entry point (signature differs for sources)
 };
@@ -45,6 +44,23 @@ export default {
 
 ESLint enforces the **presence** of all required properties. Reviews should focus on whether
 values are **semantically correct**, not whether properties exist.
+
+---
+
+## Versioning
+
+Every component has a `version` field that must be incremented on every change. New
+components always start at `0.0.1`. Follow semantic versioning:
+
+| Change type | Version segment | Examples |
+|---|---|---|
+| Bug fix, copy/description tweak, refactor with no behavior change | patch (`0.0.x`) | `0.0.1` → `0.0.2` |
+| New optional prop, new output field, backwards-compatible improvement | minor (`0.x.0`) | `0.0.2` → `0.1.0` |
+| Removed or renamed prop, changed output shape, behavior change that breaks existing configs | major (`x.0.0`) | `0.1.0` → `1.0.0` |
+
+The app's `package.json` must also be bumped by the same or greater segment whenever a
+component in that app changes — patch for patch, minor for minor (or higher), major for
+major (or higher).
 
 ---
 
@@ -218,7 +234,10 @@ depends on an earlier selection in a way that fixed optional props cannot repres
 
 ## Annotations
 
-Every component must include an `annotations` object that communicates its runtime behavior
+**Actions only.** Source components must NOT include an `annotations` object — flag its
+presence in any source file as an error.
+
+Every action must include an `annotations` object that communicates its runtime behavior
 to AI agents and the Pipedream platform:
 
 ```javascript

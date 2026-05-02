@@ -7,7 +7,11 @@ export default {
     + " This is the primary analytics tool — use it to answer questions about values, aggregates, or filtered rows in a dataset."
     + " Use **List Datasets** first to resolve a dataset name → `datasetId`."
     + " The query must be a single valid DAX expression starting with `EVALUATE`."
+    + " **Table discovery (standard datasets):** For datasets published from Power BI Desktop, the REST `GET /datasets/{id}/tables` endpoint is scoped to push datasets only and will not list tables."
+    + " Use `EVALUATE INFO.TABLES()` instead — it returns every table name in the semantic model."
+    + " Typical agent flow: **List Workspaces** → **List Datasets** → **Execute DAX Query** (`EVALUATE INFO.TABLES()`) → **Execute DAX Query** (`EVALUATE 'TableName'`)."
     + " Common patterns:"
+    + " • Discover all tables — `EVALUATE INFO.TABLES()` (use this before querying an unknown dataset)"
     + " • List all rows of a table — `EVALUATE 'Species'`"
     + " • Filter — `EVALUATE FILTER('Species', 'Species'[dietType] = \"Carnivore\")`"
     + " • Top N by column — `EVALUATE TOPN(5, 'Species', 'Species'[weightKg], DESC)`"
@@ -17,7 +21,7 @@ export default {
     + " The tenant must have 'Dataset Execute Queries REST API' enabled (admin setting) or the call returns 401/403."
     + " Pass `workspaceId` (from **List Workspaces**) or `workspaceName` to target a specific workspace, or omit both for My workspace."
     + " [See the documentation](https://learn.microsoft.com/en-us/rest/api/power-bi/datasets/execute-queries-in-group)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
