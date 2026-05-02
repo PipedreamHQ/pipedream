@@ -4,7 +4,7 @@ export default {
   key: "daytona-stop-sandbox",
   name: "Stop Sandbox",
   description: "Stop a sandbox on Daytona. [See the documentation](https://www.daytona.io/docs/en/typescript-sdk/sandbox/#stop)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
