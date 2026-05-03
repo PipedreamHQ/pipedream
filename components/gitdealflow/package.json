@@ -1,0 +1,21 @@
+{
+  "name": "@pipedream/gitdealflow",
+  "version": "0.1.0",
+  "description": "Pipedream GitDealFlow Components — trending startup engineering signals across 20 sectors.",
+  "main": "gitdealflow.app.mjs",
+  "keywords": [
+    "pipedream",
+    "gitdealflow",
+    "venture-capital",
+    "startup-signals"
+  ],
+  "homepage": "https://pipedream.com/apps/gitdealflow",
+  "author": "The Data Nerd <signal@gitdealflow.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
