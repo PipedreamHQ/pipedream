@@ -20,6 +20,26 @@ export default {
         });
       },
     },
+    boardIds: {
+      type: "string[]",
+      label: "Board IDs",
+      description: "Filter results to one or more specific boards",
+      optional: true,
+      async options({ page }) {
+        return this.listBoardsOptions({
+          page: page + 1,
+        });
+      },
+    },
+    workspaceIds: {
+      type: "integer[]",
+      label: "Workspace IDs",
+      description: "Filter results to boards in one or more specific workspaces",
+      optional: true,
+      async options() {
+        return this.listWorkspacesOptions();
+      },
+    },
     boardName: {
       type: "string",
       label: "Board Name",

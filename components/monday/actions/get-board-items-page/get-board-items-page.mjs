@@ -6,7 +6,7 @@ export default {
   key: "monday-get-board-items-page",
   name: "Get Board Items Page",
   description: "Retrieves all items from a board. [See the documentation](https://developer.monday.com/api-reference/reference/items-page)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
