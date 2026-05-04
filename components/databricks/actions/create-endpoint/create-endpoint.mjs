@@ -20,7 +20,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.databricks_oauth.createEndpoint({
+    const response = await this.databricks.createEndpoint({
       data: {
         name: this.name,
         endpoint_type: "STANDARD",

@@ -4,7 +4,7 @@ export default {
   key: "databricks_oauth-scan-vector-search-index",
   name: "Scan Vector Search Index",
   description:
-    "Scans a vector search index and returns entries after the given primary key. [See documentation](https://docs.databricks.com/api/workspace/vectorsearchindexes/scanindex)",
+    "Scans a vector search index and returns entries after the given primary key. [See the documentation](https://docs.databricks.com/api/workspace/vectorsearchindexes/scanindex)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

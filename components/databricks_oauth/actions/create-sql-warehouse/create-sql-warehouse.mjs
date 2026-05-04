@@ -95,7 +95,7 @@ export default {
       type: "object",
       label: "Tags",
       description:
-        "Custom key-value tags for resources associated with this SQL Warehouse.",
+        "Custom key-value tags for resources associated with this SQL Warehouse. Example: `{ \"environment\": \"prod\", \"team\": \"data-platform\" }`.",
       optional: true,
     },
     instanceProfileArn: {

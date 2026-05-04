@@ -37,7 +37,7 @@ export default {
     fieldsToRemove: {
       type: "string[]",
       label: "Fields to Remove",
-      description: "List of field paths to remove from the job settings. [See the API documentation](https://docs.databricks.com/api/workspace/jobs/update#fields_to_remove)",
+      description: "List of field paths to remove from the job settings. Example: `[\"tasks/task1/libraries\", \"schedule\"]`. [See the API documentation](https://docs.databricks.com/api/workspace/jobs/update#fields_to_remove)",
       optional: true,
     },
   },
