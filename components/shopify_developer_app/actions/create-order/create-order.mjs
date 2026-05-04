@@ -5,7 +5,7 @@ export default {
   key: "shopify_developer_app-create-order",
   name: "Create Order",
   description: "Creates a new order. For full order object details [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/ordercreate)",
-  version: "0.0.14",
+  version: "0.0.15",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -9,6 +9,17 @@ export default {
       label: "Name",
       description: "Name that will be checked",
     },
+    names: {
+      type: "string[]",
+      label: "Names",
+      description: "Up to 10 names to check in a single batch request",
+    },
+    countryId: {
+      type: "string",
+      label: "Country",
+      description: "Optional ISO 3166-1 alpha-2 country code (e.g. `US`, `GB`, `DE`) to constrain the prediction to a specific country's name distribution.",
+      optional: true,
+    },
   },
   methods: {
     _baseUrl() {
@@ -30,6 +41,11 @@ export default {
       });
     },
     async getGenderFromName(args = {}) {
+      return this._makeRequest({
+        ...args,
+      });
+    },
+    async getGenderFromNames(args = {}) {
       return this._makeRequest({
         ...args,
       });

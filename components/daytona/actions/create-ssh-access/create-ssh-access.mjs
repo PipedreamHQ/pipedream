@@ -4,7 +4,7 @@ export default {
   key: "daytona-create-ssh-access",
   name: "Create SSH Access",
   description: "Create SSH access for a sandbox on Daytona. [See the documentation](https://www.daytona.io/docs/en/typescript-sdk/sandbox/#createsshaccess)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
