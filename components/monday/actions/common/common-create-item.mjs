@@ -26,7 +26,8 @@ export default {
     }
     const columns = Array.isArray(this.columns)
       ? this.columns
-      : this.columns.split(",").map((c) => c.trim());
+      : this.columns.split(",").map((c) => c.trim())
+        .filter(Boolean);
     const columnData = await this.monday.listColumns({
       boardId: +this.boardId,
     });
