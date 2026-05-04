@@ -4,7 +4,7 @@ export default {
   key: "daytona-list-snapshots",
   name: "List Snapshots",
   description: "Lists snapshots on Daytona. [See the documentation](https://www.daytona.io/docs/en/typescript-sdk/snapshot/#list)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
