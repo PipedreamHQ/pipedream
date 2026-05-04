@@ -24,7 +24,6 @@ export default {
         odoo,
         "modelName",
       ],
-      reloadProps: true,
     },
     attributes: {
       type: "string[]",
