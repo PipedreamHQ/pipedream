@@ -3,7 +3,7 @@ import databricks_oauth from "../../databricks_oauth.app.mjs";
 export default {
   key: "databricks_oauth-run-job-now",
   name: "Run Job Now",
-  description: "Run a job now and return the id of the triggered run. [See the documentation](https://docs.databricks.com/en/workflows/jobs/jobs-2.0-api.html#runs-list)",
+  description: "Run a job now and return the id of the triggered run. [See the documentation](https://docs.databricks.com/api/workspace/jobs/runnow)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

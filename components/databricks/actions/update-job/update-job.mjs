@@ -5,9 +5,9 @@ export default {
   key: "databricks-update-job",
   name: "Update Job",
   description: "Update an existing job. Only the fields that are provided will be updated. [See the documentation](https://docs.databricks.com/api/workspace/jobs/update)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },

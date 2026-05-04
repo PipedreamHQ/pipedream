@@ -9,7 +9,7 @@ export default {
   description: "Edits the configuration of an existing SQL Warehouse. [See the documentation](https://docs.databricks.com/api/workspace/warehouses/edit)",
   version: "0.0.1",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },

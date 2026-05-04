@@ -1,5 +1,6 @@
 import databricks_oauth from "../../databricks_oauth.app.mjs";
 import utils from "../../common/utils.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "databricks_oauth-delete-vector-search-index-data",
@@ -49,7 +50,7 @@ export default {
       .filter(Boolean);
 
     if (!keys.length) {
-      throw new Error("Please provide at least one primary key to delete.");
+      throw new ConfigurationError("Please provide at least one primary key to delete.");
     }
 
     const response = await this.databricks_oauth.deleteVectorSearchData({

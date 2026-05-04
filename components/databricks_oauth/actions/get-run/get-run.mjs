@@ -49,7 +49,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully retrieved run with ID \`${response.job_run_id}\`.`);
+    $.export("$summary", `Successfully retrieved run with ID \`${response.run_id}\`.`);
 
     return response;
   },

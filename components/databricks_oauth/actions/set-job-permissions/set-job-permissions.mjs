@@ -7,7 +7,7 @@ export default {
   description: "Set permissions on a job. [See the documentation](https://docs.databricks.com/api/workspace/jobs/setpermissions)",
   version: "0.0.1",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },

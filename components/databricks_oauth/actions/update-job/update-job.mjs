@@ -7,7 +7,7 @@ export default {
   description: "Update an existing job. Only the fields that are provided will be updated. [See the documentation](https://docs.databricks.com/api/workspace/jobs/update)",
   version: "0.0.1",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },

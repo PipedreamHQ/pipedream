@@ -55,7 +55,7 @@ export default {
       allRuns.push(...runs);
       params.offset += params.limit;
       total = runs?.length;
-    } while (total === params.limit && allRuns < this.maxResults);
+    } while (total === params.limit && allRuns.length < this.maxResults);
 
     if (allRuns?.length > this.maxResults) {
       allRuns.length = this.maxResults;

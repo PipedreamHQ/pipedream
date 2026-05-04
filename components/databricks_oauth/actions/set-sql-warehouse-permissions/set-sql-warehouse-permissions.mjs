@@ -5,10 +5,10 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   key: "databricks_oauth-set-sql-warehouse-permissions",
   name: "Set SQL Warehouse Permissions",
-  description: "Updates the permissions for a specific SQL Warehouse. [See docs](https://docs.databricks.com/api/workspace/warehouses/setpermissions)",
+  description: "Updates the permissions for a specific SQL Warehouse. [See the documentation](https://docs.databricks.com/api/workspace/warehouses/setpermissions)",
   version: "0.0.1",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },

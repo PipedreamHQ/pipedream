@@ -6,7 +6,7 @@ export default {
   description: "Cancel a job run. The run is canceled asynchronously, so it may still be running when this request completes. [See the documentation](https://docs.databricks.com/api/workspace/jobs/cancelrun)",
   version: "0.0.1",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },

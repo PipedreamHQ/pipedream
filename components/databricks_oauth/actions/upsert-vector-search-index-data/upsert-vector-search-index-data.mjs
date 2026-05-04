@@ -8,7 +8,7 @@ export default {
   description: "Upserts (inserts/updates) data into an existing vector search index. [See the documentation](https://docs.databricks.com/api/workspace/vectorsearchindexes/upsertdatavectorindex)",
   version: "0.0.1",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },

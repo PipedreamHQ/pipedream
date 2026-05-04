@@ -6,7 +6,7 @@ export default {
   description: "Synchronize a Delta Sync vector search index in Databricks. [See the documentation](https://docs.databricks.com/api/workspace/vectorsearchindexes/syncindex)",
   version: "0.0.1",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
