@@ -1,7 +1,7 @@
-import app from "../../unirate.app.mjs";
+import app from "../../unirateapi.app.mjs";
 
 export default {
-  key: "unirate-get-exchange-rates",
+  key: "unirateapi-get-exchange-rates",
   name: "Get Exchange Rates",
   version: "0.0.1",
   annotations: {

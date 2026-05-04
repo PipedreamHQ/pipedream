@@ -1,7 +1,7 @@
-import app from "../../unirate.app.mjs";
+import app from "../../unirateapi.app.mjs";
 
 export default {
-  key: "unirate-convert-currency",
+  key: "unirateapi-convert-currency",
   name: "Convert Currency",
   version: "0.0.1",
   annotations: {

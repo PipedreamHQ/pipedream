@@ -1,8 +1,8 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
-import app from "../../unirate.app.mjs";
+import app from "../../unirateapi.app.mjs";
 
 export default {
-  key: "unirate-new-rate-update",
+  key: "unirateapi-new-rate-update",
   name: "New Rate Update",
   version: "0.0.1",
   annotations: {
@@ -10,7 +10,7 @@ export default {
     openWorldHint: true,
     readOnlyHint: true,
   },
-  description: "Emit a new event whenever the exchange rate between two currencies changes. [See the documentation](https://unirateapi.com/docs).",
+  description: "Emit new event when the exchange rate between two currencies changes. [See the documentation](https://unirateapi.com/docs).",
   type: "source",
   dedupe: "unique",
   props: {
