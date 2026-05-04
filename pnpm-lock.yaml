@@ -16576,7 +16576,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/unirateapi: {}
+  components/unirateapi:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
 
   components/unisender:
     dependencies:
@@ -21962,6 +21966,9 @@ packages:
 
   '@pipedream/platform@3.3.1':
     resolution: {integrity: sha512-efVpYQQxYKcNf+kJJadu4uD5jCdyv+x1UgBRVG0OGOXnQmUvl33KjxXft575tJwLeW5kMJWL+TQngKk4phHMDA==}
+
+  '@pipedream/platform@3.4.0':
+    resolution: {integrity: sha512-Pbx50aX7V+S6SUZrBFrXftzoefDNTkcs+gfwPTz9i+evI7IMkrz9DXnC7rW6yJhXc8g83UKnlp/HX+7NK50y4Q==}
 
   '@pipedream/postgresql@2.2.4':
     resolution: {integrity: sha512-ANR8xURO+5tDp/85oP/SrAwUjk+G6Xz5LOU40hsR2OAYGN6wU0cNAMRSq4durl3MVcb2+oxJwB9uNAdYQgga/g==}
@@ -34305,7 +34312,7 @@ packages:
 
   uuid@3.4.0:
     resolution: {integrity: sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==}
-    deprecated: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
+    deprecated: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
     hasBin: true
 
   uuid@8.3.2:
@@ -41102,6 +41109,18 @@ snapshots:
       - debug
       - supports-color
 
+  '@pipedream/platform@3.4.0':
+    dependencies:
+      axios: 1.16.1(debug@3.2.7)
+      fp-ts: 2.16.11
+      io-ts: 2.2.22(fp-ts@2.16.11)
+      mime-types: 3.0.1
+      querystring: 0.2.1
+      uuid: 11.1.0
+    transitivePeerDependencies:
+      - debug
+      - supports-color
+
   '@pipedream/postgresql@2.2.4':
     dependencies:
       '@pipedream/platform': 2.0.2
@@ -41186,7 +41205,7 @@ snapshots:
   '@pipedream/youtube_data_api@1.0.1(encoding@0.1.13)':
     dependencies:
       '@googleapis/youtube': 6.0.0(encoding@0.1.13)
-      '@pipedream/platform': 3.3.1
+      '@pipedream/platform': 3.4.0
       got: 14.6.4
       util: 0.12.5
     transitivePeerDependencies:
@@ -41720,6 +41739,7 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
+      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.60(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1))(rollup@4.53.2)':
     dependencies:
