@@ -9,7 +9,8 @@ const DEFAULT_ATTRIBUTES = [
 export default {
   key: "odoo-list-record-fields",
   name: "List Record Fields",
-  description: "List record fields for an Odoo model. [See the documentation](https://www.odoo.com/documentation/18.0/developer/reference/external_api.html#list-record-fields)",
+  description:
+    "List record fields for a given Odoo model. Use this to discover available fields and select specific attributes (like `string`, `type`, and `help`). Gotchas: this action calls Odoo’s `fields_get` endpoint, so returned fields depend on your Odoo access rights. [See the documentation](https://www.odoo.com/documentation/18.0/developer/reference/external_api.html#list-record-fields)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -28,7 +29,7 @@ export default {
     attributes: {
       type: "string[]",
       label: "Attributes",
-      description: "A list of field attributes to return. Filtering attributes reduces response size.",
+      description: "A list of field attributes to return (e.g. `['string','type','help']`). Filtering attributes reduces response size.",
       optional: true,
       default: DEFAULT_ATTRIBUTES,
       options: [
