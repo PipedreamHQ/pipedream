@@ -1,4 +1,5 @@
 import tableau from "../../tableau.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "tableau-list-workbooks",
@@ -20,10 +21,28 @@ export default {
         "siteId",
       ],
     },
+    filter: {
+      type: "string",
+      label: "Filter",
+      description: "An expression that lets you specify a subset of workbooks to return. You can filter on predefined fields such as name, tags, and createdAt. You can include multiple filter expressions. For more information, see [Filtering and Sorting](https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_concepts_filtering_and_sorting.htm).",
+      optional: true,
+    },
+    sort: {
+      type: "string",
+      label: "Sort",
+      description: "An expression that lets you specify the order in which workbook information is returned. If you do not specify a sort expression, the sort order of the information that's returned is undefined. For more information, see [Filtering and Sorting](https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_concepts_filtering_and_sorting.htm).",
+      optional: true,
+    },
+    field: {
+      type: "string",
+      label: "Field",
+      description: "An expression that lets you specify the set of available fields to return. You can qualify the return values based upon predefined keywords such as _all_ or _default_, and you can specify individual fields for the workbooks or other supported resources. You can include multiple field expressions in a request. For more information, see [Using Fields in the REST API](https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_concepts_fields.htm).",
+      optional: true,
+    },
     pageSize: {
       type: "integer",
       label: "Page Size",
-      description: "The number of workbooks to return per page. The default is 100.",
+      description: "The number of workbooks to return per page. The default is 100. Maximum is 1000.",
       optional: true,
       default: 100,
       min: 1,
@@ -39,14 +58,24 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.tableau.listWorkbooks({
-      $,
-      siteId: this.siteId,
-      params: {
-        pageSize: this.pageSize,
-        pageNumber: this.pageNumber,
-      },
-    });
+    let response;
+    try {
+      response = await this.tableau.listWorkbooks({
+        $,
+        siteId: this.siteId,
+        params: {
+          filter: this.filter,
+          sort: this.sort,
+          field: this.field,
+          pageSize: this.pageSize,
+          pageNumber: this.pageNumber,
+        },
+      });
+    } catch (error) {
+      if (error?.message?.includes("Invalid page number")) {
+        throw new ConfigurationError("Page number invalid.");
+      }
+    }
     const count = response.workbooks?.workbook?.length ?? 0;
     $.export("$summary", `Successfully listed ${count} workbook${count === 1
       ? ""

@@ -1,4 +1,5 @@
 import tableau from "../../tableau.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "tableau-list-sites",
@@ -21,7 +22,7 @@ export default {
     pageSize: {
       type: "integer",
       label: "Page Size",
-      description: "The number of sites to return per page. The default is 100.",
+      description: "The number of sites to return per page. The default is 100. Maximum is 1000. Only used for calls with Server Administrator Permissions.",
       optional: true,
       default: 100,
       min: 1,
@@ -30,7 +31,7 @@ export default {
     pageNumber: {
       type: "integer",
       label: "Page Number",
-      description: "The page number to return. The default is 1.",
+      description: "The page number to return. The default is 1. Only used for calls with Server Administrator Permissions.",
       optional: true,
       default: 1,
       min: 1,
@@ -46,7 +47,10 @@ export default {
           pageNumber: this.pageNumber,
         },
       });
-    } catch {
+    } catch (error) {
+      if (error?.message?.includes("Invalid page number")) {
+        throw new ConfigurationError("Page number invalid.");
+      }
       // User lacks permission to list sites. Return the site from the current session.
       const { session: { site } } = await this.tableau.getCurrentSession({
         $,
