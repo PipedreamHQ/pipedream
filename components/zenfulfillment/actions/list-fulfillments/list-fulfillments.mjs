@@ -4,7 +4,7 @@ export default {
   key: "zenfulfillment-list-fulfillments",
   name: "List Fulfillments",
   description: "List all fulfillments. [See the documentation](https://partner.alaiko.com/docs#tag/Fulfillment/operation/api_partnerfulfillment_get_collection)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
