@@ -4,7 +4,7 @@ export default {
   key: "evernote-get-note",
   name: "Get Note",
   description: "Get a note by ID. [See the documentation](https://dev.evernote.com/doc/reference/NoteStore.html#Fn_NoteStore_getNoteWithResultSpec)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -22,7 +22,6 @@ export default {
   },
   async run({ $ }) {
     const response = await this.evernote.getNote({
-      $,
       noteId: this.noteId,
       resultSpec: {
         withContent: true,
