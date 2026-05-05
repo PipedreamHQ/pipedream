@@ -1,78 +1,49 @@
-import app from "../../zendesk.app.mjs";
+import { axios } from "@pipedream/platform";
 
 export default {
   key: "zendesk-search-tickets",
   name: "Search Tickets",
-  description: "Searches for tickets using Zendesk's search API. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/ticket-management/search/#search-tickets).",
+  description: "Search for tikcets using Zendesk's search API. [See the docuentation](https://developer.zendesk.com/api-reference/ticketing/ticket-management/search/#search-tickets).",
   type: "action",
-  version: "0.0.12",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   props: {
-    app,
+    zendesk: {
+      type: "app",
+      app: "zendesk",
+    },
     query: {
       type: "string",
-      label: "Search Query",
+      label: "Query",
       description: "The search query to find tickets. You can use Zendesk's search syntax. Example: `type:ticket status:open priority:high`. [See the documentation](https://developer.zendesk.com/documentation/ticketing/using-the-zendesk-api/searching-with-the-zendesk-api/)",
     },
-    sortBy: {
-      propDefinition: [
-        app,
-        "sortBy",
-      ],
-    },
-    sortOrder: {
-      propDefinition: [
-        app,
-        "sortOrder",
-      ],
-    },
-    limit: {
-      propDefinition: [
-        app,
-        "limit",
-      ],
-    },
-    customSubdomain: {
-      propDefinition: [
-        app,
-        "customSubdomain",
-      ],
-    },
-    page: {
-      type: "integer",
-      label: "Page",
-      description: "The page number to retrieve. Default is 1.",
-      default: 1,
-      optional: true,
+  },
+  methods: {
+    searchTickets({
+      $, ...args
+    }) {
+      return axios($, {
+        baseURL: `https://${this.zendesk.$auth.subdomain}.zendesk.com`,
+        url: "/api/v2/search",
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${this.zendesk.$auth.oauth_access_token}`,
+        },
+        ...args,
+      });
     },
   },
-  async run({ $: step }) {
-    const {
-      query,
-      sortBy,
-      sortOrder,
-      limit,
-      customSubdomain,
-    } = this;
-
-    const results = await this.app.searchTickets({
-      step,
-      customSubdomain,
+  async run({ $ }) {
+    const response = await this.searchTickets({
+      $,
       params: {
-        query,
-        sort_by: sortBy,
-        sort_order: sortOrder,
-        per_page: limit,
-        page: this.page,
+        query: this.query,
       },
     });
-
-    step.export("$summary", "Successfully retrieved tickets matching the search query");
-
-    return results;
+    return response;
   },
 };

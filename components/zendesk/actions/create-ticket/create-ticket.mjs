@@ -1,82 +1,88 @@
-import app from "../../zendesk.app.mjs";
+import { axios } from "@pipedream/platform";
 
 export default {
   key: "zendesk-create-ticket",
   name: "Create Ticket",
   description: "Creates a ticket. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/tickets/tickets/#create-ticket).",
   type: "action",
-  version: "0.1.13",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
-    readOnlyHint: false,
+    readOnlyHint: true,
   },
   props: {
-    app,
+    zendesk: {
+      type: "app",
+      app: "zendesk",
+    },
     ticketCommentBody: {
-      propDefinition: [
-        app,
-        "ticketCommentBody",
-      ],
+      type: "string",
+      label: "Comment Body",
+      description: "The body of the comment",
     },
     ticketPriority: {
-      propDefinition: [
-        app,
-        "ticketPriority",
+      type: "string",
+      label: "Ticket Priority",
+      description: "The priority of the ticket",
+      optional: true,
+      options: [
+        "urgent",
+        "high",
+        "normal",
+        "low",
       ],
     },
     ticketSubject: {
-      propDefinition: [
-        app,
-        "ticketSubject",
-      ],
+      type: "string",
+      label: "Ticket Subject",
+      description: "The subject of the ticket",
+      optional: true,
     },
     ticketStatus: {
-      propDefinition: [
-        app,
-        "ticketStatus",
-      ],
-    },
-    customSubdomain: {
-      propDefinition: [
-        app,
-        "customSubdomain",
+      type: "string",
+      label: "Ticket Status",
+      description: "The status of the ticket",
+      optional: true,
+      options: [
+        "new",
+        "open",
+        "pending",
+        "hold",
+        "solved",
+        "closed",
       ],
     },
   },
   methods: {
-    createTicket(args = {}) {
-      return this.app.create({
-        path: "/tickets",
+    createTicket({
+      $, ...args
+    }) {
+      return axios($, {
+        baseURL: `https://${this.zendesk.$auth.subdomain}.zendesk.com`,
+        url: "/api/v2/tickets",
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${this.zendesk.$auth.oauth_access_token}`,
+        },
         ...args,
       });
     },
   },
-  async run({ $: step }) {
-    const {
-      ticketCommentBody,
-      ticketPriority,
-      ticketSubject,
-      ticketStatus,
-      customSubdomain,
-    } = this;
-
+  async run({ $ }) {
     const response = await this.createTicket({
-      step,
-      customSubdomain,
+      $,
       data: {
         ticket: {
-          comment: {
-            body: ticketCommentBody,
-          },
-          priority: ticketPriority,
-          subject: ticketSubject,
-          status: ticketStatus,
+          body: this.ticketCommentBody,
+          priority: this.ticketPriority,
+          subject: this.subject,
+          status: this.ticketStatus,
         },
       },
     });
 
-    step.export("$summary", `Successfully created ticket with ID ${response.ticket.id}`);
+    $.export("$summary", `Successfully created ticket with ID ${response.ticket.id}`);
 
     return response;
   },
