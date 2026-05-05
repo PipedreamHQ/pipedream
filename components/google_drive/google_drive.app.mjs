@@ -172,7 +172,7 @@ export default {
     fileNameSearchTerm: {
       type: "string",
       label: "Search Name",
-      description: "Search for a file by name (equivalent to the query `name contains [value]`).",
+      description: "Search for a file by name (equivalent to the query `name contains [value]`). Uses tokenized full-text matching — punctuation like `&` and `'` acts as a word boundary, so use a distinctive word or short phrase rather than the full title when special characters are present.",
       optional: true,
     },
     searchQuery: {
