@@ -33,10 +33,13 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.docuwriterAi.generateCodeOptimization($, {
-      source_code: this.sourceCode,
-      filename: this.filename,
-      additional_instructions: this.additionalInstructions,
+    const response = await this.docuwriterAi.generateCodeOptimization({
+      $,
+      data: {
+        source_code: this.sourceCode,
+        filename: this.filename,
+        additional_instructions: this.additionalInstructions,
+      },
     });
     $.export("$summary", `Code optimization generated for ${this.filename}`);
     return response;

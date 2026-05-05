@@ -3,32 +3,57 @@ import { formatContact } from "./contact-output.mjs";
 /**
  * Standard list of lead fields to include in client output.
  * Edit this array to add/remove fields returned from get-lead, create-lead, etc.
+ *
+ * Aligns with Nutshell Lead _render() (see Nutshell RPC docs). Kept `estimatedValue`
+ * alongside documented `value` for compatibility. customFields holds pipeline-defined
+ * custom field data when the API returns it.
  */
 export const LEAD_OUTPUT_FIELDS = [
   "id",
   "name",
   "entityType",
   "number",
+  "rev",
+  "htmlUrl",
   "description",
   "status",
   "createdTime",
   "modifiedTime",
   "dueTime",
+  "nextStepDueTime",
+  "closedTime",
+  "lastContactedDate",
   "source",
   "market",
+  "milestone",
+  "stageset",
   "tags",
   "primaryAccount",
+  "primaryContact",
   "contacts",
+  "accounts",
   "assignee",
   "products",
   "processes",
   "notes",
+  "value",
+  "normalizedValue",
   "estimatedValue",
+  "activitiesCount",
+  "urgency",
+  "confidence",
+  "completion",
+  "sources",
+  "competitors",
+  "channels",
+  "priority",
+  "creator",
   "customFields",
 ];
 
 export const LEAD_CONTACT_FIELD_NAMES = [
   "contacts",
+  "primaryContact",
 ];
 
 const ASSIGNEE_OUTPUT_FIELDS = [
@@ -39,6 +64,11 @@ const ASSIGNEE_OUTPUT_FIELDS = [
 const PRIMARY_ACCOUNT_OUTPUT_FIELDS = [
   "id",
   "name",
+  "email",
+  "emails",
+  "phone",
+  "phones",
+  "url",
 ];
 
 const PRODUCT_OUTPUT_FIELDS = [

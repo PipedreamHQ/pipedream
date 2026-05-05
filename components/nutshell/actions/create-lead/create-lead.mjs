@@ -5,7 +5,7 @@ export default {
   key: "nutshell-create-lead",
   name: "Create Lead",
   description: "Initiates a new lead within Nutshell. [See the documentation](https://developers.nutshell.com)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
