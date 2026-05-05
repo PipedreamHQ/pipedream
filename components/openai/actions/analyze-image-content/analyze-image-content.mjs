@@ -45,6 +45,19 @@ export default {
       format: "file-ref",
       optional: true,
     },
+    imageDetailLevel: {
+      type: "string",
+      label: "Image Detail Level",
+      description: "The detail parameter tells the model what level of detail to use when processing and understanding the image (low, high, original, or auto). If you skip the parameter, the model will use auto.",
+      options: [
+        "low",
+        "high",
+        "original",
+        "auto",
+      ],
+      default: "auto",
+      optional: true,
+    },
     syncDir: {
       type: "dir",
       accessMode: "read",
@@ -71,6 +84,7 @@ export default {
       data.input[0].content.push({
         type: "input_image",
         file_id: this.imageFileId,
+        detail: this.imageDetailLevel,
       });
     }
     if (this.filePath) {
@@ -94,6 +108,7 @@ export default {
       data.input[0].content.push({
         type: "input_image",
         file_id: id,
+        detail: this.imageDetailLevel,
       });
     }
 
