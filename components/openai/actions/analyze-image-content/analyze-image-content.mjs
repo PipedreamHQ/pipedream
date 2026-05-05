@@ -8,7 +8,7 @@ export default {
   key: "openai-analyze-image-content",
   name: "Analyze Image Content",
   description: "Send a message or question about an image and receive a response. [See the documentation](https://developers.openai.com/api/reference/resources/responses/methods/create)",
-  version: "1.1.1",
+  version: "1.1.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -17,6 +17,12 @@ export default {
   type: "action",
   props: {
     openai,
+    modelId: {
+      propDefinition: [
+        openai,
+        "responsesModelId",
+      ],
+    },
     message: {
       type: "string",
       label: "Message",
@@ -48,7 +54,7 @@ export default {
   },
   async run({ $ }) {
     const data = {
-      model: "gpt-4o",
+      model: this.modelId,
       input: [
         {
           role: "user",
