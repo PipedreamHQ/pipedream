@@ -4,7 +4,7 @@ export default {
   key: "docuwriter_ai-generate-documentation",
   name: "Generate Code Documentation",
   description: "Generate AI-powered documentation for a source code file. Consumes 1 Docuwriter credit. Requires workflow timeout of 5+ minutes for large files. [See the documentation](https://docs.docuwriter.ai/docuwriterai-api-docs/92064)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

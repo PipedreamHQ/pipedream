@@ -4,7 +4,7 @@ export default {
   key: "docuwriter_ai-list-generations",
   name: "List Generations",
   description: "List your documentation generations with optional filtering. No Docuwriter credit cost. [See the documentation](https://docs.docuwriter.ai/docuwriterai-api-docs/92060)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
