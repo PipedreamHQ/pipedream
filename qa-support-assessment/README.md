@@ -1,7 +1,7 @@
 
 ### Mock Support Request:
 
-I'm trying to use the Zendesk actions in my workflow but I'm running into issues with both of them.
+A Connect developer has told us their customer is trying to use a couple Zendesk actions in their application via Connect but they are running into issues with two of them.
 
 ### Issue 1: Create Ticket action fails
 

@@ -9,7 +9,7 @@ export default {
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
-    readOnlyHint: true, // should be false
+    readOnlyHint: true,
   },
   props: {
     zendesk: {
@@ -61,7 +61,6 @@ export default {
       return axios($, {
         baseURL: `https://${this.zendesk.$auth.subdomain}.zendesk.com`,
         url: "/api/v2/tickets",
-        // method should be POST
         method: "GET",
         headers: {
           Authorization: `Bearer ${this.zendesk.$auth.oauth_access_token}`,
@@ -75,13 +74,9 @@ export default {
       $,
       data: {
         ticket: {
-          // body should be in comment object
-          /*comment: {
-            body: this.ticketCommentBody,
-          },*/
           body: this.ticketCommentBody,
           priority: this.ticketPriority,
-          subject: this.subject, // should be this.ticketSubject
+          subject: this.subject,
           status: this.ticketStatus,
         },
       },

@@ -3,8 +3,7 @@ import { axios } from "@pipedream/platform";
 export default {
   key: "zendesk-search-tickets",
   name: "Search Tickets",
-  // intentional typo on next line
-  description: "Search for tickets using Zendesk's search API. [See the docuentation](https://developer.zendesk.com/api-reference/ticketing/ticket-management/search/#search-tickets).",
+  description: "Search for tikcets using Zendesk's search API. [See the docuentation](https://developer.zendesk.com/api-reference/ticketing/ticket-management/search/#search-tickets).",
   type: "action",
   version: "0.0.1",
   annotations: {
@@ -17,7 +16,6 @@ export default {
       type: "app",
       app: "zendesk",
     },
-    // query gets error with "type:tickets" (plural)
     query: {
       type: "string",
       label: "Query",
