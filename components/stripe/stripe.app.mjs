@@ -541,7 +541,7 @@ export default {
     returnPaginationInfo: {
       type: "boolean",
       label: "Return Pagination Info",
-      description: "If `true`, returns an object `{ data, has_more, next_starting_after }` instead of a plain array. Set this when you need to know whether more results exist or want to paginate through additional pages.",
+      description: "If `true`, returns `{ data, has_more, next_starting_after }` instead of a plain array. Use this to paginate: pass the returned `next_starting_after` value as `Starting After` on the next call to fetch the next page. Default `false` returns an auto-paginated array.",
       optional: true,
       default: false,
     },
