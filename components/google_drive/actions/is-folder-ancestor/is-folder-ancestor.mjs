@@ -16,60 +16,98 @@ export default {
     fileId: {
       propDefinition: [
         googleDrive,
-        "fileId",
+        "fileOrFolderId",
       ],
       description: "The ID of the file or folder to check",
     },
     ancestorFolderId: {
-      type: "string",
+      propDefinition: [
+        googleDrive,
+        "folderId",
+      ],
       label: "Ancestor Folder ID",
       description: "The folder ID to check for in the parent hierarchy",
     },
   },
   async run({ $ }) {
-    const { fileId, ancestorFolderId } = this;
-    
-    // Start with the given file and walk up the parent hierarchy
-    let currentFileId = fileId;
-    const visitedIds = new Set(); // Prevent infinite loops
-    
-    while (currentFileId) {
-      // Prevent circular references
-      if (visitedIds.has(currentFileId)) {
-        $.export("$summary", `Circular reference detected in folder hierarchy`);
-        return { isAncestor: false, reason: "circular_reference" };
-      }
-      visitedIds.add(currentFileId);
-      
-      // Get file metadata including parents
-      const file = await this.googleDrive.getFile({
-        $,
-        fileId: currentFileId,
+    const {
+      fileId, ancestorFolderId,
+    } = this;
+
+    // Get the initial file's parents to start traversal from parent (not the file itself)
+    let file;
+    try {
+      file = await this.googleDrive.getFile(fileId, {
         fields: "id,name,parents",
       });
-      
-      // Check if ancestor folder ID matches current file
-      if (currentFileId === ancestorFolderId) {
+    } catch (err) {
+      throw new Error(`Failed to retrieve file "${fileId}": ${err.message}`);
+    }
+
+    const initialParents = file.parents || [];
+    if (initialParents.length === 0) {
+      $.export("$summary", `Folder "${ancestorFolderId}" is NOT an ancestor of file "${fileId}"`);
+      return {
+        isAncestor: false,
+        fileId,
+        ancestorFolderId,
+        reason: "not_in_hierarchy",
+      };
+    }
+
+    // BFS traversal to check all parent paths (files can have multiple parents in Drive)
+    const queue = [
+      ...initialParents,
+    ];
+    const visitedIds = new Set();
+
+    while (queue.length > 0) {
+      const currentId = queue.shift();
+
+      // Skip if already visited (prevents cycles)
+      if (visitedIds.has(currentId)) {
+        continue;
+      }
+      visitedIds.add(currentId);
+
+      // Check if current parent matches the ancestor folder ID
+      if (currentId === ancestorFolderId) {
+        let ancestorFile;
+        try {
+          ancestorFile = await this.googleDrive.getFile(currentId, {
+            fields: "id,name",
+          });
+        } catch (err) {
+          throw new Error(`Failed to retrieve ancestor folder "${currentId}": ${err.message}`);
+        }
         $.export("$summary", `Folder "${ancestorFolderId}" is an ancestor of file "${fileId}"`);
         return {
           isAncestor: true,
           fileId,
           ancestorFolderId,
-          ancestorName: file.name,
+          ancestorName: ancestorFile.name,
         };
       }
-      
-      // Move to parent (if exists)
-      const parents = file.parents || [];
-      if (parents.length === 0) {
-        // Reached root, ancestor not found
-        break;
+
+      // Get file metadata including parents to continue traversal
+      let parentFile;
+      try {
+        parentFile = await this.googleDrive.getFile(currentId, {
+          fields: "id,name,parents",
+        });
+      } catch (err) {
+        throw new Error(`Failed to retrieve file "${currentId}": ${err.message}`);
       }
-      
-      // Use first parent (files can have multiple parents in Drive)
-      currentFileId = parents[0];
+
+      // Enqueue all parents for traversal
+      const parents = parentFile.parents || [];
+      for (const parentId of parents) {
+        if (!visitedIds.has(parentId)) {
+          queue.push(parentId);
+        }
+      }
     }
-    
+
     $.export("$summary", `Folder "${ancestorFolderId}" is NOT an ancestor of file "${fileId}"`);
     return {
       isAncestor: false,
