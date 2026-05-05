@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../stripe.app.mjs";
 
 export default {
@@ -30,6 +31,7 @@ export default {
         app,
         "limit",
       ],
+      description: "Maximum records to return. Auto-paginated up to 10000 by default; capped at 100 when `Return Pagination Info` is enabled (Stripe's per-call limit).",
     },
     endingBefore: {
       propDefinition: [
@@ -44,11 +46,10 @@ export default {
       ],
     },
     returnPaginationInfo: {
-      type: "boolean",
-      label: "Return Pagination Info",
-      description: "If `true`, returns an object `{ data, has_more, next_starting_after }` instead of a plain array. Set this when you need to know whether more results exist or want to paginate through additional pages.",
-      optional: true,
-      default: false,
+      propDefinition: [
+        app,
+        "returnPaginationInfo",
+      ],
     },
   },
   async run({ $ }) {
@@ -61,6 +62,14 @@ export default {
       startingAfter,
       returnPaginationInfo,
     } = this;
+
+    if (returnPaginationInfo && limit > 100) {
+      throw new ConfigurationError("When `Return Pagination Info` is enabled, `Limit` must be 100 or fewer (Stripe caps single-page responses at 100). Disable the flag to auto-paginate up to 10000 results, or set Limit ≤ 100.");
+    }
+
+    if (startingAfter && endingBefore) {
+      throw new ConfigurationError("Use either `Starting After` or `Ending Before`, not both.");
+    }
 
     const params = {
       charge,

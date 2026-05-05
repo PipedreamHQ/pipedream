@@ -538,6 +538,13 @@ export default {
       description: "A cursor for use in pagination. **Starting After** is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include `starting_after=obj_foo` in order to fetch the next page of the list.",
       optional: true,
     },
+    returnPaginationInfo: {
+      type: "boolean",
+      label: "Return Pagination Info",
+      description: "If `true`, returns an object `{ data, has_more, next_starting_after }` instead of a plain array. Set this when you need to know whether more results exist or want to paginate through additional pages.",
+      optional: true,
+      default: false,
+    },
     addressCity: {
       type: "string",
       label: "Address - City",
