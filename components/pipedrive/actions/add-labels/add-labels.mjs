@@ -1,10 +1,11 @@
+import { ConfigurationError } from "@pipedream/platform";
 import pipedriveApp from "../../pipedrive.app.mjs";
 
 export default {
   key: "pipedrive-add-labels",
   name: "Add Labels",
   description: "Adds labels to a lead, person, deal, or organization in Pipedrive. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Leads#updateLead)",
-  version: "0.0.1",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -152,10 +153,15 @@ export default {
       ];
     }
 
-    const response = await this.pipedriveApp[`update${this.capitalizedType(this.type)}`]({
-      [`${this.type}Id`]: this[`${this.type}Id`],
-      label_ids: labelIds,
-    });
+    let response;
+    try {
+      response = await this.pipedriveApp[`update${this.capitalizedType(this.type)}`]({
+        [`${this.type}Id`]: this[`${this.type}Id`],
+        label_ids: labelIds,
+      });
+    } catch (error) {
+      throw new ConfigurationError(`Failed to update ${this.type} labels: ${JSON.stringify(error, null, 2)}`);
+    }
 
     $.export("$summary", `Successfully added ${this.getLabelIds(this.type).length} label(s)`);
     return response;

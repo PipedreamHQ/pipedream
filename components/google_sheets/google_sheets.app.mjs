@@ -662,9 +662,6 @@ export default {
      * @returns {Promise<Object>} The response data from the batchUpdate request.
      */
     async resetRowFormat(spreadsheetId, rangeStr, opts = {}) {
-      const ASCII_A = 65;    // Unicode (UTF-16) value for the character 'A'
-      const OFFSET_INCLUSIVE = -1;  // For making the end column index inclusive
-
       const {
         sheetName,
         startCol,
@@ -681,8 +678,8 @@ export default {
         sheetId: sheetId,
         startRowIndex: startRow,
         endRowIndex: endRow,
-        startColumnIndex: startCol.charCodeAt(0) - ASCII_A,
-        endColumnIndex: endCol.charCodeAt(0) - (ASCII_A + OFFSET_INCLUSIVE),
+        startColumnIndex: this._getColumnIndex(startCol) - 1,
+        endColumnIndex: this._getColumnIndex(endCol), // API end is exclusive
       };
       return (await sheets.spreadsheets.batchUpdate({
         spreadsheetId,

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/slack_v2",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "Pipedream Slack_v2 Components",
   "main": "slack_v2.app.mjs",
   "keywords": [
@@ -17,6 +17,6 @@
     "@pipedream/platform": "^3.2.5",
     "@slack/web-api": "^7.9.0",
     "async-retry": "^1.3.3",
-    "lodash": "^4.17.23"
+    "lodash": "^4.18.1"
   }
 }

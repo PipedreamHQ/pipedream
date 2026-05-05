@@ -16,7 +16,7 @@
   "dependencies": {
     "@pipedream/platform": "^3.2.5",
     "bottleneck": "^2.19.5",
-    "file-type": "^21.3.1",
+    "file-type": "^21.3.2",
     "form-data": "^4.0.4",
     "got": "^12.6.0",
     "openai": "^4.77.0"

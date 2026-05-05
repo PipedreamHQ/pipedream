@@ -3,7 +3,7 @@ import microsoftOutlook from "../../microsoft_outlook.app.mjs";
 export default {
   type: "action",
   key: "microsoft_outlook-update-contact",
-  version: "0.0.28",
+  version: "0.0.29",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   key: "trengo-get-email-message-content",
   name: "Get Email Message Content",
   description: "Retrieve the full email content for a specific ticket message. Use this when `email_message.collapsed` is true in the List Messages response. [See the documentation](https://developers.trengo.com/reference)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

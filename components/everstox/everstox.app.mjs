@@ -6,6 +6,25 @@ export default {
   type: "app",
   app: "everstox",
   propDefinitions: {
+    warehouseIds: {
+      type: "string[]",
+      label: "Warehouse IDs",
+      description: "Warehouse IDs",
+      async options({ page }) {
+        const { items } = await this.listWarehouses({
+          params: {
+            limit: LIMIT,
+            offset: page * LIMIT,
+          },
+        });
+        return items?.map(({
+          id, name,
+        }) => ({
+          label: name,
+          value: id,
+        })) || [];
+      },
+    },
     orderId: {
       type: "string",
       label: "Order ID",
@@ -103,6 +122,12 @@ export default {
     listReturns(opts = {}) {
       return this._makeRequest({
         path: "/returns/v2",
+        ...opts,
+      });
+    },
+    listWarehouses(opts = {}) {
+      return this._makeRequest({
+        path: "/warehouses",
         ...opts,
       });
     },

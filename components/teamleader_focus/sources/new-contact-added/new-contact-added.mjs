@@ -5,7 +5,7 @@ export default {
   key: "teamleader_focus-new-contact-added",
   name: "New Contact Added (Instant)",
   description: "Emit new event for each contact added. [See the documentation](https://developer.focus.teamleader.eu/docs/api/webhooks-register)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

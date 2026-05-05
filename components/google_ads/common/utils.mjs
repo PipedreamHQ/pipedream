@@ -38,6 +38,36 @@ export function getOption(label, prefix) {
   };
 }
 
+export function getResourceOption(item, resource) {
+  let label, value;
+  switch (resource) {
+  case "campaign":
+    label = item.campaign.name;
+    value = item.campaign.id;
+    break;
+
+  case "customer":
+    label = item.customer.descriptiveName;
+    value = item.customer.id;
+    break;
+
+  case "ad_group":
+    label = item.adGroup.name;
+    value = item.adGroup.id;
+    break;
+
+  case "ad_group_ad":
+    label = item.adGroupAd.ad.name;
+    value = item.adGroupAd.ad.id;
+    break;
+  }
+
+  return {
+    label,
+    value,
+  };
+}
+
 export function checkPrefix(value, prefix) {
   const checkStr = (s) => s && (s?.startsWith?.(prefix)
     ? s

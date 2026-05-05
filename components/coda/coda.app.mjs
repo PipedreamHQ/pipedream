@@ -99,6 +99,19 @@ export default {
         return this._makeOptionsResponse(response);
       },
     },
+    pageId: {
+      type: "string",
+      label: "Page ID",
+      description: "ID of the page",
+      async options({
+        docId, prevContext,
+      }) {
+        const response = await this.listPages(this, docId, {
+          pageToken: prevContext.nextPageToken,
+        });
+        return this._makeOptionsResponse(response);
+      },
+    },
     query: {
       type: "string",
       label: "Search Query",
@@ -260,6 +273,36 @@ export default {
         params,
       };
       return this._makeRequest($, opts);
+    },
+    listPages($, docId, params = {}) {
+      return this._makeRequest($, {
+        path: `/docs/${docId}/pages`,
+        params,
+      });
+    },
+    getPage($, docId, pageId, params = {}) {
+      return this._makeRequest($, {
+        path: `/docs/${docId}/pages/${encodeURIComponent(pageId)}`,
+        params,
+      });
+    },
+    getPageContent($, docId, pageId, data = {}) {
+      return this._makeRequest($, {
+        method: "POST",
+        path: `/docs/${docId}/pages/${encodeURIComponent(pageId)}/export`,
+        data,
+      });
+    },
+    getPageContentExportStatus($, docId, pageId, exportId) {
+      return this._makeRequest($, {
+        path: `/docs/${docId}/pages/${encodeURIComponent(pageId)}/export/${exportId}`,
+      });
+    },
+    downloadPageFile($, downloadLink) {
+      return axios($, {
+        url: downloadLink,
+        responseType: "arraybuffer",
+      });
     },
     /**
      * Delete a single row by name or ID

@@ -5,7 +5,7 @@ export default {
   key: "linkupapi-login",
   name: "Login",
   description: "Authenticate with LinkedIn credentials. [See the documentation](https://docs.linkupapi.com/api-reference/linkup/authentication/login)",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     email: {

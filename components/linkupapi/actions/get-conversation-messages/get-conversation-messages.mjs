@@ -6,7 +6,7 @@ export default {
   key: "linkupapi-get-conversation-messages",
   name: "Get Conversation Messages",
   description: "Retrieve messages from a LinkedIn conversation. [See the documentation](https://docs.linkupapi.com/api-reference/linkup/Messages/conversation)",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     loginToken: {

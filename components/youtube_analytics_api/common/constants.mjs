@@ -34,6 +34,8 @@ const METRIC = {
   SUBSCRIBERS_LOST: "subscribersLost",
   VIDEOS_ADDED_TO_PLAYLISTS: "videosAddedToPlaylists",
   VIDEOS_REMOVED_FROM_PLAYLISTS: "videosRemovedFromPlaylists",
+  VIDEO_THUMBNAIL_IMPRESSIONS: "videoThumbnailImpressions",
+  VIDEO_THUMBNAIL_IMPRESSIONS_CLICK_RATE: "videoThumbnailImpressionsClickRate",
   VIEWER_PERCENTAGE: "viewerPercentage",
   VIEWS: "views",
 };

@@ -6,7 +6,7 @@ export default {
   key: "nutshell-update-company",
   name: "Update Company",
   description: "Update an existing company (account). Only provided fields are updated. Custom fields from your Nutshell pipeline can be set below or passed via the Custom Fields (Object) prop. [See the documentation](https://developers-rpc.nutshell.com/detail/class_core.html#a0800d52996b40c90db3f475f88aaceb3)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

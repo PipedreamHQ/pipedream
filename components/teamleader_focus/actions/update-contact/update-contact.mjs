@@ -4,7 +4,7 @@ export default {
   key: "teamleader_focus-update-contact",
   name: "Update Contact",
   description: "Update a contact. [See the documentation](https://developer.focus.teamleader.eu/docs/api/contacts-update)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

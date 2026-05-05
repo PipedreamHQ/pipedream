@@ -245,10 +245,10 @@ export default {
       };
     },
     async _makeRequest({
-      $, path, headers, ...otherConfig
+      $, url, path, headers, ...otherConfig
     } = {}) {
       const config = {
-        url: this._getApiUrl(path),
+        url: url ?? this._getApiUrl(path),
         headers: this._getHeaders(headers),
         ...otherConfig,
       };
@@ -309,6 +309,15 @@ export default {
       return this._makeRequest({
         path: `/files/${fileId}/content`,
         responseType: "stream",
+        ...args,
+      });
+    },
+    async getFile({
+      fileId, ...args
+    } = {}) {
+      return this._makeRequest({
+        method: "GET",
+        path: `/files/${fileId}`,
         ...args,
       });
     },

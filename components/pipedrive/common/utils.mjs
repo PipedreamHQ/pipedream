@@ -1,3 +1,5 @@
+import pipedrive from "../pipedrive.app.mjs";
+
 export const parseObject = (obj) => {
   if (!obj) return undefined;
 
@@ -40,14 +42,18 @@ const parseCustomFields = async (data, customFields) => {
 export const parseData = async ({
   fn, body,
 }) => {
-  const { data: customFields } = await fn();
+  const customFields = await pipedrive.methods.getPaginatedResources({
+    fn,
+  });
   body.data.custom_fields = await parseCustomFields(body.data, customFields);
   body.previous.custom_fields = await parseCustomFields(body.previous, customFields);
   return body;
 };
 
 const getCustomFieldNames = async (fn) => {
-  const { data: personFields } = await fn();
+  const personFields = await pipedrive.methods.getPaginatedResources({
+    fn,
+  });
   const customFields = personFields.filter((field) => field.created_by_user_id);
   const customFieldNames = {};
   customFields.forEach((field) => {
@@ -57,7 +63,9 @@ const getCustomFieldNames = async (fn) => {
 };
 
 const getCustomFieldData = async (fn) => {
-  const { data: personFields } = await fn();
+  const personFields = await pipedrive.methods.getPaginatedResources({
+    fn,
+  });
   const customFields = personFields.filter((field) => field.created_by_user_id);
   const customFieldNames = {};
   customFields.forEach((field) => {
@@ -114,7 +122,7 @@ const formatCustomSelectFields = (customFieldNames, data, body, isPrevious = fal
     value,
   ] of Object.entries(customFieldNames)) {
     let fieldValue = isPrevious
-      ? body.previous.custom_fields[key]
+      ? body.previous?.custom_fields?.[key]
       : data[key] ?? data?.custom_fields?.[key] ?? null;
     if (fieldValue && value.options?.length) {
       if (value.type === "enum") {

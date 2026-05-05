@@ -4,7 +4,7 @@ export default {
   key: "coda-list-columns",
   name: "List Columns",
   description: "Lists columns in a table. [See docs](https://coda.io/developers/apis/v1#operation/listColumns)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

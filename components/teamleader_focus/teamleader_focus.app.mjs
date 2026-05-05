@@ -140,6 +140,50 @@ export default {
         })) || [];
       },
     },
+    ticketId: {
+      type: "string",
+      label: "Ticket ID",
+      description: "Identifier of a ticket",
+      async options({ page }) {
+        const { data } = await this.listTickets({
+          data: {
+            page: {
+              number: page + 1,
+            },
+          },
+        });
+        return data?.map(({
+          id: value, subject: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    messageId: {
+      type: "string",
+      label: "Message ID",
+      description: "Identifier of a message",
+      async options({
+        page, ticketId,
+      }) {
+        const { data } = await this.listMessages({
+          data: {
+            id: ticketId,
+            page: {
+              number: page + 1,
+            },
+          },
+        });
+
+        return data?.map(({
+          message_id: value, body: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
     firstName: {
       type: "string",
       label: "First Name",
@@ -264,6 +308,18 @@ export default {
         ...args,
       });
     },
+    getTicket(args = {}) {
+      return this._makeRequest({
+        path: "/tickets.info",
+        ...args,
+      });
+    },
+    getTicketMessage(args = {}) {
+      return this._makeRequest({
+        path: "/tickets.getMessage",
+        ...args,
+      });
+    },
     listContacts(args = {}) {
       return this._makeRequest({
         path: "/contacts.list",
@@ -288,9 +344,21 @@ export default {
         ...args,
       });
     },
+    listMessages(args = {}) {
+      return this._makeRequest({
+        path: "/tickets.listMessages",
+        ...args,
+      });
+    },
     listPaymentTerms(args = {}) {
       return this._makeRequest({
         path: "/paymentTerms.list",
+        ...args,
+      });
+    },
+    listTickets(args = {}) {
+      return this._makeRequest({
+        path: "/tickets.list",
         ...args,
       });
     },
@@ -345,6 +413,12 @@ export default {
     updateCompany(args = {}) {
       return this._makeRequest({
         path: "/companies.update",
+        ...args,
+      });
+    },
+    importMessage(args = {}) {
+      return this._makeRequest({
+        path: "/tickets.importMessage",
         ...args,
       });
     },

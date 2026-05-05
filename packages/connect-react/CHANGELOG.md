@@ -2,6 +2,12 @@
 
 # Changelog
 
+## [2.8.0] - 2026-03-19
+
+### Changed
+
+- Updated `@pipedream/sdk` dependency to `^2.4.0`
+
 ## [2.7.3] - 2026-03-18
 
 ### Added

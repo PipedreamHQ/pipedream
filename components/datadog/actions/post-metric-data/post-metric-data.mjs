@@ -3,8 +3,20 @@ import datadog from "../../datadog.app.mjs";
 export default {
   key: "datadog-post-metric-data",
   name: "Post Metric Data",
-  description: "The metrics end-point allows you to post time-series data that can be graphed on Datadog's dashboards. [See docs](https://docs.datadoghq.com/metrics)",
-  version: "0.1.3",
+  description:
+    "Post custom time-series metric data points to"
+    + " Datadog. Data appears in dashboards, monitors,"
+    + " and can be queried via **Get Metric Data**."
+    + " Points: JSON object where keys are Unix"
+    + " timestamps (seconds) and values are numeric,"
+    + " e.g. `{\"1640995200\": 1.0}`. Use"
+    + " **Search Metrics** to verify a metric name"
+    + " exists, or post to a new name to create it."
+    + " This is a WRITE operation that creates or"
+    + " appends data to a metric time series."
+    + " [See the docs](https://docs.datadoghq.com/"
+    + "metrics)",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

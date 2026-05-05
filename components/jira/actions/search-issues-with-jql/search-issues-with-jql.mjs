@@ -4,7 +4,7 @@ export default {
   name: "Search Issues with JQL",
   description: "Search for issues using JQL (Jira Query Language). [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-search/#api-rest-api-3-search-jql-get)",
   key: "jira-search-issues-with-jql",
-  version: "0.1.6",
+  version: "0.1.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -161,9 +161,25 @@ export default {
         },
         maxResults: this.maxResults,
       });
+
+      let baseUrl;
+      try {
+        baseUrl = await this.jira.getCloudBaseUrl(this.cloudId);
+      } catch (e) {
+        console.log("Could not enrich response with browser URL", e.message);
+      }
+      const issuesWithUrls = baseUrl
+        ? issues.map((issue) => ({
+          ...issue,
+          browserUrl: issue.key
+            ? `${baseUrl}/browse/${issue.key}`
+            : undefined,
+        }))
+        : issues;
+
       $.export("$summary", `Successfully retrieved ${issues.length} issues`);
       return {
-        issues,
+        issues: issuesWithUrls,
       };
     } catch (error) {
       throw new Error(`Failed to search issues: ${error.message}`);

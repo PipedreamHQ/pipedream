@@ -9,7 +9,7 @@ export default {
   key: "google_ads-generate-keyword-ideas",
   name: "Generate Keyword Ideas",
   description: `Generate keyword ideas using the Google Ads API. [See the documentation](${docLink})`,
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

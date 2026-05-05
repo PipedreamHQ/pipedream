@@ -4,7 +4,7 @@ export default {
   key: "google_sheets-move-dimension",
   name: "Move Dimension",
   description: "Move a dimension in a spreadsheet. [See the documentation](https://developers.google.com/workspace/sheets/api/reference/rest/v4/spreadsheets/request#MoveDimensionRequest)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

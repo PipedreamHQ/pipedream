@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/avinode",
+  "version": "0.0.1",
+  "description": "Pipedream Avinode Components",
+  "main": "avinode.app.mjs",
+  "keywords": [
+    "pipedream",
+    "avinode"
+  ],
+  "homepage": "https://pipedream.com/apps/avinode",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

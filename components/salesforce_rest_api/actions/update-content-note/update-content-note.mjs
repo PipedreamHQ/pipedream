@@ -17,7 +17,7 @@ export default {
   key: "salesforce_rest_api-update-content-note",
   name: "Update Content Note",
   description: `Updates an enhanced Salesforce content note, which can include formatted text and is part of Salesforce Files. [See the documentation](${docsLink}) and [Set Up Notes](https://help.salesforce.com/s/articleView?id=sales.notes_admin_setup.htm&type=5).`,
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: true,

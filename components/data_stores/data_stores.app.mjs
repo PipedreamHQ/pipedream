@@ -1,5 +1,3 @@
-import xss from "xss";
-
 /**
  * Should support the following data types:
  * https://pipedream.com/docs/data-stores/#supported-data-types
@@ -48,18 +46,6 @@ export default {
     },
   },
   methods: {
-    // using Function approach instead of eval:
-    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval#never_use_eval!
-    evaluate(value) {
-      try {
-        return Function(`"use strict"; return (${xss(value)})`)();
-      } catch (err) {
-        return value;
-      }
-    },
-    parseJSON(value) {
-      return JSON.parse(JSON.stringify(this.evaluate(value)));
-    },
     shouldAddRecord(option) {
       return option === "Yes";
     },
@@ -69,8 +55,8 @@ export default {
       }
 
       try {
-        return this.parseJSON(value);
-      } catch (err) {
+        return JSON.parse(value);
+      } catch {
         return value;
       }
     },

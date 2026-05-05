@@ -15,7 +15,7 @@ export default {
   key: "google_ads-create-customer-list",
   name: "Create Customer List",
   description: "Create a new customer list in Google Ads. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v21/UserList)",
-  version: "0.0.7",
+  version: "0.0.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

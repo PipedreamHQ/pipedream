@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/gorgias_oauth",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "Pipedream Gorgias OAuth Components",
   "main": "gorgias_oauth.app.mjs",
   "keywords": [
@@ -16,6 +16,6 @@
   },
   "dependencies": {
     "@pipedream/platform": "^3.2.5",
-    "lodash-es": "^4.17.23"
+    "lodash-es": "^4.18.1"
   }
 }

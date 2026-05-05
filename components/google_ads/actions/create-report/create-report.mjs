@@ -4,7 +4,7 @@ import { ad } from "../../common/resources/ad.mjs";
 import { campaign } from "../../common/resources/campaign.mjs";
 import { customer } from "../../common/resources/customer.mjs";
 import { ConfigurationError } from "@pipedream/platform";
-import { DATE_RANGE_OPTIONS } from "./common-constants.mjs";
+import { DATE_RANGE_OPTIONS } from "../../common/constants.mjs";
 import { checkPrefix } from "../../common/utils.mjs";
 
 const RESOURCES = [
@@ -14,16 +14,17 @@ const RESOURCES = [
   customer,
 ];
 
+// Action kept for backwards compatibility - prefer the individual resource-specific actions
 export default {
   ...common,
   key: "google_ads-create-report",
   name: "Create Report",
   description: "Generates a report from your Google Ads data. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v21/GoogleAdsService/Search?transport=rest)",
-  version: "0.1.5",
+  version: "0.1.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
-    readOnlyHint: false,
+    readOnlyHint: true,
   },
   type: "action",
   props: {

@@ -4,7 +4,7 @@ export default {
   key: "google_sheets-set-data-validation",
   name: "Set Data Validation",
   description: "Add data validation rules to cells (dropdowns, checkboxes, date/number validation). [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/request#SetDataValidationRequest)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -97,8 +97,8 @@ export default {
                 sheetId: this.worksheetId,
                 startRowIndex: startRow,
                 endRowIndex: endRow,
-                startColumnIndex: startCol.charCodeAt(0) - 65,
-                endColumnIndex: endCol.charCodeAt(0) - 64,
+                startColumnIndex: this.googleSheets._getColumnIndex(startCol) - 1,
+                endColumnIndex: this.googleSheets._getColumnIndex(endCol), // API end is exclusive
               },
               rule: {
                 condition: {

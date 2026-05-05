@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/coda",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Pipedream Coda Components",
   "main": "coda.app.mjs",
   "keywords": [
@@ -14,6 +14,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.6.8"
+    "@pipedream/platform": "^3.3.0"
   }
 }

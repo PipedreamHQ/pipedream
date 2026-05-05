@@ -5,7 +5,7 @@ export default {
   key: "google_sheets-update-conditional-format-rule",
   name: "Update Conditional Format Rule",
   description: "Modify existing conditional formatting rule. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/request#UpdateConditionalFormatRuleRequest)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -145,8 +145,8 @@ export default {
           sheetId: this.worksheetId,
           startRowIndex: startRow,
           endRowIndex: endRow,
-          startColumnIndex: startCol.charCodeAt(0) - 65,
-          endColumnIndex: endCol.charCodeAt(0) - 64,
+          startColumnIndex: this.googleSheets._getColumnIndex(startCol) - 1,
+          endColumnIndex: this.googleSheets._getColumnIndex(endCol), // API end is exclusive
         },
       ],
     };
