@@ -25,6 +25,13 @@ export default {
       description: "Filter by archived status",
       optional: true,
     },
+    page: {
+      type: "integer",
+      label: "Page",
+      description: "Page number to retrieve.",
+      optional: true,
+      min: 1,
+    },
     perPage: {
       type: "integer",
       label: "Per Page",

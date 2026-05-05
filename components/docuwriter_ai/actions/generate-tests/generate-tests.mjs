@@ -37,6 +37,12 @@ export default {
       description: "The type of tests to generate (e.g., `unit`, `integration`)",
       optional: true,
     },
+    name: {
+      type: "string",
+      label: "Name",
+      description: "Optional custom name for this generation (max 255 chars).",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const response = await this.docuwriterAi.generateTests($, {
@@ -44,6 +50,7 @@ export default {
       filename: this.filename,
       test_framework: this.testFramework,
       test_type: this.testType,
+      name: this.name,
     });
     $.export("$summary", `Tests generated for ${this.filename}`);
     return response;

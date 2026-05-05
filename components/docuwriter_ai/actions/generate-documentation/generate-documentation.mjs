@@ -45,6 +45,12 @@ export default {
         "additionalInstructions",
       ],
     },
+    name: {
+      type: "string",
+      label: "Name",
+      description: "Custom title for this generation (max 255 chars).",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const response = await this.docuwriterAi.generateDocumentation($, {
@@ -53,6 +59,7 @@ export default {
       output_language: this.outputLanguage,
       documentation_type: this.documentationType,
       additional_instructions: this.additionalInstructions,
+      name: this.name,
     });
     $.export("$summary", `Documentation generated for ${this.filename}`);
     return response;

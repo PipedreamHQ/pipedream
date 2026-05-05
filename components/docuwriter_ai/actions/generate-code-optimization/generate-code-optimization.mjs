@@ -31,6 +31,12 @@ export default {
         "additionalInstructions",
       ],
     },
+    name: {
+      type: "string",
+      label: "Name",
+      description: "Custom name for the generation record (max 255 characters).",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const response = await this.docuwriterAi.generateCodeOptimization({
@@ -39,6 +45,7 @@ export default {
         source_code: this.sourceCode,
         filename: this.filename,
         additional_instructions: this.additionalInstructions,
+        name: this.name,
       },
     });
     $.export("$summary", `Code optimization generated for ${this.filename}`);
