@@ -16841,6 +16841,9 @@ importers:
         specifier: ^2.29.4
         version: 2.30.1
 
+  components/vc_deal_flow_signal:
+    specifiers: {}
+
   components/vectera: {}
 
   components/vectorshift:
