@@ -40,9 +40,15 @@ export default {
     },
     filePath: {
       type: "string",
-      label: "File Path or URL",
-      description: "The image to process. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.jpg`). Supported image types: jpeg, jpg, png, gif, webp",
+      label: "File Path",
+      description: "The image to process. Provide a path to a file in the `/tmp` directory (for example, `/tmp/myFile.jpg`). Supported image types: jpeg, jpg, png, gif, webp",
       format: "file-ref",
+      optional: true,
+    },
+    fileUrl: {
+      type: "string",
+      label: "File URL",
+      description: "The image to process. Provide a URL to a file (for example, `https://example.com/myFile.jpg`). Supported image types: jpeg, jpg, png, gif, webp",
       optional: true,
     },
     imageDetailLevel: {
@@ -87,6 +93,13 @@ export default {
         detail: this.imageDetailLevel,
       });
     }
+    if (this.fileUrl) {
+      data.input[0].content.push({
+        type: "input_image",
+        image_url: this.fileUrl,
+        detail: this.imageDetailLevel,
+      });
+    }
     if (this.filePath) {
       const fileData = new FormData();
       const {
@@ -123,10 +136,11 @@ export default {
     };
 
     if (run.output.length) {
-      returnData.response = run.output[0].content[0].text;
+      const content = run.output[0]?.content?.find((c) => c.text);
+      returnData.response = content?.text;
       returnData.messages.push({
         role: run.output[0].role,
-        content: run.output[0].content,
+        content: content,
       });
     }
 
