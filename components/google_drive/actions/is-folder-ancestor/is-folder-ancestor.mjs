@@ -59,7 +59,7 @@ export default {
     const queue = [
       ...initialParents,
     ];
-    const visitedIds = new Set();
+    const visitedIds = new Set([fileId]);
 
     while (queue.length > 0) {
       const currentId = queue.shift();
