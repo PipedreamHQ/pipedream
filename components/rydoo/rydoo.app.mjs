@@ -132,6 +132,63 @@ export default {
         }));
       },
     },
+    parentGroupId: {
+      type: "string",
+      label: "Parent Group",
+      description: "Retrieve groups with the specified parent group. If not set, returns only root-level groups",
+      async options({ page }) {
+        const { data: groups } = await this.listGroups({
+          params: {
+            limit: DEFAULT_LIMIT,
+            offset: DEFAULT_LIMIT * page,
+          },
+        });
+        return groups.map(({
+          id, name,
+        }) => ({
+          label: name || id,
+          value: id,
+        }));
+      },
+    },
+    branchId: {
+      type: "string",
+      label: "Branch",
+      description: "The unique identifier of a branch",
+      async options({ page }) {
+        const { data: branches } = await this.listBranches({
+          params: {
+            limit: DEFAULT_LIMIT,
+            offset: DEFAULT_LIMIT * page,
+          },
+        });
+        return branches.map(({
+          id, name,
+        }) => ({
+          label: name || id,
+          value: id,
+        }));
+      },
+    },
+    branchIds: {
+      type: "string[]",
+      label: "Branches",
+      description: "The unique identifiers of one or more branches",
+      async options({ page }) {
+        const { data: branches } = await this.listBranches({
+          params: {
+            limit: DEFAULT_LIMIT,
+            offset: DEFAULT_LIMIT * page,
+          },
+        });
+        return branches.map(({
+          id, name,
+        }) => ({
+          label: name || id,
+          value: id,
+        }));
+      },
+    },
     receiptId: {
       type: "string",
       label: "Receipt ID",
@@ -170,6 +227,14 @@ export default {
         ...args,
       });
     },
+    getUser({
+      userId, ...opts
+    }) {
+      return this._makeRequest({
+        url: `/v2/users/${userId}`,
+        ...opts,
+      });
+    },
     listUsers(opts = {}) {
       return this._makeRequest({
         url: "/v2/users",
@@ -197,6 +262,18 @@ export default {
     listTrips(opts = {}) {
       return this._makeRequest({
         url: "/v2/trips",
+        ...opts,
+      });
+    },
+    listBranches(opts = {}) {
+      return this._makeRequest({
+        url: "/v2/branches",
+        ...opts,
+      });
+    },
+    getExportedExpenses(opts = {}) {
+      return this._makeRequest({
+        url: "/v2/expenses/exported",
         ...opts,
       });
     },
