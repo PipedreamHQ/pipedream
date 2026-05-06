@@ -5,7 +5,7 @@ export default {
   key: "vc_deal_flow_signal-new-engineering-signal",
   name: "New Engineering Signal",
   description:
-    "Emit new event for each new (startup, signal type) pair. Polls daily. Dedupes by `period + name + signalType`. Optional filter by signal type.",
+    "Emit new event for each new (startup, signal type) pair. Dedupes by `period + name + signalType`. Optional filter by signal type.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",

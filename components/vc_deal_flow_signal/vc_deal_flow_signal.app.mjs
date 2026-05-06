@@ -19,7 +19,7 @@ export default {
     signalTypeFilter: {
       type: "string",
       label: "Signal Type Filter",
-      description: "Optional filter for engineering-signal type.",
+      description: "Optional enum filter for engineering-signal type. Accepts one of the SIGNAL_TYPES, e.g. 'Deploy frequency spike', 'Infrastructure buildout'.",
       optional: true,
       options: constants.SIGNAL_TYPES,
     },
