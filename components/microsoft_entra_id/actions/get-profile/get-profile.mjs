@@ -4,7 +4,7 @@ export default {
   key: "microsoft_entra_id-get-profile",
   name: "Get Profile",
   description: "Get the user's profile information. Returns the signed-in user's profile by default. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-get?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

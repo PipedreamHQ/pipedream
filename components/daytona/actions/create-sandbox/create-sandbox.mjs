@@ -4,8 +4,8 @@ import { parseObject } from "../../common/utils.mjs";
 export default {
   key: "daytona-create-sandbox",
   name: "Create Sandbox",
-  description: "Creates a new sandbox on Daytona. [See the documentation](https://www.daytona.io/docs/en/typescript-sdk/daytona/#create)",
-  version: "0.0.1",
+  description: "Creates a new sandbox on Daytona. Provide a **Snapshot** to create from a pre-built template, an **Image** to create from a custom Docker image, or neither to use the Daytona default snapshot. **Snapshot takes precedence over Image** if both are provided. [See the documentation](https://www.daytona.io/docs/en/typescript-sdk/daytona/#create)",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -25,7 +25,35 @@ export default {
         daytona,
         "snapshotId",
       ],
+      description: "Pre-built snapshot to use as the sandbox base. **Takes precedence over Image if both are provided.** If neither Snapshot nor Image is specified, the Daytona default snapshot is used.",
       optional: true,
+    },
+    image: {
+      type: "string",
+      label: "Image",
+      description: "Custom Docker image to use for the Sandbox (e.g. `python:3.12-slim`). Only used when no **Snapshot** is specified. Supports public registry images.",
+      optional: true,
+    },
+    cpu: {
+      type: "integer",
+      label: "CPU",
+      description: "Number of CPU cores to allocate (minimum: `1`). Only applies when using a custom **Image**, not a Snapshot.",
+      optional: true,
+      min: 1,
+    },
+    memory: {
+      type: "integer",
+      label: "Memory (GiB)",
+      description: "Amount of memory in GiB to allocate (minimum: `1`). Only applies when using a custom **Image**, not a Snapshot.",
+      optional: true,
+      min: 1,
+    },
+    disk: {
+      type: "integer",
+      label: "Disk (GiB)",
+      description: "Amount of disk space in GiB to allocate (minimum: `1`). Only applies when using a custom **Image**, not a Snapshot.",
+      optional: true,
+      min: 1,
     },
     autoArchiveInterval: {
       type: "integer",
@@ -66,7 +94,7 @@ export default {
     language: {
       type: "string",
       label: "Language",
-      description: "Programming language for direct code execution. Defaults to “python” if not specified.",
+      description: "Programming language for direct code execution. Defaults to `python` if not specified.",
       optional: true,
       options: [
         "python",
@@ -75,9 +103,9 @@ export default {
       ],
     },
     networkAllowList: {
-      type: "string[]",
+      type: "string",
       label: "Network Allow List",
-      description: "Comma-separated list of allowed CIDR network addresses for the Sandbox",
+      description: "Comma-separated list of allowed CIDR network addresses for the Sandbox (e.g. `10.0.0.0/8,192.168.1.0/24`)",
       optional: true,
     },
     networkBlockAll: {
@@ -95,7 +123,7 @@ export default {
     user: {
       type: "string",
       label: "User",
-      description: "Optional os user to use for the Sandbox",
+      description: "Optional OS user to use for the Sandbox",
       optional: true,
     },
     volumes: {
@@ -112,9 +140,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {
+    const baseParams = {
       name: this.name,
-      snapshotId: this.snapshotId,
       autoArchiveInterval: this.autoArchiveInterval,
       autoDeleteInterval: this.autoDeleteInterval,
       autoStopInterval: this.autoStopInterval,
@@ -128,6 +155,33 @@ export default {
       user: this.user,
       volumes: parseObject(this.volumes),
     };
+
+    let params;
+    if (this.snapshotId) {
+      // Snapshot always wins — image and resources don't apply
+      params = {
+        ...baseParams,
+        snapshot: this.snapshotId,
+      };
+    } else if (this.image) {
+      // Custom image — attach resources only if at least one field is set
+      const resources = (this.cpu || this.memory || this.disk)
+        ? {
+          cpu: this.cpu,
+          memory: this.memory,
+          disk: this.disk,
+        }
+        : undefined;
+      params = {
+        ...baseParams,
+        image: this.image,
+        resources,
+      };
+    } else {
+      // Neither specified — Daytona uses its default snapshot
+      params = baseParams;
+    }
+
     const options = {
       timeout: this.timeout,
     };

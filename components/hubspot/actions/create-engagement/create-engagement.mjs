@@ -11,11 +11,11 @@ export default {
   name: "Create Engagement",
   description:
     "Create a **task, meeting, email, call, or note** engagement with optional associations. "
-    + "MCP/AI: **Do not use this action for a simple note on a contact by ID** — use **Add Note to Contact** (`hubspot-add-note-to-contact`) instead; it avoids the engagement-type reload step that confuses agents. "
-    + "**Engagement Type** has `reloadProps: true`: set `engagementType` first to exactly one of `notes`, `tasks`, `meetings`, `emails`, `calls` (lowercase strings). "
-    + "After that, the host reloads props and HubSpot-specific fields appear; use the **CONFIGURE_COMPONENT** tool with `componentKey` `hubspot-create-engagement` and the relevant `propName` to load remote options (object IDs, association types, etc.). "
+    + "Set **Engagement Type** and pass engagement fields in **Object Properties** (HubSpot property names, e.g. `hs_note_body` for notes). "
+    + "No `reloadProps` step and no **CONFIGURE_COMPONENT** requirement: association fields accept raw HubSpot IDs (use **Search CRM** or the Associations API to resolve `associationType` when needed). "
+    + "For **only** a note on a contact by ID, **Add Note to Contact** (`hubspot-add-note-to-contact`) is still simpler. "
     + "[See the documentation](https://developers.hubspot.com/docs/api/crm/engagements)",
-  version: "0.0.35",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -28,52 +28,50 @@ export default {
       type: "string",
       label: "Engagement Type",
       description:
-        "Set this **before** other engagement fields load (`reloadProps`). "
-        + "Value must be exactly: `notes`, `tasks`, `meetings`, `emails`, or `calls`. "
-        + "For **note on contact by ID**, use **Add Note to Contact** instead.",
-      reloadProps: true,
+        "One of: `notes`, `tasks`, `meetings`, `emails`, or `calls`. "
+        + "Defines the CRM object type created and which properties belong in **Object Properties**. "
+        + "For **note on contact by ID**, consider **Add Note to Contact** instead.",
       options: ENGAGEMENT_TYPE_OPTIONS,
     },
     toObjectType: {
-      propDefinition: [
-        common.props.hubspot,
-        "objectType",
-      ],
+      type: "string",
       label: "Associated Object Type",
-      description: "Type of object the engagement is being associated with",
+      description:
+        "HubSpot object type to associate (e.g. `contacts`, `companies`, `deals`, `tickets`). "
+        + "Use the plural object name or your custom object’s API name / `fullyQualifiedName`. "
+        + "Optional unless you set **Associated Object ID**.",
       optional: true,
     },
     toObjectId: {
-      propDefinition: [
-        common.props.hubspot,
-        "objectId",
-        (c) => ({
-          objectType: c.toObjectType,
-        }),
-      ],
-      label: "Associated Object",
-      description: "ID of object the engagement is being associated with",
+      type: "string",
+      label: "Associated Object ID",
+      description:
+        "Numeric record ID to associate (string is fine). Optional unless you set **Association Type ID**.",
       optional: true,
     },
     associationType: {
-      propDefinition: [
-        common.props.hubspot,
-        "associationType",
-        (c) => ({
-          fromObjectType: c.engagementType,
-          toObjectType: c.toObjectType,
-        }),
-      ],
+      type: "string",
+      label: "Association Type ID",
       description:
-        "Association type ID between this engagement and the other object. "
-        + "Use **CONFIGURE_COMPONENT** with `propName` `associationType` after `toObjectType` and `engagementType` are set to load valid options.",
+        "HubSpot association `typeId` between this engagement type and **Associated Object Type** (integer as string or number). "
+        + "Resolve via HubSpot associations API or **Search CRM**; omit if you are not associating a record.",
       optional: true,
     },
     objectProperties: {
       type: "object",
       label: "Object Properties",
-      description: "Enter the `engagement` properties as a JSON object",
+      description:
+        "Writable HubSpot properties for the engagement as key/value pairs (same shape as the CRM API `properties` object). "
+        + "Example for a note: `{ \"hs_note_body\": \"Hello from Pipedream\" }`.",
     },
+  },
+  /**
+   * Skip common-create’s schema-driven `additionalProps` so engagement fields stay in
+   * `objectProperties` only — avoids `reloadProps` on `engagementType` and remote options
+   * that require CONFIGURE_COMPONENT in MCP/agent hosts.
+   */
+  async additionalProps() {
+    return {};
   },
   methods: {
     ...common.methods,
@@ -110,9 +108,15 @@ export default {
       ...otherProperties
     } = this;
 
+    if (!engagementType) {
+      throw new ConfigurationError(
+        "`engagementType` is required (one of notes, tasks, meetings, emails, calls).",
+      );
+    }
+
     if ((toObjectId && !associationType) || (!toObjectId && associationType)) {
       throw new ConfigurationError(
-        "Both `toObjectId` and `associationType` must be entered",
+        "Both **Associated Object ID** and **Association Type ID** must be set together, or both omitted.",
       );
     }
 
@@ -124,6 +128,16 @@ export default {
 
     const objectType = this.getObjectType();
 
+    const associationTypeId = associationType
+      ? Number(associationType)
+      : undefined;
+
+    if (toObjectId && (Number.isNaN(associationTypeId) || associationTypeId <= 0)) {
+      throw new ConfigurationError(
+        "`associationType` must be a positive numeric HubSpot association type ID.",
+      );
+    }
+
     const associations = toObjectId
       ? [
         {
@@ -132,7 +146,7 @@ export default {
           },
           types: [
             {
-              associationTypeId: associationType,
+              associationTypeId: associationTypeId,
               associationCategory: ASSOCIATION_CATEGORY.HUBSPOT_DEFINED,
             },
           ],
@@ -140,7 +154,7 @@ export default {
       ]
       : undefined;
 
-    if (properties.hs_task_reminders) {
+    if (properties?.hs_task_reminders) {
       properties.hs_task_reminders = Date.parse(properties.hs_task_reminders);
     }
 
@@ -152,7 +166,7 @@ export default {
     );
 
     const objectName = hubspot.getObjectTypeName(objectType);
-    $.export("$summary", `Successfully created ${objectName} for the contact`);
+    $.export("$summary", `Successfully created ${objectName} with ID ${engagement.id}`);
 
     return engagement;
   },
