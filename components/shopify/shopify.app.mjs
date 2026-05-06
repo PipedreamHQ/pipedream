@@ -289,6 +289,11 @@ export default {
         });
       },
     },
+    fulfillmentId: {
+      type: "string",
+      label: "Fulfillment ID",
+      description: "The ID of the fulfillment. Accepts either the full global ID (e.g. `gid://shopify/Fulfillment/123456789`) or the numeric ID alone (e.g. `123456789`)",
+    },
     fulfillmentOrderId: {
       type: "string",
       label: "Fulfillment Order ID",
@@ -537,6 +542,9 @@ export default {
     },
     listAssignedFulfillmentOrders(variables) {
       return this._makeGraphQlRequest(queries.LIST_ASSIGNED_FULFILLMENT_ORDERS, variables);
+    },
+    getFulfillment(variables) {
+      return this._makeGraphQlRequest(queries.GET_FULFILLMENT, variables);
     },
     getFulfillmentOrder(variables) {
       return this._makeGraphQlRequest(queries.GET_FULFILLMENT_ORDER, variables);

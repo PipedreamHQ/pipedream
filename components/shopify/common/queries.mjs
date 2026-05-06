@@ -1153,6 +1153,57 @@ const LIST_FULFILLMENT_ORDERS = `
   }
 `;
 
+const GET_FULFILLMENT = `
+  query ($id: ID!, $first: Int) {
+    fulfillment(id: $id) {
+      id
+      legacyResourceId
+      name
+      status
+      displayStatus
+      requiresShipping
+      totalQuantity
+      createdAt
+      updatedAt
+      deliveredAt
+      estimatedDeliveryAt
+      inTransitAt
+      trackingInfo {
+        company
+        number
+        url
+      }
+      order {
+        id
+        name
+      }
+      location {
+        id
+        name
+      }
+      originAddress {
+        address1
+        address2
+        city
+        countryCode
+        provinceCode
+        zip
+      }
+      fulfillmentLineItems(first: $first) {
+        nodes {
+          id
+          quantity
+          lineItem {
+            id
+            name
+            sku
+          }
+        }
+      }
+    }
+  }
+`;
+
 export default {
   LIST_ABANDONED_CHECKOUTS,
   LIST_BLOG_ARTICLES,
@@ -1179,4 +1230,5 @@ export default {
   LIST_ASSIGNED_FULFILLMENT_ORDERS,
   GET_FULFILLMENT_ORDER,
   LIST_FULFILLMENT_ORDERS,
+  GET_FULFILLMENT,
 };
