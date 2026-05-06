@@ -68,6 +68,33 @@ describe("Exa component payloads", () => {
     })).rejects.toThrow("The \"people\" category does not support these filters");
   });
 
+  it("does not implicitly stack highlights when text is requested", async () => {
+    const appStub = {
+      search: jest.fn().mockResolvedValue({
+        requestId: "req-1b",
+      }),
+    };
+
+    await search.run.call({
+      app: appStub,
+      query: "latest developments in LLMs",
+      contentsText: true,
+    }, {
+      $: {
+        export: jest.fn(),
+      },
+    });
+
+    expect(appStub.search).toHaveBeenCalledWith(expect.objectContaining({
+      data: expect.objectContaining({
+        contents: {
+          text: true,
+        },
+      }),
+    }));
+    expect(appStub.search.mock.calls[0][0].data.contents.highlights).toBeUndefined();
+  });
+
   it("puts contents endpoint fields at the top level", async () => {
     const appStub = {
       getContents: jest.fn().mockResolvedValue({

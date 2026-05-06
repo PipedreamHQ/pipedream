@@ -262,6 +262,15 @@ export default {
   async run({ $ }) {
     const parsedOutputSchema = parseOptionalJsonSchema(this.outputSchema, "output schema");
     const parsedSummarySchema = parseOptionalJsonSchema(this.contentsSummarySchema, "summary schema");
+    const hasExplicitTextConfig = this.contentsText !== undefined
+      || this.contentsTextMaxCharacters !== undefined
+      || this.contentsTextIncludeHtmlTags !== undefined
+      || this.contentsTextVerbosity !== undefined
+      || this.contentsTextIncludeSections !== undefined
+      || this.contentsTextExcludeSections !== undefined;
+    const hasExplicitSummaryConfig = this.contentsSummary !== undefined
+      || this.contentsSummaryQuery !== undefined
+      || this.contentsSummarySchema !== undefined;
 
     validateSearchCategoryConstraints({
       category: this.category,
@@ -284,7 +293,9 @@ export default {
         excludeSections: this.contentsTextExcludeSections,
       }),
       highlights: buildHighlightsConfig({
-        enabled: this.contentsHighlights ?? true,
+        enabled: this.contentsHighlights ?? (!hasExplicitTextConfig && !hasExplicitSummaryConfig
+          ? true
+          : undefined),
         query: this.contentsHighlightQuery,
         maxCharacters: this.contentsHighlightMaxCharacters,
         legacyEnabled: this.context === true,
