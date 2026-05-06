@@ -48,7 +48,6 @@ export default {
       optional: true,
       options: [
         "auto",
-        "neural",
         "fast",
         "instant",
         "deep-lite",
