@@ -1,4 +1,5 @@
 import common from "../common/common.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   ...common,
@@ -25,10 +26,16 @@ export default {
         common.props.jotform,
         "max",
       ],
+      description: "Maximum number of forms to return. Default is 20. Maximum is 1000.",
       optional: true,
+      min: 1,
+      max: 1000,
     },
   },
   async run({ $ }) {
+    if (this.max > 1000 || this.max < 1) {
+      throw new ConfigurationError(`\`Max\` is set to "${this.max}" but must be a positive integer between 1 and 1000.`);
+    }
     const params = {
       $,
       max: this.max,
