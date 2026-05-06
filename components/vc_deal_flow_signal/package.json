@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/vc_deal_flow_signal",
+  "version": "0.0.1",
+  "description": "Pipedream VC Deal Flow Signal Components",
+  "main": "vc_deal_flow_signal.app.mjs",
+  "keywords": [
+    "pipedream",
+    "vc_deal_flow_signal"
+  ],
+  "homepage": "https://pipedream.com/apps/vc_deal_flow_signal",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

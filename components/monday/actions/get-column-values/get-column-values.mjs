@@ -5,7 +5,7 @@ export default {
   key: "monday-get-column-values",
   name: "Get Column Values",
   description: "Return values of specific column(s) for a board item. [See the documentation](https://developer.monday.com/api-reference/reference/column-values-v2)",
-  version: "0.0.10",
+  version: "0.0.11",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
