@@ -4,7 +4,7 @@ export default {
   key: "databricks-list-runs",
   name: "List Runs",
   description: "Lists all runs available to the user. [See the documentation](https://docs.databricks.com/en/workflows/jobs/jobs-2.0-api.html#runs-list)",
-  version: "0.0.7",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -38,7 +38,7 @@ export default {
     const params = {
       job_id: this.jobId,
       active_only: this.activeOnly,
-      limit: 25,
+      limit: 100,
       offset: 0,
     };
     const allRuns = [];
@@ -55,7 +55,7 @@ export default {
       allRuns.push(...runs);
       params.offset += params.limit;
       total = runs?.length;
-    } while (total === params.limit && allRuns.length < this.maxResults);
+    } while (total === params.limit && allRuns < this.maxResults);
 
     if (allRuns?.length > this.maxResults) {
       allRuns.length = this.maxResults;

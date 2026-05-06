@@ -4,7 +4,7 @@ export default {
   key: "databricks-get-run",
   name: "Get Run",
   description: "Retrieve the metadata of a run. [See the documentation](https://docs.databricks.com/api/workspace/jobs/getrun)",
-  version: "0.0.4",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -49,7 +49,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully retrieved run with ID \`${response.run_id}\`.`);
+    $.export("$summary", `Successfully retrieved run with ID \`${response.job_run_id}\`.`);
 
     return response;
   },

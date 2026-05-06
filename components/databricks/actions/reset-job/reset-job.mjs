@@ -5,7 +5,7 @@ export default {
   key: "databricks-reset-job",
   name: "Reset Job",
   description: "Overwrite all settings for the given job. [See the documentation](https://docs.databricks.com/api/workspace/jobs/reset)",
-  version: "0.0.4",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -23,7 +23,7 @@ export default {
     newSettings: {
       type: "string",
       label: "New Settings",
-      description: "The new settings for the job as a JSON string. This **fully replaces** all existing job settings. Example: `{\"name\": \"My Job\", \"tasks\": [{\"task_key\": \"task1\", \"notebook_task\": {\"notebook_path\": \"/path/to/notebook\"}}]}`. [See the documentation](https://docs.databricks.com/api/workspace/jobs/reset#new_settings)",
+      description: "The new settings for the job. JSON string format with the complete job specification. [See the documentation](https://docs.databricks.com/api/workspace/jobs/reset#new_settings)",
     },
   },
   async run({ $ }) {
