@@ -1,5 +1,6 @@
 import shopify from "../../shopify.app.mjs";
 import { MAX_LIMIT } from "../../common/constants.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "shopify-get-tracking",
@@ -28,9 +29,15 @@ export default {
     },
   },
   async run({ $ }) {
-    const id = this.fulfillmentId.startsWith("gid://")
-      ? this.fulfillmentId
-      : `gid://shopify/Fulfillment/${this.fulfillmentId}`;
+    let id;
+    if (this.fulfillmentId.startsWith("gid://")) {
+      if (this.fulfillmentId.split("/")[3] !== "Fulfillment") {
+        throw new ConfigurationError(`"${this.fulfillmentId}" is not a Fulfillment GID. Expected format: gid://shopify/Fulfillment/123456789`);
+      }
+      id = this.fulfillmentId;
+    } else {
+      id = `gid://shopify/Fulfillment/${this.fulfillmentId}`;
+    }
     const { fulfillment } = await this.shopify.getFulfillment({
       id,
       first: MAX_LIMIT,
