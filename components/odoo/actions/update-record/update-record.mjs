@@ -1,11 +1,12 @@
 import odoo from "../../odoo.app.mjs";
+import { parseObject } from "../../common/utils.mjs";
 const DEFAULT_LIMIT = 20;
 
 export default {
   key: "odoo-update-record",
   name: "Update Record",
   description: "Update an existing record in Odoo. [See the documentation](https://www.odoo.com/documentation/18.0/developer/reference/external_api.html#update-records)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -20,6 +21,18 @@ export default {
         "modelName",
       ],
       reloadProps: true,
+    },
+    recordIds: {
+      type: "integer[]",
+      label: "Record IDs",
+      description: "Optional list of record IDs to update in bulk. If provided, this takes precedence over Record ID.",
+      optional: true,
+    },
+    values: {
+      type: "string",
+      label: "Values",
+      description: "JSON mapping of fields to update. Example: `{\"name\":\"Newer Partner\"}`.",
+      optional: true,
     },
   },
   async additionalProps() {
@@ -58,15 +71,40 @@ export default {
       getRecordIdOptions,
       modelName,
       recordId,
+      recordIds,
+      values,
       ...data
     } = this;
+    const parsedValues = parseObject(values);
+    if (values && (typeof parsedValues !== "object" || Array.isArray(parsedValues) || parsedValues === null)) {
+      throw new Error("Values must be a JSON object mapping field names to values.");
+    }
+    const payload = {
+      ...data,
+      ...(parsedValues && typeof parsedValues === "object" && !Array.isArray(parsedValues)
+        ? parsedValues
+        : {}),
+    };
+    const ids = recordIds?.length
+      ? recordIds
+      : Number.isInteger(recordId)
+        ? [
+          recordId,
+        ]
+        : [];
+    if (!ids.length) {
+      throw new Error("Provide either Record ID or Record IDs.");
+    }
+    if (!Object.keys(payload).length) {
+      throw new Error("Provide at least one field to update.");
+    }
     const response = await odoo.updateRecord(modelName, [
-      [
-        recordId,
-      ],
-      data,
+      ids,
+      payload,
     ]);
-    $.export("$summary", `Successfully updated record with ID: ${recordId}`);
+    $.export("$summary", `Successfully updated ${ids.length} record${ids.length === 1
+      ? ""
+      : "s"}`);
     return response;
   },
 };
