@@ -7,8 +7,11 @@ export default {
   key: "hubspot-create-note",
   name: "Create Note",
   description:
-    "Create a new note. [See the documentation](https://developers.hubspot.com/docs/api/crm/engagements)",
-  version: "0.0.15",
+    "Create a HubSpot CRM **note** with **all writable note properties** from your portal schema (dynamic fields after connect). "
+    + "MCP/AI: For **only** contact ID + note body, use **Add Note to Contact** — fewer props and no association-type configuration. "
+    + "If associating to another record, supply `toObjectType`, `toObjectId`, and `associationType` together; use **CONFIGURE_COMPONENT** with `componentKey` `hubspot-create-note` to load dropdown options for those props when needed. "
+    + "[See the documentation](https://developers.hubspot.com/docs/api/crm/objects/notes)",
+  version: "0.0.16",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -23,7 +26,8 @@ export default {
         "objectType",
       ],
       label: "Associated Object Type",
-      description: "Type of object the note is being associated with",
+      description:
+        "Type of CRM object to associate this note with (e.g. contact). Set before `toObjectId` / `associationType`.",
       optional: true,
     },
     toObjectId: {
@@ -35,7 +39,8 @@ export default {
         }),
       ],
       label: "Associated Object",
-      description: "ID of object the note is being associated with",
+      description:
+        "Record ID to associate. MCP: use **CONFIGURE_COMPONENT** with `propName` `toObjectId` after `toObjectType` is set to load options.",
       optional: true,
     },
     associationType: {
@@ -48,7 +53,7 @@ export default {
         }),
       ],
       description:
-        "A unique identifier to indicate the association type between the note and the other object",
+        "Association type ID for note → other object. Required with `toObjectId`. MCP: use **CONFIGURE_COMPONENT** with `propName` `associationType` when options are not known.",
       optional: true,
     },
   },

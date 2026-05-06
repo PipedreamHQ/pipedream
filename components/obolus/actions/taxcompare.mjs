@@ -1,5 +1,5 @@
 import { ConfigurationError } from "@pipedream/platform";
-import obolus from "../app/obolus.app.mjs";
+import obolus from "../obolus.app.mjs";
 
 export default {
   key: "obolus-taxcompare",

@@ -53,6 +53,22 @@ export default {
         })) || [];
       },
     },
+    orderReturnId: {
+      type: "string",
+      label: "Order Return ID",
+      description: "The ID of the order return.",
+      async options({ page }) {
+        const returns = await this.listOrderReturns({
+          params: {
+            page: page + 1,
+          },
+        });
+        return returns?.map((item) => ({
+          label: item.orders?.[0]?.name || item.externalId || item.id,
+          value: item.id,
+        })) || [];
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -95,6 +111,20 @@ export default {
     listOrders(opts = {}) {
       return this._makeRequest({
         path: "/order",
+        ...opts,
+      });
+    },
+    listOrderReturns(opts = {}) {
+      return this._makeRequest({
+        path: "/order-return",
+        ...opts,
+      });
+    },
+    getOrderReturn({
+      orderReturnId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/order-return/${orderReturnId}`,
         ...opts,
       });
     },
