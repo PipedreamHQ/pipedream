@@ -1,0 +1,54 @@
+import app from "../../lever_oauth.app.mjs";
+
+export default {
+  key: "lever_oauth-archive-opportunity",
+  name: "Archive Opportunity",
+  description:
+    "Archives a candidate opportunity with a specified reason (hired or not hired)."
+    + " Use this when a hiring decision has been made — to mark a candidate as hired or to reject them."
+    + " Use **List Archive Reasons** to find valid reason IDs (filter by type `hired` or `non-hired`)."
+    + " Use **Search Opportunities** to find the opportunity ID."
+    + " Archiving is reversible — candidates can be unarchived in the Lever UI."
+    + " [See the documentation](https://hire.lever.co/developer/documentation#update-opportunity-archived-state)",
+  version: "0.0.1",
+  type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
+  props: {
+    app,
+    opportunityId: {
+      type: "string",
+      label: "Opportunity ID",
+      description: "The ID of the opportunity to archive. Use **Search Opportunities** to find opportunity IDs.",
+    },
+    reasonId: {
+      type: "string",
+      label: "Archive Reason ID",
+      description: "The ID of the archive reason. Use **List Archive Reasons** to find valid reason IDs.",
+    },
+    performAs: {
+      type: "string",
+      label: "Perform As (User ID)",
+      description: "User ID of the person archiving — recorded in the audit trail. Use **List Users** to find user IDs.",
+      optional: true,
+    },
+  },
+  async run({ $ }) {
+    const params = {};
+    if (this.performAs) params.perform_as = this.performAs;
+
+    const response = await this.app.archiveOpportunity(this.opportunityId, {
+      $,
+      params,
+      data: {
+        reason: this.reasonId,
+      },
+    });
+    const result = response.data ?? response;
+    $.export("$summary", `Archived opportunity ${this.opportunityId} with reason ${this.reasonId}`);
+    return result;
+  },
+};
