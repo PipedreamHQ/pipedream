@@ -31,14 +31,45 @@ export default {
       description: "Cursor for pagination to fetch the next page (example: \"label_01J8XYZABCDEF123456789\").",
       optional: true,
     },
+    before: {
+      type: "string",
+      label: "Before",
+      description: "Cursor for pagination to fetch the previous page (example: \"label_01J8XYZABCDEF123456789\").",
+      optional: true,
+    },
+    last: {
+      type: "integer",
+      label: "Last",
+      description: "The number of items to backward paginate (used with before). Defaults to 50.",
+      optional: true,
+    },
+    includeArchived: {
+      propDefinition: [
+        linearApp,
+        "includeArchived",
+      ],
+    },
+    filter: {
+      type: "object",
+      label: "Filter",
+      description: "Filter returned issue labels. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/inputs/IssueLabelFilter) for more details. Example: `{ \"name\": { \"contains\": \"Bug\" } }`",
+      optional: true,
+    },
   },
   async run({ $ }) {
+    const filter = typeof this.filter === "string"
+      ? JSON.parse(this.filter)
+      : this.filter;
     const {
       nodes, pageInfo,
     } = await this.linearApp.listIssueLabels({
       orderBy: this.orderBy,
       first: this.first,
       after: this.after,
+      before: this.before,
+      last: this.last,
+      includeArchived: this.includeArchived,
+      filter,
     });
 
     $.export("$summary", `Found ${nodes.length} labels`);
