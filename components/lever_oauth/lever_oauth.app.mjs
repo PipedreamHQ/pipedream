@@ -9,12 +9,13 @@ export default {
       return "https://api.lever.co/v1";
     },
     _makeRequest({
-      $ = this, path, ...opts
+      $ = this, path, headers = {}, ...opts
     }) {
       return axios($, {
         url: `${this._baseUrl()}${path}`,
         headers: {
           Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+          ...headers,
         },
         ...opts,
       });

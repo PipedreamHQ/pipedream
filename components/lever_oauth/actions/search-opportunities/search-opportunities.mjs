@@ -8,11 +8,11 @@ export default {
     + " This is the primary tool for finding candidates — use it whenever asked to find, list, or filter candidates or applications."
     + " Supports filtering by job posting, pipeline stage, tag, origin, email, and archived status."
     + " Use **List Postings** to find posting IDs, **List Stages** to find stage IDs."
-    + " When the user says 'my candidates' or 'assigned to me', use **List Users** to find your user ID and filter by owner."
+    + " When the user says 'my candidates', note that the API does not support filtering by owner directly — search by posting or stage and identify relevant records from the results."
     + " Set expand to include related objects inline (e.g. `stage`, `owner`, `contact`) and avoid follow-up calls."
     + " Returns cursor-paginated results; use the `next` field in the response to fetch subsequent pages."
     + " [See the documentation](https://hire.lever.co/developer/documentation#list-all-opportunities)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
