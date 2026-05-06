@@ -1,33 +1,22 @@
-import databricks_oauth from "../../databricks_oauth.app.mjs";
+import app from "../../databricks_oauth.app.mjs";
+import common from "@pipedream/databricks/actions/get-sql-warehouse-permissions/get-sql-warehouse-permissions.mjs";
+
+import { adjustPropDefinitions } from "../../common/utils.mjs";
+
+const {
+  name, description, type, ...others
+} = common;
+const props = adjustPropDefinitions(others.props, app);
 
 export default {
+  ...others,
   key: "databricks_oauth-get-sql-warehouse-permissions",
-  name: "Get SQL Warehouse Permissions",
-  description: "Retrieves the permissions for a specific SQL Warehouse. [See the documentation](https://docs.databricks.com/api/workspace/warehouses/getpermissions)",
   version: "0.0.1",
-  annotations: {
-    destructiveHint: false,
-    openWorldHint: true,
-    readOnlyHint: true,
-  },
-  type: "action",
+  name,
+  description,
+  type,
   props: {
-    databricks_oauth,
-    warehouseId: {
-      description: "The ID of the SQL Warehouse to fetch permissions for",
-      propDefinition: [
-        databricks_oauth,
-        "warehouseId",
-      ],
-    },
-  },
-  async run({ $ }) {
-    const response = await this.databricks_oauth.getSQLWarehousePermissions({
-      warehouseId: this.warehouseId,
-      $,
-    });
-
-    $.export("$summary", `Retrieved permissions for SQL Warehouse ID ${this.warehouseId}`);
-    return response;
+    databricks: app,
+    ...props,
   },
 };

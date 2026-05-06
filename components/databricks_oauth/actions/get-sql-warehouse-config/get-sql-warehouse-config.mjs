@@ -1,24 +1,22 @@
-import databricks_oauth from "../../databricks_oauth.app.mjs";
+import app from "../../databricks_oauth.app.mjs";
+import common from "@pipedream/databricks/actions/get-sql-warehouse-config/get-sql-warehouse-config.mjs";
+
+import { adjustPropDefinitions } from "../../common/utils.mjs";
+
+const {
+  name, description, type, ...others
+} = common;
+const props = adjustPropDefinitions(others.props, app);
 
 export default {
+  ...others,
   key: "databricks_oauth-get-sql-warehouse-config",
-  name: "Get SQL Warehouse Config",
-  description: "Retrieves the global configuration for SQL Warehouses. [See the documentation](https://docs.databricks.com/api/workspace/warehouses/getworkspacewarehouseconfig)",
   version: "0.0.1",
-  annotations: {
-    destructiveHint: false,
-    openWorldHint: true,
-    readOnlyHint: true,
-  },
-  type: "action",
+  name,
+  description,
+  type,
   props: {
-    databricks_oauth,
-  },
-  async run({ $ }) {
-    const response = await this.databricks_oauth.getSQLWarehouseConfig({
-      $,
-    });
-    $.export("$summary", "Successfully retrieved SQL Warehouse configuration");
-    return response;
+    databricks: app,
+    ...props,
   },
 };

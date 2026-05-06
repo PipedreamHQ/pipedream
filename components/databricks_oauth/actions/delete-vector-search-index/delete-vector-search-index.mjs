@@ -1,41 +1,22 @@
-import databricks_oauth from "../../databricks_oauth.app.mjs";
+import app from "../../databricks_oauth.app.mjs";
+import common from "@pipedream/databricks/actions/delete-vector-search-index/delete-vector-search-index.mjs";
+
+import { adjustPropDefinitions } from "../../common/utils.mjs";
+
+const {
+  name, description, type, ...others
+} = common;
+const props = adjustPropDefinitions(others.props, app);
 
 export default {
+  ...others,
   key: "databricks_oauth-delete-vector-search-index",
-  name: "Delete Vector Search Index",
-  description: "Deletes a vector search index in Databricks. [See the documentation](https://docs.databricks.com/api/workspace/vectorsearchindexes/deleteindex)",
   version: "0.0.1",
-  annotations: {
-    destructiveHint: true,
-    openWorldHint: true,
-    readOnlyHint: false,
-  },
-  type: "action",
+  name,
+  description,
+  type,
   props: {
-    databricks_oauth,
-    endpointName: {
-      propDefinition: [
-        databricks_oauth,
-        "endpointName",
-      ],
-    },
-    indexName: {
-      propDefinition: [
-        databricks_oauth,
-        "indexName",
-        ({ endpointName }) => ({
-          endpointName,
-        }),
-      ],
-    },
-  },
-  async run({ $ }) {
-    const response = await this.databricks_oauth.deleteVectorSearchIndex({
-      indexName: this.indexName,
-      $,
-    });
-
-    $.export("$summary", `Successfully deleted vector search index: ${this.indexName}`);
-    return response;
+    databricks: app,
+    ...props,
   },
 };

@@ -1,49 +1,22 @@
-import databricks_oauth from "../../databricks_oauth.app.mjs";
-import utils from "../../common/utils.mjs";
-import { ConfigurationError } from "@pipedream/platform";
+import app from "../../databricks_oauth.app.mjs";
+import common from "@pipedream/databricks/actions/set-sql-warehouse-permissions/set-sql-warehouse-permissions.mjs";
+
+import { adjustPropDefinitions } from "../../common/utils.mjs";
+
+const {
+  name, description, type, ...others
+} = common;
+const props = adjustPropDefinitions(others.props, app);
 
 export default {
+  ...others,
   key: "databricks_oauth-set-sql-warehouse-permissions",
-  name: "Set SQL Warehouse Permissions",
-  description: "Updates the permissions for a specific SQL Warehouse. [See the documentation](https://docs.databricks.com/api/workspace/warehouses/setpermissions)",
   version: "0.0.1",
-  annotations: {
-    destructiveHint: false,
-    openWorldHint: true,
-    readOnlyHint: false,
-  },
-  type: "action",
+  name,
+  description,
+  type,
   props: {
-    databricks_oauth,
-    warehouseId: {
-      description: "The ID of the SQL Warehouse to update permissions for",
-      propDefinition: [
-        databricks_oauth,
-        "warehouseId",
-      ],
-    },
-    accessControlList: {
-      type: "string[]",
-      label: "Access Control List",
-      description: "List of access control entries. Each entry must include one of `user_name`, `group_name`, or `service_principal_name`, and a `permission_level` (`CAN_VIEW`, `CAN_MONITOR`, `CAN_USE`, `CAN_MANAGE`).",
-    },
-  },
-  async run({ $ }) {
-    let acl = utils.parseObject(this.accessControlList);
-    if (!Array.isArray(acl)) {
-      throw new ConfigurationError("Access Control List must be an array");
-    }
-    acl = acl.filter((entry) => entry && Object.keys(entry).length > 0);
-
-    const response = await this.databricks_oauth.setSQLWarehousePermissions({
-      warehouseId: this.warehouseId,
-      data: {
-        access_control_list: acl,
-      },
-      $,
-    });
-
-    $.export("$summary", `Successfully updated permissions for SQL Warehouse ID ${this.warehouseId}`);
-    return response;
+    databricks: app,
+    ...props,
   },
 };

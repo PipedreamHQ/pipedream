@@ -1,42 +1,22 @@
-import databricks_oauth from "../../databricks_oauth.app.mjs";
+import app from "../../databricks_oauth.app.mjs";
+import common from "@pipedream/databricks/actions/delete-job/delete-job.mjs";
+
+import { adjustPropDefinitions } from "../../common/utils.mjs";
+
+const {
+  name, description, type, ...others
+} = common;
+const props = adjustPropDefinitions(others.props, app);
 
 export default {
+  ...others,
   key: "databricks_oauth-delete-job",
-  name: "Delete Job",
-  description: "Delete a job. Deleted jobs cannot be recovered. [See the documentation](https://docs.databricks.com/api/workspace/jobs/delete)",
   version: "0.0.1",
-  annotations: {
-    destructiveHint: true,
-    openWorldHint: true,
-    readOnlyHint: false,
-  },
-  type: "action",
+  name,
+  description,
+  type,
   props: {
-    databricks_oauth,
-    jobId: {
-      propDefinition: [
-        databricks_oauth,
-        "jobId",
-      ],
-    },
-  },
-  async run({ $ }) {
-    const {
-      databricks_oauth,
-      jobId,
-    } = this;
-
-    await databricks_oauth.deleteJob({
-      $,
-      data: {
-        job_id: jobId,
-      },
-    });
-
-    $.export("$summary", `Successfully deleted job with ID \`${jobId}\`.`);
-
-    return {
-      success: true,
-    };
+    app,
+    ...props,
   },
 };

@@ -1,33 +1,22 @@
-import databricks_oauth from "../../databricks_oauth.app.mjs";
+import app from "../../databricks_oauth.app.mjs";
+import common from "@pipedream/databricks/actions/stop-sql-warehouse/stop-sql-warehouse.mjs";
+
+import { adjustPropDefinitions } from "../../common/utils.mjs";
+
+const {
+  name, description, type, ...others
+} = common;
+const props = adjustPropDefinitions(others.props, app);
 
 export default {
+  ...others,
   key: "databricks_oauth-stop-sql-warehouse",
-  name: "Stop SQL Warehouse",
-  description: "Stops a SQL Warehouse by ID. [See the documentation](https://docs.databricks.com/api/workspace/warehouses/stop)",
   version: "0.0.1",
-  annotations: {
-    destructiveHint: false,
-    openWorldHint: true,
-    readOnlyHint: false,
-  },
-  type: "action",
+  name,
+  description,
+  type,
   props: {
-    databricks_oauth,
-    warehouseId: {
-      description: "The ID of the SQL Warehouse to stop",
-      propDefinition: [
-        databricks_oauth,
-        "warehouseId",
-      ],
-    },
-  },
-  async run({ $ }) {
-    const response = await this.databricks_oauth.stopSQLWarehouse({
-      warehouseId: this.warehouseId,
-      $,
-    });
-
-    $.export("$summary", `Successfully stopped SQL Warehouse with ID ${this.warehouseId}`);
-    return response;
+    databricks: app,
+    ...props,
   },
 };

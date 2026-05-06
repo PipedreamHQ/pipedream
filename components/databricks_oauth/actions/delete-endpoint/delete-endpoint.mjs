@@ -1,32 +1,22 @@
-import databricks_oauth from "../../databricks_oauth.app.mjs";
+import app from "../../databricks_oauth.app.mjs";
+import common from "@pipedream/databricks/actions/delete-endpoint/delete-endpoint.mjs";
+
+import { adjustPropDefinitions } from "../../common/utils.mjs";
+
+const {
+  name, description, type, ...others
+} = common;
+const props = adjustPropDefinitions(others.props, app);
 
 export default {
+  ...others,
   key: "databricks_oauth-delete-endpoint",
-  name: "Delete Endpoint",
-  description: "Delete a vector search endpoint. [See the documentation](https://docs.databricks.com/api/workspace/vectorsearchendpoints/deleteendpoint)",
   version: "0.0.1",
-  annotations: {
-    destructiveHint: true,
-    openWorldHint: true,
-    readOnlyHint: false,
-  },
-  type: "action",
+  name,
+  description,
+  type,
   props: {
-    databricks_oauth,
-    endpointName: {
-      propDefinition: [
-        databricks_oauth,
-        "endpointName",
-      ],
-    },
-  },
-  async run({ $ }) {
-    const response = await this.databricks_oauth.deleteEndpoint({
-      endpointName: this.endpointName,
-      $,
-    });
-
-    $.export("$summary", `Successfully deleted endpoint "${this.endpointName}".`);
-    return response;
+    databricks: app,
+    ...props,
   },
 };

@@ -1,35 +1,22 @@
-import databricks_oauth from "../../databricks_oauth.app.mjs";
+import app from "../../databricks_oauth.app.mjs";
+import common from "@pipedream/databricks/actions/get-endpoint/get-endpoint.mjs";
+
+import { adjustPropDefinitions } from "../../common/utils.mjs";
+
+const {
+  name, description, type, ...others
+} = common;
+const props = adjustPropDefinitions(others.props, app);
 
 export default {
+  ...others,
   key: "databricks_oauth-get-endpoint",
-  name: "Get Endpoint",
-  description: "Get details of a specific vector search endpoint. [See the documentation](https://docs.databricks.com/api/workspace/vectorsearchendpoints/getendpoint)",
   version: "0.0.1",
-  annotations: {
-    destructiveHint: false,
-    openWorldHint: true,
-    readOnlyHint: true,
-  },
-  type: "action",
+  name,
+  description,
+  type,
   props: {
-    databricks_oauth,
-    endpointName: {
-      propDefinition: [
-        databricks_oauth,
-        "endpointName",
-      ],
-    },
-  },
-  async run({ $ }) {
-    const response = await this.databricks_oauth.getEndpoint({
-      endpointName: this.endpointName,
-      $,
-    });
-
-    if (response) {
-      $.export("$summary", `Successfully retrieved endpoint "${this.endpointName}".`);
-    }
-
-    return response;
+    databricks: app,
+    ...props,
   },
 };

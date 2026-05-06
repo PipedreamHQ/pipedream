@@ -1,35 +1,22 @@
-import databricks_oauth from "../../databricks_oauth.app.mjs";
+import app from "../../databricks_oauth.app.mjs";
+import common from "@pipedream/databricks/actions/delete-run/delete-run.mjs";
+
+import { adjustPropDefinitions } from "../../common/utils.mjs";
+
+const {
+  name, description, type, ...others
+} = common;
+const props = adjustPropDefinitions(others.props, app);
 
 export default {
+  ...others,
   key: "databricks_oauth-delete-run",
-  name: "Delete Run",
-  description: "Delete a non-active run. Returns an error if the run is active. [See the documentation](https://docs.databricks.com/api/workspace/jobs/deleterun)",
   version: "0.0.1",
-  annotations: {
-    destructiveHint: true,
-    openWorldHint: true,
-    readOnlyHint: false,
-  },
-  type: "action",
+  name,
+  description,
+  type,
   props: {
-    databricks_oauth,
-    runId: {
-      propDefinition: [
-        databricks_oauth,
-        "runId",
-      ],
-    },
-  },
-  async run({ $ }) {
-    const response = await this.databricks_oauth.deleteRun({
-      data: {
-        run_id: this.runId,
-      },
-      $,
-    });
-
-    $.export("$summary", `Successfully deleted run with ID ${this.runId}.`);
-
-    return response || {};
+    app,
+    ...props,
   },
 };

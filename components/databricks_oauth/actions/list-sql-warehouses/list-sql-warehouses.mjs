@@ -1,33 +1,22 @@
-import databricks_oauth from "../../databricks_oauth.app.mjs";
+import app from "../../databricks_oauth.app.mjs";
+import common from "@pipedream/databricks/actions/list-sql-warehouses/list-sql-warehouses.mjs";
+
+import { adjustPropDefinitions } from "../../common/utils.mjs";
+
+const {
+  name, description, type, ...others
+} = common;
+const props = adjustPropDefinitions(others.props, app);
 
 export default {
+  ...others,
   key: "databricks_oauth-list-sql-warehouses",
-  name: "List SQL Warehouses",
-  description: "Lists all SQL Warehouses available in the Databricks workspace. [See the documentation](https://docs.databricks.com/api/workspace/warehouses/list)",
   version: "0.0.1",
-  annotations: {
-    destructiveHint: false,
-    openWorldHint: true,
-    readOnlyHint: true,
-  },
-  type: "action",
+  name,
+  description,
+  type,
   props: {
-    databricks_oauth,
-  },
-  async run({ $ }) {
-    const { warehouses } = await this.databricks_oauth.listSQLWarehouses({
-      $,
-    });
-
-    if (!warehouses?.length) {
-      $.export("$summary", "No warehouses found.");
-      return [];
-    }
-
-    $.export("$summary", `Successfully retrieved ${warehouses.length} warehouse${warehouses.length === 1
-      ? ""
-      : "s"}.`);
-
-    return warehouses;
+    databricks: app,
+    ...props,
   },
 };

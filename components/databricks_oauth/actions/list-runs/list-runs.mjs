@@ -1,70 +1,22 @@
-import databricks_oauth from "../../databricks_oauth.app.mjs";
+import app from "../../databricks_oauth.app.mjs";
+import common from "@pipedream/databricks/actions/list-runs/list-runs.mjs";
+
+import { adjustPropDefinitions } from "../../common/utils.mjs";
+
+const {
+  name, description, type, ...others
+} = common;
+const props = adjustPropDefinitions(others.props, app);
 
 export default {
+  ...others,
   key: "databricks_oauth-list-runs",
-  name: "List Runs",
-  description: "Lists all runs available to the user. [See the documentation](https://docs.databricks.com/en/workflows/jobs/jobs-2.0-api.html#runs-list)",
   version: "0.0.1",
-  annotations: {
-    destructiveHint: false,
-    openWorldHint: true,
-    readOnlyHint: true,
-  },
-  type: "action",
+  name,
+  description,
+  type,
   props: {
-    databricks_oauth,
-    jobId: {
-      propDefinition: [
-        databricks_oauth,
-        "jobId",
-      ],
-      optional: true,
-    },
-    activeOnly: {
-      type: "boolean",
-      label: "Active Only?",
-      description: "Set to true to return only active runs",
-      optional: true,
-    },
-    maxResults: {
-      type: "integer",
-      label: "Max Results",
-      description: "Maximum number of runs to return",
-      default: 100,
-      optional: true,
-    },
-  },
-  async run({ $ }) {
-    const params = {
-      job_id: this.jobId,
-      active_only: this.activeOnly,
-      limit: 25,
-      offset: 0,
-    };
-    const allRuns = [];
-    let total = 0;
-
-    do {
-      const { runs } = await this.databricks_oauth.listRuns({
-        params,
-        $,
-      });
-      if (!runs?.length) {
-        break;
-      }
-      allRuns.push(...runs);
-      params.offset += params.limit;
-      total = runs?.length;
-    } while (total === params.limit && allRuns.length < this.maxResults);
-
-    if (allRuns?.length > this.maxResults) {
-      allRuns.length = this.maxResults;
-    }
-
-    $.export("$summary", `Successfully retrieved ${allRuns.length} run${allRuns.length === 1
-      ? ""
-      : "s"}.`);
-
-    return allRuns;
+    databricks: app,
+    ...props,
   },
 };
