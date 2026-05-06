@@ -4,7 +4,7 @@ export default {
   key: "zenfulfillment-search-orders",
   name: "Search Orders",
   description: "Search for orders in Zenfulfillment. [See the documentation](https://partner.alaiko.com/docs#tag/Order/operation/api_partnerorder_get_collection)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
