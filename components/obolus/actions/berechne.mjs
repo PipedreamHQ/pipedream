@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import obolus from "../obolus.app.mjs";
 import {
   buildPersonAdvancedOverrides,
