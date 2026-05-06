@@ -1,11 +1,6 @@
 import odoo from "../../odoo.app.mjs";
 import { parseObject } from "../../common/utils.mjs";
 
-const DEFAULT_FIELDS = [
-  "id",
-  "display_name",
-];
-
 export default {
   key: "odoo-search-read-records",
   name: "Search and Read Records",
@@ -32,11 +27,14 @@ export default {
       optional: true,
     },
     fields: {
-      type: "string[]",
-      label: "Fields",
-      description: "List of fields to return. If empty, defaults to `id` and `display_name` to avoid XML-RPC null-marshal errors on some Odoo servers.",
-      optional: true,
-      default: DEFAULT_FIELDS,
+      propDefinition: [
+        odoo,
+        "fields",
+        ({ modelName }) => ({
+          modelName,
+        }),
+      ],
+      optional: false,
     },
     limit: {
       type: "integer",
@@ -68,10 +66,12 @@ export default {
         domain,
       ]
       : domain;
-    const args = {};
-    args.fields = this.fields?.length
-      ? this.fields
-      : DEFAULT_FIELDS;
+    if (!this.fields?.length) {
+      throw new Error("Fields is required.");
+    }
+    const args = {
+      fields: this.fields,
+    };
     if (Number.isInteger(this.limit)) args.limit = this.limit;
     if (Number.isInteger(this.offset)) args.offset = this.offset;
     if (this.order) args.order = this.order;
