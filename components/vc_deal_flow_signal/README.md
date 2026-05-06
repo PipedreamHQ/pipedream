@@ -20,7 +20,3 @@ Pipedream component package for [VC Deal Flow Signal](https://gitdealflow.com) �
 2. **Notion deal board** — Source `New Engineering Signal` → Notion `Create Database Page` with stage / sector / commit-velocity / link.
 3. **HubSpot lead enrichment** — Trigger on lead create → Action `Find Startup by Name` → patch HubSpot company with engineering metrics.
 4. **Google Sheets watchlist** — Source `New Trending Startup` → Sheets `Append Row`.
-
-## Contact
-
-signal@gitdealflow.com — issues at github.com/kindrat86/vc-deal-flow-signal
