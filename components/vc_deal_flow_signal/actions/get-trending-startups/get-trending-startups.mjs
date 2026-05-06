@@ -1,12 +1,17 @@
-import app from "../../gitdealflow.app.mjs";
+import app from "../../vc_deal_flow_signal.app.mjs";
 
 export default {
-  key: "gitdealflow-get-trending-startups",
+  key: "vc_deal_flow_signal-get-trending-startups",
   name: "Get Trending Startups",
   description:
     "Returns the top startups by engineering acceleration this period — commit velocity, contributor growth, signal type. [See docs](https://gitdealflow.com)",
-  version: "0.1.0",
+  version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     limit: {

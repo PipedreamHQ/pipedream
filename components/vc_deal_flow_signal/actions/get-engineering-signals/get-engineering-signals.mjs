@@ -1,12 +1,17 @@
-import app from "../../gitdealflow.app.mjs";
+import app from "../../vc_deal_flow_signal.app.mjs";
 
 export default {
-  key: "gitdealflow-get-engineering-signals",
+  key: "vc_deal_flow_signal-get-engineering-signals",
   name: "Get Engineering Signals",
   description:
     "Return every startup that emitted an engineering signal (deploy spike, infra buildout, framework migration, hiring burst). Optional filter by signal type.",
-  version: "0.1.0",
+  version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     signalTypeFilter: {

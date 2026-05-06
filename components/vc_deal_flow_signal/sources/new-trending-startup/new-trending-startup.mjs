@@ -1,11 +1,12 @@
-import app from "../../gitdealflow.app.mjs";
+import app from "../../vc_deal_flow_signal.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
-  key: "gitdealflow-new-trending-startup",
+  key: "vc_deal_flow_signal-new-trending-startup",
   name: "New Trending Startup",
   description:
-    "Emits one event for each new startup that enters the top 20 by engineering acceleration. Polls weekly. Dedupes by `period + name`.",
-  version: "0.1.0",
+    "Emit new event for each new startup that enters the top 20 by engineering acceleration. Polls weekly. Dedupes by `period + name`.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
@@ -14,7 +15,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       static: {
-        intervalSeconds: 60 * 60 * 24,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },
@@ -36,7 +37,6 @@ export default {
       trending.push(s);
     }
 
-    let emitted = 0;
     trending.forEach((startup, idx) => {
       const enriched = this.app.enrichStartup({
         startup,
@@ -51,9 +51,6 @@ export default {
         summary: `#${idx + 1} ${startup.name} (${period})`,
         ts: Date.now(),
       });
-      emitted++;
     });
-
-    if ($?.export) $.export("$summary", `Emitted ${emitted} trending startup event(s)`);
   },
 };

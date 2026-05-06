@@ -1,12 +1,17 @@
-import app from "../../gitdealflow.app.mjs";
+import app from "../../vc_deal_flow_signal.app.mjs";
 
 export default {
-  key: "gitdealflow-find-startup",
+  key: "vc_deal_flow_signal-find-startup",
   name: "Find Startup by Name",
   description:
     "Look up a single startup's full signal profile. Case-insensitive match on display name or GitHub org slug.",
-  version: "0.1.0",
+  version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     startupName: {
