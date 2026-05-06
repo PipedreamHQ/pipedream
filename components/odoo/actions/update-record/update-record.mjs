@@ -1,5 +1,4 @@
 import odoo from "../../odoo.app.mjs";
-import { parseObject } from "../../common/utils.mjs";
 const DEFAULT_LIMIT = 20;
 
 export default {
@@ -27,23 +26,39 @@ export default {
       label: "Record IDs",
       description: "Optional list of record IDs to update in bulk. If provided, this takes precedence over Record ID.",
       optional: true,
+      options: async function ({ page }) {
+        return this.getRecordIdOptions(page);
+      },
     },
-    values: {
-      type: "string",
-      label: "Values",
-      description: "JSON mapping of fields to update. Example: `{\"name\":\"Newer Partner\"}`.",
+    fieldsToUpdate: {
+      type: "string[]",
+      label: "Fields to Update",
+      description: "Select the fields you want to update. Only selected fields will appear as individual inputs.",
       optional: true,
+      reloadProps: true,
+      options: async function () {
+        return this.getUpdatableFieldOptions();
+      },
     },
   },
   async additionalProps() {
-    const fieldProps = await this.odoo.getFieldProps(this.modelName, {
+    const allFieldProps = await this.odoo.getFieldProps(this.modelName, {
       update: true,
     });
+    const selected = Array.isArray(this.fieldsToUpdate)
+      ? this.fieldsToUpdate
+      : [];
+    const fieldProps = Object.fromEntries(
+      Object.entries(allFieldProps).filter(([
+        key,
+      ]) => selected.includes(key)),
+    );
     const recordId = {
       type: "integer",
       label: "Record ID",
       description: "The ID of the record to update",
       options: async ({ page }) => await this.getRecordIdOptions(page),
+      optional: true,
     };
     return {
       recordId,
@@ -63,38 +78,55 @@ export default {
         label,
       })) || [];
     },
+    async getUpdatableFieldOptions() {
+      const fieldProps = await this.odoo.getFieldProps(this.modelName, {
+        update: true,
+      });
+      return Object.entries(fieldProps).map(([
+        key,
+        prop,
+      ]) => ({
+        value: key,
+        label: prop.label
+          ? `${prop.label} (${key})`
+          : key,
+      }));
+    },
   },
   async run({ $ }) {
     const {
       odoo,
       // eslint-disable-next-line no-unused-vars
       getRecordIdOptions,
+      // eslint-disable-next-line no-unused-vars
+      getUpdatableFieldOptions,
       modelName,
       recordId,
       recordIds,
-      values,
+      // eslint-disable-next-line no-unused-vars
+      fieldsToUpdate,
       ...data
     } = this;
-    const parsedValues = parseObject(values);
-    if (values && (typeof parsedValues !== "object" || Array.isArray(parsedValues) || parsedValues === null)) {
-      throw new Error("Values must be a JSON object mapping field names to values.");
-    }
-    const payload = {
-      ...data,
-      ...(parsedValues && typeof parsedValues === "object" && !Array.isArray(parsedValues)
-        ? parsedValues
-        : {}),
-    };
-    const ids = recordIds?.length
-      ? recordIds
-      : Number.isInteger(recordId)
-        ? [
-          recordId,
-        ]
-        : [];
-    if (!ids.length) {
+    const payload = Object.fromEntries(Object.entries(data).filter(([
+      ,
+      value,
+    ]) => value !== undefined));
+    const hasRecordId = Number.isInteger(recordId);
+    const hasRecordIds = Array.isArray(recordIds) && recordIds.length > 0;
+    if (!hasRecordId && !hasRecordIds) {
       throw new Error("Provide either Record ID or Record IDs.");
     }
+    if (hasRecordId && hasRecordIds) {
+      throw new Error("Provide either Record ID or Record IDs, not both.");
+    }
+    if (hasRecordIds && !recordIds.every(Number.isInteger)) {
+      throw new Error("Record IDs must be an array of integers.");
+    }
+    const ids = hasRecordIds
+      ? recordIds
+      : [
+        recordId,
+      ];
     if (!Object.keys(payload).length) {
       throw new Error("Provide at least one field to update.");
     }

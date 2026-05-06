@@ -1,5 +1,4 @@
 import odoo from "../../odoo.app.mjs";
-import { parseObject } from "../../common/utils.mjs";
 
 export default {
   key: "odoo-create-record",
@@ -21,33 +20,62 @@ export default {
       ],
       reloadProps: true,
     },
-    values: {
-      type: "string",
-      label: "Values",
-      description: "JSON mapping of field names to values for the new record. Example: `{\"name\":\"New Partner\",\"email\":\"info@acme.com\"}`.",
+    fieldsToSet: {
+      type: "string[]",
+      label: "Fields to Set",
+      description: "Select optional fields to show in addition to required fields.",
       optional: true,
+      reloadProps: true,
+      options: async function () {
+        return this.getOptionalFieldOptions();
+      },
     },
   },
   async additionalProps() {
-    return await this.odoo.getFieldProps(this.modelName);
+    const allFieldProps = await this.odoo.getFieldProps(this.modelName);
+    const selected = Array.isArray(this.fieldsToSet)
+      ? this.fieldsToSet
+      : [];
+    return Object.fromEntries(
+      Object.entries(allFieldProps).filter(([
+        key,
+        prop,
+      ]) => prop.optional === false || selected.includes(key)),
+    );
+  },
+  methods: {
+    async getOptionalFieldOptions() {
+      const fieldProps = await this.odoo.getFieldProps(this.modelName);
+      return Object.entries(fieldProps)
+        .filter(([
+          ,
+          prop,
+        ]) => prop.optional !== false)
+        .map(([
+          key,
+          prop,
+        ]) => ({
+          value: key,
+          label: prop.label
+            ? `${prop.label} (${key})`
+            : key,
+        }));
+    },
   },
   async run({ $ }) {
     const {
       odoo,
+      // eslint-disable-next-line no-unused-vars
+      getOptionalFieldOptions,
       modelName,
-      values,
+      // eslint-disable-next-line no-unused-vars
+      fieldsToSet,
       ...data
     } = this;
-    const parsedValues = parseObject(values);
-    if (values && (typeof parsedValues !== "object" || Array.isArray(parsedValues) || parsedValues === null)) {
-      throw new Error("Values must be a JSON object mapping field names to values.");
-    }
-    const payload = {
-      ...data,
-      ...(parsedValues && typeof parsedValues === "object" && !Array.isArray(parsedValues)
-        ? parsedValues
-        : {}),
-    };
+    const payload = Object.fromEntries(Object.entries(data).filter(([
+      ,
+      value,
+    ]) => value !== undefined));
     const response = await odoo.createRecord(modelName, [
       payload,
     ]);

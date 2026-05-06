@@ -92,7 +92,7 @@ export default {
                 : "string",
           label: fields[key].string,
           description: `Value for "${key}"`,
-          optional: (key !== "name" || update) && fields[key].required === false,
+          optional: update || fields[key].required === false,
         };
       });
       return props;
