@@ -4515,7 +4515,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/docuwriter_ai: {}
+  components/docuwriter_ai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.3.0
 
   components/dokan: {}
 
@@ -16833,6 +16837,9 @@ importers:
         specifier: ^2.29.4
         version: 2.30.1
 
+  components/vc_deal_flow_signal:
+    specifiers: {}
+
   components/vectera: {}
 
   components/vectorshift:
@@ -16879,6 +16886,9 @@ importers:
       '@pipedream/types':
         specifier: ^0.3.4
         version: 0.3.4
+
+  components/veremark:
+    specifiers: {}
 
   components/verifalia:
     dependencies:
