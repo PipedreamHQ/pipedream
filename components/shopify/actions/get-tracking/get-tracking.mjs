@@ -35,6 +35,9 @@ export default {
       id,
       first: MAX_LIMIT,
     });
+    if (!fulfillment) {
+      throw new Error(`No fulfillment found for fulfillment ID: ${this.fulfillmentId}`);
+    }
     $.export("$summary", `Successfully retrieved tracking info for fulfillment \`${fulfillment.id}\``);
     return fulfillment;
   },
