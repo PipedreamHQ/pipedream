@@ -1,11 +1,20 @@
 import { ConfigurationError } from "@pipedream/platform";
 import app from "../../exa.app.mjs";
+import {
+  buildExtrasConfig,
+  buildHighlightsConfig,
+  buildSummaryConfig,
+  buildTextConfig,
+  omitUndefinedValues,
+  parseOptionalJsonSchema,
+  resolveFreshnessParams,
+} from "../../common/utils.mjs";
 
 export default {
   key: "exa-get-contents",
   name: "Get Contents",
-  description: "Retrieves full page contents, summaries, and metadata for a list of URLs. Uses cached results with optional live crawling fallback. [See the documentation](https://docs.exa.ai/reference/get-contents)",
-  version: "0.0.1",
+  description: "Retrieve clean text, highlights, summaries, and metadata for specific URLs or Exa document IDs. Highlights are the recommended default extraction mode for most workflows. [See the documentation](https://docs.exa.ai/reference/get-contents)",
+  version: "0.1.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -19,24 +28,56 @@ export default {
         app,
         "urls",
       ],
+      optional: true,
+    },
+    ids: {
+      propDefinition: [
+        app,
+        "ids",
+      ],
     },
     text: {
-      description: "If `true`, returns full page text with default settings. If `false`, disables text return.",
+      label: "Text",
+      description: "Return full page text. Prefer Highlights when you only need targeted excerpts.",
       propDefinition: [
         app,
         "text",
       ],
     },
-    highlightsNumSentences: {
+    textMaxCharacters: {
       propDefinition: [
         app,
-        "highlightsNumSentences",
+        "textMaxCharacters",
       ],
     },
-    highlightsPerUrl: {
+    textIncludeHtmlTags: {
       propDefinition: [
         app,
-        "highlightsPerUrl",
+        "textIncludeHtmlTags",
+      ],
+    },
+    textVerbosity: {
+      propDefinition: [
+        app,
+        "textVerbosity",
+      ],
+    },
+    textIncludeSections: {
+      propDefinition: [
+        app,
+        "textIncludeSections",
+      ],
+    },
+    textExcludeSections: {
+      propDefinition: [
+        app,
+        "textExcludeSections",
+      ],
+    },
+    highlights: {
+      propDefinition: [
+        app,
+        "highlights",
       ],
     },
     highlightsQuery: {
@@ -45,29 +86,45 @@ export default {
         "highlightsQuery",
       ],
     },
+    highlightsMaxCharacters: {
+      propDefinition: [
+        app,
+        "highlightsMaxCharacters",
+      ],
+    },
+    summary: {
+      propDefinition: [
+        app,
+        "summary",
+      ],
+    },
     summaryQuery: {
+      label: "Summary Query",
+      description: "Optional instructions that guide Exa's generated summary. Prefer Highlights unless you explicitly need Exa-side synthesis.",
       propDefinition: [
         app,
         "summaryQuery",
       ],
     },
     summarySchema: {
+      label: "Summary Schema",
+      description: "Optional JSON schema for structured Exa-side summaries.",
       propDefinition: [
         app,
         "summarySchema",
       ],
     },
-    livecrawl: {
+    maxAgeHours: {
       propDefinition: [
         app,
-        "livecrawl",
+        "maxAgeHours",
       ],
     },
     livecrawlTimeout: {
-      type: "integer",
-      label: "Live Crawl Timeout",
-      description: "Timeout in milliseconds for live crawling (default: 10000)",
-      optional: true,
+      propDefinition: [
+        app,
+        "livecrawlTimeout",
+      ],
     },
     subpages: {
       propDefinition: [
@@ -94,88 +151,90 @@ export default {
       ],
     },
     context: {
-      description: "Return page contents as a context string for LLM. When true, combines all result contents into one string. We recommend using 10000+ characters for best results, though no limit works best. Context strings often perform better than highlights for RAG applications.",
-      propDefinition: [
-        app,
-        "context",
-      ],
+      type: "boolean",
+      label: "Legacy Context",
+      description: "Hidden legacy prop preserved for saved workflows. Translates to highlights mode.",
+      hidden: true,
+      optional: true,
+    },
+    highlightsNumSentences: {
+      type: "integer",
+      label: "Legacy Highlights Num Sentences",
+      description: "Hidden legacy prop preserved for saved workflows. Enables modern highlights mode without forwarding deprecated fields.",
+      hidden: true,
+      optional: true,
+    },
+    highlightsPerUrl: {
+      type: "integer",
+      label: "Legacy Highlights Per URL",
+      description: "Hidden legacy prop preserved for saved workflows. Enables modern highlights mode without forwarding deprecated fields.",
+      hidden: true,
+      optional: true,
+    },
+    livecrawl: {
+      type: "string",
+      label: "Legacy Live Crawl",
+      description: "Hidden legacy prop preserved for saved workflows. Translates to modern freshness settings where possible.",
+      hidden: true,
+      optional: true,
     },
   },
   async run({ $ }) {
-    const {
-      app,
-      urls,
-      text,
-      highlightsNumSentences,
-      highlightsPerUrl,
-      highlightsQuery,
-      summaryQuery,
-      summarySchema,
-      livecrawl,
-      livecrawlTimeout,
-      subpages,
-      subpageTarget,
-      extrasLinks,
-      extrasImageLinks,
-      context,
-    } = this;
-
-    let parsedSchema;
-    if (summarySchema) {
-      if (typeof summarySchema === "string") {
-        try {
-          parsedSchema = JSON.parse(summarySchema);
-        } catch (error) {
-          throw new ConfigurationError(`Invalid JSON schema format: ${error.message}. Please provide a valid JSON object.`);
-        }
-      } else {
-        parsedSchema = summarySchema;
-      }
+    if (this.urls?.length && this.ids?.length) {
+      throw new ConfigurationError("Provide either URLs or IDs, but not both.");
     }
 
-    const response = await app.getContents({
+    if (!this.urls?.length && !this.ids?.length) {
+      throw new ConfigurationError("Provide URLs or IDs.");
+    }
+
+    const parsedSummarySchema = parseOptionalJsonSchema(this.summarySchema, "summary schema");
+    const freshness = resolveFreshnessParams({
+      maxAgeHours: this.maxAgeHours,
+      legacyLivecrawl: this.livecrawl,
+    });
+
+    const data = omitUndefinedValues({
+      urls: this.urls?.length
+        ? this.urls
+        : undefined,
+      ids: this.ids?.length
+        ? this.ids
+        : undefined,
+      text: buildTextConfig({
+        enabled: this.text,
+        maxCharacters: this.textMaxCharacters,
+        includeHtmlTags: this.textIncludeHtmlTags,
+        verbosity: this.textVerbosity,
+        includeSections: this.textIncludeSections,
+        excludeSections: this.textExcludeSections,
+      }),
+      highlights: buildHighlightsConfig({
+        enabled: this.highlights,
+        query: this.highlightsQuery,
+        maxCharacters: this.highlightsMaxCharacters,
+        legacyEnabled: this.context === true
+          || this.highlightsNumSentences !== undefined
+          || this.highlightsPerUrl !== undefined,
+      }),
+      summary: buildSummaryConfig({
+        enabled: this.summary,
+        query: this.summaryQuery,
+        schema: parsedSummarySchema,
+      }),
+      livecrawlTimeout: this.livecrawlTimeout,
+      subpages: this.subpages,
+      subpageTarget: this.subpageTarget,
+      extras: buildExtrasConfig({
+        links: this.extrasLinks,
+        imageLinks: this.extrasImageLinks,
+      }),
+      ...freshness,
+    });
+
+    const response = await this.app.getContents({
       $,
-      data: {
-        urls,
-        text,
-        livecrawl,
-        livecrawlTimeout,
-        subpages,
-        subpageTarget,
-        context,
-        ...(extrasLinks
-        || extrasImageLinks
-          ? {
-            extras: {
-              links: extrasLinks,
-              imageLinks: extrasImageLinks,
-            },
-          }
-          : undefined
-        ),
-        ...(highlightsNumSentences
-          || highlightsPerUrl
-          || highlightsQuery
-          ? {
-            highlights: {
-              numSentences: highlightsNumSentences,
-              highlightsPerUrl,
-              query: highlightsQuery,
-            },
-          }
-          : undefined
-        ),
-        ...(summaryQuery
-          || summarySchema
-          ? {
-            summary: {
-              query: summaryQuery,
-              schema: parsedSchema,
-            },
-          }
-          : undefined
-        ),
-      },
+      data,
     });
 
     $.export("$summary", `Successfully retrieved contents with ID \`${response.requestId}\`.`);
