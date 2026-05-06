@@ -333,6 +333,7 @@ export default {
       outputSchema: parsedOutputSchema,
       additionalQueries: this.additionalQueries,
       userLocation: this.userLocation,
+      context: this.context,
       contents: Object.keys(contents).length > 0
         ? contents
         : undefined,
