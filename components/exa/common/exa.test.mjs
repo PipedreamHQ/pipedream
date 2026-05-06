@@ -228,7 +228,7 @@ describe("Exa component payloads", () => {
     expect(appStub.answer.mock.calls[0][0].data.stream).toBeUndefined();
   });
 
-  it("translates legacy context to highlights mode", async () => {
+  it("preserves legacy contents context without remapping it to highlights", async () => {
     const appStub = {
       getContents: jest.fn().mockResolvedValue({
         requestId: "req-4",
@@ -249,10 +249,39 @@ describe("Exa component payloads", () => {
 
     expect(appStub.getContents).toHaveBeenCalledWith(expect.objectContaining({
       data: expect.objectContaining({
-        highlights: true,
+        context: true,
       }),
     }));
-    expect(appStub.getContents.mock.calls[0][0].data.context).toBeUndefined();
+    expect(appStub.getContents.mock.calls[0][0].data.highlights).toBeUndefined();
+    expect(appStub.getContents.mock.calls[0][0].data.context).toBe(true);
+  });
+
+  it("preserves legacy search context while keeping highlights fallback", async () => {
+    const appStub = {
+      search: jest.fn().mockResolvedValue({
+        requestId: "req-1c",
+      }),
+    };
+
+    await search.run.call({
+      app: appStub,
+      query: "latest developments in LLMs",
+      context: true,
+    }, {
+      $: {
+        export: jest.fn(),
+      },
+    });
+
+    expect(appStub.search).toHaveBeenCalledWith(expect.objectContaining({
+      data: expect.objectContaining({
+        query: "latest developments in LLMs",
+        context: true,
+        contents: {
+          highlights: true,
+        },
+      }),
+    }));
   });
 
   it("maps legacy livecrawl values and preserves preferred", async () => {

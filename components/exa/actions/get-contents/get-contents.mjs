@@ -213,10 +213,10 @@ export default {
         enabled: this.highlights,
         query: this.highlightsQuery,
         maxCharacters: this.highlightsMaxCharacters,
-        legacyEnabled: this.context === true
-          || this.highlightsNumSentences !== undefined
+        legacyEnabled: this.highlightsNumSentences !== undefined
           || this.highlightsPerUrl !== undefined,
       }),
+      context: this.context,
       summary: buildSummaryConfig({
         enabled: this.summary,
         query: this.summaryQuery,
