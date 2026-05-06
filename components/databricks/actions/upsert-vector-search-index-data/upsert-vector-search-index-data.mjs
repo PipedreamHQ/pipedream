@@ -6,9 +6,9 @@ export default {
   key: "databricks-upsert-vector-search-index-data",
   name: "Upsert Vector Search Index Data",
   description: "Upserts (inserts/updates) data into an existing vector search index. [See the documentation](https://docs.databricks.com/api/workspace/vectorsearchindexes/upsertdatavectorindex)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
