@@ -69,6 +69,10 @@ export default {
   methods: {
     async getRecordIdOptions(page) {
       const records = await this.odoo.searchAndReadRecords(this.modelName, [], {
+        fields: [
+          "id",
+          "display_name",
+        ],
         limit: DEFAULT_LIMIT,
         offset: page * DEFAULT_LIMIT,
       });
