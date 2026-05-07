@@ -179,19 +179,19 @@ export default {
     documents: {
       type: "string[]",
       label: "Documents",
-      description: "List of documents associated with the item. Each entry should be a JSON string representing a document object.",
+      description: "List of documents associated with the item. Each entry should be a JSON string, e.g. `{\"name\":\"manual.pdf\",\"document_type\":\"pdf\"}`.",
       optional: true,
     },
     locations: {
       type: "string[]",
       label: "Locations",
-      description: "List of locations for the item. Each entry should be a JSON string representing a location object.",
+      description: "List of locations for the item. Each entry should be a JSON string, e.g. `{\"warehouse_id\":\"WH123\",\"quantity\":10}`.",
       optional: true,
     },
     itemTaxPreferences: {
       type: "string[]",
       label: "Item Tax Preferences",
-      description: "🇮🇳 List of tax preferences for the item. Each entry should be a JSON string with tax preference fields.",
+      description: "🇮🇳 List of tax preferences for the item. Each entry should be a JSON string, e.g. `{\"tax_name\":\"GST\",\"tax_percentage\":18}`.",
       optional: true,
     },
     hsnOrSac: {
@@ -206,7 +206,7 @@ export default {
       description: "🇲🇽 SAT item key code for goods/services.",
       optional: true,
     },
-    unitkeyCode: {
+    unitKeyCode: {
       type: "string",
       label: "Unit Key Code",
       description: "🇲🇽 Unit key code for goods/services.",
@@ -215,7 +215,7 @@ export default {
     customFields: {
       type: "string[]",
       label: "Custom Fields",
-      description: "Custom fields for the item. Each entry should be a JSON string with `customfield_id` and `value` properties.",
+      description: "Custom fields for the item. Each entry should be a JSON string, e.g. `{\"customfield_id\":\"cf_1\",\"value\":\"foo\"}`.",
       optional: true,
     },
   },
@@ -224,6 +224,16 @@ export default {
       arr?.map((item) => (typeof item === "string"
         ? JSON.parse(item)
         : item));
+
+    const safeParseFloat = (val) => {
+      if (val === undefined || val === null) return undefined;
+      const trimmed = String(val).trim();
+      if (!trimmed) return undefined;
+      const parsed = parseFloat(trimmed);
+      return Number.isFinite(parsed)
+        ? parsed
+        : undefined;
+    };
 
     const data = {
       name: this.name,
@@ -239,15 +249,9 @@ export default {
       inventory_account_id: this.inventoryAccountId,
       vendor_id: this.vendorId,
       vendor_name: this.vendorName,
-      rate: this.rate !== undefined
-        ? parseFloat(this.rate)
-        : undefined,
-      purchase_rate: this.purchaseRate !== undefined
-        ? parseFloat(this.purchaseRate)
-        : undefined,
-      reorder_level: this.reorderLevel !== undefined
-        ? parseFloat(this.reorderLevel)
-        : undefined,
+      rate: safeParseFloat(this.rate),
+      purchase_rate: safeParseFloat(this.purchaseRate),
+      reorder_level: safeParseFloat(this.reorderLevel),
       sku: this.sku,
       upc: this.upc,
       ean: this.ean,
@@ -261,7 +265,7 @@ export default {
       item_tax_preferences: parseArray(this.itemTaxPreferences),
       hsn_or_sac: this.hsnOrSac,
       sat_item_key_code: this.satItemKeyCode,
-      unitkey_code: this.unitkeyCode,
+      unitkey_code: this.unitKeyCode,
       custom_fields: parseArray(this.customFields),
     };
 
