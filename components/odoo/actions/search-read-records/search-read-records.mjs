@@ -5,7 +5,7 @@ export default {
   key: "odoo-search-read-records",
   name: "Search and Read Records",
   description: "Search and read records from Odoo. [See the documentation](https://www.odoo.com/documentation/18.0/developer/reference/external_api.html#search-and-read)",
-  version: "0.0.4",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -56,16 +56,16 @@ export default {
     },
   },
   async run({ $ }) {
-    const domain = parseObject(this.domain);
-    const normalizedDomain = Array.isArray(domain) &&
-      (domain.length === 0 || (
-        Array.isArray(domain[0]) &&
-        typeof domain[0][0] === "string"
-      ))
-      ? [
+    const domain = parseObject(this.domain) ?? [];
+    if (typeof domain === "string" || !Array.isArray(domain)) {
+      throw new Error("Domain must be a valid JSON array.");
+    }
+    const normalizedDomain = Array.isArray(domain[0]) &&
+      typeof domain[0][0] === "string"
+      ? domain
+      : [
         domain,
-      ]
-      : domain;
+      ];
     if (!this.fields?.length) {
       throw new Error("Fields is required.");
     }

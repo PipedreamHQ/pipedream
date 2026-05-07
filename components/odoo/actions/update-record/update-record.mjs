@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import odoo from "../../odoo.app.mjs";
 const DEFAULT_LIMIT = 20;
 
@@ -5,7 +6,7 @@ export default {
   key: "odoo-update-record",
   name: "Update Record",
   description: "Update an existing record in Odoo. [See the documentation](https://www.odoo.com/documentation/18.0/developer/reference/external_api.html#update-records)",
-  version: "0.0.4",
+  version: "0.1.0",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -114,13 +115,13 @@ export default {
     const hasRecordId = Number.isInteger(recordId);
     const hasRecordIds = Array.isArray(recordIds) && recordIds.length > 0;
     if (!hasRecordId && !hasRecordIds) {
-      throw new Error("Provide either Record ID or Record IDs.");
+      throw new ConfigurationError("Provide either Record ID or Record IDs.");
     }
     if (hasRecordId && hasRecordIds) {
-      throw new Error("Provide either Record ID or Record IDs, not both.");
+      throw new ConfigurationError("Provide either Record ID or Record IDs, not both.");
     }
     if (hasRecordIds && !recordIds.every(Number.isInteger)) {
-      throw new Error("Record IDs must be an array of integers.");
+      throw new ConfigurationError("Record IDs must be an array of integers.");
     }
     const ids = hasRecordIds
       ? recordIds
@@ -128,7 +129,7 @@ export default {
         recordId,
       ];
     if (!Object.keys(payload).length) {
-      throw new Error("Provide at least one field to update.");
+      throw new ConfigurationError("Provide at least one field to update.");
     }
     const response = await odoo.updateRecord(modelName, [
       ids,
