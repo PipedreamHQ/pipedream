@@ -16844,7 +16844,11 @@ importers:
         specifier: ^2.29.4
         version: 2.30.1
 
-  components/vc_deal_flow_signal: {}
+  components/vc_deal_flow_signal:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
 
   components/vectera: {}
 
@@ -41715,6 +41719,7 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
+      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.60(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1))(rollup@4.53.2)':
     dependencies:

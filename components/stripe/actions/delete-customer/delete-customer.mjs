@@ -4,7 +4,7 @@ export default {
   key: "stripe-delete-customer",
   name: "Delete a Customer",
   type: "action",
-  version: "0.1.4",
+  version: "0.1.5",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
