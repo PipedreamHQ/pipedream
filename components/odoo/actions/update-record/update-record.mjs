@@ -8,7 +8,7 @@ export default {
   description: "Update an existing record in Odoo. [See the documentation](https://www.odoo.com/documentation/18.0/developer/reference/external_api.html#update-records)",
   version: "0.1.0",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
