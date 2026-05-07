@@ -5,7 +5,7 @@ export default {
   key: "rydoo-create-expense",
   name: "Create Expense",
   description: "Adds a new expense entry for a user. [See the documentation](https://developers.rydoo.com/reference/v3expensesaddexpense)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -204,6 +204,39 @@ export default {
       label: "Custom Exchange Rates",
       description: "Custom exchange rate overrides. Each entry must be a JSON object with `currencyCode` and `rate` properties (e.g., `{\"currencyCode\": \"USD\", \"rate\": 1.08}`)",
     },
+    authentication: {
+      type: "string",
+      label: "Authentication",
+      description: "Authentication type for the user. Defaults to company settings if unspecified",
+      options: [
+        "Unknown",
+        "Password",
+        "Sso",
+      ],
+    },
+    languageCountryCode: {
+      type: "string",
+      label: "Language",
+      description: "User interface language per ISO 639 (e.g., `en-US`, `de-DE`)",
+      options: [
+        "en-US",
+        "nl-BE",
+        "fr-FR",
+        "pt-BR",
+        "de-DE",
+        "es-ES",
+        "it-IT",
+        "da-DK",
+        "hu-HU",
+        "cs-CZ",
+        "pl-PL",
+        "sk-SK",
+        "zh-CN",
+        "ja-JP",
+        "fi-FI",
+        "sv-SE",
+      ],
+    },
   },
   methods: {
     _getEnv() {
@@ -268,6 +301,68 @@ export default {
     listBranches(opts = {}) {
       return this._makeRequest({
         url: "/v2/branches",
+        ...opts,
+      });
+    },
+    addUser(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        url: "/v2/users",
+        ...opts,
+      });
+    },
+    updateUser({
+      userId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        url: `/v2/users/${userId}`,
+        ...opts,
+      });
+    },
+    reimburseExpenses(opts = {}) {
+      return this._makeRequest({
+        method: "PUT",
+        url: "/v2/expenses/reimburse",
+        ...opts,
+      });
+    },
+    rejectExpenses(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        url: "/v2/expenses/reject",
+        ...opts,
+      });
+    },
+    createTrip({
+      userId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        url: `/v2/users/${userId}/trips`,
+        ...opts,
+      });
+    },
+    createProject(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        url: "/v2/projects",
+        ...opts,
+      });
+    },
+    createTransaction(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        url: "/v2/transactions",
+        ...opts,
+      });
+    },
+    reportExpense({
+      expenseId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        url: `/v3/expenses/${expenseId}/report`,
         ...opts,
       });
     },
