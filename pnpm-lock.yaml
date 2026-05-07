@@ -10,7 +10,7 @@ overrides:
   form-data@^4: 4.0.4
   sha.js: 2.4.12
   protobufjs@7.2.4: 7.2.6
-  vm2: 3.10.0
+  vm2: 3.11.2
   xmldom: npm:@xmldom/xmldom@0.8.11
   axios@0.x: ^0.31.1
   axios@1.x: ^1.15.2
@@ -41703,7 +41703,6 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
-      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.60(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1))(rollup@4.53.2)':
     dependencies:
