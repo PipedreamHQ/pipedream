@@ -225,7 +225,7 @@ export default {
     languageCountryCode: {
       type: "string",
       label: "Language",
-      description: "User interface language per ISO 639 (e.g., `en-US`, `de-DE`)",
+      description: "User interface language as a BCP 47 locale tag in language-region format (e.g., `en-US`, `de-DE`)",
       options: [
         "en-US",
         "nl-BE",
@@ -248,42 +248,12 @@ export default {
     expenseId: {
       type: "string",
       label: "Expense ID",
-      description: "The unique identifier (UUID) of the expense (e.g., `d290f1ee-6c54-4b01-90e6-d701748f0851`)",
-      async options({ page }) {
-        const response = await this.getExportedExpenses({
-          params: {
-            limit: DEFAULT_LIMIT,
-            offset: DEFAULT_LIMIT * page,
-          },
-        });
-        const expenses = response?.data || response;
-        return expenses.map(({
-          expenseId, type, merchant,
-        }) => ({
-          label: `${type} - ${merchant}`,
-          value: expenseId,
-        }));
-      },
+      description: "The unique identifier (UUID) of the expense. Pass the expense UUID returned from a previous Rydoo action (e.g., `d290f1ee-6c54-4b01-90e6-d701748f0851`)",
     },
     expenseIds: {
       type: "string[]",
       label: "Expense IDs",
-      description: "An array of expense UUIDs (e.g., `d290f1ee-6c54-4b01-90e6-d701748f0851`)",
-      async options({ page }) {
-        const response = await this.getExportedExpenses({
-          params: {
-            limit: DEFAULT_LIMIT,
-            offset: DEFAULT_LIMIT * page,
-          },
-        });
-        const expenses = response?.data || response;
-        return expenses.map(({
-          expenseId, type, merchant,
-        }) => ({
-          label: `${type} - ${merchant}`,
-          value: expenseId,
-        }));
-      },
+      description: "An array of expense UUIDs. Pass the expense UUIDs returned from previous Rydoo actions (e.g., `d290f1ee-6c54-4b01-90e6-d701748f0851`)",
     },
   },
   methods: {
@@ -298,12 +268,13 @@ export default {
         : "sandbox-api"}.rydoo.com`;
     },
     _makeRequest({
-      $ = this, ...args
+      $ = this, headers: customHeaders = {}, ...args
     }) {
       return axios($, {
         baseURL: this._baseUrl(),
         headers: {
           Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+          ...customHeaders,
         },
         ...args,
       });

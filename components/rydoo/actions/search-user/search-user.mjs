@@ -3,7 +3,7 @@ import rydoo from "../../rydoo.app.mjs";
 export default {
   key: "rydoo-search-user",
   name: "Search User",
-  description: "Searches for a user by email. [See the documentation](https://developers.rydoo.com/reference/v2usersearchuser)",
+  description: "Searches for users by email, first name, last name, free-text, card status, or external ID. [See the documentation](https://developers.rydoo.com/reference/v2usersearchuser)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -77,7 +77,10 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully searched for users and found ${response.length} user${response.length === 1
+    const users = Array.isArray(response)
+      ? response
+      : (response?.data || []);
+    $.export("$summary", `Successfully searched for users and found ${users.length} user${users.length === 1
       ? ""
       : "s"}.`);
 

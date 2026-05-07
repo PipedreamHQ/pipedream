@@ -1,3 +1,4 @@
+import { parseObject } from "../../common/utils.mjs";
 import rydoo from "../../rydoo.app.mjs";
 
 export default {
@@ -77,11 +78,9 @@ export default {
         isActive: this.isActive,
         refId: this.refId,
         submitForApproval: this.submitForApproval,
-        destinations: this.destinations?.map((d) => JSON.parse(d)),
-        budget: this.budget
-          ? JSON.parse(this.budget)
-          : undefined,
-        customFields: this.customFields?.map((f) => JSON.parse(f)),
+        destinations: parseObject(this.destinations),
+        budget: parseObject(this.budget),
+        customFields: parseObject(this.customFields),
       },
     });
 
