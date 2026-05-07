@@ -13553,7 +13553,11 @@ importers:
 
   components/runway: {}
 
-  components/rydoo: {}
+  components/rydoo:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
 
   components/rytr: {}
 
@@ -41120,14 +41124,14 @@ snapshots:
 
   '@pipedream/sftp@0.5.1':
     dependencies:
-      '@pipedream/platform': 3.3.1
+      '@pipedream/platform': 3.4.0
       ssh2-sftp-client: 11.0.0
     transitivePeerDependencies:
       - debug
 
   '@pipedream/shopify@0.7.2':
     dependencies:
-      '@pipedream/platform': 3.3.1
+      '@pipedream/platform': 3.4.0
       async-retry: 1.3.3
       bottleneck: 2.19.5
       form-data: 4.0.4
@@ -41139,7 +41143,7 @@ snapshots:
 
   '@pipedream/slack@0.10.3':
     dependencies:
-      '@pipedream/platform': 3.3.1
+      '@pipedream/platform': 3.4.0
       '@slack/web-api': 7.12.0
       async-retry: 1.3.3
       lodash: 4.18.1
@@ -41695,6 +41699,7 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
+      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.60(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1))(rollup@4.53.2)':
     dependencies:
