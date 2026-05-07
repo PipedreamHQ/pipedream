@@ -25,21 +25,18 @@ export default {
         rydoo,
         "amount",
       ],
-      optional: true,
     },
     currencyCode: {
       propDefinition: [
         rydoo,
         "currencyCode",
       ],
-      optional: true,
     },
     expenseDate: {
       propDefinition: [
         rydoo,
         "expenseDate",
       ],
-      optional: true,
     },
     categoryId: {
       propDefinition: [
@@ -110,7 +107,7 @@ export default {
       $,
       data: {
         userId: this.userId,
-        amount: this.amount
+        amount: this.amount !== undefined && this.amount !== null
           ? Number(this.amount)
           : undefined,
         currencyCode: this.currencyCode,

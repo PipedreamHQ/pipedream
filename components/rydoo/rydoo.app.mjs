@@ -8,14 +8,15 @@ export default {
     userId: {
       type: "string",
       label: "User",
-      description: "The user to whom the expense belongs",
+      description: "The user to whom the expense belongs (e.g., `d290f1ee-6c54-4b01-90e6-d701748f0851`)",
       async options({ page }) {
-        const { data: users } = await this.listUsers({
+        const response = await this.listUsers({
           params: {
             limit: DEFAULT_LIMIT,
             offset: DEFAULT_LIMIT * page,
           },
         });
+        const users = response?.data || response;
         return users.map(({
           id, firstName, lastName, email,
         }) => ({
@@ -44,14 +45,15 @@ export default {
     groupId: {
       type: "string",
       label: "Group",
-      description: "The group to assign to the expense",
+      description: "The group to assign to the expense (e.g., `d290f1ee-6c54-4b01-90e6-d701748f0851`)",
       async options({ page }) {
-        const { data: groups } = await this.listGroups({
+        const response = await this.listGroups({
           params: {
             limit: DEFAULT_LIMIT,
             offset: DEFAULT_LIMIT * page,
           },
         });
+        const groups = response?.data || response;
         return groups.map(({
           id, name,
         }) => ({
@@ -63,14 +65,15 @@ export default {
     categoryId: {
       type: "string",
       label: "Category",
-      description: "The expense category",
+      description: "The expense category (e.g., `d290f1ee-6c54-4b01-90e6-d701748f0851`)",
       async options({ page }) {
-        const { data: categories } = await this.listCategories({
+        const response = await this.listCategories({
           params: {
             limit: DEFAULT_LIMIT,
             offset: DEFAULT_LIMIT * page,
           },
         });
+        const categories = response?.data || response;
         return categories.map(({
           id, name,
         }) => ({
@@ -82,14 +85,15 @@ export default {
     projectId: {
       type: "string",
       label: "Project",
-      description: "The project to associate with the expense",
+      description: "The project to associate with the expense (e.g., `d290f1ee-6c54-4b01-90e6-d701748f0851`)",
       async options({ page }) {
-        const { data: projects } = await this.listProjects({
+        const response = await this.listProjects({
           params: {
             limit: DEFAULT_LIMIT,
             offset: DEFAULT_LIMIT * page,
           },
         });
+        const projects = response?.data || response;
         return projects.map(({
           id, name,
         }) => ({
@@ -116,14 +120,15 @@ export default {
     tripId: {
       type: "string",
       label: "Trip",
-      description: "The trip to associate with the expense",
+      description: "The trip to associate with the expense (e.g., `d290f1ee-6c54-4b01-90e6-d701748f0851`)",
       async options({ page }) {
-        const { data: trips } = await this.listTrips({
+        const response = await this.listTrips({
           params: {
             limit: DEFAULT_LIMIT,
             offset: DEFAULT_LIMIT * page,
           },
         });
+        const trips = response?.data || response;
         return trips.map(({
           id, name,
         }) => ({
@@ -135,14 +140,15 @@ export default {
     parentGroupId: {
       type: "string",
       label: "Parent Group",
-      description: "Retrieve groups with the specified parent group. If not set, returns only root-level groups",
+      description: "Retrieve groups with the specified parent group. If not set, returns only root-level groups (e.g., `d290f1ee-6c54-4b01-90e6-d701748f0851`)",
       async options({ page }) {
-        const { data: groups } = await this.listGroups({
+        const response = await this.listGroups({
           params: {
             limit: DEFAULT_LIMIT,
             offset: DEFAULT_LIMIT * page,
           },
         });
+        const groups = response?.data || response;
         return groups.map(({
           id, name,
         }) => ({
@@ -154,14 +160,15 @@ export default {
     branchId: {
       type: "string",
       label: "Branch",
-      description: "The unique identifier of a branch",
+      description: "The unique identifier of a branch (e.g., `d290f1ee-6c54-4b01-90e6-d701748f0851`)",
       async options({ page }) {
-        const { data: branches } = await this.listBranches({
+        const response = await this.listBranches({
           params: {
             limit: DEFAULT_LIMIT,
             offset: DEFAULT_LIMIT * page,
           },
         });
+        const branches = response?.data || response;
         return branches.map(({
           id, name,
         }) => ({
@@ -173,14 +180,15 @@ export default {
     branchIds: {
       type: "string[]",
       label: "Branches",
-      description: "The unique identifiers of one or more branches",
+      description: "The unique identifiers of one or more branches (e.g., `d290f1ee-6c54-4b01-90e6-d701748f0851`)",
       async options({ page }) {
-        const { data: branches } = await this.listBranches({
+        const response = await this.listBranches({
           params: {
             limit: DEFAULT_LIMIT,
             offset: DEFAULT_LIMIT * page,
           },
         });
+        const branches = response?.data || response;
         return branches.map(({
           id, name,
         }) => ({
@@ -236,6 +244,46 @@ export default {
         "fi-FI",
         "sv-SE",
       ],
+    },
+    expenseId: {
+      type: "string",
+      label: "Expense ID",
+      description: "The unique identifier (UUID) of the expense (e.g., `d290f1ee-6c54-4b01-90e6-d701748f0851`)",
+      async options({ page }) {
+        const response = await this.getExportedExpenses({
+          params: {
+            limit: DEFAULT_LIMIT,
+            offset: DEFAULT_LIMIT * page,
+          },
+        });
+        const expenses = response?.data || response;
+        return expenses.map(({
+          expenseId, type, merchant,
+        }) => ({
+          label: `${type} - ${merchant}`,
+          value: expenseId,
+        }));
+      },
+    },
+    expenseIds: {
+      type: "string[]",
+      label: "Expense IDs",
+      description: "An array of expense UUIDs (e.g., `d290f1ee-6c54-4b01-90e6-d701748f0851`)",
+      async options({ page }) {
+        const response = await this.getExportedExpenses({
+          params: {
+            limit: DEFAULT_LIMIT,
+            offset: DEFAULT_LIMIT * page,
+          },
+        });
+        const expenses = response?.data || response;
+        return expenses.map(({
+          expenseId, type, merchant,
+        }) => ({
+          label: `${type} - ${merchant}`,
+          value: expenseId,
+        }));
+      },
     },
   },
   methods: {

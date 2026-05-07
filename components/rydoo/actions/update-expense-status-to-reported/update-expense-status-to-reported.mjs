@@ -14,8 +14,10 @@ export default {
   props: {
     rydoo,
     expenseId: {
-      type: "string",
-      label: "Expense ID",
+      propDefinition: [
+        rydoo,
+        "expenseId",
+      ],
       description: "The unique identifier (UUID) of the expense to mark as reported",
     },
   },

@@ -51,7 +51,7 @@ export default {
     destinations: {
       type: "string[]",
       label: "Destinations",
-      description: "Trip destination details. Each entry must be a JSON object with destination properties",
+      description: "Trip destination details. Each entry must be a JSON object with destination properties (e.g., `{\"city\": \"Paris\", \"country\": \"France\", \"arrivalDate\": \"2025-06-01\"}`)",
       optional: true,
     },
     budget: {
@@ -63,7 +63,7 @@ export default {
     customFields: {
       type: "string[]",
       label: "Custom Fields",
-      description: "Custom field values for the trip. Each entry must be a JSON object with `key`, `value`, and optionally `valueCode` properties",
+      description: "Custom field values for the trip. Each entry must be a JSON object with `key`, `value`, and optionally `valueCode` properties (e.g., `{\"key\": \"department\", \"value\": \"Engineering\", \"valueCode\": \"ENG\"}`)",
       optional: true,
     },
   },

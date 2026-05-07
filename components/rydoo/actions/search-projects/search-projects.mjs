@@ -31,7 +31,7 @@ export default {
       description: "The field to sort the results by",
       optional: true,
       options: [
-        "Name",
+        "name",
       ],
     },
     limit: {

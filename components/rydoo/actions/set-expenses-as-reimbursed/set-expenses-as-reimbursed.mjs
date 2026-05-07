@@ -14,8 +14,10 @@ export default {
   props: {
     rydoo,
     expenseIds: {
-      type: "string[]",
-      label: "Expense IDs",
+      propDefinition: [
+        rydoo,
+        "expenseIds",
+      ],
       description: "Array of expense UUIDs to mark as reimbursed",
     },
     paymentReference: {
