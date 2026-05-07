@@ -92,7 +92,7 @@ export default {
                 : "string",
           label: fields[key].string,
           description: `Value for "${key}"`,
-          optional: (key !== "name" || update) && fields[key].required === false,
+          optional: update || fields[key].required === false,
         };
       });
       return props;
@@ -101,7 +101,9 @@ export default {
       return this.makeRequest(model, "fields_get", filter, args);
     },
     searchAndReadRecords(model, filter = [], args = {}) {
-      return this.makeRequest(model, "search_read", filter, args);
+      return this.makeRequest(model, "search_read", [
+        filter,
+      ], args);
     },
     createRecord(model, data) {
       return this.makeRequest(model, "create", data);
