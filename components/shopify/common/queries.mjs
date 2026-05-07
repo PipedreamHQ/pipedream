@@ -1153,6 +1153,18 @@ const LIST_FULFILLMENT_ORDERS = `
   }
 `;
 
+const LIST_ORDER_FULFILLMENTS = `
+  query ($id: ID!, $first: Int) {
+    order(id: $id) {
+      fulfillments(first: $first) {
+        id
+        name
+        status
+      }
+    }
+  }
+`;
+
 const GET_FULFILLMENT = `
   query ($id: ID!, $first: Int) {
     fulfillment(id: $id) {
@@ -1230,5 +1242,6 @@ export default {
   LIST_ASSIGNED_FULFILLMENT_ORDERS,
   GET_FULFILLMENT_ORDER,
   LIST_FULFILLMENT_ORDERS,
+  LIST_ORDER_FULFILLMENTS,
   GET_FULFILLMENT,
 };

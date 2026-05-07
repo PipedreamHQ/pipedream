@@ -292,7 +292,24 @@ export default {
     fulfillmentId: {
       type: "string",
       label: "Fulfillment ID",
-      description: "The ID of the fulfillment. Accepts either the full global ID (e.g. `gid://shopify/Fulfillment/123456789`) or the numeric ID alone (e.g. `123456789`)",
+      description: "The ID of a fulfillment associated with the given order. Requires `orderId` to be provided first; returns no options when `orderId` is absent",
+      async options({ orderId }) {
+        let options = [];
+        if (orderId) {
+          const data = await this.listOrderFulfillments({
+            id: orderId,
+            first: DEFAULT_LIMIT,
+          });
+          const nodes = data?.order?.fulfillments ?? [];
+          options = nodes.map(({
+            id, name,
+          }) => ({
+            value: id,
+            label: name,
+          }));
+        }
+        return options;
+      },
     },
     fulfillmentOrderId: {
       type: "string",
@@ -551,6 +568,9 @@ export default {
     },
     listFulfillmentOrders(variables) {
       return this._makeGraphQlRequest(queries.LIST_FULFILLMENT_ORDERS, variables);
+    },
+    listOrderFulfillments(variables) {
+      return this._makeGraphQlRequest(queries.LIST_ORDER_FULFILLMENTS, variables);
     },
     async *paginate({
       resourceFn, resourceKeys = [], variables = {}, max,
