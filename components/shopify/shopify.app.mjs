@@ -292,7 +292,7 @@ export default {
     fulfillmentId: {
       type: "string",
       label: "Fulfillment ID",
-      description: "The ID of a fulfillment associated with the given order. Requires `orderId` to be provided first; returns no options when `orderId` is absent",
+      description: "The globally-unique ID of a fulfillment associated with the order. Example: `gid://shopify/Fulfillment/1234567890`. When `orderId` is provided, available fulfillments are populated automatically; otherwise, supply the GID directly.",
       async options({ orderId }) {
         let options = [];
         if (orderId) {
