@@ -121,7 +121,7 @@ export default {
   methods: {
     getParams({
       startPosition = this.startPosition,
-      fromDate = this.fromDate ?? getDefaultFromDate(),
+      fromDate,
     } = {}) {
       return {
         from_date: fromDate,
