@@ -1,5 +1,10 @@
 import { ConfigurationError } from "@pipedream/platform";
 
+export const ENVELOPE_CREATION_STATUS_OPTIONS = [
+  "sent",
+  "created",
+];
+
 export const ENVELOPE_STATUS_OPTIONS = [
   "any",
   "completed",

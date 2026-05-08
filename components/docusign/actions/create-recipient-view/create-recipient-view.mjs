@@ -47,7 +47,7 @@ export default {
     authenticationMethod: {
       type: "string",
       label: "Authentication Method",
-      description: "How your app authenticated the signer before requesting this URL.",
+      description: "How your app authenticated the signer before requesting this URL. Valid values: `none`, `email`, `sms`, `phone` — example: `sms`.",
       optional: true,
       default: "none",
     },

@@ -1,5 +1,8 @@
 import docusign from "../../docusign.app.mjs";
-import { parseJsonObject } from "../common/utils.mjs";
+import {
+  ENVELOPE_CREATION_STATUS_OPTIONS,
+  parseJsonObject,
+} from "../common/utils.mjs";
 
 export default {
   key: "docusign-create-envelope",
@@ -30,10 +33,7 @@ export default {
       label: "Status Override",
       description: "Optional envelope status override. Use `created` to save as a draft or `sent` to send immediately.",
       optional: true,
-      options: [
-        "created",
-        "sent",
-      ],
+      options: ENVELOPE_CREATION_STATUS_OPTIONS,
     },
     mergeRolesOnDraft: {
       type: "boolean",

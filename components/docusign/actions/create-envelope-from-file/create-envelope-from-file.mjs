@@ -1,5 +1,6 @@
 import docusign from "../../docusign.app.mjs";
 import {
+  ENVELOPE_CREATION_STATUS_OPTIONS,
   getFileExtension,
   parseOptionalJsonObject,
   streamToBase64,
@@ -61,10 +62,7 @@ export default {
       type: "string",
       label: "Status",
       description: "Use `sent` to send immediately or `created` to save as a draft.",
-      options: [
-        "sent",
-        "created",
-      ],
+      options: ENVELOPE_CREATION_STATUS_OPTIONS,
       default: "sent",
     },
     documentName: {
@@ -183,7 +181,9 @@ export default {
       },
     });
 
-    $.export("$summary", `Created envelope ${response.envelopeId || ""} from ${filename}`.trim());
+    $.export("$summary", response.envelopeId
+      ? `Created envelope ${response.envelopeId} from ${filename}`
+      : `Created envelope from ${filename}`);
     return response;
   },
 };
