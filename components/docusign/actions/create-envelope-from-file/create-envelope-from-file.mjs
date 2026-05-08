@@ -11,7 +11,7 @@ export default {
   key: "docusign-create-envelope-from-file",
   name: "Create Envelope From File",
   description: "Create and optionally send a single-document DocuSign envelope from a file path or URL. This action places a SignHere tab by anchor text, such as `/sn1/`, in the uploaded document. Set Client User ID when you need embedded signing, then use **Create Recipient View** with the same value. [See the documentation](https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopes/create/)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -106,21 +106,21 @@ export default {
     anchorXOffset: {
       type: "string",
       label: "Anchor X Offset",
-      description: "Horizontal offset for the signature tab relative to the anchor text.",
+      description: "Horizontal offset in pixels for the signature tab relative to the anchor text.",
       optional: true,
       default: "20",
     },
     anchorYOffset: {
       type: "string",
       label: "Anchor Y Offset",
-      description: "Vertical offset for the signature tab relative to the anchor text.",
+      description: "Vertical offset in pixels for the signature tab relative to the anchor text.",
       optional: true,
       default: "10",
     },
     signerOverridesJson: {
       type: "string",
       label: "Signer Overrides JSON",
-      description: "Optional JSON object merged into the signer object for advanced recipient settings. Example: `{\"note\":\"Please sign by Friday\"}`.",
+      description: "Optional JSON object merged into the signer object using `...signerOverrides` for advanced recipient settings. Example: `{\"note\":\"Please sign by Friday\"}`. If `signerOverridesJson` includes a `tabs` key, it overwrites the generated `signHereTabs` from `signHereAnchorString`; omit `tabs` or include `signHereTabs` in the override to preserve anchor signing.",
       optional: true,
     },
   },

@@ -5,7 +5,7 @@ export default {
   key: "docusign-create-recipient-view",
   name: "Create Recipient View",
   description: "Create an embedded signing URL for a selected envelope recipient. The recipient must have been created with a `clientUserId`. [See the documentation](https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopeviews/createrecipient/)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -47,7 +47,7 @@ export default {
     authenticationMethod: {
       type: "string",
       label: "Authentication Method",
-      description: "How your app authenticated the signer before requesting this URL. Valid values: `none`, `email`, `sms`, `phone` — example: `sms`.",
+      description: "Sender-created convention string describing how your app authenticated the signer before requesting this URL. DocuSign includes this value in the Certificate of Completion and does not document a fixed enum. Example: `none`.",
       optional: true,
       default: "none",
     },
