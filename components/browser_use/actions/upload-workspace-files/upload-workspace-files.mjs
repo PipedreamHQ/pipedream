@@ -1,11 +1,12 @@
-import fs from "fs";
-import path from "path";
 import browserUse from "../../browser_use.app.mjs";
 import {
   cleanObject,
   parseFileUploadItems,
 } from "../../common/utils.mjs";
-import { ConfigurationError } from "@pipedream/platform";
+import {
+  ConfigurationError,
+  getFileStreamAndMetadata,
+} from "@pipedream/platform";
 
 export default {
   key: "browser_use-upload-workspace-files",
@@ -35,8 +36,14 @@ export default {
     },
     filePaths: {
       type: "string[]",
-      label: "Local File Paths",
-      description: "Optional local Pipedream file paths to upload, usually under `/tmp`. Example: `/tmp/report.csv`. Names are derived from each path.",
+      label: "Local File Paths or URLs",
+      description: "Optional local Pipedream file paths or URLs to upload, usually under `/tmp`. Example: `/tmp/report.csv`. Names are derived from each file.",
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
     contentType: {
@@ -56,15 +63,14 @@ export default {
   async run({ $ }) {
     const localFiles = [];
     for (const filePath of this.filePaths ?? []) {
-      const stat = await fs.promises.stat(filePath);
-      if (!stat.isFile()) {
-        throw new ConfigurationError(`Local file path \`${filePath}\` is not a file.`);
-      }
+      const {
+        stream, metadata,
+      } = await getFileStreamAndMetadata(filePath);
       localFiles.push({
-        name: path.basename(filePath),
+        name: metadata.name,
         contentType: this.contentType,
-        size: stat.size,
-        filePath,
+        size: metadata.size,
+        stream,
       });
     }
 
@@ -106,12 +112,12 @@ export default {
         throw new ConfigurationError(`Browser Use did not return an upload URL for ${localFile.name}.`);
       }
 
-      const content = await fs.promises.readFile(localFile.filePath);
       await this.browserUse.uploadToPresignedUrl({
         $,
         uploadUrl: upload.uploadUrl,
-        content,
+        content: localFile.stream,
         contentType: localFile.contentType,
+        contentLength: localFile.size,
       });
       uploadedFiles.push({
         name: localFile.name,

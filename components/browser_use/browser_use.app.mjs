@@ -180,15 +180,20 @@ export default {
       });
     },
     uploadToPresignedUrl({
-      $ = this, uploadUrl, content, contentType,
+      $ = this, uploadUrl, content, contentType, contentLength,
     } = {}) {
       return axios($, {
         method: "PUT",
         url: uploadUrl,
         headers: {
           "Content-Type": contentType,
+          ...(contentLength != null && {
+            "Content-Length": contentLength,
+          }),
         },
         data: content,
+        maxContentLength: Infinity,
+        maxBodyLength: Infinity,
       });
     },
     createSession(opts = {}) {

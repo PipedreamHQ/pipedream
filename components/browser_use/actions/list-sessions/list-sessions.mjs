@@ -15,12 +15,10 @@ export default {
   props: {
     browserUse,
     pageNumber: {
-      type: "integer",
-      label: "Page Number",
-      description: "Page number to fetch. The first page is `1`.",
-      optional: true,
-      default: 1,
-      min: 1,
+      propDefinition: [
+        browserUse,
+        "pageNumber",
+      ],
     },
     pageSize: {
       propDefinition: [

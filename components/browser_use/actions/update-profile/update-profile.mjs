@@ -8,7 +8,7 @@ export default {
   description: "Update a Browser Use profile name or user ID. [See the documentation](https://docs.browser-use.com/cloud/api-v3/profiles/update-profile)",
   version: "0.0.1",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },

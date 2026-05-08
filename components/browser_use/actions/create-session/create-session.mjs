@@ -162,9 +162,11 @@ export default {
       }),
     });
 
-    $.export("$summary", this.task
-      ? `Created session ${response.id} and dispatched task`
-      : `Created idle session ${response.id}`);
+    $.export("$summary", this.sessionId && this.task
+      ? `Dispatched task to existing session ${response.id}`
+      : this.task
+        ? `Created session ${response.id} and dispatched task`
+        : `Created idle session ${response.id}`);
     return response;
   },
 };

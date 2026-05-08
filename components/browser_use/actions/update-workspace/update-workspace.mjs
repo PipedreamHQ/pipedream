@@ -8,7 +8,7 @@ export default {
   description: "Update a Browser Use workspace name. [See the documentation](https://docs.browser-use.com/cloud/api-v3/workspaces/update-workspace)",
   version: "0.0.1",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
