@@ -4,7 +4,7 @@ export default {
   key: "stripe-create-invoice-item",
   name: "Create Invoice Line Item",
   type: "action",
-  version: "0.1.4",
+  version: "0.1.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

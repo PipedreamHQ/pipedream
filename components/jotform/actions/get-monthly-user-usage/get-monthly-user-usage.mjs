@@ -1,11 +1,11 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   key: "jotform-get-monthly-user-usage",
   name: "Get Monthly User Usage",
-  description: "Gets number of form submissions received this month. Also, get number of SSL form submissions, payment form submissions and upload space used by user [See the docs here](https://api.jotform.com/docs/#user-usage)",
-  version: "0.0.8",
+  description: "Gets number of form submissions received this month. Also, get number of SSL form submissions, payment form submissions and upload space used by user [See the documentation](https://api.jotform.com/docs/#user-usage)",
+  version: "0.0.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
