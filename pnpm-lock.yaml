@@ -12851,6 +12851,9 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
+  components/read_ai:
+    specifiers: {}
+
   components/readwise:
     dependencies:
       '@pipedream/platform':
