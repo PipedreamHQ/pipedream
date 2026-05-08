@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/luma",
+  "version": "0.0.1",
+  "description": "Pipedream Luma Components",
+  "main": "luma.app.mjs",
+  "keywords": [
+    "pipedream",
+    "luma"
+  ],
+  "homepage": "https://pipedream.com/apps/luma",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1"
+  }
+}
