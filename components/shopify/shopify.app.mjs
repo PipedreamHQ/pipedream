@@ -298,7 +298,7 @@ export default {
         if (orderId) {
           const data = await this.listOrderFulfillments({
             id: orderId,
-            first: DEFAULT_LIMIT,
+            first: MAX_LIMIT,
           });
           const nodes = data?.order?.fulfillments ?? [];
           options = nodes.map(({
