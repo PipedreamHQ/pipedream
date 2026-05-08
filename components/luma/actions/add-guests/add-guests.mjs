@@ -4,6 +4,7 @@ import {
   parseOptionalJsonObject,
   parseRequiredJsonArray,
 } from "../../common/utils.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "luma-add-guests",
@@ -44,6 +45,10 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.ticketJson && this.ticketsJson) {
+      throw new ConfigurationError("Provide either Ticket JSON or Tickets JSON, not both.");
+    }
+
     const guests = parseRequiredJsonArray(this.guestsJson, "Guests");
     const ticket = parseOptionalJsonObject(this.ticketJson, "Ticket JSON");
     const tickets = parseOptionalJsonArray(this.ticketsJson, "Tickets JSON");

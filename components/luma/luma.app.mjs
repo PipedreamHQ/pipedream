@@ -133,15 +133,18 @@ export default {
      *
      * @param {object} args - Request arguments.
      * @param {string} args.eventId - The Luma event ID.
+     * @param {object} args.params - Optional extra query parameters.
      * @returns {Promise<object>} The Luma get event response.
      */
     getEvent({
       eventId,
+      params = {},
       ...args
     } = {}) {
       return this._makeRequest({
         path: "/event/get",
         params: {
+          ...params,
           id: eventId,
         },
         ...args,
@@ -183,16 +186,19 @@ export default {
      * @param {object} args - Request arguments.
      * @param {string} args.eventId - The Luma event ID.
      * @param {string} args.guestId - Guest identifier accepted by Luma.
+     * @param {object} args.params - Optional extra query parameters.
      * @returns {Promise<object>} The Luma get guest response.
      */
     getGuest({
       eventId,
       guestId,
+      params = {},
       ...args
     } = {}) {
       return this._makeRequest({
         path: "/event/get-guest",
         params: {
+          ...params,
           event_id: eventId,
           id: guestId,
         },

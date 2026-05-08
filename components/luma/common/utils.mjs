@@ -1,5 +1,12 @@
 import { ConfigurationError } from "@pipedream/platform";
 
+/**
+ * Parse a required JSON array prop.
+ *
+ * @param {string|Array} value - JSON string or already parsed array.
+ * @param {string} label - Human-readable prop label for error messages.
+ * @returns {Array} Parsed array.
+ */
 export function parseRequiredJsonArray(value, label) {
   let parsed;
   try {
@@ -17,6 +24,13 @@ export function parseRequiredJsonArray(value, label) {
   return parsed;
 }
 
+/**
+ * Parse an optional JSON object prop.
+ *
+ * @param {string|object} value - JSON string or already parsed object.
+ * @param {string} label - Human-readable prop label for error messages.
+ * @returns {object|undefined} Parsed object when provided.
+ */
 export function parseOptionalJsonObject(value, label) {
   if (!value) {
     return undefined;
@@ -38,6 +52,13 @@ export function parseOptionalJsonObject(value, label) {
   return parsed;
 }
 
+/**
+ * Parse an optional JSON array prop.
+ *
+ * @param {string|Array} value - JSON string or already parsed array.
+ * @param {string} label - Human-readable prop label for error messages.
+ * @returns {Array|undefined} Parsed array when provided.
+ */
 export function parseOptionalJsonArray(value, label) {
   if (!value) {
     return undefined;
@@ -46,6 +67,13 @@ export function parseOptionalJsonArray(value, label) {
   return parseRequiredJsonArray(value, label);
 }
 
+/**
+ * Extract nested records from Luma list responses.
+ *
+ * @param {object} response - Luma list response.
+ * @param {string} key - Nested entry key to unwrap.
+ * @returns {Array} Extracted entries.
+ */
 export function extractEntries(response, key) {
   const entries = response?.entries ?? [];
   if (!Array.isArray(entries)) {
@@ -55,6 +83,16 @@ export function extractEntries(response, key) {
   return entries.map((entry) => entry?.[key] ?? entry);
 }
 
+/**
+ * Collect records across cursor-paginated Luma list responses.
+ *
+ * @param {object} args - Pagination arguments.
+ * @param {Function} args.requestPage - Function that fetches a page by cursor.
+ * @param {string} args.responseKey - Nested entry key to unwrap.
+ * @param {string} args.initialCursor - Initial pagination cursor.
+ * @param {number} args.maxPages - Maximum pages to fetch.
+ * @returns {Promise<object>} Aggregated pagination result.
+ */
 export async function collectPaginatedResults({
   requestPage,
   responseKey,
