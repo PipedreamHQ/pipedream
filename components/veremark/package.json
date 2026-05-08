@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/veremark",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Veremark Components",
   "main": "veremark.app.mjs",
   "keywords": [
