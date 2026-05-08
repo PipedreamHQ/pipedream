@@ -38,6 +38,7 @@ export default {
       type: "string[]",
       label: "Local File Paths or URLs",
       description: "Optional local Pipedream file paths or URLs to upload, usually under `/tmp`. Example: `/tmp/report.csv`. Names are derived from each file.",
+      format: "file-ref",
       optional: true,
     },
     syncDir: {
