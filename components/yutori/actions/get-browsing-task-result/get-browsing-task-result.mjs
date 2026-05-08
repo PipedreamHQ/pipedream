@@ -3,7 +3,7 @@ import yutori from "../../yutori.app.mjs";
 export default {
   key: "yutori-get-browsing-task-result",
   name: "Get Browsing Task Result",
-  description: "Fetch the current status and result of a browsing task started with **Run Browsing Task**. Place a **Delay** step (15 minutes recommended) before this action to give the task time to complete. If the task is still running, the step returns the current status — re-run or increase the delay if needed. [See the documentation](https://docs.yutori.com/reference/browsing-get)",
+  description: "Fetch the current status and result of a browsing task started with **Run Browsing Task**. Place a **Delay** step (15 minutes recommended) before this action to give the task time to complete. If the task is still running, the step returns the current status — re-run or increase the delay if needed. [See the documentation](https://docs.yutori.com/reference/browsing-status)",
   version: "0.0.1",
   type: "action",
   annotations: {

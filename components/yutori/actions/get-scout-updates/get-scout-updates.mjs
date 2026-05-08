@@ -3,7 +3,7 @@ import yutori from "../../yutori.app.mjs";
 export default {
   key: "yutori-get-scout-updates",
   name: "Get Scout Updates",
-  description: "Fetch the latest findings from a specific Yutori Scout. Returns updates in reverse chronological order. Use the **New Scout Update** trigger for event-driven workflows; use this action when you need to pull findings on demand. [See the documentation](https://docs.yutori.com/reference/scouting-updates-get)",
+  description: "Fetch the latest findings from a specific Yutori Scout. Returns updates in reverse chronological order. Use the **New Scout Update** trigger for event-driven workflows; use this action when you need to pull findings on demand. [See the documentation](https://docs.yutori.com/reference/scouts-updates)",
   version: "0.0.1",
   type: "action",
   annotations: {

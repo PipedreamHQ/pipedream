@@ -3,7 +3,7 @@ import yutori from "../../yutori.app.mjs";
 export default {
   key: "yutori-get-scout",
   name: "Get Scout",
-  description: "Fetch the details and current status of a specific Yutori Scout by its ID. Returns the scout's configuration, status (active, paused, completed), and metadata. [See the documentation](https://docs.yutori.com/reference/scouting-get)",
+  description: "Fetch the details and current status of a specific Yutori Scout by its ID. Returns the scout's configuration, status (active, paused, completed), and metadata. [See the documentation](https://docs.yutori.com/reference/scout-get-detail)",
   version: "0.0.1",
   type: "action",
   annotations: {
