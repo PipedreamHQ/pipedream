@@ -161,7 +161,7 @@ export default {
         });
         envelopes.push(...response.envelopes ?? []);
         hasMore = Boolean(response.nextUri);
-        startPosition = response.endPosition
+        startPosition = response.endPosition !== undefined && response.endPosition !== null
           ? Number(response.endPosition) + 1
           : startPosition + this.count;
         pages++;
