@@ -119,9 +119,12 @@ export default {
     },
   },
   methods: {
-    getParams(startPosition = this.startPosition) {
+    getParams({
+      startPosition = this.startPosition,
+      fromDate = this.fromDate ?? getDefaultFromDate(),
+    } = {}) {
       return {
-        from_date: this.fromDate || getDefaultFromDate(),
+        from_date: fromDate,
         to_date: this.toDate,
         status: this.status?.join(","),
         email: this.email,
@@ -135,6 +138,7 @@ export default {
     },
   },
   async run({ $ }) {
+    const fromDate = this.fromDate ?? getDefaultFromDate();
     const baseUri = await this.docusign.getBaseUri({
       $,
       accountId: this.account,
@@ -150,7 +154,10 @@ export default {
         const response = await this.docusign.listEnvelopes({
           $,
           baseUri,
-          params: this.getParams(startPosition),
+          params: this.getParams({
+            fromDate,
+            startPosition,
+          }),
         });
         envelopes.push(...response.envelopes ?? []);
         hasMore = Boolean(response.nextUri);
@@ -169,7 +176,9 @@ export default {
     const response = await this.docusign.listEnvelopes({
       $,
       baseUri,
-      params: this.getParams(),
+      params: this.getParams({
+        fromDate,
+      }),
     });
     const envelopes = response.envelopes ?? [];
 
