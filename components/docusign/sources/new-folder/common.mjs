@@ -41,7 +41,7 @@ export default {
                 resultSetSize,
               } = await this.docusign.listFolderItems(baseUri, params, subfolder.folderId);
               await this.processFolders(baseUri, params, subfolders, ts);
-              if (nextUri) params.start_postion += resultSetSize + 1;
+              if (nextUri) params.start_position += resultSetSize + 1;
               else done = true;
             } while (!done);
           }

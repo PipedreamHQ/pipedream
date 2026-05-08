@@ -74,12 +74,25 @@ export default {
     },
   },
   methods: {
+    /**
+     * Build headers for authenticated DocuSign eSignature API requests.
+     *
+     * @returns {object} Headers for the current connected account.
+     */
     _getHeaders() {
       return {
         "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
         "Content-Type": "application/json",
       };
     },
+    /**
+     * Make an authenticated DocuSign API request.
+     *
+     * @param {object} args - Request arguments.
+     * @param {object} args.$ - Pipedream step context.
+     * @param {object} args.config - Axios request config.
+     * @returns {Promise<object>} The DocuSign API response.
+     */
     async _makeRequest({
       $, config,
     }) {
@@ -90,6 +103,14 @@ export default {
         throw new Error(e.response.data.message);
       }
     },
+    /**
+     * Resolve the account-specific eSignature REST base URI.
+     *
+     * @param {object} args - Request arguments.
+     * @param {object} args.$ - Pipedream step context.
+     * @param {string} args.accountId - DocuSign account ID.
+     * @returns {Promise<string>} Account-scoped REST API base URI.
+     */
     async getBaseUri({
       $, accountId,
     }) {
@@ -100,6 +121,12 @@ export default {
       const { base_uri: baseUri } = account;
       return `${baseUri}/restapi/v2.1/accounts/${accountId}/`;
     },
+    /**
+     * List envelope templates.
+     *
+     * @param {string} baseUri - Account-scoped REST API base URI.
+     * @returns {Promise<object>} Template list response.
+     */
     async listTemplates(baseUri) {
       const config = {
         method: "GET",
@@ -109,6 +136,13 @@ export default {
         config,
       });
     },
+    /**
+     * List recipients configured on a template.
+     *
+     * @param {string} baseUri - Account-scoped REST API base URI.
+     * @param {string} templateId - DocuSign template ID.
+     * @returns {Promise<object>} Template recipients response.
+     */
     async listTemplateRecipients(baseUri, templateId) {
       const config = {
         method: "GET",
@@ -118,6 +152,13 @@ export default {
         config,
       });
     },
+    /**
+     * Get a template by ID.
+     *
+     * @param {string} baseUri - Account-scoped REST API base URI.
+     * @param {string} templateId - DocuSign template ID.
+     * @returns {Promise<object>} Template details response.
+     */
     async getTemplate(baseUri, templateId) {
       const config = {
         method: "GET",
@@ -127,6 +168,13 @@ export default {
         config,
       });
     },
+    /**
+     * List custom fields for a template.
+     *
+     * @param {string} baseUri - Account-scoped REST API base URI.
+     * @param {string} templateId - DocuSign template ID.
+     * @returns {Promise<object>} Template custom fields response.
+     */
     async listTemplateCustomFields(baseUri, templateId) {
       const config = {
         method: "GET",
@@ -136,6 +184,13 @@ export default {
         config,
       });
     },
+    /**
+     * List all document tabs for a template.
+     *
+     * @param {string} baseUri - Account-scoped REST API base URI.
+     * @param {string} templateId - DocuSign template ID.
+     * @returns {Promise<object[]>} Document tab responses.
+     */
     async listTemplateTabs(baseUri, templateId) {
       const tabs = [];
       const template = await this.getTemplate(baseUri, templateId);
@@ -150,6 +205,14 @@ export default {
       }
       return tabs;
     },
+    /**
+     * List PDF form fields for a template document.
+     *
+     * @param {string} baseUri - Account-scoped REST API base URI.
+     * @param {string} templateId - DocuSign template ID.
+     * @param {string} documentId - Template document ID.
+     * @returns {Promise<object>} Document fields response.
+     */
     async listDocumentFields(baseUri, templateId, documentId) {
       const config = {
         method: "GET",
@@ -159,19 +222,85 @@ export default {
         config,
       });
     },
+    /**
+     * Create an envelope.
+     *
+     * @param {object} args - Request arguments.
+     * @param {object} args.$ - Pipedream step context.
+     * @param {string} args.baseUri - Account-scoped REST API base URI.
+     * @param {object} args.data - Envelope definition payload.
+     * @param {object} args.params - Optional query parameters.
+     * @returns {Promise<object>} Envelope creation response.
+     */
     async createEnvelope({
-      $, baseUri, data,
+      $, baseUri, data, params,
     }) {
       const config = {
         method: "POST",
         url: `${baseUri}envelopes`,
         data,
+        params,
       };
       return this._makeRequest({
         $,
         config,
       });
     },
+    /**
+     * Get envelope details.
+     *
+     * @param {object} args - Request arguments.
+     * @param {object} args.$ - Pipedream step context.
+     * @param {string} args.baseUri - Account-scoped REST API base URI.
+     * @param {string} args.envelopeId - DocuSign envelope ID.
+     * @param {object} args.params - Optional query parameters.
+     * @returns {Promise<object>} Envelope details response.
+     */
+    async getEnvelope({
+      $, baseUri, envelopeId, params,
+    }) {
+      const config = {
+        method: "GET",
+        url: `${baseUri}envelopes/${envelopeId}`,
+        params,
+      };
+      return this._makeRequest({
+        $,
+        config,
+      });
+    },
+    /**
+     * Update an envelope, for example to send or void it.
+     *
+     * @param {object} args - Request arguments.
+     * @param {object} args.$ - Pipedream step context.
+     * @param {string} args.baseUri - Account-scoped REST API base URI.
+     * @param {string} args.envelopeId - DocuSign envelope ID.
+     * @param {object} args.data - Envelope update payload.
+     * @param {object} args.params - Optional query parameters.
+     * @returns {Promise<object>} Envelope update response.
+     */
+    async updateEnvelope({
+      $, baseUri, envelopeId, data, params,
+    }) {
+      const config = {
+        method: "PUT",
+        url: `${baseUri}envelopes/${envelopeId}`,
+        data,
+        params,
+      };
+      return this._makeRequest({
+        $,
+        config,
+      });
+    },
+    /**
+     * List folders for an account.
+     *
+     * @param {string} baseUri - Account-scoped REST API base URI.
+     * @param {object} params - Optional query parameters.
+     * @returns {Promise<object>} Folders response.
+     */
     async listFolders(baseUri, params) {
       const config = {
         method: "GET",
@@ -182,6 +311,14 @@ export default {
         config,
       });
     },
+    /**
+     * List items inside a folder.
+     *
+     * @param {string} baseUri - Account-scoped REST API base URI.
+     * @param {object} params - Optional query parameters.
+     * @param {string} folderId - DocuSign folder ID.
+     * @returns {Promise<object>} Folder items response.
+     */
     async listFolderItems(baseUri, params, folderId) {
       const config = {
         method: "GET",
@@ -192,6 +329,13 @@ export default {
         config,
       });
     },
+    /**
+     * List envelopes matching search filters.
+     *
+     * @param {string} baseUri - Account-scoped REST API base URI.
+     * @param {object} params - Optional query parameters.
+     * @returns {Promise<object>} Envelopes response.
+     */
     async listEnvelopes(baseUri, params) {
       const config = {
         method: "GET",
@@ -199,6 +343,75 @@ export default {
         params,
       };
       return this._makeRequest({
+        config,
+      });
+    },
+    /**
+     * List documents in an envelope.
+     *
+     * @param {object} args - Request arguments.
+     * @param {object} args.$ - Pipedream step context.
+     * @param {string} args.baseUri - Account-scoped REST API base URI.
+     * @param {string} args.envelopeId - DocuSign envelope ID.
+     * @param {object} args.params - Optional query parameters.
+     * @returns {Promise<object>} Envelope documents response.
+     */
+    async listEnvelopeDocuments({
+      $, baseUri, envelopeId, params,
+    }) {
+      const config = {
+        method: "GET",
+        url: `${baseUri}envelopes/${envelopeId}/documents`,
+        params,
+      };
+      return this._makeRequest({
+        $,
+        config,
+      });
+    },
+    /**
+     * List recipients and recipient status for an envelope.
+     *
+     * @param {object} args - Request arguments.
+     * @param {object} args.$ - Pipedream step context.
+     * @param {string} args.baseUri - Account-scoped REST API base URI.
+     * @param {string} args.envelopeId - DocuSign envelope ID.
+     * @param {object} args.params - Optional query parameters.
+     * @returns {Promise<object>} Envelope recipients response.
+     */
+    async listRecipients({
+      $, baseUri, envelopeId, params,
+    }) {
+      const config = {
+        method: "GET",
+        url: `${baseUri}envelopes/${envelopeId}/recipients`,
+        params,
+      };
+      return this._makeRequest({
+        $,
+        config,
+      });
+    },
+    /**
+     * Create a recipient view URL for embedded signing.
+     *
+     * @param {object} args - Request arguments.
+     * @param {object} args.$ - Pipedream step context.
+     * @param {string} args.baseUri - Account-scoped REST API base URI.
+     * @param {string} args.envelopeId - DocuSign envelope ID.
+     * @param {object} args.data - Recipient view request payload.
+     * @returns {Promise<object>} Recipient view URL response.
+     */
+    async createRecipientView({
+      $, baseUri, envelopeId, data,
+    }) {
+      const config = {
+        method: "POST",
+        url: `${baseUri}envelopes/${envelopeId}/views/recipient`,
+        data,
+      };
+      return this._makeRequest({
+        $,
         config,
       });
     },
