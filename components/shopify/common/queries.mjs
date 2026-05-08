@@ -642,10 +642,46 @@ const GET_DRAFT_ORDER = `
       completedAt
       invoiceSentAt
       status
-      totalPriceSet
-      subtotalPriceSet
-      totalShippingPriceSet
-      totalTaxSet
+      totalPriceSet {
+        presentmentMoney {
+          amount
+          currencyCode
+        }
+        shopMoney {
+          amount
+          currencyCode
+        }
+      }
+      subtotalPriceSet {
+        presentmentMoney {
+          amount
+          currencyCode
+        }
+        shopMoney {
+          amount
+          currencyCode
+        }
+      }
+      totalShippingPriceSet {
+        presentmentMoney {
+          amount
+          currencyCode
+        }
+        shopMoney {
+          amount
+          currencyCode
+        }
+      }
+      totalTaxSet {
+        presentmentMoney {
+          amount
+          currencyCode
+        }
+        shopMoney {
+          amount
+          currencyCode
+        }
+      }
       currencyCode
       taxExempt
       taxesIncluded
@@ -686,7 +722,9 @@ const GET_DRAFT_ORDER = `
       }
       customer {
         id
-        defaultEmailAddress
+        defaultEmailAddress {
+          emailAddress
+        }
         firstName
         lastName
         phone
