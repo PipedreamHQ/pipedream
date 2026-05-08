@@ -183,6 +183,6 @@ export default {
     const envelopes = response.envelopes ?? [];
 
     $.export("$summary", `Retrieved ${envelopes.length} envelopes`);
-    return response;
+    return envelopes;
   },
 };
