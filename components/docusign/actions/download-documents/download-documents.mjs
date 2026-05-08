@@ -31,9 +31,12 @@ export default {
         const { startPosition } = prevContext;
         const {
           envelopes = [], nextUri, endPosition,
-        } = await this.docusign.listEnvelopes(baseUri, {
-          start_position: startPosition,
-          from_date: "2000-01-01",
+        } = await this.docusign.listEnvelopes({
+          baseUri,
+          params: {
+            start_position: startPosition,
+            from_date: "2000-01-01",
+          },
         });
         return {
           options: envelopes.map(({

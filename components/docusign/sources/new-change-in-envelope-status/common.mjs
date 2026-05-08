@@ -74,7 +74,10 @@ export default {
         envelopes = [],
         nextUri,
         endPosition,
-      } = await this.docusign.listEnvelopes(baseUri, params);
+      } = await this.docusign.listEnvelopes({
+        baseUri,
+        params,
+      });
       if (nextUri) {
         params.start_position = Number(endPosition) + 1;
       }

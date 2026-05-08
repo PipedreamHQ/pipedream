@@ -97,11 +97,7 @@ export default {
       $, config,
     }) {
       config.headers = this._getHeaders();
-      try {
-        return await axios($ ?? this, config);
-      } catch (e) {
-        throw new Error(e.response.data.message);
-      }
+      return axios($ ?? this, config);
     },
     /**
      * Resolve the account-specific eSignature REST base URI.
@@ -118,6 +114,9 @@ export default {
         $,
       });
       const account = accounts.find((a) => a.account_id === accountId);
+      if (!account) {
+        throw new Error(`Unable to resolve DocuSign account for accountId: ${accountId}`);
+      }
       const { base_uri: baseUri } = account;
       return `${baseUri}/restapi/v2.1/accounts/${accountId}/`;
     },
@@ -332,17 +331,22 @@ export default {
     /**
      * List envelopes matching search filters.
      *
-     * @param {string} baseUri - Account-scoped REST API base URI.
-     * @param {object} params - Optional query parameters.
+     * @param {object} args - Request arguments.
+     * @param {object} args.$ - Pipedream step context.
+     * @param {string} args.baseUri - Account-scoped REST API base URI.
+     * @param {object} args.params - Optional query parameters.
      * @returns {Promise<object>} Envelopes response.
      */
-    async listEnvelopes(baseUri, params) {
+    async listEnvelopes({
+      $, baseUri, params,
+    }) {
       const config = {
         method: "GET",
         url: `${baseUri}envelopes`,
         params,
       };
       return this._makeRequest({
+        $,
         config,
       });
     },

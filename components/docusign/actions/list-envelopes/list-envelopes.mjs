@@ -26,13 +26,13 @@ export default {
     fromDate: {
       type: "string",
       label: "From Date",
-      description: "Return envelopes changed on or after this ISO 8601 datetime. Defaults to 30 days ago.",
+      description: "Return envelopes changed on or after this ISO 8601 datetime, for example `2026-04-01T00:00:00Z`. Defaults to 30 days ago.",
       optional: true,
     },
     toDate: {
       type: "string",
       label: "To Date",
-      description: "Return envelopes changed on or before this ISO 8601 datetime.",
+      description: "Return envelopes changed on or before this ISO 8601 datetime, for example `2026-04-30T23:59:59Z`.",
       optional: true,
     },
     status: {
@@ -147,7 +147,11 @@ export default {
       let hasMore = false;
 
       do {
-        const response = await this.docusign.listEnvelopes(baseUri, this.getParams(startPosition));
+        const response = await this.docusign.listEnvelopes({
+          $,
+          baseUri,
+          params: this.getParams(startPosition),
+        });
         envelopes.push(...response.envelopes ?? []);
         hasMore = Boolean(response.nextUri);
         startPosition = response.endPosition
@@ -162,7 +166,11 @@ export default {
       return envelopes;
     }
 
-    const response = await this.docusign.listEnvelopes(baseUri, this.getParams());
+    const response = await this.docusign.listEnvelopes({
+      $,
+      baseUri,
+      params: this.getParams(),
+    });
     const envelopes = response.envelopes ?? [];
 
     $.export("$summary", `Retrieved ${envelopes.length} envelopes`);

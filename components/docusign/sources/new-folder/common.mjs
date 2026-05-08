@@ -38,10 +38,10 @@ export default {
               const {
                 folders: subfolders,
                 nextUri,
-                resultSetSize,
+                endPosition,
               } = await this.docusign.listFolderItems(baseUri, params, subfolder.folderId);
               await this.processFolders(baseUri, params, subfolders, ts);
-              if (nextUri) params.start_position += resultSetSize + 1;
+              if (nextUri) params.start_position = Number(endPosition) + 1;
               else done = true;
             } while (!done);
           }
@@ -75,9 +75,9 @@ export default {
       const {
         folders = [],
         nextUri,
-        resultSetSize,
+        endPosition,
       } = await this.docusign.listFolders(baseUri, params);
-      if (nextUri) params.start_position += resultSetSize + 1;
+      if (nextUri) params.start_position = Number(endPosition) + 1;
       else done = true;
 
       await this.processFolders(baseUri, params, folders, ts);
