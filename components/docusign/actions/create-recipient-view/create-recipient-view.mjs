@@ -32,7 +32,7 @@ export default {
     returnUrl: {
       type: "string",
       label: "Return URL",
-      description: "URL where DocuSign redirects the signer after the embedded signing session.",
+      description: "URL where DocuSign redirects the signer after the embedded signing session. Must include `https://` or the redirect might not succeed on some browsers.",
     },
     recipientId: {
       propDefinition: [
