@@ -656,7 +656,7 @@ const GET_DRAFT_ORDER = `
         city
         company
         country
-        countryCodeV2
+        countryCode
         firstName
         lastName
         phone
@@ -673,7 +673,7 @@ const GET_DRAFT_ORDER = `
         city
         company
         country
-        countryCodeV2
+        countryCode
         firstName
         lastName
         phone
@@ -925,7 +925,7 @@ const GET_CUSTOMER = `
         city
         company
         country
-        countryCodeV2
+        countryCode
         firstName
         lastName
         phone
@@ -939,7 +939,7 @@ const GET_CUSTOMER = `
         city
         company
         country
-        countryCodeV2
+        countryCode
         firstName
         lastName
         phone
@@ -973,7 +973,7 @@ const LIST_CUSTOMERS = `
           city
           company
           country
-          countryCodeV2
+          countryCode
           firstName
           lastName
           phone
@@ -987,7 +987,7 @@ const LIST_CUSTOMERS = `
           city
           company
           country
-          countryCodeV2
+          countryCode
           firstName
           lastName
           phone
@@ -1027,7 +1027,7 @@ const LIST_ASSIGNED_FULFILLMENT_ORDERS = `
           address2
           city
           company
-          countryCodeV2
+          countryCode
           firstName
           lastName
           phone
@@ -1078,7 +1078,7 @@ const GET_FULFILLMENT_ORDER = `
         city
         company
         country
-        countryCodeV2
+        countryCode
         firstName
         lastName
         phone
@@ -1126,7 +1126,7 @@ const LIST_FULFILLMENT_ORDERS = `
           address2
           city
           company
-          countryCodeV2
+          countryCode
           firstName
           lastName
           phone
