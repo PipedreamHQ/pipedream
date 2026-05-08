@@ -78,15 +78,27 @@ export default {
     },
   },
   methods: {
+    /**
+     * Return the base URL for Luma's public API.
+     */
     _baseUrl() {
       return "https://public-api.luma.com/v1";
     },
+    /**
+     * Build the headers required for authenticated Luma API requests.
+     */
     _headers() {
       return {
         "Content-Type": "application/json",
         "x-luma-api-key": this.$auth.api_key,
       };
     },
+    /**
+     * Make an authenticated request to the Luma public API.
+     *
+     * @param {object} args - Axios request arguments.
+     * @returns {Promise<object>} The parsed API response.
+     */
     async _makeRequest({
       $ = this,
       method = "GET",
@@ -104,12 +116,25 @@ export default {
         ...opts,
       });
     },
+    /**
+     * List events managed by the connected Luma calendar.
+     *
+     * @param {object} args - Request arguments, including optional query params.
+     * @returns {Promise<object>} The Luma list events response.
+     */
     listEvents(args = {}) {
       return this._makeRequest({
         path: "/calendar/list-events",
         ...args,
       });
     },
+    /**
+     * Get admin details for a managed Luma event.
+     *
+     * @param {object} args - Request arguments.
+     * @param {string} args.eventId - The Luma event ID.
+     * @returns {Promise<object>} The Luma get event response.
+     */
     getEvent({
       eventId,
       ...args
@@ -122,6 +147,13 @@ export default {
         ...args,
       });
     },
+    /**
+     * Create an event on the connected Luma calendar.
+     *
+     * @param {object} args - Request arguments.
+     * @param {object} args.data - Luma event creation payload.
+     * @returns {Promise<object>} The Luma create event response.
+     */
     createEvent({
       data,
       ...args
@@ -133,12 +165,26 @@ export default {
         ...args,
       });
     },
+    /**
+     * List guests for a Luma event.
+     *
+     * @param {object} args - Request arguments, including required event query params.
+     * @returns {Promise<object>} The Luma get guests response.
+     */
     getGuests(args = {}) {
       return this._makeRequest({
         path: "/event/get-guests",
         ...args,
       });
     },
+    /**
+     * Get a guest by guest ID, ticket key, guest key, or email.
+     *
+     * @param {object} args - Request arguments.
+     * @param {string} args.eventId - The Luma event ID.
+     * @param {string} args.guestId - Guest identifier accepted by Luma.
+     * @returns {Promise<object>} The Luma get guest response.
+     */
     getGuest({
       eventId,
       guestId,
@@ -153,12 +199,25 @@ export default {
         ...args,
       });
     },
+    /**
+     * List ticket types for a Luma event.
+     *
+     * @param {object} args - Request arguments, including required event query params.
+     * @returns {Promise<object>} The Luma list ticket types response.
+     */
     listTicketTypes(args = {}) {
       return this._makeRequest({
         path: "/event/ticket-types/list",
         ...args,
       });
     },
+    /**
+     * Add guests to a Luma event with status Going.
+     *
+     * @param {object} args - Request arguments.
+     * @param {object} args.data - Luma add guests payload.
+     * @returns {Promise<object>} The Luma add guests response.
+     */
     addGuests({
       data,
       ...args
@@ -170,6 +229,13 @@ export default {
         ...args,
       });
     },
+    /**
+     * Send invitations for a Luma event.
+     *
+     * @param {object} args - Request arguments.
+     * @param {object} args.data - Luma send invites payload.
+     * @returns {Promise<object>} The Luma send invites response.
+     */
     sendInvites({
       data,
       ...args
