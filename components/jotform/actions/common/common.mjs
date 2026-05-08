@@ -1,4 +1,4 @@
-import jotform from "../jotform.app.mjs";
+import jotform from "../../jotform.app.mjs";
 
 export default {
   props: {
