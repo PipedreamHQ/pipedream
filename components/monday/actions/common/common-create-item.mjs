@@ -13,8 +13,9 @@ export default {
           boardId: c.boardId,
         }),
       ],
+      label: "Columns",
       type: "string[]",
-      description: "Select which item columns to set values for",
+      description: "Which item columns to set values for (array or comma-separated string)",
       reloadProps: true,
     },
   },
@@ -23,10 +24,14 @@ export default {
     if (!this.columns) {
       return props;
     }
+    const columns = Array.isArray(this.columns)
+      ? this.columns
+      : this.columns.split(",").map((c) => c.trim())
+        .filter(Boolean);
     const columnData = await this.monday.listColumns({
       boardId: +this.boardId,
     });
-    for (const column of this.columns) {
+    for (const column of columns) {
       let description, options;
       options = getColumnOptions(columnData, column);
       if (column === "person") {
@@ -66,8 +71,11 @@ export default {
   },
   async run({ $ }) {
     const columnValues = {};
-    if (this.columns?.length > 0) {
-      for (const column of this.columns) {
+    const columns = Array.isArray(this.columns)
+      ? this.columns
+      : this.columns?.split(",").map((c) => c.trim()) ?? [];
+    if (columns.length > 0) {
+      for (const column of columns) {
         if (column === "email") {
           columnValues[column] = this.getEmailValue(this[column]);
           continue;
