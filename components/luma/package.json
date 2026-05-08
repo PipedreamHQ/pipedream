@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/luma",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Luma Components",
   "main": "luma.app.mjs",
   "keywords": [
