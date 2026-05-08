@@ -20,9 +20,13 @@ export default {
       ],
     },
     envelopeId: {
-      type: "string",
-      label: "Envelope ID",
-      description: "The envelope ID to void.",
+      propDefinition: [
+        docusign,
+        "envelopeId",
+        (c) => ({
+          account: c.account,
+        }),
+      ],
     },
     voidedReason: {
       type: "string",

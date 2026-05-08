@@ -20,9 +20,13 @@ export default {
       ],
     },
     envelopeId: {
-      type: "string",
-      label: "Envelope ID",
-      description: "The draft envelope ID to send.",
+      propDefinition: [
+        docusign,
+        "envelopeId",
+        (c) => ({
+          account: c.account,
+        }),
+      ],
     },
   },
   async run({ $ }) {

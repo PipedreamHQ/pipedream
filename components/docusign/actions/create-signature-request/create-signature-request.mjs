@@ -4,7 +4,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   key: "docusign-create-signature-request",
-  version: "0.1.4",
+  version: "0.1.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -1,9 +1,10 @@
 import docusign from "../../docusign.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "docusign-create-recipient-view",
   name: "Create Recipient View",
-  description: "Create an embedded signing URL for a recipient. The envelope recipient must have been created with a `clientUserId`, and Client User ID, Recipient Email, and Recipient Name must match that recipient. [See the documentation](https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopeviews/createrecipient/)",
+  description: "Create an embedded signing URL for a selected envelope recipient. The recipient must have been created with a `clientUserId`. [See the documentation](https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopeviews/createrecipient/)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -20,31 +21,28 @@ export default {
       ],
     },
     envelopeId: {
-      type: "string",
-      label: "Envelope ID",
-      description: "The ID of the envelope containing the embedded recipient.",
+      propDefinition: [
+        docusign,
+        "envelopeId",
+        (c) => ({
+          account: c.account,
+        }),
+      ],
     },
     returnUrl: {
       type: "string",
       label: "Return URL",
       description: "URL where DocuSign redirects the signer after the embedded signing session.",
     },
-    recipientName: {
+    recipientId: {
       propDefinition: [
         docusign,
-        "recipientName",
+        "recipientId",
+        (c) => ({
+          account: c.account,
+          envelopeId: c.envelopeId,
+        }),
       ],
-    },
-    recipientEmail: {
-      propDefinition: [
-        docusign,
-        "recipientEmail",
-      ],
-    },
-    clientUserId: {
-      type: "string",
-      label: "Client User ID",
-      description: "The embedded recipient client user ID. This must match the value set when creating the envelope recipient.",
     },
     authenticationMethod: {
       type: "string",
@@ -71,6 +69,23 @@ export default {
       $,
       accountId: this.account,
     });
+    const recipients = await this.docusign.listRecipients({
+      $,
+      baseUri,
+      envelopeId: this.envelopeId,
+    });
+    const recipient = Object.values(recipients ?? {})
+      .filter(Array.isArray)
+      .flat()
+      .find((candidate) => candidate.recipientId === this.recipientId);
+
+    if (!recipient) {
+      throw new ConfigurationError(`Recipient ID ${this.recipientId} was not found on envelope ${this.envelopeId}.`);
+    }
+    if (!recipient.clientUserId) {
+      throw new ConfigurationError("The selected recipient does not have a clientUserId and cannot be used for embedded signing.");
+    }
+
     const response = await this.docusign.createRecipientView({
       $,
       baseUri,
@@ -78,15 +93,15 @@ export default {
       data: {
         returnUrl: this.returnUrl,
         authenticationMethod: this.authenticationMethod,
-        email: this.recipientEmail,
-        userName: this.recipientName,
-        clientUserId: this.clientUserId,
+        email: recipient.email,
+        userName: recipient.name,
+        clientUserId: recipient.clientUserId,
         pingUrl: this.pingUrl,
         pingFrequency: this.pingFrequency,
       },
     });
 
-    $.export("$summary", `Created recipient view URL for envelope ${this.envelopeId}`);
+    $.export("$summary", `Created recipient view URL for recipient ${this.recipientId} on envelope ${this.envelopeId}`);
     return response;
   },
 };

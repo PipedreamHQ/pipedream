@@ -79,10 +79,10 @@ export default {
       description: "Optional file extension. Defaults to the uploaded file extension, or `pdf` if one cannot be detected.",
       optional: true,
     },
-    recipientId: {
+    signerRecipientId: {
       type: "string",
-      label: "Recipient ID",
-      description: "Recipient ID to assign to the signer.",
+      label: "Signer Recipient ID",
+      description: "Recipient ID to assign to the new signer in this envelope.",
       optional: true,
       default: "1",
     },
@@ -141,7 +141,7 @@ export default {
     const signer = {
       email: this.signerEmail,
       name: this.signerName,
-      recipientId: this.recipientId,
+      recipientId: this.signerRecipientId,
       routingOrder: this.routingOrder,
       clientUserId: this.clientUserId,
       tabs: {

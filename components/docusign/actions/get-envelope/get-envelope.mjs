@@ -20,9 +20,13 @@ export default {
       ],
     },
     envelopeId: {
-      type: "string",
-      label: "Envelope ID",
-      description: "The DocuSign envelope ID.",
+      propDefinition: [
+        docusign,
+        "envelopeId",
+        (c) => ({
+          account: c.account,
+        }),
+      ],
     },
     include: {
       type: "string[]",

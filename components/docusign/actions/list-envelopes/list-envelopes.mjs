@@ -55,10 +55,13 @@ export default {
       optional: true,
     },
     folderIds: {
-      type: "string[]",
-      label: "Folder IDs",
-      description: "Filter by one or more folder IDs.",
-      optional: true,
+      propDefinition: [
+        docusign,
+        "folderIds",
+        (c) => ({
+          account: c.account,
+        }),
+      ],
     },
     count: {
       type: "integer",

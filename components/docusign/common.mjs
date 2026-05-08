@@ -72,6 +72,144 @@ export default {
         });
       },
     },
+    envelopeId: {
+      type: "string",
+      label: "Envelope ID",
+      description: "The DocuSign envelope ID.",
+      async options({
+        account, prevContext,
+      }) {
+        if (!account) {
+          return [];
+        }
+
+        const baseUri = await this.getBaseUri({
+          accountId: account,
+        });
+        const startPosition = prevContext?.startPosition ?? 0;
+        const {
+          envelopes = [],
+          nextUri,
+          endPosition,
+        } = await this.listEnvelopes({
+          baseUri,
+          params: {
+            start_position: startPosition,
+            from_date: "2000-01-01",
+          },
+        });
+
+        return {
+          options: envelopes
+            .filter((envelope) => envelope.envelopeId)
+            .map((envelope) => {
+              const subject = envelope.emailSubject || envelope.envelopeId;
+              const status = envelope.status
+                ? ` (${envelope.status})`
+                : "";
+              return {
+                label: `${subject}${status}`,
+                value: envelope.envelopeId,
+              };
+            }),
+          context: {
+            startPosition: nextUri && endPosition !== undefined && endPosition !== null
+              ? Number(endPosition) + 1
+              : undefined,
+          },
+        };
+      },
+    },
+    recipientId: {
+      type: "string",
+      label: "Recipient ID",
+      description: "The recipient ID on the selected envelope.",
+      async options({
+        account, envelopeId,
+      }) {
+        if (!account || !envelopeId) {
+          return [];
+        }
+
+        const baseUri = await this.getBaseUri({
+          accountId: account,
+        });
+        const response = await this.listRecipients({
+          baseUri,
+          envelopeId,
+        });
+
+        return Object.entries(response ?? {})
+          .flatMap(([
+            recipientType,
+            recipients,
+          ]) => {
+            if (!Array.isArray(recipients)) {
+              return [];
+            }
+
+            return recipients.filter((recipient) => recipient.recipientId)
+              .map((recipient) => {
+                const name = recipient.name || recipient.email || recipient.recipientId;
+                const email = recipient.email && recipient.email !== name
+                  ? ` <${recipient.email}>`
+                  : "";
+                return {
+                  label: `${name}${email} (${recipientType}, ${recipient.recipientId})`,
+                  value: recipient.recipientId,
+                };
+              });
+          });
+      },
+    },
+    folderIds: {
+      type: "string[]",
+      label: "Folder IDs",
+      description: "Filter by one or more folder IDs.",
+      optional: true,
+      async options({
+        account, prevContext,
+      }) {
+        if (!account) {
+          return [];
+        }
+
+        const baseUri = await this.getBaseUri({
+          accountId: account,
+        });
+        const startPosition = prevContext?.startPosition ?? 0;
+        const {
+          folders = [],
+          nextUri,
+          endPosition,
+        } = await this.listFolders(baseUri, {
+          start_position: startPosition,
+          include: "envelope_folders",
+        });
+        const flattenFolders = (items, parentName = "") => items.flatMap((folder) => {
+          const name = folder.name || folder.folderId;
+          const label = parentName
+            ? `${parentName} / ${name}`
+            : name;
+          return [
+            {
+              label,
+              value: folder.folderId,
+            },
+            ...flattenFolders(folder.folders ?? [], label),
+          ];
+        });
+
+        return {
+          options: flattenFolders(folders).filter(({ value }) => value),
+          context: {
+            startPosition: nextUri && endPosition !== undefined && endPosition !== null
+              ? Number(endPosition) + 1
+              : undefined,
+          },
+        };
+      },
+    },
   },
   methods: {
     /**
