@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/read_ai",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Read AI Components",
   "main": "read_ai.app.mjs",
   "keywords": [

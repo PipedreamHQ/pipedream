@@ -1,11 +1,74 @@
+import { axios } from "@pipedream/platform";
+
 export default {
   type: "app",
   app: "read_ai",
-  propDefinitions: {},
+  propDefinitions: {
+    meetingId: {
+      type: "string",
+      label: "Meeting ID",
+      description: "The ULID of the meeting. Use **List Meetings** to find a meeting ID.",
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "Number of meetings to return. Maximum is 10.",
+      default: 10,
+      min: 1,
+      max: 10,
+    },
+    cursor: {
+      type: "string",
+      label: "Pagination Cursor",
+      description: "Cursor from a previous list response (`nextCursor`) to retrieve the next page of results.",
+      optional: true,
+    },
+  },
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _baseUrl() {
+      return "https://api.read.ai/v1";
+    },
+    _headers() {
+      return {
+        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+      };
+    },
+    async _makeRequest({
+      $, path, params, ...config
+    }) {
+      return axios($ || this, {
+        url: `${this._baseUrl()}${path}`,
+        headers: this._headers(),
+        params,
+        ...config,
+      });
+    },
+    async listMeetings({
+      $, startTimeMs, endTimeMs, limit, cursor,
+    }) {
+      return this._makeRequest({
+        $,
+        path: "/meetings",
+        params: {
+          start_time_ms: startTimeMs,
+          end_time_ms: endTimeMs,
+          limit,
+          cursor,
+        },
+      });
+    },
+    async getMeeting({
+      $, meetingId, expand,
+    }) {
+      const params = {};
+      if (expand?.length) {
+        params["expand[]"] = expand;
+      }
+      return this._makeRequest({
+        $,
+        path: `/meetings/${meetingId}`,
+        params,
+      });
     },
   },
 };
