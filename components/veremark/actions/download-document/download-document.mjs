@@ -9,7 +9,7 @@ export default {
     + " Document GUIDs are found in the response from **Get Background Check Request** — look in the checks array for document references."
     + " The file is written to the /tmp directory and returned as a presigned download URL via File Stash."
     + " Common document types include resumes, ID scans, and employment letters."
-    + " [See the documentation](https://help.veremark.com/download-pdf-reports-and-supporting-documents)",
+    + " [See the documentation](https://api.veremark.com/external/v1/docs/#tag/document/operation/retrieveDocumentDownload)",
   version: "0.0.1",
   type: "action",
   annotations: {
