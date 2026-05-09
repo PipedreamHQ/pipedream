@@ -10,7 +10,7 @@ export default {
     + " The file is written to the /tmp directory and returned as a presigned download URL via File Stash."
     + " Common document types include resumes, ID scans, and employment letters."
     + " [See the documentation](https://help.veremark.com/download-pdf-reports-and-supporting-documents)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

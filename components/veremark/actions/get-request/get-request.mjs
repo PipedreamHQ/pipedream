@@ -10,7 +10,7 @@ export default {
     + " The request GUID is returned when you create a request with **Create Background Check Request**."
     + " Note: there is no search endpoint — you must know the request GUID. Save it when creating requests."
     + " [See the documentation](https://help.veremark.com/how-can-i-monitor-the-progress-and-status-of-background-checks-initiated-via-the-api)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
