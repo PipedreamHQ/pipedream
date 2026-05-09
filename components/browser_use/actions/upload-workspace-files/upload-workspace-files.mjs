@@ -69,9 +69,12 @@ export default {
       const {
         stream, metadata,
       } = await getFileStreamAndMetadata(filePath);
+      if (metadata.size == null) {
+        throw new ConfigurationError(`Cannot determine file size for \`${filePath}\`. Provide a /tmp file path or a URL that returns a Content-Length header.`);
+      }
       localFiles.push({
         name: metadata.name,
-        contentType: this.contentType,
+        contentType: metadata.contentType ?? this.contentType,
         size: metadata.size,
         stream,
       });

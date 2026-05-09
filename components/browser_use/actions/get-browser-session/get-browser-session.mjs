@@ -23,7 +23,7 @@ export default {
   async run({ $ }) {
     const response = await this.browserUse.getBrowserSession({
       $,
-      sessionId: this.browserSessionId,
+      browserSessionId: this.browserSessionId,
     });
 
     $.export("$summary", `Retrieved browser session ${response.id} with status ${response.status}`);

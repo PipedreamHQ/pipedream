@@ -31,7 +31,7 @@ export default {
   async run({ $ }) {
     const response = await this.browserUse.updateBrowserSession({
       $,
-      sessionId: this.browserSessionId,
+      browserSessionId: this.browserSessionId,
       data: {
         action: this.action,
       },

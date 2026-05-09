@@ -257,19 +257,19 @@ export default {
       });
     },
     getBrowserSession({
-      sessionId, ...opts
+      browserSessionId, ...opts
     } = {}) {
       return this._makeRequest({
-        path: `/browsers/${encodeURIComponent(sessionId)}`,
+        path: `/browsers/${encodeURIComponent(browserSessionId)}`,
         ...opts,
       });
     },
     updateBrowserSession({
-      sessionId, ...opts
+      browserSessionId, ...opts
     } = {}) {
       return this._makeRequest({
         method: "PATCH",
-        path: `/browsers/${encodeURIComponent(sessionId)}`,
+        path: `/browsers/${encodeURIComponent(browserSessionId)}`,
         ...opts,
       });
     },
