@@ -25,28 +25,10 @@ export default {
     },
   },
   async run({ $ }) {
-    let buffer;
-    try {
-      buffer = await this.app._makeRequest({
-        $,
-        path: `/request/${this.requestGuid}/report/full`,
-        responseType: "arraybuffer",
-      });
-    } catch (err) {
-      const status = err?.response?.status;
-      const msg = status === 404
-        ? "Report not found — the request GUID may be invalid."
-        : status === 403
-          ? "Access denied — check that this request belongs to your account."
-          : status
-            ? `The report is not yet available (HTTP ${status}). The background check may still be in progress.`
-            : `Failed to download report: ${err.message}`;
-      $.export("$summary", msg);
-      return {
-        error: msg,
-        requestGuid: this.requestGuid,
-      };
-    }
+    const buffer = await this.app.downloadReport({
+      $,
+      requestGuid: this.requestGuid,
+    });
 
     $.export("$summary", `Downloaded PDF report for request ${this.requestGuid}`);
     return Buffer.from(buffer);

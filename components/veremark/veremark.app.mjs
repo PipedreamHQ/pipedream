@@ -82,7 +82,7 @@ export default {
       requestGuid, ...args
     } = {}) {
       return this._makeRequest({
-        path: `/request/${requestGuid}/report/`,
+        path: `/request/${requestGuid}/report/full`,
         responseType: "arraybuffer",
         ...args,
       });
