@@ -130,7 +130,6 @@ export default {
       label: "Contents - Highlights",
       description: "Return token-efficient highlights from each result. This is the recommended default for most Search workflows.",
       optional: true,
-      default: true,
     },
     contentsHighlightQuery: {
       label: "Contents - Highlights Query",
@@ -254,7 +253,7 @@ export default {
     context: {
       type: "boolean",
       label: "Legacy Context",
-      description: "Hidden legacy prop preserved for saved workflows. Translates to highlights mode.",
+      description: "Hidden legacy prop preserved for saved workflows. When set, Search preserves Exa's deprecated top-level context output and also keeps the legacy highlights fallback.",
       hidden: true,
       optional: true,
     },

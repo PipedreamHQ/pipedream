@@ -153,7 +153,7 @@ export default {
     context: {
       type: "boolean",
       label: "Legacy Context",
-      description: "Hidden legacy prop preserved for saved workflows. Translates to highlights mode.",
+      description: "Hidden legacy prop preserved for saved workflows. It is forwarded verbatim so saved workflows can keep using Exa's deprecated combined context string.",
       hidden: true,
       optional: true,
     },
