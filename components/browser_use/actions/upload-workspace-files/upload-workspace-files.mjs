@@ -114,7 +114,7 @@ export default {
       const localFile = localFiles[index];
       const upload = uploadResponse.files?.[index];
       if (!upload?.uploadUrl) {
-        throw new ConfigurationError(`Browser Use did not return an upload URL for ${localFile.name}.`);
+        throw new Error(`Browser Use did not return an upload URL for ${localFile.name}.`);
       }
 
       await this.browserUse.uploadToPresignedUrl({
