@@ -9,7 +9,7 @@ export default {
     + " Returns the request GUID — save this to check status later with **Get Background Check Request**."
     + " Use **List Criteria** first to find the criteria GUID for the background check package you want to run."
     + " The webhook URL is optional; if omitted you can poll status via **Get Background Check Request**."
-    + " [See the documentation](https://help.veremark.com/getting-started-with-the-veremark-api)",
+    + " [See the documentation](https://api.veremark.com/external/v1/docs/#tag/request/operation/createRequest)",
   version: "0.0.1",
   type: "action",
   annotations: {
