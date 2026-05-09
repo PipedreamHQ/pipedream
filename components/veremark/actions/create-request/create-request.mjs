@@ -83,33 +83,10 @@ export default {
       }),
     };
 
-    let response;
-    try {
-      response = await this.app.createRequest({
-        $,
-        data,
-      });
-    } catch (err) {
-      const status = err?.response?.status;
-      const body = err?.response?.data;
-      const detail = body?.detail || body?.message || JSON.stringify(body) || err.message;
-      const msg = status >= 500
-        ? `Veremark server error (HTTP ${status}): ${detail}. This may be a temporary issue — please try again.`
-        : status === 400
-          ? `Invalid request (HTTP 400): ${detail}. Check the criteria GUID and candidate fields.`
-          : status === 403
-            ? "Access denied. Check your API token and account permissions."
-            : `Failed to create request (HTTP ${status ?? "unknown"}): ${detail}`;
-      $.export("$summary", msg);
-      return {
-        error: msg,
-        attempted: {
-          candidateEmail: this.candidateEmail,
-          criteriaGuid: this.criteriaGuid,
-          jobTitle: this.jobTitle,
-        },
-      };
-    }
+    const response = await this.app.createRequest({
+      $,
+      data,
+    });
 
     $.export("$summary", `Created background check request for ${this.candidateFirstName} ${this.candidateLastName} — GUID: ${response.guid ?? response.id ?? "see response"}`);
     return response;
