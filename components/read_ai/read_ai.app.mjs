@@ -50,8 +50,12 @@ export default {
         $,
         path: "/meetings",
         params: {
-          start_time_ms: startTimeMs,
-          end_time_ms: endTimeMs,
+          ...(startTimeMs && {
+            "start_time_ms.gte": startTimeMs,
+          }),
+          ...(endTimeMs && {
+            "start_time_ms.lte": endTimeMs,
+          }),
           limit,
           cursor,
         },
