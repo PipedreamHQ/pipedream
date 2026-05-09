@@ -9,7 +9,7 @@ export default {
     + " Also returns document GUIDs for any candidate-uploaded files, which can be downloaded with **Download Document**."
     + " The request GUID is returned when you create a request with **Create Background Check Request**."
     + " Note: there is no search endpoint — you must know the request GUID. Save it when creating requests."
-    + " [See the documentation](https://help.veremark.com/how-can-i-monitor-the-progress-and-status-of-background-checks-initiated-via-the-api)",
+    + " [See the documentation](https://api.veremark.com/external/v1/docs/#tag/request/operation/retrieveRequest)",
   version: "0.0.1",
   type: "action",
   annotations: {
