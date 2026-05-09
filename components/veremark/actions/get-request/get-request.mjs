@@ -27,25 +27,10 @@ export default {
     },
   },
   async run({ $ }) {
-    let request;
-    try {
-      request = await this.app.getRequest({
-        $,
-        requestGuid: this.requestGuid,
-      });
-    } catch (err) {
-      const status = err?.response?.status;
-      const msg = status === 404
-        ? `Background check request ${this.requestGuid} was not found. Verify the GUID is correct and belongs to your account.`
-        : status === 403
-          ? `Access denied for request ${this.requestGuid}. Check that it belongs to your account.`
-          : `Failed to retrieve request ${this.requestGuid}: ${err.message}`;
-      $.export("$summary", msg);
-      return {
-        error: msg,
-        requestGuid: this.requestGuid,
-      };
-    }
+    const request = await this.app.getRequest({
+      $,
+      requestGuid: this.requestGuid,
+    });
 
     $.export("$summary", `Retrieved request ${this.requestGuid} — status: ${request.status ?? "unknown"}`);
     return request;
