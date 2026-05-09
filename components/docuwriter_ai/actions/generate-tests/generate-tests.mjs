@@ -3,13 +3,13 @@ import docuwriterAi from "../../docuwriter_ai.app.mjs";
 export default {
   key: "docuwriter_ai-generate-tests",
   name: "Generate Code Tests",
-  description: "Generate unit or integration tests for a source code file. Consumes 1 credit per call. Requires workflow timeout of 5+ minutes for large files. [See the documentation](https://docs.docuwriter.ai/docuwriterai-api-docs/92068)",
-  version: "0.0.1",
+  description: "Generate unit or integration tests for a source code file. Consumes 1 Docuwriter credit. Requires workflow timeout of 5+ minutes for large files. [See the documentation](https://docs.docuwriter.ai/docuwriterai-api-docs/92068)",
+  version: "0.0.2",
   type: "action",
   annotations: {
-    readOnlyHint: false,
-    openWorldHint: true,
     destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
   },
   props: {
     docuwriterAi,
@@ -28,25 +28,29 @@ export default {
     testFramework: {
       type: "string",
       label: "Test Framework",
-      description: "Optional hint for the test framework (e.g., `phpunit`, `jest`). Defaults to auto-detect.",
+      description: "The test framework to use (e.g., `PHPUnit`, `Jest`, `Pytest`)",
       optional: true,
     },
     testType: {
       type: "string",
       label: "Test Type",
-      description: "Optional hint for the type of tests to generate (e.g., `unit tests`, `integration tests`). Defaults to `unit tests`.",
+      description: "The type of tests to generate (e.g., `unit`, `integration`)",
+      optional: true,
+    },
+    name: {
+      type: "string",
+      label: "Name",
+      description: "Optional custom name for this generation (max 255 chars).",
       optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.docuwriterAi.generateCodeTests({
-      $,
-      data: {
-        source_code: this.sourceCode,
-        filename: this.filename,
-        test_framework: this.testFramework,
-        test_type: this.testType,
-      },
+    const response = await this.docuwriterAi.generateTests($, {
+      source_code: this.sourceCode,
+      filename: this.filename,
+      test_framework: this.testFramework,
+      test_type: this.testType,
+      name: this.name,
     });
     $.export("$summary", `Tests generated for ${this.filename}`);
     return response;

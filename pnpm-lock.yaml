@@ -10,7 +10,7 @@ overrides:
   form-data@^4: 4.0.4
   sha.js: 2.4.12
   protobufjs@7.2.4: 7.2.6
-  vm2: 3.10.0
+  vm2: 3.11.2
   xmldom: npm:@xmldom/xmldom@0.8.11
   axios@0.x: ^0.31.1
   axios@1.x: ^1.15.2
@@ -3947,7 +3947,14 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/databricks_oauth: {}
+  components/databricks_oauth:
+    dependencies:
+      '@pipedream/databricks':
+        specifier: ^0.5.1
+        version: 0.5.1
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
 
   components/datadog:
     dependencies:
@@ -4519,7 +4526,7 @@ importers:
     dependencies:
       '@pipedream/platform':
         specifier: ^3.0.3
-        version: 3.3.0
+        version: 3.3.1
 
   components/dokan: {}
 
@@ -5239,6 +5246,9 @@ importers:
         version: 1.6.8
 
   components/exact_mails: {}
+
+  components/excalidraw:
+    specifiers: {}
 
   components/exhibitday:
     dependencies:
@@ -9155,6 +9165,9 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/luma:
+    specifiers: {}
+
   components/lumin_pdf:
     dependencies:
       '@pipedream/platform':
@@ -12833,6 +12846,9 @@ importers:
       '@pipedream/platform':
         specifier: ^1.6.8
         version: 1.6.8
+
+  components/read_ai:
+    specifiers: {}
 
   components/readwise:
     dependencies:
@@ -21899,6 +21915,9 @@ packages:
 
   '@pipedream/clio@0.1.1':
     resolution: {integrity: sha512-IbnvVIWiAjS6P03WmDkLLnKxFwM+WgjwZZ6TmEbYmyX9zUDfVbohnniqdAcJh++pH2GcCS8aCOVNBosjwKzJbQ==}
+
+  '@pipedream/databricks@0.5.1':
+    resolution: {integrity: sha512-w4gL0IRvpJJlP6t/hkXarhr//Q52jXTOPxPK+FU0VWkN2t0EWPSOZDFFyEnPpwGjtHb0b96RrOyFbdr/qb1+xg==}
 
   '@pipedream/docusign@0.2.2':
     resolution: {integrity: sha512-nwyW+rjoT94827wGXkV9jZpdCNGeSJsZfa00p5e1rYOpQ91hqfQJIUe0s84R6gOPGsI6rtn7pAbfrOoz0cRELg==}
@@ -40838,9 +40857,15 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
+  '@pipedream/databricks@0.5.1':
+    dependencies:
+      '@pipedream/platform': 3.4.0
+    transitivePeerDependencies:
+      - debug
+
   '@pipedream/docusign@0.2.2':
     dependencies:
-      '@pipedream/platform': 3.3.1
+      '@pipedream/platform': 3.4.0
     transitivePeerDependencies:
       - debug
 
@@ -41703,7 +41728,6 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
-      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.60(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1))(rollup@4.53.2)':
     dependencies:

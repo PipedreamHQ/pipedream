@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/databricks_oauth",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Databricks (OAuth - Service Principal) Components",
   "main": "databricks_oauth.app.mjs",
   "keywords": [
@@ -11,5 +11,9 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/databricks": "^0.5.1",
+    "@pipedream/platform": "^3.4.0"
   }
 }
