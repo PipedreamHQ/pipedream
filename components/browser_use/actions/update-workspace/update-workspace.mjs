@@ -26,7 +26,6 @@ export default {
       type: "string",
       label: "Name",
       description: "Updated workspace name. Maximum length: `100` characters.",
-      optional: true,
     },
   },
   async run({ $ }) {
