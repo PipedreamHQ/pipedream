@@ -54,7 +54,6 @@ export default {
       label: "Content Type",
       description: "Content type to use for local file path uploads. Example: `text/csv`.",
       optional: true,
-      default: "application/octet-stream",
     },
     filesJson: {
       type: "string",
@@ -74,7 +73,7 @@ export default {
       }
       localFiles.push({
         name: metadata.name,
-        contentType: metadata.contentType ?? this.contentType,
+        contentType: this.contentType ?? metadata.contentType ?? "application/octet-stream",
         size: metadata.size,
         stream,
       });
