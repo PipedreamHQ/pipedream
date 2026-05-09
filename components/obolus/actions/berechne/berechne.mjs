@@ -15,7 +15,7 @@ export default {
   key: "obolus-berechne",
   name: "Calculate Net Salary",
   description: "Use this only for detailed net salary and payroll calculation for one country and one or two people. Inputs and outputs are country-polymorphic: the same field name can map to different tax, social security, or payroll concepts depending on the selected country and tax system. For comparing salary, tax, or net income across multiple countries, use Compare Salary Across Countries instead. [See the documentation](https://www.obolusfinanz.de/en/developers)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
