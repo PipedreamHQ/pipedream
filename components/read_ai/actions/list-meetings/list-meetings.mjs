@@ -8,7 +8,7 @@ export default {
     + " Use this to browse meeting history or to find a specific meeting before calling **Get Meeting** for full details."
     + " Supports date range filtering via Unix millisecond timestamps."
     + " Returns meeting metadata including ID, title, participants, platform (Zoom/Teams/Google Meet), start time, and duration."
-    + " The `nextCursor` field in the response can be passed to the `cursor` parameter to retrieve the next page."
+    + " When `has_more` is `true` in the response, pass the `id` of the last meeting in the `data` array to the `cursor` parameter to retrieve the next page."
     + " To convert a human date to Unix ms, multiply Unix seconds by 1000 (e.g. 7 days ago = `Date.now() - 7*24*60*60*1000`)."
     + " [See the documentation](https://support.read.ai/hc/en-us/articles/49381161088659-API-Reference)",
   version: "0.0.1",
@@ -29,7 +29,7 @@ export default {
     endTimeMs: {
       type: "integer",
       label: "End Time (ms)",
-      description: "Filter meetings that started at or before this Unix timestamp in milliseconds.",
+      description: "Filter meetings that started at or before this Unix timestamp in milliseconds. Example: `1700000000000`.",
       optional: true,
     },
     limit: {
