@@ -26,7 +26,9 @@ const PERSON_ADVANCED_FIELDS = [
       },
     ],
     default: "DE_STANDARD_EMPLOYEE_STATUTORY",
-    countries: ["DE"],
+    countries: [
+      "DE",
+    ],
   },
   {
     prop: "dePrivateHealthEmployeeContributionCt",
@@ -35,16 +37,21 @@ const PERSON_ADVANCED_FIELDS = [
     label: "German Private Health Contribution (minor units)",
     description: "Employee private health insurance contribution for the selected payroll period in minor units. Required when private health insurance is selected; leave empty or 0 for statutory GKV/PV.",
     optional: true,
-    countries: ["DE"],
+    countries: [
+      "DE",
+    ],
   },
   {
     prop: "deHealthExtraContributionPercent",
     apiKey: "de_health_extra_contribution_percent",
-    type: "number",
+    type: "string",
     label: "German Health Extra Contribution %",
     description: "German statutory health insurance Zusatzbeitrag as literal percent points, e.g. `2.5` for 2.5%. Do not enter `25`, `250`, basis points, or cents.",
-    default: 2.5,
-    countries: ["DE"],
+    default: "2.5",
+    parseAs: "number",
+    countries: [
+      "DE",
+    ],
   },
   {
     prop: "bundesland",
@@ -77,9 +84,10 @@ const PERSON_ADVANCED_FIELDS = [
   {
     prop: "kinderfreibetrag",
     apiKey: "Kinderfreibetrag",
-    type: "number",
+    type: "string",
     label: "Kinderfreibetrag",
     description: "Raw Obolus API field `Kinderfreibetrag` for the person's child allowance share. The meaning and valid range are country-specific.",
+    parseAs: "number",
   },
   {
     prop: "geldwerterVorteil",
@@ -131,7 +139,9 @@ function formatGermanPercentSuggestion(value) {
     return null;
   }
 
-  const divisor = value <= 100 ? 10 : 100;
+  const divisor = value <= 100
+    ? 10
+    : 100;
   const suggestion = value / divisor;
   if (suggestion <= 0 || suggestion > 10) {
     return null;
@@ -139,7 +149,8 @@ function formatGermanPercentSuggestion(value) {
 
   return Number.isInteger(suggestion)
     ? String(suggestion)
-    : suggestion.toFixed(2).replace(/0+$/, "").replace(/\.$/, "");
+    : suggestion.toFixed(2).replace(/0+$/, "")
+      .replace(/\.$/, "");
 }
 
 export function buildPersonAdvancedProps(prefix, labelPrefix, country) {
@@ -172,13 +183,15 @@ export function buildPersonAdvancedOverrides(ctx, prefix) {
     .reduce((overrides, field) => {
       const value = ctx[buildAdvancedPropName(prefix, field.prop)];
       if (value !== undefined && value !== null && value !== "") {
-        overrides[field.apiKey] = value;
+        overrides[field.apiKey] = field.parseAs === "number"
+          ? toNumber(value, field.label)
+          : value;
       }
       return overrides;
     }, {});
 }
 
-export function toMinorUnits(value, label, { optional = false } = {}) {
+export function toNumber(value, label, { optional = false } = {}) {
   if (value === undefined || value === null || value === "") {
     if (optional) {
       return undefined;
@@ -186,15 +199,28 @@ export function toMinorUnits(value, label, { optional = false } = {}) {
     throw new ConfigurationError(`${label} is required.`);
   }
 
-  if (!Number.isFinite(value)) {
+  const numericValue = Number(value);
+  if (!Number.isFinite(numericValue)) {
     throw new ConfigurationError(`${label} must be a valid number.`);
   }
 
-  if (value < 0) {
+  return numericValue;
+}
+
+export function toMinorUnits(value, label, { optional = false } = {}) {
+  const numericValue = toNumber(value, label, {
+    optional,
+  });
+
+  if (numericValue === undefined) {
+    return undefined;
+  }
+
+  if (numericValue < 0) {
     throw new ConfigurationError(`${label} must not be negative.`);
   }
 
-  return Math.round(value * 100);
+  return Math.round(numericValue * 100);
 }
 
 export function toPayrollPeriodMinorUnits(value, label, payrollPeriod, { optional = false } = {}) {
@@ -246,10 +272,19 @@ export function validateGermanPayrollInputs(person, label, country) {
     return;
   }
 
-  for (const [field, rawValue] of [
-    ["German Health Extra Contribution %", person.de_health_extra_contribution_percent],
-    ["Legacy KVZ", person.KVZ],
-  ]) {
+  for (const [
+    field,
+    rawValue,
+  ] of [
+      [
+        "German Health Extra Contribution %",
+        person.de_health_extra_contribution_percent,
+      ],
+      [
+        "Legacy KVZ",
+        person.KVZ,
+      ],
+    ]) {
     const value = Number(rawValue);
     const suggestion = formatGermanPercentSuggestion(value);
     if (suggestion) {

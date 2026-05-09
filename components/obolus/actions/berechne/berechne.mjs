@@ -1,14 +1,15 @@
 import { ConfigurationError } from "@pipedream/platform";
-import obolus from "../obolus.app.mjs";
+import obolus from "../../obolus.app.mjs";
 import {
   buildPersonAdvancedOverrides,
   buildPersonAdvancedProps,
   getGermanStandardEmployeeDefaults,
   setIfDefined,
   toMinorUnits,
+  toNumber,
   toPayrollPeriodMinorUnits,
   validateGermanPayrollInputs,
-} from "../common/utils.mjs";
+} from "../../common/utils.mjs";
 
 export default {
   key: "obolus-berechne",
@@ -56,7 +57,7 @@ export default {
       default: 1,
     },
     grossAnnual: {
-      type: "number",
+      type: "string",
       label: "Person 1 Annual Gross Salary",
       description: "Person 1 annual gross salary in major units, e.g. 60000. Use Compare Salary Across Countries instead when the task is to compare this salary across multiple countries.",
     },
@@ -95,7 +96,7 @@ export default {
     if (this.includeSecondPerson) {
       Object.assign(props, {
         secondGrossAnnual: {
-          type: "number",
+          type: "string",
           label: "Person 2 Annual Gross Salary",
           description: "Annual gross salary for the second person in major units.",
           optional: true,
@@ -121,7 +122,7 @@ export default {
 
     Object.assign(props, {
       globalFactor: {
-        type: "number",
+        type: "string",
         label: "Global Factor",
         description: "Advanced top-level factor field.",
         optional: true,
@@ -139,7 +140,7 @@ export default {
         optional: true,
       },
       childBenefit: {
-        type: "number",
+        type: "string",
         label: "Child Benefit",
         description: "Advanced top-level child benefit in major units.",
         optional: true,
@@ -253,16 +254,22 @@ export default {
       Personen: people,
     };
 
-    setIfDefined(payload, "Faktor", this.globalFactor);
+    setIfDefined(payload, "Faktor", toNumber(this.globalFactor, "Global Factor", {
+      optional: true,
+    }));
     setIfDefined(payload, "KinderFRB", this.childAllowanceFactor);
     setIfDefined(payload, "KinderPVA", this.childCountForCareInsurance);
-    setIfDefined(payload, "Kindergeld", toMinorUnits(this.childBenefit, "Child Benefit", { optional: true }));
+    setIfDefined(payload, "Kindergeld", toMinorUnits(this.childBenefit, "Child Benefit", {
+      optional: true,
+    }));
 
     const data = await this.obolus.calculateNetSalary({
       $,
       data: payload,
     });
-    const scope = people.length === 1 ? "1 person" : "2 persons";
+    const scope = people.length === 1
+      ? "1 person"
+      : "2 persons";
 
     $.export("$summary", `Calculated net salary for ${payload.Land} (${payload.Stjahr}) for ${scope}.`);
 

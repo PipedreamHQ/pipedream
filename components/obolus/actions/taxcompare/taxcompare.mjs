@@ -1,5 +1,6 @@
 import { ConfigurationError } from "@pipedream/platform";
-import obolus from "../obolus.app.mjs";
+import obolus from "../../obolus.app.mjs";
+import { toNumber } from "../../common/utils.mjs";
 
 export default {
   key: "obolus-taxcompare",
@@ -25,7 +26,7 @@ export default {
       default: "shared_gross",
     },
     annualGross: {
-      type: "number",
+      type: "string",
       label: "Annual Gross Salary",
       description: "Shared annual gross salary to compare across the selected countries, in major currency units, e.g. `60000` for EUR 60,000. Do not enter cents. Required for `shared_gross`; ignored for `local_median_gross`.",
       optional: true,
@@ -104,20 +105,22 @@ export default {
     const requestOverrides = this.obolus.parseJsonObject(this.requestOverrides, "JSON Overrides");
     const effectiveAnnualGross = this.annualGross ?? requestOverrides.annual_gross;
     const effectiveChildren = this.children ?? requestOverrides.children;
+    const annualGross = toNumber(effectiveAnnualGross, "Annual Gross Salary", {
+      optional: true,
+    });
+    const children = effectiveChildren === undefined || effectiveChildren === null || effectiveChildren === ""
+      ? undefined
+      : Number(effectiveChildren);
 
-    if (effectiveAnnualGross !== undefined && !Number.isFinite(effectiveAnnualGross)) {
-      throw new ConfigurationError("Annual Gross Salary must be a valid number.");
-    }
-
-    if (effectiveAnnualGross !== undefined && effectiveAnnualGross < 0) {
+    if (annualGross !== undefined && annualGross < 0) {
       throw new ConfigurationError("Annual Gross Salary must not be negative.");
     }
 
-    if (this.grossMode !== "local_median_gross" && effectiveAnnualGross === undefined) {
+    if (this.grossMode !== "local_median_gross" && annualGross === undefined) {
       throw new ConfigurationError("Annual Gross Salary is required unless Gross Mode is local_median_gross.");
     }
 
-    if (effectiveChildren !== undefined && (!Number.isInteger(effectiveChildren) || effectiveChildren < 0)) {
+    if (children !== undefined && (!Number.isInteger(children) || children < 0)) {
       throw new ConfigurationError("Children must be a non-negative integer.");
     }
 
@@ -129,14 +132,14 @@ export default {
       ...requestOverrides,
     };
 
-    if (effectiveAnnualGross !== undefined) {
-      payload.annual_gross = effectiveAnnualGross;
+    if (annualGross !== undefined) {
+      payload.annual_gross = annualGross;
     }
     if (this.jointAssessment !== undefined) {
       payload.joint_assessment = this.jointAssessment;
     }
-    if (effectiveChildren !== undefined) {
-      payload.children = effectiveChildren;
+    if (children !== undefined) {
+      payload.children = children;
     }
 
     const data = await this.obolus.compareSalaryAcrossCountries({
