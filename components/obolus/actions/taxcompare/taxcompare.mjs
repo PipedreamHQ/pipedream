@@ -6,7 +6,7 @@ export default {
   key: "obolus-taxcompare",
   name: "Compare Salary Across Countries",
   description: "Use this when the user asks to compare salary, net income, tax burden, or social contributions across multiple countries. This is the default action for prompts like \"compare a EUR 50,000 salary in Germany, Ireland, the United States, and Canada\". Do not use Calculate Net Salary for multi-country comparisons unless the user asks for detailed payroll in one specific country. [See the documentation](https://www.obolusfinanz.de/en/developers)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
