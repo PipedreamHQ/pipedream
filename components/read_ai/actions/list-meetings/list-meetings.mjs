@@ -21,13 +21,13 @@ export default {
   props: {
     app,
     startTimeMs: {
-      type: "string",
+      type: "integer",
       label: "Start Time (ms)",
       description: "Filter meetings that started at or after this Unix timestamp in milliseconds. Example: `1700000000000` for a fixed date, or compute relative times like 7 days ago.",
       optional: true,
     },
     endTimeMs: {
-      type: "string",
+      type: "integer",
       label: "End Time (ms)",
       description: "Filter meetings that started at or before this Unix timestamp in milliseconds.",
       optional: true,
@@ -48,12 +48,8 @@ export default {
   async run({ $ }) {
     const response = await this.app.listMeetings({
       $,
-      startTimeMs: this.startTimeMs
-        ? Number(this.startTimeMs)
-        : undefined,
-      endTimeMs: this.endTimeMs
-        ? Number(this.endTimeMs)
-        : undefined,
+      startTimeMs: this.startTimeMs,
+      endTimeMs: this.endTimeMs,
       limit: this.limit,
       cursor: this.cursor,
     });
