@@ -75,10 +75,12 @@ export default {
         title: this.jobTitle,
         criteria: this.criteriaGuid,
       },
-      webhook: {
-        url: this.webhookUrl || "",
-        method: this.webhookMethod || "POST",
-      },
+      ...(this.webhookUrl && {
+        webhook: {
+          url: this.webhookUrl,
+          method: this.webhookMethod || "POST",
+        },
+      }),
     };
 
     let response;
