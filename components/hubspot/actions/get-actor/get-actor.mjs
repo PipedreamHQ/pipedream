@@ -19,7 +19,7 @@ export default {
         "senderActorId",
       ],
       label: "Actor",
-      description: "Pick a HubSpot owner from the dropdown, or enter a custom expression with a fully-qualified actor ID (e.g. `A-12345` for owner, `I-67890` for integration, `B-11111` for bot, `S-...` for system, `V-...` for visitor). Owner IDs without a type prefix are auto-prefixed with `A-`. These IDs typically appear in a message's `senders[].actorId` field.",
+      description: "Pick a HubSpot owner from the dropdown, or enter a custom expression with a fully-qualified actor ID (e.g. `A-12345` for owner/agent, `I-67890` for integration, `B-11111` for bot, `S-...` for system, `V-...` for visitor, `E-...` for email, `L-...` for LLM). Owner IDs without a type prefix are auto-prefixed with `A-`. These IDs typically appear in a message's `senders[].actorId` field.",
     },
   },
   async run({ $ }) {
