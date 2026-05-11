@@ -160,5 +160,13 @@ export default {
         },
       );
     },
+    async createCheckout(params = {}) {
+      const client = this._getClient();
+      try {
+        return await client.checkouts.create(params);
+      } finally {
+        if (client.close) await client.close();
+      }
+    },
   },
 };
