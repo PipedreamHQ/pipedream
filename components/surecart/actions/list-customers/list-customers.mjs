@@ -20,10 +20,10 @@ export default {
       optional: true,
     },
     ids: {
-      type: "string[]",
-      label: "IDs",
-      description: "Filter by specific IDs. Example: `[\"id_abc123\", \"id_def456\"]`",
-      optional: true,
+      propDefinition: [
+        surecart,
+        "ids",
+      ],
     },
     licenseIds: {
       type: "string[]",
@@ -32,22 +32,22 @@ export default {
       optional: true,
     },
     limit: {
-      type: "integer",
-      label: "Limit",
-      description: "Number of results to return per page (1-100). Example: `25`",
-      optional: true,
+      propDefinition: [
+        surecart,
+        "limit",
+      ],
     },
     liveMode: {
-      type: "boolean",
-      label: "Live Mode",
-      description: "Filter by live mode (`true`) or test mode (`false`).",
-      optional: true,
+      propDefinition: [
+        surecart,
+        "liveMode",
+      ],
     },
     page: {
-      type: "integer",
-      label: "Page",
-      description: "Page number for pagination. Example: `1`",
-      optional: true,
+      propDefinition: [
+        surecart,
+        "page",
+      ],
     },
     query: {
       type: "string",

@@ -50,7 +50,7 @@ export default {
       return {
         id: body.id,
         summary: `New ${body.type} event`,
-        ts: body.created_at,
+        ts: (body.created_at || Date.now() / 1000) * 1000,
       };
     },
   },

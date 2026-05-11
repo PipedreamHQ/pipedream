@@ -82,7 +82,7 @@ export default {
     status: {
       type: "string[]",
       label: "Status",
-      description: "Filter subscriptions by status.",
+      description: "Filter subscriptions by status. Example: `[\"active\",\"canceled\"]`",
       optional: true,
       options: [
         "incomplete",
