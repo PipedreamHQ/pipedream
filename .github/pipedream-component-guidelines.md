@@ -49,8 +49,9 @@ values are **semantically correct**, not whether properties exist.
 
 ## Versioning
 
-Every component has a `version` field that must be incremented on every change. New
-components always start at `0.0.1`. Follow semantic versioning:
+Every component has a `version` field that must be incremented whenever the component's
+own behavior, interface, or implementation changes. New components always start at
+`0.0.1`. Follow semantic versioning:
 
 | Change type | Version segment | Examples |
 |---|---|---|
@@ -61,6 +62,20 @@ components always start at `0.0.1`. Follow semantic versioning:
 The app's `package.json` must also be bumped by the same or greater segment whenever a
 component in that app changes — patch for patch, minor for minor (or higher), major for
 major (or higher).
+
+### CI version check and false positives
+
+A CI workflow flags components whose files — or whose shared dependency files — were
+modified without a corresponding version bump. This check is **advisory**: it is not
+required to pass for a PR to merge.
+
+The check can produce false positives. For example, adding a new constant to a shared
+constants file does not affect existing consumers, so those components do not strictly
+need a version bump. In cases like this, a **patch bump is always acceptable** as a
+way to satisfy the workflow — reviewers should not block a PR solely because a component
+received a patch bump that was not otherwise necessary. Conversely, do not require
+authors to bump versions for components that are only transitively touched by a
+non-behavioral shared-file change; the CI warning is informational in those cases.
 
 ---
 
