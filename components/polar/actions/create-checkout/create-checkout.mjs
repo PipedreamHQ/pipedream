@@ -3,7 +3,7 @@ import app from "../../polar.app.mjs";
 export default {
   key: "polar-create-checkout",
   name: "Create Checkout",
-  description: "Create a checkout session for one or more products. [See the API docs](https://polar.sh/docs/api-reference/checkouts/create)",
+  description: "Create a checkout session for one or more products. [See the documentation](https://polar.sh/docs/api-reference/checkouts/create)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -16,7 +16,7 @@ export default {
     products: {
       type: "string[]",
       label: "Products",
-      description: "List of product IDs available to select at checkout. The first product is selected by default.",
+      description: "List of product IDs available to select at checkout. Example: `[\"prod_123\", \"prod_456\"]`. The first product is selected by default.",
     },
     customerId: {
       propDefinition: [
@@ -39,7 +39,7 @@ export default {
     externalCustomerId: {
       type: "string",
       label: "External Customer ID",
-      description: "Customer ID from your system. If a matching Polar customer exists, the order is linked to it.",
+      description: "Customer ID from your system. Example: `crm_cust_98765`. If a matching Polar customer exists, the order is linked to it.",
       optional: true,
     },
     successUrl: {
@@ -69,12 +69,13 @@ export default {
     metadata: {
       type: "object",
       label: "Metadata",
-      description: "Additional key-value data copied to the resulting order or subscription. Example: `{ \"source\": \"pipedream\", \"campaign\": \"spring_launch\" }`.",
+      description: "Additional key-value data copied to the resulting order or subscription. Example: `{ \"orderId\": \"12345\", \"campaignId\": \"summer-sale\" }`.",
       optional: true,
     },
   },
   async run({ $ }) {
     const checkout = await this.app.createCheckout({
+      $,
       products: this.products,
       customerId: this.customerId,
       customerEmail: this.customerEmail,
