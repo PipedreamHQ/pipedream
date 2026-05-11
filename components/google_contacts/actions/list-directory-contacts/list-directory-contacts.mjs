@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "google_contacts-list-directory-contacts",
   name: "List Directory Contacts",
-  description: "Lists all contacts in the authenticated user's directory. [See the documentation](https://developers.google.com/people/api/rest/v1/people/listDirectoryPeople)",
+  description: "Lists contacts from the Google Workspace directory (domain contacts). Use this to search directory profiles and domain shared contacts, as opposed to the user's personal contacts. Requires directory.readonly OAuth scope. Returns names, email addresses, phone numbers, and other fields specified in the read mask. [See the documentation](https://developers.google.com/people/api/rest/v1/people/listDirectoryPeople)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
