@@ -160,12 +160,14 @@ export default {
         },
       );
     },
-    async createCheckout({
-      $, ...params
-    } = {}) {
+    async createCheckout(params = {}) {
+      const checkoutParams = {
+        ...params,
+      };
+      delete checkoutParams.$;
       const client = this._getClient();
       try {
-        return await client.checkouts.create(params);
+        return await client.checkouts.create(checkoutParams);
       } finally {
         if (client.close) await client.close();
       }
