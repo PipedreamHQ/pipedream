@@ -37,6 +37,7 @@ export default {
       await this.surecart.deleteWebhook({
         webhookId,
       });
+      this._setWebhookId(null);
     },
   },
   methods: {
