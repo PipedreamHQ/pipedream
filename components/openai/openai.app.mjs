@@ -28,6 +28,15 @@ export default {
       },
       default: "gpt-5-mini",
     },
+    responsesModelId: {
+      label: "Model",
+      description: "The ID of the vision-capable model to use with the Responses API (e.g. `gpt-4o`, `gpt-4.1`, `gpt-4.1-mini`, `gpt-5`)",
+      type: "string",
+      async options() {
+        return (await this.getChatCompletionModels({})).map((model) => model.id);
+      },
+      default: "gpt-4o",
+    },
     embeddingsModelId: {
       label: "Model",
       description: "The ID of the embeddings model to use. OpenAI recommends using `text-embedding-ada-002` for nearly all use cases: \"It's better, cheaper, and simpler to use. [Read the blog post announcement](https://openai.com/blog/new-and-improved-embedding-model)\".",
