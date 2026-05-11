@@ -19,7 +19,8 @@ export default {
           : `${q} and ${searchQuery}`;
       } else {
         if (nameSearchTerm) {
-          const nameQuery = `name contains '${nameSearchTerm}'`;
+          const escapedTerm = nameSearchTerm.replace(/\\/g, "\\\\").replace(/'/g, "\\'");
+          const nameQuery = `name contains '${escapedTerm}'`;
           q = q
             ? `${q} and ${nameQuery}`
             : nameQuery;

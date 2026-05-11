@@ -8,7 +8,7 @@ export default {
   name: "Create Subitem",
   description: "Creates a subitem. [See the documentation](https://developer.monday.com/api-reference/reference/subitems#create-a-subitem)",
   type: "action",
-  version: "0.1.5",
+  version: "0.1.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
