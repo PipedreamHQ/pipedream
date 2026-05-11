@@ -4,7 +4,7 @@ export default {
   key: "jira-list-board-issues",
   name: "List Board Issues",
   description: "Returns all issues from a board, for the given board ID. [See the documentation](https://developer.atlassian.com/cloud/jira/software/rest/api-group-board/#api-rest-agile-1-0-board-boardid-issue-get)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
