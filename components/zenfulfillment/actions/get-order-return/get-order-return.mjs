@@ -4,7 +4,7 @@ export default {
   key: "zenfulfillment-get-order-return",
   name: "Get Order Return",
   description: "Get an order return by ID. [See the documentation](https://partner.alaiko.com/docs#tag/OrderReturn/operation/api_partnerorder-return_id_get)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
