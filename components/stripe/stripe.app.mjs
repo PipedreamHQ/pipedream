@@ -538,6 +538,13 @@ export default {
       description: "A cursor for use in pagination. **Starting After** is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include `starting_after=obj_foo` in order to fetch the next page of the list.",
       optional: true,
     },
+    returnPaginationInfo: {
+      type: "boolean",
+      label: "Return Pagination Info",
+      description: "If `true`, returns `{ data, has_more, next_starting_after }` instead of a plain array. Use this to paginate: pass the returned `next_starting_after` value as `Starting After` on the next call to fetch the next page. Default `false` returns an auto-paginated array.",
+      optional: true,
+      default: false,
+    },
     addressCity: {
       type: "string",
       label: "Address - City",
@@ -619,6 +626,44 @@ export default {
     },
     getProducts(args = {}) {
       return this.sdk().products.list(args);
+    },
+    /**
+     * Centralized pagination helper for Stripe list endpoints.
+     *
+     * - Default mode: backwards-compatible auto-paginated array. Uses the
+     *   Stripe SDK's `autoPagingToArray` to gather up to `limit` items
+     *   across pages.
+     * - Pagination-info mode (`returnPaginationInfo: true`): returns one
+     *   Stripe page along with the API's native `has_more` and a derived
+     *   `next_starting_after` cursor. Stripe enforces a max page size of
+     *   100, so `limit` is clamped accordingly.
+     */
+    async paginate({
+      collection,
+      params = {},
+      limit,
+      returnPaginationInfo = false,
+    }) {
+      if (returnPaginationInfo) {
+        const pageLimit = Math.min(limit ?? 100, 100);
+        const resp = await this.sdk()[collection].list({
+          ...params,
+          limit: pageLimit,
+        });
+        const data = resp.data;
+        return {
+          data,
+          has_more: resp.has_more,
+          next_starting_after: resp.has_more
+            ? data[data.length - 1]?.id
+            : null,
+        };
+      }
+
+      return this.sdk()[collection].list(params)
+        .autoPagingToArray({
+          limit,
+        });
     },
   },
 };

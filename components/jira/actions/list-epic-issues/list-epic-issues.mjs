@@ -5,7 +5,7 @@ export default {
   key: "jira-list-epic-issues",
   name: "List Epic Issues",
   description: "Returns all issues that belong to an epic on the given board. [See the documentation](https://developer.atlassian.com/cloud/jira/software/rest/api-group-board/#api-rest-agile-1-0-board-boardid-epic-epicid-issue-get)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -128,5 +128,12 @@ export default {
         ...opts,
       });
     },
+    createOrRetrieveReturnLabel(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/return-label",
+        ...opts,
+      });
+    },
   },
 };
