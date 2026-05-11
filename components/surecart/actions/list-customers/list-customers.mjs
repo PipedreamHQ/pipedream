@@ -58,7 +58,7 @@ export default {
     sort: {
       type: "string",
       label: "Sort",
-      description: "Sort results by the specified field.",
+      description: "Sort results by the specified field. Example: `created_at`",
       optional: true,
       options: [
         "created_at",

@@ -31,6 +31,9 @@ export default {
     },
     async deactivate() {
       const webhookId = this._getWebhookId();
+      if (!webhookId) {
+        return;
+      }
       await this.surecart.deleteWebhook({
         webhookId,
       });

@@ -3,7 +3,7 @@ import common from "../common/base-webhook.mjs";
 export default {
   ...common,
   key: "surecart-fulfillment-updated",
-  name: "Fulfillment Updated (Instant)",
+  name: "New Fulfillment Updated (Instant)",
   description: "Emit new event when a fulfillment is updated. [See the documentation](https://developer.surecart.com/api-reference/webhook-endpoints/create)",
   version: "0.0.1",
   type: "source",

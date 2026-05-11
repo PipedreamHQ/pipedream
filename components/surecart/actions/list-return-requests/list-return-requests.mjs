@@ -41,7 +41,7 @@ export default {
     status: {
       type: "string[]",
       label: "Status",
-      description: "Filter return requests by status.",
+      description: "Filter return requests by status. Valid values: `open`, `complete`. Example: `[\"open\"]` or `[\"open\",\"complete\"]`",
       optional: true,
       options: [
         "open",

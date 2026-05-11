@@ -3,7 +3,7 @@ import common from "../common/base-webhook.mjs";
 export default {
   ...common,
   key: "surecart-invoice-opened",
-  name: "Invoice Opened (Instant)",
+  name: "New Invoice Opened (Instant)",
   description: "Emit new event when an invoice is opened. [See the documentation](https://developer.surecart.com/api-reference/webhook-endpoints/create)",
   version: "0.0.1",
   type: "source",

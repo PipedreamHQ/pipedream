@@ -94,6 +94,30 @@ export default {
       label: "Tracking ID",
       description: "The unique identifier of the tracking record. Use **List Trackings** to retrieve a list of available tracking records.",
     },
+    ids: {
+      type: "string[]",
+      label: "IDs",
+      description: "Filter by specific IDs. Example: `[\"id_abc123\", \"id_def456\"]`",
+      optional: true,
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "Number of results to return per page (1-100). Example: `25`",
+      optional: true,
+    },
+    liveMode: {
+      type: "boolean",
+      label: "Live Mode",
+      description: "Filter by live mode (`true`) or test mode (`false`).",
+      optional: true,
+    },
+    page: {
+      type: "integer",
+      label: "Page",
+      description: "Page number for pagination. Example: `1`",
+      optional: true,
+    },
   },
   methods: {
     _baseUrl() {

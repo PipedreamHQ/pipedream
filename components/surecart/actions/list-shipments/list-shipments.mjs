@@ -40,7 +40,7 @@ export default {
     status: {
       type: "string[]",
       label: "Status",
-      description: "Filter shipments by status.",
+      description: "Filter shipments by status. Valid values: `draft`, `quoted`, `purchased`, `voided`. Example: `[\"draft\"]`",
       optional: true,
       options: [
         "draft",

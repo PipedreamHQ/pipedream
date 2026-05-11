@@ -115,7 +115,7 @@ export default {
       $,
       params: {
         "checkout_ids[]": this.checkoutIds,
-        "created_at": (this.createdAtGt || this.createdAtGte || this.createdAtLt || this.createdAtLte)
+        "created_at": (this.createdAtGt !== undefined || this.createdAtGte !== undefined || this.createdAtLt !== undefined || this.createdAtLte !== undefined)
           ? {
             gt: this.createdAtGt,
             gte: this.createdAtGte,
