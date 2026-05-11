@@ -69,6 +69,15 @@ major (or higher).
 All prop names, method names, and local variables must use **camelCase**. This applies
 throughout component files and app files alike.
 
+Module-level constants (values that are fixed at import time and reused across the file)
+must use **`UPPER_SNAKE_CASE`**:
+
+```javascript
+const DEFAULT_LIMIT = 100;
+const MAX_RETRIES = 3;
+const EVENT_TYPES = Object.freeze(["created", "updated", "deleted"]);
+```
+
 The only exception is API request parameters — use whatever casing the API itself
 requires (often `snake_case` or `PascalCase`). Map prop values to API parameter names
 at the point of the request:

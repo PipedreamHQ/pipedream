@@ -27,8 +27,9 @@ reviews:
           or where the bump level seems inconsistent with the scope of the change
         - Verify the app's `package.json` version is also bumped by the same or greater
           semver segment as the component change
-        - All prop names, method names, and local variables must use camelCase; API request
-          parameter names follow the API's own convention and are the only exception
+        - All prop names, method names, and local variables must use camelCase; module-level
+          constants use UPPER_SNAKE_CASE; API request parameter names follow the API's own
+          convention and are the only exception
         - Props used in more than one component must be defined in the app file's
           `propDefinitions` and referenced via `propDefinition` — flag any inline prop
           definition that duplicates one already in the app file
