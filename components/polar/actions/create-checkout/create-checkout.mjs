@@ -69,7 +69,7 @@ export default {
     metadata: {
       type: "object",
       label: "Metadata",
-      description: "Additional key-value data copied to the resulting order or subscription.",
+      description: "Additional key-value data copied to the resulting order or subscription. Example: `{ \"source\": \"pipedream\", \"campaign\": \"spring_launch\" }`.",
       optional: true,
     },
   },
