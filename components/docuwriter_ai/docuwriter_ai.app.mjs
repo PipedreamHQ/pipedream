@@ -29,61 +29,53 @@ export default {
       return {
         "Authorization": `Bearer ${this.$auth.api_token}`,
         "Content-Type": "application/json",
-        "Accept": "application/json",
       };
     },
-    _makeRequest({
-      $ = this, path, headers, ...opts
-    } = {}) {
+    async _makeRequest($, opts = {}) {
       return axios($, {
         ...opts,
-        url: `${this._baseUrl()}${path}`,
-        headers: {
-          ...this._headers(),
-          ...headers,
-        },
+        url: `${this._baseUrl()}${opts.path}`,
+        headers: this._headers(),
       });
     },
-    generateCodeOptimization(opts = {}) {
-      return this._makeRequest({
+    async makeGenerationRequest($, {
+      endpoint, data,
+    }) {
+      return this._makeRequest($, {
         method: "POST",
-        path: "/generate-code-optimization",
-        ...opts,
+        path: endpoint,
+        data,
       });
     },
-    generateCodeDocumentation(opts = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/generate-code-documentation",
-        ...opts,
-      });
-    },
-    generateCodeTests(opts = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/generate-code-tests",
-        ...opts,
-      });
-    },
-    generateSwaggerApi(opts = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/generate-swagger-api",
-        ...opts,
-      });
-    },
-    generateUmlDiagram(opts = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/generate-uml-diagram",
-        ...opts,
-      });
-    },
-    listGenerations(opts = {}) {
-      return this._makeRequest({
+    async listGenerations($, params = {}) {
+      return this._makeRequest($, {
         method: "GET",
         path: "/generations",
-        ...opts,
+        params,
+      });
+    },
+    async generateCodeOptimization($, data) {
+      return this.makeGenerationRequest($, {
+        endpoint: "/generate-code-optimization",
+        data,
+      });
+    },
+    async generateDocumentation($, data) {
+      return this.makeGenerationRequest($, {
+        endpoint: "/generate-code-documentation",
+        data,
+      });
+    },
+    async generateTests($, data) {
+      return this.makeGenerationRequest($, {
+        endpoint: "/generate-code-tests",
+        data,
+      });
+    },
+    async generateUmlDiagram($, data) {
+      return this.makeGenerationRequest($, {
+        endpoint: "/generate-uml-diagram",
+        data,
       });
     },
   },
