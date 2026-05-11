@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/read_ai",
+  "version": "0.0.1",
+  "description": "Pipedream Read AI Components",
+  "main": "read_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "read_ai"
+  ],
+  "homepage": "https://pipedream.com/apps/read_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
