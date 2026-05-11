@@ -3,13 +3,13 @@ import docuwriterAi from "../../docuwriter_ai.app.mjs";
 export default {
   key: "docuwriter_ai-generate-uml-diagram",
   name: "Generate UML Diagram",
-  description: "Generate a UML diagram from source code using Mermaid syntax. Consumes 1 credit per call. Requires workflow timeout of 5+ minutes for large files. [See the documentation](https://docs.docuwriter.ai/docuwriterai-api-docs/92070)",
-  version: "0.0.1",
+  description: "Generate a UML diagram from source code using Mermaid syntax. Consumes 1 Docuwriter credit. Requires workflow timeout of 5+ minutes for large files. [See the documentation](https://docs.docuwriter.ai/docuwriterai-api-docs/92070)",
+  version: "0.0.2",
   type: "action",
   annotations: {
-    readOnlyHint: false,
-    openWorldHint: true,
     destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
   },
   props: {
     docuwriterAi,
@@ -28,7 +28,7 @@ export default {
     diagramType: {
       type: "string",
       label: "Diagram Type",
-      description: "The type of UML diagram to generate",
+      description: "UML diagram type to generate (e.g., `Class Diagrams`, `Sequence Diagrams`, `Activity Diagrams`)",
       options: [
         "Class Diagrams",
         "Sequence Diagrams",
@@ -39,15 +39,19 @@ export default {
         "Object Diagrams",
       ],
     },
+    name: {
+      type: "string",
+      label: "Name",
+      description: "Optional display name (max 255 chars).",
+      optional: true,
+    },
   },
   async run({ $ }) {
-    const response = await this.docuwriterAi.generateUmlDiagram({
-      $,
-      data: {
-        source_code: this.sourceCode,
-        filename: this.filename,
-        diagram_type: this.diagramType,
-      },
+    const response = await this.docuwriterAi.generateUmlDiagram($, {
+      source_code: this.sourceCode,
+      filename: this.filename,
+      diagram_type: this.diagramType,
+      name: this.name,
     });
     $.export("$summary", `${this.diagramType} generated for ${this.filename}`);
     return response;

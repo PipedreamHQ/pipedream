@@ -5,7 +5,7 @@ export default {
   key: "stripe-update-payment-intent",
   name: "Update a Payment Intent",
   type: "action",
-  version: "0.1.4",
+  version: "0.1.5",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
