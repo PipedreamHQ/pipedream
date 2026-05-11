@@ -7360,6 +7360,9 @@ importers:
 
   components/hiver: {}
 
+  components/hiver_omni:
+    specifiers: {}
+
   components/hogia: {}
 
   components/holded:
