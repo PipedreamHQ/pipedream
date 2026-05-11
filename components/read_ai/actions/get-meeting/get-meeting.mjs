@@ -15,7 +15,7 @@ export default {
     + " `include_topics` for identified subject areas;"
     + " `include_metrics` for speaker engagement data (talk time, interruptions);"
     + " `include_recording_download` for a presigned URL to download the meeting recording."
-    + " [See the documentation](https://support.read.ai/hc/en-us/articles/49381161088659-API-Reference)",
+    + " [See the documentation](https://support.read.ai/hc/en-us/articles/49381161088659-API-Reference#h_01KJ7HW2S95B1D9Z7BS88M3JBJ)",
   version: "0.0.1",
   type: "action",
   annotations: {
