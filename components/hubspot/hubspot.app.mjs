@@ -799,14 +799,17 @@ export default {
       label: "Thread ID",
       description: "The ID of a thread",
       async options({
-        prevContext, inboxId, channelId,
+        prevContext, inboxId, channelId, archived,
       }) {
         const { nextAfter } = prevContext;
         let {
           results, paging,
         } = await this.listThreads({
-          data: {
+          params: {
             after: nextAfter,
+            ...(archived && {
+              archived,
+            }),
           },
         });
         if (inboxId) {
@@ -2163,6 +2166,44 @@ export default {
         api: API_PATH.CONVERSATIONS,
         endpoint: `/conversations/threads/${threadId}/messages`,
         method: "POST",
+        ...opts,
+      });
+    },
+    getThread({
+      threadId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CONVERSATIONS,
+        endpoint: `/conversations/threads/${threadId}`,
+        ...opts,
+      });
+    },
+    updateThread({
+      threadId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CONVERSATIONS,
+        endpoint: `/conversations/threads/${threadId}`,
+        method: "PATCH",
+        ...opts,
+      });
+    },
+    getActor({
+      actorId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CONVERSATIONS,
+        endpoint: `/conversations/actors/${actorId}`,
+        ...opts,
+      });
+    },
+    archiveThread({
+      threadId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CONVERSATIONS,
+        endpoint: `/conversations/threads/${threadId}`,
+        method: "DELETE",
         ...opts,
       });
     },
