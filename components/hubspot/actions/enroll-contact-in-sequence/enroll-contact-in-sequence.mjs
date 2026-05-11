@@ -16,12 +16,12 @@ export default {
     userId: {
       type: "string",
       label: "User ID",
-      description: "The ID of the HubSpot user enrolling the contact in the sequence.",
+      description: "The ID of the HubSpot user enrolling the contact in the sequence. Example: `12345678`.",
     },
     sequenceId: {
       type: "string",
       label: "Sequence ID",
-      description: "The ID of the sequence to enroll the contact into.",
+      description: "The ID of the sequence to enroll the contact into. Example: `987654`.",
     },
     contactId: {
       propDefinition: [
@@ -37,7 +37,7 @@ export default {
     senderEmail: {
       type: "string",
       label: "Sender Email",
-      description: "The connected HubSpot email address used as the sequence sender.",
+      description: "The connected HubSpot email address used as the sequence sender. Example: `sales@example.com`.",
     },
     senderAliasAddress: {
       type: "string",
