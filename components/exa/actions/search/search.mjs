@@ -281,7 +281,7 @@ export default {
     });
     validateAdditionalQueries(this.type, this.additionalQueries);
 
-    const contents = omitUndefinedValues({
+    const contents = {
       text: buildTextConfig({
         enabled: this.contentsText,
         maxCharacters: this.contentsTextMaxCharacters,
@@ -311,7 +311,8 @@ export default {
         links: this.contentsExtrasLinks,
         imageLinks: this.contentsExtrasImageLinks,
       }),
-    });
+    };
+    const hasContents = Object.values(contents).some((value) => value !== undefined);
 
     const data = {
       query: this.query,
@@ -332,7 +333,7 @@ export default {
       additionalQueries: this.additionalQueries,
       userLocation: this.userLocation,
       context: this.context,
-      contents: Object.keys(contents).length > 0
+      contents: hasContents
         ? contents
         : undefined,
     };

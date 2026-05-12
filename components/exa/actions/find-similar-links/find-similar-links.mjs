@@ -269,7 +269,7 @@ export default {
       legacyLivecrawl: this.contentsLivecrawl,
     });
 
-    const contents = omitUndefinedValues({
+    const contents = {
       text: buildTextConfig({
         enabled: this.contentsText,
         maxCharacters: this.contentsTextMaxCharacters,
@@ -300,7 +300,8 @@ export default {
         imageLinks: this.contentsExtrasImageLinks,
       }),
       ...freshness,
-    });
+    };
+    const hasContents = Object.values(contents).some((value) => value !== undefined);
 
     const data = {
       url: this.url,
@@ -315,7 +316,7 @@ export default {
       includeText: this.includeText,
       excludeText: this.excludeText,
       moderation: this.moderation,
-      contents: Object.keys(contents).length > 0
+      contents: hasContents
         ? contents
         : undefined,
     };

@@ -2,11 +2,6 @@ import { ConfigurationError } from "@pipedream/platform";
 
 export const PEOPLE_INCLUDE_DOMAIN_REGEX = /(^|\.)linkedin\.[a-z.]+$/i;
 
-export function omitUndefinedValues(obj) {
-  return Object.fromEntries(Object.entries(obj)
-    .filter((entry) => entry[1] !== undefined));
-}
-
 export function parseOptionalJsonSchema(schema, label = "JSON schema") {
   if (schema === undefined) {
     return undefined;
@@ -31,13 +26,23 @@ export function buildTextConfig({
   includeSections,
   excludeSections,
 }) {
-  const textOptions = omitUndefinedValues({
-    maxCharacters,
-    includeHtmlTags,
-    verbosity,
-    includeSections,
-    excludeSections,
-  });
+  const textOptions = {};
+
+  if (maxCharacters !== undefined) {
+    textOptions.maxCharacters = maxCharacters;
+  }
+  if (includeHtmlTags !== undefined) {
+    textOptions.includeHtmlTags = includeHtmlTags;
+  }
+  if (verbosity !== undefined) {
+    textOptions.verbosity = verbosity;
+  }
+  if (includeSections !== undefined) {
+    textOptions.includeSections = includeSections;
+  }
+  if (excludeSections !== undefined) {
+    textOptions.excludeSections = excludeSections;
+  }
 
   if (Object.keys(textOptions).length > 0) {
     return textOptions;
@@ -52,10 +57,14 @@ export function buildHighlightsConfig({
   maxCharacters,
   legacyEnabled = false,
 }) {
-  const highlightOptions = omitUndefinedValues({
-    query,
-    maxCharacters,
-  });
+  const highlightOptions = {};
+
+  if (query !== undefined) {
+    highlightOptions.query = query;
+  }
+  if (maxCharacters !== undefined) {
+    highlightOptions.maxCharacters = maxCharacters;
+  }
 
   if (Object.keys(highlightOptions).length > 0) {
     return highlightOptions;
@@ -77,10 +86,14 @@ export function buildSummaryConfig({
   query,
   schema,
 }) {
-  const summaryOptions = omitUndefinedValues({
-    query,
-    schema,
-  });
+  const summaryOptions = {};
+
+  if (query !== undefined) {
+    summaryOptions.query = query;
+  }
+  if (schema !== undefined) {
+    summaryOptions.schema = schema;
+  }
 
   if (Object.keys(summaryOptions).length > 0) {
     return summaryOptions;
@@ -93,10 +106,14 @@ export function buildExtrasConfig({
   links,
   imageLinks,
 }) {
-  const extras = omitUndefinedValues({
-    links,
-    imageLinks,
-  });
+  const extras = {};
+
+  if (links !== undefined) {
+    extras.links = links;
+  }
+  if (imageLinks !== undefined) {
+    extras.imageLinks = imageLinks;
+  }
 
   if (Object.keys(extras).length === 0) {
     return undefined;
