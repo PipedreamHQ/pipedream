@@ -77,8 +77,11 @@ export default {
       const response = await this.googleContacts.listDirectoryContacts(client, params);
       return response;
     },
-    emitSummary($, contacts) {
-      $.export("$summary", `Successfully retrieved ${contacts.length} directory contacts`);
+    emitSummary($, response) {
+      const count = Array.isArray(response)
+        ? response.length
+        : (response?.people?.length ?? 0);
+      $.export("$summary", `Successfully retrieved ${count} directory contacts`);
     },
   },
 };
