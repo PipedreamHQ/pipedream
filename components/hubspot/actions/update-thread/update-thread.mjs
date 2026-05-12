@@ -54,7 +54,7 @@ export default {
         "senderActorId",
       ],
       label: "Assigned Owner",
-      description: "Pick a HubSpot owner from the dropdown, or enter a custom expression with a fully-qualified actor ID (e.g. `A-12345` for owner/agent, `I-67890` for integration, `B-11111` for bot, `S-...` for system, `E-...` for email, `L-...` for LLM). Owner IDs without a type prefix are auto-prefixed with `A-`.",
+      description: "HubSpot owner to assign the thread to. Accepts a fully-qualified actor ID (e.g. `A-12345` for owner/agent, `I-67890` for integration, `B-11111` for bot, `S-...` for system, `E-...` for email, `L-...` for LLM). Owner IDs without a type prefix are auto-prefixed with `A-`.",
       optional: true,
     },
   },
