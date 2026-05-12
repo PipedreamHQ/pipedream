@@ -3,7 +3,7 @@ import hubspot from "../../hubspot.app.mjs";
 export default {
   key: "hubspot-archive-thread",
   name: "Archive Thread",
-  description: "Archives a thread (soft delete). The thread is hidden from active views but can be restored via the HubSpot UI or by listing archived threads. [See the documentation](https://developers.hubspot.com/docs/api-reference/conversations-conversations-inbox-&-messages-v3/public-thread/delete-conversations-v3-conversations-threads-threadId)",
+  description: "Archives a thread (soft delete). The thread is hidden from active views but can be restored via the HubSpot UI or by listing archived threads. [See the documentation](https://developers.hubspot.com/docs/reference/api/conversations/inbox-and-messages#archive-threads)",
   version: "0.0.1",
   type: "action",
   annotations: {

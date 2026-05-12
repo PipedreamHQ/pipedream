@@ -4,7 +4,7 @@ import hubspot from "../../hubspot.app.mjs";
 export default {
   key: "hubspot-update-thread",
   name: "Update Thread",
-  description: "Updates an existing thread's status or assigned owner. At least one of those fields must be provided. To archive a thread, use the **Archive Thread** action instead — HubSpot's API does not support archiving via PATCH. [See the documentation](https://developers.hubspot.com/docs/api-reference/conversations-conversations-inbox-&-messages-v3/public-thread/patch-conversations-v3-conversations-threads-threadId)",
+  description: "Updates an existing thread's status or assigned owner. At least one of those fields must be provided. To archive a thread, use the **Archive Thread** action instead — HubSpot's API does not support archiving via PATCH. [See the documentation](https://developers.hubspot.com/docs/reference/api/conversations/inbox-and-messages#update-or-restore-threads)",
   version: "0.0.1",
   type: "action",
   annotations: {

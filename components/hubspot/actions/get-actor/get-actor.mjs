@@ -3,7 +3,7 @@ import hubspot from "../../hubspot.app.mjs";
 export default {
   key: "hubspot-get-actor",
   name: "Get Actor",
-  description: "Resolves an actor ID (e.g. the value returned by a message's `senders[].actorId` field) to its name, email, and type. [See the documentation](https://developers.hubspot.com/docs/api-reference/conversations-conversations-inbox-&-messages-v3/actors/get-conversations-v3-conversations-actors-actorId)",
+  description: "Resolves an actor ID (e.g. the value returned by a message's `senders[].actorId` field) to its name, email, and type. [See the documentation](https://developers.hubspot.com/docs/reference/api/conversations/inbox-and-messages#get-actors)",
   version: "0.0.1",
   type: "action",
   annotations: {
