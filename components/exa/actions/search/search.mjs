@@ -4,7 +4,6 @@ import {
   buildHighlightsConfig,
   buildSummaryConfig,
   buildTextConfig,
-  omitUndefinedValues,
   parseOptionalJsonSchema,
   validateAdditionalQueries,
   validateSearchCategoryConstraints,
@@ -314,7 +313,7 @@ export default {
       }),
     });
 
-    const data = omitUndefinedValues({
+    const data = {
       query: this.query,
       type: this.type,
       numResults: this.numResults,
@@ -336,7 +335,7 @@ export default {
       contents: Object.keys(contents).length > 0
         ? contents
         : undefined,
-    });
+    };
 
     const response = await this.app.search({
       $,

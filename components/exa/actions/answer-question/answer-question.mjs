@@ -1,6 +1,5 @@
 import app from "../../exa.app.mjs";
 import {
-  omitUndefinedValues,
   parseOptionalJsonSchema,
 } from "../../common/utils.mjs";
 
@@ -54,13 +53,13 @@ export default {
   async run({ $ }) {
     const response = await this.app.answer({
       $,
-      data: omitUndefinedValues({
+      data: {
         query: this.query,
         text: this.text,
         systemPrompt: this.systemPrompt,
         outputSchema: parseOptionalJsonSchema(this.outputSchema, "output schema"),
         userLocation: this.userLocation,
-      }),
+      },
     });
 
     $.export("$summary", "Successfully answered question.");

@@ -4,7 +4,6 @@ import {
   buildHighlightsConfig,
   buildSummaryConfig,
   buildTextConfig,
-  omitUndefinedValues,
   parseOptionalJsonSchema,
   resolveFreshnessParams,
 } from "../../common/utils.mjs";
@@ -303,7 +302,7 @@ export default {
       ...freshness,
     });
 
-    const data = omitUndefinedValues({
+    const data = {
       url: this.url,
       numResults: this.numResults,
       includeDomains: this.includeDomains,
@@ -319,7 +318,7 @@ export default {
       contents: Object.keys(contents).length > 0
         ? contents
         : undefined,
-    });
+    };
 
     const response = await this.app.findSimilar({
       $,

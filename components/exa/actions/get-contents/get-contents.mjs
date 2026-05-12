@@ -5,7 +5,6 @@ import {
   buildHighlightsConfig,
   buildSummaryConfig,
   buildTextConfig,
-  omitUndefinedValues,
   parseOptionalJsonSchema,
   resolveFreshnessParams,
 } from "../../common/utils.mjs";
@@ -194,7 +193,7 @@ export default {
       legacyLivecrawl: this.livecrawl,
     });
 
-    const data = omitUndefinedValues({
+    const data = {
       urls: this.urls?.length
         ? this.urls
         : undefined,
@@ -230,7 +229,7 @@ export default {
         imageLinks: this.extrasImageLinks,
       }),
       ...freshness,
-    });
+    };
 
     const response = await this.app.getContents({
       $,
