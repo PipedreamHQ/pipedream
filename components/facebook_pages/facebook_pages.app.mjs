@@ -139,11 +139,16 @@ export default {
       const page = pages.find(({ id }) => id == pageId);
       return page?.access_token;
     },
-    listAllPages(args = {}) {
-      return this.paginate({
+    async listAllPages(args = {}) {
+      const results = this.paginate({
         fn: this.listPages,
         args,
       });
+      const pages = [];
+      for await (const page of results) {
+        pages.push(page);
+      }
+      return pages;
     },
     getPost({
       pageId, postId, ...args
