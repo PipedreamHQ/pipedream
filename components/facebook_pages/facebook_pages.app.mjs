@@ -245,7 +245,7 @@ export default {
         for (const item of data) {
           yield item;
         }
-        if (!paging.next) {
+        if (!paging?.next) {
           return;
         }
         args = {
