@@ -3,8 +3,8 @@ import hubspot from "../../hubspot.app.mjs";
 export default {
   key: "hubspot-get-sequence-enrollment",
   name: "Get Sequence Enrollment",
-  description: "Retrieve a contact's sequence enrollment status. [See the documentation](https://developers.hubspot.com/docs/api-reference/legacy/automation/sequences/get-enrollment)",
-  version: "0.0.2",
+  description: "Retrieve a contact's sequence enrollment status. [See the documentation](https://developers.hubspot.com/docs/api/crm/sequences)",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -22,7 +22,7 @@ export default {
         }),
       ],
       label: "Contact ID",
-      description: "The ID of the contact whose sequence enrollment status will be retrieved.",
+      description: "The ID of the contact whose sequence enrollment status will be retrieved. Example: `1234567890`.",
     },
   },
   async run({ $ }) {
