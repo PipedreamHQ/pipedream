@@ -10,5 +10,5 @@ export default {
   ...utils.getAppProps(listViews),
   key: "linear-list-views",
   description: "List views in Linear. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Query?query=views).",
-  version: "0.0.2",
+  version: "0.0.1",
 };

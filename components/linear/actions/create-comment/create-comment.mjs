@@ -10,5 +10,5 @@ export default {
   ...utils.getAppProps(createComment),
   key: "linear-create-comment",
   description: "Create a comment in Linear. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Mutation?query=comment)",
-  version: "0.0.2",
+  version: "0.0.1",
 };

@@ -10,5 +10,5 @@ export default {
   ...utils.getAppProps(removeLabelFromIssue),
   key: "linear-remove-label-from-issue",
   description: "Remove a label from an issue in Linear. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Mutation?query=issueremovelabel).",
-  version: "0.0.2",
+  version: "0.0.1",
 };

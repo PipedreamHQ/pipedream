@@ -10,5 +10,5 @@ export default {
   ...utils.getAppProps(updateInitiative),
   key: "linear-update-initiative",
   description: "Update an initiative in Linear. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Mutation?query=initiativeupdate).",
-  version: "0.0.2",
+  version: "0.0.1",
 };

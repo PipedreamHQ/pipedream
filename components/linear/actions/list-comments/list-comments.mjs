@@ -10,5 +10,5 @@ export default {
   ...utils.getAppProps(listComments),
   key: "linear-list-comments",
   description: "List comments in Linear. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Query?query=comments).",
-  version: "0.0.2",
+  version: "0.0.1",
 };

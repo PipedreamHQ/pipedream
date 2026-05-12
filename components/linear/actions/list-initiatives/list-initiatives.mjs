@@ -10,5 +10,5 @@ export default {
   ...utils.getAppProps(listInitiatives),
   key: "linear-list-initiatives",
   description: "List initiatives in Linear. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Query?query=initiatives).",
-  version: "0.0.2",
+  version: "0.0.1",
 };
