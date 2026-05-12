@@ -3,8 +3,13 @@ import shopify from "../../shopify.app.mjs";
 export default {
   key: "shopify-get-fulfillment-orders",
   name: "Get Fulfillment Orders",
-  description: "Retrieve a list of fulfillment orders. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/queries/fulfillmentorders)",
-  version: "0.0.7",
+  description:
+    "Retrieve and search fulfillment orders in Shopify."
+    + " Use to discover fulfillment order IDs and line item IDs needed for **Create Fulfillment** or **Update Fulfillment Tracking Info**."
+    + " Filter by `status:open` to find orders ready to ship, or `assigned_location_id:{id}` for a specific location."
+    + " Returns an array of fulfillment order objects including `id`, `status`, `lineItems` (with `id` for each line item), and `assignedLocation`."
+    + " [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/queries/fulfillmentorders)",
+  version: "0.0.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

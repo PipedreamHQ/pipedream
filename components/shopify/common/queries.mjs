@@ -1102,6 +1102,90 @@ const GET_FULFILLMENT_ORDER = `
   }
 `;
 
+const GET_ORDER = `
+  query GetOrder($id: ID!, $first: Int) {
+    order(id: $id) {
+      id
+      name
+      createdAt
+      updatedAt
+      processedAt
+      currencyCode
+      displayFinancialStatus
+      displayFulfillmentStatus
+      closed
+      confirmed
+      note
+      tags
+      totalPriceSet {
+        shopMoney {
+          amount
+          currencyCode
+        }
+      }
+      subtotalPriceSet {
+        shopMoney {
+          amount
+          currencyCode
+        }
+      }
+      customer {
+        id
+        displayName
+        firstName
+        lastName
+        email
+        phone
+        defaultAddress {
+          address1
+          city
+          province
+          zip
+          country
+        }
+      }
+      shippingAddress {
+        address1
+        city
+        province
+        zip
+        country
+        firstName
+        lastName
+      }
+      lineItems(first: $first) {
+        edges {
+          node {
+            id
+            title
+            quantity
+            variantTitle
+            vendor
+            fulfillmentStatus
+            originalUnitPriceSet {
+              shopMoney {
+                amount
+                currencyCode
+              }
+            }
+          }
+        }
+      }
+      fulfillments {
+        id
+        status
+        displayStatus
+        createdAt
+        trackingInfo {
+          number
+          url
+          company
+        }
+      }
+    }
+  }
+`;
+
 const LIST_FULFILLMENT_ORDERS = `
   query ($first: Int, $after: String, $reverse: Boolean, $sortKey: FulfillmentOrderSortKeys, $query: String) {
     fulfillmentOrders(first: $first, after: $after, reverse: $reverse, sortKey: $sortKey, query: $query) {
@@ -1179,4 +1263,5 @@ export default {
   LIST_ASSIGNED_FULFILLMENT_ORDERS,
   GET_FULFILLMENT_ORDER,
   LIST_FULFILLMENT_ORDERS,
+  GET_ORDER,
 };

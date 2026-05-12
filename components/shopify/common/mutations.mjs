@@ -433,6 +433,158 @@ const UPDATE_ORDER = `
   }
 `;
 
+const CREATE_CUSTOMER = `
+  mutation customerCreate($input: CustomerInput!) {
+    customerCreate(input: $input) {
+      userErrors {
+        field
+        message
+      }
+      customer {
+        id
+        email
+        phone
+        firstName
+        lastName
+        taxExempt
+        amountSpent {
+          amount
+          currencyCode
+        }
+      }
+    }
+  }
+`;
+
+const UPDATE_CUSTOMER = `
+  mutation customerUpdate($input: CustomerInput!) {
+    customerUpdate(input: $input) {
+      customer {
+        id
+        email
+        firstName
+        lastName
+      }
+      userErrors {
+        message
+        field
+      }
+    }
+  }
+`;
+
+const CREATE_ORDER = `
+  mutation OrderCreate($order: OrderCreateOrderInput!, $options: OrderCreateOptionsInput) {
+    orderCreate(order: $order, options: $options) {
+      userErrors {
+        field
+        message
+      }
+      order {
+        id
+        name
+        totalTaxSet {
+          shopMoney {
+            amount
+            currencyCode
+          }
+        }
+        lineItems(first: 10) {
+          nodes {
+            id
+            title
+            quantity
+          }
+        }
+      }
+    }
+  }
+`;
+
+const REFUND_ORDER = `
+  mutation RefundCreate($input: RefundInput!) {
+    refundCreate(input: $input) {
+      refund {
+        id
+        totalRefundedSet {
+          presentmentMoney {
+            amount
+            currencyCode
+          }
+        }
+        order {
+          id
+          name
+        }
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+const CREATE_FULFILLMENT = `
+  mutation FulfillmentCreate($fulfillment: FulfillmentInput!, $message: String) {
+    fulfillmentCreate(fulfillment: $fulfillment, message: $message) {
+      fulfillment {
+        id
+        name
+        status
+        createdAt
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+const UPDATE_FULFILLMENT_TRACKING_INFO = `
+  mutation FulfillmentTrackingInfoUpdate(
+    $fulfillmentId: ID!
+    $trackingInfoInput: FulfillmentTrackingInput!
+    $notifyCustomer: Boolean
+  ) {
+    fulfillmentTrackingInfoUpdate(
+      fulfillmentId: $fulfillmentId
+      trackingInfoInput: $trackingInfoInput
+      notifyCustomer: $notifyCustomer
+    ) {
+      fulfillment {
+        id
+        status
+        trackingInfo {
+          company
+          number
+          url
+        }
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+const SEND_ORDER_INVOICE = `
+  mutation OrderInvoiceSend($id: ID!, $email: EmailInput) {
+    orderInvoiceSend(id: $id, email: $email) {
+      order {
+        id
+        name
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
 export default {
   CREATE_WEBHOOK,
   DELETE_WEBHOOK,
@@ -458,4 +610,11 @@ export default {
   DELETE_PAGE,
   DELETE_METAFIELD,
   UPDATE_ORDER,
+  CREATE_CUSTOMER,
+  UPDATE_CUSTOMER,
+  CREATE_ORDER,
+  REFUND_ORDER,
+  CREATE_FULFILLMENT,
+  UPDATE_FULFILLMENT_TRACKING_INFO,
+  SEND_ORDER_INVOICE,
 };

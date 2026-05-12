@@ -544,6 +544,30 @@ export default {
     listFulfillmentOrders(variables) {
       return this._makeGraphQlRequest(queries.LIST_FULFILLMENT_ORDERS, variables);
     },
+    getOrder(variables) {
+      return this._makeGraphQlRequest(queries.GET_ORDER, variables);
+    },
+    createCustomer(variables) {
+      return this._makeGraphQlRequest(mutations.CREATE_CUSTOMER, variables);
+    },
+    updateCustomer(variables) {
+      return this._makeGraphQlRequest(mutations.UPDATE_CUSTOMER, variables);
+    },
+    createOrder(variables) {
+      return this._makeGraphQlRequest(mutations.CREATE_ORDER, variables);
+    },
+    refundOrder(variables) {
+      return this._makeGraphQlRequest(mutations.REFUND_ORDER, variables);
+    },
+    createFulfillment(variables) {
+      return this._makeGraphQlRequest(mutations.CREATE_FULFILLMENT, variables);
+    },
+    updateFulfillmentTrackingInfo(variables) {
+      return this._makeGraphQlRequest(mutations.UPDATE_FULFILLMENT_TRACKING_INFO, variables);
+    },
+    sendOrderInvoice(variables) {
+      return this._makeGraphQlRequest(mutations.SEND_ORDER_INVOICE, variables);
+    },
     async *paginate({
       resourceFn, resourceKeys = [], variables = {}, max,
     }) {
