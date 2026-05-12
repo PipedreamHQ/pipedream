@@ -4,7 +4,7 @@ export default {
   key: "hubspot-enroll-contact-in-sequence",
   name: "Enroll Contact in Sequence",
   description: "Enroll a contact into a HubSpot sequence. [See the documentation](https://developers.hubspot.com/docs/api-reference/automation-sequences-v4/public-enrollments/post-automation-v4-sequences-enrollments)",
-  version: "0.0.3",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
