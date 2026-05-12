@@ -79,6 +79,10 @@ export default {
       const { data } = await client.people.connections.list(params);
       return data;
     },
+    async listDirectoryContacts(client, params) {
+      const { data } = await client.people.listDirectoryPeople(params);
+      return data;
+    },
     async listContactGroups(client, params) {
       const { data } = await client.contactGroups.list(params);
       return data;
