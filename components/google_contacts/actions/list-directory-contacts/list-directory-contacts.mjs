@@ -73,16 +73,9 @@ export default {
         requestSyncToken: this.requestSyncToken,
         syncToken: this.syncToken,
       };
-      const contacts = [];
-      do {
-        const {
-          people = [],
-          nextPageToken,
-        } = await this.googleContacts.listDirectoryContacts(client, params);
-        params.pageToken = nextPageToken;
-        contacts.push(...people);
-      } while (params.pageToken);
-      return contacts;
+
+      const response = await this.googleContacts.listDirectoryContacts(client, params);
+      return response;
     },
     emitSummary($, contacts) {
       $.export("$summary", `Successfully retrieved ${contacts.length} directory contacts`);
