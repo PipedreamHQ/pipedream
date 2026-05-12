@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/daytona",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream Daytona Components",
   "main": "daytona.app.mjs",
   "keywords": [
@@ -13,6 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@daytonaio/sdk": "^0.138.0"
+    "@daytonaio/sdk": "^0.138.0",
+    "@pipedream/platform": "^3.0.3"
   }
 }

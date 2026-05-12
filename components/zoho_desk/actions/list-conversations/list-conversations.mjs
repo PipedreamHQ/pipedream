@@ -4,7 +4,7 @@ export default {
   key: "zoho_desk-list-conversations",
   name: "List Conversations",
   description: "List all conversations for a ticket. [See the documentation](https://desk.zoho.com/DeskAPIDocument#Threads#Threads_Listconversations)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

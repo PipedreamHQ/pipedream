@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import ws from "ws";
 import constants from "./common/constants.mjs";
 
 export default {
@@ -50,7 +51,11 @@ export default {
       }
     },
     async _client() {
-      return createClient(`https://${this.$auth.subdomain}.supabase.co`, this.$auth.service_key);
+      return createClient(`https://${this.$auth.subdomain}.supabase.co`, this.$auth.service_key, {
+        realtime: {
+          transport: ws,
+        },
+      });
     },
     retryWithExponentialBackoff(func, maxAttempts = 3, baseDelayS = 2) {
       let attempt = 0;

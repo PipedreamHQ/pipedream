@@ -5,7 +5,7 @@ export default {
   key: "supabase-count-rows",
   name: "Count Rows",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

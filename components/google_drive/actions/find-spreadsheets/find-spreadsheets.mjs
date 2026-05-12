@@ -5,7 +5,7 @@ import googleDrive from "../../google_drive.app.mjs";
 export default {
   key: "google_drive-find-spreadsheets",
   name: "Find Spreadsheets",
-  description: "Search for a specific spreadsheet by name. [See the documentation](https://developers.google.com/drive/api/v3/search-files) for more information",
+  description: "Search for a specific spreadsheet by name. The `Search Name` field uses Google Drive's tokenized full-text matching — pass a distinctive word or short phrase rather than the full title when the name contains special characters like `&` or `'`. [See the documentation](https://developers.google.com/drive/api/v3/search-files) for more information",
   version: "0.1.21",
   annotations: {
     destructiveHint: false,

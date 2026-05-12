@@ -1,0 +1,54 @@
+import docuwriterAi from "../../docuwriter_ai.app.mjs";
+
+export default {
+  key: "docuwriter_ai-generate-code-optimization",
+  name: "Generate Code Optimization",
+  description: "Generate optimization suggestions and improved code for a source file. Consumes 1 Docuwriter credit. Requires workflow timeout of 5+ minutes for large files. [See the documentation](https://docs.docuwriter.ai/docuwriterai-api-docs/92062)",
+  version: "0.0.2",
+  type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
+  props: {
+    docuwriterAi,
+    sourceCode: {
+      propDefinition: [
+        docuwriterAi,
+        "sourceCode",
+      ],
+    },
+    filename: {
+      propDefinition: [
+        docuwriterAi,
+        "filename",
+      ],
+    },
+    additionalInstructions: {
+      propDefinition: [
+        docuwriterAi,
+        "additionalInstructions",
+      ],
+    },
+    name: {
+      type: "string",
+      label: "Name",
+      description: "Custom name for the generation record (max 255 characters).",
+      optional: true,
+    },
+  },
+  async run({ $ }) {
+    const response = await this.docuwriterAi.generateCodeOptimization({
+      $,
+      data: {
+        source_code: this.sourceCode,
+        filename: this.filename,
+        additional_instructions: this.additionalInstructions,
+        name: this.name,
+      },
+    });
+    $.export("$summary", `Code optimization generated for ${this.filename}`);
+    return response;
+  },
+};

@@ -4,7 +4,7 @@ export default {
   key: "sendcloud-get-parcel",
   name: "Get Parcel",
   description: "Retrieve a parcel by ID. [See the documentation](https://api.sendcloud.dev/docs/sendcloud-public-api/branches/v2/parcels/operations/get-a-parcel)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

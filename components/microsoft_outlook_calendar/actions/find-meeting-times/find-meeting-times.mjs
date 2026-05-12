@@ -6,7 +6,7 @@ export default {
   key: "microsoft_outlook_calendar-find-meeting-times",
   name: "Find Meeting Times",
   description: "Suggest meeting times and locations based on organizer and attendee availability. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-findmeetingtimes?view=graph-rest-1.0)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
