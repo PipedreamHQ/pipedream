@@ -67,9 +67,7 @@ export default {
       data.status = this.status;
     }
     if (this.assignedOwnerId) {
-      data.assignedTo = /^[A-Z]-/.test(this.assignedOwnerId)
-        ? this.assignedOwnerId
-        : `A-${this.assignedOwnerId}`;
+      data.assignedTo = this.hubspot.normalizeActorId(this.assignedOwnerId);
     }
     const response = await this.hubspot.updateThread({
       $,

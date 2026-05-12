@@ -2207,5 +2207,10 @@ export default {
         ...opts,
       });
     },
+    normalizeActorId(actorId) {
+      return /^[A-Z]-/.test(actorId)
+        ? actorId
+        : `A-${actorId}`;
+    },
   },
 };

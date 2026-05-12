@@ -23,9 +23,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const actorId = /^[A-Z]-/.test(this.actorId)
-      ? this.actorId
-      : `A-${this.actorId}`;
+    const actorId = this.hubspot.normalizeActorId(this.actorId);
     const response = await this.hubspot.getActor({
       $,
       actorId,
