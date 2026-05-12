@@ -16,7 +16,7 @@ export default {
     const pages = await this.facebookPages.listAllPages({
       $,
     });
-    const page = pages.find(({ id }) => id == this.page);
+    const page = pages.find(({ id }) => id === this.page);
 
     $.export("$summary", `Successfully retrieved page with ID ${this.page}`);
 
