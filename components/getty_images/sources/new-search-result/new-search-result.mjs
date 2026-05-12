@@ -1,7 +1,9 @@
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import gettyImages from "../../getty_images.app.mjs";
+import base from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...base,
   key: "getty_images-new-search-result",
   name: "New Search Result",
   description: "Emit new event for each image returned by a search query that has not been seen in a previous run. Polls on a schedule to detect newly available images matching your criteria. [See the documentation](https://developers.gettyimages.com/docs/)",
@@ -9,14 +11,7 @@ export default {
   type: "source",
   dedupe: "unique",
   props: {
-    gettyImages,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
-    },
+    ...base.props,
     phrase: {
       propDefinition: [
         gettyImages,
@@ -49,6 +44,7 @@ export default {
     },
   },
   methods: {
+    ...base.methods,
     generateMeta(image) {
       return {
         id: image.id,
@@ -60,23 +56,24 @@ export default {
           : Date.now(),
       };
     },
-  },
-  async run() {
-    const response = await this.gettyImages.searchImages({
-      phrase: this.phrase,
-      imageType: this.imageType,
-      orientation: this.orientation,
-      licenseModel: this.licenseModel,
-      sortOrder: "newest",
-      pageSize: this.pageSize ?? 30,
-      fields: [
-        "summary_set",
-      ],
-    });
+    async emitEvent(maxResults) {
+      const response = await this.gettyImages.searchImages({
+        phrase: this.phrase,
+        imageType: this.imageType,
+        orientation: this.orientation,
+        licenseModel: this.licenseModel,
+        sortOrder: "newest",
+        pageSize: maxResults ?? this.pageSize ?? 30,
+        fields: [
+          "summary_set",
+        ],
+      });
 
-    const images = response?.images ?? [];
-    for (const image of images) {
-      this.$emit(image, this.generateMeta(image));
-    }
+      const images = response?.images ?? [];
+      for (const image of images) {
+        this.$emit(image, this.generateMeta(image));
+      }
+    },
   },
+  sampleEmit,
 };

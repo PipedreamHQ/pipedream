@@ -14,28 +14,28 @@ export default {
       type: "string",
       label: "Image Type",
       description: "Scope the search to creative, editorial, or all images. Creative images are royalty-free or rights-managed stock; editorial covers news, sports, and entertainment.",
-      options: constants.IMAGE_TYPE_OPTIONS,
+      options: constants.imageTypeOptions,
       optional: true,
     },
     orientation: {
       type: "string",
       label: "Orientation",
       description: "Filter results by image orientation.",
-      options: constants.ORIENTATION_OPTIONS,
+      options: constants.orientationOptions,
       optional: true,
     },
     licenseModel: {
       type: "string",
       label: "License Model",
       description: "Filter creative images by license type. Only applies when **Image Type** is `creative`.",
-      options: constants.LICENSE_MODEL_OPTIONS,
+      options: constants.licenseModelOptions,
       optional: true,
     },
     sortOrder: {
       type: "string",
       label: "Sort Order",
       description: "Order in which to return search results.",
-      options: constants.SORT_ORDER_OPTIONS,
+      options: constants.sortOrderOptions,
       optional: true,
     },
     pageSize: {
@@ -59,6 +59,22 @@ export default {
       label: "Collection Description",
       description: "Optional description for the new image collection.",
       optional: true,
+    },
+    boardId: {
+      type: "string",
+      label: "Board",
+      description: "The board (collection) to watch for new assets.",
+      async options({ page }) {
+        const { boards = [] } = await this.getBoards({
+          page: page + 1,
+        });
+        return boards.map(({
+          id, name,
+        }) => ({
+          label: name,
+          value: id,
+        }));
+      },
     },
     productType: {
       type: "string",
@@ -97,6 +113,41 @@ export default {
       return this._makeRequest({
         $,
         path: "/products",
+      });
+    },
+    getBoards({
+      $, page = 1,
+    } = {}) {
+      return this._makeRequest({
+        $,
+        path: "/boards",
+        params: {
+          page,
+          pageSize: 100,
+        },
+      });
+    },
+    getBoardAssets({
+      $, boardId,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/boards/${boardId}`,
+      });
+    },
+    getDownloads({
+      $, dateFrom, dateTo, page = 1,
+    }) {
+      return this._makeRequest({
+        $,
+        path: "/downloads",
+        params: {
+          date_from: dateFrom,
+          date_to: dateTo,
+          use_time: true,
+          page,
+          page_size: 100,
+        },
       });
     },
     searchImages({

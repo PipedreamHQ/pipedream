@@ -1,49 +1,48 @@
 import gettyImages from "../../getty_images.app.mjs";
+import base from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
-  key: "getty_images-new-image-instant",
-  name: "New Image (Instant)",
-  description: "Emit new event when a new image is added to the user's Getty Images library. Configure your Getty Images account to send webhook events to this source's URL. Optionally filter events by collection code or license type.",
+  ...base,
+  key: "getty_images-new-board-asset",
+  name: "New Board Asset",
+  description: "Emit new event each time an asset is added to a Getty Images board. Polls the board's asset list on a schedule. [See the documentation](https://developers.gettyimages.com/docs/)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    gettyImages,
-    http: "$.interface.http",
-    db: "$.service.db",
-    collectionCode: {
-      type: "string",
-      label: "Collection Code",
-      description: "Only emit events for images belonging to this collection (e.g. `STO` for Stone). Leave blank to receive events for all collections.",
-      optional: true,
-    },
-    licenseModel: {
+    ...base.props,
+    boardId: {
       propDefinition: [
         gettyImages,
-        "licenseModel",
+        "boardId",
       ],
     },
   },
   methods: {
-    generateMeta(body) {
+    ...base.methods,
+    generateMeta(asset) {
       return {
-        id: body.id,
-        summary: body.title
-          ? `New image: ${body.title} (${body.id})`
-          : `New image added: ${body.id}`,
-        ts: body.date_added
-          ? Date.parse(body.date_added)
+        id: asset.id,
+        summary: `New asset added to board: ${asset.id}`,
+        ts: asset.date_added
+          ? Date.parse(asset.date_added)
           : Date.now(),
       };
     },
+    async emitEvent(maxResults) {
+      const { assets = [] } = await this.gettyImages.getBoardAssets({
+        boardId: this.boardId,
+      });
+
+      const toEmit = maxResults
+        ? assets.slice(0, maxResults)
+        : assets;
+
+      for (const asset of toEmit) {
+        this.$emit(asset, this.generateMeta(asset));
+      }
+    },
   },
-  async run({ body }) {
-    if (this.collectionCode && body.collection_code !== this.collectionCode) {
-      return;
-    }
-    if (this.licenseModel && body.license_model !== this.licenseModel) {
-      return;
-    }
-    this.$emit(body, this.generateMeta(body));
-  },
+  sampleEmit,
 };

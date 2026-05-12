@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/getty_images",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Getty Images Components",
   "main": "getty_images.app.mjs",
   "keywords": [
