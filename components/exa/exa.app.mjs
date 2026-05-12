@@ -65,7 +65,6 @@ export default {
         "people",
         "research paper",
         "news",
-        "personal site",
         "financial report",
       ],
     },
