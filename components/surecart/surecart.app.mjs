@@ -434,5 +434,126 @@ export default {
         ...opts,
       });
     },
+    createRefund(opts = {}) {
+      return this._makeRequest({
+        path: "/refunds",
+        method: "POST",
+        ...opts,
+      });
+    },
+    createReturnRequest(opts = {}) {
+      return this._makeRequest({
+        path: "/return_requests",
+        method: "POST",
+        ...opts,
+      });
+    },
+    updateReturnRequest({
+      returnRequestId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/return_requests/${returnRequestId}`,
+        method: "PATCH",
+        ...opts,
+      });
+    },
+    deleteReturnRequest({
+      returnRequestId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/return_requests/${returnRequestId}`,
+        method: "DELETE",
+        ...opts,
+      });
+    },
+    updateShipment({
+      shipmentId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/shipments/${shipmentId}`,
+        method: "PATCH",
+        ...opts,
+      });
+    },
+    createFulfillment(opts = {}) {
+      return this._makeRequest({
+        path: "/fulfillments",
+        method: "POST",
+        ...opts,
+      });
+    },
+    updateFulfillment({
+      fulfillmentId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/fulfillments/${fulfillmentId}`,
+        method: "PATCH",
+        ...opts,
+      });
+    },
+    deleteFulfillment({
+      fulfillmentId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/fulfillments/${fulfillmentId}`,
+        method: "DELETE",
+        ...opts,
+      });
+    },
+    createInvoice(opts = {}) {
+      return this._makeRequest({
+        path: "/invoices",
+        method: "POST",
+        ...opts,
+      });
+    },
+    createLineItem(opts = {}) {
+      return this._makeRequest({
+        path: "/line_items",
+        method: "POST",
+        ...opts,
+      });
+    },
+    createSubscription(opts = {}) {
+      return this._makeRequest({
+        path: "/subscriptions",
+        method: "POST",
+        ...opts,
+      });
+    },
+    updateSubscription({
+      subscriptionId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/subscriptions/${subscriptionId}`,
+        method: "PATCH",
+        ...opts,
+      });
+    },
+    updatePurchase({
+      purchaseId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/purchases/${purchaseId}`,
+        method: "PATCH",
+        ...opts,
+      });
+    },
+    createCheckout(opts = {}) {
+      return this._makeRequest({
+        path: "/checkouts",
+        method: "POST",
+        ...opts,
+      });
+    },
+    updateCheckout({
+      checkoutId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/checkouts/${checkoutId}`,
+        method: "PATCH",
+        ...opts,
+      });
+    },
   },
 };
