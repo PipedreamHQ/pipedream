@@ -3,7 +3,7 @@ import sampleEmit from "./test-event.mjs";
 
 export default {
   ...base,
-  key: "getty_images-new-download",
+  key: "getty_images-new-download-instant",
   name: "New Download",
   description: "Emit new event each time an image is downloaded from the Getty Images account. Polls the download history on a schedule. [See the documentation](https://developers.gettyimages.com/docs/)",
   version: "0.0.1",
