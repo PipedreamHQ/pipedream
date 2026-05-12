@@ -24,11 +24,20 @@ export default {
     },
   },
   async run({ $ }) {
-    const buffer = await this.app.downloadDocument({
-      $,
-      documentGuid: this.documentGuid,
-    });
-
+    let buffer;
+    try {
+      buffer = await this.app.downloadDocument({
+        $,
+        documentGuid: this.documentGuid,
+      });
+    } catch (err) {
+      // Re-throw a clean message to avoid binary error data overflowing MCP context
+      const status = err.response?.status;
+      const msg = status === 404
+        ? `Document ${this.documentGuid} not found. Verify the GUID is correct and the document exists in the request's checks array.`
+        : `Failed to download document ${this.documentGuid}: HTTP ${status ?? "unknown"}`;
+      throw new Error(msg);
+    }
     $.export("$summary", `Downloaded document ${this.documentGuid}`);
     return Buffer.from(buffer);
   },
