@@ -42,7 +42,7 @@ export default {
     senderAliasAddress: {
       type: "string",
       label: "Sender Alias Address",
-      description: "The alias email address used by the sender for this enrollment.",
+      description: "The alias email address used by the sender for this enrollment. Example: `alias@example.com`.",
       optional: true,
     },
   },
