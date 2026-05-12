@@ -198,6 +198,19 @@ export default {
         ...opts,
       });
     },
+    listMedia(opts = {}) {
+      return this._makeRequest({
+        path: "/medias",
+        ...opts,
+      });
+    },
+    createMedia(opts = {}) {
+      return this._makeRequest({
+        path: "/medias",
+        method: "POST",
+        ...opts,
+      });
+    },
     listProducts(opts = {}) {
       return this._makeRequest({
         path: "/products",
