@@ -27,6 +27,12 @@ export default {
       ],
       optional: true,
     },
+    archived: {
+      type: "boolean",
+      label: "Archived",
+      description: "Set to `true` to look up the thread in the archived collection. Defaults to `false` (active threads only).",
+      optional: true,
+    },
     threadId: {
       propDefinition: [
         hubspot,
@@ -34,6 +40,7 @@ export default {
         (c) => ({
           inboxId: c.inboxId,
           channelId: c.channelId,
+          archived: c.archived,
         }),
       ],
     },
@@ -44,12 +51,6 @@ export default {
       options: [
         "TICKET",
       ],
-      optional: true,
-    },
-    archived: {
-      type: "boolean",
-      label: "Archived",
-      description: "Set to `true` to look up the thread in the archived collection. Defaults to `false` (active threads only).",
       optional: true,
     },
   },
