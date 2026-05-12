@@ -35,7 +35,7 @@ export default {
   key: "app-action-name",       // globally unique; kebab-case; prefixed with app slug
   name: "Human Readable Name",  // shown in UI and as the MCP tool name
   description: "...",           // shown in UI and used as MCP tool documentation
-  version: "0.0.1",            // semantic versioning; must be incremented on every change
+  version: "0.0.1",            // semantic versioning; increment when the component's own behavior, interface, or implementation changes
   type: "action",               // or "source"
   props: { ... },              // configuration inputs
   async run({ $ }) { ... },    // execution entry point (signature differs for sources)

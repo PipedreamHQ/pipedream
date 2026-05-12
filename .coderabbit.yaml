@@ -19,16 +19,15 @@ reviews:
         Review this file against the Pipedream component model described in
         .github/pipedream-component-guidelines.md.
 
-        - Verify the `version` field is incremented from its previous value and the bump
-          follows semantic versioning (see the Versioning section of the guidelines):
-          new components start at `0.0.1`; bug fixes and non-breaking refactors → patch;
-          new optional props or backwards-compatible additions → minor; removed/renamed props
-          or breaking behavior changes → major; flag missing version bumps only when the
-          component's own behavior, interface, or implementation changed — do not flag
-          components that are only transitively touched by a shared-file change (e.g. a new
-          constant added to a constants file) with no effect on the component itself; a patch
-          bump added solely to satisfy the CI version check is always acceptable and should
-          not be flagged
+        - Only flag a missing version bump when the component's own behavior, interface, or
+          implementation changed — do not flag components that are only transitively touched
+          by a shared-file change (e.g. a new constant added to a constants file) with no
+          effect on the component itself. When a bump is required, verify it is incremented
+          from its previous value and follows semantic versioning (see the Versioning section
+          of the guidelines): new components start at `0.0.1`; bug fixes and non-breaking
+          refactors → patch; new optional props or backwards-compatible additions → minor;
+          removed/renamed props or breaking behavior changes → major; a patch bump added
+          solely to satisfy the CI version check is always acceptable and should not be flagged
         - Verify the app's `package.json` version is also bumped by the same or greater
           semver segment as the component change
         - All prop names, method names, and local variables must use camelCase; module-level
