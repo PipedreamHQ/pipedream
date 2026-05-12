@@ -5,7 +5,7 @@ export default {
   key: "facebook_pages-get-page",
   name: "Get Page",
   description: "Retrieves a Facebook Page. [See the documentation](https://developers.facebook.com/docs/graph-api/reference/page)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -13,10 +13,10 @@ export default {
   },
   type: "action",
   async run({ $ }) {
-    const { data } = await this.facebookPages.listPages({
+    const pages = await this.facebookPages.listAllPages({
       $,
     });
-    const page = data.find(({ id }) => id == this.page);
+    const page = pages.find(({ id }) => id == this.page);
 
     $.export("$summary", `Successfully retrieved page with ID ${this.page}`);
 
