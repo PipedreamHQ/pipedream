@@ -45,15 +45,19 @@ export default {
         page++;
       }
 
-      if (maxResults) {
-        allDownloads = allDownloads.slice(0, maxResults);
-      }
+      allDownloads.sort((a, b) =>
+        Date.parse(a.date_downloaded) - Date.parse(b.date_downloaded));
 
-      for (const download of allDownloads) {
+      const downloadsToEmit = maxResults
+        ? allDownloads.slice(0, maxResults)
+        : allDownloads;
+
+      for (const download of downloadsToEmit) {
         this.$emit(download, this.generateMeta(download));
       }
 
-      this._setLastDate(now);
+      const lastEmitted = downloadsToEmit.at(-1);
+      this._setLastDate(lastEmitted?.date_downloaded ?? now);
     },
   },
   sampleEmit,

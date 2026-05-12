@@ -1,4 +1,4 @@
-const imageTypeOptions = [
+const IMAGE_TYPE_OPTIONS = [
   {
     label: "Creative",
     value: "creative",
@@ -13,7 +13,7 @@ const imageTypeOptions = [
   },
 ];
 
-const orientationOptions = [
+const ORIENTATION_OPTIONS = [
   {
     label: "Horizontal",
     value: "Horizontal",
@@ -36,7 +36,7 @@ const orientationOptions = [
   },
 ];
 
-const licenseModelOptions = [
+const LICENSE_MODEL_OPTIONS = [
   {
     label: "Royalty Free",
     value: "royaltyfree",
@@ -47,7 +47,7 @@ const licenseModelOptions = [
   },
 ];
 
-const sortOrderOptions = [
+const SORT_ORDER_OPTIONS = [
   {
     label: "Best Match",
     value: "best",
@@ -67,8 +67,8 @@ const sortOrderOptions = [
 ];
 
 export default {
-  imageTypeOptions,
-  orientationOptions,
-  licenseModelOptions,
-  sortOrderOptions,
+  IMAGE_TYPE_OPTIONS,
+  ORIENTATION_OPTIONS,
+  LICENSE_MODEL_OPTIONS,
+  SORT_ORDER_OPTIONS,
 };

@@ -22,11 +22,14 @@ export default {
   methods: {
     ...base.methods,
     generateMeta(asset) {
+      const parsedTs = asset.date_added
+        ? Date.parse(asset.date_added)
+        : NaN;
       return {
         id: asset.id,
         summary: `New asset added to board: ${asset.id}`,
-        ts: asset.date_added
-          ? Date.parse(asset.date_added)
+        ts: Number.isFinite(parsedTs)
+          ? parsedTs
           : Date.now(),
       };
     },

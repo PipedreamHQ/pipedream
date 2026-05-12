@@ -14,28 +14,28 @@ export default {
       type: "string",
       label: "Image Type",
       description: "Scope the search to creative, editorial, or all images. Creative images are royalty-free or rights-managed stock; editorial covers news, sports, and entertainment.",
-      options: constants.imageTypeOptions,
+      options: constants.IMAGE_TYPE_OPTIONS,
       optional: true,
     },
     orientation: {
       type: "string",
       label: "Orientation",
       description: "Filter results by image orientation.",
-      options: constants.orientationOptions,
+      options: constants.ORIENTATION_OPTIONS,
       optional: true,
     },
     licenseModel: {
       type: "string",
       label: "License Model",
       description: "Filter creative images by license type. Only applies when **Image Type** is `creative`.",
-      options: constants.licenseModelOptions,
+      options: constants.LICENSE_MODEL_OPTIONS,
       optional: true,
     },
     sortOrder: {
       type: "string",
       label: "Sort Order",
       description: "Order in which to return search results.",
-      options: constants.sortOrderOptions,
+      options: constants.SORT_ORDER_OPTIONS,
       optional: true,
     },
     pageSize: {
@@ -64,7 +64,7 @@ export default {
       type: "string",
       label: "Board",
       description: "The board (collection) to watch for new assets.",
-      async options({ page }) {
+      async options({ page = 0 }) {
         const { boards = [] } = await this.getBoards({
           page: page + 1,
         });
