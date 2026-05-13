@@ -4,7 +4,7 @@ export default {
   key: "you_need_a_budget-get-account",
   name: "Get Account",
   description: "Get an account specified by ID. [See the docs](https://api.ynab.com/v1#/Accounts/getAccountById)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

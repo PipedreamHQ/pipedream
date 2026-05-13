@@ -5,7 +5,7 @@ export default {
   key: "readwise-new-documents",
   name: "New Documents",
   description: "Emit new document [See the documentation](https://readwise.io/reader_api)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

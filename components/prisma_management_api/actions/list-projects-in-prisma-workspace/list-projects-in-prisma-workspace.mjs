@@ -2,7 +2,7 @@ import app from "../../prisma_management_api.app.mjs";
 
 export default {
   name: "List Projects in Prisma Workspace",
-  version: "1.0.1",
+  version: "1.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

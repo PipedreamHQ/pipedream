@@ -5,7 +5,7 @@ export default {
   key: "pushover-push-notification",
   name: "Push Notification",
   description: "Sends a Push Notification to devices with Pushover. More information at [Pushing Messages](https://pushover.net/api#messages)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -6,7 +6,7 @@ export default {
   name: "Update Invoice",
   description: "Modify an existing invoice in Holded. [See the docs](https://developers.holded.com/reference/update-document-1).",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
