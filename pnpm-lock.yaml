@@ -15416,7 +15416,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/surecart: {}
+  components/surecart:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
 
   components/survey2connect: {}
 
