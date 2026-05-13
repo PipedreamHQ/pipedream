@@ -16,7 +16,6 @@ export default {
     xquik,
     query: {
       propDefinition: [xquik, "query"],
-      description: "User search query.",
     },
     cursor: {
       propDefinition: [xquik, "cursor"],
@@ -29,7 +28,12 @@ export default {
       cursor: this.cursor,
     });
 
-    $.export("$summary", "Successfully searched users");
+    const users = response?.users ?? response?.data ?? response?.results ?? [];
+    const userCount = Array.isArray(users)
+      ? users.length
+      : (response?.count ?? 0);
+
+    $.export("$summary", `Found ${userCount} users`);
     return response;
   },
 };

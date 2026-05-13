@@ -44,7 +44,13 @@ export default {
       limit: this.limit,
     });
 
-    $.export("$summary", "Successfully searched tweets");
+    const tweets =
+      response?.tweets ?? response?.data ?? response?.results ?? [];
+    const tweetCount = Array.isArray(tweets)
+      ? tweets.length
+      : (response?.count ?? 0);
+
+    $.export("$summary", `Found ${tweetCount} tweets`);
     return response;
   },
 };

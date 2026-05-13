@@ -24,7 +24,10 @@ export default {
       userId: this.userId,
     });
 
-    $.export("$summary", "Successfully retrieved user");
+    const user = response?.user ?? response?.data ?? response;
+    const userRef = user?.username ?? user?.handle ?? user?.id ?? this.userId;
+
+    $.export("$summary", `Successfully retrieved user ${userRef}`);
     return response;
   },
 };

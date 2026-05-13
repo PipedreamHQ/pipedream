@@ -28,7 +28,16 @@ export default {
       count: this.count,
     });
 
-    $.export("$summary", "Successfully retrieved trends");
+    const trends =
+      response?.trends ?? response?.data ?? response?.results ?? [];
+    const trendCount = Array.isArray(trends)
+      ? trends.length
+      : (response?.count ?? 0);
+
+    $.export(
+      "$summary",
+      `Retrieved ${trendCount} trends for WOEID ${this.woeid ?? 1}`,
+    );
     return response;
   },
 };

@@ -21,13 +21,14 @@ export default {
     tweetId: {
       type: "string",
       label: "Tweet ID",
-      description: "The ID of the tweet to retrieve.",
+      description:
+        "The ID of the tweet to retrieve. Example: `1912345678901234567`.",
     },
     userId: {
       type: "string",
       label: "User ID or Username",
       description:
-        "The X user ID or username. Usernames may include or omit the leading `@`.",
+        "The X user ID or username. Usernames may include or omit the leading `@`. Examples: `@jack`, `123456`.",
     },
     cursor: {
       type: "string",
@@ -38,13 +39,15 @@ export default {
     sinceTime: {
       type: "string",
       label: "Since Time",
-      description: "ISO 8601 timestamp. Only return tweets after this time.",
+      description:
+        "ISO 8601 timestamp. Only return tweets after this time. Example: `2026-05-01T00:00:00Z`.",
       optional: true,
     },
     untilTime: {
       type: "string",
       label: "Until Time",
-      description: "ISO 8601 timestamp. Only return tweets before this time.",
+      description:
+        "ISO 8601 timestamp. Only return tweets before this time. Example: `2026-05-02T00:00:00Z`.",
       optional: true,
     },
     limit: {

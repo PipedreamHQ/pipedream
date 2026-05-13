@@ -36,7 +36,13 @@ export default {
       includeParentTweet: this.includeParentTweet,
     });
 
-    $.export("$summary", "Successfully retrieved user tweets");
+    const tweets =
+      response?.tweets ?? response?.data ?? response?.results ?? [];
+    const tweetCount = Array.isArray(tweets)
+      ? tweets.length
+      : (response?.count ?? 0);
+
+    $.export("$summary", `Retrieved ${tweetCount} tweets for ${this.userId}`);
     return response;
   },
 };

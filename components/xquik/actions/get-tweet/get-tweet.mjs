@@ -24,7 +24,10 @@ export default {
       tweetId: this.tweetId,
     });
 
-    $.export("$summary", "Successfully retrieved tweet");
+    const tweet = response?.tweet ?? response?.data ?? response;
+    const tweetId = tweet?.id ?? this.tweetId;
+
+    $.export("$summary", `Successfully retrieved tweet ${tweetId}`);
     return response;
   },
 };
