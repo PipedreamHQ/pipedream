@@ -471,6 +471,17 @@ export default {
         ...opts,
       });
     },
+    async getAttachmentInfo($, url) {
+      const { headers } = await axios($, {
+        method: "HEAD",
+        url,
+        returnFullResponse: true,
+      });
+      return {
+        contentType: headers["content-type"],
+        size: headers["content-length"],
+      };
+    },
     createMessage({
       ticketId, ...opts
     }) {
