@@ -8865,8 +8865,8 @@ importers:
         specifier: ^55.1.0
         version: 55.2.1(encoding@0.1.13)
       '@pipedream/linear_app':
-        specifier: ^0.10.0
-        version: 0.10.0(encoding@0.1.13)
+        specifier: ^0.11.0
+        version: 0.11.0(encoding@0.1.13)
       '@pipedream/platform':
         specifier: ^3.3.0
         version: 3.3.0
@@ -21959,8 +21959,8 @@ packages:
   '@pipedream/launchdarkly@0.1.1':
     resolution: {integrity: sha512-RqW4cJ0CfCnCy/lCutIJNSlX3IXV3jxoyqxDgAeHx8Q8BUEjEl7T0+1vMLyNXhU+V4Kj38KVURnSKqCE59UVvg==}
 
-  '@pipedream/linear_app@0.10.0':
-    resolution: {integrity: sha512-7HRqoKYAmSGyhyLZV2hgQf1Kv1QfK/uC0coamvKcjF82E9KCmJTIgITqcaHw/Gwb9rU5Xg6RqXt/0nY5iVqTRg==}
+  '@pipedream/linear_app@0.11.0':
+    resolution: {integrity: sha512-TxEe8BCvIrOOKQMv4UphoZSoSRBxDY/gBRfkzdq3zW0mkLKvqyzwSXOJ+86m5+5uuH6670SGbxg02kAAz7S7xA==}
 
   '@pipedream/linkedin@0.1.1':
     resolution: {integrity: sha512-9pFjaohz/wnJMIRpPmDPqHeWiXUIJVWIPvQudE8TkUjaBbyieDpscy8reWMp96UK9aXz1Z2J2yiNh0msILAX9Q==}
@@ -40945,7 +40945,7 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@pipedream/linear_app@0.10.0(encoding@0.1.13)':
+  '@pipedream/linear_app@0.11.0(encoding@0.1.13)':
     dependencies:
       '@linear/sdk': 55.2.1(encoding@0.1.13)
       '@pipedream/platform': 3.4.0
