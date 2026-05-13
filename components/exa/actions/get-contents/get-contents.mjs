@@ -107,7 +107,7 @@ export default {
     },
     summarySchema: {
       label: "Summary Schema",
-      description: "Optional JSON schema for structured Exa-side summaries.",
+      description: "Optional JSON schema for structured Exa-side summaries. Example: {\"type\":\"object\",\"properties\":{\"summary_title\":{\"type\":\"string\"},\"summary_text\":{\"type\":\"string\"},\"metadata\":{\"type\":\"object\",\"properties\":{\"tags\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}}}},\"required\":[\"summary_title\",\"summary_text\"]}.",
       propDefinition: [
         app,
         "summarySchema",

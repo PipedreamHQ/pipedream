@@ -125,10 +125,10 @@ export default {
       ],
     },
     contentsHighlights: {
-      type: "boolean",
-      label: "Contents - Highlights",
-      description: "Return token-efficient highlights from each result. This is the recommended default for most Search workflows.",
-      optional: true,
+      propDefinition: [
+        app,
+        "contentsHighlights",
+      ],
     },
     contentsHighlightQuery: {
       label: "Contents - Highlights Query",

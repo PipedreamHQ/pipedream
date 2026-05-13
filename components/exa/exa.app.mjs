@@ -207,6 +207,12 @@ export default {
       description: "Two-letter ISO country code used to bias results toward a region, for example `US`.",
       optional: true,
     },
+    contentsHighlights: {
+      type: "boolean",
+      label: "Contents - Highlights",
+      description: "Return token-efficient highlights from each result. This is the recommended default for most Search workflows.",
+      optional: true,
+    },
     maxAgeHours: {
       type: "integer",
       label: "Max Age Hours",

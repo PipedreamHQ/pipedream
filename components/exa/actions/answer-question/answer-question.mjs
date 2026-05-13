@@ -1,7 +1,5 @@
 import app from "../../exa.app.mjs";
-import {
-  parseOptionalJsonSchema,
-} from "../../common/utils.mjs";
+import { parseOptionalJsonSchema } from "../../common/utils.mjs";
 
 export default {
   key: "exa-answer-question",
