@@ -5,7 +5,7 @@ export default {
   key: "gorgias_oauth-create-ticket-message",
   name: "Create Ticket Message",
   description: "Create a message for a ticket in the Gorgias system. [See the documentation](https://developers.gorgias.com/reference/create-ticket-message)",
-  version: "0.1.0",
+  version: "0.1.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
