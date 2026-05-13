@@ -5251,8 +5251,7 @@ importers:
 
   components/exact_mails: {}
 
-  components/excalidraw:
-    specifiers: {}
+  components/excalidraw: {}
 
   components/exhibitday:
     dependencies:
@@ -7360,8 +7359,7 @@ importers:
 
   components/hiver: {}
 
-  components/hiver_omni:
-    specifiers: {}
+  components/hiver_omni: {}
 
   components/hogia: {}
 
@@ -9172,8 +9170,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/luma:
-    specifiers: {}
+  components/luma: {}
 
   components/lumin_pdf:
     dependencies:
@@ -12858,8 +12855,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/read_ai:
-    specifiers: {}
+  components/read_ai: {}
 
   components/readwise:
     dependencies:
@@ -17397,8 +17393,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/whimsical:
-    specifiers: {}
+  components/whimsical: {}
 
   components/white_swan:
     dependencies:
