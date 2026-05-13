@@ -10,7 +10,7 @@ export default {
     siteId: {
       type: "string",
       label: "Site",
-      description: "Identifier of a site",
+      description: "Identifier of a site. This is either the composite ID (e.g. `contoso.sharepoint.com,<guid>,<guid>` or a server-relative path in the form `{hostname}:/{server-relative-path}` (e.g. `contoso.sharepoint.com:/sites/site-name`)",
       useQuery: true,
       async options({
         prevContext, query,
