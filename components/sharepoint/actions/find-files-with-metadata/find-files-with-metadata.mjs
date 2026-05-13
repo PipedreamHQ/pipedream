@@ -5,7 +5,7 @@ export default {
   name: "Find Files in List with Metadata",
   description:
     "Search and filter items in a SharePoint list based on metadata and custom columns. [See docs here](https://learn.microsoft.com/en-us/graph/api/listitem-list)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -80,10 +80,16 @@ export default {
         "size",
       ],
     },
+    honorNonIndexedQueries: {
+      propDefinition: [
+        sharepoint,
+        "honorNonIndexedQueries",
+      ],
+    },
   },
   async run({ $ }) {
     const {
-      siteId, listId, returnFields, filter, orderby, select,
+      siteId, listId, returnFields, filter, orderby, select, honorNonIndexedQueries,
     } = this;
 
     const params = {
@@ -105,6 +111,12 @@ export default {
 
     params.$expand = expandValue;
 
+    const headers = honorNonIndexedQueries
+      ? {
+        Prefer: "HonorNonIndexedQueriesWarningMayFailRandomly",
+      }
+      : {};
+
     const results = [];
     const iterator = this.sharepoint.paginate({
       fn: this.sharepoint.listItems,
@@ -112,6 +124,7 @@ export default {
         siteId,
         listId,
         params,
+        headers,
       },
     });
 
