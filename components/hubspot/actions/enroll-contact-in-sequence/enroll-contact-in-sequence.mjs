@@ -3,7 +3,7 @@ import hubspot from "../../hubspot.app.mjs";
 export default {
   key: "hubspot-enroll-contact-in-sequence",
   name: "Enroll Contact in Sequence",
-  description: "Enroll a contact into a HubSpot sequence. [See the documentation](https://developers.hubspot.com/docs/api-reference/automation-sequences-v4/public-enrollments/post-automation-v4-sequences-enrollments)",
+  description: "Enroll a contact into a HubSpot sequence. [See the documentation](https://developers.hubspot.com/docs/api-reference/latest/automation/sequences/guide)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
