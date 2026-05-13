@@ -4,7 +4,7 @@ export default {
   key: "surecart-update-checkout",
   name: "Update Checkout",
   description: "Update an existing checkout session. [See the documentation](https://developer.surecart.com/api-reference/checkouts/update)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -102,7 +102,7 @@ export default {
       optional: true,
     },
     lineItems: {
-      type: "object[]",
+      type: "string",
       label: "Line Items",
       description: "Updated line items. Example: `[{ \"price\": \"price_abc123\", \"quantity\": 2 }]`",
       optional: true,
@@ -147,7 +147,9 @@ export default {
           abandoned_checkout_enabled: this.abandonedCheckoutEnabled,
           billing_address: this.billingAddress,
           shipping_address: this.shippingAddress,
-          line_items: this.lineItems,
+          line_items: this.lineItems
+            ? JSON.parse(this.lineItems)
+            : undefined,
           discount: this.discount,
           tax_identifier: this.taxIdentifier,
           selected_shipping_choice: this.selectedShippingChoice,

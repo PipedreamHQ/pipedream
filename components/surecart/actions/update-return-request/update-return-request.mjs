@@ -4,7 +4,7 @@ export default {
   key: "surecart-update-return-request",
   name: "Update Return Request",
   description: "Update an existing return request. [See the documentation](https://developer.surecart.com/api-reference/return-requests/update)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -26,7 +26,7 @@ export default {
       ],
     },
     returnItems: {
-      type: "object[]",
+      type: "string",
       label: "Return Items",
       description: "Updated return items. Each item requires `line_item` (UUID), `quantity` (integer, must not exceed fulfilled quantity), and `return_reason` (one of: `color`, `defective`, `not_as_described`, `other`, `size_too_large`, `size_too_small`, `style`, `unknown`, `unwanted`, `wrong_item`). Include `note` when reason is `other`.",
       optional: true,
@@ -45,7 +45,9 @@ export default {
       data: {
         return_request: {
           order: this.order,
-          return_items: this.returnItems,
+          return_items: this.returnItems
+            ? JSON.parse(this.returnItems)
+            : undefined,
           metadata: this.metadata,
         },
       },

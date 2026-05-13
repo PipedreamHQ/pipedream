@@ -4,7 +4,7 @@ export default {
   key: "surecart-update-fulfillment",
   name: "Update Fulfillment",
   description: "Update an existing fulfillment. [See the documentation](https://developer.surecart.com/api-reference/fulfillments/update)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -42,19 +42,19 @@ export default {
       ],
     },
     trackings: {
-      type: "object[]",
+      type: "string",
       label: "Trackings",
       description: "Updated tracking information. Each item: `{ \"number\": \"1Z999AA1012345678\", \"url\": \"https://tracking.example.com\" }`",
       optional: true,
     },
     fulfillmentItems: {
-      type: "object[]",
+      type: "string",
       label: "Fulfillment Items",
       description: "Updated fulfillment items. Each item: `{ \"line_item\": \"li_abc123\", \"quantity\": 1 }`",
       optional: true,
     },
     shipments: {
-      type: "object[]",
+      type: "string",
       label: "Shipments",
       description: "Updated shipment details. Each item requires `shipping_provider` (UUID).",
       optional: true,
@@ -74,9 +74,15 @@ export default {
         fulfillment: {
           notifications_enabled: this.notificationsEnabled,
           shipment_status: this.shipmentStatus,
-          trackings: this.trackings,
-          fulfillment_items: this.fulfillmentItems,
-          shipments: this.shipments,
+          trackings: this.trackings
+            ? JSON.parse(this.trackings)
+            : undefined,
+          fulfillment_items: this.fulfillmentItems
+            ? JSON.parse(this.fulfillmentItems)
+            : undefined,
+          shipments: this.shipments
+            ? JSON.parse(this.shipments)
+            : undefined,
           metadata: this.metadata,
         },
       },

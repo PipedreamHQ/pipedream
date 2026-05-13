@@ -4,7 +4,7 @@ export default {
   key: "surecart-create-fulfillment",
   name: "Create Fulfillment",
   description: "Create a new fulfillment for an order. [See the documentation](https://developer.surecart.com/api-reference/fulfillments/create)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -20,19 +20,19 @@ export default {
       ],
     },
     fulfillmentItems: {
-      type: "object[]",
+      type: "string",
       label: "Fulfillment Items",
       description: "Line items to fulfill. Each item requires `line_item` (UUID) and `quantity` (integer, must not exceed unfulfilled quantity). Example: `[{ \"line_item\": \"li_abc123\", \"quantity\": 1 }]`",
       optional: true,
     },
     trackings: {
-      type: "object[]",
+      type: "string",
       label: "Trackings",
       description: "Tracking information for this fulfillment. Each item: `{ \"number\": \"1Z999AA1012345678\", \"url\": \"https://tracking.example.com\" }`",
       optional: true,
     },
     shipments: {
-      type: "object[]",
+      type: "string",
       label: "Shipments",
       description: "Shipment details to create with this fulfillment. Each item requires `shipping_provider` (UUID). Optional fields: `weight`, `weight_unit` (g/kg/lb/oz), `shipping_date` (Unix timestamp), `from_contact`, `to_contact`, `dimensions`, `label_file_type` (PDF/PNG/ZPLII), `inherit_weight`.",
       optional: true,
@@ -44,9 +44,15 @@ export default {
       data: {
         fulfillment: {
           order: this.order,
-          fulfillment_items: this.fulfillmentItems,
-          trackings: this.trackings,
-          shipments: this.shipments,
+          fulfillment_items: this.fulfillmentItems
+            ? JSON.parse(this.fulfillmentItems)
+            : undefined,
+          trackings: this.trackings
+            ? JSON.parse(this.trackings)
+            : undefined,
+          shipments: this.shipments
+            ? JSON.parse(this.shipments)
+            : undefined,
         },
       },
     });
