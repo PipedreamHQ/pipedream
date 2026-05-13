@@ -6,7 +6,7 @@ export default {
   description: "Searches for notebooks. [See the documentation](https://learn.microsoft.com/en-us/graph/api/onenote-list-notebooks?view=graph-rest-1.0&tabs=http)",
   key: "onenote-search-notebooks",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

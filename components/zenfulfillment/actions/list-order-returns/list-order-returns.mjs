@@ -4,7 +4,7 @@ export default {
   key: "zenfulfillment-list-order-returns",
   name: "List Order Returns",
   description: "List all order returns. [See the documentation](https://partner.alaiko.com/docs#tag/OrderReturn/operation/api_partnerorder-return_get_collection)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
