@@ -5,7 +5,7 @@ export default {
   key: "facebook_pages-list-comments",
   name: "List Comments",
   description: "Retrieves a list of comments on a post on a Facebook Page. [See the documentation](https://developers.facebook.com/docs/graph-api/reference/comment/#read)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -31,7 +31,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = this.paginate({
+    const response = this.facebookPages.paginate({
       fn: this.facebookPages.listComments,
       args: {
         pageId: this.page,
