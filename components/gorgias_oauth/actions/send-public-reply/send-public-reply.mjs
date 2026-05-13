@@ -1,5 +1,6 @@
 import gorgiasOauth from "../../gorgias_oauth.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "gorgias_oauth-send-public-reply",
@@ -48,6 +49,7 @@ export default {
         gorgiasOauth,
         "channel",
       ],
+      options: constants.channels.filter((c) => c !== "internal-note"),
       optional: false,
       default: "email",
     },
@@ -109,6 +111,10 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.channel === "internal-note") {
+      throw new ConfigurationError("\"internal-note\" is not a valid channel for Send Public Reply. Use the Send Internal Note action instead.");
+    }
+
     if ((this.attachmentUrl && !this.attachmentName)
       || (!this.attachmentUrl && this.attachmentName)
     ) {

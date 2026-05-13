@@ -475,6 +475,7 @@ export default {
       const { headers } = await axios($, {
         method: "HEAD",
         url,
+        timeout: 10000,
         returnFullResponse: true,
       });
       return {
