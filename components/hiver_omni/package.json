@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/hiver_omni",
+  "version": "0.0.1",
+  "description": "Pipedream Hiver Omni Components",
+  "main": "hiver_omni.app.mjs",
+  "keywords": [
+    "pipedream",
+    "hiver_omni"
+  ],
+  "homepage": "https://pipedream.com/apps/hiver_omni",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

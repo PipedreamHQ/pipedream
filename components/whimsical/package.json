@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/whimsical",
+  "version": "0.0.1",
+  "description": "Pipedream Whimsical Components",
+  "main": "whimsical.app.mjs",
+  "keywords": [
+    "pipedream",
+    "whimsical"
+  ],
+  "homepage": "https://pipedream.com/apps/whimsical",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

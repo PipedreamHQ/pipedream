@@ -2237,7 +2237,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/browser_use: {}
+  components/browser_use:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
 
   components/browseract: {}
 
@@ -4532,7 +4536,7 @@ importers:
     dependencies:
       '@pipedream/platform':
         specifier: ^3.0.3
-        version: 3.3.0
+        version: 3.3.1
 
   components/dokan: {}
 
@@ -7362,6 +7366,9 @@ importers:
 
   components/hiver: {}
 
+  components/hiver_omni:
+    specifiers: {}
+
   components/hogia: {}
 
   components/holded:
@@ -9171,6 +9178,9 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/luma:
+    specifiers: {}
+
   components/lumin_pdf:
     dependencies:
       '@pipedream/platform':
@@ -10738,7 +10748,11 @@ importers:
 
   components/oauth_app_demo_1: {}
 
-  components/obolus: {}
+  components/obolus:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
 
   components/occasion:
     dependencies:
@@ -12849,6 +12863,9 @@ importers:
       '@pipedream/platform':
         specifier: ^1.6.8
         version: 1.6.8
+
+  components/read_ai:
+    specifiers: {}
 
   components/readwise:
     dependencies:
@@ -17385,6 +17402,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
+
+  components/whimsical:
+    specifiers: {}
 
   components/white_swan:
     dependencies:
