@@ -4,7 +4,7 @@ import sampleEmit from "./test-event.mjs";
 
 export default {
   ...base,
-  key: "getty_images-new-image-instant",
+  key: "getty_images-new-image",
   name: "New Board Asset",
   description: "Emit new event each time an asset is added to a Getty Images board. Polls the board's asset list on a schedule. [See the documentation](https://developers.gettyimages.com/docs/)",
   version: "0.0.1",
