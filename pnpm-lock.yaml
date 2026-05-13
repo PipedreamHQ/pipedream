@@ -17879,7 +17879,11 @@ importers:
 
   components/yuroti: {}
 
-  components/yutori: {}
+  components/yutori:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
 
   components/z_api:
     dependencies:
