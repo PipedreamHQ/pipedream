@@ -26,7 +26,9 @@ export default {
           ? response.data
           : [];
       const count = items.length;
-      $.export("$summary", `Successfully retrieved ${count} project${count !== 1 ? "s" : ""}`);
+      $.export("$summary", `Successfully retrieved ${count} project${count !== 1
+        ? "s"
+        : ""}`);
     }
 
     return response;

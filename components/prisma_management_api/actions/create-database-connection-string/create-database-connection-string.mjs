@@ -34,7 +34,9 @@ export default {
     });
 
     if (response) {
-      $.export("$summary", `Successfully created connection string for database ${this.databaseId}${response.id ? ` with connection ID ${response.id}` : ""}`);
+      $.export("$summary", `Successfully created connection string for database ${this.databaseId}${response.id
+        ? ` with connection ID ${response.id}`
+        : ""}`);
     }
 
     return response;

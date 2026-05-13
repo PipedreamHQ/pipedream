@@ -21,7 +21,9 @@ export default {
 
     if (response) {
       const count = response.data?.length || 0;
-      $.export("$summary", `Successfully retrieved ${count} available Postgres region${count !== 1 ? "s" : ""}`);
+      $.export("$summary", `Successfully retrieved ${count} available Postgres region${count !== 1
+        ? "s"
+        : ""}`);
     }
 
     return response;

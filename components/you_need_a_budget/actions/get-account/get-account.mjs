@@ -39,7 +39,7 @@ export default {
       $.export("$summary", `Successfully fetched the account with ID: ${this.accountId}!`);
       return response;
     } catch (error) {
-      this.app.throwFormattedError(error?.error ?? error)
+      this.app.throwFormattedError(error?.error ?? error);
     }
   },
 };

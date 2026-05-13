@@ -31,7 +31,7 @@ export default {
         : " was"} successfully fetched!`);
       return response;
     } catch (error) {
-      this.app.throwFormattedError(error?.error ?? error)
+      this.app.throwFormattedError(error?.error ?? error);
     }
   },
 };

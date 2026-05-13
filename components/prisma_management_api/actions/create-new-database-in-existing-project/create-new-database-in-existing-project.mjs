@@ -36,7 +36,7 @@ export default {
     if (!this.region) {
       throw new Error("Region is required for creating a database");
     }
-    
+
     const data = {
       region: this.region,
     };
@@ -49,7 +49,9 @@ export default {
     });
 
     if (response) {
-      $.export("$summary", `Successfully created database in project ${this.projectId}${response.id ? ` with ID ${response.id}` : ""}`);
+      $.export("$summary", `Successfully created database in project ${this.projectId}${response.id
+        ? ` with ID ${response.id}`
+        : ""}`);
     }
 
     return response;

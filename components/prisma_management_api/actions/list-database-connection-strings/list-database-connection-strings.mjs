@@ -27,7 +27,9 @@ export default {
 
     if (response) {
       const count = response.data?.length || 0;
-      $.export("$summary", `Successfully retrieved ${count} connection${count !== 1 ? "s" : ""} for database ${this.databaseId}`);
+      $.export("$summary", `Successfully retrieved ${count} connection${count !== 1
+        ? "s"
+        : ""} for database ${this.databaseId}`);
     }
 
     return response;
