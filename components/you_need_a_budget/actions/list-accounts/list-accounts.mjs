@@ -4,7 +4,7 @@ export default {
   key: "you_need_a_budget-list-accounts",
   name: "List Accounts",
   description: "List all accounts for a specific budget. [See the docs](https://api.ynab.com/v1#/Accounts/getAccounts)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -31,7 +31,7 @@ export default {
         : " was"} successfully fetched!`);
       return response;
     } catch (error) {
-      this.app.throwFormattedError(error?.error ?? error)
+      this.app.throwFormattedError(error?.error ?? error);
     }
   },
 };
