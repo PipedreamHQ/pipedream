@@ -3,7 +3,7 @@ import sampleEmit from "./test-event.mjs";
 
 export default {
   ...base,
-  key: "getty_images-new-download-instant",
+  key: "getty_images-new-download",
   name: "New Download",
   description: "Emit new event each time an image is downloaded from the Getty Images account. Polls the download history on a schedule. [See the documentation](https://developers.gettyimages.com/docs/)",
   version: "0.0.1",
@@ -16,10 +16,11 @@ export default {
         ?? new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
     },
     generateMeta(download) {
+      const date = Date.parse(download.date_downloaded);
       return {
         id: download.id,
         summary: `Image downloaded: ${download.id}`,
-        ts: Date.parse(download.date_downloaded),
+        ts: isNaN(date) ? Date.now() : date,
       };
     },
     async emitEvent(maxResults) {
