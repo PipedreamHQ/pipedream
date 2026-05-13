@@ -56,7 +56,7 @@ export default {
     shipments: {
       type: "string",
       label: "Shipments",
-      description: "Updated shipment details. Each item requires `shipping_provider` (UUID).",
+      description: "Updated shipment details. Each item requires `shipping_provider` (UUID). Example: `[{\"shipping_provider\":\"sp_abc123\",\"tracking_number\":\"1Z999AA1012345678\",\"items\":[{\"line_item\":\"li_xyz789\",\"quantity\":1}]}]`",
       optional: true,
     },
     metadata: {

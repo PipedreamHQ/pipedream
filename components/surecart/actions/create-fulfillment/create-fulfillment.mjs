@@ -34,7 +34,7 @@ export default {
     shipments: {
       type: "string",
       label: "Shipments",
-      description: "Shipment details to create with this fulfillment. Each item requires `shipping_provider` (UUID). Optional fields: `weight`, `weight_unit` (g/kg/lb/oz), `shipping_date` (Unix timestamp), `from_contact`, `to_contact`, `dimensions`, `label_file_type` (PDF/PNG/ZPLII), `inherit_weight`.",
+      description: "Shipment details to create with this fulfillment. Each item requires `shipping_provider` (UUID). Optional fields: `weight`, `weight_unit` (g/kg/lb/oz), `shipping_date` (Unix timestamp), `from_contact`, `to_contact`, `dimensions`, `label_file_type` (PDF/PNG/ZPLII), `inherit_weight`. Example: `[{\"shipping_provider\":\"sp_abc123\",\"weight\":500,\"weight_unit\":\"g\",\"shipping_date\":1715600000,\"from_contact\":\"contact_123\",\"to_contact\":\"contact_456\",\"dimensions\":{\"length\":10,\"width\":5,\"height\":3},\"label_file_type\":\"PDF\",\"inherit_weight\":true}]`",
       optional: true,
     },
   },

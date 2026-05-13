@@ -28,7 +28,7 @@ export default {
     returnItems: {
       type: "string",
       label: "Return Items",
-      description: "Updated return items. Each item requires `line_item` (UUID), `quantity` (integer, must not exceed fulfilled quantity), and `return_reason` (one of: `color`, `defective`, `not_as_described`, `other`, `size_too_large`, `size_too_small`, `style`, `unknown`, `unwanted`, `wrong_item`). Include `note` when reason is `other`.",
+      description: "Updated return items. Each item requires `line_item` (UUID), `quantity` (integer, must not exceed fulfilled quantity), and `return_reason` (one of: `color`, `defective`, `not_as_described`, `other`, `size_too_large`, `size_too_small`, `style`, `unknown`, `unwanted`, `wrong_item`). Include `note` when reason is `other`. Example: `[{\"line_item\":\"li_abc123\",\"quantity\":1,\"return_reason\":\"other\",\"note\":\"Item arrived damaged\"}]`",
       optional: true,
     },
     metadata: {
