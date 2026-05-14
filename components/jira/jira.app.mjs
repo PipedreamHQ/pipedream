@@ -92,14 +92,32 @@ export default {
       type: "string",
       label: "Issue ID or Key",
       description: "The ID or key of an issue",
+      useQuery: true,
       async options({
-        prevContext, cloudId, tasksOnly = false,
+        prevContext, query, cloudId, tasksOnly = false,
       }) {
         let { startAt } = prevContext || {};
         const pageSize = 50;
-        const jql = tasksOnly
-          ? "project is not EMPTY AND issuetype = \"Task\" ORDER BY created DESC"
-          : "project is not EMPTY ORDER BY created DESC";
+        const clauses = [
+          "project is not EMPTY",
+        ];
+        if (tasksOnly) {
+          clauses.push("issuetype = \"Task\"");
+        }
+        if (query) {
+          // Sends `(issuekey = "<q>" OR text ~ "<q>*")`.
+          // Purely numeric queries also send `id = <q>`.
+          const escaped = query.replace(/["\\]/g, "\\$&");
+          const subClauses = [
+            `issuekey = "${escaped}"`,
+            `text ~ "${escaped}*"`,
+          ];
+          if (/^\d+$/.test(query)) {
+            subClauses.unshift(`id = ${query}`);
+          }
+          clauses.push(`(${subClauses.join(" OR ")})`);
+        }
+        const jql = `${clauses.join(" AND ")} ORDER BY created DESC`;
         const resp = await this.searchIssues({
           cloudId,
           params: {
@@ -867,6 +885,21 @@ export default {
         path: `/board/${boardId}/epic/${epicId}/issue`,
         ...args,
       });
+    },
+    getServerInfo({
+      cloudId, ...args
+    } = {}) {
+      return this._makeRequest({
+        cloudId,
+        path: "/serverInfo",
+        ...args,
+      });
+    },
+    async getCloudBaseUrl(cloudId) {
+      const { baseUrl } = await this.getServerInfo({
+        cloudId,
+      });
+      return baseUrl;
     },
     async *getResourcesStream({
       cloudId,

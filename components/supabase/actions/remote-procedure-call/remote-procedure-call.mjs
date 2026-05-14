@@ -4,7 +4,7 @@ export default {
   key: "supabase-remote-procedure-call",
   name: "Remote Procedure Call",
   type: "action",
-  version: "0.1.5",
+  version: "0.1.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

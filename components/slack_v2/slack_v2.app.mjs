@@ -1115,5 +1115,45 @@ export default {
         ...args,
       });
     },
+    /**
+     * Strips a leading "#" from a channel name. Use for Slack API methods
+     * that accept channel names directly (e.g. chat.postMessage, chat.update).
+     * @param {string} input - Channel ID or channel name (with or without #)
+     * @returns {string} The input with any leading # removed
+     */
+    normalizeChannel(input) {
+      return input.replace(/^#/, "");
+    },
+    /**
+     * Resolves a channel name (e.g. "general", "#general") to its ID.
+     * If the input already looks like an ID (starts with C/D/G/U + 8+ alphanums),
+     * returns it as-is. Fetches up to 999 channels per page (the Slack API max)
+     * to minimize API calls.
+     *
+     * Note: chat.postMessage and chat.update accept channel names directly —
+     * use normalizeChannel() instead for those methods.
+     *
+     * @param {string} input - Channel ID or channel name
+     * @returns {Promise<string>} The resolved channel ID
+     */
+    async resolveChannelId(input) {
+      if (/^[CDGU][A-Z0-9]{8,}$/i.test(input)) return input;
+      const name = input.replace(/^#/, "").toLowerCase();
+      let cursor;
+      do {
+        const {
+          channels, response_metadata: { next_cursor: nextCursor },
+        } = await this.conversationsList({
+          types: "public_channel,private_channel",
+          limit: 999,
+          cursor,
+          exclude_archived: true,
+        });
+        const match = channels.find((c) => c.name === name);
+        if (match) return match.id;
+        cursor = nextCursor;
+      } while (cursor);
+      throw new Error(`Channel "${input}" not found. Provide a valid channel ID or name.`);
+    },
   },
 };

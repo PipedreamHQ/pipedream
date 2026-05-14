@@ -4,7 +4,7 @@ export default {
   key: "daytona-revoke-ssh-access",
   name: "Revoke SSH Access",
   description: "Revoke SSH access for a sandbox on Daytona. [See the documentation](https://www.daytona.io/docs/en/typescript-sdk/sandbox/#revokesshaccess)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

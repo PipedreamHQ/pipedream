@@ -6,7 +6,7 @@ export default {
   description:
     "Get a single HubSpot owner (user) by ID. Select an owner from the dropdown (search by email), enter an ID manually, or use **List Owners** for a full list."
     + " [See the documentation](https://developers.hubspot.com/docs/api-reference/crm-owners-v3/owners/get-crm-v3-owners-ownerId)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

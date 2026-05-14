@@ -54,6 +54,11 @@ function getListFilesOpts(drive, baseOpts = {}) {
       supportsAllDrives: true,
     }
     : {
+      // Google's `files.list` API requires `includeItemsFromAllDrives: true`
+      // whenever `driveId` is set or `corpora` is `drive`/`allDrives`.
+      // Placed before the spread so callers (e.g. list-files's
+      // `limitToMyDrive` toggle) can still override.
+      includeItemsFromAllDrives: true,
       ...baseOpts,
       corpora: "drive",
       driveId: getDriveId(drive),
@@ -302,8 +307,12 @@ async function stashFile(item, googleDrive, dir) {
     buffer.length,
   );
   // Return file details and temporary download link:
-  // { path, get_url, s3Key, type }
-  return await file.withoutPutUrl().withGetUrl();
+  // { fileId, path, get_url, s3Key, type }
+  const stashedFile = await file.withoutPutUrl().withGetUrl();
+  return {
+    fileId: item.id,
+    ...stashedFile,
+  };
 }
 
 export {

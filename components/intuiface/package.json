@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/intuiface",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "description": "Pipedream Intuiface Components",
   "main": "intuiface.app.mjs",
   "keywords": [

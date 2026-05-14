@@ -5,9 +5,9 @@ export default {
   name: "Update Contact",
   description: "Updates details of an existing contact. [See the docs here](https://desk.zoho.com/DeskAPIDocument#Contacts#Contacts_Updateacontact)",
   type: "action",
-  version: "0.0.9",
+  version: "0.0.12",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },

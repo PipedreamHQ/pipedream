@@ -5,7 +5,7 @@ export default {
   key: "sendcloud-bulk-pdf-label-printing",
   name: "Bulk PDF Label Printing",
   description: "Bulk PDF label printing. [See the documentation](https://api.sendcloud.dev/docs/sendcloud-public-api/branches/v2/labels/operations/create-a-label)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

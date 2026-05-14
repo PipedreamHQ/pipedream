@@ -245,6 +245,10 @@ export default {
         .query(pickBy(params))
         .get();
     },
+    async listCalendarEventsPage({ url } = {}) {
+      return await this.client().api(url)
+        .get();
+    },
     async getCalendarEvent({
       eventId, params = {},
     } = {}) {
@@ -280,6 +284,20 @@ export default {
       return await this.client().api("/me/calendar/getSchedule")
         .header("Prefer", `outlook.timezone="${timeZone}"`)
         .post(data);
+    },
+    async findMeetingTimes({
+      userId,
+      timeZone,
+      data = {},
+    } = {}) {
+      const basePath = userId
+        ? `/users/${encodeURIComponent(userId)}`
+        : "/me";
+      let request = this.client().api(`${basePath}/findMeetingTimes`);
+      if (timeZone) {
+        request = request.header("Prefer", `outlook.timezone="${timeZone}"`);
+      }
+      return await request.post(data);
     },
   },
 };
