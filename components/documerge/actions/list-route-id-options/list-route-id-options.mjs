@@ -2,8 +2,8 @@ import documerge from "../../documerge.app.mjs";
 
 export default {
   key: "documerge-list-route-id-options",
-  name: "List Routet ID Options",
-  description: "Retrieves available options for the Routet ID field.",
+  name: "List Route ID Options",
+  description: "Retrieves available options for the Route ID field.",
   version: "0.0.1",
   type: "action",
   annotations: {

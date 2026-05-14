@@ -2,8 +2,8 @@ import uscreen from "../../uscreen.app.mjs";
 
 export default {
   key: "uscreen-list-offer-id-options",
-  name: "List Product ID Options",
-  description: "Retrieves available options for the Product ID field.",
+  name: "List Offer ID Options",
+  description: "Retrieves available options for the Offer ID field.",
   version: "0.0.1",
   type: "action",
   annotations: {

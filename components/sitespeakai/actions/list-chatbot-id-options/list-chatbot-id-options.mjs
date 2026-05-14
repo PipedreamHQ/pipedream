@@ -2,8 +2,8 @@ import sitespeakai from "../../sitespeakai.app.mjs";
 
 export default {
   key: "sitespeakai-list-chatbot-id-options",
-  name: "List Chatbot Options",
-  description: "Retrieves available options for the Chatbot field.",
+  name: "List Chatbot ID Options",
+  description: "Retrieves available options for the Chatbot ID field.",
   version: "0.0.1",
   type: "action",
   annotations: {
