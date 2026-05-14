@@ -31,18 +31,14 @@ export default {
         "contentType",
       ],
     },
-    hostedContents: {
-      type: "string[]",
-      label: "Hosted Contents",
-      description: "A list of hosted content objects (e.g., inline images). Each object should contain `contentBytes` (base64) and `@microsoft.graph.temporaryId`.",
-      optional: true,
-    },
+    hostedContents: { propDefinition: [microsoftTeams, "hostedContents"] },
   },
   async run({ $ }) {
     const {
       chatId,
       message,
       contentType,
+      hostedContents,
     } = this;
 
     const response =

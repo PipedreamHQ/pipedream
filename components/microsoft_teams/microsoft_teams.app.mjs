@@ -182,6 +182,12 @@ export default {
         "html",
       ],
     },
+    hostedContents: {
+      type: "string[]",
+      label: "Hosted Contents",
+      description: "A list of hosted content objects (e.g., inline images). Each object should contain `contentBytes` (base-64 encoded string), `contentType`, and `@microsoft.graph.temporaryId`. To embed the image, use `<img src=\"../hostedContents/1/$value\">` in the message body (where '1' is the temporaryId). Example: `{\"@microsoft.graph.temporaryId\": \"1\", \"contentBytes\": \"iVBOR...\", \"contentType\": \"image/png\"}`",
+      optional: true,
+    },
   },
   methods: {
     _accessToken() {

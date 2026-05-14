@@ -40,12 +40,7 @@ export default {
         "contentType",
       ],
     },
-    hostedContents: {
-      type: "string[]",
-      label: "Hosted Contents",
-      description: "An array of JSON strings, each representing an inline hosted image to attach. Each item must be a JSON object with `'@microsoft.graph.temporaryId'` (string), `contentBytes` (base64-encoded image data), and `contentType` (MIME type, e.g. `image/png`). Example: `{\"@microsoft.graph.temporaryId\": \"1\", \"contentBytes\": \"BASE64_STRING\", \"contentType\": \"image/png\"}`. Reference each image in your HTML message body using `<img src=\"../hostedContents/1/$value\">`. [See the docs](https://learn.microsoft.com/en-us/graph/api/chatmessage-post?view=graph-rest-1.0&tabs=http#example-6-send-inline-images-along-with-the-message)",
-      optional: true,
-    },
+    hostedContents: { propDefinition: [microsoftTeams, "hostedContents"] },
   },
   async run({ $ }) {
     const {
