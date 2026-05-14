@@ -2,7 +2,7 @@ import app from "../../onenote.app.mjs";
 
 export default {
   name: "Create Page",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

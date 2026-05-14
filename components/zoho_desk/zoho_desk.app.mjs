@@ -502,8 +502,8 @@ export default {
           : await axios($, config);
       } catch (error) {
         console.log("Request error", error.response?.data);
-        throw new ConfigurationError(error.response?.data?.errors[0]?.errorMessage
-          || error.response?.data?.message);
+        throw new ConfigurationError(error.response?.data?.errors?.[0]?.errorMessage
+          || error.response?.data?.message || error.message || "Unknown Zoho Desk API error");
       }
     },
     createWebhook(args = {}) {

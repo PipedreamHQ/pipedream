@@ -2237,7 +2237,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/browser_use: {}
+  components/browser_use:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
 
   components/browseract: {}
 
@@ -4526,7 +4530,7 @@ importers:
     dependencies:
       '@pipedream/platform':
         specifier: ^3.0.3
-        version: 3.3.0
+        version: 3.3.1
 
   components/dokan: {}
 
@@ -5247,8 +5251,7 @@ importers:
 
   components/exact_mails: {}
 
-  components/excalidraw:
-    specifiers: {}
+  components/excalidraw: {}
 
   components/exhibitday:
     dependencies:
@@ -7356,6 +7359,8 @@ importers:
 
   components/hiver: {}
 
+  components/hiver_omni: {}
+
   components/hogia: {}
 
   components/holded:
@@ -8860,8 +8865,8 @@ importers:
         specifier: ^55.1.0
         version: 55.2.1(encoding@0.1.13)
       '@pipedream/linear_app':
-        specifier: ^0.9.2
-        version: 0.9.2(encoding@0.1.13)
+        specifier: ^0.11.0
+        version: 0.11.0(encoding@0.1.13)
       '@pipedream/platform':
         specifier: ^3.3.0
         version: 3.3.0
@@ -9166,7 +9171,10 @@ importers:
         version: 3.1.1
 
   components/luma:
-    specifiers: {}
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
 
   components/lumin_pdf:
     dependencies:
@@ -10735,7 +10743,11 @@ importers:
 
   components/oauth_app_demo_1: {}
 
-  components/obolus: {}
+  components/obolus:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
 
   components/occasion:
     dependencies:
@@ -10881,6 +10893,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.3.0
         version: 3.3.0
+      turndown:
+        specifier: ^7.2.0
+        version: 7.2.2
 
   components/onepage: {}
 
@@ -12846,6 +12861,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.6.8
         version: 1.6.8
+
+  components/read_ai: {}
 
   components/readwise:
     dependencies:
@@ -15395,7 +15412,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/surecart: {}
+  components/surecart:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
 
   components/survey2connect: {}
 
@@ -17382,6 +17403,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
+
+  components/whimsical: {}
 
   components/white_swan:
     dependencies:
@@ -20099,16 +20122,16 @@ packages:
   '@daytonaio/toolbox-api-client@0.138.0':
     resolution: {integrity: sha512-unM9e7MOQiyDXdY8hCW1uTctYbxpo/TGZ6L71ZXyS/j2Cnz9/ud4VWBLcQP2VzlC+lrBP2YMrhT90zSSvcNfmA==}
 
-  '@definitelytyped/header-parser@0.2.27':
-    resolution: {integrity: sha512-5NJMixxngpGSnGMRRmObDPTNJzNBh/glT2BDniFNXhKnE8c9/vI46nrb3YvfVJA4KGMLjf738Z91Cu7q18sKvg==}
+  '@definitelytyped/header-parser@0.2.28':
+    resolution: {integrity: sha512-JONMU+bw65y1EHtJggxMM9LdFUuvjFY1SXdSH038HcfYceRKiVHvWnMa8/cCKTAj/X696UqND8MVa5s7cJZwfg==}
     engines: {node: '>=20.17.0'}
 
   '@definitelytyped/typescript-versions@0.1.11':
     resolution: {integrity: sha512-hkO3A+ZyjeiLEXLTYe561uv9hnTvHM15+JTi3RgetfuB/+/Rp4Im1y/m+SehSi6D3iwdnbPckupv5TZ4PnlKPg==}
     engines: {node: '>=20.17.0'}
 
-  '@definitelytyped/utils@0.1.13':
-    resolution: {integrity: sha512-B9+yLpGZbNHXofccDGOKujBimXrrKTK7NO41QhRwmRar/Z9/t5HdG5IpwdEpiioAbYd1Fju/FCLrI/3KzGweQw==}
+  '@definitelytyped/utils@0.1.14':
+    resolution: {integrity: sha512-dh6J1DPR2WbczPP5/eFeeVh0tXiYTnfM0FTl6NzVqpummcqSzbo9gB2ySXQaK7Xr4bJskz/lszSBuDrz9bFWcw==}
     engines: {node: '>=20.17.0'}
 
   '@dependents/detective-less@5.0.1':
@@ -21944,8 +21967,8 @@ packages:
   '@pipedream/launchdarkly@0.1.1':
     resolution: {integrity: sha512-RqW4cJ0CfCnCy/lCutIJNSlX3IXV3jxoyqxDgAeHx8Q8BUEjEl7T0+1vMLyNXhU+V4Kj38KVURnSKqCE59UVvg==}
 
-  '@pipedream/linear_app@0.9.2':
-    resolution: {integrity: sha512-l7axyLs/tCNupQVmCEUb/f7WucbDbjgXMI2m+gqayHU5m809sGoRfKw8QwTta4L4GPkpGH9AtUF44p6bquyA7Q==}
+  '@pipedream/linear_app@0.11.0':
+    resolution: {integrity: sha512-TxEe8BCvIrOOKQMv4UphoZSoSRBxDY/gBRfkzdq3zW0mkLKvqyzwSXOJ+86m5+5uuH6670SGbxg02kAAz7S7xA==}
 
   '@pipedream/linkedin@0.1.1':
     resolution: {integrity: sha512-9pFjaohz/wnJMIRpPmDPqHeWiXUIJVWIPvQudE8TkUjaBbyieDpscy8reWMp96UK9aXz1Z2J2yiNh0msILAX9Q==}
@@ -38477,10 +38500,10 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@definitelytyped/header-parser@0.2.27':
+  '@definitelytyped/header-parser@0.2.28':
     dependencies:
       '@definitelytyped/typescript-versions': 0.1.11
-      '@definitelytyped/utils': 0.1.13
+      '@definitelytyped/utils': 0.1.14
       semver: 7.7.4
     transitivePeerDependencies:
       - bare-abort-controller
@@ -38490,7 +38513,7 @@ snapshots:
 
   '@definitelytyped/typescript-versions@0.1.11': {}
 
-  '@definitelytyped/utils@0.1.13':
+  '@definitelytyped/utils@0.1.14':
     dependencies:
       '@types/node': 25.6.0
       cachedir: 2.4.0
@@ -40930,7 +40953,7 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@pipedream/linear_app@0.9.2(encoding@0.1.13)':
+  '@pipedream/linear_app@0.11.0(encoding@0.1.13)':
     dependencies:
       '@linear/sdk': 55.2.1(encoding@0.1.13)
       '@pipedream/platform': 3.4.0
@@ -41729,6 +41752,7 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
+      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.60(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1))(rollup@4.53.2)':
     dependencies:
@@ -47059,7 +47083,7 @@ snapshots:
 
   dts-critic@3.3.11(typescript@5.6.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.27
+      '@definitelytyped/header-parser': 0.2.28
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -47074,7 +47098,7 @@ snapshots:
 
   dts-critic@3.3.11(typescript@5.9.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.27
+      '@definitelytyped/header-parser': 0.2.28
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -47091,9 +47115,9 @@ snapshots:
 
   dtslint@4.2.1(typescript@5.6.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.27
+      '@definitelytyped/header-parser': 0.2.28
       '@definitelytyped/typescript-versions': 0.1.11
-      '@definitelytyped/utils': 0.1.13
+      '@definitelytyped/utils': 0.1.14
       dts-critic: 3.3.11(typescript@5.6.3)
       fs-extra: 6.0.1
       json-stable-stringify: 1.3.0
@@ -47110,9 +47134,9 @@ snapshots:
 
   dtslint@4.2.1(typescript@5.9.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.27
+      '@definitelytyped/header-parser': 0.2.28
       '@definitelytyped/typescript-versions': 0.1.11
-      '@definitelytyped/utils': 0.1.13
+      '@definitelytyped/utils': 0.1.14
       dts-critic: 3.3.11(typescript@5.9.3)
       fs-extra: 6.0.1
       json-stable-stringify: 1.3.0
