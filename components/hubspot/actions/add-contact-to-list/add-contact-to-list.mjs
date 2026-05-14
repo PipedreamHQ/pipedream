@@ -5,7 +5,7 @@ export default {
   name: "Add Contact to List",
   description:
     "Adds a contact to a specific static list. [See the documentation](https://developers.hubspot.com/docs/api-reference/crm-lists-v3/memberships/put-crm-v3-lists-listId-memberships-add)",
-  version: "0.1.0",
+  version: "0.1.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
