@@ -4,7 +4,7 @@ import utils from "../../common/utils.mjs";
 export default {
   type: "action",
   key: "close-create-lead",
-  version: "0.1.2",
+  version: "0.1.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
