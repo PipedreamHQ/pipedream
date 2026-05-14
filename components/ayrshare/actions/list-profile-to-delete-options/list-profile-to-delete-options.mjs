@@ -2,8 +2,8 @@ import ayrshare from "../../ayrshare.app.mjs";
 
 export default {
   key: "ayrshare-list-profile-to-delete-options",
-  name: "List Title Options",
-  description: "Retrieves available options for the Title field.",
+  name: "List Profile To Delete Options",
+  description: "Retrieves available options for the Profile to Delete field.",
   version: "0.0.1",
   type: "action",
   annotations: {

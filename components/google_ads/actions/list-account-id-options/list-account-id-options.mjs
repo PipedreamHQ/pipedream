@@ -2,8 +2,8 @@ import google_ads from "../../google_ads.app.mjs";
 
 export default {
   key: "google_ads-list-account-id-options",
-  name: "List Use Google Ads As Options",
-  description: "Retrieves available options for the Use Google Ads As field.",
+  name: "List Account ID Options",
+  description: "Retrieves available options for the Account ID field.",
   version: "0.0.1",
   type: "action",
   annotations: {

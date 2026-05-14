@@ -2,8 +2,8 @@ import amara from "../../amara.app.mjs";
 
 export default {
   key: "amara-list-primary-audio-language-code-options",
-  name: "List Primary audio language code Options",
-  description: "Retrieves available options for the Primary audio language code field.",
+  name: "List Primary Audio Language Code Options",
+  description: "Retrieves Available Options for the Primary Audio Language Code Field.",
   version: "0.0.1",
   type: "action",
   annotations: {
