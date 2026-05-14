@@ -31,6 +31,12 @@ export default {
         "contentType",
       ],
     },
+    hostedContents: {
+      type: "string[]",
+      label: "Hosted Contents",
+      description: "A list of hosted content objects (e.g., inline images). Each object should contain `contentBytes` (base64) and `@microsoft.graph.temporaryId`.",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const {
@@ -47,6 +53,7 @@ export default {
             content: message,
             contentType,
           },
+          hostedContents: hostedContents?.map(hc => typeof hc === "string" ? JSON.parse(hc) : hc),
         },
       });
 
