@@ -45,13 +45,13 @@ export default {
     trackings: {
       type: "string",
       label: "Trackings",
-      description: "Updated tracking information. Each item: `{ \"number\": \"1Z999AA1012345678\", \"url\": \"https://tracking.example.com\" }`",
+      description: "Updated tracking information as a JSON array. Example: `[{ \"number\": \"1Z999AA1012345678\", \"url\": \"https://tracking.example.com\" }]`",
       optional: true,
     },
     fulfillmentItems: {
       type: "string",
       label: "Fulfillment Items",
-      description: "Updated fulfillment items. Each item: `{ \"line_item\": \"li_abc123\", \"quantity\": 1 }`",
+      description: "Updated fulfillment items as a JSON array. Example: `[{ \"line_item\": \"li_abc123\", \"quantity\": 1 }]`",
       optional: true,
     },
     shipments: {
@@ -68,11 +68,13 @@ export default {
     },
   },
   async run({ $ }) {
-    if (!this.notificationsEnabled
-        && !this.shipmentStatus
-        && !this.trackings
-        && !this.fulfillmentItems
-        && !this.shipments && !this.metadata
+    if (
+      this.notificationsEnabled === undefined
+      && this.shipmentStatus === undefined
+      && this.trackings === undefined
+      && this.fulfillmentItems === undefined
+      && this.shipments === undefined
+      && this.metadata === undefined
     ) {
       throw new ConfigurationError("At least one of the following parameters must be provided: `Notifications Enabled`, `Shipment Status`, `Trackings`, `Fulfillment Items`, `Shipments`, `Metadata`");
     }

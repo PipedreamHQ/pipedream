@@ -28,7 +28,7 @@ export default {
     amount: {
       type: "integer",
       label: "Amount",
-      description: "Price in cents. Required unless **Ad Hoc** is `true`. Example: `9900` for $99.00",
+      description: "Price in cents for fixed-price plans. Leave empty when **Ad Hoc** is `true` to allow custom amounts. Example: `9900` for $99.00",
       optional: true,
     },
     currency: {
