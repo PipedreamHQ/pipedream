@@ -2,8 +2,8 @@ import dust from "../../dust.app.mjs";
 
 export default {
   key: "dust-list-data-source-id-options",
-  name: "List Folder ID Options",
-  description: "Retrieves available options for the Folder ID field.",
+  name: "List Data Source ID Options",
+  description: "Retrieves available options for the Data Source ID field.",
   version: "0.0.1",
   type: "action",
   annotations: {

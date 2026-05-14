@@ -2,8 +2,8 @@ import finage from "../../finage.app.mjs";
 
 export default {
   key: "finage-list-symbol-options",
-  name: "List symbol Options",
-  description: "Retrieves available options for the symbol field.",
+  name: "List Symbol Options",
+  description: "Retrieves available options for the Symbol field.",
   version: "0.0.1",
   type: "action",
   annotations: {
