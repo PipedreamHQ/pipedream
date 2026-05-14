@@ -4,7 +4,7 @@ export default {
   key: "surecart-list-line-items",
   name: "List Line Items",
   description: "Return a list of line items. [See the documentation](https://developer.surecart.com/api-reference/line-items/list)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
