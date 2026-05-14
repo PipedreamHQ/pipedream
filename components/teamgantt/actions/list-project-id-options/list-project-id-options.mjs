@@ -2,8 +2,8 @@ import teamgantt from "../../teamgantt.app.mjs";
 
 export default {
   key: "teamgantt-list-project-id-options",
-  name: "List Project Id Options",
-  description: "Retrieves available options for the Project Id field.",
+  name: "List Project ID Options",
+  description: "Retrieves available options for the Project ID field.",
   version: "0.0.1",
   type: "action",
   annotations: {
