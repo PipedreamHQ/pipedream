@@ -2,7 +2,7 @@ import microsoft_dynamics_365_sales from "../../microsoft_dynamics_365_sales.app
 
 export default {
   key: "microsoft_dynamics_365_sales-list-appointment-category-options",
-  name: "List Category of appointment Options",
+  name: "List Appointment Category Options",
   description: "Retrieves available options for the Category of appointment field.",
   version: "0.0.1",
   type: "action",

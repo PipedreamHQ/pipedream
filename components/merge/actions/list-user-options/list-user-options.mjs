@@ -2,8 +2,8 @@ import merge from "../../merge.app.mjs";
 
 export default {
   key: "merge-list-user-options",
-  name: "List ID Options",
-  description: "Retrieves available options for the ID field.",
+  name: "List User Options",
+  description: "Retrieves available user options for the user field.",
   version: "0.0.1",
   type: "action",
   annotations: {

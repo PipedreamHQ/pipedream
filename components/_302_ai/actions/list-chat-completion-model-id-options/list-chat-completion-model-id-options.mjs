@@ -2,8 +2,8 @@ import _302_ai from "../../_302_ai.app.mjs";
 
 export default {
   key: "_302_ai-list-chat-completion-model-id-options",
-  name: "List Model Options",
-  description: "Retrieves available options for the Model field.",
+  name: "List Chat Completion Model ID Options",
+  description: "Retrieves available options for the Chat Completion Model ID field.",
   version: "0.0.1",
   type: "action",
   annotations: {
