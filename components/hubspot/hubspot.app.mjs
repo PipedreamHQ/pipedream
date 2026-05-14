@@ -2169,6 +2169,12 @@ export default {
         ...opts,
       });
     },
+    /**
+     * Get a Conversations thread by ID.
+     * @param {string} threadId - The thread ID
+     * @param {object} opts - Additional request options (include `$` for Pipedream)
+     * @returns {Promise<object>} Thread record
+     */
     getThread({
       threadId, ...opts
     }) {
@@ -2178,6 +2184,15 @@ export default {
         ...opts,
       });
     },
+    /**
+     * Update a Conversations thread via PATCH. Used for status updates and
+     * for restoring archived threads (with `params.archived=true` and
+     * `data.archived=false`).
+     * @param {string} threadId - The thread ID
+     * @param {object} opts - Additional request options (include `$`, `data`,
+     * and optional `params`)
+     * @returns {Promise<object>} Updated thread record
+     */
     updateThread({
       threadId, ...opts
     }) {
@@ -2188,6 +2203,12 @@ export default {
         ...opts,
       });
     },
+    /**
+     * Get a Conversations actor by fully-qualified actor ID.
+     * @param {string} actorId - Fully-qualified actor ID (e.g. `A-12345`)
+     * @param {object} opts - Additional request options (include `$` for Pipedream)
+     * @returns {Promise<object>} Actor record with name, email, and type
+     */
     getActor({
       actorId, ...opts
     }) {
@@ -2197,6 +2218,13 @@ export default {
         ...opts,
       });
     },
+    /**
+     * Archive (soft-delete) a Conversations thread. Reversible via
+     * {@link updateThread} with `params.archived=true` and `data.archived=false`.
+     * @param {string} threadId - The thread ID
+     * @param {object} opts - Additional request options (include `$` for Pipedream)
+     * @returns {Promise<void>} Empty response on success
+     */
     archiveThread({
       threadId, ...opts
     }) {
@@ -2207,6 +2235,12 @@ export default {
         ...opts,
       });
     },
+    /**
+     * Normalize a Conversations actor ID by prepending `A-` when no type prefix
+     * is present, so a bare HubSpot owner ID becomes a fully-qualified actor ID.
+     * @param {string} actorId - Raw or prefixed actor ID
+     * @returns {string} Fully-qualified actor ID
+     */
     normalizeActorId(actorId) {
       return /^[A-Z]-/.test(actorId)
         ? actorId
