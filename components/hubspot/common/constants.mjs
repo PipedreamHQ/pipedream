@@ -27,6 +27,7 @@ const API_PATH = {
   CONTENT: "/content/api/v2",
   COMMUNICATION_PREFERENCES: "/communication-preferences/v4",
   CONVERSATIONS: "/conversations/v3",
+  SCHEDULER: "/scheduler/v3",
 };
 
 /** Association categories for association types, as defined by the [Hubspot API

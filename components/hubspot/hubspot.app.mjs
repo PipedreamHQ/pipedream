@@ -1,5 +1,10 @@
 import { axios } from "@pipedream/platform";
 import Bottleneck from "bottleneck";
+import timezonesList from "timezones-list";
+
+const TIMEZONES = Array.isArray(timezonesList)
+  ? timezonesList
+  : (timezonesList?.default ?? []);
 import {
   API_PATH,
   BASE_URL,
@@ -1003,6 +1008,82 @@ export default {
       description: "A list of objects representing the workflow actions. [See the documentation](https://developers.hubspot.com/docs/api-reference/automation-automation-v4-v4/guide#action-types) for more information.",
       optional: true,
     },
+    organizerUserId: {
+      type: "string",
+      label: "Organizer User ID",
+      description: "HubSpot User ID of the meeting organizer. This is the user-level `userId` returned by the Owners API (not the Owner `id`).",
+      async options({ prevContext = {} }) {
+        const { nextAfter } = prevContext;
+        const {
+          results, paging,
+        } = await this.getOwners({
+          params: {
+            after: nextAfter,
+          },
+        });
+        return {
+          options: (results || [])
+            .filter(({ userId }) => userId)
+            .map(({
+              userId, firstName, lastName, email,
+            }) => ({
+              label: `${[
+                firstName,
+                lastName,
+              ].filter(Boolean).join(" ") || email} (${email})`,
+              value: `${userId}`,
+            })),
+          context: {
+            nextAfter: paging?.next?.after,
+          },
+        };
+      },
+    },
+    meetingLinkSlug: {
+      type: "string",
+      label: "Meeting Link Slug",
+      description: "The meeting scheduling page slug (e.g. `jane-doe/15min`).",
+      async options({
+        organizerUserId, prevContext = {},
+      }) {
+        const { nextAfter } = prevContext;
+        const {
+          results = [], paging,
+        } = await this.listMeetingLinks({
+          params: {
+            organizerUserId,
+            after: nextAfter,
+          },
+        });
+        return {
+          options: results.map(({
+            slug, name,
+          }) => ({
+            label: name
+              ? `${name} (${slug})`
+              : slug,
+            value: slug,
+          })),
+          context: {
+            nextAfter: paging?.next?.after,
+          },
+        };
+      },
+    },
+    meetingTimezone: {
+      type: "string",
+      label: "Timezone",
+      description: "IANA timezone identifier used to evaluate availability and bookings (e.g. `America/New_York`).",
+      default: "UTC",
+      async options() {
+        return TIMEZONES.map(({
+          label, tzCode,
+        }) => ({
+          label,
+          value: tzCode,
+        }));
+      },
+    },
   },
   methods: {
     _getHeaders() {
@@ -1900,6 +1981,60 @@ export default {
       return this.makeRequest({
         api: API_PATH.CRMV3,
         endpoint: "/objects/meetings/search",
+        method: "POST",
+        ...opts,
+      });
+    },
+    /**
+     * List meeting scheduling pages (meeting links) for an organizer.
+     * @param {object} opts - Request options. Pass filters via `params`
+     * (e.g. `organizerUserId`, `name`, `type`, `limit`).
+     * @returns {Promise<object>} `{ total, results }`
+     */
+    listMeetingLinks(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.SCHEDULER,
+        endpoint: "/meetings/meeting-links",
+        ...opts,
+      });
+    },
+    /**
+     * Get the booking configuration and availability for a meeting link.
+     * @param {object} opts - `{ slug, ...rest }`. Pass `timezone` (required)
+     * and optional `monthOffset` via `params`.
+     */
+    getMeetingLinkBookingInfo({
+      slug, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.SCHEDULER,
+        endpoint: `/meetings/meeting-links/book/${slug}`,
+        ...opts,
+      });
+    },
+    /**
+     * Get just the availability page (slots + busy times) for a meeting link.
+     * @param {object} opts - `{ slug, ...rest }`. Pass `timezone` (required)
+     * via `params`.
+     */
+    getMeetingLinkAvailability({
+      slug, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.SCHEDULER,
+        endpoint: `/meetings/meeting-links/book/availability-page/${slug}`,
+        ...opts,
+      });
+    },
+    /**
+     * Book a meeting on a scheduling page.
+     * @param {object} opts - Request options. Pass `timezone` via `params` and
+     * the booking payload via `data`.
+     */
+    bookMeetingLink(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.SCHEDULER,
+        endpoint: "/meetings/meeting-links/book/",
         method: "POST",
         ...opts,
       });
