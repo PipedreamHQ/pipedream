@@ -41,12 +41,6 @@ export default {
         "outputSchema",
       ],
     },
-    userLocation: {
-      propDefinition: [
-        app,
-        "userLocation",
-      ],
-    },
   },
   async run({ $ }) {
     const response = await this.app.answer({
@@ -56,7 +50,6 @@ export default {
         text: this.text,
         systemPrompt: this.systemPrompt,
         outputSchema: parseOptionalJsonSchema(this.outputSchema, "output schema"),
-        userLocation: this.userLocation,
       },
     });
 
