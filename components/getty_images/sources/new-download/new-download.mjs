@@ -20,7 +20,9 @@ export default {
       return {
         id: download.id,
         summary: `Image downloaded: ${download.id}`,
-        ts: isNaN(date) ? Date.now() : date,
+        ts: isNaN(date)
+          ? Date.now()
+          : date,
       };
     },
     async emitEvent(maxResults) {
