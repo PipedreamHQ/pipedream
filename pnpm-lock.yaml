@@ -5251,8 +5251,7 @@ importers:
 
   components/exact_mails: {}
 
-  components/excalidraw:
-    specifiers: {}
+  components/excalidraw: {}
 
   components/exhibitday:
     dependencies:
@@ -7360,8 +7359,7 @@ importers:
 
   components/hiver: {}
 
-  components/hiver_omni:
-    specifiers: {}
+  components/hiver_omni: {}
 
   components/hogia: {}
 
@@ -7503,6 +7501,9 @@ importers:
       bottleneck:
         specifier: ^2.19.5
         version: 2.19.5
+      timezones-list:
+        specifier: ^3.0.2
+        version: 3.1.0
     devDependencies:
       package:
         specifier: ^1.0.1
@@ -9172,8 +9173,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/luma:
-    specifiers: {}
+  components/luma: {}
 
   components/lumin_pdf:
     dependencies:
@@ -12858,8 +12858,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/read_ai:
-    specifiers: {}
+  components/read_ai: {}
 
   components/readwise:
     dependencies:
@@ -17397,8 +17396,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/whimsical:
-    specifiers: {}
+  components/whimsical: {}
 
   components/white_swan:
     dependencies:
@@ -20112,16 +20110,16 @@ packages:
   '@daytonaio/toolbox-api-client@0.138.0':
     resolution: {integrity: sha512-unM9e7MOQiyDXdY8hCW1uTctYbxpo/TGZ6L71ZXyS/j2Cnz9/ud4VWBLcQP2VzlC+lrBP2YMrhT90zSSvcNfmA==}
 
-  '@definitelytyped/header-parser@0.2.27':
-    resolution: {integrity: sha512-5NJMixxngpGSnGMRRmObDPTNJzNBh/glT2BDniFNXhKnE8c9/vI46nrb3YvfVJA4KGMLjf738Z91Cu7q18sKvg==}
+  '@definitelytyped/header-parser@0.2.28':
+    resolution: {integrity: sha512-JONMU+bw65y1EHtJggxMM9LdFUuvjFY1SXdSH038HcfYceRKiVHvWnMa8/cCKTAj/X696UqND8MVa5s7cJZwfg==}
     engines: {node: '>=20.17.0'}
 
   '@definitelytyped/typescript-versions@0.1.11':
     resolution: {integrity: sha512-hkO3A+ZyjeiLEXLTYe561uv9hnTvHM15+JTi3RgetfuB/+/Rp4Im1y/m+SehSi6D3iwdnbPckupv5TZ4PnlKPg==}
     engines: {node: '>=20.17.0'}
 
-  '@definitelytyped/utils@0.1.13':
-    resolution: {integrity: sha512-B9+yLpGZbNHXofccDGOKujBimXrrKTK7NO41QhRwmRar/Z9/t5HdG5IpwdEpiioAbYd1Fju/FCLrI/3KzGweQw==}
+  '@definitelytyped/utils@0.1.14':
+    resolution: {integrity: sha512-dh6J1DPR2WbczPP5/eFeeVh0tXiYTnfM0FTl6NzVqpummcqSzbo9gB2ySXQaK7Xr4bJskz/lszSBuDrz9bFWcw==}
     engines: {node: '>=20.17.0'}
 
   '@dependents/detective-less@5.0.1':
@@ -38490,10 +38488,10 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@definitelytyped/header-parser@0.2.27':
+  '@definitelytyped/header-parser@0.2.28':
     dependencies:
       '@definitelytyped/typescript-versions': 0.1.11
-      '@definitelytyped/utils': 0.1.13
+      '@definitelytyped/utils': 0.1.14
       semver: 7.7.4
     transitivePeerDependencies:
       - bare-abort-controller
@@ -38503,7 +38501,7 @@ snapshots:
 
   '@definitelytyped/typescript-versions@0.1.11': {}
 
-  '@definitelytyped/utils@0.1.13':
+  '@definitelytyped/utils@0.1.14':
     dependencies:
       '@types/node': 25.6.0
       cachedir: 2.4.0
@@ -41742,6 +41740,7 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
+      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.60(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1))(rollup@4.53.2)':
     dependencies:
@@ -47072,7 +47071,7 @@ snapshots:
 
   dts-critic@3.3.11(typescript@5.6.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.27
+      '@definitelytyped/header-parser': 0.2.28
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -47087,7 +47086,7 @@ snapshots:
 
   dts-critic@3.3.11(typescript@5.9.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.27
+      '@definitelytyped/header-parser': 0.2.28
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -47104,9 +47103,9 @@ snapshots:
 
   dtslint@4.2.1(typescript@5.6.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.27
+      '@definitelytyped/header-parser': 0.2.28
       '@definitelytyped/typescript-versions': 0.1.11
-      '@definitelytyped/utils': 0.1.13
+      '@definitelytyped/utils': 0.1.14
       dts-critic: 3.3.11(typescript@5.6.3)
       fs-extra: 6.0.1
       json-stable-stringify: 1.3.0
@@ -47123,9 +47122,9 @@ snapshots:
 
   dtslint@4.2.1(typescript@5.9.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.27
+      '@definitelytyped/header-parser': 0.2.28
       '@definitelytyped/typescript-versions': 0.1.11
-      '@definitelytyped/utils': 0.1.13
+      '@definitelytyped/utils': 0.1.14
       dts-critic: 3.3.11(typescript@5.9.3)
       fs-extra: 6.0.1
       json-stable-stringify: 1.3.0
