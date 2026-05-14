@@ -11,7 +11,7 @@ By integrating Linkly with Pipedream, you can:
 
 # Authentication
 
-You'll need a Linkly API key and workspace ID. Generate an API key under **Settings → API Keys** in your [Linkly](https://linklyhq.com) dashboard, and grab your workspace ID from the URL or via the **List Workspaces** action.
+You'll need a Linkly API key and workspace ID. Generate an API key under **Settings → API Keys** in your [Linkly](https://linklyhq.com) dashboard, and grab your workspace ID from the URL or via the **List Workspaces** action. The free plan is enough for actions and the polling source; the **New Link Clicked (Instant)** webhook source requires a paid plan.
 
 # Example Use Cases
 
