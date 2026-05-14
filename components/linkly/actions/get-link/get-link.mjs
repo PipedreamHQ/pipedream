@@ -3,8 +3,8 @@ import linkly from "../../linkly.app.mjs";
 export default {
   key: "linkly-get-link",
   name: "Get Link",
-  description: "Fetches a previously produced Linkly link. [See the documentation](https://app.linklyhq.com/swaggerui#/API/show)",
-  version: "0.0.2",
+  description: "Fetches a previously created [Linkly link](https://linklyhq.com/link-shortener) with full metadata including click counts, custom domain, and redirect rules. [See the API documentation](https://linklyhq.com/url-shortener-api).",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -23,9 +23,6 @@ export default {
   async run({ $ }) {
     const response = await this.linkly.getLink({
       linkId: this.linkId,
-      params: {
-        workspace_id: this.linkly.workspaceId(),
-      },
       $,
     });
     $.export("$summary", `Successfully fetched link with ID: ${this.linkId}`);

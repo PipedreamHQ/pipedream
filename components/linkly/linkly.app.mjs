@@ -8,7 +8,7 @@ export default {
     linkId: {
       type: "string",
       label: "Link ID",
-      description: "The ID of the Linkly link",
+      description: "The ID of the [Linkly link](https://linklyhq.com/link-shortener)",
       async options({ page }) {
         const { links } = await this.listLinks({
           params: {
@@ -22,6 +22,38 @@ export default {
           label,
         })) || [];
       },
+    },
+    domainId: {
+      type: "integer",
+      label: "Domain ID",
+      description: "The ID of a custom domain in your workspace. Leave empty to use the default Linkly domain. See [custom domains](https://linklyhq.com/features).",
+      optional: true,
+      async options() {
+        const domains = await this.listDomains();
+        return domains?.map(({
+          id: value, full_url: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    url: {
+      type: "string",
+      label: "URL",
+      description: "The long URL to shorten with [Linkly](https://linklyhq.com/url-shortener-api)",
+    },
+    name: {
+      type: "string",
+      label: "Name",
+      description: "Optional internal name for the link (visible only in your dashboard)",
+      optional: true,
+    },
+    slug: {
+      type: "string",
+      label: "Slug",
+      description: "Custom slug for the short URL (e.g. `summer-sale`). Leave empty to auto-generate. See [branded short links](https://linklyhq.com/link-shortener).",
+      optional: true,
     },
   },
   methods: {
@@ -69,6 +101,61 @@ export default {
         ...opts,
         method: "POST",
         path: "/link",
+      });
+    },
+    updateLink({
+      linkId, data, ...opts
+    }) {
+      return this._makeRequest({
+        ...opts,
+        method: "POST",
+        path: "/link",
+        data: {
+          ...data,
+          id: linkId,
+        },
+      });
+    },
+    deleteLink({
+      linkId, ...opts
+    }) {
+      return this._makeRequest({
+        ...opts,
+        method: "DELETE",
+        path: `/workspace/${this.workspaceId()}/links/${linkId}`,
+      });
+    },
+    listDomains(opts = {}) {
+      return this._makeRequest({
+        ...opts,
+        path: "/domains",
+      });
+    },
+    listWorkspaces(opts = {}) {
+      return this._makeRequest({
+        ...opts,
+        path: "/workspaces",
+      });
+    },
+    subscribeWorkspaceWebhook({
+      url, ...opts
+    }) {
+      return this._makeRequest({
+        ...opts,
+        method: "POST",
+        path: `/workspace/${this.workspaceId()}/webhooks`,
+        data: {
+          url,
+        },
+      });
+    },
+    unsubscribeWorkspaceWebhook({
+      url, ...opts
+    }) {
+      return this._makeRequest({
+        ...opts,
+        method: "DELETE",
+        path: `/workspace/${this.workspaceId()}/webhooks/${encodeURIComponent(url)}`,
       });
     },
     async *paginate({

@@ -1,61 +1,46 @@
 import linkly from "../../linkly.app.mjs";
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   type: "source",
   key: "linkly-new-link-clicked",
-  name: "New Link Clicked",
-  description: "Emit new event when a Linkly link is clicked",
-  version: "0.0.1",
+  name: "New Link Clicked (Instant)",
+  description: "Emit a new event every time any [Linkly](https://linklyhq.com) link in the workspace is clicked, with full click metadata (location, device, browser, referrer). Uses [Linkly's webhooks](https://linklyhq.com/url-shortener-api) for real-time delivery. Note: webhooks require a paid [Linkly plan](https://linklyhq.com/pricing).",
+  version: "0.2.0",
   dedupe: "unique",
   props: {
     linkly,
+    http: {
+      type: "$.interface.http",
+      customResponse: false,
+    },
     db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
+  },
+  hooks: {
+    async activate() {
+      const { id: hookId } = await this.linkly.subscribeWorkspaceWebhook({
+        url: this.http.endpoint,
+      });
+      this.db.set("hookId", hookId);
+    },
+    async deactivate() {
+      const hookId = this.db.get("hookId") ?? this.http.endpoint;
+      await this.linkly.unsubscribeWorkspaceWebhook({
+        url: hookId,
+      });
     },
   },
-  methods: {
-    _getClicks() {
-      return this.db.get("clicks") ?? {};
-    },
-    _setClicks(clicks) {
-      this.db.set("clicks", clicks);
-    },
-    generateMeta(link, difference) {
-      const ts = Date.now();
-      return {
-        id: `${link.id}${ts}`,
-        summary: `Link ${link.id} Clicked ${difference} time${difference === 1
-          ? ""
-          : "s"}`,
-        ts,
-      };
-    },
-  },
-  async run() {
-    const oldClicks = this._getClicks();
-    const items = this.linkly.paginate({
-      resourceFn: this.linkly.listLinks,
-      resourceType: "links",
-    });
-
-    for await (const item of items) {
-      if (!oldClicks[item.id] || item.clicks_total > oldClicks[item.id]) {
-        const difference = !oldClicks[item.id]
-          ? item.clicks_total
-          : item.clicks_total - oldClicks[item.id];
-        if (difference > 0) {
-          const meta = this.generateMeta(item, difference);
-          this.$emit(item, meta);
-        }
-        oldClicks[item.id] = item.clicks_total;
-      }
+  async run(event) {
+    const { body } = event;
+    if (!body?.link?.id) {
+      return;
     }
-
-    this._setClicks(oldClicks);
+    const ts = body.timestamp
+      ? new Date(body.timestamp).getTime()
+      : Date.now();
+    this.$emit(body, {
+      id: `${body.link.id}-${ts}`,
+      summary: `Link ${body.link.id} clicked`,
+      ts,
+    });
   },
 };

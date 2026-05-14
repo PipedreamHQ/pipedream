@@ -1,10 +1,10 @@
 import linkly from "../../linkly.app.mjs";
 
 export default {
-  key: "linkly-create-link",
-  name: "Create Link",
-  description: "Creates a new short link with [Linkly](https://linklyhq.com). Track clicks, locations, devices, and referrers in real-time with [Linkly's analytics](https://linklyhq.com/url-shortener-analytics). [See the API documentation](https://linklyhq.com/url-shortener-api).",
-  version: "0.0.3",
+  key: "linkly-update-link",
+  name: "Update Link",
+  description: "Updates an existing [Linkly short link](https://linklyhq.com/link-shortener) — change its destination URL, slug, name, or custom domain without breaking the existing short URL. [See the API documentation](https://linklyhq.com/url-shortener-api).",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -13,11 +13,17 @@ export default {
   type: "action",
   props: {
     linkly,
-    url: {
+    linkId: {
       propDefinition: [
         linkly,
-        "url",
+        "linkId",
       ],
+    },
+    url: {
+      type: "string",
+      label: "Destination URL",
+      description: "New destination URL for the link",
+      optional: true,
     },
     name: {
       propDefinition: [
@@ -39,10 +45,13 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.linkly.createLink({
+    const response = await this.linkly.updateLink({
+      linkId: this.linkId,
       data: {
-        url: this.url,
         workspace_id: this.linkly.workspaceId(),
+        ...(this.url && {
+          url: this.url,
+        }),
         ...(this.name && {
           name: this.name,
         }),
@@ -55,7 +64,7 @@ export default {
       },
       $,
     });
-    $.export("$summary", `Successfully created Linkly link for URL ${this.url}.`);
+    $.export("$summary", `Successfully updated link ${this.linkId}.`);
     return response;
   },
 };
