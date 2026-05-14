@@ -1,4 +1,5 @@
 import surecart from "../../surecart.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "surecart-update-fulfillment",
@@ -67,6 +68,15 @@ export default {
     },
   },
   async run({ $ }) {
+    if (!this.notificationsEnabled
+        && !this.shipmentStatus
+        && !this.trackings
+        && !this.fulfillmentItems
+        && !this.shipments && !this.metadata
+    ) {
+      throw new ConfigurationError("At least one of the following parameters must be provided: `Notifications Enabled`, `Shipment Status`, `Trackings`, `Fulfillment Items`, `Shipments`, `Metadata`");
+    }
+
     const response = await this.surecart.updateFulfillment({
       $,
       fulfillmentId: this.fulfillmentId,
