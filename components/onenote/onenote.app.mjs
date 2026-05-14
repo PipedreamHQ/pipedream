@@ -122,6 +122,23 @@ export default {
         ...args,
       });
     },
+    async getPageContent({
+      pageId, includeIDs, ...args
+    }) {
+      return this._makeRequest({
+        path: `/me/onenote/pages/${pageId}/content`,
+        responseType: "text",
+        ...args,
+        params: {
+          ...(args.params ?? {}),
+          ...(includeIDs
+            ? {
+              includeIDs: "true",
+            }
+            : {}),
+        },
+      });
+    },
     async createPage({
       sectionId, ...args
     }) {
