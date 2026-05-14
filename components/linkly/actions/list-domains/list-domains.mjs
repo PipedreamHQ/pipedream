@@ -3,7 +3,7 @@ import linkly from "../../linkly.app.mjs";
 export default {
   key: "linkly-list-domains",
   name: "List Domains",
-  description: "Lists all [custom domains](https://linklyhq.com/features) connected to your [Linkly](https://linklyhq.com) account, including the default Linkly domain.",
+  description: "Lists all custom domains connected to your account via the [Linkly URL Shortener API](https://linklyhq.com), including the default Linkly domain.",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

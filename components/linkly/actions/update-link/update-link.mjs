@@ -3,7 +3,7 @@ import linkly from "../../linkly.app.mjs";
 export default {
   key: "linkly-update-link",
   name: "Update Link",
-  description: "Updates an existing [Linkly short link](https://linklyhq.com/link-shortener) — change its destination URL, slug, name, or custom domain without breaking the existing short URL. [See the API documentation](https://linklyhq.com/url-shortener-api).",
+  description: "Updates an existing short link via the [Linkly URL Shortener API](https://linklyhq.com) — change its destination URL, slug, name, or custom domain without breaking the existing short URL.",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

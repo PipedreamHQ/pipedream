@@ -3,7 +3,7 @@ import linkly from "../../linkly.app.mjs";
 export default {
   key: "linkly-get-link",
   name: "Get Link",
-  description: "Fetches a previously created [Linkly link](https://linklyhq.com/link-shortener) with full metadata including click counts, custom domain, and redirect rules. [See the API documentation](https://linklyhq.com/url-shortener-api).",
+  description: "Fetches a previously created link from the [Linkly URL Shortener API](https://linklyhq.com), with full metadata including click counts, custom domain, and redirect rules.",
   version: "0.0.3",
   annotations: {
     destructiveHint: false,

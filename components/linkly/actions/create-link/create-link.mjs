@@ -3,7 +3,7 @@ import linkly from "../../linkly.app.mjs";
 export default {
   key: "linkly-create-link",
   name: "Create Link",
-  description: "Creates a new short link with [Linkly](https://linklyhq.com). Track clicks, locations, devices, and referrers in real-time with [Linkly's analytics](https://linklyhq.com/url-shortener-analytics). [See the API documentation](https://linklyhq.com/url-shortener-api).",
+  description: "Creates a new short link with the [Linkly URL Shortener API](https://linklyhq.com).",
   version: "0.0.3",
   annotations: {
     destructiveHint: false,

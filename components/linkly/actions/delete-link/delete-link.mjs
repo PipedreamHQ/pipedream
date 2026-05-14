@@ -3,7 +3,7 @@ import linkly from "../../linkly.app.mjs";
 export default {
   key: "linkly-delete-link",
   name: "Delete Link",
-  description: "Permanently deletes a [Linkly short link](https://linklyhq.com/link-shortener). The short URL will return 404 for new visitors. [See the API documentation](https://linklyhq.com/url-shortener-api).",
+  description: "Permanently deletes a short link via the [Linkly URL Shortener API](https://linklyhq.com). The short URL will return 404 for new visitors.",
   version: "0.0.1",
   annotations: {
     destructiveHint: true,

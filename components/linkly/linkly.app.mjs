@@ -8,7 +8,7 @@ export default {
     linkId: {
       type: "string",
       label: "Link ID",
-      description: "The ID of the [Linkly link](https://linklyhq.com/link-shortener)",
+      description: "The ID of the Linkly link",
       async options({ page }) {
         const { links } = await this.listLinks({
           params: {
@@ -26,7 +26,7 @@ export default {
     domainId: {
       type: "integer",
       label: "Domain ID",
-      description: "The ID of a custom domain in your workspace. Leave empty to use the default Linkly domain. See [custom domains](https://linklyhq.com/features).",
+      description: "The ID of a custom domain in your workspace. Leave empty to use the default Linkly domain.",
       optional: true,
       async options() {
         const domains = await this.listDomains();
@@ -41,7 +41,7 @@ export default {
     url: {
       type: "string",
       label: "URL",
-      description: "The long URL to shorten with [Linkly](https://linklyhq.com/url-shortener-api)",
+      description: "The long URL to shorten",
     },
     name: {
       type: "string",
@@ -52,7 +52,7 @@ export default {
     slug: {
       type: "string",
       label: "Slug",
-      description: "Custom slug for the short URL (e.g. `summer-sale`). Leave empty to auto-generate. See [branded short links](https://linklyhq.com/link-shortener).",
+      description: "Custom slug for the short URL (e.g. `summer-sale`). Leave empty to auto-generate.",
       optional: true,
     },
   },

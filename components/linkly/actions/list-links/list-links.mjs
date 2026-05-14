@@ -3,7 +3,7 @@ import linkly from "../../linkly.app.mjs";
 export default {
   key: "linkly-list-links",
   name: "List Links",
-  description: "Lists all short links in your [Linkly workspace](https://linklyhq.com) with click counts and metadata. [See the API documentation](https://linklyhq.com/url-shortener-api).",
+  description: "Lists all short links in your workspace via the [Linkly URL Shortener API](https://linklyhq.com), with click counts and metadata.",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

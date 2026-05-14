@@ -3,7 +3,7 @@ import linkly from "../../linkly.app.mjs";
 export default {
   key: "linkly-list-workspaces",
   name: "List Workspaces",
-  description: "Lists all [Linkly](https://linklyhq.com) workspaces accessible to the authenticated user. Useful for finding the workspace ID required for [API requests](https://linklyhq.com/url-shortener-api).",
+  description: "Lists all workspaces accessible to the authenticated user via the [Linkly URL Shortener API](https://linklyhq.com). Useful for finding the workspace ID required for API requests.",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

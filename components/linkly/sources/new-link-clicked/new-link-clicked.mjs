@@ -4,7 +4,7 @@ export default {
   type: "source",
   key: "linkly-new-link-clicked",
   name: "New Link Clicked (Instant)",
-  description: "Emit a new event every time any [Linkly](https://linklyhq.com) link in the workspace is clicked, with full click metadata (location, device, browser, referrer). Uses [Linkly's webhooks](https://linklyhq.com/url-shortener-api) for real-time delivery. Note: webhooks require a paid [Linkly plan](https://linklyhq.com/pricing).",
+  description: "Emit a new event every time any link in the workspace is clicked, with full click metadata (location, device, browser, referrer). Uses webhooks from the [Linkly URL Shortener API](https://linklyhq.com) for real-time delivery. Note: webhooks require a paid Linkly plan.",
   version: "0.2.0",
   dedupe: "unique",
   props: {
