@@ -2,8 +2,8 @@ import peerdom from "../../peerdom.app.mjs";
 
 export default {
   key: "peerdom-list-group-id-options",
-  name: "List Parent ID Options",
-  description: "Retrieves available options for the Parent ID field.",
+  name: "List Group ID Options",
+  description: "Retrieves available options for the Group ID field.",
   version: "0.0.1",
   type: "action",
   annotations: {
