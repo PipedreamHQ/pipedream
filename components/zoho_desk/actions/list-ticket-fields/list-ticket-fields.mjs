@@ -3,7 +3,7 @@ import zohoDesk from "../../zoho_desk.app.mjs";
 export default {
   key: "zoho_desk-list-ticket-fields",
   name: "List Ticket Fields",
-  description: "Lists every field configured on a Zoho Desk module (defaults to Tickets), including each field's `apiName`, `displayLabel`, `type`, and for picklist fields - the `allowedValues` array. Useful for discovering valid picklist values (e.g. for `status`, `priority`, `channel`, `category`, `subCategory`, `classification`) before creating or routing tickets. [See the documentation](https://desk.zoho.com/DeskAPIDocument#OrganizationFields)",
+  description: "Lists every field configured on a Zoho Desk module (defaults to Tickets), including each field's `apiName`, `displayLabel`, `type`, and for picklist fields - the `allowedValues` array. Useful for discovering valid picklist values (e.g. for `status`, `priority`, `channel`, `category`, `subCategory`, `classification`) before creating or routing tickets. [See the documentation](https://desk.zoho.com/DeskAPIDocument#OrganizationFields_Getorganizationfieldsinamodule)",
   type: "action",
   version: "0.0.1",
   annotations: {
@@ -30,16 +30,18 @@ export default {
         "contacts",
         "accounts",
         "tasks",
-        "products",
         "calls",
         "events",
-        "activities",
+        "timeEntry",
+        "products",
+        "contracts",
+        "agents",
       ],
     },
     apiNames: {
       type: "string[]",
       label: "API Names",
-      description: "Select one or more field API names to filter the response (e.g. `category`, `subCategory`, `classification`, `priority`, `status`). Leave blank to return every field in the selected module.",
+      description: "Select one or more field API names to filter the response (e.g. `category`, `subCategory`, `classification`, `priority`, `status`) (max 100 chars). Leave blank to return every field in the selected module.",
       optional: true,
       async options() {
         const {
