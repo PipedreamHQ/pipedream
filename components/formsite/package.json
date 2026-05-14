@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/formsite",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream Formsite Components",
   "main": "formsite.app.mjs",
   "keywords": [
