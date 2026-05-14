@@ -3,8 +3,14 @@ import sharepoint from "../../sharepoint.app.mjs";
 export default {
   key: "sharepoint-list-sites",
   name: "List Sites",
-  description: "List all sites in Microsoft Sharepoint. [See the documentation](https://learn.microsoft.com/en-us/graph/api/site-list?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.5",
+  description:
+    "List sites across the tenant."
+    + " Backed by the [SharePoint Search index](https://learn.microsoft.com/en-us/graph/search-concept-overview) and **eventually consistent** — newly created sites may not appear until indexing catches up."
+    + "\n\n"
+    + "To resolve a known site by path, prefer **Get Site** for an immediate lookup."
+    + "\n\n"
+    + "[See the documentation](https://learn.microsoft.com/en-us/graph/api/site-search?view=graph-rest-1.0&tabs=http)",
+  version: "0.0.6",
   type: "action",
   annotations: {
     destructiveHint: false,

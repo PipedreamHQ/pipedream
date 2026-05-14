@@ -3,8 +3,14 @@ import sharepoint from "../../sharepoint.app.mjs";
 export default {
   key: "sharepoint-get-site",
   name: "Get Site",
-  description: "Get a site in Microsoft Sharepoint. [See the documentation](https://learn.microsoft.com/en-us/graph/api/site-get?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.5",
+  description:
+    "Retrieve a site by its identifier."
+    + " This is a direct path/ID lookup, so it's immediately consistent and returns newly created sites without indexing delay."
+    + "\n\n"
+    + "Use this when you know the site path; for discovery, use **Search Sites** or **List Sites**."
+    + "\n\n"
+    + "[See the documentation](https://learn.microsoft.com/en-us/graph/api/site-get?view=graph-rest-1.0&tabs=http)",
+  version: "0.0.6",
   type: "action",
   annotations: {
     destructiveHint: false,
