@@ -6,7 +6,7 @@ export default {
   key: "linkly-new-link-created",
   name: "New Link Created",
   description: "Emit a new event when a new link is created in the workspace via the [Linkly URL Shortener API](https://linklyhq.com). Useful for syncing newly-created short links to a CRM, spreadsheet, or analytics destination.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     linkly,
@@ -19,11 +19,11 @@ export default {
     },
   },
   methods: {
-    _getSeenIds() {
-      return this.db.get("seenIds") ?? [];
+    _getLastSeenId() {
+      return this.db.get("lastSeenId");
     },
-    _setSeenIds(ids) {
-      this.db.set("seenIds", ids);
+    _setLastSeenId(id) {
+      this.db.set("lastSeenId", id);
     },
     generateMeta(link) {
       const ts = link.inserted_at
@@ -37,22 +37,46 @@ export default {
     },
   },
   async run() {
-    const seenIds = this._getSeenIds();
-    const firstRun = seenIds.length === 0;
-    const seen = new Set(seenIds);
-    const allIds = [];
+    const lastSeenId = this._getLastSeenId();
+    const firstRun = lastSeenId == null;
+    let highestId = lastSeenId ?? 0;
+    const newLinks = [];
+
+    // Walk pages sorted by inserted_at desc. Stop as soon as we hit a link
+    // we've already seen (id <= lastSeenId) — link IDs are monotonically
+    // increasing, so everything past that point is older history.
     const iterator = this.linkly.paginate({
       resourceFn: this.linkly.listLinks,
       resourceType: "links",
+      params: {
+        sort_by: "inserted_at",
+        sort_dir: "desc",
+      },
     });
+
     for await (const link of iterator) {
-      allIds.push(link.id);
-      if (seen.has(link.id)) continue;
-      if (!firstRun) {
+      if (!firstRun && link.id <= lastSeenId) break;
+      if (link.id > highestId) highestId = link.id;
+      newLinks.push(link);
+      // On first run, only record the high-water mark from the first page —
+      // don't drain the whole workspace history.
+      if (firstRun && newLinks.length >= 1) break;
+    }
+
+    // Emit oldest-first so downstream workflows process events in chronological
+    // order. Skip emission entirely on first run — just set the watermark.
+    if (!firstRun) {
+      for (const link of newLinks.reverse()) {
         this.$emit(link, this.generateMeta(link));
       }
     }
-    // Cap the seen list to the most recent 5000 IDs to bound DB usage
-    this._setSeenIds(allIds.slice(0, 5000));
+
+    if (highestId > (lastSeenId ?? 0)) {
+      this._setLastSeenId(highestId);
+    } else if (firstRun) {
+      // No links in the workspace yet — set watermark to 0 so subsequent
+      // polls correctly identify any future link as new.
+      this._setLastSeenId(0);
+    }
   },
 };
