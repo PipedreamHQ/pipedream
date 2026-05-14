@@ -1,13 +1,11 @@
 import gorgiasOauth from "../../gorgias_oauth.app.mjs";
-import {
-  axios, ConfigurationError,
-} from "@pipedream/platform";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "gorgias_oauth-create-ticket-message",
   name: "Create Ticket Message",
   description: "Create a message for a ticket in the Gorgias system. [See the documentation](https://developers.gorgias.com/reference/create-ticket-message)",
-  version: "0.1.0",
+  version: "0.1.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -152,23 +150,6 @@ export default {
   },
   methods: {
     /**
-     * Get attachment information from URL
-     * @param {object} $ - Step object
-     * @param {string} url - Attachment URL
-     * @returns {object} Content type and size information
-     */
-    async getAttachmentInfo($, url) {
-      const { headers } = await axios($, {
-        method: "HEAD",
-        url,
-        returnFullResponse: true,
-      });
-      return {
-        contentType: headers["content-type"],
-        size: headers["content-length"],
-      };
-    },
-    /**
      * Get email address for user or customer
      * @param {object} $ - Step object
      * @param {string} id - User or customer ID
@@ -213,7 +194,7 @@ export default {
     if (this.attachmentUrl) {
       ({
         contentType, size,
-      } = await this.getAttachmentInfo($, this.attachmentUrl));
+      } = await this.gorgiasOauth.getAttachmentInfo($, this.attachmentUrl));
     }
 
     const fromId = this.fromAgent

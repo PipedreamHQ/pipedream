@@ -6,7 +6,7 @@ export default {
   name: "Search and Filter Files",
   description:
     "Search and filter SharePoint files based on metadata and custom columns. This action allows you to query files using SharePoint's custom properties, managed metadata, and other column values. [See the documentation](https://learn.microsoft.com/en-us/graph/api/listitem-list)",
-  version: "0.0.4",
+  version: "0.1.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -82,6 +82,12 @@ export default {
       default: 100,
       min: 1,
     },
+    honorNonIndexedQueries: {
+      propDefinition: [
+        sharepoint,
+        "honorNonIndexedQueries",
+      ],
+    },
   },
   async run({ $ }) {
     const {
@@ -92,6 +98,7 @@ export default {
       orderBy,
       expandFields,
       maxResults,
+      honorNonIndexedQueries,
     } = this;
 
     const expand = expandFields
@@ -113,6 +120,12 @@ export default {
       $top: Math.max(1, maxResults),
     });
 
+    const headers = honorNonIndexedQueries
+      ? {
+        Prefer: "HonorNonIndexedQueriesWarningMayFailRandomly",
+      }
+      : {};
+
     const items = [];
     const iterator = this.sharepoint.paginate({
       fn: this.sharepoint.listItems,
@@ -121,6 +134,7 @@ export default {
         siteId,
         listId,
         params,
+        headers,
       },
     });
 

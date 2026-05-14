@@ -5,7 +5,7 @@ export default {
   key: "facebook_pages-get-comment",
   name: "Get Comment",
   description: "Retrieves a comment on a post on a Facebook Page. [See the documentation](https://developers.facebook.com/docs/graph-api/reference/comment/#read)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
