@@ -40,7 +40,7 @@ export default {
       const { data } = await resourceFn({
         params: {
           page: 1,
-          limit: 100,
+          limit: 1000,
         },
       });
 

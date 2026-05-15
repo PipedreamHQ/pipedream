@@ -3,7 +3,20 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "corporate_merch",
-  propDefinitions: {},
+  propDefinitions: {
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "Maximum number of results to return per page. Must be ≤ 50. Defaults to `15`.",
+      optional: true,
+    },
+    page: {
+      type: "integer",
+      label: "Page",
+      description: "Page number to return for pagination.",
+      optional: true,
+    },
+  },
   methods: {
     _baseUrl() {
       return "https://api.corporatemerch.com/v2";

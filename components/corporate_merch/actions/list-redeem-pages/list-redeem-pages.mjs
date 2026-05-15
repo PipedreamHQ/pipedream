@@ -14,10 +14,10 @@ export default {
   props: {
     corporateMerch,
     limit: {
-      type: "integer",
-      label: "Limit",
-      description: "Maximum number of results to return per page. Must be ≤ 50. Defaults to `15`.",
-      optional: true,
+      propDefinition: [
+        corporateMerch,
+        "limit",
+      ],
     },
   },
   async run({ $ }) {

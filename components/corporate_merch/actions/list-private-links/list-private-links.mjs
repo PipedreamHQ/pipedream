@@ -19,10 +19,10 @@ export default {
       description: "The ID of the redeem page to list private links for. Use the **List Redeem Pages** action to find available redeem page IDs.",
     },
     limit: {
-      type: "integer",
-      label: "Limit",
-      description: "Maximum number of results to return per page. Must be ≤ 50. Defaults to `15`.",
-      optional: true,
+      propDefinition: [
+        corporateMerch,
+        "limit",
+      ],
     },
   },
   async run({ $ }) {

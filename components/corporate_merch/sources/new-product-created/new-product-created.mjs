@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "corporate_merch-new-product-created",
   name: "New Product Created",
-  description: "Emit new event when a new product is created.",
+  description: "Emit new event when a new product is created. [See the documentation](https://corporatemerch.readme.io/reference/list-designs)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",

@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "corporate_merch-new-order-created",
   name: "New Order Created",
-  description: "Emit new event when a new order is created.",
+  description: "Emit new event when a new order is created. [See the documentation](https://corporatemerch.readme.io/reference/list-orders)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
