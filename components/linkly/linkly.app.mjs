@@ -23,36 +23,31 @@ export default {
         })) || [];
       },
     },
-    domainId: {
-      type: "integer",
-      label: "Domain ID",
-      description: "The ID of a custom domain in your workspace. Leave empty to use the default Linkly domain.",
+    domain: {
+      type: "string",
+      label: "Domain",
+      description: "Custom domain to use for the short URL (e.g. `links.example.com`). Leave empty to use the default Linkly domain. A custom slug requires a custom domain.",
       optional: true,
       async options() {
-        const domains = await this.listDomains();
-        return domains?.map(({
-          id: value, full_url: label,
-        }) => ({
-          value,
-          label,
-        })) || [];
+        const { domains } = await this.listDomains();
+        return domains?.map(({ name }) => name) || [];
       },
     },
     url: {
       type: "string",
       label: "URL",
-      description: "The long URL to shorten",
+      description: "The destination URL the short link should redirect to",
     },
     name: {
       type: "string",
       label: "Name",
-      description: "Optional internal name for the link (visible only in your dashboard)",
+      description: "Nickname for the link, shown in your Linkly dashboard",
       optional: true,
     },
     slug: {
       type: "string",
       label: "Slug",
-      description: "Custom slug for the short URL (e.g. `summer-sale`). Leave empty to auto-generate.",
+      description: "Custom slug for the short URL (e.g. `summer-sale`). Requires a custom **Domain** to be set; leave empty to auto-generate.",
       optional: true,
     },
   },
@@ -128,7 +123,7 @@ export default {
     listDomains(opts = {}) {
       return this._makeRequest({
         ...opts,
-        path: "/domains",
+        path: `/workspace/${this.workspaceId()}/domains`,
       });
     },
     listWorkspaces(opts = {}) {

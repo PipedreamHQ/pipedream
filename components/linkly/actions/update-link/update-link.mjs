@@ -3,7 +3,7 @@ import linkly from "../../linkly.app.mjs";
 export default {
   key: "linkly-update-link",
   name: "Update Link",
-  description: "Updates an existing short link via the [Linkly URL Shortener API](https://linklyhq.com) — change its destination URL, slug, name, or custom domain without breaking the existing short URL. [See the documentation](https://linklyhq.com/url-shortener-api).",
+  description: "Update an existing short link via `POST /api/v1/link` (with `id`) — change its destination URL, slug, name, or custom domain without breaking the existing short URL. [See the documentation](https://app.linklyhq.com/swaggerui#/Links/createOrUpdateLink).",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -33,16 +33,16 @@ export default {
         "name",
       ],
     },
+    domain: {
+      propDefinition: [
+        linkly,
+        "domain",
+      ],
+    },
     slug: {
       propDefinition: [
         linkly,
         "slug",
-      ],
-    },
-    domainId: {
-      propDefinition: [
-        linkly,
-        "domainId",
       ],
     },
   },
@@ -57,11 +57,11 @@ export default {
         ...(this.name && {
           name: this.name,
         }),
-        ...(this.slug && {
-          full_url: this.slug,
+        ...(this.domain && {
+          domain: this.domain,
         }),
-        ...(this.domainId && {
-          domain_id: this.domainId,
+        ...(this.slug && {
+          slug: this.slug,
         }),
       },
       $,

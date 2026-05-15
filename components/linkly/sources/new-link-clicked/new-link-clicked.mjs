@@ -5,8 +5,8 @@ export default {
   type: "source",
   key: "linkly-new-link-clicked",
   name: "New Link Clicked (Instant)",
-  description: "Emit a new event every time any link in the workspace is clicked, with full click metadata (location, device, browser, referrer). Uses webhooks from the [Linkly URL Shortener API](https://linklyhq.com) for real-time delivery. Note: webhooks require a paid Linkly plan. [See the documentation](https://linklyhq.com/url-shortener-api).",
-  version: "0.2.0",
+  description: "Emit a new event every time any link in the workspace is clicked, with full click metadata (location, device, browser, referrer). Subscribes to a workspace webhook via `POST /api/v1/workspace/{workspace_id}/webhooks` for real-time delivery. Note: webhooks require a paid Linkly plan. [See the documentation](https://app.linklyhq.com/swaggerui#/Webhooks/subscribeWebhookToWorkspace).",
+  version: "0.1.0",
   dedupe: "unique",
   props: {
     linkly,

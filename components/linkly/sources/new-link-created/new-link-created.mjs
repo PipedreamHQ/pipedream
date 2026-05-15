@@ -5,8 +5,8 @@ export default {
   type: "source",
   key: "linkly-new-link-created",
   name: "New Link Created",
-  description: "Emit a new event when a new link is created in the workspace via the [Linkly URL Shortener API](https://linklyhq.com). Useful for syncing newly-created short links to a CRM, spreadsheet, or analytics destination. [See the documentation](https://linklyhq.com/url-shortener-api).",
-  version: "0.0.2",
+  description: "Emit a new event when a new link is created in the workspace. Polls `GET /api/v1/workspace/{workspace_id}/list_links` sorted by `inserted_at` and emits anything newer than the last seen link ID. Useful for syncing newly-created short links to a CRM, spreadsheet, or analytics destination. [See the documentation](https://app.linklyhq.com/swaggerui#/Links/listLinks).",
+  version: "0.0.1",
   dedupe: "unique",
   props: {
     linkly,

@@ -3,7 +3,7 @@ import linkly from "../../linkly.app.mjs";
 export default {
   key: "linkly-create-link",
   name: "Create Link",
-  description: "Creates a new short link with the [Linkly URL Shortener API](https://linklyhq.com). [See the documentation](https://linklyhq.com/url-shortener-api).",
+  description: "Create a new short link via `POST /api/v1/link`. [See the documentation](https://app.linklyhq.com/swaggerui#/Links/createOrUpdateLink).",
   version: "0.1.0",
   annotations: {
     destructiveHint: false,
@@ -25,16 +25,16 @@ export default {
         "name",
       ],
     },
+    domain: {
+      propDefinition: [
+        linkly,
+        "domain",
+      ],
+    },
     slug: {
       propDefinition: [
         linkly,
         "slug",
-      ],
-    },
-    domainId: {
-      propDefinition: [
-        linkly,
-        "domainId",
       ],
     },
   },
@@ -46,11 +46,11 @@ export default {
         ...(this.name && {
           name: this.name,
         }),
-        ...(this.slug && {
-          full_url: this.slug,
+        ...(this.domain && {
+          domain: this.domain,
         }),
-        ...(this.domainId && {
-          domain_id: this.domainId,
+        ...(this.slug && {
+          slug: this.slug,
         }),
       },
       $,
