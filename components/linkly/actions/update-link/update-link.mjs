@@ -51,18 +51,10 @@ export default {
       linkId: this.linkId,
       data: {
         workspace_id: this.linkly.workspaceId(),
-        ...(this.url && {
-          url: this.url,
-        }),
-        ...(this.name && {
-          name: this.name,
-        }),
-        ...(this.domain && {
-          domain: this.domain,
-        }),
-        ...(this.slug && {
-          slug: this.slug,
-        }),
+        url: this.url,
+        name: this.name,
+        domain: this.domain,
+        slug: this.slug,
       },
       $,
     });

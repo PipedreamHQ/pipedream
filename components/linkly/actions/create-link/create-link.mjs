@@ -43,15 +43,9 @@ export default {
       data: {
         url: this.url,
         workspace_id: this.linkly.workspaceId(),
-        ...(this.name && {
-          name: this.name,
-        }),
-        ...(this.domain && {
-          domain: this.domain,
-        }),
-        ...(this.slug && {
-          slug: this.slug,
-        }),
+        name: this.name,
+        domain: this.domain,
+        slug: this.slug,
       },
       $,
     });

@@ -33,9 +33,7 @@ export default {
       resourceFn: this.linkly.listLinks,
       resourceType: "links",
       params: {
-        ...(this.search && {
-          search: this.search,
-        }),
+        search: this.search,
       },
     });
     for await (const link of iterator) {

@@ -26,9 +26,13 @@ export default {
       });
     },
     async deactivate() {
-      await this.linkly.unsubscribeWorkspaceWebhook({
-        url: this.http.endpoint,
-      });
+      try {
+        await this.linkly.unsubscribeWorkspaceWebhook({
+          url: this.http.endpoint,
+        });
+      } catch {
+        // Webhook may already be removed; deactivation must not fail.
+      }
     },
   },
   async run(event) {
