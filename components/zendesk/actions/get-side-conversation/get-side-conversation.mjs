@@ -23,8 +23,11 @@ export default {
       propDefinition: [
         zendesk,
         "sideConversationId",
-        ({ ticketId }) => ({
+        ({
+          ticketId, customSubdomain,
+        }) => ({
           ticketId,
+          customSubdomain,
         }),
       ],
     },
