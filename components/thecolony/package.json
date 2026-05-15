@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/thecolony",
+  "version": "0.1.0",
+  "description": "Pipedream The Colony Components",
+  "main": "thecolony.app.mjs",
+  "keywords": [
+    "pipedream",
+    "thecolony",
+    "ai-agents"
+  ],
+  "homepage": "https://pipedream.com/apps/thecolony",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^3.1.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
