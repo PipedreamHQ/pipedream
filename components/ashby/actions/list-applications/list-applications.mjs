@@ -1,4 +1,5 @@
 import app from "../../ashby.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "ashby-list-applications",
@@ -54,6 +55,12 @@ export default {
       description: "Token for syncing changes since the last request",
       optional: true,
     },
+    cursor: {
+      type: "string",
+      label: "Cursor",
+      description: "Opaque cursor from a previous response's `nextCursor` to resume pagination mid-stream",
+      optional: true,
+    },
     maxResults: {
       propDefinition: [
         app,
@@ -69,28 +76,64 @@ export default {
       jobId,
       createdAfter,
       syncToken,
-      maxResults,
+      cursor,
+      maxResults = constants.LIMIT_MAX,
     } = this;
 
-    const response = await app.paginate({
-      fn: app.listApplications,
-      fnArgs: {
+    const baseData = {
+      expand,
+      status,
+      jobId,
+      syncToken,
+      createdAfter: createdAfter
+        ? new Date(createdAfter).getTime()
+        : undefined,
+    };
+
+    const accumulated = [];
+    let pageCursor = cursor;
+    let lastResponse;
+
+    while (accumulated.length < maxResults) {
+      const remaining = maxResults - accumulated.length;
+      const limit = Math.min(remaining, constants.LIMIT_MAX);
+
+      lastResponse = await app.listApplications({
         $,
         data: {
-          expand,
-          status,
-          jobId,
-          syncToken,
-          createdAfter: createdAfter
-            ? new Date(createdAfter).getTime()
-            : undefined,
+          ...baseData,
+          cursor: pageCursor,
+          limit,
         },
-      },
-      keyField: "results",
-      max: maxResults,
-    });
+      });
 
-    $.export("$summary", `Successfully retrieved \`${response.length}\` application(s)`);
+      const items = lastResponse.results || [];
+      accumulated.push(...items);
+
+      pageCursor = lastResponse.nextCursor;
+      if (!pageCursor || !items.length) {
+        break;
+      }
+    }
+
+    const response = {
+      success: true,
+      results: accumulated,
+      moreDataAvailable: lastResponse?.moreDataAvailable,
+      ...(lastResponse?.nextCursor && {
+        nextCursor: lastResponse.nextCursor,
+      }),
+      ...(lastResponse?.syncToken && {
+        syncToken: lastResponse.syncToken,
+      }),
+    };
+
+    $.export(
+      "$summary",
+      `Successfully retrieved \`${accumulated.length}\` application(s)${response.moreDataAvailable
+        ? " (more data available)"
+        : ""}`,
+    );
 
     return response;
   },

@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -111,8 +112,9 @@ export default {
     maxResults: {
       type: "integer",
       label: "Max Results",
-      description: "Number of results to return",
+      description: "Maximum number of results to accumulate across pages",
       optional: true,
+      default: constants.LIMIT_MAX,
     },
     interviewPlanId: {
       type: "string",
@@ -363,38 +365,6 @@ export default {
         path: "/candidate.info",
         ...args,
       });
-    },
-    async paginate({
-      max = 600, fn, fnArgs, keyField = "results",
-    } = {}) {
-      const results = [];
-      let cursor;
-      let collected = 0;
-
-      while (collected < max) {
-        const remainingToFetch = Math.min(max - collected, 100);
-
-        const response = await fn({
-          ...fnArgs,
-          data: {
-            limit: remainingToFetch,
-            cursor,
-            ...fnArgs?.data,
-          },
-        });
-
-        const items = response[keyField] || [];
-        results.push(...items);
-        collected += items.length;
-
-        // Check if there are more results
-        cursor = response.nextCursor;
-        if (!cursor || items.length === 0) {
-          break;
-        }
-      }
-
-      return results;
     },
   },
 };
