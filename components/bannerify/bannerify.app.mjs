@@ -32,9 +32,14 @@ export default {
         return [];
       }
 
-      const parsed = typeof modifications === "string"
-        ? JSON.parse(modifications)
-        : modifications;
+      let parsed;
+      try {
+        parsed = typeof modifications === "string"
+          ? JSON.parse(modifications)
+          : modifications;
+      } catch (error) {
+        throw new Error(`Invalid JSON in modifications: ${error.message}`);
+      }
 
       if (Array.isArray(parsed)) {
         return parsed;

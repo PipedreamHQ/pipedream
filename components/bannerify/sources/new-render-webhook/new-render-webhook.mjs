@@ -64,7 +64,7 @@ const getEventTimestamp = (body) => {
 export default {
   key: "bannerify-new-render-webhook",
   name: "New Render Webhook",
-  description: "Emit new event when Bannerify or another service sends a render callback to the generated webhook URL.",
+  description: "Emit new event when Bannerify or another service sends a render callback to the generated webhook URL. [See the documentation](https://docs.bannerify.co/integrations/pipedream)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
