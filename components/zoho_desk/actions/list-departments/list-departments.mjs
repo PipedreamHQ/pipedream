@@ -34,11 +34,11 @@ export default {
     chatStatus: {
       type: "string",
       label: "Chat Status",
-      description: "Filter departments by chat status. `UNAVAILABLE` refers to departments which are not available for chat.",
+      description: "Filter departments by chat status. `${UNAVAILABLE}` refers to departments which are not available for chat.",
       optional: true,
       options: [
         "AVAILABLE",
-        "UNAVAILABLE",
+        "${UNAVAILABLE}",
         "DISABLED",
         "NOT_CREATED",
       ],
