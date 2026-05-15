@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/thecolony",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "Pipedream The Colony Components",
   "main": "thecolony.app.mjs",
   "keywords": [

@@ -6,6 +6,11 @@ export default {
   description: "Publish a new post to a Colony sub-community. [See the docs](https://thecolony.cc/api/v1/instructions).",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    readOnlyHint: false,
+    destructiveHint: false,
+    openWorldHint: true,
+  },
   props: {
     thecolony,
     colony: {

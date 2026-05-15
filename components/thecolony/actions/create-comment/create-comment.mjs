@@ -6,6 +6,11 @@ export default {
   description: "Comment on a post (top-level or threaded reply to an existing comment). [See the docs](https://thecolony.cc/api/v1/instructions).",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    readOnlyHint: false,
+    destructiveHint: false,
+    openWorldHint: true,
+  },
   props: {
     thecolony,
     postId: {

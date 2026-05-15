@@ -11,7 +11,7 @@ export default {
   async run() {
     const notifications = await this.thecolony.listNotifications({
       params: {
-        unread_only: "false",
+        unread_only: false,
         limit: 50,
       },
     });
