@@ -1354,7 +1354,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/avinode: {}
+  components/avinode:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.3.1
+        version: 3.4.0
 
   components/avochato: {}
 
@@ -11658,8 +11662,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/penpot:
-    specifiers: {}
+  components/penpot: {}
 
   components/people_data_labs:
     dependencies:
@@ -40872,7 +40875,7 @@ snapshots:
 
   '@pipedream/canva@0.2.3':
     dependencies:
-      '@pipedream/platform': 3.3.1
+      '@pipedream/platform': 3.4.0
     transitivePeerDependencies:
       - debug
 
@@ -41762,7 +41765,6 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
-      - supports-color
 
   '@putout/operator-regexp@2.0.0(putout@40.14.0(eslint@8.57.1)(rolldown@1.0.0-beta.60(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1))(rollup@4.53.2)(typescript@5.6.3))':
     dependencies:
