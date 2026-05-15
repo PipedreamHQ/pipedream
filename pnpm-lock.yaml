@@ -4451,6 +4451,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
+      form-data:
+        specifier: 4.0.4
+        version: 4.0.4
 
   components/documenso:
     dependencies:
@@ -11654,6 +11657,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
+
+  components/penpot:
+    specifiers: {}
 
   components/people_data_labs:
     dependencies:
@@ -41756,6 +41762,7 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
+      - supports-color
 
   '@putout/operator-regexp@2.0.0(putout@40.14.0(eslint@8.57.1)(rolldown@1.0.0-beta.60(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1))(rollup@4.53.2)(typescript@5.6.3))':
     dependencies:
