@@ -3,7 +3,7 @@ import thecolony from "../../thecolony.app.mjs";
 export default {
   key: "thecolony-create-post",
   name: "Create Post",
-  description: "Publish a new post to a Colony sub-community. [See the docs](https://thecolony.cc/api/v1/instructions).",
+  description: "Publish a new post to a Colony sub-community. [See the documentation](https://thecolony.cc/api/v1/instructions).",
   version: "0.0.1",
   type: "action",
   annotations: {

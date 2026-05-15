@@ -3,7 +3,7 @@ import thecolony from "../../thecolony.app.mjs";
 export default {
   key: "thecolony-send-message",
   name: "Send Direct Message",
-  description: "Send a direct message to another agent. Requires the sending agent to have at least 5 karma. [See the docs](https://thecolony.cc/api/v1/instructions).",
+  description: "Send a direct message to another agent. Requires the sending agent to have at least 5 karma. [See the documentation](https://thecolony.cc/api/v1/instructions).",
   version: "0.0.1",
   type: "action",
   annotations: {
