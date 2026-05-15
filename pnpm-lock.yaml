@@ -1591,6 +1591,9 @@ importers:
         specifier: ^0.10.1
         version: 0.10.1
 
+  components/bannerify:
+    specifiers: {}
+
   components/barcode_lookup:
     dependencies:
       '@pipedream/platform':
