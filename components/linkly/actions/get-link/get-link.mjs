@@ -23,6 +23,10 @@ export default {
   async run({ $ }) {
     const response = await this.linkly.getLink({
       linkId: this.linkId,
+      // Required for API-key auth; OAuth tokens are workspace-scoped so they omit it.
+      params: {
+        workspace_id: this.linkly.workspaceId(),
+      },
       $,
     });
     $.export("$summary", `Successfully fetched link with ID: ${this.linkId}`);

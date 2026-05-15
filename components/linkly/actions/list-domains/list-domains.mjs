@@ -18,7 +18,9 @@ export default {
     const { domains } = await this.linkly.listDomains({
       $,
     });
-    $.export("$summary", `Successfully fetched ${domains?.length ?? 0} domain${domains?.length === 1 ? "" : "s"}.`);
+    $.export("$summary", `Successfully fetched ${domains?.length ?? 0} domain${domains?.length === 1
+      ? ""
+      : "s"}.`);
     return domains;
   },
 };

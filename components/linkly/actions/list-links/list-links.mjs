@@ -41,7 +41,9 @@ export default {
       if (links.length >= this.maxResults) break;
       links.push(link);
     }
-    $.export("$summary", `Successfully fetched ${links.length} link${links.length === 1 ? "" : "s"}.`);
+    $.export("$summary", `Successfully fetched ${links.length} link${links.length === 1
+      ? ""
+      : "s"}.`);
     return links;
   },
 };

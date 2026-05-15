@@ -18,7 +18,9 @@ export default {
     const workspaces = await this.linkly.listWorkspaces({
       $,
     });
-    $.export("$summary", `Successfully fetched ${workspaces?.length ?? 0} workspace${workspaces?.length === 1 ? "" : "s"}.`);
+    $.export("$summary", `Successfully fetched ${workspaces?.length ?? 0} workspace${workspaces?.length === 1
+      ? ""
+      : "s"}.`);
     return workspaces;
   },
 };
