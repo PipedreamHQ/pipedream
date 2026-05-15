@@ -23,30 +23,39 @@ export default {
     },
   },
   async run() {
-    let lastTs = this._getLastTs();
+    const lastTs = this._getLastTs();
     if (!lastTs) {
       this._setLastTs(Math.floor(Date.now() / 1000));
       return;
     }
+    let nextPageUrl = null;
+    let endTime = lastTs;
     while (true) {
       const {
         events = [],
-        end_time: endTime,
+        end_time: et,
         next_page: nextPage,
-      } = await this.zendesk.listSideConversationEvents({
-        startTime: lastTs,
-      });
+      } = await this.zendesk.listSideConversationEvents(
+        nextPageUrl
+          ? {
+            nextPageUrl,
+          }
+          : {
+            startTime: lastTs,
+          },
+      );
       for (const event of events) {
         if (this.isRelevant(event)) {
           this.$emit(event, this.generateMeta(event));
         }
       }
-      lastTs = endTime || lastTs;
-      if (!nextPage || !endTime) {
+      endTime = et || endTime;
+      if (!nextPage) {
         break;
       }
+      nextPageUrl = nextPage;
     }
-    this._setLastTs(lastTs);
+    this._setLastTs(endTime);
   },
   sampleEmit,
 };

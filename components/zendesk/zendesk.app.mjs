@@ -752,14 +752,21 @@ export default {
       });
     },
     listSideConversationEvents({
-      startTime, ...args
+      startTime, nextPageUrl, ...args
     } = {}) {
+      if (nextPageUrl) {
+        return this.makeRequest({
+          url: nextPageUrl,
+          ...args,
+        });
+      }
       return this.makeRequest({
         path: "/tickets/side_conversations/events.json",
+        ...args,
         params: {
+          ...args.params,
           start_time: startTime,
         },
-        ...args,
       });
     },
     listUsers(args = {}) {
