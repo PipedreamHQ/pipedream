@@ -3602,7 +3602,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/corporate_merch: {}
+  components/corporate_merch:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
 
   components/corrently: {}
 
