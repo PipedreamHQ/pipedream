@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/microsofttodo",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Pipedream Microsoft To Do Components",
   "main": "microsofttodo.app.mjs",
   "keywords": [
