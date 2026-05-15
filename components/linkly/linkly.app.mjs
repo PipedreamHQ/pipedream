@@ -157,6 +157,7 @@ export default {
       resourceFn,
       params = {},
       resourceType,
+      $,
     }) {
       params = {
         ...params,
@@ -167,6 +168,7 @@ export default {
       do {
         const response = await resourceFn({
           params,
+          $,
         });
         const items = response[resourceType];
         for (const item of items) {

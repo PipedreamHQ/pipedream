@@ -35,10 +35,11 @@ export default {
       params: {
         search: this.search,
       },
+      $,
     });
     for await (const link of iterator) {
-      links.push(link);
       if (links.length >= this.maxResults) break;
+      links.push(link);
     }
     $.export("$summary", `Successfully fetched ${links.length} link${links.length === 1 ? "" : "s"}.`);
     return links;
