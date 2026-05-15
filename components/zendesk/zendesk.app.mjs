@@ -300,39 +300,27 @@ export default {
       label: "Side Conversation ID",
       description: "Identifier of the side conversation (UUID, e.g. `8566255a-ece5-11e8-857d-493066fa7b17`). Select **List Side Conversations** to see available IDs for a ticket.",
       async options({
-        ticketId, customSubdomain, prevContext = {},
+        ticketId, customSubdomain, page,
       }) {
         if (!ticketId) {
           return {
             options: [],
           };
         }
-        const page = prevContext.page ?? 1;
         const response = await this.listSideConversations({
           ticketId,
           customSubdomain,
           params: {
-            page,
+            page: page + 1,
             per_page: constants.DEFAULT_LIMIT,
           },
         });
-        const options = (response?.side_conversations ?? []).map(({
+        return (response?.side_conversations ?? []).map(({
           id, subject, preview_text: previewText,
         }) => ({
           label: subject || previewText || `Side Conversation ${id}`,
           value: id,
         }));
-        if (!response?.next_page) {
-          return {
-            options,
-          };
-        }
-        return {
-          context: {
-            page: page + 1,
-          },
-          options,
-        };
       },
     },
     macroId: {
