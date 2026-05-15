@@ -28,7 +28,7 @@ export default {
     shopifyOrderId: {
       type: "string",
       label: "Shopify Order ID",
-      description: "Filter orders by Shopify order ID.",
+      description: "Filter orders by Shopify order ID (e.g., `1234567890`).",
       optional: true,
     },
   },

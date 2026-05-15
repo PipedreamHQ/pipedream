@@ -16,7 +16,7 @@ export default {
     redeemPageId: {
       type: "string",
       label: "Redeem Page ID",
-      description: "The ID of the redeem page to list private links for. Use the **List Redeem Pages** action to find available redeem page IDs.",
+      description: "The ID of the redeem page to list private links for (e.g., `rp_12345`). Use the **List Redeem Pages** action to find available redeem page IDs.",
     },
     limit: {
       propDefinition: [
