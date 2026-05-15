@@ -295,6 +295,28 @@ export default {
         };
       },
     },
+    sideConversationId: {
+      type: "string",
+      label: "Side Conversation ID",
+      description: "Identifier of the side conversation (UUID, e.g. `8566255a-ece5-11e8-857d-493066fa7b17`). Select **List Side Conversations** to see available IDs for a ticket.",
+      async options({ ticketId }) {
+        let options = [];
+        if (ticketId) {
+          const listSideConversationsRes = await this.listSideConversations({
+            ticketId,
+          });
+          if (listSideConversationsRes?.side_conversations?.length) {
+            options = listSideConversationsRes.side_conversations.map(({
+              id, subject, preview_text: previewText,
+            }) => ({
+              label: subject || previewText || `Side Conversation ${id}`,
+              value: id,
+            }));
+          }
+        }
+        return options;
+      },
+    },
     macroId: {
       type: "string",
       label: "Macro ID",
@@ -748,6 +770,24 @@ export default {
     } = {}) {
       return this.makeRequest({
         path: `/tickets/${ticketId}/comments`,
+        ...args,
+      });
+    },
+    listSideConversations({
+      ticketId, customSubdomain, ...args
+    }) {
+      return this.makeRequest({
+        path: `/tickets/${ticketId}/side_conversations`,
+        customSubdomain,
+        ...args,
+      });
+    },
+    getSideConversation({
+      ticketId, sideConversationId, customSubdomain, ...args
+    }) {
+      return this.makeRequest({
+        path: `/tickets/${ticketId}/side_conversations/${sideConversationId}`,
+        customSubdomain,
         ...args,
       });
     },
