@@ -39,6 +39,24 @@ export default {
         params,
       });
     },
+    listOrders({
+      $, params,
+    }) {
+      return this._makeRequest({
+        $,
+        path: "/orders",
+        params,
+      });
+    },
+    listContacts({
+      $, params,
+    }) {
+      return this._makeRequest({
+        $,
+        path: "/contacts",
+        params,
+      });
+    },
     createContact({
       $, data,
     }) {
