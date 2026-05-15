@@ -7,7 +7,7 @@ export default {
     templateId: {
       type: "string",
       label: "Template ID",
-      description: "The Bannerify template ID to render.",
+      description: "The Bannerify template ID to render. Example: `template_abc123`.",
     },
     modifications: {
       type: "string",
@@ -17,6 +17,12 @@ export default {
     },
   },
   methods: {
+    /**
+     * Normalize JSON modifications into the Bannerify API array format.
+     *
+     * @param {String|Object|Array} modifications - JSON string, object shorthand, or array
+     * @returns {Array} Bannerify modifications array
+     */
     _parseModifications(modifications) {
       if (!modifications) {
         return [];
@@ -71,6 +77,15 @@ export default {
         ...opts,
       });
     },
+    /**
+     * Render and store an image from a Bannerify template.
+     *
+     * @param {Object} opts - Render options
+     * @param {String} opts.templateId - Bannerify template ID
+     * @param {String} [opts.format=png] - Image format
+     * @param {String|Object|Array} [opts.modifications] - Template field modifications
+     * @returns {Object} Bannerify render response
+     */
     renderStoredImage({
       $, templateId, format, modifications, ...opts
     } = {}) {
@@ -85,6 +100,14 @@ export default {
         ...opts,
       });
     },
+    /**
+     * Render and store a PDF from a Bannerify template.
+     *
+     * @param {Object} opts - Render options
+     * @param {String} opts.templateId - Bannerify template ID
+     * @param {String|Object|Array} [opts.modifications] - Template field modifications
+     * @returns {Object} Bannerify render response
+     */
     renderStoredPdf({
       $, templateId, modifications, ...opts
     } = {}) {
