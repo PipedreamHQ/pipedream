@@ -139,64 +139,6 @@ export default {
       });
     },
     /**
-     * List all aircraft types (GET /aircrafttypes), following paginated results until exhausted.
-     * @see https://developer.avinodegroup.com/reference/listaircrafttypes
-     * @param {object} [opts]
-     * @param {*} [opts.$]
-     * @param {number} [opts.pageSize] - Batch size per request (`page[size]`);
-     *   `page[number]` is 0-based (first page is `0`)
-     * @param {string[]} [opts.fields] - Sparse fields: perfdetails, typedetails, typephotos
-     * @returns {Promise<object[]>} Combined `data` items from all pages
-     */
-    async listAircraftTypes({
-      $ = this,
-      pageSize = 100,
-      fields,
-    } = {}) {
-      const all = [];
-      let pageNumber = 0;
-      const maxPages = 500;
-
-      for (let i = 0; i < maxPages; i++) {
-        const sp = new URLSearchParams();
-        sp.set("page[size]", String(pageSize));
-        sp.set("page[number]", String(pageNumber));
-        for (const f of fields || []) {
-          sp.append("fields[aircrafttypes]", String(f));
-        }
-
-        const body = await this._makeRequest({
-          $,
-          path: `/aircrafttypes?${sp.toString()}`,
-        });
-
-        const batch = Array.isArray(body?.data)
-          ? body.data
-          : [];
-        if (batch.length === 0) {
-          break;
-        }
-        all.push(...batch);
-
-        const pag = body?.meta?.pagination;
-        if (pag && typeof pag.totalCount === "number") {
-          if (all.length >= pag.totalCount) {
-            break;
-          }
-          const reportedSize = pag.batchSize ?? pageSize;
-          if (batch.length < reportedSize) {
-            break;
-          }
-        } else if (batch.length < pageSize) {
-          break;
-        }
-
-        pageNumber += 1;
-      }
-
-      return all;
-    },
-    /**
      * Search airports (GET /airports/search).
      * @see https://developer.avinodegroup.com/reference/searchairports-1
      * @param {object} [opts]
