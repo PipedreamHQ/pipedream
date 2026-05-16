@@ -10,7 +10,7 @@ Bannerify generates production-ready images and PDFs from reusable templates. Us
 
 # Getting Started
 
-Create a Bannerify project API key in the Bannerify dashboard, then connect Bannerify in Pipedream with that key. Bannerify exposes `GET /v1/info` for connection testing and `GET /v1/templates` for listing templates in the connected project. Add a Render Image or Render PDF step, choose a template, and pass optional modifications as JSON.
+Create a Bannerify project API key in the Bannerify dashboard, then connect Bannerify in Pipedream with that key. Add a Render Image or Render PDF step, choose a template from your project, and pass optional modifications as JSON.
 
 # Troubleshooting
 
