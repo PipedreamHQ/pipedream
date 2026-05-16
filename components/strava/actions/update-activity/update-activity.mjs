@@ -1,37 +1,93 @@
-import strava from "../../strava.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
+import app from "../../strava.app.mjs";
+import { SPORT_TYPES } from "../../common/constants.mjs";
 
 export default {
-  name: "Update Activity",
-  description: "Updates the given activity that is owned by the authenticated athlete. [See the docs](https://developers.strava.com/docs/reference/#api-Activities-updateActivityById)",
   key: "strava-update-activity",
-  version: "0.0.2",
+  name: "Update Activity",
+  description: "Update fields on an existing Strava activity owned by the authenticated athlete."
+    + " Use **Search Activities** first to resolve a name to an `activityId`."
+    + " Only fields you provide are updated; omitted fields are left unchanged."
+    + " `sportType` uses Strava's modern `sport_type` enum (not the legacy `type` field)."
+    + " [See the documentation](https://developers.strava.com/docs/reference/#api-Activities-updateActivityById)",
+  version: "1.0.0",
+  type: "action",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
-  type: "action",
   props: {
-    strava,
+    app,
     activityId: {
-      type: "integer",
-      label: "ID of the activity",
-      description: "ID of the activity",
+      type: "string",
+      label: "Activity ID",
+      description: "The numeric ID of the activity to update.",
     },
-    body: {
-      type: "object",
-      label: "Key-value object for fields to be updated",
-      description: "Any valid key can be added into the object",
+    name: {
+      type: "string",
+      label: "Activity Name",
+      description: "New name for the activity.",
+      optional: true,
+    },
+    sportType: {
+      type: "string",
+      label: "Sport Type",
+      description: "New sport type from Strava's `sport_type` enum.",
+      options: SPORT_TYPES,
+      optional: true,
+    },
+    description: {
+      type: "string",
+      label: "Description",
+      description: "New description for the activity.",
+      optional: true,
+    },
+    trainer: {
+      type: "boolean",
+      label: "Trainer",
+      description: "Mark as a trainer activity (indoor / stationary).",
+      optional: true,
+    },
+    commute: {
+      type: "boolean",
+      label: "Commute",
+      description: "Mark as a commute.",
+      optional: true,
+    },
+    gearId: {
+      type: "string",
+      label: "Gear ID",
+      description: "Strava gear ID to associate with this activity (e.g., a bike or pair of shoes).",
+      optional: true,
+    },
+    hideFromHome: {
+      type: "boolean",
+      label: "Hide from Home Feed",
+      description: "Set true to hide this activity from the athlete's home feed (muting).",
       optional: true,
     },
   },
   async run({ $ }) {
-    const resp = await this.strava.updateActivity({
+    const data = {};
+    if (this.name !== undefined) data.name = this.name;
+    if (this.sportType !== undefined) data.sport_type = this.sportType;
+    if (this.description !== undefined) data.description = this.description;
+    if (this.trainer !== undefined) data.trainer = this.trainer;
+    if (this.commute !== undefined) data.commute = this.commute;
+    if (this.gearId !== undefined) data.gear_id = this.gearId;
+    if (this.hideFromHome !== undefined) data.hide_from_home = this.hideFromHome;
+
+    if (Object.keys(data).length === 0) {
+      throw new ConfigurationError("Provide at least one field to update.");
+    }
+
+    const resp = await this.app.updateActivity({
       $,
       activityId: this.activityId,
-      data: this.body,
+      data,
     });
-    $.export("$summary", "The activity has been updated");
+    $.export("$summary", `Updated activity ${this.activityId}`);
     return resp;
   },
 };
