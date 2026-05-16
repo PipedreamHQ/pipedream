@@ -8,6 +8,15 @@ export default {
       type: "string",
       label: "Template ID",
       description: "The Bannerify template ID to render. Example: `template_abc123`.",
+      async options() {
+        const templates = await this.listTemplates();
+        return templates.map(({
+          id: value, name,
+        }) => ({
+          label: name || value,
+          value,
+        }));
+      },
     },
     modifications: {
       type: "string",
@@ -80,6 +89,50 @@ export default {
           ...data,
         },
         ...opts,
+      });
+    },
+    _get({
+      $ = this, path, params, ...opts
+    } = {}) {
+      return axios($, {
+        method: "GET",
+        url: `https://api.bannerify.co${path}`,
+        params: {
+          apiKey: this.$auth.api_key,
+          ...params,
+        },
+        ...opts,
+      });
+    },
+    /**
+     * Validate the API key and return the connected Bannerify project info.
+     *
+     * @returns {Object} Bannerify project info
+     */
+    getProjectInfo(args = {}) {
+      return this._get({
+        path: "/v1/info",
+        ...args,
+      });
+    },
+    /**
+     * List templates available to the connected Bannerify project.
+     *
+     * @param {Object} opts - List options
+     * @param {Boolean} [opts.includeLayers=false] - Whether to include template layers
+     * @returns {Array} Bannerify templates
+     */
+    listTemplates({
+      includeLayers = false, ...args
+    } = {}) {
+      return this._get({
+        path: "/v1/templates",
+        params: includeLayers
+          ? {
+            includeLayers: "true",
+          }
+          : undefined,
+        ...args,
       });
     },
     /**
