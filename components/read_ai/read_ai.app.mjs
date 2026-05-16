@@ -44,7 +44,7 @@ export default {
       });
     },
     async listMeetings({
-      $, startTimeMs, endTimeMs, limit, cursor,
+      $, startTimeMs, endTimeMs, limit, cursor, expand,
     }) {
       return this._makeRequest({
         $,
@@ -58,6 +58,9 @@ export default {
           }),
           limit,
           cursor,
+          ...(expand?.length && {
+            "expand[]": expand,
+          }),
         },
       });
     },
