@@ -1,0 +1,30 @@
+import renderio from "../../renderio.app.mjs";
+
+export default {
+  key: "renderio-delete-stored-file",
+  name: "Delete Stored File",
+  description: "Delete a stored file by ID. [See the documentation](https://renderio.dev/docs)",
+  version: "0.0.1",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
+  type: "action",
+  props: {
+    renderio,
+    fileId: {
+      type: "string",
+      label: "File ID",
+      description: "The unique identifier of the file to delete.",
+    },
+  },
+  async run({ $ }) {
+    const response = await this.renderio.deleteFile({
+      $,
+      fileId: this.fileId,
+    });
+    $.export("$summary", `Successfully deleted file ${this.fileId}`);
+    return response;
+  },
+};
