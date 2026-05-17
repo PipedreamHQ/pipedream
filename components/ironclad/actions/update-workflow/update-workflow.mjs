@@ -8,7 +8,7 @@ export default {
   key: "ironclad-update-workflow",
   name: "Update Workflow Metadata",
   description: "Updates the metadata of an existing workflow. [See the documentation]()",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

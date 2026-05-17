@@ -32,7 +32,7 @@ export default {
     recordId: {
       type: "string",
       label: "Record ID",
-      description: "The ID (`sys_id` field) of the record",
+      description: "The ID (`sys_id` field) of the record. Obtain via **Search Records**.",
       async options({
         table, page,
       }) {
@@ -111,16 +111,25 @@ export default {
     },
   },
   methods: {
+    getBaseUrl() {
+      return `https://${this.$auth.instance_name}.service-now.com`;
+    },
+    getAuthHeaders() {
+      return {
+        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+      };
+    },
     async _makeRequest({
       $ = this,
       headers,
+      apiPath = "/api/now",
       ...args
     }) {
       const response = await axios($, {
-        baseURL: `https://${this.$auth.instance_name}.service-now.com/api/now`,
+        baseURL: `${this.getBaseUrl()}${apiPath}`,
         headers: {
           ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+          ...this.getAuthHeaders(),
         },
         ...args,
       });
@@ -182,6 +191,32 @@ export default {
     }) {
       return this._makeRequest({
         url: `/stats/${table}`,
+        ...args,
+      });
+    },
+    async submitRecordProducer({
+      sysId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        apiPath: "/api/sn_sc/servicecatalog",
+        url: `/items/${sysId}/submit_producer`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        ...args,
+      });
+    },
+    async orderCatalogItem({
+      sysId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        apiPath: "/api/sn_sc/servicecatalog",
+        url: `/items/${sysId}/order_now`,
+        headers: {
+          "Content-Type": "application/json",
+        },
         ...args,
       });
     },
