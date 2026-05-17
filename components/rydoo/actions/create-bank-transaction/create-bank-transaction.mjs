@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import rydoo from "../../rydoo.app.mjs";
 
 export default {
@@ -97,13 +98,22 @@ export default {
     },
   },
   async run({ $ }) {
+    const originalAmount = parseFloat(this.originalAmount);
+    if (Number.isNaN(originalAmount)) {
+      throw new ConfigurationError(`"Original Amount" must be a valid number, got: ${this.originalAmount}`);
+    }
+    const billedAmount = parseFloat(this.billedAmount);
+    if (Number.isNaN(billedAmount)) {
+      throw new ConfigurationError(`"Billed Amount" must be a valid number, got: ${this.billedAmount}`);
+    }
+
     const response = await this.rydoo.createTransaction({
       $,
       data: {
         userId: this.userId,
-        originalAmount: parseFloat(this.originalAmount),
+        originalAmount,
         originalCurrencyCode: this.originalCurrencyCode,
-        billedAmount: parseFloat(this.billedAmount),
+        billedAmount,
         billedCurrencyCode: this.billedCurrencyCode,
         paymentMethodId: this.paymentMethodId,
         transactionDate: this.transactionDate,

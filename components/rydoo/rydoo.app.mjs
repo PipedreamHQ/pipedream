@@ -203,11 +203,15 @@ export default {
       description: "The UUID of the payment method the transaction belongs to",
       async options({ userId }) {
         const response = await this.listPaymentMethods();
-        const paymentMethods = response?.data?.filter(({ user }) => user.id === userId) || [];
+        const allMethods = response?.data || response;
+        const paymentMethods = (Array.isArray(allMethods)
+          ? allMethods
+          : [])
+          .filter(({ user }) => user.id === userId);
         return paymentMethods.map(({
           id, name,
         }) => ({
-          label: name,
+          label: name || id,
           value: id,
         }));
       },
