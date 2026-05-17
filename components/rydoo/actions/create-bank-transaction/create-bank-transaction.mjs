@@ -57,9 +57,10 @@ export default {
       description: "Date the transaction occurred in ISO 8601 format (e.g., `2024-06-15T00:00:00Z`)",
     },
     merchantName: {
-      type: "string",
-      label: "Merchant Name",
-      description: "The name of the merchant or seller",
+      propDefinition: [
+        rydoo,
+        "merchantName",
+      ],
     },
     merchantCategoryCode: {
       type: "string",
