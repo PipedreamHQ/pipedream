@@ -5,7 +5,7 @@ export default {
   name: "Create Scene",
   description:
     "Creates a new scene (whiteboard) in the Excalidraw Plus workspace."
-     " The API requires a collection — if no `collectionId` is provided, the scene is placed in the default (Main) collection automatically."
+    + " The API requires a collection — if no `collectionId` is provided, the scene is placed in the default (Main) collection automatically."
     + " Use **List Collections** to find the collection ID if the user wants the scene in a specific folder."
     + " Returns the new scene's ID and metadata."
     + " [See the documentation](https://plus.excalidraw.com/docs/api)",
