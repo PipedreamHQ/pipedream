@@ -1591,8 +1591,7 @@ importers:
         specifier: ^0.10.1
         version: 0.10.1
 
-  components/bannerify:
-    specifiers: {}
+  components/bannerify: {}
 
   components/barcode_lookup:
     dependencies:
@@ -12874,7 +12873,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/read_ai: {}
+  components/read_ai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
 
   components/readwise:
     dependencies:
