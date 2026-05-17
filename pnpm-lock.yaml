@@ -1354,7 +1354,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/avinode: {}
+  components/avinode:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.3.1
+        version: 3.4.0
 
   components/avochato: {}
 
@@ -1592,6 +1596,7 @@ importers:
       '@pipedream/platform':
         specifier: ^0.10.1
         version: 0.10.1
+
 
   components/barcode_lookup:
     dependencies:
@@ -4457,6 +4462,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
+      form-data:
+        specifier: 4.0.4
+        version: 4.0.4
 
   components/documenso:
     dependencies:
@@ -11661,8 +11669,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/penpot:
-    specifiers: {}
+  components/penpot: {}
 
   components/people_data_labs:
     dependencies:
@@ -40875,7 +40882,7 @@ snapshots:
 
   '@pipedream/canva@0.2.3':
     dependencies:
-      '@pipedream/platform': 3.3.1
+      '@pipedream/platform': 3.4.0
     transitivePeerDependencies:
       - debug
 
