@@ -7,12 +7,12 @@ export default {
     sceneId: {
       type: "string",
       label: "Scene ID",
-      description: "The unique identifier of the scene. Use **List Scenes** to find scene IDs.",
+      description: "The unique identifier of the scene. Use **List Scenes** to find scene IDs. Example: `4towcktqVl9`.",
     },
     collectionId: {
       type: "string",
       label: "Collection ID",
-      description: "The unique identifier of the collection. Use **List Collections** to find collection IDs.",
+      description: "The unique identifier of the collection. Use **List Collections** to find collection IDs. Example: `77i8dL6qc5t`.",
       optional: true,
     },
     sceneName: {
