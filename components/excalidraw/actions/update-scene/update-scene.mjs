@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../excalidraw.app.mjs";
 
 export default {
@@ -42,6 +43,10 @@ export default {
     const data = {};
     if (this.sceneName) data.name = this.sceneName;
     if (this.collectionId) data.collectionId = this.collectionId;
+
+    if (!Object.keys(data).length) {
+      throw new ConfigurationError("Provide at least one of: sceneName, collectionId.");
+    }
 
     const scene = await this.app.updateScene({
       $,
