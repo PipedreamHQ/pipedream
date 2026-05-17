@@ -41,9 +41,14 @@ export default {
       optional: true,
     },
     paymentMethodId: {
-      type: "string",
-      label: "Payment Method ID",
-      description: "The UUID of the payment method the transaction belongs to",
+      propDefinition: [
+        rydoo,
+        "paymentMethodId",
+        (c) => ({
+          userId: c.userId,
+        }),
+      ],
+      optional: true,
     },
     transactionDate: {
       type: "string",
@@ -71,7 +76,6 @@ export default {
       type: "string",
       label: "Unique ID",
       description: "A unique identifier for the transaction from the bank",
-      optional: true,
     },
     country: {
       type: "string",

@@ -52,8 +52,7 @@ export default {
     destinations: {
       type: "string[]",
       label: "Destinations",
-      description: "Trip destination details. Each entry must be a JSON object with destination properties (e.g., `{\"city\": \"Paris\", \"country\": \"France\", \"arrivalDate\": \"2025-06-01\"}`)",
-      optional: true,
+      description: "Trip destination details. Each entry must be a JSON object with destination properties (e.g., `{\"name\": \"Paris\", \"date\": \"2025-06-01\"}`)",
     },
     budget: {
       type: "string",

@@ -197,6 +197,21 @@ export default {
         }));
       },
     },
+    paymentMethodId: {
+      type: "string",
+      label: "Payment Method ID",
+      description: "The UUID of the payment method the transaction belongs to",
+      async options({ userId }) {
+        const response = await this.listPaymentMethods();
+        const paymentMethods = response?.data?.filter(({ user }) => user.id === userId) || [];
+        return paymentMethods.map(({
+          id, name,
+        }) => ({
+          label: name,
+          value: id,
+        }));
+      },
+    },
     receiptId: {
       type: "string",
       label: "Receipt ID",
@@ -323,6 +338,12 @@ export default {
         ...opts,
       });
     },
+    listPaymentMethods(opts = {}) {
+      return this._makeRequest({
+        url: "/v2/paymentmethods/all",
+        ...opts,
+      });
+    },
     addUser(opts = {}) {
       return this._makeRequest({
         method: "POST",
@@ -336,13 +357,6 @@ export default {
       return this._makeRequest({
         method: "PUT",
         url: `/v2/users/${userId}`,
-        ...opts,
-      });
-    },
-    reimburseExpenses(opts = {}) {
-      return this._makeRequest({
-        method: "PUT",
-        url: "/v2/expenses/reimburse",
         ...opts,
       });
     },

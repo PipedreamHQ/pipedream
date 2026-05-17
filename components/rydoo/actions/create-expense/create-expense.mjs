@@ -128,7 +128,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully created expense with ID: ${response.id}`);
+    $.export("$summary", `Successfully created expense with ID: ${response.expenseId}`);
     return response;
   },
 };
