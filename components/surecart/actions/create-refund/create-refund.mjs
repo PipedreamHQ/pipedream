@@ -4,7 +4,7 @@ export default {
   key: "surecart-create-refund",
   name: "Create Refund",
   description: "Create a new refund for a charge. [See the documentation](https://developer.surecart.com/api-reference/refunds/create)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -41,7 +41,7 @@ export default {
       optional: true,
     },
     refundItems: {
-      type: "object[]",
+      type: "string",
       label: "Refund Items",
       description: "Line items to refund. Each item: `{ \"line_item\": \"li_abc123\", \"quantity\": 1, \"restock\": true, \"revoke_purchase\": false }`",
       optional: true,
@@ -71,7 +71,9 @@ export default {
           reason: this.reason,
           charge: this.charge,
           return_request: this.returnRequest,
-          refund_items: this.refundItems,
+          refund_items: this.refundItems
+            ? JSON.parse(this.refundItems)
+            : undefined,
           metadata: this.metadata,
         },
       },

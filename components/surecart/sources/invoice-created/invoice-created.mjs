@@ -5,7 +5,7 @@ export default {
   key: "surecart-invoice-created",
   name: "New Invoice Created (Instant)",
   description: "Emit new event when an invoice is created. [See the documentation](https://developer.surecart.com/api-reference/webhook-endpoints/create)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

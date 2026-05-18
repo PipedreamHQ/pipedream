@@ -1,10 +1,10 @@
 import surecart from "../../surecart.app.mjs";
 
 export default {
-  key: "surecart-list-checkouts",
-  name: "List Checkouts",
-  description: "Return a list of checkouts. [See the documentation](https://developer.surecart.com/api-reference/checkouts/list)",
-  version: "0.0.2",
+  key: "surecart-list-charges",
+  name: "List Charges",
+  description: "Return a list of charges. [See the documentation](https://developer.surecart.com/api-reference/charges/list)",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -13,16 +13,22 @@ export default {
   },
   props: {
     surecart,
+    checkoutIds: {
+      type: "string[]",
+      label: "Checkout IDs",
+      description: "Filter by checkout IDs. Use **List Checkouts** to find checkout IDs. Example: `[\"ch_abc123\"]`",
+      optional: true,
+    },
     customerIds: {
       type: "string[]",
       label: "Customer IDs",
       description: "Filter by customer IDs. Use **List Customers** to find customer IDs. Example: `[\"cus_abc123\"]`",
       optional: true,
     },
-    groupKeys: {
+    externalChargeIds: {
       type: "string[]",
-      label: "Group Keys",
-      description: "Filter checkouts by group keys. Example: `[\"key_abc\"]`",
+      label: "External Charge IDs",
+      description: "Filter by external charge IDs (e.g. from Stripe). Example: `[\"ch_stripe123\"]`",
       optional: true,
     },
     ids: {
@@ -49,34 +55,21 @@ export default {
         "page",
       ],
     },
-    productIds: {
-      type: "string[]",
-      label: "Product IDs",
-      description: "Filter by product IDs. Use **List Products** to find product IDs. Example: `[\"prod_abc123\"]`",
-      optional: true,
-    },
-    status: {
-      type: "string[]",
-      label: "Status",
-      description: "Filter checkouts by status. Example: `[\"complete\"]`",
-      optional: true,
-    },
   },
   async run({ $ }) {
-    const response = await this.surecart.listCheckouts({
+    const response = await this.surecart.listCharges({
       $,
       params: {
+        "checkout_ids[]": this.checkoutIds,
         "customer_ids[]": this.customerIds,
-        "group_keys[]": this.groupKeys,
+        "external_charge_ids[]": this.externalChargeIds,
         "ids[]": this.ids,
         "limit": this.limit,
         "live_mode": this.liveMode,
         "page": this.page,
-        "product_ids[]": this.productIds,
-        "status[]": this.status,
       },
     });
-    $.export("$summary", `Successfully retrieved ${response.data?.length ?? 0} checkout(s)`);
+    $.export("$summary", `Successfully retrieved ${response.data?.length ?? 0} charge(s)`);
     return response;
   },
 };

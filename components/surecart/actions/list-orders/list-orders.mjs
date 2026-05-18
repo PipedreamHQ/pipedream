@@ -4,7 +4,7 @@ export default {
   key: "surecart-list-orders",
   name: "List Orders",
   description: "Return a list of orders. [See the documentation](https://developer.surecart.com/api-reference/orders/list)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
