@@ -797,6 +797,24 @@ export default {
         ...args,
       });
     },
+    listSideConversationEvents({
+      startTime, nextPageUrl, ...args
+    } = {}) {
+      if (nextPageUrl) {
+        return this.makeRequest({
+          url: nextPageUrl,
+          ...args,
+        });
+      }
+      return this.makeRequest({
+        path: "/tickets/side_conversations/events.json",
+        ...args,
+        params: {
+          ...args.params,
+          start_time: startTime,
+        },
+      });
+    },
     listUsers(args = {}) {
       return this.makeRequest({
         path: "/users",
