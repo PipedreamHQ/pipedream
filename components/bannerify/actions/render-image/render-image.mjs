@@ -22,7 +22,7 @@ export default {
     format: {
       type: "string",
       label: "Format",
-      description: "The output image format.",
+      description: "The output image format. Valid values are `png`, `jpeg`, and `webp`.",
       options: [
         "png",
         "jpeg",
