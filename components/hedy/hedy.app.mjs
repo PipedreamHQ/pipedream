@@ -51,7 +51,7 @@ export default {
     },
     _headers() {
       return {
-        Authorization: `Bearer ${this.$auth.api_key}`,
+        "Authorization": `Bearer ${this.$auth.api_key}`,
         "Content-Type": "application/json",
       };
     },
