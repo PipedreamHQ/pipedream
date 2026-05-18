@@ -112,7 +112,7 @@ export default {
     maxResults: {
       type: "integer",
       label: "Max Results",
-      description: "Maximum number of results to accumulate across pages",
+      description: "Maximum number of results to return",
       optional: true,
       default: constants.LIMIT_MAX,
     },
