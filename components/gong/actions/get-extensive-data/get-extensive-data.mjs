@@ -204,6 +204,7 @@ export default {
         },
         resourceName: "calls",
         max: maxResults,
+        cursorIn: "data",
       });
 
       if (calls?.length) {
