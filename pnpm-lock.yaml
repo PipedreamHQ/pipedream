@@ -12878,7 +12878,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/read_ai: {}
+  components/read_ai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
 
   components/readwise:
     dependencies:
@@ -13121,6 +13125,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
+
+  components/renderio:
+    specifiers: {}
 
   components/rendi:
     dependencies:
