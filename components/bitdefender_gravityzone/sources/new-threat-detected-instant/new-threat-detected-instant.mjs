@@ -16,11 +16,14 @@ export default {
         "avc": true,  // advanced threat control
       };
     },
-    generateMeta() {
+    generateMeta(event) {
+      const ts = event?.last_blocked
+        ? new Date(event.last_blocked).getTime()
+        : Date.now();
       return {
-        id: Date.now(),
+        id: `${event?.computer_id}-${ts}`,
         summary: "New Threat Detected",
-        ts: Date.now(),
+        ts,
       };
     },
   },

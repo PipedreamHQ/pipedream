@@ -3,7 +3,7 @@ import bitdefender from "../../bitdefender_gravityzone.app.mjs";
 export default {
   key: "bitdefender_gravityzone-get-scan-task-status",
   name: "Get Scan Task Status",
-  description: "Get the status of a scan task. [See the documentation(https://www.bitdefender.com/business/support/en/77209-440638-gettaskstatus.html)",
+  description: "Get the status of a scan task. [See the documentation](https://www.bitdefender.com/business/support/en/77209-440638-gettaskstatus.html)",
   version: "0.0.3",
   annotations: {
     destructiveHint: false,
