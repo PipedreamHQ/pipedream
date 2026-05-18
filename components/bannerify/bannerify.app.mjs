@@ -7,7 +7,7 @@ export default {
     templateId: {
       type: "string",
       label: "Template ID",
-      description: "The Bannerify template ID to render. Example: `template_abc123`.",
+      description: "The Bannerify template ID to render. Example: `template_abc123`. Use the List Templates action if you need to find the template ID first.",
       async options() {
         const templates = await this.listTemplates();
         return templates.map(({
