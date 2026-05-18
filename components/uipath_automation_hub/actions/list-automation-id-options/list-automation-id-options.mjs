@@ -2,8 +2,8 @@ import uipath_automation_hub from "../../uipath_automation_hub.app.mjs";
 
 export default {
   key: "uipath_automation_hub-list-automation-id-options",
-  name: "List Idea Id Options",
-  description: "Retrieves available options for the Idea Id field.",
+  name: "List Automation ID Options",
+  description: "Retrieves available options for the Automation ID field.",
   version: "0.0.1",
   type: "action",
   annotations: {

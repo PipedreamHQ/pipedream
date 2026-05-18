@@ -2,8 +2,8 @@ import toggl from "../../toggl.app.mjs";
 
 export default {
   key: "toggl-list-workspace-id-options",
-  name: "List Workspace Id Options",
-  description: "Retrieves available options for the Workspace Id field.",
+  name: "List Workspace ID Options",
+  description: "Retrieves available options for the Workspace ID field.",
   version: "0.0.1",
   type: "action",
   annotations: {
