@@ -4,7 +4,7 @@ export default {
   key: "bol_com-list-return-id-options",
   name: "List Return ID Options",
   description: "Retrieves available options for the Return ID field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -13,22 +13,22 @@ export default {
   },
   props: {
     bol_com,
+    page: {
+      type: "integer",
+      label: "Page",
+      description: "The page of results to retrieve.",
+      optional: true,
+      default: 0,
+    },
   },
   async run({ $ }) {
-    const results = [];
-    let page = 0;
-    while (true) {
-      const options = await bol_com.propDefinitions.returnId.options
-        .call(this.bol_com, {
-          page,
-        });
-      if (!options?.length) break;
-      results.push(...options);
-      page++;
-    }
-    $.export("$summary", `Successfully retrieved ${results.length} option${results.length === 1
+    const options = await bol_com.propDefinitions.returnId.options
+      .call(this.bol_com, {
+        page: this.page,
+      });
+    $.export("$summary", `Successfully retrieved ${options.length} option${options.length === 1
       ? ""
       : "s"}`);
-    return results;
+    return options;
   },
 };

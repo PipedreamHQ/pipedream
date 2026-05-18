@@ -4,7 +4,7 @@ export default {
   key: "akeneo-list-product-model-code-options",
   name: "List Product Model Code Options",
   description: "Retrieves available options for the Product Model Code field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -13,22 +13,22 @@ export default {
   },
   props: {
     akeneo,
+    page: {
+      type: "integer",
+      label: "Page",
+      description: "The page of results to retrieve.",
+      optional: true,
+      default: 0,
+    },
   },
   async run({ $ }) {
-    const results = [];
-    let page = 0;
-    while (true) {
-      const options = await akeneo.propDefinitions.productModelCode.options
-        .call(this.akeneo, {
-          page,
-        });
-      if (!options?.length) break;
-      results.push(...options);
-      page++;
-    }
-    $.export("$summary", `Successfully retrieved ${results.length} option${results.length === 1
+    const options = await akeneo.propDefinitions.productModelCode.options
+      .call(this.akeneo, {
+        page: this.page,
+      });
+    $.export("$summary", `Successfully retrieved ${options.length} option${options.length === 1
       ? ""
       : "s"}`);
-    return results;
+    return options;
   },
 };
