@@ -80,61 +80,34 @@ export default {
       maxResults = constants.LIMIT_MAX,
     } = this;
 
-    const baseData = {
-      expand,
-      status,
-      jobId,
-      syncToken,
-      createdAfter: createdAfter
-        ? new Date(createdAfter).getTime()
-        : undefined,
-    };
-
-    const accumulated = [];
-    let pageCursor = cursor;
-    let lastResponse;
-
-    while (accumulated.length < maxResults) {
-      const remaining = maxResults - accumulated.length;
-      const limit = Math.min(remaining, constants.LIMIT_MAX);
-
-      lastResponse = await app.listApplications({
+    const response = await app.paginate({
+      fn: app.listApplications,
+      fnArgs: {
         $,
         data: {
-          ...baseData,
-          cursor: pageCursor,
-          limit,
+          expand,
+          status,
+          jobId,
+          syncToken,
+          cursor,
+          createdAfter: createdAfter
+            ? new Date(createdAfter).getTime()
+            : undefined,
         },
-      });
-
-      const items = lastResponse.results || [];
-      accumulated.push(...items);
-
-      pageCursor = lastResponse.nextCursor;
-      if (!pageCursor || !items.length) {
-        break;
-      }
-    }
-
-    const response = {
-      success: true,
-      results: accumulated,
-      moreDataAvailable: lastResponse?.moreDataAvailable,
-      ...(lastResponse?.nextCursor && {
-        nextCursor: lastResponse.nextCursor,
-      }),
-      ...(lastResponse?.syncToken && {
-        syncToken: lastResponse.syncToken,
-      }),
-    };
+      },
+      max: maxResults,
+    });
 
     $.export(
       "$summary",
-      `Successfully retrieved \`${accumulated.length}\` application(s)${response.moreDataAvailable
+      `Successfully retrieved \`${response?.results?.length}\` application(s)${response?.moreDataAvailable
         ? " (more data available)"
         : ""}`,
     );
 
-    return response;
+    return {
+      success: true,
+      ...response,
+    };
   },
 };

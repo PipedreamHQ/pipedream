@@ -366,5 +366,39 @@ export default {
         ...args,
       });
     },
+    async paginate({
+      fn, fnArgs, max = constants.LIMIT_MAX, keyField = "results",
+    } = {}) {
+      const accumulated = [];
+      let pageCursor = fnArgs?.data?.cursor;
+      let lastResponse;
+      while (accumulated.length < max) {
+        const limit = Math.min(max - accumulated.length, constants.LIMIT_MAX);
+        lastResponse = await fn({
+          ...fnArgs,
+          data: {
+            ...fnArgs?.data,
+            cursor: pageCursor,
+            limit,
+          },
+        });
+        const items = lastResponse?.[keyField] || [];
+        accumulated.push(...items);
+        pageCursor = lastResponse?.nextCursor;
+        if (!pageCursor || !items.length) {
+          break;
+        }
+      }
+      return {
+        [keyField]: accumulated,
+        moreDataAvailable: lastResponse?.moreDataAvailable,
+        ...(lastResponse?.nextCursor && {
+          nextCursor: lastResponse.nextCursor,
+        }),
+        ...(lastResponse?.syncToken && {
+          syncToken: lastResponse.syncToken,
+        }),
+      };
+    },
   },
 };
