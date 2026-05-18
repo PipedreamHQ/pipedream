@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/hedy",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Pipedream Hedy Components",
   "main": "hedy.app.mjs",
   "keywords": [
