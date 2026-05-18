@@ -7,32 +7,32 @@ export default {
     sessionId: {
       type: "string",
       label: "Session ID",
-      description: "The unique identifier of the meeting session.",
+      description: "The unique identifier of the meeting session (e.g., `ses_0123abcd`). Use **Get Many Sessions** to list available session IDs.",
     },
     topicId: {
       type: "string",
       label: "Topic ID",
-      description: "The unique identifier of the topic.",
+      description: "The unique identifier of the topic (e.g., `topic_5f8e9a`). Use **Get Many Topics** to list available topic IDs.",
     },
     highlightId: {
       type: "string",
       label: "Highlight ID",
-      description: "The unique identifier of the highlight.",
+      description: "The unique identifier of the highlight (e.g., `hl_20240501_abc123`). Use **Get Many Highlights** to list available highlight IDs.",
     },
     todoId: {
       type: "string",
       label: "Todo ID",
-      description: "The unique identifier of the action item (todo).",
+      description: "The unique identifier of the action item (todo) (e.g., `todo_987xyz`). Use **Get Many Action Items** to list available todo IDs.",
     },
     contextId: {
       type: "string",
       label: "Context ID",
-      description: "The unique identifier of the session context.",
+      description: "The unique identifier of the session context (e.g., `ctx_456def`). Use **Get Many Session Contexts** to list available context IDs.",
     },
     limit: {
       type: "integer",
       label: "Limit",
-      description: "Maximum number of items to return (1–100). Defaults to 20.",
+      description: "Maximum number of items to return (1–100). Defaults to 20. Example: `50`.",
       min: 1,
       max: 100,
       optional: true,
@@ -41,7 +41,7 @@ export default {
     after: {
       type: "string",
       label: "After Cursor",
-      description: "Pagination cursor from a previous response's `pagination.after` field. Pass this value to retrieve the next page of results.",
+      description: "Pagination cursor from a previous response's `pagination.after` field. Pass this value to retrieve the next page of results (e.g., `eyJpZCI6IjEyMyJ9`).",
       optional: true,
     },
     title: {
