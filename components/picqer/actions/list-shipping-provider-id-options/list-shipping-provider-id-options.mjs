@@ -2,8 +2,8 @@ import picqer from "../../picqer.app.mjs";
 
 export default {
   key: "picqer-list-shipping-provider-id-options",
-  name: "List Shipping Provider Id Options",
-  description: "Retrieves available options for the Shipping Provider Id field.",
+  name: "List Shipping Provider ID Options",
+  description: "Retrieves available options for the Shipping Provider ID field.",
   version: "0.0.1",
   type: "action",
   annotations: {

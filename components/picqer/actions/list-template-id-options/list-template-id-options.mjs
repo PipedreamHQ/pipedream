@@ -2,8 +2,8 @@ import picqer from "../../picqer.app.mjs";
 
 export default {
   key: "picqer-list-template-id-options",
-  name: "List Template Id Options",
-  description: "Retrieves available options for the Template Id field.",
+  name: "List Template ID Options",
+  description: "Retrieves available options for the Template ID field.",
   version: "0.0.1",
   type: "action",
   annotations: {
