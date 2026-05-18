@@ -31,7 +31,9 @@ export default {
         zendesk,
         "limit",
       ],
-      description: "Maximum number of side conversations to return.",
+      description: "Maximum number of side conversations to return (1-1000).",
+      min: 1,
+      max: 1000,
     },
     customSubdomain: {
       propDefinition: [
