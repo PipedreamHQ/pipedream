@@ -2,8 +2,8 @@ import click2mail2 from "../../click2mail2.app.mjs";
 
 export default {
   key: "click2mail2-list-project-id-options",
-  name: "List Project Id Options",
-  description: "Retrieves available options for the Project Id field.",
+  name: "List Project ID Options",
+  description: "Retrieves available options for the Project ID field.",
   version: "0.0.1",
   type: "action",
   annotations: {
