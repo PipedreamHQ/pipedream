@@ -5,7 +5,7 @@ export default {
   key: "ashby-list-applications",
   name: "List Applications",
   description: "Retrieves a list of applications within an organization. [See the documentation](https://developers.ashbyhq.com/reference/applicationlist)",
-  version: "0.0.3",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,
