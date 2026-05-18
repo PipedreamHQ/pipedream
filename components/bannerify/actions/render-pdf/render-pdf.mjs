@@ -3,7 +3,7 @@ import bannerify from "../../bannerify.app.mjs";
 export default {
   key: "bannerify-render-pdf",
   name: "Render PDF",
-  description: "Generate a PDF from a Bannerify template and return a hosted file URL. [See the documentation](https://docs.bannerify.co/api-reference/endpoint/create-stored-pdf)",
+  description: "Generate a PDF from a Bannerify template and return a hosted file URL. [See the documentation](https://bannerify.co/docs/integrations/pipedream)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -13,8 +13,18 @@ export default {
   type: "action",
   props: {
     bannerify,
-    templateId: bannerify.propDefinitions.templateId,
-    modifications: bannerify.propDefinitions.modifications,
+    templateId: {
+      propDefinition: [
+        bannerify,
+        "templateId",
+      ],
+    },
+    modifications: {
+      propDefinition: [
+        bannerify,
+        "modifications",
+      ],
+    },
   },
   async run({ $ }) {
     const response = await this.bannerify.renderStoredPdf({

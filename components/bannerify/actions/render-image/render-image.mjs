@@ -3,7 +3,7 @@ import bannerify from "../../bannerify.app.mjs";
 export default {
   key: "bannerify-render-image",
   name: "Render Image",
-  description: "Generate an image from a Bannerify template and return a hosted file URL. [See the documentation](https://docs.bannerify.co/api-reference/endpoint/create-stored-image)",
+  description: "Generate an image from a Bannerify template and return a hosted file URL. [See the documentation](https://bannerify.co/docs/integrations/pipedream)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -13,7 +13,12 @@ export default {
   type: "action",
   props: {
     bannerify,
-    templateId: bannerify.propDefinitions.templateId,
+    templateId: {
+      propDefinition: [
+        bannerify,
+        "templateId",
+      ],
+    },
     format: {
       type: "string",
       label: "Format",
@@ -25,7 +30,12 @@ export default {
       ],
       default: "png",
     },
-    modifications: bannerify.propDefinitions.modifications,
+    modifications: {
+      propDefinition: [
+        bannerify,
+        "modifications",
+      ],
+    },
   },
   async run({ $ }) {
     const response = await this.bannerify.renderStoredImage({
