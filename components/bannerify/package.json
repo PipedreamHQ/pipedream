@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/bannerify",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Bannerify Components",
   "main": "bannerify.app.mjs",
   "keywords": [
