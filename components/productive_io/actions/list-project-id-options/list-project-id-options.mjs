@@ -2,8 +2,8 @@ import productive_io from "../../productive_io.app.mjs";
 
 export default {
   key: "productive_io-list-project-id-options",
-  name: "List Project Options",
-  description: "Retrieves available options for the Project field.",
+  name: "List Project ID Options",
+  description: "Retrieves available options for the Project ID field.",
   version: "0.0.1",
   type: "action",
   annotations: {
