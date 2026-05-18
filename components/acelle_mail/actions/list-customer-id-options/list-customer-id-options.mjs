@@ -14,11 +14,10 @@ export default {
   props: {
     acelle_mail,
     page: {
-      type: "integer",
-      label: "Page",
-      description: "The page of results to retrieve.",
-      min: 0,
-      default: 0,
+      propDefinition: [
+        acelle_mail,
+        "page",
+      ],
     },
   },
   async run({ $ }) {

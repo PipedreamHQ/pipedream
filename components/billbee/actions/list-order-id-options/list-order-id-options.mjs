@@ -14,11 +14,10 @@ export default {
   props: {
     billbee,
     page: {
-      type: "integer",
-      label: "Page",
-      description: "The page of results to retrieve.",
-      min: 0,
-      default: 0,
+      propDefinition: [
+        billbee,
+        "page",
+      ],
     },
   },
   async run({ $ }) {

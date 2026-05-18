@@ -2,8 +2,8 @@ import akeneo from "../../akeneo.app.mjs";
 
 export default {
   key: "akeneo-list-media-file-attribute-code-options",
-  name: "List Attribute Code Options",
-  description: "Retrieves available options for the Attribute Code field.",
+  name: "List Media File Attribute Code Options",
+  description: "Retrieves available options for the Media File Attribute Code field.",
   version: "0.0.1",
   type: "action",
   annotations: {

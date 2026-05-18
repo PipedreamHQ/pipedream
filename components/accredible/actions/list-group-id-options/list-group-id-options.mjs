@@ -14,11 +14,10 @@ export default {
   props: {
     accredible,
     page: {
-      type: "integer",
-      label: "Page",
-      description: "The page of results to retrieve.",
-      min: 0,
-      default: 0,
+      propDefinition: [
+        accredible,
+        "page",
+      ],
     },
   },
   async run({ $ }) {

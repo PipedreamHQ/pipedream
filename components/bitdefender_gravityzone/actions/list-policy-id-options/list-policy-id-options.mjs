@@ -14,11 +14,10 @@ export default {
   props: {
     bitdefender_gravityzone,
     page: {
-      type: "integer",
-      label: "Page",
-      description: "The page of results to retrieve.",
-      min: 0,
-      default: 0,
+      propDefinition: [
+        bitdefender_gravityzone,
+        "page",
+      ],
     },
   },
   async run({ $ }) {
