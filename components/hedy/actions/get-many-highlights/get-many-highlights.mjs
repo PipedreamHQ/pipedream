@@ -1,0 +1,48 @@
+import app from "../../hedy.app.mjs";
+
+export default {
+  key: "hedy-get-many-highlights",
+  name: "Get Many Highlights",
+  description: "Retrieves a paginated list of AI-generated highlights across all Hedy sessions."
+    + " Each highlight includes a title, timestamp, and the session it came from."
+    + " Use **Get Highlight** with a specific highlight ID to fetch the full detail including raw quote, cleaned quote, main idea, and AI insight."
+    + " To list highlights for a specific session only, use **Get Highlights By Session**."
+    + " [See the documentation](https://www.hedy.ai/help/hedy-api/)",
+  version: "0.0.1",
+  type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
+  props: {
+    app,
+    limit: {
+      propDefinition: [
+        app,
+        "limit",
+      ],
+    },
+    after: {
+      propDefinition: [
+        app,
+        "after",
+      ],
+    },
+  },
+  async run({ $ }) {
+    const params = {};
+    if (this.limit) params.limit = this.limit;
+    if (this.after) params.after = this.after;
+
+    const response = await this.app.listHighlights({
+      $,
+      params,
+    });
+    const highlights = response?.data || [];
+    $.export("$summary", `Retrieved ${highlights.length} highlight${highlights.length === 1
+      ? ""
+      : "s"}`);
+    return response;
+  },
+};
