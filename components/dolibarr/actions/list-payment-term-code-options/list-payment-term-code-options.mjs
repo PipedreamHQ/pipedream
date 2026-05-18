@@ -2,8 +2,8 @@ import dolibarr from "../../dolibarr.app.mjs";
 
 export default {
   key: "dolibarr-list-payment-term-code-options",
-  name: "List Payment Term ID Options",
-  description: "Retrieves available options for the Payment Term ID field.",
+  name: "List Payment Term Code Options",
+  description: "Retrieves available options for the Payment Term Code field.",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -14,11 +14,10 @@ export default {
   props: {
     dolibarr,
     page: {
-      type: "integer",
-      label: "Page",
-      description: "The page of results to retrieve.",
-      min: 0,
-      default: 0,
+      propDefinition: [
+        dolibarr,
+        "page",
+      ],
     },
   },
   async run({ $ }) {
