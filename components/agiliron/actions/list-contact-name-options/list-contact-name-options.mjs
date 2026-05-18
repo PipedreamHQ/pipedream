@@ -4,7 +4,7 @@ export default {
   key: "agiliron-list-contact-name-options",
   name: "List Contact Name Options",
   description: "Retrieves available options for the Contact Name field.",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

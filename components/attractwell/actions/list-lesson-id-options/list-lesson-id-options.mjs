@@ -4,7 +4,7 @@ export default {
   key: "attractwell-list-lesson-id-options",
   name: "List Lesson ID Options",
   description: "Retrieves available options for the Lesson ID field.",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

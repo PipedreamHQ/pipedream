@@ -4,7 +4,7 @@ export default {
   key: "alegra-list-client-options",
   name: "List Client Options",
   description: "Retrieves available options for the Client field.",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

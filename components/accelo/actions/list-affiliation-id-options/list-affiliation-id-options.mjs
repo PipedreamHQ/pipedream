@@ -4,7 +4,7 @@ export default {
   key: "accelo-list-affiliation-id-options",
   name: "List Affiliation ID Options",
   description: "Retrieves available options for the Affiliation ID field.",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

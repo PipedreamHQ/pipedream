@@ -4,7 +4,7 @@ export default {
   key: "addevent-list-event-id-options",
   name: "List Event ID Options",
   description: "Retrieves available options for the Event ID field.",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -4,7 +4,7 @@ export default {
   key: "bloomerang-list-campaign-id-options",
   name: "List Campaign Options",
   description: "Retrieves available options for the Campaign field.",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

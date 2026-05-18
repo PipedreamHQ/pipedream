@@ -4,7 +4,7 @@ export default {
   key: "bloomerang-list-appeal-id-options",
   name: "List Appeal Options",
   description: "Retrieves available options for the Appeal field.",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

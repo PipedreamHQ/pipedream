@@ -4,7 +4,7 @@ export default {
   key: "billbee-list-stock-id-options",
   name: "List Stock ID Options",
   description: "Retrieves available options for the Stock ID field.",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

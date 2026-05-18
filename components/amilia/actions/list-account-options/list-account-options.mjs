@@ -4,7 +4,7 @@ export default {
   key: "amilia-list-account-options",
   name: "List Account Options",
   description: "Retrieves available options for the Account field.",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

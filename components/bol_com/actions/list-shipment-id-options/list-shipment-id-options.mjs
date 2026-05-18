@@ -4,7 +4,7 @@ export default {
   key: "bol_com-list-shipment-id-options",
   name: "List Shipment ID Options",
   description: "Retrieves available options for the Shipment ID field.",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

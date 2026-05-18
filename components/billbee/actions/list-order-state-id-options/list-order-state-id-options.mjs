@@ -4,7 +4,7 @@ export default {
   key: "billbee-list-order-state-id-options",
   name: "List Order State ID Options",
   description: "Retrieves available options for the Order State ID field.",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -4,7 +4,7 @@ export default {
   key: "akeneo-list-product-id-options",
   name: "List Product Identifier Options",
   description: "Retrieves available options for the Product Identifier field.",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

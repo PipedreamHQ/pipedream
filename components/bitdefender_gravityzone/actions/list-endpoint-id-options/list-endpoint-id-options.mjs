@@ -4,7 +4,7 @@ export default {
   key: "bitdefender_gravityzone-list-endpoint-id-options",
   name: "List Endpoint ID Options",
   description: "Retrieves available options for the Endpoint ID field.",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

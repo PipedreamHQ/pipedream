@@ -4,7 +4,7 @@ export default {
   key: "alegra-list-price-list-options",
   name: "List Price List Options",
   description: "Retrieves available options for the Price List field.",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

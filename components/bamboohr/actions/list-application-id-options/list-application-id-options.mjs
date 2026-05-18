@@ -4,7 +4,7 @@ export default {
   key: "bamboohr-list-application-id-options",
   name: "List Application ID Options",
   description: "Retrieves available options for the Application ID field.",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

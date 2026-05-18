@@ -4,7 +4,7 @@ export default {
   key: "bol_com-list-order-id-options",
   name: "List Order ID Options",
   description: "Retrieves available options for the Order ID field.",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

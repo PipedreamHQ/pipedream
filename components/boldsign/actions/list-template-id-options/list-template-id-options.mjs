@@ -4,7 +4,7 @@ export default {
   key: "boldsign-list-template-id-options",
   name: "List Template ID Options",
   description: "Retrieves available options for the Template ID field.",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

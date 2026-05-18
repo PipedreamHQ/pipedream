@@ -4,7 +4,7 @@ export default {
   key: "acelle_mail-list-customer-id-options",
   name: "List Customer ID Options",
   description: "Retrieves available options for the Customer ID field.",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

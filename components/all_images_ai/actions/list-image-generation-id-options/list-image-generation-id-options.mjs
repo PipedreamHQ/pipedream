@@ -4,7 +4,7 @@ export default {
   key: "all_images_ai-list-image-generation-id-options",
   name: "List Image Generation Id Options",
   description: "Retrieves available options for the Image Generation Id field.",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

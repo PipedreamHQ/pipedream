@@ -4,7 +4,7 @@ export default {
   key: "alegra-list-debt-to-pay-options",
   name: "List Debt to Pay Options",
   description: "Retrieves available options for the Debt to Pay field.",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

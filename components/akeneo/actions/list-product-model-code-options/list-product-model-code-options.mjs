@@ -4,7 +4,7 @@ export default {
   key: "akeneo-list-product-model-code-options",
   name: "List Product Model Code Options",
   description: "Retrieves available options for the Product Model Code field.",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -4,7 +4,7 @@ export default {
   key: "billsby-list-subscription-ids-options",
   name: "List Subscription IDs Options",
   description: "Retrieves available options for the Subscription IDs field.",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

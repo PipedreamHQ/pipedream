@@ -4,7 +4,7 @@ export default {
   key: "bitdefender_gravityzone-list-policy-id-options",
   name: "List Policy ID Options",
   description: "Retrieves available options for the Policy ID field.",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -4,7 +4,7 @@ export default {
   key: "beanstalkapp-list-repository-id-options",
   name: "List Repository ID Options",
   description: "Retrieves available options for the Repository ID field.",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

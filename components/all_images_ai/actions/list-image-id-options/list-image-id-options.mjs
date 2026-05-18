@@ -4,7 +4,7 @@ export default {
   key: "all_images_ai-list-image-id-options",
   name: "List Image Id Options",
   description: "Retrieves available options for the Image Id field.",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

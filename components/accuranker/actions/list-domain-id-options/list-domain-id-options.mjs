@@ -4,7 +4,7 @@ export default {
   key: "accuranker-list-domain-id-options",
   name: "List Domain ID Options",
   description: "Retrieves available options for the Domain ID field.",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

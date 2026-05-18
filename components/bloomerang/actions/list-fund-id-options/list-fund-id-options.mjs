@@ -4,7 +4,7 @@ export default {
   key: "bloomerang-list-fund-id-options",
   name: "List Fund Options",
   description: "Retrieves available options for the Fund field.",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
