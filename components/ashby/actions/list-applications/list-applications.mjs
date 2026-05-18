@@ -58,7 +58,7 @@ export default {
     cursor: {
       type: "string",
       label: "Cursor",
-      description: "Opaque cursor from a previous response's `nextCursor` to resume pagination mid-stream",
+      description: "To retrieve the next page of results, pass the `nextCursor` returned from the previous run here",
       optional: true,
     },
     maxResults: {
