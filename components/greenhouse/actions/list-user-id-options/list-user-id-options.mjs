@@ -2,8 +2,8 @@ import greenhouse from "../../greenhouse.app.mjs";
 
 export default {
   key: "greenhouse-list-user-id-options",
-  name: "List User Id Options",
-  description: "Retrieves available options for the User Id field.",
+  name: "List User ID Options",
+  description: "Retrieves available options for the User ID field.",
   version: "0.0.1",
   type: "action",
   annotations: {

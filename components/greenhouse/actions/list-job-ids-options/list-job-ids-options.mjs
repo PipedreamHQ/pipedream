@@ -2,8 +2,8 @@ import greenhouse from "../../greenhouse.app.mjs";
 
 export default {
   key: "greenhouse-list-job-ids-options",
-  name: "List Job Ids Options",
-  description: "Retrieves available options for the Job Ids field.",
+  name: "List Job IDs Options",
+  description: "Retrieves available options for the Job IDs field.",
   version: "0.0.1",
   type: "action",
   annotations: {
