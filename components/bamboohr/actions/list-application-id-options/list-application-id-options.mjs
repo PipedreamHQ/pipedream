@@ -17,7 +17,7 @@ export default {
       type: "integer",
       label: "Page",
       description: "The page of results to retrieve.",
-      optional: true,
+      min: 0,
       default: 0,
     },
   },
