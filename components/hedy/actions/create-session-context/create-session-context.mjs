@@ -18,21 +18,22 @@ export default {
   props: {
     app,
     title: {
-      type: "string",
-      label: "Title",
-      description: "The context name (maximum 200 characters).",
+      propDefinition: [
+        app,
+        "title",
+      ],
     },
     content: {
-      type: "string",
-      label: "Content",
-      description: "The custom AI instruction text for this context (maximum 20,000 characters). Describe how Hedy should analyze meetings — e.g., focus areas, summary style, or specific data to extract.",
-      optional: true,
+      propDefinition: [
+        app,
+        "content",
+      ],
     },
     isDefault: {
-      type: "boolean",
-      label: "Set as Default",
-      description: "Set to `true` to make this the default context automatically applied to new sessions.",
-      optional: true,
+      propDefinition: [
+        app,
+        "isDefault",
+      ],
       default: false,
     },
   },

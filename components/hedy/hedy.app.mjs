@@ -44,6 +44,23 @@ export default {
       description: "Pagination cursor from a previous response's `pagination.after` field. Pass this value to retrieve the next page of results.",
       optional: true,
     },
+    title: {
+      type: "string",
+      label: "Title",
+      description: "The context name (maximum 200 characters).",
+    },
+    content: {
+      type: "string",
+      label: "Content",
+      description: "Custom AI instruction text for this context (maximum 20,000 characters). Describe how Hedy should analyze meetings — e.g., focus areas, summary style, or specific data to extract.",
+      optional: true,
+    },
+    isDefault: {
+      type: "boolean",
+      label: "Set as Default",
+      description: "Set to `true` to make this the default context automatically applied to new sessions.",
+      optional: true,
+    },
   },
   methods: {
     _baseUrl() {

@@ -23,22 +23,23 @@ export default {
       ],
     },
     title: {
-      type: "string",
-      label: "Title",
-      description: "New context title (maximum 200 characters).",
+      propDefinition: [
+        app,
+        "title",
+      ],
       optional: true,
     },
     content: {
-      type: "string",
-      label: "Content",
-      description: "New custom AI instruction text (maximum 20,000 characters).",
-      optional: true,
+      propDefinition: [
+        app,
+        "content",
+      ],
     },
     isDefault: {
-      type: "boolean",
-      label: "Set as Default",
-      description: "Set to `true` to make this the default context for new sessions.",
-      optional: true,
+      propDefinition: [
+        app,
+        "isDefault",
+      ],
     },
   },
   async run({ $ }) {
