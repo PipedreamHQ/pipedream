@@ -41,7 +41,7 @@ export default {
     const data = {
       title: this.title,
     };
-    if (this.content) data.content = this.content;
+    if (this.content !== undefined) data.content = this.content;
     if (this.isDefault !== undefined) data.isDefault = this.isDefault;
 
     const response = await this.app.createContext({
