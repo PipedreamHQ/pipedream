@@ -4,7 +4,7 @@ export default {
   key: "surecart-list-cancellation-reasons",
   name: "List Cancellation Reasons",
   description: "Return a list of cancellation reasons. [See the documentation](https://developer.surecart.com/api-reference/cancellation-reasons/list)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
