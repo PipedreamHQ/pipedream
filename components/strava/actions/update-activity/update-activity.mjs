@@ -1,6 +1,5 @@
 import { ConfigurationError } from "@pipedream/platform";
 import app from "../../strava.app.mjs";
-import { SPORT_TYPES } from "../../common/constants.mjs";
 
 export default {
   key: "strava-update-activity",
@@ -10,7 +9,7 @@ export default {
     + " Only fields you provide are updated; omitted fields are left unchanged."
     + " `sportType` uses Strava's modern `sport_type` enum (not the legacy `type` field)."
     + " [See the documentation](https://developers.strava.com/docs/reference/#api-Activities-updateActivityById)",
-  version: "1.0.1",
+  version: "1.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -20,9 +19,10 @@ export default {
   props: {
     app,
     activityId: {
-      type: "string",
-      label: "Activity ID",
-      description: "The numeric ID of the activity to update (e.g., `18522207115`). Resolve via **Search Activities** if you only know the name.",
+      propDefinition: [
+        app,
+        "activityId",
+      ],
     },
     name: {
       type: "string",
@@ -31,29 +31,29 @@ export default {
       optional: true,
     },
     sportType: {
-      type: "string",
-      label: "Sport Type",
-      description: "New sport type from Strava's `sport_type` enum (e.g., `Run`, `Ride`, `Hike`, `Swim`).",
-      options: SPORT_TYPES,
+      propDefinition: [
+        app,
+        "sportType",
+      ],
       optional: true,
     },
     description: {
-      type: "string",
-      label: "Description",
-      description: "New description for the activity.",
-      optional: true,
+      propDefinition: [
+        app,
+        "activityDescription",
+      ],
     },
     trainer: {
-      type: "boolean",
-      label: "Trainer",
-      description: "Mark as a trainer activity (indoor / stationary).",
-      optional: true,
+      propDefinition: [
+        app,
+        "trainer",
+      ],
     },
     commute: {
-      type: "boolean",
-      label: "Commute",
-      description: "Mark as a commute.",
-      optional: true,
+      propDefinition: [
+        app,
+        "commute",
+      ],
     },
     gearId: {
       type: "string",

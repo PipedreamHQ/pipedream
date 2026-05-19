@@ -8,7 +8,7 @@ export default {
     + " Note: manually-created activities and some sport types may have no laps; the response will be an empty array in that case (not an error)."
     + " Returns `{ laps, _rateLimitUsage }` — `_rateLimitUsage` includes Strava's `X-RateLimit-Usage` and `X-ReadRateLimit-Usage` so flows can observe approach to the rate-limit cap."
     + " [See the documentation](https://developers.strava.com/docs/reference/#api-Activities-getLapsByActivityId)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -18,9 +18,10 @@ export default {
   props: {
     app,
     activityId: {
-      type: "string",
-      label: "Activity ID",
-      description: "The numeric ID of the activity. Use **Search Activities** to resolve a name.",
+      propDefinition: [
+        app,
+        "activityId",
+      ],
     },
   },
   async run({ $ }) {

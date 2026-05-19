@@ -1,8 +1,40 @@
 import { axios } from "@pipedream/platform";
+import { SPORT_TYPES } from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "strava",
+  propDefinitions: {
+    activityId: {
+      type: "string",
+      label: "Activity ID",
+      description: "The numeric ID of a Strava activity (e.g., `18522207115`). Use **Search Activities** to resolve an activity name to an ID.",
+    },
+    sportType: {
+      type: "string",
+      label: "Sport Type",
+      description: "Strava sport type from the modern `sport_type` enum (e.g., `Run`, `Ride`, `Hike`, `Swim`).",
+      options: SPORT_TYPES,
+    },
+    activityDescription: {
+      type: "string",
+      label: "Description",
+      description: "Description text for the activity.",
+      optional: true,
+    },
+    trainer: {
+      type: "boolean",
+      label: "Trainer",
+      description: "Mark as a trainer activity (indoor / stationary).",
+      optional: true,
+    },
+    commute: {
+      type: "boolean",
+      label: "Commute",
+      description: "Mark as a commute.",
+      optional: true,
+    },
+  },
   methods: {
     _getHeaders(headers = {}) {
       return {

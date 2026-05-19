@@ -1,6 +1,5 @@
 import { ConfigurationError } from "@pipedream/platform";
 import app from "../../strava.app.mjs";
-import { SPORT_TYPES } from "../../common/constants.mjs";
 
 export default {
   key: "strava-create-activity",
@@ -10,7 +9,7 @@ export default {
     + " Pass `sportType` from Strava's documented `sport_type` enum (modern field, replaces legacy `type`). Common values: Run, Ride, Hike, Swim, Walk, Workout, Yoga."
     + " `startDateLocal` must be ISO 8601 in the athlete's local time with timezone offset or `Z` for UTC. Example: `2026-05-15T07:00:00Z`."
     + " [See the documentation](https://developers.strava.com/docs/reference/#api-Activities-createActivity)",
-  version: "1.0.1",
+  version: "1.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -25,10 +24,10 @@ export default {
       description: "The name of the activity (e.g., \"Morning Run\").",
     },
     sportType: {
-      type: "string",
-      label: "Sport Type",
-      description: "Strava sport type. Uses the modern `sport_type` enum (not the legacy `type` field).",
-      options: SPORT_TYPES,
+      propDefinition: [
+        app,
+        "sportType",
+      ],
     },
     startDateLocal: {
       type: "string",
@@ -41,10 +40,10 @@ export default {
       description: "Total elapsed time in seconds. Example: `3600` for one hour.",
     },
     description: {
-      type: "string",
-      label: "Description",
-      description: "Optional description of the activity.",
-      optional: true,
+      propDefinition: [
+        app,
+        "activityDescription",
+      ],
     },
     distance: {
       type: "string",
@@ -53,17 +52,17 @@ export default {
       optional: true,
     },
     trainer: {
-      type: "boolean",
-      label: "Trainer",
-      description: "Mark as a trainer activity (indoor / stationary).",
-      optional: true,
+      propDefinition: [
+        app,
+        "trainer",
+      ],
       default: false,
     },
     commute: {
-      type: "boolean",
-      label: "Commute",
-      description: "Mark as a commute.",
-      optional: true,
+      propDefinition: [
+        app,
+        "commute",
+      ],
       default: false,
     },
   },
