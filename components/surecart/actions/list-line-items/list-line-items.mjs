@@ -3,8 +3,8 @@ import surecart from "../../surecart.app.mjs";
 export default {
   key: "surecart-list-line-items",
   name: "List Line Items",
-  description: "Return a list of line items. [See the documentation](https://developer.surecart.com/api-reference/line-items/list)",
-  version: "0.0.1",
+  description: "Retrieves a paginated list of line items from SureCart. Use to inspect items added to checkouts, audit configurations, or filter by checkout or line item IDs; to find valid checkout IDs, use **List Checkouts**; returns up to 100 items per page and supports pagination parameters. [See the documentation](https://developer.surecart.com/api-reference/line-items/list)",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
