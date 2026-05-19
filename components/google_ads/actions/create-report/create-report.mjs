@@ -76,13 +76,13 @@ export default {
     startDate: {
       type: "string",
       label: "Start Date",
-      description: "The start date, in `YYYY-MM-DD` format",
+      description: "The start date in `YYYY-MM-DD` format (e.g. `2024-01-01`).",
       optional: true,
     },
     endDate: {
       type: "string",
       label: "End Date",
-      description: "The end date, in `YYYY-MM-DD` format",
+      description: "The end date in `YYYY-MM-DD` format (e.g. `2024-01-31`).",
       optional: true,
     },
     fields: {
