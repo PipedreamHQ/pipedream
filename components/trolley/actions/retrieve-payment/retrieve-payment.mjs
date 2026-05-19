@@ -13,10 +13,22 @@ export default {
   },
   props: {
     trolley,
+    batchId: {
+      propDefinition: [
+        trolley,
+        "batchId",
+      ],
+      optional: true,
+      description: "Optionally select a batch to filter the **Payment ID** dropdown. Leave blank to enter a Payment ID directly.",
+      reloadProps: true,
+    },
     paymentId: {
       propDefinition: [
         trolley,
         "paymentId",
+        (c) => ({
+          batchId: c.batchId,
+        }),
       ],
     },
   },

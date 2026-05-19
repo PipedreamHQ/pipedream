@@ -1,4 +1,5 @@
 import trolley from "../../trolley.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "trolley-create-invoice-payment",
@@ -83,7 +84,17 @@ export default {
     },
   },
   async run({ $ }) {
-    const amount = this.amountValue !== undefined || this.amountCurrency !== undefined
+    if (!this.invoiceId && !this.invoiceLineId) {
+      throw new ConfigurationError("Provide either Invoice ID or Invoice Line ID.");
+    }
+
+    const hasAmountValue = this.amountValue !== undefined;
+    const hasAmountCurrency = this.amountCurrency !== undefined;
+    if (hasAmountValue !== hasAmountCurrency) {
+      throw new ConfigurationError("Amount Value and Amount Currency must be provided together.");
+    }
+
+    const amount = hasAmountValue
       ? {
         value: this.amountValue,
         currency: this.amountCurrency,

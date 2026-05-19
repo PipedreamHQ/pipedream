@@ -13,22 +13,98 @@ export default {
     batchId: {
       type: "string",
       label: "Batch ID",
-      description: "The ID of the batch (e.g., `B-xxxx`). Use **Create Batch** to create a batch and retrieve its ID.",
+      description: "The ID of the batch (e.g., `B-xxxx`).",
+      async options({ page }) {
+        const { batches } = await this.listBatches({
+          params: {
+            page: page + 1,
+            pageSize: 100,
+          },
+        });
+        return batches.map(({
+          id, description,
+        }) => ({
+          label: description
+            ? `${description} (${id})`
+            : id,
+          value: id,
+        }));
+      },
     },
     paymentId: {
       type: "string",
       label: "Payment ID",
-      description: "The ID of the payment (e.g., `P-xxxx`). Use **Create Payment** to create a payment and retrieve its ID.",
+      description: "The ID of the payment (e.g., `P-xxxx`). Select a **Batch ID** first to load available payments.",
+      async options({
+        page, batchId,
+      }) {
+        if (!batchId) return [];
+        const { payments } = await this.listPayments({
+          batchId,
+          params: {
+            page: page + 1,
+            pageSize: 100,
+          },
+        });
+        return payments.map(({
+          id, memo,
+        }) => ({
+          label: memo
+            ? `${memo} (${id})`
+            : id,
+          value: id,
+        }));
+      },
     },
     invoiceId: {
       type: "string",
       label: "Invoice ID",
-      description: "The ID of the invoice. Use **Create Invoice** to create an invoice and retrieve its ID.",
+      description: "The ID of the invoice.",
+      async options({ page }) {
+        const { invoices } = await this.searchInvoices({
+          body: {
+            page: page + 1,
+            pageSize: 100,
+          },
+        });
+        return invoices.map(({
+          id, description, invoiceNumber,
+        }) => ({
+          label: description
+            ? `${description} (${id})`
+            : invoiceNumber
+              ? `Invoice #${invoiceNumber} (${id})`
+              : id,
+          value: id,
+        }));
+      },
     },
     recipientId: {
       type: "string",
       label: "Recipient ID",
-      description: "The ID, email address, or external ID of the recipient (e.g., `R-xxxx`, `user@example.com`, or your internal reference ID).",
+      description: "The ID of the recipient (e.g., `R-xxxx`).",
+      async options({ page }) {
+        const { recipients } = await this.listRecipients({
+          params: {
+            page: page + 1,
+            pageSize: 100,
+          },
+        });
+        return recipients.map(({
+          id, email, firstName, lastName, name,
+        }) => {
+          const displayName = [
+            firstName,
+            lastName,
+          ].filter(Boolean).join(" ") || name || email;
+          return {
+            label: displayName
+              ? `${displayName} (${id})`
+              : id,
+            value: id,
+          };
+        });
+      },
     },
     currency: {
       type: "string",
@@ -138,12 +214,10 @@ export default {
       const queryString = this._buildQueryString(queryParams);
       const resourcePath = `${path}${queryString}`;
       const pathForSignature = `${TROLLEY_API_VERSION_PREFIX}${resourcePath}`;
-      const methodSendsJsonBody = method === "POST" || method === "PATCH";
-      const serializedBody = requestBody
+      const hasJsonBody = requestBody !== undefined;
+      const serializedBody = hasJsonBody
         ? JSON.stringify(requestBody)
-        : (methodSendsJsonBody
-          ? "{}"
-          : "");
+        : "";
       const { headers: authHeaders } = this._buildPrsignHeaders(
         method,
         pathForSignature,
@@ -154,7 +228,7 @@ export default {
         method,
         url: `${this._baseUrl()}${resourcePath}`,
         headers: authHeaders,
-        ...(methodSendsJsonBody && {
+        ...(hasJsonBody && {
           // Must match the string used for HMAC signing byte-for-byte.
           data: serializedBody,
         }),
@@ -246,6 +320,36 @@ export default {
         method: "POST",
         path: "/invoices/payment/create",
         data,
+      });
+    },
+
+    listRecipients({
+      $ = this, params,
+    } = {}) {
+      return this._makeRequest({
+        $,
+        path: "/recipients",
+        params,
+      });
+    },
+
+    listBatches({
+      $ = this, params,
+    } = {}) {
+      return this._makeRequest({
+        $,
+        path: "/batches",
+        params,
+      });
+    },
+
+    listPayments({
+      $ = this, batchId, params,
+    } = {}) {
+      return this._makeRequest({
+        $,
+        path: `/batches/${batchId}/payments`,
+        params,
       });
     },
 

@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import trolley from "../../trolley.app.mjs";
 
 export default {
@@ -135,14 +136,44 @@ export default {
     },
   },
   async run({ $ }) {
+    const hasRecipient = Boolean(this.recipientId ||
+      this.recipientEmail || this.recipientReferenceId);
+    if (!hasRecipient) {
+      throw new ConfigurationError("Provide at least one recipient identifier: Recipient ID, Recipient Email, or Recipient Reference ID.");
+    }
+
+    const hasAmount = this.amount !== undefined;
+    const hasCurrency = this.currency !== undefined;
+    const hasTargetAmount = this.targetAmount !== undefined;
+    const hasTargetCurrency = this.targetCurrency !== undefined;
+
+    if (hasAmount !== hasCurrency) {
+      throw new ConfigurationError("Amount and Currency must be provided together.");
+    }
+    if (hasTargetAmount !== hasTargetCurrency) {
+      throw new ConfigurationError("Target Amount and Target Currency must be provided together.");
+    }
+    if ((hasAmount || hasCurrency) && (hasTargetAmount || hasTargetCurrency)) {
+      throw new ConfigurationError("Provide either Amount/Currency or Target Amount/Target Currency, not both.");
+    }
+    if (!hasAmount && !hasTargetAmount) {
+      throw new ConfigurationError("Provide either Amount/Currency or Target Amount/Target Currency.");
+    }
+
     const response = await this.trolley.createPayment({
       $,
       batchId: this.batchId,
       payment: {
         recipient: {
-          id: this.recipientId,
-          email: this.recipientEmail,
-          referenceId: this.recipientReferenceId,
+          ...(this.recipientId && {
+            id: this.recipientId,
+          }),
+          ...(this.recipientEmail && {
+            email: this.recipientEmail,
+          }),
+          ...(this.recipientReferenceId && {
+            referenceId: this.recipientReferenceId,
+          }),
         },
         amount: this.amount,
         currency: this.currency,

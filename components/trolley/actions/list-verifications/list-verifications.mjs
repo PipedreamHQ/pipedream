@@ -17,6 +17,7 @@ export default {
       type: "string",
       label: "Verification Type",
       description: "Type of verification to fetch. If omitted, all verifications regardless of type are returned.",
+      optional: true,
       options: [
         "individual",
         "business",
@@ -29,6 +30,23 @@ export default {
       label: "Recipient IDs",
       description: "List of Recipient IDs to filter by (e.g., `R-xxxx`). If omitted, verifications across all recipients are returned.",
       optional: true,
+      async options({ page }) {
+        const { recipients } = await this.trolley.listRecipients({
+          params: {
+            page: page + 1,
+            pageSize: 100,
+          },
+        });
+        return recipients.map(({
+          id, email, firstName, lastName, name,
+        }) => ({
+          label: [
+            firstName,
+            lastName,
+          ].filter(Boolean).join(" ") || name || email || id,
+          value: id,
+        }));
+      },
     },
     status: {
       type: "string[]",
@@ -80,10 +98,10 @@ export default {
       pageSize: this.pageSize,
     };
     if (this.recipientIds?.length) {
-      params["recipientId[]"] = this.recipientIds;
+      params["recipientId"] = this.recipientIds;
     }
     if (this.status?.length) {
-      params["status[]"] = this.status;
+      params["status"] = this.status;
     }
     const response = await this.trolley.listVerifications({
       $,
