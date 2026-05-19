@@ -13,6 +13,11 @@ export default {
   },
   props: {
     corporateMerch,
+    info: {
+      type: "alert",
+      alertType: "info",
+      content: "** If you receive an error message stating that the address is invalid and you know that the address is correct, utilize the skip_address_validation field. Corporate Merch uses a 3rd party address verification API that may be overly sensitive.",
+    },
     firstName: {
       type: "string",
       label: "First Name",
