@@ -4,7 +4,7 @@ export default {
   key: "surecart-list-customers",
   name: "List Customers",
   description: "Return a list of customers. [See the documentation](https://developer.surecart.com/api-reference/customers/list)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
