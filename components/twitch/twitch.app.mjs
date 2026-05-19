@@ -1,6 +1,9 @@
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 import crypto from "crypto";
 import qs from "qs";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -32,7 +35,47 @@ export default {
     },
     user: {
       type: "string",
-      label: "User ID",
+      label: "User",
+      description: "The Twitch user. Accepts a numeric user ID or login name.",
+      useQuery: true,
+      async options({
+        query, page,
+      }) {
+        if (!query) {
+          return [];
+        }
+        if (/^\d+$/.test(query)) {
+          if (page) {
+            return [];
+          }
+          const { data } = await this.getUserById(query);
+          return data.map((u) => ({
+            label: `${u.display_name} (${u.login})`,
+            value: u.id,
+          }));
+        }
+        let cursor;
+        for (let i = 0; i < page; i++) {
+          const { data } = await this.searchChannels({
+            query,
+            first: constants.SEARCH_CHANNELS_PAGE_SIZE,
+            after: cursor,
+          });
+          cursor = data.pagination?.cursor;
+          if (!cursor) {
+            return [];
+          }
+        }
+        const { data } = await this.searchChannels({
+          query,
+          first: constants.SEARCH_CHANNELS_PAGE_SIZE,
+          after: cursor,
+        });
+        return data.data.map((c) => ({
+          label: `${c.display_name} (${c.broadcaster_login})`,
+          value: c.id,
+        }));
+      },
     },
     broadcaster: {
       type: "string",
@@ -153,6 +196,31 @@ export default {
     },
     async searchGames(params) {
       return await this._makeRequest("GET", "search/categories", params);
+    },
+    async getUserBlocks(params) {
+      return await this._makeRequest("GET", "users/blocks", params);
+    },
+    async getUserById(id) {
+      return (await this._makeRequest("GET", "users", {
+        id,
+      })).data;
+    },
+    async getUserByLogin(login) {
+      return (await this._makeRequest("GET", "users", {
+        login,
+      })).data;
+    },
+    async resolveUserId(userInput) {
+      if (!userInput || /^\d+$/.test(userInput)) {
+        return userInput;
+      }
+      const { data } = await this.getUserByLogin(userInput);
+      if (!data?.length) {
+        throw new ConfigurationError(
+          `Twitch user "${userInput}" not found. Provide a numeric Twitch User ID or a valid login name.`,
+        );
+      }
+      return data?.[0]?.id;
     },
     async unblockUser(params) {
       return await this._makeRequest("DELETE", "users/blocks", params);
