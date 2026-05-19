@@ -20,7 +20,7 @@ export default {
         "user",
       ],
       label: "Streamer",
-      description: "The Twitch streamer whose live stream to retrieve. Accepts a numeric user ID or login name.",
+      description: "The Twitch streamer whose live stream to retrieve. Accepts a numeric user ID (e.g. `141981764`) or login name (e.g. `twitchdev`).",
     },
   },
   async run({ $ }) {

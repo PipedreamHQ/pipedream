@@ -26,7 +26,7 @@ export default {
         common.props.twitch,
         "user",
       ],
-      description: "The Twitch user whose videos to retrieve. Accepts a numeric user ID or login name. Each request must specify one video ID, user ID, or game ID.",
+      description: "The Twitch user whose videos to retrieve. Accepts a numeric user ID (e.g. `141981764`) or login name (e.g. `twitchdev`). Each request must specify one video ID, user ID, or game ID.",
       optional: true,
     },
     gameId: {

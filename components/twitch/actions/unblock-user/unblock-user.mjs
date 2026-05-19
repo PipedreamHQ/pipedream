@@ -18,7 +18,7 @@ export default {
     user: {
       type: "string",
       label: "User",
-      description: "The Twitch user to unblock. Accepts a numeric user ID or login name.",
+      description: "The Twitch user to unblock. Accepts a numeric user ID (e.g. `141981764`) or login name (e.g. `twitchdev`).",
       async options({ page }) {
         const broadcasterId = await this.getUserId();
         let cursor;

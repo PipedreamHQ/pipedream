@@ -20,7 +20,7 @@ export default {
         "user",
       ],
       label: "Broadcaster",
-      description: "The broadcaster's Twitch channel to check. Accepts a numeric user ID or login name.",
+      description: "The broadcaster's Twitch channel to check. Accepts a numeric user ID (e.g. `141981764`) or login name (e.g. `twitchdev`).",
     },
   },
   async run({ $ }) {

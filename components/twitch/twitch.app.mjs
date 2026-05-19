@@ -36,7 +36,7 @@ export default {
     user: {
       type: "string",
       label: "User",
-      description: "The Twitch user. Accepts a numeric user ID or login name.",
+      description: "The Twitch user. Accepts a numeric user ID (e.g. `141981764`) or login name (e.g. `twitchdev`).",
       useQuery: true,
       async options({
         query, page,
