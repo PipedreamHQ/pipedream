@@ -7,7 +7,7 @@ export default defineAction({
   key: "lob-create-letter",
   name: "Create Letter",
   description: "Creates a new letter. [See docs here](https://docs.lob.com/#tag/Letters/operation/letter_create).",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

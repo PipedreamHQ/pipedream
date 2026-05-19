@@ -3,8 +3,19 @@ import sharepoint from "../../sharepoint.app.mjs";
 export default {
   key: "sharepoint-search-files",
   name: "Search Files",
-  description: "Search for files in Microsoft Sharepoint. [See the documentation](https://learn.microsoft.com/en-us/graph/api/search-query?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.5",
+  description:
+    "Search for files across the tenant."
+    + " Supports KQL via the optional query template."
+    + "\n\n"
+    + "Backed by the [Microsoft Search index](https://learn.microsoft.com/en-us/graph/search-concept-overview) and **eventually consistent** — newly created or modified files may not appear until indexing catches up."
+    + "\n\n"
+    + "**For immediate, deterministic results, prefer:**"
+    + "\n- **Get File by ID** when the ID is known"
+    + "\n- **List Files in Folder** for path-based listing"
+    + "\n- **Search and Filter Files** for OData `$filter` against a document library"
+    + "\n\n"
+    + "[See the documentation](https://learn.microsoft.com/en-us/graph/api/search-query?view=graph-rest-1.0&tabs=http)",
+  version: "0.0.6",
   type: "action",
   annotations: {
     destructiveHint: false,

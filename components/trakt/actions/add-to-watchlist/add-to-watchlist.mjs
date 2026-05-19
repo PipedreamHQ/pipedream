@@ -3,7 +3,7 @@ import utils from "../common/utils.mjs";
 
 export default {
   name: "Add To Watchlist",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
