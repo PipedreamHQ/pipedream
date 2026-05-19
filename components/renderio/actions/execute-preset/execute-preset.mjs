@@ -20,7 +20,7 @@ export default {
     presetId: {
       type: "string",
       label: "Preset ID",
-      description: "The unique identifier of the preset to execute.",
+      description: "The unique identifier of the preset to execute, for example `preset_12345`.",
     },
     inputFiles: {
       type: "object",
@@ -28,10 +28,10 @@ export default {
       description: "Dictionary mapping the preset's input file keys to publicly accessible file URLs. Example: `{ \"in_video\": \"https://example.com/video.mp4\" }`.",
     },
     metadata: {
-      type: "object",
-      label: "Metadata",
-      description: "Optional key-value metadata to attach to the preset execution.",
-      optional: true,
+      propDefinition: [
+        renderio,
+        "metadata",
+      ],
     },
     webhookUrl: {
       type: "string",

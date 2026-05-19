@@ -26,14 +26,16 @@ export default {
   props: {
     renderio,
     inputFiles: {
-      type: "object",
-      label: "Input File URLs",
-      description: "Dictionary mapping input aliases to publicly accessible file URLs. Keys must start with `in_`. Example: `{ \"in_video\": \"https://example.com/video.mp4\" }`.",
+      propDefinition: [
+        renderio,
+        "inputFiles",
+      ],
     },
     outputFiles: {
-      type: "object",
-      label: "Output File Names",
-      description: "Dictionary mapping output aliases to desired output file names. Keys must start with `out_`. Example: `{ \"out_video\": \"output.mp4\" }`.",
+      propDefinition: [
+        renderio,
+        "outputFiles",
+      ],
     },
     command: {
       type: "string",
@@ -41,10 +43,10 @@ export default {
       description: "FFmpeg command using `{{alias}}` placeholders matching the input and output file keys. Example: `-i {{in_video}} -c:v libx264 {{out_video}}`.",
     },
     metadata: {
-      type: "object",
-      label: "Metadata",
-      description: "Optional key-value metadata to attach to the command.",
-      optional: true,
+      propDefinition: [
+        renderio,
+        "metadata",
+      ],
     },
     maxCommandRunSeconds: {
       type: "integer",
@@ -108,8 +110,14 @@ export default {
       }
 
       const timer = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+      const pollIntervalMs = 3000;
+      const pollTimeoutMs = (this.maxCommandRunSeconds ?? 600) * 1000;
+      const pollStartedAt = Date.now();
       while (!isTerminalStatus(response?.status)) {
-        await timer(3000);
+        if (Date.now() - pollStartedAt >= pollTimeoutMs) {
+          throw new ConfigurationError(`Timed out waiting for RenderIO command ${commandId} to complete. Last status: ${response?.status || "unknown"}`);
+        }
+        await timer(pollIntervalMs);
         response = await this.renderio.getFfmpegCommand({
           $,
           commandId,
@@ -139,8 +147,15 @@ export default {
         }
       }
 
+      const finalStatus = String(response?.status || "").toLowerCase();
       if (response?.error_message) {
-        throw new ConfigurationError(response.error_message);
+        throw new ConfigurationError(`RenderIO command ${commandId} ended with status ${finalStatus || "unknown"}: ${response.error_message}`);
+      }
+      if (finalStatus && ![
+        "completed",
+        "success",
+      ].includes(finalStatus)) {
+        throw new ConfigurationError(`RenderIO command ${commandId} ended with status: ${response.status}`);
       }
     }
 

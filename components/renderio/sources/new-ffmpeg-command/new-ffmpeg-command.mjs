@@ -43,7 +43,6 @@ export default {
     },
     async processEvent(max) {
       const lastTs = this._getLastTs();
-      let maxTs = lastTs;
       let commands = [];
 
       const response = await this.renderio.listCommands({
@@ -56,19 +55,22 @@ export default {
         const ts = getTimestamp(command);
         if (ts > lastTs) {
           commands.push(command);
-          maxTs = Math.max(maxTs, ts);
         }
       }
 
+      commands.sort((a, b) => getTimestamp(a) - getTimestamp(b));
+
       if (max && commands.length > max) {
-        commands = commands.slice(-1 * max);
+        commands = commands.slice(-max);
       }
 
-      commands.forEach((command) => {
+      for (const command of commands) {
         this.$emit(command, this.generateMeta(command));
-      });
+      }
 
-      this._setLastTs(maxTs);
+      if (commands.length > 0) {
+        this._setLastTs(getTimestamp(commands[commands.length - 1]));
+      }
     },
   },
   hooks: {

@@ -4,7 +4,7 @@ export default {
   key: "surecart-list-trackings",
   name: "List Trackings",
   description: "Return a list of tracking records. [See the documentation](https://developer.surecart.com/api-reference/trackings/list)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

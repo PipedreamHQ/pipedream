@@ -1,4 +1,5 @@
 import renderio from "../../renderio.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 import {
   parseArray,
   validateKeys,
@@ -25,6 +26,9 @@ export default {
   },
   async run({ $ }) {
     const commands = parseArray(this.commands, "Commands JSON Array");
+    if (commands.length === 0) {
+      throw new ConfigurationError("Commands JSON Array must be a non-empty array");
+    }
 
     for (const command of commands) {
       validateKeys(command.input_files || {}, "in_", "Input file");

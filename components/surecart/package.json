@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/surecart",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream SureCart Components",
   "main": "surecart.app.mjs",
   "keywords": [

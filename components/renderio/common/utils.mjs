@@ -60,9 +60,12 @@ export function getCommandId(command) {
 
 export function getTimestamp(entity) {
   const timestamp = entity?.created_at || entity?.updated_at || entity?.completed_at;
-  return timestamp
-    ? Date.parse(timestamp)
-    : Date.now();
+  if (!timestamp) return Date.now();
+
+  const parsed = Date.parse(timestamp);
+  return Number.isNaN(parsed)
+    ? Date.now()
+    : parsed;
 }
 
 export function isTerminalStatus(status) {

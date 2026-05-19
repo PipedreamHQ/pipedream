@@ -1,4 +1,5 @@
 import renderio from "../../renderio.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 import {
   parseObject,
   parseRequiredObject,
@@ -19,31 +20,38 @@ export default {
   props: {
     renderio,
     inputFiles: {
-      type: "object",
-      label: "Input File URLs",
-      description: "Dictionary mapping input aliases to publicly accessible file URLs. Keys must start with `in_`.",
+      propDefinition: [
+        renderio,
+        "inputFiles",
+      ],
     },
     outputFiles: {
-      type: "object",
-      label: "Output File Names",
-      description: "Dictionary mapping output aliases to desired output file names. Keys must start with `out_`.",
+      propDefinition: [
+        renderio,
+        "outputFiles",
+      ],
     },
     ffmpegCommands: {
       type: "string[]",
       label: "FFmpeg Commands",
-      description: "Ordered FFmpeg commands to execute sequentially. Use placeholders matching the input and output file keys.",
+      description: "Ordered FFmpeg commands to execute sequentially. Use `{{alias}}` placeholders matching input keys such as `in_video` and output keys such as `out_final`. Example: `[\"-i {{in_video}} -vf scale=1280:720 {{out_scaled}}\", \"-i {{out_scaled}} -c:v libx264 {{out_final}}\"]`.",
     },
     metadata: {
-      type: "object",
-      label: "Metadata",
-      description: "Optional key-value metadata to attach to the command.",
-      optional: true,
+      propDefinition: [
+        renderio,
+        "metadata",
+      ],
     },
   },
   async run({ $ }) {
     const inputFiles = parseRequiredObject(this.inputFiles, "Input File URLs");
     const outputFiles = parseRequiredObject(this.outputFiles, "Output File Names");
     const metadata = parseObject(this.metadata, "Metadata");
+    const ffmpegCommands = this.ffmpegCommands;
+
+    if (!Array.isArray(ffmpegCommands) || ffmpegCommands.length === 0) {
+      throw new ConfigurationError("FFmpeg Commands must be a non-empty array");
+    }
 
     validateKeys(inputFiles, "in_", "Input file");
     validateKeys(outputFiles, "out_", "Output file");
@@ -51,7 +59,7 @@ export default {
     const data = {
       input_files: inputFiles,
       output_files: outputFiles,
-      ffmpeg_commands: this.ffmpegCommands,
+      ffmpeg_commands: ffmpegCommands,
     };
 
     if (metadata) data.metadata = metadata;
@@ -60,7 +68,7 @@ export default {
       $,
       data,
     });
-    $.export("$summary", `Successfully submitted ${this.ffmpegCommands.length} chained FFmpeg command${this.ffmpegCommands.length === 1
+    $.export("$summary", `Successfully submitted ${ffmpegCommands.length} chained FFmpeg command${ffmpegCommands.length === 1
       ? ""
       : "s"}`);
     return response;

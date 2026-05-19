@@ -3,7 +3,24 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "renderio",
-  propDefinitions: {},
+  propDefinitions: {
+    inputFiles: {
+      type: "object",
+      label: "Input File URLs",
+      description: "Dictionary mapping input aliases to publicly accessible file URLs. Keys must start with `in_`. Example: `{ \"in_video\": \"https://example.com/video.mp4\" }`.",
+    },
+    outputFiles: {
+      type: "object",
+      label: "Output File Names",
+      description: "Dictionary mapping output aliases to desired output file names. Keys must start with `out_`. Example: `{ \"out_video\": \"output.mp4\" }`.",
+    },
+    metadata: {
+      type: "object",
+      label: "Metadata",
+      description: "Optional key-value metadata to attach to the command or preset execution. Example: `{ \"job_id\": \"abc123\" }`.",
+      optional: true,
+    },
+  },
   methods: {
     _baseUrl() {
       return "https://renderio.dev/api/v1";

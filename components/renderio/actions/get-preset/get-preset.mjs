@@ -16,7 +16,7 @@ export default {
     presetId: {
       type: "string",
       label: "Preset ID",
-      description: "The unique identifier of the preset to retrieve.",
+      description: "The unique identifier of the preset to retrieve, for example `preset_12345`.",
     },
   },
   async run({ $ }) {

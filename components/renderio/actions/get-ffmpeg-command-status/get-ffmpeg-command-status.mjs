@@ -16,7 +16,7 @@ export default {
     commandId: {
       type: "string",
       label: "Command ID",
-      description: "The unique identifier of the FFmpeg command to retrieve.",
+      description: "The unique identifier of the FFmpeg command to retrieve, for example `cmd_01HZX3Y7K9M4P2Q8R5T1V6W3`.",
     },
   },
   async run({ $ }) {
