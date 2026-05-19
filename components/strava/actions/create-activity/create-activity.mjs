@@ -10,7 +10,7 @@ export default {
     + " Pass `sportType` from Strava's documented `sport_type` enum (modern field, replaces legacy `type`). Common values: Run, Ride, Hike, Swim, Walk, Workout, Yoga."
     + " `startDateLocal` must be ISO 8601 in the athlete's local time with timezone offset or `Z` for UTC. Example: `2026-05-15T07:00:00Z`."
     + " [See the documentation](https://developers.strava.com/docs/reference/#api-Activities-createActivity)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -68,12 +68,17 @@ export default {
     },
   },
   async run({ $ }) {
-    const ISO_DATE = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(Z|[+-]\d{2}:\d{2})$/;
-    if (!ISO_DATE.test(this.startDateLocal)) {
+    const isoDatePattern = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(Z|[+-]\d{2}:\d{2})$/;
+    if (!isoDatePattern.test(this.startDateLocal)) {
       throw new ConfigurationError("`Start Date (local)` must be ISO 8601 with timezone (e.g., `2026-05-15T07:00:00Z`).");
     }
-    if (this.distance != null && isNaN(parseFloat(this.distance))) {
-      throw new ConfigurationError("`Distance` must be a numeric value (meters).");
+    // Use Number() not parseFloat() for strict validation: parseFloat("5000m")
+    // silently returns 5000, which would mask a unit-suffix mistake.
+    const distanceMeters = this.distance != null
+      ? Number(this.distance)
+      : null;
+    if (this.distance != null && !Number.isFinite(distanceMeters)) {
+      throw new ConfigurationError("`Distance` must be a pure number in meters with no units (e.g., `5000`, not `5000m`).");
     }
 
     const data = {
@@ -83,7 +88,7 @@ export default {
       elapsed_time: this.elapsedTime,
     };
     if (this.description) data.description = this.description;
-    if (this.distance) data.distance = parseFloat(this.distance);
+    if (distanceMeters != null) data.distance = distanceMeters;
     if (this.trainer) data.trainer = 1;
     if (this.commute) data.commute = 1;
 

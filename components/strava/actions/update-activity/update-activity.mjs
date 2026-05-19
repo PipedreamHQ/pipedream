@@ -10,7 +10,7 @@ export default {
     + " Only fields you provide are updated; omitted fields are left unchanged."
     + " `sportType` uses Strava's modern `sport_type` enum (not the legacy `type` field)."
     + " [See the documentation](https://developers.strava.com/docs/reference/#api-Activities-updateActivityById)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -22,7 +22,7 @@ export default {
     activityId: {
       type: "string",
       label: "Activity ID",
-      description: "The numeric ID of the activity to update.",
+      description: "The numeric ID of the activity to update (e.g., `18522207115`). Resolve via **Search Activities** if you only know the name.",
     },
     name: {
       type: "string",
@@ -33,7 +33,7 @@ export default {
     sportType: {
       type: "string",
       label: "Sport Type",
-      description: "New sport type from Strava's `sport_type` enum.",
+      description: "New sport type from Strava's `sport_type` enum (e.g., `Run`, `Ride`, `Hike`, `Swim`).",
       options: SPORT_TYPES,
       optional: true,
     },
