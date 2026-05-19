@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/readwise",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Pipedream Readwise Components",
   "main": "readwise.app.mjs",
   "keywords": [
