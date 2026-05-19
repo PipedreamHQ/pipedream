@@ -5,7 +5,7 @@ export default {
   name: "Get Videos",
   key: "twitch-get-videos",
   description: "Gets video information by video ID, user ID, or game ID. [See the documentation](https://dev.twitch.tv/docs/api/reference/#get-videos)",
-  version: "0.1.4",
+  version: "0.2.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

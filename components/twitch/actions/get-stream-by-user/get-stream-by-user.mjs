@@ -5,7 +5,7 @@ export default {
   name: "Get Stream By User",
   key: "twitch-get-stream-by-user",
   description: "Gets stream information for the specified user. [See the documentation](https://dev.twitch.tv/docs/api/reference/#get-streams)",
-  version: "0.1.4",
+  version: "0.2.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
