@@ -43,7 +43,10 @@ export default {
       optional: true,
       async options() {
         const response = await this.getSounds();
-        return Object.entries(response.sounds).map(([value, label]) => ({
+        return Object.entries(response.sounds).map(([
+          value,
+          label,
+        ]) => ({
           label,
           value,
         }));

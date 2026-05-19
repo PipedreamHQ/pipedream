@@ -352,6 +352,18 @@ export default {
         ...args,
       });
     },
+    searchCandidates(args = {}) {
+      return this.post({
+        path: "/candidate.search",
+        ...args,
+      });
+    },
+    getCandidate(args = {}) {
+      return this.post({
+        path: "/candidate.info",
+        ...args,
+      });
+    },
     async paginate({
       max = 600, fn, fnArgs, keyField = "results",
     } = {}) {

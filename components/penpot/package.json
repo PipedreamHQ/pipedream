@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/penpot",
+  "version": "0.0.1",
+  "description": "Pipedream Penpot Components",
+  "main": "penpot.app.mjs",
+  "keywords": [
+    "pipedream",
+    "penpot"
+  ],
+  "homepage": "https://pipedream.com/apps/penpot",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

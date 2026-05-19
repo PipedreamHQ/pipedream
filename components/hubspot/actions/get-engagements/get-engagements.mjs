@@ -5,7 +5,7 @@ export default {
   key: "hubspot-get-engagements",
   name: "Get Engagements",
   description: "Retrieves one or more engagements by their IDs. Use this action to fetch details about multiple engagements, such as their types, timestamps, and associated CRM objects. Requires engagement IDs, which you can obtain from the **List CRM Objects** action. [See the documentation](https://developers.hubspot.com/docs/api-reference/legacy/crm/objects/objects/batch/get-objects)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
