@@ -22,7 +22,7 @@ export default {
     query: {
       type: "string",
       label: "Query",
-      description: "The query to search for customer clients",
+      description: "Partial match text for the customer client descriptive name (e.g. `Acme` matches names containing \"Acme\"). Omit to return clients up to level 3.",
       optional: true,
     },
   },

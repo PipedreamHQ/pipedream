@@ -69,7 +69,7 @@ export default {
     dateRange: {
       type: "string",
       label: "Date Range",
-      description: "Select a date range for the report. Start and end dates are required if using a custom date range.",
+      description: "Predefined Google Ads date range keyword (e.g. `LAST_30_DAYS`, `THIS_MONTH`). For a custom range, use `CUSTOM` with `startDate` and `endDate` in `YYYY-MM-DD` format (e.g. `2024-01-01`, `2024-01-31`).",
       options: DATE_RANGE_OPTIONS,
       optional: true,
     },
@@ -88,7 +88,7 @@ export default {
     fields: {
       type: "string[]",
       label: "Fields",
-      description: "Select any fields you want to include in your report.",
+      description: "Resource field names for the GAQL SELECT clause. Pass a string array (e.g. `[\"id\", \"name\"]` or `[\"campaign.id\", \"campaign.name\"]` for campaign reports).",
       options() {
         const resource = RESOURCES.find((r) => r.resourceOption.value === this.resource);
         if (!resource) throw new ConfigurationError("Select one of the available resources.");
@@ -99,7 +99,7 @@ export default {
     segments: {
       type: "string[]",
       label: "Segments",
-      description: "Select any segments you want to include in your report. See the documentation [here](https://developers.google.com/google-ads/api/reference/rpc/v21/Segments)",
+      description: "Segment field names to include (e.g. `[\"date\"]` or `[\"segments.date\"]`). See the documentation [here](https://developers.google.com/google-ads/api/reference/rpc/v21/Segments).",
       options() {
         const resource = RESOURCES.find((r) => r.resourceOption.value === this.resource);
         if (!resource) throw new ConfigurationError("Select one of the available resources.");
@@ -113,7 +113,7 @@ export default {
     metrics: {
       type: "string[]",
       label: "Metrics",
-      description: "Select any metrics you want to include in your report. See the documentation [here](https://developers.google.com/google-ads/api/reference/rpc/v21/Metrics)",
+      description: "Metric field names to include (e.g. `[\"impressions\", \"clicks\"]` or `[\"metrics.impressions\", \"metrics.clicks\"]`). See the documentation [here](https://developers.google.com/google-ads/api/reference/rpc/v21/Metrics).",
       options() {
         const resource = RESOURCES.find((r) => r.resourceOption.value === this.resource);
         if (!resource) throw new ConfigurationError("Select one of the available resources.");
