@@ -6,6 +6,13 @@ export default {
   type: "app",
   app: "craftboxx",
   propDefinitions: {
+    page: {
+      type: "integer",
+      label: "Page",
+      description: "The page of results to retrieve, zero-based.",
+      min: 0,
+      default: 0,
+    },
     projectId: {
       type: "string",
       label: "Project ID",
