@@ -66,6 +66,7 @@ export default {
     hasHeaders: {
       ...common.props.hasHeaders,
       default: false,
+      optional: true,
     },
     rowIndex: {
       type: "integer",
