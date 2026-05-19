@@ -37,9 +37,16 @@ export default {
 
         for (const result of results) {
           if (!after || await this.isRelevant(result, after)) {
-            const form = await this.hubspot.getFormDefinition({
-              formId: params.formId,
-            });
+            let form = null;
+            try {
+              form = await this.hubspot.getFormDefinition({
+                formId: params.formId,
+              });
+            } catch (err) {
+              console.warn(
+                `Failed to fetch form definition ${params.formId}: ${err.message}`,
+              );
+            }
             this.emitEvent({
               form,
               ...result,

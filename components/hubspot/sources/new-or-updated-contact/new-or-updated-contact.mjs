@@ -81,11 +81,19 @@ export default {
         return false;
       }
       if (this.lists?.length) {
-        const { results } = await this.hubspot.getMemberships({
-          objectType: "contacts",
-          objectId: contact.id,
-        });
-        const contactListIds = results?.map(({ listId }) => listId) || [];
+        let results;
+        try {
+          ({ results } = await this.hubspot.getMemberships({
+            objectType: "contacts",
+            objectId: contact.id,
+          }));
+        } catch (err) {
+          console.warn(
+            `Failed to fetch list memberships for contact ${contact.id}: ${err.message}`,
+          );
+          return false;
+        }
+        const contactListIds = results?.map((m) => m?.listId).filter(Boolean) || [];
         for (const list of this.lists) {
           if (contactListIds.includes(list)) {
             return true;
