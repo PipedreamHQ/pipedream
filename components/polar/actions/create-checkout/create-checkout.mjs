@@ -14,9 +14,14 @@ export default {
   props: {
     app,
     products: {
+      propDefinition: [
+        app,
+        "productId",
+      ],
       type: "string[]",
       label: "Products",
       description: "List of product IDs available to select at checkout. Example: `[\"prod_123\", \"prod_456\"]`. The first product is selected by default.",
+      optional: false,
     },
     prices: {
       type: "object",
@@ -61,10 +66,10 @@ export default {
       optional: true,
     },
     discountId: {
-      type: "string",
-      label: "Discount ID",
-      description: "ID of the discount to apply to the checkout.",
-      optional: true,
+      propDefinition: [
+        app,
+        "discountId",
+      ],
     },
     customerId: {
       propDefinition: [
@@ -171,7 +176,7 @@ export default {
     subscriptionId: {
       type: "string",
       label: "Subscription ID",
-      description: "ID of a subscription to upgrade. It must be on free pricing.",
+      description: "ID of a subscription to upgrade. It must be on free pricing. Use the **List Subscriptions** action to discover options.",
       optional: true,
     },
     allowDiscountCodes: {
