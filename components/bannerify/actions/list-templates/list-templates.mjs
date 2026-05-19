@@ -3,7 +3,7 @@ import bannerify from "../../bannerify.app.mjs";
 export default {
   key: "bannerify-list-templates",
   name: "List Templates",
-  description: "List templates in the connected Bannerify project. [See the documentation](https://bannerify.co/docs/api-reference/endpoint/template-list)",
+  description: "List templates in the connected Bannerify project. [See the documentation](https://bannerify.co/docs/api-reference/endpoint/template-details)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

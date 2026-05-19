@@ -3,7 +3,7 @@ import bannerify from "../../bannerify.app.mjs";
 export default {
   key: "bannerify-render-pdf",
   name: "Render PDF",
-  description: "Generate a PDF from a Bannerify template and return a hosted file URL. [See the documentation](https://bannerify.co/docs/api-reference/endpoint/create-stored-pdf)",
+  description: "Generate a PDF from a Bannerify template and return a hosted file URL. [See the documentation](https://bannerify.co/docs/api-reference/endpoint/create-pdf)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
