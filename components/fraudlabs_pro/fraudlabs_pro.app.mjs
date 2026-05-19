@@ -1,6 +1,9 @@
 import fraudlabspro from "fraudlabspro-nodejs";
 import { promisify } from "util";
 import { axios } from "@pipedream/platform";
+import {
+  API_BASE_URL, API_VERSION,
+} from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -55,6 +58,25 @@ export default {
     webhookUnsubscribe(args = {}) {
       return this._makeRequest({
         path: "/pipedream-webhook-unsubscribe",
+        ...args,
+      });
+    },
+    _apiBaseUrl() {
+      return `${API_BASE_URL}/${API_VERSION}`;
+    },
+    _apiRequest({
+      $ = this, path, params, ...args
+    }) {
+      return axios($, {
+        url: `${this._apiBaseUrl()}${path}`,
+        params: {
+          ...params,
+          format: "json",
+          key: this.$auth.api_key,
+        },
+        headers: {
+          "Content-Type": "application/json",
+        },
         ...args,
       });
     },
