@@ -38,12 +38,13 @@ export default {
     objectFilter: {
       type: "string[]",
       label: "Filter by Resources",
-      description: "Select the resources to generate a report for (or leave blank for all)",
+      description: "Google Ads resource IDs to limit the report to. Pass a string array of numeric IDs (e.g. `[\"1234567890\", \"9876543210\"]`). Omit to include all resources.",
       optional: true,
       useQuery: true,
-      options: async ({
-        query, prevContext: { nextPageToken: pageToken },
-      }) => {
+      async options({
+        query, prevContext = {},
+      }) {
+        const { nextPageToken: pageToken } = prevContext;
         const {
           accountId, customerClientId, resource,
         } = this;

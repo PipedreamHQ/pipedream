@@ -36,7 +36,7 @@ export default {
     accountId: {
       type: "string",
       label: "Use Google Ads As",
-      description: "The ID of an account of a [customer directly accessible by the authenticated user](https://developers.google.com/google-ads/api/reference/rpc/v21/CustomerService/ListAccessibleCustomers?transport=rest). This is usually a Manager Account, used as `login-customer-id`. Use the **List Account ID Options** action to get the list of accessible accounts.",
+      description: "The ID of an account of a [customer directly accessible by the authenticated user](https://developers.google.com/google-ads/api/reference/rpc/v21/CustomerService/ListAccessibleCustomers?transport=rest). This is usually a Manager Account, used as `login-customer-id` (e.g., `1234567890`). Use the **List Account ID Options** action to get the list of accessible accounts.",
       async options() {
         const response = await this.listAccessibleCustomers();
         return response?.map(((resourceName) => ({
@@ -48,7 +48,7 @@ export default {
     customerClientId: {
       type: "string",
       label: "Managed Account",
-      description: "The ID of a [customer client](https://developers.google.com/google-ads/api/reference/rpc/v21/CustomerClient) from the list of [customers linked to the selected account](https://developers.google.com/google-ads/api/docs/account-management/get-account-hierarchy). Use the **List Customer Clients** action to get the list of customer clients.",
+      description: "The ID of a [customer client](https://developers.google.com/google-ads/api/reference/rpc/v21/CustomerClient) from the list of [customers linked to the selected account](https://developers.google.com/google-ads/api/docs/account-management/get-account-hierarchy) (e.g., `1234567890`). Use the **List Customer Clients** action to get the list of customer clients.",
       useQuery: true,
       optional: true,
       async options({

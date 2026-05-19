@@ -32,9 +32,12 @@ export default {
       accountId: this.accountId,
       query: this.query,
     });
-    $.export("$summary", `Successfully retrieved ${response.length} customer client${response.length === 1
+    const clients = Array.isArray(response)
+      ? response
+      : [];
+    $.export("$summary", `Successfully retrieved ${clients.length} customer client${clients.length === 1
       ? ""
       : "s"}`);
-    return response;
+    return clients;
   },
 };
