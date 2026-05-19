@@ -211,13 +211,14 @@ export default {
       })).data;
     },
     async resolveUserId(userInput) {
-      if (!userInput || /^\d+$/.test(userInput)) {
-        return userInput;
+      const normalizedUserInput = userInput?.trim();
+      if (!normalizedUserInput || /^\d+$/.test(normalizedUserInput)) {
+        return normalizedUserInput;
       }
-      const { data } = await this.getUserByLogin(userInput);
+      const { data } = await this.getUserByLogin(normalizedUserInput);
       if (!data?.length) {
         throw new ConfigurationError(
-          `Twitch user "${userInput}" not found. Provide a numeric Twitch User ID or a valid login name.`,
+          `Twitch user "${normalizedUserInput}" not found. Provide a numeric Twitch User ID or a valid login name.`,
         );
       }
       return data?.[0]?.id;
