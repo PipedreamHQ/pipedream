@@ -4,7 +4,7 @@ export default {
   key: "surecart-list-return-requests",
   name: "List Return Requests",
   description: "Return a list of return requests. [See the documentation](https://developer.surecart.com/api-reference/return-requests/list)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

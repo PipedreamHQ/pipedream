@@ -4,7 +4,7 @@ export default {
   key: "apollo_io-list-label-names-options",
   name: "List Label Names Options",
   description: "Retrieves available options for the Label Names field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

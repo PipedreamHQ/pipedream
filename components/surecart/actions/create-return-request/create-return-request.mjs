@@ -4,7 +4,7 @@ export default {
   key: "surecart-create-return-request",
   name: "Create Return Request",
   description: "Create a new return request for an order. [See the documentation](https://developer.surecart.com/api-reference/return-requests/create)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -20,7 +20,7 @@ export default {
       ],
     },
     returnItems: {
-      type: "object[]",
+      type: "string",
       label: "Return Items",
       description: "Items to return. Each item requires `line_item` (UUID), `quantity` (integer), and `return_reason_id` (one of: `color`, `defective`, `not_as_described`, `other`, `size_too_large`, `size_too_small`, `style`, `unknown`, `unwanted`, `wrong_item`). Include `note` when reason is `other`. Example: `[{ \"line_item\": \"li_abc123\", \"quantity\": 1, \"return_reason_id\": \"defective\" }]`",
     },
@@ -37,7 +37,9 @@ export default {
       data: {
         return_request: {
           order: this.order,
-          return_items: this.returnItems,
+          return_items: this.returnItems
+            ? JSON.parse(this.returnItems)
+            : undefined,
           metadata: this.metadata,
         },
       },

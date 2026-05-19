@@ -4,7 +4,7 @@ export default {
   key: "surecart-list-subscriptions",
   name: "List Subscriptions",
   description: "Return a list of subscriptions. [See the documentation](https://developer.surecart.com/api-reference/subscriptions/list)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
