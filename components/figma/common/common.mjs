@@ -4,6 +4,7 @@ export default {
   props: {
     figmaApp: {
       ...figma,
+      reloadProps: true,
     },
   },
   methods: {

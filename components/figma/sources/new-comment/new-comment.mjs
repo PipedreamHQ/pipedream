@@ -10,7 +10,6 @@ export default {
   version: "0.0.5",
   type: "source",
   dedupe: "unique",
-  reloadProps: true,
   props: {
     alert: {
       type: "alert",
