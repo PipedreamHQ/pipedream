@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/jotform",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Pipedream Jotform Components",
   "main": "jotform.app.mjs",
   "keywords": [

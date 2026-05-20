@@ -5,7 +5,7 @@ export default {
   name: "Change Order State",
   description: "Change the state of an order. [See the documentation](https://app.billbee.io//swagger/ui/index#/Orders/OrderApi_UpdateState)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
