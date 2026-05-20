@@ -163,6 +163,7 @@ export default {
     );
 
     return {
+      filename,
       text,
       truncated,
       contentLength,
