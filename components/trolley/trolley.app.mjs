@@ -23,7 +23,7 @@ export default {
     invoiceId: {
       type: "string",
       label: "Invoice ID",
-      description: "The ID of the invoice (e.g., `I-xxxx`). Use the **List Invoices** action to find available invoice IDs.",
+      description: "The ID of the invoice (e.g., `I-a1b2c3d4`). Use the **List Invoices** action to find available invoice IDs.",
     },
     invoiceLineId: {
       type: "string",
@@ -43,7 +43,7 @@ export default {
     externalId: {
       type: "string",
       label: "External ID",
-      description: "Your external reference identifier for this record.",
+      description: "Your system's identifier for this record, used to correlate Trolley records with your own data (e.g., `order-12345`, `client-abc`, `inv_9x8y7z`). Must be unique within your account.",
     },
     memo: {
       type: "string",
@@ -53,7 +53,7 @@ export default {
     tags: {
       type: "string[]",
       label: "Tags",
-      description: "Tags for this record (for metadata, search, and indexing).",
+      description: "List of string labels to attach to this record for filtering and search (e.g., `[\"us-payroll\", \"q2-2024\"]` or `[\"contractor\", \"marketing\"]`). Tags are freeform — use any consistent convention that fits your workflow.",
     },
     coverFees: {
       type: "boolean",

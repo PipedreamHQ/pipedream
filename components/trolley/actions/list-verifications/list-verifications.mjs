@@ -63,6 +63,7 @@ export default {
       description: "Page number to retrieve (1-indexed).",
       optional: true,
       default: 1,
+      min: 1,
     },
     pageSize: {
       type: "integer",
@@ -70,6 +71,8 @@ export default {
       description: "Number of results per page (max `1000`).",
       optional: true,
       default: 10,
+      min: 1,
+      max: 1000,
     },
   },
   async run({ $ }) {
