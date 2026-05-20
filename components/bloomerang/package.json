@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/bloomerang",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Pipedream Bloomerang Components",
   "main": "bloomerang.app.mjs",
   "keywords": [

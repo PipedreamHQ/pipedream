@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/easysendy",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream EasySendy Components",
   "main": "easysendy.app.mjs",
   "keywords": [

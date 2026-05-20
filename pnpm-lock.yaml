@@ -4804,6 +4804,9 @@ importers:
 
   components/eagle_doc: {}
 
+  components/easy8:
+    specifiers: {}
+
   components/easy_peasy_ai:
     dependencies:
       '@pipedream/platform':

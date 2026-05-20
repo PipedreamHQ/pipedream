@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/graceblocks",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream Graceblocks Components",
   "main": "graceblocks.app.mjs",
   "keywords": [
