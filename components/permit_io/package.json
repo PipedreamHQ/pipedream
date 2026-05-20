@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/permit_io",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream Permit.io Components",
   "main": "permit_io.app.mjs",
   "keywords": [

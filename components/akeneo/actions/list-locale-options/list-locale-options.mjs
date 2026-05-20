@@ -4,7 +4,7 @@ export default {
   key: "akeneo-list-locale-options",
   name: "List Locale Options",
   description: "Retrieves available options for the Locale field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

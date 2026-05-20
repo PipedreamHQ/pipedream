@@ -5,7 +5,7 @@ export default {
   key: "teamwork-new-user-created",
   name: "New User Created (Instant)",
   description: "Emit new event when a new user is created",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

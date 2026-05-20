@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ontraport",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Pipedream Ontraport Components",
   "main": "ontraport.app.mjs",
   "keywords": [
