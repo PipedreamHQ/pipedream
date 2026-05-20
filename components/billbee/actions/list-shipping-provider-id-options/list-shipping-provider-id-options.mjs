@@ -4,7 +4,7 @@ export default {
   key: "billbee-list-shipping-provider-id-options",
   name: "List Shipping Provider ID Options",
   description: "Retrieves available options for the Shipping Provider ID field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
