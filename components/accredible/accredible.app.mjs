@@ -6,6 +6,13 @@ export default {
   type: "app",
   app: "accredible",
   propDefinitions: {
+    page: {
+      type: "integer",
+      label: "Page",
+      description: "The page of results to retrieve, zero-based.",
+      min: 0,
+      default: 0,
+    },
     credentialId: {
       type: "string",
       label: "Credential ID",

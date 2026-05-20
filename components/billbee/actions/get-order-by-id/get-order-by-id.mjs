@@ -5,7 +5,7 @@ export default {
   name: "Get Order By ID",
   description: "Retrieve a specific order by its ID from Billbee. [See the documentation](https://app.billbee.io//swagger/ui/index#/Orders/OrderApi_Get)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

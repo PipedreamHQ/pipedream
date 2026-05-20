@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/talenthr",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Pipedream TalentHR Components",
   "main": "talenthr.app.mjs",
   "keywords": [

@@ -4,7 +4,7 @@ export default {
   key: "billbee-list-carrier-id-options",
   name: "List Carrier ID Options",
   description: "Retrieves available options for the Carrier ID field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

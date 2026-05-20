@@ -4,7 +4,7 @@ export default {
   key: "akeneo-get-product",
   name: "Get Product",
   description: "Get a product from Akeneo. [See the documentation](https://api.akeneo.com/api-reference.html#get_products__code_)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
