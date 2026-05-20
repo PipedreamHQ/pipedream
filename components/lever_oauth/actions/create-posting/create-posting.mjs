@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../lever_oauth.app.mjs";
 
 export default {
@@ -91,7 +92,8 @@ export default {
       description: "Workplace arrangement. Defaults to `unspecified` if omitted.",
       optional: true,
       options: [
-        "onsite",
+        "unspecified",
+        "on-site",
         "remote",
         "hybrid",
       ],
@@ -110,7 +112,13 @@ export default {
 
     const content = {};
     if (this.descriptionHtml) content.descriptionHtml = this.descriptionHtml;
-    if (this.lists) content.lists = JSON.parse(this.lists);
+    if (this.lists) {
+      try {
+        content.lists = JSON.parse(this.lists);
+      } catch {
+        throw new ConfigurationError("Content Lists must be a valid JSON array. Example: [{\"text\": \"Responsibilities\", \"content\": \"<li>Build features</li>\"}]");
+      }
+    }
     if (this.closingHtml) content.closingPostingHtml = this.closingHtml;
 
     const body = {
