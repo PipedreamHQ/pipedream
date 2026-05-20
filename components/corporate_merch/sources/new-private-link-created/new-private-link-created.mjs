@@ -8,10 +8,23 @@ export default {
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
+  props: {
+    ...common.props,
+    redeemPageId: {
+      type: "string",
+      label: "Redeem Page ID",
+      description: "The ID of the redeem page to list private links for (e.g., `rp_12345`). Use the **List Redeem Pages** action to find available redeem page IDs.",
+    },
+  },
   methods: {
     ...common.methods,
     getResourceFn() {
       return this.corporateMerch.listPrivateLinks;
+    },
+    getArgs() {
+      return {
+        redeemPageId: this.redeemPageId,
+      };
     },
     getSummary(privateLink) {
       return `New Private Link with ID: ${privateLink.id}`;

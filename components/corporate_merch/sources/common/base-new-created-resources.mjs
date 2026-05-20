@@ -33,12 +33,18 @@ export default {
         ts: Date.parse(item.created_at),
       };
     },
+    getArgs() {
+      return {};
+    },
     async processEvents(max) {
       const lastTs = this._getLastTs();
       let resourceFn = this.getResourceFn();
+      const args = this.getArgs();
 
       const { data } = await resourceFn({
+        ...args,
         params: {
+          ...args?.params,
           page: 1,
           limit: 1000,
         },
@@ -47,7 +53,7 @@ export default {
       const results = [];
       for (const item of data) {
         const ts = Date.parse(item.created_at);
-        if (ts > lastTs) {
+        if (!item.created_at || ts > lastTs) {
           results.push(item);
           if (max && results.length >= max) {
             break;
