@@ -148,7 +148,7 @@ export default {
     });
 
     const contentLength = fullText.length;
-    const truncated = !!(this.maxChars && contentLength > this.maxChars);
+    const truncated = !!(Number.isInteger(this.maxChars) && contentLength > this.maxChars);
     const text = truncated
       ? fullText.slice(0, this.maxChars)
       : fullText;
