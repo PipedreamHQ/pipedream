@@ -21,8 +21,10 @@ export default {
   props: {
     app,
     performAs: {
-      type: "string",
-      label: "Perform As (User ID)",
+      propDefinition: [
+        app,
+        "performAs",
+      ],
       description: "User ID of the person creating the posting — sets the creator and default owner. Use **List Users** to find user IDs.",
     },
     text: {

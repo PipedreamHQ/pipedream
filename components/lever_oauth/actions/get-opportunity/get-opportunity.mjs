@@ -19,24 +19,18 @@ export default {
   props: {
     app,
     opportunityId: {
-      type: "string",
-      label: "Opportunity ID",
+      propDefinition: [
+        app,
+        "opportunityId",
+      ],
       description: "The ID of the opportunity to retrieve. Use **Search Opportunities** to find opportunity IDs.",
     },
     expand: {
-      type: "string[]",
-      label: "Expand",
-      description: "Inline related objects in the response. Options: `applications`, `stage`, `owner`, `followers`, `sourcedBy`, `contact`, `offers`.",
-      optional: true,
-      options: [
-        "applications",
-        "stage",
-        "owner",
-        "followers",
-        "sourcedBy",
-        "contact",
-        "offers",
+      propDefinition: [
+        app,
+        "expand",
       ],
+      description: "Inline related objects in the response. Options: `applications`, `stage`, `owner`, `followers`, `sourcedBy`, `contact`, `offers`.",
     },
   },
   async run({ $ }) {

@@ -3,7 +3,40 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "lever_oauth",
-  propDefinitions: {},
+  propDefinitions: {
+    opportunityId: {
+      type: "string",
+      label: "Opportunity ID",
+      description: "The ID of the opportunity. Use **Search Opportunities** to find opportunity IDs.",
+    },
+    performAs: {
+      type: "string",
+      label: "Perform As (User ID)",
+      description: "User ID of the person performing this action — recorded in the audit trail. Use **List Users** to find user IDs.",
+    },
+    expand: {
+      type: "string[]",
+      label: "Expand",
+      description: "Inline related objects in the response to avoid follow-up calls.",
+      optional: true,
+      options: [
+        "applications",
+        "stage",
+        "owner",
+        "followers",
+        "sourcedBy",
+        "contact",
+        "offers",
+      ],
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "Maximum number of items to return (1–100). Defaults to 100.",
+      optional: true,
+      default: 100,
+    },
+  },
   methods: {
     _baseUrl() {
       return "https://api.lever.co/v1";

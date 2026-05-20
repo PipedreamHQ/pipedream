@@ -20,8 +20,10 @@ export default {
   props: {
     app,
     opportunityId: {
-      type: "string",
-      label: "Opportunity ID",
+      propDefinition: [
+        app,
+        "opportunityId",
+      ],
       description: "The ID of the opportunity to archive. Use **Search Opportunities** to find opportunity IDs.",
     },
     reasonId: {
@@ -30,8 +32,10 @@ export default {
       description: "The ID of the archive reason. Use **List Archive Reasons** to find valid reason IDs.",
     },
     performAs: {
-      type: "string",
-      label: "Perform As (User ID)",
+      propDefinition: [
+        app,
+        "performAs",
+      ],
       description: "User ID of the person archiving — recorded in the audit trail. Use **List Users** to find user IDs.",
       optional: true,
     },

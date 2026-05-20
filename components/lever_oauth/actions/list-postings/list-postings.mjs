@@ -44,24 +44,22 @@ export default {
       optional: true,
     },
     limit: {
-      type: "integer",
-      label: "Limit",
+      propDefinition: [
+        app,
+        "limit",
+      ],
       description: "Maximum number of postings to return (1–100). Defaults to 100.",
-      optional: true,
-      default: 100,
     },
   },
   async run({ $ }) {
-    const params = {
-      limit: this.limit,
-    };
-    if (this.state) params.state = this.state;
-    if (this.team) params.team = this.team;
-    if (this.location) params.location = this.location;
-
     const response = await this.app.listPostings({
       $,
-      params,
+      params: {
+        limit: this.limit,
+        state: this.state,
+        team: this.team,
+        location: this.location,
+      },
     });
     const postings = response.data ?? response;
     $.export("$summary", `Retrieved ${postings.length} posting${postings.length === 1

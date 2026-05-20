@@ -23,13 +23,17 @@ export default {
   props: {
     app,
     opportunityId: {
-      type: "string",
-      label: "Opportunity ID",
+      propDefinition: [
+        app,
+        "opportunityId",
+      ],
       description: "The ID of the opportunity. Use **Search Opportunities** to find opportunity IDs.",
     },
     performAs: {
-      type: "string",
-      label: "Perform As (User ID)",
+      propDefinition: [
+        app,
+        "performAs",
+      ],
       description: "User ID of the interviewer submitting feedback — feedback is attributed to this user. Use **List Users** to find user IDs.",
     },
     baseTemplateId: {
