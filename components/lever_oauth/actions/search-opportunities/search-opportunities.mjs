@@ -12,7 +12,7 @@ export default {
     + " Set expand to include related objects inline (e.g. `stage`, `owner`, `contact`) and avoid follow-up calls."
     + " Returns cursor-paginated results; use the `next` field in the response to fetch subsequent pages."
     + " [See the documentation](https://hire.lever.co/developer/documentation#list-all-opportunities)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

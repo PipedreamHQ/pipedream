@@ -13,7 +13,7 @@ export default {
     + " `interviewers` is a comma-separated list of user IDs — each will be assigned to the interview. Use **List Users** to find user IDs."
     + " Use **Search Opportunities** to find the opportunity ID."
     + " [See the documentation](https://hire.lever.co/developer/documentation#create-an-interview)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

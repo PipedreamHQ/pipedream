@@ -1,4 +1,4 @@
-import { axios } from "@pipedream/platform";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 import FormData from "form-data";
 import app from "../../lever_oauth.app.mjs";
 
@@ -21,40 +21,39 @@ export default {
   },
   props: {
     app,
-    fileUrl: {
+    file: {
       type: "string",
-      label: "File URL",
-      description: "Publicly accessible URL to the file to upload (e.g. a PDF from S3 or Google Drive). Maximum 30MB.",
+      label: "File Path or URL",
+      description: "The file to upload. Provide a file path from the `/tmp` directory (e.g. `/tmp/jane_doe_resume.pdf`) or a public URL. Maximum 30MB.",
+      format: "file-ref",
     },
-    fileName: {
-      type: "string",
-      label: "File Name",
-      description: "Name for the file (e.g. `jane_doe_resume.pdf`). Must include the file extension.",
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {
-    const fileBuffer = await axios($, {
-      url: this.fileUrl,
-      responseType: "arraybuffer",
-    });
+    const {
+      stream, metadata,
+    } = await getFileStreamAndMetadata(this.file);
 
     const form = new FormData();
-    form.append("file", Buffer.from(fileBuffer), {
-      filename: this.fileName,
+    form.append("file", stream, {
+      contentType: metadata.contentType,
+      knownLength: metadata.size,
+      filename: metadata.name,
     });
 
-    const response = await axios($, {
-      method: "POST",
-      url: "https://api.lever.co/v1/uploads",
-      headers: {
-        Authorization: `Bearer ${this.app.$auth.oauth_access_token}`,
-        ...form.getHeaders(),
-      },
+    const response = await this.app.uploadFile({
+      $,
+      headers: form.getHeaders(),
       data: form,
     });
 
     const result = response.data ?? response;
-    $.export("$summary", `Uploaded "${result.filename ?? this.fileName}" — URI valid for 24 hours`);
+    $.export("$summary", `Uploaded "${metadata.name}" — URI valid for 24 hours`);
     return result;
   },
 };

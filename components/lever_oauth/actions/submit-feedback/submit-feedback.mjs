@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../lever_oauth.app.mjs";
 
 export default {
@@ -56,6 +57,10 @@ export default {
     },
   },
   async run({ $ }) {
+    if (!!this.panelId !== !!this.interviewId) {
+      throw new ConfigurationError("Panel ID and Interview ID must both be provided or both omitted.");
+    }
+
     const params = {
       perform_as: this.performAs,
     };
@@ -65,7 +70,13 @@ export default {
     };
     if (this.panelId) body.panel = this.panelId;
     if (this.interviewId) body.interview = this.interviewId;
-    if (this.fieldValues) body.fieldValues = JSON.parse(this.fieldValues);
+    if (this.fieldValues) {
+      try {
+        body.fieldValues = JSON.parse(this.fieldValues);
+      } catch {
+        throw new ConfigurationError("Field Values must be a valid JSON array. Example: [{\"id\": \"abc123\", \"value\": \"Strong communicator\"}]");
+      }
+    }
 
     const response = await this.app.submitFeedback(this.opportunityId, {
       $,
