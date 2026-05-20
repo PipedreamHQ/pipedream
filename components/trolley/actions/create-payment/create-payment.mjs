@@ -25,7 +25,7 @@ export default {
         trolley,
         "recipientId",
       ],
-      description: "The Trolley Recipient ID (e.g., `R-xxxx`). At least one of **Recipient ID**, **Recipient Email**, or **Recipient Reference ID** is required.",
+      description: "The Trolley Recipient ID (e.g., `R-xxxx`). Use the **List Recipients** action to find available recipient IDs. At least one of **Recipient ID**, **Recipient Email**, or **Recipient Reference ID** is required.",
       optional: true,
     },
     recipientEmail: {

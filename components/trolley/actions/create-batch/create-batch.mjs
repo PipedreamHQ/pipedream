@@ -39,7 +39,7 @@ export default {
         trolley,
         "recipientId",
       ],
-      description: "The Trolley ID of the recipient to pay (e.g., `R-xxxx`). Provide this to embed a payment in the batch at creation. At least one of **Recipient ID**, **Recipient Email**, or **Recipient Reference ID** is required when adding a payment.",
+      description: "The Trolley ID of the recipient to pay (e.g., `R-xxxx`). Use the **List Recipients** action to find available recipient IDs. At least one of **Recipient ID**, **Recipient Email**, or **Recipient Reference ID** is required when adding a payment.",
       optional: true,
     },
     recipientEmail: {

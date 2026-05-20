@@ -19,13 +19,15 @@ export default {
         trolley,
         "invoiceId",
       ],
-      description: "The invoice ID to pay (e.g., `I-xxxx`). Either **Invoice ID** or **Invoice Line ID** must be provided.",
+      description: "The ID of the invoice to pay (e.g., `I-xxxx`). Use the **List Invoices** action to find available invoice IDs. Either **Invoice ID** or **Invoice Line ID** must be provided.",
       optional: true,
     },
     invoiceLineId: {
-      type: "string",
-      label: "Invoice Line ID",
-      description: "The invoice line ID to pay (e.g., `IL-xxxx`). Either **Invoice ID** or **Invoice Line ID** must be provided.",
+      propDefinition: [
+        trolley,
+        "invoiceLineId",
+      ],
+      description: "The ID of a specific line within the invoice to pay (e.g., `IL-xxxx`). Use the **List Invoice Lines** action with the Invoice ID to find available line IDs. Either **Invoice Line ID** or **Invoice ID** must be provided.",
       optional: true,
     },
     amountValue: {
@@ -48,7 +50,7 @@ export default {
         trolley,
         "batchId",
       ],
-      description: "The batch to add this payment to (e.g., `B-xxxx`). If omitted, Trolley will handle batching.",
+      description: "The batch to add this payment to (e.g., `B-xxxx`). Use the **List Batches** action to find available batch IDs. If omitted, Trolley will handle batching.",
       optional: true,
     },
     memo: {

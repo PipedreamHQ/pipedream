@@ -3,7 +3,7 @@ import trolley from "../../trolley.app.mjs";
 export default {
   key: "trolley-process-batch",
   name: "Process Batch",
-  description: "Start processing all payments in a batch. This action is irreversible — payments cannot be cancelled after processing begins. [See the documentation](https://developers.trolley.com/api/#start-processing-a-batch)",
+  description: "Start processing all payments in a batch. This action is irreversible — payments cannot be cancelled after processing begins. [See the documentation](https://developers.trolley.com/api/#process-a-batch)",
   version: "0.0.1",
   type: "action",
   annotations: {

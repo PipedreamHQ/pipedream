@@ -13,98 +13,27 @@ export default {
     batchId: {
       type: "string",
       label: "Batch ID",
-      description: "The ID of the batch (e.g., `B-xxxx`).",
-      async options({ page }) {
-        const { batches } = await this.listBatches({
-          params: {
-            page: page + 1,
-            pageSize: 100,
-          },
-        });
-        return batches.map(({
-          id, description,
-        }) => ({
-          label: description
-            ? `${description} (${id})`
-            : id,
-          value: id,
-        }));
-      },
+      description: "The ID of the batch (e.g., `B-xxxx`). Use the **List Batches** action to find available batch IDs.",
     },
     paymentId: {
       type: "string",
       label: "Payment ID",
-      description: "The ID of the payment (e.g., `P-xxxx`). Select a **Batch ID** first to load available payments.",
-      async options({
-        page, batchId,
-      }) {
-        if (!batchId) return [];
-        const { payments } = await this.listPayments({
-          batchId,
-          params: {
-            page: page + 1,
-            pageSize: 100,
-          },
-        });
-        return payments.map(({
-          id, memo,
-        }) => ({
-          label: memo
-            ? `${memo} (${id})`
-            : id,
-          value: id,
-        }));
-      },
+      description: "The ID of the payment (e.g., `P-xxxx`). Use the **List Payments** action to find available payment IDs for a given batch.",
     },
     invoiceId: {
       type: "string",
       label: "Invoice ID",
-      description: "The ID of the invoice.",
-      async options({ page }) {
-        const { invoices } = await this.searchInvoices({
-          body: {
-            page: page + 1,
-            pageSize: 100,
-          },
-        });
-        return invoices.map(({
-          id, description, invoiceNumber,
-        }) => ({
-          label: description
-            ? `${description} (${id})`
-            : invoiceNumber
-              ? `Invoice #${invoiceNumber} (${id})`
-              : id,
-          value: id,
-        }));
-      },
+      description: "The ID of the invoice (e.g., `I-xxxx`). Use the **List Invoices** action to find available invoice IDs.",
+    },
+    invoiceLineId: {
+      type: "string",
+      label: "Invoice Line ID",
+      description: "The ID of a line within an invoice (e.g., `IL-xxxx`). Use the **List Invoice Lines** action with the Invoice ID to find available line IDs.",
     },
     recipientId: {
       type: "string",
       label: "Recipient ID",
-      description: "The ID of the recipient (e.g., `R-xxxx`).",
-      async options({ page }) {
-        const { recipients } = await this.listRecipients({
-          params: {
-            page: page + 1,
-            pageSize: 100,
-          },
-        });
-        return recipients.map(({
-          id, email, firstName, lastName, name,
-        }) => {
-          const displayName = [
-            firstName,
-            lastName,
-          ].filter(Boolean).join(" ") || name || email;
-          return {
-            label: displayName
-              ? `${displayName} (${id})`
-              : id,
-            value: id,
-          };
-        });
-      },
+      description: "The ID of the recipient (e.g., `R-xxxx`). Use the **List Recipients** action to find available recipient IDs.",
     },
     currency: {
       type: "string",
@@ -287,6 +216,19 @@ export default {
       return this._makeRequest({
         $,
         path: `/payments/${paymentId}`,
+      });
+    },
+
+    getInvoice({
+      $ = this, invoiceId,
+    } = {}) {
+      return this._makeRequest({
+        $,
+        method: "POST",
+        path: "/invoices/get",
+        data: {
+          invoiceId,
+        },
       });
     },
 

@@ -12,5 +12,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1"
+  }
 }

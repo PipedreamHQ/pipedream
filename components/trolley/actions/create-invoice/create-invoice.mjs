@@ -18,7 +18,7 @@ export default {
         trolley,
         "recipientId",
       ],
-      description: "The Trolley Recipient ID this invoice is for (e.g., `R-xxxx`).",
+      description: "The Trolley Recipient ID this invoice is for (e.g., `R-xxxx`). Use the **List Recipients** action to find available recipient IDs.",
     },
     description: {
       type: "string",

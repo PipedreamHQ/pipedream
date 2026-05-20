@@ -28,25 +28,8 @@ export default {
     recipientIds: {
       type: "string[]",
       label: "Recipient IDs",
-      description: "List of Recipient IDs to filter by (e.g., `R-xxxx`). If omitted, verifications across all recipients are returned.",
+      description: "List of Recipient IDs to filter by (e.g., `R-xxxx`). Use the **List Recipients** action to find available recipient IDs. If omitted, verifications across all recipients are returned.",
       optional: true,
-      async options({ page }) {
-        const { recipients } = await this.trolley.listRecipients({
-          params: {
-            page: page + 1,
-            pageSize: 100,
-          },
-        });
-        return recipients.map(({
-          id, email, firstName, lastName, name,
-        }) => ({
-          label: [
-            firstName,
-            lastName,
-          ].filter(Boolean).join(" ") || name || email || id,
-          value: id,
-        }));
-      },
     },
     status: {
       type: "string[]",

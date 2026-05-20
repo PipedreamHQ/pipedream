@@ -3,7 +3,7 @@ import trolley from "../../trolley.app.mjs";
 export default {
   key: "trolley-retrieve-all-balances",
   name: "Retrieve All Balances",
-  description: "Retrieve all account balances. [See the documentation](https://developers.trolley.com/api/#retrieve-all-balances)",
+  description: "Retrieve all account balances. [See the documentation](https://developers.trolley.com/api/#retrieve-all-account-balances)",
   version: "0.0.1",
   type: "action",
   annotations: {
