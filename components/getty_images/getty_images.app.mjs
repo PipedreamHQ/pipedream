@@ -27,7 +27,7 @@ export default {
     licenseModel: {
       type: "string",
       label: "License Model",
-      description: "Filter creative images by license type. Only applies when **Image Type** is `creative`.",
+      description: "Filter creative images by license type. Only applies when **Image Type** is set to `creative` — ignored for editorial or general searches.",
       options: constants.LICENSE_MODEL_OPTIONS,
       optional: true,
     },
@@ -166,16 +166,19 @@ export default {
         creative: "/search/images/creative",
         editorial: "/search/images/editorial",
       };
+      const path = pathMap[imageType] ?? "/search/images";
       return this._makeRequest({
         $,
-        path: pathMap[imageType] ?? "/search/images",
+        path,
         params: {
           phrase,
           fields: fields.join(","),
           orientations: orientation,
-          license_model: licenseModel,
           sort_order: sortOrder,
           page_size: pageSize,
+          ...(path === "/search/images/creative" && licenseModel && {
+            license_models: licenseModel,
+          }),
         },
       });
     },
