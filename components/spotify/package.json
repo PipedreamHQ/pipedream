@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/spotify",
-  "version": "0.7.6",
+  "version": "0.9.0",
   "description": "Pipedream Spotify Components",
   "main": "spotify.app.mjs",
   "keywords": [

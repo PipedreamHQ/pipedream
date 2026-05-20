@@ -3,7 +3,70 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "avinode",
-  propDefinitions: {},
+  propDefinitions: {
+    airportId: {
+      type: "string",
+      label: "Airport ID",
+      description:
+        "Search by name or code, pick from the list, or enter an ID manually. [Search airports](https://developer.avinodegroup.com/reference/searchairports-1)",
+      useQuery: true,
+      async options({
+        $, query, prevContext,
+      }) {
+        const pageSize = 50;
+        const pageNumber = prevContext?.nextPageNumber ?? 0;
+        const body = await this.searchAirports({
+          $,
+          filter: query,
+          pageNumber,
+          pageSize,
+        });
+
+        const airports = Array.isArray(body?.data)
+          ? body.data
+          : [];
+        const pag = body?.meta?.pagination;
+        const batchSize = pag?.batchSize ?? pageSize;
+        const currentPage = pag?.pageNumber ?? pageNumber;
+        const totalCount = pag?.totalCount;
+
+        let nextPageNumber;
+        if (typeof totalCount === "number" && airports.length > 0) {
+          const loaded = currentPage * batchSize + airports.length;
+          if (loaded < totalCount && airports.length >= Math.min(batchSize, pageSize)) {
+            nextPageNumber = currentPage + 1;
+          }
+        } else if (airports.length >= pageSize) {
+          nextPageNumber = pageNumber + 1;
+        }
+
+        const options = airports.map((a) => {
+          const label =
+            a.displayName
+            || [
+              a.displayCodes,
+              a.name,
+            ]
+              .filter(Boolean)
+              .join(" — ")
+            || String(a.id);
+          return {
+            value: String(a.id),
+            label,
+          };
+        });
+
+        return {
+          options,
+          context: nextPageNumber
+            ? {
+              nextPageNumber,
+            }
+            : {},
+        };
+      },
+    },
+  },
   methods: {
     /**
      * API base URL (no trailing slash).
@@ -73,6 +136,60 @@ export default {
         data,
         params,
         ...args,
+      });
+    },
+    /**
+     * Search airports (GET /airports/search).
+     * @see https://developer.avinodegroup.com/reference/searchairports-1
+     * @param {object} [opts]
+     * @param {*} [opts.$]
+     * @param {string} [opts.filter] - Search criteria (`filter` query param)
+     * @param {"contains"|"starts_with"} [opts.filterMatchType] - Default `contains`
+     * @param {number} [opts.pageNumber] - `page[number]` (0-based; first page is `0`;
+     *   aligns with `meta.pagination.pageNumber`)
+     * @param {number} [opts.pageSize] - `page[size]`
+     * @returns {Promise<object>} Parsed JSON body (`data`, `meta`, …)
+     */
+    async searchAirports({
+      $ = this,
+      filter,
+      filterMatchType = "contains",
+      pageNumber = 0,
+      pageSize = 50,
+    } = {}) {
+      const sp = new URLSearchParams();
+      const q = filter?.toString?.()?.trim();
+      if (q) {
+        sp.set("filter", q);
+      }
+      sp.set("filterMatchType", filterMatchType);
+      sp.set("page[number]", String(pageNumber));
+      sp.set("page[size]", String(pageSize));
+
+      return this._makeRequest({
+        $,
+        path: `/airports/search?${sp.toString()}`,
+      });
+    },
+    /**
+     * Read a single airport (GET /airports/{airportId}).
+     * @see https://developer.avinodegroup.com/reference/readairport-1
+     * @param {object} opts
+     * @param {*} [opts.$]
+     * @param {string} opts.airportId - Airport identifier
+     * @returns {Promise<object>} Parsed JSON response body
+     */
+    async getAirport({
+      $ = this,
+      airportId,
+    } = {}) {
+      const id = airportId?.toString?.()?.trim();
+      if (!id) {
+        throw new Error("airportId is required");
+      }
+      return this._makeRequest({
+        $,
+        path: `/airports/${encodeURIComponent(id)}`,
       });
     },
     /**

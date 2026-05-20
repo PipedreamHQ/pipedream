@@ -4,7 +4,7 @@ export default {
   key: "avinode-create-trip",
   name: "Create Trip",
   description:
-    "Create a trip in Avinode. [Create a trip](https://developer.avinodegroup.com/reference/createtrip)",
+    "Create a trip in Avinode. [See the documentation](https://developer.avinodegroup.com/reference/createtrip)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -18,7 +18,7 @@ export default {
       type: "string",
       label: "External Trip ID",
       description:
-        "A unique identifier for this trip in an external system",
+        "A unique identifier for this trip in an external system. Example: `CRM-TRIP-1042`",
       optional: true,
     },
     criteria: {

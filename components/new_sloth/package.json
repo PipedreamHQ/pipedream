@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/new_sloth",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream New Sloth Components",
   "main": "new_sloth.app.mjs",
   "keywords": [

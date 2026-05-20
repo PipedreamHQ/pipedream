@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/moco",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream MOCO Components",
   "main": "moco.app.mjs",
   "keywords": [
