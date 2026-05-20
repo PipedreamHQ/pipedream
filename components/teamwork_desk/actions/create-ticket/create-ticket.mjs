@@ -3,7 +3,7 @@ import teamworkDesk from "../../teamwork_desk.app.mjs";
 export default {
   key: "teamwork_desk-create-ticket",
   name: "Create Ticket",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

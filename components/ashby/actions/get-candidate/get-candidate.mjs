@@ -4,7 +4,7 @@ export default {
   key: "ashby-get-candidate",
   name: "Get Candidate",
   description: "Retrieves the details of a specific candidate by ID. [See the documentation](https://developers.ashbyhq.com/reference/candidateinfo)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

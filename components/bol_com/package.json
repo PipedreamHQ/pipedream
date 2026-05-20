@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/bol_com",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream Bol.com Components",
   "main": "bol_com.app.mjs",
   "keywords": [
