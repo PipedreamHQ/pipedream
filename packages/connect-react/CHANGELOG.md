@@ -2,6 +2,18 @@
 
 # Changelog
 
+## [3.0.1] - 2026-05-20
+
+### Added
+
+- New `oauthScopeProfile` prop on `ComponentForm` and
+  `ComponentFormContainer`. When set, it is forwarded to
+  `client.connectAccount(...)` from the in-form connect flow so that
+  the OAuth consent screen requests only the scopes for the named
+  profile defined on the app. The value must match a `name` from the
+  app's `scopeProfiles` (typed as `AppScopeProfilesItemName` from
+  `@pipedream/sdk`).
+
 ## [3.0.0] - 2026-05-20
 
 ### Changed
