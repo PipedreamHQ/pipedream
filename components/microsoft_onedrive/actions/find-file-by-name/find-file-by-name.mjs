@@ -5,7 +5,7 @@ export default {
   key: "microsoft_onedrive-find-file-by-name",
   name: "Find File by Name",
   description: "Search for a file or folder by name. [See the documentation](https://learn.microsoft.com/en-us/onedrive/developer/rest-api/api/driveitem_search)",
-  version: "0.0.4",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -38,8 +38,10 @@ export default {
   async run({ $ }) {
     const drivePath = this.onedrive._getDrivePath(this.drive);
 
+    const safeName = this.name.replace(/'/g, "\\'");
+
     const response = await this.httpRequest({
-      url: `${drivePath}/search(q='${this.name}')`,
+      url: `${drivePath}/search(q='${safeName}')`,
       useSharedDrive: true,
     });
 
@@ -51,9 +53,7 @@ export default {
       values = values.filter(({ folder }) => !folder);
     }
 
-    const plural = values.length === 1
-      ? ""
-      : "s";
+    const plural = values.length === 1 ? "" : "s";
 
     const type = this.excludeFolders
       ? `file${plural}`

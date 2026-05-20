@@ -5,7 +5,7 @@ export default {
   key: "microsoft_onedrive-search-files",
   name: "Search Files",
   description: "Search for files and folders in Microsoft OneDrive. [See the documentation](https://learn.microsoft.com/en-us/graph/api/driveitem-search)",
-  version: "0.0.2",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -38,8 +38,10 @@ export default {
   async run({ $ }) {
     const drivePath = this.onedrive._getDrivePath(this.drive);
 
+    const safeQ = this.q.replace(/'/g, "\\'");
+
     const response = await this.httpRequest({
-      url: `${drivePath}/root/search(q='${this.q}')`,
+      url: `${drivePath}/root/search(q='${safeQ}')`,
       useSharedDrive: true,
     });
 
@@ -49,9 +51,7 @@ export default {
       values = values.filter(({ folder }) => !folder);
     }
 
-    const plural = values.length === 1
-      ? ""
-      : "s";
+    const plural = values.length === 1 ? "" : "s";
 
     const type = this.excludeFolders
       ? `file${plural}`
