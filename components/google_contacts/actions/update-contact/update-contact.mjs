@@ -7,7 +7,7 @@ export default {
   key: "google_contacts-update-contact",
   name: "Update Contact",
   description: "Updates a contact. Provide at least one of the optional fields (name, email, phone, etc.) to update. [See the documentation](https://developers.google.com/people/api/rest/v1/people/updateContact)",
-  version: "0.1.3",
+  version: "0.1.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

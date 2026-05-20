@@ -7,7 +7,7 @@ export default {
   key: "google_contacts-create-contact",
   name: "Create Contact",
   description: "Creates a contact. Provide at least one of the optional fields (name, email, phone, etc.). [See the documentation](https://developers.google.com/people/api/rest/v1/people/createContact)",
-  version: "0.1.3",
+  version: "0.1.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
