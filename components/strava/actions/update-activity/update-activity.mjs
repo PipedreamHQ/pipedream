@@ -9,7 +9,7 @@ export default {
     + " Only fields you provide are updated; omitted fields are left unchanged."
     + " `sportType` uses Strava's modern `sport_type` enum (not the legacy `type` field)."
     + " [See the documentation](https://developers.strava.com/docs/reference/#api-Activities-updateActivityById)",
-  version: "1.0.2",
+  version: "1.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -73,8 +73,13 @@ export default {
     if (this.name !== undefined) data.name = this.name;
     if (this.sportType !== undefined) data.sport_type = this.sportType;
     if (this.description !== undefined) data.description = this.description;
-    if (this.trainer !== undefined) data.trainer = this.trainer;
-    if (this.commute !== undefined) data.commute = this.commute;
+    // Strava expects integer 0/1 for trainer/commute flags, not booleans.
+    if (this.trainer !== undefined) data.trainer = this.trainer
+      ? 1
+      : 0;
+    if (this.commute !== undefined) data.commute = this.commute
+      ? 1
+      : 0;
     if (this.gearId !== undefined) data.gear_id = this.gearId;
     if (this.hideFromHome !== undefined) data.hide_from_home = this.hideFromHome;
 
