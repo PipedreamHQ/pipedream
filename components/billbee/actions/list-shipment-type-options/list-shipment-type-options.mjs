@@ -4,7 +4,7 @@ export default {
   key: "billbee-list-shipment-type-options",
   name: "List Shipment Type Options",
   description: "Retrieves available options for the Shipment Type field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
