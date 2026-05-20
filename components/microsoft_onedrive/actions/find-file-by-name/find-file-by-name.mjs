@@ -38,10 +38,11 @@ export default {
   async run({ $ }) {
     const drivePath = this.onedrive._getDrivePath(this.drive);
 
-    const safeName = this.name.replace(/'/g, "\\'");
+    const escapedName = this.name.replace(/'/g, "''");
+    const encodedName = encodeURIComponent(escapedName);
 
     const response = await this.httpRequest({
-      url: `${drivePath}/search(q='${safeName}')`,
+      url: `${drivePath}/search(q='${encodedName}')`,
       useSharedDrive: true,
     });
 
