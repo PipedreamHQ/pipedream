@@ -6,7 +6,7 @@ export default {
   name: "List Comments",
   description: "Lists all comments left on a file. [See the docs here](https://www.figma.com/developers/api#get-comments-endpoint)",
   key: "figma-list-comments",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

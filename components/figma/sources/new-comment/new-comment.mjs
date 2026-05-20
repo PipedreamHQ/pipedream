@@ -7,9 +7,10 @@ export default {
   key: "figma-new-comment",
   name: "New Comment (Instant)",
   description: "Emit new event when someone comments on a file",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
+  reloadProps: true,
   props: {
     alert: {
       type: "alert",
