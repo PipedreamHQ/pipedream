@@ -66,26 +66,18 @@ export default {
       optional: true,
     },
     expand: {
-      type: "string[]",
-      label: "Expand",
-      description: "Inline related objects in the response to avoid follow-up calls. Options: `applications`, `stage`, `owner`, `followers`, `sourcedBy`, `contact`, `offers`.",
-      optional: true,
-      options: [
-        "applications",
-        "stage",
-        "owner",
-        "followers",
-        "sourcedBy",
-        "contact",
-        "offers",
+      propDefinition: [
+        app,
+        "expand",
       ],
+      description: "Inline related objects in the response to avoid follow-up calls. Options: `applications`, `stage`, `owner`, `followers`, `sourcedBy`, `contact`, `offers`.",
     },
     limit: {
-      type: "integer",
-      label: "Limit",
+      propDefinition: [
+        app,
+        "limit",
+      ],
       description: "Maximum number of opportunities to return (1–100). Defaults to 100.",
-      optional: true,
-      default: 100,
     },
     offset: {
       type: "string",

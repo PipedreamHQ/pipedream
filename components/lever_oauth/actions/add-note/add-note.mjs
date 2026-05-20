@@ -19,8 +19,10 @@ export default {
   props: {
     app,
     opportunityId: {
-      type: "string",
-      label: "Opportunity ID",
+      propDefinition: [
+        app,
+        "opportunityId",
+      ],
       description: "The ID of the opportunity to add the note to. Use **Search Opportunities** to find opportunity IDs.",
     },
     note: {
@@ -36,8 +38,10 @@ export default {
       default: false,
     },
     performAs: {
-      type: "string",
-      label: "Perform As (User ID)",
+      propDefinition: [
+        app,
+        "performAs",
+      ],
       description: "User ID of the person authoring the note. Use **List Users** to find user IDs.",
       optional: true,
     },

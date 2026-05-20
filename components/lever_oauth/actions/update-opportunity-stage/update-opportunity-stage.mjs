@@ -19,8 +19,10 @@ export default {
   props: {
     app,
     opportunityId: {
-      type: "string",
-      label: "Opportunity ID",
+      propDefinition: [
+        app,
+        "opportunityId",
+      ],
       description: "The ID of the opportunity to move. Use **Search Opportunities** to find opportunity IDs.",
     },
     stageId: {
@@ -29,8 +31,10 @@ export default {
       description: "The ID of the destination stage. Use **List Stages** to find valid stage IDs.",
     },
     performAs: {
-      type: "string",
-      label: "Perform As (User ID)",
+      propDefinition: [
+        app,
+        "performAs",
+      ],
       description: "User ID of the person making this change — recorded in the audit trail. Use **List Users** to find user IDs.",
       optional: true,
     },

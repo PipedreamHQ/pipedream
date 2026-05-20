@@ -18,8 +18,10 @@ export default {
   props: {
     app,
     opportunityId: {
-      type: "string",
-      label: "Opportunity ID",
+      propDefinition: [
+        app,
+        "opportunityId",
+      ],
       description: "The ID of the opportunity whose files to list. Use **Search Opportunities** to find opportunity IDs.",
     },
   },

@@ -18,11 +18,11 @@ export default {
   props: {
     app,
     limit: {
-      type: "integer",
-      label: "Limit",
+      propDefinition: [
+        app,
+        "limit",
+      ],
       description: "Maximum number of stages to return (1–100). Defaults to 100.",
-      optional: true,
-      default: 100,
     },
   },
   async run({ $ }) {

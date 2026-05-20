@@ -20,9 +20,10 @@ export default {
   props: {
     app,
     opportunityId: {
-      type: "string",
-      label: "Opportunity ID",
-      description: "The ID of the opportunity. Use **Search Opportunities** to find opportunity IDs.",
+      propDefinition: [
+        app,
+        "opportunityId",
+      ],
     },
     resumeId: {
       type: "string",

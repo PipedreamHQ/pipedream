@@ -19,8 +19,10 @@ export default {
   props: {
     app,
     opportunityId: {
-      type: "string",
-      label: "Opportunity ID",
+      propDefinition: [
+        app,
+        "opportunityId",
+      ],
       description: "The ID of the opportunity whose feedback to retrieve. Use **Search Opportunities** to find opportunity IDs.",
     },
   },

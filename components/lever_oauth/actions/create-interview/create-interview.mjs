@@ -23,13 +23,17 @@ export default {
   props: {
     app,
     opportunityId: {
-      type: "string",
-      label: "Opportunity ID",
+      propDefinition: [
+        app,
+        "opportunityId",
+      ],
       description: "The ID of the opportunity to schedule an interview for. Use **Search Opportunities** to find opportunity IDs.",
     },
     performAs: {
-      type: "string",
-      label: "Perform As (User ID)",
+      propDefinition: [
+        app,
+        "performAs",
+      ],
       description: "User ID of the person scheduling the interview — sets the interview creator. Use **List Users** to find user IDs.",
     },
     panelId: {
