@@ -12,13 +12,13 @@ export default {
     templateId: {
       type: "string",
       label: "Template ID",
-      description: "The ID of the template to use when creating the document",
+      description: "The ID of the template to use when creating the document. Eg. `tpl_12345`",
       optional: true,
     },
     documentId: {
       type: "string",
       label: "Document ID",
-      description: "The ID of the document",
+      description: "The ID of the document. Eg. `doc_abc123`",
     },
   },
   methods: {
