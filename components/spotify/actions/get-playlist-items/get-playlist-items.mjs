@@ -59,7 +59,7 @@ export default {
 
     const { data } = await this.spotify._makeRequest({
       $,
-      url: `/playlists/${playlistId.value ?? playlistId}/tracks`,
+      url: `/playlists/${playlistId.value ?? playlistId}/items`,
       params: {
         fields,
         limit,

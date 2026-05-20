@@ -24,14 +24,14 @@ export default {
   methods: {
     ...common.methods,
     getMeta({
-      track,
+      item,
       added_at: ts,
       playlistId,
     }) {
       const {
         id,
         name: summary,
-      } = track;
+      } = item;
       return {
         id: id + playlistId,
         summary,

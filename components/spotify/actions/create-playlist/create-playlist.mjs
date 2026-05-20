@@ -55,7 +55,7 @@ export default {
     const { data: resp } = await this.spotify._makeRequest({
       $,
       method: "POST",
-      url: `/users/${this.spotify.$auth.oauth_uid}/playlists`,
+      url: "/me/playlists",
       data,
     });
 

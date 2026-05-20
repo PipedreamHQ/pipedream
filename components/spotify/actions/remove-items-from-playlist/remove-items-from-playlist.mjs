@@ -42,24 +42,24 @@ export default {
       snapshotId,
     } = this;
 
-    const tracks = this.spotify.sanitizedArray(playlistTracksUris).map((track) => ({
-      uri: track,
+    const items = this.spotify.sanitizedArray(playlistTracksUris).map((uri) => ({
+      uri,
     }));
 
     const data = {
-      tracks,
+      items,
       snapshot_id: snapshotId,
     };
 
     const { data: resp } = await this.spotify._makeRequest({
       $,
       method: "DELETE",
-      url: `/playlists/${playlistId.value ?? playlistId}/tracks`,
+      url: `/playlists/${playlistId.value ?? playlistId}/items`,
       data,
     });
 
     // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `Successfully removed ${tracks.length} ${tracks.length == 1 ? "item" : "items"} from the playlist, "${playlistId.label ?? playlistId}"`);
+    $.export("$summary", `Successfully removed ${items.length} ${items.length == 1 ? "item" : "items"} from the playlist, "${playlistId.label ?? playlistId}"`);
 
     return resp;
   },
