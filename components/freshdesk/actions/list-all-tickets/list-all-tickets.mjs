@@ -4,8 +4,8 @@ export default {
   key: "freshdesk-list-all-tickets",
   name: "List Tickets",
   description:
-    "Fetch up to 100 tickets according to the selected filters. [See the documentation](https://developers.freshdesk.com/api/#list_all_tickets)",
-  version: "0.2.12",
+    "List tickets according to the selected filters. [See the documentation](https://developers.freshdesk.com/api/#list_all_tickets)",
+  version: "0.2.13",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -55,14 +55,32 @@ export default {
         },
       ],
     },
+    status: {
+      propDefinition: [
+        freshdesk,
+        "ticketStatus",
+      ],
+      optional: true,
+    },
+    maxResults: {
+      propDefinition: [
+        freshdesk,
+        "maxResults",
+      ],
+    },
   },
   async run({ $ }) {
-    const response = await this.freshdesk.listTickets({
-      $,
-      params: {
-        order_by: this.orderBy,
-        order_type: this.orderType,
+    const response = await this.freshdesk.getPaginatedResources({
+      fn: this.freshdesk.listTickets,
+      args: {
+        $,
+        params: {
+          order_by: this.orderBy,
+          order_type: this.orderType,
+          status: this.status,
+        },
       },
+      max: this.maxResults,
     });
 
     const { length } = response;
