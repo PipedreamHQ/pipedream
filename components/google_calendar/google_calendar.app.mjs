@@ -8,7 +8,7 @@ export default {
   app: "google_calendar",
   propDefinitions: {
     calendarId: {
-      label: "Calendar ID",
+      label: "Calendar",
       type: "string",
       description: "Optionally select the calendar, defaults to the primary calendar for the logged-in user",
       default: "primary",
@@ -34,7 +34,7 @@ export default {
       },
     },
     eventId: {
-      label: "Event ID",
+      label: "Event",
       type: "string",
       description: "Select an event from Google Calendar.",
       async options({ calendarId }) {
