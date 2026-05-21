@@ -40,7 +40,7 @@ export default {
     fields: {
       type: "object",
       label: "Fields",
-      description: "The fields to update on the user record. Provide key-value pairs where keys are field IDs and values are the new values (e.g., `{ \"sulHm\": \"New Value\" }`).",
+      description: "The fields to update on the record. Provide key-value pairs where keys are field IDs and values are the new values (e.g., `{ \"sulHm\": \"New Value\" }`).",
     },
   },
   async run({ $ }) {
