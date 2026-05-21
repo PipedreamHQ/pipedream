@@ -4,7 +4,7 @@ export default {
   key: "spotify-list-category-id-options",
   name: "List Category ID Options",
   description: "Retrieves available options for the Category ID field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
