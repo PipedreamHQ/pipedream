@@ -16,7 +16,7 @@ export default {
     fullName: {
       type: "string",
       label: "Full Name",
-      description: "Full name of the new user",
+      description: "Full name of the new user (e.g., `John Doe`)",
     },
     email: {
       propDefinition: [
