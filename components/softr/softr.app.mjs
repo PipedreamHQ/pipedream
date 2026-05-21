@@ -27,7 +27,7 @@ export default {
     viewId: {
       type: "string",
       label: "View ID",
-      description: "The ID of the view to fetch (e.g., `mNoPqRsT56`). Use the **List Views** action to get the ID of a view.",
+      description: "The ID of the view to fetch (e.g., `mNoPqRsT56`). Use the **List Table Views** action to get the ID of a view.",
     },
     fieldNames: {
       type: "boolean",

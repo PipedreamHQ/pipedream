@@ -6,7 +6,7 @@ export default {
   description: "Update a record in a Softr database. [See the documentation](https://docs.softr.io/softr-api/softr-database-api/records/update-record)",
   version: "0.0.1",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
