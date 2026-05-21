@@ -17,7 +17,7 @@ export default defineAction({
     since: {
       type: "string",
       label: "Since",
-      description: "Return notes created since the given date and time (in Unix timestamp format). Example: `1722985961`",
+      description: "Return notes created since the given date and time (Unix timestamp in seconds). Example: `1722985961`",
       optional: true,
     },
   },

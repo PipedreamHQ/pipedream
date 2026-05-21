@@ -22,7 +22,7 @@ export default defineAction({
     },
     tags: {
       label: "Tags",
-      description: "Tags to create the task. E.g `[{ \"text\": \"string\", \"color\": \"string\" }]`",
+      description: "Tags to create in the note. E.g `[{ \"text\": \"string\", \"color\": \"string\" }]`",
       type: "string[]",
     },
   },
