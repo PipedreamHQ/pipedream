@@ -53,7 +53,7 @@ export default {
 
     if (userId) {
       const parsedUserId = Number(userId);
-      if (isNaN(parsedUserId)) {
+      if (Number.isNaN(parsedUserId)) {
         throw new ConfigurationError("User ID must be a valid number");
       }
       data.user_id = parsedUserId;
