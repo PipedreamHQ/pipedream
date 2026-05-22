@@ -5,7 +5,7 @@ export default {
   key: "freshdesk-update-ticket-summary",
   name: "Update Ticket Summary",
   description: "Create or update the summary note for a ticket. [See the documentation](https://developers.freshdesk.com/api/#ticket_summary)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -43,7 +43,7 @@ export default {
       user_id: userId,
     } = this;
 
-    if (!body || !body.trim()) {
+    if (!body?.trim()) {
       throw new ConfigurationError("Summary body cannot be empty");
     }
 
@@ -52,7 +52,11 @@ export default {
     };
 
     if (userId) {
-      data.user_id = Number(userId);
+      const parsedUserId = Number(userId);
+      if (isNaN(parsedUserId)) {
+        throw new ConfigurationError("User ID must be a valid number");
+      }
+      data.user_id = parsedUserId;
     }
 
     const response = await freshdesk.updateTicketSummary({
