@@ -1346,7 +1346,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/autotask_psa: {}
+  components/autotask_psa:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.5
+        version: 3.4.0
 
   components/avaza:
     dependencies:
@@ -2919,7 +2923,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/claap: {}
+  components/claap:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.5
+        version: 3.4.0
 
   components/claid_ai:
     dependencies:
