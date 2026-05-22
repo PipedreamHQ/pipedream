@@ -460,6 +460,32 @@ export default {
         ...args,
       });
     },
+    getTicketSummary({
+      ticketId, ...args
+    }) {
+      return this._makeRequest({
+        url: `/tickets/${ticketId}/summary`,
+        ...args,
+      });
+    },
+    updateTicketSummary({
+      ticketId, ...args
+    }) {
+      return this._makeRequest({
+        url: `/tickets/${ticketId}/summary`,
+        method: "put",
+        ...args,
+      });
+    },
+    deleteTicketSummary({
+      ticketId, ...args
+    }) {
+      return this._makeRequest({
+        url: `/tickets/${ticketId}/summary`,
+        method: "delete",
+        ...args,
+      });
+    },
     searchTickets(args) {
       return this._makeRequest({
         url: "/search/tickets",
