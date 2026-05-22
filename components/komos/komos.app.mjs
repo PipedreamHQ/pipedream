@@ -7,24 +7,24 @@ export default {
     taskId: {
       type: "string",
       label: "Task ID",
-      description: "The Komos task ID to run.",
+      description: "The Komos task ID to run. Example: `komos:task:abc123`.",
     },
     runId: {
       type: "string",
       label: "Run ID",
-      description: "The Komos task run ID.",
+      description: "The Komos task run ID. Example: `run-0001`.",
     },
     inputs: {
       type: "object",
       label: "Task Inputs",
-      description: "Optional input values that match the saved Komos task input schema.",
+      description: "Optional input values that match the saved Komos task input schema. Must be a JSON object, for example `{ \"userId\": \"u123\", \"options\": { \"verbose\": true } }`.",
       optional: true,
       default: {},
     },
     clientRequestId: {
       type: "string",
       label: "Client Request ID",
-      description: "Optional idempotency key. Reusing the same value returns the existing run.",
+      description: "Optional idempotency key. Reusing the same value returns the existing run. Example: `client-req-20240501-xyz`.",
       optional: true,
     },
   },

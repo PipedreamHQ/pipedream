@@ -3,7 +3,7 @@ import komos from "../../komos.app.mjs";
 export default {
   key: "komos-queue-task-run",
   name: "Queue Task Run",
-  description: "Queue a saved Komos task run with optional inputs. See the [Komos task run API docs](https://docs.komos.ai/api-reference/task-runs/queue).",
+  description: "Queue a saved Komos task run with optional inputs. [See the documentation](https://docs.komos.ai/api-reference/task-runs/queue)",
   version: "0.0.1",
   type: "action",
   annotations: {
