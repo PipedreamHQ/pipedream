@@ -1,0 +1,21 @@
+{
+  "name": "@pipedream/komos",
+  "version": "0.0.1",
+  "description": "Pipedream components for Komos task runs",
+  "main": "komos.app.mjs",
+  "keywords": [
+    "pipedream",
+    "komos",
+    "browser-automation",
+    "workflow-automation",
+    "regulated-operations"
+  ],
+  "homepage": "https://pipedream.com/apps/komos",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.8"
+  }
+}
