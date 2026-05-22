@@ -27,7 +27,7 @@ export default {
     const tweet = response?.tweet ?? response?.data ?? response;
     const tweetId = tweet?.id ?? this.tweetId;
 
-    $.export("$summary", `Successfully retrieved tweet ${tweetId}`);
+    $.export("$summary", `Retrieved tweet ${tweetId}`);
     return response;
   },
 };
