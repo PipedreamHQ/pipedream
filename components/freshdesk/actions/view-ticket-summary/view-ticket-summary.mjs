@@ -25,7 +25,7 @@ export default {
       $,
       ticketId: this.ticketId,
     });
-    response && $.export("$summary", `Successfully retrieved summary for ticket ${this.ticketId}`);
+    $.export("$summary", `Successfully retrieved summary for ticket ${this.ticketId}`);
     return response;
   },
 };

@@ -5,7 +5,7 @@ export default {
   key: "freshdesk-update-ticket-summary",
   name: "Update Ticket Summary",
   description: "Create or update the summary note for a ticket. [See the documentation](https://developers.freshdesk.com/api/#ticket_summary)",
-  version: "0.0.2",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -25,7 +25,7 @@ export default {
       label: "Summary Body",
       description: "Content of the summary note in HTML",
     },
-    user_id: {
+    userId: {
       propDefinition: [
         freshdesk,
         "agentId",
@@ -40,7 +40,7 @@ export default {
       freshdesk,
       ticketId,
       body,
-      user_id: userId,
+      userId,
     } = this;
 
     if (!body?.trim()) {
