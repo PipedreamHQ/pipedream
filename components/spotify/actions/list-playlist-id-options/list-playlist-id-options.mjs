@@ -4,7 +4,7 @@ export default {
   key: "spotify-list-playlist-id-options",
   name: "List Playlist ID Options",
   description: "Retrieves available options for the Playlist ID field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

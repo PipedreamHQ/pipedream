@@ -44,7 +44,9 @@ type ControlAppProps = {
 export function ControlApp({ app }: ControlAppProps) {
   const client = useFrontendClient();
   const {
-    externalUserId, oauthAppConfig,
+    externalUserId,
+    oauthAppConfig,
+    oauthScopeProfile,
   } = useFormContext();
   const formFieldCtx = useFormFieldContext<ConfigurablePropApp>();
   const {
@@ -129,6 +131,7 @@ export function ControlApp({ app }: ControlAppProps) {
     client.connectAccount({
       app: prop.app,
       oauthAppId,
+      oauthScopeProfile,
       onSuccess: async (res) => {
         await refetchAccounts();
         onChange({

@@ -4,8 +4,8 @@ export default {
   ...common,
   name: "Get Videos",
   key: "twitch-get-videos",
-  description: "Gets video information by video ID, user ID, or game ID",
-  version: "0.1.4",
+  description: "Gets video information by video ID, user ID, or game ID. [See the documentation](https://dev.twitch.tv/docs/api/reference/#get-videos)",
+  version: "0.2.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -26,7 +26,7 @@ export default {
         common.props.twitch,
         "user",
       ],
-      description: "ID of the user who owns the video. Each request must specify one video id, one user_id, or one game_id",
+      description: "The Twitch user whose videos to retrieve. Accepts a numeric user ID (e.g. `141981764`) or login name (e.g. `twitchdev`). Each request must specify one video ID, user ID, or game ID.",
       optional: true,
     },
     gameId: {
@@ -86,10 +86,11 @@ export default {
       description: "Maximum number of videos to return",
     },
   },
-  async run() {
+  async run({ $ }) {
+    const userId = await this.twitch.resolveUserId(this.userId);
     let params = {
       id: this.id,
-      user_id: this.userId,
+      user_id: userId,
       game_id: this.gameId,
       language: this.language,
       period: this.period,
@@ -103,6 +104,8 @@ export default {
       params,
       this.max,
     );
-    return await this.getPaginatedResults(videos);
+    const results = await this.getPaginatedResults(videos);
+    $.export("$summary", `Retrieved ${results.length} video(s)`);
+    return results;
   },
 };
