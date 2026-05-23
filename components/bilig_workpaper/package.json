@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/bilig_workpaper",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Pipedream Bilig WorkPaper Components",
   "main": "bilig_workpaper.app.mjs",
   "keywords": [
