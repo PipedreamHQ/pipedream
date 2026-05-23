@@ -4,12 +4,12 @@ export default {
   ...common,
   name: "Block User",
   key: "twitch-block-user",
-  description: "Blocks a user; that is, adds a specified target user to your blocks list",
-  version: "0.1.4",
+  description: "Blocks the specified user. [See the documentation](https://dev.twitch.tv/docs/api/reference/#block-user)",
+  version: "0.2.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
-    readOnlyHint: true,
+    readOnlyHint: false,
   },
   type: "action",
   props: {
@@ -19,7 +19,6 @@ export default {
         common.props.twitch,
         "user",
       ],
-      description: "User ID of the user to be blocked",
     },
     sourceContext: {
       type: "string",
@@ -43,9 +42,10 @@ export default {
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
+    const targetUserId = await this.twitch.resolveUserId(this.user);
     const params = {
-      target_user_id: this.user,
+      target_user_id: targetUserId,
       source_context: this.sourceContext,
       reason: this.reason,
     };
@@ -53,8 +53,10 @@ export default {
       status,
       statusText,
     } = await this.twitch.blockUser(params);
-    return status == 204
-      ? "User Blocked Successfully"
-      : `${status} ${statusText}`;
+    const summary = status == 204
+      ? `Blocked user ${targetUserId}`
+      : `Block failed: ${status} ${statusText}`;
+    $.export("$summary", summary);
+    return summary;
   },
 };

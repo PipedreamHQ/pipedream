@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/xquik",
+  "version": "0.0.1",
+  "description": "Pipedream Xquik Components",
+  "main": "xquik.app.mjs",
+  "keywords": [
+    "pipedream",
+    "xquik"
+  ],
+  "homepage": "https://pipedream.com/apps/xquik",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

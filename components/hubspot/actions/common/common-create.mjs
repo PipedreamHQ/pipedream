@@ -141,7 +141,6 @@ export default {
       }
 
       if (existingProps.objectProperties) {
-        existingProps.objectProperties.hidden = true;
         existingProps.objectProperties.optional = true;
       }
       if (existingProps.propertyGroups) {
