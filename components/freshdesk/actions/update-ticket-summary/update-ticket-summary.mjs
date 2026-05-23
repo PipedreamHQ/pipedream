@@ -23,7 +23,7 @@ export default {
     body: {
       type: "string",
       label: "Summary Body",
-      description: "Content of the summary note in HTML",
+      description: "Content of the summary note in HTML, e.g., \"<p>Ticket resolved after updating settings.</p>\"",
     },
     userId: {
       propDefinition: [
