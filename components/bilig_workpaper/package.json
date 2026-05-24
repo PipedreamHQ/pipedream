@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/bilig_workpaper",
+  "version": "0.0.1",
+  "description": "Pipedream Bilig WorkPaper Components",
+  "main": "bilig_workpaper.app.mjs",
+  "keywords": [
+    "pipedream",
+    "bilig_workpaper"
+  ],
+  "homepage": "https://pipedream.com/apps/bilig_workpaper",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

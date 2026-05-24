@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/fynk",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream fynk Components",
   "main": "fynk.app.mjs",
   "keywords": [

@@ -5,7 +5,7 @@ export default {
   key: "facebook_pages-update-post",
   name: "Update Post",
   description: "Update an existing post on a Facebook Page. [See the documentation](https://developers.facebook.com/docs/graph-api/reference/post#updating)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

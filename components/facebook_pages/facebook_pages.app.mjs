@@ -135,9 +135,20 @@ export default {
       });
     },
     async getAccessToken(pageId) {
-      const { data } = await this.listPages();
-      const page = data.find(({ id }) => id == pageId);
-      return page.access_token;
+      const pages = await this.listAllPages();
+      const page = pages.find(({ id }) => id == pageId);
+      return page?.access_token;
+    },
+    async listAllPages(args = {}) {
+      const results = this.paginate({
+        fn: this.listPages,
+        args,
+      });
+      const pages = [];
+      for await (const page of results) {
+        pages.push(page);
+      }
+      return pages;
     },
     getPost({
       pageId, postId, ...args
@@ -220,6 +231,31 @@ export default {
         pageId,
         ...args,
       });
+    },
+    async *paginate({
+      fn, args = {},
+    }) {
+      do {
+        const {
+          data, paging,
+        } = await fn(args);
+        if (!data.length) {
+          return;
+        }
+        for (const item of data) {
+          yield item;
+        }
+        if (!paging?.next) {
+          return;
+        }
+        args = {
+          ...args,
+          params: {
+            ...args.params,
+            after: paging.cursors.after,
+          },
+        };
+      } while (true);
     },
   },
 };
