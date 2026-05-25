@@ -1239,6 +1239,29 @@ export default {
         }
       }
     },
+    enrollContactInSequence({
+      userId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.AUTOMATIONV4,
+        method: "POST",
+        endpoint: "/sequences/enrollments",
+        ...opts,
+        params: {
+          userId,
+          ...opts.params,
+        },
+      });
+    },
+    getSequenceEnrollment({
+      contactId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.AUTOMATIONV4,
+        endpoint: `/sequences/enrollments/contact/${contactId}`,
+        ...opts,
+      });
+    },
     getBlogPosts(opts = {}) {
       return this.makeRequest({
         api: API_PATH.CMS,

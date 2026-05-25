@@ -6,7 +6,7 @@ export default {
   key: "hubspot-new-form-submission",
   name: "New Form Submission",
   description: "Emit new event for each new submission of a form.",
-  version: "0.0.46",
+  version: "0.0.47",
   dedupe: "unique",
   type: "source",
   props: {
@@ -37,9 +37,16 @@ export default {
 
         for (const result of results) {
           if (!after || await this.isRelevant(result, after)) {
-            const form = await this.hubspot.getFormDefinition({
-              formId: params.formId,
-            });
+            let form = null;
+            try {
+              form = await this.hubspot.getFormDefinition({
+                formId: params.formId,
+              });
+            } catch (err) {
+              console.warn(
+                `Failed to fetch form definition ${params.formId}: ${err.message}`,
+              );
+            }
             this.emitEvent({
               form,
               ...result,
