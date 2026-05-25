@@ -149,6 +149,7 @@ export default {
       resourceFnArgs,
       resourceName,
       max = constants.DEFAULT_MAX,
+      cursorIn = "params",
     }) {
       let cursor;
       let resourcesCount = 0;
@@ -159,8 +160,8 @@ export default {
           response =
           await resourceFn({
             ...resourceFnArgs,
-            params: {
-              ...resourceFnArgs?.params,
+            [cursorIn]: {
+              ...resourceFnArgs?.[cursorIn],
               cursor,
             },
           });

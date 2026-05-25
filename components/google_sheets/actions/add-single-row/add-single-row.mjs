@@ -10,7 +10,7 @@ export default {
   key: "google_sheets-add-single-row",
   name: "Add Single Row",
   description: "Add a single row of data to Google Sheets. Optionally insert the row at a specific index (e.g., row 2 to insert after headers, shifting existing data down). [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/append)",
-  version: "2.2.2",
+  version: "2.3.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -63,7 +63,11 @@ export default {
       },
       reloadProps: true,
     },
-    hasHeaders: common.props.hasHeaders,
+    hasHeaders: {
+      ...common.props.hasHeaders,
+      default: false,
+      optional: true,
+    },
     rowIndex: {
       type: "integer",
       label: "Row Index",
@@ -71,8 +75,13 @@ export default {
       optional: true,
       min: 1,
     },
+    myColumnData: {
+      type: "string[]",
+      label: "Values",
+      description: "Provide a value for each cell of the row. Google Sheets accepts strings, numbers and boolean values for each cell. To set a cell to an empty value, pass an empty string.",
+    },
   },
-  async additionalProps() {
+  async additionalProps(existingProps) {
     const {
       sheetId,
       worksheetId,
@@ -81,13 +90,7 @@ export default {
 
     // If using dynamic expressions for either sheetId or worksheetId, return only array input
     if (isDynamicExpression(sheetId) || isDynamicExpression(worksheetId)) {
-      return {
-        myColumnData: {
-          type: "string[]",
-          label: "Values",
-          description: "Provide a value for each cell of the row. Google Sheets accepts strings, numbers and boolean values for each cell. To set a cell to an empty value, pass an empty string.",
-        },
-      };
+      return {};
     }
 
     const props = {};
@@ -107,12 +110,7 @@ export default {
             optional: true,
           };
         }
-        props.myColumnData = {
-          type: "string[]",
-          label: "Enter Values as Array",
-          description: "Provide a value for each cell of the row. Google Sheets accepts strings, numbers and boolean values for each cell. To set a cell to an empty value, pass an empty string. This field will overwrite the column input fields.",
-          optional: true,
-        };
+        existingProps.myColumnData.optional = true;
       } catch (err) {
         console.error("Error fetching headers:", err);
         // Fallback to basic column input if headers can't be fetched
@@ -120,23 +118,12 @@ export default {
           headerError: {
             type: "string",
             label: "Header Fetch Error",
-            description: `Unable to fetch headers: ${err.message}. Using simple column input instead.`,
+            description: `Unable to fetch headers: ${err.message}. Use simple column input instead.`,
             optional: true,
             hidden: true,
           },
-          myColumnData: {
-            type: "string[]",
-            label: "Values",
-            description: "Provide a value for each cell of the row. Google Sheets accepts strings, numbers and boolean values for each cell. To set a cell to an empty value, pass an empty string.",
-          },
         };
       }
-    } else {
-      props.myColumnData = {
-        type: "string[]",
-        label: "Values",
-        description: "Provide a value for each cell of the row. Google Sheets accepts strings, numbers and boolean values for each cell. To set a cell to an empty value, pass an empty string.",
-      };
     }
     return props;
   },
