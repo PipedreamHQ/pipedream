@@ -1806,6 +1806,9 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
+  components/bilig_workpaper:
+    specifiers: {}
+
   components/bilionis:
     dependencies:
       '@pipedream/platform':
@@ -17784,6 +17787,9 @@ importers:
         specifier: ^0.3.2
         version: 0.3.4
 
+  components/xquik:
+    specifiers: {}
+
   components/xray_cloud: {}
 
   components/xverify:
@@ -18029,6 +18035,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
+
+  components/zeplin:
+    specifiers: {}
 
   components/zerobounce:
     dependencies:

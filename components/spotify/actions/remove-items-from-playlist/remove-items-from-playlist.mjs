@@ -4,7 +4,7 @@ export default {
   name: "Remove Items from a Playlist",
   description: "Remove one or more items from a user's playlist. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#/operations/remove-tracks-playlist)",
   key: "spotify-remove-items-from-playlist",
-  version: "0.1.5",
+  version: "0.1.6",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -42,24 +42,24 @@ export default {
       snapshotId,
     } = this;
 
-    const tracks = this.spotify.sanitizedArray(playlistTracksUris).map((track) => ({
-      uri: track,
+    const items = this.spotify.sanitizedArray(playlistTracksUris).map((uri) => ({
+      uri,
     }));
 
     const data = {
-      tracks,
+      items,
       snapshot_id: snapshotId,
     };
 
     const { data: resp } = await this.spotify._makeRequest({
       $,
       method: "DELETE",
-      url: `/playlists/${playlistId.value ?? playlistId}/tracks`,
+      url: `/playlists/${playlistId.value ?? playlistId}/items`,
       data,
     });
 
     // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `Successfully removed ${tracks.length} ${tracks.length == 1 ? "item" : "items"} from the playlist, "${playlistId.label ?? playlistId}"`);
+    $.export("$summary", `Successfully removed ${items.length} ${items.length == 1 ? "item" : "items"} from the playlist, "${playlistId.label ?? playlistId}"`);
 
     return resp;
   },

@@ -4,7 +4,7 @@ export default {
   key: "confluence-list-post-id-options",
   name: "List Post ID Options",
   description: "Retrieves available options for the Post ID field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -22,9 +22,11 @@ export default {
   },
   async run({ $ }) {
     const options = await confluence.propDefinitions.postId.options.call(this.confluence, {
-      cursor: this.cursor,
+      prevContext: {
+        cursor: this.cursor,
+      },
     });
-    $.export("$summary", `Successfully retrieved ${options.length} option${options.length === 1
+    $.export("$summary", `Successfully retrieved ${options.options.length} option${options.options.length === 1
       ? ""
       : "s"}`);
     return options;
