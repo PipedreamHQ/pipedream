@@ -25,7 +25,7 @@ export default {
         "categoryId",
       ],
       label: "New Parent Category",
-      description: "The ID of the category to move the contents into when deleting. If not provided, contents are moved to the parent category",
+      description: "The ID of the category to move the contents into before deletion. Required when deleting top-level categories (they have no parent to fall back to). For nested categories, defaults to the existing parent.",
       optional: true,
     },
     recursive: {
