@@ -8,7 +8,7 @@ export default {
     organizationId: {
       type: "string",
       label: "Organization ID",
-      description: "Provide the organization ID (UUID). Find it in [Settings → General](https://polar.sh/dashboard/getalong/settings) under **Identifier**.",
+      description: "Filter by organization ID (UUID). Optional — omit to return results across all organizations. Find it in [Settings → General](https://polar.sh/dashboard/getalong/settings) under **Identifier**.",
     },
     productId: {
       type: "string",
