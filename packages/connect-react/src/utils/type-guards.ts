@@ -4,6 +4,26 @@ import {
 } from "../types";
 import type {
   ConfigurableProp,
+  ConfigurablePropAirtableBaseId,
+  ConfigurablePropAirtableFieldId,
+  ConfigurablePropAirtableTableId,
+  ConfigurablePropAirtableViewId,
+  ConfigurablePropAlert,
+  ConfigurablePropAny,
+  ConfigurablePropApp,
+  ConfigurablePropApphook,
+  ConfigurablePropBoolean,
+  ConfigurablePropDb,
+  ConfigurablePropDiscordChannel,
+  ConfigurablePropDiscordChannelArray,
+  ConfigurablePropHttp,
+  ConfigurablePropInteger,
+  ConfigurablePropIntegerArray,
+  ConfigurablePropObject,
+  ConfigurablePropSql,
+  ConfigurablePropString,
+  ConfigurablePropStringArray,
+  ConfigurablePropTimer,
   PropOptionNested, PropOptionValue,
 } from "@pipedream/sdk";
 
@@ -21,30 +41,31 @@ export function isString(value: unknown): value is string {
  * This map is used to determine the specific type of a ConfigurableProp based
  * on its 'type' discriminator.
  *
- * Note: Uses ConfigurableProp namespace types (not base types) because these
- * include the 'type' discriminator needed for narrowing.
+ * Note: Uses the flat per-variant `ConfigurableProp{Variant}` interfaces from
+ * `@pipedream/sdk` v3.x; each one carries its own literal `type` field for
+ * narrowing.
  */
 type DiscriminatorPropTypeMap = {
-  "$.airtable.baseId": ConfigurableProp.AirtableBaseId;
-  "$.airtable.fieldId": ConfigurableProp.AirtableFieldId;
-  "$.airtable.tableId": ConfigurableProp.AirtableTableId;
-  "$.airtable.viewId": ConfigurableProp.AirtableViewId;
-  "$.discord.channel": ConfigurableProp.DiscordChannel;
-  "$.discord.channel[]": ConfigurableProp.DiscordChannelArray;
-  "$.interface.apphook": ConfigurableProp.InterfaceApphook;
-  "$.interface.http": ConfigurableProp.InterfaceHttp;
-  "$.interface.timer": ConfigurableProp.InterfaceTimer;
-  "$.service.db": ConfigurableProp.ServiceDb;
-  "integer[]": ConfigurableProp.IntegerArray;
-  "string[]": ConfigurableProp.StringArray;
-  alert: ConfigurableProp.Alert;
-  any: ConfigurableProp.Any;
-  app: ConfigurableProp.App;
-  boolean: ConfigurableProp.Boolean;
-  integer: ConfigurableProp.Integer;
-  object: ConfigurableProp.Object_;
-  sql: ConfigurableProp.Sql;
-  string: ConfigurableProp.String;
+  "$.airtable.baseId": ConfigurablePropAirtableBaseId;
+  "$.airtable.fieldId": ConfigurablePropAirtableFieldId;
+  "$.airtable.tableId": ConfigurablePropAirtableTableId;
+  "$.airtable.viewId": ConfigurablePropAirtableViewId;
+  "$.discord.channel": ConfigurablePropDiscordChannel;
+  "$.discord.channel[]": ConfigurablePropDiscordChannelArray;
+  "$.interface.apphook": ConfigurablePropApphook;
+  "$.interface.http": ConfigurablePropHttp;
+  "$.interface.timer": ConfigurablePropTimer;
+  "$.service.db": ConfigurablePropDb;
+  "integer[]": ConfigurablePropIntegerArray;
+  "string[]": ConfigurablePropStringArray;
+  alert: ConfigurablePropAlert;
+  any: ConfigurablePropAny;
+  app: ConfigurablePropApp;
+  boolean: ConfigurablePropBoolean;
+  integer: ConfigurablePropInteger;
+  object: ConfigurablePropObject;
+  sql: ConfigurablePropSql;
+  string: ConfigurablePropString;
 }
 
 /**
