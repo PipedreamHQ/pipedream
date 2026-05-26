@@ -295,6 +295,34 @@ export default {
         };
       },
     },
+    sideConversationId: {
+      type: "string",
+      label: "Side Conversation ID",
+      description: "Identifier of the side conversation (UUID, e.g. `8566255a-ece5-11e8-857d-493066fa7b17`). Select **List Side Conversations** to see available IDs for a ticket.",
+      async options({
+        ticketId, customSubdomain, page,
+      }) {
+        if (!ticketId) {
+          return {
+            options: [],
+          };
+        }
+        const response = await this.listSideConversations({
+          ticketId,
+          customSubdomain,
+          params: {
+            page: page + 1,
+            per_page: constants.DEFAULT_LIMIT,
+          },
+        });
+        return (response?.side_conversations ?? []).map(({
+          id, subject, preview_text: previewText,
+        }) => ({
+          label: subject || previewText || `Side Conversation ${id}`,
+          value: id,
+        }));
+      },
+    },
     macroId: {
       type: "string",
       label: "Macro ID",
@@ -749,6 +777,42 @@ export default {
       return this.makeRequest({
         path: `/tickets/${ticketId}/comments`,
         ...args,
+      });
+    },
+    listSideConversations({
+      ticketId, customSubdomain, ...args
+    }) {
+      return this.makeRequest({
+        path: `/tickets/${ticketId}/side_conversations`,
+        customSubdomain,
+        ...args,
+      });
+    },
+    getSideConversation({
+      ticketId, sideConversationId, customSubdomain, ...args
+    }) {
+      return this.makeRequest({
+        path: `/tickets/${ticketId}/side_conversations/${sideConversationId}`,
+        customSubdomain,
+        ...args,
+      });
+    },
+    listSideConversationEvents({
+      startTime, nextPageUrl, ...args
+    } = {}) {
+      if (nextPageUrl) {
+        return this.makeRequest({
+          url: nextPageUrl,
+          ...args,
+        });
+      }
+      return this.makeRequest({
+        path: "/tickets/side_conversations/events.json",
+        ...args,
+        params: {
+          ...args.params,
+          start_time: startTime,
+        },
       });
     },
     listUsers(args = {}) {

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/bugsnag",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream Bugsnag Components",
   "main": "bugsnag.app.mjs",
   "keywords": [

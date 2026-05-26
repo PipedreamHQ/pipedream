@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/circle",
-  "version": "0.1.2",
+  "version": "0.3.0",
   "description": "Pipedream Circle Components",
   "main": "circle.app.mjs",
   "keywords": [
