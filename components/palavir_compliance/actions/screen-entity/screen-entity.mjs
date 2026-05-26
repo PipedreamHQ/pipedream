@@ -2,24 +2,23 @@
 //
 // Action that screens one individual or entity against LEIE, OFAC SDN, and SAM.gov
 // exclusion databases via the Palavir Compliance API.
-//
-// Repo target: github.com/PipedreamHQ/pipedream → components/palavir_compliance/actions/screen-entity/
-// Publish via PR; review typically 1-3 days.
 
-import { axios } from "@pipedream/platform";
+import palavir_compliance from "../../palavir_compliance.app.mjs";
 
 export default {
   key: "palavir_compliance-screen-entity",
   name: "Screen Entity (LEIE + OFAC + SAM)",
   description:
-    "Screen one individual or entity against LEIE (OIG exclusion), OFAC SDN (Treasury sanctions), and SAM.gov (federal contractor exclusion). Returns risk level (CLEAR | POTENTIAL | MATCH) plus match details. [See docs](https://palavir.co/exclusion-screening).",
+    "Screen one individual or entity against LEIE (OIG exclusion), OFAC SDN (Treasury sanctions), and SAM.gov (federal contractor exclusion). Returns risk level (CLEAR | POTENTIAL | MATCH) plus match details. [See the documentation](https://palavir.co/exclusion-screening)",
   type: "action",
-  version: "0.1.0",
+  version: "0.0.1",
+  annotations: {
+    readOnlyHint: true,
+    destructiveHint: false,
+    openWorldHint: true,
+  },
   props: {
-    palavir_compliance: {
-      type: "app",
-      app: "palavir_compliance",
-    },
+    palavir_compliance,
     name: {
       type: "string",
       label: "Name",
@@ -45,25 +44,16 @@ export default {
     },
   },
   async run({ $ }) {
-    const body = {
+    const data = {
       name: this.name,
       ...(this.npi && { npi: this.npi }),
       ...(this.state && { state: this.state }),
       ...(this.dob && { dob: this.dob }),
     };
 
-    const response = await axios($, {
-      method: "POST",
-      url: "https://federal-exclusion-sanctions-screener.p.rapidapi.com/api/screen",
-      headers: {
-        "Content-Type": "application/json",
-        "X-RapidAPI-Key": this.palavir_compliance.$auth.api_key,
-        "X-RapidAPI-Host": "federal-exclusion-sanctions-screener.p.rapidapi.com",
-      },
-      data: body,
-    });
+    const response = await this.palavir_compliance.screenEntity($, data);
 
-    $.export("$summary", `Screened ${this.name} — risk level: ${response.risk_level}`);
+    $.export("$summary", `Screened ${this.name} — risk level: ${response?.risk_level ?? "unknown"}`);
     return response;
   },
 };
