@@ -416,5 +416,12 @@ export default {
         ...opts,
       });
     },
+    setExpenseAsReimbursed(opts = {}) {
+      return this._makeRequest({
+        method: "PUT",
+        url: "/v2/expenses/reimburse",
+        ...opts,
+      });
+    },
   },
 };
