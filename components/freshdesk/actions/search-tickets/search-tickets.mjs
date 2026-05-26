@@ -3,7 +3,7 @@ import freshdesk from "../../freshdesk.app.mjs";
 export default {
   key: "freshdesk-search-tickets",
   name: "Search Tickets",
-  description: "Search for tickets in Freshdesk by keyword. [See the documentation](https://developers.freshdesk.com/api/#filter_tickets)",
+  description: "Search for tickets in Freshdesk using a structured filter query. [See the documentation](https://developers.freshdesk.com/api/#filter_tickets)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
