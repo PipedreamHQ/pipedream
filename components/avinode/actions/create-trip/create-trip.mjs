@@ -5,7 +5,7 @@ export default {
   name: "Create Trip",
   description:
     "Create a trip in Avinode. [See the documentation](https://developer.avinodegroup.com/reference/createtrip)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -28,10 +28,10 @@ export default {
         "Trip criteria. Example: `{ \"requiredLift\": [{ \"aircraftCategory\": \"Heavy jet\" }], \"includeLiftUpgrades\": true, \"minimumYearOfMake\": 2010 }`",
     },
     segments: {
-      type: "object[]",
+      type: "string",
       label: "Segments",
       description:
-        "Trip itinerary. Example: `[{ \"startAirport\": { \"icao\": \"KMIA\" }, \"endAirport\": { \"icao\": \"EGLL\" }, \"dateTime\": { \"date\": \"2023-01-01\", \"time\": \"10:00\", \"departure\": true, \"local\": true }, \"paxCount\": \"4\", \"paxSegment\": true }]`",
+        "Trip itinerary as a JSON array. Example: `[{ \"startAirport\": { \"icao\": \"KMIA\" }, \"endAirport\": { \"icao\": \"EGLL\" }, \"dateTime\": { \"date\": \"2023-01-01\", \"time\": \"10:00\", \"departure\": true, \"local\": true }, \"paxCount\": \"4\", \"paxSegment\": true }]`",
     },
     sourcing: {
       type: "boolean",
@@ -63,9 +63,17 @@ export default {
       tripBoardPostMessage,
     } = this;
 
+    let parsedSegments = segments;
+    if (typeof segments === "string") {
+      parsedSegments = JSON.parse(segments);
+    }
+    if (!Array.isArray(parsedSegments)) {
+      throw new Error("Segments must be a JSON array");
+    }
+
     const data = {
       criteria,
-      segments,
+      segments: parsedSegments,
       sourcing,
     };
 
