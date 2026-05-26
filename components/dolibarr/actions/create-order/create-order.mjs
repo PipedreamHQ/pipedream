@@ -5,7 +5,7 @@ export default {
   key: "dolibarr-create-order",
   name: "Create Order",
   description: "Create a new order in Dolibarr.",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -10,7 +10,7 @@ export default {
     siteId: {
       type: "string",
       label: "Site",
-      description: "Identifier of a site",
+      description: "Identifier of a site. This is either the composite ID (e.g. `contoso.sharepoint.com,<guid>,<guid>` or a server-relative path in the form `{hostname}:/{server-relative-path}` (e.g. `contoso.sharepoint.com:/sites/site-name`)",
       useQuery: true,
       async options({
         prevContext, query,
@@ -334,6 +334,16 @@ export default {
       optional: true,
       default: 100,
     },
+    honorNonIndexedQueries: {
+      type: "boolean",
+      label: "Honor Non-Indexed Queries",
+      description:
+        "Enable filtering on **non-indexed** columns (e.g. `fields/FileLeafRef`, `fields/DocIcon`)."
+        + " By default, SharePoint rejects `$filter` against non-indexed columns on lists above the [list view threshold](https://learn.microsoft.com/en-us/sharepoint/troubleshoot/lists-and-libraries/items-cannot-be-displayed-list-view-threshold) (5,000 items)."
+        + " Setting this to `true` sends the `Prefer: HonorNonIndexedQueriesWarningMayFailRandomly` header, which permits the query — but per Microsoft, **these requests may fail randomly**, especially on large lists. Leave off unless you've hit the error.",
+      optional: true,
+      default: false,
+    },
     fileOrFolderId: {
       type: "string",
       label: "File or Folder",
@@ -470,11 +480,17 @@ export default {
         .get();
     },
     listItems({
-      siteId, listId, params = {},
+      siteId, listId, params = {}, headers = {},
     } = {}) {
-      return this.client().api(`/sites/${siteId}/lists/${listId}/items`)
-        .query(pickBy(params))
-        .get();
+      let request = this.client().api(`/sites/${siteId}/lists/${listId}/items`)
+        .query(pickBy(params));
+      for (const [
+        name,
+        value,
+      ] of Object.entries(headers)) {
+        request = request.header(name, value);
+      }
+      return request.get();
     },
     getListItem({
       siteId, listId, itemId, params = {},

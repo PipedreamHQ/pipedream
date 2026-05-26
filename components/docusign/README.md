@@ -9,3 +9,7 @@ The DocuSign API enables you to integrate electronic signature workflows into yo
 - **CRM Integration for Sales**: Upon closing a deal in a CRM system like Salesforce, a Pipedream workflow can be initiated to send the sales agreement through DocuSign for signature. After the document is fully signed, update the Salesforce record with the status of the agreement and attach the signed document for easy access.
 
 - **Onboarding Process Automation**: For HR teams, initiate a Pipedream workflow when a new employee is added to an HR management system like BambooHR. Send all necessary onboarding documents through DocuSign for e-signature. Once completed, store the signed documents in a secure HR folder and update the employee's records with their signed contracts.
+
+- **Embedded Signing**: Create an envelope from a generated document, then produce a recipient view URL so the signer can complete the agreement inside your own application.
+
+- **Envelope Operations**: Search for envelopes, inspect recipient status, list envelope documents, send draft envelopes, and void in-process envelopes from automated workflows.

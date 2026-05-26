@@ -4,7 +4,7 @@ export default {
   key: "supabase-delete-row",
   name: "Delete Row",
   type: "action",
-  version: "0.1.5",
+  version: "0.1.6",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

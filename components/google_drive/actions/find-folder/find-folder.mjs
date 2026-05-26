@@ -6,8 +6,8 @@ import { GOOGLE_DRIVE_FOLDER_MIME_TYPE } from "../../common/constants.mjs";
 export default {
   key: "google_drive-find-folder",
   name: "Find Folder",
-  description: "Search for a specific folder by name. [See the documentation](https://developers.google.com/drive/api/v3/search-files) for more information",
-  version: "0.1.20",
+  description: "Search for a specific folder by name. The `Search Name` field uses Google Drive's tokenized full-text matching — pass a distinctive word or short phrase rather than the full title when the name contains special characters like `&` or `'`. [See the documentation](https://developers.google.com/drive/api/v3/search-files) for more information",
+  version: "0.1.22",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -39,7 +39,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const escapedSearchTerm = this.nameSearchTerm?.replace(/'/g, "\\'") || "";
+    const escapedSearchTerm = this.nameSearchTerm?.replace(/\\/g, "\\\\").replace(/'/g, "\\'") || "";
     let q = `mimeType = '${GOOGLE_DRIVE_FOLDER_MIME_TYPE}' and name contains '${escapedSearchTerm}'`.trim();
     if (!this.includeTrashed) {
       q += " and trashed=false";

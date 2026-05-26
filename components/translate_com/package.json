@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/translate_com",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Pipedream Translate.com Components",
   "main": "translate_com.app.mjs",
   "keywords": [

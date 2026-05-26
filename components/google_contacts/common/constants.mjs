@@ -49,4 +49,24 @@ export default {
     "metadata",
     "name",
   ],
+  SOURCE_OPTIONS: [
+    {
+      label: "Google Workspace domain shared contact",
+      value: "DIRECTORY_SOURCE_TYPE_DOMAIN_CONTACT",
+    },
+    {
+      label: "Google Workspace domain profile",
+      value: "DIRECTORY_SOURCE_TYPE_DOMAIN_PROFILE",
+    },
+  ],
+  MERGE_SOURCE_OPTIONS: [
+    {
+      label: "Unspecified",
+      value: "DIRECTORY_MERGE_SOURCE_TYPE_UNSPECIFIED",
+    },
+    {
+      label: "User owned contact",
+      value: "DIRECTORY_MERGE_SOURCE_TYPE_CONTACT",
+    },
+  ],
 };
