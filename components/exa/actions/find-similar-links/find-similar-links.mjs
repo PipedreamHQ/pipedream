@@ -23,7 +23,6 @@ export default {
     app,
     alert: {
       type: "alert",
-      label: "Deprecation Notice",
       description: "Guidance for new workflows.",
       alertType: "warning",
       content: "This action is deprecated for new workflows. Prefer **Search** with a query derived from the seed page, optionally after **Get Contents** if you need to inspect the seed URL first.",
