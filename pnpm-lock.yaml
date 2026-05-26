@@ -7956,8 +7956,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/intrinio:
-    specifiers: {}
+  components/intrinio: {}
 
   components/intuiface:
     dependencies:
@@ -18038,8 +18037,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/zeplin:
-    specifiers: {}
+  components/zeplin: {}
 
   components/zerobounce:
     dependencies:
