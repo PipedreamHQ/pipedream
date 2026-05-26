@@ -5109,6 +5109,9 @@ importers:
 
   components/epic_games: {}
 
+  components/eppo:
+    specifiers: {}
+
   components/epsy:
     dependencies:
       '@pipedream/platform':
