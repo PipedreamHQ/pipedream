@@ -6218,7 +6218,11 @@ importers:
 
   components/getswift: {}
 
-  components/getty_images: {}
+  components/getty_images:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
 
   components/ghost_org_admin_api:
     dependencies:
