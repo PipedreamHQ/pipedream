@@ -67,15 +67,19 @@ export default {
     const params = {
       from_date: lastEvent,
       status: this.status.join(),
+      start_position: 0,
     };
     do {
       const {
         envelopes = [],
         nextUri,
         endPosition,
-      } = await this.docusign.listEnvelopes(baseUri, params);
+      } = await this.docusign.listEnvelopes({
+        baseUri,
+        params,
+      });
       if (nextUri) {
-        params.start_position += endPosition + 1;
+        params.start_position = Number(endPosition) + 1;
       }
       else done = true;
 

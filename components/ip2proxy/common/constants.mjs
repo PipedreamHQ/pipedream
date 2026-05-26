@@ -13,9 +13,9 @@ const PACKAGE_OPTIONS = [
 ];
 
 const FORMAT_OPTIONS = [
-    "json",
-    "xml",
-  ];
+  "json",
+  "xml",
+];
 
 /*const LANGUAGE_OPTIONS = [
     "ar",

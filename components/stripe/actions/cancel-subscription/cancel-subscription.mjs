@@ -4,7 +4,7 @@ export default {
   key: "stripe-cancel-subscription",
   name: "Cancel Subscription",
   description: "Cancel a subscription. [See the documentation](https://docs.stripe.com/api/subscriptions/cancel?lang=node)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

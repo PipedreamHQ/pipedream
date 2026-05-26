@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/opinion_stage",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream Opinion Stage Components",
   "main": "opinion_stage.app.mjs",
   "keywords": [

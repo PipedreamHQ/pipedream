@@ -6,7 +6,7 @@ export default {
   key: "teamwork-task-updated",
   name: "New Task Updated (Instant)",
   description: "Emit new event when a new task is updated",
-  version: "0.0.2",
+  version: "0.0.3",
   methods: {
     ...common.methods,
     _getEventName() {
