@@ -1585,13 +1585,18 @@ importers:
         specifier: ^4.0.0
         version: 4.1.7
 
+  components/bannerify:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
+
   components/bannerbear:
     dependencies:
       '@pipedream/platform':
         specifier: ^0.10.1
         version: 0.10.1
 
-  components/bannerify: {}
 
   components/barcode_lookup:
     dependencies:
@@ -1805,6 +1810,9 @@ importers:
       '@pipedream/platform':
         specifier: ^1.6.8
         version: 1.6.8
+
+  components/bilig_workpaper:
+    specifiers: {}
 
   components/bilionis:
     dependencies:
@@ -17784,6 +17792,9 @@ importers:
         specifier: ^0.3.2
         version: 0.3.4
 
+  components/xquik:
+    specifiers: {}
+
   components/xray_cloud: {}
 
   components/xverify:
@@ -17939,7 +17950,11 @@ importers:
 
   components/yuroti: {}
 
-  components/yutori: {}
+  components/yutori:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
 
   components/z_api:
     dependencies:
@@ -18029,6 +18044,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
+
+  components/zeplin:
+    specifiers: {}
 
   components/zerobounce:
     dependencies:

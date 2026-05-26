@@ -4,8 +4,8 @@ export default {
   ...common,
   name: "Get Stream By User",
   key: "twitch-get-stream-by-user",
-  description: "Gets stream information (the stream object) for a specified user",
-  version: "0.1.4",
+  description: "Gets stream information for the specified user. [See the documentation](https://dev.twitch.tv/docs/api/reference/#get-streams)",
+  version: "0.2.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -19,14 +19,18 @@ export default {
         common.props.twitch,
         "user",
       ],
-      description: "User ID of the user whose stream to get information about",
+      label: "Streamer",
+      description: "The Twitch streamer whose live stream to retrieve. Accepts a numeric user ID (e.g. `141981764`) or login name (e.g. `twitchdev`).",
     },
   },
-  async run() {
+  async run({ $ }) {
+    const userId = await this.twitch.resolveUserId(this.user);
     // get live streams for the specified streamer
     const streams = await this.paginate(this.twitch.getStreams.bind(this), {
-      user_id: this.user,
+      user_id: userId,
     });
-    return await this.getPaginatedResults(streams);
+    const results = await this.getPaginatedResults(streams);
+    $.export("$summary", `Retrieved ${results.length} stream(s) for user ${userId}`);
+    return results;
   },
 };
