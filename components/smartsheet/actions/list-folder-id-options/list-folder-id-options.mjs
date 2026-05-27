@@ -24,7 +24,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const { data } = await this.smartsheet.listWorkspaceChildren(this.workspaceId, {
+    const { data } = await this.smartsheet.listAllWorkspaceChildren(this.workspaceId, {
       $,
       params: {
         childrenResourceTypes: "folders",

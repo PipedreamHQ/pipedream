@@ -43,7 +43,7 @@ export default {
         const { data: workspaces } = await this.listAllWorkspaces();
         const templates = [];
         for (const ws of workspaces || []) {
-          const { data: children } = await this.listWorkspaceChildren(ws.id, {
+          const { data: children } = await this.listAllWorkspaceChildren(ws.id, {
             params: {
               childrenResourceTypes: "sheets,templates",
             },
@@ -84,7 +84,7 @@ export default {
         if (!workspaceId) {
           return [];
         }
-        const { data } = await this.listWorkspaceChildren(workspaceId, {
+        const { data } = await this.listAllWorkspaceChildren(workspaceId, {
           params: {
             childrenResourceTypes: "folders",
           },
@@ -227,11 +227,30 @@ export default {
         },
       });
     },
-    listWorkspaceChildren(workspaceId, args = {}) {
-      return this._makeRequest({
-        path: `/workspaces/${workspaceId}/children`,
-        ...args,
-      });
+    async listAllWorkspaceChildren(workspaceId, args = {}) {
+      const allData = [];
+      let lastKey;
+      do {
+        const params = {
+          maxItems: DEFAULT_MAX_ITEMS,
+          ...args.params,
+        };
+        if (lastKey) {
+          params.lastKey = lastKey;
+        }
+        const response = await this._makeRequest({
+          path: `/workspaces/${workspaceId}/children`,
+          ...args,
+          params,
+        });
+        if (response.data) {
+          allData.push(...response.data);
+        }
+        lastKey = response.lastKey;
+      } while (lastKey);
+      return {
+        data: allData,
+      };
     },
     listFolderChildren(folderId, args = {}) {
       return this._makeRequest({

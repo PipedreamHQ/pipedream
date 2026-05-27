@@ -28,7 +28,7 @@ export default {
     const templates = [];
 
     if (this.workspaceId) {
-      const { data } = await this.smartsheet.listWorkspaceChildren(this.workspaceId, {
+      const { data } = await this.smartsheet.listAllWorkspaceChildren(this.workspaceId, {
         $,
         params: {
           childrenResourceTypes: "sheets,templates",
@@ -48,7 +48,7 @@ export default {
         $,
       });
       for (const ws of workspaces || []) {
-        const { data: children } = await this.smartsheet.listWorkspaceChildren(ws.id, {
+        const { data: children } = await this.smartsheet.listAllWorkspaceChildren(ws.id, {
           $,
           params: {
             childrenResourceTypes: "sheets,templates",
