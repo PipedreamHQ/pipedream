@@ -23,7 +23,7 @@ export default defineAction({
     },
     nodes: {
       label: "Nodes",
-      description: "Nodes to create the task. [Read more about nodes here] (https://www.amplenote.com/api_documentation#post-/notes/-uuid-/actions). E.g `{ \"type\": \"check_list_item\", \"content\": [ { \"type\": \"paragraph\", \"content\": [ { \"type\": \"text\", \"text\": \"Item 1\" } ] } ] }`",
+      description: "Nodes to create the task. [Read more about nodes here](https://www.amplenote.com/api_documentation#post-/notes/-uuid-/actions). E.g `[{ \"type\": \"check_list_item\", \"content\": [{ \"type\": \"paragraph\", \"content\": [{ \"type\": \"text\", \"text\": \"Item 1\" }] }] }]`",
       type: "object",
     },
   },
