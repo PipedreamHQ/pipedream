@@ -12,7 +12,7 @@ export default {
   key: "exa-find-similar-links",
   name: "Find Similar Links",
   description: "Find pages similar to a seed URL with optional nested Exa content extraction. **This action is deprecated for new workflows. Prefer Search, optionally after Get Contents on the seed URL, for related-page discovery.** [See the documentation](https://docs.exa.ai/reference/find-similar-links)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -23,7 +23,6 @@ export default {
     app,
     alert: {
       type: "alert",
-      description: "Guidance for new workflows.",
       alertType: "warning",
       content: "This action is deprecated for new workflows. Prefer **Search** with a query derived from the seed page, optionally after **Get Contents** if you need to inspect the seed URL first.",
     },
