@@ -1,11 +1,62 @@
+import { axios } from "@pipedream/platform";
+import {
+  SEARCH_QUERY, GET_COLLECTION, GET_ARTICLE,
+} from "./common/queries.mjs";
+
 export default {
   type: "app",
   app: "polly_help",
   propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _makeRequest({
+      $ = this, query, variables, ...opts
+    }) {
+      return axios($, {
+        method: "POST",
+        url: "https://api.polly.help/graphql",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: {
+          query,
+          variables: {
+            ...variables,
+            api_token: this.$auth.api_token,
+            publicationId: this.$auth.publication_id,
+            user: (this.$auth.user && this.$auth.user !== "")
+              ? this.$auth.user
+              : undefined,
+          },
+        },
+        ...opts,
+      });
+    },
+    search({
+      variables, ...opts
+    }) {
+      return this._makeRequest({
+        query: SEARCH_QUERY,
+        variables,
+        ...opts,
+      });
+    },
+    getCollection({
+      variables, ...opts
+    }) {
+      return this._makeRequest({
+        query: GET_COLLECTION,
+        variables,
+        ...opts,
+      });
+    },
+    getArticle({
+      variables, ...opts
+    }) {
+      return this._makeRequest({
+        query: GET_ARTICLE,
+        variables,
+        ...opts,
+      });
     },
   },
 };
