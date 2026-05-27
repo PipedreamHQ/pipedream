@@ -4,7 +4,7 @@ export default {
   key: "hiver-list-all-inboxes",
   name: "List All Inboxes",
   description: "List all the inboxes in your Hiver account. [See the documentation](https://developer.hiverhq.com/hiver-api/inbox/list-all-the-inboxes)",
-  version: "0.0.3",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -26,15 +26,15 @@ export default {
     const results = [];
     let nextPage;
     do {
-      const response = await this.hiver.listInboxes({
+      const { data } = await this.hiver.listInboxes({
         $,
         params: {
           limit: this.limit ?? 50,
           next_page: nextPage ?? undefined,
         },
       });
-      results.push(...(response.results ?? []));
-      nextPage = response.pagination?.next_page ?? null;
+      results.push(...(data.results ?? []));
+      nextPage = data.pagination?.next_page ?? null;
       if (nextPage) await new Promise((r) => setTimeout(r, 1000));
     } while (nextPage);
     $.export("$summary", `Successfully retrieved ${results.length} inbox(es)`);

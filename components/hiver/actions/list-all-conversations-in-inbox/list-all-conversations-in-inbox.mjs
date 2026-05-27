@@ -4,7 +4,7 @@ export default {
   key: "hiver-list-all-conversations-in-inbox",
   name: "List All Conversations In Inbox",
   description: "Get all conversations in a Hiver inbox. [See the documentation](https://developer.hiverhq.com/hiver-api/conversations/get-conversations-in-the-inbox)",
-  version: "0.0.3",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -32,7 +32,7 @@ export default {
     const results = [];
     let nextPage;
     do {
-      const response = await this.hiver.listConversations({
+      const { data } = await this.hiver.listConversations({
         $,
         inboxId: this.inboxId,
         params: {
@@ -40,8 +40,8 @@ export default {
           next_page: nextPage ?? undefined,
         },
       });
-      results.push(...(response.results ?? []));
-      nextPage = response.pagination?.next_page ?? null;
+      results.push(...(data.results ?? []));
+      nextPage = data.pagination?.next_page ?? null;
       if (nextPage) await new Promise((r) => setTimeout(r, 1000));
     } while (nextPage);
     $.export("$summary", `Successfully retrieved ${results.length} conversation(s) from inbox ${this.inboxId}`);

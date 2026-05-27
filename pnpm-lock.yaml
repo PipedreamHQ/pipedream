@@ -1260,8 +1260,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/assured_platform:
-    specifiers: {}
+  components/assured_platform: {}
 
   components/asters:
     dependencies:
@@ -1588,18 +1587,17 @@ importers:
         specifier: ^4.0.0
         version: 4.1.7
 
-  components/bannerify:
-    dependencies:
-      '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.4.0
-
   components/bannerbear:
     dependencies:
       '@pipedream/platform':
         specifier: ^0.10.1
         version: 0.10.1
 
+  components/bannerify:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
 
   components/barcode_lookup:
     dependencies:
@@ -1814,8 +1812,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/bilig_workpaper:
-    specifiers: {}
+  components/bilig_workpaper: {}
 
   components/bilionis:
     dependencies:
@@ -5109,8 +5106,7 @@ importers:
 
   components/epic_games: {}
 
-  components/eppo:
-    specifiers: {}
+  components/eppo: {}
 
   components/epsy:
     dependencies:
@@ -7390,7 +7386,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/hiver: {}
+  components/hiver:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.4.0
 
   components/hiver_omni: {}
 
@@ -17809,8 +17809,7 @@ importers:
         specifier: ^0.3.2
         version: 0.3.4
 
-  components/xquik:
-    specifiers: {}
+  components/xquik: {}
 
   components/xray_cloud: {}
 
@@ -17850,8 +17849,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/ybug:
-    specifiers: {}
+  components/ybug: {}
 
   components/yelp:
     dependencies:
@@ -18065,8 +18063,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/zeplin:
-    specifiers: {}
+  components/zeplin: {}
 
   components/zerobounce:
     dependencies:
@@ -42012,6 +42009,7 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
+      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.60(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1))(rollup@4.53.2)':
     dependencies:

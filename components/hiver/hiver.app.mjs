@@ -9,20 +9,20 @@ export default {
       label: "Inbox ID",
       description: "The ID of the Hiver inbox",
       async options({ prevContext }) {
-        const response = await this.listInboxes({
+        const { data } = await this.listInboxes({
           params: {
             limit: 50,
             next_page: prevContext?.nextPage ?? undefined,
           },
         });
-        const options = response.results.map((inbox) => ({
+        const options = data.results.map((inbox) => ({
           label: inbox.display_name,
           value: inbox.id,
         }));
         return {
           options,
           context: {
-            nextPage: response.pagination?.next_page ?? null,
+            nextPage: data.pagination?.next_page ?? null,
           },
         };
       },
@@ -34,7 +34,7 @@ export default {
     },
     _headers() {
       return {
-        Authorization: `Bearer ${this.$auth.api_key}`,
+        "Authorization": `Bearer ${this.$auth.api_key}`,
         "Content-Type": "application/json",
       };
     },
@@ -50,34 +50,44 @@ export default {
         ...opts,
       });
     },
-    async listInboxes({ $ = this, params } = {}) {
+    async listInboxes({
+      $ = this, params,
+    } = {}) {
       return this._makeRequest({
         $,
         path: "/inboxes",
         params,
       });
     },
-    async getInbox({ $, inboxId }) {
+    async getInbox({
+      $, inboxId,
+    }) {
       return this._makeRequest({
         $,
         path: `/inboxes/${inboxId}`,
       });
     },
-    async listInboxUsers({ $, inboxId, params } = {}) {
+    async listInboxUsers({
+      $, inboxId, params,
+    } = {}) {
       return this._makeRequest({
         $,
         path: `/inboxes/${inboxId}/users`,
         params,
       });
     },
-    async listInboxTags({ $, inboxId, params } = {}) {
+    async listInboxTags({
+      $, inboxId, params,
+    } = {}) {
       return this._makeRequest({
         $,
         path: `/inboxes/${inboxId}/tags`,
         params,
       });
     },
-    async listConversations({ $, inboxId, params } = {}) {
+    async listConversations({
+      $, inboxId, params,
+    } = {}) {
       return this._makeRequest({
         $,
         path: `/inboxes/${inboxId}/conversations`,
