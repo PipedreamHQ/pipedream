@@ -1349,7 +1349,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/autotask_psa: {}
+  components/autotask_psa:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.5
+        version: 3.4.0
 
   components/avaza:
     dependencies:
@@ -2936,7 +2940,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/claap: {}
+  components/claap:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.5
+        version: 3.4.0
 
   components/claid_ai:
     dependencies:
@@ -5114,6 +5122,9 @@ importers:
         version: 3.1.1
 
   components/epic_games: {}
+
+  components/eppo:
+    specifiers: {}
 
   components/epsy:
     dependencies:
@@ -7969,8 +7980,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/intrinio:
-    specifiers: {}
+  components/intrinio: {}
 
   components/intuiface:
     dependencies:
@@ -10142,7 +10152,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/moodle: {}
+  components/moodle:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.3.1
+        version: 3.3.1
 
   components/moonclerk:
     dependencies:
@@ -14988,8 +15002,8 @@ importers:
   components/softr:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.8
-        version: 1.6.8
+        specifier: ^3.4.0
+        version: 3.4.0
 
   components/solarwinds_service_desk: {}
 
@@ -18065,8 +18079,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/zeplin:
-    specifiers: {}
+  components/zeplin: {}
 
   components/zerobounce:
     dependencies:
@@ -42012,7 +42025,6 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
-      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.60(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1))(rollup@4.53.2)':
     dependencies:
