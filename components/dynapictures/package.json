@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/dynapictures",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream DynaPictures Components",
   "main": "dynapictures.app.mjs",
   "keywords": [

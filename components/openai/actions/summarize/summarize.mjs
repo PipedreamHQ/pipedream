@@ -4,7 +4,7 @@ import constants from "../../common/constants.mjs";
 export default {
   ...common,
   name: "Summarize Text",
-  version: "0.1.11",
+  version: "0.1.12",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

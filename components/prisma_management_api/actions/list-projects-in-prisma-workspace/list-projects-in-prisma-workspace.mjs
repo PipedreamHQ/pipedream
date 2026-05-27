@@ -2,7 +2,7 @@ import app from "../../prisma_management_api.app.mjs";
 
 export default {
   name: "List Projects in Prisma Workspace",
-  version: "1.0.1",
+  version: "1.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -26,7 +26,9 @@ export default {
           ? response.data
           : [];
       const count = items.length;
-      $.export("$summary", `Successfully retrieved ${count} project${count !== 1 ? "s" : ""}`);
+      $.export("$summary", `Successfully retrieved ${count} project${count !== 1
+        ? "s"
+        : ""}`);
     }
 
     return response;

@@ -10,7 +10,7 @@ export default {
   },
   parseArray(arr) {
     const parsed = [];
-    arr.forEach(e => {
+    arr.forEach((e) => {
       parsed.push(this.parseObject(e));
     });
     return parsed;

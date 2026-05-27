@@ -5,7 +5,7 @@ export default {
   key: "facebook_pages-create-comment",
   name: "Create Comment",
   description: "Create a new comment on a post on a Facebook Page. [See the documentation](https://developers.facebook.com/docs/graph-api/reference/object/comments/#publish)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

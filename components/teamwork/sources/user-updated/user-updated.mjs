@@ -5,7 +5,7 @@ export default {
   key: "teamwork-user-updated",
   name: "User Updated (Instant)",
   description: "Emit new event when a user is updated",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

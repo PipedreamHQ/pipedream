@@ -54,6 +54,11 @@ function getListFilesOpts(drive, baseOpts = {}) {
       supportsAllDrives: true,
     }
     : {
+      // Google's `files.list` API requires `includeItemsFromAllDrives: true`
+      // whenever `driveId` is set or `corpora` is `drive`/`allDrives`.
+      // Placed before the spread so callers (e.g. list-files's
+      // `limitToMyDrive` toggle) can still override.
+      includeItemsFromAllDrives: true,
       ...baseOpts,
       corpora: "drive",
       driveId: getDriveId(drive),

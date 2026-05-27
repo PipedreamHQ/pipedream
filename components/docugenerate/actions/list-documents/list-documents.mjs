@@ -4,7 +4,7 @@ export default {
   key: "docugenerate-list-documents",
   name: "List Documents",
   description: "Retrieves a list of documents generated from a template. [See the documentation](https://api.docugenerate.com/#/Document/queryDocuments)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
