@@ -2,6 +2,36 @@
 
 # Changelog
 
+## [3.0.1] - 2026-05-20
+
+### Added
+
+- New `oauthScopeProfile` prop on `ComponentForm` and
+  `ComponentFormContainer`. When set, it is forwarded to
+  `client.connectAccount(...)` from the in-form connect flow so that
+  the OAuth consent screen requests only the scopes for the named
+  profile defined on the app. The value must match a `name` from the
+  app's `scopeProfiles` (typed as `AppScopeProfilesItemName` from
+  `@pipedream/sdk`).
+
+## [3.0.0] - 2026-05-20
+
+### Changed
+
+- **BREAKING**: Updated `@pipedream/sdk` dependency to `^3.0.0`. The
+  v3 SDK is a type-only release — runtime behavior, network calls, env
+  vars, and the `PipedreamClient` constructor are all unchanged. The
+  breaking change is the flattening of the SDK's `ConfigurableProp`
+  and `Emitter` namespaces. See the SDK's [v2 → v3 migration
+  guide](https://github.com/PipedreamHQ/pipedream-sdk-typescript/blob/main/MIGRATE.md)
+  for details.
+- Internal type narrowing in `type-guards.ts` and
+  `form-field-context.tsx` updated to use the flat
+  `ConfigurableProp{Variant}` interfaces (e.g. `ConfigurablePropApp`
+  instead of `ConfigurableProp.App`). Consumers that import namespaced
+  types (e.g. `ConfigurableProp.App`) from `@pipedream/sdk` directly
+  need to migrate to the flat names.
+
 ## [2.8.0] - 2026-03-19
 
 ### Changed
@@ -11,24 +41,34 @@
 ## [2.7.3] - 2026-03-18
 
 ### Added
-- Globe icon for SharePoint sites and folder icon for drives in file picker navigation
+
+- Globe icon for SharePoint sites and folder icon for drives in file
+  picker navigation
 - Per-prop icon support via `propIcons` in `FilePickerAppConfig`
 
 ### Changed
-- File list is now more compact: metadata (size, item count) shown as columns instead of second row
-- Removed folder chevron from file list to keep Last Modified column aligned
-- Removed emoji prefix stripping from option labels (emojis no longer returned by API)
+
+- File list is now more compact: metadata (size, item count) shown as
+  columns instead of second row
+- Removed folder chevron from file list to keep Last Modified column
+  aligned
+- Removed emoji prefix stripping from option labels (emojis no longer
+  returned by API)
 - Updated `sharepoint_admin` config to use `fileIds` prop
 
 ## [2.7.2] - 2026-02-20
 
 ### Added
-- Added `webUrl` and `description` fields to `FilePickerItem` interface
-- Parse `webUrl` and `description` from JSON option values in file picker
+
+- Added `webUrl` and `description` fields to `FilePickerItem`
+  interface
+- Parse `webUrl` and `description` from JSON option values in file
+  picker
 
 ## [2.7.1] - 2026-02-19
 
 ### Added
+
 - Added a Refresh button to the file picker UI component
 
 ## [2.7.0] - 2026-02-11
@@ -38,30 +78,39 @@
 - **ConfigureFilePicker**: Enhanced file picker capabilities
   - Search functionality to filter files and folders by name
   - Select/deselect all buttons for batch operations
-  - Additional metadata display: file size, last modified date, child count
+  - Additional metadata display: file size, last modified date, child
+    count
   - Improved default icons for folders and files with SVGs
   - Better date and file size formatting utilities
 
 ### Changed
 
-- ConfigureFilePicker now initializes selected items from `initialConfiguredProps` when available
+- ConfigureFilePicker now initializes selected items from
+  `initialConfiguredProps` when available
 
 ## [2.6.0] - 2026-01-20
 
 ### Added
 
-- **Experimental**: `ConfigureFilePicker` and `ConfigureFilePickerModal` components for building custom file picker UIs
-  - Uses Pipedream's `configureProp` API to fetch hierarchical options (sites, drives, folders, files)
+- **Experimental**: `ConfigureFilePicker` and
+  `ConfigureFilePickerModal` components for building custom file
+  picker UIs
+  - Uses Pipedream's `configureProp` API to fetch hierarchical options
+    (sites, drives, folders, files)
   - Built-in support for SharePoint with extensible app configuration
-  - Features: folder navigation, multi-select, theming support, customizable icons
-  - Note: This is an experimental API and may change in future releases
+  - Features: folder navigation, multi-select, theming support,
+    customizable icons
+  - Note: This is an experimental API and may change in future
+    releases
 
 ## [2.5.0] - 2025-12-19
 
 ### Added
 
-- Support for new app filtering options in `SelectApp` and `useApps`: `hasActions`, `hasTriggers`, `hasComponents`
-- Added `componentsOptions` prop to `SelectComponent` for passing additional options (e.g., `registry`) to the components list API
+- Support for new app filtering options in `SelectApp` and `useApps`:
+  `hasActions`, `hasTriggers`, `hasComponents`
+- Added `componentsOptions` prop to `SelectComponent` for passing
+  additional options (e.g., `registry`) to the components list API
 
 ### Changed
 
@@ -71,23 +120,31 @@
 
 ### Fixed
 
-- Fixed HTTP request component input backgrounds using incorrect theme color (`neutral20` instead of `neutral0`)
-- Fixed CSS border shorthand/non-shorthand conflict causing React 19 warnings
-- Fixed `QueryClient` being recreated on every render in `FrontendClientProvider`
+- Fixed HTTP request component input backgrounds using incorrect theme
+  color (`neutral20` instead of `neutral0`)
+- Fixed CSS border shorthand/non-shorthand conflict causing React 19
+  warnings
+- Fixed `QueryClient` being recreated on every render in
+  `FrontendClientProvider`
 
 ## [2.4.0] - 2025-12-10
 
 ### Added
 
-- Added support for `http_request` prop type with `ControlHttpRequest` component
-- HTTP request builder UI with URL, method, headers, and body configuration
+- Added support for `http_request` prop type with `ControlHttpRequest`
+  component
+- HTTP request builder UI with URL, method, headers, and body
+  configuration
 
 ## [2.3.0] - 2025-12-07
 
 ### Added
 
-- Dark mode support for select components with new theme color tokens (`optionHover`, `optionSelected`, `optionSelectedHover`, `appIconBackground`)
-- App icon backgrounds in `SelectApp` for better visibility in dark mode
+- Dark mode support for select components with new theme color tokens
+  (`optionHover`, `optionSelected`, `optionSelectedHover`,
+  `appIconBackground`)
+- App icon backgrounds in `SelectApp` for better visibility in dark
+  mode
 
 ## [2.2.0] - 2025-11-29
 
@@ -97,18 +154,23 @@
 
 ### Fixed
 
-- Fixed dropdown menus being clipped or hidden behind other elements when rendered inside containers with overflow constraints (e.g., workflow builders, modals)
-- All select components now portal their menus to the document body with proper z-index handling
+- Fixed dropdown menus being clipped or hidden behind other elements
+  when rendered inside containers with overflow constraints (e.g.,
+  workflow builders, modals)
+- All select components now portal their menus to the document body
+  with proper z-index handling
 
 ### Changed
 
-- Upgraded `react-select` from 5.8.2 to 5.9.0 for React 19 compatibility
+- Upgraded `react-select` from 5.8.2 to 5.9.0 for React 19
+  compatibility
 
 ## [2.1.2] - 2025-11-14
 
 ### Fixed
 
-- Fixed issue where user input in dynamically loaded props was lost due to circular effect dependency
+- Fixed issue where user input in dynamically loaded props was lost
+  due to circular effect dependency
 
 ## [2.1.1] - 2025-10-27
 
@@ -116,32 +178,36 @@
 
 - Fixed optional props being removed when loading saved configurations
 - Optional props with values now automatically display as enabled
-- Improved handling of label-value format for remote options in multi-select fields
+- Improved handling of label-value format for remote options in
+  multi-select fields
 
 ## [2.1.0] - 2025-10-10
 
 ### Added
 
-- Added infinite scroll (with pagination) for `SelectApp` and `SelectComponent` dropdowns
+- Added infinite scroll (with pagination) for `SelectApp` and
+  `SelectComponent` dropdowns
 - Increased default page size to 50 items per request for better UX
 
 ### Fixed
 
-- Remote options now properly reset when parent props change (e.g., switching accounts)
+- Remote options now properly reset when parent props change (e.g.,
+  switching accounts)
 
 ## [2.0.0] - 2025-10-02
 
 ### Breaking Changes
 
-Use the new v2 version of the Pipedream SDK (i.e. `@pipedreamhq/pipedream-sdk`).
-This change involves migrating to the new types mostly, but also runtime changes
-involving the API calls.
+Use the new v2 version of the Pipedream SDK
+(i.e. `@pipedreamhq/pipedream-sdk`).  This change involves migrating
+to the new types mostly, but also runtime changes involving the API
+calls.
 
-The runtime behavior should not be affected from a user's perspective, except
-for consumers of the `connect-react` package itself, since some components (e.g.
-`FrontendClientProvider`) expect their consumers to inject a client instance of
-the same SDK version. For this reason, this change bumps the **major** version
-of this package.
+The runtime behavior should not be affected from a user's perspective,
+except for consumers of the `connect-react` package itself, since some
+components (e.g.  `FrontendClientProvider`) expect their consumers to
+inject a client instance of the same SDK version. For this reason,
+this change bumps the **major** version of this package.
 
 ## [1.5.0] - 2025-08-18
 
@@ -151,10 +217,13 @@ of this package.
 
 ### Added
 
-- Support for app sorting and filtering in `SelectApp` component and `useApps` hook
-- Added `appsOptions` prop to `SelectApp` for controlling sort order and filtering
+- Support for app sorting and filtering in `SelectApp` component and
+  `useApps` hook
+- Added `appsOptions` prop to `SelectApp` for controlling sort order
+  and filtering
 - Apps can now be sorted by `name`, `featured_weight`, or `name_slug`
-- Support for filtering apps by whether they have actions, triggers, or components
+- Support for filtering apps by whether they have actions, triggers,
+  or components
 
 ## [1.4.0] - 2025-08-01
 
@@ -164,39 +233,44 @@ of this package.
 
 ## [1.3.3] - 2025-07-22
 
-- Improved handling and sanitization of option objects in selection components.
+- Improved handling and sanitization of option objects in selection
+  components.
 
 ## [1.3.2] - 2025-07-15
 
 ### Changed
 
-- Do not perform prop validation for `app` props with nil auth type. This will
-  allow components to be deployed/executed without users having to authenticate
-  to the app (which would fail given that the app doesn't have a way to
-  authenticate anyways).
-- Use the `getComponents` method from the SDK instead of the deprecated
-  `components` method.
+- Do not perform prop validation for `app` props with nil auth
+  type. This will allow components to be deployed/executed without
+  users having to authenticate to the app (which would fail given that
+  the app doesn't have a way to authenticate anyways).
+- Use the `getComponents` method from the SDK instead of the
+  deprecated `components` method.
 
 ## [1.3.1] - 2025-06-30
 
 ### Changed
 
-- Fixed handling of the 'dir' prop type to exclude it from configurable props
+- Fixed handling of the 'dir' prop type to exclude it from
+  configurable props
 
 ## [1.3.0] - 2025-06-10
 
 ### Added
 
-- Support for `externalUserId` param across all components as the preferred way to identify users
+- Support for `externalUserId` param across all components as the
+  preferred way to identify users
 - Backward compatibility with existing `userId` parameter
 
 ### Changed
 
-- All internal SDK calls now use `externalUserId` parameter for consistency with backend SDK
+- All internal SDK calls now use `externalUserId` parameter for
+  consistency with backend SDK
 
 ### Deprecated
 
-- `userId` parameter in favor of `externalUserId` (existing code continues to work with console warnings)
+- `userId` parameter in favor of `externalUserId` (existing code
+  continues to work with console warnings)
 
 ### Migration
 
@@ -212,8 +286,10 @@ Replace `userId` with `externalUserId` in component props:
 
 ## [1.2.1] - 2025-06-07
 
-- Fixing the SelectApp component to properly handle controlled values when not found in search results
-- Fixing infinite re-render issue in ComponentFormContainer by memoizing configurableProps
+- Fixing the SelectApp component to properly handle controlled values
+  when not found in search results
+- Fixing infinite re-render issue in ComponentFormContainer by
+  memoizing configurableProps
 
 ## [1.2.0] - 2025-06-05
 
@@ -222,17 +298,20 @@ Replace `userId` with `externalUserId` in component props:
 ## [1.1.0] - 2025-06-04
 
 - Adding support for 'object' prop types
-- Modifying string and string[] inputs to hide the dropdown in the case of no options
+- Modifying string and string[] inputs to hide the dropdown in the
+  case of no options
 - Added basic styling to hyperlinks in prop descriptions
 
 ## [1.0.2] - 2025-04-24
 
-- Updating README to remove note about this package being in early preview
+- Updating README to remove note about this package being in early
+  preview
 
 ## [1.0.1] - 2025-04-16
 
 - remove bad polyfill (would break checking `document`)
-- handle bad `decode-named-character-reference` browser import via vite resolve.alias
+- handle bad `decode-named-character-reference` browser import via
+  vite resolve.alias
 - stop accidentally bundling `lodash` (-80KB for es build)
 
 ## [1.0.0-preview.30] - 2025-02-19
@@ -258,17 +337,21 @@ Replace `userId` with `externalUserId` in component props:
 ## [1.0.0-preview.25] - 2025-01-28
 
 - Show prop labels instead of values after selecting dynamic props
-- Fix the bug where a remote option would not be reloaded when the form component is re-rendered
+- Fix the bug where a remote option would not be reloaded when the
+  form component is re-rendered
 
 ## [1.0.0-preview.24] - 2025-01-24
 
-- Fix the bug where inputting multiple strings into an array prop would merge the strings into one
+- Fix the bug where inputting multiple strings into an array prop
+  would merge the strings into one
 - Fix custom string input for remote options
-- Fix the reloading of a previously selected remote option when re-rendering the form component
+- Fix the reloading of a previously selected remote option when
+  re-rendering the form component
 
 ## [1.0.0-preview.23] - 2025-01-22
 
-- Show the prop label instead of the value after selecting from a dropdown for string array props
+- Show the prop label instead of the value after selecting from a
+  dropdown for string array props
 
 ## [1.0.0-preview.22] - 2025-01-21
 
@@ -280,7 +363,8 @@ Replace `userId` with `externalUserId` in component props:
 
 ## [1.0.0-preview.20] - 2025-01-16
 
-- Check if a string prop is set instead of inspecting the contents of the string
+- Check if a string prop is set instead of inspecting the contents of
+  the string
 
 ## [1.0.0-preview.15] - 2024-12-18
 
@@ -288,7 +372,8 @@ Replace `userId` with `externalUserId` in component props:
 
 ## [1.0.0-preview.14] - 2024-12-17
 
-- Fixed one case of "maximum update depth exceeded" (useEffect component dependency)
+- Fixed one case of "maximum update depth exceeded" (useEffect
+  component dependency)
 
 ## [1.0.0-preview.13] - 2024-12-17
 
@@ -317,11 +402,13 @@ Replace `userId` with `externalUserId` in component props:
 
 ## [1.0.0-preview.7] - 2024-12-05
 
-- Use proper casing for `stringOptions` now that configure prop is properly async
+- Use proper casing for `stringOptions` now that configure prop is
+  properly async
 
 ## [1.0.0-preview.6] - 2024-12-05
 
-- Handle configurable prop `withLabel` (eg. fixes config of Airtable `tableId`)
+- Handle configurable prop `withLabel` (eg. fixes config of Airtable
+  `tableId`)
 
 ## [1.0.0-preview.5] - 2024-12-02
 
@@ -334,7 +421,8 @@ Replace `userId` with `externalUserId` in component props:
 
 ## [1.0.0-preview.3] - 2024-11-27
 
-- Previous version broken, lack of build before publish (not sure how preview.1 shipped)
+- Previous version broken, lack of build before publish (not sure how
+  preview.1 shipped)
 
 ## [1.0.0-preview.2] - 2024-11-27
 
