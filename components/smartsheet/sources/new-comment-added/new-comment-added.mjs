@@ -5,7 +5,7 @@ export default {
   key: "smartsheet-new-comment-added",
   name: "New Comment Added (Instant)",
   description: "Emit new event when a comment is added in a sheet.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {
