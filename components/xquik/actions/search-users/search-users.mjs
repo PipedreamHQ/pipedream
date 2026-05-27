@@ -4,7 +4,7 @@ export default {
   key: "xquik-search-users",
   name: "Search Users",
   description:
-    "Search public X/Twitter users with Xquik. [See the documentation](https://docs.xquik.com/api-reference/overview)",
+    "Search public X/Twitter users with Xquik. [See the documentation](https://docs.xquik.com/api-reference/x/search-users)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -15,10 +15,16 @@ export default {
   props: {
     xquik,
     query: {
-      propDefinition: [xquik, "query"],
+      propDefinition: [
+        xquik,
+        "query",
+      ],
     },
     cursor: {
-      propDefinition: [xquik, "cursor"],
+      propDefinition: [
+        xquik,
+        "cursor",
+      ],
     },
   },
   async run({ $ }) {

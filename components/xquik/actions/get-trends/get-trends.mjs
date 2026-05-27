@@ -3,8 +3,7 @@ import xquik from "../../xquik.app.mjs";
 export default {
   key: "xquik-get-trends",
   name: "Get Trends",
-  description:
-    "Get trending public X/Twitter topics by region with Xquik. [See the documentation](https://docs.xquik.com/api-reference/overview)",
+  description: "Get trending public X/Twitter topics by region with Xquik. [See the documentation](https://docs.xquik.com/api-reference/x/trends)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -15,10 +14,16 @@ export default {
   props: {
     xquik,
     woeid: {
-      propDefinition: [xquik, "woeid"],
+      propDefinition: [
+        xquik,
+        "woeid",
+      ],
     },
     count: {
-      propDefinition: [xquik, "count"],
+      propDefinition: [
+        xquik,
+        "count",
+      ],
     },
   },
   async run({ $ }) {

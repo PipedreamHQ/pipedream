@@ -3,8 +3,7 @@ import xquik from "../../xquik.app.mjs";
 export default {
   key: "xquik-search-tweets",
   name: "Search Tweets",
-  description:
-    "Search public X/Twitter posts with Xquik. [See the documentation](https://docs.xquik.com/api-reference/overview)",
+  description: "Search public X/Twitter posts with Xquik. [See the documentation](https://docs.xquik.com/api-reference/x/search-tweets)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -15,22 +14,40 @@ export default {
   props: {
     xquik,
     query: {
-      propDefinition: [xquik, "query"],
+      propDefinition: [
+        xquik,
+        "query",
+      ],
     },
     queryType: {
-      propDefinition: [xquik, "queryType"],
+      propDefinition: [
+        xquik,
+        "queryType",
+      ],
     },
     cursor: {
-      propDefinition: [xquik, "cursor"],
+      propDefinition: [
+        xquik,
+        "cursor",
+      ],
     },
     sinceTime: {
-      propDefinition: [xquik, "sinceTime"],
+      propDefinition: [
+        xquik,
+        "sinceTime",
+      ],
     },
     untilTime: {
-      propDefinition: [xquik, "untilTime"],
+      propDefinition: [
+        xquik,
+        "untilTime",
+      ],
     },
     limit: {
-      propDefinition: [xquik, "limit"],
+      propDefinition: [
+        xquik,
+        "limit",
+      ],
     },
   },
   async run({ $ }) {

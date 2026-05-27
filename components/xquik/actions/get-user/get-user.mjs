@@ -3,8 +3,7 @@ import xquik from "../../xquik.app.mjs";
 export default {
   key: "xquik-get-user",
   name: "Get User",
-  description:
-    "Get a public X/Twitter user profile by username or ID with Xquik. [See the documentation](https://docs.xquik.com/api-reference/overview)",
+  description: "Get a public X/Twitter user profile by username or ID with Xquik. [See the documentation](https://docs.xquik.com/api-reference/x/get-user)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -15,7 +14,10 @@ export default {
   props: {
     xquik,
     userId: {
-      propDefinition: [xquik, "userId"],
+      propDefinition: [
+        xquik,
+        "userId",
+      ],
     },
   },
   async run({ $ }) {

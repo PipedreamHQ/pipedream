@@ -14,7 +14,10 @@ export default {
       type: "string",
       label: "Query Type",
       description: "Sort order for tweet search results.",
-      options: ["Latest", "Top"],
+      options: [
+        "Latest",
+        "Top",
+      ],
       default: "Latest",
       optional: true,
     },
@@ -120,7 +123,9 @@ export default {
     _cleanParams(params = {}) {
       return Object.fromEntries(
         Object.entries(params).filter(
-          ([, value]) => value !== undefined && value !== null && value !== "",
+          ([
+            , value,
+          ]) => value !== undefined && value !== null && value !== "",
         ),
       );
     },
@@ -135,7 +140,9 @@ export default {
      */
     _encodeIdentifier(value, name, { stripAt = false } = {}) {
       const raw = String(value ?? "").trim();
-      const identifier = stripAt ? raw.replace(/^@+/, "") : raw;
+      const identifier = stripAt
+        ? raw.replace(/^@+/, "")
+        : raw;
 
       if (!identifier) {
         throw new Error(`${name} is required`);
@@ -152,7 +159,9 @@ export default {
      * @param {Record<string, unknown>} [request.params] Query parameters.
      * @returns {Promise<unknown>} API response.
      */
-    _makeRequest({ $ = this, path, params, ...opts }) {
+    _makeRequest({
+      $ = this, path, params, ...opts
+    }) {
       return axios($, {
         url: `${this._baseUrl()}${path}`,
         headers: this._headers(),
@@ -166,7 +175,9 @@ export default {
      * @param {object} args Search arguments.
      * @returns {Promise<unknown>} Search results.
      */
-    searchTweets({ $, q, queryType, cursor, sinceTime, untilTime, limit }) {
+    searchTweets({
+      $, q, queryType, cursor, sinceTime, untilTime, limit,
+    }) {
       return this._makeRequest({
         $,
         path: "/x/tweets/search",
@@ -186,7 +197,9 @@ export default {
      * @param {object} args Lookup arguments.
      * @returns {Promise<unknown>} Tweet response.
      */
-    getTweet({ $, tweetId }) {
+    getTweet({
+      $, tweetId,
+    }) {
       const encodedTweetId = this._encodeIdentifier(tweetId, "Tweet ID");
       return this._makeRequest({
         $,
@@ -199,7 +212,9 @@ export default {
      * @param {object} args Search arguments.
      * @returns {Promise<unknown>} User search results.
      */
-    searchUsers({ $, q, cursor }) {
+    searchUsers({
+      $, q, cursor,
+    }) {
       return this._makeRequest({
         $,
         path: "/x/users/search",
@@ -215,7 +230,9 @@ export default {
      * @param {object} args Lookup arguments.
      * @returns {Promise<unknown>} User profile response.
      */
-    getUser({ $, userId }) {
+    getUser({
+      $, userId,
+    }) {
       const encodedUserId = this._encodeIdentifier(
         userId,
         "User ID or Username",
@@ -234,7 +251,9 @@ export default {
      * @param {object} args Timeline arguments.
      * @returns {Promise<unknown>} User timeline response.
      */
-    getUserTweets({ $, userId, cursor, includeReplies, includeParentTweet }) {
+    getUserTweets({
+      $, userId, cursor, includeReplies, includeParentTweet,
+    }) {
       const encodedUserId = this._encodeIdentifier(
         userId,
         "User ID or Username",
@@ -258,7 +277,9 @@ export default {
      * @param {object} args Trend arguments.
      * @returns {Promise<unknown>} Trends response.
      */
-    getTrends({ $, woeid, count }) {
+    getTrends({
+      $, woeid, count,
+    }) {
       return this._makeRequest({
         $,
         path: "/x/trends",

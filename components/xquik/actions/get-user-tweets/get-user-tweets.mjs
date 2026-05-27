@@ -3,8 +3,7 @@ import xquik from "../../xquik.app.mjs";
 export default {
   key: "xquik-get-user-tweets",
   name: "Get User Tweets",
-  description:
-    "List recent public X/Twitter posts from a user with Xquik. [See the documentation](https://docs.xquik.com/api-reference/overview)",
+  description: "List recent public X/Twitter posts from a user with Xquik. [See the documentation](https://docs.xquik.com/api-reference/x/user-tweets)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -15,16 +14,28 @@ export default {
   props: {
     xquik,
     userId: {
-      propDefinition: [xquik, "userId"],
+      propDefinition: [
+        xquik,
+        "userId",
+      ],
     },
     cursor: {
-      propDefinition: [xquik, "cursor"],
+      propDefinition: [
+        xquik,
+        "cursor",
+      ],
     },
     includeReplies: {
-      propDefinition: [xquik, "includeReplies"],
+      propDefinition: [
+        xquik,
+        "includeReplies",
+      ],
     },
     includeParentTweet: {
-      propDefinition: [xquik, "includeParentTweet"],
+      propDefinition: [
+        xquik,
+        "includeParentTweet",
+      ],
     },
   },
   async run({ $ }) {

@@ -3,8 +3,7 @@ import xquik from "../../xquik.app.mjs";
 export default {
   key: "xquik-get-tweet",
   name: "Get Tweet",
-  description:
-    "Get a public X/Twitter post by ID with Xquik. [See the documentation](https://docs.xquik.com/api-reference/overview)",
+  description: "Get a public X/Twitter post by ID with Xquik. [See the documentation](https://docs.xquik.com/api-reference/x/get-tweet)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -15,7 +14,10 @@ export default {
   props: {
     xquik,
     tweetId: {
-      propDefinition: [xquik, "tweetId"],
+      propDefinition: [
+        xquik,
+        "tweetId",
+      ],
     },
   },
   async run({ $ }) {
