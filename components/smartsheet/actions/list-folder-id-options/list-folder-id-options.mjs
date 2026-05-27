@@ -5,7 +5,7 @@ export default {
   name: "List Folder Options",
   description: "Retrieves available folder options from a workspace."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/workspaces/get-workspace-children)",
-  version: "0.0.2",
+  version: "0.1.0",
   type: "action",
   annotations: {
     destructiveHint: false,
