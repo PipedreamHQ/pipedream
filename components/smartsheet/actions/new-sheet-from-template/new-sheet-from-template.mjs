@@ -4,8 +4,13 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   key: "smartsheet-new-sheet-from-template",
   name: "New Sheet From Template",
-  description: "Creates a new sheet from a template. [See docs here](https://smartsheet.redoc.ly/tag/sheets#operation/create-sheet-in-sheets-folder)",
-  version: "0.0.3",
+  description:
+    "Creates a new sheet from a template. Requires either a workspace or folder destination."
+    + " Use **List Workspace Templates** to find template IDs."
+    + " Use **List Workspace Options** to find workspace IDs."
+    + " Use **List Folder Options** to find folder IDs."
+    + " See the documentation: [Create in folder](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/create-sheet-in-folder), [Create in workspace](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/create-sheet-in-workspace)",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -30,12 +35,14 @@ export default {
         smartsheet,
         "workspaceId",
       ],
+      description: "Workspace to create the sheet in. Required if Folder is not specified. Use **List Workspace Options** to find workspace IDs.",
     },
     folderId: {
       propDefinition: [
         smartsheet,
         "folderId",
       ],
+      description: "Folder to create the sheet in. Required if Workspace is not specified as the sole destination. Use **List Folder Options** to find folder IDs.",
     },
   },
   async run({ $ }) {
@@ -46,28 +53,27 @@ export default {
       folderId,
     } = this;
 
-    if (workspaceId && folderId) {
-      throw new ConfigurationError("Only one of `workspaceId` or `folderId` may be entered");
+    if (!workspaceId && !folderId) {
+      throw new ConfigurationError("Either a Workspace or Folder must be specified. Creating sheets in the default Sheets folder is deprecated.");
     }
 
-    let response;
+    if (workspaceId && folderId) {
+      throw new ConfigurationError("Only one of Workspace or Folder may be specified");
+    }
+
     const data = {
       fromId: templateId,
       name,
     };
 
-    if (workspaceId) {
-      response = await this.smartsheet.createSheetInWorkspace(workspaceId, {
-        data,
-        $,
-      });
-    } else if (folderId) {
+    let response;
+    if (folderId) {
       response = await this.smartsheet.createSheetInFolder(folderId, {
         data,
         $,
       });
     } else {
-      response = await this.smartsheet.createSheet({
+      response = await this.smartsheet.createSheetInWorkspace(workspaceId, {
         data,
         $,
       });
