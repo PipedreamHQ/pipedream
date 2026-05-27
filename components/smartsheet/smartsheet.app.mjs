@@ -38,7 +38,7 @@ export default {
     templateId: {
       type: "integer",
       label: "Template",
-      description: "Select a template from a workspace. Use the **List Workspace Templates** action to find template IDs.",
+      description: "Select a template from a workspace. Use the **List Workspace Templates** action to find template IDs. Example: `1122334455667788`.",
       async options() {
         const { data: workspaces } = await this.listAllWorkspaces();
         const templates = [];
@@ -63,7 +63,7 @@ export default {
     workspaceId: {
       type: "integer",
       label: "Workspace",
-      description: "Select a workspace. Use the **List Workspace Options** action to find workspace IDs.",
+      description: "Select a workspace. Use the **List Workspace Options** action to find workspace IDs. Example: `1234567890123456`.",
       optional: true,
       async options() {
         const { data } = await this.listAllWorkspaces();
@@ -78,7 +78,7 @@ export default {
     folderId: {
       type: "integer",
       label: "Folder",
-      description: "Select a folder from a workspace. Use the **List Folder Options** action with a workspace ID to find folder IDs.",
+      description: "Select a folder from a workspace. Use the **List Folder Options** action with a workspace ID to find folder IDs. Example: `9876543210987654`.",
       optional: true,
       async options({ workspaceId }) {
         if (!workspaceId) {

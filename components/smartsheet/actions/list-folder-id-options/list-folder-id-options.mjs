@@ -20,7 +20,7 @@ export default {
         "workspaceId",
       ],
       optional: false,
-      description: "The workspace to list folders from.",
+      description: "The workspace to list folders from. Example: `1234567890123456`.",
     },
   },
   async run({ $ }) {
