@@ -1,4 +1,3 @@
-import { ConfigurationError } from "@pipedream/platform";
 import app from "../../ashby.app.mjs";
 
 export default {
@@ -15,9 +14,9 @@ export default {
   props: {
     app,
     fileHandle: {
-      type: "object",
+      type: "string",
       label: "File Handle",
-      description: "A file handle object (can be retrieved by calling **Get Candidate** to get a candidate's `resumeFileHandle` or `fileHandles`). A JSON-serialized string is also accepted and will be parsed automatically.",
+      description: "A file handle string (can be retrieved by calling **Get Candidate** to get a candidate's `resumeFileHandle` or `fileHandles`).",
     },
   },
   async run({ $ }) {
@@ -26,19 +25,10 @@ export default {
       fileHandle,
     } = this;
 
-    let parsedFileHandle = fileHandle;
-    if (typeof fileHandle === "string") {
-      try {
-        parsedFileHandle = JSON.parse(fileHandle);
-      } catch {
-        throw new ConfigurationError("`File Handle` must be a valid object or a JSON-serialized string.");
-      }
-    }
-
     const response = await app.getFileUrl({
       $,
       data: {
-        fileHandle: parsedFileHandle,
+        fileHandle,
       },
     });
 
