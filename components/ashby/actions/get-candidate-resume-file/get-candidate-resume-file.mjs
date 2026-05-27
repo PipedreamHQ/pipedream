@@ -4,7 +4,7 @@ import app from "../../ashby.app.mjs";
 export default {
   key: "ashby-get-candidate-resume-file",
   name: "Get Candidate Resume File",
-  description: "Retrieves the URL of a candidate's resume file. Equivalent to calling the Get Candidate and Get File URL actions in succession. See the documentation [here](https://developers.ashbyhq.com/reference/candidateinfo) and [here](https://developers.ashbyhq.com/reference/fileinfo)",
+  description: "Retrieves the URL of a candidate's resume file. Equivalent to calling the **Get Candidate** and **Get File URL** actions in succession. See the documentation [here](https://developers.ashbyhq.com/reference/candidateinfo) and [here](https://developers.ashbyhq.com/reference/fileinfo)",
   version: "0.0.1",
   type: "action",
   annotations: {
