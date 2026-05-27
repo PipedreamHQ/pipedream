@@ -4,7 +4,7 @@ import { buildEvent } from "../../common/utils.mjs";
 export default {
   key: "dreamdata-identify-company",
   name: "Identify Company (Group)",
-  description: "Associate a user with a company/account and record traits about the company. Either a User ID or an Anonymous ID is required. [See the documentation](https://developer.dreamdata.io/server-side/server-side-tracking/).",
+  description: "Associate a user with a company/account and record traits about the company. Either a User ID or an Anonymous ID is required. [See the documentation](https://developer.dreamdata.io/server-side/nodejs-sdk/).",
   version: "0.0.1",
   type: "action",
   annotations: {

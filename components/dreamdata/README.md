@@ -6,6 +6,7 @@ attribution platform.
 ## Actions
 
 All actions wrap Dreamdata's [server-side tracking API](https://developer.dreamdata.io/server-side/server-side-tracking/)
+and [Node.js SDK event model](https://developer.dreamdata.io/server-side/nodejs-sdk/)
 (`POST /v1/batch`):
 
 - **Track Event** - record an action a user performed.
@@ -14,18 +15,6 @@ All actions wrap Dreamdata's [server-side tracking API](https://developer.dreamd
 - **Identify Company (Group)** - associate a user with a company/account.
 - **Alias User** - merge two user identities.
 - **Send Batch** - submit a raw batch of events (power user).
-
-## Sources
-
-Triggers receive [Dreamdata outbound webhooks](https://docs.dreamdata.io/article/mdebkprrgi-webhook-syncs)
-when a record enters an audience:
-
-- **New Company in Audience (Instant)**
-- **New Contact in Audience (Instant)**
-
-Both sources optionally verify the inbound HMAC-SHA256 signature. After
-deploying, copy the trigger URL into Dreamdata's Activation Hub > Syncs >
-Webhooks configuration.
 
 ## Authentication
 

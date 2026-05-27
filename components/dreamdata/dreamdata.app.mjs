@@ -1,5 +1,8 @@
 import { axios } from "@pipedream/platform";
-import constants from "./common/constants.mjs";
+import {
+  addDefaultEventFields,
+  defaultMessageId,
+} from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -65,10 +68,10 @@ export default {
       events, sentAt, messageId, ...args
     } = {}) {
       const data = {
-        batch: events,
+        batch: events.map(addDefaultEventFields),
+        messageId: messageId || defaultMessageId(),
+        sentAt: sentAt || new Date().toISOString(),
       };
-      if (sentAt) data.sentAt = sentAt;
-      if (messageId) data.messageId = messageId;
       return this._makeRequest({
         method: "POST",
         path: "/batch",
@@ -85,9 +88,6 @@ export default {
         ],
         ...args,
       });
-    },
-    constants() {
-      return constants;
     },
   },
 };

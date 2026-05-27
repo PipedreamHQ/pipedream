@@ -3,7 +3,7 @@ import dreamdata from "../../dreamdata.app.mjs";
 export default {
   key: "dreamdata-send-batch",
   name: "Send Batch",
-  description: "Submit a raw batch of Segment-spec events (`identify`, `track`, `page`, `group`, `alias`) to Dreamdata's ingestion API. Use this when you need full control over event shape. [See the documentation](https://developer.dreamdata.io/server-side/server-side-tracking/).",
+  description: "Submit a raw batch of Dreamdata analytics events (`identify`, `track`, `page`, `group`, `alias`) to Dreamdata's ingestion API. Use this when you need full control over event shape. [See the documentation](https://developer.dreamdata.io/server-side/nodejs-sdk/).",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -16,7 +16,7 @@ export default {
     events: {
       type: "string[]",
       label: "Events",
-      description: "Array of event objects. Example entry: `{ \"type\": \"track\", \"event\": \"Signed Up\", \"userId\": \"usr_123\", \"properties\": { \"plan\": \"Pro\" } }`. Each entry must include `type` and either `userId` or `anonymousId`. Max payload size is 500 KB per request.",
+      description: "Array of event objects. Example entry: `{ \"type\": \"track\", \"event\": \"Signed Up\", \"userId\": \"usr_123\", \"properties\": { \"plan\": \"Pro\" } }`. Each entry must include `type`; most event types require either `userId` or `anonymousId`. Missing `messageId` and `timestamp` values are generated automatically. Max payload size is 500 KB per request.",
     },
     sentAt: {
       type: "string",
