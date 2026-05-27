@@ -7966,8 +7966,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/intrinio:
-    specifiers: {}
+  components/intrinio: {}
 
   components/intuiface:
     dependencies:
@@ -14989,8 +14988,8 @@ importers:
   components/softr:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.8
-        version: 1.6.8
+        specifier: ^3.4.0
+        version: 3.4.0
 
   components/solarwinds_service_desk: {}
 
