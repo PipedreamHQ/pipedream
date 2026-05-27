@@ -54,7 +54,9 @@ export default {
       values = values.filter(({ folder }) => !folder);
     }
 
-    const plural = values.length === 1 ? "" : "s";
+    const plural = values.length === 1
+      ? ""
+      : "s";
 
     const type = this.excludeFolders
       ? `file${plural}`
