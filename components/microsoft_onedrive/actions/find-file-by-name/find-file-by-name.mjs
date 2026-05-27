@@ -5,7 +5,7 @@ export default {
   key: "microsoft_onedrive-find-file-by-name",
   name: "Find File by Name",
   description: "Search for a file or folder by name. [See the documentation](https://learn.microsoft.com/en-us/onedrive/developer/rest-api/api/driveitem_search)",
-  version: "0.0.3",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -14,6 +14,12 @@ export default {
   type: "action",
   props: {
     onedrive,
+    drive: {
+      propDefinition: [
+        onedrive,
+        "drive",
+      ],
+    },
     name: {
       type: "string",
       label: "File Name",
@@ -30,12 +36,20 @@ export default {
     httpRequest,
   },
   async run({ $ }) {
+    const drivePath = this.onedrive._getDrivePath(this.drive);
+
+    const escapedName = this.name.replace(/'/g, "''");
+    const encodedName = encodeURIComponent(escapedName);
+
     const response = await this.httpRequest({
-      url: `/search(q='${this.name}')`,
+      url: `${drivePath}/search(q='${encodedName}')`,
+      useSharedDrive: true,
     });
+
     let values = response.value.filter(
       ({ name }) => name.toLowerCase().includes(this.name.toLowerCase()),
     );
+
     if (this.excludeFolders) {
       values = values.filter(({ folder }) => !folder);
     }
@@ -43,10 +57,13 @@ export default {
     const plural = values.length === 1
       ? ""
       : "s";
+
     const type = this.excludeFolders
       ? `file${plural}`
       : `file${plural} and/or folder${plural}`;
+
     $.export("$summary", `Found ${values.length} matching ${type}`);
+
     return values;
   },
 };
