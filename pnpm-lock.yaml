@@ -1260,6 +1260,9 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/assured_platform:
+    specifiers: {}
+
   components/asters:
     dependencies:
       '@pipedream/platform':
@@ -1585,13 +1588,18 @@ importers:
         specifier: ^4.0.0
         version: 4.1.7
 
+  components/bannerify:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
+
   components/bannerbear:
     dependencies:
       '@pipedream/platform':
         specifier: ^0.10.1
         version: 0.10.1
 
-  components/bannerify: {}
 
   components/barcode_lookup:
     dependencies:
@@ -5100,6 +5108,9 @@ importers:
 
   components/epic_games: {}
 
+  components/eppo:
+    specifiers: {}
+
   components/epsy:
     dependencies:
       '@pipedream/platform':
@@ -6212,7 +6223,11 @@ importers:
 
   components/getswift: {}
 
-  components/getty_images: {}
+  components/getty_images:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
 
   components/ghost_org_admin_api:
     dependencies:
@@ -10122,7 +10137,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/moodle: {}
+  components/moodle:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.3.1
+        version: 3.3.1
 
   components/moonclerk:
     dependencies:
@@ -13612,7 +13631,11 @@ importers:
 
   components/runway: {}
 
-  components/rydoo: {}
+  components/rydoo:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
 
   components/rytr: {}
 
@@ -17829,6 +17852,9 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/ybug:
+    specifiers: {}
+
   components/yelp:
     dependencies:
       '@pipedream/platform':
@@ -17946,7 +17972,11 @@ importers:
 
   components/yuroti: {}
 
-  components/yutori: {}
+  components/yutori:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
 
   components/z_api:
     dependencies:
@@ -41980,7 +42010,6 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
-      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.60(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1))(rollup@4.53.2)':
     dependencies:
