@@ -20,7 +20,7 @@ export default {
     messageId: {
       type: "string",
       label: "Message ID",
-      description: "A unique identifier for this message. Defaults to a generated UUID if omitted. Use a deterministic value to make calls idempotent.",
+      description: "A unique identifier for this message. Defaults to a generated UUID if omitted. Use a deterministic value to make calls idempotent. Example: `msg_order_2026_05_27_0001`.",
       optional: true,
     },
     timestamp: {
@@ -32,13 +32,13 @@ export default {
     context: {
       type: "object",
       label: "Context",
-      description: "Dictionary of extra information about the message that is not directly related to the API call, such as IP address, user agent, page, or campaign UTM parameters. See [Segment-compatible context spec](https://developer.dreamdata.io/server-side/server-side-tracking/).",
+      description: "Dictionary of extra information about the message that is not directly related to the API call, such as IP address, user agent, page, or campaign UTM parameters. Example: `{ \"ip\": \"203.0.113.1\", \"userAgent\": \"Mozilla/5.0\", \"page\": { \"url\": \"https://example.com/pricing\" }, \"campaign\": { \"utm_source\": \"google\" } }`. See [Segment-compatible context spec](https://developer.dreamdata.io/server-side/server-side-tracking/).",
       optional: true,
     },
     integrations: {
       type: "object",
       label: "Integrations",
-      description: "Dictionary of downstream destinations to either enable or disable for this event.",
+      description: "Dictionary of downstream destinations to either enable or disable for this event. Example: `{ \"all\": false, \"Google Analytics\": true, \"HubSpot\": false }`.",
       optional: true,
     },
   },

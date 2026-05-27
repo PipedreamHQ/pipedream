@@ -4635,6 +4635,12 @@ importers:
 
   components/drchrono: {}
 
+  components/dreamdata:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.0
+        version: 3.4.0
+
   components/dreamhost: {}
 
   components/dreamstudio:

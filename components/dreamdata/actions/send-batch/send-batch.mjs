@@ -16,12 +16,12 @@ export default {
     events: {
       type: "string[]",
       label: "Events",
-      description: "Array of event objects. Each entry must be a JSON object matching the Segment spec (must include a `type` and either `userId` or `anonymousId`). Max payload size is 500 KB per request.",
+      description: "Array of event objects. Example entry: `{ \"type\": \"track\", \"event\": \"Signed Up\", \"userId\": \"usr_123\", \"properties\": { \"plan\": \"Pro\" } }`. Each entry must include `type` and either `userId` or `anonymousId`. Max payload size is 500 KB per request.",
     },
     sentAt: {
       type: "string",
       label: "Sent At",
-      description: "ISO-8601 timestamp when the batch was sent. Defaults to the current time if omitted.",
+      description: "ISO-8601 timestamp when the batch was sent. Example: `2026-05-27T15:04:05Z`. Defaults to the current time if omitted.",
       optional: true,
     },
     messageId: {

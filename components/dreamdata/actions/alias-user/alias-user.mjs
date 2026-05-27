@@ -15,9 +15,11 @@ export default {
   props: {
     dreamdata,
     userId: {
-      type: "string",
-      label: "User ID",
-      description: "The new unique identifier for the user.",
+      propDefinition: [
+        dreamdata,
+        "userId",
+      ],
+      optional: false,
     },
     previousId: {
       type: "string",
@@ -63,7 +65,7 @@ export default {
       $,
       event,
     });
-    $.export("$summary", `Aliased ${this.previousId} → ${this.userId}`);
+    $.export("$summary", `Aliased ${this.previousId} -> ${this.userId}`);
     return response;
   },
 };
