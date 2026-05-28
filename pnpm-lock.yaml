@@ -11394,6 +11394,9 @@ importers:
         specifier: ^3.2.5
         version: 3.3.0
 
+  components/palavir_compliance:
+    specifiers: {}
+
   components/pandadoc:
     dependencies:
       '@pipedream/platform':
