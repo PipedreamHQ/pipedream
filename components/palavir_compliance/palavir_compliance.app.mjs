@@ -26,6 +26,12 @@ export default {
         data,
       });
     },
+    async getStats($) {
+      return this._makeRequest($, {
+        method: "GET",
+        path: "/api/stats",
+      });
+    },
     async screenEntity($, data) {
       return this._makeRequest($, {
         method: "POST",
