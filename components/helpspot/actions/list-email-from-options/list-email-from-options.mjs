@@ -4,7 +4,7 @@ export default {
   key: "helpspot-list-email-from-options",
   name: "List Send Email From Options",
   description: "Retrieves available options for the Send Email From field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
