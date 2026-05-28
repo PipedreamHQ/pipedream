@@ -1,14 +1,13 @@
 import app from "../../business_edge.app.mjs";
-import { orderReturnSchema } from "../../common/orderReturnSchema.mjs";
+import { branchReturnSchema } from "../../common/branchReturnSchema.mjs";
 import { normalizeDateFormatOpt } from "../../common/dateFormat.mjs";
-import { isChooseOneObject } from "../../common/propUtils.mjs";
 
 export default {
-  key: "business_edge-order-inquiry",
-  name: "Order Inquiry",
+  key: "business_edge-list-branches",
+  name: "List Branches",
   description:
-    "Query orders from Business Edge via `POST /documentinq/orderinquiry/export.json`. [See the documentation](https://hangerbolt.ci-inc.com/apilist/export)",
-  version: "0.0.2",
+    "Retrieve branches from Business Edge via `POST /masterfiles/branch/export.json`. [See the documentation](https://hangerbolt.ci-inc.com/apilist/export)",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -47,13 +46,12 @@ export default {
         "savedSchemaCode",
       ],
     },
-    chooseOne: {
-      propDefinition: [
-        app,
-        "chooseOne",
-      ],
-      description:
-        "List of orders and/or Range (Range is used if both are sent). Example: `{ \"List\": [{ \"OrdNum\": \"12345\" }] }`",
+    onlyActive: {
+      type: "boolean",
+      label: "Only Active (OnlyActive)",
+      description: "When true, return only active branches",
+      optional: true,
+      default: true,
     },
   },
   async run({ $ }) {
@@ -63,14 +61,15 @@ export default {
       dateDelim,
       savedSchemaId,
       savedSchemaCode,
-      chooseOne,
+      onlyActive,
     } = this;
 
     const fmt = normalizeDateFormatOpt(dateFormatOpt);
     const body = {
       Entity: entity,
       DateFormatOpt: fmt,
-      ...orderReturnSchema,
+      OnlyActive: onlyActive !== false,
+      ...branchReturnSchema,
     };
 
     if (dateDelim) {
@@ -82,22 +81,19 @@ export default {
     if (savedSchemaCode) {
       body.SavedSchemaCode = savedSchemaCode;
     }
-    if (isChooseOneObject(chooseOne)) {
-      body.ChooseOne = chooseOne;
-    }
 
     const data = await this.app.postExport({
       $,
-      endpoint: "/documentinq/orderinquiry/export.json",
+      endpoint: "/masterfiles/branch/export.json",
       data: body,
     });
 
-    const orders = Array.isArray(data?.Order)
-      ? data.Order
+    const branches = Array.isArray(data?.Branch)
+      ? data.Branch
       : [];
     $.export(
       "$summary",
-      `Successfully retrieved ${orders.length} orders`,
+      `Successfully retrieved ${branches.length} branches`,
     );
     return data;
   },

@@ -27,8 +27,8 @@ export default {
   key: "business_edge-order-upload",
   name: "Order Upload",
   description:
-    "Upload an order to Business Edge via `POST /documents/orderupload/export.json`. ImpOrder is required and validated before the request (OrdDate, ImpDtlLine with product id + OrdQty; ShipTo/BillTo/ThirdPartyBillTo require Name when set). [API index](https://hangerbolt.ci-inc.com/apilist/export)",
-  version: "0.0.1",
+    "Upload an order to Business Edge via `POST /documents/orderupload/export.json`. ImpOrder is required and validated before the request (OrdDate, ImpDtlLine with product id + OrdQty; ShipTo/BillTo/ThirdPartyBillTo require Name when set). [See the documentation](https://hangerbolt.ci-inc.com/apilist/export)",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -44,33 +44,32 @@ export default {
       ],
     },
     dateFormatOpt: {
-      type: "string",
-      label: "Date Format (DateFormatOpt)",
-      description:
-        "A=mm-dd-yy; B=yy-mm-dd; C=yyyy-mm-dd; D=mmddyy; E=yymmdd; F=yyyymmdd; G=dd-mm-yy; H=ddmmyy",
-      optional: true,
-      default: "A",
+      propDefinition: [
+        app,
+        "dateFormatOpt",
+      ],
     },
     dateDelim: {
-      type: "string",
-      label: "Date Delimiter (DateDelim)",
+      propDefinition: [
+        app,
+        "dateDelim",
+      ],
       description:
         "Separator for delimited date formats. Ignored (not sent) when DateFormatOpt is "
         + "D, E, F, or H (compact formats without delimiters). Default \"-\" for other formats.",
-      optional: true,
       default: "-",
     },
     savedSchemaId: {
-      type: "string",
-      label: "Saved Schema ID (SavedSchemaID)",
-      description: "Optional saved API schema ID for returned data (use with or instead of schema code)",
-      optional: true,
+      propDefinition: [
+        app,
+        "savedSchemaId",
+      ],
     },
     savedSchemaCode: {
-      type: "string",
-      label: "Saved Schema Code (SavedSchemaCode)",
-      description: "Optional saved API schema code for returned data (use with or instead of schema ID)",
-      optional: true,
+      propDefinition: [
+        app,
+        "savedSchemaCode",
+      ],
     },
     impOrder: {
       type: "object",

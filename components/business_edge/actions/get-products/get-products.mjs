@@ -7,8 +7,8 @@ export default {
   key: "business_edge-get-products",
   name: "Get Products",
   description:
-    "Retrieve products from Business Edge via `POST /masterfiles/productV3/export.json`. [API index](https://hangerbolt.ci-inc.com/apilist/export)",
-  version: "0.0.1",
+    "Retrieve products from Business Edge via `POST /masterfiles/productV3/export.json`. [See the documentation](https://hangerbolt.ci-inc.com/apilist/export)",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -24,56 +24,54 @@ export default {
       ],
     },
     dateFormatOpt: {
-      type: "string",
-      label: "Date Format (DateFormatOpt)",
-      description:
-        "A=mm-dd-yy; B=yy-mm-dd; C=yyyy-mm-dd; D=mmddyy; E=yymmdd; F=yyyymmdd; G=dd-mm-yy; H=ddmmyy",
-      optional: true,
-      default: "A",
+      propDefinition: [
+        app,
+        "dateFormatOpt",
+      ],
     },
     dateDelim: {
-      type: "string",
-      label: "Date Delimiter (DateDelim)",
-      description: "Optional delimiter used with formatted dates in the API request",
-      optional: true,
+      propDefinition: [
+        app,
+        "dateDelim",
+      ],
     },
     savedSchemaId: {
-      type: "string",
-      label: "Saved Schema ID (SavedSchemaID)",
-      description: "Optional saved API schema ID for returned data (use with or instead of schema code)",
-      optional: true,
+      propDefinition: [
+        app,
+        "savedSchemaId",
+      ],
     },
     savedSchemaCode: {
-      type: "string",
-      label: "Saved Schema Code (SavedSchemaCode)",
-      description: "Optional saved API schema code for returned data (use with or instead of schema ID)",
-      optional: true,
+      propDefinition: [
+        app,
+        "savedSchemaCode",
+      ],
     },
     branchCode: {
-      type: "string",
-      label: "Branch Code (BranchCode)",
-      description: "Optional branch code filter for the product export",
-      optional: true,
+      propDefinition: [
+        app,
+        "branchCode",
+      ],
     },
     branchId: {
-      type: "string",
-      label: "Branch ID (BranchID)",
-      description: "Optional branch ID filter for the product export",
-      optional: true,
+      propDefinition: [
+        app,
+        "branchId",
+      ],
     },
     availBom: {
-      type: "boolean",
-      label: "Include Bill of Materials in Available (AvailBOM)",
-      description: "When true, include bill of materials in availability data",
-      optional: true,
-      default: false,
+      propDefinition: [
+        app,
+        "availBom",
+      ],
     },
     chooseOne: {
-      type: "object",
-      label: "Choose One (ChooseOne)",
+      propDefinition: [
+        app,
+        "chooseOne",
+      ],
       description:
         "Search, Range, or List per API (Range wins over list over search). Example: `{ \"Search\": \"bolt\" }`",
-      optional: true,
     },
   },
   async run({ $ }) {

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/business_edge",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Business Edge (CI, Inc.) Components",
   "main": "business_edge.app.mjs",
   "keywords": [

@@ -1,9 +1,9 @@
 import { axios } from "@pipedream/platform";
+import { branchReturnSchema } from "./common/branchReturnSchema.mjs";
 import {
   getFallbackEntityOptions,
   parseEntityOptionsFromArgsPayload,
 } from "./common/entities.mjs";
-
 /**
  * Business Edge (CI, Inc.) — DevKey auth: `Authorization: Basic base64("DevKey:" + dev_key)`.
  * Configure the Pipedream app account with `base_url` (no trailing slash, e.g. https://hangerbolt.ci-inc.com) and `dev_key`.
@@ -26,6 +26,117 @@ export default {
           return fromApi;
         }
         return getFallbackEntityOptions();
+      },
+    },
+    dateFormatOpt: {
+      type: "string",
+      label: "Date Format (DateFormatOpt)",
+      description:
+        "A=mm-dd-yy; B=yy-mm-dd; C=yyyy-mm-dd; D=mmddyy; E=yymmdd; F=yyyymmdd; G=dd-mm-yy; H=ddmmyy",
+      optional: true,
+      default: "A",
+    },
+    dateDelim: {
+      type: "string",
+      label: "Date Delimiter (DateDelim)",
+      description: "Optional delimiter used with formatted dates in the API request",
+      optional: true,
+    },
+    savedSchemaId: {
+      type: "string",
+      label: "Saved Schema ID (SavedSchemaID)",
+      description: "Optional saved API schema ID for returned data (use with or instead of schema code)",
+      optional: true,
+    },
+    savedSchemaCode: {
+      type: "string",
+      label: "Saved Schema Code (SavedSchemaCode)",
+      description: "Optional saved API schema code for returned data (use with or instead of schema ID)",
+      optional: true,
+    },
+    chooseOne: {
+      type: "object",
+      label: "Choose One (ChooseOne)",
+      description:
+        "Search, Range, or List per API rules (Range overrides search and list). "
+        + "Shape varies by endpoint; see the API documentation.",
+      optional: true,
+    },
+    availBom: {
+      type: "boolean",
+      label: "Include Bill of Materials in Available (AvailBOM)",
+      description: "When true, include bill of materials in availability-related export output",
+      optional: true,
+      default: false,
+    },
+    branchCode: {
+      type: "string",
+      label: "Branch Code (BranchCode)",
+      description:
+        "Optional branch code filter. Options load from the branch export when Entity is set; "
+        + "use **List Branches** to retrieve all branches.",
+      optional: true,
+      async options({
+        $, entity,
+      }) {
+        if (!entity) {
+          return [];
+        }
+        const branches = await this.fetchBranches({
+          $,
+          entity,
+        });
+        const out = [];
+        for (const branch of branches) {
+          const code = branch?.BrCode;
+          if (code == null || String(code).trim() === "") {
+            continue;
+          }
+          const value = String(code);
+          const desc = branch?.BrDesc || branch?.BrName;
+          out.push({
+            label: desc
+              ? `${value} — ${desc}`
+              : value,
+            value,
+          });
+        }
+        return out;
+      },
+    },
+    branchId: {
+      type: "string",
+      label: "Branch ID (BranchID)",
+      description:
+        "Optional branch ID filter. Options load from the branch export when Entity is set; "
+        + "use **List Branches** to retrieve all branches.",
+      optional: true,
+      async options({
+        $, entity,
+      }) {
+        if (!entity) {
+          return [];
+        }
+        const branches = await this.fetchBranches({
+          $,
+          entity,
+        });
+        const out = [];
+        for (const branch of branches) {
+          const id = branch?.BranchID;
+          if (id == null || String(id).trim() === "") {
+            continue;
+          }
+          const value = String(id);
+          const desc = branch?.BrDesc || branch?.BrName || branch?.BrCode;
+          out.push({
+            label: desc
+              ? `${value} — ${desc}`
+              : value,
+            value,
+          });
+        }
+        return out;
       },
     },
   },
@@ -68,6 +179,32 @@ export default {
       } catch {
         return null;
       }
+    },
+    /**
+     * Load branches for async options and helper actions.
+     * @param {object} opts
+     * @param {object} opts.$ Pipedream context passed to axios
+     * @param {string} opts.entity Entity code
+     * @param {boolean} [opts.onlyActive=true] When true, request only active branches
+     * @returns {Promise<object[]>}
+     */
+    async fetchBranches({
+      $, entity, onlyActive = true,
+    }) {
+      const body = {
+        Entity: entity,
+        DateFormatOpt: "A",
+        OnlyActive: onlyActive !== false,
+        ...branchReturnSchema,
+      };
+      const data = await this.postExport({
+        $,
+        endpoint: "/masterfiles/branch/export.json",
+        data: body,
+      });
+      return Array.isArray(data?.Branch)
+        ? data.Branch
+        : [];
     },
     /**
      * Bounded, non-sensitive summary for API error responses (avoids full body
