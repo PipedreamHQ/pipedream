@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/lmnt",
-  "version": "1.1.3",
+  "version": "1.1.0",
   "description": "Pipedream LMNT Components",
   "main": "lmnt.app.mjs",
   "keywords": [
