@@ -12,7 +12,7 @@ export default {
     + " You must provide either a Workspace ID or Folder ID — the home-level import endpoint is deprecated."
     + " Supported formats: CSV (.csv) and Excel XLSX (.xlsx)."
     + " Use **List Sheets** to verify the sheet was created after import."
-    + " See the documentation: [Import into workspace](https://developers.smartsheet.com/api/smartsheet/openapi/imports/import-sheet-into-workspace), [Import into folder](https://developers.smartsheet.com/api/smartsheet/openapi/imports/import-sheet-into-folder)",
+    + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/imports/import-sheet-into-workspace)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -71,13 +71,19 @@ export default {
     } = await getFileStreamAndMetadata(this.filePath);
 
     const filename = metadata.name || "import.csv";
-    let contentType = metadata.contentType;
-    if (!contentType || contentType === "application/octet-stream") {
-      if (filename.endsWith(".csv")) {
-        contentType = "text/csv";
-      } else if (filename.endsWith(".xlsx")) {
-        contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-      }
+    const lower = filename.toLowerCase();
+    const XLSX_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+    let contentType;
+    if (lower.endsWith(".xlsx")) {
+      contentType = XLSX_TYPE;
+    } else if (lower.endsWith(".csv")) {
+      contentType = "text/csv";
+    } else if (metadata.contentType === XLSX_TYPE || metadata.contentType === "application/vnd.ms-excel") {
+      contentType = XLSX_TYPE;
+    } else {
+      // URLs without a file extension often serve CSV with a non-CSV Content-Type
+      // (e.g., text/html, text/plain). Default to CSV.
+      contentType = "text/csv";
     }
 
     const params = {

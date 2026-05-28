@@ -1,4 +1,25 @@
+import { ConfigurationError } from "@pipedream/platform";
 import smartsheet from "../../smartsheet.app.mjs";
+
+function parseRowIds(raw) {
+  let rowIds;
+  try {
+    const parsed = JSON.parse(raw);
+    rowIds = Array.isArray(parsed)
+      ? parsed
+      : [
+        parsed,
+      ];
+  } catch {
+    rowIds = raw.split(",").map((id) => id.trim())
+      .filter(Boolean);
+  }
+  const numeric = rowIds.map(Number);
+  if (!numeric.length || numeric.some((id) => !Number.isFinite(id))) {
+    throw new ConfigurationError("`Row IDs` must be a comma-separated list of numeric row IDs or a JSON array of numbers.");
+  }
+  return numeric;
+}
 
 export default {
   key: "smartsheet-copy-rows",
@@ -38,16 +59,10 @@ export default {
     },
   },
   async run({ $ }) {
-    let rowIds;
-    try {
-      const parsed = JSON.parse(this.rowIds);
-      rowIds = Array.isArray(parsed)
-        ? parsed.map(Number)
-        : [
-          Number(parsed),
-        ];
-    } catch {
-      rowIds = this.rowIds.split(",").map((id) => Number(id.trim()));
+    const rowIds = parseRowIds(this.rowIds);
+    const destinationSheetId = Number(this.destinationSheetId);
+    if (!Number.isFinite(destinationSheetId)) {
+      throw new ConfigurationError("`Destination Sheet ID` must be a numeric sheet ID.");
     }
 
     const response = await this.smartsheet.copyRows(this.sheetId, {
@@ -55,7 +70,7 @@ export default {
       data: {
         rowIds,
         to: {
-          sheetId: Number(this.destinationSheetId),
+          sheetId: destinationSheetId,
         },
       },
     });

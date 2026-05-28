@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import smartsheet from "../../smartsheet.app.mjs";
 
 export default {
@@ -36,11 +37,14 @@ export default {
         }
         : {}),
     };
+    if (!Object.keys(data).length) {
+      throw new ConfigurationError("Provide at least one property to update (e.g., New Name).");
+    }
     const response = await this.smartsheet.updateSheetProperties(this.sheetId, {
       $,
       data,
     });
-    $.export("$summary", `Updated sheet ${this.sheetId}`);
+    $.export("$summary", `Updated sheet "${response.result?.name || this.sheetId}"`);
     return response;
   },
 };

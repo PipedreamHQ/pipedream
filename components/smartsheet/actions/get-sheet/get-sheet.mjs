@@ -5,7 +5,7 @@ export default {
   name: "Get Sheet",
   description:
     "Get a sheet's full structure: column definitions (name, type, options, ID), all rows with cell values, and sheet metadata."
-    + " This is the primary schema discovery tool — call it BEFORE **Add Rows** or **Update Rows** to learn column names, types, and IDs."
+    + " This is the primary schema discovery tool — call it BEFORE **Add Row to Sheet** or **Update Row** to learn column names, types, and IDs."
     + " Returns rows with cell values keyed by column name for readability."
     + " For a lightweight column-only view, use **List Columns** instead."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/getsheet)",
@@ -50,26 +50,10 @@ export default {
   },
   async run({ $ }) {
     const params = {
-      ...(this.rowNumbers
-        ? {
-          rowNumbers: this.rowNumbers,
-        }
-        : {}),
-      ...(this.columnIds
-        ? {
-          columnIds: this.columnIds,
-        }
-        : {}),
-      ...(this.includeAll
-        ? {
-          includeAll: true,
-        }
-        : {}),
-      ...(this.filterId
-        ? {
-          filterId: this.filterId,
-        }
-        : {}),
+      rowNumbers: this.rowNumbers,
+      columnIds: this.columnIds,
+      includeAll: this.includeAll,
+      filterId: this.filterId,
     };
 
     const response = await this.smartsheet.getSheet(this.sheetId, {

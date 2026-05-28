@@ -5,13 +5,13 @@ export default {
   key: "smartsheet-create-sheet",
   name: "Create Sheet",
   description:
-    "Create a new blank sheet with column definitions."
+    "Create a new blank sheet with column definitions in a workspace or folder."
     + " Columns array defines the schema — each column needs a `title` and `type`."
     + " Supported column types: TEXT_NUMBER, DATE, DATETIME, CONTACT_LIST, CHECKBOX, PICKLIST, DURATION, PREDECESSOR, ABSTRACT_DATETIME."
     + " For PICKLIST columns, include an `options` array with the valid values."
-    + " Optionally place the sheet in a workspace or folder by providing `workspaceId` or `folderId`."
+    + " You must provide either a Workspace ID or Folder ID — the home-level create endpoint is deprecated."
     + " Use **List Sheets** to verify the sheet was created."
-    + " See the documentation: [Create in folder](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/create-sheet-in-folder), [Create in workspace](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/create-sheet-in-workspace), [Create in Sheets folder](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/create-sheet-in-sheets-folder)",
+    + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/create-sheet-in-workspace)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -36,52 +36,65 @@ export default {
     workspaceId: {
       type: "string",
       label: "Workspace ID",
-      description: "Place the sheet in this workspace. Mutually exclusive with Folder ID.",
+      description: "Place the sheet in this workspace. Provide either Workspace ID or Folder ID (at least one is required).",
       optional: true,
     },
     folderId: {
       type: "string",
       label: "Folder ID",
-      description: "Place the sheet in this folder. Mutually exclusive with Workspace ID.",
+      description: "Place the sheet in this folder. Provide either Workspace ID or Folder ID (at least one is required).",
       optional: true,
     },
   },
   async run({ $ }) {
+    if (!this.workspaceId && !this.folderId) {
+      throw new ConfigurationError("Provide either Workspace ID or Folder ID. The home-level create endpoint is deprecated.");
+    }
     if (this.workspaceId && this.folderId) {
       throw new ConfigurationError("Provide either Workspace ID or Folder ID, not both.");
     }
 
-    const columns = JSON.parse(this.columns).map((col) => {
-      const {
-        validation, ...rest // eslint-disable-line no-unused-vars
-      } = col;
-      if (typeof rest.options === "string") {
-        rest.options = JSON.parse(rest.options);
+    let parsedColumns;
+    try {
+      parsedColumns = JSON.parse(this.columns);
+    } catch {
+      throw new ConfigurationError("`Columns` must be a valid JSON array.");
+    }
+    if (!Array.isArray(parsedColumns) || !parsedColumns.length) {
+      throw new ConfigurationError("`Columns` must be a non-empty JSON array of column objects.");
+    }
+
+    const columns = parsedColumns.map((col, i) => {
+      if (col.validation !== undefined) {
+        throw new ConfigurationError(`Column at index ${i} includes a \`validation\` field. Validation rules are not supported during sheet creation — use **Update Column** after creating the sheet to add validation.`);
       }
-      return rest;
+      if (typeof col.options === "string") {
+        return {
+          ...col,
+          options: JSON.parse(col.options),
+        };
+      }
+      return {
+        ...col,
+      };
     });
+    if (!columns.some((c) => c.primary)) {
+      columns[0].primary = true;
+    }
     const data = {
       name: this.name,
       columns,
     };
 
-    let response;
-    if (this.workspaceId) {
-      response = await this.smartsheet.createSheetInWorkspace(this.workspaceId, {
+    const response = this.workspaceId
+      ? await this.smartsheet.createSheetInWorkspace(this.workspaceId, {
+        $,
+        data,
+      })
+      : await this.smartsheet.createSheetInFolder(this.folderId, {
         $,
         data,
       });
-    } else if (this.folderId) {
-      response = await this.smartsheet.createSheetInFolder(this.folderId, {
-        $,
-        data,
-      });
-    } else {
-      response = await this.smartsheet.createSheet({
-        $,
-        data,
-      });
-    }
 
     $.export("$summary", `Created sheet "${response.result.name}" (ID: ${response.result.id})`);
     return response;

@@ -59,6 +59,7 @@ export default {
     let index = this.index;
     if (index === undefined) {
       const { data: cols } = await this.smartsheet.listColumns(this.sheetId, {
+        $,
         params: {
           includeAll: true,
         },

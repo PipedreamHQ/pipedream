@@ -6,7 +6,7 @@ export default {
   description:
     "List all columns in a sheet, returning each column's ID, title, type, options (for PICKLIST/CONTACT_LIST), validation, and position index."
     + " This is lighter-weight than **Get Sheet** when you only need the column schema and not row data."
-    + " Use this before **Add Rows** or **Update Rows** to discover column names and types."
+    + " Use this before **Add Row to Sheet** or **Update Row** to discover column names and types."
     + " For full sheet data including rows, use **Get Sheet** instead."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/columns/columns-listonsheet)",
   version: "0.0.1",

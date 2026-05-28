@@ -5,7 +5,7 @@ export default {
   name: "List Sheets",
   description:
     "List all sheets the authenticated user can access, with name, ID, creation/modification dates, owner, and permalink."
-    + " Use this to find sheet IDs before calling **Get Sheet**, **Add Rows**, **Update Rows**, **Delete Rows**, **Copy Sheet**, or **Move Sheet**."
+    + " Use this to find sheet IDs before calling **Get Sheet**, **Add Row to Sheet**, **Update Row**, **Delete Rows**, **Copy Sheet**, or **Move Sheet**."
     + " To search sheets by content rather than listing them, use **Search** instead."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/list-sheets)",
   version: "0.0.1",
@@ -32,16 +32,8 @@ export default {
   },
   async run({ $ }) {
     const params = {
-      ...(this.modifiedSince
-        ? {
-          modifiedSince: this.modifiedSince,
-        }
-        : {}),
-      ...(this.includeAll
-        ? {
-          includeAll: true,
-        }
-        : {}),
+      modifiedSince: this.modifiedSince,
+      includeAll: this.includeAll,
     };
 
     const response = await this.smartsheet.listSheets({

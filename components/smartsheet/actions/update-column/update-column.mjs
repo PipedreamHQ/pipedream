@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import { COLUMN_TYPES } from "../../common/constants.mjs";
 import smartsheet from "../../smartsheet.app.mjs";
 
@@ -77,6 +78,10 @@ export default {
         }
         : {}),
     };
+
+    if (!Object.keys(data).length) {
+      throw new ConfigurationError("Provide at least one of: New Title, New Type, New Position, Picklist Options.");
+    }
 
     const response = await this.smartsheet.updateColumn(this.sheetId, this.columnId, {
       $,

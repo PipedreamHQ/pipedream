@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import { DESTINATION_TYPES } from "../../common/constants.mjs";
 import smartsheet from "../../smartsheet.app.mjs";
 
@@ -38,14 +39,23 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.destinationType !== "home" && !this.destinationId) {
+      throw new ConfigurationError(`Destination ID is required when Destination Type is "${this.destinationType}".`);
+    }
+    if (this.destinationType === "home" && this.destinationId) {
+      throw new ConfigurationError("Destination ID must be omitted when Destination Type is \"home\".");
+    }
+
     const data = {
       destinationType: this.destinationType,
-      ...(this.destinationId
-        ? {
-          destinationId: Number(this.destinationId),
-        }
-        : {}),
     };
+    if (this.destinationId) {
+      const destinationId = Number(this.destinationId);
+      if (!Number.isFinite(destinationId)) {
+        throw new ConfigurationError("`Destination ID` must be a numeric ID.");
+      }
+      data.destinationId = destinationId;
+    }
 
     const response = await this.smartsheet.moveSheet(this.sheetId, {
       $,

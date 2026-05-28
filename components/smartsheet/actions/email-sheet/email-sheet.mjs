@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import { EMAIL_FORMATS } from "../../common/constants.mjs";
 import smartsheet from "../../smartsheet.app.mjs";
 
@@ -55,7 +56,24 @@ export default {
     },
   },
   async run({ $ }) {
-    const sendTo = JSON.parse(this.sendTo);
+    let sendTo;
+    try {
+      sendTo = JSON.parse(this.sendTo);
+    } catch {
+      throw new ConfigurationError("`Send To` must be a valid JSON array of objects with an `email` field.");
+    }
+    if (!Array.isArray(sendTo) || !sendTo.length) {
+      throw new ConfigurationError("`Send To` must be a non-empty JSON array of recipient objects.");
+    }
+    for (const [
+      i,
+      recipient,
+    ] of sendTo.entries()) {
+      if (!recipient || typeof recipient !== "object" || typeof recipient.email !== "string" || !recipient.email.trim()) {
+        throw new ConfigurationError(`Recipient at index ${i} must be an object with a non-empty \`email\` field.`);
+      }
+    }
+
     const data = {
       sendTo,
       subject: this.subject,
