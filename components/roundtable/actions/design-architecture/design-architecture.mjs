@@ -22,7 +22,11 @@ export default {
       type: "string",
       label: "Scale",
       description: "Expected scale (e.g., startup, growth, enterprise)",
-      options: ["startup", "growth", "enterprise"],
+      options: [
+        "startup",
+        "growth",
+        "enterprise",
+      ],
       default: "startup",
       optional: true,
     },

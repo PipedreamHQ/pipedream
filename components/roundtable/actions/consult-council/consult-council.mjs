@@ -14,13 +14,22 @@ export default {
   props: {
     roundtable,
     prompt: {
-      propDefinition: [roundtable, "prompt"],
+      propDefinition: [
+        roundtable,
+        "prompt",
+      ],
     },
     thinkingLevel: {
-      propDefinition: [roundtable, "thinkingLevel"],
+      propDefinition: [
+        roundtable,
+        "thinkingLevel",
+      ],
     },
     mode: {
-      propDefinition: [roundtable, "mode"],
+      propDefinition: [
+        roundtable,
+        "mode",
+      ],
     },
     context: {
       type: "string",

@@ -37,7 +37,10 @@ export default {
       optional: true,
     },
     thinkingLevel: {
-      propDefinition: [roundtable, "thinkingLevel"],
+      propDefinition: [
+        roundtable,
+        "thinkingLevel",
+      ],
     },
   },
   async run({ $ }) {
