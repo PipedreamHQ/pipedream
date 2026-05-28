@@ -5,8 +5,18 @@ import sharepoint from "../../sharepoint.app.mjs";
 export default {
   key: "sharepoint-find-file-by-name",
   name: "Find File by Name",
-  description: "Search for a file or folder by name. [See the documentation](https://learn.microsoft.com/en-us/onedrive/developer/rest-api/api/driveitem_search)",
-  version: "0.1.5",
+  description:
+    "Search the site's default drive for files or folders matching a query."
+    + " Matches are **recursive** across the drive and span **filename, metadata, and file content** — this is **not** an exact filename lookup, and results are relevance-ranked."
+    + "\n\n"
+    + "Backed by the [SharePoint Search index](https://learn.microsoft.com/en-us/graph/search-concept-overview) and **eventually consistent**, so newly created, renamed, or moved items may not appear until SharePoint reindexes them."
+    + "\n\n"
+    + "**For exact, immediately-consistent lookups, prefer:**"
+    + "\n- **Get File by ID** when the ID is known"
+    + "\n- **Search and Filter Files** for OData `$filter` against a list/document library"
+    + "\n\n"
+    + "[See the documentation](https://learn.microsoft.com/en-us/graph/api/driveitem-search?view=graph-rest-1.0&tabs=http)",
+  version: "0.1.7",
   type: "action",
   annotations: {
     destructiveHint: false,

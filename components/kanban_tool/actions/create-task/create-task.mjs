@@ -2,7 +2,7 @@ import app from "../../kanban_tool.app.mjs";
 
 export default {
   key: "kanban_tool-create-task",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -100,7 +100,7 @@ export default {
         due_date: this.dueDate,
       },
     });
-    $.export("$summary", `The task(ID: ${resp.id}) has been created successfully.`);
+    $.export("$summary", ` Task(ID: ${resp.id}) created successfully`);
     return resp;
   },
 };

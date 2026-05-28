@@ -4,7 +4,7 @@ export default {
   key: "coda-copy-doc",
   name: "Copy Doc",
   description: "Creates a copy of the specified doc. [See docs](https://coda.io/developers/apis/v1#operation/createDoc)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

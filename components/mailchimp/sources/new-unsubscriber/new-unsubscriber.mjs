@@ -5,7 +5,7 @@ export default {
   key: "mailchimp-new-unsubscriber",
   name: "New Unsubscriber (Instant)",
   description: "Emit new event when a subscriber is removed from an audience list.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

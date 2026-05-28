@@ -5,7 +5,7 @@ export default {
   key: "microsoft_outlook-find-email",
   name: "Find Email",
   description: "Search for an email in Microsoft Outlook. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list-messages)",
-  version: "0.1.0",
+  version: "0.2.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -14,6 +14,14 @@ export default {
   type: "action",
   props: {
     microsoftOutlook,
+    userId: {
+      propDefinition: [
+        microsoftOutlook,
+        "userId",
+      ],
+      optional: true,
+      description: "The User ID of a shared mailbox. If not provided, defaults to the authenticated user's mailbox.",
+    },
     info: {
       type: "alert",
       alertType: "info",
@@ -50,6 +58,12 @@ export default {
       optional: true,
       default: false,
     },
+    select: {
+      type: "string",
+      label: "Properties to return ($select)",
+      description: "Comma-separated Microsoft Graph [message](https://learn.microsoft.com/en-us/graph/api/resources/message) property names to return for each message (for example `id,subject,from,receivedDateTime`). When empty, the API returns its default property set. Use this to shrink responses and downstream token usage.",
+      optional: true,
+    },
   },
   methods: {
     ensureQuotes(str) {
@@ -63,6 +77,18 @@ export default {
       throw new ConfigurationError("`$search` not supported when using `$filter` or `$orderby`.");
     }
 
+    const normalizedSelect = this.select?.trim()
+      ? this.select.split(",")
+        .map((p) => p.trim())
+        .filter(Boolean)
+        .join(",")
+      : "";
+    const selectParams = normalizedSelect
+      ? {
+        "$select": normalizedSelect,
+      }
+      : {};
+
     let emails = [];
 
     if (!this.search) {
@@ -70,9 +96,11 @@ export default {
         fn: this.microsoftOutlook.listMessages,
         args: {
           $,
+          userId: this.userId,
           params: {
             "$filter": this.filter,
             "$orderby": this.orderBy,
+            ...selectParams,
             ...(this.includeAttachments
               ? {
                 "$expand": "attachments",
@@ -89,9 +117,11 @@ export default {
     } else {
       const { value } = await this.microsoftOutlook.listMessages({
         $,
+        userId: this.userId,
         params: {
           "$search": this.ensureQuotes(this.search),
           "$top": this.maxResults,
+          ...selectParams,
           ...(this.includeAttachments
             ? {
               "$expand": "attachments",

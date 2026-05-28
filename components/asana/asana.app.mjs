@@ -461,6 +461,22 @@ export default {
       });
     },
     /**
+     * Search for tasks in a workspace.
+     *
+     * @param {string} workspace - The workspace GID.
+     * @param {object} opts - The params to filter tasks.
+     *
+     * @returns {string} An Asana Task list.
+     */
+    searchTasks({
+      workspace, ...opts
+    }) {
+      return this._makeRequest({
+        path: `workspaces/${workspace}/tasks/search`,
+        ...opts,
+      });
+    },
+    /**
      * Get an Asana Section list.
      *
      * @param {string} projectId - A Project GID.
@@ -538,6 +554,22 @@ export default {
       }
 
       return teams;
+    },
+    /**
+     * Get an Asana Team list for a workspace.
+     *
+     * @param {string} workspace - A Workspace GID.
+     * @param {object} opts - The params to filter the teams.
+     *
+     * @returns {string} An Asana Team list.
+     */
+    async getTeamsForWorkspace({
+      workspace, ...opts
+    }) {
+      return this._makeRequest({
+        path: `workspaces/${workspace}/teams`,
+        ...opts,
+      });
     },
     /**
      * Get an Asana Workspace Membership.

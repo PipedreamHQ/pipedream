@@ -4,7 +4,7 @@ export default {
   name: "Create Filter",
   key: "jira_data_center-create-filter",
   description: "Creates a filter. [See the documentation](https://developer.atlassian.com/server/jira/platform/rest/v10002/api-group-filter/#api-api-2-filter-post)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

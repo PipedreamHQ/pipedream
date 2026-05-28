@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/yutori",
+  "version": "0.1.0",
+  "description": "Pipedream Yutori Components",
+  "main": "yutori.app.mjs",
+  "keywords": [
+    "pipedream"
+  ],
+  "homepage": "https://pipedream.com/apps/yutori",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1"
+  }
+}

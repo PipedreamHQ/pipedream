@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/flodesk",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Pipedream Flodesk Components",
   "main": "flodesk.app.mjs",
   "keywords": [
@@ -14,6 +14,6 @@
   },
   "dependencies": {
     "@pipedream/platform": "^1.6.8",
-    "lodash": "^4.17.23"
+    "lodash": "^4.18.1"
   }
 }

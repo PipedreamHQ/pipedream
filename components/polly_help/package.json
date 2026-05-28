@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/polly_help",
+  "version": "0.0.1",
+  "description": "Pipedream Polly.Help Components",
+  "main": "polly_help.app.mjs",
+  "keywords": [
+    "pipedream",
+    "polly_help"
+  ],
+  "homepage": "https://pipedream.com/apps/polly_help",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

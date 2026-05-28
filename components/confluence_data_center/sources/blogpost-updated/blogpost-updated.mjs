@@ -6,7 +6,7 @@ export default {
   key: "confluence_data_center-blogpost-updated",
   name: "Blogpost Updated (Instant)",
   description: "Emit new event when a blogpost is updated in Confluence Data Center.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

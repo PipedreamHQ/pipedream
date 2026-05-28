@@ -1,11 +1,220 @@
+import { axios } from "@pipedream/platform";
+import { ensureIncludeFieldsHasIdForPagination } from "./common/utils.mjs";
+
+const DEFAULT_BASE_URL = "https://webservices3.autotask.net/ATServicesRest";
+
+/** Default HTTP timeout when `$auth` / `_config` do not override (ms). */
+const DEFAULT_REQUEST_TIMEOUT_MS = 30000;
+
+/** Max pages per list run (Autotask allows arbitrary forward paging; cap for safety). */
+const MAX_PAGINATION_PAGES = 500;
+
 export default {
   type: "app",
   app: "autotask_psa",
-  propDefinitions: {},
+  propDefinitions: {
+    filter: {
+      type: "object",
+      label: "Filter",
+      description:
+        "POST body for entity query: `filter` (conditions array); optional " +
+        "`IncludeFields`, `MaxRecords`, etc. Omitting `filter` can return a 500 error. " +
+        "An empty `filter` array returns no records. If you type `filter` as text in " +
+        "the object UI, use valid JSON (it is parsed before the request). " +
+        "Operators: eq, noteq, gt, gte, lt, lte, beginsWith, endsWith, contains, " +
+        "exist, notExist, in, notIn; group with `and`/`or` and nested `items`. " +
+        "For UDFs add `\"udf\": true` on the filter object (one UDF per request). " +
+        "Include `Id` in IncludeFields when paginating past 500 rows. " +
+        "Example: " +
+        "`{\"MaxRecords\":100,\"IncludeFields\":[],\"filter\":[" +
+        "{\"field\":\"companyName\",\"op\":\"eq\",\"value\":\"Acme Corp\"}]}`. " +
+        "[Basic queries](https://www.autotask.net/help/DeveloperHelp/Content/APIs/" +
+        "REST/API_Calls/REST_Basic_Query_Calls.htm), " +
+        "[Advanced features](https://www.autotask.net/help/DeveloperHelp/Content/" +
+        "APIs/REST/API_Calls/REST_Advanced_Query_Features.htm).",
+    },
+  },
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _credentials() {
+      const {
+        url,
+        username,
+        password,
+        api_integration_code,
+      } = this.$auth || {};
+      return {
+        baseUrl: (url || DEFAULT_BASE_URL).replace(/\/+$/, ""),
+        username,
+        secret: password,
+        apiIntegrationCode: api_integration_code,
+      };
+    },
+
+    /**
+     * Autotask auth headers (UserName casing per API).
+     * @see https://www.autotask.net/help/DeveloperHelp/Content/APIs/REST/General_Topics/REST_Security_Auth.htm
+     */
+    _headers() {
+      const {
+        username,
+        secret,
+        apiIntegrationCode,
+      } = this._credentials();
+      return {
+        "UserName": username,
+        "Secret": secret,
+        "ApiIntegrationCode": apiIntegrationCode,
+        "Content-Type": "application/json",
+      };
+    },
+
+    /**
+     * Request timeout in ms for axios (`_config`, then `$auth`, then default).
+     */
+    _requestTimeout() {
+      let raw;
+      if (this._config && typeof this._config === "object") {
+        raw = this._config.requestTimeout ?? this._config.request_timeout;
+      }
+      if (raw == null || raw === "") {
+        const a = this.$auth || {};
+        raw = a.request_timeout ?? a.requestTimeout;
+      }
+      if (raw == null || raw === "") {
+        return DEFAULT_REQUEST_TIMEOUT_MS;
+      }
+      const n = Number(raw);
+      return Number.isFinite(n) && n > 0
+        ? n
+        : DEFAULT_REQUEST_TIMEOUT_MS;
+    },
+
+    /**
+     * Generic HTTP helper for `/V1.0/{path}` (POST by default).
+     * @param {object} opts
+     * @param {object} [opts.$]
+     * @param {string} [opts.method]
+     * @param {string} opts.path - Path under `V1.0` (e.g. `Companies/query`)
+     * @param {object} [opts.data]
+     */
+    makeRequest({
+      $ = this, method = "POST", path, data,
+    }) {
+      const { baseUrl } = this._credentials();
+      const timeout = this._requestTimeout();
+      return axios($, {
+        method,
+        url: `${baseUrl}/V1.0/${path}`,
+        headers: this._headers(),
+        data,
+        timeout,
+      });
+    },
+
+    /**
+     * POST `/V1.0/{entity}/query` with JSON body.
+     * @param {object} opts
+     * @param {object} [opts.$]
+     * @param {string} opts.entity - REST entity name (e.g. `Companies`)
+     * @param {object} opts.data - MaxRecords, IncludeFields, filter, etc.
+     */
+    queryEntity({
+      $ = this, entity, data,
+    }) {
+      return this.makeRequest({
+        $,
+        path: `${entity}/query`,
+        data,
+      });
+    },
+
+    /**
+     * POST `/V1.0/{entity}/query/count` with the same body as `queryEntity`.
+     * @param {object} opts
+     * @param {object} [opts.$]
+     * @param {string} opts.entity
+     * @param {object} opts.data
+     */
+    queryEntityCount({
+      $ = this, entity, data,
+    }) {
+      return this.makeRequest({
+        $,
+        path: `${entity}/query/count`,
+        data,
+      });
+    },
+
+    /**
+     * GET a full `pageDetails.nextPageUrl` / `prevPageUrl` (pagination).
+     * @param {object} opts
+     * @param {object} [opts.$]
+     * @param {string} opts.url - Absolute URL from the API response
+     */
+    queryEntityPageUrl({
+      $ = this, url,
+    }) {
+      const timeout = this._requestTimeout();
+      return axios($, {
+        method: "GET",
+        url,
+        headers: this._headers(),
+        timeout,
+      });
+    },
+
+    /**
+     * POST query then follow `pageDetails.nextPageUrl` (GET) until exhausted.
+     * Preserves original body via `ensureIncludeFieldsHasIdForPagination` only.
+     * @param {object} opts
+     * @param {object} [opts.$]
+     * @param {string} opts.entity
+     * @param {object} opts.data - Parsed POST body (same shape as `queryEntity`)
+     * @param {number} [opts.maxPages]
+     */
+    async queryEntityAllPages({
+      $ = this, entity, data, maxPages = MAX_PAGINATION_PAGES,
+    }) {
+      const baseData = ensureIncludeFieldsHasIdForPagination(data);
+      const allItems = [];
+      let page = await this.queryEntity({
+        $,
+        entity,
+        data: baseData,
+      });
+      allItems.push(...(page?.items ?? []));
+      let nextUrl = page?.pageDetails?.nextPageUrl;
+      let pagesFetched = 1;
+      let stoppedEarly = false;
+
+      while (nextUrl) {
+        if (pagesFetched >= maxPages) {
+          stoppedEarly = true;
+          break;
+        }
+        page = await this.queryEntityPageUrl({
+          $,
+          url: nextUrl,
+        });
+        pagesFetched += 1;
+        allItems.push(...(page?.items ?? []));
+        nextUrl = page?.pageDetails?.nextPageUrl;
+      }
+
+      const total = allItems.length;
+      return {
+        items: allItems,
+        pageDetails: {
+          ...(page?.pageDetails ?? {}),
+          totalItemsRetrieved: total,
+          pagesFetched,
+          nextPageUrl: stoppedEarly
+            ? nextUrl
+            : (page?.pageDetails?.nextPageUrl ?? null),
+        },
+        paginationStoppedEarly: stoppedEarly,
+        maxPages,
+      };
     },
   },
 };

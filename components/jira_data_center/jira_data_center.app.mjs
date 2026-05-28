@@ -411,5 +411,11 @@ export default {
         ...opts,
       });
     },
+    getServerInfo(opts = {}) {
+      return this._makeRequest({
+        path: "/api/2/serverInfo",
+        ...opts,
+      });
+    },
   },
 };

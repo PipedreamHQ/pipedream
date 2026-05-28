@@ -5,7 +5,7 @@ export default {
   name: "Update Guest",
   description:
     "Update a guest for a reservation. [See the documentation](https://developers.bookingexperts.com/reference/administration-reservation-guests-update)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

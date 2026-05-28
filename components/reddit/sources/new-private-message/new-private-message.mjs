@@ -6,7 +6,7 @@ export default {
   key: "reddit-new-private-message",
   name: "New Private Message",
   description: "Emit new event each time you receive a new private message.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   hooks: {
     async deploy() {

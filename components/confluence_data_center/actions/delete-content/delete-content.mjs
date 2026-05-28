@@ -4,7 +4,7 @@ export default {
   key: "confluence_data_center-delete-content",
   name: "Delete Content",
   description: "Deletes a page or blogpost in Confluence Data Center. [See the documentation](https://developer.atlassian.com/server/confluence/rest/v1022/api-group-content-resource/#api-rest-api-content-id-delete)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: true,

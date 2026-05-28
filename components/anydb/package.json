@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/anydb",
+  "version": "0.0.1",
+  "description": "Pipedream AnyDB Components",
+  "main": "anydb.app.mjs",
+  "keywords": [
+    "pipedream",
+    "anydb"
+  ],
+  "homepage": "https://pipedream.com/apps/anydb",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

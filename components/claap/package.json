@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/claap",
+  "version": "0.0.3",
+  "description": "Pipedream Claap Components",
+  "main": "claap.app.mjs",
+  "keywords": [
+    "pipedream",
+    "claap"
+  ],
+  "homepage": "https://pipedream.com/apps/claap",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.2.5"
+  }
+}

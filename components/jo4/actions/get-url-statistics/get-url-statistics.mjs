@@ -4,8 +4,13 @@ export default {
   key: "jo4-get-url-statistics",
   name: "Get URL Statistics",
   description: "Retrieve click statistics for a short URL. [See the documentation](https://jo4.io/docs)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     jo4,
     urlSlug: {

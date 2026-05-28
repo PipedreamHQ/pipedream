@@ -4,7 +4,7 @@ export default {
   key: "lightspeed_retail_pos-create-customer",
   name: "Create Customer",
   description: "Creates a new customer in the Lightspeed Retail POS system. [See the documentation](https://developers.lightspeedhq.com/retail/endpoints/Customer/#post-create-a-customer)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   key: "helpdocs-list-articles",
   name: "List Articles",
   description: "Retrieve a list of articles from your HelpDocs knowledge base. [See the documentation](https://apidocs.helpdocs.io/article/OqvaxRMHgN-getting-articles)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -59,7 +59,7 @@ export default {
     needsTranslation: {
       type: "boolean",
       label: "Needs Translation",
-      description: "Restrict returned articles base on whether it's marked as Needs Translation",
+      description: "Restrict returned articles based on whether they are marked as Needs Translation",
       optional: true,
     },
     languageCode: {

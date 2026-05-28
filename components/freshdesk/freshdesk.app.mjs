@@ -332,10 +332,12 @@ export default {
     base64Encode(data) {
       return Buffer.from(data).toString("base64");
     },
-    _getHeaders(headers = {}) {
+    _getHeaders(headers = {}, includeContentType = true) {
       return {
         "Authorization": "Basic " + this.base64Encode(this.$auth.api_key + ":X"),
-        "Content-Type": "application/json;charset=utf-8",
+        ...(includeContentType && {
+          "Content-Type": "application/json;charset=utf-8",
+        }),
         ...headers,
       };
     },
@@ -346,11 +348,17 @@ export default {
         : `${domain}.freshdesk.com`;
     },
     _makeRequest({
-      $ = this, headers, ...args
+      $ = this, method = "GET", headers, ...args
     }) {
+      const hasBody = [
+        "POST",
+        "PUT",
+        "PATCH",
+      ].includes(method.toUpperCase());
       return axios($, {
         baseURL: `https://${this._getDomain()}/api/v2`,
-        headers: this._getHeaders(headers),
+        headers: this._getHeaders(headers, hasBody),
+        method,
         ...args,
       });
     },
@@ -489,6 +497,14 @@ export default {
     listAgents(args) {
       return this._makeRequest({
         url: "/agents",
+        ...args,
+      });
+    },
+    getAgent({
+      agentId, ...args
+    }) {
+      return this._makeRequest({
+        url: `/agents/${agentId}`,
         ...args,
       });
     },
@@ -745,6 +761,24 @@ export default {
         ...args,
       });
     },
+    forwardTicket({
+      ticketId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        url: `/tickets/${ticketId}/forward`,
+        ...args,
+      });
+    },
+    replyToForward({
+      ticketId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        url: `/tickets/${ticketId}/reply_to_forward`,
+        ...args,
+      });
+    },
     listEmailConfigs(args) {
       return this._makeRequest({
         url: "/email_configs",
@@ -798,6 +832,12 @@ export default {
     }) {
       return this._makeRequest({
         url: `/canned_response_folders/${folderId}/responses`,
+        ...args,
+      });
+    },
+    searchSolutions(args = {}) {
+      return this._makeRequest({
+        url: "/search/solutions",
         ...args,
       });
     },

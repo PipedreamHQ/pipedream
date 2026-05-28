@@ -5,7 +5,7 @@ export default {
   key: "deepimage-upscale",
   name: "Upscale Image",
   description: "Upscales the provided image using Deep Image. [See the documentation](https://documentation.deep-image.ai/image-processing/resize-and-padding)",
-  version: "0.1.1",
+  version: "0.1.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -29,6 +29,12 @@ export default {
       type: "boolean",
       label: "Generative Upscale",
       description: "Whether to use generative upscale.",
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },

@@ -1,4 +1,5 @@
 import sharepoint from "../sharepoint.app.mjs";
+import { LIST_ITEM_FIELDS_EXPAND } from "./constants.mjs";
 
 /**
  * Shared prop definitions for file picker actions.
@@ -176,10 +177,14 @@ export const filePickerMethods = {
       files.map(async (selected) => {
         // When includeDownloadUrl is true, omit $select to get @microsoft.graph.downloadUrl
         // (Graph API excludes downloadUrl when using $select)
+        // Always expand listItem fields to include custom column values
         const params = includeDownloadUrl
-          ? {}
+          ? {
+            $expand: LIST_ITEM_FIELDS_EXPAND,
+          }
           : {
             $select: "id,name,size,webUrl,createdDateTime,lastModifiedDateTime,createdBy,lastModifiedBy,parentReference,file,folder,image,video,audio,photo,shared,fileSystemInfo,cTag,eTag,sharepointIds",
+            $expand: LIST_ITEM_FIELDS_EXPAND,
           };
 
         const file = await this.sharepoint.getDriveItem({
@@ -273,7 +278,7 @@ export const filePickerMethods = {
 
     // If all files failed, throw an error
     if (fileResults.length === 0 && errors.length > 0) {
-      throw new Error(`Failed to fetch all selected files: ${errors.map((e) => e.fileName).join(", ")}`);
+      throw new Error(`Failed to fetch all selected files:\n${errors.map((e) => `  ${e.fileName}: ${e.error}`).join("\n")}`);
     }
 
     // If single file, return it directly for backwards compatibility

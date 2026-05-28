@@ -1,11 +1,11 @@
-import cursor from "../../cursor.app.mjs";
 import { formatImages } from "../../common/utils.mjs";
+import cursor from "../../cursor.app.mjs";
 
 export default {
   key: "cursor-add-followup-to-agent",
   name: "Add Followup to Agent",
   description: "Add a followup to an agent. [See the documentation](https://cursor.com/docs/cloud-agent/api/endpoints#add-follow-up)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

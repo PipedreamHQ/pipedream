@@ -3,8 +3,8 @@ import sumup from "../../sumup.app.mjs";
 export default {
   key: "sumup-list-transactions",
   name: "List Transactions",
-  description: "Lists detailed history of all transactions associated with the merchant profile. [See the documenation](https://developer.sumup.com/api/transactions/list-detailed)",
-  version: "0.0.2",
+  description: "Lists detailed history of all transactions associated with the merchant profile. [See the documentation](https://developer.sumup.com/api/transactions/list-detailed)",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

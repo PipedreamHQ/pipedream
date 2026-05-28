@@ -4,7 +4,7 @@ export default {
   key: "todoist-find-user",
   name: "Find User",
   description: "Searches by email for a user who is connected/shared with your account. [See the documentation](https://developer.todoist.com/api/v1#tag/Sync/Overview/Read-resources)",
-  version: "0.0.8",
+  version: "0.0.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

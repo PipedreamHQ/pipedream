@@ -5,7 +5,7 @@ export default {
   key: "lightspeed_retail_pos-inventory-updated",
   name: "Inventory Updated",
   description: "Emit new event when changes are made to the inventory, such as adding new items, deleting items, or updating stock levels. [See the documentation](https://developers.lightspeedhq.com/retail/endpoints/InventoryLog/#get-all-inventory-logs)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

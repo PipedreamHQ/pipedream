@@ -4,7 +4,7 @@ export default {
   key: "mailchimp-delete-list-member",
   name: "Delete List Member",
   description: "Permanently deletes a member. [See docs here](https://mailchimp.com/developer/marketing/api/list-members/delete-list-member/)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

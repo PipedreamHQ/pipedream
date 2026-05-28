@@ -7,7 +7,7 @@ export default {
   description: `Searches for a subscriber. The search can be restricted to a specific list, or can be used to search across all lists in an account.
    [See docs here](https://mailchimp.com/developer/marketing/api/search-members/)
   `,
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

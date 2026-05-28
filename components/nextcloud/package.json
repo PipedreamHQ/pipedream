@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/nextcloud",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Nextcloud Components",
   "main": "nextcloud.app.mjs",
   "keywords": [

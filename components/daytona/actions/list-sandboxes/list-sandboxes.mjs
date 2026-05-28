@@ -5,7 +5,7 @@ export default {
   key: "daytona-list-sandboxes",
   name: "List Sandboxes",
   description: "Lists sandboxes on Daytona. [See the documentation](https://www.daytona.io/docs/en/typescript-sdk/daytona/#list)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

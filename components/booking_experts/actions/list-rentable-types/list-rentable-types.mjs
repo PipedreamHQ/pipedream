@@ -5,7 +5,7 @@ export default {
   key: "booking_experts-list-rentable-types",
   name: "List Rentable Types",
   description: "List all rentable types for a given administration. [See the documentation](https://developers.bookingexperts.com/reference/administration-rentabletypes-index)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

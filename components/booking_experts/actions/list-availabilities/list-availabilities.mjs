@@ -10,7 +10,7 @@ export default {
   key: "booking_experts-list-availabilities",
   name: "List Availabilities",
   description: "List availabilities of a channel you have access to. [See the documentation](https://developers.bookingexperts.com/reference/availabilities-index)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

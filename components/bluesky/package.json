@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/bluesky",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Pipedream Bluesky Components",
   "main": "bluesky.app.mjs",
   "keywords": [

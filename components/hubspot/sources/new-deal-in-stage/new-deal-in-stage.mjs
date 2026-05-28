@@ -13,7 +13,7 @@ export default {
   key: "hubspot-new-deal-in-stage",
   name: "New Deal In Stage",
   description: "Emit new event for each new deal in a stage.",
-  version: "0.1.3",
+  version: "0.1.8",
   dedupe: "unique",
   type: "source",
   props: {
@@ -115,9 +115,16 @@ export default {
           const ts = await this.getTs(deal);
           if (!after || this.isRelevant(ts, after)) {
             if (deal.properties.hubspot_owner_id) {
-              deal.properties.owner = await this.getOwner(
-                deal.properties.hubspot_owner_id,
-              );
+              try {
+                deal.properties.owner = await this.getOwner(
+                  deal.properties.hubspot_owner_id,
+                );
+              } catch (err) {
+                deal.properties.owner = null;
+                console.warn(
+                  `Failed to fetch owner ${deal.properties.hubspot_owner_id} for deal ${deal.id}: ${err.message}`,
+                );
+              }
             }
             this.emitEvent(deal, ts);
             if (ts > maxTs) {

@@ -10,7 +10,7 @@ export default {
   key: "github-update-issue",
   name: "Update Issue",
   description: "Update a new issue in a GitHub repo. [See the documentation](https://docs.github.com/en/rest/issues/issues#update-an-issue)",
-  version: "0.2.7",
+  version: "0.2.8",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

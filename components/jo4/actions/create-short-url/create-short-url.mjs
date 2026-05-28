@@ -4,8 +4,13 @@ export default {
   key: "jo4-create-short-url",
   name: "Create Short URL",
   description: "Create a new shortened URL. [See the documentation](https://jo4.io/docs)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     jo4,
     longUrl: {

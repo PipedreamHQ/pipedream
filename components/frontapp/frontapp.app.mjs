@@ -54,7 +54,8 @@ export default {
     attachments: {
       type: "string[]",
       label: "Attachments",
-      description: "File paths of files previously downloaded in Pipedream E.g. (`/tmp/my-image.jpg`). [Download a file to the `/tmp` directory](https://pipedream.com/docs/code/nodejs/http-requests/#download-a-file-to-the-tmp-directory)",
+      description: "Provide either an array of file URLs or an array of paths to a files in the /tmp directory (for example, /tmp/myFile.pdf).",
+      format: "file-ref",
       optional: true,
     },
     channelId: {

@@ -5,7 +5,7 @@ export default defineAction({
   name: "Create Subscriber",
   description: "Create a new subscriber. [See docs](https://www.beehiiv.com/developers/docs)",
   key: "beehiiv-create-subscriber",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

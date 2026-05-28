@@ -32,11 +32,20 @@ export default {
       async options({
         page, listType,
       }) {
-        const { lists } = await this.getLists({
-          listType,
-          params: {
+        const { lists } = await this.searchLists({
+          data: {
             count: DEFAULT_LIMIT,
             offset: page * DEFAULT_LIMIT,
+            processingTypes: listType === "static"
+              ? [
+                "MANUAL",
+                "SNAPSHOT",
+              ]
+              : listType === "dynamic"
+                ? [
+                  "DYNAMIC",
+                ]
+                : undefined,
           },
         });
         return lists?.map(({
@@ -707,6 +716,32 @@ export default {
         };
       },
     },
+    blogPostId: {
+      type: "string",
+      label: "Blog Post ID",
+      description: "The ID of the blog post",
+      async options({ prevContext }) {
+        const { nextAfter } = prevContext;
+        const {
+          results, paging,
+        } = await this.getBlogPosts({
+          params: {
+            after: nextAfter,
+          },
+        });
+        return {
+          options: results?.map(({
+            id: value, name: label,
+          }) => ({
+            value,
+            label,
+          })) || [],
+          context: {
+            nextAfter: paging?.next?.after,
+          },
+        };
+      },
+    },
     inboxId: {
       type: "string",
       label: "Inbox ID",
@@ -764,14 +799,17 @@ export default {
       label: "Thread ID",
       description: "The ID of a thread",
       async options({
-        prevContext, inboxId, channelId,
+        prevContext, inboxId, channelId, archived,
       }) {
         const { nextAfter } = prevContext;
         let {
           results, paging,
         } = await this.listThreads({
-          data: {
+          params: {
             after: nextAfter,
+            ...(archived && {
+              archived,
+            }),
           },
         });
         if (inboxId) {
@@ -837,6 +875,102 @@ export default {
         return {
           options: results?.map(({
             userId: value, email: label,
+          }) => ({
+            value,
+            label,
+          })) || [],
+          context: {
+            nextAfter: paging?.next.after,
+          },
+        };
+      },
+    },
+    ownerId: {
+      type: "string",
+      label: "Owner ID",
+      description: "HubSpot CRM owner ID (use the dropdown or enter an ID manually)",
+      useQuery: true,
+      async options({
+        prevContext, query,
+      }) {
+        const { nextAfter } = prevContext;
+        const params = {
+          after: nextAfter,
+          limit: 100,
+        };
+        if (query) {
+          params.email = query;
+        }
+        const {
+          results, paging,
+        } = await this.getOwners({
+          params,
+        });
+        return {
+          options: results?.map((owner) => {
+            const name = [
+              owner.firstName,
+              owner.lastName,
+            ]
+              .filter(Boolean)
+              .join(" ")
+              .trim();
+            const label = name
+              ? `${name} (${owner.email})`
+              : (owner.email ?? String(owner.id));
+            return {
+              value: String(owner.id),
+              label,
+            };
+          }) || [],
+          context: {
+            nextAfter: paging?.next?.after,
+          },
+        };
+      },
+    },
+    blogId: {
+      type: "string",
+      label: "Content Group ID (Blog ID)",
+      description: "The ID of the blog (content group) this post belongs to",
+      async options({ prevContext }) {
+        const { nextAfter } = prevContext;
+        const {
+          results, paging,
+        } = await this.getBlogs({
+          params: {
+            after: nextAfter,
+          },
+        });
+        return {
+          options: results?.map(({
+            id: value, name: label,
+          }) => ({
+            value,
+            label,
+          })) || [],
+          context: {
+            nextAfter: paging?.next.after,
+          },
+        };
+      },
+    },
+    blogAuthorId: {
+      type: "string",
+      label: "Blog Author ID",
+      description: "The ID of the blog post author",
+      async options({ prevContext }) {
+        const { nextAfter } = prevContext;
+        const {
+          results, paging,
+        } = await this.getBlogPostAuthors({
+          params: {
+            after: nextAfter,
+          },
+        });
+        return {
+          options: results?.map(({
+            id: value, name: label,
           }) => ({
             value,
             label,
@@ -1105,10 +1239,111 @@ export default {
         }
       }
     },
+    enrollContactInSequence({
+      userId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.AUTOMATIONV4,
+        method: "POST",
+        endpoint: "/sequences/enrollments",
+        ...opts,
+        params: {
+          userId,
+          ...opts.params,
+        },
+      });
+    },
+    getSequenceEnrollment({
+      contactId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.AUTOMATIONV4,
+        endpoint: `/sequences/enrollments/contact/${contactId}`,
+        ...opts,
+      });
+    },
     getBlogPosts(opts = {}) {
       return this.makeRequest({
         api: API_PATH.CMS,
         endpoint: "/blogs/posts",
+        ...opts,
+      });
+    },
+    getBlogPost({
+      objectId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CMS,
+        endpoint: `/blogs/posts/${objectId}`,
+        ...opts,
+      });
+    },
+    getBlogs(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.CMS,
+        endpoint: "/blog-settings/settings",
+        ...opts,
+      });
+    },
+    getBlogPostAuthors(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.CMS,
+        endpoint: "/blogs/authors",
+        ...opts,
+      });
+    },
+    createBlogPost(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.CMS,
+        method: "POST",
+        endpoint: "/blogs/posts",
+        ...opts,
+      });
+    },
+    updateBlogPost({
+      objectId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CMS,
+        method: "PATCH",
+        endpoint: `/blogs/posts/${objectId}`,
+        ...opts,
+      });
+    },
+    getBlogPostDraft({
+      objectId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CMS,
+        endpoint: `/blogs/posts/${objectId}/draft`,
+        ...opts,
+      });
+    },
+    updateBlogPostDraft({
+      objectId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CMS,
+        method: "PATCH",
+        endpoint: `/blogs/posts/${objectId}/draft`,
+        ...opts,
+      });
+    },
+    pushBlogPostDraftLive({
+      objectId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CMS,
+        method: "POST",
+        endpoint: `/blogs/posts/${objectId}/draft/push-live`,
+        ...opts,
+      });
+    },
+    scheduleBlogPost(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.CMS,
+        method: "POST",
+        endpoint: "/blogs/posts/schedule",
         ...opts,
       });
     },
@@ -1188,14 +1423,11 @@ export default {
         ...opts,
       });
     },
-    getLists({
-      listType, ...opts
-    }) {
+    searchLists(opts = {}) {
       return this.makeRequest({
-        api: API_PATH.CONTACTS,
-        endpoint: `/lists${listType
-          ? `/${listType}`
-          : ""}`,
+        api: API_PATH.CRMV3,
+        endpoint: "/lists/search",
+        method: "POST",
         ...opts,
       });
     },
@@ -1203,8 +1435,8 @@ export default {
       listId, ...opts
     }) {
       return this.makeRequest({
-        api: API_PATH.CONTACTS,
-        endpoint: `/lists/${listId}/contacts/all`,
+        api: API_PATH.CRMV3,
+        endpoint: `/lists/${listId}/memberships`,
         ...opts,
       });
     },
@@ -1212,6 +1444,21 @@ export default {
       return this.makeRequest({
         api: API_PATH.CRMV3,
         endpoint: "/owners",
+        ...opts,
+      });
+    },
+    /**
+     * Get a single CRM owner by ID.
+     * @param {string} ownerId - HubSpot owner ID
+     * @param {object} opts - Additional request options (include `$` for Pipedream)
+     * @returns {Promise<object>} Owner record
+     */
+    getOwner({
+      ownerId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: `/owners/${ownerId}`,
         ...opts,
       });
     },
@@ -1375,9 +1622,9 @@ export default {
       listId, ...opts
     }) {
       return this.makeRequest({
-        api: API_PATH.CONTACTS,
-        endpoint: `/lists/${listId}/add`,
-        method: "POST",
+        api: API_PATH.CRMV3,
+        endpoint: `/lists/${listId}/memberships/add`,
+        method: "PUT",
         ...opts,
       });
     },
@@ -1582,6 +1829,63 @@ export default {
       return this.makeRequest({
         api: API_PATH.CRMV4,
         endpoint: `/objects/${objectType}/${objectId}/associations/${toObjectType}`,
+        ...opts,
+      });
+    },
+    /**
+     * List quotes or fetch one quote (CRM v3 quotes object API).
+     * @param {object} opts
+     * @param {string} [opts.quoteId] - When set, returns a single quote by ID
+     * @param {string} [opts.after] - Pagination cursor for list requests
+     * @param {number} [opts.limit] - Max records per page when listing
+     * @param {string[]} [opts.properties] - Property names to return
+     * @returns {Promise<object>} Single quote or paged list response
+     */
+    listQuotes({
+      quoteId, after, limit, properties, ...opts
+    } = {}) {
+      const params = {};
+      if (properties?.length) {
+        params.properties = properties.join(",");
+      }
+      if (quoteId) {
+        return this.makeRequest({
+          api: API_PATH.CRMV3,
+          endpoint: `/objects/quotes/${quoteId}`,
+          params,
+          ...opts,
+        });
+      }
+      if (after) {
+        params.after = after;
+      }
+      if (limit != null) {
+        params.limit = limit;
+      }
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: "/objects/quotes",
+        params,
+        ...opts,
+      });
+    },
+    /**
+     * Legacy Engagements API: paged engagements associated with a CRM record.
+     * Supported CRM object types: company, deal, quote (HubSpot v1 path segment).
+     * @param {string} objectType - `company`, `deal`, or `quote`
+     * @param {string} objectId - CRM object ID
+     * @param {number|string} [offset] - Pagination offset (default 0)
+     * @returns {Promise<object>} Paged engagement results
+     */
+    getAssociatedEngagementsPaged({
+      objectType, objectId, offset, ...opts
+    } = {}) {
+      return this.makeRequest({
+        api: API_PATH.ENGAGEMENTS,
+        endpoint: `/engagements/associated/${objectType}/${objectId}/paged`,
+        params: {
+          offset: offset ?? 0,
+        },
         ...opts,
       });
     },
@@ -1887,6 +2191,83 @@ export default {
         method: "POST",
         ...opts,
       });
+    },
+    /**
+     * Get a Conversations thread by ID.
+     * @param {string} threadId - The thread ID
+     * @param {object} opts - Additional request options (include `$` for Pipedream)
+     * @returns {Promise<object>} Thread record
+     */
+    getThread({
+      threadId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CONVERSATIONS,
+        endpoint: `/conversations/threads/${threadId}`,
+        ...opts,
+      });
+    },
+    /**
+     * Update a Conversations thread via PATCH. Used for status updates and
+     * for restoring archived threads (with `params.archived=true` and
+     * `data.archived=false`).
+     * @param {string} threadId - The thread ID
+     * @param {object} opts - Additional request options (include `$`, `data`,
+     * and optional `params`)
+     * @returns {Promise<object>} Updated thread record
+     */
+    updateThread({
+      threadId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CONVERSATIONS,
+        endpoint: `/conversations/threads/${threadId}`,
+        method: "PATCH",
+        ...opts,
+      });
+    },
+    /**
+     * Get a Conversations actor by fully-qualified actor ID.
+     * @param {string} actorId - Fully-qualified actor ID (e.g. `A-12345`)
+     * @param {object} opts - Additional request options (include `$` for Pipedream)
+     * @returns {Promise<object>} Actor record with name, email, and type
+     */
+    getActor({
+      actorId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CONVERSATIONS,
+        endpoint: `/conversations/actors/${actorId}`,
+        ...opts,
+      });
+    },
+    /**
+     * Archive (soft-delete) a Conversations thread. Reversible via
+     * {@link updateThread} with `params.archived=true` and `data.archived=false`.
+     * @param {string} threadId - The thread ID
+     * @param {object} opts - Additional request options (include `$` for Pipedream)
+     * @returns {Promise<void>} Empty response on success
+     */
+    archiveThread({
+      threadId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CONVERSATIONS,
+        endpoint: `/conversations/threads/${threadId}`,
+        method: "DELETE",
+        ...opts,
+      });
+    },
+    /**
+     * Normalize a Conversations actor ID by prepending `A-` when no type prefix
+     * is present, so a bare HubSpot owner ID becomes a fully-qualified actor ID.
+     * @param {string} actorId - Raw or prefixed actor ID
+     * @returns {string} Fully-qualified actor ID
+     */
+    normalizeActorId(actorId) {
+      return /^[A-Z]-/.test(actorId)
+        ? actorId
+        : `A-${actorId}`;
     },
   },
 };

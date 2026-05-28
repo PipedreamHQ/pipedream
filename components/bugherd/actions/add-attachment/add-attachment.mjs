@@ -5,7 +5,7 @@ export default {
   key: "bugherd-add-attachment",
   name: "Add Attachment",
   description: "Adds a new attachment to the specified task using an existing URL. [See the documentation](https://www.bugherd.com/api_v2#api_attachment_create)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -33,11 +33,18 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.pdf`)",
+      format: "file-ref",
     },
     fileName: {
       type: "string",
       label: "File Name",
       description: "The name of the file",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   methods: {

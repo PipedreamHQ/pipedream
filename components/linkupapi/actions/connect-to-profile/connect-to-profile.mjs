@@ -5,7 +5,7 @@ export default {
   key: "linkupapi-connect-to-profile",
   name: "Connect to Profile",
   description: "Send a connection request to a LinkedIn profile. [See the documentation](https://docs.linkupapi.com/api-reference/linkup/Network/connect)",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     linkedinUrl: {

@@ -4,7 +4,7 @@ export default {
   key: "frontapp-get-ticket-status",
   name: "Get Ticket Status",
   description: "Get a ticket status by its ID. [See the documentation](https://dev.frontapp.com/reference/get-ticket-status-by-id)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

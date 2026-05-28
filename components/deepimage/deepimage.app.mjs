@@ -6,8 +6,9 @@ export default {
   propDefinitions: {
     image: {
       type: "string",
-      label: "Image",
+      label: "Image Path or URL",
       description: "Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/example.jpg`).",
+      format: "file-ref",
     },
   },
   methods: {

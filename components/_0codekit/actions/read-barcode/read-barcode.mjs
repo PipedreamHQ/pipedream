@@ -5,7 +5,7 @@ export default {
   key: "_0codekit-read-barcode",
   name: "Read Barcode",
   description: "Reads a QR code from an image. [See the documentation](https://documenter.getpostman.com/view/18297710/UVkntwBv#84ecd80e-af50-406b-abd7-698826773500)",
-  version: "0.1.1",
+  version: "0.1.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -19,6 +19,12 @@ export default {
       label: "File Path or URL",
       description: "The file containing the QR code to be read. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.png`)",
       format: "file-ref",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {

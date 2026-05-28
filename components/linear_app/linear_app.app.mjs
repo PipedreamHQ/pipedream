@@ -232,6 +232,40 @@ export default {
         });
       },
     },
+    initiativeId: {
+      type: "string",
+      label: "Initiative",
+      description: "The identifier or key of the initiative to update",
+      async options({ prevContext }) {
+        return this.listResourcesOptions({
+          prevContext,
+          resourcesFn: this.listInitiatives,
+          resouceMapper: ({
+            id, name,
+          }) => ({
+            label: name,
+            value: id,
+          }),
+        });
+      },
+    },
+    customViewId: {
+      type: "string",
+      label: "Custom View",
+      description: "The identifier or key of the custom view to get issues from",
+      async options({ prevContext }) {
+        return this.listResourcesOptions({
+          prevContext,
+          resourcesFn: this.listCustomViews,
+          resouceMapper: ({
+            id, name,
+          }) => ({
+            label: name,
+            value: id,
+          }),
+        });
+      },
+    },
     projectPriority: {
       type: "integer",
       label: "Priority",
@@ -245,6 +279,23 @@ export default {
       description: "The priority of the issue",
       optional: true,
       options: constants.PRIORITY_OPTIONS,
+    },
+    initiativeStatus: {
+      type: "string",
+      label: "Status",
+      description: "The status of the initiative",
+      optional: true,
+      options: [
+        "Active",
+        "Completed",
+        "Planned",
+      ],
+    },
+    targetDate: {
+      type: "string",
+      label: "Target Date",
+      description: "The target date of the initiative in ISO 8601 format",
+      optional: true,
     },
     query: {
       type: "string",
@@ -311,6 +362,18 @@ export default {
     async createIssue(input) {
       return this.client().createIssue(input);
     },
+    async createComment(input) {
+      return this.client().createComment(input);
+    },
+    async createInitiative(input) {
+      return this.client().createInitiative(input);
+    },
+    async updateInitiative(initiativeId, input) {
+      return this.client().updateInitiative(initiativeId, input);
+    },
+    async removeLabelFromIssue(issueId, labelId) {
+      return this.client().issueRemoveLabel(issueId, labelId);
+    },
     async updateIssue({
       issueId, input,
     }) {
@@ -360,6 +423,9 @@ export default {
     async getTeam(id) {
       return this.client().team(id);
     },
+    async getCustomView(id) {
+      return this.client().customView(id);
+    },
     async listTeams(variables = {}) {
       return this.client().teams(variables);
     },
@@ -407,6 +473,12 @@ export default {
     },
     async listProjectLabels(variables = {}) {
       return this.client().projectLabels(variables);
+    },
+    async listCustomViews(variables = {}) {
+      return this.client().customViews(variables);
+    },
+    async listInitiatives(variables = {}) {
+      return this.client().initiatives(variables);
     },
     async listResourcesOptions({
       prevContext, resourcesFn, resourcesArgs, resouceMapper,

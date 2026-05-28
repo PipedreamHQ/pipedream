@@ -6,7 +6,7 @@ export default {
   key: "mailchimp-create-campaign",
   name: "Create Campaign",
   description: "Creates a new campaign draft. [See docs here](https://mailchimp.com/developer/marketing/api/campaigns/add-campaign/)",
-  version: "0.2.3",
+  version: "0.2.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/serenity_ai_hub",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream Serenity* AI Hub Components",
   "main": "serenity_ai_hub.app.mjs",
   "keywords": [

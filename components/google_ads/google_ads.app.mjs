@@ -1,5 +1,7 @@
 import { axios } from "@pipedream/platform";
+import { CORE_DATE_SEGMENTS } from "./common/constants.mjs";
 import { QUERIES } from "./common/queries.mjs";
+import { getResourceOption } from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -34,7 +36,7 @@ export default {
     accountId: {
       type: "string",
       label: "Use Google Ads As",
-      description: "Select an account from the list of [customers directly accessible by the authenticated user](https://developers.google.com/google-ads/api/reference/rpc/v21/CustomerService/ListAccessibleCustomers?transport=rest). This is usually a **Manager Account**, used as `login-customer-id`",
+      description: "The ID of an account of a [customer directly accessible by the authenticated user](https://developers.google.com/google-ads/api/reference/rpc/v21/CustomerService/ListAccessibleCustomers?transport=rest). This is usually a Manager Account, used as `login-customer-id` (e.g., `1234567890`). Use the **List Account ID Options** action to get the list of accessible accounts.",
       async options() {
         const response = await this.listAccessibleCustomers();
         return response?.map(((resourceName) => ({
@@ -46,7 +48,7 @@ export default {
     customerClientId: {
       type: "string",
       label: "Managed Account",
-      description: "Select a [customer client](https://developers.google.com/google-ads/api/reference/rpc/v21/CustomerClient) from the list of [customers linked to the selected account](https://developers.google.com/google-ads/api/docs/account-management/get-account-hierarchy).",
+      description: "The ID of a [customer client](https://developers.google.com/google-ads/api/reference/rpc/v21/CustomerClient) from the list of [customers linked to the selected account](https://developers.google.com/google-ads/api/docs/account-management/get-account-hierarchy) (e.g., `1234567890`). Use the **List Customer Clients** action to get the list of customer clients.",
       useQuery: true,
       optional: true,
       async options({
@@ -66,6 +68,60 @@ export default {
             : ""}${descriptiveName}`,
           value: id,
         })).filter(({ value }) => value !== accountId);
+      },
+    },
+    reportResourceFilter: {
+      type: "string[]",
+      label: "Filter by Resources",
+      description: "Select the resources to generate a report for (or leave blank for all)",
+      optional: true,
+      useQuery: true,
+      async options({
+        accountId, customerClientId, resource, query, prevContext,
+      }) {
+        const pageToken = prevContext?.nextPageToken;
+        const {
+          results, nextPageToken,
+        } = await this.listResources({
+          accountId,
+          customerClientId,
+          resource,
+          query,
+          pageToken,
+        });
+        const options = results?.map?.((item) => this.getResourceOption(item, resource));
+        return {
+          options,
+          context: {
+            nextPageToken,
+          },
+        };
+      },
+    },
+    reportOrderBy: {
+      type: "string",
+      label: "Order By",
+      description: "The field to order the results by",
+      optional: true,
+      options({
+        fields, segments, metrics, dateRange,
+      }) {
+        return [
+          fields,
+          segments,
+          metrics,
+        ].filter((v) => v).flatMap((value) => {
+          let returnValue = value;
+          if (typeof value === "string") {
+            try {
+              returnValue = JSON.parse(value);
+            } catch (err) {
+              returnValue = value.split(",");
+            }
+          }
+          return returnValue?.map?.((str) => str.trim());
+        })
+          .filter((v) => dateRange || !CORE_DATE_SEGMENTS.includes(v));
       },
     },
     leadFormId: {
@@ -93,6 +149,7 @@ export default {
     },
   },
   methods: {
+    getResourceOption,
     _baseUrl() {
       return "https://googleads.m.pipedream.net";
     },

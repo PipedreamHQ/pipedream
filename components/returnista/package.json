@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/returnista",
+  "version": "0.1.0",
+  "description": "Pipedream Returnista Components",
+  "main": "returnista.app.mjs",
+  "keywords": [
+    "pipedream",
+    "returnista"
+  ],
+  "homepage": "https://pipedream.com/apps/returnista",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.3.0"
+  }
+}

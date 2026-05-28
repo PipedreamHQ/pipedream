@@ -5,7 +5,7 @@ export default {
   key: "bluesky-like-post",
   name: "Like Post",
   description: "Like a specific post on Bluesky. [See the documentation](https://docs.bsky.app/docs/api/com-atproto-repo-create-record).",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

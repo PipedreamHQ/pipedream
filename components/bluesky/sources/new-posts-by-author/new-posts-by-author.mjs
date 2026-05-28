@@ -6,7 +6,7 @@ export default {
   key: "bluesky-new-posts-by-author",
   name: "New Posts By Author",
   description: "Emit new event when an author creates a post. Requires the author id as a prop to track posts from a specific author. [See the documentation](https://docs.bsky.app/docs/api/app-bsky-feed-search-posts).",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {

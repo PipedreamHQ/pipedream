@@ -4,8 +4,8 @@ export default {
   ...common,
   key: "jumpseller-order-updated",
   name: "Order Updated",
-  description: "Emit new event when an order is updaetd in Jumpseller. [See the documentation](https://jumpseller.com/support/api/#tag/Hooks/paths/~1hooks.json/post)",
-  version: "0.0.1",
+  description: "Emit new event when an order is updated in Jumpseller. [See the documentation](https://jumpseller.com/support/api/#tag/Hooks/paths/~1hooks.json/post)",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

@@ -115,6 +115,7 @@ export default {
         url: `${this._baseUrl()}${path}`,
         headers: {
           "Authorization": `Bearer ${this.$auth.personal_access_token}`,
+          "X-Atlassian-Token": "no-check",
         },
         ...opts,
       });

@@ -295,6 +295,34 @@ export default {
         };
       },
     },
+    sideConversationId: {
+      type: "string",
+      label: "Side Conversation ID",
+      description: "Identifier of the side conversation (UUID, e.g. `8566255a-ece5-11e8-857d-493066fa7b17`). Select **List Side Conversations** to see available IDs for a ticket.",
+      async options({
+        ticketId, customSubdomain, page,
+      }) {
+        if (!ticketId) {
+          return {
+            options: [],
+          };
+        }
+        const response = await this.listSideConversations({
+          ticketId,
+          customSubdomain,
+          params: {
+            page: page + 1,
+            per_page: constants.DEFAULT_LIMIT,
+          },
+        });
+        return (response?.side_conversations ?? []).map(({
+          id, subject, preview_text: previewText,
+        }) => ({
+          label: subject || previewText || `Side Conversation ${id}`,
+          value: id,
+        }));
+      },
+    },
     macroId: {
       type: "string",
       label: "Macro ID",
@@ -441,6 +469,117 @@ export default {
       label: "Assignee Email",
       description: "The email address of the agent to assign the ticket to",
       optional: true,
+    },
+    brandId: {
+      type: "string",
+      label: "Brand ID",
+      description: "The ID of the brand",
+      optional: true,
+      async options({ prevContext }) {
+        const { afterCursor } = prevContext;
+        const {
+          brands,
+          meta,
+        } = await this.listBrands({
+          params: {
+            [constants.PAGE_SIZE_PARAM]: constants.DEFAULT_LIMIT,
+            [constants.PAGE_AFTER_PARAM]: afterCursor,
+          },
+        });
+        return {
+          context: {
+            afterCursor: meta?.after_cursor,
+          },
+          options: brands.map(({
+            id: value, name: label,
+          }) => ({
+            value,
+            label,
+          })),
+        };
+      },
+    },
+    topicId: {
+      type: "string",
+      label: "Topic ID",
+      description: "The ID of the community topic",
+      optional: true,
+      async options({ prevContext }) {
+        const { afterCursor } = prevContext;
+        const {
+          topics,
+          meta,
+        } = await this.listTopics({
+          params: {
+            [constants.PAGE_SIZE_PARAM]: constants.DEFAULT_LIMIT,
+            [constants.PAGE_AFTER_PARAM]: afterCursor,
+          },
+        });
+        return {
+          context: {
+            afterCursor: meta?.after_cursor,
+          },
+          options: topics.map(({
+            id: value, name: label,
+          }) => ({
+            value,
+            label,
+          })),
+        };
+      },
+    },
+    externalSourceId: {
+      type: "string",
+      label: "External Source ID",
+      description: "The ID of the external content source",
+      optional: true,
+      async options({ prevContext }) {
+        const { afterCursor } = prevContext;
+        const {
+          sources,
+          meta,
+        } = await this.listExternalContentSources({
+          params: {
+            [constants.PAGE_SIZE_PARAM]: constants.DEFAULT_LIMIT,
+            [constants.PAGE_AFTER_PARAM]: afterCursor,
+          },
+        });
+        return {
+          context: {
+            afterCursor: meta?.after_cursor,
+          },
+          options: sources.map(({
+            id: value, name: label,
+          }) => ({
+            value,
+            label,
+          })),
+        };
+      },
+    },
+    labelName: {
+      type: "string",
+      label: "Label Name",
+      description: "The name of an article label",
+      optional: true,
+      async options({ prevContext }) {
+        const { afterCursor } = prevContext;
+        const {
+          labels,
+          meta,
+        } = await this.listArticleLabels({
+          params: {
+            [constants.PAGE_SIZE_PARAM]: constants.DEFAULT_LIMIT,
+            [constants.PAGE_AFTER_PARAM]: afterCursor,
+          },
+        });
+        return {
+          context: {
+            afterCursor: meta?.after_cursor,
+          },
+          options: labels.map(({ name }) => name),
+        };
+      },
     },
   },
   methods: {
@@ -640,6 +779,42 @@ export default {
         ...args,
       });
     },
+    listSideConversations({
+      ticketId, customSubdomain, ...args
+    }) {
+      return this.makeRequest({
+        path: `/tickets/${ticketId}/side_conversations`,
+        customSubdomain,
+        ...args,
+      });
+    },
+    getSideConversation({
+      ticketId, sideConversationId, customSubdomain, ...args
+    }) {
+      return this.makeRequest({
+        path: `/tickets/${ticketId}/side_conversations/${sideConversationId}`,
+        customSubdomain,
+        ...args,
+      });
+    },
+    listSideConversationEvents({
+      startTime, nextPageUrl, ...args
+    } = {}) {
+      if (nextPageUrl) {
+        return this.makeRequest({
+          url: nextPageUrl,
+          ...args,
+        });
+      }
+      return this.makeRequest({
+        path: "/tickets/side_conversations/events.json",
+        ...args,
+        params: {
+          ...args.params,
+          start_time: startTime,
+        },
+      });
+    },
     listUsers(args = {}) {
       return this.makeRequest({
         path: "/users",
@@ -743,6 +918,48 @@ export default {
           locale,
           path: `/articles/${articleId}`,
         }),
+        ...args,
+      });
+    },
+    listArticleLabels(args = {}) {
+      return this.makeRequest({
+        path: "/help_center/articles/labels",
+        ...args,
+      });
+    },
+    listBrands(args = {}) {
+      return this.makeRequest({
+        path: "/brands",
+        ...args,
+      });
+    },
+    listTopics(args = {}) {
+      return this.makeRequest({
+        path: "/community/topics",
+        ...args,
+      });
+    },
+    listExternalContentSources(args = {}) {
+      return this.makeRequest({
+        path: "/guide/external_content/sources",
+        ...args,
+      });
+    },
+    searchHelpCenter(args = {}) {
+      return this.makeRequest({
+        path: "/guide/search",
+        ...args,
+      });
+    },
+    searchArticles(args = {}) {
+      return this.makeRequest({
+        path: "/help_center/articles/search",
+        ...args,
+      });
+    },
+    searchCommunityPosts(args = {}) {
+      return this.makeRequest({
+        path: "/help_center/community_posts/search",
         ...args,
       });
     },

@@ -6,7 +6,7 @@ export default {
   description:
     "Content moderation solution for NSFW (Not Safe For Work) sexual images identification. Powered by API4AI.",
   key: "api4ai-nsfw-image-recognition",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -33,6 +33,12 @@ export default {
         "Algorithm strictness. Use float values in range from 0.0 (less strict) to 1.0 (strict).",
       optional: true,
       default: "1.0",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {

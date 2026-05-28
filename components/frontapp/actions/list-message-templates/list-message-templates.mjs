@@ -4,7 +4,7 @@ export default {
   key: "frontapp-list-message-templates",
   name: "List Message Templates",
   description: "List the message templates. [See the documentation](https://dev.frontapp.com/reference/list-message-templates).",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

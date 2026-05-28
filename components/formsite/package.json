@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/formsite",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream Formsite Components",
   "main": "formsite.app.mjs",
   "keywords": [
@@ -14,6 +14,6 @@
   },
   "dependencies": {
     "@pipedream/platform": "^3.2.2",
-    "qs": "^6.14.1"
+    "qs": "^6.15.2"
   }
 }

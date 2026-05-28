@@ -4,7 +4,7 @@ export default {
   name: "Move Issues To Backlog",
   description: "Moves issues to the backlog. [See the documentation](https://developer.atlassian.com/server/jira/platform/rest/v10002/api-group-backlog/#api-agile-1-0-backlog-issue-post)",
   key: "jira_data_center-move-issues-to-backlog",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

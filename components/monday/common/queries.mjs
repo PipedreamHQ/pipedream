@@ -2,15 +2,80 @@ export default {
   listBoards: `
     query listBoards (
       $page: Int = 1
+      $limit: Int
+      $ids: [ID!]
+      $boardKind: BoardKind
+      $state: State = all
+      $orderBy: BoardsOrderBy = created_at
+      $workspaceIds: [ID]
     ) {
       boards(
         page: $page
-        state: all
-        order_by: created_at
+        limit: $limit
+        ids: $ids
+        board_kind: $boardKind
+        state: $state
+        order_by: $orderBy
+        workspace_ids: $workspaceIds
       ) {
         id
         name
+        board_folder_id
+        board_kind
+        columns {
+          id
+          title
+          type
+        }
+        communication
+        creator {
+          id
+          name
+          email
+        }
+        description
+        groups {
+          id
+          title
+          color
+        }
+        items_count
+        owners {
+          id
+          name
+          email
+        }
+        permissions
+        state
+        subscribers {
+          id
+          name
+          email
+        }
+        tags {
+          id
+          name
+        }
+        team_owners {
+          id
+          name
+        }
+        team_subscribers {
+          id
+          name
+        }
+        top_group {
+          id
+          title
+        }
         type
+        updated_at
+        url
+        workspace {
+          id
+          name
+        }
+        workspace_id
       }
     }
   `,
@@ -106,13 +171,28 @@ export default {
     }
   `,
   listBoardItemsPage: `
-    query listBoardItemsPage ($boardId: ID!, $cursor: String) {
+    query listBoardItemsPage ($boardId: ID!, $cursor: String, $query_params: ItemsQuery) {
       boards (ids: [$boardId]){
-        items_page (cursor: $cursor) {
+        items_page (
+          cursor: $cursor
+          query_params: $query_params
+        ) {
           cursor
           items {
             id 
             name 
+            column_values {
+              column {
+                title
+              }
+            }
+            created_at
+            creator_id
+            email
+            relative_link
+            state
+            updated_at
+            url
           }
         }
       }

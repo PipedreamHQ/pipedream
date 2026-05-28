@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/twitch",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Pipedream Twitch Components",
   "main": "twitch.app.mjs",
   "keywords": [
@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@pipedream/platform": "^3.1.1",
-    "qs": "^6.14.2",
+    "qs": "^6.15.2",
     "uuid": "^8.3.2"
   }
 }

@@ -5,10 +5,7 @@
   "main": "roundtable.app.mjs",
   "keywords": [
     "pipedream",
-    "roundtable",
-    "ai",
-    "multi-model",
-    "debate"
+    "roundtable"
   ],
   "homepage": "https://pipedream.com/apps/roundtable",
   "author": "Pipedream <support@pipedream.com>",

@@ -5,7 +5,7 @@ export default {
   key: "lightspeed_retail_pos-sale-completed",
   name: "New Sale Completed",
   description: "Emit new event when a sale is completed. [See the documentation](https://developers.lightspeedhq.com/retail/endpoints/Sale/#get-all-sales)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

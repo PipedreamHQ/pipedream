@@ -275,7 +275,10 @@ export default {
             page: page + 1,
           },
         });
-        return response.data.map((article) => ({
+        const articles = Array.isArray(response)
+          ? response
+          : response.data;
+        return articles.map((article) => ({
           label: article.title,
           value: article.id,
         }));
@@ -468,6 +471,15 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: `/tickets/${ticketId}/labels`,
+        ...args,
+      });
+    },
+    detachLabel({
+      ticketId, labelId, ...args
+    }) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/tickets/${ticketId}/labels/${labelId}`,
         ...args,
       });
     },

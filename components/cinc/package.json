@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/cinc",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream CINC Components",
   "main": "cinc.app.mjs",
   "keywords": [

@@ -6,7 +6,7 @@ export default {
   name: "New Row Created",
   description: "Emit new event for every created / updated row in a table. [See the documentation.](https://coda.io/developers/apis/v1#tag/Rows/operation/listRows)",
   type: "source",
-  version: "0.0.4",
+  version: "0.0.5",
   dedupe: "unique",
   props: {
     coda,

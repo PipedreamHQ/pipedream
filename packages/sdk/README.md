@@ -2,7 +2,10 @@
 
 > **This package (v1.x) is deprecated and only receives critical security patches.**
 >
-> **Please upgrade to @pipedream/sdk v2.x or later.** The latest SDK code lives in the [pipedream-sdk-typescript](https://github.com/PipedreamHQ/pipedream-sdk-typescript) repository.
+> **Please upgrade to @pipedream/sdk v2.x or later.**
+The latest SDK code lives in
+[this](https://github.com/PipedreamHQ/pipedream-sdk-typescript)
+repository.
 
 ---
 

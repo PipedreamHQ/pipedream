@@ -4,7 +4,7 @@ export default {
   key: "frontapp-list-ticket-statuses",
   name: "List Ticket Statuses",
   description: "List the ticket statuses available for your company. [See the documentation](https://dev.frontapp.com/reference/list-company-ticket-statuses)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

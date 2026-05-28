@@ -6,7 +6,7 @@ export default {
   key: "_2markdown-pdf-to-markdown",
   name: "PDF to Markdown",
   description: "Convert a PDF document to Markdown format. [See the documentation](https://2markdown.com/docs#pdf2md)",
-  version: "0.2.1",
+  version: "0.2.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -26,6 +26,12 @@ export default {
       type: "boolean",
       label: "Wait for Completion",
       description: "Set to `true` to poll the API in 3-second intervals until the job is complete",
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/short_menu",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Short Menu Components",
   "main": "short_menu.app.mjs",
   "keywords": [

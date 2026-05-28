@@ -21,9 +21,21 @@ const MEETING_TYPES = [
   },
 ];
 
+const CLOUD_RECORD_TRASH_TYPE_OPTIONS = [
+  {
+    label: "List all meeting recordings from the trash",
+    value: "meeting_recordings",
+  },
+  {
+    label: "List all individual recording files from the trash",
+    value: "recording_file",
+  },
+];
+
 export default {
   BASE_URL,
   VERSION_PATH,
   MAX_RESOURCES,
   MEETING_TYPES,
+  CLOUD_RECORD_TRASH_TYPE_OPTIONS,
 };

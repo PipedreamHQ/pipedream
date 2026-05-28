@@ -63,6 +63,7 @@ export default {
       type: "string[]",
       label: "Images",
       description: "Images to use for the request (max 5). This can be a file URL or path to a file in the `/tmp` directory (for example, `/tmp/example.jpg`)",
+      format: "file-ref",
       optional: true,
     },
   },

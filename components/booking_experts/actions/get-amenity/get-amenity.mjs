@@ -4,7 +4,7 @@ export default {
   key: "booking_experts-get-amenity",
   name: "Get Amenity",
   description: "Retrieve a single amenity by ID. [See the documentation](https://developers.bookingexperts.com/reference/amenities-show)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
