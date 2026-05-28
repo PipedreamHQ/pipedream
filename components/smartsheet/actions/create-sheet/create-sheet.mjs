@@ -69,9 +69,18 @@ export default {
         throw new ConfigurationError(`Column at index ${i} includes a \`validation\` field. Validation rules are not supported during sheet creation — use **Update Column** after creating the sheet to add validation.`);
       }
       if (typeof col.options === "string") {
+        let parsedOptions;
+        try {
+          parsedOptions = JSON.parse(col.options);
+        } catch {
+          throw new ConfigurationError(`Column at index ${i}: \`options\` must be a valid JSON array (e.g. \`["Low", "High"]\`).`);
+        }
+        if (!Array.isArray(parsedOptions)) {
+          throw new ConfigurationError(`Column at index ${i}: \`options\` must be a JSON array.`);
+        }
         return {
           ...col,
-          options: JSON.parse(col.options),
+          options: parsedOptions,
         };
       }
       return {

@@ -95,22 +95,18 @@ export default {
         : {}),
     };
 
-    const path = this.workspaceId
-      ? `/workspaces/${this.workspaceId}/sheets/import`
-      : `/folders/${this.folderId}/sheets/import`;
-
-    const response = await this.smartsheet._makeRequest({
+    const requestArgs = {
       $,
-      path,
-      method: "POST",
       data: stream,
       headers: {
-        ...this.smartsheet._headers(),
         "Content-Type": contentType,
         "Content-Disposition": `attachment; filename="${encodeURIComponent(filename)}"`,
       },
       params,
-    });
+    };
+    const response = await (this.workspaceId
+      ? this.smartsheet.importSheetInWorkspace(this.workspaceId, requestArgs)
+      : this.smartsheet.importSheetInFolder(this.folderId, requestArgs));
 
     $.export("$summary", `Imported sheet "${response.result?.name}" (ID: ${response.result?.id})`);
     return response;

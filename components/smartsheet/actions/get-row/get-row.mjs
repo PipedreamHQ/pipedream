@@ -38,7 +38,9 @@ export default {
       this.smartsheet.getRow(this.sheetId, this.rowId, {
         $,
       }),
-      this.smartsheet.getColumnMap(this.sheetId),
+      this.smartsheet.getColumnMap(this.sheetId, {
+        $,
+      }),
     ]);
 
     row.sheetId = this.sheetId;

@@ -26,13 +26,13 @@ export default {
     rowNumbers: {
       type: "string",
       label: "Row Numbers",
-      description: "Comma-separated list of row numbers to include. If omitted, all rows are returned.",
+      description: "Comma-separated list of row numbers to include (e.g. `1,2,10`). If omitted, all rows are returned.",
       optional: true,
     },
     columnIds: {
       type: "string",
       label: "Column IDs",
-      description: "Comma-separated list of column IDs to include. If omitted, all columns are returned.",
+      description: "Comma-separated list of column IDs to include (e.g. `7894561230,8794561230`). Use **List Columns** to find column IDs. If omitted, all columns are returned.",
       optional: true,
     },
     includeAll: {

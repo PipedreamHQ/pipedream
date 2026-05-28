@@ -44,7 +44,9 @@ export default {
       throw new ConfigurationError("`Rows` must be a non-empty JSON array.");
     }
 
-    const { byName } = await this.smartsheet.getColumnMap(this.sheetId);
+    const { byName } = await this.smartsheet.getColumnMap(this.sheetId, {
+      $,
+    });
 
     const apiRows = parsedRows.map((row, rowIndex) => {
       if (!row || typeof row !== "object" || Array.isArray(row)) {

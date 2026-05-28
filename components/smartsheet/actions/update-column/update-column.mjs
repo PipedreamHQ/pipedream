@@ -56,6 +56,18 @@ export default {
     },
   },
   async run({ $ }) {
+    let parsedOptions;
+    if (this.options) {
+      try {
+        parsedOptions = JSON.parse(this.options);
+      } catch {
+        throw new ConfigurationError("`Picklist Options` must be a valid JSON array (e.g. `[\"Option A\", \"Option B\"]`).");
+      }
+      if (!Array.isArray(parsedOptions) || !parsedOptions.length) {
+        throw new ConfigurationError("`Picklist Options` must be a non-empty JSON array.");
+      }
+    }
+
     const data = {
       ...(this.title
         ? {
@@ -72,9 +84,9 @@ export default {
           index: this.index,
         }
         : {}),
-      ...(this.options
+      ...(parsedOptions
         ? {
-          options: JSON.parse(this.options),
+          options: parsedOptions,
         }
         : {}),
     };

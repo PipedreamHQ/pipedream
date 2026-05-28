@@ -113,11 +113,15 @@ export default {
     async _makeRequest({
       $ = this,
       path,
+      headers = {},
       ...args
     }) {
       return axios($, {
         url: `${this._baseUrl()}${path}`,
-        headers: this._headers(),
+        headers: {
+          ...this._headers(),
+          ...headers,
+        },
         ...args,
       });
     },
@@ -346,6 +350,20 @@ export default {
         ...args,
       });
     },
+    importSheetInWorkspace(workspaceId, args = {}) {
+      return this._makeRequest({
+        path: `/workspaces/${workspaceId}/sheets/import`,
+        method: "POST",
+        ...args,
+      });
+    },
+    importSheetInFolder(folderId, args = {}) {
+      return this._makeRequest({
+        path: `/folders/${folderId}/sheets/import`,
+        method: "POST",
+        ...args,
+      });
+    },
     emailSheet(sheetId, args = {}) {
       return this._makeRequest({
         path: `/sheets/${sheetId}/emails`,
@@ -388,10 +406,12 @@ export default {
         ...args,
       });
     },
-    async getColumnMap(sheetId) {
+    async getColumnMap(sheetId, args = {}) {
       const { data } = await this.listColumns(sheetId, {
+        ...args,
         params: {
           includeAll: true,
+          ...args.params,
         },
       });
       const byName = {};

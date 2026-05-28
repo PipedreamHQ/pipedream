@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import { COLUMN_TYPES } from "../../common/constants.mjs";
 import smartsheet from "../../smartsheet.app.mjs";
 
@@ -73,9 +74,21 @@ export default {
       index,
     };
     if (this.options) {
-      column.options = JSON.parse(this.options);
+      let parsedOptions;
+      try {
+        parsedOptions = JSON.parse(this.options);
+      } catch {
+        throw new ConfigurationError("`Picklist Options` must be a valid JSON array (e.g. `[\"Low\", \"High\"]`).");
+      }
+      if (!Array.isArray(parsedOptions) || !parsedOptions.length) {
+        throw new ConfigurationError("`Picklist Options` must be a non-empty JSON array.");
+      }
+      column.options = parsedOptions;
     }
     if (this.validation !== undefined) {
+      if (this.type !== "PICKLIST") {
+        throw new ConfigurationError("`Validation` is only supported for PICKLIST columns.");
+      }
       column.validation = this.validation;
     }
 
