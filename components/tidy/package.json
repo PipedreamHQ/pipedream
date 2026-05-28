@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/tidy",
-  "version": "0.1.1",
+  "version": "0.2.1",
   "description": "Pipedream Tidy Components",
   "main": "tidy.app.mjs",
   "keywords": [

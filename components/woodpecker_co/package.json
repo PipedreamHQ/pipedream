@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/woodpecker_co",
-  "version": "0.0.2",
+  "version": "0.1.2",
   "description": "Pipedream Woodpecker.co Components",
   "main": "woodpecker_co.app.mjs",
   "keywords": [
