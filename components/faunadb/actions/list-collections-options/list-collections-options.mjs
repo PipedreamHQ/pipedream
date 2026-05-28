@@ -1,4 +1,4 @@
-import { faunadb } from "../../faunadb.app.mjs";
+import faunadb from "../../faunadb.app.mjs";
 
 export default {
   key: "faunadb-list-collections-options",

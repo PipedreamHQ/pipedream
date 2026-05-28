@@ -1,4 +1,4 @@
-import { checkvist } from "../../checkvist.app.mjs";
+import checkvist from "../../checkvist.app.mjs";
 
 export default {
   key: "checkvist-list-list-id-options",

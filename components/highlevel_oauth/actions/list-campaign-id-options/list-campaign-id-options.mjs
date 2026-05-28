@@ -1,4 +1,4 @@
-import { highlevel_oauth } from "../../highlevel_oauth.app.mjs";
+import highlevel_oauth from "../../highlevel_oauth.app.mjs";
 
 export default {
   key: "highlevel_oauth-list-campaign-id-options",

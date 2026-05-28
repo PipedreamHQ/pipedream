@@ -1,4 +1,4 @@
-import { chatwork } from "../../chatwork.app.mjs";
+import chatwork from "../../chatwork.app.mjs";
 
 export default {
   key: "chatwork-list-room-options",

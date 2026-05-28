@@ -1,4 +1,4 @@
-import { engage } from "../../engage.app.mjs";
+import engage from "../../engage.app.mjs";
 
 export default {
   key: "engage-list-customer-id-options",

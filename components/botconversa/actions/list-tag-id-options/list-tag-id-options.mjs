@@ -1,4 +1,4 @@
-import { botconversa } from "../../botconversa.app.mjs";
+import botconversa from "../../botconversa.app.mjs";
 
 export default {
   key: "botconversa-list-tag-id-options",

@@ -1,4 +1,4 @@
-import { axonaut } from "../../axonaut.app.mjs";
+import axonaut from "../../axonaut.app.mjs";
 
 export default {
   key: "axonaut-list-company-id-options",

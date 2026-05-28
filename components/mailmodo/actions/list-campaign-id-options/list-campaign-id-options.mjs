@@ -1,4 +1,4 @@
-import { mailmodo } from "../../mailmodo.app.mjs";
+import mailmodo from "../../mailmodo.app.mjs";
 
 export default {
   key: "mailmodo-list-campaign-id-options",

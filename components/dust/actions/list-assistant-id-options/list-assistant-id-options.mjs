@@ -1,4 +1,4 @@
-import { dust } from "../../dust.app.mjs";
+import dust from "../../dust.app.mjs";
 
 export default {
   key: "dust-list-assistant-id-options",

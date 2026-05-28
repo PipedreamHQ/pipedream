@@ -1,4 +1,4 @@
-import { airmeet } from "../../airmeet.app.mjs";
+import airmeet from "../../airmeet.app.mjs";
 
 export default {
   key: "airmeet-list-airmeet-id-options",

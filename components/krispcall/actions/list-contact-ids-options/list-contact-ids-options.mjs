@@ -1,4 +1,4 @@
-import { krispcall } from "../../krispcall.app.mjs";
+import krispcall from "../../krispcall.app.mjs";
 
 export default {
   key: "krispcall-list-contact-ids-options",

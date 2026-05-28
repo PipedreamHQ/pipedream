@@ -1,4 +1,4 @@
-import { beekeeper } from "../../beekeeper.app.mjs";
+import beekeeper from "../../beekeeper.app.mjs";
 
 export default {
   key: "beekeeper-list-chat-id-options",

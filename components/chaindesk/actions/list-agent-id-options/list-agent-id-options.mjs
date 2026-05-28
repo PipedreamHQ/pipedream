@@ -1,4 +1,4 @@
-import { chaindesk } from "../../chaindesk.app.mjs";
+import chaindesk from "../../chaindesk.app.mjs";
 
 export default {
   key: "chaindesk-list-agent-id-options",

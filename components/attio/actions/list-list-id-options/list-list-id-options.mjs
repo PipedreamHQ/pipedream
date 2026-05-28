@@ -1,4 +1,4 @@
-import { attio } from "../../attio.app.mjs";
+import attio from "../../attio.app.mjs";
 
 export default {
   key: "attio-list-list-id-options",

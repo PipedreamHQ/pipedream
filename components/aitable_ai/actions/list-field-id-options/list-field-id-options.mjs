@@ -1,4 +1,4 @@
-import { aitable_ai } from "../../aitable_ai.app.mjs";
+import aitable_ai from "../../aitable_ai.app.mjs";
 
 export default {
   key: "aitable_ai-list-field-id-options",

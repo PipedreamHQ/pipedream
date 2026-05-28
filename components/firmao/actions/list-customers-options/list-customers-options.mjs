@@ -1,4 +1,4 @@
-import { firmao } from "../../firmao.app.mjs";
+import firmao from "../../firmao.app.mjs";
 
 export default {
   key: "firmao-list-customers-options",

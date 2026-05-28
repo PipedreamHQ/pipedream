@@ -1,4 +1,4 @@
-import { codereadr } from "../../codereadr.app.mjs";
+import codereadr from "../../codereadr.app.mjs";
 
 export default {
   key: "codereadr-list-database-id-options",

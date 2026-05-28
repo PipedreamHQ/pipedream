@@ -1,4 +1,4 @@
-import { gloww } from "../../gloww.app.mjs";
+import gloww from "../../gloww.app.mjs";
 
 export default {
   key: "gloww-list-session-id-options",

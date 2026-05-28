@@ -1,4 +1,4 @@
-import { dayschedule } from "../../dayschedule.app.mjs";
+import dayschedule from "../../dayschedule.app.mjs";
 
 export default {
   key: "dayschedule-list-event-options",

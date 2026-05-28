@@ -1,4 +1,4 @@
-import { asin_data_api } from "../../asin_data_api.app.mjs";
+import asin_data_api from "../../asin_data_api.app.mjs";
 
 export default {
   key: "asin_data_api-list-collection-id-options",

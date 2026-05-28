@@ -1,4 +1,4 @@
-import { bilflo } from "../../bilflo.app.mjs";
+import bilflo from "../../bilflo.app.mjs";
 
 export default {
   key: "bilflo-list-client-id-options",

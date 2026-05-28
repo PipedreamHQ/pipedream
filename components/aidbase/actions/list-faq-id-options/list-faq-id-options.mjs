@@ -1,4 +1,4 @@
-import { aidbase } from "../../aidbase.app.mjs";
+import aidbase from "../../aidbase.app.mjs";
 
 export default {
   key: "aidbase-list-faq-id-options",

@@ -1,4 +1,4 @@
-import { google_safebrowsing } from "../../google_safebrowsing.app.mjs";
+import google_safebrowsing from "../../google_safebrowsing.app.mjs";
 
 export default {
   key: "google_safebrowsing-list-threat-lists-options",

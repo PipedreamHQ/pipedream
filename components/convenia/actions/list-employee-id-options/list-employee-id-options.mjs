@@ -1,4 +1,4 @@
-import { convenia } from "../../convenia.app.mjs";
+import convenia from "../../convenia.app.mjs";
 
 export default {
   key: "convenia-list-employee-id-options",

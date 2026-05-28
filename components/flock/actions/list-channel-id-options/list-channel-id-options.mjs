@@ -1,4 +1,4 @@
-import { flock } from "../../flock.app.mjs";
+import flock from "../../flock.app.mjs";
 
 export default {
   key: "flock-list-channel-id-options",

@@ -1,4 +1,4 @@
-import { dixa } from "../../dixa.app.mjs";
+import dixa from "../../dixa.app.mjs";
 
 export default {
   key: "dixa-list-tag-id-options",

@@ -1,4 +1,4 @@
-import { convertkit } from "../../convertkit.app.mjs";
+import convertkit from "../../convertkit.app.mjs";
 
 export default {
   key: "convertkit-list-form-options",

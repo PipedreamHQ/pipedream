@@ -1,4 +1,4 @@
-import { dealmachine } from "../../dealmachine.app.mjs";
+import dealmachine from "../../dealmachine.app.mjs";
 
 export default {
   key: "dealmachine-list-tag-ids-options",

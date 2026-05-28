@@ -1,4 +1,4 @@
-import { chargebee } from "../../chargebee.app.mjs";
+import chargebee from "../../chargebee.app.mjs";
 
 export default {
   key: "chargebee-list-customer-id-options",

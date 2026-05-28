@@ -1,4 +1,4 @@
-import { geckoboard } from "../../geckoboard.app.mjs";
+import geckoboard from "../../geckoboard.app.mjs";
 
 export default {
   key: "geckoboard-list-dataset-id-options",

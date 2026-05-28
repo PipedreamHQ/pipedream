@@ -1,4 +1,4 @@
-import { appwrite } from "../../appwrite.app.mjs";
+import appwrite from "../../appwrite.app.mjs";
 
 export default {
   key: "appwrite-list-team-id-options",

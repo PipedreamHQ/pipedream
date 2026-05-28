@@ -1,4 +1,4 @@
-import { chatbotkit } from "../../chatbotkit.app.mjs";
+import chatbotkit from "../../chatbotkit.app.mjs";
 
 export default {
   key: "chatbotkit-list-conversation-id-options",

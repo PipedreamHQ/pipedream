@@ -1,4 +1,4 @@
-import { coupontools } from "../../coupontools.app.mjs";
+import coupontools from "../../coupontools.app.mjs";
 
 export default {
   key: "coupontools-list-coupon-id-options",

@@ -1,4 +1,4 @@
-import { leap } from "../../leap.app.mjs";
+import leap from "../../leap.app.mjs";
 
 export default {
   key: "leap-list-model-options",

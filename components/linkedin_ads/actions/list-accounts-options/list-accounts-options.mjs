@@ -1,4 +1,4 @@
-import { linkedin_ads } from "../../linkedin_ads.app.mjs";
+import linkedin_ads from "../../linkedin_ads.app.mjs";
 
 export default {
   key: "linkedin_ads-list-accounts-options",

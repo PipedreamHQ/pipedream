@@ -1,4 +1,4 @@
-import { decision_journal } from "../../decision_journal.app.mjs";
+import decision_journal from "../../decision_journal.app.mjs";
 
 export default {
   key: "decision_journal-list-decision-id-options",

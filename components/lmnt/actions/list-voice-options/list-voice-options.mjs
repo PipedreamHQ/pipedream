@@ -1,4 +1,4 @@
-import { lmnt } from "../../lmnt.app.mjs";
+import lmnt from "../../lmnt.app.mjs";
 
 export default {
   key: "lmnt-list-voice-options",

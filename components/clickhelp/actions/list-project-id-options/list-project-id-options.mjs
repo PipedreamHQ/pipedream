@@ -1,4 +1,4 @@
-import { clickhelp } from "../../clickhelp.app.mjs";
+import clickhelp from "../../clickhelp.app.mjs";
 
 export default {
   key: "clickhelp-list-project-id-options",

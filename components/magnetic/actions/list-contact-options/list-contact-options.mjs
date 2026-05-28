@@ -1,4 +1,4 @@
-import { magnetic } from "../../magnetic.app.mjs";
+import magnetic from "../../magnetic.app.mjs";
 
 export default {
   key: "magnetic-list-contact-options",

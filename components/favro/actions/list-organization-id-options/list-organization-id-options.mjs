@@ -1,4 +1,4 @@
-import { favro } from "../../favro.app.mjs";
+import favro from "../../favro.app.mjs";
 
 export default {
   key: "favro-list-organization-id-options",

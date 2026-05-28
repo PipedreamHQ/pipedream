@@ -1,4 +1,4 @@
-import { bland_ai } from "../../bland_ai.app.mjs";
+import bland_ai from "../../bland_ai.app.mjs";
 
 export default {
   key: "bland_ai-list-call-id-options",

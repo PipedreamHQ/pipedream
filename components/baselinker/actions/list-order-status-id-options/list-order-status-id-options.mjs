@@ -1,4 +1,4 @@
-import { baselinker } from "../../baselinker.app.mjs";
+import baselinker from "../../baselinker.app.mjs";
 
 export default {
   key: "baselinker-list-order-status-id-options",

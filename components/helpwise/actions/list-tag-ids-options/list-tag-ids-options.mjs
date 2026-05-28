@@ -1,4 +1,4 @@
-import { helpwise } from "../../helpwise.app.mjs";
+import helpwise from "../../helpwise.app.mjs";
 
 export default {
   key: "helpwise-list-tag-ids-options",

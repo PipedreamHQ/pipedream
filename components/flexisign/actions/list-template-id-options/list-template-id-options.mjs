@@ -1,4 +1,4 @@
-import { flexisign } from "../../flexisign.app.mjs";
+import flexisign from "../../flexisign.app.mjs";
 
 export default {
   key: "flexisign-list-template-id-options",

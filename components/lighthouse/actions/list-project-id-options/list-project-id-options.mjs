@@ -1,4 +1,4 @@
-import { lighthouse } from "../../lighthouse.app.mjs";
+import lighthouse from "../../lighthouse.app.mjs";
 
 export default {
   key: "lighthouse-list-project-id-options",

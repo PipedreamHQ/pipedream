@@ -1,4 +1,4 @@
-import { kenjo } from "../../kenjo.app.mjs";
+import kenjo from "../../kenjo.app.mjs";
 
 export default {
   key: "kenjo-list-employee-id-options",

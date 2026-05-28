@@ -1,4 +1,4 @@
-import { bamboohr } from "../../bamboohr.app.mjs";
+import bamboohr from "../../bamboohr.app.mjs";
 
 export default {
   key: "bamboohr-list-status-id-options",

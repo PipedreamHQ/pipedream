@@ -1,4 +1,4 @@
-import { liveswitch } from "../../liveswitch.app.mjs";
+import liveswitch from "../../liveswitch.app.mjs";
 
 export default {
   key: "liveswitch-list-contact-id-options",

@@ -1,4 +1,4 @@
-import { exhibitday } from "../../exhibitday.app.mjs";
+import exhibitday from "../../exhibitday.app.mjs";
 
 export default {
   key: "exhibitday-list-event-id-options",

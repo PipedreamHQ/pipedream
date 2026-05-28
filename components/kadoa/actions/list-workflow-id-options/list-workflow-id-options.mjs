@@ -1,4 +1,4 @@
-import { kadoa } from "../../kadoa.app.mjs";
+import kadoa from "../../kadoa.app.mjs";
 
 export default {
   key: "kadoa-list-workflow-id-options",

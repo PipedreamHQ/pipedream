@@ -1,4 +1,4 @@
-import { document360 } from "../../document360.app.mjs";
+import document360 from "../../document360.app.mjs";
 
 export default {
   key: "document360-list-folder-id-options",

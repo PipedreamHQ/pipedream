@@ -1,4 +1,4 @@
-import { icontact } from "../../icontact.app.mjs";
+import icontact from "../../icontact.app.mjs";
 
 export default {
   key: "icontact-list-contact-id-options",

@@ -1,4 +1,4 @@
-import { google_merchant_center } from "../../google_merchant_center.app.mjs";
+import google_merchant_center from "../../google_merchant_center.app.mjs";
 
 export default {
   key: "google_merchant_center-list-product-id-options",

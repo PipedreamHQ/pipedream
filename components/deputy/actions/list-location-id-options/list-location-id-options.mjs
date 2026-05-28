@@ -1,4 +1,4 @@
-import { deputy } from "../../deputy.app.mjs";
+import deputy from "../../deputy.app.mjs";
 
 export default {
   key: "deputy-list-location-id-options",

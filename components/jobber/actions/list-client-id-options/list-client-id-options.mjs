@@ -1,4 +1,4 @@
-import { jobber } from "../../jobber.app.mjs";
+import jobber from "../../jobber.app.mjs";
 
 export default {
   key: "jobber-list-client-id-options",

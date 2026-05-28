@@ -1,4 +1,4 @@
-import { bitdefender_gravityzone } from "../../bitdefender_gravityzone.app.mjs";
+import bitdefender_gravityzone from "../../bitdefender_gravityzone.app.mjs";
 
 export default {
   key: "bitdefender_gravityzone-list-group-id-options",

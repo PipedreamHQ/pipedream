@@ -1,4 +1,4 @@
-import { americommerce } from "../../americommerce.app.mjs";
+import americommerce from "../../americommerce.app.mjs";
 
 export default {
   key: "americommerce-list-order-status-id-options",

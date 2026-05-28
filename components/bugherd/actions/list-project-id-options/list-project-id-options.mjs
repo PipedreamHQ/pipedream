@@ -1,4 +1,4 @@
-import { bugherd } from "../../bugherd.app.mjs";
+import bugherd from "../../bugherd.app.mjs";
 
 export default {
   key: "bugherd-list-project-id-options",

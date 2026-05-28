@@ -1,4 +1,4 @@
-import { klipfolio } from "../../klipfolio.app.mjs";
+import klipfolio from "../../klipfolio.app.mjs";
 
 export default {
   key: "klipfolio-list-datasource-id-options",

@@ -1,4 +1,4 @@
-import { heygen } from "../../heygen.app.mjs";
+import heygen from "../../heygen.app.mjs";
 
 export default {
   key: "heygen-list-talking-photo-id-options",

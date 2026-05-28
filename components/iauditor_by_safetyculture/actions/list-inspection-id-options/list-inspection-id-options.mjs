@@ -1,4 +1,4 @@
-import { iauditor_by_safetyculture } from "../../iauditor_by_safetyculture.app.mjs";
+import iauditor_by_safetyculture from "../../iauditor_by_safetyculture.app.mjs";
 
 export default {
   key: "iauditor_by_safetyculture-list-inspection-id-options",

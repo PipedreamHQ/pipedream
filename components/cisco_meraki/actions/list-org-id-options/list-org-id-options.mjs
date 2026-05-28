@@ -1,4 +1,4 @@
-import { cisco_meraki } from "../../cisco_meraki.app.mjs";
+import cisco_meraki from "../../cisco_meraki.app.mjs";
 
 export default {
   key: "cisco_meraki-list-org-id-options",

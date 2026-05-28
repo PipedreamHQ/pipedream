@@ -1,4 +1,4 @@
-import { drata } from "../../drata.app.mjs";
+import drata from "../../drata.app.mjs";
 
 export default {
   key: "drata-list-device-id-options",

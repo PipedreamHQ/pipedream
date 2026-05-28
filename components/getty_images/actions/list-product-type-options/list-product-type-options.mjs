@@ -1,4 +1,4 @@
-import { getty_images } from "../../getty_images.app.mjs";
+import getty_images from "../../getty_images.app.mjs";
 
 export default {
   key: "getty_images-list-product-type-options",

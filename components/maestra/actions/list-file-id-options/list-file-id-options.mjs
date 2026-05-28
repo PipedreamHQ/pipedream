@@ -1,4 +1,4 @@
-import { maestra } from "../../maestra.app.mjs";
+import maestra from "../../maestra.app.mjs";
 
 export default {
   key: "maestra-list-file-id-options",

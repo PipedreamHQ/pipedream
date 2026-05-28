@@ -1,4 +1,4 @@
-import { aero_workflow } from "../../aero_workflow.app.mjs";
+import aero_workflow from "../../aero_workflow.app.mjs";
 
 export default {
   key: "aero_workflow-list-contact-options",

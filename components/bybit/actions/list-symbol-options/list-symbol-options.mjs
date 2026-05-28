@@ -1,4 +1,4 @@
-import { bybit } from "../../bybit.app.mjs";
+import bybit from "../../bybit.app.mjs";
 
 export default {
   key: "bybit-list-symbol-options",

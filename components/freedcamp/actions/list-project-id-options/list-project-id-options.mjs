@@ -1,4 +1,4 @@
-import { freedcamp } from "../../freedcamp.app.mjs";
+import freedcamp from "../../freedcamp.app.mjs";
 
 export default {
   key: "freedcamp-list-project-id-options",

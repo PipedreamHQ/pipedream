@@ -1,4 +1,4 @@
-import { control_d } from "../../control_d.app.mjs";
+import control_d from "../../control_d.app.mjs";
 
 export default {
   key: "control_d-list-profile-id-options",

@@ -1,4 +1,4 @@
-import { botcake } from "../../botcake.app.mjs";
+import botcake from "../../botcake.app.mjs";
 
 export default {
   key: "botcake-list-keyword-id-options",

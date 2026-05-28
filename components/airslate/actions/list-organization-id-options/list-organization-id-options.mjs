@@ -1,4 +1,4 @@
-import { airslate } from "../../airslate.app.mjs";
+import airslate from "../../airslate.app.mjs";
 
 export default {
   key: "airslate-list-organization-id-options",
