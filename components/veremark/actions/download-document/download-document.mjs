@@ -31,12 +31,16 @@ export default {
         documentGuid: this.documentGuid,
       });
     } catch (err) {
-      // Re-throw a clean message to avoid binary error data overflowing MCP context
       const status = err.response?.status;
-      const msg = status === 404
-        ? `Document ${this.documentGuid} not found. Verify the GUID is correct and the document exists in the request's checks array.`
-        : `Failed to download document ${this.documentGuid}: HTTP ${status ?? "unknown"}`;
-      throw new Error(msg);
+      if (status === 404) {
+        $.export("$summary", `Document ${this.documentGuid} not found`);
+        return {
+          found: false,
+          message: `Document ${this.documentGuid} not found. Verify the GUID is correct and the document exists in the request's checks array.`,
+        };
+      }
+      // Re-throw non-404 errors with clean message to avoid binary data overflowing MCP context
+      throw new Error(`Failed to download document ${this.documentGuid}: HTTP ${status ?? "unknown"}`);
     }
     $.export("$summary", `Downloaded document ${this.documentGuid}`);
     return Buffer.from(buffer);

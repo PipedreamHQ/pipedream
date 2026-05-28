@@ -32,12 +32,16 @@ export default {
         requestGuid: this.requestGuid,
       });
     } catch (err) {
-      // Re-throw a clean message to avoid binary error data overflowing MCP context
       const status = err.response?.status;
-      const msg = status === 404
-        ? `Report not found for request ${this.requestGuid}. Verify the GUID is correct and the request has reached 'completed' status.`
-        : `Failed to download report for request ${this.requestGuid}: HTTP ${status ?? "unknown"}`;
-      throw new Error(msg);
+      if (status === 404) {
+        $.export("$summary", `Report not found for request ${this.requestGuid}`);
+        return {
+          found: false,
+          message: `Report not found for request ${this.requestGuid}. Verify the GUID is correct and the request has reached 'completed' status.`,
+        };
+      }
+      // Re-throw non-404 errors with clean message to avoid binary data overflowing MCP context
+      throw new Error(`Failed to download report for request ${this.requestGuid}: HTTP ${status ?? "unknown"}`);
     }
     $.export("$summary", `Downloaded PDF report for request ${this.requestGuid}`);
     return Buffer.from(buffer);
