@@ -30,7 +30,11 @@ export default {
   },
   async run({ $ }) {
     const data = {
-      ...(this.name ? { name: this.name } : {}),
+      ...(this.name
+        ? {
+          name: this.name,
+        }
+        : {}),
     };
     const response = await this.smartsheet.updateSheetProperties(this.sheetId, {
       $,

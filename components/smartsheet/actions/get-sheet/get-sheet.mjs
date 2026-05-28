@@ -50,10 +50,26 @@ export default {
   },
   async run({ $ }) {
     const params = {
-      ...(this.rowNumbers ? { rowNumbers: this.rowNumbers } : {}),
-      ...(this.columnIds ? { columnIds: this.columnIds } : {}),
-      ...(this.includeAll ? { includeAll: true } : {}),
-      ...(this.filterId ? { filterId: this.filterId } : {}),
+      ...(this.rowNumbers
+        ? {
+          rowNumbers: this.rowNumbers,
+        }
+        : {}),
+      ...(this.columnIds
+        ? {
+          columnIds: this.columnIds,
+        }
+        : {}),
+      ...(this.includeAll
+        ? {
+          includeAll: true,
+        }
+        : {}),
+      ...(this.filterId
+        ? {
+          filterId: this.filterId,
+        }
+        : {}),
     };
 
     const response = await this.smartsheet.getSheet(this.sheetId, {

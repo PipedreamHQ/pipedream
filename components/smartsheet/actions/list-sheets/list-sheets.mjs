@@ -32,8 +32,16 @@ export default {
   },
   async run({ $ }) {
     const params = {
-      ...(this.modifiedSince ? { modifiedSince: this.modifiedSince } : {}),
-      ...(this.includeAll ? { includeAll: true } : {}),
+      ...(this.modifiedSince
+        ? {
+          modifiedSince: this.modifiedSince,
+        }
+        : {}),
+      ...(this.includeAll
+        ? {
+          includeAll: true,
+        }
+        : {}),
     };
 
     const response = await this.smartsheet.listSheets({

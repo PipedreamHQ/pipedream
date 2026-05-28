@@ -56,10 +56,26 @@ export default {
   },
   async run({ $ }) {
     const data = {
-      ...(this.title ? { title: this.title } : {}),
-      ...(this.type ? { type: this.type } : {}),
-      ...(this.index !== undefined ? { index: this.index } : {}),
-      ...(this.options ? { options: JSON.parse(this.options) } : {}),
+      ...(this.title
+        ? {
+          title: this.title,
+        }
+        : {}),
+      ...(this.type
+        ? {
+          type: this.type,
+        }
+        : {}),
+      ...(this.index !== undefined
+        ? {
+          index: this.index,
+        }
+        : {}),
+      ...(this.options
+        ? {
+          options: JSON.parse(this.options),
+        }
+        : {}),
     };
 
     const response = await this.smartsheet.updateColumn(this.sheetId, this.columnId, {

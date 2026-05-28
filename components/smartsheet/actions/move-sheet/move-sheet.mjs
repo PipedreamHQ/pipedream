@@ -40,7 +40,11 @@ export default {
   async run({ $ }) {
     const data = {
       destinationType: this.destinationType,
-      ...(this.destinationId ? { destinationId: Number(this.destinationId) } : {}),
+      ...(this.destinationId
+        ? {
+          destinationId: Number(this.destinationId),
+        }
+        : {}),
     };
 
     const response = await this.smartsheet.moveSheet(this.sheetId, {

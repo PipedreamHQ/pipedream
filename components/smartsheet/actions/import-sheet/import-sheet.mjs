@@ -82,7 +82,11 @@ export default {
 
     const params = {
       sheetName: this.sheetName,
-      ...(this.headerRowIndex !== undefined ? { headerRowIndex: this.headerRowIndex } : {}),
+      ...(this.headerRowIndex !== undefined
+        ? {
+          headerRowIndex: this.headerRowIndex,
+        }
+        : {}),
     };
 
     const path = this.workspaceId
