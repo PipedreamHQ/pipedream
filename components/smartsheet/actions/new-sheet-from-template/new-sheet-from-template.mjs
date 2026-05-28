@@ -41,6 +41,9 @@ export default {
       propDefinition: [
         smartsheet,
         "folderId",
+        (c) => ({
+          workspaceId: c.workspaceId,
+        }),
       ],
       description: "Folder to create the sheet in. Required if Workspace is not specified as the sole destination. Use **List Folder Options** to find folder IDs.",
     },
