@@ -13,8 +13,8 @@ const docLink =
 
 export default {
   key: "google_ads-create-or-update-ad-group-ad",
-  name: "Create or Update Ad Group Ad",
-  description: `Creates or updates an ad group ad. [See the documentation](${docLink})`,
+  name: "Create, Update, or Remove Ad Group Ad",
+  description: `Creates, updates, or removes an ad group ad. [See the documentation](${docLink})`,
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -90,7 +90,7 @@ export default {
     ad: {
       type: "string",
       label: "Ad",
-      description: "JSON object specifying the ad content. Required for **Create** operations. For creates, include the ad `type` and the corresponding type-specific fields (e.g., `responsiveSearchAd`, `expandedTextAd`), along with `finalUrls`. For updates, only include mutable ad fields (e.g., `finalUrls`, `trackingUrlTemplate`, `finalUrlSuffix`).",
+      description: "JSON object specifying the ad content. Required for **Create** operations. For creates, include the ad type-specific fields and `finalUrls` — e.g., `{\"responsiveSearchAd\": {\"headlines\": [{\"text\": \"Headline\"}], \"descriptions\": [{\"text\": \"Desc\"}]}, \"finalUrls\": [\"https://example.com\"]}`. For updates, only include mutable fields — e.g., `{\"finalUrls\": [\"https://example.com\"], \"trackingUrlTemplate\": \"https://tracker.com?url={lpurl}\"}`.",
       optional: true,
     },
     additionalFields: getAdditionalFields(docLink),

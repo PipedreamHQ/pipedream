@@ -207,14 +207,9 @@ export default {
       };
 
       if (operationType === "update") {
-        const mask =
-          updateMask ??
-          Object.keys(campaignData)
-            .filter((k) => k !== "resourceName")
-            .join(",");
         operation = {
           update: campaignData,
-          updateMask: mask,
+          updateMask,
         };
       } else {
         operation = {

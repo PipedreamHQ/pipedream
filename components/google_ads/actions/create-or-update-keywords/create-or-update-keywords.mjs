@@ -13,8 +13,8 @@ const docLink =
 
 export default {
   key: "google_ads-create-or-update-keywords",
-  name: "Create or Update Keywords",
-  description: `Creates or updates keyword criteria for an ad group. [See the documentation](${docLink})`,
+  name: "Create, Update, or Remove Keywords",
+  description: `Creates, updates, or removes keyword criteria for an ad group. [See the documentation](${docLink})`,
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -220,7 +220,7 @@ export default {
         ...(status && {
           status,
         }),
-        ...(cpcBidMicros && {
+        ...(cpcBidMicros !== undefined && {
           cpcBidMicros,
         }),
         ...(trackingUrlTemplate && {

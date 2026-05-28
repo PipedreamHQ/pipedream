@@ -1,7 +1,9 @@
 import { axios } from "@pipedream/platform";
 import { CORE_DATE_SEGMENTS } from "./common/constants.mjs";
 import { QUERIES } from "./common/queries.mjs";
-import { getResourceOption } from "./common/utils.mjs";
+import {
+  getResourceOption, sanitizeGaqlString,
+} from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -127,7 +129,7 @@ export default {
     campaignId: {
       type: "string",
       label: "Campaign",
-      description: "Select a campaign. Use the **List Campaigns** action to discover options.",
+      description: "Select a campaign. Use the **List Campaigns** action to discover options. Returns a numeric campaign ID (e.g., `1234567890`).",
       useQuery: true,
       async options({
         accountId, customerClientId, query, prevContext,
@@ -154,7 +156,7 @@ export default {
     campaignSharedSetId: {
       type: "string",
       label: "Campaign Shared Set",
-      description: "Select a campaign shared set to remove. Use the **List Campaign Shared Sets** action to discover options.",
+      description: "Select a campaign shared set to remove. Use the **List Campaign Shared Sets** action to discover options. Returns a resource name (e.g., `customers/123/campaignSharedSets/456~789`).",
       useQuery: true,
       async options({
         accountId, customerClientId, query, prevContext,
@@ -183,7 +185,7 @@ export default {
     sharedCriterionId: {
       type: "string",
       label: "Shared Criterion",
-      description: "Select a shared criterion to remove. Use the **List Shared Criteria** action to discover options.",
+      description: "Select a shared criterion to remove. Use the **List Shared Criteria** action to discover options. Returns a resource name (e.g., `customers/123/sharedCriteria/456~789`).",
       useQuery: true,
       async options({
         accountId, customerClientId, query, prevContext,
@@ -222,7 +224,7 @@ export default {
     sharedSetId: {
       type: "string",
       label: "Shared Set",
-      description: "Select a shared set. Use the **List Shared Sets** action to discover options.",
+      description: "Select a shared set. Use the **List Shared Sets** action to discover options. Returns a numeric shared set ID (e.g., `1234567890`).",
       useQuery: true,
       async options({
         accountId, customerClientId, query, prevContext,
@@ -280,7 +282,7 @@ export default {
     adGroupAdId: {
       type: "string",
       label: "Ad Group Ad",
-      description: "Select an ad within an ad group. Use the **List Ad Group Ads** action to discover options.",
+      description: "Select an ad within an ad group. Use the **List Ad Group Ads** action to discover options. Returns a resource name (e.g., `customers/123/adGroupAds/456~789`).",
       useQuery: true,
       async options({
         accountId, customerClientId, query, prevContext,
@@ -337,7 +339,7 @@ export default {
     campaignBudgetId: {
       type: "string",
       label: "Campaign Budget",
-      description: "Select a campaign budget. Use the **List Campaign Budgets** action to discover options.",
+      description: "Select a campaign budget. Use the **List Campaign Budgets** action to discover options. Returns a numeric budget ID (e.g., `1234567890`).",
       useQuery: true,
       async options({
         accountId, customerClientId, query, prevContext,
@@ -366,7 +368,7 @@ export default {
     campaignCriterionId: {
       type: "string",
       label: "Campaign Criterion",
-      description: "Select a campaign criterion to remove. Use the **List Campaign Criteria** action to discover options.",
+      description: "Select a campaign criterion to remove. Use the **List Campaign Criteria** action to discover options. Returns a resource name (e.g., `customers/123/campaignCriteria/456~789`).",
       useQuery: true,
       async options({
         accountId, customerClientId, query, prevContext,
@@ -405,7 +407,7 @@ export default {
     biddingStrategyId: {
       type: "string",
       label: "Bidding Strategy",
-      description: "Select a bidding strategy. Use the **List Bidding Strategies** action to discover options.",
+      description: "Select a bidding strategy. Use the **List Bidding Strategies** action to discover options. Returns a numeric bidding strategy ID (e.g., `1234567890`).",
       useQuery: true,
       async options({
         accountId, customerClientId, query, prevContext,
@@ -636,7 +638,7 @@ export default {
       query, pageToken, ...args
     }) {
       const filter = query
-        ? ` WHERE campaign.name LIKE '%${query}%'`
+        ? ` WHERE campaign.name LIKE '%${sanitizeGaqlString(query)}%'`
         : "";
       return this.search({
         query: `SELECT campaign.id, campaign.name, campaign.status, campaign.advertising_channel_type, campaign.start_date, campaign.end_date FROM campaign${filter}`,
@@ -650,7 +652,7 @@ export default {
       query, pageToken, ...args
     }) {
       const filter = query
-        ? ` WHERE ad_group.name LIKE '%${query}%'`
+        ? ` WHERE ad_group.name LIKE '%${sanitizeGaqlString(query)}%'`
         : "";
       return this.search({
         query: `SELECT ad_group.id, ad_group.name, ad_group.status, ad_group.campaign, ad_group.type FROM ad_group${filter}`,
@@ -664,7 +666,7 @@ export default {
       query, pageToken, ...args
     }) {
       const filter = query
-        ? ` WHERE ad_group_ad.ad.name LIKE '%${query}%'`
+        ? ` WHERE ad_group_ad.ad.name LIKE '%${sanitizeGaqlString(query)}%'`
         : "";
       return this.search({
         query: `SELECT ad_group_ad.resource_name, ad_group_ad.ad.id, ad_group_ad.ad.name, ad_group_ad.ad.type, ad_group_ad.status, ad_group.id, ad_group.name FROM ad_group_ad${filter}`,
@@ -678,7 +680,7 @@ export default {
       query, pageToken, ...args
     }) {
       const filter = query
-        ? ` AND ad_group_criterion.keyword.text LIKE '%${query}%'`
+        ? ` AND ad_group_criterion.keyword.text LIKE '%${sanitizeGaqlString(query)}%'`
         : "";
       return this.search({
         query: `SELECT ad_group_criterion.criterion_id, ad_group_criterion.resource_name, ad_group_criterion.keyword.text, ad_group_criterion.keyword.match_type, ad_group_criterion.status, ad_group_criterion.cpc_bid_micros, ad_group_criterion.negative, ad_group.id, ad_group.name FROM ad_group_criterion WHERE ad_group_criterion.type = 'KEYWORD'${filter}`,
@@ -692,7 +694,7 @@ export default {
       query, pageToken, ...args
     }) {
       const filter = query
-        ? ` AND ad_group_criterion.keyword.text LIKE '%${query}%'`
+        ? ` AND ad_group_criterion.keyword.text LIKE '%${sanitizeGaqlString(query)}%'`
         : "";
       return this.search({
         query: `SELECT ad_group_criterion.resource_name, ad_group_criterion.keyword.text, ad_group_criterion.keyword.match_type FROM ad_group_criterion WHERE ad_group_criterion.type = 'KEYWORD'${filter}`,
@@ -720,7 +722,7 @@ export default {
       query, pageToken, ...args
     }) {
       const filter = query
-        ? ` AND shared_set.name LIKE '%${query}%'`
+        ? ` AND shared_set.name LIKE '%${sanitizeGaqlString(query)}%'`
         : "";
       return this.search({
         query: `SELECT shared_set.id, shared_set.name, shared_set.type, shared_set.status FROM shared_set WHERE shared_set.status = 'ENABLED'${filter}`,
@@ -741,7 +743,7 @@ export default {
       query, pageToken, ...args
     }) {
       const filter = query
-        ? ` AND shared_criterion.keyword.text LIKE '%${query}%'`
+        ? ` AND shared_criterion.keyword.text LIKE '%${sanitizeGaqlString(query)}%'`
         : "";
       return this.search({
         query: `SELECT shared_criterion.resource_name, shared_criterion.criterion_id, shared_criterion.type, shared_criterion.keyword.text, shared_criterion.keyword.match_type, shared_set.id, shared_set.name FROM shared_criterion WHERE shared_criterion.type = 'KEYWORD'${filter}`,
@@ -762,7 +764,7 @@ export default {
       query, pageToken, ...args
     }) {
       const filter = query
-        ? ` AND (campaign.name LIKE '%${query}%' OR shared_set.name LIKE '%${query}%')`
+        ? ` AND (campaign.name LIKE '%${sanitizeGaqlString(query)}%' OR shared_set.name LIKE '%${sanitizeGaqlString(query)}%')`
         : "";
       return this.search({
         query: `SELECT campaign_shared_set.resource_name, campaign_shared_set.status, campaign.id, campaign.name, shared_set.id, shared_set.name FROM campaign_shared_set WHERE campaign_shared_set.status = 'ENABLED'${filter}`,
@@ -783,7 +785,7 @@ export default {
       query, pageToken, ...args
     }) {
       const filter = query
-        ? ` WHERE shared_set.name LIKE '%${query}%'`
+        ? ` WHERE shared_set.name LIKE '%${sanitizeGaqlString(query)}%'`
         : "";
       return this.search({
         query: `SELECT shared_criterion.resource_name, shared_criterion.criterion_id, shared_criterion.type, shared_criterion.keyword.text, shared_criterion.keyword.match_type, shared_set.id, shared_set.name FROM shared_criterion${filter}`,
@@ -797,7 +799,7 @@ export default {
       query, pageToken, ...args
     }) {
       const filter = query
-        ? ` WHERE ad_group.name LIKE '%${query}%'`
+        ? ` WHERE ad_group.name LIKE '%${sanitizeGaqlString(query)}%'`
         : "";
       return this.search({
         query: `SELECT ad_group_criterion.criterion_id, ad_group_criterion.resource_name, ad_group_criterion.type, ad_group_criterion.status, ad_group_criterion.negative, ad_group_criterion.keyword.text, ad_group_criterion.keyword.match_type, ad_group_criterion.cpc_bid_micros, ad_group.id, ad_group.name FROM ad_group_criterion${filter}`,
@@ -811,7 +813,7 @@ export default {
       query, pageToken, ...args
     }) {
       const filter = query
-        ? ` AND campaign_budget.name LIKE '%${query}%'`
+        ? ` AND campaign_budget.name LIKE '%${sanitizeGaqlString(query)}%'`
         : "";
       return this.search({
         query: `SELECT campaign_budget.id, campaign_budget.name, campaign_budget.amount_micros, campaign_budget.delivery_method, campaign_budget.period, campaign_budget.status FROM campaign_budget WHERE campaign_budget.status = 'ENABLED'${filter}`,
@@ -832,7 +834,7 @@ export default {
       query, pageToken, ...args
     }) {
       const filter = query
-        ? ` AND campaign.name LIKE '%${query}%'`
+        ? ` AND campaign.name LIKE '%${sanitizeGaqlString(query)}%'`
         : "";
       return this.search({
         query: `SELECT campaign_criterion.resource_name, campaign_criterion.criterion_id, campaign_criterion.type, campaign_criterion.status, campaign_criterion.negative, campaign_criterion.keyword.text, campaign_criterion.keyword.match_type, campaign.id, campaign.name FROM campaign_criterion WHERE campaign_criterion.type = 'KEYWORD'${filter}`,
@@ -853,7 +855,7 @@ export default {
       query, pageToken, ...args
     }) {
       const filter = query
-        ? ` WHERE campaign.name LIKE '%${query}%'`
+        ? ` WHERE campaign.name LIKE '%${sanitizeGaqlString(query)}%'`
         : "";
       return this.search({
         query: `SELECT campaign_criterion.resource_name, campaign_criterion.criterion_id, campaign_criterion.type, campaign_criterion.status, campaign_criterion.negative, campaign_criterion.keyword.text, campaign_criterion.keyword.match_type, campaign.id, campaign.name FROM campaign_criterion${filter}`,
@@ -867,7 +869,7 @@ export default {
       query, pageToken, ...args
     }) {
       const filter = query
-        ? ` AND bidding_strategy.name LIKE '%${query}%'`
+        ? ` AND bidding_strategy.name LIKE '%${sanitizeGaqlString(query)}%'`
         : "";
       return this.search({
         query: `SELECT bidding_strategy.id, bidding_strategy.name, bidding_strategy.type, bidding_strategy.status FROM bidding_strategy WHERE bidding_strategy.status = 'ENABLED'${filter}`,
@@ -890,8 +892,8 @@ export default {
       const conditions = [
         `segments.date DURING ${dateRange ?? "LAST_30_DAYS"}`,
       ];
-      if (campaignId) conditions.push(`campaign.id = ${campaignId}`);
-      if (adGroupId) conditions.push(`ad_group.id = ${adGroupId}`);
+      if (campaignId) conditions.push(`campaign.id = ${Number(campaignId)}`);
+      if (adGroupId) conditions.push(`ad_group.id = ${Number(adGroupId)}`);
       return this.search({
         query: `SELECT keyword_view.resource_name, ad_group_criterion.keyword.text, ad_group_criterion.keyword.match_type, ad_group_criterion.status, ad_group_criterion.quality_info.quality_score, ad_group_criterion.quality_info.creative_quality_score, ad_group_criterion.quality_info.post_click_quality_score, ad_group_criterion.quality_info.search_predicted_ctr, metrics.historical_quality_score, metrics.historical_creative_quality_score, metrics.historical_landing_page_quality_score, metrics.historical_search_predicted_ctr, ad_group.id, ad_group.name, campaign.id, campaign.name FROM keyword_view WHERE ${conditions.join(" AND ")}`,
         ...args,

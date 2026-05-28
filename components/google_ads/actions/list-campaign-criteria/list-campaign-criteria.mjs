@@ -46,9 +46,9 @@ export default {
     const items = results ?? [];
     $.export(
       "$summary",
-      `Successfully retrieved ${items.length} campaign criterion${items.length === 1
-        ? ""
-        : "a"}.`,
+      `Successfully retrieved ${items.length} campaign ${items.length === 1
+        ? "criterion"
+        : "criteria"}.`,
     );
     return items;
   },

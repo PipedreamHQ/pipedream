@@ -215,6 +215,16 @@ export default {
       ? `customers/${customerId}/campaigns/${campaignId}`
       : undefined;
 
+    let parsedTargetRoas;
+    if (targetRoas !== undefined) {
+      parsedTargetRoas = parseFloat(targetRoas);
+      if (!Number.isFinite(parsedTargetRoas)) {
+        throw new ConfigurationError(
+          `**Target ROAS** must be a valid decimal number (e.g., \`3.5\`), got: \`${targetRoas}\`.`,
+        );
+      }
+    }
+
     let operation;
 
     if (operationType === "remove") {
@@ -238,23 +248,23 @@ export default {
         ...(status && {
           status,
         }),
-        ...(cpcBidMicros && {
+        ...(cpcBidMicros !== undefined && {
           cpcBidMicros,
         }),
-        ...(cpmBidMicros && {
+        ...(cpmBidMicros !== undefined && {
           cpmBidMicros,
         }),
-        ...(cpvBidMicros && {
+        ...(cpvBidMicros !== undefined && {
           cpvBidMicros,
         }),
-        ...(targetCpaMicros && {
+        ...(targetCpaMicros !== undefined && {
           targetCpaMicros,
         }),
-        ...(targetCpmMicros && {
+        ...(targetCpmMicros !== undefined && {
           targetCpmMicros,
         }),
-        ...(targetRoas && {
-          targetRoas: parseFloat(targetRoas),
+        ...(parsedTargetRoas !== undefined && {
+          targetRoas: parsedTargetRoas,
         }),
         ...(trackingUrlTemplate && {
           trackingUrlTemplate,

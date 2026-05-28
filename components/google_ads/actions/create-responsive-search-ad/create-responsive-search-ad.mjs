@@ -8,8 +8,16 @@ const docLink =
 function parseAsset(value) {
   try {
     const parsed = JSON.parse(value);
-    if (parsed?.text) return parsed;
-  } catch {
+    if (typeof parsed === "object" && parsed !== null) {
+      if (!parsed.text) {
+        throw new ConfigurationError(
+          `Malformed JSON asset: missing required 'text' field in: \`${value}\``,
+        );
+      }
+      return parsed;
+    }
+  } catch (err) {
+    if (err instanceof ConfigurationError) throw err;
     // not JSON, treat as plain text
   }
   return {
