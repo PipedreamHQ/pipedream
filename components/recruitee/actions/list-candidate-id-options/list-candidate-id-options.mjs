@@ -1,4 +1,4 @@
-import { recruitee } from "../../recruitee.app.mjs";
+import recruitee from "../../recruitee.app.mjs";
 
 export default {
   key: "recruitee-list-candidate-id-options",

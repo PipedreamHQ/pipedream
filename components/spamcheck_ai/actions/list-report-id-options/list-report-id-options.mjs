@@ -1,4 +1,4 @@
-import { spamcheck_ai } from "../../spamcheck_ai.app.mjs";
+import spamcheck_ai from "../../spamcheck_ai.app.mjs";
 
 export default {
   key: "spamcheck_ai-list-report-id-options",

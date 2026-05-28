@@ -1,4 +1,4 @@
-import { proofly } from "../../proofly.app.mjs";
+import proofly from "../../proofly.app.mjs";
 
 export default {
   key: "proofly-list-campaign-id-options",

@@ -1,4 +1,4 @@
-import { sare } from "../../sare.app.mjs";
+import sare from "../../sare.app.mjs";
 
 export default {
   key: "sare-list-groups-options",

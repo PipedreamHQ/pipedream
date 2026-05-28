@@ -1,4 +1,4 @@
-import { microsoft_365_people } from "../../microsoft_365_people.app.mjs";
+import microsoft_365_people from "../../microsoft_365_people.app.mjs";
 
 export default {
   key: "microsoft_365_people-list-folder-id-options",

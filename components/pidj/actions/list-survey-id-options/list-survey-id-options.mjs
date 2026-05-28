@@ -1,4 +1,4 @@
-import { pidj } from "../../pidj.app.mjs";
+import pidj from "../../pidj.app.mjs";
 
 export default {
   key: "pidj-list-survey-id-options",

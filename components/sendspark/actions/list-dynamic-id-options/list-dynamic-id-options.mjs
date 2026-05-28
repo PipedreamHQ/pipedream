@@ -1,4 +1,4 @@
-import { sendspark } from "../../sendspark.app.mjs";
+import sendspark from "../../sendspark.app.mjs";
 
 export default {
   key: "sendspark-list-dynamic-id-options",

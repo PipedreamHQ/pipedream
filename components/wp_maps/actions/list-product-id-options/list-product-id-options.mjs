@@ -1,4 +1,4 @@
-import { wp_maps } from "../../wp_maps.app.mjs";
+import wp_maps from "../../wp_maps.app.mjs";
 
 export default {
   key: "wp_maps-list-product-id-options",

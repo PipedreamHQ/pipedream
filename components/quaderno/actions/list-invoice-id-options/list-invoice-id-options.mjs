@@ -1,4 +1,4 @@
-import { quaderno } from "../../quaderno.app.mjs";
+import quaderno from "../../quaderno.app.mjs";
 
 export default {
   key: "quaderno-list-invoice-id-options",

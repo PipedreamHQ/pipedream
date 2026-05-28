@@ -1,4 +1,4 @@
-import { prodpad } from "../../prodpad.app.mjs";
+import prodpad from "../../prodpad.app.mjs";
 
 export default {
   key: "prodpad-list-tag-id-options",

@@ -1,4 +1,4 @@
-import { moodle } from "../../moodle.app.mjs";
+import moodle from "../../moodle.app.mjs";
 
 export default {
   key: "moodle-list-category-id-options",

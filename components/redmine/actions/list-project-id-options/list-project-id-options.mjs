@@ -1,4 +1,4 @@
-import { redmine } from "../../redmine.app.mjs";
+import redmine from "../../redmine.app.mjs";
 
 export default {
   key: "redmine-list-project-id-options",

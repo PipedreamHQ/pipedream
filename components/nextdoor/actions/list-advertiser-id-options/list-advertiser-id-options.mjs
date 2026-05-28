@@ -1,4 +1,4 @@
-import { nextdoor } from "../../nextdoor.app.mjs";
+import nextdoor from "../../nextdoor.app.mjs";
 
 export default {
   key: "nextdoor-list-advertiser-id-options",

@@ -1,4 +1,4 @@
-import { pcloud } from "../../pcloud.app.mjs";
+import pcloud from "../../pcloud.app.mjs";
 
 export default {
   key: "pcloud-list-folder-id-options",

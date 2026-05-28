@@ -1,4 +1,4 @@
-import { smslink_nc } from "../../smslink_nc.app.mjs";
+import smslink_nc from "../../smslink_nc.app.mjs";
 
 export default {
   key: "smslink_nc-list-campaign-id-options",

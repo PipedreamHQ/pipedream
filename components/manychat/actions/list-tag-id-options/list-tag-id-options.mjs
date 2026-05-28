@@ -1,4 +1,4 @@
-import { manychat } from "../../manychat.app.mjs";
+import manychat from "../../manychat.app.mjs";
 
 export default {
   key: "manychat-list-tag-id-options",

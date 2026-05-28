@@ -1,4 +1,4 @@
-import { oxylabs } from "../../oxylabs.app.mjs";
+import oxylabs from "../../oxylabs.app.mjs";
 
 export default {
   key: "oxylabs-list-schedule-id-options",

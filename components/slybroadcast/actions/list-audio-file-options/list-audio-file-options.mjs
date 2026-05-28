@@ -1,4 +1,4 @@
-import { slybroadcast } from "../../slybroadcast.app.mjs";
+import slybroadcast from "../../slybroadcast.app.mjs";
 
 export default {
   key: "slybroadcast-list-audio-file-options",

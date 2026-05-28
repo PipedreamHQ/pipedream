@@ -1,4 +1,4 @@
-import { woovi } from "../../woovi.app.mjs";
+import woovi from "../../woovi.app.mjs";
 
 export default {
   key: "woovi-list-charge-id-options",

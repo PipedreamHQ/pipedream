@@ -1,4 +1,4 @@
-import { neon_api_keys } from "../../neon_api_keys.app.mjs";
+import neon_api_keys from "../../neon_api_keys.app.mjs";
 
 export default {
   key: "neon_api_keys-list-project-id-options",

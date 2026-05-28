@@ -1,4 +1,4 @@
-import { weaviate } from "../../weaviate.app.mjs";
+import weaviate from "../../weaviate.app.mjs";
 
 export default {
   key: "weaviate-list-class-id-options",

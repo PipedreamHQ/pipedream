@@ -1,4 +1,4 @@
-import { parsio_io } from "../../parsio_io.app.mjs";
+import parsio_io from "../../parsio_io.app.mjs";
 
 export default {
   key: "parsio_io-list-mailbox-id-options",

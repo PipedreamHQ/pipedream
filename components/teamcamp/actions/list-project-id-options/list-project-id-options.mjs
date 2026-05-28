@@ -1,4 +1,4 @@
-import { teamcamp } from "../../teamcamp.app.mjs";
+import teamcamp from "../../teamcamp.app.mjs";
 
 export default {
   key: "teamcamp-list-project-id-options",

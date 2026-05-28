@@ -1,4 +1,4 @@
-import { process_street } from "../../process_street.app.mjs";
+import process_street from "../../process_street.app.mjs";
 
 export default {
   key: "process_street-list-workflow-id-options",

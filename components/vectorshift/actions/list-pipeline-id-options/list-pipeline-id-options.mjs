@@ -1,4 +1,4 @@
-import { vectorshift } from "../../vectorshift.app.mjs";
+import vectorshift from "../../vectorshift.app.mjs";
 
 export default {
   key: "vectorshift-list-pipeline-id-options",

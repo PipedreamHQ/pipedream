@@ -1,4 +1,4 @@
-import { twenty } from "../../twenty.app.mjs";
+import twenty from "../../twenty.app.mjs";
 
 export default {
   key: "twenty-list-record-id-options",

@@ -1,4 +1,4 @@
-import { pushcut } from "../../pushcut.app.mjs";
+import pushcut from "../../pushcut.app.mjs";
 
 export default {
   key: "pushcut-list-shortcut-options",

@@ -1,4 +1,4 @@
-import { tisane_labs } from "../../tisane_labs.app.mjs";
+import tisane_labs from "../../tisane_labs.app.mjs";
 
 export default {
   key: "tisane_labs-list-language-options",

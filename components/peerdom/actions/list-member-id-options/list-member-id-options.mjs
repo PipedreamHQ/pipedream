@@ -1,4 +1,4 @@
-import { peerdom } from "../../peerdom.app.mjs";
+import peerdom from "../../peerdom.app.mjs";
 
 export default {
   key: "peerdom-list-member-id-options",

@@ -1,4 +1,4 @@
-import { slack_v2 } from "../../slack_v2.app.mjs";
+import slack_v2 from "../../slack_v2.app.mjs";
 
 export default {
   key: "slack_v2-list-icon-emoji-options",

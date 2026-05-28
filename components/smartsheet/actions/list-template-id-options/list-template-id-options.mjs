@@ -1,4 +1,4 @@
-import { smartsheet } from "../../smartsheet.app.mjs";
+import smartsheet from "../../smartsheet.app.mjs";
 
 export default {
   key: "smartsheet-list-template-id-options",

@@ -1,4 +1,4 @@
-import { paigo } from "../../paigo.app.mjs";
+import paigo from "../../paigo.app.mjs";
 
 export default {
   key: "paigo-list-customer-id-options",

@@ -1,4 +1,4 @@
-import { short } from "../../short.app.mjs";
+import short from "../../short.app.mjs";
 
 export default {
   key: "short-list-domain-options",

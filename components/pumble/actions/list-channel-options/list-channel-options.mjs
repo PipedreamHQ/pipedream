@@ -1,4 +1,4 @@
-import { pumble } from "../../pumble.app.mjs";
+import pumble from "../../pumble.app.mjs";
 
 export default {
   key: "pumble-list-channel-options",

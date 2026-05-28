@@ -1,4 +1,4 @@
-import { snipcart } from "../../snipcart.app.mjs";
+import snipcart from "../../snipcart.app.mjs";
 
 export default {
   key: "snipcart-list-discount-id-options",

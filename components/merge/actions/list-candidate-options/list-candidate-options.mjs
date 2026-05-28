@@ -1,4 +1,4 @@
-import { merge } from "../../merge.app.mjs";
+import merge from "../../merge.app.mjs";
 
 export default {
   key: "merge-list-candidate-options",

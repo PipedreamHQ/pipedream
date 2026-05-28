@@ -1,4 +1,4 @@
-import { woodpecker_co } from "../../woodpecker_co.app.mjs";
+import woodpecker_co from "../../woodpecker_co.app.mjs";
 
 export default {
   key: "woodpecker_co-list-campaign-id-options",

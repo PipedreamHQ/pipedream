@@ -1,4 +1,4 @@
-import { onbee_app } from "../../onbee_app.app.mjs";
+import onbee_app from "../../onbee_app.app.mjs";
 
 export default {
   key: "onbee_app-list-employee-id-options",

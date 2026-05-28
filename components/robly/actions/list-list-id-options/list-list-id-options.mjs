@@ -1,4 +1,4 @@
-import { robly } from "../../robly.app.mjs";
+import robly from "../../robly.app.mjs";
 
 export default {
   key: "robly-list-list-id-options",

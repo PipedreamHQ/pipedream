@@ -1,4 +1,4 @@
-import { megaventory } from "../../megaventory.app.mjs";
+import megaventory from "../../megaventory.app.mjs";
 
 export default {
   key: "megaventory-list-sales-order-id-options",

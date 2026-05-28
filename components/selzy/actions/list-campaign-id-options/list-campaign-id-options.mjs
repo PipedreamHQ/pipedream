@@ -1,4 +1,4 @@
-import { selzy } from "../../selzy.app.mjs";
+import selzy from "../../selzy.app.mjs";
 
 export default {
   key: "selzy-list-campaign-id-options",

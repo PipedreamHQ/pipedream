@@ -1,4 +1,4 @@
-import { open_exchange_rates } from "../../open_exchange_rates.app.mjs";
+import open_exchange_rates from "../../open_exchange_rates.app.mjs";
 
 export default {
   key: "open_exchange_rates-list-currency-id-options",

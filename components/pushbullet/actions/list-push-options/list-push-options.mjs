@@ -1,4 +1,4 @@
-import { pushbullet } from "../../pushbullet.app.mjs";
+import pushbullet from "../../pushbullet.app.mjs";
 
 export default {
   key: "pushbullet-list-push-options",

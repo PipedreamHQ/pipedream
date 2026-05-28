@@ -1,4 +1,4 @@
-import { simplero } from "../../simplero.app.mjs";
+import simplero from "../../simplero.app.mjs";
 
 export default {
   key: "simplero-list-list-id-options",

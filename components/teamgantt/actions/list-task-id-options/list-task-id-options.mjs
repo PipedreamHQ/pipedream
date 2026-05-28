@@ -1,4 +1,4 @@
-import { teamgantt } from "../../teamgantt.app.mjs";
+import teamgantt from "../../teamgantt.app.mjs";
 
 export default {
   key: "teamgantt-list-task-id-options",

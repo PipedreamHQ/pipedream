@@ -1,4 +1,4 @@
-import { reply_io } from "../../reply_io.app.mjs";
+import reply_io from "../../reply_io.app.mjs";
 
 export default {
   key: "reply_io-list-campaign-id-options",

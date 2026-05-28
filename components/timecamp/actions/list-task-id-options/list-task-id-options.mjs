@@ -1,4 +1,4 @@
-import { timecamp } from "../../timecamp.app.mjs";
+import timecamp from "../../timecamp.app.mjs";
 
 export default {
   key: "timecamp-list-task-id-options",

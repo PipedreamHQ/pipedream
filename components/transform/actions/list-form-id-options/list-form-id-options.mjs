@@ -1,4 +1,4 @@
-import { transform } from "../../transform.app.mjs";
+import transform from "../../transform.app.mjs";
 
 export default {
   key: "transform-list-form-id-options",

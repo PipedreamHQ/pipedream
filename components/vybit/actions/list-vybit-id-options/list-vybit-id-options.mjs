@@ -1,4 +1,4 @@
-import { vybit } from "../../vybit.app.mjs";
+import vybit from "../../vybit.app.mjs";
 
 export default {
   key: "vybit-list-vybit-id-options",

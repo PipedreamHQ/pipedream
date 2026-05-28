@@ -1,4 +1,4 @@
-import { paymo } from "../../paymo.app.mjs";
+import paymo from "../../paymo.app.mjs";
 
 export default {
   key: "paymo-list-project-id-options",

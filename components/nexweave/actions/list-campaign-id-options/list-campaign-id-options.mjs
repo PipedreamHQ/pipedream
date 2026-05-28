@@ -1,4 +1,4 @@
-import { nexweave } from "../../nexweave.app.mjs";
+import nexweave from "../../nexweave.app.mjs";
 
 export default {
   key: "nexweave-list-campaign-id-options",

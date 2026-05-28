@@ -1,4 +1,4 @@
-import { rejoiner } from "../../rejoiner.app.mjs";
+import rejoiner from "../../rejoiner.app.mjs";
 
 export default {
   key: "rejoiner-list-list-id-options",

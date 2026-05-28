@@ -1,4 +1,4 @@
-import { repliq } from "../../repliq.app.mjs";
+import repliq from "../../repliq.app.mjs";
 
 export default {
   key: "repliq-list-template-id-options",

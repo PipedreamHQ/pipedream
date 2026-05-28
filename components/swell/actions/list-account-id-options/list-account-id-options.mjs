@@ -1,4 +1,4 @@
-import { swell } from "../../swell.app.mjs";
+import swell from "../../swell.app.mjs";
 
 export default {
   key: "swell-list-account-id-options",

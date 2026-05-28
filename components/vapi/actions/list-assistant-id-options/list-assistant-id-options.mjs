@@ -1,4 +1,4 @@
-import { vapi } from "../../vapi.app.mjs";
+import vapi from "../../vapi.app.mjs";
 
 export default {
   key: "vapi-list-assistant-id-options",

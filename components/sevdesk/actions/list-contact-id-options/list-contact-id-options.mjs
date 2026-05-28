@@ -1,4 +1,4 @@
-import { sevdesk } from "../../sevdesk.app.mjs";
+import sevdesk from "../../sevdesk.app.mjs";
 
 export default {
   key: "sevdesk-list-contact-id-options",

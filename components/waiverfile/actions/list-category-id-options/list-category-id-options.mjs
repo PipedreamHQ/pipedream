@@ -1,4 +1,4 @@
-import { waiverfile } from "../../waiverfile.app.mjs";
+import waiverfile from "../../waiverfile.app.mjs";
 
 export default {
   key: "waiverfile-list-category-id-options",

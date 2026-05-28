@@ -1,4 +1,4 @@
-import { reachmail } from "../../reachmail.app.mjs";
+import reachmail from "../../reachmail.app.mjs";
 
 export default {
   key: "reachmail-list-list-id-options",

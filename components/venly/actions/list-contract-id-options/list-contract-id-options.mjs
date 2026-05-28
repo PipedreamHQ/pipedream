@@ -1,4 +1,4 @@
-import { venly } from "../../venly.app.mjs";
+import venly from "../../venly.app.mjs";
 
 export default {
   key: "venly-list-contract-id-options",

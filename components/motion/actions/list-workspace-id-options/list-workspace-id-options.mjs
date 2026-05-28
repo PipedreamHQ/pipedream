@@ -1,4 +1,4 @@
-import { motion } from "../../motion.app.mjs";
+import motion from "../../motion.app.mjs";
 
 export default {
   key: "motion-list-workspace-id-options",

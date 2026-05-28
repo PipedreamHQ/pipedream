@@ -1,4 +1,4 @@
-import { tidy } from "../../tidy.app.mjs";
+import tidy from "../../tidy.app.mjs";
 
 export default {
   key: "tidy-list-address-id-options",

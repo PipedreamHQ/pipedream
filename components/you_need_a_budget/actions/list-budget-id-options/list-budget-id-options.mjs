@@ -1,4 +1,4 @@
-import { you_need_a_budget } from "../../you_need_a_budget.app.mjs";
+import you_need_a_budget from "../../you_need_a_budget.app.mjs";
 
 export default {
   key: "you_need_a_budget-list-budget-id-options",

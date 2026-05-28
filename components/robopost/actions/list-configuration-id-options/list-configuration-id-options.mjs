@@ -1,4 +1,4 @@
-import { robopost } from "../../robopost.app.mjs";
+import robopost from "../../robopost.app.mjs";
 
 export default {
   key: "robopost-list-configuration-id-options",

@@ -1,4 +1,4 @@
-import { postman } from "../../postman.app.mjs";
+import postman from "../../postman.app.mjs";
 
 export default {
   key: "postman-list-monitor-id-options",

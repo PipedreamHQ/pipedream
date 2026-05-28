@@ -1,4 +1,4 @@
-import { productlane } from "../../productlane.app.mjs";
+import productlane from "../../productlane.app.mjs";
 
 export default {
   key: "productlane-list-project-id-options",

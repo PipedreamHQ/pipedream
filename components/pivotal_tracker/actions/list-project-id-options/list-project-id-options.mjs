@@ -1,4 +1,4 @@
-import { pivotal_tracker } from "../../pivotal_tracker.app.mjs";
+import pivotal_tracker from "../../pivotal_tracker.app.mjs";
 
 export default {
   key: "pivotal_tracker-list-project-id-options",
