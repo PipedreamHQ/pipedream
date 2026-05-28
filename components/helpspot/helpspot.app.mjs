@@ -85,8 +85,8 @@ export default {
     },
     xRequest: {
       type: "string",
-      label: "Request Id",
-      description: "The Id of the request",
+      label: "Request ID",
+      description: "The ID of the request",
       async options({ page }) {
         const { request } = await this.listRequests({
           params: {
