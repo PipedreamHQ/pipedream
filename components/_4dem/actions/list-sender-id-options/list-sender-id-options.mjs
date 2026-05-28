@@ -1,4 +1,4 @@
-import { _4dem } from "../../_4dem.app.mjs";
+import app from "../../_4dem.app.mjs";
 
 export default {
   key: "_4dem-list-sender-id-options",
@@ -12,10 +12,10 @@ export default {
     readOnlyHint: true,
   },
   props: {
-    _4dem,
+    app,
   },
   async run({ $ }) {
-    const options = await _4dem.propDefinitions.senderId.options.call(this._4dem, {});
+    const options = await app.propDefinitions.senderId.options.call(this.app, {});
     $.export("$summary", `Successfully retrieved ${options.length} option${
       options.length === 1
         ? ""
