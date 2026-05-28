@@ -129,7 +129,7 @@ export default {
     campaignId: {
       type: "string",
       label: "Campaign",
-      description: "Select a campaign. Use the **List Campaigns** action to discover options. Returns a numeric campaign ID (e.g., `1234567890`).",
+      description: "Numeric campaign ID (e.g., `1234567890`). Use the **List Campaigns** action to discover valid IDs.",
       useQuery: true,
       async options({
         accountId, customerClientId, query, prevContext,
@@ -156,7 +156,7 @@ export default {
     campaignSharedSetId: {
       type: "string",
       label: "Campaign Shared Set",
-      description: "Select a campaign shared set to remove. Use the **List Campaign Shared Sets** action to discover options. Returns a resource name (e.g., `customers/123/campaignSharedSets/456~789`).",
+      description: "Campaign shared set resource name (e.g., `customers/123/campaignSharedSets/456~789`). Use the **List Campaign Shared Sets** action to discover valid values.",
       useQuery: true,
       async options({
         accountId, customerClientId, query, prevContext,
@@ -185,7 +185,7 @@ export default {
     sharedCriterionId: {
       type: "string",
       label: "Shared Criterion",
-      description: "Select a shared criterion to remove. Use the **List Shared Criteria** action to discover options. Returns a resource name (e.g., `customers/123/sharedCriteria/456~789`).",
+      description: "Shared criterion resource name (e.g., `customers/123/sharedCriteria/456~789`). Use the **List Shared Criteria** action to discover valid values.",
       useQuery: true,
       async options({
         accountId, customerClientId, query, prevContext,
@@ -224,7 +224,7 @@ export default {
     sharedSetId: {
       type: "string",
       label: "Shared Set",
-      description: "Select a shared set. Use the **List Shared Sets** action to discover options. Returns a numeric shared set ID (e.g., `1234567890`).",
+      description: "Numeric shared set ID (e.g., `1234567890`). Use the **List Shared Sets** action to discover valid IDs.",
       useQuery: true,
       async options({
         accountId, customerClientId, query, prevContext,
@@ -253,7 +253,7 @@ export default {
     adGroupCriterionId: {
       type: "string",
       label: "Keyword",
-      description: "Select a keyword criterion to update or remove. Use the **List Keywords** action to discover options.",
+      description: "Keyword criterion resource name (e.g., `customers/123/adGroupCriteria/456~789`). Use the **List Keywords** action to discover valid values.",
       useQuery: true,
       async options({
         accountId, customerClientId, query, prevContext,
@@ -282,7 +282,7 @@ export default {
     adGroupAdId: {
       type: "string",
       label: "Ad Group Ad",
-      description: "Select an ad within an ad group. Use the **List Ad Group Ads** action to discover options. Returns a resource name (e.g., `customers/123/adGroupAds/456~789`).",
+      description: "Ad group ad resource name (e.g., `customers/123/adGroupAds/456~789`). Use the **List Ad Group Ads** action to discover valid values.",
       useQuery: true,
       async options({
         accountId, customerClientId, query, prevContext,
@@ -312,7 +312,7 @@ export default {
     adGroupId: {
       type: "string",
       label: "Ad Group",
-      description: "Select an ad group. Use the **List Ad Groups** action to discover options.",
+      description: "Numeric ad group ID (e.g., `1234567890`). Use the **List Ad Groups** action to discover valid IDs.",
       useQuery: true,
       async options({
         accountId, customerClientId, query, prevContext,
@@ -339,7 +339,7 @@ export default {
     campaignBudgetId: {
       type: "string",
       label: "Campaign Budget",
-      description: "Select a campaign budget. Use the **List Campaign Budgets** action to discover options. Returns a numeric budget ID (e.g., `1234567890`).",
+      description: "Numeric budget ID (e.g., `1234567890`). Use the **List Campaign Budgets** action to discover valid IDs.",
       useQuery: true,
       async options({
         accountId, customerClientId, query, prevContext,
@@ -368,7 +368,7 @@ export default {
     campaignCriterionId: {
       type: "string",
       label: "Campaign Criterion",
-      description: "Select a campaign criterion to remove. Use the **List Campaign Criteria** action to discover options. Returns a resource name (e.g., `customers/123/campaignCriteria/456~789`).",
+      description: "Campaign criterion resource name (e.g., `customers/123/campaignCriteria/456~789`). Use the **List Campaign Criteria** action to discover valid values.",
       useQuery: true,
       async options({
         accountId, customerClientId, query, prevContext,
@@ -407,7 +407,7 @@ export default {
     biddingStrategyId: {
       type: "string",
       label: "Bidding Strategy",
-      description: "Select a bidding strategy. Use the **List Bidding Strategies** action to discover options. Returns a numeric bidding strategy ID (e.g., `1234567890`).",
+      description: "Numeric bidding strategy ID (e.g., `1234567890`). Use the **List Bidding Strategies** action to discover valid IDs.",
       useQuery: true,
       async options({
         accountId, customerClientId, query, prevContext,
