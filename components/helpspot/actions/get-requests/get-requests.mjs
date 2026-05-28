@@ -16,7 +16,7 @@ export default {
     xRequest: {
       type: "string[]",
       label: "Request IDs",
-      description: "The IDs of the requests to retrieve.",
+      description: "The IDs of the requests to retrieve, e.g., `[\"12345\", \"67890\"]`.",
       propDefinition: [
         helpspot,
         "xRequest",

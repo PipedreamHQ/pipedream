@@ -81,7 +81,7 @@ export default {
     sUserId: {
       type: "string",
       label: "User ID",
-      description: "Filter by customer user ID.",
+      description: "Filter by customer user ID, e.g., `user_12345`.",
       optional: true,
     },
     sFirstName: {
