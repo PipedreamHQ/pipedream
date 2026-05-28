@@ -27,11 +27,23 @@ export default {
     },
   },
   async run({ $ }) {
-    const request = await this.app.getRequest({
-      $,
-      requestGuid: this.requestGuid,
-    });
-
+    let request;
+    try {
+      request = await this.app.getRequest({
+        $,
+        requestGuid: this.requestGuid,
+      });
+    } catch (err) {
+      const status = err.response?.status;
+      if (status === 404) {
+        $.export("$summary", `Request ${this.requestGuid} not found`);
+        return {
+          found: false,
+          message: `Request ${this.requestGuid} not found. Verify the GUID is correct — it is returned when creating a request with Create Background Check Request.`,
+        };
+      }
+      throw err;
+    }
     $.export("$summary", `Retrieved request ${this.requestGuid} — status: ${request.status ?? "unknown"}`);
     return request;
   },
