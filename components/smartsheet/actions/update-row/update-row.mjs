@@ -3,114 +3,69 @@ import smartsheet from "../../smartsheet.app.mjs";
 export default {
   key: "smartsheet-update-row",
   name: "Update Row",
-  description: "Updates a row in a sheet. [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/rows#operation/update-rows)",
-  version: "0.0.4",
+  description:
+    "Update one or more rows in a sheet by row ID. Accepts column NAMES as keys — resolves to column IDs internally."
+    + " Call **Get Sheet** or **List Columns** to find row IDs and column names."
+    + " Each object needs a `rowId` plus column name/value pairs:"
+    + " `[{\"rowId\": 123456, \"Status\": \"Done\", \"Priority\": \"High\"}]`."
+    + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/rows/update-rows)",
+  version: "0.1.0",
+  type: "action",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
-  type: "action",
   props: {
     smartsheet,
     sheetId: {
-      propDefinition: [
-        smartsheet,
-        "sheetId",
-      ],
+      type: "string",
+      label: "Sheet ID",
+      description: "The ID of the sheet containing the rows. Use **List Sheets** to find sheet IDs.",
     },
-    rowId: {
-      propDefinition: [
-        smartsheet,
-        "rowId",
-        (c) => ({
-          sheetId: c.sheetId,
-        }),
-      ],
-      reloadProps: true,
+    rows: {
+      type: "string",
+      label: "Rows",
+      description:
+        "JSON array of row update objects. Each needs `rowId` plus column name/value pairs."
+        + " Example: `[{\"rowId\": 123456, \"Status\": \"Done\", \"Priority\": \"High\"}]`."
+        + " Call **Get Sheet** to find row IDs and column names.",
     },
-    cells: {
-      type: "string[]",
-      label: "Cells",
-      description: "Array of objects representing cell values. Use to manually update row when `sheetId` is entered as a custom expression. Example: `{{ [{\"columnId\": 7960873114331012,\"value\": \"New status\"}] }}`",
-      optional: true,
-    },
-  },
-  async additionalProps() {
-    const props = {};
-    if (isNaN(this.rowId)) {
-      return props;
-    }
-    const {
-      cells, columns,
-    } = await this.smartsheet.getRow(this.sheetId, this.rowId, {
-      params: {
-        include: "columns, columnType",
-      },
-    });
-    if (!columns) {
-      return props;
-    }
-    for (const column of columns) {
-      props[column.id] = {
-        type: "string",
-        label: column.title,
-        description: column?.description || "Enter the column value",
-        optional: true,
-        default: cells.find(({ columnId }) => columnId === column.id)?.value,
-      };
-      if (column.type.includes("CONTACT_LIST")) {
-        props[column.id] = {
-          ...props[column.id],
-          options: async ({ page }) => {
-            const { data } = await this.smartsheet.listContacts({
-              params: {
-                page,
-              },
-            });
-            return data?.map(({ email }) => email ) || [];
-          },
-        };
-      }
-      else if (column?.options) {
-        props[column.id].options = column.options;
-      }
-    }
-    return props;
   },
   async run({ $ }) {
-    const {
-      sheetId,
-      rowId,
-      cells = [],
-      smartsheet,
-      ...columnProps
-    } = this;
+    const rows = JSON.parse(this.rows);
+    const { byName } = await this.smartsheet.getColumnMap(this.sheetId);
 
-    const data = {
-      id: rowId,
-      cells: [],
-    };
-    for (const cell of cells) {
-      const cellValue = typeof cell === "object"
-        ? cell
-        : JSON.parse(cell);
-      data.cells.push(cellValue);
-    }
-    for (const key of Object.keys(columnProps)) {
-      data.cells.push({
-        columnId: key,
-        value: columnProps[key],
-      });
-    }
-
-    const response = await smartsheet.updateRow(sheetId, {
-      data,
-      $,
+    const apiRows = rows.map((row) => {
+      const {
+        rowId, ...fields
+      } = row;
+      const cells = [];
+      for (const [
+        name,
+        value,
+      ] of Object.entries(fields)) {
+        const columnId = byName[name.toLowerCase()];
+        if (columnId) {
+          cells.push({
+            columnId,
+            value,
+          });
+        }
+      }
+      return {
+        id: rowId,
+        cells,
+      };
     });
 
-    $.export("$summary", `Successfully updated row with ID ${rowId}`);
+    const response = await this.smartsheet.updateRow(this.sheetId, {
+      $,
+      data: apiRows,
+    });
 
+    const count = response.result?.length || 1;
+    $.export("$summary", `Updated ${count} row(s) in sheet ${this.sheetId}`);
     return response;
   },
 };

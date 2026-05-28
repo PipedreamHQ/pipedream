@@ -5,7 +5,7 @@ export default {
   name: "List Sheet Options",
   description: "Retrieves available options for the Sheet field."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/list-sheets)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
