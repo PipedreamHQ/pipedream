@@ -8,7 +8,7 @@ export default {
   type: "action",
   version: "0.0.4",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },

@@ -184,16 +184,12 @@ export default {
         ...additionalConfig
       } = customConfig;
 
-      const authValue = this.$auth.oauth_access_token
-        ? `Bearer ${this.$auth.oauth_access_token}`
-        : `Token token=${this.$auth.api_key}`;
-
       const config = {
         ...additionalConfig,
         headers: {
           ...API_HEADERS,
           ...additionalConfig?.headers,
-          Authorization: authValue,
+          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
         },
         url: this.getRequestUrl({
           url,
