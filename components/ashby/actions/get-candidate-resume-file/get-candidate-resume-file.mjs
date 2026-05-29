@@ -34,7 +34,7 @@ export default {
       },
     });
 
-    const resumeFileHandle = candidateResponse?.results?.resumeFileHandle;
+    const resumeFileHandle = candidateResponse?.results?.resumeFileHandle?.handle;
     if (!resumeFileHandle) {
       throw new ConfigurationError(`No resume file found for candidate \`${candidateId}\`.`);
     }
