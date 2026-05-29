@@ -5,7 +5,7 @@ export default {
   name: "Find Oncall User",
   description: "Find the user on call for a specific schedule. [See the documentation](https://developer.pagerduty.com/api-reference/b3A6Mjc0ODE5MA-list-users-on-call)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
