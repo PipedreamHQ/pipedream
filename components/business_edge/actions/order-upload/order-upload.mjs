@@ -28,7 +28,7 @@ export default {
   name: "Order Upload",
   description:
     "Upload an order to Business Edge via `POST /documents/orderupload/export.json`. ImpOrder is required and validated before the request (OrdDate, ImpDtlLine with product id + OrdQty; ShipTo/BillTo/ThirdPartyBillTo require Name when set). [See the documentation](https://hangerbolt.ci-inc.com/apilist/export)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
