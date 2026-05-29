@@ -174,15 +174,6 @@ export default {
 
       return url || builtUrl;
     },
-    getRequestHeaders(additionalHeaders) {
-      const { oauth_access_token: oauthAccessToken } = this.$auth;
-
-      return {
-        Authorization: `Bearer ${oauthAccessToken}`,
-        ...additionalHeaders,
-        ...constants.API_HEADERS,
-      };
-    },
     async makeRequest(customConfig) {
       const {
         $,
@@ -194,7 +185,10 @@ export default {
 
       const config = {
         ...additionalConfig,
-        headers: this.getRequestHeaders(additionalConfig?.headers),
+        headers: {
+          ...additionalConfig?.headers,
+          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+        },
         url: this.getRequestUrl({
           url,
           path,
@@ -334,6 +328,145 @@ export default {
         params,
       });
       return oncalls.map(({ user }) => user);
+    },
+    async getIncident({
+      $, incidentId,
+    }) {
+      return this.makeRequest({
+        $,
+        path: `/incidents/${incidentId}`,
+      });
+    },
+    async listIncidentChangeEvents({
+      $, incidentId, params,
+    }) {
+      return this.makeRequest({
+        $,
+        path: `/incidents/${incidentId}/change_events`,
+        params,
+      });
+    },
+    async listLogEntries({
+      $, incidentId, params,
+    }) {
+      const path = incidentId
+        ? `/incidents/${incidentId}/log_entries`
+        : "/log_entries";
+      return this.makeRequest({
+        $,
+        path,
+        params,
+      });
+    },
+    async getEventOrchestrationService({
+      $, serviceId,
+    }) {
+      return this.makeRequest({
+        $,
+        path: `/event_orchestrations/services/${serviceId}`,
+      });
+    },
+    async listIncidentWorkflows({
+      $, params,
+    }) {
+      return this.makeRequest({
+        $,
+        path: "/incident_workflows",
+        params,
+      });
+    },
+    async listStatusPages({
+      $, params,
+    }) {
+      return this.makeRequest({
+        $,
+        path: "/status_pages",
+        params,
+      });
+    },
+    async listStatusPagePosts({
+      $, statusPageId, params,
+    }) {
+      return this.makeRequest({
+        $,
+        path: `/status_pages/${statusPageId}/posts`,
+        params,
+      });
+    },
+    async getServiceAnalytics({
+      $, data,
+    }) {
+      return this.makeRequest({
+        $,
+        method: "post",
+        path: "/analytics/metrics/incidents/services",
+        data,
+      });
+    },
+    async listTeams({
+      $, params,
+    }) {
+      return this.makeRequest({
+        $,
+        path: "/teams",
+        params,
+      });
+    },
+    async listPriorities({ $ }) {
+      return this.makeRequest({
+        $,
+        path: "/priorities",
+      });
+    },
+    async addNoteToIncident({
+      $, incidentId, data,
+    }) {
+      return this.makeRequest({
+        $,
+        method: "post",
+        path: `/incidents/${incidentId}/notes`,
+        data,
+      });
+    },
+    async createService({
+      $, data,
+    }) {
+      return this.makeRequest({
+        $,
+        method: "post",
+        path: "/services",
+        data,
+      });
+    },
+    async createScheduleOverride({
+      $, scheduleId, data,
+    }) {
+      return this.makeRequest({
+        $,
+        method: "post",
+        path: `/schedules/${scheduleId}/overrides`,
+        data,
+      });
+    },
+    async updateEscalationPolicy({
+      $, escalationPolicyId, data,
+    }) {
+      return this.makeRequest({
+        $,
+        method: "put",
+        path: `/escalation_policies/${escalationPolicyId}`,
+        data,
+      });
+    },
+    async startIncidentWorkflow({
+      $, incidentId, data,
+    }) {
+      return this.makeRequest({
+        $,
+        method: "post",
+        path: `/incidents/${incidentId}/incident_workflows`,
+        data,
+      });
     },
   },
 };

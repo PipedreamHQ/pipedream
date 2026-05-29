@@ -3,7 +3,7 @@ import pagerduty from "../../pagerduty.app.mjs";
 export default {
   key: "pagerduty-find-oncall-user",
   name: "Find Oncall User",
-  description: "Find the user on call for a specific schedule. [See the docs here](https://developer.pagerduty.com/api-reference/b3A6Mjc0ODE5MA-list-users-on-call)",
+  description: "Find the user on call for a specific schedule. [See the documentation](https://developer.pagerduty.com/api-reference/b3A6Mjc0ODE5MA-list-users-on-call)",
   type: "action",
   version: "0.0.3",
   annotations: {

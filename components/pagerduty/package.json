@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/pagerduty",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Pipedream Pagerduty Components",
   "main": "pagerduty.app.mjs",
   "keywords": [
