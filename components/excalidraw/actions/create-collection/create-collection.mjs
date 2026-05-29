@@ -6,7 +6,7 @@ export default {
   description:
     "Creates a new collection (folder) in the Excalidraw Plus workspace for organizing scenes."
     + " Returns the new collection's ID — pass it to **Create Scene** or **Update Scene** to add scenes to this collection."
-    + " [See the documentation](https://plus.excalidraw.com/docs/api)",
+    + " [See the documentation](https://plus.excalidraw.com/docs/api/collections/post)",
   version: "0.0.1",
   type: "action",
   annotations: {

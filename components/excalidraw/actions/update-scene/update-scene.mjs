@@ -9,7 +9,7 @@ export default {
     + " Use **List Scenes** to find the scene ID, and **List Collections** to find a collection ID if moving the scene."
     + " Only the fields you provide are updated — omitted fields remain unchanged."
     + " Note: the Excalidraw API does not support a description field on scenes."
-    + " [See the documentation](https://plus.excalidraw.com/docs/api)",
+    + " [See the documentation](https://plus.excalidraw.com/docs/api/scenes/sceneId-patch)",
   version: "0.0.1",
   type: "action",
   annotations: {

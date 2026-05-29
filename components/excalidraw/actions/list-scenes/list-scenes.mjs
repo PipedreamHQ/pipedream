@@ -8,7 +8,7 @@ export default {
     + " Optionally filter by collection ID or apply a name substring filter (applied client-side, since the API has no server-side search)."
     + " When the user says 'scenes in [collection]', use **List Collections** first to get the collection ID, then pass it as `collectionId` here."
     + " Use `nameFilter` (and `limit`) to narrow results when the user asks for a scene by name — the tool fetches up to `limit` scenes and returns only those whose name contains the filter string."
-    + " [See the documentation](https://plus.excalidraw.com/docs/api)",
+    + " [See the documentation](https://plus.excalidraw.com/docs/api/scenes/get)",
   version: "0.0.1",
   type: "action",
   annotations: {

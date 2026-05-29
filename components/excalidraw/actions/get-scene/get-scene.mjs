@@ -8,7 +8,7 @@ export default {
     + " Use this when the user asks to view, inspect, or read a specific scene."
     + " Use **List Scenes** first to find the scene ID by name."
     + " Set `includeContent` to true only when the user explicitly asks for the drawing data — the content can be large."
-    + " [See the documentation](https://plus.excalidraw.com/docs/api)",
+    + " [See the documentation](https://plus.excalidraw.com/docs/api/scenes/sceneId-content-get)",
   version: "0.0.1",
   type: "action",
   annotations: {

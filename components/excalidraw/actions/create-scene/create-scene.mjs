@@ -8,7 +8,7 @@ export default {
     + " The API requires a collection — if no `collectionId` is provided, the scene is placed in the default (Main) collection automatically."
     + " Use **List Collections** to find the collection ID if the user wants the scene in a specific folder."
     + " Returns the new scene's ID and metadata."
-    + " [See the documentation](https://plus.excalidraw.com/docs/api)",
+    + " [See the documentation](https://plus.excalidraw.com/docs/api/scenes/post)",
   version: "0.0.1",
   type: "action",
   annotations: {
