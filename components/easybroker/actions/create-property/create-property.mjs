@@ -1,4 +1,5 @@
 import easybroker from "../../easybroker.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "easybroker-create-property",
@@ -83,15 +84,15 @@ export default {
       optional: true,
     },
     locationLatitude: {
-      type: "integer",
+      type: "string",
       label: "Location Latitude",
-      description: "Geographic latitude coordinate",
+      description: "Geographic latitude coordinate. Example: `25.6866142`",
       optional: true,
     },
     locationLongitude: {
-      type: "integer",
+      type: "string",
       label: "Location Longitude",
-      description: "Geographic longitude coordinate",
+      description: "Geographic longitude coordinate. Example: `-100.3161126`",
       optional: true,
     },
     privateDescription: {
@@ -264,6 +265,13 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.locationLatitude !== undefined && isNaN(Number(this.locationLatitude))) {
+      throw new ConfigurationError("**Location Latitude** must be a valid number. Example: `25.6866142`");
+    }
+    if (this.locationLongitude !== undefined && isNaN(Number(this.locationLongitude))) {
+      throw new ConfigurationError("**Location Longitude** must be a valid number. Example: `-100.3161126`");
+    }
+
     const location = {
       ...(this.locationName && {
         name: this.locationName,
@@ -284,10 +292,10 @@ export default {
         postal_code: this.locationPostalCode,
       }),
       ...(this.locationLatitude !== undefined && {
-        latitude: this.locationLatitude,
+        latitude: Number(this.locationLatitude),
       }),
       ...(this.locationLongitude !== undefined && {
-        longitude: this.locationLongitude,
+        longitude: Number(this.locationLongitude),
       }),
     };
 
