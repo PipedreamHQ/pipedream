@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import gmail from "../../gmail.app.mjs";
 import labelColors from "../../common/label-colors.mjs";
 import constants from "../../common/constants.mjs";
@@ -73,7 +74,7 @@ export default {
     const hasText = Boolean(this.textColor);
     const hasBg = Boolean(this.backgroundColor);
     if (hasText !== hasBg) {
-      throw new Error("`textColor` and `backgroundColor` must be provided together (or both omitted).");
+      throw new ConfigurationError("`textColor` and `backgroundColor` must be provided together (or both omitted).");
     }
 
     const requestBody = {

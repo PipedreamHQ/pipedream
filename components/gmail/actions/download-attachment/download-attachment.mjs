@@ -13,7 +13,7 @@ export default {
   name: "Download Attachment",
   description:
     "Download a Gmail message attachment to `/tmp` and return its path + metadata. File Stash syncs the file and exposes a presigned download URL so the caller can retrieve it."
-    + " Call **Find Emails** or **Get Thread** first — each returned message's `payload.parts[]` enumerates attachments as `{ body.attachmentId, filename, mimeType }`. Pass the enclosing message's `id` as `messageId` and the part's `body.attachmentId` as `attachmentId`."
+    + " Call **Find Emails** (with `format: \"full\"`) or **Get Thread** first — attachment IDs only appear in full-format message reads; each returned message's `payload.parts[]` enumerates attachments as `{ body.attachmentId, filename, mimeType }`. Pass the enclosing message's `id` as `messageId` and the part's `body.attachmentId` as `attachmentId`."
     + " If `filename` is omitted, the action looks up the attachment's filename from the message payload."
     + " Set `convertToPdf: true` to convert image / HTML / plain-text / DOCX attachments to PDF during download; other MIME types are rejected."
     + " [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.messages.attachments/get).",
@@ -34,7 +34,7 @@ export default {
     attachmentId: {
       type: "string",
       label: "Attachment ID",
-      description: "The attachment's ID. Find this on a message's `payload.parts[].body.attachmentId` from **Find Emails** or **Get Thread**.",
+      description: "The attachment's ID. Find this on a message's `payload.parts[].body.attachmentId` — attachment IDs only appear when **Find Emails** is called with `format: \"full\"`, or when using **Get Thread** (which always returns full payloads).",
     },
     filename: {
       type: "string",
@@ -125,11 +125,16 @@ export default {
       const message = await this.gmail.getMessage({
         id: this.messageId,
       });
-      const part = this.findPartByAttachmentId(message.payload?.parts, this.attachmentId);
-      if (part) {
-        filename = filename || part.filename;
-        sourceMimeType = part.mimeType;
+      const rootPart = message.payload?.body?.attachmentId === this.attachmentId
+        ? message.payload
+        : undefined;
+      const part = this.findPartByAttachmentId(message.payload?.parts, this.attachmentId)
+        ?? rootPart;
+      if (!part) {
+        throw new ConfigurationError(`Attachment not found for messageId ${this.messageId} attachmentId ${this.attachmentId}. Ensure Find Emails was called with format: "full" so that payload.parts[] is populated.`);
       }
+      filename = filename || part.filename;
+      sourceMimeType = part.mimeType;
     }
     if (!filename) {
       filename = `attachment-${this.attachmentId.slice(0, 8)}`;
