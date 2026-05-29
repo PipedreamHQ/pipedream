@@ -11498,6 +11498,9 @@ importers:
         specifier: ^2.3.0
         version: 2.3.0
 
+  components/patchwork:
+    specifiers: {}
+
   components/path_of_exile:
     dependencies:
       '@pipedream/platform':
