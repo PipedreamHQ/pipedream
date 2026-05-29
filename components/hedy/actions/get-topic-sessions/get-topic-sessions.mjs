@@ -36,14 +36,13 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {};
-    if (this.limit) params.limit = this.limit;
-    if (this.startAfter) params.startAfter = this.startAfter;
-
     const response = await this.app.getTopicSessions({
       $,
       topicId: this.topicId,
-      params,
+      params: {
+        limit: this.limit,
+        startAfter: this.startAfter,
+      },
     });
     const sessions = response?.data || [];
     $.export("$summary", `Retrieved ${sessions.length} session${sessions.length === 1

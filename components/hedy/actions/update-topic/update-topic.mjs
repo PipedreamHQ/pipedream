@@ -54,17 +54,18 @@ export default {
     },
   },
   async run({ $ }) {
-    const data = {};
-    if (this.name !== undefined) data.name = this.name;
-    if (this.description !== undefined) data.description = this.description;
-    if (this.color !== undefined) data.color = this.color;
-    if (this.iconName !== undefined) data.iconName = this.iconName;
-    if (this.topicContext !== undefined) data.topicContext = this.topicContext || null;
-
     const response = await this.app.updateTopic({
       $,
       topicId: this.topicId,
-      data,
+      data: {
+        name: this.name,
+        description: this.description,
+        color: this.color,
+        iconName: this.iconName,
+        topicContext: this.topicContext === ""
+          ? null
+          : this.topicContext,
+      },
     });
     const topic = response?.data || response;
     $.export("$summary", `Updated topic: ${topic?.name || this.topicId}`);

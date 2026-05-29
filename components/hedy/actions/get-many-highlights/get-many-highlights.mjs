@@ -31,13 +31,12 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {};
-    if (this.limit) params.limit = this.limit;
-    if (this.after) params.after = this.after;
-
     const response = await this.app.listHighlights({
       $,
-      params,
+      params: {
+        limit: this.limit,
+        after: this.after,
+      },
     });
     const highlights = response?.data || [];
     $.export("$summary", `Retrieved ${highlights.length} highlight${highlights.length === 1

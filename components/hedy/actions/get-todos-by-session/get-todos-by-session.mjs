@@ -37,14 +37,13 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {};
-    if (this.limit) params.limit = this.limit;
-    if (this.after) params.after = this.after;
-
     const response = await this.app.getTodosBySession({
       $,
       sessionId: this.sessionId,
-      params,
+      params: {
+        limit: this.limit,
+        after: this.after,
+      },
     });
     const todos = response?.data || [];
     $.export("$summary", `Retrieved ${todos.length} todo${todos.length === 1

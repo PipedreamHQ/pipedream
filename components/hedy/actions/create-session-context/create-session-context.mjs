@@ -38,15 +38,13 @@ export default {
     },
   },
   async run({ $ }) {
-    const data = {
-      title: this.title,
-    };
-    if (this.content !== undefined) data.content = this.content;
-    if (this.isDefault !== undefined) data.isDefault = this.isDefault;
-
     const response = await this.app.createContext({
       $,
-      data,
+      data: {
+        title: this.title,
+        content: this.content,
+        isDefault: this.isDefault,
+      },
     });
     const context = response?.data || response;
     $.export("$summary", `Created session context: ${context?.title || this.title}`);

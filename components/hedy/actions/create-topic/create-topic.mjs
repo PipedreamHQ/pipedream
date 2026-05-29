@@ -47,17 +47,15 @@ export default {
     },
   },
   async run({ $ }) {
-    const data = {
-      name: this.name,
-    };
-    if (this.description) data.description = this.description;
-    if (this.color) data.color = this.color;
-    if (this.iconName) data.iconName = this.iconName;
-    if (this.topicContext) data.topicContext = this.topicContext;
-
     const response = await this.app.createTopic({
       $,
-      data,
+      data: {
+        name: this.name,
+        description: this.description,
+        color: this.color,
+        iconName: this.iconName,
+        topicContext: this.topicContext,
+      },
     });
     const topic = response?.data || response;
     $.export("$summary", `Created topic: ${topic?.name || this.name}`);

@@ -32,13 +32,12 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {};
-    if (this.limit) params.limit = this.limit;
-    if (this.after) params.after = this.after;
-
     const response = await this.app.listSessions({
       $,
-      params,
+      params: {
+        limit: this.limit,
+        after: this.after,
+      },
     });
     const sessions = response?.data || [];
     $.export("$summary", `Retrieved ${sessions.length} session${sessions.length === 1

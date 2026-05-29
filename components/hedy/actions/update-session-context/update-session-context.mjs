@@ -43,15 +43,14 @@ export default {
     },
   },
   async run({ $ }) {
-    const data = {};
-    if (this.title !== undefined) data.title = this.title;
-    if (this.content !== undefined) data.content = this.content;
-    if (this.isDefault !== undefined) data.isDefault = this.isDefault;
-
     const response = await this.app.updateContext({
       $,
       contextId: this.contextId,
-      data,
+      data: {
+        title: this.title,
+        content: this.content,
+        isDefault: this.isDefault,
+      },
     });
     const context = response?.data || response;
     $.export("$summary", `Updated session context: ${context?.title || this.contextId}`);
