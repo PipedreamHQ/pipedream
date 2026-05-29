@@ -20,7 +20,7 @@ export default {
     incidentId: {
       type: "string",
       label: "Incident ID",
-      description: "The ID of the incident. Use **List Incidents** or **Get Incident** to find IDs.",
+      description: "The ID of the incident (e.g., `PABC123`). Use **List Incidents** or **Get Incident** to find IDs.",
     },
     limit: {
       type: "integer",

@@ -32,7 +32,7 @@ export default {
     teamIds: {
       type: "string[]",
       label: "Team IDs",
-      description: "Filter to policies belonging to these teams.",
+      description: "Filter to policies belonging to these teams (e.g., `[\"PABC123\",\"PDEF456\"]`).",
       optional: true,
     },
     limit: {

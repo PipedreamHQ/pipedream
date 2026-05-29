@@ -63,6 +63,7 @@ export default {
     return {
       ...response,
       posts,
+      status_page_posts: posts,
     };
   },
 };

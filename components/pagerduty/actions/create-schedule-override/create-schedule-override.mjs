@@ -24,9 +24,10 @@ export default {
       description: "The ID of the schedule to override. Use **List Schedules** to discover IDs.",
     },
     userId: {
-      type: "string",
-      label: "User ID",
-      description: "The ID of the user to assign for the override window. Use **List Users** to find IDs.",
+      propDefinition: [
+        app,
+        "userId",
+      ],
     },
     start: {
       type: "string",

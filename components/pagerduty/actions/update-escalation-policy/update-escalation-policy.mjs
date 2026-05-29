@@ -13,7 +13,7 @@ export default {
   version: "0.0.1",
   type: "action",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
@@ -73,9 +73,14 @@ export default {
       name: this.name ?? currentPolicy.name,
       description: this.description ?? currentPolicy.description,
       num_loops: this.numLoops ?? currentPolicy.num_loops,
-      escalation_rules: this.escalationRules
-        ? JSON.parse(this.escalationRules)
-        : currentPolicy.escalation_rules,
+      escalation_rules: (() => {
+        if (!this.escalationRules) return currentPolicy.escalation_rules;
+        try {
+          return JSON.parse(this.escalationRules);
+        } catch (e) {
+          throw new Error(`Invalid escalationRules JSON: ${e.message}`);
+        }
+      })(),
     };
 
     // Remove fields that cannot be sent in a PUT

@@ -7,6 +7,7 @@ const {
   VERSION_PATH_V1,
   LIMIT_PAGINATION,
   INCIDENT_EVENT_TYPES,
+  API_HEADERS,
 } = constants;
 
 export default {
@@ -183,11 +184,16 @@ export default {
         ...additionalConfig
       } = customConfig;
 
+      const authValue = this.$auth.oauth_access_token
+        ? `Bearer ${this.$auth.oauth_access_token}`
+        : `Token token=${this.$auth.api_key}`;
+
       const config = {
         ...additionalConfig,
         headers: {
+          ...API_HEADERS,
           ...additionalConfig?.headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+          Authorization: authValue,
         },
         url: this.getRequestUrl({
           url,

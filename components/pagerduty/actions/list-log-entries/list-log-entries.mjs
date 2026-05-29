@@ -23,7 +23,7 @@ export default {
     incidentId: {
       type: "string",
       label: "Incident ID",
-      description: "When provided, returns log entries for this incident only. Use **List Incidents** to find IDs. Leave empty for account-wide log entries.",
+      description: "When provided, returns log entries for this incident only (e.g., `PIJ12345678`). Use **List Incidents** to find IDs. Leave empty for account-wide log entries.",
       optional: true,
     },
     since: {
@@ -35,7 +35,7 @@ export default {
     until: {
       type: "string",
       label: "Until",
-      description: "End of time range (ISO 8601 with UTC offset).",
+      description: "End of time range (ISO 8601 with UTC offset, e.g. `2026-06-02T15:00:00-07:00`).",
       optional: true,
     },
     isOverview: {

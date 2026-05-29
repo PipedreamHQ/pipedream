@@ -20,7 +20,7 @@ export default {
     serviceId: {
       type: "string",
       label: "Service ID",
-      description: "The ID of the service to retrieve orchestration rules for. Use **List Services** to discover IDs.",
+      description: "The ID of the service to retrieve orchestration rules for (e.g., `P123ABC`). Use **List Services** to discover IDs.",
     },
   },
   async run({ $ }) {

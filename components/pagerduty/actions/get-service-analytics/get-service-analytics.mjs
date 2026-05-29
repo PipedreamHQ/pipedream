@@ -20,7 +20,7 @@ export default {
     serviceIds: {
       type: "string[]",
       label: "Service IDs",
-      description: "The IDs of the services to get analytics for. Use **List Services** to discover IDs.",
+      description: "The IDs of the services to get analytics for (e.g., `[\"PABC123\",\"PDEF456\"]`). Use **List Services** to discover IDs.",
     },
     createdAtStart: {
       type: "string",
@@ -31,7 +31,7 @@ export default {
     createdAtEnd: {
       type: "string",
       label: "Created At End",
-      description: "End of the analysis window (ISO 8601 with UTC offset).",
+      description: "End of the analysis window (ISO 8601 with UTC offset, e.g. `2026-05-31T23:59:59-07:00`).",
       optional: true,
     },
   },

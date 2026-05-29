@@ -26,7 +26,7 @@ export default {
     teamIds: {
       type: "string[]",
       label: "Team IDs",
-      description: "Filter to users belonging to these teams. Use **List Teams** to discover IDs.",
+      description: "Filter to users belonging to these teams (e.g., `[\"PTEAM123\",\"PTEAM456\"]`). Use **List Teams** to discover IDs.",
       optional: true,
     },
     limit: {

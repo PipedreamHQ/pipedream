@@ -17,9 +17,10 @@ export default {
   props: {
     app,
     incidentId: {
-      type: "string",
-      label: "Incident ID",
-      description: "The ID of the incident to annotate. Use **List Incidents** or **Get Incident** to find IDs.",
+      propDefinition: [
+        app,
+        "incidentId",
+      ],
     },
     content: {
       type: "string",

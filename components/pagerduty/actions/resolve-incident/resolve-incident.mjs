@@ -4,7 +4,7 @@ import pagerduty from "../../pagerduty.app.mjs";
 export default {
   key: "pagerduty-resolve-incident",
   name: "Resolve Incident",
-  description: "**Deprecated — use `pagerduty-update-incident` instead.** Resolve an incident. [See the documentation](https://developer.pagerduty.com/api-reference/8a0e1aa2ec666-update-an-incident)",
+  description: "**Deprecated** — use **Update Incident** instead. Resolve an incident. [See the documentation](https://developer.pagerduty.com/api-reference/8a0e1aa2ec666-update-an-incident)",
   type: "action",
   version: "0.0.4",
   annotations: {

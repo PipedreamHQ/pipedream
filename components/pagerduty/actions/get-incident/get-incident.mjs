@@ -19,7 +19,7 @@ export default {
     incidentId: {
       type: "string",
       label: "Incident ID",
-      description: "The ID of the incident to retrieve. Use **List Incidents** to find IDs.",
+      description: "The ID of the incident to retrieve (e.g., `P12345678`). Use **List Incidents** to find IDs.",
     },
   },
   async run({ $ }) {

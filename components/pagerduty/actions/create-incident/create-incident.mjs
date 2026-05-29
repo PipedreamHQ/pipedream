@@ -19,42 +19,40 @@ export default {
   props: {
     app,
     title: {
-      type: "string",
-      label: "Title",
-      description: "A succinct description of the incident.",
+      propDefinition: [
+        app,
+        "incidentTitle",
+      ],
     },
     serviceId: {
-      type: "string",
-      label: "Service ID",
-      description: "The ID of the service to create the incident on. Use **List Services** to discover IDs.",
+      propDefinition: [
+        app,
+        "serviceId",
+      ],
     },
     urgency: {
-      type: "string",
-      label: "Urgency",
-      description: "Urgency of the incident. Options: `high`, `low`.",
-      options: [
-        "high",
-        "low",
+      propDefinition: [
+        app,
+        "incidentUrgency",
       ],
-      optional: true,
     },
     incidentKey: {
-      type: "string",
-      label: "Incident Key (Dedup Key)",
-      description: "Deduplication key. If an open incident with this key already exists on the same service, the request is rejected. Derive from a stable source (e.g. a hash of title + service_id) to prevent duplicates on retry.",
-      optional: true,
+      propDefinition: [
+        app,
+        "incidentKey",
+      ],
     },
     bodyDetails: {
-      type: "string",
-      label: "Body Details",
-      description: "Additional details about the incident.",
-      optional: true,
+      propDefinition: [
+        app,
+        "incidentBodyDetails",
+      ],
     },
     escalationPolicyId: {
-      type: "string",
-      label: "Escalation Policy ID",
-      description: "Override the service's default escalation policy. Use **List Escalation Policies** to discover IDs.",
-      optional: true,
+      propDefinition: [
+        app,
+        "escalationPolicyId",
+      ],
     },
     priorityId: {
       type: "string",
