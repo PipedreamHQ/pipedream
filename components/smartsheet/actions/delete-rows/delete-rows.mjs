@@ -1,25 +1,5 @@
-import { ConfigurationError } from "@pipedream/platform";
+import { parseRowIds } from "../../common/utils.mjs";
 import smartsheet from "../../smartsheet.app.mjs";
-
-function parseRowIds(raw) {
-  let rowIds;
-  try {
-    const parsed = JSON.parse(raw);
-    rowIds = Array.isArray(parsed)
-      ? parsed
-      : [
-        parsed,
-      ];
-  } catch {
-    rowIds = raw.split(",").map((id) => id.trim())
-      .filter(Boolean);
-  }
-  const numeric = rowIds.map(Number);
-  if (!numeric.length || numeric.some((id) => !Number.isFinite(id))) {
-    throw new ConfigurationError("`Row IDs` must be a comma-separated list of numeric row IDs or a JSON array of numbers.");
-  }
-  return numeric;
-}
 
 export default {
   key: "smartsheet-delete-rows",
@@ -45,7 +25,10 @@ export default {
     rowIds: {
       type: "string",
       label: "Row IDs",
-      description: "Comma-separated list of row IDs to delete. Example: `1234567890, 9876543210`. Use **Get Sheet** to find row IDs.",
+      description:
+        "Comma-separated list of row IDs to delete, or a JSON array."
+        + " Example: `1234567890, 9876543210` or `[1234567890, 9876543210]`."
+        + " Use **Get Sheet** to find row IDs.",
     },
   },
   async run({ $ }) {

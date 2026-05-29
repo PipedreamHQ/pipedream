@@ -74,14 +74,21 @@ export default {
       index,
     };
     if (this.options) {
+      if (this.type !== "PICKLIST") {
+        throw new ConfigurationError("`Picklist Options` is only supported for PICKLIST columns.");
+      }
       let parsedOptions;
       try {
         parsedOptions = JSON.parse(this.options);
       } catch {
         throw new ConfigurationError("`Picklist Options` must be a valid JSON array (e.g. `[\"Low\", \"High\"]`).");
       }
-      if (!Array.isArray(parsedOptions) || !parsedOptions.length) {
-        throw new ConfigurationError("`Picklist Options` must be a non-empty JSON array.");
+      if (
+        !Array.isArray(parsedOptions)
+        || !parsedOptions.length
+        || parsedOptions.some((v) => typeof v !== "string" || !v.trim())
+      ) {
+        throw new ConfigurationError("`Picklist Options` must be a non-empty JSON array of non-empty strings.");
       }
       column.options = parsedOptions;
     }

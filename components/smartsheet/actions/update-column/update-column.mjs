@@ -58,13 +58,20 @@ export default {
   async run({ $ }) {
     let parsedOptions;
     if (this.options) {
+      if (this.type && this.type !== "PICKLIST") {
+        throw new ConfigurationError("`Picklist Options` can only be used when New Type is PICKLIST.");
+      }
       try {
         parsedOptions = JSON.parse(this.options);
       } catch {
         throw new ConfigurationError("`Picklist Options` must be a valid JSON array (e.g. `[\"Option A\", \"Option B\"]`).");
       }
-      if (!Array.isArray(parsedOptions) || !parsedOptions.length) {
-        throw new ConfigurationError("`Picklist Options` must be a non-empty JSON array.");
+      if (
+        !Array.isArray(parsedOptions)
+        || !parsedOptions.length
+        || parsedOptions.some((v) => typeof v !== "string" || !v.trim())
+      ) {
+        throw new ConfigurationError("`Picklist Options` must be a non-empty JSON array of non-empty strings.");
       }
     }
 

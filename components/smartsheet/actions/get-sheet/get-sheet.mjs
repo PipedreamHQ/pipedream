@@ -44,7 +44,7 @@ export default {
     filterId: {
       type: "string",
       label: "Filter ID",
-      description: "Apply a saved filter to the returned rows.",
+      description: "Apply a saved filter to the returned rows. Example: `1234567890`. Filter IDs are returned in the sheet's `filters` array — fetch the sheet without a filter first to discover available filter IDs.",
       optional: true,
     },
   },
@@ -71,7 +71,7 @@ export default {
         row.cellsByName = {};
         for (const cell of row.cells || []) {
           const name = columnMap[cell.columnId] || `Column ${cell.columnId}`;
-          row.cellsByName[name] = cell.displayValue || cell.value;
+          row.cellsByName[name] = cell.displayValue ?? cell.value;
         }
       }
     }

@@ -48,7 +48,7 @@ export default {
     row.cellsByName = {};
     for (const cell of row.cells || []) {
       const name = byId[cell.columnId] || `Column ${cell.columnId}`;
-      row.cellsByName[name] = cell.displayValue || cell.value;
+      row.cellsByName[name] = cell.displayValue ?? cell.value;
     }
 
     $.export("$summary", `Retrieved row ${this.rowId} from sheet ${this.sheetId}`);

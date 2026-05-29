@@ -72,14 +72,14 @@ export default {
 
     const filename = metadata.name || "import.csv";
     const lower = filename.toLowerCase();
-    const XLSX_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+    const xlsxType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
     let contentType;
     if (lower.endsWith(".xlsx")) {
-      contentType = XLSX_TYPE;
+      contentType = xlsxType;
     } else if (lower.endsWith(".csv")) {
       contentType = "text/csv";
-    } else if (metadata.contentType === XLSX_TYPE || metadata.contentType === "application/vnd.ms-excel") {
-      contentType = XLSX_TYPE;
+    } else if (metadata.contentType === xlsxType || metadata.contentType === "application/vnd.ms-excel") {
+      contentType = xlsxType;
     } else {
       // URLs without a file extension often serve CSV with a non-CSV Content-Type
       // (e.g., text/html, text/plain). Default to CSV.

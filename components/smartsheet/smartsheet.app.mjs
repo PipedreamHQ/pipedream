@@ -417,7 +417,11 @@ export default {
       const byName = {};
       const byId = {};
       for (const col of data || []) {
-        byName[col.title.toLowerCase()] = col.id;
+        const key = col.title.toLowerCase();
+        if (byName[key] !== undefined && byName[key] !== col.id) {
+          throw new Error(`Ambiguous column name "${col.title}" in sheet ${sheetId}: matches multiple column IDs (${byName[key]}, ${col.id}). Reference these columns by ID instead.`);
+        }
+        byName[key] = col.id;
         byId[col.id] = col.title;
       }
       return {
