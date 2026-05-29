@@ -10,7 +10,7 @@ export default {
   key: "hubspot-new-or-updated-contact",
   name: "New or Updated Contact",
   description: "Emit new event for each new or updated contact in Hubspot.",
-  version: "0.0.28",
+  version: "0.0.30",
   dedupe: "unique",
   type: "source",
   props: {
@@ -81,11 +81,19 @@ export default {
         return false;
       }
       if (this.lists?.length) {
-        const { results } = await this.hubspot.getMemberships({
-          objectType: "contacts",
-          objectId: contact.id,
-        });
-        const contactListIds = results?.map(({ listId }) => listId) || [];
+        let results;
+        try {
+          ({ results } = await this.hubspot.getMemberships({
+            objectType: "contacts",
+            objectId: contact.id,
+          }));
+        } catch (err) {
+          console.warn(
+            `Failed to fetch list memberships for contact ${contact.id}: ${err.message}`,
+          );
+          return false;
+        }
+        const contactListIds = results?.map((m) => m?.listId).filter(Boolean) || [];
         for (const list of this.lists) {
           if (contactListIds.includes(list)) {
             return true;

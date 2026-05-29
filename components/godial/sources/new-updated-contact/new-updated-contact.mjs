@@ -1,9 +1,9 @@
-import godial from "../../app/godial.app.mjs";
+import godial from "../../godial.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   name: "New Updated Contact",
-  version: "0.0.3",
+  version: "0.0.4",
   key: "godial-new-updated-contact",
   description: "Emit new event on a contact is updated.",
   type: "source",

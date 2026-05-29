@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/autodesk",
-  "version": "0.2.4",
+  "version": "0.3.0",
   "description": "Pipedream Autodesk Components",
   "main": "autodesk.app.mjs",
   "keywords": [

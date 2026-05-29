@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../stripe.app.mjs";
 import utils from "../../common/utils.mjs";
 
@@ -5,13 +6,13 @@ export default {
   key: "stripe-list-payouts",
   name: "List Payouts",
   type: "action",
-  version: "0.1.4",
+  version: "0.2.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
-  description: "Find or list payouts. [See the documentation](https://stripe.com/docs/api/payouts/list).",
+  description: "Find or list payouts. By default returns an array of payout objects (auto-paginated up to `Limit`). Set `Return Pagination Info` to true to instead receive `{ data, has_more, next_starting_after }` for a single Stripe page (max 100 per call) — pass `next_starting_after` as `Starting After` on the next call to iterate. [See the documentation](https://stripe.com/docs/api/payouts/list).",
   props: {
     app,
     status: {
@@ -31,6 +32,7 @@ export default {
         app,
         "limit",
       ],
+      description: "Maximum records to return. Auto-paginated up to 10000 by default; capped at 100 when `Return Pagination Info` is enabled (Stripe's per-call limit).",
     },
     createdGt: {
       propDefinition: [
@@ -98,6 +100,12 @@ export default {
         "startingAfter",
       ],
     },
+    returnPaginationInfo: {
+      propDefinition: [
+        app,
+        "returnPaginationInfo",
+      ],
+    },
   },
   methods: {
     getOtherParams() {
@@ -150,23 +158,49 @@ export default {
       destination,
       endingBefore,
       startingAfter,
+      returnPaginationInfo,
       getOtherParams,
     } = this;
 
-    const resp = await app.sdk().payouts.list({
-      limit,
+    if (returnPaginationInfo && limit > 100) {
+      throw new ConfigurationError("When `Return Pagination Info` is enabled, `Limit` must be 100 or fewer (Stripe caps single-page responses at 100). Disable the flag to auto-paginate up to 10000 results, or set Limit ≤ 100.");
+    }
+
+    if (startingAfter && endingBefore) {
+      throw new ConfigurationError("Use either `Starting After` or `Ending Before`, not both.");
+    }
+
+    const params = {
       status,
       destination,
       ending_before: endingBefore,
       starting_after: startingAfter,
       ...getOtherParams(),
-    })
-      .autoPagingToArray({
-        limit,
-      });
+    };
 
-    // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `Successfully fetched ${status ? `${status} ` : ""}payouts`);
-    return resp;
+    const statusPrefix = status
+      ? `${status} `
+      : "";
+
+    const result = await app.paginate({
+      collection: "payouts",
+      params,
+      limit,
+      returnPaginationInfo,
+    });
+
+    const items = returnPaginationInfo
+      ? result.data
+      : result;
+    const count = items.length;
+    const noun = count === 1
+      ? "payout"
+      : "payouts";
+    const moreSuffix = returnPaginationInfo && result.has_more
+      ? " (more available)"
+      : "";
+    $.export("$summary", `Successfully fetched ${count} ${statusPrefix}${noun}${moreSuffix}`);
+
+    return result;
   },
 };

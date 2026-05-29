@@ -2,7 +2,7 @@ import app from "../../prisma_management_api.app.mjs";
 
 export default {
   name: "Get Prisma Postgres Regions",
-  version: "1.0.1",
+  version: "1.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -21,7 +21,9 @@ export default {
 
     if (response) {
       const count = response.data?.length || 0;
-      $.export("$summary", `Successfully retrieved ${count} available Postgres region${count !== 1 ? "s" : ""}`);
+      $.export("$summary", `Successfully retrieved ${count} available Postgres region${count !== 1
+        ? "s"
+        : ""}`);
     }
 
     return response;
