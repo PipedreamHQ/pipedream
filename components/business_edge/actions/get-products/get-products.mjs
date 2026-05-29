@@ -91,27 +91,15 @@ export default {
     const body = {
       Entity: entity,
       DateFormatOpt: fmt,
+      DateDelim: dateDelim,
+      SavedSchemaID: savedSchemaId,
+      SavedSchemaCode: savedSchemaCode,
+      BranchCode: branchCode,
+      BranchID: branchId,
+      AvailBOM: availBom,
       ...productReturnSchema,
     };
 
-    if (dateDelim) {
-      body.DateDelim = dateDelim;
-    }
-    if (savedSchemaId) {
-      body.SavedSchemaID = savedSchemaId;
-    }
-    if (savedSchemaCode) {
-      body.SavedSchemaCode = savedSchemaCode;
-    }
-    if (branchCode) {
-      body.BranchCode = branchCode;
-    }
-    if (branchId) {
-      body.BranchID = branchId;
-    }
-    if (availBom !== undefined) {
-      body.AvailBOM = availBom;
-    }
     if (isChooseOneObject(chooseOne)) {
       body.ChooseOne = chooseOne;
     }

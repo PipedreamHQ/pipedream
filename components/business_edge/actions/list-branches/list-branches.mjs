@@ -68,19 +68,12 @@ export default {
     const body = {
       Entity: entity,
       DateFormatOpt: fmt,
+      DateDelim: dateDelim,
+      SavedSchemaID: savedSchemaId,
+      SavedSchemaCode: savedSchemaCode,
       OnlyActive: onlyActive !== false,
       ...branchReturnSchema,
     };
-
-    if (dateDelim) {
-      body.DateDelim = dateDelim;
-    }
-    if (savedSchemaId) {
-      body.SavedSchemaID = savedSchemaId;
-    }
-    if (savedSchemaCode) {
-      body.SavedSchemaCode = savedSchemaCode;
-    }
 
     const data = await this.app.postExport({
       $,

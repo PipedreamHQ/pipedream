@@ -70,18 +70,12 @@ export default {
     const body = {
       Entity: entity,
       DateFormatOpt: fmt,
+      DateDelim: dateDelim,
+      SavedSchemaID: savedSchemaId,
+      SavedSchemaCode: savedSchemaCode,
       ...orderReturnSchema,
     };
 
-    if (dateDelim) {
-      body.DateDelim = dateDelim;
-    }
-    if (savedSchemaId) {
-      body.SavedSchemaID = savedSchemaId;
-    }
-    if (savedSchemaCode) {
-      body.SavedSchemaCode = savedSchemaCode;
-    }
     if (isChooseOneObject(chooseOne)) {
       body.ChooseOne = chooseOne;
     }

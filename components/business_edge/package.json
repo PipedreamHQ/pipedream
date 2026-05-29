@@ -11,7 +11,7 @@
   "homepage": "https://pipedream.com/apps/business_edge",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^1.6.8"
+    "@pipedream/platform": "^3.1.1"
   },
   "publishConfig": {
     "access": "public"

@@ -77,21 +77,13 @@ export default {
     const body = {
       Entity: entity,
       DateFormatOpt: fmt,
+      DateDelim: dateDelim,
+      SavedSchemaID: savedSchemaId,
+      SavedSchemaCode: savedSchemaCode,
+      AvailBOM: availBom,
       ...customerReturnSchema,
     };
 
-    if (dateDelim) {
-      body.DateDelim = dateDelim;
-    }
-    if (savedSchemaId) {
-      body.SavedSchemaID = savedSchemaId;
-    }
-    if (savedSchemaCode) {
-      body.SavedSchemaCode = savedSchemaCode;
-    }
-    if (availBom !== undefined) {
-      body.AvailBOM = availBom;
-    }
     if (isChooseOneObject(chooseOne)) {
       body.ChooseOne = chooseOne;
     }

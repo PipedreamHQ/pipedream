@@ -18,10 +18,8 @@ export default {
       description:
         "Entity for this request. Options load from customer V3 `args.json` when "
         + "available; otherwise numeric codes 1–20 are shown (configurable fallback).",
-      async options({ $ }) {
-        const fromApi = await this.fetchEntityOptions({
-          $,
-        });
+      async options() {
+        const fromApi = await this.fetchEntityOptions({});
         if (Array.isArray(fromApi) && fromApi.length > 0) {
           return fromApi;
         }
@@ -76,14 +74,11 @@ export default {
         "Optional branch code filter. Options load from the branch export when Entity is set; "
         + "use **List Branches** to retrieve all branches.",
       optional: true,
-      async options({
-        $, entity,
-      }) {
+      async options({ entity }) {
         if (!entity) {
           return [];
         }
         const branches = await this.fetchBranches({
-          $,
           entity,
         });
         const out = [];
@@ -111,14 +106,11 @@ export default {
         "Optional branch ID filter. Options load from the branch export when Entity is set; "
         + "use **List Branches** to retrieve all branches.",
       optional: true,
-      async options({
-        $, entity,
-      }) {
+      async options({ entity }) {
         if (!entity) {
           return [];
         }
         const branches = await this.fetchBranches({
-          $,
           entity,
         });
         const out = [];
@@ -164,7 +156,7 @@ export default {
      * @param {object} opts.$
      * @returns {Promise<{ label: string, value: string }[]|null>}
      */
-    async fetchEntityOptions({ $ }) {
+    async fetchEntityOptions({ $ = this }) {
       try {
         const url = `${this._baseUrl()}/masterfiles/customerV3/args.json?MimicReq=true`;
         const payload = await axios($, {
@@ -189,7 +181,7 @@ export default {
      * @returns {Promise<object[]>}
      */
     async fetchBranches({
-      $, entity, onlyActive = true,
+      $ = this, entity, onlyActive = true,
     }) {
       const body = {
         Entity: entity,
@@ -262,7 +254,7 @@ export default {
      * @returns {Promise<object>}
      */
     async postExport({
-      $, endpoint, data,
+      $ = this, endpoint, data,
     }) {
       const url = `${this._baseUrl()}${endpoint}`;
       const response = await axios($, {

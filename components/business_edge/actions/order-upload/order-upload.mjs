@@ -170,19 +170,14 @@ export default {
     const body = {
       Entity: entity,
       DateFormatOpt: fmt,
+      SavedSchemaID: savedSchemaId,
+      SavedSchemaCode: savedSchemaCode,
       ImpOrder: impOrder,
       ...orderReturnSchema,
     };
 
     if (!omitDelim) {
       body.DateDelim = dateDelim || "-";
-    }
-
-    if (savedSchemaId) {
-      body.SavedSchemaID = savedSchemaId;
-    }
-    if (savedSchemaCode) {
-      body.SavedSchemaCode = savedSchemaCode;
     }
 
     const data = await this.app.postExport({
