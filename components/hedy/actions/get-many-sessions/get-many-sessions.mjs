@@ -8,7 +8,7 @@ export default {
     + " Use this tool to browse recent meetings or to find a session ID to pass to **Get Session** for full transcript and summary details."
     + " To list sessions within a specific topic, use **Get Topic Sessions** instead."
     + " Paginate using the `after` cursor from the response's `pagination` field."
-    + " [See the documentation](https://www.hedy.ai/help/hedy-api/)",
+    + " [See the documentation](https://app.swaggerhub.com/apis-docs/HedyAI/hedy-api/1.5.2#/Sessions/get_sessions)",
   version: "0.0.1",
   type: "action",
   annotations: {

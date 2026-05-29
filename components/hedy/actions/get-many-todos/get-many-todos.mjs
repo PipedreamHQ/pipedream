@@ -7,7 +7,7 @@ export default {
     + " Each item includes the todo text, completion status, optional due date, and the session it came from."
     + " To get todos for a specific session only, use **Get Todos By Session**."
     + " Use **Get Todo** with a specific todo ID to fetch a single item's full detail."
-    + " [See the documentation](https://www.hedy.ai/help/hedy-api/)",
+    + " [See the documentation](https://app.swaggerhub.com/apis-docs/HedyAI/hedy-api/1.5.2#/Todos/get_todos)",
   version: "0.0.1",
   type: "action",
   annotations: {

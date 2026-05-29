@@ -6,7 +6,7 @@ export default {
   description: "Retrieves a paginated list of Hedy sessions belonging to a specific topic."
     + " Use **Get Many Topics** first to find the topic ID."
     + " Paginate using the `startAfter` cursor (a session ID from the last item in the previous page)."
-    + " [See the documentation](https://www.hedy.ai/help/hedy-api/)",
+    + " [See the documentation](https://app.swaggerhub.com/apis-docs/HedyAI/hedy-api/1.5.2#/Topics/get_topics__topicId__sessions)",
   version: "0.0.1",
   type: "action",
   annotations: {

@@ -6,7 +6,7 @@ export default {
   description: "Retrieves a single action item (todo) by its ID within a session, returning text, completion status, due date, and associated topic."
     + " Both the session ID and todo ID are required."
     + " Use **Get Todos By Session** first to list todos for a session and obtain todo IDs."
-    + " [See the documentation](https://www.hedy.ai/help/hedy-api/)",
+    + " [See the documentation](https://app.swaggerhub.com/apis-docs/HedyAI/hedy-api/1.5.2#/Todos/get_sessions__sessionId__todos__todoId_)",
   version: "0.0.1",
   type: "action",
   annotations: {

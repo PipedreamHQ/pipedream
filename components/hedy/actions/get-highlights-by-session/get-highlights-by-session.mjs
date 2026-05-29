@@ -7,7 +7,7 @@ export default {
     + " Use **Get Many Sessions** first to find the session ID."
     + " Each result includes a highlight ID, title, and timestamp within the session."
     + " Use **Get Highlight** with the highlight ID to fetch the full detail including raw quote, cleaned quote, main idea, and AI insight."
-    + " [See the documentation](https://www.hedy.ai/help/hedy-api/)",
+    + " [See the documentation](https://app.swaggerhub.com/apis-docs/HedyAI/hedy-api/1.5.2#/Highlights/get_sessions__sessionId__highlights)",
   version: "0.0.1",
   type: "action",
   annotations: {

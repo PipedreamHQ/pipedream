@@ -6,7 +6,7 @@ export default {
   description: "Updates an existing Hedy session context. All fields are optional — only the fields you provide will be changed."
     + " If you set `isDefault` to `true`, this context becomes the default and the previous default is demoted."
     + " Use **Get Many Session Contexts** to find the context ID."
-    + " [See the documentation](https://www.hedy.ai/help/hedy-api/)",
+    + " [See the documentation](https://app.swaggerhub.com/apis-docs/HedyAI/hedy-api/1.5.2#/Session%20Contexts/patch_contexts__contextId_)",
   version: "0.0.1",
   type: "action",
   annotations: {

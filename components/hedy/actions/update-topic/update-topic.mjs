@@ -6,7 +6,7 @@ export default {
   description: "Updates properties of an existing Hedy topic. All fields are optional — only the fields you provide will be changed."
     + " To clear the custom AI context, pass an empty string or `null` for `topicContext`."
     + " Use **Get Many Topics** to find the topic ID."
-    + " [See the documentation](https://www.hedy.ai/help/hedy-api/)",
+    + " [See the documentation](https://app.swaggerhub.com/apis-docs/HedyAI/hedy-api/1.5.2#/Topics/patch_topics__topicId_)",
   version: "0.0.1",
   type: "action",
   annotations: {

@@ -7,7 +7,7 @@ export default {
     + " Each highlight includes a title, timestamp, and the session it came from."
     + " Use **Get Highlight** with a specific highlight ID to fetch the full detail including raw quote, cleaned quote, main idea, and AI insight."
     + " To list highlights for a specific session only, use **Get Highlights By Session**."
-    + " [See the documentation](https://www.hedy.ai/help/hedy-api/)",
+    + " [See the documentation](https://app.swaggerhub.com/apis-docs/HedyAI/hedy-api/1.5.2#/Highlights/get_highlights)",
   version: "0.0.1",
   type: "action",
   annotations: {

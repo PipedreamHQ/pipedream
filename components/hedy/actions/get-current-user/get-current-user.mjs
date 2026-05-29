@@ -5,7 +5,7 @@ export default {
   name: "Get Current User",
   description: "Retrieves the account details for the authenticated Hedy user, including email, display name, and plan information."
     + " Use this tool first to establish identity — the returned user ID anchors queries like 'my sessions' or 'my topics'."
-    + " [See the documentation](https://www.hedy.ai/help/hedy-api/)",
+    + " [See the documentation](https://app.swaggerhub.com/apis-docs/HedyAI/hedy-api/1.5.2#/)",
   version: "0.0.1",
   type: "action",
   annotations: {
