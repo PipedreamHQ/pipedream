@@ -9,6 +9,11 @@ export default {
       label: "Input File URLs",
       description: "Dictionary mapping input aliases to publicly accessible file URLs. Keys must start with `in_`. Example: `{ \"in_video\": \"https://example.com/video.mp4\" }`.",
     },
+    inputUrls: {
+      type: "object",
+      label: "Input Video URLs",
+      description: "Dictionary mapping input aliases to publicly accessible video URLs supported by yt-dlp. Keys must start with `in_`. Example: `{ \"in_video\": \"https://www.youtube.com/watch?v=dQw4w9WgXcQ\" }`.",
+    },
     outputFiles: {
       type: "object",
       label: "Output File Names",
@@ -72,6 +77,20 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: "/run-multiple-ffmpeg-commands",
+        ...opts,
+      });
+    },
+    downloadVideoWithYtdlp(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/ytdlp-download",
+        ...opts,
+      });
+    },
+    downloadAndProcessVideoWithYtdlp(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/run-ytdlp-command",
         ...opts,
       });
     },
