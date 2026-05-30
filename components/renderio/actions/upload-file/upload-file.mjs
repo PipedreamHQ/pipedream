@@ -5,7 +5,7 @@ import { getFileStreamAndMetadata } from "@pipedream/platform";
 export default {
   key: "renderio-upload-file",
   name: "Upload File",
-  description: "Upload a file directly to RenderIO storage. [See the documentation](https://renderio.dev/docs)",
+  description: "Upload a file directly to RenderIO storage. [See the documentation](https://renderio.dev/docs/api-reference/files/upload-file)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

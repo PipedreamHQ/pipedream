@@ -4,7 +4,7 @@ import { normalizeList } from "../../common/utils.mjs";
 export default {
   key: "renderio-list-presets",
   name: "List Presets",
-  description: "Retrieve available RenderIO presets. [See the documentation](https://renderio.dev/docs)",
+  description: "Retrieve available RenderIO presets. [See the documentation](https://renderio.dev/docs/api-reference/presets/list-presets)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

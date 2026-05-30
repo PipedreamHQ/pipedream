@@ -4,7 +4,7 @@ import { normalizeList } from "../../common/utils.mjs";
 export default {
   key: "renderio-list-stored-files",
   name: "List Stored Files",
-  description: "Retrieve stored files for the account. [See the documentation](https://renderio.dev/docs)",
+  description: "Retrieve stored files for the account. [See the documentation](https://renderio.dev/docs/api-reference/files/list-files)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

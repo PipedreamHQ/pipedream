@@ -3,7 +3,7 @@ import renderio from "../../renderio.app.mjs";
 export default {
   key: "renderio-store-file",
   name: "Store File",
-  description: "Store a publicly accessible file URL in RenderIO storage. [See the documentation](https://renderio.dev/docs)",
+  description: "Store a publicly accessible file URL in RenderIO storage. [See the documentation](https://renderio.dev/docs/api-reference/files/store-file)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

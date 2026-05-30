@@ -10,7 +10,7 @@ import sampleEmit from "./test-event.mjs";
 export default {
   key: "renderio-new-ffmpeg-command",
   name: "New FFmpeg Command",
-  description: "Emit new event when a new FFmpeg command is submitted. [See the documentation](https://renderio.dev/docs)",
+  description: "Emit new event when a new FFmpeg command is submitted. [See the documentation](https://renderio.dev/docs/api-reference/commands/list-commands)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -43,19 +43,28 @@ export default {
     },
     async processEvent(max) {
       const lastTs = this._getLastTs();
+      const limit = 100;
+      let offset = 0;
       let commands = [];
 
-      const response = await this.renderio.listCommands({
-        params: {
-          limit: 100,
-        },
-      });
+      while (true) {
+        const response = await this.renderio.listCommands({
+          params: {
+            limit,
+            offset,
+          },
+        });
+        const pageCommands = normalizeList(response, "commands");
 
-      for (const command of normalizeList(response, "commands")) {
-        const ts = getTimestamp(command);
-        if (ts > lastTs) {
-          commands.push(command);
+        for (const command of pageCommands) {
+          const ts = getTimestamp(command);
+          if (ts > lastTs) {
+            commands.push(command);
+          }
         }
+
+        if (pageCommands.length < limit) break;
+        offset += limit;
       }
 
       commands.sort((a, b) => getTimestamp(a) - getTimestamp(b));

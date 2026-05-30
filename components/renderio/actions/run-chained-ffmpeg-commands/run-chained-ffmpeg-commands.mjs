@@ -9,7 +9,7 @@ import {
 export default {
   key: "renderio-run-chained-ffmpeg-commands",
   name: "Run Chained FFmpeg Commands",
-  description: "Execute multiple chained FFmpeg commands sequentially with shared input and output file specifications. [See the documentation](https://renderio.dev/docs)",
+  description: "Execute multiple chained FFmpeg commands sequentially with shared input and output file specifications. [See the documentation](https://renderio.dev/docs/api-reference/commands/run-chained-commands)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

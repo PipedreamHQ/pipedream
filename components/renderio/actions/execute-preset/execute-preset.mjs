@@ -7,7 +7,7 @@ import {
 export default {
   key: "renderio-execute-preset",
   name: "Execute Preset",
-  description: "Execute a RenderIO preset with input files. [See the documentation](https://renderio.dev/docs)",
+  description: "Execute a RenderIO preset with input files. [See the documentation](https://renderio.dev/docs/api-reference/presets/execute-preset)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -20,12 +20,13 @@ export default {
     presetId: {
       type: "string",
       label: "Preset ID",
-      description: "The unique identifier of the preset to execute, for example `preset_12345`.",
+      description: "The unique identifier of the preset to execute, for example `preset_12345`. Use **List Presets** to discover options.",
     },
     inputFiles: {
-      type: "object",
-      label: "Input File URLs",
-      description: "Dictionary mapping the preset's input file keys to publicly accessible file URLs. Example: `{ \"in_video\": \"https://example.com/video.mp4\" }`.",
+      propDefinition: [
+        renderio,
+        "inputFiles",
+      ],
     },
     metadata: {
       propDefinition: [

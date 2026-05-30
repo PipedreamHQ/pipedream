@@ -9,7 +9,7 @@ import sampleEmit from "./test-event.mjs";
 export default {
   key: "renderio-new-stored-file",
   name: "New Stored File",
-  description: "Emit new event when a new file is uploaded to the account. [See the documentation](https://renderio.dev/docs)",
+  description: "Emit new event when a new file is uploaded to the account. [See the documentation](https://renderio.dev/docs/api-reference/files/list-files)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -42,19 +42,28 @@ export default {
   },
   async run() {
     const lastTs = this._getLastTs();
+    const limit = 100;
+    let offset = 0;
     const files = [];
 
-    const response = await this.renderio.listFiles({
-      params: {
-        limit: 100,
-      },
-    });
+    while (true) {
+      const response = await this.renderio.listFiles({
+        params: {
+          limit,
+          offset,
+        },
+      });
+      const pageFiles = normalizeList(response, "files");
 
-    for (const file of normalizeList(response, "files")) {
-      const ts = getTimestamp(file);
-      if (ts <= lastTs) continue;
+      for (const file of pageFiles) {
+        const ts = getTimestamp(file);
+        if (ts > lastTs) {
+          files.push(file);
+        }
+      }
 
-      files.push(file);
+      if (pageFiles.length < limit) break;
+      offset += limit;
     }
 
     files.sort((a, b) => getTimestamp(a) - getTimestamp(b));

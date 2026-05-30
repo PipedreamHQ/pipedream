@@ -8,7 +8,7 @@ import {
 export default {
   key: "renderio-run-multiple-ffmpeg-commands",
   name: "Run Multiple FFmpeg Commands",
-  description: "Execute multiple independent FFmpeg commands in one request. [See the documentation](https://renderio.dev/docs)",
+  description: "Execute multiple independent FFmpeg commands in one request. [See the documentation](https://renderio.dev/docs/api-reference/commands/run-multiple-commands)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
