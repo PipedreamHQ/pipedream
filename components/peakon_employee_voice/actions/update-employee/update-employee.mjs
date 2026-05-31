@@ -65,11 +65,24 @@ export default {
     const custom = this.customAttributes
       ? JSON.parse(this.customAttributes)
       : {};
-    const standardAttrs = {};
-    if (this.firstName) standardAttrs.firstName = this.firstName;
-    if (this.lastName) standardAttrs.lastName = this.lastName;
-    if (this.identifier) standardAttrs.identifier = this.identifier;
-    if (this.employmentStatus) standardAttrs.employmentStatus = this.employmentStatus;
+    const response = await this.app._makeRequest({
+      $,
+      method: "PATCH",
+      path: `/api/v1/employees/${this.employeeId}`,
+      data: {
+        data: {
+          type: "employees",
+          id: this.employeeId,
+          attributes: {
+            firstName: this.firstName,
+            lastName: this.lastName,
+            identifier: this.identifier,
+            employmentStatus: this.employmentStatus,
+            ...custom,
+          },
+        },
+      },
+    });
     const response = await this.app._makeRequest({
       $,
       method: "PATCH",
