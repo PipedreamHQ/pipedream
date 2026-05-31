@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/peakon_employee_voice",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Peakon Employee Voice Components",
   "main": "peakon_employee_voice.app.mjs",
   "keywords": [
