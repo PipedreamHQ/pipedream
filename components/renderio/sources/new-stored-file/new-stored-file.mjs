@@ -39,42 +39,55 @@ export default {
         ts: getTimestamp(file),
       };
     },
-  },
-  async run() {
-    const lastTs = this._getLastTs();
-    const limit = 100;
-    let offset = 0;
-    const files = [];
+    async processEvent(max) {
+      const lastTs = this._getLastTs();
+      const limit = 100;
+      const maxPages = 1000;
+      let offset = 0;
+      let files = [];
 
-    while (true) {
-      const response = await this.renderio.listFiles({
-        params: {
-          limit,
-          offset,
-        },
-      });
-      const pageFiles = normalizeList(response, "files");
+      for (let page = 0; page < maxPages; page++) {
+        const response = await this.renderio.listFiles({
+          params: {
+            limit,
+            offset,
+          },
+        });
+        const pageFiles = normalizeList(response, "files");
 
-      for (const file of pageFiles) {
-        const ts = getTimestamp(file);
-        if (ts > lastTs) {
-          files.push(file);
+        for (const file of pageFiles) {
+          const ts = getTimestamp(file);
+          if (ts > lastTs) {
+            files.push(file);
+          }
         }
+
+        if (pageFiles.length < limit) break;
+        offset += limit;
       }
 
-      if (pageFiles.length < limit) break;
-      offset += limit;
-    }
+      files.sort((a, b) => getTimestamp(a) - getTimestamp(b));
 
-    files.sort((a, b) => getTimestamp(a) - getTimestamp(b));
+      if (max && files.length > max) {
+        files = files.slice(-max);
+      }
 
-    for (const file of files) {
-      this.$emit(file, this.generateMeta(file));
-    }
+      for (const file of files) {
+        this.$emit(file, this.generateMeta(file));
+      }
 
-    if (files.length > 0) {
-      this._setLastTs(getTimestamp(files[files.length - 1]));
-    }
+      if (files.length > 0) {
+        this._setLastTs(getTimestamp(files[files.length - 1]));
+      }
+    },
+  },
+  hooks: {
+    async deploy() {
+      await this.processEvent(25);
+    },
+  },
+  async run() {
+    await this.processEvent();
   },
   sampleEmit,
 };

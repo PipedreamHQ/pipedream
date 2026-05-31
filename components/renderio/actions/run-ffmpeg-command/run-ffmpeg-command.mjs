@@ -82,6 +82,13 @@ export default {
     return {};
   },
   async run({ $ }) {
+    if (!this.command?.trim()) {
+      throw new ConfigurationError("FFmpeg Command cannot be empty");
+    }
+    if (this.maxCommandRunSeconds !== undefined && this.maxCommandRunSeconds <= 0) {
+      throw new ConfigurationError("Max Command Run Seconds must be greater than 0");
+    }
+
     const inputFiles = parseRequiredObject(this.inputFiles, "Input File URLs");
     const outputFiles = parseRequiredObject(this.outputFiles, "Output File Names");
     const metadata = parseObject(this.metadata, "Metadata");
@@ -159,7 +166,8 @@ export default {
       }
     }
 
-    $.export("$summary", `FFmpeg command ${this.waitForCompletion
+    const summaryCommandId = getCommandId(response);
+    $.export("$summary", `FFmpeg command ${summaryCommandId ?? "unknown"} ${this.waitForCompletion
       ? "submitted and completed"
       : "submitted"} successfully`);
     return response;

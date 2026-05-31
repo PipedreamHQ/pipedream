@@ -31,6 +31,9 @@ export default {
     }
 
     for (const command of commands) {
+      if (!command || typeof command !== "object" || !String(command.ffmpeg_command ?? "").trim()) {
+        throw new ConfigurationError("Each command must include a non-empty ffmpeg_command");
+      }
       validateKeys(command.input_files || {}, "in_", "Input file");
       validateKeys(command.output_files || {}, "out_", "Output file");
     }

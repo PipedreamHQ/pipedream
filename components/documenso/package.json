@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/documenso",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream Documenso Components",
   "main": "documenso.app.mjs",
   "keywords": [

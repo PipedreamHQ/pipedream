@@ -9,7 +9,7 @@ import {
 export default {
   key: "renderio-download-video-with-ytdlp",
   name: "Download Video with yt-dlp",
-  description: "Download publicly accessible videos from yt-dlp-supported platforms. [See the documentation](https://renderio.dev/docs/api-reference/commands/ytdlp-download)",
+  description: "Download publicly accessible videos from yt-dlp-supported platforms like YouTube, TikTok, Instagram, Vimeo, and Twitch without additional processing. Provide input URLs as a dictionary with `in_` prefixed keys, for example `{ \"in_video\": \"https://www.youtube.com/watch?v=dQw4w9WgXcQ\" }`. For download plus FFmpeg processing, use **Download and Process Video with yt-dlp** instead. [See the documentation](https://renderio.dev/docs/api-reference/commands/ytdlp-download)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

@@ -16,7 +16,7 @@ export default {
     fileUrl: {
       type: "string",
       label: "File URL",
-      description: "The publicly accessible URL of the file to store.",
+      description: "The publicly accessible URL of the file to store, for example `https://example.com/video.mp4`.",
     },
   },
   async run({ $ }) {

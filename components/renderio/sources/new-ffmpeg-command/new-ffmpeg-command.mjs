@@ -44,10 +44,11 @@ export default {
     async processEvent(max) {
       const lastTs = this._getLastTs();
       const limit = 100;
+      const maxPages = 1000;
       let offset = 0;
       let commands = [];
 
-      while (true) {
+      for (let page = 0; page < maxPages; page++) {
         const response = await this.renderio.listCommands({
           params: {
             limit,

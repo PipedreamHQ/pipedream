@@ -4,7 +4,7 @@ export default {
   key: "bitdefender_gravityzone-get-policy-details",
   name: "Get Policy Details",
   description: "Retrieve details about a specific policy. [See the documentation](https://www.bitdefender.com/business/support/en/77209-135304-getpolicydetails.html)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

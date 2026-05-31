@@ -4,7 +4,7 @@ export default {
   key: "ashby-start-offer-process",
   name: "Start Offer Process",
   description: "Starts an offer process for a candidate. [See the documentation](https://developers.ashbyhq.com/reference/offerprocessstart)",
-  version: "0.0.2",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: false,

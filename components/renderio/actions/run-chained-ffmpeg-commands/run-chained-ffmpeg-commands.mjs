@@ -52,6 +52,9 @@ export default {
     if (!Array.isArray(ffmpegCommands) || ffmpegCommands.length === 0) {
       throw new ConfigurationError("FFmpeg Commands must be a non-empty array");
     }
+    if (ffmpegCommands.some((command) => typeof command !== "string" || !command.trim())) {
+      throw new ConfigurationError("Each FFmpeg command must be a non-empty string");
+    }
 
     validateKeys(inputFiles, "in_", "Input file");
     validateKeys(outputFiles, "out_", "Output file");

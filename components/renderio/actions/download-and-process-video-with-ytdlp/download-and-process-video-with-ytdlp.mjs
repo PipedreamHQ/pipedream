@@ -9,7 +9,7 @@ import {
 export default {
   key: "renderio-download-and-process-video-with-ytdlp",
   name: "Download and Process Video with yt-dlp",
-  description: "Download publicly accessible videos with yt-dlp, then optionally process them with FFmpeg. [See the documentation](https://renderio.dev/docs/api-reference/commands/run-ytdlp-command)",
+  description: "Download publicly accessible videos with yt-dlp and optionally process them with FFmpeg. Use this to fetch videos from supported platforms and transform them, for example extract audio, resize, trim, or convert formats. Provide input URLs as a dictionary with `in_` prefixed keys; when processing with FFmpeg, provide output aliases with `out_` prefixes. [See the documentation](https://renderio.dev/docs/api-reference/commands/run-ytdlp-command)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
