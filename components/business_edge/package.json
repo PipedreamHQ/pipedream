@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/business_edge",
+  "version": "0.0.1",
+  "description": "Pipedream Business Edge Components",
+  "main": "business_edge.app.mjs",
+  "keywords": [
+    "pipedream",
+    "business_edge"
+  ],
+  "homepage": "https://pipedream.com/apps/business_edge",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
