@@ -460,6 +460,12 @@ export default {
         ...args,
       });
     },
+    /**
+     * Get the summary note for a Freshdesk ticket
+     * @param {object} args - Arguments object
+     * @param {string|number} args.ticketId - The ticket ID
+     * @returns {Promise<object>} API response
+     */
     getTicketSummary({
       ticketId, ...args
     }) {
@@ -468,21 +474,33 @@ export default {
         ...args,
       });
     },
+    /**
+     * Create or update the summary note for a Freshdesk ticket
+     * @param {object} args - Arguments object
+     * @param {string|number} args.ticketId - The ticket ID
+     * @returns {Promise<object>} API response
+     */
     updateTicketSummary({
       ticketId, ...args
     }) {
       return this._makeRequest({
         url: `/tickets/${ticketId}/summary`,
-        method: "put",
+        method: "PUT",
         ...args,
       });
     },
+    /**
+     * Delete the summary note for a Freshdesk ticket
+     * @param {object} args - Arguments object
+     * @param {string|number} args.ticketId - The ticket ID
+     * @returns {Promise<object>} API response
+     */
     deleteTicketSummary({
       ticketId, ...args
     }) {
       return this._makeRequest({
         url: `/tickets/${ticketId}/summary`,
-        method: "delete",
+        method: "DELETE",
         ...args,
       });
     },

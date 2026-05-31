@@ -6,11 +6,6 @@ export default {
   name: "Update Ticket Summary",
   description: "Create or update the summary note for a ticket. [See the documentation](https://developers.freshdesk.com/api/#ticket_summary)",
   version: "0.0.1",
-  annotations: {
-    destructiveHint: false,
-    openWorldHint: true,
-    readOnlyHint: false,
-  },
   type: "action",
   props: {
     freshdesk,
@@ -24,6 +19,7 @@ export default {
       type: "string",
       label: "Summary Body",
       description: "Content of the summary note in HTML, e.g., \"<p>Ticket resolved after updating settings.</p>\"",
+      optional: false,
     },
     userId: {
       propDefinition: [
@@ -52,11 +48,7 @@ export default {
     };
 
     if (userId) {
-      const parsedUserId = Number(userId);
-      if (Number.isNaN(parsedUserId)) {
-        throw new ConfigurationError("User ID must be a valid number");
-      }
-      data.user_id = parsedUserId;
+      data.user_id = userId;
     }
 
     const response = await freshdesk.updateTicketSummary({
