@@ -62,7 +62,7 @@ export default {
       },
     });
     const score = response.data?.attributes?.scores?.mean;
-    $.export("$summary", `Engagement overview retrieved — score: ${score !== undefined
+    $.export("$summary", `Engagement overview retrieved — score: ${score != null && Number.isFinite(score)
       ? score.toFixed(2)
       : "N/A"}`);
     return response;
