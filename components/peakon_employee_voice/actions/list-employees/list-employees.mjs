@@ -12,7 +12,7 @@ export default {
     + "Call this first whenever the user refers to an employee by name or attribute and you need "
     + "their ID to perform an update or deletion. "
     + "[See the Peakon API documentation](https://developer.peakon.com/reference/get_employees)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

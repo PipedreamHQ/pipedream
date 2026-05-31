@@ -14,7 +14,7 @@ export default {
     + "Use when the user asks 'which drivers are lowest?', 'how is recognition scoring?', or "
     + "'what are the priority areas to focus on?'. "
     + "[See the Peakon API documentation](https://developer.peakon.com/reference/get_engagement-contexts-contextid-drivers)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
