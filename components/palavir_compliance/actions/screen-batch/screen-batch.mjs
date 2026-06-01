@@ -3,12 +3,13 @@
 // Screen up to 100 entities in one call.
 
 import palavir_compliance from "../../palavir_compliance.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "palavir_compliance-screen-batch",
   name: "Screen Batch — Up to 100 Entities",
   description:
-    "Screen up to 100 entities in one call against LEIE + OFAC + SAM. Returns per-entity results plus summary counts. [See the documentation](https://palavir.co/exclusion-screening)",
+    "Screen up to 100 entities in one call against LEIE + OFAC + SAM. Returns per-entity results plus summary counts. [See the documentation](https://rapidapi.com/josh-BN5mWmPiY/api/federal-exclusion-sanctions-screener/playground/apiendpoint_dbaf2b07-36e3-4ecc-9c5e-a0cdf38b8b46)",
   type: "action",
   version: "0.0.1",
   annotations: {
@@ -26,12 +27,16 @@ export default {
     },
   },
   async run({ $ }) {
-    const entities = Array.isArray(this.entities) ? this.entities : this.entities.entities;
+    const entities = Array.isArray(this.entities)
+      ? this.entities
+      : this.entities.entities;
     if (!Array.isArray(entities) || entities.length === 0 || entities.length > 100) {
-      throw new Error("`entities` must be an array of 1-100 objects");
+      throw new ConfigurationError("`entities` must be an array of 1-100 objects");
     }
 
-    const response = await this.palavir_compliance.screenBatch($, { entities });
+    const response = await this.palavir_compliance.screenBatch($, {
+      entities,
+    });
 
     const summary = response?.summary ?? {};
     const total = summary.total ?? entities.length;
@@ -40,7 +45,7 @@ export default {
     const clear = summary.clear ?? 0;
     $.export(
       "$summary",
-      `Screened ${total} entities — ${matched} matched, ${potential} potential, ${clear} clear`
+      `Screened ${total} entities — ${matched} matched, ${potential} potential, ${clear} clear`,
     );
     return response;
   },

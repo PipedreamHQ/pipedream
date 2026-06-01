@@ -18,7 +18,9 @@ export default {
         "X-RapidAPI-Host": "federal-exclusion-sanctions-screener.p.rapidapi.com",
       };
     },
-    async _makeRequest($, { method, path, data }) {
+    async _makeRequest($, {
+      method, path, data,
+    }) {
       return axios($, {
         method,
         url: `${this._baseUrl()}${path}`,

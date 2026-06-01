@@ -9,7 +9,7 @@ export default {
   key: "palavir_compliance-screen-entity",
   name: "Screen Entity (LEIE + OFAC + SAM)",
   description:
-    "Screen one individual or entity against LEIE (OIG exclusion), OFAC SDN (Treasury sanctions), and SAM.gov (federal contractor exclusion). Returns risk level (CLEAR | POTENTIAL | MATCH) plus match details. [See the documentation](https://palavir.co/exclusion-screening)",
+    "Screen one individual or entity against LEIE (OIG exclusion), OFAC SDN (Treasury sanctions), and SAM.gov (federal contractor exclusion). Returns risk level (CLEAR | POTENTIAL | MATCH) plus match details. [See the documentation](https://rapidapi.com/josh-BN5mWmPiY/api/federal-exclusion-sanctions-screener/playground/apiendpoint_a5a2ef54-9557-4a97-a8e0-b6c2d36080af)",
   type: "action",
   version: "0.0.1",
   annotations: {
@@ -46,9 +46,9 @@ export default {
   async run({ $ }) {
     const data = {
       name: this.name,
-      ...(this.npi && { npi: this.npi }),
-      ...(this.state && { state: this.state }),
-      ...(this.dob && { dob: this.dob }),
+      npi: this.npi,
+      state: this.state,
+      dob: this.dob,
     };
 
     const response = await this.palavir_compliance.screenEntity($, data);
