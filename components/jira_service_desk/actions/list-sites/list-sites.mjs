@@ -19,7 +19,9 @@ export default {
     app,
   },
   async run({ $ }) {
-    const sites = await this.app.getSites();
+    const sites = await this.app.getSites({
+      $,
+    });
     $.export("$summary", `Found ${sites?.length ?? 0} accessible Atlassian site(s)`);
     return sites;
   },

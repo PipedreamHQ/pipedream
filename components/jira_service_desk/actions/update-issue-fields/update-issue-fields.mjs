@@ -42,8 +42,12 @@ export default {
   },
   async run({ $ }) {
     const fields = JSON.parse(this.fields);
+    if (fields === null || typeof fields !== "object" || Array.isArray(fields)) {
+      throw new Error("`fields` must be a JSON object (e.g. `{\"summary\": \"New title\"}`), not an array or primitive.");
+    }
 
     await this.app.updateIssueFields({
+      $,
       cloudId: this.cloudId,
       issueIdOrKey: this.issueIdOrKey,
       data: {

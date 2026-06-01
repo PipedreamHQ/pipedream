@@ -42,7 +42,7 @@ export default {
     },
   },
   async run({ $ }) {
-    // Auto-discover serviceDeskId if not provided — extract from first existing request
+    // Auto-discover serviceDeskId if not provided — extract from existing requests
     let serviceDeskId = this.serviceDeskId;
     if (!serviceDeskId) {
       const existingRequests = await this.app.listMyRequests({
@@ -52,7 +52,15 @@ export default {
       if (!existingRequests?.length) {
         throw new Error("No existing requests found to auto-discover serviceDeskId. Please provide serviceDeskId explicitly.");
       }
-      serviceDeskId = existingRequests[0].serviceDeskId;
+      const uniqueIds = [
+        ...new Set(existingRequests.map((r) => r.serviceDeskId)),
+      ];
+      if (uniqueIds.length > 1) {
+        throw new Error(
+          `Multiple service desks found (${uniqueIds.join(", ")}). Please provide serviceDeskId explicitly.`,
+        );
+      }
+      serviceDeskId = uniqueIds[0];
     }
 
     // Auto-discover the best-matching request type for an incident.

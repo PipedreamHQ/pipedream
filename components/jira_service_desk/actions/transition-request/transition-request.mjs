@@ -5,7 +5,7 @@ export default {
   name: "Transition Request",
   description:
     "Transitions a Jira Service Desk request to a new workflow status."
-    + " **Use `List Request Transitions` first** to get valid `transitionId` values for the request."
+    + " Use **List Request Transitions** first to get valid `transitionId` values for the request."
     + " Use **List Sites** to obtain the required `cloudId`."
     + " Use **List My Requests** or **Get Request** to find the `issueKey` (e.g. `IT-42`)."
     + " Optionally include a comment to explain the transition."
@@ -54,6 +54,7 @@ export default {
     }
 
     const response = await this.app.transitionRequest({
+      $,
       cloudId: this.cloudId,
       issueIdOrKey: this.issueIdOrKey,
       data: body,

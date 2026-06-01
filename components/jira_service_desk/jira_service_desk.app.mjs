@@ -94,8 +94,9 @@ export default {
         },
       });
     },
-    async getSites() {
+    async getSites({ $ } = {}) {
       return this._makeRequest({
+        $,
         path: "/oauth/token/accessible-resources",
       });
     },
