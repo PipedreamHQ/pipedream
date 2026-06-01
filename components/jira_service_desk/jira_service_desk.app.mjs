@@ -72,6 +72,11 @@ export default {
         }));
       },
     },
+    issueIdOrKey: {
+      type: "string",
+      label: "Issue ID or Key",
+      description: "The ID or key of the Jira Service Desk request (e.g. `IT-42` or `10001`). Use **List My Requests** to find the `issueKey` of a request.",
+    },
   },
   methods: {
     _baseUrl() {
@@ -138,6 +143,74 @@ export default {
         ...opts,
         method: "POST",
         path: `/ex/jira/${cloudId}/rest/servicedeskapi/request/${requestId}/comment`,
+      });
+    },
+    async getCurrentUser() {
+      return this._makeRequest({
+        path: "/me",
+      });
+    },
+    async listMyRequests({
+      cloudId, serviceDeskId, requestStatus, requestOwnership,
+    }) {
+      const params = {
+        requestStatus: requestStatus || "OPEN_REQUESTS",
+        requestOwnership: requestOwnership || "OWNED_REQUESTS",
+      };
+      if (serviceDeskId) params.serviceDeskId = serviceDeskId;
+      const response = await this._makeRequest({
+        path: `/ex/jira/${cloudId}/rest/servicedeskapi/request`,
+        params,
+      });
+      return response.values;
+    },
+    async getRequest({
+      cloudId, issueIdOrKey,
+    }) {
+      return this._makeRequest({
+        path: `/ex/jira/${cloudId}/rest/servicedeskapi/request/${issueIdOrKey}`,
+      });
+    },
+    async getRequestComments({
+      cloudId, issueIdOrKey,
+    }) {
+      const response = await this._makeRequest({
+        path: `/ex/jira/${cloudId}/rest/servicedeskapi/request/${issueIdOrKey}/comment`,
+      });
+      return response.values;
+    },
+    async getRequestStatus({
+      cloudId, issueIdOrKey,
+    }) {
+      const response = await this._makeRequest({
+        path: `/ex/jira/${cloudId}/rest/servicedeskapi/request/${issueIdOrKey}/status`,
+      });
+      return response.values;
+    },
+    async getRequestTransitions({
+      cloudId, issueIdOrKey,
+    }) {
+      const response = await this._makeRequest({
+        path: `/ex/jira/${cloudId}/rest/servicedeskapi/request/${issueIdOrKey}/transition`,
+      });
+      return response.values;
+    },
+    async transitionRequest({
+      cloudId, issueIdOrKey, ...opts
+    }) {
+      return this._makeRequest({
+        ...opts,
+        method: "POST",
+        path: `/ex/jira/${cloudId}/rest/servicedeskapi/request/${issueIdOrKey}/transition`,
+      });
+    },
+    async updateIssueFields({
+      cloudId, issueIdOrKey, ...opts
+    }) {
+      return this._makeRequest({
+        ...opts,
+        method: "PUT",
+        path: `/ex/jira/${cloudId}/rest/api/3/issue/${issueIdOrKey}`,
       });
     },
   },
