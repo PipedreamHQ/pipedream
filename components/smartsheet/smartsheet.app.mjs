@@ -216,17 +216,6 @@ export default {
         data: allData,
       };
     },
-    listWorkspaces(args = {}) {
-      return this._makeRequest({
-        path: "/workspaces",
-        ...args,
-        params: {
-          paginationType: "token",
-          maxItems: DEFAULT_MAX_ITEMS,
-          ...args.params,
-        },
-      });
-    },
     async listAllWorkspaceChildren(workspaceId, args = {}) {
       const allData = [];
       let lastKey;
@@ -251,19 +240,6 @@ export default {
       return {
         data: allData,
       };
-    },
-    listFolderChildren(folderId, args = {}) {
-      return this._makeRequest({
-        path: `/folders/${folderId}/children`,
-        ...args,
-      });
-    },
-    createSheet(args = {}) {
-      return this._makeRequest({
-        path: "/sheets",
-        method: "POST",
-        ...args,
-      });
     },
     createSheetInFolder(folderId, args = {}) {
       return this._makeRequest({
