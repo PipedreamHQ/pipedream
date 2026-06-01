@@ -21,9 +21,10 @@ export default {
   props: {
     app,
     cloudId: {
-      type: "string",
-      label: "Cloud ID",
-      description: "The Atlassian cloud site ID. Use **List Sites** to retrieve available site IDs.",
+      propDefinition: [
+        app,
+        "cloudId",
+      ],
     },
     serviceDeskId: {
       type: "string",
