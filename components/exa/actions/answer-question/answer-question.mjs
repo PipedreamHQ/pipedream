@@ -1,10 +1,11 @@
 import app from "../../exa.app.mjs";
+import { parseOptionalJsonSchema } from "../../common/utils.mjs";
 
 export default {
   key: "exa-answer-question",
   name: "Answer Question",
-  description: "Generates LLM-powered responses to queries, informed by Exa search results with citations. Handles both factual queries requiring direct answers and open-ended questions needing detailed summaries. [See the documentation](https://docs.exa.ai/reference/answer)",
-  version: "0.0.1",
+  description: "Generate grounded Exa answers with citations. Use this when you want an answer-shaped response instead of raw search results. [See the documentation](https://docs.exa.ai/reference/answer)",
+  version: "0.1.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -26,29 +27,29 @@ export default {
         app,
         "text",
       ],
-      description: "Whether to include full text content from search results in the response",
+      description: "Whether to include full text content from cited results in the response",
     },
-    stream: {
-      type: "boolean",
-      label: "Stream",
-      description: "Enable streaming response via server-sent events (not recommended for Pipedream workflows)",
-      optional: true,
+    systemPrompt: {
+      propDefinition: [
+        app,
+        "systemPrompt",
+      ],
+    },
+    outputSchema: {
+      propDefinition: [
+        app,
+        "outputSchema",
+      ],
     },
   },
   async run({ $ }) {
-    const {
-      app,
-      query,
-      text,
-      stream,
-    } = this;
-
-    const response = await app.answer({
+    const response = await this.app.answer({
       $,
       data: {
-        query,
-        text,
-        stream,
+        query: this.query,
+        text: this.text,
+        systemPrompt: this.systemPrompt,
+        outputSchema: parseOptionalJsonSchema(this.outputSchema, "output schema"),
       },
     });
 
