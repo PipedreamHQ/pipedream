@@ -35,7 +35,7 @@ export default {
         smartsheet,
         "workspaceId",
       ],
-      description: "Workspace to create the sheet in. Required if Folder is not specified. Use **List Workspace Options** to find workspace IDs.",
+      description: "Workspace to create the sheet in, or to scope the Folder dropdown. Required if Folder is not specified. Use **List Workspace Options** to find workspace IDs.",
     },
     folderId: {
       propDefinition: [
@@ -45,7 +45,7 @@ export default {
           workspaceId: c.workspaceId,
         }),
       ],
-      description: "Folder to create the sheet in. Required if Workspace is not specified as the sole destination. Use **List Folder Options** to find folder IDs.",
+      description: "Folder to create the sheet in. If specified, the sheet is created in this folder and Workspace is only used to populate this dropdown. Use **List Folder Options** to find folder IDs.",
     },
   },
   async run({ $ }) {
@@ -58,10 +58,6 @@ export default {
 
     if (!workspaceId && !folderId) {
       throw new ConfigurationError("Either a Workspace or Folder must be specified. Creating sheets in the default Sheets folder is deprecated.");
-    }
-
-    if (workspaceId && folderId) {
-      throw new ConfigurationError("Only one of Workspace or Folder may be specified");
     }
 
     const data = {
