@@ -4,7 +4,7 @@ export default {
   key: "polly_help-get-collection",
   name: "Get Collection",
   description: "Get a collection. [See the documentation](https://docs.polly.help/integrations/a/publication-api-examples?partition=3iD5jyfMSRprgo2tD)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -16,7 +16,7 @@ export default {
     collectionId: {
       type: "string",
       label: "Collection ID",
-      description: "The ID of the collection to get.",
+      description: "The ID of the collection to get. Use the **Search Publication** action to find the collection ID of an article.",
     },
   },
   async run({ $ }) {

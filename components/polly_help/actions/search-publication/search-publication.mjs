@@ -4,7 +4,7 @@ export default {
   key: "polly_help-search-publication",
   name: "Search Publication",
   description: "Search a publication for relevant content. [See the documentation](https://docs.polly.help/api-reference/search)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -20,13 +20,13 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.pollyHelp.search({
+    const { data: { search } = {} } = await this.pollyHelp.search({
       $,
       variables: {
         query: this.query,
       },
     });
-    $.export("$summary", `Found ${response.data.search.searchinfo.nbHits} results for query: ${this.query}`);
-    return response;
+    $.export("$summary", `Found ${search?.results?.length ?? 0} results for query: ${this.query}`);
+    return search;
   },
 };

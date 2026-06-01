@@ -4,7 +4,7 @@ export default {
   key: "polly_help-get-article",
   name: "Get Article",
   description: "Get an article. [See the documentation](https://docs.polly.help/integrations/a/publication-api-examples?partition=dHaktdqyY7Ce8DM72)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -16,7 +16,7 @@ export default {
     articleId: {
       type: "string",
       label: "Article ID",
-      description: "The ID of the article to get.",
+      description: "The ID of the article to get. Use the **Search Publication** action to find an article ID.",
     },
   },
   async run({ $ }) {

@@ -1,11 +1,22 @@
 export const SEARCH_QUERY = `
-  query search(query: String!) {
+  query search($query: String!) {
     search(query: $query) {
       results {
         id
         name
         slug
         contentsnippet (length: 250)
+        schema_elements {
+          id
+          name
+          render_type
+          order
+          content    
+        }
+        date_modified
+        collections {
+          id
+        }
       }
       searchinfo {
         nbHits
@@ -40,6 +51,7 @@ export const GET_COLLECTION = `
 export const GET_ARTICLE = `
   query getArticle($id: ID!) {
     article(id: $id) {
+      id
       name
       slug
       custom_fields
@@ -59,9 +71,6 @@ export const GET_ARTICLE = `
       }
       collections {
         id
-      }
-      relatedArticles(collectionId:"dbZdA2ofobRsrCKop") {
-        id name
       }
     }
   }

@@ -8,10 +8,10 @@ export default {
   app: "polly_help",
   propDefinitions: {},
   methods: {
-    _makeRequest({
+    async _makeRequest({
       $ = this, query, variables, ...opts
     }) {
-      return axios($, {
+      const response = await axios($, {
         method: "POST",
         url: "https://api.polly.help/graphql",
         headers: {
@@ -30,6 +30,11 @@ export default {
         },
         ...opts,
       });
+      if (response.errors) {
+        console.log(JSON.stringify(response.errors, null, 2));
+        throw new Error(response.errors[0].message);
+      }
+      return response;
     },
     search({
       variables, ...opts
