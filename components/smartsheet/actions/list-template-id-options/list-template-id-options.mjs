@@ -4,7 +4,7 @@ export default {
   key: "smartsheet-list-template-id-options",
   name: "List Template ID Options",
   description: "Retrieves available options for the Template ID field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
