@@ -56,8 +56,8 @@ export default {
         rowId, ...fields
       } = row;
       const numericRowId = Number(rowId);
-      if (!rowId || Number.isNaN(numericRowId)) {
-        throw new ConfigurationError(`Row at index ${rowIndex} is missing a valid \`rowId\`.`);
+      if (!Number.isInteger(numericRowId) || numericRowId <= 0) {
+        throw new ConfigurationError(`Row at index ${rowIndex} is missing a valid \`rowId\` (must be a positive integer).`);
       }
       const entries = Object.entries(fields);
       if (!entries.length) {

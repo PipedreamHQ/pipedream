@@ -48,7 +48,7 @@ export default {
       });
     }
 
-    const totalResults = response.results?.length || 0;
+    const totalResults = response.totalCount ?? response.results?.length ?? 0;
     const scope = this.sheetId
       ? `sheet ${this.sheetId}`
       : "all sheets";
