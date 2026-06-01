@@ -36,10 +36,12 @@ export default {
       comments,
     ] = await Promise.all([
       this.app.getRequest({
+        $,
         cloudId: this.cloudId,
         issueIdOrKey: this.issueIdOrKey,
       }),
       this.app.getRequestComments({
+        $,
         cloudId: this.cloudId,
         issueIdOrKey: this.issueIdOrKey,
       }),

@@ -46,6 +46,7 @@ export default {
     let serviceDeskId = this.serviceDeskId;
     if (!serviceDeskId) {
       const existingRequests = await this.app.listMyRequests({
+        $,
         cloudId: this.cloudId,
       });
       if (!existingRequests?.length) {
@@ -57,6 +58,7 @@ export default {
     // Auto-discover the best-matching request type for an incident.
     // Prefers types named "incident" or "problem"; falls back to first available.
     const requestTypes = await this.app.getRequestTypes({
+      $,
       cloudId: this.cloudId,
       serviceDeskId,
     });
@@ -81,6 +83,7 @@ export default {
     };
 
     const response = await this.app.createCustomerRequest({
+      $,
       cloudId: this.cloudId,
       data: {
         serviceDeskId,

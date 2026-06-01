@@ -32,6 +32,7 @@ export default {
   },
   async run({ $ }) {
     const transitions = await this.app.getRequestTransitions({
+      $,
       cloudId: this.cloudId,
       issueIdOrKey: this.issueIdOrKey,
     });

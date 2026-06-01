@@ -19,7 +19,9 @@ export default {
     app,
   },
   async run({ $ }) {
-    const user = await this.app.getCurrentUser();
+    const user = await this.app.getCurrentUser({
+      $,
+    });
     $.export("$summary", `Current user: ${user.display_name || user.displayName} (${user.email || user.emailAddress})`);
     return user;
   },

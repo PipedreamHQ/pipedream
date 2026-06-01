@@ -32,6 +32,7 @@ export default {
   },
   async run({ $ }) {
     const statuses = await this.app.getRequestStatus({
+      $,
       cloudId: this.cloudId,
       issueIdOrKey: this.issueIdOrKey,
     });

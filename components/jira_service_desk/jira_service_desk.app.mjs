@@ -106,9 +106,10 @@ export default {
       return response.values;
     },
     async getRequestTypes({
-      cloudId, serviceDeskId,
+      $, cloudId, serviceDeskId,
     }) {
       const response = await this._makeRequest({
+        $,
         path: `/ex/jira/${cloudId}/rest/servicedeskapi/servicedesk/${serviceDeskId}/requesttype`,
       });
       return response.values;
@@ -145,13 +146,14 @@ export default {
         path: `/ex/jira/${cloudId}/rest/servicedeskapi/request/${requestId}/comment`,
       });
     },
-    async getCurrentUser() {
+    async getCurrentUser({ $ } = {}) {
       return this._makeRequest({
+        $,
         path: "/me",
       });
     },
     async listMyRequests({
-      cloudId, serviceDeskId, requestStatus, requestOwnership,
+      $, cloudId, serviceDeskId, requestStatus, requestOwnership,
     }) {
       const params = {
         requestStatus: requestStatus || "OPEN_REQUESTS",
@@ -159,38 +161,43 @@ export default {
       };
       if (serviceDeskId) params.serviceDeskId = serviceDeskId;
       const response = await this._makeRequest({
+        $,
         path: `/ex/jira/${cloudId}/rest/servicedeskapi/request`,
         params,
       });
       return response.values;
     },
     async getRequest({
-      cloudId, issueIdOrKey,
+      $, cloudId, issueIdOrKey,
     }) {
       return this._makeRequest({
+        $,
         path: `/ex/jira/${cloudId}/rest/servicedeskapi/request/${issueIdOrKey}`,
       });
     },
     async getRequestComments({
-      cloudId, issueIdOrKey,
+      $, cloudId, issueIdOrKey,
     }) {
       const response = await this._makeRequest({
+        $,
         path: `/ex/jira/${cloudId}/rest/servicedeskapi/request/${issueIdOrKey}/comment`,
       });
       return response.values;
     },
     async getRequestStatus({
-      cloudId, issueIdOrKey,
+      $, cloudId, issueIdOrKey,
     }) {
       const response = await this._makeRequest({
+        $,
         path: `/ex/jira/${cloudId}/rest/servicedeskapi/request/${issueIdOrKey}/status`,
       });
       return response.values;
     },
     async getRequestTransitions({
-      cloudId, issueIdOrKey,
+      $, cloudId, issueIdOrKey,
     }) {
       const response = await this._makeRequest({
+        $,
         path: `/ex/jira/${cloudId}/rest/servicedeskapi/request/${issueIdOrKey}/transition`,
       });
       return response.values;

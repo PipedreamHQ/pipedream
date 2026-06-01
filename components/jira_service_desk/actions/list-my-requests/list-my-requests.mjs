@@ -55,6 +55,7 @@ export default {
   },
   async run({ $ }) {
     const requests = await this.app.listMyRequests({
+      $,
       cloudId: this.cloudId,
       serviceDeskId: this.serviceDeskId,
       requestStatus: this.requestStatus,
