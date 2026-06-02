@@ -85,11 +85,7 @@ export default {
     }
     const opts = getListFilesOpts(this.drive, {
       q: "",
-      ...(this.limitToMyDrive
-        ? {
-          includeItemsFromAllDrives: false,
-        }
-        : {}),
+      limitToMyDrive: this.limitToMyDrive,
     });
     if (this.folderId) {
       opts.q = `"${this.folderId}" in parents`;
