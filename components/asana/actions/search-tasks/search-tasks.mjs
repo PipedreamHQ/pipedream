@@ -6,7 +6,7 @@ export default {
   key: "asana-search-tasks",
   name: "Search Tasks",
   description: "Searches for a Task by name within a Project. [See the documentation](https://developers.asana.com/docs/get-multiple-tasks)",
-  version: "0.3.8",
+  version: "0.4.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -119,7 +119,7 @@ export default {
       }
     } while (hasMore);
 
-    $.export("$summary", "Successfully retrieved tasks");
+    $.export("$summary", `${results.length} task${results.length !== 1 ? "s" : ""} retrieved${results.length >= this.maxResults ? " (maxResults reached)" : ""}`);
     return results;
   },
 };

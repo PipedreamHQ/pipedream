@@ -4,7 +4,7 @@ export default {
   key: "asana-list-workspaces",
   name: "List Workspaces",
   description: "List workspaces available to the authenticated Asana account. Use this when you need a workspace GID before running **List Teams** or other workspace-scoped actions. `optFields` can include optional workspace properties such as `email_domains` and `is_organization`; leave `offset` empty for the first page and pass a returned offset token (for example, `3:0:abcdef123456`) to fetch the next page. [See the documentation](https://developers.asana.com/reference/getworkspaces)",
-  version: "0.0.2",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,

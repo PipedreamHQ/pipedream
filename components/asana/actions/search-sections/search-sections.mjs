@@ -4,7 +4,7 @@ export default {
   key: "asana-search-sections",
   name: "Search Sections",
   description: "Searches for a section by name within a particular project. [See the documentation](https://developers.asana.com/docs/get-sections-in-a-project)",
-  version: "0.2.14",
+  version: "0.3.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -56,7 +56,7 @@ export default {
       }
     } while (hasMore);
 
-    $.export("$summary", "Successfully retrieved sections");
+    $.export("$summary", `Retrieved ${results.length} section${results.length !== 1 ? "s" : ""}`);
     return results;
   },
 };

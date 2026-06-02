@@ -4,7 +4,7 @@ export default {
   key: "asana-list-users",
   name: "List Users",
   description: "Retrieves all users in a specified Asana workspace. Use this action to populate assignee choices for tasks, verify workspace membership, or audit user access. Requires a workspace GID, which you can obtain from the **List Workspaces** action. The authenticated user must have access to the workspace. Results are paginated; use the returned offset token to fetch additional pages. To include optional fields like email or photo, specify them in Opt Fields. Consider following up with **Create Task** or **Update Task** to assign work to the retrieved users. [See the documentation](https://developers.asana.com/reference/getusersforworkspace)",
-  version: "0.0.2",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
