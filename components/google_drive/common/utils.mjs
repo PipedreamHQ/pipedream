@@ -52,6 +52,14 @@ function getListFilesOpts(drive, baseOpts = {}) {
     limitToMyDrive, ...rest
   } = baseOpts;
 
+  if (drive && isMyDrive(drive)) {
+    return {
+      ...rest,
+      corpora: "user",
+      supportsAllDrives: true,
+    };
+  }
+
   if (drive && !isMyDrive(drive)) {
     return {
       // Google's `files.list` API requires `includeItemsFromAllDrives: true`
