@@ -62,21 +62,8 @@ export default {
     xPersonAssignedTo: {
       type: "string",
       label: "Assigned To",
-      description: "Filter by the staff member the request is assigned to.",
+      description: "The ID of the staff member the request is assigned to. Use the **List Active Staff** action to retrieve valid staff IDs.",
       optional: true,
-      async options({ page }) {
-        const { person } = await this.helpspot.listActiveStaff({
-          params: {
-            page,
-          },
-        });
-        return person.map(({
-          xPerson: value, sFname, sLname, sEmail,
-        }) => ({
-          label: `${sFname} ${sLname} - ${sEmail}`,
-          value,
-        }));
-      },
     },
     sUserId: {
       type: "string",

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/helpspot",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Pipedream HelpSpot Components",
   "main": "helpspot.app.mjs",
   "keywords": [
