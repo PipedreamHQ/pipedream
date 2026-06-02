@@ -19,11 +19,10 @@ export default {
       type: "string",
     },
     maxResults: {
-      type: "integer",
-      label: "Max Results",
-      description: "The maximum number of results to return",
-      default: 100,
-      optional: true,
+      propDefinition: [
+        asana,
+        "maxResults",
+      ],
     },
   },
   async run({ $ }) {

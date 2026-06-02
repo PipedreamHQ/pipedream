@@ -4,7 +4,7 @@ export default {
   key: "asana-get-tasks-from-task-list",
   name: "Get Tasks From Task List",
   description: "Returns the compact list of tasks in the authenticated user's personal My Tasks list. No project is needed — this retrieves the user's own task list automatically. [See the documentation](https://developers.asana.com/reference/gettasksforusertasklist)",
-  version: "0.0.13",
+  version: "0.0.12",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -15,7 +15,7 @@ export default {
     asana,
     workspace: {
       label: "Workspace",
-      description: "The workspace GID to retrieve the user task list from.",
+      description: "The workspace GID to retrieve the user task list from. Use the **List Workspaces** action to find available workspace GIDs.",
       type: "string",
       propDefinition: [
         asana,
@@ -23,11 +23,10 @@ export default {
       ],
     },
     maxResults: {
-      type: "integer",
-      label: "Max Results",
-      description: "The maximum number of results to return",
-      default: 100,
-      optional: true,
+      propDefinition: [
+        asana,
+        "maxResults",
+      ],
     },
   },
   async run({ $ }) {
@@ -48,8 +47,8 @@ export default {
     do {
       const {
         data, next_page: next,
-      } = await this.asana._makeRequest({
-        path: `user_task_lists/${taskList.gid}/tasks`,
+      } = await this.asana.getTasksForUserTaskList({
+        userTaskListId: taskList.gid,
         params,
         $,
       });

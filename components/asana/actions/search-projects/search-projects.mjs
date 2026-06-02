@@ -21,7 +21,7 @@ export default {
     },
     workspace: {
       label: "Workspace",
-      description: "The workspace or organization to filter projects on.",
+      description: "The workspace or organization to filter projects on. Use the **List Workspaces** action to find available workspace GIDs.",
       type: "string",
       optional: true,
       propDefinition: [
@@ -36,11 +36,10 @@ export default {
       optional: true,
     },
     maxResults: {
-      type: "integer",
-      label: "Max Results",
-      description: "The maximum number of results to return",
-      default: 100,
-      optional: true,
+      propDefinition: [
+        asana,
+        "maxResults",
+      ],
     },
   },
   async run({ $ }) {
