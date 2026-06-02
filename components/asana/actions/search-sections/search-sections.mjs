@@ -56,7 +56,9 @@ export default {
       }
     } while (hasMore);
 
-    $.export("$summary", `Retrieved ${results.length} section${results.length !== 1 ? "s" : ""}`);
+    $.export("$summary", `Retrieved ${results.length} section${results.length !== 1
+      ? "s"
+      : ""}`);
     return results;
   },
 };

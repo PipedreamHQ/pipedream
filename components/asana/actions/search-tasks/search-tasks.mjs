@@ -119,7 +119,11 @@ export default {
       }
     } while (hasMore);
 
-    $.export("$summary", `${results.length} task${results.length !== 1 ? "s" : ""} retrieved${results.length >= this.maxResults ? " (maxResults reached)" : ""}`);
+    $.export("$summary", `${results.length} task${results.length !== 1
+      ? "s"
+      : ""} retrieved${results.length >= this.maxResults
+      ? " (maxResults reached)"
+      : ""}`);
     return results;
   },
 };
