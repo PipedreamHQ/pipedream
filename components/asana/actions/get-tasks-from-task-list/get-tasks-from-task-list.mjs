@@ -3,8 +3,8 @@ import common from "../common/common.mjs";
 export default {
   key: "asana-get-tasks-from-task-list",
   name: "Get Tasks From Task List",
-  description: "Returns the compact list of tasks in a user’s My Tasks list. [See the documentation](https://developers.asana.com/reference/gettasksforusertasklist)",
-  version: "0.0.11",
+  description: "Returns the compact list of tasks in a user's My Tasks list. [See the documentation](https://developers.asana.com/reference/gettasksforusertasklist)",
+  version: "0.0.12",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -13,18 +13,53 @@ export default {
   type: "action",
   props: {
     ...common.props,
+    maxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: "The maximum number of results to return",
+      default: 100,
+      optional: true,
+    },
   },
   async run({ $ }) {
-    const { data: response } = await this.asana.getTasksFromUserTaskList({
+    const { data: taskList } = await this.asana.getUserTaskList({
+      userId: "me",
       params: {
         workspace: this.workspace,
-        project: this.project,
       },
       $,
     });
 
-    $.export("$summary", `Successfully retrieved ${response.length} tasks`);
+    let hasMore, count = 0;
+    const params = {
+      limit: Math.min(this.maxResults, 100),
+    };
+    const results = [];
 
-    return response;
+    do {
+      const {
+        data, next_page: next,
+      } = await this.asana._makeRequest({
+        path: `user_task_lists/${taskList.gid}/tasks`,
+        params,
+        $,
+      });
+
+      hasMore = next;
+      params.offset = next?.offset;
+
+      if (data.length === 0) break;
+
+      for (const task of data) {
+        results.push(task);
+        if (++count >= this.maxResults) {
+          hasMore = false;
+          break;
+        }
+      }
+    } while (hasMore);
+
+    $.export("$summary", `Successfully retrieved ${results.length} tasks`);
+    return results;
   },
 };

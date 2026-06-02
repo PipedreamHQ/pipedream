@@ -1,11 +1,10 @@
-import _ from "lodash";
 import asana from "../../asana.app.mjs";
 
 export default {
   key: "asana-search-user-projects",
   name: "Get list of user projects",
   description: "Return list of projects given the user and workspace gid. [See the documentation](https://developers.asana.com/docs/get-multiple-projects)",
-  version: "0.5.6",
+  version: "0.5.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -35,28 +34,59 @@ export default {
         }),
       ],
     },
+    maxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: "The maximum number of results to return",
+      default: 100,
+      optional: true,
+    },
   },
   async run({ $ }) {
-    let { data: projects } = await this.asana.getProjects({
-      params: {
-        workspace: this.workspace,
-      },
-      $,
-    });
+    let hasMore, count = 0;
+    const params = {
+      workspace: this.workspace,
+      limit: Math.min(this.maxResults, 100),
+    };
+    const allProjects = [];
 
-    projects = projects.filter(async (project) => {
-      const { data } = await this.asana.getProject({
-        projectId: project.gid,
+    do {
+      const {
+        data, next_page: next,
+      } = await this.asana.getProjects({
+        params,
         $,
       });
 
-      return data.members && !!_.find(data.members, {
-        gid: this.user,
-      });
-    });
+      hasMore = next;
+      params.offset = next?.offset;
+
+      if (data.length === 0) break;
+
+      const membership = await Promise.all(
+        data.map(async (project) => {
+          const { data: detail } = await this.asana.getProject({
+            projectId: project.gid,
+            $,
+          });
+          const isMember = detail.members && detail.members.some((m) => m.gid === this.user);
+          return isMember
+            ? project
+            : null;
+        }),
+      );
+
+      for (const project of membership) {
+        if (!project) continue;
+        allProjects.push(project);
+        if (++count >= this.maxResults) {
+          hasMore = false;
+          break;
+        }
+      }
+    } while (hasMore);
 
     $.export("$summary", "Successfully retrieved projects of user");
-
-    return projects;
+    return allProjects;
   },
 };

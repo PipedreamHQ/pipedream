@@ -4,7 +4,7 @@ export default {
   key: "asana-search-sections",
   name: "Search Sections",
   description: "Searches for a section by name within a particular project. [See the documentation](https://developers.asana.com/docs/get-sections-in-a-project)",
-  version: "0.2.13",
+  version: "0.2.14",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -18,16 +18,46 @@ export default {
       description: "The name of the section to search for.",
       type: "string",
     },
+    maxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: "The maximum number of results to return",
+      default: 100,
+      optional: true,
+    },
   },
   async run({ $ }) {
-    const { data: sections } = await this.asana.getSections({
-      project: this.project,
-      $,
-    });
+    let hasMore, count = 0;
+    const params = {
+      limit: Math.min(this.maxResults, 100),
+    };
+    const results = [];
+
+    do {
+      const {
+        data, next_page: next,
+      } = await this.asana.getSections({
+        project: this.project,
+        params,
+        $,
+      });
+
+      hasMore = next;
+      params.offset = next?.offset;
+
+      if (data.length === 0) break;
+
+      for (const section of data) {
+        if (this.name && !section.name.includes(this.name)) continue;
+        results.push(section);
+        if (++count >= this.maxResults) {
+          hasMore = false;
+          break;
+        }
+      }
+    } while (hasMore);
 
     $.export("$summary", "Successfully retrieved sections");
-
-    if (this.name) return sections.filter((section) => section.name.includes(this.name));
-    else return sections;
+    return results;
   },
 };

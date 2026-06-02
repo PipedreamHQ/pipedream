@@ -383,13 +383,17 @@ export default {
         params.offset = next?.offset;
       } while (params.offset);
 
-      const organizations = workspaces.filter(async (workspace) => {
-        const { data } = await this.getWorkspace({
-          workspaceId: workspace.gid,
-        });
-        return data?.is_organization;
-      });
-      return organizations;
+      const results = await Promise.all(
+        workspaces.map(async (workspace) => {
+          const { data } = await this.getWorkspace({
+            workspaceId: workspace.gid,
+          });
+          return data?.is_organization
+            ? workspace
+            : null;
+        }),
+      );
+      return results.filter(Boolean);
     },
     /**
      * Get an Asana Project.
