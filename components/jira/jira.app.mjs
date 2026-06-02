@@ -199,7 +199,7 @@ export default {
     transition: {
       type: "string",
       label: "Transition ID",
-      description: "The string ID of a transition (e.g. `\"11\"`). Required when performing a transition; optional when creating or editing an issue. Use the `id` value returned by the **Get Transitions** action. You can also edit the workflow and choose the Text option instead of the Diagram option to see the transition ID in parenthesis. [See the transitions doc](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-transitions-post).",
+      description: "The string ID of a transition (e.g. `\"11\"`). Required when performing a transition; optional when creating or editing an issue. Use the `id` value returned by the **Get Transitions** action. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-transitions-post).",
       optional: true,
       async options({
         prevContext, issueIdOrKey, cloudId,
