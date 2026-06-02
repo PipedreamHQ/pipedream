@@ -20,7 +20,7 @@ export default {
     },
     maxResults: {
       propDefinition: [
-        asana,
+        common.props.asana,
         "maxResults",
       ],
     },
