@@ -37,6 +37,7 @@ export default {
         "folderId",
         (c) => ({
           drive: c.drive,
+          limitToMyDrive: c.limitToMyDrive,
         }),
       ],
       label: "Parent Folder",
