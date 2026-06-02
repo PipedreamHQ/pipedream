@@ -10,7 +10,6 @@ export default {
     + " Use **List My Requests** or **Get Request** to find the `issueKey` (e.g. `IT-42`)."
     + " `fields` is a JSON object of field name-value pairs."
     + " Example: `{\"summary\": \"Updated title\", \"priority\": {\"name\": \"High\"}}`."
-    + " Note: this tool requires the `write:jira-content` scope on the connected OAuth app."
     + " [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-put)",
   version: "0.0.1",
   type: "action",
