@@ -253,7 +253,8 @@ export default {
       }
       return sum;
     },
-    async listSheetsOptions(driveId, pageToken = null, query, fetchOnlyOwned, limitToMyDrive = false) {
+    async listSheetsOptions(driveId, pageToken = null, query, fetchOnlyOwned,
+      limitToMyDrive = false) {
       const searchQuery = query
         ? ` and name contains '${query}'`
         : "";
