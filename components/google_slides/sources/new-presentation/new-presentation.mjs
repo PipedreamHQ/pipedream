@@ -1,4 +1,5 @@
 import newFilesInstant from "../../../google_drive/sources/new-files-instant/new-files-instant.mjs";
+import googleSlides from "../../google_slides.app.mjs";
 
 export default {
   ...newFilesInstant,
@@ -24,6 +25,7 @@ export default {
   },
   props: {
     ...newFilesInstant.props,
+    googleSlides,
     folders: {
       ...newFilesInstant.props.folders,
       description:
