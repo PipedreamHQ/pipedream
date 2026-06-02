@@ -5,7 +5,7 @@ export default {
   key: "ashby-search-candidates",
   name: "Search Candidates",
   description: "Search candidates by email and/or name. Limited to 100 results. [See the documentation](https://developers.ashbyhq.com/reference/candidatesearch)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
