@@ -1,10 +1,10 @@
-import common from "../common/common.mjs";
+import asana from "../../asana.app.mjs";
 
 export default {
   key: "asana-get-tasks-from-task-list",
   name: "Get Tasks From Task List",
-  description: "Returns the compact list of tasks in a user's My Tasks list. [See the documentation](https://developers.asana.com/reference/gettasksforusertasklist)",
-  version: "0.0.12",
+  description: "Returns the compact list of tasks in the authenticated user's personal My Tasks list. No project is needed — this retrieves the user's own task list automatically. [See the documentation](https://developers.asana.com/reference/gettasksforusertasklist)",
+  version: "0.0.13",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -12,7 +12,16 @@ export default {
   },
   type: "action",
   props: {
-    ...common.props,
+    asana,
+    workspace: {
+      label: "Workspace",
+      description: "The workspace GID to retrieve the user task list from.",
+      type: "string",
+      propDefinition: [
+        asana,
+        "workspaces",
+      ],
+    },
     maxResults: {
       type: "integer",
       label: "Max Results",
