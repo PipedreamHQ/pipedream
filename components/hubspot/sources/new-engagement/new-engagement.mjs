@@ -31,12 +31,13 @@ export default {
   key: "hubspot-new-engagement",
   name: "New Engagement",
   description: "Emit new event for each new engagement (call, email, meeting, note, postal mail, or task) created."
-  + " See the documentation: [Calls](https://developers.hubspot.com/docs/api-reference/latest/crm/activities/calls/search/search-calls)"
+  + " Per-activity docs: [Calls](https://developers.hubspot.com/docs/api-reference/latest/crm/activities/calls/search/search-calls)"
   + " [Emails](https://developers.hubspot.com/docs/api-reference/latest/crm/activities/emails/search/search-emails)"
   + " [Meetings](https://developers.hubspot.com/docs/api-reference/latest/crm/activities/meetings/search/search-meetings)"
   + " [Notes](https://developers.hubspot.com/docs/api-reference/latest/crm/activities/notes/search/search-notes)"
   + " [Postal Mail](https://developers.hubspot.com/docs/api-reference/latest/crm/activities/postal-mail/search/search-postal-mail)"
-  + " [Tasks](https://developers.hubspot.com/docs/api-reference/latest/crm/activities/tasks/search/search-tasks)",
+  + " [Tasks](https://developers.hubspot.com/docs/api-reference/latest/crm/activities/tasks/search/search-tasks)"
+  + " [See the documentation](https://developers.hubspot.com/docs/api-reference/latest/crm/using-object-apis)",
   version: "0.0.48",
   dedupe: "unique",
   type: "source",
