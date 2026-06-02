@@ -11,6 +11,15 @@ export function createReportComponent(resource) {
     label, value,
   } = resource.resourceOption;
 
+  // View resources (e.g. campaign_search_term_view) have no `<resource>.id` field,
+  // so they filter by an attributed resource (e.g. campaign) instead. Defaults
+  // preserve the original behaviour for regular resources.
+  const filterResource = resource.filterResource ?? value;
+  const filterLabel = resource.filterLabel ?? label;
+  const filterField = resource.filterField ?? (value === "ad_group_ad"
+    ? "ad_group_ad.ad.id"
+    : `${value}.id`);
+
   return {
     props: {
       ...props,
@@ -28,11 +37,11 @@ export function createReportComponent(resource) {
           }) => ({
             accountId,
             customerClientId,
-            resource: value,
+            resource: filterResource,
           }),
         ],
-        label: `${label}(s)`,
-        description: `Select the ${label}(s) to generate a report for (or leave blank for all ${label}s)`,
+        label: `${filterLabel}(s)`,
+        description: `Select the ${filterLabel}(s) to generate a report for (or leave blank for all ${filterLabel}s)`,
       },
       dateRange: {
         type: "string",
@@ -145,9 +154,7 @@ export function createReportComponent(resource) {
 
         let query = `SELECT ${selection.join(", ")} FROM ${value}`;
         if (objectFilter?.length) {
-          query += ` WHERE ${value === "ad_group_ad"
-            ? "ad_group_ad.ad"
-            : value}.id IN (${objectFilter.join?.(", ") ?? objectFilter})`;
+          query += ` WHERE ${filterField} IN (${objectFilter.join?.(", ") ?? objectFilter})`;
         }
         if (dateRange) {
           const dateClause = dateRange === "CUSTOM"
