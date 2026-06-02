@@ -17,9 +17,10 @@ export default {
   props: {
     microsoftOutlook,
     eventId: {
-      type: "string",
-      label: "Event ID",
-      description: "The Microsoft Graph event ID. Use **List Events** or **Get Event** to retrieve this value — it is the `id` field on an event object.",
+      propDefinition: [
+        microsoftOutlook,
+        "eventId",
+      ],
     },
     comment: {
       propDefinition: [

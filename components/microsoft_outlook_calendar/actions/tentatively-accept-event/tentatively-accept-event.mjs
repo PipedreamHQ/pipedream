@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import microsoftOutlook from "../../microsoft_outlook_calendar.app.mjs";
 
 export default {
@@ -18,9 +19,10 @@ export default {
   props: {
     microsoftOutlook,
     eventId: {
-      type: "string",
-      label: "Event ID",
-      description: "The Microsoft Graph event ID. Use **List Events** or **Get Event** to retrieve this value — it is the `id` field on an event object.",
+      propDefinition: [
+        microsoftOutlook,
+        "eventId",
+      ],
     },
     comment: {
       propDefinition: [
@@ -52,7 +54,11 @@ export default {
     };
 
     if (this.proposedNewTime) {
-      data.proposedNewTime = JSON.parse(this.proposedNewTime);
+      try {
+        data.proposedNewTime = JSON.parse(this.proposedNewTime);
+      } catch (err) {
+        throw new ConfigurationError(`Invalid JSON for proposedNewTime: ${err.message}`);
+      }
     }
 
     await this.microsoftOutlook.tentativelyAcceptCalendarEvent({
