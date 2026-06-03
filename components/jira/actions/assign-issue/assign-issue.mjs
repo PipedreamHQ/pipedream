@@ -3,7 +3,7 @@ import jira from "../../jira.app.mjs";
 export default {
   key: "jira-assign-issue",
   name: "Assign Issue",
-  version: "0.0.19",
+  version: "0.0.20",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
