@@ -3,8 +3,9 @@ import smartsheet from "../../smartsheet.app.mjs";
 export default {
   key: "smartsheet-list-folder-id-options",
   name: "List Folder Options",
-  description: "Retrieves available options for the Folder field.",
-  version: "0.0.1",
+  description: "Retrieves available folder options from a workspace."
+    + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/workspaces/get-workspace-children)",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -13,19 +14,29 @@ export default {
   },
   props: {
     smartsheet,
-    page: {
-      type: "integer",
-      label: "Page",
-      description: "The page of results to retrieve.",
-      min: 0,
-      default: 0,
+    workspaceId: {
+      propDefinition: [
+        smartsheet,
+        "workspaceId",
+      ],
+      optional: false,
+      description: "The workspace to list folders from. Example: `1234567890123456`.",
     },
   },
   async run({ $ }) {
-    const options = await smartsheet.propDefinitions.folderId.options.call(this.smartsheet, {
-      page: this.page,
+    const { data } = await this.smartsheet.listAllWorkspaceChildren(this.workspaceId, {
+      $,
+      params: {
+        childrenResourceTypes: "folders",
+      },
     });
-    $.export("$summary", `Successfully retrieved ${options.length} option${options.length === 1
+    const options = (data || []).map(({
+      id, name,
+    }) => ({
+      label: name,
+      value: id,
+    }));
+    $.export("$summary", `Successfully retrieved ${options.length} folder${options.length === 1
       ? ""
       : "s"}`);
     return options;
