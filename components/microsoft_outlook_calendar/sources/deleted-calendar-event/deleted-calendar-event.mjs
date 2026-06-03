@@ -19,8 +19,7 @@ function makeStableId(notification) {
 function notificationTs(notification) {
   const raw =
     notification.resourceData?.lastModifiedDateTime ||
-    notification.resourceData?.createdDateTime ||
-    notification.subscriptionExpirationDateTime;
+    notification.resourceData?.createdDateTime;
   return raw
     ? Date.parse(raw)
     : Date.now();
@@ -30,15 +29,27 @@ export default {
   ...common,
   key: "microsoft_outlook_calendar-deleted-calendar-event",
   name: "Calendar Event Deleted (Instant)",
-  description: "Emit new event when a Microsoft Outlook Calendar event is deleted. Use this trigger to react in real time to calendar event deletions. Emits a payload with the deleted event identifier, change type, subscription ID, tenant ID, and notification timestamp. [See the documentation](https://learn.microsoft.com/en-us/graph/api/resources/changenotification?view=graph-rest-1.0)",
+  props: {
+    ...common.props,
+    userId: {
+      type: "string",
+      label: "User ID",
+      description: "Optional user ID or principal name for delegated/admin scenarios. When provided, subscribes to `/users/{userId}/events` instead of `/me/events`.",
+      optional: true,
+    },
+  },
+  description: "Emit new event when a Microsoft Outlook Calendar event is deleted. Because deleted events cannot be re-fetched from the Outlook API after deletion, this trigger emits notification metadata only (not the full event object). The emitted payload includes the deleted event identifier (`eventId`), `changeType`, `subscriptionId`, `tenantId`, and `notificationTimestamp`. Downstream processors must rely solely on this metadata. [See the documentation](https://learn.microsoft.com/en-us/graph/api/resources/changenotification?view=graph-rest-1.0)",
   version: "0.0.1",
   type: "source",
   hooks: {
     ...common.hooks,
     async activate() {
+      const resource = this.userId
+        ? `/users/${this.userId}/events`
+        : "/me/events";
       await this.activate({
         changeType: "deleted",
-        resource: "/me/events",
+        resource,
       });
     },
     async deactivate() {
