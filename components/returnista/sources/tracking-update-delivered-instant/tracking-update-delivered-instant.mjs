@@ -1,5 +1,6 @@
 import common from "../common/base.mjs";
 import sampleEmit from "./test-event.mjs";
+import { createHash } from "crypto";
 
 export default {
   ...common,
@@ -15,9 +16,14 @@ export default {
       return "shipment.received_tracking_updates.delivered";
     },
     generateMeta({ data }) {
-      const ts = Date.parse(data.updatedAt);
+      const deliveredUpdate = data.trackingUpdates?.find((update) => update.status === "Delivered");
+      const ts = Date.parse(deliveredUpdate?.happenedAt || deliveredUpdate?.createdAt || data.happenedAt || data.createdAt || data.updatedAt);
+      const rawId = `${data.id}-${ts}`;
+      const id = rawId.length <= 64
+        ? rawId
+        : createHash("sha256").update(rawId).digest("hex").slice(0, 64);
       return {
-        id: `${data.id}-${ts}`,
+        id,
         summary: `Tracking Update Delivered: ${data.id}`,
         ts,
       };
