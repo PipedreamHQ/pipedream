@@ -5,7 +5,7 @@ export default {
   name: "Assign Issue",
   version: "0.0.20",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
