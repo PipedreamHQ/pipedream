@@ -5,7 +5,7 @@ export default {
   key: "airtable_oauth-create-field",
   name: "Create Field",
   description: "Create a new field in a table. [See the documentation](https://airtable.com/developers/web/api/create-field)",
-  version: "0.1.5",
+  version: "0.1.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -43,8 +43,8 @@ export default {
       description, name, options, type,
     } = this;
     const response = await this.airtable.createField({
-      baseId: this.baseId.value,
-      tableId: this.tableId.value,
+      baseId: this.baseId?.value || this.baseId,
+      tableId: this.tableId?.value || this.tableId,
       data: {
         name,
         type,
