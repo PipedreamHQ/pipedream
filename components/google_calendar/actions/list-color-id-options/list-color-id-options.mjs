@@ -4,7 +4,7 @@ export default {
   key: "google_calendar-list-color-id-options",
   name: "List Color ID Options",
   description: "Retrieves available options for the Color ID field.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
