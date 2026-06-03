@@ -5,7 +5,7 @@ export default {
   key: "smartsheet-new-row-deleted",
   name: "New Row Deleted (Instant)",
   description: "Emit new event when a row is deleted from a sheet.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
