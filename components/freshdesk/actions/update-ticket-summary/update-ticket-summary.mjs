@@ -23,7 +23,7 @@ export default {
     body: {
       type: "string",
       label: "Summary Body",
-      description: "Content of the summary note in HTML, e.g., \"<p>Ticket resolved after updating settings.</p>\"",
+      description: "Content of the summary note in HTML format. Example: `<p>Ticket resolved after updating settings.</p>`",
       optional: false,
     },
     userId: {
@@ -32,7 +32,7 @@ export default {
         "agentId",
       ],
       label: "User ID",
-      description: "ID of the user who creates or updates the summary note",
+      description: "ID of the user who creates or updates the summary note. Use the **List Agents** action to get the user ID.",
       optional: true,
     },
   },
