@@ -3,8 +3,9 @@ import smartsheet from "../../smartsheet.app.mjs";
 export default {
   key: "smartsheet-list-sheet-id-options",
   name: "List Sheet Options",
-  description: "Retrieves available options for the Sheet field.",
-  version: "0.0.1",
+  description: "Retrieves available options for the Sheet field."
+    + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/list-sheets)",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

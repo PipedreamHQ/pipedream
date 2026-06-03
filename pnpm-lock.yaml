@@ -717,7 +717,7 @@ importers:
     dependencies:
       axios:
         specifier: ^1.15.2
-        version: 1.15.2(debug@3.2.7)
+        version: 1.16.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -1135,7 +1135,7 @@ importers:
         version: 1.6.8
       axios:
         specifier: ^1.15.2
-        version: 1.15.2(debug@3.2.7)
+        version: 1.16.0
       sqlstring:
         specifier: ^2.3.3
         version: 2.3.3
@@ -1869,7 +1869,7 @@ importers:
         version: 0.10.1
       axios:
         specifier: ^1.15.2
-        version: 1.15.2(debug@3.2.7)
+        version: 1.16.0
       package-lock-only:
         specifier: ^0.0.4
         version: 0.0.4
@@ -1901,7 +1901,7 @@ importers:
         version: 3.1.1
       axios:
         specifier: ^1.15.2
-        version: 1.15.2(debug@3.2.7)
+        version: 1.16.0
 
   components/bitport:
     dependencies:
@@ -2205,7 +2205,7 @@ importers:
         version: 0.1.1
       axios:
         specifier: ^1.15.2
-        version: 1.15.2(debug@3.2.7)
+        version: 1.16.0
       uuid:
         specifier: ^8.3.2
         version: 8.3.2
@@ -2387,6 +2387,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
+
+  components/business_edge: {}
 
   components/businesslogic:
     dependencies:
@@ -2777,7 +2779,7 @@ importers:
         version: 1.6.8
       axios:
         specifier: ^1.15.2
-        version: 1.15.2(debug@3.2.7)
+        version: 1.16.0
 
   components/chatfai:
     dependencies:
@@ -7394,7 +7396,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/hiver: {}
+  components/hiver:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.4.0
 
   components/hiver_omni: {}
 
@@ -8940,7 +8946,7 @@ importers:
         version: 3.3.0
       axios:
         specifier: ^1.15.2
-        version: 1.15.2(debug@3.2.7)
+        version: 1.16.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -9482,7 +9488,7 @@ importers:
         version: 3.1.1
       axios:
         specifier: ^1.15.2
-        version: 1.15.2(debug@3.2.7)
+        version: 1.16.0
 
   components/matrix: {}
 
@@ -9836,7 +9842,7 @@ importers:
         version: 143.0.4
       axios:
         specifier: ^1.15.2
-        version: 1.15.2(debug@3.2.7)
+        version: 1.16.0
       js-base64:
         specifier: ^3.7.2
         version: 3.7.8
@@ -10992,7 +10998,7 @@ importers:
     dependencies:
       axios:
         specifier: ^1.15.2
-        version: 1.15.2(debug@3.2.7)
+        version: 1.16.0
       node-fetch:
         specifier: ^2.6.7
         version: 2.7.0(encoding@0.1.13)
@@ -11372,8 +11378,11 @@ importers:
   components/pagerduty:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.8
-        version: 1.6.8
+        specifier: ^3.4.0
+        version: 3.4.0
+      lodash.differenceby:
+        specifier: ^4.8.0
+        version: 4.8.0
 
   components/paigo:
     dependencies:
@@ -11386,6 +11395,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.2.5
         version: 3.3.0
+
+  components/palavir_compliance: {}
 
   components/pandadoc:
     dependencies:
@@ -11485,6 +11496,8 @@ importers:
         specifier: ^2.3.0
         version: 2.3.0
 
+  components/patchwork: {}
+
   components/path_of_exile:
     dependencies:
       '@pipedream/platform':
@@ -11495,7 +11508,7 @@ importers:
     dependencies:
       axios:
         specifier: ^1.15.2
-        version: 1.15.2(debug@3.2.7)
+        version: 1.16.0
       url:
         specifier: ^0.11.0
         version: 0.11.4
@@ -13004,7 +13017,7 @@ importers:
         version: 1.3.3
       axios:
         specifier: ^1.15.2
-        version: 1.15.2(debug@3.2.7)
+        version: 1.16.0
       lodash:
         specifier: ^4.18.1
         version: 4.18.1
@@ -13572,7 +13585,7 @@ importers:
         version: 3.1.1
       axios:
         specifier: ^1.15.2
-        version: 1.15.2(debug@3.2.7)
+        version: 1.16.0
       feedparser:
         specifier: ^2.2.10
         version: 2.2.10
@@ -14279,7 +14292,7 @@ importers:
     dependencies:
       axios:
         specifier: ^1.15.2
-        version: 1.15.2(debug@3.2.7)
+        version: 1.16.0
 
   components/sftp:
     dependencies:
@@ -14855,6 +14868,8 @@ importers:
 
   components/sms: {}
 
+  components/sms8: {}
+
   components/sms_alert:
     dependencies:
       '@pipedream/platform':
@@ -15148,7 +15163,7 @@ importers:
         version: 3.3.0
       axios:
         specifier: ^1.15.2
-        version: 1.15.2(debug@3.2.7)
+        version: 1.16.0
       form-data:
         specifier: 4.0.4
         version: 4.0.4
@@ -15218,7 +15233,7 @@ importers:
         version: 1.6.8
       axios:
         specifier: ^1.15.2
-        version: 1.15.2(debug@3.2.7)
+        version: 1.16.0
       he:
         specifier: ^1.2.0
         version: 1.2.0
@@ -16598,7 +16613,7 @@ importers:
         version: 1.6.8
       axios:
         specifier: ^1.15.2
-        version: 1.15.2(debug@3.2.7)
+        version: 1.16.0
       lodash:
         specifier: ^4.18.1
         version: 4.18.1
@@ -17258,7 +17273,7 @@ importers:
         version: 4.5.2(@types/node@17.0.45)(encoding@0.1.13)(openapi-types@12.1.3)
       axios:
         specifier: ^1.15.2
-        version: 1.15.2(debug@3.2.7)
+        version: 1.16.0
       openapi-types:
         specifier: ^12.0.0
         version: 12.1.3
@@ -17901,7 +17916,7 @@ importers:
     dependencies:
       axios:
         specifier: ^1.15.2
-        version: 1.15.2(debug@3.2.7)
+        version: 1.16.0
       lodash.get:
         specifier: ^4.4.2
         version: 4.4.2
@@ -18374,7 +18389,7 @@ importers:
         version: 3.3.0
       axios:
         specifier: ^1.15.2
-        version: 1.15.2(debug@3.2.7)
+        version: 1.16.0
       file-type:
         specifier: ^21.3.2
         version: 21.3.2
@@ -18634,7 +18649,7 @@ importers:
     dependencies:
       axios:
         specifier: ^1.15.2
-        version: 1.15.2(debug@3.2.7)
+        version: 1.16.0
       fp-ts:
         specifier: ^2.0.2
         version: 2.16.11
@@ -21657,8 +21672,8 @@ packages:
     resolution: {integrity: sha512-SJsprS26S0Wi9CoTQp4vC8/nPpAIo1gMB4H7aJ2E/k0fWnNGIEAg984KwtzK6h9ZGaPcEaryVRSz1VVClJcVUw==}
     engines: {node: '>=18'}
 
-  '@npmcli/agent@4.0.0':
-    resolution: {integrity: sha512-kAQTcEN9E8ERLVg5AsGwLNoFb+oEG6engbqAU2P43gD4JEIkNGMHdVQ096FsOAAYpZPB0RSt0zgInKIAS1l5QA==}
+  '@npmcli/agent@4.0.2':
+    resolution: {integrity: sha512-EUEuWAxnL07Sp5/iC/1X6Xj+XThUvnbei9zfRWZdEXa7lss9RTHMhAHBeg+MZ5To9s/gGaSI+UwZTPdYMvKSeg==}
     engines: {node: ^20.17.0 || >=22.9.0}
 
   '@npmcli/fs@5.0.0':
@@ -25418,6 +25433,12 @@ packages:
   axios@1.15.2:
     resolution: {integrity: sha512-wLrXxPtcrPTsNlJmKjkPnNPK2Ihe0hn0wGSaTEiHRPxwjvJwT3hKmXF4dpqxmPO9SoNb2FsYXj/xEo0gHN+D5A==}
 
+  axios@1.16.0:
+    resolution: {integrity: sha512-6hp5CwvTPlN2A31g5dxnwAX0orzM7pmCRDLnZSX772mv8WDqICwFjowHuPs04Mc8deIld1+ejhtaMn5vp6b+1w==}
+
+  axios@1.16.1:
+    resolution: {integrity: sha512-caYkukvroVPO8KrzuJEb50Hm07KwfBZPEC3VeFHTsqWHvKTsy54hjJz9BS/cdaypROE2rH6xvm9mHX4fgWkr3A==}
+
   axobject-query@4.1.0:
     resolution: {integrity: sha512-qIj0G9wZbMGNLjLmg1PT6v2mE9AH2zlnADJD/2tC6E00hgmhUOfEB6greHPAfLRSufHqROIUTkw6E+M3lH0PTQ==}
     engines: {node: '>= 0.4'}
@@ -25707,6 +25728,9 @@ packages:
 
   brace-expansion@2.1.0:
     resolution: {integrity: sha512-TN1kCZAgdgweJhWWpgKYrQaMNHcDULHkWwQIspdtjV4Y5aurRdZpjAqn6yX3FPqTA9ngHCc4hJxMAMgGfve85w==}
+
+  brace-expansion@2.1.1:
+    resolution: {integrity: sha512-WR1cURNjuvBLMZBMbqM0UoE+WAfdUcEV1ccD8PVBVOI+Z3ND4+SZbN8RsfT2bMuG1qwz5RFvPukSZm5fF2D5eA==}
 
   brace-expansion@5.0.6:
     resolution: {integrity: sha512-kLpxurY4Z4r9sgMsyG0Z9uzsBlgiU/EFKhj/h91/8yHu0edo7XuixOIH3VcJ8kkxs6/jPzoI6U9Vj3WqbMQ94g==}
@@ -29689,6 +29713,7 @@ packages:
   json-2-csv@5.5.10:
     resolution: {integrity: sha512-Dep8wO3Fr5wNjQevO2Z8Y7yeee/nYSGRsi7q6zJDKEVHxXkXT+v21vxHmDX923UzmCXXkSo62HaTz6eTWzFLaw==}
     engines: {node: '>= 16'}
+    deprecated: A security vulnerability has been reported with the preventCsvInjection option which has been fixed in version 5.5.11. Please upgrade as soon as possible.
 
   json-bigint@1.0.0:
     resolution: {integrity: sha512-SiPv/8VpZuWbvLSMtTDU8hEfrZWg/mH/nV/b4o0CYbSxu1UIQPLdwKOCIyLQX+VIPO5vrLX3i8qtqFyhdPSUSQ==}
@@ -30118,6 +30143,9 @@ packages:
   lodash.debounce@4.0.8:
     resolution: {integrity: sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==}
 
+  lodash.differenceby@4.8.0:
+    resolution: {integrity: sha512-rJKrEP7/9SLBRcCaxYbE8iODlOgR3O3ckL/ZbONxC99n4QfpoovHw/+FZwDl16h3UKLrruLHJUuv440rOPksrg==}
+
   lodash.escaperegexp@4.1.2:
     resolution: {integrity: sha512-TM9YBvyC84ZxE3rgfefxUWiQKLilstD6k7PTGt6wfbtXF8ixIJLOL3VYyV/z+ZiPLsVxAsKAFVwWlWeb2Y8Yyw==}
 
@@ -30280,8 +30308,8 @@ packages:
     resolution: {integrity: sha512-aY/R+aEsRelme17KGQa/1ZSIpLpNYYrhcrepKTZgE+W3WM16YMCaPwOHLHsmopZHELU0Ojin1lPVxKR0MihncA==}
     engines: {node: 20 || >=22}
 
-  lru-cache@11.5.0:
-    resolution: {integrity: sha512-5YgH9UJd7wVb9hIouI2adWpgqrrICkt070Dnj8EUY1+B4B2P9eRLPAkAAo6NICA7CEhOIeBHl46u9zSNpNu7zA==}
+  lru-cache@11.5.1:
+    resolution: {integrity: sha512-RPimw/7aMdv2oqRrxKwvZXcPfwBrn/JZ2xYcY9Hus/6LaS3VOAKVWKWgNLCFSiOm1ESXinjsDlidVU7JlnCN2A==}
     engines: {node: 20 || >=22}
 
   lru-cache@5.1.1:
@@ -30350,8 +30378,8 @@ packages:
   make-error@1.3.6:
     resolution: {integrity: sha512-s8UhlNe7vPKomQhC1qFelMokr/Sc3AgNbso3n74mVPA5LTZwkB9NlXf4XPamLxJE8h0gh73rM94xvwRT2CVInw==}
 
-  make-fetch-happen@15.0.5:
-    resolution: {integrity: sha512-uCbIa8jWWmQZt4dSnEStkVC6gdakiinAm4PiGsywIkguF0eWMdcjDz0ECYhUolFU3pFLOev9VNPCEygydXnddg==}
+  make-fetch-happen@15.0.6:
+    resolution: {integrity: sha512-Je0fLJ0F5atA7F+eIlLzk+Wkcl57JDf4kf+EW8xiP5E31xOQxkIxTbgf1Oi1Lw9tRI9UEMRdI5Vz2xTzoNU1Jw==}
     engines: {node: ^20.17.0 || >=22.9.0}
 
   makeerror@1.0.12:
@@ -32968,11 +32996,6 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
-  semver@7.8.0:
-    resolution: {integrity: sha512-AcM7dV/5ul4EekoQ29Agm5vri8JNqRyj39o0qpX6vDF2GZrtutZl5RwgD1XnZjiTAfncsJhMI48QQH3sN87YNA==}
-    engines: {node: '>=10'}
-    hasBin: true
-
   semver@7.8.1:
     resolution: {integrity: sha512-rkVq3IXh+4FDGch+KwzX3aV9W3kO54GyEgpvBzSyctDA6Xtd7RJQV1xmXbeQp5v7+VzLOfVqiutSE6GICgPFvg==}
     engines: {node: '>=10'}
@@ -33411,6 +33434,9 @@ packages:
   streamx@2.25.0:
     resolution: {integrity: sha512-0nQuG6jf1w+wddNEEXCF4nTg3LtufWINB5eFEN+5TNZW7KWJp6x87+JFL43vaAUPyCfH1wID+mNVyW6OHtFamg==}
 
+  streamx@2.26.0:
+    resolution: {integrity: sha512-VvNG1K72Po/xwJzxZFnZ++Tbrv4lwSptsbkFuzXCJAYZvCK5nnxsvXU6ajqkv7chyiI1Y0YXq2Jh8Iy8Y7NF/A==}
+
   strict-uri-encode@2.0.0:
     resolution: {integrity: sha512-QwiXZgpRcKkhTj2Scnn++4PKtWsH0kpzZ62L2R6c/LUVYv7hVnZqcg2+sMuT6R7Jusu1vviK/MFsu6kNJfWlEQ==}
     engines: {node: '>=4'}
@@ -33836,6 +33862,10 @@ packages:
 
   tmp@0.2.5:
     resolution: {integrity: sha512-voyz6MApa1rQGUxT3E+BK7/ROe8itEx7vD8/HEvt4xwXucvQ5G5oeEiHkmHZJuBO21RpOf+YYm9MOivj709jow==}
+    engines: {node: '>=14.14'}
+
+  tmp@0.2.7:
+    resolution: {integrity: sha512-e0votIpp4Uo2AJYSzVHV6xCcawuiez3DzqDAbrTc3YxBkplN6e+dM13ZeIcZnDg/QpSuU2zfZ3rzwY8ukEnaXw==}
     engines: {node: '>=14.14'}
 
   tmpl@1.0.5:
@@ -38385,7 +38415,7 @@ snapshots:
   '@bandwidth/messaging@4.1.7':
     dependencies:
       '@apimatic/schema': 0.6.0
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.16.1(debug@3.2.7)
       detect-node: 2.1.0
       form-data: 3.0.4
       json-bigint: 1.0.0
@@ -38393,6 +38423,7 @@ snapshots:
       tiny-warning: 1.0.3
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   '@bcoe/v8-coverage@0.2.3': {}
 
@@ -38459,9 +38490,9 @@ snapshots:
     dependencies:
       '@scure/bip32': 1.7.0
       abitype: 1.1.1(typescript@5.9.3)(zod@4.1.12)
-      axios: 1.15.2(debug@3.2.7)
-      axios-mock-adapter: 1.22.0(axios@1.15.2)
-      axios-retry: 4.5.0(axios@1.15.2)
+      axios: 1.16.1(debug@3.2.7)
+      axios-mock-adapter: 1.22.0(axios@1.16.1)
+      axios-retry: 4.5.0(axios@1.16.1)
       bip32: 4.0.0
       bip39: 3.1.0
       decimal.js: 10.6.0
@@ -38474,6 +38505,7 @@ snapshots:
     transitivePeerDependencies:
       - bufferutil
       - debug
+      - supports-color
       - typescript
       - utf-8-validate
       - zod
@@ -38694,9 +38726,10 @@ snapshots:
 
   '@daytonaio/api-client@0.138.0':
     dependencies:
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.16.1(debug@3.2.7)
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   '@daytonaio/sdk@0.138.0(ws@8.20.1)':
     dependencies:
@@ -38705,7 +38738,7 @@ snapshots:
       '@daytonaio/api-client': 0.138.0
       '@daytonaio/toolbox-api-client': 0.138.0
       '@iarna/toml': 2.2.5
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.16.1(debug@3.2.7)
       busboy: 1.6.0
       dotenv: 17.2.3
       expand-tilde: 2.0.2
@@ -38718,13 +38751,15 @@ snapshots:
     transitivePeerDependencies:
       - aws-crt
       - debug
+      - supports-color
       - ws
 
   '@daytonaio/toolbox-api-client@0.138.0':
     dependencies:
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.16.1(debug@3.2.7)
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   '@definitelytyped/header-parser@0.2.28':
     dependencies:
@@ -39930,15 +39965,17 @@ snapshots:
 
   '@kontent-ai/core-sdk@10.4.0':
     dependencies:
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.16.1(debug@3.2.7)
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   '@kontent-ai/core-sdk@10.7.0':
     dependencies:
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.16.1(debug@3.2.7)
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   '@kontent-ai/delivery-sdk@14.11.0':
     dependencies:
@@ -39947,6 +39984,7 @@ snapshots:
       uuid: 10.0.0
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   '@kontent-ai/management-sdk@5.9.0':
     dependencies:
@@ -39954,6 +39992,7 @@ snapshots:
       mime: 3.0.0
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   '@kontent-ai/webhook-helper@2.1.0': {}
 
@@ -39961,7 +40000,7 @@ snapshots:
     dependencies:
       '@types/body-parser': 1.19.6
       '@types/node': 18.19.130
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.16.1(debug@3.2.7)
       body-parser: 1.20.3
       file-type: 16.5.4
       form-data: 4.0.4
@@ -39983,10 +40022,11 @@ snapshots:
 
   '@lob/lob-typescript-sdk@1.3.5':
     dependencies:
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.16.1(debug@3.2.7)
       tslib: 2.8.1
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   '@lukeed/ms@2.0.2': {}
 
@@ -40025,10 +40065,11 @@ snapshots:
 
   '@memberstack/admin@1.3.1':
     dependencies:
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.16.1(debug@3.2.7)
       jose: 4.15.5
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   '@microsoft/api-extractor-model@7.32.0(@types/node@20.19.25)':
     dependencies:
@@ -40647,12 +40688,12 @@ snapshots:
 
   '@notionhq/client@5.4.0': {}
 
-  '@npmcli/agent@4.0.0':
+  '@npmcli/agent@4.0.2':
     dependencies:
       agent-base: 7.1.4
       http-proxy-agent: 7.0.2
       https-proxy-agent: 7.0.6
-      lru-cache: 11.5.0
+      lru-cache: 11.5.1
       socks-proxy-agent: 8.0.5
     transitivePeerDependencies:
       - supports-color
@@ -40666,7 +40707,7 @@ snapshots:
       '@gar/promise-retry': 1.0.3
       '@npmcli/promise-spawn': 9.0.1
       ini: 6.0.0
-      lru-cache: 11.5.0
+      lru-cache: 11.5.1
       npm-pick-manifest: 11.0.3
       proc-log: 6.1.0
       semver: 7.8.1
@@ -41090,6 +41131,7 @@ snapshots:
       apify-client: 2.19.0
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   '@pipedream/aws@1.1.1(aws-crt@1.27.5)(babel-plugin-macros@3.1.0)':
     dependencies:
@@ -41142,6 +41184,7 @@ snapshots:
       '@pipedream/platform': 3.4.0
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   '@pipedream/clio@0.1.1':
     dependencies:
@@ -41155,12 +41198,14 @@ snapshots:
       '@pipedream/platform': 3.4.0
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   '@pipedream/docusign@0.2.2':
     dependencies:
       '@pipedream/platform': 3.4.0
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   '@pipedream/eslint-plugin-pipedream@0.3.0': {}
 
@@ -41221,6 +41266,7 @@ snapshots:
       uuid: 11.1.0
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   '@pipedream/linear_app@0.11.0(encoding@0.1.13)':
     dependencies:
@@ -41229,14 +41275,16 @@ snapshots:
     transitivePeerDependencies:
       - debug
       - encoding
+      - supports-color
 
   '@pipedream/linkedin@0.1.1':
     dependencies:
       '@pipedream/platform': 1.6.8
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.16.1(debug@3.2.7)
       form-data: 4.0.4
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   '@pipedream/microsoft_outlook@1.7.5':
     dependencies:
@@ -41247,6 +41295,7 @@ snapshots:
       mime-types: 2.1.35
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   '@pipedream/monday@0.7.0(encoding@0.1.13)':
     dependencies:
@@ -41259,12 +41308,14 @@ snapshots:
     transitivePeerDependencies:
       - debug
       - encoding
+      - supports-color
 
   '@pipedream/notiff_io@0.1.0':
     dependencies:
       '@pipedream/platform': 3.4.0
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   '@pipedream/notion@1.0.6(encoding@0.1.13)':
     dependencies:
@@ -41296,7 +41347,7 @@ snapshots:
 
   '@pipedream/platform@1.6.8':
     dependencies:
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.15.2
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
       querystring: 0.2.1
@@ -41305,7 +41356,7 @@ snapshots:
 
   '@pipedream/platform@2.0.2':
     dependencies:
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.15.2
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
       querystring: 0.2.1
@@ -41314,16 +41365,17 @@ snapshots:
 
   '@pipedream/platform@3.0.3':
     dependencies:
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.16.1(debug@3.2.7)
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
       querystring: 0.2.1
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   '@pipedream/platform@3.1.1':
     dependencies:
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.15.2
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
       mime-types: 3.0.1
@@ -41334,7 +41386,7 @@ snapshots:
 
   '@pipedream/platform@3.2.1':
     dependencies:
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.16.1(debug@3.2.7)
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
       mime-types: 3.0.1
@@ -41342,10 +41394,11 @@ snapshots:
       uuid: 11.1.0
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   '@pipedream/platform@3.2.2':
     dependencies:
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.16.1(debug@3.2.7)
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
       mime-types: 3.0.1
@@ -41353,10 +41406,11 @@ snapshots:
       uuid: 11.1.0
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   '@pipedream/platform@3.2.4':
     dependencies:
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.16.1(debug@3.2.7)
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
       mime-types: 3.0.1
@@ -41364,10 +41418,11 @@ snapshots:
       uuid: 11.1.0
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   '@pipedream/platform@3.2.5':
     dependencies:
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.16.1(debug@3.2.7)
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
       mime-types: 3.0.1
@@ -41375,10 +41430,11 @@ snapshots:
       uuid: 11.1.0
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   '@pipedream/platform@3.3.0':
     dependencies:
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.15.2
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
       mime-types: 3.0.1
@@ -41389,7 +41445,7 @@ snapshots:
 
   '@pipedream/platform@3.3.1':
     dependencies:
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.16.1(debug@3.2.7)
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
       mime-types: 3.0.1
@@ -41397,10 +41453,11 @@ snapshots:
       uuid: 11.1.0
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   '@pipedream/platform@3.4.0':
     dependencies:
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.16.1(debug@3.2.7)
       fp-ts: 2.16.11
       io-ts: 2.2.22(fp-ts@2.16.11)
       mime-types: 3.0.1
@@ -41408,6 +41465,7 @@ snapshots:
       uuid: 11.1.0
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   '@pipedream/postgresql@2.2.4':
     dependencies:
@@ -41424,6 +41482,7 @@ snapshots:
       uuid: 11.1.0
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   '@pipedream/ramp@0.1.2':
     dependencies:
@@ -41431,6 +41490,7 @@ snapshots:
       uuid: 10.0.0
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   '@pipedream/sdk@1.8.0':
     dependencies:
@@ -41450,6 +41510,7 @@ snapshots:
       ssh2-sftp-client: 11.0.0
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   '@pipedream/shopify@0.7.2':
     dependencies:
@@ -41462,6 +41523,7 @@ snapshots:
       shopify-api-node: 3.15.0
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   '@pipedream/slack@0.10.3':
     dependencies:
@@ -41471,6 +41533,7 @@ snapshots:
       lodash: 4.18.1
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   '@pipedream/types@0.0.5':
     dependencies:
@@ -43194,9 +43257,10 @@ snapshots:
 
   '@shortcut/client@2.3.1':
     dependencies:
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.16.1(debug@3.2.7)
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   '@sideway/address@4.1.5':
     dependencies:
@@ -43220,7 +43284,7 @@ snapshots:
       '@sigstore/bundle': 4.0.0
       '@sigstore/core': 3.2.1
       '@sigstore/protobuf-specs': 0.5.1
-      make-fetch-happen: 15.0.5
+      make-fetch-happen: 15.0.6
       proc-log: 6.1.0
     transitivePeerDependencies:
       - supports-color
@@ -43300,7 +43364,7 @@ snapshots:
       '@slack/types': 2.18.0
       '@types/node': 20.19.25
       '@types/retry': 0.12.0
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.16.1(debug@3.2.7)
       eventemitter3: 5.0.1
       form-data: 4.0.4
       is-electron: 2.2.2
@@ -43310,6 +43374,7 @@ snapshots:
       retry: 0.13.1
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   '@smiirl/smiirl-library-js@1.0.5(encoding@0.1.13)':
     dependencies:
@@ -44697,7 +44762,7 @@ snapshots:
       fast-glob: 3.3.3
       is-glob: 4.0.3
       minimatch: 9.0.9
-      semver: 7.8.0
+      semver: 7.8.1
       ts-api-utils: 2.1.0(typescript@5.9.3)
       typescript: 5.9.3
     transitivePeerDependencies:
@@ -44713,7 +44778,7 @@ snapshots:
       fast-glob: 3.3.3
       is-glob: 4.0.3
       minimatch: 9.0.9
-      semver: 7.8.0
+      semver: 7.8.1
       ts-api-utils: 2.1.0(typescript@5.6.3)
       typescript: 5.6.3
     transitivePeerDependencies:
@@ -44729,7 +44794,7 @@ snapshots:
       fast-glob: 3.3.3
       is-glob: 4.0.3
       minimatch: 9.0.9
-      semver: 7.8.0
+      semver: 7.8.1
       ts-api-utils: 2.1.0(typescript@5.9.3)
       typescript: 5.9.3
     transitivePeerDependencies:
@@ -44979,12 +45044,13 @@ snapshots:
 
   '@woocommerce/woocommerce-rest-api@1.0.2':
     dependencies:
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.16.1(debug@3.2.7)
       create-hmac: 1.1.7
       oauth-1.0a: 2.2.6
       url-parse: 1.5.10
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   '@xhmikosr/archive-type@6.0.1':
     dependencies:
@@ -45329,13 +45395,14 @@ snapshots:
       '@crawlee/types': 3.15.3
       agentkeepalive: 4.6.0
       async-retry: 1.3.3
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.16.1(debug@3.2.7)
       content-type: 1.0.5
       ow: 0.28.2
       tslib: 2.8.1
       type-fest: 4.41.0
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   archiver-utils@5.0.2:
     dependencies:
@@ -45556,7 +45623,7 @@ snapshots:
     dependencies:
       '@aws-sdk/util-utf8-browser': 3.259.0
       '@httptoolkit/websocket-stream': 6.0.1
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.16.1(debug@3.2.7)
       buffer: 6.0.3
       crypto-js: 4.2.0
       mqtt: 4.3.8
@@ -45575,15 +45642,15 @@ snapshots:
 
   axe-core@4.11.0: {}
 
-  axios-mock-adapter@1.22.0(axios@1.15.2):
+  axios-mock-adapter@1.22.0(axios@1.16.1):
     dependencies:
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.16.1(debug@3.2.7)
       fast-deep-equal: 3.1.3
       is-buffer: 2.0.5
 
-  axios-retry@4.5.0(axios@1.15.2):
+  axios-retry@4.5.0(axios@1.16.1):
     dependencies:
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.16.1(debug@3.2.7)
       is-retry-allowed: 2.2.0
 
   axios@0.31.1:
@@ -45594,13 +45661,31 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  axios@1.15.2(debug@3.2.7):
+  axios@1.15.2:
     dependencies:
       follow-redirects: 1.16.0(debug@3.2.7)
       form-data: 4.0.4
       proxy-from-env: 2.1.0
     transitivePeerDependencies:
       - debug
+
+  axios@1.16.0:
+    dependencies:
+      follow-redirects: 1.16.0(debug@3.2.7)
+      form-data: 4.0.4
+      proxy-from-env: 2.1.0
+    transitivePeerDependencies:
+      - debug
+
+  axios@1.16.1(debug@3.2.7):
+    dependencies:
+      follow-redirects: 1.16.0(debug@3.2.7)
+      form-data: 4.0.4
+      https-proxy-agent: 5.0.1
+      proxy-from-env: 2.1.0
+    transitivePeerDependencies:
+      - debug
+      - supports-color
 
   axobject-query@4.1.0: {}
 
@@ -45790,7 +45875,7 @@ snapshots:
 
   bare-stream@2.13.0(bare-events@2.8.2):
     dependencies:
-      streamx: 2.25.0
+      streamx: 2.26.0
       teex: 1.0.1
     optionalDependencies:
       bare-events: 2.8.2
@@ -45800,7 +45885,7 @@ snapshots:
 
   bare-stream@2.13.1(bare-events@2.8.3):
     dependencies:
-      streamx: 2.25.0
+      streamx: 2.26.0
       teex: 1.0.1
     optionalDependencies:
       bare-events: 2.8.3
@@ -45974,6 +46059,10 @@ snapshots:
     dependencies:
       balanced-match: 1.0.2
 
+  brace-expansion@2.1.1:
+    dependencies:
+      balanced-match: 1.0.2
+
   brace-expansion@5.0.6:
     dependencies:
       balanced-match: 4.0.4
@@ -46099,7 +46188,7 @@ snapshots:
       '@npmcli/fs': 5.0.0
       fs-minipass: 3.0.3
       glob: 13.0.6
-      lru-cache: 11.5.0
+      lru-cache: 11.5.1
       minipass: 7.1.3
       minipass-collect: 2.0.1
       minipass-flush: 1.0.7
@@ -46507,7 +46596,7 @@ snapshots:
 
   columns-sdk@0.0.6:
     dependencies:
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.16.1(debug@3.2.7)
       columns-graph-model: 1.1.10
       nebula-js-lib: 0.3.3
       pako: 2.1.0
@@ -47385,7 +47474,7 @@ snapshots:
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
-      tmp: 0.2.5
+      tmp: 0.2.7
       typescript: 5.6.3
       yargs: 15.4.1
     transitivePeerDependencies:
@@ -47400,7 +47489,7 @@ snapshots:
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
-      tmp: 0.2.5
+      tmp: 0.2.7
       typescript: 5.9.3
       yargs: 15.4.1
     transitivePeerDependencies:
@@ -49146,7 +49235,7 @@ snapshots:
       '@types/uuid': 10.0.0
       '@types/ws': 8.18.1
       '@ungap/url-search-params': 0.2.2
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.16.1(debug@3.2.7)
       fast-sha256: 1.3.0
       typescript-json-serializer: 6.0.1
       uuid: 11.1.0
@@ -49154,6 +49243,7 @@ snapshots:
     transitivePeerDependencies:
       - bufferutil
       - debug
+      - supports-color
       - utf-8-validate
 
   generate-function@2.3.1:
@@ -49912,7 +50002,7 @@ snapshots:
 
   hosted-git-info@9.0.3:
     dependencies:
-      lru-cache: 11.5.0
+      lru-cache: 11.5.1
 
   hot-shots@11.2.0:
     optionalDependencies:
@@ -51480,10 +51570,11 @@ snapshots:
 
   klaviyo-api@18.0.0:
     dependencies:
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.16.1(debug@3.2.7)
       form-data: 4.0.4
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   klaw@3.0.0:
     dependencies:
@@ -51630,7 +51721,7 @@ snapshots:
     dependencies:
       '@commitlint/cli': 19.8.1(@types/node@20.19.25)(typescript@5.6.3)
       '@commitlint/config-conventional': 19.8.1
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.16.1(debug@3.2.7)
       semantic-release: 24.2.9(typescript@5.6.3)
       zod: 3.25.76
       zod-to-json-schema: 3.24.6(zod@3.25.76)
@@ -51644,7 +51735,7 @@ snapshots:
     dependencies:
       '@commitlint/cli': 19.8.1(@types/node@25.9.1)(typescript@5.9.3)
       '@commitlint/config-conventional': 19.8.1
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.16.1(debug@3.2.7)
       semantic-release: 24.2.9(typescript@5.9.3)
       zod: 3.25.76
       zod-to-json-schema: 3.24.6(zod@3.25.76)
@@ -51799,6 +51890,8 @@ snapshots:
 
   lodash.debounce@4.0.8: {}
 
+  lodash.differenceby@4.8.0: {}
+
   lodash.escaperegexp@4.1.2: {}
 
   lodash.flatmap@4.5.0: {}
@@ -51942,7 +52035,7 @@ snapshots:
 
   lru-cache@11.2.7: {}
 
-  lru-cache@11.5.0: {}
+  lru-cache@11.5.1: {}
 
   lru-cache@5.1.1:
     dependencies:
@@ -52049,10 +52142,10 @@ snapshots:
 
   make-error@1.3.6: {}
 
-  make-fetch-happen@15.0.5:
+  make-fetch-happen@15.0.6:
     dependencies:
       '@gar/promise-retry': 1.0.3
-      '@npmcli/agent': 4.0.0
+      '@npmcli/agent': 4.0.2
       '@npmcli/redact': 4.0.0
       cacache: 20.0.4
       http-cache-semantics: 4.2.0
@@ -52635,7 +52728,7 @@ snapshots:
 
   minimatch@5.1.9:
     dependencies:
-      brace-expansion: 2.1.0
+      brace-expansion: 2.1.1
 
   minimatch@9.0.5:
     dependencies:
@@ -52643,7 +52736,7 @@ snapshots:
 
   minimatch@9.0.9:
     dependencies:
-      brace-expansion: 2.1.0
+      brace-expansion: 2.1.1
 
   minimist@1.2.8: {}
 
@@ -53139,11 +53232,12 @@ snapshots:
 
   node-mailjet@6.0.11:
     dependencies:
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.16.1(debug@3.2.7)
       json-bigint: 1.0.0
       url-join: 4.0.1
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   node-mock-http@1.0.3: {}
 
@@ -53274,7 +53368,7 @@ snapshots:
     dependencies:
       '@npmcli/redact': 4.0.0
       jsonparse: 1.3.1
-      make-fetch-happen: 15.0.5
+      make-fetch-happen: 15.0.6
       minipass: 7.1.3
       minipass-fetch: 5.0.2
       minizlib: 3.1.0
@@ -53927,7 +54021,7 @@ snapshots:
 
   path-scurry@2.0.2:
     dependencies:
-      lru-cache: 11.5.0
+      lru-cache: 11.5.1
       minipass: 7.1.3
 
   path-to-regexp@0.1.12: {}
@@ -54065,10 +54159,11 @@ snapshots:
 
   pipedrive@24.2.0:
     dependencies:
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.16.1(debug@3.2.7)
       qs: 6.15.2
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   pirates@4.0.7: {}
 
@@ -54101,9 +54196,10 @@ snapshots:
 
   plaid@33.0.0:
     dependencies:
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.16.1(debug@3.2.7)
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   platform@1.3.6: {}
 
@@ -54118,7 +54214,7 @@ snapshots:
   plivo@4.75.2:
     dependencies:
       '@types/node': 14.18.63
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.16.1(debug@3.2.7)
       base-64: 0.1.0
       build-url: 1.3.3
       form-data: 4.0.4
@@ -54330,7 +54426,7 @@ snapshots:
       minimist: 1.2.8
       protobufjs: 7.2.6
       semver: 7.8.1
-      tmp: 0.2.5
+      tmp: 0.2.7
       uglify-js: 3.19.3
 
   protobufjs@7.2.6:
@@ -55701,8 +55797,6 @@ snapshots:
 
   semver@7.7.4: {}
 
-  semver@7.8.0: {}
-
   semver@7.8.1: {}
 
   send@0.19.0:
@@ -55927,7 +56021,7 @@ snapshots:
 
   simple-update-notifier@2.0.0:
     dependencies:
-      semver: 7.7.4
+      semver: 7.8.1
 
   simple-xml2json@1.2.3: {}
 
@@ -55985,7 +56079,7 @@ snapshots:
       agent-base: 6.0.2
       asn1.js-rfc2560: 5.0.1(asn1.js@5.4.1)
       asn1.js-rfc5280: 3.0.0
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.16.1(debug@3.2.7)
       big-integer: 1.6.52
       bignumber.js: 2.4.0
       binascii: 0.0.2
@@ -56032,7 +56126,7 @@ snapshots:
       asn1.js: 5.4.1
       asn1.js-rfc2560: 5.0.1(asn1.js@5.4.1)
       asn1.js-rfc5280: 3.0.0
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.16.1(debug@3.2.7)
       big-integer: 1.6.52
       bignumber.js: 9.3.1
       browser-request: 0.3.3
@@ -56282,6 +56376,15 @@ snapshots:
   streamsearch@1.1.0: {}
 
   streamx@2.25.0:
+    dependencies:
+      events-universal: 1.0.1
+      fast-fifo: 1.3.2
+      text-decoder: 1.2.7
+    transitivePeerDependencies:
+      - bare-abort-controller
+      - react-native-b4a
+
+  streamx@2.26.0:
     dependencies:
       events-universal: 1.0.1
       fast-fifo: 1.3.2
@@ -56713,7 +56816,7 @@ snapshots:
       b4a: 1.8.1
       bare-fs: 4.7.1
       fast-fifo: 1.3.2
-      streamx: 2.25.0
+      streamx: 2.26.0
     transitivePeerDependencies:
       - bare-abort-controller
       - bare-buffer
@@ -56777,7 +56880,7 @@ snapshots:
 
   teex@1.0.1:
     dependencies:
-      streamx: 2.25.0
+      streamx: 2.26.0
     transitivePeerDependencies:
       - bare-abort-controller
       - react-native-b4a
@@ -56876,6 +56979,8 @@ snapshots:
       tmp: 0.2.5
 
   tmp@0.2.5: {}
+
+  tmp@0.2.7: {}
 
   tmpl@1.0.5: {}
 
@@ -57197,7 +57302,7 @@ snapshots:
     dependencies:
       '@tufjs/models': 4.1.0
       debug: 4.4.3(supports-color@9.4.0)
-      make-fetch-happen: 15.0.5
+      make-fetch-happen: 15.0.6
     transitivePeerDependencies:
       - supports-color
 
@@ -57231,7 +57336,7 @@ snapshots:
 
   twilio@5.10.5:
     dependencies:
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.16.1(debug@3.2.7)
       dayjs: 1.11.19
       https-proxy-agent: 5.0.1
       jsonwebtoken: 9.0.3
@@ -57691,10 +57796,11 @@ snapshots:
 
   utopianlabs@0.1.14:
     dependencies:
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.16.1(debug@3.2.7)
       zod: 3.25.76
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   uue@3.1.2:
     dependencies:
@@ -57838,12 +57944,13 @@ snapshots:
   viesapi-client@1.3.2:
     dependencies:
       '@xmldom/xmldom': 0.9.8
-      axios: 1.15.2(debug@3.2.7)
+      axios: 1.16.1(debug@3.2.7)
       date-fns: 4.1.0
       url: 0.11.4
       xpath: 0.0.34
     transitivePeerDependencies:
       - debug
+      - supports-color
 
   vite-plugin-dts@4.5.4(@types/node@25.9.1)(rollup@4.53.2)(typescript@5.9.3)(vite@6.4.2(@types/node@25.9.1)(jiti@2.6.1)(tsx@4.20.6)(yaml@2.8.1)):
     dependencies:

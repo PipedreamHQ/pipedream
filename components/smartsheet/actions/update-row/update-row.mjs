@@ -3,8 +3,8 @@ import smartsheet from "../../smartsheet.app.mjs";
 export default {
   key: "smartsheet-update-row",
   name: "Update Row",
-  description: "Updates a row in a sheet. [See docs here](https://smartsheet.redoc.ly/tag/rows#operation/update-rows)",
-  version: "0.0.3",
+  description: "Updates a row in a sheet. [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/rows#operation/update-rows)",
+  version: "0.0.4",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
