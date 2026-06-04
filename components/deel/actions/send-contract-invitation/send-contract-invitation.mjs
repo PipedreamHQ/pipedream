@@ -7,7 +7,7 @@ export default {
     "Send a contract invitation email to a worker for a specific Deel contract."
     + " Use this after creating a contract to notify the worker and prompt them to sign."
     + " Use **List Contracts** to find the contract ID."
-    + " [See the documentation](https://developer.deel.com/api/embedded/eor-worker-onboarding)",
+    + " [See the documentation](https://developer.deel.com/api/reference/endpoints/contractor-hiring/create-contract-invitation)",
   version: "0.0.1",
   type: "action",
   annotations: {
