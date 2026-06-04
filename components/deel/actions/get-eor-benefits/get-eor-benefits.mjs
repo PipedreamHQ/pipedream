@@ -70,7 +70,10 @@ export default {
     });
 
     const benefits = response?.data ?? response ?? [];
-    $.export("$summary", `Retrieved ${Array.isArray(benefits) ? benefits.length : 0} EOR benefits in ${this.countryCode}`);
+    const count = Array.isArray(benefits)
+      ? benefits.length
+      : 0;
+    $.export("$summary", `Retrieved ${count} EOR benefits in ${this.countryCode}`);
     return response;
   },
 };
