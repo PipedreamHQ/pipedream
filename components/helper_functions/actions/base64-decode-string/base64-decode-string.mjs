@@ -15,7 +15,9 @@ export default {
   props: {
     helper_functions,
     data: {
+      label: "Data",
       type: "string",
+      description: "The base64-encoded string to decode.",
     },
     outputFormat: {
       type: "string",
