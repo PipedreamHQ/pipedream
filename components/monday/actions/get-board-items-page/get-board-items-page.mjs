@@ -6,7 +6,7 @@ export default {
   key: "monday-get-board-items-page",
   name: "Get Board Items Page",
   description: "Retrieves all items from a board. [See the documentation](https://developer.monday.com/api-reference/reference/items-page)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -69,11 +69,13 @@ export default {
     while (cursor) {
       const {
         data: {
-          boards: {
-            items_page: {
-              cursor: nextCursor, items: nextItems,
+          boards: [
+            {
+              items_page: {
+                cursor: nextCursor, items: nextItems,
+              },
             },
-          },
+          ],
         },
       } = await this.monday.listBoardItemsPage({
         boardId: +this.boardId,

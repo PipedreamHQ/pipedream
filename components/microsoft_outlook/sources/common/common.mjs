@@ -67,6 +67,7 @@ export default {
     },
     async deactivate() {
       const hookId = this.db.get("hookId");
+      if (!hookId) return;
       await this.microsoftOutlook.deleteHook({
         hookId,
       });

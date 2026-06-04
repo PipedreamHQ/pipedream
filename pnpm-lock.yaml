@@ -17832,7 +17832,11 @@ importers:
         specifier: ^0.3.2
         version: 0.3.4
 
-  components/xquik: {}
+  components/xquik:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
 
   components/xray_cloud: {}
 
