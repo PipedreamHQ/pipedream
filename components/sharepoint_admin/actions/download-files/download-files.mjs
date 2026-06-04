@@ -1,5 +1,5 @@
 import downloadFiles from
-  "../../../sharepoint/actions/download-files/download-files.mjs";
+  "@pipedream/sharepoint/actions/download-files/download-files.mjs";
 import utils from "../../common/utils.mjs";
 import { addCustomFields } from
   "../../common/customFields.mjs";

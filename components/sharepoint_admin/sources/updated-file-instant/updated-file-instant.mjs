@@ -1,5 +1,5 @@
 import updatedFileInstant from
-  "../../../sharepoint/sources/updated-file-instant/updated-file-instant.mjs";
+  "@pipedream/sharepoint/sources/updated-file-instant/updated-file-instant.mjs";
 import utils from "../../common/utils.mjs";
 import { extractCustomFields } from
   "../../common/customFields.mjs";
