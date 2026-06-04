@@ -41,11 +41,14 @@ export default {
       };
     },
     _makeRequest({
-      $ = this, path, ...opts
+      $ = this, path, headers, ...opts
     }) {
       return axios($, {
         url: `${this._baseUrl()}${path}`,
-        headers: this._headers(),
+        headers: {
+          ...this._headers(),
+          ...headers,
+        },
         ...opts,
       });
     },
