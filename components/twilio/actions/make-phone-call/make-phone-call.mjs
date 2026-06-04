@@ -30,7 +30,7 @@ export default {
     text: {
       label: "Text",
       type: "string",
-      description: "The text you'd like Twilio to speak to the user when they pick up the phone. Provide exactly **one** of **Text**, **URL**, or **Application SID**.",
+      description: "Plain text for Twilio to speak when the user picks up the phone. For TwiML or SSML, use the **URL** field instead. Provide exactly **one** of **Text**, **URL**, or **Application SID**.",
       optional: true,
     },
     url: {
