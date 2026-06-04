@@ -22,11 +22,12 @@ export default {
         app,
         "activityId",
       ],
+      description: "The numeric ID of a Strava activity (e.g., `1234567890`). Use **Search Activities** to resolve an activity name to an ID.",
     },
     pageSize: {
       type: "integer",
       label: "Page Size",
-      description: "Number of comments per page (e.g., `30`). Optional — Strava's default and max apply.",
+      description: "Number of comments to return per page (e.g., `30`). Optional — Strava's default and max apply.",
       optional: true,
     },
   },
