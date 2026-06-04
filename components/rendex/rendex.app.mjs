@@ -19,7 +19,7 @@ export default {
     format: {
       type: "string",
       label: "Output Format",
-      description: "The output format of the render.",
+      description: "Output file format. Example values: `png`, `jpeg`, `webp`, or `pdf`.",
       optional: true,
       default: "png",
       options: [
@@ -49,7 +49,11 @@ export default {
         ...opts,
       });
     },
-    // POST /v1/screenshot/json -> { success, data: { image: <base64>, format, bytesSize, ... }, meta }
+    /**
+     * Render HTML or a URL to an image/PDF via POST /v1/screenshot/json.
+     * @param {object} opts - axios options; `data` is the JSON request body.
+     * @returns {Promise<object>} `{ success, data: { image, format, bytesSize, ... }, meta }`
+     */
     renderJson(opts = {}) {
       return this._makeRequest({
         method: "POST",

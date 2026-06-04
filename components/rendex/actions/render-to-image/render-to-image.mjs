@@ -34,14 +34,18 @@ export default {
     },
   },
   async run({ $ }) {
-    if (!this.html && !this.url) {
-      throw new ConfigurationError("Provide either `html` or `url` to render.");
+    // Rendex requires exactly one of `html` or `url` per request, so reject both
+    // (not just neither) rather than silently dropping `url`.
+    const hasHtml = Boolean(this.html);
+    const hasUrl = Boolean(this.url);
+    if (hasHtml === hasUrl) {
+      throw new ConfigurationError("Provide exactly one of `html` or `url`.");
     }
 
     const data = {
       format: this.format || "png",
     };
-    if (this.html) {
+    if (hasHtml) {
       data.html = this.html;
     } else {
       data.url = this.url;
