@@ -65,6 +65,9 @@ export default {
     }
 
     const columns = parsedColumns.map((col, i) => {
+      if (!col || typeof col !== "object" || Array.isArray(col)) {
+        throw new ConfigurationError(`Column at index ${i} must be an object with at least a \`title\` and \`type\`.`);
+      }
       if (col.validation !== undefined) {
         throw new ConfigurationError(`Column at index ${i} includes a \`validation\` field. Validation rules are not supported during sheet creation — use **Update Column** after creating the sheet to add validation.`);
       }
@@ -87,7 +90,17 @@ export default {
         ...col,
       };
     });
-    if (!columns.some((c) => c.primary)) {
+    // Smartsheet requires exactly one primary column. Keep only the first
+    // primary flag; if none was provided, mark the first column primary.
+    let primaryAssigned = false;
+    for (const col of columns) {
+      if (col.primary && !primaryAssigned) {
+        primaryAssigned = true;
+      } else if (col.primary) {
+        col.primary = false;
+      }
+    }
+    if (!primaryAssigned) {
       columns[0].primary = true;
     }
     const data = {

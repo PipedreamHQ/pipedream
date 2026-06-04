@@ -1,4 +1,5 @@
 import { ConfigurationError } from "@pipedream/platform";
+import { toPositiveInteger } from "../../common/utils.mjs";
 import smartsheet from "../../smartsheet.app.mjs";
 
 export default {
@@ -55,7 +56,7 @@ export default {
       const {
         rowId, ...fields
       } = row;
-      const numericRowId = Number(rowId);
+      const numericRowId = toPositiveInteger(rowId);
       if (!Number.isInteger(numericRowId) || numericRowId <= 0) {
         throw new ConfigurationError(`Row at index ${rowIndex} is missing a valid \`rowId\` (must be a positive integer).`);
       }

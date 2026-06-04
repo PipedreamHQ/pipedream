@@ -1,5 +1,7 @@
 import { ConfigurationError } from "@pipedream/platform";
-import { parseRowIds } from "../../common/utils.mjs";
+import {
+  parseRowIds, toPositiveInteger,
+} from "../../common/utils.mjs";
 import smartsheet from "../../smartsheet.app.mjs";
 
 export default {
@@ -41,9 +43,9 @@ export default {
   },
   async run({ $ }) {
     const rowIds = parseRowIds(this.rowIds);
-    const destinationSheetId = Number(this.destinationSheetId);
-    if (!Number.isFinite(destinationSheetId)) {
-      throw new ConfigurationError("`Destination Sheet ID` must be a numeric sheet ID.");
+    const destinationSheetId = toPositiveInteger(this.destinationSheetId);
+    if (!Number.isInteger(destinationSheetId) || destinationSheetId <= 0) {
+      throw new ConfigurationError("`Destination Sheet ID` must be a positive integer sheet ID.");
     }
 
     const response = await this.smartsheet.moveRows(this.sheetId, {

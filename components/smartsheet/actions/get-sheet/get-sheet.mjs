@@ -62,7 +62,13 @@ export default {
     });
 
     const columnMap = {};
+    const seenColumnNames = new Set();
     for (const col of response.columns || []) {
+      const normalizedName = col.title.toLowerCase();
+      if (seenColumnNames.has(normalizedName)) {
+        throw new Error(`Ambiguous column title "${col.title}" in sheet ${this.sheetId}. Duplicate column names cannot be represented safely in cellsByName — reference cells by column ID instead.`);
+      }
+      seenColumnNames.add(normalizedName);
       columnMap[col.id] = col.title;
     }
 

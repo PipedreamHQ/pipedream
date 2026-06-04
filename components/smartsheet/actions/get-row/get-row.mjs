@@ -22,12 +22,12 @@ export default {
     sheetId: {
       type: "string",
       label: "Sheet ID",
-      description: "The ID of the sheet containing the row. Use **List Sheets** to find sheet IDs.",
+      description: "The ID of the sheet containing the row (e.g. `1234567890123456`). Use **List Sheets** to find sheet IDs.",
     },
     rowId: {
       type: "string",
       label: "Row ID",
-      description: "The ID of the row to retrieve. Use **Get Sheet** or **Search** to find row IDs.",
+      description: "The ID of the row to retrieve (e.g. `9876543210123456`). Use **Get Sheet** or **Search** to find row IDs.",
     },
   },
   async run({ $ }) {

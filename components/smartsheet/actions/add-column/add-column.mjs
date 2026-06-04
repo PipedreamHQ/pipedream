@@ -59,13 +59,13 @@ export default {
   async run({ $ }) {
     let index = this.index;
     if (index === undefined) {
-      const { data: cols } = await this.smartsheet.listColumns(this.sheetId, {
+      const result = await this.smartsheet.listColumns(this.sheetId, {
         $,
         params: {
           includeAll: true,
         },
       });
-      index = cols?.length || 0;
+      index = result.totalCount ?? result.data?.length ?? 0;
     }
 
     const column = {
