@@ -30,13 +30,13 @@ export default {
     text: {
       label: "Text",
       type: "string",
-      description: "Call handler — choose **one** of **Text**, **URL**, or **Application SID**. Set this field to handle the call with **text**: the message Twilio will speak to the user when they pick up the phone.",
+      description: "The text you'd like Twilio to speak to the user when they pick up the phone. Provide exactly **one** of **Text**, **URL**, or **Application SID**.",
       optional: true,
     },
     url: {
       type: "string",
       label: "URL",
-      description: "Call handler — choose **one** of **Text**, **URL**, or **Application SID**. Set this field to handle the call with a **URL**: the absolute URL that returns the TwiML instructions for the call.",
+      description: "The absolute URL that returns the TwiML instructions for the call. Provide exactly **one** of **Text**, **URL**, or **Application SID**.",
       optional: true,
     },
     applicationSid: {
@@ -44,7 +44,7 @@ export default {
         twilio,
         "applicationSid",
       ],
-      description: "Call handler — choose **one** of **Text**, **URL**, or **Application SID**. Set this field to handle the call with an **application**: the SID of the Application resource that will handle the call.",
+      description: "The SID of an Application resource that will handle the call. Provide exactly **one** of **Text**, **URL**, or **Application SID**.",
       optional: true,
     },
     timeout: {
