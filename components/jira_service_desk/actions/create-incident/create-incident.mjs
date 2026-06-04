@@ -39,7 +39,7 @@ export default {
     description: {
       type: "string",
       label: "Description",
-      description: "A detailed description of the incident. Required by most service desk configurations.",
+      description: "A detailed description of the incident.",
     },
   },
   async run({ $ }) {

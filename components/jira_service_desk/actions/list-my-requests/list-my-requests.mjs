@@ -29,7 +29,7 @@ export default {
     serviceDeskId: {
       type: "string",
       label: "Service Desk ID",
-      description: "Optional. Filter results to a specific service desk. Omit to return requests from all service desks.",
+      description: "Filter results to a specific service desk. Omit to return requests from all service desks.",
       optional: true,
     },
     requestStatus: {

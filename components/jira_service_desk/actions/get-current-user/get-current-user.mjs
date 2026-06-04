@@ -22,7 +22,7 @@ export default {
     const user = await this.app.getCurrentUser({
       $,
     });
-    $.export("$summary", `Current user: ${user.display_name || user.displayName || user.accountId}`);
+    $.export("$summary", `Current user: ${user.name || user.account_id}`);
     return user;
   },
 };
