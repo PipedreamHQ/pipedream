@@ -166,12 +166,12 @@ export default {
     }
     if (hasSalary) {
       const salary = parseFloat(this.compensationSalary);
-      if (!Number.isFinite(salary)) throw new Error(`Invalid compensationSalary: "${this.compensationSalary}" is not a finite number`);
+      if (!Number.isFinite(salary)) throw new ConfigurationError(`Invalid Annual Salary: "${this.compensationSalary}" is not a finite number`);
       payload.compensation_details.salary = salary;
     }
     if (hasHourly) {
       const hourlyRate = parseFloat(this.compensationHourlyRate);
-      if (!Number.isFinite(hourlyRate)) throw new Error(`Invalid compensationHourlyRate: "${this.compensationHourlyRate}" is not a finite number`);
+      if (!Number.isFinite(hourlyRate)) throw new ConfigurationError(`Invalid Hourly Rate: "${this.compensationHourlyRate}" is not a finite number`);
       payload.compensation_details.hourly_rate = hourlyRate;
     }
 
