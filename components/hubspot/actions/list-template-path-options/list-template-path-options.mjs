@@ -4,7 +4,7 @@ export default {
   key: "hubspot-list-template-path-options",
   name: "List Template Path Options",
   description: "Retrieves available options for the Template Path field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
