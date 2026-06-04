@@ -13,15 +13,25 @@ export default {
         "X-API-KEY": this.$auth.api_key,
       };
     },
-    createSandbox({ $ } = {}) {
+    _makeRequest({
+      $, path, url, headers, ...opts
+    } = {}) {
       return axios($, {
+        url: url || `${this._apiUrl()}${path}`,
+        headers: headers || this._headers(),
+        ...opts,
+      });
+    },
+    createSandbox({ $ } = {}) {
+      return this._makeRequest({
+        $,
         method: "POST",
-        url: `${this._apiUrl()}/sandboxes`,
-        headers: this._headers(),
+        path: "/sandboxes",
         data: {
           templateID: constants.TEMPLATE_ID,
           timeout: constants.DEFAULT_SANDBOX_TIMEOUT_SECONDS,
           autoPause: false,
+          secure: true,
           allow_internet_access: true,
         },
       });
@@ -29,19 +39,26 @@ export default {
     killSandbox({
       $, sandboxId,
     } = {}) {
-      return axios($, {
+      return this._makeRequest({
+        $,
         method: "DELETE",
-        url: `${this._apiUrl()}/sandboxes/${sandboxId}`,
-        headers: this._headers(),
+        path: `/sandboxes/${sandboxId}`,
       });
     },
     async executeCode({
       $, sandbox, code,
     } = {}) {
       const domain = sandbox.domain || constants.DEFAULT_DOMAIN;
-      const response = await axios($, {
+      const response = await this._makeRequest({
+        $,
         method: "POST",
         url: `https://${constants.CODE_INTERPRETER_PORT}-${sandbox.sandboxID}.${domain}/execute`,
+        // secure sandboxes forward this access token into the execution context
+        headers: {
+          ...(sandbox.envdAccessToken && {
+            "X-Access-Token": sandbox.envdAccessToken,
+          }),
+        },
         data: {
           code,
         },
