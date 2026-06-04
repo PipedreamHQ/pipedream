@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../deel.app.mjs";
 
 export default {
@@ -48,8 +49,16 @@ export default {
       name: this.name,
       external_id: this.externalId,
     };
+    const NUMERIC_RE = /^\s*-?\d+(\.\d+)?\s*$/;
     if (this.type) payload.type = this.type;
-    if (this.value) payload.value = parseFloat(this.value);
+    let parsedValue;
+    if (this.value != null && this.value !== "") {
+      if (!NUMERIC_RE.test(this.value)) {
+        throw new ConfigurationError(`Invalid Value: "${this.value}" must be a plain number (e.g., "150" or "45.50")`);
+      }
+      parsedValue = parseFloat(this.value);
+      payload.value = parsedValue;
+    }
 
     try {
       const response = await this.app.createShiftRate($, payload);
@@ -64,9 +73,7 @@ export default {
             external_id: this.externalId,
             name: this.name,
             type: this.type,
-            value: this.value
-              ? parseFloat(this.value)
-              : undefined,
+            value: parsedValue,
           },
           note: "Shift rate with this external_id already exists.",
         };
