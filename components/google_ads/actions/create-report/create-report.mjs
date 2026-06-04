@@ -20,7 +20,7 @@ export default {
   key: "google_ads-create-report",
   name: "Create Report",
   description: "Generates a report from your Google Ads data. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v21/GoogleAdsService/Search?transport=rest)",
-  version: "0.1.6",
+  version: "0.2.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -34,106 +34,100 @@ export default {
       label: "Resource",
       description: "The resource to generate a report for.",
       options: RESOURCES.map((r) => r.resourceOption),
-      reloadProps: true,
     },
-  },
-  additionalProps() {
-    const resource = RESOURCES.find((r) => r.resourceOption.value === this.resource);
-    if (!resource) throw new ConfigurationError("Select one of the available resources.");
-
-    const {
-      label, value,
-    } = resource.resourceOption;
-
-    return {
-      docsAlert: {
-        type: "alert",
-        alertType: "info",
-        content: `[See the documentation](https://developers.google.com/google-ads/api/fields/v21/${value}) for more information on available fields, segments and metrics.`,
+    objectFilter: {
+      type: "string[]",
+      label: "Filter by Resources",
+      description: "Google Ads resource IDs to limit the report to. Pass a string array of numeric IDs (e.g. `[\"1234567890\", \"9876543210\"]`). Omit to include all resources.",
+      optional: true,
+      useQuery: true,
+      async options({
+        query, prevContext = {},
+      }) {
+        const { nextPageToken: pageToken } = prevContext;
+        const {
+          accountId, customerClientId, resource,
+        } = this;
+        const {
+          results, nextPageToken,
+        } = await this.googleAds.listResources({
+          accountId,
+          customerClientId,
+          resource,
+          query,
+          pageToken,
+        });
+        const options = results?.map?.((item) => this.getResourceOption(item, resource));
+        return {
+          options,
+          context: {
+            nextPageToken,
+          },
+        };
       },
-      objectFilter: {
-        type: "string[]",
-        label: `Filter by ${label}s`,
-        description: `Select the ${label}s to generate a report for (or leave blank for all ${label}s)`,
-        optional: true,
-        useQuery: true,
-        options: async ({
-          query, prevContext: { nextPageToken: pageToken },
-        }) => {
-          const {
-            accountId, customerClientId, resource,
-          } = this;
-          const {
-            results, nextPageToken,
-          } = await this.googleAds.listResources({
-            accountId,
-            customerClientId,
-            resource,
-            query,
-            pageToken,
-          });
-          const options = results?.map?.((item) => this.getResourceOption(item, resource));
-          return {
-            options,
-            context: {
-              nextPageToken,
-            },
-          };
-        },
+    },
+    dateRange: {
+      type: "string",
+      label: "Date Range",
+      description: "Predefined Google Ads date range keyword (e.g. `LAST_30_DAYS`, `THIS_MONTH`). For a custom range, use `CUSTOM` with `startDate` and `endDate` in `YYYY-MM-DD` format (e.g. `2024-01-01`, `2024-01-31`).",
+      options: DATE_RANGE_OPTIONS,
+      optional: true,
+    },
+    startDate: {
+      type: "string",
+      label: "Start Date",
+      description: "The start date in `YYYY-MM-DD` format (e.g. `2024-01-01`). Only relevant if `Date Range` is set to `CUSTOM`.",
+      optional: true,
+    },
+    endDate: {
+      type: "string",
+      label: "End Date",
+      description: "The end date in `YYYY-MM-DD` format (e.g. `2024-01-31`). Only relevant if `Date Range` is set to `CUSTOM`.",
+      optional: true,
+    },
+    fields: {
+      type: "string[]",
+      label: "Fields",
+      description: "Resource field names for the GAQL SELECT clause. Pass a string array (e.g. `[\"id\", \"name\"]` or `[\"campaign.id\", \"campaign.name\"]` for campaign reports).",
+      options() {
+        const resource = RESOURCES.find((r) => r.resourceOption.value === this.resource);
+        if (!resource) throw new ConfigurationError("Select one of the available resources.");
+        return resource.fields;
       },
-      dateRange: {
-        type: "string",
-        label: "Date Range",
-        description: "Select a date range for the report",
-        options: DATE_RANGE_OPTIONS,
-        optional: true,
-        reloadProps: true,
+      optional: true,
+    },
+    segments: {
+      type: "string[]",
+      label: "Segments",
+      description: "Segment field names to include (e.g. `[\"date\"]` or `[\"segments.date\"]`). See the documentation [here](https://developers.google.com/google-ads/api/reference/rpc/v21/Segments).",
+      options() {
+        const resource = RESOURCES.find((r) => r.resourceOption.value === this.resource);
+        if (!resource) throw new ConfigurationError("Select one of the available resources.");
+        return resource.segments;
       },
-      ...(this.dateRange === "CUSTOM" && {
-        startDate: {
-          type: "string",
-          label: "Start Date",
-          description: "The start date, in `YYYY-MM-DD` format",
-        },
-        endDate: {
-          type: "string",
-          label: "End Date",
-          description: "The end date, in `YYYY-MM-DD` format",
-        },
-      }),
-      fields: {
-        type: "string[]",
-        label: "Fields",
-        description: "Select any fields you want to include in your report.",
-        options: resource.fields,
-        optional: true,
-        reloadProps: true,
+      default: [
+        "segments.date",
+      ],
+      optional: true,
+    },
+    metrics: {
+      type: "string[]",
+      label: "Metrics",
+      description: "Metric field names to include (e.g. `[\"impressions\", \"clicks\"]` or `[\"metrics.impressions\", \"metrics.clicks\"]`). See the documentation [here](https://developers.google.com/google-ads/api/reference/rpc/v21/Metrics).",
+      options() {
+        const resource = RESOURCES.find((r) => r.resourceOption.value === this.resource);
+        if (!resource) throw new ConfigurationError("Select one of the available resources.");
+        return resource.metrics;
       },
-      segments: {
-        type: "string[]",
-        label: "Segments",
-        description: "Select any segments you want to include in your report. See the documentation [here](https://developers.google.com/google-ads/api/reference/rpc/v21/Segments)",
-        options: resource.segments,
-        default: [
-          "segments.date",
-        ],
-        optional: true,
-        reloadProps: true,
-      },
-      metrics: {
-        type: "string[]",
-        label: "Metrics",
-        description: "Select any metrics you want to include in your report. See the documentation [here](https://developers.google.com/google-ads/api/reference/rpc/v21/Metrics)",
-        options: resource.metrics,
-        optional: true,
-        reloadProps: true,
-      },
-      orderBy: {
-        type: "string",
-        label: "Order By",
-        description: "The field to order the results by",
-        optional: true,
-        options: [
+      optional: true,
+    },
+    orderBy: {
+      type: "string",
+      label: "Order By",
+      description: "The field to order the results by",
+      optional: true,
+      options() {
+        return [
           this.fields,
           this.segments,
           this.metrics,
@@ -147,32 +141,32 @@ export default {
             }
           }
           return returnValue?.map?.((str) => str.trim());
-        }),
+        });
       },
-      direction: {
-        type: "string",
-        label: "Direction",
-        description: "The direction to order the results by, if `Order By` is specified",
-        optional: true,
-        options: [
-          {
-            label: "Ascending",
-            value: "ASC",
-          },
-          {
-            label: "Descending",
-            value: "DESC",
-          },
-        ],
-        default: "ASC",
-      },
-      limit: {
-        type: "integer",
-        label: "Limit",
-        description: "The maximum number of results to return",
-        optional: true,
-      },
-    };
+    },
+    direction: {
+      type: "string",
+      label: "Direction",
+      description: "The direction to order the results by, if `Order By` is specified",
+      optional: true,
+      options: [
+        {
+          label: "Ascending",
+          value: "ASC",
+        },
+        {
+          label: "Descending",
+          value: "DESC",
+        },
+      ],
+      default: "ASC",
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "The maximum number of results to return",
+      optional: true,
+    },
   },
   methods: {
     getResourceOption(item, resource) {
@@ -249,6 +243,14 @@ export default {
     },
   },
   async run({ $ }) {
+    if (!RESOURCES.find((r) => r.resourceOption.value === this.resource)) {
+      throw new ConfigurationError("Select one of the available resources.");
+    }
+
+    if (this.dateRange === "CUSTOM" && (!this.startDate || !this.endDate)) {
+      throw new ConfigurationError("Start and end dates are required if using a custom date range.");
+    }
+
     const query = this.buildQuery();
     const results = (await this.googleAds.createReport({
       $,

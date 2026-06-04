@@ -4,7 +4,7 @@ export default {
   key: "surecart-create-checkout",
   name: "Create Checkout",
   description: "Create a new checkout session. [See the documentation](https://developer.surecart.com/api-reference/checkouts/create)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -114,7 +114,7 @@ export default {
       optional: true,
     },
     lineItems: {
-      type: "object[]",
+      type: "string",
       label: "Line Items",
       description: "Initial line items for this checkout. Each item requires a `price` UUID. Example: `[{ \"price\": \"price_abc123\", \"quantity\": 1 }]`",
       optional: true,
@@ -165,7 +165,9 @@ export default {
           group_key: this.groupKey,
           billing_address: this.billingAddress,
           shipping_address: this.shippingAddress,
-          line_items: this.lineItems,
+          line_items: this.lineItems
+            ? JSON.parse(this.lineItems)
+            : undefined,
           discount: this.discount,
           tax_identifier: this.taxIdentifier,
           selected_shipping_choice: this.selectedShippingChoice,

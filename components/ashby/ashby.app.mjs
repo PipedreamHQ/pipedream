@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -111,8 +112,9 @@ export default {
     maxResults: {
       type: "integer",
       label: "Max Results",
-      description: "Number of results to return",
+      description: "Maximum number of results to return",
       optional: true,
+      default: constants.LIMIT_MAX,
     },
     interviewPlanId: {
       type: "string",
@@ -364,37 +366,45 @@ export default {
         ...args,
       });
     },
+    getFileUrl(args = {}) {
+      return this.post({
+        path: "/file.info",
+        ...args,
+      });
+    },
     async paginate({
-      max = 600, fn, fnArgs, keyField = "results",
+      fn, fnArgs, max = constants.LIMIT_MAX, keyField = "results",
     } = {}) {
-      const results = [];
-      let cursor;
-      let collected = 0;
-
-      while (collected < max) {
-        const remainingToFetch = Math.min(max - collected, 100);
-
-        const response = await fn({
+      const accumulated = [];
+      let pageCursor = fnArgs?.data?.cursor;
+      let lastResponse;
+      while (accumulated.length < max) {
+        const limit = Math.min(max - accumulated.length, constants.LIMIT_MAX);
+        lastResponse = await fn({
           ...fnArgs,
           data: {
-            limit: remainingToFetch,
-            cursor,
             ...fnArgs?.data,
+            cursor: pageCursor,
+            limit,
           },
         });
-
-        const items = response[keyField] || [];
-        results.push(...items);
-        collected += items.length;
-
-        // Check if there are more results
-        cursor = response.nextCursor;
-        if (!cursor || items.length === 0) {
+        const items = lastResponse?.[keyField] || [];
+        accumulated.push(...items);
+        pageCursor = lastResponse?.nextCursor;
+        if (!pageCursor || !items.length) {
           break;
         }
       }
-
-      return results;
+      return {
+        [keyField]: accumulated,
+        moreDataAvailable: lastResponse?.moreDataAvailable,
+        ...(lastResponse?.nextCursor && {
+          nextCursor: lastResponse.nextCursor,
+        }),
+        ...(lastResponse?.syncToken && {
+          syncToken: lastResponse.syncToken,
+        }),
+      };
     },
   },
 };

@@ -1,10 +1,10 @@
-import type { ConfigurableProp } from "@pipedream/sdk";
+import type { ConfigurablePropBoolean } from "@pipedream/sdk";
 import { useFormFieldContext } from "../hooks/form-field-context";
 import { useCustomize } from "../hooks/customization-context";
 import type { CSSProperties } from "react";
 
 export function ControlBoolean() {
-  const formFieldContextProps = useFormFieldContext<ConfigurableProp.Boolean>();
+  const formFieldContextProps = useFormFieldContext<ConfigurablePropBoolean>();
   const {
     id, value, onChange,
   } = formFieldContextProps;

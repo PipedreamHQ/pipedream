@@ -4,7 +4,7 @@ export default {
   key: "surecart-list-media",
   name: "List Media",
   description: "Return a list of media items. [See the documentation](https://developer.surecart.com/api-reference/medias/list)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

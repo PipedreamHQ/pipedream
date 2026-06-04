@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/renderio",
+  "version": "0.0.1",
+  "description": "Pipedream Renderio Components",
+  "main": "renderio.app.mjs",
+  "keywords": [
+    "pipedream",
+    "renderio"
+  ],
+  "homepage": "https://pipedream.com/apps/renderio",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

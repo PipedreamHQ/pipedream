@@ -4,7 +4,7 @@ export default {
   key: "surecart-list-abandoned-checkouts",
   name: "List Abandoned Checkouts",
   description: "Return a list of abandoned checkouts. [See the documentation](https://developer.surecart.com/api-reference/abandonded-checkouts/list)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

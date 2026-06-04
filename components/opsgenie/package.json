@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/opsgenie",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Pipedream Opsgenie Components",
   "main": "opsgenie.app.mjs",
   "keywords": [

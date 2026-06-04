@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/getaccept",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Pipedream GetAccept Components",
   "main": "getaccept.app.mjs",
   "keywords": [

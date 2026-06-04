@@ -4,7 +4,7 @@ export default {
   key: "surecart-list-fulfillments",
   name: "List Fulfillments",
   description: "Return a list of fulfillments. [See the documentation](https://developer.surecart.com/api-reference/fulfillments/list)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
