@@ -10,7 +10,7 @@ export default {
     + " Set `is_auto_approved` to `true` to automatically approve the task without manual review;"
     + " otherwise the task will require review via **Review Contract Task**."
     + " Use **List Contracts** to find the contract ID."
-    + " [See the documentation](https://developer.deel.com/docs/create-a-task)",
+    + " [See the documentation](https://developer.deel.com/api/reference/endpoints/tasks/create-contract-task)",
   version: "0.0.1",
   type: "action",
   annotations: {

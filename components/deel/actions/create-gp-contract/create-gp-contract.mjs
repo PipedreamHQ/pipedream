@@ -12,7 +12,7 @@ export default {
     + " `address_country` must be an ISO 3166-1 alpha-2 code (e.g., `US`, `DE`)."
     + " `client_team_id` and `client_legal_entity_id` are required — retrieve from your Deel organization settings."
     + " For US-based employees: `work_location_state` (2-letter state code, e.g., `OR`), `work_location_is_wfh`, and (if not WFH) `work_location_name` (office name) are required."
-    + " [See the documentation](https://developer.deel.com/api/reference)",
+    + " [See the documentation](https://developer.deel.com/api/reference/endpoints/gp-hiring/create-gp-contract)",
   version: "0.0.1",
   type: "action",
   annotations: {

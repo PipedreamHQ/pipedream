@@ -16,7 +16,7 @@ export default {
     + " \"shift_type\": \"REGULAR\", \"date_of_work\": \"2026-07-15\","
     + " \"summary\": {\"time_unit\": \"HOUR\", \"time_amount\": 8, \"shift_rate_external_id\": \"rate-overtime-001\"}}]`"
     + " Use **List Contracts** to find the contract ID."
-    + " [See the documentation](https://developer.deel.com/api/reference)",
+    + " [See the documentation](https://developer.deel.com/api/reference/endpoints/time-tracking-shifts/create-time-tracking-shifts)",
   version: "0.0.1",
   type: "action",
   annotations: {

@@ -7,7 +7,7 @@ export default {
     "List payslips for a specific GP (Global Payroll) employee in Deel."
     + " Returns payslip IDs, pay periods, gross/net amounts, and download links."
     + " Use **Get Contract** to find the worker ID from a contract's worker details."
-    + " [See the documentation](https://developer.deel.com/api/reference)",
+    + " [See the documentation](https://developer.deel.com/api/reference/endpoints/payslips/get-gp-worker-payslips)",
   version: "0.0.1",
   type: "action",
   annotations: {
