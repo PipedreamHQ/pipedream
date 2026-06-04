@@ -19,6 +19,16 @@ export default {
       label: "Country Code",
       description: "ISO 3166-1 alpha-2 country code (e.g., `DE` for Germany, `GB` for United Kingdom, `US` for United States).",
     },
+    clientTeamId: {
+      type: "string",
+      label: "Client Team ID",
+      description: "The ID of the client team (department) for this contract. Retrieve from your Deel organization settings.",
+    },
+    clientLegalEntityId: {
+      type: "string",
+      label: "Client Legal Entity ID",
+      description: "The ID of the client legal entity (company) for this contract. Retrieve from your Deel organization settings.",
+    },
   },
   methods: {
     _baseUrl() {

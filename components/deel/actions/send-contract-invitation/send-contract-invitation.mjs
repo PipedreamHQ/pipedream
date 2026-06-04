@@ -57,7 +57,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Sent contract invitation to ${this.email} for contract ${this.contractId}`);
+    $.export("$summary", `Sent contract invitation for contract ${this.contractId}`);
     return response;
   },
 };

@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../deel.app.mjs";
 
 export default {
@@ -39,6 +40,7 @@ export default {
   },
   async run({ $ }) {
     const shiftsArray = JSON.parse(this.shifts);
+    if (!Array.isArray(shiftsArray)) throw new ConfigurationError("shifts must be a JSON array");
 
     const response = await this.app._makeRequest({
       $,

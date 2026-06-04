@@ -38,14 +38,16 @@ export default {
       description: "Contract start date in ISO 8601 format (e.g., `2026-09-01`).",
     },
     clientTeamId: {
-      type: "string",
-      label: "Client Team ID",
-      description: "The ID of the client team (department) for this contract.",
+      propDefinition: [
+        app,
+        "clientTeamId",
+      ],
     },
     clientLegalEntityId: {
-      type: "string",
-      label: "Client Legal Entity ID",
-      description: "The ID of the client legal entity (company) for this contract.",
+      propDefinition: [
+        app,
+        "clientLegalEntityId",
+      ],
     },
     jobTitle: {
       type: "string",

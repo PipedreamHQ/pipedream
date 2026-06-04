@@ -72,7 +72,11 @@ export default {
     const payload = {
       effective_date: this.effectiveDate,
     };
-    if (this.amount) payload.amount = parseFloat(this.amount);
+    if (this.amount) {
+      const amt = parseFloat(this.amount);
+      if (!Number.isFinite(amt)) throw new Error(`Invalid amount: "${this.amount}" is not a finite number`);
+      payload.amount = amt;
+    }
     if (this.currencyCode) payload.currency_code = this.currencyCode;
     if (this.scale) payload.scale = this.scale;
     if (this.frequency) payload.frequency = this.frequency;

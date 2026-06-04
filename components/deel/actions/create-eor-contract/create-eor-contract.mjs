@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../deel.app.mjs";
 
 export default {
@@ -24,14 +25,16 @@ export default {
   props: {
     app,
     clientTeamId: {
-      type: "string",
-      label: "Client Team ID",
-      description: "The ID of the client team (department) for this contract. Retrieve from your Deel organization settings.",
+      propDefinition: [
+        app,
+        "clientTeamId",
+      ],
     },
     clientLegalEntityId: {
-      type: "string",
-      label: "Client Legal Entity ID",
-      description: "The ID of the client legal entity (company). Retrieve from your Deel organization settings.",
+      propDefinition: [
+        app,
+        "clientLegalEntityId",
+      ],
     },
     jobTitle: {
       type: "string",
@@ -153,10 +156,18 @@ export default {
       };
     }
 
-    if (this.compensationSalary) {
+    const hasSalary = this.compensationSalary != null && this.compensationSalary !== "";
+    const hasHourly = this.compensationHourlyRate != null && this.compensationHourlyRate !== "";
+    if (hasSalary && hasHourly) {
+      throw new ConfigurationError("Provide either Annual Salary or Hourly Rate, not both.");
+    }
+    if (!hasSalary && !hasHourly) {
+      throw new ConfigurationError("Provide either Annual Salary or Hourly Rate.");
+    }
+    if (hasSalary) {
       payload.compensation_details.salary = parseFloat(this.compensationSalary);
     }
-    if (this.compensationHourlyRate) {
+    if (hasHourly) {
       payload.compensation_details.hourly_rate = parseFloat(this.compensationHourlyRate);
     }
 

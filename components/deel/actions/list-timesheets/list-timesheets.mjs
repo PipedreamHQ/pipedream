@@ -69,8 +69,8 @@ export default {
     if (this.contractTypes?.length) params["contract_types[]"] = this.contractTypes;
     if (this.dateFrom) params.date_from = this.dateFrom;
     if (this.dateTo) params.date_to = this.dateTo;
-    if (this.limit) params.limit = this.limit;
-    if (this.offset) params.offset = this.offset;
+    if (this.limit != null) params.limit = this.limit;
+    if (this.offset != null) params.offset = this.offset;
 
     const response = await this.app._makeRequest({
       $,

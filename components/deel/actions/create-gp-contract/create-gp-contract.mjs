@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../deel.app.mjs";
 
 export default {
@@ -22,14 +23,16 @@ export default {
   props: {
     app,
     clientTeamId: {
-      type: "string",
-      label: "Client Team ID",
-      description: "The ID of the client team (department) for this contract. Retrieve from your Deel organization settings.",
+      propDefinition: [
+        app,
+        "clientTeamId",
+      ],
     },
     clientLegalEntityId: {
-      type: "string",
-      label: "Client Legal Entity ID",
-      description: "The ID of the client legal entity (company). Retrieve from your Deel organization settings.",
+      propDefinition: [
+        app,
+        "clientLegalEntityId",
+      ],
     },
     jobTitle: {
       type: "string",
@@ -168,7 +171,14 @@ export default {
       },
     };
 
-    if (this.workLocationState !== undefined || this.workLocationIsWfh !== undefined) {
+    if (this.addressCountry === "US") {
+      if (this.workLocationState == null) throw new ConfigurationError("work_location_state is required for US employees.");
+      if (this.workLocationIsWfh == null) throw new ConfigurationError("work_location_is_wfh is required for US employees.");
+      if (this.workLocationIsWfh === false && !this.workLocationName) {
+        throw new ConfigurationError("work_location_name is required for US employees when work_location_is_wfh is false.");
+      }
+    }
+    if (this.workLocationState != null || this.workLocationIsWfh != null) {
       payload.work_location = {
         country: this.addressCountry,
         state: this.workLocationState,

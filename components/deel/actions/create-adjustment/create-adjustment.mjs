@@ -44,8 +44,10 @@ export default {
       description: "The vendor or payee name (e.g., `Office Supplies Co`).",
     },
     country: {
-      type: "string",
-      label: "Country",
+      propDefinition: [
+        app,
+        "countryCode",
+      ],
       description: "ISO 3166-1 alpha-2 country code where the adjustment applies (e.g., `US`, `DE`).",
     },
     description: {

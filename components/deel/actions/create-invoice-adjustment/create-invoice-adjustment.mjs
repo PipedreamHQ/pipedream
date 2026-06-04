@@ -54,10 +54,12 @@ export default {
     },
   },
   async run({ $ }) {
+    const amt = parseFloat(this.amount);
+    if (!Number.isFinite(amt)) throw new Error(`Invalid amount: "${this.amount}" is not a finite number`);
     const payload = {
       contract_id: this.contractId,
       type: this.type,
-      amount: parseFloat(this.amount),
+      amount: amt,
       description: this.description,
       date_submitted: this.dateSubmitted,
     };

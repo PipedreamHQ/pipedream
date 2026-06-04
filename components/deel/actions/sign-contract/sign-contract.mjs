@@ -42,7 +42,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Signed contract ${this.contractId} as "${this.clientSignature}"`);
+    $.export("$summary", `Signed contract ${this.contractId}`);
     return response;
   },
 };

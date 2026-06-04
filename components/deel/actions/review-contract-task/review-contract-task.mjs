@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../deel.app.mjs";
 
 export default {
@@ -43,6 +44,12 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.status !== "approved" && this.status !== "declined") {
+      throw new ConfigurationError(`status must be "approved" or "declined", got "${this.status}"`);
+    }
+    if (this.status === "declined" && !this.reason) {
+      throw new ConfigurationError("reason is required when status is \"declined\"");
+    }
     const payload = {
       status: this.status,
     };
