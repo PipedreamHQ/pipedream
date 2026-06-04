@@ -32,7 +32,7 @@ export default {
     watchedDrive: {
       type: "string",
       label: "Drive",
-      description: "Select a specific drive to search. Defaults to All Drives when no selection is made. To limit to your personal drive or a [Shared Drive](https://support.google.com/a/users/answer/9310351), select it from this list.",
+      description: "Select a specific drive to search. Defaults to **All Drives** (My Drive and all Shared Drives you have access to) when no selection is made. To limit to your personal drive or a [Shared Drive](https://support.google.com/a/users/answer/9310351), select it from this list.",
       optional: true,
       async options({ prevContext }) {
         const { nextPageToken } = prevContext;
