@@ -13178,6 +13178,9 @@ importers:
 
   components/renderio: {}
 
+  components/rendex:
+    specifiers: {}
+
   components/rendi:
     dependencies:
       '@pipedream/platform':
