@@ -11,7 +11,7 @@ export default {
   name: updatedFileInstant.name,
   description: updatedFileInstant.description,
   type: updatedFileInstant.type,
-  version: "0.0.4",
+  version: "0.0.5",
   methods: {
     ...updatedFileInstant.methods,
     async buildEmitPayload(file, freshFile) {

@@ -11,7 +11,7 @@ export default {
   name: downloadFiles.name,
   description: downloadFiles.description,
   type: downloadFiles.type,
-  version: "0.0.3",
+  version: "0.0.4",
   methods: {
     ...downloadFiles.methods,
   },

@@ -14,7 +14,7 @@ export default {
   name: retrieveFileMetadata.name,
   description: retrieveFileMetadata.description,
   type: retrieveFileMetadata.type,
-  version: "0.0.4",
+  version: "0.0.5",
   props: {
     sharepointAdmin,
     siteId: {
