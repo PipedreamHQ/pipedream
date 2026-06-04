@@ -8,7 +8,7 @@ export default {
     + " sent to and signed by the contractor."
     + " `client_signature` is typically the full legal name of the signing party."
     + " Use **List Contracts** to find the contract ID."
-    + " [See the documentation](https://developer.deel.com/docs/sign-a-contract)",
+    + " [See the documentation](https://developer.deel.com/api/reference/endpoints/contracts/sign-worker-contract)",
   version: "0.0.1",
   type: "action",
   annotations: {

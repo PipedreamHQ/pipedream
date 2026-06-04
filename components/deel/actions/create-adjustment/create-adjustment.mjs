@@ -12,7 +12,7 @@ export default {
     + " `adjustment_category_id` is required — retrieve valid category IDs from `GET /adjustments/categories`"
     + " or ask your Deel administrator."
     + " Use **List Contracts** to find the contract ID."
-    + " [See the documentation](https://developer.deel.com/docs/create-an-adjustment)",
+    + " [See the documentation](https://developer.deel.com/api/reference/endpoints/adjustments/create-contract-adjustment)",
   version: "0.0.1",
   type: "action",
   annotations: {

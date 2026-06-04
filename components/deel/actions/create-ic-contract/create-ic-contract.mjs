@@ -12,7 +12,7 @@ export default {
     + " `compensationFrequency` must be one of: `weekly`, `biweekly`, `semimonthly`, `monthly`."
     + " `clientTeamId` and `clientLegalEntityId` are required — ask the user to provide these from"
     + " their Deel organization settings."
-    + " [See the documentation](https://developer.deel.com/docs/create-a-new-contract)",
+    + " [See the documentation](https://developer.deel.com/api/reference/endpoints/contracts/create-ic-contract)",
   version: "0.0.1",
   type: "action",
   annotations: {

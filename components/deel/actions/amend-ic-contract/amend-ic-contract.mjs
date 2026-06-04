@@ -10,7 +10,7 @@ export default {
     + " `effective_date` is required — use today's date or earlier (ISO 8601 format, e.g., `2026-06-01`)."
     + " The amendment takes effect immediately but is recorded with the given date."
     + " Use **List Contracts** to find the contract ID."
-    + " [See the documentation](https://developer.deel.com/docs/amend-a-contract)",
+    + " [See the documentation](https://developer.deel.com/api/reference/endpoints/eor-amendments/create-contract-amendment)",
   version: "0.0.1",
   type: "action",
   annotations: {

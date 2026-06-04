@@ -14,7 +14,7 @@ export default {
     + " `seniority_id` is a numeric seniority level: `1`=Junior, `2`=Mid, `3`=Senior, `4`=Lead,"
     + " `5`=Principal/Staff, `6`=Director, `7`=Head of Dept, `8`=VP, `9`=SVP, `34`=Not applicable."
     + " `scope_of_work` must be at least 100 characters long."
-    + " [See the documentation](https://developer.deel.com/docs/create-an-eor-contract)",
+    + " [See the documentation](https://developer.deel.com/api/reference/endpoints/eor-contract/create-eor-contract)",
   version: "0.0.1",
   type: "action",
   annotations: {

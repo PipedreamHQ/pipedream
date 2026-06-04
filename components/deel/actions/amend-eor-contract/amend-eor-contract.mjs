@@ -9,7 +9,7 @@ export default {
     + " All amendment fields are optional; provide only the fields you want to change."
     + " `effective_date` and `start_date` must be in ISO 8601 format (e.g., `2026-09-01`)."
     + " Use **List Contracts** to find the contract ID."
-    + " [See the documentation](https://developer.deel.com/docs/amend-an-eor-contract)",
+    + " [See the documentation](https://developer.deel.com/api/reference/endpoints/eor-amendments/create-contract-amendment)",
   version: "0.0.1",
   type: "action",
   annotations: {

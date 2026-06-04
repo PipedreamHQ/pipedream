@@ -8,7 +8,7 @@ export default {
     + " Works for both IC and EOR contracts."
     + " Optionally filter by date range."
     + " Use **List Contracts** to find the contract ID."
-    + " [See the documentation](https://developer.deel.com/docs/list-adjustments-for-a-contract)",
+    + " [See the documentation](https://developer.deel.com/api/reference/endpoints/adjustments/get-contract-adjustments)",
   version: "0.0.1",
   type: "action",
   annotations: {

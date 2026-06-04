@@ -7,7 +7,7 @@ export default {
     "Retrieve full details for a specific Deel contract by ID, including worker info, compensation,"
     + " status, and timeline. Works for IC, EOR, and GP contract types."
     + " Use **List Contracts** to find contract IDs."
-    + " [See the documentation](https://developer.deel.com/docs/get-a-single-contract)",
+    + " [See the documentation](https://developer.deel.com/api/reference/endpoints/contracts/get-contract)",
   version: "0.0.1",
   type: "action",
   annotations: {

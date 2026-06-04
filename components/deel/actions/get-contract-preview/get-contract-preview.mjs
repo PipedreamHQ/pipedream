@@ -8,7 +8,7 @@ export default {
     + " Use this when the user wants to read, review, or summarize the actual contract document."
     + " Works for IC and EOR contracts."
     + " Use **List Contracts** to find contract IDs."
-    + " [See the documentation](https://developer.deel.com/docs/get-contract-preview)",
+    + " [See the documentation](https://developer.deel.com/api/reference/endpoints/contracts/get-contract)",
   version: "0.0.1",
   type: "action",
   annotations: {

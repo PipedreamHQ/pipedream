@@ -8,7 +8,7 @@ export default {
     + " and contract type."
     + " Returns timesheet IDs, contract info, hours worked, status, and pay period."
     + " Use **List Contracts** to find contract IDs for filtering."
-    + " [See the documentation](https://developer.deel.com/docs/list-timesheets)",
+    + " [See the documentation](https://developer.deel.com/api/reference/endpoints/timesheets/get-timesheets)",
   version: "0.0.1",
   type: "action",
   annotations: {

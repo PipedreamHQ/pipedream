@@ -9,7 +9,7 @@ export default {
     + " Use this before creating an EOR contract to understand what information is required and what"
     + " restrictions apply (e.g., minimum salary, mandatory benefits, work visa rules)."
     + " `country_code` must be an ISO 3166-1 alpha-2 code (e.g., `DE` for Germany, `GB` for UK, `US` for United States)."
-    + " [See the documentation](https://developer.deel.com/docs/get-eor-validations)",
+    + " [See the documentation](https://developer.deel.com/api/reference/endpoints/eor-hiring/get-eor-hiring-guide-by-country)",
   version: "0.0.1",
   type: "action",
   annotations: {

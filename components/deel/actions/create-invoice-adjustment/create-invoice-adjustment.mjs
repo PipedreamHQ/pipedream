@@ -10,7 +10,7 @@ export default {
     + " `time_off`, `vat`."
     + " Set `is_auto_approved` to `true` to auto-approve without manual review."
     + " Use **List Contracts** to find the contract ID."
-    + " [See the documentation](https://developer.deel.com/docs/create-an-invoice-adjustment)",
+    + " [See the documentation](https://developer.deel.com/api/reference/endpoints/invoice-adjustments/create-invoice-adjustment)",
   version: "0.0.1",
   type: "action",
   annotations: {

@@ -12,7 +12,7 @@ export default {
     + " `work_hours_per_week` is the number of hours worked per week (e.g., `40`)."
     + " `work_visa` is `true` if the employee requires a work visa."
     + " `team_id` and `legal_entity_id` are required — retrieve from your Deel organization settings."
-    + " [See the documentation](https://developer.deel.com/docs/list-eor-benefits)",
+    + " [See the documentation](https://developer.deel.com/api/reference/endpoints/eor-hiring/get-benefits)",
   version: "0.0.1",
   type: "action",
   annotations: {
