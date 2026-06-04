@@ -46,7 +46,7 @@ export default {
     scale: {
       type: "string",
       label: "Compensation Scale",
-      description: "New compensation scale. One of: `hour`, `day`, `week`, `month`, `year`, `task`, `milestone`.",
+      description: "New compensation scale. One of: `hourly`, `daily`, `weekly`, `monthly`, `biweekly`, `semimonthly`, `custom`. Omit if only changing the amount.",
       optional: true,
     },
     frequency: {
