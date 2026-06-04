@@ -1,6 +1,8 @@
 import { ConfigurationError } from "@pipedream/platform";
 import app from "../../deel.app.mjs";
 
+const NUMERIC_RE = /^\s*\d+(\.\d+)?\s*$/;
+
 export default {
   key: "deel-create-shift-rate",
   name: "Create Shift Rate",
@@ -49,14 +51,14 @@ export default {
       name: this.name,
       external_id: this.externalId,
     };
-    const NUMERIC_RE = /^\s*-?\d+(\.\d+)?\s*$/;
     if (this.type) payload.type = this.type;
     let parsedValue;
     if (this.value != null && this.value !== "") {
       if (!NUMERIC_RE.test(this.value)) {
-        throw new ConfigurationError(`Invalid Value: "${this.value}" must be a plain number (e.g., "150" or "45.50")`);
+        throw new ConfigurationError(`Invalid Value: "${this.value}" must be a non-negative plain number (e.g., "150" or "45.50")`);
       }
       parsedValue = parseFloat(this.value);
+      if (parsedValue < 0) throw new ConfigurationError(`Invalid Value: "${this.value}" must be a non-negative plain number`);
       payload.value = parsedValue;
     }
 
