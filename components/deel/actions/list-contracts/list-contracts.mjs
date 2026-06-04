@@ -71,11 +71,7 @@ export default {
     if (this.limit) params.limit = this.limit;
     if (this.afterCursor) params.after_cursor = this.afterCursor;
 
-    const response = await this.app._makeRequest({
-      $,
-      path: "/contracts",
-      params,
-    });
+    const response = await this.app.listContracts($, params);
 
     const contracts = response?.data ?? response ?? [];
     $.export("$summary", `Retrieved ${Array.isArray(contracts)

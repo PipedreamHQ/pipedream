@@ -27,10 +27,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app._makeRequest({
-      $,
-      path: `/eor/validations/${this.countryCode}`,
-    });
+    const response = await this.app.getEorHiringGuide($, this.countryCode);
 
     $.export("$summary", `Retrieved EOR hiring guide for ${this.countryCode}`);
     return response;

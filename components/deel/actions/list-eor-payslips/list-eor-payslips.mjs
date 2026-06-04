@@ -25,10 +25,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app._makeRequest({
-      $,
-      path: `/eor/workers/${this.workerId}/payslips`,
-    });
+    const response = await this.app.listEorPayslips($, this.workerId);
 
     const payslips = response?.data ?? response ?? [];
     $.export("$summary", `Retrieved ${Array.isArray(payslips)

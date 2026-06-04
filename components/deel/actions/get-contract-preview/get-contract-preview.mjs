@@ -26,10 +26,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app._makeRequest({
-      $,
-      path: `/contracts/${this.contractId}/preview`,
-    });
+    const response = await this.app.getContractPreview($, this.contractId);
 
     // Contract HTML can be very large — truncate to avoid token limits
     const MAX_CHARS = 12000;

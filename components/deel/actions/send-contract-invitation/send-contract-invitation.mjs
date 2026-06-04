@@ -48,14 +48,7 @@ export default {
     if (this.locale) payload.locale = this.locale;
     if (this.message) payload.message = this.message;
 
-    const response = await this.app._makeRequest({
-      $,
-      path: `/contracts/${this.contractId}/invitations`,
-      method: "POST",
-      data: {
-        data: payload,
-      },
-    });
+    const response = await this.app.sendContractInvitation($, this.contractId, payload);
 
     $.export("$summary", `Sent contract invitation for contract ${this.contractId}`);
     return response;

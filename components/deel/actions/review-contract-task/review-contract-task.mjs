@@ -55,14 +55,7 @@ export default {
     };
     if (this.reason) payload.reason = this.reason;
 
-    const response = await this.app._makeRequest({
-      $,
-      path: `/contracts/${this.contractId}/tasks/${this.taskId}/reviews`,
-      method: "POST",
-      data: {
-        data: payload,
-      },
-    });
+    const response = await this.app.reviewContractTask($, this.contractId, this.taskId, payload);
 
     $.export("$summary", `Task ${this.taskId} on contract ${this.contractId}: ${this.status}`);
     return response;

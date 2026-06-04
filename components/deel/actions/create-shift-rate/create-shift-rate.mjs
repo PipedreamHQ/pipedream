@@ -52,14 +52,7 @@ export default {
     if (this.value) payload.value = parseFloat(this.value);
 
     try {
-      const response = await this.app._makeRequest({
-        $,
-        path: "/time_tracking/shift_rates",
-        method: "POST",
-        data: {
-          data: payload,
-        },
-      });
+      const response = await this.app.createShiftRate($, payload);
 
       $.export("$summary", `Created shift rate: ${this.name} (external_id: ${this.externalId})`);
       return response;

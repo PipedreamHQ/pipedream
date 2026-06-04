@@ -56,17 +56,13 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app._makeRequest({
-      $,
-      path: "/eor/benefits",
-      params: {
-        country_code: this.countryCode,
-        employment_type: this.employmentType,
-        work_hours_per_week: this.workHoursPerWeek,
-        work_visa: this.workVisa,
-        team_id: this.teamId,
-        legal_entity_id: this.legalEntityId,
-      },
+    const response = await this.app.getEorBenefits($, {
+      country_code: this.countryCode,
+      employment_type: this.employmentType,
+      work_hours_per_week: this.workHoursPerWeek,
+      work_visa: this.workVisa,
+      team_id: this.teamId,
+      legal_entity_id: this.legalEntityId,
     });
 
     const benefits = response?.data ?? response ?? [];

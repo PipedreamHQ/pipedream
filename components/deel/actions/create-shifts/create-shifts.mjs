@@ -42,16 +42,9 @@ export default {
     const shiftsArray = JSON.parse(this.shifts);
     if (!Array.isArray(shiftsArray)) throw new ConfigurationError("shifts must be a JSON array");
 
-    const response = await this.app._makeRequest({
-      $,
-      path: "/time_tracking/shifts",
-      method: "POST",
-      data: {
-        data: {
-          contract_id: this.contractId,
-          shifts: shiftsArray,
-        },
-      },
+    const response = await this.app.createShifts($, {
+      contract_id: this.contractId,
+      shifts: shiftsArray,
     });
 
     $.export("$summary", `Created ${shiftsArray.length} shift(s) for contract ${this.contractId}`);

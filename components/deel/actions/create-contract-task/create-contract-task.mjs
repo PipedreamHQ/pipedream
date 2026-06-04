@@ -58,14 +58,7 @@ export default {
     };
     if (this.isAutoApproved !== undefined) payload.is_auto_approved = this.isAutoApproved;
 
-    const response = await this.app._makeRequest({
-      $,
-      path: `/contracts/${this.contractId}/tasks`,
-      method: "POST",
-      data: {
-        data: payload,
-      },
-    });
+    const response = await this.app.createContractTask($, this.contractId, payload);
 
     const task = response?.data ?? response;
     const taskId = task?.id ?? "unknown";

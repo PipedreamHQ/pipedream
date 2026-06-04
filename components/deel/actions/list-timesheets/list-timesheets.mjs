@@ -72,11 +72,7 @@ export default {
     if (this.limit != null) params.limit = this.limit;
     if (this.offset != null) params.offset = this.offset;
 
-    const response = await this.app._makeRequest({
-      $,
-      path: "/timesheets",
-      params,
-    });
+    const response = await this.app.listTimesheets($, params);
 
     const timesheets = response?.data ?? response ?? [];
     $.export("$summary", `Retrieved ${Array.isArray(timesheets)

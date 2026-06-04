@@ -26,10 +26,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app._makeRequest({
-      $,
-      path: `/contracts/${this.contractId}/tasks`,
-    });
+    const response = await this.app.listContractTasks($, this.contractId);
 
     const tasks = response?.data ?? response ?? [];
     $.export("$summary", `Retrieved ${Array.isArray(tasks)

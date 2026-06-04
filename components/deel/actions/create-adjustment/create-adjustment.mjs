@@ -99,13 +99,7 @@ export default {
       });
     }
 
-    const response = await this.app._makeRequest({
-      $,
-      path: "/adjustments",
-      method: "POST",
-      data: form,
-      headers: form.getHeaders(),
-    });
+    const response = await this.app.createAdjustment($, form);
 
     const adj = response?.data ?? response;
     const adjId = adj?.id ?? "unknown";

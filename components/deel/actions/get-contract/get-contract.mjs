@@ -25,10 +25,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app._makeRequest({
-      $,
-      path: `/contracts/${this.contractId}`,
-    });
+    const response = await this.app.getContract($, this.contractId);
 
     const contract = response?.data ?? response;
     const title = contract?.title ?? contract?.name ?? this.contractId;

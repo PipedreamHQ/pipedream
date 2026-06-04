@@ -92,14 +92,7 @@ export default {
     if (this.noticePeriod !== undefined) payload.notice_period = this.noticePeriod;
     if (this.workHoursPerWeek) payload.work_hours_per_week = parseFloat(this.workHoursPerWeek);
 
-    const response = await this.app._makeRequest({
-      $,
-      path: `/contracts/${this.contractId}/amendments`,
-      method: "POST",
-      data: {
-        data: payload,
-      },
-    });
+    const response = await this.app.amendContract($, this.contractId, payload);
 
     $.export("$summary", `Amended EOR contract ${this.contractId} effective ${this.effectiveDate}`);
     return response;

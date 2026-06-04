@@ -187,14 +187,7 @@ export default {
       if (this.workLocationName) payload.work_location.name = this.workLocationName;
     }
 
-    const response = await this.app._makeRequest({
-      $,
-      path: "/contracts/gp",
-      method: "POST",
-      data: {
-        data: payload,
-      },
-    });
+    const response = await this.app.createGpContract($, payload);
 
     const contract = response?.data ?? response;
     const contractId = contract?.id ?? "unknown";

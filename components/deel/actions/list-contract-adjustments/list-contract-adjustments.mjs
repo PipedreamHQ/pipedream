@@ -42,11 +42,7 @@ export default {
     if (this.from) params.from = this.from;
     if (this.to) params.to = this.to;
 
-    const response = await this.app._makeRequest({
-      $,
-      path: `/contracts/${this.contractId}/adjustments`,
-      params,
-    });
+    const response = await this.app.listContractAdjustments($, this.contractId, params);
 
     const adjustments = response?.data ?? response ?? [];
     $.export("$summary", `Retrieved ${Array.isArray(adjustments)

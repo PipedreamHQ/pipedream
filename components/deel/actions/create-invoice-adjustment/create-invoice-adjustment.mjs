@@ -65,14 +65,7 @@ export default {
     };
     if (this.isAutoApproved !== undefined) payload.is_auto_approved = this.isAutoApproved;
 
-    const response = await this.app._makeRequest({
-      $,
-      path: "/invoice-adjustments",
-      method: "POST",
-      data: {
-        data: payload,
-      },
-    });
+    const response = await this.app.createInvoiceAdjustment($, payload);
 
     const adj = response?.data ?? response;
     const adjId = adj?.id ?? "unknown";

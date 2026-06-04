@@ -164,25 +164,25 @@ export default {
     if (!hasSalary && !hasHourly) {
       throw new ConfigurationError("Provide either Annual Salary or Hourly Rate.");
     }
+    const NUMERIC_RE = /^\s*\d+(\.\d+)?\s*$/;
     if (hasSalary) {
+      if (!NUMERIC_RE.test(this.compensationSalary)) {
+        throw new ConfigurationError(`Invalid Annual Salary: "${this.compensationSalary}" must be a plain number (e.g., "80000" or "80000.50")`);
+      }
       const salary = parseFloat(this.compensationSalary);
       if (!Number.isFinite(salary)) throw new ConfigurationError(`Invalid Annual Salary: "${this.compensationSalary}" is not a finite number`);
       payload.compensation_details.salary = salary;
     }
     if (hasHourly) {
+      if (!NUMERIC_RE.test(this.compensationHourlyRate)) {
+        throw new ConfigurationError(`Invalid Hourly Rate: "${this.compensationHourlyRate}" must be a plain number (e.g., "45" or "45.50")`);
+      }
       const hourlyRate = parseFloat(this.compensationHourlyRate);
       if (!Number.isFinite(hourlyRate)) throw new ConfigurationError(`Invalid Hourly Rate: "${this.compensationHourlyRate}" is not a finite number`);
       payload.compensation_details.hourly_rate = hourlyRate;
     }
 
-    const response = await this.app._makeRequest({
-      $,
-      path: "/eor",
-      method: "POST",
-      data: {
-        data: payload,
-      },
-    });
+    const response = await this.app.createEorContract($, payload);
 
     const contract = response?.data ?? response;
     const contractId = contract?.id ?? "unknown";

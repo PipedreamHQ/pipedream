@@ -165,14 +165,7 @@ export default {
     };
     if (this.scopeOfWork) payload.scope_of_work = this.scopeOfWork;
 
-    const response = await this.app._makeRequest({
-      $,
-      path: "/contracts",
-      method: "POST",
-      data: {
-        data: payload,
-      },
-    });
+    const response = await this.app.createIcContract($, payload);
 
     const contract = response?.data ?? response;
     const contractId = contract?.id ?? "unknown";

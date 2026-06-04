@@ -83,14 +83,7 @@ export default {
     if (this.jobTitleName) payload.job_title_name = this.jobTitleName;
     if (this.scopeOfWork) payload.scope_of_work = this.scopeOfWork;
 
-    const response = await this.app._makeRequest({
-      $,
-      path: `/contracts/${this.contractId}/amendments`,
-      method: "POST",
-      data: {
-        data: payload,
-      },
-    });
+    const response = await this.app.amendContract($, this.contractId, payload);
 
     $.export("$summary", `Amended IC contract ${this.contractId} effective ${this.effectiveDate}`);
     return response;

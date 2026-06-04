@@ -31,15 +31,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app._makeRequest({
-      $,
-      path: `/contracts/${this.contractId}/signatures`,
-      method: "POST",
-      data: {
-        data: {
-          client_signature: this.clientSignature,
-        },
-      },
+    const response = await this.app.signContract($, this.contractId, {
+      client_signature: this.clientSignature,
     });
 
     $.export("$summary", `Signed contract ${this.contractId}`);

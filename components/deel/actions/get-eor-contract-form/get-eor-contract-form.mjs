@@ -26,10 +26,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app._makeRequest({
-      $,
-      path: `/forms/eor/create-contract/${this.countryCode}`,
-    });
+    const response = await this.app.getEorContractForm($, this.countryCode);
 
     $.export("$summary", `Retrieved EOR contract form fields for ${this.countryCode}`);
     return response;
