@@ -3,7 +3,7 @@ import app from "../../e2b.app.mjs";
 export default {
   key: "e2b-run-code",
   name: "Run Code",
-  description: "Run or interpret code using the E2B service. [See the documentation](https://www.npmjs.com/package/e2b).",
+  description: "Run or interpret code using the E2B service. [See the documentation](https://e2b.dev/docs)",
   version: "0.0.6",
   annotations: {
     destructiveHint: false,
@@ -25,7 +25,10 @@ export default {
       code,
     } = this;
 
-    const response = await app.runCode(code);
+    const response = await app.runCode({
+      $,
+      code,
+    });
 
     $.export("$summary", "Successfully interpreted code.");
 
