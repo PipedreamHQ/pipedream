@@ -6,13 +6,6 @@ export const SEARCH_QUERY = `
         name
         slug
         contentsnippet (length: 250)
-        schema_elements {
-          id
-          name
-          render_type
-          order
-          content    
-        }
         date_modified
         collections {
           id

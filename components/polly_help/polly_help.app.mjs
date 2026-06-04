@@ -23,7 +23,7 @@ export default {
             ...variables,
             api_token: this.$auth.api_token,
             publicationId: this.$auth.publication_id,
-            user: (this.$auth.user && this.$auth.user !== "")
+            user: (this.$auth.user)
               ? this.$auth.user
               : undefined,
           },
