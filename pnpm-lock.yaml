@@ -14843,8 +14843,8 @@ importers:
   components/smartsheet:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.8
-        version: 1.6.8
+        specifier: ^3.1.1
+        version: 3.4.0
 
   components/smartsuite:
     dependencies:

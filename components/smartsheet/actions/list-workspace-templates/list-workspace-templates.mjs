@@ -7,7 +7,7 @@ export default {
     "Lists templates available in your workspaces."
     + " Use this to find template IDs for **New Sheet From Template**."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/workspaces/get-workspace-children)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
