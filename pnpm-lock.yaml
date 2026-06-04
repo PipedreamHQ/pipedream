@@ -4094,7 +4094,11 @@ importers:
 
   components/decodo: {}
 
-  components/deel: {}
+  components/deel:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
 
   components/deep_tagger: {}
 
