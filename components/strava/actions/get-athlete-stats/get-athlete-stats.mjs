@@ -7,7 +7,7 @@ export default {
     + " By default, resolves the authenticated athlete's ID automatically (no input needed). Pass `athleteId` to look up another athlete's publicly-visible stats instead."
     + " Stats only include activities the requesting user has permission to view. For private activities of another athlete, results will be limited."
     + " [See the documentation](https://developers.strava.com/docs/reference/#api-Athletes-getStats)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -11,7 +11,7 @@ export default {
     + " Cross-references: use **Get Activity** to fetch a single activity's full details, **Get Activity Laps** for lap breakdowns, **Get Activity Comments** for comments, **Get Activity Kudoers** for kudos."
     + " Strava read rate limits: 600 / 15 min and 30,000 / day per application. Large unfiltered fetches consume quota — prefer `after` for incremental work."
     + " [See the documentation](https://developers.strava.com/docs/reference/#api-Activities-getLoggedInAthleteActivities)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

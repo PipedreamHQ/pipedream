@@ -8,7 +8,7 @@ export default {
     + " Use `pageSize` to control the per-page result count (Strava default and max apply). Empty array if no one has commented."
     + " Returns `{ comments, _rateLimitUsage }` — `_rateLimitUsage` exposes Strava's rate-limit headers for observability."
     + " [See the documentation](https://developers.strava.com/docs/reference/#api-Activities-getCommentsByActivityId)",
-  version: "0.0.4",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

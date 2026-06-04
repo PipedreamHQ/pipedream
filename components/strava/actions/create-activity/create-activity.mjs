@@ -9,7 +9,7 @@ export default {
     + " Pass `sportType` from Strava's documented `sport_type` enum (modern field, replaces legacy `type`). Common values: Run, Ride, Hike, Swim, Walk, Workout, Yoga."
     + " `startDateLocal` must be ISO 8601 in the athlete's local time with timezone offset or `Z` for UTC. Example: `2026-05-15T07:00:00Z`."
     + " [See the documentation](https://developers.strava.com/docs/reference/#api-Activities-createActivity)",
-  version: "1.0.2",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -85,8 +85,8 @@ export default {
       sport_type: this.sportType,
       start_date_local: this.startDateLocal,
       elapsed_time: this.elapsedTime,
+      description: this.description,
     };
-    if (this.description) data.description = this.description;
     if (distanceMeters != null) data.distance = distanceMeters;
     if (this.trainer) data.trainer = 1;
     if (this.commute) data.commute = 1;

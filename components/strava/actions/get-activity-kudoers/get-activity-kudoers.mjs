@@ -8,7 +8,7 @@ export default {
     + " Empty array if no one has kudosed the activity."
     + " Returns `{ kudoers, _rateLimitUsage }` — `_rateLimitUsage` exposes Strava's rate-limit headers for observability."
     + " [See the documentation](https://developers.strava.com/docs/reference/#api-Activities-getKudoersByActivityId)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
