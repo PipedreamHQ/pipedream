@@ -165,10 +165,14 @@ export default {
       throw new ConfigurationError("Provide either Annual Salary or Hourly Rate.");
     }
     if (hasSalary) {
-      payload.compensation_details.salary = parseFloat(this.compensationSalary);
+      const salary = parseFloat(this.compensationSalary);
+      if (!Number.isFinite(salary)) throw new Error(`Invalid compensationSalary: "${this.compensationSalary}" is not a finite number`);
+      payload.compensation_details.salary = salary;
     }
     if (hasHourly) {
-      payload.compensation_details.hourly_rate = parseFloat(this.compensationHourlyRate);
+      const hourlyRate = parseFloat(this.compensationHourlyRate);
+      if (!Number.isFinite(hourlyRate)) throw new Error(`Invalid compensationHourlyRate: "${this.compensationHourlyRate}" is not a finite number`);
+      payload.compensation_details.hourly_rate = hourlyRate;
     }
 
     const response = await this.app._makeRequest({
