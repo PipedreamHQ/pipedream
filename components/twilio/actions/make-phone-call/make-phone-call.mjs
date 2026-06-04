@@ -44,7 +44,7 @@ export default {
         twilio,
         "applicationSid",
       ],
-      description: "The SID of an Application resource that will handle the call. Provide exactly **one** of **Text**, **URL**, or **Application SID**.",
+      description: "The SID of an Application resource that will handle the call. You can use **List Application SID Options** to get a list of available options. Provide exactly **one** of **Text**, **URL**, or **Application SID**.",
       optional: true,
     },
     timeout: {
