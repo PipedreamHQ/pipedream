@@ -4,7 +4,7 @@ export default {
   key: "hubspot-list-ticket-pipeline-options",
   name: "List Pipeline Options",
   description: "Retrieves available options for the Pipeline field.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
