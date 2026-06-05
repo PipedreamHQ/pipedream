@@ -35,8 +35,8 @@ export default {
 
         return {
           options: items.map((item) => ({
-            label: this.getItemOptionLabel(item.track),
-            value: item.track.uri,
+            label: this.getItemOptionLabel(item.item),
+            value: item.item.uri,
           })),
         };
       },
@@ -362,7 +362,7 @@ export default {
     }) {
       const { data } = await this._makeRequest({
         $,
-        url: `/playlists/${playlistId}/tracks`,
+        url: `/playlists/${playlistId}/items`,
         ...args,
       });
       return data?.items ?? [];
