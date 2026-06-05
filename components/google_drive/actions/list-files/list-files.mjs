@@ -8,7 +8,7 @@ export default {
   key: "google_drive-list-files",
   name: "List Files",
   description: "List files from a specific folder. [See the documentation](https://developers.google.com/drive/api/v3/reference/files/list) for more information",
-  version: "0.2.3",
+  version: "0.3.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -85,11 +85,7 @@ export default {
     }
     const opts = getListFilesOpts(this.drive, {
       q: "",
-      ...(this.limitToMyDrive
-        ? {
-          includeItemsFromAllDrives: false,
-        }
-        : {}),
+      limitToMyDrive: this.limitToMyDrive,
     });
     if (this.folderId) {
       opts.q = `"${this.folderId}" in parents`;
