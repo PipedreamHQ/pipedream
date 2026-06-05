@@ -19,7 +19,7 @@ export default {
     },
     workspaces: {
       label: "Workspaces",
-      description: "List of workspaces. This field uses the workspace GID.",
+      description: "List of workspaces. Use the **List Workspaces** action to retrieve available workspace GIDs.",
       type: "string[]",
       async options({ prevContext }) {
         const params = {
@@ -47,7 +47,7 @@ export default {
     },
     teams: {
       label: "Teams",
-      description: "List of teams. This field uses the team GID.",
+      description: "List of teams. Use the **List Teams** action to retrieve available team GIDs.",
       type: "string[]",
       async options({ workspace }) {
         const teams = await this.getTeams(workspace);
@@ -121,7 +121,7 @@ export default {
     },
     users: {
       label: "Users",
-      description: "List of users. This field uses the user GID.",
+      description: "List of users. Use the **List Users** action to retrieve available user GIDs.",
       type: "string[]",
       async options({
         prevContext, workspace,
@@ -272,6 +272,15 @@ export default {
         };
       },
     },
+    maxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: "The maximum total number of results to return across all paginated API calls. Each page fetches up to 100 items (Asana's maximum); this cap is applied after auto-pagination completes.",
+      default: 100,
+      min: 1,
+      max: 9999,
+      optional: true,
+    },
   },
   methods: {
     /**
@@ -371,7 +380,9 @@ export default {
      * @returns {string} An Asana Organizations list.
      */
     async getOrganizations() {
-      const params = {};
+      const params = {
+        opt_fields: "is_organization",
+      };
       const workspaces = [];
       do {
         const {
@@ -383,13 +394,7 @@ export default {
         params.offset = next?.offset;
       } while (params.offset);
 
-      const organizations = workspaces.filter(async (workspace) => {
-        const { data } = await this.getWorkspace({
-          workspaceId: workspace.gid,
-        });
-        return data?.is_organization;
-      });
-      return organizations;
+      return workspaces.filter((workspace) => workspace.is_organization);
     },
     /**
      * Get an Asana Project.
@@ -633,6 +638,14 @@ export default {
       return this._makeRequest({
         path: `user_task_lists/${taskList.gid}/tasks`,
         $,
+      });
+    },
+    getTasksForUserTaskList({
+      userTaskListId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `user_task_lists/${userTaskListId}/tasks`,
+        ...opts,
       });
     },
     listTaskTemplates(opts = {}) {
