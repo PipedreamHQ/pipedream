@@ -28,7 +28,7 @@ export default {
   async run({ $ }) {
     let hasMore, count = 0;
     const params = {
-      limit: Math.min(this.maxResults, 100),
+      limit: 100,
     };
     const results = [];
 

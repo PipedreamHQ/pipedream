@@ -46,7 +46,7 @@ export default {
     const params = {
       workspace: this.workspace,
       archived: this.archived,
-      limit: Math.min(this.maxResults, 100),
+      limit: 100,
     };
     const results = [];
 

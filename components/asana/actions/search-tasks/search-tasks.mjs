@@ -82,7 +82,7 @@ export default {
     const params = {
       completed_since: this.completedSince,
       modified_since: this.modifiedSince,
-      limit: Math.min(this.maxResults, 100),
+      limit: 100,
     };
 
     if (this.assignee) {

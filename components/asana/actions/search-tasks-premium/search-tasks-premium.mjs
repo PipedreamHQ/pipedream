@@ -83,7 +83,7 @@ export default {
       "sections.any": this.section,
       "projects.any": this.project,
       "text": this.name,
-      "limit": Math.min(this.maxResults, 100),
+      "limit": 100,
     };
 
     const { data: tasks } = await this.asana.searchTasks({

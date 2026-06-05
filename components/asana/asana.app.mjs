@@ -275,10 +275,10 @@ export default {
     maxResults: {
       type: "integer",
       label: "Max Results",
-      description: "The maximum number of results to return",
+      description: "The maximum total number of results to return across all paginated API calls. Each page fetches up to 100 items (Asana's maximum); this cap is applied after auto-pagination completes.",
       default: 100,
       min: 1,
-      max: 100,
+      max: 9999,
       optional: true,
     },
   },

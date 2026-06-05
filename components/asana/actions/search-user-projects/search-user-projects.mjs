@@ -45,7 +45,7 @@ export default {
     let hasMore, count = 0;
     const params = {
       workspace: this.workspace,
-      limit: Math.min(this.maxResults, 100),
+      limit: 100,
       opt_fields: "gid,name,resource_type,members",
     };
     const allProjects = [];
