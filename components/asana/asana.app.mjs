@@ -277,6 +277,8 @@ export default {
       label: "Max Results",
       description: "The maximum number of results to return",
       default: 100,
+      min: 1,
+      max: 100,
       optional: true,
     },
   },
@@ -378,7 +380,9 @@ export default {
      * @returns {string} An Asana Organizations list.
      */
     async getOrganizations() {
-      const params = {};
+      const params = {
+        opt_fields: "is_organization",
+      };
       const workspaces = [];
       do {
         const {
@@ -390,17 +394,7 @@ export default {
         params.offset = next?.offset;
       } while (params.offset);
 
-      const results = await Promise.all(
-        workspaces.map(async (workspace) => {
-          const { data } = await this.getWorkspace({
-            workspaceId: workspace.gid,
-          });
-          return data?.is_organization
-            ? workspace
-            : null;
-        }),
-      );
-      return results.filter(Boolean);
+      return workspaces.filter((workspace) => workspace.is_organization);
     },
     /**
      * Get an Asana Project.

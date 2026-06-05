@@ -62,18 +62,23 @@ export default {
 
       if (data.length === 0) break;
 
-      const membership = await Promise.all(
-        data.map(async (project) => {
-          const { data: detail } = await this.asana.getProject({
-            projectId: project.gid,
-            $,
-          });
-          const isMember = detail.members && detail.members.some((m) => m.gid === this.user);
-          return isMember
-            ? project
-            : null;
-        }),
-      );
+      const membership = [];
+      for (let i = 0; i < data.length; i += 50) {
+        const chunk = data.slice(i, i + 50);
+        const results = await Promise.all(
+          chunk.map(async (project) => {
+            const { data: detail } = await this.asana.getProject({
+              projectId: project.gid,
+              $,
+            });
+            const isMember = detail.members && detail.members.some((m) => m.gid === this.user);
+            return isMember
+              ? project
+              : null;
+          }),
+        );
+        membership.push(...results);
+      }
 
       for (const project of membership) {
         if (!project) continue;

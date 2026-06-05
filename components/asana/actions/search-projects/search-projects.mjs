@@ -23,7 +23,6 @@ export default {
       label: "Workspace",
       description: "The workspace or organization to filter projects on. Use the **List Workspaces** action to find available workspace GIDs.",
       type: "string",
-      optional: true,
       propDefinition: [
         asana,
         "workspaces",
