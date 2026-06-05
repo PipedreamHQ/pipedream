@@ -4,7 +4,7 @@ export default {
   key: "google_slides-insert-text",
   name: "Insert Text",
   description: "Insert text into a shape. [See the documentation](https://developers.google.com/workspace/slides/api/reference/rest/v1/presentations/request#InsertTextRequest)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
