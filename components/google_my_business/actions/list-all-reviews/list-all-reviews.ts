@@ -46,7 +46,7 @@ export default defineAction({
 
     const response = await this.app.listReviews(params);
 
-    $.export("$summary", `Successfully listed ${response?.length ?? 0} review${response?.length ?? 0 > 1
+    $.export("$summary", `Successfully listed ${response?.length ?? 0} review${(response?.length ?? 0) !== 1
       ? "s"
       : ""}`);
 
