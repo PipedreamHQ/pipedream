@@ -8,7 +8,7 @@ export default defineAction({
   key: "google_my_business-list-all-reviews",
   name: "List All Reviews",
   description: `List all reviews of a location to audit reviews in bulk. [See the documentation](${DOCS_LINK})`,
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -46,7 +46,9 @@ export default defineAction({
 
     const response = await this.app.listReviews(params);
 
-    $.export("$summary", `Successfully listed ${response.length} reviews`);
+    $.export("$summary", `Successfully listed ${response?.length ?? 0} review${response?.length ?? 0 > 1
+      ? "s"
+      : ""}`);
 
     return response;
   },

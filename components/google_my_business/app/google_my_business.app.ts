@@ -133,9 +133,12 @@ export default defineApp({
     },
     async _httpRequest({
       $ = this,
+      url,
       ...args
     }: HttpRequestParams): Promise<object> {
+      const cleanUrl = url?.replace(/\/(accounts|locations)\/\1\//g, "/$1/");
       return axios($, {
+        url: cleanUrl,
         ...args,
         headers: this._getHeaders(),
       });
