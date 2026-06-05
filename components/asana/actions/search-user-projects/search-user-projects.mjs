@@ -46,6 +46,7 @@ export default {
     const params = {
       workspace: this.workspace,
       limit: Math.min(this.maxResults, 100),
+      opt_fields: "gid,name,resource_type,members",
     };
     const allProjects = [];
 
@@ -62,26 +63,9 @@ export default {
 
       if (data.length === 0) break;
 
-      const membership = [];
-      for (let i = 0; i < data.length; i += 50) {
-        const chunk = data.slice(i, i + 50);
-        const results = await Promise.all(
-          chunk.map(async (project) => {
-            const { data: detail } = await this.asana.getProject({
-              projectId: project.gid,
-              $,
-            });
-            const isMember = detail.members && detail.members.some((m) => m.gid === this.user);
-            return isMember
-              ? project
-              : null;
-          }),
-        );
-        membership.push(...results);
-      }
-
-      for (const project of membership) {
-        if (!project) continue;
+      for (const project of data) {
+        const isMember = project.members && project.members.some((m) => m.gid === this.user);
+        if (!isMember) continue;
         allProjects.push(project);
         if (++count >= this.maxResults) {
           hasMore = false;
