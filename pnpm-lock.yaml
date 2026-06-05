@@ -15006,6 +15006,9 @@ importers:
         specifier: ^13.0.0
         version: 13.0.0
 
+  components/snowflake_oauth:
+    specifiers: {}
+
   components/snowflake_test: {}
 
   components/snyk: {}
