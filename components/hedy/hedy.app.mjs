@@ -83,12 +83,6 @@ export default {
         data,
       });
     },
-    getCurrentUser({ $ = this }) {
-      return this._makeRequest({
-        $,
-        path: "/me",
-      });
-    },
     listSessions({
       $ = this, params,
     }) {

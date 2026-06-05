@@ -23,27 +23,11 @@ export default {
         "sessionId",
       ],
     },
-    limit: {
-      propDefinition: [
-        app,
-        "limit",
-      ],
-    },
-    after: {
-      propDefinition: [
-        app,
-        "after",
-      ],
-    },
   },
   async run({ $ }) {
     const response = await this.app.getHighlightsBySession({
       $,
       sessionId: this.sessionId,
-      params: {
-        limit: this.limit,
-        after: this.after,
-      },
     });
     const highlights = response?.data || [];
     $.export("$summary", `Retrieved ${highlights.length} highlight${highlights.length === 1
