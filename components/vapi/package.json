@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/vapi",
-  "version": "0.1.4",
+  "version": "0.3.0",
   "description": "Pipedream Vapi Components",
   "main": "vapi.app.mjs",
   "keywords": [

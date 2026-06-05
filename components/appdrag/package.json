@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/appdrag",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Pipedream AppDrag Components",
   "main": "appdrag.app.mjs",
   "keywords": [
@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@pipedream/platform": "^1.6.8",
-    "axios": "1.15.0",
+    "axios": "^1.16.1",
     "sqlstring": "^2.3.3"
   }
 }

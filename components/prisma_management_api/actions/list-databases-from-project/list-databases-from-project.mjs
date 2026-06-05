@@ -2,7 +2,7 @@ import app from "../../prisma_management_api.app.mjs";
 
 export default {
   name: "List Databases from Project",
-  version: "1.0.1",
+  version: "1.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -27,7 +27,9 @@ export default {
 
     if (response) {
       const count = response.data?.length || 0;
-      $.export("$summary", `Successfully retrieved ${count} database${count !== 1 ? "s" : ""} from project ${this.projectId}`);
+      $.export("$summary", `Successfully retrieved ${count} database${count !== 1
+        ? "s"
+        : ""} from project ${this.projectId}`);
     }
 
     return response;

@@ -92,14 +92,32 @@ export default {
       type: "string",
       label: "Issue ID or Key",
       description: "The ID or key of an issue",
+      useQuery: true,
       async options({
-        prevContext, cloudId, tasksOnly = false,
+        prevContext, query, cloudId, tasksOnly = false,
       }) {
         let { startAt } = prevContext || {};
         const pageSize = 50;
-        const jql = tasksOnly
-          ? "project is not EMPTY AND issuetype = \"Task\" ORDER BY created DESC"
-          : "project is not EMPTY ORDER BY created DESC";
+        const clauses = [
+          "project is not EMPTY",
+        ];
+        if (tasksOnly) {
+          clauses.push("issuetype = \"Task\"");
+        }
+        if (query) {
+          // Sends `(issuekey = "<q>" OR text ~ "<q>*")`.
+          // Purely numeric queries also send `id = <q>`.
+          const escaped = query.replace(/["\\]/g, "\\$&");
+          const subClauses = [
+            `issuekey = "${escaped}"`,
+            `text ~ "${escaped}*"`,
+          ];
+          if (/^\d+$/.test(query)) {
+            subClauses.unshift(`id = ${query}`);
+          }
+          clauses.push(`(${subClauses.join(" OR ")})`);
+        }
+        const jql = `${clauses.join(" AND ")} ORDER BY created DESC`;
         const resp = await this.searchIssues({
           cloudId,
           params: {
@@ -180,8 +198,8 @@ export default {
     },
     transition: {
       type: "string",
-      label: "Transition",
-      description: "Details of a transition. Required when performing a transition, optional when creating or editing an issue, See `Transition` section of [doc](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-put). Also you can go edit the workflow and choose the Text option instead of the Diagram option. You can see the transition ID in parenthesis.",
+      label: "Transition ID",
+      description: "The string ID of a transition (e.g. `\"11\"`). Required when performing a transition; optional when creating or editing an issue. Use the `id` value returned by the **Get Transitions** action. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-transitions-post).",
       optional: true,
       async options({
         prevContext, issueIdOrKey, cloudId,

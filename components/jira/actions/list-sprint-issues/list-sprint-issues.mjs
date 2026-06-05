@@ -4,7 +4,7 @@ export default {
   key: "jira-list-sprint-issues",
   name: "List Sprint Issues",
   description: "Returns all issues in a sprint. [See the documentation](https://developer.atlassian.com/cloud/jira/software/rest/api-group-sprint/#api-rest-agile-1-0-sprint-sprintid-issue-get)",
-  version: "0.0.2",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -604,6 +604,13 @@ const LIST_ORDERS = `
           id
           status
           displayStatus
+          createdAt
+          updatedAt
+          trackingInfo {
+            number
+            url
+            company
+          }
         }
         metafields (first: $first) {
           nodes {
@@ -635,10 +642,46 @@ const GET_DRAFT_ORDER = `
       completedAt
       invoiceSentAt
       status
-      totalPriceSet
-      subtotalPriceSet
-      totalShippingPriceSet
-      totalTaxSet
+      totalPriceSet {
+        presentmentMoney {
+          amount
+          currencyCode
+        }
+        shopMoney {
+          amount
+          currencyCode
+        }
+      }
+      subtotalPriceSet {
+        presentmentMoney {
+          amount
+          currencyCode
+        }
+        shopMoney {
+          amount
+          currencyCode
+        }
+      }
+      totalShippingPriceSet {
+        presentmentMoney {
+          amount
+          currencyCode
+        }
+        shopMoney {
+          amount
+          currencyCode
+        }
+      }
+      totalTaxSet {
+        presentmentMoney {
+          amount
+          currencyCode
+        }
+        shopMoney {
+          amount
+          currencyCode
+        }
+      }
       currencyCode
       taxExempt
       taxesIncluded
@@ -649,7 +692,7 @@ const GET_DRAFT_ORDER = `
         city
         company
         country
-        countryCodeV2
+        countryCode
         firstName
         lastName
         phone
@@ -666,7 +709,7 @@ const GET_DRAFT_ORDER = `
         city
         company
         country
-        countryCodeV2
+        countryCode
         firstName
         lastName
         phone
@@ -679,7 +722,9 @@ const GET_DRAFT_ORDER = `
       }
       customer {
         id
-        defaultEmailAddress
+        defaultEmailAddress {
+          emailAddress
+        }
         firstName
         lastName
         phone
@@ -918,7 +963,7 @@ const GET_CUSTOMER = `
         city
         company
         country
-        countryCodeV2
+        countryCode
         firstName
         lastName
         phone
@@ -932,7 +977,7 @@ const GET_CUSTOMER = `
         city
         company
         country
-        countryCodeV2
+        countryCode
         firstName
         lastName
         phone
@@ -966,7 +1011,7 @@ const LIST_CUSTOMERS = `
           city
           company
           country
-          countryCodeV2
+          countryCode
           firstName
           lastName
           phone
@@ -980,7 +1025,7 @@ const LIST_CUSTOMERS = `
           city
           company
           country
-          countryCodeV2
+          countryCode
           firstName
           lastName
           phone
@@ -1020,7 +1065,7 @@ const LIST_ASSIGNED_FULFILLMENT_ORDERS = `
           address2
           city
           company
-          countryCodeV2
+          countryCode
           firstName
           lastName
           phone
@@ -1071,7 +1116,7 @@ const GET_FULFILLMENT_ORDER = `
         city
         company
         country
-        countryCodeV2
+        countryCode
         firstName
         lastName
         phone
@@ -1119,7 +1164,7 @@ const LIST_FULFILLMENT_ORDERS = `
           address2
           city
           company
-          countryCodeV2
+          countryCode
           firstName
           lastName
           phone
@@ -1141,6 +1186,69 @@ const LIST_FULFILLMENT_ORDERS = `
       }
       pageInfo {
         endCursor
+      }
+    }
+  }
+`;
+
+const LIST_ORDER_FULFILLMENTS = `
+  query ($id: ID!, $first: Int) {
+    order(id: $id) {
+      fulfillments(first: $first) {
+        id
+        name
+        status
+      }
+    }
+  }
+`;
+
+const GET_FULFILLMENT = `
+  query ($id: ID!, $first: Int) {
+    fulfillment(id: $id) {
+      id
+      legacyResourceId
+      name
+      status
+      displayStatus
+      requiresShipping
+      totalQuantity
+      createdAt
+      updatedAt
+      deliveredAt
+      estimatedDeliveryAt
+      inTransitAt
+      trackingInfo {
+        company
+        number
+        url
+      }
+      order {
+        id
+        name
+      }
+      location {
+        id
+        name
+      }
+      originAddress {
+        address1
+        address2
+        city
+        countryCode
+        provinceCode
+        zip
+      }
+      fulfillmentLineItems(first: $first) {
+        nodes {
+          id
+          quantity
+          lineItem {
+            id
+            name
+            sku
+          }
+        }
       }
     }
   }
@@ -1172,4 +1280,6 @@ export default {
   LIST_ASSIGNED_FULFILLMENT_ORDERS,
   GET_FULFILLMENT_ORDER,
   LIST_FULFILLMENT_ORDERS,
+  LIST_ORDER_FULFILLMENTS,
+  GET_FULFILLMENT,
 };

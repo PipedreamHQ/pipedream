@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/trolley",
+  "version": "0.0.1",
+  "description": "Pipedream Trolley Components",
+  "main": "trolley.app.mjs",
+  "keywords": [
+    "pipedream",
+    "trolley"
+  ],
+  "homepage": "https://pipedream.com/apps/trolley",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

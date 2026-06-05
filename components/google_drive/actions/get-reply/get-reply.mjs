@@ -4,7 +4,7 @@ export default {
   key: "google_drive-get-reply",
   name: "Get Reply By ID",
   description: "Get reply by ID on a specific comment. [See the documentation](https://developers.google.com/workspace/drive/api/reference/rest/v3/replies/get) for more information",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

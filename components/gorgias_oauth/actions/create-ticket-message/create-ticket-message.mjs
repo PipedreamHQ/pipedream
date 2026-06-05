@@ -1,13 +1,11 @@
 import gorgiasOauth from "../../gorgias_oauth.app.mjs";
-import {
-  axios, ConfigurationError,
-} from "@pipedream/platform";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "gorgias_oauth-create-ticket-message",
   name: "Create Ticket Message",
   description: "Create a message for a ticket in the Gorgias system. [See the documentation](https://developers.gorgias.com/reference/create-ticket-message)",
-  version: "0.0.7",
+  version: "0.1.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -72,6 +70,30 @@ export default {
       label: "Message",
       description: "Message of the ticket. Accepts HTML",
     },
+    fromAddress: {
+      type: "string",
+      label: "From Address (override)",
+      description: "If set, used as `source.from.address` instead of looking up the From User/Customer's email. Useful when sending on behalf of a shared inbox (e.g. `support@example.com`).",
+      optional: true,
+    },
+    fromName: {
+      type: "string",
+      label: "From Name (override)",
+      description: "Optional display name for `source.from`.",
+      optional: true,
+    },
+    toAddress: {
+      type: "string",
+      label: "To Address (override)",
+      description: "If set, used as `source.to[0].address` instead of looking up the To User/Customer's email.",
+      optional: true,
+    },
+    toName: {
+      type: "string",
+      label: "To Name (override)",
+      description: "Optional display name for `source.to[0]`.",
+      optional: true,
+    },
     channel: {
       propDefinition: [
         gorgiasOauth,
@@ -120,26 +142,13 @@ export default {
     props.fromCustomer.hidden = this.fromAgent || isInternalNote;
     props.toCustomer.hidden = !this.fromAgent || isInternalNote;
     props.fromUser.hidden = !this.fromAgent;
+    props.fromAddress.hidden = isInternalNote;
+    props.fromName.hidden = isInternalNote;
+    props.toAddress.hidden = isInternalNote;
+    props.toName.hidden = isInternalNote;
     return {};
   },
   methods: {
-    /**
-     * Get attachment information from URL
-     * @param {object} $ - Step object
-     * @param {string} url - Attachment URL
-     * @returns {object} Content type and size information
-     */
-    async getAttachmentInfo($, url) {
-      const { headers } = await axios($, {
-        method: "HEAD",
-        url,
-        returnFullResponse: true,
-      });
-      return {
-        contentType: headers["content-type"],
-        size: headers["content-length"],
-      };
-    },
     /**
      * Get email address for user or customer
      * @param {object} $ - Step object
@@ -185,7 +194,7 @@ export default {
     if (this.attachmentUrl) {
       ({
         contentType, size,
-      } = await this.getAttachmentInfo($, this.attachmentUrl));
+      } = await this.gorgiasOauth.getAttachmentInfo($, this.attachmentUrl));
     }
 
     const fromId = this.fromAgent
@@ -234,11 +243,17 @@ export default {
     if (!isInternalNote) {
       messageData.source = {
         from: {
-          address: await this.getEmail($, fromId, "from"),
+          address: this.fromAddress ?? await this.getEmail($, fromId, "from"),
+          ...(this.fromName && {
+            name: this.fromName,
+          }),
         },
         to: [
           {
-            address: await this.getEmail($, toId, "to"),
+            address: this.toAddress ?? await this.getEmail($, toId, "to"),
+            ...(this.toName && {
+              name: this.toName,
+            }),
           },
         ],
       };

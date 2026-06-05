@@ -5,7 +5,7 @@ export default {
   key: "jira-transition-issue",
   name: "Transition Issue",
   description: "Performs an issue transition and, if the transition has a screen, updates the fields from the transition screen. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-transitions-post)",
-  version: "0.1.21",
+  version: "0.1.23",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -38,6 +38,8 @@ export default {
           cloudId: configuredProps.cloudId,
         }),
       ],
+      label: "Transition ID",
+      description: "The string ID of the transition to perform (e.g. `\"11\"`). Use the `id` value returned by the **Get Transitions** action.",
       optional: false,
     },
     fields: {

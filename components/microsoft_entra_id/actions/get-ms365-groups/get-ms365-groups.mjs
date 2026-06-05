@@ -4,7 +4,7 @@ export default {
   key: "microsoft_entra_id-get-ms365-groups",
   name: "Get MS365 Groups",
   description: "Get the user's Microsoft 365 groups (unified groups). Returns groups the user is a direct member of. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list-memberof?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

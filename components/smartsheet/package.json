@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/smartsheet",
-  "version": "0.1.1",
+  "version": "0.5.0",
   "description": "Pipedream Smartsheet Components",
   "main": "smartsheet.app.mjs",
   "keywords": [
@@ -13,6 +13,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.6.8"
+    "@pipedream/platform": "^3.1.1"
   }
 }
