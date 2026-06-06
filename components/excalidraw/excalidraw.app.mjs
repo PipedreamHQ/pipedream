@@ -25,12 +25,6 @@ export default {
       label: "Name",
       description: "The name of the collection.",
     },
-    collectionDescription: {
-      type: "string",
-      label: "Description",
-      description: "An optional description for the collection.",
-      optional: true,
-    },
     limit: {
       type: "integer",
       label: "Limit",

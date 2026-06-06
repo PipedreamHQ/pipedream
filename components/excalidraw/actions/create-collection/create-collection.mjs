@@ -22,18 +22,11 @@ export default {
         "collectionName",
       ],
     },
-    collectionDescription: {
-      propDefinition: [
-        app,
-        "collectionDescription",
-      ],
-    },
   },
   async run({ $ }) {
     const data = {
       name: this.collectionName,
     };
-    if (this.collectionDescription) data.description = this.collectionDescription;
 
     const collection = await this.app.createCollection({
       $,
