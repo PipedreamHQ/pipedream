@@ -3418,6 +3418,9 @@ importers:
 
   components/commcare: {}
 
+  components/commerce_tools:
+    specifiers: {}
+
   components/commercehq: {}
 
   components/commercetools:
