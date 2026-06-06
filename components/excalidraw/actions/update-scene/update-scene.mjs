@@ -38,15 +38,23 @@ export default {
         "collectionId",
       ],
     },
+    pinned: {
+      type: "boolean",
+      label: "Pinned",
+      description: "Whether to pin the scene to the top of the collection.",
+      optional: true,
+    },
   },
   async run({ $ }) {
-    const data = {};
-    if (this.sceneName) data.name = this.sceneName;
-    if (this.collectionId) data.collectionId = this.collectionId;
-
-    if (!Object.keys(data).length) {
-      throw new ConfigurationError("Provide at least one of: sceneName, collectionId.");
+    if (this.sceneName === undefined && this.collectionId === undefined && this.pinned === undefined) {
+      throw new ConfigurationError("Provide at least one of: sceneName, collectionId, pinned.");
     }
+
+    const data = {
+      name: this.sceneName,
+      collectionId: this.collectionId,
+      pinned: this.pinned,
+    };
 
     const scene = await this.app.updateScene({
       $,
