@@ -14,6 +14,11 @@ export default {
       label: "Criteria GUID",
       description: "The GUID of the background check criteria/package to use. Use **List Criteria** to discover available options and their GUIDs.",
     },
+    syncDir: {
+      type: "dir",
+      label: "Output Directory",
+      description: "The local directory where downloaded files will be saved. Pipedream uses this for File Stash integration and returns presigned download URLs.",
+    },
   },
   methods: {
     _baseUrl() {
