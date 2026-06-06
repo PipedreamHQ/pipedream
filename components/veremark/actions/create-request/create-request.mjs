@@ -348,7 +348,9 @@ export default {
         }),
         ...(this.jobAdditionalInformation && {
           additional_information: this.jobAdditionalInformation,
-        }),
+        external_id: this.jobExternalId,
+        client: this.jobClient,
+        additional_information: this.jobAdditionalInformation,
       },
       webhook: {
         url: this.webhookUrl,
