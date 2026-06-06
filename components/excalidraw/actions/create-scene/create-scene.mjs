@@ -44,7 +44,7 @@ export default {
 
     const data = {
       name: this.sceneName,
-      pinned: this.pinned ?? false,
+      pinned: this.pinned,
       collectionId,
     };
 
