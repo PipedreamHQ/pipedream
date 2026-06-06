@@ -31,9 +31,10 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {};
-    if (this.limit) params.limit = this.limit;
-    if (this.offset !== undefined) params.offset = this.offset;
+    const params = {
+      limit: this.limit,
+      offset: this.offset,
+    };
 
     const response = await this.app.listCollections({
       $,
