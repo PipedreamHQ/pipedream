@@ -46,7 +46,10 @@ export default {
     },
   },
   async run({ $ }) {
-    if (this.sceneName === undefined && this.collectionId === undefined && this.pinned === undefined) {
+    const nothingProvided = this.sceneName === undefined
+      && this.collectionId === undefined
+      && this.pinned === undefined;
+    if (nothingProvided) {
       throw new ConfigurationError("Provide at least one of: sceneName, collectionId, pinned.");
     }
 
