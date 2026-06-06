@@ -59,7 +59,12 @@ export default {
       label: "Wait for Completion",
       description: "Set to `true` to poll RenderIO until the command reaches a terminal status.",
       optional: true,
-      reloadProps: true,
+    },
+    downloadFilesToTmp: {
+      type: "boolean",
+      label: "Download Output Files to /tmp",
+      description: "Set to `true` to download completed output files to the workflow's `/tmp` directory when storage URLs are returned.",
+      optional: true,
     },
     syncDir: {
       type: "dir",
@@ -67,19 +72,6 @@ export default {
       sync: true,
       optional: true,
     },
-  },
-  additionalProps() {
-    if (this.waitForCompletion) {
-      return {
-        downloadFilesToTmp: {
-          type: "boolean",
-          label: "Download Output Files to /tmp",
-          description: "Set to `true` to download completed output files to the workflow's `/tmp` directory when storage URLs are returned.",
-          optional: true,
-        },
-      };
-    }
-    return {};
   },
   async run({ $ }) {
     if (!this.command?.trim()) {
