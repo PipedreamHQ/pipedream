@@ -32,6 +32,14 @@ export default {
       optional: true,
       default: 100,
     },
+    offset: {
+      type: "integer",
+      label: "Offset",
+      description: "The number of items to skip before starting to collect the result set.",
+      optional: true,
+      min: 0,
+      max: 9007199254740991,
+    },
   },
   methods: {
     _baseUrl() {
