@@ -359,7 +359,8 @@ export default {
       }),
       ...(this.assignedUserGuid && {
         assigned_user_guid: this.assignedUserGuid,
-      }),
+      send_initial_candidate_email: this.sendInitialCandidateEmail,
+      assigned_user_guid: this.assignedUserGuid,
       ...(Object.keys(candidateResponse).length > 0 && {
         candidate_response: candidateResponse,
       }),
