@@ -38,9 +38,10 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {};
-    if (this.collectionId) params.collectionId = this.collectionId;
-    if (this.limit) params.limit = this.limit;
+    const params = {
+      collectionId: this.collectionId,
+      limit: this.limit,
+    };
 
     const response = await this.app.listScenes({
       $,
