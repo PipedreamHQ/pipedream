@@ -115,9 +115,7 @@ export default {
           limit: 50,
         },
       });
-      const collections = Array.isArray(response)
-        ? response
-        : (response.data ?? []);
+      const collections = response.data ?? [];
       const defaultCol = collections.find((c) => c.isDefault) ?? collections[0];
       return defaultCol?.id;
     },
