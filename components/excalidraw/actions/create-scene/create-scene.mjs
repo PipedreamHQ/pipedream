@@ -30,6 +30,13 @@ export default {
         "collectionId",
       ],
     },
+    pinned: {
+      type: "boolean",
+      label: "Pinned",
+      description: "Whether to pin the scene to the top of the collection.",
+      optional: true,
+      default: false,
+    },
   },
   async run({ $ }) {
     const collectionId = this.collectionId
@@ -37,7 +44,7 @@ export default {
 
     const data = {
       name: this.sceneName,
-      pinned: false,
+      pinned: this.pinned ?? false,
       collectionId,
     };
 
