@@ -49,7 +49,7 @@ export default {
     customerNumber: {
       type: "string",
       label: "Customer Phone Number",
-      description: "Phone number to call in E.164 format, e.g. `+14155551234`. The API requires either this or **Customer ID** for outbound phone calls",
+      description: "Phone number to call in E.164 format, e.g. `+14155551234`. The API requires either this or the `customerId` prop for outbound phone calls",
       optional: true,
     },
   },
