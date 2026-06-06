@@ -112,7 +112,7 @@ export default {
       const response = await this.listCollections({
         $,
         params: {
-          limit: 50,
+          limit: 100,
         },
       });
       const collections = response.data ?? [];
