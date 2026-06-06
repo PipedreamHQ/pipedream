@@ -56,7 +56,7 @@ export default {
       $,
       contextId: this.contextId,
       params: {
-        interval: this.interval || undefined,
+        interval: this.interval,
         observations: this.observations,
         participation: this.participation,
       },

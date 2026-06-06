@@ -51,11 +51,12 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {};
-    if (this.filterAttributeId !== undefined) params["filter[attributeId]"] = this.filterAttributeId;
-    if (this.filterDirect !== undefined) params["filter[direct]"] = this.filterDirect;
-    if (this.filterManagerId !== undefined) params["filter[managerId]"] = this.filterManagerId;
-    if (this.filterType) params["filter[type]"] = this.filterType;
+    const params = {
+      "filter[attributeId]": this.filterAttributeId,
+      "filter[direct]": this.filterDirect,
+      "filter[managerId]": this.filterManagerId,
+      "filter[type]": this.filterType,
+    };
     const response = await this.app.listSegments({
       $,
       params,

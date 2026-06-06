@@ -61,13 +61,14 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {};
-    if (this.filterEmail) params["filter[account.email]"] = this.filterEmail;
-    if (this.filterAccountId !== undefined) params["filter[accountId]"] = this.filterAccountId;
-    if (this.filterAdmin !== undefined) params["filter[admin]"] = this.filterAdmin;
-    if (this.filterEmployeeId !== undefined) params["filter[employeeId]"] = this.filterEmployeeId;
-    if (this.filterManager !== undefined) params["filter[manager]"] = this.filterManager;
-    if (this.filterSegmentIds) params["filter[segmentIds]"] = this.filterSegmentIds;
+    const params = {
+      "filter[account.email]": this.filterEmail,
+      "filter[accountId]": this.filterAccountId,
+      "filter[admin]": this.filterAdmin,
+      "filter[employeeId]": this.filterEmployeeId,
+      "filter[manager]": this.filterManager,
+      "filter[segmentIds]": this.filterSegmentIds,
+    };
     const response = await this.app.listEmployees({
       $,
       params,

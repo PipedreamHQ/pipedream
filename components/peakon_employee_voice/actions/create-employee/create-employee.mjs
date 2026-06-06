@@ -84,9 +84,7 @@ export default {
         firstName: this.firstName,
         lastName: this.lastName,
         identifier: this.identifier,
-        ...(this.email && {
-          email: this.email,
-        }),
+        email: this.email,
         type: this.employeeType,
         employmentStatus: this.employmentStatus,
         ...custom,
