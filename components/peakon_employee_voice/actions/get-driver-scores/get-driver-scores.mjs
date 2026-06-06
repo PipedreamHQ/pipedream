@@ -62,9 +62,9 @@ export default {
   },
   async run({ $ }) {
     const params = {
-      interval: this.interval,
-      observations: this.observations,
-      participation: this.participation,
+      "interval": this.interval,
+      "observations": this.observations,
+      "participation": this.participation,
       "filter[employee.segmentIds][$contains]": this.filterSegmentIds,
     };
     const response = await this.app.getDriverScores({

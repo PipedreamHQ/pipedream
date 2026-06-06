@@ -51,21 +51,30 @@ export default {
         data,
       });
     },
-    listSegments({ $, params }) {
+    listSegments({
+      $,
+      params,
+    }) {
       return this._makeRequest({
         $,
         path: "/api/v1/segments",
         params,
       });
     },
-    listEmployees({ $, params }) {
+    listEmployees({
+      $,
+      params,
+    }) {
       return this._makeRequest({
         $,
         path: "/api/v1/employees",
         params,
       });
     },
-    createEmployee({ $, attributes }) {
+    createEmployee({
+      $,
+      attributes,
+    }) {
       return this._makeRequest({
         $,
         method: "POST",
@@ -78,7 +87,11 @@ export default {
         },
       });
     },
-    updateEmployee({ $, employeeId, attributes }) {
+    updateEmployee({
+      $,
+      employeeId,
+      attributes,
+    }) {
       return this._makeRequest({
         $,
         method: "PATCH",
@@ -92,21 +105,32 @@ export default {
         },
       });
     },
-    deleteEmployee({ $, employeeId }) {
+    deleteEmployee({
+      $,
+      employeeId,
+    }) {
       return this._makeRequest({
         $,
         method: "DELETE",
         path: `/api/v1/employees/${employeeId}`,
       });
     },
-    getEngagementOverview({ $, contextId, params }) {
+    getEngagementOverview({
+      $,
+      contextId,
+      params,
+    }) {
       return this._makeRequest({
         $,
         path: `/api/v1/engagement/contexts/${contextId}/overview`,
         params,
       });
     },
-    getDriverScores({ $, contextId, params }) {
+    getDriverScores({
+      $,
+      contextId,
+      params,
+    }) {
       return this._makeRequest({
         $,
         path: `/api/v1/engagement/contexts/${contextId}/drivers`,
