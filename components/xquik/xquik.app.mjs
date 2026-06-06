@@ -35,15 +35,15 @@ export default {
     },
     sourceUserId: {
       type: "string",
-      label: "Source User ID or Username",
+      label: "Source Username",
       description:
-        "The X user ID or username to check from. Examples: `44196397`, `@elonmusk`, `elonmusk`.",
+        "The X username to check from. Usernames may include or omit the leading `@`. Examples: `@participant_handle`, `participant_handle`.",
     },
     targetUserId: {
       type: "string",
-      label: "Target User ID or Username",
+      label: "Target Username",
       description:
-        "The X user ID or username to check against. Examples: `12`, `@jack`, `jack`.",
+        "The X username to check against. Usernames may include or omit the leading `@`. Examples: `@brand_handle`, `brand_handle`.",
     },
     tweetInput: {
       type: "string",
@@ -167,6 +167,30 @@ export default {
       }
 
       return identifier;
+    },
+    /**
+     * Validate and normalize a username-only API input.
+     *
+     * @param {unknown} value Username value.
+     * @param {string} name Human-readable field name for errors.
+     * @returns {string} Normalized username.
+     */
+    _normalizeUsername(value, name) {
+      const username = this._normalizeIdentifier(value, name, {
+        stripAt: true,
+      });
+
+      if (
+        /^\d+$/.test(username) ||
+        /^https?:\/\//i.test(username) ||
+        username.includes("/")
+      ) {
+        throw new Error(
+          `${name} must be a username, not a numeric ID or profile URL. Use Get User first to resolve numeric IDs or profile URLs to usernames.`,
+        );
+      }
+
+      return username;
     },
     /**
      * Validate and encode a URL path identifier.
@@ -331,12 +355,8 @@ export default {
     checkFollower({
       $, sourceUserId, targetUserId,
     }) {
-      const source = this._normalizeIdentifier(sourceUserId, "Source user", {
-        stripAt: true,
-      });
-      const target = this._normalizeIdentifier(targetUserId, "Target user", {
-        stripAt: true,
-      });
+      const source = this._normalizeUsername(sourceUserId, "Source user");
+      const target = this._normalizeUsername(targetUserId, "Target user");
 
       return this._makeRequest({
         $,
