@@ -52,9 +52,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app._makeRequest({
+    const response = await this.app.getEngagementOverview({
       $,
-      path: `/api/v1/engagement/contexts/${this.contextId}/overview`,
+      contextId: this.contextId,
       params: {
         interval: this.interval || undefined,
         observations: this.observations,

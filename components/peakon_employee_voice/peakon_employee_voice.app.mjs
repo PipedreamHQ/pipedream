@@ -51,5 +51,67 @@ export default {
         data,
       });
     },
+    listSegments({ $, params }) {
+      return this._makeRequest({
+        $,
+        path: "/api/v1/segments",
+        params,
+      });
+    },
+    listEmployees({ $, params }) {
+      return this._makeRequest({
+        $,
+        path: "/api/v1/employees",
+        params,
+      });
+    },
+    createEmployee({ $, attributes }) {
+      return this._makeRequest({
+        $,
+        method: "POST",
+        path: "/api/v1/employees",
+        data: {
+          data: {
+            type: "employees",
+            attributes,
+          },
+        },
+      });
+    },
+    updateEmployee({ $, employeeId, attributes }) {
+      return this._makeRequest({
+        $,
+        method: "PATCH",
+        path: `/api/v1/employees/${employeeId}`,
+        data: {
+          data: {
+            type: "employees",
+            id: employeeId,
+            attributes,
+          },
+        },
+      });
+    },
+    deleteEmployee({ $, employeeId }) {
+      return this._makeRequest({
+        $,
+        method: "DELETE",
+        path: `/api/v1/employees/${employeeId}`,
+      });
+    },
+    getEngagementOverview({ $, contextId, params }) {
+      return this._makeRequest({
+        $,
+        path: `/api/v1/engagement/contexts/${contextId}/overview`,
+        params,
+      });
+    },
+    getDriverScores({ $, contextId, params }) {
+      return this._makeRequest({
+        $,
+        path: `/api/v1/engagement/contexts/${contextId}/drivers`,
+        params,
+      });
+    },
   },
 };

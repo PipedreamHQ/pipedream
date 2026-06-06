@@ -56,9 +56,8 @@ export default {
     if (this.filterDirect !== undefined) params["filter[direct]"] = this.filterDirect;
     if (this.filterManagerId !== undefined) params["filter[managerId]"] = this.filterManagerId;
     if (this.filterType) params["filter[type]"] = this.filterType;
-    const response = await this.app._makeRequest({
+    const response = await this.app.listSegments({
       $,
-      path: "/api/v1/segments",
       params,
     });
     const segments = response.data ?? [];

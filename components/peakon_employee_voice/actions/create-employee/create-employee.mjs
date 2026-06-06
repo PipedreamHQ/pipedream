@@ -78,25 +78,18 @@ export default {
     const custom = this.customAttributes
       ? JSON.parse(this.customAttributes)
       : {};
-    const response = await this.app._makeRequest({
+    const response = await this.app.createEmployee({
       $,
-      method: "POST",
-      path: "/api/v1/employees",
-      data: {
-        data: {
-          type: "employees",
-          attributes: {
-            firstName: this.firstName,
-            lastName: this.lastName,
-            identifier: this.identifier,
-            ...(this.email && {
-              email: this.email,
-            }),
-            type: this.employeeType,
-            employmentStatus: this.employmentStatus,
-            ...custom,
-          },
-        },
+      attributes: {
+        firstName: this.firstName,
+        lastName: this.lastName,
+        identifier: this.identifier,
+        ...(this.email && {
+          email: this.email,
+        }),
+        type: this.employeeType,
+        employmentStatus: this.employmentStatus,
+        ...custom,
       },
     });
     const employee = response.data;

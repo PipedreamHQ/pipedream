@@ -69,9 +69,9 @@ export default {
     if (this.filterSegmentIds) {
       params["filter[employee.segmentIds][$contains]"] = this.filterSegmentIds;
     }
-    const response = await this.app._makeRequest({
+    const response = await this.app.getDriverScores({
       $,
-      path: `/api/v1/engagement/contexts/${this.contextId}/drivers`,
+      contextId: this.contextId,
       params,
     });
     const drivers = response.data ?? [];

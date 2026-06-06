@@ -68,9 +68,8 @@ export default {
     if (this.filterEmployeeId !== undefined) params["filter[employeeId]"] = this.filterEmployeeId;
     if (this.filterManager !== undefined) params["filter[manager]"] = this.filterManager;
     if (this.filterSegmentIds) params["filter[segmentIds]"] = this.filterSegmentIds;
-    const response = await this.app._makeRequest({
+    const response = await this.app.listEmployees({
       $,
-      path: "/api/v1/employees",
       params,
     });
     const employees = response.data ?? [];

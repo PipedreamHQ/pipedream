@@ -26,10 +26,9 @@ export default {
     },
   },
   async run({ $ }) {
-    await this.app._makeRequest({
+    await this.app.deleteEmployee({
       $,
-      method: "DELETE",
-      path: `/api/v1/employees/${this.employeeId}`,
+      employeeId: this.employeeId,
     });
     $.export("$summary", `Deleted employee ${this.employeeId}`);
     return {

@@ -70,19 +70,12 @@ export default {
     if (this.lastName !== undefined) standardAttrs.lastName = this.lastName;
     if (this.identifier !== undefined) standardAttrs.identifier = this.identifier;
     if (this.employmentStatus !== undefined) standardAttrs.employmentStatus = this.employmentStatus;
-    const response = await this.app._makeRequest({
+    const response = await this.app.updateEmployee({
       $,
-      method: "PATCH",
-      path: `/api/v1/employees/${this.employeeId}`,
-      data: {
-        data: {
-          type: "employees",
-          id: this.employeeId,
-          attributes: {
-            ...standardAttrs,
-            ...custom,
-          },
-        },
+      employeeId: this.employeeId,
+      attributes: {
+        ...standardAttrs,
+        ...custom,
       },
     });
     $.export("$summary", `Updated employee ${this.employeeId}`);
