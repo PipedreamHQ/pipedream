@@ -356,7 +356,7 @@ export default {
       data,
     });
 
-    $.export("$summary", `Created background check request for ${this.candidateFirstName} ${this.candidateLastName} — GUID: ${response.guid ?? response.id ?? "see response"}`);
+    $.export("$summary", `Created background check request for ${this.candidateFirstName} ${this.candidateLastName} — GUID: ${response.guid ?? "see response"}`);
     return response;
   },
 };
