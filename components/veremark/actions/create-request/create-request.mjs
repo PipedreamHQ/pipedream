@@ -336,7 +336,8 @@ export default {
         }),
         ...(this.candidatePhoneNumber && {
           phone_number: this.candidatePhoneNumber,
-        }),
+        country_code: this.candidateCountryCode,
+        phone_number: this.candidatePhoneNumber,
       },
       job: {
         role: this.jobRole,
