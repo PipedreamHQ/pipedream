@@ -44,6 +44,15 @@ export default {
       label: "Filter by Employee ID",
       description: "Filter by the employee's internal numeric ID.",
       optional: true,
+      async options() {
+        const response = await this.app.listEmployees({
+          params: {},
+        });
+        return (response.data ?? []).map((emp) => ({
+          label: `${emp.attributes.name} (${emp.attributes.identifier})`,
+          value: parseInt(emp.id),
+        }));
+      },
     },
     filterManager: {
       type: "boolean",
