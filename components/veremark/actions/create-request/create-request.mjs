@@ -331,24 +331,11 @@ export default {
         first_name: this.candidateFirstName,
         last_name: this.candidateLastName,
         email: this.candidateEmail,
-        ...(this.candidateCountryCode && {
-          country_code: this.candidateCountryCode,
-        }),
-        ...(this.candidatePhoneNumber && {
-          phone_number: this.candidatePhoneNumber,
         country_code: this.candidateCountryCode,
         phone_number: this.candidatePhoneNumber,
       },
       job: {
         role: this.jobRole,
-        ...(this.jobExternalId && {
-          external_id: this.jobExternalId,
-        }),
-        ...(this.jobClient && {
-          client: this.jobClient,
-        }),
-        ...(this.jobAdditionalInformation && {
-          additional_information: this.jobAdditionalInformation,
         external_id: this.jobExternalId,
         client: this.jobClient,
         additional_information: this.jobAdditionalInformation,
@@ -357,11 +344,6 @@ export default {
         url: this.webhookUrl,
         method: this.webhookMethod,
       },
-      ...(this.sendInitialCandidateEmail !== undefined && {
-        send_initial_candidate_email: this.sendInitialCandidateEmail,
-      }),
-      ...(this.assignedUserGuid && {
-        assigned_user_guid: this.assignedUserGuid,
       send_initial_candidate_email: this.sendInitialCandidateEmail,
       assigned_user_guid: this.assignedUserGuid,
       ...(Object.keys(candidateResponse).length > 0 && {
