@@ -9,6 +9,9 @@
   ],
   "homepage": "https://pipedream.com/apps/veremark",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^0.1.1"
+  },
   "publishConfig": {
     "access": "public"
   }
