@@ -13,28 +13,28 @@ export default {
   },
   props: {
     xquik,
-    sourceUserId: {
+    sourceUsername: {
       propDefinition: [
         xquik,
-        "sourceUserId",
+        "sourceUsername",
       ],
     },
-    targetUserId: {
+    targetUsername: {
       propDefinition: [
         xquik,
-        "targetUserId",
+        "targetUsername",
       ],
     },
   },
   async run({ $ }) {
     const response = await this.xquik.checkFollower({
       $,
-      sourceUserId: this.sourceUserId,
-      targetUserId: this.targetUserId,
+      sourceUsername: this.sourceUsername,
+      targetUsername: this.targetUsername,
     });
 
-    const source = response?.sourceUsername ?? this.sourceUserId;
-    const target = response?.targetUsername ?? this.targetUserId;
+    const source = response?.sourceUsername ?? this.sourceUsername;
+    const target = response?.targetUsername ?? this.targetUsername;
     const result = response?.isFollowing
       ? "follows"
       : "does not follow";

@@ -33,13 +33,13 @@ export default {
       description:
         "The X user ID or username. Usernames may include or omit the leading `@`. Examples: `@jack`, `123456`.",
     },
-    sourceUserId: {
+    sourceUsername: {
       type: "string",
       label: "Source Username",
       description:
         "The X username to check from. Usernames may include or omit the leading `@`. Examples: `@participant_handle`, `participant_handle`.",
     },
-    targetUserId: {
+    targetUsername: {
       type: "string",
       label: "Target Username",
       description:
@@ -353,10 +353,10 @@ export default {
      * @returns {Promise<unknown>} Follow check response.
      */
     checkFollower({
-      $, sourceUserId, targetUserId,
+      $, sourceUsername, targetUsername,
     }) {
-      const source = this._normalizeUsername(sourceUserId, "Source user");
-      const target = this._normalizeUsername(targetUserId, "Target user");
+      const source = this._normalizeUsername(sourceUsername, "Source user");
+      const target = this._normalizeUsername(targetUsername, "Target user");
 
       return this._makeRequest({
         $,
