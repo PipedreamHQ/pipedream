@@ -40,9 +40,7 @@ export default {
       $,
       params,
     });
-    const collections = Array.isArray(response)
-      ? response
-      : (response.data ?? response.collections ?? []);
+    const collections = response.data ?? [];
     $.export("$summary", `Retrieved ${collections.length} collection(s)`);
     return collections;
   },

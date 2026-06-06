@@ -46,9 +46,7 @@ export default {
       $,
       params,
     });
-    let scenes = Array.isArray(response)
-      ? response
-      : (response.data ?? response.scenes ?? []);
+    let scenes = response.data ?? [];
 
     if (this.nameFilter) {
       const filter = this.nameFilter.toLowerCase();
