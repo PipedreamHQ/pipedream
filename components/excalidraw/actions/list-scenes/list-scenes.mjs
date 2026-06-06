@@ -38,23 +38,48 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {
-      collectionId: this.collectionId,
-      limit: this.limit,
-    };
-
-    const response = await this.app.listScenes({
-      $,
-      params,
-    });
-    let scenes = response.data ?? [];
-
-    if (this.nameFilter) {
-      const filter = this.nameFilter.toLowerCase();
-      scenes = scenes.filter((s) => s.metadata?.name?.toLowerCase().includes(filter));
+    if (!this.nameFilter) {
+      const response = await this.app.listScenes({
+        $,
+        params: {
+          collectionId: this.collectionId,
+          limit: this.limit,
+        },
+      });
+      const scenes = response.data ?? [];
+      $.export("$summary", `Retrieved ${scenes.length} scene(s)`);
+      return scenes;
     }
 
-    $.export("$summary", `Retrieved ${scenes.length} scene(s)`);
-    return scenes;
+    // When nameFilter is active, paginate to collect enough matches.
+    // The user's limit caps how many matches to return (default 100).
+    const maxResults = this.limit ?? 100;
+    const filter = this.nameFilter.toLowerCase();
+    const matches = [];
+    let offset = 0;
+    let hasNextPage = true;
+
+    while (hasNextPage && matches.length < maxResults) {
+      const response = await this.app.listScenes({
+        $,
+        params: {
+          collectionId: this.collectionId,
+          limit: 100,
+          offset,
+        },
+      });
+      const chunk = response.data ?? [];
+      for (const scene of chunk) {
+        if (scene.metadata?.name?.toLowerCase().includes(filter)) {
+          matches.push(scene);
+          if (matches.length === maxResults) break;
+        }
+      }
+      offset += chunk.length;
+      hasNextPage = response.hasNextPage && chunk.length > 0;
+    }
+
+    $.export("$summary", `Retrieved ${matches.length} scene(s)`);
+    return matches;
   },
 };
