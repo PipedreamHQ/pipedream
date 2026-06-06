@@ -356,12 +356,17 @@ export default {
     downloadTweetMedia({
       $, tweetInput,
     }) {
+      const normalizedTweetInput = this._normalizeIdentifier(
+        tweetInput,
+        "Tweet URL or ID",
+      );
+
       return this._makeRequest({
         $,
         method: "POST",
         path: "/x/media/download",
         data: {
-          tweetInput,
+          tweetInput: normalizedTweetInput,
         },
       });
     },
