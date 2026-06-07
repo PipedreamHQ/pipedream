@@ -143,8 +143,28 @@ export default {
     },
     getWebhookEvents(args = {}) {
       return this._makeRequest({
-        path: "/webhook-events",
+        path: "/events",
         ...args,
+      });
+    },
+    listCampaigns(args = {}) {
+      return this._makeRequest({
+        path: "/campaigns",
+        ...args,
+      });
+    },
+    listPipelineLeads(args = {}) {
+      return this._makeRequest({
+        path: "/pipeline/leads",
+        ...args,
+      });
+    },
+    triggerJourney({ $, data }) {
+      return this._makeRequest({
+        $,
+        method: "POST",
+        path: "/trigger",
+        data,
       });
     },
   },
