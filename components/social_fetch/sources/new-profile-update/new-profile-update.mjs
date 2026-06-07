@@ -9,7 +9,7 @@ export default {
   name: "New Profile Update",
   description:
     "Emit new event when a monitored profile changes. [See the documentation](https://www.socialfetch.dev/docs/api)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {
@@ -54,13 +54,17 @@ export default {
         profile?.profile?.platformUserId ||
         profile?.profile?.handle ||
         this.platform;
+      const identityHash = createHash("sha256")
+        .update(identity)
+        .digest("hex")
+        .slice(0, 16);
       const diffHash = createHash("sha256")
         .update(JSON.stringify(diff))
         .digest("hex")
         .slice(0, 16);
 
       return {
-        id: `${this.platform}:${identity}:${diffHash}`.slice(0, 255),
+        id: `${this.platform}:${identityHash}:${diffHash}`,
         ts: Date.now(),
       };
     },
