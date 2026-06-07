@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import { getObjectDiff } from "../../common/utils.mjs";
 import app from "../../social_fetch.app.mjs";
@@ -7,8 +8,8 @@ export default {
   key: "social_fetch-new-profile-update",
   name: "New Profile Update",
   description:
-		"Emit new event when a monitored profile changes. [See the documentation](https://www.socialfetch.dev/docs/api)",
-  version: "0.0.1",
+    "Emit new event when a monitored profile changes. [See the documentation](https://www.socialfetch.dev/docs/api)",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
@@ -46,6 +47,23 @@ export default {
     _setLastProfile(lastProfile) {
       this.db.set("lastProfile", lastProfile);
     },
+    _buildEmitMetadata(profile, diff) {
+      const identity =
+        this.handle?.trim() ||
+        this.profileUrl?.trim() ||
+        profile?.profile?.platformUserId ||
+        profile?.profile?.handle ||
+        this.platform;
+      const diffHash = createHash("sha256")
+        .update(JSON.stringify(diff))
+        .digest("hex")
+        .slice(0, 16);
+
+      return {
+        id: `${this.platform}:${identity}:${diffHash}`.slice(0, 255),
+        ts: Date.now(),
+      };
+    },
     async emitEvent() {
       const lastProfile = this._getLastProfile();
       const data = await this.app.getProfile({
@@ -64,15 +82,18 @@ export default {
           this.handle,
           this.profileUrl,
         );
+        const {
+          id, ts,
+        } = this._buildEmitMetadata(profile, diff);
         this.$emit(
           {
             profile,
             diff,
           },
           {
-            id: Date.now(),
+            id,
             summary: `Profile update for ${label}`,
-            ts: Date.parse(new Date()),
+            ts,
           },
         );
       }

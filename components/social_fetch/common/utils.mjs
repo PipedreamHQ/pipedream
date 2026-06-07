@@ -1,3 +1,9 @@
+/**
+ * Recursively compare two objects and return a structured diff map.
+ *
+ * @param {Record<string, unknown>} obj1
+ * @param {Record<string, unknown>} obj2
+ */
 export function getObjectDiff(obj1, obj2) {
   const diff = {};
 
@@ -11,9 +17,9 @@ export function getObjectDiff(obj1, obj2) {
         };
       } else if (
         typeof obj1[key] === "object" &&
-				obj1[key] !== null &&
-				typeof obj2[key] === "object" &&
-				obj2[key] !== null
+        obj1[key] !== null &&
+        typeof obj2[key] === "object" &&
+        obj2[key] !== null
       ) {
         const nestedDiff = getObjectDiff(obj1[key], obj2[key]);
         if (Object.keys(nestedDiff).length > 0) {
