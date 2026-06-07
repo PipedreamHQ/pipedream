@@ -17,15 +17,15 @@ import {
 
 function formatApiError(status, body) {
   const message =
-		typeof body?.error?.message === "string"
-		  ? body.error.message
-		  : `Request failed with status ${status}.`;
+    typeof body?.error?.message === "string"
+      ? body.error.message
+      : `Request failed with status ${status}.`;
   const requestId =
-		typeof body?.error?.requestId === "string"
-		  ? body.error.requestId
-		  : typeof body?.meta?.requestId === "string"
-		    ? body.meta.requestId
-		    : undefined;
+    typeof body?.error?.requestId === "string"
+      ? body.error.requestId
+      : typeof body?.meta?.requestId === "string"
+        ? body.meta.requestId
+        : undefined;
   return requestId
     ? `${message} (requestId: ${requestId})`
     : message;
@@ -39,7 +39,7 @@ export default {
       type: "string",
       label: "Platform",
       description:
-				"Select the social platform. Handle-based platforms need a username; Facebook and LinkedIn need a full profile URL.",
+        "Select the social platform. Handle-based platforms need a username; Facebook and LinkedIn need a full profile URL.",
       options: PROFILE_PLATFORMS,
     },
     postPlatform: {
@@ -64,21 +64,21 @@ export default {
       type: "string",
       label: "Handle",
       description:
-				"Username or handle (without @) for TikTok, Instagram, Twitter/X, or Threads.",
+        "Username or handle (without @) for TikTok, Instagram, Twitter/X, or Threads.",
       optional: true,
     },
     profileUrl: {
       type: "string",
       label: "Profile URL",
       description:
-				"Full profile page URL for Facebook or LinkedIn. Paste the URL from the browser address bar.",
+        "Full profile page URL for Facebook or LinkedIn. Paste the URL from the browser address bar.",
       optional: true,
     },
     postUrl: {
       type: "string",
       label: "Post URL",
       description:
-				"Full URL of the post, video, or tweet. Paste the link from your browser address bar.",
+        "Full URL of the post, video, or tweet. Paste the link from your browser address bar.",
     },
     mediaUrl: {
       type: "string",
@@ -89,7 +89,7 @@ export default {
       type: "string",
       label: "Content Type",
       description:
-				"Videos for TikTok; Posts or Reels for Instagram; Tweets for Twitter / X; Posts for Threads and Facebook.",
+        "Videos for TikTok; Posts or Reels for Instagram; Tweets for Twitter / X; Posts for Threads and Facebook.",
       options: CONTENT_TYPE_OPTIONS,
     },
     cursor: {
