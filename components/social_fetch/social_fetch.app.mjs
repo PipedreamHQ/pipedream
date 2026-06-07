@@ -44,57 +44,61 @@ export default {
       type: "string",
       label: "Platform",
       description:
-				"Select the social platform. Handle-based platforms need a username; Facebook and LinkedIn need a full profile URL.",
+				"Social platform slug (string). E.g. tiktok, instagram, twitter, threads, facebook, linkedin. Provide handle for handle-based platforms; provide profileUrl for facebook or linkedin.",
       options: PROFILE_PLATFORMS,
     },
     postPlatform: {
       type: "string",
       label: "Platform",
-      description: "Select the platform that matches the post URL you are looking up.",
+      description:
+				"Platform slug matching the post URL (string). E.g. tiktok, instagram, twitter, threads, facebook, youtube, linkedin.",
       options: POST_PLATFORMS,
     },
     listPlatform: {
       type: "string",
       label: "Platform",
-      description: "Select the platform for the profile feed you are listing.",
+      description:
+				"Platform slug for the profile feed (string). E.g. tiktok, instagram, twitter, threads, facebook.",
       options: LIST_PROFILE_POSTS_PLATFORMS,
     },
     transcriptPlatform: {
       type: "string",
       label: "Platform",
-      description: "Select the platform that matches the video or post URL.",
+      description:
+				"Platform slug matching the media URL (string). E.g. tiktok, instagram, facebook, youtube.",
       options: TRANSCRIPT_PLATFORMS,
     },
     handle: {
       type: "string",
       label: "Handle",
       description:
-				"Username or handle (without @) for TikTok, Instagram, Twitter/X, or Threads.",
+				"Username or handle without @ (string). Required for tiktok, instagram, twitter, and threads. E.g. nasa.",
       optional: true,
     },
     profileUrl: {
       type: "string",
       label: "Profile URL",
       description:
-				"Full profile page URL for Facebook or LinkedIn. Paste the URL from the browser address bar.",
+				"Full profile URL (string, https://). Required for facebook and linkedin. E.g. https://www.linkedin.com/in/janedoe/",
       optional: true,
     },
     postUrl: {
       type: "string",
       label: "Post URL",
       description:
-				"Full URL of the post, video, or tweet. Paste the link from your browser address bar.",
+				"Full post, video, or tweet URL (string, https://). E.g. https://www.tiktok.com/@nasa/video/1234567890",
     },
     mediaUrl: {
       type: "string",
       label: "Media URL",
-      description: "Full URL of the video or post with audio.",
+      description:
+				"Full video or post URL with audio (string, https://). E.g. https://www.tiktok.com/@nasa/video/1234567890",
     },
     contentType: {
       type: "string",
       label: "Content Type",
       description:
-				"Videos for TikTok; Posts or Reels for Instagram; Tweets for Twitter / X; Posts for Threads and Facebook.",
+				"Feed content type (string). E.g. videos (TikTok), posts or reels (Instagram), tweets (Twitter), posts (Threads/Facebook).",
       options: CONTENT_TYPE_OPTIONS,
     },
     cursor: {
@@ -113,16 +117,24 @@ export default {
     },
     /**
 		 * @param {{ $?: unknown; path: string; params?: Record<string, string>;
-		 *   [key: string]: unknown }} [args]
+		 *   headers?: Record<string, string>; [key: string]: unknown }} [args]
 		 */
     async _makeRequest({
-      $ = this, path, params, ...opts
+      $ = this,
+      path,
+      params,
+      headers = {},
+      ...opts
     } = {}) {
       let response;
       try {
         response = await axios($, {
-          url: `${API_BASE_URL}${path}`,
-          headers: this._headers(),
+          baseURL: API_BASE_URL,
+          url: path,
+          headers: {
+            ...this._headers(),
+            ...headers,
+          },
           params,
           ...opts,
         });
@@ -161,6 +173,7 @@ export default {
         ...opts,
       });
     },
+    /** @param {{ platform?: string; postUrl?: string; [key: string]: unknown }} [args] */
     getPost({
       platform, postUrl, ...opts
     } = {}) {
@@ -173,6 +186,10 @@ export default {
         ...opts,
       });
     },
+    /**
+		 * @param {{ platform?: string; contentType?: string; handle?: string;
+		 *   profileUrl?: string; cursor?: string; [key: string]: unknown }} [args]
+		 */
     listProfilePosts({
       platform,
       contentType,
@@ -192,6 +209,7 @@ export default {
         ...opts,
       });
     },
+    /** @param {{ platform?: string; mediaUrl?: string; [key: string]: unknown }} [args] */
     getTranscript({
       platform, mediaUrl, ...opts
     } = {}) {
