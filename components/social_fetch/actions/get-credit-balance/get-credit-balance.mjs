@@ -5,7 +5,7 @@ import app from "../../social_fetch.app.mjs";
 export default {
   key: "social_fetch-get-credit-balance",
   name: "Get Credit Balance",
-  description: "Returns the current API credit balance for your Social Fetch account. [See the documentation](https://www.socialfetch.dev/docs/api/reference/account/get-balance)",
+  description: "Returns the current API credit balance for your Social Fetch account. [See the documentation](https://www.socialfetch.dev/docs/api/v1/balance)",
   version: "0.0.1",
   type: "action",
   annotations: {
