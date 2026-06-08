@@ -48,7 +48,7 @@ export default {
       type: "string",
       label: "Channel ID OR Content Owner Name",
       description:
-        "Required when **ID Type** is `Channel ID` or `Content Owner`. Unused when **ID Type** is `My Channel`.",
+        "Required when **ID Type** is `Channel ID` (e.g. `UC_x5XG1OV2P6uZZ5FSM9Ttw`) or `Content Owner` (e.g. `MyContentOwnerName` or `contentOwner@example.com`), and unused when **ID Type** is `My Channel`.",
       optional: true,
     },
   },
