@@ -42,6 +42,6 @@ export default {
     });
     const collections = response.data ?? [];
     $.export("$summary", `Retrieved ${collections.length} collection(s)`);
-    return collections;
+    return response;
   },
 };
