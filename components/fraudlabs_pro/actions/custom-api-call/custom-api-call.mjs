@@ -53,19 +53,20 @@ export default {
       requestBody,
     } = this;
 
-    if (!relativeUrl || !relativeUrl.startsWith("/")) {
+    const path = relativeUrl?.trim();
+    if (!path || !path.startsWith("/")) {
       throw new ConfigurationError("**Relative URL** must start with `/`, for example `/order/screen`.");
     }
 
     const response = await this.fraudlabsProApp._apiRequest({
       $,
       method: requestMethod,
-      path: relativeUrl,
+      path,
       params,
       data: requestBody,
     });
 
-    $.export("$summary", `Successfully called \`${requestMethod.toUpperCase()} ${relativeUrl}\``);
+    $.export("$summary", `Successfully called \`${requestMethod.toUpperCase()} ${path}\``);
     return response;
   },
 };

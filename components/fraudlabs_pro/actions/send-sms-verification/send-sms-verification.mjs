@@ -53,7 +53,7 @@ export default {
 
     const response = await this.fraudlabsProApp.sendSmsVerification({
       $,
-      params: {
+      data: {
         tel,
         mesg,
         ...(format && {

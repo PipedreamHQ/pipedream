@@ -65,27 +65,42 @@ export default {
     _apiRequest({
       $ = this, method = "get", path, params, data, ...args
     }) {
-      const fields = {
+      const auth = {
         format: "json",
-        ...params,
-        ...data,
         key: this.$auth.api_key,
       };
-      if (FORM_BODY_METHODS.includes(method.toLowerCase())) {
+      const isFormBody = FORM_BODY_METHODS.includes(method.toLowerCase());
+      // `params` always go on the query string. For write verbs `data` is the
+      // form body; for read verbs there is no body, so fold `data` into the query.
+      const queryParams = isFormBody
+        ? {
+          ...auth,
+          ...params,
+        }
+        : {
+          ...auth,
+          ...params,
+          ...data,
+        };
+      if (isFormBody) {
         return axios($, {
           url: `${this._apiBaseUrl()}${path}`,
           method,
+          params: queryParams,
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
           },
-          data: new URLSearchParams(fields).toString(),
+          data: new URLSearchParams({
+            ...auth,
+            ...data,
+          }).toString(),
           ...args,
         });
       }
       return axios($, {
         url: `${this._apiBaseUrl()}${path}`,
         method,
-        params: fields,
+        params: queryParams,
         ...args,
       });
     },
