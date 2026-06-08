@@ -281,6 +281,47 @@ export default {
       max: 9999,
       optional: true,
     },
+    optFields: {
+      type: "string[]",
+      label: "Opt Fields",
+      description: "Optional properties to include in the response, as a list of field paths. Nested paths are allowed (e.g. `owner.name`, `custom_fields.name`); `gid` is always returned. [See the documentation](https://developers.asana.com/docs/inputoutput-options)",
+      optional: true,
+    },
+    portfolioId: {
+      type: "string",
+      label: "Portfolio",
+      description: "The portfolio GID. Use the **List Portfolios** action to find available portfolio GIDs.",
+      async options({
+        prevContext, workspace, owner,
+      }) {
+        if (!workspace) {
+          return [];
+        }
+        const params = {
+          workspace,
+          owner: owner || "me",
+          limit: DEFAULT_LIMIT,
+        };
+        if (prevContext?.offset) {
+          params.offset = prevContext.offset;
+        }
+        const {
+          data: portfolios, next_page: next,
+        } = await this.getPortfolios({
+          params,
+        });
+        const options = portfolios?.map((portfolio) => ({
+          label: portfolio.name,
+          value: portfolio.gid,
+        })) || [];
+        return {
+          options,
+          context: {
+            offset: next?.offset,
+          },
+        };
+      },
+    },
   },
   methods: {
     /**
@@ -419,6 +460,47 @@ export default {
     getProjects(opts = {}) {
       return this._makeRequest({
         path: "projects",
+        ...opts,
+      });
+    },
+    /**
+     * Get an Asana Portfolio.
+     *
+     * @param {string} portfolioId - The portfolio GID.
+     *
+     * @returns {string} An Asana Portfolio.
+     */
+    getPortfolio({
+      portfolioId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `portfolios/${portfolioId}`,
+        ...opts,
+      });
+    },
+    /**
+     * Get an Asana Portfolio list.
+     *
+     * @returns {string} An Asana Portfolio list.
+     */
+    getPortfolios(opts = {}) {
+      return this._makeRequest({
+        path: "portfolios",
+        ...opts,
+      });
+    },
+    /**
+     * Get the items in an Asana Portfolio.
+     *
+     * @param {string} portfolioId - The portfolio GID.
+     *
+     * @returns {string} An Asana Project list.
+     */
+    getPortfolioItems({
+      portfolioId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `portfolios/${portfolioId}/items`,
         ...opts,
       });
     },

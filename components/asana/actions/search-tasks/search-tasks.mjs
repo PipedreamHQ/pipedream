@@ -62,6 +62,14 @@ export default {
       description: "Only return tasks that have been modified since the given time. ISO 8601 date string",
       optional: true,
     },
+    optFields: {
+      propDefinition: [
+        asana,
+        "optFields",
+      ],
+      description: "Optional task properties to include in the response (e.g. `created_at`, `due_on`, `custom_fields`). Nested paths are allowed; `gid` is always returned.",
+      optional: true,
+    },
     maxResults: {
       propDefinition: [
         asana,
@@ -78,10 +86,23 @@ export default {
       throw new ConfigurationError("Must specify only one of Assignee, Project, or Project + Section");
     }
 
+    const optFields = Array.isArray(this.optFields)
+      ? [
+        ...this.optFields,
+      ]
+      : [];
+    if (optFields.length && !optFields.includes("name")) {
+      // the name filter below needs task.name present in the response
+      optFields.push("name");
+    }
+
     let hasMore, count = 0;
     const params = {
       completed_since: this.completedSince,
       modified_since: this.modifiedSince,
+      opt_fields: optFields.length
+        ? optFields.join(",")
+        : undefined,
       limit: 100,
     };
 

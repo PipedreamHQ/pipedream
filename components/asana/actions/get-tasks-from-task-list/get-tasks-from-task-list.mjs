@@ -22,6 +22,14 @@ export default {
         "workspaces",
       ],
     },
+    optFields: {
+      propDefinition: [
+        asana,
+        "optFields",
+      ],
+      description: "Optional task properties to include in the response (e.g. `created_at`, `due_on`, `custom_fields`). Nested paths are allowed; `gid` is always returned.",
+      optional: true,
+    },
     maxResults: {
       propDefinition: [
         asana,
@@ -40,6 +48,9 @@ export default {
 
     let hasMore, count = 0;
     const params = {
+      opt_fields: Array.isArray(this.optFields) && this.optFields.length
+        ? this.optFields.join(",")
+        : undefined,
       limit: 100,
     };
     const results = [];

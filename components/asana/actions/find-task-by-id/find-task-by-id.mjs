@@ -26,10 +26,23 @@ export default {
         }),
       ],
     },
+    optFields: {
+      propDefinition: [
+        asana,
+        "optFields",
+      ],
+      description: "Optional task properties to include in the response (e.g. `created_at`, `due_on`, `custom_fields`). Nested paths are allowed; `gid` is always returned.",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const { data: response } = await this.asana.getTask({
       taskId: this.task_gid,
+      params: {
+        opt_fields: Array.isArray(this.optFields) && this.optFields.length
+          ? this.optFields.join(",")
+          : undefined,
+      },
       $,
     });
 
