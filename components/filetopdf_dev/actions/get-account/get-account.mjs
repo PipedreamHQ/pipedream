@@ -4,7 +4,7 @@ export default {
   key: "filetopdf_dev-get-account",
   name: "Get Account Status",
   description: "Validate your API key and read the workspace plan, remaining credits, and subscription status. Free — never consumes credits. Use it as the connection test. [See the documentation](https://filetopdf.dev).",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -17,7 +17,9 @@ export default {
   async run({ $ }) {
     const result = await this.app.getAccount($);
     const data = (result && result.data) || {};
-    const credits = typeof data.credits_remaining === "number" ? ` · ${data.credits_remaining} credits` : "";
+    const credits = typeof data.credits_remaining === "number"
+      ? ` · ${data.credits_remaining} credits`
+      : "";
     $.export("$summary", `FileToPDF · ${data.plan || "unknown"}${credits}`);
     return result;
   },

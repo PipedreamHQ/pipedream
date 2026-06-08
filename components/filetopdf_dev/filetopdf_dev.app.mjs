@@ -1,5 +1,7 @@
 import fs from "fs";
-import { axios, ConfigurationError } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 import {
   BASE_URL,
   PDFA_OPTIONS,
@@ -136,11 +138,18 @@ export default {
      * The neutral `sourcePassword` key maps back to the API's `password` parameter.
      */
     stringifyOptions(options = {}) {
-      const ALIASES = { sourcePassword: "password" };
+      const ALIASES = {
+        sourcePassword: "password",
+      };
       const out = {};
-      for (const [key, value] of Object.entries(options)) {
+      for (const [
+        key,
+        value,
+      ] of Object.entries(options)) {
         if (value === undefined || value === null || value === "") continue;
-        out[ALIASES[key] || key] = typeof value === "boolean" ? String(value) : String(value);
+        out[ALIASES[key] || key] = typeof value === "boolean"
+          ? String(value)
+          : String(value);
       }
       return out;
     },
@@ -209,7 +218,8 @@ export default {
       if (!data || !data.pdf) {
         throw new Error("The API response did not contain a PDF.");
       }
-      let safeName = String(data.filename || "converted.pdf").split(/[\\/]/).pop() || "converted.pdf";
+      let safeName = String(data.filename || "converted.pdf").split(/[\\/]/)
+        .pop() || "converted.pdf";
       // Guard against dot-only names ("." / "..") that would resolve to /tmp
       // itself or its parent and break the write.
       if (safeName === "." || safeName === "..") {

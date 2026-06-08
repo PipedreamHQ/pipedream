@@ -29,24 +29,30 @@ export const CONFIG_ERROR_CODES = new Set([
  */
 export function friendlyMessage(code, error = {}, status) {
   switch (code) {
-    case "upgrade_required": {
-      const param = error.parameter ? `The "${error.parameter}" option` : "That conversion option";
-      return `${param} is only available on the Pro and Scale plans (and the free trial). Upgrade to use conversion options${error.upgrade_url ? `: ${error.upgrade_url}` : ""}.`;
-    }
-    case "forbidden_url":
-      return "That URL points to a private or internal address, which is not allowed. Use a public http(s) link.";
-    case "payment_required":
-      return `You're out of credits. Top up or upgrade${error.upgrade_url ? ` at ${error.upgrade_url}` : " at https://filetopdf.dev/subscription"}.`;
-    case "subscription_required":
-      return "No active subscription. Activate a plan at https://filetopdf.dev/subscription to run conversions.";
-    case "concurrency_limit":
-      return `Your plan allows ${error.concurrent_limit || "a limited number of"} concurrent conversion(s). Upgrade for more, or retry in a moment.`;
-    case "file_too_large":
-      return "File too large — the maximum is 30 MB.";
-    case "missing_api_key":
-    case "forbidden":
-      return "Invalid or missing API key. Reconnect your FileToPDF account.";
-    default:
-      return error.message || `Request failed with status ${status}.`;
+  case "upgrade_required": {
+    const param = error.parameter
+      ? `The "${error.parameter}" option`
+      : "That conversion option";
+    return `${param} is only available on the Pro and Scale plans (and the free trial). Upgrade to use conversion options${error.upgrade_url
+      ? `: ${error.upgrade_url}`
+      : ""}.`;
+  }
+  case "forbidden_url":
+    return "That URL points to a private or internal address, which is not allowed. Use a public http(s) link.";
+  case "payment_required":
+    return `You're out of credits. Top up or upgrade${error.upgrade_url
+      ? ` at ${error.upgrade_url}`
+      : " at https://filetopdf.dev/subscription"}.`;
+  case "subscription_required":
+    return "No active subscription. Activate a plan at https://filetopdf.dev/subscription to run conversions.";
+  case "concurrency_limit":
+    return `Your plan allows ${error.concurrent_limit || "a limited number of"} concurrent conversion(s). Upgrade for more, or retry in a moment.`;
+  case "file_too_large":
+    return "File too large — the maximum is 30 MB.";
+  case "missing_api_key":
+  case "forbidden":
+    return "Invalid or missing API key. Reconnect your FileToPDF account.";
+  default:
+    return error.message || `Request failed with status ${status}.`;
   }
 }

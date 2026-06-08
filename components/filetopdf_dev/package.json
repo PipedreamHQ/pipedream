@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/filetopdf_dev",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Pipedream FileToPDF.dev Components",
   "main": "filetopdf_dev.app.mjs",
   "keywords": [

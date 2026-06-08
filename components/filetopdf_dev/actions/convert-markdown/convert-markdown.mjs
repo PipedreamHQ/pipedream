@@ -4,7 +4,7 @@ export default {
   key: "filetopdf_dev-convert-markdown",
   name: "Convert Markdown to PDF",
   description: "Render Markdown (with optional CSS) into a clean PDF. [See the documentation](https://filetopdf.dev/markdown).",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -25,21 +25,96 @@ export default {
       optional: true,
     },
     // Chromium layout options (advanced). Require Pro/Scale/free trial.
-    landscape: { propDefinition: [app, "landscape"] },
-    paperWidth: { propDefinition: [app, "paperWidth"] },
-    paperHeight: { propDefinition: [app, "paperHeight"] },
-    marginTop: { propDefinition: [app, "marginTop"] },
-    marginBottom: { propDefinition: [app, "marginBottom"] },
-    marginLeft: { propDefinition: [app, "marginLeft"] },
-    marginRight: { propDefinition: [app, "marginRight"] },
-    scale: { propDefinition: [app, "scale"] },
-    printBackground: { propDefinition: [app, "printBackground"] },
-    preferCssPageSize: { propDefinition: [app, "preferCssPageSize"] },
-    nativePageRanges: { propDefinition: [app, "nativePageRanges"] },
-    pdfa: { propDefinition: [app, "pdfa"] },
-    pdfua: { propDefinition: [app, "pdfua"] },
-    userPassword: { propDefinition: [app, "userPassword"] },
-    ownerPassword: { propDefinition: [app, "ownerPassword"] },
+    landscape: {
+      propDefinition: [
+        app,
+        "landscape",
+      ],
+    },
+    paperWidth: {
+      propDefinition: [
+        app,
+        "paperWidth",
+      ],
+    },
+    paperHeight: {
+      propDefinition: [
+        app,
+        "paperHeight",
+      ],
+    },
+    marginTop: {
+      propDefinition: [
+        app,
+        "marginTop",
+      ],
+    },
+    marginBottom: {
+      propDefinition: [
+        app,
+        "marginBottom",
+      ],
+    },
+    marginLeft: {
+      propDefinition: [
+        app,
+        "marginLeft",
+      ],
+    },
+    marginRight: {
+      propDefinition: [
+        app,
+        "marginRight",
+      ],
+    },
+    scale: {
+      propDefinition: [
+        app,
+        "scale",
+      ],
+    },
+    printBackground: {
+      propDefinition: [
+        app,
+        "printBackground",
+      ],
+    },
+    preferCssPageSize: {
+      propDefinition: [
+        app,
+        "preferCssPageSize",
+      ],
+    },
+    nativePageRanges: {
+      propDefinition: [
+        app,
+        "nativePageRanges",
+      ],
+    },
+    pdfa: {
+      propDefinition: [
+        app,
+        "pdfa",
+      ],
+    },
+    pdfua: {
+      propDefinition: [
+        app,
+        "pdfua",
+      ],
+    },
+    userPassword: {
+      propDefinition: [
+        app,
+        "userPassword",
+      ],
+    },
+    ownerPassword: {
+      propDefinition: [
+        app,
+        "ownerPassword",
+      ],
+    },
     syncDir: {
       type: "dir",
       accessMode: "write",

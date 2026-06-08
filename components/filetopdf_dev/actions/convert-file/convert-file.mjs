@@ -1,12 +1,14 @@
 import FormData from "form-data";
-import { ConfigurationError, getFileStreamAndMetadata } from "@pipedream/platform";
+import {
+  ConfigurationError, getFileStreamAndMetadata,
+} from "@pipedream/platform";
 import app from "../../filetopdf_dev.app.mjs";
 
 export default {
   key: "filetopdf_dev-convert-file",
   name: "Convert a File to PDF",
   description: "Convert Word, Excel, PowerPoint, images and 130+ formats into PDF — from a file or a public URL. The converter is chosen automatically from the file extension. [See the documentation](https://filetopdf.dev/file).",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -36,13 +38,48 @@ export default {
     },
     // LibreOffice/passthrough options (advanced). No paper size/margins/scale —
     // those are Chromium-only and ignored by the document/image converters.
-    landscape: { propDefinition: [app, "landscape"] },
-    nativePageRanges: { propDefinition: [app, "nativePageRanges"] },
-    pdfa: { propDefinition: [app, "pdfa"] },
-    pdfua: { propDefinition: [app, "pdfua"] },
-    sourcePassword: { propDefinition: [app, "sourcePassword"] },
-    userPassword: { propDefinition: [app, "userPassword"] },
-    ownerPassword: { propDefinition: [app, "ownerPassword"] },
+    landscape: {
+      propDefinition: [
+        app,
+        "landscape",
+      ],
+    },
+    nativePageRanges: {
+      propDefinition: [
+        app,
+        "nativePageRanges",
+      ],
+    },
+    pdfa: {
+      propDefinition: [
+        app,
+        "pdfa",
+      ],
+    },
+    pdfua: {
+      propDefinition: [
+        app,
+        "pdfua",
+      ],
+    },
+    sourcePassword: {
+      propDefinition: [
+        app,
+        "sourcePassword",
+      ],
+    },
+    userPassword: {
+      propDefinition: [
+        app,
+        "userPassword",
+      ],
+    },
+    ownerPassword: {
+      propDefinition: [
+        app,
+        "ownerPassword",
+      ],
+    },
     syncDir: {
       type: "dir",
       accessMode: "read-write",
@@ -64,7 +101,9 @@ export default {
     if (this.file) {
       // Upload mode. getFileStreamAndMetadata accepts a /tmp path or a URL and
       // returns a readable stream + metadata (name, contentType, size).
-      const { stream, metadata } = await getFileStreamAndMetadata(this.file);
+      const {
+        stream, metadata,
+      } = await getFileStreamAndMetadata(this.file);
       const form = new FormData();
       const name = this.filename || metadata.name || "upload";
       form.append("files", stream, {
@@ -72,7 +111,10 @@ export default {
         contentType: metadata.contentType || "application/octet-stream",
         knownLength: metadata.size,
       });
-      for (const [key, value] of Object.entries(options)) {
+      for (const [
+        key,
+        value,
+      ] of Object.entries(options)) {
         form.append(key, value);
       }
       envelope = await this.app.convertMultipart($, "/file", form);
