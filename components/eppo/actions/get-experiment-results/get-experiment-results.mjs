@@ -1,0 +1,35 @@
+import app from "../../eppo.app.mjs";
+
+export default {
+  key: "eppo-get-experiment-results",
+  name: "Get Experiment Results",
+  description:
+    "Retrieve full details and analysis results for a single experiment, including outcome, winning variant key, key takeaways, and per-metric results."
+    + " Use this when the user asks about experiment performance, results, or analysis for a specific experiment."
+    + " Use **List Experiments** first to find the numeric `experimentId` — Eppo uses integer IDs for experiment lookups."
+    + " [See the documentation](https://eppo.cloud/api/docs#/Experiments/getExperiment)",
+  version: "0.0.1",
+  type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
+  props: {
+    app,
+    experimentId: {
+      type: "integer",
+      label: "Experiment ID",
+      description: "The numeric ID of the experiment. Use **List Experiments** to discover experiment IDs.",
+    },
+  },
+  async run({ $ }) {
+    const response = await this.app.getExperiment({
+      $,
+      experimentId: this.experimentId,
+      includeResults: true,
+    });
+    $.export("$summary", `Retrieved results for experiment ${this.experimentId}: ${response?.name ?? ""}`);
+    return response;
+  },
+};
