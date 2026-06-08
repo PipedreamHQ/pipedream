@@ -2,7 +2,7 @@ import fraudlabsProApp from "../../fraudlabs_pro.app.mjs";
 
 export default {
   name: "Send SMS Verification",
-  description: "Send an SMS with verification code and a custom message for authentication purpose. Please refer to the [documentation](https://www.fraudlabspro.com/developer/api/send-verification) for the explanation of the result returned. NOTE: You need to register for an API key before using this REST API. Please visit [Micro Plan](https://www.fraudlabspro.com/sign-up) to sign up for an API key if you do not have one. In addition, you will also have to make sure you have enough SMS credits to send any verification SMS.",
+  description: "Send an SMS with verification code and a custom message for authentication purpose. NOTE: Make sure you have enough SMS credits to send any verification SMS. [See the documentation](https://www.fraudlabspro.com/developer/api/send-sms-verification)",
   key: "fraudlabs_pro-send-sms-verification",
   version: "0.0.6",
   annotations: {
@@ -43,7 +43,6 @@ export default {
     },
   },
   async run({ $ }) {
-
     const {
       tel,
       mesg,
@@ -52,16 +51,24 @@ export default {
       otpTimeout,
     } = this;
 
-    const response =
-    await this.fraudlabsProApp.sendSmsVerification({
-      tel,
-      format,
-      mesg,
-      country_code: countryCode ?? "",
-      otp_timeout: otpTimeout ?? "",
+    const response = await this.fraudlabsProApp.sendSmsVerification({
+      $,
+      params: {
+        tel,
+        mesg,
+        ...(format && {
+          format,
+        }),
+        ...(countryCode && {
+          country_code: countryCode,
+        }),
+        ...(otpTimeout && {
+          otp_timeout: otpTimeout,
+        }),
+      },
     });
 
-    if ("error" in response) {
+    if (response?.error) {
       throw new Error(`Fraudlabs Pro response: error code ${response.error.error_code} - ${response.error.error_message}`);
     } else {
       $.export("$summary", "Successfully sent SMS verification");

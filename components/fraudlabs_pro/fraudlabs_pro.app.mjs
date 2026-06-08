@@ -1,8 +1,6 @@
-import fraudlabspro from "fraudlabspro-nodejs";
-import { promisify } from "util";
 import { axios } from "@pipedream/platform";
 import {
-  API_BASE_URL, API_VERSION,
+  API_BASE_URL, API_VERSION, FORM_BODY_METHODS,
 } from "./common/constants.mjs";
 
 export default {
@@ -17,18 +15,18 @@ export default {
     },
   },
   methods: {
-    smsVerification() {
-      return new fraudlabspro.SMSVerification(this.$auth.api_key);
+    sendSmsVerification(args = {}) {
+      return this._apiRequest({
+        method: "POST",
+        path: "/verification/send",
+        ...args,
+      });
     },
-    async sendSmsVerification(params) {
-      const smsVerification = this.smsVerification();
-      const sendSMS = promisify(smsVerification.sendSMS).bind(smsVerification);
-      return sendSMS(params);
-    },
-    async verifyOtp(params) {
-      const smsVerification = this.smsVerification();
-      const verifyOTP = promisify(smsVerification.verifyOTP).bind(smsVerification);
-      return verifyOTP(params);
+    verifyOtp(args = {}) {
+      return this._apiRequest({
+        path: "/verification/result",
+        ...args,
+      });
     },
     _baseUrl() {
       return "https://www.fraudlabspro.com";
@@ -65,18 +63,29 @@ export default {
       return `${API_BASE_URL}/${API_VERSION}`;
     },
     _apiRequest({
-      $ = this, path, params, ...args
+      $ = this, method = "get", path, params, data, ...args
     }) {
+      const fields = {
+        format: "json",
+        ...params,
+        ...data,
+        key: this.$auth.api_key,
+      };
+      if (FORM_BODY_METHODS.includes(method.toLowerCase())) {
+        return axios($, {
+          url: `${this._apiBaseUrl()}${path}`,
+          method,
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          data: new URLSearchParams(fields).toString(),
+          ...args,
+        });
+      }
       return axios($, {
         url: `${this._apiBaseUrl()}${path}`,
-        params: {
-          ...params,
-          format: "json",
-          key: this.$auth.api_key,
-        },
-        headers: {
-          "Content-Type": "application/json",
-        },
+        method,
+        params: fields,
         ...args,
       });
     },

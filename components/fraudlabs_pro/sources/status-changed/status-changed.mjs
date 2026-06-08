@@ -2,10 +2,11 @@ import fraudlabsProApp from "../../fraudlabs_pro.app.mjs";
 
 export default {
   name: "Status Changed (Instant)",
-  description: "Emit new events when the status of an order changes in FraudLabs Pro.",
+  description: "Emit new events when the status of an order changes in FraudLabs Pro. [See the documentation](https://www.fraudlabspro.com/developer/webhook)",
   version: "0.0.2",
   key: "fraudlabs_pro-status-changed",
   type: "source",
+  dedupe: "unique",
   props: {
     fraudlabsProApp,
     db: "$.service.db",

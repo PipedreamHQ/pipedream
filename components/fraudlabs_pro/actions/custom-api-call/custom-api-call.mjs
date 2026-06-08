@@ -4,7 +4,7 @@ import fraudlabsProApp from "../../fraudlabs_pro.app.mjs";
 export default {
   key: "fraudlabs_pro-custom-api-call",
   name: "Custom API Call",
-  description: "Make an authenticated request to any FraudLabs Pro v2 REST endpoint. The base URL `https://api.fraudlabspro.com/v2` and your API key are added automatically. [See the docs](https://www.fraudlabspro.com/developer).",
+  description: "Make an authenticated request to any FraudLabs Pro v2 REST endpoint. The base URL `https://api.fraudlabspro.com/v2` and your API key are added automatically. [See the documentation](https://www.fraudlabspro.com/developer)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -35,13 +35,13 @@ export default {
     params: {
       type: "object",
       label: "Query Parameters",
-      description: "Query parameters to send with the request. Authentication (`key`) and response format (`format=json`) are added automatically.",
+      description: "Query parameters to send with the request. Example: `{ \"id\": \"20260304-3NCQPP\", \"id_type\": \"fraudlabspro_id\" }`. Authentication (`key`) is added automatically. Response format defaults to `json`; pass `format` here to override.",
       optional: true,
     },
     requestBody: {
       type: "object",
       label: "Request Body",
-      description: "Body of the request, for POST/PUT/PATCH calls.",
+      description: "Body fields for POST/PUT/PATCH calls, sent form-urlencoded as the FraudLabs Pro v2 API expects. Example: `{ \"email\": \"user@example.com\", \"amount\": \"99.95\" }`.",
       optional: true,
     },
   },
