@@ -56,27 +56,50 @@ export default {
     },
   },
   async run({ $ }) {
+    const metricId = this.metricId
+      ? parseInt(String(this.metricId).trim(), 10)
+      : undefined;
+    const entityId = this.entityId
+      ? parseInt(String(this.entityId).trim(), 10)
+      : undefined;
+
+    if (!metricId && !entityId) {
+      throw new Error("Entity ID is required when creating a new metric. Use List Metrics to find the entity_id from an existing metric.");
+    }
+
+    const mde = this.minimumDetectableEffect
+      ? parseFloat(String(this.minimumDetectableEffect).trim())
+      : undefined;
+    if (mde !== undefined && !Number.isFinite(mde)) {
+      throw new Error(`Invalid minimumDetectableEffect: "${this.minimumDetectableEffect}" is not a valid number.`);
+    }
+
+    if (metricId !== undefined && !Number.isFinite(metricId)) {
+      throw new Error(`Invalid metricId: "${this.metricId}" is not a valid integer.`);
+    }
+    if (entityId !== undefined && !Number.isFinite(entityId)) {
+      throw new Error(`Invalid entityId: "${this.entityId}" is not a valid integer.`);
+    }
+
     const data = {
       name: this.name,
       description: this.description,
       display_style: this.displayStyle ?? "decimal",
-      minimum_detectable_effect: this.minimumDetectableEffect
-        ? parseFloat(this.minimumDetectableEffect)
-        : undefined,
+      minimum_detectable_effect: mde,
     };
 
-    if (this.entityId) {
-      data.entity_id = this.entityId;
+    if (entityId) {
+      data.entity_id = entityId;
     }
 
     let response;
-    if (this.metricId) {
+    if (metricId) {
       response = await this.app.updateMetric({
         $,
-        metricId: this.metricId,
+        metricId,
         data,
       });
-      $.export("$summary", `Updated metric ${this.metricId}: ${response?.name ?? this.name}`);
+      $.export("$summary", `Updated metric ${metricId}: ${response?.name ?? this.name}`);
     } else {
       response = await this.app.createMetric({
         $,

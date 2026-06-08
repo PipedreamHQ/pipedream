@@ -29,7 +29,7 @@ export default {
       enabled, includeArchived, ...opts
     } = {}) {
       return this._makeRequest({
-        path: "/feature-flags",
+        path: "/flags",
         params: {
           enabled,
           include_archived: includeArchived,
