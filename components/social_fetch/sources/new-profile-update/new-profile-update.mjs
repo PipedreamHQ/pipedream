@@ -107,7 +107,6 @@ export default {
     async deploy() {
       await this.emitEvent();
     },
-  },
   async run() {
     await this.emitEvent();
   },
