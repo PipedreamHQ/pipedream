@@ -1,5 +1,5 @@
 import downloadFiles from
-  "../../../sharepoint/actions/download-files/download-files.mjs";
+  "@pipedream/sharepoint/actions/download-files/download-files.mjs";
 import utils from "../../common/utils.mjs";
 import { addCustomFields } from
   "../../common/customFields.mjs";
@@ -11,7 +11,7 @@ export default {
   name: downloadFiles.name,
   description: downloadFiles.description,
   type: downloadFiles.type,
-  version: "0.0.3",
+  version: "0.0.4",
   methods: {
     ...downloadFiles.methods,
   },

@@ -68,6 +68,10 @@ export function getResourceOption(item, resource) {
   };
 }
 
+export function sanitizeGaqlString(value) {
+  return String(value).replace(/'/g, "''");
+}
+
 export function checkPrefix(value, prefix) {
   const checkStr = (s) => s && (s?.startsWith?.(prefix)
     ? s

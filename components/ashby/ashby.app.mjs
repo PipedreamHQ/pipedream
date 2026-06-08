@@ -366,6 +366,12 @@ export default {
         ...args,
       });
     },
+    getFileUrl(args = {}) {
+      return this.post({
+        path: "/file.info",
+        ...args,
+      });
+    },
     async paginate({
       fn, fnArgs, max = constants.LIMIT_MAX, keyField = "results",
     } = {}) {
