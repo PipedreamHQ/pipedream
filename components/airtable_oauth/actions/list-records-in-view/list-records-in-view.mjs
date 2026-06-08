@@ -6,7 +6,7 @@ export default {
   name: "List Records in View",
   description: "Retrieve records from a view, optionally sorting and filtering results. [See the documentation](https://airtable.com/developers/web/api/list-views)",
   type: "action",
-  version: "0.0.13",
+  version: "0.0.14",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -27,8 +27,8 @@ export default {
         ({
           baseId, tableId,
         }) => ({
-          baseId: baseId.value,
-          tableId: tableId.value,
+          baseId: baseId?.value ?? baseId,
+          tableId: tableId?.value ?? tableId,
         }),
       ],
       withLabel: true,
