@@ -1,110 +1,102 @@
+import { ConfigurationError } from "@pipedream/platform";
 import smartsheet from "../../smartsheet.app.mjs";
 
 export default {
   key: "smartsheet-add-row-to-sheet",
   name: "Add Row to Sheet",
-  description: "Adds a row to a sheet. [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/rows#operation/rows-addToSheet)",
-  version: "0.0.4",
+  description:
+    "Add one or more rows to a sheet. Accepts column NAMES as keys — resolves to column IDs internally."
+    + " Call **Get Sheet** or **List Columns** first to learn column names."
+    + " Pass rows as a JSON array of objects mapping column names to values:"
+    + " `[{\"Task\": \"Review doc\", \"Status\": \"Open\"}]`."
+    + " For a single row, pass a one-element array."
+    + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/rows/rows-addtosheet)",
+  version: "1.0.0",
+  type: "action",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
-  type: "action",
   props: {
     smartsheet,
     sheetId: {
-      propDefinition: [
-        smartsheet,
-        "sheetId",
-      ],
-      reloadProps: true,
+      type: "string",
+      label: "Sheet ID",
+      description: "The ID of the sheet to add rows to. Use **List Sheets** to find sheet IDs.",
+    },
+    rows: {
+      type: "string",
+      label: "Rows",
+      description:
+        "JSON array of row objects mapping column names to values."
+        + " Example: `[{\"Species\": \"Triceratops\", \"Status\": \"Contained\"}]`."
+        + " Call **Get Sheet** or **List Columns** to discover column names.",
     },
     toTop: {
       type: "boolean",
-      label: "To Top",
-      description: "Set to `true` to add new row to the top of the sheet",
-      optional: true,
-      default: false,
-    },
-    cells: {
-      type: "string[]",
-      label: "Cells",
-      description: "Array of objects representing cell values. Use to manually create row when `sheetId` is entered as a custom expression. Example: `{{ [{\"columnId\": 7960873114331012,\"value\": \"New status\"}] }}`",
+      label: "Add to Top",
+      description: "Set to `true` to add new rows to the top of the sheet. Defaults to bottom.",
       optional: true,
     },
-  },
-  async additionalProps() {
-    const props = {};
-    const { data: columns } = await this.smartsheet.listColumns(this.sheetId, {
-      params: {
-        include: "columnType",
-      },
-    });
-    if (!columns) {
-      return props;
-    }
-    for (const column of columns) {
-      props[column.id] = {
-        type: "string",
-        label: column.title,
-        description: column?.description || "Enter the column value",
-        optional: true,
-      };
-      if (column.type.includes("CONTACT_LIST")) {
-        props[column.id] = {
-          ...props[column.id],
-          options: async ({ page }) => {
-            const { data } = await this.smartsheet.listContacts({
-              params: {
-                page,
-              },
-            });
-            return data?.map(({ email }) => email ) || [];
-          },
-        };
-      }
-      else if (column?.options) {
-        props[column.id].options = column.options;
-      }
-    }
-    return props;
   },
   async run({ $ }) {
-    const {
-      sheetId,
-      toTop,
-      cells = [],
-      smartsheet,
-      ...columnProps
-    } = this;
-
-    const data = {
-      cells: [],
-    };
-    if (toTop) {
-      data.toTop = true;
+    let parsedRows;
+    try {
+      parsedRows = JSON.parse(this.rows);
+    } catch {
+      throw new ConfigurationError("`Rows` must be a valid JSON array of objects.");
     }
-    for (const cell of cells) {
-      const cellValue = typeof cell === "object"
-        ? cell
-        : JSON.parse(cell);
-      data.cells.push(cellValue);
-    }
-    for (const key of Object.keys(columnProps)) {
-      data.cells.push({
-        columnId: key,
-        value: columnProps[key],
-      });
+    if (!Array.isArray(parsedRows) || !parsedRows.length) {
+      throw new ConfigurationError("`Rows` must be a non-empty JSON array.");
     }
 
-    const response = await smartsheet.addRow(sheetId, {
-      data,
+    const { byName } = await this.smartsheet.getColumnMap(this.sheetId, {
       $,
     });
 
-    $.export("$summary", `Successfully created row with ID ${response.result.id}`);
+    const apiRows = parsedRows.map((row, rowIndex) => {
+      if (!row || typeof row !== "object" || Array.isArray(row)) {
+        throw new ConfigurationError(`Row at index ${rowIndex} must be an object of column name/value pairs.`);
+      }
+      const entries = Object.entries(row);
+      if (!entries.length) {
+        throw new ConfigurationError(`Row at index ${rowIndex} is empty.`);
+      }
+      const cells = [];
+      const unknownColumns = [];
+      for (const [
+        name,
+        value,
+      ] of entries) {
+        const columnId = byName[name.toLowerCase()];
+        if (columnId) {
+          cells.push({
+            columnId,
+            value,
+          });
+        } else {
+          unknownColumns.push(name);
+        }
+      }
+      if (unknownColumns.length) {
+        throw new ConfigurationError(`Row at index ${rowIndex} references unknown column(s): ${unknownColumns.join(", ")}. Use **Get Sheet** or **List Columns** to see valid column names.`);
+      }
+      const rowObj = {
+        cells,
+      };
+      if (this.toTop) rowObj.toTop = true;
+      else rowObj.toBottom = true;
+      return rowObj;
+    });
 
+    const response = await this.smartsheet.addRow(this.sheetId, {
+      $,
+      data: apiRows,
+    });
+
+    const count = response.result?.length || 1;
+    $.export("$summary", `Added ${count} row(s) to sheet ${this.sheetId}`);
     return response;
   },
 };
