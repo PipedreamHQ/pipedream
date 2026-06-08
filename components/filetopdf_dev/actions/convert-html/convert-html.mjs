@@ -4,7 +4,7 @@ export default {
   key: "filetopdf_dev-convert-html",
   name: "Convert HTML to PDF",
   description: "Render HTML + CSS into a pixel-perfect PDF. [See the documentation](https://filetopdf.dev/html).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

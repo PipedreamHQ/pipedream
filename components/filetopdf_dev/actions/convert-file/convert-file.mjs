@@ -6,7 +6,7 @@ export default {
   key: "filetopdf_dev-convert-file",
   name: "Convert a File to PDF",
   description: "Convert Word, Excel, PowerPoint, images and 130+ formats into PDF — from a file or a public URL. The converter is chosen automatically from the file extension. [See the documentation](https://filetopdf.dev/file).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
