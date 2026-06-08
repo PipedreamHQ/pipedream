@@ -8,7 +8,7 @@ components** for the registry (`PipedreamHQ/pipedream` → `components/filetopdf
 
 | Action | Endpoint | What it does |
 |--------|----------|--------------|
-| **Convert a File to PDF** | `POST /file` | Convert Word, Excel, PowerPoint, images and 130+ formats — from an uploaded file (a `/tmp` path or URL) **or** a public URL the API downloads. Converter picked from the file extension. |
+| **Convert a File to PDF** | `POST /file` | Convert Word, Excel, PowerPoint, images and 130+ formats. Two input modes: **(a)** a file from a previous step — give its `/tmp` file path in the **File** field and we upload it; **or (b)** a public URL in the **File URL** field, which the API downloads server-side. Converter picked from the file extension. |
 | **Convert HTML to PDF** | `POST /html` | Render raw HTML + optional CSS into a PDF (Chromium). |
 | **Convert Markdown to PDF** | `POST /markdown` | Render Markdown + optional CSS into a PDF. |
 | **Get Account Status** | `GET /account` | Validate the key and read plan + remaining credits. Free, never rate-limited — the connection test. |

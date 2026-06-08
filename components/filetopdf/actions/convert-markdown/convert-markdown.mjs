@@ -3,7 +3,7 @@ import app from "../../filetopdf.app.mjs";
 export default {
   key: "filetopdf-convert-markdown",
   name: "Convert Markdown to PDF",
-  description: "Render Markdown (with optional CSS) into a clean PDF. [See the docs](https://filetopdf.dev).",
+  description: "Render Markdown (with optional CSS) into a clean PDF. [See the documentation](https://filetopdf.dev).",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -40,6 +40,11 @@ export default {
     pdfua: { propDefinition: [app, "pdfua"] },
     userPassword: { propDefinition: [app, "userPassword"] },
     ownerPassword: { propDefinition: [app, "ownerPassword"] },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
+    },
   },
   async run({ $ }) {
     const options = this.app.stringifyOptions({

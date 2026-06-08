@@ -159,6 +159,12 @@ export default {
     },
     /** Map the API's `{ error: { code, message } }` envelope to a clean Pipedream error. */
     _throwFriendly(err) {
+      // Transport-level failures (timeout, DNS, TLS, connection reset) carry no
+      // HTTP response / API envelope — surface the real error instead of a
+      // misleading message with an undefined status.
+      if (err && !err.response) {
+        throw new Error(`Could not reach FileToPDF: ${(err && err.message) || err}`);
+      }
       const status = err && err.response && err.response.status;
       const envelope = (err && err.response && err.response.data) || {};
       const error = envelope.error || {};
@@ -203,7 +209,12 @@ export default {
       if (!data || !data.pdf) {
         throw new Error("The API response did not contain a PDF.");
       }
-      const safeName = String(data.filename || "converted.pdf").split(/[\\/]/).pop() || "converted.pdf";
+      let safeName = String(data.filename || "converted.pdf").split(/[\\/]/).pop() || "converted.pdf";
+      // Guard against dot-only names ("." / "..") that would resolve to /tmp
+      // itself or its parent and break the write.
+      if (safeName === "." || safeName === "..") {
+        safeName = "converted.pdf";
+      }
       const filePath = `/tmp/${safeName}`;
       await fs.promises.writeFile(filePath, Buffer.from(data.pdf, "base64"));
       return {

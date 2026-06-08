@@ -5,7 +5,7 @@ import app from "../../filetopdf.app.mjs";
 export default {
   key: "filetopdf-convert-file",
   name: "Convert a File to PDF",
-  description: "Convert Word, Excel, PowerPoint, images and 130+ formats into PDF — from a file or a public URL. The converter is chosen automatically from the file extension. [See the docs](https://filetopdf.dev).",
+  description: "Convert Word, Excel, PowerPoint, images and 130+ formats into PDF — from a file or a public URL. The converter is chosen automatically from the file extension. [See the documentation](https://filetopdf.dev).",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -19,6 +19,7 @@ export default {
       type: "string",
       label: "File",
       description: "The file to convert — a path to a file in `/tmp` (map it from a previous step, e.g. Google Drive, Dropbox, an HTTP download, an email attachment) **or** a downloadable URL. We read it and upload it. Leave blank if you're using a File URL instead.",
+      format: "file-ref",
       optional: true,
     },
     url: {
@@ -42,6 +43,11 @@ export default {
     sourcePassword: { propDefinition: [app, "sourcePassword"] },
     userPassword: { propDefinition: [app, "userPassword"] },
     ownerPassword: { propDefinition: [app, "ownerPassword"] },
+    syncDir: {
+      type: "dir",
+      accessMode: "read-write",
+      sync: true,
+    },
   },
   async run({ $ }) {
     const options = this.app.stringifyOptions({
