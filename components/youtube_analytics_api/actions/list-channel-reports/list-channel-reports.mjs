@@ -1,5 +1,5 @@
+import { ConfigurationError } from "@pipedream/platform";
 import common from "../common/reports-query.mjs";
-import constants from "../../common/constants.mjs";
 import utils from "../../common/utils.mjs";
 import propsFragments from "../../common/props-fragments.mjs";
 
@@ -9,83 +9,68 @@ export default {
   name: "List Channel Reports",
   description:
     "Fetch summary analytics reports for a specified youtube channel. Optional filters include date range and report type. [See the documentation](https://developers.google.com/youtube/analytics/reference/reports/query)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
-  additionalProps() {
-    const {
-      getIdsProps, getReportTypeProps,
-    } = this;
-
-    return {
-      ...getIdsProps(),
-      ...getReportTypeProps(),
-    };
+  props: {
+    ...common.props,
+    channelReportType: propsFragments.channelReportType,
+    metrics: propsFragments.metrics,
+    filters: propsFragments.filters,
   },
   methods: {
     ...common.methods,
-    getReportTypeProps() {
-      const { channelReportType } = this;
-      const {
-        VIDEO_BASIC_USER_ACTIVITY_STATS, PLAYLIST_BASIC_STATS,
-      } =
-        constants.CHANNEL_REPORT_TYPE;
-
-      if (channelReportType === VIDEO_BASIC_USER_ACTIVITY_STATS.value) {
-        const supportedFilters =
-          VIDEO_BASIC_USER_ACTIVITY_STATS.metadata.filters.reduce(
-            (acc, filter) => ({
-              ...acc,
-              [filter]: "",
-            }),
-            {},
-          );
-
-        return {
-          channelReportType: propsFragments.channelReportType,
-          metrics: {
-            ...propsFragments.metrics,
-            options: VIDEO_BASIC_USER_ACTIVITY_STATS.metadata.metrics,
-          },
-          filters: {
-            ...propsFragments.filters,
-            description: `**Supported filters: \`${JSON.stringify(supportedFilters)}\`**. ${propsFragments.filters.description}`,
-          },
-        };
+    getReportTypeMetadata() {
+      return utils.findChannelReportType(this.channelReportType)?.metadata;
+    },
+    validateMetrics() {
+      const metadata = this.getReportTypeMetadata();
+      if (!metadata || !this.metrics?.length) {
+        return;
       }
 
-      if (channelReportType === PLAYLIST_BASIC_STATS.value) {
-        const supportedFilters = PLAYLIST_BASIC_STATS.metadata.filters.reduce(
-          (acc, filter) => ({
-            ...acc,
-            [filter]: "",
-          }),
-          {},
+      const invalid = this.metrics.filter(
+        (metric) => !metadata.metrics.includes(metric),
+      );
+      if (invalid.length) {
+        throw new ConfigurationError(
+          `Invalid metric(s) for **${this.channelReportType}**: ${invalid.join(", ")}. Supported metrics: ${metadata.metrics.join(", ")}.`,
         );
-
-        return {
-          channelReportType: propsFragments.channelReportType,
-          metrics: {
-            ...propsFragments.metrics,
-            options: PLAYLIST_BASIC_STATS.metadata.metrics,
-          },
-          filters: {
-            ...propsFragments.filters,
-            description: `**Supported filters: \`${JSON.stringify(supportedFilters)}\`**. ${propsFragments.filters.description}`,
-          },
-        };
+      }
+    },
+    validateFilters() {
+      const metadata = this.getReportTypeMetadata();
+      if (!metadata) {
+        return;
       }
 
-      return {
-        channelReportType: propsFragments.channelReportType,
-      };
+      const filtersObj = utils.parseJson(this.filters);
+      if (!filtersObj) {
+        return;
+      }
+
+      const invalid = Object.keys(filtersObj).filter(
+        (key) => !metadata.filters.includes(key),
+      );
+      if (invalid.length) {
+        throw new ConfigurationError(
+          `Invalid filter key(s) for **${this.channelReportType}**: ${invalid.join(", ")}. Supported filters: ${metadata.filters.join(", ")}.`,
+        );
+      }
+    },
+    validateConfiguration() {
+      this.validateIds();
+      this.validateMetrics();
+      this.validateFilters();
     },
   },
   async run({ $ }) {
+    this.validateConfiguration();
+
     const {
       app,
       getIdsParam,
