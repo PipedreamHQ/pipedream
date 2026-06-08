@@ -3418,6 +3418,9 @@ importers:
 
   components/commcare: {}
 
+  components/commerce_tools:
+    specifiers: {}
+
   components/commercehq: {}
 
   components/commercetools:
@@ -15018,6 +15021,9 @@ importers:
   components/snowflake_test: {}
 
   components/snyk: {}
+
+  components/social_fetch:
+    specifiers: {}
 
   components/social_intents:
     dependencies:
