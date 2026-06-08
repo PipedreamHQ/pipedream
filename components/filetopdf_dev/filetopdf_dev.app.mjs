@@ -147,9 +147,7 @@ export default {
         value,
       ] of Object.entries(options)) {
         if (value === undefined || value === null || value === "") continue;
-        out[ALIASES[key] || key] = typeof value === "boolean"
-          ? String(value)
-          : String(value);
+        out[ALIASES[key] || key] = String(value);
       }
       return out;
     },
