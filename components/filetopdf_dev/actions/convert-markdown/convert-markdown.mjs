@@ -1,9 +1,9 @@
-import app from "../../filetopdf.app.mjs";
+import app from "../../filetopdf_dev.app.mjs";
 
 export default {
-  key: "filetopdf-convert-markdown",
+  key: "filetopdf_dev-convert-markdown",
   name: "Convert Markdown to PDF",
-  description: "Render Markdown (with optional CSS) into a clean PDF. [See the documentation](https://filetopdf.dev).",
+  description: "Render Markdown (with optional CSS) into a clean PDF. [See the documentation](https://filetopdf.dev/markdown).",
   version: "0.0.1",
   type: "action",
   annotations: {

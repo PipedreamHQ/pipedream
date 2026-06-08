@@ -1,9 +1,9 @@
-import app from "../../filetopdf.app.mjs";
+import app from "../../filetopdf_dev.app.mjs";
 
 export default {
-  key: "filetopdf-convert-html",
+  key: "filetopdf_dev-convert-html",
   name: "Convert HTML to PDF",
-  description: "Render HTML + CSS into a pixel-perfect PDF. [See the documentation](https://filetopdf.dev).",
+  description: "Render HTML + CSS into a pixel-perfect PDF. [See the documentation](https://filetopdf.dev/html).",
   version: "0.0.1",
   type: "action",
   annotations: {

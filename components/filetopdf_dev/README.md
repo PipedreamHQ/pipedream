@@ -2,7 +2,7 @@
 
 [FileToPDF](https://filetopdf.dev) turns files, raw HTML, and Markdown into PDFs
 with a single API call. This package provides the Pipedream **app + action
-components** for the registry (`PipedreamHQ/pipedream` → `components/filetopdf/`).
+components** for the registry (`PipedreamHQ/pipedream` → `components/filetopdf_dev/`).
 
 ## Actions
 
@@ -44,7 +44,7 @@ size/margins/scale, which are Chromium-only.
 ## Layout / project structure
 
 ```
-filetopdf.app.mjs                  app: auth + request methods + reusable option propDefinitions
+filetopdf_dev.app.mjs                  app: auth + request methods + reusable option propDefinitions
 common/constants.mjs               BASE_URL, PDF/A options, friendly error mapping
 actions/convert-file/…             POST /file (upload or URL)
 actions/convert-html/…             POST /html
@@ -60,7 +60,7 @@ test/live-test.mjs                 live test against the real API
 npm install
 
 # static check
-for f in filetopdf.app.mjs common/*.mjs actions/*/*.mjs; do node --check "$f"; done
+for f in filetopdf_dev.app.mjs common/*.mjs actions/*/*.mjs; do node --check "$f"; done
 
 # live test (needs a real key)
 cp .env.example .env        # then set API_KEY=sk_live_...
@@ -80,7 +80,7 @@ is a **new app**, Pipedream must register the app + its API-key auth before a
 components PR can land — so it's a 3-gate process:
 
 1. **Request the new app** (GitHub issue on `PipedreamHQ/pipedream`) → Pipedream
-   creates the `filetopdf` slug + `x-api-key` auth + the `components/filetopdf/` dir.
+   creates the `filetopdf_dev` slug + `x-api-key` auth + the `components/filetopdf_dev/` dir.
 2. **PR these components** into a fork → review.
 3. **Merge** → auto-appears in public search.
 
