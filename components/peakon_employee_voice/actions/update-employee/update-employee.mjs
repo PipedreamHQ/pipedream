@@ -28,37 +28,37 @@ export default {
       ],
     },
     firstName: {
-      type: "string",
-      label: "First Name",
-      description: "Updated first name.",
+      propDefinition: [
+        app,
+        "firstName",
+      ],
       optional: true,
     },
     lastName: {
-      type: "string",
-      label: "Last Name",
-      description: "Updated last name.",
+      propDefinition: [
+        app,
+        "lastName",
+      ],
       optional: true,
     },
     identifier: {
-      type: "string",
-      label: "Identifier",
-      description: "Updated HR employee number.",
+      propDefinition: [
+        app,
+        "identifier",
+      ],
       optional: true,
     },
     employmentStatus: {
-      type: "string",
-      label: "Employment Status",
-      description: "Updated employment status (e.g. `employed`, `on_leave`).",
-      optional: true,
+      propDefinition: [
+        app,
+        "employmentStatus",
+      ],
     },
     customAttributes: {
-      type: "string",
-      label: "Custom Attributes",
-      description:
-        "JSON object of custom HR attributes to update. "
-        + "Example: `{\"Department\": \"Engineering\", \"Job Level\": \"Senior Manager\"}`. "
-        + "Only provided attributes are changed.",
-      optional: true,
+      propDefinition: [
+        app,
+        "customAttributes",
+      ],
     },
   },
   async run({ $ }) {

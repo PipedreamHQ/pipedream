@@ -23,12 +23,10 @@ export default {
   props: {
     app,
     contextId: {
-      type: "string",
-      label: "Context ID",
-      description:
-        "A company or segment context ID. Format: `company_[companyId]` for company-wide metrics, "
-        + "or `segment_[segmentId]` for a specific segment. "
-        + "Use **List Segments** to discover segment context IDs.",
+      propDefinition: [
+        app,
+        "contextId",
+      ],
     },
     interval: {
       propDefinition: [
@@ -37,18 +35,16 @@ export default {
       ],
     },
     observations: {
-      type: "boolean",
-      label: "Include Observations",
-      description: "Whether to include the observations array in the response. Defaults to false.",
-      optional: true,
-      default: false,
+      propDefinition: [
+        app,
+        "observations",
+      ],
     },
     participation: {
-      type: "boolean",
-      label: "Include Participation",
-      description: "Whether to include participation data in the response. Defaults to false.",
-      optional: true,
-      default: false,
+      propDefinition: [
+        app,
+        "participation",
+      ],
     },
   },
   async run({ $ }) {

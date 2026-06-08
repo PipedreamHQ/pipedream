@@ -34,7 +34,7 @@ export default {
     filterManagerId: {
       type: "integer",
       label: "Filter by Manager ID",
-      description: "The employee ID of a manager to filter segments by.",
+      description: "The employee ID of a manager to filter segments by. Use **List Employees** to find the ID.",
       optional: true,
     },
     filterType: {

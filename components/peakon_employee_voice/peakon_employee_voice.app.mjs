@@ -8,9 +8,9 @@ export default {
       type: "string",
       label: "Context ID",
       description:
-        "Optional segment or context ID to scope analytics to a specific population "
-        + "(e.g. `segment_62704631`). Use **List Segments** to discover available contextIds.",
-      optional: true,
+        "Company or segment context ID. Format: `company_[companyId]` for company-wide metrics "
+        + "or `segment_[segmentId]` for a specific segment. "
+        + "Use **List Segments** to discover available segment IDs.",
     },
     interval: {
       type: "string",
@@ -32,6 +32,58 @@ export default {
       description:
         "Internal Peakon employee ID (e.g. `80166956`). "
         + "Use **List Employees** to find the ID by searching by name.",
+    },
+    observations: {
+      type: "boolean",
+      label: "Include Observations",
+      description: "Whether to include the observations array in the response. Defaults to false.",
+      optional: true,
+      default: false,
+    },
+    participation: {
+      type: "boolean",
+      label: "Include Participation",
+      description: "Whether to include participation data in the response. Defaults to false.",
+      optional: true,
+      default: false,
+    },
+    filterSegmentIds: {
+      type: "string",
+      label: "Filter by Segment IDs",
+      description:
+        "Comma-separated list of segment IDs to filter by segment membership. "
+        + "Example: `1001,1002`. Use **List Segments** to discover available segment IDs.",
+      optional: true,
+    },
+    firstName: {
+      type: "string",
+      label: "First Name",
+      description: "Employee's first name.",
+    },
+    lastName: {
+      type: "string",
+      label: "Last Name",
+      description: "Employee's last name.",
+    },
+    identifier: {
+      type: "string",
+      label: "Identifier",
+      description: "HR employee number or unique identifier (e.g. `E001`). Must be unique across employees.",
+    },
+    employmentStatus: {
+      type: "string",
+      label: "Employment Status",
+      description: "Current employment status (e.g. `employed`, `on_leave`).",
+      optional: true,
+    },
+    customAttributes: {
+      type: "string",
+      label: "Custom Attributes",
+      description:
+        "JSON object of custom HR attributes for the employee. "
+        + "Example: `{\"Department\": \"Sales\", \"Region\": \"North America\", \"Job Level\": \"Manager\"}`. "
+        + "Enum values are accepted as plain strings.",
+      optional: true,
     },
   },
   methods: {

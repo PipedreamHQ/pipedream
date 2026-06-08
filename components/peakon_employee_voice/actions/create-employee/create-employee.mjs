@@ -23,19 +23,22 @@ export default {
   props: {
     app,
     firstName: {
-      type: "string",
-      label: "First Name",
-      description: "Employee's first name.",
+      propDefinition: [
+        app,
+        "firstName",
+      ],
     },
     lastName: {
-      type: "string",
-      label: "Last Name",
-      description: "Employee's last name.",
+      propDefinition: [
+        app,
+        "lastName",
+      ],
     },
     identifier: {
-      type: "string",
-      label: "Identifier",
-      description: "HR employee number or unique identifier (e.g. `E001`). Must be unique across employees.",
+      propDefinition: [
+        app,
+        "identifier",
+      ],
     },
     email: {
       type: "string",
@@ -58,20 +61,17 @@ export default {
       default: "permanent",
     },
     employmentStatus: {
-      type: "string",
-      label: "Employment Status",
-      description: "Current employment status (e.g. `employed`, `on_leave`).",
-      optional: true,
+      propDefinition: [
+        app,
+        "employmentStatus",
+      ],
       default: "employed",
     },
     customAttributes: {
-      type: "string",
-      label: "Custom Attributes",
-      description:
-        "JSON object of custom HR attributes to set on the employee. "
-        + "Example: `{\"Department\": \"Sales\", \"Region\": \"North America\", \"Job Level\": \"Manager\"}`. "
-        + "Enum values are accepted as plain strings.",
-      optional: true,
+      propDefinition: [
+        app,
+        "customAttributes",
+      ],
     },
   },
   async run({ $ }) {

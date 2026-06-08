@@ -61,12 +61,10 @@ export default {
       optional: true,
     },
     filterSegmentIds: {
-      type: "string",
-      label: "Filter by Segment IDs",
-      description:
-        "Comma-separated list of segment IDs to filter employees by segment membership. "
-        + "Example: `1001,1002`.",
-      optional: true,
+      propDefinition: [
+        app,
+        "filterSegmentIds",
+      ],
     },
   },
   async run({ $ }) {
