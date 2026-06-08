@@ -56,14 +56,14 @@ export default {
     },
   },
   async run({ $ }) {
-    const metricId = this.metricId
+    const metricId = this.metricId !== undefined
       ? parseInt(String(this.metricId).trim(), 10)
       : undefined;
-    const entityId = this.entityId
+    const entityId = this.entityId !== undefined
       ? parseInt(String(this.entityId).trim(), 10)
       : undefined;
 
-    if (!metricId && !entityId) {
+    if (metricId === undefined && entityId === undefined) {
       throw new Error("Entity ID is required when creating a new metric. Use List Metrics to find the entity_id from an existing metric.");
     }
 
@@ -88,12 +88,12 @@ export default {
       minimum_detectable_effect: mde,
     };
 
-    if (entityId) {
+    if (entityId !== undefined) {
       data.entity_id = entityId;
     }
 
     let response;
-    if (metricId) {
+    if (metricId !== undefined) {
       response = await this.app.updateMetric({
         $,
         metricId,
