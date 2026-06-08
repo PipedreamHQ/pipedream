@@ -1,0 +1,21 @@
+{
+  "name": "@pipedream/filetopdf",
+  "version": "0.1.0",
+  "description": "Pipedream components for FileToPDF — convert files, HTML, and Markdown to PDF.",
+  "main": "filetopdf.app.mjs",
+  "type": "module",
+  "homepage": "https://filetopdf.dev",
+  "keywords": [
+    "pipedream",
+    "filetopdf",
+    "pdf",
+    "convert",
+    "document"
+  ],
+  "author": "FileToPDF",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^3.4.0",
+    "form-data": "^4.0.0"
+  }
+}
