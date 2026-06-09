@@ -17,7 +17,10 @@ export default {
       });
 
       this.$emit(resource, {
-        id: require("crypto").createHash("sha256").update(body.resource_url).digest("hex").slice(0, 64),
+        id: require("crypto").createHash("sha256")
+          .update(body.resource_url)
+          .digest("hex")
+          .slice(0, 64),
         summary: `New ${body.resource_type} event`,
         ts: Date.now(),
       });
