@@ -4,7 +4,7 @@ export default {
   key: "shipstation-get-order",
   name: "Get Order",
   description: "Retrieve a single order by its ID. [See the documentation](https://docs.shipstation.com/apis/shipstation-v1/openapi/orders/get_order)",
-  version: "0.0.2",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
