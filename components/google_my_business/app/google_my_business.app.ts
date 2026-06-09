@@ -24,7 +24,7 @@ export default defineApp({
         }
         const response = await this.listAccounts({
           params: {
-            pageSize: 50,
+            pageSize: 20,
             pageToken,
           },
         });
