@@ -4,9 +4,26 @@ export default {
   type: "app",
   app: "shipstation",
   propDefinitions: {
+    orderId: {
+      label: "Order",
+      description: "The system-generated order ID. Use the **List Orders** action to get a list of order IDs.",
+      type: "integer",
+      async options({ page }) {
+        const { orders } = await this.listOrders({
+          params: {
+            page: page + 1,
+            pageSize: 100,
+          },
+        });
+        return orders.map((order) => ({
+          label: order.orderNumber,
+          value: order.orderId,
+        }));
+      },
+    },
     storeId: {
       label: "Store",
-      description: "A list of stores",
+      description: "A list of stores. Use the **List Store ID Options** action to get a list of store IDs.",
       type: "string",
       async options() {
         const stores = await this.getStores();
@@ -19,7 +36,7 @@ export default {
     },
     customerEmail: {
       label: "Customer Email",
-      description: "A list of customers",
+      description: "A list of customers. Use the **List Customer Email Options** action to get a list of customer emails.",
       type: "string",
       async options({ page }) {
         const customers = await this.getCustomers({
@@ -84,6 +101,18 @@ export default {
       return this._makeRequest("orders/createorder", {
         method: "post",
         data,
+      }, $);
+    },
+    async getOrder({
+      orderId, $,
+    }) {
+      return this._makeRequest(`orders/${orderId}`, {}, $);
+    },
+    async listOrders({
+      params, $,
+    } = {}) {
+      return this._makeRequest("orders", {
+        params,
       }, $);
     },
     async getStores({ $ } = {}) {
