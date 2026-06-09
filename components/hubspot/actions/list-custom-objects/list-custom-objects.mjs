@@ -34,7 +34,8 @@ export default {
       description:
         "Property names to include in the returned records."
         + " If not specified, only the default display property is returned."
-        + " Use **List Custom Object Properties** to discover available property names.",
+        + " Use **List Custom Object Properties** to discover available property names."
+        + " e.g. `[\"title\", \"year\", \"director\"]`.",
       optional: true,
     },
     limit: {
