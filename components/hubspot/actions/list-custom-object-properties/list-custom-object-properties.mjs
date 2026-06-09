@@ -10,7 +10,7 @@ export default {
     + " (either fullyQualifiedName like `p_pd_eval_movie` or objectTypeId like `2-12345678`)."
     + " Standard object types (contacts, companies, deals, tickets) are not supported here —"
     + " use **Get Properties** or **Search Properties** for those."
-    + " [See the documentation](https://developers.hubspot.com/docs/api/crm/properties)",
+    + " [See the documentation](https://developers.hubspot.com/docs/api-reference/latest/crm/properties/get-properties)",
   version: "0.0.1",
   type: "action",
   annotations: {

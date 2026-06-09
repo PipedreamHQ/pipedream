@@ -9,7 +9,7 @@ export default {
     + " and a list of all property names for each schema."
     + " Call this first before any other custom object operation to obtain the correct objectType identifier."
     + " Standard object types (contacts, companies, deals, tickets) do NOT appear here."
-    + " [See the documentation](https://developers.hubspot.com/docs/api/crm/crm-custom-objects)",
+    + " [See the documentation](https://developers.hubspot.com/docs/api-reference/latest/crm/objects/schemas/get-schemas)",
   version: "0.0.1",
   type: "action",
   annotations: {
