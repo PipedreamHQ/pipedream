@@ -33,7 +33,10 @@ export default defineAction({
     pageSize: {
       type: "integer",
       label: "Page Size",
-      description: "Number of accounts to return per page. Default and maximum is 20.",
+      description: "Number of accounts to return per page.",
+      min: 1,
+      max: 20,
+      default: 20,
       optional: true,
     },
     pageToken: {
