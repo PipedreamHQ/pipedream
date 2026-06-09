@@ -6,7 +6,7 @@ export default {
   key: "hubspot-search-properties",
   name: "Search Properties",
   description:
-    "Search for property definitions (field names) on a CRM object type. Returns lightweight results: property names, labels, descriptions, and types — without enum options. Use this to discover what fields exist before creating or updating records. To get full details including valid enum values for a specific property, use **Get Properties**. To search for actual CRM data/records, use **Search CRM**. [See the documentation](https://developers.hubspot.com/docs/api/crm/properties)",
+    "Search for property definitions (field names) on a CRM object type. Returns lightweight results: property names, labels, descriptions, and types — without enum options. Use this to discover what fields exist before creating or updating records. To get full details including valid enum values for a specific property, use **Get Properties**. To search for actual CRM data/records, use **Search CRM**. For custom object properties, use **List Custom Object Properties** instead (custom object types are not in the standard type list). [See the documentation](https://developers.hubspot.com/docs/api/crm/properties)",
   version: "0.0.5",
   annotations: {
     destructiveHint: false,
