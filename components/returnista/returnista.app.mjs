@@ -161,6 +161,51 @@ export default {
       label: "Return Request ID",
       description: "The ID of the return request. Use **List Return Requests** to find IDs.",
     },
+    purchaseId: {
+      type: "string",
+      label: "Purchase ID",
+      description: "The ID of the purchase to return. Use **Get Consumer Purchases** to find purchase IDs.",
+    },
+    returnReasonId: {
+      type: "string",
+      label: "Return Reason ID",
+      description: "The UUID of the return reason. Use **Get Return Reasons** to find available IDs. Leave blank to submit without a reason (sends `null`).",
+    },
+    returnReasonComment: {
+      type: "string",
+      label: "Return Reason Comment",
+      description: "An optional free-text comment explaining the return reason.",
+      optional: true,
+    },
+    resolutionType: {
+      type: "string",
+      label: "Resolution Type",
+      description: "The desired resolution type for the return.",
+      options: [
+        "Refund",
+        "Exchange",
+        "StoreCredit",
+      ],
+      optional: true,
+    },
+    exchangeProductId: {
+      type: "string",
+      label: "Exchange Product ID",
+      description: "The ID of the product to exchange for. Typically required when `resolutionType` is `Exchange`.",
+      optional: true,
+    },
+    exchangeOptionSku: {
+      type: "string",
+      label: "Exchange Option SKU",
+      description: "The SKU of the product variant to exchange for. Typically required when `resolutionType` is `Exchange`.",
+      optional: true,
+    },
+    answers: {
+      type: "string[]",
+      label: "Answers",
+      description: "Array of form field answers for the return questionnaire. Each entry must be a JSON string with `formField` (object with `id`, `type`, `required`, `position`, `options`) and an `answer` value (string, array of strings, or array of file objects with `mimeType` and `url`) [here](https://platform.returnista.com/reference/rest-api/#post-/consumer/-consumerId-/draft-return-order)",
+      optional: true,
+    },
   },
   methods: {
     _baseUrl() {
@@ -190,6 +235,15 @@ export default {
         ...opts,
       });
     },
+    createDraftReturnOrder({
+      consumerId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/consumer/${consumerId}/draft-return-order`,
+        ...opts,
+      });
+    },
     getDraftReturnOrders({
       accountId, ...opts
     }) {
@@ -211,6 +265,14 @@ export default {
     }) {
       return this._makeRequest({
         path: `/account/${accountId}/return-order/${returnOrderId}/emails`,
+        ...opts,
+      });
+    },
+    resendConfirmationEmail({
+      accountId, returnOrderId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/account/${accountId}/return-order/${returnOrderId}/resend-confirmation-email`,
         ...opts,
       });
     },
