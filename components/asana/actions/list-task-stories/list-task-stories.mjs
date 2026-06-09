@@ -4,7 +4,7 @@ export default {
   key: "asana-list-task-stories",
   name: "List Task Stories",
   description: "List stories (including comments) for a task. [See the documentation](https://developers.asana.com/reference/getstoriesfortask)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -40,8 +40,10 @@ export default {
     maxResults: {
       type: "integer",
       label: "Max Results",
-      description: "The maximum number of results to return",
+      description: "The maximum total number of results to return across all paginated API calls. Each page fetches up to 100 items (Asana's maximum); this cap is applied after auto-pagination completes.",
       default: 100,
+      min: 1,
+      max: 9999,
       optional: true,
     },
   },
@@ -59,7 +61,7 @@ export default {
     let hasMore, count = 0;
 
     const params = {
-      limit: this.maxResults,
+      limit: 100,
       opt_fields: this.optFields
         ? this.optFields?.join(",")
         : undefined,

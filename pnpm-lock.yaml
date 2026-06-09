@@ -3418,6 +3418,9 @@ importers:
 
   components/commcare: {}
 
+  components/commerce_tools:
+    specifiers: {}
+
   components/commercehq: {}
 
   components/commercetools:
@@ -5541,6 +5544,9 @@ importers:
         specifier: ^3.2.5
         version: 3.3.0
 
+  components/filetopdf_dev:
+    specifiers: {}
+
   components/fillout:
     dependencies:
       '@pipedream/platform':
@@ -6105,6 +6111,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
+
+  components/gamma:
+    specifiers: {}
 
   components/gan_ai:
     dependencies:
@@ -15006,9 +15015,15 @@ importers:
         specifier: ^13.0.0
         version: 13.0.0
 
+  components/snowflake_oauth:
+    specifiers: {}
+
   components/snowflake_test: {}
 
   components/snyk: {}
+
+  components/social_fetch:
+    specifiers: {}
 
   components/social_intents:
     dependencies:
