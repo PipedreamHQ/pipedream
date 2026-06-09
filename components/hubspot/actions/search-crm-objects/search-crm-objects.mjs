@@ -38,7 +38,7 @@ export default {
     + " For custom objects, use **List Custom Object Schemas** to discover available types,"
     + " then **List Custom Objects** to list records."
     + " [See the documentation](https://developers.hubspot.com/docs/api/crm/search)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
