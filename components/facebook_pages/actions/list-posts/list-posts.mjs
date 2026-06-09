@@ -4,8 +4,8 @@ export default {
   ...common,
   key: "facebook_pages-list-posts",
   name: "List Posts",
-  description: "Retrieves a list of posts on a Facebook Page. [See the documentation](https://developers.facebook.com/docs/graph-api/reference/v17.0/page/feed)",
-  version: "0.0.3",
+  description: "Retrieves a list of posts on a Facebook Page. [See the documentation](https://developers.facebook.com/docs/graph-api/reference/v25.0/page/feed)",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
