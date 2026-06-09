@@ -45,7 +45,10 @@ export default defineAction({
     pageSize: {
       type: "integer",
       label: "Page Size",
-      description: "Number of locations to return per page. Minimum 1, maximum 100. Defaults to 10.",
+      description: "Number of locations to return per page.",
+      min: 1,
+      max: 100,
+      default: 100,
       optional: true,
     },
     pageToken: {
