@@ -42,6 +42,9 @@ export default {
       label: "Limit",
       description: "Maximum number of records to return per page. Max: 100, default: 10.",
       optional: true,
+      min: 1,
+      max: 100,
+      default: 10,
     },
     after: {
       type: "string",
@@ -52,7 +55,7 @@ export default {
   },
   async run({ $ }) {
     const requestParams = {
-      limit: this.limit || 10,
+      limit: this.limit,
     };
 
     if (this.properties?.length) {
