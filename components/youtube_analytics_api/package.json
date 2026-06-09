@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/youtube_analytics_api",
-  "version": "0.0.5",
+  "version": "0.0.4",
   "description": "Pipedream Youtube Analytics API Components",
   "main": "youtube_analytics_api.app.mjs",
   "keywords": [

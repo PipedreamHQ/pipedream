@@ -34,7 +34,9 @@ export default {
       }
 
       const invalid = this.metrics.filter(
-        (metric) => !metadata.metrics.includes(metric),
+        (metric) => !metadata.metrics.some(
+          (supportedMetric) => supportedMetric.replace(/\*$/, "") === metric,
+        ),
       );
       if (invalid.length) {
         throw new ConfigurationError(
