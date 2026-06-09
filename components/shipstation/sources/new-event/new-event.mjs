@@ -16,12 +16,10 @@ export default {
         url: body.resource_url,
       });
 
-      const ts = new Date();
-
       this.$emit(resource, {
-        id: ts,
-        summary: `New event ${ts.getTime()} received`,
-        ts,
+        id: body.resource_url,
+        summary: `New ${body.resource_type} event`,
+        ts: Date.now(),
       });
     },
   },

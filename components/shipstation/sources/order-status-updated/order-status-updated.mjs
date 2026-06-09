@@ -7,6 +7,7 @@ export default {
   description: "Emit new event when an order's status changes. [See the documentation](https://docs.shipstation.com/apis/shipstation-v1/openapi/orders/list_orders)",
   version: "0.0.1",
   type: "source",
+  dedupe: "unique",
   props: {
     shipstation,
     db: "$.service.db",
