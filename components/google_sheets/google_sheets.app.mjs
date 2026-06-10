@@ -253,7 +253,8 @@ export default {
       }
       return sum;
     },
-    async listSheetsOptions(driveId, pageToken = null, query, fetchOnlyOwned) {
+    async listSheetsOptions(driveId, pageToken = null, query, fetchOnlyOwned,
+      limitToMyDrive = false) {
       const searchQuery = query
         ? ` and name contains '${query}'`
         : "";
@@ -268,6 +269,14 @@ export default {
           ...request,
           corpora: "drive",
           driveId,
+          pageToken,
+          includeItemsFromAllDrives: true,
+          supportsAllDrives: true,
+        };
+      } else if (!limitToMyDrive) {
+        request = {
+          ...request,
+          corpora: "allDrives",
           pageToken,
           includeItemsFromAllDrives: true,
           supportsAllDrives: true,

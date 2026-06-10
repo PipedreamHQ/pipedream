@@ -5,7 +5,7 @@ export default {
   key: "smartsheet-new-row-added",
   name: "New Row Added (Instant)",
   description: "Emit new event when a row is added to a sheet.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   methods: {
