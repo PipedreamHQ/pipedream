@@ -24,7 +24,7 @@ export default {
         asana,
         "optFields",
       ],
-      description: "Optional portfolio properties to include in the response (e.g. `custom_field_settings`, `custom_fields`, `members`, `owner`, `start_on`, `due_on`, `created_at`). Nested paths are allowed; `gid` is always returned.",
+      description: "Optional portfolio properties to include in the response (e.g. `custom_field_settings`, `custom_fields`, `members`, `owner`, `start_on`, `due_on`, `created_at`). Nested paths are allowed; `gid` is always returned. [See the documentation](https://developers.asana.com/reference/getportfolio)",
       optional: true,
     },
   },
@@ -32,7 +32,7 @@ export default {
     const { data: portfolio } = await this.asana.getPortfolio({
       portfolioId: this.portfolioId,
       params: {
-        opt_fields: Array.isArray(this.optFields) && this.optFields.length
+        opt_fields: this.optFields?.length
           ? this.optFields.join(",")
           : undefined,
       },

@@ -29,7 +29,7 @@ export default {
         asana,
         "optFields",
       ],
-      description: "Optional portfolio properties to include in the response (e.g. `created_at`, `due_on`, `members`). Nested paths are allowed; `gid` is always returned.",
+      description: "Optional portfolio properties to include in the response (e.g. `created_at`, `due_on`, `members`). Nested paths are allowed; `gid` is always returned. [See the documentation](https://developers.asana.com/reference/getportfolios)",
       optional: true,
     },
     maxResults: {
@@ -44,7 +44,7 @@ export default {
     const params = {
       workspace: this.workspace,
       owner: this.owner || "me",
-      opt_fields: Array.isArray(this.optFields) && this.optFields.length
+      opt_fields: this.optFields?.length
         ? this.optFields.join(",")
         : undefined,
       limit: 100,

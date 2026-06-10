@@ -31,7 +31,7 @@ export default {
         asana,
         "optFields",
       ],
-      description: "Optional task properties to include in the response (e.g. `created_at`, `due_on`, `custom_fields`). Nested paths are allowed; `gid` is always returned.",
+      description: "Optional task properties to include in the response (e.g. `created_at`, `due_on`, `custom_fields`). Nested paths are allowed; `gid` is always returned. [See the documentation](https://developers.asana.com/docs/get-a-task)",
       optional: true,
     },
   },
@@ -39,7 +39,7 @@ export default {
     const { data: response } = await this.asana.getTask({
       taskId: this.task_gid,
       params: {
-        opt_fields: Array.isArray(this.optFields) && this.optFields.length
+        opt_fields: this.optFields?.length
           ? this.optFields.join(",")
           : undefined,
       },

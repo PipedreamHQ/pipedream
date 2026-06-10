@@ -25,7 +25,7 @@ export default {
         asana,
         "optFields",
       ],
-      description: "Optional item properties to include in the response. Defaults to fields useful for counting, timing, and spend questions. Nested paths are allowed; `gid` is always returned.",
+      description: "Optional item properties to include in the response. Defaults to fields useful for counting, timing, and spend questions. Nested paths are allowed; `gid` is always returned. [See the documentation](https://developers.asana.com/reference/getitemsforportfolio)",
       optional: true,
       default: constants.DEFAULT_PORTFOLIO_ITEM_OPT_FIELDS,
     },
@@ -44,11 +44,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const optFields = Array.isArray(this.optFields)
-      ? [
-        ...this.optFields,
-      ]
-      : [];
+    const optFields = [
+      ...(this.optFields ?? []),
+    ];
     if (this.excludeArchived && !optFields.includes("archived")) {
       optFields.push("archived");
     }
