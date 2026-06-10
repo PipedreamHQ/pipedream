@@ -74,12 +74,22 @@ export default {
       return;
     }
 
-    // Emit the data so it can be used in workflow steps
-    // We use fields like order_id as the primary ID for deduplication in Pipedream
+    // Emit the data so it can be used in workflow steps. With `dedupe: "unique"`
+    // the id must be stable (no Date.now()) and capped at 64 chars; ts prefers
+    // the API event time and falls back to now only when it is missing.
+    const eventTime = body.updated_at ?? body.timestamp;
+    const parsedTs = eventTime
+      ? Date.parse(eventTime)
+      : NaN;
+    const ts = Number.isFinite(parsedTs)
+      ? parsedTs
+      : Date.now();
+    const id = `${body.order_id}-${body.flp_status}-${eventTime ?? JSON.stringify(body)}`.slice(0, 64);
+
     this.$emit(body, {
       summary: `New Status: ${body.flp_status} for Order #${body.order_id}`,
-      id: `${body.order_id}-${body.flp_status}-${body.updated_at ?? body.timestamp ?? Date.now()}`,
-      ts: Date.now(),
+      id,
+      ts,
     });
 
     // Acknowledge the receipt to FraudLabs Pro

@@ -65,34 +65,22 @@ export default {
     _apiRequest({
       $ = this, method = "get", path, params, data, ...args
     }) {
-      const auth = {
-        format: "json",
-        key: this.$auth.api_key,
-      };
       const isFormBody = FORM_BODY_METHODS.includes(method.toLowerCase());
-      // `params` always go on the query string. For write verbs `data` is the
-      // form body; for read verbs there is no body, so fold `data` into the query.
-      const queryParams = isFormBody
-        ? {
-          ...auth,
-          ...params,
-        }
-        : {
-          ...auth,
-          ...params,
-          ...data,
-        };
+      // `params` go on the query string, `data` in the form body. `format` is
+      // an overridable default; `key` is applied last so caller input cannot
+      // override it.
       if (isFormBody) {
         return axios($, {
           url: `${this._apiBaseUrl()}${path}`,
           method,
-          params: queryParams,
+          params,
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
           },
           data: new URLSearchParams({
-            ...auth,
+            format: "json",
             ...data,
+            key: this.$auth.api_key,
           }).toString(),
           ...args,
         });
@@ -100,7 +88,12 @@ export default {
       return axios($, {
         url: `${this._apiBaseUrl()}${path}`,
         method,
-        params: queryParams,
+        params: {
+          format: "json",
+          ...params,
+          ...data,
+          key: this.$auth.api_key,
+        },
         ...args,
       });
     },
