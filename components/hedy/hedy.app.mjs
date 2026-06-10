@@ -22,7 +22,7 @@ export default {
     todoId: {
       type: "string",
       label: "Todo ID",
-      description: "The unique identifier of the action item (todo) (e.g., `todo_987xyz`). Use **Get Many Action Items** to list available todo IDs.",
+      description: "The unique identifier of the action item (todo) (e.g., `todo_987xyz`). Use **Get Many Todos** to list available todo IDs.",
     },
     contextId: {
       type: "string",
