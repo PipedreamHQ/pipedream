@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/codex",
+  "version": "0.0.1",
+  "description": "Pipedream Codex Components",
+  "main": "codex.app.mjs",
+  "keywords": [
+    "pipedream",
+    "codex"
+  ],
+  "homepage": "https://pipedream.com/apps/codex",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
