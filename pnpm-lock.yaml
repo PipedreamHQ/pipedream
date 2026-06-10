@@ -3322,6 +3322,9 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
+  components/codex:
+    specifiers: {}
+
   components/cody:
     dependencies:
       '@pipedream/platform':
