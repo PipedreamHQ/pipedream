@@ -14,22 +14,10 @@ export default {
   type: "action",
   props: {
     asana,
-    workspace: {
-      label: "Workspace",
-      description: "The workspace or organization the portfolio belongs to. Use the **List Workspaces** action to find available workspace GIDs.",
-      type: "string",
-      propDefinition: [
-        asana,
-        "workspaces",
-      ],
-    },
     portfolioId: {
       propDefinition: [
         asana,
         "portfolioId",
-        (c) => ({
-          workspace: c.workspace,
-        }),
       ],
     },
     optFields: {

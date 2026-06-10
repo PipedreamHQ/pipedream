@@ -14,26 +14,15 @@ export default {
   props: {
     asana,
     workspace: {
-      label: "Workspace",
-      description: "The workspace or organization to filter portfolios on. Use the **List Workspaces** action to find available workspace GIDs.",
       type: "string",
-      propDefinition: [
-        asana,
-        "workspaces",
-      ],
+      label: "Workspace",
+      description: "The workspace or organization GID to filter portfolios on. Use the **List Workspaces** action to find available workspace GIDs.",
     },
     owner: {
-      label: "Owner",
-      description: "The user who owns the portfolios. Defaults to the authenticated user (`me`). Regular API users can only list portfolios they own; service accounts may specify any user.",
       type: "string",
+      label: "Owner",
+      description: "The GID of the user who owns the portfolios. Defaults to the authenticated user (`me`). Use the **List Users** action to find user GIDs. Regular API users can only list portfolios they own; service accounts may specify any user.",
       optional: true,
-      propDefinition: [
-        asana,
-        "users",
-        (c) => ({
-          workspace: c.workspace,
-        }),
-      ],
     },
     optFields: {
       propDefinition: [

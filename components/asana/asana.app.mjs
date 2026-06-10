@@ -291,36 +291,6 @@ export default {
       type: "string",
       label: "Portfolio",
       description: "The portfolio GID. Use the **List Portfolios** action to find available portfolio GIDs.",
-      async options({
-        prevContext, workspace, owner,
-      }) {
-        if (!workspace) {
-          return [];
-        }
-        const params = {
-          workspace,
-          owner: owner || "me",
-          limit: DEFAULT_LIMIT,
-        };
-        if (prevContext?.offset) {
-          params.offset = prevContext.offset;
-        }
-        const {
-          data: portfolios, next_page: next,
-        } = await this.getPortfolios({
-          params,
-        });
-        const options = portfolios?.map((portfolio) => ({
-          label: portfolio.name,
-          value: portfolio.gid,
-        })) || [];
-        return {
-          options,
-          context: {
-            offset: next?.offset,
-          },
-        };
-      },
     },
   },
   methods: {
