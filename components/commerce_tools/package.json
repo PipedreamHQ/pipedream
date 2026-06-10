@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/commerce_tools",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Commerce Tools Components",
   "main": "commerce_tools.app.mjs",
   "keywords": [
