@@ -4,7 +4,7 @@ import { parseObject } from "../../common/utils.mjs";
 export default {
   type: "action",
   key: "teamwork-create-user",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

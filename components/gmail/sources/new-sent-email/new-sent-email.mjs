@@ -1,3 +1,4 @@
+import utils from "../../common/utils.mjs";
 import gmail from "../../gmail.app.mjs";
 import common from "../common/polling-messages.mjs";
 
@@ -6,7 +7,7 @@ export default {
   key: "gmail-new-sent-email",
   name: "New Sent Email",
   description: "Emit new event for each new email sent. (Maximum of 100 events emited per execution)",
-  version: "0.1.4",
+  version: "0.1.5",
   type: "source",
   dedupe: "unique",
   props: {
@@ -35,7 +36,7 @@ export default {
     generateMeta(message) {
       return {
         id: message.id,
-        summary: message.snippet,
+        summary: utils.decodeHtmlEntities(message.snippet),
         ts: +message.internalDate,
       };
     },

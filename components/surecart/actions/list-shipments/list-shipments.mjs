@@ -4,7 +4,7 @@ export default {
   key: "surecart-list-shipments",
   name: "List Shipments",
   description: "Return a list of shipments. [See the documentation](https://developer.surecart.com/api-reference/shipments/list)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

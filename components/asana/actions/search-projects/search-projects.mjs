@@ -3,7 +3,7 @@ import asana from "../../asana.app.mjs";
 export default {
   type: "action",
   key: "asana-search-projects",
-  version: "0.2.13",
+  version: "0.2.14",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -21,9 +21,8 @@ export default {
     },
     workspace: {
       label: "Workspace",
-      description: "The workspace or organization to filter projects on.",
+      description: "The workspace or organization to filter projects on. Use the **List Workspaces** action to find available workspace GIDs.",
       type: "string",
-      optional: true,
       propDefinition: [
         asana,
         "workspaces",
@@ -35,25 +34,46 @@ export default {
       type: "boolean",
       optional: true,
     },
+    maxResults: {
+      propDefinition: [
+        asana,
+        "maxResults",
+      ],
+    },
   },
   async run({ $ }) {
-    const {
-      name,
-      workspace,
-      archived,
-    } = this;
+    let hasMore, count = 0;
+    const params = {
+      workspace: this.workspace,
+      archived: this.archived,
+      limit: 100,
+    };
+    const results = [];
 
-    const { data: projects } = await this.asana.getProjects({
-      params: {
-        workspace,
-        archived,
-      },
-      $,
-    });
+    do {
+      const {
+        data, next_page: next,
+      } = await this.asana.getProjects({
+        params,
+        $,
+      });
+
+      hasMore = next;
+      params.offset = next?.offset;
+
+      if (data.length === 0) break;
+
+      for (const project of data) {
+        if (this.name && !project.name.includes(this.name)) continue;
+        results.push(project);
+        if (++count >= this.maxResults) {
+          hasMore = false;
+          break;
+        }
+      }
+    } while (hasMore);
 
     $.export("$summary", "Successfully retrieved projects");
-
-    if (this.name) return projects.filter((project) => project.name.includes(name));
-    else return projects;
+    return results;
   },
 };

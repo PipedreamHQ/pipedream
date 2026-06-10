@@ -4,7 +4,7 @@ export default {
   key: "surecart-list-cancellation-acts",
   name: "List Cancellation Acts",
   description: "Return a list of cancellation acts. [See the documentation](https://developer.surecart.com/api-reference/cancellation-acts/list)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

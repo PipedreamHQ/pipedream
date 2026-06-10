@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/connecteam",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Pipedream Connecteam Components",
   "main": "connecteam.app.mjs",
   "keywords": [

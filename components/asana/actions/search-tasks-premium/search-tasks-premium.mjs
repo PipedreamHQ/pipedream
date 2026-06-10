@@ -5,7 +5,7 @@ export default {
   key: "asana-search-tasks-premium",
   name: "Search Tasks Premium",
   description: "Searches for a task by name, assignee, section, project, completed since, and modified since. Requires a Premium Asana account. [See the documentation](https://developers.asana.com/reference/searchtasksforworkspace)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -68,6 +68,12 @@ export default {
       description: "Only return tasks modified since this time. ISO 8601 format (for example: `2026-04-14` or `2026-04-14T00:00:00Z`).",
       optional: true,
     },
+    maxResults: {
+      propDefinition: [
+        asana,
+        "maxResults",
+      ],
+    },
   },
   async run({ $ }) {
     const params = {
@@ -77,6 +83,7 @@ export default {
       "sections.any": this.section,
       "projects.any": this.project,
       "text": this.name,
+      "limit": 100,
     };
 
     const { data: tasks } = await this.asana.searchTasks({
@@ -85,8 +92,10 @@ export default {
       $,
     });
 
+    const limited = this.maxResults
+      ? tasks.slice(0, this.maxResults)
+      : tasks;
     $.export("$summary", "Successfully retrieved tasks");
-
-    return tasks;
+    return limited;
   },
 };
