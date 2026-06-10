@@ -5,7 +5,7 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "commerce_tools-search-orders",
   name: "Search Orders",
-  description: "Search Orders using the Order Search API. The endpoint must be [activated](https://docs.commercetools.com/api/projects/order-search#activation-of-the-api) for your Project. [See the documentation](https://docs.commercetools.com/api/projects/order-search#search-orders).",
+  description: "Search Orders using the Order Search API. The endpoint must be [activated](https://docs.commercetools.com/api/projects/order-search#activation-of-the-api) for your Project first - run the **Change Order Search Status** action to enable it. [See the documentation](https://docs.commercetools.com/api/projects/order-search#search-orders).",
   version: "0.0.1",
   type: "action",
   annotations: {
