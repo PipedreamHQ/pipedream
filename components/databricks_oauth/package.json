@@ -13,7 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/databricks": "^0.5.1",
+    "@pipedream/databricks": "^0.5.2",
     "@pipedream/platform": "^3.4.0"
   }
 }
