@@ -170,6 +170,7 @@ export default {
       type: "string",
       label: "Return Reason ID",
       description: "The UUID of the return reason. Use **Get Return Reasons** to find available IDs. Leave blank to submit without a reason (sends `null`).",
+      optional: true,
     },
     returnReasonComment: {
       type: "string",
@@ -203,7 +204,10 @@ export default {
     answers: {
       type: "string[]",
       label: "Answers",
-      description: "Array of form field answers for the return questionnaire. Each entry must be a JSON string with `formField` (object with `id`, `type`, `required`, `position`, `options`) and an `answer` value (string, array of strings, or array of file objects with `mimeType` and `url`) [here](https://platform.returnista.com/reference/rest-api/#post-/consumer/-consumerId-/draft-return-order)",
+      description: "Array of form field answers for the return questionnaire. Each entry is a stringified JSON object with `formField` and `answer`. "
+        + "Example entry: `{\"formField\":{\"id\":\"uuid-here\",\"type\":\"SingleChoice\",\"required\":true},\"answer\":\"value\"}`. "
+        + "`answer` can also be an array of strings (MultiChoice) or an array of file objects: `[{\"mimeType\":\"image/jpeg\",\"url\":\"https://...\"}]`. "
+        + "[See the documentation](https://platform.returnista.com/reference/rest-api/#post-/consumer/-consumerId-/draft-return-order)",
       optional: true,
     },
   },

@@ -86,7 +86,13 @@ export default {
         ],
       },
     });
-    $.export("$summary", `Successfully created draft return order for consumer ${this.consumerId}`);
+    const createdDraftId = response?.id ?? response?.data?.id;
+    $.export(
+      "$summary",
+      createdDraftId
+        ? `Successfully created draft return order ${createdDraftId}`
+        : `Successfully created draft return order for consumer ${this.consumerId}`,
+    );
     return response;
   },
 };

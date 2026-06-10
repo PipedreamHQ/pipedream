@@ -8,7 +8,7 @@ export default {
     + " To find a return order ID, use **List Return Orders** first."
     + " To view the email communications for a return order, use **Get Return Order Emails**."
     + " [See the documentation](https://platform.returnista.com/reference/rest-api/#get-/account/-accountId/return-order/-id)",
-  version: "0.0.2",
+  version: "0.1.0",
   type: "action",
   annotations: {
     destructiveHint: false,
