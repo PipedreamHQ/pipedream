@@ -3322,8 +3322,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/codex:
-    specifiers: {}
+  components/codex: {}
 
   components/cody:
     dependencies:
@@ -3987,8 +3986,8 @@ importers:
   components/databricks_oauth:
     dependencies:
       '@pipedream/databricks':
-        specifier: ^0.5.1
-        version: 0.5.1
+        specifier: ^0.5.2
+        version: 0.5.2
       '@pipedream/platform':
         specifier: ^3.4.0
         version: 3.4.0
@@ -22134,8 +22133,8 @@ packages:
   '@pipedream/clio@0.1.1':
     resolution: {integrity: sha512-IbnvVIWiAjS6P03WmDkLLnKxFwM+WgjwZZ6TmEbYmyX9zUDfVbohnniqdAcJh++pH2GcCS8aCOVNBosjwKzJbQ==}
 
-  '@pipedream/databricks@0.5.1':
-    resolution: {integrity: sha512-w4gL0IRvpJJlP6t/hkXarhr//Q52jXTOPxPK+FU0VWkN2t0EWPSOZDFFyEnPpwGjtHb0b96RrOyFbdr/qb1+xg==}
+  '@pipedream/databricks@0.5.2':
+    resolution: {integrity: sha512-1cFMsRiva10hlPI/tme5kZYXHMys5q6mlaLpTYXhy//51H0mm2P5CcQG+UpbWtSBfX+s9/n5D9wdzbvfAxltrg==}
 
   '@pipedream/docusign@0.2.2':
     resolution: {integrity: sha512-nwyW+rjoT94827wGXkV9jZpdCNGeSJsZfa00p5e1rYOpQ91hqfQJIUe0s84R6gOPGsI6rtn7pAbfrOoz0cRELg==}
@@ -37603,7 +37602,7 @@ snapshots:
       '@babel/helper-validator-option': 8.0.0-beta.3
       browserslist: 4.28.0
       lru-cache: 7.18.3
-      semver: 7.8.1
+      semver: 7.8.2
 
   '@babel/helper-create-class-features-plugin@7.28.5(@babel/core@7.28.5)':
     dependencies:
@@ -40062,7 +40061,7 @@ snapshots:
       https-proxy-agent: 7.0.6
       node-fetch: 2.7.0(encoding@0.1.13)
       nopt: 8.1.0
-      semver: 7.7.4
+      semver: 7.8.2
       tar: 7.5.16
     transitivePeerDependencies:
       - encoding
@@ -40075,7 +40074,7 @@ snapshots:
       https-proxy-agent: 7.0.6(supports-color@10.2.2)
       node-fetch: 2.7.0(encoding@0.1.13)
       nopt: 8.1.0
-      semver: 7.7.4
+      semver: 7.8.2
       tar: 7.5.16
     transitivePeerDependencies:
       - encoding
@@ -40413,7 +40412,7 @@ snapshots:
       image-size: 2.0.2
       js-image-generator: 1.0.4
       parse-gitignore: 2.0.0
-      semver: 7.7.4
+      semver: 7.8.2
       tmp-promise: 3.0.3
       uuid: 11.1.0
       write-file-atomic: 5.0.1
@@ -41029,7 +41028,7 @@ snapshots:
       '@opentelemetry/propagator-b3': 1.30.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/propagator-jaeger': 1.30.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-base': 1.30.1(@opentelemetry/api@1.9.0)
-      semver: 7.7.4
+      semver: 7.8.2
 
   '@opentelemetry/semantic-conventions@1.28.0': {}
 
@@ -41211,7 +41210,7 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@pipedream/databricks@0.5.1':
+  '@pipedream/databricks@0.5.2':
     dependencies:
       '@pipedream/platform': 3.4.0
     transitivePeerDependencies:
@@ -42120,6 +42119,7 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
+      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.60(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1))(rollup@4.53.2)':
     dependencies:
@@ -46791,7 +46791,7 @@ snapshots:
       conventional-commits-filter: 5.0.0
       handlebars: 4.7.9
       meow: 13.2.0
-      semver: 7.7.4
+      semver: 7.8.2
 
   conventional-commits-filter@5.0.0: {}
 
@@ -47997,7 +47997,7 @@ snapshots:
   eslint-compat-utils@0.5.1(eslint@8.57.1):
     dependencies:
       eslint: 8.57.1
-      semver: 7.8.1
+      semver: 7.8.2
 
   eslint-config-next@15.5.6(eslint@8.57.1)(typescript@5.6.3):
     dependencies:
@@ -52172,7 +52172,7 @@ snapshots:
 
   make-dir@4.0.0:
     dependencies:
-      semver: 7.7.4
+      semver: 7.8.2
 
   make-error@1.3.6: {}
 
@@ -53350,7 +53350,7 @@ snapshots:
   normalize-package-data@6.0.2:
     dependencies:
       hosted-git-info: 7.0.2
-      semver: 7.7.2
+      semver: 7.8.2
       validate-npm-package-license: 3.0.4
 
   normalize-package-data@7.0.1:
@@ -53915,7 +53915,7 @@ snapshots:
       ky: 1.14.0
       registry-auth-token: 5.1.0
       registry-url: 6.0.1
-      semver: 7.7.4
+      semver: 7.8.2
 
   package-lock-only@0.0.4:
     dependencies:
