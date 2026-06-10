@@ -1,5 +1,5 @@
 import updatedFileInstant from
-  "../../../sharepoint/sources/updated-file-instant/updated-file-instant.mjs";
+  "@pipedream/sharepoint/sources/updated-file-instant/updated-file-instant.mjs";
 import utils from "../../common/utils.mjs";
 import { extractCustomFields } from
   "../../common/customFields.mjs";
@@ -11,7 +11,7 @@ export default {
   name: updatedFileInstant.name,
   description: updatedFileInstant.description,
   type: updatedFileInstant.type,
-  version: "0.0.4",
+  version: "0.0.5",
   methods: {
     ...updatedFileInstant.methods,
     async buildEmitPayload(file, freshFile) {

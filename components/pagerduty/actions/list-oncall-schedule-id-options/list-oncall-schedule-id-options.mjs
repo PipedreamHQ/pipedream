@@ -4,7 +4,7 @@ export default {
   key: "pagerduty-list-oncall-schedule-id-options",
   name: "List On-Call Schedule ID Options",
   description: "Retrieves available options for the On-Call Schedule ID field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

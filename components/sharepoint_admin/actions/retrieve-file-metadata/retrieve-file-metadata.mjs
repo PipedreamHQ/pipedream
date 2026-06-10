@@ -1,9 +1,9 @@
 import retrieveFileMetadata from
-  "../../../sharepoint/actions/retrieve-file-metadata/retrieve-file-metadata.mjs";
+  "@pipedream/sharepoint/actions/retrieve-file-metadata/retrieve-file-metadata.mjs";
 import sharepointAdmin from
   "../../sharepoint_admin.app.mjs";
 import parseUtils from
-  "../../../sharepoint/common/utils.mjs";
+  "@pipedream/sharepoint/common/utils.mjs";
 import { addCustomFields } from
   "../../common/customFields.mjs";
 import { ConfigurationError } from "@pipedream/platform";
@@ -14,7 +14,7 @@ export default {
   name: retrieveFileMetadata.name,
   description: retrieveFileMetadata.description,
   type: retrieveFileMetadata.type,
-  version: "0.0.4",
+  version: "0.0.5",
   props: {
     sharepointAdmin,
     siteId: {

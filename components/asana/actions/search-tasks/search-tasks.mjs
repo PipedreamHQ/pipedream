@@ -6,7 +6,7 @@ export default {
   key: "asana-search-tasks",
   name: "Search Tasks",
   description: "Searches for a Task by name within a Project. [See the documentation](https://developers.asana.com/docs/get-multiple-tasks)",
-  version: "0.3.7",
+  version: "0.4.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -62,6 +62,12 @@ export default {
       description: "Only return tasks that have been modified since the given time. ISO 8601 date string",
       optional: true,
     },
+    maxResults: {
+      propDefinition: [
+        asana,
+        "maxResults",
+      ],
+    },
   },
   async run({ $ }) {
     if (!this.project && !this.section && !this.assignee) {
@@ -72,9 +78,11 @@ export default {
       throw new ConfigurationError("Must specify only one of Assignee, Project, or Project + Section");
     }
 
+    let hasMore, count = 0;
     const params = {
       completed_since: this.completedSince,
       modified_since: this.modifiedSince,
+      limit: 100,
     };
 
     if (this.assignee) {
@@ -86,14 +94,36 @@ export default {
       params.project = this.project;
     }
 
-    const { data: tasks } = await this.asana.getTasks({
-      params,
-      $,
-    });
+    const results = [];
 
-    $.export("$summary", "Successfully retrieved tasks");
+    do {
+      const {
+        data, next_page: next,
+      } = await this.asana.getTasks({
+        params,
+        $,
+      });
 
-    if (this.name) return tasks.filter((task) => task.name.includes(this.name));
-    else return tasks;
+      hasMore = next;
+      params.offset = next?.offset;
+
+      if (data.length === 0) break;
+
+      for (const task of data) {
+        if (!task.name.includes(this.name)) continue;
+        results.push(task);
+        if (++count >= this.maxResults) {
+          hasMore = false;
+          break;
+        }
+      }
+    } while (hasMore);
+
+    $.export("$summary", `${results.length} task${results.length !== 1
+      ? "s"
+      : ""} retrieved${results.length >= this.maxResults
+      ? " (maxResults reached)"
+      : ""}`);
+    return results;
   },
 };

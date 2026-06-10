@@ -5,7 +5,7 @@ export default {
   key: "asana-delete-task",
   name: "Delete Task",
   description: "Deletes a specific and existing task. [See the documentation](https://developers.asana.com/docs/delete-a-task)",
-  version: "0.0.14",
+  version: "0.0.15",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
