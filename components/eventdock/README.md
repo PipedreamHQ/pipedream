@@ -36,30 +36,3 @@ own `$.interface.http` endpoint, and logs the **ingest URL** to configure in you
 provider. On teardown it soft-deletes the endpoint (`DELETE /v1/endpoints/:id`).
 The EventDock event id is used as the **dedupe key**, so a retried delivery of
 the same event never double-fires your workflow.
-
-## Local development & tests
-
-```bash
-# from this repo root (ed-pipedream/)
-node --import ./tests/register-stubs.mjs --test tests/components.test.mjs
-```
-
-The tests import the real component modules and assert on the exact API request
-shapes and the emit/dedupe logic, with `@pipedream/platform` resolved to an
-offline stub (see `tests/`).
-
-## Contributing this to Pipedream
-
-These components follow the
-[PipedreamHQ/pipedream](https://github.com/PipedreamHQ/pipedream) monorepo
-format and live under `components/eventdock/`. To submit (a human step — opens a
-PR under the contributor's GitHub identity):
-
-```bash
-# in a clone of PipedreamHQ/pipedream, with components/eventdock/ copied in:
-pnpm install
-npx eslint components/eventdock --fix
-# then open a PR to PipedreamHQ/pipedream
-```
-
-Pipedream's CI runs lint and component checks on the PR.

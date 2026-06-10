@@ -23,13 +23,13 @@ export default {
       type: "string",
       label: "Destination URL",
       description:
-        "The final URL EventDock should deliver the payload to (with retries). For example your app's API or another webhook receiver.",
+        "The final URL EventDock should deliver the payload to (with retries). For example your app's API or another webhook receiver. Example: `https://api.example.com/webhook`",
     },
     payload: {
       type: "object",
       label: "Payload",
       description:
-        "The JSON body to forward. EventDock stores it, then attempts delivery to the destination URL, retrying on failure.",
+        "The JSON body to forward. EventDock stores it, then attempts delivery to the destination URL, retrying on failure. Example: `{ \"event\": \"user.created\", \"id\": 123 }`",
     },
     endpointName: {
       type: "string",
@@ -104,8 +104,8 @@ export default {
      * verification) that happens to share the same upstream URL, which would
      * apply the wrong verification settings to a plain forward.
      */
-    async findEndpointForDestination(destinationUrl) {
-      const { endpoints = [] } = await this.eventdock.listEndpoints();
+    async findEndpointForDestination($, destinationUrl) {
+      const { endpoints = [] } = await this.eventdock.listEndpoints({ $ });
       return endpoints.find(
         (ep) =>
           ep.upstream_url === destinationUrl &&
@@ -113,13 +113,14 @@ export default {
           (ep.provider || "generic") === "generic",
       );
     },
-    async ensureEndpoint(destinationUrl) {
-      const existing = await this.findEndpointForDestination(destinationUrl);
+    async ensureEndpoint($, destinationUrl) {
+      const existing = await this.findEndpointForDestination($, destinationUrl);
       if (existing) {
         return existing;
       }
       const host = this.validateDestinationUrl(destinationUrl).host;
       return this.eventdock.createEndpoint({
+        $,
         name: this.endpointName || `Pipedream forward → ${host}`,
         upstreamUrl: destinationUrl,
         provider: "generic",
@@ -131,7 +132,7 @@ export default {
     // authoritative SSRF guard and re-validates the destination on its side.
     this.validateDestinationUrl(this.destinationUrl);
 
-    const endpoint = await this.ensureEndpoint(this.destinationUrl);
+    const endpoint = await this.ensureEndpoint($, this.destinationUrl);
 
     // POST the payload to EventDock's ingest URL. EventDock accepts (202),
     // stores it, then handles the reliable delivery to destinationUrl for us.
