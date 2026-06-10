@@ -43,8 +43,8 @@ export default {
       description, name, options, type,
     } = this;
     const response = await this.airtable.createField({
-      baseId: this.baseId?.value || this.baseId,
-      tableId: this.tableId?.value || this.tableId,
+      baseId: this.baseId?.value ?? this.baseId,
+      tableId: this.tableId?.value ?? this.tableId,
       data: {
         name,
         type,

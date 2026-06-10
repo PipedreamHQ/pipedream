@@ -19,7 +19,7 @@ export default {
         googleDrive,
         "watchedDrive",
       ],
-      description: "Defaults to My Drive. To select a [Shared Drive](https://support.google.com/a/users/answer/9310351) instead, select it from this list.",
+      description: "Defaults to **All Drives** (My Drive and all Shared Drives you have access to) when no selection is made. To limit to your personal drive or a [Shared Drive](https://support.google.com/a/users/answer/9310351), select it from this list.",
       optional: false,
     },
     timer: {

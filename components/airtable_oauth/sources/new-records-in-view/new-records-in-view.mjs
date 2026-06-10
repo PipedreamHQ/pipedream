@@ -6,7 +6,7 @@ export default {
   name: "New Records in View",
   description: "Emit new event for each new record in a view",
   key: "airtable_oauth-new-records-in-view",
-  version: "0.0.13",
+  version: "0.0.14",
   type: "source",
   dedupe: "unique",
   props: {
@@ -16,7 +16,7 @@ export default {
         base.props.airtable,
         "tableId",
         ({ baseId }) => ({
-          baseId,
+          baseId: baseId?.value ?? baseId,
         }),
       ],
       description: "The table ID to watch for changes.",
@@ -28,8 +28,8 @@ export default {
         ({
           baseId, tableId,
         }) => ({
-          baseId,
-          tableId,
+          baseId: baseId?.value ?? baseId,
+          tableId: tableId?.value ?? tableId,
         }),
       ],
       description: "The view ID to watch for changes.",
@@ -42,11 +42,9 @@ export default {
     },
   },
   async run() {
-    const {
-      baseId,
-      tableId,
-      viewId,
-    } = this;
+    const baseId = this.baseId?.value ?? this.baseId;
+    const tableId = this.tableId?.value ?? this.tableId;
+    const { viewId } = this;
 
     const lastTimestamp = this._getLastTimestamp();
     const params = this.getListRecordsParams({

@@ -113,11 +113,15 @@ export default {
     async _makeRequest({
       $ = this,
       path,
+      headers = {},
       ...args
     }) {
       return axios($, {
         url: `${this._baseUrl()}${path}`,
-        headers: this._headers(),
+        headers: {
+          ...this._headers(),
+          ...headers,
+        },
         ...args,
       });
     },
@@ -268,6 +272,138 @@ export default {
         method: "PUT",
         ...args,
       });
+    },
+    getCurrentUser(args = {}) {
+      return this._makeRequest({
+        path: "/users/me",
+        ...args,
+      });
+    },
+    searchAll(args = {}) {
+      return this._makeRequest({
+        path: "/search",
+        ...args,
+      });
+    },
+    searchSheet(sheetId, args = {}) {
+      return this._makeRequest({
+        path: `/search/sheets/${sheetId}`,
+        ...args,
+      });
+    },
+    deleteRows(sheetId, args = {}) {
+      return this._makeRequest({
+        path: `/sheets/${sheetId}/rows`,
+        method: "DELETE",
+        ...args,
+      });
+    },
+    deleteSheet(sheetId, args = {}) {
+      return this._makeRequest({
+        path: `/sheets/${sheetId}`,
+        method: "DELETE",
+        ...args,
+      });
+    },
+    updateSheetProperties(sheetId, args = {}) {
+      return this._makeRequest({
+        path: `/sheets/${sheetId}`,
+        method: "PUT",
+        ...args,
+      });
+    },
+    copySheet(sheetId, args = {}) {
+      return this._makeRequest({
+        path: `/sheets/${sheetId}/copy`,
+        method: "POST",
+        ...args,
+      });
+    },
+    moveSheet(sheetId, args = {}) {
+      return this._makeRequest({
+        path: `/sheets/${sheetId}/move`,
+        method: "POST",
+        ...args,
+      });
+    },
+    importSheetInWorkspace(workspaceId, args = {}) {
+      return this._makeRequest({
+        path: `/workspaces/${workspaceId}/sheets/import`,
+        method: "POST",
+        ...args,
+      });
+    },
+    importSheetInFolder(folderId, args = {}) {
+      return this._makeRequest({
+        path: `/folders/${folderId}/sheets/import`,
+        method: "POST",
+        ...args,
+      });
+    },
+    emailSheet(sheetId, args = {}) {
+      return this._makeRequest({
+        path: `/sheets/${sheetId}/emails`,
+        method: "POST",
+        ...args,
+      });
+    },
+    copyRows(sheetId, args = {}) {
+      return this._makeRequest({
+        path: `/sheets/${sheetId}/rows/copy`,
+        method: "POST",
+        ...args,
+      });
+    },
+    moveRows(sheetId, args = {}) {
+      return this._makeRequest({
+        path: `/sheets/${sheetId}/rows/move`,
+        method: "POST",
+        ...args,
+      });
+    },
+    addColumn(sheetId, args = {}) {
+      return this._makeRequest({
+        path: `/sheets/${sheetId}/columns`,
+        method: "POST",
+        ...args,
+      });
+    },
+    updateColumn(sheetId, columnId, args = {}) {
+      return this._makeRequest({
+        path: `/sheets/${sheetId}/columns/${columnId}`,
+        method: "PUT",
+        ...args,
+      });
+    },
+    deleteColumn(sheetId, columnId, args = {}) {
+      return this._makeRequest({
+        path: `/sheets/${sheetId}/columns/${columnId}`,
+        method: "DELETE",
+        ...args,
+      });
+    },
+    async getColumnMap(sheetId, args = {}) {
+      const { data } = await this.listColumns(sheetId, {
+        ...args,
+        params: {
+          includeAll: true,
+          ...args.params,
+        },
+      });
+      const byName = {};
+      const byId = {};
+      for (const col of data || []) {
+        const key = col.title.toLowerCase();
+        if (byName[key] !== undefined && byName[key] !== col.id) {
+          throw new Error(`Ambiguous column name "${col.title}" in sheet ${sheetId}: matches multiple column IDs (${byName[key]}, ${col.id}). Reference these columns by ID instead.`);
+        }
+        byName[key] = col.id;
+        byId[col.id] = col.title;
+      }
+      return {
+        byName,
+        byId,
+      };
     },
   },
 };
