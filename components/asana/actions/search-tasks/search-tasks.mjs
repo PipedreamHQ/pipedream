@@ -67,7 +67,7 @@ export default {
         asana,
         "optFields",
       ],
-      description: "Optional task properties to include in the response (e.g. `created_at`, `due_on`, `custom_fields`). Nested paths are allowed; `gid` is always returned.",
+      description: "Optional task properties to include in the response (e.g. `created_at`, `due_on`, `custom_fields`). Nested paths are allowed; `gid` is always returned. [See the documentation](https://developers.asana.com/docs/get-multiple-tasks)",
       optional: true,
     },
     maxResults: {
