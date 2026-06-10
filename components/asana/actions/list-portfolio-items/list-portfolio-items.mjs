@@ -25,7 +25,7 @@ export default {
         asana,
         "optFields",
       ],
-      description: "Optional item properties to include in the response. Defaults to fields useful for counting, timing, and spend questions. Nested paths are allowed; `gid` is always returned. [See the documentation](https://developers.asana.com/reference/getitemsforportfolio)",
+      description: "Optional item properties to include in the response (defaults to `name`, `archived`, `created_at`, `start_on`, `due_on`, `owner`, `resource_type`, `custom_fields`). Nested paths are allowed; `gid` is always returned. [See the documentation](https://developers.asana.com/reference/getitemsforportfolio)",
       optional: true,
       default: constants.DEFAULT_PORTFOLIO_ITEM_OPT_FIELDS,
     },
