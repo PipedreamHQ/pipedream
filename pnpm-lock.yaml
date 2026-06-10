@@ -1816,7 +1816,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/bilig_workpaper: {}
+  components/bilig_workpaper:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
 
   components/bilionis:
     dependencies:
