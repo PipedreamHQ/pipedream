@@ -9,6 +9,9 @@ import mammoth from "mammoth";
 import { ConfigurationError } from "@pipedream/platform";
 import microsoftOutlook from "../../microsoft_outlook.app.mjs";
 
+// Cap inline file content so large attachments don't blow up the response payload
+const MAX_CONTENT_BYTES = 100 * 1024;
+
 export default {
   key: "microsoft_outlook-download-attachment",
   name: "Download Attachment",
@@ -17,8 +20,9 @@ export default {
     + " Use **Find Email** to locate the message, then **Get Message** with `includeAttachments: true` to get the `messageId` and attachment `id` fields."
     + " Example: after `get-message(messageId=\"AAMk...\", includeAttachments=true)` returns `attachments: [{ id: \"AQMk...\", name: \"report.pdf\" }]`, call `download-attachment(messageId=\"AAMk...\", attachmentId=\"AQMk...\", filename=\"report.pdf\")` → writes to `/tmp/report.pdf`."
     + " Set `convertToPdf: true` to convert images, HTML, plain text, or DOCX files to PDF."
+    + " For text attachments (text/*, JSON), the response includes `fileContent` with the decoded text (truncated at 100 KB, flagged by `contentTruncated`), so the content can be read directly without fetching the file."
     + " [See the documentation](https://learn.microsoft.com/en-us/graph/api/attachment-get)",
-  version: "0.1.0",
+  version: "0.2.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -147,11 +151,22 @@ export default {
     fs.writeFileSync(filePath, buffer);
     const contentType = mime.lookup(filePath);
 
-    $.export("$summary", `Downloaded ${filename}`);
-    return {
+    const result = {
       fileName: filename,
       contentType,
       filePath,
     };
+
+    const isTextContent = contentType
+      && (contentType.startsWith("text/") || contentType === "application/json");
+    if (isTextContent) {
+      result.fileContent = buffer.toString("utf8", 0, Math.min(buffer.length, MAX_CONTENT_BYTES));
+      if (buffer.length > MAX_CONTENT_BYTES) {
+        result.contentTruncated = true;
+      }
+    }
+
+    $.export("$summary", `Downloaded ${filename}`);
+    return result;
   },
 };
