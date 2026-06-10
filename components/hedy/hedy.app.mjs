@@ -64,7 +64,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return this.$auth.base_url || "https://api.hedy.bot";
+      return "https://api.hedy.bot";
     },
     _headers() {
       return {
