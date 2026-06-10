@@ -9,9 +9,9 @@ export default {
     + " Omit `inReplyToMessageId` to send a new email. Provide `inReplyToMessageId` to reply to an existing message (threads correctly)."
     + " Set `isDraft: true` to save to Drafts instead of sending immediately."
     + " Attach files by passing URLs or `/tmp` paths to `files`."
-    + " Example (send new): `send-email(to=[\"you@example.com\"], subject=\"Hello\", body=\"Hi there\")`"
-    + " Example (reply): `send-email(inReplyToMessageId=\"AAMk...\", body=\"Thanks for your note\")`"
-    + " Example (draft): `send-email(to=[\"boss@example.com\"], subject=\"Weekly report\", body=\"...\", isDraft=true)`"
+    + " Example (send new): `send-email(recipients=[\"you@example.com\"], subject=\"Hello\", content=\"Hi there\")`"
+    + " Example (reply): `send-email(inReplyToMessageId=\"AAMk...\", content=\"Thanks for your note\")`"
+    + " Example (draft): `send-email(recipients=[\"boss@example.com\"], subject=\"Weekly report\", content=\"...\", isDraft=true)`"
     + " Use **Find Email** to locate a message `id` before replying."
     + " [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-sendmail)",
   version: "0.1.0",
@@ -23,21 +23,21 @@ export default {
   },
   props: {
     microsoftOutlook,
-    to: {
+    recipients: {
       type: "string[]",
       label: "To",
       description: "Array of recipient email addresses, e.g. `[\"alice@example.com\", \"bob@example.com\"]`.",
       optional: true,
       default: [],
     },
-    cc: {
+    ccRecipients: {
       type: "string[]",
       label: "CC",
       description: "Array of CC recipient email addresses.",
       optional: true,
       default: [],
     },
-    bcc: {
+    bccRecipients: {
       type: "string[]",
       label: "BCC",
       description: "Array of BCC recipient email addresses.",
@@ -50,13 +50,13 @@ export default {
       description: "Email subject line.",
       optional: true,
     },
-    body: {
+    content: {
       type: "string",
       label: "Body",
       description: "Email body content in text or HTML format.",
       optional: true,
     },
-    bodyType: {
+    contentType: {
       type: "string",
       label: "Body Type",
       description: "Content type of the body: `text` (default) or `html`.",
@@ -101,17 +101,17 @@ export default {
     },
   },
   async run({ $ }) {
-    const toRecipients = (this.to || []).map((address) => ({
+    const toRecipients = (this.recipients || []).map((address) => ({
       emailAddress: {
         address,
       },
     }));
-    const ccRecipients = (this.cc || []).filter((a) => a.trim()).map((address) => ({
+    const ccRecipients = (this.ccRecipients || []).filter((a) => a.trim()).map((address) => ({
       emailAddress: {
         address,
       },
     }));
-    const bccRecipients = (this.bcc || []).filter((a) => a.trim()).map((address) => ({
+    const bccRecipients = (this.bccRecipients || []).filter((a) => a.trim()).map((address) => ({
       emailAddress: {
         address,
       },
@@ -135,10 +135,10 @@ export default {
       subject: this.subject,
       attachments,
     };
-    if (this.body) {
+    if (this.content) {
       message.body = {
-        content: this.body,
-        contentType: this.bodyType || "text",
+        content: this.content,
+        contentType: this.contentType || "text",
       };
     }
     if (toRecipients.length) message.toRecipients = toRecipients;

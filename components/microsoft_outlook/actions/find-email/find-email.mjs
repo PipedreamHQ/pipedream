@@ -34,7 +34,7 @@ export default {
     isRead: {
       type: "boolean",
       label: "Is Read",
-      description: "Filter by read/unread status. `false` finds unread messages; `true` finds read messages. Adds `isRead eq {value}` to the OData filter automatically. Cannot be combined with `search`.",
+      description: "Filter by read/unread status. `false` finds unread messages; `true` finds read messages. Adds `isRead eq {value}` to the OData filter automatically. Can be combined with `search` — when both are set, `search` is automatically converted to a `contains(subject,...)` filter and joined with the `isRead` condition.",
       optional: true,
     },
     folderScope: {
