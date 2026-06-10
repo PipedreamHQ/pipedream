@@ -14,7 +14,7 @@ export default {
     _commonHeaders() {
       return {
         "Content-Type": "application/json",
-        "X-RapidAPI-Key": this.$auth.api_key,
+        "X-RapidAPI-Key": this.$auth.rapid_api_key,
         "X-RapidAPI-Host": "federal-exclusion-sanctions-screener.p.rapidapi.com",
       };
     },
