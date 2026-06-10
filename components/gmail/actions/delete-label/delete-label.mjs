@@ -1,5 +1,4 @@
 import gmail from "../../gmail.app.mjs";
-import constants from "../../common/constants.mjs";
 
 export default {
   key: "gmail-delete-label",
@@ -28,10 +27,7 @@ export default {
     },
   },
   async run({ $ }) {
-    await this.gmail._client().users.labels.delete({
-      userId: constants.USER_ID,
-      id: this.label,
-    });
+    await this.gmail.deleteLabel(this.label);
 
     $.export("$summary", `Deleted label ${this.label}`);
     return {
