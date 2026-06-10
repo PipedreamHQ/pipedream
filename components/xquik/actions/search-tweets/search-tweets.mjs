@@ -4,7 +4,7 @@ export default {
   key: "xquik-search-tweets",
   name: "Search Tweets",
   description: "Search public X/Twitter posts with Xquik. [See the documentation](https://docs.xquik.com/api-reference/x/search-tweets)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

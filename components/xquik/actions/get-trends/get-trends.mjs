@@ -4,7 +4,7 @@ export default {
   key: "xquik-get-trends",
   name: "Get Trends",
   description: "Get trending public X/Twitter topics by region with Xquik. [See the documentation](https://docs.xquik.com/api-reference/x/trends)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

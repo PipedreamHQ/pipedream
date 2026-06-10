@@ -33,6 +33,24 @@ export default {
       description:
         "The X user ID or username. Usernames may include or omit the leading `@`. Examples: `@jack`, `123456`.",
     },
+    sourceUsername: {
+      type: "string",
+      label: "Source Username",
+      description:
+        "The X username to check from. Usernames may include or omit the leading `@`. Examples: `@participant_handle`, `participant_handle`.",
+    },
+    targetUsername: {
+      type: "string",
+      label: "Target Username",
+      description:
+        "The X username to check against. Usernames may include or omit the leading `@`. Examples: `@brand_handle`, `brand_handle`.",
+    },
+    tweetInput: {
+      type: "string",
+      label: "Tweet URL or ID",
+      description:
+        "The X/Twitter post URL or numeric tweet ID to download media from. Examples: `https://x.com/username/status/1234567890123456789`, `1234567890123456789`.",
+    },
     cursor: {
       type: "string",
       label: "Cursor",
@@ -130,15 +148,15 @@ export default {
       );
     },
     /**
-     * Validate and encode a URL path identifier.
+     * Validate and normalize an API identifier.
      *
      * @param {unknown} value Identifier value.
      * @param {string} name Human-readable field name for errors.
-     * @param {object} options Encoding options.
+     * @param {object} options Normalization options.
      * @param {boolean} [options.stripAt=false] Strip leading @ characters.
-     * @returns {string} Encoded identifier.
+     * @returns {string} Normalized identifier.
      */
-    _encodeIdentifier(value, name, { stripAt = false } = {}) {
+    _normalizeIdentifier(value, name, { stripAt = false } = {}) {
       const raw = String(value ?? "").trim();
       const identifier = stripAt
         ? raw.replace(/^@+/, "")
@@ -148,6 +166,45 @@ export default {
         throw new Error(`${name} is required`);
       }
 
+      return identifier;
+    },
+    /**
+     * Validate and normalize a username-only API input.
+     *
+     * @param {unknown} value Username value.
+     * @param {string} name Human-readable field name for errors.
+     * @returns {string} Normalized username.
+     */
+    _normalizeUsername(value, name) {
+      const username = this._normalizeIdentifier(value, name, {
+        stripAt: true,
+      });
+
+      if (
+        /^\d+$/.test(username) ||
+        /^https?:\/\//i.test(username) ||
+        username.includes("/")
+      ) {
+        throw new Error(
+          `${name} must be a username, not a numeric ID or profile URL. Use Get User first to resolve numeric IDs or profile URLs to usernames.`,
+        );
+      }
+
+      return username;
+    },
+    /**
+     * Validate and encode a URL path identifier.
+     *
+     * @param {unknown} value Identifier value.
+     * @param {string} name Human-readable field name for errors.
+     * @param {object} options Encoding options.
+     * @param {boolean} [options.stripAt=false] Strip leading @ characters.
+     * @returns {string} Encoded identifier.
+     */
+    _encodeIdentifier(value, name, { stripAt = false } = {}) {
+      const identifier = this._normalizeIdentifier(value, name, {
+        stripAt,
+      });
       return encodeURIComponent(identifier);
     },
     /**
@@ -286,6 +343,50 @@ export default {
         params: {
           woeid,
           count,
+        },
+      });
+    },
+    /**
+     * Check if one public X/Twitter user follows another.
+     *
+     * @param {object} args Follow check arguments.
+     * @returns {Promise<unknown>} Follow check response.
+     */
+    checkFollower({
+      $, sourceUsername, targetUsername,
+    }) {
+      const source = this._normalizeUsername(sourceUsername, "Source user");
+      const target = this._normalizeUsername(targetUsername, "Target user");
+
+      return this._makeRequest({
+        $,
+        path: "/x/followers/check",
+        params: {
+          source,
+          target,
+        },
+      });
+    },
+    /**
+     * Download media from a public X/Twitter post.
+     *
+     * @param {object} args Media download arguments.
+     * @returns {Promise<unknown>} Media download response.
+     */
+    downloadTweetMedia({
+      $, tweetInput,
+    }) {
+      const normalizedTweetInput = this._normalizeIdentifier(
+        tweetInput,
+        "Tweet URL or ID",
+      );
+
+      return this._makeRequest({
+        $,
+        method: "POST",
+        path: "/x/media/download",
+        data: {
+          tweetInput: normalizedTweetInput,
         },
       });
     },
