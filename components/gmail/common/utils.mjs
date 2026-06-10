@@ -46,6 +46,11 @@ function attachTextToParts(parts) {
   }
 };
 
+function getHeader(headers, name) {
+  const target = name.toLowerCase();
+  return headers?.find((h) => h.name.toLowerCase() === target)?.value;
+}
+
 function validateTextPayload(message, withTextPayload) {
   if (withTextPayload) {
     let newPayload = "";
@@ -90,4 +95,5 @@ export default {
   extractTextFromParts,
   attachTextToParts,
   validateTextPayload,
+  getHeader,
 };
