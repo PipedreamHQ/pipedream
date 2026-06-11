@@ -4,7 +4,7 @@ export default {
   key: "social_fetch-list-profile-posts",
   name: "List Profile Posts",
   description: "Lists recent posts, videos, reels, or tweets for a profile. [See the documentation](https://www.socialfetch.dev/docs/api)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
