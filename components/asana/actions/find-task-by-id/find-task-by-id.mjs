@@ -5,7 +5,7 @@ export default {
   key: "asana-find-task-by-id",
   name: "Find Task by ID",
   description: "Searches for a task by id. Returns the complete task record for a single task. [See the documentation](https://developers.asana.com/docs/get-a-task)",
-  version: "0.2.14",
+  version: "0.3.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -26,10 +26,23 @@ export default {
         }),
       ],
     },
+    optFields: {
+      propDefinition: [
+        asana,
+        "optFields",
+      ],
+      description: "Optional task properties to include in the response (e.g. `created_at`, `due_on`, `custom_fields`). Nested paths are allowed; `gid` is always returned. [See the documentation](https://developers.asana.com/docs/get-a-task)",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const { data: response } = await this.asana.getTask({
       taskId: this.task_gid,
+      params: {
+        opt_fields: this.optFields?.length
+          ? this.optFields.join(",")
+          : undefined,
+      },
       $,
     });
 
