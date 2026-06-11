@@ -16,7 +16,7 @@ export default {
     + " Set `isRead: false` to find unread messages — builds the OData filter automatically, no filter syntax required."
     + " Set `folderScope: \"inbox\"` to restrict results to the inbox only, preventing Sent/Drafts/Junk from inflating counts."
     + " Set `countOnly: true` to return `{ count: N }` in a single API call without paginating — ideal for 'how many unread' queries."
-    + " `search` and `isRead` can be used together — when both are set, `search` is automatically converted to `contains(subject,...)` so both constraints are applied (Graph cannot combine KQL `$search` with OData `$filter` natively)."
+    + " `search` and `isRead` can be used together — when both are set, `search` is automatically converted to `contains(subject,...)` so both constraints are applied (Graph cannot combine KQL `$search` with OData `$filter` natively). Note: this narrows the match scope to subject only, whereas a bare `$search` also matches body and from."
     + " `countOnly` cannot be combined with `search`."
     + " For shared mailboxes, set both `userId` and `sharedFolderId`."
     + " Example: `find-email(isRead=false, folderScope=\"inbox\", countOnly=true)` → `{ count: 47 }` for unread inbox count."
@@ -83,7 +83,7 @@ export default {
     select: {
       type: "string",
       label: "Select Fields",
-      description: "Comma-separated message property names to include in results, e.g. `id,subject,from,receivedDateTime,isRead`. Leave empty to use the API default field set.",
+      description: "Comma-separated message property names to include in results, e.g. `id,subject,from,receivedDateTime,isRead`. Leave empty to use the action's default field set (metadata only, excludes body/bodyPreview).",
       optional: true,
     },
     includeAttachments: {
@@ -110,7 +110,8 @@ export default {
     ensureQuotes(str) {
       const cleaned = str.trim().replace(/^['"]?/, "")
         .replace(/['"]?$/, "");
-      return `"${cleaned}"`;
+      const escaped = cleaned.replace(/"/g, "\\\"");
+      return `"${escaped}"`;
     },
   },
   async run({ $ }) {
@@ -119,6 +120,9 @@ export default {
 
     if (hasSearch && this.countOnly) {
       throw new ConfigurationError("`search` cannot be combined with `countOnly` — Graph does not support `$count` with `$search`.");
+    }
+    if (hasSearch && (this.filter || this.orderBy)) {
+      throw new ConfigurationError("`search` cannot be combined with `filter` or `orderBy` — Graph does not support `$search` with `$filter` or `$orderby`. Use `filter` alone, or remove `filter`/`orderBy` when using `search`.");
     }
     if (this.sharedFolderId && !this.userId) {
       throw new ConfigurationError("`sharedFolderId` requires `userId` to be set — provide the UPN or object ID of the shared mailbox owner.");

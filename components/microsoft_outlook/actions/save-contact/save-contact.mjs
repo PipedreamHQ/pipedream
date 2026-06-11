@@ -50,6 +50,7 @@ export default {
         microsoftOutlook,
         "businessPhones",
       ],
+      label: "Business Phones",
       description: "Array of phone number strings, e.g. `[\"+1-555-0100\"]`.",
     },
   },

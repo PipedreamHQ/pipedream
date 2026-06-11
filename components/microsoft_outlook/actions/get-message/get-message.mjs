@@ -8,7 +8,7 @@ export default {
     + " Use **Find Email** first to search for messages and obtain a message `id`; then call this tool to retrieve the full content."
     + " Set `includeAttachments: true` to expand attachment metadata — the `id` field of each attachment is required by **Download Attachment**."
     + " Example: after `find-email(search=\"Eval-Festivus\")` returns a message with `id: \"AAMk...\"`, call `get-message(messageId=\"AAMk...\", includeAttachments=true)` to get the body text and attachment list."
-    + " [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-get-message)",
+    + " [See the documentation](https://learn.microsoft.com/en-us/graph/api/message-get)",
   version: "0.0.2",
   type: "action",
   annotations: {

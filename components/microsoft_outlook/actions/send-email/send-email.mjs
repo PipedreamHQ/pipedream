@@ -106,16 +106,20 @@ export default {
         address,
       },
     }));
-    const ccRecipients = (this.ccRecipients || []).filter((a) => a.trim()).map((address) => ({
-      emailAddress: {
-        address,
-      },
-    }));
-    const bccRecipients = (this.bccRecipients || []).filter((a) => a.trim()).map((address) => ({
-      emailAddress: {
-        address,
-      },
-    }));
+    const ccRecipients = (this.ccRecipients || [])
+      .filter((a) => a && a.trim())
+      .map((address) => ({
+        emailAddress: {
+          address,
+        },
+      }));
+    const bccRecipients = (this.bccRecipients || [])
+      .filter((a) => a && a.trim())
+      .map((address) => ({
+        emailAddress: {
+          address,
+        },
+      }));
 
     const attachments = [];
     for (const file of (this.files || [])) {
