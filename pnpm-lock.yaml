@@ -42102,6 +42102,7 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
+      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.60(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1))(rollup@4.53.2)':
     dependencies:
@@ -45834,8 +45835,7 @@ snapshots:
 
   balanced-match@4.0.4: {}
 
-  bare-events@2.8.3:
-    optional: true
+  bare-events@2.8.3: {}
 
   bare-fs@4.5.1:
     dependencies:
@@ -48386,7 +48386,7 @@ snapshots:
 
   events-universal@1.0.1:
     dependencies:
-      bare-events: 2.9.1
+      bare-events: 2.8.3
     transitivePeerDependencies:
       - bare-abort-controller
 
