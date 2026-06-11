@@ -841,5 +841,31 @@ export default {
         ...args,
       });
     },
+    getTicketSummary({
+      ticketId, ...args
+    }) {
+      return this._makeRequest({
+        url: `/tickets/${ticketId}/summary`,
+        ...args,
+      });
+    },
+    updateTicketSummary({
+      ticketId, ...args
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        url: `/tickets/${ticketId}/summary`,
+        ...args,
+      });
+    },
+    deleteTicketSummary({
+      ticketId, ...args
+    }) {
+      return this._makeRequest({
+        method: "DELETE",
+        url: `/tickets/${ticketId}/summary`,
+        ...args,
+      });
+    },
   },
 };
