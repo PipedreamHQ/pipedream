@@ -4,7 +4,7 @@ export default {
   key: "asana-search-user-projects",
   name: "Get list of user projects",
   description: "Return list of projects given the user and workspace gid. [See the documentation](https://developers.asana.com/docs/get-multiple-projects)",
-  version: "0.5.7",
+  version: "0.6.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -34,6 +34,14 @@ export default {
         }),
       ],
     },
+    optFields: {
+      propDefinition: [
+        asana,
+        "optFields",
+      ],
+      description: "Optional project properties to include in the response (e.g. `created_at`, `start_on`, `due_on`, `archived`, `custom_fields`). Nested paths are allowed; `gid` is always returned. [See the documentation](https://developers.asana.com/docs/get-multiple-projects)",
+      optional: true,
+    },
     maxResults: {
       propDefinition: [
         asana,
@@ -42,11 +50,27 @@ export default {
     },
   },
   async run({ $ }) {
+    // membership filtering below reads project.members, so always request the
+    // base fields; merge in any user-requested opt_fields on top.
+    const optFields = new Set([
+      "gid",
+      "name",
+      "resource_type",
+      "members",
+    ]);
+    if (Array.isArray(this.optFields)) {
+      for (const field of this.optFields) {
+        optFields.add(field);
+      }
+    }
+
     let hasMore, count = 0;
     const params = {
       workspace: this.workspace,
+      opt_fields: [
+        ...optFields,
+      ].join(","),
       limit: 100,
-      opt_fields: "gid,name,resource_type,members",
     };
     const allProjects = [];
 
