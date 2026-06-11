@@ -15,13 +15,12 @@ export default {
     ),
     default:
       constants.CHANNEL_REPORT_TYPE.VIDEO_BASIC_USER_ACTIVITY_STATS.value,
-    reloadProps: true,
   },
   metrics: {
     type: "string[]",
     label: "Metrics",
     description:
-      "Metrics, such as `views` or `likes`, `dislikes`. See the documentation for [channel reports](https://developers.google.com/youtube/analytics/channel_reports) or [content owner reports](https://developers.google.com/youtube/analytics/content_owner_reports) for a list of the reports that you can retrieve and the metrics available in each report. (The [Metrics](https://developers.google.com/youtube/reporting#metrics) document contains definitions for all of the metrics.).",
+      "Metrics, such as `views` or `likes`, `dislikes`. Use the **Get Channel Report Metrics** action to get a list of the metrics available in each report. See the documentation for [channel reports](https://developers.google.com/youtube/analytics/channel_reports) or [content owner reports](https://developers.google.com/youtube/analytics/content_owner_reports) for a list of the reports that you can retrieve and the metrics available in each report. (The [Metrics](https://developers.google.com/youtube/reporting#metrics) document contains definitions for all of the metrics.).",
     options: Object.values(constants.METRIC),
   },
   filters: {
