@@ -15043,7 +15043,11 @@ importers:
 
   components/snyk: {}
 
-  components/social_fetch: {}
+  components/social_fetch:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
 
   components/social_intents:
     dependencies:
