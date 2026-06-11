@@ -9,54 +9,90 @@ export default {
       type: "string",
       label: "Assistant ID",
       description: "ID of the assistant to start a conversation with or update",
-      async options() {
+      async options({ prevContext }) {
+        const params = {
+          limit: LIMIT,
+        };
+        if (prevContext?.createdAtLt) {
+          params.createdAtLt = prevContext.createdAtLt;
+        }
         const assistants = await this.listAssistants({
-          params: {
-            limit: LIMIT,
-          },
+          params,
         });
-        return assistants.map(({
-          id: value, name: label,
-        }) => ({
-          label,
-          value,
-        }));
+        const lastItem = assistants[assistants.length - 1];
+        return {
+          options: assistants.map(({
+            id: value, name: label,
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            createdAtLt: assistants.length === LIMIT
+              ? lastItem?.createdAt
+              : undefined,
+          },
+        };
       },
     },
     squadId: {
       type: "string",
       label: "Squad ID",
       description: "ID of the squad to assign to the conversation",
-      async options() {
+      async options({ prevContext }) {
+        const params = {
+          limit: LIMIT,
+        };
+        if (prevContext?.createdAtLt) {
+          params.createdAtLt = prevContext.createdAtLt;
+        }
         const squads = await this.listSquads({
-          params: {
-            limit: LIMIT,
-          },
+          params,
         });
-        return squads.map(({
-          id: value, name: label,
-        }) => ({
-          label,
-          value,
-        }));
+        const lastItem = squads[squads.length - 1];
+        return {
+          options: squads.map(({
+            id: value, name: label,
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            createdAtLt: squads.length === LIMIT
+              ? lastItem?.createdAt
+              : undefined,
+          },
+        };
       },
     },
     phoneNumberId: {
       type: "string",
       label: "Phone Number ID",
       description: "ID of the phone number to use for the conversation",
-      async options() {
+      async options({ prevContext }) {
+        const params = {
+          limit: LIMIT,
+        };
+        if (prevContext?.createdAtLt) {
+          params.createdAtLt = prevContext.createdAtLt;
+        }
         const phoneNumbers = await this.listPhoneNumbers({
-          params: {
-            limit: LIMIT,
-          },
+          params,
         });
-        return phoneNumbers.map(({
-          id: value, name: label,
-        }) => ({
-          label,
-          value,
-        }));
+        const lastItem = phoneNumbers[phoneNumbers.length - 1];
+        return {
+          options: phoneNumbers.map(({
+            id: value, name: label,
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            createdAtLt: phoneNumbers.length === LIMIT
+              ? lastItem?.createdAt
+              : undefined,
+          },
+        };
       },
     },
   },
