@@ -21,8 +21,10 @@ export default {
   props: {
     hubspot,
     objectType: {
-      type: "string",
-      label: "Object Type",
+      propDefinition: [
+        hubspot,
+        "objectType",
+      ],
       description:
         "The custom object type identifier — either the fullyQualifiedName (e.g. `p_pd_eval_movie`)"
         + " or the objectTypeId (e.g. `2-12345678`)."
