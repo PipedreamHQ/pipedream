@@ -8,7 +8,7 @@ export default {
   name: "Get Customers",
   description:
     "Retrieve customers from Business Edge via `POST /masterfiles/customerV3/export.json`. [See the documentation](https://hangerbolt.ci-inc.com/apilist/export)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

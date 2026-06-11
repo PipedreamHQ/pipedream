@@ -7,7 +7,7 @@ export default {
   name: "List Branches",
   description:
     "Retrieve branches from Business Edge via `POST /masterfiles/branch/export.json`. [See the documentation](https://hangerbolt.ci-inc.com/apilist/export)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
