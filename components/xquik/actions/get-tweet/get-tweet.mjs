@@ -4,7 +4,7 @@ export default {
   key: "xquik-get-tweet",
   name: "Get Tweet",
   description: "Get a public X/Twitter post by ID with Xquik. [See the documentation](https://docs.xquik.com/api-reference/x/get-tweet)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
