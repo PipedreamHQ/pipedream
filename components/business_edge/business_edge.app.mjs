@@ -138,7 +138,7 @@ export default {
      * @returns {string}
      */
     _baseUrl() {
-      const raw = this.$auth?.base_url ?? "";
+      const raw = this.$auth?.api_url ?? "";
       return String(raw).replace(/\/+$/, "");
     },
     /**
