@@ -7502,7 +7502,7 @@ importers:
         specifier: ^2.19.5
         version: 2.19.5
       timezones-list:
-        specifier: ^3.0.2
+        specifier: ^3.1.0
         version: 3.1.0
     devDependencies:
       package:

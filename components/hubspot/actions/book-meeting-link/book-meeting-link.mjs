@@ -45,30 +45,8 @@ export default {
     durationMinutes: {
       type: "integer",
       label: "Duration (minutes)",
-      description: "Meeting length in minutes. Must match a duration offered by the meeting link.",
+      description: "Meeting length in minutes. Must match a duration offered by the meeting link (run **Get Meeting Link Booking Info** to see valid durations).",
       min: 1,
-      async options({
-        slug, timezone,
-      }) {
-        if (!slug) {
-          return [];
-        }
-        const response = await this.hubspot.getMeetingLinkBookingInfo({
-          slug,
-          params: {
-            timezone: timezone || "UTC",
-          },
-        });
-        const byDuration = response?.linkAvailability?.linkAvailabilityByDuration || {};
-        return Object.keys(byDuration)
-          .map((ms) => Number.parseInt(ms, 10))
-          .filter(Boolean)
-          .sort((a, b) => a - b)
-          .map((ms) => ({
-            label: `${ms / 60000} minutes`,
-            value: ms / 60000,
-          }));
-      },
     },
     timezone: {
       propDefinition: [

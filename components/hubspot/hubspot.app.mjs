@@ -1,10 +1,6 @@
 import { axios } from "@pipedream/platform";
 import Bottleneck from "bottleneck";
 import timezonesList from "timezones-list";
-
-const TIMEZONES = Array.isArray(timezonesList)
-  ? timezonesList
-  : (timezonesList?.default ?? []);
 import {
   API_PATH,
   BASE_URL,
@@ -24,6 +20,22 @@ const limiter = new Bottleneck({
   maxConcurrent: 1,
 });
 const axiosRateLimiter = limiter.wrap(axios);
+
+const TIMEZONES = Array.isArray(timezonesList)
+  ? timezonesList
+  : (timezonesList?.default ?? []);
+const TIMEZONE_OPTIONS = [
+  {
+    label: "UTC (GMT+00:00)",
+    value: "UTC",
+  },
+  ...TIMEZONES.map(({
+    label, tzCode,
+  }) => ({
+    label,
+    value: tzCode,
+  })),
+];
 
 export default {
   type: "app",
@@ -1011,78 +1023,19 @@ export default {
     organizerUserId: {
       type: "string",
       label: "Organizer User ID",
-      description: "HubSpot User ID of the meeting organizer. This is the user-level `userId` returned by the Owners API (not the Owner `id`).",
-      async options({ prevContext = {} }) {
-        const { nextAfter } = prevContext;
-        const {
-          results, paging,
-        } = await this.getOwners({
-          params: {
-            after: nextAfter,
-          },
-        });
-        return {
-          options: (results || [])
-            .filter(({ userId }) => userId)
-            .map(({
-              userId, firstName, lastName, email,
-            }) => ({
-              label: `${[
-                firstName,
-                lastName,
-              ].filter(Boolean).join(" ") || email} (${email})`,
-              value: `${userId}`,
-            })),
-          context: {
-            nextAfter: paging?.next?.after,
-          },
-        };
-      },
+      description: "HubSpot User ID of the meeting organizer. This is the user-level `userId` returned by the Owners API (not the Owner `id`). Run **List Owners** to discover it.",
     },
     meetingLinkSlug: {
       type: "string",
       label: "Meeting Link Slug",
-      description: "The meeting scheduling page slug (e.g. `jane-doe/15min`).",
-      async options({
-        organizerUserId, prevContext = {},
-      }) {
-        const { nextAfter } = prevContext;
-        const {
-          results = [], paging,
-        } = await this.listMeetingLinks({
-          params: {
-            organizerUserId,
-            after: nextAfter,
-          },
-        });
-        return {
-          options: results.map(({
-            slug, name,
-          }) => ({
-            label: name
-              ? `${name} (${slug})`
-              : slug,
-            value: slug,
-          })),
-          context: {
-            nextAfter: paging?.next?.after,
-          },
-        };
-      },
+      description: "The meeting scheduling page slug (e.g. `jane-doe/15min`). Run **List Meeting Links** to discover available slugs.",
     },
     meetingTimezone: {
       type: "string",
       label: "Timezone",
-      description: "IANA timezone identifier used to evaluate availability and bookings (e.g. `America/New_York`).",
+      description: "IANA timezone identifier used to evaluate availability and bookings.",
       default: "UTC",
-      async options() {
-        return TIMEZONES.map(({
-          label, tzCode,
-        }) => ({
-          label,
-          value: tzCode,
-        }));
-      },
+      options: TIMEZONE_OPTIONS,
     },
   },
   methods: {
