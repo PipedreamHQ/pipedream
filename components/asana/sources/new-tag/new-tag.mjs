@@ -6,7 +6,7 @@ export default {
   type: "source",
   name: "New Tag",
   description: "Emit new event for each tag created in a workspace.",
-  version: "0.0.15",
+  version: "0.0.16",
   dedupe: "unique",
   props: {
     asana,
