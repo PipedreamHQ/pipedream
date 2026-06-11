@@ -53,6 +53,7 @@ export default {
         returnista,
         "suffix",
       ],
+      optional: true,
     },
     city: {
       propDefinition: [
@@ -77,12 +78,14 @@ export default {
         returnista,
         "stateProvinceCode",
       ],
+      optional: true,
     },
     attention: {
       propDefinition: [
         returnista,
         "attention",
       ],
+      optional: true,
     },
     phoneNumber: {
       propDefinition: [
@@ -95,6 +98,7 @@ export default {
         returnista,
         "contactName",
       ],
+      optional: true,
     },
   },
   async run({ $ }) {

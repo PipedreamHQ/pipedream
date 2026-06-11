@@ -206,8 +206,7 @@ export default {
       label: "Answers",
       description: "Array of form field answers for the return questionnaire. Each entry is a stringified JSON object with `formField` and `answer`. "
         + "Example entry: `{\"formField\":{\"id\":\"uuid-here\",\"type\":\"SingleChoice\",\"required\":true},\"answer\":\"value\"}`. "
-        + "`answer` can also be an array of strings (MultiChoice) or an array of file objects: `[{\"mimeType\":\"image/jpeg\",\"url\":\"https://...\"}]`. "
-        + "[See the documentation](https://platform.returnista.com/reference/rest-api/#post-/consumer/-consumerId-/draft-return-order)",
+        + "`answer` can also be an array of strings (MultiChoice) or an array of file objects: `[{\"mimeType\":\"image/jpeg\",\"url\":\"https://...\"}]`.",
       optional: true,
     },
   },
