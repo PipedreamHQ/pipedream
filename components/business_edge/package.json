@@ -1,14 +1,18 @@
 {
   "name": "@pipedream/business_edge",
-  "version": "0.0.1",
-  "description": "Pipedream Business Edge Components",
+  "version": "0.1.0",
+  "description": "Pipedream Business Edge (CI, Inc.) Components",
   "main": "business_edge.app.mjs",
   "keywords": [
     "pipedream",
-    "business_edge"
+    "business-edge",
+    "ci-inc"
   ],
   "homepage": "https://pipedream.com/apps/business_edge",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1"
+  },
   "publishConfig": {
     "access": "public"
   }
