@@ -5294,7 +5294,11 @@ importers:
 
   components/exact_mails: {}
 
-  components/excalidraw: {}
+  components/excalidraw:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
 
   components/exhibitday:
     dependencies:
