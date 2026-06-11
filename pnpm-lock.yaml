@@ -25576,14 +25576,6 @@ packages:
     resolution: {integrity: sha512-BLrgEcRTwX2o6gGxGOCNyMvGSp35YofuYzw9h1IMTRmKqttAZZVU67bdb9Pr2vUHA8+j3i2tJfjO6C6+4myGTA==}
     engines: {node: 18 || 20 || >=22}
 
-  bare-events@2.8.2:
-    resolution: {integrity: sha512-riJjyv1/mHLIPX4RwiK+oW9/4c3TEUeORHKefKAKnZ5kyslbN+HXowtbaVEqt4IMUB7OXlfixcs6gsFeo/jhiQ==}
-    peerDependencies:
-      bare-abort-controller: '*'
-    peerDependenciesMeta:
-      bare-abort-controller:
-        optional: true
-
   bare-events@2.8.3:
     resolution: {integrity: sha512-HdUm8EMQBLaJvGUdidNNbqpA1kYkwNcb+MYxkxCLAPJGQzlv9J0C24h8V65Z4c5GLd/JEALDvpFCQgpLJqc0zw==}
     peerDependencies:
@@ -37576,7 +37568,7 @@ snapshots:
       debug: 4.4.3(supports-color@9.4.0)
       gensync: 1.0.0-beta.2
       json5: 2.2.3
-      semver: 7.8.1
+      semver: 7.8.2
     transitivePeerDependencies:
       - supports-color
 
@@ -37586,7 +37578,7 @@ snapshots:
       eslint: 8.57.1
       eslint-scope: 7.2.2
       eslint-visitor-keys: 3.4.3
-      semver: 7.8.1
+      semver: 7.8.2
 
   '@babel/generator@7.28.5':
     dependencies:
@@ -37623,7 +37615,7 @@ snapshots:
       '@babel/helper-validator-option': 8.0.0-beta.3
       browserslist: 4.28.0
       lru-cache: 7.18.3
-      semver: 7.8.1
+      semver: 7.8.2
 
   '@babel/helper-create-class-features-plugin@7.28.5(@babel/core@7.28.5)':
     dependencies:
@@ -38606,7 +38598,7 @@ snapshots:
   '@commitlint/is-ignored@19.8.1':
     dependencies:
       '@commitlint/types': 19.8.1
-      semver: 7.8.1
+      semver: 7.8.2
 
   '@commitlint/lint@19.8.1':
     dependencies:
@@ -38798,7 +38790,7 @@ snapshots:
     dependencies:
       '@definitelytyped/typescript-versions': 0.1.11
       '@definitelytyped/utils': 0.1.14
-      semver: 7.8.1
+      semver: 7.8.2
     transitivePeerDependencies:
       - bare-abort-controller
       - bare-buffer
@@ -40072,7 +40064,7 @@ snapshots:
       https-proxy-agent: 7.0.6
       node-fetch: 2.7.0(encoding@0.1.13)
       nopt: 8.1.0
-      semver: 7.8.1
+      semver: 7.8.2
       tar: 7.5.15
     transitivePeerDependencies:
       - encoding
@@ -40085,7 +40077,7 @@ snapshots:
       https-proxy-agent: 7.0.6(supports-color@10.2.2)
       node-fetch: 2.7.0(encoding@0.1.13)
       nopt: 8.1.0
-      semver: 7.8.1
+      semver: 7.8.2
       tar: 7.5.15
     transitivePeerDependencies:
       - encoding
@@ -40422,7 +40414,7 @@ snapshots:
       image-size: 2.0.2
       js-image-generator: 1.0.4
       parse-gitignore: 2.0.0
-      semver: 7.8.1
+      semver: 7.8.2
       tmp-promise: 3.0.3
       uuid: 11.1.0
       write-file-atomic: 5.0.1
@@ -40727,7 +40719,7 @@ snapshots:
 
   '@npmcli/fs@5.0.0':
     dependencies:
-      semver: 7.8.1
+      semver: 7.8.2
 
   '@npmcli/git@7.0.2':
     dependencies:
@@ -40737,7 +40729,7 @@ snapshots:
       lru-cache: 11.5.0
       npm-pick-manifest: 11.0.3
       proc-log: 6.1.0
-      semver: 7.8.1
+      semver: 7.8.2
       which: 6.0.1
 
   '@npmcli/package-json@7.0.5':
@@ -40747,7 +40739,7 @@ snapshots:
       hosted-git-info: 9.0.3
       json-parse-even-better-errors: 5.0.0
       proc-log: 6.1.0
-      semver: 7.8.1
+      semver: 7.8.2
       spdx-expression-parse: 4.0.0
 
   '@npmcli/promise-spawn@9.0.1':
@@ -41038,7 +41030,7 @@ snapshots:
       '@opentelemetry/propagator-b3': 1.30.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/propagator-jaeger': 1.30.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-base': 1.30.1(@opentelemetry/api@1.9.0)
-      semver: 7.8.1
+      semver: 7.8.2
 
   '@opentelemetry/semantic-conventions@1.28.0': {}
 
@@ -43176,7 +43168,7 @@ snapshots:
       read-pkg: 9.0.1
       registry-auth-token: 5.1.0
       semantic-release: 24.2.9(typescript@5.6.3)
-      semver: 7.8.1
+      semver: 7.8.2
       tempy: 3.1.0
 
   '@semantic-release/npm@12.0.2(semantic-release@24.2.9(typescript@5.9.3))':
@@ -43193,7 +43185,7 @@ snapshots:
       read-pkg: 9.0.1
       registry-auth-token: 5.1.0
       semantic-release: 24.2.9(typescript@5.9.3)
-      semver: 7.8.1
+      semver: 7.8.2
       tempy: 3.1.0
 
   '@semantic-release/release-notes-generator@14.1.0(semantic-release@24.2.9(typescript@5.6.3))':
@@ -45839,14 +45831,13 @@ snapshots:
 
   balanced-match@4.0.4: {}
 
-  bare-events@2.8.3:
-    optional: true
+  bare-events@2.8.3: {}
 
   bare-fs@4.5.1:
     dependencies:
-      bare-events: 2.8.2
+      bare-events: 2.8.3
       bare-path: 3.0.0
-      bare-stream: 2.13.0(bare-events@2.8.2)
+      bare-stream: 2.13.0(bare-events@2.8.3)
       bare-url: 2.4.2
       fast-fifo: 1.3.2
     transitivePeerDependencies:
@@ -45871,12 +45862,12 @@ snapshots:
     dependencies:
       bare-os: 3.6.2
 
-  bare-stream@2.13.0(bare-events@2.8.2):
+  bare-stream@2.13.0(bare-events@2.8.3):
     dependencies:
       streamx: 2.25.0
       teex: 1.0.1
     optionalDependencies:
-      bare-events: 2.8.2
+      bare-events: 2.8.3
     transitivePeerDependencies:
       - react-native-b4a
     optional: true
@@ -46751,7 +46742,7 @@ snapshots:
       conventional-commits-filter: 5.0.0
       handlebars: 4.7.9
       meow: 13.2.0
-      semver: 7.8.1
+      semver: 7.8.2
 
   conventional-commits-filter@5.0.0: {}
 
@@ -47957,7 +47948,7 @@ snapshots:
   eslint-compat-utils@0.5.1(eslint@8.57.1):
     dependencies:
       eslint: 8.57.1
-      semver: 7.8.1
+      semver: 7.8.2
 
   eslint-config-next@15.5.6(eslint@8.57.1)(typescript@5.6.3):
     dependencies:
@@ -48096,7 +48087,7 @@ snapshots:
       globals: 15.15.0
       globrex: 0.1.2
       ignore: 5.3.2
-      semver: 7.8.1
+      semver: 7.8.2
       ts-declaration-location: 1.0.7(typescript@5.6.3)
     transitivePeerDependencies:
       - typescript
@@ -48111,7 +48102,7 @@ snapshots:
       globals: 15.15.0
       globrex: 0.1.2
       ignore: 5.3.2
-      semver: 7.8.1
+      semver: 7.8.2
       ts-declaration-location: 1.0.7(typescript@5.9.3)
     transitivePeerDependencies:
       - typescript
@@ -48391,7 +48382,7 @@ snapshots:
 
   events-universal@1.0.1:
     dependencies:
-      bare-events: 2.9.1
+      bare-events: 2.8.3
     transitivePeerDependencies:
       - bare-abort-controller
 
@@ -50462,7 +50453,7 @@ snapshots:
 
   is-bun-module@2.0.0:
     dependencies:
-      semver: 7.8.1
+      semver: 7.8.2
 
   is-callable@1.2.7: {}
 
@@ -50749,7 +50740,7 @@ snapshots:
       '@babel/parser': 7.28.5
       '@istanbuljs/schema': 0.1.3
       istanbul-lib-coverage: 3.2.2
-      semver: 7.8.1
+      semver: 7.8.2
     transitivePeerDependencies:
       - supports-color
 
@@ -51193,7 +51184,7 @@ snapshots:
       jest-util: 29.7.0
       natural-compare: 1.4.0
       pretty-format: 29.7.0
-      semver: 7.8.1
+      semver: 7.8.2
     transitivePeerDependencies:
       - supports-color
 
@@ -51660,7 +51651,7 @@ snapshots:
       npm-package-arg: 13.0.2
       npm-registry-fetch: 19.1.1
       proc-log: 6.1.0
-      semver: 7.8.1
+      semver: 7.8.2
       sigstore: 4.1.1
       ssri: 13.0.1
     transitivePeerDependencies:
@@ -52130,7 +52121,7 @@ snapshots:
 
   make-dir@4.0.0:
     dependencies:
-      semver: 7.8.1
+      semver: 7.8.2
 
   make-error@1.3.6: {}
 
@@ -53307,7 +53298,7 @@ snapshots:
   normalize-package-data@6.0.2:
     dependencies:
       hosted-git-info: 7.0.2
-      semver: 7.8.1
+      semver: 7.8.2
       validate-npm-package-license: 3.0.4
 
   normalize-package-data@7.0.1:
@@ -53337,7 +53328,7 @@ snapshots:
 
   npm-install-checks@8.0.0:
     dependencies:
-      semver: 7.8.1
+      semver: 7.8.2
 
   npm-normalize-package-bin@5.0.0: {}
 
@@ -53345,7 +53336,7 @@ snapshots:
     dependencies:
       hosted-git-info: 9.0.3
       proc-log: 6.1.0
-      semver: 7.8.1
+      semver: 7.8.2
       validate-npm-package-name: 7.0.2
 
   npm-pick-manifest@11.0.3:
@@ -53353,7 +53344,7 @@ snapshots:
       npm-install-checks: 8.0.0
       npm-normalize-package-bin: 5.0.0
       npm-package-arg: 13.0.2
-      semver: 7.8.1
+      semver: 7.8.2
 
   npm-registry-fetch@19.1.1:
     dependencies:
@@ -53872,7 +53863,7 @@ snapshots:
       ky: 1.14.0
       registry-auth-token: 5.1.0
       registry-url: 6.0.1
-      semver: 7.8.1
+      semver: 7.8.2
 
   package-lock-only@0.0.4:
     dependencies:
@@ -54414,7 +54405,7 @@ snapshots:
       jsdoc: 4.0.5
       minimist: 1.2.8
       protobufjs: 7.2.6
-      semver: 7.8.1
+      semver: 7.8.2
       tmp: 0.2.5
       uglify-js: 3.19.3
 
@@ -55768,7 +55759,7 @@ snapshots:
 
   semver-diff@5.0.0:
     dependencies:
-      semver: 7.8.1
+      semver: 7.8.2
 
   semver-regex@4.0.5: {}
 
@@ -55900,7 +55891,7 @@ snapshots:
     dependencies:
       '@img/colour': 1.0.0
       detect-libc: 2.1.2
-      semver: 7.8.1
+      semver: 7.8.2
 
   shebang-command@1.2.0:
     dependencies:
