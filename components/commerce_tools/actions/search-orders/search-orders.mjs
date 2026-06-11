@@ -5,7 +5,7 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "commerce_tools-search-orders",
   name: "Search Orders",
-  description: "Search Orders using the Order Search API. The endpoint must be [activated](https://docs.commercetools.com/api/projects/order-search#activation-of-the-api) for your Project first - run the **Change Order Search Status** action to enable it. [See the documentation](https://docs.commercetools.com/api/projects/order-search#search-orders).",
+  description: "Search Orders using the Order Search API. The endpoint must be [activated and indexed](https://docs.commercetools.com/api/projects/order-search#activation-of-the-api) for your Project first - run the **Change Order Search Status** action to enable it, then the **Reindex Orders** action to build the index. [See the documentation](https://docs.commercetools.com/api/projects/order-search#search-orders).",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -23,7 +23,7 @@ export default {
     sort: {
       type: "string[]",
       label: "Sort",
-      description: "An array of [OrderSearchSorting](https://docs.commercetools.com/api/projects/order-search#ordersearchsorting) objects (each as a JSON string) controlling how results are sorted. For example: `[\"{ \\\"field\\\": \\\"createdAt\\\", \\\"order\\\": \\\"desc\\\" }\"]`.",
+      description: "An array of [OrderSearchSorting](https://docs.commercetools.com/api/projects/order-search#ordersearchsorting) objects, each added as a separate JSON string controlling how results are sorted. For example: `{ \"field\": \"createdAt\", \"order\": \"desc\" }`.",
       optional: true,
     },
     limit: {
@@ -40,7 +40,6 @@ export default {
         app,
         "offset",
       ],
-      description: "The number of search results to skip (for pagination).",
     },
   },
   async run({ $ }) {

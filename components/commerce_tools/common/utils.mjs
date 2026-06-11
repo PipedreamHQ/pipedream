@@ -1,3 +1,5 @@
+import { ConfigurationError } from "@pipedream/platform";
+
 function parseJson(value) {
   if (typeof value !== "string") {
     return value;
@@ -5,7 +7,7 @@ function parseJson(value) {
   try {
     return JSON.parse(value);
   } catch (e) {
-    return value;
+    throw new ConfigurationError(`Invalid JSON: \`${value}\`. ${e.message}`);
   }
 }
 

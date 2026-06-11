@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -113,6 +114,16 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: "",
+        ...opts,
+      });
+    },
+    reindexOrders(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/orders/indexer/graphql",
+        data: {
+          query: constants.REINDEX_ORDERS_MUTATION,
+        },
         ...opts,
       });
     },

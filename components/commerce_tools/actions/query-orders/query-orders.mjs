@@ -46,7 +46,6 @@ export default {
         app,
         "offset",
       ],
-      description: "The number of Orders to skip (for pagination).",
     },
     withTotal: {
       type: "boolean",
@@ -67,7 +66,7 @@ export default {
         withTotal: this.withTotal,
       },
     });
-    $.export("$summary", `Successfully retrieved ${response.results.length} Order(s)`);
+    $.export("$summary", `Successfully retrieved ${response.results?.length ?? 0} Order(s)`);
     return response;
   },
 };

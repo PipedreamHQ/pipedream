@@ -4,7 +4,7 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "commerce_tools-change-order-search-status",
   name: "Change Order Search Status",
-  description: "Activate or deactivate the [Order Search](https://docs.commercetools.com/api/projects/order-search) feature for the Project. Activation triggers building a search index for the Project's Orders (covering the last 3 months) and is required before the **Search Orders** action will work. [See the documentation](https://docs.commercetools.com/api/projects/project#change-order-search-status).",
+  description: "Activate or deactivate the [Order Search](https://docs.commercetools.com/api/projects/order-search) feature for the Project. This is the first step to enable the **Search Orders** action; after activating, run the **Reindex Orders** action to build the search index. [See the documentation](https://docs.commercetools.com/api/projects/project#change-order-search-status).",
   version: "0.0.1",
   type: "action",
   annotations: {

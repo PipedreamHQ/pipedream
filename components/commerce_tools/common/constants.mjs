@@ -12,4 +12,6 @@ export default {
     "Activated",
     "Deactivated",
   ],
+  // Mutation that triggers a (re)build of the Order Search index.
+  REINDEX_ORDERS_MUTATION: "mutation { reIndexAllOrders { indexingJobId existingIndexingJobId } }",
 };
