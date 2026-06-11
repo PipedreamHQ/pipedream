@@ -1985,8 +1985,10 @@ export default {
     },
     /**
      * Get the booking configuration and availability for a meeting link.
-     * @param {object} opts - `{ slug, ...rest }`. Pass `timezone` (required)
-     * and optional `monthOffset` via `params`.
+     * @param {string} slug - The meeting scheduling page slug.
+     * @param {object} opts - Additional request options. Pass `timezone`
+     * (required) and optional `monthOffset` via `params`.
+     * @returns {Promise<object>} Booking configuration and availability.
      */
     getMeetingLinkBookingInfo({
       slug, ...opts
@@ -1999,8 +2001,10 @@ export default {
     },
     /**
      * Get just the availability page (slots + busy times) for a meeting link.
-     * @param {object} opts - `{ slug, ...rest }`. Pass `timezone` (required)
-     * via `params`.
+     * @param {string} slug - The meeting scheduling page slug.
+     * @param {object} opts - Additional request options. Pass `timezone`
+     * (required) via `params`.
+     * @returns {Promise<object>} Availability page response.
      */
     getMeetingLinkAvailability({
       slug, ...opts
@@ -2015,11 +2019,13 @@ export default {
      * Book a meeting on a scheduling page.
      * @param {object} opts - Request options. Pass `timezone` via `params` and
      * the booking payload via `data`.
+     * @returns {Promise<object>} Booking response (`calendarEventId`, `start`,
+     * `duration`, `contactId`, etc.).
      */
     bookMeetingLink(opts = {}) {
       return this.makeRequest({
         api: API_PATH.SCHEDULER,
-        endpoint: "/meetings/meeting-links/book/",
+        endpoint: "/meetings/meeting-links/book",
         method: "POST",
         ...opts,
       });
