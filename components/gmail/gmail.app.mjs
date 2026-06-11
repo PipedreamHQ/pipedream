@@ -543,6 +543,12 @@ export default {
         : -1);
       return data;
     },
+    async deleteLabel(labelId) {
+      return this._client().users.labels.delete({
+        userId: constants.USER_ID,
+        id: labelId,
+      });
+    },
     async listDelegates() {
       const { data } = await this._client().users.settings.delegates.list({
         userId: constants.USER_ID,
