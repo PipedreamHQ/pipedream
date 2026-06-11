@@ -64,11 +64,34 @@ function validateTextPayload(message, withTextPayload) {
     return message;
   }
   return false;
+}
+
+const NAMED_ENTITIES = {
+  amp: "&",
+  lt: "<",
+  gt: ">",
+  quot: "\"",
+  apos: "'",
+  nbsp: " ",
 };
+
+function decodeHtmlEntities(str) {
+  if (!str) return str;
+  return str.replace(/&(#x?[0-9a-fA-F]+|[a-zA-Z]+);/g, (match, entity) => {
+    if (entity.startsWith("#x")) {
+      return String.fromCodePoint(parseInt(entity.slice(2), 16));
+    }
+    if (entity.startsWith("#")) {
+      return String.fromCodePoint(parseInt(entity.slice(1), 10));
+    }
+    return NAMED_ENTITIES[entity.toLowerCase()] ?? match;
+  });
+}
 
 export default {
   parseArray,
   decodeBase64Url,
+  decodeHtmlEntities,
   extractTextFromParts,
   attachTextToParts,
   validateTextPayload,

@@ -1,3 +1,4 @@
+import utils from "../../common/utils.mjs";
 import gmail from "../../gmail.app.mjs";
 import common from "../common/polling-messages.mjs";
 
@@ -35,7 +36,7 @@ export default {
     generateMeta(message) {
       return {
         id: message.id,
-        summary: message.snippet,
+        summary: utils.decodeHtmlEntities(message.snippet),
         ts: +message.internalDate,
       };
     },
