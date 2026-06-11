@@ -49,7 +49,7 @@ export default {
     freq: {
       type: "string",
       label: "Frequency",
-      description: "Frequency of the estimates",
+      description: "Frequency of the estimates. Use `annual` for yearly estimates or `quarterly` for quarterly estimates.",
       options: constants.FREQUENCIES,
       optional: true,
       default: "annual",

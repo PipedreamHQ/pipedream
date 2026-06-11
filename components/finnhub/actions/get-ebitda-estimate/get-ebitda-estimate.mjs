@@ -3,7 +3,7 @@ import app from "../../finnhub.app.mjs";
 export default {
   key: "finnhub-get-ebitda-estimate",
   name: "Get EBITDA Estimate",
-  description: "Get EBITDA estimates for a company. [See the documentation](https://finnhub.io/docs/api/company-ebitda-estimates)",
+  description: "Retrieves EBITDA (Earnings Before Interest, Taxes, Depreciation, and Amortization) estimates for a specified company. Returns analyst consensus estimates including average, high, and low values for annual or quarterly periods. Requires a premium Finnhub API subscription. [See the documentation](https://finnhub.io/docs/api/company-ebitda-estimates)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
