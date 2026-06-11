@@ -9,7 +9,7 @@ export default {
   name: "New Profile Update",
   description:
     "Emit new event when a monitored profile changes. [See the documentation](https://www.socialfetch.dev/docs/api)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
