@@ -5,6 +5,13 @@ export default {
   type: "app",
   app: "dolibarr",
   propDefinitions: {
+    page: {
+      type: "integer",
+      label: "Page",
+      description: "The page of results to retrieve, zero-based.",
+      min: 0,
+      default: 0,
+    },
     thirdPartyId: {
       type: "string",
       label: "Third Party ID",

@@ -1,10 +1,11 @@
 import app from "../../ashby.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "ashby-list-applications",
   name: "List Applications",
   description: "Retrieves a list of applications within an organization. [See the documentation](https://developers.ashbyhq.com/reference/applicationlist)",
-  version: "0.0.2",
+  version: "1.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -54,6 +55,12 @@ export default {
       description: "Token for syncing changes since the last request",
       optional: true,
     },
+    cursor: {
+      type: "string",
+      label: "Cursor",
+      description: "To retrieve the next page of results, pass the `nextCursor` returned from the previous run here",
+      optional: true,
+    },
     maxResults: {
       propDefinition: [
         app,
@@ -69,7 +76,8 @@ export default {
       jobId,
       createdAfter,
       syncToken,
-      maxResults,
+      cursor,
+      maxResults = constants.LIMIT_MAX,
     } = this;
 
     const response = await app.paginate({
@@ -81,17 +89,25 @@ export default {
           status,
           jobId,
           syncToken,
+          cursor,
           createdAfter: createdAfter
             ? new Date(createdAfter).getTime()
             : undefined,
         },
       },
-      keyField: "results",
       max: maxResults,
     });
 
-    $.export("$summary", `Successfully retrieved \`${response.length}\` application(s)`);
+    $.export(
+      "$summary",
+      `Successfully retrieved \`${response?.results?.length}\` application(s)${response?.moreDataAvailable
+        ? " (more data available)"
+        : ""}`,
+    );
 
-    return response;
+    return {
+      success: true,
+      ...response,
+    };
   },
 };

@@ -1260,6 +1260,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/assured_platform: {}
+
   components/asters:
     dependencies:
       '@pipedream/platform':
@@ -1346,7 +1348,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/autotask_psa: {}
+  components/autotask_psa:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.5
+        version: 3.4.0
 
   components/avaza:
     dependencies:
@@ -1354,7 +1360,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/avinode: {}
+  components/avinode:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.3.1
+        version: 3.4.0
 
   components/avochato: {}
 
@@ -1587,6 +1597,12 @@ importers:
         specifier: ^0.10.1
         version: 0.10.1
 
+  components/bannerify:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
+
   components/barcode_lookup:
     dependencies:
       '@pipedream/platform':
@@ -1799,6 +1815,12 @@ importers:
       '@pipedream/platform':
         specifier: ^1.6.8
         version: 1.6.8
+
+  components/bilig_workpaper:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
 
   components/bilionis:
     dependencies:
@@ -2216,8 +2238,8 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
       qs:
-        specifier: ^6.14.2
-        version: 6.14.2
+        specifier: ^6.15.2
+        version: 6.15.2
 
   components/brillium:
     dependencies:
@@ -2369,6 +2391,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
+
+  components/business_edge: {}
 
   components/businesslogic:
     dependencies:
@@ -2747,8 +2771,8 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
       qs:
-        specifier: ^6.14.2
-        version: 6.14.2
+        specifier: ^6.15.2
+        version: 6.15.2
 
   components/chatbotic: {}
 
@@ -2913,7 +2937,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/claap: {}
+  components/claap:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.5
+        version: 3.4.0
 
   components/claid_ai:
     dependencies:
@@ -3202,8 +3230,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
       qs:
-        specifier: ^6.14.2
-        version: 6.14.2
+        specifier: ^6.15.2
+        version: 6.15.2
 
   components/cloudtalk: {}
 
@@ -3297,6 +3325,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.6.8
         version: 1.6.8
+
+  components/codex: {}
 
   components/cody:
     dependencies:
@@ -3393,6 +3423,8 @@ importers:
         version: 1.6.8
 
   components/commcare: {}
+
+  components/commerce_tools: {}
 
   components/commercehq: {}
 
@@ -3598,7 +3630,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/corporate_merch: {}
+  components/corporate_merch:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
 
   components/corrently: {}
 
@@ -3954,8 +3990,8 @@ importers:
   components/databricks_oauth:
     dependencies:
       '@pipedream/databricks':
-        specifier: ^0.5.1
-        version: 0.5.1
+        specifier: ^0.5.2
+        version: 0.5.2
       '@pipedream/platform':
         specifier: ^3.4.0
         version: 3.4.0
@@ -4451,6 +4487,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
+      form-data:
+        specifier: 4.0.4
+        version: 4.0.4
 
   components/documenso:
     dependencies:
@@ -4795,6 +4834,8 @@ importers:
 
   components/eagle_doc: {}
 
+  components/easy8: {}
+
   components/easy_peasy_ai:
     dependencies:
       '@pipedream/platform':
@@ -5083,6 +5124,8 @@ importers:
 
   components/epic_games: {}
 
+  components/eppo: {}
+
   components/epsy:
     dependencies:
       '@pipedream/platform':
@@ -5273,8 +5316,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
       qs:
-        specifier: ^6.14.2
-        version: 6.14.2
+        specifier: ^6.15.2
+        version: 6.15.2
     devDependencies:
       '@pipedream/types':
         specifier: ^0.3.2
@@ -5505,6 +5548,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.2.5
         version: 3.3.0
+
+  components/filetopdf_dev: {}
 
   components/fillout:
     dependencies:
@@ -5840,8 +5885,8 @@ importers:
         specifier: ^3.2.2
         version: 3.2.4
       qs:
-        specifier: ^6.14.1
-        version: 6.14.2
+        specifier: ^6.15.2
+        version: 6.15.2
 
   components/formspree:
     dependencies:
@@ -6071,6 +6116,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/gamma: {}
+
   components/gan_ai:
     dependencies:
       '@pipedream/platform':
@@ -6195,7 +6242,11 @@ importers:
 
   components/getswift: {}
 
-  components/getty_images: {}
+  components/getty_images:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
 
   components/ghost_org_admin_api:
     dependencies:
@@ -7161,7 +7212,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/hedy: {}
+  components/hedy:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
 
   components/heedjy:
     dependencies:
@@ -7357,7 +7412,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/hiver: {}
+  components/hiver:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.4.0
 
   components/hiver_omni: {}
 
@@ -7935,6 +7994,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.6.8
         version: 1.6.8
+
+  components/intrinio: {}
 
   components/intuiface:
     dependencies:
@@ -8853,8 +8914,8 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
       qs:
-        specifier: ^6.14.2
-        version: 6.14.2
+        specifier: ^6.15.2
+        version: 6.15.2
 
   components/line_messaging_api:
     dependencies:
@@ -8868,8 +8929,8 @@ importers:
         specifier: ^55.1.0
         version: 55.2.1(encoding@0.1.13)
       '@pipedream/linear_app':
-        specifier: ^0.9.2
-        version: 0.9.2(encoding@0.1.13)
+        specifier: ^0.11.0
+        version: 0.11.0(encoding@0.1.13)
       '@pipedream/platform':
         specifier: ^3.3.0
         version: 3.3.0
@@ -9173,7 +9234,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/luma: {}
+  components/luma:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
 
   components/lumin_pdf:
     dependencies:
@@ -9367,8 +9432,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
       qs:
-        specifier: ^6.14.2
-        version: 6.14.2
+        specifier: ^6.15.2
+        version: 6.15.2
 
   components/maintainx:
     dependencies:
@@ -10102,7 +10167,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/moodle: {}
+  components/moodle:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.3.1
+        version: 3.4.0
 
   components/moonclerk:
     dependencies:
@@ -10892,6 +10961,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.3.0
         version: 3.3.0
+      turndown:
+        specifier: ^7.2.0
+        version: 7.2.4
 
   components/onepage: {}
 
@@ -11086,7 +11158,11 @@ importers:
 
   components/openthesaurus: {}
 
-  components/openum: {}
+  components/openum:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
 
   components/openweather_api:
     dependencies:
@@ -11257,8 +11333,8 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
       qs:
-        specifier: ^6.14.2
-        version: 6.14.2
+        specifier: ^6.15.2
+        version: 6.15.2
 
   components/overledger:
     dependencies:
@@ -11325,8 +11401,11 @@ importers:
   components/pagerduty:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.8
-        version: 1.6.8
+        specifier: ^3.4.0
+        version: 3.4.0
+      lodash.differenceby:
+        specifier: ^4.8.0
+        version: 4.8.0
 
   components/paigo:
     dependencies:
@@ -11339,6 +11418,12 @@ importers:
       '@pipedream/platform':
         specifier: ^3.2.5
         version: 3.3.0
+
+  components/palavir_compliance:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
 
   components/pandadoc:
     dependencies:
@@ -11437,6 +11522,8 @@ importers:
       md5:
         specifier: ^2.3.0
         version: 2.3.0
+
+  components/patchwork: {}
 
   components/path_of_exile:
     dependencies:
@@ -11651,6 +11738,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/penpot: {}
+
   components/people_data_labs:
     dependencies:
       '@pipedream/platform':
@@ -11815,8 +11904,8 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
       qs:
-        specifier: ^6.14.2
-        version: 6.14.2
+        specifier: ^6.15.2
+        version: 6.15.2
 
   components/pingback:
     dependencies:
@@ -12170,7 +12259,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/polly_help: {}
+  components/polly_help:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
 
   components/polygon:
     dependencies:
@@ -12388,7 +12481,11 @@ importers:
         specifier: ^4.18.1
         version: 4.18.1
 
-  components/processplan: {}
+  components/processplan:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
 
   components/procfu: {}
 
@@ -12858,7 +12955,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/read_ai: {}
+  components/read_ai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
 
   components/readwise:
     dependencies:
@@ -12956,8 +13057,8 @@ importers:
         specifier: ^4.18.1
         version: 4.18.1
       qs:
-        specifier: ^6.14.2
-        version: 6.14.2
+        specifier: ^6.15.2
+        version: 6.15.2
 
   components/redis_cloud_rest_api: {}
 
@@ -13101,6 +13202,10 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
+
+  components/renderio: {}
+
+  components/rendex: {}
 
   components/rendi:
     dependencies:
@@ -13503,6 +13608,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/roundtable: {}
+
   components/route4me: {}
 
   components/rss:
@@ -13579,7 +13686,11 @@ importers:
 
   components/runway: {}
 
-  components/rydoo: {}
+  components/rydoo:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
 
   components/rytr: {}
 
@@ -14255,12 +14366,24 @@ importers:
       lodash.pickby:
         specifier: ^4.6.0
         version: 4.6.0
+      mammoth:
+        specifier: ^1.12.0
+        version: 1.12.0
+      pdf-parse:
+        specifier: ^2.4.5
+        version: 2.4.5
+      turndown:
+        specifier: ^7.2.4
+        version: 7.2.4
 
   components/sharepoint_admin:
     dependencies:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.3.0
+      '@pipedream/sharepoint':
+        specifier: ^0.10.0
+        version: 0.10.0(encoding@0.1.13)
 
   components/sharpspring:
     dependencies:
@@ -14746,8 +14869,8 @@ importers:
   components/smartsheet:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.8
-        version: 1.6.8
+        specifier: ^3.1.1
+        version: 3.4.0
 
   components/smartsuite:
     dependencies:
@@ -14784,6 +14907,8 @@ importers:
         version: 1.6.8
 
   components/sms: {}
+
+  components/sms8: {}
 
   components/sms_alert:
     dependencies:
@@ -14903,9 +15028,13 @@ importers:
         specifier: ^13.0.0
         version: 13.0.0
 
+  components/snowflake_oauth: {}
+
   components/snowflake_test: {}
 
   components/snyk: {}
+
+  components/social_fetch: {}
 
   components/social_intents:
     dependencies:
@@ -14922,8 +15051,8 @@ importers:
   components/softr:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.8
-        version: 1.6.8
+        specifier: ^3.4.0
+        version: 3.4.0
 
   components/solarwinds_service_desk: {}
 
@@ -15408,7 +15537,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/surecart: {}
+  components/surecart:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
 
   components/survey2connect: {}
 
@@ -16456,8 +16589,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
       qs:
-        specifier: ^6.14.2
-        version: 6.14.2
+        specifier: ^6.15.2
+        version: 6.15.2
       uuid:
         specifier: ^8.3.2
         version: 8.3.2
@@ -16702,8 +16835,8 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
       qs:
-        specifier: ^6.14.2
-        version: 6.14.2
+        specifier: ^6.15.2
+        version: 6.15.2
 
   components/upollo: {}
 
@@ -16775,8 +16908,8 @@ importers:
         specifier: ^4.2.0
         version: 4.2.0
       qs:
-        specifier: ^6.14.2
-        version: 6.14.2
+        specifier: ^6.15.2
+        version: 6.15.2
 
   components/urltopdf: {}
 
@@ -17687,8 +17820,8 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
       qs:
-        specifier: ^6.14.2
-        version: 6.14.2
+        specifier: ^6.15.2
+        version: 6.15.2
 
   components/x_ai:
     dependencies:
@@ -17739,6 +17872,12 @@ importers:
         specifier: ^0.3.2
         version: 0.3.4
 
+  components/xquik:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
+
   components/xray_cloud: {}
 
   components/xverify:
@@ -17776,6 +17915,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
+
+  components/ybug: {}
 
   components/yelp:
     dependencies:
@@ -17852,8 +17993,8 @@ importers:
   components/youtube_analytics_api:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.4.0
+        version: 3.4.0
 
   components/youtube_analytics_api_custom_app:
     dependencies:
@@ -17894,7 +18035,11 @@ importers:
 
   components/yuroti: {}
 
-  components/yutori: {}
+  components/yutori:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
 
   components/z_api:
     dependencies:
@@ -17984,6 +18129,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
+
+  components/zeplin: {}
 
   components/zerobounce:
     dependencies:
@@ -18447,8 +18594,8 @@ importers:
   packages/connect-react:
     dependencies:
       '@pipedream/sdk':
-        specifier: ^2.4.0
-        version: 2.4.0
+        specifier: ^3.0.0
+        version: 3.1.0
       '@tanstack/react-query':
         specifier: ^5.59.16
         version: 5.90.9(react@18.3.1)
@@ -21228,6 +21375,75 @@ packages:
   '@mongodb-js/saslprep@1.3.2':
     resolution: {integrity: sha512-QgA5AySqB27cGTXBFmnpifAi7HxoGUeezwo6p9dI03MuDB6Pp33zgclqVb6oVK3j6I9Vesg0+oojW2XxB59SGg==}
 
+  '@napi-rs/canvas-android-arm64@0.1.80':
+    resolution: {integrity: sha512-sk7xhN/MoXeuExlggf91pNziBxLPVUqF2CAVnB57KLG/pz7+U5TKG8eXdc3pm0d7Od0WreB6ZKLj37sX9muGOQ==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [android]
+
+  '@napi-rs/canvas-darwin-arm64@0.1.80':
+    resolution: {integrity: sha512-O64APRTXRUiAz0P8gErkfEr3lipLJgM6pjATwavZ22ebhjYl/SUbpgM0xcWPQBNMP1n29afAC/Us5PX1vg+JNQ==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@napi-rs/canvas-darwin-x64@0.1.80':
+    resolution: {integrity: sha512-FqqSU7qFce0Cp3pwnTjVkKjjOtxMqRe6lmINxpIZYaZNnVI0H5FtsaraZJ36SiTHNjZlUB69/HhxNDT1Aaa9vA==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [darwin]
+
+  '@napi-rs/canvas-linux-arm-gnueabihf@0.1.80':
+    resolution: {integrity: sha512-eyWz0ddBDQc7/JbAtY4OtZ5SpK8tR4JsCYEZjCE3dI8pqoWUC8oMwYSBGCYfsx2w47cQgQCgMVRVTFiiO38hHQ==}
+    engines: {node: '>= 10'}
+    cpu: [arm]
+    os: [linux]
+
+  '@napi-rs/canvas-linux-arm64-gnu@0.1.80':
+    resolution: {integrity: sha512-qwA63t8A86bnxhuA/GwOkK3jvb+XTQaTiVML0vAWoHyoZYTjNs7BzoOONDgTnNtr8/yHrq64XXzUoLqDzU+Uuw==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+    libc: [glibc]
+
+  '@napi-rs/canvas-linux-arm64-musl@0.1.80':
+    resolution: {integrity: sha512-1XbCOz/ymhj24lFaIXtWnwv/6eFHXDrjP0jYkc6iHQ9q8oXKzUX1Lc6bu+wuGiLhGh2GS/2JlfORC5ZcXimRcg==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+    libc: [musl]
+
+  '@napi-rs/canvas-linux-riscv64-gnu@0.1.80':
+    resolution: {integrity: sha512-XTzR125w5ZMs0lJcxRlS1K3P5RaZ9RmUsPtd1uGt+EfDyYMu4c6SEROYsxyatbbu/2+lPe7MPHOO/0a0x7L/gw==}
+    engines: {node: '>= 10'}
+    cpu: [riscv64]
+    os: [linux]
+    libc: [glibc]
+
+  '@napi-rs/canvas-linux-x64-gnu@0.1.80':
+    resolution: {integrity: sha512-BeXAmhKg1kX3UCrJsYbdQd3hIMDH/K6HnP/pG2LuITaXhXBiNdh//TVVVVCBbJzVQaV5gK/4ZOCMrQW9mvuTqA==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+    libc: [glibc]
+
+  '@napi-rs/canvas-linux-x64-musl@0.1.80':
+    resolution: {integrity: sha512-x0XvZWdHbkgdgucJsRxprX/4o4sEed7qo9rCQA9ugiS9qE2QvP0RIiEugtZhfLH3cyI+jIRFJHV4Fuz+1BHHMg==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+    libc: [musl]
+
+  '@napi-rs/canvas-win32-x64-msvc@0.1.80':
+    resolution: {integrity: sha512-Z8jPsM6df5V8B1HrCHB05+bDiCxjE9QA//3YrkKIdVDEwn5RKaqOxCJDRJkl48cJbylcrJbW4HxZbTte8juuPg==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [win32]
+
+  '@napi-rs/canvas@0.1.80':
+    resolution: {integrity: sha512-DxuT1ClnIPts1kQx8FBmkk4BQDTfI5kIzywAaMjQSXfNnra5UFU9PwurXrl+Je3bJ6BGsp/zmshVVFbCmyI+ww==}
+    engines: {node: '>= 10'}
+
   '@napi-rs/wasm-runtime@0.2.12':
     resolution: {integrity: sha512-ZVWUcfwY4E/yPitQJl481FjFo3K22D6qF0DuFH6Y/nbnE11GY5uguDxZMGXPQ8WQ0128MXQD7TnfHyK4oWoIJQ==}
 
@@ -21928,8 +22144,8 @@ packages:
   '@pipedream/clio@0.1.1':
     resolution: {integrity: sha512-IbnvVIWiAjS6P03WmDkLLnKxFwM+WgjwZZ6TmEbYmyX9zUDfVbohnniqdAcJh++pH2GcCS8aCOVNBosjwKzJbQ==}
 
-  '@pipedream/databricks@0.5.1':
-    resolution: {integrity: sha512-w4gL0IRvpJJlP6t/hkXarhr//Q52jXTOPxPK+FU0VWkN2t0EWPSOZDFFyEnPpwGjtHb0b96RrOyFbdr/qb1+xg==}
+  '@pipedream/databricks@0.5.2':
+    resolution: {integrity: sha512-1cFMsRiva10hlPI/tme5kZYXHMys5q6mlaLpTYXhy//51H0mm2P5CcQG+UpbWtSBfX+s9/n5D9wdzbvfAxltrg==}
 
   '@pipedream/docusign@0.2.2':
     resolution: {integrity: sha512-nwyW+rjoT94827wGXkV9jZpdCNGeSJsZfa00p5e1rYOpQ91hqfQJIUe0s84R6gOPGsI6rtn7pAbfrOoz0cRELg==}
@@ -21955,8 +22171,8 @@ packages:
   '@pipedream/launchdarkly@0.1.1':
     resolution: {integrity: sha512-RqW4cJ0CfCnCy/lCutIJNSlX3IXV3jxoyqxDgAeHx8Q8BUEjEl7T0+1vMLyNXhU+V4Kj38KVURnSKqCE59UVvg==}
 
-  '@pipedream/linear_app@0.9.2':
-    resolution: {integrity: sha512-l7axyLs/tCNupQVmCEUb/f7WucbDbjgXMI2m+gqayHU5m809sGoRfKw8QwTta4L4GPkpGH9AtUF44p6bquyA7Q==}
+  '@pipedream/linear_app@0.11.0':
+    resolution: {integrity: sha512-TxEe8BCvIrOOKQMv4UphoZSoSRBxDY/gBRfkzdq3zW0mkLKvqyzwSXOJ+86m5+5uuH6670SGbxg02kAAz7S7xA==}
 
   '@pipedream/linkedin@0.1.1':
     resolution: {integrity: sha512-9pFjaohz/wnJMIRpPmDPqHeWiXUIJVWIPvQudE8TkUjaBbyieDpscy8reWMp96UK9aXz1Z2J2yiNh0msILAX9Q==}
@@ -22025,12 +22241,15 @@ packages:
     resolution: {integrity: sha512-nJG6+CsM4QhTD4lgU1tq3ejDieVJmp29DS6COLixdsDHbF8BfSNOxpkHqXKxii91DTm2aZ+WCjbtT5BHTSGcvQ==}
     engines: {node: '>=18.0.0'}
 
-  '@pipedream/sdk@2.4.0':
-    resolution: {integrity: sha512-3Pr21tVmRHDmyep7KFzMCehNFtpznZIOaCLsm5Ty3FnCsAX6YcqX0n38cpybB8Heex6X2v4s+O+9k/Vljxz/Qw==}
+  '@pipedream/sdk@3.1.0':
+    resolution: {integrity: sha512-qRvrPTqldX60mHKaF0hX/HToqvuH30G58YDQ0/wvFWpc0BcMhUy8bxwGvShSoOnqQwBCxVDaMnO4E6RJy20Xaw==}
     engines: {node: '>=18.0.0'}
 
   '@pipedream/sftp@0.5.1':
     resolution: {integrity: sha512-bgy/U23KL2jVU0gDoa3HjK51tRRM/7cp6whYChBoNDRAd/pWxhFZzWGTx5/3dnJTviFQVfrD6wtY+IRMZ6Egyg==}
+
+  '@pipedream/sharepoint@0.10.0':
+    resolution: {integrity: sha512-IuY7EhBNjMEWrKgm7xKxvREyQvyomSrui0lrfQ216wV/L8ogntG3Q4OwnZXoK6fGqT/pUBdiaIsAPVT3a8Z3rg==}
 
   '@pipedream/shopify@0.7.2':
     resolution: {integrity: sha512-/tIBZjObqp/eo6AL16MeNXFiByxceF9OOBR7+0Z3hSpbmm28mXZ003e7MIyun7WwBtFZlRvCYNOrsj/C9mxIoA==}
@@ -29921,6 +30140,9 @@ packages:
   lodash.debounce@4.0.8:
     resolution: {integrity: sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==}
 
+  lodash.differenceby@4.8.0:
+    resolution: {integrity: sha512-rJKrEP7/9SLBRcCaxYbE8iODlOgR3O3ckL/ZbONxC99n4QfpoovHw/+FZwDl16h3UKLrruLHJUuv440rOPksrg==}
+
   lodash.escaperegexp@4.1.2:
     resolution: {integrity: sha512-TM9YBvyC84ZxE3rgfefxUWiQKLilstD6k7PTGt6wfbtXF8ixIJLOL3VYyV/z+ZiPLsVxAsKAFVwWlWeb2Y8Yyw==}
 
@@ -30162,6 +30384,11 @@ packages:
 
   mammoth@1.11.0:
     resolution: {integrity: sha512-BcEqqY/BOwIcI1iR5tqyVlqc3KIaMRa4egSoK83YAVrBf6+yqdAAbtUcFDCWX8Zef8/fgNZ6rl4VUv+vVX8ddQ==}
+    engines: {node: '>=12.0.0'}
+    hasBin: true
+
+  mammoth@1.12.0:
+    resolution: {integrity: sha512-cwnK1RIcRdDMi2HRx2EXGYlxqIEh0Oo3bLhorgnsVJi2UkbX1+jKxuBNR9PC5+JaX7EkmJxFPmo6mjLpqShI2w==}
     engines: {node: '>=12.0.0'}
     hasBin: true
 
@@ -31628,6 +31855,15 @@ packages:
     resolution: {integrity: sha512-T5m5YQT/X3bkDyvaylwPtHCMntJu/ZKdIlfKqu2fhnaFHwWLEx1G08N85EQGZV8wnpciqbnuhsxIVXDJyd5bTA==}
     engines: {node: '>= 4.0.0'}
 
+  pdf-parse@2.4.5:
+    resolution: {integrity: sha512-mHU89HGh7v+4u2ubfnevJ03lmPgQ5WU4CxAVmTSh/sxVTEDYd1er/dKS/A6vg77NX47KTEoihq8jZBLr8Cxuwg==}
+    engines: {node: '>=20.16.0 <21 || >=22.3.0'}
+    hasBin: true
+
+  pdfjs-dist@5.4.296:
+    resolution: {integrity: sha512-DlOzet0HO7OEnmUmB6wWGJrrdvbyJKftI1bhMitK7O2N8W2gc757yyYBbINy9IDafXAV9wmKr9t7xsTaNKRG5Q==}
+    engines: {node: '>=20.16.0 || >=22.3.0'}
+
   pdfkit@0.17.2:
     resolution: {integrity: sha512-UnwF5fXy08f0dnp4jchFYAROKMNTaPqb/xgR8GtCzIcqoTnbOqtp3bwKvO4688oHI6vzEEs8Q6vqqEnC5IUELw==}
 
@@ -32073,8 +32309,8 @@ packages:
     resolution: {integrity: sha512-+38qI9SOr8tfZ4QmJNplMUxqjbe7LKvvZgWdExBOmd+egZTtjLB67Gu0HRX3u/XOq7UU2Nx6nsjvS16Z9uwfpg==}
     engines: {node: '>=0.6'}
 
-  qs@6.14.2:
-    resolution: {integrity: sha512-V/yCWTTF7VJ9hIh18Ugr2zhJMP01MY7c5kh4J870L7imm6/DIzBsNLTXzMwUA3yZ5b/KBqLx8Kp3uRvd7xSe3Q==}
+  qs@6.15.2:
+    resolution: {integrity: sha512-Rzq0KEyX/w/tEybncDgdkZrJgVUsUMk3xjh3t5bv3S1HTAtg+uOYt72+ZfwiQwKdysThkTBdL/rTi6HDmX9Ddw==}
     engines: {node: '>=0.6'}
 
   qs@6.5.4:
@@ -33846,6 +34082,10 @@ packages:
 
   turndown@7.2.2:
     resolution: {integrity: sha512-1F7db8BiExOKxjSMU2b7if62D/XOyQyZbPKq/nUwopfgnHlqXHqQ0lvfUTeUIr1lZJzOPFn43dODyMSIfvWRKQ==}
+
+  turndown@7.2.4:
+    resolution: {integrity: sha512-I8yFsfRzmzK0WV1pNNOA4A7y4RDfFxPRxb3t+e3ui14qSGOxGtiSP6GjeX+Y6CHb7HYaFj7ECUD7VE5kQMZWGQ==}
+    engines: {node: '>=18', npm: '>=9'}
 
   tus-js-client@4.3.1:
     resolution: {integrity: sha512-ZLeYmjrkaU1fUsKbIi8JML52uAocjEZtBx4DKjRrqzrZa0O4MYwT6db+oqePlspV+FxXJAyFBc/L5gwUi2OFsg==}
@@ -39887,6 +40127,49 @@ snapshots:
       sparse-bitfield: 3.0.3
     optional: true
 
+  '@napi-rs/canvas-android-arm64@0.1.80':
+    optional: true
+
+  '@napi-rs/canvas-darwin-arm64@0.1.80':
+    optional: true
+
+  '@napi-rs/canvas-darwin-x64@0.1.80':
+    optional: true
+
+  '@napi-rs/canvas-linux-arm-gnueabihf@0.1.80':
+    optional: true
+
+  '@napi-rs/canvas-linux-arm64-gnu@0.1.80':
+    optional: true
+
+  '@napi-rs/canvas-linux-arm64-musl@0.1.80':
+    optional: true
+
+  '@napi-rs/canvas-linux-riscv64-gnu@0.1.80':
+    optional: true
+
+  '@napi-rs/canvas-linux-x64-gnu@0.1.80':
+    optional: true
+
+  '@napi-rs/canvas-linux-x64-musl@0.1.80':
+    optional: true
+
+  '@napi-rs/canvas-win32-x64-msvc@0.1.80':
+    optional: true
+
+  '@napi-rs/canvas@0.1.80':
+    optionalDependencies:
+      '@napi-rs/canvas-android-arm64': 0.1.80
+      '@napi-rs/canvas-darwin-arm64': 0.1.80
+      '@napi-rs/canvas-darwin-x64': 0.1.80
+      '@napi-rs/canvas-linux-arm-gnueabihf': 0.1.80
+      '@napi-rs/canvas-linux-arm64-gnu': 0.1.80
+      '@napi-rs/canvas-linux-arm64-musl': 0.1.80
+      '@napi-rs/canvas-linux-riscv64-gnu': 0.1.80
+      '@napi-rs/canvas-linux-x64-gnu': 0.1.80
+      '@napi-rs/canvas-linux-x64-musl': 0.1.80
+      '@napi-rs/canvas-win32-x64-msvc': 0.1.80
+
   '@napi-rs/wasm-runtime@0.2.12':
     dependencies:
       '@emnapi/core': 1.7.1
@@ -40858,7 +41141,7 @@ snapshots:
 
   '@pipedream/canva@0.2.3':
     dependencies:
-      '@pipedream/platform': 3.3.1
+      '@pipedream/platform': 3.4.0
     transitivePeerDependencies:
       - debug
 
@@ -40869,7 +41152,7 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@pipedream/databricks@0.5.1':
+  '@pipedream/databricks@0.5.2':
     dependencies:
       '@pipedream/platform': 3.4.0
     transitivePeerDependencies:
@@ -40941,7 +41224,7 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@pipedream/linear_app@0.9.2(encoding@0.1.13)':
+  '@pipedream/linear_app@0.11.0(encoding@0.1.13)':
     dependencies:
       '@linear/sdk': 55.2.1(encoding@0.1.13)
       '@pipedream/platform': 3.4.0
@@ -41161,7 +41444,7 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@pipedream/sdk@2.4.0': {}
+  '@pipedream/sdk@3.1.0': {}
 
   '@pipedream/sftp@0.5.1':
     dependencies:
@@ -41169,6 +41452,23 @@ snapshots:
       ssh2-sftp-client: 11.0.0
     transitivePeerDependencies:
       - debug
+
+  '@pipedream/sharepoint@0.10.0(encoding@0.1.13)':
+    dependencies:
+      '@microsoft/microsoft-graph-client': 3.0.7
+      '@pipedream/platform': 3.4.0
+      isomorphic-fetch: 3.0.0(encoding@0.1.13)
+      lodash.pickby: 4.6.0
+      mammoth: 1.12.0
+      pdf-parse: 2.4.5
+      turndown: 7.2.4
+    transitivePeerDependencies:
+      - '@azure/identity'
+      - '@azure/msal-browser'
+      - buffer
+      - debug
+      - encoding
+      - stream-browserify
 
   '@pipedream/shopify@0.7.2':
     dependencies:
@@ -43919,7 +44219,7 @@ snapshots:
   '@tuya/tuya-connector-nodejs@2.1.2':
     dependencies:
       axios: 0.31.1
-      qs: 6.14.2
+      qs: 6.15.2
     transitivePeerDependencies:
       - debug
 
@@ -45621,7 +45921,7 @@ snapshots:
       http-errors: 2.0.0
       iconv-lite: 0.6.3
       on-finished: 2.4.1
-      qs: 6.14.2
+      qs: 6.15.2
       raw-body: 3.0.1
       type-is: 2.0.1
     transitivePeerDependencies:
@@ -46147,7 +46447,7 @@ snapshots:
       formdata-node: 6.0.3
       js-base64: 3.7.7
       node-fetch: 2.7.0(encoding@0.1.13)
-      qs: 6.14.2
+      qs: 6.15.2
       readable-stream: 4.7.0
       url-join: 4.0.1
     transitivePeerDependencies:
@@ -48142,7 +48442,7 @@ snapshots:
       once: 1.4.0
       parseurl: 1.3.3
       proxy-addr: 2.0.7
-      qs: 6.14.2
+      qs: 6.15.2
       range-parser: 1.2.1
       router: 2.2.0
       send: 1.2.0
@@ -49238,7 +49538,7 @@ snapshots:
       extend: 3.0.2
       gaxios: 4.3.3(encoding@0.1.13)
       google-auth-library: 7.14.1(encoding@0.1.13)
-      qs: 6.14.2
+      qs: 6.15.2
       url-template: 2.0.8
       uuid: 8.3.2
     transitivePeerDependencies:
@@ -49250,7 +49550,7 @@ snapshots:
       extend: 3.0.2
       gaxios: 5.1.3(encoding@0.1.13)
       google-auth-library: 8.9.0(encoding@0.1.13)
-      qs: 6.14.2
+      qs: 6.15.2
       url-template: 2.0.8
       uuid: 9.0.1
     transitivePeerDependencies:
@@ -49262,7 +49562,7 @@ snapshots:
       extend: 3.0.2
       gaxios: 6.7.1(encoding@0.1.13)
       google-auth-library: 9.15.1(encoding@0.1.13)
-      qs: 6.14.2
+      qs: 6.15.2
       url-template: 2.0.8
       uuid: 9.0.1
     transitivePeerDependencies:
@@ -49274,7 +49574,7 @@ snapshots:
       extend: 3.0.2
       gaxios: 7.1.3
       google-auth-library: 10.5.0
-      qs: 6.14.2
+      qs: 6.15.2
       url-template: 2.0.8
     transitivePeerDependencies:
       - supports-color
@@ -51489,6 +51789,8 @@ snapshots:
 
   lodash.debounce@4.0.8: {}
 
+  lodash.differenceby@4.8.0: {}
+
   lodash.escaperegexp@4.1.2: {}
 
   lodash.flatmap@4.5.0: {}
@@ -51667,7 +51969,7 @@ snapshots:
     dependencies:
       gaxios: 6.7.1(encoding@0.1.13)
       isomorphic-unfetch: 4.0.2
-      qs: 6.14.2
+      qs: 6.15.2
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -51761,6 +52063,19 @@ snapshots:
       tmpl: 1.0.5
 
   mammoth@1.11.0:
+    dependencies:
+      '@xmldom/xmldom': 0.8.11
+      argparse: 1.0.10
+      base64-js: 1.5.1
+      bluebird: 3.4.7
+      dingbat-to-unicode: 1.0.1
+      jszip: 3.10.1
+      lop: 0.4.2
+      path-is-absolute: 1.0.1
+      underscore: 1.13.7
+      xmlbuilder: 10.1.1
+
+  mammoth@1.12.0:
     dependencies:
       '@xmldom/xmldom': 0.8.11
       argparse: 1.0.10
@@ -53214,7 +53529,7 @@ snapshots:
     dependencies:
       lodash: 4.18.1
       node-fetch: 2.7.0(encoding@0.1.13)
-      qs: 6.14.2
+      qs: 6.15.2
 
   open@10.2.0:
     dependencies:
@@ -53640,6 +53955,15 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  pdf-parse@2.4.5:
+    dependencies:
+      '@napi-rs/canvas': 0.1.80
+      pdfjs-dist: 5.4.296
+
+  pdfjs-dist@5.4.296:
+    optionalDependencies:
+      '@napi-rs/canvas': 0.1.80
+
   pdfkit@0.17.2:
     dependencies:
       crypto-js: 4.2.0
@@ -53734,7 +54058,7 @@ snapshots:
   pipedrive@24.2.0:
     dependencies:
       axios: 1.15.2(debug@3.2.7)
-      qs: 6.14.2
+      qs: 6.15.2
     transitivePeerDependencies:
       - debug
 
@@ -54352,7 +54676,7 @@ snapshots:
     dependencies:
       side-channel: 1.1.0
 
-  qs@6.14.2:
+  qs@6.15.2:
     dependencies:
       side-channel: 1.1.0
 
@@ -55503,7 +55827,7 @@ snapshots:
     dependencies:
       got: 11.8.6
       lodash: 4.18.1
-      qs: 6.14.2
+      qs: 6.15.2
       stopcock: 1.1.0
 
   short-unique-id@5.3.2: {}
@@ -56089,7 +56413,7 @@ snapshots:
 
   stripe@18.5.0(@types/node@25.6.0):
     dependencies:
-      qs: 6.14.2
+      qs: 6.15.2
     optionalDependencies:
       '@types/node': 25.6.0
 
@@ -56216,7 +56540,7 @@ snapshots:
       formidable: 1.2.6
       methods: 1.1.2
       mime: 1.6.0
-      qs: 6.14.2
+      qs: 6.15.2
       readable-stream: 2.3.8
     transitivePeerDependencies:
       - supports-color
@@ -56230,7 +56554,7 @@ snapshots:
       formidable: 1.2.6
       methods: 1.1.2
       mime: 2.6.0
-      qs: 6.14.2
+      qs: 6.15.2
       readable-stream: 3.6.2
     transitivePeerDependencies:
       - supports-color
@@ -56245,7 +56569,7 @@ snapshots:
       formidable: 1.2.6
       methods: 1.1.2
       mime: 2.6.0
-      qs: 6.14.2
+      qs: 6.15.2
       readable-stream: 3.6.2
       semver: 7.7.4
     transitivePeerDependencies:
@@ -56875,6 +57199,10 @@ snapshots:
     dependencies:
       '@mixmark-io/domino': 2.2.0
 
+  turndown@7.2.4:
+    dependencies:
+      '@mixmark-io/domino': 2.2.0
+
   tus-js-client@4.3.1:
     dependencies:
       buffer-from: 1.1.2
@@ -56895,7 +57223,7 @@ snapshots:
       dayjs: 1.11.19
       https-proxy-agent: 5.0.1
       jsonwebtoken: 9.0.3
-      qs: 6.14.2
+      qs: 6.15.2
       scmp: 2.1.0
       xmlbuilder: 13.0.2
     transitivePeerDependencies:
@@ -57313,7 +57641,7 @@ snapshots:
   url@0.11.4:
     dependencies:
       punycode: 1.4.1
-      qs: 6.14.2
+      qs: 6.15.2
 
   urlpattern-polyfill@10.0.0: {}
 
@@ -57750,7 +58078,7 @@ snapshots:
     dependencies:
       li: 1.3.0
       parse-link-header: 2.0.0
-      qs: 6.14.2
+      qs: 6.15.2
       superagent: 4.1.0
     transitivePeerDependencies:
       - supports-color

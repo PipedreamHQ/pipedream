@@ -3,7 +3,7 @@ import app from "../../teamwork.app.mjs";
 export default {
   type: "action",
   key: "teamwork-create-task",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

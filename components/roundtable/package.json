@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/roundtable",
+  "version": "0.0.1",
+  "description": "Pipedream Roundtable Components",
+  "main": "roundtable.app.mjs",
+  "keywords": [
+    "pipedream",
+    "roundtable"
+  ],
+  "homepage": "https://pipedream.com/apps/roundtable",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

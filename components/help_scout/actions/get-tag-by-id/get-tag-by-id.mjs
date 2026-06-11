@@ -4,7 +4,7 @@ export default {
   key: "help_scout-get-tag-by-id",
   name: "Get Tag by ID",
   description: "Gets a tag by its ID. [See the documentation](https://developer.helpscout.com/mailbox-api/endpoints/tags/get/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

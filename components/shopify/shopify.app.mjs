@@ -289,6 +289,28 @@ export default {
         });
       },
     },
+    fulfillmentId: {
+      type: "string",
+      label: "Fulfillment ID",
+      description: "The globally-unique ID of a fulfillment associated with the order. Example: `gid://shopify/Fulfillment/1234567890`. When `orderId` is provided, available fulfillments are populated automatically; otherwise, supply the GID directly.",
+      async options({ orderId }) {
+        let options = [];
+        if (orderId) {
+          const data = await this.listOrderFulfillments({
+            id: orderId,
+            first: MAX_LIMIT,
+          });
+          const nodes = data?.order?.fulfillments ?? [];
+          options = nodes.map(({
+            id, name,
+          }) => ({
+            value: id,
+            label: name,
+          }));
+        }
+        return options;
+      },
+    },
     fulfillmentOrderId: {
       type: "string",
       label: "Fulfillment Order ID",
@@ -538,11 +560,17 @@ export default {
     listAssignedFulfillmentOrders(variables) {
       return this._makeGraphQlRequest(queries.LIST_ASSIGNED_FULFILLMENT_ORDERS, variables);
     },
+    getFulfillment(variables) {
+      return this._makeGraphQlRequest(queries.GET_FULFILLMENT, variables);
+    },
     getFulfillmentOrder(variables) {
       return this._makeGraphQlRequest(queries.GET_FULFILLMENT_ORDER, variables);
     },
     listFulfillmentOrders(variables) {
       return this._makeGraphQlRequest(queries.LIST_FULFILLMENT_ORDERS, variables);
+    },
+    listOrderFulfillments(variables) {
+      return this._makeGraphQlRequest(queries.LIST_ORDER_FULFILLMENTS, variables);
     },
     async *paginate({
       resourceFn, resourceKeys = [], variables = {}, max,

@@ -40,6 +40,15 @@ const ASSOCIATION_CATEGORY = {
 };
 
 const DEFAULT_LIMIT = 100;
+const MAX_INITIAL_EVENTS = 25;
+
+// HubSpot date-based API version for the dated CRM objects endpoints
+// (e.g. /crm/2026-03/objects/{type}/search).
+const CRM_OBJECTS_VERSION = "2026-03";
+
+// Read-only record-creation property used to sort/filter engagement objects.
+// Not hs_timestamp, which is the user-settable activity time.
+const ENGAGEMENT_CREATED_DATE_PROPERTY = "hs_createdate";
 
 const DEFAULT_CONTACT_PROPERTIES = [
   "firstname",
@@ -222,6 +231,42 @@ const ENGAGEMENT_TYPE_OPTIONS = [
   },
 ];
 
+// CRM v3 object types backing the "New Engagement" source, with the property used
+// to build each emitted event's summary. Kept separate from ENGAGEMENT_TYPE_OPTIONS
+// (used by the engagement actions) so postal_mail does not leak into those actions.
+const ENGAGEMENT_OBJECT_TYPES = [
+  {
+    label: "Call",
+    value: "calls",
+    summaryProperty: "hs_call_title",
+  },
+  {
+    label: "Email",
+    value: "emails",
+    summaryProperty: "hs_email_subject",
+  },
+  {
+    label: "Meeting",
+    value: "meetings",
+    summaryProperty: "hs_meeting_title",
+  },
+  {
+    label: "Note",
+    value: "notes",
+    summaryProperty: "hs_body_preview",
+  },
+  {
+    label: "Postal Mail",
+    value: "postal_mail",
+    summaryProperty: "hs_postal_mail_body",
+  },
+  {
+    label: "Task",
+    value: "tasks",
+    summaryProperty: "hs_task_subject",
+  },
+];
+
 const LANGUAGE_OPTIONS = [
   {
     label: "Afrikaans",
@@ -385,16 +430,20 @@ export {
   API_PATH,
   ASSOCIATION_CATEGORY,
   BASE_URL,
+  CRM_OBJECTS_VERSION,
   DEFAULT_COMPANY_PROPERTIES,
   DEFAULT_CONTACT_PROPERTIES,
   DEFAULT_DEAL_PROPERTIES,
   DEFAULT_EMAIL_PROPERTIES,
   DEFAULT_LEAD_PROPERTIES,
   DEFAULT_LIMIT,
+  MAX_INITIAL_EVENTS,
   DEFAULT_LINE_ITEM_PROPERTIES,
   DEFAULT_MEETING_PROPERTIES,
   DEFAULT_PRODUCT_PROPERTIES,
   DEFAULT_TICKET_PROPERTIES,
+  ENGAGEMENT_CREATED_DATE_PROPERTY,
+  ENGAGEMENT_OBJECT_TYPES,
   ENGAGEMENT_TYPE_OPTIONS,
   HUBSPOT_OWNER,
   LANGUAGE_OPTIONS,
