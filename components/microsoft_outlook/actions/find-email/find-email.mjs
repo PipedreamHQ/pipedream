@@ -22,7 +22,7 @@ export default {
     + " Example: `find-email(isRead=false, folderScope=\"inbox\", countOnly=true)` → `{ count: 47 }` for unread inbox count."
     + " Example: `find-email(search=\"Eval-Festivus\", folderScope=\"inbox\", maxResults=5)` → array of messages with `id`, `subject`, `from`, `receivedDateTime`, `isRead` (no body — call Get Message next for body)."
     + " [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list-messages)",
-  version: "0.3.3",
+  version: "0.3.0",
   type: "action",
   annotations: {
     destructiveHint: false,
