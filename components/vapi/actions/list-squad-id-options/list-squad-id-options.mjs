@@ -4,7 +4,7 @@ export default {
   key: "vapi-list-squad-id-options",
   name: "List Squad ID Options",
   description: "Retrieves available options for the Squad ID field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
