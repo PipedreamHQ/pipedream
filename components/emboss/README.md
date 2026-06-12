@@ -35,3 +35,6 @@ you already created.
 - **Long-running forms** — large PDFs can take a few minutes; the action
   re-checks every 5 seconds for up to 5 minutes, then errors so the workflow
   never proceeds silently.
+- **Step times out while polling** — raise the workflow's execution timeout
+  (Settings → Execution Controls) to 300 seconds; form processing takes
+  minutes and the default timeout can cut the poll short.
