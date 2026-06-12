@@ -9,7 +9,7 @@ export default {
     + " Filter by keyword phrase (e.g., `Bitcoin`, `election`) and optionally by network."
     + " **Requires a Codex Growth or Enterprise plan** — returns an error on free/Starter plans."
     + " Use **Get Networks** to resolve the numeric `networkId` if needed."
-    + " Supports cursor-based pagination — pass `cursor` from the previous response to fetch the next page."
+    + " Supports offset-based pagination — pass `offset` (and optional `limit`) to fetch subsequent pages (e.g., `offset: 20` with `limit: 20` fetches the second page)."
     + " [See the documentation](https://docs.codex.io/reference/predictionmarkets)",
   version: "0.0.1",
   type: "action",
@@ -44,7 +44,7 @@ export default {
     offset: {
       type: "integer",
       label: "Offset",
-      description: "Number of results to skip for pagination.",
+      description: "Number of results to skip. Use with `limit` to page through results (e.g., `offset: 20`, `limit: 20` fetches the second page).",
       optional: true,
       default: 0,
     },
