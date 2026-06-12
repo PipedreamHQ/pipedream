@@ -226,7 +226,7 @@ export default {
       });
       return presentation.data;
     },
-    async listPresentationsOptions(driveId, pageToken = null) {
+    async listPresentationsOptions(driveId, pageToken = null, limitToMyDrive = false) {
       const q = "mimeType='application/vnd.google-apps.presentation'";
       let request = {
         q,
@@ -236,6 +236,14 @@ export default {
           ...request,
           corpora: "drive",
           driveId,
+          pageToken,
+          includeItemsFromAllDrives: true,
+          supportsAllDrives: true,
+        };
+      } else if (!limitToMyDrive) {
+        request = {
+          ...request,
+          corpora: "allDrives",
           pageToken,
           includeItemsFromAllDrives: true,
           supportsAllDrives: true,

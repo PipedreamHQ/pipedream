@@ -4,7 +4,7 @@ export default {
   key: "freshdesk-close-ticket",
   name: "Close Ticket",
   description: "Set a Freshdesk ticket's status to 'Closed'. [See docs](https://developers.freshdesk.com/api/#update_a_ticket)",
-  version: "0.0.11",
+  version: "0.0.12",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

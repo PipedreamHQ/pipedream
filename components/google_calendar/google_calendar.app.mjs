@@ -486,6 +486,13 @@ export default {
         args,
       });
     },
+    async patchEvent(args = {}) {
+      return this.requestHandler({
+        api: constants.API.EVENTS.NAME,
+        method: constants.API.EVENTS.METHOD.PATCH,
+        args,
+      });
+    },
     async deleteEvent(args = {}) {
       return this.requestHandler({
         api: constants.API.EVENTS.NAME,

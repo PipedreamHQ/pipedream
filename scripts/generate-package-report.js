@@ -2,6 +2,14 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 
+// Apps with known validation issues to suppress so they don't trigger failure
+// reports. Keep this list small and document why each entry is here.
+// Value can be `true` to ignore all checks for the app, or an array of check
+// names (e.g. ['import', 'packageDependencies']) to ignore only specific ones.
+const IGNORED_VALIDATIONS = {
+  e2b: true, // Uses Pipedream's version-pinned import ("@e2b/code-interpreter@1.0.3"), which the dependency/import checks misread as a missing dep / invalid URL.
+};
+
 // Native Node.js modules that don't need to be in package.json
 const NATIVE_MODULES = new Set([
   'assert', 'buffer', 'child_process', 'cluster', 'console', 'constants',
@@ -96,6 +104,7 @@ function generatePackageReport() {
   const results = {
     validated: [],
     failed: [],
+    ignored: [],
     skipped: [],
     summary: {}
   };
@@ -218,17 +227,37 @@ function generatePackageReport() {
       const failures = Object.entries(validationResults)
         .filter(([key, value]) => value !== 'passed')
         .map(([key, value]) => ({ check: key, error: value }));
-      
-      if (failures.length > 0) {
-        results.failed.push({ 
-          app, 
+
+      // Split failures into active (counted) and suppressed (known issues)
+      const ignoreConfig = IGNORED_VALIDATIONS[app];
+      const isCheckIgnored = (check) => ignoreConfig === true
+        || (Array.isArray(ignoreConfig) && ignoreConfig.includes(check));
+      const activeFailures = failures.filter(f => !isCheckIgnored(f.check));
+      const suppressedFailures = failures.filter(f => isCheckIgnored(f.check));
+
+      if (activeFailures.length > 0) {
+        results.failed.push({
+          app,
           packageName,
-          failures,
+          failures: activeFailures,
           validationResults
         });
-        console.log(`❌ ${packageName} - FAILED (${failures.length} issues)`);
+        console.log(`❌ ${packageName} - FAILED (${activeFailures.length} issues)`);
         if (isVerbose || singlePackage) {
-          failures.forEach(failure => {
+          activeFailures.forEach(failure => {
+            console.log(`   - ${failure.check}: ${failure.error}`);
+          });
+        }
+      } else if (suppressedFailures.length > 0) {
+        results.ignored.push({
+          app,
+          packageName,
+          failures: suppressedFailures,
+          validationResults
+        });
+        console.log(`⚠️  ${packageName} - IGNORED (${suppressedFailures.length} known issue(s) suppressed)`);
+        if (isVerbose || singlePackage) {
+          suppressedFailures.forEach(failure => {
             console.log(`   - ${failure.check}: ${failure.error}`);
           });
         }
@@ -248,13 +277,18 @@ function generatePackageReport() {
       }
       
     } catch (error) {
-      results.failed.push({ 
-        app, 
+      const bucket = IGNORED_VALIDATIONS[app] === true ? results.ignored : results.failed;
+      bucket.push({
+        app,
         packageName,
         error: error.message,
         failures: [{ check: 'general', error: error.message }]
       });
-      console.log(`❌ ${app} (${packageName}) - FAILED: ${error.message}`);
+      if (bucket === results.ignored) {
+        console.log(`⚠️  ${app} (${packageName}) - IGNORED: ${error.message}`);
+      } else {
+        console.log(`❌ ${app} (${packageName}) - FAILED: ${error.message}`);
+      }
     }
   }
   
@@ -280,9 +314,10 @@ function generatePackageReport() {
     total: apps.length,
     validated: results.validated.length,
     failed: results.failed.length,
+    ignored: results.ignored.length,
     skipped: results.skipped.length,
-    publishable: results.validated.length + results.failed.length,
-    failureRate: results.validated.length + results.failed.length > 0 
+    publishable: results.validated.length + results.failed.length + results.ignored.length,
+    failureRate: results.validated.length + results.failed.length > 0
       ? ((results.failed.length / (results.validated.length + results.failed.length)) * 100).toFixed(2)
       : '0.00'
   };
@@ -527,6 +562,7 @@ function printDetailedSummary(results) {
   console.log(`📦 Total Components: ${results.summary.total}`);
   console.log(`✅ Validated Successfully: ${results.summary.validated}`);
   console.log(`❌ Failed Validation: ${results.summary.failed}`);
+  console.log(`⚠️  Ignored (known issues): ${results.summary.ignored}`);
   console.log(`⏭️ Skipped: ${results.summary.skipped}`);
   console.log(`📈 Publishable Packages: ${results.summary.publishable}`);
   console.log(`📉 Failure Rate: ${results.summary.failureRate}%`);
@@ -555,6 +591,14 @@ function printDetailedSummary(results) {
     });
   }
   
+  if (results.ignored.length > 0) {
+    console.log('\n⚠️  IGNORED PACKAGES (known issues, not counted as failures):');
+    results.ignored.forEach(({ packageName, failures }) => {
+      const checks = failures.map(f => f.check).join(', ');
+      console.log(`  • ${packageName}: ${checks}`);
+    });
+  }
+
   if (results.skipped.length > 0) {
     console.log('\n⏭️ SKIPPED PACKAGES BY REASON:');
     const skippedByReason = {};
@@ -585,10 +629,15 @@ function saveReportToFile(results, filename) {
     generatedAt: new Date().toISOString(),
     summary: results.summary,
     validated: results.validated.map(r => ({ app: r.app, packageName: r.packageName })),
-    failed: results.failed.map(r => ({ 
-      app: r.app, 
-      packageName: r.packageName, 
-      failures: r.failures 
+    failed: results.failed.map(r => ({
+      app: r.app,
+      packageName: r.packageName,
+      failures: r.failures
+    })),
+    ignored: results.ignored.map(r => ({
+      app: r.app,
+      packageName: r.packageName,
+      failures: r.failures
     })),
     skipped: results.skipped
   };

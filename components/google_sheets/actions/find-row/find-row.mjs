@@ -7,7 +7,7 @@ export default {
   key: "google_sheets-find-row",
   name: "Find Row",
   description: "Find one or more rows by a column and value. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/get)",
-  version: "0.2.18",
+  version: "0.2.19",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
