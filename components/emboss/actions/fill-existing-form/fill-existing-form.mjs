@@ -6,7 +6,7 @@ import {
 } from "../../common/utils.mjs";
 
 const POLL_DELAY_MS = 5000;
-const MAX_RETRIES = 60;
+const MAX_RETRIES = 144;
 
 export default {
   key: "emboss-fill-existing-form",
@@ -85,7 +85,7 @@ export default {
     }
     if (status.status !== "ready") {
       if (runs >= MAX_RETRIES) {
-        throw new Error("Emboss job still processing after the polling limit (~5 minutes) — re-run with a smaller PDF or check the job in your Emboss dashboard.");
+        throw new Error("Emboss job still processing after the polling limit (~12 minutes) — re-run with a smaller PDF or check the job in your Emboss dashboard.");
       }
       $.flow.rerun(POLL_DELAY_MS, {
         job_id: jobId,
