@@ -24,7 +24,7 @@ export default {
     + " `format` defaults to `metadata` (headers + snippet only) to keep the response small; set it to `full` only when you actually need body text or attachment IDs."
     + " Responses are hard-capped at 100k characters — anything beyond is truncated with a `[truncated]` marker so the caller knows to narrow the query."
     + " [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/list) and [Gmail search operators](https://support.google.com/mail/answer/7190).",
-  version: "0.2.0",
+  version: "0.2.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -712,7 +712,7 @@ export default {
       const fileBinary = await this.streamToBuffer(stream);
 
       if (!filename) {
-        filename = path.basename(filePath);
+        filename = metadata.name || path.basename(filePath);
       }
 
       return this.makeRequest({

@@ -5054,6 +5054,9 @@ importers:
 
   components/embedapi: {}
 
+  components/emboss:
+    specifiers: {}
+
   components/emelia: {}
 
   components/encharge:
