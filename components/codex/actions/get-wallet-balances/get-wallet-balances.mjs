@@ -8,7 +8,7 @@ export default {
     + " Use this to inspect what tokens a wallet holds."
     + " Use **Get Networks** to resolve the numeric `networkId` if needed (e.g., 1 = Ethereum, 137 = Polygon)."
     + " [See the documentation](https://docs.codex.io/reference/balances)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -18,9 +18,10 @@ export default {
   props: {
     app,
     walletAddress: {
-      type: "string",
-      label: "Wallet Address",
-      description: "On-chain wallet address to look up (e.g., `0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045`).",
+      propDefinition: [
+        app,
+        "walletAddress",
+      ],
     },
     networkId: {
       propDefinition: [
@@ -47,7 +48,7 @@ export default {
       }
     `;
 
-    const data = await this.app.makeRequest(QUERY, {
+    const data = await this.app.makeRequest($, QUERY, {
       input: {
         walletId: `${this.walletAddress}:${this.networkId}`,
       },

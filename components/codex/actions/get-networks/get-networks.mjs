@@ -28,7 +28,7 @@ export default {
       }
     `;
 
-    const data = await this.app.makeRequest(QUERY);
+    const data = await this.app.makeRequest($, QUERY);
     const networks = data.getNetworks;
 
     $.export("$summary", `Retrieved ${networks.length} supported blockchain networks`);

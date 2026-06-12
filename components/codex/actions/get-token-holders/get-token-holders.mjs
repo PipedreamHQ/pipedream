@@ -9,7 +9,7 @@ export default {
     + " Use **Get Networks** to resolve the numeric `networkId` if needed."
     + " Supports cursor-based pagination — pass `cursor` from the previous response to fetch the next page."
     + " [See the documentation](https://docs.codex.io/reference/holders)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -60,7 +60,7 @@ export default {
     `;
 
     const tokenId = `${this.address}:${this.networkId}`;
-    const data = await this.app.makeRequest(QUERY, {
+    const data = await this.app.makeRequest($, QUERY, {
       input: {
         tokenId,
         cursor: this.cursor || undefined,

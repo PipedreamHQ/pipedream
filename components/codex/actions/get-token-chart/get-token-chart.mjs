@@ -104,7 +104,7 @@ export default {
     const symbol = `${this.address}:${this.networkId}`;
     const to = this.to ?? Math.floor(Date.now() / 1000);
 
-    const data = await this.app.makeRequest(QUERY, {
+    const data = await this.app.makeRequest($, QUERY, {
       symbol,
       from: this.from,
       to,

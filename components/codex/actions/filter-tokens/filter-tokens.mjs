@@ -1,43 +1,5 @@
 import app from "../../codex.app.mjs";
-
-const SORT_RANKINGS = {
-  volume24: [
-    {
-      attribute: "volume24",
-      direction: "DESC",
-    },
-  ],
-  trendingScore: [
-    {
-      attribute: "trendingScore",
-      direction: "DESC",
-    },
-  ],
-  liquidity: [
-    {
-      attribute: "liquidity",
-      direction: "DESC",
-    },
-  ],
-  holders: [
-    {
-      attribute: "holders",
-      direction: "DESC",
-    },
-  ],
-  marketCap: [
-    {
-      attribute: "marketCap",
-      direction: "DESC",
-    },
-  ],
-  priceChange24: [
-    {
-      attribute: "change24",
-      direction: "DESC",
-    },
-  ],
-};
+import { SORT_RANKINGS } from "../../common/constants.mjs";
 
 export default {
   key: "codex-filter-tokens",
@@ -65,10 +27,12 @@ export default {
       optional: true,
     },
     networkId: {
-      type: "integer",
-      label: "Network ID",
-      description: "Filter results to a single blockchain network. Example: `1` for Ethereum, `137` for Polygon. Leave blank for all networks. Use **Get Networks** to find IDs.",
+      propDefinition: [
+        app,
+        "networkId",
+      ],
       optional: true,
+      description: "Filter results to a single blockchain network. Example: `1` for Ethereum, `137` for Polygon. Leave blank for all networks. Use **Get Networks** to find IDs.",
     },
     sortBy: {
       type: "string",
@@ -151,7 +115,7 @@ export default {
       }
       : undefined;
 
-    const data = await this.app.makeRequest(QUERY, {
+    const data = await this.app.makeRequest($, QUERY, {
       phrase: this.phrase || undefined,
       rankings,
       filters,

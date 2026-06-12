@@ -9,7 +9,7 @@ export default {
     + " `statsType` `FILTERED` removes wash trades for cleaner signal; `UNFILTERED` includes all activity."
     + " Use **Get Networks** to resolve the numeric `networkId` if needed."
     + " [See the documentation](https://docs.codex.io/reference/pairmetadata)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -68,7 +68,7 @@ export default {
     `;
 
     const pairId = `${this.pairAddress}:${this.networkId}`;
-    const data = await this.app.makeRequest(QUERY, {
+    const data = await this.app.makeRequest($, QUERY, {
       pairId,
       statsType: this.statsType || "FILTERED",
     });

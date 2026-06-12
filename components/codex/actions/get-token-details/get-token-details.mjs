@@ -56,7 +56,7 @@ export default {
       typeof t === "string"
         ? t
         : `${t.address}:${t.networkId}`);
-    const data = await this.app.makeRequest(QUERY, {
+    const data = await this.app.makeRequest($, QUERY, {
       tokens,
       limit: tokens.length,
     });

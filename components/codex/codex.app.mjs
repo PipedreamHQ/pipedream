@@ -14,6 +14,11 @@ export default {
       label: "Token Address",
       description: "On-chain contract address of the token (e.g., `0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2` for WETH).",
     },
+    walletAddress: {
+      type: "string",
+      label: "Wallet Address",
+      description: "On-chain wallet address (e.g., `0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045`).",
+    },
     limit: {
       type: "integer",
       label: "Limit",
@@ -29,8 +34,8 @@ export default {
     },
   },
   methods: {
-    async makeRequest(query, variables = {}) {
-      const response = await axios(this, {
+    async makeRequest($, query, variables = {}) {
+      const response = await axios($, {
         method: "POST",
         url: "https://graph.codex.io/graphql",
         headers: {

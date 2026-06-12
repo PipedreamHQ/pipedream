@@ -9,7 +9,7 @@ export default {
     + " Use **Get Networks** to resolve the numeric `networkId` if needed."
     + " Supports cursor-based pagination — pass `cursor` from the previous response to fetch the next page."
     + " [See the documentation](https://docs.codex.io/reference/gettokeneventsformaker)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -19,9 +19,10 @@ export default {
   props: {
     app,
     walletAddress: {
-      type: "string",
-      label: "Wallet Address",
-      description: "On-chain wallet address to retrieve transaction history for (e.g., `0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045`).",
+      propDefinition: [
+        app,
+        "walletAddress",
+      ],
     },
     networkId: {
       propDefinition: [
@@ -60,7 +61,7 @@ export default {
       }
     `;
 
-    const data = await this.app.makeRequest(QUERY, {
+    const data = await this.app.makeRequest($, QUERY, {
       query: {
         maker: this.walletAddress,
         networkId: this.networkId || undefined,

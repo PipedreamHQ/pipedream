@@ -11,7 +11,7 @@ export default {
     + " Use **Get Networks** to resolve the numeric `networkId` if needed."
     + " Supports cursor-based pagination — pass `cursor` from the previous response to fetch the next page."
     + " [See the documentation](https://docs.codex.io/reference/predictionmarkets)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -41,11 +41,12 @@ export default {
       ],
       default: 20,
     },
-    cursor: {
-      propDefinition: [
-        app,
-        "cursor",
-      ],
+    offset: {
+      type: "integer",
+      label: "Offset",
+      description: "Number of results to skip for pagination.",
+      optional: true,
+      default: 0,
     },
   },
   async run({ $ }) {
@@ -62,9 +63,10 @@ export default {
       }
     `;
 
-    const data = await this.app.makeRequest(QUERY, {
+    const data = await this.app.makeRequest($, QUERY, {
       phrase: this.phrase || undefined,
       limit: this.limit,
+      offset: this.offset || 0,
     });
 
     const result = data.filterPredictionMarkets;
