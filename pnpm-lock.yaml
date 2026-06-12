@@ -3330,7 +3330,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/codex: {}
+  components/codex:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
 
   components/cody:
     dependencies:
@@ -5054,8 +5058,7 @@ importers:
 
   components/embedapi: {}
 
-  components/emboss:
-    specifiers: {}
+  components/emboss: {}
 
   components/emelia: {}
 
