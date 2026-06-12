@@ -7,7 +7,7 @@ export default {
   key: "notion-create-database",
   name: "Create Database",
   description: "Create a database and its initial data source. [See the documentation](https://developers.notion.com/reference/database-create)",
-  version: "0.1.7",
+  version: "0.1.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -37,6 +37,23 @@ export default {
     },
   },
   async run({ $ }) {
+    const parsedProperties = utils.parseObject(this.properties);
+    const properties = parsedProperties && typeof parsedProperties === "object"
+      ? Object.fromEntries(
+        Object.entries(parsedProperties).map(([
+          key,
+          value,
+        ]) => [
+          key,
+          typeof value === "string"
+            ? {
+              [value]: {},
+            }
+            : value,
+        ]),
+      )
+      : parsedProperties;
+
     const response = await this.notion.createDatabase({
       parent: {
         type: "page_id",
@@ -51,7 +68,7 @@ export default {
         },
       ],
       initial_data_source: {
-        properties: utils.parseObject(this.properties),
+        properties,
       },
     });
 
