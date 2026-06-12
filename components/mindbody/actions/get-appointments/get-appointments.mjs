@@ -9,7 +9,7 @@ export default {
     + " Use `staffId` to filter by instructor."
     + " Date formats: `YYYY-MM-DD` (e.g., `2026-07-01`)."
     + " Without date filters, returns appointments from the current date forward (up to `limit`)."
-    + " [See the documentation](https://developers.mindbodyonline.com/PublicDocumentation/V6#tag/Appointment/operation/AppointmentService_GetStaffAppointments)",
+    + " [See the documentation](https://developers.mindbodyonline.com/ui/documentation/public-api#/http/api-endpoints/appointment/get-staff-appointments)",
   version: "0.0.1",
   type: "action",
   annotations: {

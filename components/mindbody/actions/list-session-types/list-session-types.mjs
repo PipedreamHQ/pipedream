@@ -7,7 +7,7 @@ export default {
     "Returns all bookable session types (services) available at the studio, including their IDs, names, and program associations."
     + " Use this to discover the `sessionTypeId` values needed by **Book Appointment**."
     + " Optionally filter by `programIds` to narrow results to a specific program category."
-    + " [See the documentation](https://developers.mindbodyonline.com/PublicDocumentation/V6#tag/Site/operation/SiteService_GetSessionTypes)",
+    + " [See the documentation](https://developers.mindbodyonline.com/ui/documentation/public-api#/http/api-endpoints/site/get-session-types)",
   version: "0.0.1",
   type: "action",
   annotations: {

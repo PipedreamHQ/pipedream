@@ -7,7 +7,7 @@ export default {
     "Returns staff members at the studio, including their IDs, names, bio, and role assignments (e.g., ClassTeacher, AppointmentInstructor)."
     + " Use this to discover `staffId` values needed by **Book Appointment** and **Get Classes**."
     + " Filter by `filters` to find staff with a specific role (e.g., `AppointmentInstructor`)."
-    + " [See the documentation](https://developers.mindbodyonline.com/PublicDocumentation/V6#tag/Staff/operation/StaffService_GetStaff)",
+    + " [See the documentation](https://developers.mindbodyonline.com/ui/documentation/public-api#/http/api-endpoints/staff/get-staff)",
   version: "0.0.1",
   type: "action",
   annotations: {

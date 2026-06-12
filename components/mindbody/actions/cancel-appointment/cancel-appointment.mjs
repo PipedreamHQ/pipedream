@@ -6,7 +6,7 @@ export default {
   description:
     "Cancels an existing appointment by setting its status to Cancelled."
     + " Requires the appointment ID — use **Get Appointments** to find the ID by client, date, or staff."
-    + " [See the documentation](https://developers.mindbodyonline.com/PublicDocumentation/V6#tag/Appointment/operation/AppointmentService_UpdateAppointment)",
+    + " [See the documentation](https://developers.mindbodyonline.com/ui/documentation/public-api#/http/api-endpoints/appointment/update-appointment)",
   version: "0.0.1",
   type: "action",
   annotations: {

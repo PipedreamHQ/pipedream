@@ -8,7 +8,7 @@ export default {
     + " Use `startDateTime` and `endDateTime` to filter by date range (ISO 8601 format, e.g., `2026-07-01T00:00:00`)."
     + " Use `staffId` to find classes taught by a specific instructor — see **List Staff** for IDs."
     + " Use `locationId` to filter by studio location — see **Get Site Info** for location IDs."
-    + " [See the documentation](https://developers.mindbodyonline.com/PublicDocumentation/V6#tag/Class/operation/ClassService_GetClasses)",
+    + " [See the documentation](https://developers.mindbodyonline.com/ui/documentation/public-api#/http/api-endpoints/class/get-classes)",
   version: "0.0.1",
   type: "action",
   annotations: {

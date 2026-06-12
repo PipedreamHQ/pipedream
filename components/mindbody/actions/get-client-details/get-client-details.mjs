@@ -6,7 +6,7 @@ export default {
   description:
     "Returns the complete profile for a client (member), including contact info, active memberships, purchased services, account balance, and visit history."
     + " Requires the client's numeric ID — use **Search Clients** first to look up the ID by name or email."
-    + " [See the documentation](https://developers.mindbodyonline.com/PublicDocumentation/V6#tag/Client/operation/ClientService_GetClientCompleteInfo)",
+    + " [See the documentation](https://developers.mindbodyonline.com/ui/documentation/public-api#/http/api-endpoints/client/get-client-complete-info)",
   version: "0.0.1",
   type: "action",
   annotations: {

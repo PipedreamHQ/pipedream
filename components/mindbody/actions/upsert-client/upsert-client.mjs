@@ -9,7 +9,7 @@ export default {
     + " **To update:** provide `clientId` — only the fields you specify will be updated."
     + " BirthDate format: ISO datetime string `YYYY-MM-DDTHH:MM:SS` (e.g., `1990-05-15T00:00:00`)."
     + " Use **Search Clients** to find an existing client's ID before updating."
-    + " [See the documentation](https://developers.mindbodyonline.com/PublicDocumentation/V6#tag/Client/operation/ClientService_AddClient)",
+    + " [See the documentation](https://developers.mindbodyonline.com/ui/documentation/public-api#/http/api-endpoints/client/update-client)",
   version: "0.0.1",
   type: "action",
   annotations: {

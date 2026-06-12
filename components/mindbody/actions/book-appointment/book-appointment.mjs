@@ -9,7 +9,7 @@ export default {
     + " Use **Search Clients** to find the client ID, **List Session Types** to find `sessionTypeId`, and **List Staff** to find `staffId`."
     + " `startDateTime` format: ISO 8601 `YYYY-MM-DDTHH:MM:SS` (e.g., `2026-07-15T10:00:00`)."
     + " Location IDs are returned by **Get Site Info**."
-    + " [See the documentation](https://developers.mindbodyonline.com/PublicDocumentation/V6#tag/Appointment/operation/AppointmentService_AddAppointment)",
+    + " [See the documentation](https://developers.mindbodyonline.com/ui/documentation/public-api#/http/api-endpoints/appointment/add-appointment)",
   version: "0.0.1",
   type: "action",
   annotations: {

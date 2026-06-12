@@ -7,7 +7,7 @@ export default {
     "Returns identity and configuration details for the connected Mindbody site, including name, site ID, timezone, phone, and address."
     + " Use this as the identity anchor — call it first to discover the site name, ID, and timezone before querying other resources."
     + " Also provides location IDs needed by **List Staff**, **Get Classes**, and **Book Appointment**."
-    + " [See the documentation](https://developers.mindbodyonline.com/PublicDocumentation/V6#tag/Site/operation/SiteService_GetSites)",
+    + " [See the documentation](https://developers.mindbodyonline.com/ui/documentation/public-api#/http/api-endpoints/site/get-sites)",
   version: "0.0.1",
   type: "action",
   annotations: {

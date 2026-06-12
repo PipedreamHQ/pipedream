@@ -8,7 +8,7 @@ export default {
     + " Returns client IDs, contact details, and membership status."
     + " Use this to find a client's ID before calling **Get Client Details**, **Get Appointments**, or **Book Appointment**."
     + " The `searchText` matches against first name, last name, email, and phone — partial matches are supported."
-    + " [See the documentation](https://developers.mindbodyonline.com/PublicDocumentation/V6#tag/Client/operation/ClientService_GetClients)",
+    + " [See the documentation](https://developers.mindbodyonline.com/ui/documentation/public-api#/http/api-endpoints/client/get-clients)",
   version: "0.0.1",
   type: "action",
   annotations: {
