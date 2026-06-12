@@ -141,6 +141,21 @@ export default {
       });
     },
     /**
+     * Render a ready session's filled PDF (required before downloading it).
+     * @param {object} opts - Request options.
+     * @param {string} opts.sessionId - The session ID.
+     * @returns {Promise<object>} `{ session_id, status }`.
+     */
+    fillSession({
+      sessionId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/sessions/${sessionId}/fill`,
+        ...opts,
+      });
+    },
+    /**
      * Download a filled session's PDF.
      * @param {object} opts - Request options.
      * @param {string} opts.sessionId - The session ID.

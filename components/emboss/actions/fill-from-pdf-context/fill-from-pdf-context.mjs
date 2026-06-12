@@ -100,6 +100,10 @@ export default {
       }, MAX_RETRIES);
       return;
     }
+    await this.emboss.fillSession({
+      $,
+      sessionId: status.session_id,
+    });
     const pdf = await this.emboss.getSessionPdf({
       $,
       sessionId: status.session_id,
