@@ -51,9 +51,7 @@ export default {
       params.Filters = this.filters.split(",").map((f) => f.trim())
         .filter(Boolean);
     }
-    if (this.locationId) {
-      params.LocationId = this.locationId;
-    }
+    params.LocationId = this.locationId;
     const response = await this.app.listStaff({
       $,
       params,

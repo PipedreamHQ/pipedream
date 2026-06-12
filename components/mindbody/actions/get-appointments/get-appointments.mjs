@@ -69,8 +69,8 @@ export default {
     if (this.staffId) params.StaffIds = [
       this.staffId,
     ];
-    if (this.startDate) params.StartDate = this.startDate;
-    if (this.endDate) params.EndDate = this.endDate;
+    params.StartDate = this.startDate;
+    params.EndDate = this.endDate;
 
     const response = await this.app.getStaffAppointments({
       $,

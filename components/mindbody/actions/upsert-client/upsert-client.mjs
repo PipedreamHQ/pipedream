@@ -62,18 +62,17 @@ export default {
     let response;
     if (this.clientId) {
       // updateclient requires Client wrapper + CrossRegionalUpdate: false
-      const clientData = {
-        Id: this.clientId,
-      };
-      if (this.firstName !== undefined) clientData.FirstName = this.firstName;
-      if (this.lastName !== undefined) clientData.LastName = this.lastName;
-      if (this.birthDate !== undefined) clientData.BirthDate = this.birthDate;
-      if (this.email !== undefined) clientData.Email = this.email;
-      if (this.mobilePhone !== undefined) clientData.MobilePhone = this.mobilePhone;
       response = await this.app.updateClient({
         $,
         data: {
-          Client: clientData,
+          Client: {
+            Id: this.clientId,
+            FirstName: this.firstName,
+            LastName: this.lastName,
+            BirthDate: this.birthDate,
+            Email: this.email,
+            MobilePhone: this.mobilePhone,
+          },
           CrossRegionalUpdate: false,
         },
       });
@@ -89,15 +88,15 @@ export default {
         throw new Error(`Missing required fields for client creation: ${missing.join(", ")}`);
       }
       // addclient requires flat JSON body (no Client wrapper)
-      const body = {};
-      if (this.firstName !== undefined) body.FirstName = this.firstName;
-      if (this.lastName !== undefined) body.LastName = this.lastName;
-      if (this.birthDate !== undefined) body.BirthDate = this.birthDate;
-      if (this.email !== undefined) body.Email = this.email;
-      if (this.mobilePhone !== undefined) body.MobilePhone = this.mobilePhone;
       response = await this.app.addClient({
         $,
-        data: body,
+        data: {
+          FirstName: this.firstName,
+          LastName: this.lastName,
+          BirthDate: this.birthDate,
+          Email: this.email,
+          MobilePhone: this.mobilePhone,
+        },
       });
       const c = response.Client || {};
       $.export("$summary", `Created client ${c.Id}: ${c.FirstName} ${c.LastName}`);

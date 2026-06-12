@@ -61,8 +61,8 @@ export default {
       Limit: this.limit,
       Offset: this.offset,
     };
-    if (this.startDateTime) params.StartDateTime = this.startDateTime;
-    if (this.endDateTime) params.EndDateTime = this.endDateTime;
+    params.StartDateTime = this.startDateTime;
+    params.EndDateTime = this.endDateTime;
     if (this.staffId) params.StaffIds = [
       this.staffId,
     ];

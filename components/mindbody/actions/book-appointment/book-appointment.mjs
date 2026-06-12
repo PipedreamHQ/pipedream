@@ -60,8 +60,8 @@ export default {
       SessionTypeId: this.sessionTypeId,
       StartDateTime: this.startDateTime,
       StaffId: this.staffId,
+      Notes: this.notes,
     };
-    if (this.notes) body.Notes = this.notes;
 
     const response = await this.app.addAppointment({
       $,
