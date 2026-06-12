@@ -5,7 +5,7 @@ export default {
   name: "Update Ticket",
   description: "Updates a ticket. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/tickets/tickets/#update-ticket).",
   type: "action",
-  version: "0.2.9",
+  version: "0.2.10",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -138,9 +138,12 @@ export default {
       ? {
         html_body: ticketCommentBody,
       }
-      : {
-        body: ticketCommentBody,
-      };
+      : (
+        ticketCommentBody
+          ? {
+            body: ticketCommentBody,
+          }
+          : {} );
 
     ticketComment.public = ticketCommentPublic;
 
