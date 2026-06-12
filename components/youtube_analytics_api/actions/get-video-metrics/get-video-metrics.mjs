@@ -8,7 +8,7 @@ export default {
   name: "Get Video Metrics",
   description:
     "Retrieve detailed analytics for a specific video. [See the documentation](https://developers.google.com/youtube/analytics/reference/reports/query)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -25,10 +25,9 @@ export default {
     },
     metrics: propsFragments.metrics,
   },
-  additionalProps() {
-    return this.getIdsProps();
-  },
   async run({ $ }) {
+    this.validateIds();
+
     const {
       app,
       videoId,
