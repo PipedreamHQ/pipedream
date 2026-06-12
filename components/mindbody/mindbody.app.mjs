@@ -12,7 +12,7 @@ export default {
     locationId: {
       type: "integer",
       label: "Location ID",
-      description: "The ID of the location (studio). Location IDs appear in site info and class/appointment results.",
+      description: "The ID of the location (studio). Use **Get Site Info** to discover valid location IDs.",
       optional: true,
     },
     limit: {

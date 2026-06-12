@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/mindbody",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Pipedream Mindbody Components",
   "main": "mindbody.app.mjs",
   "keywords": [

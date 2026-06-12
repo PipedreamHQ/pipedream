@@ -80,6 +80,14 @@ export default {
       const c = response.Client || {};
       $.export("$summary", `Updated client ${c.Id}: ${c.FirstName} ${c.LastName}`);
     } else {
+      const missing = [
+        "firstName",
+        "lastName",
+        "birthDate",
+      ].filter((f) => !this[f]);
+      if (missing.length) {
+        throw new Error(`Missing required fields for client creation: ${missing.join(", ")}`);
+      }
       // addclient requires flat JSON body (no Client wrapper)
       const body = {};
       if (this.firstName !== undefined) body.FirstName = this.firstName;

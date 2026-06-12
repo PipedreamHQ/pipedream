@@ -42,7 +42,8 @@ export default {
       Offset: this.offset,
     };
     if (this.programIds) {
-      params.ProgramIds = this.programIds.split(",").map((id) => id.trim());
+      params.ProgramIds = this.programIds.split(",").map((id) => id.trim())
+        .filter(Boolean);
     }
     const response = await this.app.listSessionTypes({
       $,

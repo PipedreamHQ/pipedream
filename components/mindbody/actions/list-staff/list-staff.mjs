@@ -48,7 +48,8 @@ export default {
       Offset: this.offset,
     };
     if (this.filters) {
-      params.Filters = this.filters.split(",").map((f) => f.trim());
+      params.Filters = this.filters.split(",").map((f) => f.trim())
+        .filter(Boolean);
     }
     if (this.locationId) {
       params.LocationId = this.locationId;
