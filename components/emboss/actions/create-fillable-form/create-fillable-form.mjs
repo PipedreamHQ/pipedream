@@ -11,7 +11,7 @@ const MAX_RETRIES = 144;
 export default {
   key: "emboss-create-fillable-form",
   name: "Create Fillable Form",
-  description: "Turn a flat PDF into a fillable form. [See the documentation](https://getemboss.ai/docs)",
+  description: "Turn a flat (non-fillable) PDF into a fillable form. Emboss detects text fields, checkboxes, signatures, and tables, and returns a fillable PDF plus a form ID. Use **Fill Existing Form** to fill it later, or **Fill PDF From Context** to detect and fill in one step. Polls up to ~12 minutes for large documents. [See the documentation](https://getemboss.ai/docs)",
   version: "0.0.1",
   type: "action",
   annotations: {

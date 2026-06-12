@@ -11,7 +11,7 @@ const MAX_RETRIES = 144;
 export default {
   key: "emboss-fill-from-pdf-context",
   name: "Fill PDF From Context",
-  description: "Upload a flat PDF plus context (text and/or a file); Emboss detects the fields and fills them. [See the documentation](https://getemboss.ai/docs)",
+  description: "Upload a flat (non-fillable) PDF plus context (text and/or a file); Emboss detects the fields and fills them with AI in one step, returning the completed PDF. Provide at least one context input. Use **Create Fillable Form** + **Fill Existing Form** instead to reuse the same form repeatedly. Polls up to ~12 minutes for large documents. [See the documentation](https://getemboss.ai/docs)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -30,13 +30,13 @@ export default {
     contextText: {
       type: "string",
       label: "Context (Text)",
-      description: "Information to fill the form with.",
+      description: "Information to fill the form with, e.g. `Applicant: Jane Doe, 38 Birchwood Court, Mooresville, IN — phone (317) 555-0126`.",
       optional: true,
     },
     contextFile: {
       type: "string",
       label: "Context File",
-      description: "A URL or `/tmp` path to a context document (PDF, DOCX, CSV, image, or text).",
+      description: "A URL or `/tmp` path to a context document (PDF, DOCX, CSV, image, or text), e.g. `/tmp/customer-data.pdf` or `https://example.com/invoice.pdf`.",
       format: "file-ref",
       optional: true,
     },

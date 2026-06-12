@@ -33,8 +33,8 @@ you already created.
 - **Job failed with a detail message** — the Emboss API reports per-job
   errors verbatim; the action surfaces them as the step error.
 - **Long-running forms** — large PDFs can take a few minutes; the action
-  re-checks every 5 seconds for up to 5 minutes, then errors so the workflow
+  re-checks every 5 seconds for up to ~12 minutes, then errors so the workflow
   never proceeds silently.
 - **Step times out while polling** — raise the workflow's execution timeout
-  (Settings → Execution Controls) to 300 seconds; form processing takes
+  (Settings → Execution Controls) to at least 750 seconds; form processing takes
   minutes and the default timeout can cut the poll short.
