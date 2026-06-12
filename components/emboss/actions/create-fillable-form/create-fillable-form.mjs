@@ -57,6 +57,7 @@ export default {
       $.flow.rerun(POLL_DELAY_MS, {
         form_id: created.form_id,
       }, MAX_RETRIES);
+      $.export("$summary", `Processing PDF — Emboss form \`${created.form_id}\` queued`);
       return;
     }
     const { form_id: formId } = context;
@@ -74,6 +75,7 @@ export default {
       $.flow.rerun(POLL_DELAY_MS, {
         form_id: formId,
       }, MAX_RETRIES);
+      $.export("$summary", `Still processing form \`${formId}\` (check ${runs} of ${MAX_RETRIES})`);
       return;
     }
     const pdf = await this.emboss.getFillablePdf({

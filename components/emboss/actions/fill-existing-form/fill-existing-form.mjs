@@ -73,6 +73,7 @@ export default {
       $.flow.rerun(POLL_DELAY_MS, {
         job_id: created.job_id,
       }, MAX_RETRIES);
+      $.export("$summary", `Filling form — Emboss job \`${created.job_id}\` queued`);
       return;
     }
     const { job_id: jobId } = context;
@@ -90,6 +91,7 @@ export default {
       $.flow.rerun(POLL_DELAY_MS, {
         job_id: jobId,
       }, MAX_RETRIES);
+      $.export("$summary", `Still filling (check ${runs} of ${MAX_RETRIES})`);
       return;
     }
     await this.emboss.fillSession({
