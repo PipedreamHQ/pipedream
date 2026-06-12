@@ -11,32 +11,82 @@ export default {
     user: {
       type: "string",
       label: "User",
-      description: "Select a user",
+      description: "Select a user, or search by name or email",
+      useQuery: true,
       async options({
-        prevContext, channelId,
+        prevContext, channelId, query,
       }) {
-        const types = [
-          "im",
-        ];
-        let conversationsResp
-          = await this.availableConversations(types.join(), prevContext.cursor, true);
+        let nameQuery = query
+          ?.trim()
+          .toLowerCase()
+          .replace(/^@/, "");
+        if (/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(nameQuery ?? "")) {
+          try {
+            const { user } = await this.lookupUserByEmail({
+              email: nameQuery,
+              throwRateLimitError: true,
+            });
+            return {
+              options: [
+                {
+                  label: user.profile?.real_name || user.name,
+                  value: user.id,
+                },
+              ],
+            };
+          } catch {
+            // Token may lack `users:read.email`, or no member has this email.
+            // Fall back to matching names below with the email's local part.
+            nameQuery = nameQuery.split("@")[0].replace(/[._-]+/g, " ");
+          }
+        }
+        let channelMembers;
         if (channelId) {
           const { members } = await this.listChannelMembers({
             channel: channelId,
             throwRateLimitError: true,
           });
-          conversationsResp.conversations = conversationsResp.conversations
-            .filter((c) => members.includes(c.user || c.id));
+          channelMembers = new Set(members);
         }
-        const userIds = conversationsResp.conversations.map(({ user }) => user).filter(Boolean);
-        const realNames = await this.realNameLookup(userIds);
+        const options = [];
+        let cursor = prevContext?.cursor;
+        let pages = 0;
+        do {
+          const {
+            members,
+            response_metadata: { next_cursor: nextCursor },
+          } = await this.usersList({
+            limit: constants.LIMIT,
+            cursor,
+            throwRateLimitError: true,
+          });
+          for (const member of members) {
+            const isSelectable = !member.deleted
+              && !member.is_bot
+              && member.id !== "USLACKBOT"
+              && (!channelMembers || channelMembers.has(member.id));
+            if (isSelectable) {
+              const names = [
+                member.profile?.real_name,
+                member.profile?.display_name,
+                member.name,
+              ];
+              if (!nameQuery || names.some((name) => name?.toLowerCase().includes(nameQuery))) {
+                options.push({
+                  label: names.find(Boolean) ?? member.id,
+                  value: member.id,
+                });
+              }
+            }
+          }
+          cursor = nextCursor;
+        } while (cursor
+          && options.length < constants.LIMIT
+          && ++pages < constants.MAX_NAME_LOOKUP_PAGES);
         return {
-          options: conversationsResp.conversations.filter((c) => c.user).map((c) => ({
-            label: `${realNames[c.user]}`,
-            value: c.user || c.id,
-          })),
+          options,
           context: {
-            cursor: conversationsResp.cursor,
+            cursor,
           },
         };
       },
@@ -146,12 +196,12 @@ export default {
           options: conversations.map((c) => {
             if (c.is_im) {
               return {
-                label: `Direct messaging with: ${realNames[c.user]}`,
+                label: `Direct messaging with: ${realNames?.[c.user] ?? c.user}`,
                 value: c.id,
               };
             } else if (c.is_mpim) {
               const usernames = c.purpose.value.match(/@[\w.-]+/g) || [];
-              const realnames = usernames.map((u) => realNames[u.slice(1)] || u);
+              const realnames = usernames.map((u) => realNames?.[u.slice(1)] || u);
               return {
                 label: realnames.length
                   ? `Group messaging with: ${realnames.join(", ")}`
@@ -205,8 +255,11 @@ export default {
           .filter(channelsFilter)
           .map((c) => {
             if (c.is_im) {
+              const userName = userNames?.[c.user];
               return {
-                label: `Direct messaging with: @${userNames[c.user]}`,
+                label: `Direct messaging with: ${userName
+                  ? `@${userName}`
+                  : c.user}`,
                 value: c.id,
               };
             } else if (c.is_mpim) {
@@ -626,8 +679,13 @@ export default {
         conversations,
       };
     },
+    // Resolves user names by scanning `users.list`, capped at
+    // MAX_NAME_LOOKUP_PAGES pages per call: some ids may be unresolvable
+    // (e.g. external Slack Connect users), so callers must handle missing
+    // entries in the result.
     async userNameLookup(ids = [], throwRateLimitError = true, args = {}) {
       let cursor;
+      let pages = 0;
       const userNames = {};
       do {
         const {
@@ -647,13 +705,21 @@ export default {
         }
 
         cursor = nextCursor;
-      } while (cursor && Object.keys(userNames).length < ids.length);
+      } while (cursor
+        && ++pages < constants.MAX_NAME_LOOKUP_PAGES
+        && Object.keys(userNames).length < ids.length);
       return userNames;
     },
+    // Resolves real names by scanning `users.list`, capped at
+    // MAX_NAME_LOOKUP_PAGES pages per call: some ids/usernames may be
+    // unresolvable (e.g. external Slack Connect users, or stale usernames in
+    // mpim purpose text), so callers must handle missing entries in the
+    // result.
     async realNameLookup(ids = [], usernames = [], throwRateLimitError = true, args = {}) {
       const idSet = new Set(ids);
       const usernameSet = new Set(usernames);
       let cursor;
+      let pages = 0;
       const realNames = {};
       const targetCount = ids.length + usernames.length;
       do {
@@ -677,7 +743,9 @@ export default {
         }
 
         cursor = nextCursor;
-      } while (cursor && Object.keys(realNames).length < targetCount);
+      } while (cursor
+        && ++pages < constants.MAX_NAME_LOOKUP_PAGES
+        && Object.keys(realNames).length < targetCount);
       return realNames;
     },
     async maybeAddAppToChannels(channelIds = []) {
