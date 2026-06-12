@@ -1,8 +1,12 @@
 import FormData from "form-data";
+import { ConfigurationError } from "@pipedream/platform";
 import emboss from "../../emboss.app.mjs";
 import {
   resolveFileRef, contextParts, writePdf, errorDetail,
 } from "../../common/utils.mjs";
+
+const POLL_DELAY_MS = 5000;
+const MAX_RETRIES = 60;
 
 export default {
   key: "emboss-fill-existing-form",
@@ -32,7 +36,7 @@ export default {
     contextFile: {
       type: "string",
       label: "Context File",
-      description: "A URL or `/tmp` path to a context document.",
+      description: "A URL or `/tmp` path to a context document (PDF, DOCX, CSV, image, or text).",
       format: "file-ref",
       optional: true,
     },
@@ -47,6 +51,9 @@ export default {
       runs, context,
     } = $.context.run;
     if (runs === 1) {
+      if (!this.contextText && !this.contextFile) {
+        throw new ConfigurationError("Provide Context (Text) and/or a Context File — at least one is required to fill the form.");
+      }
       const cf = await resolveFileRef(this.contextFile, "context");
       const form = new FormData();
       for (const p of contextParts(this.contextText, cf)) {
@@ -63,9 +70,9 @@ export default {
         data: form,
         maxBodyLength: Infinity,
       });
-      $.flow.rerun(5000, {
+      $.flow.rerun(POLL_DELAY_MS, {
         job_id: created.job_id,
-      }, 60);
+      }, MAX_RETRIES);
       return;
     }
     const { job_id: jobId } = context;
@@ -77,9 +84,12 @@ export default {
       throw new Error(`Emboss fill failed: ${errorDetail(status.error)}`);
     }
     if (status.status !== "ready") {
-      $.flow.rerun(5000, {
+      if (runs >= MAX_RETRIES) {
+        throw new Error("Emboss job still processing after the polling limit (~5 minutes) — re-run with a smaller PDF or check the job in your Emboss dashboard.");
+      }
+      $.flow.rerun(POLL_DELAY_MS, {
         job_id: jobId,
-      }, 60);
+      }, MAX_RETRIES);
       return;
     }
     const pdf = await this.emboss.getSessionPdf({

@@ -1,8 +1,12 @@
 import FormData from "form-data";
+import { ConfigurationError } from "@pipedream/platform";
 import emboss from "../../emboss.app.mjs";
 import {
   resolveFileRef, writePdf, errorDetail,
 } from "../../common/utils.mjs";
+
+const POLL_DELAY_MS = 5000;
+const MAX_RETRIES = 60;
 
 export default {
   key: "emboss-create-fillable-form",
@@ -34,10 +38,13 @@ export default {
       runs, context,
     } = $.context.run;
     if (runs === 1) {
+      if (!this.file) {
+        throw new ConfigurationError("File Path Or Url is required.");
+      }
       const f = await resolveFileRef(this.file, "form.pdf");
       const form = new FormData();
       form.append("file", f.stream, {
-        filename: f.filename || "form.pdf",
+        filename: f.filename,
         contentType: "application/pdf",
         knownLength: f.size,
       });
@@ -47,9 +54,9 @@ export default {
         data: form,
         maxBodyLength: Infinity,
       });
-      $.flow.rerun(5000, {
+      $.flow.rerun(POLL_DELAY_MS, {
         form_id: created.form_id,
-      }, 60);
+      }, MAX_RETRIES);
       return;
     }
     const { form_id: formId } = context;
@@ -61,9 +68,12 @@ export default {
       throw new Error(`Emboss create failed: ${errorDetail(status.error)}`);
     }
     if (status.status !== "ready") {
-      $.flow.rerun(5000, {
+      if (runs >= MAX_RETRIES) {
+        throw new Error("Emboss job still processing after the polling limit (~5 minutes) — re-run with a smaller PDF or check the job in your Emboss dashboard.");
+      }
+      $.flow.rerun(POLL_DELAY_MS, {
         form_id: formId,
-      }, 60);
+      }, MAX_RETRIES);
       return;
     }
     const pdf = await this.emboss.getFillablePdf({
