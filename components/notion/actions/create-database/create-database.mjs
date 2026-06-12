@@ -52,7 +52,7 @@ export default {
               },
             ];
           }
-          // Normalize { type: "X" } objects missing their type-key: { type: "checkbox" } → { type: "checkbox", checkbox: {} }
+          // Normalize {type:"X"} objects missing their type-key: {type:"checkbox"} → {checkbox:{}}
           if (value && typeof value === "object" && "type" in value) {
             const typeKey = value.type;
             if (typeKey && typeof typeKey === "string" && !(typeKey in value)) {
