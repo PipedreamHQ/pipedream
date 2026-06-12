@@ -1,4 +1,5 @@
 import base from "../common/base-webhook.mjs";
+import { createHash } from "crypto";
 
 export default {
   ...base,
@@ -17,7 +18,7 @@ export default {
       });
 
       this.$emit(resource, {
-        id: require("crypto").createHash("sha256")
+        id: createHash("sha256")
           .update(body.resource_url)
           .digest("hex")
           .slice(0, 64),

@@ -53,7 +53,7 @@ export default {
             pageSize: 500,
           },
         });
-        orders.push(...response.orders);
+        orders.push(...response.orders ?? []);
         pages = response.pages;
         page++;
       } while (page <= pages);
