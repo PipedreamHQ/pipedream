@@ -4,7 +4,7 @@ export default {
   key: "asana-get-tasks-from-task-list",
   name: "Get Tasks From Task List",
   description: "Returns tasks from the user's personal **My Tasks** inbox — NOT a project task list. Use this when the user asks for 'my tasks', 'my task list', or 'My Tasks'. Only a workspace GID is needed; no project GID required. [See the documentation](https://developers.asana.com/reference/gettasksforusertasklist)",
-  version: "1.0.0",
+  version: "1.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -21,6 +21,14 @@ export default {
         asana,
         "workspaces",
       ],
+    },
+    optFields: {
+      propDefinition: [
+        asana,
+        "optFields",
+      ],
+      description: "Optional task properties to include in the response (e.g. `created_at`, `due_on`, `custom_fields`). Nested paths are allowed; `gid` is always returned. [See the documentation](https://developers.asana.com/reference/gettasksforusertasklist)",
+      optional: true,
     },
     maxResults: {
       propDefinition: [
@@ -40,6 +48,9 @@ export default {
 
     let hasMore, count = 0;
     const params = {
+      opt_fields: this.optFields?.length
+        ? this.optFields.join(",")
+        : undefined,
       limit: 100,
     };
     const results = [];

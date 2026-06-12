@@ -3,7 +3,7 @@ import asana from "../../asana.app.mjs";
 export default {
   type: "action",
   key: "asana-search-projects",
-  version: "0.2.14",
+  version: "0.3.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -34,6 +34,14 @@ export default {
       type: "boolean",
       optional: true,
     },
+    optFields: {
+      propDefinition: [
+        asana,
+        "optFields",
+      ],
+      description: "Optional project properties to include in the response (e.g. `created_at`, `start_on`, `due_on`, `archived`, `custom_fields`). Nested paths are allowed; `gid` is always returned. [See the documentation](https://developers.asana.com/docs/get-multiple-projects)",
+      optional: true,
+    },
     maxResults: {
       propDefinition: [
         asana,
@@ -42,10 +50,23 @@ export default {
     },
   },
   async run({ $ }) {
+    const optFields = Array.isArray(this.optFields)
+      ? [
+        ...this.optFields,
+      ]
+      : [];
+    if (this.name && optFields.length && !optFields.includes("name")) {
+      // the name filter below needs project.name present in the response
+      optFields.push("name");
+    }
+
     let hasMore, count = 0;
     const params = {
       workspace: this.workspace,
       archived: this.archived,
+      opt_fields: optFields.length
+        ? optFields.join(",")
+        : undefined,
       limit: 100,
     };
     const results = [];

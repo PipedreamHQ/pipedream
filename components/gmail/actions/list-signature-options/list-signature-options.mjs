@@ -4,7 +4,7 @@ export default {
   key: "gmail-list-signature-options",
   name: "List Signature Options",
   description: "Retrieves available options for the Signature field.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
