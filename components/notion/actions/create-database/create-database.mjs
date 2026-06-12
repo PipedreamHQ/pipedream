@@ -43,14 +43,33 @@ export default {
         Object.entries(parsedProperties).map(([
           key,
           value,
-        ]) => [
-          key,
-          typeof value === "string"
-            ? {
-              [value]: {},
+        ]) => {
+          if (typeof value === "string") {
+            return [
+              key,
+              {
+                [value]: {},
+              },
+            ];
+          }
+          // Normalize { type: "X" } objects missing their type-key: { type: "checkbox" } → { type: "checkbox", checkbox: {} }
+          if (value && typeof value === "object" && "type" in value) {
+            const typeKey = value.type;
+            if (typeKey && typeof typeKey === "string" && !(typeKey in value)) {
+              return [
+                key,
+                {
+                  ...value,
+                  [typeKey]: {},
+                },
+              ];
             }
-            : value,
-        ]),
+          }
+          return [
+            key,
+            value,
+          ];
+        }),
       )
       : parsedProperties;
 
