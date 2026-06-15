@@ -54,8 +54,8 @@ export default {
       $,
       params: {
         status: this.status,
-        includeArchived: this.includeArchived,
-        includeResults: this.includeResults,
+        include_archived: this.includeArchived,
+        include_results: this.includeResults,
         limit: this.limit,
         offset: this.offset,
       },

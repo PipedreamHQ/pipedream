@@ -124,8 +124,24 @@ export default {
     },
   },
   async run({ $ }) {
-    if (!this.numerator && !this.denominator && !this.percentile && !this.funnelAggregation) {
-      throw new ConfigurationError("At least one of `numerator`, `denominator`, `percentile`, or `funnelAggregation` must be provided.");
+    const hasNumerator = this.numerator !== undefined;
+    const hasDenominator = this.denominator !== undefined;
+    const hasPercentile = this.percentile !== undefined;
+    const hasFunnel = this.funnelAggregation !== undefined;
+    const hasNumeratorFamily = hasNumerator || hasDenominator;
+
+    if (hasDenominator && !hasNumerator) {
+      throw new ConfigurationError("`denominator` cannot be provided without `numerator`.");
+    }
+
+    const activeFamilies = [
+      hasNumeratorFamily,
+      hasPercentile,
+      hasFunnel,
+    ].filter(Boolean).length;
+
+    if (activeFamilies > 1) {
+      throw new ConfigurationError("Provide only one metric definition: `numerator`/`denominator`, `percentile`, or `funnelAggregation`.");
     }
 
     const data = {

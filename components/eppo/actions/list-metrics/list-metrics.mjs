@@ -7,7 +7,7 @@ export default {
     "Retrieve all metrics defined in Eppo, including their names, IDs, descriptions, and minimum detectable effects."
     + " Use this tool to discover available metrics or find metric IDs needed when creating an experiment with **Create Experiment**."
     + " Set `certified` to `true` to return only certified/verified metrics."
-    + " Supports pagination via `page` and `perPage`."
+    + " Supports pagination via `limit` and `offset`."
     + " [See the documentation](https://eppo.cloud/api/docs#/Metrics/getMetrics)",
   version: "0.0.1",
   type: "action",
