@@ -68,12 +68,12 @@ export default {
     returnOrderId: {
       type: "string",
       label: "Return Order ID",
-      description: "The ID of the return order. Use **List Return Orders** to find IDs.",
+      description: "The ID of the return order. Use **Get Return Orders** to find IDs.",
     },
     draftReturnOrderId: {
       type: "string",
       label: "Draft Return Order ID",
-      description: "The ID of the draft return order. Use **List Return Orders** with `filter: \"status:draft\"` to find draft order IDs.",
+      description: "The ID of the draft return order. Use **Get Return Orders** with `filter: \"status:draft\"` to find draft order IDs.",
     },
     expand: {
       type: "string[]",
@@ -154,12 +154,12 @@ export default {
     returnLocationId: {
       type: "string",
       label: "Return Location ID",
-      description: "The ID of the return location. Use **List Return Locations** to find IDs.",
+      description: "The ID of the return location. Use **Get Return Locations** to find IDs.",
     },
     returnRequestId: {
       type: "string",
       label: "Return Request ID",
-      description: "The ID of the return request. Use **List Return Requests** to find IDs.",
+      description: "The ID of the return request. Use **Get Return Requests** to find IDs.",
     },
     purchaseId: {
       type: "string",
@@ -192,7 +192,7 @@ export default {
     exchangeProductId: {
       type: "string",
       label: "Exchange Product ID",
-      description: "The ID of the product to exchange for. Typically required when `resolutionType` is `Exchange`.",
+      description: "The ID of the shipping product to exchange for. Typically required when `resolutionType` is `Exchange`. Use **List Shipping Products** to find available product IDs.",
       optional: true,
     },
     exchangeOptionSku: {
@@ -316,6 +316,12 @@ export default {
     getReturnReasons(opts = {}) {
       return this._makeRequest({
         path: "/return-reasons",
+        ...opts,
+      });
+    },
+    getShippingProducts(opts = {}) {
+      return this._makeRequest({
+        path: "/shipping-products",
         ...opts,
       });
     },
