@@ -29,6 +29,9 @@ export default {
       propDefinition: [
         returnista,
         "returnLocationId",
+        (c) => ({
+          accountId: c.accountId,
+        }),
       ],
     },
     name: {

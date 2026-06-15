@@ -68,7 +68,16 @@ export default {
     returnOrderId: {
       type: "string",
       label: "Return Order ID",
-      description: "The ID of the return order. Use **Get Return Orders** to find IDs.",
+      description: "The ID of the return order.",
+      async options({ accountId }) {
+        const { data } = await this.getReturnOrders({
+          accountId,
+        });
+        return data.map(({ id }) => ({
+          label: `Return Order ID: ${id}`,
+          value: id,
+        }));
+      },
     },
     draftReturnOrderId: {
       type: "string",
@@ -154,12 +163,36 @@ export default {
     returnLocationId: {
       type: "string",
       label: "Return Location ID",
-      description: "The ID of the return location. Use **Get Return Locations** to find IDs.",
+      description: "The ID of the return location.",
+      async options({ accountId }) {
+        const { data: returnLocations = [] } = await this.getReturnLocations({
+          accountId,
+        });
+        return returnLocations.map(({
+          id, name,
+        }) => ({
+          label: `${name} (${id})`,
+          value: id,
+        }));
+      },
     },
     returnRequestId: {
       type: "string",
       label: "Return Request ID",
-      description: "The ID of the return request. Use **Get Return Requests** to find IDs.",
+      description: "The ID of the return request.",
+      async options({ accountId }) {
+        const { data: returnRequests = [] } = await this.getReturnRequests({
+          accountId,
+        });
+        return returnRequests.map(({
+          id, purchaseOrderNumber, returnReasonComment,
+        }) => ({
+          label: `${purchaseOrderNumber}${returnReasonComment
+            ? ` - ${returnReasonComment}`
+            : ""}`,
+          value: id,
+        }));
+      },
     },
     purchaseId: {
       type: "string",
