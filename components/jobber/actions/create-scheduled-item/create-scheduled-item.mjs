@@ -2,6 +2,8 @@ import jobber from "../../jobber.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 import moment from "moment-timezone";
 
+const ISO_8601_REGEX = /^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}(:\d{2}(\.\d+)?)?(Z|[+-]\d{2}:?\d{2})?)?$/;
+
 export default {
   key: "jobber-create-scheduled-item",
   name: "Create Scheduled Item",
@@ -73,10 +75,10 @@ export default {
     },
   },
   async run({ $ }) {
-    if (isNaN(new Date(this.startAt).getTime())) {
+    if (!ISO_8601_REGEX.test(this.startAt) || isNaN(new Date(this.startAt).getTime())) {
       throw new ConfigurationError("Start At is not a valid ISO 8601 date.");
     }
-    if (isNaN(new Date(this.endAt).getTime())) {
+    if (!ISO_8601_REGEX.test(this.endAt) || isNaN(new Date(this.endAt).getTime())) {
       throw new ConfigurationError("End At is not a valid ISO 8601 date.");
     }
     if (new Date(this.endAt) <= new Date(this.startAt)) {
