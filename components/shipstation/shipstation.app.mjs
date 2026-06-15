@@ -8,18 +8,6 @@ export default {
       label: "Order",
       description: "The system-generated order ID. Use the **List Orders** action to get a list of order IDs.",
       type: "integer",
-      async options({ page }) {
-        const { orders } = await this.listOrders({
-          params: {
-            page: page + 1,
-            pageSize: 100,
-          },
-        });
-        return orders.map((order) => ({
-          label: order.orderNumber,
-          value: order.orderId,
-        }));
-      },
     },
     storeId: {
       label: "Store",
