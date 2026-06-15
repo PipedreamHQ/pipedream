@@ -25,6 +25,13 @@ export default {
       label: "End At",
       description: "End of the date range to search, in ISO 8601 format (e.g. `2026-06-30T00:00:00Z`). The range between Start At and End At must be less than 1.5 years.",
     },
+    includeUnassigned: {
+      type: "boolean",
+      label: "Include Unassigned",
+      description: "Whether to include scheduled items that are not assigned to any team member. Defaults to `true`.",
+      default: true,
+      optional: true,
+    },
     maxResults: {
       type: "integer",
       label: "Max Results",
@@ -56,6 +63,7 @@ export default {
           startAt: this.startAt,
           endAt: this.endAt,
         },
+        includeUnassigned: this.includeUnassigned,
       },
     };
     const scheduledItems = await this.jobber.getPaginatedResources({
