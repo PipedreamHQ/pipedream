@@ -47,6 +47,8 @@ export default {
       label: "Limit",
       description: "Maximum number of class sessions to return. Defaults to 20.",
       default: 20,
+      min: 1,
+      max: 200,
       optional: true,
     },
     offset: {

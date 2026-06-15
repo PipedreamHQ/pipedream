@@ -30,11 +30,10 @@ export default {
         ClientId: this.clientId,
       },
     });
-    const info = response.ClientCompleteInfo || {};
-    const contact = info.Contact || info.Client || {};
-    const firstName = contact.FirstName || info.FirstName || "";
-    const lastName = contact.LastName || info.LastName || "";
-    $.export("$summary", `Retrieved complete profile for ${firstName} ${lastName} (ID: ${this.clientId})`);
+    const { Client: client } = response;
+    const firstName = client.FirstName || "";
+    const lastName = client.LastName || "";
+    $.export("$summary", `Retrieved complete profile for ${(firstName + " " + lastName).trim()} (ID: ${this.clientId})`);
     return response;
   },
 };

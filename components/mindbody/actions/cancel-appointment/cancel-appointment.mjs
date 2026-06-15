@@ -34,7 +34,7 @@ export default {
       $,
       data: {
         AppointmentId: this.appointmentId,
-        Status: "Cancelled",
+        Execute: "cancel",
         SendEmail: this.sendEmail ?? false,
       },
     });

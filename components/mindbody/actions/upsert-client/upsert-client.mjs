@@ -1,4 +1,5 @@
 import app from "../../mindbody.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "mindbody-upsert-client",
@@ -85,7 +86,7 @@ export default {
         "birthDate",
       ].filter((f) => !this[f]);
       if (missing.length) {
-        throw new Error(`Missing required fields for client creation: ${missing.join(", ")}`);
+        throw new ConfigurationError(`Missing required fields for client creation: ${missing.join(", ")}`);
       }
       // addclient requires flat JSON body (no Client wrapper)
       response = await this.app.addClient({

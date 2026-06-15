@@ -50,7 +50,7 @@ export default {
       return {
         "Api-Key": this.$auth.api_key,
         "SiteId": this.$auth.site_id,
-        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+        "Authorization": `${this.$auth.oauth_access_token}`,
         "Content-Type": "application/json",
       };
     },
