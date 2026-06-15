@@ -5,7 +5,7 @@ export default {
   key: "jobber-filter-quotes",
   name: "Filter Quotes",
   description: "Filter quotes by status, quote number, or cost in Jobber. [See the documentation](https://developer.getjobber.com/docs)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
