@@ -15025,7 +15025,14 @@ importers:
         specifier: ^13.0.0
         version: 13.0.0
 
-  components/snowflake_oauth: {}
+  components/snowflake_oauth:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.3.0
+        version: 3.4.0
+      snowflake-sdk:
+        specifier: ^2.3.6
+        version: 2.3.6(asn1.js@5.4.1)(aws-crt@1.27.5)
 
   components/snowflake_test: {}
 
@@ -42127,7 +42134,6 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
-      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.60(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1))(rollup@4.53.2)':
     dependencies:
