@@ -8,7 +8,7 @@ export default {
     + " Each event includes the event type (swap, mint, burn), USD price, timestamp, and transaction hash."
     + " Use **Get Networks** to resolve the numeric `networkId` if needed."
     + " Supports cursor-based pagination — pass `cursor` from the previous response to fetch the next page."
-    + " [See the documentation](https://docs.codex.io/reference/gettokeneventsformaker)",
+    + " [See the documentation](https://docs.codex.io/api-reference/queries/filtertokenwallets)",
   version: "0.0.1",
   type: "action",
   annotations: {

@@ -8,7 +8,7 @@ export default {
     + " Use this to analyze DEX pair activity (e.g., Uniswap V2/V3 pools)."
     + " `statsType` `FILTERED` removes wash trades for cleaner signal; `UNFILTERED` includes all activity."
     + " Use **Get Networks** to resolve the numeric `networkId` if needed."
-    + " [See the documentation](https://docs.codex.io/reference/pairmetadata)",
+    + " [See the documentation](https://docs.codex.io/api-reference/queries/getdetailedpairstats)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -46,11 +46,49 @@ export default {
       optional: true,
       default: "FILTERED",
     },
+    tokenOfInterest: {
+      type: "string",
+      label: "Token Of Interest",
+      description: "The token of interest used to calculate token-specific stats for the pair. Can be `token0` or `token1`.",
+      options: [
+        "token0",
+        "token1",
+      ],
+      optional: true,
+    },
+    timestamp: {
+      type: "integer",
+      label: "Timestamp",
+      description: "The unix timestamp for the stats. Defaults to current.",
+      optional: true,
+    },
+    durations: {
+      type: "string[]",
+      label: "Durations",
+      description: "The list of durations to get detailed pair stats for.",
+      options: [
+        "day30",
+        "week1",
+        "day1",
+        "hour12",
+        "hour4",
+        "hour1",
+        "min15",
+        "min5",
+      ],
+      optional: true,
+    },
+    bucketCount: {
+      type: "integer",
+      label: "Bucket Count",
+      description: "The number of aggregated values to receive. Note: Each duration has predetermined bucket sizes.",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const QUERY = `
-      query GetPairMetadata($pairId: String!, $statsType: TokenPairStatisticsType) {
-        pairMetadata(pairId: $pairId, statsType: $statsType) {
+      query GetDetailPairStats($pairId: String!, $statsType: TokenPairStatisticsType, $tokenOfInterest: String, $timestamp: Int, $durations: [String!], $bucketCount: Int) {
+        pairStats(pairId: $pairId, statsType: $statsType, tokenOfInterest: $tokenOfInterest, timestamp: $timestamp, durations: $durations, bucketCount: $bucketCount) {
           pairAddress
           networkId
           price
@@ -71,6 +109,10 @@ export default {
     const data = await this.app.makeRequest($, QUERY, {
       pairId,
       statsType: this.statsType || "FILTERED",
+      tokenOfInterest: this.tokenOfInterest,
+      timestamp: this.timestamp,
+      durations: this.durations,
+      bucketCount: this.bucketCount,
     });
 
     const result = data.pairMetadata;

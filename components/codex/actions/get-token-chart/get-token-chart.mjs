@@ -9,7 +9,7 @@ export default {
     + " Use **Get Networks** to resolve `networkId` if needed."
     + " `from` and `to` are Unix timestamps in seconds (e.g., current time = `Math.floor(Date.now() / 1000)`)."
     + " Valid resolutions: `1` (1 min), `5`, `15`, `30`, `60` (1 hr), `240` (4 hr), `720` (12 hr), `1D`, `7D`."
-    + " [See the documentation](https://docs.codex.io/reference/getbars)",
+    + " [See the documentation](https://docs.codex.io/api-reference/queries/gettokenbars)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -86,11 +86,27 @@ export default {
       description: "End of the time range as a Unix timestamp in seconds. Defaults to now if not provided.",
       optional: true,
     },
+    statsType: {
+      type: "string",
+      label: "Stats Type",
+      description: "The type of statistics returned. Can be FILTERED or UNFILTERED. Default is UNFILTERED.",
+      options: [
+        "FILTERED",
+        "UNFILTERED",
+      ],
+      optional: true,
+    },
+    countback: {
+      type: "integer",
+      label: "Countback",
+      description: "Guarantees number of bars returned is at most this number. Use countback: 1500 with from: 0 for maximum results.",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const QUERY = `
-      query GetTokenChart($symbol: String!, $from: Int!, $to: Int!, $resolution: String!, $removeEmptyBars: Boolean) {
-        getBars(symbol: $symbol, from: $from, to: $to, resolution: $resolution, removeEmptyBars: $removeEmptyBars) {
+      query GetTokenChart($symbol: String!, $from: Int!, $to: Int!, $resolution: String!, $removeEmptyBars: Boolean, $statsType: TokenStatisticsType, $countback: Int) {
+        getBars(symbol: $symbol, from: $from, to: $to, resolution: $resolution, removeEmptyBars: $removeEmptyBars, statsType: $statsType, countback: $countback) {
           o
           h
           l
@@ -110,6 +126,8 @@ export default {
       to,
       resolution: this.resolution,
       removeEmptyBars: true,
+      statsType: this.statsType || "UNFILTERED",
+      countback: this.countback,
     });
 
     const bars = data.getBars;

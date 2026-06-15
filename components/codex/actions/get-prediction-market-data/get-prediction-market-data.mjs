@@ -10,7 +10,7 @@ export default {
     + " **Requires a Codex Growth or Enterprise plan** — returns an error on free/Starter plans."
     + " Use **Get Networks** to resolve the numeric `networkId` if needed."
     + " Supports offset-based pagination — pass `offset` (and optional `limit`) to fetch subsequent pages (e.g., `offset: 20` with `limit: 20` fetches the second page)."
-    + " [See the documentation](https://docs.codex.io/reference/predictionmarkets)",
+    + " [See the documentation](https://docs.codex.io/api-reference/queries/filterpredictionmarkets)",
   version: "0.0.1",
   type: "action",
   annotations: {

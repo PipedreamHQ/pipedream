@@ -7,7 +7,7 @@ export default {
     "Returns all 80+ blockchain networks supported by Codex with their numeric IDs and names."
     + " Call this first to resolve `networkId` values required by every other Codex tool."
     + " Example: Ethereum = 1, Polygon = 137, BNB Chain = 56, Arbitrum = 42161."
-    + " [See the documentation](https://docs.codex.io/reference/getnetworks)",
+    + " [See the documentation](https://docs.codex.io/api-reference/queries/getnetworks)",
   version: "0.0.1",
   type: "action",
   annotations: {

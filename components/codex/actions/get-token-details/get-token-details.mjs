@@ -9,7 +9,7 @@ export default {
     + " To discover tokens by name or ranking instead, use **Filter Tokens**."
     + " Use **Get Networks** first to resolve the numeric `networkId` if needed."
     + " Accepts a JSON array of `{address, networkId}` objects — example: `[{\"address\": \"0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2\", \"networkId\": 1}]`."
-    + " [See the documentation](https://docs.codex.io/reference/filtertokens)",
+    + " [See the documentation](https://docs.codex.io/api-reference/queries/tokens)",
   version: "0.0.1",
   type: "action",
   annotations: {
