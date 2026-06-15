@@ -4,7 +4,7 @@ export default {
   key: "jobber-create-quote",
   name: "Create Quote",
   description: "Generates a new quote for a client's property in Jobber. [See the documentation](https://developer.getjobber.com/docs/)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
