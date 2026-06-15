@@ -67,21 +67,21 @@ export default {
       return props;
     }
     for (let i = 1; i <= this.numLineItems; i++) {
-      props[`line_${i}_name`] = {
+      props[`line${i}Name`] = {
         type: "string",
         label: `Line Item ${i} - Name`,
       };
-      props[`line_${i}_description`] = {
+      props[`line${i}Description`] = {
         type: "string",
         label: `Line Item ${i} - Description`,
         optional: true,
       };
-      props[`line_${i}_quantity`] = {
+      props[`line${i}Quantity`] = {
         type: "string",
         label: `Line Item ${i} - Quantity`,
         optional: true,
       };
-      props[`line_${i}_unitPrice`] = {
+      props[`line${i}UnitPrice`] = {
         type: "string",
         label: `Line Item ${i} - Unit Price`,
         optional: true,
@@ -102,38 +102,50 @@ export default {
 
     const lineItems = [];
     for (let i = 1; i <= numLineItems; i++) {
-      const parts = [
-        `name: "${this[`line_${i}_name`]}"`,
-        this[`line_${i}_description`] && `description: "${this[`line_${i}_description`]}"`,
-        this[`line_${i}_quantity`] && `quantity: ${this[`line_${i}_quantity`]}`,
-        this[`line_${i}_unitPrice`] && `unitPrice: ${this[`line_${i}_unitPrice`]}`,
-      ].filter(Boolean).join(", ");
-      lineItems.push(`{${parts}}`);
+      const lineItem = {
+        name: this[`line${i}Name`],
+      };
+      if (this[`line${i}Description`]) {
+        lineItem.description = this[`line${i}Description`];
+      }
+      if (this[`line${i}Quantity`]) {
+        lineItem.quantity = +this[`line${i}Quantity`];
+      }
+      if (this[`line${i}UnitPrice`]) {
+        lineItem.unitPrice = +this[`line${i}UnitPrice`];
+      }
+      lineItems.push(lineItem);
     }
 
-    const tax = [
-      `taxCalculationMethod: ${taxCalculationMethod}`,
-      taxRateId && `taxRateId: "${taxRateId}"`,
-    ].filter(Boolean).join(", ");
+    const tax = {
+      taxCalculationMethod,
+    };
+    if (taxRateId) {
+      tax.taxRateId = taxRateId;
+    }
 
-    const dueDetails = dueDate
-      ? `dueDate: "${dueDate}"`
-      : "";
-
-    const input = [
-      `clientId: "${clientId}"`,
-      subject && `subject: "${subject}"`,
-      message && `message: "${message}"`,
-      `tax: {${tax}}`,
-      `dueDetails: {${dueDetails}}`,
-      `lineItems: [${lineItems.join(", ")}]`,
-    ].filter(Boolean).join(", ");
+    const input = {
+      clientId,
+      tax,
+      dueDetails: dueDate
+        ? {
+          dueDate,
+        }
+        : {},
+      lineItems,
+    };
+    if (subject) {
+      input.subject = subject;
+    }
+    if (message) {
+      input.message = message;
+    }
 
     const response = await this.jobber.post({
       $,
       data: {
-        query: `mutation CreateInvoice {
-          invoiceCreate(input: {${input}}) {
+        query: `mutation CreateInvoice($input: InvoiceCreateInput!) {
+          invoiceCreate(input: $input) {
             invoice {
               id
               invoiceNumber
@@ -143,6 +155,9 @@ export default {
             }
           }
         }`,
+        variables: {
+          input,
+        },
         operationName: "CreateInvoice",
       },
     });

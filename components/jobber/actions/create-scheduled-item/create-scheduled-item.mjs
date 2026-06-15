@@ -65,10 +65,20 @@ export default {
 
       const timezone = moment.tz.guess(true);
 
-      return `{date: "${iso8601Date}", time: "${iso8601Time}", timezone: "${timezone}"}`;
+      return {
+        date: iso8601Date,
+        time: iso8601Time,
+        timezone,
+      };
     },
   },
   async run({ $ }) {
+    if (isNaN(new Date(this.startAt).getTime())) {
+      throw new ConfigurationError("Start At is not a valid ISO 8601 date.");
+    }
+    if (isNaN(new Date(this.endAt).getTime())) {
+      throw new ConfigurationError("End At is not a valid ISO 8601 date.");
+    }
     if (new Date(this.endAt) <= new Date(this.startAt)) {
       throw new ConfigurationError("End At must be after Start At.");
     }
@@ -78,20 +88,24 @@ export default {
       instructions,
     } = this;
 
-    const startAt = this.extractDateTimeAttributes(this.startAt);
-    const endAt = this.extractDateTimeAttributes(this.endAt);
-
-    const visit = [
-      title && `title: "${title}"`,
-      instructions && `instructions: "${instructions}"`,
-      `schedule: {startAt: ${startAt}, endAt: ${endAt}}`,
-    ].filter(Boolean).join(", ");
+    const visit = {
+      schedule: {
+        startAt: this.extractDateTimeAttributes(this.startAt),
+        endAt: this.extractDateTimeAttributes(this.endAt),
+      },
+    };
+    if (title) {
+      visit.title = title;
+    }
+    if (instructions) {
+      visit.instructions = instructions;
+    }
 
     const response = await this.jobber.post({
       $,
       data: {
-        query: `mutation CreateVisit {
-          visitCreate(jobId: "${jobId}", input: {visits: [{${visit}}]}) {
+        query: `mutation CreateVisit($jobId: EncodedId!, $input: VisitCreateInput!) {
+          visitCreate(jobId: $jobId, input: $input) {
             createdVisits {
               id
               title
@@ -101,6 +115,14 @@ export default {
             }
           }
         }`,
+        variables: {
+          jobId,
+          input: {
+            visits: [
+              visit,
+            ],
+          },
+        },
         operationName: "CreateVisit",
       },
     });

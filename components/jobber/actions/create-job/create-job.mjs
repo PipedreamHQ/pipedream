@@ -74,18 +74,25 @@ export default {
       invoicingSchedule,
     } = this;
 
-    const input = [
-      `propertyId: "${propertyId}"`,
-      title && `title: "${title}"`,
-      instructions && `instructions: "${instructions}"`,
-      `invoicing: {invoicingType: ${invoicingType}, invoicingSchedule: ${invoicingSchedule}}`,
-    ].filter(Boolean).join(", ");
+    const input = {
+      propertyId,
+      invoicing: {
+        invoicingType,
+        invoicingSchedule,
+      },
+    };
+    if (title) {
+      input.title = title;
+    }
+    if (instructions) {
+      input.instructions = instructions;
+    }
 
     const response = await this.jobber.post({
       $,
       data: {
-        query: `mutation CreateJob {
-          jobCreate(input: {${input}}) {
+        query: `mutation CreateJob($input: JobCreateAttributes!) {
+          jobCreate(input: $input) {
             job {
               id
               jobNumber
@@ -96,6 +103,9 @@ export default {
             }
           }
         }`,
+        variables: {
+          input,
+        },
         operationName: "CreateJob",
       },
     });

@@ -122,6 +122,7 @@ export default {
       });
     },
     async *paginate({
+      $,
       query,
       args = {},
       resourceKey,
@@ -137,6 +138,7 @@ export default {
           ...args,
         };
         const { data } = await this.post({
+          $,
           data: {
             query,
             variables,

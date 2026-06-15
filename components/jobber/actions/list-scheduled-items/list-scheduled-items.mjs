@@ -41,8 +41,18 @@ export default {
     },
   },
   async run({ $ }) {
+    if (isNaN(new Date(this.startAt).getTime())) {
+      throw new ConfigurationError("Start At is not a valid ISO 8601 date.");
+    }
+    if (isNaN(new Date(this.endAt).getTime())) {
+      throw new ConfigurationError("End At is not a valid ISO 8601 date.");
+    }
     if (new Date(this.endAt) <= new Date(this.startAt)) {
       throw new ConfigurationError("End At must be after Start At.");
+    }
+    const maxRangeMs = 1.5 * 365 * 24 * 60 * 60 * 1000;
+    if (new Date(this.endAt) - new Date(this.startAt) > maxRangeMs) {
+      throw new ConfigurationError("The date range between Start At and End At must be less than 1.5 years.");
     }
 
     const query = `query ListScheduledItems($first: Int, $after: String, $filter: ScheduledItemsFilterAttributes!) {
@@ -67,6 +77,7 @@ export default {
       },
     };
     const scheduledItems = await this.jobber.getPaginatedResources({
+      $,
       query,
       args,
       resourceKey: "scheduledItems",

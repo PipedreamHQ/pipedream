@@ -45,6 +45,7 @@ export default {
       searchTerm: this.searchTerm,
     };
     const jobs = await this.jobber.getPaginatedResources({
+      $,
       query,
       args,
       resourceKey: "jobs",
