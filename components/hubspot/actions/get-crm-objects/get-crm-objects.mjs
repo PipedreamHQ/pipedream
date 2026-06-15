@@ -10,8 +10,10 @@ export default {
     + " Returns the requested properties for each object."
     + " Use **Search CRM Objects** first to find record IDs, then use this tool to fetch full details."
     + " Max 100 IDs per request."
+    + " Supports standard object types only."
+    + " For custom objects, use **Get Custom Object** instead."
     + " [See the documentation](https://developers.hubspot.com/docs/api/crm/objects)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
