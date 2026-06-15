@@ -1,3 +1,4 @@
+import md5 from "md5";
 import common from "../common/common-new-email.mjs";
 import { Readable } from "stream";
 
@@ -6,7 +7,7 @@ export default {
   key: "microsoft_outlook-new-attachment-received",
   name: "New Attachment Received (Instant)",
   description: "Emit new event when a new email containing one or more attachments arrives in a specified Microsoft Outlook folder.",
-  version: "0.1.14",
+  version: "0.1.17",
   type: "source",
   dedupe: "unique",
   props: {
@@ -80,7 +81,11 @@ export default {
     },
     generateMeta(item) {
       return {
-        id: item.contentId,
+        // Attachment `id` is unique per message+attachment but exceeds 64
+        // characters, so hash it. Do NOT use `contentId` here: Graph only
+        // populates it for inline attachments, leaving it null for ordinary
+        // file attachments, which collapses dedupe and drops events.
+        id: md5(`${item.messageId}-${item.id}`),
         summary: `New attachment ${item.name}`,
         ts: Date.parse(item.messageReceivedDateTime),
       };
