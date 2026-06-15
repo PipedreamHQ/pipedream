@@ -92,7 +92,7 @@ export default {
       data: {
         query: `mutation CreateVisit {
           visitCreate(jobId: "${jobId}", input: {visits: [{${visit}}]}) {
-            visits {
+            createdVisits {
               id
               title
             }
@@ -111,7 +111,7 @@ export default {
     if (userErrors?.length) {
       throw new ConfigurationError(userErrors[0].message);
     }
-    const id = response.data?.visitCreate?.visits?.[0]?.id;
+    const id = response.data?.visitCreate?.createdVisits?.[0]?.id;
     $.export("$summary", `Successfully scheduled visit${id
       ? ` with ID ${id}`
       : ""} on job ${jobId}`);
