@@ -20,7 +20,7 @@ export default {
     + "\n\n`addLabels` and `removeLabels` accept either raw label IDs (system labels like `INBOX`, `STARRED`, `UNREAD`, `TRASH`) or user-visible label names — names are resolved via **List Labels** before the API call."
     + " Use **Create Label** first if you need to apply a brand-new label that doesn't yet exist."
     + " [See the documentation](https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.messages/batchModify).",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
