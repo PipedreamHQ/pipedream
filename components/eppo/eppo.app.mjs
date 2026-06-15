@@ -9,6 +9,22 @@ export default {
       label: "Flag ID",
       description: "The numeric ID of the feature flag. Use **List Feature Flags** to discover flag IDs.",
     },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "Limit the number of items in response",
+      optional: true,
+      default: 50,
+      min: 1,
+    },
+    offset: {
+      type: "integer",
+      label: "Offset",
+      description: "Offset the number of items in response",
+      optional: true,
+      default: 0,
+      min: 0,
+    },
   },
   methods: {
     _makeRequest({
@@ -25,15 +41,9 @@ export default {
         ...opts,
       });
     },
-    listFeatureFlags({
-      enabled, includeArchived, ...opts
-    } = {}) {
+    listFeatureFlags(opts = {}) {
       return this._makeRequest({
-        path: "/flags",
-        params: {
-          enabled,
-          include_archived: includeArchived,
-        },
+        path: "/feature-flags",
         ...opts,
       });
     },
@@ -75,27 +85,17 @@ export default {
         ...opts,
       });
     },
-    listExperiments({
-      status, includeArchived, includeResults, ...opts
-    } = {}) {
+    listExperiments(opts = {}) {
       return this._makeRequest({
         path: "/experiments",
-        params: {
-          status,
-          include_archived: includeArchived,
-          include_results: includeResults,
-        },
         ...opts,
       });
     },
     getExperiment({
-      experimentId, includeResults = true, ...opts
+      experimentId, ...opts
     } = {}) {
       return this._makeRequest({
         path: `/experiments/${experimentId}`,
-        params: {
-          include_results: includeResults,
-        },
         ...opts,
       });
     },
@@ -109,16 +109,9 @@ export default {
         ...opts,
       });
     },
-    listMetrics({
-      page, perPage, certified, ...opts
-    } = {}) {
+    listMetrics(opts = {}) {
       return this._makeRequest({
         path: "/metrics",
-        params: {
-          page,
-          per_page: perPage,
-          certified,
-        },
         ...opts,
       });
     },
@@ -136,7 +129,7 @@ export default {
       metricId, data, ...opts
     } = {}) {
       return this._makeRequest({
-        method: "PATCH",
+        method: "PUT",
         path: `/metrics/${metricId}`,
         data,
         ...opts,

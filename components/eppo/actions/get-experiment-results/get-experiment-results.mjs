@@ -27,7 +27,6 @@ export default {
     const response = await this.app.getExperiment({
       $,
       experimentId: this.experimentId,
-      includeResults: true,
     });
     $.export("$summary", `Retrieved results for experiment ${this.experimentId}: ${response?.name ?? ""}`);
     return response;

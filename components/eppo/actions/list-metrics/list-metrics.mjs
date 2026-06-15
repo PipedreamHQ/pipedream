@@ -18,17 +18,17 @@ export default {
   },
   props: {
     app,
-    page: {
-      type: "integer",
-      label: "Page",
-      description: "Page number for pagination. Defaults to 1.",
-      optional: true,
+    limit: {
+      propDefinition: [
+        app,
+        "limit",
+      ],
     },
-    perPage: {
-      type: "integer",
-      label: "Per Page",
-      description: "Number of metrics to return per page. Defaults to the API default.",
-      optional: true,
+    offset: {
+      propDefinition: [
+        app,
+        "offset",
+      ],
     },
     certified: {
       type: "boolean",
@@ -40,9 +40,11 @@ export default {
   async run({ $ }) {
     const response = await this.app.listMetrics({
       $,
-      page: this.page,
-      perPage: this.perPage,
-      certified: this.certified,
+      params: {
+        limit: this.limit,
+        offset: this.offset,
+        certified: this.certified,
+      },
     });
     const metrics = response?.metrics ?? response ?? [];
     $.export("$summary", `Retrieved ${metrics.length} metric(s)`);

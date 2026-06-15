@@ -36,13 +36,29 @@ export default {
       description: "Set to `true` to include metric results and key takeaways for each experiment. Defaults to `false`.",
       optional: true,
     },
+    limit: {
+      propDefinition: [
+        app,
+        "limit",
+      ],
+    },
+    offset: {
+      propDefinition: [
+        app,
+        "offset",
+      ],
+    },
   },
   async run({ $ }) {
     const response = await this.app.listExperiments({
       $,
-      status: this.status,
-      includeArchived: this.includeArchived,
-      includeResults: this.includeResults,
+      params: {
+        status: this.status,
+        includeArchived: this.includeArchived,
+        includeResults: this.includeResults,
+        limit: this.limit,
+        offset: this.offset,
+      },
     });
     const experiments = response?.experiments ?? response ?? [];
     $.export("$summary", `Retrieved ${experiments.length} experiment(s)`);
