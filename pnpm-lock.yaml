@@ -5054,8 +5054,7 @@ importers:
 
   components/embedapi: {}
 
-  components/emboss:
-    specifiers: {}
+  components/emboss: {}
 
   components/emelia: {}
 
@@ -9988,7 +9987,11 @@ importers:
 
   components/milvus: {}
 
-  components/mindbody: {}
+  components/mindbody:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
 
   components/mindee: {}
 
