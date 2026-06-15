@@ -63,6 +63,32 @@ export default {
         }));
       },
     },
+    jobId: {
+      type: "string",
+      label: "Job ID",
+      description: "The ID of a job",
+      async options() {
+        const { data: { jobs: { nodes } } } = await this.post({
+          data: {
+            query: `query GetJobs {
+              jobs(first: 50) {
+                nodes {
+                  id
+                  jobNumber
+                  title
+                }
+              }
+            }`,
+          },
+        });
+        return nodes.map(({
+          id: value, jobNumber, title,
+        }) => ({
+          value,
+          label: title || `Job #${jobNumber}`,
+        }));
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -79,7 +105,7 @@ export default {
         url: `${this._baseUrl()}${path}`,
         headers: {
           "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-          "X-JOBBER-GRAPHQL-VERSION": "2025-01-20",
+          "X-JOBBER-GRAPHQL-VERSION": "2026-05-12",
         },
       });
       if (response.errors) {
