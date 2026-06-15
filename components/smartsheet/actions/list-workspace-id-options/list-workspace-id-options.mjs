@@ -5,7 +5,7 @@ export default {
   name: "List Workspace Options",
   description: "Retrieves available options for the Workspace field using token-based pagination."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/workspaces/list-workspaces)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

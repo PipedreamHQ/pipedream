@@ -7,7 +7,7 @@ export default {
   key: "freshdesk-create-reply",
   name: "Create a Reply",
   description: "Create a reply to a ticket. [See the documentation](https://developers.freshdesk.com/api/#reply_ticket).",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
