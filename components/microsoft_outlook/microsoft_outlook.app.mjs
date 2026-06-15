@@ -485,6 +485,26 @@ export default {
         .query(pickBy(params))
         .get();
     },
+    async countMessages({
+      userId, folderScope, sharedFolderId, filter,
+    } = {}) {
+      let path;
+      if (sharedFolderId && userId) {
+        path = `/users/${userId}/mailFolders/${sharedFolderId}/messages`;
+      } else if (folderScope === "inbox") {
+        path = `${this._userPath(userId)}/mailFolders/inbox/messages`;
+      } else {
+        path = `${this._userPath(userId)}/messages`;
+      }
+      return await this.client().api(path)
+        .header("ConsistencyLevel", "eventual")
+        .query(pickBy({
+          $count: "true",
+          $top: 1,
+          $filter: filter || undefined,
+        }))
+        .get();
+    },
     async listSharedFolderMessages({
       userId, sharedFolderId, params = {}, nextLink,
     } = {}) {
