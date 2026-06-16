@@ -109,6 +109,23 @@ export default {
       }
     `;
 
+    let rankings;
+    if (this.rankings) {
+      try {
+        rankings = JSON.parse(this.rankings);
+      } catch (error) {
+        throw new Error("Invalid JSON for \"Rankings\": please provide a valid JSON array.");
+      }
+    }
+    let filters;
+    if (this.filters) {
+      try {
+        filters = JSON.parse(this.filters);
+      } catch (error) {
+        throw new Error("Invalid JSON for \"Filters\": please provide a valid JSON object.");
+      }
+    }
+
     const variables = {
       phrase: this.phrase || undefined,
       marketIds: this.marketIds?.length
@@ -123,12 +140,8 @@ export default {
       excludeEventIds: this.excludeEventIds?.length
         ? this.excludeEventIds
         : undefined,
-      rankings: this.rankings
-        ? JSON.parse(this.rankings)
-        : undefined,
-      filters: this.filters
-        ? JSON.parse(this.filters)
-        : undefined,
+      rankings,
+      filters,
       limit: this.limit,
       offset: this.offset || 0,
     };

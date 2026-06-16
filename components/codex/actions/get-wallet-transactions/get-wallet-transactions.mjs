@@ -119,6 +119,23 @@ export default {
       }
     `;
 
+    let rankings;
+    if (this.rankings) {
+      try {
+        rankings = JSON.parse(this.rankings);
+      } catch (error) {
+        throw new Error("Invalid JSON for \"Rankings\": please provide a valid JSON array.");
+      }
+    }
+    let filtersV2;
+    if (this.filtersV2) {
+      try {
+        filtersV2 = JSON.parse(this.filtersV2);
+      } catch (error) {
+        throw new Error("Invalid JSON for \"Filters\": please provide a valid JSON object.");
+      }
+    }
+
     const input = {
       wallets: this.wallets?.length
         ? this.wallets
@@ -134,12 +151,8 @@ export default {
       excludeLabels: this.excludeLabels?.length
         ? this.excludeLabels
         : undefined,
-      rankings: this.rankings
-        ? JSON.parse(this.rankings)
-        : undefined,
-      filtersV2: this.filtersV2
-        ? JSON.parse(this.filtersV2)
-        : undefined,
+      rankings,
+      filtersV2,
       limit: this.limit,
       offset: this.offset || 0,
     };

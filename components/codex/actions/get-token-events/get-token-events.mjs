@@ -178,6 +178,39 @@ export default {
       }
     `;
 
+    let priceUsd;
+    if (this.priceUsd) {
+      try {
+        priceUsd = JSON.parse(this.priceUsd);
+      } catch (error) {
+        throw new Error("Invalid JSON for \"Price USD Filter\": please provide a valid JSON object.");
+      }
+    }
+    let priceUsdTotal;
+    if (this.priceUsdTotal) {
+      try {
+        priceUsdTotal = JSON.parse(this.priceUsdTotal);
+      } catch (error) {
+        throw new Error("Invalid JSON for \"Total USD Value Filter\": please provide a valid JSON object.");
+      }
+    }
+    let priceBaseToken;
+    if (this.priceBaseToken) {
+      try {
+        priceBaseToken = JSON.parse(this.priceBaseToken);
+      } catch (error) {
+        throw new Error("Invalid JSON for \"Price Base Token Filter\": please provide a valid JSON object.");
+      }
+    }
+    let amountNonLiquidityToken;
+    if (this.amountNonLiquidityToken) {
+      try {
+        amountNonLiquidityToken = JSON.parse(this.amountNonLiquidityToken);
+      } catch (error) {
+        throw new Error("Invalid JSON for \"Token Amount Filter\": please provide a valid JSON object.");
+      }
+    }
+
     const timestamp = (this.timestampFrom ?? this.timestampTo) != null
       ? {
         from: this.timestampFrom ?? undefined,
@@ -196,18 +229,10 @@ export default {
         quoteToken: this.quoteToken || undefined,
         maker: this.maker || undefined,
         timestamp,
-        priceUsd: this.priceUsd
-          ? JSON.parse(this.priceUsd)
-          : undefined,
-        priceUsdTotal: this.priceUsdTotal
-          ? JSON.parse(this.priceUsdTotal)
-          : undefined,
-        priceBaseToken: this.priceBaseToken
-          ? JSON.parse(this.priceBaseToken)
-          : undefined,
-        amountNonLiquidityToken: this.amountNonLiquidityToken
-          ? JSON.parse(this.amountNonLiquidityToken)
-          : undefined,
+        priceUsd,
+        priceUsdTotal,
+        priceBaseToken,
+        amountNonLiquidityToken,
         symbolType: this.symbolType || undefined,
       },
       limit: this.limit,
