@@ -178,10 +178,10 @@ export default {
       }
     `;
 
-    const timestamp = (this.timestampFrom || this.timestampTo)
+    const timestamp = (this.timestampFrom ?? this.timestampTo) != null
       ? {
-        from: this.timestampFrom || undefined,
-        to: this.timestampTo || undefined,
+        from: this.timestampFrom ?? undefined,
+        to: this.timestampTo ?? undefined,
       }
       : undefined;
 

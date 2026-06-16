@@ -27,25 +27,25 @@ export default {
     marketIds: {
       type: "string[]",
       label: "Market IDs",
-      description: "Include only specific markets by ID. Provide one or more market ID strings.",
+      description: "Include only specific markets by ID (e.g., `0x4d4a...f3c2`). IDs are returned in the `id` field of previous query results.",
       optional: true,
     },
     excludeMarketIds: {
       type: "string[]",
       label: "Exclude Market IDs",
-      description: "Exclude specific markets by ID.",
+      description: "Exclude specific markets by ID (e.g., `0x4d4a...f3c2`). IDs are returned in the `id` field of previous query results.",
       optional: true,
     },
     eventIds: {
       type: "string[]",
       label: "Event IDs",
-      description: "Include markets belonging to specific events by event ID. Use **Get Events** to get event IDs.",
+      description: "Include markets belonging to specific events by event ID (e.g., `event_abc123`). Event IDs are returned in the `id` field of prediction market event results.",
       optional: true,
     },
     excludeEventIds: {
       type: "string[]",
       label: "Exclude Event IDs",
-      description: "Exclude markets belonging to specific events by event ID. Use **Get Events** to get event IDs.",
+      description: "Exclude markets belonging to specific events by event ID (e.g., `event_abc123`). Event IDs are returned in the `id` field of prediction market event results.",
       optional: true,
     },
     rankings: {
