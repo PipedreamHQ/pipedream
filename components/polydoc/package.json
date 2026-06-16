@@ -1,0 +1,26 @@
+{
+  "name": "@pipedream/polydoc",
+  "version": "0.0.1",
+  "description": "PolyDoc: convert HTML or a URL to PDF, capture screenshots, and generate EU e-invoices (Factur-X / ZUGFeRD).",
+  "main": "polydoc.app.mjs",
+  "type": "module",
+  "license": "MIT",
+  "keywords": [
+    "pipedream",
+    "polydoc",
+    "pdf",
+    "html-to-pdf",
+    "screenshot",
+    "e-invoice",
+    "factur-x",
+    "zugferd"
+  ],
+  "homepage": "https://polydoc.tech",
+  "author": "PolyDoc <hello@polydoc.tech>",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.4.0"
+  }
+}
