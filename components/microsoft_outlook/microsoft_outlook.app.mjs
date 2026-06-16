@@ -621,10 +621,14 @@ export default {
       const foldersArray = [];
       for (const folder of value) {
         foldersArray.push(folder);
+        const {
+        // eslint-disable-next-line no-unused-vars
+          $skip, $top, ...childParams
+        } = params;
         foldersArray.push(...await this.listSharedFolders({
           userId,
           parentFolderId: folder.id,
-          params,
+          params: childParams,
         }));
       }
 

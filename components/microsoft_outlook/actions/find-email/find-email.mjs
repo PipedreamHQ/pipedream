@@ -81,7 +81,7 @@ export default {
     folderScope: {
       type: "string",
       label: "Folder Scope",
-      description: "Scope the search: `inbox` limits to the inbox only (prevents Sent/Drafts/Junk from inflating counts). Can be one of `all`, `inbox`, `sentitems`, `drafts`, `deleteditems`, `junkemail`, `archive` or a folder ID. `all` (default) searches all mail folders. Use the **List Folders** action to get the list of folders. Not for use with `sharedFolderId`.",
+      description: "Scope the search. Default is `inbox`, which limits results to the inbox only and prevents Sent/Drafts/Junk from inflating counts. Set to `all` to search across all mail folders. Can be one of `all`, `inbox`, `sentitems`, `drafts`, `deleteditems`, `junkemail`, `archive`, or a folder ID. Use the **List Folders** action to get folder IDs. Not for use with `sharedFolderId`.",
       options: [
         "all",
         "inbox",
@@ -183,7 +183,7 @@ export default {
     if (this.sharedFolderId && !this.userId) {
       throw new ConfigurationError("`sharedFolderId` requires `userId` to be set — provide the UPN or object ID of the shared mailbox owner.");
     }
-    if (this.folderScope && this.sharedFolderId) {
+    if (this.folderScope && this.folderScope !== "inbox" && this.sharedFolderId) {
       throw new ConfigurationError("`folderScope` and `sharedFolderId` cannot be used together — use one or the other.");
     }
 
@@ -208,8 +208,8 @@ export default {
     }
     const combinedFilter = filterParts.join(" and ") || undefined;
 
-    let folderId = this.folderScope;
-    if (this.folderScope && this.folderScope !== "inbox") {
+    let folderId;
+    if (this.folderScope && this.folderScope !== "inbox" && this.folderScope !== "all") {
       const folder = await this.microsoftOutlook.listAllFolders({
         params: {
           $filter: `displayName eq '${this.folderScope}'`,
@@ -220,6 +220,8 @@ export default {
       } else {
         throw new ConfigurationError(`Folder "${this.folderScope}" not found.`);
       }
+    } else if (this.folderScope === "inbox") {
+      folderId = "inbox";
     }
 
     if (this.countOnly) {

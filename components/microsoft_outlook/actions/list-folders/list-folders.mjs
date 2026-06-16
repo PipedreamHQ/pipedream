@@ -4,7 +4,7 @@ export default {
   key: "microsoft_outlook-list-folders",
   name: "List Folders",
   description: "Retrieves mail folders for the authenticated user. Returns each folder's `id`, `displayName`, `parentFolderId`, `childFolderCount`, `totalItemCount`, and `unreadItemCount`. **Use this action to resolve a folder display name to its ID** — set `Display Name` to filter by exact name. Use **Get Folder** instead when you already have the folder ID. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list-mailfolders?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.22",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
