@@ -19,8 +19,10 @@ export default {
     const response = await this.returnista.getShippingProducts({
       $,
     });
-    const products = response?.data ?? [];
+    const products = response?.data ?? (Array.isArray(response)
+      ? response
+      : []);
     $.export("$summary", `Retrieved ${products.length} shipping product(s)`);
-    return products;
+    return response;
   },
 };
