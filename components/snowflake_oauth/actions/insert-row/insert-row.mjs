@@ -31,7 +31,7 @@ export default {
       props.values = {
         type: "object",
         label: "Values",
-        description: "Enter the values for each column",
+        description: "Provide a value for each column as a key-value object, e.g. `{ \"NAME\": \"Acme\", \"CREATED_AT\": \"2024-01-01\" }`.",
         default: defaultValue,
       };
     }

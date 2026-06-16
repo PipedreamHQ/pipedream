@@ -11,4 +11,7 @@ export default {
   MAX_ROWS_PER_BATCH: 500,
   BATCH_DELAY_MS: 100,
   SAMPLE_ROW_COUNT: 10,
+  // Snowflake unquoted identifier (allows dotted db.schema.table); used to guard
+  // against SQL injection where identifiers must be interpolated, not bound.
+  IDENTIFIER_REGEX: /^[A-Za-z_][A-Za-z0-9_$.]*$/,
 };

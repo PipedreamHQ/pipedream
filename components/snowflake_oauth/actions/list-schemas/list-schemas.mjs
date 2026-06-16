@@ -14,9 +14,12 @@ export default {
   props: {
     snowflake,
     database: {
-      type: "string",
-      label: "Database",
+      propDefinition: [
+        snowflake,
+        "database",
+      ],
       description: "The database whose schemas you want to list. Run the **List Databases** action first to find database names.",
+      optional: false,
     },
   },
   async run({ $ }) {

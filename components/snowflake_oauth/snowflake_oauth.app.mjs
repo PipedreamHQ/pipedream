@@ -173,9 +173,23 @@ export default {
       }
       return rows;
     },
+    /**
+     * Guard an identifier (database, schema, table, column) that must be
+     * interpolated into SQL because it cannot be passed as a bind. Throws a
+     * ConfigurationError on anything outside the safe identifier pattern.
+     */
+    _validateIdentifier(identifier) {
+      const value = `${identifier}`;
+      if (!constants.IDENTIFIER_REGEX.test(value)) {
+        throw new ConfigurationError(`Invalid Snowflake identifier: \`${value}\``);
+      }
+      return value;
+    },
     async listTables({
       database, schema,
     }) {
+      this._validateIdentifier(database);
+      this._validateIdentifier(schema);
       const sqlText = `SHOW TABLES IN SCHEMA ${database}.${schema}`;
       return this.executeQuery({
         sqlText,
@@ -231,22 +245,6 @@ export default {
         sqlText,
         binds,
       };
-      return this.executeQuery(statement);
-    },
-    // Query Snowflake query history.
-    // start and endTime bound the query. Both expect epoch ms timestamps.
-    // filters is a SQL statement that will be ANDed with the query.
-    async queryHistory(startTime, endTime, filters) {
-      const sqlText = `SELECT *
-      FROM SNOWFLAKE.ACCOUNT_USAGE.QUERY_HISTORY
-      WHERE START_TIME >= to_timestamp_ltz(${startTime}, 3)
-      AND START_TIME < to_timestamp_ltz(${endTime}, 3)
-      AND ${filters}
-      ORDER BY START_TIME ASC;`;
-      const statement = {
-        sqlText,
-      };
-      console.log(`Running query: ${sqlText}`);
       return this.executeQuery(statement);
     },
     async getFailedTasksInDatabase({
@@ -307,12 +305,10 @@ export default {
       };
       return this.executeQuery(statement);
     },
-    async getChangesForSpecificObject(startTime, endTime, objectType) {
-      const filters = `QUERY_TYPE != 'SELECT' AND (QUERY_TEXT ILIKE '%CREATE ${objectType}%' OR QUERY_TEXT ILIKE '%ALTER ${objectType}%' OR QUERY_TEXT ILIKE '%DROP ${objectType}%')`;
-      return this.queryHistory(startTime, endTime, filters);
-    },
     async insertRow(tableName, values) {
+      this._validateIdentifier(tableName);
       const columns = Object.keys(values);
+      columns.forEach((column) => this._validateIdentifier(column));
       const binds = Object.values(values);
       const sqlText = `INSERT INTO ${tableName} (${columns.join(",")}) VALUES (${columns.map(() => "?").join(", ")});`;
       const statement = {
@@ -322,6 +318,8 @@ export default {
       return this.executeQuery(statement);
     },
     async _insertRowsOriginal(tableName, columns, values) {
+      this._validateIdentifier(tableName);
+      columns.forEach((column) => this._validateIdentifier(column));
       // Create placeholders for all rows
       const rowPlaceholders = values.map(() =>
         `(${columns.map(() => "?").join(", ")})`).join(", ");

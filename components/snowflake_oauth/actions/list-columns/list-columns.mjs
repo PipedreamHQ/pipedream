@@ -9,9 +9,12 @@ export default {
   props: {
     snowflake,
     tableName: {
-      type: "string",
-      label: "Table Name",
+      propDefinition: [
+        snowflake,
+        "tableName",
+      ],
       description: "The fully-qualified table name in `database.schema.table` form. Run the **List Tables** action first to find it.",
+      optional: false,
     },
   },
   annotations: {
