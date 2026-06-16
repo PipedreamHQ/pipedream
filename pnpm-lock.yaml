@@ -6444,8 +6444,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0
       nodemailer:
-        specifier: ^8.0.5
-        version: 8.0.5
+        specifier: ^8.0.9
+        version: 8.0.9
       pdfkit:
         specifier: ^0.17.2
         version: 0.17.2
@@ -12000,8 +12000,8 @@ importers:
         specifier: ^0.5.47
         version: 0.5.48
       nodemailer:
-        specifier: ^8.0.5
-        version: 8.0.5
+        specifier: ^8.0.9
+        version: 8.0.9
       pluralize:
         specifier: ^8.0.0
         version: 8.0.0
@@ -20283,12 +20283,12 @@ packages:
   '@daytonaio/toolbox-api-client@0.138.0':
     resolution: {integrity: sha512-unM9e7MOQiyDXdY8hCW1uTctYbxpo/TGZ6L71ZXyS/j2Cnz9/ud4VWBLcQP2VzlC+lrBP2YMrhT90zSSvcNfmA==}
 
-  '@definitelytyped/header-parser@0.2.28':
-    resolution: {integrity: sha512-JONMU+bw65y1EHtJggxMM9LdFUuvjFY1SXdSH038HcfYceRKiVHvWnMa8/cCKTAj/X696UqND8MVa5s7cJZwfg==}
+  '@definitelytyped/header-parser@0.2.29':
+    resolution: {integrity: sha512-w2oVQ+VX8zVTXco3NInGwg94SHmoqqfKN5jXkibTrjwevrYTAvxs9OxLZOyO5BdMSF/SIL5L6nJN6C+652mC7w==}
     engines: {node: '>=20.17.0'}
 
-  '@definitelytyped/typescript-versions@0.1.11':
-    resolution: {integrity: sha512-hkO3A+ZyjeiLEXLTYe561uv9hnTvHM15+JTi3RgetfuB/+/Rp4Im1y/m+SehSi6D3iwdnbPckupv5TZ4PnlKPg==}
+  '@definitelytyped/typescript-versions@0.1.12':
+    resolution: {integrity: sha512-sbdf3l4MEhnwGCP0ZxkSdOZH4wtiG7J7YEMwd/i34uAw/yeZkPDhFwORPqdTknzAUmcbIg81aPr6sVk7ZDCgcw==}
     engines: {node: '>=20.17.0'}
 
   '@definitelytyped/utils@0.1.14':
@@ -31224,8 +31224,8 @@ packages:
     resolution: {integrity: sha512-zbj002pZAIkWQFxyAaqoxvn+zoIwRnS40hgjqTXudKOOJkiFFgBeNqjgD3/YCR12sZnrghWYBY+yP1ZucdDRpw==}
     engines: {node: '>=6.0.0'}
 
-  nodemailer@8.0.5:
-    resolution: {integrity: sha512-0PF8Yb1yZuQfQbq+5/pZJrtF6WQcjTd5/S4JOHs9PGFxuTqoB/icwuB44pOdURHJbRKX1PPoJZtY7R4VUoCC8w==}
+  nodemailer@8.0.9:
+    resolution: {integrity: sha512-5ofa7BUN8+C+Hckh5V2GjeeOGRQBx0CJQA6KxrvuZfC8iU4/q7sLn8XrtEEhJkjV6HdyIiQs7Bba6bTao8JhkA==}
     engines: {node: '>=6.0.0'}
 
   nodemon@3.1.11:
@@ -38842,9 +38842,9 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@definitelytyped/header-parser@0.2.28':
+  '@definitelytyped/header-parser@0.2.29':
     dependencies:
-      '@definitelytyped/typescript-versions': 0.1.11
+      '@definitelytyped/typescript-versions': 0.1.12
       '@definitelytyped/utils': 0.1.14
       semver: 7.8.4
     transitivePeerDependencies:
@@ -38853,7 +38853,7 @@ snapshots:
       - react-native-b4a
       - supports-color
 
-  '@definitelytyped/typescript-versions@0.1.11': {}
+  '@definitelytyped/typescript-versions@0.1.12': {}
 
   '@definitelytyped/utils@0.1.14':
     dependencies:
@@ -47443,7 +47443,7 @@ snapshots:
 
   dts-critic@3.3.11(typescript@5.6.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.28
+      '@definitelytyped/header-parser': 0.2.29
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -47460,8 +47460,8 @@ snapshots:
 
   dtslint@4.2.1(typescript@5.6.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.28
-      '@definitelytyped/typescript-versions': 0.1.11
+      '@definitelytyped/header-parser': 0.2.29
+      '@definitelytyped/typescript-versions': 0.1.12
       '@definitelytyped/utils': 0.1.14
       dts-critic: 3.3.11(typescript@5.6.3)
       fs-extra: 6.0.1
@@ -53214,7 +53214,7 @@ snapshots:
 
   nodemailer@8.0.2: {}
 
-  nodemailer@8.0.5: {}
+  nodemailer@8.0.9: {}
 
   nodemon@3.1.11:
     dependencies:
