@@ -105,7 +105,7 @@ export default {
   },
   async run({ $ }) {
     const QUERY = `
-      query GetTokenChart($symbol: String!, $from: Int!, $to: Int!, $resolution: String!, $removeEmptyBars: Boolean, $statsType: TokenStatisticsType, $countback: Int) {
+      query GetTokenChart($symbol: String!, $from: Int!, $to: Int!, $resolution: String!, $removeEmptyBars: Boolean, $statsType: TokenPairStatisticsType, $countback: Int) {
         getBars(symbol: $symbol, from: $from, to: $to, resolution: $resolution, removeEmptyBars: $removeEmptyBars, statsType: $statsType, countback: $countback) {
           o
           h

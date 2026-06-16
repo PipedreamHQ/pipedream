@@ -87,27 +87,48 @@ export default {
   },
   async run({ $ }) {
     const QUERY = `
-      query GetDetailPairStats($pairId: String!, $statsType: TokenPairStatisticsType, $tokenOfInterest: String, $timestamp: Int, $durations: [String!], $bucketCount: Int) {
-        pairStats(pairId: $pairId, statsType: $statsType, tokenOfInterest: $tokenOfInterest, timestamp: $timestamp, durations: $durations, bucketCount: $bucketCount) {
+      query GetDetailedPairStats($pairAddress: String!, $networkId: Int!, $statsType: TokenPairStatisticsType, $tokenOfInterest: TokenOfInterest, $timestamp: Int, $durations: [DetailedPairStatsDuration], $bucketCount: Int) {
+        getDetailedPairStats(pairAddress: $pairAddress, networkId: $networkId, statsType: $statsType, tokenOfInterest: $tokenOfInterest, timestamp: $timestamp, durations: $durations, bucketCount: $bucketCount) {
           pairAddress
           networkId
-          price
-          priceChange1
-          priceChange4
-          priceChange12
-          priceChange24
-          volume1
-          volume4
-          volume12
-          volume24
-          liquidity
+          statsType
+          lastTransaction
+          stats_day1 {
+            duration
+            statsUsd {
+              volume { currentValue change }
+              buyVolume { currentValue }
+              sellVolume { currentValue }
+              open { currentValue }
+              close { currentValue }
+              highest { currentValue }
+              lowest { currentValue }
+              liquidity { currentValue change }
+            }
+            statsNonCurrency {
+              buys { currentValue }
+              sells { currentValue }
+              buyers { currentValue }
+              sellers { currentValue }
+              transactions { currentValue }
+            }
+          }
+          stats_hour1 {
+            duration
+            statsUsd {
+              volume { currentValue }
+              liquidity { currentValue }
+              open { currentValue }
+              close { currentValue }
+            }
+          }
         }
       }
     `;
 
-    const pairId = `${this.pairAddress}:${this.networkId}`;
     const data = await this.app.makeRequest($, QUERY, {
-      pairId,
+      pairAddress: this.pairAddress,
+      networkId: this.networkId,
       statsType: this.statsType || "FILTERED",
       tokenOfInterest: this.tokenOfInterest,
       timestamp: this.timestamp,
@@ -115,8 +136,8 @@ export default {
       bucketCount: this.bucketCount,
     });
 
-    const result = data.pairStats;
-    $.export("$summary", `Retrieved trading stats for pair ${this.pairAddress}`);
+    const result = data.getDetailedPairStats;
+    $.export("$summary", `Retrieved detailed trading stats for pair ${this.pairAddress}`);
     return result;
   },
 };

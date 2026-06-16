@@ -57,7 +57,7 @@ export default {
     filters: {
       type: "string",
       label: "Filters",
-      description: "Advanced market filters as a JSON object. Supports `protocol` (array of `PredictionProtocol`), `status` (array of `PredictionEventStatus`), `categories`, `excludeCategories`, `hasCategories`, `resolutionSource`, and `NumberFilter` fields for liquidity, volume, trades, scoring, and timing (e.g., `liquidityUsd`, `volumeUsd24h`, `trendingScore1h`, `closesAt`). Each `NumberFilter` accepts `gt`, `gte`, `lt`, `lte`, `eq`. Example: `{\"status\": [\"ACTIVE\"], \"liquidityUsd\": {\"gt\": 1000}}`.",
+      description: "Advanced market filters as a JSON object. Supports `protocol` (array of `PredictionProtocol`: `POLYMARKET`, `KALSHI`), `status` (array of `PredictionEventStatus`: `OPEN`, `SUSPENDED`, `RESOLVED`, `CANCELLED`, `PENDING`), `categories`, `excludeCategories`, `hasCategories`, `resolutionSource`, and `NumberFilter` fields for liquidity, volume, trades, scoring, and timing (e.g., `liquidityUsd`, `volumeUsd24h`, `trendingScore1h`, `closesAt`). Each `NumberFilter` accepts `gt`, `gte`, `lt`, `lte`, `eq`. Example: `{\"status\": [\"OPEN\"], \"liquidityUsd\": {\"gt\": 1000}}`.",
       optional: true,
     },
     limit: {
@@ -101,8 +101,20 @@ export default {
         ) {
           results {
             id
-            slug
-            marketType
+            protocol
+            status
+            eventLabel
+            categories
+            closesAt
+            liquidityUsd
+            volumeUsd24h
+            outcome0 {
+              label
+            }
+            outcome1 {
+              label
+            }
+            impliedProbabilitySum
           }
           count
         }
