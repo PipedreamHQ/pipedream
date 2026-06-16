@@ -179,7 +179,7 @@ export default {
     returnRequestId: {
       type: "string",
       label: "Return Request ID",
-      description: "The ID of the return request.",
+      description: "The ID of the return request. Use **Get Return Requests** to find IDs.",
       async options({ accountId }) {
         const { data: returnRequests = [] } = await this.getReturnRequests({
           accountId,
