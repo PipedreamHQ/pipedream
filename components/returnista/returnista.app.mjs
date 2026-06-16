@@ -163,7 +163,7 @@ export default {
     returnLocationId: {
       type: "string",
       label: "Return Location ID",
-      description: "The ID of the return location.",
+      description: "The ID of the return location. Use **Get Return Locations** to find IDs.",
       async options({ accountId }) {
         const { data: returnLocations = [] } = await this.getReturnLocations({
           accountId,
