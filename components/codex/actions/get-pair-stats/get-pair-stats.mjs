@@ -115,7 +115,7 @@ export default {
       bucketCount: this.bucketCount,
     });
 
-    const result = data.pairMetadata;
+    const result = data.pairStats;
     $.export("$summary", `Retrieved trading stats for pair ${this.pairAddress}`);
     return result;
   },

@@ -9,7 +9,7 @@ export default {
     + " Use **Get Networks** to resolve `networkId` if needed."
     + " `from` and `to` are Unix timestamps in seconds (e.g., current time = `Math.floor(Date.now() / 1000)`)."
     + " Valid resolutions: `1` (1 min), `5`, `15`, `30`, `60` (1 hr), `240` (4 hr), `720` (12 hr), `1D`, `7D`."
-    + " [See the documentation](https://docs.codex.io/api-reference/queries/gettokenbars)",
+    + " [See the documentation](https://docs.codex.io/api-reference/queries/getbars)",
   version: "0.0.1",
   type: "action",
   annotations: {

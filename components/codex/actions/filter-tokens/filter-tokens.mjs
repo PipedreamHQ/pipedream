@@ -10,7 +10,7 @@ export default {
     + " To look up a specific token by its known contract address, use **Get Token Details** instead."
     + " Filter to a specific network by passing a numeric `networkId` (e.g., `1` for Ethereum, `137` for Polygon)."
     + " Use **Get Networks** to find numeric network IDs."
-    + " [See the documentation](https://docs.codex.io/reference/filtertokens)",
+    + " [See the documentation](https://docs.codex.io/api-reference/queries/filtertokens)",
   version: "0.0.1",
   type: "action",
   annotations: {

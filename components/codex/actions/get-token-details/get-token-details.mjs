@@ -30,38 +30,45 @@ export default {
   },
   async run({ $ }) {
     const QUERY = `
-      query GetTokenDetails($tokens: [String], $limit: Int) {
-        filterTokens(tokens: $tokens, limit: $limit) {
-          results {
-            token {
-              address
-              name
-              symbol
-              networkId
-              decimals
-            }
-            priceUSD
-            marketCap
-            volume24
-            liquidity
-            change24
+      query GetTokenDetails($ids: [TokenInput!]) {
+        tokens(ids: $ids) {
+          address
+          name
+          symbol
+          networkId
+          decimals
+          isScam
+          info {
+            circulatingSupply
+            totalSupply
+            imageThumbUrl
+            imageSmallUrl
+            imageLargeUrl
           }
-          count
+          socialLinks {
+            twitter
+            discord
+            telegram
+            website
+          }
+          creatorAddress
+          createdAt
+          createTransactionHash
         }
       }
     `;
 
-    const parsed = JSON.parse(this.tokens);
-    const tokens = parsed.map((t) =>
-      typeof t === "string"
-        ? t
-        : `${t.address}:${t.networkId}`);
+    let tokens;
+    try {
+      tokens = JSON.parse(this.tokens);
+    } catch (error) {
+      throw new Error("Invalid tokens input. Please provide a valid JSON array of token inputs.");
+    }
     const data = await this.app.makeRequest($, QUERY, {
-      tokens,
-      limit: tokens.length,
+      ids: tokens,
     });
 
-    const results = data.filterTokens.results;
+    const results = data.tokens;
     $.export("$summary", `Retrieved details for ${results.length} token(s)`);
     return results;
   },
