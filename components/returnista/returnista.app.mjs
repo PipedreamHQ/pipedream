@@ -68,7 +68,7 @@ export default {
     returnOrderId: {
       type: "string",
       label: "Return Order ID",
-      description: "The ID of the return order.",
+      description: "The ID of the return order. Use **Get Return Orders** to find IDs.",
       async options({ accountId }) {
         const { data } = await this.getReturnOrders({
           accountId,
