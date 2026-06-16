@@ -62,20 +62,26 @@ export default {
       for await (const item of items) {
         responseArray.push(item);
       }
-      if (responseArray.length) {
-        this._setLastDate(responseArray[0].receivedDateTime);
-      }
-
-      for (const item of responseArray.reverse()) {
-        const ts = Date.parse(item.receivedDateTime);
-        this.$emit(
-          item,
-          {
-            id: md5(item.id),
-            summary: `A new email with subject ${item.subject} was received!`,
-            ts,
-          },
-        );
+      let newLastDate;
+      try {
+        for (const item of responseArray.reverse()) {
+          const ts = Date.parse(item.receivedDateTime);
+          this.$emit(
+            item,
+            {
+              id: md5(item.id),
+              summary: `A new email with subject ${item.subject} was received!`,
+              ts,
+            },
+          );
+          // advance the checkpoint only after a successful emit, so a failed
+          // emit doesn't silently skip un-emitted events on the next poll
+          newLastDate = item.receivedDateTime;
+        }
+      } finally {
+        if (newLastDate) {
+          this._setLastDate(newLastDate);
+        }
       }
     },
   },
