@@ -5,6 +5,10 @@
  * runtime validation.
  */
 
+/**
+ * Enforce the source and delivery field requirements that n8n expressed with
+ * displayOptions. Throws once with every missing-field message joined.
+ */
 export function validateParams(props) {
   const errors = [];
   if (props.sourceType === "url" && !props.url) {
@@ -27,6 +31,7 @@ export function validateParams(props) {
   }
 }
 
+/** Shape the delivery sub-object (download, cloudStorage, or webhook) from the flat props. */
 function deliveryFromProps(props) {
   const mode = props.deliveryMode ?? "download";
   const delivery = {
@@ -44,6 +49,7 @@ function deliveryFromProps(props) {
   return delivery;
 }
 
+/** Extract the props shared by every action into the buildRequestBody param shape. */
 export function commonParams(props) {
   return {
     sourceType: props.sourceType,

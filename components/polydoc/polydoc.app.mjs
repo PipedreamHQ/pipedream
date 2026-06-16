@@ -43,7 +43,7 @@ export default {
     templateData: {
       type: "object",
       label: "Template Data",
-      description: "Key-value data passed to the Liquid template renderer. Used when Source Type is `template`.",
+      description: "Key-value data passed to the Liquid template renderer. Example: `{ \"customerName\": \"Ada Lovelace\", \"invoiceNumber\": \"INV-1001\" }`. Used when Source Type is `template`.",
       optional: true,
     },
     filename: {
@@ -86,7 +86,7 @@ export default {
     webhookOptions: {
       type: "object",
       label: "Webhook Options",
-      description: "Optional webhook settings: `async` (bool), `method`, `headers`, `retries`, `retryDelay`, `timeout`.",
+      description: "Optional webhook settings. Example: `{ \"async\": true, \"method\": \"POST\", \"headers\": { \"X-Signature\": \"abc123\" }, \"retries\": 3, \"retryDelay\": 1000, \"timeout\": 10000 }`.",
       optional: true,
     },
     advanced: {
@@ -229,7 +229,7 @@ export default {
     invoice: {
       type: "object",
       label: "Invoice",
-      description: "Structured invoice data (EN 16931). Requires at minimum `number`, `issueDate`, `currencyCode`, `seller`, `buyer`, `lines`, and the `totalNetAmount` / `totalTaxAmount` / `totalGrossAmount` totals. Include `dueDate` or `paymentTerms` to satisfy validation.",
+      description: "Structured invoice data (EN 16931). Example: `{ \"number\": \"INV-1001\", \"issueDate\": \"2026-06-16\", \"currencyCode\": \"EUR\", \"seller\": { \"name\": \"Acme GmbH\" }, \"buyer\": { \"name\": \"Example SARL\" }, \"lines\": [{ \"name\": \"Consulting\", \"quantity\": 1, \"unitPrice\": 100 }], \"totalNetAmount\": 100, \"totalTaxAmount\": 20, \"totalGrossAmount\": 120 }`. Requires at minimum `number`, `issueDate`, `currencyCode`, `seller`, `buyer`, `lines`, and the `totalNetAmount` / `totalTaxAmount` / `totalGrossAmount` totals. Include `dueDate` or `paymentTerms` to satisfy validation.",
     },
     eInvoiceVerify: {
       type: "boolean",
@@ -240,9 +240,14 @@ export default {
     },
   },
   methods: {
+    /** The PolyDoc API base URL with any trailing slashes trimmed. */
     _baseUrl() {
       return DEFAULT_BASE_URL.replace(/\/+$/, "");
     },
+    /**
+     * Request headers: JSON content type, Bearer auth, and the per-request
+     * X-Sandbox flag taken from the connected account.
+     */
     _headers(extra = {}) {
       return {
         "Content-Type": "application/json",

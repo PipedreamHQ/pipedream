@@ -10,6 +10,7 @@ import {
  * Ported from the n8n connector's GenericFunctions.buildRequestBody.
  */
 
+/** True for a non-null, non-array object (a deep-mergeable map). */
 function isPlainObject(value) {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
@@ -32,6 +33,7 @@ export function mergeDeep(target, source) {
   return out;
 }
 
+/** Map the source type and inputs to the API `source` string (a URL, raw HTML, or a `[template:id]` reference). */
 function resolveSource(params) {
   switch (params.sourceType) {
     case "url":
@@ -45,6 +47,7 @@ function resolveSource(params) {
   }
 }
 
+/** Collect the set PDF layout options into the API `layout` object, or undefined when none were set. */
 function buildLayout(opts) {
   const layout = {};
   if (typeof opts.format === "string" && opts.format !== "") {
@@ -84,6 +87,7 @@ function buildLayout(opts) {
   return Object.keys(layout).length > 0 ? layout : undefined;
 }
 
+/** Collect the set screenshot options into the API `screenshot` object, or undefined when none were set. */
 function buildScreenshot(opts) {
   const shot = {};
   if (typeof opts.imageType === "string" && opts.imageType !== "") {

@@ -10,12 +10,13 @@ export default {
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
-    readOnlyHint: true,
+    readOnlyHint: false,
   },
   props: {
     polydoc,
   },
   async run({ $ }) {
+    // Binary error bodies arrive as raw bytes; decode them to surface PolyDoc's message.
     try {
       await this.polydoc.testConnection($);
     } catch (error) {

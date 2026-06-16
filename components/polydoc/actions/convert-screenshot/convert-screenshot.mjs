@@ -140,6 +140,11 @@ export default {
         "advanced",
       ],
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
+    },
   },
   async run({ $ }) {
     validateParams(this);
@@ -168,6 +173,7 @@ export default {
     const effectiveBinary = isBinary && !wantBase64;
 
     let response;
+    // Binary error bodies arrive as raw bytes; decode them to surface PolyDoc's message.
     try {
       response = await this.polydoc._request({
         $,

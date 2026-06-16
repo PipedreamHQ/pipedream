@@ -2,6 +2,7 @@ import fs from "fs/promises";
 import path from "path";
 import { defaultFilename } from "./build-request-body.mjs";
 
+/** Case-insensitive lookup of a single response header value. */
 function headerValue(headers, name) {
   if (!headers) {
     return undefined;
@@ -47,7 +48,8 @@ export function extractApiErrorMessage(error) {
 
 /**
  * Turn a PolyDoc API response into an action return value.
- * - Binary download: write the bytes to /tmp and return the path plus metadata.
+ * - Binary download: write the bytes to the synced file dir (STASH_DIR, /tmp
+ *   fallback) and return the path plus metadata so Pipedream syncs the file.
  * - Cloud storage / webhook / base64 screenshot: pass the JSON response through.
  */
 export async function handleResponse({
@@ -69,7 +71,7 @@ export async function handleResponse({
 
   const name = path.basename(filename || defaultFilename(operation, imageType));
   const buffer = Buffer.from(response.data);
-  const filePath = `/tmp/${name}`;
+  const filePath = path.join(process.env.STASH_DIR || "/tmp", name);
   await fs.writeFile(filePath, buffer);
 
   return {
