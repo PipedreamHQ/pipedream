@@ -57,7 +57,7 @@ export default {
 
         for (const file of pageFiles) {
           const ts = getTimestamp(file);
-          if (ts > lastTs) {
+          if (ts >= lastTs) {
             files.push(file);
           }
         }

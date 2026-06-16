@@ -59,7 +59,7 @@ export default {
 
         for (const command of pageCommands) {
           const ts = getTimestamp(command);
-          if (ts > lastTs) {
+          if (ts >= lastTs) {
             commands.push(command);
           }
         }

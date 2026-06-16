@@ -20,7 +20,9 @@ export function parseObject(value, label) {
 }
 
 export function parseRequiredObject(value, label) {
-  return parseObject(value, label) || {};
+  const result = parseObject(value, label);
+  if (!result) throw new ConfigurationError(`${label} is required`);
+  return result;
 }
 
 export function parseArray(value, label) {
@@ -51,7 +53,9 @@ export function validateKeys(object, prefix, label) {
 
 export function normalizeList(response, key) {
   if (Array.isArray(response)) return response;
-  return response?.[key] || [];
+  return Array.isArray(response?.[key])
+    ? response[key]
+    : [];
 }
 
 export function getCommandId(command) {
