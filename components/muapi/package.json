@@ -1,0 +1,11 @@
+{
+  "name": "@pipedream/muapi",
+  "version": "0.1.0",
+  "description": "Pipedream components for MuAPI — AI image and video generation",
+  "main": "muapi.app.mjs",
+  "keywords": ["pipedream", "muapi", "ai", "image-generation", "video-generation"],
+  "homepage": "https://muapi.ai",
+  "author": "Pipedream <support@pipedream.com>",
+  "publishConfig": { "access": "public" },
+  "dependencies": { "@pipedream/platform": "^3.0.0" }
+}
