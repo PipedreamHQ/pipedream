@@ -44,7 +44,7 @@ export default {
     staffId: {
       type: "string",
       label: "Staff ID",
-      description: "The staff member (instructor/therapist) who will deliver the service. Use **List Staff** to find IDs.",
+      description: "The staff member (instructor/therapist) who will deliver the service. Staff member must be an instructor for the requested service. Use **List Staff** to find IDs.",
     },
     notes: {
       type: "string",
@@ -57,18 +57,22 @@ export default {
     const body = {
       ClientId: this.clientId,
       LocationId: this.locationId,
-      SessionTypeId: this.sessionTypeId,
-      StartDateTime: this.startDateTime,
-      StaffId: this.staffId,
-      Notes: this.notes,
+      ItineraryEvents: [
+        {
+          SessionTypeId: this.sessionTypeId,
+          StartDateTime: this.startDateTime,
+          StaffId: this.staffId,
+          Notes: this.notes,
+        },
+      ],
     };
 
     const response = await this.app.addAppointment({
       $,
       data: body,
     });
-    const appt = response.Appointment || {};
-    $.export("$summary", `Booked appointment ${appt.Id} for client ${this.clientId} on ${this.startDateTime}`);
+    const appt = response?.Itinerary?.[0] || {};
+    $.export("$summary", `Booked appointment ${appt?.Id} for client ${this.clientId} on ${this.startDateTime}`);
     return response;
   },
 };
