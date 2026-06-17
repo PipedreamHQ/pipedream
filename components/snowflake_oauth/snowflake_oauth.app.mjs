@@ -1,18 +1,10 @@
-import snowflake from "snowflake-sdk";
-import { promisify } from "util";
-import {
-  sqlProxy, sqlProp, ConfigurationError,
-} from "@pipedream/platform";
-import utils from "./common/utils.mjs";
+import common from "@pipedream/snowflake";
+import { ConfigurationError } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
 
-snowflake.configure({
-  logLevel: "WARN",
-});
-
 export default {
+  ...common,
   app: "snowflake_oauth",
-  type: "app",
   propDefinitions: {
     database: {
       type: "string",
@@ -64,14 +56,11 @@ export default {
     },
   },
   methods: {
-    ...sqlProxy.methods,
-    ...sqlProp.methods,
+    ...common.methods,
     /**
-     * A helper method to get the configuration object that's directly fed to
-     * the Snowflake client constructor. Used by other features (like SQL proxy)
-     * to initialize their client in an identical way.
-     *
-     * @returns The configuration object for the Snowflake client
+     * Reuse the entire key-based Snowflake engine from @pipedream/snowflake and
+     * override ONLY the auth: this OAuth variant collects a full account URL and
+     * an OAuth access token instead of account/username/private-key.
      */
     getClientConfiguration() {
       const {
@@ -87,91 +76,6 @@ export default {
         token,
         application: "PIPEDREAM_PIPEDREAM",
       };
-    },
-    async _getConnection() {
-      if (this.connection) {
-        return this.connection;
-      }
-
-      const options = this.getClientConfiguration();
-      this.connection = snowflake.createConnection(options);
-      await promisify(this.connection.connect).bind(this.connection)();
-      return this.connection;
-    },
-    /**
-     * A helper method to get the schema of the database. Used by other features
-     * (like the `sql` prop) to enrich the code editor and provide the user with
-     * auto-complete and fields suggestion.
-     *
-     * @returns {DbInfo} The schema of the database, which is a
-     * JSON-serializable object.
-     */
-    async getSchema() {
-      const sqlText = `
-        SELECT LOWER(t.table_schema) AS "tableSchema",
-            LOWER(t.table_name) AS "tableName",
-            TO_NUMERIC(t.row_count) AS "rowCount",
-            LOWER(c.column_name) AS "columnName",
-            LOWER(c.data_type) AS "dataType",
-            LOWER(c.is_nullable) AS "isNullable",
-            LOWER(c.column_default) AS "columnDefault"
-        FROM information_schema.tables AS t
-            JOIN information_schema.columns AS c ON t.table_name = c.table_name
-            AND t.table_schema = c.table_schema
-        WHERE t.table_schema = ?
-        ORDER BY t.table_name,
-            c.ordinal_position;
-      `;
-      const binds = [
-        this.$auth.schema,
-      ];
-      const rows = await this.executeQuery({
-        sqlText,
-        binds,
-      });
-      return rows.reduce((acc, row) => {
-        acc[row.tableName] ??= {
-          metadata: {
-            rowCount: row.rowCount,
-          },
-          schema: {},
-        };
-        acc[row.tableName].schema[row.columnName] = {
-          ...row,
-        };
-        return acc;
-      }, {});
-    },
-    proxyAdapter(preparedStatement = {}) {
-      const {
-        sqlText: query = "",
-        binds: params = [],
-      } = preparedStatement;
-      return {
-        query,
-        params,
-      };
-    },
-    executeQueryAdapter(proxyArgs = {}) {
-      const {
-        query: sqlText = "",
-        params: binds = [],
-      } = proxyArgs;
-      return {
-        sqlText,
-        binds,
-      };
-    },
-    async executeQuery(statement) {
-      const connection = await this._getConnection();
-      const executedStatement = connection.execute(statement);
-
-      const rowStream = await executedStatement.streamRows();
-      const rows = [];
-      for await (const row of rowStream) {
-        rows.push(row);
-      }
-      return rows;
     },
     /**
      * Guard an identifier (database, schema, table, column) that must be
@@ -195,116 +99,6 @@ export default {
         sqlText,
       });
     },
-    async listDatabases() {
-      const sqlText = "SHOW DATABASES";
-      return this.executeQuery({
-        sqlText,
-      });
-    },
-    async listSchemas(database) {
-      const sqlText = "SHOW SCHEMAS IN DATABASE IDENTIFIER(:1)";
-      return this.executeQuery({
-        sqlText,
-        binds: [
-          database,
-        ],
-      });
-    },
-    async listWarehouses() {
-      const sqlText = "SHOW WAREHOUSES";
-      return this.executeQuery({
-        sqlText,
-      });
-    },
-    async listUsers() {
-      const sqlText = "SHOW USERS";
-      return this.executeQuery({
-        sqlText,
-      });
-    },
-    async maxQueryHistoryTimestamp() {
-      const sqlText = "SELECT MAX(START_TIME) AS max_ts FROM SNOWFLAKE.ACCOUNT_USAGE.QUERY_HISTORY";
-      const maxTs = await this.executeQuery({
-        sqlText,
-      });
-      return +new Date(maxTs[0]?.MAX_TS);
-    },
-    async maxTaskHistoryTimestamp() {
-      const sqlText = "SELECT MAX(QUERY_START_TIME) AS max_ts FROM TABLE(INFORMATION_SCHEMA.TASK_HISTORY())";
-      const maxTs = await this.executeQuery({
-        sqlText,
-      });
-      return +new Date(maxTs[0]?.MAX_TS);
-    },
-    async listFieldsForTable(tableName) {
-      const sqlText = "DESCRIBE TABLE IDENTIFIER(:1)";
-      const binds = [
-        tableName,
-      ];
-      const statement = {
-        sqlText,
-        binds,
-      };
-      return this.executeQuery(statement);
-    },
-    async getFailedTasksInDatabase({
-      startTime, database, schemas, taskName,
-    }) {
-      const binds = [
-        startTime,
-        database,
-      ];
-
-      const schemaList = [];
-      for (const schema of schemas) {
-        schemaList.push("REGEXP_LIKE(SCHEMA_NAME, ?)");
-        binds.push(schema);
-      }
-
-      const taskNameWhere = taskName
-        ? "AND REGEXP_LIKE(NAME, ?)"
-        : "";
-
-      if (taskName) {
-        binds.push(taskName.toUpperCase());
-      }
-
-      const sqlText = `SELECT *
-      FROM TABLE(INFORMATION_SCHEMA.TASK_HISTORY(
-        RESULT_LIMIT => 10000,
-        ERROR_ONLY => TRUE,
-        SCHEDULED_TIME_RANGE_START => to_timestamp_ltz(?, 3)
-      ))
-      WHERE database_name = ?
-      AND (${schemaList.join(" OR ")})
-      ${taskNameWhere}
-      ORDER BY SCHEDULED_TIME ASC, QUERY_START_TIME ASC, COMPLETED_TIME ASC;`;
-      const statement = {
-        sqlText,
-        binds,
-      };
-      return this.executeQuery(statement);
-    },
-    async getFailedTasksInWarehouse({
-      startTime, endTime, warehouse,
-    }) {
-      const sqlText = `SELECT *
-      FROM TABLE(INFORMATION_SCHEMA.TASK_HISTORY())
-      WHERE QUERY_START_TIME >= to_timestamp_ltz(:1, 3)
-      AND QUERY_START_TIME < to_timestamp_ltz(:2, 3)
-      AND state = 'FAILED'
-      AND warehouse = :3
-      ORDER BY QUERY_START_TIME ASC;`;
-      const statement = {
-        sqlText,
-        binds: [
-          startTime,
-          endTime,
-          warehouse,
-        ],
-      };
-      return this.executeQuery(statement);
-    },
     async insertRow(tableName, values) {
       this._validateIdentifier(tableName);
       const columns = Object.keys(values);
@@ -320,124 +114,15 @@ export default {
     async _insertRowsOriginal(tableName, columns, values) {
       this._validateIdentifier(tableName);
       columns.forEach((column) => this._validateIdentifier(column));
-      // Create placeholders for all rows
       const rowPlaceholders = values.map(() =>
         `(${columns.map(() => "?").join(", ")})`).join(", ");
-
       const sqlText = `INSERT INTO ${tableName} (${columns.join(",")}) VALUES ${rowPlaceholders}`;
-
-      // Flatten all values into a single array for binding
       const binds = values.flat();
-
       const statement = {
         sqlText,
         binds,
       };
-
       return this.executeQuery(statement);
-    },
-    async insertRows(tableName, columns, values, options = {}) {
-      const {
-        batchSize = constants.DEFAULT_BATCH_SIZE,
-        maxPayloadSizeMB = constants.MAX_PAYLOAD_SIZE_MB,
-        enableBatching = true,
-      } = options;
-
-      // If batching is disabled or small dataset, use original approach
-      if (!enableBatching || values.length <= constants.INSERT_BATCH_THRESHOLD) {
-        return this._insertRowsOriginal(tableName, columns, values);
-      }
-
-      // Estimate payload size for dynamic batch sizing
-      const sampleRowData = values.slice(0, Math.min(constants.SAMPLE_ROW_COUNT, values.length));
-      const sampleSize = utils.estimatePayloadSize(sampleRowData);
-      const avgRowSize = sampleSize / sampleRowData.length;
-      const maxSizeBytes = maxPayloadSizeMB * 1024 * 1024;
-
-      // Calculate optimal batch size with safety margin
-      const calculatedBatchSize = Math.floor(
-        (maxSizeBytes * constants.BATCH_SAFETY_MARGIN) / avgRowSize,
-      );
-      const optimalBatchSize = Math.min(
-        Math.max(calculatedBatchSize, constants.MIN_ROWS_PER_BATCH),
-        Math.min(batchSize, constants.MAX_ROWS_PER_BATCH),
-      );
-
-      console.log(`Processing ${values.length} rows in batches of ${optimalBatchSize}`);
-
-      // Split into batches
-      const batches = utils.createBatches(values, optimalBatchSize);
-
-      // Process batches sequentially
-      const results = [];
-      let totalRowsProcessed = 0;
-      let successfulBatches = 0;
-      let failedBatches = 0;
-
-      for (let i = 0; i < batches.length; i++) {
-        const batch = batches[i];
-
-        try {
-          console.log(`Processing batch ${i + 1}/${batches.length} (${batch.length} rows)`);
-
-          const batchResult = await this._insertRowsOriginal(tableName, columns, batch);
-
-          results.push({
-            batchIndex: i + 1,
-            rowsProcessed: batch.length,
-            success: true,
-            result: batchResult,
-          });
-
-          totalRowsProcessed += batch.length;
-          successfulBatches++;
-
-          // Small delay between batches to prevent overwhelming the server
-          if (i < batches.length - 1) {
-            await new Promise((resolve) => setTimeout(resolve, constants.BATCH_DELAY_MS));
-          }
-
-        } catch (error) {
-          console.log(`Batch ${i + 1} failed:`, error.message);
-
-          results.push({
-            batchIndex: i + 1,
-            rowsProcessed: 0,
-            success: false,
-            error: error.message,
-          });
-
-          failedBatches++;
-
-          // Continue processing remaining batches
-        }
-      }
-
-      const summary = {
-        totalRows: values.length,
-        totalBatches: batches.length,
-        successfulBatches,
-        failedBatches,
-        totalRowsProcessed,
-        batchSize: optimalBatchSize,
-        results,
-      };
-
-      console.log(`Batch processing completed: ${totalRowsProcessed}/${values.length} rows processed`);
-
-      if (failedBatches) {
-        const error = new ConfigurationError(
-          `Batch insert partially failed: \`${totalRowsProcessed}/${values.length}\` rows inserted. \`${failedBatches}\` batches failed.`,
-        );
-        error.summary = summary;
-        throw error;
-      }
-
-      return {
-        success: true,
-        message: `Successfully inserted ${totalRowsProcessed} rows in ${batches.length} batches`,
-        summary,
-      };
     },
   },
 };
