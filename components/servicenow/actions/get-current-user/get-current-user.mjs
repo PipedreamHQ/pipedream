@@ -5,7 +5,7 @@ export default {
   key: "servicenow-get-current-user",
   name: "Get Current User",
   description: "Returns the authenticated ServiceNow user's sys_id, name, email, username, and instance URL. Call this first when the user says 'my incidents', 'my cases', 'assigned to me', or needs their ServiceNow identity. Use `sys_id` to filter records in **Get Table Records** (e.g. `assigned_to={sys_id}`) or **Create Table Record**. [See the documentation](https://docs.servicenow.com/bundle/vancouver-api-reference/page/integrate/inbound-rest/concept/c_TableAPI.html).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
