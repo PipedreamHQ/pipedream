@@ -9,7 +9,7 @@ export default {
     + " Use **Get Networks** to resolve `networkId` if needed."
     + " `from` and `to` are Unix timestamps in seconds (e.g., current time = `Math.floor(Date.now() / 1000)`)."
     + " Valid resolutions: `1` (1 min), `5`, `15`, `30`, `60` (1 hr), `240` (4 hr), `720` (12 hr), `1D`, `7D`."
-    + " [See the documentation](https://docs.codex.io/api-reference/queries/getbars)",
+    + " [See the documentation](https://docs.codex.io/api-reference/queries/gettokenbars)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -102,11 +102,29 @@ export default {
       description: "Guarantees number of bars returned is at most this number. Use countback: 1500 with from: 0 for maximum results.",
       optional: true,
     },
+    currencyCode: {
+      type: "string",
+      label: "Currency Code",
+      description: "The currency to use for the response. Can be USD or TOKEN. Default is USD. Use currencyCode: TOKEN for native token pricing.",
+      optional: true,
+    },
+    removeLeadingNullValues: {
+      type: "boolean",
+      label: "Remove Leading Null Values",
+      description: "Whether to remove leading null values from the response. Default is false. To fetch a token’s entire history, set resolution to 1D, from value to 0 and removeLeadingNullValues to true.",
+      optional: true,
+    },
+    removeEmptyBars: {
+      type: "boolean",
+      label: "Remove Empty Bars",
+      description: "Whether to remove empty bars from the response. This is useful for eliminating gaps in low-activity tokens. Default is false.",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const QUERY = `
-      query GetTokenChart($symbol: String!, $from: Int!, $to: Int!, $resolution: String!, $removeEmptyBars: Boolean, $statsType: TokenPairStatisticsType, $countback: Int) {
-        getBars(symbol: $symbol, from: $from, to: $to, resolution: $resolution, removeEmptyBars: $removeEmptyBars, statsType: $statsType, countback: $countback) {
+      query GetTokenChart($symbol: String!, $from: Int!, $to: Int!, $resolution: String!, $currencyCode: String, $removeLeadingNullValues: Boolean, $removeEmptyBars: Boolean, $statsType: TokenPairStatisticsType, $countback: Int) {
+        getBars(symbol: $symbol, from: $from, to: $to, resolution: $resolution, currencyCode: $currencyCode, removeLeadingNullValues: $removeLeadingNullValues, removeEmptyBars: $removeEmptyBars, statsType: $statsType, countback: $countback) {
           o
           h
           l
@@ -125,7 +143,9 @@ export default {
       from: this.from,
       to,
       resolution: this.resolution,
-      removeEmptyBars: true,
+      currencyCode: this.currencyCode,
+      removeLeadingNullValues: this.removeLeadingNullValues,
+      removeEmptyBars: this.removeEmptyBars,
       statsType: this.statsType || "UNFILTERED",
       countback: this.countback,
     });
