@@ -1,5 +1,5 @@
 import app from "../../snowflake_oauth.app.mjs";
-import common from "@pipedream/snowflake/actions/execute-sql-query/execute-sql-query.mjs";
+import common from "@pipedream/snowflake/actions/list-database-options/list-database-options.mjs";
 
 import { adjustPropDefinitions } from "../../common/utils.mjs";
 
@@ -10,7 +10,7 @@ const props = adjustPropDefinitions(others.props, app);
 
 export default {
   ...others,
-  key: "snowflake_oauth-execute-sql-query",
+  key: "snowflake_oauth-list-database-options",
   version: "0.0.1",
   name,
   description,
@@ -18,11 +18,5 @@ export default {
   props: {
     snowflake: app,
     ...props,
-    sql: {
-      ...props.sql,
-      auth: {
-        app: "snowflake_oauth",
-      },
-    },
   },
 };
