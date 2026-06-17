@@ -19,7 +19,6 @@ export default {
         "database",
       ],
       description: "The database whose schemas you want to list. Run the **List Databases** action first to find database names.",
-      optional: false,
     },
   },
   async run({ $ }) {

@@ -19,7 +19,6 @@ export default {
         "database",
       ],
       description: "The database. Run the **List Databases** action first.",
-      optional: false,
     },
     schema: {
       propDefinition: [
@@ -27,7 +26,6 @@ export default {
         "schema",
       ],
       description: "The schema. Run the **List Schemas** action (with your database) first.",
-      optional: false,
     },
   },
   async run({ $ }) {
