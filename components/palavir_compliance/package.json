@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/palavir_compliance",
+  "version": "0.1.0",
+  "description": "Pipedream Palavir Compliance Components",
+  "main": "palavir_compliance.app.mjs",
+  "keywords": [
+    "pipedream",
+    "palavir_compliance"
+  ],
+  "homepage": "https://pipedream.com/apps/palavir_compliance",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.4.0"
+  }
+}

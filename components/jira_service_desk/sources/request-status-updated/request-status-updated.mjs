@@ -6,7 +6,7 @@ export default {
   name: "Request Status Updated",
   description:
     "Emit new event when a customer request is updated. [See the documentation](https://developer.atlassian.com/cloud/jira/service-desk/rest/#api-rest-servicedeskapi-request-get)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
