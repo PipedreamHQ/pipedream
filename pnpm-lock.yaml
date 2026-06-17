@@ -14453,8 +14453,8 @@ importers:
   components/shipstation:
     dependencies:
       '@pipedream/platform':
-        specifier: ^0.10.1
-        version: 0.10.1
+        specifier: ^3.4.0
+        version: 3.4.0
 
   components/shopify:
     dependencies:
@@ -16405,6 +16405,9 @@ importers:
       transloadit:
         specifier: ^4.0.0
         version: 4.0.6
+
+  components/travel_code:
+    specifiers: {}
 
   components/travis_ci:
     dependencies:
