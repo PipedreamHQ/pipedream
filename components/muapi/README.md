@@ -1,6 +1,6 @@
 # MuAPI
 
-[MuAPI](https://muapi.ai) is a generative media API aggregator giving you access to 50+ AI models for image generation, video generation, audio, and 3D through a single unified API.
+[MuAPI](https://muapi.ai) is a generative media API aggregator giving you access to 400+ AI models for image generation, video generation, audio, and 3D through a single unified API.
 
 ## Actions
 
