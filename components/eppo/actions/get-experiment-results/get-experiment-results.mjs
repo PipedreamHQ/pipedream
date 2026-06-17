@@ -7,7 +7,7 @@ export default {
     "Retrieve full details and analysis results for a single experiment, including outcome, winning variant key, key takeaways, and per-metric results."
     + " Use this when the user asks about experiment performance, results, or analysis for a specific experiment."
     + " Use **List Experiments** first to find the numeric `experimentId` — Eppo uses integer IDs for experiment lookups."
-    + " Set `allowDelete` to `true` to permit deletion of the experiment alongside retrieval."
+    + " Set `allowDeleted` to `true` to include soft-deleted experiments in the response."
     + " [See the documentation](https://eppo.cloud/api/docs#/Experiments/getExperiment)",
   version: "0.0.1",
   type: "action",
@@ -35,10 +35,10 @@ export default {
         "withFullCupedData",
       ],
     },
-    allowDelete: {
+    allowDeleted: {
       type: "boolean",
-      label: "Allow Delete",
-      description: "Whether to allow deletion of the experiment",
+      label: "Allow Deleted",
+      description: "Set to `true` to include soft-deleted experiments in the response.",
       optional: true,
     },
   },
@@ -49,7 +49,7 @@ export default {
       params: {
         with_calculated_metrics: this.withCalculatedMetrics,
         with_full_cuped_data: this.withFullCupedData,
-        allow_delete: this.allowDelete,
+        allow_delete: this.allowDeleted,
       },
     });
     $.export("$summary", `Retrieved results for experiment ${this.experimentId}: ${response?.name ?? ""}`);

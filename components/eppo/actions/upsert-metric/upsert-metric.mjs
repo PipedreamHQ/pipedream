@@ -144,14 +144,23 @@ export default {
     if (activeFamilies > 1) {
       throw new ConfigurationError("Provide only one metric definition: `numerator`/`denominator`, `percentile`, or `funnelAggregation`.");
     }
+    if (activeFamilies === 0 && this.metricId === undefined) {
+      throw new ConfigurationError("Provide exactly one metric definition: `numerator`/`denominator`, `percentile`, or `funnelAggregation`.");
+    }
+
+    let minimumDetectableEffect;
+    if (this.minimumDetectableEffect) {
+      minimumDetectableEffect = parseFloat(this.minimumDetectableEffect);
+      if (isNaN(minimumDetectableEffect)) {
+        throw new ConfigurationError("`Minimum Detectable Effect` must be a valid decimal number (e.g. `0.05` for 5%).");
+      }
+    }
 
     const data = {
       name: this.name,
       description: this.description,
       metric_display_style: this.displayStyle,
-      minimum_detectable_effect: this.minimumDetectableEffect
-        ? parseFloat(this.minimumDetectableEffect)
-        : undefined,
+      minimum_detectable_effect: minimumDetectableEffect,
       entity_id: this.entityId,
       type: this.type,
       desired_change: this.desiredChange,

@@ -45,7 +45,7 @@ export default {
     tagNames: {
       type: "string[]",
       label: "Tag Names",
-      description: "The names of the tags to add to the flag",
+      description: "The names of the tags to add to the flag. Example: `[\"growth\", \"checkout\"]`.",
     },
   },
   async run({ $ }) {
