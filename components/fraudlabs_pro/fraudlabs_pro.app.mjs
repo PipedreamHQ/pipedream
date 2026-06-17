@@ -1,6 +1,6 @@
 import { axios } from "@pipedream/platform";
 import {
-  API_BASE_URL, API_VERSION, FORM_BODY_METHODS,
+  API_BASE_URL, API_VERSION,
 } from "./common/constants.mjs";
 
 export default {
@@ -16,14 +16,13 @@ export default {
   },
   methods: {
     sendSmsVerification(args = {}) {
-      return this._apiRequest({
-        method: "POST",
+      return this._post({
         path: "/verification/send",
         ...args,
       });
     },
     verifyOtp(args = {}) {
-      return this._apiRequest({
+      return this._get({
         path: "/verification/result",
         ...args,
       });
@@ -62,38 +61,37 @@ export default {
     _apiBaseUrl() {
       return `${API_BASE_URL}/${API_VERSION}`;
     },
-    _apiRequest({
-      $ = this, method = "get", path, params, data, ...args
+    // `format` is an overridable default; `key` is applied last so caller input
+    // cannot override it.
+    _get({
+      $ = this, path, params, ...args
     }) {
-      const isFormBody = FORM_BODY_METHODS.includes(method.toLowerCase());
-      // `params` go on the query string, `data` in the form body. `format` is
-      // an overridable default; `key` is applied last so caller input cannot
-      // override it.
-      if (isFormBody) {
-        return axios($, {
-          url: `${this._apiBaseUrl()}${path}`,
-          method,
-          params,
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-          data: new URLSearchParams({
-            format: "json",
-            ...data,
-            key: this.$auth.api_key,
-          }).toString(),
-          ...args,
-        });
-      }
       return axios($, {
         url: `${this._apiBaseUrl()}${path}`,
-        method,
         params: {
           format: "json",
           ...params,
-          ...data,
           key: this.$auth.api_key,
         },
+        ...args,
+      });
+    },
+    // FraudLabs Pro v2 write endpoints read fields from the form-urlencoded
+    // request body, not the query string.
+    _post({
+      $ = this, path, data, ...args
+    }) {
+      return axios($, {
+        url: `${this._apiBaseUrl()}${path}`,
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        data: new URLSearchParams({
+          format: "json",
+          ...data,
+          key: this.$auth.api_key,
+        }).toString(),
         ...args,
       });
     },
