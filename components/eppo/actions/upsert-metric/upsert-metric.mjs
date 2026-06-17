@@ -37,9 +37,10 @@ export default {
       optional: true,
     },
     entityId: {
-      type: "integer",
-      label: "Entity ID",
-      description: "The numeric entity type ID this metric measures (e.g. user, session). Use **List Metrics** to find the `entity_id` from any existing metric — all metrics in the same workspace typically share the same entity ID.",
+      propDefinition: [
+        app,
+        "entityId",
+      ],
     },
     name: {
       type: "string",
@@ -148,7 +149,9 @@ export default {
       name: this.name,
       description: this.description,
       metric_display_style: this.displayStyle,
-      minimum_detectable_effect: this.minimumDetectableEffect,
+      minimum_detectable_effect: this.minimumDetectableEffect
+        ? parseFloat(this.minimumDetectableEffect)
+        : undefined,
       entity_id: this.entityId,
       type: this.type,
       desired_change: this.desiredChange,

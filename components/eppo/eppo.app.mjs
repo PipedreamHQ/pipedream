@@ -9,12 +9,30 @@ export default {
       label: "Flag ID",
       description: "The numeric ID of the feature flag. Use **List Feature Flags** to discover flag IDs.",
     },
+    entityId: {
+      type: "integer",
+      label: "Entity ID",
+      description: "The numeric entity type ID this metric measures (e.g. user, session). Use **List Metrics** to find the `entity_id` from any existing metric — all metrics in the same workspace typically share the same entity ID.",
+    },
+    withCalculatedMetrics: {
+      type: "boolean",
+      label: "With Calculated Metrics",
+      description: "Whether to include calculated metrics in the response",
+      optional: true,
+    },
+    withFullCupedData: {
+      type: "boolean",
+      label: "With Full Cuped Data",
+      description: "Whether to include full Cuped data in the response",
+      optional: true,
+    },
     limit: {
       type: "integer",
       label: "Limit",
       description: "Limit the number of items in response",
       optional: true,
       default: 50,
+      max: 100,
       min: 1,
     },
     offset: {

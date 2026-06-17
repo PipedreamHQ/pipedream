@@ -4,7 +4,7 @@ export default {
   key: "eppo-create-feature-flag",
   name: "Create Feature Flag",
   description:
-    "Create a new feature flag in Eppo with a unique key, display name, enabled status, and variations."
+    "Create a new feature flag in Eppo with a unique key, display name, entity ID, variations, and optional tags."
     + " Use this when the user wants to add a new feature flag."
     + " The `key` must be a unique URL-safe slug (e.g. `my-new-feature`). Duplicate keys are rejected by the API."
     + " IMPORTANT: Each variation requires `variant_key` (unique slug) and `type` (must be `STRING`, `INTEGER`, or `JSON` — uppercase). Do NOT use `key` or `value` fields."
@@ -30,17 +30,22 @@ export default {
       label: "Name",
       description: "A human-readable display name for the flag.",
     },
-    enabled: {
-      type: "boolean",
-      label: "Enabled",
-      description: "Whether the flag is active. Defaults to `false` if omitted.",
-      optional: true,
-    },
     variations: {
       type: "string",
       label: "Variations",
       description: "JSON array of variation objects. Each requires `variant_key` (unique slug) and `type` (uppercase: `STRING`, `INTEGER`, or `JSON`). Do NOT use `key` or `value` fields — use `variant_key` and `type`. Optionally include `name`."
         + " Example: `[{\"variant_key\": \"on\", \"type\": \"STRING\", \"name\": \"On\"}, {\"variant_key\": \"off\", \"type\": \"STRING\", \"name\": \"Off\"}]`.",
+    },
+    entityId: {
+      propDefinition: [
+        app,
+        "entityId",
+      ],
+    },
+    tagNames: {
+      type: "string[]",
+      label: "Tag Names",
+      description: "The names of the tags to add to the flag",
     },
   },
   async run({ $ }) {
@@ -50,8 +55,9 @@ export default {
       data: {
         key: this.key,
         name: this.name,
-        enabled: this.enabled,
         variations,
+        entity_id: this.entityId,
+        tags: this.tagNames,
       },
     });
     $.export("$summary", `Created feature flag ${response?.id}: ${response?.name ?? this.name}`);
