@@ -6444,8 +6444,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0
       nodemailer:
-        specifier: ^8.0.5
-        version: 8.0.5
+        specifier: ^8.0.9
+        version: 8.0.9
       pdfkit:
         specifier: ^0.17.2
         version: 0.17.2
@@ -12000,8 +12000,8 @@ importers:
         specifier: ^0.5.47
         version: 0.5.48
       nodemailer:
-        specifier: ^8.0.5
-        version: 8.0.5
+        specifier: ^8.0.9
+        version: 8.0.9
       pluralize:
         specifier: ^8.0.0
         version: 8.0.0
@@ -14453,8 +14453,8 @@ importers:
   components/shipstation:
     dependencies:
       '@pipedream/platform':
-        specifier: ^0.10.1
-        version: 0.10.1
+        specifier: ^3.4.0
+        version: 3.4.0
 
   components/shopify:
     dependencies:
@@ -16405,6 +16405,9 @@ importers:
       transloadit:
         specifier: ^4.0.0
         version: 4.0.6
+
+  components/travel_code:
+    specifiers: {}
 
   components/travis_ci:
     dependencies:
@@ -31236,8 +31239,8 @@ packages:
     resolution: {integrity: sha512-zbj002pZAIkWQFxyAaqoxvn+zoIwRnS40hgjqTXudKOOJkiFFgBeNqjgD3/YCR12sZnrghWYBY+yP1ZucdDRpw==}
     engines: {node: '>=6.0.0'}
 
-  nodemailer@8.0.5:
-    resolution: {integrity: sha512-0PF8Yb1yZuQfQbq+5/pZJrtF6WQcjTd5/S4JOHs9PGFxuTqoB/icwuB44pOdURHJbRKX1PPoJZtY7R4VUoCC8w==}
+  nodemailer@8.0.9:
+    resolution: {integrity: sha512-5ofa7BUN8+C+Hckh5V2GjeeOGRQBx0CJQA6KxrvuZfC8iU4/q7sLn8XrtEEhJkjV6HdyIiQs7Bba6bTao8JhkA==}
     engines: {node: '>=6.0.0'}
 
   nodemon@3.1.11:
@@ -53238,7 +53241,7 @@ snapshots:
 
   nodemailer@8.0.2: {}
 
-  nodemailer@8.0.5: {}
+  nodemailer@8.0.9: {}
 
   nodemon@3.1.11:
     dependencies:
