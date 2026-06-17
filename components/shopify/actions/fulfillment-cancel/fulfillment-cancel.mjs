@@ -1,7 +1,7 @@
 import shopify from "../../shopify.app.mjs";
 
 export default {
-  key: "shopify-cancel-fulfillment",
+  key: "shopify-fulfillment-cancel",
   name: "Cancel Fulfillment",
   description: "Cancels an existing fulfillment and reverses its effects on associated fulfillment orders. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/fulfillmentCancel)",
   version: "0.0.1",
