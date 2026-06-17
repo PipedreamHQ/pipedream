@@ -4,7 +4,7 @@ export default {
   key: "strava-activity-deleted",
   name: "New Activity Deleted Event",
   description: "Emit new event when an activity is deleted",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   props: {
     strava,
