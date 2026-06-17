@@ -14,9 +14,10 @@ export default {
   props: {
     servicenow,
     catalogItemSysId: {
-      type: "string",
-      label: "Catalog Item Sys ID",
-      description: "The `sys_id` of the catalog item. Run **Search Catalog Items** first to find this value. Example: `e8d3d2f1c0a8016400e6b9e0f6e6f6e6`.",
+      propDefinition: [
+        servicenow,
+        "catalogItemSysId",
+      ],
     },
   },
   async run({ $ }) {

@@ -15,28 +15,29 @@ export default {
   props: {
     servicenow,
     catalogItemSysId: {
-      type: "string",
-      label: "Catalog Item Sys ID",
-      description: "The `sys_id` of the catalog item to add. Run **Search Catalog Items** first to find this value.",
+      propDefinition: [
+        servicenow,
+        "catalogItemSysId",
+      ],
+      description: "The `sys_id` of the catalog item to add. Run **Search Catalog Items** first to find this value. Example: `e8d3d2f1c0a8016400e6b9e0f6e6f6e6`.",
     },
     quantity: {
-      type: "integer",
-      label: "Quantity",
-      description: "Quantity to add (maps to `sysparm_quantity`). Min 1. Example: `1`.",
-      min: 1,
-      optional: true,
+      propDefinition: [
+        servicenow,
+        "quantity",
+      ],
     },
     variables: {
-      type: "object",
-      label: "Variables",
-      description: "JSON object of variable name-value pairs for the item. Run **Get Catalog Item Variables** to discover valid names. Example: `{\"justification\": \"new hire\", \"model\": \"abc123\"}`.",
-      optional: true,
+      propDefinition: [
+        servicenow,
+        "variables",
+      ],
     },
     requestedFor: {
-      type: "string",
-      label: "Requested For",
-      description: "Optional `sys_id` of the user this item is requested for (maps to `sysparm_requested_for`). Run **Lookup User by Name** or **Get User by Email** to find it.",
-      optional: true,
+      propDefinition: [
+        servicenow,
+        "requestedFor",
+      ],
     },
   },
   async run({ $ }) {

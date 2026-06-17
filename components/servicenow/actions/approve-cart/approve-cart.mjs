@@ -17,8 +17,10 @@ export default {
   props: {
     servicenow,
     approvalSysId: {
-      type: "string",
-      label: "Approval Sys ID",
+      propDefinition: [
+        servicenow,
+        "approvalSysId",
+      ],
       description: "The `sys_id` of the `sysapproval_approver` record to approve. Use **Get Table Records** on `sysapproval_approver` to find pending approvals.",
     },
   },

@@ -16,7 +16,7 @@ export default {
     cartItemId: {
       type: "string",
       label: "Cart Item ID",
-      description: "The cart item id to remove. Run **View Cart** first to find this value.",
+      description: "The cart item id to remove. Run **View Cart** first to find this value. Example: `0f3b2e2e1b223010d3f5a6c1cd4bcb12`.",
     },
   },
   async run({ $ }) {

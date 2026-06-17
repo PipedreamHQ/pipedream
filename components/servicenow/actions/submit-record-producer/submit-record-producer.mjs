@@ -15,15 +15,18 @@ export default {
   props: {
     servicenow,
     catalogItemSysId: {
-      type: "string",
-      label: "Catalog Item Sys ID",
-      description: "The `sys_id` of the record producer to submit. Run **Search Catalog Items** first to find this value.",
+      propDefinition: [
+        servicenow,
+        "catalogItemSysId",
+      ],
+      description: "The `sys_id` of the record producer to submit. Run **Search Catalog Items** first to find this value. Example: `e8d3d2f1c0a8016400e6b9e0f6e6f6e6`.",
     },
     variables: {
-      type: "object",
-      label: "Variables",
+      propDefinition: [
+        servicenow,
+        "variables",
+      ],
       description: "JSON object of variable name-value pairs for the record producer. Run **Get Catalog Item Variables** to discover valid names. Example: `{\"short_description\": \"laptop broken\"}`.",
-      optional: true,
     },
   },
   async run({ $ }) {
