@@ -208,27 +208,14 @@ export default {
     }
     const combinedFilter = filterParts.join(" and ") || undefined;
 
-    let folderId;
-    if (this.folderScope && this.folderScope !== "inbox" && this.folderScope !== "all") {
-      const folder = await this.microsoftOutlook.listAllFolders({
-        params: {
-          $filter: `displayName eq '${this.folderScope}'`,
-        },
-      });
-      if (folder.length > 0) {
-        folderId = folder[0].id;
-      } else {
-        throw new ConfigurationError(`Folder "${this.folderScope}" not found.`);
-      }
-    } else if (this.folderScope === "inbox") {
-      folderId = "inbox";
-    }
+    const folderScope = this.folderScope === "all"
+      ? undefined
+      : this.folderScope;
 
     if (this.countOnly) {
       const result = await this.microsoftOutlook.countMessages({
         userId: this.userId,
-        folderScope: this.folderScope,
-        folderId,
+        folderScope,
         sharedFolderId: this.sharedFolderId,
         filter: combinedFilter,
       });
@@ -261,7 +248,7 @@ export default {
 
     const fnArgs = {
       userId: this.userId,
-      folderId,
+      folderScope,
       ...(this.sharedFolderId
         ? {
           sharedFolderId: this.sharedFolderId,

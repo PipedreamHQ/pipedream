@@ -457,14 +457,14 @@ export default {
         .get();
     },
     async listMessages({
-      userId, folderId, params = {}, nextLink,
+      userId, folderScope, params = {}, nextLink,
     } = {}) {
       if (nextLink) {
         return await this.client().api(nextLink)
           .get();
       }
-      const path = folderId
-        ? `${this._userPath(userId)}/mailFolders/${folderId}/messages`
+      const path = folderScope
+        ? `${this._userPath(userId)}/mailFolders/${folderScope}/messages`
         : `${this._userPath(userId)}/messages`;
       return await this.client().api(path)
         .query(pickBy(params))
@@ -494,15 +494,13 @@ export default {
         .get();
     },
     async countMessages({
-      userId, folderScope, folderId, sharedFolderId, filter,
+      userId, folderScope, sharedFolderId, filter,
     } = {}) {
       let path;
       if (sharedFolderId && userId) {
         path = `/users/${userId}/mailFolders/${sharedFolderId}/messages`;
-      } else if (folderScope === "inbox") {
-        path = `${this._userPath(userId)}/mailFolders/inbox/messages`;
-      } else if (folderId) {
-        path = `${this._userPath(userId)}/mailFolders/${folderId}/messages`;
+      } else if (folderScope) {
+        path = `${this._userPath(userId)}/mailFolders/${folderScope}/messages`;
       } else {
         path = `${this._userPath(userId)}/messages`;
       }
@@ -648,24 +646,16 @@ export default {
     async getFolderById({
       folderId, params = {},
     } = {}) {
-      const { value } = await this.client().api("/me/mailFolders")
-        .query(pickBy({
-          ...params,
-          $filter: `id eq '${folderId}'`,
-        }))
+      return this.client().api(`/me/mailFolders/${folderId}`)
+        .query(pickBy(params))
         .get();
-      return value?.[0];
     },
     async getSharedFolderById({
       userId, folderId, params = {},
     } = {}) {
-      const { value } = await this.client().api(`/users/${userId}/mailFolders`)
-        .query(pickBy({
-          ...params,
-          $filter: `id eq '${folderId}'`,
-        }))
+      return this.client().api(`/users/${userId}/mailFolders/${folderId}`)
+        .query(pickBy(params))
         .get();
-      return value?.[0];
     },
     async *paginate({
       fn, args = {}, max,
