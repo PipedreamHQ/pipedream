@@ -3,8 +3,8 @@ import shipstation from "../../shipstation.app.mjs";
 export default {
   key: "shipstation-list-customer-email-options",
   name: "List Customer Email Options",
-  description: "Retrieves available options for the Customer Email field.",
-  version: "0.0.1",
+  description: "Retrieves available options for the Customer Email field. [See the documentation](https://docs.shipstation.com/apis/shipstation-v1/openapi/customers/list_customers)",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

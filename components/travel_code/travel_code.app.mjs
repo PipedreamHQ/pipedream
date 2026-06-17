@@ -1,6 +1,6 @@
 export default {
   type: "app",
-  app: "emboss",
+  app: "travel_code",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
