@@ -14,38 +14,28 @@ export default {
   props: {
     snowflake,
     database: {
-      propDefinition: [
-        snowflake,
-        "database",
-      ],
+      type: "string",
+      label: "Database",
+      description: "The database to use. Run **List Database Options** to find available databases.",
     },
     schema: {
-      propDefinition: [
-        snowflake,
-        "schema",
-        (c) =>  ({
-          database: c.database,
-        }),
-      ],
+      type: "string",
+      label: "Schema",
+      description: "The schema to use. Run **List Schema Options** to find available schemas.",
     },
     tableName: {
-      propDefinition: [
-        snowflake,
-        "tableName",
-        (c) => ({
-          database: c.database,
-          schema: c.schema,
-        }),
-      ],
-      description: "The table where you want to add a new row",
+      type: "string",
+      label: "Table Name",
+      description: "The table where you want to add a new row. Run **List Table Options** to find available tables.",
       reloadProps: true,
     },
   },
   async additionalProps() {
     const props = {};
-    // Once a user selects the table, display the columns as additional props
-    if (this.tableName) {
-      const fields = await this.snowflake.listFieldsForTable(this.tableName);
+    // Once a user provides the table, display the columns as additional props
+    if (this.database && this.schema && this.tableName) {
+      const tableName = `${this.database}.${this.schema}.${this.tableName}`;
+      const fields = await this.snowflake.listFieldsForTable(tableName);
       const defaultValue = {};
       for (const field of fields) {
         defaultValue[field.name] = "";
@@ -60,8 +50,9 @@ export default {
     return props;
   },
   async run({ $ }) {
-    const response = await this.snowflake.insertRow(this.tableName, this.values);
-    $.export("$summary", `Successfully inserted row in ${this.tableName}`);
+    const tableName = `${this.database}.${this.schema}.${this.tableName}`;
+    const response = await this.snowflake.insertRow(tableName, this.values);
+    $.export("$summary", `Successfully inserted row in ${tableName}`);
     return response;
   },
 };
