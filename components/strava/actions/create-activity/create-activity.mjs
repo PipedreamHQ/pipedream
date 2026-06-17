@@ -1,93 +1,103 @@
-import strava from "../../strava.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
+import app from "../../strava.app.mjs";
 
 export default {
-  name: "Create Activity",
-  description: "Creates a manual activity for an athlete. [See the docs](https://developers.strava.com/docs/reference/#api-Activities-createActivity)",
   key: "strava-create-activity",
-  version: "0.0.2",
+  name: "Create Activity",
+  description: "Create a manual activity on Strava (logging a workout you did without a tracking device)."
+    + " For uploading activity files (GPX / TCX / FIT), use Strava's upload endpoint — not exposed by this connector."
+    + " Pass `sportType` from Strava's documented `sport_type` enum (modern field, replaces legacy `type`). Common values: Run, Ride, Hike, Swim, Walk, Workout, Yoga."
+    + " `startDateLocal` must be ISO 8601 in the athlete's local time with timezone offset or `Z` for UTC. Example: `2026-05-15T07:00:00Z`."
+    + " [See the documentation](https://developers.strava.com/docs/reference/#api-Activities-createActivity)",
+  version: "1.0.0",
+  type: "action",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
-  type: "action",
   props: {
-    strava,
+    app,
     name: {
       type: "string",
-      label: "The name of the activity",
-      description: "The name of the activity",
+      label: "Activity Name",
+      description: "The name of the activity (e.g., \"Morning Run\").",
     },
-    type: {
+    sportType: {
+      propDefinition: [
+        app,
+        "sportType",
+      ],
+    },
+    startDateLocal: {
       type: "string",
-      label: "Type of activity",
-      description: "Type of activity. For example - Run, Ride etc.",
+      label: "Start Date (local)",
+      description: "ISO 8601 datetime in the athlete's local time. Format: `YYYY-MM-DDTHH:MM:SS` with timezone offset or `Z`. Example: `2026-05-15T07:00:00Z`.",
     },
-    start_date_local: {
-      type: "string",
-      label: "Start date of activity",
-      description: "ISO 8601 formatted date time without milliseconds e.g. `2013-10-20T19:20:30+01:00`",
-    },
-    elapsed_time: {
+    elapsedTime: {
       type: "integer",
-      label: "Elapsed time",
-      description: "Elapsed time in seconds",
+      label: "Elapsed Time (seconds)",
+      description: "Total elapsed time in seconds. Example: `3600` for one hour.",
     },
     description: {
-      type: "string",
-      label: "Description of the activity",
-      description: "Description of the activity",
-      optional: true,
+      propDefinition: [
+        app,
+        "activityDescription",
+      ],
     },
     distance: {
       type: "string",
-      label: "Distance",
-      description: "Must be a float `e.g. 4.3`",
+      label: "Distance (meters)",
+      description: "Optional. Distance in meters as a numeric string. Example: `5000` for 5 km.",
       optional: true,
     },
     trainer: {
-      type: "integer",
-      label: "Trainer",
-      description: "Set to 1 to mark as a trainer activity",
-      optional: true,
+      propDefinition: [
+        app,
+        "trainer",
+      ],
+      default: false,
     },
     commute: {
-      type: "integer",
-      label: "Commute",
-      description: "Set to 1 to mark as commute",
-      optional: true,
-    },
-    hide_from_home: {
-      type: "boolean",
-      label: "Hide from home",
-      description: "Set to true to mute activity",
-      optional: true,
+      propDefinition: [
+        app,
+        "commute",
+      ],
+      default: false,
     },
   },
   async run({ $ }) {
-    //RegExp to check if ISO date string without milliseconds.
-    const isoDateRegexp = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(([+-](\d{2}):(\d{2})|Z))$/;
-    if (this.distance && isNaN(parseFloat(this.distance))) {
-      throw new Error("Please provide a float for `Distance`");
+    const isoDatePattern = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(Z|[+-]\d{2}:\d{2})$/;
+    if (!isoDatePattern.test(this.startDateLocal)) {
+      throw new ConfigurationError("`Start Date (local)` must be ISO 8601 with timezone (e.g., `2026-05-15T07:00:00Z`).");
     }
-    if (!isoDateRegexp.test(this.start_date_local)) {
-      throw new Error("Please provide `Start date of activity` in required format");
+    // Use Number() not parseFloat() for strict validation: parseFloat("5000m")
+    // silently returns 5000, which would mask a unit-suffix mistake.
+    const distanceMeters = this.distance != null
+      ? Number(this.distance)
+      : null;
+    if (this.distance != null && !Number.isFinite(distanceMeters)) {
+      throw new ConfigurationError("`Distance` must be a pure number in meters with no units (e.g., `5000`, not `5000m`).");
     }
-    const resp = await this.strava.createNewActivity({
+
+    const data = {
+      name: this.name,
+      sport_type: this.sportType,
+      start_date_local: this.startDateLocal,
+      elapsed_time: this.elapsedTime,
+      description: this.description,
+    };
+    if (distanceMeters != null) data.distance = distanceMeters;
+    if (this.trainer) data.trainer = 1;
+    if (this.commute) data.commute = 1;
+
+    const resp = await this.app.createNewActivity({
       $,
-      data: {
-        name: this.name,
-        type: this.type,
-        start_date_local: this.start_date_local,
-        elapsed_time: this.elapsed_time,
-        description: this.description,
-        distance: this.distance,
-        trainer: this.trainer,
-        commute: this.commute,
-        hide_from_home: this.hide_from_home,
-      },
+      data,
     });
-    $.export("$summary", "Successfully added activity");
+    $.export("$summary", `Created activity "${this.name}"${resp?.id
+      ? ` (id ${resp.id})`
+      : ""}`);
     return resp;
   },
 };

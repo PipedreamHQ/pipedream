@@ -5,7 +5,7 @@ export default {
   key: "vapi-create-call",
   name: "Create Call",
   description: "Starts a new conversation with an assistant. [See the documentation](https://docs.vapi.ai/api-reference/calls/create)",
-  version: "0.0.2",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -46,10 +46,19 @@ export default {
       description: "ID of the customer for the conversation",
       optional: true,
     },
+    customerNumber: {
+      type: "string",
+      label: "Customer Phone Number",
+      description: "Phone number to call in E.164 format, e.g. `+14155551234`. The API requires either this or the `customerId` prop for outbound phone calls",
+      optional: true,
+    },
   },
   async run({ $ }) {
     if (!this.assistantId && !this.squadId) {
       throw new ConfigurationError("Specify either `Assistant Id` or `Squad Id`");
+    }
+    if (!this.customerId && !this.customerNumber) {
+      throw new ConfigurationError("Specify either `Customer ID` or `Customer Phone Number`");
     }
 
     const response = await this.vapi.startConversation({
@@ -60,6 +69,11 @@ export default {
         phoneNumberId: this.phoneNumberId,
         name: this.name,
         customerId: this.customerId,
+        customer: this.customerNumber
+          ? {
+            number: this.customerNumber,
+          }
+          : undefined,
       },
     });
     $.export("$summary", `Conversation created with ID ${response.id}`);
