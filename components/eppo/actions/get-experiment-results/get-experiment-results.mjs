@@ -49,7 +49,7 @@ export default {
       params: {
         with_calculated_metrics: this.withCalculatedMetrics,
         with_full_cuped_data: this.withFullCupedData,
-        allow_delete: this.allowDeleted,
+        allow_deleted: this.allowDeleted,
       },
     });
     $.export("$summary", `Retrieved results for experiment ${this.experimentId}: ${response?.name ?? ""}`);
