@@ -13,18 +13,80 @@ export default {
   },
   props: {
     elevenlabs,
+    search: {
+      type: "string",
+      label: "Search",
+      description: "Search agents by name.",
+      optional: true,
+    },
+    pageSize: {
+      type: "integer",
+      label: "Page Size",
+      description: "How many agents to fetch per request (cannot exceed 100). The action still pages through all results.",
+      optional: true,
+      default: 30,
+      min: 1,
+      max: 100,
+    },
+    archived: {
+      type: "boolean",
+      label: "Archived",
+      description: "Filter agents by archived status.",
+      optional: true,
+    },
+    createdByUserId: {
+      type: "string",
+      label: "Created By User ID",
+      description: "Filter agents by the creator's user ID. Use `@me` for the authenticated user.",
+      optional: true,
+    },
+    sortBy: {
+      type: "string",
+      label: "Sort By",
+      description: "The field to sort the results by.",
+      optional: true,
+      options: [
+        "name",
+        "created_at",
+        "call_count_7d",
+      ],
+    },
+    sortDirection: {
+      type: "string",
+      label: "Sort Direction",
+      description: "The direction to sort the results by.",
+      optional: true,
+      options: [
+        "asc",
+        "desc",
+      ],
+    },
   },
   async run({ $ }) {
+    const {
+      elevenlabs,
+      search,
+      pageSize,
+      archived,
+      createdByUserId,
+      sortBy,
+      sortDirection,
+    } = this;
     const options = [];
     let cursor;
     do {
       const {
         agents, next_cursor: nextCursor,
-      } = await this.elevenlabs.listAgents({
+      } = await elevenlabs.listAgents({
         $,
         params: {
+          search,
+          page_size: pageSize,
+          archived,
+          created_by_user_id: createdByUserId,
+          sort_by: sortBy,
+          sort_direction: sortDirection,
           cursor,
-          page_size: 30,
         },
       });
       options.push(...(agents?.map(({
