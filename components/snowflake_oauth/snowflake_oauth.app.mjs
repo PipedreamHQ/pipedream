@@ -8,8 +8,7 @@ export default {
     ...common.methods,
     /**
      * Reuse the entire key-based Snowflake engine from @pipedream/snowflake and
-     * override ONLY the auth: this OAuth variant collects a full account URL and
-     * an OAuth access token instead of account/username/private-key.
+     * override ONLY the auth.
      */
     getClientConfiguration() {
       const {
