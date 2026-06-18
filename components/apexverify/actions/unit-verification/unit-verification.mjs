@@ -192,8 +192,8 @@ const targetObjectiveOptions = [
 export default {
   key: "apexverify-unit-verification",
   name: "ApexVerify - Email/Phone/Address B2B Data Verification",
-  description: "Verify a single email address, phone number, or address using ApexVerify.",
-  version: "0.0.1",
+  description: "Verify a single email address, phone number, or address using ApexVerify. [See the documentation](https://documentation.apexverify.com/api-reference/apex-verify-api/unit)",
+  version: "0.0.2",
   type: "action",
   props: {
     apexverify,
@@ -212,56 +212,56 @@ export default {
       label: "Email or Phone to Verify",
       description: "Enter the email address or phone number to verify.",
     },
-    target_country: {
+    targetCountry: {
       type: "string",
       label: "Target Country",
       description: "Country against which the email or phone should be processed.",
       default: "US",
       options: countryOptions,
     },
-    target_audience: {
+    targetAudience: {
       type: "string",
       label: "Target Audience",
       description: "Optional. Select the target audience for the verification context.",
       optional: true,
       options: targetAudienceOptions,
     },
-    target_market_industry: {
+    targetMarketIndustry: {
       type: "string",
       label: "Target Market Industry",
       description: "Optional. Select the target market industry for the verification context.",
       optional: true,
       options: targetMarketIndustryOptions,
     },
-    target_objective: {
+    targetObjective: {
       type: "string",
       label: "Target Objective",
       description: "Optional. Select the target objective for the verification context.",
       optional: true,
       options: targetObjectiveOptions,
     },
-    use_account_cache: {
+    useAccountCache: {
       type: "boolean",
       label: "Use Account Cache",
       description: "Use previous verification results from your ApexVerify account cache when available.",
       optional: true,
       default: true,
     },
-    max_account_cache_backoff: {
+    maxAccountCacheBackoff: {
       type: "integer",
       label: "Max Account Cache Backoff",
       description: "Maximum number of days to look back in account cache. Min: 1. Max: 180.",
       optional: true,
       default: 30,
     },
-    use_global_cache: {
+    useGlobalCache: {
       type: "boolean",
       label: "Use Global Cache",
       description: "Use anonymized global cache results when available.",
       optional: true,
       default: true,
     },
-    max_global_cache_backoff: {
+    maxGlobalCacheBackoff: {
       type: "integer",
       label: "Max Global Cache Backoff",
       description: "Maximum number of days to look back in global cache. Min: 1. Max: 180.",
@@ -269,19 +269,23 @@ export default {
       default: 30,
     },
   },
+  annotations: {
+    openWorldHint: true,
+    destructiveHint: false,
+  },
 
   async run({ $ }) {
     const payload = {
       type: this.type,
-      target_country: this.target_country,
+      target_country: this.targetCountry,
       unit: this.unit,
-      target_audience: this.target_audience,
-      target_market_industry: this.target_market_industry,
-      target_objective: this.target_objective,
-      use_account_cache: this.use_account_cache,
-      max_account_cache_backoff: this.max_account_cache_backoff,
-      use_global_cache: this.use_global_cache,
-      max_global_cache_backoff: this.max_global_cache_backoff,
+      target_audience: this.targetAudience,
+      target_market_industry: this.targetMarketIndustry,
+      target_objective: this.targetObjective,
+      use_account_cache: this.useAccountCache,
+      max_account_cache_backoff: this.maxAccountCacheBackoff,
+      use_global_cache: this.useGlobalCache,
+      max_global_cache_backoff: this.maxGlobalCacheBackoff,
     };
 
     Object.keys(payload).forEach((key) => {
@@ -290,32 +294,17 @@ export default {
       }
     });
 
-    try {
-      const response = await this.apexverify._makeRequest($, {
-        method: "POST",
-        path: "/v1/unit",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: payload,
-      });
+    const response = await this.apexverify._makeRequest($, {
+      method: "POST",
+      path: "/v1/unit",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: payload,
+    });
 
-      return response;
-    } catch (error) {
-      if (error.response) {
-        const status = error.response.status;
+    $.export("$summary", `Successfully verified ${this.type}: ${this.unit}`);
 
-        if (status >= 400 && status <= 500) {
-          const message = error.response.data?.message || `ApexVerify API request failed with status ${status}.`;
-          throw new Error(`[Authentication/Data Error] ${message}`);
-        }
-
-        if (status > 500) {
-          throw new Error("ApexVerify is temporarily unavailable. Please try again later.");
-        }
-      }
-
-      throw error;
-    }
+    return response;
   },
 };
