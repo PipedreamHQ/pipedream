@@ -4641,6 +4641,8 @@ importers:
         specifier: ^2.0.2
         version: 2.0.2
 
+  components/dpd_shipping: {}
+
   components/draftable:
     dependencies:
       '@pipedream/platform':
@@ -6444,8 +6446,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0
       nodemailer:
-        specifier: ^8.0.5
-        version: 8.0.5
+        specifier: ^9.0.1
+        version: 9.0.1
       pdfkit:
         specifier: ^0.17.2
         version: 0.17.2
@@ -12000,8 +12002,8 @@ importers:
         specifier: ^0.5.47
         version: 0.5.48
       nodemailer:
-        specifier: ^8.0.5
-        version: 8.0.5
+        specifier: ^9.0.1
+        version: 9.0.1
       pluralize:
         specifier: ^8.0.0
         version: 8.0.0
@@ -14453,8 +14455,8 @@ importers:
   components/shipstation:
     dependencies:
       '@pipedream/platform':
-        specifier: ^0.10.1
-        version: 0.10.1
+        specifier: ^3.4.0
+        version: 3.4.0
 
   components/shopify:
     dependencies:
@@ -15043,7 +15045,14 @@ importers:
         specifier: ^13.0.0
         version: 13.0.0
 
-  components/snowflake_oauth: {}
+  components/snowflake_oauth:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.3.0
+        version: 3.4.0
+      '@pipedream/snowflake':
+        specifier: ^0.14.0
+        version: 0.14.0
 
   components/snowflake_test: {}
 
@@ -15929,6 +15938,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/test_app_2026: {}
+
   components/test_app_for_oauth_bug: {}
 
   components/test_apps_for_checking_something_001: {}
@@ -16405,6 +16416,8 @@ importers:
       transloadit:
         specifier: ^4.0.0
         version: 4.0.6
+
+  components/travel_code: {}
 
   components/travis_ci:
     dependencies:
@@ -22282,6 +22295,9 @@ packages:
 
   '@pipedream/slack@0.10.3':
     resolution: {integrity: sha512-pvgrmv8BHYx9uCrAc4X2mQU7UK9KpWqM268CrN3/lavHByer4Ljvy9SVFRFokRg7gbOTs1i/kfNPfOtqSCJ7XQ==}
+
+  '@pipedream/snowflake@0.14.0':
+    resolution: {integrity: sha512-ZsJky7Qnp2/X8sLwyd1T2+3CcmU+DDFn7gBnOs030GOKnflz7e2KkBx2NEd3cq9sQn54q/psuNLoAbm+LPaBRA==}
 
   '@pipedream/types@0.0.5':
     resolution: {integrity: sha512-VVQB9j+94XG/EB7fzKA1t0McQcQIPhaireePeLRTlJIN4y5W59SJjERjW4h5l7zWIfTnwpLizk3qGholyiw1Vw==}
@@ -31227,8 +31243,8 @@ packages:
     resolution: {integrity: sha512-zbj002pZAIkWQFxyAaqoxvn+zoIwRnS40hgjqTXudKOOJkiFFgBeNqjgD3/YCR12sZnrghWYBY+yP1ZucdDRpw==}
     engines: {node: '>=6.0.0'}
 
-  nodemailer@8.0.5:
-    resolution: {integrity: sha512-0PF8Yb1yZuQfQbq+5/pZJrtF6WQcjTd5/S4JOHs9PGFxuTqoB/icwuB44pOdURHJbRKX1PPoJZtY7R4VUoCC8w==}
+  nodemailer@9.0.1:
+    resolution: {integrity: sha512-Gwv8SQewT616ZM/URn0H54b8PWo/Wum7md3EW2aWy1lO27+WZCX+Xyak3J+NlmHUjDh5ME+uesJUDRbR3Ye8Bw==}
     engines: {node: '>=6.0.0'}
 
   nodemon@3.1.11:
@@ -41607,6 +41623,18 @@ snapshots:
       lodash: 4.18.1
     transitivePeerDependencies:
       - debug
+
+  '@pipedream/snowflake@0.14.0':
+    dependencies:
+      '@pipedream/platform': 3.4.0
+      asn1.js: 5.4.1
+      lodash-es: 4.18.1
+      snowflake-sdk: 2.3.6(asn1.js@5.4.1)(aws-crt@1.27.5)
+      uuid: 13.0.0
+    transitivePeerDependencies:
+      - aws-crt
+      - debug
+      - supports-color
 
   '@pipedream/types@0.0.5':
     dependencies:
@@ -53221,7 +53249,7 @@ snapshots:
 
   nodemailer@8.0.2: {}
 
-  nodemailer@8.0.5: {}
+  nodemailer@9.0.1: {}
 
   nodemon@3.1.11:
     dependencies:
