@@ -193,7 +193,7 @@ export default {
   key: "apexverify-unit-verification",
   name: "ApexVerify - Email/Phone/Address B2B Data Verification",
   description: "Verify a single email address, phone number, or address using ApexVerify. [See the documentation](https://documentation.apexverify.com/api-reference/apex-verify-api/unit)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     apexverify,
@@ -222,21 +222,21 @@ export default {
     targetAudience: {
       type: "string",
       label: "Target Audience",
-      description: "Optional. Select the target audience for the verification context.",
+      description: "Optional target audience context for the verification. Accepted values include `1` for Agency / Consultants, `4` for Developers & Technical Leads, `8` for Founders & C-Level Executives, and `17` for Marketing & Sales Professionals.",
       optional: true,
       options: targetAudienceOptions,
     },
     targetMarketIndustry: {
       type: "string",
       label: "Target Market Industry",
-      description: "Optional. Select the target market industry for the verification context.",
+      description: "Optional market industry context for the verification. Accepted values include `18` for Construction, `29` for Finance and Insurance, `42` for Health Care and Social Assistance, `46` for Information, and `91` for Retail Trade.",
       optional: true,
       options: targetMarketIndustryOptions,
     },
     targetObjective: {
       type: "string",
       label: "Target Objective",
-      description: "Optional. Select the target objective for the verification context.",
+      description: "Optional campaign or business objective context for the verification. Accepted values include `4` for Customer Acquisition / Sales, `6` for Lead Generation (Top/Mid-Funnel), `12` for Sales-Ready Leads, and `16` for Website / App Traffic Acquisition.",
       optional: true,
       options: targetObjectiveOptions,
     },
@@ -271,6 +271,7 @@ export default {
   },
   annotations: {
     openWorldHint: true,
+    readOnlyHint: false,
     destructiveHint: false,
   },
 
