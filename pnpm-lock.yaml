@@ -1023,6 +1023,9 @@ importers:
 
   components/apex_27: {}
 
+  components/apexverify:
+    specifiers: {}
+
   components/api2convert: {}
 
   components/api2pdf: {}
