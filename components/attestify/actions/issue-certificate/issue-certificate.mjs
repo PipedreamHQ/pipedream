@@ -4,9 +4,14 @@ export default {
   key: "attestify-issue-certificate",
   name: "Issue Certificate",
   description:
-    "Issue a tamper-evident, cryptographically-verifiable certificate. Each certificate gets a permanent public verify page anyone can check — Ed25519-signed, so it can't be forged after issuance. Free, no signup. [See the docs](https://attestify.novadyne.ai).",
+    "Issue a tamper-evident, cryptographically-verifiable certificate. Each certificate gets a permanent public verify page anyone can check — Ed25519-signed, so it can't be forged after issuance. Free, no signup. [See the documentation](https://attestify.novadyne.ai)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    readOnlyHint: false,
+    destructiveHint: false,
+    openWorldHint: true,
+  },
   props: {
     app,
     issuer: { propDefinition: [app, "issuer"] },
