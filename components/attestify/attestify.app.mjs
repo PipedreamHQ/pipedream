@@ -34,7 +34,7 @@ export default {
       type: "string",
       label: "Completion Date",
       description:
-        "Optional. The date the credential was earned, shown on the certificate (format `YYYY-MM-DD`). Leave empty to stamp today.",
+        "Optional. The date the credential was earned, shown on the certificate (format `YYYY-MM-DD`, for example `2026-06-21`). Leave empty to stamp today.",
       optional: true,
     },
   },
