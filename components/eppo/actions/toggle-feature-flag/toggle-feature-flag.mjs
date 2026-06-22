@@ -50,7 +50,7 @@ export default {
       });
     } catch (err) {
       const msg = err?.response?.data?.message ?? err?.message ?? "";
-      const alreadyInState = /already (ON|OFF)/i.test(msg);
+      const alreadyInState = err?.response?.status === 400 && /already (ON|OFF)/i.test(msg);
       if (alreadyInState) {
         $.export("$summary", `Flag ${this.flagId} is already ${status} in environment ${this.environmentId}`);
         return {

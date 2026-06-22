@@ -29,7 +29,7 @@ export default {
     limit: {
       type: "integer",
       label: "Limit",
-      description: "Maximum number of items to return. The experiments endpoint caps at 250; other endpoints may have lower limits.",
+      description: "Maximum number of items to return per page (max 250).",
       optional: true,
       default: 50,
       max: 250,

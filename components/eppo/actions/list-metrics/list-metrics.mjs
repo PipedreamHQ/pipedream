@@ -58,7 +58,9 @@ export default {
         entity_id: this.entityId,
         name: this.name,
         includeExperiments: this.includeExperiments,
-        limit: this.limit,
+        limit: this.limit !== undefined
+          ? Math.min(this.limit, 250)
+          : 50,
         offset: this.offset,
       },
     });
