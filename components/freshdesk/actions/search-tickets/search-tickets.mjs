@@ -4,7 +4,7 @@ export default {
   key: "freshdesk-search-tickets",
   name: "Search Tickets",
   description: "Search for tickets in Freshdesk using a structured filter query. [See the documentation](https://developers.freshdesk.com/api/#filter_tickets)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
