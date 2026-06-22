@@ -62,14 +62,18 @@ export function getCommandId(command) {
   return command?.command_id || command?.id;
 }
 
-export function getTimestamp(entity) {
+export function getRealTimestamp(entity) {
   const timestamp = entity?.created_at || entity?.updated_at || entity?.completed_at;
-  if (!timestamp) return Date.now();
+  if (!timestamp) return null;
 
   const parsed = Date.parse(timestamp);
   return Number.isNaN(parsed)
-    ? Date.now()
+    ? null
     : parsed;
+}
+
+export function getTimestamp(entity) {
+  return getRealTimestamp(entity) ?? Date.now();
 }
 
 export function isTerminalStatus(status) {

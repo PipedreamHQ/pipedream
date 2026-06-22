@@ -1,7 +1,9 @@
 import renderio from "../../renderio.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import {
-  getTimestamp, normalizeList,
+  getRealTimestamp,
+  getTimestamp,
+  normalizeList,
 } from "../../common/utils.mjs";
 
 export default {
@@ -41,8 +43,8 @@ export default {
         const pageItems = normalizeList(response, this.getListKey());
 
         for (const item of pageItems) {
-          const ts = getTimestamp(item);
-          if (ts >= lastTs) {
+          const realTs = getRealTimestamp(item);
+          if (realTs === null || realTs >= lastTs) {
             items.push(item);
           }
         }
@@ -62,7 +64,16 @@ export default {
       }
 
       if (items.length > 0) {
-        this._setLastTs(getTimestamp(items[items.length - 1]));
+        let maxRealTs = null;
+        for (const item of items) {
+          const realTs = getRealTimestamp(item);
+          if (realTs !== null && (maxRealTs === null || realTs > maxRealTs)) {
+            maxRealTs = realTs;
+          }
+        }
+        if (maxRealTs !== null) {
+          this._setLastTs(maxRealTs);
+        }
       }
     },
   },
