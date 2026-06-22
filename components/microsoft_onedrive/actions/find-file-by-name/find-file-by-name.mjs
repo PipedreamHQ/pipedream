@@ -11,7 +11,7 @@ export default {
   key: "microsoft_onedrive-find-file-by-name",
   name: "Find File by Name",
   description: "Find files by performing a case-insensitive name match across a OneDrive drive. By default searches the authenticated user's personal drive (`/me/drive`). [See the documentation](https://learn.microsoft.com/en-us/graph/api/driveitem-search?view=graph-rest-1.0&tabs=http).",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

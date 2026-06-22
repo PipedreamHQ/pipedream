@@ -11,7 +11,7 @@ export default {
   key: "microsoft_onedrive-search-files",
   name: "Search Files",
   description: "Search for files and folders across a OneDrive drive. By default searches the authenticated user's personal drive (`/me/drive`). [See the documentation](https://learn.microsoft.com/en-us/graph/api/driveitem-search?view=graph-rest-1.0&tabs=http).",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
