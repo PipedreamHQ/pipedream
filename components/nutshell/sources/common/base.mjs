@@ -66,6 +66,7 @@ export default {
     }) {
       let responseArray = [];
       for await (const item of this.nutshell.paginate({
+        $: this,
         path: this.getPath(),
         entityKey: this.getEntityKey(),
         params: this.getParams(),

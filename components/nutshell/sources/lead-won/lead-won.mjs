@@ -49,6 +49,7 @@ export default {
     }) {
       let responseArray = [];
       for await (const item of this.nutshell.paginate({
+        $: this,
         path: this.getPath(),
         entityKey: this.getEntityKey(),
         params: this.getParams(),
@@ -56,10 +57,12 @@ export default {
         responseArray.push(item);
       }
 
-      // lastData is the last closedTime stored (0 when never run)
+      // lastData is the last closedTime stored (0 when never run).
+      // The REST `status=won` query param is ignored server-side, and a
+      // closedTime alone also matches *lost* leads, so guard on status here.
       const lastTs = Number(lastData) || 0;
       responseArray = responseArray
-        .filter((item) => this._getClosedTs(item) > lastTs)
+        .filter((item) => item.status === LEAD_WON_STATUS && this._getClosedTs(item) > lastTs)
         .sort((a, b) => this._getClosedTs(b) - this._getClosedTs(a));
 
       if (responseArray.length) {

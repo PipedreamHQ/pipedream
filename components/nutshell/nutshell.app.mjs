@@ -573,19 +573,21 @@ export default {
      * Async generator that pages through a REST list endpoint.
      * Yields items one at a time, newest first (via sort=-id).
      *
+     * @param {Object} [$] - Execution context threaded to _makeRequest (defaults to the app).
      * @param {string} path - REST endpoint path (e.g. "/leads")
      * @param {string} [entityKey] - Top-level response key holding the items array
      * @param {Object} [params={}] - Extra query params (e.g. status filter)
      * @param {number} [pageSize] - Items per page (default 100)
      */
     async *paginate({
-      path, entityKey, params = {}, pageSize = PAGINATION.DEFAULT_LIMIT,
+      $, path, entityKey, params = {}, pageSize = PAGINATION.DEFAULT_LIMIT,
     }) {
       let page = 0;
       let hasMore = true;
 
       while (hasMore) {
         const response = await this._makeRequest({
+          $,
           path,
           params: {
             ...params,
