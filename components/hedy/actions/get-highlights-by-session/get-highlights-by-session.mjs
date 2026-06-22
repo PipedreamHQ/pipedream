@@ -1,0 +1,38 @@
+import app from "../../hedy.app.mjs";
+
+export default {
+  key: "hedy-get-highlights-by-session",
+  name: "Get Highlights By Session",
+  description: "Retrieves all AI-generated highlights for a specific Hedy session."
+    + " Use **Get Many Sessions** first to find the session ID."
+    + " Each result includes a highlight ID, title, and timestamp within the session."
+    + " Use **Get Highlight** with the highlight ID to fetch the full detail including raw quote, cleaned quote, main idea, and AI insight."
+    + " [See the documentation](https://app.swaggerhub.com/apis-docs/HedyAI/hedy-api/1.5.2#/Highlights/get_sessions__sessionId__highlights)",
+  version: "0.0.1",
+  type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
+  props: {
+    app,
+    sessionId: {
+      propDefinition: [
+        app,
+        "sessionId",
+      ],
+    },
+  },
+  async run({ $ }) {
+    const response = await this.app.getHighlightsBySession({
+      $,
+      sessionId: this.sessionId,
+    });
+    const highlights = response?.data || [];
+    $.export("$summary", `Retrieved ${highlights.length} highlight${highlights.length === 1
+      ? ""
+      : "s"} for session ${this.sessionId}`);
+    return response;
+  },
+};
