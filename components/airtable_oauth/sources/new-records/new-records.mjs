@@ -5,7 +5,7 @@ export default {
   name: "New Record(s) Created (Instant)",
   description: "Emit new event for each new record in a table",
   key: "airtable_oauth-new-records",
-  version: "1.0.4",
+  version: "1.0.5",
   type: "source",
   dedupe: "unique",
   methods: {

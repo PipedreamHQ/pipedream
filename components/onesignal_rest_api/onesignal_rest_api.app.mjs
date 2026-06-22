@@ -26,19 +26,20 @@ export default {
       return this.$auth.rest_api_key;
     },
     _apiUrl() {
-      return "https://onesignal.com/api/v1";
+      return "https://api.onesignal.com";
     },
     async _makeRequest(path, options = {}, $ = this) {
       const config = {
         ...options,
         url: `${this._apiUrl()}/${path}`,
         headers: {
-          Authorization: `Basic ${this._accessApiKey()}`,
+          Authorization: `Key ${this._accessApiKey()}`,
         },
-        data: {
-          ...options.data,
+        params: {
+          ...options.params,
           app_id: this._accessAppId(),
         },
+        data: options.data,
       };
 
       return axios($, config);

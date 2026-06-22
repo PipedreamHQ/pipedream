@@ -5,7 +5,7 @@ export default {
   name: "Get Airport",
   description:
     "Read a single airport by identifier (search or select from the dropdown, or enter an ID). [Read airport](https://developer.avinodegroup.com/reference/readairport-1)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

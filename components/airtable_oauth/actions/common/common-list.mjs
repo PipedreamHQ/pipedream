@@ -9,8 +9,8 @@ export default {
         ({
           baseId, tableId,
         }) => ({
-          baseId: baseId.value,
-          tableId: tableId.value,
+          baseId: baseId?.value ?? baseId,
+          tableId: tableId?.value ?? tableId,
         }),
       ],
       optional: true,

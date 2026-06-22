@@ -1,17 +1,11 @@
 import httpRequest from "../../common/httpRequest.mjs";
 import onedrive from "../../microsoft_onedrive.app.mjs";
-import constants from "../../common/constants.mjs";
-
-const {
-  DEFAULT_DRIVE_PATH,
-  DRIVES_PATH_PREFIX,
-} = constants;
 
 export default {
   key: "microsoft_onedrive-search-files",
   name: "Search Files",
-  description: "Search for files and folders across a OneDrive drive. By default searches the authenticated user's personal drive (`/me/drive`). [See the documentation](https://learn.microsoft.com/en-us/graph/api/driveitem-search?view=graph-rest-1.0&tabs=http).",
-  version: "0.0.2",
+  description: "Search for files and folders across a OneDrive drive. Defaults to the authenticated user's personal drive; select a **Drive** to target a different one. Paginates through all result pages. [See the documentation](https://learn.microsoft.com/en-us/graph/api/driveitem-search?view=graph-rest-1.0&tabs=http)",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -20,17 +14,16 @@ export default {
   type: "action",
   props: {
     onedrive,
+    drive: {
+      propDefinition: [
+        onedrive,
+        "drive",
+      ],
+    },
     q: {
       type: "string",
       label: "Query",
       description: "The search query text (e.g. `cegesautoflotta.xlsx` or a partial name like `cegesautoflotta`).",
-    },
-    driveId: {
-      propDefinition: [
-        onedrive,
-        "driveId",
-      ],
-      description: "Optional. The ID of the drive to search. When supplied, the action routes the search through `/drives/{driveId}/root/search(q='...')` (using `useSharedDrive: true`) instead of the default `/me/drive`. Run the **List My Drives** action first to obtain a valid drive ID (e.g. `CA07A40F50E43DD9`). Leave blank to preserve the existing personal-drive search behaviour.",
     },
     excludeFolders: {
       propDefinition: [
@@ -44,20 +37,22 @@ export default {
     httpRequest,
   },
   async run({ $ }) {
-    const drivePath = this.driveId
-      ? `${DRIVES_PATH_PREFIX}${this.driveId}/root`
-      : DEFAULT_DRIVE_PATH;
-    let currentUrl = `${drivePath}/search(q='${encodeURIComponent(this.q)}')`;
+    const drivePath = this.onedrive._getDrivePath(this.drive);
+
+    const escapedQ = this.q.replace(/'/g, "''");
+    const encodedQ = encodeURIComponent(escapedQ);
+
+    let currentUrl = `${drivePath}/root/search(q='${encodedQ}')`;
 
     let allValues = [];
     while (currentUrl) {
       const response = await this.httpRequest({
         $,
         url: currentUrl,
-        useSharedDrive: !!this.driveId,
+        useSharedDrive: true,
       });
       allValues = allValues.concat(response.value ?? []);
-      currentUrl = response["@odata.nextLink"] ?? null;
+      currentUrl = response["@odata.nextLink"];
     }
 
     let values = allValues;
@@ -68,10 +63,13 @@ export default {
     const plural = values.length === 1
       ? ""
       : "s";
+
     const type = this.excludeFolders
       ? `file${plural}`
       : `file${plural} and/or folder${plural}`;
+
     $.export("$summary", `Found ${values.length} matching ${type}`);
+
     return values;
   },
 };

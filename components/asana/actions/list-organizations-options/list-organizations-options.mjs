@@ -4,7 +4,7 @@ export default {
   key: "asana-list-organizations-options",
   name: "List Organizations Options",
   description: "Retrieves available options for the Organizations field.",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

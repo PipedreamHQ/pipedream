@@ -10,7 +10,7 @@ export default {
   key: "microsoft_onedrive-new-file-created",
   name: "New File Created (Instant)",
   description: "Emit new event when a new file is created in a OneDrive drive",
-  version: "0.1.1",
+  version: "0.1.0",
   dedupe: "unique",
   props: {
     ...base.props,

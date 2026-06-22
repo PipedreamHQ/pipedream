@@ -13,6 +13,12 @@ export default {
   type: "action",
   props: {
     onedrive,
+    drive: {
+      propDefinition: [
+        onedrive,
+        "drive",
+      ],
+    },
     fileId: {
       propDefinition: [
         onedrive,
@@ -22,9 +28,14 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.onedrive.client().api(`/me/drive/items/${this.fileId}`)
+    const drivePath = this.onedrive._getDrivePath(this.drive);
+
+    const response = await this.onedrive.client()
+      .api(`${drivePath}/items/${this.fileId}`)
       .get();
+
     $.export("$summary", `Successfully retrieved file with ID: ${this.fileId}`);
+
     return response;
   },
 };

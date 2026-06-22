@@ -34,8 +34,11 @@ export default {
     + " deals: dealname, pipeline, dealstage, description)."
     + " Use `filterGroups` for advanced filtering with operators like EQ, NEQ, LT, GT, CONTAINS_TOKEN, IN, HAS_PROPERTY, etc."
     + " You can combine up to 5 filter groups (OR logic) with up to 6 filters each (AND logic within a group)."
+    + " Supports standard object types only (contacts, companies, deals, tickets, etc.)."
+    + " For custom objects, use **List Custom Object Schemas** to discover available types,"
+    + " then **List Custom Objects** to list records."
     + " [See the documentation](https://developers.hubspot.com/docs/api/crm/search)",
-  version: "0.0.4",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

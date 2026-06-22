@@ -154,12 +154,6 @@ export default {
         return response.value.map(({ name }) => name);
       },
     },
-    driveId: {
-      type: "string",
-      label: "Drive ID",
-      description: "The ID of the drive to search (e.g. `CA07A40F50E43DD9`). Run the **List My Drives** action to find available drive IDs. When omitted, defaults to the signed-in user's personal drive.",
-      optional: true,
-    },
     excludeFolders: {
       type: "boolean",
       label: "Exclude Folders?",
