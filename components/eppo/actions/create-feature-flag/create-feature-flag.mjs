@@ -57,7 +57,7 @@ export default {
         name: this.name,
         variations,
         entity_id: this.entityId,
-        tags: this.tagNames,
+        tag_names: this.tagNames,
       },
     });
     $.export("$summary", `Created feature flag ${response?.id}: ${response?.name ?? this.name}`);

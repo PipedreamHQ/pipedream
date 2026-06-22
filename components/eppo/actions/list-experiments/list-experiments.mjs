@@ -103,7 +103,7 @@ export default {
         is_deleted: this.isDeleted,
         updated_since: this.updatedSince,
         created_since: this.createdSince,
-        tags: this.tagNames,
+        tag_names: this.tagNames,
         limit: this.limit,
         offset: this.offset,
       },

@@ -57,7 +57,7 @@ export default {
       params: {
         entity_id: this.entityId,
         name: this.name,
-        include_experiments: this.includeExperiments,
+        includeExperiments: this.includeExperiments,
         limit: this.limit,
         offset: this.offset,
       },
