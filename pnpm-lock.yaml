@@ -5571,7 +5571,14 @@ importers:
         specifier: ^3.2.5
         version: 3.3.0
 
-  components/filetopdf_dev: {}
+  components/filetopdf_dev:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
+      form-data:
+        specifier: 4.0.4
+        version: 4.0.4
 
   components/fillout:
     dependencies:
@@ -45863,7 +45870,8 @@ snapshots:
 
   balanced-match@4.0.4: {}
 
-  bare-events@2.8.3: {}
+  bare-events@2.8.3:
+    optional: true
 
   bare-events@2.9.1: {}
 
@@ -45926,7 +45934,7 @@ snapshots:
 
   bare-url@2.4.2:
     dependencies:
-      bare-path: 3.0.0
+      bare-path: 3.0.1
     optional: true
 
   bare-url@2.4.5:
@@ -48383,7 +48391,7 @@ snapshots:
 
   events-universal@1.0.1:
     dependencies:
-      bare-events: 2.8.3
+      bare-events: 2.9.1
     transitivePeerDependencies:
       - bare-abort-controller
 
