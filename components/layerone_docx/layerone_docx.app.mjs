@@ -1,6 +1,6 @@
 export default {
   type: "app",
-  app: "emboss",
+  app: "layerone_docx",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
