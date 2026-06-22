@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/apexverify",
+  "version": "0.0.1",
+  "description": "Pipedream ApexVerify Components",
+  "main": "apexverify.app.mjs",
+  "keywords": [
+    "pipedream",
+    "apexverify"
+  ],
+  "homepage": "https://pipedream.com/apps/apexverify",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
