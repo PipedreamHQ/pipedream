@@ -106,7 +106,7 @@ export default {
         microsoftOutlook,
         "search",
       ],
-      description: "Search for an email in Microsoft Outlook. Can search for specific message properties such as `\"to:example@example.com\"` or `\"subject:example\"`. If the property is excluded, the search targets the default propertes `from`, `subject`, and `body`. For example, `\"pizza\"` will search for messages with the word `pizza` in the subject, body, or from address, but `\"to:example@example.com\"` will only search for messages to `example@example.com`. Not for use with `$filter` or `$orderby`. Response will not include total message count if `search` is used.",
+      description: "Search for an email in Microsoft Outlook. Can search for specific message properties such as `\"to:example@example.com\"` or `\"subject:example\"`. If the property is excluded, the search targets the default properties `from`, `subject`, and `body`. For example, `\"pizza\"` will search for messages with the word `pizza` in the subject, body, or from address, but `\"to:example@example.com\"` will only search for messages to `example@example.com`. Not for use with `$filter` or `$orderby`. Response will not include total message count if `search` is used.",
     },
     filter: {
       propDefinition: [
@@ -292,7 +292,7 @@ export default {
       count = meta["@odata.count"];
     }
 
-    if (count) {
+    if (count != null) {
       $.export("$summary", `Found ${count} total message${count !== 1
         ? "s"
         : ""}`);
