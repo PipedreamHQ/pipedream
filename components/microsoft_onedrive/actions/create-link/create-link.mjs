@@ -3,7 +3,7 @@ import constants from "../../common/constants.mjs";
 
 export default {
   name: "Create Link",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

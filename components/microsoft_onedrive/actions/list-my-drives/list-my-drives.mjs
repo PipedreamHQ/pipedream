@@ -4,7 +4,7 @@ export default {
   key: "microsoft_onedrive-list-my-drives",
   name: "List My Drives",
   description: "Get the signed-in user's drives. Returns a list of all the drives the user has access to, including the personal OneDrive. [See the documentation](https://learn.microsoft.com/en-us/graph/api/drive-list)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

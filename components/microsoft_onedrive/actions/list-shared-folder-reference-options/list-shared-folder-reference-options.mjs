@@ -4,7 +4,7 @@ export default {
   key: "microsoft_onedrive-list-shared-folder-reference-options",
   name: "List Shared Folder Reference Options",
   description: "Retrieves available options for the Shared Folder Reference field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
